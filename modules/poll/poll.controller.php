@@ -24,12 +24,8 @@
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) $upload_target_srl = getNextSequence();
 
-            $stop_year = Context::get('stop_year');
-            $stop_month = Context::get('stop_month');
-            $stop_day = Context::get('stop_day');
-
-            $stop_date = sprintf('%04d%02d%02d235959', $stop_year, $stop_month, $stop_day);
-            if($stop_date < date("YmdHis")) $stop_date = date("YmdHis", time()+60*60*24*365);
+            $stop_date = Context::get('stop_date');
+            if($stop_date < date("Ymd")) $stop_date = date("YmdHis", time()+60*60*24*365);
 
             $vars = Context::getRequestVars();
             foreach($vars as $key => $val) {
@@ -111,17 +107,6 @@
                 }
             }
 
-            // 작성자의 정보를 로그로 남김
-            /*
-            $log_args->poll_srl = $poll_srl;
-            $log_args->member_srl = $member_srl;
-            $output = executeQuery('poll.insertPollLog', $log_args);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-            */
-            
             $oDB->commit();
 
             $this->add('poll_srl', $poll_srl);
@@ -198,9 +183,11 @@
          **/
         function procPollViewResult() {
             $poll_srl = Context::get('poll_srl'); 
+            $skin = Context::get('skin'); 
+            if(!$skin || !is_dir('./modules/poll/skins/'.$skin)) $skin = 'default';
 
             $oPollModel = &getModel('poll');
-            $tpl = $oPollModel->getPollResultHtml($poll_srl);
+            $tpl = $oPollModel->getPollResultHtml($poll_srl, $skin);
 
             $this->add('poll_srl', $poll_srl);
             $this->add('tpl',$tpl);

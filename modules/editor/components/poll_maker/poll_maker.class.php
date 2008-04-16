@@ -23,6 +23,11 @@
          * @brief popup window요청시 popup window에 출력할 내용을 추가하면 된다
          **/
         function getPopupContent() {
+            // 설문조사 스킨을 구함
+            $oModuleModel = &getModel('module');
+            $skin_list = $oModuleModel->getSkins("./modules/poll/");
+            Context::set('skin_list', $skin_list);
+
             // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
             $tpl_path = $this->component_path.'tpl';
             $tpl_file = 'popup.html';
@@ -39,6 +44,8 @@
          **/
         function transHTML($xml_obj) {
             $poll_srl = $xml_obj->attrs->poll_srl;
+            $skin = $xml_obj->attrs->skin;
+            if(!$skin) $skin = 'default';
 
             preg_match('/width([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
             $width = $matches[2];
@@ -47,7 +54,7 @@
 
             // poll model 객체 생성해서 html 얻어와서 return
             $oPollModel = &getModel('poll');
-            return $oPollModel->getPollHtml($poll_srl, $style);
+            return $oPollModel->getPollHtml($poll_srl, $style, $skin);
         }
     }
 ?>

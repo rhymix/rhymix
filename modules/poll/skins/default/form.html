@@ -11,6 +11,7 @@
     <form action="./" method="get" onsubmit="return doPoll(this)">
     <input type="hidden" name="poll_srl" value="{$poll->poll_srl}" />
     <input type="hidden" name="poll_srl_indexes" value="" />
+    <input type="hidden" name="skin" value="{$skin}" />
 
     <table cellspacing="0" class="poll_table">
     <col width="7" />
@@ -23,7 +24,7 @@
     </tr>
     <tr>
         <td class="title" colspan="3">
-            {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong> {zdate($poll->stop_date, "H:i")}
+            {$lang->poll_stop_date} : <strong>{zdate($poll->stop_date, "Y-m-d")}</strong>
         </td>
     </tr>
     <tr>
@@ -66,7 +67,7 @@
     <tr>
         <td colspan="3" class="poll_button">
             <div>
-                <span class="button"><input type="button" value="{$lang->cmd_view_result}" class="poll_button" onclick="doPollViewResult('{$poll->poll_srl}'); return false;"/></span>
+                <span class="button"><input type="button" value="{$lang->cmd_view_result}" class="poll_button" onclick="doPollViewResult('{$poll->poll_srl}','{$skin}'); return false;"/></span>
                 <span class="button"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span>
             </div>
         </td>

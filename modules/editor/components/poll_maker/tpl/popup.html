@@ -3,6 +3,18 @@
 <!--%import("filter/insert_poll.xml")-->
 <!--%import("../lang")-->
 
+<!-- calendar -->
+<!--%import("../../../../../common/js/calendar.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../../../../common/js/calendar-ko.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../../../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../../../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../../../../common/css/calendar-system.css",optimized=false)-->
+
+
+
 <script type="text/javascript">
     var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
@@ -16,6 +28,7 @@
 <input type="hidden" name="method" value="insertPoll" />
 <input type="hidden" name="poll_srl" value="" />
 <input type="hidden" name="editor_sequence" value="{$editor_sequence}" />
+<input type="hidden" name="stop_date" id="stop_date" value="{date("Ymd",time()+60*60*24*30)}" />
 
     <div id="popBody">
 
@@ -25,30 +38,20 @@
         <tr>
             <th scope="row">{$lang->poll_stop_date}</th>
             <td>
-                <ul class="buttonLeft nospace">
-                    <li>
-                        <select name="stop_year">
-                            <!--@for($i=date("Y");$i<date("Y")+10;$i++)-->
-                            <option value="{$i}">{$i}</option>
-                            <!--@end-->
-                        </select>
-                    </li>
-                    <li>
-                        <select name="stop_month">
-                            <!--@for($i=1;$i<=12;$i++)-->
-                            <option value="{$i}" <!--@if($i==date("m", time()+60*60*24*30))-->selected="selected"<!--@end-->>{$i}</option>
-                            <!--@end-->
-                        </select>
-                    </li>
-                    <li>
-                        <select name="stop_day">
-                            <!--@for($i=1;$i<=31;$i++)-->
-                            <option value="{$i}" <!--@if($i==date("d", time()+60*60*24*30))-->selected="selected"<!--@end-->>{$i}</option>
-                            <!--@end-->
-                        </select>
-                    </li>
-                    <li><a href="#" onclick="doPollAdd(); return false;">{$lang->cmd_add_poll}</a></li>
-                </ul>
+                <div class="display_date" id="display_date">{date("Y-m-d",time()+60*60*24*30)}</div>
+                <script type="text/javascript">
+                    Calendar.setup( { firstDay : 0, inputField : "stop_date", ifFormat : "%Y%m%d", displayArea : "display_date", daFormat : "%Y-%m-%d"});
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang->skin}</th>
+            <td>
+                <select name="skin">
+                    <!--@foreach($skin_list as $skin=>$skin_info)-->
+                    <option value="{$skin}">{$skin_info->title} (skin by {$skin_info->maker->name})</option>
+                    <!--@end-->
+                </select>
             </td>
         </tr>
         </table>
@@ -76,25 +79,29 @@
             </table>
 
             <div class="pollButton clear">
-                <ul class="fl">
-                    <li><a href="#" onclick="doPollAddItem(this); return false;">{$lang->cmd_add_item}</a></li>
-                </ul>
-                <ul class="fr">
-                    <li><a href="#" onclick="doPollDelete(this); return false;">{$lang->cmd_del_poll}</a></li>
-                </ul>
-                <ul class="fr">
-                    <li><label>{$lang->poll_chk_count}</label></li>
-                    <li><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></li>
-                </ul>
+                <div class="fl">
+                    <label>{$lang->poll_chk_count}</label>
+                    <input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" />
+                </div>
+                <div class="fr">
+                    <a href="#" onclick="doPollDelete(this); return false;" class="delPoll">{$lang->cmd_del_poll}</a> |
+                    <a href="#" onclick="doPollAddItem(this); return false;">{$lang->cmd_add_item}</a>
+                </div>
+                <div class="clear"></div>
             </div>
         </div>
 
     </div>
 
-    <div id="popFooter" class="tCenter">
-        <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
-        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
-        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    <div id="popFooter" class="tCenter clear">
+        <div class="fl">
+            <a href="#" onclick="doPollAdd(); return false;" class="button"><span>{$lang->cmd_add_poll}</span></a>
+        </div>
+        <div class="fr">
+            <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
+            <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+            <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+        </div>
     </div>
 
 
