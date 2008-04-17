@@ -186,7 +186,7 @@
 
     $lang->about_enable_openid = 'Allow users to sign up as OpenID';
     $lang->about_enable_join = 'Allow users to sign up';
-    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
+    $lang->about_enable_ssl = 'Personal information from Join/Modify Member Info/Login can be sent as SSL(https) mode if server provides SSL service.';
     $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
     $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';
