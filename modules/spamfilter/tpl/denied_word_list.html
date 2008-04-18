@@ -65,6 +65,7 @@
         <td class="tahoma">{count($word_list)-$no}</td>
         <td>{$val->word}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
+        {@ $val->word = base64_encode($val->word);}
         <td class="red"><a href="#" onclick="doDeleteDeniedWord('{$val->word}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
