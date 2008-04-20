@@ -55,7 +55,7 @@
     </tr>
 
     <!--@if($member_config->profile_image == 'Y')-->
-    <tr>    
+    <tr>
         <th scope="row">{$lang->profile_image}</th>
         <td>
             <!--@if($member_info->profile_image->src)-->
@@ -69,11 +69,12 @@
                 <div class="form"><input type="file" name="profile_image" value="" /></div>
                 <a href="#" onclick="doUploadProfileImage();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
+            <p>{$lang->profile_image_max_width} : {$member_config->profile_image_max_width}px, {$lang->profile_image_max_height} : {$member_config->profile_image_max_height}px</p>
         </td>
     </tr>
     <!--@end-->
     <!--@if($member_config->image_name == 'Y')-->
-    <tr>    
+    <tr>
         <th scope="row">{$lang->image_name}</th>
         <td>
             <!--@if($member_info->image_name->src)-->
@@ -87,11 +88,12 @@
                 <div class="form"><input type="file" name="image_name" value="" /></div>
                 <a href="#" onclick="doUploadImageName();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
+            <p>{$lang->image_name_max_width} : {$member_config->image_name_max_width}px, {$lang->image_name_max_height} : {$member_config->image_name_max_height}px</p>
         </td>
     </tr>
     <!--@end-->
     <!--@if($member_config->image_mark == 'Y')-->
-    <tr>    
+    <tr>
         <th scope="row">{$lang->image_mark}</th>
         <td>
             <!--@if($member_info->image_mark->src)-->
@@ -105,6 +107,7 @@
                 <div class="form"><input type="file" name="image_mark" value="" /></div>
                 <a href="#" onclick="doUploadImageMark();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
+            <p>{$lang->image_mark_max_width} : {$member_config->image_mark_max_width}px, {$lang->image_mark_max_height} : {$member_config->image_mark_max_height}px</p>
         </td>
     </tr>
     <!--@end-->
@@ -167,7 +170,7 @@
         </th>
         <td>
             <!-- 일반 text -->
-            <!--@if($val->column_type == 'text')--> 
+            <!--@if($val->column_type == 'text')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- 홈페이지 주소 -->

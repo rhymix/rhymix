@@ -43,6 +43,7 @@
             <input type="file" name="profile_image" value="" />
             <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
         </form>
+        <p>{$lang->profile_image_max_width} : {$member_config->profile_image_max_width}px, {$lang->profile_image_max_height} : {$member_config->profile_image_max_height}px</p>
     </td>
 </tr>
 <tr>
@@ -65,6 +66,7 @@
             <input type="file" name="image_name" value="" />
             <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
         </form>
+        <p>{$lang->image_name_max_width} : {$member_config->image_name_max_width}px, {$lang->image_name_max_height} : {$member_config->image_name_max_height}px</p>
     </td>
 </tr>
 <tr>
@@ -78,7 +80,7 @@
         <!--@end-->
     </td>
 </tr>
-<tr>    
+<tr>
     <td>
         <form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
         <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
@@ -87,6 +89,7 @@
         <input type="file" name="image_mark" value="" />
         <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
         </form>
+        <p>{$lang->image_mark_max_width} : {$member_config->image_mark_max_width}px, {$lang->image_mark_max_height} : {$member_config->image_mark_max_height}px</p>
     </td>
 </tr>
 <tr>
@@ -148,9 +151,9 @@
     <th scope="row">{htmlspecialchars($val->column_title)}<!--@if($val->is_opened)--> <span class="publicItem">({$lang->public})</span><!--@end--></th>
     <td>
         <!--@if($val->column_type=='tel')-->
-            {htmlspecialchars($val->value[0])} 
+            {htmlspecialchars($val->value[0])}
                 <!--@if($val->value[1])-->-<!--@end-->
-            {htmlspecialchars($val->value[1])} 
+            {htmlspecialchars($val->value[1])}
                 <!--@if($val->value[2])-->-<!--@end-->
             {htmlspecialchars($val->value[2])}
         <!--@elseif($val->column_type=='kr_zip')-->
