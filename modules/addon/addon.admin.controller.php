@@ -73,7 +73,6 @@
             }
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);
-            debugPrint($buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
         }
