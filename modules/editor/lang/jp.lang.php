@@ -16,7 +16,8 @@
     $lang->component_grant = "権限設定"; 
 
     $lang->about_component = "コンポーネント情報";
-    $lang->about_component_grant = "選択されたグループでのみ使用できます（すべて解除時はすべて使用可能）。";
+    $lang->about_component_grant = '基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。<br />(選択なしの場合、誰でも利用可能)';
+    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
 
     $lang->msg_component_is_not_founded = '%s エディターのコンポーネントが見つかりません。';
     $lang->msg_component_is_inserted = '選択されたコンポーネントは既に入力されています。';
@@ -40,7 +41,6 @@
     $lang->about_editor_skin = 'エディターのスキンの選択が出来ます。';
     $lang->about_upload_file_grant = 'ファイル添付可能な権限の設定が出来ます。(選択なしの場合、誰でも添付が可能)';
     $lang->about_default_component_grant = 'エディターでの基本コンポーネントを使用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
-    $lang->about_component_grant = '基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
     $lang->about_editor_height = 'エディターの基本高さを設定します。';
     $lang->about_editor_height_resizable = 'エディターの高さを直接変更出来るようにします。';
     $lang->about_enable_html_grant = 'HTML編集権限を付与します。';

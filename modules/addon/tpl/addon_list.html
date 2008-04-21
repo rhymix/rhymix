@@ -89,13 +89,7 @@
     <td><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;">{$val->author->name}</a></td>
     <td class="tahoma">{$val->author->date}</td>
     <td class="tahoma">{$val->path}</td>
-    <td>
-        <!--@if($val->extra_vars)-->
-            <a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="blue">{$lang->cmd_setup}</a>
-        <!--@else-->
-            &nbsp;
-        <!--@end-->
-    </td>
+    <td><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="blue">{$lang->cmd_setup}</a></td>
     <td>
         <!--@if($val->activated)-->
         <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" class="blue">{$lang->use}</a>

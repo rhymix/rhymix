@@ -76,6 +76,8 @@
                     <!--@foreach($mid_list as $module_category_srl => $modules)-->
                         <!--@if($modules->title)-->
                             <div class="widget_title">{$modules->title}</div>
+                        <!--@else-->
+                            <div class="widget_title">&nbsp;</div>
                         <!--@end-->
 
                         <!--@foreach($modules->list as $key => $val)-->

@@ -110,14 +110,18 @@
                 $addon_info->history[] = $obj;
             }
 
-            // 확장변수
+            // DB에 설정된 내역을 가져온다
+            $db_args->addon = $addon;
+            $output = executeQuery('addon.getAddonInfo',$db_args);
+            $extra_vals = unserialize($output->data->extra_vars);
+
+            if($extra_vals->mid_list) {
+                $addon_info->mid_list = $extra_vals->mid_list;
+            } else {
+                $addon_info->mid_list = array();
+            }
+
             if($xml_obj->extra_vars) {
-
-                // DB에 설정된 내역을 가져온다
-                $db_args->addon = $addon;
-                $output = executeQuery('addon.getAddonInfo',$db_args);
-                $extra_vals = unserialize($output->data->extra_vars);
-
                 // 확장변수를 정리
                 if(!is_array($xml_obj->extra_vars->var)) $extra_vars[] = $xml_obj->extra_vars->var;
                 else $extra_vars = $xml_obj->extra_vars->var;

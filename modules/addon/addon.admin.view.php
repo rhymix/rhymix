@@ -41,8 +41,22 @@
 
             // mid 목록을 가져옴
             $oModuleModel = &getModel('module');
+
+            // 모듈 카테고리 목록을 구함
+            $module_categories = $oModuleModel->getModuleCategories();
+
             $mid_list = $oModuleModel->getMidList();
-            Context::set('mid_list', $mid_list);
+
+            // module_category와 module의 조합
+            if($module_categories) {
+                foreach($mid_list as $module_srl => $module) {
+                    $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+                }
+            } else {
+                $module_categories[0]->list = $mid_list;
+            }
+
+            Context::set('mid_list',$module_categories);
 
             // 레이아웃을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
