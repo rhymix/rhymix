@@ -335,9 +335,9 @@
                 $oModule->setModulePath($class_path);
 
                 // 요청된 module에 constructor가 있으면 실행
-                if(!isset($GLOBALS['_called_constructor'][$module])) {
-                    $GLOBALS['_called_constructor'][$module] = true;
-                    if(@method_exists($oModule, $module)) $oModule->{$module}();
+                if(!isset($GLOBALS['_called_constructor'][$instance_name])) {
+                    $GLOBALS['_called_constructor'][$instance_name] = true;
+                    if(@method_exists($oModule, $instance_name)) $oModule->{$instance_name}();
                 }
 
                 // GLOBALS 변수에 생성된 객체 저장
