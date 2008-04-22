@@ -193,7 +193,7 @@
 
     $lang->about_enable_openid = '要想网站支持OpenID时请勾选此项。';
     $lang->about_enable_join = '选择此项后用户才可以注册。';
-    $lang->about_enable_confirm = '为激活您的注册信息，将向您输入的邮件地址发送注册认证邮件。';
+    $lang->about_enable_confirm = '为激活会员注册信息，将向会员输入的邮件地址发送注册认证邮件。';
     $lang->about_enable_ssl = '如服务器提供SSL协议服务，新会员注册/修改会员信息/登录等信息的传送将使用SSL(https)协议。';
     $lang->about_limit_day = '注册会员后的认证有效期限。';
     $lang->about_limit_date = '直到指定日期该用户不能登录。';
