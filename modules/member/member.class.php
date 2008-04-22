@@ -160,6 +160,7 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
 
             // dispMemberOwnDocument act의 여부 체크 (2007. 7. 24 추가)
@@ -194,6 +195,10 @@
             $act = $oModuleModel->getActionForward('dispMemberSavedDocument');
             if(!$act) return true;
 
+            // member_auth_mail 테이블에 is_register 필드 추가 (2008. 04. 22)
+            $act = $oDB->isColumnExists("member_auth_mail", "is_register");
+            if(!$act) return true;
+
             return false;
         }
 
@@ -201,8 +206,10 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            // act 추가
+            $oDB = &DB::getInstance();
             $oModuleController = &getController('module');
+
+            // act 추가
             $oModuleController->insertActionForward('member', 'view', 'dispMemberOwnDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberScrappedDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSavedDocument');
@@ -217,6 +224,11 @@
             FileHandler::makeDir('./files/member_extra_info/signature');
             FileHandler::makeDir('./files/member_extra_info/new_message_flags');
             FileHandler::makeDir('./files/member_extra_info/profile_image');
+
+            // DB 필드 추가
+            if (!$oDB->isColumnExists("member_auth_mail", "is_register")) {
+                $oDB->addColumn("member_auth_mail", "is_register", "char", 1, "N", true);
+            }
 
             return new Object(0, 'success_updated');
         }
