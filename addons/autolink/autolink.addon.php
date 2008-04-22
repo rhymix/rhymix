@@ -6,6 +6,7 @@
      * @author zero (zero@nzeo.com)
      * @brief 자동 링크 애드온
      **/
+    return;
 
     if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {
         Context::loadLang("./addons/autolink/lang");
