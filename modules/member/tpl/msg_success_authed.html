@@ -1,4 +1,8 @@
 <script type="text/javascript">
+    <!--@if ($is_register == 'Y')-->
+    alert("{$lang->msg_success_confirmed}");
+    <!--@else-->
     alert("{$lang->msg_success_authed}");
+    <!--@end-->
     location.href="{getUrl()}";
 </script>

@@ -81,6 +81,7 @@
             // 기본 정보를 세팅
             $args->enable_join = 'Y';
             if(!$args->enable_openid) $args->enable_openid = 'N';
+            if(!$args->enable_auth_mail) $args->enable_auth_mail = 'N';
             if(!$args->image_name) $args->image_name = 'Y';
             if(!$args->image_mark) $args->image_mark = 'Y';
             if(!$args->profile_image) $args->profile_image = 'Y';

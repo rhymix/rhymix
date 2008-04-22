@@ -1,0 +1,11 @@
+<query id="getAuthMail" action="select">
+    <tables>
+        <table name="member_auth_mail" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+    </conditions>
+</query>
