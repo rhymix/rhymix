@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon version="0.1">
+  <title xml:lang="ko">자동 링크 애드온</title>
+  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 22">
+    <name xml:lang="ko">zero</name>
+    <description xml:lang="ko">
+        게시글과 댓글의 내용중 http로 시작되는 일반 문자열에 자동으로 링크를 걸고 각 링크에 마우스 오버시 새창과 현재창 메뉴가 나타나도록 꾸미는 애드온입니다.
+    </description>
+  </author>
+</addon>

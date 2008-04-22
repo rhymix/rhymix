@@ -246,7 +246,7 @@
             $content = $this->get('content');
 
             // url에 대해서 정규표현식으로 치환
-            $content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
+            //$content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
 
             // 이 게시글을... 팝업메뉴를 출력할 경우
             if($add_popup_menu) {
