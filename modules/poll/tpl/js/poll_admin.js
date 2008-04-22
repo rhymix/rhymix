@@ -36,3 +36,21 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
     sel.selectedIndex = selected_index;
 }
 
+/* 관리자 페이지에서 선택된 설문조사 원본글로 이동하는 함수 */
+function doMovePoll(poll_srl, upload_target_srl) {
+
+    var params = new Array();
+    params['poll_srl'] = poll_srl;
+    params['upload_target_srl'] = upload_target_srl;
+
+    var response_tags = new Array('error','message','document_srl','comment_srl');
+    exec_xml('poll','getPollAdminTarget', params, completeMovePoll, response_tags);
+}
+
+function completeMovePoll(ret_obj, response_tags) {
+    var document_srl = ret_obj['document_srl'];
+    var comment_srl = ret_obj['comment_srl'];
+    var url = request_uri.setQuery('document_srl', document_srl);
+    if(comment_srl) url = url+'#comment_'+comment_srl;
+    winopen(url, 'pollTarget');
+}

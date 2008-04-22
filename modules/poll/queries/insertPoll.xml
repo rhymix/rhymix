@@ -8,7 +8,7 @@
         <column name="member_srl" var="member_srl" />
         <column name="ipaddress" var="ipaddress" default="ipaddress()" />
         <column name="poll_count" var="poll_count" default="0" />
-        <column name="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+        <column name="upload_target_srl" default="0" />
         <column name="regdate" var="regdate" default="curdate()" />
         <column name="list_order" var="list_order" default="0" />
     </columns>

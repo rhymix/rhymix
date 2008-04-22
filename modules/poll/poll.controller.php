@@ -17,13 +17,6 @@
          * @brief 팝업창에서 설문 작성 완료후 저장을 누를때 설문 등록
          **/
         function procInsert() {
-            // 기본적으로 필요한 변수 설정
-            $editor_sequence = Context::get('editor_sequence');
-
-            // upload_target_srl 구함
-            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) $upload_target_srl = getNextSequence();
-
             $stop_date = Context::get('stop_date');
             if($stop_date < date("Ymd")) $stop_date = date("YmdHis", time()+60*60*24*365);
 
@@ -67,7 +60,6 @@
             $poll_args->list_order = $poll_srl*-1;
             $poll_args->stop_date = $args->stop_date;
             $poll_args->poll_count = 0;
-            $poll_args->upload_target_srl = $upload_target_srl;
             $output = executeQuery('poll.insertPoll', $poll_args);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -198,6 +190,38 @@
         }
 
         /**
+         * @brief 게시글 등록시 poll 연결하는 trigger
+         **/
+        function triggerInsertDocumentPoll(&$obj) {
+            $this->syncPoll($obj->document_srl, $obj->content);
+            return new Object();
+        }
+
+        /**
+         * @brief 댓글 등록시 poll 연결하는 trigger
+         **/
+        function triggerInsertCommentPoll(&$obj) {
+            $this->syncPoll($obj->comment_srl, $obj->content);
+            return new Object();
+        }
+
+        /**
+         * @brief 게시글 수정시 poll 연결하는 trigger
+         **/
+        function triggerUpdateDocumentPoll(&$obj) {
+            $this->syncPoll($obj->document_srl, $obj->content);
+            return new Object();
+        }
+
+        /**
+         * @brief 댓글 등록시 poll 연결하는 trigger
+         **/
+        function triggerUpdateCommentPoll(&$obj) {
+            $this->syncPoll($obj->comment_srl, $obj->content);
+            return new Object();
+        }
+
+        /**
          * @brief 게시글 삭제시 poll 삭제하는 trigger
          **/
         function triggerDeleteDocumentPoll(&$obj) {
@@ -259,6 +283,28 @@
             if(!$output->toBool()) return $output;
 
             return new Object();
+        }
+
+        /**
+         * @brief 게시글 내용의 설문조사를 구해와서 문서 번호와 연결 
+         **/
+        function syncPoll($upload_target_srl, $content) {
+            $match_cnt = preg_match_all('!<img([^\>]*)poll_srl=(["\']?)([0-9]*)(["\']?)([^\>]*?)\>!is',$content, $matches);
+            for($i=0;$i<$match_cnt;$i++) {
+                $poll_srl = $matches[3][$i];
+
+                $args = null;
+                $args->poll_srl = $poll_srl;
+                $output = executeQuery('poll.getPoll', $args);
+                $poll = $output->data;
+
+                if($poll->upload_target_srl) continue;
+
+                $args->upload_target_srl = $upload_target_srl;
+                $output = executeQuery('poll.updatePollTarget', $args);
+                $output = executeQuery('poll.updatePollTitleTarget', $args);
+                $output = executeQuery('poll.updatePollItemTarget', $args);
+            }
         }
     }
 ?>
