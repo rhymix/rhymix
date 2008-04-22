@@ -45,7 +45,7 @@
     $lang->signature_max_height = '签名高度限制';
     $lang->enable_openid = '支持OpenID';
     $lang->enable_join = '允许会员注册';
-    $lang->enable_confirm = '메일 인증 사용';
+    $lang->enable_confirm = '使用邮件认证';
     $lang->enable_ssl = '使用SSL功能';
     $lang->security_sign_in = '使用安全登录';
     $lang->limit_day = '认证限制';
@@ -126,14 +126,14 @@
     $lang->msg_find_account_title = '注册信息。';
     $lang->msg_find_account_info = '您要查找的注册信息如下。';
     $lang->msg_find_account_comment = '点击下面的链接您的注册密码将更新为上述的系统自动生成密码。<br />请重新登录后把密码改为您所熟悉的密码。';
-    $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
-    $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
-    $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
+    $lang->msg_confirm_account_title = '会员注册';
+    $lang->msg_confirm_account_info = '您的注册信息如下:';
+    $lang->msg_confirm_account_comment = '请点击下面链接完成会员认证。';
     $lang->msg_auth_mail_sent = '已向%s发送了认证邮件。请确认！！';
-    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_confirm_mail_sent = '已向%s发送了认证邮件。请确认！！';
     $lang->msg_invalid_auth_key = '错误的注册信息请求。<br />请重新查找用户名及密码， 或联系管理员。';
     $lang->msg_success_authed = '新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。';
-    $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
+    $lang->msg_success_confirmed = '注册信息已成功激活！';
 
     $lang->msg_no_message = '没有短消息。';
     $lang->message_received = '您有新消息。';
@@ -165,7 +165,7 @@
     $lang->msg_accept_agreement = '您必须同意条款。'; 
 
     $lang->msg_user_denied = '您输入的用户名已禁止使用！';
-    $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
+    $lang->msg_user_not_confirmed = '您的注册信息还没有被激活，请确认您的电子邮箱。';
     $lang->msg_user_limited = '您输入的用户名%s以后才可以开始使用。';
 
     $lang->about_user_id = '用户名长度必须由 3 ~20 字以内的英文+数字组成，且首个字母必须是英文字母。';
@@ -193,7 +193,7 @@
 
     $lang->about_enable_openid = '要想网站支持OpenID时请勾选此项。';
     $lang->about_enable_join = '选择此项后用户才可以注册。';
-    $lang->about_enable_confirm = '입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다';
+    $lang->about_enable_confirm = '为激活您的注册信息，将向您输入的邮件地址发送注册认证邮件。';
     $lang->about_enable_ssl = '如服务器提供SSL协议服务，新会员注册/修改会员信息/登录等信息的传送将使用SSL(https)协议。';
     $lang->about_limit_day = '注册会员后的认证有效期限。';
     $lang->about_limit_date = '直到指定日期该用户不能登录。';
