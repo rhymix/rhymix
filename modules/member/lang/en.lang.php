@@ -45,6 +45,7 @@
 	$lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
+    $lang->enable_confirm = '메일 인증 사용';
     $lang->enable_ssl = 'Enable SSL';
     $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Temporary Limit Date';
@@ -125,9 +126,14 @@
     $lang->msg_find_account_title = 'Account Info';
     $lang->msg_find_account_info = 'This is requested account info.';
     $lang->msg_find_account_comment = 'The password will be modified as above one as you click below link.<br />Please modify the password after login.';
-    $lang->msg_auth_mail_sended = 'The certification mail has been sent to %s. Please check your mail.';
+    $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
+    $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
+    $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
+    $lang->msg_auth_mail_sent = 'The certification mail has been sent to %s. Please check your mail.';
+    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
 	$lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
-    $lang->msg_success_authed = 'Your account has been successfully certificated and logged on. Please modify the password to your own one with the password in the mail.';
+    $lang->msg_success_authed = 'Your account has been successfully certificated and logged on.\n Please modify the password to your own one with the password in the mail.';
+    $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
     $lang->msg_no_message = 'There is no message';
     $lang->message_received = 'You have a new message';
@@ -159,6 +165,7 @@
     $lang->msg_accept_agreement = 'You have to agree the agreement'; 
 
     $lang->msg_user_denied = 'You have entered a prohibited ID';
+    $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
     $lang->msg_user_limited = 'You have entered an ID that can be used after %s';
 
     $lang->about_user_id = 'User ID should be 3~20 letters long and consist of alphabet+number with alphabet as first letter.';
@@ -186,6 +193,7 @@
 
     $lang->about_enable_openid = 'Allow users to sign up as OpenID';
     $lang->about_enable_join = 'Allow users to sign up';
+    $lang->about_enable_confirm = '입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다';
     $lang->about_enable_ssl = 'Personal information from Join/Modify Member Info/Login can be sent as SSL(https) mode if server provides SSL service.';
     $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';

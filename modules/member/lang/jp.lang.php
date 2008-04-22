@@ -45,6 +45,7 @@
     $lang->signature_max_height = '署名欄の高さの制限';
 	$lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員加入を許可する';
+    $lang->enable_confirm = '메일 인증 사용';
     $lang->enable_ssl = 'SSL使用';
     $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = '臨時制限日';
@@ -125,9 +126,14 @@
     $lang->msg_find_account_title = '会員IDどパスワードの情報';
     $lang->msg_find_account_info = '登録された会員情報は下記の通りです。';
     $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。';
-    $lang->msg_auth_mail_sended = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
+    $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
+    $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
+    $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
+    $lang->msg_auth_mail_sent = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
+    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。';
-    $lang->msg_success_authed = '認証が正常に行われ、ログインできました。必ず認証メールに記載されたパスワードを利用してお好みのパスワードに変更してください。.';
+    $lang->msg_success_authed = '認証が正常に行われ、ログインできました。\n必ず認証メールに記載されたパスワードを利用してお好みのパスワードに変更してください。.';
+    $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
     $lang->msg_no_message = 'メッセージがありません。';
     $lang->message_received = 'メッセージが届きました。';
@@ -159,6 +165,7 @@
     $lang->msg_accept_agreement = '規約に同意しなければなりません。'; 
 
     $lang->msg_user_denied = '入力されたユーザＩＤは使用が中止されました。';
+    $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
     $lang->msg_user_limited = '入力されたユーザＩＤは%s以降から使用できます。';
 
     $lang->about_user_id = 'ユーザＩＤは３～２０の英数文字で構成され、最先頭の文字は英字でなければなりません。';
@@ -186,6 +193,7 @@
 
     $lang->about_enable_openid = 'OpenIDをサポートする際にチェックを入れます。';
     $lang->about_enable_join = 'チェックを入れないとユーザが会員に加入できません。';
+    $lang->about_enable_confirm = '입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다';
     $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = '会員加入後一定の期間中、認証制限を行うことができます。';
     $lang->about_limit_date = '指定された期間まで該当ユーザはログインできなくします。';
