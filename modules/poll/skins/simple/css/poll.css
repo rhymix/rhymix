@@ -1,18 +1,19 @@
-.simple_poll { table-layout:fixed; width:100%; padding:0; border:none;}
+.simple_poll { table-layout:fixed; padding:0; margin:0; border:none;}
 
 .simple_poll td { padding:0; margin:0; }
 .simple_poll td.title { text-align:right; }
 
 .simple_poll td .itemDiv { border-top:1px solid #BBBBBB; margin-top:3px; padding:3px 0 3px 0; }
-.simple_poll td .title { color:#000000; font-weight:bold; }
+.simple_poll td .title { color:#000000; font-weight:bold; letter-spacing:-1px;}
 .simple_poll td .checkcount { color:#AAAAAA; }
 
-.simple_poll td .item { color:#636363; margin:10px 0 10px 10px; }
+.simple_poll td .item { color:#636363; margin:5px 0 5px 0; }
 .simple_poll td .item input { margin:0; padding:0; }
+.simple_poll td .item label { letter-spacing:-1px; }
 
-.simple_poll td .resultItem { color:#636363; margin:6px 0 0 10px; }
+.simple_poll td .resultItem { color:#636363; margin:6px 0 0 10px; letter-spacing:-1px;}
 
-.simple_poll td .barBox { margin-left:25px; }
+.simple_poll td .barBox { margin-left:10px; }
 .simple_poll td .barBox .bar { margin:3px 0;}
 .simple_poll td .barBox .status {color:#AAAAAA; }
 
