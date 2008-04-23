@@ -402,17 +402,29 @@
             }
 
             // 추천수 업데이트
-            $args->voted_count = $oDocument->get('voted_count') + $point;
-            $output = executeQuery('document.updateVotedCount', $args);
+	    if($point < 0)
+	    {
+		$args->blamed_count = $oDocument->get('blamed_count') + $point;
+		$output = executeQuery('document.updateBlamedCount', $args);
+	    }
+	    else
+	    {
+		$args->voted_count = $oDocument->get('voted_count') + $point;
+		$output = executeQuery('document.updateVotedCount', $args);
+	    }
 
             // 로그 남기기
+	    $args->point = $point;
             $output = executeQuery('document.insertDocumentVotedLog', $args);
 
             // 세션 정보에 남김
             $_SESSION['voted_document'][$document_srl] = true;
 
             // 결과 리턴
-            return new Object(0, 'success_voted');
+	    if($point > 0)
+		return new Object(0, 'success_voted');
+	    else
+		return new Object(0, 'success_blamed');
         }
 
         /**

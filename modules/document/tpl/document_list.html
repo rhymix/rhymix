@@ -58,7 +58,7 @@
         <td class="left"><!--@if($oDocument->get('module_srl')!=$oDocument->get('member_srl'))--><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" class="blue" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a><!--@else-->-<!--@end--></td>
         <td class="left"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></td>
         <td class="tahoma">{$oDocument->get('readed_count')}</td>
-        <td class="tahoma">{$oDocument->get('voted_count')}</td>
+        <td class="tahoma">{$oDocument->get('voted_count')} / {$oDocument->get('blamed_count')}</td>
         <td class="tahoma">{$oDocument->getRegdate("Y-m-d")} {$oDocument->getRegdate("H:i:s")}</td>
     </tr>
     <tr>
