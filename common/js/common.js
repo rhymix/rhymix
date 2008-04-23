@@ -795,4 +795,8 @@ function toggleSecuritySignIn() {
     else location.href = href.replace(/^http/i,'https');
 }   
 
-
+/* 하위호환성 문제 */
+if(typeof(resizeImageContents) == 'undefined')
+{
+    function resizeImageContents() {}
+}
