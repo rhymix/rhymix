@@ -210,7 +210,7 @@ function displayMultimedia(src, width, height, auto_start, flashvars) {
             "<param name=\"movie\" value=\""+src+"\" />"+
             "<param name=\"quality\" value=\"high\" />"+
             "<param name=\"flashvars\" value=\""+flashvars+"\" />"+
-            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" wmode=\"transparent\"></embed>"+
+            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\" wmode=\"transparent\"></embed>"+
             "<\/object>";
     } else if(/\.flv/i.test(src)) {
         html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf\" allowfullscreen=\"true\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\"&file="+src+"&width="+width+"&height="+height+"&autostart="+auto_start+"\" />";
