@@ -178,7 +178,7 @@
 
 <div class="tRight gap1">
     <a href="{getUrl('act','dispMemberAdminInsert')}" class="button"><span>{$lang->cmd_modify}</span></a>
-    <!--@if($val->is_admin!='Y')-->
+    <!--@if($member_info->is_admin!='Y')-->
     <a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
     <!--@end-->
     <!--@if($module=="admin")-->
