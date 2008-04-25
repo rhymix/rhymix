@@ -17,7 +17,7 @@
 
     $lang->about_component = "About component";
     $lang->about_component_grant = 'You may set the permission of using expanded components of editor.<br />(Everyone would have permission if nothing checked)';
-    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
+    $lang->about_component_mid = "Editor components can select targets.<br />(All targets will be selected when nothing is selected)";
 
     $lang->msg_component_is_not_founded = 'Cannot find editor component %s';
     $lang->msg_component_is_inserted = 'Selected component is already inserted';
