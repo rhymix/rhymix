@@ -194,6 +194,7 @@
     $lang->success_updated = 'Updated successfully';
     $lang->success_deleted = 'Deleted successfully';
     $lang->success_voted = 'Recommended successfully';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = 'Moved successfully';
     $lang->success_sended = 'Sent successfully';
     $lang->success_reset = 'Reset successfully';
@@ -204,6 +205,7 @@
     $lang->fail_to_move = 'Could not be moved';
 
     $lang->failed_voted = 'Could not recommend';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = 'Could not accuse';
     $lang->fail_to_delete_have_children = 'Please try again after removing replies first';
 

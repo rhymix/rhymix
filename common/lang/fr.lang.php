@@ -194,6 +194,7 @@
     $lang->success_updated = 'Mise à jour avec succès';
     $lang->success_deleted = 'Supprimé avec succès';
     $lang->success_voted = 'Voté avec succès';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = 'Bougé avec succès';
     $lang->success_sended = 'Envoyé avec succès';
     $lang->success_reset = 'Restauré avec succès';
@@ -204,6 +205,7 @@
     $lang->fail_to_move = 'N\'a pas pu être bougé';
 
     $lang->failed_voted = 'N\'a pas pu recommander';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = 'N\'a pas pu accuser';
     $lang->fail_to_delete_have_children = 'Essayez encore après avoir suprimé les reponses, SVP';
 

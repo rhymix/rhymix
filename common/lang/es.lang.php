@@ -193,6 +193,7 @@
     $lang->success_updated = 'Actualizado con éxito';
     $lang->success_deleted = 'Boarrado con éxito';
     $lang->success_voted = 'Recomendado con éxito';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = 'Movido con éxito';
     $lang->success_sended = 'Enviado con éxito';
     $lang->success_reset = 'Reajustado con éxito';
@@ -203,6 +204,7 @@
     $lang->fail_to_move = 'No puede ser movido';
 
     $lang->failed_voted = 'No puede ser recomendado';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = 'No se ha podido acusar';
     $lang->fail_to_delete_have_children = 'No puede ser borrado, ya que el mensaje posee respuestas ';
 

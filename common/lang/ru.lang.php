@@ -194,6 +194,7 @@
     $lang->success_updated = 'Обновление успешно';
     $lang->success_deleted = 'Удалено успешно';
     $lang->success_voted = 'Рекомендовано успешно';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = 'Перемещено успешно';
     $lang->success_sended = 'Отправлено успешно';
     $lang->success_reset = 'Сброшено успешно';
@@ -204,6 +205,7 @@
     $lang->fail_to_move = 'Не может быть перемещено';
 
     $lang->failed_voted = 'Ошибка при рекомендации';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = 'Ошибка при обвинении';
     $lang->fail_to_delete_have_children = 'Пожалуйста, попробуйте еще после удаления дочерних объектов';
 

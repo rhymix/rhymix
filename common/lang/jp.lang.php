@@ -194,6 +194,7 @@
     $lang->success_updated = '修正しました。';
     $lang->success_deleted = '削除しました。';
     $lang->success_voted = '推薦しました。';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = '移動しました。';
     $lang->success_sended = '送信しました。';
     $lang->success_reset = '初期化しました。';
@@ -204,6 +205,7 @@
     $lang->fail_to_move = '移動に失敗しました。';
 
     $lang->failed_voted = '推薦できません。';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = '通報できません。';
     $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません。';
 

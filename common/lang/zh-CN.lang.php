@@ -194,6 +194,7 @@
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '删除成功！';
     $lang->success_voted = '推荐成功！';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = '移动成功！';
     $lang->success_sended = '发送成功！';
     $lang->success_reset = '初始化成功 !';
@@ -204,6 +205,7 @@
     $lang->fail_to_move = '移动成功！';
 	
     $lang->failed_voted = '您不能推荐！';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = '您不具备举报权限！';
     $lang->fail_to_delete_have_children = '不能删除有回复的评论！';
 
