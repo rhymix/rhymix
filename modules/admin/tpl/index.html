@@ -76,6 +76,13 @@
     </td>
 </tr>
 <tr>
+    <th scope="row">{$lang->qmail_compatibility}</th>
+    <td>
+        <input type="checkbox" name="qmail_compatibility" value="Y"  <!--@if($qmail_compatibility=='Y')-->checked="checked"<!--@end--> />
+        <p>{$lang->about_qmail_compatibility}</p>
+    </td>
+</tr>
+<tr>
     <th colspan="2" class="button">
         <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
         <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>

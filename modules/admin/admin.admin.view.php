@@ -39,6 +39,7 @@
             Context::set('time_zone', $GLOBALS['_time_zone']);
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
             Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
+            Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
 
             Context::setBrowserTitle("ZeroboardXE Admin Page");
         }

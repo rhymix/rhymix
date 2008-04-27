@@ -181,10 +181,13 @@
             if(!$db_info->time_zone) $db_info->time_zone = date("O");
             if(!$db_info->use_optimizer || $db_info->use_optimizer != 'N') $db_info->use_optimizer = 'Y';
             else $db_info->use_optimizer = 'N';
+            if(!$db_info->qmail_compatibility || $db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
+            else $db_info->qmail_compatibility = 'Y';
 
             $this->_setDBInfo($db_info);
             
             $GLOBALS['_time_zone'] = $db_info->time_zone;
+            $GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
         }
 
         /**
