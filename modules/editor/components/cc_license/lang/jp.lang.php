@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/cc_license/lang/ko.lang.php
+     * @file   /modules/editor/components/cc_license/lang/jp.lang.php
      * @author zero <zero@zeroboard.com> 翻訳：RisaPapa
      * @brief  ウィジウィグエディターモジュール >  CCL 表示エディターコンポーネント
      **/
