@@ -4,6 +4,7 @@
   <title xml:lang="jp">リファラー コレクター</title>
   <title xml:lang="zh-CN">反向链接统计</title>
   <title xml:lang="en">Referer Collector</title>
+  <title xml:lang="ge">Referer Collector</title>
   <title xml:lang="es">Referer Collector</title>
   <title xml:lang="ru">Сборщик рефералов</title>
   <author email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net" date="2007. 11. 26">
@@ -11,6 +12,7 @@
     <name xml:lang="jp">Haneul</name>
     <name xml:lang="zn-CN">haneul</name>
     <name xml:lang="en">haneul</name>
+	<name xml:lang="ge">haneul</name>
 	<name xml:lang="es">haneul</name>
     <name xml:lang="ru">haneul</name>
     <description xml:lang="ko">
@@ -23,6 +25,9 @@
 	记录反向链接统计数据。
     </description>
     <description xml:lang="en">
+	Collect referer log and statistics.
+    </description>
+	<description xml:lang="ge">
 	Collect referer log and statistics.
     </description>
 	<description xml:lang="es">
