@@ -62,7 +62,6 @@
 
         function send() {
             $boundary = '----=='.uniqid(rand(),true);
-            
             $eol = $GLOBALS['_qmail_compatibility'] == "Y" ? "\n" : "\r\n";
 
             $headers = sprintf(
