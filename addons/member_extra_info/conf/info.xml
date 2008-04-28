@@ -59,7 +59,7 @@
 		Unter anderem Informationen über Benutzer, dieses Addon zeigt Bild Name, Bild-Marke, und Unterschrift.
 Dieses Addon ist normalerweise ausgeschaltet zu verringern Ladezeit.
 So zeigen Sie Image-Namen-, Bild-Marke, und die Unterschrift, wenden Sie sich bitte in diesem Addon.
-         1. Recht vor Anzeigen, dieses Addon wird sich für den eindeutigen Schlüssel des Mitglieds aus &lt; div class = "member_ (eindeutigen Schlüssel zu den Mitgliedern)" &gt; ....& lt; / div &gt; und ersetzen wird der Inhalt mit den Image-Namen und / oder Bild-Marke, wenn sie vorhanden sind.
+         1. Recht vor Anzeigen, dieses Addon wird sich für den eindeutigen Schlüssel des Mitglieds aus &lt; div class = "member_ (eindeutigen Schlüssel zu den Mitgliedern)" &gt; ....&lt; / div &gt; und ersetzen wird der Inhalt mit den Image-Namen und / oder Bild-Marke, wenn sie vorhanden sind.
          2. Recht vor Anzeigen, dieses Addon wird nach &lt; div class = "document_ (eindeutigen Schlüssel des Dokuments)" ... &gt; &lt; / div &gt; und die Anzeige der Signatur in der unteren der Artikel.
          3. Wenn eine neue msessage ist angekommen, dieser wird die Nachricht in einem Popup-Fenster.
          4. Dies stellt eine Nachricht zu senden, wenn das Ziel ist Mitglied bei MemberModel:: getMemberMenu aufgerufen.
