@@ -34,7 +34,7 @@
     // 信息、提示..
     $lang->about_category_title = '请输入分类名。';
     $lang->about_expand = '选择此项将维持展开状态。';
-    $lang->about_category_group_srls = '被选的用户组才可以查看此分类。';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
     $lang->about_layout_setup = '可直接编辑博客布局代码。可以把控件代码插入到您喜欢的位置。';
     $lang->about_board_category = '可以添加/删除分类项<br />分类有异常情况时，可以尝试重新生成缓冲文件。';
     $lang->about_except_notice = "设置公告目录项不再重复显示到普通目录当中。";

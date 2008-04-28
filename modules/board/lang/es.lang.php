@@ -32,7 +32,7 @@
     // bla bla...
     $lang->about_category_title = 'Ingresar el nombre de la categoría.';
     $lang->about_expand = 'Si seleccionas esta opción, siempre estará expandido.';
-    $lang->about_category_group_srls = 'Solo se verán los grupos seleccionados en la actual categoría. (Abrir manualmente en archivo xml para la exposición)';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
     $lang->about_layout_setup = 'Puede modificar manualmente el código del diseño de tableros. Insertar o modificar el código de widget.';
     $lang->about_board_category = 'Puede crear las categorias de tableros.<br />Cuando no funciona la categoría de tableros, rehacer el archivo caché manualmente para solucionar.';
     $lang->about_except_notice = "Aviso de los artículos no se mostrará en la lista normal.";

@@ -30,7 +30,7 @@
     // blah blah..
     $lang->about_category_title = 'Please input category name';
     $lang->about_expand = 'By selecting this option, it will be always expanded';
-    $lang->about_category_group_srls = 'Only the selected group will be able to see current categories. (Manually open xml file to expose)';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
     $lang->about_layout_setup = 'You can manually modify board layout code. Insert or manage the widget code anywhere you want';
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
     $lang->about_except_notice = "Notice articles will not be displayed on normal list.";
