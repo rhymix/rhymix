@@ -86,6 +86,7 @@
                 // 엮인글 관리 모듈의 사용금지 설정 상태이면 무조건 금지, 그렇지 않으면 개별 체크
                 $oModuleModel = &getModel('module');
                 $trackback_config = $oModuleModel->getModuleConfig('trackback');
+                if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
 
                 if($trackback_config->enable_trackback != 'Y') $this->allow_trackback_status = false; 
                 else {
