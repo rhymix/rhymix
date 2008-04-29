@@ -262,6 +262,8 @@ EndOfLicense;
     $lang->about_rewrite = 'Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを「http://アドレス/123」のように動的だけど静的なページに見せることができます。';
     $lang->time_zone = 'タイムゾーン';
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間を指定したところの時間に設定できます。';
+    $lang->qmail_compatibility = 'Qmail 호환';
+    $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
 
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>';
 

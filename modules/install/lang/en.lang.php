@@ -169,6 +169,8 @@ EndOfLicense;
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
     $lang->time_zone = 'Time zone';
     $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
+    $lang->qmail_compatibility = 'Qmail 호환';
+    $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
 
     $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
 
