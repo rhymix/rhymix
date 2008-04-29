@@ -1,0 +1,11 @@
+<query id="updateAllowMessage" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="allow_message" var="allow_message" default="Y" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number"/>
+    </conditions>
+</query>

@@ -39,6 +39,12 @@
         // 로그인된 사용자 정보를 구함
         $logged_info = Context::get('logged_info');
 
+        // 회원 로그인 정보중에서 쪽지등의 메뉴를 추가
+        $logged_info->menu_list['dispMemberFriend'] = 'cmd_view_friend';
+        $logged_info->menu_list['dispMemberMessages'] = 'cmd_view_message_box';
+        Context::set('logged_info', $logged_info);
+        $_SESSION['logged_info'] = $logged_info;
+
         $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
         $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
 

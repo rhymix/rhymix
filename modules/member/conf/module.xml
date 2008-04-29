@@ -54,6 +54,7 @@
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />
         <action name="procMemberDeleteImageMark" type="controller" standalone="true" />
 
+        <action name="procMemberUpdateAllowMessage" type="controller" standalone="true" />
         <action name="procMemberSendMessage" type="controller" standalone="true" />
         <action name="procMemberStoreMessage" type="controller" standalone="true" />
         <action name="procMemberDeleteMessage" type="controller" standalone="true" />

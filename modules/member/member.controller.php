@@ -153,6 +153,23 @@
         }
 
         /**
+         * @brief 쪽지함 설정 변경
+         **/
+        function procMemberUpdateAllowMessage() {
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+
+            $args->allow_message = Context::get('allow_message');
+            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
+
+            $logged_info = Context::get('logged_info');
+            $args->member_srl = $logged_info->member_srl;
+
+            $output = executeQuery('member.updateAllowMessage', $args);
+
+            return $output;
+        }
+
+        /**
          * @brief 쪽지 발송
          **/
         function procMemberSendMessage() {
@@ -696,7 +713,7 @@
             if($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message');
+            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing');
             $args->member_srl = getNextSequence();
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
@@ -740,7 +757,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing','allow_message');
+            $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing');
 
             // 로그인 정보
             $logged_info = Context::get('logged_info');
@@ -1346,8 +1363,6 @@
 
             // 사용자의 전용 메뉴 구성 (이 메뉴는 애드온등으로 변경될 수 있음)
             $member_info->menu_list['dispMemberInfo'] = 'cmd_view_member_info';
-            $member_info->menu_list['dispMemberFriend'] = 'cmd_view_friend';
-            $member_info->menu_list['dispMemberMessages'] = 'cmd_view_message_box';
             $member_info->menu_list['dispMemberScrappedDocument'] = 'cmd_view_scrapped_document';
             $member_info->menu_list['dispMemberSavedDocument'] = 'cmd_view_saved_document';
             $member_info->menu_list['dispMemberOwnDocument'] = 'cmd_view_own_document';
@@ -1407,7 +1422,7 @@
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->denied!='Y') $args->denied = 'N';
-            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message= 'Y';
+            $args->allow_message= 'Y';
 
             if($logged_info->is_admin == 'Y') {
                 if($args->is_admin!='Y') $args->is_admin = 'N';
@@ -1543,7 +1558,7 @@
 
             // 필수 변수들의 조절
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
-            if(!in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
+            if($args->allow_message && !in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
 
             if($logged_info->is_admin == 'Y') {
                 if($args->denied!='Y') $args->denied = 'N';

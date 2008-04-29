@@ -1,0 +1,5 @@
+<filter name="update_allow_message" module="member" act="procMemberUpdateAllowMessage">
+    <form />
+    <parameter />
+    <response />
+</filter>

@@ -12,7 +12,6 @@
         <param name="blog" target="blog" />
         <param name="birthday" target="birthday" />
         <param name="allow_mailing" target="allow_mailing" />
-        <param name="allow_message" target="allow_message" />
         <param name="email_address" target="email_address" />
         <param name="signature" target="signature" />
     </parameter>
