@@ -775,9 +775,6 @@
             // user_id 에 따른 정보 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
-            // 사용자의 전용 메뉴 구성
-            $member_info->menu_list = $this->getMemberMenuList();
-
             // 로그인 성공후 trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
             if(!$trigger_output->toBool()) return $trigger_output;
@@ -1168,8 +1165,7 @@
             if ($output->data->is_register == 'Y') {
                 $args->password = $output->data->new_password;
                 $args->denied = 'N';
-            }
-            else {
+            } else {
                 $args->password = md5($output->data->new_password);
                 unset($args->denied);
             }
@@ -1185,9 +1181,6 @@
 
             // 회원의 정보를 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-
-            // 사용자의 전용 메뉴 구성
-            $member_info->menu_list = $this->getMemberMenuList();
 
             // 로그인 성공후 trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
@@ -1309,14 +1302,11 @@
             }
 
             // denied_date가 현 시간보다 적으면 알림
-            if($member_info->limit_date && $member_info->limit_date >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d")));
+            if($member_info->limit_date && substr($member_info->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d")));
 
             // 사용자 정보의 최근 로그인 시간을 기록
             $args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
-
-            // 사용자의 전용 메뉴 구성
-            $member_info->menu_list = $this->getMemberMenuList();
 
             // 로그인 성공후 trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
@@ -1329,9 +1319,7 @@
                 $autologin_args->member_srl = $member_info->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
-                if($autologin_output->toBool()) {
-                    setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
-                }
+                if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
             }
 
             $this->setSessionInfo($member_info);
@@ -1340,23 +1328,29 @@
         }
 
         /**
-         * @brief 로그인 사용자의 전용 메뉴를 구성
-         **/
-        function getMemberMenuList() {
-            $menu_list['dispMemberInfo'] = 'cmd_view_member_info';
-            $menu_list['dispMemberFriend'] = 'cmd_view_friend';
-            $menu_list['dispMemberMessages'] = 'cmd_view_message_box';
-            $menu_list['dispMemberScrappedDocument'] = 'cmd_view_scrapped_document';
-            $menu_list['dispMemberSavedDocument'] = 'cmd_view_saved_document';
-            $menu_list['dispMemberOwnDocument'] = 'cmd_view_own_document';
-            return $menu_list;
-        }
-
-        /**
          * @brief 세션 정보 갱싱 또는 생성
          **/
-        function setSessionInfo($member_info) {
-            if(!$member_info->member_srl) return;
+        function setSessionInfo($member_info = null) {
+            $oMemberModel = &getModel('member');
+
+            // 사용자 정보가 넘어오지 않았다면 현재 세션 정보에서 사용자 정보를 추출
+            if(!$member_info && $_SESSION['member_srl'] && $oMemberModel->isLogged() ) {
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($_SESSION['member_srl']);
+
+                // 회원정보가 없다면 세션 파기
+                if($member_info->member_srl != $_SESSION['member_srl']) {
+                    $this->destroySessionInfo();
+                    return;
+                }
+            }
+
+            // 사용자의 전용 메뉴 구성 (이 메뉴는 애드온등으로 변경될 수 있음)
+            $member_info->menu_list['dispMemberInfo'] = 'cmd_view_member_info';
+            $member_info->menu_list['dispMemberFriend'] = 'cmd_view_friend';
+            $member_info->menu_list['dispMemberMessages'] = 'cmd_view_message_box';
+            $member_info->menu_list['dispMemberScrappedDocument'] = 'cmd_view_scrapped_document';
+            $member_info->menu_list['dispMemberSavedDocument'] = 'cmd_view_saved_document';
+            $member_info->menu_list['dispMemberOwnDocument'] = 'cmd_view_own_document';
 
             // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
             if(preg_match("/^([0-9a-z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;

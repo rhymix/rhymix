@@ -422,13 +422,6 @@
                     $new_group_args->member_srl = $member_srl;
                     $new_group_args->group_srl = $current_group_srl;
                     $new_group_output = executeQuery('member.addMemberToGroup', $new_group_args);
-
-                    // 만약 대상 사용자와 로그인 사용자의 정보가 동일하다면 세션을 변경해줌
-                    $logged_info = Context::get('logged_info');
-                    if($logged_info->member_srl == $member_srl) {
-                        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-                        $_SESSION['logged_info']->group_list = $member_info->group_list;
-                    }
                 }
             }
 

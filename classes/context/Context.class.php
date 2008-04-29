@@ -109,24 +109,23 @@
             $this->_setRequestArgument();
             $this->_setUploadedArgument();
 
-            // 인증관련 데이터를 Context에 설정
-            $oMemberModel = &getModel('member');
-
-            // 로그인되어 있지 않고 자동로그인 키값이 있으면 자동 로그인 체크
-            if(Context::isInstalled() && !$oMemberModel->isLogged() && $_COOKIE['xeak']) {
+            // 인증 관련 정보를 Context와 세션에 설정
+            if(Context::isInstalled()) {
+                // 인증관련 데이터를 Context에 설정
+                $oMemberModel = &getModel('member');
                 $oMemberController = &getController('member');
-                $oMemberController->doAutologin();
-            }
 
-            // 로그인되어 있으면 로그인 정보 기록
-            if($oMemberModel->isLogged()) {
-                $this->_set('is_logged', true);
-                $this->_set('logged_info', $_SESSION['logged_info']);
+                // 인증이 되어 있을 경우 유효성 체크
+                if($oMemberModel->isLogged()) {
+                    $oMemberController->setSessionInfo();
 
-            // 로그인 되어 있지 않으면 먼저 자동 로그인을 체크 비로그인 상태 기록
-            } else {
-                $this->_set('is_logged', false);
-                $this->_set('logged_info', NULL);
+                // 인증이 되어 있지 않을 경우 자동 로그인 확인
+                } elseif($_COOKIE['xeak']) {
+                    $oMemberController->doAutologin();
+                }
+
+                $this->_set('is_logged', $oMemberModel->isLogged() );
+                $this->_set('logged_info', $oMemberModel->getLoggedInfo() );
             }
 
             // rewrite 모듈사용 상태 체크
