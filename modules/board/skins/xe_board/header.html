@@ -94,7 +94,7 @@
             <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
             <!--@end-->
 
-        <!-- 로그인 되어 있지 않고 레이아웃이 없으면 -->
+        <!-- 로그인 되어 있지 않고 회원정보 버튼 출력하도록 되어있으면 -->
         <!--@elseif(!$is_logged && $module_info->display_login_info != 'N')-->
             <li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
             <li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
