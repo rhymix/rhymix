@@ -90,7 +90,8 @@
         function checkLimited() {
             $config = $this->getConfig();
             $limit_count = $config->limit_count?$config->limit_count:5;
-            $interval = $config->interval?$config->interval:60;
+            $interval = $config->interval;
+            if(!$interval) return new Object();
 
             $count = $this->getLogCount($interval);
 
