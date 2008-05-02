@@ -52,6 +52,16 @@
         </td>
     </tr>
     <!--@foreach($selected_layout->extra_var as $name => $var)-->
+
+    <!--@if($var->group && ((!$group) || $group != $var->group))-->
+    {@$group = $var->group}
+    </table>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col width="*" />
+    <caption>{$group}</caption>
+    <!--@end-->
+
     <tr>
         <th scope="row">{$var->title}</th>
 
@@ -85,6 +95,14 @@
         </td>
     </tr>
     <!--@end-->
+
+    <!--@if($var->group)-->
+    </table>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col width="*" />
+    <!--@end-->
+
     <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
     <tr>
         <th scope="row">{$menu_info->title}<br />({$menu_name})</th>
