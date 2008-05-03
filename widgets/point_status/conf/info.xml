@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget version="0.1">
     <title xml:lang="ko">포인트 현황 출력 위젯</title>
+    <title xml:lang="en">Point Status</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 23">
         <name xml:lang="ko">제로</name>
+		<name xml:lang="en">Zero</name>
         <description xml:lang="ko">
             로그인한 회원의 포인트 현황을 출력하는 위젯입니다.
             캐시는 0으로 해주셔야 합니다.
+        </description>
+		<description xml:lang="en">
+            This widget displays online members' points status.
+            Cache must be 0.
         </description>
     </author>
 </widget>
