@@ -18,7 +18,6 @@
     </div>
 
     <div id="popBody">
-
         <table cellspacing="0" class="adminTable">
         <col width="150" />
         <col />
@@ -60,7 +59,17 @@
                 <p>{$lang->about_widget_cache}</p>
             </td>
         </tr>
-            <!--@foreach($widget_info->extra_var as $id => $var)-->
+        <!--@foreach($widget_info->extra_var as $id => $var)-->
+
+        <!--@if($var->group && ((!$group) || $group != $var->group))-->
+        {@$group = $var->group}
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="150" />
+        <col width="*" />
+        <caption>{$group}</caption>
+        <!--@end-->
+
         <tr>
             <th scope="row">
                 {$var->name}
