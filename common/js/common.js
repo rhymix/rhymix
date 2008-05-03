@@ -178,12 +178,12 @@ function move_url(url, open_wnidow) {
 /**
  * @brief 특정 div(or span...)의 display옵션 토글
  **/
-function toggleDisplay(obj, opt) {
-    obj = xGetElementById(obj);
+function toggleDisplay(obj, display_type) {
+    var obj = xGetElementById(obj);
     if(!obj) return;
-    if(typeof(opt)=="undefined") opt = "inline";
-    if(!obj.style.display || obj.style.display == "block") obj.style.display = 'none';
-    else obj.style.display = opt;
+    if(typeof(display_type)=="undefined") display_type = "inline";
+    if(!obj.style.display || obj.style.display == display_type) obj.style.display = 'none';
+    else obj.style.display = display_type;
 }
 
 /**
