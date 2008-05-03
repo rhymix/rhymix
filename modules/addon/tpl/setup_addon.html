@@ -27,6 +27,16 @@
         </tr>
 
         <!--@foreach($addon_info->extra_vars as $id => $var)-->
+
+        <!--@if($var->group && ((!$group) || $group != $var->group))-->
+        {@$group = $var->group}
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="100" />
+        <col width="*" />
+        <caption>{$group}</caption>
+        <!--@end-->
+
         <tr>
             <th scope="row">{$var->title}</th>
             <td>
@@ -46,6 +56,13 @@
                 <p class="clear">{nl2br($var->description)}</p>
             </td>
         </tr>
+        <!--@end-->
+
+        <!--@if($group)-->
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="100" />
+        <col width="*" />
         <!--@end-->
 
         <tr>
