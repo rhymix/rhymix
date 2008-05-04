@@ -38,7 +38,7 @@ String.prototype.setQuery = function(key, val) {
 
         var q_list = new Array();
         for(var i in args) {
-	    if( !args.hasOwnProperty(i) ) continue;
+        if( !args.hasOwnProperty(i) ) continue;
             var arg = args[i];
             if(!arg.toString().trim()) continue;
 
@@ -176,14 +176,17 @@ function move_url(url, open_wnidow) {
 }
 
 /**
- * @brief 특정 div(or span...)의 display옵션 토글
+ * @brief 특정 Element의 display 옵션 토글
  **/
 function toggleDisplay(obj, display_type) {
     var obj = xGetElementById(obj);
     if(!obj) return;
-    if(typeof(display_type)=="undefined") display_type = "inline";
-    if(!obj.style.display || obj.style.display == display_type) obj.style.display = 'none';
-    else obj.style.display = display_type;
+    if(!obj.style.display || obj.style.display != 'none') {
+        obj.style.display = 'none';
+    } else {
+        if(display_type) obj.style.display = display_type;
+        else obj.style.display = '';
+    }
 }
 
 /**
