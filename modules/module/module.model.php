@@ -263,41 +263,50 @@
             }
 
             // 스킨에서 사용되는 변수들
-            $extra_vars = $xml_obj->extra_vars->var;
-            if($extra_vars) {
-                
-                if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+            $extra_var_groups = $xml_obj->extra_vars->group;
+            if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+            if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
 
-                foreach($extra_vars as $var) {
-                    unset($obj);
+            foreach($extra_var_groups as $group){
+                $extra_vars = $group->var;
 
-                    $name = $var->attrs->name;
-                    $type = $var->attrs->type;
-                    $title = $var->title->body;
-                    $description = $var->description->body;
+                if($extra_vars) {
 
-                    if($var->default) {
-                        unset($default);
-                        if(is_array($var->default)) {
-                            for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
-                        } else {
-                            $default = $var->default->body;
+                    if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+
+                    foreach($extra_vars as $var) {
+                        unset($obj);
+
+                        $group = $group->title->body;
+                        $name = $var->attrs->name;
+                        $type = $var->attrs->type;
+                        $title = $var->title->body;
+                        $description = $var->description->body;
+
+                        if($var->default) {
+                            unset($default);
+                            if(is_array($var->default)) {
+                                for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
+                            } else {
+                                $default = $var->default->body;
+                            }
                         }
+
+                        $width = $var->attrs->width;
+                        $height = $var->attrs->height;
+
+                        unset($obj);
+                        $obj->group = $group;
+                        $obj->title = $title;
+                        $obj->description = $description;
+                        $obj->name = $name;
+                        $obj->type = $type;
+                        $obj->default = $default;
+                        $obj->width = $width;
+                        $obj->height = $height;
+
+                        $skin_info->extra_vars[] = $obj;
                     }
-
-                    $width = $var->attrs->width;
-                    $height = $var->attrs->height;
-
-                    unset($obj);
-                    $obj->title = $title;
-                    $obj->description = $description;
-                    $obj->name = $name;
-                    $obj->type = $type;
-                    $obj->default = $default;
-                    $obj->width = $width;
-                    $obj->height = $height;
-
-                    $skin_info->extra_vars[] = $obj;
                 }
             }
 
