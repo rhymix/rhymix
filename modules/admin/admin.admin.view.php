@@ -84,12 +84,5 @@
 
             $this->setTemplateFile('index');
         }
-
-        /**
-         * @brief 관리자 메뉴 숏컷 출력
-         **/
-        function dispAdminShortCut() {
-            $this->setTemplateFile('shortcut_list');
-        }
     }
 ?>
