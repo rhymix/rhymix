@@ -99,7 +99,7 @@
     </table>
 
     <script type="text/javascript">
-        Calendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d"});
+        DyCalendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d"});
     </script>
 
     <!--@if($extend_form_list)-->
@@ -193,7 +193,7 @@
                 <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
 
                 <script type="text/javascript">
-                    Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+                    DyCalendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
                 </script>
             <!--@end-->
 

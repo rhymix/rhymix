@@ -39,7 +39,7 @@
             <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> <span class="vr">|</span> 
             <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
             <script type="text/javascript">
-                Calendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
+                DyCalendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
             </script>
         </th>
         <td>Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
