@@ -16,14 +16,14 @@
     $lang->cmd_list = 'US -';
     $lang->cmd_prev = 'Zurück';
     $lang->cmd_next = 'Nächster';
-    // 여기에서부터 번역 시작필요..
-	$lang->cmd_send_trackback = 'Send Trackback';
-    $lang->cmd_registration = $lang->cmd_submit = 'Submit';
-    $lang->cmd_comment_registration = 'Add Comment';
-    $lang->cmd_insert = 'Insert';
-    $lang->cmd_save = 'Save';
-    $lang->cmd_load = 'Load';
+	$lang->cmd_send_trackback = 'Trackback senden';
+    $lang->cmd_registration = $lang->cmd_submit = 'Übermitteln';
+    $lang->cmd_comment_registration = 'Kommentar hinzufügen';
+    $lang->cmd_insert = 'Legen Sie';
+    $lang->cmd_save = 'Sichern';
+    $lang->cmd_load = 'Laden';
     $lang->cmd_input = 'Input';
+	// 여기에서부터 번역 시작필요..
     $lang->cmd_search = 'Search';
     $lang->cmd_cancel = 'Cancel';
     $lang->cmd_back = 'Go Back';
