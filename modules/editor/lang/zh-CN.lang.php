@@ -17,7 +17,7 @@
 
     $lang->about_component = "组件简介";
     $lang->about_component_grant = '可以设置除默认组件外的扩展组件使用权限<br />(全部解除时任何用户都可以使用)。';
-    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
+    $lang->about_component_mid = "可以指定使用编辑器组件的对象。<br />(全部解除时任何用户都可以使用)。";
 
     $lang->msg_component_is_not_founded = '找不到%s 组件说明！';
     $lang->msg_component_is_inserted = '您选择的组件已插入！';

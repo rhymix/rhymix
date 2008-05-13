@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">본문내 이미지 조절 애드온</title>
+  <title xml:lang="zh-CN">内容区图片缩放插件</title>
   <title xml:lang="es">Imagen de control add-on bonmunnae</title>
   <title xml:lang="ru">Image контроля добавить-на bonmunnae</title>
   <title xml:lang="ge">Image-Add-on bonmunnae</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 22">
     <name xml:lang="ko">zero</name>
+    <name xml:lang="zh-CN">zero</name>
 	<name xml:lang="es">zero</name>
 	<name xml:lang="ge">zero</name>
 	<name xml:lang="ru">zero</name>
@@ -14,6 +16,9 @@
 	<name xml:lang="jp">zero</name>
     <description xml:lang="ko">
         본문내에 삽입된 이미지의 크기를 본문크기에 맞게 하고 클릭시 원본을 보여주는 애드온입니다.
+    </description>
+    <description xml:lang="zh-CN">
+        自动调整主题内容区内的图片大小，点击将显示原始大小的插件。
     </description>
 	    <description xml:lang="es">
         La imagen corporal se inserta dentro del cuerpo para que se adapte al tamaño de la muestra original cuando hago clic en los add-ons.

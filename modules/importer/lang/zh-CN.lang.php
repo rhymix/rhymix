@@ -8,7 +8,7 @@
     // 按钮上使用的语言
     $lang->cmd_sync_member = '同步';
     $lang->cmd_continue = '继续进行';
-    $lang->preprocessing = '데이터 이전을 위한 사전 준비중입니다.';
+    $lang->preprocessing = '正准备数据导入...';
 
     // 项目
     $lang->importer = '数据导入';
@@ -25,16 +25,18 @@
         1 => 'Step 1. 选择导入对象',
         12 => 'Step 1-2. 选择模块对象',
         13 => 'Step 1-3. 选择对象分类',
-        2 => 'Step 2. 上传XML文件',
+        2 => 'Step 2. XML文件',
         3 => 'Step 2. 同步会员信息和文章信息',
+        99 => '数据导入',
     );
 
     $lang->import_step_desc = array(
         1 => '请选择要导入的XML文件种类。',
         12 => '请选择要导入的对象模块。',
         13 => '请选择要导入的对象分类。',
-        2 => "请输入要导入的XML文件的位置。\n位于同一个服务器时，可输入相对或绝对路径，位于不同服务器时，可输入http://地址。",
+        2 => "请输入要导入的XML文件的位置。\n可输入相对或绝对路径。",
         3 => '数据导入后可能会导致会员信息和文章内容信息的误差。这时以user_id进行同步即可解决问题。',
+        99 => '正在数据导入中...',
     );
 
     // 信息/提示
@@ -53,6 +55,5 @@
     $lang->about_type_module = '数据导入对象为版面主题时请选择此项。';
     $lang->about_type_syncmember = '导入会员信息和文章信息后需要同步会员信息时请选择此项。';
     $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>生成XML文件后再上传。";
-
     $lang->about_target_path = "为了下载附件请输入Zeroboard 4的安装位置。\n位置在同一个服务器时，请输入如 /home/id/public_html/bbs的路径,在不同服务器时，请输入如 http://域名/bbs的url地址。";
 ?>

@@ -121,14 +121,14 @@
         <var name="target_mid" type="text">
             <title xml:lang="ko">기본 모듈</title>
             <title xml:lang="jp">기본 모듈</title>
-            <title xml:lang="zh-CN">기본 모듈</title>
+            <title xml:lang="zh-CN">默认模块</title>
             <title xml:lang="en">Basic module</title>
 			<title xml:lang="ge">Basismodul</title>
 			<title xml:lang="es">Módulo Básico</title>
 			<title xml:lang="ru">Основной модуль</title>
             <description xml:lang="ko">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
             <description xml:lang="jp">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
-            <description xml:lang="zh-CN">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
+            <description xml:lang="zh-CN">为了让博客系统中的控件正常运作，在这里必须得指定默认版面模块名。</description>
             <description xml:lang="en">The widgets that are being displayed in the layout will work properly if you select the basic module</description>
 			<description xml:lang="ge">Die Widgets, die angezeigt werden im Layout wird ordnungsgemäß funktionieren, wenn Sie das Basismodul</description>
 			<description xml:lang="es">Los reproductores que se muestran en el diseño funcionará correctamente si selecciona el módulo básico</description>
@@ -152,14 +152,14 @@
         <var name="profile_image" type="image">
             <title xml:lang="ko">프로필 이미지</title>
             <title xml:lang="jp">プロフィールイメージ</title>
-            <title xml:lang="zh-CN">博客个性图片</title>
+            <title xml:lang="zh-CN">博客头像</title>
             <title xml:lang="en">Profile Image</title>
 			<title xml:lang="ge">Profil Bilder</title>
 			<title xml:lang="es">Perfil de Imagen</title>
 			<title xml:lang="ru">Профиль Изображение</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
             <description xml:lang="jp">プロフィールイメージを入力してください（横幅は「160px」が一番適しています）。</description>
-            <description xml:lang="zh-CN">请输入博客个性图片(推荐宽度160px)。</description>
+            <description xml:lang="zh-CN">请上传博客个性头像(推荐宽度为160px)。</description>
             <description xml:lang="en">Please input profile image (It is recommended to set width as 160px)</description>
 			<description xml:lang="ge">itte geben Sie Ihre Image-Profil (Es wird empfohlen, Breite 160px)</description>
 			<description xml:lang="es">Por favor, el perfil de entrada de imagen (Se recomienda configurar el ancho de 160px)</description>

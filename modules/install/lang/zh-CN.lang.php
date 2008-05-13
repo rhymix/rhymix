@@ -254,8 +254,8 @@ EndOfLicense;
     $lang->about_rewrite = '如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。';
     $lang->time_zone = '时区';
     $lang->about_time_zone = '服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。';
-    $lang->qmail_compatibility = 'Qmail 호환';
-    $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
+    $lang->qmail_compatibility = 'Qmail互换';
+    $lang->about_qmail_compatibility = '支持不能识别CRLF为换行符的Qmail等MTA，也能发送电子邮件。';
 
     $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>';
 

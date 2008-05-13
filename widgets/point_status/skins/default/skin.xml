@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <skin>
   <title xml:lang="ko">회원 포인트 현황 기본 스킨</title>
+  <title xml:lang="zh-CN">在线会员积分现况默认皮肤</title>
   <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 23">
     <name xml:lang="ko">제로</name>
+    <name xml:lang="zh-CN">zero</name>
     <description xml:lang="ko">
         포인트 현황 출력 위젯의 기본 스킨입니다.
+    </description>
+    <description xml:lang="zh-CN">
+        显示在线会员积分现况的默认皮肤。
     </description>
   </maker>
   <colorset>
