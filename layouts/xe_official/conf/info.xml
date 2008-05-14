@@ -3,6 +3,7 @@
     <title xml:lang="ko">ZBXE 공식 사이트 레이아웃</title>
     <title xml:lang="jp">ZBXEオフィシャルレイアウト</title>
     <title xml:lang="en">ZBXE Official website layout</title>
+	<title xml:lang="ge">ZBXE Official website layout</title>
 	<title xml:lang="ru">ZBXE Официальный сайт макет</title>
     <title xml:lang="es">Diseño oficial de la página web de ZBXE</title>
     <title xml:lang="zh-CN">ZBXE 官方网站布局</title>
@@ -10,6 +11,7 @@
         <name xml:lang="ko">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
+		<name xml:lang="ge">zero</name>
 		<name xml:lang="ru">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
@@ -26,6 +28,12 @@
             レイアウト作成：Zero
         </description>
         <description xml:lang="en">
+            This layout is the Zeroboard XE Official website layout.
+            Designer : So-Ra Lee
+            HTML/CSS : Chan-Myung Jeong
+            Layout producer : zero
+        </description>
+	    <description xml:lang="ge">
             This layout is the Zeroboard XE Official website layout.
             Designer : So-Ra Lee
             HTML/CSS : Chan-Myung Jeong
@@ -56,18 +64,21 @@
             <title xml:lang="jp">カラーセット</title>
             <title xml:lang="zh-CN">颜色</title>
             <title xml:lang="en">Colorset</title>
+			<title xml:lang="ge">Colorset</title>
 			<title xml:lang="ru">Colorset</title>
             <title xml:lang="es">Set de colores</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="jp">希望するカラーセットを選択してください。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="en">Please select a colorset you want.</description>
+			<description xml:lang="ge">Please select a colorset you want.</description>
 			<description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
             <options name="default">
                 <title xml:lang="ko">기본</title>
                 <title xml:lang="jp">デフォルト</title>
                 <title xml:lang="en">Basic</title>
+				<title xml:lang="ge">Basic</title>
 				<title xml:lang="ru">Базовые</title>
                 <title xml:lang="es">Básico</title>
                 <title xml:lang="zh-CN">默认</title>
@@ -77,6 +88,7 @@
                 <title xml:lang="ko">검은색</title>
                 <title xml:lang="jp">黒</title>
                 <title xml:lang="en">Black</title>
+				<title xml:lang="ge">Black</title>
 				<title xml:lang="ru">Черного</title>
                 <title xml:lang="es">Negro</title>
                 <title xml:lang="zh-CN">黑色</title>
@@ -86,6 +98,7 @@
                 <title xml:lang="ko">하얀색</title>
                 <title xml:lang="jp">白</title>
                 <title xml:lang="en">white</title>
+				<title xml:lang="ge">white</title>
 				<title xml:lang="ru">белый</title>
                 <title xml:lang="es">Blanco</title>
                 <title xml:lang="zh-CN">白色</title>
@@ -103,6 +116,7 @@
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力してください。 (縦幅が23pxである透明イメージが最も合います。)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为23px的透明图片为适。)</description>
             <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
+			<description xml:lang="ge">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
 			<description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
             <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
         </var>
@@ -111,12 +125,14 @@
             <title xml:lang="jp">ホームページURL</title>
             <title xml:lang="zh-CN">主页地址</title>
             <title xml:lang="en">Homepage URL</title>
+			<title xml:lang="ge">Homepage URL</title>
 			<title xml:lang="ru">Домашняя страница URL</title>
             <title xml:lang="es">URL de la página web</title>
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
             <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
+			<description xml:lang="ge">Please input the URL to redirect when user clicks the logo</description>
 			<description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
             <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
              </var>
@@ -131,6 +147,7 @@
             <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="en">Please input if you want to use background image.</description>
+			<description xml:lang="ge">Please input if you want to use background image.</description>
 			<description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
             <description xml:lang="es">Ingresar imagen de fondo si desea usar.</description>
         </var>
@@ -141,6 +158,7 @@
             <title xml:lang="jp">上段メニュー</title>
             <title xml:lang="zh-CN">主菜单</title>
             <title xml:lang="en">Top menu</title>
+			<title xml:lang="ge">Top menu</title>
 			<title xml:lang="ru">Верхнее меню</title>
             <title xml:lang="es">Menú Principal</title>
             <maxdepth>3</maxdepth>
@@ -150,6 +168,7 @@
             <title xml:lang="jp">下段メニュー</title>
             <title xml:lang="zh-CN">底部菜单</title>
             <title xml:lang="en">Bottom menu</title>
+			<title xml:lang="ge">Bottom menu</title>
 			<title xml:lang="ru">Внизу меню</title>
             <title xml:lang="es">Menú Inferior </title>
             <maxdepth>1</maxdepth>
