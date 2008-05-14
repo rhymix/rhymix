@@ -264,7 +264,7 @@ EndOfLicense;
     $lang->time_zone = 'タイムゾーン';
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差が生じる場合、タイムゾーンを指定すれば、表示時間を指定したところの時間に設定できます。';
     $lang->qmail_compatibility = 'Qmail 互換';
-    $lang->about_qmail_compatibility = 'Qmail等、CRLFを線区分子で認識できないMTAでメールが発送されるようにします。';
+    $lang->about_qmail_compatibility = 'Qmail等、CRLFを改行コードで認識できないMTAでメールが発送されるようにします。';
 
 
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>';
