@@ -23,16 +23,16 @@
     $lang->cmd_save = 'Sichern';
     $lang->cmd_load = 'Laden';
     $lang->cmd_input = 'Input';
-	// 여기에서부터 번역 시작필요..
-    $lang->cmd_search = 'Search';
-    $lang->cmd_cancel = 'Cancel';
-    $lang->cmd_back = 'Go Back';
-    $lang->cmd_vote = 'Recommend';
+    $lang->cmd_search = 'Suche';
+    $lang->cmd_cancel = 'Abbrechen';
+    $lang->cmd_back = 'Zurück';
+    $lang->cmd_vote = 'Weiterempfehlen';
     $lang->cmd_vote_down = 'Criticize';
-    $lang->cmd_declare = 'Accuse';
-    $lang->cmd_cancel_declare = 'Cancel Accuse';
-    $lang->cmd_declared_list = 'Accusations List';
-    $lang->cmd_copy = 'Copy';
+    $lang->cmd_declare = 'accuse';
+    $lang->cmd_cancel_declare = 'accuse Abbrechen';
+    $lang->cmd_declared_list = 'Vorwürfe Liste';
+    $lang->cmd_copy = 'Kopieren';
+	// 여기에서부터 번역 시작필요..
     $lang->cmd_move = 'Move';
     $lang->cmd_move_up = 'Up';
     $lang->cmd_move_down = 'Down';
