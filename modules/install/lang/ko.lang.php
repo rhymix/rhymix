@@ -238,6 +238,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
         'cubrid' => 'CUBRID DB를 이용합니다.',
         'postgresql' => 'PostgreSql을 이용합니다',
+        'firebird' => 'Firebird를 이용합니다',
     );
 
     $lang->form_title = 'DB &amp; 관리자 정보 입력';

@@ -242,6 +242,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.',
         'cubrid' => 'Usar BD CUBRID.',
         'postgresql' => 'Usar BD PostgreSql.',
+        'firebird' => 'Usar BD firebird.',
     );
 
     $lang->form_title = 'Ingresar  BD &amp; Información del Administrador;';

@@ -146,6 +146,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',
         'cubrid' => 'Use CUBRID DB.',
         'postgresql' => 'Use PostgreSql DB.',
+        'firebird' => 'Use firebird DB.',
     );
 
     $lang->form_title = 'Please input DB &amp; Admin information';

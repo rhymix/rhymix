@@ -330,6 +330,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'Поддерживает sqlite3 посредством PHP\'s PDO.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.',
         'cubrid' => 'Используем CUBRID DB.',
         'postgresql' => 'Используем PostgreSql DB.',
+        'firebird' => 'Используем firebird DB.',
     );
 
     $lang->form_title = 'Пожалуйста, введите дазу данных &amp; Административная Информация';

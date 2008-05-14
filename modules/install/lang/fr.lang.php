@@ -200,6 +200,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de DB dans une place que l\'on ne peut pas accéder par web.',
         'cubrid' => 'Utiliser CUBRID DB.',
         'postgresql' => 'Utiliser PostgreSql DB.',
+        'firebird' => 'Utiliser firebird DB.',
     );
 
     $lang->form_title = 'Entrer des informations de  DB(Base de données) et Administrateur';
