@@ -43,9 +43,9 @@
                 $module_config['download_file'] = $config->download_file;
                 $module_config['read_document'] = $config->read_document;
 
-		//2008.05.13 haneul
-		$module_config['voted'] = $config->voted;
-		$module_config['blamed'] = $config->blamed;
+                //2008.05.13 haneul
+                $module_config['voted'] = $config->voted;
+                $module_config['blamed'] = $config->blamed;
             }
 
             $module_config['module_srl'] = $current_module_srl;

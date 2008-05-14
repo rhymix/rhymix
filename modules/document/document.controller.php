@@ -425,9 +425,9 @@
             // 세션 정보에 남김
             $_SESSION['voted_document'][$document_srl] = true;
 
-	    $obj->member_srl = $oDocument->get('member_srl');
-	    $obj->module_srl = $oDocument->get('module_srl');
-	    $obj->point = $point;
+            $obj->member_srl = $oDocument->get('member_srl');
+            $obj->module_srl = $oDocument->get('module_srl');
+            $obj->point = $point;
             $output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
             if(!$output->toBool()) return $output;
 

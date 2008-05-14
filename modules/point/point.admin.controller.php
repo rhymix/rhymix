@@ -36,8 +36,8 @@
             $config->insert_comment = (int)$args->insert_comment;
             $config->upload_file = (int)$args->upload_file;
             $config->download_file = (int)$args->download_file;
-	    $config->voted = (int)$args->voted;
-	    $config->blamed = (int)$args->blamed;
+            $config->voted = (int)$args->voted;
+            $config->blamed = (int)$args->blamed;
 
             // 최고 레벨
             $config->max_level = $args->max_level;
