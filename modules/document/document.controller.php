@@ -415,13 +415,21 @@
                 $args->voted_count = $oDocument->get('voted_count') + $point;
                 $output = executeQuery('document.updateVotedCount', $args);
             }
+            if(!$output->toBool()) return $output;
 
             // 로그 남기기
             $args->point = $point;
             $output = executeQuery('document.insertDocumentVotedLog', $args);
+            if(!$output->toBool()) return $output;
 
             // 세션 정보에 남김
             $_SESSION['voted_document'][$document_srl] = true;
+
+	    $obj->member_srl = $oDocument->get('member_srl');
+	    $obj->module_srl = $oDocument->get('module_srl');
+	    $obj->point = $point;
+            $output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
+            if(!$output->toBool()) return $output;
 
             // 결과 리턴
             if($point > 0)

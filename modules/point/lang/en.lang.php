@@ -48,6 +48,8 @@
     $lang->point_delete_file = 'On Deleting Files';
     $lang->point_download_file = 'On Downloading Files (Exclude images)';
     $lang->point_read_document = 'On Reading';
+    $lang->point_voted = 'On Recommended';
+    $lang->point_blamed = 'On Blamed';
 
 
     $lang->cmd_point_config = 'Default Setting';

@@ -36,6 +36,8 @@
             $config->insert_comment = (int)$args->insert_comment;
             $config->upload_file = (int)$args->upload_file;
             $config->download_file = (int)$args->download_file;
+	    $config->voted = (int)$args->voted;
+	    $config->blamed = (int)$args->blamed;
 
             // 최고 레벨
             $config->max_level = $args->max_level;
@@ -89,7 +91,7 @@
             $args = Context::getRequestVars();
 
             foreach($args as $key => $val) {
-                preg_match("/^(insert_document|insert_comment|upload_file|download_file|read_document)_([0-9]+)$/", $key, $matches);
+                preg_match("/^(insert_document|insert_comment|upload_file|download_file|read_document|voted|blamed)_([0-9]+)$/", $key, $matches);
                 if(!$matches[1]) continue;
                 $name = $matches[1];
                 $module_srl = $matches[2];
@@ -130,6 +132,8 @@
                 $config->module_point[$srl]['upload_file'] = (int)Context::get('upload_file');
                 $config->module_point[$srl]['download_file'] = (int)Context::get('download_file');
                 $config->module_point[$srl]['read_document'] = (int)Context::get('read_document');
+                $config->module_point[$srl]['voted'] = (int)Context::get('voted');
+                $config->module_point[$srl]['blamed'] = (int)Context::get('blamed');
             }
 
             $oModuleController = &getController('module');

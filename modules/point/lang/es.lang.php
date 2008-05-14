@@ -48,6 +48,8 @@
     $lang->point_delete_file = 'Al borrar archivos';
     $lang->point_download_file = 'Al descargar archivos (Excepto imágenes)';
     $lang->point_read_document = 'El Reading';
+    $lang->point_voted = '추천 받음';
+    $lang->point_blamed = '비추천 받음';
 
 
     $lang->cmd_point_config = 'Configuración predefinida';

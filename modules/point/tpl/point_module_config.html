@@ -28,6 +28,14 @@
         <td><input type="text" name="read_document" value="{$module_config['read_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
     </tr>
     <tr>
+        <th>{$lang->point_voted}</th>
+        <td><input type="text" name="voted" value="{$module_config['voted']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+    </tr>
+    <tr>
+        <th>{$lang->point_blamed}</th>
+        <td><input type="text" name="blamed" value="{$module_config['blamed']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+    </tr>
+    <tr>
         <th colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_save}" /></span></th>
     </tr>
     </table>
