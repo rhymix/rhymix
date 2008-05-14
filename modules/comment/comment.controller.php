@@ -398,6 +398,9 @@
          * @brief 해당 comment의 추천수 증가
          **/
         function updateVotedCount($comment_srl, $point = 1) {
+            if($point > 0) $failed_voted = 'failed_voted';
+            else $failed_voted = 'failed_blamed';
+
             // 세션 정보에 추천 정보가 있으면 중단
             if($_SESSION['voted_comment'][$comment_srl]) return new Object(-1, 'failed_voted');
 
@@ -440,17 +443,29 @@
             }
 
             // 추천수 업데이트
-            $args->voted_count = $oComment->get('voted_count') + $point;
-            $output = executeQuery('comment.updateVotedCount', $args);
+            if($point < 0)
+            {
+                $args->blamed_count = $oComment->get('blamed_count') + $point;
+                $output = executeQuery('comment.updateBlamedCount', $args);
+            }
+            else
+            {
+                $args->voted_count = $oComment->get('voted_count') + $point;
+                $output = executeQuery('comment.updateVotedCount', $args);
+            }
 
             // 로그 남기기
+            $args->point = $point;
             $output = executeQuery('comment.insertCommentVotedLog', $args);
 
             // 세션 정보에 남김
             $_SESSION['voted_comment'][$comment_srl] = true;
 
             // 결과 리턴
-            return new Object(0, 'success_voted');
+            if($point > 0)
+                return new Object(0, 'success_voted');
+            else
+                return new Object(0, 'success_blamed');
         }
 
         /**
