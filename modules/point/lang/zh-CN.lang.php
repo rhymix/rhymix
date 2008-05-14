@@ -48,8 +48,8 @@
     $lang->point_delete_file = '删除文件';
     $lang->point_download_file = '下载文件 (图片除外)';
     $lang->point_read_document = '查看主题';
-    $lang->point_voted = '추천 받음';
-    $lang->point_blamed = '비추천 받음';
+    $lang->point_voted = '推荐';
+    $lang->point_blamed = '反对';
 
 
     $lang->cmd_point_config = '基本设置';
