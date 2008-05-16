@@ -90,7 +90,7 @@
 			if(Context::getLangType()=='en')
 				$result_text = sprintf(Context::getLang("is_result_text"), $output->total_count, $is_keyword);
 			else
-				$result_text = sprintf(Context::getLang("is_result_text"), $is_keyword, $output->total_count);
+				$result_text = sprintf(Context::getLang("is_result_text"), htmlspecialchars($is_keyword, ENT_NOQUOTES, 'UTF-8'), $output->total_count);
             Context::set('result_text', $result_text);
             Context::set('mid_list', $mid_list);
 
