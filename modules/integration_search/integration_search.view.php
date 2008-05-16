@@ -88,7 +88,7 @@
 
             // 텍스트 생성
 			if(Context::getLangType()=='en')
-				$result_text = sprintf(Context::getLang("is_result_text"), $output->total_count, $is_keyword);
+				$result_text = sprintf(Context::getLang("is_result_text"), $output->total_count, htmlspecialchars($is_keyword, ENT_NOQUOTES, 'UTF-8'));
 			else
 				$result_text = sprintf(Context::getLang("is_result_text"), htmlspecialchars($is_keyword, ENT_NOQUOTES, 'UTF-8'), $output->total_count);
             Context::set('result_text', $result_text);
