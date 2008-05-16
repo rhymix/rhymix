@@ -171,6 +171,7 @@
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {
                 foreach($skin_info->extra_vars as $key => $val) {
+                    $group = $val->group;
                     $name = $val->name;
                     $type = $val->type;
                     $value = $module_info->{$name};

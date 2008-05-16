@@ -4,6 +4,7 @@
   <title xml:lang="jp">会員情報・コミュニティアドオン</title>
   <title xml:lang="zh-CN">用户扩展信息</title>
   <title xml:lang="en">Activation of Member's Additional Information and Communication Function.</title>
+  <title xml:lang="ge">Die Aktivierung der Mitglied's weitere Informations-und Kommunikations-Funktion.</title>
   <title xml:lang="es">Addon para activar la función de la Información addcional del usuario y  de la comunicación.</title>
   <title xml:lang="ru">Аддон для предоставления дополнительной информации о пользователях и коммуникации</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
@@ -11,6 +12,7 @@
     <name xml:lang="jp">Zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="en">zero</name>
+	<name xml:lang="ge">zero</name>
     <name xml:lang="es">zero</name>
     <name xml:lang="ru">zero</name>
     <description xml:lang="ko">
@@ -52,6 +54,16 @@
         3. When a new msessage is arrived, this will display the message in the popup window.
         4. This makes available to send a message if the target is a member when MemberModel::getMemberMenu is called.
         5. This adds a menu for registering as a friend when MemberModel::getMemberMenu is called.
+    </description>
+	<description xml:lang="ge">
+		Unter anderem Informationen über Benutzer, dieses Addon zeigt Bild Name, Bild-Marke, und Unterschrift.
+Dieses Addon ist normalerweise ausgeschaltet zu verringern Ladezeit.
+So zeigen Sie Image-Namen-, Bild-Marke, und die Unterschrift, wenden Sie sich bitte in diesem Addon.
+         1. Recht vor Anzeigen, dieses Addon wird sich für den eindeutigen Schlüssel des Mitglieds aus &lt; div class = "member_ (eindeutigen Schlüssel zu den Mitgliedern)" &gt; ....&lt; / div &gt; und ersetzen wird der Inhalt mit den Image-Namen und / oder Bild-Marke, wenn sie vorhanden sind.
+         2. Recht vor Anzeigen, dieses Addon wird nach &lt; div class = "document_ (eindeutigen Schlüssel des Dokuments)" ... &gt; &lt; / div &gt; und die Anzeige der Signatur in der unteren der Artikel.
+         3. Wenn eine neue msessage ist angekommen, dieser wird die Nachricht in einem Popup-Fenster.
+         4. Dies stellt eine Nachricht zu senden, wenn das Ziel ist Mitglied bei MemberModel:: getMemberMenu aufgerufen.
+         5. Dadurch wird ein Menü für die Eintragung als Freund, wenn MemberModel:: getMemberMenu aufgerufen.
     </description>
     <description xml:lang="es">
         Addon que permite mostrar en la pantalla las informaciones del usuario, la imagen del nombre, Imagen de marca y la firma .

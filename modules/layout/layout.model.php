@@ -147,31 +147,37 @@
             $buff .= sprintf('$layout_info->author->description = "%s";', $xml_obj->author->description->body);
 
             // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
-            $extra_vars = $xml_obj->extra_vars->var;
-            if($extra_vars) {
-                if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+            $extra_var_groups = $xml_obj->extra_vars->group;
+            if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+            if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
+            foreach($extra_var_groups as $group){
+                $extra_vars = $group->var;
+                if($extra_vars) {
+                    if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
 
-                $extra_var_count = count($extra_vars);
-                
-                $buff .= sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
-                for($i=0;$i<$extra_var_count;$i++) {
-                    unset($var);
-                    unset($options);
-                    $var = $extra_vars[$i];
-                    $name = $var->attrs->name;
+                    $extra_var_count = count($extra_vars);
 
-                    $buff .= sprintf('$layout_info->extra_var->%s->title = "%s";', $name, $var->title->body);
-                    $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $name, $var->attrs->type);
-                    $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
-                    $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $name, str_replace('"','\"',$var->description->body));
+                    $buff .= sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+                    for($i=0;$i<$extra_var_count;$i++) {
+                        unset($var);
+                        unset($options);
+                        $var = $extra_vars[$i];
+                        $name = $var->attrs->name;
 
-                    $options = $var->options;
-                    if(!$options) continue;
+                        $buff .= sprintf('$layout_info->extra_var->%s->group = "%s";', $name, $group->title->body);
+                        $buff .= sprintf('$layout_info->extra_var->%s->title = "%s";', $name, $var->title->body);
+                        $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $name, $var->attrs->type);
+                        $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
+                        $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $name, str_replace('"','\"',$var->description->body));
 
-                    if(!is_array($options)) $options = array($options);
-                    $options_count = count($options);
-                    for($j=0;$j<$options_count;$j++) {
-                        $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->title->body);
+                        $options = $var->options;
+                        if(!$options) continue;
+
+                        if(!is_array($options)) $options = array($options);
+                        $options_count = count($options);
+                        for($j=0;$j<$options_count;$j++) {
+                            $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->title->body);
+                        }
                     }
                 }
             }

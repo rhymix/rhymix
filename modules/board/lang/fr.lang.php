@@ -30,7 +30,7 @@
     // blah blah..
     $lang->about_category_title = 'Entrez le nom de la catégorie, SVP.';
     $lang->about_expand = 'Si vous cochez la case, ce sera toujours tendu';
-    $lang->about_category_group_srls = 'Le groupe sélectionné seulement pourra voir ces catégories. (Ouvrir manuellement le fiche de xml, c\'est l\'exposer)';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
     $lang->about_layout_setup = 'Vous pouvez manuellement modifier le code de Mise en Page du Panneau. Insérez ou arrangez le code de Widget n\'importe où vous voulez.';
     $lang->about_board_category = 'Vous pouvez créer des catégories d\'affichage dans le tableau. Quand la catégorie d\'affichage est cassé, essayez manuellement rétablir la cachette du fichier.';
     $lang->about_except_notice = "L'Article de Notice ne sera exposé sur la liste normale.";

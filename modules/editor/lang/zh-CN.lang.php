@@ -16,7 +16,8 @@
     $lang->component_grant = "权限设置"; 
 
     $lang->about_component = "组件简介";
-    $lang->about_component_grant = "指定的用户群才可以使用。 (解除时所有用户群都可以使用)";
+    $lang->about_component_grant = '可以设置除默认组件外的扩展组件使用权限<br />(全部解除时任何用户都可以使用)。';
+    $lang->about_component_mid = "可以指定使用编辑器组件的对象。<br />(全部解除时任何用户都可以使用)。";
 
     $lang->msg_component_is_not_founded = '找不到%s 组件说明！';
     $lang->msg_component_is_inserted = '您选择的组件已插入！';
@@ -40,7 +41,6 @@
     $lang->about_editor_skin = '可以选择编辑器皮肤。';
     $lang->about_upload_file_grant = '可以设置上传文件的权限(全部解除为无限制)。';
     $lang->about_default_component_grant = '可以设置编辑器默认组件的使用权限(全部解除为无限制)。';
-    $lang->about_component_grant = '可以设置除默认组件外的扩展组件使用权限(全部解除时任何用户都可以使用)。';
     $lang->about_editor_height = '可以指定编辑器的默认高度。';
     $lang->about_editor_height_resizable = '允许用户拖动编辑器高度。';
     $lang->about_enable_html_grant = 'HTML代码编辑权限设置。';

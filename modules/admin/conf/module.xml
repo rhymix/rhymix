@@ -2,10 +2,7 @@
 <module>
     <actions>
         <action name="dispAdminIndex" type="view" standalone="true" index="true"/>
-        <action name="dispAdminShortCut" type="view" standalone="true" />
 
-        <action name="procAdminInsertShortCut" type="controller" standalone="true" />
-        <action name="procAdminDeleteShortCut" type="controller" standalone="true" />
         <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
     </actions>
 </module>

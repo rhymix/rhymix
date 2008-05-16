@@ -1,0 +1,12 @@
+{$lang->msg_confirm_account_info}<br />
+<hr noshade="noshade" />
+<ul>
+    <li>Site : <a href="{getUrl()}" target="_blank">{getUrl()}</a></li>
+    <li>{$lang->user_id} : {$member_info->user_id}</li>
+    <li>{$lang->user_name} : {$member_info->user_name}</li>
+    <li>{$lang->nick_name} : {$member_info->nick_name}</li>
+    <li>{$lang->email_address} : {$member_info->email_address}</li>
+</ul>
+<hr noshade="noshade" />
+{$lang->msg_confirm_account_comment}<br />
+<a href="{getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key)}" target="_blank">{getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl,'auth_key',$auth_args->auth_key)}</a>

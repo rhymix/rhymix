@@ -1,4 +1,6 @@
 <!--%import("css/editor.css")-->
+<!--%import("css/editor_admin.css")-->
+<!--%import("js/editor_admin.js")-->
 <!--%import("filter/setup_component.xml")-->
 
 <div id="popHeadder">
@@ -38,9 +40,39 @@
         <tr>
             <th scope="row">{$lang->grant}</th>
             <td>
+                <p>{$lang->about_component_grant}</p>
             <!--@foreach($group_list as $key => $val)-->
                 <div class="fl"><input type="checkbox" name="target_group" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> <label for="group_{$key}">{$val->title}</label> &nbsp;</div>
             <!--@end-->
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row">
+                {$lang->module}
+                <input type="checkbox" onclick="checkboxSelectAll(this.form, 'mid_list'); return false;" />
+            </th>
+            <td>
+                <p>{$lang->about_component_mid}</p>
+                <!--@foreach($mid_list as $module_category_srl => $modules)-->
+                    <div class="module_category_title">
+                        <input type="checkbox" onclick="toggleSectionCheckBox(this, 'section_{$module_category_srl}');" />
+                    <!--@if($modules->title)-->
+                        {$modules->title}
+                    <!--@else-->
+                        {$lang->none_category}
+                    <!--@end-->
+                    </div>
+
+                    <div id="section_{$module_category_srl}">
+                    <!--@foreach($modules->list as $key => $val)-->
+                        <div class="module_list">
+                            <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $component->mid_list))-->checked="checked"<!--@end--> /> 
+                            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                        </div>
+                    <!--@end-->
+                    </div>
+                <!--@end-->
             </td>
         </tr>
 

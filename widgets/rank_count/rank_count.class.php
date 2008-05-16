@@ -91,20 +91,20 @@
                     if(count($target_group_srl_list)) $obj->selected_group_srl = implode(',',$target_group_srl_list);
                     else $obj->selected_group_without_srl = implode(',',$target_group_without_srl_list);
                     
-                    if($rankby == "document") $output = executeQuery('widgets.rank_count.getRankDocumentCountWithinGroup', $obj);
-                    elseif($rankby == "comment") $output = executeQuery('widgets.rank_count.getRankCommentCountWithinGroup', $obj);
-                    elseif($rankby == "attach") $output = executeQuery('widgets.rank_count.getRankUploadedCountWithinGroup', $obj);
-                    elseif($rankby == "vote") $output = executeQuery('widgets.rank_count.getRankVotedCountWithinGroup', $obj);
-                    elseif($rankby == "read") $output = executeQuery('widgets.rank_count.getRankReadedCountWithinGroup', $obj);
+                    if($rankby == "document") $output = executeQueryArray('widgets.rank_count.getRankDocumentCountWithinGroup', $obj);
+                    elseif($rankby == "comment") $output = executeQueryArray('widgets.rank_count.getRankCommentCountWithinGroup', $obj);
+                    elseif($rankby == "attach") $output = executeQueryArray('widgets.rank_count.getRankUploadedCountWithinGroup', $obj);
+                    elseif($rankby == "vote") $output = executeQueryArray('widgets.rank_count.getRankVotedCountWithinGroup', $obj);
+                    elseif($rankby == "read") $output = executeQueryArray('widgets.rank_count.getRankReadedCountWithinGroup', $obj);
                 }
             }
             else {
                 //전체 목록을 구해옴
-                if($rankby == "document") $output = executeQuery('widgets.rank_count.getRankDocumentCount', $obj);
-                elseif($rankby == "comment") $output = executeQuery('widgets.rank_count.getRankCommentCount', $obj);
-                elseif($rankby == "attach") $output = executeQuery('widgets.rank_count.getRankUploadedCount', $obj);
-                elseif($rankby == "vote") $output = executeQuery('widgets.rank_count.getRankVotedCount', $obj);
-                elseif($rankby == "read") $output = executeQuery('widgets.rank_count.getRankReadedCount', $obj);
+                if($rankby == "document") $output = executeQueryArray('widgets.rank_count.getRankDocumentCount', $obj);
+                elseif($rankby == "comment") $output = executeQueryArray('widgets.rank_count.getRankCommentCount', $obj);
+                elseif($rankby == "attach") $output = executeQueryArray('widgets.rank_count.getRankUploadedCount', $obj);
+                elseif($rankby == "vote") $output = executeQueryArray('widgets.rank_count.getRankVotedCount', $obj);
+                elseif($rankby == "read") $output = executeQueryArray('widgets.rank_count.getRankReadedCount', $obj);
             }
 
             // 오류가 생기면 그냥 무시

@@ -71,6 +71,7 @@
     $lang->notice = 'Уведомление';
     $lang->secret = 'Секрет';
     $lang->category = $lang->category_srl = 'Категория';
+    $lang->none_category = 'None category';
     $lang->document_srl = 'Док. No.';
     $lang->user_id = 'Юзер ID';
     $lang->author = 'Разработчик';
@@ -194,6 +195,7 @@
     $lang->success_updated = 'Обновление успешно';
     $lang->success_deleted = 'Удалено успешно';
     $lang->success_voted = 'Рекомендовано успешно';
+    $lang->success_blamed = 'Обвиняют success_blamed';
     $lang->success_moved = 'Перемещено успешно';
     $lang->success_sended = 'Отправлено успешно';
     $lang->success_reset = 'Сброшено успешно';
@@ -204,6 +206,7 @@
     $lang->fail_to_move = 'Не может быть перемещено';
 
     $lang->failed_voted = 'Ошибка при рекомендации';
+    $lang->failed_blamed = 'Не виноват';
     $lang->failed_declared = 'Ошибка при обвинении';
     $lang->fail_to_delete_have_children = 'Пожалуйста, попробуйте еще после удаления дочерних объектов';
 
@@ -216,16 +219,16 @@
     $lang->confirm_leave = 'Вы подтверждаете уход?';
 
     $lang->column_type = 'Тип колонки';
-    $lang->column_type_list['text'] = 'one-line text';
+    $lang->column_type_list['text'] = 'одна строка текста';
     $lang->column_type_list['homepage'] = 'url';
-    $lang->column_type_list['email_address'] = 'email';
-    $lang->column_type_list['tel'] = 'phone number';
-    $lang->column_type_list['textarea'] = 'multi-line textarea';
-    $lang->column_type_list['checkbox'] = 'checkbox (multiple selection)';
-    $lang->column_type_list['select'] = 'select box (single selection)';
-    $lang->column_type_list['kr_zip'] = 'zip code (Korean)';
-    $lang->column_type_list['date'] = 'date (yyyy/mm/dd)';
-    //$lang->column_type_list['jp_zip'] = 'zip code (Japanese)';
+    $lang->column_type_list['email_address'] = 'по электронной почте';
+    $lang->column_type_list['tel'] = 'номер телефона';
+    $lang->column_type_list['textarea'] = 'многолетних-лайн textarea';
+    $lang->column_type_list['checkbox'] = 'флажок (несколько отбор)';
+    $lang->column_type_list['select'] = 'выберите поле (один отбор)';
+    $lang->column_type_list['kr_zip'] = 'почтовый индекс (корейский)';
+    $lang->column_type_list['date'] = 'Дата (гггг / мм / дд)';
+    //$lang->column_type_list['jp_zip'] = 'почтовый индекс (японский)';
     $lang->column_name = 'Имя колонки';
     $lang->column_title = 'Название колонки';
     $lang->default_value = 'Стандартное значение';

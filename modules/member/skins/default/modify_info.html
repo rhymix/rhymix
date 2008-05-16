@@ -17,9 +17,17 @@
 <!--@end-->
 
 <!-- calendar -->
-<!--%import("../../../../common/js/calendar.js",optimized=false)-->
+<!--%import("../../../../common/js/calendar.min.js",optimized=false)-->
 <!--@if($lang_type == 'ko')-->
     <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
+<!--@elseif($lang_type == 'es')-->
+    <!--%import("../../../../common/js/calendar-es.js",optimized=false)-->
+<!--@elseif($lang_type == 'ge')-->
+    <!--%import("../../../../common/js/calendar-ge.js",optimized=false)-->
+<!--@elseif($lang_type == 'ru')-->
+    <!--%import("../../../../common/js/calendar-ru.js",optimized=false)-->
+<!--@elseif($lang_type == 'zh-CN')-->
+    <!--%import("../../../../common/js/calendar-zh-CN.js",optimized=false)-->
 <!--@else-->
     <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
 <!--@end-->
@@ -55,7 +63,7 @@
     </tr>
 
     <!--@if($member_config->profile_image == 'Y')-->
-    <tr>    
+    <tr>
         <th scope="row">{$lang->profile_image}</th>
         <td>
             <!--@if($member_info->profile_image->src)-->
@@ -69,11 +77,12 @@
                 <div class="form"><input type="file" name="profile_image" value="" /></div>
                 <a href="#" onclick="doUploadProfileImage();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
+            <p>{$lang->profile_image_max_width} : {$member_config->profile_image_max_width}px, {$lang->profile_image_max_height} : {$member_config->profile_image_max_height}px</p>
         </td>
     </tr>
     <!--@end-->
     <!--@if($member_config->image_name == 'Y')-->
-    <tr>    
+    <tr>
         <th scope="row">{$lang->image_name}</th>
         <td>
             <!--@if($member_info->image_name->src)-->
@@ -87,11 +96,12 @@
                 <div class="form"><input type="file" name="image_name" value="" /></div>
                 <a href="#" onclick="doUploadImageName();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
+            <p>{$lang->image_name_max_width} : {$member_config->image_name_max_width}px, {$lang->image_name_max_height} : {$member_config->image_name_max_height}px</p>
         </td>
     </tr>
     <!--@end-->
     <!--@if($member_config->image_mark == 'Y')-->
-    <tr>    
+    <tr>
         <th scope="row">{$lang->image_mark}</th>
         <td>
             <!--@if($member_info->image_mark->src)-->
@@ -105,6 +115,7 @@
                 <div class="form"><input type="file" name="image_mark" value="" /></div>
                 <a href="#" onclick="doUploadImageMark();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
             </div>
+            <p>{$lang->image_mark_max_width} : {$member_config->image_mark_max_width}px, {$lang->image_mark_max_height} : {$member_config->image_mark_max_height}px</p>
         </td>
     </tr>
     <!--@end-->
@@ -124,24 +135,13 @@
             <p>{$lang->about_birthday}</p>
 
             <script type="text/javascript">
-                Calendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d" } );
+                DyCalendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d" } );
             </script>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->allow_mailing}</th>
         <td><input type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
-    </tr>
-    <tr>
-        <th scope="row">{$lang->allow_message}</th>
-        <td>
-            <select name="allow_message">
-                <!--@foreach($lang->allow_message_type as $key => $val)-->
-                <option value="{$key}" <!--@if($member_info->allow_message == $key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <p>{$lang->about_allow_message}</p>
-        </td>
     </tr>
     <tr>
         <th scope="row">{$lang->signature}</th>
@@ -167,7 +167,7 @@
         </th>
         <td>
             <!-- 일반 text -->
-            <!--@if($val->column_type == 'text')--> 
+            <!--@if($val->column_type == 'text')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!-- 홈페이지 주소 -->
@@ -240,7 +240,7 @@
                 <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
 
                 <script type="text/javascript">
-                    Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+                    DyCalendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
                 </script>
 
             <!--@end-->

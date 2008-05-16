@@ -38,6 +38,20 @@
         </td>
     </tr>
     <tr>
+        <th scope="row">{$lang->enable_confirm}</th>
+	<td>
+	    <input type="checkbox" name="enable_confirm" value="Y" <!--@if($config->enable_confirm=='Y')-->checked="checked"<!--@end--> class="checkbox" />
+	    {$lang->about_enable_confirm}
+	</td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->enable_ssl}</th>
+        <td>
+            <input type="checkbox" name="enable_ssl" value="Y" <!--@if($config->enable_ssl=='Y')-->checked="checked"<!--@end--> class="checkbox" />
+            {$lang->about_enable_ssl}
+        </td>
+    </tr>
+    <tr>
         <th scope="row">{$lang->limit_day}</th>
         <td>
             <input type="text" name="limit_day" value="{$config->limit_day}" size="2" class="inputTypeText" />{$lang->unit_day}

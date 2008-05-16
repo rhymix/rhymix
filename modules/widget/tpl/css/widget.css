@@ -2,6 +2,7 @@
 
 .widget_title { border:1px solid #DDDDDD; margin:10px 5px 5px 0; padding:3px; }
 .widget_mid_list { margin:0 0 5px 10px; }
+.widget_description { color:#AAAAAA; border-top:1px dotted #EEEEEE; margin:5px 0 0 0; padding:5px 0 0 0; }
 
 #colorset_area { margin-top:.5em; }
 

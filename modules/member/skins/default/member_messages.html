@@ -5,6 +5,7 @@
 <!--@end-->
 <!--#include("./common_header.html")-->
 <!--%import("filter/delete_checked_message.xml")-->
+<!--%import("filter/update_allow_message.xml")-->
 
     <!--@if($message)-->
     <div class="readMessage">
@@ -37,6 +38,16 @@
     <!--@end-->
 
 	<div class="boardInformation">
+        <div class="messageSetup">
+            <form action="./" method="POST" onsubmit="return procFilter(this, update_allow_message)">
+                <select name="allow_message">
+                    <!--@foreach($lang->allow_message_type as $key => $val)-->
+                    <option value="{$key}" <!--@if($logged_info->allow_message == $key)-->selected="selected"<!--@end-->>{$val}</option>
+                    <!--@end-->
+                </select>
+                <span class="button"><input type="submit" value="{$lang->cmd_save}"></span>
+            </form>
+        </div>
         <ul class="instantMessage">
             <!--@foreach($lang->message_box as $key => $val)-->
                 <!--@if($key == $message_type)-->

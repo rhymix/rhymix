@@ -6,6 +6,13 @@
 .login_default form .idpw { float:left; width:110px; }
 .login_default form .idpw input { border:1px solid #c9c9c9; color:#282828; width:105px; background:#fbfbfb; padding:1px 5px; margin-bottom:2px; font:.9em Tahoma;}
 .login_default form .login { float:right;}
+
+.login_default form p.securitySignIn { clear:both; padding:0 0 0 18px; margin:4px 0 0 0; }
+.login_default form p.noneSSL { background:url("../images/none_ssl.png") no-repeat left top; }
+.login_default form p.SSL { background:url("../images/ssl.png") no-repeat left top; }
+.login_default form p.noneSSL a { color:#BF6801; text-decoration:none; }
+.login_default form p.SSL a { color:#9CAC74; text-decoration:none; }
+
 .login_default form p.save { margin:0; clear:both; padding:.3em 0;}
 .login_default form p.save input { vertical-align:middle; _margin:-3px;}
 *:first-child+html body .login_default form p input { margin:-3px; }

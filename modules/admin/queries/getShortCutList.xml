@@ -1,8 +1,0 @@
-<query id="getShortCutList" action="select">
-    <tables>
-        <table name="admin_shortcut" />
-    </tables>
-    <navigation>
-        <index var="sort_index" default="list_order" order="asc" />
-    </navigation>
-</query>

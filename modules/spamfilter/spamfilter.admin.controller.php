@@ -57,7 +57,7 @@
          * @brief 금지 Word삭제
          **/
         function procSpamfilterAdminDeleteDeniedWord() {
-            $word = Context::get('word');
+            $word = base64_decode(Context::get('word'));
             return $this->deleteWord($word);
         }
 

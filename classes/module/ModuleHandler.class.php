@@ -334,11 +334,19 @@
                 $oModule->setModule($module);
                 $oModule->setModulePath($class_path);
 
+                // 요청된 module에 constructor가 있으면 실행
+                if(!isset($GLOBALS['_called_constructor'][$instance_name])) {
+                    $GLOBALS['_called_constructor'][$instance_name] = true;
+                    if(@method_exists($oModule, $instance_name)) $oModule->{$instance_name}();
+                }
+
                 // GLOBALS 변수에 생성된 객체 저장
                 $GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
             }
 
             if(__DEBUG__==3) $GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
+
+            // init method가 있으면 실행
 
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type][$kind];

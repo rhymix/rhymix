@@ -17,7 +17,6 @@
          * @brief 이미 설문 조사를 하였는지 검사하는 함수
          **/
         function isPolled($poll_srl) {
-
             $args->poll_srl = $poll_srl;
 
             if(Context::get('is_logged')) {
@@ -35,7 +34,7 @@
          * @brief 설문조사의 html데이터를 return
          * 설문조사에 응하였는지에 대한 체크를 한 후 결과를 return
          **/
-        function getPollHtml($poll_srl, $style = '') {
+        function getPollHtml($poll_srl, $style = '', $skin = 'default') {
 
             $args->poll_srl = $poll_srl;
 
@@ -64,7 +63,7 @@
             $poll->poll_srl = $poll_srl;
 
             // 종료일이 지났으면 무조건 결과만
-            if($poll->stop_date > date("YmdHis")) {
+            if($poll->stop_date > date("Ymd")) {
                 if($this->isPolled($poll_srl)) $tpl_file = "result";
                 else $tpl_file = "form";
             } else {
@@ -72,13 +71,10 @@
             }
 
             Context::set('poll',$poll);
+            Context::set('skin',$skin);
 
             // 기본 설정의 스킨, 컬러셋 설정 
-            $oModuleModel = &getModel('module');
-            $poll_config = $oModuleModel->getModuleConfig('poll');
-            if(!$poll_config->skin) $poll_config->skin = 'default';
-            Context::set('poll_config', $poll_config);
-            $tpl_path = sprintf("%sskins/%s/", $this->module_path, $poll_config->skin);
+            $tpl_path = sprintf("%sskins/%s/", $this->module_path, $skin);
 
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
@@ -87,7 +83,7 @@
         /**
          * @brief 결과 html을 return
          **/
-        function getPollResultHtml($poll_srl) {
+        function getPollResultHtml($poll_srl, $skin = 'default') {
             $args->poll_srl = $poll_srl;
 
             // 해당 설문조사에 대한 내용을 조사
@@ -119,11 +115,7 @@
             Context::set('poll',$poll);
 
             // 기본 설정의 스킨, 컬러셋 설정 
-            $oModuleModel = &getModel('module');
-            $poll_config = $oModuleModel->getModuleConfig('poll');
-            if(!$poll_config->skin) $poll_config->skin = 'default';
-            Context::set('poll_config', $poll_config);
-            $tpl_path = sprintf("%sskins/%s/", $this->module_path, $poll_config->skin);
+            $tpl_path = sprintf("%sskins/%s/", $this->module_path, $skin);
 
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);

@@ -70,6 +70,7 @@
     $lang->notice = 'Aviso';
     $lang->secret = 'Secreto';
     $lang->category = $lang->category_srl = 'Categoría';
+    $lang->none_category = '분류없음';
     $lang->document_srl = 'Número del documento';
     $lang->user_id = 'Usuario';
     $lang->author = 'Autor';
@@ -193,6 +194,7 @@
     $lang->success_updated = 'Actualizado con éxito';
     $lang->success_deleted = 'Boarrado con éxito';
     $lang->success_voted = 'Recomendado con éxito';
+    $lang->success_blamed = 'Culpó success_blamed';
     $lang->success_moved = 'Movido con éxito';
     $lang->success_sended = 'Enviado con éxito';
     $lang->success_reset = 'Reajustado con éxito';
@@ -203,6 +205,7 @@
     $lang->fail_to_move = 'No puede ser movido';
 
     $lang->failed_voted = 'No puede ser recomendado';
+    $lang->failed_blamed = 'No se ha podido culpa ';
     $lang->failed_declared = 'No se ha podido acusar';
     $lang->fail_to_delete_have_children = 'No puede ser borrado, ya que el mensaje posee respuestas ';
 

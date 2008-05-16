@@ -1,0 +1,63 @@
+<!--%import("filter/poll.xml")-->
+<!--%import("js/poll.js")-->
+<!--%import("css/poll.css")-->
+
+<script type="text/javascript">
+    var poll_alert_lang = "{$lang->msg_check_poll_item}";
+</script>
+
+<div id="poll_{$poll->poll_srl}" style="{$poll->style}">
+
+    <form action="./" method="get" onsubmit="return doPoll(this)">
+    <input type="hidden" name="poll_srl" value="{$poll->poll_srl}" />
+    <input type="hidden" name="poll_srl_indexes" value="" />
+    <input type="hidden" name="skin" value="{$skin}" />
+
+    <table cellspacing="0" class="simple_poll">
+    <tr>
+        <td>
+            {@ $_key = 0}
+            <!--@foreach($poll->poll as $poll_srl_index => $val)-->
+            <div <!--@if($_key>0)-->class="itemDiv"<!--@end-->>
+                <input type="hidden" name="checkcount_{$poll_srl_index}" value="{$val->checkcount}" />
+
+                <div class="title">{$val->title}</div>
+
+                <!--@if($val->checkcount>1)-->
+                <div class="checkcount">({$lang->poll_checkcount} : {$val->checkcount})</div>
+                <!--@end-->
+
+                <!--@foreach($val->item as $item_srl => $item)-->
+                {@$_idx = $poll->poll_srl.'_'.$poll_srl_index.'_'.$item_srl}
+
+                <div class="item">
+                    <!--@if($val->checkcount>1)-->
+                        <input type="checkbox" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item->poll_item_srl}" id="item_{$item->poll_item_srl}" /> 
+                    <!--@else-->
+                        <input type="radio" name="item_{$poll->poll_srl}_{$poll_srl_index}" value="{$item->poll_item_srl}" id="item_{$item->poll_item_srl}" /> 
+                    <!--@end-->
+                        <label for="item_{$item->poll_item_srl}">{$item->title}</label>
+                </div>
+            </div>
+            <!--@end-->
+
+            {@ $_key++}
+            <!--@end-->
+        </td>
+    </tr>
+    <tr>
+        <td class="stopDate">
+            ~<strong>{zdate($poll->stop_date, "Y-m-d")}</strong> (<a href="#" onclick="doPollViewResult('{$poll->poll_srl}','{$skin}'); return false;"/>{$lang->cmd_view_result}</a>)
+        </td>
+    </tr>
+    <tr>
+        <td class="poll_button">
+            <input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" />
+        </td>
+    </tr>
+    </tr>
+    </table>
+
+    </form>
+
+</div>

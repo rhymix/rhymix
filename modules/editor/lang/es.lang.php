@@ -16,7 +16,8 @@
     $lang->component_grant = "Ajuste de las atribuciones"; 
 
     $lang->about_component = "Presentación del componente";
-    $lang->about_component_grant = "Sólo los grupos seleccionados pueden ser usados (Si desactiva el modo se puede usar todos)";
+    $lang->about_component_grant = 'Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor.<br /> (Todo el mundo tendría permiso si no comprobado)';
+    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
 
     $lang->msg_component_is_not_founded = 'No se puede encontrar el componente del editor %s';
     $lang->msg_component_is_inserted = 'El componente seleccionado ya esta insertado';
@@ -40,7 +41,6 @@
     $lang->about_editor_skin = 'Usted puede seleccionar la piel del editor.';
     $lang->about_upload_file_grant = 'Usted puede configurar el permiso de archivo adjunto. (Todo el mundo tendría permiso si no comprobado)';
     $lang->about_default_component_grant = 'Usted puede configurar el permiso de uso de los componentes de editor por defecto. (Todo el mundo tendría permiso si no comprobado)';
-    $lang->about_component_grant = 'Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor. (Todo el mundo tendría permiso si no comprobado)';
     $lang->about_editor_height = 'Usted puede configurar la altura del editor.';
     $lang->about_editor_height_resizable = 'Permiso para cambiar el tamaño de la altura del editor.';
     $lang->about_enable_html_grant = 'Usted puede dar el permiso de uso de HTML';

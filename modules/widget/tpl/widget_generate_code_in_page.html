@@ -18,14 +18,18 @@
     </div>
 
     <div id="popBody">
-
         <table cellspacing="0" class="adminTable">
         <col width="150" />
         <col />
         <caption>{nl2br($lang->about_widget_code_in_page)}</caption>
         <tr>
             <th scope="row">{$lang->widget}</th>
-            <td>{$widget_info->title} ver {$widget_info->version}</td>
+            <td>
+                {$widget_info->title} ver {$widget_info->version}
+                <!--@if($widget_info->author->description)-->
+                <div class="widget_description">{nl2br(trim($widget_info->author->description))}</div>
+                <!--@end-->
+            </td>
         </tr>
         <!--@if(count($skin_list))-->
         <tr>
@@ -55,7 +59,17 @@
                 <p>{$lang->about_widget_cache}</p>
             </td>
         </tr>
-            <!--@foreach($widget_info->extra_var as $id => $var)-->
+        <!--@foreach($widget_info->extra_var as $id => $var)-->
+
+        <!--@if($var->group && ((!$group) || $group != $var->group))-->
+        {@$group = $var->group}
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="150" />
+        <col width="*" />
+        <caption>{$group}</caption>
+        <!--@end-->
+
         <tr>
             <th scope="row">
                 {$var->name}
@@ -82,6 +96,8 @@
                     <!--@foreach($mid_list as $module_category_srl => $modules)-->
                         <!--@if($modules->title)-->
                             <div class="widget_title">{$modules->title}</div>
+                        <!--@else-->
+                            <div class="widget_title">{$lang->none_category}</div>
                         <!--@end-->
 
                         <!--@foreach($modules->list as $key => $val)-->

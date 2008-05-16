@@ -1,13 +1,17 @@
 <!-- colorset의 값에 따라 css 파일을 import 한다 -->
-<!--@if($colorset=="default"||!$colorset)-->
+<!--@if(!$colorset)-->
+    {@ $colorset = "default"}
+<!--@end-->
+
+<!--@if($colorset=="default")-->
     <!--%import("css/default.css")-->
 <!--@end-->
 
 <!--%import("./filter/logout.xml")-->
-<div class="box_login">
-    <div class="user_info">
-        <div class="fl"><div class="member_{$logged_info->member_srl} fl fc_01">{$logged_info->nick_name}</div></div>
-        <div class="fr tRight"><a href="{getUrl('act','dispMemberLogout')}" class="button"><span>{$lang->cmd_logout}</span></a></div>
+<div class="default_login">
+    <div class="loginUser">
+        <div class="userNickName"><div class="member_{$logged_info->member_srl}">{$logged_info->nick_name}</div></div>
+        <a href="{getUrl('act','dispMemberLogout')}" class="logoutButton"><img src="./images/{$colorset}/logout_btn.gif" alt="{$lang->cmd_logout}" /></a>
     </div>
 
     <div class="hr_dot_01"></div>
@@ -18,5 +22,5 @@
     <!--@if($logged_info->is_admin=="Y")-->
     <div class="item administrative"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
     <!--@end-->
-    <div class="item lastlogin fc_02">{$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}</div>
+    <div class="lastlogin">{$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}</div>
 </div>

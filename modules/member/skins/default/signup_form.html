@@ -3,9 +3,17 @@
 <!--%import("filter/signup.xml")-->
 
 <!-- calendar -->
-<!--%import("../../../../common/js/calendar.js",optimized=false)-->
+<!--%import("../../../../common/js/calendar.min.js",optimized=false)-->
 <!--@if($lang_type == 'ko')-->
     <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
+<!--@elseif($lang_type == 'es')-->
+    <!--%import("../../../../common/js/calendar-es.js",optimized=false)-->
+<!--@elseif($lang_type == 'ge')-->
+    <!--%import("../../../../common/js/calendar-ge.js",optimized=false)-->
+<!--@elseif($lang_type == 'ru')-->
+    <!--%import("../../../../common/js/calendar-ru.js",optimized=false)-->
+<!--@elseif($lang_type == 'zh-CN')-->
+    <!--%import("../../../../common/js/calendar-zh-CN.js",optimized=false)-->
 <!--@else-->
     <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
 <!--@end-->
@@ -15,7 +23,7 @@
 <!--#include("./common_header.html")-->
 
 	<div class="boardHeader">
-		<h3>{$lang->msg_new_member}</h3>
+		<h3>{$lang->cmd_signup}</h3>
 	</div>
 
     <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, signup)">
@@ -99,7 +107,7 @@
     </table>
 
     <script type="text/javascript">
-        Calendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d"});
+        DyCalendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d"});
     </script>
 
     <!--@if($extend_form_list)-->
@@ -193,7 +201,7 @@
                 <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
 
                 <script type="text/javascript">
-                    Calendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
+                    DyCalendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
                 </script>
             <!--@end-->
 

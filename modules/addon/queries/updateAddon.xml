@@ -3,7 +3,7 @@
       <table name="addons" />
     </tables>
     <columns>
-      <column name="is_used" var="is_used" default="Y" />
+      <column name="is_used" var="is_used" />
       <column name="extra_vars" var="extra_vars" />
     </columns>
     <conditions>

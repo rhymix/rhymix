@@ -121,7 +121,7 @@
          **/
         function getDocumentList($obj, $except_notice = false) {
             // 정렬 대상과 순서 체크 
-            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count'))) $obj->sort_index = 'list_order'; 
+            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title'))) $obj->sort_index = 'list_order'; 
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌

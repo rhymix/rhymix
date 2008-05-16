@@ -42,9 +42,12 @@
     $lang->image_mark = 'Image Mark';
     $lang->image_mark_max_width = 'Max Width';
     $lang->image_mark_max_height = 'Max Height';
-	$lang->signature_max_height = 'Max Signature Height';
+    $lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
+    $lang->enable_confirm = 'Enable email authentication';
+    $lang->enable_ssl = 'Enable SSL';
+    $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Temporary Limit Date';
     $lang->limit_date = 'Limit Date';
     $lang->after_login_url = 'URL after Login';
@@ -63,7 +66,7 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_signed = 'Though the browser is closed, you might be kept signed.\n\nIf you use this feature at the shared computer, your personal information might be accessed by others, thus do not use this feature at the shared computer. ';
 	$lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
@@ -123,9 +126,14 @@
     $lang->msg_find_account_title = 'Account Info';
     $lang->msg_find_account_info = 'This is requested account info.';
     $lang->msg_find_account_comment = 'The password will be modified as above one as you click below link.<br />Please modify the password after login.';
-    $lang->msg_auth_mail_sended = 'The certification mail has been sent to %s. Please check your mail.';
-	$lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
-    $lang->msg_success_authed = 'Your account has been successfully certificated and logged on. Please modify the password to your own one with the password in the mail.';
+    $lang->msg_confirm_account_title = 'Authentication confirmation mail';
+    $lang->msg_confirm_account_info = 'This is the registered account information:';
+    $lang->msg_confirm_account_comment = 'Click the following confirmation link to complete your sign up.';
+    $lang->msg_auth_mail_sent = 'The certification mail has been sent to %s. Please check your mail.';
+    $lang->msg_confirm_mail_sent = 'We just sent you a confirmation email to %s. Click on the confirmation link in the email to complete your sign up.';
+    $lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
+    $lang->msg_success_authed = 'Your account has been successfully certificated and logged on.\n Please modify the password to your own one with the password in the mail.';
+    $lang->msg_success_confirmed = 'The autentication completed successfully.';
 
     $lang->msg_no_message = 'There is no message';
     $lang->message_received = 'You have a new message';
@@ -157,6 +165,7 @@
     $lang->msg_accept_agreement = 'You have to agree the agreement'; 
 
     $lang->msg_user_denied = 'You have entered a prohibited ID';
+    $lang->msg_user_not_confirmed = 'You are not authenticated yet. Please check your email.';
     $lang->msg_user_limited = 'You have entered an ID that can be used after %s';
 
     $lang->about_user_id = 'User ID should be 3~20 letters long and consist of alphabet+number with alphabet as first letter.';
@@ -184,6 +193,8 @@
 
     $lang->about_enable_openid = 'Allow users to sign up as OpenID';
     $lang->about_enable_join = 'Allow users to sign up';
+    $lang->about_enable_confirm = 'Send confirmation email to complete signup.';
+    $lang->about_enable_ssl = 'Personal information from Join/Modify Member Info/Login can be sent as SSL(https) mode if server provides SSL service.';
     $lang->about_limit_day = 'You can limit certification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
     $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';

@@ -125,6 +125,9 @@
                 // 글이 존재하면 글 보기 권한에 대한 확인과 조회수증가/ 브라우저 타이틀의 설정을 함
                 } else {
 
+                    // 글과 요청된 모듈이 다르다면 오류 표시
+                    if($oDocument->get('module_srl')!=Context::get('module_srl') ) return $this->stop('msg_invalid_request');
+
                     // 관리 권한이 있다면 권한을 부여
                     if($this->grant->manager) $oDocument->setGrant();
 

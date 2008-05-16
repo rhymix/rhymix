@@ -330,6 +330,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'Поддерживает sqlite3 посредством PHP\'s PDO.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.',
         'cubrid' => 'Используем CUBRID DB.',
         'postgresql' => 'Используем PostgreSql DB.',
+        'firebird' => 'Используем firebird DB.',
     );
 
     $lang->form_title = 'Пожалуйста, введите дазу данных &amp; Административная Информация';
@@ -353,6 +354,8 @@ EndOfLicense;
     $lang->about_rewrite = "Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123";
     $lang->time_zone = 'Часовой пояс';
     $lang->about_time_zone = "Если серверное время и Ваше локальное время не совпадают, Вы можете установить такое же время, как Ваше локальное, используя часовой пояс";
+    $lang->qmail_compatibility = 'Qmail 호환';
+    $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
 
     $lang->about_database_file = 'Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 707.</span>';
 

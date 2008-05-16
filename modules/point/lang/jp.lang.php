@@ -48,6 +48,8 @@
     $lang->point_delete_file = 'ファイル削除';
     $lang->point_download_file = 'ダウンロード';
     $lang->point_read_document = '書き込み照会';
+    $lang->point_voted = '추천 받음';
+    $lang->point_blamed = '비추천 받음';
 
 
     $lang->cmd_point_config = 'デフォルト設定';

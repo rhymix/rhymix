@@ -1,0 +1,27 @@
+<!--@if($colorset=="black")-->
+    {@ $colorset="black"}
+<!--@else-->
+    {@ $colorset="white"}
+<!--@end-->
+<!--%import("status.css")-->
+
+<div class="point_status_{$colorset}">
+    <div class="level">
+        Lv.<strong>{$widget_info->level}</strong>
+    </div>
+    <div class="next">
+        <strong>{$widget_info->per}%</strong>
+        <span class="next_point">(-{$widget_info->next_point-$widget_info->point})</span>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="bar_box">
+        <div style="width:{$widget_info->per}%;" class="bar"></div>
+    </div>
+
+    <div class="point">
+        {number_format($widget_info->point)}{$widget_info->point_unit} 
+    </div>
+
+</div>

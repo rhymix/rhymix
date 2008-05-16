@@ -170,6 +170,7 @@
             // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
             if(!$args) {
                 $args = Context::gets('module_srl','module_category_srl','board_name','layout_srl','skin','browser_title','description','is_default','header_text','footer_text','admin_id');
+                $extra_var = delObjectVars(Context::getRequestVars(), $args);
             }
 
             $args->module = 'board';
@@ -178,7 +179,6 @@
             if($args->is_default!='Y') $args->is_default = 'N';
 
             // 기본 값외의 것들을 정리
-            $extra_var = delObjectVars(Context::getRequestVars(), $args);
             if($extra_var->use_category!='Y') $extra_var->use_category = 'N';
             if($extra_var->except_notice!='Y') $extra_var->except_notice = 'N';
             if($extra_var->consultation!='Y') $extra_var->consultation = 'N';

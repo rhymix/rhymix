@@ -34,3 +34,11 @@ function completeUpdate(ret_obj) {
 function doSetupComponent(component_name) {
     popopen("./?module=editor&act=dispEditorAdminSetupComponent&component_name="+component_name, "SetupComponent");
 }
+
+function toggleSectionCheckBox(obj, id) {
+    var box_list = xGetElementsByTagName('input', xGetElementById(id));
+    if(typeof(box_list.length)=='undefined') return;
+    for(var i in box_list) {
+        box_list[i].checked = obj.checked;
+    }
+}

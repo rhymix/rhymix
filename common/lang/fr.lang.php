@@ -8,11 +8,11 @@
     // 	verbes et mots de base decrivant des actions 
     $lang->cmd_write = 'Ecrire';
     $lang->cmd_reply = 'Répondre';
-    $lang->cmd_delete = 'Supprimer';
+    $lang->cmd_delete = 'Effacer';
     $lang->cmd_modify = 'Modifier';
     $lang->cmd_edit = 'Editer';
     $lang->cmd_view = 'Voir';
-    $lang->cmd_view_all = 'Voir Tous';
+    $lang->cmd_view_all = 'Voir tout';
     $lang->cmd_list = 'Liste';
     $lang->cmd_prev = 'Précédent';
     $lang->cmd_next = 'Suivant';
@@ -28,23 +28,23 @@
     $lang->cmd_back = 'Retourner';
     $lang->cmd_vote = 'Recommander';
     $lang->cmd_vote_down = 'Critiquer';
-    $lang->cmd_declare = 'Accuser';
-    $lang->cmd_cancel_declare = 'Annuler l\'Accusation';
-    $lang->cmd_declared_list = 'Liste de l\'Accusation';
+    $lang->cmd_declare = 'Déclarer';
+    $lang->cmd_cancel_declare = 'Annuler déclaration';
+    $lang->cmd_declared_list = 'Liste des déclarations';
     $lang->cmd_copy = 'Copier';
     $lang->cmd_move = 'Bouger';
     $lang->cmd_move_up = 'En haut';
     $lang->cmd_move_down = 'En bas';
     $lang->cmd_add_indent = 'Ajouter un Rentré';
     $lang->cmd_remove_indent = 'Enlever un Rentré';
-    $lang->cmd_management = 'Gérer';
+    $lang->cmd_management = 'Administrer';
     $lang->cmd_make = 'Créer';
     $lang->cmd_select = 'Choisir';
-    $lang->cmd_select_all = 'Choisir Tous';
-    $lang->cmd_unselect_all = 'Annuler Tous'; 
+    $lang->cmd_select_all = 'Choisir Tout';
+    $lang->cmd_unselect_all = 'Annuler Tout'; 
     $lang->cmd_reverse_all = 'Renverser la Sélection';    
-    $lang->cmd_close_all = 'Fermer Tous';
-    $lang->cmd_open_all = 'Ouvrir Tous';
+    $lang->cmd_close_all = 'Fermer Tout';
+    $lang->cmd_open_all = 'Ouvrir Tout';
     $lang->cmd_reload = 'Recharger';
     $lang->cmd_close = 'Fermer';
     $lang->cmd_open = 'Ouvrir';
@@ -71,6 +71,7 @@
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Catégorie';
+    $lang->none_category = 'None category';
     $lang->document_srl = 'Numéro de série du Document';
     $lang->user_id = 'Compte';
     $lang->author = 'Auteur';
@@ -101,7 +102,7 @@
     $lang->allow_trackback = 'Permettre Rétrolien';
     $lang->uploaded_file = 'Fichier Attaché';
     $lang->grant = 'Permission';
-    $lang->target = 'Cible';
+    $lang->target = 'Objet';
     $lang->total = 'Total';
     $lang->total_count = 'Somme';
     $lang->ipaddress = 'Addresse IP';
@@ -194,6 +195,7 @@
     $lang->success_updated = 'Mise à jour avec succès';
     $lang->success_deleted = 'Supprimé avec succès';
     $lang->success_voted = 'Voté avec succès';
+    $lang->success_blamed = 'Blamed success_blamed';
     $lang->success_moved = 'Bougé avec succès';
     $lang->success_sended = 'Envoyé avec succès';
     $lang->success_reset = 'Restauré avec succès';
@@ -204,6 +206,7 @@
     $lang->fail_to_move = 'N\'a pas pu être bougé';
 
     $lang->failed_voted = 'N\'a pas pu recommander';
+    $lang->failed_blamed = 'Could not blame';
     $lang->failed_declared = 'N\'a pas pu accuser';
     $lang->fail_to_delete_have_children = 'Essayez encore après avoir suprimé les reponses, SVP';
 

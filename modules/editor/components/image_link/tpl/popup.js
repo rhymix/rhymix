@@ -21,8 +21,12 @@ function getImage() {
         return;
     }
     var src = node.getAttribute("src");
-    var border = node.getAttribute("border");
-    var align = node.getAttribute("align");
+    var border = node.style.borderWidth ? 
+        node.style.borderWidth.match("[0-9]+") : node.getAttribute("border");
+    var align = node.style.cssFloat ?
+        node.style.cssFloat : node.style.styleFloat;
+    if(!align) align = node.style.verticalAlign?
+        node.style.verticalAlign : node.getAttribute("align");
     var alt = node.getAttribute("alt");
     var width = xWidth(node);
     var height = xHeight(node);
@@ -79,9 +83,9 @@ function insertImage(obj) {
     var alt = xGetElementById("image_alt").value;
     var align = "";
     if(xGetElementById("align_normal").checked==true) align = "";
-    else if(xGetElementById("align_left").checked==true) align = "left";
-    else if(xGetElementById("align_middle").checked==true) align = "middle";
-    else if(xGetElementById("align_right").checked==true) align = "right";
+    else if(xGetElementById("align_left").checked==true) align = "float: left";
+    else if(xGetElementById("align_middle").checked==true) align = "vertical-align: middle";
+    else if(xGetElementById("align_right").checked==true) align = "float: right";
     var border = parseInt(xGetElementById("image_border").value,10);
 
     var width = xGetElementById("width").value;
@@ -93,13 +97,18 @@ function insertImage(obj) {
     }
 
     url = url.replace(request_uri,'');
-    var text = "<img editor_component=\"image_link\" src=\""+url+"\" border=\""+border+"\" ";
+    var text = "<img editor_component=\"image_link\" src=\""+url+"\" ";
     if(alt) text+= " alt=\""+alt+"\"";
     if(width) text+= " width=\""+width+"\" ";
     if(height) text+= " height=\""+height+"\" ";
     if(link_url) text+= " link_url=\""+link_url+"\" ";
     if(open_window=='Y') text+= " open_window=\"Y\" ";
-    if(align) text+= " align=\""+align+"\" ";
+    if(align || border){
+        text+= " style=\"";
+        if(align) text+= align+"; ";
+        if(border) text+= "border: solid "+border+"px; ";
+        text+= "\" ";
+    }
     text+= " />";
 
     opener.editorFocus(opener.editorPrevSrl);

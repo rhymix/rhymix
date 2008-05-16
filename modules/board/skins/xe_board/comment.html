@@ -40,10 +40,10 @@
             <!--@end-->
             </div>
 
-            <!--@if($comment->get('voted_count')!=0)-->
+            <!--@if($comment->get('voted_count')!=0 || $comment->get('blamed_count') != 0)-->
             <div class="voted">
                 ({$lang->voted_count}:
-                <strong>{$comment->get('voted_count')}</strong>)
+                <strong>{$comment->get('voted_count')?$comment->get('voted_count'):0}</strong> / <strong>{$comment->get('blamed_count')?$comment->get('blamed_count'):0}</strong>)
             </div>
             <!--@end-->
 

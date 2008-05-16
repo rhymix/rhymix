@@ -52,6 +52,10 @@
             // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before')) return true;
 
+            // 2008. 05. 14 blamed count 컬럼 추가
+            if(!$oDB->isColumnExists("comments", "blamed_count")) return true;
+            if(!$oDB->isColumnExists("comment_voted_log", "point")) return true;
+
             return false;
         }
 
@@ -87,6 +91,14 @@
             // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before')) 
                 $oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
+
+            // 2008. 05. 14 blamed count 컬럼 추가
+            if(!$oDB->isColumnExists("comments", "blamed_count")) {
+                $oDB->addColumn('comments', 'blamed_count', 'number', 11, 0, true); 
+                $oDB->addIndex('comments', 'idx_blamed_count', array('blamed_count'));
+            }
+            if(!$oDB->isColumnExists("comment_voted_log", "point"))
+                $oDB->addColumn('comment_voted_log', 'point', 'number', 11, 0, true); 
 
             return new Object(0, 'success_updated');
         }

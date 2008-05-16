@@ -1,4 +1,6 @@
 <!--%import("filter/setup_addon.xml")-->
+<!--%import("css/addon.css")-->
+<!--%import("js/addon.js")-->
 
 <div id="popHeadder">
     <h3>{$lang->cmd_setup}</h3>
@@ -25,13 +27,18 @@
         </tr>
 
         <!--@foreach($addon_info->extra_vars as $id => $var)-->
+
+        <!--@if($var->group && ((!$group) || $group != $var->group))-->
+        {@$group = $var->group}
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="100" />
+        <col width="*" />
+        <caption>{$group}</caption>
+        <!--@end-->
+
         <tr>
-            <th scope="row">
-                {$var->title}
-                <!--@if($var->type == 'mid_list')-->
-                    <input type="checkbox" onclick="checkboxSelectAll(this.form, '{$var->name}'); return false;" />
-                <!--@end-->
-            </th>
+            <th scope="row">{$var->title}</th>
             <td>
                 <!--@if($var->type == 'text')-->
                 <input type="text" name="{$var->name}" value="{$var->value}" class="inputTypeText w400" />
@@ -45,19 +52,47 @@
                     <option value="{$val->value}"<!--@if($var->value == $val->value)--> selected="selected"<!--@end-->>{$val->title}</option>
                     <!--@end-->
                 </select>
-
-                <!--@elseif($var->type == 'mid_list')-->
-                    <!--@foreach($mid_list as $key => $val)-->
-                <div class="addon_mid_list">
-                    <input type="checkbox" value="{$key}" name="{$var->name}" id="chk_mid_list_{$key}" <!--@if(in_array($key, $var->value))-->checked="checkde" <!--@end-->/>
-                    <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-                </div>
-                    <!--@end-->
                 <!--@end-->
                 <p class="clear">{nl2br($var->description)}</p>
             </td>
         </tr>
         <!--@end-->
+
+        <!--@if($group)-->
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="100" />
+        <col width="*" />
+        <!--@end-->
+
+        <tr>
+            <th scope="row">
+                {$lang->module}
+                <input type="checkbox" onclick="checkboxSelectAll(this.form, 'mid_list'); return false;" />
+            </th>
+            <td>
+                <p>{$lang->about_addon_mid}</p>
+                <!--@foreach($mid_list as $module_category_srl => $modules)-->
+                    <div class="module_category_title">
+                        <input type="checkbox" onclick="toggleSectionCheckBox(this, 'section_{$module_category_srl}');" />
+                    <!--@if($modules->title)-->
+                        {$modules->title}
+                    <!--@else-->
+                        {$lang->none_category}
+                    <!--@end-->
+                    </div>
+
+                    <div id="section_{$module_category_srl}">
+                    <!--@foreach($modules->list as $key => $val)-->
+                        <div class="module_list">
+                            <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $addon_info->mid_list))-->checked="checked"<!--@end--> /> 
+                            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                        </div>
+                    <!--@end-->
+                    </div>
+                <!--@end-->
+            </td>
+        </tr>
         </table>
     </div>
 
@@ -67,5 +102,4 @@
             <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
         </div>
     </div>
-
 </form>

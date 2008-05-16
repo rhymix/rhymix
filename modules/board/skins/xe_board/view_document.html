@@ -35,9 +35,9 @@
 
                 <div class="readedCount" title="{$lang->readed_count}">{$oDocument->get('readed_count')}</div>
 
-                <!--@if($oDocument->get('voted_count')!=0)-->
+                <!--@if($oDocument->get('voted_count')!=0 || $oDocument->get('blamed_count')!=0)-->
                 <div class="votedCount" title="{$lang->voted_count}">
-                    <strong>{$oDocument->get('voted_count')}</strong>
+                    <strong>{$oDocument->get('voted_count')} / {$oDocument->get('blamed_count')}</strong>
                 </div>
                 <!--@end-->
 

@@ -41,6 +41,7 @@
             unset($args->module);
             unset($args->act);
             unset($args->addon_name);
+            unset($args->body);
 
             $this->doSetup($addon_name, $args);
 
@@ -55,18 +56,23 @@
             $buff = "";
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getInsertedAddons();
-            foreach($addon_list as $addon=> $val) {
+            foreach($addon_list as $addon => $val) {
                 if($val->is_used != 'Y' || !is_dir('./addons/'.$addon) ) continue;
+
+                $extra_vars = unserialize($val->extra_vars);
+                $mid_list = $extra_vars->mid_list;
+                if(!is_array($mid_list)||!count($mid_list)) $mid_list = null;
+                $mid_list = base64_encode(serialize($mid_list));
 
                 if($val->extra_vars) {
                     unset($extra_vars);
                     $extra_vars = base64_encode($val->extra_vars);
                 }
 
-                $buff .= sprintf(' if(file_exists("./addons/%s/%s.addon.php")) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "./addons/%s/"; @include("./addons/%s/%s.addon.php"); }', $addon, $addon, $extra_vars, $addon, $addon, $addon);
+                $buff .= sprintf(' $_ml = unserialize(base64_decode("%s")); if(file_exists("./addons/%s/%s.addon.php") && (!is_array($_ml) || in_array($_m, $_ml))) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "./addons/%s/"; @include("./addons/%s/%s.addon.php"); }', $mid_list, $addon, $addon, $extra_vars, $addon, $addon, $addon);
             }
 
-            $buff = sprintf('<?php if(!defined("__ZBXE__"))exit(); %s ?>', $buff);
+            $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);
 
             FileHandler::writeFile($this->cache_file, $buff);
         }
@@ -106,6 +112,7 @@
          * @brief 애드온 설정
          **/
         function doSetup($addon, $extra_vars) {
+            if($extra_vars->mid_list) $extra_vars->mid_list = explode('|@|', $extra_vars->mid_list);
             $args->addon = $addon;
             $args->extra_vars = serialize($extra_vars);
             return executeQuery('addon.updateAddon', $args);

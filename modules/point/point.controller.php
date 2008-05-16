@@ -352,6 +352,41 @@
         }
 
         /**
+         * @brief 추천/비추천 시 포인트 적용
+         **/
+
+        function triggerUpdateVotedCount(&$obj) {
+            $module_srl = $obj->module_srl;
+            $member_srl = $obj->member_srl;
+            if(!$module_srl || !$member_srl) return new Object();
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            $oPointModel = &getModel('point');
+            $cur_point = $oPointModel->getPoint($member_srl, true);
+
+            if( $obj->point > 0 )
+            {
+                $point = $config->module_point[$module_srl]['voted'];
+                if(!isset($point)) $point = $config->voted;
+            }
+            else
+            {
+                $point = $config->module_point[$module_srl]['blamed'];
+                if(!isset($point)) $point = $config->blamed;
+            }
+
+            if(!$point) return new Object();
+
+            // 포인트 증감
+            $cur_point += $point;
+            $this->setPoint($member_srl,$cur_point);
+
+            return new Object();
+        }
+
+        /**
          * @brief 포인트 설정
          **/
         function setPoint($member_srl, $point, $mode = null) {
@@ -422,13 +457,6 @@
                     $new_group_args->member_srl = $member_srl;
                     $new_group_args->group_srl = $current_group_srl;
                     $new_group_output = executeQuery('member.addMemberToGroup', $new_group_args);
-
-                    // 만약 대상 사용자와 로그인 사용자의 정보가 동일하다면 세션을 변경해줌
-                    $logged_info = Context::get('logged_info');
-                    if($logged_info->member_srl == $member_srl) {
-                        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-                        $_SESSION['logged_info']->group_list = $member_info->group_list;
-                    }
                 }
             }
 

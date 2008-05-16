@@ -231,6 +231,7 @@ EndOfLicense;
         'sqlite3_pdo' => '用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。',
         'cubrid' => '使用CUBRID DB。',
         'postgresql' => '使用PostgreSql DB。',
+        'firebird' => '使用Firebird DB。',
     );
 
     $lang->form_title = '输入数据库及管理员信息';
@@ -254,6 +255,8 @@ EndOfLicense;
     $lang->about_rewrite = '如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。';
     $lang->time_zone = '时区';
     $lang->about_time_zone = '服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。';
+    $lang->qmail_compatibility = 'Qmail互换';
+    $lang->about_qmail_compatibility = '支持不能识别CRLF为换行符的Qmail等MTA，也能发送电子邮件。';
 
     $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>';
 

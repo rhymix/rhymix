@@ -33,10 +33,13 @@ function setPoll() {
 function completeInsertPoll(ret_obj) {
     if(typeof(opener)=="undefined") return null;
 
+    var fo_obj = xGetElementById('fo_component');
+    var skin = fo_obj.skin.options[fo_obj.skin.selectedIndex].value;
+
     var poll_srl = ret_obj["poll_srl"];
     if(!poll_srl) return null;
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" style=\"width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
 
     alert(ret_obj['message']);
 
@@ -79,7 +82,7 @@ function doPollAdd() {
  * 항목 삭제
  **/
 function doPollDelete(obj) {
-    var pobj = obj.parentNode.parentNode.parentNode.parentNode;
+    var pobj = obj.parentNode.parentNode.parentNode;
     var tmp_arr = pobj.id.split('_');
     var index = tmp_arr[1];
     if(index==1) return;
@@ -103,7 +106,7 @@ function doPollDelete(obj) {
  * 새 항목 추가
  **/
 function doPollAddItem(obj) {
-    var tbl = xPrevSib(obj.parentNode.parentNode.parentNode);
+    var tbl = xPrevSib(obj.parentNode.parentNode);
     var tbody = tbl.lastChild;
     var tmp = tbody.firstChild;
     var source = null;

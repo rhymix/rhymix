@@ -242,6 +242,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.',
         'cubrid' => 'Usar BD CUBRID.',
         'postgresql' => 'Usar BD PostgreSql.',
+        'firebird' => 'Usar BD firebird.',
     );
 
     $lang->form_title = 'Ingresar  BD &amp; Información del Administrador;';
@@ -265,6 +266,8 @@ EndOfLicense;
     $lang->about_rewrite = "Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123";
     $lang->time_zone = 'La Hora por Zona';
     $lang->about_time_zone = "Si la hora del servidor y la hora de su ubicación es diferente, Usted puede elegir la hora por zona para corregir";
+    $lang->qmail_compatibility = 'Qmail 호환';
+    $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
 
     $lang->about_database_file = 'Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 707.</span>';
 

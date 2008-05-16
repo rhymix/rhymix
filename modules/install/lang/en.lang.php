@@ -146,6 +146,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',
         'cubrid' => 'Use CUBRID DB.',
         'postgresql' => 'Use PostgreSql DB.',
+        'firebird' => 'Use firebird DB.',
     );
 
     $lang->form_title = 'Please input DB &amp; Admin information';
@@ -169,6 +170,8 @@ EndOfLicense;
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
     $lang->time_zone = 'Time zone';
     $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
+    $lang->qmail_compatibility = 'Enable Qmail';
+    $lang->about_qmail_compatibility = 'It will enable sending mails from MTA which cannot distinguish CRLF like Qmail.';
 
     $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
 

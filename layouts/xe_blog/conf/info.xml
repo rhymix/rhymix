@@ -4,6 +4,7 @@
     <title xml:lang="jp">ZBXEブログのデフォルトスキン</title>
     <title xml:lang="zh-CN">Zeroboard XE博客默认皮肤</title>
     <title xml:lang="en">Default Skin of Zeroboard XE blog</title>
+	<title xml:lang="ge">Standard-Skin von Zeroboard XE Blog</title>
 	<title xml:lang="es">Cuidado de la Piel por defecto de Zeroboard XE blog</title>
 	<title xml:lang="ru">По умолчанию Кожа Zeroboard XE блоге</title>
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 2. 26">
@@ -11,6 +12,7 @@
         <name xml:lang="jp">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+	    <name xml:lang="ge">zero</name>
 		<name xml:lang="es">zero</name>
 		<name xml:lang="ru">zero</name>
         <description xml:lang="ko">
@@ -33,6 +35,11 @@
             Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
             HTML/CSS : Ju-Hoon So
         </description>
+		<description xml:lang="ge">
+            Dies ist der Standard-Skin Zeroboard XE-Blog.
+             Design: Ki-Seo Jeong (http://blog.naver.com/addcozy)
+             HTML / CSS: Ju-Hoon Also
+        </description>
 		<description xml:lang="es">
             Esto es por defecto de la piel Zeroboard XE blog.
              Diseño: Ki-Jeong Seo (http://blog.naver.com/addcozy)
@@ -50,12 +57,14 @@
             <title xml:lang="jp">カラーセット</title>
             <title xml:lang="zh-CN">颜色</title>
             <title xml:lang="en">Colorset</title>
+			<title xml:lang="ge">Colorset</title>
             <title xml:lang="es">Set de Colores</title>
 			<title xml:lang="ru">Colorset</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="jp">希望するカラーセットを選択してください。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="en">Please select a colorset you want.</description>
+			<description xml:lang="ge">Bitte wählen Sie ein colorset Sie wollen.</description>
 			<description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
             <options name="blue">
@@ -63,6 +72,7 @@
                 <title xml:lang="jp">青 (default)</title>
                 <title xml:lang="zh-CN">蓝色 (default)</title>
                 <title xml:lang="en">Blue (default)</title>
+				<title xml:lang="ge">Blue (Standard)</title>
                 <title xml:lang="es">Azul (default)</title>
                 <title xml:lang="ru">Blue (default)</title>
                 <value>blue</value>
@@ -72,6 +82,7 @@
                 <title xml:lang="jp">灰色背景</title>
                 <title xml:lang="zh-CN">灰色背景</title>
                 <title xml:lang="en">Gray</title>
+				<title xml:lang="ge">Gray</title>
                 <title xml:lang="es">Gray</title>
                 <title xml:lang="ru">Gray</title>
                 <value>gray</value>
@@ -81,6 +92,7 @@
                 <title xml:lang="jp">Orange</title>
                 <title xml:lang="zh-CN">Orange</title>
                 <title xml:lang="en">Orange</title>
+				<title xml:lang="ge">Orange</title>
 				<title xml:lang="es">Orange</title>
 				<title xml:lang="ru">Orange</title>
                 <value>orange</value>
@@ -90,6 +102,7 @@
                 <title xml:lang="jp">Violet</title>
                 <title xml:lang="zh-CN">Violet</title>
                 <title xml:lang="en">Violet</title>
+				<title xml:lang="ge">Violett</title>
 				<title xml:lang="es">Violet</title>
 				<title xml:lang="ru">Violet</title>
                 <value>violet</value>
@@ -99,6 +112,7 @@
                 <title xml:lang="jp">緑</title>
                 <title xml:lang="zh-CN">绿色</title>
                 <title xml:lang="en">Green</title>
+				<title xml:lang="ge">Grün</title>
 				<title xml:lang="es">Verde</title>
 				<title xml:lang="ru">Green</title>
                 <value>green</value>
@@ -107,14 +121,16 @@
         <var name="target_mid" type="text">
             <title xml:lang="ko">기본 모듈</title>
             <title xml:lang="jp">기본 모듈</title>
-            <title xml:lang="zh-CN">기본 모듈</title>
+            <title xml:lang="zh-CN">默认模块</title>
             <title xml:lang="en">Basic module</title>
+			<title xml:lang="ge">Basismodul</title>
 			<title xml:lang="es">Módulo Básico</title>
 			<title xml:lang="ru">Основной модуль</title>
             <description xml:lang="ko">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
             <description xml:lang="jp">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
-            <description xml:lang="zh-CN">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
+            <description xml:lang="zh-CN">为了让博客系统中的控件正常运作，在这里必须得指定默认版面模块名。</description>
             <description xml:lang="en">The widgets that are being displayed in the layout will work properly if you select the basic module</description>
+			<description xml:lang="ge">Die Widgets, die angezeigt werden im Layout wird ordnungsgemäß funktionieren, wenn Sie das Basismodul</description>
 			<description xml:lang="es">Los reproductores que se muestran en el diseño funcionará correctamente si selecciona el módulo básico</description>
 			<description xml:lang="ru">В виджеты, которые отображаются в формате будет работать правильно, если вы выбираете основной модуль</description>
         </var>
@@ -129,20 +145,23 @@
             <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="en">Please input if you want to use background image.</description>
+			<description xml:lang="ge">Bitte geben Sie, wenn Sie verwenden wollen Hintergrundbild.</description>
 			<description xml:lang="es">Entre, por favor, si desea utilizar la imagen de fondo.</description>
 			<description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
         </var>
         <var name="profile_image" type="image">
             <title xml:lang="ko">프로필 이미지</title>
             <title xml:lang="jp">プロフィールイメージ</title>
-            <title xml:lang="zh-CN">博客个性图片</title>
+            <title xml:lang="zh-CN">博客头像</title>
             <title xml:lang="en">Profile Image</title>
+			<title xml:lang="ge">Profil Bilder</title>
 			<title xml:lang="es">Perfil de Imagen</title>
 			<title xml:lang="ru">Профиль Изображение</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
             <description xml:lang="jp">プロフィールイメージを入力してください（横幅は「160px」が一番適しています）。</description>
-            <description xml:lang="zh-CN">请输入博客个性图片(推荐宽度160px)。</description>
+            <description xml:lang="zh-CN">请上传博客个性头像(推荐宽度为160px)。</description>
             <description xml:lang="en">Please input profile image (It is recommended to set width as 160px)</description>
+			<description xml:lang="ge">itte geben Sie Ihre Image-Profil (Es wird empfohlen, Breite 160px)</description>
 			<description xml:lang="es">Por favor, el perfil de entrada de imagen (Se recomienda configurar el ancho de 160px)</description>
 			<description xml:lang="ru">Введите профиля изображения (Рекомендуется устанавливать ширину, 160px)</description>
         </var>
@@ -151,12 +170,14 @@
             <title xml:lang="jp">プロフィール</title>
             <title xml:lang="zh-CN">简介</title>
             <title xml:lang="en">Profile</title>
+			<title xml:lang="ge">Profil</title>
 			<title xml:lang="es">Perfil</title>
 			<title xml:lang="ru">Профиль</title>
             <description lang="ko">간단한 프로필을 입력해주세요</description>
             <description lang="jp">簡単なプロフィールを入力してください。</description>
             <description lang="zh-CN">请输入简单介绍。</description>
             <description lang="en">Please input your simple profile</description>
+			<description lang="ge">Bitte geben Sie Ihre Simple Profile</description>
 			<description lang="es">Por favor, introduzca su perfil simple</description>
 			<description lang="ru">Введите простое профиль</description>
         </var>
@@ -167,6 +188,7 @@
             <title xml:lang="jp">上段メニュー</title>
             <title xml:lang="zh-CN">菜单</title>
             <title xml:lang="en">Top Menu</title>
+			<title xml:lang="ge">Top-Menü</title>
 			<title xml:lang="es">Menú superior</title>
 			<title xml:lang="ru">Главное меню</title>
             <maxdepth>1</maxdepth>

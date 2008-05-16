@@ -59,6 +59,16 @@
     </tr>
 
     <!--@foreach($skin_info->extra_vars as $key => $val)-->
+
+    <!--@if($val->group && ((!$group) || $group != $val->group))-->
+    {@$group = $val->group}
+    </table>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <caption>{$group}</caption>
+    <!--@end-->
+
     <tr>
         <th scope="row">{$val->title}</th>
         <td class="left">
@@ -110,6 +120,14 @@
         </td>
     </tr>
     <!--@end-->
+
+    <!--@if($group)-->
+    </table>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <!--@end-->
+
     <tr>
         <th scope="row" colspan="2" class="button">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>

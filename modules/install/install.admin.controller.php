@@ -52,9 +52,13 @@
             if($use_optimizer!='Y') $use_optimizer = 'N';
 
             $time_zone = Context::get('time_zone');
+            
+            $qmail_compatibility = Context::get('qmail_compatibility');
+            if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
             $db_info = Context::getDBInfo();
             $db_info->time_zone = $time_zone;
+            $db_info->qmail_compatibility = $qmail_compatibility;
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_optimizer = $use_optimizer;
             $db_info->lang_type = Context::getLangType();

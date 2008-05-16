@@ -17,6 +17,7 @@
         <description xml:lang="jp">顔文字（イモティコン）をエディターに追加することができます。</description>
         <description xml:lang="zh-CN">可以插入表情图标到编辑器。</description>
         <description xml:lang="en">You may insert emoticons to editor.</description>
+		<description xml:lang="es">Usted puede insertar emoticonos para el editor.</description>
         <description xml:lang="ru">Вы можете вставить смыйлы в редактор.</description>
     </author>
 </component>

@@ -44,6 +44,9 @@
     $lang->image_mark_max_height = 'Макс. высота';
     $lang->enable_openid = 'Включить открытый ID (OpenID)';
     $lang->enable_join = 'Позволить пользователям регистрироваться';
+    $lang->enable_confirm = '메일 인증 사용';
+    $lang->enable_ssl = 'SSL 기능 사용';
+    $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Временный лимит даты';
     $lang->limit_date = 'Дата лимита';
     $lang->after_login_url = '로그인 후 이동할 URL';
@@ -121,9 +124,14 @@
     $lang->msg_find_account_title = 'Информация аккаунта';
     $lang->msg_find_account_info = 'Это требуемая информация аккаунта.';
     $lang->msg_find_account_comment = 'Пароль будет изменен на указанный выше после нажатия по ссылке ниже.<br />Пожалуйста, изменить пароль после входа.';
-    $lang->msg_auth_mail_sended = 'Аутентификационное почтовое сообщение было отправлено для %s. Пожалуйста, проверьте Вашу почту.';
+    $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
+    $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
+    $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
+    $lang->msg_auth_mail_sent = 'Аутентификационное почтовое сообщение было отправлено для %s. Пожалуйста, проверьте Вашу почту.';
+    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
 	$lang->msg_invalid_auth_key = 'Неверный запрос на аутентификацию.<br />Пожалуйста, попытайтеть найти информацию аккаунта или свяжитесь с администратором.';
-    $lang->msg_success_authed = 'Ваш аккаунт был успешно аутентифицирован. Вход произведен. Пожалуйста, измените пароль на Ваш собственный.';
+    $lang->msg_success_authed = 'Ваш аккаунт был успешно аутентифицирован.\nВход произведен. Пожалуйста, измените пароль на Ваш собственный.';
+    $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
     $lang->msg_no_message = 'Нет сообщений';
     $lang->message_received = 'Новое сообщение';
@@ -154,6 +162,7 @@
     $lang->msg_accept_agreement = 'Вы должны принять Соглашение'; 
 
     $lang->msg_user_denied = 'Введенный ID сейчас запрещен';
+    $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
     $lang->msg_user_limited = 'Введенный ID может использоваться после %s';
 
     $lang->about_user_id = 'Юзер ID должен быть 3~20 знаков и содержать алфавит или цифры, начинаясь с алфафитного знака.';
@@ -181,6 +190,8 @@
 
     $lang->about_enable_openid = 'Позволить пользователям регистрироваться как OpenID';
     $lang->about_enable_join = 'Позволить пользователям регистрироваться';
+    $lang->about_enable_confirm = '입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다';
+    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = 'Вы можете ограничить дату сертификации после регистрации';
     $lang->about_limit_date = 'Пользователь не может войти до указанной даты';
     $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';

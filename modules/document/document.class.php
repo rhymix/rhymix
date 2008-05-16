@@ -31,6 +31,7 @@
             $oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
             $oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
             $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
+	    $oDB->addIndex("documents","idx_module_blamed_count", array("module_srl","blamed_count"));
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
             $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
@@ -93,6 +94,10 @@
              **/
             if(!$oDB->isColumnExists("documents","extra_vars")) return true;
 
+	    // 2008. 04. 23 blamed count 컬럼 추가
+	    if(!$oDB->isColumnExists("documents", "blamed_count")) return true;
+            if(!$oDB->isIndexExists("documents","idx_module_blamed_count")) return true;
+	    if(!$oDB->isColumnExists("document_voted_log", "point")) return true;
 
             return false;
         }
@@ -176,6 +181,21 @@
              * 2008. 02. 18 게시글에 module_srl + document_srl 복합인덱스 만들기 (manian님 확인)
              **/
             if(!$oDB->isIndexExists("documents","idx_module_document_srl")) $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
+
+	    // 2008. 04. 23 blamed count 컬럼 추가
+	    if(!$oDB->isColumnExists("documents", "blamed_count")) 
+	    {
+		$oDB->addColumn('documents', 'blamed_count', 'number', 11, 0, true); 
+		$oDB->addIndex('documents', 'idx_blamed_count', array('blamed_count'));
+	    }
+
+            if(!$oDB->isIndexExists("documents","idx_module_blamed_count"))
+	    {
+		$oDB->addIndex('documents', 'idx_module_blamed_count', array('module_srl', 'blamed_count'));
+	    }
+
+	    if(!$oDB->isColumnExists("document_voted_log", "point")) 
+		$oDB->addColumn('document_voted_log', 'point', 'number', 11, 0, true); 
 
             return new Object(0,'success_updated');
         }

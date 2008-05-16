@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/cc_license/lang/ko.lang.php
+     * @file   /modules/editor/components/cc_license/lang/en.lang.php
      * @author zero <zero@zeroboard.com>
      * @brief  WYSIWYG module >  CCL display component
      **/

@@ -6,6 +6,7 @@
     <column name="is_secret" type="char" size="1" default="N" notnull="notnull" />
     <column name="content" type="bigtext" notnull="notnull" />
     <column name="voted_count" type="number" size="11" default="0" notnull="notnull" index="idx_voted_count" />
+    <column name="blamed_count" type="number" size="11" default="0" notnull="notnull" index="idx_blamed_count" />
     <column name="notify_message" type="char" size="1" default="N" notnull="notnull" />
     <column name="password" type="varchar" size="60" />
     <column name="user_id" type="varchar" size="80" />

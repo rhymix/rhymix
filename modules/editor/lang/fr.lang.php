@@ -16,7 +16,8 @@
     $lang->component_grant = "Configuration de l'Autorisation"; 
 
     $lang->about_component = "Sur le Composant";
-    $lang->about_component_grant = "Le groupe sélectionné peut seulement utiliser. (Tout le monde peut utiliser quand le mode est invalid)";
+    $lang->about_component_grant = 'Vous pouvez configurer l\'autorisation à utiliser des composants tendus de l\'Editeur.<br /> (Tout le monde aura l\'autorisation si vous ne cochez rien)';
+    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
 
     $lang->msg_component_is_not_founded = 'Ne peut pas trouver Composant %s';
     $lang->msg_component_is_inserted = 'Composant choisi est déjà inséré';
@@ -40,7 +41,6 @@
     $lang->about_editor_skin = 'Vous pouvez choisir le thême de l\'Editeur.';
     $lang->about_upload_file_grant = 'Vous pouvez configurer l\'autorisation à télécharger(attacher) les fichiers. (Tout le monde aura l\'autorisation si vous ne cochez rien)';
     $lang->about_default_component_grant = 'Vous pouvez configurer l\'autorisation à utiliser les Composants Par Défaut de l\'Editeur. (Tout le monde aura l\'autorisation si vous ne cochez rien)';
-    $lang->about_component_grant = 'Vous pouvez configurer l\'autorisation à utiliser des composants tendus de l\'Editeur. (Tout le monde aura l\'autorisation si vous ne cochez rien)';
     $lang->about_editor_height = 'Vous pouvez configurer l\'hauteur de l\'Editeur.';
     $lang->about_editor_height_resizable = 'Autoriser à remettre l\'hauteur de l\'Editeur.';
     $lang->about_enable_html_grant = 'Vous pouvez autoriser à utiliser HTML';

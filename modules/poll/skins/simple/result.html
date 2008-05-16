@@ -1,0 +1,35 @@
+<!--%import("css/poll.css")-->
+
+<div style="{$poll->style}">
+
+    <table cellspacing="0" class="simple_poll">
+    <tr>
+        <td>
+            {@ $_key = 0}
+            <!--@foreach($poll->poll as $poll_srl_index => $val)-->
+            <div <!--@if($_key>0)-->class="itemDiv"<!--@end-->>
+
+                <div class="title">{$val->title} ({$val->poll_count})</div>
+
+                <!--@foreach($val->item as $item_srl => $item)-->
+                    {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
+
+                    <div class="resultItem">
+                        {$item->title} 
+                    </div>
+
+                    <div class="barBox">
+                        <div class="bar"><img src="./images/color_bar.png" style="width:<!--@if($per<1)-->1<!--@else-->{$per}<!--@end-->%;height:6px;" alt="bar" /></div>
+                        <div class="status">{$item->poll_count} ({$per}%)</div>
+                    </div>
+                    <div class="clear"></div>
+                <!--@end-->
+
+            </div>
+            {@ $_key++}
+            <!--@end-->
+        </td>
+    </tr>
+    </table>
+
+</div>

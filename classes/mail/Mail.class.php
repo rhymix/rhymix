@@ -62,26 +62,27 @@
 
         function send() {
             $boundary = '----=='.uniqid(rand(),true);
+            $eol = $GLOBALS['_qmail_compatibility'] == "Y" ? "\n" : "\r\n";
 
             $headers = sprintf(
-                "From: %s\r\n".
-                "MIME-Version: 1.0\r\n".
-                "Content-Type: multipart/alternative;\r\n\tboundary=\"%s\"\r\n\r\n".
+                "From: %s".$eol.
+                "MIME-Version: 1.0".$eol.
+                "Content-Type: multipart/alternative;".$eol."\tboundary=\"%s\"".$eol.$eol.
                 "",
                 $this->getSender(),
                 $boundary
             );
 
             $body = sprintf(
-                "--%s\r\n".
-                "Content-Type: text/plain; charset=utf-8; format=flowed\r\n".
-                "Content-Transfer-Encoding: base64\r\n".
-                "Content-Disposition: inline\r\n\r\n".
+                "--%s".$eol.
+                "Content-Type: text/plain; charset=utf-8; format=flowed".$eol.
+                "Content-Transfer-Encoding: base64".$eol.
+                "Content-Disposition: inline".$eol.$eol.
                 "%s".
-                "--%s\r\n".
-                "Content-Type: text/html; charset=utf-8\r\n".
-                "Content-Transfer-Encoding: base64\r\n".
-                "Content-Disposition: inline\r\n\r\n".
+                "--%s".$eol.
+                "Content-Type: text/html; charset=utf-8".$eol.
+                "Content-Transfer-Encoding: base64".$eol.
+                "Content-Disposition: inline".$eol.$eol.
                 "%s".
                 "--%s--".
                 "",

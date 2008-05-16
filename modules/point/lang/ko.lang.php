@@ -48,7 +48,8 @@
     $lang->point_delete_file = '파일 삭제';
     $lang->point_download_file = '파일 다운로드 (이미지 제외)';
     $lang->point_read_document = '게시글 조회';
-
+    $lang->point_voted = '추천 받음';
+    $lang->point_blamed = '비추천 받음';
 
     $lang->cmd_point_config = '기본 설정';
     $lang->cmd_point_module_config = '모듈별 설정';

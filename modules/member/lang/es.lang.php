@@ -44,6 +44,9 @@
     $lang->image_mark_max_height = 'Altura Máxima';
     $lang->enable_openid = 'Activar OpenID';
     $lang->enable_join = 'Permitir el registro del usuario';
+    $lang->enable_confirm = '메일 인증 사용';
+    $lang->enable_ssl = 'Activar SSL';
+    $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Límite de la fecha temporal';
     $lang->limit_date = 'Límite de fecha';
     $lang->after_login_url = 'URL después del inicio de sesión';
@@ -122,8 +125,14 @@
     $lang->msg_find_account_title = 'Account Info';
     $lang->msg_find_account_info = 'Esto se solicita la información de la cuenta';
     $lang->msg_find_account_comment = 'La contraseña se modificará para arriba al hacer clic en un enlace a continuación. <br /> Por favor, después de modificar la contraseña de acceso.';
-    $lang->msg_auth_mail_sended = 'La autenticación de correo ha sido enviado a% s. Por favor, compruebe su correo.';
+    $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
+    $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
+    $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
+    $lang->msg_auth_mail_sent = 'La autenticación de correo ha sido enviado a% s. Por favor, compruebe su correo.';
+    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_invalid_auth_key = '잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요';
     $lang->msg_success_authed = 'Esto no es válido solicitud de autenticación. <br /> Por favor, inténtelo encontrar información de la cuenta o póngase en contacto con el administrador.';
+    $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
     $lang->msg_no_message = 'No hay mensajes';
     $lang->message_received = 'Usted ha recibido un mensaje';
@@ -154,6 +163,7 @@
     $lang->msg_accept_agreement = 'Usted primero debe aceptar el acuerdo'; 
 
     $lang->msg_user_denied = 'ID ingresado ha sido prohibido para su uso';
+    $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
     $lang->msg_user_limited = 'ID ingresado puede ser usado luego de %s';
 
     $lang->about_user_id = 'ID del usuario debe ser entre 3-20 letras que consiste en alfabetos+número con alfabeto como primera letra.';
@@ -181,6 +191,8 @@
 
     $lang->about_enable_openid = 'Selecciona esta opción si activado OpenID';
     $lang->about_enable_join = 'Debe seleccionar esta opción para permitir el registro de los usuarios';
+    $lang->about_enable_confirm = '입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다';
+    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
     $lang->about_limit_day = 'Usted puede limitar la fecha de la certificación luego de registrar';
     $lang->about_limit_date = 'Usuario no podra conectarse hasta la fecha indicada';
     $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';

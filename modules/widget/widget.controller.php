@@ -26,6 +26,7 @@
             unset($vars->module);
             unset($vars->act);
             unset($vars->selected_widget);
+            unset($vars->body);
 
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
@@ -33,31 +34,19 @@
                 @unlink($cache_file);
             }
 
-            $vars->widget_sequence = getNextSequence();
-            if(!$vars->widget_cache) $vars->widget_cache = 0;
+            if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
 
             $attribute = array();
             if($vars) {
                 foreach($vars as $key => $val) {
+                    if(!$val) continue;
                     if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
                     $val = htmlspecialchars($val);
                     $attribute[] = sprintf('%s="%s"', $key, $val);
                 }
             }
 
-            if($vars->widget_fix_width == 'Y') {
-                $widget_width_type = strtolower($vars->widget_width_type);
-                if(!$widget_width_type||!in_array($widget_width_type,array("px","%"))) $widget_width_type = "px";
-
-                $style .= sprintf("%s:%s%s;", "width", trim($vars->widget_width), $widget_width_type);
-
-                if($vars->widget_position) $style .= sprintf("%s:%s;", "float", trim($vars->widget_position));
-                else $style .= "float:left;";
-                $widget_code = sprintf('<img src="%s" height="100" class="zbxe_widget_output" widget="%s" %s style="%s" />', $blank_img_path, $widget, implode(' ',$attribute), $style);
-            } else {
-                $style = "clear:both;";
-                $widget_code = sprintf('<img width="%s" height="100" src="%s" class="zbxe_widget_output" style="%s" widget="%s" %s />', "100%", $blank_img_path, $style, $widget, implode(' ',$attribute));
-            }
+            $widget_code = sprintf('<img class="zbxe_widget_output" widget="%s" %s />', $widget, implode(' ',$attribute));
 
             $cache_path = './files/cache/widget_cache/';
             $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
@@ -79,8 +68,8 @@
             $vars = Context::getRequestVars();
             $widget = $vars->selected_widget;
             unset($vars->module);
-            unset($vars->body);
             unset($vars->act);
+            unset($vars->body);
             unset($vars->selected_widget);
 
             if($vars->widget_sequence) {
@@ -88,13 +77,14 @@
                 $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
                 @unlink($cache_file);
             }
-            $vars->widget_sequence = getNextSequence();
-            if(!$vars->widget_cache) $vars->widget_cache = 0;
+
+            if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
 
             // args 정리
             $attribute = array();
             if($vars) {
                 foreach($vars as $key => $val) {
+                    if(!$val) continue;
                     if(strpos($val,'|@|')>0) {
                         $val = str_replace('|@|',',',$val);
                         $vars->{$key} = $val;

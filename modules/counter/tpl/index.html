@@ -1,9 +1,17 @@
 <!--%import("js/counter_admin.js")-->
 
 <!-- calendar -->
-<!--%import("../../common/js/calendar.js",optimized=false)-->
+<!--%import("../../common/js/calendar.min.js",optimized=false)-->
 <!--@if($lang_type == 'ko')-->
     <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
+<!--@elseif($lang_type == 'es')-->
+    <!--%import("../../common/js/calendar-es.js",optimized=false)-->
+<!--@elseif($lang_type == 'ge')-->
+    <!--%import("../../common/js/calendar-ge.js",optimized=false)-->
+<!--@elseif($lang_type == 'ru')-->
+    <!--%import("../../common/js/calendar-ru.js",optimized=false)-->
+<!--@elseif($lang_type == 'zh-CN')-->
+    <!--%import("../../common/js/calendar-zh-CN.js",optimized=false)-->
 <!--@else-->
     <!--%import("../../common/js/calendar-en.js",optimized=false)-->
 <!--@end-->
@@ -39,7 +47,7 @@
             <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> <span class="vr">|</span> 
             <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
             <script type="text/javascript">
-                Calendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
+                DyCalendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
             </script>
         </th>
         <td>Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>

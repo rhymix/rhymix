@@ -51,7 +51,7 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">Lang</th>
+    <th scope="row">Language Selection</th>
     <td>
         <select name="lang_type" onchange="doChangeLangType(this)">
             <option value="{$lang_type}">{$lang_supported[$lang_type]}</option>
@@ -73,6 +73,13 @@
             <!--@end-->
         </select>
         <p>{$lang->about_time_zone}</p>
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->qmail_compatibility}</th>
+    <td>
+        <input type="checkbox" name="qmail_compatibility" value="Y"  <!--@if($qmail_compatibility=='Y')-->checked="checked"<!--@end--> />
+        <p>{$lang->about_qmail_compatibility}</p>
     </td>
 </tr>
 <tr>

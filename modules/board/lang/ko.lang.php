@@ -30,7 +30,7 @@
     // 주절 주절..
     $lang->about_category_title = '카테고리 이름을 입력해주세요';
     $lang->about_expand = '선택하시면 늘 펼쳐진 상태로 있게 합니다';
-    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다)';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
     $lang->about_layout_setup = '블로그의 레이아웃 코드를 직접 수정할 수 있습니다. 위젯 코드를 원하는 곳에 삽입하시거나 관리하세요';
     $lang->about_board_category = '분류를 만드실 수 있습니다.<br />분류가 오동작을 할 경우 캐시파일 재생성을 수동으로 해주시면 해결이 될 수 있습니다.';
     $lang->about_except_notice = "목록 상단에 늘 나타나는 공지사항을 일반 목록에서 공지사항을 출력하지 않도록 합니다.";

@@ -1,11 +1,11 @@
 <?php
     /**
-     * @file   /modules/editor/components/cc_license/lang/ko.lang.php
+     * @file   /modules/editor/components/cc_license/lang/es.lang.php
      * @author zero <zero@zeroboard.com>
      * @brief  WYSIWYG module >  CCL display component
      **/
 
-    $lang->ccl_default_title = 'Creative Commons Corea derechos de autor';
+    $lang->ccl_default_title = 'Reconocimiento-No comercial-Sin obras derivadas 2.0 España';
     $lang->ccl_default_message = 'Este componente puede ser usado por <a rel="licencia" href="http://creativecommons.org/licenses/by% s% s% s% s" onclick="winopen (this.href); retorno false;" >% S% s% s% s </ a> ';
 
     $lang->ccl_title = 'Titulo';

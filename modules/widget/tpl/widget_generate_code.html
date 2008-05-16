@@ -11,8 +11,6 @@
     </div>
 
     <div id="popBody">
-
-
         <table cellspacing="0" class="adminTable">
         <col width="100" />
         <col />
@@ -49,7 +47,17 @@
                 <p>{$lang->about_widget_cache}</p>
             </td>
         </tr>
-            <!--@foreach($widget_info->extra_var as $id => $var)-->
+        <!--@foreach($widget_info->extra_var as $id => $var)-->
+
+        <!--@if($var->group && ((!$group) || $group != $var->group))-->
+        {@$group = $var->group}
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="100" />
+        <col width="*" />
+        <caption>{$group}</caption>
+        <!--@end-->
+
         <tr>
             <th scope="row">
                 {$var->name}
@@ -76,6 +84,8 @@
                     <!--@foreach($mid_list as $module_category_srl => $modules)-->
                         <!--@if($modules->title)-->
                             <div class="widget_title">{$modules->title}</div>
+                        <!--@else-->
+                            <div class="widget_title">{$lang->none_category}</div>
                         <!--@end-->
 
                         <!--@foreach($modules->list as $key => $val)-->
@@ -90,6 +100,14 @@
             </td>
         </tr>
         <!--@end-->
+
+        <!--@if($group)-->
+        </table>
+        <table cellspacing="0" class="adminTable">
+        <col width="100" />
+        <col width="*" />
+        <!--@end-->
+
         <tr>
             <th>{$lang->widget_code}</th>
             <td><textarea readonly="true" id="widget_code" class="inputTypeTextArea w100"></textarea></td>

@@ -390,6 +390,7 @@
             if(!is_array($db_list)) $db_list = array($db_list);
             foreach($db_list as $component) {
                 if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
+
                 $component_name = $component->component_name;
                 if(!$component_name) continue;
 
@@ -419,6 +420,11 @@
                             }
                         }
                         if(!$is_granted) continue;
+                    }
+
+                    // 대상 모듈이 있으면 체크
+                    if($extra_vars->mid_list && count($extra_vars->mid_list) ) {
+                        if(!in_array(Context::get('mid'), $extra_vars->mid_list)) continue;
                     }
 
                     // 에디터 컴포넌트의 설정 정보를 체크
@@ -474,6 +480,8 @@
 
             $xml_info->target_group = array();
 
+            $xml_info->mid_list = array();
+
             if($component->extra_vars) {
                 $extra_vars = unserialize($component->extra_vars);
 
@@ -481,6 +489,12 @@
                     $xml_info->target_group = $extra_vars->target_group;
                     unset($extra_vars->target_group);
                 }
+
+                if($extra_vars->mid_list) {
+                    $xml_info->mid_list = $extra_vars->mid_list;
+                    unset($extra_vars->mid_list);
+                }
+
 
                 if($xml_info->extra_vars) {
                     foreach($xml_info->extra_vars as $key => $val) {
