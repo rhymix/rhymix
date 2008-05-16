@@ -71,6 +71,7 @@
     $lang->notice = 'お知らせ';
     $lang->secret = '非公開';
     $lang->category = $lang->category_srl = 'カテゴリ';
+    $lang->none_category = 'None category';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザＩＤ';
     $lang->author = '作者';

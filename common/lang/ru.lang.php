@@ -71,6 +71,7 @@
     $lang->notice = 'Уведомление';
     $lang->secret = 'Секрет';
     $lang->category = $lang->category_srl = 'Категория';
+    $lang->none_category = 'None category';
     $lang->document_srl = 'Док. No.';
     $lang->user_id = 'Юзер ID';
     $lang->author = 'Разработчик';

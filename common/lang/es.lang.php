@@ -70,6 +70,7 @@
     $lang->notice = 'Aviso';
     $lang->secret = 'Secreto';
     $lang->category = $lang->category_srl = 'Categoría';
+    $lang->none_category = '분류없음';
     $lang->document_srl = 'Número del documento';
     $lang->user_id = 'Usuario';
     $lang->author = 'Autor';

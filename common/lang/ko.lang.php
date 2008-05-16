@@ -71,6 +71,7 @@
     $lang->notice = '공지';
     $lang->secret = '비밀';
     $lang->category = $lang->category_srl = '분류';
+    $lang->none_category = '분류 없음';
     $lang->document_srl = '문서번호';
     $lang->user_id = '아이디';
     $lang->author = '작성자';

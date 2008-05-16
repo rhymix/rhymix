@@ -71,6 +71,7 @@
     $lang->notice = 'Hinweis';
     $lang->secret = "Geheim";
     $lang->category = $lang->category_srl = 'Kategorie';
+    $lang->none_category = '분류없음';
     $lang->document_srl = 'Doc. No ';
     $lang->user_id = 'User-ID';
     $lang->author = 'Entwickler';
