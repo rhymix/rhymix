@@ -11,7 +11,6 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<thead>
 <!--@if($lang_type == 'ko')-->
 {@ $col_width = array(50,40,0,150,65,65,90,45)}
 <!--@else if($lang_type == 'en')-->
@@ -24,11 +23,14 @@
 {@ $col_width = array(50,40,0,150,75,75,90,50)}
 <!--@else if($lang_type == 'ru')-->
 {@ $col_width = array(50,40,0,150,75,75,90,95)}
+<!--@else if($lang_type == 'fr')-->
+{@ $col_width = array(50,40,0,150,65,90,90,60)}
 <!--@end-->
 
 <!--@foreach($col_width as $width)-->
 <col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
+<thead>
     <tr>
         <th scope="col">{$lang->no}</th>
         <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
@@ -63,7 +65,7 @@
         <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <tr>
-        <td colspan="6" class="left">
+        <td colspan="7" class="left">
             {cut_str(htmlspecialchars(strip_tags($val->content)),100,'...')}
         </td>
     </tr>

@@ -8,64 +8,23 @@
 
 <table cellspacing="0" class="adminTable">
 <!--@if($lang_type == 'ko')-->
-<col width="" />
-<col width="40" />
-<col width="80" />
-<col width="75" />
-<col width="70" />
-<col width="140" />
-<col width="70" />
-<col width="100" />
-
+{@ $col_width = array(0,40,80,75,70,140,70,100)}
 <!--@else if($lang_type == 'en')-->
-<col width="" />
-<col width="60" />
-<col width="80" />
-<col width="75" />
-<col width="70" />
-<col width="140" />
-<col width="50" />
-<col width="100" />
-
+{@ $col_width = array(0,60,80,75,70,140,50,100)}
 <!--@else if($lang_type == 'zh-CN')-->
-<col width="" />
-<col width="40" />
-<col width="80" />
-<col width="75" />
-<col width="60" />
-<col width="140" />
-<col width="65" />
-<col width="80" />
-
+{@ $col_width = array(0,40,80,75,60,140,65,80)}
 <!--@else if($lang_type == 'jp')-->
-<col width="" />
-<col width="80" />
-<col width="80" />
-<col width="70" />
-<col width="80" />
-<col width="140" />
-<col width="45" />
-<col width="100" />
-
+{@ $col_width = array(0,80,80,70,80,140,45,100)}
 <!--@else if($lang_type == 'es')-->
-<col width="" />
-<col width="60" />
-<col width="80" />
-<col width="75" />
-<col width="90" />
-<col width="140" />
-<col width="85" />
-<col width="75" />
-
+{@ $col_width = array(0,60,80,75,90,140,85,75)}
 <!--@else if($lang_type == 'ru')-->
-<col width="" />
-<col width="60" />
-<col width="90" />
-<col width="70" />
-<col width="70" />
-<col width="140" />
-<col width="95" />
-<col width="90" />
+{@ $col_width = array(0,60,90,70,70,140,95,90)}
+<!--@else if($lang_type == 'fr')-->
+{@ $col_width = array(0,60,80,70,75,140,70,90)}
+<!--@end-->
+
+<!--@foreach($col_width as $width)-->
+<col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
 <thead>
     <tr>

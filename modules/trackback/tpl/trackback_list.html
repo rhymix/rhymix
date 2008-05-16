@@ -32,7 +32,6 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<thead>
 <!--@if($lang_type == 'ko')-->
 {@ $col_width = array(50,40,0,0,0,65,90,45)}
 <!--@else if($lang_type == 'en')-->
@@ -45,6 +44,8 @@
 {@ $col_width = array(50,40,0,0,0,75,90,50)}
 <!--@else if($lang_type == 'ru')-->
 {@ $col_width = array(50,40,0,0,0,65,90,95)}
+<!--@else if($lang_type == 'fr')-->
+{@ $col_width = array(50,40,0,0,0,65,85,60)}
 <!--@end-->
 
 <!--@foreach($col_width as $width)-->
