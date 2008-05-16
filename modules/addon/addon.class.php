@@ -30,8 +30,10 @@
             // 몇가지 애드온을 기본 활성화 상태로 변경
             $oAddonController->doActivate('member_extra_info');
             $oAddonController->doActivate('counter');
-            $oAddonController->doActivate('blogapi');
+            //$oAddonController->doActivate('blogapi');
             $oAddonController->doActivate('referer');
+            $oAddonController->doActivate('autolink');
+            $oAddonController->doActivate('resize_image');
             $oAddonController->procAddonAdminToggleActivate();
             return new Object();
         }
