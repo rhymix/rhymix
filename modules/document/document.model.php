@@ -191,7 +191,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
+                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
                             else $args->{"s_".$search_target} = '';
                         break;
                     case 'member_srl' :

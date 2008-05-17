@@ -90,6 +90,8 @@
              * 출력할 컨텐츠 추출을 위한 인자 정리
              **/
             $args->module_srl = $module_srl; 
+            $args->search_target = 'is_secret';
+            $args->search_keyword = 'N';
             $args->page = 1;
             $args->list_count = 15;
             if($start_date) $args->start_date = $start_date;
