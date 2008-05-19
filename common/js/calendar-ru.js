@@ -11,14 +11,14 @@
 
 // full day names
 DyCalendar._DN = new Array
-("Sunday",
- "Monday",
- "Tuesday",
- "Wednesday",
- "Thursday",
- "Friday",
- "Saturday",
- "Sunday");
+("¬£¬à¬ã¬Ü¬â¬Ö¬ã¬Ö¬ß¬î¬Ö", 
+ "¬±¬à¬ß¬Ö¬Õ¬Ö¬Ý¬î¬ß¬Ú¬Ü", 
+ "¬£¬ä¬à¬â¬ß¬Ú¬Ü", 
+ "¬³¬â¬Ö¬Õ¬Ñ", 
+ "¬¹¬Ö¬ä¬Ó¬Ö¬â¬Ô", 
+ "¬±¬ñ¬ä¬ß¬Ú¬è¬Ñ", 
+ "¬³¬å¬Ò¬Ò¬à¬ä¬Ñ", 
+ "¬£¬à¬ã¬Ü¬â¬Ö¬ã¬Ö¬ß¬î¬Ö");
 
 // Please note that the following array of short day names (and the same goes
 // for short month names, _SMN) isn't absolutely necessary.  We give it here
@@ -34,14 +34,14 @@ DyCalendar._DN = new Array
 
 // short day names
 DyCalendar._SDN = new Array
-("Sun",
- "Mon",
- "Tue",
- "Wed",
- "Thu",
- "Fri",
- "Sat",
- "Sun");
+("Sun", 
+ "¬±¬¯", 
+ "¬£¬´", 
+ "Wed", 
+ "Thu", 
+ "¬±¬ñ¬ä", 
+ "¬³¬¢", 
+ "¬³¬à¬Ý¬ß¬è¬Ö");
 
 // First day of the week. "0" means display Sunday first, "1" means display
 // Monday first, etc.
@@ -49,37 +49,37 @@ DyCalendar._FD = 0;
 
 // full month names
 DyCalendar._MN = new Array
-("January",
- "February",
- "March",
- "April",
- "May",
- "June",
- "July",
- "August",
- "September",
- "October",
- "November",
- "December");
+("¬Á¬ß¬Ó¬Ñ¬â¬î", 
+ "¬¶¬Ö¬Ó¬â¬Ñ¬Ý¬î", 
+ "¬®¬Ñ¬â¬ä¬Ñ", 
+ "¬¡¬á¬â¬Ö¬Ý¬î", 
+ "¬®¬Ñ¬ñ", 
+ "¬ª¬ð¬ß¬î", 
+ "¬ª¬ð¬Ý¬î", 
+ "¬¡¬Ó¬Ô¬å¬ã¬ä", 
+ "¬³¬Ö¬ß¬ä¬ñ¬Ò¬â¬î", 
+ "¬°¬Ü¬ä¬ñ¬Ò¬â¬î", 
+ "¬¯¬à¬ñ¬Ò¬â¬î", 
+ "¬¥¬Ö¬Ü¬Ñ¬Ò¬â¬î");
 
 // short month names
 DyCalendar._SMN = new Array
-("Jan",
- "Feb",
- "Mar",
- "Apr",
- "May",
- "Jun",
- "Jul",
- "Aug",
- "Sep",
- "Oct",
- "Nov",
- "Dec");
+("¬Á¬ß¬Ó¬Ñ¬â¬î", 
+ "¬¶¬Ö¬Ó¬â¬Ñ¬Ý¬î", 
+ "¬®¬Ñ¬â¬ä¬Ñ", 
+ "¬¡¬á¬â¬Ö¬Ý¬î", 
+ "¬®¬Ñ¬ñ", 
+ "¬ª¬ð¬ß¬î", 
+ "¬ª¬ð¬Ý¬î", 
+ "¬¡¬Ó¬Ô¬å¬ã¬ä", 
+ "¬³¬Ö¬ß¬ä¬ñ¬Ò¬â¬î", 
+ "¬°¬Ü¬ä¬ñ¬Ò¬â¬î", 
+ "¬¯¬à¬ñ¬Ò¬â¬î", 
+ "¬¥¬Ö¬Ü¬Ñ¬Ò¬â¬î");
 
 // tooltips
 DyCalendar._TT = {};
-DyCalendar._TT["INFO"] = "About the calendar";
+DyCalendar._TT["INFO"] = "¬° ¬Ü¬Ñ¬Ý¬Ö¬ß¬Õ¬Ñ¬â¬Ö";
 
 DyCalendar._TT["ABOUT"] =
 "DHTML Date/Time Selector\n" +
@@ -97,31 +97,31 @@ DyCalendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or Shift-click to decrease it\n" +
 "- or click and drag for faster selection.";
 
-DyCalendar._TT["PREV_YEAR"] = "Prev. year (hold for menu)";
-DyCalendar._TT["PREV_MONTH"] = "Prev. month (hold for menu)";
-DyCalendar._TT["GO_TODAY"] = "Go Today";
-DyCalendar._TT["NEXT_MONTH"] = "Next month (hold for menu)";
-DyCalendar._TT["NEXT_YEAR"] = "Next year (hold for menu)";
-DyCalendar._TT["SEL_DATE"] = "Select date";
-DyCalendar._TT["DRAG_TO_MOVE"] = "Drag to move";
-DyCalendar._TT["PART_TODAY"] = " (today)";
+DyCalendar._TT [ "PREV_YEAR"] = "¬±¬â¬Ö¬Õ. ¬¤¬à¬Õ (¬å¬Õ¬Ö¬â¬Ø¬Ú¬Ó¬Ñ¬ä¬î ¬Õ¬Ý¬ñ ¬Þ¬Ö¬ß¬ð)"; 
+DyCalendar._TT [ "PREV_MONTH"] = "¬±¬â¬Ö¬Õ. ¬®¬Ö¬ã¬ñ¬è¬Ö (¬å¬Õ¬Ö¬â¬Ø¬Ú¬Ó¬Ñ¬ä¬î ¬Õ¬Ý¬ñ ¬Þ¬Ö¬ß¬ð)"; 
+DyCalendar._TT [ "GO_TODAY"] = "¬±¬Ö¬â¬Ö¬Û¬ä¬Ú ¬³¬Ö¬Ô¬à¬Õ¬ß¬ñ"; 
+DyCalendar._TT [ "NEXT_MONTH"] = "¬£ ¬ã¬Ý¬Ö¬Õ¬å¬ð¬ë¬Ö¬Þ ¬Þ¬Ö¬ã¬ñ¬è¬Ö (¬å¬Õ¬Ö¬â¬Ø¬Ú¬Ó¬Ñ¬ä¬î ¬Õ¬Ý¬ñ ¬Þ¬Ö¬ß¬ð)"; 
+DyCalendar._TT [ "NEXT_YEAR"] = "¬£ ¬ã¬Ý¬Ö¬Õ¬å¬ð¬ë¬Ö¬Þ ¬Ô¬à¬Õ¬å (¬å¬Õ¬Ö¬â¬Ø¬Ú¬Ó¬Ñ¬ä¬î ¬Õ¬Ý¬ñ ¬Þ¬Ö¬ß¬ð)"; 
+DyCalendar._TT [ "SEL_DATE"] = "¬£¬í¬Ò¬Ö¬â¬Ú¬ä¬Ö ¬Õ¬Ñ¬ä¬å"; 
+DyCalendar._TT [ "DRAG_TO_MOVE"] = "¬±¬Ö¬â¬Ö¬ä¬Ñ¬ã¬Ü¬Ú¬Ó¬Ñ¬Û¬ä¬Ö ¬Õ¬Ó¬Ú¬Ô¬Ñ¬ä¬î¬ã¬ñ"; 
+DyCalendar._TT [ "PART_TODAY"] = "(¬ã¬Ö¬Ô¬à¬Õ¬ß¬ñ)";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
-DyCalendar._TT["DAY_FIRST"] = "Display %s first";
+DyCalendar._TT [ "DAY_FIRST"] = "display% ¬ã ¬á¬Ö¬â¬Ó¬à¬Û";
 
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
 // means Monday, etc.
-DyCalendar._TT["WEEKEND"] = "0,6";
+DyCalendar._TT [ "WEEKEND"] = "0,6"; 
 
-DyCalendar._TT["CLOSE"] = "Close";
-DyCalendar._TT["TODAY"] = "Today";
-DyCalendar._TT["TIME_PART"] = "(Shift-)Click or drag to change value";
+DyCalendar._TT [ "CLOSE"] = "¬©¬Ñ¬Ü¬â¬í¬ä¬î"; 
+DyCalendar._TT [ "Today"] = "¬³¬Ö¬Ô¬à¬Õ¬ß¬ñ"; 
+DyCalendar._TT [ "TIME_PART"] = "(Shift-) ¬Ü¬Ý¬Ú¬Ü ¬Ú¬Ý¬Ú ¬á¬Ö¬â¬Ö¬ä¬Ñ¬ë¬Ú¬ä¬Ö ¬Õ¬Ý¬ñ ¬Ú¬Ù¬Þ¬Ö¬ß¬Ö¬ß¬Ú¬ñ ¬ã¬ä¬à¬Ú¬Þ¬à¬ã¬ä¬Ú";
 
 // date formats
-DyCalendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-DyCalendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
+DyCalendar._TT [ "DEF_DATE_FORMAT"] = "% Y-% ¬Þ-% ¬Ô"; 
+DyCalendar._TT [ "TT_DATE_FORMAT"] = "%,%% ¬Ö ¬Ò"; 
 
-DyCalendar._TT["WK"] = "wk";
-DyCalendar._TT["TIME"] = "Time:";
+DyCalendar._TT [ "WK"] = "¬¯¬Ö¬Õ"; 
+DyCalendar._TT [ "TIME"] = "¬£¬â¬Ö¬Þ¬ñ:";
