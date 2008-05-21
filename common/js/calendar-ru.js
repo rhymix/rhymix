@@ -1,8 +1,10 @@
 // ** I18N
 
-// DyCalendar EN language
+// DyCalendar RU language
 // Author: Mihai Bazon, <mihai_bazon@yahoo.com>
-// Encoding: any
+// Translation: bradly1, <bradly1@paran.com>
+// Encoding: UTF-8
+// lang : RU
 // Distributed under the same terms as the calendar itself.
 
 // For translators: please use UTF-8 if possible.  We strongly believe that
@@ -11,14 +13,14 @@
 
 // full day names
 DyCalendar._DN = new Array
-("¨£¨‡¨„¨‹¨‚¨÷¨„¨÷¨ﬂ¨Ó¨÷", 
- "¨±¨‡¨ﬂ¨÷¨’¨÷¨›¨Ó¨ﬂ¨⁄¨‹", 
- "¨£¨‰¨‡¨‚¨ﬂ¨⁄¨‹", 
- "¨≥¨‚¨÷¨’¨—", 
- "¨π¨÷¨‰¨”¨÷¨‚¨‘", 
- "¨±¨Ò¨‰¨ﬂ¨⁄¨Ë¨—", 
- "¨≥¨Â¨“¨“¨‡¨‰¨—", 
- "¨£¨‡¨„¨‹¨‚¨÷¨„¨÷¨ﬂ¨Ó¨÷");
+("–í–æ—Å–∫—Ä–µ—Å–µ–Ω—å–µ", 
+ "–ü–æ–Ω–µ–¥–µ–ª—å–Ω–∏–∫", 
+ "–í—Ç–æ—Ä–Ω–∏–∫", 
+ "–°—Ä–µ–¥–∞", 
+ "–ß–µ—Ç–≤–µ—Ä–≥", 
+ "–ü—è—Ç–Ω–∏—Ü–∞", 
+ "–°—É–±–±–æ—Ç–∞", 
+ "–í–æ—Å–∫—Ä–µ—Å–µ–Ω—å–µ");
 
 // Please note that the following array of short day names (and the same goes
 // for short month names, _SMN) isn't absolutely necessary.  We give it here
@@ -35,13 +37,13 @@ DyCalendar._DN = new Array
 // short day names
 DyCalendar._SDN = new Array
 ("Sun", 
- "¨±¨Ø", 
- "¨£¨¥", 
+ "–ü–ù", 
+ "–í–¢", 
  "Wed", 
  "Thu", 
- "¨±¨Ò¨‰", 
- "¨≥¨¢", 
- "¨≥¨‡¨›¨ﬂ¨Ë¨÷");
+ "–ü—è—Ç", 
+ "–°–ë", 
+ "–°–æ–ª–Ω—Ü–µ");
 
 // First day of the week. "0" means display Sunday first, "1" means display
 // Monday first, etc.
@@ -49,37 +51,37 @@ DyCalendar._FD = 0;
 
 // full month names
 DyCalendar._MN = new Array
-("¨¡¨ﬂ¨”¨—¨‚¨Ó", 
- "¨∂¨÷¨”¨‚¨—¨›¨Ó", 
- "¨Æ¨—¨‚¨‰¨—", 
- "¨°¨·¨‚¨÷¨›¨Ó", 
- "¨Æ¨—¨Ò", 
- "¨™¨¨ﬂ¨Ó", 
- "¨™¨¨›¨Ó", 
- "¨°¨”¨‘¨Â¨„¨‰", 
- "¨≥¨÷¨ﬂ¨‰¨Ò¨“¨‚¨Ó", 
- "¨∞¨‹¨‰¨Ò¨“¨‚¨Ó", 
- "¨Ø¨‡¨Ò¨“¨‚¨Ó", 
- "¨•¨÷¨‹¨—¨“¨‚¨Ó");
+("–Ø–Ω–≤–∞—Ä—å", 
+ "–§–µ–≤—Ä–∞–ª—å", 
+ "–ú–∞—Ä—Ç–∞", 
+ "–ê–ø—Ä–µ–ª—å", 
+ "–ú–∞—è", 
+ "–ò—é–Ω—å", 
+ "–ò—é–ª—å", 
+ "–ê–≤–≥—É—Å—Ç", 
+ "–°–µ–Ω—Ç—è–±—Ä—å", 
+ "–û–∫—Ç—è–±—Ä—å", 
+ "–ù–æ—è–±—Ä—å", 
+ "–î–µ–∫–∞–±—Ä—å");
 
 // short month names
 DyCalendar._SMN = new Array
-("¨¡¨ﬂ¨”¨—¨‚¨Ó", 
- "¨∂¨÷¨”¨‚¨—¨›¨Ó", 
- "¨Æ¨—¨‚¨‰¨—", 
- "¨°¨·¨‚¨÷¨›¨Ó", 
- "¨Æ¨—¨Ò", 
- "¨™¨¨ﬂ¨Ó", 
- "¨™¨¨›¨Ó", 
- "¨°¨”¨‘¨Â¨„¨‰", 
- "¨≥¨÷¨ﬂ¨‰¨Ò¨“¨‚¨Ó", 
- "¨∞¨‹¨‰¨Ò¨“¨‚¨Ó", 
- "¨Ø¨‡¨Ò¨“¨‚¨Ó", 
- "¨•¨÷¨‹¨—¨“¨‚¨Ó");
+("–Ø–Ω–≤–∞—Ä—å", 
+ "–§–µ–≤—Ä–∞–ª—å", 
+ "–ú–∞—Ä—Ç–∞", 
+ "–ê–ø—Ä–µ–ª—å", 
+ "–ú–∞—è", 
+ "–ò—é–Ω—å", 
+ "–ò—é–ª—å", 
+ "–ê–≤–≥—É—Å—Ç", 
+ "–°–µ–Ω—Ç—è–±—Ä—å", 
+ "–û–∫—Ç—è–±—Ä—å", 
+ "–ù–æ—è–±—Ä—å", 
+ "–î–µ–∫–∞–±—Ä—å");
 
 // tooltips
 DyCalendar._TT = {};
-DyCalendar._TT["INFO"] = "¨∞ ¨‹¨—¨›¨÷¨ﬂ¨’¨—¨‚¨÷";
+DyCalendar._TT["INFO"] = "–û –∫–∞–ª–µ–Ω–¥–∞—Ä–µ";
 
 DyCalendar._TT["ABOUT"] =
 "DHTML Date/Time Selector\n" +
@@ -97,31 +99,31 @@ DyCalendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or Shift-click to decrease it\n" +
 "- or click and drag for faster selection.";
 
-DyCalendar._TT [ "PREV_YEAR"] = "¨±¨‚¨÷¨’. ¨§¨‡¨’ (¨Â¨’¨÷¨‚¨ÿ¨⁄¨”¨—¨‰¨Ó ¨’¨›¨Ò ¨ﬁ¨÷¨ﬂ¨)"; 
-DyCalendar._TT [ "PREV_MONTH"] = "¨±¨‚¨÷¨’. ¨Æ¨÷¨„¨Ò¨Ë¨÷ (¨Â¨’¨÷¨‚¨ÿ¨⁄¨”¨—¨‰¨Ó ¨’¨›¨Ò ¨ﬁ¨÷¨ﬂ¨)"; 
-DyCalendar._TT [ "GO_TODAY"] = "¨±¨÷¨‚¨÷¨€¨‰¨⁄ ¨≥¨÷¨‘¨‡¨’¨ﬂ¨Ò"; 
-DyCalendar._TT [ "NEXT_MONTH"] = "¨£ ¨„¨›¨÷¨’¨Â¨¨Î¨÷¨ﬁ ¨ﬁ¨÷¨„¨Ò¨Ë¨÷ (¨Â¨’¨÷¨‚¨ÿ¨⁄¨”¨—¨‰¨Ó ¨’¨›¨Ò ¨ﬁ¨÷¨ﬂ¨)"; 
-DyCalendar._TT [ "NEXT_YEAR"] = "¨£ ¨„¨›¨÷¨’¨Â¨¨Î¨÷¨ﬁ ¨‘¨‡¨’¨Â (¨Â¨’¨÷¨‚¨ÿ¨⁄¨”¨—¨‰¨Ó ¨’¨›¨Ò ¨ﬁ¨÷¨ﬂ¨)"; 
-DyCalendar._TT [ "SEL_DATE"] = "¨£¨Ì¨“¨÷¨‚¨⁄¨‰¨÷ ¨’¨—¨‰¨Â"; 
-DyCalendar._TT [ "DRAG_TO_MOVE"] = "¨±¨÷¨‚¨÷¨‰¨—¨„¨‹¨⁄¨”¨—¨€¨‰¨÷ ¨’¨”¨⁄¨‘¨—¨‰¨Ó¨„¨Ò"; 
-DyCalendar._TT [ "PART_TODAY"] = "(¨„¨÷¨‘¨‡¨’¨ﬂ¨Ò)";
+DyCalendar._TT [ "PREV_YEAR"] = "–ü—Ä–µ–¥. –ì–æ–¥ (—É–¥–µ—Ä–∂–∏–≤–∞—Ç—å –¥–ª—è –º–µ–Ω—é)"; 
+DyCalendar._TT [ "PREV_MONTH"] = "–ü—Ä–µ–¥. –ú–µ—Å—è—Ü–µ (—É–¥–µ—Ä–∂–∏–≤–∞—Ç—å –¥–ª—è –º–µ–Ω—é)"; 
+DyCalendar._TT [ "GO_TODAY"] = "–ü–µ—Ä–µ–π—Ç–∏ –°–µ–≥–æ–¥–Ω—è"; 
+DyCalendar._TT [ "NEXT_MONTH"] = "–í —Å–ª–µ–¥—É—é—â–µ–º –º–µ—Å—è—Ü–µ (—É–¥–µ—Ä–∂–∏–≤–∞—Ç—å –¥–ª—è –º–µ–Ω—é)"; 
+DyCalendar._TT [ "NEXT_YEAR"] = "–í —Å–ª–µ–¥—É—é—â–µ–º –≥–æ–¥—É (—É–¥–µ—Ä–∂–∏–≤–∞—Ç—å –¥–ª—è –º–µ–Ω—é)"; 
+DyCalendar._TT [ "SEL_DATE"] = "–í—ã–±–µ—Ä–∏—Ç–µ –¥–∞—Ç—É"; 
+DyCalendar._TT [ "DRAG_TO_MOVE"] = "–ü–µ—Ä–µ—Ç–∞—Å–∫–∏–≤–∞–π—Ç–µ –¥–≤–∏–≥–∞—Ç—å—Å—è"; 
+DyCalendar._TT [ "PART_TODAY"] = "(—Å–µ–≥–æ–¥–Ω—è)";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
-DyCalendar._TT [ "DAY_FIRST"] = "display% ¨„ ¨·¨÷¨‚¨”¨‡¨€";
+DyCalendar._TT [ "DAY_FIRST"] = "display% —Å –ø–µ—Ä–≤–æ–π";
 
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
 // means Monday, etc.
 DyCalendar._TT [ "WEEKEND"] = "0,6"; 
 
-DyCalendar._TT [ "CLOSE"] = "¨©¨—¨‹¨‚¨Ì¨‰¨Ó"; 
-DyCalendar._TT [ "Today"] = "¨≥¨÷¨‘¨‡¨’¨ﬂ¨Ò"; 
-DyCalendar._TT [ "TIME_PART"] = "(Shift-) ¨‹¨›¨⁄¨‹ ¨⁄¨›¨⁄ ¨·¨÷¨‚¨÷¨‰¨—¨Î¨⁄¨‰¨÷ ¨’¨›¨Ò ¨⁄¨Ÿ¨ﬁ¨÷¨ﬂ¨÷¨ﬂ¨⁄¨Ò ¨„¨‰¨‡¨⁄¨ﬁ¨‡¨„¨‰¨⁄";
+DyCalendar._TT [ "CLOSE"] = "–ó–∞–∫—Ä—ã—Ç—å"; 
+DyCalendar._TT [ "Today"] = "–°–µ–≥–æ–¥–Ω—è"; 
+DyCalendar._TT [ "TIME_PART"] = "(Shift-) –∫–ª–∏–∫ –∏–ª–∏ –ø–µ—Ä–µ—Ç–∞—â–∏—Ç–µ –¥–ª—è –∏–∑–º–µ–Ω–µ–Ω–∏—è —Å—Ç–æ–∏–º–æ—Å—Ç–∏";
 
 // date formats
-DyCalendar._TT [ "DEF_DATE_FORMAT"] = "% Y-% ¨ﬁ-% ¨‘"; 
-DyCalendar._TT [ "TT_DATE_FORMAT"] = "%,%% ¨÷ ¨“"; 
+DyCalendar._TT [ "DEF_DATE_FORMAT"] = "% Y-% –º-% –≥"; 
+DyCalendar._TT [ "TT_DATE_FORMAT"] = "%,%% –µ –±"; 
 
-DyCalendar._TT [ "WK"] = "¨Ø¨÷¨’"; 
-DyCalendar._TT [ "TIME"] = "¨£¨‚¨÷¨ﬁ¨Ò:";
+DyCalendar._TT [ "WK"] = "–ù–µ–¥"; 
+DyCalendar._TT [ "TIME"] = "–í—Ä–µ–º—è:";

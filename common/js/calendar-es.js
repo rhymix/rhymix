@@ -1,6 +1,6 @@
 // ** I18N
 
-// DyCalendar KO language
+// DyCalendar ES language
 // Author: Mihai Bazon, <mihai_bazon@yahoo.com>
 // Translation: Bradly1, <bradly1@paran.com>
 // Encoding: UTF-8
@@ -87,21 +87,18 @@ DyCalendar._TT["INFO"] = "Sobre el calendario";
 DyCalendar._TT["ABOUT"] =
 "DHTML Date/Time Selector\n" +
 "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
-"\n"+
-"최신 버전을 받으시려면 http://www.dynarch.com/projects/calendar/ 에 방문하세요\n" +
-"\n"+
-"GNU LGPL 라이센스로 배포됩니다. \n"+
-"라이센스에 대한 자세한 내용은 http://gnu.org/licenses/lgpl.html 을 읽으세요." +
+"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
+"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
 "\n\n" +
-"날짜 선택:\n" +
-"- 연도를 선택하려면 \xab, \xbb 버튼을 사용합니다\n" +
-"- 달을 선택하려면 " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " 버튼을 누르세요\n" +
-"- 계속 누르고 있으면 위 값들을 빠르게 선택하실 수 있습니다.";
+"Date selection:\n" +
+"- Use the \xab, \xbb buttons to select year\n" +
+"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
+"- Hold mouse button on any of the above buttons for faster selection.";
 DyCalendar._TT["ABOUT_TIME"] = "\n\n" +
-"시간 선택:\n" +
-"- 마우스로 누르면 시간이 증가합니다\n" +
-"- Shift 키와 함께 누르면 감소합니다\n" +
-"- 누른 상태에서 마우스를 움직이면 좀 더 빠르게 값이 변합니다.\n";
+"Time selection:\n" +
+"- Click on any of the time parts to increase it\n" +
+"- or Shift-click to decrease it\n" +
+"- or click and drag for faster selection.";
 
 DyCalendar._TT["PREV_YEAR"] = "Prev. año (mantener para menu)";
 DyCalendar._TT["PREV_MONTH"] = "Prev. mes (mantener para menu)";

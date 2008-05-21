@@ -1,15 +1,15 @@
 <?php
     /**
-     * @Datei common / lang / en.lang.php
+     * @Datei common/lang/ge.lang.php
      * @Author zero (zero@nzeo.com)
-     * @Kurzen English Language Pack (nur einfache Worte sind hier eingeschlossen)
+     * @Kurzen german Language Pack (nur einfache Worte sind hier eingeschlossen)
      **/
 
     // Worte für Aktion, die im Grunde verwendet
     $lang->cmd_write = 'Schreiben';
     $lang->cmd_reply = 'Antworten';
     $lang->cmd_delete = 'Löschen';
-    $lang->cmd_modify = 'Change';
+    $lang->cmd_modify = 'Ändern';
     $lang->cmd_edit = 'Bearbeiten';
     $lang->cmd_view = 'Anzeigen';
     $lang->cmd_view_all = 'Alle anzeigen';
@@ -41,11 +41,11 @@
     $lang->cmd_make = 'Erstellen';
     $lang->cmd_select = 'Select';
     $lang->cmd_select_all = 'Alle auswählen';
-    $lang->cmd_unselect_all = "Alle abwählen";
+    $lang->cmd_unselect_all = 'Alle abwählen';
     $lang->cmd_reverse_all = 'Reverse';
     $lang->cmd_close_all = 'Schließen Sie alle';
     $lang->cmd_open_all = 'Open All';
-    $lang->cmd_reload = "Reload";
+    $lang->cmd_reload = 'Reload';
     $lang->cmd_close = 'Schließen';
     $lang->cmd_open = 'Open';
     $lang->cmd_setup = 'Konfiguration';
@@ -58,18 +58,18 @@
     $lang->cmd_scrap = 'Schrott';
     $lang->cmd_preview = 'Vorschau';
     $lang->cmd_reset = 'Reset';
-    $lang->cmd_remake_cache = "Re-Cache-Datei erstellen";
-    $lang->cmd_publish = "Veröffentlichen";
+    $lang->cmd_remake_cache = 'Re-Cache-Datei erstellen';
+    $lang->cmd_publish = 'Veröffentlichen';
     $lang->cmd_layout_setup = 'Konfiguration Layout';
     $lang->cmd_layout_edit = 'Layout bearbeiten';
 
-    $lang->enable = "Aktivieren";
+    $lang->enable = 'Aktivieren';
     $lang->deaktivieren = 'Deaktivieren';
 
     // Essential Words
     $lang->no = 'Nein';
     $lang->notice = 'Hinweis';
-    $lang->secret = "Geheim";
+    $lang->secret = 'Geheim';
     $lang->category = $lang->category_srl = 'Kategorie';
     $lang->none_category = '분류없음';
     $lang->document_srl = 'Doc. No ';
@@ -91,7 +91,7 @@
     $lang->title_content = 'Betreff + Inhalt';
     $lang->topic = 'Thema';
     $lang->replies = 'Antwort';
-    $lang->content = "Inhalt";
+    $lang->content = 'Inhalt';
     $lang->document = 'Artikel';
     $lang->comment = 'Kommentar';
     $lang->description = 'Beschreibung';
@@ -117,7 +117,7 @@
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';
-    $lang->widget = "Widget";
+    $lang->widget = 'Widget';
     $lang->module = 'Modul';
     $lang->skin = 'Thema';
     $lang->colorset = 'Colorset';
@@ -141,7 +141,7 @@
     $lang->last_update = 'Letzte Aktualisierung';
     $lang->last_post = 'Letzter Beitrag';
     $lang->signup_date = 'Join Date';
-    $lang->last_login = "Letzter Login";
+    $lang->last_login = 'Letzter Login';
     $lang->first_page = 'Erste Seite';
     $lang->last_page = 'Letzte Seite';
     $lang->search_target = 'Target für die Google-Suche';
@@ -156,7 +156,7 @@
 
     $lang->use = 'Use';
     $lang->notuse = 'nicht verwenden';
-    $lang->not_exists = "nicht vorhanden";
+    $lang->not_exists = 'nicht vorhanden';
 
     $lang->public = 'öffentlich';
     $lang->private = 'private';
@@ -166,7 +166,7 @@
     $lang->unit_hour = 'h';
     $lang->unit_day = 'th';
     $lang->unit_week = 'Woche';
-    $lang->unit_month = "Monat";
+    $lang->unit_month = 'Monat';
     $lang->unit_year = 'Jahr';
 
     // Beschreibungen
@@ -225,15 +225,15 @@
     $lang->column_type_list['tel'] = 'Telefonnummer';
     $lang->column_type_list['textarea'] = 'Multi-line textarea';
     $lang->column_type_list['checkbox'] = 'Checkbox (multiple Auswahl)';
-    $lang->column_type_list['select'] = "select box (Einzel-Auswahl) ';
-    $lang->column_type_list['kr_zip'] = 'Postleitzahl (Koreanisch) ";
+    $lang->column_type_list['select'] = 'select box (Einzel-Auswahl) ';
+    $lang->column_type_list['kr_zip'] = 'Postleitzahl (Koreanisch) ';
     $lang->column_type_list['date'] = 'Datum (jjjj / mm / dd)';
     // $lang->column_type_list [ 'jp_zip'] = 'Postleitzahl (Japanisch)';
     $lang->column_name = 'Spaltenname';
     $lang->column_title = 'Spaltentitel';
     $lang->default_value = 'Standardwert';
     $lang->is_active = 'Aktiv';
-    $lang->is_required = "Pflichtfeld";
+    $lang->is_required = 'Pflichtfeld';
 
     // Alert Nachrichten für JavaScript unter Verwendung von XML-Filter
     $lang->filter->isnull = 'Bitte geben Sie einen Wert für% s';
