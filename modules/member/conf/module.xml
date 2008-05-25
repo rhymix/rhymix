@@ -33,6 +33,7 @@
         <action name="dispMemberAdminInsertJoinForm" type="view" standalone="true" />
         <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
         <action name="dispMemberAdminManageGroup" type="view" standalone="true" />
+        <action name="dispMemberAdminDeleteMembers" type="view" standalone="true" />
 
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
@@ -82,6 +83,7 @@
         <action name="procMemberAdminInsertGroup" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateGroup" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateMembersGroup" type="controller" standalone="true" />
+        <action name="procMemberAdminDeleteMembers" type="controller" standalone="true" />
         <action name="procMemberAdminInsertJoinForm" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateJoinForm" type="controller" standalone="true" />
         <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" />
