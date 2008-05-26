@@ -306,6 +306,7 @@ function doManageMemberGroup() {
 /* 그룹 일괄 변경 후 */
 function completeUpdateMemberGroup(ret_obj) {
     alert(ret_obj['message']);
+    opener.location.href = opener.current_url;
     window.close();
 }
 
@@ -333,6 +334,7 @@ function doDeleteMembers() {
 /* 일괄 삭제 후 */
 function completeDeleteMembers(ret_obj) {
     alert(ret_obj['message']);
+    opener.location.href = opener.current_url;
     window.close();
 }
 
