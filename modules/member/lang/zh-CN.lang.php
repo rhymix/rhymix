@@ -21,12 +21,6 @@
     $lang->invalid_user_id= '该用户名不存在，请检查您的输入是否有误！';
     $lang->invalid_password = '您的密码不正确！';
     $lang->allow_mailing = '接收邮件';
-    $lang->allow_message = '允许接收短消息';
-    $lang->allow_message_type = array(
-             'Y' => '全部接收',
-             'N' => '拒收',
-             'F' => '只允许好友',
-        );
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理权限';
     $lang->group = '用户组';
@@ -55,10 +49,6 @@
     $lang->redirect_url = '注册会员后页面转向';
     $lang->agreement = '会员注册条款';
     $lang->accept_agreement = '同意条款';
-    $lang->sender = '寄件人';
-    $lang->receiver = '收件人';
-    $lang->friend_group = '好友组';
-    $lang->default_friend_group = '组未指定';
     $lang->member_info = '会员信息';
     $lang->current_password = '当前密码';
     $lang->openid = 'OpenID';
@@ -80,13 +70,6 @@
         'extra_vars' => '扩展变数',
     );
 
-    $lang->message_box = array(
-        'R' => '收件箱',
-        'S' => '发件箱',
-        'T' => '保管箱',
-    );
-
-    $lang->readed_date = "阅读日期"; 
 
     $lang->cmd_login = '登录';
     $lang->cmd_logout = '退出';
@@ -107,14 +90,6 @@
     $lang->cmd_view_scrapped_document = '查看收藏';
     $lang->cmd_view_saved_document = '查看临时保存箱';
     $lang->cmd_send_email = '发送邮件';
-    $lang->cmd_send_message = '发送短消息';
-    $lang->cmd_reply_message = '回复短消息';
-    $lang->cmd_view_friend = '查看好友';
-    $lang->cmd_add_friend = '加为好友';
-    $lang->cmd_view_message_box = '查看短信箱';
-    $lang->cmd_store = "保管";
-    $lang->cmd_add_friend_group = '添加好友组';
-    $lang->cmd_rename_friend_group = '修改好友组名称';
 
     $lang->msg_email_not_exists = "没有找到您输入的Email地址。";
 
@@ -135,9 +110,6 @@
     $lang->msg_success_authed = '新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。';
     $lang->msg_success_confirmed = '注册信息已成功激活！';
 
-    $lang->msg_no_message = '没有短消息。';
-    $lang->message_received = '您有新消息。';
-
     $lang->msg_new_member = '会员注册';
     $lang->msg_update_member = '修改会员信息';
     $lang->msg_leave_member = '注销会员';
@@ -151,10 +123,6 @@
     $lang->msg_signup_disabled = '不能注册会员';
     $lang->msg_already_logged = '您是注册会员。';
     $lang->msg_not_logged = '您还没有登录。';
-    $lang->msg_title_is_null = '请输入短消息标题。';
-    $lang->msg_content_is_null = '请输入内容。';
-    $lang->msg_allow_message_to_friend = '因其为只允许接收好友短消息的用户，所以不能发送短消息。';
-    $lang->msg_disallow_message = '因其为拒绝接收短消息的用户，所以不能发送短消息。';
     $lang->msg_insert_group_name = '请输入组名称';
     $lang->msg_check_group = '请选择组';
 
@@ -177,7 +145,6 @@
     $lang->about_blog_url = '请输入博客地址。';
     $lang->about_birthday = '请输入您的出生年月日。';
     $lang->about_allow_mailing = '如不选择此项，以后不能接收站内发送的重要信息。';
-    $lang->about_allow_message = '可以选择短消息接收与否。';
     $lang->about_denied = '选择时不能使用此用户名。';
     $lang->about_is_admin = '选择时将具有最高管理权限。';
     $lang->about_description = '管理员对会员的笔记。';

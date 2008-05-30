@@ -77,19 +77,19 @@
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
             if(!$config->editor_skin) $config->editor_skin = "default";
-
-            // 에디터 스킨 목록을 구함
-            $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
-            Context::set('editor_skin_list', $editor_skin_list);
-
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
-            // 에디터를 받음
+            // 에디터 모델 객체 생성
             $oEditorModel = &getModel('editor');
+
+            // 에디터 스킨 목록을 구함
+            Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+            // 에디터를 받음
             $option->primary_key_name = 'temp_srl';
             $option->content_key_name = 'agreement';
             $option->allow_fileupload = false;

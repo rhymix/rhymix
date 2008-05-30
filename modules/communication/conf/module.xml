@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+
+        <action name="dispCommunicationMessages" type="view" standalone="true" />
+        <action name="dispCommunicationSendMessage" type="view" standalone="true" />
+        <action name="dispCommunicationNewMessage" type="view" standalone="true" />
+
+        <action name="dispCommunicationFriend" type="view" standalone="true" />
+        <action name="dispCommunicationAddFriend" type="view" standalone="true" />
+        <action name="dispCommunicationAddFriendGroup" type="view" standalone="true" />
+
+        <action name="procCommunicationUpdateAllowMessage" type="controller" standalone="true" />
+        <action name="procCommunicationSendMessage" type="controller" standalone="true" />
+        <action name="procCommunicationStoreMessage" type="controller" standalone="true" />
+        <action name="procCommunicationDeleteMessage" type="controller" standalone="true" />
+        <action name="procCommunicationDeleteMessages" type="controller" standalone="true" />
+
+        <action name="procCommunicationAddFriend" type="controller" standalone="true" />
+        <action name="procCommunicationMoveFriend" type="controller" standalone="true" />
+        <action name="procCommunicationDeleteFriend" type="controller" standalone="true" />
+
+        <action name="procCommunicationAddFriendGroup" type="controller" standalone="true" />
+        <action name="procCommunicationRenameFriendGroup" type="controller" standalone="true" />
+        <action name="procCommunicationDeleteFriendGroup" type="controller" standalone="true" />
+
+        <action name="getCommunicationAdminColorset" type="model" standalone="true" />
+        <action name="procCommunicationAdminInsertConfig" type="controller" standalone="true" />
+        <action name="dispCommunicationAdminConfig" type="view" standalone="true" admin_index="true" />
+    </actions>
+</module>

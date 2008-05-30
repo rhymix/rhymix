@@ -21,12 +21,6 @@
     $lang->invalid_user_id= "You have entered an invalid ID";
     $lang->invalid_password = 'You have entered an invalid password';
     $lang->allow_mailing = 'Join Mailing';
-    $lang->allow_message = 'Receive Messages';
-    $lang->allow_message_type = array(
-             'Y' => 'Receive All',
-             'N' => 'Reject All',
-             'F' => 'Only Friends',
-        );
     $lang->denied = 'Prohibited';
     $lang->is_admin = 'Superadmin Permission';
     $lang->group = 'Assigned Group';
@@ -55,10 +49,6 @@
     $lang->redirect_url = 'URL after Join';
     $lang->agreement = 'Member Join Agreement';
     $lang->accept_agreement = 'Agree';
-    $lang->sender = 'Sender';
-    $lang->receiver = 'Receiver';
-    $lang->friend_group = 'Friend Group';
-    $lang->default_friend_group = 'Unassigned Group';
     $lang->member_info = 'Member Info';
     $lang->current_password = 'Current Password';
     $lang->openid = 'OpenID';
@@ -80,14 +70,6 @@
         'extra_vars' => 'Extra Vars',
     );
 
-    $lang->message_box = array(
-        'R' => 'Received',
-        'S' => 'Sent',
-        'T' => 'Mailbox',
-    );
-
-    $lang->readed_date = "Read Date"; 
-
     $lang->cmd_login = 'Login';
     $lang->cmd_logout = 'Logout';
     $lang->cmd_signup = 'Join';
@@ -107,14 +89,6 @@
     $lang->cmd_view_scrapped_document = 'Scraps';
     $lang->cmd_view_saved_document = 'Saved Articles';
     $lang->cmd_send_email = 'Send Mail';
-    $lang->cmd_send_message = 'Send Message';
-    $lang->cmd_reply_message = 'Reply Message';
-    $lang->cmd_view_friend = 'Friends';
-    $lang->cmd_add_friend = 'Add to Friends';
-    $lang->cmd_view_message_box = 'Message Box';
-    $lang->cmd_store = "Save";
-    $lang->cmd_add_friend_group = 'Add Friend Group';
-    $lang->cmd_rename_friend_group = 'Modify Friend Group Name';
 
     $lang->msg_email_not_exists = "You have entered an invalid email address";
 
@@ -135,9 +109,6 @@
     $lang->msg_success_authed = 'Your account has been successfully certificated and logged on.\n Please modify the password to your own one with the password in the mail.';
     $lang->msg_success_confirmed = 'The autentication completed successfully.';
 
-    $lang->msg_no_message = 'There is no message';
-    $lang->message_received = 'You have a new message';
-
     $lang->msg_new_member = 'Add Member';
     $lang->msg_update_member = 'Modify Member Info';
     $lang->msg_leave_member = 'Leave';
@@ -151,10 +122,6 @@
     $lang->msg_signup_disabled = 'You are not able to sign up';
     $lang->msg_already_logged = 'You have already signed up';
     $lang->msg_not_logged = 'Please login first';
-    $lang->msg_title_is_null = 'Please input the title of message';
-    $lang->msg_content_is_null = 'Please input the content';
-    $lang->msg_allow_message_to_friend = "Failed to send because receiver only allows friends' messages";
-    $lang->msg_disallow_message = 'Failed to send because receiver rejects message reception';
     $lang->msg_insert_group_name = 'Please input the name of group';
     $lang->msg_check_group = 'Please select the group';
 
@@ -177,7 +144,6 @@
     $lang->about_blog_url = 'Please input if you have your blogs';
     $lang->about_birthday = 'Please input your birth date';
     $lang->about_allow_mailing = "If you don't join mailing, you will not able to receive group mail";
-    $lang->about_allow_message = 'You can decide message reception';
     $lang->about_denied = 'Check to prohibit the ID';
     $lang->about_is_admin = 'Check to give Superadmin permission';
     $lang->about_description = "Administrator's memo about members";

@@ -366,7 +366,7 @@
                 $sender_args->message_srl = getNextSequence();
                 $sender_args->list_order = $sender_args->message_srl * -1;
 
-                $output = executeQuery('member.sendMessage', $sender_args);
+                $output = executeQuery('communication.sendMessage', $sender_args);
                 if($output->toBool()) {
                     // 받는 회원의 쪽지함에 넣을 쪽지
                     $receiver_args->message_srl = $sender_args->related_srl;
@@ -380,7 +380,7 @@
                     $receiver_args->readed = $obj->readed;
                     $receiver_args->regdate = $obj->regdate;
                     $receiver_args->readed_date = $obj->readed_date;
-                    $output = executeQuery('member.sendMessage', $receiver_args);
+                    $output = executeQuery('communication.sendMessage', $receiver_args);
                 }
             }
 

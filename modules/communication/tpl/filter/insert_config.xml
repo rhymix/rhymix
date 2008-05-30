@@ -1,0 +1,7 @@
+<filter name="insert_config" module="communication" act="procCommunicationAdminInsertConfig" confirm_msg_code="confirm_submit">
+    <form />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

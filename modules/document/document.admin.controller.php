@@ -68,7 +68,7 @@
             // 쪽지 발송
             if($message_content) {
 
-                $oMemberController = &getController('member');
+                $oCommunicationController = &getController('communication');
                 $oDocumentModel = &getModel('document');
 
                 $logged_info = Context::get('logged_info');
@@ -83,9 +83,9 @@
 
                     if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
                     else $purl = "";
-                    $content .= sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent());
+                    $content .= sprintf("<div>%s</div><hr />%s<div style=\"font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
 
-                    $oMemberController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
+                    $oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
                 }
             }
 

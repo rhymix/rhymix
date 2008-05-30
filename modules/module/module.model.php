@@ -596,6 +596,8 @@
 
             // 다운받은 모듈과 설치된 모듈의 목록을 구함
             $searched_list = FileHandler::readDir('./modules');
+            sort($searched_list);
+
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 

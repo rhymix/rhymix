@@ -21,12 +21,6 @@
     $lang->invalid_user_id= "Указанный ID не существует";
     $lang->invalid_password = 'Неверный пароль';
     $lang->allow_mailing = 'Присоединиться к списку рассылки';
-    $lang->allow_message = 'Разрешить прием сообщений';
-    $lang->allow_message_type = array(
-             'Y' => 'Принимать все',
-             'N' => 'Отклонять все',
-             'F' => 'Только друзья',
-        );
     $lang->denied = 'Отказано';
     $lang->is_admin = 'Суперадминистративные права';
     $lang->group = 'Присвоенная группа';
@@ -54,10 +48,6 @@
     $lang->redirect_url = 'URL после регистрации';
     $lang->agreement = 'Пользовательское соглашение о регистрации';
     $lang->accept_agreement = 'Согласен';
-    $lang->sender = 'Отправитель';
-    $lang->receiver = 'Получатель';
-    $lang->friend_group = 'Группа друзей';
-    $lang->default_friend_group = 'Неприсвоенная группа';
     $lang->member_info = 'Пользовательская информация';
     $lang->current_password = 'Текущий пароль';
     $lang->openid = 'OpenID';
@@ -78,13 +68,6 @@
         'extra_vars' => 'Экстра перем.',
     );
 
-    $lang->message_box = array(
-        'R' => 'Принятые',
-        'S' => 'Отправленные',
-        'T' => 'Почтовый ящик',
-    );
-
-    $lang->readed_date = "Дата прочтения"; 
 
     $lang->cmd_login = 'Войти';
     $lang->cmd_logout = 'Выйти';
@@ -105,14 +88,6 @@
     $lang->cmd_view_scrapped_document = 'Черновики';
     $lang->cmd_view_saved_document = 'Просмотреть сохраненные статьи';
     $lang->cmd_send_email = 'Отправить почту';
-    $lang->cmd_send_message = 'Отправить сообщение';
-    $lang->cmd_reply_message = 'Ответить';
-    $lang->cmd_view_friend = 'Дзузья';
-    $lang->cmd_add_friend = 'Сделать другом';
-    $lang->cmd_view_message_box = 'Ящик сообщений';
-    $lang->cmd_store = "Сохранить";
-    $lang->cmd_add_friend_group = 'Добавить группу друзей';
-    $lang->cmd_rename_friend_group = 'Изменить имя группы друзей';
 
     $lang->msg_email_not_exists = "Email адрес не существует";
 
@@ -133,8 +108,6 @@
     $lang->msg_success_authed = 'Ваш аккаунт был успешно аутентифицирован.\nВход произведен. Пожалуйста, измените пароль на Ваш собственный.';
     $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
-    $lang->msg_no_message = 'Нет сообщений';
-    $lang->message_received = 'Новое сообщение';
 
     $lang->msg_new_member = 'Добавить пользователя';
     $lang->msg_update_member = 'Изменить информацию пользователя';
@@ -149,10 +122,6 @@
     $lang->msg_signup_disabled = 'Вы не можете зарегистрироваться';
     $lang->msg_already_logged = 'Вы уже зарегистрированы';
     $lang->msg_not_logged = 'Пожалуйста, сначала войдите';
-    $lang->msg_title_is_null = 'Пожалуйста, введите тему сообщения';
-    $lang->msg_content_is_null = 'Пожалуйста, введите содержание';
-    $lang->msg_allow_message_to_friend = "Отправка провалена, поскольку получатель принимает сообщения только от друзей";
-    $lang->msg_disallow_message = 'Отправка провалена, поскольку получатель отклоняет прием сообщений';
     $lang->msg_insert_group_name = 'Пожалуйста, введите имя группы';
     $lang->msg_check_group = 'Введите имя группы';
 
@@ -174,7 +143,6 @@
     $lang->about_blog_url = 'Пожалуйста, введите, если у Вас есть блог';
     $lang->about_birthday = 'Пожалуйста, введите Вашу дату рождения';
     $lang->about_allow_mailing = "Если Вы не присоединитесь к списку рассылки, Вы не сможете получать почтовые сообщения, направленные Вашей группе";
-    $lang->about_allow_message = 'Вы можете определить политику принятия сообщений';
     $lang->about_denied = 'Запретить ID';
     $lang->about_is_admin = 'Наделить Суперадминистративными правами';
     $lang->about_description = "Заметки администратора о пользователях";

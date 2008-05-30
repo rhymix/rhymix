@@ -2,7 +2,7 @@
     /**
      * @file   es.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  English Language Pack (Only Basic Things)
+     * @brief  Spanish Language Pack (Only Basic Things)
      **/
 
     $lang->member = 'Usuario';
@@ -21,12 +21,6 @@
     $lang->invalid_user_id= "Este ID no existe";
     $lang->invalid_password = 'Contraseña incorrecta';
     $lang->allow_mailing = 'Registro del envío de mail';
-    $lang->allow_message = 'Permitir la recepción del mensaje';
-    $lang->allow_message_type = array(
-             'Y' => 'Recibir todo',
-             'N' => 'Rechazar',
-             'F' => 'Sólo amigos',
-        );
     $lang->denied = 'Prohibido';
     $lang->is_admin = 'Atribución del administrador superior';
     $lang->group = 'Grupo asignado';
@@ -54,10 +48,6 @@
     $lang->redirect_url = 'URL luego del registro';
     $lang->agreement = 'Acuerdo del registro del usuario';
     $lang->accept_agreement = 'Acepto';
-    $lang->sender = 'Remitente';
-    $lang->receiver = 'Receptor';
-    $lang->friend_group = 'Grupo de amigos';
-    $lang->default_friend_group = 'Grupo desasignado';
     $lang->member_info = 'Información del Usuario';
     $lang->current_password = 'Contraseña actual';
     $lang->openid = 'OpenID';
@@ -79,13 +69,6 @@
         'extra_vars' => 'Variables Extra',
     );
 
-    $lang->message_box = array(
-        'R' => 'Recibido',
-        'S' => 'Enviado',
-        'T' => 'Buzon de Email',
-    );
-
-    $lang->readed_date = "Fecha Leído"; 
 
     $lang->cmd_login = 'Conectar';
     $lang->cmd_logout = 'Desconectar';
@@ -106,14 +89,6 @@
     $lang->cmd_view_scrapped_document = 'Ver Scraps';
     $lang->cmd_view_saved_document = 'Ver artículos guardados';
     $lang->cmd_send_email = 'Enviar Email';
-    $lang->cmd_send_message = 'Enviar Mensaje';
-    $lang->cmd_reply_message = 'Responder el mensaje';
-    $lang->cmd_view_friend = 'Amigos';
-    $lang->cmd_add_friend = 'Registrar como Amigo';
-    $lang->cmd_view_message_box = 'Buzón de mensajes';
-    $lang->cmd_store = "Guardar";
-    $lang->cmd_add_friend_group = 'agregar grupo de amigos';
-    $lang->cmd_rename_friend_group = 'Cambiar el nombre del grupo de amigos';
 
     $lang->msg_email_not_exists = "Email address doesn't exists";
 
@@ -134,9 +109,6 @@
     $lang->msg_success_authed = 'Esto no es válido solicitud de autenticación. <br /> Por favor, inténtelo encontrar información de la cuenta o póngase en contacto con el administrador.';
     $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
-    $lang->msg_no_message = 'No hay mensajes';
-    $lang->message_received = 'Usted ha recibido un mensaje';
-
     $lang->msg_new_member = 'Agregar usuario';
     $lang->msg_update_member = 'Modificar información del usuario';
     $lang->msg_leave_member = 'Dejar de ser usuario';
@@ -150,10 +122,6 @@
     $lang->msg_signup_disabled = 'Usted no puede ser registrado';
     $lang->msg_already_logged = 'Usted ya ha sido registrado';
     $lang->msg_not_logged = 'Por favor conectese primero';
-    $lang->msg_title_is_null = 'Por favor ingresar el título de la nota';
-    $lang->msg_content_is_null = 'Por favor ingresar el contenido';
-    $lang->msg_allow_message_to_friend = "Falló el envío por permitir sólo mensajes de sus amigos";
-    $lang->msg_disallow_message = 'Falló el envío por ser usuario rechazado para recibir mensajes';
     $lang->msg_insert_group_name = 'Por favor ingresar el nombre del grupo';
     $lang->msg_check_group = 'Introduce nombre de grupo';
 
@@ -175,7 +143,6 @@
     $lang->about_blog_url = 'Ingresar su blog, si es que lo tiene';
     $lang->about_birthday = 'Ingresar su fecha de nacimiento';
     $lang->about_allow_mailing = "Si usted no se ha registrado el envío de email, usted no podrá recibir el email del grupo";
-    $lang->about_allow_message = 'Usted puede decidir la recepción del mensaje';
     $lang->about_denied = 'Si selecciona esta opción prohibirá el uso del ID';
     $lang->about_is_admin = 'Si selecciona esta opción para obtener la atribución del administrador superior';
     $lang->about_description = "Nota del administrador acerca de los usuarios";

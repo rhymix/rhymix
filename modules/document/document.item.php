@@ -167,8 +167,8 @@
             $sender_member_srl = $logged_info->member_srl;
 
             // 쪽지 발송
-            $oMemberController = &getController('member');
-            $oMemberController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+            $oCommunicationController = &getController('communication');
+            $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
         }
 
         function isExistsHomepage() {

@@ -21,12 +21,6 @@
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
     $lang->allow_mailing = 'メーリングリスト';
-    $lang->allow_message = 'メッセージの受信';
-    $lang->allow_message_type = array(
-             'Y' => '全て受信',
-             'N' => '全て受信しない',
-             'F' => '友達からのみ受信する',
-        );
     $lang->denied = '使用中止';
     $lang->is_admin = '最高管理権限';
     $lang->group = '所属グループ';
@@ -55,10 +49,6 @@
     $lang->redirect_url = '加入後表示するページ';
     $lang->agreement = '会員加入規約';
     $lang->accept_agreement = '規約に同意する';
-    $lang->sender = '送信者';
-    $lang->receiver = '受信者';
-    $lang->friend_group = '友達グループ';
-    $lang->default_friend_group = 'グループ未指定';
     $lang->member_info = '会員情報';
     $lang->current_password = '現在のパスワード';
     $lang->openid = 'OpenID';
@@ -80,14 +70,6 @@
         'extra_vars' => '拡張変数',
     );
 
-    $lang->message_box = array(
-        'R' => 'メッセージ受信ボックス',
-        'S' => 'メッセージ送信ボックス',
-        'T' => '保存ボックス',
-    );
-
-    $lang->readed_date = "開封時間"; 
-
     $lang->cmd_login = 'ログイン';
     $lang->cmd_logout = 'ログアウト';
     $lang->cmd_signup = '会員加入';
@@ -107,14 +89,6 @@
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
     $lang->cmd_view_saved_document = '保存ドキュメント表示';
     $lang->cmd_send_email = 'メール送信';
-    $lang->cmd_send_message = 'メッセージ送信';
-    $lang->cmd_reply_message = 'メッセージ返信';
-    $lang->cmd_view_friend = '友達表示';
-    $lang->cmd_add_friend = '友達登録';
-    $lang->cmd_view_message_box = 'メッセージ表示';
-    $lang->cmd_store = "保存";
-    $lang->cmd_add_friend_group = '友達グループ追加';
-    $lang->cmd_rename_friend_group = '友達グループ名変更';
 
     $lang->msg_email_not_exists = "メールアドレスがありません。";
 
@@ -135,9 +109,6 @@
     $lang->msg_success_authed = '認証が正常に行われ、ログインできました。\n必ず認証メールに記載されたパスワードを利用してお好みのパスワードに変更してください。.';
     $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
-    $lang->msg_no_message = 'メッセージがありません。';
-    $lang->message_received = 'メッセージが届きました。';
-
     $lang->msg_new_member = '会員追加';
     $lang->msg_update_member = '会員情報修正';
     $lang->msg_leave_member = '会員脱会';
@@ -151,10 +122,6 @@
     $lang->msg_signup_disabled = '会員に加入することができません。';
     $lang->msg_already_logged = '既に会員に加入されています。';
     $lang->msg_not_logged = 'ログインしていません。';
-    $lang->msg_title_is_null = 'メッセージのタイトルを入力してください。';
-    $lang->msg_content_is_null = '内容を入力してください。';
-    $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
-    $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
     $lang->msg_insert_group_name = 'グループ名を入力してください。';
     $lang->msg_check_group = 'グループを選択してください。';
 
@@ -177,7 +144,6 @@
     $lang->about_blog_url = '運用しているブログがあれば入力してください。';
     $lang->about_birthday = '生年月日を入力してください。';
     $lang->about_allow_mailing = 'メーリングリストにチェックされていない場合は、全体メールの送信時にメールを受け取りません。';
-    $lang->about_allow_message = 'メッセージを受信するかを設定します。';
     $lang->about_denied = 'チェックするとユーザＩＤを使用できないようにします。';
     $lang->about_is_admin = 'チェックすると最高管理者権限が取得できます。';
     $lang->about_description = '会員に対する管理者のメモ帳です。';

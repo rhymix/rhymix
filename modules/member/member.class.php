@@ -50,14 +50,6 @@
             $oModuleController->insertActionForward('member', 'view', 'dispMemberSavedDocument');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberFindAccount');
 
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberMessages');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberSendMessage');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberNewMessage');
-
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberFriend');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriend');
-            $oModuleController->insertActionForward('member', 'view', 'dispMemberAddFriendGroup');
-
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminList');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminConfig');
             $oModuleController->insertActionForward('member', 'view', 'dispMemberAdminInsert');
@@ -151,7 +143,6 @@
             FileHandler::makeDir('./files/member_extra_info/image_mark');
             FileHandler::makeDir('./files/member_extra_info/profile_image');
             FileHandler::makeDir('./files/member_extra_info/signature');
-            FileHandler::makeDir('./files/member_extra_info/new_message_flags');
 
             return new Object();
         }
@@ -222,7 +213,6 @@
             FileHandler::makeDir('./files/member_extra_info/image_name');
             FileHandler::makeDir('./files/member_extra_info/image_mark');
             FileHandler::makeDir('./files/member_extra_info/signature');
-            FileHandler::makeDir('./files/member_extra_info/new_message_flags');
             FileHandler::makeDir('./files/member_extra_info/profile_image');
 
             // DB 필드 추가
