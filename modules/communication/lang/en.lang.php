@@ -6,7 +6,7 @@
      **/
 
     $lang->communication = 'Communication';
-    $lang->about_communication = '회원간의 쪽지나 친구 관리등 커뮤니케이션 기능을 수행하는 모듈입니다';
+    $lang->about_communication = 'This module performs communication functions such as messages or friends';
 
     $lang->allow_message = 'Receive Messages';
     $lang->allow_message_type = array(
@@ -30,7 +30,7 @@
     $lang->cmd_send_message = 'Send Message';
     $lang->cmd_reply_message = 'Reply Message';
     $lang->cmd_view_friend = 'Friends';
-    $lang->cmd_add_friend = 'Add to Friends';
+    $lang->cmd_add_friend = 'Add Friend';
     $lang->cmd_view_message_box = 'Message Box';
     $lang->cmd_store = "Save";
     $lang->cmd_add_friend_group = 'Add Friend Group';
