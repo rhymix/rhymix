@@ -16,7 +16,7 @@
     $lang->component_grant = "Permission Setting"; 
 
     $lang->about_component = "About component";
-    $lang->about_component_grant = 'You may set the permission of using expanded components of editor.<br />(Everyone would have permission if nothing checked)';
+    $lang->about_component_grant = 'Selected group(s) will be able to use expanded components of editor.<br />(Leave them blank if you want all groups to have permission)';
     $lang->about_component_mid = "Editor components can select targets.<br />(All targets will be selected when nothing is selected)";
 
     $lang->msg_component_is_not_founded = 'Cannot find editor component %s';
@@ -30,21 +30,21 @@
     $lang->cmd_enable = "Active";
 
     $lang->editor_skin = 'Editor Skin';
-    $lang->upload_file_grant = 'Permission for uploading'; 
-    $lang->enable_default_component_grant = 'Permission of using default components';
-    $lang->enable_component_grant = 'Permission of using components';
-    $lang->enable_html_grant = 'Permission of using HTML';
-    $lang->enable_autosave = 'Use auto-save';
+    $lang->upload_file_grant = 'Permission for Uploading'; 
+    $lang->enable_default_component_grant = 'Permission for Default Components';
+    $lang->enable_component_grant = 'Permission for Components';
+    $lang->enable_html_grant = 'Permission for HTML';
+    $lang->enable_autosave = 'Auto-Save';
     $lang->height_resizable = 'Height Resizable';
     $lang->editor_height = 'Height of Editor';
 
     $lang->about_editor_skin = 'You may select the skin of editor.';
-    $lang->about_upload_file_grant = 'You may set the permission of file attaching. (Everyone would have permission if nothing checked)';
-    $lang->about_default_component_grant = 'You may set the permission of using default components of editor. (Everyone would have permission if nothing checked)';
+    $lang->about_upload_file_grant = 'Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have permission)';
+    $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)';
     $lang->about_editor_height = 'You may set the height of editor.';
-    $lang->about_editor_height_resizable = 'Permit to resize the height of editor.';
-    $lang->about_enable_html_grant = 'You may give the permission of using HTML';
-    $lang->about_enable_autosave = 'You may enable the auto-save function while writing articles.';
+    $lang->about_editor_height_resizable = 'You may decide whether height of editor can be resized.';
+    $lang->about_enable_html_grant = 'Selected group(s) will be able to use HTML';
+    $lang->about_enable_autosave = 'You may decide whether auto-save function will be used.';
 
     $lang->edit->fontname = 'Font';
     $lang->edit->fontsize = 'Size';
