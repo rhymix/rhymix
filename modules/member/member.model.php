@@ -41,48 +41,56 @@
             // 변수 정리
             $user_id = $member_info->user_id;
             $user_name = $member_info->user_name;
-            $email_address = $member_info->email_address;
 
-            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
-            $menu_list = array();
+            ModuleHandler::triggerCall('member.getMemberMenu', 'before', $null);
 
-            ModuleHandler::triggerCall('member.getMemberMenu', 'before', $menu_list);
+            $oMemberController = &getController('member');
 
             // 최고 관리자라면 회원정보 수정 메뉴 만듬
             if($logged_info->is_admin == 'Y') {
-                $menu_str = Context::getLang('cmd_management');
-                $menu_link = sprintf("%s?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=%s",Context::getRequestUri(),$member_srl);
-                $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_management.gif',$menu_str, $menu_link);
+                $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_management.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_management',$icon_path,'MemberModifyInfo');
             }
 
             // 회원 정보 보기 (비회원일 경우 볼 수 없도록 수정)
             if($logged_info->member_srl) {
-                $menu_str = Context::getLang('cmd_view_member_info');
-                $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
-                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
+                $url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_view_info.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
             }
 
             // 다른 사람의 아이디를 클릭한 경우
             if($member_srl != $logged_info->member_srl) {
 
                 // 메일 보내기 
-                $menu_str = Context::getLang('cmd_send_email');
-                //$menu_url = sprintf('%s <%s>', $email_address, $user_name);
-                $menu_url = sprintf('%s', $email_address);
-                $menu_list[] = sprintf('%s,%s,sendMailTo(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_sendmail.gif', $menu_str, $menu_url);
+                if($member_info->email_address) {
+                    $url = 'mailto:'.$member_info->email_address;
+                    $icon_path = './modules/member/tpl/images/icon_sendmail.gif';
+                    $oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
+                }
             }
 
             // 홈페이지 보기
-            if($member_info->homepage) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_homepage.gif',Context::getLang('homepage'), $member_info->homepage);
+            if($member_info->homepage) 
+                $oMemberController->addMemberPopupMenu($member_info->homepage, 'homepage', './modules/member/tpl/images/icon_homepage.gif','blank');
 
             // 블로그 보기
-            if($member_info->blog) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_blog.gif', Context::getLang('blog'), $member_info->blog);
+            if($member_info->blog) 
+                $oMemberController->addMemberPopupMenu($member_info->blog, 'blog', './modules/member/tpl/images/icon_blog.gif','blank');
 
             // trigger 호출 (after)
-            ModuleHandler::triggerCall('member.getMemberMenu', 'after', $menu_list);
+            ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
 
-            // 정보를 저장
-            $this->add("menu_list", implode("\n",$menu_list));
+            // 팝업메뉴의 언어 변경
+            $menus = Context::get('member_popup_menu_list');
+            $menus_count = count($menus);
+            for($i=0;$i<$menus_count;$i++) {
+                $menus[$i]->str = Context::getLang($menus[$i]->str);
+            }
+
+            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            $this->add('menus', $menus);
         }
 
         /**

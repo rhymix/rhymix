@@ -281,18 +281,19 @@
             if($cur_module_info->module != 'board') return new Object();
 
             // 자신의 아이디를 클릭한 경우
-            if($member_srl == $logged_info->member_srl) $member_info = $logged_info;
-            else {
+            if($member_srl == $logged_info->member_srl) {
+                $member_info = $logged_info;
+            } else {
                 $oMemberModel = &getModel('member');
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             }
 
             if(!$member_info->user_id) return new Object();
 
-            // 아이디로 검색
-            $menu_str = Context::getLang('cmd_view_own_document');
-            $menu_url = sprintf('./?mid=%s&amp;search_target=user_id&amp;search_keyword=%s', $mid, $member_info->user_id);
-            $obj[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_written.gif',$menu_str, $menu_url);
+            // 아이디로 검색기능 추가
+            $url = getUrl('','mid',$mid,'search_target','user_id','search_keyword',$member_info->user_id);
+            $oMemberController = &getController('member');
+            $oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', './modules/member/tpl/images/icon_view_written.gif');
 
             return new Object();
         }

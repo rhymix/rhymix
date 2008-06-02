@@ -63,6 +63,7 @@ function xml_handler() {
     this.addParam = xml_handlerAddParam;
     this.getResponseXml = xml_handlerGetResponseXML;
     this.toZMsgObject = xml_handlerToZMsgObject;
+    this.parseXMLDoc = xml_parseXmlDoc;
 
     this.obj_xmlHttp = this.getXmlHttp();
 }
@@ -157,21 +158,57 @@ function xml_handlerGetResponseXML() {
     return null;
 }
 
+function xml_parseXmlDoc(dom) {
+    if(!dom) return;
+
+    var ret_obj = new Array();
+
+    var obj = dom.firstChild;
+    if(!obj) return;
+
+    while(obj) {
+        if(obj.nodeType == 1) {
+
+            if(obj.firstChild && obj.lastChild && obj.firstChild == obj.lastChild) {
+                var name = obj.nodeName;
+                var value = obj.firstChild.nodeValue;
+                ret_obj[name] = value;
+            } else {
+                var name = obj.nodeName;
+                var value = this.parseXMLDoc(obj);
+
+                if(typeof(ret_obj[name])=='undefined') {
+                    ret_obj[name] = value;
+                } else {
+                    if(ret_obj[name].length>0) {
+                        ret_obj[name][ret_obj[name].length] = value;
+                    } else {
+                        var tmp_value = ret_obj[name];
+                        ret_obj[name] = new Array();
+                        ret_obj[name][ret_obj[name].length] = tmp_value;
+                        ret_obj[name][ret_obj[name].length] = value;
+                    }
+                }
+            }
+        }
+        obj = obj.nextSibling;
+    }
+    return ret_obj;
+}
+
 function xml_handlerToZMsgObject(xmlDoc, tags) {
     if(!xmlDoc) return null;
     if(!tags) tags = new Array("error","message");
     tags[tags.length] = "redirect_url";
     tags[tags.length] = "act";
+
+    var parsed_array = this.parseXMLDoc(xmlDoc.getElementsByTagName('response')[0]);
     
     var obj_ret = new Array();
     for(var i=0; i<tags.length; i++) {
         var key = tags[i];
-        if(obj_ret[key]) continue;
-        try {
-            obj_ret[key] = xmlDoc.getElementsByTagName(tags[i])[0].firstChild.nodeValue;
-        } catch(e) {
-            obj_ret[key] = "";
-        }
+        if(parsed_array[key]) obj_ret[key] = parsed_array[key];
+        else obj_ret[key] = null;
     }
     return obj_ret;
 }

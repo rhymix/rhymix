@@ -97,20 +97,31 @@
          * @brief RequestMethod가 XML이면 XML 데이터로 컨텐츠 생성
          **/
         function _toXmlDoc(&$oModule) {
+            $variables = $oModule->getVariables();
+
             $xmlDoc  = "<response>\n";
             $xmlDoc .= sprintf("<error>%s</error>\n",$oModule->getError());
             $xmlDoc .= sprintf("<message>%s</message>\n",str_replace(array('<','>','&'),array('&lt;','&gt;','&amp;'),$oModule->getMessage()));
 
-            $variables = $oModule->getVariables();
-
-            if(count($variables)) {
-                foreach($variables as $key => $val) {
-                    if(is_string($val)) $val = '<![CDATA['.$val.']]>';
-                    $xmlDoc .= "<{$key}>{$val}</{$key}>\n";
-                }
-            }
+            $xmlDoc .= $this->_makeXmlDoc($variables);
 
             $xmlDoc .= "</response>";
+
+            return $xmlDoc;
+        }
+
+        function _makeXmlDoc($obj) {
+            if(!count($obj)) return;
+
+            $xmlDoc = '';
+
+            foreach($obj as $key => $val) {
+                if(is_numeric($key)) $key = 'item';
+
+                if(is_string($val)) $xmlDoc .= sprintf('<%s><![CDATA[%s]]></%s>%s', $key, $val, $key,"\n");
+                else if(!is_array($val) && !is_object($val)) $xmlDoc .= sprintf('<%s>%s</%s>%s', $key, $val, $key,"\n");
+                else $xmlDoc .= sprintf('<%s>%s%s</%s>%s',$key, "\n", $this->_makeXmlDoc($val), $key, "\n");
+            }
 
             return $xmlDoc;
         }

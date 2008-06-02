@@ -965,11 +965,11 @@
                 }
             }
 
-            // 사용자의 전용 메뉴 구성 (이 메뉴는 애드온등으로 변경될 수 있음)
-            $member_info->menu_list['dispMemberInfo'] = 'cmd_view_member_info';
-            $member_info->menu_list['dispMemberScrappedDocument'] = 'cmd_view_scrapped_document';
-            $member_info->menu_list['dispMemberSavedDocument'] = 'cmd_view_saved_document';
-            $member_info->menu_list['dispMemberOwnDocument'] = 'cmd_view_own_document';
+            // 사용중지 아이디이면 세션 파기
+            if($member_info->denied=='Y') {
+                $this->destroySessionInfo();
+                return;
+            }
 
             // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
             if(preg_match("/^([0-9a-z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
@@ -997,11 +997,44 @@
             
             // 세션에 로그인 사용자 정보 저장
             $_SESSION['logged_info'] = $member_info;
-
             Context::set('is_logged', true);
             Context::set('logged_info', $member_info);
+
+            // 사용자의 전용 메뉴 구성 (이 메뉴는 애드온등으로 변경될 수 있음)
+            $this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
+            $this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
+            $this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
+            $this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
         }
 
+        /**
+         * @brief 로그인한 사용자의 개인화된 메뉴 제공을 위한 method
+         * 로그인 정보 출력 위젯 또는 개인화 페이지에서 사용됨
+         **/
+        function addMemberMenu($act, $str) {
+            $logged_info = Context::get('logged_info');
+
+            $logged_info->menu_list[$act] = Context::getLang($str);
+
+            Context::set('logged_info', $logged_info);
+            $_SESSION['logged_info'] = $logged_info;
+        }
+
+        /**
+         * @brief 로그인 회원의 닉네임등을 클릭할때 나타나는 팝업 메뉴를 추가하는 method
+         **/
+        function addMemberPopupMenu($url, $str, $icon = '', $target = 'self') {
+            $member_popup_menu_list = Context::get('member_popup_menu_list');
+            if(!is_array($member_popup_menu_list)) $member_popup_menu_list = array();
+
+            $obj->url = $url;
+            $obj->str = $str;
+            $obj->icon = $icon;
+            $obj->target = $target;
+            $member_popup_menu_list[] = $obj;
+
+            Context::set('member_popup_menu_list', $member_popup_menu_list);
+        }
 
         /**
          * @brief member 테이블에 사용자 추가

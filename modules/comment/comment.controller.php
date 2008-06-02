@@ -532,5 +532,21 @@
             $this->setMessage('success_declared');
         }
 
+        /**
+         * @brief 댓글의 이 댓글을.. 클릭시 나타나는 팝업 메뉴를 추가하는 method
+         **/
+        function addCommentPopupMenu($url, $str, $icon = '', $target = 'self') {
+            $comment_popup_menu_list = Context::get('comment_popup_menu_list');
+            if(!is_array($comment_popup_menu_list)) $comment_popup_menu_list = array();
+
+            $obj->url = $url;
+            $obj->str = $str;
+            $obj->icon = $icon;
+            $obj->target = $target;
+            $comment_popup_menu_list[] = $obj;
+
+            Context::set('comment_popup_menu_list', $comment_popup_menu_list);
+        }
+
     }
 ?>

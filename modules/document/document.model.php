@@ -54,40 +54,44 @@
             // trigger 호출
             ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
 
+            $oDocumentController = &getController('document');
+
             // 인쇄 버튼 추가
-            $menu_str = Context::getLang('cmd_print');
-            $menu_link = sprintf("%s?document_srl=%s&act=dispDocumentPrint",Context::getRequestUri(),$document_srl);
-            $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", '' ,$menu_str, $menu_link);
+            $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
 
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
                 // 추천 버튼 추가
-                $menu_str = Context::getLang('cmd_vote');
-                $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
 
                 // 비추천 버튼 추가
-                $menu_str = Context::getLang('cmd_vote_down');
-                $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
 
                 // 신고 기능 추가
-                $menu_str = Context::getLang('cmd_declare');
-                $menu_link = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
 
                 // 스크랩 버튼 추가
-                $menu_str = Context::getLang('cmd_scrap');
-                $menu_link = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
             }
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
 
-            // 정보를 저장
-            $this->add("menu_list", implode("\n",$menu_list));
+            // 팝업메뉴의 언어 변경
+            $menus = Context::get('document_popup_menu_list');
+            $menus_count = count($menus);
+            for($i=0;$i<$menus_count;$i++) {
+                $menus[$i]->str = Context::getLang($menus[$i]->str);
+            }
+
+            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            $this->add('menus', $menus);
         }
 
         /**

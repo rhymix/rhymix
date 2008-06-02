@@ -917,5 +917,22 @@
             return $output;
         }
 
+        /**
+         * @brief 게시물의 이 게시물을.. 클릭시 나타나는 팝업 메뉴를 추가하는 method
+         **/
+        function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self') {
+            $document_popup_menu_list = Context::get('document_popup_menu_list');
+            if(!is_array($document_popup_menu_list)) $document_popup_menu_list = array();
+
+            $obj->url = $url;
+            $obj->str = $str;
+            $obj->icon = $icon;
+            $obj->target = $target;
+            $document_popup_menu_list[] = $obj;
+
+            Context::set('document_popup_menu_list', $document_popup_menu_list);
+        }
+
+
     }
 ?>
