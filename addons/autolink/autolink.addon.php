@@ -7,10 +7,6 @@
      * @brief 자동 링크 애드온
      **/
     if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {
-        Context::loadLang("./addons/autolink/lang");
-        $open_cur_window = Context::getLang('open_cur_window');
-        $open_new_window = Context::getLang('open_new_window');
-
         $script_code = <<<EndOfScript
 
     <script type="text/javascript"> 
