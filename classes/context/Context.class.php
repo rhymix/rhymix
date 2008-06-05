@@ -139,7 +139,9 @@
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
             $this->addCSSFile("./common/css/button.css");
-            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css");
+
+            // 관리자 페이지일 경우 관리자 공용 CSS 추가
+            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
 
             // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
