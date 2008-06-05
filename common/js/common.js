@@ -399,33 +399,35 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     if(loaded_popup_menus[menu_id]) {
         html = loaded_popup_menus[menu_id];
     } else {
-        var item = menus['item'];
-        if(item.length) {
-            for(var i=0;i<item.length;i++) {
-                var url = item[i].url;
-                var str = item[i].str;
-                var icon = item[i].icon;
-                var target = item[i].target;
+        if(menus) {
+            var item = menus['item'];
+            if(item.length) {
+                for(var i=0;i<item.length;i++) {
+                    var url = item[i].url;
+                    var str = item[i].str;
+                    var icon = item[i].icon;
+                    var target = item[i].target;
 
-                var styleText = "";
+                    var styleText = "";
 
-                if(icon) styleText = " style=\"background:url('"+icon+"') no-repeat left center; padding-left:18px; \"";
-                switch(target) {
-                    case "popup" :
-                            click_str = " onclick=\"popopen('"+url+"','"+target+"')\"; return false;";
-                        break;
-                    case "self" :
-                            click_str = " onclick=\"location.href='"+url+"'\"; return false;";
-                        break;
-                    case "javascript" :
-                            click_str = " onclick=\""+url+"\"; return false;";
-                        break;
-                    default :
-                            click_str = " onclick=\"window.open('"+url+"')\"; return false;";
-                        break;
+                    if(icon) styleText = " style=\"background:url('"+icon+"') no-repeat left center; padding-left:18px; \"";
+                    switch(target) {
+                        case "popup" :
+                                click_str = " onclick=\"popopen('"+url+"','"+target+"')\"; return false;";
+                            break;
+                        case "self" :
+                                click_str = " onclick=\"location.href='"+url+"'\"; return false;";
+                            break;
+                        case "javascript" :
+                                click_str = " onclick=\""+url+"\"; return false;";
+                            break;
+                        default :
+                                click_str = " onclick=\"window.open('"+url+"')\"; return false;";
+                            break;
+                    }
+
+                    html += '<div class="item" onmouseover="this.className=\'item_on\'" onmouseout="this.className=\'item\'"'+styleText+click_str+'>'+str+'</div> ';
                 }
-
-                html += '<div class="item" onmouseover="this.className=\'item_on\'" onmouseout="this.className=\'item\'"'+styleText+click_str+'>'+str+'</div> ';
             }
         }
         loaded_popup_menus[menu_id] =  html;
