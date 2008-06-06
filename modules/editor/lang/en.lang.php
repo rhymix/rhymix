@@ -72,6 +72,10 @@
 
     $lang->edit->submit = 'Submit';
 
+	$lang->edit->help_remove_format = "Tags in selected area will be removed";
+    $lang->edit->help_strike_through = "Strike will be on the words";
+    $lang->edit->help_align_full = "Align left and right";
+
     $lang->edit->help_fontcolor = "Select font color";
     $lang->edit->help_fontbgcolor = "Select background color of font";
     $lang->edit->help_bold = "Make font bold";
