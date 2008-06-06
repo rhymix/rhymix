@@ -16,7 +16,7 @@
     <!--@if(count($widget_info->document_list))-->
     {@ shuffle($widget_info->document_list)}
 
-    <!--@for($i = 0; $i < 14; $i++)-->
+    <!--@for($i = 0; $i < $widget_info->cols_list_count * $widget_info->rows_list_count; $i++)-->
         {@
             $width = $widget_info->thumbnail_width ? $widget_info->thumbnail_width : "40";
             $height = $widget_info->thumbnail_height ? $widget_info->thumbnail_height : "40";
@@ -24,63 +24,75 @@
             $url[$i] = ($widget_info->document_list[$i]->document_srl) ? "href=\"".getUrl('','document_srl',$widget_info->document_list[$i]->document_srl)."\"" : "";
         }
     <!--@end-->
+
+ <!--
+ 편집 방법
+ 1. 원하는 모양으로 표를 디자인 합니다.
+ 2. <a>, <img> 코드를 복사한 다음 이미지 번호는 0부터 순서대로 입력합니다.
+  - 기본 표는 14개 이미지이므로 0부터 13까지 입력했음.
+ 3. 이미지 크기를 직접 입력하거나 수식을 넣으면 다른 크기로 출력할 수 있습니다.
+ -->
+
+	<!--@for($j = 0; $j < $widget_info->rows_list_count; $j++)-->
+	{@ $colsrows = $widget_info->cols_list_count * $j}
 	<table cellpadding="0" cellspacing="0" border="0">
 		<tbody>
 		<tr valign="middle">
 			<td colspan="2" rowspan="2">
-				<div class="imgcloudbig"><a {$url[0]}><img align="absmiddle" class="cloudimg" src="{$image[0]}" width="{$width*2+4}" height="{$height*2+4}" /></a></div>
+				<div class="imgcloudbig" onmouseover="this.className = 'imgcloudbighover';" onmouseout="this.className = 'imgcloudbig';"><a {$url[0 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[0 + $colsrows]}" width="{$width*2+4}" height="{$height*2+4}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[1]}><img align="absmiddle" class="cloudimg" src="{$image[1]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[1 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[1 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[2]}><img align="absmiddle" class="cloudimg" src="{$image[2]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[2 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[2 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[3]}><img align="absmiddle" class="cloudimg" src="{$image[3]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[3 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[3 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 		</tr>
 
 		<tr>
 			<td>
-				<div class="imgcloud"><a {$url[4]}><img align="absmiddle" class="cloudimg" src="{$image[4]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[4 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[4 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[5]}><img align="absmiddle" class="cloudimg" src="{$image[5]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[5 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[5 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[6]}><img align="absmiddle" class="cloudimg" src="{$image[6]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[6 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[6 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 		</tr>
 
 		<tr valign="middle">
 			<td>
-				<div class="imgcloud"><a {$url[7]}><img align="absmiddle" class="cloudimg" src="{$image[7]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[7 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[7 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[8]}><img align="absmiddle" class="cloudimg" src="{$image[8]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[8 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[8 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[9]}><img align="absmiddle" class="cloudimg" src="{$image[9]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[9 + $colsrows]}"><img align="absmiddle" class="cloudimg" src="{$image[9 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td colspan="2" rowspan="2">
-				<div class="imgcloudbig"><a {$url[10]}><img align="absmiddle" class="cloudimg" src="{$image[10]}" width="{$width*2+4}" height="{$height*2+4}" /></a></div>
+				<div class="imgcloudbig" onmouseover="this.className = 'imgcloudbighover';" onmouseout="this.className = 'imgcloudbig';"><a {$url[10 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[10 + $colsrows]}" width="{$width*2+4}" height="{$height*2+4}" /></a></div>
 			</td>
 		</tr>
 
 		<tr>
 			<td>
-				<div class="imgcloud"><a {$url[11]}><img align="absmiddle" class="cloudimg" src="{$image[11]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[11 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[11 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[12]}><img align="absmiddle" class="cloudimg" src="{$image[12]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[12 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[12 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 			<td>
-				<div class="imgcloud"><a {$url[13]}><img align="absmiddle" class="cloudimg" src="{$image[13]}" width="{$width}" height="{$height}" /></a></div>
+				<div class="imgcloud" onmouseover="this.className = 'imgcloudhover';" onmouseout="this.className = 'imgcloud';"><a {$url[13 + $colsrows]}><img align="absmiddle" class="cloudimg" src="{$image[13 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
 			</td>
 		</tr>
 
 		</tbody>
 	</table>
+	<!--@end-->
     <!--@end-->
 </div>
