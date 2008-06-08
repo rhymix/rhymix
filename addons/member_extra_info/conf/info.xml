@@ -3,7 +3,7 @@
   <title xml:lang="ko">회원 확장 정보 출력</title>
   <title xml:lang="jp">회원 확장 정보 출력</title>
   <title xml:lang="zh-CN">회원 확장 정보 출력</title>
-  <title xml:lang="en">회원 확장 정보 출력</title>
+  <title xml:lang="en">Extra Member Info</title>
   <title xml:lang="ge">회원 확장 정보 출력</title>
   <title xml:lang="es">회원 확장 정보 출력</title>
   <title xml:lang="ru">회원 확장 정보 출력</title>
@@ -28,8 +28,8 @@
         이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="en">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        This addon displays a member's image name, image mark, signature.
+        Please enable this addon in case you want to display them.
     </description>
 	<description xml:lang="ge">
         회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
