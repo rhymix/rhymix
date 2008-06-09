@@ -795,7 +795,7 @@ if(xIE4Up) {
                     else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
                     else this.selectedIndex--;
                 } else {
-                    this.oldonchange();
+                    if(this.oldonchange) this.oldonchange();
                 }
             }
 

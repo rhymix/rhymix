@@ -15,21 +15,25 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 위젯 자체적으로 설정한 변수들을 체크
-            $title = $args->title;
-            $mid_list = explode(",",$args->mid_list);
+            if($args->mid_list) {
+                $tmp_mid = explode(",",$args->mid_list);
+                $mid = $tmp_mid[0];
+            } else {
+                $mid = $args->mid;
+            }
 
             // DocumentModel::getMonthlyArchivedList()를 이용하기 위한 변수 정리
-            $obj->mid = $mid_list;
+            $obj->mid = $mid;
 
             // document 모듈의 model 객체를 받아서 getMonthlyArchivedList() method를 실행
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getMonthlyArchivedList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
+            $widget_info->module_name = $mid;
+            $widget_info->mid = $mid;
             
-            $widget_info->title = $title;
+            $widget_info->title = $args->title;
             $widget_info->archive_list = $output->data;
 
             Context::set('widget_info', $widget_info);
