@@ -86,6 +86,8 @@
     $lang->cmd_manage_id = 'Manage Prohibited IDs';
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'Written Articles';
+    $lang->cmd_trace_document = 'Trace Written Articles';
+    $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'Scraps';
     $lang->cmd_view_saved_document = 'Saved Articles';
     $lang->cmd_send_email = 'Send Mail';

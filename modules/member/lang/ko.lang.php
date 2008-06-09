@@ -85,7 +85,9 @@
     $lang->cmd_send_mail = '메일발송';
     $lang->cmd_manage_id = '금지아이디관리';
     $lang->cmd_manage_form = '가입폼관리';
-    $lang->cmd_view_own_document = '작성글 보기';
+    $lang->cmd_view_own_document = '작성 글 보기';
+    $lang->cmd_trace_document = '작성글 추적';
+    $lang->cmd_trace_comment = '작성 댓글 추적';
     $lang->cmd_view_scrapped_document = '스크랩 보기';
     $lang->cmd_view_saved_document = '저장함 보기';
     $lang->cmd_send_email = '메일 보내기';

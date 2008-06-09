@@ -86,6 +86,8 @@
     $lang->cmd_manage_id = 'Manejo de ID prohibidos';
     $lang->cmd_manage_form = 'Manejo de forma del registro';
     $lang->cmd_view_own_document = 'Ver documentos escritos';
+    $lang->cmd_trace_document = 'Trace Written Articles';
+    $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'Ver Scraps';
     $lang->cmd_view_saved_document = 'Ver artículos guardados';
     $lang->cmd_send_email = 'Enviar Email';

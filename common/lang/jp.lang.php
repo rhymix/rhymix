@@ -62,6 +62,7 @@
     $lang->cmd_publish = "発行";
     $lang->cmd_layout_setup = 'レイアウト設定';
     $lang->cmd_layout_edit = 'レイアウト編集';
+    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
 
     $lang->enable = '可能';
     $lang->disable = '不可';

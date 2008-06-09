@@ -21,6 +21,7 @@
         'user_id' => 'ID',
         'user_name' => 'Name',
         'nick_name' => 'Nickname',
+        'member_srl' => 'Member Serial',
         'email_address' => 'Email',
         'homepage' => 'Homepage',
         'regdate' => 'Date',

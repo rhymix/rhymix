@@ -21,6 +21,7 @@
         'user_id' => 'ID',
         'user_name' => 'Имя',
         'nick_name' => 'Ник',
+        'member_srl' => 'Member Serial',
         'email_address' => 'Email',
         'homepage' => 'Домашняя страница',
         'regdate' => 'Дата',

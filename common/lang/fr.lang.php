@@ -62,6 +62,7 @@
     $lang->cmd_publish = "Publier";
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
+    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
 
     $lang->enable = 'Valide';
     $lang->disable = 'Invalide';

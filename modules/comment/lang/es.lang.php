@@ -21,6 +21,7 @@
         'user_id' => 'ID',
         'user_name' => 'Nombre',
         'nick_name' => 'Apodo',
+        'member_srl' => 'Member Serial',
         'email_address' => 'Correo Electrónico',
         'homepage' => 'Página web',
         'regdate' => 'Fecha del registro',

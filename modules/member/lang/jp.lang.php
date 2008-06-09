@@ -86,6 +86,8 @@
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '加入フォーム管理';
     $lang->cmd_view_own_document = '書き込み表示';
+    $lang->cmd_trace_document = 'Trace Written Articles';
+    $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
     $lang->cmd_view_saved_document = '保存ドキュメント表示';
     $lang->cmd_send_email = 'メール送信';

@@ -87,6 +87,8 @@
     $lang->cmd_manage_id = '禁止用户名管理';
     $lang->cmd_manage_form = '注册表单管理';
     $lang->cmd_view_own_document = '查看发表主题';
+    $lang->cmd_trace_document = 'Trace Written Articles';
+    $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = '查看收藏';
     $lang->cmd_view_saved_document = '查看临时保存箱';
     $lang->cmd_send_email = '发送邮件';

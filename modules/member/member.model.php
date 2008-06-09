@@ -46,13 +46,6 @@
 
             $oMemberController = &getController('member');
 
-            // 최고 관리자라면 회원정보 수정 메뉴 만듬
-            if($logged_info->is_admin == 'Y') {
-                $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
-                $icon_path = './modules/member/tpl/images/icon_management.gif';
-                $oMemberController->addMemberPopupMenu($url,'cmd_management',$icon_path,'MemberModifyInfo');
-            }
-
             // 회원 정보 보기 (비회원일 경우 볼 수 없도록 수정)
             if($logged_info->member_srl) {
                 $url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
@@ -81,6 +74,21 @@
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
+
+            // 최고 관리자라면 회원정보 수정 메뉴 만듬
+            if($logged_info->is_admin == 'Y') {
+                $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_management.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_management',$icon_path,'MemberModifyInfo');
+
+                $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_trace_document.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
+
+                $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','member_srl','search_keyword',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_trace_comment.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'TraceMemberComment');
+            }
 
             // 팝업메뉴의 언어 변경
             $menus = Context::get('member_popup_menu_list');

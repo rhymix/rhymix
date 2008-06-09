@@ -85,6 +85,8 @@
     $lang->cmd_manage_id = 'Управление запрещенными ID';
     $lang->cmd_manage_form = 'Управление формой регистрации';
     $lang->cmd_view_own_document = 'Просмотреть написанные статьи';
+    $lang->cmd_trace_document = 'Trace Written Articles';
+    $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'Черновики';
     $lang->cmd_view_saved_document = 'Просмотреть сохраненные статьи';
     $lang->cmd_send_email = 'Отправить почту';

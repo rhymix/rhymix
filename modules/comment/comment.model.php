@@ -53,6 +53,19 @@
             // trigger 호출 (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
 
+            // 관리자일 경우 ip로 글 찾기
+            if($logged_info->is_admin == 'Y') {
+                $oCommentModel = &getModel('comment');
+                $oComment = $oCommentModel->getComment($comment_srl);
+
+                if($oComment->isExists()) {
+                    // ip주소에 해당하는 글 찾기
+                    $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->get('ipaddress'));
+                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    $oCommentController->addCommentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+                }
+            }
+
             // 팝업메뉴의 언어 변경
             $menus = Context::get('comment_popup_menu_list');
             $menus_count = count($menus);
@@ -350,6 +363,9 @@
                         break;
                     case 'ipaddress' :
                             $args->s_ipaddress= $search_keyword;
+                        break;
+                    case 'member_srl' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
                 }
             }

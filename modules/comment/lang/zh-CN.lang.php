@@ -22,6 +22,7 @@
         'user_id' => 'I D',
         'user_name' => '姓名',
         'nick_name' => '昵称',
+        'member_srl' => 'Member Serial',
         'email_address' => '电子信箱',
         'homepage' => '主页',
         'regdate' => '日期',

@@ -22,6 +22,7 @@
         'user_id' => 'ID',
         'user_name' => 'Nom',
         'nick_name' => 'Surnom',
+        'member_srl' => 'Member Serial',
         'email_address' => 'Courriel',
         'homepage' => 'Page d\'Accueil',
         'regdate' => 'Jour',

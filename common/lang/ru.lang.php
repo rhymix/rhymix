@@ -62,6 +62,7 @@
     $lang->cmd_publish = "Опубликовать";
     $lang->cmd_layout_setup = 'Конфигурировать лейаут';
     $lang->cmd_layout_edit = 'Редактировать лейаут';
+    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
 
     $lang->enable = 'Включено';
     $lang->disable = 'Выключено';

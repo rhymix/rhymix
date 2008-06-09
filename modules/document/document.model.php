@@ -56,10 +56,6 @@
 
             $oDocumentController = &getController('document');
 
-            // 인쇄 버튼 추가
-            $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
-            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
-
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
@@ -80,8 +76,25 @@
                 $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
             }
 
+            // 인쇄 버튼 추가
+            $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
+
             // trigger 호출 (after)
             ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
+
+            // 관리자일 경우 ip로 글 찾기
+            if($logged_info->is_admin == 'Y') {
+                $oDocumentModel = &getModel('document');
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+
+                if($oDocument->isExists()) {
+                    // ip주소에 해당하는 글 찾기
+                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
+                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+                }
+            }
 
             // 팝업메뉴의 언어 변경
             $menus = Context::get('document_popup_menu_list');
