@@ -48,14 +48,15 @@
         var $is_uploaded = false; ///< @brief 첨부파일이 업로드 된 요청이였는지에 대한 체크 플래그
 
         /**
-         * @brief Context 객체를  GLOBALS 변수에 생성
+         * @brief 유일한 Context 객체를 반환 (Singleton)
          *
-         * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용\n
-         * php5라면 GLOBALS가 아닌 static으로 처리 가능
+         * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
          **/
         function &getInstance() {
-            if(!$GLOBALS['__ContextInstance__']) $GLOBALS['__ContextInstance__'] = new Context();
-            return $GLOBALS['__ContextInstance__'];
+            static $theInstance = null;
+            if(!$theInstance)
+                $theInstance = new Context();
+            return $theInstance;
         }
 
         /**
