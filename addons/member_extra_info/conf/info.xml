@@ -16,32 +16,25 @@
     <name xml:lang="es">zero</name>
     <name xml:lang="ru">zero</name>
     <description xml:lang="ko">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="jp">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="zh-CN">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="en">
-        This addon displays a member's image name, image mark, signature.
-        Please enable this addon in case you want to display them.
+        This addon displays a member's image name, image mark.
     </description>
 	<description xml:lang="ge">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="es">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="ru">
-        회원이 등록한 이미지이름, 이미지마크, 서명등을 화면에 출력하는 애드온입니다.
-        이미지이름, 이미지마크, 서명등을 노출하고 싶다면 이 애드온을 활성화 시키세요.
+        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
   </author>
 </addon>
