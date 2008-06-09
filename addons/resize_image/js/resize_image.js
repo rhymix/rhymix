@@ -5,6 +5,7 @@ var imageGalleryIndex = new Array();
 function resizeImageContents() {
     // 이미지 태그 정규 표현식
     var img_regx = new RegExp("<img","im");
+    var site_regx = new RegExp("^"+request_uri,"im");
     
     // xe_content 내의 이미지 요소들에 대한 체크
     var xe_objs = xGetElementsByClassName("xe_content");
@@ -22,7 +23,7 @@ function resizeImageContents() {
             var obj = objs[i];
 
             // files 디렉토리 또는 http로 시작하는 이미지들이 아니면 패스
-            if(/^(http|https):\/\//i.test(obj.src) || /\/files\/attach\/images/i.test(obj.src)) {
+            if(!site_regx.test(obj.src) || /\/files\/attach\/images/i.test(obj.src)) {
 
                 var parent = obj.parentNode;
                 while(parent) {
