@@ -49,16 +49,10 @@ function resizeImageContents() {
                     var new_h = Math.round(obj_height * new_w/obj_width);
                     xWidth(obj, new_w);
                     xHeight(obj, new_h);
-                    xAddEventListener(obj,"click", showOriginalImage);
-                // 선택된 이미지가 부모보다 작을 경우 일단 원본 이미지를 불러와서 비교
-                } else {
-                    var orig_img = new Image();
-                    orig_img.src = obj.src;
-                    if(orig_img.width > parent_width - 2 || orig_img.width != obj_width) {
-                        obj.style.cursor = "pointer";
-                        xAddEventListener(obj,"click", showOriginalImage);
-                    }
-                }
+                } 
+
+                obj.style.cursor = "pointer";
+                xAddEventListener(obj,"click", showOriginalImage);
 
                 imageGalleryIndex[j][i] = obj.src;
                 obj.setAttribute("rel", j+','+i);
