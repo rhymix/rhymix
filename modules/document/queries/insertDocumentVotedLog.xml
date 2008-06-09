@@ -7,6 +7,6 @@
         <column name="member_srl" var="member_srl" filter="number" default="0" />
         <column name="ipaddress" var="ipaddress" default="ipaddress()" />
         <column name="regdate" var="regdate" default="curdate()" />
-	<column name="point" var="point" filter="number" default="0"/>
+	    <column name="point" var="point" filter="number" default="0"/>
     </columns>
 </query>

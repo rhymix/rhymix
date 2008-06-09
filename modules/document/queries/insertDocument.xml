@@ -13,6 +13,7 @@
         <column name="title_color" var="title_color" default="N" />
         <column name="content" var="content" notnull="notnull" />
         <column name="readed_count" var="readed_count" default="0" />
+        <column name="blamed_count" var="blamed_count" default="0" />
         <column name="voted_count" var="voted_count" default="0" />
         <column name="comment_count" var="comment_count" default="0" />
         <column name="trackback_count" var="trackback_count" default="0" />
