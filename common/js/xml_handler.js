@@ -169,27 +169,28 @@ function xml_parseXmlDoc(dom) {
     while(obj) {
         if(obj.nodeType == 1) {
 
-            if(obj.firstChild && obj.lastChild && obj.firstChild == obj.lastChild) {
-                var name = obj.nodeName;
-                var value = obj.firstChild.nodeValue;
+            var name = obj.nodeName;
+            var value = null;
+
+            if(obj.childNodes.length==1 && obj.firstChild.nodeType != 1) {
+                value = obj.firstChild.nodeValue;
+            } else {
+                value = this.parseXMLDoc(obj);
+            }
+
+            if(typeof(ret_obj[name])=='undefined') {
                 ret_obj[name] = value;
             } else {
-                var name = obj.nodeName;
-                var value = this.parseXMLDoc(obj);
-
-                if(typeof(ret_obj[name])=='undefined') {
-                    ret_obj[name] = value;
+                if(ret_obj[name].length>0) {
+                    ret_obj[name][ret_obj[name].length] = value;
                 } else {
-                    if(ret_obj[name].length>0) {
-                        ret_obj[name][ret_obj[name].length] = value;
-                    } else {
-                        var tmp_value = ret_obj[name];
-                        ret_obj[name] = new Array();
-                        ret_obj[name][ret_obj[name].length] = tmp_value;
-                        ret_obj[name][ret_obj[name].length] = value;
-                    }
+                    var tmp_value = ret_obj[name];
+                    ret_obj[name] = new Array();
+                    ret_obj[name][ret_obj[name].length] = tmp_value;
+                    ret_obj[name][ret_obj[name].length] = value;
                 }
             }
+
         }
         obj = obj.nextSibling;
     }
@@ -203,7 +204,7 @@ function xml_handlerToZMsgObject(xmlDoc, tags) {
     tags[tags.length] = "act";
 
     var parsed_array = this.parseXMLDoc(xmlDoc.getElementsByTagName('response')[0]);
-    
+
     var obj_ret = new Array();
     for(var i=0; i<tags.length; i++) {
         var key = tags[i];

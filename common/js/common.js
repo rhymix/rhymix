@@ -401,6 +401,7 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     } else {
         if(menus) {
             var item = menus['item'];
+            if(item.length<1) item = new Array(item);
             if(item.length) {
                 for(var i=0;i<item.length;i++) {
                     var url = item[i].url;
