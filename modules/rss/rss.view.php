@@ -126,11 +126,21 @@
             // 결과 출력을 XMLRPC로 강제 지정
             Context::setResponseMethod("XMLRPC");
 
-            // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl/');
+            // 결과물을 얻어와서 에디터 컴포넌트등의 전처리 기능을 수행시킴
+            $path = $this->module_path.'tpl/';
+            if($args->start_date || $args->end_date) $file = 'xe_rss';
+            else $file = 'rss20';
 
-            if($args->start_date || $args->end_date) $this->setTemplateFile('xe_rss');
-            else $this->setTemplateFile('rss20');
+            $oTemplate = new TemplateHandler();
+            $oContext = &Context::getInstance();
+
+            $content = $oTemplate->compile($path, $file);
+            $content = $oContext->transContent($content);
+            Context::set('content', $content);
+
+            // 템플릿 파일 지정
+            $this->setTemplatePath($path);
+            $this->setTemplateFile('display');
         }
 
         /**

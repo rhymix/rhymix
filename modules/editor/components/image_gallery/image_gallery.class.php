@@ -51,6 +51,16 @@
             $images_list = preg_replace('/\.(gif|jpg|jpeg|png) /i',".\\1\n",$images_list);
             $gallery_info->images_list = explode("\n",trim($images_list));
 
+            // 만약 출력설정이 XML일 경우 이미지 목록만 출력하도록 코드 생성
+            if(Context::getResponseMethod() == 'XMLRPC') {
+                $output = '';
+                for($i=0;$i<count($gallery_info->images_list);$i++) {
+                    $output .= sprintf('<img src="%s" alt="" /><br />', $gallery_info->images_list[$i]);
+                }
+                return $output;
+            }
+
+            // HTML 출력일 경우 템플릿 변환을 거쳐서 갤러리 출력 설정에 맞는 html코드를 생성하도록 함
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
             $gallery_info->width = trim($matches[3][0]);
             if(!$gallery_info->width) $gallery_info->width = 400;
