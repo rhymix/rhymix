@@ -50,11 +50,12 @@
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
          *
-         * Context는 어디서든 객체 선언없이 사용하기 위해서 GLOBALS 변수에 저장후 재사용 (php4 호환 때문에)
+         * Context는 어디서든 객체 선언없이 사용하기 위해서 GLOBALS 변수에 저장후 재사용 
          **/
         function &getInstance() {
-            if(!$GLOBALS['__ContextInstance__']) $GLOBALS['__ContextInstance__'] = new Context(); 
-            return $GLOBALS['__ContextInstance__']; 
+            static $theInstance; 
+            if(!isset($theInstance)) $theInstance = new Context(); 
+            return $theInstance; 
         }
 
         /**
