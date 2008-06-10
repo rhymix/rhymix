@@ -91,88 +91,16 @@
             $fp = fopen($uploaded_filename, 'rb');
             if(!$fp) return $this->stop('msg_not_permitted_download');
 			
-			// Support for broken downloads resuming via parsing 'Range' header value. Made by X-[Vr]bL1s5.
-			// This addition will ONLY work if PHP is run as Apache module and PHP >= 4.3.0
-			if (function_exists('apache_request_headers')) { // check if we run as Apache module.
-				$fr_buffer_size = 8192;
-				
-				$fr_headers = apache_request_headers();
-				if (isset($fr_headers['Range'])) {
-					$fr_range_header = trim($fr_headers['Range']);
-					$fr_range_header = str_replace('bytes=', '', $fr_range_header);
-					$fr_range = explode ('-', $fr_range_header);
-					if (isset($fr_range[0]) && ($fr_range[0] != NULL)) {
-						if (!is_numeric($fr_range[0])) return $this->stop('msg_not_permitted_download'); // invalid header values
-						$fr_range_begin = $fr_range[0];
-						if ((int) ($fr_range_begin) < 0) $fr_range_begin = 0;
-					} else {
-						$fr_range_begin = 0;
-					}
-					if (isset($fr_range[1]) && ($fr_range[1] != NULL)) {
-						if (!is_numeric($fr_range[1])) return $this->stop('msg_not_permitted_download'); // invalid header values
-						$fr_range_end = $fr_range[1];
-						if ((int) ($fr_range_end) > ($file_obj->file_size - 1)) $fr_range_end = $file_obj->file_size - 1;
-					} else {
-						$fr_range_end = $file_obj->file_size - 1;
-					}
-					
-					$fr_content_length = $fr_range_end - $fr_range_begin + 1;
-					
-					header("HTTP/1.1 206 Partial Content"); // oh... maybe HTTP proto version will change... ^^;
-					header("Cache-Control: no-cache");
-					header("Pragma: no-cache");
-					
-					header("Accept-Ranges: bytes");
-					header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-					header("Content-Type: application/octet-stream");
-					header('Content-Disposition: attachment; filename="'.$filename.'"');
-					
-					header("Content-Length: $fr_content_length");
-					header("Content-Range: bytes $fr_range_begin-$fr_range_end/" .(string)($file_obj->file_size));
-					header("Content-Transfer-Encoding: binary");
-					
-					$fr_bytes_read = 0;
+            header("Cache-Control: "); 
+            header("Pragma: "); 
+            header("Content-Type: application/octet-stream"); 
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
 
-					if (fseek($fp, $fr_range_begin) != 0) return $this->stop('msg_not_permitted_download'); // unable to seek file.
+            header("Content-Length: " .(string)($file_obj->file_size)); 
+            header('Content-Disposition: attachment; filename="'.$filename.'"'); 
+            header("Content-Transfer-Encoding: binary\n"); 
 
-					while (!feof($fp)) {
-						$fr_buffer = fread($fp, $fr_buffer_size);
-						$fr_bytes_read += strlen($fr_buffer);
-						if ($fr_content_length > $fr_bytes_read) {
-							echo $fr_buffer;
-						} else {
-							$fr_buffer = substr($fr_buffer, 0, strlen($fr_buffer) - ($fr_bytes_read - $fr_content_length));
-							echo $fr_buffer;
-							break;
-						}
-					}
-				} else {
-					header("HTTP/1.1 200 OK"); // oh... maybe HTTP proto version will change... ^^;
-					header("Cache-Control: no-cache");
-					header("Pragma: no-cache");
-					header("Accept-Ranges: bytes"); // we should claim that we accept ranges!
-					header("Content-Type: application/octet-stream");
-					header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-					header("Content-Length: " .(string)($file_obj->file_size));
-					header('Content-Disposition: attachment; filename="'.$filename.'"');
-					header("Content-Transfer-Encoding: binary");
-
-					fpassthru($fp);				
-				}
-			} else { // end of the support...
-			
-				header("Cache-Control: no-cache");
-				header("Pragma: no-cache");
-				header("Content-Type: application/octet-stream");
-				header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-				header("Content-Length: " .(string)($file_obj->file_size));
-				header('Content-Disposition: attachment; filename="'.$filename.'"');
-				header("Content-Transfer-Encoding: binary");
-
-				fpassthru($fp);
-			}
+            fpassthru($fp); 
 
             // 이상이 없으면 download_count 증가
             $args->file_srl = $file_srl;
