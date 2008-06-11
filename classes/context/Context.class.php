@@ -50,12 +50,12 @@
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
          *
-         * Context는 어디서든 객체 선언없이 사용하기 위해서 GLOBALS 변수에 저장후 재사용 
+         * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
          **/
         function &getInstance() {
-            static $theInstance; 
-            if(!isset($theInstance)) $theInstance = new Context(); 
-            return $theInstance; 
+            static $theInstance;
+            if(!isset($theInstance)) $theInstance = new Context();
+            return $theInstance;
         }
 
         /**
