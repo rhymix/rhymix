@@ -22,9 +22,8 @@ function resizeImageContents() {
         for(var i=0;i<objs.length;i++) {
             var obj = objs[i];
 
-            // files 디렉토리 또는 http로 시작하는 이미지들이 아니면 패스
-            if(!site_regx.test(obj.src) || /\/files\/attach\/images/i.test(obj.src)) {
-
+            // zbXE내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
+            if(!/\/(modules|addons|classes|common|layouts|libs|widgets)\//i.test(obj.src)) {
                 var parent = obj.parentNode;
                 while(parent) {
                     if(/(document|comment)_([0-9]+)_([0-9]+)/i.test(parent.className) ) break;
@@ -53,7 +52,9 @@ function resizeImageContents() {
                 } 
 
                 obj.style.cursor = "pointer";
-                xAddEventListener(obj,"click", showOriginalImage);
+
+                // 만약 대상 이미지에 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
+                if(obj.parentNode.nodeName.toLowerCase()!='a' && !obj.getAttribute('onclick')) xAddEventListener(obj,"click", showOriginalImage);
 
                 imageGalleryIndex[j][i] = obj.src;
                 obj.setAttribute("rel", j+','+i);
