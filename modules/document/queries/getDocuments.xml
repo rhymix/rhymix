@@ -10,5 +10,8 @@
     </conditions>
     <navigation>
         <index var="list_order" default="list_order" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
     </navigation>
 </query>
