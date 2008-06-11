@@ -104,7 +104,7 @@
 
             // 모듈정보에 module과 mid를 강제로 지정
             $this->module_info->module = $this->module;
-            $this->mid = $this->mid;
+            $this->module_info->mid = $this->mid;
 
             // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
             if(!$this->module) $this->error = 'msg_module_is_not_exists';
