@@ -434,6 +434,7 @@
                         else $args->list_order = $oDocument->get('list_order');
                     break;
             }
+            $args->module_srl = $oDocument->get('module_srl');
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
 
