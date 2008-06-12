@@ -584,34 +584,49 @@
             if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
             else $path = $this->getRequestUri(RELEASE_SSL);
 
-            // rewrite모듈을 사용하고 인자의 값이 4개 이하일 경우
-            if($this->allow_rewrite && $var_count < 4) {
-                $var_keys = array_keys($get_vars);
+            // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
+            if($this->allow_rewrite) {
+                if(count($get_vars)) foreach($get_vars as $key => $value) if($value !== 0 && !$value) unset($get_vars[$key]);
 
-                if($var_count == 1) {
-                    if($var_keys[0]=='mid') return $path.$get_vars['mid'];
-                    elseif($var_keys[0]=='document_srl') return $path.$get_vars['document_srl'];
-                } elseif($var_count == 2) {
-                    asort($var_keys);
-                    $target = implode('.',$var_keys);
-                    if($target=='act.mid' && !preg_match('/([A-Z]+)/',$get_vars['act'])) return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
-                    elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
-                    elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
-                    elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
-                    elseif($target=='category.mid')  return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
-                } elseif($var_count == 3) {
-                    asort($var_keys);
-                    $target = implode('.',$var_keys);
-                    if($target=='act.document_srl.key') {
+                $var_keys = array_keys($get_vars);
+                asort($var_keys);
+                $target = implode('.',$var_keys);
+
+                switch($target) {
+                    case 'mid' : 
+                        return $path.$get_vars['mid'];
+                    case 'document_srl' : 
+                        return $path.$get_vars['document_srl'];
+                    case 'act.mid' : 
+                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
+                    case 'document_srl.mid' : 
+                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
+                    case 'act.document_srl' : 
+                        return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
+                    case 'mid.page' : 
+                        return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
+                    case 'category.mid' : 
+                        return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
+                    case 'act.document_srl.key' : 
                         return sprintf('%s%s/%s/%s',$path,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
-                    } elseif($target=='category.mid.page') {
+                    case 'document_srl.mid.page' : 
+                        return sprintf('%s%s/%s/page/%s',$path,$get_vars['mid'],$get_vars['document_srl'],$get_vars['page']);
+                    case 'category.mid.page' : 
                         return sprintf('%s%s/category/%s/page/%s',$path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
-                    } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='tag') {
-                        return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
-                    } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='regdate') {
-                        if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
-                        elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2));
-                    }
+                    case 'mid.search_keyword.search_target' :
+                        switch($get_vars['search_target']) {
+                            case 'tag' : 
+                                return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                            case 'nick_name' : 
+                                return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                            case 'regdate' : 
+                                if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
+                                elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2)); 
+                        }
+                    case 'act.document_srl.mid' :
+                        return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
+                    case 'act.document_srl.mid.page' :
+                        return sprintf('%s%s/%s/%s/page/%s',$path,$get_vars['mid'], $get_vars['act'], $get_vars['document_srl'],$get_vars['page']);
                 }
             }
 
@@ -640,7 +655,10 @@
                         $use_ssl = false;
                     break;
             }
-            return sprintf("%s://%s%s",$use_ssl?'https':'http',$_SERVER['HTTP_HOST'], getScriptPath());
+
+            if($use_ssl) return sprintf("%s://%s%s",'https',$_SERVER['HTTP_HOST'], getScriptPath());
+            
+            return getScriptPath();
         }
 
         /**
