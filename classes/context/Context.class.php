@@ -656,9 +656,7 @@
                     break;
             }
 
-            if($use_ssl) return sprintf("%s://%s%s",'https',$_SERVER['HTTP_HOST'], getScriptPath());
-            
-            return getScriptPath();
+            return sprintf("%s://%s%s",$use_ssl?'https':'http',$_SERVER['HTTP_HOST'], getScriptPath());
         }
 
         /**
