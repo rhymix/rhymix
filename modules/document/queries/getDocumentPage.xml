@@ -7,6 +7,22 @@
     </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" />
-        <condition operation="more" column="document_srl" var="document_srl" filter="number" notnull="notnull" pipe="and" />
+        <condition operation="more" column="comment_count" var="comment_count" filter="number" pipe="and" />
+        <condition operation="less" column="comment_count" var="rev_comment_count" filter="number" pipe="and" />
+        <condition operation="more" column="voted_count" var="voted_count" filter="number" pipe="and" />
+        <condition operation="less" column="voted_count" var="rev_voted_count" filter="number" pipe="and" />
+        <condition operation="more" column="readed_count" var="readed_count" filter="number" pipe="and" />
+        <condition operation="less" column="readed_count" var="rev_readed_count" filter="number" pipe="and" />
+        <condition operation="less" column="list_order" var="list_order" filter="number" pipe="and" />
+        <condition operation="more" column="list_order" var="rev_list_order" filter="number" pipe="and" />
+        <condition operation="more" column="title" var="title" filter="number" pipe="and" />
+        <condition operation="less" column="title" var="rev_title" filter="number" pipe="and" />
+        <condition operation="more" column="regdate" var="regdate" filter="number" pipe="and" />
+        <condition operation="less" column="regdate" var="rev_regdate" filter="number" pipe="and" />
+        <condition operation="less" column="update_order" var="update_order" filter="number" pipe="and" />
+        <condition operation="more" column="update_order" var="rev_update_order" filter="number" pipe="and" />
     </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="order_type" />
+    </navigation>
 </query>

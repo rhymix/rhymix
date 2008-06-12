@@ -35,6 +35,7 @@
         var $errno = 0; ///< 에러 발생시 에러 코드 (0이면 에러가 없다고 정의)
         var $errstr = ''; ///< 에러 발생시 에러 메세지
         var $query = ''; ///< 가장 최근에 수행된 query string
+        var $elapsed_time = 0; ///< 가장 최근에 수행된 query 의 실행시간
 
         var $transaction_started = false; ///< 트랙잭션 처리 flag
 
@@ -126,12 +127,14 @@
             $this->setError(0,'success');
             $this->query = $query;
             $this->act_start = getMicroTime();
+            $this->elapsed_time = 0;
         }
 
         function actFinish() {
             if(!$this->query ) return;
             $this->act_finish = getMicroTime();
             $elapsed_time = $this->act_finish - $this->act_start;
+            $this->elapsed_time = $elapsed_time;
             $GLOBALS['__db_elapsed_time__'] += $elapsed_time;
 
             $str = sprintf("\t%02d. %s (%0.6f sec)\n", ++$GLOBALS['__dbcnt'], $this->query, $elapsed_time);
@@ -169,8 +172,6 @@
                 }
 
             }
-
-            $this->query = null;
         }
 
         /**
@@ -270,9 +271,11 @@
                     break;
             }
 
-            if($this->errno !=0 ) return new Object($this->errno, $this->errstr);
-            if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return $output;
-            return new Object();
+            if($this->errno != 0 ) $output = new Object($this->errno, $this->errstr);
+            else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
+            $output->add('_query', $this->query);
+            $output->add('_elapsed_time', sprintf("%0.5f",$this->elapsed_time));
+            return $output;
         }
 
         /**
