@@ -191,7 +191,7 @@
             $oXmlParser = new XmlParser();
 
             for($i=0;$i<count($matches[1]);$i++) {
-                $buff = $matches[0][$i];
+                $buff = urldecode($matches[0][$i]);
                 $xml_doc = $oXmlParser->parse(trim($buff));
 
                 $args = $xml_doc->img->attrs;
