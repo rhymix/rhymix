@@ -12,7 +12,9 @@
         /**
          * @brief 위젯 캐시 처리
          **/
-        function getCache($widget, $args) {
+        function getCache($widget, $args, $lang_type = null, $ignore_cache = false) {
+            // 지정된 언어가 없으면 현재 언어 지정
+            if(!$lang_type) $lang_type = Context::getLangType();
 
             // widget, 캐시 번호와 캐시값이 설정되어 있는지 확인
             $widget_sequence = $args->widget_sequence;
@@ -21,7 +23,7 @@
             /**
              * 캐시 번호와 캐시 값이 아예 없으면 바로 데이터를 추출해서 리턴
              **/
-            if(!$widget_cache || !$widget_sequence) {
+            if(!$ignore_cache && (!$widget_cache || !$widget_sequence)) {
                 $oWidget = WidgetHandler::getObject($widget);
                 if(!$oWidget) return;
 
@@ -37,39 +39,39 @@
             if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 
             // 캐시파일명을 구함
-            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $widget_sequence, Context::getLangType());
+            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $widget_sequence, $lang_type);
 
-            // 캐시 파일이 존재하면 해당 파일의 유효성 검사
-            if(file_exists($cache_file)) {
+            // 캐시 Lock 파일을 구함
+            $lock_file = sprintf('%s%d.%s.lock', $cache_path, $widget_sequence, $lang_type);
+
+            // 캐시 파일이 존재하면 해당 파일의 유효성 검사 (lock파일이 있을 경우 유효성 검사하지 않음)
+            if(!$ignore_cache && file_exists($cache_file)) {
                 $filemtime = filemtime($cache_file);
 
                 // 수정 시간을 비교해서 캐싱중이어야 하거나 WidgetHandler.class.php 파일보다 나중에 만들어 졌다면 캐시값을 return
-                if($filemtime + $widget_cache*60 > time() && $filemtime > filemtime('./classes/widget/WidgetHandler.class.php')) {
+                if(file_exists($lock_file) || ($filemtime + $widget_cache*60 > time() && $filemtime > filemtime('./classes/widget/WidgetHandler.class.php'))) {
                     return FileHandler::readFile($cache_file);
                 }
             }
 
-            // 캐시를 새로 해야 할 경우임
+            // lock 파일 생성
+            FileHandler::writeFile($lock_file, '');
+
+            // 캐시 파일을 갱신하여야 할 경우 lock파일을 만들고 캐시 생성
             $oWidget = WidgetHandler::getObject($widget);
             if(!$oWidget) return;
 
             $widget_content = $oWidget->proc($args);
-            WidgetHandler::writeCache($widget_sequence, $widget_content);
+            FileHandler::writeFile($cache_file, $widget_content);
+
+            // lock 파일 제거
+            @unlink($lock_file);
 
             return $widget_content;
         }
 
         /**
-         * @brief 캐시 파일 생성
-         **/
-        function writeCache($widget_sequence, $output) {
-            $cache_path = './files/cache/widget_cache/';
-            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $widget_sequence, Context::getLangType());
-            FileHandler::writeFile($cache_file, $output);
-        }
-
-        /**
-         * @brief 위젯을 찾아서 실행하고 결과를 출력
+         * @brief 위젯이름과 인자를 받아서 결과를 생성하고 결과 리턴
          * 태그 사용 templateHandler에서 WidgetHandler::execute()를 실행하는 코드로 대체하게 된다
          *
          * $include_info가 true일 경우 페이지 수정시 위젯 핸들링을 위한 코드까지 포함함
