@@ -166,7 +166,8 @@ function getWidgetCode(childObj, widget) {
  **/
 // 팝업 띄움
 function doAddContent() {
-    popopen("./?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl, "addContent");
+    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl);
+    popopen(url, "addContent");
 }
 
 // 직접 내용을 입력하기 위한 에디터 활성화 작업 및 form 데이터 입력
@@ -324,7 +325,7 @@ function doCheckWidget(e) {
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
         selectedWidget = p_obj;
-        if(widget == 'widgetContent') popopen("./?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl, "addContent");
+        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl, "addContent");
         else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget,'GenerateCodeInPage');
         return;
     // 위젯 복사
