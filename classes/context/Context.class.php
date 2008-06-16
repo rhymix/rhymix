@@ -614,15 +614,16 @@
                     case 'category.mid.page' : 
                         return sprintf('%s%s/category/%s/page/%s',$path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
                     case 'mid.search_keyword.search_target' :
-                        switch($get_vars['search_target']) {
-                            case 'tag' : 
-                                return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
-                            case 'nick_name' : 
-                                return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
-                            case 'regdate' : 
-                                if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
-                                elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2)); 
-                        }
+                            switch($get_vars['search_target']) {
+                                case 'tag' : 
+                                    return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                                case 'nick_name' : 
+                                    return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                                case 'regdate' : 
+                                    if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
+                                    elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2)); 
+                            }
+                        break;
                     case 'act.document_srl.mid' :
                         return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
                     case 'act.document_srl.mid.page' :
