@@ -578,6 +578,10 @@
                 $get_vars[$key] = $val;
             }
 
+            /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
+            if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
+            elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
+
             $var_count = count($get_vars);
             if(!$var_count) return '';
 
