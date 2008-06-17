@@ -26,9 +26,10 @@ function resizeImageContents() {
             if(!/\/(modules|addons|classes|common|layouts|libs|widgets)\//i.test(obj.src)) {
                 var parent = obj.parentNode;
                 while(parent) {
-                    if(/(document|comment)_([0-9]+)_([0-9]+)/i.test(parent.className) ) break;
+                    if(/(document|comment)_([0-9]*)_([0-9]*)/i.test(parent.className) ) break;
                     parent = parent.parentNode;
                 }
+                if(!parent) continue;
 
                 var dummy = xCreateElement("div");
                 dummy.style.visibility = "hidden";
