@@ -27,11 +27,15 @@
             // 설치된 모듈 목록 가져오기
             $oModuleModel = &getModel('module');
             $installed_module_list = $oModuleModel->getModulesXmlInfo();
+            foreach($installed_module_list as $key => $val) {
+                $action_spec = $oModuleModel->getModuleActionXml($val->module);
+                $actions = array();
+                if($action_spec->default_index_act) $actions[] = $action_spec->default_index_act;
+                if($action_spec->admin_index_act) $actions[] = $action_spec->admin_index_act;
+                if($action_spec->action) foreach($action_spec->action as $k => $v) $actions[] = $k;
+                $installed_module_list[$key]->actions = $actions;
+            }
             Context::set('installed_module_list', $installed_module_list);
-
-            // 현재 실행중인 모듈을 구해 놓음
-            $running_module = strtolower(preg_replace('/([a-z]+)([A-Z]+)([a-z0-9]+)(.*)/', '\\2\\3', $this->act));
-            Context::set('running_module', $running_module);
 
             $db_info = Context::getDBInfo();
 
