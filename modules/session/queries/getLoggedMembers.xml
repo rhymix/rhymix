@@ -6,7 +6,8 @@
         <column name="member_srl" />
     </columns>
     <conditions>
-        <condition operation="more" column="last_update" var="last_update" notnull="notnull" />
+        <condition operation="more" column="member_srl" default="1" pipe="and" />
+        <condition operation="more" column="last_update" var="last_update" notnull="notnull" pipe="and" />
         <condition operation="equal" column="cur_mid" var="mid" pipe="and" />
     </conditions>
     <navigation>

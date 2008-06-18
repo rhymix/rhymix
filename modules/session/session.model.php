@@ -49,7 +49,7 @@
          * mid : 특정 mid에 속한 사용자
          **/
         function getLoggedMembers($args) {
-            if(!$args->limit_count) $args->limit_count = 20;
+            if(!$args->list_count) $args->list_count = 20;
             if(!$args->page) $args->page = 1;
             if(!$args->period_time) $args->period_time = 3;
             $args->last_update = date("YmdHis", time() - $args->period_time*60);
