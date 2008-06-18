@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <permissions />
+    <actions>
+        <action name="dispSessionAdminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="procSessionAdminClear" type="controller" standalone="true" />
+    </actions>
+</module>

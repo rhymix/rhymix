@@ -1,0 +1,15 @@
+<query id="updateSession" action="update">
+    <tables>
+        <table name="session" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="expired" var="expired" />
+        <column name="val" var="val" notnull="notnull" />
+        <column name="ipaddress" default="ipaddress()" />
+        <column name="last_update" default="curdate()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="session_key" var="session_key" notnull="notnull" />
+    </conditions>
+</query>

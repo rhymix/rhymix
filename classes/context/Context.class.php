@@ -73,12 +73,25 @@
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
+            // 세션 핸들러 지정
+            $oSessionModel = &getModel('session');
+            $oSessionController = &getController('session');
+            session_set_save_handler(
+                array(&$oSessionController,"open"),
+                array(&$oSessionController,"close"),
+                array(&$oSessionModel,"read"),
+                array(&$oSessionController,"write"),
+                array(&$oSessionController,"destroy"),
+                array(&$oSessionController,"gc")
+            );
+            session_start();
+
             // 쿠키로 설정된 언어타입 가져오기 
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
             else $this->lang_type = $this->db_info->lang_type;
 
             // 등록된 기본 언어파일 찾기
-            $langs = file('./common/lang/lang.info');
+            $langs = file(_XE_PATH_.'common/lang/lang.info');
             $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
             foreach($langs as $val) {
                 list($lang_prefix, $lang_text) = explode(',',$val);
@@ -99,7 +112,7 @@
 
             // 기본 언어파일 로드
             $this->lang = &$GLOBALS['lang'];
-            $this->_loadLang("./common/lang/");
+            $this->_loadLang(_XE_PATH_."common/lang/");
 
             // Request Method 설정
             $this->_setRequestMethod();
@@ -129,7 +142,7 @@
             }
 
             // rewrite 모듈사용 상태 체크
-            if(file_exists('./.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
+            if(file_exists(_XE_PATH_.'.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
             else $this->allow_rewrite = false;
 
             // 기본 JS/CSS 등록
@@ -164,6 +177,9 @@
          * @brief DB및 기타 자원들의 close
          **/
         function close() {
+            // Session Close
+            if(function_exists('session_write_close')) session_write_close();
+
             // DB close
             $oDB = &DB::getInstance();
             if(is_object($oDB)&&method_exists($oDB, 'close')) $oDB->close();
@@ -828,7 +844,7 @@
          * @brief js file 목록을 return
          **/
         function _getJsFile() {
-            require_once("./classes/optimizer/Optimizer.class.php");
+            require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
             return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->js_files), "js");
         }
@@ -863,7 +879,7 @@
          * @brief CSS file 목록 return
          **/
         function _getCSSFile() {
-            require_once("./classes/optimizer/Optimizer.class.php");
+            require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
             return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->css_files), "css");
         }
@@ -932,7 +948,7 @@
          * @brief db설정내용이 저장되어 있는 config file의 path를 return
          **/
         function getConfigFile() {
-            return "./files/config/db.config.php";
+            return _XE_PATH_."files/config/db.config.php";
         }
 
         /**

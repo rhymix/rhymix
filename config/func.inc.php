@@ -313,7 +313,7 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        $debug_file = "./files/_debug_message.php";
+        $debug_file = _XE_PATH_."files/_debug_message.php";
         $buff = sprintf("%s\n",print_r($buff,true));
 
         if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";

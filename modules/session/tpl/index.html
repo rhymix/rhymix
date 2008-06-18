@@ -1,0 +1,8 @@
+<!--%import("js/session.js",optimized=false)-->
+
+<h3>{$lang->session} <span class="gray">{$lang->cmd_management}</span></h3>
+<div class="infoText">{nl2br($lang->about_session)}</div>
+
+<form action="./" method="post" onsubmit="return false;">
+        <span class="button"><input type="button" value="{$lang->cmd_clear_session}" onclick="doClearSession(); return false; "/></span>
+</form>

@@ -1,0 +1,8 @@
+<query id="deleteSession" action="delete">
+    <tables>
+        <table name="session" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="session_key" var="session_key" notnull="notnull" />
+    </conditions>
+</query>

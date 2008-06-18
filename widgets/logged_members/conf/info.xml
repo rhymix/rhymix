@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget version="0.1">
+    <title xml:lang="ko">로그인 사용자 출력 위젯</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 6. 18">
+        <name xml:lang="ko">zero</name>
+        <description xml:lang="ko">
+            로그인 사용자를 출력하는 위젯입니다.
+        </description>
+    </author>
+    <extra_vars>
+        <var id="list_count">
+            <name xml:lang="ko">목록수</name>
+            <type>text</type>
+            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+        </var>
+    </extra_vars>
+</widget>

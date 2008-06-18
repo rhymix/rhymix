@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1" category="base">
+    <title xml:lang="ko">Session관리자</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 6. 18">
+        <name xml:lang="ko">zero</name>
+        <description xml:lang="ko">
+            접속자의 session을 관리하는 모듈입니다.
+            기본적인 세션 설정과 사용뿐 아니라 세션 정보를 이용하여 접속자등의 세션 기반의 정보를 제공하는 기능도 있습니다.
+        </description>
+    </author>
+</module>

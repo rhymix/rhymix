@@ -15,7 +15,7 @@
 
     class DB {
 
-        var $count_cache_path = './files/cache/db';
+        var $count_cache_path = 'files/cache/db';
 
         var $cond_operation = array( ///< 조건문에서 조건을 등호로 표시하는 변수
             'equal' => '=',
@@ -43,7 +43,7 @@
 
         var $supported_list = array(); ///< 지원하는 DB의 종류, classes/DB/DB***.class.php 를 이용하여 동적으로 작성됨
 
-        var $cache_file = './files/cache/queries/'; ///< query cache파일의 위치
+        var $cache_file = 'files/cache/queries/'; ///< query cache파일의 위치
 
         /**
          * @brief DB를 상속받는 특정 db type의 instance를 생성 후 return
@@ -54,15 +54,23 @@
 
             if(!$GLOBALS['__DB__']) {
                 $class_name = sprintf("DB%s%s", strtoupper(substr($db_type,0,1)), strtolower(substr($db_type,1)));
-                $class_file = sprintf("./classes/db/%s.class.php", $class_name);
+                $class_file = sprintf("%sclasses/db/%s.class.php", _XE_PATH_, $class_name);
                 if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
 
                 require_once($class_file);
-                $eval_str = sprintf('$GLOBALS[\'__DB__\'] = new %s();', $class_name);
+                $eval_str = sprintf('$GLOBALS[\'__DB__\'][\''.$db_type.'\'] = new %s();', $class_name);
                 eval($eval_str);
             }
 
-            return $GLOBALS['__DB__'];
+            return $GLOBALS['__DB__'][$db_type];
+        }
+
+        /**
+         * @brief constructor
+         **/
+        function DB() {
+            $this->count_cache_path = _XE_PATH_.$this->count_cache_path;
+            $this->cache_file = _XE_PATH_.$this->cache_file;
         }
 
         /**
@@ -77,7 +85,7 @@
          * @brief 지원 가능한 DB 목록을 return
          **/
         function _getSupportedList() {
-            $db_classes_path = "./classes/db/";
+            $db_classes_path = _XE_PATH_."classes/db/";
             $filter = "/^DB([^\.]+)\.class\.php/i";
             $supported_list = FileHandler::readDir($db_classes_path, $filter, true);
             sort($supported_list);
@@ -89,7 +97,7 @@
                 if(version_compare(phpversion(), '5.0') < 0 && preg_match('/pdo/i',$db_type)) continue;
 
                 $class_name = sprintf("DB%s%s", strtoupper(substr($db_type,0,1)), strtolower(substr($db_type,1)));
-                $class_file = sprintf("./classes/db/%s.class.php", $class_name);
+                $class_file = sprintf(_XE_PATH_."classes/db/%s.class.php", $class_name);
                 if(!file_exists($class_file)) continue;
 
                 unset($oDB);
@@ -144,7 +152,7 @@
                 $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr); 
 
                 if(__DEBUG_DB_OUTPUT__==1)  {
-                    $debug_file = "./files/_debug_db_query.php";
+                    $debug_file = _XE_PATH_."files/_debug_db_query.php";
                     $buff = sprintf("%s\n",print_r($str,true));
 
                     if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
@@ -161,7 +169,7 @@
             // __LOG_SLOW_QUERY__ 가 정해져 있다면 시간 체크후 쿼리 로그 남김
             if(__LOG_SLOW_QUERY__>0 && $elapsed_time > __LOG_SLOW_QUERY__) {
                 $buff = '';
-                $log_file = './files/_db_slow_query.php';
+                $log_file = _XE_PATH_.'files/_db_slow_query.php';
                 if(!file_exists($log_file)) {
                     $buff = '<?php exit();?>'."\n";
                 }
@@ -218,17 +226,17 @@
             }
             if(!$target || !$module || !$id) return new Object(-1, 'msg_invalid_queryid');
 
-            $xml_file = sprintf('./%s/%s/queries/%s.xml', $target, $module, $id);
+            $xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
             if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
 
             // 일단 cache 파일을 찾아본다
-            $cache_file = sprintf('%s%s.cache.php', $this->cache_file, $query_id);
+            $cache_file = sprintf('%s%s%s.cache.php', _XE_PATH_, $this->cache_file, $query_id);
             if(file_exists($cache_file)) $cache_time = filemtime($cache_file);
             else $cache_time = -1;
 
             // 캐시 파일이 없거나 시간 비교하여 최근것이 아니면 원본 쿼리 xml파일을 찾아서 파싱을 한다
-            if($cache_time<filemtime($xml_file) || $cache_time < filemtime('./classes/db/DB.class.php')) {
-                require_once('./classes/xml/XmlQueryParser.class.php');   
+            if($cache_time<filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php')) {
+                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');   
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);
             }

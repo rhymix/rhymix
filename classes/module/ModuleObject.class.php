@@ -228,7 +228,7 @@
          * @brief template 경로 지정
          **/
         function setTemplatePath($path) {
-            if(substr($path,0,2)!='./') $path = './'.$path;
+            if(substr($path,0,1)!='/' && substr($path,0,2)!='./') $path = './'.$path;
             if(substr($path,-1)!='/') $path .= '/';
             $this->template_path = $path;
         }
@@ -274,8 +274,8 @@
          * @brief layout 경로 지정
          **/
         function setLayoutPath($path) {
+            if(substr($path,0,1)!='/' && substr($path,0,2)!='./') $path = './'.$path;
             if(substr($path,-1)!='/') $path .= '/';
-            if(substr($path,0,2)!='./') $path = './'.$path;
             $this->layout_path = $path;
         }
 
@@ -297,7 +297,7 @@
 
             // addon 실행(called_position 를 before_module_proc로 하여 호출)
             $called_position = 'before_module_proc';
-            @include("./files/cache/activated_addons.cache.php");
+            @include(_XE_PATH_."files/cache/activated_addons.cache.php");
 
             // 지금까지 이상이 없었다면 action 실행
             if(!$this->stop_proc) {
@@ -347,7 +347,7 @@
 
             // addon 실행(called_position 를 after_module_proc로 하여 호출)
             $called_position = 'after_module_proc';
-            @include("./files/cache/activated_addons.cache.php");
+            @include(_XE_PATH_."files/cache/activated_addons.cache.php");
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());

@@ -88,8 +88,10 @@
          * 주어진 경로를 단계별로 접근하여 recursive하게 디렉토리 생성
          **/
         function makeDir($path_string) {
+            $path_string = str_replace(_XE_PATH_,'',$path_string);
             $path_list = explode('/', $path_string);
 
+            $path = _XE_PATH_;
             for($i=0;$i<count($path_list);$i++) {
                 if(!$path_list[$i]) continue;
                 $path .= $path_list[$i].'/';

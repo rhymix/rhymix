@@ -349,23 +349,52 @@
                 $tree[$parent_srl][$menu_item_srl] = $node;
             }
 
-            // 세션 디렉토리 변경 구문
-            $php_script = "";
-            if(!ini_get('session.auto_start')) {
-                if(!is_dir("./files/sessions")) {
-                    FileHandler::makeDir("./files/sessions");
-                    @chmod("./files/sessions",  0777);
-                }
+            // 캐시 파일의 권한과 그룹 설정을 위한 공통 헤더
+            $header_script = 
+                '$lang_type = Context::getLangType(); '.
+                '$is_logged = Context::get(\'is_logged\'); '.
+                '$logged_info = Context::get(\'logged_info\'); '.
+                'if($is_logged && $logged_info->is_admin=="Y") { '.
+                    '$is_admin = true; '.
+                    '$group_srls = array_keys($logged_info->group_list); '.
+                '} else { '.
+                    '$is_admin = false; '.
+                    '$group_srsl = array(); '.
+                '} ';
 
-                $php_script = 'session_cache_limiter("no-cache, must-revalidate"); ini_set("session.gc_maxlifetime", "18000"); if(is_dir("../../sessions")) session_save_path("../../sessions/"); session_start();';
-            }
-
-            // xml 캐시 파일 생성
-            $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); if($_SESSION["logged_info"]&&$_SESSION["logged_info"]->is_admin=="Y") $_is_admin = true; ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
+            // xml 캐시 파일 생성 (xml캐시는 따로 동작하기에 session 지정을 해주어야 함)
+            $xml_buff = sprintf(
+                '<?php '.
+                'define(\'__ZBXE__\', true); '.
+                'require_once(\'../../../config/config.inc.php\'); '.
+                '$oContext = &Context::getInstance(); '.
+                '$oContext->init(); '.
+                'header("Content-Type: text/xml; charset=UTF-8"); '.
+                'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
+                'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
+                'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
+                'header("Cache-Control: post-check=0, pre-check=0", false); '.
+                'header("Pragma: no-cache"); '.
+                '%s'.
+                '?>'.
+                '<root>%s</root>', 
+                $header_script,
+                $this->getXmlTree($tree[0], $tree)
+            );
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree);
-            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); if($_SESSION["logged_info"]&&$_SESSION["logged_info"]->is_admin=="Y") $_is_admin = true;  $lang_type = Context::getLangType(); %s; $menu->list = array(%s); ?>', $php_output['name'], $php_output['buff']);
+            $php_buff = sprintf(
+                '<?php '.
+                'if(!defined("__ZBXE__")) exit(); '.
+                '%s; '.
+                '%s; '.
+                '$menu->list = array(%s); '.
+                '?>', 
+                $header_script,
+                $php_output['name'], 
+                $php_output['buff']
+            );
 
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
@@ -394,7 +423,7 @@
                 foreach($names as $key => $val) {
                     $name_arr_str .= sprintf('"%s"=>"%s",',$key, htmlspecialchars($val));
                 }
-                $name_str = sprintf('$_names = array(%s); print $_names[$_SESSION["lang_type"]];', $name_arr_str);
+                $name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
                 if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url)) {
@@ -422,13 +451,13 @@
                     else $classname = '';
                     if($hover_btn) $hover_str = sprintf('onmouseover=&quot;this.src=\'%s\'&quot;', $hover_btn); else $hover_str = '';
                     if($active_btn) $active_str = sprintf('onmousedown=&quot;this.src=\'%s\'&quot;', $active_btn); else $active_str = '';
-                    $link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$_SESSION["lang_type"]]) ?>&quot; %s %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str, $classname);
+                    $link = sprintf('&lt;img src=&quot;%s&quot; onmouseout=&quot;this.src=\'%s\'&quot; alt=&quot;<?php print htmlspecialchars($_names[$lang_type]) ?>&quot; %s %s %s /&gt;', $normal_btn, $normal_btn, $hover_str, $active_str, $classname);
                 } else {
-                    $link = '<?php print $_names[$_SESSION["lang_type"]]; ?>';
+                    $link = '<?php print $_names[$lang_type]; ?>';
                 }
 
                 // node->group_srls값이 있으면 
-                if($group_srls) $group_check_code = sprintf('($_is_admin==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
+                if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
                     'node_srl="%s" parent_srl="%s" text="<?php if(%s) { %s }?>" url="<?php print(%s?"%s":"")?>" href="<?php print(%s?"%s":"")?>" open_window="%s" expand="%s" normal_btn="%s" hover_btn="%s" active_btn="%s" link="<?php if(%s) {?>%s<?php }?>"',
@@ -484,7 +513,7 @@
                 $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 
                 // node->group_srls값이 있으면 
-                if($node->group_srls) $group_check_code = sprintf('($_is_admin==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
+                if($node->group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$node->group_srls);
                 else $group_check_code = "true";
 
                 // 변수 정리

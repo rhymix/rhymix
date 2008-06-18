@@ -1,0 +1,19 @@
+<query id="getLoggedMembers" action="select">
+    <tables>
+        <table name="session" />
+    </tables>
+    <columns>
+        <column name="member_srl" />
+    </columns>
+    <conditions>
+        <condition operation="more" column="last_update" var="last_update" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+    <groups>
+        <group column="member_srl" />
+    </groups>
+</query>
