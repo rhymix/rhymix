@@ -5,4 +5,5 @@
     <column name="val" type="bigtext" />
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" />
     <column name="last_update" type="date" index="idx_session_update" />
+    <column name="cur_mid" type="varchar" size="128" index="idx_session_cur_mid" />
 </table>

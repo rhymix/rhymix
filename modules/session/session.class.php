@@ -25,6 +25,9 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('session', 'view', 'dispSessionAdminIndex');
 
+            $oDB = &DB::getInstance();
+            $oDB->addIndex("session","idx_session_update_mid", array("last_update","cur_mid"));
+
             return new Object();
         }
 
@@ -38,6 +41,10 @@
             if(!$oModuleModel->getActionForward('dispSessionAdminIndex')) return true;
 
             if(!$oDB->isTableExists('session')) return true;
+
+            if(!$oDB->isColumnExists("session","cur_mid")) return true;
+
+            if(!$oDB->isIndexExists("session","idx_session_update_mid")) return true;
 
             return false;
         }
@@ -54,6 +61,14 @@
 
             if(!$oModuleModel->getActionForward('dispSessionAdminIndex')) 
                 $oModuleController->insertActionForward('session', 'view', 'dispSessionAdminIndex');
+
+            if(!$oDB->isColumnExists("session","cur_mid")) {
+                $oDB->addColumn('session',"cur_mid","varchar",128);
+            }
+
+            if(!$oDB->isIndexExists("session","idx_session_update_mid")) 
+                $oDB->addIndex("session","idx_session_update_mid", array("last_update","cur_mid"));
+
         }
 
         /**

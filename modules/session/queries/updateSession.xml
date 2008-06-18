@@ -8,6 +8,7 @@
         <column name="val" var="val" notnull="notnull" />
         <column name="ipaddress" default="ipaddress()" />
         <column name="last_update" default="curdate()" />
+        <column name="cur_mid" var="cur_mid" />
     </columns>
     <conditions>
         <condition operation="equal" column="session_key" var="session_key" notnull="notnull" />

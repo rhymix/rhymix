@@ -16,13 +16,19 @@
          **/
         function proc($args) {
 
-            // 위젯 자체적으로 설정한 변수들을 체크
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
 
+            $use_mid = $args->use_mid;
+            if($use_mid == 'mid') $mid = Context::get('mid');
+            else $mid = null;
+
+            $obj->list_count = $list_count;
+            $obj->mid = $mid;
+
             // session model 객체 생성
             $oSessionModel = &getModel('session');
-            $output = $oSessionModel->getLoggedMembers($list_count);
+            $output = $oSessionModel->getLoggedMembers($obj);
             $widget_info->member_list = $output->data;
             Context::set('widget_info', $widget_info);
 

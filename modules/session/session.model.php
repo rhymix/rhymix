@@ -27,6 +27,14 @@
             if(!$output->toBool()) {
                 $oDB = &DB::getInstance();
                 if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
+                if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
+                $output = executeQuery('session.getSession', $args);
+            }
+
+            // 세션 정보에서 cur_mid값이 없을 경우 테이블 생성 체크
+            if(!isset($output->data->cur_mid)) {
+                $oDB = &DB::getInstance();
+                if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
             }
 
             return $output->data->val;
@@ -34,11 +42,17 @@
 
         /**
          * @brief 현재 접속중인 사용자의 목록을 구함
-         * period_time 인자의 값을 n으로 하여 최근 n분 이내에 세션을 갱신한 대상을 추출함
+         * 여러개의 인자값을 필요로 해서 object를 인자로 받음
+         * limit_count : 대상 수
+         * page : 페이지 번호
+         * period_time : 인자의 값을 n으로 하여 최근 n분 이내에 세션을 갱신한 대상을 추출함
+         * mid : 특정 mid에 속한 사용자
          **/
-        function getLoggedMembers($limit_count = 20, $page = 1, $period_time = 3) {
-            $args->last_update = date("YmdHis", time() - $period_time*60);
-            $args->page = $page;
+        function getLoggedMembers($args) {
+            if(!$args->limit_count) $args->limit_count = 20;
+            if(!$args->page) $args->page = 1;
+            if(!$args->period_time) $args->period_time = 3;
+            $args->last_update = date("YmdHis", time() - $args->period_time*60);
 
             $output = executeQueryArray('session.getLoggedMembers', $args);
             if(!$output->toBool() || !$output->data) return $output;

@@ -34,6 +34,11 @@
 
             $args->expired = date("YmdHis", time()+$this->lifetime);
             $args->val = $val;
+            $args->cur_mid = Context::get('mid');
+            if(!$args->cur_mid) {
+                $module_info = Context::get('current_module_info');
+                $args->cur_mid = $module_info->mid;
+            }
 
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');

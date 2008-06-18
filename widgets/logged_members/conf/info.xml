@@ -13,5 +13,18 @@
             <type>text</type>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
         </var>
+        <var id="use_mid">
+            <name xml:lang="ko">대상 지정</name>
+            <type>select</type>
+            <description xml:lang="ko">대상을 전체로 하면 홈페이지 접속자 모두가 출력되고 Mid 구분으로 하게 되면 접속한 Mid에 같이 접속한 회원만 출력이 됩니다.</description>
+            <options>
+                <name xml:lang="ko">전체</name>
+                <value>total</value>
+            </options>
+            <options>
+                <name xml:lang="ko">Mid 구분</name>
+                <value>mid</value>
+            </options>
+        </var>
     </extra_vars>
 </widget>

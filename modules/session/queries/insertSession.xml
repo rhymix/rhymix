@@ -9,5 +9,6 @@
         <column name="val" var="val" />
         <column name="ipaddress" default="ipaddress()" />
         <column name="last_update" default="curdate()" />
+        <column name="cur_mid" var="cur_mid" />
     </columns>
 </query>
