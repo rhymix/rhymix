@@ -55,12 +55,22 @@
             $args->last_update = date("YmdHis", time() - $args->period_time*60);
 
             $output = executeQueryArray('session.getLoggedMembers', $args);
-            if(!$output->toBool() || !$output->data) return $output;
+            if(!$output->toBool()) return $output;
 
             $member_srls = array();
-            foreach($output->data as $key => $val) {
-                $member_srls[$key] = $val->member_srl;
-                $member_keys[$val->member_srl] = $key;
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $member_srls[$key] = $val->member_srl;
+                    $member_keys[$val->member_srl] = $key;
+                }
+            }
+
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                if(!in_array($logged_info->member_srl, $member_srls)) {
+                    $member_srls[0] = $logged_info->member_srl;
+                    $member_keys[$logged_info->member_srl] = 0;
+                }
             }
 
             if(!count($member_srls)) return $output;
