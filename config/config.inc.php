@@ -58,7 +58,7 @@
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
      **/
-    define('_XE_PATH_', str_replace('config/config.inc.php','',__FILE__));
+    define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
     /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
