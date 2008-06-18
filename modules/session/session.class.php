@@ -53,7 +53,7 @@
             if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
 
             if(!$oModuleModel->getActionForward('dispSessionAdminIndex')) 
-                $oModuleController->insertActionForward('document', 'view', 'dispSessionAdminIndex');
+                $oModuleController->insertActionForward('session', 'view', 'dispSessionAdminIndex');
         }
 
         /**
