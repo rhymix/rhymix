@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <addon version="0.1">
   <title xml:lang="ko">자동 링크 애드온</title>
+  <title xml:lang="en">Auto Link</title>
   <title xml:lang="zh-CN">自动链接插件</title>
   <title xml:lang="es">auto vínculo addon</title>
   <title xml:lang="ru">авто ссылка аддон</title>
   <title xml:lang="ge">Auto-Link Addon</title>
   <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 22">
     <name xml:lang="ko">zero</name>
+	<name xml:lang="en">zero</name>
 	<name xml:lang="zh-CN">zero</name>
 	<name xml:lang="es">zero</name>
 	<name xml:lang="ru">zero</name>
 	<name xml:lang="ge">zero</name>
     <description xml:lang="ko">
         게시글과 댓글의 내용중 http로 시작되는 일반 문자열에 자동으로 링크를 걸고 각 링크에 마우스 오버시 새창과 현재창 메뉴가 나타나도록 꾸미는 애드온입니다.
+    </description>
+	<description xml:lang="en">
+        This addon makes a link to a string that starts with http.
     </description>
 	<description xml:lang="zh-CN">
         主题及评论中以http开始的字符串，自动转换为链接。并且鼠标移到链接上方时，将出现可选(新窗/本页面)提示框。

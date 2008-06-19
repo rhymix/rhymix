@@ -22,6 +22,7 @@
         'user_id' => 'ユーザID',
         'user_name' => '名前',
         'nick_name' => 'ニックネーム',
+        'member_srl' => 'Member Serial',
         'email_address' => 'メールアドレス',
         'homepage' => 'ホームページURL',
         'regdate' => '登録日',

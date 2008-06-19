@@ -1,8 +1,10 @@
 // ** I18N
 
-// DyCalendar EN language
+// DyCalendar RU language
 // Author: Mihai Bazon, <mihai_bazon@yahoo.com>
-// Encoding: any
+// Translation: bradly1, <bradly1@paran.com>
+// Encoding: UTF-8
+// lang : RU
 // Distributed under the same terms as the calendar itself.
 
 // For translators: please use UTF-8 if possible.  We strongly believe that
@@ -11,14 +13,14 @@
 
 // full day names
 DyCalendar._DN = new Array
-("Sunday",
- "Monday",
- "Tuesday",
- "Wednesday",
- "Thursday",
- "Friday",
- "Saturday",
- "Sunday");
+("Воскресенье", 
+ "Понедельник", 
+ "Вторник", 
+ "Среда", 
+ "Четверг", 
+ "Пятница", 
+ "Суббота", 
+ "Воскресенье");
 
 // Please note that the following array of short day names (and the same goes
 // for short month names, _SMN) isn't absolutely necessary.  We give it here
@@ -34,14 +36,14 @@ DyCalendar._DN = new Array
 
 // short day names
 DyCalendar._SDN = new Array
-("Sun",
- "Mon",
- "Tue",
- "Wed",
- "Thu",
- "Fri",
- "Sat",
- "Sun");
+("Sun", 
+ "ПН", 
+ "ВТ", 
+ "Wed", 
+ "Thu", 
+ "Пят", 
+ "СБ", 
+ "Солнце");
 
 // First day of the week. "0" means display Sunday first, "1" means display
 // Monday first, etc.
@@ -49,37 +51,37 @@ DyCalendar._FD = 0;
 
 // full month names
 DyCalendar._MN = new Array
-("January",
- "February",
- "March",
- "April",
- "May",
- "June",
- "July",
- "August",
- "September",
- "October",
- "November",
- "December");
+("Январь", 
+ "Февраль", 
+ "Марта", 
+ "Апрель", 
+ "Мая", 
+ "Июнь", 
+ "Июль", 
+ "Август", 
+ "Сентябрь", 
+ "Октябрь", 
+ "Ноябрь", 
+ "Декабрь");
 
 // short month names
 DyCalendar._SMN = new Array
-("Jan",
- "Feb",
- "Mar",
- "Apr",
- "May",
- "Jun",
- "Jul",
- "Aug",
- "Sep",
- "Oct",
- "Nov",
- "Dec");
+("Январь", 
+ "Февраль", 
+ "Марта", 
+ "Апрель", 
+ "Мая", 
+ "Июнь", 
+ "Июль", 
+ "Август", 
+ "Сентябрь", 
+ "Октябрь", 
+ "Ноябрь", 
+ "Декабрь");
 
 // tooltips
 DyCalendar._TT = {};
-DyCalendar._TT["INFO"] = "About the calendar";
+DyCalendar._TT["INFO"] = "О календаре";
 
 DyCalendar._TT["ABOUT"] =
 "DHTML Date/Time Selector\n" +
@@ -97,31 +99,31 @@ DyCalendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or Shift-click to decrease it\n" +
 "- or click and drag for faster selection.";
 
-DyCalendar._TT["PREV_YEAR"] = "Prev. year (hold for menu)";
-DyCalendar._TT["PREV_MONTH"] = "Prev. month (hold for menu)";
-DyCalendar._TT["GO_TODAY"] = "Go Today";
-DyCalendar._TT["NEXT_MONTH"] = "Next month (hold for menu)";
-DyCalendar._TT["NEXT_YEAR"] = "Next year (hold for menu)";
-DyCalendar._TT["SEL_DATE"] = "Select date";
-DyCalendar._TT["DRAG_TO_MOVE"] = "Drag to move";
-DyCalendar._TT["PART_TODAY"] = " (today)";
+DyCalendar._TT [ "PREV_YEAR"] = "Пред. Год (удерживать для меню)"; 
+DyCalendar._TT [ "PREV_MONTH"] = "Пред. Месяце (удерживать для меню)"; 
+DyCalendar._TT [ "GO_TODAY"] = "Перейти Сегодня"; 
+DyCalendar._TT [ "NEXT_MONTH"] = "В следующем месяце (удерживать для меню)"; 
+DyCalendar._TT [ "NEXT_YEAR"] = "В следующем году (удерживать для меню)"; 
+DyCalendar._TT [ "SEL_DATE"] = "Выберите дату"; 
+DyCalendar._TT [ "DRAG_TO_MOVE"] = "Перетаскивайте двигаться"; 
+DyCalendar._TT [ "PART_TODAY"] = "(сегодня)";
 
 // the following is to inform that "%s" is to be the first day of week
 // %s will be replaced with the day name.
-DyCalendar._TT["DAY_FIRST"] = "Display %s first";
+DyCalendar._TT [ "DAY_FIRST"] = "display% с первой";
 
 // This may be locale-dependent.  It specifies the week-end days, as an array
 // of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
 // means Monday, etc.
-DyCalendar._TT["WEEKEND"] = "0,6";
+DyCalendar._TT [ "WEEKEND"] = "0,6"; 
 
-DyCalendar._TT["CLOSE"] = "Close";
-DyCalendar._TT["TODAY"] = "Today";
-DyCalendar._TT["TIME_PART"] = "(Shift-)Click or drag to change value";
+DyCalendar._TT [ "CLOSE"] = "Закрыть"; 
+DyCalendar._TT [ "Today"] = "Сегодня"; 
+DyCalendar._TT [ "TIME_PART"] = "(Shift-) клик или перетащите для изменения стоимости";
 
 // date formats
-DyCalendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-DyCalendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
+DyCalendar._TT [ "DEF_DATE_FORMAT"] = "% Y-% м-% г"; 
+DyCalendar._TT [ "TT_DATE_FORMAT"] = "%,%% е б"; 
 
-DyCalendar._TT["WK"] = "wk";
-DyCalendar._TT["TIME"] = "Time:";
+DyCalendar._TT [ "WK"] = "Нед"; 
+DyCalendar._TT [ "TIME"] = "Время:";

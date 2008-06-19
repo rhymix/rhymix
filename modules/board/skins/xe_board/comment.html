@@ -22,10 +22,7 @@
             <div class="date">
 
                 <strong>{$comment->getRegdate('Y.m.d')}</strong> {$comment->getRegdate('H:i:s')}
-
-                <!--@if($grant->is_admin)-->
-                    ({$comment->get('ipaddress')})
-                <!--@end-->
+                ({$comment->getIpaddress()})
             </div>
 
             <div class="author">

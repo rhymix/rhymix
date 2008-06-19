@@ -175,5 +175,44 @@
             return WidgetHandler::execute($widget, $vars, $this->include_info);
         }
 
+        /**
+         * @brief 특정 content내의 위젯을 다시 생성
+         **/
+        function recompileWidget($content) {
+            // 언어 종류 가져옴
+            $lang_list = Context::get('lang_supported');
+
+            // 위젯 캐시 sequence 를 가져옴
+            preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);
+
+            $cache_path = './files/cache/widget_cache/';
+
+            $oWidget = new WidgetHandler();
+            $oXmlParser = new XmlParser();
+
+            for($i=0;$i<count($matches[1]);$i++) {
+                $buff = urldecode($matches[0][$i]);
+                $xml_doc = $oXmlParser->parse(trim($buff));
+
+                $args = $xml_doc->img->attrs;
+                if(!$args) continue;
+
+                // 캐싱하지 않을 경우 패스
+                $widget = $args->widget;
+                $sequence = $args->widget_sequence;
+                $cache = $args->widget_cache;
+                if(!$sequence || !$cache) continue;
+
+                // 언어별로 위젯 캐시 파일이 있을 경우 재생성
+                foreach($lang_list as $lang_type => $val) {
+                    $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, $lang_type);
+                    if(!file_exists($cache_file)) continue;
+
+                    $oWidget->getCache($widget, $args, $lang_type, true);
+                }
+            }
+
+        }
+
     }
 ?>

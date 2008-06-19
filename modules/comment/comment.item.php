@@ -121,8 +121,13 @@
             $sender_member_srl = $logged_info->member_srl;
 
             // 쪽지 발송
-            $oMemberController = &getController('member');
-            $oMemberController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+            $oCommunicationController = &getController('communication');
+            $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+        }
+
+        function getIpaddress() {
+            if($this->isGranted()) return $this->get('ipaddress');
+            return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$1.$2.$3', $this->get('ipaddress'));
         }
 
         function isExistsHomepage() {

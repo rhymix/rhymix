@@ -1,0 +1,49 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/add_friend.xml")-->
+
+<div class="memberSmallBox w500pop">
+    <div class="header">
+        <h3>{$lang->cmd_add_friend}</h3>
+    </div>
+
+    <form action="./" method="get" onsubmit="return procFilter(this, add_friend)">
+    <input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
+
+        <div class="complex">
+            <table cellspacing="0" class="leftHeaderType">
+            <col width="110" />
+            <col />
+            <tr>
+                <th scope="row">{$lang->user_id}</th>
+                <td>{$target_info->user_id}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang->user_name}</th>
+                <td>{$target_info->user_name}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang->nick_name}</th>
+                <td><div class="member_{$target_info->member_srl}">{$target_info->nick_name}</div></td>
+            </tr>
+            </table>
+
+            <div class="group">
+                <select name="friend_group_srl" class="fl">
+                    <option value="">{$lang->default_friend_group}</option>
+                    <!--@foreach($friend_group_list as $key => $val)-->
+                    <option value="{$val->friend_group_srl}">{$val->title}</option>
+                    <!--@end-->
+                </select>
+                <span class="fr"><a href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button"><span>{$lang->cmd_add_friend_group}</span></a></span>
+            </div>
+        </div>
+
+        <div class="tCenter help">
+            <span class="button"><input type="submit" value="{$lang->cmd_add_friend}" /></span>
+            <a href="#" onclick="window.close();return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        </div>
+
+    </form>
+</div>
+
+<!--#include("./common_footer.html")-->

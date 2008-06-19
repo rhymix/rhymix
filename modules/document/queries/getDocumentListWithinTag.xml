@@ -1,4 +1,4 @@
-<query id="getDocumentListWithinComment" action="select">
+<query id="getDocumentListWithinTag" action="select">
     <tables>
         <table name="documents" alias="documents" />
         <table name="tags" alias="tags"/>

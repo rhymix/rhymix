@@ -1,6 +1,6 @@
 // ** I18N
 
-// DyCalendar KO language
+// DyCalendar GE language
 // Author: Mihai Bazon, <mihai_bazon@yahoo.com>
 // Translation: bradly1, <bradly1@paran.com>
 // Encoding: UTF-8

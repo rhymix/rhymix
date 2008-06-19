@@ -21,12 +21,6 @@
     $lang->invalid_user_id= '존재하지 않는 사용자 아이디입니다';
     $lang->invalid_password = '잘못된 비밀번호입니다';
     $lang->allow_mailing = '메일링 가입';
-    $lang->allow_message = '쪽지 수신 허용';
-    $lang->allow_message_type = array(
-             'Y' => '전체 수신',
-             'N' => '거부',
-             'F' => '친구만 허용',
-        );
     $lang->denied = '사용중지';
     $lang->is_admin = '최고관리 권한';
     $lang->group = '소속 그룹';
@@ -55,10 +49,6 @@
     $lang->redirect_url = '회원 가입후 이동할 페이지';
     $lang->agreement = '회원 가입 약관';
     $lang->accept_agreement = '약관동의';
-    $lang->sender = '보낸이';
-    $lang->receiver = '받는이';
-    $lang->friend_group = '친구 그룹';
-    $lang->default_friend_group = '그룹 미지정';
     $lang->member_info = '회원 정보';
     $lang->current_password = '현재 비밀번호';
     $lang->openid = 'OpenID';
@@ -80,14 +70,6 @@
         'extra_vars' => '확장변수',
     );
 
-    $lang->message_box = array(
-        'R' => '받은 쪽지함',
-        'S' => '보낸 쪽지함',
-        'T' => '보관함',
-    );
-
-    $lang->readed_date = "읽은 시간"; 
-
     $lang->cmd_login = '로그인';
     $lang->cmd_logout = '로그아웃';
     $lang->cmd_signup = '회원 가입';
@@ -103,24 +85,18 @@
     $lang->cmd_send_mail = '메일발송';
     $lang->cmd_manage_id = '금지아이디관리';
     $lang->cmd_manage_form = '가입폼관리';
-    $lang->cmd_view_own_document = '작성글 보기';
+    $lang->cmd_view_own_document = '작성 글 보기';
+    $lang->cmd_trace_document = '작성글 추적';
+    $lang->cmd_trace_comment = '작성 댓글 추적';
     $lang->cmd_view_scrapped_document = '스크랩 보기';
     $lang->cmd_view_saved_document = '저장함 보기';
     $lang->cmd_send_email = '메일 보내기';
-    $lang->cmd_send_message = '쪽지 보내기';
-    $lang->cmd_reply_message = '쪽지 답장';
-    $lang->cmd_view_friend = '친구 보기';
-    $lang->cmd_add_friend = '친구 등록';
-    $lang->cmd_view_message_box = '쪽지함 보기';
-    $lang->cmd_store = "보관";
-    $lang->cmd_add_friend_group = '친구 그룹 추가';
-    $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
 
     $lang->msg_email_not_exists = '이메일 주소가 존재하지 않습니다';
 
     $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
-    $lang->msg_cart_is_null = '대상을  선택해주세요';
+    $lang->msg_cart_is_null = '대상을 선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
 
     $lang->msg_find_account_title = '아이디/ 비밀번호 정보입니다';
@@ -135,9 +111,6 @@
     $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
     $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
 
-    $lang->msg_no_message = '쪽지가 없습니다';
-    $lang->message_received = '쪽지가 왔습니다';
-
     $lang->msg_new_member = '회원 추가';
     $lang->msg_update_member = '회원 정보 수정';
     $lang->msg_leave_member = '회원 탈퇴';
@@ -151,10 +124,6 @@
     $lang->msg_signup_disabled = '회원 가입을 하실 수 없습니다';
     $lang->msg_already_logged = '이미 회원 가입을 하신 상태입니다';
     $lang->msg_not_logged = '로그인을 하지 않으셨습니다';
-    $lang->msg_title_is_null = '쪽지 제목을 입력해주세요';
-    $lang->msg_content_is_null = '내용을 입력해주세요';
-    $lang->msg_allow_message_to_friend = '친구에게만 쪽지 수신을 허용한 사용자라서 쪽지 발송을 하지 못했습니다';
-    $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다';
     $lang->msg_insert_group_name = '그룹명을 입력해 주세요';
     $lang->msg_check_group = '그룹을 선택해 주세요';
 
@@ -177,7 +146,6 @@
     $lang->about_blog_url = '운영하는 블로그가 있을 경우 입력해주세요';
     $lang->about_birthday = '생년월일을 입력해주세요';
     $lang->about_allow_mailing = '메일링 가입이 체크되지 않으면 단체메일 발송시 메일을 받지 않습니다';
-    $lang->about_allow_message = '쪽지 수신 여부를 결정할 수 있습니다';
     $lang->about_denied = '체크시 아이디를 사용할 수 없도록 합니다';
     $lang->about_is_admin = '체크시 최고 관리자 권한을 가지게 됩니다';
     $lang->about_description = '회원에 대한 관리자 메모입니다';

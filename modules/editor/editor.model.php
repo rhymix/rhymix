@@ -366,6 +366,13 @@
         }
 
         /**
+         * @brief editor skin 목록을 return
+         **/
+        function getEditorSkinList() {
+            return FileHandler::readDir('./modules/editor/skins');
+        }
+
+        /**
          * @brief component 목록을 return (DB정보 보함)
          **/
         function getComponentList($filter_enabled = true) {

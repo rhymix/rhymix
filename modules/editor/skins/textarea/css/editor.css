@@ -1,4 +1,4 @@
 @charset "utf-8";
 
-.xeTextareaEditor {width:100%; }
-.xeTextareaEditor textarea { display:block; margin:10px 10px 0 10px; width:90%;}
+.xeTextareaEditor {padding:10px; overflow:hidden; }
+.xeTextareaEditor textarea { display:block; margin:0; padding:2px; }

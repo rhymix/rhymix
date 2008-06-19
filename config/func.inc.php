@@ -313,7 +313,7 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        $debug_file = "./files/_debug_message.php";
+        $debug_file = _XE_PATH_."files/_debug_message.php";
         $buff = sprintf("%s\n",print_r($buff,true));
 
         if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
@@ -416,7 +416,16 @@
         // style 태그 제거
         $content = preg_replace("!<style(.*?)<\/style>!is", '', $content);
 
+        // XSS 사용을 위한 이벤트 제거
+        $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
+
         return $content;
+    }
+
+    function removeJSEvent($matches) {
+        $tag = strtolower($matches[1]);
+        if($tag == "a" && preg_match('/href=("|\'?)javascript:/i',$matches[2])) $matches[0] = preg_replace('/href=("|\'?)javascript:/i','href=$1_javascript:', $matches[0]);
+        return preg_replace('/on([a-z]+)=/i','_on$1=',$matches[0]);
     }
 
     // hexa값을 RGB로 변환

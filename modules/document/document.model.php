@@ -54,50 +54,72 @@
             // trigger 호출
             ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
 
-            // 인쇄 버튼 추가
-            $menu_str = Context::getLang('cmd_print');
-            $menu_link = sprintf("%s?document_srl=%s&act=dispDocumentPrint",Context::getRequestUri(),$document_srl);
-            $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", '' ,$menu_str, $menu_link);
+            $oDocumentController = &getController('document');
 
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
                 // 추천 버튼 추가
-                $menu_str = Context::getLang('cmd_vote');
-                $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
 
                 // 비추천 버튼 추가
-                $menu_str = Context::getLang('cmd_vote_down');
-                $menu_link = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
 
                 // 신고 기능 추가
-                $menu_str = Context::getLang('cmd_declare');
-                $menu_link = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
 
                 // 스크랩 버튼 추가
-                $menu_str = Context::getLang('cmd_scrap');
-                $menu_link = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
             }
+
+            // 인쇄 버튼 추가
+            $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
 
-            // 정보를 저장
-            $this->add("menu_list", implode("\n",$menu_list));
+            // 관리자일 경우 ip로 글 찾기
+            if($logged_info->is_admin == 'Y') {
+                $oDocumentModel = &getModel('document');
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+
+                if($oDocument->isExists()) {
+                    // ip주소에 해당하는 글 찾기
+                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
+                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+                }
+            }
+
+            // 팝업메뉴의 언어 변경
+            $menus = Context::get('document_popup_menu_list');
+            $menus_count = count($menus);
+            for($i=0;$i<$menus_count;$i++) {
+                $menus[$i]->str = Context::getLang($menus[$i]->str);
+            }
+
+            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            $this->add('menus', $menus);
         }
 
         /**
          * @brief 여러개의 문서들을 가져옴 (페이징 아님)
          **/
         function getDocuments($document_srls, $is_admin = false) {
-            if(is_array($document_srls)) $document_srls = implode(',',$document_srls);
-
-            // DB에서 가져옴
+            if(is_array($document_srls)) {
+                $list_count = count($document_srls);
+                $document_srls = implode(',',$document_srls);
+            } else {
+                $list_count = 1;
+            }
             $args->document_srls = $document_srls;
+            $args->list_count = $list_count;
+
             $output = executeQuery('document.getDocuments', $args);
             $document_list = $output->data;
             if(!$document_list) return;
@@ -191,7 +213,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
+                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
                             else $args->{"s_".$search_target} = '';
                         break;
                     case 'member_srl' :
@@ -389,15 +412,36 @@
         /**
          * @brief 해당 document의 page 가져오기, module_srl이 없으면 전체에서..
          **/
-        function getDocumentPage($document_srl, $module_srl=0, $list_count) {
-            // 변수 설정
-            $args->document_srl = $document_srl;
-            $args->module_srl = $module_srl;
+        function getDocumentPage($oDocument, $opt) {
+            // 정렬 형식에 따라서 query args 변경
+            switch($opt->sort_index) {
+                case 'update_order' :
+                        if($opt->order_type == 'desc') $args->rev_update_order = $oDocument->get('update_order');
+                        else $args->update_order = $oDocument->get('update_order');
+                    break;
+                case 'regdate' :
+                        if($opt->order_type == 'desc') $args->rev_regdate = $oDocument->get('regdate');
+                        else $args->regdate = $oDocument->get('regdate');
+                    break;
+                case 'voted_count' :
+                case 'readed_count' :
+                case 'comment_count' :
+                case 'title' :
+                        return 1;
+                    break;
+                default :
+                        if($opt->order_type == 'desc') $args->rev_list_order = $oDocument->get('list_order');
+                        else $args->list_order = $oDocument->get('list_order');
+                    break;
+            }
+            $args->module_srl = $oDocument->get('module_srl');
+            $args->sort_index = $opt->sort_index;
+            $args->order_type = $opt->order_type;
 
             // 전체 갯수를 구한후 해당 글의 페이지를 검색
             $output = executeQuery('document.getDocumentPage', $args);
             $count = $output->data->count;
-            $page = (int)(($count-1)/$list_count)+1;
+            $page = (int)(($count-1)/$opt->list_count)+1;
             return $page;
         }
 

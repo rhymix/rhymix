@@ -37,6 +37,9 @@
             // 모듈의 정보가 없다면($mid가 잘못이거나 없었을 경우) 기본 모듈을 가져옴
             if(!$output->data) $output = executeQuery('module.getDefaultMidInfo');
 
+            // 기본 모듈이 한 개 이상 지정되어 있을 때의 예외 처리
+            if(!$output->data->module_srl && $output->data[0]) $output->data = $output->data[0];
+
             return $this->arrangeModuleInfo($output->data);
         }
 
@@ -593,6 +596,8 @@
 
             // 다운받은 모듈과 설치된 모듈의 목록을 구함
             $searched_list = FileHandler::readDir('./modules');
+            sort($searched_list);
+
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 

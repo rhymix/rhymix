@@ -1,1 +1,0 @@
-<filter name="delete_checked_friend" module="member" act="procMemberDeleteFriend" confirm_msg_code="confirm_delete" />

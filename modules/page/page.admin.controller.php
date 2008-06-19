@@ -180,22 +180,9 @@
 
             $content = $module_info->content;
 
-            // 언어 종류 가져옴
-            $lang_list = Context::get('lang_supported');
-
-            // 위젯 캐시 sequence 를 가져옴
-            preg_match_all('/widget_sequence="([0-9]+)"/i',$content, $matches);
-
-            $cache_path = './files/cache/widget_cache/';
-
-            for($i=0;$i<count($matches[1]);$i++) {
-                $sequence = $matches[1][$i];
-
-                foreach($lang_list as $lang_type => $val) {
-                    $cache_file = sprintf('%s%d.%s.cache', $cache_path, $sequence, $lang_type);
-                    @unlink($cache_file);
-                }
-            }
+            // widget controller 의 캐시파일 재생성 실행
+            $oWidgetController = &getController('widget');
+            $oWidgetController->recompileWidget($content);
 
             $this->setMessage('success_updated');
         }

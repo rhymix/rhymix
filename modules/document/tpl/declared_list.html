@@ -14,64 +14,23 @@
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
 <!--@if($lang_type == 'ko')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="150" />
-<col width="55" />
-<col width="55" />
-<col width="55" />
-<col width="65" />
-
+{@ $col_width = array(50,40,0,150,55,55,55,65)}
 <!--@else if($lang_type == 'en')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="150" />
-<col width="60" />
-<col width="55" />
-<col width="55" />
-<col width="75" />
-
+{@ $col_width = array(50,40,0,150,60,55,55,75)}
 <!--@else if($lang_type == 'zh-CN')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="150" />
-<col width="45" />
-<col width="45" />
-<col width="45" />
-<col width="65" />
-
+{@ $col_width = array(50,40,0,150,45,45,45,65)}
 <!--@else if($lang_type == 'jp')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="150" />
-<col width="55" />
-<col width="55" />
-<col width="55" />
-<col width="75" />
-
+{@ $col_width = array(50,40,0,150,55,55,55,75)}
 <!--@else if($lang_type == 'es')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="150" />
-<col width="55" />
-<col width="55" />
-<col width="110" />
-<col width="75" />
-
+{@ $col_width = array(50,40,0,150,55,55,110,75)}
 <!--@else if($lang_type == 'ru')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="150" />
-<col width="75" />
-<col width="50" />
-<col width="60" />
-<col width="65" />
+{@ $col_width = array(50,40,0,150,75,50,60,65)}
+<!--@else if($lang_type == 'fr')-->
+{@ $col_width = array(50,40,0,150,65,45,105,75)}
+<!--@end-->
+
+<!--@foreach($col_width as $width)-->
+<col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
 <thead>
     <tr>

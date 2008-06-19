@@ -12,61 +12,27 @@
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
 <!--@if($lang_type == 'ko')-->
-<col width="50" />
-<col />
-<col width="150" />
-<col width="65" />
-<col width="65" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,150,65,65,90,45)}
 <!--@else if($lang_type == 'en')-->
-<col width="50" />
-<col />
-<col width="150" />
-<col width="75" />
-<col width="75" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,150,75,75,90,45)}
 <!--@else if($lang_type == 'zh-CN')-->
-<col width="50" />
-<col />
-<col width="150" />
-<col width="70" />
-<col width="70" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,150,70,70,90,45)}
 <!--@else if($lang_type == 'jp')-->
-<col width="50" />
-<col />
-<col width="150" />
-<col width="75" />
-<col width="75" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,150,75,75,90,45)}
 <!--@else if($lang_type == 'es')-->
-<col width="50" />
-<col />
-<col width="150" />
-<col width="75" />
-<col width="75" />
-<col width="90" />
-<col width="50" />
-
+{@ $col_width = array(50,40,0,150,75,75,90,50)}
 <!--@else if($lang_type == 'ru')-->
-<col width="50" />
-<col />
-<col width="150" />
-<col width="75" />
-<col width="75" />
-<col width="90" />
-<col width="95" />
+{@ $col_width = array(50,40,0,150,75,75,90,95)}
+<!--@else if($lang_type == 'fr')-->
+{@ $col_width = array(50,40,0,150,65,90,90,60)}
+<!--@end-->
+
+<!--@foreach($col_width as $width)-->
+<col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
 <thead>
     <tr>
+        <th scope="col">{$lang->no}</th>
         <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
         <th scope="col">
             <div class="nowrap">
@@ -90,6 +56,7 @@
     <!--@foreach($comment_list as $no => $val)-->
     <tr>
         <td rowspan="2" class="tahoma">{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
         <td class="blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$val->module_srl]->browser_title)}</a></td>
         <td><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
         <td class="tahoma">{nl2br(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
@@ -98,8 +65,7 @@
         <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <tr>
-        <td colspan="6" class="left">
-            <input type="checkbox" name="cart" value="{$val->comment_srl}" />
+        <td colspan="7" class="left">
             {cut_str(htmlspecialchars(strip_tags($val->content)),100,'...')}
         </td>
     </tr>

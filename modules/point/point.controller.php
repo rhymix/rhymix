@@ -102,24 +102,77 @@
         }
 
         /**
+         * @brief 게시글 삭제 이전에 게시글의 댓글에 대한 포인트 감소 처리를 하는 trigger
+         **/
+        function triggerBeforeDeleteDocument(&$obj) {
+            $document_srl = $obj->document_srl;
+            $member_srl = $obj->member_srl;
+
+            // point 모듈 정보 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+
+            // 지울 대상 글의 댓글에 대한 처리
+            $comment_point = $config->module_point[$module_srl]['insert_comment'];
+            if(!isset($comment_point)) $comment_point = $config->insert_comment;
+
+            // 댓글 포인트가 있으면 처리
+            if(!$comment_point) return new Object();
+
+            // 해당 글에 포함된 모든 댓글을 추출
+            $cp_args->document_srl = $document_srl;
+            $output = executeQueryArray('point.getCommentUsers', $cp_args);
+
+            // 대상이 없으면 return
+            if(!$output->data) return new Object();
+
+            // 대상 회원 번호를 정리
+            $member_srls = array();
+            $cnt = count($output->data);
+            for($i=0;$i<$cnt;$i++) {
+                if($output->data[$i]->member_srl<1) continue;
+                $member_srls[$output->data[$i]->member_srl] = $output->data[$i]->count;
+            }
+
+            // 원글 작성 회원의 번호는 제거
+            if($member_srl) unset($member_srls[$member_srl]);
+            if(!count($member_srls)) return new Object();
+
+            // 각 회원들을 모두 돌면서 포인트 감소
+            $oPointModel = &getModel('point');
+
+            // 포인트를 구해옴
+            $point = $config->module_point[$module_srl]['download_file'];
+            foreach($member_srls as $member_srl => $cnt) {
+                $cur_point = $oPointModel->getPoint($member_srl, true);
+                $cur_point -= $cnt * $comment_point;
+                $this->setPoint($member_srl,$cur_point);
+            }
+
+            return new Object();
+        }
+
+        /**
          * @brief 게시글 삭제 포인트 적용 trigger
          **/
         function triggerDeleteDocument(&$obj) {
             $module_srl = $obj->module_srl;
             $member_srl = $obj->member_srl;
+
+            // 지울 대상 글에 대한 처리
             if(!$module_srl || !$member_srl) return new Object();
 
             // 로그인 상태일때만 실행
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object();
 
-            // point 모듈 정보 가져옴
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('point');
-
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
+
+            // point 모듈 정보 가져옴
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
 
             $point = $config->module_point[$module_srl]['insert_document'];
             if(!isset($point)) $point = $config->insert_document;
@@ -143,6 +196,12 @@
             $module_srl = $obj->module_srl;
             $member_srl = $obj->member_srl;
             if(!$module_srl || !$member_srl) return new Object();
+
+            // 원글이 본인의 글이라면 포인트를 올리지 않음
+            $document_srl = $obj->document_srl;
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists() || $oDocument->get('member_srl')==$member_srl) return new Object();
 
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');

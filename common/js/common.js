@@ -309,18 +309,27 @@ function setFixedPopupSize() {
 /**
  * @brief 이름, 게시글등을 클릭하였을 경우 팝업 메뉴를 보여주는 함수
  **/
+xAddEventListener(window, 'load', createPopupMenu);
 xAddEventListener(document, 'click', chkPopupMenu);
-var loaded_popup_menu_list = new Array();
+
+var loaded_popup_menus = new Array();
+
+/* 멤버 팝업 메뉴 레이어를 생성하는 함수 (문서 출력이 완료되었을때 동작) */
+function createPopupMenu(evt) {
+    var area = xGetElementById("popup_menu_area");
+    if(area) return;
+    area = xCreateElement("div");
+    area.id = "popup_menu_area";
+    area.style.visibility = 'hidden';
+    document.body.appendChild(area);
+}
 
 /* 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리 */
 function chkPopupMenu(evt) {
     // 이전에 호출되었을지 모르는 팝업메뉴 숨김
     var area = xGetElementById("popup_menu_area");
-    if(!area) {
-        area = xCreateElement("div");
-        area.id = "popup_menu_area";
-        document.body.appendChild(area);
-    }
+    if(!area) return;
+
     if(area.style.visibility!="hidden") area.style.visibility="hidden";
 
     // 이벤트 대상이 없으면 무시
@@ -332,9 +341,7 @@ function chkPopupMenu(evt) {
     if(!obj) return;
 
     // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
-    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN') {
-        obj = obj.parentNode;
-    }
+    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN') obj = obj.parentNode;
     if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN')) return;
 
     // 객체의 className값을 구함
@@ -371,10 +378,9 @@ function chkPopupMenu(evt) {
     params["page_x"] = e.pageX;
     params["page_y"] = e.pageY;
 
-    var response_tags = new Array("error","message","menu_list");
+    var response_tags = new Array("error","message","menus");
 
-    if(loaded_popup_menu_list[menu_id]) {
-        params["menu_list"] = loaded_popup_menu_list[menu_id];
+    if(loaded_popup_menus[menu_id]) {
         displayPopupMenu(params, response_tags, params);
         return;
     }
@@ -385,44 +391,53 @@ function chkPopupMenu(evt) {
 }
 
 function displayPopupMenu(ret_obj, response_tags, params) {
-    var area = xGetElementById("popup_menu_area");
-
-    var menu_list = ret_obj['menu_list'];
-
     var target_srl = params["target_srl"];
     var menu_id = params["menu_id"];
-
+    var menus = ret_obj['menus'];
     var html = "";
 
-    if(loaded_popup_menu_list[menu_id]) {
-        html = loaded_popup_menu_list[menu_id];
+    if(loaded_popup_menus[menu_id]) {
+        html = loaded_popup_menus[menu_id];
     } else {
-        var infos = menu_list.split("\n");
-        if(infos.length) {
-            for(var i=0;i<infos.length;i++) {
-                var info_str = infos[i];
-                var pos = info_str.indexOf(",");
-                var icon = info_str.substr(0,pos).trim();
+        if(menus) {
+            var item = menus['item'];
+            if(item.length<1) item = new Array(item);
+            if(item.length) {
+                for(var i=0;i<item.length;i++) {
+                    var url = item[i].url;
+                    var str = item[i].str;
+                    var icon = item[i].icon;
+                    var target = item[i].target;
 
-                info_str = info_str.substr(pos+1, info_str.length).trim();
-                var pos = info_str.indexOf(",");
-                var str = info_str.substr(0,pos).trim();
-                var func = info_str.substr(pos+1, info_str.length).trim();
+                    var styleText = "";
 
-                var className = "item";
+                    if(icon) styleText = " style=\"background:url('"+icon+"') no-repeat left center; padding-left:18px; \"";
+                    switch(target) {
+                        case "popup" :
+                                click_str = " onclick=\"popopen('"+url+"','"+target+"')\"; return false;";
+                            break;
+                        case "self" :
+                                click_str = " onclick=\"location.href='"+url+"'\"; return false;";
+                            break;
+                        case "javascript" :
+                                click_str = " onclick=\""+url+"\"; return false;";
+                            break;
+                        default :
+                                click_str = " onclick=\"window.open('"+url+"')\"; return false;";
+                            break;
+                    }
 
-                if(!str || !func) continue;
-
-                if(icon) html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" style=\"background:url("+icon+") no-repeat left center; padding-left:18px;\" onclick=\""+func+"\">"+str+"</div>";
-                else html += "<div class=\""+className+"\" onmouseover=\"this.className='"+className+"_on'\" onmouseout=\"this.className='"+className+"'\" onclick=\""+func+"\">"+str+"</div>";
+                    html += '<div class="item" onmouseover="this.className=\'item_on\'" onmouseout="this.className=\'item\'"'+styleText+click_str+'>'+str+'</div> ';
+                }
             }
-        } 
-        loaded_popup_menu_list[menu_id] =  html;
+        }
+        loaded_popup_menus[menu_id] =  html;
     }
 
+    // 레이어 출력
     if(html) {
-        // 레이어 출력
-        xInnerHtml('popup_menu_area', "<div class=\"box\">"+html+"</div>");
+        var area = xGetElementById("popup_menu_area");
+        xInnerHtml(area, "<div class=\"box\">"+html+"</div>");
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
@@ -780,7 +795,7 @@ if(xIE4Up) {
                     else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
                     else this.selectedIndex--;
                 } else {
-                    this.oldonchange();
+                    if(this.oldonchange) this.oldonchange();
                 }
             }
 

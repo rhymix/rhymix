@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.1" category="utility">
+    <title xml:lang="ko">커뮤니케이션</title>
+    <title xml:lang="zh-CN">会员交流</title>
+	<title xml:lang="en">Communication</title>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 5. 30">
+        <name xml:lang="ko">제로</name>
+		<name xml:lang="zh-CN">Zero</name>
+		<name xml:lang="en">Zero</name>
+        <description xml:lang="ko">회원들간의 쪽지, 친구기능을 담당하는 모듈입니다.</description>
+        <description xml:lang="zh-CN">管理在线会员间短信息及好友功能的模块。</description>
+		<description xml:lang="en">This module is for managing message, friend functions.</description>
+    </author>
+</module>

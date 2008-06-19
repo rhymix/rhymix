@@ -2,6 +2,7 @@
 <addon version="0.1">
   <title xml:lang="ko">본문내 이미지 조절 애드온</title>
   <title xml:lang="zh-CN">内容区图片缩放插件</title>
+  <title xml:lang="en">Image Resizer</title>
   <title xml:lang="es">Imagen de control add-on bonmunnae</title>
   <title xml:lang="ru">Image контроля добавить-на bonmunnae</title>
   <title xml:lang="ge">Image-Add-on bonmunnae</title>
@@ -20,13 +21,16 @@
     <description xml:lang="zh-CN">
         自动调整主题内容区内的图片大小，点击将显示原始大小的插件。
     </description>
-	    <description xml:lang="es">
+	<description xml:lang="en">
+        This addon resizes images inserted in the article, and shows original image when you click on them.
+    </description>
+	<description xml:lang="es">
         La imagen corporal se inserta dentro del cuerpo para que se adapte al tamaño de la muestra original cuando hago clic en los add-ons.
     </description>
-	    <description xml:lang="ru">
+	<description xml:lang="ru">
         Орган изображение вставляется внутрь тела с учетом размера первоначального шоу, когда я нажимаю на надстройки.
     </description>
-	    <description xml:lang="ge">
+	<description xml:lang="ge">
         Body Bild eingefügt im Inneren des Körpers zu passen die Größe des Originals zeigen, wenn ich darauf klicke auf das Add-ons.
     </description>
   </author>

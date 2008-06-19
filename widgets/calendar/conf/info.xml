@@ -21,14 +21,14 @@
         <description xml:lang="ru">Этот виджет отображает календарь, и если отправляется статья, данные будут выделены их ссылкой.</description>
     </author>
     <extra_vars>
-        <var id="mid_list">
+        <var id="mid">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">模块对象</name>
             <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Módulo objetivo</name>
             <name xml:lang="ru">Модуль назначения</name>
-            <type>mid_list</type>
+            <type>mid</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="zh-CN">将把被选模块作为关联对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>

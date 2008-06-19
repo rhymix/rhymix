@@ -1,0 +1,8 @@
+<filter name="delete_members" module="member" act="procMemberAdminDeleteMembers">
+    <form />
+    <response callback_func="completeDeleteMembers">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

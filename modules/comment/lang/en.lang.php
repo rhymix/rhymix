@@ -5,7 +5,7 @@
      * @brief  comment module's basic language pack
      **/
 	
-    $lang->cmd_comment_do = 'You would...';
+    $lang->cmd_comment_do = 'I want to';
     
     $lang->comment_list = 'Comments List';
     $lang->cmd_delete_checked_comment = 'Delete selected item';
@@ -21,6 +21,7 @@
         'user_id' => 'ID',
         'user_name' => 'Name',
         'nick_name' => 'Nickname',
+        'member_srl' => 'Member Serial',
         'email_address' => 'Email',
         'homepage' => 'Homepage',
         'regdate' => 'Date',

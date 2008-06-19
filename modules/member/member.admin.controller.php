@@ -203,6 +203,27 @@
         }
 
         /**
+         * @brief 선택된 회원들을 일괄 삭제
+         */
+        function procMemberAdminDeleteMembers() {
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(-1,'msg_invalid_request');
+            $member_srls = explode(',',$member_srl);
+            $oMemberController = &getController('member');
+            foreach($member_srls as $member)
+            {
+                $output = $oMemberController->deleteMember($member);
+                if(!$output->toBool())
+                {
+                    $this->setMessage('failed_deleted');
+                    return $output;
+                }
+            }
+            
+            $this->setMessage('success_deleted');
+        }
+
+        /**
          * @brief 선택된 회원들의 그룹을 일괄 변경
          **/
         function procMemberAdminUpdateMembersGroup() {

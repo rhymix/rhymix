@@ -564,7 +564,7 @@
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
         function _getNavigationData($table_list, $columns, $condition, $output) {
-            require_once('./classes/page/PageHandler.class.php');
+            require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);

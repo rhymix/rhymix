@@ -126,6 +126,9 @@ function drawTreeMenu(oXml, callback_func, resopnse_tags, null_func, param) {
         if(manual_select_node_srl) manualSelectNode(menu_id, manual_select_node_srl);
     }
 
+    var waiting_obj = xGetElementById("waitingforserverresponse");
+    if(waiting_obj) waiting_obj.style.visibility = "hidden";
+
     return null;
 }
 

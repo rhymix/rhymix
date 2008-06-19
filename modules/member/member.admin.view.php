@@ -77,19 +77,19 @@
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
             if(!$config->editor_skin) $config->editor_skin = "default";
-
-            // 에디터 스킨 목록을 구함
-            $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
-            Context::set('editor_skin_list', $editor_skin_list);
-
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
-            // 에디터를 받음
+            // 에디터 모델 객체 생성
             $oEditorModel = &getModel('editor');
+
+            // 에디터 스킨 목록을 구함
+            Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+            // 에디터를 받음
             $option->primary_key_name = 'temp_srl';
             $option->content_key_name = 'agreement';
             $option->allow_fileupload = false;
@@ -155,7 +155,7 @@
          * @brief 회원 삭제 화면 출력
          **/
         function dispMemberAdminDeleteForm() {
-            if(!Context::get('member_srl')) return $this->dispContent();
+            if(!Context::get('member_srl')) return $this->dispMemberAdminList();
             $this->setTemplateFile('delete_form');
         }
 
@@ -238,5 +238,17 @@
             $this->setTemplateFile('manage_member_group');
         }
 
+        /**
+         * @brief 회원 일괄 삭제 
+         **/
+        function dispMemberAdminDeleteMembers() {
+            // 선택된 회원 목록을 구함
+            $args->member_srl = trim(Context::get('member_srls'));
+            $output = executeQueryArray('member.getMembers', $args);
+            Context::set('member_list', $output->data);
+
+            $this->setLayoutFile('popup_layout');
+            $this->setTemplateFile('delete_members');
+        }
     }
 ?>

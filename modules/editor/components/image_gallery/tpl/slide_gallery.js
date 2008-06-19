@@ -113,7 +113,6 @@ function display_gallery_image(obj, is_first_display) {
 
     target_image.style.marginLeft = x+"px";
 
-    target_image.src = obj.image.src;
     target_image.srl = obj.srl;
     target_image.idx = obj.idx;
     target_image.style.opacity = 1;
@@ -121,6 +120,7 @@ function display_gallery_image(obj, is_first_display) {
     target_image.start_opacity = 0;
     xWidth(target_image, image_width);
     xHeight(target_image, image_height);
+    target_image.src = obj.image.src;
 
     if(image_height<200) {
       target_image.style.marginTop = (100-image_height/2)+"px";
@@ -130,12 +130,14 @@ function display_gallery_image(obj, is_first_display) {
       target_image.style.marginBottom = "10px";
     }
 
-    if(resize_scale!=1) {
-        xAddEventListener(target_image, 'click', showOriginalImage);
-        target_image.style.cursor = 'pointer';
-    } else {
-        xRemoveEventListener(target_image, 'click', showOriginalImage);
-        target_image.style.cursor = 'default';
+    if(typeof(showOriginalImage)=='function') {
+        if(resize_scale!=1) { 
+            xAddEventListener(target_image, 'click', showOriginalImage); 
+            target_image.style.cursor = 'pointer';
+        } else {
+            xRemoveEventListener(target_image, 'click', showOriginalImage);
+            target_image.style.cursor = 'default';
+        }
     }
 
     // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌

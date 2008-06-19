@@ -7,35 +7,34 @@
 .imgcloudoutline a.more:hover { text-decoration:underline;} 
 
 	.imgcloudoutline table {  
-		margin: 0px auto;
-		border:1px solid #ddd;
+		margin: 1px auto;
+		border: 0px solid #ddd;
 	}
 	
-	.imgcloudoutline .imgcloud {  
-		border:1px solid #ddd;
-		padding: 1px;
+	.imgcloudoutline img.imgcloud {  
+		border: 1px solid #e0e1db;
+		padding: 2px;
 		overflow: hidden;
+		display:block;
 	}
 
-	.imgcloudoutline .imgcloud:hover {  
+	.imgcloudoutline img.imgcloud:hover {  
 		border: 2px solid #7899AF;
-		padding: 0px;
-		overflow: hidden;
-	}
-
-	.imgcloudoutline .imgcloudbig {  
-		border:1px solid #ddd;
 		padding: 1px;
 		overflow: hidden;
+		display:block;
+		cursor: pointer;
 	}
-	
-	.imgcloudoutline .imgcloudbig:hover {  
-		border: 2px solid #7899AF;
-		padding: 0px;
+
+	.imgcloudoutline img.imgcloudbig {  
+		border: 1px solid #e0e1db;
+		padding: 2px;
 		overflow: hidden;
 	}
 	
-	.imgcloudoutline .cloudimg {  
-		border: 0px;
+	.imgcloudoutline img.imgcloudbig:hover {  
+		border: 2px solid #7899AF;
+		padding: 1px;
+		overflow: hidden;
 		cursor: pointer;
 	}

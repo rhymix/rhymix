@@ -1,0 +1,54 @@
+@charset "utf-8";
+.boardHeader h3 { margin:0; padding:0; float:left; clear:both; font-size:1.2em; padding:1em 2em .7em 1.2em; border:none; border-left:1px solid #e1e1dd; border-bottom:3px solid #fe3614; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
+
+.memberSmallBox .header h3 { margin:0; border:none; float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border:none; border-bottom:3px solid #fe3614; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
+
+/* button */
+a.button, span.button, del.button,
+a.button span, span.button button, span.button input, del.button span{
+    background-image:url(../images/black/form_buttons.png);
+    _background-image:url(../images/black/form_buttons.gif);
+}
+
+
+del.button span,
+a.button, span.button, del.button,
+a.button span, span.button button, span.button input, del.button span{
+    color:#FFFFFF;
+}
+
+.inputTypeText { background-color:transparent !important; color:#AAAAAA !important; }
+.inputTypeText:hover, .inputTypeText:focus { background-color:transparent; color:#AAAAAA; }
+
+/* replace color */
+.memberSmallBox { border:1px solid #888888; }
+.memberSmallBox .header { background:transparent url("../images/black/bgH3.gif) no-repeat left bottom; }
+.memberSmallBox .header h3 { background:transparent url("../images/black/lineH3.gif") no-repeat right bottom; color:#888888; border-bottom:3px solid #888888; }
+.memberSmallBox .openid_user_id { color:#AAAAAA; background:transparent url("../images/black/openid_input_bg.gif") no-repeat left 50% !important; }
+.memberSmallBox .help { background-color:transparent; }
+
+.memberInfoTable tr.first-child th, .memberInfoTable tr.first-child td { background-color:transparent; color:#AAAAAA; }
+.memberInfoTable tr th, .memberInfoTable tr td { background-color:transparent; color:#AAAAAA; }
+.memberInfoTable td input { background-color:transparent; color:#AAAAAA; }
+.memberInfoTable caption  { color:#AAAAAA; }
+div.checkValue { color:#BBBBBB !important; }
+
+.boardHeader { border:1px solid #888888; }
+.boardHeader { background:transparent url("../images/black/bgH3.gif) no-repeat left bottom; }
+.boardHeader h3 { border:none; background:transparent url("../images/black/lineH3.gif") no-repeat right bottom; color:#888888; border-bottom:3px solid #888888; }
+
+table.list { border:1px solid #000000 !important; }
+table.list th { background:#282829 url("../images/black/lineBoardListTh.gif") no-repeat left bottom; border:1px solid #444444 !important; color:#AAAAAA; }
+table.list tr { background-color:transparent !important; }
+table.list tr td.title { color:#BBBBBB !important; }
+table.list tr td.title a { color:#BBBBBB !important; }
+table.list tr td { border-top:1px solid #888888 !important; }
+table .list tr td, table.list tr td * { color:#BBBBBB; }
+
+.pageNavigation a { border:none !important; }
+.pageNavigation .current { border:none !important; color:#EEEEEE; }
+
+.memberSmallBox .leftHeaderType th { background:transparent; color:#AAAAAA; }
+.memberSmallBox .leftHeaderType td { color:#AAAAAA; }
+
+#popup_content { background-color:#000000; }

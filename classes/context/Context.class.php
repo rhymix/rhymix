@@ -48,14 +48,14 @@
         var $is_uploaded = false; ///< @brief 첨부파일이 업로드 된 요청이였는지에 대한 체크 플래그
 
         /**
-         * @brief Context 객체를  GLOBALS 변수에 생성
+         * @brief 유일한 Context 객체를 반환 (Singleton)
          *
-         * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용\n
-         * php5라면 GLOBALS가 아닌 static으로 처리 가능
+         * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
          **/
         function &getInstance() {
-            if(!$GLOBALS['__ContextInstance__']) $GLOBALS['__ContextInstance__'] = new Context();
-            return $GLOBALS['__ContextInstance__'];
+            static $theInstance;
+            if(!isset($theInstance)) $theInstance = new Context();
+            return $theInstance;
         }
 
         /**
@@ -73,12 +73,25 @@
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
+            // 세션 핸들러 지정
+            $oSessionModel = &getModel('session');
+            $oSessionController = &getController('session');
+            session_set_save_handler(
+                array(&$oSessionController,"open"),
+                array(&$oSessionController,"close"),
+                array(&$oSessionModel,"read"),
+                array(&$oSessionController,"write"),
+                array(&$oSessionController,"destroy"),
+                array(&$oSessionController,"gc")
+            );
+            session_start();
+
             // 쿠키로 설정된 언어타입 가져오기 
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
             else $this->lang_type = $this->db_info->lang_type;
 
             // 등록된 기본 언어파일 찾기
-            $langs = file('./common/lang/lang.info');
+            $langs = file(_XE_PATH_.'common/lang/lang.info');
             $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
             foreach($langs as $val) {
                 list($lang_prefix, $lang_text) = explode(',',$val);
@@ -99,7 +112,7 @@
 
             // 기본 언어파일 로드
             $this->lang = &$GLOBALS['lang'];
-            $this->_loadLang("./common/lang/");
+            $this->_loadLang(_XE_PATH_."common/lang/");
 
             // Request Method 설정
             $this->_setRequestMethod();
@@ -129,7 +142,7 @@
             }
 
             // rewrite 모듈사용 상태 체크
-            if(file_exists('./.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
+            if(file_exists(_XE_PATH_.'.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
             else $this->allow_rewrite = false;
 
             // 기본 JS/CSS 등록
@@ -139,7 +152,9 @@
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
             $this->addCSSFile("./common/css/button.css");
-            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css");
+
+            // 관리자 페이지일 경우 관리자 공용 CSS 추가
+            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
 
             // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -162,6 +177,9 @@
          * @brief DB및 기타 자원들의 close
          **/
         function close() {
+            // Session Close
+            if(function_exists('session_write_close')) session_write_close();
+
             // DB close
             $oDB = &DB::getInstance();
             if(is_object($oDB)&&method_exists($oDB, 'close')) $oDB->close();
@@ -576,40 +594,60 @@
                 $get_vars[$key] = $val;
             }
 
+            /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
+            if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
+            elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
+
             $var_count = count($get_vars);
             if(!$var_count) return '';
 
             if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
             else $path = $this->getRequestUri(RELEASE_SSL);
 
-            // rewrite모듈을 사용하고 인자의 값이 4개 이하일 경우
-            if($this->allow_rewrite && $var_count < 4) {
-                $var_keys = array_keys($get_vars);
+            // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
+            if($this->allow_rewrite) {
+                if(count($get_vars)) foreach($get_vars as $key => $value) if($value !== 0 && !$value) unset($get_vars[$key]);
 
-                if($var_count == 1) {
-                    if($var_keys[0]=='mid') return $path.$get_vars['mid'];
-                    elseif($var_keys[0]=='document_srl') return $path.$get_vars['document_srl'];
-                } elseif($var_count == 2) {
-                    asort($var_keys);
-                    $target = implode('.',$var_keys);
-                    if($target=='act.mid' && !preg_match('/([A-Z]+)/',$get_vars['act'])) return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
-                    elseif($target=='document_srl.mid')  return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
-                    elseif($target=='act.document_srl')  return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
-                    elseif($target=='mid.page')  return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
-                    elseif($target=='category.mid')  return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
-                } elseif($var_count == 3) {
-                    asort($var_keys);
-                    $target = implode('.',$var_keys);
-                    if($target=='act.document_srl.key') {
+                $var_keys = array_keys($get_vars);
+                asort($var_keys);
+                $target = implode('.',$var_keys);
+
+                switch($target) {
+                    case 'mid' : 
+                        return $path.$get_vars['mid'];
+                    case 'document_srl' : 
+                        return $path.$get_vars['document_srl'];
+                    case 'act.mid' : 
+                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
+                    case 'document_srl.mid' : 
+                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
+                    case 'act.document_srl' : 
+                        return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
+                    case 'mid.page' : 
+                        return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
+                    case 'category.mid' : 
+                        return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
+                    case 'act.document_srl.key' : 
                         return sprintf('%s%s/%s/%s',$path,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
-                    } elseif($target=='category.mid.page') {
+                    case 'document_srl.mid.page' : 
+                        return sprintf('%s%s/%s/page/%s',$path,$get_vars['mid'],$get_vars['document_srl'],$get_vars['page']);
+                    case 'category.mid.page' : 
                         return sprintf('%s%s/category/%s/page/%s',$path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
-                    } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='tag') {
-                        return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
-                    } elseif($target=='mid.search_keyword.search_target' && $get_vars['search_target']=='regdate') {
-                        if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
-                        elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2));
-                    }
+                    case 'mid.search_keyword.search_target' :
+                            switch($get_vars['search_target']) {
+                                case 'tag' : 
+                                    return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                                case 'nick_name' : 
+                                    return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                                case 'regdate' : 
+                                    if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
+                                    elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2)); 
+                            }
+                        break;
+                    case 'act.document_srl.mid' :
+                        return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
+                    case 'act.document_srl.mid.page' :
+                        return sprintf('%s%s/%s/%s/page/%s',$path,$get_vars['mid'], $get_vars['act'], $get_vars['document_srl'],$get_vars['page']);
                 }
             }
 
@@ -638,6 +676,7 @@
                         $use_ssl = false;
                     break;
             }
+
             return sprintf("%s://%s%s",$use_ssl?'https':'http',$_SERVER['HTTP_HOST'], getScriptPath());
         }
 
@@ -805,7 +844,7 @@
          * @brief js file 목록을 return
          **/
         function _getJsFile() {
-            require_once("./classes/optimizer/Optimizer.class.php");
+            require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
             return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->js_files), "js");
         }
@@ -840,7 +879,7 @@
          * @brief CSS file 목록 return
          **/
         function _getCSSFile() {
-            require_once("./classes/optimizer/Optimizer.class.php");
+            require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
             return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->css_files), "css");
         }
@@ -909,7 +948,7 @@
          * @brief db설정내용이 저장되어 있는 config file의 path를 return
          **/
         function getConfigFile() {
-            return "./files/config/db.config.php";
+            return _XE_PATH_."files/config/db.config.php";
         }
 
         /**

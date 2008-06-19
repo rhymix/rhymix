@@ -41,48 +41,64 @@
             // 변수 정리
             $user_id = $member_info->user_id;
             $user_name = $member_info->user_name;
-            $email_address = $member_info->email_address;
 
-            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
-            $menu_list = array();
+            ModuleHandler::triggerCall('member.getMemberMenu', 'before', $null);
 
-            ModuleHandler::triggerCall('member.getMemberMenu', 'before', $menu_list);
-
-            // 최고 관리자라면 회원정보 수정 메뉴 만듬
-            if($logged_info->is_admin == 'Y') {
-                $menu_str = Context::getLang('cmd_management');
-                $menu_link = sprintf("%s?module=admin&amp;act=dispMemberAdminInsert&amp;member_srl=%s",Context::getRequestUri(),$member_srl);
-                $menu_list[] = sprintf("\n%s,%s,winopen('%s','MemberModifyInfo')", Context::getRequestUri().'/modules/member/tpl/images/icon_management.gif',$menu_str, $menu_link);
-            }
+            $oMemberController = &getController('member');
 
             // 회원 정보 보기 (비회원일 경우 볼 수 없도록 수정)
             if($logged_info->member_srl) {
-                $menu_str = Context::getLang('cmd_view_member_info');
-                $menu_url = sprintf('./?mid=%s&amp;act=dispMemberInfo&amp;member_srl=%s', $mid, $member_srl);
-                $menu_list[] = sprintf('%s,%s,move_url(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_view_info.gif', $menu_str, $menu_url);
+                $url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_view_info.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
             }
 
             // 다른 사람의 아이디를 클릭한 경우
             if($member_srl != $logged_info->member_srl) {
 
                 // 메일 보내기 
-                $menu_str = Context::getLang('cmd_send_email');
-                //$menu_url = sprintf('%s <%s>', $email_address, $user_name);
-                $menu_url = sprintf('%s', $email_address);
-                $menu_list[] = sprintf('%s,%s,sendMailTo(\'%s\')', Context::getRequestUri().'/modules/member/tpl/images/icon_sendmail.gif', $menu_str, $menu_url);
+                if($member_info->email_address) {
+                    $url = 'mailto:'.$member_info->email_address;
+                    $icon_path = './modules/member/tpl/images/icon_sendmail.gif';
+                    $oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
+                }
             }
 
             // 홈페이지 보기
-            if($member_info->homepage) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_homepage.gif',Context::getLang('homepage'), $member_info->homepage);
+            if($member_info->homepage) 
+                $oMemberController->addMemberPopupMenu($member_info->homepage, 'homepage', './modules/member/tpl/images/icon_homepage.gif','blank');
 
             // 블로그 보기
-            if($member_info->blog) $menu_list[] = sprintf("%s,%s,winopen('%s')", Context::getRequestUri().'/modules/member/tpl/images/icon_blog.gif', Context::getLang('blog'), $member_info->blog);
+            if($member_info->blog) 
+                $oMemberController->addMemberPopupMenu($member_info->blog, 'blog', './modules/member/tpl/images/icon_blog.gif','blank');
 
             // trigger 호출 (after)
-            ModuleHandler::triggerCall('member.getMemberMenu', 'after', $menu_list);
+            ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
 
-            // 정보를 저장
-            $this->add("menu_list", implode("\n",$menu_list));
+            // 최고 관리자라면 회원정보 수정 메뉴 만듬
+            if($logged_info->is_admin == 'Y') {
+                $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_management.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_management',$icon_path,'MemberModifyInfo');
+
+                $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_trace_document.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
+
+                $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','member_srl','search_keyword',$member_srl);
+                $icon_path = './modules/member/tpl/images/icon_trace_comment.gif';
+                $oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'TraceMemberComment');
+            }
+
+            // 팝업메뉴의 언어 변경
+            $menus = Context::get('member_popup_menu_list');
+            $menus_count = count($menus);
+            for($i=0;$i<$menus_count;$i++) {
+                $menus[$i]->str = Context::getLang($menus[$i]->str);
+            }
+
+            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            $this->add('menus', $menus);
         }
 
         /**
@@ -494,163 +510,6 @@
                 } else $GLOBALS['__member_info__']['signature'][$member_srl] = null;
             }
             return $GLOBALS['__member_info__']['signature'][$member_srl];
-        }
-
-        /**
-         * @brief 쪽지 내용을 가져옴
-         **/
-        function getSelectedMessage($message_srl) {
-            $logged_info = Context::get('logged_info');
-
-            $args->message_srl = $message_srl;
-            $output = executeQuery('member.getMessage',$args);
-            $message = $output->data;
-            if(!$message) return ;
-
-            // 보낸 쪽지일 경우 받는 사람 정보를 구함 
-            if($message->sender_srl == $logged_info->member_srl && $message->message_type == 'S') $member_info = $this->getMemberInfoByMemberSrl($message->receiver_srl);
-
-            // 보관/받은 쪽지일 경우 보낸 사람 정보를 구함
-            else $member_info = $this->getMemberInfoByMemberSrl($message->sender_srl);
-
-            if($member_info) {
-                foreach($member_info as $key => $val) {
-                  if($key != 'regdate') $message->{$key} = $val;
-                }
-            }
-
-            // 받은 쪽지이고 아직 읽지 않았을 경우 읽은 상태로 변경
-            if($message->message_type == 'R' && $message->readed != 'Y') {
-                $oMemberController = &getController('member');
-                $oMemberController->setMessageReaded($message_srl);
-            }
-
-
-            return $message;
-        }
-
-        /**
-         * @brief 새 쪽지를 가져옴
-         **/
-        function getNewMessage() {
-            $logged_info = Context::get('logged_info');
-            $args->receiver_srl = $logged_info->member_srl;
-            $args->readed = 'N';
-
-            $output = executeQuery('member.getNewMessage', $args);
-            if(!count($output->data)) return;
-            $message = array_pop($output->data);
-
-            $oMemberController = &getController('member');
-            $oMemberController->setMessageReaded($message->message_srl);
-
-            return $message;
-        }
-
-        /**
-         * @brief 쪽지 목록 가져오기
-         * type = R : 받은 쪽지
-         * type = S : 보낸 쪽지 
-         * type = T : 보관함
-         **/
-        function getMessages($message_type = "R") {
-            $logged_info = Context::get('logged_info');
-
-            switch($message_type) {
-                case 'R' :
-                        $args->member_srl = $logged_info->member_srl;
-                        $args->message_type = 'R';
-                        $query_id = 'member.getReceivedMessages';
-                    break;
-                case 'T' :
-                        $args->member_srl = $logged_info->member_srl;
-                        $args->message_type = 'T';
-                        $query_id = 'member.getStoredMessages';
-                    break;
-                default :
-                        $args->member_srl = $logged_info->member_srl;
-                        $args->message_type = 'S';
-                        $query_id = 'member.getSendedMessages';
-                    break;
-    
-            }
-
-            // 기타 변수들 정리
-            $args->sort_index = 'message.list_order';
-            $args->page = Context::get('page');
-            $args->list_count = 20;
-            $args->page_count = 10;
-            return executeQuery($query_id, $args);
-        }
-
-        /**
-         * @brief 친구 목록 가져오기
-         **/
-        function getFriends($friend_group_srl = 0) {
-            $logged_info = Context::get('logged_info');
-
-            $args->friend_group_srl = $friend_group_srl;
-            $args->member_srl = $logged_info->member_srl;
-
-            // 기타 변수들 정리
-            $args->page = Context::get('page');
-            $args->sort_index = 'friend.list_order';
-            $args->list_count = 10;
-            $args->page_count = 10;
-            return executeQuery('member.getFriends', $args);
-        }
-
-        /**
-         * @brief 이미 친구로 등록되었는지 검사
-         **/
-        function isAddedFriend($member_srl) {
-            $logged_info = Context::get('logged_info');
-
-            $args->member_srl = $logged_info->member_srl;
-            $args->target_srl = $member_srl;
-            $output = executeQuery('member.isAddedFriend', $args);
-            return $output->data->count;
-        }
-
-        /**
-         * @brief 특정 친구 그룹 가져오기 
-         **/
-        function getFriendGroupInfo($friend_group_srl) {
-            $logged_info = Context::get('logged_info');
-
-            $args->member_srl = $logged_info->member_srl;
-            $args->friend_group_srl = $friend_group_srl;
-
-            $output = executeQuery('member.getFriendGroup', $args);
-            return $output->data;
-        }
-
-        /**
-         * @brief 그룹 목록 가져오기
-         **/
-        function getFriendGroups() {
-            $logged_info = Context::get('logged_info');
-            $args->member_srl = $logged_info->member_srl;
-
-            $output = executeQuery('member.getFriendGroups', $args);
-            $group_list = $output->data;
-            if(!$group_list) return;
-
-            if(!is_array($group_list)) $group_list = array($group_list);
-            return $group_list;
-        }
-
-        /**
-         * @brief 특정 회원의 친구 목록에 포함되어 있는지를 확인
-         **/
-        function isFriend($target_srl) {
-            $logged_info = Context::get('logged_info');
-
-            $args->member_srl = $target_srl;
-            $args->target_srl = $logged_info->member_srl;
-            $output = executeQuery('member.isAddedFriend', $args);
-            if($output->data->count) return true;
-            return false;
         }
 
         /**

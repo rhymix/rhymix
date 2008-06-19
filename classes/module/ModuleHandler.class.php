@@ -63,7 +63,7 @@
 
             // 애드온 실행 (모듈 실행 전)
             $called_position = 'before_module_init';
-            @include("./files/cache/activated_addons.cache.php");
+            @include(_XE_PATH_."files/cache/activated_addons.cache.php");
         }
 
         /**
@@ -104,7 +104,7 @@
 
             // 모듈정보에 module과 mid를 강제로 지정
             $this->module_info->module = $this->module;
-            $this->mid = $this->mid;
+            $this->module_info->mid = $this->mid;
 
             // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
             if(!$this->module) $this->error = 'msg_module_is_not_exists';
@@ -251,10 +251,7 @@
          * @brief module의 위치를 찾아서 return
          **/
         function getModulePath($module) {
-            $class_path = sprintf('./modules/%s/', $module);
-            if(is_dir($class_path)) return $class_path;
-
-            return "";
+            return sprintf('./modules/%s/', $module);
         }
 
         /**
@@ -262,7 +259,7 @@
          **/
         function &getModuleInstance($module, $type = 'view', $kind = '') {
             $class_path = ModuleHandler::getModulePath($module);
-            if(!$class_path) return NULL;
+            if(!is_dir(_XE_PATH_.$class_path)) return NULL;
 
             if(__DEBUG__==3) $start_time = getMicroTime();
 
@@ -277,7 +274,7 @@
 
                 // 상위 클래스명 구함
                 if(!class_exists($module)) {
-                    $high_class_file = sprintf('%s%s.class.php', $class_path, $module);
+                    $high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_,$class_path, $module);
                     if(!file_exists($high_class_file)) return NULL;
                     require_once($high_class_file);
                 }
@@ -287,33 +284,33 @@
                     case 'controller' :
                             if($kind == 'admin') {
                                 $instance_name = sprintf("%sAdmin%s",$module,"Controller");
-                                $class_file = sprintf('%s%s.admin.%s.php', $class_path, $module, $type);
+                                $class_file = sprintf('%s%s%s.admin.%s.php', _XE_PATH_, $class_path, $module, $type);
                             } else {
                                 $instance_name = sprintf("%s%s",$module,"Controller");
-                                $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
+                                $class_file = sprintf('%s%s%s.%s.php', _XE_PATH_, $class_path, $module, $type);
                             }
                         break;
                     case 'model' :
                             if($kind == 'admin') {
                                 $instance_name = sprintf("%sAdmin%s",$module,"Model");
-                                $class_file = sprintf('%s%s.admin.%s.php', $class_path, $module, $type);
+                                $class_file = sprintf('%s%s%s.admin.%s.php', _XE_PATH_, $class_path, $module, $type);
                             } else {
                                 $instance_name = sprintf("%s%s",$module,"Model");
-                                $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
+                                $class_file = sprintf('%s%s%s.%s.php', _XE_PATH_, $class_path, $module, $type);
                             }
                         break;
                     case 'class' :
                             $instance_name = $module;
-                            $class_file = sprintf('%s%s.class.php', $class_path, $module);
+                            $class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
                         break;
                     default :
                             $type = 'view';
                             if($kind == 'admin') {
                                 $instance_name = sprintf("%sAdmin%s",$module,"View");
-                                $class_file = sprintf('%s%s.admin.view.php', $class_path, $module, $type);
+                                $class_file = sprintf('%s%s%s.admin.view.php', _XE_PATH_, $class_path, $module, $type);
                             } else {
                                 $instance_name = sprintf("%s%s",$module,"View");
-                                $class_file = sprintf('%s%s.view.php', $class_path, $module, $type);
+                                $class_file = sprintf('%s%s%s.view.php', _XE_PATH_, $class_path, $module, $type);
                             }
                         break;
                 }
@@ -361,7 +358,7 @@
 
             $oModuleModel = &getModel('module');
 
-            $cache_dir = sprintf("./files/cache/triggers/");
+            $cache_dir = sprintf("%sfiles/cache/triggers/",_XE_PATH_);
             if(!is_dir($cache_dir)) FileHandler::makeDir($cache_dir);
 
             $cache_file = sprintf("%s%s.%s", $cache_dir, $trigger_name, $called_position);

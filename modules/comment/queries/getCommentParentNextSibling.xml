@@ -1,0 +1,13 @@
+<query id="getCommentParentNextSibling" action="select">
+    <tables>
+        <table name="comments_list" />
+    </tables>
+    <columns>
+        <column name="min(comments_list.arrange)" alias="arrange" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="comments_list.head" var="head" filter="number" notnull="notnull" />
+        <condition operation="excess" column="comments_list.arrange" var="arrange" filter="number" notnull="notnull" pipe="and" />
+        <condition operation="less" column="comments_list.depth" var="depth" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

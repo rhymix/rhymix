@@ -95,6 +95,24 @@
                             </div>
                         <!--@end-->
                     <!--@end-->
+
+                <!--@elseif($var->type == "mid")-->
+
+                    <select name="{$id}">
+                    <!--@foreach($mid_list as $module_category_srl => $modules)-->
+                        <!--@if($modules->title)-->
+                            <option disabled="disabled">{$modules->title}</option>
+                        <!--@else-->
+                            <option disabled="disabled">{$lang->none_category}</option>
+                        <!--@end-->
+
+                        <!--@foreach($modules->list as $key => $val)-->
+                            <option value="{$key}">&nbsp; {$key} ({$val->browser_title})</option>
+                        <!--@end-->
+                    <!--@end-->
+                    </select>
+
+
                 <!--@end-->
                 <p class="clear">{nl2br($var->description)}</p>
             </td>

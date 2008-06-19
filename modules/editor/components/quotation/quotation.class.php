@@ -55,6 +55,10 @@
             $bg_color = $xml_obj->attrs->bg_color;
             $body = $xml_obj->body;
 
+            if(Context::getResponseMethod() == 'XMLRPC') {
+                return $body;
+            }
+
             $output = "";
             $style = sprintf('margin:%spx;padding:%spx;background-color:#%s;', $margin, $padding, $bg_color);
             switch($border_style) {

@@ -159,11 +159,26 @@
 
                 $list_args->head = $parent->head;
                 $list_args->depth = $parent->depth+1;
-                if($list_args->depth<2) $list_args->arrange = $obj->comment_srl;
-                else {
-                    $list_args->arrange = $parent->arrange;
-                    $output = executeQuery('comment.updateCommentListArrange', $list_args);
-                    if(!$output->toBool()) return $output;
+
+                // depth가 2단계 미만이면 별도의 update문 없이 insert만으로 쓰레드 정리
+                if($list_args->depth<2) {
+                    $list_args->arrange = $obj->comment_srl;
+
+                // depth가 2단계 이상이면 반업데이트 실행
+                } else {
+                    // 부모 댓글과 같은 head를 가지고 depth가 같거나 작은 댓글중 제일 위 댓글을 구함
+                    $p_args->head = $parent->head;
+                    $p_args->arrange = $parent->arrange;
+                    $p_args->depth = $parent->depth;
+                    $output = executeQuery('comment.getCommentParentNextSibling', $p_args);
+
+                    if($output->data->arrange) {
+                        $list_args->arrange = $output->data->arrange;
+                        $output = executeQuery('comment.updateCommentListArrange', $list_args);
+                    } else {
+                        $list_args->arrange = $obj->comment_srl;
+                    }
+
                 }
             }
 
@@ -530,6 +545,22 @@
             $_SESSION['declared_comment'][$comment_srl] = true;
 
             $this->setMessage('success_declared');
+        }
+
+        /**
+         * @brief 댓글의 이 댓글을.. 클릭시 나타나는 팝업 메뉴를 추가하는 method
+         **/
+        function addCommentPopupMenu($url, $str, $icon = '', $target = 'self') {
+            $comment_popup_menu_list = Context::get('comment_popup_menu_list');
+            if(!is_array($comment_popup_menu_list)) $comment_popup_menu_list = array();
+
+            $obj->url = $url;
+            $obj->str = $str;
+            $obj->icon = $icon;
+            $obj->target = $target;
+            $comment_popup_menu_list[] = $obj;
+
+            Context::set('comment_popup_menu_list', $comment_popup_menu_list);
         }
 
     }

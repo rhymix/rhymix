@@ -33,65 +33,30 @@
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
 <!--@if($lang_type == 'ko')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="65" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,0,0,65,90,45)}
 <!--@else if($lang_type == 'en')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="80" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,0,0,80,90,45)}
 <!--@else if($lang_type == 'zh-CN')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="65" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,0,0,65,90,45)}
 <!--@else if($lang_type == 'jp')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="65" />
-<col width="90" />
-<col width="45" />
-
+{@ $col_width = array(50,40,0,0,0,65,90,45)}
 <!--@else if($lang_type == 'es')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="75" />
-<col width="90" />
-<col width="50" />
-
+{@ $col_width = array(50,40,0,0,0,75,90,50)}
 <!--@else if($lang_type == 'ru')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="65" />
-<col width="90" />
-<col width="95" />
+{@ $col_width = array(50,40,0,0,0,65,90,95)}
+<!--@else if($lang_type == 'fr')-->
+{@ $col_width = array(50,40,0,0,0,65,85,60)}
+<!--@end-->
+
+<!--@foreach($col_width as $width)-->
+<col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
 <thead>
     <tr>
         <th scope="col">{$lang->no}</th>
+        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
         <th scope="col">
             <div class="nowrap">
-               <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" />
                 <select name="module_srl" id="module_srl" class="w100">
                     <option value="">{$lang->module}</option>
                     <!--@foreach($mid_list as $key => $val)-->
@@ -114,6 +79,7 @@
         <th rowspan="2" class="tahoma" scope="col">
             {$no}
         </th>
+        <td><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
         <td class="left blue"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{$module_list[$val->module_srl]->browser_title}</a></td>
         <td class="blue"><a href="{$val->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->blog_name)}</a></td>
         <td>{htmlspecialchars($val->title)}</td>
@@ -122,8 +88,7 @@
         <td class="blue"><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <tr>
-        <td colspan="6">
-            <input type="checkbox" name="cart" value="{$val->trackback_srl}" />
+        <td colspan="7">
             {$val->excerpt}
         </td>
     </tr>

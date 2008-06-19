@@ -10,7 +10,4 @@
         <condition operation="equal" column="is_notice" default="Y" pipe="and" />
         <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
     </conditions>
-    <navigation>
-        <index var="sort_index" default="list_order" order="order_type" />
-    </navigation>
 </query>

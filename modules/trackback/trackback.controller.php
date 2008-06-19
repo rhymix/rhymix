@@ -57,9 +57,9 @@
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object();
 
             // 엮인글 발송 링크 추가
-            $menu_str = Context::getLang('cmd_send_trackback');
-            $menu_link = sprintf("%s?module=trackback&amp;act=dispTrackbackSend&amp;document_srl=%s",Context::getRequestUri(),$document_srl);
-            $menu_list[] = sprintf("\n%s,%s,popopen('%s','SendTrackback')", '', $menu_str, $menu_link);
+            $oDocumentController = &getController('document');
+            $url = getUrl('module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','./modules/document/tpl/icons/send_trackback.gif','popup');
 
             return new Object();
         }

@@ -32,31 +32,49 @@
             // trigger 호출
             ModuleHandler::triggerCall('comment.getCommentMenu', 'before', $menu_list);
 
+            $oCommentController = &getController('comment');
+
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
                 // 추천 버튼 추가
-                $menu_str = Context::getLang('cmd_vote');
-                $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
+                $oCommentController->addCommentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
 
                 // 비추천 버튼 추가
-                $menu_str = Context::getLang('cmd_vote_down');
-                $menu_link = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
+                $url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
+                $oCommentController->addCommentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
 
                 // 신고 기능 추가
-                $menu_str = Context::getLang('cmd_declare');
-                $menu_link = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
-                $menu_list[] = sprintf("\n%s,%s,%s", '', $menu_str, $menu_link);
-
+                $url = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
+                $oCommentController->addCommentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
             }
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
 
-            // 정보를 저장
-            $this->add("menu_list", implode("\n",$menu_list));
+            // 관리자일 경우 ip로 글 찾기
+            if($logged_info->is_admin == 'Y') {
+                $oCommentModel = &getModel('comment');
+                $oComment = $oCommentModel->getComment($comment_srl);
+
+                if($oComment->isExists()) {
+                    // ip주소에 해당하는 글 찾기
+                    $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->get('ipaddress'));
+                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    $oCommentController->addCommentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+                }
+            }
+
+            // 팝업메뉴의 언어 변경
+            $menus = Context::get('comment_popup_menu_list');
+            $menus_count = count($menus);
+            for($i=0;$i<$menus_count;$i++) {
+                $menus[$i]->str = Context::getLang($menus[$i]->str);
+            }
+
+            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            $this->add('menus', $menus);
         }
 
 
@@ -345,6 +363,9 @@
                         break;
                     case 'ipaddress' :
                             $args->s_ipaddress= $search_keyword;
+                        break;
+                    case 'member_srl' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
                 }
             }

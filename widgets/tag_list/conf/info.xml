@@ -51,14 +51,14 @@
 			<description xml:lang="es">Usted puede definir el número de etiquetas a mostrar. (predefinido: 20)</description>
             <description xml:lang="ru">Вы можете сконфигурировать число тегов для показа. (стандарт: 20)</description>
         </var>
-        <var id="mid_list">
+        <var id="mid">
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">模块对象</name>
             <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Módulo Objetivo</name>
             <name xml:lang="ru">Модуль назначения</name>
-            <type>mid_list</type>
+            <type>mid</type>
             <description xml:lang="ko">선택하신 모듈에 등록된 꼬리표를 대상으로 합니다.</description>
             <description xml:lang="zh-CN">将把被选模块当中的标签作为对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたタグを対象とします。</description>

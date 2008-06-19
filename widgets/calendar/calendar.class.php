@@ -15,12 +15,18 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+            if($args->mid_list) {
+                $tmp_mid = explode(",",$args->mid_list);
+                $mid = $tmp_mid[0];
+            } else {
+                $mid = $args->mid;
+            }
+
             // 위젯 자체적으로 설정한 변수들을 체크
             $title = $args->title;
-            $mid_list = explode(",",$args->mid_list);
 
             // DocumentModel::getDailyArchivedList()를 이용하기 위한 변수 정리
-            $obj->mid = $mid_list;
+            $obj->mid = $mid;
 
             if(Context::get('search_target')=='regdate') {
                 $regdate = Context::get('search_keyword');
@@ -41,7 +47,7 @@
             $widget_info->prev_month = date('Ym', mktime(1,0,0,zdate($obj->regdate,'m'),1,zdate($obj->regdate,'Y'))-60*60*24);
             $widget_info->next_month = date('Ym', mktime(1,0,0,zdate($obj->regdate,'m'),$widget_info->last_day,zdate($obj->regdate,'Y'))+60*60*24);
 
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
+            $widget_info->mid = $widget_info->module_name = $mid;
             $widget_info->title = $title;
 
             if(count($output->data)) {

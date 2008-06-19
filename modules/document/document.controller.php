@@ -793,23 +793,53 @@
                 $tree[$parent_srl][$category_srl] = $node;
             }
 
-            // 세션 디렉토리 변경 구문
-            $php_script = "";
-            if(!ini_get('session.auto_start')) {
-                if(!is_dir("./files/sessions")) {
-                    FileHandler::makeDir("./files/sessions");
-                    @chmod("./files/sessions",  0777);
-                }
+            // 캐시 파일의 권한과 그룹 설정을 위한 공통 헤더
+            $header_script = 
+                '$lang_type = Context::getLangType(); '.
+                '$is_logged = Context::get(\'is_logged\'); '.
+                '$logged_info = Context::get(\'logged_info\'); '.
+                'if($is_logged) {'.
+                    'if($logged_info->is_admin=="Y") $is_admin = true; '.
+                    'else $is_admin = false; '.
+                    '$group_srls = array_keys($logged_info->group_list); '.
+                '} else { '.
+                    '$is_admin = false; '.
+                    '$group_srsl = array(); '.
+                '} ';
 
-                $php_script = 'session_cache_limiter("no-cache, must-revalidate"); ini_set("session.gc_maxlifetime", "18000"); if(is_dir("../../sessions")) session_save_path("../../sessions/"); session_start();';
-            }
-
-            // xml 캐시 파일 생성
-            $xml_buff = sprintf('<?php %s header("Content-Type: text/xml; charset=UTF-8"); header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); header("Cache-Control: no-store, no-cache, must-revalidate"); header("Cache-Control: post-check=0, pre-check=0", false); header("Pragma: no-cache"); @session_start(); ?><root>%s</root>', $php_script, $this->getXmlTree($tree[0], $tree));
+            // xml 캐시 파일 생성 (xml캐시는 따로 동작하기에 session 지정을 해주어야 함)
+            $xml_buff = sprintf(
+                '<?php '.
+                'define(\'__ZBXE__\', true); '.
+                'require_once(\'../../../config/config.inc.php\'); '.
+                '$oContext = &Context::getInstance(); '.
+                '$oContext->init(); '.
+                'header("Content-Type: text/xml; charset=UTF-8"); '.
+                'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
+                'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
+                'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
+                'header("Cache-Control: post-check=0, pre-check=0", false); '.
+                'header("Pragma: no-cache"); '.
+                '%s'.
+                '?>'.
+                '<root>%s</root>', 
+                $header_script,
+                $this->getXmlTree($tree[0], $tree)
+            );
 
             // php 캐시 파일 생성
             $php_output = $this->getPhpCacheCode($tree[0], $tree, 0);
-            $php_buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); %s; $menu->list = array(%s); ?>', $php_output['category_title_str'], $php_output['buff']);
+            $php_buff = sprintf(
+                '<?php '.
+                'if(!defined("__ZBXE__")) exit(); '.
+                '%s; '.
+                '%s; '.
+                '$menu->list = array(%s); '.
+                '?>', 
+                $header_script,
+                $php_output['category_title_str'], 
+                $php_output['buff']
+            );
 
             // 파일 저장
             FileHandler::writeFile($xml_file, $xml_buff);
@@ -839,7 +869,7 @@
                 $module_srl = $node->module_srl;
 
                 // node->group_srls값이 있으면
-                if($group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$group_srls);
+                if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
@@ -886,7 +916,7 @@
                 $output['category_srl_list'] = array_merge($output['category_srl_list'], $child_output['category_srl_list']);
 
                 // node->group_srls값이 있으면 
-                if($node->group_srls) $group_check_code = sprintf('($_SESSION["is_admin"]==true||(is_array($_SESSION["group_srls"])&&count(array_intersect($_SESSION["group_srls"], array(%s)))))',$node->group_srls);
+                if($node->group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$node->group_srls);
                 else $group_check_code = "true";
 
                 // 변수 정리
@@ -916,6 +946,23 @@
             }
             return $output;
         }
+
+        /**
+         * @brief 게시물의 이 게시물을.. 클릭시 나타나는 팝업 메뉴를 추가하는 method
+         **/
+        function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self') {
+            $document_popup_menu_list = Context::get('document_popup_menu_list');
+            if(!is_array($document_popup_menu_list)) $document_popup_menu_list = array();
+
+            $obj->url = $url;
+            $obj->str = $str;
+            $obj->icon = $icon;
+            $obj->target = $target;
+            $document_popup_menu_list[] = $obj;
+
+            Context::set('document_popup_menu_list', $document_popup_menu_list);
+        }
+
 
     }
 ?>

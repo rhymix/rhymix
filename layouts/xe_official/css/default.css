@@ -69,7 +69,7 @@ body { background:#FFFFFF url(../images/default/bgBody.gif) repeat-x left top; }
 #lnb li.on a { color:#ffffff; background:#de4332; border:1px solid #de4332;}
 #lnb li.on a:hover,
 #lnb li.on a:focus { font-weight:bold;}
-#lnb li ul { display:block; position:relative; width:184px; padding:0 3px; position:relative; border-top:1px solid #ffffff; overflow:hidden;}
+#lnb li ul { display:block; position:relative; width:184px; padding:0 3px; border-top:1px solid #ffffff; overflow:hidden;}
 #lnb li.on ul { display:block;}
 #lnb li ul li { padding:0; border-top:1px solid #f2f2f2; position:relative; top:-1px;}
 #lnb li ul li a { padding:6px 5px 6px 10px; width:169px; color:#818181 !important; border:none; background:none !important; border:none !important;}

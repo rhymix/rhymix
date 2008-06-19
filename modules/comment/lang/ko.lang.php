@@ -22,6 +22,7 @@
         'user_id' => '아이디',
         'user_name' => '이름',
         'nick_name' => '닉네임',
+        'member_srl' => '회원번호',
         'email_address' => '이메일주소',
         'homepage' => '홈페이지',
         'regdate' => '등록일',

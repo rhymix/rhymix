@@ -19,10 +19,15 @@
             $title = $args->title;
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 20;
-            $mid_list = explode(",",$args->mid_list);
+            if($args->mid_list) {
+                $tmp_mid = explode(",",$args->mid_list);
+                $mid = $tmp_mid[0];
+            } else {
+                $mid = $args->mid;
+            }
 
             // TagModel::getTagList()를 이용하기 위한 변수 정리
-            $obj->mid = $mid_list;
+            $obj->mid = $mid;
             $obj->list_count = $list_count;
 
             // tag 모듈의 model 객체를 받아서 getTagList() method를 실행
@@ -30,9 +35,10 @@
             $output = $oTagModel->getTagList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
+            $widget_info->module_name = $mid;
             
             $widget_info->title = $title;
+            $widget_info->mid = $mid;
 
             if(count($output->data)) {
 

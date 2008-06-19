@@ -1,0 +1,14 @@
+<query id="insertSession" action="insert">
+    <tables>
+        <table name="session" />
+    </tables>
+    <columns>
+        <column name="session_key" var="session_key" notnull="notnull" />
+        <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="expired" var="expired" />
+        <column name="val" var="val" />
+        <column name="ipaddress" default="ipaddress()" />
+        <column name="last_update" default="curdate()" />
+        <column name="cur_mid" var="cur_mid" />
+    </columns>
+</query>
