@@ -798,8 +798,9 @@
                 '$lang_type = Context::getLangType(); '.
                 '$is_logged = Context::get(\'is_logged\'); '.
                 '$logged_info = Context::get(\'logged_info\'); '.
-                'if($is_logged && $logged_info->is_admin=="Y") { '.
-                    '$is_admin = true; '.
+                'if($is_logged) {'.
+                    'if($logged_info->is_admin=="Y") $is_admin = true; '.
+                    'else $is_admin = false; '.
                     '$group_srls = array_keys($logged_info->group_list); '.
                 '} else { '.
                     '$is_admin = false; '.
