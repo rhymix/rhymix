@@ -171,6 +171,12 @@
             $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
         }
 
+        function getIpaddress() {
+            if($this->isGranted()) return $this->get('ipaddress');
+            return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$1.$2.$3', $this->get('ipaddress'));
+
+        }
+
         function isExistsHomepage() {
             if(trim($this->get('homepage'))) return true;
             return false;

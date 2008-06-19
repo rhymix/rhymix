@@ -29,8 +29,10 @@
             </div>
 
             <div class="dateAndCount">
+                <div class="uri" title="{$lang->document_url}"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getPermanentUrl()}</a></div>
+
                 <div class="date" title="{$lang->regdate}">
-                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')}
+                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')} ({$oDocument->getIpaddress()})
                 </div>
 
                 <div class="readedCount" title="{$lang->readed_count}">{$oDocument->get('readed_count')}</div>
@@ -53,8 +55,6 @@
                 <!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->
                 <div class="category" title="{$lang->category}"><a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}">{$category_list[$oDocument->get('category_srl')]->title}</a></div>
                 <!--@end-->
-
-                <div class="uri" title="{$lang->document_url}"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getPermanentUrl()}</a></div>
 
                 <div class="clear"></div>
             </div>
@@ -100,10 +100,6 @@
                     </div>
                 <!--@else-->
                     {$oDocument->getContent()}
-                <!--@end-->
-
-                <!--@if($grant->is_admin)-->
-                <div class="ipaddress">ipaddress : {$oDocument->get('ipaddress')}</div>
                 <!--@end-->
 
                 <!-- 서명 / 프로필 이미지 출력 -->
