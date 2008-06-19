@@ -1,11 +1,14 @@
 <query id="getCommentListItem" action="select">
     <tables>
+        <table name="comments" />
         <table name="comments_list" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="comments.parent_srl" />
+        <column name="comments_list.*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="comment_srl" var="comment_srl" notnull="notnull" />
+        <condition operation="equal" column="comments.comment_srl" var="comment_srl" notnull="notnull" />
+        <condition operation="equal" column="comments.comment_srl" default="comments_list.comment_srl" notnull="notnull" pipe="and" />
     </conditions>
 </query>

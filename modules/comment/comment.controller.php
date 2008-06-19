@@ -159,11 +159,26 @@
 
                 $list_args->head = $parent->head;
                 $list_args->depth = $parent->depth+1;
-                if($list_args->depth<2) $list_args->arrange = $obj->comment_srl;
-                else {
-                    $list_args->arrange = $parent->arrange;
-                    $output = executeQuery('comment.updateCommentListArrange', $list_args);
-                    if(!$output->toBool()) return $output;
+
+                // depth가 2단계 미만이면 별도의 update문 없이 insert만으로 쓰레드 정리
+                if($list_args->depth<2) {
+                    $list_args->arrange = $obj->comment_srl;
+
+                // depth가 2단계 이상이면 반업데이트 실행
+                } else {
+                    // 부모 댓글과 같은 head를 가지고 depth가 같거나 작은 댓글중 제일 위 댓글을 구함
+                    $p_args->head = $parent->head;
+                    $p_args->arrange = $parent->arrange;
+                    $p_args->depth = $parent->depth;
+                    $output = executeQuery('comment.getCommentParentNextSibling', $p_args);
+
+                    if($output->data->arrange) {
+                        $list_args->arrange = $output->data->arrange;
+                        $output = executeQuery('comment.updateCommentListArrange', $list_args);
+                    } else {
+                        $list_args->arrange = $obj->comment_srl;
+                    }
+
                 }
             }
 

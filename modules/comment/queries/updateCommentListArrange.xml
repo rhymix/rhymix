@@ -8,6 +8,6 @@
 	<conditions>
 		<condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
 		<condition operation="equal" column="head" var="head" filter="number" notnull="notnull" pipe="and" />
-		<condition operation="excess" column="arrange" var="arrange" filter="number" notnull="notnull" pipe="and" />
+		<condition operation="more" column="arrange" var="arrange" filter="number" notnull="notnull" pipe="and" />
 	</conditions>
 </query>

@@ -5,16 +5,15 @@
     </tables>
     <columns>
         <column name="comments.*" />
-        <column name="depth" alias="depth" />
+        <column name="comments_list.depth" alias="depth" />
     </columns>
     <conditions>
         <condition operation="equal" column="comments_list.document_srl" var="document_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="comments_list.comment_srl" var="comments.comment_srl" filter="number" pipe="and" />
+        <condition operation="more" column="comments_list.head" default="0" pipe="and" />
+        <condition operation="more" column="comments_list.arrange" default="0" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="head" order="asc" />
-        <index var="sort_index" default="arrange" order="asc" />
-        <index var="sort_index" default="comment_srl" order="asc" />
         <list_count var="list_count" default="list_count" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />
