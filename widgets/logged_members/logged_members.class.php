@@ -30,6 +30,7 @@
             $oSessionModel = &getModel('session');
             $output = $oSessionModel->getLoggedMembers($obj);
             $widget_info->member_list = $output->data;
+            $widget_info->logged_member_count = $output->total_count;
             Context::set('widget_info', $widget_info);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
