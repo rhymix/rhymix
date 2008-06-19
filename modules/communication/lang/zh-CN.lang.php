@@ -5,8 +5,8 @@
      * @brief  简体中文语言包 (只收录基本内容)
      **/
 
-    $lang->communication = '커뮤니케이션';
-    $lang->about_communication = '회원간의 쪽지나 친구 관리등 커뮤니케이션 기능을 수행하는 모듈입니다';
+    $lang->communication = '会员交流';
+    $lang->about_communication = '管理在线会员间短信息及好友功能的模块。';
 
     $lang->allow_message = '允许接收短消息';
     $lang->allow_message_type = array(
