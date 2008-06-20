@@ -35,7 +35,7 @@
         'member_srl' => 'Nombre Sériel du Membre',
         'user_name' => 'Nom',
         'nick_name' => 'Surnom',
-        'email_address' => 'Courriel',
+        'email_address' => 'Mél',
         'homepage' => 'Page d\'accueil',
         'is_notice' => 'Notice',
         'is_secret' => 'Secret',

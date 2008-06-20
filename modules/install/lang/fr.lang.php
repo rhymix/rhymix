@@ -224,8 +224,8 @@ EndOfLicense;
     $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
     $lang->time_zone = 'Fuseau horaire';
     $lang->about_time_zone = "Si l'heure de serveur et celle de votre emplacement ne s'accordent pas,  vous pouvez remettre l'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
-    $lang->qmail_compatibility = 'Qmail 호환';
-    $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
+    $lang->qmail_compatibility = 'Compatible avec Qmail';
+    $lang->about_qmail_compatibility = 'Le mél sera envoyer en MTA qui ne peut pas reconnaître le CRLF comme délimiteur des lignes comme le Qmail.';
 
     $lang->about_database_file = 'Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l\'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>';
 
