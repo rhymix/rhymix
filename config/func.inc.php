@@ -425,7 +425,7 @@
     function removeJSEvent($matches) {
         $tag = strtolower($matches[1]);
         if($tag == "a" && preg_match('/href=("|\'?)javascript:/i',$matches[2])) $matches[0] = preg_replace('/href=("|\'?)javascript:/i','href=$1_javascript:', $matches[0]);
-        return preg_replace('/on([a-z]+)=/i','_on$1=',$matches[0]);
+        return preg_replace('/ on([a-z]+)=/i',' _on$1=',$matches[0]);
     }
 
     // hexa값을 RGB로 변환
