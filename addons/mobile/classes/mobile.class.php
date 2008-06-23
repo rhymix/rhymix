@@ -62,6 +62,7 @@
             $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
             if(eregi("SKT11", $userAgent)) $browserType = "wml";
+            elseif(eregi("skt", $browserAccept)) $browserType = "wml";
             elseif(eregi("hdml", $browserAccept)) $browserType = "hdml";
             elseif(eregi("CellPhone", $userAgent)) $browserType = "mhtml";
             else $browserType = "html";
@@ -222,7 +223,6 @@
 
             $content = ob_get_clean();
 
-            debugPrint($content);
             // 변환 후 출력
             if(strtolower($this->charset) == 'utf-8') print $content;
             else print iconv('UTF-8',$this->charset, $content);
