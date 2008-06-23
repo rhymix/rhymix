@@ -66,7 +66,6 @@
             elseif(eregi("CellPhone", $userAgent)) $browserType = "mhtml";
             else $browserType = "html";
 
-$browserType = 'mhtml';
             // class 지정 (html일 경우 동작 하지 않도록 함)
             if($browserType == 'html') return null;
 
