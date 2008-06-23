@@ -53,6 +53,7 @@
 
             // 받을 회원이 있는지에 대한 검사
             $oMemberModel = &getModel('member');
+            $oCommunicationModel = &getModel('communication');
             $receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             if($receiver_member_info->member_srl != $receiver_srl) return new Object(-1, 'msg_not_exists_member');
 
