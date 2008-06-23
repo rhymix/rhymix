@@ -74,8 +74,8 @@
         }
 
         // charset 지정
-        function setCharSet($charset = 'utf-8') {
-            if(!$charset) $charset = 'utf-8';
+        function setCharSet($charset = 'euc-kr') {
+            if(!$charset) $charset = 'euc-kr';
             $this->charset = $charset;
         }
 
