@@ -20,6 +20,15 @@
             $widget_sequence = $args->widget_sequence;
             $widget_cache = $args->widget_cache;
 
+            // args값에서 urldecode를 해줌
+            $object_vars = get_object_vars($args);
+            if(count($object_vars)) {
+                foreach($object_vars as $key => $val) {
+                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right'))) continue;
+                    $args->{$key} = utf8RawUrlDecode($val);
+                }
+            }
+
             /**
              * 캐시 번호와 캐시 값이 아예 없으면 바로 데이터를 추출해서 리턴
              **/
