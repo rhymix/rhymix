@@ -1,0 +1,8 @@
+<query id="insertQueue" action="insert">
+    <tables>
+        <table name="tcnotifyqueue" />
+    </tables>
+    <columns>
+        <column name="comment_srl" var="comment_srl" notnull="notnull" />
+    </columns>
+</query>

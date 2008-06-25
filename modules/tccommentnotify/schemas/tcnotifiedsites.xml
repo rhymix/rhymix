@@ -1,0 +1,7 @@
+<table name="tcnotifiedsites">
+    <column name="id" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+    <column name="title" type="varchar" size="255" notnull="notnull" /> 
+    <column name="name" type="varchar" size="255" notnull="notnull" /> 
+    <column name="url" type="varchar" size="250" notnull="notnull" index="idx_url"/> 
+    <column name="modified" type="date"  notnull="notnull" /> 
+</table>

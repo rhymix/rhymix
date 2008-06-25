@@ -1,0 +1,8 @@
+<query id="deleteChild" action="delete">
+    <tables>
+        <table name="tcnotifiedchildren" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="notified_srl" var="notified_srl" notnull="notnull" />
+    </conditions>
+</query>

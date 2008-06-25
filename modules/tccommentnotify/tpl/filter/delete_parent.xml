@@ -1,0 +1,13 @@
+<filter name="delete_parent" module="tccommentnotify" act="procCommentNotifyAdminDeleteParent" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="notified_srl" required="true" />
+    </form>
+    <parameter>
+        <param name="notified_srl" target="notified_srl" />
+    </parameter>
+    <response callback_func="completeDelete">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

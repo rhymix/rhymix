@@ -1,0 +1,12 @@
+<query id="insertSite" action="insert">
+    <tables>
+        <table name="tcnotifiedsites" />
+    </tables>
+    <columns>
+        <column name="id" var="id" notnull="notnull" />
+        <column name="title" var="title" />
+        <column name="name" var="name" />
+        <column name="url" var="url" notnull="notnull" />
+        <column name="modified" var="modified" default="curdate()" notnull="notnull" />
+    </columns>
+</query>

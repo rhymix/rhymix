@@ -1,0 +1,10 @@
+<query id="getFromQueue" action="select">
+    <tables>
+        <table name="tcnotifyqueue" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+    </conditions>
+</query>
