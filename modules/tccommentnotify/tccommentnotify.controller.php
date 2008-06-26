@@ -225,21 +225,23 @@
             if($oChild->get('parent_srl'))
             {
                 $oReq->addPostData('r1_no', $oParent->comment_srl);
+                $oReq->addPostData('r1_url', sprintf("%s#comment_%s", $oDocument->getPermanentUrl(), $oParent->comment_srl));
+                $oReq->addPostData('r2_rno', $oParent->comment_srl);
             }
             else
             {
                 $oReq->addPostData('r1_no', '-1');
+                $oReq->addPostData('r1_url', $oParent->getPermanentUrl());
+                $oReq->addPostData('r2_rno', '-1');
             }
 
             $oReq->addPostData('r1_pno', $oDocument->document_srl);
             $oReq->addPostData('r1_rno', '0');
             $oReq->addPostData('r1_homepage', $parentHomepage);
             $oReq->addPostData('r1_regdate', ztime($oParent->get('regdate')));
-            $oReq->addPostData('r1_url', sprintf("%s#comment_%s", $oDocument->getPermanentUrl(), $oParent->comment_srl));
             $oReq->addPostData('r2_name', $oChild->getNickName());
             $oReq->addPostData('r2_no', $oChild->comment_srl);
             $oReq->addPostData('r2_pno', $oDocument->document_srl);
-            $oReq->addPostData('r2_rno', $oParent->comment_srl);
             $oReq->addPostData('r2_homepage', $childHomepage);
             $oReq->addPostData('r2_regdate', ztime($oChild->get('regdate')));
             $oReq->addPostData('r2_url', sprintf("%s#comment_%s", $oDocument->getPermanentUrl(), $oChild->comment_srl));
@@ -255,7 +257,7 @@
 
             $oReq->addPostData('r2_body', strip_tags($oChild->get('content')));
 
-            $oReq->sendRequest(false);
+            $oReq->sendRequest(true);
             $code = $oReq->getResponseCode();
             return $code;
         }
@@ -297,7 +299,7 @@
             $module_srl = $module_info->module_srl;
             if(!$obj->r1_no)
             {
-                $obj->r1_no = -1;
+                $obj->r1_no = 0;
             }
 
             if( $siteid == -2 )
