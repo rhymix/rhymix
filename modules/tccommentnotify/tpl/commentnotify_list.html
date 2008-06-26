@@ -32,7 +32,7 @@
 <tbody>
     <!--@foreach($notify_list as $no => $val)-->
     {@ $parent = $val->parent; }
-    <tr class="parent">
+    <tr <!--@if($parent->remoteid == -1)--> class="parentDocument" <!--@else-->class="parent"<!--@end--> >
         <td><input type="checkbox" name="cart" value="{$parent->notified_srl}" /></td>
         <td class="date">{zdate($parent->written, "Y/m/d")}</td>
         <td><a href="{$parent->siteurl}">{$parent->title?$parent->title:"[No title]"}</a></td>

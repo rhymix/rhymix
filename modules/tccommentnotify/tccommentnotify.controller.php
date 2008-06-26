@@ -114,21 +114,18 @@
         {
             $oCommentModel = &getModel('comment');
             $oComment = $oCommentModel->getComment($obj->comment_srl);
-            if($oComment->get('parent_srl'))
+            $output = $this->insertCommentNotifyQueue($obj->comment_srl);
+            if($output->toBool())
             {
-                $output = $this->insertCommentNotifyQueue($obj->comment_srl);
-                if($output->toBool())
+                if(!file_exists($this->cachedir.$this->cachefile))
                 {
-                    if(!file_exists($this->cachedir.$this->cachefile))
+                    if(!file_exists($this->cachedir))
                     {
-                        if(!file_exists($this->cachedir))
-                        {
-                            mkdir($this->cachedir);
-                        }
-                        $fp = fopen($this->cachedir.$this->cachefile, "w");
-                        fwrite($fp, "aa");
-                        fclose($fp);
+                        mkdir($this->cachedir);
                     }
+                    $fp = fopen($this->cachedir.$this->cachefile, "w");
+                    fwrite($fp, "aa");
+                    fclose($fp);
                 }
             }
             return new Object(); 
@@ -148,21 +145,34 @@
 
             $oCommentModel = &getModel('comment');
             $oChild = $oCommentModel->getComment($comment_srl);
+
             if(!$oChild->isExists())
             {
                 return;
             }
 
+            $document_srl = $oChild->get('document_srl');
+            
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+            $oParent = null;
             $parent_srl = $oChild->get('parent_srl');
             if(!$parent_srl)
             {
-                return;
+                $oParent = $oDocumentModel->getDocument($document_srl);
             }
-            $oParent = $oCommentModel->getComment($parent_srl);
+            else
+            {
+                $oParent = $oCommentModel->getComment($parent_srl);
+            }
+
             if(!$oParent->isExists())
             {
                 return;
             }
+
+
             $parentHomepage = $oParent->getHomepageUrl();
             $oMemberModel = &getModel('member');
             if(!$parentHomepage)
@@ -176,6 +186,7 @@
                     return;
             }
 
+
             $childHomepage = $oChild->getHomepageUrl();
             if(!$childHomepage)
             {
@@ -187,11 +198,6 @@
                 }
             }
 
-            $document_srl = $oChild->get('document_srl');
-            
-            $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl);
-            
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
             if($this->SendNotifyRequest($parentHomepage, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage) != 200)
@@ -214,8 +220,17 @@
             $oReq->addPostData('s_name', $oDocument->getNickName());
             $oReq->addPostData('s_url', $oDocument->getPermanentUrl());
             $oReq->addPostData('s_no', $oDocument->document_srl);
+
             $oReq->addPostData('r1_name', $oParent->getNickName());
-            $oReq->addPostData('r1_no', $oParent->comment_srl);
+            if($oChild->get('parent_srl'))
+            {
+                $oReq->addPostData('r1_no', $oParent->comment_srl);
+            }
+            else
+            {
+                $oReq->addPostData('r1_no', '-1');
+            }
+
             $oReq->addPostData('r1_pno', $oDocument->document_srl);
             $oReq->addPostData('r1_rno', '0');
             $oReq->addPostData('r1_homepage', $parentHomepage);
@@ -228,7 +243,16 @@
             $oReq->addPostData('r2_homepage', $childHomepage);
             $oReq->addPostData('r2_regdate', ztime($oChild->get('regdate')));
             $oReq->addPostData('r2_url', sprintf("%s#comment_%s", $oDocument->getPermanentUrl(), $oChild->comment_srl));
-            $oReq->addPostData('r1_body', strip_tags($oParent->get('content')));
+        
+            if($oChild->get('parent_srl'))
+            {
+                $oReq->addPostData('r1_body', strip_tags($oParent->get('content')));
+            }
+            else
+            {
+                $oReq->addPostData('r1_body', $oParent->getContentText(250));
+            }
+
             $oReq->addPostData('r2_body', strip_tags($oChild->get('content')));
 
             $oReq->sendRequest(false);
@@ -271,6 +295,10 @@
             $siteid = $oModel->GetSite( $obj->url );
             $module_info = Context::get('current_module_info');
             $module_srl = $module_info->module_srl;
+            if(!$obj->r1_no)
+            {
+                $obj->r1_no = -1;
+            }
 
             if( $siteid == -2 )
             {

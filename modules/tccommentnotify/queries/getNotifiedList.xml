@@ -13,6 +13,7 @@
         <column name="entrytitle" />
         <column name="comment" />
         <column name="notified_srl" />
+        <column name="remoteid" />
     </columns>
     <conditions>
         <condition operation="equal" column="tcnotified.siteid" var="tcnotifiedsites.id"  />
