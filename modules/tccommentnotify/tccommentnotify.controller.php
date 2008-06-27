@@ -83,7 +83,7 @@
 
             if( file_exists($this->cachedir.$this->cachefile) )
             {
-                unlink($this->cachedir.$this->cachefile);
+                FileHandler::removeFile($this->cachedir.$this->cachefile);
             }
 
             $oModel = &getModel('tccommentnotify');
@@ -101,7 +101,7 @@
                     $this->sendCommentNotify($data->comment_srl);
                 }
             }
-            unlink($lockFilePath);
+            FileHandler::removeFile($lockFilePath);
         }
 
         function deleteFromQueue($comment_srl)

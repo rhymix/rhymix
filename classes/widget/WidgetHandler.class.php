@@ -74,7 +74,7 @@
             FileHandler::writeFile($cache_file, $widget_content);
 
             // lock 파일 제거
-            @unlink($lock_file);
+            FileHandler::removeFile($lock_file);
 
             return $widget_content;
         }

@@ -397,7 +397,7 @@
                         $this->deleteThumbnailFile($path."/".$entry);
                     } else {
                         if(!preg_match('/^thumbnail_([^\.]*)\.jpg$/i',$entry)) continue;
-                        @unlink($path.'/'.$entry);
+                        FileHandler::removeFile($path.'/'.$entry);
                     }
                 }
             }

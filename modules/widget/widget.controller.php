@@ -31,7 +31,7 @@
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
                 $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-                @unlink($cache_file);
+                FileHandler::removeFile($cache_file);
             }
 
             if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
@@ -50,7 +50,7 @@
 
             $cache_path = './files/cache/widget_cache/';
             $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-            @unlink($cache_file);
+            FileHandler::removeFile($cache_file);
 
             // 코드 출력
             $this->add('widget_code', $widget_code);
@@ -75,7 +75,7 @@
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
                 $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-                @unlink($cache_file);
+                FileHandler::removeFile($cache_file);
             }
 
             if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();

@@ -55,7 +55,7 @@
             if(count($cache_list)) {
                 foreach($cache_list as $cache_file) {
                     $pos = strpos($cache_file, $menu_srl.'_');
-                    if($pos>0) unlink($cache_file);
+                    if($pos>0)FileHandler::removeFile($cache_file);
                 }
             }
 
@@ -196,9 +196,9 @@
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
             // 이미지 버튼 모두 삭제
-            if($item_info->normal_btn) @unlink($item_info->normal_btn);
-            if($item_info->hover_btn) @unlink($item_info->hover_btn);
-            if($item_info->active_btn) @unlink($item_info->active_btn);
+            if($item_info->normal_btn) FileHandler::removeFile($item_info->normal_btn);
+            if($item_info->hover_btn) FileHandler::removeFile($item_info->hover_btn);
+            if($item_info->active_btn) FileHandler::removeFile($item_info->active_btn);
 
             $this->add('xml_file', $xml_file);
             $this->add('menu_title', $menu_title);
@@ -305,7 +305,7 @@
             $menu_item_srl = Context::get('menu_item_srl');
             $target = Context::get('target');
             $filename = Context::get('filename');
-            @unlink($filename);
+            FileHandler::removeFile($filename);
 
             $this->add('target', $target);
         }

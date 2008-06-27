@@ -285,7 +285,7 @@
             }
 
             // 성공시 lock파일 제거
-            @unlink($lock_file);
+            FileHandler::removeFile($lock_file);
         }
 
         /**

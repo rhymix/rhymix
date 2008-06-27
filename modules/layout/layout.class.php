@@ -53,7 +53,7 @@
             $directory = dir($path);
             while($entry = $directory->read()) {
                 if ($entry == "." || $entry == ".." || preg_match('/\.html$/i',$entry) ) continue;
-                @unlink($path."/".$entry);
+                FileHandler::removeFile($path."/".$entry);
             }
             $directory->close();
         }

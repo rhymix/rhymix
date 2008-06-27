@@ -71,7 +71,7 @@
 
             // 캐시 파일 삭제
             $cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
-            if(file_exists($cache_file)) @unlink($cache_file);
+            if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
 
             // 등록 성공후 return될 메세지 정리
             $this->add("module_srl", $module_args->module_srl);

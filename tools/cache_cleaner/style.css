@@ -1,0 +1,10 @@
+h1 { font-size:1.5em; font-family:tahoma; margin:0; padding:0; }
+hr { border:none; border-top:1px solid #555555; border-bottom:1px solid #888888; margin:0; margin-bottom:10px; padding:0; }
+blockquote { border:1px solid red; color:red; width:280px; margin:0 0 10px 0; padding:10px;}
+
+code { display:block; clear:both; margin-bottom:10px;}
+code label { float:left; display:block; width:150px; }
+code input { display:block; width:150px; border:1px solid #AAAAAA; }
+
+input.submit { width:300px; border:1px solid #AAAAAA;}
+

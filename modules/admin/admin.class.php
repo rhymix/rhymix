@@ -46,9 +46,9 @@
             FileHandler::removeFilesInDir("./files/cache/queries");
 
             // ./files/cache/news* 파일 삭제
-            $directory = dir("./files/cache/");
+            $directory = dir(_XE_PATH_."files/cache/");
             while($entry = $directory->read()) {
-                if(substr($entry,0,11)=='newest_news') @unlink("./files/cache/".$entry);
+                if(substr($entry,0,11)=='newest_news') FileHandler::removeFile("./files/cache/".$entry);
             }
             $directory->close();
         }

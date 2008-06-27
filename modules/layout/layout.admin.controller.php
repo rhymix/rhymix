@@ -92,7 +92,7 @@
                     unset($extra_vars->{"del_".$name});
                     if($del_var == 'Y') {
                         $extra_vars->{$name} = '';
-                        @unlink($extra_vars->{$name});
+                        FileHandler::removeFile($extra_vars->{$name});
                         continue;
                     }
 
@@ -140,7 +140,7 @@
             $output = executeQuery('layout.updateLayout', $args);
             if($output->toBool()) {
                 $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $args->layout_srl, Context::getLangType());
-                @unlink($cache_file);
+                FileHandler::removeFile($cache_file);
             }
             return $output;
         }
@@ -157,12 +157,12 @@
             if(count($cache_list)) {
                 foreach($cache_list as $cache_file) {
                     $pos = strpos($cache_file, $layout_srl.'_');
-                    if($pos>0) unlink($cache_file);
+                    if($pos>0)FileHandler::removeFile($cache_file);
                 }
             }
 
             $layout_file = sprintf('./files/cache/layout/%d.html', $layout_srl);
-            if(file_exists($layout_file)) @unlink($layout_file);
+            if(file_exists($layout_file)) FileHandler::removeFile($layout_file);
 
             // 레이아웃 삭제
             $args->layout_srl = $layout_srl;
@@ -200,7 +200,7 @@
             if(!$layout_srl) return new Object(-1, 'msg_invalid_request');
 
             $layout_file = sprintf('./files/cache/layout/%d.html', $layout_srl);
-            @unlink($layout_file);
+            FileHandler::removeFile($layout_file);
 
             $this->setMessage('success_reset');
         }

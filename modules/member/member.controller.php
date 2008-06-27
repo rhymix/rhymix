@@ -617,7 +617,7 @@
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
-                @unlink($profile_image->file);
+                FileHandler::removeFile($profile_image->file);
             } 
             return new Object(0,'success');
         }
@@ -640,7 +640,7 @@
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);
-                @unlink($image_name->file);
+                FileHandler::removeFile($image_name->file);
             } 
             return new Object(0,'success');
         }
@@ -705,7 +705,7 @@
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $image_mark = $oMemberModel->getImageMark($member_srl);
-                @unlink($image_mark->file);
+                FileHandler::removeFile($image_mark->file);
             } 
             return new Object(0,'success');
         }
@@ -830,7 +830,7 @@
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
 
-            if(!$check_signature) return @unlink($filename);
+            if(!$check_signature) return FileHandler::removeFile($filename);
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);
@@ -842,7 +842,7 @@
          **/
         function delSignature($member_srl) {
             $filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            @unlink($filename);
+            FileHandler::removeFile($filename);
         }
 
         /**

@@ -472,8 +472,13 @@
      * 현재 요청받은 스크립트 경로를 return
      **/
     function getScriptPath() {
-        $url = $_SERVER['PHP_SELF']?$_SERVER['PHP_SELF']:($_SERVER['REQUEST_URI']?$_SERVER['REQUEST_URI']:$_SERVER['URL']);
-        return preg_replace('/index.php/i','',$url);
+        static $url = null;
+        if($url === null) {
+            $document_root = str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']);
+            $file = str_replace('\\','/',__FILE__);
+            $url = preg_replace('/index.php/i','',str_replace('config/func.inc.php','',str_replace($document_root, '', $file)));
+        }
+        return $url;
     }
 
     /** 

@@ -45,17 +45,17 @@
             if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
 
             // tpl_file이 비어 있거나 해당 파일이 없으면 return
-            if(!$tpl_file || !file_exists($tpl_file)) return;
+            if(!$tpl_file || !file_exists(FileHandler::getRealPath($tpl_file))) return;
 
             $this->tpl_path = $tpl_path;
             $this->tpl_file = $tpl_file;
 
             // compiled된(or 될) 파일이름을 구함
-            $compiled_tpl_file = $this->_getCompiledFileName($tpl_file);
+            $compiled_tpl_file = FileHandler::getRealPath($this->_getCompiledFileName($tpl_file));
 
             // 일단 컴파일
             $buff = $this->_compile($tpl_file, $compiled_tpl_file);
-
+            
             // Context와 compiled_tpl_file로 컨텐츠 생성
             $output = $this->_fetch($compiled_tpl_file, $buff, $tpl_path);
 
@@ -83,9 +83,9 @@
         function _compile($tpl_file, $compiled_tpl_file) {
             if(!file_exists($compiled_tpl_file)) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
 
-            $source_ftime = filemtime($tpl_file);
+            $source_ftime = filemtime(FileHandler::getRealPath($tpl_file));
             $target_ftime = filemtime($compiled_tpl_file);
-            if($source_ftime>$target_ftime || $target_ftime < filemtime('./classes/template/TemplateHandler.class.php') ) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
+            if($source_ftime>$target_ftime || $target_ftime < filemtime(_XE_PATH_.'classes/template/TemplateHandler.class.php') ) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
         }
 
         /**

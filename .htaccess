@@ -12,6 +12,7 @@ RewriteRule ^(.+)/common/tpl/(.*) ./common/tpl/$2 [L]
 RewriteRule ^(.+)/widgets/(.*) ./widgets/$2 [L]
 RewriteRule ^(.+)/layouts/(.*) ./layouts/$2 [L]
 RewriteRule ^(.+)/addons/(.*) ./addons/$2 [L]
+RewriteRule ^(.+)/tools/(.*) ./tools/$2 [L]
 
 # page 
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]

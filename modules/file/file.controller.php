@@ -346,7 +346,7 @@
             if(!$trigger_output->toBool()) return $trigger_output;
 
             // 삭제 성공하면 파일 삭제
-            @unlink($uploaded_filename);
+            FileHandler::removeFile($uploaded_filename);
 
             return $output;
         }
@@ -415,7 +415,7 @@
                 FileHandler::makeDir($path);
 
                 // 파일 이동
-                @rename($old_file, $new_file);
+                FileHandler::rename($old_file, $new_file);
 
                 // DB 정보도 수정
                 unset($args);

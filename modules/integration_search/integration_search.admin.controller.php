@@ -61,7 +61,7 @@
                     $del_var = $obj->{"del_".$vars->name};
                     unset($obj->{"del_".$vars->name});
                     if($del_var == 'Y') {
-                        @unlink($module_info->{$vars->name});
+                        FileHandler::removeFile($module_info->{$vars->name});
                         continue;
                     }
 

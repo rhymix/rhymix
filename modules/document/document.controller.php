@@ -762,8 +762,8 @@
             $category_list = $output->data;
 
             if(!$category_list) {
-                @unlink($xml_file);
-                @unlink($php_file);
+                FileHandler::removeFile($xml_file);
+                FileHandler::removeFile($php_file);
                 return false;
             }
             if(!is_array($category_list)) $category_list = array($category_list);

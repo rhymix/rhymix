@@ -186,6 +186,14 @@
         }
 
         /**
+         * @brief DB의 및 기타 정보 load
+         **/
+        function loadDBInfo() {
+            $oContext = &Context::getInstance();
+            return $oContext->_loadDBInfo();
+        }
+
+        /**
          * @brief DB 정보를 설정하고 DB Type과 DB 정보를 return
          **/
         function _loadDBInfo() {

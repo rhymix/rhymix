@@ -78,7 +78,7 @@
             // 플래그 삭제
             $flag_path = './files/communication_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
             $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
-            @unlink($flag_file);
+            FileHandler::removeFile($flag_file);
 
             $this->setTemplateFile('new_message');
         }

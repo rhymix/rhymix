@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="Generator" content="XE" />
+        <title>XE Cache Cleaner</title>
+        <link rel="stylesheet" href="./style.css" type="text/css" charset="UTF-8" media="all" />
+    </head>
+    <body>
+
+        <h1>XE Cache Cleaner</h1>
+        <hr />
+
+        <!--@if($msg)-->
+        <blockquote>{$msg}</blockquote>
+        <!--@end-->
+
+        <form action="./index.php" method="post">
+            <code>
+                <label for="db_id">{$lang->db_userid}</label>
+                <input type="text" id="db_id" name="id" />
+            </code>
+            <code>
+                <label for="db_pw">{$lang->db_password}</label>
+                <input type="password" id="db_pw" name="pw" />
+            </code>
+
+            <input type="submit" value="{$lang->cmd_reset}" class="submit"/>
+
+        </form>
+    </body>
+</html>

@@ -10,9 +10,20 @@
     class FileHandler extends Handler {
 
         /**
+         * @brief 대상 파일이름이나 디렉토리의 위치를 확인함
+         **/
+        function getRealPath($source) {
+            if(substr($source,0,1)=='/') return $source;
+            if(substr($source,0,2)=='./') $source = substr($source,2);
+            return _XE_PATH_.$source;
+        }
+
+        /**
          * @brief 파일의 내용을 읽어서 return
          **/
         function readFile($file_name) {
+            $file_name = FileHandler::getRealPath($file_name);
+
             if(!file_exists($file_name)) return;
             $filesize = filesize($file_name);
             if($filesize<1) return;
@@ -35,6 +46,8 @@
          * @brief $buff의 내용을 파일에 쓰기
          **/
         function writeFile($file_name, $buff, $mode = "w") {
+            $file_name = FileHandler::getRealPath($file_name);
+
             $pathinfo = pathinfo($file_name);
             $path = $pathinfo['dirname'];
             if(!is_dir($path)) FileHandler::makeDir($path);
@@ -48,37 +61,57 @@
         }
 
         /**
+         * @brief 파일 삭제
+         **/
+        function removeFile($file_name) {
+            $file_name = FileHandler::getRealPath($file_name);
+            if(file_exists($file_name)) @unlink($file_name);
+        }
+
+        /**
+         * @brief 파일이름이나 디렉토리명이나 위치 변경
+         **/
+        function rename($source, $target) {
+            $source = FileHandler::getRealPath($source);
+            $target = FileHandler::getRealPath($target);
+            @rename($source, $target);
+        }
+
+        /**
          * @brief 특정 디렉토리를 이동
          **/
         function moveDir($source_dir, $target_dir) {
-            if(!is_dir($source_dir)) return;
-
-            if(!is_dir($target_dir)) {
-                FileHandler::makeDir($target_dir);
-                @unlink($target_dir);
-            }
-
-            @rename($source_dir, $target_dir); 
+            FileHandler::rename($source_dir, $target_dir);
         }
 
         /**
          * @brief $path내의 파일들을 return ('.', '..', '.로 시작하는' 파일들은 제외)
          **/
         function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false) {
+            $path = FileHandler::getRealPath($path);
+
             if(substr($path,-1)!='/') $path .= '/';
             if(!is_dir($path)) return array();
+
             $oDir = dir($path);
             while($file = $oDir->read()) {
                 if(substr($file,0,1)=='.') continue;
+
                 if($filter && !preg_match($filter, $file)) continue;
+
                 if($to_lower) $file = strtolower($file);
+
                 if($filter) $file = preg_replace($filter, '$1', $file);
                 else $file = $file;
 
-                if($concat_prefix) $file = $path.$file;
+                if($concat_prefix) {
+                    $file = sprintf('%s%s', str_replace(_XE_PATH_, '', $path), $file);
+                }
+
                 $output[] = $file;
             }
             if(!$output) return array();
+
             return $output;
         }
 
@@ -108,6 +141,7 @@
          * @brief 지정된 디렉토리 이하 모두 파일을 삭제
          **/
         function removeDir($path) {
+            $path = FileHandler::getRealPath($path);
             if(!is_dir($path)) return;
             $directory = dir($path);
             while($entry = $directory->read()) {
@@ -145,6 +179,8 @@
          * @brief 원격파일을 다운받아서 특정 위치에 저장
          **/
         function getRemoteFile($url, $target_filename) {
+            $target_filename = FileHandler::getRealPath($target_filename);
+
             $url_info = parse_url($url);
 
             if(!$url_info['port']) $url_info['port'] = 80;
@@ -191,6 +227,9 @@
          * @brief 특정 이미지 파일을 특정 위치로 옮김 (옮길때 이미지의 크기를 리사이징할 수 있음..)
          **/
         function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
+            $source_file = FileHandler::getRequestUri($source_file);
+            $target_file = FileHandler::getRequestUri($target_file);
+
             if(!file_exists($source_file)) return;
             if(!$resize_width) $resize_width = 100;
             if(!$resize_height) $resize_height = $resize_width;
