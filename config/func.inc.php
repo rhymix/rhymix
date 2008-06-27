@@ -474,7 +474,7 @@
     function getScriptPath() {
         static $url = null;
         if($url === null) {
-            $document_root = str_replace('\\','/',$_SERVER['DOCUMENT_ROOT']);
+            $document_root = str_replace('\\','/',realpath($_SERVER['DOCUMENT_ROOT']));
             $file = str_replace('\\','/',__FILE__);
             $url = preg_replace('/index.php/i','',str_replace('config/func.inc.php','',str_replace($document_root, '', $file)));
         }
