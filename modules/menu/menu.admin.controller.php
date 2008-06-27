@@ -422,7 +422,7 @@
                 // 변수 정리 
                 $names = $oMenuAdminModel->getMenuItemNames($node->name);
                 foreach($names as $key => $val) {
-                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, htmlspecialchars($val));
+                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace('\\','\\\\',htmlspecialchars($val)));
                 }
                 $name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
@@ -505,7 +505,7 @@
                 // 변수 정리 
                 $names = $oMenuAdminModel->getMenuItemNames($node->name);
                 foreach($names as $key => $val) {
-                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, htmlspecialchars($val));
+                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace('\\','\\\\',htmlspecialchars($val)));
                 }
                 $name_str = sprintf('$_menu_names[%d] = array(%s); %s', $node->menu_item_srl, $name_arr_str, $child_output['name']);
 
