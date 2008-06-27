@@ -444,8 +444,8 @@
             }
 
             // 문서의 이미지 첨부파일 위치를 구함
-            $document_path = sprintf('./files/attach/images/%d/%d/',$this->get('module_srl'), $this->get('document_srl'));
-            if(!is_dir($document_path)) FileHandler::makeDir($document_path);
+            $document_path = sprintf("./files/attach/images/%s/%s", $this->get('module_srl'), getNumberingPath($this->get('document_srl'),3));
+            if(!is_dir($document_path)) return;
 
             // 썸네일 임시 파일명을 구함
             if($width != $height) $thumbnail_file = sprintf('%sthumbnail_%dx%d_%s.jpg', $document_path, $width, $height, $thumbnail_type);

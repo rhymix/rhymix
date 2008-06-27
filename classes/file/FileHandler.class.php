@@ -227,8 +227,8 @@
          * @brief 특정 이미지 파일을 특정 위치로 옮김 (옮길때 이미지의 크기를 리사이징할 수 있음..)
          **/
         function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
-            $source_file = FileHandler::getRequestUri($source_file);
-            $target_file = FileHandler::getRequestUri($target_file);
+            $source_file = FileHandler::getRealPath($source_file);
+            $target_file = FileHandler::getRealPath($target_file);
 
             if(!file_exists($source_file)) return;
             if(!$resize_width) $resize_width = 100;
