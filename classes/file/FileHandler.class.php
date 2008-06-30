@@ -10,12 +10,12 @@
     class FileHandler extends Handler {
 
         /**
-         * @brief 대상 파일이름이나 디렉토리의 위치를 확인함
+         * @brief 대상 파일, 디렉토리의 절대경로를 반환
          **/
         function getRealPath($source) {
-            if(substr($source,0,1)=='/') return $source;
-            if(substr($source,0,2)=='./') $source = substr($source,2);
-            return _XE_PATH_.$source;
+            $temp = explode('/', $source);
+            if($temp[0] == '.') $source = _XE_PATH_.substr($source, 2);
+            return $source;
         }
 
         /**
@@ -203,7 +203,7 @@
             }
             */
 
-            $header = sprintf("GET %s%s HTTP/1.0\r\nHost: %s\r\nAccept-Charset: utf-8;q=0.7,*;q=0.7\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['query']?'?'.$url_info['query']:'', $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri()); 
+            $header = sprintf("GET %s%s HTTP/1.0\r\nHost: %s\r\nAccept-Charset: utf-8;q=0.7,*;q=0.7\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['query']?'?'.$url_info['query']:'', $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri());
 
             @fwrite($fp, $header);
 
@@ -288,21 +288,21 @@
 
             // 원본 이미지의 타입으로 임시 이미지 생성
             switch($type) {
-                case 'gif' : 
+                case 'gif' :
                         $source = @imagecreatefromgif($source_file);
                     break;
                 // jpg
-                case 'jpeg' : 
-                case 'jpg' : 
+                case 'jpeg' :
+                case 'jpg' :
                         $source = @imagecreatefromjpeg($source_file);
                     break;
                 // png
-                case 'png' : 
+                case 'png' :
                         $source = @imagecreatefrompng($source_file);
                     break;
                 // bmp
-                case 'wbmp' : 
-                case 'bmp' : 
+                case 'wbmp' :
+                case 'bmp' :
                         $source = @imagecreatefromwbmp($source_file);
                     break;
                 default :
