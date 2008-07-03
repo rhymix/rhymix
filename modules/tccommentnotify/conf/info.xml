@@ -4,8 +4,8 @@
     <title xml:lang="en">Comment Notifier</title>
     <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr" date="2008. 06. 02">
         <name xml:lang="ko">haneul</name>
-		<name xml:lang="en">haneul</name>
+        <name xml:lang="en">haneul</name>
         <description xml:lang="ko">댓글알리미 모듈입니다.</description>
-		<description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
+        <description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
     </author>
 </module>

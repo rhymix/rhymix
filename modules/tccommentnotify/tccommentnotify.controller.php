@@ -257,7 +257,7 @@
 
             $oReq->addPostData('r2_body', strip_tags($oChild->get('content')));
 
-            $oReq->sendRequest(true);
+            $oReq->sendRequest(false);
             $code = $oReq->getResponseCode();
             return $code;
         }
