@@ -383,8 +383,11 @@
          **/
         function procDocumentAdminDeleteAllThumbnail() {
 
-            // files/attaches/images/ 디렉토리를 순환하면서 thumbnail_*.jpg 파일을 모두 삭제
+            // files/attaches/images/ 디렉토리를 순환하면서 thumbnail_*.jpg 파일을 모두 삭제 (1.0.4 이전까지)
             $this->deleteThumbnailFile('./files/attach/images');
+
+            // files/cache/thumbnails 디렉토리 자체를 삭제 (1.0.5 이후 변경된 썸네일 정책)
+            FileHandler::removeFilesInDir('./files/cache/thumbnails');
 
             $this->setMessage('success_deleted');
         }
