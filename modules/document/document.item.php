@@ -486,8 +486,8 @@
             $target_src = null;
             preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg|bmp)!is", $content, $matches, PREG_SET_ORDER);
             for($i=0;$i<count($matches);$i++) {
-                $src = $matches[$i][0];
-                if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $src)) continue;
+                $target_src = $matches[$i][0];
+                if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
                 else {
                     $tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->document_srl));
                     FileHandler::getRemoteFile($target_src, $tmp_file);
