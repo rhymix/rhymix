@@ -221,6 +221,11 @@
             // 글의 대상 모듈을 회원 정보로 변경
             $obj->module_srl = $logged_info->member_srl;
 
+            // 제목을 사용하지 않는 방명록 등에서 내용 앞 부분을 제목 가져오기
+            if(!$obj->title) {
+                $obj->title = cut_str(strip_tags($obj->content), 20, '...');
+            }
+
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
 
@@ -248,6 +253,7 @@
             }
 
             $this->setMessage('success_saved');
+            $this->add('document_srl', $obj->document_srl);
         }
 
         /**

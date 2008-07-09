@@ -536,6 +536,7 @@ function doDocumentSave(obj) {
     var oFilter = new XmlJsFilter(obj.form, "member", "procMemberSaveDocument", completeDocumentSave);
     oFilter.addResponseItem("error");
     oFilter.addResponseItem("message");
+    oFilter.addResponseItem("document_srl");
     oFilter.proc();
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
@@ -543,6 +544,7 @@ function doDocumentSave(obj) {
 }
 
 function completeDocumentSave(ret_obj) {
+    xGetElementsByAttribute('input', 'name', 'document_srl')[0].value = ret_obj['document_srl'];
     alert(ret_obj['message']);
 }
 
@@ -562,7 +564,7 @@ function doDocumentSelect(document_srl) {
     }
 
     // 게시글을 가져와서 등록하기
-    opener.location.href = opener.current_url.setQuery('document_srl', document_srl);
+    opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
     window.close();
 }
 
