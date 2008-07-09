@@ -201,6 +201,9 @@
                             }
                         } elseif(substr($code, 0, 4) == 'case') {
                             $suffix = ':';
+                        } elseif(substr($code, 0, 10) == 'break@case') {
+                            $code = 'break; case'.substr($code, 10);
+                            $suffix = ':';
                         }
                         $output = preg_replace('/\$([a-zA-Z0-9\_\-]+)/i', '$__Context->\\1', $code.$suffix);
                     break;
