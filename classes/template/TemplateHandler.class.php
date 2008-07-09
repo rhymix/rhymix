@@ -185,6 +185,9 @@
                 case 'default' :
                         $output = 'default :';
                     break;
+                case 'break@default' :
+                        $output = 'break; default :';
+                    break;
                 default :
                         $suffix = '{';
 
