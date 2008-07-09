@@ -382,9 +382,6 @@
      * @brief 주어진 숫자를 주어진 크기로 recursive하게 잘라줌
      * @param no 주어진 숫자
      * @param size 잘라낼 크기
-     *
-     * ex) 12, 3 => 012/
-     * ex) 1234, 3 => 123/004/
      **/
     function getNumberingPath($no, $size=3) {
         $mod = pow(10, $size);
