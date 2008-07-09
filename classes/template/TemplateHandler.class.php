@@ -55,13 +55,13 @@
 
             // 일단 컴파일
             $buff = $this->_compile($tpl_file, $compiled_tpl_file);
-            
+
             // Context와 compiled_tpl_file로 컨텐츠 생성
             $output = $this->_fetch($compiled_tpl_file, $buff, $tpl_path);
 
             if(__DEBUG__==3 ) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
 
-            return $output; 
+            return $output;
         }
 
         /**
@@ -103,7 +103,7 @@
             // include 변경 <!--#include($filename)-->
             //$buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
+            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경
             $buff = preg_replace_callback('/(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
@@ -176,19 +176,33 @@
                 case 'endif' :
                 case 'endfor' :
                 case 'endforeach' :
+                case 'endswitch' :
                         $output = '}';
                     break;
+                case 'break' :
+                        $output = 'break;';
+                    break;
+                case 'default' :
+                        $output = 'default :';
+                    break;
                 default :
-                        if(substr($code,0,4)=='else') {
+                        $suffix = '{';
+
+                        if(substr($code, 0, 4) == 'else') {
                             $code = '}'.$code;
-                        } elseif(substr($code,0,7)=='foreach') {
-                            $tmp_str = substr($code,8);
+                        } elseif(substr($code, 0, 7) == 'foreach') {
+                            $tmp_str = substr($code, 8);
                             $tmp_arr = explode(' ', $tmp_str);
                             $var_name = $tmp_arr[0];
-                            if(substr($var_name,0,1)=='$') $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name,1));
-                            else $prefix = sprintf('if(count(%s)) ', $var_name);
-                        } 
-                        $output = preg_replace('/\$([a-zA-Z0-9\_\-]+)/i','$__Context->\\1', $code).'{';
+                            if(substr($var_name, 0, 1) == '$') {
+                                $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name, 1));
+                            } else {
+                                $prefix = sprintf('if(count(%s)) ', $var_name);
+                            }
+                        } elseif(substr($code, 0, 4) == 'case') {
+                            $suffix = ':';
+                        }
+                        $output = preg_replace('/\$([a-zA-Z0-9\_\-]+)/i', '$__Context->\\1', $code.$suffix);
                     break;
             }
 
