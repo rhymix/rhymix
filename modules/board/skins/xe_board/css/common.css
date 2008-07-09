@@ -277,7 +277,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardWrite .tag { margin-top:10px; margin-left:10px; }
 .boardWrite .tag .inputTypeText { width:90%; background:#FFFFFF url(../images/common/iconTag.gif) no-repeat 5px 5px; padding-left:30px;}
 .boardWrite .tag .help { vertical-align:middle;}
-.boardWrite .tag .info { font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat left center; margin-top:5px;}
+.boardWrite .tag .info { font-size:.9em; color:#999999; background:url(../images/common/iconArrowD8.gif) no-repeat 0% 40%; margin-top:5px; padding-left:5px;}
 
 .boardWrite .extraVarsList { width:100%; border-top:1px solid #e0e1db; border-bottom:none; margin:10px 0 10px 0; table-layout:fixed;}
 .boardWrite .extraVarsList th { font-weight:normal; color:#555555; text-align:left; padding:4px 0 4px 10px; border-bottom:1px solid #e0e1db; border-right:1px solid #e0e1db;}
