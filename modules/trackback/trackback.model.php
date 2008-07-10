@@ -77,7 +77,7 @@
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
 
-            $output = executeQuery('trackback.getNewestTrackbackList', $args);
+            $output = executeQueryArray('trackback.getNewestTrackbackList', $args);
 
             return $output;
         }
