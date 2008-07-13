@@ -33,7 +33,7 @@
                 <!--@if($v->category == $key)-->
                     <!--@if($v->admin_index_act)-->
                     <li <!--@if(in_array($act, $v->actions))-->class="on"<!--@end--> onclick="location.href='{getUrl('','module','admin','act',$v->admin_index_act)}'; return false;">
-                            <a href="{getUrl('','module','admin','act',$v->admin_index_act)}">{$v->title}</a>
+                            <a href="{getUrl('','module','admin','act',$v->admin_index_act)}" title="{trim($v->author->description)}">{$v->title}</a>
                     </li>
                     <!--@end-->
                 <!--@end-->
