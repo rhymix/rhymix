@@ -190,8 +190,9 @@
             $oWidget = new WidgetHandler();
             $oXmlParser = new XmlParser();
 
-            for($i=0;$i<count($matches[1]);$i++) {
-                $buff = urldecode($matches[0][$i]);
+            $cnt = count($matches[1]);
+            for($i=0;$i<$cnt;$i++) {
+                $buff = $matches[0][$i];
                 $xml_doc = $oXmlParser->parse(trim($buff));
 
                 $args = $xml_doc->img->attrs;
@@ -202,6 +203,10 @@
                 $sequence = $args->widget_sequence;
                 $cache = $args->widget_cache;
                 if(!$sequence || !$cache) continue;
+
+                if(count($args)) {
+                    foreach($args as $k => $v) $args->{$k} = urldecode($v);
+                }
 
                 // 언어별로 위젯 캐시 파일이 있을 경우 재생성
                 foreach($lang_list as $lang_type => $val) {
