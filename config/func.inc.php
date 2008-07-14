@@ -416,7 +416,10 @@
         // XSS 사용을 위한 이벤트 제거
         $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
 
-        // 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
+        /**
+         * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
+         * - 취약점 제보 : 김상원님
+         **/
         $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeSrcHack, $content);
 
         return $content;
