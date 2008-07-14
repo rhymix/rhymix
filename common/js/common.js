@@ -605,11 +605,19 @@ function clickCheckBoxAll(form, name) {
 }
 
 /* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
+var addedDocument = new Array();
 function doAddDocumentCart(obj) {
     var srl = obj.value;
+    addedDocument[addedDocument.length] = srl;
+    setTimeout(function() { callAddDocumentCart(addedDocument.length); }, 100);
+}
+
+function callAddDocumentCart(document_length) {
+    if(addedDocument.length<1 || document_length != addedDocument.length) return;
     var params = new Array();
-    params["srl"] = srl;
+    params["srls"] = addedDocument.join(",");
     exec_xml("document","procDocumentAdminAddCart", params, null);
+    addedDocument = new Array();
 }
 
 /* ff의 rgb(a,b,c)를 #... 로 변경 */

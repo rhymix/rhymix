@@ -40,13 +40,14 @@
          * @brief 관리자가 글 선택시 세션에 담음
          **/
         function procDocumentAdminAddCart() {
-            $document_srl = Context::get('srl');
-
-            $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl);
-            if(!$oDocument->isExists()) return;
-
-            $oDocument->doCart();
+            $document_srls = explode(',',Context::get('srls'));
+            $cnt = count($document_srls);
+            for($i=0;$i<$cnt;$i++) {
+                $document_srl = (int)trim($document_srls[$i]);
+                if(!$document_srls) continue;
+                if($_SESSION['document_management'][$document_srl]) unset($_SESSION['document_management'][$document_srl]);
+                else $_SESSION['document_management'][$document_srl] = true;
+            }
         }
 
         /**
