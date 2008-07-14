@@ -68,9 +68,10 @@
 
             foreach ($items as $key => $value) {
                 if($key >= $PAGE_LIMIT) break;
-
                 unset($item);
+
                 foreach($value as $key2 => $value2) {
+                    if(is_array($value2)) $value2 = array_shift($value2);
                     $item->{$key2} = $value2->body;
                 }
 
