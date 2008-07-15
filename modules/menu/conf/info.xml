@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="manager">
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
     <title xml:lang="ko">메뉴</title>
     <title xml:lang="zh-CN">菜单</title>
     <title xml:lang="jp">メニュー</title>
     <title xml:lang="en">Menu</title>
-	<title xml:lang="es">Menú</title>
+    <title xml:lang="es">Menú</title>
     <title xml:lang="ru">Меню</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <description xml:lang="ko">레이아웃, 모듈을 연결하는 메뉴를 생성/관리하는 모듈입니다.</description>
+    <description xml:lang="zh-CN">此模块将生成并管理连接布局，模块的菜单。</description>
+    <description xml:lang="jp">レイアウト、モジュールを連動させるメニューを作成・管理するモジュールです。</description>
+    <description xml:lang="en">This module is for creating/managering menues that linking layouts or modules.</description>
+    <description xml:lang="es">Este módulo es para crear/manejar los menús que que son conectados con los diseños o módulos.</description>
+    <description xml:lang="ru">Этот модуль служит создания/управления меню, которые соединяют лейауты и модули.</description>
+    <version>0.1</version>
+    <date>2007-02-28</date>
+    <category>manager</category>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
-		<name xml:lang="es">zero</name>
+        <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
-        <description xml:lang="ko">레이아웃, 모듈을 연결하는 메뉴를 생성/관리하는 모듈입니다.</description>
-        <description xml:lang="zh-CN">此模块将生成并管理连接布局，模块的菜单。</description>
-        <description xml:lang="jp">レイアウト、モジュールを連動させるメニューを作成・管理するモジュールです。</description>
-        <description xml:lang="en">This module is for creating/managering menues that linking layouts or modules.</description>
-		<description xml:lang="es">Este módulo es para crear/manejar los menús que que son conectados con los diseños o módulos.</description>
-        <description xml:lang="ru">Этот модуль служит создания/управления меню, которые соединяют лейауты и модули.</description>
     </author>
 </module>

@@ -1,41 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="accessory">
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
     <title xml:lang="ko">한국 우편번호</title>
     <title xml:lang="en">Korean Zip Code</title>
-	<title xml:lang="es">Código postal de Corea</title>
+    <title xml:lang="es">Código postal de Corea</title>
     <title xml:lang="zh-CN">韩国邮编 </title>
     <title xml:lang="jp">韓国郵便番号</title>
     <title xml:lang="ru">Корейский почтовый индекс</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <description xml:lang="ko">
+        제로보드에서 운영하는 우편번호서버를 이용하여 우편번호 검색을 합니다.
+        우편번호 검색 서버는 설정을 통해 변경하실 수 있습니다.
+    </description>
+    <description xml:lang="en">
+        Searching the zip code via zip code server operated by zeroboard.
+        You can change the zip code server by setting.
+    </description>
+    <description xml:lang="es">
+        Busca el código postal a través del servidor operado por Zeroboard.
+        Usted puede cambiar la configuración del servidor de código postal.
+    </description>
+    <description xml:lang="zh-CN">
+        利用zeroboard运营的邮编服务器搜索邮编。
+        通过设置可以修改邮编搜索服务器。
+    </description>
+    <description xml:lang="jp">
+        ゼロボードで運用している郵便番号サーバを利用して韓国の郵便番号を検索します。
+        郵便番号検索サーバは設定によって変更することができます。
+    </description>
+    <description xml:lang="ru">
+        Поиск индекса через сервер почтовый индексов, оперируемый zeroboard.
+        Вы можете изменить сервер почтовых индексов в настройках.
+    </description>
+    <version>0.1</version>
+    <date>2007-02-28</date>
+    <category>accessory</category>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
-		<name xml:lang="es">Zero</name>
+        <name xml:lang="es">Zero</name>
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="ru">zero</name>
-        <description xml:lang="ko">
-            제로보드에서 운영하는 우편번호서버를 이용하여 우편번호 검색을 합니다.
-            우편번호 검색 서버는 설정을 통해 변경하실 수 있습니다.
-        </description>
-        <description xml:lang="en">
-            Searching the zip code via zip code server operated by zeroboard.
-            You can change the zip code server by setting.
-        </description>
-		<description xml:lang="es">
-            Busca el código postal a través del servidor operado por Zeroboard.
-            Usted puede cambiar la configuración del servidor de código postal.
-        </description>
-        <description xml:lang="zh-CN">
-            利用zeroboard运营的邮编服务器搜索邮编。
-            通过设置可以修改邮编搜索服务器。
-        </description>
-        <description xml:lang="jp">
-            ゼロボードで運用している郵便番号サーバを利用して韓国の郵便番号を検索します。
-            郵便番号検索サーバは設定によって変更することができます。
-        </description>
-        <description xml:lang="ru">
-            Поиск индекса через сервер почтовый индексов, оперируемый zeroboard.
-            Вы можете изменить сервер почтовых индексов в настройках.
-        </description>
     </author>
 </module>

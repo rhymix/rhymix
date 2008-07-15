@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="base">
-  <title xml:lang="ko">모듈</title>
-  <title xml:lang="zh-CN">模块</title>
-  <title xml:lang="jp">モジュール</title>
-  <title xml:lang="en">Module</title>
-  <title xml:lang="es">Módulo</title>
-  <title xml:lang="ru">Модули</title>
-  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-    <name xml:lang="ko">제로</name>
-    <name xml:lang="zh-CN">Zero</name>
-    <name xml:lang="jp">Zero</name>
-    <name xml:lang="en">zero</name>
-	<name xml:lang="es">zero</name>
-    <name xml:lang="ru">zero</name>
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">모듈</title>
+    <title xml:lang="zh-CN">模块</title>
+    <title xml:lang="jp">モジュール</title>
+    <title xml:lang="en">Module</title>
+    <title xml:lang="es">Módulo</title>
+    <title xml:lang="ru">Модули</title>
     <description xml:lang="ko">모듈 생성 및 관리하는 모듈입니다.</description>
     <description xml:lang="zh-CN">生成及管理模块的模块。</description>
     <description xml:lang="jp">モジュールの生成、管理するモジュールです。</description>
     <description xml:lang="en">This module is for creating/managering the other modules.</description>
-	<description xml:lang="es">Este módulo is para crear y manejar los otros módulos.</description>
+    <description xml:lang="es">Este módulo is para crear y manejar los otros módulos.</description>
     <description xml:lang="ru">Этот модуль служит для создания/управления другими модулями.</description>
-  </author>
+    <version>0.1</version>
+    <date>2007-02-28</date>
+    <category>base</category>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="jp">Zero</name>
+        <name xml:lang="en">zero</name>
+        <name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
+    </author>
 </module>

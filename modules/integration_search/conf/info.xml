@@ -1,41 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="service">
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
     <title xml:lang="ko">통합검색</title>
-	<title xml:lang="zh-CN">搜索</title>
+    <title xml:lang="zh-CN">搜索</title>
     <title xml:lang="jp">統合検索</title>
     <title xml:lang="en">Integrated Search</title>
-	<title xml:lang="es">Búsqueda Integrada</title>
+    <title xml:lang="es">Búsqueda Integrada</title>
     <title xml:lang="ru">Интегрируемый поиск</title>
+    <description xml:lang="ko">
+        선택한 모듈들을 대상으로 통합검색을 지원합니다.
+        선택된 모듈의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 모듈은 대상에 포함하지 않도록 하셔야 합니다.
+    </description>
+    <description xml:lang="zh-CN">
+        把被选模块作为搜索对象进行搜索。
+        被选模块当中只有密帖不会被搜索，因此请注意选择您不想搜索的模块。
+    </description>
+    <description xml:lang="jp">
+        選択されたモジュールを対象に統合検索を行う機能をサポートします。
+        選択されたモジュールのコンテンツ（書き込み）の中で、非公開コンテンツのみ検索から除外されますので、未公開のモジュールは対象にしないようにしてください。
+    </description>
+    <description xml:lang="en">
+        It supports integration search for chosen modules.
+        All articles except secret articles will be searched, so you need to be careful not to include secret module to target.
+    </description>
+    <description xml:lang="es">
+        Soporta la búsqueda integrada de los módulos elegidos.
+        Todo los documentos excepto los secretos serán buscados, y es necesario tener cuidado de no incluir módulo secreto como  objetivo.
+    </description>
+    <description xml:lang="ru">
+        Поддерживает интеграцию поиска в выбранные модули.
+        Все статьи, за исключением секретных, будут подлежать поиску, поэтому Вам нужно быть осторожным с тем, чтобы не включить модуль секретов в назначение.
+    </description>
+    <version>0.1</version>
+    <date>2007-07-24</date>
+    <category>service</category>
+
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 24">
         <name xml:lang="ko">제로</name>
-		<name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">zero</name>
-    	<name xml:lang="es">zero</name>
+        <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
-        <description xml:lang="ko">
-            선택한 모듈들을 대상으로 통합검색을 지원합니다.
-            선택된 모듈의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 모듈은 대상에 포함하지 않도록 하셔야 합니다.
-        </description>
-        <description xml:lang="zh-CN">
-            把被选模块作为搜索对象进行搜索。
-            被选模块当中只有密帖不会被搜索，因此请注意选择您不想搜索的模块。
-        </description>
-        <description xml:lang="jp">
-            選択されたモジュールを対象に統合検索を行う機能をサポートします。
-            選択されたモジュールのコンテンツ（書き込み）の中で、非公開コンテンツのみ検索から除外されますので、未公開のモジュールは対象にしないようにしてください。
-        </description>
-        <description xml:lang="en">
-            It supports integration search for chosen modules.
-            All articles except secret articles will be searched, so you need to be careful not to include secret module to target.
-        </description>
-        <description xml:lang="es">
-            Soporta la búsqueda integrada de los módulos elegidos.
-            Todo los documentos excepto los secretos serán buscados, y es necesario tener cuidado de no incluir módulo secreto como  objetivo.
-        </description>
-        <description xml:lang="ru">
-            Поддерживает интеграцию поиска в выбранные модули.
-            Все статьи, за исключением секретных, будут подлежать поиску, поэтому Вам нужно быть осторожным с тем, чтобы не включить модуль секретов в назначение.
-        </description>
     </author>
 </module>

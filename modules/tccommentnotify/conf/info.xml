@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2" category="accessory">
     <title xml:lang="ko">댓글알리미</title>
     <title xml:lang="en">Comment Notifier</title>
-    <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr" date="2008. 06. 02">
+    <description xml:lang="ko">댓글알리미 모듈입니다.</description>
+    <description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
+    <version>0.2</version>
+    <date>2008-06-02</date>
+    <category>accessory</category>
+
+    <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
         <name xml:lang="ko">haneul</name>
         <name xml:lang="en">haneul</name>
-        <description xml:lang="ko">댓글알리미 모듈입니다.</description>
-        <description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
     </author>
 </module>

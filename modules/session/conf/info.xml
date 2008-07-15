@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="base">
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
     <title xml:lang="ko">세션 관리자</title>
-	<title xml:lang="en">Session</title>
+    <title xml:lang="en">Session</title>
     <title xml:lang="zh-CN">会话管理</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 6. 18">
+    <description xml:lang="ko">
+        접속자의 세션을 관리하는 모듈입니다.
+        기본적인 세션 설정과 사용뿐 아니라 세션 정보를 이용하여 접속자등의 세션 기반의 정보를 제공하는 기능도 있습니다.
+    </description>
+    <description xml:lang="en">
+        This module manages session data.
+        You will get not only session setting or using but also session-level data such as visitors by using session data.
+    </description>
+    <description xml:lang="zh-CN">
+        管理在线会员会话(session)功能的模块。
+        提供最基本的会话设置及使用，并且还可以获得基于会话功能的在线会员信息。
+    </description>
+    <version>0.1</version>
+    <date>2008-06-18</date>
+    <category>base</category>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">zero</name>
-		<name xml:lang="en">zero</name>
+        <name xml:lang="en">zero</name>
         <name xml:lang="zh-CN">zero</name>
-        <description xml:lang="ko">
-            접속자의 세션을 관리하는 모듈입니다.
-            기본적인 세션 설정과 사용뿐 아니라 세션 정보를 이용하여 접속자등의 세션 기반의 정보를 제공하는 기능도 있습니다.
-        </description>
-		<description xml:lang="en">
-            This module manages session data.
-            You will get not only session setting or using but also session-level data such as visitors by using session data.
-        </description>
-        <description xml:lang="zh-CN">
-            管理在线会员会话(session)功能的模块。
-            提供最基本的会话设置及使用，并且还可以获得基于会话功能的在线会员信息。
-        </description>
     </author>
 </module>
