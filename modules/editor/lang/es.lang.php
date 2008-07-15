@@ -11,6 +11,8 @@
     $lang->component_author = "Autor";
     $lang->component_link = "Enlace";
     $lang->component_date = "Fecha";
+    $lang->component_license = 'License';
+    $lang->component_history = "History";
     $lang->component_description = "Descripción";
     $lang->component_extra_vars = "Varibles Extras";
     $lang->component_grant = "Ajuste de las atribuciones"; 

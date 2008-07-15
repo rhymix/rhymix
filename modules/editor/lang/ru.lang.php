@@ -11,6 +11,8 @@
     $lang->component_author = "Разработчик";
     $lang->component_link = "Ссылка";
     $lang->component_date = "Дата";
+    $lang->component_license = 'License';
+    $lang->component_history = "History";
     $lang->component_description = "Описание";
     $lang->component_extra_vars = "Экстра перем.";
     $lang->component_grant = "Настройки прав доступа"; 

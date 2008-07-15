@@ -38,8 +38,12 @@
     <tr>
         <th scope="row" rowspan="2"><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;" class="blue">{$xml_info->title}</a><br />({$component_name})</th>
         <td class="tahoam">{$xml_info->version}</td>
-        <td class="blue"><a href="{$xml_info->author->link}" onclick="window.open(this.href);return false;">{$xml_info->author->name}</a></td>
-        <td class="tahoma">{$xml_info->author->date}</td>
+        <td class="blue">
+            <!--@foreach($xml_info->author as $author)-->
+            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+            <!--@endforeach-->
+        </td>
+        <td class="tahoma">{zdate($xml_info->date, 'Y-m-d')}</td>
         <td class="red"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
         <td>
             <!--@if($xml_info->enabled=='Y')-->

@@ -11,6 +11,8 @@
     $lang->component_author = "Developer";
     $lang->component_link = "Link";
     $lang->component_date = "Date";
+    $lang->component_license = 'License';
+    $lang->component_history = 'Updates';
     $lang->component_description = "Description";
     $lang->component_extra_vars = "Option Variable";
     $lang->component_grant = "Permission Setting"; 

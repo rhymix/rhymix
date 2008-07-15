@@ -11,18 +11,79 @@
     <col />
     <tr>
         <th scope="row">{$lang->component_author}</th>
-        <td><a href="mailto:{$component->author->email_address}">{$component->author->name}</a></td>
+        <td class="blue">
+            <!--@foreach($component->author as $author)-->
+            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            <!--@end-->
     </tr>
+    <!--@if($component->homepage)-->
     <tr>
-        <th scope="row">{$lang->component_link}</th>
-        <td><a href="{$component->author->link}" onclick="window.open(this.href);return false;">{$component->author->link}</a></td>
+        <th scope="row">{$lang->homepage}</th>
+        <td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></td>
     </tr>
+    <!--@endif-->
+    <tr>
+        <th scope="row">{$lang->regdate}</th>
+        <td>{zdate($component->date, 'Y-m-d')}</td>
+    </tr>
+    <!--@if($component->license || $component->license_link)-->
+    <tr>
+        <th scope="row">{$lang->layout_license}</th>
+        <td>
+            {nl2br(trim($component->license))}
+        <!--@if($layout_info->license_link)-->
+            <p><a href="{$component->license_link}" onclick="window.close(); return false;">{$component->license_link}</a></p>
+        <!--@end-->
+        </td>
+    </tr>
+    <!--@endif-->
     <tr>
         <th scope="row">{$lang->component_description}</th>
         <td>{nl2br(trim($component->description))}</td>
     </tr>
     </table>
 </div>
+
+<!--@if($component->history)-->
+<div id="popHistoryHeadder">
+    <h3>{$lang->component_history}</h3>
+</div>
+
+<div id="popHistoryBody">
+    <table cellspacing="0" class="adminTable">
+    <col width="100" />
+    <col />
+
+    <!--@foreach($component->history as $history)-->
+    <tr>
+        <th scope="row">
+            {$history->version}<br />
+            {zdate($history->date, 'Y-m-d')}
+        </th>
+        <td>
+            <!--@foreach($history->author as $author)-->
+            <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+            <!--@endforeach-->
+            <!--@if($history->description)-->
+            <p>{nl2br(trim($history->description))}</p>
+            <!--@endif-->
+            <!--@if($history->logs)-->
+            <ul>
+                <!--@foreach($history->logs as $log)-->
+                <!--@if($log->link)-->
+                    <li><a href="{$log->link}" onclick="window.close(); return false;">{$log->text}</a></li>
+                <!--@else-->
+                    <li>{$log->text}</li>
+                <!--@endif-->
+                <!--@endforeach-->
+            </ul>
+            <!--@endif-->
+        </td>
+    </tr>
+    <!--@endforeach-->
+    </table>
+</div>
+<!--@endif-->
 
 <div id="popFooter" class="tCenter gap1">
     <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
