@@ -43,7 +43,7 @@
     <tr>
         <td class="left gl3 blue">
             <!--@if($val->admin_index_act)-->
-                <a href="{getUrl('act',$val->admin_index_act)}" title="{trim($val->author->description)}">{$val->title}</a> ({$val->module})
+                <a href="{getUrl('act',$val->admin_index_act)}" title="{trim($val->description)}">{$val->title}</a> ({$val->module})
             <!--@else-->
                 <span title="{trim($val->description)}">{$val->title}</span> ({$val->module})
             <!--@end-->
