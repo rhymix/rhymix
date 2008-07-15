@@ -484,11 +484,12 @@
             $content = $this->get('content');
             $target_src = null;
             preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
-            for($i=0;$i<count($matches);$i++) {
+            $cnt = count($matches);
+            for($i=0;$i<$cnt;$i++) {
                 $target_src = $matches[$i][2];
                 if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
                 else {
-                    if(!preg_match('/^(http|https):\/\/',$target_src)) $target_src = Context::getRequestUri().$target_src;
+                    if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;
                     $tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->document_srl));
                     FileHandler::getRemoteFile($target_src, $tmp_file);
                     if(!file_exists($tmp_file)) continue;
