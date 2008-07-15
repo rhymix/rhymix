@@ -9,6 +9,7 @@
 
     $lang->addon_info = 'Le résumé de la Compagnon';
     $lang->addon_maker = 'L\'Auteur de la Compagnon';
+    $lang->addon_license = 'License';
     $lang->addon_history = 'L\'Histoire de la Compagnon';
 
     $lang->about_addon_mid = "On peut choisir des objets dans lesquels la Compagnon soit utilisé.<br />(Tout sera choisi quand rien n'est choisi.)";
