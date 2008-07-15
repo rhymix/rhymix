@@ -333,21 +333,26 @@
             // 파일을 쓰고 끝냄
             switch($target_type) {
                 case 'gif' :
-                        @imagegif($thumb, $target_file, 100);
+                        $output = @imagegif($thumb, $target_file);
                     break;
                 case 'jpeg' :
                 case 'jpg' :
-                        @imagejpeg($thumb, $target_file, 100);
+                        $output = @imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
-                        @imagepng($thumb, $target_file, 9);
+                        $output = @imagepng($thumb, $target_file, 9);
                     break;
                 case 'wbmp' :
                 case 'bmp' :
-                        @imagewbmp($thumb, $target_file, 100);
+                        $output = @imagewbmp($thumb, $target_file, 100);
                     break;
             }
+
+            if(!$output) return false;
+
             @chmod($target_file, 0644);
+
+            return true;
         }
     }
 ?>

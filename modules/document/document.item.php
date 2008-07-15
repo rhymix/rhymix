@@ -435,7 +435,7 @@
             if(!$height) $height = $width;
 
             // 첨부파일이 없거나 내용중 이미지가 없으면 return false;
-            if(!$this->hasUploadedFiles() && !preg_match("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg|bmp)!is", $this->get('content'))) return;
+            if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content'))) return;
 
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
@@ -475,8 +475,7 @@
                         $filename = $file->uploaded_filename;
                         if(!file_exists($filename)) continue;
 
-                        FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
-                        if(file_exists($thumbnail_file) && filesize($thumbnail_file)>0) return Context::getRequestUri().$thumbnail_file;
+                        if(FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type)) return Context::getRequestUri().$thumbnail_file;
                     }
                 }
             }
@@ -484,16 +483,18 @@
             // 첨부된 파일이 없으면 내용중 이미지 파일을 구함
             $content = $this->get('content');
             $target_src = null;
-            preg_match_all("!http:\/\/([^ ^\"^']*?)\.(jpg|png|gif|jpeg|bmp)!is", $content, $matches, PREG_SET_ORDER);
+            preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
             for($i=0;$i<count($matches);$i++) {
-                $target_src = $matches[$i][0];
+                $target_src = $matches[$i][2];
                 if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
                 else {
+                    if(!preg_match('/^(http|https):\/\/',$target_src)) $target_src = Context::getRequestUri().$target_src;
                     $tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->document_srl));
                     FileHandler::getRemoteFile($target_src, $tmp_file);
-                    if(file_exists($tmp_file)) FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+                    if(!file_exists($tmp_file)) continue;
+                    $output = FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
                     FileHandler::removeFile($tmp_file);
-                    if(file_exists($thumbnail_file) && filesize($thumbnail_file)>0) return Context::getRequestUri().$thumbnail_file;
+                    if($output) return Context::getRequestUri().$thumbnail_file;
                 }
             }
 
