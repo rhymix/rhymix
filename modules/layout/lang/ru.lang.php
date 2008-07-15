@@ -10,6 +10,7 @@
 
     $lang->layout_name = 'Имя лейаута';
     $lang->layout_maker = "Разработчик лейаута";
+    $lang->layout_license = 'License';
     $lang->layout_history = "Обновления";
     $lang->layout_info = "Информация лейаута";
     $lang->layout_list = 'Список лейаутов';

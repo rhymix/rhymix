@@ -10,6 +10,7 @@
 
     $lang->layout_name = 'Layout Name';
     $lang->layout_maker = "Layout Developer";
+    $lang->layout_license = 'License';
     $lang->layout_history = "Updates";
     $lang->layout_info = "Layout Info";
     $lang->layout_list = 'Layout List';

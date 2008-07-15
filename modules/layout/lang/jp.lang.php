@@ -10,6 +10,7 @@
 
     $lang->layout_name = 'レイアウト名';
     $lang->layout_maker = "レイアウト作者";
+    $lang->layout_license = 'License';
     $lang->layout_history = "変更内容 ";
     $lang->layout_info = "レイアウト情報";
     $lang->layout_list = 'レイアウトリスト';
