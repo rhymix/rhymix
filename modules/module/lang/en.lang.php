@@ -12,6 +12,7 @@
     $lang->add_shortcut = "Add Shortcuts";
     $lang->module_action = "Actions";
     $lang->module_maker = "Module Developer";
+    $lang->module_license = 'License';
     $lang->module_history = "Update history";
     $lang->category_title = "Category Title";
     $lang->header_text = 'Header Text';

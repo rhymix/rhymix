@@ -12,6 +12,7 @@
     $lang->add_shortcut = "管理者メニューに追加する";
     $lang->module_action = "動作";
     $lang->module_maker = "モジュール作者";
+    $lang->module_license = 'License';
     $lang->module_history = "変更内容 ";
     $lang->category_title = "カテゴリ名";
     $lang->header_text = 'ヘッダー内容';

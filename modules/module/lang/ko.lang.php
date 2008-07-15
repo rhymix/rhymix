@@ -12,7 +12,8 @@
     $lang->add_shortcut = "관리자 메뉴에 추가";
     $lang->module_action = "동작";
     $lang->module_maker = "모듈 제작자";
-    $lang->module_history = "변경 사항 ";
+    $lang->module_license = '라이센스';
+    $lang->module_history = '변경 이력 ';
     $lang->category_title = "분류 이름";
     $lang->header_text = '상단 내용';
     $lang->footer_text = '하단 내용';

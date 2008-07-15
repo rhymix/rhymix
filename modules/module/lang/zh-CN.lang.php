@@ -12,6 +12,7 @@
     $lang->add_shortcut = "添加到快捷菜单";
     $lang->module_action = "动作";
     $lang->module_maker = "模块作者";
+    $lang->module_license = 'License';
     $lang->module_history = "更新事项 ";
     $lang->category_title = "分类名称";
     $lang->header_text = '上端内容';

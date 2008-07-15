@@ -12,6 +12,7 @@
     $lang->add_shortcut = "Добавить ярлыки";
     $lang->module_action = "Действия";
     $lang->module_maker = "Разработчик модуля";
+    $lang->module_license = 'License';
     $lang->module_history = "История обновлений";
     $lang->category_title = "Название категории";
     $lang->header_text = 'Верхний колонтитул';

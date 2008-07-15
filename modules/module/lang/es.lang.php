@@ -12,6 +12,7 @@
     $lang->add_shortcut = "Añadir en el menú del administrador";
     $lang->module_action = "Acción";
     $lang->module_maker = "Módulo del desarrollador";
+    $lang->module_license = 'License';
     $lang->module_history = "Historia de actualización";
     $lang->category_title = "Título de categoría";
     $lang->header_text = 'Encabezado';
