@@ -1,0 +1,18 @@
+h1 { font-size:1.5em; font-family:tahoma; margin:0; padding:0; }
+hr { border:none; border-top:1px solid #555555; border-bottom:1px solid #888888; margin:0; margin-bottom:10px; padding:0; }
+blockquote { border:1px solid red; color:red; width:280px; margin:0 0 10px 0; padding:10px;}
+
+code { display:block; clear:both; margin-bottom:10px;}
+code label { float:left; display:block; width:150px; }
+code input { display:block; width:150px; border:1px solid #AAAAAA; }
+
+input.submit { width:300px; border:1px solid #AAAAAA;}
+
+div.back { font-size:9pt; text-align:right; margin-bottom:10px; }
+div.back a { text-decoration:none; color:#888888; }
+
+table { width:100%; border:none; font-size:9pt; background-color:#CCCCCC; }
+table thead th { background-color:#EFEFEF; padding:3px 0 3px 0; }
+table tbody th { background-color:#F3F3F3; vertical-align:top; color:#888888; padding:3px 0 3px 0; }
+table tbody td { background-color:#FFFFFF; font-family:verdana; padding:3px; }
+
