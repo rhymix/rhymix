@@ -978,7 +978,7 @@
             }
 
             // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
-            if(preg_match("/^([0-9a-z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
+            if(preg_match("/^([_0-9a-zA-Z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
             else $member_info->is_openid = true;
 
             // 로그인 처리를 위한 세션 설정
