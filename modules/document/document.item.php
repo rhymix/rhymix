@@ -562,8 +562,7 @@
             }
 
             // 첨부파일 체크
-            if(!$check_files && $this->hasUploadedFiles()) $buffs[] = "file";
-
+            if($this->hasUploadedFiles()) $buffs[] = "file";
 
             return $buffs;
         }
