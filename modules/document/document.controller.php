@@ -265,6 +265,9 @@
             // commit
             $oDB->commit();
 
+            // 썸네일 파일 제거
+            FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+
             $output->add('document_srl',$obj->document_srl);
             return $output;
         }
@@ -315,6 +318,9 @@
                     return $trigger_output;
                 }
             }
+
+            // 썸네일 파일 제거
+            FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($document_srl, 3)));
 
             // commit
             $oDB->commit();

@@ -453,14 +453,10 @@
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
 
-            // 썸네일 파일이 있을 경우 글의 시간과 비교하고 크기를 비교하여 true | false를 return
+            // 썸네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
             if(file_exists($thumbnail_file)) {
-                $file_created_time = date("YmdHis",filemtime($thumbnail_file));
-                $modified_time = $this->get('last_update');
-
-                // 만약 글의 수정시간보다 이후에 만들어진 썸네일이라면 썸네일 크기에 따라서 경로 또는 빈 문자열을 return
-                if($modified_time < $file_created_time && filesize($thumbnail_file)>0) return $thumbnail_url;
-                else return false;
+                if(filesize($thumbnail_file)<1) return false;
+                else return $thumbnail_url;
             }
 
             // 대상 파일
