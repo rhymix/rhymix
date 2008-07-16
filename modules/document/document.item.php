@@ -472,7 +472,7 @@
                         if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$file->source_filename)) continue;
 
                         $source_file = $file->uploaded_filename;
-                        if(!file_exists($source_file)) continue;
+                        if(!file_exists($source_file)) $source_file = null;
                         else break;
                     }
                 }
