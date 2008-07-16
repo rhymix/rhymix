@@ -279,8 +279,14 @@
             if(!FileHandler::makeDir($path)) return false;
 
             // 파일 이동
-            if(!$manual_insert&&!move_uploaded_file($file_info['tmp_name'], $filename)) return false;
-            elseif($manual_insert) @copy($file_info['tmp_name'], $filename);
+            if($manual_insert) @copy($file_info['tmp_name'], $filename);
+            else {
+                if(!@move_uploaded_file($file_info['tmp_name'], $filename)) {
+                    $ext = substr(strrchr($file_info['name'],'.'),1);
+                    $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
+                    if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return false;
+                }
+            }
 
             // 사용자 정보를 구함
             $oMemberModel = &getModel('member');
