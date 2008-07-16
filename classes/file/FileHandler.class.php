@@ -258,10 +258,10 @@
 
             // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
             if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
-            else $width_per = $width / $resize_width;
+            else $width_per = 1;
 
             if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
-            else $height_per = $height / $resize_height;
+            else $height_per = 1;
 
             if($thumbnail_type == 'ratio') {
                 if($width_per>$height_per) $per = $height_per;
@@ -309,10 +309,6 @@
                     return;
             }
 
-            // 디렉토리 생성
-            $path = preg_replace('/\/([^\.^\/]*)\.(gif|png|jpg|jpeg|bmp|wbmp)$/i','',$target_file);
-            FileHandler::makeDir($path);
-
             // 원본 이미지의 크기를 조절해서 임시 이미지에 넣음
             $new_width = (int)($width * $per);
             $new_height = (int)($height * $per);
@@ -328,7 +324,11 @@
             if($source) {
                 if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
                 else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-            }
+            } else return false;
+
+            // 디렉토리 생성
+            $path = dirname($target_file);
+            if(!is_dir($path)) FileHandler::makeDir($path);
 
             // 파일을 쓰고 끝냄
             switch($target_type) {
@@ -348,8 +348,10 @@
                     break;
             }
 
-            if(!$output) return false;
+            @imagedestroy($thumb);
+            @imagedestroy($source);
 
+            if(!$output) return false;
             @chmod($target_file, 0644);
 
             return true;

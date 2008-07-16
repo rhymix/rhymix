@@ -459,12 +459,15 @@
                 $modified_time = $this->get('last_update');
 
                 // 만약 글의 수정시간보다 이후에 만들어진 썸네일이라면 썸네일 크기에 따라서 경로 또는 빈 문자열을 return
-                if($modified_time < $file_created_time) return filesize($thumbnail_file)>0?$thumbnail_url:'';
+                if($modified_time < $file_created_time && filesize($thumbnail_file)>0) return $thumbnail_url;
+                else return false;
             }
 
-            FileHandler::writeFile($thumbnail_file, '','w');
+            // 대상 파일
+            $source_file = null;
+            $is_tmp_file = false;
 
-            // 문서에 첨부된 파일이 있으면 첫번째 멀티미디어 파일을 구함
+            // 첨부된 파일중 이미지 파일이 있으면 찾음
             if($this->hasUploadedFiles()) {
                 $file_list = $this->getUploadedFiles();
                 if(count($file_list)) {
@@ -472,32 +475,48 @@
                         if($file->direct_download!='Y') continue;
                         if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$file->source_filename)) continue;
 
-                        $filename = $file->uploaded_filename;
-                        if(!file_exists($filename)) continue;
-
-                        if(FileHandler::createImageFile($filename, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type)) return Context::getRequestUri().$thumbnail_file;
+                        $source_file = $file->uploaded_filename;
+                        if(!file_exists($source_file)) continue;
+                        else break;
                     }
                 }
             }
 
             // 첨부된 파일이 없으면 내용중 이미지 파일을 구함
-            $content = $this->get('content');
-            $target_src = null;
-            preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
-            $cnt = count($matches);
-            for($i=0;$i<$cnt;$i++) {
-                $target_src = $matches[$i][2];
-                if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
-                else {
-                    if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;
-                    $tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->document_srl));
-                    FileHandler::getRemoteFile($target_src, $tmp_file);
-                    if(!file_exists($tmp_file)) continue;
-                    $output = FileHandler::createImageFile($tmp_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
-                    FileHandler::removeFile($tmp_file);
-                    if($output) return Context::getRequestUri().$thumbnail_file;
+            if(!$source_file) {
+                $content = $this->get('content');
+                $target_src = null;
+                preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
+                $cnt = count($matches);
+                for($i=0;$i<$cnt;$i++) {
+                    $target_src = $matches[$i][2];
+                    if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
+                    else {
+                        if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;
+                        $tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->document_srl));
+                        FileHandler::getRemoteFile($target_src, $tmp_file);
+                        if(!file_exists($tmp_file)) continue;
+                        else {
+                            list($_w, $_h, $_t, $_a) = @getimagesize($tmp_file);
+                            if($_w<$width || $_h<$height) continue;
+
+                            $source_file = $tmp_file;
+                            $is_tmp_file = true;
+                            break;
+                        }
+                    }
                 }
             }
+
+            $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+
+            if($is_tmp_file) FileHandler::removeFile($source_file);
+
+            // 썸네일 생성 성공시 경로 return
+            if($output) return $thumbnail_url;
+
+            // 차후 다시 썸네일 생성을 시도하지 않기 위해 빈 파일을 생성
+            else FileHandler::writeFile($thumbnail_file, '','w');
 
             return;
         }
@@ -530,7 +549,7 @@
             preg_match_all('!<img([^>]*?)>!is', $content, $matches);
             $cnt = count($matches[0]);
             for($i=0;$i<$cnt;$i++) {
-                if(preg_match('/src=("|\'|\.|\/)*(common|modules|widgets|layouts)/i', $matches[0][$i])) continue;
+                if(preg_match('/src=("|\'|\.|\/)*(common|modules|widgets|addons|layouts)/i', $matches[0][$i])) continue;
                 $buffs[] = "image";
                 $check_files = true;
                 break;
