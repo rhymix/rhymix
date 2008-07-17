@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="Generator" content="XE" />
+        <title>XE Tools</title>
+
+{@ $js_files = Context::getJsFile() }
+<!--@foreach($js_files as $key => $js_file)-->
+<!--@if($js_file['targetie'])-->
+    <!--[if {$js_file['targetie']}]>
+<!--@end-->
+    <script type="text/javascript" src="{$js_file['file']}"></script>
+<!--@if($js_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
+
+{@ $css_files = Context::getCssFile() }
+<!--@foreach($css_files as $key => $css_file)-->
+<!--@if($css_file['targetie'])-->
+    <!--[if {$css_file['targetie']}]>
+<!--@end-->
+    <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+<!--@if($css_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
+        <link rel="stylesheet" href="./style.css" type="text/css" charset="UTF-8" media="all" />
+    </head>
+    <body>
+
+        <h1>XE Tools</h1>
+        <hr />
+
+        <!--@if($msg)-->
+        <blockquote class="message">{$msg}</blockquote>
+        <!--@end-->
+
+        <form action="./index.php" method="post">
+            <div class="tools">
+                <code>
+                    <!--@foreach($tools as $key => $title)-->
+                        <label for="title_{$key}"><input type="radio" name="tool" value="{$key}" id="title_{$key}" <!--@if($key==$tool)-->checked="checked"<!--@end--> /> {$title}</label>
+                    <!--@end-->
+                </code>
+            </div>
+            <div class="auth">
+                <code>
+                    <label for="db_id">{$lang->db_userid}</label>
+                    <input type="text" id="db_id" name="id" value="{$id}" />
+                </code>
+                <code>
+                    <label for="db_pw">{$lang->db_password}</label>
+                    <input type="password" id="db_pw" name="pw" value="" />
+                </code>
+                <input type="submit" value="{$lang->cmd_input}" class="submit"/>
+            </div>
+        </form>
+
+        <!--@if($output)-->
+        <blockquote class="output">{$output}</blockquote>
+        <!--@end-->
+    </body>
+</html>
