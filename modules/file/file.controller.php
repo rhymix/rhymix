@@ -279,8 +279,14 @@
             if(!FileHandler::makeDir($path)) return false;
 
             // 파일 이동
-            if($manual_insert) @copy($file_info['tmp_name'], $filename);
-            else {
+            if($manual_insert) {
+                @copy($file_info['tmp_name'], $filename);
+                if(!file_exists($filename)) {
+                    $ext = substr(strrchr($file_info['name'],'.'),1);
+                    $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
+                    @copy($file_info['tmp_name'], $filename);
+                }
+            } else {
                 if(!@move_uploaded_file($file_info['tmp_name'], $filename)) {
                     $ext = substr(strrchr($file_info['name'],'.'),1);
                     $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;

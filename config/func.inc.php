@@ -515,7 +515,7 @@
      **/
     function getScriptPath() {
         static $url = null;
-        if($url == null) $url = preg_replace('/\/tools\/([a-z\_]+)/i','',preg_replace('/index.php$/i','',str_replace('\\','/',$_SERVER['SCRIPT_NAME'])));
+        if($url == null) $url = preg_replace('/\/tools\//i','/',preg_replace('/index.php$/i','',str_replace('\\','/',$_SERVER['SCRIPT_NAME'])));
         return $url;
     }
 
