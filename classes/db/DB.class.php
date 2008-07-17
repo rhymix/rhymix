@@ -496,7 +496,7 @@
             if(!is_array($tables)) $tables = array($tables);
             foreach($tables as $alias => $table) {
                 $filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table);
-                @unlink($filename);
+                FileHandler::removeFile($filename);
                 FileHandler::writeFile( $filename, '' );
             }
 

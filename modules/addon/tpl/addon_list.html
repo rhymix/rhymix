@@ -50,8 +50,12 @@
         ({$val->addon})
     </th>
     <td class="tahoma">{$val->version}</td>
-    <td><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;">{$val->author->name}</a></td>
-    <td class="tahoma">{$val->author->date}</td>
+    <td>
+        <!--@foreach($val->author as $author)-->
+        <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+        <!--@endforeach-->
+    </td>
+    <td class="tahoma">{zdate($val->date, 'Y-m-d')}</td>
     <td class="tahoma">{$val->path}</td>
     <td><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="blue">{$lang->cmd_setup}</a></td>
     <td>
@@ -64,7 +68,7 @@
 </tr>
 <tr>
     <td colspan="6">
-        {nl2br($val->author->description)}
+        {nl2br($val->description)}
     </td>
 </tr>
 <!--@end-->

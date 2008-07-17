@@ -1,0 +1,14 @@
+<query id="getParentId" action="select">
+    <tables>
+        <table name="tcnotified" />
+    </tables>
+    <columns>
+        <column name="notified_srl" alias="notified_srl"/>
+    </columns>
+    <conditions>
+        <condition operation="equal" column="entry" var="entry" notnull="notnull" />
+        <condition operation="equal" column="siteid" var="siteid" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="remoteid" var="remoteid" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

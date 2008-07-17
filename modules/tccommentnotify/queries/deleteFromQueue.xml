@@ -1,0 +1,8 @@
+<query id="deleteFromQueue" action="delete">
+    <tables>
+        <table name="tcnotifyqueue" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="comment_srl" var="comment_srl" notnull="notnull" />
+    </conditions>
+</query>

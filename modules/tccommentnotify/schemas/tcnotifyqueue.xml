@@ -1,0 +1,3 @@
+<table name="tcnotifyqueue">
+    <column name="comment_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+</table>

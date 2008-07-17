@@ -31,7 +31,7 @@
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
                 $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-                @unlink($cache_file);
+                FileHandler::removeFile($cache_file);
             }
 
             if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
@@ -50,7 +50,7 @@
 
             $cache_path = './files/cache/widget_cache/';
             $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-            @unlink($cache_file);
+            FileHandler::removeFile($cache_file);
 
             // 코드 출력
             $this->add('widget_code', $widget_code);
@@ -75,7 +75,7 @@
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
                 $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-                @unlink($cache_file);
+                FileHandler::removeFile($cache_file);
             }
 
             if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
@@ -190,8 +190,9 @@
             $oWidget = new WidgetHandler();
             $oXmlParser = new XmlParser();
 
-            for($i=0;$i<count($matches[1]);$i++) {
-                $buff = urldecode($matches[0][$i]);
+            $cnt = count($matches[1]);
+            for($i=0;$i<$cnt;$i++) {
+                $buff = $matches[0][$i];
                 $xml_doc = $oXmlParser->parse(trim($buff));
 
                 $args = $xml_doc->img->attrs;
@@ -202,6 +203,10 @@
                 $sequence = $args->widget_sequence;
                 $cache = $args->widget_cache;
                 if(!$sequence || !$cache) continue;
+
+                if(count($args)) {
+                    foreach($args as $k => $v) $args->{$k} = urldecode($v);
+                }
 
                 // 언어별로 위젯 캐시 파일이 있을 경우 재생성
                 foreach($lang_list as $lang_type => $val) {

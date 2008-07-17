@@ -1,0 +1,5 @@
+table { width:100%; border:none; font-size:9pt; background-color:#CCCCCC; }
+table thead th { background-color:#EFEFEF; padding:3px 0 3px 0; }
+table tbody th { background-color:#F3F3F3; vertical-align:top; color:#888888; padding:3px 0 3px 0; }
+table tbody td { font-weight:normal; background-color:#FFFFFF; font-family:verdana; padding:3px; }
+

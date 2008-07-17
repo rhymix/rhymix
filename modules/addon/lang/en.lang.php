@@ -9,6 +9,7 @@
 
     $lang->addon_info = 'Summary of this Addon';
     $lang->addon_maker = 'Author of this Addon';
+    $lang->addon_license = 'License';
     $lang->addon_history = 'Addon History';
 
     $lang->about_addon_mid = "Addons can select targets.<br />(All targets will be selected when nothing is selected)";

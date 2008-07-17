@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="service">
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
     <title xml:lang="ko">외부 페이지</title>
     <title xml:lang="zh-CN">外部页面</title>
     <title xml:lang="jp">外部ページ</title>
     <title xml:lang="en">External Page</title>
-	<title xml:lang="es">Afuera Página</title>
+    <title xml:lang="es">Afuera Página</title>
     <title xml:lang="ru">Внешние страницы</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 9. 17">
+    <description xml:lang="ko">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
+    <description xml:lang="zh-CN">可以把外部页面插入到 Zeroboard XE内部的模块。</description>
+    <description xml:lang="jp">外部ページをゼロボードXE内部に挿入させるモジュール</description>
+    <description xml:lang="en">Module for inserting external pages into inside of Zeroboard XE.</description>
+    <description xml:lang="es">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
+    <description xml:lang="ru">Модуль для вставки внешних страниц внутрь Zeroboard XE.</description>
+    <version>0.1</version>
+    <date>2007-09-17</date>
+    <category>service</category>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">제로</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
-		<name xml:lang="es">zero</name>
+        <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
-        <description xml:lang="ko">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
-        <description xml:lang="zh-CN">可以把外部页面插入到 Zeroboard XE内部的模块。</description>
-        <description xml:lang="jp">外部ページをゼロボードXE内部に挿入させるモジュール</description>
-        <description xml:lang="en">Module for inserting external pages into inside of Zeroboard XE.</description>
-        <description xml:lang="es">외부페이지를 제로보드XE내부로 삽입시키는 모듈</description>
-        <description xml:lang="ru">Модуль для вставки внешних страниц внутрь Zeroboard XE.</description>
     </author>
 </module>

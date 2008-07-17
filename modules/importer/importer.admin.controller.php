@@ -190,7 +190,7 @@
 
                 // 대상 파일을 읽여서 파싱후 입력
                 $xmlObj = $oXmlParser->loadXmlFile($target_file);
-                @unlink($target_file);
+                FileHandler::removeFile($target_file);
                 if(!$xmlObj) continue;
 
                 // 객체 정리
@@ -326,7 +326,7 @@
 
                 // 대상 파일을 읽여서 파싱후 입력
                 $xmlObj = $oXmlParser->loadXmlFile($target_file);
-                @unlink($target_file);
+                FileHandler::removeFile($target_file);
                 if(!$xmlObj) continue;
 
                 // 객체 정리
@@ -433,7 +433,7 @@
                     $oDocumentController = &getController('document');
                     $oDocumentController->makeCategoryFile($module_srl);
                 }
-                @unlink($category_file);
+                FileHandler::removeFile($category_file);
             }
 
             $category_list = $category_titles = array();
@@ -558,7 +558,7 @@
                 }
 
                 fclose($fp);
-                @unlink($target_file);
+                FileHandler::removeFile($target_file);
             }
 
             fclose($f);
@@ -793,7 +793,7 @@
                         // 디렉토리 생성
                         if(!FileHandler::makeDir($path)) continue;
 
-                        if(preg_match('/^\.\/files\/cache\/tmp/i',$file_obj->file)) @rename($file_obj->file, $filename);
+                        if(preg_match('/^\.\/files\/cache\/tmp/i',$file_obj->file)) FileHandler::rename($file_obj->file, $filename);
                         else @copy($file_obj->file, $filename);
 
                         // DB입력

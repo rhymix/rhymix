@@ -101,7 +101,7 @@
 
             // 캐시 검사
             if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time() || filemtime($cache_file)<filemtime($path) ) {
-                if(file_exists($cache_file)) @unlink($cache_file);
+                if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
 
                 // 일단 대상 파일을 읽어서 내용을 구함
                 ob_start();

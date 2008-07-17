@@ -54,7 +54,7 @@
         function dispAdminIndex() {
             // 공식사이트에서 최신 뉴스를 가져옴
             $newest_news_url = sprintf("http://news.zeroboard.com/%s/news.php", Context::getLangType());
-            $cache_file = sprintf("./files/cache/newest_news.%s.cache.php", Context::getLangType());
+            $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_,Context::getLangType());
 
             // 1시간 단위로 캐싱 체크
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {

@@ -62,7 +62,7 @@
     $lang->cmd_publish = "Publier";
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
-    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
+    $lang->cmd_search_by_ipaddress = 'Recherce par l\'Address IP';
 
     $lang->enable = 'Valide';
     $lang->disable = 'Invalide';
@@ -83,7 +83,7 @@
     $lang->writer = 'Auteur';
     $lang->user_name = 'Nom d\'utilisateur';
     $lang->nick_name = 'Surnom';
-    $lang->email_address = 'Courriel';
+    $lang->email_address = 'Mél';
     $lang->homepage = 'Page d\'accueil';
     $lang->blog = 'Blogue';
     $lang->birthday = 'Anniversaire';
@@ -222,7 +222,7 @@
     $lang->column_type = 'Types des colonnes';
     $lang->column_type_list['text'] = 'Texte en une seul ligne';
     $lang->column_type_list['homepage'] = 'URL';
-    $lang->column_type_list['email_address'] = 'Courriel';
+    $lang->column_type_list['email_address'] = 'Mél';
     $lang->column_type_list['tel'] = 'Numéro de Telephone';
     $lang->column_type_list['textarea'] = 'Texte en plusieurs lignes';
     $lang->column_type_list['checkbox'] = 'Case à cocher (multichoix)';

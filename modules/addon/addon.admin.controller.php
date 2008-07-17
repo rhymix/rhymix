@@ -57,7 +57,7 @@
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getInsertedAddons();
             foreach($addon_list as $addon => $val) {
-                if($val->is_used != 'Y' || !is_dir('./addons/'.$addon) ) continue;
+                if($val->is_used != 'Y' || !is_dir(_XE_PATH_.'addons/'.$addon) ) continue;
 
                 $extra_vars = unserialize($val->extra_vars);
                 $mid_list = $extra_vars->mid_list;
@@ -69,7 +69,7 @@
                     $extra_vars = base64_encode($val->extra_vars);
                 }
 
-                $buff .= sprintf(' $_ml = unserialize(base64_decode("%s")); if(file_exists("./addons/%s/%s.addon.php") && (!is_array($_ml) || in_array($_m, $_ml))) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "./addons/%s/"; @include("./addons/%s/%s.addon.php"); }', $mid_list, $addon, $addon, $extra_vars, $addon, $addon, $addon);
+                $buff .= sprintf(' $_ml = unserialize(base64_decode("%s")); if(file_exists("%saddons/%s/%s.addon.php") && (!is_array($_ml) || in_array($_m, $_ml))) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "%saddons/%s/"; @include("%saddons/%s/%s.addon.php"); }', $mid_list, _XE_PATH_, $addon, $addon, $extra_vars, _XE_PATH_, $addon, _XE_PATH_, $addon, $addon);
             }
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);

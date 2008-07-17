@@ -10,6 +10,7 @@
 
     $lang->layout_name = 'Nom du Mise en Page';
     $lang->layout_maker = "Développeur du Mise en Page";
+    $lang->layout_license = 'License';
     $lang->layout_history = "Mise à Jour";
     $lang->layout_info = "Informations du Mise en Page";
     $lang->layout_list = 'Liste des Mises en Page';

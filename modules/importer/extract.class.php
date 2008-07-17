@@ -50,7 +50,7 @@
          * @brief 지정된 파일의 지시자를 염
          **/
         function openFile() {
-            @unlink($this->cache_index_file);
+            FileHandler::removeFile($this->cache_index_file);
             $this->index_fd = fopen($this->cache_index_file,"a");
 
             // local 파일일 경우 
@@ -140,7 +140,7 @@
                 $buff = FileHandler::readFile($target_file);
                 fwrite($fd, FileHandler::readFile($target_file));
 
-                @unlink($target_file);
+                FileHandler::removeFile($target_file);
             }
             fwrite($fd, '</items>');
             fclose($fd);

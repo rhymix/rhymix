@@ -286,10 +286,11 @@
             }
 
             if(feof($f)) {
-                @unlink('./files/cache/pointRecal.txt');
+                FileHandler::removeFile('./files/cache/pointRecal.txt');
                 $idx = $total;
 
-                @rename('./files/member_extra_info/point','./files/member_extra_info/point.old');
+                FileHandler::rename('./files/member_extra_info/point','./files/member_extra_info/point.old');
+
                 FileHandler::removeDir('./files/member_extra_info/point.old');
             }
             fclose($f);

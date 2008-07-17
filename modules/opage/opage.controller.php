@@ -72,7 +72,7 @@
             $this->target_path = $path;
 
             // element의 속성중 value에 " 로 안 묶여 있는 것을 검사하여 묶어줌
-            $content = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, '_fixQuotation'), $content);
+            $content = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $content);
 
             // img, input, a, link등의 href, src값 변경
             $content = preg_replace_callback('!(script|link|a|img|input)([^>]*)(href|src)=[\'"](.*?)[\'"]!is', array($this, '_replaceSrc'), $content);
@@ -104,16 +104,5 @@
             $buff = sprintf('url(%s)', $href);
             return $buff;
         }
-
-        /**
-         * @brief 태그의 속성에 " 를 추가
-         **/
-        function _fixQuotation($matches) {
-            $key = $matches[1];
-            $val = $matches[2];
-            if(substr($val,0,1)!='"') $val = '"'.$val.'"';
-            return sprintf('%s=%s', $key, $val);
-        }
-
     }
 ?>

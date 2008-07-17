@@ -443,7 +443,7 @@ class HTTPRetriever {
 		
 		if (time()-filemtime($filename)>$this->caching) {
 			$this->progress(HRP_DEBUG,"Page in cache is expired");
-			@unlink($filename);
+            FileHandler::removeFile($filename);
 			return false;
 		}
 		

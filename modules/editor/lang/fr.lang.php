@@ -11,13 +11,15 @@
     $lang->component_author = "Développeur";
     $lang->component_link = "Lien";
     $lang->component_date = "Jour de Création";
+    $lang->component_license = 'License';
+    $lang->component_history = "History";
     $lang->component_description = "Description";
     $lang->component_extra_vars = "Variables d'Option";
     $lang->component_grant = "Configuration de l'Autorisation"; 
 
     $lang->about_component = "Sur le Composant";
     $lang->about_component_grant = 'Vous pouvez configurer l\'autorisation à utiliser des composants tendus de l\'Editeur.<br /> (Tout le monde aura l\'autorisation si vous ne cochez rien)';
-    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
+    $lang->about_component_mid = "Vous pouvez indiquer les objectifs que les composants s'appliquer<br />(Tous les objectifs seront choisis quand rien est choisi.)";
 
     $lang->msg_component_is_not_founded = 'Ne peut pas trouver Composant %s';
     $lang->msg_component_is_inserted = 'Composant choisi est déjà inséré';

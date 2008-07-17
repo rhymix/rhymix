@@ -265,6 +265,9 @@
             // commit
             $oDB->commit();
 
+            // 썸네일 파일 제거
+            FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+
             $output->add('document_srl',$obj->document_srl);
             return $output;
         }
@@ -315,6 +318,9 @@
                     return $trigger_output;
                 }
             }
+
+            // 썸네일 파일 제거
+            FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($document_srl, 3)));
 
             // commit
             $oDB->commit();
@@ -762,8 +768,8 @@
             $category_list = $output->data;
 
             if(!$category_list) {
-                @unlink($xml_file);
-                @unlink($php_file);
+                FileHandler::removeFile($xml_file);
+                FileHandler::removeFile($php_file);
                 return false;
             }
             if(!is_array($category_list)) $category_list = array($category_list);

@@ -40,13 +40,14 @@
          * @brief 관리자가 글 선택시 세션에 담음
          **/
         function procDocumentAdminAddCart() {
-            $document_srl = Context::get('srl');
-
-            $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl);
-            if(!$oDocument->isExists()) return;
-
-            $oDocument->doCart();
+            $document_srls = explode(',',Context::get('srls'));
+            $cnt = count($document_srls);
+            for($i=0;$i<$cnt;$i++) {
+                $document_srl = (int)trim($document_srls[$i]);
+                if(!$document_srls) continue;
+                if($_SESSION['document_management'][$document_srl]) unset($_SESSION['document_management'][$document_srl]);
+                else $_SESSION['document_management'][$document_srl] = true;
+            }
         }
 
         /**
@@ -383,8 +384,11 @@
          **/
         function procDocumentAdminDeleteAllThumbnail() {
 
-            // files/attaches/images/ 디렉토리를 순환하면서 thumbnail_*.jpg 파일을 모두 삭제
+            // files/attaches/images/ 디렉토리를 순환하면서 thumbnail_*.jpg 파일을 모두 삭제 (1.0.4 이전까지)
             $this->deleteThumbnailFile('./files/attach/images');
+
+            // files/cache/thumbnails 디렉토리 자체를 삭제 (1.0.5 이후 변경된 썸네일 정책)
+            FileHandler::removeFilesInDir('./files/cache/thumbnails');
 
             $this->setMessage('success_deleted');
         }
@@ -397,7 +401,7 @@
                         $this->deleteThumbnailFile($path."/".$entry);
                     } else {
                         if(!preg_match('/^thumbnail_([^\.]*)\.jpg$/i',$entry)) continue;
-                        @unlink($path.'/'.$entry);
+                        FileHandler::removeFile($path.'/'.$entry);
                     }
                 }
             }

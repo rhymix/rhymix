@@ -1,0 +1,11 @@
+<query id="getChildren" action="select">
+    <tables>
+        <table name="tcnotifiedchildren" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="parent_srl" var="parent_srl" notnull="notnull" />
+    </conditions>
+</query>

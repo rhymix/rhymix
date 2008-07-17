@@ -54,5 +54,5 @@
     $lang->about_type_syncmember = 'Sélectionnez cette option si vous voulez synchroniser les informations des membres après le trensfert des informations des membres et des articles.';
     $lang->about_importer = "Vous pouvez transeférer les données de Zeroboard4, de Zeroboard5 Beta ou d\'autres logiciels en les données de ZeroboardXE.\nPour tranférer, vous devez utiliser <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.";
 
-    $lang->about_target_path = "Pour obtenir les attachés de Zeroboard4, Insérez l\'addresse ou Zeroboard4 est installé.\nSi ça se trouve dans le même serveur, entrez le chemin comme \'/home/USERID/public_html/bbs\'\nSi ça ne se trouve pas dans le même serveur, entrez l\'address où Zeroboard4 est installé comme \'http://Domain/bbs\'";
+    $lang->about_target_path = "Pour obtenir les attachés de Zeroboard4, Insérez l\'addresse ou Zeroboard4 est installé.\nSi ça se trouve dans le même serveur, entrez le chemin comme '/home/USERID/public_html/bbs'\nSi ça ne se trouve pas dans le même serveur, entrez l\'address où Zeroboard4 est installé comme 'http://Domain/bbs'";
 ?>

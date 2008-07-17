@@ -16,11 +16,11 @@
 
     <div class="hr_dot_01"></div>
 
-    <div class="item profile"><a href="{getUrl('act','dispMemberInfo','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_member_info}</a></div>
-    <div class="item friend"><a href="{getUrl('act','dispCommunicationFriend','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_friend}</a></div>
-    <div class="item message"><a href="{getUrl('act','dispCommunicationMessages','message_type','','member_srl',$logged_info->member_srl)}">{$lang->cmd_view_message_box}</a></div>
+    <!--@foreach($logged_info->menu_list as $key => $val)-->
+    <div class="item"><a href="{getUrl('act',$key,'member_srl','')}">{Context::getLang($val)}</a></div>
+    <!--@end-->
     <!--@if($logged_info->is_admin=="Y")-->
     <div class="item administrative"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
     <!--@end-->
-    <div class="lastlogin">{$lang->last_login} : {zDate($logged_info->last_login, "Y-m-d H:i")}</div>
+    <div class="lastlogin">{$lang->last_login}<br/>{zDate($logged_info->last_login, "Y-m-d H:i")}</div>
 </div>

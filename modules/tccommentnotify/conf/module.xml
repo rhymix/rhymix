@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+    <action name="dispCommentNotifyAdminIndex" type="view" standalone="true" admin_index="true" />
+    <action name="procCommentNotifyAdminDeleteChild" type="controller" standalone="true" />
+    <action name="procCommentNotifyAdminDeleteParent" type="controller" standalone="true" />
+    <action name="procCommentNotifyAdminDeleteChecked" type="controller" standalone="true" />
+    <action name="procDoNotify" type="controller" standalone="true" />
+    </actions>
+</module>

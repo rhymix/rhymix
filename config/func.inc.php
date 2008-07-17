@@ -382,9 +382,6 @@
      * @brief 주어진 숫자를 주어진 크기로 recursive하게 잘라줌
      * @param no 주어진 숫자
      * @param size 잘라낼 크기
-     *
-     * ex) 12, 3 => 012/
-     * ex) 1234, 3 => 123/004/
      **/
     function getNumberingPath($no, $size=3) {
         $mod = pow(10, $size);
@@ -419,13 +416,58 @@
         // XSS 사용을 위한 이벤트 제거
         $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
 
+        /**
+         * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
+         * - 취약점 제보 : 김상원님
+         **/
+        $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeSrcHack, $content);
+
         return $content;
     }
 
     function removeJSEvent($matches) {
         $tag = strtolower($matches[1]);
         if($tag == "a" && preg_match('/href=("|\'?)javascript:/i',$matches[2])) $matches[0] = preg_replace('/href=("|\'?)javascript:/i','href=$1_javascript:', $matches[0]);
-        return preg_replace('/on([a-z]+)=/i','_on$1=',$matches[0]);
+        return preg_replace('/ on([a-z]+)=/i',' _on$1=',$matches[0]);
+    }
+
+    function removeSrcHack($matches) {
+        $tag = $matches[1];
+
+        $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
+        $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
+
+        $oXmlParser = new XmlParser();
+        $xml_doc = $oXmlParser->parse($buff);
+
+        // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
+        $src = $xml_doc->{$tag}->attrs->src;
+        if($src) {
+            $url_info = parse_url($src);
+            $query = $url_info['query'];
+            $queries = explode('&', $query);
+            $cnt = count($queries);
+            for($i=0;$i<$cnt;$i++) {
+                $pos = strpos($queries[$i],'=');
+                if($pos === false) continue;
+                $key = strtolower(trim(substr($queries[$i], 0, $pos)));
+                $val = strtolower(trim(substr($queries[$i] ,$pos+1)));
+                if(($key == 'module' && $val == 'admin') || $key == 'act' && preg_match('/admin/i',$val)) return sprintf("<%s>",$tag);
+            }
+        }
+
+        return $matches[0];
+
+    }
+
+    /**
+     * @brief attribute의 value를 " 로 둘러싸도록 처리하는 함수
+     **/
+    function fixQuotation($matches) {
+        $key = $matches[1];
+        $val = $matches[2];
+        if(substr($val,0,1)!='"') $val = '"'.$val.'"';
+        return sprintf('%s=%s', $key, $val);
     }
 
     // hexa값을 RGB로 변환
@@ -472,8 +514,9 @@
      * 현재 요청받은 스크립트 경로를 return
      **/
     function getScriptPath() {
-        $url = $_SERVER['PHP_SELF']?$_SERVER['PHP_SELF']:($_SERVER['REQUEST_URI']?$_SERVER['REQUEST_URI']:$_SERVER['URL']);
-        return preg_replace('/index.php/i','',$url);
+        static $url = null;
+        if($url == null) $url = preg_replace('/\/tools\//i','/',preg_replace('/index.php$/i','',str_replace('\\','/',$_SERVER['SCRIPT_NAME'])));
+        return $url;
     }
 
     /** 

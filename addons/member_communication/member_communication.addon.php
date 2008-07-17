@@ -33,7 +33,7 @@
         $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
 
         if(file_exists($flag_file)) {
-            @unlink($flag_file);
+            FileHandler::removeFile($flag_file);
             Context::loadLang('./addons/member_communication/lang');
 
             $script =  sprintf('<script type="text/javascript"> xAddEventListener(window,"load", function() {if(confirm("%s")) { popopen("%s"); }}); </script>', Context::getLang('alert_new_message_arrived'), Context::getRequestUri().'?module=communication&act=dispCommunicationNewMessage');

@@ -1,0 +1,25 @@
+<query id="insertCommentNotified" action="insert">
+    <tables>
+        <table name="tcnotified" />
+    </tables>
+    <columns>
+        <column name="notified_srl" var="notified_srl" notnull="notnull" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="entry" var="entry" notnull="notnull" />
+        <column name="password" var="password" />
+        <column name="homepage" var="homepage" />
+        <column name="secret" var="secret" default="0" />
+        <column name="comment" var="comment" notnull="notnull" />
+        <column name="ip" var="ip" />
+        <column name="isnew" var="isnew" default="1"  />
+        <column name="siteid" var="siteid" notnull="notnull" />
+        <column name="remoteid" var="remoteid" default="0" />
+        <column name="entrytitle" var="entrytitle" notnull="notnull" />
+        <column name="entryurl" var="entryurl" notnull="notnull" />
+        <column name="url" var="url" />
+        <column name="written" var="written" default="curdate()" notnull="notnull" />
+        <column name="modified" var="modified" default="curdate()" />
+        <column name="list_order" var="list_order" notnull="notnull" />
+    </columns>
+</query>

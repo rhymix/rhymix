@@ -25,7 +25,7 @@
                 <!--@end-->
 
                 <div class="clear"></div>
-            
+
             </div>
 
             <div class="dateAndCount">
@@ -123,7 +123,7 @@
             <ul>
                 <!--@for($i=0;$i<count($tag_list);$i++)-->
                     {@ $tag = $tag_list[$i]; }
-                    <li><a href="{getUrl('search_target','tag','search_keyword',urlencode($tag),'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,&nbsp;<!--@end--></li>
+                    <li><a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,&nbsp;<!--@end--></li>
                 <!--@end-->
             </ul>
         </div>
@@ -142,7 +142,7 @@
         <!--@end-->
     </div>
 
-    <!-- 목록, 수정/삭제 버튼 --> 
+    <!-- 목록, 수정/삭제 버튼 -->
     <div class="contentButton">
         <!--@if($module_info->default_style != 'blog')-->
         <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>

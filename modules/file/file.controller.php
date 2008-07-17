@@ -279,8 +279,20 @@
             if(!FileHandler::makeDir($path)) return false;
 
             // 파일 이동
-            if(!$manual_insert&&!move_uploaded_file($file_info['tmp_name'], $filename)) return false;
-            elseif($manual_insert) @copy($file_info['tmp_name'], $filename);
+            if($manual_insert) {
+                @copy($file_info['tmp_name'], $filename);
+                if(!file_exists($filename)) {
+                    $ext = substr(strrchr($file_info['name'],'.'),1);
+                    $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
+                    @copy($file_info['tmp_name'], $filename);
+                }
+            } else {
+                if(!@move_uploaded_file($file_info['tmp_name'], $filename)) {
+                    $ext = substr(strrchr($file_info['name'],'.'),1);
+                    $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
+                    if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return false;
+                }
+            }
 
             // 사용자 정보를 구함
             $oMemberModel = &getModel('member');
@@ -346,7 +358,7 @@
             if(!$trigger_output->toBool()) return $trigger_output;
 
             // 삭제 성공하면 파일 삭제
-            @unlink($uploaded_filename);
+            FileHandler::removeFile($uploaded_filename);
 
             return $output;
         }
@@ -368,15 +380,19 @@
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제
+            $path = array();
             $file_count = count($file_list);
-            for($i=0;$i<count($file_count);$i++) {
+            for($i=0;$i<$file_count;$i++) {
+                $uploaded_filename = $file_list[$i]->uploaded_filename;
+                FileHandler::removeFile($uploaded_filename);
                 $module_srl = $file_list[$i]->module_srl;
-                $path[0] = sprintf("./files/attach/images/%s/%s/", $module_srl, $upload_target_srl);
-                $path[1] = sprintf("./files/attach/binaries/%s/%s/", $module_srl, $upload_target_srl);
 
-                FileHandler::removeDir($path[0]);
-                FileHandler::removeDir($path[1]);
+                $path_info = pathinfo($uploaded_filename);
+                if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
             }
+
+            // 해당 글의 첨부파일 디렉토리 삭제
+            for($i=0;$i<count($path);$i++) FileHandler::removeBlankDir($path[$i]);
 
             return $output;
         }
@@ -415,7 +431,7 @@
                 FileHandler::makeDir($path);
 
                 // 파일 이동
-                @rename($old_file, $new_file);
+                FileHandler::rename($old_file, $new_file);
 
                 // DB 정보도 수정
                 unset($args);

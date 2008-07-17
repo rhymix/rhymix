@@ -17,7 +17,7 @@
 .boardInformation strong { font:bold 11px Tahoma; color:#ff6600;}
 
 .boardHeader { position:relative; _width:100%; border-top:1px solid #e1e1dd; border-bottom:none; background:#ffffff url(../images/common/bgH3.gif) no-repeat right bottom; overflow:hidden;}
-.boardHeader .member_option { float:right; position:relative; top:1em; right:1em; }
+.boardHeader .member_option { float:right; position:relative; top:0.5em; right:1em; }
 .boardHeader select { vertical-align:bottom; }
 .boardHeader input { vertical-align:bottom; _padding-bottom:1px;}
 .boardHeader .essential { position:absolute; top:1.5em; right:1em; color:#54564b; font-size:.9em;}

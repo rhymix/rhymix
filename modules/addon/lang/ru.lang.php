@@ -9,6 +9,7 @@
 
     $lang->addon_info = 'Информация об аддоне';
     $lang->addon_maker = 'Автор аддона';
+    $lang->addon_license = 'License';
     $lang->addon_history = 'История аддона';
 
     $lang->about_addon_mid = "애드온이 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";

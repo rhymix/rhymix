@@ -1,23 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<module version="0.1" category="utility">
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
     <title xml:lang="ko">위지윅 에디터 </title>
     <title xml:lang="en">WYSIWYG Editor</title>
     <title xml:lang="es">Editor WYSIWYG</title>
     <title xml:lang="zh-CN">网页编辑器</title>
     <title xml:lang="jp">ウイジウイグエディター</title>
     <title xml:lang="ru">WYSIWYG-редактор</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
+    <description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 모듈입니다.</description>
+    <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
+    <description xml:lang="es">Módulo para mostrar en la pantalla el editor de WYSIWYG y para el manejo/relato de los componentes del editor.</description>
+    <description xml:lang="zh-CN">显示网页编辑器或管理/传递编辑器组件的模块。</description>
+    <description xml:lang="jp">ウイジウイグエディター を出力したり、エディターのコンポーネントを管理・中継するモジュールです。</description>
+    <description xml:lang="ru">Модуль для отображения WYSIWYG-редактора и управления/смены комментариев редактора.</description>
+    <version>0.1</version>
+    <date>2007-02-28</date>
+    <category>utility</category>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">제로</name>
         <name xml:lang="en">Zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="ru">zero</name>
-        <description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 모듈입니다.</description>
-        <description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
-        <description xml:lang="es">Módulo para mostrar en la pantalla el editor de WYSIWYG y para el manejo/relato de los componentes del editor.</description>
-        <description xml:lang="zh-CN">显示网页编辑器或管理/传递编辑器组件的模块。</description>
-        <description xml:lang="jp">ウイジウイグエディター を出力したり、エディターのコンポーネントを管理・中継するモジュールです。</description>
-        <description xml:lang="ru">Модуль для отображения WYSIWYG-редактора и управления/смены комментариев редактора.</description>
     </author>
 </module>

@@ -221,6 +221,11 @@
             // 글의 대상 모듈을 회원 정보로 변경
             $obj->module_srl = $logged_info->member_srl;
 
+            // 제목을 사용하지 않는 방명록 등에서 내용 앞 부분을 제목 가져오기
+            if(!$obj->title) {
+                $obj->title = cut_str(strip_tags($obj->content), 20, '...');
+            }
+
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
 
@@ -248,6 +253,7 @@
             }
 
             $this->setMessage('success_saved');
+            $this->add('document_srl', $obj->document_srl);
         }
 
         /**
@@ -617,7 +623,7 @@
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
-                @unlink($profile_image->file);
+                FileHandler::removeFile($profile_image->file);
             } 
             return new Object(0,'success');
         }
@@ -640,7 +646,7 @@
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);
-                @unlink($image_name->file);
+                FileHandler::removeFile($image_name->file);
             } 
             return new Object(0,'success');
         }
@@ -705,7 +711,7 @@
             if($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl) {
                 $oMemberModel = &getModel('member');
                 $image_mark = $oMemberModel->getImageMark($member_srl);
-                @unlink($image_mark->file);
+                FileHandler::removeFile($image_mark->file);
             } 
             return new Object(0,'success');
         }
@@ -830,7 +836,7 @@
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
             $filename = sprintf('%s%d.signature.php', $path, $member_srl);
 
-            if(!$check_signature) return @unlink($filename);
+            if(!$check_signature) return FileHandler::removeFile($filename);
 
             $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();?>%s', $signature);
             FileHandler::makeDir($path);
@@ -842,7 +848,7 @@
          **/
         function delSignature($member_srl) {
             $filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            @unlink($filename);
+            FileHandler::removeFile($filename);
         }
 
         /**
@@ -972,7 +978,7 @@
             }
 
             // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
-            if(preg_match("/^([0-9a-z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
+            if(preg_match("/^([_0-9a-zA-Z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
             else $member_info->is_openid = true;
 
             // 로그인 처리를 위한 세션 설정

@@ -45,13 +45,13 @@
             if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
 
             // tpl_file이 비어 있거나 해당 파일이 없으면 return
-            if(!$tpl_file || !file_exists($tpl_file)) return;
+            if(!$tpl_file || !file_exists(FileHandler::getRealPath($tpl_file))) return;
 
             $this->tpl_path = $tpl_path;
             $this->tpl_file = $tpl_file;
 
             // compiled된(or 될) 파일이름을 구함
-            $compiled_tpl_file = $this->_getCompiledFileName($tpl_file);
+            $compiled_tpl_file = FileHandler::getRealPath($this->_getCompiledFileName($tpl_file));
 
             // 일단 컴파일
             $buff = $this->_compile($tpl_file, $compiled_tpl_file);
@@ -61,7 +61,7 @@
 
             if(__DEBUG__==3 ) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
 
-            return $output; 
+            return $output;
         }
 
         /**
@@ -83,9 +83,9 @@
         function _compile($tpl_file, $compiled_tpl_file) {
             if(!file_exists($compiled_tpl_file)) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
 
-            $source_ftime = filemtime($tpl_file);
+            $source_ftime = filemtime(FileHandler::getRealPath($tpl_file));
             $target_ftime = filemtime($compiled_tpl_file);
-            if($source_ftime>$target_ftime || $target_ftime < filemtime('./classes/template/TemplateHandler.class.php') ) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
+            if($source_ftime>$target_ftime || $target_ftime < filemtime(_XE_PATH_.'classes/template/TemplateHandler.class.php') ) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
         }
 
         /**
@@ -103,7 +103,7 @@
             // include 변경 <!--#include($filename)-->
             //$buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경 
+            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경
             $buff = preg_replace_callback('/(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
@@ -176,19 +176,39 @@
                 case 'endif' :
                 case 'endfor' :
                 case 'endforeach' :
+                case 'endswitch' :
                         $output = '}';
                     break;
+                case 'break' :
+                        $output = 'break;';
+                    break;
+                case 'default' :
+                        $output = 'default :';
+                    break;
+                case 'break@default' :
+                        $output = 'break; default :';
+                    break;
                 default :
-                        if(substr($code,0,4)=='else') {
+                        $suffix = '{';
+
+                        if(substr($code, 0, 4) == 'else') {
                             $code = '}'.$code;
-                        } elseif(substr($code,0,7)=='foreach') {
-                            $tmp_str = substr($code,8);
+                        } elseif(substr($code, 0, 7) == 'foreach') {
+                            $tmp_str = substr($code, 8);
                             $tmp_arr = explode(' ', $tmp_str);
                             $var_name = $tmp_arr[0];
-                            if(substr($var_name,0,1)=='$') $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name,1));
-                            else $prefix = sprintf('if(count(%s)) ', $var_name);
-                        } 
-                        $output = preg_replace('/\$([a-zA-Z0-9\_\-]+)/i','$__Context->\\1', $code).'{';
+                            if(substr($var_name, 0, 1) == '$') {
+                                $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name, 1));
+                            } else {
+                                $prefix = sprintf('if(count(%s)) ', $var_name);
+                            }
+                        } elseif(substr($code, 0, 4) == 'case') {
+                            $suffix = ':';
+                        } elseif(substr($code, 0, 10) == 'break@case') {
+                            $code = 'break; case'.substr($code, 10);
+                            $suffix = ':';
+                        }
+                        $output = preg_replace('/\$([a-zA-Z0-9\_\-]+)/i', '$__Context->\\1', $code.$suffix);
                     break;
             }
 

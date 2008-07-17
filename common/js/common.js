@@ -536,6 +536,7 @@ function doDocumentSave(obj) {
     var oFilter = new XmlJsFilter(obj.form, "member", "procMemberSaveDocument", completeDocumentSave);
     oFilter.addResponseItem("error");
     oFilter.addResponseItem("message");
+    oFilter.addResponseItem("document_srl");
     oFilter.proc();
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
@@ -543,6 +544,7 @@ function doDocumentSave(obj) {
 }
 
 function completeDocumentSave(ret_obj) {
+    xGetElementsByAttribute('input', 'name', 'document_srl')[0].value = ret_obj['document_srl'];
     alert(ret_obj['message']);
 }
 
@@ -562,7 +564,7 @@ function doDocumentSelect(document_srl) {
     }
 
     // 게시글을 가져와서 등록하기
-    opener.location.href = opener.current_url.setQuery('document_srl', document_srl);
+    opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
     window.close();
 }
 
@@ -603,11 +605,19 @@ function clickCheckBoxAll(form, name) {
 }
 
 /* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
+var addedDocument = new Array();
 function doAddDocumentCart(obj) {
     var srl = obj.value;
+    addedDocument[addedDocument.length] = srl;
+    setTimeout(function() { callAddDocumentCart(addedDocument.length); }, 100);
+}
+
+function callAddDocumentCart(document_length) {
+    if(addedDocument.length<1 || document_length != addedDocument.length) return;
     var params = new Array();
-    params["srl"] = srl;
+    params["srls"] = addedDocument.join(",");
     exec_xml("document","procDocumentAdminAddCart", params, null);
+    addedDocument = new Array();
 }
 
 /* ff의 rgb(a,b,c)를 #... 로 변경 */

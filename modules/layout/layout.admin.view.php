@@ -155,7 +155,7 @@
             Context::set('layout_tpl', $layout_tpl);
             
             // 임시 파일 삭제
-            @unlink($edited_layout_file);
+            FileHandler::removeFile($edited_layout_file);
 
             $this->setTemplateFile('layout_preview');
         }

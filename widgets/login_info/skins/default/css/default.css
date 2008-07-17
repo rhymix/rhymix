@@ -48,13 +48,10 @@
 
 .default_login .hr_dot_01 { background:url(../images/default/hr_dot_01.gif) repeat-x; height:2px; overflow:hidden; clear:both; margin:6px; }
 
-.default_login .item { background:url(../images/default/bul_01.gif) no-repeat 5px 5px; height:16px; padding:3px 0px 0px 20px; margin-left:5px; margin-top:2px; }
+.default_login .item { float:left; background:url(../images/default/bul_01.gif) no-repeat 5px 5px; height:16px; padding:3px 0px 0px 20px; margin-left:5px; margin-top:2px; }
 .default_login .item a { color:#666666; text-decoration:none; }
 .default_login .item { font-size:11px; letter-spacing:-1px; margin-right:10px; padding:3px 0px 0px 20px; white-space:nowrap; }
-.default_login .profile { width:70px; float:left; background:url(../images/default/icon_profile.gif) no-repeat left; }
-.default_login .message { width:70px; float:left; background:url(../images/default/icon_note.gif) no-repeat left; }
-.default_login .friend { float:left; background:url(../images/default/icon_friend.gif) no-repeat left; }
-.default_login .administrative { float:left; background:url(../images/default/icon_key.gif) no-repeat left; margin-right:0px; }
+.default_login .administrative { background:url(../images/default/icon_key.gif) no-repeat left; margin-right:0px; }
 .default_login .administrative a { color:#D80D0F; }
 .default_login .lastlogin { clear:both; padding:5px; white-space:wrap; font-size:8pt; }
 

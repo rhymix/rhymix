@@ -50,7 +50,7 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
 
 // xml handler
 function xml_handler() {
-    this.obj_xmlHttp = null;
+    this.objXmlHttp = null;
     this.method_name = null;
     this.xml_path = request_uri+"index.php";
 
@@ -65,7 +65,7 @@ function xml_handler() {
     this.toZMsgObject = xml_handlerToZMsgObject;
     this.parseXMLDoc = xml_parseXmlDoc;
 
-    this.obj_xmlHttp = this.getXmlHttp();
+    this.objXmlHttp = this.getXmlHttp();
 }
 
 function zGetXmlHttp() {
@@ -106,16 +106,16 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
         }
     }
 
-    if(this.obj_xmlHttp.readyState!=0) {
-        this.obj_xmlHttp.abort();
-        this.obj_xmlHttp = this.getXmlHttp();
+    if(this.objXmlHttp.readyState!=0) {
+        this.objXmlHttp.abort();
+        this.objXmlHttp = this.getXmlHttp();
     }
-    this.obj_xmlHttp.onreadystatechange = function () {callBackFunc(xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj)};
+    this.objXmlHttp.onreadystatechange = function () {callBackFunc(xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj)};
 
     // 모든 xml데이터는 POST방식으로 전송. try-cacht문으로 오류 발생시 대처
     try {
 
-        this.obj_xmlHttp.open("POST", this.xml_path, true);
+        this.objXmlHttp.open("POST", this.xml_path, true);
 
     } catch(e) {
         alert(e);
@@ -132,7 +132,7 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
         waiting_obj.style.visibility = "visible";
     }
 
-    this.obj_xmlHttp.send(rd);
+    this.objXmlHttp.send(rd);
 }
 
 function xml_handlerSetPath(path) {
@@ -141,7 +141,7 @@ function xml_handlerSetPath(path) {
 
 
 function xml_handlerReset() {
-    this.obj_xmlHttp = this.getXmlHttp();
+    this.objXmlHttp = this.getXmlHttp();
     this.params = new Array();
 }
 
@@ -150,8 +150,8 @@ function xml_handlerAddParam(key, val) {
 }
 
 function xml_handlerGetResponseXML() {
-    if(this.obj_xmlHttp && this.obj_xmlHttp.readyState == 4 && isDef(this.obj_xmlHttp.responseXML)) {
-        var xmlDoc = this.obj_xmlHttp.responseXML;
+    if(this.objXmlHttp && this.objXmlHttp.readyState == 4 && isDef(this.objXmlHttp.responseXML)) {
+        var xmlDoc = this.objXmlHttp.responseXML;
         this.reset();
         return xmlDoc;
     }

@@ -10,6 +10,7 @@
 
     $lang->layout_name = 'Nombre del Diseño';
     $lang->layout_maker = "Desarrollador del Diseño";
+    $lang->layout_license = 'License';
     $lang->layout_history = "Actualización";
     $lang->layout_info = "Información del Diseño";
     $lang->layout_list = 'Lista de los Diseños';

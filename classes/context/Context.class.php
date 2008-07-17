@@ -186,6 +186,14 @@
         }
 
         /**
+         * @brief DB의 및 기타 정보 load
+         **/
+        function loadDBInfo() {
+            $oContext = &Context::getInstance();
+            return $oContext->_loadDBInfo();
+        }
+
+        /**
          * @brief DB 정보를 설정하고 DB Type과 DB 정보를 return
          **/
         function _loadDBInfo() {
@@ -478,10 +486,11 @@
 
             foreach($_REQUEST as $key => $val) {
                 if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
-                if(is_array($val)) {
-                    for($i=0;$i<count($val);$i++) {
-                        if(get_magic_quotes_gpc()) $val[$i] = stripslashes($val[$i]);
-                        $val[$i] = trim($val[$i]);
+                else if(is_array($val) && count($val) ) {
+                    foreach($val as $k => $v) {
+                        if(get_magic_quotes_gpc()) $v = stripslashes($v);
+                        $v = trim($v);
+                        $val[$k] = $v;
                     }
                 } else {
                     if(get_magic_quotes_gpc()) $val = stripslashes($val);
@@ -1013,17 +1022,10 @@
         /**
          * @brief 내용의 에디터 컴포넌트 코드를 변환
          **/
-        function _fixQuotation($matches) {
-            $key = $matches[1];
-            $val = $matches[2];
-            if(substr($val,0,1)!='"') $val = '"'.$val.'"';
-            return sprintf('%s=%s', $key, $val);
-        }
-
         function transEditorComponent($matches) {
             // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
             $buff = $matches[0];
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', array($this, _fixQuotation), $buff);
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
             $buff = str_replace("&","&amp;",$buff);
 
             // 에디터 컴포넌트에서 생성된 코드

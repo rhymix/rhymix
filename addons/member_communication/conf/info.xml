@@ -1,20 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<addon version="0.1">
-  <title xml:lang="ko">커뮤니케이션</title>
-  <title xml:lang="jp">커뮤니케이션</title>
-  <title xml:lang="zh-CN">会员交流</title>
-  <title xml:lang="en">Communication</title>
-  <title xml:lang="ge">커뮤니케이션</title>
-  <title xml:lang="es">커뮤니케이션</title>
-  <title xml:lang="ru">커뮤니케이션</title>
-  <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 5. 28">
-    <name xml:lang="ko">제로</name>
-    <name xml:lang="jp">Zero</name>
-    <name xml:lang="zh-CN">zero</name>
-    <name xml:lang="en">zero</name>
-	<name xml:lang="ge">zero</name>
-    <name xml:lang="es">zero</name>
-    <name xml:lang="ru">zero</name>
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">커뮤니케이션</title>
+    <title xml:lang="jp">커뮤니케이션</title>
+    <title xml:lang="zh-CN">会员交流</title>
+    <title xml:lang="en">Communication</title>
+    <title xml:lang="ge">커뮤니케이션</title>
+    <title xml:lang="es">커뮤니케이션</title>
+    <title xml:lang="ru">커뮤니케이션</title>
     <description xml:lang="ko">
         커뮤니케이션 모듈의 기능을 활성화 시켜 쪽지나 친구기능을 사용할 수 있도록 해줍니다.
         쪽지, 친구기능등을 사용하기 위해서는 이 애드온을 사용으로 해주시면 됩니다.
@@ -30,7 +22,7 @@
         This addon enables communication module in order to use message or friend function.
         Please enable this addon in case you want to use those functions.
     </description>
-	<description xml:lang="ge">
+    <description xml:lang="ge">
         커뮤니케이션 모듈의 기능을 활성화 시켜 쪽지나 친구기능을 사용할 수 있도록 해줍니다.
         쪽지, 친구기능등을 사용하기 위해서는 이 애드온을 사용으로 해주시면 됩니다.
     </description>
@@ -42,5 +34,16 @@
         커뮤니케이션 모듈의 기능을 활성화 시켜 쪽지나 친구기능을 사용할 수 있도록 해줍니다.
         쪽지, 친구기능등을 사용하기 위해서는 이 애드온을 사용으로 해주시면 됩니다.
     </description>
-  </author>
+    <version>0.1</version>
+    <date>2008-05-28</date>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="jp">Zero</name>
+        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="en">zero</name>
+        <name xml:lang="ge">zero</name>
+        <name xml:lang="es">zero</name>
+        <name xml:lang="ru">zero</name>
+    </author>
 </addon>

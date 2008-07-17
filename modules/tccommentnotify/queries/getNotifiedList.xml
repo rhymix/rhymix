@@ -1,0 +1,27 @@
+<query id="getNotifiedList" action="select">
+    <tables>
+        <table name="tcnotified" alias="tcnotified"/>
+        <table name="tcnotifiedsites" alias="tcnotifiedsites" />
+    </tables>
+    <columns>
+        <column name="tcnotified.name" />
+        <column name="title" />
+        <column name="written" />
+        <column name="tcnotified.url" alias="commenturl"/>
+        <column name="tcnotifiedsites.url" alias="siteurl"/>
+        <column name="entryurl" />
+        <column name="entrytitle" />
+        <column name="comment" />
+        <column name="notified_srl" />
+        <column name="remoteid" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="tcnotified.siteid" var="tcnotifiedsites.id"  />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

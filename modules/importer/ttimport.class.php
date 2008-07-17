@@ -55,7 +55,7 @@
                     }
                     $oDocumentController->makeCategoryFile($module_srl);
                 }
-                @unlink($category_file);
+                FileHandler::removeFile($category_file);
             }
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
@@ -239,7 +239,7 @@
                 }
 
                 fclose($fp);
-                @unlink($target_file);
+                FileHandler::removeFile($target_file);
             }
 
             fclose($f);
@@ -298,7 +298,7 @@
             // 디렉토리 생성
             if(!FileHandler::makeDir($path)) continue;
 
-            @rename($file_obj->file, $filename);
+            FileHandler::rename($file_obj->file, $filename);
 
             // DB입력
             unset($file_obj->file);

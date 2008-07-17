@@ -341,7 +341,7 @@ function curl_setopt($ch,$option,$value) {
 					}
 					fclose($fp);
 					// if a temporary file was previously created, unlink it
-					if ($settings["upload-file"]["value"] && file_exists($settings["upload-file"]["value"])) unlink($settings["upload-file"]["value"]);
+					if ($settings["upload-file"]["value"] && file_exists($settings["upload-file"]["value"]))FileHandler::removeFile($settings["upload-file"]["value"]);
 					
 					// set the new upload-file filename
 					$settings["upload-file"]["value"] = $tmpfilename;
@@ -581,7 +581,7 @@ function curl_close($ch) {
 		$settings = &$opt["settings"];
 		// if the user used CURLOPT_INFILE to specify a file to upload, remove the
 		// temporary file created for the CURL binary
-		if ($settings["upload-file"]["value"] && file_exists($settings["upload-file"]["value"])) unlink($settings["upload-file"]["value"]);
+		if ($settings["upload-file"]["value"] && file_exists($settings["upload-file"]["value"]))FileHandler::removeFile($settings["upload-file"]["value"]);
 	}
 
 	unset($GLOBALS["_CURLEXT_OPT"][$ch]);

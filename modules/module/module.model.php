@@ -196,7 +196,7 @@
         }
 
         /**
-         * @brief 주어진 곳의 스킨 목록을 구함 
+         * @brief 주어진 곳의 스킨 목록을 구함
          * 스킨과 skin.xml 파일을 분석 정리한 결과를 return
          **/
         function getSkins($path) {
@@ -445,7 +445,7 @@
                 return $info;
             }
 
-            @include($cache_file); 
+            @include($cache_file);
 
             return $info;
         }
@@ -495,31 +495,83 @@
 
             if(!$xml_obj) return;
 
-            $info->title = $xml_obj->title->body;
+            // 모듈 정보
+            if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
+                // module format 0.2
+                $module_info->title = $xml_obj->title->body;
+                $module_info->description = $xml_obj->description->body;
+                $module_info->version = $xml_obj->version->body;
+                $module_info->homepage = $xml_obj->link->body;
+                $module_info->category = $xml_obj->category->body;
+                if(!$module_info->category) $module_info->category = 'service';
+                sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $module_info->license = $xml_obj->license->body;
+                $module_info->license_link = $xml_obj->license->attrs->link;
 
-            // 작성자 정보
-            $module_info->title = $xml_obj->title->body;
-            $module_info->version = $xml_obj->attrs->version;
-            $module_info->category = $xml_obj->attrs->category;
-            if(!$module_info->category) $module_info->category = 'service';
-            $module_info->author->name = $xml_obj->author->name->body;
-            $module_info->author->email_address = $xml_obj->author->attrs->email_address;
-            $module_info->author->homepage = $xml_obj->author->attrs->link;
-            $module_info->author->date = $xml_obj->author->attrs->date;
-            $module_info->author->description = $xml_obj->author->description->body;
+                if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
+                else $author_list = $xml_obj->author;
 
-            // history 
-            if(!is_array($xml_obj->history->author)) $history[] = $xml_obj->history->author;
-            else $history = $xml_obj->history->author;
+                foreach($author_list as $author) {
+                    unset($author_obj);
+                    $author_obj->name = $author->name->body;
+                    $author_obj->email_address = $author->attrs->email_address;
+                    $author_obj->homepage = $author->attrs->link;
+                    $module_info->author[] = $author_obj;
+                }
 
-            foreach($history as $item) {
-                unset($obj);
-                $obj->name = $item->name->body;
-                $obj->email_address = $item->attrs->email_address;
-                $obj->homepage = $item->attrs->link;
-                $obj->date = $item->attrs->date;
-                $obj->description = $item->description->body;
-                $module_info->history[] = $obj;
+            } else {
+                // module format 0.1
+                $module_info->title = $xml_obj->title->body;
+                $module_info->description = $xml_obj->author->description->body;
+                $module_info->version = $xml_obj->attrs->version;
+                $module_info->category = $xml_obj->attrs->category;
+                if(!$module_info->category) $module_info->category = 'service';
+                sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $author_obj->name = $xml_obj->author->name->body;
+                $author_obj->email_address = $xml_obj->author->attrs->email_address;
+                $author_obj->homepage = $xml_obj->author->attrs->link;
+                $module_info->author[] = $author_obj;
+            }
+
+            // history
+            if($xml_obj->history) {
+                if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
+                else $history = $xml_obj->history;
+
+                foreach($history as $item) {
+                    unset($obj);
+
+                    if($item->author) {
+                        (!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
+
+                        foreach($obj->author_list as $author) {
+                            unset($author_obj);
+                            $author_obj->name = $author->name->body;
+                            $author_obj->email_address = $author->attrs->email_address;
+                            $author_obj->homepage = $author->attrs->link;
+                            $obj->author[] = $author_obj;
+                        }
+                    }
+
+                    $obj->name = $item->name->body;
+                    $obj->email_address = $item->attrs->email_address;
+                    $obj->homepage = $item->attrs->link;
+                    $obj->version = $item->attrs->version;
+                    $obj->date = $item->attrs->date;
+                    $obj->description = $item->description->body;
+
+                    if($item->log) {
+                        (!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
+
+                        foreach($obj->log as $log) {
+                            $obj->logs[] = $log->body;
+                        }
+                    }
+
+                    $module_info->history[] = $obj;
+                }
             }
 
             // action 정보를 얻어서 admin_index를 추가

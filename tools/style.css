@@ -1,0 +1,27 @@
+body { margin:10px !important; } 
+h1 { font-size:1.5em; font-family:tahoma; margin:0; padding:0; }
+hr { border:none; border-top:1px solid #555555; border-bottom:1px solid #888888; margin:0; margin-bottom:10px; padding:0; }
+blockquote.message { border:2px solid red; color:red; margin:0 0 10px 0; padding:10px; font-size:9pt; font-weight:bold; clear:both; }
+blockquote.output { border:2px solid blue; margin:10px 0 0 0; padding:10px; font-size:9pt; font-weight:bold; clear:both; }
+
+form { margin:0; padding:0; clear:both; overflow:hidden; }
+
+div.tools { float:left; margin-right:20px; padding-right:20px; border-right:1px dotted #AAAAAA; }
+div.tools code label { display:block; white-space:nowrap; margin-bottom:5px; font-size:9pt; }
+div.tools code label input { display:inline; }
+
+div.auth { float:left; }
+div.auth code label { font-size:9pt; }
+div.auth code { display:block; clear:both; margin-bottom:10px;}
+div.auth code label { float:left; display:block; width:100px; }
+div.auth code input { display:block; width:150px; border:1px solid #AAAAAA; }
+div.auth input.submit { width:252px; border:1px solid #AAAAAA;}
+
+div.back { font-size:9pt; text-align:right; margin-bottom:10px; }
+div.back a { text-decoration:none; color:#888888; }
+
+table { width:100%; border:none; font-size:9pt; background-color:#CCCCCC; }
+table thead th { background-color:#EFEFEF; padding:3px 0 3px 0; }
+table tbody th { background-color:#F3F3F3; vertical-align:top; color:#888888; padding:3px 0 3px 0; }
+table tbody td { background-color:#FFFFFF; font-family:verdana; padding:3px; }
+

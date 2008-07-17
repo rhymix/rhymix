@@ -12,6 +12,7 @@
     $lang->add_shortcut = "Add Shortcuts";
     $lang->module_action = "Actions";
     $lang->module_maker = "Module Developer";
+    $lang->module_license = 'License';
     $lang->module_history = "Update history";
     $lang->category_title = "Category Title";
     $lang->header_text = 'Header Text';
@@ -59,7 +60,7 @@
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.\n You can enter multiple IDs using <br />,(comma) \n(but the module manager cannot access the site admin page.)';
     $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.'; 
-    $lang->about_module = "Zeroboard XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.\nThrough [Add Shortcuts] feature, you can manage frequently used modules easily.";
+    $lang->about_module = "Zeroboard XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.";
 
 	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';
 ?>

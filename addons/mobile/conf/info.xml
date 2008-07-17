@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">모바일XE 애드온</title>
+    <title xml:lang="en">Mobile XE</title>
+    <description xml:lang="ko">
+        모바일에서 접속시 헤더 정보를 분석하여 메뉴 - 모듈의 관계를 이용하여 WAP 태그로 출력하는 애드온입니다.
+        wml, hdml, mhtml를 지원하고 그 이외의 경우에는 동작하지 않습니다.
+    </description>
+    <description xml:lang="en">
+        This addon displays WAP tag by analyzing header information on mobile connection.
+        Only wml, hdml, mhtml formats are provided.
+    </description>
+    <version>0.1</version>
+    <date>2008-06-20</date>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="en">zero</name>
+    </author>
+
+    <extra_vars>
+        <var name="charset">
+            <title xml:lang="ko">문자셋</title>
+            <title xml:lang="en">Charset</title>
+            <description xml:lang="ko">
+                모바일 기기의 경우 utf-8 문자셋을 인식하지 못할 수 있습니다.
+                문자셋에 원하시는 문자셋을 입력하면 자동으로 변환하여 출력하여 모바일에서 이상없이 출력하도록 합니다.
+                기본값은 euc-kr입니다.
+            </description>
+            <description xml:lang="en">
+                utf-8 cannot be read for mobile tools.
+                Mobile tools will display correct charset when you input charset you want.
+                Default charset is euc-kr.
+            </description>
+        </var>
+    </extra_vars>
+</addon>

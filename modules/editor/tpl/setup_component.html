@@ -20,12 +20,18 @@
         </tr>
         <tr>
             <th scope="row">{$lang->component_author}</th>
-            <td>{$component->author->name}</td>
+            <td class="blue">
+            <!--@foreach($component->author as $author)-->
+            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            <!--@endforeach-->
+            </td>
         </tr>
+        <!--@if($component->link)-->
         <tr>
             <th scope="row">{$lang->component_link}</th>
-            <td><a href="#" onclick="winopen('{$component->author->link}');return false;">{$component->author->link}</a></td>
+            <td><a href="#" onclick="winopen('{$component->link}');return false;">{$component->link}</a></td>
         </tr>
+        <!--@end-->
 
         <!--@foreach($component->extra_vars as $key => $val)-->
         <tr>

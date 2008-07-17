@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">댓글알리미 애드온</title>
+    <title xml:lang="en">Comment Notifier Addon</title>
+    <description xml:lang="ko">댓글알리미를 지원하는 애드온입니다.</description>
+    <description xml:lang="en">This addon enables Comment Notifier module.</description>
+    <version>0.2</version>
+    <date>2008-06-02</date>
+
+    <author email_address="haneul0318@seungyeop.kr" link="http://www.seungyeop.kr">
+        <name xml:lang="ko">haneul</name>
+        <name xml:lang="en">haneul</name>
+    </author>
+</addon>

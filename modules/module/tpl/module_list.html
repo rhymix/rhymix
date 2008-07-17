@@ -43,14 +43,18 @@
     <tr>
         <td class="left gl3 blue">
             <!--@if($val->admin_index_act)-->
-                <a href="{getUrl('act',$val->admin_index_act)}">{$val->title}</a> ({$val->module})
+                <a href="{getUrl('act',$val->admin_index_act)}" title="{trim($val->description)}">{$val->title}</a> ({$val->module})
             <!--@else-->
-                {$val->title} ({$val->module})
+                <span title="{trim($val->description)}">{$val->title}</span> ({$val->module})
             <!--@end-->
         </td>
         <td class="tahoma">{$val->version}</td>
-        <td><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;">{$val->author->name}</a></td>
-        <td class="tahoma">{$val->author->date}</td>
+        <td>
+            <!--@foreach($val->author as $author)-->
+            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+            <!--@endforeach-->
+        </td>
+        <td class="tahoma">{zdate($val->date, 'Y-m-d')}</td>
         <td class="tahoma <!--@if($val->created_table_count != $val->table_count)-->red<!--@end-->">
             {$val->created_table_count}/{$val->table_count}
         </td>

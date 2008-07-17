@@ -23,7 +23,7 @@
         'user_name' => 'Nom',
         'nick_name' => 'Surnom',
         'member_srl' => 'Member Serial',
-        'email_address' => 'Courriel',
+        'email_address' => 'Mél',
         'homepage' => 'Page d\'Accueil',
         'regdate' => 'Jour',
         'last_update' => 'Mise à Jour',

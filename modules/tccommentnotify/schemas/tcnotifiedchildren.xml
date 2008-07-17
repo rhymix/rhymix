@@ -1,0 +1,17 @@
+<table name="tcnotifiedchildren">
+    <column name="notified_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+    <column name="module_srl" type="number" size="11" notnull="notnull" /> 
+    <column name="parent_srl" type="number" size="11" /> 
+    <column name="name" type="varchar" size="80" notnull="notnull" /> 
+    <column name="password" type="varchar" size="32" /> 
+    <column name="homepage" type="varchar" size="80" /> 
+    <column name="secret" type="number" size="1" notnull="notnull" /> 
+    <column name="comment" type="bigtext" notnull="notnull" /> 
+    <column name="ip" type="varchar" size="15" /> 
+    <column name="isnew" type="number" size="1" notnull="notnull" /> 
+    <column name="remoteid" type="number" size="11" notnull="notnull" /> 
+    <column name="url" type="varchar" size="255" notnull="notnull" /> 
+    <column name="written" type="date" notnull="notnull" /> 
+    <column name="modified" type="date" notnull="notnull" /> 
+    <column name="list_order" type="number" size="11" />
+</table>

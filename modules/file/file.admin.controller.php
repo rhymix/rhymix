@@ -17,15 +17,34 @@
          * @brief 특정 모두의 첨부파일 모두 삭제
          **/
         function deleteModuleFiles($module_srl) {
+            // 전체 첨부파일 목록을 구함
+            $args->module_srl = $module_srl;
+            $output = executeQuery('file.getModuleFiles',$args);
+            if(!$output) return $output;
+            $files = $output->data;
+
+            // DB에서 삭제
             $args->module_srl = $module_srl;
             $output = executeQuery('file.deleteModuleFiles', $args);
             if(!$output->toBool()) return $output;
 
-            // 실제 파일 삭제
-            $path[0] = sprintf("./files/attach/images/%s/", $module_srl);
-            $path[1] = sprintf("./files/attach/binaries/%s/", $module_srl);
-            FileHandler::removeDir($path[0]);
-            FileHandler::removeDir($path[1]);
+            // 실제 파일 삭제 (일단 약속에 따라서 한번에 삭제)
+            FileHandler::removeDir( sprintf("./files/attach/images/%s/", $module_srl) ) ;
+            FileHandler::removeDir( sprintf("./files/attach/binaries/%s/", $module_srl) );
+
+            // DB에서 구한 파일 목록을 삭제
+            $path = array();
+            $cnt = count($files);
+            for($i=0;$i<$cnt;$i++) {
+                $uploaded_filename = $files[$i]->uploaded_filename;
+                FileHandler::removeFile($uploaded_filename);
+
+                $path_info = pathinfo($uploaded_filename);
+                if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
+            }
+
+            // 해당 글의 첨부파일 디렉토리 삭제
+            for($i=0;$i<count($path);$i++) FileHandler::removeBlankDir($path[$i]);
 
             return $output;
         }

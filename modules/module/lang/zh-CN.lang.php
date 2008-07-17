@@ -12,6 +12,7 @@
     $lang->add_shortcut = "添加到快捷菜单";
     $lang->module_action = "动作";
     $lang->module_maker = "模块作者";
+    $lang->module_license = 'License';
     $lang->module_history = "更新事项 ";
     $lang->category_title = "分类名称";
     $lang->header_text = '上端内容';
@@ -59,7 +60,7 @@
     $lang->about_page_count = '可以指定显示在目录下方的页面数(默认为10个)。 ';
     $lang->about_admin_id = '可以对该模块指定最高管理权限。<br />有多名管理员时，可以用,(逗号)来分隔(不能访问管理页面)。 ';
     $lang->about_grant = '全部解除特定权限的对象时，没有登录的会员也将具有相关权限。';
-    $lang->about_module = "除基本library以外Zeroboard XE全部由模块组成。\n模块管理中列出所有已安装的模块，因此易于管理。\n常用模块可以通过『添加到快捷菜单』来方便管理。";
+    $lang->about_module = "除基本library以外Zeroboard XE全部由模块组成。\n模块管理中列出所有已安装的模块，因此易于管理。";
 
     $lang->about_extra_vars_default_value = '复选/单选缺省值需要多个时,用,(逗号)来分隔。';
 ?>

@@ -15,7 +15,7 @@
          * 에디터의 경우 내부적으로 1~30까지의 임시 editor_seuqnece를 생성한다.
          * 즉 한페이지에 30개 이상의 에디터를 출력하지는 못하도록 제한되어 있다.
          *
-         * 단, 수정하는 경우 또는 파일업로드를 한 자동저장본의 경우는 getNextSequence() 값으로 저장된 editor_seqnece가 
+         * 단, 수정하는 경우 또는 파일업로드를 한 자동저장본의 경우는 getNextSequence() 값으로 저장된 editor_seqnece가
          * 설정된다.
          **/
 
@@ -64,7 +64,7 @@
             if(!$option->allow_fileupload) $allow_fileupload = false;
             else $allow_fileupload = true;
 
-            // 자동 저장 유무 옵션 설정 
+            // 자동 저장 유무 옵션 설정
             if(!$option->enable_autosave) $enable_autosave = false;
             else $enable_autosave = true;
 
@@ -146,16 +146,16 @@
             // 에디터 동작을 위한 editor_sequence값 설정
             Context::set('editor_sequence', $editor_sequence);
 
-            // 파일 첨부 관련 행동을 하기 위해 문서 번호를 upload_target_srl로 설정 
+            // 파일 첨부 관련 행동을 하기 위해 문서 번호를 upload_target_srl로 설정
             // 신규문서일 경우 upload_target_srl=0 이고 첨부파일 관련 동작이 요청될때 이 값이 변경됨
-            Context::set('upload_target_srl', $upload_target_srl); 
+            Context::set('upload_target_srl', $upload_target_srl);
 
             // 문서 혹은 댓글의 primary key값을 세팅한다.
             Context::set('editor_primary_key_name', $option->primary_key_name);
 
             // 내용을 sync 맞추기 위한 content column name을 세팅한다
             Context::set('editor_content_key_name', $option->content_key_name);
-           
+
 
             /**
              * 에디터 컴포넌트 체크
@@ -238,7 +238,7 @@
             } else {
                 $group_list = array();
             }
-            
+
             // 에디터 옵션 변수를 미리 설정
             $option->skin = $config->editor_skin;
 
@@ -247,18 +247,18 @@
             if(count($config->upload_file_grant)) {
                 foreach($group_list as $group_srl => $group_info) {
                     if(in_array($group_srl, $config->upload_file_grant)) {
-                        $option->allow_fileupload = true;    
+                        $option->allow_fileupload = true;
                         break;
                     }
                 }
             } else $option->allow_fileupload = true;
 
-            // 기본 컴포넌트 사용 권한 
+            // 기본 컴포넌트 사용 권한
             $option->enable_default_component = false;
             if(count($config->enable_default_component_grant)) {
                 foreach($group_list as $group_srl => $group_info) {
                     if(in_array($group_srl, $config->enable_default_component_grant)) {
-                        $option->enable_default_component = true;    
+                        $option->enable_default_component = true;
                         break;
                     }
                 }
@@ -269,18 +269,18 @@
             if(count($config->enable_component_grant)) {
                 foreach($group_list as $group_srl => $group_info) {
                     if(in_array($group_srl, $config->enable_component_grant)) {
-                        $option->enable_component = true;    
+                        $option->enable_component = true;
                         break;
                     }
                 }
             } else $option->enable_component = true;
 
-            // HTML 편집 권한 
+            // HTML 편집 권한
             $enable_html = false;
             if(count($config->enable_html_grant)) {
                 foreach($group_list as $group_srl => $group_info) {
                     if(in_array($group_srl, $config->enable_html_grant)) {
-                        $enable_html = true;    
+                        $enable_html = true;
                         break;
                     }
                 }
@@ -295,7 +295,7 @@
             // 높이 조절 옵션 설정
             $option->resizable = $config->enable_height_resizable=='Y'?true:false;
 
-            // 자동 저장 유무 옵션 설정 
+            // 자동 저장 유무 옵션 설정
             $option->enable_autosave = $config->enable_autosave=='Y'?true:false;
 
             // 기타 설정
@@ -422,7 +422,7 @@
                         $is_granted = false;
                         foreach($group_list as $group_srl) {
                             if(in_array($group_srl, $target_group)) {
-                                $is_granted = true; 
+                                $is_granted = true;
                                 break;
                             }
                         }
@@ -537,24 +537,86 @@
             $xml_doc = $oParser->loadXmlFile($xml_file);
 
             // 정보 정리
-            $xml_info->component_name = $component;
-            $xml_info->version = $xml_doc->component->attrs->version;
-            $xml_info->title = $xml_doc->component->title->body;
-            $xml_info->author->name = $xml_doc->component->author->name->body;
-            $xml_info->author->email_address = $xml_doc->component->author->attrs->email_address;
-            $xml_info->author->link = $xml_doc->component->author->attrs->link;
-            $xml_info->author->date = $xml_doc->component->author->attrs->date;
-            $xml_info->description = str_replace('\n', "\n", $xml_doc->component->author->description->body);
+            if($xml_doc->component->version && $xml_doc->component->attrs->version == '0.2') {
+                $component_info->component_name = $component;
+                $component_info->title = $xml_doc->component->title->body;
+                $component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
+                $component_info->version = $xml_doc->component->version->body;
+                $component_info->date = $xml_doc->component->date->body;
 
-            $buff = '<?php if(!defined("__ZBXE__")) exit(); ';
-            $buff .= sprintf('$xml_info->component_name = "%s";', $component);
-            $buff .= sprintf('$xml_info->version = "%s";', $xml_info->version);
-            $buff .= sprintf('$xml_info->title = "%s";', $xml_info->title);
-            $buff .= sprintf('$xml_info->author->name = "%s";', $xml_info->author->name);
-            $buff .= sprintf('$xml_info->author->email_address = "%s";', $xml_info->author->email_address);
-            $buff .= sprintf('$xml_info->author->link = "%s";', $xml_info->author->link);
-            $buff .= sprintf('$xml_info->author->date = "%s";', $xml_info->author->date);
-            $buff .= sprintf('$xml_info->description = "%s";', $xml_info->description);
+                $buff = '<?php if(!defined("__ZBXE__")) exit(); ';
+                $buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
+                $buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
+                $buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
+                $buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
+                $buff .= sprintf('$xml_info->date = "%s";', $component_info->date);
+
+                // 작성자 정보
+                if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
+                else $author_list = $xml_doc->component->author;
+
+                for($i=0; $i < count($author_list); $i++) {
+                    $buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
+                    $buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
+                    $buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
+                }
+
+                // history
+                if($xml_doc->component->history) {
+                    if(!is_array($xml_doc->component->history)) $history_list[] = $xml_doc->component->history;
+                    else $history_list = $xml_doc->component->history;
+
+                    for($i=0; $i < count($history_list); $i++) {
+                        sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+                        $date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                        $buff .= sprintf('$xml_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
+                        $buff .= sprintf('$xml_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
+                        $buff .= sprintf('$xml_info->history['.$i.']->date = "%s";', $date);
+
+                        if($history_list[$i]->author) {
+                            (!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
+
+                            for($j=0; $j < count($obj->author_list); $j++) {
+                                $buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
+                                $buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
+                                $buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
+                            }
+                        }
+
+                        if($history_list[$i]->log) {
+                            (!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
+
+                            for($j=0; $j < count($obj->log_list); $j++) {
+                                $buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
+                                $buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
+                            }
+                        }
+                    }
+                }
+
+
+            } else {
+                sscanf($xml_doc->component->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $xml_info->component_name = $component;
+                $xml_info->title = $xml_doc->component->title->body;
+                $xml_info->description = str_replace('\n', "\n", $xml_doc->component->author->description->body);
+                $xml_info->version = $xml_doc->component->attrs->version;
+                $xml_info->date = $date;
+                $xml_info->author->name = $xml_doc->component->author->name->body;
+                $xml_info->author->email_address = $xml_doc->component->author->attrs->email_address;
+                $xml_info->author->homepage = $xml_doc->component->author->attrs->link;
+
+                $buff = '<?php if(!defined("__ZBXE__")) exit(); ';
+                $buff .= sprintf('$xml_info->component_name = "%s";', $xml_info->component_name);
+                $buff .= sprintf('$xml_info->title = "%s";', $xml_info->title);
+                $buff .= sprintf('$xml_info->description = "%s";', $xml_info->description);
+                $buff .= sprintf('$xml_info->version = "%s";', $xml_info->version);
+                $buff .= sprintf('$xml_info->date = "%s";', $xml_info->date);
+                $buff .= sprintf('$xml_info->author[0]->name = "%s";', $xml_info->author->name);
+                $buff .= sprintf('$xml_info->author[0]->email_address = "%s";', $xml_info->author->email_address);
+                $buff .= sprintf('$xml_info->author[0]->homepage = "%s";', $xml_info->author->homepage);
+            }
 
             // 추가 변수 정리 (에디터 컴포넌트에서는 text형만 가능)
             $extra_vars = $xml_doc->component->extra_vars->var;

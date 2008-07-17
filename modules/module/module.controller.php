@@ -61,7 +61,7 @@
             $output = executeQuery('module.deleteModuleConfig', $args);
             if(!$output->toBool()) return $output;
 
-            @unlink( sprintf('./files/cache/module_info/%s.config.php',$module) );
+            FileHandler::removeFile( sprintf('./files/cache/module_info/%s.config.php',$module) );
 
             // 변수 정리후 query 실행
             $output = executeQuery('module.insertModuleConfig', $args);
