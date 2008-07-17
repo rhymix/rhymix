@@ -158,6 +158,25 @@
         }
 
         /**
+         * @brief 지정된 디렉토리에 내용이 없으면 삭제
+         **/
+        function removeBlankDir($path) {
+            $item_cnt = 0;
+
+            $path = FileHandler::getRealPath($path);
+            if(!is_dir($path)) return;
+            $directory = dir($path);
+            while($entry = $directory->read()) {
+                if ($entry == "." || $entry == "..") continue;
+                if (is_dir($path."/".$entry)) $item_cnt = FileHandler::removeBlankDir($path.'/'.$entry);
+            }
+            $directory->close();
+
+            if($item_cnt < 1) @rmdir($path);
+        }
+
+
+        /**
          * @biref 지정된 디렉토리를 제외한 모든 파일을 삭제
          **/
         function removeFilesInDir($path) {

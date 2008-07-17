@@ -374,15 +374,19 @@
             if(!$output->toBool()) return $output;
 
             // 실제 파일 삭제
+            $path = array();
             $file_count = count($file_list);
-            for($i=0;$i<count($file_count);$i++) {
+            for($i=0;$i<$file_count;$i++) {
+                $uploaded_filename = $file_list[$i]->uploaded_filename;
+                FileHandler::removeFile($uploaded_filename);
                 $module_srl = $file_list[$i]->module_srl;
-                $path[0] = sprintf("./files/attach/images/%s/%s/", $module_srl, $upload_target_srl);
-                $path[1] = sprintf("./files/attach/binaries/%s/%s/", $module_srl, $upload_target_srl);
 
-                FileHandler::removeDir($path[0]);
-                FileHandler::removeDir($path[1]);
+                $path_info = pathinfo($uploaded_filename);
+                if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
             }
+
+            // 해당 글의 첨부파일 디렉토리 삭제
+            for($i=0;$i<count($path);$i++) FileHandler::removeBlankDir($path[$i]);
 
             return $output;
         }
