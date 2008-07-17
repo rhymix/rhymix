@@ -1,4 +1,5 @@
 <?php
+    $lang->validator = '설치파일 검증';
 
     $lang->msg_cannot_get_source_files = '원본 파일을 다운로드 하지 못했습니다';
     $lang->msg_cannot_get_target_files = '설치된 대상 파일의 목록을 구하지 못했습니다';
