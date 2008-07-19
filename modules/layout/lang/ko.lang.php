@@ -10,7 +10,7 @@
 
     $lang->layout_name = '레이아웃 이름';
     $lang->layout_maker = "레이아웃 제작자";
-    $lang->layout_license = '라이센스';
+    $lang->layout_license = '라이선스';
     $lang->layout_history = '변경 이력';
     $lang->layout_info = "레이아웃 정보";
     $lang->layout_list = '레이아웃 목록';

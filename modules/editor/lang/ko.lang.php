@@ -11,7 +11,7 @@
     $lang->component_author = "제작자 ";
     $lang->component_link = "링크";
     $lang->component_date = "제작일";
-    $lang->component_license = '라이센스';
+    $lang->component_license = '라이선스';
     $lang->component_history = '변경 이력';
     $lang->component_description = "설명";
     $lang->component_extra_vars = "설정 변수";

@@ -59,7 +59,7 @@ String.prototype.setQuery = function(key, val) {
             }
         }
     }
-    return uri;
+    return encodeURI(uri);
 }
 
 /**
