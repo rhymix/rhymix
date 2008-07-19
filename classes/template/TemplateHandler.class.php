@@ -116,7 +116,7 @@
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
 
             // <!--// ~ --> 주석문 제거
-            $buff = preg_replace('!<\!--//(.*?)-->!is', '', $buff);
+            $buff = preg_replace('!(\n?)( *?)<\!--//(.*?)-->!is', '', $buff);
 
             // import xml filter/ css/ js/ 언어파일 <!--%import("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media는 css에만 적용)
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileImportCode'), $buff);
