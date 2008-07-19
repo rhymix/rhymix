@@ -1,7 +1,7 @@
-<!-- js 파일 import -->
+<!--// js 파일 import -->
 <!--%import("js/xe_official.js")-->
 
-<!-- 레이아웃과 연동될 css 파일 import -->
+<!--// 레이아웃과 연동될 css 파일 import -->
 <!--@if($layout_info->colorset == "white")-->
     <!--%import("css/white.css")-->
 <!--@elseif($layout_info->colorset == "black")-->
@@ -17,24 +17,24 @@
 <!--@end-->
 
 <!--@if(!$layout_info->colorset)-->
-	{@$layout_info->colorset = "default"}
+    {@$layout_info->colorset = "default"}
 <!--@end-->
 
 <div id="bodyWrap">
-	<div id="header">
-		<h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
+    <div id="header">
+        <h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
 
-		<div id="language">
-			<strong title="{$lang_type}">{$lang_supported[$lang_type]}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
-			<ul id="selectLang">
+        <div id="language">
+            <strong title="{$lang_type}">{$lang_supported[$lang_type]}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
+            <ul id="selectLang">
                 <!--@foreach($lang_supported as $key => $val)--><!--@if($key!= $lang_type)-->
-				<li><a href="#" onclick="doChangeLangType('{$key}');return false;">{$val}</a></li>
+                <li><a href="#" onclick="doChangeLangType('{$key}');return false;">{$val}</a></li>
                 <!--@end--><!--@end-->
-			</ul>
-		</div>
+            </ul>
+        </div>
 
-		<!--GNB-->
-		<ul id="gnb">
+        <!-- GNB -->
+        <ul id="gnb">
             <!-- main_menu 1차 시작 -->
             <!--@foreach($main_menu->list as $key => $val)--><!--@if($val['link'])-->
                 <!--@if($val['selected'])-->
@@ -43,67 +43,65 @@
 
                 <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
 
-            <!--@end--><!--@end-->
-            <!-- main_menu 1차 끝 -->
-		</ul>
-		<!--//GNB-->
+            <!--@endif--><!--@endforeach-->
+        </ul>
 
-		<form action="{getUrl()}" method="post" id="isSearch">
+        <form action="{getUrl()}" method="post" id="isSearch">
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="act" value="IS" />
             <input type="hidden" name="search_target" value="title_content" />
-			<input name="is_keyword" type="text" class="inputText" title="keyword" />
+            <input name="is_keyword" type="text" class="inputText" title="keyword" />
 
-			<input type="image" src="./images/{$layout_info->colorset}/buttonSearch.gif" alt="{$lang->cmd_search}" class="submit" />
-		</form>
+            <input type="image" src="./images/{$layout_info->colorset}/buttonSearch.gif" alt="{$lang->cmd_search}" class="submit" />
+        </form>
 
-	</div>
-	<div id="contentBody">
-		<div id="columnLeft">
+    </div>
+    <div id="contentBody">
+        <div id="columnLeft">
 
             <!-- 로그인 위젯 -->
             <img src="./images/blank.gif" class="zbxe_widget_output" widget="login_info" skin="xe_official" colorset="{$layout_info->colorset}" />
 
             <!-- 왼쪽 2차 메뉴 -->
-			<img src="./images/blank.gif" alt="" class="mask" />
+            <img src="./images/blank.gif" alt="" class="mask" />
 
             <!--@if($menu_1st)-->
-			<ol id="lnb">
+            <ol id="lnb">
                 {@ $idx = 1 }
                 <!--@foreach($menu_1st['list'] as $key => $val)--><!--@if($val['link'])-->
-				<li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a>
+                <li <!--@if($val['selected'])-->class="on"<!--@end-->><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a>
 
                     <!-- main_menu 3차 시작 -->
                     <!--@if($val['list'] && ($val['expand']=='Y'||$val['selected']) )-->
-					<ul>
+                    <ul>
                     <!--@foreach($val['list'] as $k => $v)--><!--@if($v['link'])-->
-						<li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['link']}</a></li>
-                    <!--@end--><!--@end-->
-					</ul>
-                    <!--@end-->
-				</li>
+                        <li <!--@if($v['selected'])-->class="on"<!--@end-->><a href="{$v['href']}" <!--@if($v['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$v['link']}</a></li>
+                    <!--@endif--><!--@endforeach-->
+                    </ul>
+                    <!--@endif-->
+                </li>
                 {@$idx++}
-                <!--@end--><!--@end-->
-			</ol>
-            <!--@end-->
+                <!--@endif--><!--@endforeach-->
+            </ol>
+            <!--@endif-->
 
-		</div>
-		<div id="columnRight">
+        </div>
+        <div id="columnRight">
             <!-- 컨텐츠 시작 -->
             {$content}
 
-		</div>
-	</div>
-	<ul id="footer">
-		<li class="first-child">
-			<address>
-			<a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/{$layout_info->colorset}/powerdByZeroboard.gif" alt="Powered By ZeroBoard" width="106" height="5" /></a>
-			</address>
+        </div>
+    </div>
+    <ul id="footer">
+        <li class="first-child">
+            <address>
+            <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/{$layout_info->colorset}/powerdByZeroboard.gif" alt="Powered By ZeroBoard" width="106" height="5" /></a>
+            </address>
 
-		</li>
+        </li>
 
         <!--@foreach($bottom_menu->list as $key => $val)-->
-		<li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
-        <!--@end-->
-	</ul>
+        <li><a href="{$val['href']}" <!--@if($val['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
+        <!--@endforeach-->
+    </ul>
 </div>

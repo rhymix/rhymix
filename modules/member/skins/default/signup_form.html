@@ -2,7 +2,7 @@
 <!--%import("../../tpl/js/krzip_search.js")-->
 <!--%import("filter/signup.xml")-->
 
-<!-- calendar -->
+<!--// calendar -->
 <!--%import("../../../../common/js/calendar.min.js",optimized=false)-->
 <!--@if($lang_type == 'ko')-->
     <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
@@ -127,29 +127,29 @@
             </div>
         </th>
         <td>
-            <!-- 일반 text -->
+            <!--// 일반 text -->
             <!--@if($val->column_type == 'text')--> 
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
-            <!-- 홈페이지 주소 -->
+            <!--// 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
-            <!-- Email 주소 -->
+            <!--// Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
-            <!-- 전화번호 -->
+            <!--// 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" class="inputTypeText" />
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" class="inputTypeText" />
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="inputTypeText" />
 
-            <!-- textarea -->
+            <!--// textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
                 <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
 
-            <!-- 다중 선택 -->
+            <!--// 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
                 <!--@if($val->default_value)-->
                     <ul class="checkbox">
@@ -159,7 +159,7 @@
                     </ul>
                 <!--@end-->
 
-            <!-- 단일 선택 -->
+            <!--// 단일 선택 -->
             <!--@elseif($val->column_type == 'select')-->
                 <select name="{$val->column_name}">
                 <!--@if($val->default_value)-->
@@ -169,7 +169,7 @@
                 <!--@end-->
                 </select>
 
-            <!-- 한국 주소 검색 -->
+            <!--// 한국 주소 검색 -->
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div class="krZip">
                     <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
@@ -191,11 +191,11 @@
                     </div>
                 </div>
 
-            <!-- 일본 주소 검색 -->
+            <!--// 일본 주소 검색 -->
             <!--@elseif($val->column_type == 'jp_zip')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 
-            <!-- 날짜 입력 -->
+            <!--// 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
                 <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>

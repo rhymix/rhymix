@@ -35,7 +35,7 @@
 <tbody>
     <!--@foreach($layout_list as $key => $val)-->
 
-        <!-- 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
+        <!--// 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
         <!--@if($val->title)-->
         <tr>
             <th rowspan="2">
@@ -58,7 +58,7 @@
                 {nl2br(trim($val->description))}
             </td>
         </tr>
-        <!-- 레이아웃 정보 파일(conf/info.xml)이 없는 경우 -->
+        <!--// 레이아웃 정보 파일(conf/info.xml)이 없는 경우 -->
         <!--@else-->
         <tr>
             <td colspan="6">{$val->layout}</td>

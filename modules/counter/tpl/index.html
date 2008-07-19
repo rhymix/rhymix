@@ -1,6 +1,6 @@
 <!--%import("js/counter_admin.js")-->
 
-<!-- calendar -->
+<!--// calendar -->
 <!--%import("../../common/js/calendar.min.js",optimized=false)-->
 <!--@if($lang_type == 'ko')-->
     <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
@@ -44,7 +44,7 @@
         <th scope="row">{$lang->total_counter}</th>
         <td>Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
         <th scope="row">
-            <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> <span class="vr">|</span> 
+            <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> <span class="vr">|</span>
             <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
             <script type="text/javascript">
                 DyCalendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
@@ -86,8 +86,8 @@
     <!--@end-->
 <tr>
     <!--@if(Context::getLangType()=='en')-->
-	<th scope="row">
-        <!-- 시간대별 -->
+    <th scope="row">
+        <!--// 시간대별 -->
         <!--@if($type == 'year')-->
             <em>{$key}</em>
         <!--@elseif($type == 'month')-->
@@ -100,7 +100,7 @@
     </th>
     <!--@else-->
     <th scope="row">
-        <!-- 시간대별 -->
+        <!--// 시간대별 -->
         <!--@if($type == 'year')-->
             <em>{$key}</em> {$lang->unit_year}
         <!--@elseif($type == 'month')-->
@@ -111,7 +111,7 @@
             <em>{$key}</em> {$lang->unit_hour}
         <!--@end-->
     </th>
-	<!--@end-->
+    <!--@end-->
     <td>
         <div class="graph">
             <img src="./images/iconBar.gif" alt="" width="12" height="6" class="bar" />

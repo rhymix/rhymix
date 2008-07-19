@@ -50,14 +50,14 @@
         <tbody>
 
         <!--@if(!$document_list && !$notice_list)-->
-            <!-- 게시물이 없으면 등록된 글이 없음을 표시 -->
+            <!--// 게시물이 없으면 등록된 글이 없음을 표시 -->
             <tr class="bg0">
                 <td colspan="{$_col_count}" class="title">
                     {$lang->no_documents}
                 </td>
             </tr>
         <!--@else-->
-            <!-- 공지사항 출력 -->
+            <!--// 공지사항 출력 -->
             <!--@foreach($notice_list as $no => $document)-->
                 <tr class="notice">
                     <!--@if($module_info->display_number!='N')--><td class="notice">{$lang->notice}</td><!--@end-->
@@ -87,7 +87,7 @@
                 </tr>
             <!--@end-->
 
-            <!-- 일반 글 출력 -->
+            <!--// 일반 글 출력 -->
             <!--@foreach($document_list as $no => $document)-->
                 <tr class="bg{($no+1)%2+1}">
 
