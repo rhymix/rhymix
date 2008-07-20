@@ -19,7 +19,7 @@
          **/
         function getWidgetPath($widget_name) {
             $path = sprintf('./widgets/%s/', $widget_name);
-            if(is_dir($path)) return $path; 
+            if(is_dir($path)) return $path;
 
             return "";
         }
@@ -50,7 +50,7 @@
 
         /**
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
-         * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다.. 
+         * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다..
          **/
         function getWidgetInfo($widget) {
             // 요청된 모듈의 경로를 구한다. 없으면 return
@@ -84,7 +84,9 @@
                 $buff .= sprintf('$widget_info->title = "%s";', $xml_obj->title->body);
                 $buff .= sprintf('$widget_info->description = "%s";', $xml_obj->description->body);
                 $buff .= sprintf('$widget_info->version = "%s";', $xml_obj->version->body);
-                $buff .= sprintf('$widget_info->date = "%s";', $xml_obj->date->body);
+                sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $buff .= sprintf('$widget_info->date = "%s";', $date);
                 $buff .= sprintf('$widget_info->homepage = "%s";', $xml_obj->link->body);
                 $buff .= sprintf('$widget_info->license = "%s";', $xml_obj->license->body);
                 $buff .= sprintf('$widget_info->license_link = "%s";', $xml_obj->license->attrs->link);
@@ -142,7 +144,9 @@
                 $buff .= sprintf('$widget_info->title = "%s";', $xml_obj->title->body);
                 $buff .= sprintf('$widget_info->description = "%s";', $xml_obj->author->description->body);
                 $buff .= sprintf('$widget_info->version = "%s";', $xml_obj->attrs->version);
-                $buff .= sprintf('$widget_info->date = "%s";', $xml_obj->author->attrs->date);
+                sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $buff .= sprintf('$widget_info->date = "%s";', $date);
                 $buff .= sprintf('$widget_info->widget_srl = $widget_srl;');
                 $buff .= sprintf('$widget_info->widget_title = $widget_title;');
 
@@ -152,6 +156,7 @@
                 $buff .= sprintf('$widget_info->author[0]->homepage = "%s";', $xml_obj->author->attrs->link);
             }
 
+
             // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
             $extra_var_groups = $xml_obj->extra_vars->group;
             if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
@@ -159,10 +164,10 @@
             foreach($extra_var_groups as $group){
                 $extra_vars = $group->var;
                 if(!is_array($group->var)) $extra_vars = array($group->var);
-    
+
                 if($extra_vars[0]->attrs->id || $extra_vars[0]->attrs->name) {
                     $extra_var_count = count($extra_vars);
-    
+
                     $buff .= sprintf('$widget_info->extra_var_count = "%s";', $extra_var_count);
                     for($i=0;$i<$extra_var_count;$i++) {
                         unset($var);
@@ -178,7 +183,7 @@
                         $buff .= sprintf('$widget_info->extra_var->%s->type = "%s";', $id, $type);
                         $buff .= sprintf('$widget_info->extra_var->%s->value = $vars->%s;', $id, $id);
                         $buff .= sprintf('$widget_info->extra_var->%s->description = "%s";', $id, str_replace('"','\"',$var->description->body));
-    
+
                         $options = $var->options;
                         if(!$options) continue;
 
@@ -187,7 +192,7 @@
                         for($j=0;$j<$options_count;$j++) {
                             $buff .= sprintf('$widget_info->extra_var->%s->options["%s"] = "%s";', $id, $options[$j]->value->body, $options[$j]->name->body);
                         }
-    
+
                     }
                 }
             }

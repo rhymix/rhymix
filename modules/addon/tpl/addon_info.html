@@ -73,7 +73,13 @@
             <!--@endif-->
             <!--@if($history->logs)-->
             <ul>
-                <!--@foreach($history->logs as $log)--><li>{$log}</li><!--@endforeach-->
+                <!--@foreach($history->logs as $log)-->
+                <!--@if($log->link)-->
+                <li><a href="{$log->link}">{$log->text}</a></li>
+                <!--@else-->
+                <li>{$log->text}</li>
+                <!--@endif-->
+                <!--@endforeach-->
             </ul>
             <!--@endif-->
         </td>
