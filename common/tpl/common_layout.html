@@ -13,7 +13,9 @@
     <meta name="layout" content="{$layout_info->title} ({$layout_info->layout})" />
 <!--@end-->
 <!--@if($layout_info->author)-->
-    <meta name="layout_maker" content="{$layout_info->author->name} ({$layout_info->author->homepage})" />
+    <!--@foreach($layout_info->author as $author)-->
+    <meta name="layout_maker" content="{$author->name} ({$author->homepage})" />
+    <!--@endforeach-->
 <!--@end-->
     <meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>
