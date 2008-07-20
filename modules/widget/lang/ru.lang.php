@@ -9,6 +9,7 @@
 
     $lang->widget_name = 'Имя виджета';
     $lang->widget_maker = 'Разработчик виджета';
+    $lang->widget_license = 'License';
     $lang->widget_history = 'История обновлений';
     $lang->widget_info = 'Информация виджета';
     $lang->widget_code = 'Код';

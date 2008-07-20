@@ -9,6 +9,7 @@
 
     $lang->widget_name = 'ウィジェット名';
     $lang->widget_maker = 'ウィジェット作者';
+    $lang->widget_license = 'License';
     $lang->widget_history = '変更内容';
     $lang->widget_info = 'ウィジェット情報';
     $lang->widget_code = 'コード';

@@ -6,7 +6,7 @@
 <!-- 위젯의 목록 -->
 <table cellspacing="0" class="adminTable">
 <!--@if($lang_type == 'ko')-->
-{@ $col_width = array(0,80,120,80,140,70)}
+{@ $col_width = array(0,50,120,80,140,70)}
 <!--@else if($lang_type == 'en')-->
 {@ $col_width = array(0,80,120,80,140,80)}
 <!--@else if($lang_type == 'zh-CN')-->
@@ -42,14 +42,18 @@
                 ({$val->widget})
         </th>
         <td class="tahoma">{$val->version}</td>
-        <td class="blue"><a href="{$val->author->homepage}" onclick="window.open(this.href);return false;">{$val->author->name}</a></td>
-        <td class="tahoma">{$val->author->date}</td>
+        <td>
+            <!--@foreach($val->author as $author)-->
+            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+            <!--@endforeach-->
+        </td>
+        <td class="tahoma">{$val->date}</td>
         <td class="tahoma left">{$val->path}</td>
         <td class="blue"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$val->widget)}" onclick="popopen(this.href,'widget_code_generate');return false">{$lang->cmd_generate_code}</a></td>
     </tr>
     <tr>
         <td colspan="5" class="left">
-            {nl2br(trim($val->author->description))}
+            {nl2br(trim($val->description))}
         </td>
     </tr>
     <!--@end-->

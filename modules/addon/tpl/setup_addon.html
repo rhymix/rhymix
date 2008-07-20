@@ -25,10 +25,12 @@
             <!--@endforeach-->
             </td>
         </tr>
+        <!--@if($addon_info->homepage)-->
         <tr>
             <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
-            <td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
+            <td class="blue"><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
         </tr>
+        <!--@end-->
 
         <!--@foreach($addon_info->extra_vars as $id => $var)-->
 
@@ -89,7 +91,7 @@
                     <div id="section_{$module_category_srl}">
                     <!--@foreach($modules->list as $key => $val)-->
                         <div class="module_list">
-                            <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $addon_info->mid_list))-->checked="checked"<!--@end--> /> 
+                            <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $addon_info->mid_list))-->checked="checked"<!--@end--> />
                             <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
                         </div>
                     <!--@end-->

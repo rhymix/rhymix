@@ -1,90 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget version="0.1">
-    <title xml:lang="ko">특정 그룹 회원 출력 위젯</title>
-    <title xml:lang="jp">グループ会員表示</title>
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+	<title xml:lang="ko">특정 그룹 회원 출력 위젯</title>
+	<title xml:lang="jp">グループ会員表示</title>
 	<title xml:lang="en">Specific Group Members</title>
 	<title xml:lang="es">Muestra el grupo de usuario específico</title>
-    <title xml:lang="zh-CN">会员列表</title>
+	<title xml:lang="zh-CN">会员列表</title>
 	<title xml:lang="ru">Отображение членов определенной группы</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 7. 30">
-        <name xml:lang="ko">제로</name>
-        <name xml:lang="jp">Zero</name>
+	<description xml:lang="ko">
+		특정 그룹에 속한 회원의 목록을 출력하는 위젯입니다.
+		아직 테스트용 위젯이며 해당 그룹에 지정된 수 이상의 회원이 있을 경우 최근 가입순서대로 출력이 됩니다.
+		아래 그룹이름 입력칸에 출력을 원하는 그룹명을 , (콤마)로 연결하여 입력하시면 됩니다.
+	</description>
+	<description xml:lang="jp">
+		特定グループに所属している会員のリストを表示するウィジェットです。まだテスト用のウィジェットです。該当するグループに指定された以上の会員が存在した場合、最近加入順に表示されます。下のグループ名の入力フィールドに、希望するグループ名を「,（コンマ）」で区切って入力します。
+	</description>
+	<description xml:lang="en">
+		This widget displays members in specific group.
+		It is a test widget, and if there are more members than assigned number in the group, they will be ordered as latest join date.
+		You may input groups for displaying in below space. You can use comma(,) for multiple input.
+	</description>
+	<description xml:lang="es">
+		Este widget muestra el usuario en un grupo específico.
+		Este es un widget de prueba, y si hay más número de usuarios asignados, se mostrará en orden de los últimos conectados.
+		Usted puede ingresar grupos para mostrar en los espacias inferiores. Puede usar una coma(,) para ingresar más.
+	</description>
+	<description xml:lang="zh-CN">
+		显示特定用户组会员列表的控件。
+		该组用户数比要显示的用户数多时，按照最近注册日期顺来显示。(测试中的控件)
+		要显示的对象用户组名称以，(逗号)来分隔。
+	</description>
+	<description xml:lang="ru">
+		Этот виджет отображает членов в определенной группе.
+		Это тестовый виджет, и если в группе больше членов, чем присвоенное число в группе, они будут упорядочены по дате последнего входа.
+		Вы можете ввести группы для отображения в пространство ниже. Вы можете использовать запятую(,) для множественного ввода.
+	</description>
+	<version>0.1</version>
+	<date>2007-07-30</date>
+
+	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+		<name xml:lang="ko">제로</name>
+		<name xml:lang="jp">Zero</name>
 		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
-        <name xml:lang="zh-CN">Zero</name>
+		<name xml:lang="zh-CN">Zero</name>
 		<name xml:lang="ru">zero</name>
-        <description xml:lang="ko">
-            특정 그룹에 속한 회원의 목록을 출력하는 위젯입니다.
-            아직 테스트용 위젯이며 해당 그룹에 지정된 수 이상의 회원이 있을 경우 최근 가입순서대로 출력이 됩니다.
-            아래 그룹이름 입력칸에 출력을 원하는 그룹명을 , (콤마)로 연결하여 입력하시면 됩니다.
-        </description>
-        <description xml:lang="jp">
-            特定グループに所属している会員のリストを表示するウィジェットです。まだテスト用のウィジェットです。該当するグループに指定された以上の会員が存在した場合、最近加入順に表示されます。下のグループ名の入力フィールドに、希望するグループ名を「,（コンマ）」で区切って入力します。
-        </description>
-		<description xml:lang="en">
-            This widget displays members in specific group.
-            It is a test widget, and if there are more members than assigned number in the group, they will be ordered as latest join date.
-            You may input groups for displaying in below space. You can use comma(,) for multiple input.
-        </description>
-		<description xml:lang="es">
-            Este widget muestra el usuario en un grupo específico.
-            Este es un widget de prueba, y si hay más número de usuarios asignados, se mostrará en orden de los últimos conectados.
-            Usted puede ingresar grupos para mostrar en los espacias inferiores. Puede usar una coma(,) para ingresar más.
-        </description>
-        <description xml:lang="zh-CN">
-            显示特定用户组会员列表的控件。
-            该组用户数比要显示的用户数多时，按照最近注册日期顺来显示。(测试中的控件)
-            要显示的对象用户组名称以，(逗号)来分隔。
-        </description>
-		<description xml:lang="ru">
-            Этот виджет отображает членов в определенной группе.
-            Это тестовый виджет, и если в группе больше членов, чем присвоенное число в группе, они будут упорядочены по дате последнего входа.
-            Вы можете ввести группы для отображения в пространство ниже. Вы можете использовать запятую(,) для множественного ввода.
-        </description>
-    </author>
-    <extra_vars>
-        <var id="title">
-            <name xml:lang="ko">제목</name>
-            <name xml:lang="jp">タイトル</name>
+	</author>
+
+	<extra_vars>
+		<var id="title">
+			<type>text</type>
+			<name xml:lang="ko">제목</name>
+			<name xml:lang="jp">タイトル</name>
 			<name xml:lang="en">Title</name>
 			<name xml:lang="es">Título</name>
-            <name xml:lang="zh-CN">栏目名</name>
-            <type>text</type>
-            <description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
-            <description xml:lang="jp">最新コンテンツのタイトルとして表示されます。</description>
+			<name xml:lang="zh-CN">栏目名</name>
+			<description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
+			<description xml:lang="jp">最新コンテンツのタイトルとして表示されます。</description>
 			<description xml:lang="en">It will be displayed as title of newest article.</description>
 			<description xml:lang="es">Esto será mostrado com el título de los documentos recientes.</description>
-            <description xml:lang="zh-CN">显示为会员列表的标题。</description>
-        </var>
-        <var id="list_count">
-            <name xml:lang="ko">목록수</name>
-            <name xml:lang="jp">リスト数</name>
+			<description xml:lang="zh-CN">显示为会员列表的标题。</description>
+		</var>
+		<var id="list_count">
+			<type>text</type>
+			<name xml:lang="ko">목록수</name>
+			<name xml:lang="jp">リスト数</name>
 			<name xml:lang="en">Number of List</name>
 			<name xml:lang="es">Número de la lista</name>
-            <name xml:lang="zh-CN">目录数</name>
+			<name xml:lang="zh-CN">目录数</name>
 			<name xml:lang="ru">Число списка</name>
-            <type>text</type>
-            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
-            <description xml:lang="jp">表示されるリストの数を指定することができます。（デフォルト5個）</description>
+			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+			<description xml:lang="jp">表示されるリストの数を指定することができます。（デフォルト5個）</description>
 			<description xml:lang="en">You may choose number of list. (5 as default)</description>
 			<description xml:lang="es">Usted puede elegir el número de la lista. (predefinido: 5)</description>
-            <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
+			<description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
 			<description xml:lang="ru">Вы можете выбрать число списка. (стандарт: 5)</description>
-        </var>
-        <var id="target_group">
-            <name xml:lang="ko">대상 회원 그룹</name>
-            <name xml:lang="jp">対象会員グループ</name>
+		</var>
+		<var id="target_group">
+			<type>text</type>
+			<name xml:lang="ko">대상 회원 그룹</name>
+			<name xml:lang="jp">対象会員グループ</name>
 			<name xml:lang="en">Target Member Group</name>
 			<name xml:lang="es">Objetivo Grupo de usuario</name>
-            <name xml:lang="zh-CN">对象用户组</name>
+			<name xml:lang="zh-CN">对象用户组</name>
 			<name xml:lang="ru">Группа членов назначения</name>
-            <type>text</type>
-            <description xml:lang="ko">소속 회원 출력을 원하는 회원 그룹명을 ,(콤마)로 연결하여 입력하세요.</description>
-            <description xml:lang="jp">所属会員を表示したい場合は、会員グループ名を「,（コンマ）」で区切って入力してください。</description>
+			<description xml:lang="ko">소속 회원 출력을 원하는 회원 그룹명을 ,(콤마)로 연결하여 입력하세요.</description>
+			<description xml:lang="jp">所属会員を表示したい場合は、会員グループ名を「,（コンマ）」で区切って入力してください。</description>
 			<description xml:lang="en">Please input member group name for display with comma(,).</description>
 			<description xml:lang="es">Ingresar el nombre del grupo de usuario para mostrar con la coma(,).</description>
-            <description xml:lang="zh-CN">要显示的对象用户组名称以，(逗号)来分隔。</description>
+			<description xml:lang="zh-CN">要显示的对象用户组名称以，(逗号)来分隔。</description>
 			<description xml:lang="ru">Пожалуйста, введите имена групп для отображения, разделяя их запятой(,).</description>
-        </var>
-    </extra_vars>
+		</var>
+	</extra_vars>
 </widget>

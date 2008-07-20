@@ -9,6 +9,7 @@
 
     $lang->widget_name = 'Nombre de Widget';
     $lang->widget_maker = 'Desarrollador de Widget';
+    $lang->widget_license = 'License';
     $lang->widget_history = 'Actualizar la historia';
     $lang->widget_info = 'información de Widget';
     $lang->widget_code = 'Código';
