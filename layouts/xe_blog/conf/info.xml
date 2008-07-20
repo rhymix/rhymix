@@ -71,7 +71,7 @@
             <description xml:lang="ge">Bitte wählen Sie ein colorset Sie wollen.</description>
             <description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
-            <options name="blue">
+            <options value="blue">
                 <title xml:lang="ko">파란색 (기본)</title>
                 <title xml:lang="jp">青 (default)</title>
                 <title xml:lang="zh-CN">蓝色 (default)</title>
@@ -79,9 +79,8 @@
                 <title xml:lang="ge">Blue (Standard)</title>
                 <title xml:lang="es">Azul (default)</title>
                 <title xml:lang="ru">Blue (default)</title>
-                <value>blue</value>
             </options>
-            <options name="gray">
+            <options value="gray">
                 <title xml:lang="ko">회색</title>
                 <title xml:lang="jp">灰色背景</title>
                 <title xml:lang="zh-CN">灰色背景</title>
@@ -89,9 +88,8 @@
                 <title xml:lang="ge">Gray</title>
                 <title xml:lang="es">Gray</title>
                 <title xml:lang="ru">Gray</title>
-                <value>gray</value>
             </options>
-            <options name="orange">
+            <options value="orange">
                 <title xml:lang="ko">오렌지</title>
                 <title xml:lang="jp">Orange</title>
                 <title xml:lang="zh-CN">Orange</title>
@@ -99,9 +97,8 @@
                 <title xml:lang="ge">Orange</title>
                 <title xml:lang="es">Orange</title>
                 <title xml:lang="ru">Orange</title>
-                <value>orange</value>
             </options>
-            <options name="violet">
+            <options value="violet">
                 <title xml:lang="ko">보라색</title>
                 <title xml:lang="jp">Violet</title>
                 <title xml:lang="zh-CN">Violet</title>
@@ -109,9 +106,8 @@
                 <title xml:lang="ge">Violett</title>
                 <title xml:lang="es">Violet</title>
                 <title xml:lang="ru">Violet</title>
-                <value>violet</value>
             </options>
-            <options name="green">
+            <options value="green">
                 <title xml:lang="ko">초록색</title>
                 <title xml:lang="jp">緑</title>
                 <title xml:lang="zh-CN">绿色</title>
@@ -119,7 +115,6 @@
                 <title xml:lang="ge">Grün</title>
                 <title xml:lang="es">Verde</title>
                 <title xml:lang="ru">Green</title>
-                <value>green</value>
             </options>
         </var>
         <var name="target_mid" type="text">
@@ -188,7 +183,7 @@
     </extra_vars>
 
     <menus>
-        <menu name="top_menu" default="true">
+        <menu name="top_menu" maxdepth="1" default="true">
             <title xml:lang="ko">상단 메뉴</title>
             <title xml:lang="jp">上段メニュー</title>
             <title xml:lang="zh-CN">菜单</title>
@@ -196,7 +191,6 @@
             <title xml:lang="ge">Top-Menü</title>
             <title xml:lang="es">Menú superior</title>
             <title xml:lang="ru">Главное меню</title>
-            <maxdepth>1</maxdepth>
         </menu>
     </menus>
 </layout>

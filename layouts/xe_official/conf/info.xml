@@ -78,7 +78,7 @@
             <description xml:lang="ge">Bitte wählen Sie ein colorset Sie wollen.</description>
             <description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
-            <options name="default">
+            <options value="default">
                 <title xml:lang="ko">기본</title>
                 <title xml:lang="jp">デフォルト</title>
                 <title xml:lang="en">Basic</title>
@@ -86,9 +86,8 @@
                 <title xml:lang="ru">Базовые</title>
                 <title xml:lang="es">Básico</title>
                 <title xml:lang="zh-CN">默认</title>
-                <value>default</value>
             </options>
-            <options name="black">
+            <options value="black">
                 <title xml:lang="ko">검은색</title>
                 <title xml:lang="jp">黒</title>
                 <title xml:lang="en">Black</title>
@@ -96,9 +95,8 @@
                 <title xml:lang="ru">Черного</title>
                 <title xml:lang="es">Negro</title>
                 <title xml:lang="zh-CN">黑色</title>
-                <value>black</value>
             </options>
-            <options name="white">
+            <options value="white">
                 <title xml:lang="ko">하얀색</title>
                 <title xml:lang="jp">白</title>
                 <title xml:lang="en">white</title>
@@ -106,7 +104,6 @@
                 <title xml:lang="ru">белый</title>
                 <title xml:lang="es">Blanco</title>
                 <title xml:lang="zh-CN">白色</title>
-                <value>white</value>
             </options>
         </var>
         <var name="logo_image" type="image">
@@ -160,7 +157,7 @@
     </extra_vars>
 
     <menus>
-        <menu name="main_menu" default="true">
+        <menu name="main_menu" maxdepth="3" default="true">
             <title xml:lang="ko">상단 메뉴</title>
             <title xml:lang="jp">上段メニュー</title>
             <title xml:lang="zh-CN">主菜单</title>
@@ -168,9 +165,8 @@
             <title xml:lang="ge">Top Menü</title>
             <title xml:lang="ru">Верхнее меню</title>
             <title xml:lang="es">Menú Principal</title>
-            <maxdepth>3</maxdepth>
         </menu>
-        <menu name="bottom_menu">
+        <menu name="bottom_menu" maxdepth="1">
             <title xml:lang="ko">하단 메뉴 </title>
             <title xml:lang="jp">下段メニュー</title>
             <title xml:lang="zh-CN">底部菜单</title>
@@ -178,7 +174,6 @@
             <title xml:lang="ge">Bottom-Menü</title>
             <title xml:lang="ru">Внизу меню</title>
             <title xml:lang="es">Menú Inferior </title>
-            <maxdepth>1</maxdepth>
         </menu>
     </menus>
 </layout>

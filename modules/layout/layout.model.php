@@ -141,10 +141,11 @@
                 $buff .= sprintf('$layout_info->description = "%s";', $xml_obj->description->body);
                 $buff .= sprintf('$layout_info->version = "%s";', $xml_obj->version->body);
                 $buff .= sprintf('$layout_info->date = "%s";', $date);
+                $buff .= sprintf('$layout_info->homepage = "%s";', $xml_obj->link->body);
                 $buff .= sprintf('$layout_info->layout_srl = $layout_srl;');
                 $buff .= sprintf('$layout_info->layout_title = $layout_title;');
                 $buff .= sprintf('$layout_info->license = "%s";', $xml_obj->license->body);
-                $buff .= sprintf('$layout_info->license_link = "%S";', $xml_obj->license->attrs->link);
+                $buff .= sprintf('$layout_info->license_link = "%s";', $xml_obj->license->attrs->link);
 
                 // 작성자 정보
                 if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
@@ -155,6 +156,65 @@
                     $buff .= sprintf('$layout_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
                     $buff .= sprintf('$layout_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
                 }
+
+
+
+                // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
+                $extra_var_groups = $xml_obj->extra_vars->group;
+                if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+                if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
+                foreach($extra_var_groups as $group){
+                    $extra_vars = $group->var;
+                    if($extra_vars) {
+                        if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+
+                        $extra_var_count = count($extra_vars);
+
+                        $buff .= sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+                        for($i=0;$i<$extra_var_count;$i++) {
+                            unset($var);
+                            unset($options);
+                            $var = $extra_vars[$i];
+                            $name = $var->attrs->name;
+
+                            $buff .= sprintf('$layout_info->extra_var->%s->group = "%s";', $name, $group->title->body);
+                            $buff .= sprintf('$layout_info->extra_var->%s->title = "%s";', $name, $var->title->body);
+                            $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $name, $var->attrs->type);
+                            $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
+                            $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $name, str_replace('"','\"',$var->description->body));
+
+                            $options = $var->options;
+                            if(!$options) continue;
+
+                            if(!is_array($options)) $options = array($options);
+                            $options_count = count($options);
+                            for($j=0;$j<$options_count;$j++) {
+                                $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->attrs->value, $options[$j]->title->body);
+                            }
+                        }
+                    }
+                }
+
+                // 메뉴
+                if($xml_obj->menus->menu) {
+                    $menus = $xml_obj->menus->menu;
+                    if(!is_array($menus)) $menus = array($menus);
+
+                    $menu_count = count($menus);
+                    $buff .= sprintf('$layout_info->menu_count = "%s";', $menu_count);
+                    for($i=0;$i<$menu_count;$i++) {
+                        $name = $menus[$i]->attrs->name;
+                        if($menus[$i]->attrs->default == "true") $buff .= sprintf('$layout_info->default_menu = "%s";', $name);
+                        $buff .= sprintf('$layout_info->menu->%s->name = "%s";',$name, $menus[$i]->attrs->name);
+                        $buff .= sprintf('$layout_info->menu->%s->title = "%s";',$name, $menus[$i]->title->body);
+                        $buff .= sprintf('$layout_info->menu->%s->maxdepth = "%s";',$name, $menus[$i]->attrs->maxdepth);
+
+                        $buff .= sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $name, $name);
+                        $buff .= sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$name, $name);
+                        $buff .= sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);
+                    }
+                }
+
 
                 // history
                 if($xml_obj->history) {
@@ -209,63 +269,65 @@
                 $buff .= sprintf('$layout_info->author[0]->name = "%s";', $xml_obj->author->name->body);
                 $buff .= sprintf('$layout_info->author[0]->email_address = "%s";', $xml_obj->author->attrs->email_address);
                 $buff .= sprintf('$layout_info->author[0]->homepage = "%s";', $xml_obj->author->attrs->link);
-            }
 
-            // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
-            $extra_var_groups = $xml_obj->extra_vars->group;
-            if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
-            if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
-            foreach($extra_var_groups as $group){
-                $extra_vars = $group->var;
-                if($extra_vars) {
-                    if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+                // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
+                $extra_var_groups = $xml_obj->extra_vars->group;
+                if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+                if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
+                foreach($extra_var_groups as $group){
+                    $extra_vars = $group->var;
+                    if($extra_vars) {
+                        if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
 
-                    $extra_var_count = count($extra_vars);
+                        $extra_var_count = count($extra_vars);
 
-                    $buff .= sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
-                    for($i=0;$i<$extra_var_count;$i++) {
-                        unset($var);
-                        unset($options);
-                        $var = $extra_vars[$i];
-                        $name = $var->attrs->name;
+                        $buff .= sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+                        for($i=0;$i<$extra_var_count;$i++) {
+                            unset($var);
+                            unset($options);
+                            $var = $extra_vars[$i];
+                            $name = $var->attrs->name;
 
-                        $buff .= sprintf('$layout_info->extra_var->%s->group = "%s";', $name, $group->title->body);
-                        $buff .= sprintf('$layout_info->extra_var->%s->title = "%s";', $name, $var->title->body);
-                        $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $name, $var->attrs->type);
-                        $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
-                        $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $name, str_replace('"','\"',$var->description->body));
+                            $buff .= sprintf('$layout_info->extra_var->%s->group = "%s";', $name, $group->title->body);
+                            $buff .= sprintf('$layout_info->extra_var->%s->title = "%s";', $name, $var->title->body);
+                            $buff .= sprintf('$layout_info->extra_var->%s->type = "%s";', $name, $var->attrs->type);
+                            $buff .= sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
+                            $buff .= sprintf('$layout_info->extra_var->%s->description = "%s";', $name, str_replace('"','\"',$var->description->body));
 
-                        $options = $var->options;
-                        if(!$options) continue;
+                            $options = $var->options;
+                            if(!$options) continue;
 
-                        if(!is_array($options)) $options = array($options);
-                        $options_count = count($options);
-                        for($j=0;$j<$options_count;$j++) {
-                            $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->title->body);
+                            if(!is_array($options)) $options = array($options);
+                            $options_count = count($options);
+                            for($j=0;$j<$options_count;$j++) {
+                                $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->title->body);
+                            }
                         }
                     }
                 }
-            }
 
-            // 메뉴
-            if($xml_obj->menus->menu) {
-                $menus = $xml_obj->menus->menu;
-                if(!is_array($menus)) $menus = array($menus);
+                // 메뉴
+                if($xml_obj->menus->menu) {
+                    $menus = $xml_obj->menus->menu;
+                    if(!is_array($menus)) $menus = array($menus);
 
-                $menu_count = count($menus);
-                $buff .= sprintf('$layout_info->menu_count = "%s";', $menu_count);
-                for($i=0;$i<$menu_count;$i++) {
-                    $name = $menus[$i]->attrs->name;
-                    if($menus[$i]->attrs->default == "true") $buff .= sprintf('$layout_info->default_menu = "%s";', $name);
-                    $buff .= sprintf('$layout_info->menu->%s->name = "%s";',$name, $menus[$i]->attrs->name);
-                    $buff .= sprintf('$layout_info->menu->%s->title = "%s";',$name, $menus[$i]->title->body);
-                    $buff .= sprintf('$layout_info->menu->%s->maxdepth = "%s";',$name, $menus[$i]->maxdepth->body);
+                    $menu_count = count($menus);
+                    $buff .= sprintf('$layout_info->menu_count = "%s";', $menu_count);
+                    for($i=0;$i<$menu_count;$i++) {
+                        $name = $menus[$i]->attrs->name;
+                        if($menus[$i]->attrs->default == "true") $buff .= sprintf('$layout_info->default_menu = "%s";', $name);
+                        $buff .= sprintf('$layout_info->menu->%s->name = "%s";',$name, $menus[$i]->attrs->name);
+                        $buff .= sprintf('$layout_info->menu->%s->title = "%s";',$name, $menus[$i]->title->body);
+                        $buff .= sprintf('$layout_info->menu->%s->maxdepth = "%s";',$name, $menus[$i]->maxdepth->body);
 
-                    $buff .= sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $name, $name);
-                    $buff .= sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$name, $name);
-                    $buff .= sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);
+                        $buff .= sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $name, $name);
+                        $buff .= sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$name, $name);
+                        $buff .= sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);
+                    }
                 }
+
             }
+
 
             // header_script
             $oModuleModel = &getModel('module');
