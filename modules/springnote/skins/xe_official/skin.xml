@@ -1,19 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<skin>
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
     <title xml:lang="ko">스프링 노트 연동 기본 스킨</title>
     <title xml:lang="jp">SpringNote連動のデフォルトスキン</title>
     <title xml:lang="zh-CN">Springnote API默认皮肤</title>
     <title xml:lang="en">Springnote Module Basic Skin</title>
-    <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007.11.30">
+    <description xml:lang="ko">스프링 노트 연동 모듈의 기본 스킨</description>
+    <description xml:lang="jp">SpringNote連動のデフォルトスキン</description>
+    <description xml:lang="zh-CN">Springnote API默认皮肤。</description>
+    <description xml:lang="en">Default Skin of Springnote Module</description>
+    <version>0.1</version>
+    <date>2007-11-30</date>
+    <link>http://www.zeroboard.com</link>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
-		<name xml:lang="zh-CN">Zero</name>
-		<name xml:lang="en">Zero</name>
-        <description xml:lang="ko">스프링 노트 연동 모듈의 기본 스킨</description>
-        <description xml:lang="jp">SpringNote連動のデフォルトスキン</description>
-        <description xml:lang="zh-CN">Springnote API默认皮肤。</description>
-		<description xml:lang="en">Default Skin of Springnote Module</description>
-    </maker>
+        <name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="en">Zero</name>
+    </author>
+
     <colorset>
         <color name="white" src="screenshot/white.gif">
             <title xml:lang="ko">하얀색(기본)</title>
@@ -46,6 +51,7 @@
             <title xml:lang="en">Purple</title>
         </color>
     </colorset>
+
     <extra_vars>
         <var name="title" type="text">
             <title xml:lang="ko">게시판 제목</title>

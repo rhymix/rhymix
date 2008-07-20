@@ -21,8 +21,9 @@
     $lang->category_title = 'Название категории';
     $lang->checked_count = 'Число выбранных статей'; // translator's note: возможно "checked" следует перевести как "проверенных"
     $lang->skin_default_info = 'Информация стандартного скина';
-    $lang->skin_maker = 'Разработчик скина';
-    $lang->skin_maker_homepage = "Домашняя страница разработчика";
+    $lang->skin_author = 'Разработчик скина';
+    $lang->skin_license = 'License';
+    $lang->skin_history = 'История обновлений';
     $lang->module_copy = "Копировать модуль";
 
     $lang->header_script = "헤더 스크립트";

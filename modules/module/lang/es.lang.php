@@ -21,8 +21,9 @@
     $lang->category_title = 'Título de categoría';
     $lang->checked_count = 'Múmero de los documentos selecionados';
     $lang->skin_default_info = 'información del tema predefinido';
-    $lang->skin_maker = 'Desarrollador de temas';
-    $lang->skin_maker_homepage = "Página Web del desarrollador de temas";
+    $lang->skin_author = 'Desarrollador de tema';
+    $lang->skin_license = 'License';
+    $lang->skin_history = 'Historia de actualización';
     $lang->module_copy = "Copy Module";
 
     $lang->header_script = "헤더 스크립트";

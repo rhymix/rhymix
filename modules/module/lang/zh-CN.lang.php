@@ -21,8 +21,9 @@
     $lang->category_title = '分类名';
     $lang->checked_count = '被选择的主题数';
     $lang->skin_default_info = '皮肤默认信息';
-    $lang->skin_maker = '皮肤作者';
-    $lang->skin_maker_homepage = '作者主页';
+    $lang->skin_author = '皮肤作者';
+    $lang->skin_license = 'License';
+    $lang->skin_history = '更新事项';
     $lang->module_copy = "Copy Module";
 
     $lang->header_script = "文件头部脚本";

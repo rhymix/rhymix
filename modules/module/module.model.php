@@ -236,12 +236,184 @@
             // 스킨이름
             $skin_info->title = $xml_obj->title->body;
 
+
             // 작성자 정보
-            $skin_info->maker->name = $xml_obj->maker->name->body;
-            $skin_info->maker->email_address = $xml_obj->maker->attrs->email_address;
-            $skin_info->maker->homepage = $xml_obj->maker->attrs->link;
-            $skin_info->maker->date = $xml_obj->maker->attrs->date;
-            $skin_info->maker->description = $xml_obj->maker->description->body;
+            if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
+                // skin format v0.2
+                sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $skin_info->version = $xml_obj->version->body;
+                $skin_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $skin_info->homepage = $xml_obj->link->body;
+                $skin_info->license = $xml_obj->license->body;
+                $skin_info->license_link = $xml_obj->license->attrs->link;
+                $skin_info->description = $xml_obj->description->body;
+
+                if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
+                else $author_list = $xml_obj->author;
+
+                foreach($author_list as $author) {
+                    unset($author_obj);
+                    $author_obj->name = $author->name->body;
+                    $author_obj->email_address = $author->attrs->email_address;
+                    $author_obj->homepage = $author->attrs->link;
+                    $skin_info->author[] = $author_obj;
+                }
+
+                // 확장변수를 정리
+                if($xml_obj->extra_vars) {
+                    $extra_var_groups = $xml_obj->extra_vars->group;
+                    if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+                    if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
+
+                    foreach($extra_var_groups as $group) {
+                        $extra_vars = $group->var;
+                        if(!is_array($group->var)) $extra_vars = array($group->var);
+
+                        foreach($extra_vars as $key => $val) {
+                            unset($obj);
+                            if(!$val->attrs->type) { $val->attrs->type = 'text'; }
+
+                            $obj->group = $group->title->body;
+                            $obj->name = $val->attrs->name;
+                            $obj->title = $val->title->body;
+                            $obj->type = $val->attrs->type;
+                            $obj->description = $val->description->body;
+                            $obj->value = $extra_vals->{$obj->name};
+                            $obj->default = $val->attrs->default;
+                            if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
+                            if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
+
+                            // 'select'type에서 option목록을 구한다.
+                            if(is_array($val->options)) {
+                                $option_count = count($val->options);
+
+                                for($i = 0; $i < $option_count; $i++) {
+                                    $obj->options[$i]->title = $val->options[$i]->title->body;
+                                    $obj->options[$i]->value = $val->options[$i]->attrs->value;
+                                }
+                            } else {
+                                $obj->options[0]->title = $val->options[0]->title->body;
+                                $obj->options[0]->value = $val->options[0]->attrs->value;
+                            }
+
+                            $skin_info->extra_vars[] = $obj;
+                        }
+                    }
+                }
+
+                // history
+                if($xml_obj->history) {
+                    if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
+                    else $history = $xml_obj->history;
+
+                    foreach($history as $item) {
+                        unset($obj);
+
+                        if($item->author) {
+                            (!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
+
+                            foreach($obj->author_list as $author) {
+                                unset($author_obj);
+                                $author_obj->name = $author->name->body;
+                                $author_obj->email_address = $author->attrs->email_address;
+                                $author_obj->homepage = $author->attrs->link;
+                                $obj->author[] = $author_obj;
+                            }
+                        }
+
+                        $obj->name = $item->name->body;
+                        $obj->email_address = $item->attrs->email_address;
+                        $obj->homepage = $item->attrs->link;
+                        $obj->version = $item->attrs->version;
+                        $obj->date = $item->attrs->date;
+                        $obj->description = $item->description->body;
+
+                        if($item->log) {
+                            (!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
+
+                            foreach($obj->log as $log) {
+                                unset($log_obj);
+                                $log_obj->text = $log->body;
+                                $log_obj->link = $log->attrs->link;
+                                $obj->logs[] = $log_obj;
+                            }
+                        }
+
+                        $skin_info->history[] = $obj;
+                    }
+                }
+
+
+            } else {
+
+                // skin format v0.1
+                sscanf($xml_obj->maker->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+
+                $skin_info->version = $xml_obj->version->body;
+                $skin_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $skin_info->homepage = $xml_obj->link->body;
+                $skin_info->license = $xml_obj->license->body;
+                $skin_info->license_link = $xml_obj->license->attrs->link;
+                $skin_info->description = $xml_obj->maker->description->body;
+
+                $skin_info->author[0]->name = $xml_obj->maker->name->body;
+                $skin_info->author[0]->email_address = $xml_obj->maker->attrs->email_address;
+                $skin_info->author[0]->homepage = $xml_obj->maker->attrs->link;
+
+                // 스킨에서 사용되는 변수들
+                $extra_var_groups = $xml_obj->extra_vars->group;
+                if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+                if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
+
+                foreach($extra_var_groups as $group){
+                    $extra_vars = $group->var;
+
+                    if($extra_vars) {
+
+                        if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+
+                        foreach($extra_vars as $var) {
+                            unset($obj);
+                            unset($options);
+
+                            $group = $group->title->body;
+                            $name = $var->attrs->name;
+                            $type = $var->attrs->type;
+                            $title = $var->title->body;
+                            $description = $var->description->body;
+
+                            // 'select'type에서 option목록을 구한다.
+                            if(is_array($var->default)) {
+                                $option_count = count($var->default);
+
+                                for($i = 0; $i < $option_count; $i++) {
+                                    $options[$i]->title = $var->default[$i]->body;
+                                    $options[$i]->value = $var->default[$i]->body;
+                                }
+                            } else {
+                                $options[0]->title = $var->default->body;
+                                $options[0]->value = $var->default->body;
+                            }
+
+                            $width = $var->attrs->width;
+                            $height = $var->attrs->height;
+
+                            unset($obj);
+                            $obj->group = $group;
+                            $obj->title = $title;
+                            $obj->description = $description;
+                            $obj->name = $name;
+                            $obj->type = $type;
+                            $obj->options = $options;
+                            $obj->width = $width;
+                            $obj->height = $height;
+                            $obj->default = $options[0]->value;
+
+                            $skin_info->extra_vars[] = $obj;
+                        }
+                    }
+                }
+            }
 
             // colorset
             $colorset = $xml_obj->colorset->color;
@@ -262,54 +434,6 @@
                     $obj->title = $title;
                     $obj->screenshot = $screenshot;
                     $skin_info->colorset[] = $obj;
-                }
-            }
-
-            // 스킨에서 사용되는 변수들
-            $extra_var_groups = $xml_obj->extra_vars->group;
-            if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
-            if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
-
-            foreach($extra_var_groups as $group){
-                $extra_vars = $group->var;
-
-                if($extra_vars) {
-
-                    if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-
-                    foreach($extra_vars as $var) {
-                        unset($obj);
-
-                        $group = $group->title->body;
-                        $name = $var->attrs->name;
-                        $type = $var->attrs->type;
-                        $title = $var->title->body;
-                        $description = $var->description->body;
-
-                        if($var->default) {
-                            unset($default);
-                            if(is_array($var->default)) {
-                                for($i=0;$i<count($var->default);$i++) $default[] = $var->default[$i]->body;
-                            } else {
-                                $default = $var->default->body;
-                            }
-                        }
-
-                        $width = $var->attrs->width;
-                        $height = $var->attrs->height;
-
-                        unset($obj);
-                        $obj->group = $group;
-                        $obj->title = $title;
-                        $obj->description = $description;
-                        $obj->name = $name;
-                        $obj->type = $type;
-                        $obj->default = $default;
-                        $obj->width = $width;
-                        $obj->height = $height;
-
-                        $skin_info->extra_vars[] = $obj;
-                    }
                 }
             }
 
@@ -520,6 +644,49 @@
                     $module_info->author[] = $author_obj;
                 }
 
+                // history
+                if($xml_obj->history) {
+                    if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
+                    else $history = $xml_obj->history;
+
+                    foreach($history as $item) {
+                        unset($obj);
+
+                        if($item->author) {
+                            (!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
+
+                            foreach($obj->author_list as $author) {
+                                unset($author_obj);
+                                $author_obj->name = $author->name->body;
+                                $author_obj->email_address = $author->attrs->email_address;
+                                $author_obj->homepage = $author->attrs->link;
+                                $obj->author[] = $author_obj;
+                            }
+                        }
+
+                        $obj->name = $item->name->body;
+                        $obj->email_address = $item->attrs->email_address;
+                        $obj->homepage = $item->attrs->link;
+                        $obj->version = $item->attrs->version;
+                        $obj->date = $item->attrs->date;
+                        $obj->description = $item->description->body;
+
+                        if($item->log) {
+                            (!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
+
+                            foreach($obj->log as $log) {
+                                unset($logs_obj);
+                                $logs_obj->text = $log->body;
+                                $logs_obj->link = $log->attrs->link;
+                                $obj->logs[] = $logs_obj;
+                            }
+                        }
+
+                        $module_info->history[] = $obj;
+                    }
+                }
+
+
             } else {
                 // module format 0.1
                 $module_info->title = $xml_obj->title->body;
@@ -533,45 +700,6 @@
                 $author_obj->email_address = $xml_obj->author->attrs->email_address;
                 $author_obj->homepage = $xml_obj->author->attrs->link;
                 $module_info->author[] = $author_obj;
-            }
-
-            // history
-            if($xml_obj->history) {
-                if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
-                else $history = $xml_obj->history;
-
-                foreach($history as $item) {
-                    unset($obj);
-
-                    if($item->author) {
-                        (!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
-
-                        foreach($obj->author_list as $author) {
-                            unset($author_obj);
-                            $author_obj->name = $author->name->body;
-                            $author_obj->email_address = $author->attrs->email_address;
-                            $author_obj->homepage = $author->attrs->link;
-                            $obj->author[] = $author_obj;
-                        }
-                    }
-
-                    $obj->name = $item->name->body;
-                    $obj->email_address = $item->attrs->email_address;
-                    $obj->homepage = $item->attrs->link;
-                    $obj->version = $item->attrs->version;
-                    $obj->date = $item->attrs->date;
-                    $obj->description = $item->description->body;
-
-                    if($item->log) {
-                        (!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
-
-                        foreach($obj->log as $log) {
-                            $obj->logs[] = $log->body;
-                        }
-                    }
-
-                    $module_info->history[] = $obj;
-                }
             }
 
             // action 정보를 얻어서 admin_index를 추가

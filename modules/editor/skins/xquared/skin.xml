@@ -1,37 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<skin>
-  <title xml:lang="ko">ZeroboardXE Xquared Editor Skin</title>
-  <title xml:lang="zh-CN">Xquared编辑器皮肤</title>
-  <title xml:lang="en">ZeroboardXE Xquared Editor Skin</title>
-  <title xml:lang="jp">ZeroboardXE Xquared Editor Skin</title>
-  <maker email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net" date="2007. 11. 21">
-    <name xml:lang="ko">haneul</name>
-    <name xml:lang="zh-CN">haneul</name>
-    <name xml:lang="en">haneul</name>
-    <name xml:lang="jp">Haneul</name>
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">ZeroboardXE Xquared Editor Skin</title>
+    <title xml:lang="zh-CN">Xquared编辑器皮肤</title>
+    <title xml:lang="en">ZeroboardXE Xquared Editor Skin</title>
+    <title xml:lang="jp">ZeroboardXE Xquared Editor Skin</title>
     <description xml:lang="ko">
-	오픈소스 에디터인 Xquared를 이용한 위지윅 에디터입니다.
-	자세한 정보는 Xquared 홈페이지를 참조하세요.
-	http://labs.openmaru.com/projects/xquared
-	Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
+        오픈소스 에디터인 Xquared를 이용한 위지윅 에디터입니다.
+        자세한 정보는 Xquared 홈페이지를 참조하세요.
+        http://labs.openmaru.com/projects/xquared
+        Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
     </description>
     <description xml:lang="zh-CN">
-	开源编辑器Xquared皮肤。
-	详细信息请访问Xquared主页。
-	http://labs.openmaru.com/projects/xquared
-	Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
+        开源编辑器Xquared皮肤。
+        详细信息请访问Xquared主页。
+        http://labs.openmaru.com/projects/xquared
+        Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
     </description>
     <description xml:lang="en">
-	This is the editor skin based on the open source WYSIWYG Editor, Xquared.
-	You can find more deatiled information from Xquared's official homepage.
-	http://labs.openmaru.com/projects/xquared/
-	Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
+        This is the editor skin based on the open source WYSIWYG Editor, Xquared.
+        You can find more deatiled information from Xquared's official homepage.
+        http://labs.openmaru.com/projects/xquared/
+        Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
     </description>
-	<description xml:lang="jp">
-	オープンソースのエディターであるXquaredを利用したウイジウイグエディターです。
-	詳細な情報は、 Xquared サイトを参照してください。
-	http://labs.openmaru.com/projects/xquared
-	Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
+    <description xml:lang="jp">
+        オープンソースのエディターであるXquaredを利用したウイジウイグエディターです。
+        詳細な情報は、 Xquared サイトを参照してください。
+        http://labs.openmaru.com/projects/xquared
+        Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
     </description>
-  </maker>
+    <version>0.1</version>
+    <date>2007-11-21</date>
+    <link>http://www.zeroboard.com</link>
+
+    <author email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net">
+        <name xml:lang="ko">haneul</name>
+        <name xml:lang="zh-CN">haneul</name>
+        <name xml:lang="en">haneul</name>
+        <name xml:lang="jp">Haneul</name>
+    </author>
 </skin>

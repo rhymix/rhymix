@@ -1,65 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
-<skin>
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
     <title xml:lang="ko">라이프팟 연동 기본 스킨</title>
     <title xml:lang="zh-CN">Lifepod默认皮肤</title>
     <title xml:lang="en">Lifepod Module Basic Skin</title>
-	<title xml:lang="es">Lifepod módulo básico piel</title>
-	<title xml:lang="ru">Lifepod модуль базовой кожи</title>
+    <title xml:lang="es">Lifepod módulo básico piel</title>
+    <title xml:lang="ru">Lifepod модуль базовой кожи</title>
     <title xml:lang="jp">ライフポッド連動のデフォルトスキン</title>
-    <maker email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net" date="2007.11.30">
+    <description xml:lang="ko">라이프팟 노트 연동 모듈의 기본 스킨</description>
+    <description xml:lang="zh-CN">Lifepod默认皮肤。</description>
+    <description xml:lang="en">Default Skin of Lifepod Module</description>
+    <description xml:lang="es">Por defecto de la piel Lifepod módulo</description>
+    <description xml:lang="ru">По умолчанию кожи Lifepod модуль</description>
+    <description xml:lang="jp">ライフポッドノート連動モジュールのデフォルトスキン</description>
+    <version>0.1</version>
+    <date>2007-11-30</date>
+    <link>http://www.zeroboard.com</link>
+
+    <author email_address="haneul0318@gmail.com" link="http://haneul.zetyx.net">
         <name xml:lang="ko">haneul</name>
         <name xml:lang="zh-CN">haneul</name>
         <name xml:lang="en">haneul</name>
-		<name xml:lang="es">haneul</name>
-		<name xml:lang="ru">haneul</name>
+        <name xml:lang="es">haneul</name>
+        <name xml:lang="ru">haneul</name>
         <name xml:lang="jp">haneul</name>
-        <description xml:lang="ko">라이프팟 노트 연동 모듈의 기본 스킨</description>
-        <description xml:lang="zh-CN">Lifepod默认皮肤。</description>
-        <description xml:lang="en">Default Skin of Lifepod Module</description>
-		<description xml:lang="es">Por defecto de la piel Lifepod módulo</description>
-		<description xml:lang="ru">По умолчанию кожи Lifepod модуль</description>
-        <description xml:lang="jp">ライフポッドノート連動モジュールのデフォルトスキン</description>
-    </maker>
+    </author>
+
     <colorset>
         <color name="white" src="screenshot/white.gif">
             <title xml:lang="ko">하얀색(기본)</title>
             <title xml:lang="zh-CN">白色(默认)</title>
             <title xml:lang="en">White (default)</title>
-			<title xml:lang="es">Blanco (por defecto)</title>
-			<title xml:lang="ru">Белые (по умолчанию)</title>
+            <title xml:lang="es">Blanco (por defecto)</title>
+            <title xml:lang="ru">Белые (по умолчанию)</title>
             <title xml:lang="jp">白(デフォルト)</title>
         </color>
     </colorset>
+
     <extra_vars>
         <var name="title" type="text">
             <title xml:lang="ko">게시판 제목</title>
             <title xml:lang="zh-CN">版面标题</title>
             <title xml:lang="en">Title of Board</title>
-			<title xml:lang="es">Título de la Junta</title>
-			<title xml:lang="ru">Название совета</title>
+            <title xml:lang="es">Título de la Junta</title>
+            <title xml:lang="ru">Название совета</title>
             <title xml:lang="jp">掲示板のタイトル</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
             <description xml:lang="zh-CN">请输入版面标题。</description>
             <description xml:lang="en">Please input the title of board.</description>
-			<description xml:lang="es">Introduce el título de la junta.</description>
-			<description xml:lang="ru">Введите название борту.</description>
+            <description xml:lang="es">Introduce el título de la junta.</description>
+            <description xml:lang="ru">Введите название борту.</description>
             <description xml:lang="jp">掲示板のタイトルを記入してください。</description>
         </var>
         <var name="korean_anniversary" type="select">
             <title xml:lang="ko">한국 기념일 표시</title>
             <title xml:lang="zh-CN">显示韩国纪念日</title>
             <title xml:lang="en">Display Korean Anniversary</title>
-			<title xml:lang="es">Mostrar Korean aniversario</title>
-			<title xml:lang="ru">Дисплей корейский летие</title>
+            <title xml:lang="es">Mostrar Korean aniversario</title>
+            <title xml:lang="ru">Дисплей корейский летие</title>
             <title xml:lang="jp">韓国記念日表示</title>
             <description xml:lang="ko">한국의 기념일을 표시합니다.</description>
             <description xml:lang="zh-CN">设置是否要显示韩国纪念日。</description>
             <description xml:lang="en">It will display Korean anniversaries.</description>
-			<description xml:lang="es">Su función es mostrar de Korea aniversarios.</description>
-			<description xml:lang="ru">Он будет показывать корейский годовщин.</description>
+            <description xml:lang="es">Su función es mostrar de Korea aniversarios.</description>
+            <description xml:lang="ru">Он будет показывать корейский годовщин.</description>
             <description xml:lang="jp">韓国の記念日を表示します。</description>
-            <default>use</default>
-            <default>notuse</default>
+            <options value="use">
+                <title xml:lang="ko">사용</title>
+            </options>
+            <options value="notuse">
+                <title xml:lang="ko">사용 안 함</title>
+            </options>
         </var>
     </extra_vars>
 </skin>

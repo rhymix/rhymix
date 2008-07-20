@@ -1,33 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<skin>
-  <title xml:lang="ko">XE 최신글 스킨 (Select 메뉴)</title>
-  <title xml:lang="jp">XE 最新書き込みスキン（Select メニュー）</title>
-  <title xml:lang="zh-CN">XE最新主题样式皮肤(Select菜单)</title>
-  <title xml:lang="en">XE Newest Article Skin (Select menu)</title>
-  <maker email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 11. 5">
-    <name xml:lang="ko">Simulz</name>
-    <name xml:lang="jp">Simulz</name>
-	<name xml:lang="zh-CN">Simulz</name>
-	<name xml:lang="en">Simulz</name>
-    <description xml:lang="ko">
-        XE 공식 레이아웃에 적합한 최신글 스킨입니다.
-    </description>
-    <description xml:lang="jp">
-        XE オフィシャルレイアウトに最も適した最新書き込みスキンです。
-    </description>
-	<description xml:lang="zh-CN">
-        XE最新主题样式皮肤。
-    </description>
-	<description xml:lang="en">
-        This is a newest article skin that is suitable for XE official layout.
-    </description>
-  </maker>
-  <colorset>
-    <color name="select">
-      <title xml:lang="ko">Select</title>
-      <title xml:lang="jp">Select</title>
-	  <title xml:lang="zh-CN">Select</title>
-	  <title xml:lang="en">Select</title>
-    </color>
-  </colorset>
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE 최신글 스킨 (Select 메뉴)</title>
+    <title xml:lang="jp">XE 最新書き込みスキン（Select メニュー）</title>
+    <title xml:lang="zh-CN">XE最新主题样式皮肤(Select菜单)</title>
+    <title xml:lang="en">XE Newest Article Skin (Select menu)</title>
+    <description xml:lang="ko">XE 공식 레이아웃에 적합한 최신글 스킨입니다.</description>
+    <description xml:lang="jp">XE オフィシャルレイアウトに最も適した最新書き込みスキンです。</description>
+    <description xml:lang="zh-CN">XE最新主题样式皮肤。</description>
+    <description xml:lang="en">This is a newest article skin that is suitable for XE official layout.</description>
+    <version>0.1</version>
+    <date>2007-11-05</date>
+    <link>http://www.zeroboard.com</link>
+
+    <author email_address="simulz@simulz.com" link="http://php.simulz.com">
+        <name xml:lang="ko">Simulz</name>
+        <name xml:lang="jp">Simulz</name>
+        <name xml:lang="zh-CN">Simulz</name>
+        <name xml:lang="en">Simulz</name>
+    </author>
+
+    <colorset>
+        <color name="select">
+            <title xml:lang="ko">Select</title>
+            <title xml:lang="jp">Select</title>
+            <title xml:lang="zh-CN">Select</title>
+            <title xml:lang="en">Select</title>
+        </color>
+    </colorset>
 </skin>
