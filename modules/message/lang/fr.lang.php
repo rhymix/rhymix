@@ -2,7 +2,7 @@
     /**
      * @file   modules/message/lang/en.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  English language pack (basic)
+     * @brief  Paque de la langue française (basic)
      **/
 
     $lang->message = 'Montrer Erreurs';
