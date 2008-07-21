@@ -1,7 +1,7 @@
 <?php
     /**
-     * @file   modules/message/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @file   modules/message/lang/fr.lang.php
+     * @author zero <zero@nzeo.com> traduit par duvent <duvent@gamil.com>
      * @brief  Paquet en français (basic)
      **/
 
