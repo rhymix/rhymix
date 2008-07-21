@@ -311,7 +311,7 @@ function editor_insert_file(editor_sequence) {
         var file_obj = uploaded_files[file_srl];
         var filename = file_obj.filename;
         var sid = file_obj.sid;
-        var url = file_obj.uploaded_filename.replace(request_uri,'');
+        var url = file_obj.uploaded_filename.replace(/(.*)files\/(.*)/i,'files/$2');
 
         // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
         if(url.indexOf("binaries")==-1) {
@@ -328,7 +328,7 @@ function editor_insert_file(editor_sequence) {
             // binary파일의 경우 url_link 컴포넌트 연결 
         } else {
             var mid = fo_obj.mid.value;
-            var url = request_uri+"/?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
+            var url = "./?module=file&amp;act=procFileDownload&amp;file_srl="+file_srl+"&amp;sid="+sid;
             var text = "<a href=\""+url+"\">"+filename+"</a>\n";
             editorReplaceHTML(iframe_obj, text);
         } 
