@@ -54,7 +54,7 @@ RewriteRule ^([a-zA-Z0-9_]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&page=$2 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)$ ./index.php?mid=$1&category=$2 [L]
 
 # mid + act + document_Srl 
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$3&act=$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z])([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$4&act=$2$3 [L]
 
 # mid + document_Srl + page
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2&page=$3 [L]
