@@ -314,7 +314,9 @@
      **/
     function debugPrint($buff = null, $display_line = true) {
         $debug_file = _XE_PATH_."files/_debug_message.php";
-        $buff = sprintf("%s\n",print_r($buff,true));
+        $bt = debug_backtrace();
+        $first = array_shift($bt);
+        $buff = sprintf("[%s:%d]\n%s\n", array_pop(split(DIRECTORY_SEPARATOR, $first["file"])), $first["line"], print_r($buff,true));
 
         if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
 
