@@ -148,7 +148,7 @@
     $lang->about_allow_mailing = "If you don't join mailing, you will not able to receive group mail";
     $lang->about_denied = 'Check to prohibit the ID';
     $lang->about_is_admin = 'Check to give Superadmin permission';
-    $lang->about_description = "Administrator's memo about members";
+    $lang->about_member_description = "Administrator's memo about members";
     $lang->about_group = 'An ID can belong to many groups';
 
     $lang->about_column_type = 'Please set the format of additional sign up form';
