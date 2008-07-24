@@ -40,7 +40,7 @@
     $lang->msg_cannot_delete_for_child = 'Un menu qui a des enfants ne peut pas être effacé.';
 
     $lang->about_title = 'Entrez le titre qui est facile à vérifier quand on le connecte à un module.';
-    $lang->about_menu_management = "Management de Menu vous permet composer le menu dans la mise en page management choisie.\nVous pouvez créer le menu jusqu'au niveau permis et entrer des informations détaillées en cliquant le menu.\nMenu sera étendu en cliquant l'image de dossier.\nSi le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le button \"Recréer fichier cache\".\n* Menu cré qui passe plus que le niveau permis ne pourra pas être représenté correctement.";
+    $lang->about_menu_management = "Management de Menu vous permet composer le menu dans la mise en page management choisie.\nVous pouvez créer le menu jusqu'au niveau permis et entrer des informations détaillées en cliquant le menu.\nMenu sera étendu en cliquant l'image de dossier.\nSi le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le button \"Recréer \'antémémoire de fichier\".\n* Menu cré qui passe plus que le niveau permis ne pourra pas être représenté correctement.";
     $lang->about_menu_name = 'Le nom sera représenté comme le nom de menu si ce n\'est pas le bouton en image ou le bouton pour administrer.';
     $lang->about_menu_url = "C'est le URL où l'on bouge quand on choisit le menu.<br />Vous pouvez enter la valeur d'identité(nom d'idendité) seulement pour lier à un autre module.<br />Si nul contenu n'existe, rien aura lieu même si l'on clique le menu.";
     $lang->about_menu_open_window = 'Vous pouvez faire ouvrir une page dans une nouvelle fenêtre quand le menu est cliqué.';

@@ -58,7 +58,7 @@
     $lang->cmd_scrap = 'Coupure';
     $lang->cmd_preview = 'Avant-première';
     $lang->cmd_reset = 'Restaurer';
-    $lang->cmd_remake_cache = "Recréer la Cachette du Fichier";
+    $lang->cmd_remake_cache = "Recréer l'antémémoire du Fichier";
     $lang->cmd_publish = "Publier";
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
