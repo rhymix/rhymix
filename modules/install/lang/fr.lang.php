@@ -194,32 +194,32 @@ EndOfLicense;
     $lang->cmd_install_next = 'Continuer à  installer';
 
     $lang->db_desc = array(
-        'mysql' => 'Utilisera mysql*() function pour utiliser mysql DB.<br />La transaction sera invalidé parce que le fichier de DB est créé par myisam.',
-        'mysql_innodb' => 'Utilisera innodb pour utiliser mysql DB.<br />La transaction sera validé pour  innodb',
-        'sqlite2' => 'Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de DB dans une place que l\'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)',
-        'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de DB dans une place que l\'on ne peut pas accéder par web.',
-        'cubrid' => 'Utiliser CUBRID DB.',
-        'postgresql' => 'Utiliser PostgreSql DB.',
-        'firebird' => 'Utiliser firebird DB.',
+        'mysql' => 'Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.',
+        'mysql_innodb' => 'Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb',
+        'sqlite2' => 'Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l\'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)',
+        'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l\'on ne peut pas accéder par web.',
+        'cubrid' => 'Utiliser la Base de Données de CUBRID.',
+        'postgresql' => 'Utiliser la Base de Données de PostgreSql.',
+        'firebird' => 'Utiliser la Base de Données de firebird.',
     );
 
-    $lang->form_title = 'Entrer des informations de  DB(Base de données) et Administrateur';
-    $lang->db_title = 'Entrez l\'information de DB, SVP.';
-    $lang->db_type = 'Type de DB';
-    $lang->select_db_type = 'Choisissez la DB que vous voulez utiliser.';
-    $lang->db_hostname = 'Hostname(Nom de l\'ordinateur central) de DB (LOCALHOST généralement)';
-    $lang->db_port = 'Port de DB';
-    $lang->db_userid = 'ID(compte) pour le DB';
-    $lang->db_password = 'Mot de passe pour le DB';
-    $lang->db_database = 'Nom de DB';
-    $lang->db_database_file = 'Fichier de DB';
+    $lang->form_title = 'Entrer des informations de Base de données et Administrateur';
+    $lang->db_title = 'Entrez l\'information de Base de Données, S.V.P.';
+    $lang->db_type = 'Type de Base de Données';
+    $lang->select_db_type = 'Choisissez la Base de Données que vous voulez utiliser.';
+    $lang->db_hostname = 'Hostname(Nom de l\'ordinateur central) de Base de Données (LOCALHOST généralement)';
+    $lang->db_port = 'Port de Base de Données';
+    $lang->db_userid = 'ID(compte) pour le Base de Données';
+    $lang->db_password = 'Mot de passe pour le Base de Données';
+    $lang->db_database = 'Nom de Base de Données';
+    $lang->db_database_file = 'Fichier de Base de Données';
     $lang->db_table_prefix = 'En-tête de la table';
 
     $lang->admin_title = 'Informations d\'Administrateur';
 
     $lang->env_title = 'Configuration';
     $lang->use_optimizer = 'Valider Optimiseur';
-    $lang->about_optimizer = 'Si l\' optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et  comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l\'invalider, ça marchera correctement pourtant il marchera plus lentement.';
+    $lang->about_optimizer = 'Si l\' optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et  comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l\'invalidez, ça marchera correctement pourtant il marchera plus lentement.';
     $lang->use_rewrite = 'Utiliser mode de  récrire(rewrite mod)';
     $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
     $lang->time_zone = 'Fuseau horaire';
@@ -234,8 +234,8 @@ EndOfLicense;
 
     $lang->msg_cannot_proc = 'Environnement d\'Installation n\'est pas propre à procéder.';
     $lang->msg_already_installed = 'Zeroboard est déjà installé';
-    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter DB.\nVérifiez encore une fois les informations sur DB, SVP.";
-    $lang->msg_table_is_exists = "La Table est déjà créée dans le DB.\nLe fichier de Configuration est recréé.";
+    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter à la Base de Données.\nVérifiez encore une fois les informations sur la Base de Données, S.V.P.";
+    $lang->msg_table_is_exists = "La Table est déjà créée dans la Base de Données.\nLe fichier de Configuration est recréé.";
     $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir  Zeroboard XE";
     $lang->msg_install_failed = "Une erreur a lieu en créant le fichier d\'installation.";
 ?>

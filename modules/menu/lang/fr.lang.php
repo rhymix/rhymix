@@ -3,7 +3,7 @@
      * @file   modules/menu/lang/fr.lang.php
      * @author zero <zero@nzeo.com>
      * @brief  Paque de la langue primaire du module de Menu
-	 * @Traduit par duvent <duvent@gamail.com>
+	 * @Traduit par Pierre Duvent <PierreDuvent@gamail.com>
      **/
 
     $lang->cmd_menu_insert = 'Créer Menu';

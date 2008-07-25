@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/module/lang/fr.lang.php
-     * @author zero (zero@nzeo.com) traduit par duvent <duvent@gmail.com>
+     * @author zero (zero@nzeo.com) traduit par Pierre duvent <PierreDuvent@gmail.com>
      * @brief  Paquet en français 
      **/
 
@@ -20,7 +20,7 @@
     $lang->use_category = 'Utiliser catégorie';
     $lang->category_title = 'Titre de la Catégorie';
     $lang->checked_count = 'Nombre des Articles choisis';
-    $lang->skin_default_info = 'Information basic de l\'habillage';
+    $lang->skin_default_info = 'Information fondamental de l\'habillage';
     $lang->skin_author = 'Developpeur de l\'habillage';
     $lang->skin_license = 'Licence';
     $lang->skin_history = 'Histoire des Mises à jour';
@@ -44,7 +44,7 @@
     $lang->msg_grant_is_null = 'Il n\'y a pas de liste de permission.';
     $lang->msg_no_checked_document = 'Pas un article est choisi.';
     $lang->msg_move_failed = 'Echoué de bouber';
-    $lang->msg_cannot_delete_for_child = 'On ne peut pas effacer une catégorie qui a des catégorie enfant.';
+    $lang->msg_cannot_delete_for_child = 'On ne peut pas supprimer une catégorie qui a des catégorie enfant.';
 
     $lang->about_browser_title = "C'est la valeur qui se représentera dans le titre de navigateur. Ce sera encore utilisé dans RSS/Rétrolien.";
     $lang->about_mid = "Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis)";

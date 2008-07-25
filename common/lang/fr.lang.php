@@ -2,10 +2,10 @@
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paquet de La Langue  Francaise (Mots de base seulement) 
+     * @brief  Paquet de La Langue  Francaise (Mots fondamentaux seulement) 
      **/
 
-    // 	verbes et mots de base decrivant des actions 
+    // 	verbes et mots fondamentaux qui décrivent des actions 
     $lang->cmd_write = 'Ecrire';
     $lang->cmd_reply = 'Répondre';
     $lang->cmd_delete = 'Effacer';

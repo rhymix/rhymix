@@ -38,7 +38,7 @@
     $lang->image_mark_max_height = 'Hauteur Maximum';
 	$lang->signature_max_height = 'Hauteur Maximum de la Signature';
     $lang->enable_openid = 'Permettre OpenID';
-    $lang->enable_join = 'Permettre inscrire';
+    $lang->enable_join = 'Permettre l\'inscription';
     $lang->enable_confirm = 'Utiliser Authentification par mél';
 	$lang->enable_ssl = 'Utiliser SSL';
 	$lang->security_sign_in = 'Ouvrir une Session en utilisant sécurité rehaussé';
@@ -121,8 +121,8 @@
     $lang->msg_exists_user_id = 'Le compte existe déjà. Essayez un autre.';
     $lang->msg_exists_email_adresse = 'L\'adresse mél existe déjà. Essayez une autre.';
     $lang->msg_exists_nick_name = 'Le surnom existe déjà. Essayez un autre.';
-    $lang->msg_signup_disabled = 'Vous ne pouvez pas inscrire.';
-    $lang->msg_already_logged = 'Vous avez déjà inscrit.';
+    $lang->msg_signup_disabled = 'Vous ne pouvez pas vous inscrire.';
+    $lang->msg_already_logged = 'Vous vous avez déjà inscrit.';
     $lang->msg_not_logged = 'Ouvrez une session d\'abord';
     $lang->msg_insert_group_name = 'Entrez le nom de groupe, S.V.P.';
     $lang->msg_check_group = 'Choisissez le groupe';
@@ -145,7 +145,7 @@
     $lang->about_homepage = 'Entrez  si vous avez un site Web.';
     $lang->about_blog_url = 'Entrez si vous avez un blogue.';
     $lang->about_birthday = 'Entrez votre anniversaire.';
-    $lang->about_allow_mailing = "Si vous n'inscrivez pas sur mailing, vous ne pouvez pas recevoir mél du groupe.";
+    $lang->about_allow_mailing = "Si vous n'enrégistrez pas sur mailing, vous ne pouvez pas recevoir le mél du groupe.";
     $lang->about_denied = 'Cocher pour interdire le compte';
     $lang->about_is_admin = 'Cocher pour autoriser la permission de Superadministrateur';
     $lang->about_member_description = "L\'Administrateur peut noter sur le membre";
@@ -153,21 +153,21 @@
 
     $lang->about_column_type = 'Choisissez la formule du champ que vous voulez ajouter';
     $lang->about_column_name = 'Entrez le nom composé en alphabet qui peut être utilisé dans le modèle (nom comme variable)';
-    $lang->about_column_title = 'Ce titre sera exposé sur la formule pour inscrire ou sur l\'écran pour modifier/voir les informations de membre';
+    $lang->about_column_title = 'Ce titre sera exposé sur la formule d\'inscription ou sur l\'écran pour modifier/voir les informations de membre';
     $lang->about_default_value = 'Vous pouvez mettre les valeurs par défaut';
     $lang->about_active = 'Vous devez cocher sur les éléments actifs pour les exposer sur la formule d\'inscription';
     $lang->about_form_description = 'Si vous entrez dans le champ du description, elle sera exposé sur la formule d\'incription';
-    $lang->about_required = 'Si vous cochez, ce sera obligatoire pour inscrire';
+    $lang->about_required = 'Si vous cochez, ce sera obligatoire pour s\'inscrire';
 
     $lang->about_enable_openid = 'Cochez si vous voulez permettre OpenID';
-    $lang->about_enable_join = 'Cochez si vous voulez permettre inscrire';
-    $lang->about_enable_confirm = 'Envoyer mél de confirmation pour compléter inscription.';
+    $lang->about_enable_join = 'Cochez si vous voulez permettre l\'inscription';
+    $lang->about_enable_confirm = 'Envoyer mél de confirmation pour compléter l\'inscription.';
     $lang->about_enable_ssl = 'Les informations personnelles (Inscription / Modification des informations du membre / Connexion) peuvent être envoyées comme mode SSL(https) si le serveur offre le service SSL.';
     $lang->about_limit_day = 'Vous pouvez limiter le jour de certification après l\'inscription';
     $lang->about_limit_date = 'Utilisateur ne peut pas ouverir la connexion jusqu\'au jour assigné';
-    $lang->about_after_login_url = 'Vous pouvez indiquer URL où l\'on va après la connexion. Le vide signifie la page courrante.';
+    $lang->about_after_login_url = 'Vous pouvez indiquer URL où l\'on va après la connexion. Le vide signifie la page courante.';
     $lang->about_after_logout_url = 'Vous pouvez indiquer URL où l\'on va après la déconnexion. Le vide signifie la page courrante.';
-    $lang->about_redirect_url = 'Entrez URL où l\'utilisateur irra après l\'inscription, S.V.P. Si c\'est vide, ce sera la page précédente de la page d\'inscrire.';
+    $lang->about_redirect_url = 'Entrez URL où l\'utilisateur irra après l\'inscription, S.V.P. Si c\'est vide, ce sera la page précédente de la page d\'inscription.';
     $lang->about_agreement = "L\'Accord d\'Inscription comme Membre sera exposé seulement quand il n'est pas vide.";
 
     $lang->about_image_name = "Permettre aux utilisateurs utiliser une image pour présenter leurs noms au lieu des lettres";
@@ -175,10 +175,10 @@
     $lang->about_profile_image = 'Permettre aux utilisateurs utiliser une image de profil';
     $lang->about_accept_agreement = "J\'ai lu l\'Accord et je suis d\'accord."; 
 
-    $lang->about_member_default = 'On sera dans ce groupe après l\'inscription par défaut';
+    $lang->about_member_default = 'On sera par défaut dans ce groupe après l\'inscription';
 
-    $lang->about_openid = 'Si vous inscrivez avec OpenID, vos informations primaires comme le Compte(ID) soit l\'adresse mél sera gardés sur ce site. Mais le procès pour le Mot de Passe et la certification sera fait sur le service courrant qui offre OpenID';
-    $lang->about_openid_leave = 'La sécession de OpenID nous fait effacer vos informations du membre dans notre site.<br />Si vous ouvrez la connexion après la sécession, nous vous reconnaîtrons comme un nouveau membre, c\'est-à-dire, vous n\'aurez plus la permission sur les articles que vous avez écrits avant.';
+    $lang->about_openid = 'Si vous vous inscrivez avec OpenID, vos informations primaires comme le Compte(ID) soit l\'adresse mél sera gardés sur ce site. Mais le procès pour le Mot de Passe et la certification sera fait sur le service courrant qui offre OpenID';
+    $lang->about_openid_leave = 'La sécession de OpenID nous fait supprimer vos informations du membre dans notre site.<br />Si vous ouvrez la connexion après la sécession, nous vous reconnaîtrons comme un nouveau membre, c\'est-à-dire, vous n\'aurez plus la permission sur les articles que vous avez écrits avant.';
 
     $lang->about_find_member_account = 'L\information de votre compte sera annoncé par le mél sur l\'inscription. <br />Entrez l\'adresse mél que vous avez entré sur l\'inscription et appuyez le bouton "Recherce l\'Information du Compte".<br />';
 

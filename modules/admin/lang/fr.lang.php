@@ -2,7 +2,7 @@
     /**
      * @file   modules/admin/lang/fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paquet de la Langue franaise (Les Mots base seulement sont  inclus ici)
+     * @brief  Paquet de la Langue franaise (Les Mots fondamentaux seulement sont inclus ici)
      **/
 
     $lang->admin_info = 'Informations d\'Administrateur';
@@ -13,7 +13,7 @@
         'manager' => 'Modules Administratif',
         'utility' => 'Modules d\'Utilité',
         'accessory' => 'Modules Additionnels',
-        'base' => 'Modules Fondamentals',
+        'base' => 'Modules Fondamentaux',
     );
 
     $lang->newest_news = "Dernières Nouvelles";
@@ -42,11 +42,11 @@
 
     $lang->msg_is_not_administrator = 'Administrateur seulement';
     $lang->msg_manage_module_cannot_delete = 'On ne peut pas supprimer les raccourcis pour les modules, les compagnons, les mises en page ou les gadgets';
-    $lang->msg_default_act_is_null = 'on ne peut pas enrégistrer les raccourcis parce que les Actions Par Défaut de l\'Administrateur ne sont pas établis';
+    $lang->msg_default_act_is_null = 'on ne peut pas enrégistrer les raccourcis parce que les Actions Par Défaut de l\'Administrateur ne sont pas établies';
 
     $lang->welcome_to_zeroboard_xe = 'Bienvenue sur la Page d\'Administration du Zeroboard XE';
     $lang->about_admin_page = "La Page d\'Administration est encore en train de développer,\nNous allons ajouter des contenus essentiels par accepter beauoup de bons suggestions pendant Béta Proche.";
-    $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] au-dessous. Les visiteurs vont voir toutes les menus et les messages en la langue que vous choisissez.";
+    $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] au-dessous. Les visiteurs vont voir toutes les menus et les messages en langue que vous choisissez.";
 
     $lang->zeroboard_xe_user_links = 'Liens pour les Utilisateurs';
     $lang->zeroboard_xe_developer_links = 'Liens pour les Développeur';
