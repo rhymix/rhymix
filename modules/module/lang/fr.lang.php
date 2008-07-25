@@ -32,10 +32,10 @@
     $lang->cmd_add_shortcut = "Ajouter un raccourci";
     $lang->cmd_install = "Installer";
     $lang->cmd_update = "Mettre à Jour";
-    $lang->cmd_manage_category = 'Manager des Catégories';
-    $lang->cmd_manage_grant = 'Manager des Permissions';
-    $lang->cmd_manage_skin = 'Manager des Habillages';
-    $lang->cmd_manage_document = 'Manager des Articles';
+    $lang->cmd_manage_category = 'Administrer des Catégories';
+    $lang->cmd_manage_grant = 'Administrer des Permissions';
+    $lang->cmd_manage_skin = 'Administrer des Habillages';
+    $lang->cmd_manage_document = 'Administrer des Articles';
 
     $lang->msg_new_module = "Créer un module";
     $lang->msg_update_module = "Modifier un module";
@@ -47,9 +47,9 @@
     $lang->msg_cannot_delete_for_child = 'On ne peut pas effacer une catégorie qui a des catégorie enfant.';
 
     $lang->about_browser_title = "C'est la valeur qui se représentera dans le titre de navigateur. Ce sera encore utilisé dans RSS/Rétrolien.";
-    $lang->about_mid = "Le nom de module sera utilisé comme http://address/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis)";
+    $lang->about_mid = "Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis)";
     $lang->about_default = "Si c'est coché, on verra ce module quand on connecte ce site sans aucune valeur de mid(mid=Nulle Valeur).";
-    $lang->about_module_category = "Ça vous permet manager le module par la catégorie.\nOn peut manager l'arrangement des modules à <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Management des modules > Catégorie des Modules </a>.";
+    $lang->about_module_category = "Ça vous permet administrer le module par la catégorie.\nOn peut administrer l'arrangement des modules à <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Administration des modules > Catégorie des Modules </a>.";
     $lang->about_description= 'C\'est la description pour la facilité à administrer.';
     $lang->about_default = 'Si c\'est coché, on verra ce module quand on connecte ce site sans aucune valeur de mid(mid=Nulle Valeur).';
     $lang->about_header_text = 'Ce contenu sera exposé en tête du module.(balise html disponible)';
@@ -61,7 +61,7 @@
     $lang->about_page_count = 'Vous pouvez établir combien de liens pour les pages à bouger en bas de chaque page.(default is 10)';
     $lang->about_admin_id = 'Vous pouvez désigner un directeur qui aura tous les permissions sur le module.\nVous pouvez entrer plusieurs compte en utilisant <br />,(comma) \n(mais le directeur ne peut pas encore approcher de la page d\'administrer du site.)';
     $lang->about_grant = 'Si vous ne donnez pas la permission à aucun niveau, même les membres qui n\'a pas ouvert la connexion auront la permission. '; 
-    $lang->about_module = "Zeroboard XE se compose des modules sauf la bibliothèque fondamental.\nLe module [Manager des Modules] montera tous les modules installés et vous aidera les manager.";
+    $lang->about_module = "Zeroboard XE se compose des modules sauf la bibliothèque fondamental.\nLe module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.";
 
 	$lang->about_extra_vars_default_value = 'Si plusieurs valeurs sont nécessaires, vous pouvez les connecter avec la virgule(,).';
 ?>

@@ -36,6 +36,6 @@
         'filesize' => 'Mesure de Fichier (octet, surplus)',
         'download_count' => 'Téléchargés (surplus)',
         'regdate' => 'Enrgistré',
-        'ipaddress' => 'Addresse IP',
+        'ipaddress' => 'Adresse IP',
     );
 ?>

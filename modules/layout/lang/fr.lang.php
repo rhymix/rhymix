@@ -25,7 +25,7 @@
     $lang->about_title = 'Entrez le titre facile pour distinguer quand vous le liez à un module.';
     $lang->about_not_apply_menu = 'Tous les Mises en Page qui sont liés sur le menu seront changés par cliquer cette option.';
 
-    $lang->about_layout = "Le module de Mise en Page vous aide à créer facilement le Mise en Page du site. <br />Vous pouvez présentez la forme du site web complèté par les modules divers en utilisant la configuration du Mise en Page et la connexion sur le menu. <br />* Les Mises en Page qui ne sont pas possibles à supprimer ou à modifier sont ceux des blogues ou d'autres Mises en Page.";
+    $lang->about_layout = "Le module de Mise en Page vous aide à créer facilement le Mise en Page du site. <br />Vous pouvez présentez la forme du site Web complèté par les modules divers en utilisant la configuration du Mise en Page et la connexion sur le menu. <br />* Les Mises en Page qui ne sont pas possibles à supprimer ou à modifier sont ceux des blogues ou d'autres Mises en Page.";
     $lang->about_layout_code = 
         "Vous conservez la code de Mise en Page après l'éditer, la code sera appliquée sur le service.
         Utilisez [Avant-première] avant conserver la code SVP.

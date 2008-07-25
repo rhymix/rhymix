@@ -58,13 +58,13 @@
 
     $lang->about_keep_signed = 'Malgré que le navigateur est fermé, votre session peut être ouverte. \n\nSi vous utilisez cette fonction sur l\'ordinateur commun, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l\'ordinateur commun.';
     $lang->about_webmaster_name = "Entrez le nom de webmestre qui va être utilisé pour le mél de certification ou l\'autre administration du site. (défaut : webmestre)";
-    $lang->about_webmaster_email = "Entrez l\'address du mél de webmestre, S.V.P.";
+    $lang->about_webmaster_email = "Entrez l\'adresse du mél de webmestre, S.V.P.";
 
     $lang->search_target_list = array(
         'user_id' => 'Compte',
         'user_name' => 'Nom',
         'nick_name' => 'Surnom',
-        'email_address' => 'Mél',
+        'email_adresse' => 'Mél',
         'regdate' => 'Jour d\'enregistrer',
         'last_login' => 'Jour de la connexion dernière',
         'extra_vars' => 'Variables extra ',
@@ -80,8 +80,8 @@
     $lang->cmd_find_member_account = 'J\'ai perdu le compte / le mot de passe';
 
     $lang->cmd_member_list = 'Liste de Membres';
-    $lang->cmd_module_config = 'Mise par Défaut';
-    $lang->cmd_member_group = 'Manage Groups';
+    $lang->cmd_module_config = 'Configuration par Défaut';
+    $lang->cmd_member_group = 'Administrer des Groupes';
     $lang->cmd_send_mail = 'Envoyer des Méls';
     $lang->cmd_manage_id = 'Administrer les Comptes Interdits';
     $lang->cmd_manage_form = 'Administrer la Forme d\'Inscription';
@@ -119,7 +119,7 @@
     $lang->msg_not_exists_member = "Membre Invalide";
     $lang->msg_cannot_delete_admin = 'Le Compte de l\'Administrateur ne pourra pas être supprimé. Disqualifiez l\'administration du compte et essayez encore une fois.';
     $lang->msg_exists_user_id = 'Le compte existe déjà. Essayez un autre.';
-    $lang->msg_exists_email_address = 'L\'adresse mél existe déjà. Essayez une autre.';
+    $lang->msg_exists_email_adresse = 'L\'adresse mél existe déjà. Essayez une autre.';
     $lang->msg_exists_nick_name = 'Le surnom existe déjà. Essayez un autre.';
     $lang->msg_signup_disabled = 'Vous ne pouvez pas inscrire.';
     $lang->msg_already_logged = 'Vous avez déjà inscrit.';
@@ -141,8 +141,8 @@
     $lang->about_password = 'Le Mot de passe doit être long de 6~20 lettres.';
     $lang->about_user_name = 'Le Nom doit être long de 2~20 lettres.';
     $lang->about_nick_name = 'Le Surnom doit être long de 2~20 lettres.';
-    $lang->about_email_address = 'L\'Adresse mél sera utilisé à modifier/trouver le mot de passe après la certification en mél.';
-    $lang->about_homepage = 'Entrez  si vous avez un site web.';
+    $lang->about_email_adresse = 'L\'Adresse mél sera utilisé à modifier/trouver le mot de passe après la certification en mél.';
+    $lang->about_homepage = 'Entrez  si vous avez un site Web.';
     $lang->about_blog_url = 'Entrez si vous avez un blogue.';
     $lang->about_birthday = 'Entrez votre anniversaire.';
     $lang->about_allow_mailing = "Si vous n'inscrivez pas sur mailing, vous ne pouvez pas recevoir mél du groupe.";
@@ -177,10 +177,10 @@
 
     $lang->about_member_default = 'On sera dans ce groupe après l\'inscription par défaut';
 
-    $lang->about_openid = 'Si vous inscrivez avec OpenID, vos informations primaires comme le Compte(ID) soit l\'address mél sera gardés sur ce site. Mais le procès pour le Mot de Passe et la certification sera fait sur le service courrant qui offre OpenID';
+    $lang->about_openid = 'Si vous inscrivez avec OpenID, vos informations primaires comme le Compte(ID) soit l\'adresse mél sera gardés sur ce site. Mais le procès pour le Mot de Passe et la certification sera fait sur le service courrant qui offre OpenID';
     $lang->about_openid_leave = 'La sécession de OpenID nous fait effacer vos informations du membre dans notre site.<br />Si vous ouvrez la connexion après la sécession, nous vous reconnaîtrons comme un nouveau membre, c\'est-à-dire, vous n\'aurez plus la permission sur les articles que vous avez écrits avant.';
 
-    $lang->about_find_member_account = 'L\information de votre compte sera annoncé par l\'address mél d\'inscription. <br />Entrez l\'address mél que vous avez entré en inscrivant et appuyez le bouton "Recherce l\'Information du Compte" button.<br />';
+    $lang->about_find_member_account = 'L\information de votre compte sera annoncé par le mél sur l\'inscription. <br />Entrez l\'adresse mél que vous avez entré sur l\'inscription et appuyez le bouton "Recherce l\'Information du Compte".<br />';
 
-	$lang->about_member = "C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/effacer des membres ou administrer les groupes et la formule d'inscription.\nVous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.";
+	$lang->about_member = "C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.\nVous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.";
 ?>

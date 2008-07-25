@@ -23,10 +23,10 @@
         'user_name' => 'Nom',
         'nick_name' => 'Surnom',
         'member_srl' => 'Member Serial',
-        'email_address' => 'Mél',
+        'email_adresse' => 'Mél',
         'homepage' => 'Page d\'Accueil',
         'regdate' => 'Jour',
         'last_update' => 'Mise à Jour',
-        'ipaddress' => 'Addresse IP',
+        'ipadresse' => 'Adresse IP',
     );
 ?>

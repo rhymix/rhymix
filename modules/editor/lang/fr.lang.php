@@ -72,7 +72,7 @@
     "h6" => "Titre 6",
     );
 
-    $lang->edit->submit = 'Valider';
+    $lang->edit->submit = 'Soumettre';
 
     $lang->edit->help_remove_format = "Supprimer les Tags dans l\'endroit sélectionné";
     $lang->edit->help_strike_through = "Représenter la ligne d\'annulation sur les lettres.";

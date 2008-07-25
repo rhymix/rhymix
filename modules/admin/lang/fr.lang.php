@@ -12,8 +12,8 @@
         'service' => 'Modules de Service',
         'manager' => 'Modules Administratif',
         'utility' => 'Modules d\'Utilité',
-        'accessory' => 'Modules Accessoires',
-        'base' => 'Modules par Défaut',
+        'accessory' => 'Modules Additionnels',
+        'base' => 'Modules Fondamentals',
     );
 
     $lang->newest_news = "Dernières Nouvelles";
@@ -28,20 +28,20 @@
     
     $lang->item_module = "Liste des Modules";
     $lang->item_addon  = "Liste des Compagnons";
-    $lang->item_widget = "Liste des Widgets";
+    $lang->item_widget = "Liste des Gadgets";
     $lang->item_layout = "Liste des Mises en Pages";
 
     $lang->module_name = "Nom de Module";
     $lang->addon_name = "Nom de Compagnon";
     $lang->version = "Version";
     $lang->author = "Auteur";
-    $lang->table_count = "Nombres de Tables";
+    $lang->table_count = "Somme de Tables";
     $lang->installed_path = "Chemin Installé";
 
     $lang->cmd_shortcut_management = "Editer le Menu";
 
     $lang->msg_is_not_administrator = 'Administrateur seulement';
-    $lang->msg_manage_module_cannot_delete = 'On ne peut pas effacer les raccourcis pour les modules, les compagnons, les mises en page ou les widgets';
+    $lang->msg_manage_module_cannot_delete = 'On ne peut pas supprimer les raccourcis pour les modules, les compagnons, les mises en page ou les gadgets';
     $lang->msg_default_act_is_null = 'on ne peut pas enrégistrer les raccourcis parce que les Actions Par Défaut de l\'Administrateur ne sont pas établis';
 
     $lang->welcome_to_zeroboard_xe = 'Bienvenue sur la Page d\'Administration du Zeroboard XE';
@@ -56,9 +56,9 @@
         //'Site Web Beta Proche' => 'http://spring.zeroboard.com',
         //'Conservation des Modules' => 'http://www.zeroboard.com',
         //'Conservation des Compagnons' => 'http://www.zeroboard.com',
-        //'Conservation des Widgets' => 'http://www.zeroboard.com',
+        //'Conservation des gadgets' => 'http://www.zeroboard.com',
         //'Conservation des Thèmes des Modules' => 'http://www.zeroboard.com',
-        //Conservation des Thèmes des 'Widgets' => 'http://www.zeroboard.com',
+        //Conservation des Thèmes des 'gadgets' => 'http://www.zeroboard.com',
         //'Conservation des Thèmes des Mises en Page' => 'http://www.zeroboard.com',
     );
 
@@ -84,5 +84,5 @@
     );
 
     $lang->xe_license = 'Zeroboard XE s\'applique la GPL';
-    $lang->about_shortcut = 'Vous pouvez effacer les raccourcis pour les modules qui sont enrgistrés sur le liste des modules utilisés fréquemment';
+    $lang->about_shortcut = 'Vous pouvez supprimer les raccourcis pour les modules qui sont enrgistrés sur le liste des modules utilisés fréquemment';
 ?>

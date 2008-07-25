@@ -7,7 +7,7 @@
 
     $lang->lifepod = "Lifepod";
 
-    $lang->calendar_address = "Addresse de XML du Calendrier";
+    $lang->calendar_address = "Adresse de XML du Calendrier";
     $lang->cmd_lifepod_list = 'Liste de Lifepod';
     $lang->cmd_view_info = 'Information de Lifepod.';
 

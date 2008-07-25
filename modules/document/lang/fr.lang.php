@@ -47,6 +47,6 @@
         'uploaded_count ' => 'Fichiers Attachés (surplus)',
         'regdate' => 'Enrégistré',
         'last_update' => 'La Derniere Mise à Jour',
-        'ipaddress' => 'Addresse IP',
+        'ipaddress' => 'Adresse IP',
     );
 ?>

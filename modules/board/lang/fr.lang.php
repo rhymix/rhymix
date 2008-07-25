@@ -36,5 +36,5 @@
     $lang->about_except_notice = "L'Article de Notice ne sera exposé sur la liste normale.";
     $lang->about_board = "Ce module se sert à créer et arranger des Panneaux.\nAprés avoir créé un module, si vous cliquez le nom sur le liste, vous pouvez configurer spécifiquement.\nFaites attention quand vous nomer un module du Panneau, car ce sera URL. (ex : http://domain/zb/?mid=nom_de_module)"; 
 	$lang->about_consultation = "Les membres non-administratifs verront seulement les ariticles d\'eux-même.\nNon-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.";
-    $lang->about_admin_mail = 'Un message eletronique sera envoyé pour l\'address inscrite quand un article ou commentaire se soumet <br />On peut inscrire multiple addresses délimité par les virgules.';
+    $lang->about_admin_mail = 'Un message éléctronique sera envoyé à l\'adresse inscrite quand un article ou commentaire se soumet. <br />On peut inscrire multiple adresses délimité par les virgules.';
 ?>
