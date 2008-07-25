@@ -26,10 +26,10 @@
     $lang->group = '所属グループ';
     $lang->group_title = 'グループタイトル';
     $lang->group_srl = 'グループ番号';
-    $lang->signature = '著名';
+    $lang->signature = '署名';
     $lang->profile_image = 'プロフィール写真';
     $lang->profile_image_max_width = '横幅サイズ制限';
-    $lang->profile_image_max_height = '縦幅製図制限';
+    $lang->profile_image_max_height = '縦幅サイズ制限';
     $lang->image_name = 'イメージ名';
     $lang->image_name_max_width = '横幅制限サイズ';
     $lang->image_name_max_height = '縦幅制限サイズ';
@@ -39,9 +39,9 @@
     $lang->signature_max_height = '署名欄の高さの制限';
 	$lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員加入を許可する';
-    $lang->enable_confirm = '메일 인증 사용';
+    $lang->enable_confirm = 'メール認証を使用';
     $lang->enable_ssl = 'SSL使用';
-    $lang->security_sign_in = 'Sign in using enhanced security';
+    $lang->security_sign_in = 'セキュア（SSL）';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
     $lang->after_login_url = 'ログイン後表示するページのURL';
@@ -56,7 +56,7 @@
     $lang->webmaster_name = 'ウェブマスターの名前';
     $lang->webmaster_email = 'ウェブマスターのメール';
 
-    $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_signed = 'ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトしてください。';
 	$lang->about_webmaster_name = '認証メールまたはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力してください。';
 
@@ -102,14 +102,14 @@
     $lang->msg_find_account_title = '会員IDどパスワードの情報';
     $lang->msg_find_account_info = '登録された会員情報は下記の通りです。';
     $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。';
-    $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
-    $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
-    $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
+    $lang->msg_confirm_account_title = '認証メールです。';
+    $lang->msg_confirm_account_info = '作成した会員の情報';
+    $lang->msg_confirm_account_comment = '下記のURLをクリックして会員登録を完了してください。';
     $lang->msg_auth_mail_sent = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
     $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。';
     $lang->msg_success_authed = '認証が正常に行われ、ログインできました。\n必ず認証メールに記載されたパスワードを利用してお好みのパスワードに変更してください。.';
-    $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
+    $lang->msg_success_confirmed = '会員登録いただきましてありがとうございます。';
 
     $lang->msg_new_member = '会員追加';
     $lang->msg_update_member = '会員情報修正';
@@ -131,7 +131,7 @@
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することができません。';
     $lang->msg_not_uploaded_image_mark = 'イメージマークを登録することができません。';
 
-    $lang->msg_accept_agreement = '規約に同意しなければなりません。'; 
+    $lang->msg_accept_agreement = '規約に同意しなければなりません。';
 
     $lang->msg_user_denied = '入力されたユーザＩＤは使用が中止されました。';
     $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
@@ -174,7 +174,7 @@
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
     $lang->about_profile_image = 'ユーザのプロフィールイメージが使用できるようにします。';
     $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
-    $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。'; 
+    $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。';
 
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';
 
