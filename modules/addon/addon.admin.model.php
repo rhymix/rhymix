@@ -103,6 +103,7 @@
                 sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
                 $addon_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
 
+                $addon_info->addon_name = $addon;
                 $addon_info->title = $xml_obj->title->body;
                 $addon_info->description = trim($xml_obj->description->body);
                 $addon_info->version = $xml_obj->version->body;
