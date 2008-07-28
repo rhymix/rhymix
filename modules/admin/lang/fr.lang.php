@@ -46,7 +46,7 @@
 
     $lang->welcome_to_zeroboard_xe = 'Bienvenue sur la Page d\'Administration du Zeroboard XE';
     $lang->about_admin_page = "La Page d\'Administration est encore en train de développer,\nNous allons ajouter des contenus essentiels par accepter beauoup de bons suggestions pendant Béta Proche.";
-    $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] au-dessous. Les visiteurs vont voir toutes les menus et les messages en langue que vous choisissez.";
+    $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] au-dessous. Les visiteurs vont voir tous les menus et les messages en langue que vous choisissez.";
 
     $lang->zeroboard_xe_user_links = 'Liens pour les Utilisateurs';
     $lang->zeroboard_xe_developer_links = 'Liens pour les Développeur';
@@ -57,32 +57,32 @@
         //'Conservation des Modules' => 'http://www.zeroboard.com',
         //'Conservation des Compagnons' => 'http://www.zeroboard.com',
         //'Conservation des gadgets' => 'http://www.zeroboard.com',
-        //'Conservation des Thèmes des Modules' => 'http://www.zeroboard.com',
-        //Conservation des Thèmes des 'gadgets' => 'http://www.zeroboard.com',
-        //'Conservation des Thèmes des Mises en Page' => 'http://www.zeroboard.com',
+        //'Conservation des habillages des Modules' => 'http://www.zeroboard.com',
+        //Conservation des habillages des 'gadgets' => 'http://www.zeroboard.com',
+        //'Conservation des habillages des Mises en Page' => 'http://www.zeroboard.com',
     );
 
     $lang->xe_developer_links = array(
         'Manuel' => 'http://www.zeroboard.com/manual',
         //"Forum pour les Dveloppeurs" => 'http://spring.zeroboard.com',
         'Traque des Issues' => 'http://trac.zeroboard.com',
-        'Répertoir de SVN' => 'http://svn.zeroboard.com',
+        'Répertoire de SVN' => 'http://svn.zeroboard.com',
         'Documents de Doxygen' => 'http://doc.zeroboard.com',
         'Documentation de PDF' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
     );
 
     $lang->zeroboard_xe_usefulness_module = 'Modules Utiles';
     $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => 'Arrangement de l\'Editeur',
-        'dispDocumentAdminList' => 'Arrangement des Articles',
-        'dispCommentAdminList' => 'Arrangement des Commentaires',
-        'dispFileAdminList' => 'Arrangement des Rattachements',
-        'dispPollAdminList' => 'Arrangement des Enquêtes',
-        'dispSpamfilterAdminConfig' => 'Arrangement du Filtre contre Pourriel',
+        'dispEditorAdminIndex' => 'Administration de l\'Editeur',
+        'dispDocumentAdminList' => 'Administration des Articles',
+        'dispCommentAdminList' => 'Administration des Commentaires',
+        'dispFileAdminList' => 'Administration des Rattachements',
+        'dispPollAdminList' => 'Administration des Enquêtes',
+        'dispSpamfilterAdminConfig' => 'Administration du Filtre contre Pourriel',
         'dispCounterAdminIndex' => 'Journal de Compteur',
 
     );
 
     $lang->xe_license = 'Zeroboard XE s\'applique la GPL';
-    $lang->about_shortcut = 'Vous pouvez supprimer les raccourcis pour les modules qui sont enrgistrés sur le liste des modules utilisés fréquemment';
+    $lang->about_shortcut = 'Vous pouvez supprimer les raccourcis pour les modules qui sont enrgistrés sur le liste des modules qui sont utilisés fréquemment';
 ?>

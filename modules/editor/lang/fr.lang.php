@@ -11,18 +11,18 @@
     $lang->component_author = "Développeur";
     $lang->component_link = "Lien";
     $lang->component_date = "Jour de Création";
-    $lang->component_license = 'License';
-    $lang->component_history = "History";
+    $lang->component_license = 'Licence';
+    $lang->component_history = "Histoire";
     $lang->component_description = "Description";
     $lang->component_extra_vars = "Variables d'Option";
-    $lang->component_grant = "Configuration de l'Autorisation"; 
+    $lang->component_grant = "Configuration de la Permission"; 
 
     $lang->about_component = "Sur le Composant";
-    $lang->about_component_grant = 'Vous pouvez configurer l\'autorisation à utiliser des composants tendus de l\'Editeur.<br /> (Tout le monde aura l\'autorisation si vous ne cochez rien)';
-    $lang->about_component_mid = "Vous pouvez indiquer les objectifs que les composants s'appliquer<br />(Tous les objectifs seront choisis quand rien est choisi.)";
+    $lang->about_component_grant = 'Vous pouvez configurer la Permission à utiliser des composants additionnels de l\'Editeur.<br /> (Tout le monde aura la Permission si vous ne cochez rien)';
+    $lang->about_component_mid = "Vous pouvez désigner les objectifs auquels les composants s'appliquent<br />(Tous les objectifs auront la Permission quand rien n'est choisi.)";
 
     $lang->msg_component_is_not_founded = 'Ne peut pas trouver Composant %s';
-    $lang->msg_component_is_inserted = 'Composant choisi est déjà inséré';
+    $lang->msg_component_is_inserted = 'Composant choisi est déjà entré';
     $lang->msg_component_is_first_order = 'Composant choisi est localisé à la première position';
     $lang->msg_component_is_last_order = 'Composant choisi est localisé à la position dernière';
     $lang->msg_load_saved_doc = "Il y a un article conservé automatiquement. Voulez-vous le réstaurer?\nL\'esquisse conservé automatiquement va être débarrasser après conserver l\'article courant.";
@@ -31,22 +31,22 @@
     $lang->cmd_disable = "Invalider";
     $lang->cmd_enable = "Valider";
 
-    $lang->editor_skin = 'Thême de l\'Editeur';
-    $lang->upload_file_grant = 'Autorisation à télécharger(téléverser) '; 
-    $lang->enable_default_component_grant = 'Autorisation à utiliser les Composants Par Défaut';
-    $lang->enable_component_grant = 'Autorisation à utiliser des composants';
-    $lang->enable_html_grant = 'Autorisation à utiliser HTML';
+    $lang->editor_skin = 'Habillage de l\'Editeur';
+    $lang->upload_file_grant = 'Permission pour télécharger(téléverser) '; 
+    $lang->enable_default_component_grant = 'Permission pour utiliser les Composants Par Défaut';
+    $lang->enable_component_grant = 'Permission pour utiliser des composants';
+    $lang->enable_html_grant = 'Permission pour utiliser HTML';
     $lang->enable_autosave = 'Valider à conserver automatiquement';
-    $lang->height_resizable = 'possible à remettre l\'hauteur';
+    $lang->height_resizable = 'Permettre à remettre l\'hauteur';
     $lang->editor_height = 'Hauteur de l\'Editeur';
 
-    $lang->about_editor_skin = 'Vous pouvez choisir le thême de l\'Editeur.';
-    $lang->about_upload_file_grant = 'Vous pouvez configurer l\'autorisation à télécharger(attacher) les fichiers. (Tout le monde aura l\'autorisation si vous ne cochez rien)';
-    $lang->about_default_component_grant = 'Vous pouvez configurer l\'autorisation à utiliser les Composants Par Défaut de l\'Editeur. (Tout le monde aura l\'autorisation si vous ne cochez rien)';
+    $lang->about_editor_skin = 'Vous pouvez choisir l\'habillage de l\'Editeur.';
+    $lang->about_upload_file_grant = 'Vous pouvez configurer la permission pour attacher les fichiers. (Tout le monde aura la permission si vous ne cochez rien)';
+    $lang->about_default_component_grant = 'Vous pouvez configurer la permission pour utiliser les Composants Par Défaut de l\'Editeur. (Tout le monde aura la permission si vous ne cochez rien)';
     $lang->about_editor_height = 'Vous pouvez configurer l\'hauteur de l\'Editeur.';
-    $lang->about_editor_height_resizable = 'Autoriser à remettre l\'hauteur de l\'Editeur.';
-    $lang->about_enable_html_grant = 'Vous pouvez autoriser à utiliser HTML';
-    $lang->about_enable_autosave = 'Vous pouvez valider la fonction à conserver automatiquement pendant écrire des articles.';
+    $lang->about_editor_height_resizable = 'Permettre remettre l\'hauteur de l\'Editeur.';
+    $lang->about_enable_html_grant = 'Vous pouvez permettre utiliser HTML';
+    $lang->about_enable_autosave = 'Vous pouvez valider la fonction à Conserver Automatiquement pendant écrire des articles.';
 
     $lang->edit->fontname = 'Police de caractères';
     $lang->edit->fontsize = 'Mesure';
@@ -74,16 +74,16 @@
 
     $lang->edit->submit = 'Soumettre';
 
-    $lang->edit->help_remove_format = "Supprimer les Tags dans l\'endroit sélectionné";
+    $lang->edit->help_remove_format = "Supprimer les balises dans l\'endroit sélectionné";
     $lang->edit->help_strike_through = "Représenter la ligne d\'annulation sur les lettres.";
     $lang->edit->help_align_full = "Aligner pleinement selon largeur";
 
-   $lang->edit->help_fontcolor = "Sélectionner la couleur de la Police de caractères";
-    $lang->edit->help_fontbgcolor = "Sélectionner la couleur de l\'arrière-plan de la Police de caractères.";
-    $lang->edit->help_bold = "Faire Police gras";
-    $lang->edit->help_italic = "Faire Police italique";
-    $lang->edit->help_underline = "Police souligné";
-    $lang->edit->help_strike = "Police biffé";
+   $lang->edit->help_fontcolor = "Désigner la couleur de la Police de caractères";
+    $lang->edit->help_fontbgcolor = "Désigner la couleur de l\'arrière-plan de la Police de caractères.";
+    $lang->edit->help_bold = "Caractère gras";
+    $lang->edit->help_italic = "Caractère italique";
+    $lang->edit->help_underline = "Caractère souligné";
+    $lang->edit->help_strike = "Caractère biffé";
     $lang->edit->help_redo = "Réfaire";
     $lang->edit->help_undo = "Annuler";
     $lang->edit->help_align_left = "Aligner à gauche";
@@ -91,8 +91,8 @@
     $lang->edit->help_align_right = "Aligner  droite";
     $lang->edit->help_add_indent = "Ajouter un Rentré";
     $lang->edit->help_remove_indent = "Enlever un Rentré";
-    $lang->edit->help_list_number = "Appliquer le liste numrote";
-    $lang->edit->help_list_bullet = "Appliquer le liste à puces";
+    $lang->edit->help_list_number = "Appliquer la liste numroté";
+    $lang->edit->help_list_bullet = "Appliquer la liste à puces";
     $lang->edit->help_use_paragrapth = "Appuyez Ctrl+Enter pour séparer les paragraphe. (Appuyez Alt+S pour conserver)";
 
     $lang->edit->upload = 'Attacher';
@@ -105,5 +105,5 @@
     $lang->edit->icon_align_middle = 'Placer au centre';
     $lang->edit->icon_align_right = 'Placer à droite du texte';
 
-    $lang->about_dblclick_in_editor = 'Vous pouvez configurer en détail des composants par double-click sur un arrière-plan, un texte, une image ou une citation';
+    $lang->about_dblclick_in_editor = 'Vous pouvez configurer en détail des composants par double-clic sur un arrière-plan, un texte, une image ou une citation';
 ?>

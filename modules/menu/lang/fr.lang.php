@@ -13,7 +13,7 @@
     $lang->menu_count = 'Numéro de menu';
     $lang->menu_management = 'Administration de Menu';
     $lang->depth = 'Niveau';
-    $lang->parent_menu_name = 'Nom de Menu parent';
+    $lang->parent_menu_name = 'Nom de Menu supérieur';
     $lang->menu_name = 'Nom de Menu';
     $lang->menu_srl = 'Numéro sériel de Menu';
     $lang->menu_id = 'Nom d\'Identité de Menu';
@@ -32,12 +32,12 @@
     $lang->downloaded_list = 'Liste de Téléchargement';
     $lang->limit_menu_depth = 'Niveau permis exposer';
 
-    $lang->cmd_make_child = 'Ajouter un menu enfant';
+    $lang->cmd_make_child = 'Ajouter un menu inférieur';
     $lang->cmd_move_to_installed_list = "Voir la liste créé";
     $lang->cmd_enable_move_menu = "Bouger le Menu (glisser-déposer un menu après cocher)";
     $lang->cmd_search_mid = "Rechercher mid";
 
-    $lang->msg_cannot_delete_for_child = 'Un menu qui a des enfants ne peut pas être effacé.';
+    $lang->msg_cannot_delete_for_child = 'Un menu qui a des menus inférieurs ne peut pas être supprimé.';
 
     $lang->about_title = 'Entrez le titre qui est facile à vérifier quand on le connecte à un module.';
     $lang->about_menu_management = "Administration de Menu vous permet composer le menu dans la Mise en Page que vous choisissez.\nVous pouvez créer le menu jusqu'au niveau permis et entrer des informations détaillées en cliquant le menu.\nMenu sera étendu en cliquant l'image de dossier.\nSi le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le button \"Recréer \'antémémoire de fichier\".\n* Menu cré qui passe plus que le niveau permis ne pourra pas être représenté correctement.";
