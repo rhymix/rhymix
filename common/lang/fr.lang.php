@@ -8,7 +8,7 @@
     // 	verbes et mots fondamentaux qui décrivent des actions 
     $lang->cmd_write = 'Ecrire';
     $lang->cmd_reply = 'Répondre';
-    $lang->cmd_delete = 'Effacer';
+    $lang->cmd_delete = 'Supprimer';
     $lang->cmd_modify = 'Modifier';
     $lang->cmd_edit = 'Editer';
     $lang->cmd_view = 'Voir';
@@ -81,7 +81,7 @@
     $lang->password2 = 'Confirmer du Mot de Passe';
     $lang->admin_id = 'Compte d\'Administrateur';
     $lang->writer = 'Auteur';
-    $lang->user_name = 'Nom d\'utilisateur';
+    $lang->user_name = 'Nom';
     $lang->nick_name = 'Surnom';
     $lang->email_address = 'Mél';
     $lang->homepage = 'Page d\'accueil';
@@ -141,7 +141,7 @@
     $lang->regdate = 'Enrégistré';
     $lang->last_update = 'Dernière Mise à Jour';
     $lang->last_post = 'Dernière Affichage';
-    $lang->signup_date = 'Jour de s\'inscrire';
+    $lang->signup_date = 'Inscription';
     $lang->last_login = 'Dernière connexion';
     $lang->first_page = 'Première Page';
     $lang->last_page = 'Dernière Page';
