@@ -120,7 +120,7 @@
     $lang->layout = 'Mise en Page';
     $lang->widget = 'Gadget';
     $lang->module = 'Module';
-    $lang->skin = 'Thème';
+    $lang->skin = 'Habillage';
     $lang->colorset = 'Arrangement de couleur';
     $lang->extra_vars = 'Variables Supplémentaires';
 
