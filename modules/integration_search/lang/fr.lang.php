@@ -2,15 +2,15 @@
     /**
      * @file   modules/integration_search/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet de la langue franaise  (Choses fondamentales seulement)
+     * @brief  Paquet en franaise  (Choses fondamentales seulement)
      **/
 
-    $lang->integration_search = "Recherche Intégre";
+    $lang->integration_search = "Recherche Uni";
 
     $lang->sample_code = "Code d\'échantillon";
-    $lang->about_target_module = "Les modules choisis seulement seront les objectifs. Faites attention quand vous mettez la permission, SVP.";
-    $lang->about_sample_code = "Vous pouvez utiliser la Reherche Intégre en ajoutant le code au-dessus dans le Mise en Page ou d'autres choses.";
-    $lang->msg_no_keyword = "Entrez le mot de clé à rechercher, SVP.";
+    $lang->about_target_module = "Les modules choisis seulement seront les objectifs. Faites attention quand vous mettez la permission, S.V.P.";
+    $lang->about_sample_code = "Vous pouvez utiliser la Reherche Uni si vous ajoutez le code au-dessus dans le Mise en Page etc.";
+    $lang->msg_no_keyword = "Entrez le mot de clé à rechercher, S.V.P.";
 
     $lang->is_result_text = "Il y a <strong>%d</strong> résultat(s) pour <strong>'%s'</strong>";
 
@@ -19,13 +19,13 @@
         'content' => 'Contenu',
         'title_content' => 'Titre+Contenu',
         'comment' => 'Commentaire',
-        'tag' => 'Tag',
+        'tag' => 'Balise',
     );
 
     $lang->is_sort_option = array(
         'regdate' => 'Enrégistré',
         'comment_count' => 'Commentaires',
         'readed_count' => 'Vues',
-        'voted_count' => 'Recommendés',
+        'voted_count' => 'Recommandés',
     );
 ?>
