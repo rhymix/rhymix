@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author haneul (haneul0318@gmail.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brief  paquet en français du module de lifepod
+     * @brief  Paque du langage primaire pour le module de lifepod
      **/
 
     $lang->lifepod = "Lifepod";

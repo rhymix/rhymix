@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brief  Paquet de la langue française (Contenus fondamentals seulement sont listé)
+     * @brief  Paque du langage primaire pour le module d\'Installation
      **/
 
     $lang->introduce_title = 'Installation du Zeroboard XE ';

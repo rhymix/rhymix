@@ -2,7 +2,7 @@
     /**
      * @file   modules/admin/lang/fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paquet de la Langue franaise (Les Mots fondamentaux seulement sont inclus ici)
+     * @brief  Paque du langage primaire pour le module d\'Administration
      **/
 
     $lang->admin_info = 'Informations d\'Administrateur';

@@ -2,7 +2,7 @@
     /**
      * @file   modules/comment/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet fondamental en français pour le module de commentaire
+     * @brief  Paque du langage primaire pour le module de Commentaire
      **/
 	
     $lang->cmd_comment_do = 'Vous voudriez...';

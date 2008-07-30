@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent <PierreDuvent@gamil.com>
-     * @brief  Paquet en française du module d\'Importateur
+     * @brief  Paque du langage primaire le module d\'Importateur
      **/
 
     // words for button

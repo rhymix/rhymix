@@ -2,7 +2,7 @@
     /**
      * @file   modules/document/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <Pierreduvent@gmail.com>
-     * @brief  Paquet de la langue franaise fondamentale du module du Document
+     * @brief  Paque du langage primaire pour le module de Document
      **/
 
     $lang->document_list = 'Liste des Documents';

@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com) Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paquet en français (choses fondamentales seulement)
+     * @brief  Paque du langage primaire pour le module de Communication
      **/
 
     $lang->communication = 'Communication';

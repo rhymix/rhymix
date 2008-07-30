@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brief  Paquet en française (Choses fondamentales seulement) 
+     * @brief  Paque du langage primaire pour le module de Membre 
      **/
 
     $lang->member = 'Membre';
@@ -170,9 +170,9 @@
     $lang->about_redirect_url = 'Entrez URL où l\'utilisateur irra après l\'inscription, S.V.P. Si c\'est vide, ce sera la page précédente de la page d\'inscription.';
     $lang->about_agreement = "L'Accord d'Inscription comme Membre sera exposé seulement quand il n'est pas vide.";
 
-    $lang->about_image_name = "Permettre aux utilisateurs utiliser une image pour présenter leurs noms au lieu des lettres";
-    $lang->about_image_mark = "Permettre aux utilisateurs utiliser une marque devent leurs noms";
-    $lang->about_profile_image = 'Permettre aux utilisateurs utiliser une image de profil';
+    $lang->about_image_name = "Permettre aux utilisateurs d'utiliser une image pour présenter leurs noms au lieu des lettres";
+    $lang->about_image_mark = "Permettre aux utilisateurs d'utiliser une marque devent leurs noms";
+    $lang->about_profile_image = 'Permettre aux utilisateurs d\'utiliser une image de profil';
     $lang->about_accept_agreement = "J'ai lu l'Accord et je suis d'accord."; 
 
     $lang->about_member_default = 'On sera par défaut dans ce groupe après l\'inscription';

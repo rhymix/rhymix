@@ -2,7 +2,7 @@
     /**
      * @file   modules/integration_search/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet en franaise  (Choses fondamentales seulement)
+     * @brief  Paque du langage primaire pour le module de Recherch Uni
      **/
 
     $lang->integration_search = "Recherche Uni";

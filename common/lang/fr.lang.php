@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paquet de La Langue  Francaise (Mots fondamentaux seulement) 
+     * @brief  Paque du langage primaire 
      **/
 
     // 	verbes et mots fondamentaux qui décrivent des actions 

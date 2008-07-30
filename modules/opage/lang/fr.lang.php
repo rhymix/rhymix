@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com) traduit par duvent (duvent@gmail.com)
-     * @brief  paquet en français du module de la page extérieure
+     * @brief  Paque du langage primaire pour le module de page extérieure
      **/
 
     $lang->opage = "Page Extérieure";

@@ -2,7 +2,7 @@
     /**
      * @file   modules/editor/lang/fr.lang.php
      * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet de la langue fondamentale du Tel-tel Editeur
+     * @brief  Paque du langage primaire pour le module de Tel-tel Editeur
      **/
 
     $lang->editor = "Tel-tel Editeur";
@@ -18,7 +18,7 @@
     $lang->component_grant = "Configuration de la Permission"; 
 
     $lang->about_component = "Sur le Composant";
-    $lang->about_component_grant = 'Vous pouvez configurer la Permission à utiliser des composants additionnels de l\'Editeur.<br /> (Tout le monde aura la Permission si vous ne cochez rien)';
+    $lang->about_component_grant = 'Vous pouvez configurer la Permission d\'utiliser des composants additionnels de l\'Editeur.<br /> (Tout le monde aura la Permission si vous ne cochez rien)';
     $lang->about_component_mid = "Vous pouvez désigner les objectifs auquels les composants s'appliquent<br />(Tous les objectifs auront la Permission quand rien n'est choisi.)";
 
     $lang->msg_component_is_not_founded = 'Ne peut pas trouver Composant %s';
@@ -32,20 +32,20 @@
     $lang->cmd_enable = "Valider";
 
     $lang->editor_skin = 'Habillage de l\'Editeur';
-    $lang->upload_file_grant = 'Permission pour télécharger(téléverser) '; 
-    $lang->enable_default_component_grant = 'Permission pour utiliser les Composants Par Défaut';
-    $lang->enable_component_grant = 'Permission pour utiliser des composants';
-    $lang->enable_html_grant = 'Permission pour utiliser HTML';
+    $lang->upload_file_grant = 'Permission de télécharger(téléverser) '; 
+    $lang->enable_default_component_grant = 'Permission d\'utiliser les Composants Par Défaut';
+    $lang->enable_component_grant = 'Permission d\'utiliser des composants';
+    $lang->enable_html_grant = 'Permission d\'utiliser HTML';
     $lang->enable_autosave = 'Valider à conserver automatiquement';
-    $lang->height_resizable = 'Permettre à remettre l\'hauteur';
+    $lang->height_resizable = 'Permettre de remettre l\'hauteur';
     $lang->editor_height = 'Hauteur de l\'Editeur';
 
     $lang->about_editor_skin = 'Vous pouvez choisir l\'habillage de l\'Editeur.';
-    $lang->about_upload_file_grant = 'Vous pouvez configurer la permission pour attacher les fichiers. (Tout le monde aura la permission si vous ne cochez rien)';
-    $lang->about_default_component_grant = 'Vous pouvez configurer la permission pour utiliser les Composants Par Défaut de l\'Editeur. (Tout le monde aura la permission si vous ne cochez rien)';
+    $lang->about_upload_file_grant = 'Vous pouvez configurer la permission d\'attacher les fichiers. (Tout le monde aura la permission si vous ne cochez rien)';
+    $lang->about_default_component_grant = 'Vous pouvez configurer la permission d\'utiliser les Composants Par Défaut de l\'Editeur. (Tout le monde aura la permission si vous ne cochez rien)';
     $lang->about_editor_height = 'Vous pouvez configurer l\'hauteur de l\'Editeur.';
-    $lang->about_editor_height_resizable = 'Permettre remettre l\'hauteur de l\'Editeur.';
-    $lang->about_enable_html_grant = 'Vous pouvez permettre utiliser HTML';
+    $lang->about_editor_height_resizable = 'Permettre de remettre l\'hauteur de l\'Editeur.';
+    $lang->about_enable_html_grant = 'Vous pouvez permettre d\'utiliser HTML';
     $lang->about_enable_autosave = 'Vous pouvez valider la fonction à Conserver Automatiquement pendant écrire des articles.';
 
     $lang->edit->fontname = 'Police de caractères';

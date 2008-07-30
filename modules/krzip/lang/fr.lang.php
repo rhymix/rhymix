@@ -2,7 +2,7 @@
     /**
      * @file   modules/krzip/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet de la langue franaise (Contenus fondamentals seulement sont lists)
+     * @brief  Paque du langage primaire pour le module de Code postal coréen
      **/
 
     // mots normaux
