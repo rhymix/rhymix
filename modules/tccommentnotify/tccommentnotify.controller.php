@@ -137,6 +137,11 @@
             return executeQuery("tccommentnotify.insertQueue", $args);
         }
 
+        function procTestSendComment()
+        {
+            $this->sendCommentNotify(16775);
+        }
+
         function sendCommentNotify($comment_srl)
         {
             set_include_path("./libs/PEAR");
@@ -318,6 +323,7 @@
             }
 
             $parentid = $oModel->GetParentID( $obj->s_no, $siteid, $module_srl, $obj->r1_no );
+            $commentid = -1;
             if( $parentid == -2 )
             {
                 $oDB->rollback();
@@ -334,6 +340,12 @@
             }
             else
             {
+               $commentid = $oModel->GetCommentID( $parentid, $obj->r2_no );
+               if($commentid != -1)
+               {
+                    $oDB->rollback();
+                    return;
+               }
                $this->updateParent($parentid); 
             }
 

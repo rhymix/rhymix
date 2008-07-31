@@ -4,8 +4,8 @@
     <title xml:lang="en">Comment Notifier</title>
     <description xml:lang="ko">댓글알리미 모듈입니다.</description>
     <description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
-    <version>0.2.0</version>
-    <date>2008-06-26</date>
+    <version>0.2.1</version>
+    <date>2008-07-31</date>
     <category>accessory</category>
     <link>http://www.zeroboard.com</link>
 
@@ -13,6 +13,14 @@
         <name xml:lang="ko">haneul</name>
         <name xml:lang="en">haneul</name>
     </author>
+
+    <history version="0.2.1" date="2008-07-31">
+        <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
+            <name xml:lang="ko">haneul</name>
+            <name xml:lang="en">haneul</name>
+        </author>
+        <log>중복 댓글알림 제거 추가</log>
+    </history>
 
 
     <history version="0.2.0" date="2008-06-26">
