@@ -76,7 +76,7 @@
         'dispEditorAdminIndex' => 'Administration de l\'Editeur',
         'dispDocumentAdminList' => 'Administration des Articles',
         'dispCommentAdminList' => 'Administration des Commentaires',
-        'dispFileAdminList' => 'Administration des Rattachements',
+        'dispFileAdminList' => 'Administration des Annexes',
         'dispPollAdminList' => 'Administration des Enquêtes',
         'dispSpamfilterAdminConfig' => 'Administration du Filtre contre Pourriel',
         'dispCounterAdminIndex' => 'Journal de Compteur',
