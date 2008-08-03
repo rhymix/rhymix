@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/admin/lang/fr.lang.php
-     * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paque du langage primaire pour le module d\'Administration
+     * @fichier   modules/admin/lang/fr.lang.php
+     * @auteur zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @brève  Paquet du langage en français pour le module d\'Administration
      **/
 
     $lang->admin_info = 'Informations d\'Administrateur';
@@ -78,7 +78,7 @@
         'dispCommentAdminList' => 'Administration des Commentaires',
         'dispFileAdminList' => 'Administration des Annexes',
         'dispPollAdminList' => 'Administration des Enquêtes',
-        'dispSpamfilterAdminConfig' => 'Administration du Filtre contre Pourriel',
+        'dispSpamfilterAdminConfig' => 'Administration du Filtre contre Polluriel',
         'dispCounterAdminIndex' => 'Journal de Compteur',
 
     );

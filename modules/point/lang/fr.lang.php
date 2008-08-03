@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/point/lang/fr.lang.php
-     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet du langage fondamental pour le module de Point
+     * @fichier   modules/point/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brève  Paquet du langage en français pour le module de Point
      **/
 
     $lang->point = "Point"; 

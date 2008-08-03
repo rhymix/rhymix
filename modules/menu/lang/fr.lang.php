@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/menu/lang/fr.lang.php
-     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gamail.com>
-     * @brief Paque du langage primaire pour le module de Menu
+     * @fichier   modules/menu/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gamail.com>
+     * @brève Paque du langage en français pour le module de Menu
      **/
 
     $lang->cmd_menu_insert = 'Créer un Menu';

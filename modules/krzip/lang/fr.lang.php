@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/krzip/lang/fr.lang.php
-     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paque du langage primaire pour le module de Code postal coréen
+     * @fichier   modules/krzip/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brève  Paque du langage en français pour le module de Code postal coréen
      **/
 
     // mots normaux

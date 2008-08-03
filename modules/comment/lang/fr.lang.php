@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/comment/lang/fr.lang.php
-     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paque du langage primaire pour le module de Commentaire
+     * @fichier   modules/comment/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brève  Paquet du langage en français pour le module de Commentaire
      **/
 	
     $lang->cmd_comment_do = 'Vous voudriez...';

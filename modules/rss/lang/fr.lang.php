@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/rss/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  English language pack (basic)
+     * @fichier   modules/rss/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brève  Paquet du langage en français pour le module de RSS
      **/
 
     // general words

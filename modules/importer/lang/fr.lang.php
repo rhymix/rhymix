@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   fr.lang.php
-     * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent <PierreDuvent@gamil.com>
-     * @brief  Paque du langage primaire le module d\'Importateur
+     * @fichier   fr.lang.php
+     * @auteur zero (zero@nzeo.com)  Traduit par Pierre Duvent <PierreDuvent@gamil.com>
+     * @brève  Paquet du langage en français le module d\'Importateur
      **/
 
     // words for button

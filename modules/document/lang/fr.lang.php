@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/document/lang/fr.lang.php
-     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <Pierreduvent@gmail.com>
-     * @brief  Paque du langage primaire pour le module de Document
+     * @fichier   modules/document/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com>  Traduit par Pierre Duvent <Pierreduvent@gmail.com>
+     * @brève  Paquet du langage en français pour le module de Document
      **/
 
     $lang->document_list = 'Liste des Documents';

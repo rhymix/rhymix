@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   modules/file/lang/fr.lang.php
-     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paque du langage primaire pour le module d\'Annexe
+     * @fichier   modules/file/lang/fr.lang.php
+     * @auteur zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brève  Paquet du langage en français pour le module d\'Annexe
      **/
 
     $lang->file = 'Annexe';

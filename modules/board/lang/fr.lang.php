@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file  modules/board/lang/ fr.lang.php
-     * @author zero (zero@nzeo.com) Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paque du langage primaire pour le module de Panneau d\'Affichage
+     * @fichier  modules/board/lang/ fr.lang.php
+     * @auteur zero (zero@nzeo.com) Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @brève  Paquet du langage en français pour le module de Panneau d\'Affichage
      **/
 
     $lang->board = "Panneau"; 

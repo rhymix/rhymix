@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   fr.lang.php
-     * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brief  Paque du langage primaire pour le module d\'Installation
+     * @fichier   fr.lang.php
+     * @auteur zero (zero@nzeo.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
+     * @brève  Paquet du langage en français pour le module d\'Installation
      **/
 
     $lang->introduce_title = 'Installation du Zeroboard XE ';

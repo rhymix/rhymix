@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   fr.lang.php
-     * @author zero (zero@nzeo.com) traduit par duvent (duvent@gmail.com)
-     * @brief  Paque du langage primaire pour le module de Page Extérieure
+     * @fichier   fr.lang.php
+     * @auteur zero (zero@nzeo.com) Traduit par PierreDuvent (PierreDuvent@gmail.com)
+     * @brève  Paque du langage en français pour le module de Page Extérieure
      **/
 
     $lang->opage = "Page Extérieure";
