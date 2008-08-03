@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/poll/lang/fr.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
      * @brief  paquet du langage fondamental pour le module d\'enquête
      **/
 
