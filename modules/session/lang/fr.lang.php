@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/session/lang/fr.lang.php
-     * @auteur zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brève  Paquet du langage en français pour le module de la Session
+     * @file   modules/session/lang/fr.lang.php
+     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brief  Paquet du langage en français pour le module de la Session
      **/
 
     $lang->session = 'Session';

@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/trackback/lang/fr.lang.php
-     * @auteur zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brève  Paquet du langage en français pour le module de Rétrolien
+     * @file   modules/trackback/lang/fr.lang.php
+     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brief  Paquet du langage en français pour le module de Rétrolien
      **/
 	$lang->cmd_toggle_checked_trackback = 'Renverser les rétroliens choisis';
     $lang->cmd_delete_checked_trackback = 'Supprimer les rétroliens choisis';

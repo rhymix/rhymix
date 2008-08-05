@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/admin/lang/fr.lang.php
-     * @auteur zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brève  Paquet du langage en français pour le module d\'Administration
+     * @file   modules/admin/lang/fr.lang.php
+     * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @brief  Paquet du langage en français pour le module d\'Administration
      **/
 
     $lang->admin_info = 'Informations d\'Administrateur';

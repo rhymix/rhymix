@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   common/lang/fr.lang.php
-     * @auteur zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brève  Paquet du langage en français 
+     * @file   common/lang/fr.lang.php
+     * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @brief  Paquet du langage en français 
      **/
 
     // 	verbes et mots fondamentaux qui décrivent des actions 

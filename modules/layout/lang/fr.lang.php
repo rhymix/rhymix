@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/layout/lang/fr.lang.php
-     * @auteur zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brève  Paquet du langage en français pour le module de Mise en Page
+     * @file   modules/layout/lang/fr.lang.php
+     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brief  Paquet du langage en français pour le module de Mise en Page
      **/
 
     $lang->cmd_layout_management = 'Configuration du Mise en Page';

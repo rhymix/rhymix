@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/module/lang/fr.lang.php
-     * @auteur zero (zero@nzeo.com) traduit par Pierre duvent <PierreDuvent@gmail.com>
-     * @brève  Paque du langage en français pour le module de Module
+     * @file   modules/module/lang/fr.lang.php
+     * @author zero (zero@nzeo.com) traduit par Pierre duvent <PierreDuvent@gmail.com>
+     * @brief  Paque du langage en français pour le module de Module
      **/
 
     $lang->module_list = "Liste des Modules";

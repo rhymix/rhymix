@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/integration_search/lang/fr.lang.php
-     * @auteur zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brève  Paquet du langage en français pour le module de Recherche Unie
+     * @file   modules/integration_search/lang/fr.lang.php
+     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brief  Paquet du langage en français pour le module de Recherche Unie
      **/
 
     $lang->integration_search = "Recherche Unie";

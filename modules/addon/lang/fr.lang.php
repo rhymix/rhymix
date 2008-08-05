@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/addon/lang/fr.lang.php
-     * @auteur zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brève  Paquet du langage en français pour le module de Compagnon
+     * @file   modules/addon/lang/fr.lang.php
+     * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @brief  Paquet du langage en français pour le module de Compagnon
      **/
 
     $lang->addon = "Compagnon";

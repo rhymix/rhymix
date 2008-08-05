@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   fr.lang.php
-     * @auteur zero (zero@nzeo.com) Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brève  Paquet du langage en français pour le module de Communication
+     * @file   fr.lang.php
+     * @author zero (zero@nzeo.com) Traduit par Pierre Duvent(PierreDuvent@gamil.com)
+     * @brief  Paquet du langage en français pour le module de Communication
      **/
 
     $lang->communication = 'Communication';

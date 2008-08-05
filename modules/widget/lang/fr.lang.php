@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   modules/widget/lang/fr.lang.php
-     * @auteur zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brève  Paquet du langage en français pour le module de gadget
+     * @file   modules/widget/lang/fr.lang.php
+     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @brief  Paquet du langage en français pour le module de gadget
      **/
 
     $lang->cmd_generate_code = 'Générer le Code';

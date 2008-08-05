@@ -1,8 +1,8 @@
 <?php
     /**
-     * @fichier   fr.lang.php
-     * @auteur haneul (haneul0318@gmail.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brève  Paque du langage primaire pour le module de Lifepod
+     * @file   fr.lang.php
+     * @author haneul (haneul0318@gmail.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
+     * @brief  Paque du langage primaire pour le module de Lifepod
      **/
 
     $lang->lifepod = "Lifepod";
