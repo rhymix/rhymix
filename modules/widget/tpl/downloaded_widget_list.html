@@ -47,7 +47,7 @@
             <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
             <!--@endforeach-->
         </td>
-        <td class="tahoma">{$val->date}</td>
+        <td class="tahoma">{zdate($val->date, 'Y-m-d')}</td>
         <td class="tahoma left">{$val->path}</td>
         <td class="blue"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$val->widget)}" onclick="popopen(this.href,'widget_code_generate');return false">{$lang->cmd_generate_code}</a></td>
     </tr>

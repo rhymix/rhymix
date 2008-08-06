@@ -26,7 +26,7 @@
     <!--@end-->
     <tr>
         <th scope="row">{$lang->regdate}</th>
-        <td>{$widget_info->date}</td>
+        <td>{zdate($widget_info->date, 'Y-m-d')}</td>
     </tr>
     <!--@if($widget_info->license || $widget_info->license_link)-->
     <tr>
