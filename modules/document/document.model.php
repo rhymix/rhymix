@@ -416,11 +416,11 @@
             // 정렬 형식에 따라서 query args 변경
             switch($opt->sort_index) {
                 case 'update_order' :
-                        if($opt->order_type == 'desc') $args->rev_update_order = $oDocument->get('update_order');
+                        if($opt->order_type == 'asc') $args->rev_update_order = $oDocument->get('update_order');
                         else $args->update_order = $oDocument->get('update_order');
                     break;
                 case 'regdate' :
-                        if($opt->order_type == 'desc') $args->rev_regdate = $oDocument->get('regdate');
+                        if($opt->order_type == 'asc') $args->rev_regdate = $oDocument->get('regdate');
                         else $args->regdate = $oDocument->get('regdate');
                     break;
                 case 'voted_count' :
