@@ -64,7 +64,7 @@
         'user_id' => 'Compte',
         'user_name' => 'Nom',
         'nick_name' => 'Surnom',
-        'email_adresse' => 'Mél',
+        'email_address' => 'Mél',
         'regdate' => 'Jour d\'Inscription',
         'last_login' => 'Jour de la connexion dernière',
         'extra_vars' => 'Variables additionnels ',
@@ -119,7 +119,7 @@
     $lang->msg_not_exists_member = "Membre Invalide";
     $lang->msg_cannot_delete_admin = 'Le Compte de l\'Administrateur ne pourra pas être supprimé. Annulez l\'administration du compte et essayez encore une fois.';
     $lang->msg_exists_user_id = 'Le compte existe déjà. Essayez un autre.';
-    $lang->msg_exists_email_adresse = 'L\'adresse mél existe déjà. Essayez une autre.';
+    $lang->msg_exists_email_address = 'L\'adresse mél existe déjà. Essayez une autre.';
     $lang->msg_exists_nick_name = 'Le surnom existe déjà. Essayez un autre.';
     $lang->msg_signup_disabled = 'Vous ne pouvez pas vous inscrire.';
     $lang->msg_already_logged = 'Vous vous êtes déjà inscrit(e).';
@@ -141,7 +141,7 @@
     $lang->about_password = 'Le Mot de Passe doit être long de 6~20 lettres.';
     $lang->about_user_name = 'Le Nom doit être long de 2~20 lettres.';
     $lang->about_nick_name = 'Le Surnom doit être long de 2~20 lettres.';
-    $lang->about_email_adresse = 'L\'Adresse mél sera utilisé à modifier/trouver le Mot de Passe après la certification en mél.';
+    $lang->about_email_address = 'L\'Adresse mél sera utilisé à modifier/trouver le Mot de Passe après la certification en mél.';
     $lang->about_homepage = 'Entrez si vous avez un site Web.';
     $lang->about_blog_url = 'Entrez si vous avez un blogue.';
     $lang->about_birthday = 'Entrez votre anniversaire.';
