@@ -205,14 +205,14 @@
 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-            if($this->SendNotifyRequest($parentHomepage, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage) != 200)
+            if($this->SendNotifyRequest($parentHomepage, $module_info, $oDocument, $oParent, $parentHomepage, $oChild, $childHomepage) != 200)
             {
                 $indexedPage = rtrim($parentHomepage, '/').'/index.php';
-                $this->SendNotifyRequest($indexedPage, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage);
+                $this->SendNotifyRequest($indexedPage, $module_info, $oDocument, $oParent, $parentHomepage, $oChild, $childHomepage);
             }
         }
 
-        function SendNotifyRequest($target, $module_info, $oDocument, $oParent, $parentHomepage, $oChild, $childHomepage)
+        function SendNotifyRequest($target, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage)
         {
             $oReq = new HTTP_Request();
             $oReq->setURL($target);
