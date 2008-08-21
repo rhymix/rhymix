@@ -116,18 +116,38 @@
             </description>
             <options value="list">
                 <title xml:lang="ko">목록</title>
+                <title xml:lang="en">list</title>
+                <title xml:lang="jp">list</title>
+                <title xml:lang="zh-CN">list</title>
+                <title xml:lang="es">list</title>
             </options>
             <options value="webzine">
                 <title xml:lang="ko">웹진</title>
+                <title xml:lang="en">webzine</title>
+                <title xml:lang="jp">webzine</title>
+                <title xml:lang="zh-CN">webzine</title>
+                <title xml:lang="es">webzine</title>
             </options>
             <options value="gallery">
                 <title xml:lang="ko">갤러리</title>
+                <title xml:lang="en">gallery</title>
+                <title xml:lang="jp">gallery</title>
+                <title xml:lang="zh-CN">gallery</title>
+                <title xml:lang="es">gallery</title>
             </options>
             <options value="forum">
                 <title xml:lang="ko">포럼</title>
+                <title xml:lang="en">forum</title>
+                <title xml:lang="jp">forum</title>
+                <title xml:lang="zh-CN">forum</title>
+                <title xml:lang="es">forum</title>
             </options>
             <options value="blog">
                 <title xml:lang="ko">블로그</title>
+                <title xml:lang="en">blog</title>
+                <title xml:lang="jp">blog</title>
+                <title xml:lang="zh-CN">blog</title>
+                <title xml:lang="es">blog</title>
             </options>
         </var>
         <var name="display_login_info" type="select">
@@ -138,9 +158,17 @@
             <title xml:lang="es">Muestra la información de la conección</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -152,9 +180,17 @@
             <title xml:lang="es">Muestra la información de la Configuración</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -213,9 +249,17 @@
             <title xml:lang="es">Dispay Number</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -227,9 +271,17 @@
             <title xml:lang="es">Display Author</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -241,9 +293,17 @@
             <title xml:lang="es">Display Registered Date</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -255,9 +315,17 @@
             <title xml:lang="es">Display Hit</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -269,9 +337,17 @@
             <title xml:lang="es">Display Votes</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
@@ -283,9 +359,17 @@
             <title xml:lang="es">Display Latest Update</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
             </options>
             <description />
         </var>
