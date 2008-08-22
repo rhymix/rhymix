@@ -97,7 +97,7 @@
                 $args->email_address = Context::get('openid_sreg_email');
                 $args->user_name = Context::get('openid_sreg_fullname');
                 if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
-                $args->birthday = Context::get('openid_sreg_dob');
+                $args->birthday = str_replace('-','',Context::get('openid_sreg_dob'));
 
                 // 자체 인증 시도
                 $output = $this->doLogin($args->user_id);
