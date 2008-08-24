@@ -60,48 +60,36 @@
                 $document_srl_list = array();
 
                 foreach($output->data as $val) {
-                    $comment_srl = $val->upload_target_srl;
-                    if(!in_array($comment_srl, $document_srl_list)) $document_srl_list[] = $comment_srl;
+                    if(!in_array($val->upload_target_srl, $document_srl_list)) $document_srl_list[] = $val->upload_target_srl;
                 }
 
-                // comment를 먼저 구해서 document_srl을 구함
-                if(count($document_srl_list)) {
-                    $args->comment_srls = implode(',', $document_srl_list);
-                    $comment_output = executeQuery('comment.getComments', $args);
-                    if($comment_output->data && !is_array($comment_output->data)) {
-                        $comment_output->data = array($comment_output->data);
-                    }
+                // comment의 첨부파일이면 document_srl을 추가로 구함
+                if($document_srl_list) {
+                    $oCommentModel = &getModel('comment');
+                    $comment_output = $oCommentModel->getComments($document_srl_list);
 
-                    if($comment_output->data) {
-                        for($i = 0; $i < count($comment_output->data); $i++) {
-                            $comment_info = $comment_output->data[$i];
-                            $comment_list[$comment_info->comment_srl] = $comment_info;
+                    if($comment_output) {
+                        foreach($comment_output as $val) {
+                            $comment_list[$val->comment_srl] = $val->document_srl;
                         }
 
-                        foreach($output->data as $val) {
-                            $val->target_document_srl = $comment_list[$val->upload_target_srl]->document_srl;
+                        for($i=1; $i <= count($output->data); $i++) {
+                            $output->data[$i]->target_document_srl = $comment_list[$output->data[$i]->upload_target_srl];
                         }
 
-                        foreach($comment_output->data as $val) {
-                            $document_srl = $val->document_srl;
-                            if(!in_array($document_srl, $document_srl_list)) $document_srl_list[] = $document_srl;
+                        foreach($comment_output as $val) {
+                            if(!in_array($val->document_srl, $document_srl_list)) $document_srl_list[] = $val->document_srl;
                         }
                     }
-                }
 
-                // document를 구함
-                if(count($document_srl_list)) {
                     $args->document_srls = implode(',', $document_srl_list);
-                    $document_output = executeQuery('document.getDocuments', $args);
-                    if($document_output->data && !is_array($document_output->data)) {
-                        $document_output->data = array($document_output->data);
-                    }
+                    $document_output = executeQueryArray('document.getDocuments', $args);
 
-                    for($i = 0; $i < count($document_output->data); $i++) {
-                        $document_info = $document_output->data[$i];
-                        $document_list[$document_info->document_srl] = $document_info;
+                    foreach($document_output->data as $document) {
+                        $document_list[$document->document_srl] = $document;
                     }
                 }
+
             }
 
             Context::set('total_count', $output->total_count);
