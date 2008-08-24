@@ -63,6 +63,11 @@
                     $table_xml = FileHandler::readFile($table_file);
                     $table_obj = parent::parse($table_xml);
                     if($table_obj->table) {
+                        if(isset($table_obj->table->column) && !is_array($table_obj->table->column))
+                        {
+                            $table_obj->table->column = array($table_obj->table->column);
+                        }
+
                         foreach($table_obj->table->column as $k => $v) {
                             $buff .= sprintf('$output->column_type["%s"] = "%s";%s', $v->attrs->name, $v->attrs->type, "\n");
                         }
