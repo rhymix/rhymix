@@ -615,7 +615,7 @@
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
             if($this->allow_rewrite) {
-                if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value)) unset($get_vars[$key]);
+                if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value) || $value === '') unset($get_vars[$key]);
 
                 $var_keys = array_keys($get_vars);
                 asort($var_keys);
