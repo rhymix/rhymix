@@ -596,7 +596,7 @@
             for($i=0;$i<$num_args;$i=$i+2) {
                 $key = $args_list[$i];
                 $val = trim($args_list[$i+1]);
-                if(!$val) {
+                if(!isset($val)) {
                   unset($get_vars[$key]);
                   continue;
                 }
@@ -615,7 +615,7 @@
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
             if($this->allow_rewrite) {
-                if(count($get_vars)) foreach($get_vars as $key => $value) if($value !== 0 && !$value) unset($get_vars[$key]);
+                if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value)) unset($get_vars[$key]);
 
                 $var_keys = array_keys($get_vars);
                 asort($var_keys);
@@ -662,7 +662,7 @@
 
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
-                if(!$val) continue;
+                if(!isset($val)) continue;
                 $url .= ($url?'&':'').$key.'='.urlencode($val);
             }
 
