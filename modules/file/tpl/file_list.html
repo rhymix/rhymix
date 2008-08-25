@@ -59,10 +59,10 @@
     <!--@if($val->upload_target_srl != $cur_upload_target_srl)-->
         <!--@if($val->target_document_srl)-->
             {@ $document_srl  = $val->target_document_srl}
-            {@ $move_uri = './?mid='.$module_list[$val->module_srl]->mid.'&document_srl='.$document_srl.'#comment_'.$val->upload_target_srl}
+            {@ $move_uri = getUrl('', 'document_srl', $document_srl).'#comment_'.$val->upload_target_srl}
         <!--@else-->
             {@ $document_srl  = $val->upload_target_srl}
-            {@ $move_uri = './?mid='.$module_list[$val->module_srl]->mid.'&document_srl='.$val->upload_target_srl}
+            {@ $move_uri = getUrl('', 'document_srl', $document_srl)}
         <!--@end-->
         {@ $cur_upload_target_srl = $val->upload_target_srl}
     <tr class="bg1">
