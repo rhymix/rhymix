@@ -655,8 +655,6 @@
                         break;
                     case 'act.document_srl.mid' :
                         return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
-                    case 'act.document_srl.mid.page' :
-                        return sprintf('%s%s/%s/%s/page/%s',$path,$get_vars['mid'], $get_vars['act'], $get_vars['document_srl'],$get_vars['page']);
                 }
             }
 
