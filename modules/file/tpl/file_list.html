@@ -14,24 +14,25 @@
 <table cellspacing="0" class="adminTable">
 <thead>
 <!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,40,0,70,45,65,65,90,45)}
+{@ $col_width = array(50,40,0,70,45,65,65,90)}
 <!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,40,0,70,70,75,75,90,50)}
+{@ $col_width = array(50,40,0,70,70,75,75,90)}
 <!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,40,0,65,45,45,65,90,45)}
+{@ $col_width = array(50,40,0,65,45,45,65,90)}
 <!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,40,0,65,45,65,65,90,45)}
+{@ $col_width = array(50,40,0,65,45,65,65,90)}
 <!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,40,0,75,75,80,75,90,50)}
+{@ $col_width = array(50,40,0,75,75,80,75,90)}
 <!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,40,0,65,80,65,65,90,95)}
+{@ $col_width = array(50,40,0,65,80,65,65,90)}
 <!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,40,0,75,55,65,65,90,60)}
+{@ $col_width = array(50,40,0,75,55,65,65,90)}
 <!--@end-->
 
 <!--@foreach($col_width as $width)-->
 <col <!--@if($width)-->width="{$width}" <!--@end-->/>
 <!--@end-->
+
     <tr>
         <th scope="col">{$lang->no}</th>
         <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
@@ -51,11 +52,11 @@
         <th scope="col">{$lang->cmd_download}</th>
         <th scope="col">{$lang->date}</th>
         <th scope="col">{$lang->ipaddress}</th>
-        <th scope="col">{$lang->cmd_move}</th>
     </tr>
 </thead>
+
 <tbody>
-    <!--@foreach($file_list as $no => $val)-->
+<!--@foreach($file_list as $no => $val)-->
     <!--@if($val->upload_target_srl != $cur_upload_target_srl)-->
         <!--@if($val->target_document_srl)-->
             {@ $document_srl  = $val->target_document_srl}
@@ -66,38 +67,33 @@
         <!--@end-->
         {@ $cur_upload_target_srl = $val->upload_target_srl}
     <tr class="bg1">
-        <td colspan="9">
+        <td colspan="8">
             <!--@if(!$document_list[$document_srl])-->
             {$lang->cmd_save}
             <!--@else-->
-            <a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false;" class="blue">{$module_list[$val->module_srl]->browser_title}</a> - <a href="{$move_uri}" onclick="window.open(this.href);return false;">{htmlspecialchars($document_list[$document_srl]->title)}</a>
+            <a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" onclick="window.open(this.href);return false;" class="blue">{$module_list[$val->module_srl]->browser_title}</a> - <a href="{$move_uri}" onclick="window.open(this.href);return false;">{htmlspecialchars($document_list[$document_srl]->title)}</a>
             <!--@end-->
         </td>
     </tr>
-    <!--@end-->
+    <!--@endif-->
+
     <tr>
         <td class="tahoma">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
         <td class="left subject">
             <a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a>
         </td>
-        <td class="tahoma">{$val->file_size}</td>
-        <td>
-            <!--@if($val->isvalid=='Y')-->
-                <span class="blue">{$lang->is_valid}</span>
-            <!--@else-->
-                <span class="red">{$lang->is_stand_by}</span>
-            <!--@end-->
-        </td>
+        <td class="tahoma">{FileHandler::filesize($val->file_size)}</td>
+        <!--@if($val->isvalid=='Y')-->
+            <td class="blue">{$lang->is_valid}</td>
+        <!--@else-->
+            <td class="red">{$lang->is_stand_by}</td>
+        <!--@end-->
         <td class="tahoma">{$val->download_count}</td>
         <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="tahoma">{$val->ipaddress}</td>
-        <td class="blue">
-        <!--@if($document_list[$document_srl])-->
-        <a href="{$move_uri}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
-        <!--@end-->
     </tr>
-    <!--@end-->
+<!--@endforeach-->
 </tbody>
 </table>
 
