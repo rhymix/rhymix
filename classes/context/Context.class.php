@@ -496,7 +496,7 @@
                     if(get_magic_quotes_gpc()) $val = stripslashes($val);
                     $val = trim($val);
                 }
-                if(!$val) continue;
+                if(!isset($val)) continue;
 
                 if($this->_getRequestMethod()=='GET'&&$_GET[$key]) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&$_POST[$key]) $set_to_vars = true;
