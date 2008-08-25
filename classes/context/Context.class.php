@@ -485,6 +485,7 @@
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
+                if($val !== 0 && !$val) continue;
                 if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
                 else if(is_array($val) && count($val) ) {
                     foreach($val as $k => $v) {
@@ -496,7 +497,6 @@
                     if(get_magic_quotes_gpc()) $val = stripslashes($val);
                     $val = trim($val);
                 }
-                if(!isset($val)) continue;
 
                 if($this->_getRequestMethod()=='GET'&&$_GET[$key]) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&$_POST[$key]) $set_to_vars = true;
