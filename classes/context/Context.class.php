@@ -485,7 +485,7 @@
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
-                if($val !== 0 && !$val) continue;
+                if($val === "") continue;
                 if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
                 else if(is_array($val) && count($val) ) {
                     foreach($val as $k => $v) {
