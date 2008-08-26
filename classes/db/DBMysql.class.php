@@ -369,7 +369,7 @@
             foreach($output->conditions as $key => $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] == '') continue;
+                    if(!isset($v['value']) || $v['value'] === '') continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
