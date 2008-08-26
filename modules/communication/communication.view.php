@@ -119,7 +119,7 @@
             $option->content_key_name = 'content';
             $option->allow_fileupload = false;
             $option->enable_autosave = false;
-            $option->enable_default_component = false;
+            $option->enable_default_component = true;// false;
             $option->enable_component = false;
             $option->resizable = false;
             $option->disable_html = true;
