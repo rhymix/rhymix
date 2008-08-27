@@ -321,12 +321,20 @@
                     if($val->document_srl) $target_srls[] = $val->document_srl;
                 }
 
+                $page_navigation = $output->page_navigation;
+                $keys = array_keys($output->data);
+                $virtual_number = $keys[0];
+
                 $target_args->document_srls = implode(',',$target_srls);
                 $target_args->list_order = $args->sort_index;
                 $target_args->order = $args->order_type;
                 $target_args->list_count = $args->list_count;
                 $target_args->page = 1;
                 $output = executeQueryArray('document.getDocuments', $target_args);
+                $output->page_navigation = $page_navigation;
+                $output->total_count = $page_navigation->total_count;
+                $output->total_page = $page_navigation->total_page;
+                $output->page = $page_navigation->cur_page;
             } else {
                 $output = executeQueryArray($query_id, $args);
             }
@@ -337,9 +345,12 @@
             $idx = 0;
             $data = $output->data;
             unset($output->data);
-
-            $keys = array_keys($data);
-            $virtual_number = $keys[0];
+            
+            if(!isset($virtual_number))
+            {
+                $keys = array_keys($data);
+                $virtual_number = $keys[0];
+            }
 
             if($except_notice) {
                 foreach($data as $key => $attribute) {
