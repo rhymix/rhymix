@@ -15,10 +15,10 @@ Jeong, Chan Myeong 070601~070630
 .boardHeader h3 { margin:0; float:left; padding:15px 15px 12px 15px; font-size:1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* board Description */
-.boardDescription { color:#AEAEAE; border:1px solid #DDDDDD; overflow:hidden; padding:10px; margin-top:5px; background-color:#FFFFFF;}
+.boardDescription { color:#AEAEAE; border:1px solid #DDDDDD; overflow:hidden; padding:10px; margin: 5px 0; background-color:#FFFFFF;}
 
 /* board Information */
-.boardInformation { width:100%; clear:both; margin:10px 0 2px 0; overflow:hidden; color:#666666;}
+.boardInformation { width:100%; clear:both; margin:5px 0 2px 0; overflow:hidden; color:#666666;}
 .articleNum { float:left; padding:0 0 0 15px; }
 
 /* account Navigation */
@@ -170,7 +170,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardList td.title strong.category { font-size:1em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
 .boardList td.title.bold { font-size:1.2em; font-weight:bold;}
 .boardList td.title.bold a { position:relative; top:.3em;}
-.boardList td.title * { vertical-align:middle;} 
+.boardList td.title * { vertical-align:middle;}
 .boardList td.title,
 .boardList td.title a { color:#444444; text-decoration:none;}
 .boardList td.title a:visited { color:#777777;}
@@ -194,7 +194,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardList td.webzineTitle { padding-left:1em; color:#777777;}
 .boardList td.webzineTitle strong.category { font-size:1em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
 .boardList td.webzineTitle.bold { font-size:1.2em; font-weight:bold;}
-.boardList td.webzineTitle * { vertical-align:middle;} 
+.boardList td.webzineTitle * { vertical-align:middle;}
 .boardList td.webzineTitle,
 .boardList td.webzineTitle a { color:#444444; text-decoration:none;}
 .boardList td.webzineTitle a:visited { color:#777777;}
