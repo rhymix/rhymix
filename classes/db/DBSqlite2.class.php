@@ -116,7 +116,7 @@
          * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
          **/
         function addQuotes($string) {
-            if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
+            if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
             if(!is_numeric($string)) $string = str_replace("'","''", $string);
             return $string;
         }

@@ -489,12 +489,12 @@
                 if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
                 else if(is_array($val) && count($val) ) {
                     foreach($val as $k => $v) {
-                        if(get_magic_quotes_gpc()) $v = stripslashes($v);
+                        if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
                         $v = trim($v);
                         $val[$k] = $v;
                     }
                 } else {
-                    if(get_magic_quotes_gpc()) $val = stripslashes($val);
+                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
                     $val = trim($val);
                 }
 
