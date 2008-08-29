@@ -18,9 +18,9 @@
 <!--%import("../../../../common/js/calendar-setup.js",optimized=false)-->
 <!--%import("../../../../common/css/calendar-system.css",optimized=false)-->
 
-<!--// type=select,checkbox이고 기본값이 , 로 연결되어 있으면 , 를 기준으로 explode하여 배열로 만든다 -->
-<!--@if(in_array($val->type,array('select','checkbox'))&&strpos($val->default,",")!==false)-->
-    {@ $val->default = explode(',',$val->default) }
+<!--// type=select,checkbox이고 기본값이 , 로 연결되어 있으면 배열로 만든다 -->
+<!--@if(in_array($val->type, array('select', 'checkbox')))-->
+    {@ $val->default = explode(',', $val->default) }
 <!--@end-->
 
 <!--// 확장변수의 이름을 지정 -->
