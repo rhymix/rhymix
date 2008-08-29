@@ -55,7 +55,6 @@
             }
 
             // 목록의 loop를 돌면서 document를 구하기
-            $file_count = count($output->data);
             if($file_count) {
                 $document_srl_list = array();
 
@@ -73,8 +72,9 @@
                             $comment_list[$val->comment_srl] = $val->document_srl;
                         }
 
-                        for($i=1; $i <= count($output->data); $i++) {
-                            $output->data[$i]->target_document_srl = $comment_list[$output->data[$i]->upload_target_srl];
+                        $file_list_keys = array_keys($output->data);
+                        for($i=0; $i < $file_count; $i++) {
+                            $output->data[$file_list_keys[$i]]->target_document_srl = $comment_list[$output->data[$file_list_keys[$i]]->upload_target_srl];
                         }
 
                         foreach($comment_output as $val) {
