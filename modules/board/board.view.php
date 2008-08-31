@@ -372,6 +372,7 @@
 
             // 댓글이 없다면 오류
             if(!$oSourceComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
+            if($oSourceComment->get('document_srl') != Context::get('document_srl')) return $this->dispBoardMessage('meg_invalid_request');
 
             // 대상 댓글을 생성
             $oComment = $oCommentModel->getComment();
