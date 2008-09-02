@@ -429,12 +429,12 @@
 
     function removeJSEvent($matches) {
         $tag = strtolower($matches[1]);
-        if($tag == "a" && preg_match('/href=("|\'?)javascript:/i',$matches[2])) $matches[0] = preg_replace('/href=("|\'?)javascript:/i','href=$1_javascript:', $matches[0]);
+        if(preg_match('/(src|href)=("|\'?)javascript:/i',$matches[2])) $matches[0] = preg_replace('/(src|href)=("|\'?)javascript:/i','$1=$2_javascript:', $matches[0]);
         return preg_replace('/ on([a-z]+)=/i',' _on$1=',$matches[0]);
     }
 
     function removeSrcHack($matches) {
-        $tag = $matches[1];
+        $tag = strtolower(trim($matches[1]));
 
         $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
         $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
@@ -444,6 +444,15 @@
 
         // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
         $src = $xml_doc->{$tag}->attrs->src;
+        $dynsrc = $xml_doc->{$tag}->attrs->dynsrc;
+        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) ) return sprintf("<%s>",$tag);
+
+        return $matches[0];
+    }
+
+    function _isHackedSrc($src) {
+        if(!$src) return false;
+        if($src && preg_match('/javascript:/i',$src)) return true;
         if($src) {
             $url_info = parse_url($src);
             $query = $url_info['query'];
@@ -454,12 +463,10 @@
                 if($pos === false) continue;
                 $key = strtolower(trim(substr($queries[$i], 0, $pos)));
                 $val = strtolower(trim(substr($queries[$i] ,$pos+1)));
-                if(($key == 'module' && $val == 'admin') || $key == 'act' && preg_match('/admin/i',$val)) return sprintf("<%s>",$tag);
+                if(($key == 'module' && $val == 'admin') || $key == 'act' && preg_match('/admin/i',$val)) return true;
             }
         }
-
-        return $matches[0];
-
+        return false;
     }
 
     /**
