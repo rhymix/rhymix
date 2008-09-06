@@ -32,7 +32,7 @@
             }
         }
 
-        function insertParent($obj, $siteid, $module_srl)
+        function insertParent(&$obj, $siteid, $module_srl)
         {
             $parentid = getNextSequence();
             $args->notified_srl = $parentid;
@@ -267,7 +267,7 @@
             return $code;
         }
 
-        function insertCommentNotify($obj, $siteid, $parentid, $module_srl)
+        function insertCommentNotify(&$obj, $siteid, $parentid, $module_srl)
         {
             $myid = getNextSequence();
             $args->notified_srl = $myid;
@@ -331,7 +331,7 @@
             }
             else if ( $parentid == -1 )
             {
-                $parentid = $this->insertParent( &$obj, $siteid, $module_srl );
+                $parentid = $this->insertParent( $obj, $siteid, $module_srl );
                 if($parentid == -1)
                 {
                     $oDB->rollback();
@@ -349,7 +349,7 @@
                $this->updateParent($parentid); 
             }
 
-            if(!$this->insertCommentNotify(&$obj, $siteid, $parentid, $module_srl))
+            if(!$this->insertCommentNotify($obj, $siteid, $parentid, $module_srl))
             {
                 $oDB->rollback();
                 return;
