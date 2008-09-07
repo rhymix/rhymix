@@ -22,7 +22,7 @@
             <div class="date">
 
                 <strong>{$comment->getRegdate('Y.m.d')}</strong> {$comment->getRegdate('H:i:s')}
-                ({$comment->getIpaddress()})
+                <!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->({$comment->getIpaddress()})<!--@end-->
             </div>
 
             <div class="author">

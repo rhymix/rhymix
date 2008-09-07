@@ -32,7 +32,7 @@
                 <div class="uri" title="{$lang->document_url}"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getPermanentUrl()}</a></div>
 
                 <div class="date" title="{$lang->regdate}">
-                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')} ({$oDocument->getIpaddress()})
+                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')} <!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->({$oDocument->getIpaddress()})<!--@end-->
                 </div>
 
                 <div class="readedCount" title="{$lang->readed_count}">{$oDocument->get('readed_count')}</div>

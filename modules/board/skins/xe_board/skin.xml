@@ -351,6 +351,27 @@
             </options>
             <description />
         </var>
+        <var name="display_ip_address" type="select">
+            <title xml:lang="ko">아이피주소 표시</title>
+            <title xml:lang="en">Display ip address</title>
+            <title xml:lang="jp">Display ip address</title>
+            <title xml:lang="zh-CN">Display ip address</title>
+            <title xml:lang="es-CN">Display ip address</title>
+            <options value="Y">
+                <title xml:lang="ko">출력</title>
+                <title xml:lang="en">display</title>
+                <title xml:lang="jp">display</title>
+                <title xml:lang="zh-CN">display</title>
+                <title xml:lang="es">display</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">출력하지 않음</title>
+                <title xml:lang="en">not display</title>
+                <title xml:lang="jp">not display</title>
+                <title xml:lang="zh-CN">not display</title>
+                <title xml:lang="es">not display</title>
+            </options>
+        </var>
         <var name="display_last_update" type="select">
             <title xml:lang="ko">최근 변경시간 표시</title>
             <title xml:lang="jp">最近の変更時間表示</title>
