@@ -316,7 +316,7 @@
         $debug_file = _XE_PATH_."files/_debug_message.php";
         $bt = debug_backtrace();
         if(is_array($bt)) $first = array_shift($bt);
-        $buff = sprintf("[%s:%d]\n%s\n", array_pop(explode(DIRECTORY_SEPARATOR, $first["file"])), $first["line"], print_r($buff,true));
+        $buff = sprintf("[%s %s:%d]\n%s\n", date("Y-m-d H:i:s"), array_pop(explode(DIRECTORY_SEPARATOR, $first["file"])), $first["line"], print_r($buff,true));
 
         if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
 
