@@ -60,12 +60,12 @@ table.milestones tbody tr.title td { background-color:#EFEFEF; }
 table.milestones tbody td { padding:5px; text-align:center; border-bottom:1px solid #EEEEEE; }
 table.milestones tbody td.title { font-weight:bold; text-align:left; }
 table.milestones tbody td.title a { text-decoration:none; color:#444444; }
-table.milestones tbody td.deadline { color:#0A6E03; font-family:tahoma; font-size:9pt; }
+table.milestones tbody td.deadline { color:#0A6E03; font-family:tahoma; font-size:9pt; white-space:nowrap;}
 table.milestones tbody td.status a { text-decoration:none; font-family:tahoma; font-size:8pt; font-weight:bold;}
 table.milestones tbody td.total a { text-decoration:none; color:#444444; font-family:tahoma; font-size:8pt; font-weight:bold;}
 table.milestones tbody td.description { text-align:left; padding-left:10px; border-bottom:1px solid #333333; }
 table.milestones tbody td.completed { text-decoration:line-through; }
-table.milestones tbody td.released_date { text-align:right; color:#EF4B18; font-family:tahoma; font-size:9pt; }
+table.milestones tbody td.released_date { text-align:right; color:#EF4B18; font-family:tahoma; font-size:9pt; white-space:nowrap;}
 
 /* download */
 table.downloads { width:100%; clear:both; border:0; border-spacing:0; table-layout:fixed; border:1px solid #333333;}

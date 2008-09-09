@@ -3,8 +3,8 @@
 <table class="milestones" cellspacing="0">
 <thead>
 <tr>
-{@ $col_count = 4 }
-    <th colspan="2">{$lang->milestone}</th>
+{@ $col_count = 3 }
+    <th>{$lang->completed_date}</th>
     <th>{$lang->deadline}</th>
     <!--@foreach($lang->status_list as $k => $v)-->
     {@ $col_count += 1 }
@@ -20,15 +20,13 @@
 {@ $val->description = $lang->not_assigned_description}
 <!--@end-->
 <tr class="title">
-    <td class="title <!--@if($val->is_completed=='Y')-->completed<!--@end-->" <!--@if($val->is_completed!='Y')-->colspan="2"<!--@end-->>
+    <td class="title <!--@if($val->is_completed=='Y')-->completed<!--@end-->" colspan="{$col_count}" >
         <a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl)}">{$val->title}</a>
     </td>
-    <!--@if($val->is_completed == 'Y')-->
-    <td class="released_date">
-        {zdate($val->released_date, "Y-m-d")}
-    </td>
-    <!--@end-->
-    <td class="deadline">{zdate($val->deadline, 'Y-m-d')}</td>
+</tr>
+<tr>
+    <td class="released_date">{zdate($val->released_date, "Y-m-d")}&nbsp;</td>
+    <td class="deadline">{zdate($val->deadline, 'Y-m-d')}&nbsp;</td>
     <!--@foreach($lang->status_list as $k => $v)-->
     <td class="status issue_{$k}"> <a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl,'status[]',$k)}">{number_format($val->issues[$k])}</a></td>
     <!--@end-->
