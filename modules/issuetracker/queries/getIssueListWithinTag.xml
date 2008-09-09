@@ -1,0 +1,35 @@
+<query id="getIssueListWithinTag" action="select">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="issues" alias="issues"/>
+        <table name="tags" alias="tags"/>
+    </tables>
+    <columns>
+        <column name="documents.document_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="less" column="documents.update_order" default="2100000000" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" default="issues.target_srl" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" default="tags.document_srl" pipe="and" />
+        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="issues.milestone_srl" var="milestone_srl" pipe="and" />
+        <condition operation="equal" column="issues.priority_srl" var="priority_srl" pipe="and" />
+        <condition operation="equal" column="issues.type_srl" var="type_srl" pipe="and" />
+        <condition operation="equal" column="issues.component_srl" var="component_srl" pipe="and" />
+        <condition operation="in" column="issues.status" var="status" pipe="and" />
+        <condition operation="equal" column="issues.occured_version_srl" var="occured_version_srl" pipe="and" />
+        <condition operation="equal" column="issues.resolution_srl" var="resolution_srl" pipe="and" />
+        <condition operation="equal" column="issues.assignee_srl" var="assignee_srl" pipe="and" />
+        <condition operation="like" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.update_order" order="asc" />
+        <list_count var="list_count" default="50" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+    <groups>
+        <group column="documents.document_srl" />
+    </groups>
+</query>

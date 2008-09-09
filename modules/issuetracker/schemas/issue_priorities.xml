@@ -1,0 +1,7 @@
+<table name="issue_priorities">
+    <column name="priority_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+    <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" /> 
+    <column name="title" type="varchar" size="255" notnull="notnull" /> 
+    <column name="is_default" type="char" size="1" default="N" />
+    <column name="listorder" type="number" size="11" default="0" index="idx_listorder" />
+</table>

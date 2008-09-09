@@ -1,0 +1,56 @@
+<query id="getIssueList" action="select">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="issues" alias="issues" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="less" column="documents.update_order" default="2100000000" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" default="issues.target_srl" pipe="and" />
+        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="issues.milestone_srl" var="milestone_srl" pipe="and" />
+        <condition operation="equal" column="issues.priority_srl" var="priority_srl" pipe="and" />
+        <condition operation="equal" column="issues.type_srl" var="type_srl" pipe="and" />
+        <condition operation="equal" column="issues.component_srl" var="component_srl" pipe="and" />
+        <condition operation="in" column="issues.status" var="status" pipe="and" />
+        <condition operation="equal" column="issues.occured_version_srl" var="occured_version_srl" pipe="and" />
+        <condition operation="equal" column="issues.resolution_srl" var="resolution_srl" pipe="and" />
+        <condition operation="equal" column="issues.assignee_srl" var="assignee_srl" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="documents.title" var="s_title" />
+            <condition operation="like" column="documents.content" var="s_content" pipe="or" />
+            <condition operation="like" column="documents.user_id" var="s_user_id" pipe="or" />
+            <condition operation="like" column="documents.user_name" var="s_user_name" pipe="or" />
+            <condition operation="like" column="documents.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like" column="documents.extra_vars1" var="s_extra_vars1" pipe="or" />
+            <condition operation="like" column="documents.extra_vars2" var="s_extra_vars2" pipe="or" />
+            <condition operation="like" column="documents.extra_vars3" var="s_extra_vars3" pipe="or" />
+            <condition operation="like" column="documents.extra_vars4" var="s_extra_vars4" pipe="or" />
+            <condition operation="like" column="documents.extra_vars5" var="s_extra_vars5" pipe="or" />
+            <condition operation="like" column="documents.extra_vars6" var="s_extra_vars6" pipe="or" />
+            <condition operation="like" column="documents.extra_vars7" var="s_extra_vars7" pipe="or" />
+            <condition operation="like" column="documents.extra_vars8" var="s_extra_vars8" pipe="or" />
+            <condition operation="like" column="documents.extra_vars9" var="s_extra_vars9" pipe="or" />
+            <condition operation="like" column="documents.extra_vars10" var="s_extra_vars10" pipe="or" />
+            <condition operation="like" column="documents.extra_vars11" var="s_extra_vars11" pipe="or" />
+            <condition operation="like" column="documents.extra_vars12" var="s_extra_vars12" pipe="or" />
+            <condition operation="like" column="documents.extra_vars13" var="s_extra_vars13" pipe="or" />
+            <condition operation="like" column="documents.extra_vars14" var="s_extra_vars14" pipe="or" />
+            <condition operation="like" column="documents.extra_vars15" var="s_extra_vars15" pipe="or" />
+            <condition operation="like" column="documents.extra_vars16" var="s_extra_vars16" pipe="or" />
+            <condition operation="like" column="documents.extra_vars17" var="s_extra_vars17" pipe="or" />
+            <condition operation="like" column="documents.extra_vars18" var="s_extra_vars18" pipe="or" />
+            <condition operation="like" column="documents.extra_vars19" var="s_extra_vars19" pipe="or" />
+            <condition operation="like" column="documents.extra_vars20" var="s_extra_vars20" pipe="or" />
+        </group>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.update_order" order="asc" />
+        <list_count var="list_count" default="50" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

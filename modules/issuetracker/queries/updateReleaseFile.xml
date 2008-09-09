@@ -1,0 +1,11 @@
+<query id="updateReleaseFile" action="update">
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="comment" var="comment" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="file_srl" var="file_srl" notnull="notnull" />
+    </conditions> 
+</query>

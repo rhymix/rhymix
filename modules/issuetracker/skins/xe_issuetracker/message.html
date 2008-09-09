@@ -1,0 +1,10 @@
+<!--#include("header.html")-->
+
+<blockquote class="alertMessage">{$message}</blockquote>
+
+<ul class="alertNav">
+    <!--@if(!$is_logged)-->
+    <li><a href="{getUrl('act','dispMemberLoginForm')}" class="button"><span>{$lang->cmd_login}</span></a></li>
+    <!--@end-->
+    <li><a href="#" onclick="history.back(); return false;" class="button"><span>{$lang->cmd_back}</span></a></li>
+</ul>

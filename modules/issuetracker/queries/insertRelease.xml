@@ -1,0 +1,14 @@
+<query id="insertRelease" action="insert">
+    <tables>
+        <table name="issue_releases" />
+    </tables>
+    <columns>
+        <column name="release_srl" var="release_srl" notnull="notnull" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="package_srl" var="package_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="release_note" var="release_note" />
+        <column name="release_changes" var="release_changes" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

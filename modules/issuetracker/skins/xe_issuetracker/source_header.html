@@ -1,0 +1,28 @@
+<!--#include("header.html")-->
+
+<!--%import("css/svn.css")-->
+<!--%import("js/svn.js")-->
+
+<div class="sourceBrowser">
+
+<!--@if($path_tree)-->
+<ul>
+    <!--@foreach($path_tree as $key => $val)-->
+        <!--@if($key == '/' || substr($val,-1)=='/')-->
+            <li>
+                <!--@if($key=='/')-->
+                    <a href="{getUrl('type','','path',urlencode($val), revs, $revs)}">root</a>
+                <!--@else-->
+                    <a href="{getUrl('type','','path',urlencode($val), revs, $revs)}">{$key}</a> 
+                <!--@end-->
+                /
+            </li>
+        <!--@else-->
+            <li class="file"><a href="{getUrl('type','file','path',urlencode($val),'revs','','erev','','brev','')}">{$key}</a></li>
+        <!--@end-->
+
+    <!--@end-->
+</ul>
+<div class="clear"></div>
+<!--@end-->
+

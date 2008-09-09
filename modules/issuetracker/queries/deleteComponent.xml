@@ -1,0 +1,8 @@
+<query id="deleteComponent" action="delete">
+    <tables>
+        <table name="issue_components" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="component_srl" var="component_srl" notnull="notnull" />
+    </conditions>
+</query>

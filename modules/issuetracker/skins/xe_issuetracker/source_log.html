@@ -1,0 +1,62 @@
+<!--#include("source_header.html")-->
+
+<h1>{$path}</h1>
+
+<!--@if($content->msg)-->
+<blockquote>
+    <strong>Revision {$current->revision} (checked in by {$current->author}, {$current->ago} ago)</strong>
+    {$current->msg}
+</blockquote>
+<!--@end-->
+
+<!--@if($logs)-->
+    <!--@if(substr($path,-1)=='/')-->
+        {@ $type = 'compare'}
+    <!--@else-->
+        {@ $type = 'diff'}
+    <!--@end-->
+<!--@end-->
+
+<form action="./index.php" id="logForm" method="get">
+<input type="hidden" name="path" value="{htmlspecialchars($path)}" />
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="act" value="{$act}" />
+<input type="hidden" name="type" value="{$type}" />
+<input type="submit" value="compare" class="btnCompare" />
+
+    <table>
+    <col width="80" />
+    <col width="30" />
+    <col width="30" />
+    <col width="*" />
+    <col width="120" />
+    <col width="230" />
+    <thead>
+    <tr>
+        <th>Revision</th>
+        <th>ER</th>
+        <th>BR</th>
+        <th>Message</th>
+        <th>Author</th>
+        <th>Age/ Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--@foreach($logs as $item)-->
+        <!--@if(!$brev && $item->revision < $erev)--> {@ $brev = $item->revision } <!--@end-->
+        <!--@if($item->paths[0]->path)--> {@ $p = $item->paths[0]->path} <!--@else--> {@ $p = $path } <!--@end-->
+    <tr>    
+        <td class="log"><a href="{getUrl('type','file','path',urlencode($p),'revs',$item->revision)}">{$item->revision}</a></td>
+        <td class="tCenter"><input type="radio" name="erev" value="{$item->revision}" <!--@if($erev==$item->revision)-->checked="checked"<!--@end--> /></td>
+        <td class="tCenter"><input type="radio" name="brev" value="{$item->revision}" <!--@if($brev==$item->revision)-->checked="checked"<!--@end--> /></td>
+        <td class="summaryText"><div class="close">{$item->msg}&nbsp;</div></td>
+        <td class="tCenter"><span class="author">{$item->author}</span></td>
+        <td>{$item->gap} ({$item->date})</td>
+    </tr>
+    <!--@end-->
+    </table>
+
+    <input type="submit" value="compare"  class="btnCompare" />
+</form>
+
+<!--#include("source_footer.html")-->

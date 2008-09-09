@@ -1,0 +1,14 @@
+<query id="insertIssue" action="insert">
+    <tables>
+        <table name="issues" />
+    </tables>
+    <columns>
+        <column name="target_srl" var="document_srl" notnull="notnull" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="milestone_srl" var="milestone_srl" />
+        <column name="priority_srl" var="priority_srl" />
+        <column name="type_srl" var="type_srl" />
+        <column name="component_srl" var="component_srl" />
+        <column name="occured_version_srl" var="occured_version_srl" />
+    </columns>
+</query>

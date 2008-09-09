@@ -1,0 +1,34 @@
+<!--#include("header.html")-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("filter/insert_release.xml")-->
+
+
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_release)">
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="release_srl" value="{$release->release_srl}" />
+<input type="hidden" name="package_srl" value="{$release->package_srl?$release->package_srl:$package_srl}" />
+
+<table cellspacing="0" class="adminTable">
+<thead>
+<col width="120" />
+<col width="*" />
+<tr>
+    <th>{$lang->name}</th>
+    <td><input name="title" type="text" value="{htmlspecialchars($release->title)}" class="inputTypeText w400" /></td>
+</tr>
+<tr>
+    <th>{$lang->release_note}</th>
+    <td><textarea name="release_note" class="inputTypeTextArea w400" />{htmlspecialchars($release->release_note)}</textarea></td>
+</tr>
+<tr>
+    <th>{$lang->release_changes}</th>
+    <td><textarea name="release_changes" class="inputTypeTextArea w400" />{htmlspecialchars($release->release_changes)}</textarea></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
+    </td>
+</tr>
+</table>
+
+</form>

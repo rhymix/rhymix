@@ -1,0 +1,15 @@
+<query id="getReleasesWithPackage" action="select">
+    <tables>
+        <table name="issue_releases" />
+        <table name="issue_packages" />
+    </tables>
+    <columns>
+        <column name="issue_releases.title" alias = "title"/>
+        <column name="issue_packages.title" alias = "package_title"/>
+        <column name="release_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="issue_releases.package_srl" var="issue_packages.package_srl" />
+        <condition operation="equal" column="issue_releases.module_srl" var="module_srl" pipe="and" />
+    </conditions>
+</query>

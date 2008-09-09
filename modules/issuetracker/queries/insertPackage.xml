@@ -1,0 +1,12 @@
+<query id="insertPackage" action="insert">
+    <tables>
+        <table name="issue_packages" />
+    </tables>
+    <columns>
+        <column name="package_srl" var="package_srl" notnull="notnull" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="description" var="description" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

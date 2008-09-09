@@ -1,0 +1,11 @@
+<query id="getRelease" action="select">
+    <tables>
+        <table name="issue_releases" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="release_srl" var="release_srl" notnull="notnull" />
+    </conditions>
+</query>

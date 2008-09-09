@@ -1,0 +1,13 @@
+<filter name="delete_component" module="issuetracker" act="procIssuetrackerAdminDeleteComponent" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="target_srl" required="true" />
+    </form>
+    <parameter>
+        <param name="component_srl" target="target_srl" />
+    </parameter>
+    <response callback_func="completeInsertSetting">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

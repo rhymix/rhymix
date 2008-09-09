@@ -1,0 +1,12 @@
+<query id="updateType" action="update">
+    <tables>
+        <table name="issue_types" />
+    </tables>
+    <columns>
+        <column name="title" var="title" notnull="notnull" />
+        <column name="is_default" var="is_default" default="N" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="type_srl" var="type_srl" notnull="notnull" />
+    </conditions>
+</query>

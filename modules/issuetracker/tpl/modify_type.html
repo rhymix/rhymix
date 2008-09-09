@@ -1,0 +1,41 @@
+<!--#include("header.html")-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("filter/insert_type.xml")-->
+
+
+<!--@if($type)-->
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_type)">
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="type_srl" value="{$type->type_srl}" />
+<!--@if($type->is_default=="Y")--><input type="hidden" name="is_default" value="Y" /><!--@end-->
+<table cellspacing="0" class="adminTable">
+<thead>
+<col width="*" />
+<col width="100" />
+<col width="110" />
+<tr>
+    <th scope="col">{$lang->name}</th>
+    <th scope="col">{$lang->cmd_default}</th>
+    <th scope="col">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="ht60">
+    <td><input name="title" type="text" class="inputTypeText w400" value="{$type->title}" /></td>
+    <td>
+        <!--@if($type->is_default=='Y')-->
+            {$lang->is_default}
+        <!--@else-->
+            <input type="checkbox" name="is_default" value="Y" />
+        <!--@end-->
+    </td>
+    <td>
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </td>
+</tr>
+<tr>
+</tr>
+</tbody>
+</table>
+</form>
+<!--@end-->

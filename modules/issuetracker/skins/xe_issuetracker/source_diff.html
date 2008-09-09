@@ -1,0 +1,40 @@
+<!--#include("source_header.html")-->
+
+<h3>Diff between revs {$brev} to revs {$erev}</h3>
+<h1>{$path}</h1>
+
+<ol>
+    <li>[<a href="{getUrl('type','log','path',urlencode($path),'erev',$erev,'brev',$brev)}">view log</a>]</li>
+    <li>[<a href="{getUrl('type','file','path',urlencode($path),'revs',$erev)}">view code</a>]</li>
+</ol>
+
+<!--@if($diff)-->
+    <table>
+    <col width="80" />
+    <col width="*" />
+    <col width="*" />
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th class="before">Rev. {$brev}</th>
+        <th class="after">Rev. {$erev}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--@foreach($diff as $item)-->
+    <tr class="line">
+        <td rowspan="2" class="tCenter {$item->diff_type}">{$item->diff_type}</td>
+        <td class="before">line {$item->before_line}</td>
+        <td class="after">line {$item->after_line}</td>
+    </tr>
+    <tr class="code">
+        <td>{nl2br(htmlspecialchars($item->before_code))}</td>
+        <td>{nl2br(htmlspecialchars($item->after_code))}</td>
+    </tr>
+    <!--@end-->
+    </tbody>
+    </table>
+
+<!--@end-->
+
+<!--#include("source_footer.html")-->

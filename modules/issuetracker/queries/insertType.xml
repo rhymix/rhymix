@@ -1,0 +1,11 @@
+<query id="insertType" action="insert">
+    <tables>
+        <table name="issue_types" />
+    </tables>
+    <columns>
+        <column name="type_srl" var="type_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="is_default" var="is_default" default="N" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+    </columns>
+</query>

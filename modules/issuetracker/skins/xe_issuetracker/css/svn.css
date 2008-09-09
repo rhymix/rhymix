@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+.sourceBrowser h3 { background:url("../images/tableHeader.gif") repeat left top; height:20px; font-size:10pt; font-family:tahoma; color:#FFFFFF; margin:0; padding:0 0 0 10px;  clear:both; }
+.sourceBrowser h1 { background-color:#EEEEEE; padding:10px; font-size:11pt; font-family:tahoma; color:#444444; clear:both; margin:0 0 10px 0; text-decoration:underline; }
+
+.sourceBrowser blockquote { border:1px solid #444444; background-color:#444444; margin:0 0 10px 0; padding:5px; font-size:9pt; color:#EFEFEF; clear:both; }
+.sourceBrowser blockquote strong { margin-bottom:10px; display:block;}
+
+.sourceBrowser ul { border:1px solid #888888; background-color:#AAAAAA; margin:0 0 5px 0; padding:5px 0 0 5px; height:20px; overflow:hidden; }
+.sourceBrowser ul li { float:left; list-style:none; padding:0; margin:0 10px 0 0; color:#CCCCCC; }
+.sourceBrowser ul li a { font-weight:bold; color:green; text-decoration:none; color:#FFFFFF;}
+.sourceBrowser ul li.file a { float:left; list-style:none; padding:0; margin:0 10px 0 0; color:#B5FFC1;}
+
+.sourceBrowser ol { margin:0; padding:0; float:right; overflow:hidden; height:30px; }
+.sourceBrowser ol li { float:left; list-style:none; padding:0; margin:0 10px 0 0; color:#AAAAAA; font-size:9pt; }
+.sourceBrowser ol li a { font-weight:normal; color:#555555;; text-decoration:none; }
+
+.sourceBrowser table { width:100%; clear:both; border:0; border-spacing:0; table-layout:fixed; border:1px solid #333333; margin-bottom:10px; }
+.sourceBrowser table thead tr { background:url("../images/tableHeader.gif") repeat left top; height:20px; color:#FFFFFF; font-family:tahoma; font-size:8pt; font-weight:bold; }
+.sourceBrowser table tr th.filename {color:#ffffff; padding:4px; font-size:9pt; font-family:tahoma; text-align:left;}
+.sourceBrowser table tr.revision td { text-align:center; font-weight:bold; font-size:8pt; font-family:tahoma;}
+.sourceBrowser table tr.line td { font-size:8pt; font-family:tahoma;}
+.sourceBrowser table tr.line td.deleted { color:red; }
+.sourceBrowser table tr.line td.modified { color:green; }
+.sourceBrowser table tr.line td.added { color:blue; }
+.sourceBrowser table tr.code td { color:#222222; font-size:9pt; }
+.sourceBrowser table tr td { border-bottom:1px solid #EEEEEE; vertical-align:top; padding-top:3px; color:#888888; font-family:tahoma; font-size:9pt; background-color:#FFFFFF; }
+.sourceBrowser table tbody tr.revision td { background-color:#DDDDDD; }
+.sourceBrowser table tbody tr.line td { background-color:#F3F3F3; border-bottom:1px solid #EEEEEE; text-align:center;}
+.sourceBrowser table tr.over td { background-color:#EFEFEF; }
+.sourceBrowser table td a { text-decoration:none; }
+.sourceBrowser table td.before { color:red; }
+.sourceBrowser table td.after { color:blue; }
+.sourceBrowser table td.directory { background:url("../images/folder.gif") no-repeat 4px 3px; padding-left:22px;}
+.sourceBrowser table td.file { background:url("../images/fileItem.gif") no-repeat 4px 3px; padding-left:22px;}
+.sourceBrowser table td.directory a { color:#333333; }
+.sourceBrowser table td.file a { color:#222222; }
+.sourceBrowser table td.log { white-space:nowrap; color:red; text-align:center;}
+.sourceBrowser table td.age { white-space:nowrap; text-align:left;}
+.sourceBrowser table td.log a { color:red;}
+.sourceBrowser table td span.author { font-weight:bold; color:#000000; }
+
+.sourceBrowser pre { clear:both; font-size:9pt; font-family:tahoma; border:1px dotted #DDDDDD; background-color:#F3F3F3; padding:5px; color:#444444; }
+
+.sourceBrowser input.btnCompare { margin-bottom:10px; }

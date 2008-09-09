@@ -1,0 +1,11 @@
+<query id="getIssue" action="select">
+    <tables>
+        <table name="issues" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="target_srl" var="target_srl" notnull="notnull" />
+    </conditions>
+</query>

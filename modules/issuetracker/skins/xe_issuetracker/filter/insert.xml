@@ -1,0 +1,20 @@
+<filter name="insert" module="issuetracker" act="procIssuetrackerInsertIssue" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="title" required="true" minlength="1" maxlength="250" />
+    <node target="type_srl" required="true" />
+    <node target="component_srl" required="true" />
+    <node target="package_srl" required="true" />
+    <node target="occured_version_srl" required="true" />
+    <node target="nick_name" required="true" />
+    <node target="password" required="true" />
+    <node target="email_address" maxlength="250" />
+    <node target="homepage" maxlength="250"/>
+    <node target="content" required="true" />
+  </form>
+  <response callback_func="completeIssueInserted">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="mid" />
+    <tag name="document_srl" />
+  </response>
+</filter>

@@ -1,0 +1,8 @@
+<query id="deletePriority" action="delete">
+    <tables>
+        <table name="issue_priorities" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="priority_srl" var="priority_srl" notnull="notnull" />
+    </conditions>
+</query>

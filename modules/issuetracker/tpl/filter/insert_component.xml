@@ -1,0 +1,13 @@
+<filter name="insert_component" module="issuetracker" act="procIssuetrackerAdminInsertComponent" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" maxlength="255" />
+    </form>
+    <parameter>
+    </parameter>
+    <response callback_func="completeInsertSetting">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+    </response>
+</filter>
+

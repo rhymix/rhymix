@@ -1,0 +1,131 @@
+<!--#include("header.html")-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("filter/insert_release.xml")-->
+<!--%import("filter/delete_release.xml")-->
+<!--%import("filter/delete_package.xml")-->
+<!--%import("filter/delete_file.xml")-->
+
+<form id="deleteForm" action="{Context::getRequestUri()}" method="POST">
+<input type="hidden" id="target_srl" name="target_srl" value="" />
+</form>
+
+<div class="top1">
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->package}</caption>
+    <col width="200" />
+    <col width="*" />
+    <col width="80" />
+    <!--@foreach($package_list as $key => $val)-->
+    <tr>
+        <td><a href="{getUrl('package_srl', $key)}">{$val->title}</a></td>
+        <td class="summaryText"><div class="close">{nl2br($val->description)}</div></td>
+        <td class="button">
+            <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyPackage','package_srl',$val->package_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
+            <!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->package_srl}', delete_package);"><img src="images/buttonDeleteX.gif" /></a><!--@else-->&nbsp;<!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <td colspan="3">
+            <div class="fr">
+                <form action="{Context::getRequestUri()}" method="get">
+                <input type="hidden" name="module" value="{$module}"/>
+                <input type="hidden" name="mid" value="{$mid}"/>
+                <input type="hidden" name="module_srl" value="{$module_srl}"/>
+                <input type="hidden" name="act" value="dispIssuetrackerAdminModifyPackage" />
+                    <input type="submit" value="{$lang->cmd_insert_package}" class="btnSubmit" />
+                </form>
+            </div>
+        </td>
+    </tr>
+    </table>
+</div>
+
+<!--@if($package_srl)-->
+    {@ $package = $package_list[$package_srl] }
+<div class="top2">
+
+<table cellspacing="0" class="adminTable">
+<col width="200" />
+<col width="80" />
+<col width="*" />
+<col width="80" />
+<caption>{$lang->package} : {$package->title}</caption>
+<tbody>
+    <tr>
+        <td colspan="4">
+            <div class="fr">
+                <form action="{Context::getRequestUri()}" method="get">
+                <input type="hidden" name="module" value="{$module}"/>
+                <input type="hidden" name="mid" value="{$mid}"/>
+                <input type="hidden" name="module_srl" value="{$module_srl}"/>
+                <input type="hidden" name="package_srl" value="{$package_srl}"/>
+                <input type="hidden" name="act" value="dispIssuetrackerAdminModifyRelease" />
+                    <input type="submit" value="{$lang->cmd_insert_release}" class="btnSubmit" />
+                </form>
+            </div>
+        </td>
+    </tr>
+<!--@foreach($package->releases as $key => $val)-->
+    <tr>
+        <td class="vtop" rowspan="4">{$val->title}</th>
+        <th>{$lang->regdate}</th>
+        <td>{zdate($val->regdate)}</td>
+        <td class="tCenter">
+            <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminAttachRelease','release_srl',$val->release_srl)}"><img src="images/buttonAttach.gif" alt="" /></a> 
+            <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyRelease','release_srl',$val->release_srl)}"><img src="images/buttonModify.gif" alt="" /></a> 
+            <a href="#" onclick="deleteByFilter('{$val->release_srl}', delete_release);"><img src="images/buttonDeleteX.gif" alt="" /></a>
+        </td>
+    </tr>
+    <tr>
+        <th>{$lang->release_note}</th>
+        <td colspan="2" class="summaryText"><div class="close">{nl2br($val->release_note)}</div></td>
+    </tr>
+    <tr>
+        <th>{$lang->release_changes}</th>
+        <td colspan="2" class="summaryText"><div class="close">{nl2br($val->release_changes)}</div></td>
+    </tr>
+    <tr>
+        <th>{$lang->attached_file}</th>
+        <td colspan="2">
+            <!--@if($val->files)-->
+            <!--@foreach($val->files as $file)-->
+            <table cellspacing="0" class="adminTable">
+            <col width="180" />
+            <col width="*" />
+            <tbody>
+            <tr>
+                <td colspan="2" class="filename">
+                    <a href="#" onclick="deleteByFilter('{$file->file_srl}', delete_file);"><img src="images/btnDelete.gif" class="btnDelete" alt="" /></a>
+                    <a href="{$file->download_url}" name="attach_{$file->file_srl}">{$file->source_filename}</a>
+                </td>
+            </tr>
+            </tr>
+            <tr>
+                <td>{FileHandler::filesize($file->file_size)} / {$file->download_count}</td>
+                <td>{nl2br($file->comment)}&nbsp;</td>
+            </tr>
+            </tbody>
+            </table>
+            <!--@end-->
+            <!--@end-->
+        </td>
+    </tr>
+<!--@end-->
+    <tr>
+        <td colspan="4">
+            <div class="fr">
+                <form action="{Context::getRequestUri()}" method="get">
+                <input type="hidden" name="module" value="{$module}"/>
+                <input type="hidden" name="mid" value="{$mid}"/>
+                <input type="hidden" name="module_srl" value="{$module_srl}"/>
+                <input type="hidden" name="package_srl" value="{$package_srl}"/>
+                <input type="hidden" name="act" value="dispIssuetrackerAdminModifyRelease" />
+                    <input type="submit" value="{$lang->cmd_insert_release}" class="btnSubmit" />
+                </form>
+            </div>
+        </td>
+    </tr>
+</tbody>
+</table>
+<!--@end-->

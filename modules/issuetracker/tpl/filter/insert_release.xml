@@ -1,0 +1,13 @@
+<filter name="insert_release" module="issuetracker" act="procIssuetrackerAdminInsertRelease" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" maxlength="255" />
+        <node target="package_srl" required="true" maxlength="255" />
+        <node target="module_srl" required="true" maxlength="255" />
+    </form>
+    <parameter />
+    <response callback_func="completeReleaseInsertSetting">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+    </response>
+</filter>

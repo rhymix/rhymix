@@ -1,0 +1,29 @@
+<!--#include("header.html")-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("filter/insert_package.xml")-->
+
+
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_package)">
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="package_srl" value="{$package->package_srl}" />
+
+<table cellspacing="0" class="adminTable">
+<thead>
+<col width="120" />
+<col width="*" />
+<tr>
+    <th>{$lang->name}</th>
+    <td><input name="title" type="text" value="{htmlspecialchars($package->title)}" class="inputTypeText w400" /></td>
+</tr>
+<tr>
+    <th>{$lang->description}</th>
+    <td><textarea name="description" class="inputTypeTextArea w400" />{htmlspecialchars($package->description)}</textarea></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
+    </td>
+</tr>
+</table>
+
+</form>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE IssueTracker 기본 스킨</title>
+    <description xml:lang="ko">XE IssueTracker의 기본 스킨입니다. </description>
+    <version>0.1</version>
+    <date>2008-08-11</date>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">zero</name>
+    </author>
+
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">일반</title>
+        </color>
+        <color name="black" src="screenshot/black.gif">
+            <title xml:lang="ko">검은색 배경용</title>
+        </color>
+    </colorset>
+
+    <extra_vars>
+        <group>
+            <title xml:lang="ko">기본 설정</title>
+            <var name="projectTitle" type="text">
+                <title xml:lang="ko">이슈트래커 제목</title>
+                <description xml:lang="ko">이슈트래커의 상단에 큰 제목으로 표시가 됩니다.</description>
+            </var>
+            <var name="projectDescription" type="textarea">
+                <title xml:lang="ko">이슈트래커 설명</title>
+                <description xml:lang="ko">입력하시면 이슈트래커의 메인에 설명이 노출됩니다.</description>
+            </var>
+        </group>
+    </extra_vars>
+</skin>

@@ -1,0 +1,104 @@
+<!--#include("header.html")-->
+
+<table cellspacing="0" class="adminTable">
+<col width="150" />
+<col />
+<tr>
+    <th scope="row">{$lang->module_category}</th>
+    <td>
+        <!--@if(!$module_info->module_category_srl)-->
+            {$lang->not_exists}
+        <!--@else-->
+            {$module_category[$module_info->module_category_srl]->title}
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->layout}</th>
+    <td>
+        <!--@if($module_info->layout_srl)-->
+            {$module_info->layout_title} ({$module_info->layout})
+        <!--@else-->
+            {$lang->not_exists}
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <th scope="row">{$lang->skin}</th>
+    <td>{$module_info->skin_title} ({$module_info->skin})</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->browser_title}</th>
+    <td>{htmlspecialchars($module_info->browser_title)}</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->svn_url}</th>
+    <td>{$module_info->svn_url}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->svn_cmd}</th>
+    <td>{$module_info->svn_cmd}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->diff_cmd}</th>
+    <td>{$module_info->diff_cmd}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->description}</th>
+    <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row">{$lang->admin_id}</th>
+    <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row" colspan="2" class="button">
+        <a href="{getUrl('act','dispIssuetrackerAdminInsertProject')}" class="button"><span>{$lang->cmd_modify}</span></a>
+        <!--@if($module=="admin")-->
+        <a href="{getUrl('act','dispIssuetrackerAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+        <!--@end-->
+    </th>
+</tr>
+</table>
+
+<!--@for($i=1;$i<=20;$i++)-->
+    <!--@if($module_info->extra_vars[$i])-->
+    {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
+    {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
+    {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required=='Y'?'Y':'N'}
+    {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default?$module_info->extra_vars[$i]->default:'&nbsp;'}
+    {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc?$module_info->extra_vars[$i]->desc:'&nbsp;'}
+    {@ $extra_vars_search = $module_info->extra_vars[$i]->search=='Y'?'Y':'N'}
+
+    <div class="gap1"></div>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <caption>{$lang->extra_vars} {$i}</caption>
+    <tr>
+        <th>{$lang->column_name}</th>
+        <td>{$extra_vars_name}</td>
+    </tr>
+    <tr>
+        <th>{$lang->column_type}</th>
+        <td>{$extra_vars_type}</td>
+    </tr>
+    <tr>
+        <th>{$lang->is_required}</th>
+        <td>{$extra_vars_is_required}</td>
+    </tr>
+    <tr>
+        <th>{$lang->default_value}</th>
+        <td>{$extra_vars_default_value}</td>
+    </tr>
+    <tr>
+        <th>{$lang->description}</th>
+        <td>{$extra_vars_desc}</td>
+    </tr>
+    <tr>
+        <th>{$lang->cmd_search}</th>
+        <td>{$extra_vars_search}</td>
+    </tr>
+    </table>
+    <!--@end-->
+<!--@end-->

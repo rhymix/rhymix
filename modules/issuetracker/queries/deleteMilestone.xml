@@ -1,0 +1,8 @@
+<query id="deleteMilestone" action="delete">
+    <tables>
+        <table name="issue_milestones" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="milestone_srl" var="milestone_srl" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,11 @@
+<query id="insertComponent" action="insert">
+    <tables>
+        <table name="issue_components" />
+    </tables>
+    <columns>
+        <column name="component_srl" var="component_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="is_default" var="is_default" default="N" />
+    </columns>
+</query>

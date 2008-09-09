@@ -1,0 +1,183 @@
+<!--%import("filter/insert_project.xml")-->
+<!--%import("js/issue_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_project)" enctype="multipart/form-data">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_srl?$module_srl:$module_srls}" />
+<!--@if($module_info->is_default=='Y')-->
+<input type="hidden" name="is_default" value="Y" />
+<!--@end-->
+
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+
+    <!--@if(!$module_srls)-->
+        <tr>
+            <th scope="row">{$lang->mid}</th>
+            <td>
+                <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
+                <p>{$lang->about_mid}</p>
+            </td>
+        </tr>
+        <!--@if($module_info->is_default!='Y')-->
+        <tr>
+            <th scope="row">{$lang->is_default}</th>
+            <td>
+                <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
+                <label for="fld_for_default">{$lang->about_default}</label>
+            </td>
+        </tr>
+        <!--@end-->
+    <!--@end-->
+    <tr>
+        <th scope="row">{$lang->module_category}</th>
+        <td>
+            <select name="module_category_srl">
+                <option value="0">{$lang->notuse}</option>
+                <!--@foreach($module_category as $key => $val)-->
+                <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_module_category}</p>
+        </td>
+    </tr>
+
+    <!--@if(!$module_srls)-->
+    <tr>
+        <th scope="row">{$lang->browser_title}</th>
+        <td>
+            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
+            <p>{$lang->about_browser_title}</p>
+        </td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <th scope="row">{$lang->layout}</th>
+        <td>
+            <select name="layout_srl">
+            <option value="0">{$lang->notuse}</option>
+            <!--@foreach($layout_list as $key => $val)-->
+            <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+            <!--@end-->
+            </select>
+            <p>{$lang->about_layout}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->skin}</th>
+        <td>
+            <select name="skin">
+                <!--@foreach($skin_list as $key=>$val)-->
+                <option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='xe_board'))-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_skin}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->svn_url}</th>
+        <td>
+            <input type="text" name="svn_url" value="{$module_info->svn_url}"  class="inputTypeText w300" />
+            <p>{$lang->about_svn_url}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->svn_cmd}</th>
+        <td>
+            <input type="text" name="svn_cmd" value="{$module_info->svn_cmd}"  class="inputTypeText w300" />
+            <p>{$lang->about_svn_cmd}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->diff_cmd}</th>
+        <td>
+            <input type="text" name="diff_cmd" value="{$module_info->diff_cmd}"  class="inputTypeText w300" />
+            <p>{$lang->about_diff_cmd}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->description}</th>
+        <td>
+            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>
+            <p>{$lang->about_description}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">{$lang->admin_id}</th>
+        <td>
+            <textarea name="admin_id" class="inputTypeTextArea w100"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
+            <p>{$lang->about_admin_id}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row" colspan="2" class="button">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
+        </th>
+    </table>
+
+    <!--@if(!$module_srls)-->
+        <!--@for($i=1;$i<=20;$i++)-->
+            <div class="gap1"></div>
+            {@ $extra_vars_name = ''}
+            {@ $extra_vars_type = ''}
+            {@ $extra_vars_is_required = ''}
+            {@ $extra_vars_default_value = ''}
+            {@ $extra_vars_desc = ''}
+            {@ $extra_vars_search = ''}
+            <!--@if($module_info->extra_vars[$i])-->
+                {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
+                {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
+                {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required}
+                {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
+                {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
+                {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
+            <!--@end-->
+        <table cellspacing="0" class="adminTable ">
+        <col width="150" />
+        <col />
+        <caption>{$lang->extra_vars} {$i}</caption>
+        <tr>
+            <th>{$lang->column_name}</th>
+            <td><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
+        </tr>
+        <tr>
+            <th>{$lang->column_type}</th>
+            <td>
+                <select name="extra_vars_{$i}_type">
+                    <!--@foreach($lang->column_type_list as $key => $val)-->
+                        <!--@if($key != 'kr_zip')-->
+                        <option value="{$key}" <!--@if($extra_vars_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
+                        <!--@end-->
+                    <!--@end-->
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>{$lang->is_required}</th>
+            <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
+        </tr>
+        <tr>
+            <th>{$lang->default_value}</th>
+            <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
+        </tr>
+        <tr>
+            <th>{$lang->description}</th>
+            <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
+        </tr>
+        <tr>
+            <th>{$lang->cmd_search}</th>
+            <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
+        </tr>
+        <tr>
+            <th scope="row" colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
+        </tr>
+        </table>
+        <!--@end-->
+    <!--@end-->
+
+
+</form>

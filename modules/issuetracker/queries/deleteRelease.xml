@@ -1,0 +1,8 @@
+<query id="deleteRelease" action="delete">
+    <tables>
+        <table name="issue_releases" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="release_srl" var="release_srl" notnull="notnull" />
+    </conditions>
+</query>

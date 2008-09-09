@@ -1,0 +1,12 @@
+<script type="text/javascript">
+    alert("{$msg}");
+
+    var url = current_url.setQuery('act','dispIssuetrackerAdminReleaseSetting');
+    url = url.setQuery('module_srl', '{$module_srl}');
+    url = url.setQuery('module', '{$module}');
+    url = url.setQuery('mid', '{$mid}');
+    url = url.setQuery('release_srl', '{$release_srl}');
+    url = url.setQuery('package_srl', '{$package_srl}');
+    
+    location.href = url+"#attach_{$file_srl}";
+</script>

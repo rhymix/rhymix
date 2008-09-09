@@ -1,0 +1,33 @@
+<!--#include("source_header.html")-->
+
+<table cellspacing="0">
+<col width="180" />
+<col width="100" />
+<col width="150" />
+<col width="*" />
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Revision</th>
+    <th>Age</th>
+    <th>Last Change</th>
+</tr>
+</thead>
+<tbody>
+    <!--@foreach($list as $item)-->
+        <!--@if($item->type == 'file')-->
+            {@ $type = 'file' }
+        <!--@else-->
+            {@ $type = '' }
+        <!--@end-->
+<tr onmouseover="this.className='over'" onmouseout="this.className=''" >    
+    <td class="{$item->type}"><a href="{getUrl('type',$type, path, urlencode($item->path), 'revs', $revs)}">{$item->name}</a></td>
+    <td class="log"><a href="{getUrl('type','log','path',urlencode($item->path),'erev',$revs?$revs:'')}">{$item->revision}</a></td>
+    <td class="age">{$item->gap}</td>
+    <td class="summaryText"><div class="close"><span class="author">{$item->author}</span> {$item->msg?': '.$item->msg:''}</div></td>
+</tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<!--#include("source_footer.html")-->

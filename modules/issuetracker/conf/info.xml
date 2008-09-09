@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">이슈트래커</title>
+    <description xml:lang="ko">각종 이슈 처리를 위한 모듈입니다.</description>
+    <version>1.0</version>
+    <date>2008-08-04</date>
+    <category>service</category>
+    <author email_address="haneul0318@gmail.com" link="http://www.seungyeop.kr">
+        <name xml:lang="ko">haneul, zero</name>
+    </author>
+</module>

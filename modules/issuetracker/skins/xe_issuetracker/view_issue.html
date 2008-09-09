@@ -1,0 +1,265 @@
+<!--#include("header.html")-->
+<div class="viewIssue">
+    <table cellspacing="0">
+    <col width="140" />
+    <col width="*" />
+    <col width="140" />
+    <col width="*" />
+    <tr>
+        <th colspan="3" class="title">{$oIssue->getTitle()} <span>- {$oIssue->getStatus()}</span></th>
+        <td><SPAn class="member_{$oIssue->getMemberSrl()}">{$oIssue->getNickName()}</span></td>
+    </tr>
+    <!--@if(!$oIssue->isSecret() || $oIssue->isGranted())-->
+    <tr>
+        <th>{$lang->milestone} :</th>
+        <td>{$oIssue->getMilestoneTitle()}</td>
+        <th>{$lang->priority} :</th>
+        <td>{$oIssue->getPriorityTitle()}</td>
+    </tr>
+    <tr>
+        <th>{$lang->type} :</th>
+        <td>{$oIssue->getTypeTitle()}</td>
+        <th>{$lang->component} :</th>
+        <td>{$oIssue->getComponentTitle()}</td>
+    </tr>
+    <tr>
+        <th>{$lang->package} :</th>
+        <td>{$oIssue->getPackageTitle()}</td>
+        <th>{$lang->occured_version} :</th>
+        <td>{$oIssue->getReleaseTitle()}</td>
+    </tr>
+    <tr>
+        <th>{$lang->status} :</th>
+        <td>{$oIssue->getStatus()}</td>
+        <th>{$lang->assignee} :</th>
+        <td>
+            <!--@if($oIssue->get('assignee_srl'))-->
+                <span class="member_{$oIssue->get('assignee_srl')}">{$oIssue->get('assignee_name')}</span>
+            <!--@else-->
+                &nbsp;
+            <!--@end-->
+        </td>
+    </tr>
+
+    <!--@if($module_info->extra_vars)--><!--@foreach($module_info->extra_vars as $key => $val)-->
+        <!--@if($val->name)-->
+    <tr>
+        <th>{$val->name} :</th>
+        <td colspan="3"><!--#include("./extra_var_value.html")--></td>
+    </tr>
+        <!--@end-->
+    <!--@end--><!--@end-->
+
+    {@ $tag_list = $oIssue->get('tag_list') }
+    <!--@if(count($tag_list))-->
+    <tr>
+        <th><label for="inputTags">{$lang->tag} :</label></th>
+        <td colspan="3">
+            <ul class="tag">
+                <!--@for($i=0;$i<count($tag_list);$i++)-->
+                    {@ $tag = $tag_list[$i]; }
+                    <li><a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,&nbsp;<!--@end--></li>
+                <!--@end-->
+            </ul>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <td colspan="4" class="description">{$oIssue->getContent()}</td>
+    </tr>
+    <!--@else-->
+    <tr>
+        <td colspan="4" class="inputPassword">
+            <!--%import("filter/input_password.xml")-->
+            <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="document_srl" value="{$oIssue->document_srl}" />
+
+                {$lang->password} :
+                <input type="password" name="password" id="cpw" class="inputTypeText" />
+                <input type="submit" value="{$lang->cmd_input}" accesskey="s" class="inputTypeSubmit"/>
+
+            </form>
+        </td>
+    </tr>
+    <!--@end-->
+    </table>
+
+    <div class="button">
+        <ul>
+            <!--@if($oIssue->isGranted())-->
+            <li>[<a href="{getUrl('act','dispIssuetrackerDeleteIssue')}">{$lang->cmd_delete}</a>]</li>
+            <li>[<a href="{getUrl('act','dispIssuetrackerNewIssue')}">{$lang->cmd_modify}</a>]</li>
+            <!--@end-->
+            <li>[<a href="{getUrl('document_srl','')}">{$lang->cmd_back}</a>]</li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<!--@if($oIssue->allowTrackback())-->
+<div class="viewTrackback">
+    <h3>{$lang->trackback} : <a href="{$oIssue->getTrackbackUrl()}" onclick="return false;">{$oIssue->getTrackbackUrl()}</a> <address>({$oIssue->getTrackbackCount()})</address></h3>
+    <!--@if($oIssue->getTrackbackCount())-->
+        <!--@foreach($oIssue->getTrackbacks() as $key => $val)-->
+        <ul>
+            <li><a name="trackback_{$val->trackback_srl}"></a><address><a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a></address></li>
+            <li class="date">
+                {zdate($val->regdate, "Y.m.d H:i")}
+                ({$val->ipaddress})
+            </li>
+            <li><a href="{getUrl('act','dispIssuetrackerDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/buttonDeleteX.gif" alt="" /></a></li>
+            <li class="excerpt">{$val->excerpt}</li>
+        </ul>
+        <div class="clear"></div>
+        <!--@end-->
+    <!--@end-->
+</div>
+<!--@end-->
+
+{@ $histories = $oIssue->get('histories') }
+<!--@if($histories)-->
+<!--@foreach($histories as $history)-->
+    <fieldset class="history">
+        <legend>
+            <span class="date">{zdate($history->regdate, "Y-m-d H:i")}</span>
+            <span class="member_{$history->member_srl}">{$history->nick_name}</span> 
+        </legend>
+    <ul>
+        <!--@if($history->history && count($history->history))-->
+        <li>
+            <ol>
+            <!--@foreach($history->history as $key => $val)-->
+                <li>{$val}</li>
+            <!--@end-->
+            </ol>
+        </li>
+        <!--@end-->
+        <!--@if($history->content)-->
+        <li class="content">{nl2br($history->content)}</li>
+        <!--@end-->
+    </ul>
+    </fieldset>
+<!--@end-->
+<!--@end-->
+
+<!--@if($grant->ticket_write || $grant->commiter)-->
+<!--%import("./filter/insert_history.xml")-->
+<div class="newIssue newHistory">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_history)">
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="target_srl" value="{$oIssue->get('target_srl')}" />
+    <table cellspacing="0">
+    <col width="140" />
+    <col width="*" />
+    <col width="140" />
+    <col width="*" />
+    <!--@if($grant->commiter)-->
+    <tr>
+        <th><label for="inputMilestone">{$lang->milestone} :</label></th>
+        <td>
+            <select name="milestone_srl" id="inputMilestone">
+                <option value="0">{$lang->milestone}</option> 
+            <!--@foreach($project->milestones as $val)-->
+                <option value="{$val->milestone_srl}" <!--@if($oIssue->get('milestone_srl')==$val->milestone_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+            <!--@end-->
+            </select>
+        </td>
+        <th><label for="inputPriority">{$lang->priority} :</label></th>
+        <td>
+            <select name="priority_srl" id="inputPriority">
+                <option value="">{$lang->priority}</option> 
+                <!--@foreach($project->priorities as $key => $val)-->
+                <option value="{$val->priority_srl}" <!--@if($val->priority_srl==$oIssue->get('priority_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><label for="inputType">{$lang->type} :</label></th>
+        <td>
+            <select name="type_srl" id="inputType">
+                <option value="">{$lang->type}</option> 
+                <!--@foreach($project->types as $key => $val)-->
+                <option value="{$val->type_srl}" <!--@if($val->type_srl==$oIssue->get('type_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+        </td>
+        <th><label for="inputComponent">{$lang->component} :</label></th>
+        <td>
+            <select name="component_srl" id="inputComponent">
+                <option value="">{$lang->component}</option> 
+                <!--@foreach($project->components as $key => $val)-->
+                <option value="{$val->component_srl}" <!--@if($val->component_srl==$oIssue->get('component_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><label for="inputPackage">{$lang->occured_version} :</label></th>
+        <td colspan="3">
+            <select name="package_srl" id="inputPackage">
+                <option value="">{$lang->package}</option> 
+                <!--@foreach($project->packages as $key => $val)-->
+                <option value="{$val->package_srl}" <!--@if($val->package_srl==$oIssue->get('package_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+            <select name="occured_version_srl">
+                <option value="">{$lang->release}</option> 
+                <!--@foreach($project->packages as $key => $val)-->
+                <!--@foreach($project->releases as $k => $v)-->
+                <!--@if($val->package_srl == $v->package_srl)-->
+                <option value="{$v->release_srl}" <!--@if($v->release_srl==$oIssue->get('occured_version_srl'))-->selected="selected"<!--@end-->>{$v->title}</option> 
+                <!--@end-->
+                <!--@end-->
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><label>{$lang->action} :</label></th>
+        <td colspan="3">
+            <ul>
+                <li>
+                    <input type="radio" name="action" value="resolve" id="actResolve" /><label for="actResolve">{$lang->cmd_resolve_as}</label>
+                    <select name="status" onchange="xGetElementById('actResolve').checked='checked'">
+                        <!--@foreach($lang->status_list as $key => $val)-->
+                        <option value="{$key}" <!--@if($oIssue->get('status')==$key)-->selected="selected"<!--@end-->>{$val}</option> 
+                        <!--@end-->
+                    </select>
+                </li>
+                <li>
+                    <input type="radio" name="action" value="reassign" id="actReassign" /><label for="actReassign">{$lang->cmd_reassign}</label>
+                    <select name="assignee_srl" onchange="xGetElementById('actReassign').checked='checked'">
+                        <!--@foreach($commiters as $key => $val)-->
+                        <option value="{$val->member_srl}" <!--@if($oIssue->get('assignee_srl')==$val->member_srl)-->selected="selected"<!--@end-->>{$val->nick_name} ({$val->user_id})</option> 
+                        <!--@end-->
+                    </select>
+                </li>
+                <li><input type="radio" name="action" value="accept" id="actAccept" /><label for="actAccept">{$lang->cmd_accept}</label></li>
+            </ul>
+        </td>
+    </tr>
+    <!--@end-->
+    <!--@if(!$is_logged)-->
+    <tr>
+        <th><label for="userName">{$lang->writer} :</label></th>
+        <td><input type="text" name="nick_name" value="" class="userName inputTypeText" id="userName"/></td>
+        <th><label for="userPw">{$lang->password} :</label></th>
+        <td><input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" /></td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <td colspan="4">
+            <textarea name="content" id="inputContent" class="inputTypeTextArea wide"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" class="tCenter">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
+    </table>
+</form>
+</div>
+<!--@end-->
