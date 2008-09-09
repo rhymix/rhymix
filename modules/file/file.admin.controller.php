@@ -19,7 +19,7 @@
         function deleteModuleFiles($module_srl) {
             // 전체 첨부파일 목록을 구함
             $args->module_srl = $module_srl;
-            $output = executeQuery('file.getModuleFiles',$args);
+            $output = executeQueryArray('file.getModuleFiles',$args);
             if(!$output) return $output;
             $files = $output->data;
 
