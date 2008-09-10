@@ -200,13 +200,6 @@
     function cut_str($string, $cut_size, $tail='...') {
         if(!$string || !$cut_size) return $string;
 
-        if(function_exists('iconv')) {
-            $unicode_str = iconv("UTF-8","UCS-2",$string);
-            if(strlen($unicode_str) < $cut_size*2) return $string;
-            $output_str = substr($unicode_str, 0, $cut_size*2);
-            return iconv("UCS-2","UTF-8",$output_str).$tail;
-        }
-
         $arr = array();
         return preg_match('/.{'.$cut_size.'}/su', $string, $arr) ? $arr[0].$tail : $string; 
     }
