@@ -18,6 +18,19 @@
         ');
     }
 
+    /**
+     * @brief iconv 함수가 없을 경우 빈 함수를 만들어서 오류가 생기지 않도록 정의
+     **/
+    if(!function_exists('iconv')) {
+        eval('
+            function iconv($in_charset, $out_charset, $str) {
+                return $str;
+            }
+        ');
+    }
+
+    
+    // time zone
     $time_zone = array(
         '-1200' => '[GMT -12:00] Baker Island Time',
         '-1100' => '[GMT -11:00] Niue Time, Samoa Standard Time',
