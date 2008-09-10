@@ -42,7 +42,7 @@
                 // rss config에 등록된 모듈중 rss 공개하는 것들의 module_srl을 고름
                 if($rss_config->module_config && count($rss_config->module_config)) {
                     foreach($rss_config->module_config as $key => $val) {
-                        if($val->open_rss == 'N') continue;
+                        if($val->open_rss == 'N' || !$val->open_rss) continue;
                         $module_srl_list[] = $val->module_srl;
                     }
                 }
@@ -75,6 +75,7 @@
 
                 // 해당 모듈이 rss를 사용하는지 확인
                 $rss_module_config = $rss_config->module_config[$module_info->module_srl];
+                if(!$rss_module_config->open_rss) $rss_module_config->open_rss = 'N';
 
                 // RSS 비활성화 되었는지 체크하여 비활성화시 에러 출력
                 if($rss_module_config->open_rss == 'N') return $this->dispError();
