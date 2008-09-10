@@ -1,7 +1,7 @@
 /**
  * @file   modules/board/js/board_admin.js
  * @author zero (zero@nzeo.com)
- * @brief  board 모듈의 관리자용 javascript
+ * @brief  관리자용 javascript
  **/
 
 /* 모듈 생성 후 */

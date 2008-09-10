@@ -2,7 +2,7 @@
     /**
      * @file   ko.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  게시판(board) 모듈의 기본 언어팩
+     * @brief  Issuetracker 모듈의 기본 언어팩
      **/
 
      $lang->issuetracker = '이슈트래커';
