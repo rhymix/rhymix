@@ -76,6 +76,8 @@
                         break;
                     case 'user_name' :
                     case 'nick_name' :
+                            $args->{"s_".$args->search_target} = $args->search_keyword;
+                        break;
                     case 'member_srl' :
                             $args->{"s_".$args->search_target} = (int)$args->search_keyword;
                         break;
