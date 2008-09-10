@@ -626,8 +626,8 @@
                         return $path.$get_vars['mid'];
                     case 'document_srl' : 
                         return $path.$get_vars['document_srl'];
-                    case 'act.mid' : 
-                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
+                    //case 'act.mid' : 
+                        //return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
                     case 'document_srl.mid' : 
                         return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
                     case 'act.document_srl' : 
