@@ -79,7 +79,7 @@ function editor_upload_start(editor_sequence, fo_obj, inserted_files_count) {
         '&uploadScript='+escape( request_uri+'?mid='+current_url.getQuery('mid')+
         '&act=procFileUpload'+
         '&editor_sequence='+editor_sequence+
-        '&PHPSESSID='+xGetCookie(zbxe_session_name)
+        '&'+xe_session_name+'='+xGetCookie(xe_session_name)
         );
 
     // 객체 생성 코드
