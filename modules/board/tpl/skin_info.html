@@ -1,6 +1,6 @@
 <!--#include("./header.html")-->
 
-<form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe">
 <input type="hidden" name="module" value="{$module_info->module}" />
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="procBoardAdminUpdateSkinInfo" />
