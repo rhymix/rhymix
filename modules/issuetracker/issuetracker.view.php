@@ -250,7 +250,7 @@
 
                 // status 점검
                 if(!is_array($args->status)||!count($args->status)) {
-                    $args->status = array('new','assign','reopen','reviewing');
+                    $args->status = array('new','assign','reopen','reviewing','resolve','postponed','duplicated','invalid',);
                     Context::set('status',$args->status);
                 }
                 $args->status = "'".implode("','",$args->status)."'";
