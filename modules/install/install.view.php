@@ -49,7 +49,12 @@
             // 설치 불가능하다면 check_env를 출력
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
 
-            $this->setTemplateFile('select_db');
+            // ftp 정보 입력
+            if(!Context::isFTPRegisted()) {
+                $this->setTemplateFile('ftp');
+            } else {
+                $this->setTemplateFile('select_db');
+            }
         }
 
         /**

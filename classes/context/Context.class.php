@@ -22,6 +22,7 @@
         var $context = NULL; ///< @brief request parameter 및 각종 환경 변수등을 정리하여 담을 변수 
 
         var $db_info = NULL; ///< @brief DB 정보
+        var $ftp_info = NULL; ///< @brief FTP 정보
 
         var $ssl_actions = array(); ///< @brief ssl로 전송해야 할 action등록 (common/js/xml_handler.js에서 ajax통신시 활용)
         var $js_files = array(); ///< @brief display시에 사용하게 되는 js files의 목록
@@ -258,6 +259,34 @@
          **/
         function _getDBInfo() {
             return $this->db_info;
+        }
+
+        /**
+         * @biref FTP 정보가 등록되었는지 확인
+         **/
+        function isFTPRegisted() {
+            $ftp_config_file = Context::getFTPConfigFile();
+            if(file_exists($ftp_config_file)) return true;
+            return false;
+        }
+
+        /**
+         * @brief FTP 정보가 담긴 object를 return
+         **/
+        function getFTPInfo() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getFTPInfo();
+        }
+
+        /**
+         * @brief FTP 정보가 담긴 object를 return
+         **/
+        function _getFTPInfo() {
+            if(!$this->isFTPRegisted()) return null;
+
+            $ftp_config_file = $this->getFTPConfigFile();
+            @include($ftp_config_file);
+            return $ftp_info;
         }
 
         /**
@@ -956,6 +985,13 @@
          **/
         function getConfigFile() {
             return _XE_PATH_."files/config/db.config.php";
+        }
+
+        /**
+         * @brief ftp설정내용이 저장되어 있는 config file의 path를 return
+         **/
+        function getFTPConfigFile() {
+            return _XE_PATH_."files/config/ftp.config.php";
         }
 
         /**

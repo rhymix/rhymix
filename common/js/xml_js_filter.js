@@ -297,7 +297,7 @@ function XmlJsFilterProc(confirm_msg) {
     }
     exec_xml(this.module, this.act, params, this.user_func, response, params, this.fo_obj);
 
-    return null;
+    return false;
 }
 
 // form proc

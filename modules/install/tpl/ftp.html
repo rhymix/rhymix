@@ -1,0 +1,38 @@
+<!--%import("js/install_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return doInstallFTPInfo(this);" id="ftp_form">
+
+<h2>{$lang->ftp_form_title}</h2>
+
+<blockquote>{$lang->about_ftp_info}</blockquote>
+
+    <table cellspacing="0" class="tableType7">
+    <col width="100" />
+    <col width="160" />
+    <col />
+
+    <!-- FTP 정보 -->
+    <tr>
+        <th rowspan="3" scope="row" class="hr"><label for="radio2">{$lang->ftp}</label></th>
+        <th class="second" scope="row"><label for="textfield21">{$lang->user_id}</label></th>
+        <td><input type="text" id="textfield21" name="ftp_user" value="" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second" scope="row"><label for="textfield22">{$lang->password}</label></th>
+        <td><input id="textfield22" type="password" name="ftp_password" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second hr" scope="row"><label for="textfield24">{$lang->ftp_port}</label></th>
+        <td class="hr"><input id="textfield24" type="text" name="ftp_port" value="21" class="inputTypeText" /></td>
+    </tr>
+    </table>
+
+    <div class="buttonCenter">
+        <span class="button"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+    </div>
+
+</form>
+
+<!--#include("footer.html")-->

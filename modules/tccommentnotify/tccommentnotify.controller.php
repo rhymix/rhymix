@@ -121,7 +121,7 @@
                 {
                     if(!file_exists($this->cachedir))
                     {
-                        mkdir($this->cachedir);
+                        FileHandler::makeDir($this->cachedir);
                     }
                     $fp = fopen($this->cachedir.$this->cachefile, "w");
                     fwrite($fp, "aa");

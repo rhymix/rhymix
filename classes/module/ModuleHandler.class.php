@@ -181,61 +181,64 @@
                 $this->error = 'msg_module_is_not_exists';
             }
 
-            // 에러가 발생하였을시 처리
-            if($this->error) {
-                // message 모듈 객체를 생성해서 컨텐츠 생성
-                $oMessageView = &getView('message');
-                $oMessageView->setError(-1);
-                $oMessageView->setMessage($this->error);
-                $oMessageView->dispMessage();
+            // XMLRPC call 이 아니면 message view 객체 이용하도록
+            if(Context::getRequestMethod() != 'XMLRPC') {
+                // 에러가 발생하였을시 처리
+                if($this->error) {
+                    // message 모듈 객체를 생성해서 컨텐츠 생성
+                    $oMessageView = &getView('message');
+                    $oMessageView->setError(-1);
+                    $oMessageView->setMessage($this->error);
+                    $oMessageView->dispMessage();
 
-                // 정상적으로 호출된 객체가 있을 경우 해당 객체의 template를 변경
-                if($oModule) {
-                    $oModule->setTemplatePath($oMessageView->getTemplatePath());
-                    $oModule->setTemplateFile($oMessageView->getTemplateFile());
+                    // 정상적으로 호출된 객체가 있을 경우 해당 객체의 template를 변경
+                    if($oModule) {
+                        $oModule->setTemplatePath($oMessageView->getTemplatePath());
+                        $oModule->setTemplateFile($oMessageView->getTemplateFile());
 
-                // 그렇지 않으면 message 객체를 호출된 객체로 지정
-                } else {
-                    $oModule = $oMessageView;
+                    // 그렇지 않으면 message 객체를 호출된 객체로 지정
+                    } else {
+                        $oModule = $oMessageView;
+                    }
                 }
-            }
 
-            // 해당 모듈에 layout_srl이 있는지 확인
-            if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
+                // 해당 모듈에 layout_srl이 있는지 확인
+                if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
 
-                // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
+                    // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
+                    $oLayoutModel = &getModel('layout');
+                    $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
 
-                if($layout_info) {
+                    if($layout_info) {
 
-                    // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
-                    if($layout_info->extra_var_count) {
-                        foreach($layout_info->extra_var as $var_id => $val) {
-                            $layout_info->{$var_id} = $val->value;
+                        // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
+                        if($layout_info->extra_var_count) {
+                            foreach($layout_info->extra_var as $var_id => $val) {
+                                $layout_info->{$var_id} = $val->value;
+                            }
                         }
-                    }
-                    
-                    // 레이아웃 정보중 menu를 Context::set
-                    if($layout_info->menu_count) {
-                        foreach($layout_info->menu as $menu_id => $menu) {
-                            if(file_exists($menu->php_file)) @include($menu->php_file);
-                            Context::set($menu_id, $menu);
+                        
+                        // 레이아웃 정보중 menu를 Context::set
+                        if($layout_info->menu_count) {
+                            foreach($layout_info->menu as $menu_id => $menu) {
+                                if(file_exists($menu->php_file)) @include($menu->php_file);
+                                Context::set($menu_id, $menu);
+                            }
                         }
+
+                        // 레이아웃 정보중 header_script가 있으면 헤더 추가
+                        if($layout_info->header_script) Context::addHtmlHeader($layout_info->header_script);
+
+                        // 레이아웃 정보를 Context::set
+                        Context::set('layout_info', $layout_info);
+
+                        $oModule->setLayoutPath($layout_info->path);
+                        $oModule->setLayoutFile('layout');
+
+                        // 레이아웃이 수정되었을 경우 수정본을 지정
+                        $edited_layout = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
+                        if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                     }
-
-                    // 레이아웃 정보중 header_script가 있으면 헤더 추가
-                    if($layout_info->header_script) Context::addHtmlHeader($layout_info->header_script);
-
-                    // 레이아웃 정보를 Context::set
-                    Context::set('layout_info', $layout_info);
-
-                    $oModule->setLayoutPath($layout_info->path);
-                    $oModule->setLayoutFile('layout');
-
-                    // 레이아웃이 수정되었을 경우 수정본을 지정
-                    $edited_layout = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
-                    if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                 }
             }
 
