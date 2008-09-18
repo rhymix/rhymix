@@ -87,11 +87,11 @@
 			<title xml:lang="jp">ゲストブックの説明</title>
 			<title xml:lang="en">Description</title>
 			<title xml:lang="es">Description</title>
-			<description lang="ko">내용의 기본값</description>
-			<description lang="zh-CN">内容默认值</description>
-			<description lang="jp">内容のデフォルト値</description>
-			<description lang="en">Default value of content</description>
-			<description lang="es">Valor por defecto de contenido</description>
+			<description xml:lang="ko">내용의 기본값</description>
+			<description xml:lang="zh-CN">内容默认值</description>
+			<description xml:lang="jp">内容のデフォルト値</description>
+			<description xml:lang="en">Default value of content</description>
+			<description xml:lang="es">Valor por defecto de contenido</description>
 		</var>
 	</extra_vars>
 </skin>
