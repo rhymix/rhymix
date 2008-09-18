@@ -180,8 +180,20 @@
          * @biref 지정된 디렉토리를 제외한 모든 파일을 삭제
          **/
         function removeFilesInDir($path) {
-            FileHandler::removedir($path);
-            FileHandler::makeDir($path);
+            $path = FileHandler::getRealPath($path);
+            if(!is_dir($path)) return;
+            $directory = dir($path);
+            while($entry = $directory->read()) {
+                if ($entry != "." && $entry != "..") {
+                    if (is_dir($path."/".$entry)) {
+                        FileHandler::removeFilesInDir($path."/".$entry);
+                    } else {
+                        @unlink($path."/".$entry);
+                    }
+                }
+            }
+            $directory->close();
+            @rmdir($path);
         }
 
         /**
