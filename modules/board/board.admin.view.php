@@ -80,8 +80,7 @@
 
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
-            if(!in_array($this->module_info->module, array('board','blog','guestbook')))
-            {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
             }
 
@@ -108,8 +107,7 @@
          * @brief 게시판 추가 폼 출력
          **/
         function dispBoardAdminInsertBoard() {
-            if(Context::get('module_srl') && !in_array($this->module_info->module, array('board','blog','guestbook')))
-            {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
             }
 
@@ -151,8 +149,7 @@
         function dispBoardAdminDeleteBoard() {
 
             if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
-            if(!in_array($this->module_info->module, array('board','blog','guestbook')))
-            {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
             }
 
@@ -172,8 +169,7 @@
          * @brief 스킨 정보 보여줌
          **/
         function dispBoardAdminSkinInfo() {
-            if(!in_array($this->module_info->module, array('board','blog','guestbook')))
-            {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
             }
 
@@ -206,8 +202,7 @@
         function dispBoardAdminCategoryInfo() {
             // module_srl을 구함
             $module_srl = $this->module_info->module_srl;
-            if(!in_array($this->module_info->module, array('board','blog','guestbook')))
-            {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
             }
 
@@ -228,8 +223,7 @@
         function dispBoardAdminGrantInfo() {
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
-            if(!in_array($this->module_info->module, array('board','blog','guestbook')))
-            {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
             }
 
