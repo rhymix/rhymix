@@ -207,14 +207,34 @@
      * @param cut_size 주어진 원 문자열을 자를 크기
      * @param tail 잘라졌을 경우 문자열의 제일 뒤에 붙을 꼬리
      * @return string
-     *
-     * 손쉽고 확실한 변환을 위해 2byte unicode로 변형한후 처리를 한다
      **/
-    function cut_str($string, $cut_size, $tail='...') {
-        if(!$string || !$cut_size) return $string;
+    function cut_str($string,$cut_size,$tail = '...') { 
+        if(!$string) return $string;
 
-        $arr = array();
-        return preg_match('/.{'.$cut_size.'}/su', $string, $arr) ? $arr[0].$tail : $string; 
+        $char_width = Array(5,10,11,16,14,16,16,10,11,11,12,13,10,13,10,12,13,13,13,13,13,13,13,13,13,13,10,10,14,13,14,13,16,15,15,16,15,15,14,16,15,8,13,15,14,16,16,16,15,16,15,15,14,16,15,16,16,15,15,13,16,13,13,11,10,14,14,14,14,14,10,14,14,8,9,13,8,16,14,15,14,14,10,14,10,14,13,16,14,13,14,14,14,14,16); 
+        $unicode_width = 21;
+
+        $max_width = $cut_size*$unicode_width/2;
+        $char_width = 0;
+
+        $string_length = strlen($string);
+        $char_count = 0;
+
+        $idx = 0;
+        while($idx < $string_length && $char_count < $cut_size && $char_width < $max_width) {
+            $c = ord(substr($string, $idx,1));
+            $char_count++;
+            if($c<128) {
+                $char_width += (int)$char_width[$c-32];
+                $idx++;
+            } else {
+                $char_width += $unicode_width;
+                $idx += 3;
+            }
+        }
+        $output = substr($string,0,$idx);
+        if(strlen($output)<$string_length) $output .= $tail;
+        return $output;
     }
 
     function zgap() {
