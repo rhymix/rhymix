@@ -65,10 +65,11 @@
     $lang->xe_developer_links = array(
         'Manual' => 'http://www.zeroboard.com/manual',
         //"Developer's forum" => 'http://spring.zeroboard.com',
-        'Issue Tracking' => 'http://trac.zeroboard.com',
+        'Issue Tracking' => 'http://www.zeroboard.com/xe_issuetracker',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',
         'PDF Documentation' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'XE Tools' => './tools/',
     );
 
     $lang->zeroboard_xe_usefulness_module = 'Useful Modules';

@@ -65,10 +65,11 @@
     $lang->xe_developer_links = array(
         '매뉴얼' => 'http://zbxe.springnote.com',
         //'개발자 포럼' => 'http://spring.zeroboard.com',
-        '이슈트래킹' => 'http://trac.zeroboard.com',
+        '이슈트래킹' => 'http://www.zeroboard.com/xe_issuetracker',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',
         'pdf 문서' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'XE Tools' => './tools/',
     );
 
     $lang->zeroboard_xe_usefulness_module = '유용한 모듈들';

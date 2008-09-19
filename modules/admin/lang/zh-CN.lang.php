@@ -65,10 +65,11 @@
     $lang->xe_developer_links = array(
         '使用手册' => 'http://www.zeroboard.com/manual',
         //'Developer 论坛' => 'http://spring.zeroboard.com',
-        '问题跟踪' => 'http://trac.zeroboard.com',
+        '问题跟踪' => 'http://www.zeroboard.com/xe_issuetracker',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',
         'pdf 文件' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'XE Tools' => './tools/',
     );
 
     $lang->zeroboard_xe_usefulness_module = '常用模块';
