@@ -145,6 +145,8 @@ Jeong, Chan Myeong 070601~070630
 .boardList thead tr th div { white-space:nowrap; margin:0 5px; }
 .boardList thead tr th.title , .boardList thead tr th.category, .boardList thead tr th.topic { width:100%; }
 .boardList tbody td { white-space:nowrap; }
+.boardList tbody td.title { white-space:normal; }
+.boardList tbody td.webzineTitle { white-space:normal; }
 
 .boardListNoTopBorder { border:none; }
 .boardList th { color:#3e3f3e; font-weight:normal; border-top:1px solid #e0e1db; border-bottom:1px solid #ffffff; white-space:nowrap; padding-top:5px; height:28px; overflow:hidden;}
