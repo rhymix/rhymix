@@ -297,7 +297,7 @@ function XmlJsFilterProc(confirm_msg) {
     }
     exec_xml(this.module, this.act, params, this.user_func, response, params, this.fo_obj);
 
-    return null;
+    return false;
 }
 
 // form proc
@@ -305,7 +305,32 @@ function procFilter(fo_obj, filter_func) {
     // form문 안에 위지윅 에디터가 세팅되어 있을 경우 에디터의 값과 지정된 content field를 sync
     var editor_sequence = fo_obj.getAttribute('editor_sequence');
     if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') { 
-        editorRelKeys[editor_sequence]['content'].value = editorGetContent(editor_sequence);
+        var content = editorGetContent(editor_sequence);
+
+        var dummy = xCreateElement("div");
+        xInnerHtml(dummy, content);
+
+        // IE에서 컨텐츠 전체를 P태그로 감싸는 경우가 있어서 이 의미없는 P태그를 제거
+        if(dummy.firstChild && dummy.firstChild.nodeName == 'P' && dummy.firstChild == dummy.lastChild) {
+            var content = xInnerHtml(dummy.firstChild);
+            xInnerHtml(dummy,content);
+        }
+
+        // img/a 태그의 대상에 대해 경로 재설정 (IE브라우저에서 위지윅 에디터내의 경로를 절대 경로로 바꾸는 버그때문ㅇ)
+        var imgTags = xGetElementsByTagName('IMG', dummy);
+        for(var i=0;i<imgTags.length;i++) {
+            if(imgTags[i].src.indexOf(request_uri)!=-1) {
+                imgTags[i].src = imgTags[i].src.replace(/(.*)files\/(.*)/i,'files/$2');
+            }
+        }
+        var aTags = xGetElementsByTagName('A', dummy);
+        for(var i=0;i<aTags.length;i++) {
+            if(aTags[i].href.indexOf(request_uri)!=-1) {
+                aTags[i].href = aTags[i].href.replace(/(.*)\?module=file&(.*)/i,'./?module=file&$2');
+            }
+        }
+        var content = xInnerHtml(dummy);
+        editorRelKeys[editor_sequence]['content'].value = content;
     }
 
     filter_func(fo_obj);

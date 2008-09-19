@@ -22,6 +22,7 @@
         var $context = NULL; ///< @brief request parameter 및 각종 환경 변수등을 정리하여 담을 변수 
 
         var $db_info = NULL; ///< @brief DB 정보
+        var $ftp_info = NULL; ///< @brief FTP 정보
 
         var $ssl_actions = array(); ///< @brief ssl로 전송해야 할 action등록 (common/js/xml_handler.js에서 ajax통신시 활용)
         var $js_files = array(); ///< @brief display시에 사용하게 되는 js files의 목록
@@ -261,6 +262,34 @@
         }
 
         /**
+         * @biref FTP 정보가 등록되었는지 확인
+         **/
+        function isFTPRegisted() {
+            $ftp_config_file = Context::getFTPConfigFile();
+            if(file_exists($ftp_config_file)) return true;
+            return false;
+        }
+
+        /**
+         * @brief FTP 정보가 담긴 object를 return
+         **/
+        function getFTPInfo() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getFTPInfo();
+        }
+
+        /**
+         * @brief FTP 정보가 담긴 object를 return
+         **/
+        function _getFTPInfo() {
+            if(!$this->isFTPRegisted()) return null;
+
+            $ftp_config_file = $this->getFTPConfigFile();
+            @include($ftp_config_file);
+            return $ftp_info;
+        }
+
+        /**
          * @brief 사이트 title adding
          **/
         function addBrowserTitle($site_title) {
@@ -485,18 +514,18 @@
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
+                if($val === "") continue;
                 if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
                 else if(is_array($val) && count($val) ) {
                     foreach($val as $k => $v) {
-                        if(get_magic_quotes_gpc()) $v = stripslashes($v);
+                        if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
                         $v = trim($v);
                         $val[$k] = $v;
                     }
                 } else {
-                    if(get_magic_quotes_gpc()) $val = stripslashes($val);
+                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
                     $val = trim($val);
                 }
-                if(!$val) continue;
 
                 if($this->_getRequestMethod()=='GET'&&$_GET[$key]) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&$_POST[$key]) $set_to_vars = true;
@@ -596,7 +625,7 @@
             for($i=0;$i<$num_args;$i=$i+2) {
                 $key = $args_list[$i];
                 $val = trim($args_list[$i+1]);
-                if(!$val) {
+                if(!isset($val)) {
                   unset($get_vars[$key]);
                   continue;
                 }
@@ -615,7 +644,7 @@
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
             if($this->allow_rewrite) {
-                if(count($get_vars)) foreach($get_vars as $key => $value) if($value !== 0 && !$value) unset($get_vars[$key]);
+                if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value) || $value === '') unset($get_vars[$key]);
 
                 $var_keys = array_keys($get_vars);
                 asort($var_keys);
@@ -655,14 +684,12 @@
                         break;
                     case 'act.document_srl.mid' :
                         return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
-                    case 'act.document_srl.mid.page' :
-                        return sprintf('%s%s/%s/%s/page/%s',$path,$get_vars['mid'], $get_vars['act'], $get_vars['document_srl'],$get_vars['page']);
                 }
             }
 
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
-                if(!$val) continue;
+                if(!isset($val)) continue;
                 $url .= ($url?'&':'').$key.'='.urlencode($val);
             }
 
@@ -958,6 +985,13 @@
          **/
         function getConfigFile() {
             return _XE_PATH_."files/config/db.config.php";
+        }
+
+        /**
+         * @brief ftp설정내용이 저장되어 있는 config file의 path를 return
+         **/
+        function getFTPConfigFile() {
+            return _XE_PATH_."files/config/ftp.config.php";
         }
 
         /**

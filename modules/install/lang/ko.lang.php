@@ -8,12 +8,12 @@
     $lang->introduce_title = '제로보드 XE 설치';
     $lang->license = <<<EndOfLicense
 - 프로그램명 : 제로보드XE (zeroboardXE)
-- 라이센스   : GNU GENERAL PUBLIC LICENSE
+- 라이선스   : GNU GENERAL PUBLIC LICENSE
 - 공식 사이트 : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
 - 원저작자 : zero (zero@zeroboard.com, http://www.zeroboard.com)
 
 이 프로그램은 자유 소프트웨어 이며 GPL을 따릅니다.
-단 디자인 요소가 첨부된 스킨의 경우는 해당 스킨 제작자가 개별적인 라이센스를 적용할 수 있습니다.
+단 디자인 요소가 첨부된 스킨의 경우는 해당 스킨 제작자가 개별적인 라이선스를 적용할 수 있습니다.
 번역문과 원문의 내용상 차이가 발생시 원문의 내용을 따르게 됩니다.
 
 <b>GNU 일반 공중 사용 허가서</b> -  번역문
@@ -227,7 +227,7 @@ EndOfLicense;
     $lang->install_session_auto_start = 'php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다';
     $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다';
 
-    $lang->cmd_agree_license = '라이센스에 동의합니다';
+    $lang->cmd_agree_license = '라이선스에 동의합니다';
     $lang->cmd_install_fix_checklist = '필수 설치조건을 설정하였습니다.';
     $lang->cmd_install_next = '설치를 진행합니다';
 

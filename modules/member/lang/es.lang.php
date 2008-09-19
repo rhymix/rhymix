@@ -147,7 +147,7 @@
     $lang->about_allow_mailing = "Si usted no se ha registrado el envío de email, usted no podrá recibir el email del grupo";
     $lang->about_denied = 'Si selecciona esta opción prohibirá el uso del ID';
     $lang->about_is_admin = 'Si selecciona esta opción para obtener la atribución del administrador superior';
-    $lang->about_description = "Nota del administrador acerca de los usuarios";
+    $lang->about_member_description = "Nota del administrador acerca de los usuarios";
     $lang->about_group = 'Un ID puede pertenecer a muchos grupos';
 
     $lang->about_column_type = 'Definir el estilo de la forma de registro que desea agregar';

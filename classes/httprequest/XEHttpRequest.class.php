@@ -72,7 +72,10 @@
 	    }
 	    fclose($socket);
 
-	    return array($code, $body);
+	    $ret->result_code = $code;
+	    $ret->body = $body;
+
+	    return $ret;
 	}
     }
 ?>

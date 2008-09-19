@@ -543,6 +543,9 @@
                 $component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
                 $component_info->version = $xml_doc->component->version->body;
                 $component_info->date = $xml_doc->component->date->body;
+                $component_info->homepage = $xml_doc->component->link->body;
+                $component_info->license = $xml_doc->component->license->body;
+                $component_info->license_link = $xml_doc->component->license->attrs->link;
 
                 $buff = '<?php if(!defined("__ZBXE__")) exit(); ';
                 $buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
@@ -550,6 +553,9 @@
                 $buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
                 $buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
                 $buff .= sprintf('$xml_info->date = "%s";', $component_info->date);
+                $buff .= sprintf('$xml_info->homepage = "%s";', $component_info->homepage);
+                $buff .= sprintf('$xml_info->license = "%s";', $component_info->license);
+                $buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
 
                 // 작성자 정보
                 if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
@@ -567,6 +573,7 @@
                     else $history_list = $xml_doc->component->history;
 
                     for($i=0; $i < count($history_list); $i++) {
+                        unset($obj);
                         sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
                         $date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
                         $buff .= sprintf('$xml_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);

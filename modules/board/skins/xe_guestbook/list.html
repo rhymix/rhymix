@@ -1,12 +1,12 @@
-<!-- header.html include -->
+<!--// header.html include -->
     <!--#include("header.html")-->
 
-<!-- 검색을 위한 xml filter import-->
+<!--// 검색을 위한 xml filter import-->
     <!--%import("filter/search.xml")-->
 
-<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+<!--// 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
     
-<!-- 글 쓰기 폼 출력 -->
+<!--// 글 쓰기 폼 출력 -->
     <!--@if(!$oDocument->isExists())-->
         <div class="listWrite">
         <!--#include("write_form.html")-->
@@ -14,7 +14,7 @@
     <!--@end-->
 
     <!--@if($grant->list)-->
-        <!-- 공지사항 -->
+        <!--// 공지사항 -->
         <!--@if($notice_list)-->
             <!--@foreach($notice_list as $no => $oDocument)-->
                 <div class="viewDocument">
@@ -24,7 +24,7 @@
             <!--@end-->
         <!--@end-->
 
-        <!-- 일반글 -->
+        <!--// 일반글 -->
         <!--@foreach($document_list as $no => $oDocument)-->
             <div class="viewDocument">
             <!--#include("./view_document.html")-->

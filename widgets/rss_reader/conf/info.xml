@@ -1,86 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget version="#7">
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
     <title xml:lang="ko">RSS 리더</title>
     <title xml:lang="jp">RSS リーダー</title>
-	<title xml:lang="zh-CN">RSS阅读器</title>
+    <title xml:lang="zh-CN">RSS阅读器</title>
     <title xml:lang="en">RSS Reader</title>
     <title xml:lang="ru">RSS-ридер</title>
-    <author email_address="simulz@simulz.com" link="http://php.simulz.com" date="2007. 10. 26">
-    <name xml:lang="ko">Simulz</name>
-    <name xml:lang="jp">Simulz</name>
-	<name xml:lang="zh-CN">Simulz</name>
-	<name xml:lang="en">Simulz</name>
-	<name xml:lang="ru">Simulz</name>
     <description xml:lang="ko">RSS 리더입니다.</description>
-	<description xml:lang="jp">RSS リーダーです。</description>
-		<description xml:lang="zh-CN">RSS阅读器控件。</description>
-	<description xml:lang="en">This widget displays data retrieved from RSS feed.</description>
-	<description xml:lang="ru">Этот виджет отображает данные, полученные посредством RSS.</description>
+    <description xml:lang="jp">RSS リーダーです。</description>
+    <description xml:lang="zh-CN">RSS阅读器控件。</description>
+    <description xml:lang="en">This widget displays data retrieved from RSS feed.</description>
+    <description xml:lang="ru">Этот виджет отображает данные, полученные посредством RSS.</description>
+    <version>#7</version>
+    <date>2007-10-26</date>
+
+    <author email_address="simulz@simulz.com" link="http://php.simulz.com">
+        <name xml:lang="ko">Simulz</name>
+        <name xml:lang="jp">Simulz</name>
+        <name xml:lang="zh-CN">Simulz</name>
+        <name xml:lang="en">Simulz</name>
+        <name xml:lang="ru">Simulz</name>
     </author>
-   <extra_vars>
+
+    <extra_vars>
         <var id="title">
-            <name xml:lang="ko">제목</name>
-			<name xml:lang="jp">タイトル</name>
-			<name xml:lang="zh-CN">栏目名</name>
-			<name xml:lang="en">Title</name>
             <type>text</type>
+            <name xml:lang="ko">제목</name>
+            <name xml:lang="jp">タイトル</name>
+            <name xml:lang="zh-CN">栏目名</name>
+            <name xml:lang="en">Title</name>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
-			<description xml:lang="jp">ウィジェットのタイトルとして表示されます。</description>
-			<description xml:lang="en">It will be displayed as widget's title.</description>
-	        <description xml:lang="zh-CN">显示为栏目名。</description>
-			<description xml:lang="ru">Это будет заголовком виджета.</description>
+            <description xml:lang="jp">ウィジェットのタイトルとして表示されます。</description>
+            <description xml:lang="en">It will be displayed as widget's title.</description>
+            <description xml:lang="zh-CN">显示为栏目名。</description>
+            <description xml:lang="ru">Это будет заголовком виджета.</description>
         </var>
         <var id="rss_url">
-            <name xml:lang="ko">RSS URL</name>
-			<name xml:lang="jp">RSS URL</name>
-	    <name xml:lang="zh-CN">RSS URL</name>
-	    <name xml:lang="en">RSS URL</name>
-	    <name xml:lang="ru">RSS URL</name>
             <type>text</type>
+            <name xml:lang="ko">RSS URL</name>
+            <name xml:lang="jp">RSS URL</name>
+            <name xml:lang="zh-CN">RSS URL</name>
+            <name xml:lang="en">RSS URL</name>
+            <name xml:lang="ru">RSS URL</name>
             <description xml:lang="ko"></description>
-			<description xml:lang="jp"></description>
-	    <description xml:lang="zh-CN"></description>
-	    <description xml:lang="en"></description>
-	    <description xml:lang="ru"></description>
+            <description xml:lang="jp"></description>
+            <description xml:lang="zh-CN"></description>
+            <description xml:lang="en"></description>
+            <description xml:lang="ru"></description>
         </var>
         <var id="page_limit">
-            <name xml:lang="ko">페이지 수</name>
-			<name xml:lang="jp">ページ数</name>
-			<name xml:lang="zh-CN">目录数</name>
-	    <name xml:lang="en">Number of Pages</name>
-	    <name xml:lang="ru">Число страниц</name>
             <type>text</type>
+            <name xml:lang="ko">페이지 수</name>
+            <name xml:lang="jp">ページ数</name>
+            <name xml:lang="zh-CN">目录数</name>
+            <name xml:lang="en">Number of Pages</name>
+            <name xml:lang="ru">Число страниц</name>
             <description xml:lang="ko">기본 값 10</description>
-			<description xml:lang="jp">デフォルト値 10</description>
-			<description xml:lang="zh-CN">默认为10个</description>
-	    <description xml:lang="en">Limits number of pages (Default: 10)</description>
-	    <description xml:lang="ru">Ограничивает количество страниц (стандарт: 10)</description>
+            <description xml:lang="jp">デフォルト値 10</description>
+            <description xml:lang="zh-CN">默认为10个</description>
+            <description xml:lang="en">Limits number of pages (Default: 10)</description>
+            <description xml:lang="ru">Ограничивает количество страниц (стандарт: 10)</description>
         </var>
         <var id="date_format">
-            <name xml:lang="ko">날짜 형식</name>
-			<name xml:lang="jp">日付の形式</name>
-	    <name xml:lang="zh-CN">日期形式</name>
-	    <name xml:lang="en">Date Format</name>
-	    <name xml:lang="ru">Формат даты</name>
             <type>text</type>
+            <name xml:lang="ko">날짜 형식</name>
+            <name xml:lang="jp">日付の形式</name>
+            <name xml:lang="zh-CN">日期形式</name>
+            <name xml:lang="en">Date Format</name>
+            <name xml:lang="ru">Формат даты</name>
             <description xml:lang="ko">기본 값 Y-m-d H:i:s</description>
-			<description xml:lang="jp">デフォルト値 Y-m-d H:i:s</description>
-	    <description xml:lang="zh-CN">默认值 Y-m-d H:i:s</description>
-	    <description xml:lang="en">Default: Y-m-d H:i:s</description>
-	    <description xml:lang="ru">Стандарт: Y-m-d H:i:s</description>
+            <description xml:lang="jp">デフォルト値 Y-m-d H:i:s</description>
+            <description xml:lang="zh-CN">默认值 Y-m-d H:i:s</description>
+            <description xml:lang="en">Default: Y-m-d H:i:s</description>
+            <description xml:lang="ru">Стандарт: Y-m-d H:i:s</description>
         </var>
         <var id="rss_height">
-            <name xml:lang="ko">본문 높이</name>
-			<name xml:lang="jp">本文の高さ</name>
-			<name xml:lang="zh-CN">内容高度</name>
-	    <name xml:lang="en">Height</name>
-	    <name xml:lang="ru">Ширина</name>
             <type>text</type>
+            <name xml:lang="ko">본문 높이</name>
+            <name xml:lang="jp">本文の高さ</name>
+            <name xml:lang="zh-CN">内容高度</name>
+            <name xml:lang="en">Height</name>
+            <name xml:lang="ru">Ширина</name>
             <description xml:lang="ko">select 스킨에서 본문 높이 (기본값 200px)</description>
-			<description xml:lang="jp">select スキンから本文の高さ（デフォルト値 200px）</description>
-			<description xml:lang="zh-CN">选择select皮肤时的文本高度。(默认为200px)</description>
-	    <description xml:lang="en">Height of select skin (default: 200px)</description>
-	    <description xml:lang="ru">Ширина скина (стандарт: 200px)</description>
+            <description xml:lang="jp">select スキンから本文の高さ（デフォルト値 200px）</description>
+            <description xml:lang="zh-CN">选择select皮肤时的文本高度。(默认为200px)</description>
+            <description xml:lang="en">Height of select skin (default: 200px)</description>
+            <description xml:lang="ru">Ширина скина (стандарт: 200px)</description>
         </var>
-   </extra_vars>
+    </extra_vars>
 </widget>

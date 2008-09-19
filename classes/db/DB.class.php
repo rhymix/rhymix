@@ -373,37 +373,37 @@
         function getConditionPart($name, $value, $operation) {
             switch($operation) {
                 case 'equal' :
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' = '.$value;
                     break;
                 case 'more' :
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' >= '.$value;
                     break;
                 case 'excess' :
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' > '.$value;
                     break;
                 case 'less' :
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' <= '.$value;
                     break;
                 case 'below' : 
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' < '.$value;
                     break;
                 case 'like_tail' : 
                 case 'like_prefix' : 
                 case 'like' : 
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' like '.$value;
                     break;
                 case 'in' : 
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' in ('.$value.')';
                     break;
                 case 'notequal' : 
-                        if(!$value) return;
+                        if(!isset($value)) return;
                         return $name.' <> '.$value;
                     break;
                 case 'notnull' : 

@@ -1,0 +1,10 @@
+<table name="issue_milestones">
+    <column name="milestone_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+    <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" /> 
+    <column name="deadline" type="date" index="idx_deadline" /> 
+    <column name="released_date" type="date" index="idx_released_date" /> 
+    <column name="title" type="varchar" size="255" notnull="notnull" /> 
+    <column name="description" type="bigtext" />
+    <column name="is_default" type="char" size="1" default="N" />
+    <column name="is_completed" type="char" size="1" default="N" />
+</table>

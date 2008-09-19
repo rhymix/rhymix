@@ -1,0 +1,35 @@
+<!--#include("header.html")-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("filter/insert_release.xml")-->
+
+<!--@if($release)-->
+<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="release_srl" value="{$release->release_srl}" />
+<input type="hidden" name="package_srl" value="{$release->package_srl}" />
+<input type="hidden" name="act" value="procIssuetrackerAdminAttachRelease" />
+
+<table cellspacing="0" class="adminTable">
+<thead>
+<caption>{$release->title}</caption>
+<col width="120" />
+<col width="*" />
+<tr>
+    <th>{$lang->cmd_attach_file}</th>
+    <td><input type="file" name="file" value="" class="inputTypeTextArea w400" /></td>
+</tr>
+<tr>
+    <th>{$lang->description}</th>
+    <td><textarea name="comment" class="inputTypeTextArea w400" />{$relese->description}</textarea></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
+    </td>
+</tr>
+</table>
+
+</form>
+<!--@end-->

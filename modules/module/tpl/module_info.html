@@ -34,7 +34,7 @@
         <th scope="row">{$lang->module_license}</th>
         <td>
             {nl2br(trim($module_info->license))}
-        <!--@if($addon_info->license_link)-->
+        <!--@if($module_info->license_link)-->
             <p><a href="{$module_info->license_link}" onclick="window.close(); return false;">{$module_info->license_link}</a></p>
         <!--@end-->
         </td>
@@ -73,7 +73,13 @@
             <!--@endif-->
             <!--@if($history->logs)-->
             <ul>
-                <!--@foreach($history->logs as $log)--><li>{$log}</li><!--@endforeach-->
+                <!--@foreach($history->logs as $log)-->
+                <!--@if($log->link)-->
+                <li><a href="{$log->text}" onclick="window.open(this.href);return false;">{$log->text}</a></li>
+                <!--@else-->
+                <li>{$log->text}</li>
+                <!--@endif-->
+                <!--@endforeach-->
             </ul>
             <!--@endif-->
         </td>

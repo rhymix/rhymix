@@ -1,19 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<skin>
-  <title xml:lang="ko">설문조사 간단한 스킨</title>
-  <title xml:lang="zh-CN">投票系统简易皮肤</title>
-  <maker email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2008. 4. 16">
-    <name xml:lang="ko">제로</name>
-	<name xml:lang="zh-CN">zero</name>
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">설문조사 간단한 스킨</title>
+    <title xml:lang="zh-CN">投票系统简易皮肤</title>
     <description xml:lang="ko">설문조사 간단한 스킨</description>
-	<description xml:lang="zh-CN">投票系统简易皮肤。</description>
-  </maker>
-  <colorset>
-    <color name="normal">
-      <title xml:lang="ko">기본</title>
-      <title xml:lang="zh-CN">默认</title>
-      <title xml:lang="jp">デフォルト</title>
-      <title xml:lang="en">Default</title>
-    </color>
-  </colorset>
+    <description xml:lang="zh-CN">投票系统简易皮肤。</description>
+    <version>0.1</version>
+    <date>2008-04-16</date>
+    <link>http://www.zeroboard.com</link>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">zero</name>
+    </author>
+
+    <colorset>
+        <color name="normal">
+            <title xml:lang="ko">기본</title>
+            <title xml:lang="zh-CN">默认</title>
+            <title xml:lang="jp">デフォルト</title>
+            <title xml:lang="en">Default</title>
+        </color>
+    </colorset>
 </skin>

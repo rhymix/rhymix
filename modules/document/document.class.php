@@ -227,10 +227,13 @@
             switch($args->act) {
                 // 게시글 목록에서 글을 체크하는 경우 해당 글의 모듈 정보를 구해서 관리자 여부를 체크
                 case 'procDocumentAdminAddCart' :
-                        if(!$args->srl) return false;
+                        if(!$args->srls) return false;
 
                         $oModuleModel = &getModel('module');
-                        $module_info = $oModuleModel->getModuleInfoByDocumentSrl($args->srl);
+
+                        list($srl) = explode(',',$args->srls);
+                        if(!$srl) return false;
+                        $module_info = $oModuleModel->getModuleInfoByDocumentSrl($srl);
                         if(!$module_info) return false;
 
                         if($oModuleModel->isModuleAdmin($module_info, $logged_info)) return true;

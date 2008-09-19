@@ -80,6 +80,9 @@
 
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
+                return $this->alertMessage('msg_invalid_request');
+            }
 
             // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
             if($this->module_info->layout_srl) {
@@ -104,6 +107,9 @@
          * @brief 게시판 추가 폼 출력
          **/
         function dispBoardAdminInsertBoard() {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
+                return $this->alertMessage('msg_invalid_request');
+            }
 
             // 스킨 목록을 구해옴
             $oModuleModel = &getModel('module');
@@ -143,6 +149,9 @@
         function dispBoardAdminDeleteBoard() {
 
             if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
+                return $this->alertMessage('msg_invalid_request');
+            }
 
             $module_info = Context::get('module_info');
 
@@ -160,6 +169,9 @@
          * @brief 스킨 정보 보여줌
          **/
         function dispBoardAdminSkinInfo() {
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
+                return $this->alertMessage('msg_invalid_request');
+            }
 
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
             $module_info = Context::get('module_info');
@@ -190,6 +202,9 @@
         function dispBoardAdminCategoryInfo() {
             // module_srl을 구함
             $module_srl = $this->module_info->module_srl;
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
+                return $this->alertMessage('msg_invalid_request');
+            }
 
             // 카테고리 정보를 가져옴
             $oDocumentModel = &getModel('document');
@@ -208,6 +223,9 @@
         function dispBoardAdminGrantInfo() {
             // module_srl을 구함
             $module_srl = Context::get('module_srl');
+            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
+                return $this->alertMessage('msg_invalid_request');
+            }
 
             // module.xml에서 권한 관련 목록을 구해옴
             $grant_list = $this->xml_info->grant;
@@ -219,6 +237,11 @@
             Context::set('group_list', $group_list);
 
             $this->setTemplateFile('grant_list');
+        }
+
+        function alertMessage($message) {
+            $script =  sprintf('<script type="text/javascript"> xAddEventListener(window,"load", function() { alert("%s"); } );</script>', Context::getLang($message));
+            Context::addHtmlHeader( $script );
         }
     }
 ?>

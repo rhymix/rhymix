@@ -21,8 +21,9 @@
     $lang->category_title = 'カテゴリ名';
     $lang->checked_count = '選択された書き込み数';
     $lang->skin_default_info = 'スキン基本情報';
-    $lang->skin_maker = 'スキン作者';
-    $lang->skin_maker_homepage = '作者ホームページ';
+    $lang->skin_author = 'スキン作者';
+    $lang->skin_license = 'License';
+    $lang->skin_history = '変更内容';
     $lang->module_copy = "モジュールコピー";
 
     $lang->header_script = "ヘッダースクリプト";

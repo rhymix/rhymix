@@ -2,7 +2,7 @@
     /**
      * @file   modules/counter/lang/fr.lang.php
      * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <PierreDuvent@gmail.com>
-     * @brief  Paquet de la langue française (Contenu fondamental seulement)
+     * @brief  Paquet du langage en français pour le module de Comppteur
      **/
 
     $lang->counter = "Coumpteur";

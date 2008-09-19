@@ -21,8 +21,9 @@
     $lang->category_title = 'Category Title';
     $lang->checked_count = 'Number of Checked Articles';
     $lang->skin_default_info = 'Default Skin Info';
-    $lang->skin_maker = 'Skin Developer';
-    $lang->skin_maker_homepage = "Skin Developer's Homepage";
+    $lang->skin_author = 'Skin Developer';
+    $lang->skin_license = 'License';
+    $lang->skin_history = 'Update history';
     $lang->module_copy = "Duplicate Module";
 
     $lang->header_script = "Header Script";

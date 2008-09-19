@@ -1,0 +1,10 @@
+<filter name="delete_issuetracker" module="issuetracker" act="procIssuetrackerAdminDeleteIssuetracker">
+    <form>
+        <node target="module_srl" required="true" />
+    </form>
+    <response callback_func="completeDeleteIssuetracker">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

@@ -1,0 +1,11 @@
+<table name="issues_history">
+    <column name="issues_history_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="target_srl" type="number" size="11" notnull="notnull" index="idx_target_srl" />
+    <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" />
+    <column name="content" type="bigtext" notnull="notnull" />
+    <column name="history" type="bigtext" notnull="notnull" />
+    <column name="regdate" type="date" index="idx_regdate " />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+    <column name="nick_name" type="varchar" size="80" notnull="notnull" />
+    <column name="password" type="varchar" size="60" />
+</table>

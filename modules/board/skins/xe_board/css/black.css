@@ -40,12 +40,12 @@
 .accountNavigation li.loginAndLogout a { background:url(../images/black/line_1x10_e0e0e0.gif) no-repeat left 2px; padding-left:8px; }
 
 .boardSubMenu { border-bottom:1px solid #444444;}
-.boardList { width:100%; border:1px solid #444444; border-top:none; table-layout:fixed;}
-.boardList th { color:#999999; font-weight:normal; border-top:1px solid #444444; border-bottom:1px solid #888888; white-space:nowrap; padding-top:5px; height:28px; overflow:hidden;}
-.boardList th a { color:#999999; }
-.boardList td { border-top:1px solid #444444; padding:.5em;}
-.boardList th.num { border-left:0px solid #444444; }
-.boardList td.title, .boardList tr.notice { background-color:transparent; }
+.boardList { width:100%; border:1px solid #444444; border-top:none; overflow:hidden;}
+.boardList thead th { color:#999999; font-weight:normal; border-top:1px solid #444444; border-bottom:1px solid #888888; white-space:nowrap; padding-top:5px; height:28px; overflow:hidden;}
+.boardList thead th a { color:#999999; }
+.boardList thead th.num { border-left:0px solid #444444; }
+.boardList tbody td { border-top:1px solid #444444; padding:.5em;}
+.boardList tbody td.title, .boardList tr.notice { background-color:transparent; }
 
 #board_category { background-color:#444444; color:#AAAAAA; }
 #go_button { color:#AAAAAA; }

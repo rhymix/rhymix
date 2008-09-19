@@ -24,6 +24,7 @@ body { background:#4d4d4d url(../images/installBg.gif) repeat-x;}
 
 #content { position:relative; padding:25px 20px 20px 20px; overflow:hidden; background:#ffffff;}
 #content h2 { font-size:1em; padding-left:.5em; margin:0 0 1em 0;}
+#content blockquote { padding:10px; margin:0; border:1px solid #c9c9c9; margin-bottom:10px; color:#696969; line-height:20px;}
 #agreement { border:1px solid #c9c9c9; height:15em; padding:1.2em; overflow:auto; color:#696969; line-height:1.25em; margin-bottom:20px;}
 
 .iePngFix { display:block; }

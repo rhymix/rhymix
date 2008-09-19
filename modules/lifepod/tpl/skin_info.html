@@ -1,6 +1,6 @@
 <!--#include("./header.html")-->
 
-<form action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe">
 <input type="hidden" name="module" value="{$module_info->module}" />
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="procLifepodAdminUpdateSkinInfo" />
@@ -16,20 +16,37 @@
         <td class="left" >{$skin_info->title}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->skin_maker}</th>
-        <td class="left" >{$skin_info->maker->name} <!--@if($skin_info->maker->email_address)-->(<a href="mailto:{$skin_info->maker->email_address}">{$skin_info->maker->email_address}</a>)<!--@end--></td>
+        <th scope="row">{$lang->skin_author}</th>
+        <td class="left blue" >
+            <!--@foreach($skin_info->author as $author)-->
+            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            <!--@endforeach-->
+        </td>
     </tr>
+    <!--@if($skin_info->homepage)-->
     <tr>
-        <th scope="row">{$lang->skin_maker_homepage}</th>
-        <td class="left" ><a href="{$skin_info->maker->homepage}" target="_blank">{$skin_info->maker->homepage}</a></td>
+        <th scope="row">{$lang->homepage}</th>
+        <td class="left blue"><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
     </tr>
+    <!--@end-->
     <tr>
         <th scope="row">{$lang->date}</th>
-        <td class="left" >{$skin_info->maker->date}</td>
+        <td class="left" >{zdate($skin_info->date, 'Y-m-d')}</td>
     </tr>
+    <!--@if($skin_info->license || $skin_info->license_link)-->
+    <tr>
+        <th scope="row">{$lang->skin_license}</th>
+        <td>
+            {nl2br(trim($skin_info->license))}
+        <!--@if($skin_info->license_link)-->
+            <p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
+        <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
     <tr>
         <th scope="row">{$lang->description}</th>
-        <td class="left" >{nl2br($skin_info->maker->description)}</td>
+        <td class="left" >{nl2br($skin_info->description)}</td>
     </tr>
     </table>
 
@@ -39,36 +56,51 @@
     <caption>{$lang->extra_vars}</caption>
     <tr valign="top">
         <th scope="row">{$lang->colorset}</th>
-        <td class="left" >
+        <td class="left">
             <!--@foreach($skin_info->colorset as $key => $val)-->
-            <div>
                 <!--@if($val->screenshot)-->
-                <img src="{$val->screenshot}" align="left" alt="{$val->title}" />
+                    {@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+                <!--@else-->
+                    {@ $_width = 200; $_height = 20; $_talign = "left"; }
                 <!--@end-->
-
+            <div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
                 <input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="checked"<!--@end-->/>  
                 <label for="colorset_{$key}">{$val->title}</label>
+                <!--@if($val->screenshot)-->
+                <br />
+                <img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+                <!--@end-->
             </div>
             <!--@end-->
         </td>
     </tr>
 
     <!--@foreach($skin_info->extra_vars as $key => $val)-->
+
+    <!--@if($val->group && ((!$group) || $group != $val->group))-->
+    {@$group = $val->group}
+    </table>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <caption>{$group}</caption>
+    <!--@end-->
+
     <tr>
         <th scope="row">{$val->title}</th>
         <td class="left">
             <!--@if($val->type=="text")-->
-            <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!--@elseif($val->type=="textarea")-->
-            <textarea name="{$val->name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
 
             <!--@elseif($val->type=="select")-->
-            <select name="{$val->name}">
-                <!--@foreach($val->default as $k=>$v)-->
-                <option value="{$v}" <!--@if($v==$val->value)-->selected="selected"<!--@end-->>{$v}</option>
-                <!--@end-->
-            </select>
+                <select name="{$val->name}">
+                    <!--@foreach($val->options as $k=>$v)-->
+                    <option value="{$v->value}" <!--@if($v->value == $val->value)-->selected="selected"<!--@end-->>{$v->title}</option>
+                    <!--@end-->
+                </select>
 
             <!--@elseif($val->type=="checkbox")-->
                 <!--@foreach($val->default as $k=>$v)-->
@@ -84,33 +116,41 @@
                     <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="checked"<!--@end-->/> 
                     <label for="ch_{$key}_{$k}">{$v}</label>
                 </span>
-            <!--@end-->
+                <!--@end-->
 
             <!--@elseif($val->type=="image")-->
+                <!--@if($val->value)-->
+                <div>
+                    <img src="{$val->value}" /><br />
+                    <input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
+                    <label for="del_{$val->name}">{$lang->cmd_delete}</label>
+                </div>
+                <!--@end-->
 
-            <!--@if($val->value)-->
-            <div>
-                <img src="{$val->value}" /><br />
-                <input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
-                <label for="del_{$val->name}">{$lang->cmd_delete}</label>
-            </div>
-            <!--@end-->
-
-            <input type="file" name="{$val->name}" value="" />
+                <input type="file" name="{$val->name}" value="" />
             <!--@end-->
 
             <!--@if($val->description)-->
-            <p>{nl2br($val->description)}</p>
+            <p>{nl2br(trim($val->description))}</p>
             <!--@end-->
         </td>
     </tr>
     <!--@end-->
+
+    <!--@if($group)-->
+    </table>
+    <table cellspacing="0" class="adminTable">
+    <col width="150" />
+    <col />
+    <!--@end-->
+
     <tr>
         <th scope="row" colspan="2" class="button">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </th>
     </tr>
     </table>
+
 </form>
 
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

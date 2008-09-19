@@ -1,0 +1,42 @@
+<!--#include("source_header.html")-->
+
+<h3>Diff between revs {$brev} to revs {$erev}</h3>
+<h1>{$path}</h1>
+
+<ol>
+    <li>[<a href="{getUrl('type','log','path',urlencode($path),'erev',$erev,'brev',$brev)}">view log</a>]</li>
+</ol>
+
+<!--@if($comp)-->
+    <!--@foreach($comp as $item)-->
+<table>
+<col width="*" />
+<col width="*" />
+<thead>
+<tr>
+    <th colspan="2" class="filename">{$item->filename}</th>
+</tr>
+</thead>
+<tbody>
+<tr class="revision">    
+    <td class="before">Rev. {$item->before_revision}</td>
+    <td class="after">Rev. {$item->after_revision}</td>
+</tr>
+        <!--@foreach($item->changed as $change)-->
+<tr class="line">
+    <td class="before">line {$change->before_line}</td>
+    <td class="after">line {$change->after_line}</td>
+</tr>
+            <!--@for($i=0;$i<count($change->before_code);$i++)-->
+<tr class="code">
+    <td>{nl2br(str_replace('  ','&nbsp;&nbsp;',htmlspecialchars($change->before_code[$i])))}</td>
+    <td>{nl2br(str_replace('  ','&nbsp;&nbsp;',htmlspecialchars($change->after_code[$i])))}</td>
+</tr>
+            <!--@end-->
+        <!--@end-->
+</tbody>
+</table>
+    <!--@end-->
+<!--@end-->
+
+<!--#include("source_footer.html")-->

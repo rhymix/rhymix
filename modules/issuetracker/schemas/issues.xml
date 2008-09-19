@@ -1,0 +1,13 @@
+<table name="issues">
+    <column name="target_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" /> 
+    <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" /> 
+    <column name="assignee_srl" type="number" size="11" default="0" index="idx_assignee_srl" /> 
+    <column name="assignee_name" type="varchar" size="80" />
+    <column name="milestone_srl" type="number" size="11" default="0" index="idx_milestone_srl" /> 
+    <column name="type_srl" type="number" size="11" default="0" index="idx_type_srl" /> 
+    <column name="priority_srl" type="number" size="11" default="0" index="idx_priority_srl" /> 
+    <column name="component_srl" type="number" size="11" default="0" index="idx_component_srl" /> 
+    <column name="resolution_srl" type="number" size="11" default="0" index="idx_resolution_srl" /> 
+    <column name="status" type="char" size="20" default="new" index="idx_status" />
+    <column name="occured_version_srl" type="number" size="11" default="0" index="idx_occured_version_srl" /> 
+</table>

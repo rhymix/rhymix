@@ -13,22 +13,80 @@
     </tr>
     <tr>
         <th scope="row"><label for="textfield2">{$lang->author}</label></th>
-        <td class="blue"><a href="mailto:{$skin_info->maker->email_address}">{$skin_info->maker->name}</a></td>
+        <td class="blue">
+            <!--@foreach($skin_info->author as $author)-->
+            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            <!--@endforeach-->
+        </td>
     </tr>
+    <!--@if($skin_info->homepage)-->
     <tr>
         <th scope="row"><label for="textfield2">{$lang->homepage}</label></th>
-        <td class="blue"><a href="{$skin_info->maker->homepage}" onclick="window.open(this.href);return false;">{$skin_info->maker->homepage}</a></td>
+        <td class="blue"><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
     </tr>
+    <!--@endif-->
     <tr>
         <th scope="row"><label for="textfield2">{$lang->regdate}</label></th>
-        <td>{$skin_info->maker->date}</td>
+        <td>{zdate($skin_info->date, 'Y-m-d')}</td>
     </tr>
+    <!--@if($skin_info->license || $skin_info->license_link)-->
+    <tr>
+        <th scope="row">{$lang->skin_license}</th>
+        <td>
+            {nl2br(trim($skin_info->license))}
+        <!--@if($skin_info->license_link)-->
+            <p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
+        <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
     <tr>
         <th scope="row" class="borderBottomNone">{$lang->description}</th>
-        <td class="borderBottomNone">{nl2br(trim($skin_info->maker->description))}</td>
+        <td class="borderBottomNone">{nl2br(trim($skin_info->description))}</td>
     </tr>
     </table>
 </div>
+
+<!--@if($skin_info->history)-->
+<div id="popHistoryHeadder">
+    <h3>{$lang->skin_history}</h3>
+</div>
+
+<div id="popHistoryBody">
+    <table cellspacing="0" class="adminTable">
+    <col width="100" />
+    <col />
+
+    <!--@foreach($skin_info->history as $history)-->
+    <tr>
+        <th scope="row">
+            {$history->version}<br />
+            {$history->date}
+        </th>
+        <td>
+            <!--@foreach($history->author as $author)-->
+            <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>
+            <!--@endforeach-->
+            <!--@if($history->description)-->
+            <p>{nl2br(trim($history->description))}</p>
+            <!--@endif-->
+            <!--@if($history->logs)-->
+            <ul>
+                <!--@foreach($history->logs as $log)-->
+                <!--@if($log->link)-->
+                <li><a href="{$log->link}">{$log->text}</a></li>
+                <!--@else-->
+                <li>{$log->text}</li>
+                <!--@endif-->
+                <!--@endforeach-->
+            </ul>
+            <!--@endif-->
+        </td>
+    </tr>
+    <!--@endforeach-->
+    </table>
+</div>
+<!--@endif-->
 
 <div id="popFooter" class="tCenter">
     <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>

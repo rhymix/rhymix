@@ -149,7 +149,7 @@
     $lang->about_allow_mailing = '如不选择此项，以后不能接收站内发送的重要信息。';
     $lang->about_denied = '选择时不能使用此用户名。';
     $lang->about_is_admin = '选择时将具有最高管理权限。';
-    $lang->about_description = '管理员对会员的笔记。';
+    $lang->about_member_description = '管理员对会员的笔记。';
     $lang->about_group = '一个用户名可属多个用户组。';
 
     $lang->about_column_type = '请选择要添加的注册表单格式。';

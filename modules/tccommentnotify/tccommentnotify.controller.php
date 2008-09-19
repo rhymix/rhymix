@@ -32,7 +32,7 @@
             }
         }
 
-        function insertParent($obj, $siteid, $module_srl)
+        function insertParent(&$obj, $siteid, $module_srl)
         {
             $parentid = getNextSequence();
             $args->notified_srl = $parentid;
@@ -121,7 +121,7 @@
                 {
                     if(!file_exists($this->cachedir))
                     {
-                        mkdir($this->cachedir);
+                        FileHandler::makeDir($this->cachedir);
                     }
                     $fp = fopen($this->cachedir.$this->cachefile, "w");
                     fwrite($fp, "aa");
@@ -135,6 +135,11 @@
         {
             $args->comment_srl = $comment_srl;
             return executeQuery("tccommentnotify.insertQueue", $args);
+        }
+
+        function procTestSendComment()
+        {
+            $this->sendCommentNotify(16775);
         }
 
         function sendCommentNotify($comment_srl)
@@ -200,14 +205,14 @@
 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-            if($this->SendNotifyRequest($parentHomepage, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage) != 200)
+            if($this->SendNotifyRequest($parentHomepage, $module_info, $oDocument, $oParent, $parentHomepage, $oChild, $childHomepage) != 200)
             {
                 $indexedPage = rtrim($parentHomepage, '/').'/index.php';
-                $this->SendNotifyRequest($indexedPage, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage);
+                $this->SendNotifyRequest($indexedPage, $module_info, $oDocument, $oParent, $parentHomepage, $oChild, $childHomepage);
             }
         }
 
-        function SendNotifyRequest($target, $module_info, $oDocument, $oParent, $parentHomepage, $oChild, $childHomepage)
+        function SendNotifyRequest($target, &$module_info, &$oDocument, &$oParent, $parentHomepage, &$oChild, $childHomepage)
         {
             $oReq = new HTTP_Request();
             $oReq->setURL($target);
@@ -262,7 +267,7 @@
             return $code;
         }
 
-        function insertCommentNotify($obj, $siteid, $parentid, $module_srl)
+        function insertCommentNotify(&$obj, $siteid, $parentid, $module_srl)
         {
             $myid = getNextSequence();
             $args->notified_srl = $myid;
@@ -318,6 +323,7 @@
             }
 
             $parentid = $oModel->GetParentID( $obj->s_no, $siteid, $module_srl, $obj->r1_no );
+            $commentid = -1;
             if( $parentid == -2 )
             {
                 $oDB->rollback();
@@ -325,7 +331,7 @@
             }
             else if ( $parentid == -1 )
             {
-                $parentid = $this->insertParent( &$obj, $siteid, $module_srl );
+                $parentid = $this->insertParent( $obj, $siteid, $module_srl );
                 if($parentid == -1)
                 {
                     $oDB->rollback();
@@ -334,10 +340,16 @@
             }
             else
             {
+               $commentid = $oModel->GetCommentID( $parentid, $obj->r2_no );
+               if($commentid != -1)
+               {
+                    $oDB->rollback();
+                    return;
+               }
                $this->updateParent($parentid); 
             }
 
-            if(!$this->insertCommentNotify(&$obj, $siteid, $parentid, $module_srl))
+            if(!$this->insertCommentNotify($obj, $siteid, $parentid, $module_srl))
             {
                 $oDB->rollback();
                 return;

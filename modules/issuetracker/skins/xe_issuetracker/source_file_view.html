@@ -1,0 +1,20 @@
+<!--#include("source_header.html")-->
+
+<h3>Revision {$content->revision} (checked in by {$content->author}, {$content->ago} ago)</h3>
+
+<h1>{$path}</h1>
+
+<!--@if($content->msg)-->
+<blockquote>{$content->msg}</blockquote>
+<!--@end-->
+
+<ol>
+    <li>[<a href="{getUrl('type','log','path',urlencode($path), 'erev', $revs?$revs:'')}">view log</a>]</li>
+    <!--@if($brev)-->
+    <li>[<a href="{getUrl('type','diff','path',urlencode($path),'erev',$erev, 'brev', $brev)}">compare with previous</a>]</li>
+    <!--@end-->
+</ol>
+
+<pre>{htmlspecialchars($content->content)}</pre>
+
+<!--#include("source_footer.html")-->

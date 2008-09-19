@@ -1,0 +1,12 @@
+<query id="updatePackage" action="update">
+    <tables>
+        <table name="issue_packages" />
+    </tables>
+    <columns>
+        <column name="title" var="title" notnull="notnull" />
+        <column name="description" var="description" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="package_srl" var="package_srl" notnull="notnull" />
+    </conditions>
+</query>

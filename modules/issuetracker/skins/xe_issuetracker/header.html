@@ -1,0 +1,33 @@
+<!--// JS 파일 로드 -->
+    <!--%import("js/issuetracker.js")-->
+
+<!--// 컬러셋 체크 -->
+    <!--@if(!$module_info->colorset)-->
+        {@$module_info->colorset = "white"}
+    <!--@end-->
+
+<!--// CSS 파일 로드 (컬러셋에 따라서) -->
+    <!--%import("css/common.css")-->
+
+    <!--@if($module_info->colorset == "white")--> <!--%import("css/white.css")--> <!--@end-->
+    
+<!--@if($module_info->projectTitle)-->
+<div class="skinTitle">
+    {$module_info->projectTitle}
+    <!--@if($module_info->projectDescription)-->
+    <blockquote>{nl2br($module_info->projectDescription)}</blockquote>
+    <!--@end-->
+</div>
+<!--@end-->
+
+
+<div class="issueNav">
+    <ul class="issueNav">
+
+    <!--@foreach($lang->project_menus as $key => $value)-->
+        <li class="<!--@if($act==$key)-->selected<!--@else-->unselected<!--@end-->"><a href="{getUrl('','mid',$mid,'act',$key)}">{$value}</a></li>
+    <!--@end-->
+
+    </ul>
+    <div class="bottomLine"></div>
+</div>

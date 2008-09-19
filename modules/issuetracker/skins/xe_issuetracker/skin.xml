@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE IssueTracker 기본 스킨</title>
+	<title xml:lang="en">Basic Skin of XE IssueTracker</title>
+    <description xml:lang="ko">XE IssueTracker의 기본 스킨입니다. </description>
+	<description xml:lang="en">This is the basic skin of XE IssueTracker. </description>
+    <version>0.1</version>
+    <date>2008-08-11</date>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">zero</name>
+		<name xml:lang="en">zero</name>
+    </author>
+
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">일반</title>
+			<title xml:lang="en">General</title>
+        </color>
+        <color name="black" src="screenshot/black.gif">
+            <title xml:lang="ko">검은색 배경용</title>
+			<title xml:lang="en">For Black Background</title>
+        </color>
+    </colorset>
+
+    <extra_vars>
+        <group>
+            <title xml:lang="ko">기본 설정</title>
+			<title xml:lang="en">Default Settings</title>
+            <var name="projectTitle" type="text">
+                <title xml:lang="ko">이슈트래커 제목</title>
+				<title xml:lang="en">Issue Tracker Name</title>
+                <description xml:lang="ko">이슈트래커의 상단에 큰 제목으로 표시가 됩니다.</description>
+				<description xml:lang="en">It will be displayed on top of the issue tracker.</description>
+            </var>
+            <var name="projectDescription" type="textarea">
+                <title xml:lang="ko">이슈트래커 설명</title>
+				<title xml:lang="en">Description</title>
+                <description xml:lang="ko">입력하시면 이슈트래커의 메인에 설명이 노출됩니다.</description>
+				<description xml:lang="en">It will be displayed on main of the issue tracker if you input the description.</description>
+            </var>
+        </group>
+    </extra_vars>
+</skin>

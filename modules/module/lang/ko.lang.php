@@ -12,7 +12,7 @@
     $lang->add_shortcut = "관리자 메뉴에 추가";
     $lang->module_action = "동작";
     $lang->module_maker = "모듈 제작자";
-    $lang->module_license = '라이센스';
+    $lang->module_license = '라이선스';
     $lang->module_history = '변경 이력 ';
     $lang->category_title = "분류 이름";
     $lang->header_text = '상단 내용';
@@ -21,8 +21,9 @@
     $lang->category_title = '분류명';
     $lang->checked_count = '선택된 글 수';
     $lang->skin_default_info = '스킨 기본정보';
-    $lang->skin_maker = '스킨제작자';
-    $lang->skin_maker_homepage = '제작자 홈페이지';
+    $lang->skin_author = '스킨 제작자';
+    $lang->skin_license = '라이선스';
+    $lang->skin_history = '변경 이력';
     $lang->module_copy = "모듈 복사";
 
     $lang->header_script = "헤더 스크립트";

@@ -116,8 +116,8 @@
             $comment_point = $config->module_point[$module_srl]['insert_comment'];
             if(!isset($comment_point)) $comment_point = $config->insert_comment;
 
-            // 댓글 포인트가 있으면 처리
-            if(!$comment_point) return new Object();
+            // 댓글 포인트가 있으면 증감(+) 이면 차감 시도
+            if($comment_point>0) return new Object();
 
             // 해당 글에 포함된 모든 댓글을 추출
             $cp_args->document_srl = $document_srl;
@@ -176,6 +176,9 @@
 
             $point = $config->module_point[$module_srl]['insert_document'];
             if(!isset($point)) $point = $config->insert_document;
+
+            // 포인트가 마이너스 즉 글을 작성시 마다 차감되는 경우라면 글 삭제시 증가시켜주지 않도록 수정
+            if($point < 0) return new Object();
             $cur_point -= $point;
 
             // 첨부파일 삭제에 대한 포인트 추가
@@ -239,6 +242,9 @@
 
             $point = $config->module_point[$module_srl]['insert_comment'];
             if(!isset($point)) $point = $config->insert_comment;
+
+            // 포인트가 마이너스 즉 댓글을 작성시 마다 차감되는 경우라면 댓글 삭제시 증가시켜주지 않도록 수정
+            if($point < 0) return new Object();
 
             // 포인트 증감
             $cur_point -= $point;

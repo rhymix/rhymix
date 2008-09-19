@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="access" default="guest">
+            <title xml:lang="ko">프로젝트 접근</title>
+        </grant>
+        <grant name="browser_source" default="guest">
+            <title xml:lang="ko">소스 열람</title>
+        </grant>
+        <grant name="ticket_view" default="guest">
+            <title xml:lang="ko">티켓 열람</title>
+        </grant>
+        <grant name="ticket_write" default="guest">
+            <title xml:lang="ko">티켓 생성</title>
+        </grant>
+        <grant name="commiter" default="member">
+            <title xml:lang="ko">개발자</title>
+        </grant>
+        <grant name="download" default="guest">
+            <title xml:lang="ko">다운로드</title>
+        </grant>
+        <grant name="manager" default="root">
+            <title xml:lang="ko">프로젝트 관리</title>
+        </grant>
+    </grants>
+    <actions>
+        <action name="dispIssuetrackerViewIssue" type="view" standalone="true" index="true"/>
+        <action name="dispIssuetrackerViewSource" type="view" standalone="true"/>
+        <action name="dispIssuetrackerViewMilestone" type="view" standalone="true" />
+        <action name="dispIssuetrackerNewIssue" type="view" standalone="true"/>
+        <action name="dispIssuetrackerDeleteIssue" type="view" standalone="true"/>
+        <action name="dispIssuetrackerDeleteTrackback" type="view" standalone="true"/>
+        <action name="dispIssuetrackerMilestone" type="view" standalone="true" />
+        <action name="dispIssuetrackerDownload" type="view" standalone="true" />
+
+        <action name="procIssuetrackerInsertIssue" type="controller" standalone="true" />
+        <action name="procIssuetrackerDeleteIssue" type="controller" standalone="true" />
+        <action name="procIssuetrackerDeleteTrackback" type="controller" standalone="true" />
+        <action name="procIssuetrackerVerificationPassword" type="controller" standalone="true" />
+        <action name="procIssuetrackerInsertHistory" type="controller" standalone="true" />
+
+        <action name="dispIssuetrackerAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispIssuetrackerAdminProjectSetting" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminReleaseSetting" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminAdditionSetup" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminProjectInfo" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminInsertProject" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminDeleteIssuetracker" type="view" standalone="true" />
+
+        <action name="dispIssuetrackerAdminModifyMilestone" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminModifyPriority" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminModifyType" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminModifyComponent" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminModifyPackage" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminModifyRelease" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminAttachRelease" type="view" standalone="true" />
+
+        <action name="procIssuetrackerAdminInsertProject" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertMilestone" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertPriority" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertComponent" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertType" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertPackage" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertRelease" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeleteIssuetracker" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeleteMilestone" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeletePriority" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeleteType" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeleteComponent" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeletePackage" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeleteRelease" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminDeleteFile" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminAttachRelease" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminUpdateSkinInfo" type="controller" standalone="true" />
+
+    </actions>
+</module>

@@ -1,0 +1,13 @@
+<filter name="delete_priority" module="issuetracker" act="procIssuetrackerAdminDeletePriority" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="target_srl" required="true" />
+    </form>
+    <parameter>
+        <param name="priority_srl" target="target_srl" />
+    </parameter>
+    <response callback_func="completeInsertSetting">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

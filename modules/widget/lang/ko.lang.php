@@ -9,7 +9,8 @@
 
     $lang->widget_name = '위젯 이름';
     $lang->widget_maker = '위젯 제작자';
-    $lang->widget_history = '변경사항';
+    $lang->widget_license = '라이선스';
+    $lang->widget_history = '변경 이력';
     $lang->widget_info = '위젯 정보';
     $lang->widget_code = '코드';
     $lang->widget_cache = '캐시';

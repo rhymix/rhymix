@@ -409,7 +409,7 @@ class HTTPRetriever {
 		
 		if ($this->caching_highvolume) {
 			$cache_dir .= substr($token,0,2) . '/';
-			if (!is_dir($cache_dir)) @mkdir($cache_dir);
+			if (!is_dir($cache_dir)) @FileHandler::makeDir($cache_dir);
 		}
 		
 		$filename = $cache_dir.$token.'.tmp';

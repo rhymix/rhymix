@@ -1,0 +1,14 @@
+<query id="insertMilestone" action="insert">
+    <tables>
+        <table name="issue_milestones" />
+    </tables>
+    <columns>
+        <column name="milestone_srl" var="milestone_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="description" var="description" />
+        <column name="deadline" var="deadline" />
+        <column name="is_completed" var="is_completed" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="is_default" var="is_default" />
+    </columns>
+</query>

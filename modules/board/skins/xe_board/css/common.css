@@ -15,10 +15,10 @@ Jeong, Chan Myeong 070601~070630
 .boardHeader h3 { margin:0; float:left; padding:15px 15px 12px 15px; font-size:1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* board Description */
-.boardDescription { color:#AEAEAE; border:1px solid #DDDDDD; overflow:hidden; padding:10px; margin-top:5px; background-color:#FFFFFF;}
+.boardDescription { color:#AEAEAE; border:1px solid #DDDDDD; overflow:hidden; padding:10px; margin: 5px 0; background-color:#FFFFFF;}
 
 /* board Information */
-.boardInformation { width:100%; clear:both; margin:10px 0 2px 0; overflow:hidden; color:#666666;}
+.boardInformation { width:100%; clear:both; margin:5px 0 2px 0; overflow:hidden; color:#666666;}
 .articleNum { float:left; padding:0 0 0 15px; }
 
 /* account Navigation */
@@ -140,7 +140,14 @@ Jeong, Chan Myeong 070601~070630
 .boardSubMenu img.sort { vertical-align:middle; }
 
 /* list */
-.boardList { width:100%; border:1px solid #e0e1db; border-top:none; table-layout:fixed;}
+.boardList { width:100%; border:1px solid #e0e1db; border-top:none; overflow:hidden; }
+
+.boardList thead tr th div { white-space:nowrap; margin:0 5px; }
+.boardList thead tr th.title , .boardList thead tr th.category, .boardList thead tr th.topic { width:100%; }
+.boardList tbody td { white-space:nowrap; }
+.boardList tbody td.title { white-space:normal; }
+.boardList tbody td.webzineTitle { white-space:normal; }
+
 .boardListNoTopBorder { border:none; }
 .boardList th { color:#3e3f3e; font-weight:normal; border-top:1px solid #e0e1db; border-bottom:1px solid #ffffff; white-space:nowrap; padding-top:5px; height:28px; overflow:hidden;}
 html:not([lang*=""]) .boardList th { height:33px; }
@@ -164,13 +171,14 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardList td.checkbox { font:.8em tahoma; color:#999999; text-align:center;}
 .boardList tr.notice td.num { padding:.5em; white-space:nowrap;}
 .boardList tr.notice td.notice { font-size:.9em; color:#999999; font-weight:bold; text-align:center;}
-.boardList td.thumb img { border:1px solid #E0E1DB; padding:3px; }
+.boardList td.thumb { }
+.boardList td.thumb img { border:1px solid #E0E1DB; padding:3px; margin:none; }
 
 .boardList td.title {padding-left:1em; }
 .boardList td.title strong.category { font-size:1em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
 .boardList td.title.bold { font-size:1.2em; font-weight:bold;}
 .boardList td.title.bold a { position:relative; top:.3em;}
-.boardList td.title * { vertical-align:middle;} 
+.boardList td.title * { vertical-align:middle;}
 .boardList td.title,
 .boardList td.title a { color:#444444; text-decoration:none;}
 .boardList td.title a:visited { color:#777777;}
@@ -191,15 +199,15 @@ html:not([lang*=""]) .boardList th { height:33px; }
 
 .boardListNoTopBorder td { border-top:none; border-bottom:1px solid #eff0ed; padding:.5em;}
 
-.boardList td.webzineTitle { padding-left:1em; color:#777777;}
+.boardList td.webzineTitle { padding-left:1em; color:#777777; height:1.2em; width:100%;}
 .boardList td.webzineTitle strong.category { font-size:1em; background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat right 3px; padding-right:.5em; margin-right:.5em;}
 .boardList td.webzineTitle.bold { font-size:1.2em; font-weight:bold;}
-.boardList td.webzineTitle * { vertical-align:middle;} 
+.boardList td.webzineTitle * { vertical-align:middle;}
 .boardList td.webzineTitle,
 .boardList td.webzineTitle a { color:#444444; text-decoration:none;}
 .boardList td.webzineTitle a:visited { color:#777777;}
 
-.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em; padding-left:1em;}
+.boardList td.summary { border-top:none; vertical-align:top; color:#666666; line-height:1.25em; padding-left:1em; white-space:normal; }
 .boardList td.summary a { color:#666666; text-decoration:none; line-height:inherit;}
 .boardList td.summary a:visited { color:#999999;}
 

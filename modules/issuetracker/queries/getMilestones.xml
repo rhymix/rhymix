@@ -1,0 +1,15 @@
+<query id="getMilestones" action="select">
+    <tables>
+        <table name="issue_milestones" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+        <condition operation="equal" column="is_completed" var="is_completed" pipe="and"/>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="deadline" order="asc" />
+    </navigation>
+</query>

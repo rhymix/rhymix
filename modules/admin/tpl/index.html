@@ -58,8 +58,8 @@
             <!--@foreach($lang_supported as $key => $val)-->
                 <!--@if($key != $lang_type)-->
                     <option value="{$key}">{$val}</option>
-                <!--@end-->
-            <!--@end-->
+                <!--@endif-->
+            <!--@endforeach-->
         </select>
         <p>{$lang->about_lang_env}</p>
     </td>
@@ -70,7 +70,7 @@
         <select name="time_zone" class="time_zone">
             <!--@foreach($time_zone_list as $key => $val)-->
             <option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
-            <!--@end-->
+            <!--@endforeach-->
         </select>
         <p>{$lang->about_time_zone}</p>
     </td>
@@ -104,14 +104,14 @@
         <th class="tahoma">{zdate($val->date,"Y-m-d H:i")}</th>
         <td><a href="{$val->url}" onclick="window.open(this.href);return false;">{$val->title}</a></td>
     </tr>
-    <!--@end-->
+    <!--@endforeach-->
     </tbody>
     </table>
-    <!--@end-->
+    <!--@endif-->
 </div>
 
 <div class="admin_link">
-    <!-- 사용자 링크 -->
+    <!--// 사용자 링크 -->
     <table cellspacing="0" class="adminTable">
     <caption>{$lang->zeroboard_xe_user_links}</caption>
     <!--@foreach($lang->xe_user_links as $key => $val)-->

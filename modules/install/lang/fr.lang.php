@@ -2,18 +2,18 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brief  Paquet de la langue française (Contenus fondamentals seulement sont listé)
+     * @brief  Paquet du langage en français pour le module d\'Installation
      **/
 
     $lang->introduce_title = 'Installation du Zeroboard XE ';
     $lang->license = <<<EndOfLicense
 - Nom de Programme : zeroboard XE (zeroboardXE)
-- Licence : GNU GENERAL PUBLIC LICENSE
-- SiteWeb officiel : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- Auteurr : zero (zero@zeroboard.com, http://www.zeroboard.com)
+- Licence : GNU LICENCE GÉNÉRALE PUBLIQUE 
+- Site Web Officiel : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
+- Auteur : zero (zero@zeroboard.com, http://www.zeroboard.com)
 
 Cette programme est un logiciel libre qui suit licence GPL.
-Mais quand le thème ajouté des éléments de design est inclus, l\'Auteur du thème peut appliquer la licence individuelle de lui-même.
+Mais quand un habillage qui a des éléments de design est inclus, l\'Auteur de l\'habillage peut appliquer la licence individuelle de lui-même.
 
 <b>LICENCE PUBLIQUE GÉNÉRALE GNU</b>
 
@@ -160,7 +160,7 @@ FIN DES TERMES ET CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "Vérifiez  les conditions obligatoires pour l'installation, SVP.";
+    $lang->install_condition_title = "Vérifiez  les conditions obligatoires pour l'installation, S.V.P.";
 
     $lang->install_checklist_title = array(
 			'php_version' => 'Version de PHP',
@@ -173,9 +173,9 @@ EndOfLicense;
 
     $lang->install_checklist_desc = array(
 			'php_version' => '[Obligatoire] Si la version de PHP est 5.2.2, zeroboard ne sera pas  installé à cause du bogue',
-            'permission' => '[Obligatoire] Chemin de l\' installation de Zeroboard ou  la permission de  répertoire de ./files doit être 707',
-            'xml' => '[Obligatoire] La bibliothèque de  XML est nécessaire pour la communication de XML',
-            'session' => '[Obligatoire] \'Session.auto_start\' dans la fichier de configuration pour PHP  (php.ini) doit être égal à zéro car zeroboard utilise la session',
+            'permission' => '[Obligatoire] Chemin de l\'installation de Zeroboard ou la permission de  répertoire de ./files doit être 707',
+            'xml' => '[Obligatoire] La bibliothèque de XML est nécessaire pour la communication de XML',
+            'session' => '[Obligatoire] \'Session.auto_start\' dans le fichier de configuration pour PHP (php.ini) doit être égal à zéro car zeroboard utilise la session',
             'iconv' => 'Iconv doit être installé afin de convertir UTF-8 et des autres assortiments des  langues',
             'gd' => 'La bibliothèque de GD doit être installé afin d\'utiliser la fonction à convertir des images',
         );
@@ -184,58 +184,58 @@ EndOfLicense;
     $lang->install_without_xml = 'La bibliothèque de XML n\'est pas installée';
     $lang->install_checklist_gd = 'Installation la bibliothèque de  GD';
     $lang->install_without_gd  = 'La bibliothèque de GD pour convertir des images n\'est pas installée';
-    $lang->install_checklist_iconv = 'Installation la bibliothèque de  Iconv';
+    $lang->install_checklist_iconv = 'Installation la bibliothèque d\'Iconv';
     $lang->install_without_iconv = 'La bibliothèque d\'Iconv pour traiter les caractères  n\'est pas installée';
-    $lang->install_session_auto_start = 'Des problèmes possibles peuvent avoir lieu car  session.auto_start est égale à 1 dans le la configuration de PHP';
+    $lang->install_session_auto_start = 'Des problèmes possibles peuvent avoir lieu car  session.auto_start==1 dans la configuration de PHP';
     $lang->install_permission_denied = 'La permission du chemin d\'installation n\'est pas égale à 707';
 
-    $lang->cmd_agree_license = 'Je suis d\'accord avec la license';
+    $lang->cmd_agree_license = 'Je suis d\'accord avec la licence';
     $lang->cmd_install_fix_checklist = 'J\'ai corrigé les conditions obligatoires.';
     $lang->cmd_install_next = 'Continuer à  installer';
 
     $lang->db_desc = array(
-        'mysql' => 'Utilisera mysql*() function pour utiliser mysql DB.<br />La transaction sera invalidé parce que le fichier de DB est créé par myisam.',
-        'mysql_innodb' => 'Utilisera innodb pour utiliser mysql DB.<br />La transaction sera validé pour  innodb',
-        'sqlite2' => 'Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de DB dans une place que l\'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)',
-        'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de DB dans une place que l\'on ne peut pas accéder par web.',
-        'cubrid' => 'Utiliser CUBRID DB.',
-        'postgresql' => 'Utiliser PostgreSql DB.',
-        'firebird' => 'Utiliser firebird DB.',
+        'mysql' => 'Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.',
+        'mysql_innodb' => 'Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb',
+        'sqlite2' => 'Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l\'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)',
+        'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l\'on ne peut pas accéder par Web.',
+        'cubrid' => 'Utiliser la Base de Données de CUBRID.',
+        'postgresql' => 'Utiliser la Base de Données de PostgreSql.',
+        'firebird' => 'Utiliser la Base de Données de firebird.',
     );
 
-    $lang->form_title = 'Entrer des informations de  DB(Base de données) et Administrateur';
-    $lang->db_title = 'Entrez l\'information de DB, SVP.';
-    $lang->db_type = 'Type de DB';
-    $lang->select_db_type = 'Choisissez la DB que vous voulez utiliser.';
-    $lang->db_hostname = 'Hostname(Nom de l\'ordinateur central) de DB (LOCALHOST généralement)';
-    $lang->db_port = 'Port de DB';
-    $lang->db_userid = 'ID(compte) pour le DB';
-    $lang->db_password = 'Mot de passe pour le DB';
-    $lang->db_database = 'Nom de DB';
-    $lang->db_database_file = 'Fichier de DB';
+    $lang->form_title = 'Entrer des informations de Base de données et Administrateur';
+    $lang->db_title = 'Entrez l\'information de Base de Données, S.V.P.';
+    $lang->db_type = 'Sorte de Base de Données';
+    $lang->select_db_type = 'Choisissez la Base de Données que vous voulez utiliser.';
+    $lang->db_hostname = 'Hostname(Nom de l\'ordinateur central) de Base de Données (LOCALHOST généralement)';
+    $lang->db_port = 'Port de Base de Données';
+    $lang->db_userid = 'Compte(ID) pour le Base de Données';
+    $lang->db_password = 'Mot de passe pour le Base de Données';
+    $lang->db_database = 'Nom de Base de Données';
+    $lang->db_database_file = 'Fichier de Base de Données';
     $lang->db_table_prefix = 'En-tête de la table';
 
     $lang->admin_title = 'Informations d\'Administrateur';
 
     $lang->env_title = 'Configuration';
     $lang->use_optimizer = 'Valider Optimiseur';
-    $lang->about_optimizer = 'Si l\' optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et  comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l\'invalider, ça marchera correctement pourtant il marchera plus lentement.';
-    $lang->use_rewrite = 'Utiliser mode de  récrire(rewrite mod)';
-    $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://blah/?document_srl=123 peut être abrégé comme http://blah/123";
+    $lang->about_optimizer = 'Si l\'optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l\'invalidez, ça marchera correctement pourtant il marchera plus lentement.';
+    $lang->use_rewrite = 'Utiliser mode de récrire(rewrite mod)';
+    $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://murmure/?document_srl=123 peut être abrégé comme http://murmure/123";
     $lang->time_zone = 'Fuseau horaire';
     $lang->about_time_zone = "Si l'heure de serveur et celle de votre emplacement ne s'accordent pas,  vous pouvez remettre l'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
     $lang->qmail_compatibility = 'Compatible avec Qmail';
-    $lang->about_qmail_compatibility = 'Le mél sera envoyer en MTA qui ne peut pas reconnaître le CRLF comme délimiteur des lignes comme le Qmail.';
+    $lang->about_qmail_compatibility = 'Le mél sera envoyé en MTA qui ne peut pas reconnaître le CRLF comme délimiteur des lignes comme le Qmail.';
 
     $lang->about_database_file = 'Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l\'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>';
 
     $lang->success_installed = 'Installation s\'est complété';
     $lang->success_updated = 'Mise à Jour  s\'est complété';
 
-    $lang->msg_cannot_proc = 'Environnement d\'Installation n\'est pas propre à procéder.';
+    $lang->msg_cannot_proc = 'Environnement d\'Installation n\'est pas équipé à procéder.';
     $lang->msg_already_installed = 'Zeroboard est déjà installé';
-    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter DB.\nVérifiez encore une fois les informations sur DB, SVP.";
-    $lang->msg_table_is_exists = "La Table est déjà créée dans le DB.\nLe fichier de Configuration est recréé.";
-    $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir  Zeroboard XE";
+    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter à la Base de Données.\nVérifiez encore une fois les informations sur la Base de Données, S.V.P.";
+    $lang->msg_table_is_exists = "La Table est déjà créée dans la Base de Données.\nLe fichier de Configuration est recréé.";
+    $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir Zeroboard XE";
     $lang->msg_install_failed = "Une erreur a lieu en créant le fichier d\'installation.";
 ?>

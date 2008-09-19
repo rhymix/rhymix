@@ -1,70 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget version="0.1">
-    <title xml:lang="ko">꼬리표 목록 출력</title>
-    <title xml:lang="zh-CN">标签</title>
-    <title xml:lang="jp">タグリスト表示</title>
-    <title xml:lang="en">Tag List</title>
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+	<title xml:lang="ko">꼬리표 목록 출력</title>
+	<title xml:lang="zh-CN">标签</title>
+	<title xml:lang="jp">タグリスト表示</title>
+	<title xml:lang="en">Tag List</title>
 	<title xml:lang="es">Mostrar la lista de etiqueta</title>
-    <title xml:lang="ru">Отображение списка тегов</title>
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com" date="2007. 2. 28">
-        <name xml:lang="ko">제로</name>
-        <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">Zero</name>
-        <name xml:lang="en">zero</name>
+	<title xml:lang="ru">Отображение списка тегов</title>
+	<description xml:lang="ko">선택된 모듈의 꼬리표 목록을 정해진 순위만큼 노출하여 줍니다</description>
+	<description xml:lang="zh-CN">显示被选模块指定个数的标签目录。</description>
+	<description xml:lang="jp">選択されたモジュールのタグリストを指定された順位まで表示します。</description>
+	<description xml:lang="en">This widget displays configured number of tags from target module.</description>
+	<description xml:lang="es">Este widget muestra la liste de etiqueta según el orden definido en el módulo seleccionado.</description>
+	<description xml:lang="ru">Этот виджет отображает конфигурированное число тегов из модуля назначения.</description>
+	<version>0.1</version>
+	<date>2007-02-28</date>
+
+	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+		<name xml:lang="ko">제로</name>
+		<name xml:lang="zh-CN">zero</name>
+		<name xml:lang="jp">Zero</name>
+		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
-        <name xml:lang="ru">zero</name>
-        <description xml:lang="ko">선택된 모듈의 꼬리표 목록을 정해진 순위만큼 노출하여 줍니다</description>
-        <description xml:lang="zh-CN">显示被选模块指定个数的标签目录。</description>
-        <description xml:lang="jp">選択されたモジュールのタグリストを指定された順位まで表示します。</description>
-        <description xml:lang="en">This widget displays configured number of tags from target module.</description>
-		<description xml:lang="es">Este widget muestra la liste de etiqueta según el orden definido en el módulo seleccionado.</description>
-        <description xml:lang="ru">Этот виджет отображает конфигурированное число тегов из модуля назначения.</description>
-    </author>
-    <extra_vars>
-        <var id="title">
-            <name xml:lang="ko">제목</name>
-            <name xml:lang="zh-CN">栏目名</name>
-            <name xml:lang="jp">タイトル</name>
-            <name xml:lang="en">Title</name>
+		<name xml:lang="ru">zero</name>
+	</author>
+
+	<extra_vars>
+		<var id="title">
+			<type>text</type>
+			<name xml:lang="ko">제목</name>
+			<name xml:lang="zh-CN">栏目名</name>
+			<name xml:lang="jp">タイトル</name>
+			<name xml:lang="en">Title</name>
 			<name xml:lang="es">Título</name>
-            <name xml:lang="ru">Заголовок</name>
-            <type>text</type>
-            <description xml:lang="ko">꼬리표 출력시 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">显示为标签目录的标题。</description>
-            <description xml:lang="jp">タグ出力の際、タイトルとして表示されます。</description>
-            <description xml:lang="en">This will be shown as a title with tag list.</description>
+			<name xml:lang="ru">Заголовок</name>
+			<description xml:lang="ko">꼬리표 출력시 제목으로 출력됩니다.</description>
+			<description xml:lang="zh-CN">显示为标签目录的标题。</description>
+			<description xml:lang="jp">タグ出力の際、タイトルとして表示されます。</description>
+			<description xml:lang="en">This will be shown as a title with tag list.</description>
 			<description xml:lang="es">Este será el título al ser mostrada la etiqueta.</description>
-            <description xml:lang="ru">Это будет показано как заголовок со списком тегов.</description>
-        </var>
-        <var id="list_count">
-            <name xml:lang="ko">목록수</name>
-            <name xml:lang="zh-CN">目录数</name>
-            <name xml:lang="jp">リスト数</name>
-            <name xml:lang="en">Number of tags</name>
+			<description xml:lang="ru">Это будет показано как заголовок со списком тегов.</description>
+		</var>
+		<var id="list_count">
+			<type>text</type>
+			<name xml:lang="ko">목록수</name>
+			<name xml:lang="zh-CN">目录数</name>
+			<name xml:lang="jp">リスト数</name>
+			<name xml:lang="en">Number of tags</name>
 			<name xml:lang="es">Número de etiquetas</name>
-            <name xml:lang="ru">Число тегов</name>
-            <type>text</type>
-            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 20개)</description>
-            <description xml:lang="zh-CN">可设置要显示的标签数。 (默认为 20个)</description>
-            <description xml:lang="jp">出力されるリストの数を指定することができます。（デフォルト２０個）</description>
-            <description xml:lang="en">You can configure the number of tags to show. (Default is 20)</description>
+			<name xml:lang="ru">Число тегов</name>
+			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 20개)</description>
+			<description xml:lang="zh-CN">可设置要显示的标签数。 (默认为 20个)</description>
+			<description xml:lang="jp">出力されるリストの数を指定することができます。（デフォルト２０個）</description>
+			<description xml:lang="en">You can configure the number of tags to show. (Default is 20)</description>
 			<description xml:lang="es">Usted puede definir el número de etiquetas a mostrar. (predefinido: 20)</description>
-            <description xml:lang="ru">Вы можете сконфигурировать число тегов для показа. (стандарт: 20)</description>
-        </var>
-        <var id="mid">
-            <name xml:lang="ko">대상 모듈</name>
-            <name xml:lang="zh-CN">模块对象</name>
-            <name xml:lang="jp">モジュール</name>
-            <name xml:lang="en">Target Module</name>
+			<description xml:lang="ru">Вы можете сконфигурировать число тегов для показа. (стандарт: 20)</description>
+		</var>
+		<var id="mid">
+			<type>mid</type>
+			<name xml:lang="ko">대상 모듈</name>
+			<name xml:lang="zh-CN">模块对象</name>
+			<name xml:lang="jp">モジュール</name>
+			<name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Módulo Objetivo</name>
-            <name xml:lang="ru">Модуль назначения</name>
-            <type>mid</type>
-            <description xml:lang="ko">선택하신 모듈에 등록된 꼬리표를 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">将把被选模块当中的标签作为对象。</description>
-            <description xml:lang="jp">チェックされたモジュールに登録されたタグを対象とします。</description>
-            <description xml:lang="en">Tag list will be shown based on this target module.</description>
+			<name xml:lang="ru">Модуль назначения</name>
+			<description xml:lang="ko">선택하신 모듈에 등록된 꼬리표를 대상으로 합니다.</description>
+			<description xml:lang="zh-CN">将把被选模块当中的标签作为对象。</description>
+			<description xml:lang="jp">チェックされたモジュールに登録されたタグを対象とします。</description>
+			<description xml:lang="en">Tag list will be shown based on this target module.</description>
 			<description xml:lang="es">Objetivo de la lista de etiquetas será la del módulo seleccionado.</description>
-            <description xml:lang="ru">Список тегов будет показан на основании этого модуля назначения.</description>
-        </var>
-    </extra_vars>
+			<description xml:lang="ru">Список тегов будет показан на основании этого модуля назначения.</description>
+		</var>
+	</extra_vars>
 </widget>

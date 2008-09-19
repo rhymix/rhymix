@@ -1,0 +1,24 @@
+.top1 { clear:both; }
+.top2 { clear:both; }
+.projectHalf { width:380px; }
+.left { float:left; }
+.right { float:right; }
+.vtop { vertical-align: top; }
+.display_date { cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px; }
+.ht30 { height: 30px; }
+.ht60 { height: 60px; }
+
+input.btnSubmit { background:url("../images/buttonInsert.gif") no-repeat 3px 2px; line-height:150%; height:23px; padding:2px 3px 2px 18px; border:1px solid; border-color:#d8d8d8 #a6a6a6 #a6a6a6 #d8d8d8; }
+
+table thead th { text-align:center !important; }
+table tbody td.button { padding-left:16px; }
+table tbody td.strike { text-decoration:line-through; }
+
+td.summaryText div { line-height:20px; padding-left:20px; cursor:pointer;}
+td.summaryText div.open { background:url("../images/opener.gif") no-repeat left 4px; overflow:visible; }
+td.summaryText div.close { background:url("../images/closer.gif") no-repeat left 4px; height:20px; overflow:hidden; }
+
+img.btnDelete { vertical-align:middle; }
+
+td.filename { background-color:#EFEFEF; }
+td.filename a { font-weight:bold;}

@@ -102,7 +102,7 @@
          **/
         function addQuotes($string) {
             if(!$this->fd) return $string;
-            if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
+            if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
             if(!is_numeric($string)) $string = str_replace("'","''",$string);
             return $string;
         }
@@ -381,7 +381,7 @@
             foreach($output->conditions as $key => $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $k =>$v) {
-                    if(!$v['value']) continue;
+                    if(!isset($v['value']) || $v['value'] === '') continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];

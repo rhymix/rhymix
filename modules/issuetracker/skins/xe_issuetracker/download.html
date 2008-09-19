@@ -1,0 +1,90 @@
+<!--#include("header.html")-->
+
+<table class="downloads" cellspacing="0">
+<col width="90" />
+<col width="50" />
+<col width="*" />
+<col width="90" />
+<col width="120" />
+<thead>
+<tr>
+    <th>{$lang->package}</th>
+    <th>{$lang->release}</th>
+    <th>{$lang->filename}</th>
+    <th>{$lang->filesize}</th>
+    <th>{$lang->download_count}</th>
+</thead>
+<tbody>
+<!--@foreach($package_list as $key => $val)-->
+<tr>
+    <td class="summaryText package" colspan="4">
+        <div class="close">
+            <h3>{$val->title} ({count($val->releases)}/{$val->release_count})</h3>
+            <blockquote>{nl2br($val->description)}</blockquote>
+        </div>
+    </td>
+    <td class="moreRelease vtop">
+        <!--@if($release_srl && $release)-->
+            <a href="{getUrl('release_srl','','package_srl',$release->package_srl)}">{$lang->cmd_back}</a>
+        <!--@else if($package_srl)-->
+            <a href="{getUrl('package_srl','')}">{$lang->cmd_back}</a>
+        <!--@else if($val->release_count>0)-->
+            <a href="{getUrl('package_srl',$val->package_srl)}">{$lang->cmd_view_all}</a>
+        <!--@end-->
+    </td>
+</tr>
+    <!--@if(count($val->releases))-->
+        <!--@foreach($val->releases as $k => $v)-->
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="release"><h3><a href="{getUrl('package_srl',$v->package_srl,'release_srl',$v->release_srl)}">{$v->title}</a></h3> <span>({zdate($v->regdate, "Y-m-d H:i")})</span></td>
+</tr>
+<!--@if($release)-->
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="releaseNoteTitle">{$lang->release_note}</td>
+</tr>
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="releaseNote">{str_replace('  ','&nbsp;&nbsp;',nl2br($release->release_note))}&nbsp;</td>
+</tr>
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="releaseChangesTitle">{$lang->release_changes}</td>
+</tr>
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="releaseChanges">{str_replace('  ','&nbsp;&nbsp;',nl2br($release->release_changes))}&nbsp;</td>
+</tr>
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="releaseFilesTitle">{$lang->attached_file}</td>
+</tr>
+<!--@end-->
+            <!--@foreach($v->files as $file)-->
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td class="releaseLeft">&nbsp;</td>
+    <td class="filename"><a href="{$file->download_url}" name="attach_{$file->file_srl}" <!--@if($file->comment)-->rel="{str_replace("\n","<br />",htmlspecialchars($file->comment))}"<!--@end-->>{$file->source_filename}</a></td>
+    <td class="filesize">{FileHandler::filesize($file->file_size)}</td>
+    <td class="download_count">{$file->download_count}</td>
+</tr>
+            <!--@end-->
+        <!--@end-->
+<tr>
+    <td class="null">&nbsp;</td>
+    <td colspan="4" class="nullLine">&nbsp;</td>
+</tr>
+    <!--@else-->
+<tr>
+    <td class="packageLeft">&nbsp;</td>
+    <td colspan="4" class="none_release">{$lang->msg_no_releases}</td>
+</tr>
+<tr>
+    <td class="null">&nbsp;</td>
+    <td colspan="4" class="nullLine">&nbsp;</td>
+</tr>
+    <!--@end-->
+<!--@end-->
+</tbody>
+</table>

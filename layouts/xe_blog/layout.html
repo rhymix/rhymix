@@ -1,10 +1,10 @@
-<!-- 레이아웃과 연동될 css 파일 import -->
+<!--// 레이아웃과 연동될 css 파일 import -->
 <!-- 컬러셋 체크 -->
     <!--@if(!$layout_info->colorset)-->
         {@$layout_info->colorset = "blue"}
     <!--@end-->
 
-<!-- CSS 파일 로드 (컬러셋에 따라서) -->
+<!--// CSS 파일 로드 (컬러셋에 따라서) -->
     <!--%import("css/layout.css")-->
     <!--@if($layout_info->colorset == "gray")--> <!--%import("css/layout_gray.css")-->
     <!--@elseif($layout_info->colorset == "orange")--> <!--%import("css/layout_orange.css")-->
@@ -14,24 +14,24 @@
     <!--@end-->
 
 <!--@if($layout_info->background_image)-->
-  <style type="text/css">
-    body {  background-repeat:repeat-x; background-image:url({getUrl()}{$layout_info->background_image}); }       
-  </style>
+<style type="text/css">
+    body { background-repeat:repeat-x; background-image:url({getUrl()}{$layout_info->background_image}); }
+</style>
 <!--@end-->
 
 <div id="blog">
 
-	<div class="blogNavigation">
-		<ul class="blogGlobal">
+    <div class="blogNavigation">
+        <ul class="blogGlobal">
             <!--@if(!$is_logged)-->
-			<li><a href="{getUrl('mid',$layout_info->target_mid,'act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-			<li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+            <li><a href="{getUrl('mid',$layout_info->target_mid,'act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+            <li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
             <!--@else-->
                 <!--@if($grant->is_admin)-->
                 <li><a href="{getUrl('mid', $layout_info->target_mid, 'act','dispBoardWrite','document_srl','')}">{$lang->cmd_write}</a></li>
                 <!--@end-->
 
-                <!-- 최고관리자이면 관리자 페이지 버튼 출력 -->
+                <!--// 최고관리자이면 관리자 페이지 버튼 출력 -->
                 <!--@if($logged_info->is_admin == 'Y')-->
                 <li><a href="{getUrl('','module','admin')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
                 <!--@end-->
@@ -42,7 +42,7 @@
                 <!--@end-->
                 <li><a href="{geturl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
                 <li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
-            <!--@end-->
+            <!--@endif-->
 
                 <li class="skin_info"><a href="{getUrl('','module','layout','act','dispLayoutInfo','selected_layout','xe_blog')}" onclick="popopen(this.href,'layoutSkinInfo'); return false;"><img src="./images/buttonHelp.gif" alt="Skin Info" width="13" height="13"/></a></li>
 
@@ -51,82 +51,88 @@
                 <!--@if($rss_url)-->
                     <li><a href="{$rss_url}"><img src="./images/{$layout_info->colorset}/btn_rss.gif" alt="rss" width="36" height="12" /></a></li>
                 <!--@end-->
-            <!--@end-->
-		</ul>
+            <!--@endif-->
+        </ul>
         <div class="clear"></div>
-		<ul class="blogMenu">
+        <ul class="blogMenu">
             <!--@foreach($top_menu->list as $key => $val)--><!--@if($val['link'])-->
-			<li><a href="{$val['href']}"<!--@if($val['selected'])--> class="on"<!--@end--><!--@if($val['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>{$val['link']}</a></li>
-            <!--@end--><!--@end-->
-		</ul>
-	</div>
+            <li><a href="{$val['href']}"<!--@if($val['selected'])--> class="on"<!--@endif--><!--@if($val['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@endif-->>{$val['link']}</a></li>
+            <!--@endif--><!--@endforeach-->
+        </ul>
+    </div>
 
     <!-- 내용 -->
-	<div class="contentBox"><div class="topBg"></div>
-		<div class="centerBg"><div class="contentArea">{$content}<div class="clear"></div></div></div>
-	<div class="bottomBg"></div></div>
+    <div class="contentBox">
+        <div class="topBg"></div>
+        <div class="centerBg">
+            <div class="contentArea">
+                {$content}
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="bottomBg"></div>
+    </div>
 
     <!-- 위젯들 -->
     <div class="blogWidgetAreaBox">
 
-      <!-- 프로필 -->
-      <div class="blogProfile">
-          <!--@if($layout_info->profile_image)-->
-          <img src="{$layout_info->profile_image}" border="0" alt="my profile image" class="iePngFix" width="170" />
-          <!--@else-->
-          <img src="./images/{$layout_info->colorset}/@blog_image.gif" alt="profile" class="iePngFix" width="170" />
-          <!--@end-->
-          <!--@if($layout_info->profile)-->
-              <h1>{$layout_info->profile}</h1>
-          <!--@end-->
+        <!-- 프로필 -->
+        <div class="blogProfile">
+            <!--@if($layout_info->profile_image)-->
+            <img src="{$layout_info->profile_image}" border="0" alt="my profile image" class="iePngFix" width="170" />
+            <!--@else-->
+            <img src="./images/{$layout_info->colorset}/@blog_image.gif" alt="profile" class="iePngFix" width="170" />
+            <!--@end-->
+            <!--@if($layout_info->profile)-->
+                <h1>{$layout_info->profile}</h1>
+            <!--@end-->
 
-          <!-- 검색 폼 출력 -->
-          <div class="blogSearch">
-              <form action="{Context::getRequestUri()}" method="post">
-                  <fieldset>
-                      <legend>{$lang->cmd_search}</legend>
-                      <input type="hidden" name="mid" value="{$layout_info->target_mid}" />
-                      <input type="hidden" name="search_target" value="title_content" />
-                      <input name="search_keyword" type="text" class="inputTypeText w110" value="<!--@if($search_keyword)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
-                      <a href="#"><img src="./images/{$layout_info->colorset}/btn_search.gif" alt="{$lang->cmd_search}" width="45" height="20" /></a>
-                  </fieldset>
-              </form>
-          </div>
-      </div>
+            <!-- 검색 폼 출력 -->
+            <div class="blogSearch">
+                <form action="{Context::getRequestUri()}" method="post">
+                    <fieldset>
+                        <legend>{$lang->cmd_search}</legend>
 
-      <!-- 카테고리 -->
-      <div class="blogTitleBox">
-          <h2>category</h2>
-      </div>
-      <div class="widgetBox ">
-          <img class="zbxe_widget_output" widget="category" body="" skin="default" colorset="normal" mid_list="{$layout_info->target_mid}" />
-      </div>
+                        <input type="hidden" name="mid" value="{$layout_info->target_mid}" />
+                        <input type="hidden" name="search_target" value="title_content" />
+                        <input name="search_keyword" type="text" class="inputTypeText w110" value="<!--@if($search_keyword)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
+                        <a href="#"><img src="./images/{$layout_info->colorset}/btn_search.gif" alt="{$lang->cmd_search}" width="45" height="20" /></a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
 
-      <!-- 달력 출력 -->
-      <div class="widgetBox ">
-          <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="layout" mid_list="{$layout_info->target_mid}" />
-      </div>
+        <!-- 카테고리 -->
+        <div class="blogTitleBox">
+            <h2>category</h2>
+        </div>
+        <div class="widgetBox ">
+            <img class="zbxe_widget_output" widget="category" body="" skin="default" colorset="normal" mid_list="{$layout_info->target_mid}" />
+        </div>
 
-      <!-- 최근 글 출력 -->
-      <div class="widgetBox">
-          <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="layout" title="recent posts" order_target="list_order" order_type="desc" subject_cut_size="26" list_count="5" mid_list="{$layout_info->target_mid}" />
-      </div>
+        <!-- 달력 출력 -->
+        <div class="widgetBox ">
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="calendar" skin="blog_calendar_list" colorset="layout" mid_list="{$layout_info->target_mid}" />
+        </div>
 
-      <!-- 최근댓글 출력 -->
-      <div class="widgetBox">
-          <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="layout" title="recent comments" subject_cut_size="26" list_count="5" mid_list="{$layout_info->target_mid}" />
-      </div>
+        <!-- 최근 글 출력 -->
+        <div class="widgetBox">
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_document" skin="blog_newest_document" colorset="layout" title="recent posts" order_target="list_order" order_type="desc" subject_cut_size="26" list_count="5" mid_list="{$layout_info->target_mid}" />
+        </div>
 
-      <!-- 엮인글 출력 -->
-      <div class="widgetBox">
-          <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="layout" title="recent trackbacks" subject_cut_size="26" list_count="5" mid_list="{$layout_info->target_mid}" />
-      </div>
+        <!-- 최근댓글 출력 -->
+        <div class="widgetBox">
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_comment" skin="blog_newest_comment" colorset="layout" title="recent comments" subject_cut_size="26" list_count="5" mid_list="{$layout_info->target_mid}" />
+        </div>
 
-  </div>
+        <!-- 엮인글 출력 -->
+        <div class="widgetBox">
+            <img src="./images/common/blank.gif" class="zbxe_widget_output" widget="newest_trackback" skin="blog_newest_trackback" colorset="layout" title="recent trackbacks" subject_cut_size="26" list_count="5" mid_list="{$layout_info->target_mid}" />
+        </div>
+
+    </div>
 </div>
 
 <div class="clear"></div>
 
 <div class="zbXE"><a href="http://www.zeroboard.com" onclick="window.open(this.href); return false;"><img src="./images/powerdByZeroboard.gif" alt="powered by zbXE" /></a></div>
-
-

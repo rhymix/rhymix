@@ -1,0 +1,81 @@
+<!--#include("header.html")-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("filter/insert_milestone.xml")-->
+
+<!--// calendar -->
+<!--%import("../../common/js/calendar.min.js",optimized=false)-->
+<!--@if($lang_type == 'ko')-->
+    <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
+<!--@elseif($lang_type == 'es')-->
+    <!--%import("../../common/js/calendar-es.js",optimized=false)-->
+<!--@elseif($lang_type == 'ge')-->
+    <!--%import("../../common/js/calendar-ge.js",optimized=false)-->
+<!--@elseif($lang_type == 'ru')-->
+    <!--%import("../../common/js/calendar-ru.js",optimized=false)-->
+<!--@elseif($lang_type == 'zh-CN')-->
+    <!--%import("../../common/js/calendar-zh-CN.js",optimized=false)-->
+<!--@else-->
+    <!--%import("../../common/js/calendar-en.js",optimized=false)-->
+<!--@end-->
+<!--%import("../../common/js/calendar-setup.js",optimized=false)-->
+<!--%import("../../common/css/calendar-system.css",optimized=false)-->
+
+
+<!--@if($milestone)-->
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="milestone_srl" value="{$milestone->milestone_srl}" />
+<!--@if($milestone->is_default=="Y")--><input type="hidden" name="is_default" value="Y" /><!--@end-->
+<table cellspacing="0" class="adminTable">
+<thead>
+<col width="*" />
+<col width="110" />
+<col width="100" />
+<col width="110" />
+<col width="100" />
+<tr>
+    <th scope="col">{$lang->name} </th> 
+    <th scope="col">{$lang->deadline} </th> 
+    <th scope="col">{$lang->complete}</th>
+    <th scope="col">{$lang->completed_date}</th>
+    <th scope="col">{$lang->is_default}</th>
+</tr>
+</thead>
+<tbody>
+<tr class="ht60">
+    <td><input name="title" type="text" class="inputTypeText w300" value="{$milestone->title}" /></td>
+    <td>
+        <input type="hidden" name="deadline" id="date_deadline" value="{$milestone->deadline}"/>
+        <div class="display_date" id="str_deadline"><!--@if($milestone->deadline)-->{zdate("Ymd",$milestone->deadline)}<!--@end--></div>
+        <script type="text/javascript">
+            DyCalendar.setup( { firstDay : 0, inputField : "date_deadline", ifFormat : "%Y%m%d", displayArea : "str_deadline", daFormat : "%Y-%m-%d" } );
+        </script>
+    </td>
+    <td><input type="checkbox" value="Y" name="is_completed" <!--@if($milestone->is_completed == 'Y')-->checked<!--@end--> /></td>
+    <td>
+        <input type="hidden" name="released_date" id="date_released_date" value="{$milestone->released_date}"/>
+        <div class="display_date" id="str_released_date"><!--@if($milestone->released_date)-->{zdate("Ymd",$milestone->released_date)}<!--@end--></div>
+        <script type="text/javascript">
+            DyCalendar.setup( { firstDay : 0, inputField : "date_released_date", ifFormat : "%Y%m%d", displayArea : "str_released_date", daFormat : "%Y-%m-%d" } );
+        </script>
+    </td>
+    <td>
+        <!--@if($milestone->is_default=='Y')-->
+            {$lang->is_default}
+        <!--@else-->
+            <input type="checkbox" name="is_default" value="Y" />
+        <!--@end-->
+    </td>
+</tr>
+<tr>
+    <td colspan="4"><textarea name="description" class="inputTypeTextArea w400" />{$milestone->description}</textarea></td>
+    <td>
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </td>
+</tr>
+<tr>
+</tr>
+</tbody>
+</table>
+</form>
+<!--@end-->

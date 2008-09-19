@@ -1,0 +1,166 @@
+<!--%import("filter/insert.xml")-->
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, window.insert)" id="fo_write">
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="content" value="{$oIssue->getContentText()}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
+
+<div class="newIssue">
+    <table cellspacing="0">
+    <col width="140" />
+    <col width="*" />
+    <col width="140" />
+    <col width="*" />
+    <tr>
+        <th><label for="inputTitle">{$lang->title} :</label></th>
+        <td colspan="2">
+            <input type="text" name="title" id="inputTitle" class="inputTypeText wide" value="{htmlspecialchars($oIssue->getTitleText())}" />
+        </td>
+        <td>
+            <!--@if($grant->manager)-->
+            {@ $_color = array('555555','222288','226622','2266EE','8866CC','88AA66','EE2222','EE6622','EEAA22','EEEE22') }
+            <select name="title_color" id="title_color" <!--@if($oIssue->get('title_color'))-->style="background-color:#{$oIssue->get('title_color')};"<!--@end--> onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor;">
+                <option value="" style="background-color:#FFFFFF;">{$lang->title_color}</option>
+                <!--@foreach($_color as $_col)-->
+                <option value="{$_col}" style="background-color:#{$_col}" <!--@if($oIssue->get('title_color')==$_col)-->selected="selected"<!--@end-->>{$lang->title_color}</option>
+                <!--@end-->
+            </select>
+            <!--@end-->
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <th><label>{$lang->cmd_option} :</label></th>
+        <td colspan="3">
+            <dl class="option">
+                <!--@if($grant->manager)-->
+                <dd>
+                    <input type="checkbox" name="title_bold" id="title_bold" value="Y" <!--@if($oIssue->get('title_bold')=='Y')-->checked="checked"<!--@end--> />
+                    <label for="title_bold">{$lang->title_bold}</label>
+                </dd>
+                <dd>
+                    <input type="checkbox" name="lock_comment" value="Y" <!--@if($oIssue->isLocked())-->checked="checked"<!--@end--> id="lock_comment" />
+                    <label for="lock_comment">{$lang->lock_comment}</label>
+                </dd>
+                <!--@endif-->
+                <dd>
+                    <input type="checkbox" name="is_secret" value="Y" <!--@if($oIssue->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
+                    <label for="is_secret">{$lang->secret}</label>
+                </dd>
+                <dd>
+                    <input type="checkbox" name="allow_comment" value="Y" <!--@if($oIssue->allowComment())-->checked="checked"<!--@end--> id="allow_comment" />
+                    <label for="allow_comment">{$lang->allow_comment}</label>
+                </dd>
+                <dd>
+                    <input type="checkbox" name="allow_trackback" value="Y" <!--@if($oIssue->allowTrackback())-->checked="checked"<!--@end--> id="allow_trackback" />
+                    <label for="allow_trackback">{$lang->allow_trackback}</label>
+                </dd>
+                <!--@if($is_logged)-->
+                <dd>
+                    <input type="checkbox" name="notify_message" value="Y" <!--@if($oIssue->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
+                    <label for="notify_message">{$lang->notify}</label>
+                </dd>
+                <!--@end-->
+            </dl>
+        </td>
+    </tr>
+
+    <!--@if(!$oIssue->isExists())-->
+    <tr>
+        <th><label for="inputType">{$lang->type} :</label></th>
+        <td>
+            <select name="type_srl" id="inputType">
+                <option value="">{$lang->type}</option> 
+                <!--@foreach($project->types as $key => $val)-->
+                <option value="{$val->type_srl}" <!--@if($val->type_srl==$oIssue->get('type_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+        </td>
+        <th><label for="inputComponent">{$lang->component} :</label></th>
+        <td>
+            <select name="component_srl" id="inputComponent">
+                <option value="">{$lang->component}</option> 
+                <!--@foreach($project->components as $key => $val)-->
+                <option value="{$val->component_srl}" <!--@if($val->component_srl==$oIssue->get('component_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><label for="inputPackage">{$lang->occured_version} :</label></th>
+        <td colspan="3">
+            <select name="package_srl" id="inputPackage">
+                <option value="">{$lang->package}</option> 
+                <!--@foreach($project->packages as $key => $val)-->
+                <option value="{$val->package_srl}" <!--@if($val->package_srl==$oIssue->get('package_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+                <!--@end-->
+            </select>
+            <select name="occured_version_srl">
+                <option value="">{$lang->release}</option> 
+                <!--@foreach($project->packages as $key => $val)-->
+                <!--@foreach($project->releases as $k => $v)-->
+                <!--@if($val->package_srl == $v->package_srl)-->
+                <option value="{$v->release_srl}" <!--@if($v->release_srl==$oIssue->get('occured_version_srl'))-->selected="selected"<!--@end-->>{$v->title}</option> 
+                <!--@end-->
+                <!--@end-->
+                <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <!--@end-->
+
+    <!--@if($module_info->extra_vars)--><!--@foreach($module_info->extra_vars as $key => $val)-->
+        <!--@if($val->name)-->
+    <tr>
+        <th><label>{$val->name} <!--@if($val->is_required=='Y')-->*<!--@end--> :</label></th>
+        <td colspan="3"><!--#include("./extra_var_form.html")--></td>
+    </tr>
+        <!--@end-->
+    <!--@end--><!--@end-->
+
+    <tr>
+        <th><label for="inputTags">{$lang->tag} :</label></th>
+        <td colspan="3"><input type="text" name="tags" value="{htmlspecialchars($oIssue->get('tags'))}" class="inputTypeText wide" /></td>
+    </tr>
+
+    <!--@if(!$is_logged)-->
+    <tr>
+        <th><label for="userName">{$lang->writer} :</label></th>
+        <td><input type="text" name="nick_name" value="{$oIssue->getNickName()}" class="userName inputTypeText" id="userName"/></td>
+        <th><label for="userPw">{$lang->password} :</label></th>
+        <td><input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th><label for="emailAddress">{$lang->email_address} :</label></th>
+        <td><input type="text" name="email_address" value="{htmlspecialchars($oIssue->get('email_address'))}" id="emailAddress" class="emailAddress inputTypeText"/></td>
+        <th><label for="homePage">{$lang->homepage} :</label></th>
+        <td><input type="text" name="homepage" value="{htmlspecialchars($oIssue->get('homepage'))}" id="homePage" class="homePage inputTypeText"/></td>
+    </tr>
+    <!--@end-->
+
+    <tr>
+        <td colspan="4"><div class="editor">{$oIssue->getEditor()}</div></td>
+    </tr>
+    <tr>
+        <td colspan="4" class="tRight">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'" /></span>
+        </td>
+    </tr>
+    </table>
+</div>
+
+</form>
+<form action="./" method="get" class="close">
+<!--@foreach($project->packages as $key => $val)-->
+<select id="release_{$val->package_srl}">
+    <option value="">{$lang->release}</option> 
+    <!--@foreach($project->releases as $k => $v)-->
+    <!--@if($val->package_srl == $v->package_srl)-->
+    <option value="{$v->release_srl}" <!--@if($v->release_srl==$release_srl)-->selected="selected"<!--@end-->>{$v->title}</option> 
+    <!--@end-->
+    <!--@end-->
+</select>
+<!--@end-->
+</form>

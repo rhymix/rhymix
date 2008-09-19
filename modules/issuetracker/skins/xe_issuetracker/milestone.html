@@ -1,0 +1,40 @@
+<!--#include('header.html')-->
+
+<table class="milestones" cellspacing="0">
+<thead>
+<tr>
+{@ $col_count = 3 }
+    <th>{$lang->completed_date}</th>
+    <th>{$lang->deadline}</th>
+    <!--@foreach($lang->status_list as $k => $v)-->
+    {@ $col_count += 1 }
+    <th>{$v}</th>
+    <!--@end-->
+    <th>{$lang->total_issue}</th>
+</tr>
+</thead>
+<tbody>
+<!--@foreach($milestones as $val)-->
+<!--@if($val->milestone_srl == 0)-->
+{@ $val->title = $lang->not_assigned}
+{@ $val->description = $lang->not_assigned_description}
+<!--@end-->
+<tr class="title">
+    <td class="title <!--@if($val->is_completed=='Y')-->completed<!--@end-->" colspan="{$col_count}" >
+        <a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl)}">{$val->title}</a>
+    </td>
+</tr>
+<tr>
+    <td class="released_date">{zdate($val->released_date, "Y-m-d")}&nbsp;</td>
+    <td class="deadline">{zdate($val->deadline, 'Y-m-d')}&nbsp;</td>
+    <!--@foreach($lang->status_list as $k => $v)-->
+    <td class="status issue_{$k}"> <a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl,'status[]',$k)}">{number_format($val->issues[$k])}</a></td>
+    <!--@end-->
+    <td class="total"> <a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl,'status[]','')}">{number_format($val->issues['total'])}</a></td>
+</tr>
+<tr>
+    <td colspan="{$col_count}" class="summaryText description"><div class="close">{nl2br($val->description)}&nbsp;</div></td>
+</tr>
+<!--@end-->
+</tbody>
+</table>

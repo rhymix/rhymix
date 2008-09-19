@@ -1,0 +1,19 @@
+<query id="updateIssue" action="update">
+    <tables>
+        <table name="issues" />
+    </tables>
+    <columns>
+        <column name="assignee_srl" var="assignee_srl" />
+        <column name="assignee_name" var="assignee_name" />
+        <column name="milestone_srl" var="milestone_srl" />
+        <column name="type_srl" var="type_srl" />
+        <column name="priority_srl" var="priority_srl" />
+        <column name="component_srl" var="component_srl" />
+        <column name="occured_version_srl" var="occured_version_srl" />
+        <column name="resolution_srl" var="resolution_srl" />
+        <column name="status" var="status" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="target_srl" var="target_srl" notnull="notnull" />
+    </conditions> 
+</query>

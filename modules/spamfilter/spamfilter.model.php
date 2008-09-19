@@ -47,7 +47,7 @@
             $patterns = array();
             for($i=0;$i<$count;$i++) {
                 $ip = str_replace('*','',$ip_list[$i]->ipaddress);
-                $patterns[] = $ip;
+                $patterns[] = preg_quote($ip);
             }
 
             $pattern = '/^('.implode($patterns,'|').')/';
@@ -78,7 +78,7 @@
             $count = count($word_list);
             for($i=0;$i<$count;$i++) {
                 $word = $word_list[$i]->word;
-                if(preg_match('/'.$word.'/is', $text)) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
+                if(preg_match('/'.preg_quote($word,'/').'/is', $text)) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
             }
 
             return new Object();

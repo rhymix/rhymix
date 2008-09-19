@@ -9,7 +9,7 @@
             </div>
             <!--@end-->
 
-            <!-- 글이 선택되어 있거나 검색어가 있으면 목록을 출력 -->
+            <!--// 글이 선택되어 있거나 검색어가 있으면 목록을 출력 -->
             <!--#include("./style.list.html")-->
 
         <!--@elseif($oDocument->isExists())-->
@@ -20,7 +20,7 @@
 
         <!--@else-->
 
-            <!-- 공지사항 -->
+            <!--// 공지사항 -->
             <!--@if($notice_list)-->
                 <div class="blogNotice">
                 <!--@foreach($notice_list as $no => $document)-->
@@ -42,7 +42,7 @@
                 </div>
             <!--@end-->
 
-            <!-- 일반글 -->
+            <!--// 일반글 -->
             <!--@foreach($document_list as $no => $oDocument)-->
             <div class="viewDocument">
             <!--#include("./view_document.html")-->

@@ -1,11 +1,11 @@
-<!-- 스킨 css 로드 -->
+<!--// 스킨 css 로드 -->
 <!--%import("css/xq_ui.css")-->
 <!--%import("css/default.css")-->
 <script type="text/javascript">
     var editor_path = "{$editor_path}";
 </script>
 
-<!-- 기본 js/언어파일 로드 -->
+<!--// 기본 js/언어파일 로드 -->
 <!--%import("../../tpl/js/editor_common.js")-->
 <!--%import("js/xquared-min.js")-->
 <!--%import("js/xe_interface.js")-->
@@ -52,7 +52,7 @@
     <!-- 첨부파일 영역 -->
     <!--%import("../../tpl/js/uploader.js")-->
     <script type="text/javascript">//<![CDATA[
-        var zbxe_session_name = "{session_name()}";
+        var xe_session_name = "{session_name()}";
         var uploader_setting = { "allowed_filesize" : "{$file_config->allowed_filesize}", "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "{$file_config->allowed_filetypes}" }
         <!--@if(!$editor_manual_start)-->
         editor_upload_init("{$editor_sequence}", editorGetForm_xq(document.getElementById("xqEditor_{$editor_sequence}")), "{$files_count}");

@@ -872,6 +872,7 @@
                     $val = base64_decode(substr($buff, $pos, strlen($buff)-$pos*2-2));
                     $obj->{"extra_vars".$index} = $val;
                     $buff = null;
+                    $index++;
                 }
             }
         }

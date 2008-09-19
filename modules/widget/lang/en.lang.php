@@ -9,6 +9,7 @@
 
     $lang->widget_name = 'Widget Name';
     $lang->widget_maker = 'Developer';
+    $lang->widget_license = 'License';
     $lang->widget_history = 'Update History';
     $lang->widget_info = 'Widget Info';
     $lang->widget_code = 'Code';

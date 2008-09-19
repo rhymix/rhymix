@@ -1,0 +1,12 @@
+<query id="geChildId" action="select">
+    <tables>
+        <table name="tcnotifiedchildren" />
+    </tables>
+    <columns>
+        <column name="notified_srl" alias="notified_srl"/>
+    </columns>
+    <conditions>
+        <condition operation="equal" column="parent_srl" var="parent_srl" notnull="notnull" />
+        <condition operation="equal" column="remoteid" var="remoteid" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

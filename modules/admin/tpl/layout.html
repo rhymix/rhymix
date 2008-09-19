@@ -2,7 +2,7 @@
 <!--%import("js/admin.js")-->
 
 <div id="adminLayout">
-    
+
     <div id="adminMenuContent">
 
             <div class="adminInfoBox">
@@ -35,11 +35,11 @@
                     <li <!--@if(in_array($act, $v->actions))-->class="on"<!--@end--> onclick="location.href='{getUrl('','module','admin','act',$v->admin_index_act)}'; return false;">
                             <a href="{getUrl('','module','admin','act',$v->admin_index_act)}" title="{trim($v->description)}">{$v->title}</a>
                     </li>
-                    <!--@end-->
-                <!--@end-->
-            <!--@end-->
+                    <!--@endif-->
+                <!--@endif-->
+            <!--@endforeach-->
             </ul>
-        <!--@end-->
+        <!--@endforeach-->
     </div>
 
     <div id="adminContentBody">{$content}</div>

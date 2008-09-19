@@ -121,6 +121,22 @@
          * 주어진 경로를 단계별로 접근하여 recursive하게 디렉토리 생성
          **/
         function makeDir($path_string) {
+            static $oFtp = null;
+
+            // safe_mode 일 경우 ftp 정보를 이용해서 디렉토리 생성
+            if(ini_get('safe_mode') && $oFtp == null) {
+                if(!Context::isFTPRegisted()) return;
+
+                require_once(_XE_PATH_.'libs/ftp.class.php');
+                $ftp_info = Context::getFTPInfo();
+                $oFtp = new ftp();
+                if(!$oFtp->ftp_connect('localhost')) return;
+                if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+                    $oFtp->ftp_quit();
+                    return;
+                }
+            }
+
             $path_string = str_replace(_XE_PATH_,'',$path_string);
             $path_list = explode('/', $path_string);
 
@@ -129,8 +145,13 @@
                 if(!$path_list[$i]) continue;
                 $path .= $path_list[$i].'/';
                 if(!is_dir($path)) {
-                    @mkdir($path, 0755);
-                    @chmod($path, 0755);
+                    if(ini_get('safe_mode')) {
+                        $oFtp->ftp_mkdir($path);
+                        $oFtp->ftp_site("CHMOD 777 ".$path);
+                    } else {
+                        @mkdir($path, 0755);
+                        @chmod($path, 0755);
+                    }
                 }
             }
 
@@ -180,8 +201,20 @@
          * @biref 지정된 디렉토리를 제외한 모든 파일을 삭제
          **/
         function removeFilesInDir($path) {
-            FileHandler::removedir($path);
-            FileHandler::makeDir($path);
+            $path = FileHandler::getRealPath($path);
+            if(!is_dir($path)) return;
+            $directory = dir($path);
+            while($entry = $directory->read()) {
+                if ($entry != "." && $entry != "..") {
+                    if (is_dir($path."/".$entry)) {
+                        FileHandler::removeFilesInDir($path."/".$entry);
+                    } else {
+                        @unlink($path."/".$entry);
+                    }
+                }
+            }
+            $directory->close();
+            @rmdir($path);
         }
 
         /**

@@ -47,6 +47,24 @@
             return $siteid;
         }
 
+        function GetCommentID( $parent_srl, $remoteid )
+        {
+            $args->parent_srl = $parent_srl;
+            $args->remoteid = $remoteid;
+            $output = executeQuery('tccommentnotify.getChildId', $args);
+            if(!$output->data)
+            {
+                return -1;
+            }
+
+            $commentid = $output->data->notified_srl;
+            if( is_array($commentid) )
+            {
+                $commentid = array_shift($commentid);
+            }
+            return $commentid;
+        }
+
         function GetParentID( $entry, $siteid, $module_srl, $remoteid )
         {
             $args->entry = $entry;

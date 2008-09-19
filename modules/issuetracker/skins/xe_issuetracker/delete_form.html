@@ -1,0 +1,21 @@
+<!--%import("filter/delete_issue.xml")-->
+<!--#include("header.html")-->
+
+<div class="deleteIssue">
+
+    <h3>{$lang->confirm_delete}</h3>
+
+    <form action="./" method="get" onsubmit="return procFilter(this, delete_issue)">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="page" value="{$page}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+
+    <ul class="button">
+        <li><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></li>
+        <li><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'; return false;" /></li>
+    </ul>
+
+    </form>
+</div>
+
+<!--#include("footer.html")-->

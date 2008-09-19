@@ -1,17 +1,17 @@
-<!-- header.html include -->
+<!--// header.html include -->
     <!--#include("header.html")-->
 
-<!-- 검색을 위한 xml filter import-->
+<!--// 검색을 위한 xml filter import-->
     <!--%import("filter/search.xml")-->
 
-<!-- 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
+<!--// 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
     <!--@if($oDocument->isExists() && $module_info->default_style != 'blog')-->
     <div class="viewDocument">
         <!--#include("./view_document.html")-->
     </div>
     <!--@end-->
 
-<!-- 목록 출력 -->
+<!--// 목록 출력 -->
     <!--@if($module_info->default_style == 'webzine')-->
         <!--#include("./style.webzine.html")-->
     <!--@elseif($module_info->default_style == 'gallery')-->

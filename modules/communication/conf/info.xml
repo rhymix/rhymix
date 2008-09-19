@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="ko">커뮤니케이션</title>
-	<title xml:lang="zh-CN">会员交流</title>
-	<title xml:lang="en">Communication</title>
-	<description xml:lang="ko">회원들간의 쪽지, 친구기능을 담당하는 모듈입니다.</description>
-	<description xml:lang="zh-CN">管理在线会员间短信息及好友功能的模块。</description>
-	<description xml:lang="en">This module is for managing message, friend functions.</description>
-	<version>0.1</version>
-	<date>2008-05-30</date>
-	<category>utility</category>
+    <title xml:lang="ko">커뮤니케이션</title>
+    <title xml:lang="zh-CN">会员交流</title>
+    <title xml:lang="en">Communication</title>
+    <description xml:lang="ko">회원들간의 쪽지, 친구기능을 담당하는 모듈입니다.</description>
+    <description xml:lang="zh-CN">管理在线会员间短信息及好友功能的模块。</description>
+    <description xml:lang="en">This module is for managing message, friend functions.</description>
+    <version>0.1</version>
+    <date>2008-05-30</date>
+    <category>utility</category>
+    <link>http://www.zeroboard.com</link>
 
-	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
-		<name xml:lang="ko">제로</name>
-		<name xml:lang="zh-CN">Zero</name>
-		<name xml:lang="en">Zero</name>
-	</author>
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">제로</name>
+        <name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="en">Zero</name>
+    </author>
 </module>
