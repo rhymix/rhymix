@@ -189,36 +189,96 @@ function toggleDisplay(obj, display_type) {
     }
 }
 
+/* jQuery의 extend. */
+/* TODO:jQuery 등 자바스크립트 프레임웍 차용시 대체 가능하면 제거 대상 */
+objectExtend = function() {
+    // copy reference to target object
+    var target = arguments[0] || {}, i = 1, length = arguments.length, deep = false, options;
+
+    // Handle a deep copy situation
+    if ( target.constructor == Boolean ) {
+        deep = target;
+        target = arguments[1] || {};
+        // skip the boolean and the target
+        i = 2;
+    }
+
+    // Handle case when target is a string or something (possible in deep copy)
+    if ( typeof target != "object" && typeof target != "function" )
+        target = {};
+
+    // extend jQuery itself if only one argument is passed
+    if ( length == i ) {
+        target = this;
+        --i;
+    }
+
+    for ( ; i < length; i++ )
+        // Only deal with non-null/undefined values
+        if ( (options = arguments[ i ]) != null )
+            // Extend the base object
+            for ( var name in options ) {
+                var src = target[ name ], copy = options[ name ];
+
+                // Prevent never-ending loop
+                if ( target === copy )
+                    continue;
+
+                // Recurse if we're merging object values
+                if ( deep && copy && typeof copy == "object" && !copy.nodeType )
+                    target[ name ] = objectExtend( deep, 
+                        // Never move original objects, clone them
+                        src || ( copy.length != null ? [ ] : { } )
+                    , copy );
+
+                // Don't bring in undefined values
+                else if ( copy !== undefined )
+                    target[ name ] = copy;
+
+            }
+
+    // Return the modified object
+    return target;
+};
+
 /**
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
-function displayMultimedia(src, width, height, auto_start, flashvars) {
-    if(src.indexOf('files')==0) src = request_uri+src;
-    if(auto_start) auto_start = "true";
-    else auto_start = "false";
+function displayMultimedia(src, width, height, options) {
+    if(src.indexOf('files') == 0) src = request_uri + src;
+
+    var defaults = {
+        wmode : 'window',
+        allowScriptAccess : 'sameDomain',
+        quality : 'high',
+        flashvars : ''
+    };
+
+    var autostart = (options.autostart) ? 'true' : 'false';
+    delete(options.autostart);
+
+    var params = objectExtend(defaults, options || {});
 
     var clsid = "";
     var codebase = "";
     var html = "";
 
-    if(typeof(flashvars)=="undefined") flashvars = "";
-
     if(/\.swf/i.test(src)) {
-        clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
+        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'; 
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
-        html = ""+
-            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\">"+
-            "<param name=\"wmode\" value=\"transparent\" />"+
-            "<param name=\"allowScriptAccess\" value=\"sameDomain\" />"+
-            "<param name=\"movie\" value=\""+src+"\" />"+
-            "<param name=\"quality\" value=\"high\" />"+
-            "<param name=\"flashvars\" value=\""+flashvars+"\" />"+
-            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\" wmode=\"transparent\"></embed>"+
-            "<\/object>";
+        html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">'
+        for(var name in params) {
+            if(params[name] != 'undefined' && params[name] != '') {
+                html += '<param name="'+name+'" value="'+params[name]+'" />';
+            }
+        }
+        html += ''
+            + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>'
+            + '</object>';
     } else if(/\.flv/i.test(src)) {
-        html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf\" allowfullscreen=\"true\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\"&file="+src+"&width="+width+"&height="+height+"&autostart="+auto_start+"\" />";
+        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" />';
     } else {
-        html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
+        html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"></embed>';
     }
     document.writeln(html);
 }
