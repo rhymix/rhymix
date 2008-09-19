@@ -266,7 +266,8 @@ function displayMultimedia(src, width, height, options) {
     if(/\.swf/i.test(src)) {
         clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'; 
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
-        html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">'
+        html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
+        html += '<param name="movie" value="'+src+'" />';
         for(var name in params) {
             if(params[name] != 'undefined' && params[name] != '') {
                 html += '<param name="'+name+'" value="'+params[name]+'" />';
