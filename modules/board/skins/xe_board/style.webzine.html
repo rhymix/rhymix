@@ -1,26 +1,24 @@
 <!-- 목록 출력 -->
     <form action="./" method="get">
     {@ $_col_count = 2; }
+    <!--@if($module_info->display_number!='N')-->{@ $_col_count++ }<!--@end-->
+    <!--@if($grant->is_admin)-->{@ $_col_count++}<!--@end-->
+    <!--@if($module_info->display_author!='N')-->{@ $_col_count++ }<!--@end-->
+    <!--@if($module_info->display_readed_count!='N')-->{@ $_col_count++ }<!--@end-->
+    <!--@if($module_info->display_voted_count!='N')-->{@ $_col_count++ }<!--@end-->
+    <!--@if($module_info->display_regdate != 'N')-->{@ $_col_count++ }<!--@end-->
+    <!--@if($module_info->display_last_update == 'Y')-->{@ $_col_count++ }<!--@end-->
 
         <table cellspacing="0" summary="" class="boardList">
-        <!--@if($module_info->display_number!='N')--><col width="80" /> {@ $_col_count++ }<!--@end-->
-        <!--@if($grant->is_admin)--><col width="30" />{@ $_col_count++}<!--@end-->
-        <col width="{$module_info->thumbnail_width+20}" />
-        <col />
-        <!--@if($module_info->display_author!='N')--><col width="120" /> {@ $_col_count++ }<!--@end-->
-        <!--@if($module_info->display_readed_count!='N')--><col width="60" /> {@ $_col_count++ }<!--@end-->
-        <!--@if($module_info->display_voted_count!='N')--><col width="60" /> {@ $_col_count++ }<!--@end-->
-        <!--@if($module_info->display_regdate != 'N')--><col width="80" /> {@ $_col_count++ }<!--@end-->
-        <!--@if($module_info->display_last_update == 'Y')--><col width="90" /> {@ $_col_count++ }<!--@end-->
         <!--@if($_col_count>2)-->
         <thead>
             {@ $no_line_class = " no_line" }
             <tr>
-                <!--@if($module_info->display_number!='N')--><th scope="col" class="num{$no_line_class}">{$lang->no}</th>{@ $no_line_class=""}<!--@end-->
+                <!--@if($module_info->display_number!='N')--><th scope="col" class="num{$no_line_class}"><div>{$lang->no}</div></th>{@ $no_line_class=""}<!--@end-->
 
                 <!--@if($grant->is_admin)--><th scope="col" class="checkbox{$no_line_class}"><input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" /></th>{@ $no_line_class=""}<!--@end-->
 
-                <th scope="col" colspan="2" class="<!--@if($module_info->use_category=='Y')-->category<!--@else-->title<!--@end-->{$no_line_class}">
+                <th scope="col" colspan="2" class="<!--@if($module_info->use_category=='Y')-->category<!--@else-->title<!--@end-->{$no_line_class}"><div>
 
                     <!--@if($module_info->use_category == "Y")-->
                         <select name="category" id="board_category">
@@ -33,16 +31,16 @@
                     <!--@else-->
                     {$lang->title}
                     <!--@end-->
-                </th>
-                <!--@if($module_info->display_author!='N')--><th class="author" scope="col">{$lang->writer}</th><!--@end-->
+                </div></th>
+                <!--@if($module_info->display_author!='N')--><th class="author" scope="col"><div>{$lang->writer}</div></th><!--@end-->
 
-                <!--@if($module_info->display_readed_count!='N')--><th class="reading" scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_readed_count!='N')--><th class="reading" scope="col"><div><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></div></th><!--@end-->
 
-                <!--@if($module_info->display_voted_count!='N')--><th class="recommend" scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_voted_count!='N')--><th class="recommend" scope="col"><div><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></div></th><!--@end-->
 
-                <!--@if($module_info->display_regdate != 'N')--><th scope="col" class="date"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_regdate != 'N')--><th scope="col" class="date"><div><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></div></th><!--@end-->
 
-                <!--@if($module_info->display_last_update=='Y')--><th scope="col" class="date"><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_last_update=='Y')--><th scope="col" class="date"><div><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></div></th><!--@end-->
             </tr>
         </thead>
         <!--@end-->

@@ -2,23 +2,17 @@
     <form action="./" method="get">
 
         <table cellspacing="0" summary="" class="boardList">
-        <!--@if($grant->is_admin)--><col width="30" /><!--@end-->
-        <col />
-        <col width="70" />
-        <col width="70" />
-        <col width="160" />
-
         <thead>
             {@ $no_line_class = " no_line" }
             <tr>
                 <!--@if($grant->is_admin)--> 
-                <th scope="col" class="checkbox{$no_line_class}">
+                <th scope="col" class="checkbox{$no_line_class}"><div>
                     <input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" />
-                </th>
+                </div></th>
                 {@ $no_line_class=""}
                 <!--@end-->
 
-                <th scope="col" class="topic{$no_line_class}">
+                <th scope="col" class="topic{$no_line_class}"><div>
                     
                     <!--@if($module_info->use_category == "Y")-->
                     <!--// 카테고리 사용시 카테고리 선택 표시 -->
@@ -36,19 +30,19 @@
                         {$lang->topic}
 
                     <!--@end-->
-                </th>
+                </div></th>
 
-                <th class="reading" scope="col">
+                <th class="reading" scope="col"><div>
                     <a href="{getUrl('sort_index','comment_count','order_type',$order_type)}">{$lang->replies}<!--@if($sort_index=='comment_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a>
-                </th>
+                </div></th>
 
-                <th class="reading" scope="col">
+                <th class="reading" scope="col"><div>
                     <a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a>
-                </th>
+                </div></th>
 
-                <th scope="col" class="date">
+                <th scope="col" class="date"><div>
                     <a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_post}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a>
-                </th>
+                </div></th>
             </tr>
         </thead>
 
