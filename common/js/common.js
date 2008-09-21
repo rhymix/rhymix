@@ -254,8 +254,10 @@ function displayMultimedia(src, width, height, options) {
         flashvars : ''
     };
 
-    var autostart = (options.autostart) ? 'true' : 'false';
-    delete(options.autostart);
+    if(options) {
+        var autostart = (options.autostart) ? 'true' : 'false';
+        delete(options.autostart);
+    }
 
     var params = objectExtend(defaults, options || {});
 
