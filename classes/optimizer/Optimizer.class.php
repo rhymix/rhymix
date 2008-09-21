@@ -180,7 +180,7 @@ header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: \"'.dechex($unique).'-".dechex($size)."-'.dechex($mtime).'\""); 
 
 if(!$cached) {
-    if(!$buff) {
+    if(empty($buff)) {
         $f = fopen($content_filename,"r");
         fpassthru($f);
     } else print $buff;
