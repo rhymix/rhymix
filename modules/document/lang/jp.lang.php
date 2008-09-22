@@ -14,8 +14,8 @@
     $lang->title_color = 'タイトルの色';
 
     $lang->cmd_search_next = '継続検索';
-    
-    $lang->cmd_temp_save = '臨時保存';
+
+    $lang->cmd_temp_save = '一時保存';
 
 	$lang->cmd_toggle_checked_document = '選択項目反転';
     $lang->cmd_delete_checked_document = '選択項目削除';
