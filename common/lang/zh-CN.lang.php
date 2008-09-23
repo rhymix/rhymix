@@ -236,25 +236,25 @@
     $lang->is_active = '激活';
     $lang->is_required = '必填';
 
-    // ftp 관련
-    $lang->ftp_form_title = 'FTP 정보 입력';
+    // ftp 相关
+    $lang->ftp_form_title = '输入FTP信息';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
-    $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
+    $lang->cmd_check_ftp_connect = '确认FTP连接';
     $lang->about_ftp_info = "
-        FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
-        1. PHP의 safe_mode=On일 경우에 FTP 정보를 이용해서 XE를 정상적으로 동작할 수 있게 합니다.<br/>
-        2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
-        이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
-        그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
+        相关FTP信息应用于如下几种状况<br/>
+        1. 当PHP的safe_mode=On时，使程序工作正常。<br/>
+        2. 可以应用于自动更新。<br/>
+        此FTP信息将保存在files/config/ftp.config.php文件当中。<br/>
+        安装程序后可在管理页面对FTP信息进行修改或删除操作。<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";
-    $lang->msg_ftp_not_connected = "localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요";
-    $lang->msg_ftp_invalid_auth_info = "입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요";
-    $lang->msg_ftp_mkdir_fail = "FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_chmod_fail = "FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_connect_success = "FTP 접속 및 인증 성공하였습니다";
+    $lang->msg_safe_mode_ftp_needed = "当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用XE程序。";
+    $lang->msg_ftp_not_connected = "发生本地(localhost)FTP连接错误。请确认ftp端口号或是否支持ftp服务。";
+    $lang->msg_ftp_invalid_auth_info = "FTP登录失败。请确认输入的FTP信息。";
+    $lang->msg_ftp_mkdir_fail = "新建文件夹失败。请确认 FTP服务器设置。";
+    $lang->msg_ftp_chmod_fail = "修改文件夹属性失败。请确认 FTP服务器设置。";
+    $lang->msg_ftp_connect_success = "FTP连接成功。";
 
 
     // 在xml filter使用的 javascript用 alert msg

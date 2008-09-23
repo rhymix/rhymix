@@ -9,7 +9,7 @@
 
     $lang->addon_info = '插件信息';
     $lang->addon_maker = '插件作者';
-    $lang->addon_license = 'License';
+    $lang->addon_license = '版权';
     $lang->addon_history = '更新纪录 ';
 
     $lang->about_addon_mid = "可以指定使用插件的对象。<br />(全部解除表示可用在所有对象。)";

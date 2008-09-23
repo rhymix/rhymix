@@ -11,8 +11,8 @@
     $lang->component_author = "作者";
     $lang->component_link = "链接";
     $lang->component_date = "编写日期";
-    $lang->component_license = 'License';
-    $lang->component_history = "History";
+    $lang->component_license = '版权';
+    $lang->component_history = "更新日志";
     $lang->component_description = "说明";
     $lang->component_extra_vars = "变数设置";
     $lang->component_grant = "权限设置"; 

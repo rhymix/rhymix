@@ -12,7 +12,7 @@
 
     $lang->layout_name = '布局名';
     $lang->layout_maker = "布局作者";
-    $lang->layout_license = 'License';
+    $lang->layout_license = '版权';
     $lang->layout_history = "更新记录 ";
     $lang->layout_info = "布局信息";
     $lang->layout_list = '布局目录';

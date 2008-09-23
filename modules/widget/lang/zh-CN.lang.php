@@ -9,7 +9,7 @@
 
     $lang->widget_name = '控件名称';
     $lang->widget_maker = '控件作者';
-    $lang->widget_license = 'License';
+    $lang->widget_license = '版权';
     $lang->widget_history = '更新事项';
     $lang->widget_info = '控件信息';
     $lang->widget_code = '代码';
