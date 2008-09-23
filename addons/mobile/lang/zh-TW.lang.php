@@ -2,9 +2,9 @@
     /**
      * @file   addons/mobile/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  ¥¿Åé¤¤¤å»y¨¥¥] (¥u¦³°ò¥»¤º®e)
+     * @brief  æ­£é«”ä¸­æ–‡èªžè¨€åŒ… (åªæœ‰åŸºæœ¬å…§å®¹)
      **/
 
-    $lang->cmd_go_upper = '¦^¤W­¶';
-    $lang->cmd_go_home = '¦^­º­¶';
+    $lang->cmd_go_upper = 'å›žä¸Šé ';
+    $lang->cmd_go_home = 'å›žé¦–é ';
 ?>
