@@ -14,7 +14,7 @@
     $lang->cmd_delete_checked_poll = 'Supprimer l\'Enquête choisi'; 
     $lang->cmd_apply_poll = 'Participer(Soumettre)';
     $lang->cmd_view_result = 'Voir le Résultat';
-    $lang->cmd_delete_checked_poll = 'Supprimer l\'Enquête choisi';  http://www.duvent.net/sandbox/?module=module&act=dispModuleAdminInfo&selected_module=poll#
+    $lang->cmd_delete_checked_poll = 'Supprimer l\'Enquête choisi';
 
     $lang->success_poll = 'Merci pour participer.';
 
