@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   zh-CN.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  Issuetracker模块语言包
      **/
