@@ -7,6 +7,7 @@
     <title xml:lang="es">Delegación ID para OpenID</title>
     <title xml:lang="jp">OpenIDアドオン</title>
     <title xml:lang="ru">Аддон для делигирования доменного имени к OpenID</title>
+    <title xml:lang="zh-TW">OpenID</title>
     <description xml:lang="ko">
         본인의 도메인을 사용하여 오픈아이디로 활용할 수 있도록 합니다.
         꼭 설정을 통해서 openid provider관련 값을 입력후 사용해주세요.
@@ -35,6 +36,10 @@
         Этот аддон позволяет Вам использовать Вашу доменное имя как OpenID.
         Прежде, чем использовать, просто убедитесь, что установлены значения, имеющие отношение к провайдеру openid.
     </description>
+    <description xml:lang="zh-TW">
+        可將原本的域名當做OpenID來使用。
+        必須在設置中輸入openid provider相關值後再使用。
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com/</link>
@@ -47,6 +52,7 @@
         <name xml:lang="es">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="ru">Zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <extra_vars>
@@ -58,6 +64,7 @@
             <title xml:lang="es">Servidor</title>
             <title xml:lang="jp">server</title>
             <title xml:lang="ru">server</title>
+            <title xml:lang="zh-TW">server</title>
             <description xml:lang="ko">openid.server 값을 입력해 주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.server 值。</description>
             <description xml:lang="en">Please input your openid.server value.</description>
@@ -65,6 +72,7 @@
             <description xml:lang="es">Ingrese el valor del openid.server.</description>
             <description xml:lang="jp">openid.server の値を入力してください。</description>
             <description xml:lang="ru">Пожалуйста, введите Ваше значение openid сервера.</description>
+            <description xml:lang="zh-TW">請輸入 openid.server 值。</description>
         </var>
         <var name="delegate">
             <title xml:lang="ko">delegate</title>
@@ -74,6 +82,7 @@
             <title xml:lang="es">delegado</title>
             <title xml:lang="jp">delegate</title>
             <title xml:lang="ru">delegate</title>
+            <title xml:lang="zh-TW">delegate</title>
             <description xml:lang="ko">openid.delegate값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 openid.delegate 值。</description>
             <description xml:lang="en">Please input your openid.delegate value.</description>
@@ -81,6 +90,7 @@
             <description xml:lang="es">Ingresar el valor del openid.delegate</description>
             <description xml:lang="jp">openid.delegate の値を入力してください。</description>
             <description xml:lang="ru">Пожалуйста, введите Ваше значение openid делегата.</description>
+            <description xml:lang="zh-TW">請輸入 openid.delegate 值。</description>
         </var>
         <var name="xrds">
             <title xml:lang="ko">xrds</title>
@@ -90,6 +100,7 @@
             <title xml:lang="es">xrds</title>
             <title xml:lang="jp">xrds</title>
             <title xml:lang="ru">xrds</title>
+            <title xml:lang="zh-TW">xrds</title>
             <description xml:lang="ko">X-XRDS-Location값을 입력해주세요.</description>
             <description xml:lang="zh-CN">请输入 X-XRDS-Location 值。</description>
             <description xml:lang="en">Please input your X-XRDS-Location value.</description>
@@ -97,6 +108,7 @@
             <description xml:lang="es">Ingresar el valor de X-XRDS-Location</description>
             <description xml:lang="jp">X-XRDS-Location の値を入力してください。</description>
             <description xml:lang="ru">Пожалуйста, введите Ваше значение X-XRDS-Локации.</description>
+            <description xml:lang="zh-TW">請輸入 X-XRDS-Location 值。</description>
         </var>
     </extra_vars>
 </addon>

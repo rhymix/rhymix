@@ -3,9 +3,11 @@
     <title xml:lang="ko">댓글알리미 애드온</title>
     <title xml:lang="zh-CN">评论通告</title>
     <title xml:lang="en">Comment Notifier Addon</title>
+    <title xml:lang="zh-TW">評論通知</title>
     <description xml:lang="ko">댓글알리미를 지원하는 애드온입니다.</description>
     <description xml:lang="zh-CN">联动评论通告模块的插件。</description>
     <description xml:lang="en">This addon enables Comment Notifier module.</description>
+    <description xml:lang="zh-TW">此插件為評論通知模組。</description>
     <version>0.2</version>
     <date>2008-06-02</date>
     <link>http://www.zeroboard.com/</link>
@@ -14,5 +16,6 @@
         <name xml:lang="ko">haneul</name>
         <name xml:lang="zh-CN">haneul</name>
         <name xml:lang="en">haneul</name>
+        <name xml:lang="zh-TW">haneul</name>
     </author>
 </addon>

@@ -7,6 +7,7 @@
     <title xml:lang="es">Adición Enlace Arco Iris</title>
     <title xml:lang="jp">レインボーリンクアドオン</title>
     <title xml:lang="ru">Аддон для радужных ссылок</title>
+    <title xml:lang="zh-TW">彩虹連結</title>
     <description xml:lang="ko">
         rainbow.js를 header에 추가하여 링크가 걸린 글의 색을 무지개색으로 나타냅니다.
         이 애드온의 rainbow.js는 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;에 저작권이 있습니다.
@@ -34,6 +35,10 @@
         Этот аддон добавляет файл с именем &quot;rainbow.js&quot; в заголовки HTML, и тогда связанный текс приобретает эффект смены цвета, подобно радуге или хамелеону.
         &quot;rainbow.js&quot; Copyrightⓒ2007 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;.
     </description>
+    <description xml:lang="zh-TW">
+        將rainbow.js新增到header，讓連結顯示成彩虹色。
+        此插件的rainbow.js檔案版權屬於 &lt;a href=&quot;http://www.dynamicdrive.com&quot; target=&quot;_blank&quot;&gt;Dynamicdrive.com&lt;/a&gt;
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com/</link>
@@ -46,5 +51,6 @@
         <name xml:lang="es">dynamicdrive.com</name>
         <name xml:lang="jp">dynamicdrive.com</name>
         <name xml:lang="ru">dynamicdrive.com</name>
+        <name xml:lang="zh-TW">dynamicdrive.com</name>
     </author>
 </addon>

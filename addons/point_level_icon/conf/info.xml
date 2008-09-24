@@ -7,6 +7,7 @@
     <title xml:lang="ge">Point-Level-Symbol</title>
     <title xml:lang="es">Addon para mostar el nivel del ícono</title>
     <title xml:lang="ru">Аддон для отображения иконки уровня</title>
+    <title xml:lang="zh-TW">積分等級圖案</title>
     <description xml:lang="ko">
         포인트 시스템을 사용중일 경우 사용자 이름 앞에 레벨 아이콘을 표시하도록 합니다.
         레벨 아이콘은 모듈 &gt; 포인트시스템에서 선택 가능합니다.
@@ -35,6 +36,10 @@
         Этот аддон отображает иконку уровня напротив имени пользователя, когда используется система поинтов.
         Вы можете выбрать иконку уровня на Модуле Системы Поинтов.
     </description>
+    <description xml:lang="zh-TW">
+        使用積分系統時，可以在用戶名前顯示等級圖案。
+        等級圖案可以在模組 &gt; 積分系統中進行選擇。
+    </description>
     <version>0.1</version>
     <date>2007-07-26</date>
     <link>http://www.zeroboard.com/</link>
@@ -47,5 +52,6 @@
         <name xml:lang="ge">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">Zero</name>
     </author>
 </addon>

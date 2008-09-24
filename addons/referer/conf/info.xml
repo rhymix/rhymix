@@ -7,6 +7,7 @@
     <title xml:lang="ge">Referer Collector</title>
     <title xml:lang="es">Referer Collector</title>
     <title xml:lang="ru">Сборщик рефералов</title>
+    <title xml:lang="zh-TW">反向連結統計</title>
     <description xml:lang="ko">Referer log를 수집합니다.</description>
     <description xml:lang="jp">リファラーログを収集します。</description>
     <description xml:lang="zh-CN">记录反向链接统计数据。</description>
@@ -14,6 +15,7 @@
     <description xml:lang="ge">Sammeln Sie Referer-Log und Statistik.</description>
     <description xml:lang="es">Recoger referer log y estadísticas.</description>
     <description xml:lang="ru">Собирает лог рефералов и статистику.</description>
+    <description xml:lang="zh-TW">紀錄反向連結統計資料。</description>
     <version>0.1</version>
     <date>2007-11-26</date>
     <link>http://www.zeroboard.com/</link>
@@ -26,5 +28,6 @@
         <name xml:lang="ge">haneul</name>
         <name xml:lang="es">haneul</name>
         <name xml:lang="ru">haneul</name>
+        <name xml:lang="zn-TW">haneul</name>
     </author>
 </addon>
