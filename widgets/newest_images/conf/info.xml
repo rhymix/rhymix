@@ -6,12 +6,14 @@
 	<title xml:lang="en">Newest Images</title>
 	<title xml:lang="es">Mostrar las imágenes recientes</title>
 	<title xml:lang="ru">Отображение последних изображений</title>
+	<title xml:lang="zh-TW">最新圖片</title>
 	<description xml:lang="ko">작성된 글의 내용에 포함된 이미지를 출력하는 위젯입니다.</description>
 	<description xml:lang="jp">作成されたコンテンツの内容に含まれているイメージを表示するウィジェットです。</description>
 	<description xml:lang="zh-CN">显示主题当中包含图片的控件。</description>
 	<description xml:lang="en">This widget displays images on articles.</description>
 	<description xml:lang="es">Este widget muestra las imágenes incluidas en el documento.</description>
 	<description xml:lang="ru">Этот виджет отображает изображения в статьях.</description>
+	<description xml:lang="zh-TW">顯示主題中含有圖片的控件。</description>
 	<version>0.1</version>
 	<date>2007-07-25</date>
 
@@ -22,6 +24,7 @@
 		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
 		<name xml:lang="ru">zero</name>
+		<name xml:lang="zh-TW">Zero</name>
 	</author>
 
 	<extra_vars>
@@ -33,12 +36,14 @@
 			<name xml:lang="en">Title</name>
 			<name xml:lang="es">Título</name>
 			<name xml:lang="ru">Заголовок</name>
+			<name xml:lang="zh-TW">標題</name>
 			<description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
 			<description xml:lang="zh-CN">显示为最新主题列表的标题。</description>
 			<description xml:lang="jp">最新の書き込みのタイトルとして表示されます。</description>
 			<description xml:lang="en">It will be the title of the newest articles.</description>
 			<description xml:lang="es">Este será el título de los documentos recientes.</description>
 			<description xml:lang="ru">Это будет заголовком последних статей.</description>
+			<description xml:lang="zh-TW">顯示最新主題列表的標題。</description>
 		</var>
 		<var id="mid_list">
 			<type>mid_list</type>
@@ -48,12 +53,14 @@
 			<name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Objetivo Módulo</name>
 			<name xml:lang="ru">Модуль назначения</name>
+			<name xml:lang="zh-TW">目標模組</name>
 			<description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
 			<description xml:lang="jp">チェックされたコンテンツを対象とします。</description>
 			<description xml:lang="zh-CN">把被选模块中的主题作为对象。</description>
 			<description xml:lang="en">Articles on chosen module will be the target.</description>
 			<description xml:lang="es">Objetivo de los documentos será los del módulo seleccionado.</description>
 			<description xml:lang="ru">Статьи на выбранных модулях будут назначением.</description>
+			<description xml:lang="zh-TW">將所選擇的模組作為目標。</description>
 		</var>
 		<var id="title_length">
 			<type>text</type>
@@ -63,12 +70,14 @@
 			<name xml:lang="en">Length of Subject</name>
 			<name xml:lang="es">El largo de Título</name>
 			<name xml:lang="ru">Длина темы</name>
+			<name xml:lang="zh-TW">標題字數</name>
 			<description xml:lang="ko">정한 글자수만큼 글 제목을 잘라서 출력합니다. (기본 10자)</description>
 			<description xml:lang="jp">指定された文字数分の長さを切り取って表示します。（デフォルト10文字）</description>
 			<description xml:lang="zh-CN">可以指定标题长度。(默认为10字)</description>
 			<description xml:lang="en">It cuts the length of subject and displays (10 letters as default).</description>
 			<description xml:lang="es">Muestra el título con el número de letras asignadas (predefinio: 10).</description>
 			<description xml:lang="ru">Это обрезает длину темы и отображает выбранное чило знаков(стандарт: 10).</description>
+			<description xml:lang="zh-TW">指定標題長度。(預設是10個字)</description>
 		</var>
 		<var id="thumbnail_type">
 			<type>select</type>
@@ -77,11 +86,13 @@
 			<name xml:lang="zh-CN">缩略图生成方式</name>
 			<name xml:lang="en">Thumbnail Type</name>
 			<name xml:lang="ru">Тип миниатюры</name>
+			<name xml:lang="zh-TW">縮圖建立方式</name>
 			<description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
 			<description xml:lang="jp">サムネールの生成方法を選択します(Crop : トリミング, Ratio : 比率)。</description>
 			<description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
 			<description xml:lang="en">Thumbnail Type may be set here.</description>
 			<description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
+			<description xml:lang="zh-TW">可選擇縮圖建立方式。 (crop : 裁減, ratio : 比例)</description>
 			<options>
 				<value>crop</value>
 				<name xml:lang="ko">Crop (채우기)</name>
@@ -89,6 +100,7 @@
 				<name xml:lang="zh-CN">Crop (裁减)</name>
 				<name xml:lang="en">Crop</name>
 				<name xml:lang="ru">Crop (Обрезание)</name>
+				<name xml:lang="zh-TW">Crop (裁減)</name>
 			</options>
 			<options>
 				<value>ratio</value>
@@ -97,6 +109,7 @@
 				<name xml:lang="zh-CN">Ratio (比例)</name>
 				<name xml:lang="en">Ratio</name>
 				<name xml:lang="ru">Ratio (Отношение)</name>
+				<name xml:lang="zh-TW">Ratio (比例)</name>
 			</options>
 		</var>
 		<var id="thumbnail_width">
@@ -107,12 +120,14 @@
 			<name xml:lang="en">Width of Image</name>
 			<name xml:lang="es">Ancho de la imagen</name>
 			<name xml:lang="ru">Ширина изображения</name>
+			<name xml:lang="zh-TW">圖片寬度</name>
 			<description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
 			<description xml:lang="jp">表示されるイメージの横幅のサイズを指定することができます（デフォルト100）。</description>
 			<description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
 			<description xml:lang="en">You can set the width of image. (100 as default)</description>
 			<description xml:lang="es">Usted puede definir el ancho de la imagen. (predefinido:100px)</description>
 			<description xml:lang="ru">Вы можете установить ширину изображения. (стандарт: 100px)</description>
+			<description xml:lang="zh-TW">指定顯示的圖片寬度。(預設是100)</description>
 		</var>
 		<var id="thumbnail_height">
 			<type>text</type>
@@ -121,11 +136,13 @@
 			<name xml:lang="zh-CN">高度</name>
 			<name xml:lang="en">Height of Image</name>
 			<name xml:lang="ru">Высота изображения</name>
+			<name xml:lang="zh-TW">圖片高度</name>
 			<description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
 			<description xml:lang="jp">イメージの縦幅サイズを指定します（デフォルト 100px）</description>
 			<description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
 			<description xml:lang="en">You can set the height of image. (100 as default)</description>
 			<description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 100px)</description>
+			<description xml:lang="zh-TW">指定圖片高度。(預設是100px)</description>
 		</var>
 		<var id="cols_list_count">
 			<type>text</type>
@@ -135,12 +152,14 @@
 			<name xml:lang="en">Number of Images</name>
 			<name xml:lang="es">Número de imágenes</name>
 			<name xml:lang="ru">Число изображений (колонка)</name>
+			<name xml:lang="zh-TW">橫向圖片數</name>
 			<description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 5개)</description>
 			<description xml:lang="jp">表示されるイメージの横並びの数を指定します（デフォルト5個）。</description>
 			<description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
 			<description xml:lang="en">You can set the number of images to display. (5 as default)</description>
 			<description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 5)</description>
 			<description xml:lang="ru">Вы можете установить число изображений для показа. (стандарт: 5)</description>
+			<description xml:lang="zh-TW">指定要顯示的橫向圖片數。(預設是5個)</description>
 		</var>
 		<var id="rows_list_count">
 			<type>text</type>
@@ -150,13 +169,14 @@
 			<name xml:lang="en">Number of Images</name>
 			<name xml:lang="es">Número de imágenes</name>
 			<name xml:lang="ru">Число изображений (ряд)</name>
+			<name xml:lang="zh-TW">縱向圖片數</name>
 			<description xml:lang="ko">출력될 세로 이미지의 수를 정하실 수 있습니다. (기본 1개)</description>
 			<description xml:lang="jp">表示されるイメージの縦並びの数を指定することができます（デフォルト5個）。</description>
 			<description xml:lang="zh-CN">可以指定要显示的纵向图片个数。(默认为1个)</description>
 			<description xml:lang="en">You can set the number of images to display. (5 as default)</description>
 			<description xml:lang="es">Usted puede definir el número de imágenes a mostrar. (predefinido: 5 )</description>
 			<description xml:lang="ru">Вы можете установить число изображений для показа. (стандарт: 5)</description>
-		</var>
+			<description xml:lang="zh-TW">指定要顯示的縱向圖片數。(預設是1個)</description></var>
 		<var id="display_author">
 			<type>select</type>
 			<name xml:lang="ko">글쓴이 표시</name>
@@ -165,6 +185,7 @@
 			<name xml:lang="en">Display Author</name>
 			<name xml:lang="es">Mostrar el Autor</name>
 			<name xml:lang="ru">Отображение автора</name>
+			<name xml:lang="zh-TW">顯示暱稱</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -174,6 +195,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -183,6 +205,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="display_regdate">
@@ -193,6 +216,7 @@
 			<name xml:lang="en">Display Registered Date</name>
 			<name xml:lang="es">Mostrar el día agregado</name>
 			<name xml:lang="ru">Отображение даты регистрации</name>
+			<name xml:lang="zh-TW">顯示發表日期</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -202,6 +226,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -211,6 +236,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="display_readed_count">
@@ -221,6 +247,7 @@
 			<name xml:lang="en">Display Hit</name>
 			<name xml:lang="es">Mostrar Ayuda</name>
 			<name xml:lang="ru">Отображение хитов</name>
+			<name xml:lang="zh-TW">顯示點擊數</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -230,6 +257,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -239,6 +267,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="display_voted_count">
@@ -249,6 +278,7 @@
 			<name xml:lang="en">Display Votes</name>
 			<name xml:lang="es">Mostrar Recomendados</name>
 			<name xml:lang="ru">Отображение голосов</name>
+			<name xml:lang="zh-TW">顯示推薦數</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -258,6 +288,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -267,6 +298,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 	</extra_vars>

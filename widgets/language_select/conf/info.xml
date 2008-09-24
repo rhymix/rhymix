@@ -6,12 +6,14 @@
     <title xml:lang="en">Language</title>
     <title xml:lang="es">Selcción del Idioma</title>
     <title xml:lang="ru">Выбор языка</title>
+    <title xml:lang="zh-TW">選擇語言</title>
     <description xml:lang="ko">사용자의 접속언어를 변경할 수 있는 select폼을 출력합니다.</description>
     <description xml:lang="jp">言語を変更することができるセレクト（select）フォームを表示します。</description>
     <description xml:lang="zh-CN">可以实现多国语言相互切换。</description>
     <description xml:lang="en">This widget displays a select form for change of users' language.</description>
     <description xml:lang="es">Este widget muestra la forma de cambiar el idioma del usuario.</description>
     <description xml:lang="ru">Этот виджет отображает форму для выбора пользовательского языка.</description>
+    <description xml:lang="zh-TW">可選擇其他語言。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
 
@@ -22,6 +24,7 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
 </widget>

@@ -6,12 +6,14 @@
     <title xml:lang="ru">게시글 분류 출력기</title>
     <title xml:lang="jp">書き込みのカテゴリ表示</title>
     <title xml:lang="zh-CN">博客样式主题分类</title>
+    <title xml:lang="zh-TW">主題分類</title>
     <description xml:lang="ko">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
     <description xml:lang="en">This widget displays categories of document from modules that enabled to use category function.</description>
     <description xml:lang="es">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
     <description xml:lang="ru">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
     <description xml:lang="jp">掲示板など、ドキュメントモジュールのカテゴリを使用するモジュールでカテゴリを抽出してブログのカテゴリのように表示する機能です。</description>
     <description xml:lang="zh-CN">把版面模块中的分类显示为类似于博客分类样式的功能。</description>
+    <description xml:lang="zh-TW">將討論版中的分類，顯示成像部落格一樣的分類功能。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
 
@@ -22,6 +24,7 @@
         <name xml:lang="ru">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <extra_vars>
@@ -33,12 +36,14 @@
             <name xml:lang="jp">対象モジュール</name>
             <name xml:lang="ru">대상 모듈</name>
             <name xml:lang="zh-CN">对象模块</name>
+            <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
             <description xml:lang="en">Selected module will be target. Please select only 1 (one) module.</description>
             <description xml:lang="es">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
             <description xml:lang="ru">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
             <description xml:lang="jp">選択されたモジュールを対象とします。必ず一つのモジュールのみ選択してください。</description>
             <description xml:lang="zh-CN">将把被选模块当中的主题作为对象。只能选一个模块。</description>
+            <description xml:lang="zh-TW">將所選擇的模組作為目標。只能選擇一個模組。</description>
         </var>
     </extra_vars>
 </widget>

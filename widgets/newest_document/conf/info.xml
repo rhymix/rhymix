@@ -6,12 +6,14 @@
 	<title xml:lang="en">Newest Articles</title>
 	<title xml:lang="es">Mostrar los documentos recientes</title>
 	<title xml:lang="ru">Отображение последних статей</title>
+	<title xml:lang="zh-TW">最新主題</title>
 	<description xml:lang="ko">최근 문서 (document)를 출력하는 위젯입니다.</description>
 	<description xml:lang="zh-CN">显示最新主题列表 (document)的控件。</description>
 	<description xml:lang="jp">最新の書き込み（document）を表示させるウィジェットです。</description>
 	<description xml:lang="en">This widget displays newest articles.</description>
 	<description xml:lang="es">Este widget muestra los documentos recientes.</description>
 	<description xml:lang="ru">Этот виджет отображает последние статьи.</description>
+	<description xml:lang="zh-TW">顯示最新主題的控件。</description>
 	<version>0.1</version>
 	<date>2007-02-28</date>
 
@@ -22,6 +24,7 @@
 		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
 		<name xml:lang="ru">zero</name>
+		<name xml:lang="zh-TW">zero</name>
 	</author>
 
 	<extra_vars>
@@ -33,12 +36,14 @@
 			<name xml:lang="en">Title</name>
 			<name xml:lang="es">Título</name>
 			<name xml:lang="ru">Заголовок</name>
+			<name xml:lang="zh-TW">標題</name>
 			<description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
 			<description xml:lang="zh-CN">显示为最新主题列表的标题。</description>
 			<description xml:lang="jp">最新の書き込みのタイトルとして表示されます。</description>
 			<description xml:lang="en">It will be the title of the newest articles.</description>
 			<description xml:lang="es">Este será el título de los documentos recientes.</description>
 			<description xml:lang="ru">Это будет заголовком последних статей.</description>
+			<description xml:lang="zh-TW">顯示最新主題列表的標題。</description>
 		</var>
 		<var id="order_target">
 			<type>select</type>
@@ -48,12 +53,14 @@
 			<name xml:lang="en">Target to be sorted</name>
 			<name xml:lang="es">Objetivo para ser ordenados</name>
 			<name xml:lang="ru">Назначение для сортировки</name>
+			<name xml:lang="zh-TW">排列順序</name>
 			<description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
 			<description xml:lang="zh-CN">可以按照指定的顺序进行排序。</description>
 			<description xml:lang="jp">登録順、変更順にソートできます。</description>
 			<description xml:lang="en">The list of newewst articles may be sorted by submitted order or modified order.</description>
 			<description xml:lang="es">La lista de los documentos recientes pueden ser ordenados en el orden del agregado o en el de modificados.</description>
 			<description xml:lang="ru">Список последних статей может быть отсортирован по дате размещения или изменения.</description>
+			<description xml:lang="zh-TW">按照指定的順序進行排列。</description>
 			<options>
 				<value>list_order</value>
 				<name xml:lang="ko">최신 등록순</name>
@@ -62,6 +69,7 @@
 				<name xml:lang="en">Newest Submitted Order</name>
 				<name xml:lang="es">Orden de agregados recientemente</name>
 				<name xml:lang="ru">Порядок размещенных статей</name>
+				<name xml:lang="zh-TW">最新發表</name>
 			</options>
 			<options>
 				<value>update_order</value>
@@ -71,6 +79,7 @@
 				<name xml:lang="en">Newest Modified Order</name>
 				<name xml:lang="es">Orden de modificados recientemente</name>
 				<name xml:lang="ru">Порядок измененных статей</name>
+				<name xml:lang="zh-TW">最新修改</name>
 			</options>
 		</var>
 		<var id="order_type">
@@ -81,12 +90,14 @@
 			<name xml:lang="en">Sorting Type</name>
 			<name xml:lang="es">Tipo de ordenamiento</name>
 			<name xml:lang="ru">Тип сортировки</name>
+			<name xml:lang="zh-TW">排列方式</name>
 			<description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
 			<description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
 			<description xml:lang="jp">ソートタイプを、降順、昇順にソートできます。</description>
 			<description xml:lang="en">You can sort target articles by asending or desending order.</description>
 			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
 			<description xml:lang="ru">Вы можете сортировать статьи в порядке возрастания или убывания.</description>
+			<description xml:lang="zh-TW">可選擇升冪/降冪的方式對所選目標進行排列。</description>
 			<options>
 				<value>desc</value>
 				<name xml:lang="ko">내림차순</name>
@@ -95,6 +106,7 @@
 				<name xml:lang="en">Desending order</name>
 				<name xml:lang="es">Orden Descendente</name>
 				<name xml:lang="ru">По убыванию</name>
+				<name xml:lang="zh-TW">降冪</name>
 			</options>
 			<options>
 				<value>asc</value>
@@ -104,6 +116,7 @@
 				<name xml:lang="en">Asending order</name>
 				<name xml:lang="es">Orden Acendente</name>
 				<name xml:lang="ru">По возрастанию</name>
+				<name xml:lang="zh-TW">升冪</name>
 			</options>
 		</var>
 		<var id="list_count">
@@ -114,12 +127,14 @@
 			<name xml:lang="en">The number of list</name>
 			<name xml:lang="es">Número de la lista</name>
 			<name xml:lang="ru">Число списка</name>
+			<name xml:lang="zh-TW">目錄數</name>
 			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
 			<description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
 			<description xml:lang="jp">出力されるリストの数を指定することができます。（デフォルト５個）</description>
 			<description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
 			<description xml:lang="es">Usted puede definir el número de los documentos a mostrar. (predefinido: 5)</description>
 			<description xml:lang="ru">Вы можете выбрать число списка статей для отображения. (стандарт: 5)</description>
+			<description xml:lang="zh-TW">設置要顯示的目錄數。 (預設是5個)</description>
 		</var>
 		<var id="duration_new">
 			<type>text</type>
@@ -128,11 +143,13 @@
 			<name xml:lang="jp">Newの表示時間 (Hours)</name>
 			<name xml:lang="en">Duration of indication for new item</name>
 			<name xml:lang="ru">Длительность индикации для новых объектов</name>
+			<name xml:lang="zh-TW">new圖案顯示時間(hours)</name>
 			<description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
 			<description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
 			<description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
 			<description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
 			<description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
+			<description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
 		</var>
 		<var id="subject_cut_size">
 			<type>text</type>
@@ -142,12 +159,14 @@
 			<name xml:lang="en">Length of Subject</name>
 			<name xml:lang="es">Número de letras del título</name>
 			<name xml:lang="ru">Длина темы</name>
+			<name xml:lang="zh-TW">標題字數</name>
 			<description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
 			<description xml:lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
 			<description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
 			<description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
 			<description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
 			<description xml:lang="ru">Длина темы может быть присвоена. (0 или пустое значение не будут ограничивать длину)</description>
+			<description xml:lang="zh-TW">可設置標題的字數。(0或留白為不限制)</description>
 		</var>
 		<var id="mid_list">
 			<type>mid_list</type>
@@ -157,12 +176,14 @@
 			<name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Módulo Objetivo</name>
 			<name xml:lang="ru">Модуль назначения</name>
+			<name xml:lang="zh-TW">目標模組</name>
 			<description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
 			<description xml:lang="zh-CN">将把被选模块当中的主题作为对象。</description>
 			<description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
 			<description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
 			<description xml:lang="ru">Статьи назначения для сортировки будут теми, что были размещены в выбранном модуле.</description>
+			<description xml:lang="zh-TW">把所選擇之模組其中的主題作為對象。</description>
 		</var>
 	</extra_vars>
 </widget>

@@ -6,12 +6,14 @@
 	<title xml:lang="en">Flash Digital Clock</title>
 	<title xml:lang="es">Reloj digital Flash</title>
 	<title xml:lang="ru">Цифровые Flash часы</title>
+	<title xml:lang="zh-TW">Flash時鐘</title>
 	<description xml:lang="ko">플래쉬로 된 디지털 시계를 출력합니다.</description>
 	<description xml:lang="zh-CN">显示Flash数字时钟。</description>
 	<description xml:lang="jp">フラッシュのデジタル時計を表示します。</description>
 	<description xml:lang="en">It will display the digital clock created with flash.</description>
 	<description xml:lang="es">Se mostrará el reloj digital creado con flash.</description>
 	<description xml:lang="ru">Это отображает цифровые часы, созданные flash.</description>
+	<description xml:lang="zh-TW">顯示Flash時鐘。</description>
 	<version>1.0</version>
 	<date>2007-08-09</date>
 
@@ -22,6 +24,7 @@
 		<name xml:lang="en">DroArc</name>
 		<name xml:lang="es">DroArc</name>
 		<name xml:lang="ru">DroArc</name>
+		<name xml:lang="zh-TW">DroArc</name>
 	</author>
 
 	<extra_vars>
@@ -33,12 +36,14 @@
 			<name xml:lang="en">Width</name>
 			<name xml:lang="es">Ancho</name>
 			<name xml:lang="ru">Ширина</name>
+			<name xml:lang="zh-TW">寬度</name>
 			<description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 150px)</description>
 			<description xml:lang="zh-CN">可以设置宽度大小。 (默认为 150px)</description>
 			<description xml:lang="jp">横幅のサイズの指定ができます（デフォルト150px）。</description>
 			<description xml:lang="en">It will be able to set the width. (default is 150px)</description>
 			<description xml:lang="es">Se estará en condiciones de establecer el ancho. (Por defecto es 150 px)</description>
 			<description xml:lang="ru">Возможно установить ширину. (стандартное значение 150px)</description>
+			<description xml:lang="zh-TW">可設置寬度。 (預設是 150px)</description>
 		</var>
 		<var id="clock_height">
 			<type>text</type>
@@ -48,12 +53,14 @@
 			<name xml:lang="ru">Высота</name>
 			<name xml:lang="en">Height</name>
 			<name xml:lang="es">Altura</name>
+			<name xml:lang="zh-TW">高度</name>
 			<description xml:lang="ko">세로길이를 지정하실 수 있습니다. (기본 64px)</description>
 			<description xml:lang="zh-CN">可以设置高度大小。(默认为 64px)</description>
 			<description xml:lang="jp">縦幅のサイズの指定ができます（デフォルト64px）。</description>
 			<description xml:lang="en">It will be able to set the width. (default is 64px)</description>
 			<description xml:lang="es">Se estará en condiciones de establecer el ancho. (Por defecto es 64px)</description>
 			<description xml:lang="ru">Возможно установить высоту. (стандартное значение 64px)</description>
+			<description xml:lang="zh-TW">可設置高度。(預設是 64px)</description>
 		</var>
 	</extra_vars>
 </widget>

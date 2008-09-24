@@ -6,12 +6,14 @@
 	<title xml:lang="en">Calendar</title>
 	<title xml:lang="es">Mostrar Calendario</title>
 	<title xml:lang="ru">Отображение календаря</title>
+	<title xml:lang="zh-TW">日曆</title>
 	<description xml:lang="ko">달력을 표시하고 등록된 글이 있는 날에 표시와 링크를 해줍니다.</description>
 	<description xml:lang="zh-CN">显示日历,发表主题日期将跟日历相关联。</description>
 	<description xml:lang="jp">カレンダーを表示して書き込みがあった日にリンクを張ります。</description>
 	<description xml:lang="en">This widget displays a calendar, and if there is an article submitted, the date will be highlighted with its url link.</description>
 	<description xml:lang="es">Este widget muestra el calendario, y si hay documentos agregados, la fecha se verá con un color más claro enlazado con URL.</description>
 	<description xml:lang="ru">Этот виджет отображает календарь, и если отправляется статья, данные будут выделены их ссылкой.</description>
+	<description xml:lang="zh-TW">顯示日曆，發表主題的日期會跟日曆產生關聯。</description>
 	<version>0.1</version>
 	<date>2007-02-28</date>
 
@@ -22,6 +24,7 @@
 		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
 		<name xml:lang="ru">zero</name>
+		<name xml:lang="zh-TW">zero</name>
 	</author>
 
 	<extra_vars>
@@ -32,6 +35,7 @@
 			<name xml:lang="jp">モジュール</name>
 			<name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Módulo objetivo</name>
+			<name xml:lang="zh-TW">目標模組</name>
 			<name xml:lang="ru">Модуль назначения</name>
 			<description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
 			<description xml:lang="zh-CN">将把被选模块作为关联对象。</description>
@@ -39,6 +43,7 @@
 			<description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">Los documentos del módulo seleccionado serán objetivos.</description>
 			<description xml:lang="ru">Статьи назначения будут теми, что были размещены в выбранном модуле.</description>
+			<description xml:lang="zh-TW">將所選擇的模組當做關聯目標。</description>
 		</var>
 	</extra_vars>
 </widget>

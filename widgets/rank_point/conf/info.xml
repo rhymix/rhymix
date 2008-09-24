@@ -6,12 +6,14 @@
     <title xml:lang="es">Pantalla punto ranking</title>
     <title xml:lang="zh-CN">会员积分排行榜</title>
     <title xml:lang="ru">Отображение рейтинга поинтов</title>
+    <title xml:lang="zh-TW">會員積分排行</title>
     <description xml:lang="ko">회원의 포인트 순위를 출력합니다.</description>
     <description xml:lang="jp">会員のポイント順位を出力します。</description>
     <description xml:lang="en">This widget displays members' point ranking.</description>
     <description xml:lang="es">Este widget muestra de los miembros del punto de la clasificación.</description>
     <description xml:lang="zh-CN">显示会员积分排行的控件。</description>
     <description xml:lang="ru">Этот виджет отображает рейтинг поитов пользователей.</description>
+    <description xml:lang="zh-TW">顯示會員積分排行的控件。</description>
     <version>1.0</version>
     <date>2007-08-29</date>
 
@@ -22,6 +24,7 @@
         <name xml:lang="en">Simulz</name>
         <name xml:lang="zh-CN">Simulz</name>
         <name xml:lang="ru">Simulz</name>
+        <name xml:lang="zh-TW">Simulz</name>
     </author>
 
     <extra_vars>
@@ -33,12 +36,14 @@
             <name xml:lang="es">Título</name>
             <name xml:lang="ru">Название</name>
             <name xml:lang="zh-CN">栏目名</name>
+            <name xml:lang="zh-TW">標題</name>
             <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
             <description xml:lang="jp">ウィジェットのタイトルとして出力します。</description>
             <description xml:lang="en">It will be displayed as widget's title.</description>
             <description xml:lang="es">Que se mostrarán en forma de widget de título.</description>
             <description xml:lang="zh-CN">显示为控件的栏目名。</description>
             <description xml:lang="ru">Это будет заголовком виджета.</description>
+            <description xml:lang="zh-TW">顯示控件的標題。</description>
         </var>
         <var id="list_count">
             <type>text</type>
@@ -48,12 +53,14 @@
             <name xml:lang="es">N º de la lista</name>
             <name xml:lang="ru">Количество Список</name>
             <name xml:lang="zh-CN">目录数</name>
+            <name xml:lang="zh-TW">目錄數</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">出力されるリストの数を指定することができます（デフォルト5個）。</description>
             <description xml:lang="en">You may set number of list that will be displayed. (default 5)</description>
             <description xml:lang="es">Usted puede configurar el número de lista que se mostrarán. (Por defecto 5)</description>
             <description xml:lang="zh-CN">可以设置要显示的会员数。(默认为5个)</description>
             <description xml:lang="ru">Вы можете выбрать число списка для отображения. (стандарт: 5)</description>
+            <description xml:lang="zh-TW">可設置要顯示的會員數。(預設是5個)</description>
         </var>
         <var id="without_admin">
             <type>select</type>
@@ -63,12 +70,14 @@
             <name xml:lang="es">Administrador</name>
             <name xml:lang="ru">Администратор</name>
             <name xml:lang="zh-CN">显示管理员</name>
+            <name xml:lang="zh-TW">管理員</name>
             <description xml:lang="ko">순위에 관리자를 포함합니다.</description>
             <description xml:lang="jp">順位に管理者を含みます。</description>
             <description xml:lang="en">Administrators will be also ranked.</description>
             <description xml:lang="es">Los administradores también se clasificó.</description>
             <description xml:lang="zh-CN">选择排行榜是否要显示管理员。</description>
             <description xml:lang="ru">Администраторы будут тоже подлежать рейтингу.</description>
+            <description xml:lang="zh-TW">排行榜中是否顯示管理員。</description>
             <options>
                 <value>false</value>
                 <name xml:lang="ko">포함</name>
@@ -77,6 +86,7 @@
                 <name xml:lang="es">Incluir</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="ru">Включить</name>
+                <name xml:lang="zh-TW">顯示</name>
             </options>
             <options>
                 <value>true</value>
@@ -86,6 +96,7 @@
                 <name xml:lang="es">Excluir</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="ru">Исключить</name>
+                <name xml:lang="zh-TW">隱藏</name>
             </options>
         </var>
         <var id="with_group">
@@ -96,12 +107,14 @@
             <name xml:lang="es">Incluir Grupo</name>
             <name xml:lang="zh-CN">用户组</name>
             <name xml:lang="ru">Включить группу</name>
+            <name xml:lang="zh-TW">用戶組</name>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원</description>
             <description xml:lang="jp">出力する会員のグループ名を入力してください（例：準会員、正会員）。</description>
             <description xml:lang="en">Please input name of group to include. ex) Associate, Regular Group </description>
             <description xml:lang="es">Introduce nombre de grupo a incluir. Ex) Asociado, Grupo Regular </description>
             <description xml:lang="zh-CN">请输入要显示的会员组。例)准会员,正会员</description>
             <description xml:lang="ru">Пожалуйста, введите имя группы для включения. например: Общая, Обычная (Associate, Regular Group)</description>
+            <description xml:lang="zh-TW">請輸入要顯示的會員組。例)準會員，正會員</description>
         </var>
         <var id="without_group">
             <type>text</type>
@@ -111,12 +124,14 @@
             <name xml:lang="es">Excluir Grupo</name>
             <name xml:lang="zh-CN">豁免用户组</name>
             <name xml:lang="ru">Исключить группу</name>
+            <name xml:lang="zh-TW">排除用戶組</name>
             <description xml:lang="ko">제외할 회원 그룹명을 입력하세요. 예)관리그룹,정회원</description>
             <description xml:lang="jp">除外するグループ名を入力してください（管理グループ、正会員）。</description>
             <description xml:lang="en">Please input name of group to exclude. ex) Managing, Regular Group</description>
             <description xml:lang="es">Introduce nombre de grupo para excluir. Ex) Administrar, regular Group</description>
             <description xml:lang="zh-CN">请输入豁免用户组名。例)管理组</description>
             <description xml:lang="ru">Пожалуйста, введите имя группы для ислючения. например: Общая, Обычная (Associate, Regular Group)</description>
+            <description xml:lang="zh-TW">請輸入排除用戶組。例)管理組</description>
         </var>
     </extra_vars>
 </widget>

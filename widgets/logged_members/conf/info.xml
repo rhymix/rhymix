@@ -5,7 +5,7 @@
     <title xml:lang="zh-CN">在线会员列表</title>
     <description xml:lang="ko">로그인 사용자를 출력하는 위젯입니다.</description>
     <description xml:lang="en">This widget displays on-line members.</description>
-    <description xml:lang="zh-CN">显示在线会员列表的控件。</description>
+    <description xml:lang="zh-TW">顯示線上會員的控件。</description>
     <version>0.1</version>
     <date>2008-06-18</date>
 
@@ -13,6 +13,7 @@
         <name xml:lang="ko">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <extra_vars>
@@ -21,29 +22,35 @@
             <name xml:lang="ko">목록수</name>
             <name xml:lang="en">List Count</name>
             <name xml:lang="zh-CN">目录数</name>
+            <name xml:lang="zh-TW">目錄數</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="en">You may set number of list to be displayed. (default 5)</description>
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
+            <description xml:lang="zh-TW">可設置要顯示的目錄數。 (預設是5個)</description>
         </var>
         <var id="use_mid">
             <type>select</type>
             <name xml:lang="ko">대상 지정</name>
             <name xml:lang="en">Target</name>
             <name xml:lang="zh-CN">模块对象</name>
+            <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">대상을 전체로 하면 홈페이지 접속자 모두가 출력되고 Mid 구분으로 하게 되면 접속한 Mid에 같이 접속한 회원만 출력이 됩니다.</description>
             <description xml:lang="en">All on-line members will be displayed when you set target as 'All', or members in same Mid will be displayed when target is 'By Mid'.</description>
             <description xml:lang="zh-CN">选择“全部”将显示全部在线会员，“区分Mid”为显示各模块中的在线会员。</description>
+            <description xml:lang="zh-TW">選擇“全部”會顯示全部線上會員，“以 Mid”是顯示各模組中的線上會員。</description>
             <options>
                 <value>total</value>
                 <name xml:lang="ko">전체</name>
                 <name xml:lang="en">All</name>
                 <name xml:lang="zh-CN">全部</name>
+                <name xml:lang="zh-TW">全部</name>
             </options>
             <options>
                 <value>mid</value>
                 <name xml:lang="ko">Mid 구분</name>
                 <name xml:lang="en">By Mid</name>
                 <name xml:lang="zh-CN">区分Mid</name>
+                <name xml:lang="zh-TW">以 Mid</name>
             </options>
         </var>
     </extra_vars>

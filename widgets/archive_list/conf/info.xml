@@ -6,6 +6,7 @@
     <title xml:lang="en">Report of Stored-Articles by Month</title>
     <title xml:lang="es">Reporte del almacenamiento de documentos por mes</title>
     <title xml:lang="ru">Отчет о размещенных статьях по месяцам</title>
+    <title xml:lang="zh-TW">封存</title>
     <description xml:lang="ko">
         선택된 모듈의 월별 글 보관 현황을 보여줍니다.
         글의 수가 너무 많을 경우 부하가 심해질 수 있습니다.
@@ -30,6 +31,10 @@
         Этот виджет отображает настоящее состояние размещенных статей, выбранных по месяцу.
         Если размещено много статей, то сервер может получить серьезную нагрузку.
     </description>
+    <description xml:lang="zh-TW">
+        按月份統計所選擇模組的主題數。
+        主題過多時可能會導致主機超出負荷。
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
 
@@ -40,6 +45,7 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <extra_vars>
@@ -51,12 +57,14 @@
             <name xml:lang="en">Title</name>
             <name xml:lang="es">Título</name>
             <name xml:lang="ru">Заголовок</name>
+            <name xml:lang="zh-TW">標題</name>
             <description xml:lang="ko">보관 현황 제목으로 출력됩니다.</description>
             <description xml:lang="zh-CN">将显示为存档标题。</description>
             <description xml:lang="jp">バックアップリストのタイトルとして出力されます。</description>
             <description xml:lang="en">It will be the title of the report.</description>
             <description xml:lang="es">Este será el título del reporte.</description>
             <description xml:lang="en">Это будет заголовком отчета.</description>
+            <description xml:lang="zh-TW">將顯示成封存標題。</description>
         </var>
         <var id="mid">
             <type>mid</type>
@@ -66,12 +74,14 @@
             <name xml:lang="en">Target Module</name>
             <name xml:lang="es">Módulo objetivo</name>
             <name xml:lang="ru">Модуль назначения</name>
+            <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="zh-CN">把被选模块作为统计对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
             <description xml:lang="es">Los documentos ingresados en el módulo seleccionado serán el objetivo.</description>
             <description xml:lang="ru">Статьи назначения будут теми, что были размещены в выбранном модуле.</description>
+            <description xml:lang="zh-TW">將所選擇的模組作為統計目標。</description>
         </var>
     </extra_vars>
 </widget>

@@ -6,6 +6,7 @@
 	<title xml:lang="es">Muestra el grupo de usuario específico</title>
 	<title xml:lang="zh-CN">会员列表</title>
 	<title xml:lang="ru">Отображение членов определенной группы</title>
+	<title xml:lang="zh-TW">會員列表</title>
 	<description xml:lang="ko">
 		특정 그룹에 속한 회원의 목록을 출력하는 위젯입니다.
 		아직 테스트용 위젯이며 해당 그룹에 지정된 수 이상의 회원이 있을 경우 최근 가입순서대로 출력이 됩니다.
@@ -34,6 +35,11 @@
 		Это тестовый виджет, и если в группе больше членов, чем присвоенное число в группе, они будут упорядочены по дате последнего входа.
 		Вы можете ввести группы для отображения в пространство ниже. Вы можете использовать запятую(,) для множественного ввода.
 	</description>
+	<description xml:lang="zh-TW">
+		顯示特定用戶組會員列表的控件。
+		該組用戶數比要顯示的用戶數多時，按照最近註冊日期來顯示。(測試中的控件)
+		要顯示的目標用戶組名稱以，(逗號)做區隔。
+	</description>
 	<version>0.1</version>
 	<date>2007-07-30</date>
 
@@ -44,6 +50,7 @@
 		<name xml:lang="es">zero</name>
 		<name xml:lang="zh-CN">Zero</name>
 		<name xml:lang="ru">zero</name>
+		<name xml:lang="zh-TW">Zero</name>
 	</author>
 
 	<extra_vars>
@@ -54,11 +61,13 @@
 			<name xml:lang="en">Title</name>
 			<name xml:lang="es">Título</name>
 			<name xml:lang="zh-CN">栏目名</name>
+			<name xml:lang="zh-TW">標題</name>
 			<description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
 			<description xml:lang="jp">最新コンテンツのタイトルとして表示されます。</description>
 			<description xml:lang="en">It will be displayed as title of newest article.</description>
 			<description xml:lang="es">Esto será mostrado com el título de los documentos recientes.</description>
 			<description xml:lang="zh-CN">显示为会员列表的标题。</description>
+			<description xml:lang="zh-TW">顯示會員列表的標題。</description>
 		</var>
 		<var id="list_count">
 			<type>text</type>
@@ -68,12 +77,14 @@
 			<name xml:lang="es">Número de la lista</name>
 			<name xml:lang="zh-CN">目录数</name>
 			<name xml:lang="ru">Число списка</name>
+			<name xml:lang="zh-TW">目錄數</name>
 			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
 			<description xml:lang="jp">表示されるリストの数を指定することができます。（デフォルト5個）</description>
 			<description xml:lang="en">You may choose number of list. (5 as default)</description>
 			<description xml:lang="es">Usted puede elegir el número de la lista. (predefinido: 5)</description>
 			<description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
 			<description xml:lang="ru">Вы можете выбрать число списка. (стандарт: 5)</description>
+			<description xml:lang="zh-TW">可設置要顯示的目錄數。 (預設是5個)</description>
 		</var>
 		<var id="target_group">
 			<type>text</type>
@@ -83,12 +94,14 @@
 			<name xml:lang="es">Objetivo Grupo de usuario</name>
 			<name xml:lang="zh-CN">对象用户组</name>
 			<name xml:lang="ru">Группа членов назначения</name>
+			<name xml:lang="zh-TW">目標用戶組</name>
 			<description xml:lang="ko">소속 회원 출력을 원하는 회원 그룹명을 ,(콤마)로 연결하여 입력하세요.</description>
 			<description xml:lang="jp">所属会員を表示したい場合は、会員グループ名を「,（コンマ）」で区切って入力してください。</description>
 			<description xml:lang="en">Please input member group name for display with comma(,).</description>
 			<description xml:lang="es">Ingresar el nombre del grupo de usuario para mostrar con la coma(,).</description>
 			<description xml:lang="zh-CN">要显示的对象用户组名称以，(逗号)来分隔。</description>
 			<description xml:lang="ru">Пожалуйста, введите имена групп для отображения, разделяя их запятой(,).</description>
+			<description xml:lang="zh-TW">要顯示的目標模組名稱以，(逗號)做區隔。</description>
 		</var>
 	</extra_vars>
 </widget>
