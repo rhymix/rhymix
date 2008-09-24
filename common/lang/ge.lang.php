@@ -62,7 +62,8 @@
     $lang->cmd_publish = 'Veröffentlichen';
     $lang->cmd_layout_setup = 'Konfiguration Layout';
     $lang->cmd_layout_edit = 'Layout bearbeiten';
-    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
+    $lang->cmd_search_by_ipaddress = 'Search by IP Address';
+    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 
     $lang->enable = 'Aktivieren';
     $lang->deaktivieren = 'Deaktivieren';

@@ -62,7 +62,8 @@
     $lang->cmd_publish = "Опубликовать";
     $lang->cmd_layout_setup = 'Конфигурировать лейаут';
     $lang->cmd_layout_edit = 'Редактировать лейаут';
-    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
+    $lang->cmd_search_by_ipaddress = 'Search by IP Address';
+    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 
     $lang->enable = 'Включено';
     $lang->disable = 'Выключено';

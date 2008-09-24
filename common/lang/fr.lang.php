@@ -63,6 +63,7 @@
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
     $lang->cmd_search_by_ipaddress = 'Recherce par l\'Address IP';
+    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 
     $lang->enable = 'Valide';
     $lang->disable = 'Invalide';
