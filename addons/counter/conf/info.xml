@@ -7,6 +7,7 @@
     <title xml:lang="ge">Counter Addon</title>
     <title xml:lang="es">Addon contador básico</title>
     <title xml:lang="ru">Аддон для базового счетчика</title>
+    <title xml:lang="zh-TW">網站訪問統計</title>
     <description xml:lang="ko">
         제로보드XE의 기본 카운터 모듈을 이용하여 접속 정보를 기록합니다.
         이 애드온을 켜셔야 접속 정보 수집이 됩니다.
@@ -35,6 +36,10 @@
         Этот аддон пишет в лог информацию о доступе к сайту, основанную на базовом модуле счетчика в Zeroboard XE.
         Для сбора информации необходимо включить этот аддон.
     </description>
+    <description xml:lang="zh-TW">
+        使用 ZeroboardXE的網站訪問統計模組記錄網站訪問資料。
+        將狀態設置成"使用"時，才會紀錄網站訪問資料。
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com/</link>
@@ -47,5 +52,6 @@
         <name xml:lang="ge">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </addon>

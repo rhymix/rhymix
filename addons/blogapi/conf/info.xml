@@ -7,6 +7,7 @@
     <title xml:lang="ge">Addon für BlogAPI</title>
     <title xml:lang="es">Addon para BlogAPI</title>
     <title xml:lang="ru">Аддон для BlogAPI</title>
+    <title xml:lang="zh-TW">部落格 API</title>
     <description xml:lang="ko">
         metaWeblog를 지원하는 blogApi애드온입니다.
         사용으로 설정하시면 각 모듈마다 RSD 태그를 노출합니다.
@@ -49,6 +50,12 @@
         URL для api - http://setup_path/module_name/api.
         Только выбор опции использовать включает поведение RSD тега и api.
     </description>
+    <description xml:lang="zh-TW">
+        支援 metaWeblog的部落格 Api插件。
+        設置成"啟用"時，會使每個模組都顯示 RSD圖示。
+        api地址是http://安裝位置/模組名稱/api。
+        將狀態設置成"啟用"時，才可使用 RSD標籤及 api。
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com/</link>
@@ -61,5 +68,6 @@
         <name xml:lang="ge">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </addon>
