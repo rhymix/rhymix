@@ -7,6 +7,7 @@
     <title xml:lang="ge">Standard-Skin von Zeroboard XE Blog</title>
     <title xml:lang="es">Cuidado de la Piel por defecto de Zeroboard XE blog</title>
     <title xml:lang="ru">По умолчанию Кожа Zeroboard XE блоге</title>
+    <title xml:lang="zh-TW">Zeroboard XE部落格預設面版</title>
     <description xml:lang="ko">
         제로보드XE 블로그 기본 스킨입니다.
         디자인 : 서기정 (http://blog.naver.com/addcozy)
@@ -42,6 +43,11 @@
          Дизайн: Ki-Jeong Seo (http://blog.naver.com/addcozy)
         HTML/CSS : Ju-Hoon So
     </description>
+    <description xml:lang="zh-TW">
+        Zeroboard XE部落格預設面版。
+        設計 :  Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Ju-Hoon So
+    </description>
     <version>0.1</version>
     <date>2008-02-26</date>
 
@@ -53,6 +59,7 @@
         <name xml:lang="ge">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <extra_vars>
@@ -64,6 +71,7 @@
             <title xml:lang="ge">Colorset</title>
             <title xml:lang="es">Set de Colores</title>
             <title xml:lang="ru">Colorset</title>
+            <title xml:lang="zh-TW">顏色設定</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="jp">希望するカラーセットを選択してください。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
@@ -71,6 +79,7 @@
             <description xml:lang="ge">Bitte wählen Sie ein colorset Sie wollen.</description>
             <description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
+            <description xml:lang="zh-TW">請選擇顏色。</description>
             <options value="blue">
                 <title xml:lang="ko">파란색 (기본)</title>
                 <title xml:lang="jp">青 (default)</title>
@@ -79,6 +88,7 @@
                 <title xml:lang="ge">Blue (Standard)</title>
                 <title xml:lang="es">Azul (default)</title>
                 <title xml:lang="ru">Blue (default)</title>
+                <title xml:lang="zh-TW">藍色 (預設)</title>
             </options>
             <options value="gray">
                 <title xml:lang="ko">회색</title>
@@ -88,6 +98,7 @@
                 <title xml:lang="ge">Gray</title>
                 <title xml:lang="es">Gray</title>
                 <title xml:lang="ru">Gray</title>
+                <title xml:lang="zh-TW">灰色</title>
             </options>
             <options value="orange">
                 <title xml:lang="ko">오렌지</title>
@@ -97,6 +108,7 @@
                 <title xml:lang="ge">Orange</title>
                 <title xml:lang="es">Orange</title>
                 <title xml:lang="ru">Orange</title>
+                <title xml:lang="zh-TW">橘色</title>
             </options>
             <options value="violet">
                 <title xml:lang="ko">보라색</title>
@@ -106,6 +118,7 @@
                 <title xml:lang="ge">Violett</title>
                 <title xml:lang="es">Violet</title>
                 <title xml:lang="ru">Violet</title>
+                <title xml:lang="zh-TW">紫色</title>
             </options>
             <options value="green">
                 <title xml:lang="ko">초록색</title>
@@ -115,6 +128,7 @@
                 <title xml:lang="ge">Grün</title>
                 <title xml:lang="es">Verde</title>
                 <title xml:lang="ru">Green</title>
+                <title xml:lang="zh-TW">綠色</title>
             </options>
         </var>
         <var name="target_mid" type="text">
@@ -125,6 +139,7 @@
             <title xml:lang="ge">Basismodul</title>
             <title xml:lang="es">Módulo Básico</title>
             <title xml:lang="ru">Основной модуль</title>
+            <title xml:lang="zh-TW">預設模組</title>
             <description xml:lang="ko">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
             <description xml:lang="jp">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
             <description xml:lang="zh-CN">为了让博客系统中的控件正常运作，在这里必须得指定默认版面模块名。</description>
@@ -132,6 +147,7 @@
             <description xml:lang="ge">Die Widgets, die angezeigt werden im Layout wird ordnungsgemäß funktionieren, wenn Sie das Basismodul</description>
             <description xml:lang="es">Los reproductores que se muestran en el diseño funcionará correctamente si selecciona el módulo básico</description>
             <description xml:lang="ru">В виджеты, которые отображаются в формате будет работать правильно, если вы выбираете основной модуль</description>
+            <description xml:lang="zh-TW">為了使部落格系統中的控件正常運作，必須要指定欲設討論版模組名稱。</description>
         </var>
         <var name="background_image" type="image">
             <title xml:lang="ko">배경 이미지</title>
@@ -140,6 +156,7 @@
             <title xml:lang="en">Background Image</title>
             <title xml:lang="es">Imagen de fondo</title>
             <title xml:lang="ru">Фоновое изображение</title>
+            <title xml:lang="zh-TW">背景圖片</title>
             <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
             <description xml:lang="jp">背景イメージを使う場合は、登録してください。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
@@ -147,6 +164,7 @@
             <description xml:lang="ge">Bitte geben Sie, wenn Sie verwenden wollen Hintergrundbild.</description>
             <description xml:lang="es">Entre, por favor, si desea utilizar la imagen de fondo.</description>
             <description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
+            <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>
         </var>
         <var name="profile_image" type="image">
             <title xml:lang="ko">프로필 이미지</title>
@@ -156,6 +174,7 @@
             <title xml:lang="ge">Profil Bilder</title>
             <title xml:lang="es">Perfil de Imagen</title>
             <title xml:lang="ru">Профиль Изображение</title>
+            <title xml:lang="zh-TW">部落格頭像</title>
             <description xml:lang="ko">프로필 이미지를 입력해 주세요 (가로 사이즈는 160px이 가장 보기 좋습니다)</description>
             <description xml:lang="jp">プロフィールイメージを入力してください（横幅は「160px」が一番適しています）。</description>
             <description xml:lang="zh-CN">请上传博客个性头像(推荐宽度为160px)。</description>
@@ -163,6 +182,7 @@
             <description xml:lang="ge">itte geben Sie Ihre Image-Profil (Es wird empfohlen, Breite 160px)</description>
             <description xml:lang="es">Por favor, el perfil de entrada de imagen (Se recomienda configurar el ancho de 160px)</description>
             <description xml:lang="ru">Введите профиля изображения (Рекомендуется устанавливать ширину, 160px)</description>
+            <description xml:lang="zh-TW">請上傳部落格頭像(最適寬度 160px)。</description>
         </var>
         <var name="profile" type="textarea">
             <title xml:lang="ko">프로필</title>
@@ -172,6 +192,7 @@
             <title xml:lang="ge">Profil</title>
             <title xml:lang="es">Perfil</title>
             <title xml:lang="ru">Профиль</title>
+            <title xml:lang="zh-TW">簡介</title>
             <description lang="ko">간단한 프로필을 입력해주세요</description>
             <description lang="jp">簡単なプロフィールを入力してください。</description>
             <description lang="zh-CN">请输入简单介绍。</description>
@@ -179,6 +200,7 @@
             <description lang="ge">Bitte geben Sie Ihre Simple Profile</description>
             <description lang="es">Por favor, introduzca su perfil simple</description>
             <description lang="ru">Введите простое профиль</description>
+            <description lang="zh-TW">請輸入簡單介紹。</description>
         </var>
     </extra_vars>
 
@@ -191,6 +213,7 @@
             <title xml:lang="ge">Top-Menü</title>
             <title xml:lang="es">Menú superior</title>
             <title xml:lang="ru">Главное меню</title>
+            <title xml:lang="zh-TW">選單</title>
         </menu>
     </menus>
 </layout>
