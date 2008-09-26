@@ -6,6 +6,7 @@
     <title xml:lang="en">Default Member Skin</title>
     <title xml:lang="es">Por defecto miembro piel</title>
     <title xml:lang="ru">По умолчанию членом кожи</title>
+    <title xml:lang="zh-TW">會員模組預設面版</title>
     <description xml:lang="ko">
         회원모듈의 default스킨
         디자인 : 서기정 (http://blog.naver.com/addcozy)
@@ -36,6 +37,11 @@
          Дизайн: Ги Чен Се (http://blog.naver.com/addcozy)
          HTML / CSS: Чен-Чен Мен (http://naradesign.net)
     </description>
+    <description xml:lang="zh-TW">
+        會員模組預設面版。
+        設計 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>
@@ -47,6 +53,7 @@
         <name xml:lang="en">NHN Corp</name>
         <name xml:lang="es">NHN Corp</name>
         <name xml:lang="ru">NHN Корп</name>
+        <name xml:lang="zh-TW">NHN Corp</name>
     </author>
 
     <colorset>
@@ -57,6 +64,7 @@
             <title xml:lang="en">default</title>
             <title xml:lang="es">Por defecto</title>
             <title xml:lang="ru">умолчанию</title>
+            <title xml:lang="zh-TW">預設</title>
         </color>
         <color name="cyan" src="screenshot/cyan.gif">
             <title xml:lang="ko">청록색</title>
@@ -65,6 +73,7 @@
             <title xml:lang="en">cyan</title>
             <title xml:lang="es">Cian</title>
             <title xml:lang="ru">бирюзовый</title>
+            <title xml:lang="zh-TW">青綠色</title>
         </color>
         <color name="green" src="screenshot/green.gif">
             <title xml:lang="ko">초록색</title>
@@ -73,6 +82,7 @@
             <title xml:lang="en">green</title>
             <title xml:lang="es">Verde</title>
             <title xml:lang="ru">зеленый</title>
+            <title xml:lang="zh-TW">綠色</title>
         </color>
         <color name="red" src="screenshot/red.gif">
             <title xml:lang="ko">빨간색</title>
@@ -81,6 +91,7 @@
             <title xml:lang="en">red</title>
             <title xml:lang="es">Roja</title>
             <title xml:lang="ru">красный</title>
+            <title xml:lang="zh-TW">紅色</title>
         </color>
         <color name="purple" src="screenshot/purple.gif">
             <title xml:lang="ko">보라색</title>
@@ -89,6 +100,7 @@
             <title xml:lang="en">purple</title>
             <title xml:lang="es">Púrpura</title>
             <title xml:lang="ru">Лиловый</title>
+            <title xml:lang="zh-TW">紫色</title>
         </color>
         <color name="black" src="screenshot/black.gif">
             <title xml:lang="ko">검은색</title>
@@ -97,6 +109,7 @@
             <title xml:lang="ru">Черного</title>
             <title xml:lang="es">Negro</title>
             <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
         </color>
     </colorset>
 </skin>

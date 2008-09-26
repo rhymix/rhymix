@@ -43,7 +43,7 @@
     $lang->cmd_select_all = '全部選擇';
     $lang->cmd_unselect_all = '全部解除';
     $lang->cmd_reverse_all = "反選";
-    $lang->cmd_close_all = '全部折疊';
+    $lang->cmd_close_all = '全部收合';
     $lang->cmd_open_all = '全部展開';
     $lang->cmd_reload = '重新讀取';
     $lang->cmd_close = '關閉';
@@ -111,7 +111,7 @@
     $lang->path = '路徑';
     $lang->cart = '選擇項目';
     $lang->friend = '好友';
-    $lang->notify = '通告';
+    $lang->notify = '公告';
     $lang->order_target = '排列目標';
     $lang->order_type = '排序方式';
     $lang->order_asc = '升冪';

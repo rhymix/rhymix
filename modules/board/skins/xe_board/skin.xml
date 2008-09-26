@@ -5,6 +5,7 @@
     <title xml:lang="zh-CN">Zeroboard XE版面默认皮肤</title>
     <title xml:lang="en">ZeroboardXE Basic Board Skin</title>
     <title xml:lang="es">ZeroboardXE Basic Board Skin</title>
+    <title xml:lang="zh-TW">Zeroboard XE討論版預設面版</title>
     <description xml:lang="ko">
         제로보드XE 게시판의 기본 스킨입니다.
         디자인 : 서기정 (http://blog.naver.com/addcozy)
@@ -30,6 +31,11 @@
         Diseño: Ki-Jeong Seo (http://blog.naver.com/addcozy)
         HTML / CSS: Jeong Chan-Myung (http://naradesign.net)
     </description>
+    <description xml:lang="zh-TW">
+        Zeroboard XE討論版預設面版。
+        設計 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+    </description>
     <version>0.1</version>
     <date>2007-10-22</date>
 
@@ -39,6 +45,7 @@
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
+        <name xml:lang="zh-TW">Zero</name>
     </author>
 
     <colorset>
@@ -48,6 +55,7 @@
             <title xml:lang="zh-CN">白色（基本）</title>
             <title xml:lang="en">White (default)</title>
             <title xml:lang="es">Blanco (por defecto)</title>
+            <title xml:lang="zh-TW">白色（預設）</title>
         </color>
         <color name="cyan" src="screenshot/cyan.gif">
             <title xml:lang="ko">청록색</title>
@@ -55,6 +63,7 @@
             <title xml:lang="zh-CN">青绿色</title>
             <title xml:lang="en">Cyan</title>
             <title xml:lang="es">Cian</title>
+            <title xml:lang="zh-TW">青綠色</title>
         </color>
         <color name="green" src="screenshot/green.gif">
             <title xml:lang="ko">초록색</title>
@@ -62,6 +71,7 @@
             <title xml:lang="zh-CN">绿色</title>
             <title xml:lang="en">Green</title>
             <title xml:lang="es">Verde</title>
+            <title xml:lang="zh-TW">綠色</title>
         </color>
         <color name="red" src="screenshot/red.gif">
             <title xml:lang="ko">빨간색</title>
@@ -69,6 +79,7 @@
             <title xml:lang="zh-CN">红色</title>
             <title xml:lang="en">Red</title>
             <title xml:lang="es">Roja</title>
+            <title xml:lang="zh-TW">紅色</title>
         </color>
         <color name="purple" src="screenshot/purple.gif">
             <title xml:lang="ko">보라색</title>
@@ -76,6 +87,7 @@
             <title xml:lang="zh-CN">紫色</title>
             <title xml:lang="en">Purple</title>
             <title xml:lang="es">Púrpura</title>
+            <title xml:lang="zh-TW">紫色</title>
         </color>
         <color name="black" src="screenshot/black.gif">
             <title xml:lang="ko">검은색</title>
@@ -84,6 +96,7 @@
             <title xml:lang="ru">Черного</title>
             <title xml:lang="es">Negro</title>
             <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
         </color>
     </colorset>
 
@@ -94,6 +107,7 @@
             <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
             <title xml:lang="es">Formulario por defecto</title>
+            <title xml:lang="zh-TW">預設形式</title>
             <description xml:lang="ko">
                 목록형, 웹진형, 갤러리형, 포럼형의 기본 스타일을 지정할 수 있습니다.
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
@@ -114,12 +128,17 @@
                 Usted puede seleccionar por defecto los estilos como el estilo de lista, estilo webzine, galería stylz o estilo foro.
                 Alinear Meta para el foro estilo es necesaria para ser seleccionado como 'actualización'.
             </description>
+            <description xml:lang="zh-TW">
+                可選擇目錄型、網路雜誌型，相簿型或論壇型當作討論版預設形式
+                當使用論壇型的時候，請把排列目標設定成 updated。
+            </description>
             <options value="list">
                 <title xml:lang="ko">목록</title>
                 <title xml:lang="en">list</title>
                 <title xml:lang="jp">list</title>
                 <title xml:lang="zh-CN">目录型</title>
                 <title xml:lang="es">list</title>
+                <title xml:lang="zh-TW">目錄</title>
             </options>
             <options value="webzine">
                 <title xml:lang="ko">웹진</title>
@@ -127,6 +146,7 @@
                 <title xml:lang="jp">webzine</title>
                 <title xml:lang="zh-CN">新闻型</title>
                 <title xml:lang="es">webzine</title>
+                <title xml:lang="zh-TW">雜誌</title>
             </options>
             <options value="gallery">
                 <title xml:lang="ko">갤러리</title>
@@ -134,6 +154,7 @@
                 <title xml:lang="jp">gallery</title>
                 <title xml:lang="zh-CN">相册型</title>
                 <title xml:lang="es">gallery</title>
+                <title xml:lang="zh-TW">相簿</title>
             </options>
             <options value="forum">
                 <title xml:lang="ko">포럼</title>
@@ -141,6 +162,7 @@
                 <title xml:lang="jp">forum</title>
                 <title xml:lang="zh-CN">论坛型</title>
                 <title xml:lang="es">forum</title>
+                <title xml:lang="zh-TW">論壇</title>
             </options>
             <options value="blog">
                 <title xml:lang="ko">블로그</title>
@@ -148,6 +170,7 @@
                 <title xml:lang="jp">blog</title>
                 <title xml:lang="zh-CN">博客型</title>
                 <title xml:lang="es">blog</title>
+                <title xml:lang="zh-TW">部落格</title>
             </options>
         </var>
         <var name="display_login_info" type="select">
@@ -156,12 +179,14 @@
             <title xml:lang="jp">ログイン情報表示</title>
             <title xml:lang="en">Display Login Info</title>
             <title xml:lang="es">Muestra la información de la conección</title>
+            <title xml:lang="zh-TW">顯示登入資料</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -169,6 +194,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -178,12 +204,14 @@
             <title xml:lang="jp">設定表示</title>
             <title xml:lang="en">Display Setup</title>
             <title xml:lang="es">Muestra la información de la Configuración</title>
+            <title xml:lang="zh-TW">顯示設置</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -191,6 +219,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -200,22 +229,26 @@
             <title xml:lang="zh-CN">版面标题</title>
             <title xml:lang="en">Title of Board</title>
             <title xml:lang="es">Title of Board</title>
+            <title xml:lang="zh-TW">討論版標題</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
             <description xml:lang="jp">掲示板タイトルを入力してください。</description>
             <description xml:lang="zh-CN">请输入版面标题(留空为不显示)。</description>
             <description xml:lang="en">Plase input the title of board.</description>
             <description xml:lang="es">Plase input the title of board.</description>
+            <description xml:lang="zh-TW">請輸入討論版標題(留白為隱藏)。</description>
         </var>
         <var name="sub_title" type="text">
             <title xml:lang="ko">게시판 부제목</title>
             <title xml:lang="jp">掲示板サブタイトル</title>
             <title xml:lang="zh-CN">版面副标题</title>
             <title xml:lang="en">Subtitle of Board</title>
+            <title xml:lang="zh-TW">討論版副標題</title>
             <description xml:lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
             <description xml:lang="jp">掲示板タイトルの横に表示されるサブタイトルを入力してください。</description>
             <description xml:lang="zh-CN">请输入版面副标题(留空为不显示)。</description>
             <description xml:lang="en">Please input the subtitle of board which will be displayed beside of board title.</description>
             <description xml:lang="es">Please input the subtitle of board which will be displayed beside of board title.</description>
+            <description xml:lang="zh-TW">請輸入討論版副標題(留白為隱藏)。</description>
         </var>
         <var name="comment" type="textarea">
             <title xml:lang="ko">게시판 상세 설명</title>
@@ -223,11 +256,13 @@
             <title xml:lang="zh-CN">版面详细说明</title>
             <title xml:lang="en">Description of Board</title>
             <title xml:lang="es">Description of Board</title>
+            <title xml:lang="zh-TW">討論版說明</title>
             <description xml:lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
             <description xml:lang="jp">掲示板タイトルの下に表示される説明文を入力してください。</description>
             <description xml:lang="zh-CN">请输入版面说明(留空为不显示)。</description>
             <description xml:lang="en">You may input description which will be displayed under the board title.</description>
             <description xml:lang="es">You may input description which will be displayed under the board title.</description>
+            <description xml:lang="zh-TW">請輸入討論版說明(留白為隱藏)。</description>
         </var>
         <var name="subject_cut_size" type="text">
             <title xml:lang="ko">제목 글자수</title>
@@ -235,11 +270,13 @@
             <title xml:lang="zh-CN">标题字数</title>
             <title xml:lang="en">Length of Subject</title>
             <title xml:lang="es">Length of Subject</title>
+            <title xml:lang="zh-TW">標題字數</title>
             <description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
             <description xml:lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
             <description xml:lang="zh-CN">可以指定标题字数(0或留空为不限)。</description>
             <description xml:lang="en">You may set length of title. (0 or blank value will not restrict the length)</description>
             <description xml:lang="es">You may set length of title. (0 or blank value will not restrict the length)</description>
+            <description xml:lang="zh-TW">可指定標題字數(0或留白為不限制)。</description>
         </var>
         <var name="display_number" type="select">
             <title xml:lang="ko">번호 표시</title>
@@ -247,12 +284,14 @@
             <title xml:lang="zh-CN">显示编号</title>
             <title xml:lang="en">Dispay Number</title>
             <title xml:lang="es">Dispay Number</title>
+            <title xml:lang="zh-TW">顯示編號</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -260,6 +299,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -269,12 +309,14 @@
             <title xml:lang="zh-CN">显示昵称</title>
             <title xml:lang="en">Display Author</title>
             <title xml:lang="es">Display Author</title>
+            <title xml:lang="zh-TW">顯示暱稱</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -282,6 +324,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -291,12 +334,14 @@
             <title xml:lang="zh-CN">显示发表日期</title>
             <title xml:lang="en">Display Registered Date</title>
             <title xml:lang="es">Display Registered Date</title>
+            <title xml:lang="zh-TW">顯示發表日期</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -304,6 +349,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -313,12 +359,14 @@
             <title xml:lang="zh-CN">显示查看</title>
             <title xml:lang="en">Display Hit</title>
             <title xml:lang="es">Display Hit</title>
+            <title xml:lang="zh-TW">顯示點擊</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -326,6 +374,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -335,12 +384,14 @@
             <title xml:lang="zh-CN">显示推荐</title>
             <title xml:lang="en">Display Votes</title>
             <title xml:lang="es">Display Votes</title>
+            <title xml:lang="zh-TW">顯示推薦</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -348,6 +399,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -357,12 +409,14 @@
             <title xml:lang="jp">Display ip address</title>
             <title xml:lang="zh-CN">显示IP地址</title>
             <title xml:lang="es-CN">Display ip address</title>
+            <title xml:lang="zh-TW">顯示IP地址</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -370,6 +424,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
         </var>
         <var name="display_last_update" type="select">
@@ -378,12 +433,14 @@
             <title xml:lang="zh-CN">显示最后更新时间</title>
             <title xml:lang="en">Display Latest Update</title>
             <title xml:lang="es">Display Latest Update</title>
+            <title xml:lang="zh-TW">顯示最後更新時間</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
                 <title xml:lang="jp">display</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
@@ -391,6 +448,7 @@
                 <title xml:lang="jp">not display</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
             <description />
         </var>
@@ -400,32 +458,38 @@
             <title xml:lang="zh-CN">new图标显示时间(hours)</title>
             <title xml:lang="en">Duration of indication for new item</title>
             <title xml:lang="es">Duration of indication for new item</title>
+            <title xml:lang="zh-TW">new圖案顯示時間(hours)</title>
             <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. </description>
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を設定します。 </description>
             <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. </description>
             <description xml:lang="es">You may set the duration of indication for fresh item. </description>
+            <description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
         </var>
         <var name="thumbnail_type" type="select">
             <title xml:lang="ko">썸네일 생성 방법</title>
             <title xml:lang="jp">サムネール生成方法</title>
             <title xml:lang="zh-CN">缩略图生成方式</title>
             <title xml:lang="en">Type of Thumbnail</title>
+            <title xml:lang="zh-TW">縮圖建立方式</title>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다.</description>
             <description xml:lang="jp">サムネールの生成方法を選択します。</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式。</description>
             <description xml:lang="en">Choose the type to create the thumnail.</description>
+            <description xml:lang="zh-TW">可選擇縮圖建立方式。</description>
             <options value="crop">
                 <title xml:lang="ko">꽉 채우기</title>
                 <title xml:lang="jp">トリミング</title>
                 <title xml:lang="zh-CN">裁减</title>
                 <title xml:lang="en">crop</title>
+                <title xml:lang="zh-TW">裁減</title>
             </options>
             <options value="ratio">
                 <title xml:lang="ko">비율 맞추기</title>
                 <title xml:lang="jp">比率</title>
                 <title xml:lang="zh-CN">比例</title>
                 <title xml:lang="en">ratio</title>
+                <title xml:lang="zh-TW">比例</title>
             </options>
         </var>
         <var name="thumbnail_width" type="text" default="100">
@@ -433,20 +497,24 @@
             <title xml:lang="jp">サムネールの横幅</title>
             <title xml:lang="zh-CN">缩略图宽度</title>
             <title xml:lang="en">Width of Thumbnail</title>
+            <title xml:lang="zh-TW">縮圖寬度</title>
             <description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">サムネールの横幅を指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图宽度(默认为 100px)。</description>
             <description xml:lang="en">Set the width of thumbnail. Default is 100px.</description>
+            <description xml:lang="zh-TW">可指定縮圖寬度(預設是 100px)。</description>
         </var>
         <var name="thumbnail_height" type="text" default="100">
             <title xml:lang="ko">썸네일 세로크기</title>
             <title xml:lang="jp">サムネールの縦幅</title>
             <title xml:lang="zh-CN">缩略图高度</title>
             <title xml:lang="en">Height of Thumbnail</title>
+            <title xml:lang="zh-TW">縮圖高度</title>
             <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
             <description xml:lang="jp">サムネールの縦幅を指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图高度(默认为 100px)。</description>
             <description xml:lang="en">Set the height of thumbnail. Default is 100px.</description>
+            <description xml:lang="zh-TW">可指定縮圖高度(預設是 100px)。</description>
         </var>
     </extra_vars>
 </skin>

@@ -6,12 +6,14 @@
     <title xml:lang="es">Lifepod módulo básico piel</title>
     <title xml:lang="ru">Lifepod модуль базовой кожи</title>
     <title xml:lang="jp">ライフポッド連動のデフォルトスキン</title>
+    <title xml:lang="zh-TW">Lifepod預設面版</title>
     <description xml:lang="ko">라이프팟 노트 연동 모듈의 기본 스킨</description>
     <description xml:lang="zh-CN">Lifepod默认皮肤。</description>
     <description xml:lang="en">Default Skin of Lifepod Module</description>
     <description xml:lang="es">Por defecto de la piel Lifepod módulo</description>
     <description xml:lang="ru">По умолчанию кожи Lifepod модуль</description>
     <description xml:lang="jp">ライフポッドノート連動モジュールのデフォルトスキン</description>
+    <description xml:lang="zh-TW">Lifepod預設面版。</description>
     <version>0.1</version>
     <date>2007-11-30</date>
     <link>http://www.zeroboard.com</link>
@@ -23,6 +25,7 @@
         <name xml:lang="es">haneul</name>
         <name xml:lang="ru">haneul</name>
         <name xml:lang="jp">haneul</name>
+        <name xml:lang="zh-TW">haneul</name>
     </author>
 
     <colorset>
@@ -33,6 +36,7 @@
             <title xml:lang="es">Blanco (por defecto)</title>
             <title xml:lang="ru">Белые (по умолчанию)</title>
             <title xml:lang="jp">白(デフォルト)</title>
+            <title xml:lang="zh-TW">白色(預設)</title>
         </color>
     </colorset>
 
@@ -44,12 +48,14 @@
             <title xml:lang="es">Título de la Junta</title>
             <title xml:lang="ru">Название совета</title>
             <title xml:lang="jp">掲示板のタイトル</title>
+            <title xml:lang="zh-TW">討論版標題</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
             <description xml:lang="zh-CN">请输入版面标题。</description>
             <description xml:lang="en">Please input the title of board.</description>
             <description xml:lang="es">Introduce el título de la junta.</description>
             <description xml:lang="ru">Введите название борту.</description>
             <description xml:lang="jp">掲示板のタイトルを記入してください。</description>
+            <description xml:lang="zh-TW">請輸入討論版標題。</description>
         </var>
         <var name="korean_anniversary" type="select">
             <title xml:lang="ko">한국 기념일 표시</title>
@@ -58,17 +64,21 @@
             <title xml:lang="es">Mostrar Korean aniversario</title>
             <title xml:lang="ru">Дисплей корейский летие</title>
             <title xml:lang="jp">韓国記念日表示</title>
+            <title xml:lang="zh-TW">韓國紀念日顯示</title>
             <description xml:lang="ko">한국의 기념일을 표시합니다.</description>
             <description xml:lang="zh-CN">设置是否要显示韩国纪念日。</description>
             <description xml:lang="en">It will display Korean anniversaries.</description>
             <description xml:lang="es">Su función es mostrar de Korea aniversarios.</description>
             <description xml:lang="ru">Он будет показывать корейский годовщин.</description>
             <description xml:lang="jp">韓国の記念日を表示します。</description>
+            <description xml:lang="zh-TW">是否要顯示韓國紀念日。</description>
             <options value="use">
                 <title xml:lang="ko">사용</title>
+                <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="notuse">
                 <title xml:lang="ko">사용 안 함</title>
+                <title xml:lang="zh-TW">隱藏</title>
             </options>
         </var>
     </extra_vars>
