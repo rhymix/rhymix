@@ -7,6 +7,7 @@
             <title xml:lang="jp">リスト</title>
             <title xml:lang="en">list</title>
 			<title xml:lang="es">Lista</title>
+			<title xml:lang="zh-TW">目錄</title>
         </grant>
         <grant name="view" default="guest">
             <title xml:lang="ko">열람</title>
@@ -14,6 +15,7 @@
             <title xml:lang="jp">閲覧</title>
             <title xml:lang="en">view</title>
 			<title xml:lang="es">Opinión</title>
+			<title xml:lang="zh-TW">檢視</title>
         </grant>
         <grant name="write_document" default="guest">
             <title xml:lang="ko">글 작성</title>
@@ -21,6 +23,7 @@
             <title xml:lang="jp">書き込み作成</title>
             <title xml:lang="en">write document</title>
 			<title xml:lang="es">Escribir el documento</title>
+			<title xml:lang="zh-TW">發表主題</title>
         </grant>
         <grant name="write_comment" default="guest">
             <title xml:lang="ko">댓글 작성</title>
@@ -28,6 +31,7 @@
             <title xml:lang="jp">コメント作成</title>
             <title xml:lang="en">write comment</title>
 			<title xml:lang="es">Escribir comentario</title>
+			<title xml:lang="zh-TW">發表評論</title>
         </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
@@ -35,6 +39,7 @@
             <title xml:lang="jp">管理</title>
             <title xml:lang="en">manager</title>
 			<title xml:lang="es">Administrador</title>
+			<title xml:lang="zh-TW">管理</title>
         </grant>
     </grants>
     <permissions>

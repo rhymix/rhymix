@@ -6,12 +6,14 @@
     <title xml:lang="en">Change the background color of article</title>
     <title xml:lang="es">Cambiar el color de fondo del artículo</title>
     <title xml:lang="ru">Изменение цвета фона статьи</title>
+    <title xml:lang="zh-TW">主題背景顏色</title>
     <description xml:lang="ko">글의 배경색을 변경합니다.</description>
     <description xml:lang="jp">文字の背景色を変更します。</description>
     <description xml:lang="zh-CN">可修改字体背景颜色。</description>
     <description xml:lang="en">It will change the background color of article.</description>
     <description xml:lang="es">Se cambiará el color de fondo del artículo.</description>
     <description xml:lang="ru">Позволяет изменение цвета фона статьи.</description>
+    <description xml:lang="zh-TW">可改變主題背景顏色。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://zeroboard.com</link>
@@ -23,5 +25,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </component>

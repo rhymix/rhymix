@@ -6,12 +6,14 @@
     <title xml:lang="jp">インストール管理</title>
     <title xml:lang="es">Manajo de la Instalación</title>
     <title xml:lang="ru">Управление установкой</title>
+    <title xml:lang="zh-TW">安裝管理</title>
     <description xml:lang="ko">설치 관리 모듈</description>
     <description xml:lang="en">Module for managing installation</description>
     <description xml:lang="zh-CN">安装管理模块。</description>
     <description xml:lang="jp">インストール管理モジュール</description>
     <description xml:lang="es">Módulo para el manejo de la instalación</description>
     <description xml:lang="ru">Модуль для управления установкой</description>
+    <description xml:lang="zh-TW">安裝管理模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>base</category>
@@ -24,5 +26,6 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="es">Zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">Zero</name>
     </author>
 </module>

@@ -6,12 +6,14 @@
     <title xml:lang="en">Basic Image Gallery</title>
     <title xml:lang="es">Galería de imágenes básicos</title>
     <title xml:lang="ru">Базовая галлерея изображений</title>
+    <title xml:lang="zh-TW">基本圖片相簿</title>
     <description xml:lang="ko">첨부된 이미지파일을 이용하여 슬라이드/목록형 이미지 갤러리를 만들 수 있습니다.</description>
     <description xml:lang="jp">添付されたイメージファイルを利用して、スライド型・リスト型のイメージギャラリーが作成できます。</description>
     <description xml:lang="zh-CN">利用上传的图片文件实现幻灯片式或目录型相册图片。</description>
     <description xml:lang="en">It can create image gallery of slide/list style by using attached image file.</description>
     <description xml:lang="es">It can create image gallery of slide/list style by using attached image file.</description>
     <description xml:lang="ru">Это может создать гллерею изображений в стиле слайдов/списка, используя вложенный файл изображения.</description>
+    <description xml:lang="zh-TW">將上傳的圖片以投影片或目錄的形式實現。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://zeroboard.com</link>
@@ -23,5 +25,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </component>

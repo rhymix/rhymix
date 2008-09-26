@@ -5,11 +5,13 @@
     <title xml:lang="zh-CN">反向链接统计</title>
     <title xml:lang="en">Referer Statistics</title>
     <title xml:lang="ru">Статистика рефералов</title>
+    <title xml:lang="zh-TW">反向連結統計</title>
     <description xml:lang="ko">기본 리퍼러 통계 프로그램입니다.</description>
     <description xml:lang="jp">デフォルトのリファラー統計プログラムです。</description>
     <description xml:lang="zh-CN">反向链接统计模块。</description>
     <description xml:lang="en">Basic referer statistics program.</description>
     <description xml:lang="ru">Базовая программа статистики рефералов.</description>
+    <description xml:lang="zh-TW">反向連結統計模組。</description>
     <version>0.15</version>
     <date>2007-11-29</date>
     <category>accessory</category>
@@ -21,5 +23,6 @@
         <name xml:lang="zh-CN">haneul</name>
         <name xml:lang="en">haneul</name>
         <name xml:lang="ru">haneul</name>
+        <name xml:lang="zh-TW">haneul</name>
     </author>
 </module>

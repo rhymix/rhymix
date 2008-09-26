@@ -6,12 +6,14 @@
     <title xml:lang="en">Comment</title>
     <title xml:lang="es">Commentarios</title>
     <title xml:lang="ru">Комментарии</title>
+    <title xml:lang="zh-TW">評論</title>
     <description xml:lang="ko">게시판이나 블로그등의 댓글을 관리하는 모듈입니다.</description>
     <description xml:lang="jp">掲示板やブログなどのコメントを管理するモジュールです。</description>
     <description xml:lang="zh-CN">管理版面或博客评论的模块。</description>
     <description xml:lang="en">Module for managing board/blog's comments</description>
     <description xml:lang="es">Es el módulo para manejar commentarios en blog o boletínes.</description>
     <description xml:lang="ru">Модуль для управления комментариями форума/блога.</description>
+    <description xml:lang="zh-TW">管理討論版或部落格評論的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>utility</category>
@@ -24,5 +26,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

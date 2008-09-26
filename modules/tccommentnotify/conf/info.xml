@@ -3,9 +3,11 @@
     <title xml:lang="ko">댓글알리미</title>
     <title xml:lang="zh-CN">评论通告</title>
     <title xml:lang="en">Comment Notifier</title>
+    <title xml:lang="zh-TW">評論通知</title>
     <description xml:lang="ko">댓글알리미 모듈입니다.</description>
     <description xml:lang="zh-CN">评论通告模块。</description>
     <description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
+    <description xml:lang="zh-TW">當有新評論時，此模組會告知。</description>
     <version>0.2.1</version>
     <date>2008-07-31</date>
     <category>accessory</category>
@@ -15,6 +17,7 @@
         <name xml:lang="ko">haneul</name>
         <name xml:lang="zh-CN">haneul</name>
         <name xml:lang="en">haneul</name>
+        <name xml:lang="zh-TW">haneul</name>
     </author>
 
     <history version="0.2.1" date="2008-07-31">
@@ -22,6 +25,7 @@
             <name xml:lang="ko">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
+            <name xml:lang="zh-TW">haneul</name>
         </author>
         <log>중복 댓글알림 제거 추가</log>
     </history>
@@ -32,6 +36,7 @@
             <name xml:lang="ko">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
+            <name xml:lang="zh-TW">haneul</name>
         </author>
         <log>본문에 대한 댓글알림 추가</log>
         <log>zbXE 기본패키지에 추가</log>
@@ -42,6 +47,7 @@
             <name xml:lang="ko">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
+            <name xml:lang="zh-TW">haneul</name>
         </author>
         <log>queue에서 잘 안 빠지는 문제 수정</log>
     </history>
@@ -51,6 +57,7 @@
             <name xml:lang="ko">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
+            <name xml:lang="zh-TW">haneul</name>
         </author>
         <log>page module로 들어오는 noti가 반영이 안되는 문제 수정</log>
     </history>
@@ -60,6 +67,7 @@
             <name xml:lang="ko">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
+            <name xml:lang="zh-TW">haneul</name>
         </author>
         <log>tag strip안되는 문제 수정</log>
     </history>

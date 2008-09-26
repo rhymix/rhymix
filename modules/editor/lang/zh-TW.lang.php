@@ -52,8 +52,7 @@
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
-    "仿宋_GB2312",
-    "黑體",
+
     "標楷體",
     "細明體",
     "times",
@@ -83,7 +82,7 @@
     $lang->edit->help_redo = "重新操作";
     $lang->edit->help_undo = "返回操作";
     $lang->edit->help_align_left = "靠左對齊";
-    $lang->edit->help_align_center = "居中對齊";
+    $lang->edit->help_align_center = "置中對齊";
     $lang->edit->help_align_right = "靠右對齊";
     $lang->edit->help_add_indent = "縮排";
     $lang->edit->help_remove_indent = "移除縮排";
@@ -98,7 +97,7 @@
 
     $lang->edit->icon_align_article = '佔一個段落';
     $lang->edit->icon_align_left = '文字左側';
-    $lang->edit->icon_align_middle = '居中對齊';
+    $lang->edit->icon_align_middle = '置中對齊';
     $lang->edit->icon_align_right = '文字右側';
 
     $lang->about_dblclick_in_editor = '雙擊背景, 文字, 圖片, 引用，即可對其相關組件進行詳細設置。';

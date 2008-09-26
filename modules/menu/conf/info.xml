@@ -6,12 +6,14 @@
     <title xml:lang="en">Menu</title>
     <title xml:lang="es">Menú</title>
     <title xml:lang="ru">Меню</title>
+    <title xml:lang="zh-TW">選單</title>
     <description xml:lang="ko">레이아웃, 모듈을 연결하는 메뉴를 생성/관리하는 모듈입니다.</description>
     <description xml:lang="zh-CN">此模块将生成并管理连接布局，模块的菜单。</description>
     <description xml:lang="jp">レイアウト、モジュールを連動させるメニューを作成・管理するモジュールです。</description>
     <description xml:lang="en">This module is for creating/managering menues that linking layouts or modules.</description>
     <description xml:lang="es">Este módulo es para crear/manejar los menús que que son conectados con los diseños o módulos.</description>
     <description xml:lang="ru">Этот модуль служит создания/управления меню, которые соединяют лейауты и модули.</description>
+    <description xml:lang="zh-TW">此模組將建立並管理選單連結佈局和模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>manager</category>
@@ -24,5 +26,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">Zero</name>
     </author>
 </module>

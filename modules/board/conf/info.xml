@@ -6,12 +6,14 @@
     <title xml:lang="es">Tablero</title>
     <title xml:lang="jp">掲示板</title>
     <title xml:lang="ru">Форум</title>
+    <title xml:lang="zh-TW">討論版</title>
     <description xml:lang="ko">게시판의 기능을 담당하는 모듈. 게시판의 생성/추가 관리등의 관리자 기능도 포함합니다.</description>
     <description xml:lang="zh-CN">给用户提供相应版面功能，将包含版面的生成/添加及版面管理等管理员功能。</description>
     <description xml:lang="en">Module in charge of function of the board. Also includes administrator functions such as creating/managing boards.</description>
     <description xml:lang="es">Módulo para la función del tablero. Incluye funciones de administración como crear/ agregar o el manejo de los tableros.</description>
     <description xml:lang="jp">掲示板の機能を担うモジュールです。掲示板の生成・追加・管理などの管理者機能も含まれています。</description>
     <description xml:lang="ru">Модуль для функционирования форума. Также включает в себя функции администратора такие как создание/управление форумами.</description>
+    <description xml:lang="zh-TW">提供用戶相應的討論版功能，包含討論版建立/新增及管理等管理員功能。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>service</category>
@@ -24,5 +26,6 @@
         <name xml:lang="es">zero</name>
         <name xml:lang="jp">Zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

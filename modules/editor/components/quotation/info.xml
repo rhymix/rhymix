@@ -6,12 +6,14 @@
     <title xml:lang="es">Citas célebres</title>
     <title xml:lang="en">Quotations</title>
     <title xml:lang="ru">Цитаты</title>
+    <title xml:lang="zh-TW">引用</title>
     <description xml:lang="ko">특정 범위를 인용문으로 꾸밀 수 있습니다. 외곽선의 종류나 색상, 굵기를 수정할 수 있으며 열기/닫기 기능을 가진 폴더기능을 만들 수 있습니다.</description>
     <description xml:lang="jp">特定範囲を引用文として表示できます。ボーダーの種類、色、太さを修正することができ、「展開・折りたたみ」の機能も可能です。</description>
     <description xml:lang="zh-CN">可以把要发表的主题特定范围用引用布置。可以修改外围线的种类或粗细，还支持展开/折叠功能。</description>
     <description xml:lang="en">You can decorate specific range as quotation. The style, color or thickness of outline can be modified and folder system which has open/close function can be made.</description>
     <description xml:lang="es">Puedes decorar rango específico como cita. El estilo, el color o el grosor de esquema puede ser modificado y carpeta de sistema que tiene abrir / cerrar la función se puede hacer.</description>
     <description xml:lang="ru">Вы можете украсить определенную область цитаты. Стиль, цвет или толщина внешней линии может быть изменена, и система папок, которая имеет функцию открыть/закрыть может быть создана.</description>
+    <description xml:lang="zh-TW">可以將要發表的主題特定範圍以引用佈置。可修改外框線的種類或粗細，還支援展開/收合功能。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://zeroboard.com</link>
@@ -23,5 +25,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </component>

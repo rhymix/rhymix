@@ -6,12 +6,14 @@
     <title xml:lang="en">Manage Multimedia Data</title>
     <title xml:lang="es">Administrar datos multimedia </title>
     <title xml:lang="ru">Управление мультимедиа данными</title>
+    <title xml:lang="zh-TW">多媒體管理</title>
     <description xml:lang="ko">에디터에 wmv,avi,flv등의 멀티미디어 자료를 추가하거나 속성을 수정할 수 있습니다.</description>
     <description xml:lang="jp">エディターに拡張子が「wmv,avi,flv」などのマルチメディアコンテンツを追加、または属性の修正ができます。</description>
     <description xml:lang="zh-CN">插入wmv,avi,flv等多媒体文件或修改其相应属性 。</description>
     <description xml:lang="en">It can add multimedia data like wmv,avi,flv to editor or change the attribution of multimedia data.</description>
     <description xml:lang="es">Se pueden agregar datos multimedia como wmv, avi, flv al editor o cambiar la atribución de datos multimedia.</description>
     <description xml:lang="ru">Это может добавить мультимедиа данные как wmv,avi,flv в редактор или изменить параметры данных мультимедиа.</description>
+    <description xml:lang="zh-TW">可新增 wmv、avi，flv等多媒體檔案或修改其相關屬性。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://zeroboard.com</link>
@@ -23,5 +25,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </component>

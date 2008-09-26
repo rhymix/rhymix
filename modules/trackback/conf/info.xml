@@ -6,12 +6,14 @@
     <title xml:lang="en">Trackback</title>
     <title xml:lang="es">Trackback</title>
     <title xml:lang="ru">Трекбек</title>
+    <title xml:lang="zh-TW">引用</title>
     <description xml:lang="ko">엮인글 관리 모듈</description>
     <description xml:lang="zh-CN">管理引用模块。</description>
     <description xml:lang="jp">トラックバック管理モジュール</description>
     <description xml:lang="en">Module for managing trackbacks.</description>
     <description xml:lang="es">Módulo para el manejo de trackbacks.</description>
     <description xml:lang="ru">Модуль для управления трекбеками.</description>
+    <description xml:lang="zh-TW">管理引用的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>utility</category>
@@ -24,5 +26,6 @@
         <name xml:lang="en">Zero</name>
         <name xml:lang="es">Zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

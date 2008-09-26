@@ -6,12 +6,14 @@
     <title xml:lang="en">Widget</title>
     <title xml:lang="es">Widget</title>
     <title xml:lang="ru">Виджеты</title>
+    <title xml:lang="zh-TW">控件</title>
     <description xml:lang="ko">위젯 관리 모듈</description>
     <description xml:lang="zh-CN">控件管理模块。</description>
     <description xml:lang="jp">ウィジェット管理モジュール</description>
     <description xml:lang="en">Module for managing widgets.</description>
     <description xml:lang="es">Módulo para el manejo de widgets.</description>
     <description xml:lang="ru">Модуль для управления виджетами.</description>
+    <description xml:lang="zh-TW">控件管理模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>manager</category>
@@ -24,5 +26,6 @@
         <name xml:lang="en">Zero</name>
         <name xml:lang="es">Zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

@@ -3,9 +3,11 @@
     <title xml:lang="ko">이슈트래커</title>
     <title xml:lang="zh-CN">问题跟踪</title>
 	<title xml:lang="en">Issue Tracker</title>
+    <title xml:lang="zh-TW">問題追蹤</title>
     <description xml:lang="ko">각종 이슈 처리를 위한 모듈입니다.</description>
     <description xml:lang="zh-CN">一个具有项目跟踪功能的模块。</description>
 	<description xml:lang="en">This module handles many kinds of issues.</description>
+    <description xml:lang="zh-TW">可以處理追蹤很多種問題的模組。</description>
     <version>1.0</version>
     <date>2008-08-04</date>
     <category>service</category>
@@ -13,5 +15,6 @@
         <name xml:lang="ko">haneul, zero</name>
         <name xml:lang="zh-CN">haneul, zero</name>
 		<name xml:lang="en">haneul, zero</name>
+        <name xml:lang="zh-TW">haneul, zero</name>
     </author>
 </module>
