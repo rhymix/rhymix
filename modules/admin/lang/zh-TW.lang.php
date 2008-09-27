@@ -68,7 +68,8 @@
         '問題跟蹤' => 'http://trac.zeroboard.com',
         'SVN Repository' => 'http://svn.zeroboard.com',
         'doxygen document' => 'http://doc.zeroboard.com',
-        'pdf 檔案' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'PDF 檔案' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
+        'XE Tools' => './tools/',
     );
 
     $lang->zeroboard_xe_usefulness_module = '常用模組';

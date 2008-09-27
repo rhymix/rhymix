@@ -251,7 +251,7 @@ EndOfLicense;
     $lang->env_title = '環境設置';
     $lang->use_optimizer = '使用Optimizer';
     $lang->about_optimizer = '使用Optimizer可以對大部分的CSS/ JS檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用Optimizer。';
-    $lang->use_rewrite = '使用rewrite模塊';
+    $lang->use_rewrite = '使用rewrite模組';
     $lang->about_rewrite = '如主機支援rewrite模組並選擇此項，可以簡化複雜的網址。<br />例如，http://域名/?document_srl=123可簡化成http://域名/123。';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';
