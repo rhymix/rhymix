@@ -83,18 +83,20 @@
         if(substr($base_path,-1)=='/') $base_path = substr($base_path,0,-1);
         if(in_array($path, $avoid_path)) return;
 
-        $oDir = dir($path);
-        while($item = $oDir->read()) {
-            if(substr($item,0,1)=='.' && $item != '.htaccess' ) continue;
-            $new_path = $path.'/'.$item;
-            if(!is_dir($new_path)) {
-                $filesize = filesize($new_path);
-                $filename = substr($new_path, strlen($base_path)+1);
-                $buff[$filename] = $filesize;
-            } else {
-                getFiles($new_path, $base_path, $avoid_path, $buff);
+        $oDir = @dir($path);
+        if($oDir) {
+            while($item = $oDir->read()) {
+                if(substr($item,0,1)=='.' && $item != '.htaccess' ) continue;
+                $new_path = $path.'/'.$item;
+                if(!is_dir($new_path)) {
+                    $filesize = filesize($new_path);
+                    $filename = substr($new_path, strlen($base_path)+1);
+                    $buff[$filename] = $filesize;
+                } else {
+                    getFiles($new_path, $base_path, $avoid_path, $buff);
+                }
             }
+            $oDir->close();
         }
-        $oDir->close();
     }
 ?>
