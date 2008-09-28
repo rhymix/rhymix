@@ -4,10 +4,12 @@
     <title xml:lang="jp">カテゴリ表示デフォルトスキン</title>
     <title xml:lang="en">Default Skin of Category Widget</title>
     <title xml:lang="zh-CN">博客样式分类默认皮肤</title>
+    <title xml:lang="zh-TW">主題分類面版</title>
     <description xml:lang="ko">게시글 분류를 출력하는 기본 스킨입니다</description>
     <description xml:lang="jp">書き込みのカテゴリを表示表示させるデフォルトスキンです。</description>
     <description xml:lang="en">This is a widget that displays categories of articles.</description>
     <description xml:lang="zh-CN">把主题分类显示为博客样式的默认皮肤。</description>
+    <description xml:lang="zh-TW">顯示主題分類。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>
@@ -17,6 +19,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="en">Zero</name>
         <name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="zh-TW">Zero</name>
     </author>
 
     <colorset>
@@ -25,6 +28,7 @@
             <title xml:lang="jp">デフォルトカラー</title>
             <title xml:lang="en">Default Color</title>
             <title xml:lang="zh-CN">默认颜色</title>
+            <title xml:lang="zh-TW">預設顏色</title>
         </color>
     </colorset>
 </skin>

@@ -53,6 +53,7 @@
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
 
+
     "標楷體",
     "細明體",
     "times",
@@ -72,6 +73,10 @@
     );
 
     $lang->edit->submit = '確認';
+
+	$lang->edit->help_remove_format = "刪除所選區域的標籤";
+    $lang->edit->help_strike_through = "Strike will be on the words";
+    $lang->edit->help_align_full = "左右對齊";
 
     $lang->edit->help_fontcolor = "文字顏色";
     $lang->edit->help_fontbgcolor = "背景顏色";
@@ -95,7 +100,7 @@
     $lang->edit->link_file = '插入內容';
     $lang->edit->delete_selected = '刪除所選';
 
-    $lang->edit->icon_align_article = '佔一個段落';
+    $lang->edit->icon_align_article = '段落';
     $lang->edit->icon_align_left = '文字左側';
     $lang->edit->icon_align_middle = '置中對齊';
     $lang->edit->icon_align_right = '文字右側';

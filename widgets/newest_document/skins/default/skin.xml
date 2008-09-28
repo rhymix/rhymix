@@ -4,10 +4,12 @@
     <title xml:lang="jp">最新書き込みリストのデフォルトスキン</title>
     <title xml:lang="zh-CN">主题列表默认皮肤</title>
     <title xml:lang="en">Default Skin of Newest Article List</title>
+    <title xml:lang="zh-TW">最新主題列表預設面版</title>
     <description xml:lang="ko">최신글 목록 위젯의 기본 스킨</description>
     <description xml:lang="jp">最新書き込みリストウィジェットのデフォルトスキン</description>
     <description xml:lang="zh-CN">主题列表控件的默认皮肤。</description>
     <description xml:lang="en">Default skin of newest article list widget</description>
+    <description xml:lang="zh-TW">最新主題列表預設面版。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>
@@ -17,6 +19,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <colorset>
@@ -25,12 +28,14 @@
             <title xml:lang="jp">デフォルトカラー</title>
             <title xml:lang="zh-CN">默认颜色</title>
             <title xml:lang="en">Default color</title>
+            <title xml:lang="zh-TW">預設顏色</title>
         </color>
         <color name="blue">
             <title xml:lang="ko">푸른계통의 컬러</title>
             <title xml:lang="jp">青系のカラー</title>
             <title xml:lang="zh-CN">蓝色</title>
             <title xml:lang="en">Blue style color</title>
+            <title xml:lang="zh-TW">藍色</title>
         </color>
     </colorset>
 </skin>

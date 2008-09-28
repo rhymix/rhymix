@@ -12,7 +12,7 @@
     $lang->gallery_style = "風格"; 
     $lang->gallery_slide_style = "幻燈片"; 
     $lang->gallery_slide_align = "對齊方式"; 
-    $lang->gallery_slide_center = "居中對齊";
+    $lang->gallery_slide_center = "置中對齊";
     $lang->gallery_slide_left = "靠左對齊";
     $lang->gallery_slide_right = "靠右對齊";
     $lang->gallery_list_style = "全部展開"; 

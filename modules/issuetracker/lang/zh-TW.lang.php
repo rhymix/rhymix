@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  Issuetracker模組語言包
+     * @brief  問題追蹤模組語言包
      **/
 
      $lang->issuetracker = '問題追蹤';

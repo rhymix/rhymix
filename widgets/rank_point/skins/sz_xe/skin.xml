@@ -4,10 +4,12 @@
 	<title xml:lang="jp">Simulz ポイントランキングスキン</title>
 	<title xml:lang="en">Simulz Point Ranking Skin</title>
 	<title xml:lang="zh-CN">Simulz会员积分排行榜皮肤</title>
+	<title xml:lang="zh-TW">Simulz會員積分排行榜面版</title>
 	<description xml:lang="ko">Simulz 포인트 랭킹 스킨입니다.</description>
 	<description xml:lang="jp">Simulz ポイントランキングスキンです。</description>
 	<description xml:lang="en">This is Simulz Point Ranking Skin.</description>
 	<description xml:lang="zh-CN">Simulz样式会员积分排行榜皮肤。</description>
+	<description xml:lang="zh-TW">Simulz樣式會員積分排行榜面版。</description>
 	<version>0.1</version>
 	<date>2007-08-29</date>
 	<link>http://www.zeroboard.com</link>
@@ -17,6 +19,7 @@
 		<name xml:lang="jp">Simulz</name>
 		<name xml:lang="en">Simulz</name>
 		<name xml:lang="zh-CN">Simulz</name>
+		<name xml:lang="zh-TW">Simulz</name>
 	</author>
 
 	<colorset>
@@ -25,60 +28,70 @@
 			<title xml:lang="jp">デフォルト</title>
 			<title xml:lang="en">Default</title>
 			<title xml:lang="zh-CN">默认</title>
+			<title xml:lang="zh-TW">預設</title>
 		</color>
 		<color name="Box_001">
 			<title xml:lang="ko">회색</title>
 			<title xml:lang="jp">灰</title>
 			<title xml:lang="en">Gray</title>
 			<title xml:lang="zh-CN">灰色</title>
+			<title xml:lang="zh-TW">灰色</title>
 		</color>
 		<color name="Box_002">
 			<title xml:lang="ko">연두</title>
 			<title xml:lang="jp">薄緑</title>
 			<title xml:lang="en">Yellowish Green</title>
 			<title xml:lang="zh-CN">淡绿</title>
+			<title xml:lang="zh-TW">淡綠</title>
 		</color>
 		<color name="Box_003">
 			<title xml:lang="ko">분홍</title>
 			<title xml:lang="jp">ピンク</title>
 			<title xml:lang="en">Pink</title>
 			<title xml:lang="zh-CN">粉红</title>
+			<title xml:lang="zh-TW">粉紅</title>
 		</color>
 		<color name="Box_004">
 			<title xml:lang="ko">보라</title>
 			<title xml:lang="jp">紫</title>
 			<title xml:lang="en">Purple</title>
 			<title xml:lang="zh-CN">淡青</title>
+			<title xml:lang="zh-TW">紫色</title>
 		</color>
 		<color name="Box_005">
 			<title xml:lang="ko">밝은 파랑</title>
 			<title xml:lang="jp">水</title>
 			<title xml:lang="en">Bright Blue</title>
 			<title xml:lang="zh-CN">浅蓝</title>
+			<title xml:lang="zh-TW">淺藍</title>
 		</color>
 		<color name="Box_006">
 			<title xml:lang="ko">청록</title>
 			<title xml:lang="jp">青緑</title>
 			<title xml:lang="en">Bluish Green</title>
 			<title xml:lang="zh-CN">青绿</title>
+			<title xml:lang="zh-TW">青綠</title>
 		</color>
 		<color name="Box_007">
 			<title xml:lang="ko">초록</title>
 			<title xml:lang="jp">緑</title>
 			<title xml:lang="en">Green</title>
 			<title xml:lang="zh-CN">草绿</title>
+			<title xml:lang="zh-TW">綠色</title>
 		</color>
 		<color name="Box_008">
 			<title xml:lang="ko">노랑</title>
 			<title xml:lang="jp">黄</title>
 			<title xml:lang="en">Yellow</title>
 			<title xml:lang="zh-CN">黄色</title>
+			<title xml:lang="zh-TW">黃色</title>
 		</color>
 		<color name="Box_009">
 			<title xml:lang="ko">파랑</title>
 			<title xml:lang="jp">青</title>
 			<title xml:lang="en">Blue</title>
 			<title xml:lang="zh-CN">蓝色</title>
+			<title xml:lang="zh-TW">藍色</title>
 		</color>
 	</colorset>
 </skin>

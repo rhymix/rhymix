@@ -5,7 +5,7 @@
      * @brief  正體中文語言包 (包含基本內容)
      **/
 
-    $lang->admin_info = '管理員訊息';
+    $lang->admin_info = '管理員資訊';
     $lang->admin_index = '管理首頁';
 
     $lang->module_category_title = array(

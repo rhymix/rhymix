@@ -2,7 +2,7 @@
     /**
      * @file module/referer/lang/zh-TW.lang.php
      * @author haneul <haneul0318@gmail.com>
-     * @brief Korean language pack
+     * @brief 正體中文語言包
      */
 
     $lang->referer = "用戶來源";

@@ -9,7 +9,7 @@
     $lang->image_alt = "圖片說明";
     $lang->image_scale = "圖片大小";
     $lang->image_align = "對齊方式";
-    $lang->image_align_normal = "佔一個段落";
+    $lang->image_align_normal = "段落";
     $lang->image_align_left = "靠左";
     $lang->image_align_middle = "置中";
     $lang->image_align_right = "靠右";
