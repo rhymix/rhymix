@@ -70,14 +70,13 @@
         'extra_vars' => '延伸變數',
     );
 
-
     $lang->cmd_login = '登入';
     $lang->cmd_logout = '登出';
     $lang->cmd_signup = '新會員註冊';
     $lang->cmd_modify_member_info = '修改會員資料';
     $lang->cmd_modify_member_password = '修改密碼';
     $lang->cmd_view_member_info = '檢視會員資料';
-    $lang->cmd_leave = '退租';
+    $lang->cmd_leave = '退出';
     $lang->cmd_find_member_account = '查詢用戶名/密碼';
 
     $lang->cmd_member_list = '會員目錄';
@@ -124,7 +123,7 @@
     $lang->msg_exists_nick_name = '重複的暱稱，請重新輸入暱稱。';
     $lang->msg_signup_disabled = '無法註冊會員';
     $lang->msg_already_logged = '您是註冊會員。';
-    $lang->msg_not_logged = '您還沒有登入。';
+    $lang->msg_not_logged = '您還沒登入。';
     $lang->msg_insert_group_name = '請輸入群組名稱';
     $lang->msg_check_group = '請選擇群組';
 
