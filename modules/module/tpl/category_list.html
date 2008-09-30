@@ -10,31 +10,12 @@
 </form>
 
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(0,65,45,45)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(0,80,50,55)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(0,65,45,45)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(0,65,45,45)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(0,75,70,70)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(0,65,45,45)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(0,80,60,55)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->category_title}</th>
-        <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_modify}</th>
-        <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col" class="wide"><div>{$lang->category_title}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_modify}</div></th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
 </thead>
 <tbody>
@@ -46,7 +27,7 @@
     <!--@foreach($category_list as $key => $val)-->
     <tr>
         <td>{$val->title}</td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+        <td class="tahoma nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
         <td class="blue"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
         <td class="red"><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>

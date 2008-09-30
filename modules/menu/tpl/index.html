@@ -14,31 +14,12 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,0,65,45)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,0,80,55)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,0,65,45)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(60,0,65,45)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,0,75,70)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,0,90,65)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,0,80,55)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col">{$lang->title}</th>
-        <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col" class="wide"><div>{$lang->title}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
 </thead>
 <tbody>

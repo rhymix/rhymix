@@ -18,9 +18,16 @@ IE7 Only
 h3 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:11px 9px 7px 25px; color:#555555; margin:0; }
 h3 .gray { color:#9d9d9d;}
 
-.adminTable { width:100%;  border-left:1px solid #E3E3E2; border-top:1px solid #E3E3E2; margin-bottom:10px; table-layout:fixed;}
+.adminTable { width:100%;  border-left:1px solid #E3E3E2; border-top:1px solid #E3E3E2; margin-bottom:10px; }
 .adminTable caption { background:url("../images/s_application.gif") no-repeat 3px 5px; padding:6px 5px 4px 22px; text-align:left; border:1px solid #E3E3E2; border-bottom:none; font-weight:bold; background-color:#F9F8F5; color:#5E6266; }
-.adminTable th { overflow:hidden; background-color:#FAF8F4; padding:5px; font-weight:normal; text-align:left; padding-left:10px; color:#606060; border-right:1px solid #E3E3E2; border-bottom:1px solid #E3E3E2; }
+.adminTable th { overflow:hidden; background-color:#FAF8F4; padding:5px; font-weight:normal; text-align:left; color:#606060; border-right:1px solid #E3E3E2; border-bottom:1px solid #E3E3E2; }
+
+.adminTable thead tr th { width:10px; }
+.adminTable thead tr th div { white-space:nowrap; margin:0;}
+.adminTable thead tr th.wide { width:100%; }
+.adminTable thead tr th.half_wide { width:50%; }
+.adminTable tbody tr td { white-space:normal; padding:5px; }
+.adminTable tbody tr td.nowrap { white-space:nowrap !important; }
 
 .adminTable th.button { text-align:right; }
 .adminTable th.centerButton { text-align:center; }
@@ -44,7 +51,7 @@ h3 .gray { color:#9d9d9d;}
 .adminTable th a.green { color:#218E08; }
 
 .adminTable th select { height:20px; }
-.adminTable td { overflow:hidden; background-color:#FFFFFF; padding:5px; font-weight:normal; text-align:left; padding-left:10px; color:#5A5A5A;  border-right:1px solid #E3E3E2; border-bottom:1px solid #E3E3E2;}
+.adminTable td { overflow:hidden; background-color:#FFFFFF; font-weight:normal; text-align:left; color:#5A5A5A;  border-right:1px solid #E3E3E2; border-bottom:1px solid #E3E3E2;}
 
 .adminTable td.tahoma { font-family:tahoma; font-size:7pt; }
 .adminTable td.tahoma a { font-family:tahoma; font-size:7pt; }

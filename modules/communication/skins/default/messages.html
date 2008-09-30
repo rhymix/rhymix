@@ -65,24 +65,19 @@
     <input type="hidden" name="message_type" value="{$message_type}" />
 
         <table cellspacing="0" class="list">
-        <col width="40" />
-        <col width="160" />
-        <col />
-        <col width="80" />
-        <col width="120" />
         <thead>
         <tr>
-            <th scope="col" class="check first-child"><input name="check_all" type="checkbox" onclick="doCheckAll(this, 'fo_message_list');" /></th>
-            <th scope="col" class="user">
+            <th scope="col" class="check first-child"><div><input name="check_all" type="checkbox" onclick="doCheckAll(this, 'fo_message_list');" /></div></th>
+            <th scope="col" class="user"><div>
                 <!--@if($message_type == "S")-->
                     {$lang->receiver}
                 <!--@else-->
                     {$lang->sender}
                 <!--@end-->
-            </th>
-            <th scope="col" class="title">{$lang->title}</th>
-            <th scope="col" class="registDate">{$lang->regdate}</th>
-            <th scope="col" class="checkDate last-child">{$lang->readed_date}</th>
+            </div></th>
+            <th scope="col" class="wide title"><div>{$lang->title}</div></th>
+            <th scope="col" class="registDate"><div>{$lang->regdate}</div></th>
+            <th scope="col" class="checkDate last-child"><div>{$lang->readed_date}</div></th>
         </tr>
         </thead>
 
@@ -104,8 +99,8 @@
                         <span style="font-weight:bold"><a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a></span>
                     <!--@end-->
                 </td>
-                <td class="registDate">{zdate($val->regdate,"Y-m-d")}</td>
-                <td class="checkDate"><!--@if($val->readed=="Y")-->{zdate($val->readed_date,"Y-m-d H:i:s")}<!--@else-->&nbsp;<!--@end--></td>
+                <td class="registDate nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+                <td class="checkDate nowrap"><!--@if($val->readed=="Y")-->{zdate($val->readed_date,"Y-m-d H:i:s")}<!--@else-->&nbsp;<!--@end--></td>
             </tr>
             <!--@end-->
         </tbody>

@@ -13,69 +13,15 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="110" />
-<col width="60" />
-<col width="95" />
-<col width="45" />
-
-<!--@else if($lang_type == 'en')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="100" />
-<col width="80" />
-<col width="80" />
-<col width="50" />
-
-<!--@else if($lang_type == 'zh-CN')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="110" />
-<col width="60" />
-<col width="95" />
-<col width="45" />
-
-<!--@else if($lang_type == 'jp')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="110" />
-<col width="60" />
-<col width="95" />
-<col width="45" />
-
-<!--@else if($lang_type == 'es')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="130" />
-<col width="90" />
-<col width="75" />
-<col width="40" />
-
-<!--@else if($lang_type == 'ru')-->
-<col width="50" />
-<col width="40" />
-<col />
-<col width="90" />
-<col width="85" />
-<col width="90" />
-<col width="95" />
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-        <th scope="col">{$lang->title}</th>
-        <th scope="col">{$lang->poll_checkcount}</th>
-        <th scope="col">{$lang->poll_join_count}</th>
-        <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_view}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col" class="wide"><div>{$lang->title}</div></th>
+        <th scope="col"><div>{$lang->poll_checkcount}</div></th>
+        <th scope="col"><div>{$lang->poll_join_count}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_view}</div></th>
     </tr>
 </thead>
 <tbody>

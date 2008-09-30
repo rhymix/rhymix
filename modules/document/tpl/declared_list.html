@@ -13,35 +13,16 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,40,0,150,55,55,55,65)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,40,0,150,60,55,55,75)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,40,0,150,45,45,45,65)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,40,0,150,55,55,55,75)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,40,0,150,55,55,110,75)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,40,0,150,75,50,60,65)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,40,0,150,65,45,105,75)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-        <th scope="col">{$lang->title}</th>
-        <th scope="col">{$lang->user_name}</th>
-        <th scope="col">{$lang->cmd_declare}</th>
-        <th scope="col">{$lang->readed_count}</th>
-        <th scope="col">{$lang->voted_count}</th>
-        <th scope="col">{$lang->date}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col" class="wide"><div>{$lang->title}</div></th>
+        <th scope="col"><div>{$lang->user_name}</div></th>
+        <th scope="col"><div>{$lang->cmd_declare}</div></th>
+        <th scope="col"><div>{$lang->readed_count}</div></th>
+        <th scope="col"><div>{$lang->voted_count}</div></th>
+        <th scope="col"><div>{$lang->date}</div></th>
     </tr>
 </thead>
 <tbody>

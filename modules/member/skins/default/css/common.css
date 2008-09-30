@@ -24,16 +24,23 @@
 .boardHeader .essential:first-letter { color:#ff0000;}
 
 /* list */
-.list { width:100%; border:1px solid #e0e1db; table-layout:fixed;}
+.list { width:100%; border:1px solid #e0e1db; }
+
+.list thead tr th { width:10px; padding:8px !important; }
+.list thead tr th div { white-space:nowrap; margin:0;}
+.list thead tr th.wide { width:100%; }
+.list thead tr th.half_wide { width:50%; }
+.list tbody tr td { white-space:normal; padding:5px; }
+.list tbody tr td.nowrap { white-space:nowrap !important; }
+
 .list tr:first-child td, .list tr.first-child td { border-top:1px solid #e0e1db; white-space:nowrap;}
 .list tr.bg1 { background:#ffffff}
 .list tr.bg2 { background:#fbfbfb;}
-.list th { color:#3e3f3e; font-weight:white; border-bottom:1px solid #ffffff;  padding:.5em .2em .5em .2em; background:#ffffff url(../images/common/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
+.list th { color:#3e3f3e; font-weight:white; border-bottom:1px solid #ffffff;  background:#ffffff url(../images/common/lineBoardListTh.gif) no-repeat left bottom; white-space:nowrap;}
 .list th a { color:#3e3f3e;}
 .list th:first-child, .list th.first-child { background-position:-3px bottom; border-left:1px solid #ffffff;}
-.list th.check { padding:0;}
 .list th select, .list th input { vertical-align:middle;}
-.list td { border-top:1px solid #eff0ed; padding:.5em; text-align:center; height:35px;}
+.list td { border-top:1px solid #eff0ed; }
 .list td.registDate { font:.8em Tahoma; color:#999999; text-align:center;}
 .list td.num { font:.8em Tahoma; color:#999999; text-align:center;}
 .list td.check { text-align:center;}

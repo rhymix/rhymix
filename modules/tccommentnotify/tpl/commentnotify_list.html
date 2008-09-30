@@ -14,19 +14,14 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-{@ $col_width = array(40,85, 150,65,0,45)}
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-        <th scope="col">등록일자</th>
-        <th scope="col">사이트명</th>
-        <th scope="col">이름</th>
-        <th scope="col">내용</th>
-        <th scope="col">삭제</th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col"><div>등록일자</div></th>
+        <th scope="col"><div>사이트명</div></th>
+        <th scope="col"><div>이름</div></th>
+        <th scope="col" class="wide"><div>내용</div></th>
+        <th scope="col"><div>삭제</div></th>
     </tr>
 </thead>
 <tbody>

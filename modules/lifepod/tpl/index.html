@@ -7,47 +7,30 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,130,0,65,45,45)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,130,0,80,50,55)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,130,0,70,45,45)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,130,0,65,45,45)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,130,0,80,40,70)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,130,0,90,95,70)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,130,0,75,40,50)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
         <th scope="col">
-            <form action="./" method="get" onsubmit="return doChangeCategory(this);">
-                <input type="hidden" name="module" value="{$module}" />
-                <input type="hidden" name="act" value="{$act}" />
-                <select name="module_category_srl" class="w80">
-                    <option value="">{$lang->module_category}</option>
-                    <!--@foreach($module_category as $key => $val)-->
-                    <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-                    <!--@end-->
-                    <option value="">---------</option>
-                    <option value="-1">{$lang->cmd_management}</option>
-                </select>
-                <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
-            </form>
+            <div>
+                <form action="./" method="get" onsubmit="return doChangeCategory(this);">
+                    <input type="hidden" name="module" value="{$module}" />
+                    <input type="hidden" name="act" value="{$act}" />
+                    <select name="module_category_srl" class="w120">
+                        <option value="">{$lang->module_category}</option>
+                        <!--@foreach($module_category as $key => $val)-->
+                        <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                        <!--@end-->
+                        <option value="">---------</option>
+                        <option value="-1">{$lang->cmd_management}</option>
+                    </select>
+                    <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
+                </form>
+            </div>
         </th>
-        <th scope="col">{$lang->mid} / {$lang->browser_title}</th>
-        <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_view}</th>
-        <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col" class="wide"><div>{$lang->mid} / {$lang->browser_title}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_view}</div></th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
 </thead>
 <tbody>

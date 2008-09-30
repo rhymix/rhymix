@@ -5,39 +5,20 @@
 <!-- 목록 -->
 <form method="get" action="./" id="member_fo">
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,45,0,0,0,105)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,55,0,160,0,110)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,45,0,0,0,110)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,45,0,0,0,110)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,70,0,0,0,110)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,45,0,0,0,110)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,70,0,0,0,130)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col" rowspan="2">{$lang->no}</th>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;"/></th>
-        <th scope="col">{$lang->user_id}</th>
-        <th scope="col">{$lang->user_name}</th>
-        <th scope="col">{$lang->nick_name}</th>
-        <th scope="col">{$lang->signup_date}</th>
+        <th scope="col" rowspan="2"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;"/></div></th>
+        <th scope="col"><div>{$lang->user_id}</div></th>
+        <th scope="col"><div>{$lang->user_name}</div></th>
+        <th scope="col"><div>{$lang->nick_name}</div></th>
+        <th scope="col"><div>{$lang->signup_date}</div></th>
     </tr>
     <tr>
-        <th scope="col">{$lang->cmd_delete}</th>
-        <th scope="col" colspan="2">{$lang->group}</th>
-        <th scope="col">{$lang->homepage}, {$lang->blog}</th>
-        <th scope="col">{$lang->last_login}</th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
+        <th scope="col" class="wide" colspan="2"><div>{$lang->group}</div></th>
+        <th scope="col"><div>{$lang->homepage}, {$lang->blog}</div></th>
+        <th scope="col"><div>{$lang->last_login}</div></th>
     </tr>
 </thead>
 <tbody>
