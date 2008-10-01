@@ -176,7 +176,8 @@
 			<description xml:lang="en">You can set the number of images to display. (5 as default)</description>
 			<description xml:lang="es">Usted puede definir el número de imágenes a mostrar. (predefinido: 5 )</description>
 			<description xml:lang="ru">Вы можете установить число изображений для показа. (стандарт: 5)</description>
-			<description xml:lang="zh-TW">指定要顯示的縱向圖片數。(預設是1個)</description></var>
+			<description xml:lang="zh-TW">指定要顯示的縱向圖片數。(預設是1個)</description>
+		</var>
 		<var id="display_author">
 			<type>select</type>
 			<name xml:lang="ko">글쓴이 표시</name>

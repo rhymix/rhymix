@@ -12,15 +12,13 @@
 - 官方网址 : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
 - 原作者 : zero (zero@zeroboard.com, http://www.zeroboard.com)
 
-zeroboard xe遵循 通用公共许可证(GNU General Public License) 开发，任何人都可以永久免费安装使用。
+zeroboard xe是基于通用公共许可证(GNU General Public License)下的自由软件。
+但程序所用到的皮肤等设计要素，将遵循设计者自定的许可协议。
+原文与翻译有差异时，以原文为准。
 
-<b>gnu通用公共许可证</b> -  翻译文
-1991．6第二版
-
-版权所有(c)1989，1991 free software foundation, inc．
-
-675 mass ave， cambridge,mao2139， usa
-
+<b>GNU通用公共许可证</b> -  翻译文
+1991年6月，第二版
+Copyright (C) 1989, 1991 Free Software Foundation, Inc.  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
 允许每个人复制和发布这一许可证原始文档的副本，但绝对不允许对它进行任何修改。
 
 序言

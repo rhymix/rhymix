@@ -13,7 +13,8 @@
 	<description xml:lang="en">This widget displays newest articles with webzine style.</description>
 	<description xml:lang="es">Este widget muestra más reciente de artículos con webzine estilo.</description>
 	<description xml:lang="ru">Этот виджет отображает последние статьи в стиле webzine.</description>
-	<description xml:lang="zh-TW">以雜誌類型顯示最新主題。</description><version>0.1</version>
+	<description xml:lang="zh-TW">以雜誌類型顯示最新主題。</description>
+	<version>0.1</version>
 	<date>2007-02-28</date>
 
 	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
@@ -41,7 +42,8 @@
 			<description xml:lang="en">It will be the title of the newest articles.</description>
 			<description xml:lang="es">Este será el título de los documentos recientes.</description>
 			<description xml:lang="ru">Это будет заголовком последних статей.</description>
-			<description xml:lang="zh-TW">顯示最新主題的標題。</description></var>
+			<description xml:lang="zh-TW">顯示最新主題的標題。</description>
+		</var>
 		<var id="order_target">
 			<type>select</type>
 			<name xml:lang="ko">정렬 대상</name>
@@ -57,7 +59,8 @@
 			<description xml:lang="en">The list of newewst articles may be sorted by submitted order or modified order.</description>
 			<description xml:lang="es">La lista de los documentos recientes pueden ser ordenados en el orden del agregado o en el de modificados.</description>
 			<description xml:lang="ru">Список последних статей может быть отсортирован по дате размещения или изменения.</description>
-			<description xml:lang="zh-TW">按照指定順序進行排列。</description><options>
+			<description xml:lang="zh-TW">按照指定順序進行排列。</description>
+			<options>
 				<value>list_order</value>
 				<name xml:lang="ko">최신 등록순</name>
 				<name xml:lang="zh-CN">最新发表顺</name>
@@ -93,7 +96,8 @@
 			<description xml:lang="en">You can sort target articles by asending or desending order.</description>
 			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
 			<description xml:lang="ru">Вы можете сортировать статьи в порядке возрастания или убывания.</description>
-			<description xml:lang="zh-TW">可選擇升冪/降冪的方式對所選目標進行排列。</description><options>
+			<description xml:lang="zh-TW">可選擇升冪/降冪的方式對所選目標進行排列。</description>
+			<options>
 				<value>desc</value>
 				<name xml:lang="ko">내림차순</name>
 				<name xml:lang="zh-CN">降序</name>
@@ -129,7 +133,8 @@
 			<description xml:lang="en">You may set the duration for indication of new item for newest article. (unit is hour)</description>
 			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
 			<description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
-			<description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description></var>
+			<description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
+		</var>
 		<var id="subject_cut_size">
 			<type>text</type>
 			<name xml:lang="ko">제목 글자수</name>

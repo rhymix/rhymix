@@ -6,6 +6,7 @@
     <title xml:lang="zh-TW">顯示線上會員</title>
     <description xml:lang="ko">로그인 사용자를 출력하는 위젯입니다.</description>
     <description xml:lang="en">This widget displays on-line members.</description>
+    <description xml:lang="zh-CN">显示在线会员列表的控件。</description>
     <description xml:lang="zh-TW">顯示線上會員的控件。</description>
     <version>0.1</version>
     <date>2008-06-18</date>

@@ -13,7 +13,8 @@
     <description xml:lang="en">It can add an image to editor or change the attribution of image.</description>
     <description xml:lang="es">Se puede añadir una imagen a editor o cambiar la atribución de la imagen.</description>
     <description xml:lang="ru">Это может добавить изображение в редактор или изменить параметры изображения.</description>
-    <description xml:lang="zh-TW">可以新增或編輯其相關屬性。</description><version>0.1</version>
+    <description xml:lang="zh-TW">可以新增或編輯其相關屬性。</description>
+    <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://zeroboard.com</link>
 
