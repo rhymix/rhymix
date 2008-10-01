@@ -162,7 +162,7 @@
                 if($this->get_vars) {
                     foreach($this->get_vars as $key => $val) {
                         if(!$val) continue;
-                        $url .= ($url?'&':'').$key.'='.$val;
+                        $url .= ($url?'&':'').$key.'='.urlencode($val);
                     }
                     Context::set('current_url',sprintf('%s?%s', $this->getRequestUri(), $url));
                 } else {
