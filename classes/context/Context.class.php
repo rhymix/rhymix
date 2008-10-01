@@ -152,7 +152,7 @@
             $this->addJsFile("./common/js/xml_handler.js");
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
-            $this->addCSSFile("./common/css/button.css");
+            $this->addCSSFile("./common/css/button.css",false);
 
             // 관리자 페이지일 경우 관리자 공용 CSS 추가
             if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
@@ -849,8 +849,27 @@
          **/
         function _addJsFile($file, $optimized, $targetie) {
             if(in_array($file, $this->js_files)) return;
-            //if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = array('file' => $file, 'optimized' => $optimized, 'targetie' => $targetie);
+        }
+
+        /**
+         * @brief js file을 제거
+         **/
+        function unloadJsFile($file, $optimized = true, $targetie = '') {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadJsFile($file, $optimized, $targetie);
+        }
+
+        /**
+         * @brief js file을 제거
+         **/
+        function _unloadJsFile($file, $optimized, $targetie) {
+            foreach($this->js_files as $key => $val) {
+                if(realpath($val['file'])==realpath($file) && $val['optimized'] == $optimized && $val['targetie'] == $targetie) {
+                    unset($this->js_files[$key]);
+                    return;
+                }
+            }
         }
 
         /**
@@ -901,6 +920,26 @@
 
             //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = array('file' => $file, 'optimized' => $optimized, 'media' => $media, 'targetie' => $targetie);
+        }
+
+        /**
+         * @brief css file을 제거
+         **/
+        function unloadCSSFile($file, $optimized = true, $media = 'all', $targetie = '') {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadCSSFile($file, $optimized, $media, $targetie);
+        }
+
+        /**
+         * @brief css file을 제거
+         **/
+        function _unloadCSSFile($file, $optimized, $media, $targetie) {
+            foreach($this->css_files as $key => $val) {
+                if(realpath($val['file'])==realpath($file) && $val['optimized'] == $optimized && $val['media'] == $media && $val['targetie'] == $targetie) {
+                    unset($this->css_files[$key]);
+                    return;
+                }
+            }
         }
 
         /**
