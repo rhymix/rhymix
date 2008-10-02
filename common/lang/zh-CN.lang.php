@@ -172,20 +172,20 @@
     $lang->unit_year = '年';
 
     $lang->unit_week = array(
-        'Monday' => 'Monday',
-        'Tuesday' => 'Tuesday',
-        'Wednesday' => 'Wednesday',
-        'Thursday' => 'Thursday',
-        'Friday' => 'Friday',
-        'Saturday' => 'Saturday',
-        'Sunday' => 'Sunday',
+        'Monday' => '星期一',
+        'Tuesday' => '星期二',
+        'Wednesday' => '星期三',
+        'Thursday' => '星期四',
+        'Friday' => '星期五',
+        'Saturday' => '星期六',
+        'Sunday' => '星期日',
     );
 
     $lang->unit_meridiem = array(
-        'am' => 'am',
-        'pm' => 'pm',
-        'AM' => 'AM',
-        'PM' => 'PM',
+        'am' => '上午',
+        'pm' => '下午',
+        'AM' => '上午',
+        'PM' => '下午',
     );
 
     // 说明
