@@ -181,6 +181,13 @@
         'Sunday' => 'Sunday',
     );
 
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
     // 説明関連 
     $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録できます。';
     $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';

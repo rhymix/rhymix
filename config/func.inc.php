@@ -328,9 +328,12 @@
             $string = date($format, ztime($str));
         }
 
-        // 요일, 월을 각 언어에 맞게 변경
+        // 요일, am/pm을 각 언어에 맞게 변경
         $unit_week = Context::getLang('unit_week');
-        return str_replace(array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'),$unit_week, $string);
+        $unit_meridiem = Context::getLang('unit_meridiem');
+        $string = str_replace(array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'),$unit_week, $string);
+        $string = str_replace(array('am','pm','AM','PM'), $unit_meridiem, $string);
+        return $string;
     }
 
     /**

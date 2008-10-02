@@ -181,6 +181,13 @@
         'Sunday' => 'Sunday',
     );
 
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
     // 說明
     $lang->about_tag = '用逗號分隔多個標籤';
     $lang->about_layout = '佈局是佈置模組的外觀，在頂端佈局選單中，可以進行管理';

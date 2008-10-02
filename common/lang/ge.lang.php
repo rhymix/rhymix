@@ -181,6 +181,13 @@
         'Sunday' => 'Sunday',
     );
 
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
     // Beschreibungen
     $lang->about_tag = 'Sie können mehrere Tags, indem Sie ein Komma (,) zwischen den einzelnen Tag';
     $lang->about_layout = 'Layouts schmücken das Aussehen Ihrer Module. Sie können sie von Layout-Menü am oberen Rand ';

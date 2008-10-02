@@ -181,6 +181,13 @@
         'Sunday' => 'Sunday',
     );
 
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
     // Descriptions et information
     $lang->about_tag = 'Vous pouvez enrégistrer plusieurs balises en utilisant ,(virgule) entre chaque balise';
     $lang->about_layout = 'Le Mise en Page décore l\'apparence des modules. Vous pouvez les configurer avec le menu de Mise en Page en haut';

@@ -180,6 +180,13 @@
         'Sunday' => 'Sunday',
     );
 
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
     // Relacionado a la Descripción 
     $lang->about_tag = 'Tú puedes agregar múltiples etiquetas colocando una coma(,) entre cada etiqueta';
     $lang->about_layout = 'El diseño decora la apariencia de tus módulos, lo cual podrás configurar en el menú de Diseño en la parte                           superior';
