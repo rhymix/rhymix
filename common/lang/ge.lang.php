@@ -171,6 +171,16 @@
     $lang->unit_month = 'Monat';
     $lang->unit_year = 'Jahr';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
     // Beschreibungen
     $lang->about_tag = 'Sie können mehrere Tags, indem Sie ein Komma (,) zwischen den einzelnen Tag';
     $lang->about_layout = 'Layouts schmücken das Aussehen Ihrer Module. Sie können sie von Layout-Menü am oberen Rand ';

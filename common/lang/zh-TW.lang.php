@@ -171,6 +171,16 @@
     $lang->unit_month = '月';
     $lang->unit_year = '年';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
     // 說明
     $lang->about_tag = '用逗號分隔多個標籤';
     $lang->about_layout = '佈局是佈置模組的外觀，在頂端佈局選單中，可以進行管理';

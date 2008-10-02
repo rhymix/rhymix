@@ -171,6 +171,16 @@
     $lang->unit_month = '月';
     $lang->unit_year = '年';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
     // 説明関連 
     $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録できます。';
     $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';

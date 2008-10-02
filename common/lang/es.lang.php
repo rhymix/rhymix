@@ -170,6 +170,16 @@
     $lang->unit_month = 'mes';
     $lang->unit_year = 'año';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
     // Relacionado a la Descripción 
     $lang->about_tag = 'Tú puedes agregar múltiples etiquetas colocando una coma(,) entre cada etiqueta';
     $lang->about_layout = 'El diseño decora la apariencia de tus módulos, lo cual podrás configurar en el menú de Diseño en la parte                           superior';

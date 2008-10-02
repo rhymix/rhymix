@@ -171,6 +171,16 @@
     $lang->unit_month = '월';
     $lang->unit_year = '년';
 
+    $lang->unit_week = array(
+        'Monday' => '월',
+        'Tuesday' => '화',
+        'Wednesday' => '수',
+        'Thursday' => '목',
+        'Friday' => '금',
+        'Saturday' => '토',
+        'Sunday' => '일',
+    );
+
     // 설명 관련 
     $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
     $lang->about_layout = '레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다';

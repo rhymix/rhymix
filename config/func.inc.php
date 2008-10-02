@@ -318,15 +318,19 @@
             $year = (int)substr($str,0,4);
             $month = (int)substr($str,4,2);
             $day = (int)substr($str,6,2);
-            return str_replace(
+            $string = str_replace(
                         array('Y','m','d','H','h','i','s','a','M', 'F'),
                         array($year,$month,$day,$hour,$hour/12,$min,$sec,($hour <= 12) ? 'am' : 'pm',getMonthName($month), getMonthName($month,false)),
                         $format
                     );
+        } else {
+            // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
+            $string = date($format, ztime($str));
         }
 
-        // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
-        return date($format, ztime($str));
+        // 요일, 월을 각 언어에 맞게 변경
+        $unit_week = Context::getLang('unit_week');
+        return str_replace(array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'),$unit_week, $string);
     }
 
     /**

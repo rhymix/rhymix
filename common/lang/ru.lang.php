@@ -171,6 +171,16 @@
     $lang->unit_month = 'мес.';
     $lang->unit_year = 'г.';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
     // Описания
     $lang->about_tag = 'Вы можете применить несколько тегов, разделенных запятыми (,)';
     $lang->about_layout = 'Лейауты украшают внешний вид Ваших модулей. Вы можете сконфигирировать их с помощью меню Лейаут сверху';
