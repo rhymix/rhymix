@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">커뮤니케이션</title>
-    <title xml:lang="jp">커뮤니케이션</title>
+    <title xml:lang="jp">コミュニケーション</title>
     <title xml:lang="zh-CN">会员交流</title>
     <title xml:lang="en">Communication</title>
     <title xml:lang="ge">커뮤니케이션</title>
@@ -13,8 +13,8 @@
         쪽지, 친구기능등을 사용하기 위해서는 이 애드온을 사용으로 해주시면 됩니다.
     </description>
     <description xml:lang="jp">
-        커뮤니케이션 모듈의 기능을 활성화 시켜 쪽지나 친구기능을 사용할 수 있도록 해줍니다.
-        쪽지, 친구기능등을 사용하기 위해서는 이 애드온을 사용으로 해주시면 됩니다.
+        コミュニケーションモジュールを活性化して、メッセージや友達機能を使えるようにします。
+        メッセージ・友達機能を使うにはこのアドオンを「使用」にして下さい。
     </description>
     <description xml:lang="zh-CN">
         此插件可激活短信箱及添加好友功能。

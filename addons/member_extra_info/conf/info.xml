@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">회원 확장 정보 출력</title>
-    <title xml:lang="jp">회원 확장 정보 출력</title>
+    <title xml:lang="jp">拡張会員情報表示</title>
     <title xml:lang="zh-CN">用户扩展信息</title>
     <title xml:lang="en">Extra Member Info</title>
     <title xml:lang="ge">회원 확장 정보 출력</title>
@@ -12,7 +12,7 @@
         회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
     </description>
     <description xml:lang="jp">
-        회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
+        会員が登録したイメージを使ったお名前、イメージマークを使うためにはこのアドオンを活性化して下さい。
     </description>
     <description xml:lang="zh-CN">
         此插件将把用户信息中的昵称图片，用户图标，签名等信息显示到页面当中。
