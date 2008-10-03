@@ -11,7 +11,7 @@
     $lang->allow_message = '允許接收短訊息';
     $lang->allow_message_type = array(
              'Y' => '全部接收',
-             'N' => '拒收',
+             'N' => '全部拒收',
              'F' => '只允許好友',
         );
 

@@ -13,7 +13,7 @@
     $lang->cmd_edit = '編輯';
     $lang->cmd_view = '檢視';
     $lang->cmd_view_all = '全部檢視';
-    $lang->cmd_list = '目錄';
+    $lang->cmd_list = '列表';
     $lang->cmd_prev = '上一頁';
     $lang->cmd_next = '下一頁';
     $lang->cmd_send_trackback = '發送引用';
@@ -28,9 +28,9 @@
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推薦';
     $lang->cmd_vote_down = '反對';
-    $lang->cmd_declare = '舉報';
-    $lang->cmd_cancel_declare = '取消舉報';
-    $lang->cmd_declared_list = '舉報目錄';
+    $lang->cmd_declare = '檢舉';
+    $lang->cmd_cancel_declare = '取消檢舉';
+    $lang->cmd_declared_list = '檢舉列表';
     $lang->cmd_copy = '複製';
     $lang->cmd_move = '移動';
     $lang->cmd_move_up = '向上';
@@ -57,11 +57,11 @@
     $lang->cmd_print = '列印';
     $lang->cmd_scrap = '收藏';
     $lang->cmd_preview = '預覽';
-    $lang->cmd_reset = '初始化';
+    $lang->cmd_reset = '重新設定';
     $lang->cmd_remake_cache = "重新建立暫存檔";
     $lang->cmd_publish = "發表";
-    $lang->cmd_layout_setup = '佈局設置';
-    $lang->cmd_layout_edit = '編輯佈局';
+    $lang->cmd_layout_setup = '排版設置';
+    $lang->cmd_layout_edit = '排版編輯';
     $lang->cmd_search_by_ipaddress = '以IP地址搜尋';
     $lang->cmd_add_ip_to_spamfilter = '新增 IP至垃圾過濾器';
 
@@ -75,7 +75,7 @@
     $lang->category = $lang->category_srl = '分類';
     $lang->none_category = '無分類';
     $lang->document_srl = '文章編號';
-    $lang->user_id = '用戶名';
+    $lang->user_id = '用戶名稱';
     $lang->author = '作者';
     $lang->password = '密碼';
     $lang->password1 = '密碼';
@@ -118,7 +118,7 @@
     $lang->order_desc = '降冪';
 
     $lang->mid = '模組名稱';
-    $lang->layout = '佈局';
+    $lang->layout = '排版';
     $lang->widget = '控件 ';
     $lang->module = '模組';
     $lang->skin = '面版';
@@ -132,8 +132,8 @@
 
     $lang->document_count = '文章數';
     $lang->page_count = '頁數';
-    $lang->list_count = '目錄數';
-    $lang->search_list_count = '搜尋目錄數';
+    $lang->list_count = '列表數';
+    $lang->search_list_count = '搜尋列表數';
     $lang->readed_count = '檢視';
     $lang->voted_count = '推薦';
     $lang->comment_count = '評論';
@@ -154,7 +154,7 @@
 
     $lang->board_manager = '討論版管理';
     $lang->member_manager = '會員管理';
-    $lang->layout_manager = '佈局管理';
+    $lang->layout_manager = '排版管理';
 
     $lang->use = '使用';
     $lang->notuse = '未使用';
@@ -172,13 +172,13 @@
     $lang->unit_year = '年';
 
     $lang->unit_week = array(
-        'Monday' => 'Monday',
-        'Tuesday' => 'Tuesday',
-        'Wednesday' => 'Wednesday',
-        'Thursday' => 'Thursday',
-        'Friday' => 'Friday',
-        'Saturday' => 'Saturday',
-        'Sunday' => 'Sunday',
+        'Monday' => '星期一',
+        'Tuesday' => '星期二',
+        'Wednesday' => '星期三',
+        'Thursday' => '星期四',
+        'Friday' => '星期五',
+        'Saturday' => '禮拜六',
+        'Sunday' => '星期日',
     );
 
     $lang->unit_meridiem = array(
@@ -190,7 +190,7 @@
 
     // 說明
     $lang->about_tag = '用逗號分隔多個標籤';
-    $lang->about_layout = '佈局是佈置模組的外觀，在頂端佈局選單中，可以進行管理';
+    $lang->about_layout = '排版是佈置模組的外觀，在頂端排版選單中，可以進行管理';
 
     // 訊息
     $lang->msg_call_server = '系統正在連結服務器，請稍後。';
@@ -198,19 +198,19 @@
     $lang->msg_invalid_queryid = 'Query ID值指定錯誤';
     $lang->msg_not_permitted = '沒有權限';
     $lang->msg_input_password = '請輸入密碼';
-    $lang->msg_invalid_document = '出錯的文章編號';
-    $lang->msg_invalid_request = '出錯的請求';
+    $lang->msg_invalid_document = '錯誤的文章編號';
+    $lang->msg_invalid_request = '錯誤的請求';
     $lang->msg_invalid_password = '密碼錯誤';
     $lang->msg_error_occured = '發生錯誤';
     $lang->msg_not_founded = '找不到相關內容';
-    $lang->msg_no_result = '沒有和您查詢的相符結果';
+    $lang->msg_no_result = '找不到與您查詢的相符結果';
 
     $lang->msg_not_permitted_act = '沒有權限執行 action命令';
     $lang->msg_module_is_not_exists = '找不到您查詢的模組';
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
 
     $lang->success_registed = '提交成功！';
-    $lang->success_declared = '舉報成功！';
+    $lang->success_declared = '檢舉成功！';
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '刪除成功！';
     $lang->success_voted = '推薦成功！';
@@ -225,8 +225,8 @@
     $lang->fail_to_move = '移動成功！';
 	
     $lang->failed_voted = '您不能推薦！';
-    $lang->failed_blamed = '您不能投反對！';
-    $lang->failed_declared = '您不具備舉報權限！';
+    $lang->failed_blamed = '您不能反對！';
+    $lang->failed_declared = '您沒有檢舉權限！';
     $lang->fail_to_delete_have_children = '不能刪除有回覆的評論！';
 
     $lang->confirm_submit = '確定要提交嗎?';
@@ -244,17 +244,17 @@
     $lang->column_type_list['tel'] = '電話號碼格式 (phone)';
     $lang->column_type_list['textarea'] = '文字輸入區塊 (textarea)';
     $lang->column_type_list['checkbox'] = '復選框 (checkbox)';
-    $lang->column_type_list['select'] = '下拉式列表 (select)';
+    $lang->column_type_list['select'] = '下拉式選單 (select)';
     $lang->column_type_list['kr_zip'] = '韓國郵編(zip)';
     $lang->column_type_list['date'] = '日期 (年月日)';
     //$lang->column_type_list['jp_zip'] = '日本地址 (zip)';
-    $lang->column_name = '項目名';
+    $lang->column_name = '項目名稱';
     $lang->column_title = '項目標題';
     $lang->default_value = '預設值';
     $lang->is_active = '啟動';
     $lang->is_required = '必填';
 
-    // 關於 ftp
+    // 關於 FTP
     $lang->ftp_form_title = '輸入 FTP資訊';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
@@ -268,7 +268,7 @@
     ";
 
     $lang->msg_safe_mode_ftp_needed = "當 PHP的safe_mode=On 時，請輸入相關 FTP資訊，否則無法正常安裝或使用XE程式。";
-    $lang->msg_ftp_not_connected = "本地(localhost)FTP連線錯誤。請確認 ftp埠口或確認是否支援 ftp功能。";
+    $lang->msg_ftp_not_connected = "本地(localhost)FTP連線錯誤。請確認 FTP prot或確認是否支援 FTP功能。";
     $lang->msg_ftp_invalid_auth_info = "FTP登入失敗。請確認輸入的 FTP資訊。";
     $lang->msg_ftp_mkdir_fail = "新增資料夾失敗。請確認 FTP主機設置。";
     $lang->msg_ftp_chmod_fail = "修改資料夾權限失敗。請確認 FTP主機設置。";

@@ -5,13 +5,13 @@
 	<title xml:lang="jp">zbXE ゲストブックのデフォルトスキン</title>
 	<title xml:lang="en">zbXE Basic Guestbook Skin</title>
 	<title xml:lang="es">Zeroboard XE básicos piel Libro de visitas</title>
-	<title xml:lang="zh-TW">zbXE 留言版預設面版</title>
+	<title xml:lang="zh-TW">zbXE 基本留言版面版</title>
 	<description xml:lang="ko">board모듈의 기본 방명록 스킨</description>
 	<description xml:lang="zh-CN">留言本模块的默认皮肤。</description>
 	<description xml:lang="jp">ボード（board）モジュールのデフォルトスキンです。</description>
 	<description xml:lang="en">This is the basic guestbook skin of Zeroboard XE.</description>
 	<description xml:lang="es">Este es el libro de visitas de la piel Zeroboard XE.</description>
-	<description xml:lang="zh-TW">留言版模組的預設面版。</description>
+	<description xml:lang="zh-TW">留言版模組的基本面版。</description>
 	<version>0.1</version>
 	<date>2008-02-28</date>
 	<link>http://www.zeroboard.com</link>

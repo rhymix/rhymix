@@ -26,7 +26,7 @@
     $lang->group = '用戶組';
     $lang->group_title = '用戶組標題';
     $lang->group_srl = '用戶組編號';
-    $lang->signature = '簽名';
+    $lang->signature = '簽名檔';
     $lang->profile_image = '簽名圖片';
     $lang->profile_image_max_width = '寬度限制';
     $lang->profile_image_max_height = '高度限制';

@@ -5,8 +5,8 @@
      * @brief  正體中文語言包
      **/
 
-    $lang->module_list = "模組目錄";
-    $lang->module_index = "模組目錄";
+    $lang->module_list = "模組列表";
+    $lang->module_index = "模組列表";
     $lang->module_category = "模組分類";
     $lang->module_info = "模組資料";
     $lang->add_shortcut = "新增到快捷選單";
@@ -18,7 +18,7 @@
     $lang->header_text = '頂端內容';
     $lang->footer_text = '底端內容';
     $lang->use_category = '使用分類';
-    $lang->category_title = '分類名';
+    $lang->category_title = '分類名稱';
     $lang->checked_count = '被選擇的主題數';
     $lang->skin_default_info = '面版預設資料';
     $lang->skin_author = '面版作者';

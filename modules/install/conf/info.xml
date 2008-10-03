@@ -13,7 +13,7 @@
     <description xml:lang="jp">インストール管理モジュール</description>
     <description xml:lang="es">Módulo para el manejo de la instalación</description>
     <description xml:lang="ru">Модуль для управления установкой</description>
-    <description xml:lang="zh-TW">安裝管理模組。</description>
+    <description xml:lang="zh-TW">安裝管理模組</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>base</category>

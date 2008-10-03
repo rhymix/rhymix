@@ -129,7 +129,7 @@
                 Alinear Meta para el foro estilo es necesaria para ser seleccionado como 'actualización'.
             </description>
             <description xml:lang="zh-TW">
-                可選擇目錄型、網路雜誌型，相簿型或論壇型當作討論版預設形式
+                可選擇列表型、網路雜誌型，相簿型或論壇型當作討論版預設形式
                 當使用論壇型的時候，請把排列目標設定成 updated。
             </description>
             <options value="list">
@@ -138,7 +138,7 @@
                 <title xml:lang="jp">リスト</title>
                 <title xml:lang="zh-CN">目录型</title>
                 <title xml:lang="es">list</title>
-                <title xml:lang="zh-TW">目錄</title>
+                <title xml:lang="zh-TW">列表型</title>
             </options>
             <options value="webzine">
                 <title xml:lang="ko">웹진</title>
@@ -146,7 +146,7 @@
                 <title xml:lang="jp">ウェブジン(webzine)</title>
                 <title xml:lang="zh-CN">新闻型</title>
                 <title xml:lang="es">webzine</title>
-                <title xml:lang="zh-TW">雜誌</title>
+                <title xml:lang="zh-TW">雜誌型</title>
             </options>
             <options value="gallery">
                 <title xml:lang="ko">갤러리</title>
@@ -154,7 +154,7 @@
                 <title xml:lang="jp">ギャラリー</title>
                 <title xml:lang="zh-CN">相册型</title>
                 <title xml:lang="es">gallery</title>
-                <title xml:lang="zh-TW">相簿</title>
+                <title xml:lang="zh-TW">相簿型</title>
             </options>
             <options value="forum">
                 <title xml:lang="ko">포럼</title>
@@ -162,7 +162,7 @@
                 <title xml:lang="jp">フォラム</title>
                 <title xml:lang="zh-CN">论坛型</title>
                 <title xml:lang="es">forum</title>
-                <title xml:lang="zh-TW">論壇</title>
+                <title xml:lang="zh-TW">論壇型</title>
             </options>
             <options value="blog">
                 <title xml:lang="ko">블로그</title>
@@ -170,7 +170,7 @@
                 <title xml:lang="jp">ブログ</title>
                 <title xml:lang="zh-CN">博客型</title>
                 <title xml:lang="es">blog</title>
-                <title xml:lang="zh-TW">部落格</title>
+                <title xml:lang="zh-TW">部落格型</title>
             </options>
         </var>
         <var name="display_login_info" type="select">
