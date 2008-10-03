@@ -76,7 +76,7 @@
     $lang->cmd_modify_member_info = '会員情報修正';
     $lang->cmd_modify_member_password = 'パスワード変更';
     $lang->cmd_view_member_info = '会員情報表示';
-    $lang->cmd_leave = '脱会';
+    $lang->cmd_leave = '退会';
     $lang->cmd_find_member_account = 'IDとパスワードの検索';
 
     $lang->cmd_member_list = '会員リスト';
@@ -106,14 +106,14 @@
     $lang->msg_confirm_account_info = '作成した会員の情報';
     $lang->msg_confirm_account_comment = '下記のURLをクリックして会員登録を完了してください。';
     $lang->msg_auth_mail_sent = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認してください。';
-    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_confirm_mail_sent = '%s 宛に確認メールを送信しました。メールをご確認下さい。';
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。';
     $lang->msg_success_authed = '認証が正常に行われ、ログインできました。\n必ず認証メールに記載されたパスワードを利用してお好みのパスワードに変更してください。.';
     $lang->msg_success_confirmed = '会員登録いただきましてありがとうございます。';
 
     $lang->msg_new_member = '会員追加';
     $lang->msg_update_member = '会員情報修正';
-    $lang->msg_leave_member = '会員脱会';
+    $lang->msg_leave_member = '会員退会';
     $lang->msg_group_is_null = '登録されたグループがありません。';
     $lang->msg_not_delete_default = '基本項目は削除できません。';
     $lang->msg_not_exists_member = '存在しないユーザＩＤです。';
@@ -134,7 +134,7 @@
     $lang->msg_accept_agreement = '規約に同意しなければなりません。';
 
     $lang->msg_user_denied = '入力されたユーザＩＤは使用が中止されました。';
-    $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
+    $lang->msg_user_not_confirmed = 'まだメールの確認が出来ませんでした。届いたメールをご確認ください。';
     $lang->msg_user_limited = '入力されたユーザＩＤは%s以降から使用できます。';
 
     $lang->about_user_id = 'ユーザＩＤは３～２０の英数文字で構成され、最先頭の文字は英字でなければなりません。';
@@ -161,8 +161,8 @@
 
     $lang->about_enable_openid = 'OpenIDをサポートする際にチェックを入れます。';
     $lang->about_enable_join = 'チェックを入れないとユーザが会員に加入できません。';
-    $lang->about_enable_confirm = '입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다';
-    $lang->about_enable_ssl = '서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다';
+    $lang->about_enable_confirm = '登録されたメールアドレスに確認メールを送信し、会員登録を確認します。';
+    $lang->about_enable_ssl = 'サーバーでSSLが可能な場合、会員登録/情報変更/ログイン等の個人情報はSSL(https)経由でサーバーにより安全に送信されます。';
     $lang->about_limit_day = '会員加入後一定の期間中、認証制限を行うことができます。';
     $lang->about_limit_date = '指定された期間まで該当ユーザはログインできなくします。';
     $lang->about_after_login_url = 'ログイン後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。';
@@ -179,7 +179,7 @@
     $lang->about_member_default = '会員加入時に基本グループとして設定されます。';
 
     $lang->about_openid = 'OpenIDで加入する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
-    $lang->about_openid_leave = 'OpenIDの脱会は現在のサイトから会員情報を削除することを意味します。<br />脱会後ログインすると新しく加入することになり、書き込んだコンテンツに対する権限を維持することができません。';
+    $lang->about_openid_leave = 'OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく加入することになり、書き込んだコンテンツに対する権限を維持することができません。';
     $lang->about_find_member_account = 'ID/パスワードは加入時に登録されたメールにてお知らせします。<br />加入時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックしてください。<br />';
 
     $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、加入フォームの管理などが行える会員管理モジュールです。デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、加入フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";

@@ -66,10 +66,10 @@
         'マニュアル' => 'http://www.zeroboard.com/manual',
         //'デベロッパーフォーラム' => 'http://spring.zeroboard.com',
         'イッシュートラッキング' => 'http://www.zeroboard.com/xe_issuetracker',
-        'SVN Repository' => 'http://svn.zeroboard.com',
-        'Doxygen Document' => 'http://doc.zeroboard.com',
+        'SVNリポジトリー' => 'http://svn.zeroboard.com',
+        'Doxygenドキュメント' => 'http://doc.zeroboard.com',
         'PDFドキュメント' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
-        'XE Tools' => './tools/',
+        'XEツール' => './tools/',
     );
 
     $lang->zeroboard_xe_usefulness_module = '有用なモジュール';

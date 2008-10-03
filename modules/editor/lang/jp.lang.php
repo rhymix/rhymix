@@ -11,15 +11,15 @@
     $lang->component_author = "作者";
     $lang->component_link = "リンク";
     $lang->component_date = "作成日";
-    $lang->component_license = 'License';
-    $lang->component_history = "History";
+    $lang->component_license = 'ライセンス';
+    $lang->component_history = "変更履歴";
     $lang->component_description = "説明";
     $lang->component_extra_vars = "設定変数";
     $lang->component_grant = "権限設定"; 
 
     $lang->about_component = "コンポーネント情報";
     $lang->about_component_grant = '基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。<br />(選択なしの場合、誰でも利用可能)';
-    $lang->about_component_mid = "에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)";
+    $lang->about_component_mid = "エディターコンポーネントが使われる対象を指定します。<br />(選択なしの場合、全ての対象で利用可能)";
 
     $lang->msg_component_is_not_founded = '%s エディターのコンポーネントが見つかりません。';
     $lang->msg_component_is_inserted = '選択されたコンポーネントは既に入力されています。';

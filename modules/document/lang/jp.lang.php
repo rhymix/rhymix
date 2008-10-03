@@ -41,7 +41,7 @@
         'is_notice' => 'お知らせ',
         'is_secret' => '非公開書き込み',
         'tags' => 'タグ',
-        'readed_count' => '照合数（以上）',
+        'readed_count' => '閲覧数（以上）',
         'voted_count' => '推薦数（以上）',
         'comment_count ' => 'コメント数（以上）',
         'trackback_count ' => 'トラックバック数（以上）',
