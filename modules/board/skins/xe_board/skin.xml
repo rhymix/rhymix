@@ -135,7 +135,7 @@
             <options value="list">
                 <title xml:lang="ko">목록</title>
                 <title xml:lang="en">list</title>
-                <title xml:lang="jp">list</title>
+                <title xml:lang="jp">リスト</title>
                 <title xml:lang="zh-CN">目录型</title>
                 <title xml:lang="es">list</title>
                 <title xml:lang="zh-TW">目錄</title>
@@ -143,7 +143,7 @@
             <options value="webzine">
                 <title xml:lang="ko">웹진</title>
                 <title xml:lang="en">webzine</title>
-                <title xml:lang="jp">webzine</title>
+                <title xml:lang="jp">ウェブジン(webzine)</title>
                 <title xml:lang="zh-CN">新闻型</title>
                 <title xml:lang="es">webzine</title>
                 <title xml:lang="zh-TW">雜誌</title>
@@ -151,7 +151,7 @@
             <options value="gallery">
                 <title xml:lang="ko">갤러리</title>
                 <title xml:lang="en">gallery</title>
-                <title xml:lang="jp">gallery</title>
+                <title xml:lang="jp">ギャラリー</title>
                 <title xml:lang="zh-CN">相册型</title>
                 <title xml:lang="es">gallery</title>
                 <title xml:lang="zh-TW">相簿</title>
@@ -159,7 +159,7 @@
             <options value="forum">
                 <title xml:lang="ko">포럼</title>
                 <title xml:lang="en">forum</title>
-                <title xml:lang="jp">forum</title>
+                <title xml:lang="jp">フォラム</title>
                 <title xml:lang="zh-CN">论坛型</title>
                 <title xml:lang="es">forum</title>
                 <title xml:lang="zh-TW">論壇</title>
@@ -167,7 +167,7 @@
             <options value="blog">
                 <title xml:lang="ko">블로그</title>
                 <title xml:lang="en">blog</title>
-                <title xml:lang="jp">blog</title>
+                <title xml:lang="jp">ブログ</title>
                 <title xml:lang="zh-CN">博客型</title>
                 <title xml:lang="es">blog</title>
                 <title xml:lang="zh-TW">部落格</title>
@@ -183,7 +183,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -191,7 +191,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -208,7 +208,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -216,7 +216,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -288,7 +288,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -296,7 +296,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -313,7 +313,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -321,7 +321,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -338,7 +338,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -346,7 +346,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -355,7 +355,7 @@
         </var>
         <var name="display_readed_count" type="select">
             <title xml:lang="ko">조회수 표시</title>
-            <title xml:lang="jp">照合数表示</title>
+            <title xml:lang="jp">閲覧数表示</title>
             <title xml:lang="zh-CN">显示查看</title>
             <title xml:lang="en">Display Hit</title>
             <title xml:lang="es">Display Hit</title>
@@ -363,7 +363,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -371,7 +371,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -388,7 +388,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -396,7 +396,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -406,14 +406,14 @@
         <var name="display_ip_address" type="select">
             <title xml:lang="ko">아이피주소 표시</title>
             <title xml:lang="en">Display ip address</title>
-            <title xml:lang="jp">Display ip address</title>
+            <title xml:lang="jp">IPアドレス表示</title>
             <title xml:lang="zh-CN">显示IP地址</title>
             <title xml:lang="es-CN">Display ip address</title>
             <title xml:lang="zh-TW">顯示IP地址</title>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -421,7 +421,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -437,7 +437,7 @@
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>
-                <title xml:lang="jp">display</title>
+                <title xml:lang="jp">表示</title>
                 <title xml:lang="zh-CN">显示</title>
                 <title xml:lang="es">display</title>
                 <title xml:lang="zh-TW">顯示</title>
@@ -445,7 +445,7 @@
             <options value="N">
                 <title xml:lang="ko">출력하지 않음</title>
                 <title xml:lang="en">not display</title>
-                <title xml:lang="jp">not display</title>
+                <title xml:lang="jp">非表示</title>
                 <title xml:lang="zh-CN">不显示</title>
                 <title xml:lang="es">not display</title>
                 <title xml:lang="zh-TW">隱藏</title>
@@ -479,7 +479,7 @@
             <description xml:lang="zh-TW">可選擇縮圖建立方式。</description>
             <options value="crop">
                 <title xml:lang="ko">꽉 채우기</title>
-                <title xml:lang="jp">トリミング</title>
+                <title xml:lang="jp">刈り込み</title>
                 <title xml:lang="zh-CN">裁减</title>
                 <title xml:lang="en">crop</title>
                 <title xml:lang="zh-TW">裁減</title>
