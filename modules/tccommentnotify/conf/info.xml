@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">댓글알리미</title>
+    <title xml:lang="jp">コメントお知らせアラート</title>
     <title xml:lang="zh-CN">评论通告</title>
     <title xml:lang="en">Comment Notifier</title>
     <title xml:lang="zh-TW">評論通知</title>
     <description xml:lang="ko">댓글알리미 모듈입니다.</description>
+    <description xml:lang="jp">コメントお知らせアラートモジュールです。</description>
     <description xml:lang="zh-CN">评论通告模块。</description>
     <description xml:lang="en">Comment Notifier will tell you when there's a new comment</description>
     <description xml:lang="zh-TW">當有新評論時，此模組會告知。</description>
@@ -15,6 +17,7 @@
 
     <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
         <name xml:lang="ko">haneul</name>
+        <name xml:lang="jp">haneul</name>
         <name xml:lang="zh-CN">haneul</name>
         <name xml:lang="en">haneul</name>
         <name xml:lang="zh-TW">haneul</name>
@@ -23,6 +26,7 @@
     <history version="0.2.1" date="2008-07-31">
         <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
             <name xml:lang="ko">haneul</name>
+            <name xml:lang="jp">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
             <name xml:lang="zh-TW">haneul</name>
@@ -34,6 +38,7 @@
     <history version="0.2.0" date="2008-06-26">
         <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
             <name xml:lang="ko">haneul</name>
+            <name xml:lang="jp">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
             <name xml:lang="zh-TW">haneul</name>
@@ -45,6 +50,7 @@
     <history version="0.1.3" date="2008-06-18">
         <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
             <name xml:lang="ko">haneul</name>
+            <name xml:lang="jp">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
             <name xml:lang="zh-TW">haneul</name>
@@ -55,6 +61,7 @@
     <history version="0.1.2" date="2008-06-18">
         <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
             <name xml:lang="ko">haneul</name>
+            <name xml:lang="jp">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
             <name xml:lang="zh-TW">haneul</name>
@@ -65,6 +72,7 @@
     <history version="0.1.1" date="2008-06-17">
         <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
             <name xml:lang="ko">haneul</name>
+            <name xml:lang="jp">haneul</name>
             <name xml:lang="zh-CN">haneul</name>
             <name xml:lang="en">haneul</name>
             <name xml:lang="zh-TW">haneul</name>

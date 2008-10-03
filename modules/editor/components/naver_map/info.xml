@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component version="0.2">
     <title xml:lang="ko">네이버맵 연동</title>
-    <title xml:lang="jp">ネイバーマップ</title>
+    <title xml:lang="jp">ネイバーマップ連動</title>
     <title xml:lang="zh-CN">NAVER 地图</title>
     <title xml:lang="en">Naver Map Open Api</title>
     <title xml:lang="es">Naver mapa abierto api</title>
