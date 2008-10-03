@@ -147,7 +147,7 @@
             <description xml:lang="ge">Die Widgets, die angezeigt werden im Layout wird ordnungsgemäß funktionieren, wenn Sie das Basismodul</description>
             <description xml:lang="es">Los reproductores que se muestran en el diseño funcionará correctamente si selecciona el módulo básico</description>
             <description xml:lang="ru">В виджеты, которые отображаются в формате будет работать правильно, если вы выбираете основной модуль</description>
-            <description xml:lang="zh-TW">為了使部落格系統中的控件正常運作，必須要指定欲設討論版模組名稱。</description>
+            <description xml:lang="zh-TW">為了使部落格系統中的控件正常運作，必須要指定預設討論版模組名稱。</description>
         </var>
         <var name="background_image" type="image">
             <title xml:lang="ko">배경 이미지</title>
@@ -200,7 +200,7 @@
             <description lang="ge">Bitte geben Sie Ihre Simple Profile</description>
             <description lang="es">Por favor, introduzca su perfil simple</description>
             <description lang="ru">Введите простое профиль</description>
-            <description lang="zh-TW">請輸入簡單介紹。</description>
+            <description lang="zh-TW">請輸入簡單說明。</description>
         </var>
     </extra_vars>
 
