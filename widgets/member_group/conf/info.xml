@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
 	<title xml:lang="ko">특정 그룹 회원 출력 위젯</title>
-	<title xml:lang="jp">グループ会員表示</title>
+	<title xml:lang="jp">特定グループ会員表示</title>
 	<title xml:lang="en">Specific Group Members</title>
 	<title xml:lang="es">Muestra el grupo de usuario específico</title>
 	<title xml:lang="zh-CN">会员列表</title>
@@ -13,7 +13,9 @@
 		아래 그룹이름 입력칸에 출력을 원하는 그룹명을 , (콤마)로 연결하여 입력하시면 됩니다.
 	</description>
 	<description xml:lang="jp">
-		特定グループに所属している会員のリストを表示するウィジェットです。まだテスト用のウィジェットです。該当するグループに指定された以上の会員が存在した場合、最近加入順に表示されます。下のグループ名の入力フィールドに、希望するグループ名を「,（コンマ）」で区切って入力します。
+		特定グループに所属している会員のリストを表示するウィジェットです。
+		まだテスト用のウィジェットです。該当するグループに指定された以上の会員が存在した場合、最近加入順に表示されます。
+		下のグループ名の入力フィールドに、希望するグループ名を「,（コンマ）」で区切って入力します。
 	</description>
 	<description xml:lang="en">
 		This widget displays members in specific group.

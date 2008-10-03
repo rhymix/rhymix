@@ -150,7 +150,7 @@
 			<options>
 				<value>crop</value>
 				<name xml:lang="ko">Crop (채우기)</name>
-				<name xml:lang="jp">Crop (トリミング)</name>
+				<name xml:lang="jp">Crop (刈り込み)</name>
 				<name xml:lang="zh-CN">Crop (裁减)</name>
 				<name xml:lang="en">Crop</name>
 				<name xml:lang="ru">Crop (Обрезание)</name>
