@@ -264,7 +264,7 @@
         1. PHPの safe_mode=Onになった際、FTP情報を用いてゼロボードXEが正常に動きます。<br/>
         2. 自動アップデート等で、FTP情報が使われます。<br/>
         FTP情報は files/config/ftp.config.php の中に保存されます。<br/>
-        また、ゼロボードのインストールの後、管理者画面からFTP情報の変更・削除が可能です。 <br />
+        また、ゼロボードXEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。 <br />
     ";
 
     $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、ゼロボードXEのインストール及び利用が可能になります。";
