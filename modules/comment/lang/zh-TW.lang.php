@@ -7,7 +7,7 @@
 	
     $lang->cmd_comment_do = '將把此評論..';
     
-    $lang->comment_list = '評論目錄';
+    $lang->comment_list = '評論列表';
     $lang->cmd_toggle_checked_comment = '反選';
     $lang->cmd_delete_checked_comment = '刪除所選';
 

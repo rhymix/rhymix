@@ -14,11 +14,11 @@
     $lang->keep_signed = '自動登入';
     $lang->remember_user_id = '儲存ID';
     $lang->already_logged = '您已經登入！';
-    $lang->denied_user_id = '被禁止的用戶名。';
-    $lang->null_user_id = '請輸入用戶名。';
+    $lang->denied_user_id = '被禁止的用戶名稱。';
+    $lang->null_user_id = '請輸入用戶名稱。';
     $lang->null_password = '請輸入密碼。';
     $lang->invalid_authorization = '還沒有認證！';
-    $lang->invalid_user_id= '該用戶名不存在，請檢查您的輸入是否有誤！';
+    $lang->invalid_user_id= '該用戶名稱不存在，請檢查您的輸入是否有誤！';
     $lang->invalid_password = '您的密碼不正確！';
     $lang->allow_mailing = '接收郵件';
     $lang->denied = '禁止使用';
@@ -47,21 +47,21 @@
     $lang->after_login_url = '登入後頁面轉向';
     $lang->after_logout_url = '登出後頁面轉向';
     $lang->redirect_url = '註冊會員後頁面轉向';
-    $lang->agreement = '會員註冊條款';
+    $lang->agreement = '會員使用條款';
     $lang->accept_agreement = '同意條款';
     $lang->member_info = '會員資料';
     $lang->current_password = '當前密碼';
     $lang->openid = 'OpenID';
 
-    $lang->webmaster_name = '管理員名';
+    $lang->webmaster_name = '管理員名稱';
     $lang->webmaster_email = '管理員電子郵件';
 
-    $lang->about_keep_signed = '關閉瀏覽器後也將維持登入狀態。\n\n使用自動登入功能，可解決每次訪問都要輸入用戶名及密碼的麻煩。\n\n為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。';
+    $lang->about_keep_signed = '關閉瀏覽器後也將維持登入狀態。\n\n使用自動登入功能，可解決每次訪問都要輸入用戶名稱及密碼的麻煩。\n\n為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。';
     $lang->about_webmaster_name = '請輸入認證所需的電子郵件地址或管理其他網站時要使用的網站管理員名稱。(預設 : webmaster)';
     $lang->about_webmaster_email = '請輸入網站管理員的電子郵件地址。';
 
     $lang->search_target_list = array(
-        'user_id' => '用戶名',
+        'user_id' => '用戶名稱',
         'user_name' => '姓名',
         'nick_name' => '暱稱',
         'email_address' => '郵件地址',
@@ -77,13 +77,13 @@
     $lang->cmd_modify_member_password = '修改密碼';
     $lang->cmd_view_member_info = '檢視會員資料';
     $lang->cmd_leave = '退出';
-    $lang->cmd_find_member_account = '查詢用戶名/密碼';
+    $lang->cmd_find_member_account = '查詢用戶名稱/密碼';
 
     $lang->cmd_member_list = '會員目錄';
     $lang->cmd_module_config = '基本設置';
     $lang->cmd_member_group = '用戶組管理';
     $lang->cmd_send_mail = '發送郵件';
-    $lang->cmd_manage_id = '禁止用戶名管理';
+    $lang->cmd_manage_id = '禁止用戶名稱管理';
     $lang->cmd_manage_form = '註冊表單管理';
     $lang->cmd_view_own_document = '檢視發表主題';
     $lang->cmd_trace_document = '主題追蹤';
@@ -107,7 +107,7 @@
     $lang->msg_confirm_account_comment = '請點擊下面連結完成會員認證。';
     $lang->msg_auth_mail_sent = '已向%s發送了認證郵件。請確認！！';
     $lang->msg_confirm_mail_sent = '已向%s發送了認證郵件。請確認！！';
-    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找用戶名及密碼， 或聯繫管理員。';
+    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找用戶名稱及密碼， 或聯繫管理員。';
     $lang->msg_success_authed = '新的註冊資料已得到認證。請用郵件中的新密碼修改您要想使用的密碼。';
     $lang->msg_success_confirmed = '註冊資料已成功確認！';
 
@@ -116,11 +116,11 @@
     $lang->msg_leave_member = '退出會員';
     $lang->msg_group_is_null = '無用戶組。';
     $lang->msg_not_delete_default = '不能刪除基本項目';
-    $lang->msg_not_exists_member = '不存在的用戶';
+    $lang->msg_not_exists_member = '不存在的用戶稱';
     $lang->msg_cannot_delete_admin = '無法解除管理員ID，請解除管理後再刪除';
-    $lang->msg_exists_user_id = '重複的用戶名 ，請重新輸入用戶名。';
+    $lang->msg_exists_user_id = '重複的用戶名稱，請重新輸入。';
     $lang->msg_exists_email_address = '重複的電子郵件地址，請重新輸入電子郵件地址。';
-    $lang->msg_exists_nick_name = '重複的暱稱，請重新輸入暱稱。';
+    $lang->msg_exists_nick_name = '重複的暱稱，請重新輸入。';
     $lang->msg_signup_disabled = '無法註冊會員';
     $lang->msg_already_logged = '您是註冊會員。';
     $lang->msg_not_logged = '您還沒登入。';
@@ -133,20 +133,20 @@
 
     $lang->msg_accept_agreement = '您必須同意條款。'; 
 
-    $lang->msg_user_denied = '您輸入的用戶名已禁止使用！';
+    $lang->msg_user_denied = '您輸入的用戶名稱已禁止使用！';
     $lang->msg_user_not_confirmed = '您的註冊資料還沒有被確認，請確認您的電子郵箱。';
-    $lang->msg_user_limited = '您輸入的用戶名%s以後才可以開始使用。';
+    $lang->msg_user_limited = '您輸入的用戶名稱%s以後才可以開始使用。';
 
-    $lang->about_user_id = '用戶名長度必須由 3 ~20字以內的英文+數字組成，且首個字母必須是英文。';
+    $lang->about_user_id = '用戶名稱長度必須由 3 ~20字以內的英文+數字組成，且首個字母必須是英文。';
     $lang->about_password = '密碼長度必須在 6~20字以內。';
     $lang->about_user_name = '姓名必須是 2~20字以內。';
     $lang->about_nick_name = '暱稱必須是 2~20字以內。';
-    $lang->about_email_address = '電子郵件地址除郵件認證外，在修改密碼或找回密碼時使用。';
+    $lang->about_email_address = '電子郵件地址除郵件認證外，在修改密碼或忘記密碼時使用。';
     $lang->about_homepage = '請輸入您的主頁地址。';
     $lang->about_blog_url = '請輸入部落格地址。';
     $lang->about_birthday = '請輸入您的出生年月日。';
     $lang->about_allow_mailing = '如不選擇此項，以後無法接收站內發送的重要資料。';
-    $lang->about_denied = '選擇時不能使用此用戶名。';
+    $lang->about_denied = '選擇時不能使用此用戶名稱。';
     $lang->about_is_admin = '選擇時將具有最高管理權限。';
     $lang->about_member_description = '管理員對會員的筆記。';
     $lang->about_group = '一個用戶名可屬多個用戶組。';
@@ -160,7 +160,7 @@
     $lang->about_required = '註冊時成為必填項目。';
 
     $lang->about_enable_openid = '要想網站支援 OpenID時，請勾選此項。';
-    $lang->about_enable_join = '選擇此項後用戶才可以註冊。';
+    $lang->about_enable_join = '選擇此項後，用戶才可以註冊。';
     $lang->about_enable_confirm = '為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。';
     $lang->about_enable_ssl = '如主機提供 SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https)認證。';
     $lang->about_limit_day = '註冊會員後的認證有效期限。';

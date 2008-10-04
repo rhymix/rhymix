@@ -5,13 +5,13 @@
      * @brief  文章(document)模組語言包
      **/
 
-    $lang->document_list = '主題目錄';
+    $lang->document_list = '主題列表';
     $lang->thumbnail_type = '縮圖建立方式';
     $lang->thumbnail_crop = '裁減';
     $lang->thumbnail_ratio = '比例';
     $lang->cmd_delete_all_thumbnail = '刪除全部縮圖';
     $lang->move_target_module = "移動目標模組";
-    $lang->title_bold = '粗標題';
+    $lang->title_bold = '粗體';
     $lang->title_color = '標題顏色';
 
     $lang->cmd_search_next = '繼續搜尋';

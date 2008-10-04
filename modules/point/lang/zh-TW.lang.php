@@ -17,8 +17,8 @@
     $lang->level_icon = '等級圖標';
     $lang->about_level_icon = '等級圖標要以 ./modules/point/icons/等級.gif形式指定，有時出現最高等級的圖標跟您指定的最高等級圖標不同的現象，請注意。';
 
-    $lang->point_name = '積分名';
-    $lang->about_point_name = '可以指定積分名或積分單位。';
+    $lang->point_name = '積分名稱';
+    $lang->about_point_name = '可指定積分名稱或積分單位。';
 
     $lang->level_point = '等級積分';
     $lang->about_level_point = '積分達到或減少到下列各等級所設置的積分值時，將會自動調節相對應等級。';
@@ -29,13 +29,13 @@
     $lang->level_point_calc = '計算等級積分';
     $lang->expression = '使用等級變數<b>"i"</b>輸入JS數學函數。例: Math.pow(i, 2) * 90';
     $lang->cmd_exp_calc = '計算';
-    $lang->cmd_exp_reset = '初始化';
+    $lang->cmd_exp_reset = '重置';
 
-    $lang->cmd_point_recal = '積分初始化';
-    $lang->about_cmd_point_recal = '積分初始化。即只保留文章/評論/附件/新會員註冊的相關積分項。<br />其中，初始化後的新會員註冊積分項，將在會員有相關動作(發表主題/評論等)時，才付與其相對應的積分。<br />此項功能請務必慎用！此項功能只能在資料轉移或真的需要初始化所有積分時才可以使用。';
+    $lang->cmd_point_recal = '重置積分';
+    $lang->about_cmd_point_recal = '重置積分。即只保留文章/評論/附件/新會員註冊的相關積分項。<br />其中，重置後的新會員註冊積分項，將在會員有相關動作(發表主題/評論等)時，才付與其相對應的積分。<br />此項功能請務必慎用！此項功能只能在資料轉移或真的需要重置所有積分時才可以使用。';
 
-    $lang->point_link_group = '用戶組綁定';
-    $lang->about_point_link_group = '即等級綁定用戶組。當等級達到指定等級時，會員所屬用戶組將自動更新成相對應的用戶組。但是更新成新的用戶組時，之前的預設用戶組將自動被刪除。';
+    $lang->point_link_group = '等級';
+    $lang->about_point_link_group = '即用戶組隨等級變化。當等級達到指定等級時，會員所屬用戶組將自動更新成相對應的用戶組。但是更新成新的用戶組時，之前的預設用戶組將自動被刪除。';
 
     $lang->about_module_point = '可以分別對各模組進行積分設置，沒有被設置的模組將使用預設值。<br />所有積分在相反動作下恢復原始值。即：發表主題後再刪除得到的積分為0分。';
 

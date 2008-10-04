@@ -6,7 +6,7 @@
      **/
 
     $lang->communication = '交流';
-    $lang->about_communication = '管理線上會員間短訊息及好友功能的模組。';
+    $lang->about_communication = '管理短訊息及好友功能的模組。';
 
     $lang->allow_message = '允許接收短訊息';
     $lang->allow_message_type = array(

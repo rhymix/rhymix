@@ -57,7 +57,7 @@
     $lang->cmd_print = '列印';
     $lang->cmd_scrap = '收藏';
     $lang->cmd_preview = '預覽';
-    $lang->cmd_reset = '重新設定';
+    $lang->cmd_reset = '重置';
     $lang->cmd_remake_cache = "重新建立暫存檔";
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '排版設置';
@@ -217,7 +217,7 @@
     $lang->success_blamed = '反對成功！';
     $lang->success_moved = '移動成功！';
     $lang->success_sended = '發送成功！';
-    $lang->success_reset = '初始化成功 !';
+    $lang->success_reset = '重設成功 !';
     $lang->success_leaved = '成功退出！';
     $lang->success_saved = '儲存成功！';
 	

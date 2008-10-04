@@ -22,7 +22,7 @@
         Only wml, hdml, mhtml formats are provided.
     </description>
     <description xml:lang="zh-TW">
-        This addon displays WAP tag by analyzing header information on mobile connection.
+        透過行動工具連結時，會將網頁轉換為WAP標籤顯示。
         只限於 wml, hdml, mhtml格式。
     </description>
     <version>0.1</version>
