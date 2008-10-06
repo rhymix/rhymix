@@ -297,9 +297,13 @@
         // 대상 시간이 없으면 null return
         if(!$str) return;
 
+		$hour = (int)substr($str,8,2);
+		
         // 언어권에 따라서 지정된 날짜 포맷을 변경
         if($conversion == true) {
             switch(Context::getLangType()) {
+				case 'ko' :
+					$format = str_replace('a',($hour<=12)?'오전':'오후',$format);            	
                 case 'en' :
                 case 'es' :
                         if($format == 'Y-m-d') $format = 'M d, Y';
@@ -309,6 +313,8 @@
 
             }
         }
+        
+        
 
         // 년도가 1970년 이전이면 별도 처리
         if((int)substr($str,0,4) < 1970) {
@@ -318,22 +324,15 @@
             $year = (int)substr($str,0,4);
             $month = (int)substr($str,4,2);
             $day = (int)substr($str,6,2);
-            $string = str_replace(
+            return str_replace(
                         array('Y','m','d','H','h','i','s','a','M', 'F'),
                         array($year,$month,$day,$hour,$hour/12,$min,$sec,($hour <= 12) ? 'am' : 'pm',getMonthName($month), getMonthName($month,false)),
                         $format
                     );
-        } else {
-            // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
-            $string = date($format, ztime($str));
         }
 
-        // 요일, am/pm을 각 언어에 맞게 변경
-        $unit_week = Context::getLang('unit_week');
-        $unit_meridiem = Context::getLang('unit_meridiem');
-        $string = str_replace(array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'),$unit_week, $string);
-        $string = str_replace(array('am','pm','AM','PM'), $unit_meridiem, $string);
-        return $string;
+        // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
+        return date($format, ztime($str));
     }
 
     /**
