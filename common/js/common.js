@@ -248,7 +248,7 @@ function displayMultimedia(src, width, height, options) {
     if(src.indexOf('files') == 0) src = request_uri + src;
 
     var defaults = {
-        wmode : 'window',
+        wmode : 'transparent',
         allowScriptAccess : 'sameDomain',
         quality : 'high',
         flashvars : ''
