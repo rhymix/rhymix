@@ -212,9 +212,13 @@
     </table>
     <!--@end-->
 
-    <div class="tRight">
+    <div class="tCenter">
         <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <!--@if($popup)-->
+        <a href="#" class="button" onclick="window.close();return false;"><span>{$lang->cmd_close}</span></a>
+        <!--@else-->
         <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+        <!--@end-->
     </div>
 </form>
 
