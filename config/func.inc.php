@@ -278,6 +278,21 @@
     }
 
     /**
+     * @brief YmdHis의 시간 형식을 지금으로 부터 몇분/몇시간전, 1일 이상 차이나면 format string return
+     **/
+    function getTimeGap($date, $format = 'Y.m.d') {
+        $gap = time() - ztime($date);
+
+        $lang_time_gap = Context::getLang('time_gap');
+        if($gap<60) $buff = sprintf($lang_time_gap['min'], (int)($gap / 60)+1);
+        elseif($gap<60*60) $buff =  sprintf($lang_time_gap['mins'], (int)($gap / 60)+1);
+        elseif($gap<60*60*2) $buff =  sprintf($lang_time_gap['hour'], (int)($gap / 60 /60)+1);
+        elseif($gap<60*60*24) $buff =  sprintf($lang_time_gap['hours'], (int)($gap / 60 /60)+1);
+        else $buff =  zdate($date, $format);
+        return $buff;
+    }
+
+    /**
      * @brief 월이름을 return
      **/
     function getMonthName($month, $short = true) {

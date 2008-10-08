@@ -172,13 +172,13 @@
     $lang->unit_year = 'année';;
 
     $lang->unit_week = array(
-        'Monday' => 'Monday',
-        'Tuesday' => 'Tuesday',
-        'Wednesday' => 'Wednesday',
-        'Thursday' => 'Thursday',
-        'Friday' => 'Friday',
-        'Saturday' => 'Saturday',
-        'Sunday' => 'Sunday',
+        'Monday' => 'Lundi',
+        'Tuesday' => 'Mardi',
+        'Wednesday' => 'Mer.',
+        'Thursday' => 'Jeu.',
+        'Friday' => 'Vendredi',
+        'Saturday' => 'Samedi',
+        'Sunday' => 'Dimanche',
     );
 
     $lang->unit_meridiem = array(
@@ -186,6 +186,13 @@
         'pm' => 'pm',
         'AM' => 'AM',
         'PM' => 'PM',
+    );
+
+    $lang->time_gap = array(
+        'min' => '%d heure',
+        'mins' => 'Il ya %d minutes',
+        'hour' => 'Il ya %d jour',
+        'hours' => 'Il ya %d jours',
     );
 
     // Descriptions et information

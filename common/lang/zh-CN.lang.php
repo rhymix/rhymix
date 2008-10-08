@@ -188,6 +188,13 @@
         'PM' => '下午',
     );
 
+    $lang->time_gap = array(
+        'min' => '%d minute ago',
+        'mins' => '%d minutes ago',
+        'hour' => '%d hour ago',
+        'hours' => '%d hours ago',
+    );
+
     // 说明
     $lang->about_tag = '用逗号分隔多个标签';
     $lang->about_layout = '布局是布置模块的外观，在上端布局菜里单可以进行管理';

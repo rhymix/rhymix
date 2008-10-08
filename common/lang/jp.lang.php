@@ -188,6 +188,13 @@
         'PM' => '午後',
     );
 
+    $lang->time_gap = array(
+        'min' => '%d minute ago',
+        'mins' => '%d minutes ago',
+        'hour' => '%d hour ago',
+        'hours' => '%d hours ago',
+    );
+
     // 説明関連
     $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録できます。';
     $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';

@@ -188,6 +188,13 @@
         'PM' => 'PM',
     );
 
+    $lang->time_gap = array(
+        'min' => '%d minute ago',
+        'mins' => '%d minutes ago',
+        'hour' => '%d hour ago',
+        'hours' => '%d hours ago',
+    );
+
     // 說明
     $lang->about_tag = '用逗號分隔多個標籤';
     $lang->about_layout = '排版是佈置模組的外觀，在頂端排版選單中，可以進行管理';
