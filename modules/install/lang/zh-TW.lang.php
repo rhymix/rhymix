@@ -223,7 +223,7 @@ EndOfLicense;
     $lang->cmd_agree_license = '使用條款';
     $lang->cmd_install_fix_checklist = '已設置了必要的安裝條件。';
     $lang->cmd_install_next = '開始進行安裝';
-    $lang->cmd_ignore = 'Ignore';
+    $lang->cmd_ignore = '忽略';
 
     $lang->db_desc = array(
         'mysql' => '利用php的 mysql*()函數使用mysql資料庫。<br />資料庫數據是以myisam建立，因此不能實現transaction。',
