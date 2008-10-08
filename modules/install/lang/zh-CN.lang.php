@@ -221,6 +221,7 @@ EndOfLicense;
     $lang->cmd_agree_license = '同意条款';
     $lang->cmd_install_fix_checklist = '已设置了必要的安装条件。';
     $lang->cmd_install_next = '开始进行安装';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => '利用php的 mysql*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。',

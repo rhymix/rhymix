@@ -192,6 +192,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'Je suis d\'accord avec la licence';
     $lang->cmd_install_fix_checklist = 'J\'ai corrigé les conditions obligatoires.';
     $lang->cmd_install_next = 'Continuer à  installer';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => 'Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.',

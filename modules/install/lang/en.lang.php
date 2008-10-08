@@ -138,6 +138,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'I agree with the license';
     $lang->cmd_install_fix_checklist = 'I have fixed the required conditions.';
     $lang->cmd_install_next = 'Continue installation';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => 'Using mysql*() function to use mysql DB.<br />Transaction is disabled because DB file is created by myisam.',

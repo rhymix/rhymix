@@ -322,6 +322,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'Я согласен с данной лицензией';
     $lang->cmd_install_fix_checklist = 'Я удоволетворил требуемые условия';
     $lang->cmd_install_next = 'Продолжить установку';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => 'Используем mysql*() функцию, чтобы использовать базу данных mysql.<br />Транзакция отключена из-за того, что файл базы данных создан посредством myisam.',

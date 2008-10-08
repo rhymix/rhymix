@@ -230,6 +230,7 @@ EndOfLicense;
     $lang->cmd_agree_license = '라이선스에 동의합니다';
     $lang->cmd_install_fix_checklist = '필수 설치조건을 설정하였습니다.';
     $lang->cmd_install_next = '설치를 진행합니다';
+    $lang->cmd_ignore = '무시';
 
     $lang->db_desc = array(
         'mysql' => 'mysql DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',

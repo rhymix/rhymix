@@ -234,6 +234,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'Yo accepto la licencia';
     $lang->cmd_install_fix_checklist = 'Yo he configurado las condiciones necesarias para la instalación.';
     $lang->cmd_install_next = 'Continuar la instalación';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => 'Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.',
