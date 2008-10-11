@@ -5,7 +5,7 @@
      * @brief  日本語言語パッケージ
      **/
 
-    $lang->addon = "アドオン";
+    $lang->addon = 'アドオン';
 
     $lang->addon_info = 'アドオン情報';
     $lang->addon_maker = 'アドオン作者';
