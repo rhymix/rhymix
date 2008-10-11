@@ -133,7 +133,7 @@
         </var>
         <var name="target_mid" type="text">
             <title xml:lang="ko">기본 모듈</title>
-            <title xml:lang="jp">기본 모듈</title>
+            <title xml:lang="jp">デフォルトモジュール</title>
             <title xml:lang="zh-CN">默认模块</title>
             <title xml:lang="en">Basic module</title>
             <title xml:lang="ge">Basismodul</title>
@@ -141,7 +141,7 @@
             <title xml:lang="ru">Основной модуль</title>
             <title xml:lang="zh-TW">預設模組</title>
             <description xml:lang="ko">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
-            <description xml:lang="jp">기본 모듈을 지정해주시면 레이아웃에서 표시되는 위젯들이 정상적으로 동작을 하게 됩니다</description>
+            <description xml:lang="jp">デフォルトモジュールを指定するとレイアウトで表示されるウィジェットが正常に作動するようになります。</description>
             <description xml:lang="zh-CN">为了让博客系统中的控件正常运作，在这里必须得指定默认版面模块名。</description>
             <description xml:lang="en">The widgets that are being displayed in the layout will work properly if you select the basic module</description>
             <description xml:lang="ge">Die Widgets, die angezeigt werden im Layout wird ordnungsgemäß funktionieren, wenn Sie das Basismodul</description>
