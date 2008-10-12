@@ -5,13 +5,13 @@
 	<title xml:lang="zh-CN">Simulz样式Select菜单型皮肤</title>
 	<title xml:lang="en">Simulz Skin (Select menu)</title>
 	<title xml:lang="es">Simulz Cuidado de la Piel (menú Selección)</title>
-	<title xml:lang="zh-TW">Simulz 選取清單型面版</title>
+	<title xml:lang="zh-TW">Simulz 下拉式選單面板</title>
 	<description xml:lang="ko">Simulz 스킨입니다.</description>
 	<description xml:lang="jp">Simulz スキンです。</description>
 	<description xml:lang="zh-CN">Simulz样式Select菜单型皮肤。</description>
 	<description xml:lang="en">This is Simulz skin.</description>
 	<description xml:lang="es">Esto es Simulz piel.</description>
-	<description xml:lang="zh-TW">Simulz 選取清單型面版。</description>
+	<description xml:lang="zh-TW">Simulz 下拉式選單面板。</description>
 	<version>0.1</version>
 	<date>2007-11-05</date>
 	<link>http://www.zeroboard.com</link>

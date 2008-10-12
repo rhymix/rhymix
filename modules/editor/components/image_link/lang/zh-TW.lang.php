@@ -2,7 +2,7 @@
     /**
      * @file   /modules/editor/components/image_link/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  網頁編輯器(editor) 模組 > 圖片連結(image_link) 組件的語言包
+     * @brief  網頁編輯器(editor) 模組 > 圖片連結(image_link) 組件的語言
      **/
 
     $lang->image_url = "圖片路徑";

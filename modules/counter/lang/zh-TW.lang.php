@@ -2,7 +2,7 @@
     /**
      * @file   modules/counter/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  正體中文語言包
+     * @brief  正體中文語言
      **/
 
     $lang->counter = "訪問統計";

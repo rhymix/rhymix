@@ -64,7 +64,7 @@
             <description xml:lang="en">It will be the title of the report.</description>
             <description xml:lang="es">Este será el título del reporte.</description>
             <description xml:lang="en">Это будет заголовком отчета.</description>
-            <description xml:lang="zh-TW">將顯示成封存標題。</description>
+            <description xml:lang="zh-TW">顯示封存標題。</description>
         </var>
         <var id="mid">
             <type>mid</type>

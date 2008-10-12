@@ -4,12 +4,12 @@
     <title xml:lang="jp">기본 포럼형 위젯 스킨</title>
     <title xml:lang="zh-CN">论坛主界面样式列表默认皮肤</title>
     <title xml:lang="en">기본 포럼형 위젯 스킨</title>
-    <title xml:lang="zh-TW">論壇樣式預設面版</title>
+    <title xml:lang="zh-TW">論壇樣式預設面板</title>
     <description xml:lang="ko">포럼형 위젯의 기본 스킨입니다.</description>
     <description xml:lang="jp">포럼형 위젯의 기본 스킨입니다.</description>
     <description xml:lang="zh-CN">论坛主界面样式列表默认皮肤。</description>
     <description xml:lang="en">포럼형 위젯의 기본 스킨입니다.</description>
-    <description xml:lang="zh-TW">論壇樣式預設面版。</description>
+    <description xml:lang="zh-TW">論壇樣式預設面板。</description>
     <version>0.1</version>
     <date>2008-01-23</date>
     <link>http://www.zeroboard.com</link>

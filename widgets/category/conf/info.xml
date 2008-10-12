@@ -13,7 +13,7 @@
     <description xml:lang="ru">게시판등 문서모듈의 분류를 사용하는 모듈에서 분류를 추출하여 블로그 카테고리와 같이 출력하는 기능입니다.</description>
     <description xml:lang="jp">掲示板など、ドキュメントモジュールのカテゴリを使用するモジュールでカテゴリを抽出してブログのカテゴリのように表示する機能です。</description>
     <description xml:lang="zh-CN">把版面模块中的分类显示为类似于博客分类样式的功能。</description>
-    <description xml:lang="zh-TW">將討論版中的分類，顯示成像部落格一樣的分類功能。</description>
+    <description xml:lang="zh-TW">將討論板中的分類，顯示成像部落格一樣的分類功能。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
 

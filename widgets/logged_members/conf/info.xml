@@ -28,12 +28,12 @@
             <name xml:lang="jp">リストへの表示数</name>
             <name xml:lang="en">List Count</name>
             <name xml:lang="zh-CN">目录数</name>
-            <name xml:lang="zh-TW">目錄數</name>
+            <name xml:lang="zh-TW">列表數</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">リストに表示する数の設定です。 (デフォルト5個)</description>
             <description xml:lang="en">You may set number of list to be displayed. (default 5)</description>
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
-            <description xml:lang="zh-TW">可設置要顯示的目錄數。 (預設是5個)</description>
+            <description xml:lang="zh-TW">可設置要顯示的列表數。 (預設是5個)</description>
         </var>
         <var id="use_mid">
             <type>select</type>

@@ -6,14 +6,14 @@
 	<title xml:lang="en">Newest Articles in Webzine Style</title>
 	<title xml:lang="es">Mostrar más nuevos artículos con el estilo Webzine</title>
 	<title xml:lang="ru">Отображение последних статей в стиле webzine</title>
-	<title xml:lang="zh-TW">雜誌型最新主題列表</title>
+	<title xml:lang="zh-TW">最新主題網路雜誌樣式</title>
 	<description xml:lang="ko">최근 문서를 웹진형태로 출력하는 위젯입니다.</description>
 	<description xml:lang="zh-CN">把最新主题显示为网络杂志类型的控件。</description>
 	<description xml:lang="jp">最新コンテンツをウェブジンスタイルで出力するウィジェットです。</description>
 	<description xml:lang="en">This widget displays newest articles with webzine style.</description>
 	<description xml:lang="es">Este widget muestra más reciente de artículos con webzine estilo.</description>
 	<description xml:lang="ru">Этот виджет отображает последние статьи в стиле webzine.</description>
-	<description xml:lang="zh-TW">以雜誌類型顯示最新主題。</description>
+	<description xml:lang="zh-TW">以網路雜誌樣式顯示最新主題。</description>
 	<version>0.1</version>
 	<date>2007-02-28</date>
 

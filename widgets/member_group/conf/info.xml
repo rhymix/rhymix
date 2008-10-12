@@ -86,7 +86,7 @@
 			<description xml:lang="es">Usted puede elegir el número de la lista. (predefinido: 5)</description>
 			<description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
 			<description xml:lang="ru">Вы можете выбрать число списка. (стандарт: 5)</description>
-			<description xml:lang="zh-TW">可設置要顯示的目錄數。 (預設是5個)</description>
+			<description xml:lang="zh-TW">可設置要顯示的列表數。 (預設是5個)</description>
 		</var>
 		<var id="target_group">
 			<type>text</type>

@@ -44,7 +44,7 @@
             <description xml:lang="en">This will be the title of newest comments.</description>
             <description xml:lang="es">Este será el título de los comentarios recientes.</description>
             <description xml:lang="ru">Это будет заголовком последних комментариев.</description>
-            <description xml:lang="zh-TW">這將會是最新回覆的標題。</description>
+            <description xml:lang="zh-TW">顯示最新回覆的標題。</description>
         </var>
         <var id="list_count">
             <type>text</type>
@@ -61,7 +61,7 @@
             <description xml:lang="en">You can set the number of list(default is 5).</description>
             <description xml:lang="es">Usted puede definir el número de la lista(predefinido: 5).</description>
             <description xml:lang="ru">Вы можете выбрать число списка. (стандарт: 5)</description>
-            <description xml:lang="zh-TW">可設置要顯示的目錄數。 (預設是5個)</description>
+            <description xml:lang="zh-TW">可設置要顯示的目錄數。(預設是5個)</description>
         </var>
         <var id="subject_cut_size">
             <type>text</type>
@@ -95,7 +95,7 @@
             <description xml:lang="en">The target articles for the newest comments will be the ones submitted in the selected module.</description>
             <description xml:lang="es">El objetivo de los comentarios recientes serán los comentarios agragados en el módulo selccionado.</description>
             <description xml:lang="ru">Статьи назначения для последних комментариев будут теми, что были размещены в выбранном модуле.</description>
-            <description xml:lang="zh-TW">將所選擇的模組其中的主題作為目標。</description>
+            <description xml:lang="zh-TW">將所選擇的模組作為目標。</description>
         </var>
     </extra_vars>
 </widget>

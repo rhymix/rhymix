@@ -2,7 +2,7 @@
     /**
      * @file   modules/editor/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  網頁編輯器(editor) 模組語言包
+     * @brief  網頁編輯器(editor) 模組語言
      **/
 
     $lang->editor = "網頁編輯器";
@@ -101,9 +101,9 @@
     $lang->edit->delete_selected = '刪除所選';
 
     $lang->edit->icon_align_article = '段落';
-    $lang->edit->icon_align_left = '文字左側';
-    $lang->edit->icon_align_middle = '置中對齊';
-    $lang->edit->icon_align_right = '文字右側';
+    $lang->edit->icon_align_left = '靠左';
+    $lang->edit->icon_align_middle = '置中';
+    $lang->edit->icon_align_right = '靠右';
 
     $lang->about_dblclick_in_editor = '雙擊背景, 文字, 圖片, 引用，即可對其相關組件進行詳細設置。';
 ?>

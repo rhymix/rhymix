@@ -4,12 +4,12 @@
     <title xml:lang="jp">最新書き込みリストのデフォルトスキン</title>
     <title xml:lang="zh-CN">主题列表默认皮肤</title>
     <title xml:lang="en">Default Skin of Newest Article List</title>
-    <title xml:lang="zh-TW">最新主題列表預設面版</title>
+    <title xml:lang="zh-TW">最新主題列表預設面板</title>
     <description xml:lang="ko">최신글 목록 위젯의 기본 스킨</description>
     <description xml:lang="jp">最新書き込みリストウィジェットのデフォルトスキン</description>
     <description xml:lang="zh-CN">主题列表控件的默认皮肤。</description>
     <description xml:lang="en">Default skin of newest article list widget</description>
-    <description xml:lang="zh-TW">最新主題列表預設面版。</description>
+    <description xml:lang="zh-TW">最新主題列表預設面板。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>

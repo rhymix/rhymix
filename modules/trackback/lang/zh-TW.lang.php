@@ -2,7 +2,7 @@
     /**
      * @file   modules/trackback/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  引用(trackback) 模組的基本語言包
+     * @brief  引用(trackback)模組的基本語言
      **/
     $lang->cmd_toggle_checked_trackback = '反選';
     $lang->cmd_delete_checked_trackback = '刪除所選';
@@ -24,5 +24,5 @@
     );
 
     $lang->enable_trackback = "使用引用";
-    $lang->about_enable_trackback = "取消此項勾選將對網站內的所有主題禁止接收引用。";
+    $lang->about_enable_trackback = "不選取的話，將會使網站內所有的主題都禁止接收引用。";
 ?>

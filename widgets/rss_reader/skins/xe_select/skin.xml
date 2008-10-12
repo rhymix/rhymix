@@ -4,12 +4,12 @@
     <title xml:lang="jp">XE 最新書き込みスキン（Select メニュー）</title>
     <title xml:lang="zh-CN">XE最新主题样式皮肤(Select菜单)</title>
     <title xml:lang="en">XE Newest Article Skin (Select menu)</title>
-    <title xml:lang="zh-TW">XE最新主題面版(選取清單)</title>
+    <title xml:lang="zh-TW">XE最新主題面板(下拉式選單)</title>
     <description xml:lang="ko">XE 공식 레이아웃에 적합한 최신글 스킨입니다.</description>
     <description xml:lang="jp">XE オフィシャルレイアウトに最も適した最新書き込みスキンです。</description>
     <description xml:lang="zh-CN">XE最新主题样式皮肤。</description>
     <description xml:lang="en">This is a newest article skin that is suitable for XE official layout.</description>
-    <description xml:lang="zh-TW">XE最新主題面版。</description>
+    <description xml:lang="zh-TW">XE最新主題面板。</description>
     <version>0.1</version>
     <date>2007-11-05</date>
     <link>http://www.zeroboard.com</link>

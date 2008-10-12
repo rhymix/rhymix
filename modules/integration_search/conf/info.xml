@@ -33,7 +33,7 @@
     </description>
     <description xml:lang="zh-TW">
         將所選擇的模組當作搜尋對象進行搜尋。
-        所搜尋的模組中，如有私密文將不會被搜尋，因此請注意選擇您不想搜尋的模組。
+        所搜尋的模組中，如有私密文文章時將不會被搜尋，因此請注意選擇。
     </description>
     <version>0.1</version>
     <date>2007-07-24</date>
@@ -47,6 +47,6 @@
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
-        <name xml:lang="zh-TW">Zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

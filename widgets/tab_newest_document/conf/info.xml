@@ -337,7 +337,7 @@
 			<description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
 			<description xml:lang="ru">Статьи на выбранных модулях будут назначением.</description>
-			<description xml:lang="zh-TW">將所選擇模組中的最新主題當成顯示目標。</description>
+			<description xml:lang="zh-TW">將所選擇的模組當成顯示目標。</description>
 		</var>
 	</extra_vars>
 </widget>

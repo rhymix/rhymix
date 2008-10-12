@@ -2,7 +2,7 @@
     /**
      * @file   modules/comment/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  評論(comment)模組語言包
+     * @brief  評論(comment)模組語言
      **/
 	
     $lang->cmd_comment_do = '將把此評論..';
@@ -26,7 +26,7 @@
         'email_address' => '電子信箱',
         'homepage' => '主頁',
         'regdate' => '日期',
-        'last_update' => '最後更新 ',
+        'last_update' => '最後更新',
         'ipaddress' => 'IP 地址',
     );
 ?>

@@ -29,8 +29,8 @@
 		Этот виджет отображает новейшие изделия из одной или нескольких борту в стиле форума. Описание будет отображаться с целевыми борту название и описание.
 	</description>
 	<description xml:lang="zh-TW">
-		把一個或多個討論版顯示成論壇介面的控件。
-		論壇標題及說明請參考各討論版裡的標題設置與說明。
+		把一個或多個討論板顯示成論壇介面的控件。
+		論壇標題及說明，請參考各討論板裡的標題設置與說明。
 	</description>
 	<version>0.1</version>
 	<date>2008-01-23</date>
@@ -71,7 +71,7 @@
 			<description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
 			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
 			<description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
-			<description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時。</description>
+			<description xml:lang="zh-TW">可設置最新修改主題的new圖案顯示時。</description>
 		</var>
 		<var id="subject_cut_size">
 			<type>text</type>
@@ -105,7 +105,7 @@
 			<description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
 			<description xml:lang="ru">Статьи назначения для сортировки будут теми, что были размещены в выбранном модуле.</description>
-			<description xml:lang="zh-TW">把所選擇之模組當中的主題作為目標。</description>
+			<description xml:lang="zh-TW">把所選擇之模組當作目標。</description>
 		</var>
 	</extra_vars>
 </widget>

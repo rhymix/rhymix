@@ -6,14 +6,14 @@
     <title xml:lang="es">Pantalla punto ranking</title>
     <title xml:lang="zh-CN">会员积分排行榜</title>
     <title xml:lang="ru">Отображение рейтинга поинтов</title>
-    <title xml:lang="zh-TW">會員積分排行</title>
+    <title xml:lang="zh-TW">會員點數排行</title>
     <description xml:lang="ko">회원의 포인트 순위를 출력합니다.</description>
     <description xml:lang="jp">会員のポイント順位を出力します。</description>
     <description xml:lang="en">This widget displays members' point ranking.</description>
     <description xml:lang="es">Este widget muestra de los miembros del punto de la clasificación.</description>
     <description xml:lang="zh-CN">显示会员积分排行的控件。</description>
     <description xml:lang="ru">Этот виджет отображает рейтинг поитов пользователей.</description>
-    <description xml:lang="zh-TW">顯示會員積分排行的控件。</description>
+    <description xml:lang="zh-TW">顯示會員點數排行的控件。</description>
     <version>1.0</version>
     <date>2007-08-29</date>
 

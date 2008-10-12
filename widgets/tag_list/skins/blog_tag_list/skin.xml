@@ -4,12 +4,12 @@
 	<title xml:lang="jp">タグリスト表示</title>
 	<title xml:lang="zh-CN">标签目录皮肤</title>
 	<title xml:lang="en">Display Tag List</title>
-	<title xml:lang="zh-TW">標籤目錄面版</title>
+	<title xml:lang="zh-TW">標籤列表面板</title>
 	<description xml:lang="ko">꼬리표 목록을 출력합니다.</description>
 	<description xml:lang="jp">タグリストを表示します。</description>
 	<description xml:lang="zh-CN">显示标签目录。</description>
 	<description xml:lang="en">It displays tag list.</description>
-	<description xml:lang="zh-TW">顯示標籤目錄。</description>
+	<description xml:lang="zh-TW">顯示標籤列表。</description>
 	<version>0.1</version>
 	<date>2007-02-28</date>
 	<link>http://www.zeroboard.com</link>
@@ -28,7 +28,7 @@
 			<title xml:lang="jp">レイアウトに合わせる</title>
 			<title xml:lang="zh-CN">随布局</title>
 			<title xml:lang="en">레이아웃에 맞춤</title>
-			<title xml:lang="zh-TW">隨佈局</title>
+			<title xml:lang="zh-TW">隨版面</title>
 		</color>
 		<color name="normal">
 			<title xml:lang="ko">기본 컬러</title>

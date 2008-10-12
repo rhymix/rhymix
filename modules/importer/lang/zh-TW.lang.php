@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  匯入模組語言包
+     * @brief  匯入模組語言
      **/
 
     // 按鈕上使用的語言

@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  中文語言包 （包含基本內容）
+     * @brief  正體中文語言(包含基本內容)
      **/
 
     $lang->introduce_title = '安裝 Zeroboard XE';
@@ -17,11 +17,11 @@ zeroboard XE遵循 通用公共許可證(GNU General Public License) 開發，�
 <b>GNU通用公共許可證</b> -  翻譯文
 1991．6第二版
 
-版權所有(c)1989，1991 free software foundation, inc．
+版權所有(c)1989，1991 free software foundation, inc.
 
 675 mass ave， cambridge,mao2139， usa
 
-允許每個人複製和發佈這一許可證原始文檔的副本，但絕對不允許對它進行任何修改。
+允許每個人複製和發佈此許可證原始檔案的副本，但絕對不允許對它進行任何修改。
 
 序言
 

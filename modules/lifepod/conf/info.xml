@@ -13,7 +13,7 @@
     <description xml:lang="en">This module displays calendar from lifepod.</description>
     <description xml:lang="jp">(Openmaru社提供の)LifepodサービスのカレンダーをゼロボードXEに連動して出力するモジュールです。</description>
     <description xml:lang="ru">Этот модуль отображает календать с lifepod'а.</description>
-    <description xml:lang="zh-TW">將 Lifepod日曆連結到 ZeroboardXE的模組。</description>
+    <description xml:lang="zh-TW">將 Lifepod日曆連結到 ZeroboardXE中的模組。</description>
     <version>0.12</version>
     <date>2007-12-10</date>
     <category>service</category>

@@ -4,12 +4,12 @@
     <title xml:lang="jp">最新イメージ表示のデフォルトスキン</title>
     <title xml:lang="zh-CN">最新图片列表默认皮肤</title>
     <title xml:lang="en">Newest Image Widget Default Skin</title>
-    <title xml:lang="zh-TW">最新圖片預設面版</title>
+    <title xml:lang="zh-TW">最新圖片預設面板</title>
     <description xml:lang="ko">최신 이미지 위젯의 기본 스킨입니다.</description>
     <description xml:lang="jp">最新イメージを表示するウィジェットのデフォルトスキンです。</description>
     <description xml:lang="zh-CN">最新图片列表控件的默认皮肤.</description>
     <description xml:lang="en">This is default skin of newest image widget.</description>
-    <description xml:lang="zh-TW">最新圖片預設面版</description>
+    <description xml:lang="zh-TW">最新圖片預設面板</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>

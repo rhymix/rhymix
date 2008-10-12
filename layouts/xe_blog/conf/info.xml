@@ -88,7 +88,7 @@
                 <title xml:lang="ge">Blue (Standard)</title>
                 <title xml:lang="es">Azul (default)</title>
                 <title xml:lang="ru">Blue (default)</title>
-                <title xml:lang="zh-TW">藍色 (預設)</title>
+                <title xml:lang="zh-TW">藍色(預設)</title>
             </options>
             <options value="gray">
                 <title xml:lang="ko">회색</title>
@@ -147,7 +147,7 @@
             <description xml:lang="ge">Die Widgets, die angezeigt werden im Layout wird ordnungsgemäß funktionieren, wenn Sie das Basismodul</description>
             <description xml:lang="es">Los reproductores que se muestran en el diseño funcionará correctamente si selecciona el módulo básico</description>
             <description xml:lang="ru">В виджеты, которые отображаются в формате будет работать правильно, если вы выбираете основной модуль</description>
-            <description xml:lang="zh-TW">為了使部落格系統中的控件正常運作，必須要指定預設討論版模組名稱。</description>
+            <description xml:lang="zh-TW">要讓部落格系統中的控件正常運作，必須要指定預設討論板模組名稱。</description>
         </var>
         <var name="background_image" type="image">
             <title xml:lang="ko">배경 이미지</title>
@@ -213,7 +213,7 @@
             <title xml:lang="ge">Top-Menü</title>
             <title xml:lang="es">Menú superior</title>
             <title xml:lang="ru">Главное меню</title>
-            <title xml:lang="zh-TW">選單</title>
+            <title xml:lang="zh-TW">主選單</title>
         </menu>
     </menus>
 </layout>

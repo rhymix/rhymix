@@ -60,7 +60,7 @@
             <description xml:lang="en">You can set the number of list to be displayed.(default is 5)</description>
             <description xml:lang="es">Usted puede definir el número de listas a mostrar.(predefinido: 5)</description>
             <description xml:lang="ru">Вы можете выбрать число списка трекбеков для отображения. (стандарт: 5)</description>
-            <description xml:lang="zh-TW">可設置要顯示的目錄數。 (預設是5個)</description>
+            <description xml:lang="zh-TW">可設置要顯示的列表數。(預設是5個)</description>
         </var>
         <var id="mid_list">
             <type>mid_list</type>

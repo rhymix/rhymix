@@ -2,7 +2,7 @@
     /**
      * @file   /modules/editor/components/naver_map/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  網頁編輯器(editor) 模組 > naver地圖 (naver_map) 組件語言包
+     * @brief  網頁編輯器(editor) 模組 > naver地圖 (naver_map) 組件語言
      **/
 
     $lang->map_width = "寬度";

@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  正體中文語言包 (包含基本內容)
+     * @brief  正體中文語言 (包含基本內容)
      **/
 
     $lang->member = '會員';
@@ -33,7 +33,7 @@
     $lang->image_name = '暱稱圖片';
     $lang->image_name_max_width = '寬度限制';
     $lang->image_name_max_height = '高度限制';
-    $lang->image_mark = '用戶圖標';
+    $lang->image_mark = '用戶圖示';
     $lang->image_mark_max_width = '寬度限制';
     $lang->image_mark_max_height = '高度限制';
     $lang->signature_max_height = '簽名高度限制';
@@ -72,14 +72,14 @@
 
     $lang->cmd_login = '登入';
     $lang->cmd_logout = '登出';
-    $lang->cmd_signup = '新會員註冊';
+    $lang->cmd_signup = '會員註冊';
     $lang->cmd_modify_member_info = '修改會員資料';
     $lang->cmd_modify_member_password = '修改密碼';
     $lang->cmd_view_member_info = '檢視會員資料';
     $lang->cmd_leave = '退出';
-    $lang->cmd_find_member_account = '查詢用戶名稱/密碼';
+    $lang->cmd_find_member_account = '查詢 ID和密碼';
 
-    $lang->cmd_member_list = '會員目錄';
+    $lang->cmd_member_list = '會員列表';
     $lang->cmd_module_config = '基本設置';
     $lang->cmd_member_group = '用戶組管理';
     $lang->cmd_send_mail = '發送郵件';
@@ -92,7 +92,7 @@
     $lang->cmd_view_saved_document = '檢視臨時儲存箱';
     $lang->cmd_send_email = '發送郵件';
 
-    $lang->msg_email_not_exists = "找不到您輸入的Email地址。";
+    $lang->msg_email_not_exists = "找不到您輸入的 Email地址。";
 
     $lang->msg_alreay_scrapped = '已收藏的主題！';
 
@@ -101,13 +101,13 @@
 
     $lang->msg_find_account_title = '註冊資料。';
     $lang->msg_find_account_info = '您要尋找的註冊資料如下。';
-    $lang->msg_find_account_comment = '點擊下面的連結您的註冊密碼，將更新為上述系統自動建立的密碼。<br />請重新登入，將密碼改為您想要的密碼。';
+    $lang->msg_find_account_comment = '按下面的連結，您的註冊密碼將更新為上述系統自動建立的密碼。<br />請重新登入，將密碼改為您想要的密碼。';
     $lang->msg_confirm_account_title = '會員註冊';
     $lang->msg_confirm_account_info = '您的註冊資料如下:';
-    $lang->msg_confirm_account_comment = '請點擊下面連結完成會員認證。';
+    $lang->msg_confirm_account_comment = '請按下面連結完成會員認證。';
     $lang->msg_auth_mail_sent = '已向%s發送了認證郵件。請確認！！';
     $lang->msg_confirm_mail_sent = '已向%s發送了認證郵件。請確認！！';
-    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找用戶名稱及密碼， 或聯繫管理員。';
+    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找 ID及密碼， 或聯繫管理員。';
     $lang->msg_success_authed = '新的註冊資料已得到認證。請用郵件中的新密碼修改您要想使用的密碼。';
     $lang->msg_success_confirmed = '註冊資料已成功確認！';
 
@@ -116,7 +116,7 @@
     $lang->msg_leave_member = '退出會員';
     $lang->msg_group_is_null = '無用戶組。';
     $lang->msg_not_delete_default = '不能刪除基本項目';
-    $lang->msg_not_exists_member = '不存在的用戶稱';
+    $lang->msg_not_exists_member = '不存在的用戶名稱';
     $lang->msg_cannot_delete_admin = '無法解除管理員ID，請解除管理後再刪除';
     $lang->msg_exists_user_id = '重複的用戶名稱，請重新輸入。';
     $lang->msg_exists_email_address = '重複的電子郵件地址，請重新輸入電子郵件地址。';
@@ -171,7 +171,7 @@
     $lang->about_agreement = '沒有會員條款時不顯示。';
 
     $lang->about_image_name = '用戶暱稱可以用小圖片來替代顯示。';
-    $lang->about_image_mark = '顯示在用戶暱稱前的小圖標。';
+    $lang->about_image_mark = '顯示在用戶暱稱前的小圖示。';
     $lang->about_profile_image = '可以使用簽名圖片。';
     $lang->about_signature_max_height = '可以限制簽名欄高度(0或留空為不限制)。';
     $lang->about_accept_agreement = '已閱讀全部條款並同意。'; 

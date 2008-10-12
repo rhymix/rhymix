@@ -2,7 +2,7 @@
     /**
      * @file   /modules/editor/components/emoticon/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  網頁編輯器(editor) 模組 >  引用 (quotation) 組件語言包
+     * @brief  網頁編輯器(editor) 模組 >  引用 (quotation) 組件語言
      **/
 
     $lang->quotation_use_folder = "使用折疊功能";

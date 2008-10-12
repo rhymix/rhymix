@@ -15,7 +15,7 @@
     <description xml:lang="jp">アドオンの「登録、使用、未使用」などを設定する管理モジュールです。</description>
     <description xml:lang="fr">Ce module est pour les Additions de maintien qui peuvent basculer des états d'utilisation et de désuétude. </description>
     <description xml:lang="ru">Этот модуль служит для управления аддонами, использование которых Вы можете включать и выключать.</description>
-    <description xml:lang="zh-TW">登錄插件或設置啟用/禁用插件的管理模組。</description>
+    <description xml:lang="zh-TW">登錄或啟用/禁用插件的管理模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>manager</category>

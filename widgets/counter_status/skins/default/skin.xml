@@ -4,12 +4,12 @@
     <title xml:lang="jp">接続統計表示のデフォルトスキン</title>
     <title xml:lang="zh-CN">计数器默认皮肤</title>
     <title xml:lang="en">Default Counter Skin </title>
-    <title xml:lang="zh-TW">計數器預設面版</title>
+    <title xml:lang="zh-TW">計數器預設面板</title>
     <description xml:lang="ko">counter_status 의 기본 스킨</description>
     <description xml:lang="jp">接続統計（counter_status）のデフォルトスキン</description>
     <description xml:lang="zh-CN">计数器默认皮肤。</description>
     <description xml:lang="en">Default skin of counter_status</description>
-    <description xml:lang="zh-TW">計數器預設面版。</description>
+    <description xml:lang="zh-TW">計數器預設面板。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>

@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  頁面(page) 模組基本語言包
+     * @brief  頁面(page) 模組基本語言
      **/
 
     $lang->page = "頁面";

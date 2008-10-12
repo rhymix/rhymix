@@ -13,7 +13,7 @@
 	<description xml:lang="en">This widget displays a calendar, and if there is an article submitted, the date will be highlighted with its url link.</description>
 	<description xml:lang="es">Este widget muestra el calendario, y si hay documentos agregados, la fecha se verá con un color más claro enlazado con URL.</description>
 	<description xml:lang="ru">Этот виджет отображает календарь, и если отправляется статья, данные будут выделены их ссылкой.</description>
-	<description xml:lang="zh-TW">顯示日曆，發表主題的日期會跟日曆產生關聯。</description>
+	<description xml:lang="zh-TW">顯示日曆，發表主題的日期會跟日曆產生連結。</description>
 	<version>0.1</version>
 	<date>2007-02-28</date>
 
@@ -43,7 +43,7 @@
 			<description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">Los documentos del módulo seleccionado serán objetivos.</description>
 			<description xml:lang="ru">Статьи назначения будут теми, что были размещены в выбранном модуле.</description>
-			<description xml:lang="zh-TW">將所選擇的模組當做關聯目標。</description>
+			<description xml:lang="zh-TW">將所選擇的模組當做連結目標。</description>
 		</var>
 	</extra_vars>
 </widget>

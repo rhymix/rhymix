@@ -10,7 +10,7 @@
         <grant name="browser_source" default="guest">
             <title xml:lang="ko">소스 열람</title>
             <title xml:lang="zh-CN">查看代码</title>
-            <title xml:lang="zh-TW">檢視代碼</title>
+            <title xml:lang="zh-TW">檢視原始碼</title>
             <title xml:lang="jp">ソース閲覧</title>
         </grant>
         <grant name="ticket_view" default="guest">

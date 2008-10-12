@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  正體中文語言包
+     * @brief  正體中文語言
      **/
 
     $lang->module_list = "模組列表";
@@ -26,7 +26,7 @@
     $lang->skin_history = '更新事項';
     $lang->module_copy = "複製模組";
 
-    $lang->header_script = "檔案頭部腳本";
+    $lang->header_script = "Header Script";
     $lang->about_header_script = "可以直接輸入，並插入到HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等標籤。";
 
     $lang->cmd_add_shortcut = "新增到快捷選單";

@@ -4,12 +4,12 @@
     <title xml:lang="jp">ログイン情報表示のデフォルトスキン</title>
     <title xml:lang="zh-CN">登陆表单默认皮肤</title>
     <title xml:lang="en">Default Login Info Display Skin</title>
-    <title xml:lang="zh-TW">登入預設面版</title>
+    <title xml:lang="zh-TW">登入預設面板</title>
     <description xml:lang="ko">기본 스킨</description>
     <description xml:lang="jp">ログイン情報表示（login_info）のデフォルトスキン</description>
     <description xml:lang="zh-CN">登陆表单默认皮肤。</description>
     <description xml:lang="en">default skin</description>
-    <description xml:lang="zh-TW">預設登入面版。</description>
+    <description xml:lang="zh-TW">預設登入面板。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>

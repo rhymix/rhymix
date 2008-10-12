@@ -4,7 +4,7 @@
     <title xml:lang="zh-CN">Xquared编辑器皮肤</title>
     <title xml:lang="en">ZeroboardXE Xquared Editor Skin</title>
     <title xml:lang="jp">ZeroboardXE Xquared Editor Skin</title>
-    <title xml:lang="zh-TW">Xquared編輯器面版</title>
+    <title xml:lang="zh-TW">Xquared編輯器面板</title>
     <description xml:lang="ko">
         오픈소스 에디터인 Xquared를 이용한 위지윅 에디터입니다.
         자세한 정보는 Xquared 홈페이지를 참조하세요.
@@ -30,8 +30,8 @@
         Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
     </description>
     <description xml:lang="zh-TW">
-        開放原碼Xquared編輯器面版。
-        詳細情形請訪問 Xquared主頁。
+        Xquared編輯器面板開放原始碼。
+        詳細情形請至 Xquared主頁。
         http://labs.openmaru.com/projects/xquared
         Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
     </description>

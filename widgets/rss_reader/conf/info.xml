@@ -61,7 +61,7 @@
             <name xml:lang="zh-CN">目录数</name>
             <name xml:lang="en">Number of Pages</name>
             <name xml:lang="ru">Число страниц</name>
-            <name xml:lang="zh-TW">目錄數</name>
+            <name xml:lang="zh-TW">列表數</name>
             <description xml:lang="ko">기본 값 10</description>
             <description xml:lang="jp">デフォルト値 10</description>
             <description xml:lang="zh-CN">默认为10个</description>
@@ -97,7 +97,7 @@
             <description xml:lang="zh-CN">选择select皮肤时的文本高度。(默认为200px)</description>
             <description xml:lang="en">Height of select skin (default: 200px)</description>
             <description xml:lang="ru">Ширина скина (стандарт: 200px)</description>
-            <description xml:lang="zh-TW">選擇面版時的高度。(預設是200px)</description>
+            <description xml:lang="zh-TW">選擇面板時的高度。(預設是200px)</description>
         </var>
     </extra_vars>
 </widget>

@@ -4,12 +4,12 @@
 	<title xml:lang="jp">ウェブジンスタイルの最新コンテンツ出力デフォルトスキン</title>
 	<title xml:lang="zh-CN">网络杂志型最新主题列表默认皮肤</title>
 	<title xml:lang="en">Display newest documents like webzine style</title>
-	<title xml:lang="zh-TW">最新主題式雜誌型預設面版</title>
+	<title xml:lang="zh-TW">最新主題式雜誌型預設面板</title>
 	<description xml:lang="ko">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
 	<description xml:lang="jp">コンテンツリストとイメージが一緒に出力されるウェブジンスタイルのスキンです。イメージが含まれているコンテンツのみ表示されます。</description>
 	<description xml:lang="zh-CN">可以同时显示最新主题列表及缩略图的网络杂志型默认皮肤。只显示有图片的最新主题。</description>
 	<description xml:lang="en">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
-	<description xml:lang="zh-TW">可顯示最新主題列表與圖片的網路雜誌型預設面版。只顯示有圖片的最新主題。</description>
+	<description xml:lang="zh-TW">可顯示最新主題列表與圖片的網路雜誌型預設面板。只顯示有圖片的最新主題。</description>
 	<version>0.1</version>
 	<date>2007-11-22</date>
 	<link>http://www.zeroboard.com</link>

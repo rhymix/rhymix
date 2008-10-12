@@ -2,7 +2,7 @@
     /**
      * @file   modules/document/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  文章(document)模組語言包
+     * @brief  文章(document)模組語言
      **/
 
     $lang->document_list = '主題列表';
@@ -10,7 +10,7 @@
     $lang->thumbnail_crop = '裁減';
     $lang->thumbnail_ratio = '比例';
     $lang->cmd_delete_all_thumbnail = '刪除全部縮圖';
-    $lang->move_target_module = "移動目標模組";
+    $lang->move_target_module = "移到";
     $lang->title_bold = '粗體';
     $lang->title_color = '標題顏色';
 
@@ -23,8 +23,8 @@
     $lang->cmd_document_do = '將此主題..';
 
     $lang->msg_cart_is_null = '請選擇要刪除的文章。';
-    $lang->msg_category_not_moved = '不能移動！';
-    $lang->msg_is_secret = '這是私密文！';
+    $lang->msg_category_not_moved = '無法移動！';
+    $lang->msg_is_secret = '私密文！';
     $lang->msg_checked_document_is_deleted = '刪除了%d個文章。';
 
     // 管理頁面尋找的對象

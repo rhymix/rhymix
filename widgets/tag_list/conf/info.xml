@@ -43,7 +43,7 @@
 			<description xml:lang="en">This will be shown as a title with tag list.</description>
 			<description xml:lang="es">Este será el título al ser mostrada la etiqueta.</description>
 			<description xml:lang="ru">Это будет показано как заголовок со списком тегов.</description>
-			<description xml:lang="zh-TW">顯示標籤目錄的標題。</description>
+			<description xml:lang="zh-TW">顯示標籤列表的標題。</description>
 		</var>
 		<var id="list_count">
 			<type>text</type>
@@ -60,7 +60,7 @@
 			<description xml:lang="en">You can configure the number of tags to show. (Default is 20)</description>
 			<description xml:lang="es">Usted puede definir el número de etiquetas a mostrar. (predefinido: 20)</description>
 			<description xml:lang="ru">Вы можете сконфигурировать число тегов для показа. (стандарт: 20)</description>
-			<description xml:lang="zh-TW">可設置要顯示的標籤數。 (預設是 20個)</description>
+			<description xml:lang="zh-TW">可設置要顯示的標籤數。(預設是 20個)</description>
 		</var>
 		<var id="mid">
 			<type>mid</type>

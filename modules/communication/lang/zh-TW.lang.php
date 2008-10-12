@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  正體中文語言包 (包含基本內容)
+     * @brief  正體中文語言 (包含基本內容)
      **/
 
     $lang->communication = '交流';

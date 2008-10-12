@@ -3,7 +3,7 @@
 	<title xml:lang="ko">제로보드XE textarea 에디터 스킨</title>
 	<title xml:lang="jp">ゼロボードXE textarea エディタースキン</title>
 	<title xml:lang="zh-CN">zeroboard XE textarea 编辑器皮肤</title>
-	<title xml:lang="zh-TW">zeroboard XE textarea 編輯器面版</title>
+	<title xml:lang="zh-TW">zeroboard XE textarea 編輯器面板</title>
 	<description xml:lang="ko">
 		위지윅에디터가 아닌 가벼운 글 편집을 원할 경우 사용되는 스킨입니다.
 		에디터컴포넌트나 파일첨부등의 기능이 모두 되지 않고 단순히 글로 된 컨텐츠만 사용할 수 있습니다.
@@ -20,7 +20,7 @@
 		开发 : zero (http://www.zeroboard.com)
 	</description>
 	<description xml:lang="zh-TW">
-		適用於編輯純文字內容時，所使用的面版。
+		適用於編輯純文字內容時，所使用的面板。
 		不支援編輯器組件與上傳檔案功能，只能處理純文字格式的內容。
 		開發 : zero (http://www.zeroboard.com)
 	</description>

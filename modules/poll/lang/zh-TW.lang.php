@@ -2,7 +2,7 @@
     /**
      * @file   modules/poll/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  投票調查 (poll) 模組的基本語言包
+     * @brief  投票調查 (poll) 模組的基本語言
      **/
 
     $lang->poll = "投票調查";
@@ -10,10 +10,10 @@
     $lang->poll_join_count = "投票者";
     $lang->poll_checkcount = "必選項目數";
 
-    $lang->cmd_poll_list = '檢視目錄';
+    $lang->cmd_poll_list = '檢視列表';
     $lang->cmd_delete_checked_poll = '刪除所選項目';
     $lang->cmd_apply_poll = '參與投票';
-    $lang->cmd_view_result = '檢視結果';
+    $lang->cmd_view_result = '看結果';
     $lang->cmd_delete_checked_poll = '刪除所選';
 
     $lang->success_poll = '感謝您參與投票。';

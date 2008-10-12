@@ -2,12 +2,12 @@
     /**
      * @file   modules/krzip/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  正體中文語言包（包含基本內容）
+     * @brief  正體中文語言（包含基本內容）
      **/
 
     // 一般單詞
     $lang->krzip = "韓國郵編";
-    $lang->krzip_server_hostname = "郵編檢測主機名";
+    $lang->krzip_server_hostname = "郵編檢測主機名稱";
     $lang->krzip_server_port = "郵編檢測主機端口";
     $lang->krzip_server_query = "郵編檢測主機路徑";
 

@@ -4,12 +4,12 @@
     <title xml:lang="jp">SpringNote連動のデフォルトスキン</title>
     <title xml:lang="zh-CN">Springnote API默认皮肤</title>
     <title xml:lang="en">Springnote Module Basic Skin</title>
-    <title xml:lang="zh-TW">Springnote API預設面版</title>
+    <title xml:lang="zh-TW">Springnote API預設面板</title>
     <description xml:lang="ko">스프링 노트 연동 모듈의 기본 스킨</description>
     <description xml:lang="jp">SpringNote連動のデフォルトスキン</description>
     <description xml:lang="zh-CN">Springnote API默认皮肤。</description>
     <description xml:lang="en">Default Skin of Springnote Module</description>
-    <description xml:lang="zh-TW">Springnote API預設面版。</description>
+    <description xml:lang="zh-TW">Springnote API預設面板。</description>
     <version>0.1</version>
     <date>2007-11-30</date>
     <link>http://www.zeroboard.com</link>
@@ -66,12 +66,12 @@
             <title xml:lang="jp">掲示板タイトル</title>
             <title xml:lang="zh-CN">版面标题</title>
             <title xml:lang="en">Title of Board</title>
-            <title xml:lang="zh-TW">討論版標題</title>
+            <title xml:lang="zh-TW">討論板標題</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
             <description xml:lang="jp">掲示板のタイトルを入力してください。</description>
             <description xml:lang="zh-CN">请输入版面标题(留空为不显示)。</description>
             <description xml:lang="en">Please input the title of board.</description>
-            <description xml:lang="zh-TW">請輸入討論版標題(留白為不顯示)。</description>
+            <description xml:lang="zh-TW">請輸入討論板標題(留白為不顯示)。</description>
         </var>
     </extra_vars>
 </skin>

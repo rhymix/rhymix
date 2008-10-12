@@ -2,13 +2,13 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  問題追蹤模組語言包
+     * @brief  問題追蹤模組語言
      **/
 
      $lang->issuetracker = '問題追蹤';
-     $lang->about_issuetracker = '里程碑管理，代碼，問題與發佈等問題追蹤。';
+     $lang->about_issuetracker = '里程碑管理，原始碼，問題與發佈等問題追蹤。';
 
-     $lang->cmd_project_list = '專案目錄';
+     $lang->cmd_project_list = '專案列表';
      $lang->cmd_view_info = '專案資訊';
      $lang->cmd_project_setting = '專案設置';
      $lang->cmd_release_setting = '發佈設置';
@@ -77,7 +77,7 @@
              'dispIssuetrackerViewIssue' => '檢視問題',
              'dispIssuetrackerNewIssue' => '提交問題',
              'dispIssuetrackerViewMilestone' => '開發計劃',
-             'dispIssuetrackerViewSource' => '檢視代碼',
+             'dispIssuetrackerViewSource' => '檢視原始碼',
              'dispIssuetrackerDownload' => '下載',
              'dispIssuetrackerAdminProjectSetting' => '設置',
     );
@@ -88,5 +88,5 @@
 
     $lang->cmd_document_do = '將把此問題.. ';
     $lang->not_assigned = '沒有分配';
-    $lang->not_assigned_description = '沒被分配的問題目錄';
+    $lang->not_assigned_description = '沒被分配的問題列表';
 ?>

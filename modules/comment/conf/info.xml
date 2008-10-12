@@ -13,7 +13,7 @@
     <description xml:lang="en">Module for managing board/blog's comments</description>
     <description xml:lang="es">Es el módulo para manejar commentarios en blog o boletínes.</description>
     <description xml:lang="ru">Модуль для управления комментариями форума/блога.</description>
-    <description xml:lang="zh-TW">管理討論版或部落格評論的模組。</description>
+    <description xml:lang="zh-TW">管理討論板或部落格評論的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>utility</category>

@@ -92,7 +92,7 @@
 			<description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
 			<description xml:lang="en">Thumbnail Type may be set here.</description>
 			<description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
-			<description xml:lang="zh-TW">可選擇縮圖建立方式。 (crop : 裁減, ratio : 比例)</description>
+			<description xml:lang="zh-TW">可選擇縮圖建立方式。(crop : 裁減, ratio : 比例)</description>
 			<options>
 				<value>crop</value>
 				<name xml:lang="ko">Crop (채우기)</name>

@@ -7,7 +7,7 @@
     <title xml:lang="ru">ZBXE Официальный сайт макет</title>
     <title xml:lang="es">Diseño oficial de la página web de ZBXE</title>
     <title xml:lang="zh-CN">ZBXE 官方网站布局</title>
-    <title xml:lang="zh-TW">ZBXE 官方網站排版</title>
+    <title xml:lang="zh-TW">ZBXE 官方網站版面</title>
     <description xml:lang="ko">
         제로보드XE 공식 사이트 레이아웃입니다.
         디자인 : 이소라
@@ -51,10 +51,10 @@
         布局 : zero
     </description>
     <description xml:lang="zh-TW">
-        Zeroboard XE官方網站排版。
+        Zeroboard XE官方網站版面。
         設計 : So-Ra Lee
         HTML/CSS : Chan-Myung Jeong
-        排版 : zero
+        版面設計 : zero
     </description>
     <version>0.1</version>
     <date>2007-08-01</date>
@@ -131,7 +131,7 @@
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力してください。 (縦幅が23pxである透明イメージが最も合います。)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为23px的透明图片为适。)</description>
-            <description xml:lang="zh-TW">請輸入在排版頂部要顯示的LOGO圖片。(適當高度為23px的透明圖片。)</description>
+            <description xml:lang="zh-TW">請輸入在版面上端要顯示的LOGO圖片。(適當高度為23px的透明圖片。)</description>
             <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
             <description xml:lang="ge">Bitte geben Sie ein Logo das Bild wird auf dem oberen Layout. (Transparent Bild mit einer Höhe von 23px wird empfohlen).</description>
             <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
@@ -149,7 +149,7 @@
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
-            <description xml:lang="zh-TW">點擊網站LOGO時，輸入要移往的頁面URL。</description>
+            <description xml:lang="zh-TW">請輸入要移往的頁面URL，當用戶按了網站LOGO後。</description>
             <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
             <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
             <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>

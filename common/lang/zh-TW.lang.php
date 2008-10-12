@@ -60,8 +60,8 @@
     $lang->cmd_reset = '重置';
     $lang->cmd_remake_cache = "重新建立暫存檔";
     $lang->cmd_publish = "發表";
-    $lang->cmd_layout_setup = '排版設置';
-    $lang->cmd_layout_edit = '排版編輯';
+    $lang->cmd_layout_setup = '版面設置';
+    $lang->cmd_layout_edit = '版面編輯';
     $lang->cmd_search_by_ipaddress = '以IP地址搜尋';
     $lang->cmd_add_ip_to_spamfilter = '新增 IP至垃圾過濾器';
 
@@ -71,7 +71,7 @@
     // 基本詞語
     $lang->no = '編號';
     $lang->notice = '公告';
-    $lang->secret = '私密';
+    $lang->secret = '秘密';
     $lang->category = $lang->category_srl = '分類';
     $lang->none_category = '無分類';
     $lang->document_srl = '文章編號';
@@ -118,10 +118,10 @@
     $lang->order_desc = '降冪';
 
     $lang->mid = '模組名稱';
-    $lang->layout = '排版';
+    $lang->layout = '版面';
     $lang->widget = '控件 ';
     $lang->module = '模組';
-    $lang->skin = '面版';
+    $lang->skin = '面板';
     $lang->colorset = '顏色設定';
     $lang->extra_vars = '延伸變數';
 
@@ -152,9 +152,9 @@
 
     $lang->no_documents = '目前沒有主題';
 
-    $lang->board_manager = '討論版管理';
+    $lang->board_manager = '討論板管理';
     $lang->member_manager = '會員管理';
-    $lang->layout_manager = '排版管理';
+    $lang->layout_manager = '版面管理';
 
     $lang->use = '使用';
     $lang->notuse = '未使用';
@@ -197,7 +197,7 @@
 
     // 說明
     $lang->about_tag = '用逗號分隔多個標籤';
-    $lang->about_layout = '排版是佈置模組的外觀，在頂端排版選單中，可以進行管理';
+    $lang->about_layout = '版面設計是佈置網站的外觀模組，在上端版面選單中，可以進行管理';
 
     // 訊息
     $lang->msg_call_server = '系統正在連結服務器，請稍後。';
@@ -212,7 +212,7 @@
     $lang->msg_not_founded = '找不到相關內容';
     $lang->msg_no_result = '找不到與您查詢的相符結果';
 
-    $lang->msg_not_permitted_act = '沒有權限執行 action命令';
+    $lang->msg_not_permitted_act = '沒有權限執行';
     $lang->msg_module_is_not_exists = '找不到您查詢的模組';
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
 
@@ -254,7 +254,7 @@
     $lang->column_type_list['select'] = '下拉式選單 (select)';
     $lang->column_type_list['kr_zip'] = '韓國郵編(zip)';
     $lang->column_type_list['date'] = '日期 (年月日)';
-    //$lang->column_type_list['jp_zip'] = '日本地址 (zip)';
+    //$lang->column_type_list['jp_zip'] = '日本郵編 (zip)';
     $lang->column_name = '項目名稱';
     $lang->column_title = '項目標題';
     $lang->default_value = '預設值';

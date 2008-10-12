@@ -2,7 +2,7 @@
     /**
      * @file   /modules/editor/components/urllink/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  網頁編輯器(editor) 模組 > 投票調查組件語言包
+     * @brief  網頁編輯器(editor) 模組 > 投票調查組件語言
      **/
 
     $lang->poll_title = "標題";

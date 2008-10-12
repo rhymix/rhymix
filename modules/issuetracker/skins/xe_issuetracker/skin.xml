@@ -4,12 +4,12 @@
     <title xml:lang="jp">XE イシュートラッカー（IssueTracker）デフォルトスキン</title>
 	<title xml:lang="en">Basic Skin of XE IssueTracker</title>
     <title xml:lang="zh-CN">XE IssueTracker默认皮肤</title>
-    <title xml:lang="zh-TW">XE 問題追蹤預設面版</title>
+    <title xml:lang="zh-TW">XE 問題追蹤預設面板</title>
     <description xml:lang="ko">XE IssueTracker의 기본 스킨입니다. </description>
     <description xml:lang="jp">XE イシュートラッカー（IssueTracker）デフォルトスキンです。 </description>
 	<description xml:lang="en">This is the basic skin of XE IssueTracker. </description>
     <description xml:lang="zh-CN">XE IssueTracker默认皮肤。</description>
-    <description xml:lang="zh-TW">XE 問題追蹤預設面版。</description>
+    <description xml:lang="zh-TW">XE 問題追蹤預設面板。</description>
     <version>0.1</version>
     <date>2008-08-11</date>
 

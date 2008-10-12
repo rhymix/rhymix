@@ -28,14 +28,14 @@
             <title xml:lang="jp">レイアウトに合わせる</title>
             <title xml:lang="zh-CN">随布局</title>
             <title xml:lang="en">레이아웃에 맞춤</title>
-            <title xml:lang="zh-TW">隨佈局</title>
+            <title xml:lang="zh-TW">隨版面</title>
         </color>
         <color name="normal">
             <title xml:lang="ko">기본 컬러</title>
             <title xml:lang="jp">デフォルトカラー</title>
             <title xml:lang="zh-CN">默认颜色</title>
             <title xml:lang="en">Default color</title>
-            <title xml:lang="zh-TW">默認顏色</title>
+            <title xml:lang="zh-TW">預設顏色</title>
         </color>
         <color name="cyan">
             <title xml:lang="ko">청록색</title>

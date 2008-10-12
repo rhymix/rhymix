@@ -134,7 +134,7 @@
 			<description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
 			<description xml:lang="es">Usted puede definir el número de los documentos a mostrar. (predefinido: 5)</description>
 			<description xml:lang="ru">Вы можете выбрать число списка статей для отображения. (стандарт: 5)</description>
-			<description xml:lang="zh-TW">設置要顯示的目錄數。 (預設是5個)</description>
+			<description xml:lang="zh-TW">設置要顯示的目錄數。(預設是5個)</description>
 		</var>
 		<var id="duration_new">
 			<type>text</type>
@@ -183,7 +183,7 @@
 			<description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
 			<description xml:lang="ru">Статьи назначения для сортировки будут теми, что были размещены в выбранном модуле.</description>
-			<description xml:lang="zh-TW">把所選擇之模組其中的主題作為對象。</description>
+			<description xml:lang="zh-TW">把所選擇的模組作為目標。</description>
 		</var>
 	</extra_vars>
 </widget>

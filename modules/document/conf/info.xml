@@ -13,7 +13,7 @@
     <description xml:lang="zh-CN">管理版面，博客等处主题的模块。 </description>
     <description xml:lang="jp">掲示板、ブログなどのモジュールで使用されるドキュメント（書き込み）を管理するモジュルです。</description>
     <description xml:lang="ru">Модуль для управления документами в форуме, блоге и прочее.</description>
-    <description xml:lang="zh-TW">管理討論版，部落格等主題的模組。 </description>
+    <description xml:lang="zh-TW">管理討論板，部落格等主題的模組。 </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>utility</category>
