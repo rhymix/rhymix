@@ -189,10 +189,10 @@
     );
 
     $lang->time_gap = array(
-        'min' => '%d minute ago',
-        'mins' => '%d minutes ago',
-        'hour' => '%d hour ago',
-        'hours' => '%d hours ago',
+        'min' => '%d 分前',
+        'mins' => '%d 分前',
+        'hour' => '%d 時間前',
+        'hours' => '%d 時間前',
     );
 
     // 説明関連
