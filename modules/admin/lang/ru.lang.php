@@ -2,7 +2,7 @@
   /**
      * @file   ru.lang.php
      * @author zero <zero@nzeo.com> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
-     * @brief  Russian basic language pack for Zeroboard XE
+     * @brief  Russian basic language pack for XE
      **/
 
     $lang->admin_info = 'Информация администратора';
@@ -24,7 +24,7 @@
     $lang->current_version = "Текущая версия";
     $lang->current_path = "Текущий путь";
     $lang->released_version = "Последняя версия";
-    $lang->about_download_link = "Новая версия XE доступна. Чтобы скачать последнюю версию, нажмите ссылку закачки.";
+    $lang->about_download_link = "Новая версия XE доступна.\nЧтобы скачать последнюю версию, нажмите ссылку закачки.";
     
     $lang->item_module = "Список модулей";
     $lang->item_addon  = "Список аддонов";
@@ -44,46 +44,17 @@
     $lang->msg_manage_module_cannot_delete = 'Ярлыки модулей, аддонов, лейаутов, виджетов не могут быть удалены';
     $lang->msg_default_act_is_null = 'Ярлык не может быть зарегистрирован, поскольку стандартное административное действие не установлено';
 
-    $lang->welcome_to_zeroboard_xe = 'Добро пожаловать на страницу администратора Zeroboard XE';
+    $lang->welcome_to_xe = 'Добро пожаловать на страницу администратора XE';
     $lang->about_admin_page = "Страница администратора все еще в разработке,\nМы добавим важные доработки, принимая много хороших предложений на этапе Closebeta.";
     $lang->about_lang_env = "Чтобы применить выбранный язык для пользователей как страндартный, нажмите кнопку Сохранить [Save] после изменения.";
 
-    $lang->zeroboard_xe_user_links = 'Ссылки для пользователей';
-    $lang->zeroboard_xe_developer_links = 'Ссылки для разработчиков';
-
-    $lang->xe_user_links = array(
-        'Официальный веб-сайт' => 'http://www.zeroboard.com',
-        //'Close Beta website' => 'http://spring.zeroboard.com',
-        //'Module morgue' => 'http://www.zeroboard.com',
-        //'Addon morgue' => 'http://www.zeroboard.com',
-        //'Widget morgue' => 'http://www.zeroboard.com',
-        //'Module Skin morgue' => 'http://www.zeroboard.com',
-        //'Widget Skin morgue' => 'http://www.zeroboard.com',
-        //'Layout Skin morgue' => 'http://www.zeroboard.com',
-    );
-
-    $lang->xe_developer_links = array(
-        'Manual' => 'http://www.zeroboard.com/manual',
-        //"Форум разработчиков" => 'http://spring.zeroboard.com',
-        'Обсуждение вопсросов' => 'http://www.zeroboard.com/xe_issuetracker',
-        'SVN репозиторий' => 'http://svn.zeroboard.com',
-        'Документация' => 'http://doc.zeroboard.com',
-        'PDF документация' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
-        'XE Tools' => './tools/',
-    );
-
-    $lang->zeroboard_xe_usefulness_module = 'Полезные модули';
-    $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => 'Менеждер редактора',
-        'dispDocumentAdminList' => 'Менеждер статей',
-        'dispCommentAdminList' => 'Менеждер комментариев',
-        'dispFileAdminList' => 'Менеждер вложений',
-        'dispPollAdminList' => 'Менеждер голосований',
-        'dispSpamfilterAdminConfig' => 'Менеждер спам-фильтра',
-        'dispCounterAdminIndex' => 'Лог счетчика',
-
-    );
-
-    $lang->xe_license = 'Zeroboard XE подчиняется Стандартной Общественной Лицензии GPL';
+    $lang->xe_license = 'XE подчиняется Стандартной Общественной Лицензии GPL';
     $lang->about_shortcut = 'Вы можете удалить ярлыки модулей, зарегистрированных в списке часто используемых модулей';
+
+    $lang->yesterday = "Yesterday";
+    $lang->today = "Today";
+
+    $lang->cmd_lang_select = "언어선택";
+    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
+    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
 ?>

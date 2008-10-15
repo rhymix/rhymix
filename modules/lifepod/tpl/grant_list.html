@@ -1,36 +1,31 @@
 <!--#include("./header.html")-->
 <!--%import("filter/insert_grant.xml")-->
 
-<div class="infoText">{nl2br($lang->about_grant)}</div>
-
 <form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
 <table cellspacing="0" class="adminTable">
-<col width="150" />
-<col width="" />
-<col width="120" />
-<col width="120" />
-<caption>{$lang->target}</caption>
+<caption>{nl2br($lang->about_grant)}</caption>
+
 <tbody>
     <!--@foreach($grant_list as $key => $val)-->
     <tr>
-        <th scope="row">{$val->title}</th>
-        <td class="left">
+        <th scope="row"><div>{$val->title}<div></th>
+        <td class="wide">
             <!--@foreach($group_list as $k => $v)-->
             <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
             <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
             <!--@end-->
         </td>
-        <td><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
-        <td><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
+        <td class="selectAll center"><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
+        <td class="deSelectAll center"><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row" colspan="4" class="button">
+        <td scope="row" colspan="4" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
 </tbody>
 </table>

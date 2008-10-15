@@ -7,10 +7,8 @@
 
 <div id="popBody">
     <table cellspacing="0" class="adminTable">
-    <col width="100" />
-    <col />
     <tr>
-        <th scope="row">{$lang->component_author}</th>
+        <th scope="row"><div>{$lang->component_author}</div></th>
         <td class="blue">
             <!--@foreach($component->author as $author)-->
             {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
@@ -18,17 +16,17 @@
     </tr>
     <!--@if($component->homepage)-->
     <tr>
-        <th scope="row">{$lang->homepage}</th>
+        <th scope="row"><div>{$lang->homepage}</div></th>
         <td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></td>
     </tr>
     <!--@endif-->
     <tr>
-        <th scope="row">{$lang->regdate}</th>
+        <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate($component->date, 'Y-m-d')}</td>
     </tr>
     <!--@if($component->license || $component->license_link)-->
     <tr>
-        <th scope="row">{$lang->component_license}</th>
+        <th scope="row"><div>{$lang->component_license}</div></th>
         <td>
             {nl2br(trim($component->license))}
         <!--@if($layout_info->license_link)-->
@@ -38,7 +36,7 @@
     </tr>
     <!--@endif-->
     <tr>
-        <th scope="row">{$lang->component_description}</th>
+        <th scope="row"><div>{$lang->component_description}</div></th>
         <td>{nl2br(trim($component->description))}</td>
     </tr>
     </table>
@@ -56,10 +54,10 @@
 
     <!--@foreach($component->history as $history)-->
     <tr>
-        <th scope="row">
+        <th scope="row"><div>
             {$history->version}<br />
             {zdate($history->date, 'Y-m-d')}
-        </th>
+        </div></th>
         <td>
             <!--@foreach($history->author as $author)-->
             <p>{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a> / <a href="mailto:{$author->email_address}">{$author->email_address}</a>)</p>

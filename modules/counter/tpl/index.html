@@ -1,4 +1,5 @@
 <!--%import("js/counter_admin.js")-->
+<!--%import("css/counter.css")-->
 
 <!--// calendar -->
 <!--%import("../../common/js/calendar.min.js",optimized=false)-->
@@ -35,23 +36,27 @@
     <input type="hidden" name="act" value="{$act}" />
     <input type="hidden" name="selected_date" id="selected_date" value="{zDate('Ymd',$selected_date)}" />
 
-    <table cellspacing="0" class="summary">
-    <col width="124" />
-    <col />
-    <col width="164" />
-    <col />
+    <table cellspacing="0" class="adminTable">
+    <thead>
     <tr>
-        <th scope="row">{$lang->total_counter}</th>
-        <td>Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
-        <th scope="row">
-            <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> <span class="vr">|</span>
-            <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
-            <script type="text/javascript">
-                DyCalendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
-            </script>
+        <th scope="row" class="half_wide"><div>{$lang->total_counter}</div></th>
+        <th scope="row" class="half_wide">
+            <div>
+                <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> 
+                <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
+                <script type="text/javascript">
+                    DyCalendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
+                </script>
+            </div>
         </th>
-        <td>Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
     </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="number center">Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
+        <td class="number center">Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
+    </tr>
+    </tbody>
     </table>
 
     </form>
@@ -73,9 +78,7 @@
 
 
 <!-- unique visitor 그래프 -->
-<table cellspacing="0" class="adminTable counter">
-<col width="124" />
-<col />
+<table cellspacing="0" class="adminTable">
 <!--@foreach($detail_status->list as $key => $val)-->
     <!--@if($detail_status->sum>0)-->
         {@$percent = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
@@ -84,9 +87,10 @@
         {@$percent = 0}
         {@$img_width = 1}
     <!--@end-->
-<tr>
+<tr class="row{$cycle_idx}">
     <!--@if(Context::getLangType()=='en')-->
     <th scope="row">
+        <div>
         <!--// 시간대별 -->
         <!--@if($type == 'year')-->
             <em>{$key}</em>
@@ -97,9 +101,11 @@
         <!--@else-->
             <em>{$key}</em>
         <!--@end-->
+        </div>
     </th>
     <!--@else-->
     <th scope="row">
+        <div>
         <!--// 시간대별 -->
         <!--@if($type == 'year')-->
             <em>{$key}</em> {$lang->unit_year}
@@ -110,6 +116,7 @@
         <!--@else-->
             <em>{$key}</em> {$lang->unit_hour}
         <!--@end-->
+        </div>
     </th>
     <!--@end-->
     <td>

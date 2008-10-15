@@ -12,21 +12,16 @@
 <div class="top1">
     <table cellspacing="0" class="adminTable">
     <caption>{$lang->package}</caption>
-    <col width="200" />
-    <col width="*" />
-    <col width="80" />
     <!--@foreach($package_list as $key => $val)-->
     <tr>
-        <td><a href="{getUrl('package_srl', $key)}">{$val->title}</a></td>
-        <td class="summaryText"><div class="close">{nl2br($val->description)}</div></td>
-        <td class="button">
-            <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyPackage','package_srl',$val->package_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
-            <!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->package_srl}', delete_package);"><img src="images/buttonDeleteX.gif" /></a><!--@else-->&nbsp;<!--@end-->
-        </td>
+        <th><div><a href="{getUrl('package_srl', $key)}">{$val->title}</a></div></th>
+        <td class="wide summaryText"><div class="close">{nl2br($val->description)}</div></td>
+        <td class="modify center"><a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyPackage','package_srl',$val->package_srl)}">{$lang->cmd_modify}</a></td>
+        <td class="delete center"><!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->package_srl}', delete_package);">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
     <tr>
-        <td colspan="3">
+        <td colspan="4">
             <div class="fr">
                 <form action="{Context::getRequestUri()}" method="get">
                 <input type="hidden" name="module" value="{$module}"/>
@@ -46,10 +41,6 @@
 <div class="top2">
 
 <table cellspacing="0" class="adminTable">
-<col width="200" />
-<col width="80" />
-<col width="*" />
-<col width="80" />
 <caption>{$lang->package} : {$package->title}</caption>
 <tbody>
     <tr>
@@ -68,25 +59,25 @@
     </tr>
 <!--@foreach($package->releases as $key => $val)-->
     <tr>
-        <td class="vtop" rowspan="4">{$val->title}</th>
-        <th>{$lang->regdate}</th>
-        <td>{zdate($val->regdate)}</td>
-        <td class="tCenter">
+        <th rowspan="4"><div>{$val->title}</div></th>
+        <td>{$lang->regdate}</td>
+        <td class="wide">{zdate($val->regdate)}</td>
+        <td class="nowrap center">
             <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminAttachRelease','release_srl',$val->release_srl)}"><img src="images/buttonAttach.gif" alt="" /></a> 
             <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyRelease','release_srl',$val->release_srl)}"><img src="images/buttonModify.gif" alt="" /></a> 
             <a href="#" onclick="deleteByFilter('{$val->release_srl}', delete_release);"><img src="images/buttonDeleteX.gif" alt="" /></a>
         </td>
     </tr>
     <tr>
-        <th>{$lang->release_note}</th>
-        <td colspan="2" class="summaryText"><div class="close">{nl2br($val->release_note)}</div></td>
+        <td class="nowrap">{$lang->release_note}</td>
+        <td colspan="2" class="wide summaryText"><div class="close">{nl2br($val->release_note)}</div></td>
     </tr>
     <tr>
-        <th>{$lang->release_changes}</th>
+        <td class="nowrap">{$lang->release_changes}</td>
         <td colspan="2" class="summaryText"><div class="close">{nl2br($val->release_changes)}</div></td>
     </tr>
     <tr>
-        <th>{$lang->attached_file}</th>
+        <td class="nowrap">{$lang->attached_file}</td>
         <td colspan="2">
             <!--@if($val->files)-->
             <!--@foreach($val->files as $file)-->

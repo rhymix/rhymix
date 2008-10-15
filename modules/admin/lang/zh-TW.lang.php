@@ -24,7 +24,7 @@
     $lang->current_version = "安裝版本";
     $lang->current_path = "安裝路徑";
     $lang->released_version = "最新版本";
-    $lang->about_download_link = "官方網站已發佈新版本。請按download下載最新版本。";
+    $lang->about_download_link = "官方網站已發佈新版本。\n請按download下載最新版本。";
 
     $lang->item_module = "模組列表";
     $lang->item_addon  = "插件列表";
@@ -44,46 +44,17 @@
     $lang->msg_manage_module_cannot_delete = '模組，插件，版面設計，控件模組的快捷選單是無法刪除的。';
     $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快捷選單的。';
 
-    $lang->welcome_to_zeroboard_xe = 'zeroboard XE 管理頁面';
+    $lang->welcome_to_xe = 'XE 管理頁面';
     $lang->about_admin_page = "後台管理頁面未完成";
     $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後請點擊 [儲存] 按鈕進行儲存。";
 
-    $lang->zeroboard_xe_user_links = '為用戶提供的連結';
-    $lang->zeroboard_xe_developer_links = '開發人員的連結';
-
-    $lang->xe_user_links = array(
-        '韓國官方主頁' => 'http://www.zeroboard.com',
-        //'封測主頁' => 'http://spring.zeroboard.com',
-        //'模組下載地址' => 'http://www.zeroboard.com',
-        //'插件下載地址' => 'http://www.zeroboard.com',
-        //'控件下載地址' => 'http://www.zeroboard.com',
-        //'模組面板下載地址' => 'http://www.zeroboard.com',
-        //'控件面板下載地址' => 'http://www.zeroboard.com',
-        //'版面設計面板下載地址' => 'http://www.zeroboard.com',
-    );
-
-    $lang->xe_developer_links = array(
-        '使用手冊' => 'http://www.zeroboard.com/manual',
-        //'Developer 論壇' => 'http://spring.zeroboard.com',
-        '問題跟蹤' => 'http://trac.zeroboard.com',
-        'SVN Repository' => 'http://svn.zeroboard.com',
-        'doxygen document' => 'http://doc.zeroboard.com',
-        'PDF 檔案' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
-        'XE Tools' => './tools/',
-    );
-
-    $lang->zeroboard_xe_usefulness_module = '常用模組';
-    $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => '編輯器管理',
-        'dispDocumentAdminList' => '主題管理',
-        'dispCommentAdminList' => '評論管理',
-        'dispFileAdminList' => '附件管理',
-        'dispPollAdminList' => '投票管理',
-        'dispSpamfilterAdminConfig' => '垃圾過濾管理',
-        'dispCounterAdminIndex' => '統計日誌',
-
-    );
-
-    $lang->xe_license = 'Zeroboard XE遵循 GPL協議';
+    $lang->xe_license = 'XE遵循 GPL協議';
     $lang->about_shortcut = '可以刪除新增到常用模組中的快捷選單。';
+
+    $lang->yesterday = "Yesterday";
+    $lang->today = "Today";
+
+    $lang->cmd_lang_select = "언어선택";
+    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
+    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
 ?>

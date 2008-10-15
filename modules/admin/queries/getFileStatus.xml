@@ -1,0 +1,19 @@
+<query id="getFileStatus" action="select">
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="substr(regdate,1,8)" alias="date" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="more" column="regdate" var="date" notnull="notnull"/>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="substr(regdate,1,8)" order="asc" />
+        <list_count var="list_count" default="2" />
+    </navigation>
+    <groups>
+        <group column="substr(regdate,1,8)" />
+    </groups>
+</query>

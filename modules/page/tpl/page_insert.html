@@ -8,28 +8,26 @@
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
 
-    <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
+    <table cellspacing="0" class="adminTable topGap">
     <tr>
-        <th scope="row">{$lang->mid}</th>
-        <td>
+        <th scope="row"><div>{$lang->mid}</div></th>
+        <td colspan="3">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
     <!--@if($module_info->is_default!='Y')-->
     <tr>
-        <th scope="row">{$lang->is_default}</th>
-        <td>
+        <th scope="row"><div>{$lang->is_default}</div></th>
+        <td colspan="3">
             <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
             <label for="fld_for_default">{$lang->about_default}</label>
         </td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->module_category}</th>
-        <td>
+        <th scope="row"><div>{$lang->module_category}</div></th>
+        <td colspan="3">
             <select name="module_category_srl">
                 <option value="0">{$lang->notuse}</option>
                 <!--@foreach($module_category as $key => $val)-->
@@ -40,15 +38,15 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->browser_title}</th>
-        <td>
+        <th scope="row"><div>{$lang->browser_title}</div></th>
+        <td colspan="3">
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->layout}</th>
-        <td>
+        <th scope="row"><div>{$lang->layout}</div></th>
+        <td colspan="3">
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
             <!--@foreach($layout_list as $key => $val)-->
@@ -58,40 +56,28 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    </table>
-
-    <!-- 권한 출력 -->
-    <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col width="" />
-    <col width="120" />
-    <col width="120" />
-    <thead>
     <tr>
-        <th scope="col">{$lang->grant}</th>
-        <th scope="col" colspan="3">{$lang->target}</th>
+        <th scope="col"><div>{$lang->grant}</div></th>
+        <th scope="col" colspan="3" class="wide">{$lang->target}</div></th>
     </tr>
-    </thead>
-
-    <tbody>
-        <!--@foreach($grant_list as $key => $val)-->
-        <tr>
-            <th scope="row">{$val->title}</th>
-            <td class="left">
-                <!--@foreach($group_list as $k => $v)-->
-                <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
-                <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
-                <!--@end-->
-            </td>
-            <td><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
-            <td><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
-        </tr>
-        <!--@end-->
-    </tbody>
+    <!--@foreach($grant_list as $key => $val)-->
+    <tr>
+        <th scope="row"><div>{$val->title}</div></th>
+        <td>
+            <!--@foreach($group_list as $k => $v)-->
+            <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
+            <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
+            <!--@end-->
+        </td>
+        <td class="center selectAll"><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
+        <td class="center deSelectAll"><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <td colspan="4" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        </td>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-    </div>
 
 </form>

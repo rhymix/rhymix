@@ -1,0 +1,78 @@
+<!--%import("filter/insert_config.xml")-->
+
+<h3>{$lang->ldap} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+
+    <table cellspacing="0" class="adminTable topGap">
+    <tr>
+        <th scope="col"><div>{$lang->use_ldap}</div></th>
+        <td>
+            <input type="checkbox" name="use_ldap" value="Y" <!--@if($config->use_ldap == 'Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_use_ldap}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->ldap_server}</div></th>
+        <td>
+            <input type="text" name="ldap_server" value="{$config->ldap_server}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_server}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->ldap_port}</div></th>
+        <td>
+            <input type="text" name="ldap_port" value="{$config->ldap_port}" class="inputTypeText w80" />
+            <p>{$lang->about_ldap_port}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->ldap_userdn_suffix}</div></th>
+        <td>
+            <input type="text" name="ldap_userdn_suffix" value="{$config->ldap_userdn_suffix}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_userdn_suffix}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->ldap_basedn}</div></th>
+        <td>
+            <input type="text" name="ldap_basedn" value="{$config->ldap_basedn}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_basedn}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->ldap_email_entry}</div></th>
+        <td>
+            <input type="text" name="ldap_email_entry" value="{$config->ldap_email_entry}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_email_entry}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->ldap_nickname_entry}</div></th>
+        <td>
+            <input type="text" name="ldap_nickname_entry" value="{$config->ldap_nickname_entry}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_nickname_entry}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->ldap_username_entry}</div></th>
+        <td>
+            <input type="text" name="ldap_username_entry" value="{$config->ldap_username_entry}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_username_entry}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->ldap_group_entry}</div></th>
+        <td>
+            <input type="text" name="ldap_group_entry" value="{$config->ldap_group_entry}" class="inputTypeText w400" />
+            <p>{$lang->about_ldap_group_entry}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
+    </table>
+
+</form>

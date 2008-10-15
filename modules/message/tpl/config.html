@@ -3,11 +3,9 @@
 <h3>{$lang->message} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="adminTable gap1">
-    <col width="150" />
-    <col />
+    <table cellspacing="0" class="adminTable topGap">
     <tr>
-        <th scope="col">{$lang->skin}</th>
+        <th scope="col"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin">
                 <!--@foreach($skin_list as $key => $val)-->
@@ -17,10 +15,10 @@
             <p>{$lang->about_skin}</p>
         </td>
     </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
     </table>
-
-    <!-- 버튼 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 </form>

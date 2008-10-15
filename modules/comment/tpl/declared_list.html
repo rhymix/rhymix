@@ -2,8 +2,8 @@
 <!--#include("header.html")-->
 
 <!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
@@ -25,13 +25,13 @@
 <tbody>
     <!--@foreach($comment_list as $no => $oComment)-->
     <tr>
-        <td class="tahoma">{$no}</td>
-        <td class="left"><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
-        <td><div class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</div></td>
-        <td class="tahoma">{$oComment->getRegdate("Y-m-d")}</td>
-        <td class="tahoma red"><strong>{$oComment->get('declared_count')}</strong></td>
-        <td class="tahoma">{$oComment->get('ipaddress')}</td>
-        <td class="blue"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+        <td class="number center">{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
+        <td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
+        <td class="date nowrap center">{$oComment->getRegdate("Y-m-d")}</td>
+        <td class="alert center number"><strong>{$oComment->get('declared_count')}</strong></td>
+        <td class="number center">{$oComment->get('ipaddress')}</td>
+        <td class="view center"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <!--@end-->
 </tbody>

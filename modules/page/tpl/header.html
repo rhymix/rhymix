@@ -3,3 +3,9 @@
 <h3>{$lang->page} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_page)}</div>
+
+<!--@if($module_info)-->
+<!--@if($module_info->mid)-->
+<h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+<!--@end-->
+<!--@end-->

@@ -9,106 +9,38 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-<col />
-<col />
-<col />
-<col width="45" />
-<col width="70" />
-<col width="65" />
-<col width="50" />
-<col width="45" />
-<col width="45" />
-
-<!--@else if($lang_type == 'en')-->
-<col />
-<col />
-<col />
-<col width="50" />
-<col width="70" />
-<col width="80" />
-<col width="50" />
-<col width="55" />
-<col width="55" />
-
-<!--@else if($lang_type == 'zh-CN')-->
-<col />
-<col />
-<col />
-<col width="45" />
-<col width="45" />
-<col width="65" />
-<col width="50" />
-<col width="45" />
-<col width="45" />
-
-<!--@else if($lang_type == 'jp')-->
-<col />
-<col />
-<col />
-<col width="60" />
-<col width="70" />
-<col width="65" />
-<col width="50" />
-<col width="45" />
-<col width="45" />
-
-<!--@else if($lang_type == 'es')-->
-<col />
-<col />
-<col />
-<col width="65" />
-<col width="70" />
-<col width="80" />
-<col width="50" />
-<col width="70" />
-<col width="70" />
-
-<!--@else if($lang_type == 'ru')-->
-<col />
-<col />
-<col />
-<col width="65" />
-<col width="80" />
-<col width="90" />
-<col width="95" />
-<col width="75" />
-<col width="65" />
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->column_title}</th>
-        <th scope="col">{$lang->column_name}</th>
-        <th scope="col">{$lang->column_type}</th>
-        <th scope="col">{$lang->is_active}</th>
-        <th scope="col">{$lang->is_required}</th>
-        <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_move}</th>
-        <th scope="col">{$lang->cmd_modify}</th>
-        <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col" class="half_wide"><div>{$lang->column_title}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->column_name}</div></th>
+        <th scope="col"><div>{$lang->column_type}</div></th>
+        <th scope="col"><div>{$lang->is_active}</div></th>
+        <th scope="col"><div>{$lang->is_required}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col" colspan="3"><div>&nbsp;</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($form_list as $no => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td>{htmlspecialchars($val->column_title)}</td>
         <td>{$val->column_name}</td>
-        <td>{$lang->column_type_list[$val->column_type]}</td>
-        <td class="tahoma">{$val->is_active}</td>
-        <td class="tahoma">{$val->required}</td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="tahoma">
-            <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
-            <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
+        <td class="nowrap">{$lang->column_type_list[$val->column_type]}</td>
+        <td class="number center">{$val->is_active}</td>
+        <td class="number center">{$val->required}</td>
+        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="moveupdown">
+            <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','up');return false;" class="up">{$lang->cmd_move_up}</a>
+            <a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','down');return false;" class="down">{$lang->cmd_move_down}</a>
         </td>
-        <td class="blue"><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispMemberAdminInsertJoinForm')}">{$lang->cmd_modify}</a></td>
-        <td class="red"><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="modify center"><a href="{getUrl('member_join_form_srl',$val->member_join_form_srl,'act','dispMemberAdminInsertJoinForm')}">{$lang->cmd_modify}</a></td>
+        <td class="delete center"><a href="#" onclick="doUpdateJoinForm('{$val->member_join_form_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row" colspan="9" class="button">
+        <td colspan="9" class="right">
             <a href="{getUrl('act','dispMemberAdminInsertJoinForm','member_join_form_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
-        </th>
+        </td>
     </tr>
 </tbody>
 </table>

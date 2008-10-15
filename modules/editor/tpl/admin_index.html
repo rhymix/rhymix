@@ -5,42 +5,35 @@
 <table cellspacing="0" class="adminTable gap1">
 <thead>
     <tr>
-        <th scope="col" class="half_wide"><div>{$lang->component_name}</div></th>
-        <th scope="col"><div>{$lang->component_version}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->component_author}</div></th>
+        <th scope="col" colspan="2"><div>{$lang->component_version}</div></th>
         <th scope="col"><div>{$lang->component_date}</div></th>
-        <th scope="col"><div>{$lang->cmd_setup}</div></th>
-        <th scope="col"><div>{$lang->use}</div></th>
-        <th scope="col"><div>{$lang->cmd_move}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($component_list as $component_name => $xml_info)-->
     <tr>
-        <th scope="row" rowspan="2"><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;" class="blue">{$xml_info->title}</a><br />({$component_name})</th>
-        <td class="tahoam">{$xml_info->version}</td>
-        <td class="blue">
-            <!--@foreach($xml_info->author as $author)-->
-            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
-            <!--@endforeach-->
-        </td>
-        <td class="tahoma">{zdate($xml_info->date, 'Y-m-d')}</td>
-        <td class="red nowrap"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
-        <td class="nowrap">
+        <th colspan="2" scope="row"><div><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;"><strong>{$xml_info->title}</strong></a> ({$component_name})</div></th>
+        <td class="setup center"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
+        <td class="center <!--@if($xml_info->enabled=='Y')-->activated<!--@else-->deactivated<!--@end-->">
             <!--@if($xml_info->enabled=='Y')-->
                 <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
             <!--@else-->
                 <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
             <!--@end-->
         </td>
-        <td class="nowrap"><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
-            <a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
-        </td>
+        <td class="center moveupdown"><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" class="up">{$lang->cmd_move_up}</a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" class="down">{$lang->cmd_move_down}</a></td>
     </tr>
     <tr>
-        <td colspan="6" class="left">
-            {nl2br($xml_info->description)}
+        <td>{nl2br($xml_info->description)}</td>
+        <td class="nowrap">
+            <!--@foreach($xml_info->author as $author)-->
+            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+            <!--@endforeach-->
         </td>
+        <td class="number center" colspan="2">{$xml_info->version}</td>
+        <td class="date center nowrap">{zdate($xml_info->date, 'Y-m-d')}</td>
     </tr>
     <!--@end-->
 </tbody>

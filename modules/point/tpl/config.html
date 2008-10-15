@@ -3,88 +3,77 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config);">
 
+<div class="adminLeftContent">
+
     <table cellspacing="0" class="adminTable">
-    <col width="180" />
-    <col width="120" />
-    <col width="120" />
-    <col />
+    <caption>{$lang->cmd_point_recal}</caption>
     <tr>
-        <th scope="col">{$lang->cmd_point_recal}</th>
-        <td colspan="3">
-            <span class="button"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
+        <td>
             <p>{$lang->about_cmd_point_recal}</p>
-            <div id="pointReCal"></div>
+            <p id="pointReCal"></p>
+            <span class="button"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
         </td>
     </tr>
-    <tr>
-        <th scope="col" rowspan="{(count($group_list)+2)}">{$lang->point_link_group}</th>
-        <th colspan="2">{$lang->group}</th>
-        <th>{$lang->level}</th>
-    </tr>
-    <!--@foreach($group_list as $key => $val)-->
-    <tr>
-        <td colspan="2">{$val->title}</td>
-        <td><input type="text" class="inputTypeText w80" value="{$config->point_group[$key]}" name="point_group_{$key}" /></td>
-    <!--@end-->
-    <tr>
-        <td colspan="3"><p>{$lang->about_point_link_group}</p></td>
-    </tr>
-    <tr>
-        <th scope="col">{$lang->max_level}</th>
+    </table>
+
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->cmd_setup}</caption>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->max_level}</div></th>
         <td colspan="3">
             <input type="text" class="inputTypeText w80" value="{$config->max_level}" name="max_level" />
             <p>{$lang->about_max_level}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col">{$lang->point_name}</th>
+        <th scope="col"><div>{$lang->point_name}</div></th>
         <td colspan="3">
             <input type="text" class="inputTypeText w80" value="{$config->point_name}" name="point_name" />
             <p>{$lang->about_point_name}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="col" rowspan="9">{$lang->is_default}</th>
-        <td colspan="2">{$lang->point_signup}</th>
+    <tr class="row2">
+        <th scope="col" rowspan="9"><div>{$lang->is_default}</div></th>
+        <th colspan="2"><div>{$lang->point_signup}</div></th>
         <td>
             <input type="text" class="inputTypeText w80" value="{$config->signup_point}" name="signup_point" /> {$config->point_name}
             <p>{$lang->about_point_signup}</p>
         </td>
     </tr>
-    <tr>
-        <td colspan="2">{$lang->cmd_login}</th>
+    <tr class="row2">
+        <th colspan="2"><div>{$lang->cmd_login}</div></th>
         <td><input type="text" class="inputTypeText w80" value="{$config->login_point}" name="login_point" /> {$config->point_name}</td>
     </tr>
-    <tr>
-        <td colspan="2">{$lang->point_insert_document}</td>
+    <tr class="row2">
+        <th colspan="2"><div>{$lang->point_insert_document}</div></th>
         <td><input type="text" name="insert_document" value="{$config->insert_document}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <td colspan="2">{$lang->point_insert_comment}</td>
+        <th colspan="2"><div>{$lang->point_insert_comment}</div></th>
         <td><input type="text" name="insert_comment" value="{$config->insert_comment}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
-    <tr>
-        <td colspan="2">{$lang->point_upload_file}</td>
+    <tr class="row2">
+        <th colspan="2"><div>{$lang->point_upload_file}</div></th>
         <td><input type="text" name="upload_file" value="{$config->upload_file}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <td colspan="2">{$lang->point_download_file}</td>
+        <th colspan="2"><div>{$lang->point_download_file}</div></th>
         <td><input type="text" name="download_file" value="{$config->download_file}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
-    <tr>
-        <td colspan="2">{$lang->point_read_document}</td>
+    <tr class="row2">
+        <th colspan="2"><div>{$lang->point_read_document}</div></th>
         <td><input type="text" name="read_document" value="{$config->read_document}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <td colspan="2">{$lang->point_voted}</td>
+        <th colspan="2"><div>{$lang->point_voted}</div></th>
         <td><input type="text" name="voted" value="{$config->voted}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
-    <tr>
-        <td colspan="2">{$lang->point_blamed}</td>
+    <tr class="row2">
+        <th colspan="2"><div>{$lang->point_blamed}</div></th>
         <td><input type="text" name="blamed" value="{$config->blamed}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <th scope="col">{$lang->level_icon}</th>
+        <th scope="col"><div>{$lang->level_icon}</div></th>
         <td colspan="3">
             <select name="level_icon">
             <!--@foreach($level_icon_list as $key => $val)-->
@@ -95,19 +84,55 @@
         </td>
     </tr>
     <tr>
-        <th scope="col">{$lang->disable_download}</th>
+        <th scope="col"><div>{$lang->disable_download}</div></th>
         <td colspan="3">
             <input type="checkbox" name="disable_download" value="Y" <!--@if($config->disable_download=='Y')-->checked="checked"<!--@end--> />
-            {$lang->about_disable_download}
+            <p>{$lang->about_disable_download}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col">{$lang->level_point_calc}</th>
-        <td colspan="3"><input name="expression" value="{$config->expression}" /> <input type="button" onclick="exp_calc(this.form)" value="{$lang->cmd_exp_calc}" /> <input type="button" onclick="exp_calc(this.form, true)" value="{$lang->cmd_exp_reset}" /><p>{$lang->expression}</p>
+        <td colspan="4" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
+    </table>
+
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->point_link_group}</caption>
+    <thead>
+    <tr>
+        <th class="half_wide"><div>{$lang->group}<div></th>
+        <th class="half_wide"><div>{$lang->level}<div></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--@foreach($group_list as $key => $val)-->
+    <tr class="row{$cycle_idx}">
+        <td class="center"><div>{$val->title}</div></td>
+        <td class="center"><input type="text" class="inputTypeText w80" value="{$config->point_group[$key]}" name="point_group_{$key}" /></td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <td colspan="3"><p>{$lang->about_point_link_group}</p></td>
+    </tr>
+    <tr>
+        <td colspan="3" class="right">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+</div>
+
+<div class="adminRightExtra">
+    <table cellspacing="0" class="adminTable">
+    <tr>
+        <th scope="col"><div>{$lang->level_point_calc}</div></th>
+        <td colspan="3"><input name="expression" value="{$config->expression}" size="4"/> <input type="button" onclick="exp_calc(this.form)" value="{$lang->cmd_exp_calc}" /> <input type="button" onclick="exp_calc(this.form, true)" value="{$lang->cmd_exp_reset}" /><p>{$lang->expression}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col" rowspan="{$config->max_level}">{$lang->level_point}</th>
+        <th scope="col" rowspan="{$config->max_level}"><div>{$lang->level_point}</div></th>
         <td>1</td>
         <td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
         <td><input type="text" name="level_step_1" value="{$config->level_step[1]}" class="inputTypeText w80" /> {$config->point_name}</td>
@@ -119,11 +144,12 @@
         <td><input type="text" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <!--@end-->
+    <tr>
+        <td colspan="4" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
     </table>
 
-    <!-- 버튼 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

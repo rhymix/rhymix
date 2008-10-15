@@ -9,22 +9,20 @@
 </form>
 
 <table cellspacing="0" class="adminTable">
-<col width="150" />
-<col />
 <tr>
-    <th scope="row">{$lang->user_id}</th>
+    <th scope="row"><div>{$lang->user_id}</div></th>
     <td>{htmlspecialchars($member_info->user_id)}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->user_name}</th>
+    <th scope="row"><div>{$lang->user_name}</div></th>
     <td>{htmlspecialchars($member_info->user_name)}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->nick_name}</th>
+    <th scope="row"><div>{$lang->nick_name}</div></th>
     <td>{htmlspecialchars($member_info->nick_name)}</td>
 </tr>
 <tr>
-    <th scope="row" rowspan="2">{$lang->profile_image}</th>
+    <th scope="row" rowspan="2"><div>{$lang->profile_image}</div></th>
     <td>
         <!--@if($member_info->profile_image->src)-->
         <img src="{$member_info->profile_image->src}" border="0" alt="profile_image" />
@@ -47,7 +45,7 @@
     </td>
 </tr>
 <tr>
-    <th scope="row" rowspan="2">{$lang->image_name}</th>
+    <th scope="row" rowspan="2"><div>{$lang->image_name}</div></th>
     <td>
         <!--@if($member_info->image_name->src)-->
         <img src="{$member_info->image_name->src}" border="0" alt="image_name" />
@@ -70,7 +68,7 @@
     </td>
 </tr>
 <tr>
-    <th scope="row" rowspan="2">{$lang->image_mark}</th>
+    <th scope="row" rowspan="2"><div>{$lang->image_mark}</div></th>
     <td>
         <!--@if($member_info->image_mark->src)-->
         <img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
@@ -93,39 +91,39 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->email_address}</th>
+    <th scope="row"><div>{$lang->email_address}</div></th>
     <td>{htmlspecialchars($member_info->email_address)}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->homepage}</th>
+    <th scope="row"><div>{$lang->homepage}</div></th>
     <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end-->&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->blog}</th>
+    <th scope="row"><div>{$lang->blog}</div></th>
     <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end-->&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->birthday}</th>
+    <th scope="row"><div>{$lang->birthday}</div></th>
     <td>{zdate($member_info->birthday,'Y-m-d')}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->allow_mailing}</th>
+    <th scope="row"><div>{$lang->allow_mailing}</div></th>
     <td>{$member_info->allow_mailing}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->allow_message}</th>
+    <th scope="row"><div>{$lang->allow_message}</div></th>
     <td>{$lang->allow_message_type[$member_info->allow_message]}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->signature}</th>
+    <th scope="row"><div>{$lang->signature}</div></th>
     <td>{$member_info->signature}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->denied}</th>
+    <th scope="row"><div>{$lang->denied}</div></th>
     <td>{$member_info->denied}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->limit_date}</th>
+    <th scope="row"><div>{$lang->limit_date}</div></th>
     <td>
         <!--@if($member_info->limit_date)-->
             {zdate($member_info->limit_date,"Y-m-d H:i")}
@@ -134,11 +132,11 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->is_admin}</th>
+    <th scope="row"><div>{$lang->is_admin}</div></th>
     <td>{$member_info->is_admin}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->group}</th>
+    <th scope="row"><div>{$lang->group}</div></th>
     <td>
         <!--@foreach($member_info->group_list as $key => $val)-->
             {$val}
@@ -148,7 +146,7 @@
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr>
-    <th scope="row">{htmlspecialchars($val->column_title)}<!--@if($val->is_opened)--> <span class="publicItem">({$lang->public})</span><!--@end--></th>
+    <th scope="row"><div>{htmlspecialchars($val->column_title)}<!--@if($val->is_opened)--> <span class="publicItem">({$lang->public})</span><!--@end--></div></th>
     <td>
         <!--@if($val->column_type=='tel')-->
             {htmlspecialchars($val->value[0])}
@@ -171,7 +169,7 @@
 <!--@end-->
 <!--@end-->
 <tr>
-    <th scope="row">{$lang->description}</th>
+    <th scope="row"><div>{$lang->description}</div></th>
     <td>{htmlspecialchars($member_info->description)}&nbsp;</td>
 </tr>
 </table>

@@ -74,6 +74,9 @@
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
+            // 언어 파일 불러오기
+            $lang_supported = $this->loadLangSelected();
+
             // 세션 핸들러 지정
             $oSessionModel = &getModel('session');
             $oSessionController = &getController('session');
@@ -90,25 +93,10 @@
             // 쿠키로 설정된 언어타입 가져오기 
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
             else $this->lang_type = $this->db_info->lang_type;
-
-            // 등록된 기본 언어파일 찾기
-            $langs = file(_XE_PATH_.'common/lang/lang.info');
-            $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            foreach($langs as $val) {
-                list($lang_prefix, $lang_text) = explode(',',$val);
-                $lang_text = trim($lang_text);
-                $lang_supported[$lang_prefix] = $lang_text;
-                if(!$this->lang_type && preg_match('/'.$lang_prefix.'/i',$_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-                    $this->lang_type = $lang_prefix;
-                    setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
-                }
-            }
-
             if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
             if(!$this->lang_type) $this->lang_type = "en";
 
             Context::set('lang_supported', $lang_supported);
-
             $this->setLangType($this->lang_type);
 
             // 기본 언어파일 로드
@@ -260,6 +248,47 @@
         function _getDBInfo() {
             return $this->db_info;
         }
+
+        /**
+         * @brief 지원되는 언어 파일 찾기
+         **/
+        function loadLangSupported() {
+            static $lang_supported = null;
+            if(is_null($lang_supported)) {
+                $langs = file(_XE_PATH_.'common/lang/lang.info');
+                foreach($langs as $val) {
+                    list($lang_prefix, $lang_text) = explode(',',$val);
+                    $lang_text = trim($lang_text);
+                    $lang_supported[$lang_prefix] = $lang_text;
+                }
+            }
+            return $lang_supported;
+        }
+
+        /**
+         * @brief 설정한 언어 파일 찾기
+         **/
+        function loadLangSelected() {
+            static $lang_selected = null;
+            if(is_null($lang_selected)) {
+                $orig_lang_file = _XE_PATH_.'common/lang/lang.info';
+                $selected_lang_file = _XE_PATH_.'files/cache/lang_selected.info';
+                if(!file_exists($selected_lang_file) || !filesize($selected_lang_file)) {
+                    $buff = FileHandler::readFile($orig_lang_file);
+                    FileHandler::writeFile($selected_lang_file, $buff);
+                    $lang_selected = Context::loadLangSupported();
+                } else {
+                    $langs = file($selected_lang_file);
+                    foreach($langs as $val) {
+                        list($lang_prefix, $lang_text) = explode(',',$val);
+                        $lang_text = trim($lang_text);
+                        $lang_selected[$lang_prefix] = $lang_text;
+                    }
+                }
+            }
+            return $lang_selected;
+        }
+
 
         /**
          * @biref FTP 정보가 등록되었는지 확인

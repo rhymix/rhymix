@@ -12,16 +12,14 @@
 
     <div id="popBody">
         <table cellspacing="0" class="adminTable">
-        <col width="100" />
-        <col />
         <caption>{nl2br($lang->about_widget_code)}</caption>
         <tr>
-            <th scope="row">{$lang->widget}</th>
+            <th scope="row"><div>{$lang->widget}</div></th>
             <td>{$widget_info->title} ver {$widget_info->version}</td>
         </tr>
         <!--@if(count($skin_list))-->
         <tr>
-            <th scope="row">{$lang->skin}</th>
+            <th scope="row"><div>{$lang->skin}</div></th>
             <td>
                 <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
                     <option value="">&nbsp;</option>
@@ -41,7 +39,7 @@
         </tr>
         <!--@end-->
         <tr>
-            <th scope="row">{$lang->widget_cache}</th>
+            <th scope="row"><div>{$lang->widget_cache}</div></th>
             <td>
                 <input type="text" name="widget_cache" value="0" class="inputTypeText" size="2" />{$lang->unit_min}
                 <p>{$lang->about_widget_cache}</p>
@@ -53,24 +51,22 @@
         {@$group = $var->group}
         </table>
         <table cellspacing="0" class="adminTable">
-        <col width="100" />
-        <col width="*" />
         <caption>{$group}</caption>
         <!--@end-->
 
-        <tr>
-            <th scope="row">
+        <tr class="row{$cycle_idx}">
+            <th scope="row"><div>
                 {$var->name}
                 <!--@if($var->type == "mid_list")-->
                     <input type="checkbox" onclick="checkboxSelectAll(this.form, '{$id}'); return false;" />
                 <!--@end-->
-            </th>
+            </div></th>
             <td>
                 <!--@if($var->type == "text")-->
                 <input type="text" name="{$id}" value="" class="inputTypeText" />
 
                 <!--@elseif($var->type == "textarea")-->
-                <textarea name="{$id}" class="inputTypeTextArea w100"></textarea>
+                <textarea name="{$id}" class="inputTypeTextArea w200"></textarea>
 
                 <!--@elseif($var->type == "select")-->
                 <select name="{$id}">
@@ -127,8 +123,8 @@
         <!--@end-->
 
         <tr>
-            <th>{$lang->widget_code}</th>
-            <td><textarea readonly="true" id="widget_code" class="inputTypeTextArea w100"></textarea></td>
+            <th><div>{$lang->widget_code}</div></th>
+            <td><textarea readonly="true" id="widget_code" class="inputTypeTextArea w400"></textarea></td>
         </tr>
         </table>
     </div>

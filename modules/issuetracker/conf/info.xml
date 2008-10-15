@@ -14,10 +14,17 @@
     <date>2008-08-04</date>
     <category>service</category>
     <author email_address="haneul0318@gmail.com" link="http://www.seungyeop.kr">
-        <name xml:lang="ko">haneul, zero</name>
-        <name xml:lang="jp">haneul, zero</name>
-        <name xml:lang="zh-CN">haneul, zero</name>
-		<name xml:lang="en">haneul, zero</name>
-        <name xml:lang="zh-TW">haneul, zero</name>
+        <name xml:lang="ko">haneul</name>
+        <name xml:lang="jp">haneul</name>
+        <name xml:lang="zh-CN">haneul</name>
+		<name xml:lang="en">haneul</name>
+        <name xml:lang="zh-TW">haneul</name>
+    </author>
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+        <name xml:lang="jp">zero</name>
+        <name xml:lang="zh-CN">zero</name>
+		<name xml:lang="en">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

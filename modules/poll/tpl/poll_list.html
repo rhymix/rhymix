@@ -3,10 +3,10 @@
 
 <!--#include("./header.html")-->
 
-<!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <em>{number_format($page)}/{number_format($total_page)}</em>
 </div>
+
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_checked)" id="fo_list">
 <input type="hidden" name="page" value="{$page}" />
@@ -21,19 +21,19 @@
         <th scope="col"><div>{$lang->poll_checkcount}</div></th>
         <th scope="col"><div>{$lang->poll_join_count}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->cmd_view}</div></th>
+        <th scope="col"><div>&nbsp;</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($poll_list as $no => $val)-->
-    <tr>
-        <td class="tahoma">{$no}</td>
-        <td><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-        <td class="left blue"><a href="#" onclick="doMovePoll({$val->poll_srl},{$val->upload_target_srl});return false;">{htmlspecialchars($val->title)}</a></td>
-        <td class="tahoma">{$val->checkcount}</td>
-        <td class="tahoma">{$val->poll_count}</td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d H:i")}</td>
-        <td class="blue"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
+    <tr class="row{$cycle_idx}">
+        <td class="number center">{$no}</td>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
+        <td><a href="#" onclick="doMovePoll({$val->poll_srl},{$val->upload_target_srl});return false;">{htmlspecialchars($val->title)}</a></td>
+        <td class="number center">{$val->checkcount}</td>
+        <td class="number center">{$val->poll_count}</td>
+        <td class="date nowrap center">{zdate($val->regdate,"Y-m-d H:i")}</td>
+        <td class="center nowrap view"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
     </tr>
     <!--@end-->
 </tbody>

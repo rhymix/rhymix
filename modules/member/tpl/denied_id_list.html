@@ -10,42 +10,23 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,180,0,65,45)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,180,0,80,55)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,180,0,80,55)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,180,0,65,45)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,180,0,80,70)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,180,0,90,65)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,180,0,75,60)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col">{$lang->user_id}</th>
-        <th scope="col">{$lang->description}</th>
-        <th scope="col">{$lang->regdate}</th>
-        <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->user_id}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($member_list as $no => $val)-->
-    <tr>
-        <td class="tahoma">{$no}</td>
-        <td class="tahoma">{$val->user_id}</td>
+    <tr class="row{$cycle_idx}">
+        <td class="number center">{$no}</td>
+        <td>{$val->user_id}</td>
         <td>{$val->description}&nbsp;</td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="red"><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="delete"><a href="#" onclick="doUpdateDeniedID('{$val->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 </tbody>
@@ -70,20 +51,18 @@
 
 <div>
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="row">{$lang->user_id}</th>
-        <td class="left"><input type="text" name="user_id" class="inputTypeText w100" /></td>
+        <th scope="row"><div>{$lang->user_id}</div></th>
+        <td class="wide"><input type="text" name="user_id" class="inputTypeText w400" /></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->description}</th>
-        <td class="left"><textarea name="description" class="inputTypeTextArea w100"></textarea></td>
+        <th scope="row"><div>{$lang->description}</div></th>
+        <td class="left"><textarea name="description" class="inputTypeTextArea w400"></textarea></td>
     </tr>
     <tr>
-        <th scope="row" colspan="2" class="button">
+        <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
     </table>
 </div>

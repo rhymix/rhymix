@@ -4,19 +4,29 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_module_config);" id="fo_point">
 
     <table cellspacing="0" class="adminTable">
-    <tr>
-        <th>{$lang->point_insert_document}</th>
-        <th>{$lang->point_insert_comment}</th>
-        <th>{$lang->point_upload_file}</th>
-        <th>{$lang->point_download_file}</th>
-        <th>{$lang->point_read_document}</th>
-        <th>{$lang->point_voted}</th>
-        <th>{$lang->point_blamed}</th>
-    </tr>
+    <col width="14%" />
+    <col width="14%" />
+    <col width="14%" />
+    <col width="14%" />
+    <col width="14%" />
+    <col width="14%" />
+    <col width="14%" />
+    <thead>
+        <tr>
+            <th><div>{$lang->point_insert_document}</div></th>
+            <th><div>{$lang->point_insert_comment}</div></th>
+            <th><div>{$lang->point_upload_file}</div></th>
+            <th><div>{$lang->point_download_file}</div></th>
+            <th><div>{$lang->point_read_document}</div></th>
+            <th><div>{$lang->point_voted}</div></th>
+            <th><div>{$lang->point_blamed}</div></th>
+        </tr>
+    </thead>
+    <tbody>
     <!--@foreach($mid_list as $key => $val)-->
     <!--@if(in_array($val->module,array('guestbook','board','blog')))-->
     <tr>
-        <th colspan="7" scope="col">{$val->browser_title} ({$val->mid})</th>
+        <th colspan="7" scope="col"><div><strong>{$val->browser_title}</strong> ({$val->mid})</div></th>
     </tr>
     <tr>
         <td><input type="text" name="insert_document_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
@@ -29,11 +39,12 @@
     </tr>
     <!--@end-->
     <!--@end-->
+    <tr>
+        <td colspan="7" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
+    </tbody>
     </table>
-
-    <!-- 버튼 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

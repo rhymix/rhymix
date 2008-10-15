@@ -171,6 +171,7 @@
          * @brief <!--@, --> 사이의 구문을 php코드로 변경
          **/
         function _compileFuncToCode($matches) {
+            static $idx = 0;
             $code = trim($matches[1]);
             if(!$code) return;
 
@@ -203,11 +204,14 @@
                             $tmp_str = substr($code, 8);
                             $tmp_arr = explode(' ', $tmp_str);
                             $var_name = $tmp_arr[0];
+                            $prefix = '$Context->__idx['.$idx.']=0;';
                             if(substr($var_name, 0, 1) == '$') {
-                                $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name, 1));
+                                $prefix .= sprintf('if(count($__Context->%s)) ', substr($var_name, 1));
                             } else {
-                                $prefix = sprintf('if(count(%s)) ', $var_name);
+                                $prefix .= sprintf('if(count(%s)) ', $var_name);
                             }
+                            $idx++;
+                            $suffix .= '$__idx['.$idx.']=($__idx['.$idx.']+1)%2; $cycle_idx = $__idx['.$idx.']+1;';
                         } elseif(substr($code, 0, 4) == 'case') {
                             $suffix = ':';
                         } elseif(substr($code, 0, 10) == 'break@case') {

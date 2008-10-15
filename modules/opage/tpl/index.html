@@ -2,8 +2,8 @@
 <!--#include("header.html")-->
 
 <!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, page <strong>{number_format($opage)}</strong>/{number_format($total_opage)}
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, page <strong>{number_format($opage)}</strong>/{number_format($total_opage)}
 </div>
 
 <!-- 목록 -->
@@ -28,18 +28,17 @@
             </form>
             </div>
         </th>
-        <th scope="col" class="wide"><div>{$lang->mid} / {$lang->browser_title}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->cmd_view}</div></th>
-        <th scope="col"><div>{$lang->cmd_copy}</div></th>
-        <th scope="col"><div>{$lang->cmd_delete}</div></th>
+        <th scope="col" colspan="3"><div>&nbsp;</div></th>
     </tr>
 </thead>
 
 <tbody>
     <!--@foreach($opage_list as $no => $val)-->
-    <tr>
-        <td class="tahoma">{$no}</td>
+    <tr class="row{$cycle_idx}">
+        <td class="number center">{$no}</td>
         <td>
             <!--@if(!$val->module_category_srl)-->
                 {$lang->not_exists}
@@ -47,24 +46,22 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td class="left subject">
-            {$val->mid} - <a href="{getUrl('act','dispOpageAdminInsert','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a>
-            
-        </td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="green"><a href="{getUrl('','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="blue"><a href="./?module=module&act=dispModuleAdminCopyModule&module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
-        <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispOpageAdminDelete','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td><a href="{getUrl('act','dispOpageAdminInsert','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->mid)}</a></td>
+        <td><a href="{getUrl('act','dispOpageAdminInsert','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a></td>
+        <td class="date nowrap center">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="view center"><a href="{getUrl('','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+        <td class="copy center"><a href="./?module=module&act=dispModuleAdminCopyModule&module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
+        <td class="delete center"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispOpageAdminDelete','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
     </tr>
     <!--@end-->
-
+    <tr>
+        <td colspan="8" class="right">
+            <a href="{getUrl('act','dispOpageAdminInsert','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+        </td>
+    </tr>
 </tbody>
 </table>
 
-<!-- 버튼 -->
-<div class="fr gap1">
-    <a href="{getUrl('act','dispOpageAdminInsert','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
-</div>
 
 <!-- 페이지 네비게이션 -->
 <div class="pageNavigation">

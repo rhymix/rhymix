@@ -1,8 +1,8 @@
 <!--#include("./header.html")-->
 
 <!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <!-- 목록 -->
@@ -27,7 +27,8 @@
                 <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
             </div>
         </th>
-        <th scope="col" class="wide"><div>{$lang->mid} / {$lang->browser_title}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
         <th scope="col"><div>{$lang->cmd_view}</div></th>
         <th scope="col"><div>{$lang->cmd_copy}</div></th>
@@ -37,8 +38,8 @@
 <tbody>
     <!--@foreach($board_list as $no => $val)-->
     <tr>
-        <td class="tahoma">{$no}</td>
-        <td><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
+        <td class="center number">{$no}</td>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
         <td>
             <!--@if(!$val->module_category_srl)-->
                 {$lang->not_exists}
@@ -46,14 +47,12 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td class="left subject">
-            {$val->mid} -
-            <a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a>
-        </td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="green"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="blue"><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
-        <td class="red"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->mid)}</a></td>
+        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a></td>
+        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="view center"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+        <td class="copy center"><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
+        <td class="delete center"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>

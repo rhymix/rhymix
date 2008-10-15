@@ -4,14 +4,14 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
     <tr>
-        <th scope="row">{$lang->sample_code}</th>
-        <td colspan="2">
+        <th scope="row"><div>{$lang->sample_code}<div></th>
+        <td colspan="2" class="wide">
             <textarea class="inputTypeTextArea w400" readonly="readonly">{$sample_code}</textarea>
             <p>{$lang->about_sample_code}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->skin}</th>
+        <th scope="row"><div>{$lang->skin}</div></th>
         <td colspan="2">
             <select name="skin">
                 <!--@foreach($skin_list as $key=>$val)-->
@@ -22,17 +22,17 @@
         </td>
     </tr>
     <tr>
-        <th colspan="3"><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</th>
+        <td colspan="3"><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</td>
     </tr>
     <!--@foreach($mid_list as $module_category_srl => $modules)-->
     <!--@if($modules->title)-->
     <tr>
-        <th rowspan="{count($modules->list)+1}">{$modules->title}</th>
+        <th rowspan="{count($modules->list)+1}"><div>{$modules->title}</div></th>
         <!--@if(count($modules->list)<1)--><td colspan="2">&nbsp;</td><!--@end-->
     </tr>
     <!--@else-->
     <tr>
-        <th rowspan="{count($modules->list)+1}">&nbsp;</th>
+        <th rowspan="{count($modules->list)+1}"><div>&nbsp;</div></th>
         <!--@if(count($modules->list)<1)--><td colspan="2">&nbsp;</td><!--@end-->
     </tr>
     <!--@end-->
@@ -47,9 +47,9 @@
     <!--@end-->
     <!--@end-->
     <tr>
-        <th scope="row" class="button" colspan="3">
+        <td class="right" colspan="3">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
     </table>    
 </form>

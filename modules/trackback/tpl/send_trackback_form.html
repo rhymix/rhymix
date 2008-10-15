@@ -9,18 +9,16 @@
 
 <div id="popBody">
     <table cellspacing="0" class="adminTable">
-    <col width="130" />
-    <col />
     <tr>
-        <th scope="row"><label>{$lang->title}</label></th>
+        <th scope="row"><div><label>{$lang->title}</label></div></th>
         <td>{$oDocument->getTitleText()}</td>
     </tr>
     <tr>
-        <th scope="row"><label>{$lang->content}</label></th>
+        <th scope="row"><div><label>{$lang->content}</label></div></th>
         <td>{$oDocument->getSummary()}</td>
     </tr>
     <tr>
-        <th scope="row"><label for="textfield1">{$lang->send_trackback_url}</label></th>
+        <th scope="row"><div><label for="textfield1">{$lang->send_trackback_url}</label></div></th>
         <td>
             <input type="text" id="textfield1" name="trackback_url" value="" class="inputTypeText w300" />
             <select name="charset">

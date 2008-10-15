@@ -14,8 +14,7 @@
     <tr>
         <th scope="col" class="wide"><div>{$lang->category_title}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->cmd_modify}</div></th>
-        <th scope="col"><div>{$lang->cmd_delete}</div></th>
+        <th scope="col" colspan="2"><div>&nbsp;</div></th>
     </tr>
 </thead>
 <tbody>
@@ -27,9 +26,9 @@
     <!--@foreach($category_list as $key => $val)-->
     <tr>
         <td>{$val->title}</td>
-        <td class="tahoma nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        <td class="blue"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
-        <td class="red"><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="date nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+        <td class="center modify"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
+        <td class="center delete"><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 </tbody>
@@ -42,18 +41,16 @@
 <input type="hidden" name="module_category_srl" value="" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="row">{$lang->category_title}</th>
+        <th scope="row"><div>{$lang->category_title}</div></th>
         <td>
-            <input type="text" name="title" class="inputTypeText w100" />
+            <input type="text" name="title" class="inputTypeText w300" />
+        </td>
+    </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>
     </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
-
 </form>

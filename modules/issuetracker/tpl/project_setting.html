@@ -27,35 +27,29 @@
 <!--%import("../../common/js/calendar-setup.js",optimized=false)-->
 <!--%import("../../common/css/calendar-system.css",optimized=false)-->
 
-<div class="top2">
-
+<div class="adminLeftContent">
     <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
         <table cellspacing="0" class="adminTable">
-        <col width="*" />
-        <col width="130" />
-        <col width="130" />
-        <col width="90" />
-        <col width="90" />
         <caption>{$lang->milestone}</caption>
         <thead>
         <tr>
-            <th scope="col">{$lang->name}</th>
-            <th scope="col">{$lang->completed_date}</th>
-            <th scope="col">{$lang->deadline}</th>
-            <th scope="col">{$lang->is_default}</th>
-            <th scope="col">&nbsp;</th>
+            <th scope="col" class="wide"><div>{$lang->name}</div></th>
+            <th scope="col"><div>{$lang->completed_date}</div></th>
+            <th scope="col"><div>{$lang->deadline}</div></th>
+            <th scope="col"><div>{$lang->is_default}</div></th>
+            <th scope="col"><div>&nbsp;</div></th>
         </tr>
         </thead>
         <tbody>
         <!--@foreach($milestone_list as $val)-->
         <tr>
             <td <!--@if($val->is_completed=='Y')-->class="strike"<!--@end-->>{$val->title}</td>
-            <td class="tCenter">{zdate($val->released_date,"Y-m-d")}</td>
-            <td class="tCenter">{zdate($val->deadline,"Y-m-d")}</td>
-            <td class="tCenter"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
-            <td class="button">
+            <td class="date center nowrap"><!--@if($val->released_date)-->{zdate($val->released_date,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
+            <td class="date center nowrap"><!--@if($val->deadline)-->{zdate($val->deadline,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
+            <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
+            <td class="center">
                 <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyMilestone','milestone_srl',$val->milestone_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
                 <!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->milestone_srl}', delete_milestone);"><img src="images/buttonDeleteX.gif" alt="" /></a><!--@else-->&nbsp;<!--@end-->
             </td>
@@ -66,17 +60,15 @@
             <td colspan="2">
                 <input name="title" type="text" class="inputTypeText w400" /><br />
             </td>
-            <td>
+            <td class="nowrap">
                 <input type="hidden" name="deadline" id="date_deadline" />
                 <div class="display_date" id="str_deadline"></div>
                 <script type="text/javascript">
                     DyCalendar.setup( { firstDay : 0, inputField : "date_deadline", ifFormat : "%Y%m%d", displayArea : "str_deadline", daFormat : "%Y-%m-%d" } );
                 </script>
             </td>
-            <td class="tCenter"><input type="checkbox" name="is_default" value="Y" /></td>
-            <td class="vtop" rowspan="2">
-                <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
-            </td>
+            <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
+            <td class="vtop" rowspan="2"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></td>
         </tr>
         <tr>
             <td colspan="4">
@@ -88,33 +80,30 @@
     </form>
 </div>
 
-<!--//top2 for milestone-->
-<form id="deleteForm" action="./" method="POST">
-<input type="hidden" id="target_srl" name="target_srl" value="" />
-</form>
+<div class="adminRightExtra">
+    <form id="deleteForm" action="./" method="POST">
+    <input type="hidden" id="target_srl" name="target_srl" value="" />
+    </form>
 
-<div class="top2">
     <form action="./" method="post" onsubmit="return procFilter(this, insert_priority)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
         <table cellspacing="0" class="adminTable">
-        <col width="*" />
-        <col width="110" />
-        <col width="90" />
-        <col width="90" />
         <caption>{$lang->priority}</caption>
         <thead>
-            <th scope="col">{$lang->name}</th>
-            <th scope="col">{$lang->order}</th>
-            <th scope="col">{$lang->is_default}</th>
-            <th scope="col">&nbsp;</th>
+        <tr>
+            <th scope="col" class="wide"><div>{$lang->name}</div></th>
+            <th scope="col"><div>{$lang->order}</div></th>
+            <th scope="col"><div>{$lang->is_default}</div></th>
+            <th scope="col"><div>&nbsp;</div></th>
+        </tr>
         </thead>
         <tbody>
         <!--@foreach($priority_list as $val)-->
         <tr>
             <td>{$val->title}</td>
-            <td>{$val->listorder}</td>
-            <td class="tCenter"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
+            <td class="center number">{$val->listorder}</td>
+            <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
             <td class="button">
                 <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyPriority','priority_srl',$val->priority_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
                 <!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->priority_srl}', delete_priority);"><img src="images/buttonDeleteX.gif" /></a><!--@else-->&nbsp;<!--@end-->
@@ -122,75 +111,65 @@
         </tr>
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText w400" /></td>
+            <td><input name="title" type="text" class="inputTypeText w200" /></td>
             <td>&nbsp;</td>
-            <td class="tCenter"><input type="checkbox" name="is_default" value="Y" /></td>
+            <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tr>
         </tbody>
         </table>
 
     </form>
-</div><!--//top1 for priorities-->
 
-<div class="top2">
     <form action="./" method="post" onsubmit="return procFilter(this, insert_type)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
         <table cellspacing="0" class="adminTable">
-        <col width="*" />
-        <col width="90" />
-        <col width="90" />
         <caption>{$lang->type}</caption>
         <thead>
         <tr>
-            <th scope="col">{$lang->type}</th>
-            <th scope="col">{$lang->is_default}</th>
-            <th scope="col">&nbsp;</th>
+            <th scope="col" class="wide"><div>{$lang->type}</div></th>
+            <th scope="col"><div>{$lang->is_default}</div></th>
+            <th scope="col"><div>&nbsp;</div></th>
         </tr>
         </thead>
         <tbody>
         <!--@foreach($type_list as $val)-->
         <tr>
             <td>{$val->title}</td>
-            <td class="tCenter"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
-            <td class="button">
+            <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
+            <td class="center">
                 <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyType','type_srl',$val->type_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
                 <!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->type_srl}', delete_type);"><img src="images/buttonDeleteX.gif" /></a><!--@else-->&nbsp;<!--@end-->
             </td>
         </tr>
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText w400" /></td>
-            <td class="tCenter"><input type="checkbox" name="is_default" value="Y" /></td>
+            <td><input name="title" type="text" class="inputTypeText w200" /></td>
+            <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tbody>
         </table>
     </form>
-</div> 
 <!--// HalfTable Left -->
 
-<div class="top2">
     <form action="./" method="post" onsubmit="return procFilter(this, insert_component)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
         <table cellspacing="0" class="adminTable">
-        <col width="*" />
-        <col width="90" />
-        <col width="90" />
         <caption>{$lang->component}</caption>
         <thead>
         <tr>
-            <th scope="col">{$lang->component}</th>
-            <th scope="col">{$lang->is_default}</th>
-            <th scope="col">&nbsp;</th>
+            <th scope="col" class="wide"><div>{$lang->component}</div></th>
+            <th scope="col"><div>{$lang->is_default}</div></th>
+            <th scope="col"><div>&nbsp;</div></th>
         </tr>
         </thead>
         <tbody>
         <!--@foreach($component_list as $val)-->
         <tr>
             <td>{$val->title}</td>
-            <td class="tCenter"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
-            <td class="button">
+            <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
+            <td class="center">
                 <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyComponent','component_srl',$val->component_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
                 <!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->component_srl}', delete_component);"><img src="images/buttonDeleteX.gif" /></a><!--@else-->&nbsp;<!--@end-->
             </td>
@@ -198,12 +177,10 @@
 
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText w400" /></td>
-            <td class="tCenter"><input type="checkbox" name="is_default" value="Y" /></td>
+            <td><input name="title" type="text" class="inputTypeText w200" /></td>
+            <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tbody>
         </table>
     </form>
-</div> <!--// HalfTable Right -->
-<!--// top1 -->
-
+</div>

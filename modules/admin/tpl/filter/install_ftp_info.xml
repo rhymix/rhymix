@@ -1,0 +1,11 @@
+<filter name="install_ftp_info" module="install" act="procInstallAdminSaveFTPInfo" >
+    <form>
+        <node target="ftp_user" required="true" />
+        <node target="ftp_password" required="true" />
+        <node target="ftp_port" required="true" />
+    </form>
+    <response callback_func="completeMessage">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

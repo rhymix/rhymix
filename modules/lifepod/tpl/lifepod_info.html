@@ -1,11 +1,9 @@
 <!--#include("header.html")-->
 
 <table cellspacing="0" class="adminTable">
-<col width="150" />
-<col />
 <tr>
-    <th scope="row">{$lang->module_category}</th>
-    <td>
+    <th scope="row"><div>{$lang->module_category}</div></th>
+    <td class="wide">
         <!--@if(!$module_info->module_category_srl)-->
             {$lang->not_exists}
         <!--@else-->
@@ -14,11 +12,11 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->calendar_address}</th>
+    <th scope="row"><div>{$lang->calendar_address}</div></th>
     <td>{$module_info->calendar_address}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->layout}</th>
+    <th scope="row"><div>{$lang->layout}</div></th>
     <td>
         <!--@if($module_info->layout_srl)-->
             {$module_info->layout_title} ({$module_info->layout})
@@ -29,47 +27,47 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->skin}</th>
+    <th scope="row"><div>{$lang->skin}</div></th>
     <td>{$module_info->skin_title} ({$module_info->skin})</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->browser_title}</th>
+    <th scope="row"><div>{$lang->browser_title}</div></th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->use_category}</th>
+    <th scope="row"><div>{$lang->use_category}</div></th>
     <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
 </tr>
 <tr>
-    <th scope="row">{$lang->list_count}</th>
+    <th scope="row"><div>{$lang->list_count}</div></th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->page_count}</th>
+    <th scope="row"><div>{$lang->page_count}</div></th>
     <td>{$module_info->page_count?$module_info->page_count:10}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->description}</th>
+    <th scope="row"><div>{$lang->description}</div></th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->header_text}</th>
+    <th scope="row"><div>{$lang->header_text}</div></th>
     <td>{htmlspecialchars($module_info->header_text)}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->footer_text}</th>
+    <th scope="row"><div>{$lang->footer_text}</div></th>
     <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->admin_id}</th>
+    <th scope="row"><div>{$lang->admin_id}</div></th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row" colspan="2" class="button">
+    <td colspan="2" class="right">
         <a href="{getUrl('act','dispLifepodAdminInsertLifepod')}" class="button"><span>{$lang->cmd_modify}</span></a>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispLifepodAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_lifepod_list}</span></a>
         <!--@end-->
-    </th>
+    </td>
 </tr>
 </table>

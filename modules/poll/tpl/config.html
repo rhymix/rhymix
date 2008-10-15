@@ -5,21 +5,22 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config);" id="fo_poll">
 
     <table cellspacing="0" class="adminTable">
-    <col width="100" />
-    <col />
+    <thead>
+        <tr>
+            <th scope="col" class="half_wide"><div>{$lang->skin}</div></th>
+            <th scope="col" class="half_wide"><div>{$lang->colorset}</div></th>
+        </tr>
+    </thead>
+    <tbody>
     <tr>
-        <th scope="col">{$lang->skin}</th>
-        <td>
+        <td class="center">
             <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
             <!--@foreach($skin_list as $key => $val)-->
                 <option value="{$key}" <!--@if($config->skin == $key)-->selected="selected"<!--@end-->>{$val->title} ({$key})</option>
             <!--@end-->
             </select>
         </td>
-    </tr>
-    <tr>
-        <th scope="col">{$lang->colorset}</th>
-        <td>
+        <td class="center">
             <select name="colorset" id="poll_colorset">
             <!--@foreach($colorset_list as $key => $val)-->
                 <option value="{$val->name}" <!--@if($config->colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title} ({$val->name})</option>
@@ -27,11 +28,12 @@
             </select>
         </td>
     </tr>
-    <tr>
-        <th scope="row" colspan="2" class="button">
+    <tr class="row2">
+        <td scope="row" colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
+    </tbody>
     </table>
 
 </form>

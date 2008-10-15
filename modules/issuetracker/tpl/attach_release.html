@@ -14,14 +14,12 @@
 <table cellspacing="0" class="adminTable">
 <thead>
 <caption>{$release->title}</caption>
-<col width="120" />
-<col width="*" />
 <tr>
-    <th>{$lang->cmd_attach_file}</th>
-    <td><input type="file" name="file" value="" class="inputTypeTextArea w400" /></td>
+    <th><div>{$lang->cmd_attach_file}</div></th>
+    <td class="wide"><input type="file" name="file" value="" class="inputTypeTextArea w400" /></td>
 </tr>
 <tr>
-    <th>{$lang->description}</th>
+    <th><div>{$lang->description}</div></th>
     <td><textarea name="comment" class="inputTypeTextArea w400" />{$relese->description}</textarea></td>
 </tr>
 <tr>

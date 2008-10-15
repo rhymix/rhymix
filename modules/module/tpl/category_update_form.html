@@ -9,19 +9,16 @@
     <input type="hidden" name="mode" value="update" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="row">{$lang->category_title}</th>
-        <td>
-            <input type="text" name="title" value="{$selected_category->title}" class="inputTypeText w400" />
+        <th scope="row"><div>{$lang->category_title}</div></th>
+        <td><input type="text" name="title" value="{$selected_category->title}" class="inputTypeText w300" /></td>
+    </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>
     </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>
 <!--@end-->

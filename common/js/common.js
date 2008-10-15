@@ -524,6 +524,11 @@ function completeCallModuleAction(ret_obj, response_tags) {
     location.reload();
 }
 
+function completeMessage(ret_obj) {
+    alert(ret_obj['message']);
+    location.reload();
+}
+
 /**
  * @brief 날짜 선택 (달력 열기) 
  **/
@@ -890,4 +895,8 @@ function toggleSecuritySignIn() {
 if(typeof(resizeImageContents) == 'undefined')
 {
     function resizeImageContents() {}
+}
+
+function reloadDocument() {
+    location.reload();
 }

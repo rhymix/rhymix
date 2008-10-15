@@ -12,14 +12,12 @@
 
     <div id="popBody">
         <table cellspacing="0" class="adminTable">
-        <col width="100" />
-        <col />
         <tr>
-            <th scope="row">{$lang->component_name}</th>
+            <th scope="row"><div>{$lang->component_name}</div></th>
             <td>{$component->component_name} ver. {$component->version}</td>
         </tr>
         <tr>
-            <th scope="row">{$lang->component_author}</th>
+            <th scope="row"><div>{$lang->component_author}</div></th>
             <td class="blue">
             <!--@foreach($component->author as $author)-->
             {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
@@ -28,14 +26,14 @@
         </tr>
         <!--@if($component->link)-->
         <tr>
-            <th scope="row">{$lang->component_link}</th>
+            <th scope="row"><div>{$lang->component_link}</div></th>
             <td><a href="#" onclick="winopen('{$component->link}');return false;">{$component->link}</a></td>
         </tr>
         <!--@end-->
 
         <!--@foreach($component->extra_vars as $key => $val)-->
         <tr>
-            <th scope="row">{$val->title}</th>
+            <th scope="row"><div>{$val->title}</div></th>
             <td>
                 <input type="text" name="{$key}" value="{$val->value}" class="inputTypeText w400" />
                 <p>{$val->description}</p>
@@ -44,20 +42,20 @@
         <!--@end-->
 
         <tr>
-            <th scope="row">{$lang->grant}</th>
+            <th scope="row"><div>{$lang->grant}</div></th>
             <td>
-                <p>{$lang->about_component_grant}</p>
             <!--@foreach($group_list as $key => $val)-->
-                <div class="fl"><input type="checkbox" name="target_group" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> <label for="group_{$key}">{$val->title}</label> &nbsp;</div>
+                <input type="checkbox" name="target_group" value="{$key}" <!--@if(in_array($key, $component->target_group))-->checked="checked"<!--@end--> id="group_{$key}"> <label for="group_{$key}">{$val->title}</label> &nbsp;
             <!--@end-->
+                <p>{$lang->about_component_grant}</p>
             </td>
         </tr>
 
         <tr>
-            <th scope="row">
+            <th scope="row"><div>
                 {$lang->module}
                 <input type="checkbox" onclick="checkboxSelectAll(this.form, 'mid_list'); return false;" />
-            </th>
+            </div></th>
             <td>
                 <p>{$lang->about_component_mid}</p>
                 <!--@foreach($mid_list as $module_category_srl => $modules)-->

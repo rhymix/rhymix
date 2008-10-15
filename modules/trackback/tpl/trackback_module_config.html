@@ -4,15 +4,11 @@
 <input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl?$trackback_config->module_srl:$module_srls}" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
-    <col width="100" />
     <caption>{$lang->trackback}</caption> 
     <tr>
-        <th>{$lang->enable_trackback}</th>
-        <td><input type="checkbox" name="enable_trackback" value="Y" <!--@if($trackback_config->enable_trackback == "Y")-->checked="checked"<!--@end--> /></td>
-        <th class="centerButton"><span class="button"><input type="submit" value="{$lang->cmd_save}"/></span></th>
+        <th><div>{$lang->enable_trackback}</div></th>
+        <td class="wide"><input type="checkbox" name="enable_trackback" value="Y" <!--@if($trackback_config->enable_trackback == "Y")-->checked="checked"<!--@end--> /></td>
+        <td class="center"><span class="button"><input type="submit" value="{$lang->cmd_save}"/></span></td>
     </tr>
     </table>
 </form>
-    <div class="gap1"></div>

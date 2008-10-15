@@ -3,16 +3,14 @@
 
 <div id="popBody">
     <table cellspacing="0" class="adminTable">
-    <col width="100" />
-    <col />
     <caption>{$lang->widget_maker}</caption>
     <tr>
-        <th scope="row">{$lang->title}</th>
+        <th scope="row"><div>{$lang->title}</div></th>
         <td>{$widget_info->title} ver {$widget_info->version}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->author}</th>
-        <td class="blue">
+        <th scope="row"><div>{$lang->author}</div></th>
+        <td>
             <!--@foreach($widget_info->author as $author)-->
             {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
             <!--@endforeach-->
@@ -20,17 +18,17 @@
     </tr>
     <!--@if($widget_info->homepage)-->
     <tr>
-        <th scope="row">{$lang->homepage}</th>
-        <td class="blue"><a href="{$widget_info->homepage}" onclick="window.open(this.href);return false;">{$widget_info->homepage}</a></td>
+        <th scope="row"><div>{$lang->homepage}</div></th>
+        <td><a href="{$widget_info->homepage}" onclick="window.open(this.href);return false;">{$widget_info->homepage}</a></td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->regdate}</th>
+        <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate($widget_info->date, 'Y-m-d')}</td>
     </tr>
     <!--@if($widget_info->license || $widget_info->license_link)-->
     <tr>
-        <th scope="row">{$lang->widget_license}</th>
+        <th scope="row"><div>{$lang->widget_license}</div></th>
         <td>
             {nl2br(trim($widget_info->license))}
         <!--@if($widget_info->license_link)-->
@@ -40,7 +38,7 @@
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->description}</th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>{nl2br(trim($widget_info->description))}</td>
     </tr>
     </table>
@@ -53,15 +51,12 @@
 
 <div id="popHistoryBody">
     <table cellspacing="0" class="adminTable">
-    <col width="100" />
-    <col />
-
     <!--@foreach($widget_info->history as $history)-->
     <tr>
-        <th scope="row">
+        <th scope="row"><div>
             {$history->version}<br />
             {$history->date}
-        </th>
+        </div></th>
         <td>
             <!--@if($history->author)-->
             <!--@foreach($history->author as $author)-->

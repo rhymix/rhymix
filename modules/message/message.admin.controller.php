@@ -23,7 +23,9 @@
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('message',$args);
-            return $output;
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
         }
     }
 ?>

@@ -63,6 +63,7 @@
          * @brief FTP 정보 등록
          **/
         function procInstallFTP() {
+            if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
             $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port');
             $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
             if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;

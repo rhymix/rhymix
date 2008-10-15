@@ -2,7 +2,7 @@
     <form>
         <node target="addon" required="true" />
     </form>
-    <response>
+    <response callback_func="reloadDocument">
         <tag name="error" />
         <tag name="message" />
     </response>

@@ -4,42 +4,41 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_act_config);" id="fo_point">
 
     <div class="infoText">{$lang->about_act_config}</div>
-    <table cellspacing="0" class="tableType2 gap1">
-    <col width="200" />
-    <col />
+
+    <table cellspacing="0" class="tableType2 topGap">
     <tr>
-        <th>{$lang->point_insert_document}</th>
+        <th><div>{$lang->point_insert_document}</div></th>
         <td><input type="text" name="insert_document_act" value="{$config->insert_document_act}" class="inputTypeText w100" /></td>
     </tr>
-    <tr>
-        <th>{$lang->point_delete_document}</th>
+    <tr class="row2">
+        <th><div>{$lang->point_delete_document}</div></th>
         <td><input type="text" name="delete_document_act" value="{$config->delete_document_act}" class="inputTypeText w100" /></td>
     </tr>
     <tr>
-        <th>{$lang->point_insert_comment}</th>
+        <th><div>{$lang->point_insert_comment}</div></th>
         <td><input type="text" name="insert_comment_act" value="{$config->insert_comment_act}" class="inputTypeText w100" /></td>
     </tr>
-    <tr>
-        <th>{$lang->point_delete_comment}</th>
+    <tr class="row2">
+        <th><div>{$lang->point_delete_comment}</div></th>
         <td><input type="text" name="delete_comment_act" value="{$config->delete_comment_act}" class="inputTypeText w100" /></td>
     </tr>
     <tr>
-        <th>{$lang->point_upload_file}</th>
+        <th><div>{$lang->point_upload_file}</div></th>
         <td><input type="text" name="upload_file_act" value="{$config->upload_file_act}" class="inputTypeText w100" /></td>
     </tr>
-    <tr>
-        <th>{$lang->point_delete_file}</th>
+    <tr class="row2">
+        <th><div>{$lang->point_delete_file}</div></th>
         <td><input type="text" name="delete_file_act" value="{$config->delete_file_act}" class="inputTypeText w100" /></td>
     </tr>
     <tr>
-        <th>{$lang->point_download_file}</th>
+        <th><div>{$lang->point_download_file}</div></th>
         <td><input type="text" name="download_file_act" value="{$config->download_file_act}" class="inputTypeText w100" /></td>
     </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
     </table>
-
-    <!-- 버튼 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

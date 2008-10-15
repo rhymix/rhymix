@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.2">
+    <title xml:lang="ko">LDAP 인증 연동 모듈</title>
+    <name xml:lang="ko">zero</name>
+    <description xml:lang="ko">
+        LDAP 인증 연동하는 모듈입니다.
+        적수님(http://ggang.net)님이 매우 큰 도움 주셨습니다.
+    </description>
+    <version>0.1</version>
+    <date>2007-07-28</date>
+    <category>accessory</category>
+    <author email_address="zero@zeroboard.com" link="blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+    </author>
+</module>

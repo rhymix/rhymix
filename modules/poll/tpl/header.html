@@ -1,10 +1,8 @@
 <h3>{$lang->poll} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<!--@if($module=='admin')-->
-<div class="header4 gap1">
+<div class="header4">
     <ul class="localNavigation">
         <li <!--@if($act=='dispPollAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispPollAdminList')}">{$lang->cmd_poll_list}</a></li>
         <li <!--@if($act=='dispPollAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispPollAdminConfig')}">{$lang->cmd_module_config}</a></li>
     </ul>
 </div>
-<!--@end-->

@@ -45,18 +45,15 @@
             Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
 
-            Context::setBrowserTitle("ZeroboardXE Admin Page");
+            Context::setBrowserTitle("XE Admin Page");
         }
 
         /**
          * @brief 관리자 메인 페이지 출력
          **/
         function dispAdminIndex() {
-            // 공식사이트에서 최신 뉴스를 가져옴
             $newest_news_url = sprintf("http://news.zeroboard.com/%s/news.php", Context::getLangType());
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_,Context::getLangType());
-
-            // 1시간 단위로 캐싱 체크
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 FileHandler::getRemoteFile($newest_news_url, $cache_file);
             }
@@ -83,10 +80,70 @@
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
+            $db_info = Context::getDBInfo();
+            Context::set('selected_lang', $db_info->lang_type);
+
             Context::set('current_version', __ZBXE_VERSION__);
             Context::set('installed_path', realpath('./'));
 
+            $oModuleModel = &getModel('module');
+            $module_list = $oModuleModel->getModuleList();
+            Context::set('module_list', $module_list);
+
+            $oAddonModel = &getAdminModel('addon');
+            $addon_list = $oAddonModel->getAddonList();
+            Context::set('addon_list', $addon_list);
+
+            $args->date = date("Ymd000000", time()-60*60*24);
+
+            $output = executeQueryArray("admin.getMemberStatus", $args);
+            $status->member->yesterday = number_format($output->data[1]->count);
+            $status->member->today = number_format($output->data[2]->count);
+            $output = executeQuery("admin.getMemberCount", $args);
+            $status->member->total = number_format($output->data->count);
+
+            $output = executeQueryArray("admin.getDocumentStatus", $args);
+            $status->document->yesterday = number_format($output->data[1]->count);
+            $status->document->today = number_format($output->data[2]->count);
+            $output = executeQuery("admin.getDocumentCount", $args);
+            $status->document->total = number_format($output->data->count);
+
+            $output = executeQueryArray("admin.getCommentStatus", $args);
+            $status->comment->yesterday = number_format($output->data[1]->count);
+            $status->comment->today = number_format($output->data[2]->count);
+            $output = executeQuery("admin.getCommentCount", $args);
+            $status->comment->total = number_format($output->data->count);
+
+            $output = executeQueryArray("admin.getTrackbackStatus", $args);
+            $status->trackback->yesterday = number_format($output->data[1]->count);
+            $status->trackback->today = number_format($output->data[2]->count);
+            $output = executeQuery("admin.getTrackbackCount", $args);
+            $status->trackback->total = number_format($output->data->count);
+
+            $output = executeQueryArray("admin.getFileStatus", $args);
+            $status->file->yesterday = number_format($output->data[1]->count);
+            $status->file->today = number_format($output->data[2]->count);
+            $output = executeQuery("admin.getFileCount", $args);
+            $status->file->total = number_format($output->data->count);
+            Context::set('status', $status);
+
             $this->setTemplateFile('index');
+        }
+
+        /**
+         * @brief 관리자 설정
+         **/
+        function dispAdminConfig() {
+            $db_info = Context::getDBInfo();
+            Context::set('selected_lang', $db_info->lang_type);
+
+            Context::set('lang_supported', Context::loadLangSupported());
+
+            Context::set('lang_selected', Context::loadLangSelected());
+
+            Context::set('ftp_info', Context::getFTPInfo());
+
+            $this->setTemplateFile('config');
         }
     }
 ?>

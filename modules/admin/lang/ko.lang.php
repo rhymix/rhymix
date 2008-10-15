@@ -9,9 +9,9 @@
     $lang->admin_index = '관리자 초기 페이지';
 
     $lang->module_category_title = array(
-        'service' => '서비스형 모듈',
-        'manager' => '관리형 모듈',
+        'service' => '서비스 모듈',
         'utility' => '기능성 모듈',
+        'manager' => '관리 모듈',
         'accessory' => '부가 모듈',
         'base' => '기본 모듈',
     );
@@ -24,7 +24,7 @@
     $lang->current_version = "설치된 버전";
     $lang->current_path = "설치된 경로";
     $lang->released_version = "최신 버전";
-    $lang->about_download_link = "설치된 버전보다 최신의 버전이 배포되었습니다. download링크를 클릭하시면 다운 받으실 수 있습니다.";
+    $lang->about_download_link = "최신 버전이 배포되었습니다.\ndownload 링크를 클릭하시면 다운 받으실 수 있습니다.";
 
     $lang->item_module = "모듈 목록";
     $lang->item_addon  = "애드온 목록";
@@ -44,46 +44,17 @@
     $lang->msg_manage_module_cannot_delete = '모듈, 애드온, 레이아웃, 위젯 모듈의 바로가기는 삭제 불가능합니다';
     $lang->msg_default_act_is_null = '기본 관리자 Action이 지정되어 있지 않아 바로가기 등록을 할 수가 없습니다';
 
-    $lang->welcome_to_zeroboard_xe = '제로보드XE 관리자 페이지입니다';
+    $lang->welcome_to_xe = 'XE 관리자';
     $lang->about_admin_page = "관리자 페이지는 아직 미완성입니다.\n클로즈 베타동안 좋은 의견 받아서 꼭 필요한 컨텐츠를 채우도록 하겠습니다.";
     $lang->about_lang_env = "위 설정한 언어셋을 처음 방문하는 사용자들에게 동일하게 적용하기 위해서는 원하는 언어로 변경후 아래 [저장] 버튼을 클릭하시면 됩니다";
 
-    $lang->zeroboard_xe_user_links = '사용자를 위한 링크';
-    $lang->zeroboard_xe_developer_links = '개발자를 위한 링크';
-
-    $lang->xe_user_links = array(
-        '공식홈페이지' => 'http://www.zeroboard.com',
-        //'클로즈베타 사이트' => 'http://spring.zeroboard.com',
-        //'모듈 자료실' => 'http://www.zeroboard.com',
-        //'애드온 자료실' => 'http://www.zeroboard.com',
-        //'위젯 자료실' => 'http://www.zeroboard.com',
-        //'모듈 스킨 자료실' => 'http://www.zeroboard.com',
-        //'위젯 스킨 자료실' => 'http://www.zeroboard.com',
-        //'레이아웃 스킨 자료실' => 'http://www.zeroboard.com',
-    );
-
-    $lang->xe_developer_links = array(
-        '매뉴얼' => 'http://zbxe.springnote.com',
-        //'개발자 포럼' => 'http://spring.zeroboard.com',
-        '이슈트래킹' => 'http://www.zeroboard.com/xe_issuetracker',
-        'SVN Repository' => 'http://svn.zeroboard.com',
-        'doxygen document' => 'http://doc.zeroboard.com',
-        'pdf 문서' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
-        'XE Tools' => './tools/',
-    );
-
-    $lang->zeroboard_xe_usefulness_module = '유용한 모듈들';
-    $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => '에디터 관리',
-        'dispDocumentAdminList' => '문서 관리',
-        'dispCommentAdminList' => '댓글 관리',
-        'dispFileAdminList' => '첨부파일 관리',
-        'dispPollAdminList' => '설문조사 관리',
-        'dispSpamfilterAdminConfig' => '스팸필터 관리',
-        'dispCounterAdminIndex' => '카운터 로그',
-
-    );
-
-    $lang->xe_license = '제로보드XE는 GPL을 따릅니다';
+    $lang->xe_license = 'XE는 GPL을 따릅니다';
     $lang->about_shortcut = '자주 사용하는 모듈에 등록된 모듈의 바로가기를 삭제할 수 있습니다';
+
+    $lang->yesterday = "어제";
+    $lang->today = "오늘";
+
+    $lang->cmd_lang_select = "언어선택";
+    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
+    $lang->about_recompile_cache = "쓸모 없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
 ?>

@@ -16,7 +16,6 @@
             $oModuleController->insertActionForward('page', 'view', 'dispPageIndex');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContent');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminModuleConfig');
-            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInsert');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminDelete');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContentModify');

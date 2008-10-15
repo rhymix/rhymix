@@ -18,21 +18,23 @@
 
         <!--// 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
         <!--@if($val->title)-->
-        <tr>
+        <tr class="row{$cycle_idx}">
             <th rowspan="2">
-                <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
-                ({$val->layout})
+                <div>
+                    <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
+                    ({$val->layout})
+                </div>
             </th>
-            <td class="tahoma">{$val->version}</td>
-            <td>
-            <!--@foreach($val->author as $author)-->
-            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
-            <!--@endforeach-->
+            <td class="number center">{$val->version}</td>
+            <td class="center nowrap">
+                <!--@foreach($val->author as $author)-->
+                <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+                <!--@endforeach-->
             </td>
-            <td class="tahoma">{$val->menu_count}</td>
-            <td class="tahoma">{zdate($val->date, 'Y-m-d')}</td>
-            <td class="tahoma">{$val->path}</td>
-            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="button"><span>{$lang->cmd_make}</span></a></td>
+            <td class="number center">{$val->menu_count}</td>
+            <td class="date center nowrap">{zdate($val->date, 'Y-m-d')}</td>
+            <td class="nowrap">{$val->path}</td>
+            <td class="center"><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="button"><span>{$lang->cmd_make}</span></a></td>
         </tr>
         <tr>
             <td colspan="6" class="left">

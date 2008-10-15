@@ -4,14 +4,9 @@
 
 <!--@if($act == 'dispModuleAdminContent')-->
 <div class="infoText">{nl2br($lang->about_module)}</div>
-<!--@else-->
-<div class="gap1"></div>
 <!--@end-->
 
-<div class="header4">
-    <div class="summary">&nbsp;</div>
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispModuleAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminContent')}">{$lang->module_index}</a></li>
-        <li <!--@if($act=='dispModuleAdminCategory')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminCategory')}">{$lang->module_category}</a></li>
-    </ul>
-</div>
+<ul class="localNavigation">
+    <li <!--@if($act=='dispModuleAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminContent')}">{$lang->module_index}</a></li>
+    <li <!--@if($act=='dispModuleAdminCategory')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminCategory')}">{$lang->module_category}</a></li>
+</ul>

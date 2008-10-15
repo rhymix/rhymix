@@ -1,81 +1,36 @@
 <!--%import("filter/update_point.xml")-->
 <!--#include("header.html")-->
 
-<!-- 목록 -->
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <em>{number_format($page)}/{number_format($total_page)}</em>
+</div>
+
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="175" />
-<col width="45" />
-
-<!--@else if($lang_type == 'en')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="185" />
-<col width="50" />
-
-<!--@else if($lang_type == 'zh-CN')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="185" />
-<col width="50" />
-
-<!--@else if($lang_type == 'jp')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="185" />
-<col width="60" />
-
-<!--@else if($lang_type == 'es')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="200" />
-<col width="50" />
-
-<!--@else if($lang_type == 'ru')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="220" />
-<col width="70" />
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col">{$lang->user_id}</th>
-        <th scope="col">{$lang->user_name}</th>
-        <th scope="col">{$lang->nick_name}</th>
-        <th scope="col">{$lang->point}</th>
-        <th scope="col">{$lang->level}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div>{$lang->user_id}</div></th>
+        <th scope="col"><div>{$lang->user_name}</div></th>
+        <th scope="col"><div>{$lang->nick_name}</div></th>
+        <th scope="col"><div>{$lang->point}</div></th>
+        <th scope="col"><div>{$lang->level}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($member_list as $no => $val)-->
     <tr>
-        <td class="tahoma">{$no}</td>
-        <td class="blue">{htmlspecialchars($val->user_id)}</td>
-        <td>{htmlspecialchars($val->user_name)}</td>
-        <td class="left"><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td class="tahoma">
+        <td class="number">{$no}</td>
+        <td class="nowrap">{htmlspecialchars($val->user_id)}</td>
+        <td class="nowrap">{htmlspecialchars($val->user_name)}</td>
+        <td class="nowrap"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+        <td class="nowrap">
             <form action="./" method="get" onsubmit="return procFilter(this, update_point);">
                 <input type="hidden" name="member_srl" value="{$val->member_srl}" />
                 <input type="text" name="point" value="{$val->point}" class="inputTypeText w80" />
                 <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
             </form>
         </td>
-        <td class="tahoma">{$val->level}</td>
+        <td class="number center">{$val->level}</td>
     </tr>
     <!--@end-->
 </tbody>
