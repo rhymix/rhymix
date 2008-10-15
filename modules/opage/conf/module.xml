@@ -17,7 +17,6 @@
         <action name="dispOpageAdminInsert" type="view" standalone="true" />
         <action name="dispOpageAdminDelete" type="view" standalone="true" />
         <action name="dispOpageAdminContentModify" type="view" standalone="true" />
-
         <action name="procOpageAdminRemoveWidgetCache" type="controller" standalone="true" />
         <action name="procOpageAdminInsert" type="controller" standalone="true" />
         <action name="procOpageAdminDelete" type="controller" standalone="true" />
