@@ -97,32 +97,32 @@
             $args->date = date("Ymd000000", time()-60*60*24);
 
             $output = executeQueryArray("admin.getMemberStatus", $args);
-            $status->member->yesterday = number_format($output->data[1]->count);
-            $status->member->today = number_format($output->data[2]->count);
+            $status->member->yesterday = number_format($output->data[0]->count);
+            $status->member->today = number_format($output->data[1]->count);
             $output = executeQuery("admin.getMemberCount", $args);
             $status->member->total = number_format($output->data->count);
 
             $output = executeQueryArray("admin.getDocumentStatus", $args);
-            $status->document->yesterday = number_format($output->data[1]->count);
-            $status->document->today = number_format($output->data[2]->count);
+            $status->document->yesterday = number_format($output->data[0]->count);
+            $status->document->today = number_format($output->data[1]->count);
             $output = executeQuery("admin.getDocumentCount", $args);
             $status->document->total = number_format($output->data->count);
 
             $output = executeQueryArray("admin.getCommentStatus", $args);
-            $status->comment->yesterday = number_format($output->data[1]->count);
-            $status->comment->today = number_format($output->data[2]->count);
+            $status->comment->yesterday = number_format($output->data[0]->count);
+            $status->comment->today = number_format($output->data[1]->count);
             $output = executeQuery("admin.getCommentCount", $args);
             $status->comment->total = number_format($output->data->count);
 
             $output = executeQueryArray("admin.getTrackbackStatus", $args);
-            $status->trackback->yesterday = number_format($output->data[1]->count);
-            $status->trackback->today = number_format($output->data[2]->count);
+            $status->trackback->yesterday = number_format($output->data[0]->count);
+            $status->trackback->today = number_format($output->data[1]->count);
             $output = executeQuery("admin.getTrackbackCount", $args);
             $status->trackback->total = number_format($output->data->count);
 
             $output = executeQueryArray("admin.getFileStatus", $args);
-            $status->file->yesterday = number_format($output->data[1]->count);
-            $status->file->today = number_format($output->data[2]->count);
+            $status->file->yesterday = number_format($output->data[0]->count);
+            $status->file->today = number_format($output->data[1]->count);
             $output = executeQuery("admin.getFileCount", $args);
             $status->file->total = number_format($output->data->count);
             Context::set('status', $status);
