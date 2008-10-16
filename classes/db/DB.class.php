@@ -373,43 +373,52 @@
         function getConditionPart($name, $value, $operation) {
             switch($operation) {
                 case 'equal' :
+                case 'more' :
+                case 'excess' :
+                case 'less' :
+                case 'below' :
+                case 'like_tail' :
+                case 'like_prefix' :
+                case 'like' :
+                case 'in' :
+                case 'notequal' :
+                        // 변수가 세팅되지 않고, 문자열이나 숫자형이 아니면 리턴
                         if(!isset($value)) return;
+                        if($value === '') return;
+                        if(!in_array(gettype($value), array('string', 'integer'))) return;
+            }
+
+            switch($operation) {
+                case 'equal' :
                         return $name.' = '.$value;
                     break;
                 case 'more' :
-                        if(!isset($value)) return;
                         return $name.' >= '.$value;
                     break;
                 case 'excess' :
-                        if(!isset($value)) return;
                         return $name.' > '.$value;
                     break;
                 case 'less' :
-                        if(!isset($value)) return;
                         return $name.' <= '.$value;
                     break;
-                case 'below' : 
-                        if(!isset($value)) return;
+                case 'below' :
                         return $name.' < '.$value;
                     break;
-                case 'like_tail' : 
-                case 'like_prefix' : 
-                case 'like' : 
-                        if(!isset($value)) return;
+                case 'like_tail' :
+                case 'like_prefix' :
+                case 'like' :
                         return $name.' like '.$value;
                     break;
-                case 'in' : 
-                        if(!isset($value)) return;
+                case 'in' :
                         return $name.' in ('.$value.')';
                     break;
-                case 'notequal' : 
-                        if(!isset($value)) return;
+                case 'notequal' :
                         return $name.' <> '.$value;
                     break;
-                case 'notnull' : 
+                case 'notnull' :
                         return $name.' is not null';
                     break;
-                case 'null' : 
+                case 'null' :
                         return $name.' is null';
                     break;
             }

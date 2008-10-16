@@ -377,11 +377,13 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
-            $condition = "";
-            foreach($output->conditions as $key => $val) {
+            $condition = '';
+            foreach($output->conditions as $val) {
                 $sub_condition = '';
-                foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] === '') continue;
+                foreach($val['condition'] as $v) {
+                    if(!isset($v['value'])) continue;
+                    if($v['value'] === '') continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
