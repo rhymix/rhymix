@@ -13,7 +13,7 @@
     <description xml:lang="es">Módulo para la función del tablero. Incluye funciones de administración como crear/ agregar o el manejo de los tableros.</description>
     <description xml:lang="jp">掲示板の機能を担うモジュールです。掲示板の生成・追加・管理などの管理者機能も含まれています。</description>
     <description xml:lang="ru">Модуль для функционирования форума. Также включает в себя функции администратора такие как создание/управление форумами.</description>
-    <description xml:lang="zh-TW">提供用戶相對應的討論版功能，包含建立/新增及管理等功能。</description>
+    <description xml:lang="zh-TW">提供用戶相對應的討論板功能，包含建立/新增及管理等功能。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>service</category>

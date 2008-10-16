@@ -9,7 +9,7 @@
     <description xml:lang="jp">各種イシューを処理するモジュールです。</description>
     <description xml:lang="zh-CN">一个具有项目跟踪功能的模块。</description>
 	<description xml:lang="en">This module handles many kinds of issues.</description>
-    <description xml:lang="zh-TW">可以處理追蹤很多種問題的模組。</description>
+    <description xml:lang="zh-TW">可以處理追蹤多種問題的模組。</description>
     <version>1.0</version>
     <date>2008-08-04</date>
     <category>service</category>

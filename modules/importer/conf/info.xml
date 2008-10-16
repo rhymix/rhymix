@@ -13,7 +13,7 @@
     <description xml:lang="jp">XMLファイルを用いて会員情報または掲示板などの情報を入力します。</description>
     <description xml:lang="es">Ingresa la información del usuario o los datos del tablero utilizando el archivo XML.</description>
     <description xml:lang="ru">Запись информации пользователей или форума, используя XML-файл.</description>
-    <description xml:lang="zh-TW">利用XML檔案匯入會員或討論版資料。</description>
+    <description xml:lang="zh-TW">利用XML檔案匯入會員或討論板資料。</description>
     <version>0.2</version>
     <date>2007-12-13</date>
     <category>accessory</category>

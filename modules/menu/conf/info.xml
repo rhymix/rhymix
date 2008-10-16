@@ -13,7 +13,7 @@
     <description xml:lang="en">This module is for creating/managering menues that linking layouts or modules.</description>
     <description xml:lang="es">Este módulo es para crear/manejar los menús que que son conectados con los diseños o módulos.</description>
     <description xml:lang="ru">Этот модуль служит создания/управления меню, которые соединяют лейауты и модули.</description>
-    <description xml:lang="zh-TW">可建立並管理連結排版和模組的選單。</description>
+    <description xml:lang="zh-TW">可建立並管理連結版面和模組的選單。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>manager</category>

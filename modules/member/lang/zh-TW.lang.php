@@ -27,7 +27,7 @@
     $lang->group_title = '用戶組標題';
     $lang->group_srl = '用戶組編號';
     $lang->signature = '簽名檔';
-    $lang->profile_image = '簽名圖片';
+    $lang->profile_image = '個人圖片';
     $lang->profile_image_max_width = '寬度限制';
     $lang->profile_image_max_height = '高度限制';
     $lang->image_name = '暱稱圖片';
@@ -36,11 +36,11 @@
     $lang->image_mark = '用戶圖示';
     $lang->image_mark_max_width = '寬度限制';
     $lang->image_mark_max_height = '高度限制';
-    $lang->signature_max_height = '簽名高度限制';
-    $lang->enable_openid = '支援OpenID';
+    $lang->signature_max_height = '簽名檔高度限制';
+    $lang->enable_openid = '支援 OpenID';
     $lang->enable_join = '允許會員註冊';
     $lang->enable_confirm = '使用郵件認證';
-    $lang->enable_ssl = '使用SSL功能';
+    $lang->enable_ssl = '使用 SSL功能';
     $lang->security_sign_in = '使用安全登入';
     $lang->limit_day = '認證限制';
     $lang->limit_date = '限制日期';
@@ -107,7 +107,7 @@
     $lang->msg_confirm_account_comment = '請按下面連結完成會員認證。';
     $lang->msg_auth_mail_sent = '已向%s發送了認證郵件。請確認！！';
     $lang->msg_confirm_mail_sent = '已向%s發送了認證郵件。請確認！！';
-    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找 ID及密碼， 或聯繫管理員。';
+    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找 ID及密碼，或聯繫管理員。';
     $lang->msg_success_authed = '新的註冊資料已得到認證。請用郵件中的新密碼修改您要想使用的密碼。';
     $lang->msg_success_confirmed = '註冊資料已成功確認！';
 
@@ -115,7 +115,7 @@
     $lang->msg_update_member = '修改會員資料';
     $lang->msg_leave_member = '退出會員';
     $lang->msg_group_is_null = '無用戶組。';
-    $lang->msg_not_delete_default = '不能刪除基本項目';
+    $lang->msg_not_delete_default = '無法刪除基本項目';
     $lang->msg_not_exists_member = '不存在的用戶名稱';
     $lang->msg_cannot_delete_admin = '無法解除管理員ID，請解除管理後再刪除';
     $lang->msg_exists_user_id = '重複的用戶名稱，請重新輸入。';
@@ -127,9 +127,9 @@
     $lang->msg_insert_group_name = '請輸入群組名稱';
     $lang->msg_check_group = '請選擇群組';
 
-    $lang->msg_not_uploaded_profile_image = '無法登錄簽名圖像！';
-    $lang->msg_not_uploaded_image_name = '無法登錄暱稱圖像！';
-    $lang->msg_not_uploaded_image_mark = '無法登錄用戶圖標！';
+    $lang->msg_not_uploaded_profile_image = '無法登錄個人圖片！';
+    $lang->msg_not_uploaded_image_name = '無法登錄暱稱圖片！';
+    $lang->msg_not_uploaded_image_mark = '無法登錄用戶圖示！';
 
     $lang->msg_accept_agreement = '您必須同意條款。'; 
 
@@ -152,7 +152,7 @@
     $lang->about_group = '一個用戶名可屬多個用戶組。';
 
     $lang->about_column_type = '請選擇要新增的註冊表單格式。';
-    $lang->about_column_name = '請輸入在樣板中可以使用的英文名稱。（變數名）';
+    $lang->about_column_name = '請輸入在樣板中可以使用的英文名稱。(變數名稱)';
     $lang->about_column_title = '註冊或修改/檢視資料時要顯示的標題。';
     $lang->about_default_value = '可以設置預設值。';
     $lang->about_active = '必須選擇此項後才可以正常啟用。';
@@ -165,15 +165,15 @@
     $lang->about_enable_ssl = '如主機提供 SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https)認證。';
     $lang->about_limit_day = '註冊會員後的認證有效期限。';
     $lang->about_limit_date = '直到指定日期該用戶無法登入。';
-    $lang->about_after_login_url = '可以指定登入後的頁面轉向url(留空為目前頁面)。';
+    $lang->about_after_login_url = '可以指定登入後的頁面轉向 URL(留空為目前頁面)。';
     $lang->about_after_logout_url = '可以指定登出登錄後的頁面轉向url(留空為目前頁面)。';
-    $lang->about_redirect_url = '請輸入註冊會員後的頁面轉向 url。(留空為返回前頁)';
+    $lang->about_redirect_url = '請輸入註冊會員後的頁面轉向 URL。(留空為返回前頁)';
     $lang->about_agreement = '沒有會員條款時不顯示。';
 
-    $lang->about_image_name = '用戶暱稱可以用小圖片來替代顯示。';
-    $lang->about_image_mark = '顯示在用戶暱稱前的小圖示。';
-    $lang->about_profile_image = '可以使用簽名圖片。';
-    $lang->about_signature_max_height = '可以限制簽名欄高度(0或留空為不限制)。';
+    $lang->about_image_name = '用戶暱稱可以用圖片替代。';
+    $lang->about_image_mark = '顯示在用戶暱稱前的圖示。';
+    $lang->about_profile_image = '可以使用個人圖片。';
+    $lang->about_signature_max_height = '可以限制簽名檔高度(0或留空為不限制)。';
     $lang->about_accept_agreement = '已閱讀全部條款並同意。'; 
 
     $lang->about_member_default = '將成為註冊會員時的預設用戶組。';

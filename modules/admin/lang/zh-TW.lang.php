@@ -51,10 +51,10 @@
     $lang->xe_license = 'XE遵循 GPL協議';
     $lang->about_shortcut = '可以刪除新增到常用模組中的快捷選單。';
 
-    $lang->yesterday = "Yesterday";
-    $lang->today = "Today";
+    $lang->yesterday = "昨天";
+    $lang->today = "今天";
 
-    $lang->cmd_lang_select = "언어선택";
+    $lang->cmd_lang_select = "選擇語言";
     $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
     $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
 ?>

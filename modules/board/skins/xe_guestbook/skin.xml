@@ -5,13 +5,13 @@
 	<title xml:lang="jp">XE ゲストブックのデフォルトスキン</title>
 	<title xml:lang="en">XE Basic Guestbook Skin</title>
 	<title xml:lang="es">XE básicos piel Libro de visitas</title>
-	<title xml:lang="zh-TW">XE 基本留言版面版</title>
+	<title xml:lang="zh-TW">XE 基本留言板面板</title>
 	<description xml:lang="ko">board모듈의 기본 방명록 스킨</description>
 	<description xml:lang="zh-CN">留言本模块的默认皮肤。</description>
 	<description xml:lang="jp">ボード（board）モジュールのデフォルトスキンです。</description>
 	<description xml:lang="en">This is the basic guestbook skin of XE.</description>
 	<description xml:lang="es">Este es el libro de visitas de la piel XE.</description>
-	<description xml:lang="zh-TW">留言版模組的基本面版。</description>
+	<description xml:lang="zh-TW">留言板模組的基本面板。</description>
 	<version>0.1</version>
 	<date>2008-02-28</date>
 
@@ -31,7 +31,7 @@
 			<title xml:lang="zh-CN">白色（基本）</title>
 			<title xml:lang="en">White (default)</title>
 			<title xml:lang="es">Blanco (por defecto)</title>
-			<title xml:lang="zh-TW">白色（預設）</title>
+			<title xml:lang="zh-TW">白色(預設)</title>
 		</color>
 		<color name="cyan" src="screenshot/cyan.gif">
 			<title xml:lang="ko">청록색</title>

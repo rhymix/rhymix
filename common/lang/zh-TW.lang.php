@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  正體中文語言包 (包含基本內容)
+     * @brief  正體中文語言包(包含基本內容)
      **/
 
     // 基本使用的語言
@@ -113,7 +113,7 @@
     $lang->friend = '好友';
     $lang->notify = '公告';
     $lang->order_target = '排列目標';
-    $lang->order_type = '排序方式';
+    $lang->order_type = '排列方式';
     $lang->order_asc = '升冪';
     $lang->order_desc = '降冪';
 
@@ -182,10 +182,10 @@
     );
 
     $lang->unit_meridiem = array(
-        'am' => 'am',
-        'pm' => 'pm',
-        'AM' => 'AM',
-        'PM' => 'PM',
+        'am' => '上午',
+        'pm' => '下午',
+        'AM' => '上午',
+        'PM' => '下午',
     );
 
     $lang->time_gap = array(
