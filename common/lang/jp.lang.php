@@ -202,6 +202,7 @@
     // メッセージ関連
     $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください。';
     $lang->msg_db_not_setted = 'DBが設定されていません。';
+    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認してください。";
     $lang->msg_invalid_queryid = 'クエリIDの値が無効です。';
     $lang->msg_not_permitted = '権限がありません。';
     $lang->msg_input_password = 'パスワードを入力してください。';

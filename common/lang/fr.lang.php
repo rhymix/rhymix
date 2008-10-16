@@ -202,6 +202,7 @@
     // Messages et alertes
     $lang->msg_call_server = 'En demandant sur le serveur, attendez S.V.P.';
     $lang->msg_db_not_setted = 'La configuration de Base de Données n\'a pas été établie.';
+    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter à la Base de Données.\nVérifiez encore une fois les informations sur la Base de Données, S.V.P.";
     $lang->msg_invalid_queryid = 'La valeur spécifiée d\'identite de query est invalide.';
     $lang->msg_not_permitted = 'Vous n\'avez pas le droit d\'accès.';
     $lang->msg_input_password = 'Veuillez entrer votre mot de passe.';

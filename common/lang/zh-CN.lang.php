@@ -202,6 +202,7 @@
     // 信息
     $lang->msg_call_server = '系统正在链接服务器，请稍后。';
     $lang->msg_db_not_setted = '还没有设定 DB';
+    $lang->msg_dbconnect_failed = "连接DB时发生错误。\n请重新确认DB信息。";
     $lang->msg_invalid_queryid = 'Query ID值指定错误';
     $lang->msg_not_permitted = '没有权限';
     $lang->msg_input_password = '请输入密码';

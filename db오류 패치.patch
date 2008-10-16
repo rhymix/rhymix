@@ -1,0 +1,126 @@
+Index: classes/module/ModuleHandler.class.php
+===================================================================
+--- classes/module/ModuleHandler.class.php	(������ 4626)
++++ classes/module/ModuleHandler.class.php	(�۾� �纻)
+@@ -181,6 +181,11 @@
+                 $this->error = 'msg_module_is_not_exists';
+             }
+ 
++            // install 모듈이 아닐 때 DB 접속에 문제가 있으면 오류
++            if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->is_connected == false) {
++                $this->error = 'msg_dbconnect_failed';
++            }
++
+             // XMLRPC call 이 아니면 message view 객체 이용하도록
+             if(Context::getRequestMethod() != 'XMLRPC') {
+                 // 에러가 발생하였을시 처리
+Index: common/lang/en.lang.php
+===================================================================
+--- common/lang/en.lang.php	(������ 4626)
++++ common/lang/en.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // Messages
+     $lang->msg_call_server = 'Requesting to the server, please wait';
+     $lang->msg_db_not_setted = 'DB configuration has not been set';
++    $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
+     $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
+     $lang->msg_not_permitted = 'You do not have permission to access';
+     $lang->msg_input_password = 'Please input the password';
+Index: common/lang/es.lang.php
+===================================================================
+--- common/lang/es.lang.php	(������ 4626)
++++ common/lang/es.lang.php	(�۾� �纻)
+@@ -201,6 +201,7 @@
+     // Relacionado al Mensaje
+     $lang->msg_call_server = 'Solicitando al servidor, espere un momento';
+     $lang->msg_db_not_setted = 'Configuración de DB no ha sido creado';
++    $lang->msg_dbconnect_failed = "Ha ocurrido un error en la conección de BD.\n Por favor chequee la información de BD nuevamente";
+     $lang->msg_invalid_queryid = 'El valor de Query ID especificado es inválido';
+     $lang->msg_not_permitted = 'Acceso denegado';
+     $lang->msg_input_password = 'Coloque la contraseña';
+Index: common/lang/fr.lang.php
+===================================================================
+--- common/lang/fr.lang.php	(������ 4626)
++++ common/lang/fr.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // Messages et alertes
+     $lang->msg_call_server = 'En demandant sur le serveur, attendez S.V.P.';
+     $lang->msg_db_not_setted = 'La configuration de Base de Données n\'a pas été établie.';
++    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter à la Base de Données.\nVérifiez encore une fois les informations sur la Base de Données, S.V.P.";
+     $lang->msg_invalid_queryid = 'La valeur spécifiée d\'identite de query est invalide.';
+     $lang->msg_not_permitted = 'Vous n\'avez pas le droit d\'accès.';
+     $lang->msg_input_password = 'Veuillez entrer votre mot de passe.';
+Index: common/lang/ge.lang.php
+===================================================================
+--- common/lang/ge.lang.php	(������ 4626)
++++ common/lang/ge.lang.php	(�۾� �纻)
+@@ -201,7 +201,8 @@
+ 
+     // Messages
+     $lang->msg_call_server = 'Anfordern an den Server, bitte warten';
+-    $lang->msg_db_not_setted = 'DB-Konfiguration wurde nicht festgelegt ';
++    $lang->msg_db_not_setted = 'DB-Konfiguration wurde nicht festgelegt';
++    $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again"; // TODO:translation en -> ge
+     $lang->msg_invalid_queryid = 'spezifiziert Abfrage ID-Wert ist ungültig';
+     $lang->msg_not_permitted = 'Sie haben keine Berechtigung zum Zugriff auf';
+     $lang->msg_input_password = 'Bitte geben Sie das Passwort';
+Index: common/lang/jp.lang.php
+===================================================================
+--- common/lang/jp.lang.php	(������ 4626)
++++ common/lang/jp.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // メッセージ関連
+     $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください。';
+     $lang->msg_db_not_setted = 'DBが設定されていません。';
++    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認してください。";
+     $lang->msg_invalid_queryid = 'クエリIDの値が無効です。';
+     $lang->msg_not_permitted = '権限がありません。';
+     $lang->msg_input_password = 'パスワードを入力してください。';
+Index: common/lang/ko.lang.php
+===================================================================
+--- common/lang/ko.lang.php	(������ 4626)
++++ common/lang/ko.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // 메세지 관련
+     $lang->msg_call_server = '서버에 요청중입니다. 잠시만 기다려주세요.';
+     $lang->msg_db_not_setted = 'DB설정이 되어 있지 않습니다';
++    $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요.";
+     $lang->msg_invalid_queryid = 'Query ID값이 잘못 지정되었습니다';
+     $lang->msg_not_permitted = '권한이 없습니다';
+     $lang->msg_input_password = '비밀번호를 입력하여 주세요';
+Index: common/lang/ru.lang.php
+===================================================================
+--- common/lang/ru.lang.php	(������ 4626)
++++ common/lang/ru.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // Сообщение
+     $lang->msg_call_server = 'Идет обработка. Пожалуйста, подождите...';
+     $lang->msg_db_not_setted = 'Даза данных не сконфигурирована';
++    $lang->msg_dbconnect_failed = "Произошла ошибка подключения к базе данных.\nПожалуйста, проверьте иформацию базы данных еще раз";
+     $lang->msg_invalid_queryid = 'Указанный ID запроса неверен';
+     $lang->msg_not_permitted = 'У Вас нет прав доступа';
+     $lang->msg_input_password = 'Пожалуйста, введите пароль';
+Index: common/lang/zh-CN.lang.php
+===================================================================
+--- common/lang/zh-CN.lang.php	(������ 4626)
++++ common/lang/zh-CN.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // 信息
+     $lang->msg_call_server = '系统正在链接服务器，请稍后。';
+     $lang->msg_db_not_setted = '还没有设定 DB';
++    $lang->msg_dbconnect_failed = "连接DB时发生错误。\n请重新确认DB信息。";
+     $lang->msg_invalid_queryid = 'Query ID值指定错误';
+     $lang->msg_not_permitted = '没有权限';
+     $lang->msg_input_password = '请输入密码';
+Index: common/lang/zh-TW.lang.php
+===================================================================
+--- common/lang/zh-TW.lang.php	(������ 4626)
++++ common/lang/zh-TW.lang.php	(�۾� �纻)
+@@ -202,6 +202,7 @@
+     // 訊息
+     $lang->msg_call_server = '系統正在連結服務器，請稍後。';
+     $lang->msg_db_not_setted = '還沒有設定資料庫';
++    $lang->msg_dbconnect_failed = "連接資料庫時發生錯誤。\n請重新確認資料庫資訊。";
+     $lang->msg_invalid_queryid = 'Query ID值指定錯誤';
+     $lang->msg_not_permitted = '沒有權限';
+     $lang->msg_input_password = '請輸入密碼';

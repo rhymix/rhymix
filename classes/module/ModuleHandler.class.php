@@ -181,6 +181,11 @@
                 $this->error = 'msg_module_is_not_exists';
             }
 
+            // install 모듈이 아닐 때 DB 접속에 문제가 있으면 오류
+            if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->is_connected == false) {
+                $this->error = 'msg_dbconnect_failed';
+            }
+
             // XMLRPC call 이 아니면 message view 객체 이용하도록
             if(Context::getRequestMethod() != 'XMLRPC') {
                 // 에러가 발생하였을시 처리

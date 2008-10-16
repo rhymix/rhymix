@@ -201,7 +201,8 @@
 
     // Messages
     $lang->msg_call_server = 'Anfordern an den Server, bitte warten';
-    $lang->msg_db_not_setted = 'DB-Konfiguration wurde nicht festgelegt ';
+    $lang->msg_db_not_setted = 'DB-Konfiguration wurde nicht festgelegt';
+    $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again"; // TODO:translation en -> ge
     $lang->msg_invalid_queryid = 'spezifiziert Abfrage ID-Wert ist ungültig';
     $lang->msg_not_permitted = 'Sie haben keine Berechtigung zum Zugriff auf';
     $lang->msg_input_password = 'Bitte geben Sie das Passwort';

@@ -201,6 +201,7 @@
     // Relacionado al Mensaje
     $lang->msg_call_server = 'Solicitando al servidor, espere un momento';
     $lang->msg_db_not_setted = 'Configuración de DB no ha sido creado';
+    $lang->msg_dbconnect_failed = "Ha ocurrido un error en la conección de BD.\n Por favor chequee la información de BD nuevamente";
     $lang->msg_invalid_queryid = 'El valor de Query ID especificado es inválido';
     $lang->msg_not_permitted = 'Acceso denegado';
     $lang->msg_input_password = 'Coloque la contraseña';

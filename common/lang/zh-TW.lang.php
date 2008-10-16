@@ -202,6 +202,7 @@
     // 訊息
     $lang->msg_call_server = '系統正在連結服務器，請稍後。';
     $lang->msg_db_not_setted = '還沒有設定資料庫';
+    $lang->msg_dbconnect_failed = "連接資料庫時發生錯誤。\n請重新確認資料庫資訊。";
     $lang->msg_invalid_queryid = 'Query ID值指定錯誤';
     $lang->msg_not_permitted = '沒有權限';
     $lang->msg_input_password = '請輸入密碼';
