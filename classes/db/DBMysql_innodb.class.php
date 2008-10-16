@@ -83,7 +83,7 @@
 
             // 버전 확인후 4.1 이하면 오류 표시
             if(mysql_get_server_info($this->fd)<"4.1") {
-                $this->setError(-1, "zeroboard xe can not install under mysql 4.1. Current mysql version is ".mysql_get_server_info());
+                $this->setError(-1, "XE can not install under mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
 

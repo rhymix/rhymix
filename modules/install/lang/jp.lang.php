@@ -5,13 +5,8 @@
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
-    $lang->introduce_title = 'ゼロボードXEのインストール';
+    $lang->introduce_title = 'XEのインストール';
     $lang->license = <<<EndOfLicense
-- プログラム名：ゼロボードXE（zeroboardXE）
-- ライセンス：GNU GENERAL PUBLIC LICENSE
-- オフィシャルサイト：<a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- 作者：zero (zero@zeroboard.com, http://www.zeroboard.com)
-
 このプログラムは、フリーソフトウェアであり、GPLに従うものとします。
 正し、デザインのスキンは、スキン作者が個別的に異なるライセンスを適用することができます。
 翻訳文と原文との内容に相違点がある場合は、原文の内容に従うものとします。
@@ -212,9 +207,9 @@ EndOfLicense;
 
     $lang->install_checklist_desc = array(
             'php_version' => '【必須】PHPバージョンが 5.2.2の場合は、PHPのセキュリティバグのため、インストールできません。',
-            'permission' => '【必須】ゼロボードのインストールパスまたは「./files」ディレクトリのパーミッションが「707」でなければなりません',
+            'permission' => '【必須】XEのインストールパスまたは「./files」ディレクトリのパーミッションが「707」でなければなりません',
             'xml' => '【必須】XML通信のためにXMLライブラリが必要です',
-            'session' => '【必須】ゼロボードでは、セッションを使用しているため、「php.ini」の設定で「session.auto_start=0」にしなければなりません。',
+            'session' => '【必須】XEでは、セッションを使用しているため、「php.ini」の設定で「session.auto_start=0」にしなければなりません。',
             'iconv' => 'UTF-8と多言語サポート及び文字コード変換のため、「iconv」をインストールする必要があります。',
             'gd' => 'イメージ変換機能を使用するためには、「GD」ライブラリをインストールする必要があります。',
         );

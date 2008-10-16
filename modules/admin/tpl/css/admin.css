@@ -10,6 +10,11 @@ h3 .gray { color:#777777;}
 .infoText { background:#FFFFFA; padding:10px; color:#444444; border-left:1px solid #D8D8D2; border-bottom:1px solid #BFBFB8; border-right:1px solid #BFBFB8; line-height:1.5; margin-bottom:10px; }
 .subInfoText { background:#FFFFFF; padding:10px; color:#444444; border:1px solid #EEEEEE; line-height:1.5; margin-bottom:10px; }
 
+h4 { text-align:right; font-size:12pt; color:#f2250d; padding-left:10px; margin:0;}
+h4 .bracket { font-weight:normal; color:#9d9d9d;}
+h4 .vr { font-weight:normal; color:#d1d1d1;}
+h4 .view { color:#158692; padding-right:.6em; font:bold 9pt Tahoma; text-decoration:none; }
+
 div.summary { clear:both; font:8pt tahoma; color:#636363; margin-bottom:5px; }
 div.summary .vr { font-weight:normal; color:#d1d1d1; }
 div.summary em { color:#ff1d00; font-style:normal;}
@@ -95,12 +100,6 @@ ul.localNavigation li.on a { background-position:right top; padding:8px 15px 5px
 .pageNavigation a.goToFirst img,
 .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; top:2px; _top:1px;}
 .pageNavigation .current { margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
-
-h4 { text-align:right; font-size:12pt; color:#f2250d; padding-left:10px; margin:0;}
-h4 .bracket { font-weight:normal; color:#9d9d9d;}
-h4 .vr { font-weight:normal; color:#d1d1d1;}
-h4 .view { color:#158692; padding-right:.6em; font:bold 9pt Tahoma; text-decoration:none; }
-
 
 .adminSearch { text-align:right; clear:both; width:100%;}
 .adminSearch fieldset { border:none; display:inline; overflow:visible; }

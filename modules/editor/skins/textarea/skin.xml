@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-	<title xml:lang="ko">제로보드XE textarea 에디터 스킨</title>
+	<title xml:lang="ko">XE textarea 에디터 스킨</title>
 	<title xml:lang="jp">ゼロボードXE textarea エディタースキン</title>
-	<title xml:lang="zh-CN">zeroboard XE textarea 编辑器皮肤</title>
-	<title xml:lang="zh-TW">zeroboard XE textarea 編輯器面板</title>
+	<title xml:lang="zh-CN">XE textarea 编辑器皮肤</title>
+	<title xml:lang="zh-TW">XE textarea 編輯器面板</title>
 	<description xml:lang="ko">
 		위지윅에디터가 아닌 가벼운 글 편집을 원할 경우 사용되는 스킨입니다.
 		에디터컴포넌트나 파일첨부등의 기능이 모두 되지 않고 단순히 글로 된 컨텐츠만 사용할 수 있습니다.
-		개발 : zero (http://www.zeroboard.com)
+		개발 : zero (http://blog.nzeo.com)
 	</description>
 	<description xml:lang="jp">
 		ウイジウイグエディターではないテキストのみの編集に使うスキンです。
 		エディターコンポーネントやファイル添付などの機能が出来なく、単純なテキストのみのコンテンツに使います。
-		개발 : zero (http://www.zeroboard.com)
+		개발 : zero (http://blog.nzeo.com)
 	</description>
 	<description xml:lang="zh-CN">
 		适用于编辑纯文本形式内容时使用的皮肤。
 		不支持编辑器组件及上传文件功能，只能处理纯文本形式的内容。
-		开发 : zero (http://www.zeroboard.com)
+		开发 : zero (http://blog.nzeo.com)
 	</description>
 	<description xml:lang="zh-TW">
 		適用於編輯純文字內容時，所使用的面板。
 		不支援編輯器組件與上傳檔案功能，只能處理純文字格式的內容。
-		開發 : zero (http://www.zeroboard.com)
+		開發 : zero (http://blog.nzeo.com)
 	</description>
 	<version>0.1</version>
 	<date>2008-01-21</date>
-	<link>http://www.zeroboard.com</link>
 
-	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+	<author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
 		<name xml:lang="ko">zero</name>
 		<name xml:lang="jp">zero</name>
 		<name xml:lang="zh-CN">zero</name>

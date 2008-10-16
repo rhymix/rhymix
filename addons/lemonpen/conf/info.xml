@@ -18,9 +18,8 @@
     <description xml:lang="zh-TW">想要在網站使用LemonPen，請將其啟用。</description>
     <version>0.1</version>
     <date>2007-12-10</date>
-    <link>http://www.zeroboard.com/</link>
 
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>

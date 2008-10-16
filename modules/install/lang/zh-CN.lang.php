@@ -5,14 +5,9 @@
      * @brief  中文语言包 （只收录了基本内容）
      **/
 
-    $lang->introduce_title = '安装 Zeroboard XE';
+    $lang->introduce_title = '安装 XE';
     $lang->license = <<<EndOfLicense
-- 程序名称 : zeroboard XE (zeroboardXE)
-- 版权信息   : GNU GENERAL PUBLIC LICENSE
-- 官方网址 : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- 原作者 : zero (zero@zeroboard.com, http://www.zeroboard.com)
-
-zeroboard xe是基于通用公共许可证(GNU General Public License)下的自由软件。
+XE 是基于通用公共许可证(GNU General Public License)下的自由软件。
 但程序所用到的皮肤等设计要素，将遵循设计者自定的许可协议。
 原文与翻译有差异时，以原文为准。
 
@@ -201,8 +196,8 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-	    'php_version' => '[必须] 由于 PHP 5.2.2 版本BUG，无法安装zeroboard XE。',
-            'permission' => '[必须] zeroboard的安装路径或 ./files目录属性必须是707',
+	    'php_version' => '[必须] 由于 PHP 5.2.2 版本BUG，无法安装 XE。',
+            'permission' => '[必须] 的安装路径或 ./files目录属性必须是707',
             'xml' => '[必须]为了 XML通讯，将需要XML库',
             'session' => '[必须] 为了使用缓冲功能，必须在php.ini当中设置 session.auto_start=0',
             'iconv' => '为了UTF-8和其他语言环境之间的互相转换，必须安装iconv',

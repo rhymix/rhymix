@@ -5,13 +5,8 @@
      * @brief  English language pack (Only basic contents are listed)
      **/
 
-    $lang->introduce_title = 'Zeroboard XE Installation';
+    $lang->introduce_title = 'XE Installation';
     $lang->license = <<<EndOfLicense
-- Program name : zeroboard XE (zeroboardXE)
-- License : GNU GENERAL PUBLIC LICENSE
-- Official website : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- Author : zero (zero@zeroboard.com, http://www.zeroboard.com)
-
 This program is a free software that follows GPL license.
 But when skin with design element is included, owner of the skin may apply their own individual license.
 
@@ -118,10 +113,10 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Required] If PHP version is 5.2.2, zeroboard will not be installed because of bug',
-            'permission' => '[Required] Zeroboard installation path or ./files directory\'s permission must be 707',
+			'php_version' => '[Required] If PHP version is 5.2.2, XE will not be installed because of bug',
+            'permission' => '[Required] XE installation path or ./files directory\'s permission must be 707',
             'xml' => '[Required] XML Library is needed for XML communication',
-            'session' => '[Required] PHP setting file\'s (php.ini) \'Session.auto_start\' must equal to zero in order for zeroboard to use the session',
+            'session' => '[Required] PHP setting file\'s (php.ini) \'Session.auto_start\' must equal to zero in order for XE to use the session',
             'iconv' => 'Iconv should be installed in order to convert UTF-8 and other language set',
             'gd' => 'GD Library should be installed in order to use image convert function',
         );
@@ -180,9 +175,9 @@ EndOfLicense;
     $lang->success_updated = 'Update has been completed';
 
     $lang->msg_cannot_proc = 'Installation environment is not proper to proceed.';
-    $lang->msg_already_installed = 'Zeroboard is already installed';
+    $lang->msg_already_installed = 'XE is already installed';
     $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
     $lang->msg_table_is_exists = "Table is already created in the DB.\nConfig file is recreated";
-    $lang->msg_install_completed = "Installation has been completed.\nThank you for choosing Zeroboard XE";
+    $lang->msg_install_completed = "Installation has been completed.\nThank you for choosing XE";
     $lang->msg_install_failed = "An error has occurred while creating installation file.";
 ?>

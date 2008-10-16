@@ -21,19 +21,19 @@
         レイアウト作成：Zero
     </description>
     <description xml:lang="en">
-        This layout is the Zeroboard XE Official website layout.
+        This layout is the XE Official website layout.
         Designer : So-Ra Lee
         HTML/CSS : Chan-Myung Jeong
         Layout producer : zero
     </description>
     <description xml:lang="ge">
-        Dieses Layout ist das Zeroboard XE Offizielle Website-Layout.
+        Dieses Layout ist das XE Offizielle Website-Layout.
          Designer: So-Ra Lee
          HTML / CSS: Chan-Myung Jeong
          Layout Hersteller: Zero
     </description>
     <description xml:lang="ru">
-        Этот формат является Zeroboard XE Официальный сайт компоновку.
+        Этот формат является XE Официальный сайт компоновку.
          Дизайнер: So-Ra Lee
          HTML / CSS: Chan-Myung Jeong
          Макет производителя: ноль
@@ -45,13 +45,13 @@
         Productor del diseño : zero
     </description>
     <description xml:lang="zh-CN">
-        Zeroboard XE官方网站布局。
+        XE官方网站布局。
         设计 : So-Ra Lee
         HTML/CSS : Chan-Myung Jeong
         布局 : zero
     </description>
     <description xml:lang="zh-TW">
-        Zeroboard XE官方網站版面。
+        XE官方網站版面。
         設計 : So-Ra Lee
         HTML/CSS : Chan-Myung Jeong
         版面設計 : zero
@@ -59,9 +59,9 @@
     <version>0.1</version>
     <date>2007-08-01</date>
 
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
-        <name xml:lang="jp">Zero</name>
+        <name xml:lang="jp">aero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="ge">zero</name>
         <name xml:lang="ru">zero</name>

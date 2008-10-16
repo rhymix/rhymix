@@ -102,7 +102,7 @@
             }
 
             if($ver < "2.0") {
-                $this->setError(-1, "Zeroboard XE cannot be installed under the version of firebird 2.0. Current firebird version is ".$ver);
+                $this->setError(-1, "XE cannot be installed under the version of firebird 2.0. Current firebird version is ".$ver);
                 return;
             }
 

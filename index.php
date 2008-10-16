@@ -4,14 +4,14 @@
      * @author zero <zero@zeroboard.com>
      * @brief 시작 페이지
      *
-     * zeroboard XE의 시작 페이지
+     * XE의 시작 페이지
      *
      * Request Argument에서 mid, act로 module 객체를 찾아서 생성하고 \n
      * 모듈 정보를 세팅함
      *
      * @mainpage 첫페이지
      * @section intro 소개
-     * zeroboard XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
+     * XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
      * - 공식홈페이지        : http://www.zeroboard.com
      * - zbXE 포럼           : http://www.zeroboard.com/forum_main
@@ -20,7 +20,7 @@
      * - document            : http://doc.zeroboard.com
      * - pdf 문서            : http://doc.zeroboard.com/zeroboard_xe.pdf
      * \n
-     * "Zeroboard™ XE"는 자유 소프트웨어입니다. \n
+     * "XE"는 자유 소프트웨어입니다. \n
      * 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 \n
      * 그 이후 판을 임의로 선택해서, 그 규정에 따라 프로그램을 개작하거나 재배포할 수 있습니다. \n
      * \n

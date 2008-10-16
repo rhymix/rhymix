@@ -2,16 +2,11 @@
   /**
      * @file   ru.lang.php
      * @author zero <zero@nzeo.com> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
-     * @brief  Russian basic language pack for Zeroboard XE
+     * @brief  Russian basic language pack for XE
      **/
 
-    $lang->introduce_title = 'Установка Zeroboard XE';
+    $lang->introduce_title = 'Установка XE';
     $lang->license = <<<EndOfLicense
-- Название программы : zeroboard XE (zeroboardXE)
-- Лицензия : СТРАНДАРТНАЯ ПУБЛИЧНАЯ ЛИЦЕНЗИЯ GNU (GNU GPL)
-- Официальный веб-сайт : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- Автор : zero (zero@zeroboard.com, http://www.zeroboard.com)
-
 Эта программа является бесплатным программным обеспечением, которое следует GPL лицензии.
 Но, когда включены скины с дизайнерскими элементами, владелецы могут применять их индивидуальную лицензию.
 
@@ -188,11 +183,11 @@ My goal was not just a verbal translation of English text of GNU General Public 
 © License Translation: Elena Tyapkina, 2001.
 
 
-<b>Перевод Zeroboard XE на русский язык произвел Масленников Евгений aka X-[Vr]bL1s5.</b>
+<b>Перевод  XE на русский язык произвел Масленников Евгений aka X-[Vr]bL1s5.</b>
 Перевод следует Лицензии Свободной Документации GNU (GNU Free Documentation License), с содержимым которой можно ознакомиться по следующему адесу: http://www.gnu.org/licenses/fdl.html
 Кантакты: x-bliss(at)tut.by, ICQ: 225035467, MSN: x-bliss(at)tut.by, YIM: maenwen, AIM: mayoojin, Skype: maenwen
 
-<b>Translation of Zeroboard XE into Russian language is made by Maslennikov Evgeny aka X-[Vr]bL1s5.</b>
+<b>Translation of  XE into Russian language is made by Maslennikov Evgeny aka X-[Vr]bL1s5.</b>
 The translation follows GNU Free Documentation License, which you can observe on the following address: http://www.gnu.org/licenses/fdl.html
 Contacts: x-bliss(at)tut.by, ICQ: 225035467, MSN: x-bliss(at)tut.by, YIM: maenwen, AIM: mayoojin, Skype: maenwen
 
@@ -302,10 +297,10 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Требуется] Если версия PHP равна 5.2.2, то zeroboard не будет установлена из-за бага',
-            'permission' => '[Требуется] Путь установки Zeroboard или директория ./files должна иметь права доступа 707',
+			'php_version' => '[Требуется] Если версия PHP равна 5.2.2, то XE не будет установлена из-за бага',
+            'permission' => '[Требуется] Путь установки XE или директория ./files должна иметь права доступа 707',
             'xml' => '[Требуется] XML Библиотека нужна для XML коммуникации',
-            'session' => '[Требуется] Файл настроек PHP (php.ini) \'Session.auto_start\' должен быть равен нулю, чтобы zeroboard могла использовать сессии',
+            'session' => '[Требуется] Файл настроек PHP (php.ini) \'Session.auto_start\' должен быть равен нулю, чтобы XE могла использовать сессии',
             'iconv' => 'Iconv должна быть установлена для конвертирования между UTF-8 и иными языковыми кодировками',
             'gd' => 'GD Библиотека должна быть установлена для использования функции конвертироваия изображений',
         );
@@ -364,9 +359,9 @@ EndOfLicense;
     $lang->success_updated = 'Обновление завершено';
 
     $lang->msg_cannot_proc = 'Невозможно исполнить запрос, поскольку окружение установки не указано';
-    $lang->msg_already_installed = 'Zeroboard уже установлена';
+    $lang->msg_already_installed = 'XE уже установлена';
     $lang->msg_dbconnect_failed = "Произошла ошибка подключения к базе данных.\nПожалуйста, проверьте иформацию базы данных еще раз";
     $lang->msg_table_is_exists = "Таблица существует в базе данных.\nФайл конфигурации создан заново";
-    $lang->msg_install_completed = "Установка завершена.\nСпасибо Вам за выбор ZeroboardXE";
+    $lang->msg_install_completed = "Установка завершена.\nСпасибо Вам за выбор XE";
     $lang->msg_install_failed = "Произошла ошибка при создании файла конфигурации.";
 ?>
