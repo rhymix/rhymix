@@ -24,7 +24,7 @@
 
     $lang->msg_cart_is_null = '請選擇要刪除的文章。';
     $lang->msg_category_not_moved = '無法移動！';
-    $lang->msg_is_secret = '私密文！';
+    $lang->msg_is_secret = '秘密文章！';
     $lang->msg_checked_document_is_deleted = '刪除了%d個文章。';
 
     // 管理頁面尋找的對象
@@ -38,13 +38,13 @@
         'email_address' => '電子郵件',
         'homepage' => '主頁',
         'is_notice' => '公告',
-        'is_secret' => '私密文',
+        'is_secret' => '秘密文章',
         'tags' => '標籤',
-        'readed_count' => '檢視數（以上）',
-        'voted_count' => '推薦數（以上）',
-        'comment_count ' => '評論數（以上）',
-        'trackback_count ' => '引用數（以上）',
-        'uploaded_count ' => '上傳附件數（以上）',
+        'readed_count' => '檢視數(以上)',
+        'voted_count' => '推薦數(以上)',
+        'comment_count ' => '評論數(以上)',
+        'trackback_count ' => '引用數(以上)',
+        'uploaded_count ' => '上傳附件數(以上)',
         'regdate' => '登錄日期',
         'last_update' => '最近更新日期',
         'ipaddress' => 'IP 地址',

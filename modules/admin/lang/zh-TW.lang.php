@@ -46,7 +46,7 @@
 
     $lang->welcome_to_xe = 'XE 管理頁面';
     $lang->about_admin_page = "後台管理頁面未完成";
-    $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後請點擊 [儲存] 按鈕進行儲存。";
+    $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後，請點擊 [儲存] 按鈕進行儲存。";
 
     $lang->xe_license = 'XE遵循 GPL協議';
     $lang->about_shortcut = '可以刪除新增到常用模組中的快捷選單。';

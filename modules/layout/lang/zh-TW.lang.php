@@ -2,7 +2,7 @@
     /**
      * @file   modules/layout/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  版面設計(layout) 模組語言
+     * @brief  版面設計(layout)模組語言
      **/
 
     $lang->cmd_layout_management = '版面設置';
@@ -12,10 +12,10 @@
     $lang->layout_maker = "版面作者";
     $lang->layout_license = '版權';
     $lang->layout_history = "更新記錄";
-    $lang->layout_info = "排版資訊";
+    $lang->layout_info = "版面資訊";
     $lang->layout_list = '版面列表';
     $lang->menu_count = '選單數量';
-    $lang->downloaded_list = '下載列表';
+    $lang->downloaded_list = '版面選擇';
     $lang->layout_preview_content = '顯示內容的部分。';
     $lang->not_apply_menu = '套用版面';
 

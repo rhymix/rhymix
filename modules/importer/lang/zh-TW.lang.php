@@ -16,7 +16,7 @@
     $lang->type_member = '會員資料';
     $lang->type_message = '短訊息(MemoBox)';
     $lang->type_ttxml = 'TTXML';
-    $lang->type_module = '討論版資料';
+    $lang->type_module = '討論板資料';
     $lang->type_syncmember = '同步會員資料';
     $lang->target_module = '目標模組';
     $lang->xml_file = 'XML檔案';
@@ -52,7 +52,7 @@
     $lang->about_type_message = '資料匯入目標為短信息(MemoBox)時，請選擇此項。';
     $lang->about_type_ttxml = '資料匯入目標為TTXML(textcube系列)時，請選擇此項。';
     $lang->about_ttxml_user_id = '請輸入匯入TTXML資料時，指定為主題發表者的ID(必須是已註冊會員)。';
-    $lang->about_type_module = '資料匯入目標為討論版主題時，請選擇此項。';
+    $lang->about_type_module = '資料匯入目標為討論板主題時，請選擇此項。';
     $lang->about_type_syncmember = '匯入會員和文章資料後，需要同步會員資料時，請選擇此項。';
     $lang->about_importer = "不僅可以匯入Zeroboard 4，Zb5beta的資料，也能夠把其他程式資料匯入到Zeroboard XE當中。\n匯入資料時，請利用 <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>建立XML檔案後再上傳。";
     $lang->about_target_path = "為了下載附件請輸入Zeroboard 4的安裝位置。\n位置在同一個主機時，請輸入如 /home/id/public_html/bbs的路徑,在不同主機時，請輸入如 http://域名/bbs的url地址。";
