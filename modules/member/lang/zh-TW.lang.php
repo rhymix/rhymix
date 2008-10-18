@@ -77,7 +77,7 @@
     $lang->cmd_modify_member_password = '修改密碼';
     $lang->cmd_view_member_info = '檢視會員資料';
     $lang->cmd_leave = '退出';
-    $lang->cmd_find_member_account = '查詢用戶名稱/密碼';
+    $lang->cmd_find_member_account = '查詢帳號/密碼';
 
     $lang->cmd_member_list = '會員列表';
     $lang->cmd_module_config = '基本設置';

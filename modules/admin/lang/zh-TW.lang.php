@@ -55,6 +55,6 @@
     $lang->today = "今天";
 
     $lang->cmd_lang_select = "選擇語言";
-    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
-    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
+    $lang->about_cmd_lang_select = "只提供所選擇的語言服務";
+    $lang->about_recompile_cache = "可有效的整理錯誤的暫存檔";
 ?>
