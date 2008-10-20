@@ -114,3 +114,5 @@ ul.localNavigation li.on a { background-position:right top; padding:8px 15px 5px
 .layout_editor { width:99%; height:500px; border:0px; font-size:1em; }
 .layout_editor_box { padding:10px; border:1px solid #DDDDDD; }
 
+
+.fixWidth { width:90%; }
