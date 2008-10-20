@@ -7,7 +7,7 @@
 .leftGap { margin-left:10px; }
 textarea { padding:.3em 0 0 .3em;}
 
-h3 { margin:0; padding:8px 0 0 10px; border:1px solid #BFBFB8; border-left:1px solid #D8D8D2; border-top:1px solid #D8D8D2; background:url("../images/n_title_bg.png") repeat-x left top; font-size:1em; color:#444444; height:22px;}
+h3 { margin:0; padding:8px 0 0 10px; border:1px solid #BFBFB8; border-left:1px solid #D8D8D2; border-top:1px solid #D8D8D2; background:url("../images/n_title_bg.gif") repeat-x left top; font-size:1em; color:#444444; height:22px;}
 h3 .gray { color:#777777;}
 .infoText { background:#FFFFFA; padding:10px; color:#444444; border-left:1px solid #D8D8D2; border-bottom:1px solid #BFBFB8; border-right:1px solid #BFBFB8; line-height:1.5; margin-bottom:10px; }
 .subInfoText { background:#FFFFFF; padding:10px; color:#444444; border:1px solid #EEEEEE; line-height:1.5; margin-bottom:10px; }
@@ -25,7 +25,7 @@ div.summary em { color:#ff1d00; font-style:normal;}
 .adminRightExtra { float:left; width:38%; }
 
 .adminTable { width:100%; border:1px solid #E5E4E2; border-bottom:none; border-right:none; margin-bottom:15px; }
-.adminTable caption { background:url("../images/n_caption_head.png") no-repeat left top; padding:8px 0 5px 30px; text-align:left; font-weight:bold; color:#000000; background-color:#F0F0DF; border-bottom:1px solid #FFFFFF; _behavior:url(/common/js/iePngFix.htc); }
+.adminTable caption { background:url("../images/n_caption_head.gif") no-repeat left top; padding:8px 0 5px 30px; text-align:left; font-weight:bold; color:#000000; background-color:#F0F0DF; border-bottom:1px solid #FFFFFF; }
 
 .adminTable thead tr th div { text-align:center;}
 .adminTable tr th { background-color:#FAF7F2; padding:6px; font-weight:bold; text-align:left; color:#666; border-right:1px solid #E5E4E2; border-bottom:1px solid #E5E4E2; }
@@ -49,8 +49,8 @@ div.summary em { color:#ff1d00; font-style:normal;}
 .adminTable tr td span.date { font-size:8pt; font-family:tahoma; color:#666666;}
 .adminTable tr td.center { text-align:center; }
 .adminTable tr td.right { text-align:right; }
-.adminTable tr td.paper { background:url("../images/n_paper_bullet.png") no-repeat 6px 8px; padding-left:20px; }
-.adminTable tr td.circle { background:url("../images/n_circle_bullet.png") no-repeat 6px 8px; padding-left:20px; }
+.adminTable tr td.paper { background:url("../images/n_paper_bullet.gif") no-repeat 6px 8px; padding-left:20px; }
+.adminTable tr td.circle { background:url("../images/n_circle_bullet.gif") no-repeat 6px 8px; padding-left:20px; }
 .adminTable tr td strong.alert { color:red; }
 .adminTable tr td p { padding:0; margin:5px 0 0 5px; color:#9F875F; }
 .adminTable tr td p a { color:#9F875F; font-weight:bold; text-decoration:underline; }
@@ -68,9 +68,9 @@ div.summary em { color:#ff1d00; font-style:normal;}
 .adminTable tr td.delete a { width:14px; height:14px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_icon_delete.gif") no-repeat left top; }
 .adminTable tr td.copy a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_icon_copy.gif") no-repeat left top; }
 .adminTable tr td.view a { width:14px; height:14px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_icon_view.gif") no-repeat left top; }
-.adminTable tr td.setup a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_setup.png") no-repeat left top; }
-.adminTable tr td.activated a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_light_on.png") no-repeat left top; }
-.adminTable tr td.deactivated a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_light_off.png") no-repeat left top; }
+.adminTable tr td.setup a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_setup.gif") no-repeat left top; }
+.adminTable tr td.activated a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_light_on.gif") no-repeat left top; }
+.adminTable tr td.deactivated a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_light_off.gif") no-repeat left top;   }
 .adminTable tr td.selectAll a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_icon_select_all.gif") no-repeat left top; }
 .adminTable tr td.deSelectAll a { width:16px; height:16px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/n_icon_remove.gif") no-repeat left top; }
 .adminTable tr td.moveupdown a.up { float:left; width:14px; height:14px; overflow:hidden; display:block; font-size:1px; line-height:100px; background:url("../images/button_up.gif") no-repeat left top; margin-right:5px; }
@@ -85,7 +85,7 @@ ul.localNavigation li a:hover { color:#000000; }
 ul.localNavigation li.on { background-position:left top; top:0; height:25px; }
 ul.localNavigation li.on a { background-position:right top; padding:8px 15px 5px 10px; height:25px; color:#222227; font-weight:bold; }
 
-#popHeadder, #popHistoryHeadder { background:url(../images/popupTopBg.png) repeat-x left top; padding:10px; }
+#popHeadder, #popHistoryHeadder { background:url("../images/n_title_bg.gif") repeat-x left top; padding:10px; }
 #popHeadder h1, #popHistoryHeadder h1 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:9px; color:#555555; margin:0; }
 #popBody, #popHistoryBody { width:600px; padding:10px; background:#ffffff;}
 #popHistoryBody { height: 200px; overflow: auto; padding-right:0; }

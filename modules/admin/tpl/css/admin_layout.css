@@ -2,27 +2,27 @@
 
 body { background-color:#FFFFFF; }
 
-.xeAdmin { width:100%; height:61px; border-bottom:1px solid #1b3d51; background:url("../images/n_top_back.png") repeat-x left top; position:relative; z-index:100; }
+.xeAdmin { width:100%; height:61px; border-bottom:1px solid #1b3d51; background:url("../images/n_top_back.gif") repeat-x left top; position:relative; z-index:100;}
 .xeAdmin h1 { position:absolute; top:15px; left:20px; margin:0; padding:0; }
-.xeAdmin h1 img{ _behavior:url(/common/js/iePngFix.htc);}
+.xeAdmin h1 img{ _behavior:url(./common/js/iePngFix.htc);}
 .xeAdmin ul.globalNavigator { list-style:none; margin:0; padding:0; position:absolute; right:20px; top:13px; }
 .xeAdmin ul.globalNavigator li { display:inline; margin:0 10px;}
 .xeAdmin ul.globalNavigator li a{ color:#ddd; font:11px Tahoma; text-decoration:none;}
 
-.xeAdmin div.mainNavigator { position:absolute; right:20px; top:35px; padding:0 0 0 6px; background:url(../images/n_menu_left.png) no-repeat left top; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/modules/admin/tpl/images/n_menu_left.png', sizingMethod='crop');}
+.xeAdmin div.mainNavigator { position:absolute; right:20px; top:35px; padding:0 0 0 6px; background:url(../images/n_menu_left.gif) no-repeat left top;}
 .xeAdmin div.mainNavigator img { float:left; display:block; }
-.xeAdmin div.mainNavigator ul { float:left; position:relative; list-style:none; margin:0; padding:0 6px 0 0; background:url(../images/n_menu_right.png) no-repeat right top; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/modules/admin/tpl/images/n_menu_right.png', sizingMethod='crop');}
-.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#1f1f1f url("../images/n_menu_bar.png") no-repeat left 8px; padding:6px 12px 6px 12px; font-weight:bold; color:#eee; cursor:pointer; border-top:1px solid #767676;}
+.xeAdmin div.mainNavigator ul { float:left; position:relative; list-style:none; margin:0; padding:0 6px 0 0; background:url(../images/n_menu_right.gif) no-repeat right top; }
+.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#1f1f1f url("../images/n_menu_bar.gif") no-repeat left 8px; padding:6px 12px 6px 12px; font-weight:bold; color:#eee; cursor:pointer; border-top:1px solid #767676;}
 .xeAdmin div.mainNavigator ul li:hover { color:#FFFFFF; }
 .xeAdmin div.mainNavigator ul li.first { background-image:none; }
 
 .xeAdmin div.mainNavigator .adminSubMenu { border:1px solid #999; float:none; position:absolute; left:-6px; top:31px; right:auto; visibility:hidden; list-style:none; padding:0 7px 3px 7px; margin:0; background:#eee; }
-.xeAdmin div.mainNavigator .adminSubMenu li { font-weight:normal; border:none; float:none; margin:0; white-space:nowrap; padding:8px 4px 4px 4px; background:url("../images/n_submenu_bar.png") repeat-x left top;}
+.xeAdmin div.mainNavigator .adminSubMenu li { font-weight:normal; border:none; float:none; margin:0; white-space:nowrap; padding:8px 4px 4px 4px; background:url("../images/n_submenu_bar.gif") repeat-x left top;}
 .xeAdmin div.mainNavigator .adminSubMenu li a:hover { color:#AAAAAA; }
 .xeAdmin div.mainNavigator .adminSubMenu li.first { background:none; }
 .xeAdmin div.mainNavigator .adminSubMenu li a { display:block; position:relative; color:#000000; text-decoration:none; }
 
-.adminFolder { background:url("../images/n_folder_bg.png") repeat-x left top; height:6px; text-align:center; overflow:hidden;}
+.adminFolder { background:url("../images/n_folder_bg.gif") repeat-x left top; height:6px; text-align:center; overflow:hidden;}
 .adminPackage { background:#eee; overflow:hidden; height:38; padding:10px 0 0 0;}
 .adminPackage ul { position:relative; clear:both; margin:0; padding:0 0 0 20px; height:28px; overflow:hidden;}
 .adminPackage ul li { list-style:none; background:url("../images/n_tab.gif") no-repeat scroll left -35px; float:left; margin-right:10px; position:relative; text-align:center; top:0; height:28px;}

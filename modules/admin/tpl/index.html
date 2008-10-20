@@ -166,9 +166,9 @@
     <!--@foreach($addon_list as $key => $val)-->
     <tr class="row{$cycle_idx}">
         <td class="circle">
-            <a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="blue">{$val->title}</a>
+            <a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$val->title}</a>
         </td>
-        <td class="nowrap center"><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="blue"><img src="./images/n_setup.png" alt="setup" /></a></td>
+        <td class="nowrap center"><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false"><img src="./images/n_setup.gif" alt="setup" /></a></td>
         <td class="nowrap center <!--@if($val->activated)-->activated<!--@else-->deactivated<!--@end-->">
             <!--@if($val->activated)-->
             <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->use}</a>
