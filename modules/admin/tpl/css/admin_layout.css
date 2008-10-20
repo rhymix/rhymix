@@ -12,7 +12,7 @@ body { background-color:#FFFFFF; }
 .xeAdmin div.mainNavigator { position:absolute; right:20px; top:35px; padding:0 0 0 6px; background:url(../images/n_menu_left.gif) no-repeat left top;}
 .xeAdmin div.mainNavigator img { float:left; display:block; }
 .xeAdmin div.mainNavigator ul { float:left; position:relative; list-style:none; margin:0; padding:0 6px 0 0; background:url(../images/n_menu_right.gif) no-repeat right top; }
-.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#1f1f1f url("../images/n_menu_bar.gif") no-repeat left 8px; padding:6px 12px 6px 12px; font-weight:bold; color:#eee; cursor:pointer; border-top:1px solid #767676;}
+.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#547C93 url("../images/n_menu_bar.gif") no-repeat left 8px; padding:6px 12px 6px 12px; font-weight:bold; color:#eee; cursor:pointer; border-top:1px solid #477189;}
 .xeAdmin div.mainNavigator ul li:hover { color:#FFFFFF; }
 .xeAdmin div.mainNavigator ul li.first { background-image:none; }
 
@@ -23,13 +23,13 @@ body { background-color:#FFFFFF; }
 .xeAdmin div.mainNavigator .adminSubMenu li a { display:block; position:relative; color:#000000; text-decoration:none; }
 
 .adminFolder { background:url("../images/n_folder_bg.gif") repeat-x left top; height:6px; text-align:center; overflow:hidden;}
-.adminPackage { background:#eee; overflow:hidden; height:38; padding:10px 0 0 0;}
+.adminPackage { background:#eee url("../images/n_package_bg.gif") repeat-x left top; overflow:hidden; height:28px; padding:10px 0 0 0;}
 .adminPackage ul { position:relative; clear:both; margin:0; padding:0 0 0 20px; height:28px; overflow:hidden;}
 .adminPackage ul li { list-style:none; background:url("../images/n_tab.gif") no-repeat scroll left -35px; float:left; margin-right:10px; position:relative; text-align:center; top:0; height:28px;}
 .adminPackage ul li a { float:left; background:url("../images/n_tab.gif") no-repeat scroll right -35px; color:#FFFFFF; font-weight:bold; display:block; left:3px; padding:8px 15px 0 10px; position:relative; text-decoration:none; height:28px;}
 .adminPackage ul li a:hover { color:#000000; }
 .adminPackage ul li.active { background-position:left top; top:0; height:28px; }
-.adminPackage ul li.active a { background-position:right top; padding:8px 15px 5px 10px; height:28px; color:#222227;}
+.adminPackage ul li.active a { background-position:right top; padding:8px 15px 5px 10px; height:28px; color:#4C7288;}
 
 .adminContentBody { position:relative; margin:20px; *zoom:1; }
 .adminContentBody:after { content:""; display:block; clear:both;}
