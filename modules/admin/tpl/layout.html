@@ -10,7 +10,7 @@
     <div class="mainNavigator">
         <ul class="mainNavigator">
             <!--@foreach($lang->module_category_title as $key => $val)-->
-            <li <!--@if(!$__mNIdx)-->class="first"{@$__mNIdx=1}<!--@end--> id="adminMainMenu_{$key}">{$val}
+            <li <!--@if(!$__mNIdx)-->class="first"{@$__mNIdx=1}<!--@end-->><a href="#adminSubMenu{$key}" id="adminMainMenu_{$key}" onclick="return false">{$val}</a>
 			
                 <ul class="adminSubMenu" id="adminSubMenu{$key}">
                 {@ $__mNIdx = 0; }

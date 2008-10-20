@@ -83,7 +83,7 @@ div.summary em { color:#ff1d00; font-style:normal;}
 
 ul.localNavigation { position:relative; clear:both; margin:10px 0 10px 0; padding:0 0 0 10px; height:25px; overflow:hidden; border-bottom:1px solid #86B4D2; }
 ul.localNavigation li { list-style:none; background:url("../images/n_small_tab.gif") no-repeat scroll left -26px; float:left; margin-right:10px; position:relative; text-align:center; top:4px; height:25px;}
-ul.localNavigation li a { background:url("../images/n_small_tab.gif") no-repeat scroll right -26px; color:#27536C; display:block; left:3px; padding:5px 15px 0 10px; position:relative; text-decoration:none; height:25px;}
+ul.localNavigation li a { background:url("../images/n_small_tab.gif") no-repeat scroll right -26px; color:#27536C; display:block; float:left; left:3px; padding:5px 15px 0 10px; position:relative; text-decoration:none; height:25px;}
 ul.localNavigation li a:hover { color:#000000; }
 ul.localNavigation li.on { background-position:left top; top:0; height:25px; }
 ul.localNavigation li.on a { background-position:right top; padding:8px 15px 5px 10px; height:25px; color:#222227; font-weight:bold; }

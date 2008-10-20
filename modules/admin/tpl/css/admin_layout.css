@@ -12,16 +12,16 @@ body { background-color:#FFFFFF; }
 .xeAdmin div.mainNavigator { position:absolute; right:20px; top:35px; padding:0 0 0 6px; background:url(../images/n_menu_left.gif) no-repeat left top;}
 .xeAdmin div.mainNavigator img { float:left; display:block; }
 .xeAdmin div.mainNavigator ul { float:left; position:relative; list-style:none; margin:0; padding:0 6px 0 0; background:url(../images/n_menu_right.gif) no-repeat right top; }
-.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#547C93 url("../images/n_menu_bar.gif") no-repeat left top; height:18px; padding:7px 10px 0 10px; color:#eee; cursor:pointer; border-top:1px solid #1b3d51;}
+.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#547C93 url("../images/n_menu_bar.gif") no-repeat left top; padding:0; color:#eee; border-top:1px solid #1b3d51;}
+.xeAdmin div.mainNavigator ul li a{ position:relative; display:block; float:left; height:18px; padding:7px 10px 0 10px; color:#fff; text-decoration:none;}
 .xeAdmin div.mainNavigator ul li:hover { color:#FFFFFF; }
 .xeAdmin div.mainNavigator ul li.first { background-image:none; }
 
-.xeAdmin div.mainNavigator .adminSubMenu { border:1px solid #999; float:none; position:absolute; left:-6px; top:31px; right:auto; visibility:hidden; list-style:none; padding:0 7px 3px 7px; margin:0; background:#eee; }
-.xeAdmin div.mainNavigator .adminSubMenu li { font-weight:normal; border:none; float:none; margin:0; white-space:nowrap; padding:8px 4px 4px 4px; background:url("../images/n_submenu_bar.gif") repeat-x left top;}
-.xeAdmin div.mainNavigator .adminSubMenu li a { width:100%; }
-.xeAdmin div.mainNavigator .adminSubMenu li a:hover { color:#AAAAAA; }
+.xeAdmin div.mainNavigator .adminSubMenu { border:1px solid #999; float:none; clear:both; position:absolute; left:-6px; top:31px; visibility:hidden; list-style:none; padding:0 7px 3px 7px; margin:0; background:#eee;}
+.xeAdmin div.mainNavigator .adminSubMenu li { position:relative; display:block; float:none; clear:both; font-weight:normal; margin:0; padding:8px 4px 4px 4px; background:url("../images/n_submenu_bar.gif") repeat-x left top; border:none;}
+.xeAdmin div.mainNavigator .adminSubMenu li a { position:relative; display:block; width:100%; float:none; clear:both; padding:0; color:#000; text-decoration:none; white-space:nowrap; }
+.xeAdmin div.mainNavigator .adminSubMenu li a:hover { color:#aaa; }
 .xeAdmin div.mainNavigator .adminSubMenu li.first { background:none; }
-.xeAdmin div.mainNavigator .adminSubMenu li a { display:block; position:relative; color:#000000; text-decoration:none; }
 
 .adminFolder { background:url("../images/n_folder_bg.gif") repeat-x left top; height:6px; text-align:center; overflow:hidden;}
 .adminPackage { background:#eee url("../images/n_package_bg.gif") repeat-x left top; overflow:hidden; height:28px; padding:10px 0 0 0;}
