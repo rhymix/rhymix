@@ -12,7 +12,7 @@ body { background-color:#FFFFFF; }
 .xeAdmin div.mainNavigator { position:absolute; right:20px; top:35px; padding:0 0 0 6px; background:url(../images/n_menu_left.gif) no-repeat left top;}
 .xeAdmin div.mainNavigator img { float:left; display:block; }
 .xeAdmin div.mainNavigator ul { float:left; position:relative; list-style:none; margin:0; padding:0 6px 0 0; background:url(../images/n_menu_right.gif) no-repeat right top; }
-.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#547C93 url("../images/n_menu_bar.gif") no-repeat left 8px; padding:6px 12px 5px 12px; font-weight:bold; color:#eee; cursor:pointer; border-top:1px solid #477189;}
+.xeAdmin div.mainNavigator ul li { position:relative; float:left; background:#547C93 url("../images/n_menu_bar.gif") no-repeat left 8px; padding:7px 12px 4px 12px; font-weight:bold; color:#eee; cursor:pointer; border-top:1px solid #477189;}
 .xeAdmin div.mainNavigator ul li:hover { color:#FFFFFF; }
 .xeAdmin div.mainNavigator ul li.first { background-image:none; }
 
