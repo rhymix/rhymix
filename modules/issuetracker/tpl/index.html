@@ -43,8 +43,8 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->mid)}</a></td>
-        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a></td>
+        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->mid)}</a></td>
+        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->browser_title)}</a></td>
         <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="view"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
         <td class="delete"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispIssuetrackerAdminDeleteIssuetracker','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>

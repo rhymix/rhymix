@@ -32,7 +32,7 @@
         <td class="nowrap date center">{zdate($parent->written, "Y/m/d")}</td>
         <td class="nowrap"><a href="{$parent->siteurl}">{$parent->title?$parent->title:"[No title]"}</a></td>
         <td class="nowrap">{$parent->name}</td>
-        <td><a href="{$parent->entryurl}" class="blue">{$parent->entrytitle}</a> <a href="{$parent->commenturl}">{$parent->comment}</a></td>
+        <td><a href="{$parent->entryurl}">{$parent->entrytitle}</a> <a href="{$parent->commenturl}">{$parent->comment}</a></td>
         <td class="delete"><a href="#" onclick="deleteParent('{$parent->notified_srl}');">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@foreach($val->children as $child)-->

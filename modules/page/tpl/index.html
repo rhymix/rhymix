@@ -46,8 +46,8 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->mid)}</a></td>
-        <td><a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}" class="blue">{htmlspecialchars($val->browser_title)}</a></td>
+        <td><a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->mid)}</a></td>
+        <td><a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->browser_title)}</a></td>
         <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="view center"><a href="{getUrl('','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
         <td class="copy center"><a href="./?module=module&act=dispModuleAdminCopyModule&module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>

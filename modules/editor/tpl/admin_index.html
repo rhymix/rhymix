@@ -18,9 +18,9 @@
         <td class="setup center"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
         <td class="center <!--@if($xml_info->enabled=='Y')-->activated<!--@else-->deactivated<!--@end-->">
             <!--@if($xml_info->enabled=='Y')-->
-                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
+                <a href="#" onclick="doDisableComponent('{$component_name}');return false;">{$lang->cmd_enable}</a>
             <!--@else-->
-                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
+                <a href="#" onclick="doEnableComponent('{$component_name}');return false;">{$lang->cmd_disable}</a>
             <!--@end-->
         </td>
         <td class="center moveupdown"><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" class="up">{$lang->cmd_move_up}</a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" class="down">{$lang->cmd_move_down}</a></td>

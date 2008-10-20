@@ -12,33 +12,31 @@
         <input type="hidden" name="module" value="{$module}" />
         <input type="hidden" name="act" value="{$act}" />
         <table cellspacing="0" class="adminTable">
-        <col width="150" />
-        <col />
         <caption>{$lang->import_step_title[1]} - {$lang->import_step_desc[1]}</caption>
         <tr>
-            <th scope="col"><label for="source_type_module">1. {$lang->type_module}</label></th>
-            <td class="left"><input type="radio" name="source_type" value="module" id="source_type_module" /> <label for="source_type_module">{$lang->about_type_module}</label></td>
+            <th scope="col"><div><label for="source_type_module">1. {$lang->type_module}</label></div></th>
+            <td><input type="radio" name="source_type" value="module" id="source_type_module" /> <label for="source_type_module">{$lang->about_type_module}</label></td>
         </tr>
         <tr>
-            <th scope="col"><label for="source_type_ttxml">2. {$lang->type_ttxml}</label></th>
-            <td class="left"><input type="radio" name="source_type" value="ttxml" id="source_type_ttxml" /> <label for="source_type_ttxml">{$lang->about_type_ttxml}</label></td>
+            <th scope="col"><div><label for="source_type_ttxml">2. {$lang->type_ttxml}</label></div></th>
+            <td><input type="radio" name="source_type" value="ttxml" id="source_type_ttxml" /> <label for="source_type_ttxml">{$lang->about_type_ttxml}</label></td>
         </tr>
         <tr>
-            <th scope="col"><label for="source_type_member">3. {$lang->type_member}</label></th>
-            <td class="left"><input type="radio" name="source_type" value="member" id="source_type_member" /> <label for="source_type_member">{$lang->about_type_member}</label></td>
+            <th scope="col"><div><label for="source_type_member">3. {$lang->type_member}</label></div></th>
+            <td><input type="radio" name="source_type" value="member" id="source_type_member" /> <label for="source_type_member">{$lang->about_type_member}</label></td>
         </tr>
         <tr>
-            <th scope="col"><label for="source_type_syncmember">4. {$lang->type_syncmember}</label></th>
-            <td class="left"><input type="radio" name="source_type" value="sync" id="source_type_syncmember" /> <label for="source_type_syncmember">{$lang->about_type_syncmember}</label></td>
+            <th scope="col"><div><label for="source_type_syncmember">4. {$lang->type_syncmember}</label></div></th>
+            <td><input type="radio" name="source_type" value="sync" id="source_type_syncmember" /> <label for="source_type_syncmember">{$lang->about_type_syncmember}</label></td>
         </tr>
         <tr>
-            <th scope="col"><label for="source_type_message">5. {$lang->type_message}</label></th>
-            <td class="left"><input type="radio" name="source_type" value="message" id="source_type_message" /> <label for="source_type_message">{$lang->about_type_message}</label></td>
+            <th scope="col"><div><label for="source_type_message">5. {$lang->type_message}</label></div></th>
+            <td><input type="radio" name="source_type" value="message" id="source_type_message" /> <label for="source_type_message">{$lang->about_type_message}</label></td>
         </tr>
         <tr>
-            <th scope="row" colspan="2" class="button">
+            <td colspan="2" class="right">
                 <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
-            </th>
+            </td>
         </tr>
         </table>
     </form>

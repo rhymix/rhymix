@@ -4,32 +4,31 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 <table cellspacing="0" class="adminTable gap1">
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->krzip_server_hostname}</div></th>
-        <td>
-            <input type="text" name="krzip_server_hostname" value="{htmlspecialchars($config->krzip_server_hostname?$config->krzip_server_hostname:'kr.zip.zeroboard.com')}" class="inputTypeText w400" /> 
-            <p>{$lang->about_krzip_server_hostname}</p>
-        </td>
-    </tr>
-    <tr class="row2">
-        <th scope="col"><div>{$lang->krzip_server_port}</div></th>
-        <td>
-            <input type="text" name="krzip_server_port" value="{htmlspecialchars($config->krzip_server_port?$config->krzip_server_port:'80')}" class="inputTypeText w400"/> 
-            <p>{$lang->about_krzip_server_port}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->krzip_server_query}</div></th>
-        <td>
-            <input type="text" name="krzip_server_query" value="{htmlspecialchars($config->krzip_server_query?$config->krzip_server_query:'/server.php?addr3=')}" class="inputTypeText w400"/> 
-            <p>{$lang->about_krzip_server_query}</p>
-        </td>
-    </tr>
-    <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
-    </tr>
+<tr>
+    <th scope="col"><div>{$lang->krzip_server_hostname}</div></th>
+    <td>
+        <input type="text" name="krzip_server_hostname" value="{htmlspecialchars($config->krzip_server_hostname?$config->krzip_server_hostname:'kr.zip.zeroboard.com')}" class="inputTypeText w400" /> 
+        <p>{$lang->about_krzip_server_hostname}</p>
+    </td>
+</tr>
+<tr class="row2">
+    <th scope="col"><div>{$lang->krzip_server_port}</div></th>
+    <td>
+        <input type="text" name="krzip_server_port" value="{htmlspecialchars($config->krzip_server_port?$config->krzip_server_port:'80')}" class="inputTypeText w400"/> 
+        <p>{$lang->about_krzip_server_port}</p>
+    </td>
+</tr>
+<tr>
+    <th scope="col"><div>{$lang->krzip_server_query}</div></th>
+    <td>
+        <input type="text" name="krzip_server_query" value="{htmlspecialchars($config->krzip_server_query?$config->krzip_server_query:'/server.php?addr3=')}" class="inputTypeText w400"/> 
+        <p>{$lang->about_krzip_server_query}</p>
+    </td>
+</tr>
+<tr class="row2">
+    <td colspan="2" class="right">
+        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </td>
+</tr>
 </table>
 </form>
