@@ -27,6 +27,7 @@ body { background-color:#FFFFFF; }
 .adminPackage { background:#eee url("../images/n_package_bg.gif") repeat-x left top; overflow:hidden; height:28px; padding:10px 0 0 0;}
 .adminPackage ul { position:relative; clear:both; margin:0; padding:0 0 0 20px; height:28px; overflow:hidden;}
 .adminPackage ul li { list-style:none; background:url("../images/n_tab.gif") no-repeat scroll left -35px; float:left; margin-right:10px; position:relative; text-align:center; top:0; height:28px;}
+.adminPackage ul li.admin { float:right; }
 .adminPackage ul li a { float:left; background:url("../images/n_tab.gif") no-repeat scroll right -35px; color:#FFFFFF; font-weight:bold; display:block; left:3px; padding:8px 15px 0 10px; position:relative; text-decoration:none; height:28px;}
 .adminPackage ul li.active { background-position:left top; top:0; height:28px; }
 .adminPackage ul li.active a { background-position:right top; padding:8px 15px 5px 10px; height:28px; color:#185B83;}
