@@ -150,7 +150,13 @@
                 if($this->get_vars) {
                     foreach($this->get_vars as $key => $val) {
                         if(!$val) continue;
-                        $url .= ($url?'&':'').$key.'='.urlencode($val);
+                        if(is_array($val)&&count($val)) {
+                            foreach($val as $k => $v) {
+                                $url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
+                            }
+                        } else {
+                            $url .= ($url?'&':'').$key.'='.urlencode($val);
+                        }
                     }
                     Context::set('current_url',sprintf('%s?%s', $this->getRequestUri(), $url));
                 } else {
@@ -719,7 +725,13 @@
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
                 if(!isset($val)) continue;
-                $url .= ($url?'&':'').$key.'='.urlencode($val);
+                if(is_array($val) && count($val)) {
+                    foreach($val as $k => $v) {
+                        $url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
+                    }
+                } else {
+                    $url .= ($url?'&':'').$key.'='.urlencode($val);
+                }
             }
 
             return $path.'?'.htmlspecialchars($url);
