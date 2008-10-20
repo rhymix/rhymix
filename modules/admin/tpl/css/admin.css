@@ -1,9 +1,11 @@
 @charset "utf-8";
 
+
 .topGap { margin-top:10px; }
 .rightGap { margin-right:10px; }
-.bottomGap { margin-bottom:10px; }
+.bottomGap { margin-bottom:15px; }
 .leftGap { margin-left:10px; }
+textarea { padding:.3em 0 0 .3em;}
 
 h3 { margin:0; padding:8px 0 0 10px; border:1px solid #BFBFB8; border-left:1px solid #D8D8D2; border-top:1px solid #D8D8D2; background:url("../images/n_title_bg.png") repeat-x left top; font-size:1em; color:#444444; height:22px;}
 h3 .gray { color:#777777;}
@@ -19,15 +21,14 @@ div.summary { clear:both; font:8pt tahoma; color:#636363; margin-bottom:5px; }
 div.summary .vr { font-weight:normal; color:#d1d1d1; }
 div.summary em { color:#ff1d00; font-style:normal;}
 
-.adminLeftContent { position:absolute; left:10px; right:420px; }
-.adminRightExtra { position:absolute; right:10px; width:400px; }
+.adminLeftContent { float:left; width:60%; margin-right:2%; _margin-right:1.9%;}
+.adminRightExtra { float:left; width:38%; }
 
-.adminTable caption { background:url("../images/n_caption_head.png") no-repeat left top; padding:8px 0 5px 30px; text-align:left; font-weight:bold; color:#000000; background-color:#F0F0DF; border-bottom:1px solid #FFFFFF; border-right:1px solid #E5E5D4; }
-
-.adminTable { width:100%; border:1px solid #E5E4E2; border-bottom:none; border-right:none; margin-bottom:10px; }
+.adminTable { width:100%; border:1px solid #E5E4E2; border-bottom:none; border-right:none; margin-bottom:15px; }
+.adminTable caption { background:url("../images/n_caption_head.png") no-repeat left top; padding:8px 0 5px 30px; text-align:left; font-weight:bold; color:#000000; background-color:#F0F0DF; border-bottom:1px solid #FFFFFF; _behavior:url(/common/js/iePngFix.htc); }
 
 .adminTable thead tr th div { text-align:center;}
-.adminTable tr th { background-color:#FAF7F2; padding:4px 6px 2px 6px; font-weight:normal; text-align:left; color:#444444; border-right:1px solid #E5E4E2; border-bottom:1px solid #E5E4E2; }
+.adminTable tr th { background-color:#FAF7F2; padding:6px; font-weight:bold; text-align:left; color:#666; border-right:1px solid #E5E4E2; border-bottom:1px solid #E5E4E2; }
 .adminTable tr.row2 th { background-color:#FEFDFB; }
 .adminTable tr th { width:10px; }
 .adminTable tr th div { white-space:nowrap; margin:0 5px; }
@@ -92,17 +93,17 @@ ul.localNavigation li.on a { background-position:right top; padding:8px 15px 5px
 #popFooter .close { position:relative; left:50%; margin-left:-1em; float:left;}
 
 .pageNavigation { display:block; padding:1.5em 0 2em 0; text-align:center; font:bold .9em Tahoma; }
-.pageNavigation a { margin-left:-4px; font:bold 1em Tahoma; color:#666666; display:inline-block; padding:1px 7px 2px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+.pageNavigation a { margin-left:-4px; font:bold 1em Tahoma; color:#666666; display:inline-block; padding:1px 7px 2px 6px; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 .pageNavigation a:hover { background:#F7F7F7; text-decoration:none; }
 .pageNavigation a:visited { color:#999999;}
 .pageNavigation a.goToFirst,
 .pageNavigation a.goToLast { border:none; border-right:1px solid #ffffff; border-left:1px solid #ffffff; z-index:99; vertical-align:top; padding:0px 7px 4px 6px;}
 .pageNavigation a.goToFirst img,
 .pageNavigation a.goToLast img { display:inline-block; padding:2px 0; top:2px; _top:1px;}
-.pageNavigation .current { margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-left:1px solid #dedfde; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
+.pageNavigation .current { margin-left:-4px; font:bold 1em Tahoma; color:#ff6600; display:inline-block; padding:1px 7px 1px 6px; border-right:1px solid #CCCCCC; text-decoration:none; line-height:1em; }
 
-.adminSearch { text-align:right; clear:both; width:100%;}
-.adminSearch fieldset { border:none; display:inline; overflow:visible; }
+.adminSearch { text-align:right; clear:both; width:100%; margin:0 0 10px 0;}
+.adminSearch fieldset { border:none; display:inline; overflow:visible; padding:0;}
 .adminSearch * { vertical-align:middle;} 
 
 .buttonTypeGo { border:none; cursor:pointer; width:24px; height:20px; position:relative; top:-1px; font:.75em Tahoma; text-align:center; background:url(../images/buttonTypeInput24.gif) no-repeat; }

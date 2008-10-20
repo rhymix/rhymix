@@ -18,9 +18,9 @@ function showXESubMenu(evt) {
             return;
         }
         openedSubMenus = obj;
-        xLeft(obj, xPageX(e.target) + (xWidth(e.target)-xWidth(obj))/2);
-        if(xLeft(obj) + xWidth(obj) + 10 > xClientWidth()) xLeft(obj, xClientWidth() - xWidth(obj) - 10);
-        xTop(obj, xPageY(e.target)+28);
+        //xLeft(obj, xPageX(e.target) + (xWidth(e.target)-xWidth(obj))/2);
+        //if(xLeft(obj) + xWidth(obj) + 10 > xClientWidth()) xLeft(obj, xClientWidth() - xWidth(obj) - 10);
+        //xTop(obj, xPageY(e.target)+28);
         obj.style.visibility = 'visible';
         return;
     } else if(openedSubMenus) {
