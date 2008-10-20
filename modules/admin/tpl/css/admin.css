@@ -54,6 +54,7 @@ div.summary em { color:#ff1d00; font-style:normal;}
 .adminTable tr td strong.alert { color:red; }
 .adminTable tr td p { padding:0; margin:5px 0 0 5px; color:#9F875F; }
 .adminTable tr td p a { color:#9F875F; font-weight:bold; text-decoration:underline; }
+.adminTable tr td select { width:90%; }
 .adminTable tr td.modify a,
 .adminTable tr td.delete a,
 .adminTable tr td.copy a,
