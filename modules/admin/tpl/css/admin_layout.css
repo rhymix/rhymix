@@ -34,5 +34,5 @@ body { background-color:#FFFFFF; }
 .adminContentBody { position:relative; margin:20px; *zoom:1; }
 .adminContentBody:after { content:""; display:block; clear:both;}
 
-.adminFooter{ background:#ddd; text-align:center; padding:10px 0;}
+.adminFooter{ background:#548DB5; text-align:center; padding:10px 0;}
 .adminFooter address{ font:11px Tahoma; color:#fff;}

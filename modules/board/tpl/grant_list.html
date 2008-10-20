@@ -10,7 +10,7 @@
 <thead>
 <tr>
     <th scope="col"><div>{$lang->grant}</div></th>
-    <th scope="col" class="wide" colspan="3"><div>{$lang->target}</div></th>
+    <th scope="col" colspan="3"><div>{$lang->target}</div></th>
 </tr>
 </thead>
 
@@ -18,7 +18,7 @@
     <!--@foreach($grant_list as $key => $val)-->
     <tr>
         <th scope="row"><div>{$val->title}</div></th>
-        <td>
+        <td class="wide">
             <!--@foreach($group_list as $k => $v)-->
             <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
             <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
