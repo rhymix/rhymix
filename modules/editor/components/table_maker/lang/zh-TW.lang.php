@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   /modules/editor/components/emoticon/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  網頁編輯器(editor) 模組 >  表格建立(table_maker) 組件的語言
+     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @brief  網頁編輯器(editor) 模組 >  表格(table_maker) 組件的語言
      **/
 
     $lang->table_attribute = "修改表格屬性";

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/image_link/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻譯：royallin
      * @brief  網頁編輯器(editor) 模組 > 圖片連結(image_link) 組件的語言
      **/
 

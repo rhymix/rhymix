@@ -1,24 +1,24 @@
 <?php
     /**
      * @file   modules/file/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  附件(file) 模組語言
+     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @brief  附加檔案(file) 模組語言
      **/
 
-    $lang->file = '附件';
+    $lang->file = '附加檔案';
     $lang->file_name = '檔案名稱';
     $lang->file_size = '檔案大小';
     $lang->download_count = '下載次數';
     $lang->status = '狀態';
     $lang->is_valid = '有效';
     $lang->is_stand_by = '等待';
-    $lang->file_list = '附件列表';
+    $lang->file_list = '檔案清單';
     $lang->allowed_filesize = '檔案大小限制';
     $lang->allowed_attach_size = '上傳限制';
     $lang->allowed_filetypes = '允許檔案類型';
     $lang->enable_download_group = '允許下載的用戶組';
 
-    $lang->about_allowed_filesize = '最大單個上傳檔案大小(管理員不受此限制)。';
+    $lang->about_allowed_filesize = '最大單一上傳檔案大小(管理員不受此限制)。';
     $lang->about_allowed_attach_size = '每個主題最大上傳檔案大小(管理員不受此限制)。';
     $lang->about_allowed_filetypes = '只允許上傳指定的檔案類型。 可以用"*.副檔名"來指定或用 ";"來 區分多個副檔名<br />例) *.* or *.jpg;*.gif;<br />(管理員不受此限制)';
 

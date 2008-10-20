@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/poll/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻譯：royallin
      * @brief  投票調查 (poll) 模組的基本語言
      **/
 

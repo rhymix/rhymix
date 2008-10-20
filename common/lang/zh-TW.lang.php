@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   common/lang/zh-TW.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author zero (zero@nzeo.com) 翻譯：royallin
      * @brief  正體中文語言包(包含基本內容)
      **/
 
@@ -75,7 +75,7 @@
     $lang->category = $lang->category_srl = '分類';
     $lang->none_category = '無分類';
     $lang->document_srl = '文章編號';
-    $lang->user_id = '用戶名稱';
+    $lang->user_id = '帳號';
     $lang->author = '作者';
     $lang->password = '密碼';
     $lang->password1 = '密碼';
@@ -102,7 +102,7 @@
     $lang->allow_comment = '允許評論';
     $lang->lock_comment = '關閉評論';
     $lang->allow_trackback = '允許引用';
-    $lang->uploaded_file = '附件';
+    $lang->uploaded_file = '附加檔案';
     $lang->grant = '權限';
     $lang->target = '目標';
     $lang->total = '全部';

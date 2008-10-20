@@ -107,7 +107,7 @@
             <title xml:lang="zh-CN">默认样式</title>
             <title xml:lang="en">Default Form</title>
             <title xml:lang="es">Formulario por defecto</title>
-            <title xml:lang="zh-TW">預設形式</title>
+            <title xml:lang="zh-TW">預設樣式</title>
             <description xml:lang="ko">
                 목록형, 웹진형, 갤러리형, 포럼형의 기본 스타일을 지정할 수 있습니다.
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
@@ -229,7 +229,7 @@
             <title xml:lang="zh-CN">版面标题</title>
             <title xml:lang="en">Title of Board</title>
             <title xml:lang="es">Title of Board</title>
-            <title xml:lang="zh-TW">討論版標題</title>
+            <title xml:lang="zh-TW">討論板標題</title>
             <description xml:lang="ko">게시판의 제목을 적어주세요.</description>
             <description xml:lang="jp">掲示板タイトルを入力してください。</description>
             <description xml:lang="zh-CN">请输入版面标题(留空为不显示)。</description>

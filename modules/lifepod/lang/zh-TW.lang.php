@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   zh-TW.lang.php
-     * @author haneul (haneul0318@gmail.com)
+     * @author haneul (haneul0318@gmail.com) 翻譯：royallin
      * @brief  lifepod模組的語言
      **/
 

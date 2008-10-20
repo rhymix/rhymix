@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   zh-TW.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author zero (zero@nzeo.com) 翻譯：royallin
      * @brief  Springnote模組語言
      **/
 

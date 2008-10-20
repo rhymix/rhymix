@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/cc_license/lang/zh-TW.lang.php
-     * @author zero <zero@zeroboard.com>
+     * @author zero <zero@zeroboard.com> 翻譯：royallin
      * @brief  編輯器模組 >  創用CC授權組件
      **/
 

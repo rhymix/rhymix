@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/widget/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻譯：royallin
      * @brief  控件(widget)模組語言
      **/
 

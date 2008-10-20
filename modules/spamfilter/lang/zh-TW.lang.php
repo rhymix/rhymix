@@ -1,13 +1,13 @@
 <?php
     /**
      * @file   modules/spamfilter/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  正體中文語言(包含基本內容)
+     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @brief  垃圾過濾(spamfilter)模組正體中文語言(包含基本內容)
      **/
 
     // action 相關
     $lang->cmd_denied_ip = "禁止IP列表";
-    $lang->cmd_denied_word = "敏感詞列表";
+    $lang->cmd_denied_word = "敏感詞清單";
 
     // 一般用語
     $lang->spamfilter = "垃圾過濾";

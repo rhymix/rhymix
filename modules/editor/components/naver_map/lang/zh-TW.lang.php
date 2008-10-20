@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/naver_map/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻譯：royallin
      * @brief  網頁編輯器(editor) 模組 > naver地圖 (naver_map) 組件語言
      **/
 

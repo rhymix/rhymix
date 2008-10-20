@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/comment/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻譯：royallin
      * @brief  評論(comment)模組語言
      **/
 	
@@ -19,7 +19,7 @@
 
     $lang->search_target_list = array(
         'content' => '內容',
-        'user_id' => 'I D',
+        'user_id' => '帳號',
         'user_name' => '姓名',
         'nick_name' => '暱稱',
         'member_srl' => '會員編號',

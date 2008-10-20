@@ -1,7 +1,7 @@
 <?php
     /**
-     * @file   zh_TW.lang.php
-     * @author zero (zero@nzeo.com)
+     * @file   zh-TW.lang.php
+     * @author zero (zero@nzeo.com) 翻譯：royallin
      * @brief  外部頁面(opage)模組語言
      **/
 

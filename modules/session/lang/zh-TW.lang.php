@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   modules/session/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  正體中文語言
+     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @brief  SESSION模組正體中文語言
      **/
 
     $lang->session = 'SESSION';

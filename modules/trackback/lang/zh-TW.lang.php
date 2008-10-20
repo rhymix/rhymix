@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/trackback/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻譯：royallin
      * @brief  引用(trackback)模組的基本語言
      **/
     $lang->cmd_toggle_checked_trackback = '反選';
@@ -15,7 +15,7 @@
     $lang->msg_trackback_send_success = '成功發送引用。';
 
     $lang->search_target_list = array(
-        'url' => '目標URL',
+        'url' => '目標 URL',
         'blog_name' => '目標網站名稱',
         'title' => '標題',
         'excerpt' => '內容',
