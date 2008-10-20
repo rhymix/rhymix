@@ -27,7 +27,6 @@
 <!--%import("../../common/js/calendar-setup.js",optimized=false)-->
 <!--%import("../../common/css/calendar-system.css",optimized=false)-->
 
-<div class="adminLeftContent">
     <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
@@ -58,7 +57,7 @@
 
         <tr>
             <td colspan="2">
-                <input name="title" type="text" class="inputTypeText w400" /><br />
+                <input name="title" type="text" class="inputTypeText fixWidth" /><br />
             </td>
             <td class="nowrap">
                 <input type="hidden" name="deadline" id="date_deadline" />
@@ -72,15 +71,13 @@
         </tr>
         <tr>
             <td colspan="4">
-                <textarea name="description" class="inputTypeTextArea w400" /></textarea>
+                <textarea name="description" class="inputTypeTextArea fixWidth" /></textarea>
             </td>
         </tr>
         </tbody>
         </table>
     </form>
-</div>
 
-<div class="adminRightExtra">
     <form id="deleteForm" action="./" method="POST">
     <input type="hidden" id="target_srl" name="target_srl" value="" />
     </form>
@@ -111,7 +108,7 @@
         </tr>
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText w200" /></td>
+            <td><input name="title" type="text" class="inputTypeText fixWidth" /></td>
             <td>&nbsp;</td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
@@ -144,7 +141,7 @@
         </tr>
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText w200" /></td>
+            <td><input name="title" type="text" class="inputTypeText fixWidth" /></td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tbody>
@@ -177,10 +174,9 @@
 
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText w200" /></td>
+            <td><input name="title" type="text" class="inputTypeText fixWidth" /></td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tbody>
         </table>
     </form>
-</div>

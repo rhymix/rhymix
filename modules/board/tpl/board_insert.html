@@ -147,28 +147,28 @@
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->description)}</textarea>
             <p>{$lang->about_description}</p>
         </td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->header_text}</div></th>
         <td>
-            <textarea name="header_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->header_text)}</textarea>
+            <textarea name="header_text" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->header_text)}</textarea>
             <p>{$lang->about_header_text}</p>
         </td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->footer_text}</div></th>
         <td>
-            <textarea name="footer_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->footer_text)}</textarea>
+            <textarea name="footer_text" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->footer_text)}</textarea>
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
-            <textarea name="admin_id" class="inputTypeTextArea w100"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
+            <textarea name="admin_id" class="inputTypeTextArea fixWidth"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
