@@ -12,21 +12,18 @@
             <!--@foreach($lang->module_category_title as $key => $val)-->
             <li <!--@if(!$__mNIdx)-->class="first"{@$__mNIdx=1}<!--@end--> id="adminMainMenu_{$key}">{$val}
 			
-				<!--@foreach($lang->module_category_title as $key => $val)-->
-					<ul class="adminSubMenu" id="adminSubMenu{$key}">
-					{@ $__mNIdx = 0; }
-					<!--@foreach($installed_module_list as $k => $v)-->
-						<!--@if($v->category == $key)-->
-							<!--@if($v->admin_index_act)-->
-							<li <!--@if(!$__mNIdx)-->class="first"{@$__mNIdx++}<!--@end-->>
-								<a href="{getUrl('','module','admin','act',$v->admin_index_act)}" title="{trim($v->description)}" class="adminMenu">{$v->title}</a>
-							</li>
-							<!--@endif-->
-						<!--@endif-->
-					<!--@endforeach-->
-					</ul>
-				<!--@endforeach-->
-				
+                <ul class="adminSubMenu" id="adminSubMenu{$key}">
+                {@ $__mNIdx = 0; }
+                <!--@foreach($installed_module_list as $k => $v)-->
+                    <!--@if($v->category == $key)-->
+                        <!--@if($v->admin_index_act)-->
+                        <li <!--@if(!$__mNIdx)-->class="first"{@$__mNIdx++}<!--@end-->>
+                            <a href="{getUrl('','module','admin','act',$v->admin_index_act)}" title="{trim($v->description)}" class="adminMenu">{$v->title}</a>
+                        </li>
+                        <!--@endif-->
+                    <!--@endif-->
+                <!--@endforeach-->
+                </ul>
 			</li>
             <!--@end-->
         </ul>
