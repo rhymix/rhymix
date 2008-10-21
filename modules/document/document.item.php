@@ -251,6 +251,12 @@
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
+            
+            // rewrite모듈을 사용하면 링크 재정의
+            $oContext = &Context::getInstance();
+            if($oContext->allow_rewrite) {
+                $content = preg_replace('/<a([ \t]+)href=("|\')\.\/\?/i',"<a href=\\2". Context::getRequestUri() ."?", $content);
+            }
 
             // url에 대해서 정규표현식으로 치환
             //$content = preg_replace('!([^>^"^\'^=])(http|https|ftp|mms):\/\/([^ ^<^"^\']*)!is','$1<a href="$2://$3" onclick="window.open(this.href);return false;">$2://$3</a>',' '.$content);
