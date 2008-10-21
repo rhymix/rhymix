@@ -8,7 +8,7 @@
     $lang->communication = '交流';
     $lang->about_communication = '管理短訊息及好友功能的模組。';
 
-    $lang->allow_message = '允許接收短訊息';
+    $lang->allow_message = '接收短訊息';
     $lang->allow_message_type = array(
              'Y' => '全部接收',
              'N' => '全部拒收',
@@ -44,5 +44,5 @@
     $lang->msg_content_is_null = '請輸入內容。';
     $lang->msg_allow_message_to_friend = '只允許接收好友短訊息的用戶，不能發送短訊息。';
     $lang->msg_disallow_message = '拒絕接收短訊息的用戶，不能發送短訊息。';
-    $lang->about_allow_message = '可以選擇是否接收短訊息。';
+    $lang->about_allow_message = '可選擇是否接收短訊息。';
 ?>

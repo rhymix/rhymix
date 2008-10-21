@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言包(包含基本內容)
+     * @brief  正體中文語言(包含基本內容)
      **/
 
     // 基本使用的語言
