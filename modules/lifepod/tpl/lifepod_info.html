@@ -1,7 +1,7 @@
 <!--#include("header.html")-->
 
 <table cellspacing="0" class="adminTable">
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->module_category}</div></th>
     <td class="wide">
         <!--@if(!$module_info->module_category_srl)-->
@@ -15,7 +15,7 @@
     <th scope="row"><div>{$lang->calendar_address}</div></th>
     <td>{$module_info->calendar_address}&nbsp;</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->layout}</div></th>
     <td>
         <!--@if($module_info->layout_srl)-->
@@ -30,7 +30,7 @@
     <th scope="row"><div>{$lang->skin}</div></th>
     <td>{$module_info->skin_title} ({$module_info->skin})</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->browser_title}</div></th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
@@ -38,7 +38,7 @@
     <th scope="row"><div>{$lang->use_category}</div></th>
     <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->list_count}</div></th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
@@ -46,7 +46,7 @@
     <th scope="row"><div>{$lang->page_count}</div></th>
     <td>{$module_info->page_count?$module_info->page_count:10}</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->description}</div></th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
@@ -54,7 +54,7 @@
     <th scope="row"><div>{$lang->header_text}</div></th>
     <td>{htmlspecialchars($module_info->header_text)}&nbsp;</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->footer_text}</div></th>
     <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
@@ -62,7 +62,7 @@
     <th scope="row"><div>{$lang->admin_id}</div></th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
-<tr>
+<tr class="row2">
     <td colspan="2" class="right">
         <a href="{getUrl('act','dispLifepodAdminInsertLifepod')}" class="button"><span>{$lang->cmd_modify}</span></a>
         <!--@if($module=="admin")-->

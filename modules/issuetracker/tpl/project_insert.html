@@ -12,7 +12,7 @@
     <table cellspacing="0" class="adminTable">
 
     <!--@if(!$module_srls)-->
-        <tr>
+        <tr class="row2">
             <th scope="row"><div>{$lang->mid}</div></th>
             <td>
                 <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
@@ -29,7 +29,7 @@
         </tr>
         <!--@end-->
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->module_category}</div></th>
         <td>
             <select name="module_category_srl">
@@ -52,7 +52,7 @@
     </tr>
     <!--@end-->
 
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->layout}</div></th>
         <td>
             <select name="layout_srl">
@@ -75,7 +75,7 @@
             <p>{$lang->about_skin}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->svn_url}</div></th>
         <td>
             <input type="text" name="svn_url" value="{$module_info->svn_url}"  class="inputTypeText w300" />
@@ -89,7 +89,7 @@
             <p>{$lang->about_svn_cmd}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->diff_cmd}</div></th>
         <td>
             <input type="text" name="diff_cmd" value="{$module_info->diff_cmd}"  class="inputTypeText w300" />
@@ -103,7 +103,7 @@
             <p>{$lang->about_description}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
             <textarea name="admin_id" class="inputTypeTextArea fixWidth"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
@@ -136,7 +136,7 @@
             <!--@end-->
         <table cellspacing="0" class="adminTable ">
         <caption>{$lang->extra_vars} {$i}</caption>
-        <tr>
+        <tr class="row2">
             <th><div>{$lang->column_name}</div></th>
             <td class="wide"><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
         </tr>
@@ -152,7 +152,7 @@
                 </select>
             </td>
         </tr>
-        <tr>
+        <tr class="row2">
             <th><div>{$lang->is_required}</div></th>
             <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
         </tr>
@@ -160,7 +160,7 @@
             <th><div>{$lang->default_value}</div></th>
             <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
         </tr>
-        <tr>
+        <tr class="row2">
             <th><div>{$lang->description}</div></th>
             <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
         </tr>
@@ -168,7 +168,7 @@
             <th><div>{$lang->cmd_search}</div></th>
             <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
         </tr>
-        <tr>
+        <tr class="row2">
             <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></td>
         </tr>
         </table>

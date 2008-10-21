@@ -13,7 +13,7 @@
 
     <table cellspacing="0" class="adminTable">
 
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td>
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
@@ -29,7 +29,7 @@
         </td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->module_category}</div></th>
         <td>
             <select name="module_category_srl">
@@ -49,7 +49,7 @@
             <p>{$lang->about_springnote_openid}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->springnote_userkey}</div></th>
         <td>
             <input type="text" name="springnote_userkey" value="{htmlspecialchars($module_info->userkey)}"  class="inputTypeText w300" />
@@ -63,7 +63,7 @@
             <p>{$lang->about_springnote_pageid}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->springnote_pageid_setup}</div></th>
         <td>
             <p><input type="radio" name="springnote_pageid_option" value="only" <!--@if($module_info->pageid_option!='list')-->checked="checked"<!--@end--> id="springnote_pageid_option_only" /> <label for="springnote_pageid_option_only">{$lang->springnote_pageid_option_only}</label></p>
@@ -79,7 +79,7 @@
         </td>
     </tr>
 
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w300" />
@@ -98,7 +98,7 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin">
@@ -116,7 +116,7 @@
             <p>{$lang->about_description}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->header_text}</div></th>
         <td>
             <textarea name="header_text" class="inputTypeTextArea w400">{htmlspecialchars($module_info->header_text)}</textarea>
@@ -130,7 +130,7 @@
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
             <textarea name="admin_id" class="inputTypeTextArea w400"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>

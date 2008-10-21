@@ -13,7 +13,7 @@
         <td class="left"><input type="text" name="title" class="inputTypeText w400" value="{$selected_group->title}"/></td>
     </tr>
     <!--@if($selected_group->is_default!='Y' && $selected_group->is_admin!='Y')-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->is_default}</div></th>
         <td class="left"><input type="checkbox" name="is_default" value="Y" class="checkbox" /> {$lang->about_member_default}</td>
     </tr>
@@ -22,7 +22,7 @@
         <th scope="row"><div>{$lang->description}</div></th>
         <td class="left"><textarea name="description" class="inputTypeTextArea w400">{$selected_group->description}</textarea></td>
     </tr>
-    <tr>
+    <tr class="row2">
         <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
         </td>

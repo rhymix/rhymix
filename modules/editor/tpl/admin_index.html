@@ -13,7 +13,7 @@
 </thead>
 <tbody>
     <!--@foreach($component_list as $component_name => $xml_info)-->
-    <tr>
+    <tr class="row2">
         <th colspan="2" scope="row"><div><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;"><strong>{$xml_info->title}</strong></a> ({$component_name})</div></th>
         <td class="setup center"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
         <td class="center <!--@if($xml_info->enabled=='Y')-->activated<!--@else-->deactivated<!--@end-->">

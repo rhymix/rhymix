@@ -12,7 +12,7 @@
 <input type="hidden" name="use_category" value="N" />
 
     <table cellspacing="0" class="adminTable">
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td class="wide">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
@@ -28,7 +28,7 @@
         </td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->module_category}</div></th>
         <td>
             <select name="module_category_srl">
@@ -48,7 +48,7 @@
 	</td>
     </tr>
 
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w300" />
@@ -67,7 +67,7 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin">
@@ -85,7 +85,7 @@
             <p>{$lang->about_description}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->header_text}</div></th>
         <td>
             <textarea name="header_text" class="inputTypeTextArea w400">{htmlspecialchars($module_info->header_text)}</textarea>
@@ -99,14 +99,14 @@
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
             <textarea name="admin_id" class="inputTypeTextArea w400"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <td scope="row" colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>

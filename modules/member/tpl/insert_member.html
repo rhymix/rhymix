@@ -42,7 +42,7 @@
             <!--@end-->
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->password}</div></th>
         <td>
             <input type="password" name="password" value="" class="inputTypeText" />
@@ -55,7 +55,7 @@
             <p>{$lang->about_user_name}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->nick_name}</div></th>
         <td>
             <input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" class="inputTypeText" />
@@ -68,7 +68,7 @@
             <input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" class="inputTypeText" />
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->homepage}</div></th>
         <td>
             <input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" class="inputTypeText"/>
@@ -81,7 +81,7 @@
             <input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" class="inputTypeText" />
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->birthday}</div></th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
@@ -100,7 +100,7 @@
             {$lang->about_allow_mailing}
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->allow_message}</div></th>
         <td>
             <select name="allow_message">
@@ -117,7 +117,7 @@
         <td>{$editor}</td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->denied}</div></th>
         <td>
             <input type="checkbox" name="denied" value="Y" <!--@if($member_info->denied=='Y')-->checked="checked"<!--@end-->/>
@@ -135,7 +135,7 @@
             <p class="clear">{$lang->about_limit_date}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->is_admin}</div></th>
         <td>
             <input type="checkbox" name="is_admin" value="Y" <!--@if($member_info->is_admin=='Y')-->checked="checked"<!--@end-->/>
@@ -149,7 +149,7 @@
             <p>{$lang->about_member_description}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->group}</div></th>
         <td>
             <!--@foreach($group_list as $key=>$val)-->
@@ -167,7 +167,7 @@
     <caption>{$lang->member_extend_info}</caption>
     <!--@foreach($extend_form_list as $key => $val)-->
         <!--@if($val->is_active=='Y')-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <th scope="row"><div>
             {htmlspecialchars($val->column_title)}
             <!--@if($val->required=='Y')-->*<!--@end-->
@@ -260,7 +260,7 @@
     </table>
     <!--@end-->
 
-    <div class="tRight gap1">
+    <div class="tRight">
         <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         <!--@if($member_srl)-->
         <a href="{getUrl('act','dispMemberAdminInfo')}" class="button"><span>{$lang->cmd_cancel}</span></a>

@@ -109,8 +109,9 @@
          * @brief 회원 정보 출력
          **/
         function dispMemberAdminInfo() {
-            // 추가 가입폼 목록을 받음
-            $oMemberModel = &getModel('member');
+            return $this->dispMemberAdminInsert();
+
+            /*
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
 
@@ -118,6 +119,7 @@
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
 
             $this->setTemplateFile('member_info');
+            */
         }
 
         /**

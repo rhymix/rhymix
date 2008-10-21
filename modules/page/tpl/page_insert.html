@@ -9,7 +9,7 @@
 <!--@end-->
 
     <table cellspacing="0" class="adminTable topGap">
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
@@ -25,7 +25,7 @@
         </td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->module_category}</div></th>
         <td colspan="3">
             <select name="module_category_srl">
@@ -44,7 +44,7 @@
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->layout}</div></th>
         <td colspan="3">
             <select name="layout_srl">
@@ -58,10 +58,10 @@
     </tr>
     <tr>
         <th scope="col"><div>{$lang->grant}</div></th>
-        <th scope="col" colspan="3" class="wide">{$lang->target}</div></th>
+        <td scope="col" colspan="3" >{$lang->target}</td>
     </tr>
     <!--@foreach($grant_list as $key => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <th scope="row"><div>{$val->title}</div></th>
         <td class="wide">
             <!--@foreach($group_list as $k => $v)-->
@@ -73,7 +73,7 @@
         <td class="center deSelectAll"><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;">{$lang->cmd_unselect_all}</a></td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <td colspan="4" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
         </td>

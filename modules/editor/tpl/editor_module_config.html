@@ -5,12 +5,15 @@
 
     <table cellspacing="0" class="adminTable">
     <caption>{$lang->editor}</caption>
+    <thead>
     <tr>
         <th scope="col"><div>&nbsp;</div></th>
         <th scope="col" class="half_wide"><div>{$lang->document}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->comment}</div></th>
     </tr>
-    <tr>    
+    </thead>
+    <tbody>
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->editor_skin}</div></th>
         <td>
             <select name="editor_skin">
@@ -30,7 +33,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_editor_skin}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->enable_html_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -46,7 +49,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_enable_html_grant}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->upload_file_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -62,7 +65,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_upload_file_grant}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->enable_default_component_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -78,7 +81,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_default_component_grant}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->enable_component_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -94,7 +97,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_component_grant}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->editor_height}</div></th>
         <td>
             <input type="text" name="editor_height" value="{$editor_config->editor_height}" class="inputTypeText w80" />px
@@ -106,7 +109,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_editor_height}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->height_resizable}</div></th>
         <td>
             <input type="checkbox" value="Y" name="enable_height_resizable" <!--@if($editor_config->enable_height_resizable=='Y')-->checked="checked"<!--@end-->/>
@@ -118,18 +121,19 @@
     <tr>
         <td colspan="2"><p>{$lang->about_editor_height_resizable}</p></td>
     </tr>
-    <tr>    
+    <tr class="row2">    
         <th rowspan="2"><div>{$lang->enable_autosave}</div></th>
         <td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
     </tr>
     <tr>
         <td colspan="2"><p>{$lang->about_enable_autosave}</p></td>
     </tr>
-    <tr>
+    <tr class="row2">
         <td class="right" colspan="3">
             <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
         </td>
     </tr>
+    </tbody>
     </table>
 
 </form>

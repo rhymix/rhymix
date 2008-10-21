@@ -8,7 +8,9 @@
     <tr>
         <th><div>{$lang->enable_trackback}</div></th>
         <td class="wide"><input type="checkbox" name="enable_trackback" value="Y" <!--@if($trackback_config->enable_trackback == "Y")-->checked="checked"<!--@end--> /></td>
-        <td class="center"><span class="button"><input type="submit" value="{$lang->cmd_save}"/></span></td>
+    </tr>
+    <tr class="row2">
+        <td class="right" colspan="2"><span class="button"><input type="submit" value="{$lang->cmd_save}"/></span></td>
     </tr>
     </table>
 </form>

@@ -6,7 +6,7 @@
 <input type="hidden" name="default_value" value="<!--@if(is_array($join_form->default_value))-->{implode($join_form->default_value,'|@|')}<!--@end-->" />
 
     <table cellspacing="0" class="adminTable">
-    <tr id="zone_column_type">
+    <tr class="row2" id="zone_column_type">
         <th scope="row"><div>{$lang->column_type}</div></th>
         <td>
             <select name="column_type" onchange="doShowJoinFormValue(this)">
@@ -48,7 +48,7 @@
             <p>{$lang->about_column_name}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->column_title}</div></th>
         <td>
             <input type="text" name="column_title" value="{htmlspecialchars($join_form->column_title)}" class="inputTypeText w400" />
@@ -62,7 +62,7 @@
             <p>{$lang->about_active}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->is_required}</div></th>
         <td>
             <input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="checked"<!--@end-->/>
@@ -70,13 +70,13 @@
         </td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->description}</div></th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>
             <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($join_form->description)}</textarea>
             <p>{$lang->about_form_description}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </td>

@@ -3,7 +3,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->sample_code}<div></th>
         <td colspan="2" class="wide">
             <textarea class="inputTypeTextArea w400" readonly="readonly">{$sample_code}</textarea>
@@ -21,7 +21,7 @@
             <p>{$lang->about_skin}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <td colspan="3"><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</td>
     </tr>
     <!--@foreach($mid_list as $module_category_srl => $modules)-->
@@ -37,7 +37,7 @@
     </tr>
     <!--@end-->
     <!--@foreach($modules->list as $key => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td>{$val->module}</td>
         <td>
             <input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> /> 
@@ -46,7 +46,7 @@
     </tr>
     <!--@end-->
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <td class="right" colspan="3">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>

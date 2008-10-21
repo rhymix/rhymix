@@ -3,7 +3,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
-    <tr>
+    <tr class="row2">
         <th scope="col"><div>{$lang->allowed_filesize}</div></th>
         <td>
             <input type="text" name="allowed_filesize" value="{$config->allowed_filesize}" class="inputTypeText" size="3" />MB
@@ -18,7 +18,7 @@
             <p>{$lang->about_allowed_attach_size}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="col"><div>{$lang->allowed_filetypes}</div></th>
         <td>
             <input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" class="inputTypeText w100" />

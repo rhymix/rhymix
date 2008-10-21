@@ -9,7 +9,7 @@
 
     <table cellspacing="0" class="adminTable">
     <caption>{$lang->skin_default_info}</caption>
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->skin}</div></th>
         <td class="wide" >{$skin_info->title}</td>
     </tr>
@@ -21,27 +21,24 @@
             <!--@endforeach-->
         </td>
     </tr>
-    <!--@if($skin_info->homepage)-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->homepage}</div></th>
-        <td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
+        <td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a>&nbsp;</td>
     </tr>
-    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->date}</div></th>
         <td>{zdate($skin_info->date, 'Y-m-d')}</td>
     </tr>
-    <!--@if($skin_info->license || $skin_info->license_link)-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->skin_license}</div></th>
         <td>
             {nl2br(trim($skin_info->license))}
         <!--@if($skin_info->license_link)-->
             <p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
         <!--@end-->
+            &nbsp;
         </td>
     </tr>
-    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>{nl2br($skin_info->description)}</td>
@@ -82,7 +79,7 @@
     <caption>{$group}</caption>
     <!--@end-->
 
-    <tr>
+    <tr class="row{$cycle_idx}">
         <th scope="row"><div>{$val->title}</div></th>
         <td class="wide">
             <!--@if($val->type=="text")-->
@@ -138,7 +135,7 @@
     <table cellspacing="0" class="adminTable">
     <!--@end-->
 
-    <tr>
+    <tr class="row2">
         <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>

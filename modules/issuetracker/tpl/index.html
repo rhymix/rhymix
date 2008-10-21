@@ -50,7 +50,7 @@
         <td class="delete"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispIssuetrackerAdminDeleteIssuetracker','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <td colspan="7" class="right">
             <a href="{getUrl('act','dispIssuetrackerAdminInsertProject','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
         </td>

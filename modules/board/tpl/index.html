@@ -37,7 +37,7 @@
 </thead>
 <tbody>
     <!--@foreach($board_list as $no => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td class="center number">{$no}</td>
         <td class="center"><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
         <td>

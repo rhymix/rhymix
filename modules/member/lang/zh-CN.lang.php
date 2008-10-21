@@ -52,6 +52,13 @@
     $lang->member_info = '会员信息';
     $lang->current_password = '当前密码';
     $lang->openid = 'OpenID';
+    $lang->allow_message = '쪽지 허용';
+    $lang->allow_message_type = array(
+            'Y' => '모두 허용',
+            'F' => '등록된 친구들만 허용',
+            'N' => '모두 금지',
+    );
+    $lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
 
     $lang->webmaster_name = '管理员名';
     $lang->webmaster_email = '管理员电子邮件';

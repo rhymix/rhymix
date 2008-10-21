@@ -5,32 +5,27 @@
 <div id="popBody">
 
     <table cellspacing="0" class="adminTable">
-    <col width="100" />
-    <col />
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$addon_info->title} ver. {$addon_info->version}</td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->author}</div></th>
-        <td class="blue">
+        <td>
             <!--@foreach($addon_info->author as $author)-->
             {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
             <!--@endforeach-->
         </td>
     </tr>
-    <!--@if($addon_info->homepage)-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->homepage}</div></th>
-        <td class="blue"><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
+        <td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
     </tr>
-    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate($addon_info->date, 'Y-m-d')}</td>
     </tr>
-    <!--@if($addon_info->license || $addon_info->license_link)-->
-    <tr>
+    <tr class="row2">
         <th scope="row"><div>{$lang->addon_license}</div></th>
         <td>
             {nl2br(trim($addon_info->license))}
@@ -39,7 +34,6 @@
         <!--@end-->
         </td>
     </tr>
-    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>{nl2br(trim($addon_info->description))}</td>

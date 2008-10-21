@@ -12,7 +12,7 @@
 
     <div id="popBody">
         <table cellspacing="0" class="adminTable">
-        <tr>
+        <tr class="row2">
             <th scope="row"><div>{$lang->component_name}</div></th>
             <td>{$component->component_name} ver. {$component->version}</td>
         </tr>
@@ -25,14 +25,14 @@
             </td>
         </tr>
         <!--@if($component->link)-->
-        <tr>
+        <tr class="row2">
             <th scope="row"><div>{$lang->component_link}</div></th>
             <td><a href="#" onclick="winopen('{$component->link}');return false;">{$component->link}</a></td>
         </tr>
         <!--@end-->
 
         <!--@foreach($component->extra_vars as $key => $val)-->
-        <tr>
+        <tr class="row{$cycle_idx}">
             <th scope="row"><div>{$val->title}</div></th>
             <td>
                 <input type="text" name="{$key}" value="{$val->value}" class="inputTypeText w400" />
@@ -41,7 +41,7 @@
         </tr>
         <!--@end-->
 
-        <tr>
+        <tr class="row2">
             <th scope="row"><div>{$lang->grant}</div></th>
             <td>
             <!--@foreach($group_list as $key => $val)-->

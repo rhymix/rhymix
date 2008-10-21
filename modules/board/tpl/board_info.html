@@ -1,7 +1,7 @@
 <!--#include("header.html")-->
 
 <table cellspacing="0" class="adminTable">
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->module_category}</div></th>
     <td>
         <!--@if(!$module_info->module_category_srl)-->
@@ -21,7 +21,7 @@
         <!--@end-->
     </td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->skin}</div></th>
     <td>{$module_info->skin_title} ({$module_info->skin})</td>
 </tr>
@@ -29,7 +29,7 @@
     <th scope="row"><div>{$lang->browser_title}</div></th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->use_category}</div></th>
     <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
 </tr>
@@ -37,7 +37,7 @@
     <th scope="row"><div>{$lang->order_target}</div></th>
     <td>{$order_target[$module_info->order_target]}</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->order_type}</div></th>
     <td><!--@if($module_info->order_type=='asc')-->{$lang->order_asc}<!--@else-->{$lang->order_desc}<!--@end--></td>
 </tr>
@@ -45,7 +45,7 @@
     <th scope="row"><div>{$lang->list_count}</div></th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->search_list_count}</div></th>
     <td>{$module_info->search_list_count?$module_info->search_list_count:20}</td>
 </tr>
@@ -53,7 +53,7 @@
     <th scope="row"><div>{$lang->page_count}</div></th>
     <td>{$module_info->page_count?$module_info->page_count:10}</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->except_notice}</div></th>
     <td>{$module_info->except_notice=='N'?$lang->notuse:$lang->use}</td>
 </tr>
@@ -61,7 +61,7 @@
     <th scope="row"><div>{$lang->consultation}</div></th>
     <td>{$module_info->consultation=='Y'?$lang->use:$lang->notuse}</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->admin_mail}</div></th>
     <td>{$module_info->admin_mail}&nbsp;</td>
 </tr>
@@ -69,7 +69,7 @@
     <th scope="row"><div>{$lang->description}</div></th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->header_text}</div></th>
     <td>{htmlspecialchars($module_info->header_text)}&nbsp;</td>
 </tr>
@@ -77,7 +77,7 @@
     <th scope="row"><div>{$lang->footer_text}</div></th>
     <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
-<tr>
+<tr class="row2">
     <th scope="row"><div>{$lang->admin_id}</div></th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
@@ -102,7 +102,7 @@
 
     <table cellspacing="0" class="adminTable topGap">
     <caption>{$lang->extra_vars} {$i}</caption>
-    <tr>
+    <tr class="row2">
         <th><div>{$lang->column_name}</div></th>
         <td>{$extra_vars_name}</td>
     </tr>
@@ -110,7 +110,7 @@
         <th><div>{$lang->column_type}</div></th>
         <td>{$extra_vars_type}</td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th><div>{$lang->is_required}</div></th>
         <td>{$extra_vars_is_required}</td>
     </tr>
@@ -118,7 +118,7 @@
         <th><div>{$lang->default_value}</div></th>
         <td>{$extra_vars_default_value}</td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th><div>{$lang->description}</div></th>
         <td>{$extra_vars_desc}</td>
     </tr>

@@ -24,7 +24,7 @@
 </thead>
 <tbody>
     <!--@foreach($comment_list as $no => $oComment)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td class="number center">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
         <td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
@@ -34,18 +34,16 @@
         <td class="view center"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <!--@end-->
+    <tr>
+        <td colspan="7" class="right">
+            <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+        </td>
+    </tr>
 </tbody>
 </table>
-
-<!-- 버튼 -->
-    <div class="fl gap1">
-        <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
-    </div>
-    <div class="fr gap1">
-        <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
-        <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
-    </div>
 </form>
 
 <!-- 페이지 네비게이션 -->

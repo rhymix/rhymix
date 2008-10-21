@@ -22,7 +22,7 @@
 </thead>
 <tbody>
     <!--@foreach($layout_list as $no => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td class="number center">{$no+1}</td>
         <td>
             {$val->layout}
@@ -39,11 +39,11 @@
                 &nbsp;
             <!--@end-->
         </td>
-        <td class="modify center"><a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" class="blue">{$lang->cmd_layout_edit}</a></td>
-        <td class="delete center"><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" class="red">{$lang->cmd_delete}</a></td>
+        <td class="modify center"><a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
+        <td class="delete center"><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
-    <tr>
+    <tr class="row2">
         <td colspan="7" class="right">
             <a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
         </td>
