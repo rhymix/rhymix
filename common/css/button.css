@@ -22,7 +22,7 @@ a.button.xLarge, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
 /* Control Button + Submit Button */
 span.button,
 span.button button,
-span.button input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
+span.button input { position:relative; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
 span.button { padding:0; background-position:left top;}
 span.button, x:-moz-any-link{ padding:5px 0 4px 0; line-height:0;} /* Firefox 2 Fix */
 span.button, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
