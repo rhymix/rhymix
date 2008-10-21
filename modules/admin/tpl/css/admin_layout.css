@@ -19,7 +19,7 @@ body { background:#548DB5; }
 
 .xeAdmin div.mainNavigator .adminSubMenu { border:1px solid #999; float:none; clear:both; position:absolute; left:-6px; top:31px; visibility:hidden; list-style:none; padding:0 7px 3px 7px; margin:0; background:#eee;}
 .xeAdmin div.mainNavigator .adminSubMenu li { position:relative; display:block; float:none; clear:both; font-weight:normal; margin:0; padding:8px 4px 4px 4px; background:url("../images/n_submenu_bar.gif") repeat-x left top; border:none;}
-.xeAdmin div.mainNavigator .adminSubMenu li a { position:relative; display:block; width:100%; float:none; clear:both; padding:0; color:#000; text-decoration:none; white-space:nowrap; }
+.xeAdmin div.mainNavigator .adminSubMenu li a { position:relative; display:inline-block; float:none; clear:both; padding:0; color:#000; text-decoration:none; white-space:nowrap;}
 .xeAdmin div.mainNavigator .adminSubMenu li a:hover { color:#aaa; }
 .xeAdmin div.mainNavigator .adminSubMenu li.first { background:none; }
 
@@ -36,5 +36,5 @@ body { background:#548DB5; }
 .adminContentBody:after { content:""; display:block; clear:both;}
 
 .adminFooter{ background:#548DB5; text-align:center; padding:10px 0;}
-.adminFooter a { text-decoration:none; }
-.adminFooter address{ font:11px Tahoma; color:#fff;}
+.adminFooter address { font:11px Tahoma; color:#fff;}
+.adminFooter address a{ font:11px Tahoma; color:#fff; text-decoration:none;}

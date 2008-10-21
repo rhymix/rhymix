@@ -4,7 +4,7 @@
  * @brief  admin 모듈의 javascript
  **/
 
-xAddEventListener(document,'mouseup',showXESubMenu);
+xAddEventListener(document,'click',showXESubMenu);
 var openedSubMenus = null;
 function showXESubMenu(evt) {
     var e = new xEvent(evt);
