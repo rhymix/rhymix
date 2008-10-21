@@ -66,7 +66,9 @@
                 $this->setError(-1);
                 $this->setMessage($error['description']);
             } else {
-                $openid->SetApprovedURL( sprintf('%s?module=member&act=procMemberOpenIDValidate', Context::getRequestUri(RELEASE_SSL)) );
+                $goto = urlencode(substr($_SERVER['HTTP_REFERER'],strlen(Context::getRequestUri(RELEASE_SSL))));
+                $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=procMemberOpenIDValidate&goto=" . $goto;
+                $openid->SetApprovedURL($ApprovedURL);
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
             }
@@ -114,7 +116,13 @@
                 Context::close();
 
                 // 페이지 이동
-                header("location:./");
+                if(Context::get('goto')){
+                    $goto = Context::get('goto');
+                    header("location:./" . $goto);	
+                }else{
+                    header("location:./");	
+                }
+                
                 exit();
 
 
