@@ -1,6 +1,5 @@
 @charset "utf-8"; 
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
-.button{ margin-right:2px;}
 
 /* Anchor Button */
 a.button,
@@ -71,3 +70,6 @@ a.button.blue span,
 span.button.blue,
 span.button.blue button,
 span.button.blue input { background-image:url(../tpl/images/buttonBlue.gif); color:#fff;}
+
+/* Offset Adjust */
+.button{ margin-right:2px;}
