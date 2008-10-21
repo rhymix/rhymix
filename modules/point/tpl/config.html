@@ -138,7 +138,7 @@
         <td><input type="text" name="level_step_1" value="{$config->level_step[1]}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <!--@for($i=2;$i<=$config->max_level;$i++)-->
-    <tr>
+    <tr class="row{(($i-1)%2+1)}">
         <td>{$i}</td>
         <td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/{$i}.gif" alt="" /></td>
         <td><input type="text" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" class="inputTypeText w80" /> {$config->point_name}</td>
@@ -150,6 +150,7 @@
         </td>
     </tr>
     </table>
+</div>
 
 
 </form>
