@@ -72,4 +72,5 @@ span.button.blue button,
 span.button.blue input { background-image:url(../tpl/images/buttonBlue.gif); color:#fff;}
 
 /* Offset Debug */
-.button{ margin-right:2px;}
+a.button,
+span.button{ margin-right:2px;}
