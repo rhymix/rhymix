@@ -6,37 +6,37 @@ a.button,
 a.button span { position:relative; display:inline-block; text-decoration:none !important; background:url(../tpl/images/buttonWhite.gif) no-repeat; cursor:pointer; white-space:nowrap; vertical-align:middle; *vertical-align:top;}
 a.button { padding:0; background-position:left top; overflow:visible;}
 a.button span { left:2px; padding:6px 10px 5px 8px; color:#000; font:12px/12px Sans-serif; background-position:right top;}
-a.button, x:-moz-any-link { padding:3px 0 1px 0;} /* Firefox 2 Fix */
+a.button, x:-moz-any-link { font:0/0 Sans-serif; padding:12px 0;} /* Firefox 2 Fix */
 a.button, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
 /* Large Size */
 a.button.large { background-position:left -30px; }
 a.button.large span { padding:7px 10px 6px 8px; font:16px/16px Sans-serif; background-position:right -30px;}
-a.button.large, x:-moz-any-link { padding:6px 0 4px 0;} /* Firefox 2 Fix */
+a.button.large, x:-moz-any-link { font:0/0 Sans-serif; padding:15px 0;} /* Firefox 2 Fix */
 a.button.large, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
 /* xLarge Size */
 a.button.xLarge { background-position:left -65px; }
 a.button.xLarge span { padding:8px 10px 7px 8px; font:20px/20px Sans-serif; background-position:right -65px;}
-a.button.xLarge, x:-moz-any-link { padding:9px 0 7px 0;} /* Firefox 2 Fix */
+a.button.xLarge, x:-moz-any-link { font:0/0 Sans-serif; padding:18px 0;} /* Firefox 2 Fix */
 a.button.xLarge, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
 
 /* Control Button + Submit Button */
 span.button,
 span.button button,
-span.button input { position:relative; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
+span.button input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
 span.button { padding:0; background-position:left top;}
-span.button, x:-moz-any-link{ padding:5px 0 4px 0; line-height:0;} /* Firefox 2 Fix */
+span.button, x:-moz-any-link{ font:0/0 Sans-serif; padding:11px 0;} /* Firefox 2 Fix */
 span.button, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
 span.button button,
-span.button input { height:23px; left:2px; padding:0 10px 0 8px; *padding:0 5px 0 3px; line-height:24px; background-position:right top; cursor:pointer;}
+span.button input { height:23px; left:2px; *top:-1px; _top:0; padding:0 10px 0 8px; *padding:0 5px 0 3px; line-height:24px; background-position:right top; cursor:pointer;}
 /* Large Size */
 span.button.large { background-position:left -30px; *top:-1px;}
-span.button.large, x:-moz-any-link{ padding:8px 0 7px 0;} /* Firefox 2 Fix */
+span.button.large, x:-moz-any-link{ font:0/0 Sans-serif; padding:14px 0;} /* Firefox 2 Fix */
 span.button.large, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
 span.button.large button,
-span.button.large input { height:30px; padding:0 10px 0 8px; *padding:0 5px 0 3px; *top:-1px; font:16px/30px Sans-serif; background-position:right -30px;}
+span.button.large input { height:30px; *top:0 !important; padding:0 10px 0 8px; *padding:0 5px 0 3px; *top:-1px; font:16px/30px Sans-serif; background-position:right -30px;}
 /* xLarge Size */
 span.button.xLarge { background-position:left -65px;}
-span.button.xLarge, x:-moz-any-link{ padding:11px 0 10px 0;} /* Firefox 2 Fix */
+span.button.xLarge, x:-moz-any-link{ font:0/0 Sans-serif; padding:17px 0;} /* Firefox 2 Fix */
 span.button.xLarge, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
 span.button.xLarge button,
 span.button.xLarge input { height:35px; padding:0 10px 0 8px; *padding:0 5px 0 3px; font:20px/36px Sans-serif; background-position:right -65px;}
@@ -71,5 +71,5 @@ span.button.blue,
 span.button.blue button,
 span.button.blue input { background-image:url(../tpl/images/buttonBlue.gif); color:#fff;}
 
-/* Offset Adjust */
+/* Offset Debug */
 .button{ margin-right:2px;}
