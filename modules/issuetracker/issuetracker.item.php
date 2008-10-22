@@ -132,8 +132,8 @@
             if($this->package) return $this->package->title;
         }
 
-        function getContent() {
-            $content = parent::getContent();
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false) {
+            $content = parent::getContent($add_content_info, $add_content_info, $resource_realpath);
             preg_match_all('/r([0-9]+)/',$content, $mat);
             for($k=0;$k<count($mat[1]);$k++) {
                 $content = str_replace('r'.$mat[1][$k], sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>',getUrl('','mid',Context::get('mid'),'act','dispIssuetrackerViewSource','type','compare','erev',$mat[1][$k],'brev',''), 'r'.$mat[1][$k]), $content);
