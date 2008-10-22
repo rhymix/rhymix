@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '您選擇的組件已插入！';
     $lang->msg_component_is_first_order = '您選擇的組件已達最頂端位置！';
     $lang->msg_component_is_last_order = '您選擇的組件已達最底端位置！';
-    $lang->msg_load_saved_doc = "有自動儲存的內容， 確定要恢復嗎？\n儲存內容後，自動儲存的內容將會被刪除。";
+    $lang->msg_load_saved_doc = "有自動儲存的內容，確定要恢復嗎?\n儲存內容後，自動儲存的內容將會被刪除。";
     $lang->msg_auto_saved = "已自動儲存！";
 
     $lang->cmd_disable = "暫停";
@@ -45,14 +45,13 @@
     $lang->about_default_component_grant = '可以設置編輯器預設組件的使用權限(全部解除為無限制)。';
     $lang->about_editor_height = '可以指定編輯器的預設高度。';
     $lang->about_editor_height_resizable = '允許用戶拖曳編輯器高度。';
-    $lang->about_enable_html_grant = 'HTML代碼編輯權限設置。';
+    $lang->about_enable_html_grant = 'HTML原始碼編輯權限設置。';
     $lang->about_enable_autosave = '發表主題時，啟動內容自動儲存功能。';
 
     $lang->edit->fontname = '字體';
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
-
     "新細明體",
     "標楷體",
     "細明體",
@@ -96,8 +95,8 @@
     $lang->edit->help_use_paragrapth = "換段落請按 ctrl+backspace． (發表主題快捷鍵：alt+S)";
 
     $lang->edit->upload = '上傳';
-    $lang->edit->upload_file = '上傳附件'; 
-    $lang->edit->link_file = '插入內容';
+    $lang->edit->upload_file = '上傳附檔';
+    $lang->edit->link_file = '插入圖片';
     $lang->edit->delete_selected = '刪除所選';
 
     $lang->edit->icon_align_article = '段落';
