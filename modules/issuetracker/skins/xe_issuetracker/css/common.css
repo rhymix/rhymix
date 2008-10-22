@@ -133,12 +133,12 @@ div.editor table { width:95%; }
 /* view Issue */
 
 .viewIssue { }
-.viewIssue table { border-spacing:0; overflow:hidden; width:100%; border:1px solid #AAAAAA; background-color:#FFFFF6;}
+.viewIssue table { border-spacing:0; overflow:hidden; width:100%; border:1px solid #AAAAAA; background-color:#FFFFF6; table-layout:fixed;}
 .viewIssue table tr th { text-align:right; border-bottom:1px solid #EEEEEE; padding:8px 10px 5px 10px; vertical-align:top; color:#898700; font-weight:normal;}
 .viewIssue table tr th.title { color:#444444; font-size:13pt; text-align:left; font-weight:bold; }
 .viewIssue table tr th.title span { font-size:9pt; color:#4F86B0;}
 .viewIssue table tr td { border-bottom:1px solid #EEEEEE; padding:5px 0 5px 0; color:#3B3A00; }
-.viewIssue table tr td.description { color:#444444; text-align:left; padding:20px; }
+.viewIssue table tr td.description { color:#444444; text-align:left; padding:20px; overflow:hidden;}
 .viewIssue table tr td.description a { color:#3A945E; text-decoration:none; }
 .viewIssue table tr td.description a:hover { text-decoration:underline; }
 .viewIssue table tr td ul.tag { margin:0; padding:0; }
