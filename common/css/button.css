@@ -6,8 +6,8 @@ a.button,
 a.button span { position:relative; display:inline-block; text-decoration:none !important; background:url(../tpl/images/buttonWhite.gif) no-repeat; cursor:pointer; white-space:nowrap; vertical-align:middle; *vertical-align:top;}
 a.button { padding:0; background-position:left top; overflow:visible;}
 a.button span { left:2px; padding:6px 10px 5px 8px; color:#000; font:12px/12px Sans-serif; background-position:right top;}
-a.button, x:-moz-any-link { font:0/0 Sans-serif; padding:12px 0;} /* Firefox 2 Fix */
-a.button, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
+a.button, x:-moz-any-link { font:0/0 Sans-serif; padding:12px 0; top:1px;} /* Firefox 2 Fix */
+a.button, x:-moz-any-link, x:default { padding:0; top:0;} /* Firefox 2 Fix */
 /* Large Size */
 a.button.large { background-position:left -30px; }
 a.button.large span { padding:7px 10px 6px 8px; font:16px/16px Sans-serif; background-position:right -30px;}
