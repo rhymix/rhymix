@@ -30,8 +30,8 @@
     // 信息、提示..
     $lang->about_category_title = '請輸入分類名稱。';
     $lang->about_expand = '選擇此項將維持展開狀態。';
-    $lang->about_category_group_srls = '被選的用戶組才可以檢視此分類。';
-    $lang->about_layout_setup = '可直接編輯部落格版面設計代碼。可把控件代碼插入到您喜歡的位置。';
+    $lang->about_category_group_srls = '被選擇的用戶組才可以檢視此分類。';
+    $lang->about_layout_setup = '可直接編輯部落格版面設計原始碼。可把控件原始碼插入到您喜歡的位置。';
     $lang->about_board_category = '可以新增/刪除分類項目<br />分類有異常情況時，可以嘗試重新建立暫存檔。';
     $lang->about_except_notice = "設置公告列表項目，不再重複顯示到普通列表當中。";
     $lang->about_board = "可建立及管理討論板的模組。\n建立討論板後，按模組名稱即可對其詳細設置。";

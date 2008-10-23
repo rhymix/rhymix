@@ -18,7 +18,7 @@
     $lang->cmd_next = '下一頁';
     $lang->cmd_send_trackback = '發送引用';
     $lang->cmd_registration = $lang->cmd_submit = '確定';
-    $lang->cmd_comment_registration = '提交評論';
+    $lang->cmd_comment_registration = '送出評論';
     $lang->cmd_insert = '插入';
     $lang->cmd_save = '儲存';
     $lang->cmd_load = '讀取';
@@ -134,7 +134,7 @@
     $lang->page_count = '頁數';
     $lang->list_count = '列表數';
     $lang->search_list_count = '搜尋列表數';
-    $lang->readed_count = '檢視';
+    $lang->readed_count = '點閱';
     $lang->voted_count = '推薦';
     $lang->comment_count = '評論';
     $lang->member_count = '會員數';
@@ -217,7 +217,7 @@
     $lang->msg_module_is_not_exists = '找不到您查詢的模組';
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
 
-    $lang->success_registed = '提交成功！';
+    $lang->success_registed = '成功送出！';
     $lang->success_declared = '檢舉成功！';
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '刪除成功！';
@@ -225,7 +225,7 @@
     $lang->success_blamed = '反對成功！';
     $lang->success_moved = '移動成功！';
     $lang->success_sended = '發送成功！';
-    $lang->success_reset = '重設成功 !';
+    $lang->success_reset = '重設成功！';
     $lang->success_leaved = '成功退出！';
     $lang->success_saved = '儲存成功！';
 	
@@ -237,12 +237,12 @@
     $lang->failed_declared = '您沒有檢舉權限！';
     $lang->fail_to_delete_have_children = '不能刪除有回覆的評論！';
 
-    $lang->confirm_submit = '確定要提交嗎?';
+    $lang->confirm_submit = '確定要送出嗎?';
     $lang->confirm_logout = '確定要登出嗎?';
     $lang->confirm_vote = '確定要推薦嗎?';
     $lang->confirm_delete = '確定要刪除嗎?';
     $lang->confirm_move = '確定要移動嗎?';
-    $lang->confirm_reset = '確定要初始化嗎?';
+    $lang->confirm_reset = '確定要重置嗎?';
     $lang->confirm_leave = '確定要退出嗎?';
 
     $lang->column_type = '格式';

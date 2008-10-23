@@ -35,6 +35,6 @@
 
     $lang->quotation_opener = "開啟連結名稱";
     $lang->quotation_opener = "關閉連結名稱";
-    $lang->quotation_cmd_opener = "更多...";
+    $lang->quotation_cmd_opener = "展開";
     $lang->quotation_cmd_closer = "關閉";
 ?>

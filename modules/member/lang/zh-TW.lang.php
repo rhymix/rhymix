@@ -155,8 +155,8 @@
     $lang->about_allow_mailing = '如不選擇此項，以後無法接收站內發送的重要資料。';
     $lang->about_denied = '選擇時不能使用此帳號。';
     $lang->about_is_admin = '選擇時將具有最高管理權限。';
-    $lang->about_member_description = '管理員對會員的筆記。';
-    $lang->about_group = '一個用戶名可屬多個用戶組。';
+    $lang->about_member_description = '管理員對會員的註記。';
+    $lang->about_group = '一個用戶名稱可擁有多個用戶組。';
 
     $lang->about_column_type = '請選擇要新增的註冊表單格式。';
     $lang->about_column_name = '請輸入在樣板中可以使用的英文名稱。(變數名稱)';
@@ -171,7 +171,7 @@
     $lang->about_enable_confirm = '為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。';
     $lang->about_enable_ssl = '如主機提供 SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https)認證。';
     $lang->about_limit_day = '註冊會員後的認證有效期限。';
-    $lang->about_limit_date = '直到指定日期該用戶無法登入。';
+    $lang->about_limit_date = '直到指定日期，否則該帳號都無法登入。';
     $lang->about_after_login_url = '可以指定登入後的頁面轉向 URL(留空為目前頁面)。';
     $lang->about_after_logout_url = '可以指定登出登錄後的頁面轉向url(留空為目前頁面)。';
     $lang->about_redirect_url = '請輸入註冊會員後的頁面轉向 URL。(留空為返回前頁)';
