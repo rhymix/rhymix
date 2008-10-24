@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module>
     <grants>
         <grant name="view" default="guest">
             <title xml:lang="ko">열람</title>
-			<title xml:lang="zh-CN">查看</title>
+            <title xml:lang="zh-CN">查看</title>
             <title xml:lang="jp">閲覧</title>
             <title xml:lang="en">view</title>
-			<title xml:lang="zh-TW">檢視</title>
+            <title xml:lang="zh-TW">檢視</title>
         </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
-			<title xml:lang="zh-CN">管理</title>
+            <title xml:lang="zh-CN">管理</title>
             <title xml:lang="jp">管理</title>
             <title xml:lang="en">manager</title>
-			<title xml:lang="zh-TW">管理</title>
+            <title xml:lang="zh-TW">管理</title>
         </grant>
     </grants>
     <permissions>
@@ -25,7 +25,7 @@
     <actions>
         <action name="dispPageIndex" type="view" index="true" />
         <action name="dispPageAdminContent" type="view" admin_index="true" standalone="true" />
-        <action name="dispPageAdminModuleConfig" type="view" standalone="true" />
+        <action name="dispPageAdminInfo" type="view" standalone="true" />
         <action name="dispPageAdminInsert" type="view" standalone="true" />
         <action name="dispPageAdminDelete" type="view" standalone="true" />
         <action name="dispPageAdminContentModify" type="view" standalone="true" />
