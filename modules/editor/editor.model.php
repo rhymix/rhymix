@@ -97,8 +97,7 @@
              **/
             if($enable_autosave) {
                 // 자동 저장된 데이터를 추출
-                $saved_doc = $this->getSavedDoc();
-                if($saved_doc->document_srl && !$upload_target_srl) $upload_target_srl = $saved_doc->document_srl;
+                $saved_doc = $this->getSavedDoc($upload_target_srl);
 
                 // 자동 저장 데이터를 context setting
                 Context::set('saved_doc', $saved_doc);
@@ -123,8 +122,8 @@
 
                 // SWFUploader에 세팅할 업로드 설정 구함
                 $file_config = $oFileModel->getUploadConfig();
-                $file_config->attached_size = $file_config->allowed_attach_size*1024;
-                $file_config->allowed_filesize = $file_config->allowed_filesize*1024;
+                $file_config->attached_size = $file_config->allowed_attach_size*1024*1024;
+                $file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
 
                 Context::set('file_config',$file_config);
 
@@ -308,7 +307,7 @@
         /**
          * @brief 자동저장되어 있는 정보를 가져옴
          **/
-        function getSavedDoc() {
+        function getSavedDoc($upload_target_srl) {
             // 로그인 회원이면 member_srl, 아니면 ipaddress로 저장되어 있는 문서를 찾음
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
@@ -334,8 +333,14 @@
             if($saved_doc->document_srl) {
                 $module_srl = Context::get('module_srl');
                 $oFileController = &getController('file');
-                $oFileController->moveFile($saved_doc->document_srl, $module_srl, $saved_doc->document_srl);
+                $oFileController->moveFile($saved_doc->document_srl, $module_srl, $upload_target_srl);
             }
+            $saved_doc->document_srl = $upload_target_srl;
+
+            // 자동 저장 데이터 변경
+            $oEditorController = &getController('editor');
+            $oEditorController->deleteSavedDoc();
+            $oEditorController->doSaveDoc($saved_doc);
 
             return $saved_doc;
         }

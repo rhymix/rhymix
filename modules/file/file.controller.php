@@ -28,8 +28,7 @@
             // upload_target_srl 구함
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) {
-                $upload_target_srl = getNextSequence();
-                $this->setUploadInfo($editor_sequence, $upload_target_srl);
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
             }
 
             $file_info = Context::get('Filedata');

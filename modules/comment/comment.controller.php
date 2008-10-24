@@ -122,7 +122,7 @@
             // 순서를 정함
             $obj->list_order = getNextSequence() * -1;
 
-            // 내용에서 제로보드XE만의 태그를 삭제
+            // 내용에서 XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
             if(!$obj->regdate) $obj->regdate = date("YmdHis");
 

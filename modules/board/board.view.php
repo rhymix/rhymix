@@ -280,11 +280,6 @@
             $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
             $oDocument->setDocument($document_srl);
 
-            if(!$oDocument->isExists()) {
-                $document_srl = getNextSequence();
-                Context::set('document_srl',$document_srl);
-            }
-
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
 

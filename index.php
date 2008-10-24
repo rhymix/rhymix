@@ -63,5 +63,4 @@
     $oModuleHandler->init();
     $oModule = &$oModuleHandler->procModule();
     $oModuleHandler->displayContent($oModule);
-
 ?>

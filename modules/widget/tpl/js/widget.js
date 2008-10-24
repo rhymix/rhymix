@@ -165,8 +165,8 @@ function getWidgetCode(childObj, widget) {
  * 직접 내용을 입력하는 위젯을 추가
  **/
 // 팝업 띄움
-function doAddContent() {
-    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl);
+function doAddContent(mid) {
+    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
     popopen(url, "addContent");
 }
 

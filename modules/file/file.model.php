@@ -14,6 +14,43 @@
         }
 
         /**
+         * @brief 특정 문서에 속한 첨부파일 목록을 return
+         **/
+        function getFileList() {
+            $editor_sequence = Context::get("editor_sequence");
+            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) exit();
+
+            $tmp_files = $this->getFiles($upload_target_srl);
+            $file_count = count($tmp_files);
+
+            for($i=0;$i<$file_count;$i++) {
+                $file_info = $tmp_files[$i];
+                if(!$file_info->file_srl) continue;
+
+                $obj = null;
+                $obj->file_srl = $file_info->file_srl;
+                $obj->source_filename = $file_info->source_filename;
+                $obj->file_size = $file_info->file_size;
+                $obj->disp_file_size = FileHandler::filesize($file_info->file_size);
+                if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid);
+                else $obj->download_url = str_replace('./', '', $file_info->uploaded_filename);
+                $obj->direct_download = $file_info->direct_download;
+                $files[] = $obj;
+                $attached_size += $file_info->file_size;
+            }
+
+            // 업로드 상태 표시 작성
+            $upload_status = $this->getUploadStatus($attached_size);
+
+            // 필요한 정보들 세팅
+            $this->add("files",$files);
+            $this->add("editor_sequence",$editor_sequence);
+            $this->add("upload_target_srl",$upload_target_srl);
+            $this->add("upload_status",$upload_status);
+        }
+
+        /**
          * @brief 특정 문서에 속한 첨부파일의 개수를 return
          **/
         function getFilesCount($upload_target_srl) {
@@ -100,8 +137,8 @@
             if($logged_info->is_admin == 'Y') {
                 //$file_config->allowed_filesize = 1024;
                 //$file_config->allowed_attach_size = 1024;
-                $file_config->allowed_filesize = ini_get('upload_max_filesize');
-                $file_config->allowed_attach_size = ini_get('upload_max_filesize');
+                $file_config->allowed_filesize = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
+                $file_config->allowed_attach_size = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $module_srl = Context::get('module_srl');

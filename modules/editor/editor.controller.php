@@ -23,6 +23,12 @@
             $args->document_srl = Context::get('document_srl');
             $args->content = Context::get('content');
             $args->title = Context::get('title');
+            $output = $this->doSaveDoc($args);
+
+            $this->setMessage('msg_auto_saved');
+        }
+
+        function doSaveDoc($args) {
 
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
@@ -32,8 +38,7 @@
             }
 
             // 저장
-            $output = executeQuery('editor.insertSavedDoc', $args);
-            $this->setMessage('msg_auto_saved');
+            return executeQuery('editor.insertSavedDoc', $args);
         }
 
         /**
