@@ -20,8 +20,8 @@
 .boardList td .replyAndTrackback { color:#ff6600; }
 .buttonTypeGo { background:url(../images/white/buttonTypeInput24.gif) no-repeat; }
 
-/* pageNavigation */
-.pageNavigation .current { color:#ff6600; }
+/* pagination */
+.pagenation strong { color:#ff6600; }
 
 /* replyAndTrackback */
 .buttonBox .replyAndTrackback a strong { color:#ff6600;}

@@ -22,7 +22,7 @@ a.button span, span.button button, span.button input, del.button span{
 
 /* replace color */
 .memberSmallBox { border:1px solid #888888; }
-.memberSmallBox .header { background:transparent url("../images/black/bgH3.gif) no-repeat left bottom; }
+.memberSmallBox .header { background:transparent url("../images/black/bgH3.gif") no-repeat left bottom; }
 .memberSmallBox .header h3 { background:transparent url("../images/black/lineH3.gif") no-repeat right bottom; color:#888888; border-bottom:3px solid #888888; }
 .memberSmallBox .openid_user_id { color:#AAAAAA; background:transparent url("../images/black/openid_input_bg.gif") no-repeat left 50% !important; }
 .memberSmallBox .help { background-color:transparent; }
@@ -34,7 +34,7 @@ a.button span, span.button button, span.button input, del.button span{
 div.checkValue { color:#BBBBBB !important; }
 
 .boardHeader { border:1px solid #888888; }
-.boardHeader { background:transparent url("../images/black/bgH3.gif) no-repeat left bottom; }
+.boardHeader { background:transparent url("../images/black/bgH3.gif") no-repeat left bottom; }
 .boardHeader h3 { border:none; background:transparent url("../images/black/lineH3.gif") no-repeat right bottom; color:#888888; border-bottom:3px solid #888888; }
 
 table.list { border:1px solid #000000 !important; }
@@ -45,8 +45,8 @@ table.list tr td.title a { color:#BBBBBB !important; }
 table.list tr td { border-top:1px solid #888888 !important; }
 table .list tr td, table.list tr td * { color:#BBBBBB; }
 
-.pageNavigation a { border:none !important; }
-.pageNavigation .current { border:none !important; color:#EEEEEE; }
+.pagenation a { border:none !important; }
+.pagenation strong { border:none !important; color:#EEEEEE; }
 
 .memberSmallBox .leftHeaderType th { background:transparent; color:#AAAAAA; }
 .memberSmallBox .leftHeaderType td { color:#AAAAAA; }

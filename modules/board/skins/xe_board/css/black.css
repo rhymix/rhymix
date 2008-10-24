@@ -23,8 +23,8 @@
 .boardList td.title strong.category { color:#BBBBBB; }
 .buttonTypeGo { background:url(../images/black/buttonTypeInput24.gif) no-repeat; }
 
-/* pageNavigation */
-.pageNavigation .current { color:#BBBBBB; }
+/* pagination */
+.pagenation strong { color:#BBBBBB; }
 
 /* replyAndTrackback */
 .buttonBox .replyAndTrackback a strong { color:#BBBBBB;}

@@ -170,10 +170,10 @@
 </table>
 
 <!--@if($page_navigation->total_page>1)-->
-<div class="pageNavigation">
+<div class="pagination a1">
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
+            <strong>{$page_no}</strong> 
         <!--@else-->
             <span><a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a></span>
         <!--@end-->
