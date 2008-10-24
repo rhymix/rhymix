@@ -144,13 +144,23 @@
 
 <!--@if($allow_fileupload)-->
     <!-- 첨부파일 영역 -->
-    <!--%import("../../tpl/js/uploader.js")-->
+    <!--%import("../../tpl/js/uploader.js",optimized=false)-->
+    <!--%import("../../tpl/js/swfupload.js",optimized=false)-->
     <script type="text/javascript">//<![CDATA[
-        var xe_session_name = "{session_name()}";
-        var uploader_setting = { "allowed_filesize" : "{$file_config->allowed_filesize}", "allowed_filetypes" : "{$file_config->allowed_filetypes}", "allowed_filetypes_description" : "{$file_config->allowed_filetypes}" }
-        <!--@if(!$editor_manual_start)-->
-        editor_upload_init("{$editor_sequence}", '', "{$files_count}");
-        <!--@end-->
+        editorUploadInit(
+            {
+                "editorSequence" : {$editor_sequence},
+                "sessionName" : "{session_name()}",
+                "allowedFileSize" : "{$file_config->allowed_filesize}",
+                "allowedFileTypes" : "{$file_config->allowed_filetypes}",
+                "allowedFileTypesDescription" : "{$file_config->allowed_filetypes}",
+                "insertedFiles" : {(int)$files_count},
+                "replaceButtonID" : "swfUploadButton{$editor_sequence}",
+                "fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
+                "previewAreaID" : "preview_uploaded_{$editor_sequence}",
+                "uploaderStatusID" : "uploader_status_{$editor_sequence}"
+            }
+        );
     //]]></script>
 
     <table cellspacing="0" class="fileAttach">
@@ -161,12 +171,12 @@
         <td>
             <!-- 파일 업로드 영역 -->
             <div class="fileListArea">
-                <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList" onclick="editor_preview(this, '{$editor_sequence}');"></select>
+                <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList"></select>
             </div>
             <div class="fileUploadControl">
-                <a href="#" onclick="editor_upload_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->upload_file}</span></a>
-                <a href="#" onclick="editor_remove_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a>
-                <a href="#" onclick="editor_insert_file('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a>
+                <span id="swfUploadButton{$editor_sequence}"><span class="button"><button type="button">{$lang->edit->upload_file}</button></span></span>
+                <a href="#" onclick="removeUploadedFile('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a>
+                <a href="#" onclick="insertUploadedFile('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a>
             </div>
             <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
         </td>
