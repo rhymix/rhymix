@@ -7,7 +7,7 @@
 
     $lang->poll = "投票調查";
     $lang->poll_stop_date = "投票調查結束日期";
-    $lang->poll_join_count = "投票者";
+    $lang->poll_join_count = "投票人數";
     $lang->poll_checkcount = "必選項目數";
 
     $lang->cmd_poll_list = '檢視列表';

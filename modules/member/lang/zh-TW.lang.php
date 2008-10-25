@@ -50,7 +50,7 @@
     $lang->agreement = '會員使用條款';
     $lang->accept_agreement = '同意條款';
     $lang->member_info = '會員資料';
-    $lang->current_password = '當前密碼';
+    $lang->current_password = '舊密碼';
     $lang->openid = 'OpenID';
     $lang->allow_message = '接收短訊息';
     $lang->allow_message_type = array(
@@ -114,7 +114,7 @@
     $lang->msg_confirm_account_comment = '請按下面連結完成會員認證。';
     $lang->msg_auth_mail_sent = '已向%s發送了認證郵件。請確認！！';
     $lang->msg_confirm_mail_sent = '已向%s發送了認證郵件。請確認！！';
-    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找 ID及密碼，或聯繫管理員。';
+    $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找帳號及密碼，或聯繫管理員。';
     $lang->msg_success_authed = '新的註冊資料已得到認證。請用郵件中的新密碼修改您要想使用的密碼。';
     $lang->msg_success_confirmed = '註冊資料已成功確認！';
 

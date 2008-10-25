@@ -22,7 +22,7 @@
     $lang->cmd_insert = '插入';
     $lang->cmd_save = '儲存';
     $lang->cmd_load = '讀取';
-    $lang->cmd_input = '匯入';
+    $lang->cmd_input = '輸入';
     $lang->cmd_search = '搜尋';
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
@@ -78,7 +78,7 @@
     $lang->user_id = '帳號';
     $lang->author = '作者';
     $lang->password = '密碼';
-    $lang->password1 = '密碼';
+    $lang->password1 = '新密碼';
     $lang->password2 = '確認密碼';
     $lang->admin_id = '管理員ID';
     $lang->writer = '作者';
