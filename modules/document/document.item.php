@@ -488,6 +488,7 @@
                     else {
                         if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;
                         $tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111,999999).$this->document_srl));
+                        if(!is_dir('./files/cache/tmp')) FileHandler::makeDir('./files/cache/tmp');
                         FileHandler::getRemoteFile($target_src, $tmp_file);
                         if(!file_exists($tmp_file)) continue;
                         else {
