@@ -16,11 +16,8 @@
         function getRssModuleConfig($module_srl) {
             // rss 모듈의 config를 가져옴
             $oModuleModel = &getModel('module');
-            $rss_config = $oModuleModel->getModuleConfig('rss');
-
-            $module_rss_config = $rss_config->module_config[$module_srl];
-
-            if(!$module_rss_config->module_srl) {
+            $module_rss_config = $oModuleModel->getModuleConfig('rss', $module_srl);
+            if(!$module_rss_config) {
                 $module_rss_config->module_srl = $module_srl;
                 $module_rss_config->open_rss = 'N';
             }

@@ -14,7 +14,7 @@
             <title><![CDATA[{$oDocument->getTitleText()}]]></title>
             <author><![CDATA[{$oDocument->getNickName()}]]></author>
             <link><![CDATA[{$oDocument->getPermanentUrl()}]]></link>
-            <!--@if($mid_list[$oDocument->get('module_srl')]->open_rss=='Y')-->
+            <!--@if($rss_config[$oDocument->get('module_srl')]->open_rss=='Y')-->
             <description><![CDATA[{$oDocument->getContent(false)}]]></description>
             <!--@else-->
             <description><![CDATA[{$oDocument->getContentText(100)}]]></description>

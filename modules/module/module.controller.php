@@ -47,24 +47,34 @@
             return $output;
         }
 
-
         /**
-         * @brief 모듈의 기본 정보 입력
-         * 모듈의 정보를 입력받은 데이터를 serialize하여 등록한다.
+         * @brief 특정 모듈의 설정 입력
+         * board, member등 특정 모듈의 global config 관리용
          **/
         function insertModuleConfig($module, $config) {
-            // 변수 정리
             $args->module = $module;
             $args->config = serialize($config);
 
-            // 일단 삭제 (캐쉬 파일도 지운다)
             $output = executeQuery('module.deleteModuleConfig', $args);
             if(!$output->toBool()) return $output;
 
-            FileHandler::removeFile( sprintf('./files/cache/module_info/%s.config.php',$module) );
-
-            // 변수 정리후 query 실행
             $output = executeQuery('module.insertModuleConfig', $args);
+            return $output;
+        }
+
+        /**
+         * @brief 특정 mid의 모듈 설정 정보 저장
+         * mid의 모듈 의존적인 설정을 관리
+         **/
+        function insertModulePartConfig($module, $module_srl, $config) {
+            $args->module = $module;
+            $args->module_srl = $module_srl;
+            $args->config = serialize($config);
+
+            $output = executeQuery('module.deleteModulePartConfig', $args);
+            if(!$output->toBool()) return $output;
+
+            $output = executeQuery('module.insertModulePartConfig', $args);
             return $output;
         }
 

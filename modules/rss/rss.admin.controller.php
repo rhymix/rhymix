@@ -47,15 +47,9 @@
          * @brief RSS 모듈별 설정 함수
          **/
         function setRssModuleConfig($module_srl, $open_rss) {
-            $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-
-            $rss_config = $oModuleModel->getModuleConfig('rss');
-            $rss_config->module_config[$module_srl]->module_srl = $module_srl;
-            $rss_config->module_config[$module_srl]->open_rss = $open_rss;
-
-            $oModuleController->insertModuleConfig('rss', $rss_config);
-
+            $config->open_rss = $open_rss;
+            $oModuleController->insertModulePartConfig('rss',$module_srl,$config);
             return new Object();
         }
     }

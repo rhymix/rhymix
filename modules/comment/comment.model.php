@@ -386,18 +386,9 @@
          * @brief 모듈별 댓글 설정을 return
          **/
         function getCommentConfig($module_srl) {
-            if(!$GLOBLAS['__comment_module_config__']) {
-                // 선택된 모듈의 trackback설정을 가져옴
-                $oModuleModel = &getModel('module');
-                $GLOBLAS['__comment_module_config__'] = $oModuleModel->getModuleConfig('comment');
-            }
-
-            $comment_config = $GLOBLAS['__comment_module_config__']->module_config[$module_srl];
-
-            if(!is_object($comment_config)) $comment_config = null;
-
+            $oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
             if(!isset($comment_config->comment_count)) $comment_count->comment_count = 50;
-
             return $comment_config;
         }
 

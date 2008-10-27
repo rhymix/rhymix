@@ -25,17 +25,17 @@
     <tbody>
     <!--@foreach($mid_list as $key => $val)-->
     <!--@if(in_array($val->module,array('guestbook','board','blog')))-->
-    <tr>
+    <tr class="row2">
         <th colspan="7" scope="col"><div><strong>{$val->browser_title}</strong> ({$val->mid})</div></th>
     </tr>
     <tr>
-        <td><input type="text" name="insert_document_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="insert_comment_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['insert_comment']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="upload_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['upload_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="download_file_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['download_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="read_document_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['read_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="voted_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['voted']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="blamed_{$val->module_srl}" value="{$config->module_point[$val->module_srl]['blamed']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" class="inputTypeText w40" /> {$config->point_name}</td>
+        <td><input type="text" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" class="inputTypeText w40" /> {$config->point_name}</td>
     </tr>
     <!--@end-->
     <!--@end-->

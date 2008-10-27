@@ -110,16 +110,6 @@
          **/
         function dispMemberAdminInfo() {
             return $this->dispMemberAdminInsert();
-
-            /*
-            $oModuleModel = &getModel('module');
-            $member_config = $oModuleModel->getModuleConfig('member');
-
-            Context::set('member_config', $member_config);
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
-
-            $this->setTemplateFile('member_info');
-            */
         }
 
         /**

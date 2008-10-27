@@ -103,11 +103,6 @@
          * @brief 에디터의 모듈별 추가 확장 폼을 저장
          **/
         function procEditorAdminInsertModuleConfig() {
-            // 기존 설정을 가져옴 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('editor');
-
-            // 대상을 구함
             $module_srl = Context::get('target_module_srl');
 
             // 여러개의 모듈 일괄 설정일 경우
@@ -165,15 +160,12 @@
             if($editor_config->enable_comment_height_resizable != 'Y') $editor_config->enable_comment_height_resizable = 'N';
             if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
 
+            $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;
-                $config->module_config[$srl] = $editor_config;
+                $oModuleController->insertModulePartConfig('editor',$srl,$editor_config);
             }
-
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('editor',$config);
 
             $this->setError(-1);
             $this->setMessage('success_updated');

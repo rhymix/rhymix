@@ -80,31 +80,23 @@
         }
 
         function allowTrackback() {
-            // allowTrackback()의 경우 여러번 호출됨으로 자체 변수 설정후 사용
-            if(!isset($this->allow_trackback_status)) {
-
+            static $allow_trackback_status = null;
+            if(is_null($allow_trackback_status)) {
                 // 엮인글 관리 모듈의 사용금지 설정 상태이면 무조건 금지, 그렇지 않으면 개별 체크
                 $oModuleModel = &getModel('module');
                 $trackback_config = $oModuleModel->getModuleConfig('trackback');
                 if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
-
-                if($trackback_config->enable_trackback != 'Y') $this->allow_trackback_status = false; 
+                if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false; 
                 else {
                     $module_srl = $this->get('module_srl');
-                    if(!$module_srl) $module_srl = Context::get('module_srl');
 
                     // 모듈별 설정을 체크
-                    $module_config = $trackback_config->module_config[$module_srl];
-
-                    if($module_config->enable_trackback == 'N') $this->allow_trackback_status = false;
-                    else {
-                        // 글쓴이가 허용하였거나 원본 글이 없으면 허용
-                        if($this->get('allow_trackback')=='Y' || !$this->isExists()) $this->allow_trackback_status = true;
-                    }
+                    $module_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
+                    if($module_config->enable_trackback == 'N') $allow_trackback_status = false;
+                    else if($this->get('allow_trackback')=='Y' || !$this->isExists()) $allow_trackback_status = true;
                 }
             }
-
-            return $this->allow_trackback_status;
+            return $allow_trackback_status;
         }
 
         function isLocked() {

@@ -10,7 +10,7 @@
         <td class="wide">
             <select name="open_rss" class="w400">
                 <!--@foreach($lang->open_rss_types as $key=>$val)-->
-                <option value="{$key}" <!--@if($rss_config->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
+                <option value="{$key}" <!--@if(!$rss_config->open_rss && $key=='N')-->selected="selected"<!--@elseif($rss_config->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@end-->
             </select>
             <p>{$lang->about_open_rss}</p>

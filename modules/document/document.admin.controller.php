@@ -358,11 +358,11 @@
          **/
         function procDocumentAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('thumbnail_type');
+            $config = Context::gets('thumbnail_type');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('document',$args);
+            $output = $oModuleController->insertModuleConfig('document',$config);
             return $output;
         }
 

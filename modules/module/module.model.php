@@ -575,29 +575,46 @@
         }
 
         /**
-         * @brief 특정 모듈의 설정 정보 return
-         * 캐시된 설정 정보가 없으면 만들 후 캐시하고 return
+         * @brief 특정 모듈의 설정 return
+         * board, member등 특정 모듈의 global config 관리용
          **/
         function getModuleConfig($module) {
             if(!$GLOBALS['__ModuleConfig__'][$module]) {
-                $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
-
-                if(!file_exists($cache_file)) {
-                    $args->module = $module;
-                    $output = executeQuery('module.getModuleConfig', $args);
-
-                    $config = base64_encode($output->data->config);
-
-                    $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $config = "%s"; ?>', $config);
-
-                    FileHandler::writeFile($cache_file, $buff);
-                }
-
-                if(!$config && file_exists($cache_file)) @include($cache_file);
-
-                $GLOBALS['__ModuleConfig__'][$module] = unserialize(base64_decode($config));
+                $args->module = $module;
+                $output = executeQuery('module.getModuleConfig', $args);
+                $config = unserialize($output->data->config);
+                $GLOBALS['__ModuleConfig__'][$module] = $config;
             }
             return $GLOBALS['__ModuleConfig__'][$module];
+        }
+
+        /**
+         * @brief 특정 mid의 모듈 설정 정보 return
+         * mid의 모듈 의존적인 설정을 관리
+         **/
+        function getModulePartConfig($module, $module_srl) {
+            if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl]) {
+                $args->module = $module;
+                $args->module_srl = $module_srl;
+                $output = executeQuery('module.getModulePartConfig', $args);
+                $config = unserialize($output->data->config);
+                $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+            }
+            return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+        }
+
+        /**
+         * @brief mid별 모듈 설정 정보 전체를 구함
+         **/
+        function getModulePartConfigs($module) {
+            $args->module = $module;
+            $output = executeQueryArray('module.getModulePartConfigs', $args);
+            if(!$output->toBool() || !$output->data) return array();
+
+            foreach($output->data as $key => $val) {
+                $result[$val->module_srl] = unserialize($val->config);
+            }
+            return $result;
         }
 
 

@@ -23,13 +23,13 @@
          * @brief 모듈별 에디터 설정을 return
          **/
         function getEditorConfig($module_srl) {
-            if(!$GLOBLAS['__editor_module_config__']) {
+            if(!$GLOBLAS['__editor_module_config__'][$module_srl]) {
                 // 선택된 모듈의 trackback설정을 가져옴
                 $oModuleModel = &getModel('module');
-                $GLOBLAS['__editor_module_config__'] = $oModuleModel->getModuleConfig('editor');
+                $GLOBLAS['__editor_module_config__'][$module_srl] = $oModuleModel->getModulePartConfig('editor', $module_srl);
             }
 
-            $editor_config = $GLOBLAS['__editor_module_config__']->module_config[$module_srl];
+            $editor_config = $GLOBLAS['__editor_module_config__'][$module_srl];
 
             if(!is_object($editor_config)) $editor_config = null;
 

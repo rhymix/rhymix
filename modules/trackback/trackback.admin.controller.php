@@ -41,14 +41,9 @@
          * @brief 설정 저장
          **/
         function procTrackbackAdminInsertConfig() {
-            // 기존 설정을 가져옴 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('trackback');
-
             $config->enable_trackback = Context::get('enable_trackback');
             if($config->enable_trackback != 'Y') $config->enable_trackback = 'N';
 
-            // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('trackback',$config);
             return $output;
@@ -84,15 +79,10 @@
          * @brief Trackback 모듈별 설정 함수
          **/
         function setTrackbackModuleConfig($module_srl, $enable_trackback) {
-            $oModuleModel = &getModel('module');
+            $config->enable_trackback = $enable_trackback;
+
             $oModuleController = &getController('module');
-
-            $trackback_config = $oModuleModel->getModuleConfig('trackback');
-            $trackback_config->module_config[$module_srl]->module_srl = $module_srl;
-            $trackback_config->module_config[$module_srl]->enable_trackback = $enable_trackback;
-
-            $oModuleController->insertModuleConfig('trackback', $trackback_config);
-
+            $oModuleController->insertModulePartConfig('trackback', $module_srl, $config);
             return new Object();
         }
 

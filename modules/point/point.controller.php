@@ -81,17 +81,18 @@
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point',$module_srl);
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
-            $point = $config->module_point[$module_srl]['insert_document'];
+            $point = $module_config['insert_document'];
             if(!isset($point)) $point = $config->insert_document;
             $cur_point += $point;
 
             // 첨부파일 등록에 대한 포인트 추가
-            $point = $config->module_point[$module_srl]['upload_file'];
+            $point = $module_config['upload_file'];
             if(!isset($point)) $point = $config->upload_file;
             if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
 
@@ -108,12 +109,17 @@
             $document_srl = $obj->document_srl;
             $member_srl = $obj->member_srl;
 
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists()) return new Object();
+
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point',$oDocument->get('module_srl'));
 
             // 지울 대상 글의 댓글에 대한 처리
-            $comment_point = $config->module_point[$module_srl]['insert_comment'];
+            $comment_point = $module_config['insert_comment'];
             if(!isset($comment_point)) $comment_point = $config->insert_comment;
 
             // 댓글 포인트가 있으면 증감(+) 이면 차감 시도
@@ -142,7 +148,7 @@
             $oPointModel = &getModel('point');
 
             // 포인트를 구해옴
-            $point = $config->module_point[$module_srl]['download_file'];
+            $point = $module_config['download_file'];
             foreach($member_srls as $member_srl => $cnt) {
                 $cur_point = $oPointModel->getPoint($member_srl, true);
                 $cur_point -= $cnt * $comment_point;
@@ -173,8 +179,9 @@
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
-            $point = $config->module_point[$module_srl]['insert_document'];
+            $point = $module_config['insert_document'];
             if(!isset($point)) $point = $config->insert_document;
 
             // 포인트가 마이너스 즉 글을 작성시 마다 차감되는 경우라면 글 삭제시 증가시켜주지 않도록 수정
@@ -182,7 +189,7 @@
             $cur_point -= $point;
 
             // 첨부파일 삭제에 대한 포인트 추가
-            $point = $config->module_point[$module_srl]['upload_file'];
+            $point = $module_config['upload_file'];
             if(!isset($point)) $point = $config->upload_file;
             if($obj->uploaded_count) $cur_point -= $point * $obj->uploaded_count;
 
@@ -209,12 +216,13 @@
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
-            $point = $config->module_point[$module_srl]['insert_comment'];
+            $point = $module_config['insert_comment'];
             if(!isset($point)) $point = $config->insert_comment;
 
             // 포인트 증감
@@ -235,12 +243,13 @@
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
-            $point = $config->module_point[$module_srl]['insert_comment'];
+            $point = $module_config['insert_comment'];
             if(!isset($point)) $point = $config->insert_comment;
 
             // 포인트가 마이너스 즉 댓글을 작성시 마다 차감되는 경우라면 댓글 삭제시 증가시켜주지 않도록 수정
@@ -259,26 +268,6 @@
          **/
         function triggerInsertFile(&$obj) {
             return new Object();
-            $module_srl = $obj->module_srl;
-            $member_srl = $obj->member_srl;
-            if(!$module_srl || !$member_srl) return new Object();
-
-            // point 모듈 정보 가져옴
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('point');
-
-            // 대상 회원의 포인트를 구함
-            $oPointModel = &getModel('point');
-            $cur_point = $oPointModel->getPoint($member_srl, true);
-
-            $point = $config->module_point[$module_srl]['upload_file'];
-            if(!isset($point)) $point = $config->upload_file;
-
-            // 포인트 증감
-            $cur_point += $point;
-            $this->setPoint($member_srl,$cur_point);
-
-            return new Object();
         }
 
         /**
@@ -295,12 +284,13 @@
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
-            $point = $config->module_point[$module_srl]['upload_file'];
+            $point = $module_config['upload_file'];
             if(!isset($point)) $point = $config->upload_file;
 
             // 포인트 증감
@@ -314,27 +304,25 @@
          * @brief 파일 다운로드 전에 호출되는 trigger
          **/
         function triggerBeforeDownloadFile(&$obj) {
-            // point 모듈 정보 가져옴
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('point');
-
-            // 포인트가 없으면 다운로드가 안되도록 하였으면 비로그인 회원일 경우 중지
-            if(!Context::get('is_logged') && $config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
-
-            // 로그인 상태일때만 실행
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object();
-
             $member_srl = $logged_info->member_srl;
             $module_srl = $obj->module_srl;
             if(!$module_srl) return new Object();
+
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+
+            // 포인트가 없으면 다운로드가 안되도록 하였으면 비로그인 회원일 경우 중지
+            if(!Context::get('is_logged') && $config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
             // 포인트를 구해옴
-            $point = $config->module_point[$module_srl]['download_file'];
+            $point = $module_config['download_file'];
             if(!isset($point)) $point = $config->download_file;
 
             // 포인트가 0보다 작고 포인트가 없으면 파일 다운로드가 안되도록 했다면 오류
@@ -350,7 +338,6 @@
             // 로그인 상태일때만 실행
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object();
-
             $module_srl = $obj->module_srl;
             $member_srl = $logged_info->member_srl;
             if(!$module_srl) return new Object();
@@ -358,13 +345,14 @@
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
             // 포인트를 구해옴
-            $point = $config->module_point[$module_srl]['download_file'];
+            $point = $module_config['download_file'];
             if(!isset($point)) $point = $config->download_file;
 
             // 포인트 증감
@@ -381,20 +369,20 @@
             // 로그인 상태일때만 실행
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object();
+            $member_srl = $logged_info->member_srl;
+            $module_srl = $obj->get('module_srl');
 
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
-
-            $member_srl = $logged_info->member_srl;
-            $module_srl = $obj->get('module_srl');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
             // 포인트를 구해옴
-            $point = $config->module_point[$obj->get('module_srl')]['read_document'];
+            $point = $module_config['read_document'];
             if(!isset($point)) $point = $config->read_document;
 
             // 조회 포인트가 없으면 패스
@@ -427,18 +415,16 @@
 
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
-            if( $obj->point > 0 )
-            {
-                $point = $config->module_point[$module_srl]['voted'];
+            if( $obj->point > 0 ) {
+                $point = $module_config['voted'];
                 if(!isset($point)) $point = $config->voted;
-            }
-            else
-            {
-                $point = $config->module_point[$module_srl]['blamed'];
+            } else {
+                $point = $module_config['blamed'];
                 if(!isset($point)) $point = $config->blamed;
             }
 

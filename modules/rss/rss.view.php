@@ -25,72 +25,38 @@
              **/
             $mid = Context::get('mid'); ///< 대상 모듈 id, 없으면 전체로
 
-            // rss module config를 가져옴
             $oModuleModel = &getModel('module');
-            $rss_config = $oModuleModel->getModuleConfig('rss');
 
-            /**
-             * 요청된 모듈 혹은 전체 모듈의 정보를 구하고 open_rss의 값을 체크
-             **/
-            $mid_list = array();
+            $module_srls = array();
+            $rss_config = array();
 
-            // mid값이 없으면 전체 mid중 open_rss == 'Y|H'인 걸 고름
-            if(!$mid) {
+            // 하나의 mid가 지정되어 있으면 그 mid에 대한 것만 추출
+            if($mid) {
+                $module_srl = $this->module_info->module_srl;
+                $config = $oModuleModel->getModulePartConfig('rss', $module_srl);
+                if($config->open_rss && $config->open_rss != 'N') {
+                   $module_srls[] = $module_srl; 
+                   $rss_config[$module_srl] = $config->open_rss;
+                }
 
-                $module_srl_list = null;
-
-                // rss config에 등록된 모듈중 rss 공개하는 것들의 module_srl을 고름
-                if($rss_config->module_config && count($rss_config->module_config)) {
-                    foreach($rss_config->module_config as $key => $val) {
-                        if($val->open_rss == 'N' || !$val->open_rss) continue;
-                        $module_srl_list[] = $val->module_srl;
+            // mid 가 선택되어 있지 않으면 전체
+            } else {
+                $rss_config = $oModuleModel->getModulePartConfigs('rss');
+                if($rss_config) {
+                    foreach($rss_config as $module_srl => $config) {
+                        if($config && $config->open_rss != 'N') {
+                            $module_srls[] = $module_srl;
+                            $rss_config[$module_srl] = $config->open_rss;
+                        }
                     }
                 }
-                // 선택된 모듈이 없으면 패스
-                if(!$module_srl_list || !count($module_srl_list)) return $this->dispError();
-
-                // 선택된 모듈들을 정리
-                $args->module_srls = implode(',',$module_srl_list);
-                $module_list = $oModuleModel->getMidList($args);
-                if(!$module_list) return $this->dispError();
-
-                // 대상 모듈을 정리함
-                $module_srl_list = array();
-                foreach($module_list as $mid => $val) {
-                    $val->open_rss = $rss_config->module_config[$val->module_srl]->open_rss;
-                    $module_srl_list[] = $val->module_srl;
-                    $mid_list[$val->module_srl] = $val;
-                }
-                if(!count($module_srl_list)) return $this->dispError();
-                unset($output);
-                unset($args);
-
-                $module_srl = implode(',',$module_srl_list);
-
-            // 있으면 해당 모듈의 정보를 구함
-            } else {
-                // 모듈의 설정 정보를 받아옴 (module model 객체를 이용)
-                $module_info = $oModuleModel->getModuleInfoByMid($mid);
-                if($module_info->mid != $mid) return $this->dispError();
-
-                // 해당 모듈이 rss를 사용하는지 확인
-                $rss_module_config = $rss_config->module_config[$module_info->module_srl];
-                if(!$rss_module_config->open_rss) $rss_module_config->open_rss = 'N';
-
-                // RSS 비활성화 되었는지 체크하여 비활성화시 에러 출력
-                if($rss_module_config->open_rss == 'N') return $this->dispError();
-
-                $module_srl = $module_info->module_srl;
-                $module_info->open_rss = $rss_module_config->open_rss;
-                $mid_list[$module_info->module_srl] = $module_info;
-
-                unset($args);
             }
 
-            /**
-             * 출력할 컨텐츠 추출을 위한 인자 정리
-             **/
-            $args->module_srl = $module_srl; 
+            if(!count($module_srls)) return $this->dispError();
+
+            $args->module_srls = implode(',',$module_srls);
+            $module_list = $oModuleModel->getMidList($args);
+
             $args->search_target = 'is_secret';
             $args->search_keyword = 'N';
             $args->page = 1;
@@ -107,7 +73,7 @@
             $document_list = $output->data;
 
             // rss 제목 및 정보등을 추출
-            if($this->mid) {
+            if($mid) {
                 $info->title = Context::getBrowserTitle();
                 $info->description = $this->module_info->description;
                 $info->link = getUrl('','mid',Context::get('mid'));
@@ -121,7 +87,7 @@
 
             // RSS 출력물에서 사용될 변수 세팅
             Context::set('info', $info);
-            Context::set('mid_list', $mid_list);
+            Context::set('rss_config', $rss_config);
             Context::set('document_list', $document_list);
 
             // 결과 출력을 XMLRPC로 강제 지정

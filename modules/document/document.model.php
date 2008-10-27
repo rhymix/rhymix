@@ -668,14 +668,12 @@
          * @brief 문서 설정 정보를 구함
          **/
         function getDocumentConfig() {
-            if(!$GLOBLAS['__document_config__'])  {
+            if(!$GLOBLAS['__document_config__']) {
                 $oModuleModel = &getModel('module');
                 $config = $oModuleModel->getModuleConfig('document');
-
                 if(!$config->thumbnail_type) $config->thumbnail_type = 'crop';
                 $GLOBLAS['__document_config__'] = $config;
             }
-
             return $GLOBLAS['__document_config__'];
         }
     }

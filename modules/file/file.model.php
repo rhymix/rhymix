@@ -72,23 +72,19 @@
         function getFileConfig($module_srl = null) {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $file_config = $oModuleModel->getModuleConfig('file');
 
-            $config->allowed_filesize = $file_config->allowed_filesize;
-            $config->allowed_attach_size = $file_config->allowed_attach_size;
-            $config->allowed_filetypes = $file_config->allowed_filetypes;
-
+            if($module_srl) $file_config = $oModuleModel->getModulePartConfig('file',$module_srl);
+            if(!$file_config) $file_config = $oModuleModel->getModuleConfig('file');
+            if($file_config) {
+                $config->allowed_filesize = $file_config->allowed_filesize;
+                $config->allowed_attach_size = $file_config->allowed_attach_size;
+                $config->allowed_filetypes = $file_config->allowed_filetypes;
+                $config->download_grant = $file_config->download_grant;
+            }
             if(!$config->allowed_filesize) $config->allowed_filesize = '2';
             if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';
             if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
-
-            if($module_srl && $file_config->module_config[$module_srl]) {
-                $module_config = $file_config->module_config[$module_srl];
-                $config->allowed_filesize = $module_config->allowed_filesize;
-                $config->allowed_attach_size = $module_config->allowed_attach_size;
-                $config->allowed_filetypes = $module_config->allowed_filetypes;
-            } 
-
+            if(!$config->download_grant) $config->download_grant = array();
             return $config;
         }
 
@@ -136,8 +132,6 @@
         function getUploadConfig() {
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y') {
-                //$file_config->allowed_filesize = 1024;
-                //$file_config->allowed_attach_size = 1024;
                 $file_config->allowed_filesize = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
                 $file_config->allowed_attach_size = preg_replace("/[a-z]/is","",ini_get('upload_max_filesize'));
                 $file_config->allowed_filetypes = '*.*';
@@ -172,24 +166,7 @@
          * @brief 특정 모듈의 file 설정을 return
          **/
         function getFileModuleConfig($module_srl) {
-            // file 모듈의 config를 가져옴
-            $oModuleModel = &getModel('module');
-            $file_config = $oModuleModel->getModuleConfig('file');
-
-            $module_file_config = $file_config->module_config[$module_srl];
-            if(!is_object($module_file_config)) $module_file_config = null;
-
-            if(!$module_file_config->module_srl) {
-                $module_file_config->module_srl = $module_srl;
-                $module_file_config->allowed_filesize = $file_config->allowed_filesize;
-                $module_file_config->allowed_attach_size = $file_config->allowed_attach_size;
-                $module_file_config->allowed_filetypes = $file_config->allowed_filetypes;
-                $module_file_config->download_grant = array();
-            } else {
-                if(!$module_file_config->download_grant) $module_file_config->download_grant = array();
-            }
-
-            return $module_file_config;
+            return $this->getFileConfig($module_srl);
         }
     }
 ?>
