@@ -1,51 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-    <title xml:lang="ko">XE 게시판 기본 스킨</title>
-    <title xml:lang="jp">XE掲示板のデフォルトスキン</title>
-    <title xml:lang="zh-CN">XE版面默认皮肤</title>
-    <title xml:lang="en">XE Basic Board Skin</title>
-    <title xml:lang="es">XE Basic Board Skin</title>
-    <title xml:lang="zh-TW">XE討論板預設面板</title>
+    <title xml:lang="ko">XE 게시판 디폴트 스킨</title>
     <description xml:lang="ko">
-        XE 게시판의 기본 스킨입니다.
-        디자인 : 서기정 (http://blog.naver.com/addcozy)
+        XE 게시판의 디폴트 스킨입니다.
         HTML/CSS : 정찬명 (http://naradesign.net)
-    </description>
-    <description xml:lang="jp">
-        XE掲示板の デフォルトスキンです。
-        デザイン：ソギジョン (http://blog.naver.com/addcozy)
-        HTML/CSS：ジョンチャンミョン (http://naradesign.net)
-    </description>
-    <description xml:lang="zh-CN">
-        XE版面默认皮肤。
-        设计 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
-    </description>
-    <description xml:lang="en">
-        This is the basic board skin of XE.
-        Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
-    </description>
-    <description xml:lang="es">
-        Esta es la base bordo de la piel de XE.
-        Diseño: Ki-Jeong Seo (http://blog.naver.com/addcozy)
-        HTML / CSS: Jeong Chan-Myung (http://naradesign.net)
-    </description>
-    <description xml:lang="zh-TW">
-        XE討論板預設面板。
-        設計 : Ki-Jeong Seo (http://blog.naver.com/addcozy)
-        HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
+        Other : SOL군 (http://ngleader.com)
     </description>
     <version>0.1</version>
-    <date>2007-10-22</date>
+    <date>2008-10-27</date>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
-        <name xml:lang="jp">zero</name>
-        <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="en">zero</name>
-        <name xml:lang="es">zero</name>
-        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <colorset>
@@ -56,38 +21,6 @@
             <title xml:lang="en">White (default)</title>
             <title xml:lang="es">Blanco (por defecto)</title>
             <title xml:lang="zh-TW">白色(預設)</title>
-        </color>
-        <color name="cyan" src="screenshot/cyan.gif">
-            <title xml:lang="ko">청록색</title>
-            <title xml:lang="jp">青緑</title>
-            <title xml:lang="zh-CN">青绿色</title>
-            <title xml:lang="en">Cyan</title>
-            <title xml:lang="es">Cian</title>
-            <title xml:lang="zh-TW">青綠色</title>
-        </color>
-        <color name="green" src="screenshot/green.gif">
-            <title xml:lang="ko">초록색</title>
-            <title xml:lang="jp">緑</title>
-            <title xml:lang="zh-CN">绿色</title>
-            <title xml:lang="en">Green</title>
-            <title xml:lang="es">Verde</title>
-            <title xml:lang="zh-TW">綠色</title>
-        </color>
-        <color name="red" src="screenshot/red.gif">
-            <title xml:lang="ko">빨간색</title>
-            <title xml:lang="jp">赤</title>
-            <title xml:lang="zh-CN">红色</title>
-            <title xml:lang="en">Red</title>
-            <title xml:lang="es">Roja</title>
-            <title xml:lang="zh-TW">紅色</title>
-        </color>
-        <color name="purple" src="screenshot/purple.gif">
-            <title xml:lang="ko">보라색</title>
-            <title xml:lang="jp">紫</title>
-            <title xml:lang="zh-CN">紫色</title>
-            <title xml:lang="en">Purple</title>
-            <title xml:lang="es">Púrpura</title>
-            <title xml:lang="zh-TW">紫色</title>
         </color>
         <color name="black" src="screenshot/black.gif">
             <title xml:lang="ko">검은색</title>
@@ -518,3 +451,4 @@
         </var>
     </extra_vars>
 </skin>
+
