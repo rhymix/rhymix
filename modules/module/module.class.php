@@ -19,7 +19,7 @@
             $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminInfo');
 
             $oDB = &DB::getInstance();
-            $oDB->addIndex("module_part_config","idx_module_part_config", array("module","module_srl"));
+            //$oDB->addIndex("module_part_config","idx_module_part_config", array("module","module_srl"));
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
