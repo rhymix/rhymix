@@ -211,24 +211,22 @@
     function cut_str($string,$cut_size=0,$tail = '...') { 
         if($cut_size<1 || !$string) return $string;
 
-        $char_width = Array(5,10,11,16,14,16,16,10,11,11,12,13,10,13,10,12,13,13,13,13,13,13,13,13,13,13,10,10,14,13,14,13,16,15,15,16,15,15,14,16,15,8,13,15,14,16,16,16,15,16,15,15,14,16,15,16,16,15,15,13,16,13,13,11,10,14,14,14,14,14,10,14,14,8,9,13,8,16,14,15,14,14,10,14,10,14,13,16,14,13,14,14,14,14,16); 
-        $unicode_width = 21;
-
-        $max_width = $cut_size*$unicode_width/2;
+        $chars = Array(12, 4, 3, 5, 7, 7, 11, 8, 4, 5, 5, 6, 6, 4, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 8, 6, 8, 6, 10, 8, 8, 9, 8, 8, 7, 9, 8, 3, 6, 7, 7, 11, 8, 9, 8, 9, 8, 8, 7, 8, 8, 10, 8, 8, 8, 6, 11, 6, 6, 6, 4, 7, 7, 7, 7, 7, 3, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 7, 3, 7, 6, 10, 6, 6, 7, 6, 6, 6, 9);
+        $max_width = $cut_size*$chars[0]/2;
         $char_width = 0;
 
         $string_length = strlen($string);
         $char_count = 0;
 
         $idx = 0;
-        while($idx < $string_length && $char_count < $cut_size && $char_width < $max_width) {
+        while($idx < $string_length && $char_count < $cut_size && $char_width <= $max_width) {
             $c = ord(substr($string, $idx,1));
             $char_count++;
             if($c<128) {
-                $char_width += (int)$char_width[$c-32];
+                $char_width += (int)$chars[$c-32];
                 $idx++;
             } else {
-                $char_width += $unicode_width;
+                $char_width += $chars[0];
                 $idx += 3;
             }
         }
