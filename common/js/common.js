@@ -857,10 +857,13 @@ if(xIE4Up) {
         var sels = xGetElementsByTagName('select');
         for(var i=0; i < sels.length; i++){
             var disabled_exists = false;
+            var first_enable = new Array();
             for(var j=0; j < sels[i].options.length; j++) {
                 if(sels[i].options[j].disabled) {
                     sels[i].options[j].style.color = '#CCCCCC';
                     disabled_exists = true;
+                }else{
+                    first_enable[i] = first_enable[i]>-1? first_enable[i] : j;
                 }
             }
 
@@ -869,9 +872,14 @@ if(xIE4Up) {
             sels[i].oldonchange = sels[i].onchange;
             sels[i].onchange = function() {  
                 if(this.options[this.selectedIndex].disabled) {
-                    if(this.options.length<=1) this.selectedIndex = -1;
-                    else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
-                    else this.selectedIndex--;
+
+                    this.selectedIndex = first_enable[i];
+/*
+if(this.options.length<=1) this.selectedIndex = -1;
+else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
+else this.selectedIndex--;
+*/
+
                 } else {
                     if(this.oldonchange) this.oldonchange();
                 }
