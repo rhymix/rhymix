@@ -1,0 +1,16 @@
+<!--#include("header.html")-->
+
+<div class="smallBox w268">
+
+    <div class="tCenter messageBox">{$message}</div>
+
+    <div class="gap1 tCenter">
+        <!--@if(!$is_logged)-->
+        <a href="{getUrl('act','dispMemberLoginForm')}" class="button"><span>{$lang->cmd_login}</span></a>
+        <!--@end-->
+        <a href="#" onclick="history.back(); return false;" class="button"><span>{$lang->cmd_back}</span></a>
+    </div>
+
+</div>
+
+<!--#include("footer.html")-->
