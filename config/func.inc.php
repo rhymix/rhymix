@@ -459,16 +459,16 @@
      **/
     function removeHackTag($content) {
         // iframe 제거
-        $content = preg_replace("!<iframe(.*?)<\/iframe>!is", '', $content);
+        $content = preg_replace("!<iframe(.*?)<\/iframe>!is", '&lt;iframe$1&lt;/iframe&gt;', $content);
 
         // script code 제거
-        $content = preg_replace("!<script(.*?)<\/script>!is", '', $content);
+        $content = preg_replace("!<script(.*?)<\/script>!is", '&lt;script$1&lt;/script&gt;', $content);
 
         // meta 태그 제거
-        $content = preg_replace("!<meta(.*?)>!is", '', $content);
+        $content = preg_replace("!<meta(.*?)>!is", '&lt;meta$1&gt;', $content);
 
         // style 태그 제거
-        $content = preg_replace("!<style(.*?)<\/style>!is", '', $content);
+        $content = preg_replace("!<style(.*?)<\/style>!is", '&lt;style$1&lt;style&gt;', $content);
 
         // XSS 사용을 위한 이벤트 제거
         $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
