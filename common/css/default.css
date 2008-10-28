@@ -89,7 +89,19 @@ a.bold { font-weight:bold; }
 
 /* xe layer */
 #waitingforserverresponse { border:2px solid #444444; font-weight:bold; color:#444444; padding: 7px 5px 5px 25px; background:#FFFFFF url("../tpl/images/loading.gif") no-repeat 5px 5px; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
+
+#popup_menu_area{ position:absolute; background:#fff; border:2px solid #eee; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0;}
+#popup_menu_area *{ margin:0; padding:0; list-style:none; font-size:12px; line-height:normal;}
+#popup_menu_area ul{ border:1px solid #ddd; -moz-border-radius:5px; -webkit-border-radius:5px; padding:10px;}
+#popup_menu_area li{ padding-left:20px; background-repeat:no-repeat; background-position:left center; margin-bottom:3px; *margin-bottom:-2px;}
+#popup_menu_area li a{ text-decoration:none; color:#000;}
+#popup_menu_area li a:hover,
+#popup_menu_area li a:active,
+#popup_menu_area li a:focus{ font-weight:bold; letter-spacing:-1px;}
+
+/*
 #popup_menu_area { position:absolute; left:0px; top:0px; z-index:1003; visibility:hidden; border:2px solid #D9D9D9; background-color:#FFFFFF; padding:0; }
 #popup_menu_area .box { border:1px solid #CACACA; background-color:#FFFFFF; padding:7px; }
 #popup_menu_area .item { color:#333333; cursor:pointer; margin:0; padding:3px 0 3px 0; white-space:nowrap; }
 #popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; letter-spacing:-1px; white-space:nowrap;}
+*/
