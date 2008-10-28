@@ -63,8 +63,6 @@
             
             if(!$module_srl || !$enable_trackback) return new Object(-1, 'msg_invalid_request');
 
-            // 설정 저장
-            // 설정 저장
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;

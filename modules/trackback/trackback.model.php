@@ -89,12 +89,11 @@
             // trackback 모듈의 config를 가져옴
             $oModuleModel = &getModel('module');
             $module_trackback_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
-            if(!$module_trackback_config->module_srl) {
-                $module_trackback_config->module_srl = $module_srl;
-
+            if(!$module_trackback_config) {
                 $trackback_config = $oModuleModel->getModuleConfig('trackback');
                 $module_trackback_config->enable_trackback = $trackback_config->enable_trackback=='Y'?'Y':'N';
             }
+            $module_trackback_config->module_srl = $module_srl;
 
             return $module_trackback_config;
         }
