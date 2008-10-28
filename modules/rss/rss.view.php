@@ -54,7 +54,7 @@
 
             if(!count($module_srls)) return $this->dispError();
 
-            $args->module_srls = implode(',',$module_srls);
+            $args->module_srl = implode(',',$module_srls);
             $module_list = $oModuleModel->getMidList($args);
 
             $args->search_target = 'is_secret';
