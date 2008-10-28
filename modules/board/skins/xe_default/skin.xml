@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-    <title xml:lang="ko">XE 게시판 디폴트 스킨</title>
+    <title xml:lang="ko">Zeroboard XE Default Skin.</title>
     <description xml:lang="ko">
-        XE 게시판의 디폴트 스킨입니다.
-        HTML/CSS : 정찬명 (http://naradesign.net)
-        Other : SOL군 (http://ngleader.com)
+        Zeroboard XE Default Skin.
+        Front-end : Jeong, Chan Myeong (http://naradesign.net/)
+        Back-end : Kim, Ye Sol (http://ngleader.com/)
     </description>
     <version>0.1</version>
     <date>2008-10-27</date>
