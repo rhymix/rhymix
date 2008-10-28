@@ -62,7 +62,7 @@
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '版面設置';
     $lang->cmd_layout_edit = '版面編輯';
-    $lang->cmd_search_by_ipaddress = '以IP地址搜尋';
+    $lang->cmd_search_by_ipaddress = '以IP位址搜尋';
     $lang->cmd_add_ip_to_spamfilter = '新增 IP至垃圾過濾器';
 
     $lang->enable = '可用';
@@ -80,7 +80,7 @@
     $lang->password = '密碼';
     $lang->password1 = '新密碼';
     $lang->password2 = '確認密碼';
-    $lang->admin_id = '管理員ID';
+    $lang->admin_id = '管理員帳號';
     $lang->writer = '作者';
     $lang->user_name = '姓名';
     $lang->nick_name = '暱稱';
@@ -107,11 +107,11 @@
     $lang->target = '目標';
     $lang->total = '全部';
     $lang->total_count = '總數';
-    $lang->ipaddress = 'IP地址';
+    $lang->ipaddress = 'IP位址';
     $lang->path = '路徑';
     $lang->cart = '選擇項目';
     $lang->friend = '好友';
-    $lang->notify = '公告';
+    $lang->notify = '通知';
     $lang->order_target = '排列目標';
     $lang->order_type = '排列方式';
     $lang->order_asc = '升冪';
