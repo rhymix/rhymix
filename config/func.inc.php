@@ -500,7 +500,8 @@
         // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
         $src = $xml_doc->{$tag}->attrs->src;
         $dynsrc = $xml_doc->{$tag}->attrs->dynsrc;
-        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) ) return sprintf("<%s>",$tag);
+        $lowsrc = $xml_doc->{$tag}->attrs->lowsrc;
+        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) ) return sprintf("<%s>",$tag);
 
         return $matches[0];
     }
