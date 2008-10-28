@@ -139,6 +139,15 @@
     }
 
     /**
+     * @brief module의 api 객체 생성용
+     * @param module_name 모듈이름
+     * @return module api class instance
+     **/
+    function &getAPI($module_name) {
+        return getModule($module_name, 'api'); 
+    }
+
+    /**
      * @brief module의 상위 class 객체 생성용
      * @param module_name 모듈이름
      * @return module class instance

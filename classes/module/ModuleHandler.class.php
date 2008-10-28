@@ -164,6 +164,7 @@
             $oModule->setAct($this->act);
 
             // 모듈 정보 세팅
+            $this->module_info->module_type = $type;
             $oModule->setModuleInfo($this->module_info, $xml_info);
 
             // 모듈을 수행하고 결과가 false이면 message 모듈 호출 지정
@@ -306,6 +307,10 @@
                                 $instance_name = sprintf("%s%s",$module,"Model");
                                 $class_file = sprintf('%s%s%s.%s.php', _XE_PATH_, $class_path, $module, $type);
                             }
+                        break;
+                    case 'api' :
+                            $instance_name = sprintf("%s%s",$module,"API");
+                            $class_file = sprintf('%s%s%s.api.php', _XE_PATH_, $class_path, $module);
                         break;
                     case 'class' :
                             $instance_name = $module;

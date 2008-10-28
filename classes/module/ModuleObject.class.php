@@ -303,8 +303,6 @@
             if(!$this->stop_proc) {
                 // 현재 모듈에 act값이 있으면 해당 act를 실행
                 if(method_exists($this, $this->act)) {
-                    //$output = call_user_method($this->act, $this);
-                    //$output = call_user_func(array($this, $this->act));
                     $output = $this->{$this->act}();
 
                 // act가 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
@@ -321,8 +319,6 @@
                         $oModule->init();
                         $oModule->setModuleInfo($this->module_info, $xml_info);
 
-                        //$output = call_user_method($forward->act, $oModule);
-                        //$output = call_user_func(array($oModule, $forward->act));
                         $output = $oModule->{$forward->act}();
 
                         $this->setTemplatePath($oModule->getTemplatePath());
@@ -330,8 +326,6 @@
 
                     } else {
                         if($this->xml_info->default_index_act) {
-                            //$output = call_user_method($this->xml_info->default_index_act, $this);
-                            //$output = call_user_func(array($this, $this->xml_info->default_index_act));
                             if(method_exists($this, $this->xml_info->default_index_act)) {
                                 $output = $this->{$this->xml_info->default_index_act}();
                             }
@@ -353,6 +347,14 @@
                 $this->setError($output->getError());
                 $this->setMessage($output->getMessage());
                 return false;
+            }
+
+            // view action이고 결과 출력이 XMLRPC일 경우 해당 모듈의 api method를 실행
+            if(Context::getResponseMethod() == 'XMLRPC' && $this->module_info->module_type == 'view') {
+                $oAPI = getAPI($this->module_info->module, 'api');
+                if(method_exists($oAPI, $this->act)) {
+                    $oAPI->{$this->act}($this);
+                }
             }
 
             return true;
