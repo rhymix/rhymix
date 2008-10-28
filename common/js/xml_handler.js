@@ -9,10 +9,12 @@ var show_waiting_message = true;
 function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
     var oXml = new xml_handler();
     oXml.reset();
-    for(var key in params) {
-	if(!params.hasOwnProperty(key)) continue;
-        var val = params[key];
-        oXml.addParam(key, val);
+    if(typeof(params)!='undefined') {
+        for(var key in params) {
+            if(!params.hasOwnProperty(key)) continue;
+            var val = params[key];
+            oXml.addParam(key, val);
+        }
     }
     oXml.addParam("module", module);
     oXml.addParam("act", act);

@@ -550,18 +550,7 @@
 
             foreach($_REQUEST as $key => $val) {
                 if($val === "") continue;
-                if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
-                else if(is_array($val) && count($val) ) {
-                    foreach($val as $k => $v) {
-                        if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
-                        $v = trim($v);
-                        $val[$k] = $v;
-                    }
-                } else {
-                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
-                    $val = trim($val);
-                }
-
+                $val = $this->_filterRequestVar($key, $val);
                 if($this->_getRequestMethod()=='GET'&&$_GET[$key]) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&$_POST[$key]) $set_to_vars = true;
                 else $set_to_vars = false;
@@ -584,9 +573,28 @@
             if(!count($params)) return;
 
             foreach($params as $key => $obj) {
-                $val = trim($obj->body);
+                $val = $this->_filterRequestVar($key, $obj->body);
                 $this->_set($key, $val, true);
             }
+        }
+
+        /**
+         * @brief 변수명에 따라서 필터링 처리
+         * _srl, page, cpage등의 변수는 integer로 형변환
+         **/
+        function _filterRequestVar($key, $val) {
+            if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") return (int)$val;
+            if(is_array($val) && count($val) ) {
+                foreach($val as $k => $v) {
+                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
+                    $v = trim($v);
+                    $val[$k] = $v;
+                }
+            } else {
+                if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
+                $val = trim($val);
+            }
+            return $val;
         }
 
         /**

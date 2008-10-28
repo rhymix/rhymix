@@ -19,25 +19,29 @@
         function getFileList() {
             $editor_sequence = Context::get("editor_sequence");
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) exit();
+            if($upload_target_srl) {
+                $tmp_files = $this->getFiles($upload_target_srl);
+                $file_count = count($tmp_files);
 
-            $tmp_files = $this->getFiles($upload_target_srl);
-            $file_count = count($tmp_files);
+                for($i=0;$i<$file_count;$i++) {
+                    $file_info = $tmp_files[$i];
+                    if(!$file_info->file_srl) continue;
 
-            for($i=0;$i<$file_count;$i++) {
-                $file_info = $tmp_files[$i];
-                if(!$file_info->file_srl) continue;
-
-                $obj = null;
-                $obj->file_srl = $file_info->file_srl;
-                $obj->source_filename = $file_info->source_filename;
-                $obj->file_size = $file_info->file_size;
-                $obj->disp_file_size = FileHandler::filesize($file_info->file_size);
-                if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid);
-                else $obj->download_url = str_replace('./', '', $file_info->uploaded_filename);
-                $obj->direct_download = $file_info->direct_download;
-                $files[] = $obj;
-                $attached_size += $file_info->file_size;
+                    $obj = null;
+                    $obj->file_srl = $file_info->file_srl;
+                    $obj->source_filename = $file_info->source_filename;
+                    $obj->file_size = $file_info->file_size;
+                    $obj->disp_file_size = FileHandler::filesize($file_info->file_size);
+                    if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid);
+                    else $obj->download_url = str_replace('./', '', $file_info->uploaded_filename);
+                    $obj->direct_download = $file_info->direct_download;
+                    $files[] = $obj;
+                    $attached_size += $file_info->file_size;
+                }
+            } else {
+                $upload_target_srl = 0;
+                $attached_size = 0;
+                $files = array();
             }
 
             // 업로드 상태 표시 작성

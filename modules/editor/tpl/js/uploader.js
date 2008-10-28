@@ -236,7 +236,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
     var previewObj = xGetElementById(settings["previewAreaID"]);
     if(previewObj) xInnerHtml(previewObj,"");
 
-    if(files) {
+    if(files && typeof(files['item'])!='undefined') {
         var item = files['item'];
         if(item.length<1) item = new Array(item);
         if(item.length) {
@@ -249,14 +249,20 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
             }
         }
     }
-    listObj.selectedIndex = listObj.options.length-1;
+    //listObj.selectedIndex = listObj.options.length-1;
     xAddEventListener(listObj,'click',previewFiles);
 }
 
 function previewFiles(evt) {
     var e = new xEvent(evt);
     var obj = e.target;
-    if(obj.nodeName!="OPTION") return;
+    var selObj = null;
+    if(obj.nodeName=="OPTION") selObj = obj.parentNode;
+    else selObj = obj;
+    if(selObj.nodeName != "SELECT") return;
+    if(selObj.selectedIndex<0) return;
+    obj = selObj.options[selObj.selectedIndex];
+
     var file_srl = obj.value;
     if(!file_srl || typeof(uploadedFiles[file_srl])=="undefined") return;
     var file_info = uploadedFiles[file_srl];
@@ -297,12 +303,18 @@ function removeUploadedFile(editorSequence) {
 
     if(fileListObj.selectedIndex<0) return;
 
-    var file_srl = fileListObj.options[fileListObj.selectedIndex].value;
+    var file_srls = new Array();
+    for(var i=0;i<fileListObj.options.length;i++) {
+        if(!fileListObj.options[i].selected) continue;
+        var file_srl = fileListObj.options[i].value;
+        if(!file_srl) continue;
+        file_srls[file_srls.length] = file_srl;
+    }
 
-    if(!file_srl) return;
+    if(file_srls.length<1) return;
 
     var params = new Array();
-    params["file_srl"]  = file_srl;
+    params["file_srl"]  = file_srls.join(',');
     params["editor_sequence"] = editorSequence;
     var response_tags = new Array("error","message");
     exec_xml("file","procFileDelete", params, function() { reloadFileList(settings); } );

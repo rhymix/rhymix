@@ -128,7 +128,7 @@
             if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
 
             // 첨부파일의 목록을 java script로 출력
-            $this->printUploadedFileList($editor_sequence, $upload_target_srl);
+            // $this->printUploadedFileList($editor_sequence, $upload_target_srl);
         }
 
         /**
@@ -333,31 +333,40 @@
         function deleteFile($file_srl) {
             if(!$file_srl) return;
 
-            // 파일 정보를 가져옴
-            $args->file_srl = $file_srl;
-            $output = executeQuery('file.getFile', $args);
-            if(!$output->toBool()) return $output;
-            $file_info = $output->data;
-            if(!$file_info) return new Object(-1, 'file_not_founded');
+            $srls = explode(',',$file_srl);
+            if(!count($srls)) return;
 
-            $source_filename = $output->data->source_filename;
-            $uploaded_filename = $output->data->uploaded_filename;
+            for($i=0;$i<count($srls);$i++) {
+                $srl = (int)$srls[$i];
+                if(!$srl) continue;
 
-            // trigger 호출 (before)
-            $trigger_obj = $output->data;
-            $output = ModuleHandler::triggerCall('file.deleteFile', 'before', $trigger_obj);
-            if(!$output->toBool()) return $output;
+                $args = null;
+                $args->file_srl = $srl;
+                $output = executeQuery('file.getFile', $args);
+                if(!$output->toBool()) continue;
 
-            // DB에서 삭제
-            $output = executeQuery('file.deleteFile', $args);
-            if(!$output->toBool()) return $output;
+                $file_info = $output->data;
+                if(!$file_info) continue;
 
-            // trigger 호출 (after)
-            $trigger_output = ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
-            if(!$trigger_output->toBool()) return $trigger_output;
+                $source_filename = $output->data->source_filename;
+                $uploaded_filename = $output->data->uploaded_filename;
 
-            // 삭제 성공하면 파일 삭제
-            FileHandler::removeFile($uploaded_filename);
+                // trigger 호출 (before)
+                $trigger_obj = $output->data;
+                $output = ModuleHandler::triggerCall('file.deleteFile', 'before', $trigger_obj);
+                if(!$output->toBool()) return $output;
+
+                // DB에서 삭제
+                $output = executeQuery('file.deleteFile', $args);
+                if(!$output->toBool()) return $output;
+
+                // trigger 호출 (after)
+                $trigger_output = ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
+                if(!$trigger_output->toBool()) return $trigger_output;
+
+                // 삭제 성공하면 파일 삭제
+                FileHandler::removeFile($uploaded_filename);
+            }
 
             return $output;
         }
@@ -446,38 +455,7 @@
          * @brief upload_target_srl을 키로 하는 첨부파일을 찾아서 java script 코드로 return
          **/
         function printUploadedFileList($editor_sequence, $upload_target_srl) {
-            $oFileModel = &getModel('file');
-
-            if($upload_target_srl) {
-                // file의 Model객체 생성
-
-                // 첨부파일 목록을 구함
-                $tmp_file_list = $oFileModel->getFiles($upload_target_srl);
-                $file_count = count($tmp_file_list);
-
-                // 루프를 돌면서 $buff 변수에 java script 코드를 생성
-                $buff = "";
-                for($i=0;$i<$file_count;$i++) {
-                    $file_info = $tmp_file_list[$i];
-                    if(!$file_info->file_srl) continue;
-                    if($file_info->direct_download == 'Y') $file_info->uploaded_filename = sprintf('%s%s', Context::getRequestUri(), str_replace('./', '', $file_info->uploaded_filename));
-                    $file_list[] = $file_info;
-                    $attached_size += $file_info->file_size;
-                }
-            }
-
-            // 업로드 상태 표시 작성
-            $upload_status = $oFileModel->getUploadStatus($attached_size);
-
-            // 필요한 정보들 세팅
-            Context::set('upload_target_srl', $upload_target_srl); 
-            Context::set('file_list', $file_list);
-            Context::set('upload_status', $upload_status);
-
-            // 업로드 현황을 브라우저로 알리기 위한 javascript 코드 출력하는 템플릿 호출
-            Context::set('layout','none');
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('print_uploaded_file_list');
+            return;
         }
     }
 ?>
