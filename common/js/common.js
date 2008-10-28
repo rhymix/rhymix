@@ -404,8 +404,8 @@ function chkPopupMenu(evt) {
     if(!obj) return;
 
     // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
-    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN') obj = obj.parentNode;
-    if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN')) return;
+    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN' && obj.nodeName != 'A') obj = obj.parentNode;
+    if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN' && obj.nodeName != 'A')) return;
 
     // 객체의 className값을 구함
     var class_name = obj.className;
