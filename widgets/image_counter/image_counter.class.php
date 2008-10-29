@@ -55,6 +55,7 @@
             }
 
             // 이미지를 그림 (이미지 위치는 ./files/cache/widget_cache/couter_graph.gif로 고정)
+            if(!is_dir(_XE_PATH_.'files/cache/widget_cache/')) FileHandler::makeDir(_XE_PATH_.'files/cache/widget_cache/');
             $image_src = "files/cache/widget_cache/couter_graph.gif";
 
             // 이미지 생성
