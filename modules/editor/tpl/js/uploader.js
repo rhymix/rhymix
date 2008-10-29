@@ -52,7 +52,7 @@ function XEUploaderStart(obj) {
             progressTarget : null,
             cancelButtonId : null
         },
-        debug: true,
+        debug: false,
 
         // Button settings
         button_placeholder_id: dummy.id,
