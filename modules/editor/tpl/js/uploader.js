@@ -235,8 +235,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
         listObj.remove(0);
     }
 
-    var cur_upload_target_srl = editorRelKeys[editor_sequence]["primary"].value;
-    if(!cur_upload_target_srl) {
+    if(upload_target_srl) {
         editorRelKeys[editor_sequence]["primary"].value = upload_target_srl;
         settings["uploadTargetSrl"] = upload_target_srl;
     }
