@@ -52,7 +52,7 @@ function XEUploaderStart(obj) {
             progressTarget : null,
             cancelButtonId : null
         },
-        debug: false,
+        debug: true,
 
         // Button settings
         button_placeholder_id: dummy.id,
@@ -103,22 +103,26 @@ function fileQueued(file) {
 }
 
 function fileQueueError(file, errorCode, message) {
-    switch(errorCode) {
-        case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :
-            alert("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message > 1 ? "up to " + message + " files." : "one file.")));
-            break;
-        case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-            alert("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-            alert("Error Code: Zero byte file, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
-            alert("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        default:
-            alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
+    try {
+        switch(errorCode) {
+            case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :
+                alert("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message > 1 ? "up to " + message + " files." : "one file.")));
+                break;
+            case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+                alert("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+                break;
+            case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+                alert("Error Code: Zero byte file, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+                break;
+            case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+                alert("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+                break;
+            default:
+                alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+                break;
+        }
+    } catch(ex) {
+        this.debug(ex);
     }
 }
 
@@ -126,29 +130,39 @@ function fileDialogComplete(numFilesSelected, numFilesQueued) {
     try {
         this.startUpload();
     } catch (ex)  {
+        this.debug(ex);
     }
 }
 
 function uploadStart(file) {
+    return true;
 }
 
 function uploadProgress(file, bytesLoaded, bytesTotal) {
-    var obj = xGetElementById(this.settings["fileListAreaID"]);
+    try {
+        var obj = xGetElementById(this.settings["fileListAreaID"]);
 
-    var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
-    var filename = file.name;
-    if(filename.length>20) filename = filename.substr(0,20)+'...';
+        var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
+        var filename = file.name;
+        if(filename.length>20) filename = filename.substr(0,20)+'...';
 
-    var text = filename + ' ('+percent+'%)';
-    if(!obj.options.length || obj.options[obj.options.length-1].value != file.id) {
-        var opt_obj = new Option(text, file.id, true, true);
-        obj.options[obj.options.length] = opt_obj;
-    } else {
-        obj.options[obj.options.length-1].text = text;
+        var text = filename + ' ('+percent+'%)';
+        if(!obj.options.length || obj.options[obj.options.length-1].value != file.id) {
+            var opt_obj = new Option(text, file.id, true, true);
+            obj.options[obj.options.length] = opt_obj;
+        } else {
+            obj.options[obj.options.length-1].text = text;
+        }
+    } catch (ex)  {
+        this.debug(ex);
     }
 }
 
 function uploadSuccess(file, serverData) {
+    try {
+    } catch (ex)  {
+        this.debug(ex);
+    }
 }
 
 function uploadError(file, errorCode, message) {
@@ -185,20 +199,17 @@ function uploadError(file, errorCode, message) {
 			break;
 		}
 	} catch (ex) {
-        alert(ex);
+        this.debug(ex);
     }
 }
 
 function uploadComplete(file) {
-    if(this.getStats().files_queued === 0 ) {
+    try {
         var fileListAreaID = this.settings["fileListAreaID"];
         var uploadTargetSrl = this.settings["uploadTargetSrl"];
         reloadFileList(this.settings);
-    } else {
-        try {
-            this.startUpload();
-        } catch(e) {
-        }
+    } catch(e) {
+        this.debug(ex);
     }
 }
 
