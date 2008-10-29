@@ -160,6 +160,7 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 
 function uploadSuccess(file, serverData) {
     try {
+        if(this.getStats().files_queued !== 0) this.startUpload();
     } catch (ex)  {
         this.debug(ex);
     }
@@ -324,7 +325,7 @@ function removeUploadedFile(editorSequence) {
     if(file_srls.length<1) return;
 
     var params = new Array();
-    params["file_srl"]  = file_srls.join(',');
+    params["file_srls"]  = file_srls.join(',');
     params["editor_sequence"] = editorSequence;
     var response_tags = new Array("error","message");
     exec_xml("file","procFileDelete", params, function() { reloadFileList(settings); } );

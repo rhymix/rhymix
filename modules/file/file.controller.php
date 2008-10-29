@@ -120,15 +120,14 @@
             // 기본적으로 필요한 변수인 upload_target_srl, module_srl을 설정
             $editor_sequence = Context::get('editor_sequence');
             $file_srl = Context::get('file_srl');
+            $file_srls = Context::get('file_srls');
+            if($file_srls) $file_srl = $file_srls;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
-
-            // 첨부파일의 목록을 java script로 출력
-            // $this->printUploadedFileList($editor_sequence, $upload_target_srl);
         }
 
         /**
