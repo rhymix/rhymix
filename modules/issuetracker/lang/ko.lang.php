@@ -76,6 +76,7 @@
      $lang->project_menus = array(
              'dispIssuetrackerViewIssue' => '문제 열람',
              'dispIssuetrackerNewIssue' => '문제 작성',
+             'dispIssuetrackerTimeline' => '타임 라인',
              'dispIssuetrackerViewMilestone' => '개발계획',
              'dispIssuetrackerViewSource' => '코드 열람',
              'dispIssuetrackerDownload' => '다운로드',

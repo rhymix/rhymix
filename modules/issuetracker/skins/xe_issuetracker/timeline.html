@@ -1,0 +1,20 @@
+<!--#include('header.html')-->
+<h2> Timeline </h2>
+
+{@ $curDate = null }
+<!--@foreach($changesets as $changeset)-->
+<!--@if($curdate || strcmp(zdate($changeset->date, "Ymd"),  $curDate))-->
+<h4>{zdate($changeset->date, "Y-m-d")}</h4>
+<!--@if($curDate)-->
+</dl>
+<!--@end-->
+<dl>
+{@ $curDate = zdate($changeset->date, "Ymd") }
+<!--@end-->
+<dt class="changeset">
+    <span class="time">{zdate($changeset->date,"H:i")}</span>
+    Changeset <em>[{$changeset->revision}]</em> by <span class="author">{$changeset->author}</span>
+</dt>
+<dd class="changeset"> <p>{$changeset->message}</p> </dd>
+<!--@end-->
+</dl>

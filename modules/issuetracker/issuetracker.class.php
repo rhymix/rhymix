@@ -47,6 +47,9 @@
             $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminAttachRelease');
 
             $oModuleController->insertActionForward('issuetracker', 'controller', 'procIssuetrackerAdminAttachRelease');
+
+            $oDB = &DB::getInstance();
+            $oDB->addIndex("issue_changesets","idx_unique_revision", array("module_srl","revision"), true);
         }
 
         function checkUpdate()

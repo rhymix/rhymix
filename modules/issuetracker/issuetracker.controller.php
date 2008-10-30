@@ -57,7 +57,10 @@
                 $oDB->begin();
 
                 $output = executeQuery("issuetracker.insertIssue", $obj); 
-                if(!$output->toBool()) return $output;
+                if(!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
 
                 $output = $oDocumentController->insertDocument($obj);
                 $msg_code = 'success_registed';
@@ -365,6 +368,36 @@
             $this->add('mid', Context::get('mid'));
             $this->add('document_srl', $output->get('document_srl'));
             $this->setMessage('success_deleted');
+        }
+
+        function syncChangeset()
+        {
+            require_once($this->module_path.'classes/svn.class.php');
+            $oSvn = new Svn($this->module_info->svn_url, $this->module_info->svn_cmd, $this->module_info->diff_cmd);
+            $oModel = &getModel('issuetracker');
+            $status = $oSvn->getStatus();
+            $latestRevision = $oModel->getLatestRevision($this->module_info->module_srl);
+
+            $oController = &getController('issuetracker');
+            if($latestRevision < $status->revision)
+            {
+                $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $status->revision-$latestRevision);
+                foreach($logs as $log)
+                {
+                    $obj = null;
+                    $obj->revision = $log->revision;
+                    $obj->author = $log->author;
+                    $obj->date = date("YmdHis", strtotime($log->date)); 
+                    $obj->message = trim($log->msg);
+                    $obj->module_srl = $this->module_info->module_srl;
+                    executeQuery("issuetracker.insertChangeset", $obj);
+                }
+            }
+        }
+
+        function procIssuetrackerSync()
+        {
+            $this->syncChangeset();
         }
 
     }

@@ -67,6 +67,14 @@
             if(!Context::get('act')) Context::set('act','dispIssuetrackerViewIssue');
         }
 
+        function dispIssuetrackerTimeline() {
+            if(!$this->grant->access) return $this->dispIssuetrackerMessage('msg_not_permitted');
+            $oModel = &getModel('issuetracker');
+            $changesets = $oModel->getChangesets($this->module_info->module_srl);
+            Context::set('changesets', $changesets);
+            $this->setTemplateFile('timeline');
+        }
+
         /**
          * @brief 마일스톤과 그에 따른 통계 제공
          **/

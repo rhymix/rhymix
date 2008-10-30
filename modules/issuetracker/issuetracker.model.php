@@ -8,6 +8,7 @@
     require_once(_XE_PATH_.'modules/issuetracker/issuetracker.item.php');
 
     class issuetrackerModel extends issuetracker {
+        var $oSvn = null;
 
         function init()
         {
@@ -347,6 +348,37 @@
             $args->group_srls = implode(',',$group_srls);
             $output = executeQueryArray('issuetracker.getGroupMembers', $args);
             return $output->data;
+        }
+
+        function getLatestRevision($module_srl) {
+            $args->module_srl = $module_srl;
+            $output = executeQuery('issuetracker.getLatestRevision', $args);
+            if($output->data && $output->data->revision)
+            {
+                return $output->data->revision;
+            }
+            else return 0;
+        }
+
+        function getChangesets($module_srl, $enddate = null, $limit = 90)
+        {
+            if(!$enddate)
+            {
+                $enddate = date("Ymd");
+            }
+            $args->enddate = date("Ymd", ztime($enddate)+24*60*60);
+            $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
+            $args->module_srl = $module_srl;
+            $output = executeQueryArray("issuetracker.getChangesets", $args);
+            if(!$output->toBool() || !$output->data)
+            {
+                debugPrint($output);
+                return array();
+            }
+            else
+            {
+                return $output->data;
+            }
         }
     }
 ?>

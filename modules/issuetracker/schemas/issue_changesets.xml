@@ -1,0 +1,7 @@
+<table name="issue_changesets">
+    <column name="revision" type="number" size="11" notnull="notnull" index="idx_revision" /> 
+    <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_module_srl" /> 
+    <column name="date" type="date" index="idx_date" /> 
+    <column name="author" type="varchar" size="255" notnull="notnull" /> 
+    <column name="message" type="bigtext" />
+</table>

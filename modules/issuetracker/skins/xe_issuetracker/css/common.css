@@ -263,3 +263,13 @@ fieldset.history ul li.content { padding:10px; color:#444444;}
 .pagination.c2 a.next{ background:url(../images/arrowNextC1.gif) no-repeat center;}
 .pagination.c2 a.prev span,
 .pagination.c2 a.next span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden;}
+
+/* Timeline */
+h4 { background: #F7F7F7 none repeat scroll 0 0; border-bottom:1px solid #D7D7D7; font-size:1.05em; }
+dt .time { color: #999999; font-size: 0.90em; }
+dt em { border-bottom: 1px dotted #BBBBBB; color: #BB0000; font-style:normal; text-decoration: none; } 
+dt .author { color: #666666; }
+dd { color: #777766; font-size: 0.90em; }
+dl { line-height: 1.3em; margin: 0; }
+dt { padding: 5px 4px 2px 0 }
+dd.changeset p { margin: 0; padding: 0; }
