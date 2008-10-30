@@ -455,20 +455,11 @@
     }
 
     /**
-     * @brief iframe, script코드 제거
+     * @brief 해킹 시도로 의심되는 코드들을 미리 차단
      **/
     function removeHackTag($content) {
-        // iframe 제거
-        $content = preg_replace("!<iframe(.*?)<\/iframe>!is", '&lt;iframe$1&lt;/iframe&gt;', $content);
-
-        // script code 제거
-        $content = preg_replace("!<script(.*?)<\/script>!is", '&lt;script$1&lt;/script&gt;', $content);
-
-        // meta 태그 제거
-        $content = preg_replace("!<meta(.*?)>!is", '&lt;meta$1&gt;', $content);
-
-        // style 태그 제거
-        $content = preg_replace("!<style(.*?)<\/style>!is", '&lt;style$1&lt;style&gt;', $content);
+        // 특정 태그들을 일반 문자로 변경
+        $content = preg_replace('/<(\/?)(iframe|script|meta|style)/is', '&lt;$1$2', $content);
 
         // XSS 사용을 위한 이벤트 제거
         $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
@@ -483,15 +474,15 @@
     }
 
     function removeJSEvent($matches) {
-        $tag = strtolower($matches[1]);
-        if(preg_match('/(src|href)=("|\'?)javascript:/i',$matches[2])) $matches[0] = preg_replace('/(src|href)=("|\'?)javascript:/i','$1=$2_javascript:', $matches[0]);
-        return preg_replace('/ on([a-z]+)=/i',' _on$1=',$matches[0]);
+        if(preg_match('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)javascript/is',$matches[2])) $matches[0] = preg_replace('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)javascript/is','$1=$2_javascript', $matches[0]);
+        return preg_replace('/([\r\n ]*)on([a-z]+)=/is',' _on$2=',$matches[0]);
     }
 
     function removeSrcHack($matches) {
         $tag = strtolower(trim($matches[1]));
 
         $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
+        $buff = str_replace(array('&amp;','&'),array('&amp;','&amp;'),$buff);
         $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
 
         $oXmlParser = new XmlParser();
@@ -501,7 +492,8 @@
         $src = $xml_doc->{$tag}->attrs->src;
         $dynsrc = $xml_doc->{$tag}->attrs->dynsrc;
         $lowsrc = $xml_doc->{$tag}->attrs->lowsrc;
-        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) ) return sprintf("<%s>",$tag);
+        $href = $xml_doc->{$tag}->attrs->href;
+        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) ) return sprintf("<%s>",$tag);
 
         return $matches[0];
     }
@@ -515,11 +507,12 @@
             $queries = explode('&', $query);
             $cnt = count($queries);
             for($i=0;$i<$cnt;$i++) {
-                $pos = strpos($queries[$i],'=');
+                $tmp_str = strtolower(trim($queries[$i]));
+                $pos = strpos($tmp_str,'=');
                 if($pos === false) continue;
-                $key = strtolower(trim(substr($queries[$i], 0, $pos)));
-                $val = strtolower(trim(substr($queries[$i] ,$pos+1)));
-                if(($key == 'module' && $val == 'admin') || $key == 'act' && preg_match('/admin/i',$val)) return true;
+                $key = strtolower(trim(substr($tmp_str, 0, $pos)));
+                $val = strtolower(trim(substr($tmp_str,$pos+1)));
+                if( ($key=='module'&&$val=='admin') || ($key=='act'&&preg_match('/admin/i',$val)) ) return true;
             }
         }
         return false;
