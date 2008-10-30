@@ -1,39 +1,37 @@
-<!--// header.html include -->
+<!--// _header.html include -->
     <!--#include("_header.html")-->
 
 <!-- print tags -->
 
-<div class="tagsBox">
-    <h4><img src="./images/common/iconTag.gif" alt="{$lang->tag}" width="17" height="10" class="tagIcon" /> {$lang->tag} ({count($tag_list)})</h4>
-    <div class="tags">
+<div class="tagCloud">
+    <h4 class="tagHeader">{$lang->tag} (<strong>{count($tag_list)}</strong>)</h4>
+    <ul class="tags">
         <!--@foreach($tag_list as $val)-->
 
             <!--@if($val->count>5)-->
-                {@ $tag_class = "tagTypeA" }
+                {@ $tag_class = "rank1" }
             <!--@elseif($val->count>3)-->
-                {@ $tag_class = "tagTypeB" }
+                {@ $tag_class = "rank2" }
             <!--@elseif($val->count>2)-->
-                {@ $tag_class = "tagTypeC" }
+                {@ $tag_class = "rank3" }
             <!--@elseif($val->count>1)-->
-                {@ $tag_class = "tagTypeD" }
+                {@ $tag_class = "rank4" }
             <!--@else-->
-                {@ $tag_class = "tagTypeE" }
+                {@ $tag_class = "rank5" }
             <!--@end-->
 
-            <div <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
+            <li <!--@if($tag_class)-->class="{$tag_class}"<!--@end--> >
                 <!--@if($layout_info->mid)-->
                     <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',$val->tag)}">{htmlspecialchars($val->tag)}</a>
                 <!--@else-->
                     <a href="{getUrl('','mid',$mid,'search_target','tag','search_keyword',$val->tag)}">{htmlspecialchars($val->tag)}</a>
                 <!--@end-->
-            </div>
+            </li>
         <!--@end-->
-        <div class="clear"></div>
-    </div>
+		</ul>
 </div>
-<div class="clear"></div>
 
-<div class="rightButtonBox gap1">
+<div class="boardNavigation">
     <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
 </div>
 

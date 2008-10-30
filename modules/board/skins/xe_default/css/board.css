@@ -8,6 +8,10 @@ body{ background:#fff;}
 .board{ font-family:"나눔고딕", NanumGothic, "맑은 고딕", MalgunGothic, AppleGothic, "굴림", Gulim, "돋움", Dotum, Tahoma, Sans-serif; line-height:normal; font-size:.8em;}
 .board *{ font-size:1em;}
 .board img{ border:0;}
+.board a{ text-decoration:none; color:#000;}
+.board a:hover,
+.board a:active,
+.board a:focus{ text-decoration:underline;}
 
 /* Board Type */
 .board.classic{}
@@ -33,10 +37,6 @@ body{ background:#fff;}
 .boardInformation em,
 .boardInformation strong{ color:#ff6600;}
 .boardInformation strong{ font:bold 11px Tahoma;}
-.boardInformation a{ text-decoration:none; color:#000;} 
-.boardInformation a:hover,
-.boardInformation a:active,
-.boardInformation a:focus{ text-decoration:underline;}
 .boardInformation .infoLeft{ padding-left:18px; float:left; background:url(../images/white/iconArticle.gif) no-repeat left center;}
 .boardInformation .infoRight{ float:right;}
 .boardInformation .infoRight li.icon{ background:none; padding:0; margin-right:3px;}
@@ -57,10 +57,6 @@ body{ background:#fff;}
 .boardListForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 .boardListForm em,
 .boardListForm strong{ font-style:normal; color:#ff6600;}
-.boardListForm a{ text-decoration:none; color:#000;} 
-.boardListForm a:hover,
-.boardListForm a:active,
-.boardListForm a:focus{ text-decoration:underline;}
 
 /* Board List */
 .boardList{ border:0; border-top:1px solid #ddd; border-bottom:1px solid #ddd; width:100%;}
@@ -137,29 +133,32 @@ body{ background:#fff;}
 .boardSearchForm select{ font-size:12px; height:23px;}
 .boardSearchForm .inputText{ border:1px solid #ccc; width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
 
+/* Board Read */
 .boardRead{}
 
 .boardReadHeader{ margin-bottom:5px; *zoom:1;}
 .boardReadHeader:after{ content:""; display:block; float:none; clear:both;}
 .boardReadHeader *{ margin:0; padding:0;}
-.boardReadHeader .title{ float:left;}
-.boardReadHeader em{ float:right; font-style:normal; font-weight:bold; font-size:1em;}
-.boardReadHeader a{ text-decoration:none; color:#000; font-weight:bold; font-size:1em;}
-.boardReadHeader a:hover,
-.boardReadHeader a:active,
-.boardReadHeader a:focus{ text-decoration:underline;}
+.boardReadHeader .title{ float:left; font-size:1.5em;}
+.boardReadHeader em{ position:relative; top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
+.boardReadHeader a{ font-weight:bold; font-size:1em;}
 
-.boardReadBody{ padding:15px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd; font-size:.75em; line-height:1.5em;}
+.boardReadBody{ padding:15px 0; border-top:1px solid #ddd; border-bottom:1px solid #ddd; line-height:1.5em;}
+.boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
+.boardReadBody .document_popup_menu a{ text-decoration:underline;}
+.boardReadBody .xe_content{ margin-bottom:15px;}
+.boardReadBody .memberSignature{ border:1px dotted #ddd;}
+.boardReadBody .memberSignature .signature{ margin:10px;}
 
 .boardReadFooter{ padding:10px 0; *zoom:1; color:#666; line-height:1em; font:11px Tahoma;}
 .boardReadFooter:after{ content:""; display:block; float:none; clear:both;}
 .boardReadFooter *{ margin:0; padding:0;}
-.boardReadFooter a{ color:#666;}
+.boardReadFooter a{ color:#666; text-decoration:underline; position:relative;}
 .boardReadFooter .footerLeft{ float:left;}
 .boardReadFooter .footerRight{ float:right;}
-.boardReadFooter dl{ clear:both; white-space:nowrap;}
-.boardReadFooter dt{ display:inline; font-weight:bold;}
-.boardReadFooter dd{ display:inline;}
+.boardReadFooter dl{ clear:both; position:relative;}
+.boardReadFooter dt{ position:relative; z-index:2; display:inline; padding-right:5px; font-weight:bold; background:#fff;}
+.boardReadFooter dd{ position:relative; z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; background:url(../images/white/lineVr11.gif) no-repeat left center; *zoom:1;}
 .boardReadFooter .footerRight dl{ float:right;}
 .boardReadFooter .footerRight dl.noBr{ position:relative; left:5px; float:right; clear:both; overflow:hidden; white-space:nowrap;}
 .boardReadFooter .footerRight dl.noBr dt{ position:relative; left:-1px; padding-left:10px; background:url(../images/white/lineVr11.gif) no-repeat left center;}
@@ -167,21 +166,35 @@ body{ background:#fff;}
 
 .boardRead .boardNavigation{ border-top:1px solid #ddd;}
 
-.feedbackList{ position:relative; overflow:hidden; font-size:.75em; padding-top:15px; margin-bottom:10px; color:#666;}
+.feedbackList{ position:relative; overflow:hidden; padding-top:15px; margin-bottom:10px; color:#666;}
 .feedbackList *{ margin:0; padding:0;}
-.feedbackList .title{ position:relative; font-weight:bold; font-size:1.5em; color:#000; margin-bottom:10px;}
-.feedbackList .title strong{ color:#ff6600;}
-.feedbackList dl{ position:relative; padding-top:10px; margin-bottom:10px; border-top:1px dashed #ddd;}
-.feedbackList dt{ font-weight:bold; font-size:1.25em; margin-bottom:5px; color:#333;}
-.feedbackList dd{ line-height:1.5em;}
-.feedbackList dd.trackbackTitle{ font-weight:bold;}
-.feedbackList dd.text{}
-.feedbackList dd.time{ position:absolute; top:15px; right:0; font:11px Tahoma;}
-.feedbackList dd a.delete{ font-weight:bold; color:#ff6600;}
-.feedbackList a{ text-decoration:none;} 
-.feedbackList a:hover,
-.feedbackList a:active,
-.feedbackList a:focus{ text-decoration:underline;}
+.feedbackList .feedbackHeader{ position:relative; font-weight:bold; color:#000; margin-bottom:10px; font-size:1.5em;}
+.feedbackList .feedbackHeader strong{ color:#ff6600;}
+
+.feedbackList .item{ position:relative; padding-top:10px; margin-bottom:10px; border-top:1px dashed #ddd;}
+.feedbackList .item .header{ font-size:1.5em; margin-bottom:5px;}
+.feedbackList .item .header a{ font-size:1em;}
+.feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
+.feedbackList .item .comment_popup_menu a{ text-decoration:underline;}
+.feedbackList .item .option{ text-align:right;}
+
+/* Time */
+.time{ position:absolute; top:10px; right:0;}
+.time *{ position:relative; font-size:11px; font-family:Tahoma; color:#666; display:inline;}
+.time dt{ z-index:2; display:inline; padding-right:5px; font-weight:bold; background:#fff;}
+.time dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:3px; background:url(../images/white/lineVr11.gif) no-repeat left center;}
+
+/* Attached File */
+.attachedFile{ position:relative; margin:0; padding:0; border:none;}
+.item .attachedFile{ position:absolute; left:0; bottom:0;}
+.attachedFile *{ position:relative; font-size:11px; font-family:Tahoma; color:#666; display:inline;}
+.attachedFile dt{ z-index:2; display:inline; padding-right:5px; font-weight:bold; background:#fff;}
+.attachedFile dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; background:url(../images/white/lineVr11.gif) no-repeat left center; *zoom:1;}
+.attachedFile dd a{ position:relative; text-decoration:underline; color:#666;}
+.attachedFile dd a .bubble{ position:absolute; display:none; text-decoration:none; background:#f8f8f8; white-space:nowrap; border:1px solid #ddd; padding:2px 5px; left:0; top:-20px; cursor:pointer;}
+.attachedFile dd a:hover .bubble,
+.attachedFile dd a:active .bubble,
+.attachedFile dd a:focus .bubble{ display:block;}
 
 .replyForm{ padding:10px 20px 15px 20px; font-size:.75em; color:#666; margin-bottom:20px; background:#f4f4f4; -moz-border-radius:10px; -webkit-border-radius:10px;}
 .replyForm *{ margin:0; padding:0;}
@@ -224,11 +237,11 @@ body{ background:#fff;}
 
 /* Layer */
 #waitingforserverresponse { border:2px solid #444444; font-weight:bold; color:#444444; padding: 7px 5px 5px 25px; background:#FFFFFF url("../tpl/images/loading.gif") no-repeat 5px 5px; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
-#popup_menu_area{ position:absolute; background:#fff; border:2px solid #eee; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0;}
+#popup_menu_area{ position:absolute; background:#fff; border:2px solid #eee; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0; z-index:100;}
 #popup_menu_area *{ margin:0; padding:0; list-style:none; font-size:12px; line-height:normal;}
 #popup_menu_area ul{ border:1px solid #ddd; -moz-border-radius:5px; -webkit-border-radius:5px; padding:10px;}
 #popup_menu_area li{ padding-left:20px; background-repeat:no-repeat; background-position:left center; margin-bottom:3px; *margin-bottom:-2px;}
-#popup_menu_area li a{ text-decoration:none; color:#000;}
+#popup_menu_area li a{ text-decoration:none; color:#000; white-space:nowrap;}
 #popup_menu_area li a:hover,
 #popup_menu_area li a:active,
 #popup_menu_area li a:focus{ font-weight:bold; letter-spacing:-1px;}

@@ -217,7 +217,7 @@
             if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
             if($this->get('title_color')&&$this->get('title_color')!='N') $attrs[] = "color:#".$this->get('title_color');
 
-            if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
+            //if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
             else return htmlspecialchars($title);
         }
 
@@ -256,7 +256,7 @@
             // 이 게시글을... 팝업메뉴를 출력할 경우
             if($add_popup_menu) {
                 $content = sprintf(
-                        '%s<div class="document_popup_menu"><span class="document_%d">%s</span></div>',
+                        '%s<div class="document_popup_menu"><a href="#popup_menu_area" class="document_%d">%s</a></div>',
                         $content, 
                         $this->document_srl, Context::getLang('cmd_document_do')
                 );

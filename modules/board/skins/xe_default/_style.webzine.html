@@ -31,12 +31,12 @@
 								<option value="{$val->category_srl}" <!--@if($category==$val->category_srl)-->selected="selected"<!--@end-->>{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} <!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
 								<!--@end-->
 							</select>
-							<button type="button" name="go_button" id= "go_button" onclick="doChangeCategory(); return false;" class="button" />Go</button>
+							<button type="button" name="go_button" id= "go_button" onclick="doChangeCategory(); return false;" class="button">Go</button>
 						</span>
 						<!--@end-->
 						{$lang->title}
 					</th>
-					<!--@if($module_info->display_author!='N')--><th scope="col">{$lang->writer}</div></th><!--@end-->
+					<!--@if($module_info->display_author!='N')--><th scope="col">{$lang->writer}</th><!--@end-->
 					<!--@if($module_info->display_readed_count!='N')--><th scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
 					<!--@if($module_info->display_voted_count!='N')--><th scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
 					<!--@if($module_info->display_regdate != 'N')--><th scope="col"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->

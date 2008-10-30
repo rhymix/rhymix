@@ -18,6 +18,11 @@ a.button.xLarge { background-position:left -65px; }
 a.button.xLarge span { padding:8px 10px 7px 8px; font:20px/20px Sans-serif; background-position:right -65px;}
 a.button.xLarge, x:-moz-any-link { font:0/35px Sans-serif; padding:18px 0;} /* Firefox 2 Fix */
 a.button.xLarge, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
+/* Small Size */
+a.button.small { background-position:left -107px; }
+a.button.small span { padding:4px 6px 3px 4px; font:11px/11px Sans-serif; background-position:right -107px;}
+a.button.small, x:-moz-any-link { font:0/18px Sans-serif; padding:9px 0;} /* Firefox 2 Fix */
+a.button.small, x:-moz-any-link, x:default { padding:0;} /* Firefox 2 Fix */
 
 /* Control Button + Submit Button */
 span.button,
@@ -33,13 +38,23 @@ span.button.large { background-position:left -30px; *top:-1px;}
 span.button.large, x:-moz-any-link{ font:0/29px Sans-serif; padding:14px 0;} /* Firefox 2 Fix */
 span.button.large, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
 span.button.large button,
-span.button.large input { height:30px; *top:0 !important; padding:0 10px 0 8px; *padding:0 5px 0 3px; *top:-1px; font:16px/30px Sans-serif; background-position:right -30px;}
+span.button.large input { height:30px; *top:0; _top:-1px; padding:0 10px 0 8px; *padding:0 5px 0 3px; font:16px/30px Sans-serif; background-position:right -30px;}
 /* xLarge Size */
 span.button.xLarge { background-position:left -65px;}
 span.button.xLarge, x:-moz-any-link{ font:0/35px Sans-serif; padding:17px 0;} /* Firefox 2 Fix */
 span.button.xLarge, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
 span.button.xLarge button,
 span.button.xLarge input { height:35px; padding:0 10px 0 8px; *padding:0 5px 0 3px; font:20px/36px Sans-serif; background-position:right -65px;}
+/* Large Size */
+span.button.small { background-position:left -107px;}
+span.button.small, x:-moz-any-link{ font:0/18px Sans-serif; padding:9px 0;} /* Firefox 2 Fix */
+span.button.small, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
+span.button.small button,
+span.button.small input { height:18px; *top:0; _top:-1px; padding:0 6px 0 4px; *padding:0 3px 0 2px; font:11px/18px Sans-serif; background-position:right -107px;}
+span.button.small button, x:-moz-any-link,
+span.button.small input, x:-moz-any-link{ top:-1px;} /* Firefox 2 Fix */
+span.button.small button, x:-moz-any-link, x:default,
+span.button.small input, x:-moz-any-link, x:default{ top:0;} /* Firefox 2 Fix */
 
 /* Strong Button */
 a.button.strong *,

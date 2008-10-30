@@ -2,11 +2,9 @@
 
 <div class="trackbackBox">
 
-    <div class="trackbackUrl"><a name="trackback" href="{$oDocument->getTrackbackUrl()}" onclick="return false;">{$lang->trackback_url} : {$oDocument->getTrackbackUrl()}</a><div class="clear"></div></div>
-
     <!--@if($oDocument->getTrackbackCount())-->
         <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
-        <div class="trackbackItem">
+        <div class="item">
             <a name="trackback_{$val->trackback_srl}"></a>
             <address>
                 <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a>

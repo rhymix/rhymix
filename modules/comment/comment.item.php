@@ -181,7 +181,7 @@
             // 이 댓글을... 팝업메뉴를 출력할 경우
             if($add_popup_menu && Context::get('is_logged') ) {
                 $content = sprintf(
-                        '%s<div class="comment_popup_menu"><span class="comment_%d">%s</span></div>',
+                        '%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d">%s</a></div>',
                         $content, 
                         $this->comment_srl, Context::getLang('cmd_comment_do')
                 );

@@ -1,90 +1,101 @@
 <!--@if($oDocument->getCommentCount())-->
-<div class="replyBox">
+<div class="feedbackList">
 
-    {@ $_comment_list = $oDocument->getComments() }
-    <!--@foreach($_comment_list as $key => $comment)-->
+	<h3 class="feedbackHeader">
+		<!--@if($grant->write_comment && $oDocument->allowComment()) -->
+			<a href="#comment" title="{$lang->comment}"><strong>{$oDocument->getCommentcount()}</strong> Replies</a>
+		<!--@end-->
+		<!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount() )-->
+			<a href="#trackback" title="{$lang->trackback}"><strong>{$oDocument->getTrackbackCount()}</strong> Trackbacks</a>
+		<!--@end-->
+	</h3>
+	
+	<div class="replyList">
 
-        <div class="replyItem <!--@if($comment->get('depth'))-->reply<!--@end-->">
-            <!--@if($comment->get('depth'))-->
-            <div style="margin-left:{($comment->get('depth')-1)*20}px" class="replyIndent">
-            <!--@end-->
+		{@ $_comment_list = $oDocument->getComments() }
+		<!--@foreach($_comment_list as $key => $comment)-->
 
-            <a name="comment_{$comment->comment_srl}"></a>
+			<div class="item <!--@if($comment->get('depth'))-->reply<!--@end-->" id="comment_{$comment->comment_srl}">
 
-            <div class="replyOption">
-                <!--@if($comment->isGranted() || !$comment->get('member_srl'))-->
-                    <a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}"><img src="./images/common/buttonDeleteX.gif" alt="{$lang->cmd_delete}" width="12" height="13" /></a>
-                    <a href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonModifyE.gif" alt="{$lang->cmd_modify}" width="20" height="17" /></a> 
-                <!--@end-->
-                    <a href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}"><img src="./images/{$module_info->colorset}/buttonReply.gif" alt="{$lang->cmd_reply}" width="20" height="17" /></a> 
-            </div>
+				<h4 class="header">
+				<!--@if(!$comment->member_srl)-->
+					<!--@if($comment->homepage)-->
+						<a href="{$comment->homepage}" onclick="window.open(this.href);return false;">{$comment->getNickName()}</a>
+					<!--@else-->
+						{$comment->getNickName()}
+					<!--@end-->
+				<!--@else-->
+					<a href="popup_menu_area" class="member_{$comment->member_srl}">{$comment->getNickName()}</a>
+				<!--@end-->
+				</h4>
+				
+				<!--@if(!$comment->isAccessible())-->
+				<!--%import("filter/input_password.xml")-->
+				<div class="secretContent">
+					<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="page" value="{$page}" />
+					<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+					<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+						<div class="title">{$lang->msg_is_secret}</div>
+						<div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+					</form>
+				</div>
+				<!--@else-->
+				<!--@if($comment->getProfileImage())-->
+					<img src="{$comment->getProfileImage()}" alt="profile" class="commentProfileImage" />
+				<!--@end-->
+					{$comment->getContent(true)}
+				<!--@end-->
+				
+				<!--@if($comment->get('depth'))-->
+				<div style="margin-left:{($comment->get('depth')-1)*20}px" class="replyIndent">
+				<!--@end-->
+	
+					<!--@if($comment->hasUploadedFIles())-->
+					<dl class="attachedFile">
+						<dt>Attached File :</dt>
+						{@ $_uploaded_files = $comment->getUploadedFiles() }
+						<!--@foreach($_uploaded_files as $key => $file)-->
+						<dd><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="bubble">[File Size:{FileHandler::filesize($file->file_size)}/Download{number_format($file->download_count)}]</span></a></dd>
+						<!--@end-->
+					</dl>
+					<!--@end-->
+		
+					<dl class="time">
+						<dt>Time :</dt>
+						<dd>
+							{$comment->getRegdate('Y.m.d')} 
+						</dd>
+						<dd>
+							{$comment->getRegdate('H:i:s')}
+							<!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->({$comment->getIpaddress()})<!--@end-->
+						</dd>
+					</dl>
+	
+					<div class="option">
+						<!--@if($comment->isGranted() || !$comment->get('member_srl'))-->
+							<a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="button small"><span>Delete</span></a>
+							<a href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="button small"><span>Modify</span></a> 
+						<!--@end-->
+							<a href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="button small green"><span>Reply</span></a> 
+					</div>
+		
+					<!--@if($comment->get('voted_count')!=0 || $comment->get('blamed_count') != 0)-->
+					<div class="voted">
+						({$lang->voted_count}:
+						<strong>{$comment->get('voted_count')?$comment->get('voted_count'):0}</strong> / <strong>{$comment->get('blamed_count')?$comment->get('blamed_count'):0}</strong>)
+					</div>
+					<!--@end-->
+		
+				<!--@if($comment->get('depth'))-->
+				</div>
+				<!--@end-->
+			</div>
+			
+		<!--@end-->
 
-            <div class="date">
-
-                <strong>{$comment->getRegdate('Y.m.d')}</strong> {$comment->getRegdate('H:i:s')}
-                <!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->({$comment->getIpaddress()})<!--@end-->
-            </div>
-
-            <div class="author">
-            <!--@if(!$comment->member_srl)-->
-                <!--@if($comment->homepage)-->
-                    <a href="{$comment->homepage}" onclick="window.open(this.href);return false;">{$comment->getNickName()}</a>
-                <!--@else-->
-                    {$comment->getNickName()}
-                <!--@end-->
-            <!--@else-->
-                <div class="member_{$comment->member_srl}">{$comment->getNickName()}</div>
-            <!--@end-->
-            </div>
-
-            <!--@if($comment->get('voted_count')!=0 || $comment->get('blamed_count') != 0)-->
-            <div class="voted">
-                ({$lang->voted_count}:
-                <strong>{$comment->get('voted_count')?$comment->get('voted_count'):0}</strong> / <strong>{$comment->get('blamed_count')?$comment->get('blamed_count'):0}</strong>)
-            </div>
-            <!--@end-->
-
-            <div class="clear"></div>
-
-            <div class="replyContent">
-                <!--@if(!$comment->isAccessible())-->
-                    <!--%import("filter/input_password.xml")-->
-                    <div class="secretContent">
-                        <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
-                        <input type="hidden" name="mid" value="{$mid}" />
-                        <input type="hidden" name="page" value="{$page}" />
-                        <input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
-                        <input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
-                            <div class="title">{$lang->msg_is_secret}</div>
-                            <div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
-                        </form>
-                    </div>
-                <!--@else-->
-                    <!--@if($comment->getProfileImage())-->
-                    <img src="{$comment->getProfileImage()}" alt="profile" class="commentProfileImage" />
-                    <!--@end-->
-                    {$comment->getContent(true)}
-                <!--@end-->
-                <div class="clear"></div>
-            </div>
-
-            <!--@if($comment->hasUploadedFIles())-->
-                <div class="fileAttached">
-                    <ul>
-                        {@ $_uploaded_files = $comment->getUploadedFiles() }
-                        <!--@foreach($_uploaded_files as $key => $file)-->
-                        <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
-                        <!--@end-->
-                    </ul>
-                    <div class="clear"></div>
-                </div>
-            <!--@end-->
-
-            <!--@if($comment->get('depth'))-->
-            </div>
-            <!--@end-->
-        </div>
-    <!--@end-->
+	</div>
 
     <!-- 댓글 페이지 네비게이션 -->
     <!--@if($oDocument->comment_page_navigation)-->
