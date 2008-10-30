@@ -60,7 +60,7 @@
 			<!--// 공지사항 출력 -->
 			<!--@foreach($notice_list as $no => $document)-->
 				<tr class="notice">
-					<!--@if($module_info->display_number!='N')--><td class="notice"><!--@if($document_srl == $document->document_srl)--><img src="./images/common/iconArrowD8.gif" border="0" alt="" /><!--@else-->{$lang->notice}<!--@end--></td><!--@end-->
+					<!--@if($module_info->display_number!='N')--><td class="notice"><!--@if($document_srl == $document->document_srl)-->&raquo;<!--@else-->{$lang->notice}<!--@end--></td><!--@end-->
 					<!--@if($grant->is_admin)--><td class="check"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
 					<td class="title">
 						
@@ -80,7 +80,7 @@
 
 						{$document->printExtraImages(60*60*$module_info->duration_new)}
 					</td>
-					<!--@if($module_info->display_author!='N')--><td class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></td><!--@end-->
+					<!--@if($module_info->display_author!='N')--><td class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td><!--@end-->
 					<!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')>0?$document->get('readed_count'):'&nbsp;'}</td><!--@end-->
 					<!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')!=0?$document->get('voted_count'):'&nbsp;'}</td><!--@end-->
 					<!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->
@@ -91,7 +91,7 @@
 			<!--// 일반 글 출력 -->
 			<!--@foreach($document_list as $no => $document)-->
 				<tr class="bg{($no+1)%2+1}">
-					<!--@if($module_info->display_number!='N')--><td class="num"><!--@if($document_srl == $document->document_srl)--><img src="./images/common/iconArrowD8.gif" border="0" alt="" /><!--@else-->{$no}<!--@end--></td><!--@end-->
+					<!--@if($module_info->display_number!='N')--><td class="num"><!--@if($document_srl == $document->document_srl)-->&raquo;<!--@else-->{$no}<!--@end--></td><!--@end-->
 					<!--@if($grant->is_admin)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
 					<td class="title">
 						<!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
@@ -110,7 +110,7 @@
 
 						{$document->printExtraImages(60*60*$module_info->duration_new)}
 					</td>
-					<!--@if($module_info->display_author!='N')--><td class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></td><!--@end-->
+					<!--@if($module_info->display_author!='N')--><td class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td><!--@end-->
 					<!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')>0?$document->get('readed_count'):'&nbsp;'}</td><!--@end-->
 					<!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')!=0?$document->get('voted_count'):'&nbsp;'}</td><!--@end-->
 					<!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->

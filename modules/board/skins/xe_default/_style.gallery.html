@@ -107,7 +107,7 @@
 
 							{$document->printExtraImages(60*60*$module_info->duration_new)}
 						</td>
-						<!--@if($module_info->display_author!='N')--><td class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></td><!--@end-->
+						<!--@if($module_info->display_author!='N')--><td class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td><!--@end-->
 						<!--@if($module_info->display_readed_count!='N')--><td class="reading">{$document->get('readed_count')>0?$document->get('readed_count'):'&nbsp;'}</td><!--@end-->
 						<!--@if($module_info->display_voted_count!='N')--><td class="recommend">{$document->get('voted_count')!=0?$document->get('voted_count'):'&nbsp;'}</td><!--@end-->
 						<!--@if($module_info->display_regdate!='N')--><td class="date">{$document->getRegdate('Y-m-d')}</td><!--@end-->
@@ -166,7 +166,7 @@
 						<!--@end-->
 					</div>
 
-					<!--@if($module_info->display_author!='N')--><div class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></div><!--@end-->
+					<!--@if($module_info->display_author!='N')--><div class="author"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></div><!--@end-->
 					<!--@if($module_info->display_regdate!='N')--><div class="date">{$document->getRegdate('Y.m.d')}</div><!--@end-->
 
 					<div class="reading">
