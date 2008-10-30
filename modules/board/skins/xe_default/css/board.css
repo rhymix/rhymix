@@ -172,6 +172,8 @@ body{ background:#fff;}
 .feedbackList .feedbackHeader strong{ color:#ff6600;}
 
 .feedbackList .item{ position:relative; padding-top:10px; margin-bottom:10px; border-top:1px dashed #ddd;}
+.feedbackList .item .indent{ position:relative;}
+.feedbackList .reply .indent{ border-left:2px solid #eee; padding-left:10px;}
 .feedbackList .item .header{ font-size:1.5em; margin-bottom:5px;}
 .feedbackList .item .header a{ font-size:1em;}
 .feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
@@ -187,6 +189,7 @@ body{ background:#fff;}
 /* Attached File */
 .attachedFile{ position:relative; margin:0; padding:0; border:none;}
 .item .attachedFile{ position:absolute; left:0; bottom:0;}
+.reply .attachedFile{ position:absolute; left:10px; bottom:0;}
 .attachedFile *{ position:relative; font-size:11px; font-family:Tahoma; color:#666; display:inline;}
 .attachedFile dt{ z-index:2; display:inline; padding-right:5px; font-weight:bold; background:#fff;}
 .attachedFile dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; background:url(../images/white/lineVr11.gif) no-repeat left center; *zoom:1;}
@@ -239,7 +242,7 @@ body{ background:#fff;}
 #waitingforserverresponse { border:2px solid #444444; font-weight:bold; color:#444444; padding: 7px 5px 5px 25px; background:#FFFFFF url("../tpl/images/loading.gif") no-repeat 5px 5px; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
 #popup_menu_area{ position:absolute; background:#fff; border:2px solid #eee; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0; z-index:100;}
 #popup_menu_area *{ margin:0; padding:0; list-style:none; font-size:12px; line-height:normal;}
-#popup_menu_area ul{ border:1px solid #ddd; -moz-border-radius:5px; -webkit-border-radius:5px; padding:10px;}
+#popup_menu_area ul{ border:1px solid #ddd; -moz-border-radius:3px; -webkit-border-radius:3px; padding:10px;}
 #popup_menu_area li{ padding-left:20px; background-repeat:no-repeat; background-position:left center; margin-bottom:3px; *margin-bottom:-2px;}
 #popup_menu_area li a{ text-decoration:none; color:#000; white-space:nowrap;}
 #popup_menu_area li a:hover,

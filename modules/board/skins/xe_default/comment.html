@@ -14,44 +14,40 @@
 
 		{@ $_comment_list = $oDocument->getComments() }
 		<!--@foreach($_comment_list as $key => $comment)-->
-
-			<div class="item <!--@if($comment->get('depth'))-->reply<!--@end-->" id="comment_{$comment->comment_srl}">
-
-				<h4 class="header">
-				<!--@if(!$comment->member_srl)-->
-					<!--@if($comment->homepage)-->
-						<a href="{$comment->homepage}" onclick="window.open(this.href);return false;">{$comment->getNickName()}</a>
-					<!--@else-->
-						{$comment->getNickName()}
-					<!--@end-->
-				<!--@else-->
-					<a href="popup_menu_area" class="member_{$comment->member_srl}">{$comment->getNickName()}</a>
-				<!--@end-->
-				</h4>
-				
-				<!--@if(!$comment->isAccessible())-->
-				<!--%import("filter/input_password.xml")-->
-				<div class="secretContent">
-					<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
-					<input type="hidden" name="mid" value="{$mid}" />
-					<input type="hidden" name="page" value="{$page}" />
-					<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
-					<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
-						<div class="title">{$lang->msg_is_secret}</div>
-						<div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
-					</form>
-				</div>
-				<!--@else-->
-				<!--@if($comment->getProfileImage())-->
-					<img src="{$comment->getProfileImage()}" alt="profile" class="commentProfileImage" />
-				<!--@end-->
-					{$comment->getContent(true)}
-				<!--@end-->
-				
-				<!--@if($comment->get('depth'))-->
-				<div style="margin-left:{($comment->get('depth')-1)*20}px" class="replyIndent">
-				<!--@end-->
+				<div class="item <!--@if($comment->get('depth'))-->reply<!--@end-->" id="comment_{$comment->comment_srl}">
+					<div class="indent" <!--@if($comment->get('depth'))--> style="margin-left:{($comment->get('depth'))*15}px" <!--@end-->>
 	
+					<h4 class="header">
+					<!--@if(!$comment->member_srl)-->
+						<!--@if($comment->homepage)-->
+							<a href="{$comment->homepage}" onclick="window.open(this.href);return false;">{$comment->getNickName()}</a>
+						<!--@else-->
+							{$comment->getNickName()}
+						<!--@end-->
+					<!--@else-->
+						<a href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
+					<!--@end-->
+					</h4>
+					
+					<!--@if(!$comment->isAccessible())-->
+					<!--%import("filter/input_password.xml")-->
+					<div class="secretContent">
+						<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+						<input type="hidden" name="mid" value="{$mid}" />
+						<input type="hidden" name="page" value="{$page}" />
+						<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+						<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+							<div class="title">{$lang->msg_is_secret}</div>
+							<div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+						</form>
+					</div>
+					<!--@else-->
+					<!--@if($comment->getProfileImage())-->
+						<img src="{$comment->getProfileImage()}" alt="profile" class="commentProfileImage" />
+					<!--@end-->
+						{$comment->getContent(true)}
+					<!--@end-->
+					
 					<!--@if($comment->hasUploadedFIles())-->
 					<dl class="attachedFile">
 						<dt>Attached File :</dt>
@@ -88,14 +84,14 @@
 					</div>
 					<!--@end-->
 		
-				<!--@if($comment->get('depth'))-->
 				</div>
-				<!--@end-->
-			</div>
+				<!--@if($comment->get('depth'))-->
+			<!--@end-->
 			
+		</div>
 		<!--@end-->
 
-	</div>
+</div>
 
     <!-- 댓글 페이지 네비게이션 -->
     <!--@if($oDocument->comment_page_navigation)-->
