@@ -9,7 +9,7 @@ var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
 /**
  * 에디터 사용시 사용되는 이벤트 연결 함수 호출
  **/
-xAddEventListener(document, 'mouseup', editorEventCheck);
+xAddEventListener(document, 'click', editorEventCheck);
 xAddEventListener(document, 'mousedown', editorDragStart);
 xAddEventListener(document, 'mouseup', editorDragStop);
 
