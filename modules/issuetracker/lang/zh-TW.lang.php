@@ -21,11 +21,11 @@
      $lang->cmd_reassign = '修改所有者';
      $lang->cmd_accept = '接受';
 
-     $lang->svn_url = 'SVN地址';
-     $lang->about_svn_url = '請輸入專案的SVN地址。';
+     $lang->svn_url = 'SVN位址';
+     $lang->about_svn_url = '請輸入專案的 SVN位址。';
      $lang->svn_cmd = 'SVN應用程式位置';
-     $lang->about_svn_cmd = '請輸入svn client應用程式位置。(ex: /usr/bin/svn)';
-     $lang->diff_cmd = 'DIF應用程式位置';
+     $lang->about_svn_cmd = '請輸入 SVN Client應用程式位置。(ex: /usr/bin/svn)';
+     $lang->diff_cmd = 'DIFF應用程式位置';
      $lang->about_diff_cmd = '為了比較 SVN revisions，請輸入diff應用程式位置。 (ex: /usr/bin/diff)';
 
      $lang->issue = '問題';

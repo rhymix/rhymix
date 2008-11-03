@@ -62,7 +62,7 @@
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '版面設置';
     $lang->cmd_layout_edit = '版面編輯';
-    $lang->cmd_search_by_ipaddress = '以IP位址搜尋';
+    $lang->cmd_search_by_ipaddress = '以 IP位址搜尋';
     $lang->cmd_add_ip_to_spamfilter = '新增 IP至垃圾過濾器';
 
     $lang->enable = '可用';
@@ -141,7 +141,7 @@
     $lang->date = '日期';
     $lang->regdate = '登錄日期';
     $lang->last_update = '最後更新';
-    $lang->last_post = '最後更新';
+    $lang->last_post = '最後發表';
     $lang->signup_date = '註冊日期';
     $lang->last_login = '最近登入';
     $lang->first_page = '第一頁';
@@ -275,7 +275,7 @@
         安裝程式後，可以在管理頁面中針對 FTP資訊進行修改或刪除。<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "當 PHP的safe_mode=On 時，請輸入相關 FTP資訊，否則無法正常安裝或使用XE程式。";
+    $lang->msg_safe_mode_ftp_needed = "當 PHP的 safe_mode=On 時，請輸入相關 FTP資訊，否則無法正常安裝或使用 XE程式。";
     $lang->msg_ftp_not_connected = "本地(localhost)FTP連線錯誤。請確認 FTP prot或確認是否支援 FTP功能。";
     $lang->msg_ftp_invalid_auth_info = "FTP登入失敗。請確認輸入的 FTP資訊。";
     $lang->msg_ftp_mkdir_fail = "新增資料夾失敗。請確認 FTP主機設置。";
