@@ -29,7 +29,7 @@
         ');
     }
 
-    
+
     // time zone
     $time_zone = array(
         '-1200' => '[GMT -12:00] Baker Island Time',
@@ -90,7 +90,7 @@
      * @return module controller instance
      **/
     function &getController($module_name) {
-        return getModule($module_name, 'controller'); 
+        return getModule($module_name, 'controller');
     }
 
     /**
@@ -99,7 +99,7 @@
      * @return module admin controller instance
      **/
     function &getAdminController($module_name) {
-        return getModule($module_name, 'controller','admin'); 
+        return getModule($module_name, 'controller','admin');
     }
 
     /**
@@ -108,7 +108,7 @@
      * @return module view instance
      **/
     function &getView($module_name) {
-        return getModule($module_name, 'view'); 
+        return getModule($module_name, 'view');
     }
 
     /**
@@ -117,7 +117,7 @@
      * @return module admin view instance
      **/
     function &getAdminView($module_name) {
-        return getModule($module_name, 'view','admin'); 
+        return getModule($module_name, 'view','admin');
     }
 
     /**
@@ -126,7 +126,7 @@
      * @return module model instance
      **/
     function &getModel($module_name) {
-        return getModule($module_name, 'model'); 
+        return getModule($module_name, 'model');
     }
 
     /**
@@ -135,7 +135,7 @@
      * @return module admin model instance
      **/
     function &getAdminModel($module_name) {
-        return getModule($module_name, 'model','admin'); 
+        return getModule($module_name, 'model','admin');
     }
 
     /**
@@ -144,7 +144,7 @@
      * @return module api class instance
      **/
     function &getAPI($module_name) {
-        return getModule($module_name, 'api'); 
+        return getModule($module_name, 'api');
     }
 
     /**
@@ -153,7 +153,7 @@
      * @return module class instance
      **/
     function &getClass($module_name) {
-        return getModule($module_name, 'class'); 
+        return getModule($module_name, 'class');
     }
 
     /**
@@ -217,7 +217,7 @@
      * @param tail 잘라졌을 경우 문자열의 제일 뒤에 붙을 꼬리
      * @return string
      **/
-    function cut_str($string,$cut_size=0,$tail = '...') { 
+    function cut_str($string,$cut_size=0,$tail = '...') {
         if($cut_size<1 || !$string) return $string;
 
         $chars = Array(12, 4, 3, 5, 7, 7, 11, 8, 4, 5, 5, 6, 6, 4, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 8, 6, 8, 6, 10, 8, 8, 9, 8, 8, 7, 9, 8, 3, 6, 7, 7, 11, 8, 9, 8, 9, 8, 8, 7, 8, 8, 10, 8, 8, 8, 6, 11, 6, 6, 6, 4, 7, 7, 7, 7, 7, 3, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 7, 3, 7, 6, 10, 6, 6, 7, 6, 6, 6, 9);
@@ -389,7 +389,7 @@
         return (float)$time1 + (float)$time2;
     }
 
-    /** 
+    /**
      * @brief 첫번째 인자로 오는 object var에서 2번째 object의 var들을 제거
      * @param target_obj 원 object
      * @param del_obj 원 object의 vars에서 del_obj의 vars를 제거한다
@@ -417,9 +417,9 @@
         return $return_obj;
     }
 
-    /** 
+    /**
      * @brief php5 이상에서 error_handing을 debugPrint로 변경
-     * @param errno 
+     * @param errno
      * @param errstr
      * @return file
      * @return line
@@ -537,7 +537,7 @@
                        'green' => 0xFF & ($int >> 0x8),
                        'blue' => 0xFF & $int);
         }
-            
+
     }
 
     /**
@@ -577,9 +577,9 @@
         return $url;
     }
 
-    /** 
+    /**
      * javascript의 escape의 php unescape 함수
-     * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8). 
+     * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
      * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
      **/
     function utf8RawUrlDecode ($source) {
@@ -620,4 +620,38 @@
         if($num<2097152)return chr(($num>>18)+240).chr((($num>>12)&63)+128).chr((($num>>6)&63)+128) .chr(($num&63)+128);
         return '';
     }
+
+
+    function json_encode2($data) {
+        switch (gettype($data)) {
+            case 'boolean':
+              return $data?'true':'false';
+            case 'integer':
+            case 'double':
+              return $data;
+            case 'string':
+              return '"'.strtr($data, array('\\'=>'\\\\','"'=>'\\"')).'"';
+            case 'object':
+              $data = get_object_vars($data);
+            case 'array':
+              $rel = false; // relative array?
+              $key = array_keys($data);
+              foreach ($key as $v) {
+                if (!is_int($v)) {
+                  $rel = true;
+                  break;
+                }
+              }
+
+              $arr = array();
+              foreach ($data as $k=>$v) {
+                $arr[] = ($rel?'"'.strtr($k, array('\\'=>'\\\\','"'=>'\\"')).'":':'').json_encode2($v);
+              }
+
+              return $rel?'{'.join(',', $arr).'}':'['.join(',', $arr).']';
+            default:
+              return '""';
+        }
+    }
+
 ?>

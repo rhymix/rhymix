@@ -398,6 +398,7 @@ function chkPopupMenu(evt) {
 
     // 이벤트 대상이 없으면 무시
     var e = new xEvent(evt);
+
     if(!e) return;
 
     // 대상의 객체 구함
@@ -437,14 +438,15 @@ function chkPopupMenu(evt) {
     // action이름을 규칙에 맞게 작성
     var action_name = "get" + module_name.substr(0,1).toUpperCase() + module_name.substr(1,module_name.length-1) + "Menu";
 
+
     // 서버에 메뉴를 요청
     var params = new Array();
     params["target_srl"] = target_srl;
     params["cur_mid"] = current_mid;
     params["cur_act"] = current_url.getQuery('act');
     params["menu_id"] = menu_id;
-    params["page_x"] = e.pageX;
-    params["page_y"] = e.pageY;
+    params["page_x"] = e.pageX >0 ? e.pageX : GetObjLeft(obj);
+    params["page_y"] = e.pageY >0 ? e.pageY : GetObjTop(obj)+ xHeight(obj);
 
     var response_tags = new Array("error","message","menus");
 
@@ -457,6 +459,15 @@ function chkPopupMenu(evt) {
     show_waiting_message = true;
 
 }
+
+function GetObjTop(obj) { 
+    if(obj.offsetParent == document.body) return xOffsetTop(obj); 
+    else return xOffsetTop(obj) + GetObjTop(obj.offsetParent); 
+} 
+function GetObjLeft(obj) { 
+    if(obj.offsetParent == document.body) return xOffsetLeft(obj); 
+    else return xOffsetLeft(obj) + GetObjLeft(obj.offsetParent); 
+} 
 
 function displayPopupMenu(ret_obj, response_tags, params) {
 	
@@ -558,7 +569,7 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     // 레이어 출력
     if(html) {
         var area = xGetElementById("popup_menu_area");
-        xInnerHtml(area, "<ul>"+html+"</ul>");
+        xInnerHtml(area, '<ul>'+html+'</ul>');
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());

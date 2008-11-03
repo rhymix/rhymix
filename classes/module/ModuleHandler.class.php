@@ -188,7 +188,7 @@
             }
 
             // XMLRPC call 이 아니면 message view 객체 이용하도록
-            if(Context::getRequestMethod() != 'XMLRPC') {
+            if(Context::getRequestMethod() != 'XMLRPC' && Context::getRequestMethod() != 'JSON') {
                 // 에러가 발생하였을시 처리
                 if($this->error) {
                     // message 모듈 객체를 생성해서 컨텐츠 생성

@@ -108,6 +108,7 @@
 
             // Request Argument 설정
             $this->_setXmlRpcArgument();
+            $this->_setJSONRequestArgument();
             $this->_setRequestArgument();
             $this->_setUploadedArgument();
 
@@ -492,7 +493,7 @@
         /**
          * @brief response method를 강제로 지정 (기본으로는 request method를 이용함)
          *
-         * method의 종류에는 HTML/ TEXT/ XMLRPC가 있음
+         * method의 종류에는 HTML/ TEXT/ XMLRPC/ JSON가 있음
          **/
         function setResponseMethod($method = "HTML") {
             $oContext = &Context::getInstance();
@@ -517,12 +518,14 @@
         function _getResponseMethod() {
             if($this->response_method) return $this->response_method;
 
-            if($this->_getRequestMethod()=="XMLRPC") return "XMLRPC";
+            $RequestMethod = $this->_getRequestMethod();
+            if($RequestMethod=="XMLRPC") return "XMLRPC";
+            else if($RequestMethod=="JSON") return "JSON";
             return "HTML";
         }
 
         /**
-         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
+         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC/JSON)
          **/
         function setRequestMethod($type) {
             $oContext = &Context::getInstance();
@@ -531,11 +534,12 @@
 
 
         /**
-         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
+         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC/JSON)
          **/
         function _setRequestMethod($type = '') {
             if($type) return $this->request_method = $type;
 
+            if(strpos($_SERVER['CONTENT_TYPE'],'json')) return $this->request_method = 'JSON';
             if($GLOBALS['HTTP_RAW_POST_DATA']) return $this->request_method = "XMLRPC";
 
             $this->request_method = $_SERVER['REQUEST_METHOD'];
@@ -559,6 +563,22 @@
         }
 
         /**
+         * @brief JSON 방식일 경우 처리
+         **/
+        function _setJSONRequestArgument() {
+            if($this->_getRequestMethod() != 'JSON') return;
+//            if(!$GLOBALS['HTTP_RAW_POST_DATA']) return;
+
+            $params = array();
+            parse_str($GLOBALS['HTTP_RAW_POST_DATA'],$params);
+
+            foreach($params as $key => $val) {
+                $val = $this->_filterRequestVar($key, $val);
+                $this->_set($key, $val, true);
+            }
+        }
+
+        /**
          * @brief XML RPC일때
          **/
         function _setXmlRpcArgument() {
@@ -571,7 +591,6 @@
 
             unset($params->attrs);
             if(!count($params)) return;
-
             foreach($params as $key => $obj) {
                 $val = $this->_filterRequestVar($key, $obj->body);
                 $this->_set($key, $val, true);
@@ -629,7 +648,7 @@
         }
 
         /**
-         * @brief Request Method값을 return (GET/POST/XMLRPC);
+         * @brief Request Method값을 return (GET/POST/XMLRPC/JSON);
          **/
         function getRequestMethod() {
             $oContext = &Context::getInstance();
@@ -637,7 +656,7 @@
         }
 
         /**
-         * @brief Request Method값을 return (GET/POST/XMLRPC);
+         * @brief Request Method값을 return (GET/POST/XMLRPC/JSON);
          **/
         function _getRequestMethod() {
             return $this->request_method;
