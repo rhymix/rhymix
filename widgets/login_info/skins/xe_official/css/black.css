@@ -17,7 +17,7 @@
 .login_black form p.save input { vertical-align:middle; _margin:-3px;}
 *:first-child+html body#black .login_black form p input { margin:-3px; }
 .login_black form p.save label { font:.9em; color:#818181;}
-.login_black form ul.help { margin:0; border-top:1px solid #515151; overflow:hidden; padding:.5em 0 0 0; white-space:nowrap;}
+.login_black form ul.help { margin:0; border-top:1px solid #515151; overflow:hidden; padding:.5em 0 0 0; white-space:nowrap; list-style:none;}
 .login_black form ul.help li { list-style:none; float:left; display:block; padding:0 3px 0 7px; background:url(../images/black/vrType1.gif) no-repeat left center;}
 .login_black form ul.help li.first-child { background:none; padding-left:0;}
 .login_black form ul.help li a { color:#818181; font:.9em; white-space:nowrap; text-decoration:none;}

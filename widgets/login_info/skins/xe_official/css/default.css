@@ -17,7 +17,7 @@
 .login_default form p.save input { vertical-align:middle; _margin:-3px;}
 *:first-child+html body .login_default form p input { margin:-3px; }
 .login_default form p.save label { font:.9em; color:#999999;}
-.login_default form ul.help { margin:0; border-top:1px solid #e4e4e4; overflow:hidden; padding:.5em 0 0 0; white-space:nowrap;}
+.login_default form ul.help { margin:0; border-top:1px solid #e4e4e4; overflow:hidden; padding:.5em 0 0 0; white-space:nowrap; list-style:none; }
 .login_default form ul.help li { display:block; padding:0 3px 0 0; }
 .login_default form ul.help li.first-child { background:none; padding-left:0; margin-bottom:3px; }
 .login_default form ul.help li a { color:#54564b; font:.9em; white-space:nowrap; text-decoration:none; }
