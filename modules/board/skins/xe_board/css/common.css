@@ -362,7 +362,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 
 /* 게시물의 팝업 메뉴 */
 .comment_popup_menu, .document_popup_menu { text-align:right; background:none; background:url(../images/common/document_menu.gif) no-repeat right top; padding:0 15px 0 0; height:18px; }
-.comment_popup_menu span, .document_popup_menu span { cursor:pointer; display:inline; }
+.comment_popup_menu a, .document_popup_menu a { cursor:pointer; display:inline; color:#555555; text-decoration:none; }
 
 /* tag list */
 .tagsBox { border:1px solid #EEEEEE; padding:10px; overflow:hidden;}
