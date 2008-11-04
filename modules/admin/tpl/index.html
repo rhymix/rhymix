@@ -44,7 +44,7 @@
     <caption>{$lang->module}</caption>
     <thead>
         <tr>
-            <th class="wide"><div>{$lang->module_name}</div></th>
+            <th class="wide" colspan="2"><div>{$lang->module_name}</div></th>
             <th><div>{$lang->version}</div></th>
             <th><div>{$lang->author}</div></th>
             <th><div>{$lang->table_count}</div></th>
@@ -54,7 +54,10 @@
     <tbody>
     <!--@foreach($module_list as $key => $val)-->
         <tr class="row{$cycle_idx}">
-            <td class="circle"><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false"title="{trim($val->description)}">{$val->title}</a> ({$val->module})</td>
+            <td class="circle"><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim($val->description)}">{$val->title}</a> ({$val->module})</td>
+            <td class="view">
+                <a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false">{$lang->module_info}</a>
+            </td>
             <td class="number center">{$val->version}</td>
             <td class="nowrap">
                 <!--@foreach($val->author as $author)-->
