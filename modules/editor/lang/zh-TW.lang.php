@@ -92,7 +92,7 @@
     $lang->edit->help_remove_indent = "移除縮排";
     $lang->edit->help_list_number = "編號";
     $lang->edit->help_list_bullet = "清單符號";
-    $lang->edit->help_use_paragrapth = "換段落請按 ctrl+backspace． (發表主題快捷鍵：alt+S)";
+    $lang->edit->help_use_paragrapth = "換段落請按 ctrl+backspace (快速發表主題：alt+S)";
 
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';

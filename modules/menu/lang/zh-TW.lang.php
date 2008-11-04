@@ -25,10 +25,10 @@
     $lang->menu_active_btn = '啟動連結';
     $lang->menu_group_srls = '用戶組';
     $lang->layout_maker = "版面作者";
-    $lang->layout_history = "更新列表 ";
+    $lang->layout_history = "更新列表";
     $lang->layout_info = "版面資料";
     $lang->layout_list = '版面列表';
-    $lang->downloaded_list = '下載列表';
+    $lang->downloaded_list = '版面選擇';
     $lang->limit_menu_depth = '可顯示';
 
     $lang->cmd_make_child = '新增子選單';
@@ -38,11 +38,11 @@
 
     $lang->msg_cannot_delete_for_child = '有子選單的選單不能刪除。';
 
-    $lang->about_title = '請輸入連接模組時容易區分的標題。';
-    $lang->about_menu_management = "選單管理可以建構被選版面中使用的選單。\n不僅可以建構指定級(層級)選單，點擊輸入的選單項即可對其詳細設置。\n點擊選單前圖標可以展開選單。\n偶爾無法正常顯示選單時，請按\"暫存檔重新建立\"按鈕更新資料。\n* 可能無法正常顯示指定級(層級)以上的選單。";
+    $lang->about_title = '請輸入連接模組時，容易區分的標題。';
+    $lang->about_menu_management = "選單管理可以建構所選擇版面中使用的選單。\n不僅可以建構指定級(層級)選單，點擊輸入的選單項即可對其詳細設置。\n點擊選單前圖標可以展開選單。\n偶爾無法正常顯示選單時，請按\"重新建立暫存檔\"按鈕更新資料。\n* 可能無法正常顯示指定級(層級)以上的選單。";
     $lang->about_menu_name = '輸入不是圖片按鈕時，顯示為選單名標題。';
-    $lang->about_menu_url = "點擊選單時，要移動的URL。<br />連接其他模組時，只輸入id值即可。<br />沒有內容時，點擊選單不會任何動作。";
-    $lang->about_menu_open_window = '可以設置點擊選單時，是否要在新視窗開啟。';
+    $lang->about_menu_url = "點擊選單後，要移往的 URL。<br />連接其他模組時，只輸入id值即可。<br />沒有內容時，點擊選單不會產生任何事情。";
+    $lang->about_menu_open_window = '按選單後，是否要以新視窗開啟。';
     $lang->about_menu_expand = '使用樹型選單（tree_menu.js）時，總是呈現展開狀態。';
     $lang->about_menu_img_btn = '如果登錄圖片按鈕，在版面中會自動替換顯示為圖片按鈕。';
     $lang->about_menu_group_srls = '如果選擇用戶組，只有所屬組用戶才能看到此選單。 —（xml檔案中不能隱藏）';
