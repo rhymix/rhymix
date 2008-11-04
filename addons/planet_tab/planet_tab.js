@@ -1,10 +1,14 @@
 function planetTab(){
     if($('planet_tab')) $('planet_tab').innerHTML += '<ul id="planetex_Tab" class="exTab"><li><a id="aa" href="#" onclick="planet_showTodoList(this); return false;">ToDo<sup>-</sup></a></li>';
 }
-
 xAddEventListener(window,'load',planetTab);
 
 
+
+
+function planetTabOff(){
+    $Element('planetex_Tab').leave();
+}
 
 function planet_showTodoList(o){
     $ElementList('#planetex_Tab li').removeClass('active');
@@ -151,6 +155,8 @@ function result_planet_getDone(ret_obj,response_tags, params, fo_obj) {
 }
 
 
+
+
 function planet_todo_setDone(o){
     var document_srl = o.id.replace(/.*:/,'');
     var tag = o.value;
@@ -175,30 +181,3 @@ function planet_todo_setDel(document_srl){
     exec_xml('planet','procPlanetContentTagModify',params,planet_reload_todo);
     return false;
 }
-
-
-
-function xeAjax(param,func){
-	var url = "./";
-	var myAjax = $Ajax(url,{
-		onload: function(res){
-			//func($Json.fromXML(res.text()));
-			func(res.text());
-		}
-	});
-	
-	// set header
-	myAjax.header('Content-Type','application/json; charset=UTF-8');
-	myAjax.option("method", "post");
-	myAjax.request(param);
-}
-
-function geta(){
-	var param = {mid:'sol',module:'planet',act:'dispPlanetContentTagSearch',keyword:'done',page:1}
-	xeAjax(param,resultGetFavorite);
-}
-
-function resultGetFavorite(obj){
-	alert(obj);
-}
-
