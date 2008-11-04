@@ -36,7 +36,7 @@ function planet_getDone(page){
 
 function _getPlanetTagSeachResult(tag,page,func){
     var response_tags = new Array('error','message','contentList','pageNavigation');
-    exec_xml('planet','dispPlanetContentTagSearch',{keyword:tag,page:page},func,response_tags);
+    exec_xml('planet','dispPlanetContentTagSearch',{keyword:tag,page:page,mid:current_mid},func,response_tags);
 }
 
 function result_planet_getTodo(ret_obj,response_tags, params, fo_obj) {

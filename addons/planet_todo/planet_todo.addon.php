@@ -17,8 +17,8 @@
             $oPlanet = Context::get('planet');
             if($oPlanet->isMyPlanet()){
                 $oPlanetModel = &getModel('planet');
-                $countTodo = $oPlanetModel->getTagSearchResultCount($this->module_srl,'todo');
-                $countDone = $oPlanetModel->getTagSearchResultCount($this->module_srl,'done');
+                $countTodo = $oPlanetModel->getTagSearchResultCount($oPlanet->getModuleSrl(),'todo');
+                $countDone = $oPlanetModel->getTagSearchResultCount($oPlanet->getModuleSrl(),'done');
 
                 Context::addHtmlHeader("<script type=\"text/javascript\">//<![CDATA[\nvar planet_todo_count={todo:".$countTodo.",done:".$countDone."};\n//]]></script>");
                 Context::addJsFile('./addons/planet_todo/planet_todo.js');
