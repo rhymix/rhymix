@@ -111,8 +111,8 @@
     <div class="editor">{$oDocument->getEditor()}</div>
 
     <div class="tag">
-        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />
-        <p class="info">{$lang->about_tag}</p>
+        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" title="Tag" />
+		<p>{$lang->about_tag}</p>
     </div>
 	
 	<div class="boardNavigation">
@@ -127,7 +127,7 @@
 		<div class="buttonRight">
 			<span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" /></span>
 			<span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-			<span class="button black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+			<span class="button red strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
 		</div>
 		
 	</div>

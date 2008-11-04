@@ -1,0 +1,113 @@
+@charset "utf-8"; 
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+body{ background:#fff; color:#333;}
+
+/* Board Reset */
+.board a{color:#000;}
+
+/* Board Header */
+.boardHeader .boardTitle{ border-bottom-color:#ddd; background-image:url(../images/common/iconBoardHeading.gif);}
+.boardHeader .boardTitleText{ border-bottom-color:#666; background-image:url(../images/white/lineVr11.gif);}
+.boardHeader .boardTitleText a{ color:#000;}
+.boardHeader .boardTitleText em{ color:#666;}
+.boardHeader .boardDescription{ background:#f8f8f8; }
+
+/* Board Information */
+.boardInformation li{background-image:url(../images/white/lineVr11.gif);}
+.boardInformation em,
+.boardInformation strong{ color:#ff6600;}
+.boardInformation .infoLeft{ background-image:url(../images/common/iconArticle.gif);}
+.boardInformation .infoRight li.icon{ background:none;}
+.boardInformation .infoRight li.icon a{ background-image:url(../images/common/icons.gif);}
+
+/* Board List Form */
+.boardListForm em,
+.boardListForm strong{color:#ff6600;}
+
+/* Board List */
+.boardList{ border-top-color:#ddd; border-bottom-color:#ddd;}
+.boardList .jumpTo button{ background-color:transparent; background-image:url(../images/common/buttonBg2byte.gif);}
+.boardList tr.notice{ background:#f8f8f8;}
+.boardList tr.bg1{ background:#fff;}
+.boardList tr.bg2{ background:#fbfbfb;}
+.boardList th{ border-bottom-color:#fff; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
+.boardList th a{ color:#1978AD;}
+.boardList td{ border-top-color:#eee; color:#666;}
+.boardList td .category{ color:#000; background-image:url(../images/white/lineVr11.gif);}
+.boardList td.title .replyNum{ color:#ccc;}
+.boardList td.title .replyNum sup{ color:#999;}
+
+.boardList td.summary .thumb{ border-color:#ddd; background:#fff;}
+
+.thumbHeader{ border-top-color:#ddd; border-bottom-color:#ddd; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
+.thumbHeader a{ color:#1978AD;}
+.thumbHeader .jumpTo button{ background-image:url(../images/common/buttonBg2byte.gif);}
+
+.thumbList{ border-bottom-color:#ddd;}
+.thumbList li .thumb{ background:#fff; border-color:#ddd;}
+.thumbList li .thumb a .text{ color:#ccc;}
+.thumbList li .thumb a .category{ background:#000; opacity:.6; filter:alpha(opacity=60); color:#fff;}
+
+/* Board Navigation */
+
+/* Search Form */
+.boardSearchForm .inputText{ border-color:#ccc;}
+
+/* Board Read */
+.boardReadBody{ border-top-color:#ddd; border-bottom-color:#ddd;}
+.boardReadBody .memberSignature{ border-color:#ddd;}
+
+.boardReadFooter{ color:#666;}
+.boardReadFooter a{ color:#666;}
+.boardReadFooter dt{ background:#fff;}
+.boardReadFooter dd{ background-image:url(../images/white/lineVr11.gif);}
+.boardReadFooter .footerRight dl.noBr dt{ background-image:url(../images/white/lineVr11.gif);}
+
+.boardRead .boardNavigation{ border-top-color:#ddd;}
+
+.feedbackList{ color:#666;}
+.feedbackList .feedbackHeader{ color:#000;}
+.feedbackList .feedbackHeader strong{ color:#ff6600;}
+
+.feedbackList .item{ border-top-color:#ddd;}
+.feedbackList .reply .indent{ border-left-color:#eee;}
+
+/* Time */
+.time *{ color:#666;}
+.time dt{ background:#fff;}
+.time dd{ background-image:url(../images/white/lineVr11.gif);}
+
+/* Attached File */
+.attachedFile *{ color:#666;}
+.attachedFile dt{ background:#fff;}
+.attachedFile dd{ background-image:url(../images/white/lineVr11.gif);}
+.attachedFile dd a{ color:#666;}
+.attachedFile dd a .bubble{ background:#f8f8f8; border-color:#ddd;}
+
+.replyForm{ color:#666; background:#f4f4f4;}
+.replyForm .title{ color:#000;}
+.replyForm textarea{ border-color:#ccc;}
+.replyForm .inputText{ border-color:#ccc;}
+
+/* Board Write */
+.boardWrite .boardWriteHeader dd .inputText{ border-color:#ccc;}
+.boardWrite .tag input{ border-color:#ccc;}
+.boardWrite .boardNavigation,
+.boardEditor .boardNavigation{ border-top-color:#ddd;}
+
+/* UserName & Password */
+.board .userNameAndPw dd .inputText{ border-color:#ccc;}
+
+/* Comment */
+.board .boardEditor{ border-color:#ddd; background:#f8f8f8;}
+.board .commentEditor .commentHeader{border-bottom-color:#ddd; color:#000;}
+
+/* Secret Message */
+.board .secretMessage dd .inputText{ border-color:#ccc;}
+
+/* Layer */
+#waitingforserverresponse { border-color:#444; color:#444; background-color:#fff;}
+#popup_menu_area{background:#fff; border-color:#eee;}
+#popup_menu_area ul{ border-color:#ddd;}
+#popup_menu_area li a{ color:#000;}

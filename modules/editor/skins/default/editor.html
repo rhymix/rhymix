@@ -14,7 +14,6 @@
 
 <ul class="editorTypeSelector">
 	<li class="active"><a href="#xeEditor" onclick="return false"><span>스타일 편집기</span></a></li>
-	<li><a href="#textEditor" onclick="return false"><span>텍스트 편집기</span></a></li>
 	
 	<!-- HTML 모드 사용 -->
 	<!--@if($html_mode)-->
@@ -22,186 +21,170 @@
 		<li><a href="#htmlEditor" id="use_html_{$editor_sequence}" onclick="editorChangeMode(this, '{$editor_sequence}')"><span>HTML 편집기</span></a></li>
 		<!--@end-->
 	<!--@end-->
-	</ul>
+</ul>
 
 <!-- 에디터 -->
-<div class="editorList xe">
-<!-- class="editorList xe" | class="editorList text" | class="editorList html" -->
+<div id="xeEditor" class="xeEditor rich">
+<!-- class="xeEditor rich" | class="xeEditor html" -->
 
-	<div id="xeEditor" class="editorItem">
-	
-		<div id="xeEditorOption_{$editor_sequence}" class="toolBox">
-	
-			<!--@if($enable_default_component)-->
-			<!-- 기본 컴포넌트 출력 -->
-			<div class="toolA">
-			
-				<ul class="do">
-					<li class="undo"><button type="button" title="Ctrl+Z:Un Do"><span>Un Do</span></button></li>
-					<li class="redo"><button type="button" title="Ctrl+Y:Re Do"><span>Re Do</span></button></li>
-				</ul>
-				
-				<ul class="type">
-					<li class="hx">
-						<select onchange="editorChangeHeader(this,'{$editor_sequence}')" id="editor_header_{$editor_sequence}">
-							<option value="">{$lang->edit->header}</option>
-							<!--@foreach($lang->edit->header_list as $key=>$obj)-->
-							<option value="{$key}">{$obj}</option>
-							<!--@end-->
-						</select>
-					</li>
-					<li class="size">
-						<select onchange="editorChangeFontSize(this,'{$editor_sequence}')" id="editor_fontsize_{$editor_sequence}">
-							<option value="" selected="selected">{$lang->edit->fontsize}</option>
-							<option value="1" class="px10">10px</option>
-							<option value="2" class="px13">13px</option>
-							<option value="3" class="px16">16px</option>
-							<option value="4" class="px18">18px</option>
-							<option value="5" class="px24">24px</option>
-							<option value="6" class="px32">32px</option>
-							<option value="7" class="px48">48px</option>
-						</select>
-					</li>
-					<li class="family">
-						<select onchange="editorChangeFontName(this,'{$editor_sequence}')" id="editor_font_{$editor_sequence}">
-							<option value="">{$lang->edit->fontname}</option>
-							<!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-							<option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
-							<!--@end-->
-						</select>
-					</li>
-				</ul>
-				
-				<ul class="style">
-					<li class="bold"><button type="button" title="Ctrl+B:{$lang->edit->help_bold}" id="component_{$editor_sequence}_Bold"><span>Bold</span></button></li>
-					<li class="underline"><button type="button" title="Ctrl+U:{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline"><span>Underline</span></button></li>
-					<li class="italic"><button type="button" title="Ctrl+I:{$lang->edit->help_italic}" id="component_{$editor_sequence}_Italic"><span>Italic</span></button></li>
-					<li class="strike"><button type="button" title="{$lang->edit->help_strike_through}" id="component_{$editor_sequence}_StrikeThrough"><span>Strike</span></button></li>
-					<li class="sup"><button type="button" title="Sup"><span>Sup</span></button></li>
-					<li class="sub"><button type="button" title="Sub"><span>Sub</span></button></li>
-					<li class="txColor"><button type="button" title="{$lang->edit->help_fontcolor}" id="component_{$editor_sequence}_colorpicker_text"><span>Text Color</span></button></li>
-					<li class="bgColor"><button type="button" title="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg"><span>Background Color</span></button></li>
-					<li class="styleRemover"><button type="button" title="Ctrl+D:{$lang->edit->help_remove_format}" id="component_{$editor_sequence}_RemoveFormat"><span>Style Remover</span></button></li>
-				</ul>
-				
-				<ul class="paragraph">
-					<li class="alignLeft"><button type="button" title="{$lang->edit->help_align_left}" id="component_{$editor_sequence}_JustifyLeft"><span>Align Left</span></button></li>
-					<li class="alignCenter"><button type="button" title="{$lang->edit->help_align_center}" id="component_{$editor_sequence}_JustifyCenter"><span>Align Center</span></button></li>
-					<li class="alignRight"><button type="button" title="{$lang->edit->help_align_right}" id="component_{$editor_sequence}_JustifyRight"><span>Align Right</span></button></li>
-					<li class="alignJustify"><button type="button" title="{$lang->edit->help_align_full}" id="component_{$editor_sequence}_JustifyFull"><span>Align Justify</span></button></li>
-					<li class="orderedList"><button type="button" title="{$lang->edit->help_list_number}" id="component_{$editor_sequence}_InsertOrderedList"><span>Orderd List</span></button></li>
-					<li class="unorderedList"><button type="button" title="{$lang->edit->help_list_bullet}" id="component_{$editor_sequence}_InsertUnorderedList"><span>Unordered List</span></button></li>
-					<li class="outdent"><button type="button" title="{$lang->edit->help_remove_indent}" id="component_{$editor_sequence}_Outdent"><span>Outdent</span></button></li>
-					<li class="indent"><button type="button" title="{$lang->edit->help_add_indent}" id="component_{$editor_sequence}_Indent"><span>Indent</span></button></li>
-				</ul>
-				
-				<ul class="extension">
-					<li class="url"><button type="button" title="Ctrl+L:URL" id="component_1_url_link"><span>URL</span></button></li>
-					<li class="blockquote"><button type="button" title="Blockquote" id="component_1_quotation"><span>Blockquote</span></button></li>
-					<li class="table"><button type="button" title="Table" id="component_1_table_maker"><span>Table</span></button></li>
-					<li class="image"><button type="button" title="Image" id="component_1_image_link"><span>Image</span></button></li>
-					<li class="movie"><button type="button" title="Movie" id="component_1_multimedia_link"><span>Movie</span></button></li>
-					<li class="emoticon"><button type="button" title="Emoticon" id="component_1_emoticon"><span>Emoticon</span></button></li>
-				</ul>
-				
-			</div>
-			<!--@end-->
-	
-			<!--@if($enable_component)-->
-			<!-- 확장 컴포넌트 출력 -->
-			<ul id="editor_component_{$editor_sequence}" class="toolB">
-				<!--@foreach($component_list as $component_name => $component)-->
-					<!--@if(substr($component_name,0,11)!="colorpicker")-->
-						<li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span>{$component->title}</span></button></li>
-					<!--@end-->
-				<!--@end-->
+	<div id="xeEditorOption_{$editor_sequence}" class="toolBox">
+
+		<!--@if($enable_default_component)-->
+		<!-- 기본 컴포넌트 출력 -->
+			<ul class="do item">
+				<li class="undo"><button type="button" title="Ctrl+Z:Un Do"><span>Un Do</span></button></li>
+				<li class="redo"><button type="button" title="Ctrl+Y:Re Do"><span>Re Do</span></button></li>
 			</ul>
-			<!--@end-->
-	
-		</div>
-	
-		<!--@if(!$_COOKIE['EditorInfo'])-->
-		<!-- 에디터 안내 출력 -->
-		<div id="editorInfo_{$editor_sequence}" class="editorInfo" >
-			{$lang->about_dblclick_in_editor}
-			<span id="for_ie_help_{$editor_sequence}" style="display:none">{$lang->edit->help_use_paragrapth}</span>
-			<img src="./images/buttonClose.gif" alt="close" width="13" height="13" class="close" onclick="closeEditorInfo('{$editor_sequence}'); return false;" />
-		</div>
+			
+			<ul class="type item">
+				<li class="hx">
+					<select onchange="editorChangeHeader(this,'{$editor_sequence}')" id="editor_header_{$editor_sequence}">
+						<option value="">{$lang->edit->header}</option>
+						<!--@foreach($lang->edit->header_list as $key=>$obj)-->
+						<option value="{$key}">{$obj}</option>
+						<!--@end-->
+					</select>
+				</li>
+				<li class="size">
+					<select onchange="editorChangeFontSize(this,'{$editor_sequence}')" id="editor_fontsize_{$editor_sequence}">
+						<option value="" selected="selected">{$lang->edit->fontsize}</option>
+						<option value="1" class="px10">10px</option>
+						<option value="2" class="px13">13px</option>
+						<option value="3" class="px16">16px</option>
+						<option value="4" class="px18">18px</option>
+						<option value="5" class="px24">24px</option>
+						<option value="6" class="px32">32px</option>
+						<option value="7" class="px48">48px</option>
+					</select>
+				</li>
+				<li class="family">
+					<select onchange="editorChangeFontName(this,'{$editor_sequence}')" id="editor_font_{$editor_sequence}">
+						<option value="">{$lang->edit->fontname}</option>
+						<!--@foreach($lang->edit->fontlist as $key=>$obj)-->
+						<option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+						<!--@end-->
+					</select>
+				</li>
+			</ul>
+			
+			<ul class="style item">
+				<li class="bold"><button type="button" title="Ctrl+B:{$lang->edit->help_bold}" id="component_{$editor_sequence}_Bold"><span>Bold</span></button></li>
+				<li class="underline"><button type="button" title="Ctrl+U:{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline"><span>Underline</span></button></li>
+				<li class="italic"><button type="button" title="Ctrl+I:{$lang->edit->help_italic}" id="component_{$editor_sequence}_Italic"><span>Italic</span></button></li>
+				<li class="strike"><button type="button" title="{$lang->edit->help_strike_through}" id="component_{$editor_sequence}_StrikeThrough"><span>Strike</span></button></li>
+				<li class="sup"><button type="button" title="Sup"><span>Sup</span></button></li>
+				<li class="sub"><button type="button" title="Sub"><span>Sub</span></button></li>
+				<li class="txColor"><button type="button" title="{$lang->edit->help_fontcolor}" id="component_{$editor_sequence}_colorpicker_text"><span>Text Color</span></button></li>
+				<li class="bgColor"><button type="button" title="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg"><span>Background Color</span></button></li>
+				<li class="styleRemover"><button type="button" title="Ctrl+D:{$lang->edit->help_remove_format}" id="component_{$editor_sequence}_RemoveFormat"><span>Style Remover</span></button></li>
+			</ul>
+			
+			<ul class="paragraph item">
+				<li class="alignLeft"><button type="button" title="{$lang->edit->help_align_left}" id="component_{$editor_sequence}_JustifyLeft"><span>Align Left</span></button></li>
+				<li class="alignCenter"><button type="button" title="{$lang->edit->help_align_center}" id="component_{$editor_sequence}_JustifyCenter"><span>Align Center</span></button></li>
+				<li class="alignRight"><button type="button" title="{$lang->edit->help_align_right}" id="component_{$editor_sequence}_JustifyRight"><span>Align Right</span></button></li>
+				<li class="alignJustify"><button type="button" title="{$lang->edit->help_align_full}" id="component_{$editor_sequence}_JustifyFull"><span>Align Justify</span></button></li>
+				<li class="orderedList"><button type="button" title="{$lang->edit->help_list_number}" id="component_{$editor_sequence}_InsertOrderedList"><span>Orderd List</span></button></li>
+				<li class="unorderedList"><button type="button" title="{$lang->edit->help_list_bullet}" id="component_{$editor_sequence}_InsertUnorderedList"><span>Unordered List</span></button></li>
+				<li class="outdent"><button type="button" title="{$lang->edit->help_remove_indent}" id="component_{$editor_sequence}_Outdent"><span>Outdent</span></button></li>
+				<li class="indent"><button type="button" title="{$lang->edit->help_add_indent}" id="component_{$editor_sequence}_Indent"><span>Indent</span></button></li>
+			</ul>
+			
+			<ul class="extension1 item">
+				<li class="url"><button type="button" title="Ctrl+L:URL" id="component_1_url_link"><span>URL</span></button></li>
+				<li class="blockquote"><button type="button" title="Blockquote" id="component_1_quotation"><span>Blockquote</span></button></li>
+				<li class="table"><button type="button" title="Table" id="component_1_table_maker"><span>Table</span></button></li>
+				<li class="image"><button type="button" title="Image" id="component_1_image_link"><span>Image</span></button></li>
+				<li class="movie"><button type="button" title="Movie" id="component_1_multimedia_link"><span>Movie</span></button></li>
+				<li class="file"><button type="button" title="File" id="component_1_file"><span>Movie</span></button></li>
+				<li class="emoticon"><button type="button" title="Emoticon" id="component_1_emoticon"><span>Emoticon</span></button></li>
+			</ul>
+			
 		<!--@end-->
-	
-		<!-- HTML 모드 사용 기능 및 자동저장 메세지 출력용 -->
-		<!--@if($html_mode || $enable_autosave)-->
-		<div class="editor_info">
-			<!--@if($html_mode)-->
-			<div class="editor_option">
-				<input type="checkbox" id="use_html_{$editor_sequence}" value="Y" onclick="editorChangeMode(this, '{$editor_sequence}');" /> <label for="use_html_{$editor_sequence}">HTML</label>
+		<!--@if($enable_component)-->
+		<!-- 확장 컴포넌트 출력 -->
+			<div class="extension2">
+				<button type="button" class="exButton" title="확장 콤포넌트"><span>확장 콤포넌트</span></button>
+				<ul id="editor_component_{$editor_sequence}">
+					<!--@foreach($component_list as $component_name => $component)-->
+						<!--@if(substr($component_name,0,11)!="colorpicker")-->
+							<li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span><img src="../../components/{$component_name}/icon.gif" alt="" /> {$component->title}</span></button></li>
+						<!--@end-->
+					<!--@end-->
+				</ul>
 			</div>
-			<!--@end-->
-			<!--@if($enable_autosave)-->
-			<div class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}"></div>
-			<!--@end-->
+		<!--@end-->
+		
+		<div class="editorHelp">
+			<button type="button" class="helpButton" title="도움말"><span>도움말</span></button>
+			<ul id="helpList">
+				<!--@if(!$_COOKIE['EditorInfo'])-->
+				<!-- 에디터 안내 출력 -->
+				<li>{$lang->about_dblclick_in_editor}</li>
+				<li>{$lang->edit->help_use_paragrapth}</li>
+				<!--@end-->
+				<li>단축키 안내
+					<ul>
+						<li>Un Do : Ctrl+Z</li>
+						<li>Re Do : Ctrl+Y</li>
+						<li>Bold : Ctrl+B</li>
+						<li>Underline : Ctrl+U</li>
+						<li>Italic : Ctrl+I</li>
+						<li>Style Remover : Ctrl+D</li>
+						<li>URL : Ctrl+L</li>
+					</ul>
+				</li>
+			</ul>
 		</div>
-		<!--@end-->
-	
-		<!-- 에디터 출력 -->
-		<div class="editor_iframe_box"><iframe id="editor_iframe_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="background-color:transparent;" allowTransparency="true"></iframe></div>
-		<textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
-	
-		<!-- 에디터 크기 조절 bar -->
-		<!--@if($enable_resizable)-->
-		<div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
-		<!--@end-->
-	
-	<!--@if($allow_fileupload)-->
-		<!-- 첨부파일 영역 -->
-		<!--%import("../../tpl/js/uploader.js",optimized=false)-->
-		<!--%import("../../tpl/js/swfupload.js",optimized=false)-->
-		<script type="text/javascript">//<![CDATA[
-			editorUploadInit(
-				{
-					"editorSequence" : {$editor_sequence},
-					"sessionName" : "{session_name()}",
-					"allowedFileSize" : "{$file_config->allowed_filesize}",
-					"allowedFileTypes" : "{$file_config->allowed_filetypes}",
-					"allowedFileTypesDescription" : "{$file_config->allowed_filetypes}",
-					"insertedFiles" : {(int)$files_count},
-					"replaceButtonID" : "swfUploadButton{$editor_sequence}",
-					"fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
-					"previewAreaID" : "preview_uploaded_{$editor_sequence}",
-					"uploaderStatusID" : "uploader_status_{$editor_sequence}"
-				}
-			);
-		//]]></script>
-		<table cellspacing="0" class="fileAttach">
-		<col width="120" />
-		<col width="100%" />
-		<tr valign="top">
-			<td width="120"><div class="preview" id="preview_uploaded_{$editor_sequence}"></div></td>
-			<td>
-				<!-- 파일 업로드 영역 -->
-				<div class="fileListArea">
-					<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList"></select>
-				</div>
-				<div class="fileUploadControl">
-					<span id="swfUploadButton{$editor_sequence}"><span class="button"><button type="button">{$lang->edit->upload_file}</button></span></span>
-					<a href="#" onclick="removeUploadedFile('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a>
-					<a href="#" onclick="insertUploadedFile('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a>
-				</div>
-				<div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
-			</td>
-		</tr>
-		</table>
-	<!--@end-->
-	</div>
-	
-	<div id="textEditor" class="editorItem">
-		여기에  class "textEditor"의 내용 입력
-	</div>
-	
-	<div id="htmlEditor" class="editorItem">
-		여기에  class "htmlEditor"의 내용 입력
 	</div>
 
+	<!--@if($enable_autosave)-->
+	<p class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}"></p>
+	<!--@end-->
+
+	<!-- 에디터 출력 -->
+	<iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}"></iframe>
+	<textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20"></textarea>
+
+	<!-- 에디터 크기 조절 bar -->
+	<!--@if($enable_resizable)-->
+	<div class="textAreaDragIndicator"><button type="button" id="editor_drag_bar_{$editor_sequence}"></button></div>
+	<!--@end-->
+
+<!--@if($allow_fileupload)-->
+	<!-- 첨부파일 영역 -->
+	<!--%import("../../tpl/js/uploader.js",optimized=false)-->
+	<!--%import("../../tpl/js/swfupload.js",optimized=false)-->
+	<script type="text/javascript">//<![CDATA[
+		editorUploadInit(
+			{
+				"editorSequence" : {$editor_sequence},
+				"sessionName" : "{session_name()}",
+				"allowedFileSize" : "{$file_config->allowed_filesize}",
+				"allowedFileTypes" : "{$file_config->allowed_filetypes}",
+				"allowedFileTypesDescription" : "{$file_config->allowed_filetypes}",
+				"insertedFiles" : {(int)$files_count},
+				"replaceButtonID" : "swfUploadButton{$editor_sequence}",
+				"fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
+				"previewAreaID" : "preview_uploaded_{$editor_sequence}",
+				"uploaderStatusID" : "uploader_status_{$editor_sequence}"
+			}
+		);
+	//]]></script>
+	<!-- 파일 업로드 영역 -->
+	<div class="fileUploader">
+		<div class="preview" id="preview_uploaded_{$editor_sequence}"></div>
+		<div class="fileListArea">
+			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList"></select>
+		</div>
+		<div class="fileUploadControl">
+			<span class="button" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>
+			<span class="button"><button type="button" onclick="removeUploadedFile('{$editor_sequence}');return false;">{$lang->edit->delete_selected}</button></span>
+			<span class="button"><button type="button" onclick="insertUploadedFile('{$editor_sequence}');return false;">{$lang->edit->link_file}</button></span>
+		</div>
+		<div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
+	</div>
+<!--@end-->
 </div>
 
 <!-- 에디터 활성화 -->

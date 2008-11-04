@@ -37,7 +37,7 @@
         </div>
 
         <div class="buttonRight">
-            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button green"><span>{$lang->cmd_write}</span></a>
+            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button green strong"><span>{$lang->cmd_write}</span></a>
         </div>
 
     <!-- 페이지 네비게이션 -->
@@ -68,7 +68,7 @@
 					<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 					<!--@end-->
 				</select>
-				<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputText"/>
+				<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputText" accesskey="S" title="{$lang->cmd_search}" />
 				<!--@if($last_division)-->
 					<a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
 				<!--@end-->

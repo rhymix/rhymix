@@ -42,17 +42,18 @@
 	<div class="boardReadBody">
 		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
 			<!--%import("filter/input_password.xml")-->
-			<div class="secretContent">
-				<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
-				<input type="hidden" name="mid" value="{$mid}" />
-				<input type="hidden" name="page" value="{$page}" />
-				<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+			<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretMessage">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
 
-					<div class="title">{$lang->msg_is_secret}</div>
-					<div class="content"><input type="password" name="password" id="cpw" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+				<p>&quot;{$lang->msg_is_secret}&quot;</p>
+				<dl>
+					<dt><label for="cpw">비밀번호</label> :</dt>
+					<dd><input type="password" name="password" id="cpw" class="inputText" /><span class="button red"><input type="submit" value="{$lang->cmd_input}" /></span></dd>
+				</dl>
 
-				</form>
-			</div>
+			</form>
 		<!--@else-->
 			{$oDocument->getContent()}
 		<!--@end-->
@@ -168,19 +169,28 @@
     <input type="hidden" name="comment_srl" value="" />
     <input type="hidden" name="content" value="" />
         <div class="boardWrite commentEditor">
+
+		<h3 class="commentHeader">댓글 쓰기</h3>
+
             <div class="userNameAndPw">
                 <!--@if(!$is_logged)-->
-                <label for="userName">{$lang->writer}</label>
-                <input type="text" name="nick_name" value="" class="userName inputTypeText" id="userName"/>
+				<dl>
+					<dt><label for="userName">{$lang->writer}</label> :</dt>
+					<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName"/></dd>
+				</dl>
+				<dl>
+					<dt><label for="userPw">{$lang->password}</label> :</dt>
+					<dd class="userPw"><input type="password" name="password" value="" id="userPw" class="inputText" /></dd>
+				</dl>
+				<dl>
+					<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
+					<dd class="emailAddress"><input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}" id="emailAddress" class="inputText"/></dd>
+				</dl>
+				<dl>
+					<dt><label for="homePage">{$lang->homepage}</label> :</dt>
+					<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="inputText"/></dd>
+				</dl>
 
-                <label for="userPw">{$lang->password}</label>
-                <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
-
-                <label for="emailAddress">{$lang->email_address}</label>
-                <input type="text" name="email_address" value="" id="emailAddress" class="emailAddress inputTypeText"/>
-
-                <label for="homePage">{$lang->homepage}</label>
-                <input type="text" name="homepage" value="" id="homePage" class="homePage inputTypeText"/>
                 <!--@else-->
                 <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
                 <label for="notify_message">{$lang->notify}</label>
@@ -192,10 +202,12 @@
             </div>
 
             <div class="editor">{$oDocument->getCommentEditor()}</div>
+
+			<div class="boardNavigation">
+				<span class="button red"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+			</div>
+
         </div>
 
-        <div class="commentButton tRight">
-            <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
-        </div>
     </form>
 <!--@end-->

@@ -31,16 +31,17 @@
 					
 					<!--@if(!$comment->isAccessible())-->
 					<!--%import("filter/input_password.xml")-->
-					<div class="secretContent">
-						<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+						<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretMessage">
 						<input type="hidden" name="mid" value="{$mid}" />
 						<input type="hidden" name="page" value="{$page}" />
 						<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
 						<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
-							<div class="title">{$lang->msg_is_secret}</div>
-							<div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+							<p>&quot;{$lang->msg_is_secret}&quot;</p>
+							<dl>
+								<dt><label for="cpw">비밀번호</label> :</dt>
+								<dd><input type="password" id="cpw" name="password" class="inputText" /><span class="button red"><input type="submit" value="{$lang->cmd_input}" /></span></dd>
+							</dl>
 						</form>
-					</div>
 					<!--@else-->
 					<!--@if($comment->getProfileImage())-->
 						<img src="{$comment->getProfileImage()}" alt="profile" class="commentProfileImage" />
