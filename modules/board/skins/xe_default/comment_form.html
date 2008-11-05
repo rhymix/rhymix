@@ -2,20 +2,19 @@
 
 <!--// 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($oSourceComment->isExists())-->
-<div class="replyBox">
-    <div class="replyItem">
-        <div class="author"><div class="member_{$oSourceComment->getMemberSrl()}">{$oSourceComment->getNickName()}</div></div>
-        <div class="date">
-            {$oSourceComment->getRegdate("Y.m.d H:i")}
+<div class="feedbackList">
+    <div class="item">
+        <h4 class="header"><a href="#popup_menu_area" class="member_{$oSourceComment->getMemberSrl()}" onclick="return false">{$oSourceComment->getNickName()}</a></h4>
+        <dl class="time">
+			<dt>Time :</dt>
+            <dd>{$oSourceComment->getRegdate("Y.m.d H:i")}</dd>
             <!--@if($grant->is_admin)-->
-                ({$oSourceComment->get('ipaddress')})
+			<dd>({$oSourceComment->get('ipaddress')})</dd>
             <!--@end-->
-        </div>
-        <div class="clear"></div>
+        </dl>
 
-        <div class="replyContent gap1">
-            {$oSourceComment->getContent(false)}
-        </div>
+		{$oSourceComment->getContent(false)}
+		
     </div>
 </div>
 <!--@end-->
