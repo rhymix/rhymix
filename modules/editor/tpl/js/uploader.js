@@ -28,7 +28,7 @@ function XEUploaderStart(obj) {
 
     var btnObj = xGetElementById(obj["replaceButtonID"]);
     var btnWidth = xWidth(btnObj);
-    var btnHeight = xHeight(btnObj)*2;
+    var btnHeight = xHeight(btnObj);
     btnObj.style.position = "relative";
 
     var dummy = xCreateElement("span");
