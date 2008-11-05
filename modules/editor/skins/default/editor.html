@@ -13,18 +13,18 @@
 <!--@end-->
 
 <ul class="editorTypeSelector">
-	<li class="active"><a href="#xeEditor" onclick="return false"><span>스타일 편집기</span></a></li>
+	<li class="active" id="use_rich_{$editor_sequence}"><a href="#xeEditor" onclick="editorChangeMode('', '{$editor_sequence}')"><span>{$lang->edit->rich_editor}</span></a></li>
 	
 	<!-- HTML 모드 사용 -->
 	<!--@if($html_mode)-->
 		<!--@if($html_mode)-->
-		<li><a href="#htmlEditor" id="use_html_{$editor_sequence}" onclick="editorChangeMode(this, '{$editor_sequence}')"><span>HTML 편집기</span></a></li>
+		<li id="use_html_{$editor_sequence}"><a href="#htmlEditor"  onclick="editorChangeMode('html', '{$editor_sequence}')"><span>{$lang->edit->html_editor}</span></a></li>
 		<!--@end-->
 	<!--@end-->
 </ul>
 
 <!-- 에디터 -->
-<div id="xeEditor" class="xeEditor rich">
+<div id="xeEditor_{$editor_sequence}" class="xeEditor rich">
 <!-- class="xeEditor rich" | class="xeEditor html" -->
 
 	<div id="xeEditorOption_{$editor_sequence}" class="toolBox">
@@ -32,8 +32,8 @@
 		<!--@if($enable_default_component)-->
 		<!-- 기본 컴포넌트 출력 -->
 			<ul class="do item">
-				<li class="undo"><button type="button" title="Ctrl+Z:Un Do"><span>Un Do</span></button></li>
-				<li class="redo"><button type="button" title="Ctrl+Y:Re Do"><span>Re Do</span></button></li>
+				<li class="undo"><button type="button" onclick="editorUnDo(this,'{$editor_sequence}')" id="editor_undo_{$editor_sequence}" title="Ctrl+Z:Un Do"><span>Un Do</span></button></li>
+				<li class="redo"><button type="button" onclick="editorReDo(this,'{$editor_sequence}')" id="editor_redo_{$editor_sequence}" title="Ctrl+Y:Re Do"><span>Re Do</span></button></li>
 			</ul>
 			
 			<ul class="type item">
@@ -72,8 +72,8 @@
 				<li class="underline"><button type="button" title="Ctrl+U:{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline"><span>Underline</span></button></li>
 				<li class="italic"><button type="button" title="Ctrl+I:{$lang->edit->help_italic}" id="component_{$editor_sequence}_Italic"><span>Italic</span></button></li>
 				<li class="strike"><button type="button" title="{$lang->edit->help_strike_through}" id="component_{$editor_sequence}_StrikeThrough"><span>Strike</span></button></li>
-				<li class="sup"><button type="button" title="Sup"><span>Sup</span></button></li>
-				<li class="sub"><button type="button" title="Sub"><span>Sub</span></button></li>
+				<li class="sup"><button type="button" title="Sup" id="component_{$editor_sequence}_Superscript"><span>Sup</span></button></li>
+				<li class="sub"><button type="button" title="Sub" id="component_{$editor_sequence}_Subscript"><span>Sub</span></button></li>
 				<li class="txColor"><button type="button" title="{$lang->edit->help_fontcolor}" id="component_{$editor_sequence}_colorpicker_text"><span>Text Color</span></button></li>
 				<li class="bgColor"><button type="button" title="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg"><span>Background Color</span></button></li>
 				<li class="styleRemover"><button type="button" title="Ctrl+D:{$lang->edit->help_remove_format}" id="component_{$editor_sequence}_RemoveFormat"><span>Style Remover</span></button></li>
@@ -103,11 +103,11 @@
 		<!--@end-->
 		<!--@if($enable_component)-->
 		<!-- 확장 컴포넌트 출력 -->
-			<div class="extension2">
-				<button type="button" class="exButton" title="확장 콤포넌트"><span>확장 콤포넌트</span></button>
+			<div class="extension2" id="editorExtension_{$editor_sequence}">
+				<button type="button" class="exButton" title="{$lang->edit->extension}" onclick="showEditorExtension(event,{$editor_sequence})"><span>{$lang->edit->extension}</span></button>
 				<ul id="editor_component_{$editor_sequence}">
 					<!--@foreach($component_list as $component_name => $component)-->
-						<!--@if(substr($component_name,0,11)!="colorpicker")-->
+						<!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_gallery','image_link','multimedia_link','quotation','table_maker','url_link')))-->
 							<li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span><img src="../../components/{$component_name}/icon.gif" alt="" /> {$component->title}</span></button></li>
 						<!--@end-->
 					<!--@end-->
@@ -115,15 +115,15 @@
 			</div>
 		<!--@end-->
 		
-		<div class="editorHelp">
-			<button type="button" class="helpButton" title="도움말"><span>도움말</span></button>
-			<ul id="helpList">
+		<div class="editorHelp" id="editorHelp_{$editor_sequence}">
+			<button type="button" class="helpButton" title="{$lang->edit->help}" onclick="showEditorHelp(event,{$editor_sequence})"><span>{$lang->edit->help}</span></button>
+			<ul id="helpList_{$editor_sequence}" class="helpList">
 				<!--@if(!$_COOKIE['EditorInfo'])-->
 				<!-- 에디터 안내 출력 -->
 				<li>{$lang->about_dblclick_in_editor}</li>
 				<li>{$lang->edit->help_use_paragrapth}</li>
 				<!--@end-->
-				<li>단축키 안내
+				<li>{$lang->edit->help_command}
 					<ul>
 						<li>Un Do : Ctrl+Z</li>
 						<li>Re Do : Ctrl+Y</li>
@@ -144,7 +144,10 @@
 
 	<!-- 에디터 출력 -->
 	<iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}"></iframe>
+
 	<textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20"></textarea>
+
+	<div class="mask" id="xeEditorMask_{$editor_sequence}"></div>
 
 	<!-- 에디터 크기 조절 bar -->
 	<!--@if($enable_resizable)-->

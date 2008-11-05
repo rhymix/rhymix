@@ -97,10 +97,12 @@ function editorRemoveSavedDoc() {
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
     if(editorRelKeys != undefined && editorRelKeys[editor_sequence] != undefined && editorRelKeys[editor_sequence]['editor'] != undefined)
-	return editorRelKeys[editor_sequence]['editor'].getFrame();
+    return editorRelKeys[editor_sequence]['editor'].getFrame();
     return xGetElementById( 'editor_iframe_'+ editor_sequence );
 }
-
+function editorGetTextarea(editor_sequence) {
+    return xGetElementById( 'editor_textarea_'+ editor_sequence );
+}
 /**
  * iframe 세로 크기 조절 드래그 관련
  **/
@@ -118,15 +120,21 @@ function editorDragStart(evt) {
     editorDragObj.id = id.substr('editor_drag_bar_'.length);
 
     var iframe_obj = editorGetIFrame(editorDragObj.id);
+    var textarea_obj = editorGetTextarea(editorDragObj.id);
 
     editorDragObj.source_height = xHeight(iframe_obj);
+    xGetElementById('xeEditorMask_' + editorDragObj.id).style.display='block';
 
-    xAddEventListener(document, 'mousemove', editorDragMove, false);
-    xAddEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
+    xAddEventListener(document, 'mousemove', editorDragMove, true);
+//    xAddEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
 }
 
 function editorDragMove(evt) {
-    if(!editorDragObj.isDrag) return;
+
+    if(!editorDragObj.isDrag){
+        if(editorDragObj.id) xGetElementById('xeEditorMask_' + editorDragObj.id).style.display='none';
+        return;
+    }
 
     var e = new xEvent(evt);
     var h = e.pageY - editorDragObj.y;
@@ -135,19 +143,30 @@ function editorDragMove(evt) {
     editorDragObj.y = e.pageY;
     editorDragObj.obj = e.target;
 
+
     var iframe_obj = editorGetIFrame(editorDragObj.id);
-    xHeight(iframe_obj, xHeight(iframe_obj)+h);
-    xHeight(iframe_obj.parentNode, xHeight(iframe_obj)+10);
+    var textarea_obj = editorGetTextarea(editorDragObj.id);
+    var height = xHeight(iframe_obj) || xHeight(textarea_obj);
+    height += h;
+    xHeight(iframe_obj, height);
+    xHeight(textarea_obj, height);
+    xHeight(iframe_obj.parentNode, height+10);
 }
 
 function editorDragStop(evt) {
-    if(!editorDragObj.isDrag) return;
+    if(editorDragObj.id) xGetElementById('xeEditorMask_'+editorDragObj.id).style.display='none';
+    if(!editorDragObj.isDrag){
+        return;
+    }
+
 
     xRemoveEventListener(document, 'mousemove', editorDragMove, false);
-    xRemoveEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
+//    xRemoveEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
 
     var iframe_obj = editorGetIFrame(editorDragObj.id);
+    var textarea_obj = editorGetTextarea(editorDragObj.id);
     if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(xHeight(iframe_obj)-editorDragObj.source_height);
+
 
     editorDragObj.isDrag = false;
     editorDragObj.y = 0;
@@ -155,17 +174,17 @@ function editorDragStop(evt) {
     editorDragObj.id = '';
 }
 
-// Editor Option Button 
+// Editor Option Button
 function eOptionOver(obj) {
-    obj.style.marginTop='-21px';	
-    obj.style.zIndex='99';	
+    obj.style.marginTop='-21px';
+    obj.style.zIndex='99';
 }
 function eOptionOut(obj) {
-    obj.style.marginTop='0';	
-    obj.style.zIndex='1';	
+    obj.style.marginTop='0';
+    obj.style.zIndex='1';
 }
 function eOptionClick(obj) {
-    obj.style.marginTop='-42px';	
+    obj.style.marginTop='-42px';
     obj.style.zIndex='99';
 }
 
@@ -178,7 +197,7 @@ var editorPrevSrl = null;
 function editorEventCheck(evt) {
     editorPrevNode = null;
 
-    // 이벤트가 발생한 object의 ID를 구함 
+    // 이벤트가 발생한 object의 ID를 구함
     var e = new xEvent(evt);
     var target_id = e.target.id;
     if(!target_id) return;
@@ -194,7 +213,7 @@ function editorEventCheck(evt) {
 
     switch(component_name) {
 
-        // 기본 기능에 대한 동작 (바로 실행) 
+        // 기본 기능에 대한 동작 (바로 실행)
         case 'Bold' :
         case 'Italic' :
         case 'Underline' :
@@ -247,7 +266,7 @@ function editorSearchComponent(evt) {
 
     editorPrevNode = null;
     var obj = e.target;
-    
+
     // 위젯인지 일단 체크
     if(obj.getAttribute("widget")) {
         // editor_sequence을 찾음
@@ -291,7 +310,7 @@ function editorSearchComponent(evt) {
         } else if(obj.nodeName == "TD") {
             editor_component = "table_maker";
             editorPrevNode = obj;
-            
+
         // 링크거나 텍스트인 경우
         } else if(obj.nodeName == "A" || obj.nodeName == "BODY" || obj.nodeName.indexOf("H")==0 || obj.nodeName == "LI" || obj.nodeName == "P") {
             editor_component = "url_link";

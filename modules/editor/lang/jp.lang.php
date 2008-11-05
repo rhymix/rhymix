@@ -106,4 +106,11 @@
     $lang->edit->icon_align_right = '右揃え';
 
     $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。';
+
+
+    $lang->edit->rich_editor = '스타일 편집기';
+    $lang->edit->html_editor = 'HTML 편집기';
+    $lang->edit->extension ='확장 컴포넌트';
+    $lang->edit->help = '도움말';
+    $lang->edit->help_command = '단축키 안내';
 ?>

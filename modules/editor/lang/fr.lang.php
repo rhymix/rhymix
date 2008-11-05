@@ -106,4 +106,11 @@
     $lang->edit->icon_align_right = 'Placer à droite du texte';
 
     $lang->about_dblclick_in_editor = 'Vous pouvez configurer en détail des composants par double-clic sur un arrière-plan, un texte, une image ou une citation';
+
+
+    $lang->edit->rich_editor = '스타일 편집기';
+    $lang->edit->html_editor = 'HTML 편집기';
+    $lang->edit->extension ='확장 컴포넌트';
+    $lang->edit->help = '도움말';
+    $lang->edit->help_command = '단축키 안내';
 ?>

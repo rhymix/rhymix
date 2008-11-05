@@ -133,8 +133,8 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
     // editorMode를 기본으로 설정
     editorMode[editor_sequence] = null;
 
-    // 에디터를 시작 시킴 
-    try { 
+    // 에디터를 시작 시킴
+    try {
         iframe_obj.contentWindow.document.designMode = 'On';
     } catch(e) {
     }
@@ -148,11 +148,11 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
     /**
      * 더블클릭이나 키눌림등의 각종 이벤트에 대해 listener 추가
      * 작성시 필요한 이벤트 체크
-     * 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 iframe_obj.contentWindow.document에 대한 권한이 없기에 try 문으로 감싸서 
+     * 이 이벤트의 경우 윈도우 sp1 (NT or xp sp1) 에서 iframe_obj.contentWindow.document에 대한 권한이 없기에 try 문으로 감싸서
      * 에러를 무시하도록 해야 함.
      **/
 
-    // 위젯 감시를 위한 더블클릭 이벤트 걸기 
+    // 위젯 감시를 위한 더블클릭 이벤트 걸기
     try {
         xAddEventListener(iframe_obj.contentWindow.document,'dblclick',editorSearchComponent);
     } catch(e) {
@@ -209,7 +209,7 @@ function editorKeyPress(evt) {
         switch(pTag) {
             case 'li' :
                     return;
-                break; 
+                break;
             default :
                     obj.pasteHTML("<br />");
                 break;
@@ -301,11 +301,19 @@ function editorKeyPress(evt) {
                     xStopPropagation(evt);
                 break;
             // underline
-            case 117 : 
+            case 117 :
                     editorDo('Underline',null,e.target);
                     xPreventDefault(evt);
                     xStopPropagation(evt);
                 break;
+            //RemoveFormat
+            case 100 :
+                    editorDo('RemoveFormat',null,e.target);
+                    xPreventDefault(evt);
+                    xStopPropagation(evt);
+                break;
+
+
             // strike
             /*
             case 83 :
@@ -363,6 +371,16 @@ function editorChangeFontSize(obj,srl) {
     obj.selectedIndex = 0;
 }
 
+function editorUnDo(obj,srl) {
+    editorDo('undo','',srl);
+    obj.selectedIndex = 0;
+}
+
+function editorReDo(obj,srl) {
+    editorDo('redo','',srl);
+    obj.selectedIndex = 0;
+}
+
 function editorChangeHeader(obj,srl) {
     var value = obj.options[obj.selectedIndex].value;
     if(!value) return;
@@ -374,6 +392,49 @@ function editorChangeHeader(obj,srl) {
 /**
  * HTML 편집 기능 활성/비활성
  **/
+
+function editorChangeMode(mode, editor_sequence) {
+    var iframe_obj = editorGetIFrame(editor_sequence);
+    if(!iframe_obj) return;
+
+    var textarea_obj = editorGetTextArea(editor_sequence);
+    xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
+    xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
+
+    var contentDocument = iframe_obj.contentWindow.document;
+
+    // html 편집 사용시
+    if(mode == 'html') {
+        var html = contentDocument.body.innerHTML;
+        html = html.replace(/<br>/ig,"<br />\n");
+        html = html.replace(/<br \/>\n\n/ig,"<br />\n");
+        textarea_obj.value = html;
+
+//        iframe_obj.parentNode.style.display = "none";
+        xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor html';
+        editorMode[editor_sequence] = 'html';
+
+        xGetElementById('use_rich_'+editor_sequence).className = '';
+        xGetElementById('use_html_'+editor_sequence).className = 'active';
+
+
+    // 위지윅 모드 사용시
+    } else {
+        var html = textarea_obj.value;
+        contentDocument.body.innerHTML = html;
+
+//        iframe_obj.parentNode.style.display = "block";
+        xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor rich';
+        editorMode[editor_sequence] = null;
+
+        xGetElementById('use_rich_'+editor_sequence).className = 'active';
+        xGetElementById('use_html_'+editor_sequence).className = '';
+
+    }
+
+}
+
+/*
 function editorChangeMode(obj, editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
@@ -385,7 +446,7 @@ function editorChangeMode(obj, editor_sequence) {
     var contentDocument = iframe_obj.contentWindow.document;
 
     // html 편집 사용시
-    if(obj.checked) {
+    if(obj.checked || obj == 'html') {
         var html = contentDocument.body.innerHTML;
         html = html.replace(/<br>/ig,"<br />\n");
         html = html.replace(/<br \/>\n\n/ig,"<br />\n");
@@ -409,11 +470,49 @@ function editorChangeMode(obj, editor_sequence) {
     }
 
 }
+*/
 
 // Editor Info Close
 function closeEditorInfo(editor_sequence) {
-    xGetElementById('editorInfo_'+editor_sequence).style.display='none';	
+    xGetElementById('editorInfo_'+editor_sequence).style.display='none';
     var expire = new Date();
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
     xSetCookie('EditorInfo', '1', expire);
+}
+
+
+function showEditorHelp(e,editor_sequence){
+    var oid = 'editorHelp_'+editor_sequence;
+
+    if(xGetElementById(oid).className =='editorHelp'){
+
+        xGetElementById(oid).className = 'editorHelp open';
+        if(e.pageX <= xWidth('helpList_'+editor_sequence)){
+            xGetElementById('helpList_'+editor_sequence).style.right='auto';
+            xGetElementById('helpList_'+editor_sequence).style.left='0';
+        }else{
+            xGetElementById('helpList_'+editor_sequence).style.right='0';
+            xGetElementById('helpList_'+editor_sequence).style.left='';
+        }
+    }else{
+        xGetElementById(oid).className = 'editorHelp';
+    }
+}
+
+function showEditorExtension(e,editor_sequence){
+    var oid = 'editorExtension_'+editor_sequence;
+    if(xGetElementById(oid).className =='extension2'){
+        xGetElementById(oid).className = 'extension2 open';
+
+        if(e.pageX <= xWidth('editor_component_'+editor_sequence)){
+            xGetElementById('editor_component_'+editor_sequence).style.right='auto';
+            xGetElementById('editor_component_'+editor_sequence).style.left='0';
+        }else{
+            xGetElementById('editor_component_'+editor_sequence).style.right='0';
+            xGetElementById('editor_component_'+editor_sequence).style.left='';
+        }
+
+    }else{
+        xGetElementById(oid).className = 'extension2';
+    }
 }

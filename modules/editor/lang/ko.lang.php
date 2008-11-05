@@ -106,4 +106,14 @@
     $lang->edit->icon_align_right = '글의 우측으로';
 
     $lang->about_dblclick_in_editor = '배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다';
+
+
+    $lang->edit->rich_editor = '스타일 편집기';
+    $lang->edit->html_editor = 'HTML 편집기';
+    $lang->edit->extension ='확장 컴포넌트';
+    $lang->edit->help = '도움말';
+    $lang->edit->help_command = '단축키 안내';
+
+
+
 ?>
