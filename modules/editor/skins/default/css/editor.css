@@ -28,6 +28,7 @@
 .toolBox .extension2 .exButton:focus{ background-position:-579px -21px;}
 .toolBox .extension2 .exButton:active{ background-position:-579px -42px;}
 .toolBox .extension2 ul { display:none; position:absolute; padding:5px 0; top:26px; right:0; background:#fafafa; border:1px solid #9f9f9f;}
+.toolBox .extension2.open ul { display:block;}
 .toolBox .extension2 li{ float:none; text-align:left; padding:0 10px;}
 .toolBox .extension2 li button{ display:block; background:none; border:none; cursor:pointer; height:18px; font:11px Dotum, Tahoma; white-space:nowrap; width:auto; *width:100%;}
 .toolBox .extension2 li button span{ display:block; z-index:1; white-space:nowrap;}
@@ -40,6 +41,7 @@
 .toolBox .editorHelp .helpButton:focus{ background-position:right -21px;}
 .toolBox .editorHelp .helpButton:active{ background-position:right -42px;}
 .toolBox .editorHelp ul#helpList{ display:none; float:none !important; position:absolute; padding:5px 0; top:26px; right:0; background:#fafafa; border:1px solid #9f9f9f;}
+.toolBox .editorHelp.open ul#helpList{ display:block;}
 .toolBox .editorHelp ul#helpList li{ list-style:disc; float:none; text-align:left; white-space:nowrap; padding:0 10px 0 0; margin-left:25px;}
 .toolBox .editorHelp ul#helpList li li{ list-style:circle; margin-left:20px;}
 
