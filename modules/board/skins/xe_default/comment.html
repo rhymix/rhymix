@@ -1,12 +1,9 @@
 <!--@if($oDocument->getCommentCount())-->
-<div class="feedbackList">
+<div class="feedbackList" id="reply">
 
 	<h3 class="feedbackHeader">
 		<!--@if($grant->write_comment && $oDocument->allowComment()) -->
-			<a href="#comment" title="{$lang->comment}"><strong>{$oDocument->getCommentcount()}</strong> Replies</a>
-		<!--@end-->
-		<!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount() )-->
-			<a href="#trackback" title="{$lang->trackback}"><strong>{$oDocument->getTrackbackCount()}</strong> Trackbacks</a>
+			<a href="#reply" title="{$lang->comment}"><strong>'{$oDocument->getCommentcount()}'</strong> Replies</a>
 		<!--@end-->
 	</h3>
 	

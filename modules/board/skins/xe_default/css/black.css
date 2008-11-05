@@ -1,9 +1,8 @@
 @charset "utf-8"; 
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
-body{ background:#444; color:#fff;}
-
 /* Board Reset */
+.board{ background:#444; color:#fff;}
 .board a{color:#fff;}
 
 /* Board Header */
@@ -26,14 +25,14 @@ body{ background:#444; color:#fff;}
 .boardListForm strong{color:#ff6600;}
 
 /* Board List */
-.boardList{ border-top-color:#999; border-bottom-color:#999;}
+.boardList{ border-top-color:#666; border-bottom-color:#666;}
 .boardList .jumpTo button{ background-color:transparent; background-image:url(../images/common/buttonBg2byte.gif);}
 .boardList tr.notice{ background:#555;}
 .boardList tr.bg1{ background:#494949;}
 .boardList tr.bg2{ background:#444;}
-.boardList th{ border-bottom-color:#333; color:#fff; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
+.boardList th{ border-bottom-color:#333; border-top-color:#333; color:#fff; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
 .boardList th a{ color:#ff6600;}
-.boardList td{ border-top-color:#999; color:#fff;}
+.boardList td{ border-top-color:#666; color:#fff;}
 .boardList td .category{ color:#fff; background-image:url(../images/black/lineVr11.gif);}
 .boardList td.title .replyNum{ color:#ccc;}
 .boardList td.title .replyNum sup{ color:#999;}
@@ -55,8 +54,8 @@ body{ background:#444; color:#fff;}
 .boardSearchForm .inputText{ border-color:#999;}
 
 /* Board Read */
-.boardReadBody{ border-top-color:#999; border-bottom-color:#999;}
-.boardReadBody .memberSignature{ border-color:#999;}
+.boardReadBody{ border-top-color:#666; border-bottom-color:#666;}
+.boardReadBody .memberSignature{ border-color:#666;}
 
 .boardReadFooter{ color:#999;}
 .boardReadFooter a{ color:#999;}
@@ -70,8 +69,8 @@ body{ background:#444; color:#fff;}
 .feedbackList .feedbackHeader{ color:#000;}
 .feedbackList .feedbackHeader strong{ color:#ff6600;}
 
-.feedbackList .item{ border-top-color:#999;}
-.feedbackList .reply .indent{ border-left-color:#999;}
+.feedbackList .item{ border-top-color:#666;}
+.feedbackList .reply .indent{ border-left-color:#666;}
 
 /* Time */
 .time *{ color:#ccc;}
@@ -94,14 +93,14 @@ body{ background:#444; color:#fff;}
 .boardWrite .boardWriteHeader dd .inputText{ border-color:#ccc;}
 .boardWrite .tag input{ border-color:#ccc;}
 .boardWrite .boardNavigation,
-.boardEditor .boardNavigation{ border-top-color:#999;}
+.boardEditor .boardNavigation{ border-top-color:#666;}
 
 /* UserName & Password */
 .board .userNameAndPw dd .inputText{ border-color:#ccc;}
 
 /* Comment */
-.board .boardEditor{ border-color:#999; background:#555;}
-.board .commentEditor .commentHeader{border-bottom-color:#999; color:#fff;}
+.board .boardEditor{ border-color:#888; background:#555;}
+.board .commentEditor .commentHeader{border-bottom-color:#666; color:#fff;}
 
 /* Secret Message */
 .board .secretMessage dd .inputText{ border-color:#ccc;}

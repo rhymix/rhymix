@@ -9,7 +9,6 @@
 	
 <!--// CSS 파일 로드 (컬러셋에 따라서) -->
 	
-	<!--%unload("../../../../common/css/default.css")-->
 	<!--%import("css/board.css",optimized=false)-->
 	<!--%import("css/pagination.css",optimized=false)-->
 	<!--%import("css/tag.css",optimized=false)-->
@@ -54,7 +53,7 @@
 		<!-- 스킨의 제목/간단한 설명 출력 -->
 		<!--@if($module_info->title)-->
 		<div class="boardTitle">
-			<h3 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h3>
+			<h2 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
 		</div>
 		<!--@end-->
 

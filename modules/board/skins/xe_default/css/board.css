@@ -2,7 +2,7 @@
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
 /* Board Reset */
-.board{ font-family:NanumGothic, MalgunGothic, AppleGothic, Gulim, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:.8em;}
+.board{ font-family:NanumGothic, MalgunGothic, AppleGothic, Gulim, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:1.1em;}
 .board *{ font-size:1em;}
 .board label{ cursor:pointer;}
 .board img{ border:0;}
@@ -55,7 +55,7 @@
 .boardList .jumpTo *{ vertical-align:middle; *vertical-align:top;}
 .boardList .jumpTo select{ font-size:12px; *margin-right:5px;}
 .boardList .jumpTo button{ border:0; padding:0; margin:0; width:22px; height:20px; text-align:center; background-repeat:no-repeat; font-size:11px; letter-spacing:-1px; cursor:pointer; line-height:20px;}
-.boardList th{ border:0; border-bottom:1px solid; padding:7px; white-space:nowrap; text-align:center; background-repeat:repeat-x; background-position:left bottom; line-height:normal;}
+.boardList th{ border:0; border-bottom:1px solid; border-top:1px solid; padding:7px; white-space:nowrap; text-align:center; background-repeat:repeat-x; background-position:left bottom; line-height:normal;}
 .boardList th.title{ width:100%;}
 .boardList th a .sort{ vertical-align:middle; margin:0 5px;}
 .boardList td{ border:0; border-top:1px solid; padding:6px; white-space:nowrap; text-align:center; line-height:normal; vertical-align:top;}
@@ -152,14 +152,18 @@
 
 .boardRead .boardNavigation{ border-top:1px solid;}
 
+/* Feedback List */
 .feedbackList{ position:relative; overflow:hidden; padding-top:15px; margin-bottom:10px; }
 .feedbackList *{ margin:0; padding:0;}
 .feedbackList .feedbackHeader{ position:relative; font-weight:bold; margin-bottom:10px; font-size:1.5em;}
 
+.feedbackList .replyList .item .header{ font-size:1.5em; margin-bottom:5px;}
+.feedbackList .trackbackList .item .header{ font-size:1em; margin-bottom:5px;}
+.feedbackList .trackbackList .item p{ margin-bottom:10px;}
+
 .feedbackList .item{ position:relative; padding-top:10px; margin-bottom:10px; border-top:1px dashed;}
 .feedbackList .item .indent{ position:relative;}
 .feedbackList .reply .indent{ border-left:2px solid; padding-left:10px;}
-.feedbackList .item .header{ font-size:1.5em; margin-bottom:5px;}
 .feedbackList .item .header a{ font-size:1em;}
 .feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
 .feedbackList .item .comment_popup_menu a{ text-decoration:underline;}

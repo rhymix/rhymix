@@ -1,24 +1,34 @@
 <!-- 엮인글 목록 -->
+<div class="feedbackList" id="trackback">
 
-<div class="trackbackBox">
+	<h3 class="feedbackHeader">
+		<!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount() )-->
+			<a href="#trackback" title="{$lang->trackback}"><strong>'{$oDocument->getTrackbackCount()}'</strong> Trackbacks</a>
+		<!--@end-->
+	</h3>
 
-    <!--@if($oDocument->getTrackbackCount())-->
-        <!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
-        <div class="item">
-            <a name="trackback_{$val->trackback_srl}"></a>
-            <address>
-                <a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a>
-                <a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}"><img src="./images/common/buttonDeleteX.gif" border="0" alt="delete" width="12" height="13" /></a>
-                <span class="date">
-                    {zdate($val->regdate, "Y.m.d H:i")}
-                    ({$val->ipaddress})
-                </span>
-            </address>
-            <div>
-                <a href="{$val->url}" onclick="winopen(this.href);return false;">{$val->excerpt}</a> 
-            </div>
-        </div>
-        <!--@end-->
-    <!--@end-->
-
+	<div class="trackbackList">
+	
+		<!--@if($oDocument->getTrackbackCount())-->
+			<!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
+			<div class="item">
+				<a name="trackback_{$val->trackback_srl}"></a>
+				<h4 class="header"><a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a></h4>
+				<p>
+					{$val->excerpt}
+				</p>
+				<dl class="time">
+					<dt>Time :</dt>
+					<dd>{zdate($val->regdate, "Y.m.d H:i")}</dd>
+					<dd>({$val->ipaddress})</dd>
+				</dl>
+				<div class="option">
+					<a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}" class="button small"><span>Delete</span></a>
+				</div>
+			</div>
+			<!--@end-->
+		<!--@end-->
+	
+	</div>
+	
 </div>
