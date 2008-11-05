@@ -19,7 +19,7 @@ function planet_showTodoList(o){
 }
 
 function planet_reload_todo(){
-    $('commentList').innerHTML = '<h3>todo</h3><div id="todoList"></div>\n<div id="todoList_page"></div>\n<h3>done</h3>\n<div id="doneList"></div>\n<div id="doneList_page"></div>\n';
+    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">TODO</h3></div>\n<div id="todoList" class="commentBody taskManager"></div>\n<div id="todoList_page" class="pagination a1"></div>\n<div class="commentHeader"><h3 class="exTitle">DONE</h3></div>\n<div id="doneList" class="commentBody taskManager"></div>\n<div id="doneList_page" class="pagination a1"></div>\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
     planet_getTodo();
     planet_getDone();
 }
@@ -69,16 +69,17 @@ function result_planet_getTodo(ret_obj,response_tags, params, fo_obj) {
             tag.push('done');
             tag = tag.$value().join(',');
 
-            o.push('<li><input type="checkbox" id="document_srl:'+it[i]['document_srl']+'" value="'+tag+'" onclick="planet_todo_setDone(this)"/>');
-                o.push('<em>');
+            o.push('<li>');
                     o.push(it[i]['content']);
-                o.push('</em><span>');
+				o.push('<span class="button small"><button type="button" id="document_srl:'+it[i]['document_srl']+'" value="'+tag+'" onclick="planet_todo_setDone(this)">&radic; DONE</button></span>');
+                o.push('<span class="time">');
                     o.push(it[i]['regdate']);
                 o.push('</span>');
             o.push("</li>\n");
         }
 
         o.push('</ul>');
+		o.push('<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>');
 
         $('todoList').innerHTML = o.join('');
 
@@ -88,14 +89,13 @@ function result_planet_getTodo(ret_obj,response_tags, params, fo_obj) {
         $('planet_todo_count').innerHTML = pageNavigation.total_count;
         var str = "";
         for(var i=pageNavigation.first_page;i<=pageNavigation.page_count;i++){
-            str += "|";
             if(i== pageNavigation.cur_page){
                 str += "<strong>"+i+"</strong>";
             }else{
                 str += '<a href="#" onclick="planet_getTodo('+i+');return false;">'+ i +'</a>';
             }
         }
-        $('todoList_page').innerHTML = str + '|';
+        $('todoList_page').innerHTML = str;
     }
 }
 
@@ -131,29 +131,30 @@ function result_planet_getDone(ret_obj,response_tags, params, fo_obj) {
             tag.push('todo');
             tag = tag.$value().join(',');
 
-            o.push('<li><input type="checkbox" id="document_srl:'+it[i]['document_srl']+'" value="'+tag+'" onclick="planet_todo_setDone(this)" checked="checked=" />');
-                o.push('<em>');
+            o.push('<li>');
                     o.push(it[i]['content']);
-                o.push('</em><button type="button" onclick="planet_todo_setDel('+it[i]['document_srl']+')">삭제</button>');
+				o.push('<span class="button small"><button type="button" id="document_srl:'+it[i]['document_srl']+'" value="'+tag+'" onclick="planet_todo_setDone(this)">REDO</button></span>');
+                o.push('<span class="button small"><button type="button" onclick="planet_todo_setDel('+it[i]['document_srl']+')">Delete</button></span>');
             o.push("</li>\n");
         }
 
 
         o.push('</ul>');
-        $('doneList').innerHTML = o.join('');
+		o.push('<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>');
+
+		$('doneList').innerHTML = o.join('');
 
         var pageNavigation = ret_obj['pageNavigation'];
        $('planet_done_count').innerHTML = pageNavigation.total_count;
         var str = "";
         for(var i=pageNavigation.first_page;i<=pageNavigation.page_count;i++){
-            str += "|";
             if(i== pageNavigation.cur_page){
                 str += "<strong>"+i+"</strong>";
             }else{
                 str += '<a href="#" onclick="planet_getDone('+i+');return false;">'+ i +'</a>';
             }
         }
-        $('doneList_page').innerHTML = str + '|';
+        $('doneList_page').innerHTML = str;
     }
 }
 
