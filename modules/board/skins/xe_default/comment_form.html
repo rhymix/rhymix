@@ -29,12 +29,28 @@
 <div class="boardWrite commentEditor">
 	
 	<h3 class="commentHeader">{$lang->comment}</h3>
+	
+    <div class="editor">{$oComment->getEditor()}</div>
+	
+	<dl class="editorOption">
+		<dt>옵션 : </dt>
+		<!--@if($is_logged)-->
+		<dd>
+			<input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" class="inputCheck" />
+			<label for="notify_message">{$lang->notify}</label>
+		</dd>
+		<!--@end-->
+		<dd>
+			<input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" class="inputCheck" />
+			<label for="is_secret">{$lang->secret}</label>
+		</dd>
+	</dl>
 
+	<!--@if(!$is_logged)-->
     <div class="userNameAndPw">
-        <!--@if(!$is_logged)-->
 		<dl>
 			<dt><label for="userName">{$lang->writer}</label> :</dt>
-			<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName"/></dd>
+			<dd class="userName"><input type="text" name="nick_name" value="{$oComment->getNickName()}" class="inputText" id="userName"/></dd>
 		</dl>
 		<dl>
 			<dt><label for="userPw">{$lang->password}</label> :</dt>
@@ -42,27 +58,18 @@
 		</dl>
 		<dl>
 			<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
-			<dd class="emailAddress"><input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}" id="emailAddress" class="inputText"/></dd>
+			<dd class="emailAddress"><input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="inputText"/></dd>
 		</dl>
 		<dl>
 			<dt><label for="homePage">{$lang->homepage}</label> :</dt>
-			<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="inputText"/></dd>
+			<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="inputText"/></dd>
 		</dl>
+	</div>
+	<!--@end-->
 
-        <!--@else-->
-        <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
-        <label for="notify_message">{$lang->notify}</label>
-        <!--@end-->
-
-        <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
-        <label for="is_secret">{$lang->secret}</label>
-    </div>
-
-    <div class="editor">{$oComment->getEditor()}</div>
 	
 	<div class="boardNavigation">
-		<span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'"/></span>
-		<span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+		<span class="button strong red"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
 	</div>
 	
 </div>

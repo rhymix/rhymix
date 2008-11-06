@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* Editor XE White Theme */
+
+/* Editor Type Selector */
+.editorTypeSelector a,
+.editorTypeSelector a span{ background-color:#eee; background-image:url(../images/white/tabCorner.gif);}
+
+/* Editor Type Selector - Hover */
+.editorTypeSelector a:hover,
+.editorTypeSelector a:active,
+.editorTypeSelector a:focus,
+.editorTypeSelector a:hover span,
+.editorTypeSelector a:active span,
+.editorTypeSelector a:focus span{ background-color:#e8e8e8;}
+
+/* Editor Type Selector - Active */
+.editorTypeSelector li.active a,
+.editorTypeSelector li.active a span{ background-color:#ddd;}
+
+/* Editor Container */
+.xeEditor{ border-color:#ddd;}
+ 
+ /* Tool Box */
+.toolBox{ background-color:#fafafa; background-image:url(../images/white/buttonSetBg.gif);}
+.toolBox .item li button{ background-color:transparent; background-image:url(../images/white/buttonSet.gif);}
+
+.toolBox .extension2 .exButton{ background-color:transparent; background-image:url(../images/white/buttonSet.gif);}
+.toolBox .extension2 ul { background:#fafafa; border-color:#9f9f9f;}
+
+.toolBox .editorHelp .helpButton{ background-color:transparent; background-image:url(../images/white/buttonSet.gif);}
+.toolBox ul.helpList{ background:#fafafa; border-color:#9f9f9f;}
+
+/* ToolBox Button Default */
+
+/* Auto Save */
+.xeEditor .editor_autosaved_message{ background:#fafafa; border-color:#ddd;}
+
+/* Edit Area */
+.xeEditor .editorBox{ border-color:#fff; background:#fff;}
+
+/* Editor */
+.xeEditor .richEditor,
+.xeEditor .htmlEditor{ background:#fff;}
+
+/* Editor Resize Bar */
+.xeEditor .textAreaDragIndicator{ border-color:#ddd; border-color:#ddd;}
+.xeEditor .textAreaDragIndicator button{ background-color:#f4f4f4; background-image:url(../images/common/buttonTextAreaDrag.gif);}
+
+/* File Uploader */
+.commentEditor .xeEditor .fileUploader{ border-color:#ddd;}
+.xeEditor .fileUploader .preview{ border-color:#ddd; background:#fff;}

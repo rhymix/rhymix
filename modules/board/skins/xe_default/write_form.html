@@ -8,27 +8,6 @@
 
 	<div class="boardWriteHeader">
 	
-		<!--@if(!$is_logged)-->
-		<div class="userNameAndPw">
-			<dl>
-				<dt><label for="userName">{$lang->writer}</label> :</dt>
-				<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName"/></dd>
-			</dl>
-			<dl>
-				<dt><label for="userPw">{$lang->password}</label> :</dt>
-				<dd class="userPw"><input type="password" name="password" value="" id="userPw" class="inputText" /></dd>
-			</dl>
-			<dl>
-				<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
-				<dd class="emailAddress"><input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}" id="emailAddress" class="inputText"/></dd>
-			</dl>
-			<dl>
-				<dt><label for="homePage">{$lang->homepage}</label> :</dt>
-				<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="inputText"/></dd>
-			</dl>
-		</div>
-		<!--@end-->
-	
 		<dl class="title">
 			<dt><label class="title">{$lang->title} :</label></dt>
 			<dd>
@@ -46,14 +25,37 @@
 			</dd>
 		</dl>
 	
-		<dl class="option">
+	</div>
+
+    <!--@if($module_info->extra_vars)-->
+    <table border="1" cellspacing="0" summary="Extra Form" class="extraVarsList">
+	<caption><em>*</em> : 필수</caption>
+    <!--@foreach($module_info->extra_vars as $key => $val)-->
+        <!--@if($val->name)-->
+    <tr>
+        <th scope="row">{$val->name} <!--@if($val->is_required=='Y')--><em>*</em><!--@end--></th>
+        <td><!--#include("./_extra_var_form.html")--></td>
+    </tr>
+        <!--@endif-->
+    <!--@endforeach-->
+    </table>
+    <!--@endif-->
+
+    <div class="editor">{$oDocument->getEditor()}</div>
+
+    <div class="tag">
+        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputText" title="Tag" />
+		<p>{$lang->about_tag}</p>
+    </div>
+
+	<dl class="editorOption">
 			<dt>{$lang->cmd_option} : </dt>
 			<!--@if($grant->manager)-->
 			{@ $_color = array('555555','222288','226622','2266EE','8866CC','88AA66','EE2222','EE6622','EEAA22','EEEE22') }
-			<dd><select name="title_color" id="title_color" <!--@if($oDocument->get('title_color'))-->style="background-color:#{$oDocument->get('title_color')};"<!--@end--> onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor;">
-					<option value="" style="background-color:#FFFFFF;">{$lang->title_color}</option>
+			<dd><select name="title_color" id="title_color" <!--@if($oDocument->get('title_color'))-->style="color:#{$oDocument->get('title_color')};"<!--@end--> onchange="this.style.color=this.options[this.selectedIndex].style.color;">
+					<option value="" style="color:#CCCCCC;">{$lang->title_color}</option>
 					<!--@foreach($_color as $_col)-->
-					<option value="{$_col}" style="background-color:#{$_col}" <!--@if($oDocument->get('title_color')==$_col)-->selected="selected"<!--@end-->>{$lang->title_color}</option>
+					<option value="{$_col}" style="color:#{$_col}" <!--@if($oDocument->get('title_color')==$_col)-->selected="selected"<!--@end-->>{$lang->title_color}</option>
 					<!--@endforeach-->
 				</select></dd>
 			<dd>
@@ -88,46 +90,30 @@
 			</dd>
 			<!--@end-->
 		</dl>
-	
+
+	<!--@if(!$is_logged)-->
+	<div class="userNameAndPw">
+		<dl>
+			<dt><label for="userName">{$lang->writer}</label> :</dt>
+			<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName" title="필수" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="userPw">{$lang->password}</label> :</dt>
+			<dd class="userPw"><input type="password" name="password" value="" id="userPw" class="inputText" title="필수" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
+			<dd class="emailAddress"><input type="text" name="email_address" value="{htmlspecialchars($oDocument->get('email_address'))}" id="emailAddress" class="inputText" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="homePage">{$lang->homepage}</label> :</dt>
+			<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="inputText" /></dd>
+		</dl>
 	</div>
-
-    <!--@if($module_info->extra_vars)-->
-    <table cellspacing="0" summary="" class="extraVarsList">
-    <col width="150" />
-    <col />
-    <!--@foreach($module_info->extra_vars as $key => $val)-->
-        <!--@if($val->name)-->
-    <tr>
-        <th scope="row">{$val->name} <!--@if($val->is_required=='Y')-->*<!--@end--></th>
-        <td><!--#include("./extra_var_form.html")--></td>
-    </tr>
-        <!--@endif-->
-    <!--@endforeach-->
-    </table>
-    <!--@endif-->
-
-    <div class="editor">{$oDocument->getEditor()}</div>
-
-    <div class="tag">
-        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" title="Tag" />
-		<p>{$lang->about_tag}</p>
-    </div>
-	
-	<div class="boardNavigation">
-
-		<div class="buttonLeft">
-			<!--@if($is_logged)-->
-			<span class="button"><input type="button" value="{$lang->cmd_temp_save}"  onclick="doDocumentSave(this); return false;" /></span>
-			<span class="button"><input type="button" value="{$lang->cmd_load}"  onclick="doDocumentLoad(this); return false;" /></span>
-			<!--@end-->
-		</div>
-
-		<div class="buttonRight">
-			<span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" /></span>
-			<span class="button"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-			<span class="button red strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-		</div>
+	<!--@end-->
 		
+	<div class="boardNavigation">
+		<span class="button red strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
 	</div>
 
     </form>

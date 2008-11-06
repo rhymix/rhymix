@@ -1,13 +1,20 @@
 @charset "utf-8"; 
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
+/* Zeroboard XE White Theme */
+
 /* Board Reset */
 .board{ background:#fff; color:#333;}
+.board .inputText,
+.board textarea{ border-color:#ccc;}
+.board .inputText,
+.board textarea,
+.board select{ background:#fff; color:#333;}
 .board a{color:#000;}
 
 /* Board Header */
-.boardHeader .boardTitle{ border-bottom-color:#ddd; background-image:url(../images/common/iconBoardHeading.gif);}
-.boardHeader .boardTitleText{ border-bottom-color:#666; background-image:url(../images/white/lineVr11.gif);}
+.boardHeader .boardTitle{ border-color:#ddd; background-image:url(../images/common/iconBoardHeading.gif);}
+.boardHeader .boardTitleText{ border-color:#666; background-image:url(../images/white/lineVr11.gif);}
 .boardHeader .boardTitleText a{ color:#000;}
 .boardHeader .boardTitleText em{ color:#666;}
 .boardHeader .boardDescription{ background:#f8f8f8; }
@@ -25,25 +32,25 @@
 .boardListForm strong{color:#ff6600;}
 
 /* Board List */
-.boardList{ border-top-color:#ddd; border-bottom-color:#ddd;}
+.boardList{ border-color:#ddd;}
 .boardList .jumpTo button{ background-color:transparent; background-image:url(../images/common/buttonBg2byte.gif);}
 .boardList tr.notice{ background:#f8f8f8;}
 .boardList tr.bg1{ background:#fff;}
 .boardList tr.bg2{ background:#fbfbfb;}
-.boardList th{ border-bottom-color:#fff; border-top-color:#fff; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
+.boardList th{ border-color:#fff; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
 .boardList th a{ color:#1978AD;}
-.boardList td{ border-top-color:#eee; color:#666;}
+.boardList td{ border-color:#eee; color:#666;}
 .boardList td .category{ color:#000; background-image:url(../images/white/lineVr11.gif);}
 .boardList td.title .replyNum{ color:#ccc;}
 .boardList td.title .replyNum sup{ color:#999;}
 
 .boardList td.summary .thumb{ border-color:#ddd; background:#fff;}
 
-.thumbHeader{ border-top-color:#ddd; border-bottom-color:#ddd; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
+.thumbHeader{ border-color:#ddd; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
 .thumbHeader a{ color:#1978AD;}
 .thumbHeader .jumpTo button{ background-image:url(../images/common/buttonBg2byte.gif);}
 
-.thumbList{ border-bottom-color:#ddd;}
+.thumbList{ border-color:#ddd;}
 .thumbList li .thumb{ background:#fff; border-color:#ddd;}
 .thumbList li .thumb a .text{ color:#ccc;}
 .thumbList li .thumb a .category{ background:#000; opacity:.6; filter:alpha(opacity=60); color:#fff;}
@@ -51,10 +58,11 @@
 /* Board Navigation */
 
 /* Search Form */
-.boardSearchForm .inputText{ border-color:#ccc;}
 
 /* Board Read */
-.boardReadBody{ border-top-color:#ddd; border-bottom-color:#ddd;}
+.boardReadHeader{ border-color:#ddd;}
+
+.boardReadBody{ border-color:#ddd;}
 .boardReadBody .memberSignature{ border-color:#ddd;}
 
 .boardReadFooter{ color:#666;}
@@ -63,13 +71,13 @@
 .boardReadFooter dd{ background-image:url(../images/white/lineVr11.gif);}
 .boardReadFooter .footerRight dl.noBr dt{ background-image:url(../images/white/lineVr11.gif);}
 
-.boardRead .boardNavigation{ border-top-color:#ddd;}
+.boardRead .boardNavigation{ border-color:#ddd;}
 
 .feedbackList{ color:#666;}
 .feedbackList .feedbackHeader{ color:#000;}
 .feedbackList .feedbackHeader strong{ color:#ff6600;}
 
-.feedbackList .item{ border-top-color:#ddd;}
+.feedbackList .item{ border-color:#ddd;}
 .feedbackList .reply .indent{ border-left-color:#eee;}
 
 /* Time */
@@ -86,27 +94,42 @@
 
 .replyForm{ color:#666; background:#f4f4f4;}
 .replyForm .title{ color:#000;}
-.replyForm textarea{ border-color:#ccc;}
-.replyForm .inputText{ border-color:#ccc;}
 
 /* Board Write */
-.boardWrite .boardWriteHeader dd .inputText{ border-color:#ccc;}
-.boardWrite .tag input{ border-color:#ccc;}
 .boardWrite .boardNavigation,
-.boardEditor .boardNavigation{ border-top-color:#ddd;}
+.boardEditor .boardNavigation{ border-color:#ddd;}
 
 /* UserName & Password */
-.board .userNameAndPw dd .inputText{ border-color:#ccc;}
+.board .userNameAndPw,
+.board .editorOption{ border-color:#ddd; background:#f4f4f4;}
 
 /* Comment */
 .board .boardEditor{ border-color:#ddd; background:#f8f8f8;}
-.board .commentEditor .commentHeader{border-bottom-color:#ddd; color:#000;}
+.board .commentEditor .commentHeader{border-color:#ddd; color:#000;}
 
 /* Secret Message */
-.board .secretMessage dd .inputText{ border-color:#ccc;}
+
+/* Extra Var Table */
+.extraVarsList{ border-color:#ddd;}
+.extraVarsList caption{ color:#999;}
+.extraVarsList em{ color:#ff6600;}
+.extraVarsList th,
+.extraVarsList td{ border-color:#ddd;}
+.extraVarsList th{ background:#f4f4f4;}
+.extraVarsList td{ background:#fff;}
+.extraVarsList td .inputNum{ border-color:#ccc;}
+
+/* Tag Cloud */
+.tagCloud{ border-color:#ddd;}
+.tagCloud .tagHeader{border-color:#ddd; color:#333; background-color:#fff; background-image:url(../images/white/bgThDefault.gif);}
+.tagCloud .tagHeader strong{ color:#ff6600;}
+.tagCloud li.rank1 a{ background:#12d763; color:#fff;}
+.tagCloud li.rank2 a{ color:#666;}
+.tagCloud li.rank3 a{ color:#00b4b5;}
+.tagCloud li.rank4 a{ color:#666;}
+.tagCloud li.rank5 a{ color:#666;}
 
 /* Layer */
-#waitingforserverresponse { border-color:#444; color:#444; background-color:#fff;}
 #popup_menu_area{background:#fff; border-color:#eee;}
 #popup_menu_area ul{ border-color:#ddd;}
 #popup_menu_area li a{ color:#000;}

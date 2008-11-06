@@ -64,7 +64,7 @@ function editorGetSelectedNode(editor_sequence) {
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
 function editorStart(editor_sequence, primary_key, content_key, editor_height, font_color) {
-    if(typeof(font_color)=='undefined') font_color = '#000000';
+    if(typeof(font_color)=='undefined') font_color = '#000';
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -118,9 +118,9 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
     editor_path = editor_path.replace(/^\.\//ig, '');
     var contentHtml = ''+
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
-        '<html lang="ko" xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
+        '<html xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<style type="text/css">'+
-        'body {font-size:9pt;height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
+        'body {font-size:.8em; line-height:1.6em; font-family:NanumGothic, "Malgun Gothic", AppleGothic, Sans-serif; height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+
@@ -487,8 +487,8 @@ function showEditorHelp(e,editor_sequence){
     if(xGetElementById(oid).className =='editorHelp'){
 
         xGetElementById(oid).className = 'editorHelp open';
-/*
-		if(xEvent(e).pageX  <= xWidth('helpList_'+editor_sequence)){
+		/*
+        if(e.pageX <= xWidth('helpList_'+editor_sequence)){
             xGetElementById('helpList_'+editor_sequence).style.right='auto';
             xGetElementById('helpList_'+editor_sequence).style.left='0';
         }else{
@@ -505,9 +505,8 @@ function showEditorExtension(e,editor_sequence){
     var oid = 'editorExtension_'+editor_sequence;
     if(xGetElementById(oid).className =='extension2'){
         xGetElementById(oid).className = 'extension2 open';
-		var e = new xEvent(e);
+		
         if(e.pageX <= xWidth('editor_component_'+editor_sequence)){
-
             xGetElementById('editor_component_'+editor_sequence).style.right='auto';
             xGetElementById('editor_component_'+editor_sequence).style.left='0';
         }else{
@@ -519,3 +518,4 @@ function showEditorExtension(e,editor_sequence){
         xGetElementById(oid).className = 'extension2';
     }
 }
+

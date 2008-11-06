@@ -1,9 +1,13 @@
 @charset "utf-8"; 
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
+/* Zeroboard XE */
+
 /* Board Reset */
-.board{ font-family:NanumGothic, MalgunGothic, AppleGothic, Gulim, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:1.1em;}
+.board{ font-family:NanumGothic, "Malgun Gothic", AppleGothic, Gulim, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:.8em;}
 .board *{ font-size:1em;}
+.board .inputText,
+.board textarea{ border:1px solid;}
 .board label{ cursor:pointer;}
 .board img{ border:0;}
 .board a{ text-decoration:none;}
@@ -117,22 +121,22 @@
 .boardSearchForm fieldset *{ vertical-align:middle;}
 .boardSearchForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 .boardSearchForm select{ font-size:12px; height:23px;}
-.boardSearchForm .inputText{ border:1px solid; width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
+.boardSearchForm .inputText{ width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
 
 /* Board Read */
 .boardRead{}
 
-.boardReadHeader{ margin-bottom:5px; *zoom:1;}
+.boardReadHeader{ padding-bottom:5px; margin-bottom:15px; *zoom:1; border-bottom:2px solid;}
 .boardReadHeader:after{ content:""; display:block; float:none; clear:both;}
 .boardReadHeader *{ margin:0; padding:0;}
 .boardReadHeader .title{ float:left; font-size:1.5em;}
 .boardReadHeader em{ position:relative; top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
 .boardReadHeader a{ font-weight:bold; font-size:1em;}
 
-.boardReadBody{ padding:15px 0; border-top:1px solid; border-bottom:1px solid; line-height:1.5em;}
+.boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em;}
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
-.boardReadBody .xe_content{ margin-bottom:15px;}
+.boardReadBody .xe_content{ margin-bottom:15px; line-height:1.6em;}
 .boardReadBody .memberSignature{ border:1px dotted;}
 .boardReadBody .memberSignature .signature{ margin:10px;}
 
@@ -194,42 +198,39 @@
 .replyForm fieldset:after{ content:""; display:block; float:none; clear:both;}
 .replyForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 .replyForm .title{ font-weight:bold; font-size:1.5em; margin-bottom:10px;}
-.replyForm textarea{ position:relative; width:95%; height:150px; border:1px solid; font-size:1em; overflow:auto; padding:10px; margin-bottom:10px;}
-.replyForm .inputText{ border:1px solid; padding:2px 4px 4px 4px; width:190px; height:15px; vertical-align:middle; *margin:-1px 0;}
+.replyForm textarea{ position:relative; width:95%; height:150px; font-size:1em; overflow:auto; padding:10px; margin-bottom:10px;}
+.replyForm .inputText{ padding:2px 4px 4px 4px; width:190px; height:15px; vertical-align:middle; *margin:-1px 0;}
 .replyForm dl{ margin-bottom:10px;}
 .replyForm dt{ width:80px; float:left; padding-top:6px; font-weight:bold;}
 .replyForm dd{ margin-bottom:5px;}
 
 /* Board Write */
-.boardWrite{}
 .boardWrite *{ margin:0; padding:0;}
 .boardWrite li{ list-style:none;}
 .boardWrite fieldset{ border:0; position:relative;}
 .boardWrite legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 
+.boardWrite .boardWriteHeader{ position:relative;}
 .boardWrite .boardWriteHeader dl{ margin-bottom:5px;}
 .boardWrite .boardWriteHeader dl *{ vertical-align:middle;}
 .boardWrite .boardWriteHeader dt{ font-weight:bold; display:inline;}
 .boardWrite .boardWriteHeader dd{ display:inline;}
 .boardWrite .boardWriteHeader dd select{ font-size:12px; vertical-align:top; height:23px;}
-.boardWrite .boardWriteHeader dd .inputText{ border:1px solid; padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px;}
+.boardWrite .boardWriteHeader dd .inputText{ padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px;}
 
 .boardWrite .boardWriteHeader dl.title dd{ white-space:nowrap;}
 .boardWrite .boardWriteHeader dl.title dd .inputText{ width:60%;}
 
-.boardWrite .boardWriteHeader dl.option input{ width:13px; height:13px;}
-.boardWrite .boardWriteHeader dl.option dd{ margin-right:5px; white-space:nowrap;}
-
 .boardWrite .tag{ clear:both; margin-bottom:10px; *zoom:1;}
 .boardWrite .tag:after{ content:""; display:block; float:none; clear:both;}
-.boardWrite .tag input{ float:left; border:1px solid; width:330px; padding:4px 4px 2px 4px; margin-right:10px; font-size:12px;}
+.boardWrite .tag .inputText{ float:left; width:330px; padding:4px 4px 2px 4px; margin-right:10px; font-size:12px;}
 .boardWrite .tag p{ float:left;}
 
 .boardWrite .boardNavigation,
 .boardEditor .boardNavigation{ border-top:1px solid;}
 
 /* UserName & Password */
-.board .userNameAndPw{ margin:0;}
+.board .userNameAndPw{ margin:0; padding:5px 10px 0 10px; border-top:1px solid;}
 .board .userNameAndPw dl{ display:inline; white-space:nowrap;}
 .board .userNameAndPw dt{ position:relative; top:-3px; font-weight:bold; display:inline;}
 .board .userNameAndPw dd{ margin-right:5px; display:inline;}
@@ -238,9 +239,15 @@
 .board .userNameAndPw dd.userPw .inputText{ width:80px;}
 .board .userNameAndPw dd.emailAddress .inputText{ width:120px;}
 .board .userNameAndPw dd.homePage .inputText{ width:120px;}
-.board .userNameAndPw dd .inputText{ border:1px solid; padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px; vertical-align:middle;}
+.board .userNameAndPw dd .inputText{ padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px; vertical-align:middle;}
 
 /* Comment */
+.board .editorOption{ padding:8px 10px; border-top:1px solid;}
+.board .editorOption *{ vertical-align:middle;}
+.board .editorOption dt{ font-weight:bold; display:inline;}
+.board .editorOption dd{ margin-right:5px; display:inline;}
+.board .editorOption dd select{ font-size:12px;}
+.board .editorOption dd .inputCheck{ width:13px; height:13px;}
 .board .boardEditor{ border:1px solid; margin-bottom:20px;}
 .board .boardEditor .commentEditor{ margin:10px 15px;}
 .board .commentEditor .commentHeader{position:relative; border-bottom:1px solid; font-weight:bold; padding-bottom:5px; margin-bottom:10px; font-size:1.5em;}
@@ -251,10 +258,40 @@
 .board .secretMessage dl{ text-align:center; margin:15px 0;}
 .board .secretMessage dt{ font-weight:bold; display:inline;}
 .board .secretMessage dd{ margin:0; display:inline;}
-.board .secretMessage dd .inputText{ border:1px solid; padding:3px 4px; height:15px; vertical-align:middle; margin-right:5px;}
+.board .secretMessage dd .inputText{ padding:3px 4px; height:15px; vertical-align:middle; margin-right:5px;}
+
+/* Extra Var Table */
+.extraVarsList{ width:100%; border:0; border-bottom:1px solid; margin-bottom:15px;}
+.extraVarsList caption{ text-align:right;}
+.extraVarsList em{ font-style:normal; font-weight:normal;}
+.extraVarsList th,
+.extraVarsList td{ border:0; padding:5px 10px; text-align:left; border-top:1px solid; vertical-align:top;}
+.extraVarsList th{ white-space:nowrap;}
+.extraVarsList td{ width:100%;}
+.extraVarsList td p{ display:inline-block; *display:inline; margin:3px 0;}
+.extraVarsList td *{ vertical-align:middle;}
+.extraVarsList td li{ display:inline; margin-right:10px;}
+.extraVarsList td .inputText{ padding:3px 4px; font-size:12px; width:96%; display:block;}
+.extraVarsList td .inputNum{ padding:3px 4px; font-size:12px; width:50px; border:1px solid;}
+.extraVarsList td .inputCheck{ width:13px; height:13px; margin-right:5px;}
+.extraVarsList td select { font-size:12px;}
+.extraVarsList td textarea{ padding:3px 4px; font-size:12px; width:96%; display:block; overflow:auto;}
+
+/* Tag Cloud */
+.tagCloud{ padding-bottom:15px; border-bottom:1px solid #ddd;}
+.tagCloud *{ margin:0; padding:0;}
+.tagCloud .tagHeader{border:0; border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:7px; color:#333; background:#fff url(../images/white/bgThDefault.gif) repeat-x left bottom; line-height:normal;}
+.tagCloud .tagHeader strong{ color:#ff6600;}
+.tagCloud ul{ text-align:justify; margin-top:15px;}
+.tagCloud li{ display:inline; list-style:none; margin:0 5px;}
+.tagCloud li a{ white-space:nowrap;}
+.tagCloud li.rank1 a{ font-weight:bold; font-size:2em; background:#12d763; color:#fff;}
+.tagCloud li.rank2 a{ font-weight:bold; font-size:1.75em; color:#666;}
+.tagCloud li.rank3 a{ font-weight:bold; font-size:1.5em; color:#00b4b5;}
+.tagCloud li.rank4 a{ font-size:1.25em; color:#666;}
+.tagCloud li.rank5 a{ font-size:1em; color:#666;}
 
 /* Layer */
-#waitingforserverresponse { border:2px solid; font-weight:bold; padding: 7px 5px 5px 25px; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
 #popup_menu_area{ position:absolute; border:2px solid; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0; z-index:100;}
 #popup_menu_area *{ margin:0; padding:0; list-style:none; font-size:12px; line-height:normal;}
 #popup_menu_area ul{ border:1px solid; -moz-border-radius:3px; -webkit-border-radius:3px; padding:10px;}

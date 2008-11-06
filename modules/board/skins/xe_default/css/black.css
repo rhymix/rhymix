@@ -1,16 +1,23 @@
 @charset "utf-8"; 
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
+/* Zeroboard XE Black Theme */
+
 /* Board Reset */
-.board{ background:#444; color:#fff;}
+.board{ background:#000; color:#fff;}
+.board .inputText,
+.board textarea{ border-color:#444;}
+.board .inputText,
+.board textarea,
+.board select{ background:#333; color:#fff;}
 .board a{color:#fff;}
 
 /* Board Header */
-.boardHeader .boardTitle{ border-bottom-color:#999; background-image:url(../images/common/iconBoardHeading.gif);}
-.boardHeader .boardTitleText{ border-bottom-color:#ccc; background-image:url(../images/black/lineVr11.gif);}
+.boardHeader .boardTitle{ border-color:#999; background-image:url(../images/common/iconBoardHeading.gif);}
+.boardHeader .boardTitleText{ border-color:#ccc; background-image:url(../images/black/lineVr11.gif);}
 .boardHeader .boardTitleText a{ color:#fff;}
 .boardHeader .boardTitleText em{ color:#ccc;}
-.boardHeader .boardDescription{ background:#666; }
+.boardHeader .boardDescription{ background:#333; }
 
 /* Board Information */
 .boardInformation li{background-image:url(../images/black/lineVr11.gif);}
@@ -25,88 +32,104 @@
 .boardListForm strong{color:#ff6600;}
 
 /* Board List */
-.boardList{ border-top-color:#666; border-bottom-color:#666;}
+.boardList{ border-color:#333;}
 .boardList .jumpTo button{ background-color:transparent; background-image:url(../images/common/buttonBg2byte.gif);}
-.boardList tr.notice{ background:#555;}
-.boardList tr.bg1{ background:#494949;}
-.boardList tr.bg2{ background:#444;}
-.boardList th{ border-bottom-color:#333; border-top-color:#333; color:#fff; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
+.boardList tr.notice{ background:#222;}
+.boardList tr.bg1{ background:#000;}
+.boardList tr.bg2{ background:#181818;}
+.boardList th{ border-color:#000; color:#fff; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
 .boardList th a{ color:#ff6600;}
-.boardList td{ border-top-color:#666; color:#fff;}
+.boardList td{ border-color:#333; color:#fff;}
 .boardList td .category{ color:#fff; background-image:url(../images/black/lineVr11.gif);}
 .boardList td.title .replyNum{ color:#ccc;}
 .boardList td.title .replyNum sup{ color:#999;}
 
 .boardList td.summary .thumb{ border-color:#999; background:#444;}
 
-.thumbHeader{ border-top-color:#999; border-bottom-color:#999; color:#333; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
+.thumbHeader{ border-color:#999; color:#333; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
 .thumbHeader a{ color:#ff6600;}
 .thumbHeader .jumpTo button{ background-color:transparent; background-image:url(../images/common/buttonBg2byte.gif);}
 
-.thumbList{ border-bottom-color:#999;}
-.thumbList li .thumb{ background:#444; border-color:#999;}
+.thumbList{ border-color:#333;}
+.thumbList li .thumb{ background:#222; border-color:#333;}
 .thumbList li .thumb a .text{ color:#ccc;}
 .thumbList li .thumb a .category{ background:#000; opacity:.6; filter:alpha(opacity=60); color:#fff;}
 
 /* Board Navigation */
 
 /* Search Form */
-.boardSearchForm .inputText{ border-color:#999;}
 
 /* Board Read */
-.boardReadBody{ border-top-color:#666; border-bottom-color:#666;}
+.boardReadHeader{ border-color:#666;}
+
+.boardReadBody{ border-color:#666;}
 .boardReadBody .memberSignature{ border-color:#666;}
 
 .boardReadFooter{ color:#999;}
 .boardReadFooter a{ color:#999;}
-.boardReadFooter dt{ background:#444;}
+.boardReadFooter dt{ background:#000;}
 .boardReadFooter dd{ background-image:url(../images/black/lineVr11.gif);}
 .boardReadFooter .footerRight dl.noBr dt{ background-image:url(../images/black/lineVr11.gif);}
 
-.boardRead .boardNavigation{ border-top-color:#999;}
+.boardRead .boardNavigation{ border-color:#666;}
 
 .feedbackList{ color:#ccc;}
 .feedbackList .feedbackHeader{ color:#000;}
 .feedbackList .feedbackHeader strong{ color:#ff6600;}
 
-.feedbackList .item{ border-top-color:#666;}
+.feedbackList .item{ border-color:#666;}
 .feedbackList .reply .indent{ border-left-color:#666;}
 
 /* Time */
 .time *{ color:#ccc;}
-.time dt{ background:#444;}
+.time dt{ background:#000;}
 .time dd{ background-image:url(../images/black/lineVr11.gif);}
 
 /* Attached File */
 .attachedFile *{ color:#999;}
-.attachedFile dt{ background:#444;}
+.attachedFile dt{ background:#000;}
 .attachedFile dd{ background-image:url(../images/black/lineVr11.gif);}
 .attachedFile dd a{ color:#999;}
 .attachedFile dd a .bubble{ background:#666; border-color:#555;}
 
 .replyForm{ color:#666; background:#f4f4f4;}
 .replyForm .title{ color:#000;}
-.replyForm textarea{ border-color:#ccc;}
-.replyForm .inputText{ border-color:#ccc;}
 
 /* Board Write */
-.boardWrite .boardWriteHeader dd .inputText{ border-color:#ccc;}
-.boardWrite .tag input{ border-color:#ccc;}
 .boardWrite .boardNavigation,
-.boardEditor .boardNavigation{ border-top-color:#666;}
+.boardEditor .boardNavigation{ border-color:#666;}
 
 /* UserName & Password */
-.board .userNameAndPw dd .inputText{ border-color:#ccc;}
+.board .userNameAndPw,
+.board .editorOption{ border-color:#666; background:#222;}
 
 /* Comment */
-.board .boardEditor{ border-color:#888; background:#555;}
-.board .commentEditor .commentHeader{border-bottom-color:#666; color:#fff;}
+.board .boardEditor{ border-color:#666; background:#333;}
+.board .commentEditor .commentHeader{border-color:#666; color:#fff;}
 
 /* Secret Message */
-.board .secretMessage dd .inputText{ border-color:#ccc;}
+
+/* Extra Var Table */
+.extraVarsList{ border-color:#333;}
+.extraVarsList caption{ color:#999;}
+.extraVarsList em{ color:#ff6600;}
+.extraVarsList th,
+.extraVarsList td{ border-color:#333;}
+.extraVarsList th{ background:#222;}
+.extraVarsList td{ background:#000;}
+.extraVarsList td .inputNum{ border-color:#444; background:#333;}
+
+/* Tag Cloud */
+.tagCloud{border-color:#666;}
+.tagCloud .tagHeader{border-color:#999; color:#fff; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
+.tagCloud .tagHeader strong{ color:#ff6600;}
+.tagCloud li.rank1 a{ background:#12d763; color:#fff;}
+.tagCloud li.rank2 a{ color:#eee;}
+.tagCloud li.rank3 a{ color:#00b4b5;}
+.tagCloud li.rank4 a{ color:#ddd;}
+.tagCloud li.rank5 a{ color:#ccc;}
 
 /* Layer */
-#waitingforserverresponse { border-color:#444; color:#444; background-color:#fff;}
 #popup_menu_area{background:#fff; border-color:#eee;}
 #popup_menu_area ul{ border-color:#ddd;}
 #popup_menu_area li a{ color:#000;}
@@ -115,11 +138,11 @@
 .pagination.a1 a{ color:#fff;}
 .pagination a:hover,
 .pagination a:active,
-.pagination a:focus{ background-color:#505050 !important; }
+.pagination a:focus{ background-color:#222 !important; }
 .pagination.a1 a,
 .pagination.a1 strong,
 .pagination.a2 a,
-.pagination.a2 strong{ border-color:#666;}
+.pagination.a2 strong{ border-color:#333;}
 .pagination.a1 a,
 .pagination.a1 strong,
 .pagination.a1 a.prev,
@@ -131,17 +154,4 @@
 .pagination.a2 a.prev,
 .pagination.a2 a.prevEnd,
 .pagination.a2 a.next,
-.pagination.a2 a.nextEnd{ background-color:#444;}
-
-/* Editor */
-.editorTypeSelector a span{ color:#000;}
-
-/* Tag Cloud */
-.tagCloud .tagHeader{border-top-color:#999; border-bottom-color:#999; color:#fff; background-color:#666; background-image:url(../images/black/bgThDefault.gif);}
-.tagCloud li.rank1 a{ background:#12d763; color:#fff;}
-.tagCloud li.rank2 a{ color:#eee;}
-.tagCloud li.rank3 a{ color:#00b4b5;}
-.tagCloud li.rank4 a{ color:#ddd;}
-.tagCloud li.rank5 a{ color:#ccc;}
-
-
+.pagination.a2 a.nextEnd{ background-color:#000;}

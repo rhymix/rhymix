@@ -55,10 +55,15 @@
     "新細明體",
     "標楷體",
     "細明體",
-    "times",
-    "Courier",
-    "Tahoma",
     "Arial",
+    "'Arial Black'",
+    "Tahoma",
+    "Verdana",
+	"Sans-serif",
+	"Serif",
+	"Monospace",
+	"Cursive",
+	"Fantasy",
     );
 
     $lang->edit->header = "樣式";

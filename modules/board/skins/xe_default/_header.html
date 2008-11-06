@@ -6,9 +6,11 @@
 	
 <!--%import("css/board.css")-->
 <!--%import("css/pagination.css")-->
-<!--%import("css/tag.css")-->
-<!--@if($module_info->colorset == "black")--> <!--%import("css/black.css")-->
-<!--@else--> <!--%import("css/white.css")-->
+
+<!--@if($module_info->colorset == "black")-->
+	<!--%import("css/black.css")-->
+<!--@else-->
+	<!--%import("css/white.css")-->
 <!--@end-->
 
 <!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
@@ -64,9 +66,6 @@
 			<!--@if($is_logged)-->
 				<!--@if($grant->is_admin && $module_info->display_setup_button != 'N')-->
 				<li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
-				<!--@end-->
-				<!--@if($logged_info->is_admin == 'Y' && $module_info->display_setup_button != 'N')-->
-				<li class="admin"><a href="{getUrl('','module','admin','act','dispBoardAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
 				<!--@end-->
 				<!--@if($module_info->display_login_info != 'N')-->
 				<li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>

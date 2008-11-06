@@ -1,33 +1,48 @@
 @charset "utf-8";
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
-.editorTypeSelector{ position:relative; right:3px; z-index:10; float:right; clear:both; *zoom:1; margin-bottom:-2px !important;}
-.editorTypeSelector:after{ content:""; display:block; clear:both;}
-.editorTypeSelector li,
-.editorTypeSelector a{ display:block; float:left; position:relative; background-image:url(../images/tabEditorSelector.gif); background-repeat:no-repeat;}
-.editorTypeSelector li{ background-position:left top; margin-right:5px;}
-.editorTypeSelector li a{ padding:3px 10px 0 10px; height:21px; left:3px; background-position:right top; text-decoration:none !important; white-space:nowrap;}
-.editorTypeSelector li.active{ background-position:left -24px;}
-.editorTypeSelector li.active a{ background-position:right -24px; font-weight:bold; height:23px;}
+/* Editor XE */
 
-.xeEditor{ clear:both; position:relative; z-index:1; border-top:1px solid #ddd; *zoom:1}
+/* Editor Temporary */
+.editorTemporary{ float:left; clear:left;}
+
+/* Editor Type Selector  */
+.editorTypeSelector{ float:right; clear:right; position:relative; right:3px; margin:0; padding:0; line-height:normal; *zoom:1;}
+.editorTypeSelector:after{ content:""; display:block; clear:both;}
+.editorTypeSelector *{ margin:0; padding:0; list-style:none;}
+.editorTypeSelector li{ float:left; margin-right:5px;}
+.editorTypeSelector a,
+.editorTypeSelector a span{ display:block; float:left; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand; white-space:nowrap;}
+.editorTypeSelector a{ background-position:left top; text-decoration:none !important;}
+.editorTypeSelector a span{ position:relative; padding:5px 15px; left:3px; background-position:right top;}
+
+/* Editor Type Selector - Hover */
+.editorTypeSelector a:hover span,
+.editorTypeSelector a:active span,
+.editorTypeSelector a:focus span{ font-weight:bold; letter-spacing:-1px;}
+
+/* Editor Type Selector - Active */
+.editorTypeSelector li.active a{ position:relative; top:-2px; margin-bottom:-2px;}
+.editorTypeSelector li.active a span{ padding:7px 15px; font-weight:bold; letter-spacing:-1px;}
+
+/* Editor Container */
+.xeEditor{ clear:both; position:relative; z-index:1; border-top:1px solid; *zoom:1}
  
  /* Tool Box */
-.toolBox{ padding:5px 10px 3px 10px !important; *padding-bottom:8px !important; margin-bottom:5px !important; background:#fafafa url(../images/buttonSetBg.gif) repeat-x left bottom; *zoom:1;}
+.toolBox{ position:relative; z-index:100; padding:5px 10px 3px 10px !important; *padding-bottom:8px !important; background-repeat:repeat-x; background-position:left bottom; *zoom:1;}
 .toolBox:after{ content:""; display:block; clear:both;}
-.toolBox { position:relative;}
 .toolBox .item{ float:left; margin:0 5px 5px 0;}
 .toolBox .item li{ float:left;}
-.toolBox .item li button{ display:block; border:0; width:21px; height:21px; background-color:#fff; background-image:url(../images/buttonSet.gif); background-position:no-repeat; cursor:pointer;}
+.toolBox .item li button{ display:block; border:0; width:21px; height:21px; background-position:no-repeat; cursor:pointer;}
 .toolBox .item li button span{ position:relative; z-index:-1; font-size:0; line-height:0;}
 
 .toolBox .extension2{ float:left; position:relative; margin:0 5px 5px 0;}
-.toolBox .extension2 .exButton{ float:left; border:0; width:68px; height:21px; background-color:#fff; background:url(../images/buttonSet.gif) no-repeat -579px 0; cursor:pointer;}
+.toolBox .extension2 .exButton{ float:left; border:0; width:68px; height:21px; background-repeat:no-repeat; background-position:-579px 0; cursor:pointer;}
 .toolBox .extension2 .exButton span{ position:relative; z-index:-1; font-size:0; line-height:0;}
 .toolBox .extension2 .exButton:hover,
 .toolBox .extension2 .exButton:focus{ background-position:-579px -21px;}
 .toolBox .extension2 .exButton:active{ background-position:-579px -42px;}
-.toolBox .extension2 ul { display:none; position:absolute; padding:5px 0; top:26px; right:0; background:#fafafa; border:1px solid #9f9f9f;}
+.toolBox .extension2 ul { display:none; position:absolute; padding:5px 0; top:26px; right:0; border:1px solid;}
 .toolBox .extension2.open ul { display:block;}
 .toolBox .extension2 li{ float:none; text-align:left; padding:0 10px;}
 .toolBox .extension2 li button{ display:block; background:none; border:none; cursor:pointer; height:18px; font:11px Dotum, Tahoma; white-space:nowrap; width:auto; *width:100%;}
@@ -35,15 +50,16 @@
 .toolBox .extension2 li button span img{ vertical-align:top; width:13px;}
 
 .toolBox .editorHelp{ float:left; position:relative; margin:0 5px 5px 0;}
-.toolBox .editorHelp .helpButton{ float:left; border:0; width:22px; height:21px; background-color:#fff; background:url(../images/buttonSet.gif) no-repeat right top; cursor:pointer;}
+.toolBox .editorHelp .helpButton{ float:left; border:0; width:22px; height:21px; background-repeat:no-repeat; background-position:right top; cursor:pointer;}
 .toolBox .editorHelp .helpButton span{ position:relative; z-index:-1; font-size:0; line-height:0;}
 .toolBox .editorHelp .helpButton:hover,
 .toolBox .editorHelp .helpButton:focus{ background-position:right -21px;}
 .toolBox .editorHelp .helpButton:active{ background-position:right -42px;}
-.toolBox .editorHelp ul.helpList{ display:none; float:none !important; position:absolute; padding:5px 0; top:26px; right:0; background:#fafafa; border:1px solid #9f9f9f;}
-.toolBox .editorHelp.open ul.helpList{ display:block;}
-.toolBox .editorHelp ul.helpList li{ list-style:disc; float:none; text-align:left; white-space:nowrap; padding:0 10px 0 0; margin-left:25px;}
-.toolBox .editorHelp ul.helpList li li{ list-style:circle; margin-left:20px;}
+
+.toolBox ul.helpList{ display:none; float:none !important; position:absolute; padding:5px 0; top:100%; right:0; margin-top:-3px; border:1px solid;}
+.toolBox ul.helpList.open{ display:block;}
+.toolBox ul.helpList li{ list-style:disc; float:none; text-align:left; white-space:nowrap; padding:0 10px 0 0; margin-left:25px; font-size:12px;}
+.toolBox ul.helpList li li{ list-style:circle; margin-left:20px;}
 
 /* ToolBox Button Default */
 .toolBox .item { list-style:none; padding:0; }
@@ -177,9 +193,13 @@
 .toolBox .item .emoticon button:active{ background-position:-558px -42px;}
 
 /* Auto Save */
-.xeEditor .editor_autosaved_message{ display:none; background:#fafafa; border:1px solid #ddd; margin:10px; padding:5px 10px; clear:both;}
+.xeEditor .editor_autosaved_message{ display:none; border:1px solid; margin:10px 5px; padding:5px 10px; clear:both;}
 
-/* Editor */
+/* Edit Area */
+.xeEditor .editorBox{ border-top:5px solid; border-bottom:5px solid; position:relative;}
+.xeEditor .editorBox .editorMargin{ margin:0 5px;}
+
+/* Editor Display */
 .xeEditor .toolBox,
 .xeEditor .richEditor,
 .xeEditor .htmlEditor{ display:none;}
@@ -187,19 +207,19 @@
 .xeEditor.rich .richEditor,
 .xeEditor.html .htmlEditor{ display:block;}
 .xeEditor .richEditor,
-.xeEditor .htmlEditor{ border:0; background:#fff;}
+.xeEditor .htmlEditor{ border:0;}
 .xeEditor .htmlEditor{ width:100%; padding:10px 0; font-size:12px;}
 
 /* Editor Resize Bar */
-.xeEditor .textAreaDragIndicator{ border-top:1px solid #ddd; border-bottom:1px solid #ddd; clear:both; margin-bottom:10px;}
-.xeEditor .textAreaDragIndicator button{ width:100%; height:9px; border:none; cursor:n-resize; background:#f4f4f4 url(../images/buttonTextAreaDrag.gif) no-repeat center center; }
+.xeEditor .textAreaDragIndicator{ border-top:1px solid; border-bottom:1px solid; clear:both; margin-bottom:5px;}
+.xeEditor .textAreaDragIndicator button{ width:100%; height:9px; border:none; cursor:n-resize; background-repeat:no-repeat; background-position:center center; }
 .xeEditor .mask{ position:relative; width:100%;height:500px;margin-top:-500px;bottom:0; display:none; }
 
 /* File Uploader */
 .xeEditor .fileUploader{ clear:both; position:relative; padding-top:5px; *zoom:1; *margin-bottom:5px;}
-.commentEditor .xeEditor .fileUploader{ border-top:1px solid #ddd;}
+.commentEditor .xeEditor .fileUploader{ border-top:1px solid;}
 .xeEditor .fileUploader:after{ content:""; display:block; clear:both;}
-.xeEditor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid #ddd; padding:2px; margin:0 10px 5px 0; background:#fff;}
+.xeEditor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid; padding:2px; margin:0 10px 5px 0;}
 .xeEditor .fileUploader .preview img{ display:block; width:64px; height:64px;}
 .xeEditor .fileUploader .fileListArea{ float:left; width:260px; margin:0 10px 5px 0;}
 .xeEditor .fileUploader .fileListArea select{ width:100%; height:70px; overflow:auto;}

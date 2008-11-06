@@ -21,15 +21,13 @@
 	</div>
 
 	<!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
-	<table cellspacing="0" summary="" class="extraVarsList">
-	<col width="150" />
-	<col />
+    <table border="1" cellspacing="0" summary="Extra Form" class="extraVarsList">
 	<!--@foreach($module_info->extra_vars as $key => $val)-->
 		<!--@if($val->name)-->
 	<tr>
 		<th scope="row">{$val->name}</th>
 		<td>
-			<!--#include("./extra_var_value.html")-->
+			<!--#include("./_extra_var_value.html")-->
 		</td>
 	</tr>
 		<!--@end-->
@@ -161,11 +159,27 @@
     <input type="hidden" name="comment_srl" value="" />
     <input type="hidden" name="content" value="" />
         <div class="boardWrite commentEditor">
+	
+			<h3 class="commentHeader">{$lang->comment}</h3>
 
-		<h3 class="commentHeader">{$lang->comment}</h3>
+            <div class="editor">{$oDocument->getCommentEditor()}</div>
 
+			<dl class="editorOption">
+				<dt>옵션 : </dt>
+				<!--@if($is_logged)-->
+				<dd>
+					<input type="checkbox" name="notify_message" value="Y" id="notify_message" />
+					<label for="notify_message">{$lang->notify}</label>
+				</dd>
+				<!--@end-->
+				<dd>
+					<input type="checkbox" name="is_secret" value="Y" id="is_secret" />
+					<label for="is_secret">{$lang->secret}</label>
+				</dd>
+			</dl>
+	
+			<!--@if(!$is_logged)-->
             <div class="userNameAndPw">
-                <!--@if(!$is_logged)-->
 				<dl>
 					<dt><label for="userName">{$lang->writer}</label> :</dt>
 					<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName"/></dd>
@@ -182,18 +196,8 @@
 					<dt><label for="homePage">{$lang->homepage}</label> :</dt>
 					<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oDocument->get('homepage'))}" id="homePage" class="inputText"/></dd>
 				</dl>
-
-                <!--@else-->
-                <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
-                <label for="notify_message">{$lang->notify}</label>
-                <!--@end-->
-
-                <input type="checkbox" name="is_secret" value="Y" id="is_secret" />
-                <label for="is_secret">{$lang->secret}</label>
-
             </div>
-
-            <div class="editor">{$oDocument->getCommentEditor()}</div>
+			<!--@end-->
 
 			<div class="boardNavigation">
 				<span class="button red strong"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>

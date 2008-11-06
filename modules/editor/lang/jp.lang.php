@@ -56,10 +56,15 @@
     "ＭＳ Ｐ明朝",
     "Osaka－等幅",
     "ヒラギノ角ゴ Pro W3",
-    "times",
-    "Courier",
-    "Tahoma",
     "Arial",
+    "'Arial Black'",
+    "Tahoma",
+    "Verdana",
+	"Sans-serif",
+	"Serif",
+	"Monospace",
+	"Cursive",
+	"Fantasy",
     );
 
     $lang->edit->header = "見出し";

@@ -1,0 +1,54 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* Editor XE White Theme */
+
+/* Editor Type Selector */
+.editorTypeSelector a,
+.editorTypeSelector a span{ background-color:#444; background-image:url(../images/black/tabCorner.gif);}
+
+/* Editor Type Selector - Hover */
+.editorTypeSelector a:hover,
+.editorTypeSelector a:active,
+.editorTypeSelector a:focus,
+.editorTypeSelector a:hover span,
+.editorTypeSelector a:active span,
+.editorTypeSelector a:focus span{ background-color:#555;}
+
+/* Editor Type Selector - Active */
+.editorTypeSelector li.active a,
+.editorTypeSelector li.active a span{ background-color:#666;}
+
+/* Editor Container */
+.xeEditor{ border-color:#666;}
+ 
+ /* Tool Box */
+.toolBox{ background-color:#666; background-image:url(../images/black/buttonSetBg.gif);}
+.toolBox .item li button{ background-color:transparent; background-image:url(../images/black/buttonSet.gif);}
+
+.toolBox .extension2 .exButton{ background-color:transparent; background-image:url(../images/black/buttonSet.gif);}
+.toolBox .extension2 ul { background:#fafafa; border-color:#9f9f9f;}
+
+.toolBox .editorHelp .helpButton{ background-color:transparent; background-image:url(../images/black/buttonSet.gif);}
+.toolBox ul.helpList{ background:#fafafa; border-color:#9f9f9f;}
+
+/* ToolBox Button Default */
+
+/* Auto Save */
+.xeEditor .editor_autosaved_message{ background:#333; border-color:#666;}
+
+/* Edit Area */
+.xeEditor .editorBox{ border-color:#000; background:#000;}
+
+/* Editor */
+.xeEditor .richEditor,
+.xeEditor .richEditor html body,
+.xeEditor .htmlEditor{ background:#000; color:#fff;}
+
+/* Editor Resize Bar */
+.xeEditor .textAreaDragIndicator{ border-color:#666;}
+.xeEditor .textAreaDragIndicator button{ background-color:#444; background-image:url(../images/common/buttonTextAreaDrag.gif);}
+
+/* File Uploader */
+.commentEditor .xeEditor .fileUploader{ border-color:#666;}
+.xeEditor .fileUploader .preview{ border-color:#666; background:#000;}

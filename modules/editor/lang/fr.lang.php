@@ -52,14 +52,15 @@
     $lang->edit->fontsize = 'Mesure';
     $lang->edit->use_paragraph = 'Fonctions sur Paragraphe';
     $lang->edit->fontlist = array(
-    "Gulim",
-    "Dodum",
-    "Batang",
-    "Goongseo",
-    "times",
-    "Courier",
-    "Tahoma",
     "Arial",
+    "'Arial Black'",
+    "Tahoma",
+    "Verdana",
+	"Sans-serif",
+	"Serif",
+	"Monospace",
+	"Cursive",
+	"Fantasy",
     );
 
     $lang->edit->header = "Style";

@@ -52,14 +52,18 @@
     $lang->edit->fontsize = '크기';
     $lang->edit->use_paragraph = '문단기능';
     $lang->edit->fontlist = array(
-    "굴림",
-    "돋움",
-    "바탕",
-    "궁서",
-    "times",
-    "Courier",
-    "Tahoma",
+    "Dotum",
+    "Gulim",
+    "Batang",
     "Arial",
+    "'Arial Black'",
+    "Tahoma",
+    "Verdana",
+	"Sans-serif",
+	"Serif",
+	"Monospace",
+	"Cursive",
+	"Fantasy",
     );
 
     $lang->edit->header = "형식";

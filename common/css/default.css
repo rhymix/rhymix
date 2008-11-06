@@ -12,7 +12,6 @@ IE7 & IE6 & Below
 */
 
 /* default.css - Type Selector Definition */
-body { font-size:.75em; }
 img { border:none; }
 label { cursor:pointer; }
 form { margin:0; padding:0; }
@@ -82,8 +81,6 @@ a.bold { font-weight:bold; }
 .folder_opener { display: block; }
 .folder_closer { display: none; }
 .folder_area { display: none; }
-
-.xe_content { line-height:1.6; } 
 
 .zbxe_widget_output { background:url(../tpl/images/widget_text.gif) no-repeat center bottom; display:block;}
 

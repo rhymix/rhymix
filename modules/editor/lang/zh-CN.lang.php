@@ -56,10 +56,15 @@
     "黑体",
     "楷体_GB2312",
     "宋体",
-    "times",
-    "Courier",
-    "Tahoma",
     "Arial",
+    "'Arial Black'",
+    "Tahoma",
+    "Verdana",
+	"Sans-serif",
+	"Serif",
+	"Monospace",
+	"Cursive",
+	"Fantasy",
     );
 
     $lang->edit->header = "样式";

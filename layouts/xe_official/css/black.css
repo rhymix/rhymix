@@ -11,7 +11,7 @@ Jeong, Chan Myeong 070601~070630
 #lnb ul { margin:0; padding:0; }
 
 /* Site Layout - Body Wrap */
-body { background:#444 url(../images/black/bgBody.gif) repeat-x;}
+body { background:#000;}
 #bodyWrap { position:relative; width:980px; margin:0 auto; padding:1.5em 0 0 0;}
 
 /* Site Layout - Header */
