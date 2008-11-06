@@ -21,7 +21,7 @@ function planet_showTodoList(o){
 }
 
 function planet_reload_todo(){
-    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">TODO</h3><span class="button strong black todoWrite"><button type="button">TODO 쓰기</button></div>\n<div id="todoList" class="commentBody todoManager"></div>\n<div id="todoList_page" class="pagination a1"></div>\n<div class="commentHeader"><h3 class="exTitle">DONE</h3></div>\n<div id="doneList" class="commentBody todoManager"></div>\n<div id="doneList_page" class="pagination a1"></div>\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
+    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">TODO</h3><span class="button strong black todoWrite"><button type="button">TODO 쓰기</button></span></div>\n<div id="todoList" class="commentBody todoManager"></div>\n<div id="todoList_page" class="pagination a1"></div>\n<div class="commentHeader"><h3 class="exTitle">DONE</h3></div>\n<div id="doneList" class="commentBody todoManager"></div>\n<div id="doneList_page" class="pagination a1"></div>\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
     planet_getTodo();
     planet_getDone();
 }
