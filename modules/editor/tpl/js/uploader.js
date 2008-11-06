@@ -96,7 +96,7 @@ function XEUploaderStart(obj) {
     swfObj.style.width = btnWidth+"px";
     swfObj.style.height = btnHeight+"px";
 
-    reloadFileList(settings);
+    if(obj["insertedFiles"]>0) reloadFileList(settings);
 }
 
 function fileQueued(file) {
