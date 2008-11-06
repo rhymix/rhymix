@@ -150,7 +150,7 @@ function editorDragMove(evt) {
     height += h;
     xHeight(iframe_obj, height);
     xHeight(textarea_obj, height);
-    xHeight(iframe_obj.parentNode, height+10);
+//    xHeight(iframe_obj.parentNode, height+200);
 }
 
 function editorDragStop(evt) {
