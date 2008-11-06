@@ -78,29 +78,7 @@
          **/
         function dispBoardAdminBoardInfo() {
 
-            // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
-            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
-                return $this->alertMessage('msg_invalid_request');
-            }
-
-            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($this->module_info->layout_srl) {
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
-                $this->module_info->layout = $layout_info->layout;
-                $this->module_info->layout_title = $layout_info->layout_title;
-            }
-
-            // 정해진 스킨이 있으면 해당 스킨의 정보를 구함
-            if($this->module_info->skin) {
-                $oModuleModel = &getModel('module');
-                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->module_info->skin);
-                $this->module_info->skin_title = $skin_info->title;
-            }
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('board_info');
+            $this->dispBoardAdminInsertBoard();
         }
 
         /**
