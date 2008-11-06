@@ -249,7 +249,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
 
     if(files && typeof(files['item'])!='undefined') {
         var item = files['item'];
-        if(item.length<1) item = new Array(item);
+        if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
         if(item.length) {
             for(var i=0;i<item.length;i++) {
                 var file_srl = item[i].file_srl;
