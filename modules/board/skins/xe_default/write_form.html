@@ -30,7 +30,7 @@
 		<!--@end-->
 	
 		<dl class="title">
-			<dt>제목 : </dt>
+			<dt><label class="title">{$lang->title} :</label></dt>
 			<dd>
 				<!--@if($module_info->use_category=="Y")-->
 				<select name="category_srl" class="category">
@@ -41,15 +41,13 @@
 					</option>
 					<!--@endforeach-->
 				</select>
-				<!--@else-->
-				<label class="title">{$lang->title}</label>
 				<!--@endif-->
 				<input type="text" name="title" class="inputText" value="{htmlspecialchars($oDocument->getTitleText())}" />
 			</dd>
 		</dl>
 	
 		<dl class="option">
-			<dt>옵션 : </dt>
+			<dt>{$lang->cmd_option} : </dt>
 			<!--@if($grant->manager)-->
 			{@ $_color = array('555555','222288','226622','2266EE','8866CC','88AA66','EE2222','EE6622','EEAA22','EEEE22') }
 			<dd><select name="title_color" id="title_color" <!--@if($oDocument->get('title_color'))-->style="background-color:#{$oDocument->get('title_color')};"<!--@end--> onchange="this.style.backgroundColor=this.options[this.selectedIndex].style.backgroundColor;">

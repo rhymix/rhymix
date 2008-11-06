@@ -35,7 +35,7 @@
 						<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
 							<p>&quot;{$lang->msg_is_secret}&quot;</p>
 							<dl>
-								<dt><label for="cpw">비밀번호</label> :</dt>
+								<dt><label for="cpw">{$lang->password}</label> :</dt>
 								<dd><input type="password" id="cpw" name="password" class="inputText" /><span class="button red"><input type="submit" value="{$lang->cmd_input}" /></span></dd>
 							</dl>
 						</form>
@@ -91,7 +91,6 @@
 
 </div>
 
-    <!-- 댓글 페이지 네비게이션 -->
     <!--@if($oDocument->comment_page_navigation)-->
     <div class="pagination a1">
         <a href="{getUrl('cpage',1)}#comment" class="prevEnd">{$lang->first_page}</a> 

@@ -1,4 +1,3 @@
-<!-- 글 내용 보여주기 -->
 <div class="boardRead">
 
 	<div class="boardReadHeader">
@@ -30,7 +29,6 @@
 	<tr>
 		<th scope="row">{$val->name}</th>
 		<td>
-			<!--// 확장변수(extra_var)의 type에 따른 값을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
 			<!--#include("./extra_var_value.html")-->
 		</td>
 	</tr>
@@ -58,7 +56,6 @@
 			{$oDocument->getContent()}
 		<!--@end-->
 
-		<!-- 서명 / 프로필 이미지 출력 -->
 		<!--@if($oDocument->getProfileImage() || $oDocument->getSignature())-->
 			<div class="memberSignature">
 			<!--@if($oDocument->getProfileImage())-->
@@ -133,7 +130,6 @@
 		
 	</div>
 
-    <!-- 목록, 수정/삭제 버튼 -->
     <div class="boardNavigation">
 		<!--@if($module_info->default_style != 'blog')-->
         <div class="buttonLeft">
@@ -151,15 +147,12 @@
 
 </div>
 
-<!-- 엮인글 -->
 <!--@if($oDocument->allowTrackback())-->
     <!--#include("./trackback.html")-->
 <!--@end-->
 
-<!-- 댓글 -->
 <!--#include("./comment.html")-->
 
-<!-- 댓글 입력 폼 -->
 <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
     <!--%import("filter/insert_comment.xml")-->
     <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
@@ -169,7 +162,7 @@
     <input type="hidden" name="content" value="" />
         <div class="boardWrite commentEditor">
 
-		<h3 class="commentHeader">댓글 쓰기</h3>
+		<h3 class="commentHeader">{$lang->comment}</h3>
 
             <div class="userNameAndPw">
                 <!--@if(!$is_logged)-->

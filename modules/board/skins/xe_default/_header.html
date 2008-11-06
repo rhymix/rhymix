@@ -1,41 +1,32 @@
-<!--// JS 파일 로드 -->
-    <!--%import("js/board.js")-->
+<!--%import("js/board.js")-->
 
-<!--// 컬러셋 체크 -->
-    <!--@if(!$module_info->colorset)-->
-        {@$module_info->colorset = "white"}
-    <!--@end-->
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset = "white"}
+<!--@end-->
 	
-	
-<!--// CSS 파일 로드 (컬러셋에 따라서) -->
-	
-	<!--%import("css/board.css",optimized=false)-->
-	<!--%import("css/pagination.css",optimized=false)-->
-	<!--%import("css/tag.css",optimized=false)-->
-    <!--@if($module_info->colorset == "black")--> <!--%import("css/black.css",optimized=false)-->
-    <!--@else--> <!--%import("css/white.css",optimized=false)-->
-    <!--@end-->
+<!--%import("css/board.css")-->
+<!--%import("css/pagination.css")-->
+<!--%import("css/tag.css")-->
+<!--@if($module_info->colorset == "black")--> <!--%import("css/black.css")-->
+<!--@else--> <!--%import("css/white.css")-->
+<!--@end-->
 
-<!--// 스킨 설정중 새글의 시간 설정 값이 없으면 임의로 지정 -->
-    <!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
-        {@ $module_info->duration_new = 12 }
-    <!--@end-->
+<!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
+    {@ $module_info->duration_new = 12 }
+<!--@end-->
 
-<!--// 스킨 설정중 썸네일 관련 항목을 지정 -->
-    <!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
-    <!--@if(!$module_info->thumbnail_width)-->{@ $module_info->thumbnail_width = 100; }<!--@end-->
-    <!--@if(!$module_info->thumbnail_height)-->{@ $module_info->thumbnail_height = 100; }<!--@end-->
+<!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
+<!--@if(!$module_info->thumbnail_width)-->{@ $module_info->thumbnail_width = 100; }<!--@end-->
+<!--@if(!$module_info->thumbnail_height)-->{@ $module_info->thumbnail_height = 100; }<!--@end-->
 
-<!--// 정렬에 따른 아이콘 미리 지정 -->
-    <!--@if($order_type == "desc")-->
-        {@ $order_icon = "buttonDescending.gif" }
-        {@ $order_type = "asc"; }
-    <!--@else-->
-        {@ $order_icon = "buttonAscending.gif" }
-        {@ $order_type = "desc"; }
-    <!--@end-->
+<!--@if($order_type == "desc")-->
+    {@ $order_icon = "buttonDescending.gif" }
+    {@ $order_type = "asc"; }
+<!--@else-->
+    {@ $order_icon = "buttonAscending.gif" }
+    {@ $order_type = "desc"; }
+<!--@end-->
 
-<!--// 사용자가 선택한 게시판 형태에 따른 설정(포럼형은 적용 안됨) -->
 <!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
     <!--@if($listStyle=='gallery')-->
         {@ $module_info->default_style = 'gallery'}
@@ -46,67 +37,49 @@
     <!--@end-->
 <!--@end-->
 
-<!--// 상단 텍스트 출력 -->
-    {$module_info->header_text}
+{$module_info->header_text}
+
 <div class="board">
     <div class="boardHeader">
-		<!-- 스킨의 제목/간단한 설명 출력 -->
 		<!--@if($module_info->title)-->
 		<div class="boardTitle">
 			<h2 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
 		</div>
 		<!--@end-->
 
-		<!-- 스킨의 상세 설명 -->
 		<!--@if($module_info->comment)-->
 		<p class="boardDescription">{$module_info->comment}</p>
 		<!--@end-->
     </div>
 
-<!-- 게시판 정보 -->
 <!--@if($module_info->display_login_info != 'N' || $module_info->display_setup_button != 'N')-->
     <div class="boardInformation">
 
-        <!-- 게시물 수 -->
         <!--@if($total_count && $module_info->default_style != 'blog')-->
         <div class="infoLeft">{$lang->document_count} <strong>{number_format($total_count)}</strong></div>
         <!--@end-->
 		
 		<div class="infoRight">
-			<!-- 로그인 정보 -->
 			<ul>
-			<!--// 로그인 되어 있을 경우 -->
 			<!--@if($is_logged)-->
-	
-				<!--// 관리자이면 설정 버튼 출력 -->
 				<!--@if($grant->is_admin && $module_info->display_setup_button != 'N')-->
 				<li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
 				<!--@end-->
-	
-				<!--// 최고관리자이면 관리자 페이지 버튼 출력 -->
 				<!--@if($logged_info->is_admin == 'Y' && $module_info->display_setup_button != 'N')-->
 				<li class="admin"><a href="{getUrl('','module','admin','act','dispBoardAdminContent')}" onclick="window.open(this.href); return false;">{$lang->cmd_management}</a></li>
 				<!--@end-->
-	
-				<!--// 회원정보 버튼 출력 -->
 				<!--@if($module_info->display_login_info != 'N')-->
 				<li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
 				<li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 				<!--@end-->
-	
-				<!--// 로그인 되어 있지 않고 회원정보 버튼 출력하도록 되어있으면 -->
 				<!--@elseif(!$is_logged && $module_info->display_login_info != 'N')-->
 					<li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
 					<li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
 				<!--@end-->
-		
 				<!--@if($rss_url)-->
 					<li class="rss icon"><a href="{$rss_url}" title="RSS"><span>RSS</span></a></li>
 				<!--@end-->
-	
 				<li class="tag_info icon"><a href="{getUrl('act','dispBoardTagList')}" title="Tag List"><span>Tag List</span></a></li>
-	
-				<!--// 목록형태 (포럼형/ 블로그형이 기본으로 되어 있을 경우 다른 형태를 지정 못하게 함) -->
 				<!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
 				<li class="listTypeClassic icon"><a href="{getUrl('listStyle','list','act','','document_srl','')}" title="Classic Board"><span>Classic Board</span></a></li>
 				<li class="listTypeZine icon"><a href="{getUrl('listStyle','webzine','act','','document_srl','')}" title="Web Zine"><span>Web Zine</span></a></li>

@@ -1,6 +1,5 @@
 <!--#include("_header.html")-->
 
-<!--// 만약 댓글의 답을 다는 것이라면 원문 보여줌 -->
 <!--@if($oSourceComment->isExists())-->
 <div class="feedbackList">
     <div class="item">
@@ -19,7 +18,6 @@
 </div>
 <!--@end-->
 
-<!-- 글쓰기 폼 -->
 <!--%import("filter/insert_comment.xml")-->
 <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
 <input type="hidden" name="mid" value="{$mid}" />
@@ -30,7 +28,7 @@
 
 <div class="boardWrite commentEditor">
 	
-	<h3 class="commentHeader">댓글 쓰기</h3>
+	<h3 class="commentHeader">{$lang->comment}</h3>
 
     <div class="userNameAndPw">
         <!--@if(!$is_logged)-->
