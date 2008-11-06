@@ -1,5 +1,7 @@
 function planetTab(){
-    if($('planet_tab')) $('planet_tab').innerHTML += '<ul id="planetex_Tab" class="exTab"><li><a id="aa" href="#" onclick="planet_showTodoList(this); return false;">ToDo<sup><span id="planet_todo_count">'+ planet_todo_count.todo + '</span>/<span id="planet_done_count">' + planet_todo_count.done + '</span></sup></a></li>';
+    planet_todo_count.todo = planet_todo_count.todo ? planet_todo_count.todo:0;
+    planet_todo_count.done = planet_todo_count.done ? planet_todo_count.done:0;
+    if($('planet_tab')) $('planet_tab').innerHTML += '<ul id="planetex_Tab" class="exTab"><li><a href="#planet_tab" onclick="planet_showTodoList(this);">ToDo<sup><span id="planet_todo_count">'+ planet_todo_count.todo + '</span>/<span id="planet_done_count">' + planet_todo_count.done + '</span></sup></a></li>';
 }
 xAddEventListener(window,'load',planetTab);
 
@@ -65,13 +67,13 @@ function result_planet_getTodo(ret_obj,response_tags, params, fo_obj) {
                 tag = $A(it[i]['tag_list']['item']);
             }
 
-            tag = tag.refuse('todo');
+            tag = tag.filter(function(v){return !/todo/i.test(v);});
             tag.push('done');
             tag = tag.$value().join(',');
 
-            o.push('<li>');
+            o.push('<input type="hidden" id="tag:'+it[i]['document_srl']+'"  value="'+tag+'" /><li>');
                     o.push(it[i]['content']);
-				o.push('<span class="button small"><button type="button" id="document_srl:'+it[i]['document_srl']+'" value="'+tag+'" onclick="planet_todo_setDone(this)">&radic; DONE</button></span>');
+                o.push('<span class="button small"><button type="button" id="document_srl:'+it[i]['document_srl']+'"  onclick="planet_todo_setDone(this)">&radic; DONE</button></span>');
                 o.push('<span class="time">');
                     o.push(it[i]['regdate']);
                 o.push('</span>');
@@ -79,23 +81,33 @@ function result_planet_getTodo(ret_obj,response_tags, params, fo_obj) {
         }
 
         o.push('</ul>');
-		o.push('<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>');
+        o.push('<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>');
 
         $('todoList').innerHTML = o.join('');
 
 
         var pageNavigation = ret_obj['pageNavigation'];
+        $('planet_todo_count').innerHTML = pageNavigation.total_count ? pageNavigation.total_count : 0;
 
-        $('planet_todo_count').innerHTML = pageNavigation.total_count;
-        var str = "";
-        for(var i=pageNavigation.first_page;i<=pageNavigation.page_count;i++){
-            if(i== pageNavigation.cur_page){
-                str += "<strong>"+i+"</strong>";
-            }else{
-                str += '<a href="#" onclick="planet_getTodo('+i+');return false;">'+ i +'</a>';
+        if(pageNavigation.total_page > 1){
+
+            var str = "";
+            if(pageNavigation.first_page>1) str += '<a class="prev" href="#planet_tab" onclick="planet_getDone('+(pageNavigation.first_page-1)+');">Prev</a>';
+
+            for(var i=pageNavigation.first_page;i<=pageNavigation.page_count;i++){
+                if(i== pageNavigation.cur_page){
+                    str += "<strong>"+i+"</strong>";
+                }else{
+                    str += '<a href="#planet_tab" onclick="planet_getDone('+i+');">'+ i +'</a>';
+                }
             }
+
+            if(pageNavigation.total_page != pageNavigation.last_page) str += '<a class="next" href="#planet_tab" onclick="planet_getDone('+(pageNavigation.last_page+1)+');">next</a>';
+            $('doneList_page').innerHTML = str;
         }
-        $('todoList_page').innerHTML = str;
+        window.location.href="#planet_tab";
+    }else{
+        $('planet_todo_count').innerHTML = 0;
     }
 }
 
@@ -127,34 +139,45 @@ function result_planet_getDone(ret_obj,response_tags, params, fo_obj) {
                 tag = $A(it[i]['tag_list']['item']);
             }
 
-            tag = tag.refuse('done');
+            tag = tag.filter(function(v){return !/done/i.test(v);});
             tag.push('todo');
             tag = tag.$value().join(',');
 
-            o.push('<li>');
+            o.push('<input type="hidden" id="tag:'+it[i]['document_srl']+'"  value="'+tag+'" /><li>');
                     o.push(it[i]['content']);
-				o.push('<span class="button small"><button type="button" id="document_srl:'+it[i]['document_srl']+'" value="'+tag+'" onclick="planet_todo_setDone(this)">REDO</button></span>');
+                o.push('<span class="button small"><button type="button" id="document_srl:'+it[i]['document_srl']+'" onclick="planet_todo_setDone(this)">REDO</button></span>');
                 o.push('<span class="button small"><button type="button" onclick="planet_todo_setDel('+it[i]['document_srl']+')">Delete</button></span>');
             o.push("</li>\n");
         }
 
 
         o.push('</ul>');
-		o.push('<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>');
+        o.push('<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>');
 
-		$('doneList').innerHTML = o.join('');
+        $('doneList').innerHTML = o.join('');
 
         var pageNavigation = ret_obj['pageNavigation'];
-       $('planet_done_count').innerHTML = pageNavigation.total_count;
-        var str = "";
-        for(var i=pageNavigation.first_page;i<=pageNavigation.page_count;i++){
-            if(i== pageNavigation.cur_page){
-                str += "<strong>"+i+"</strong>";
-            }else{
-                str += '<a href="#" onclick="planet_getDone('+i+');return false;">'+ i +'</a>';
+        $('planet_done_count').innerHTML = pageNavigation.total_count ? pageNavigation.total_count : 0;
+
+        if(pageNavigation.total_page > 1){
+            var str = "";
+
+            if(pageNavigation.first_page>1) str += '<a class="prev" href="#planet_tab" onclick="planet_getDone('+(pageNavigation.first_page-1)+');>Prev</a>';
+
+            for(var i=pageNavigation.first_page;i<=pageNavigation.page_count;i++){
+                if(i== pageNavigation.cur_page){
+                    str += "<strong>"+i+"</strong>";
+                }else{
+                    str += '<a href="#planet_tab" onclick="planet_getDone('+i+');">'+ i +'</a>';
+                }
             }
+
+            if(pageNavigation.total_page != pageNavigation.last_page) str += '<a class="next" href="#planet_tab" onclick="planet_getDone('+(pageNavigation.last_page+1)+');>next</a>';
+            $('doneList_page').innerHTML = str;
         }
-        $('doneList_page').innerHTML = str;
+        window.location.href="#planet_tab";
+    }else{
+        $('planet_done_count').innerHTML = 0;
     }
 }
 
@@ -163,7 +186,7 @@ function result_planet_getDone(ret_obj,response_tags, params, fo_obj) {
 
 function planet_todo_setDone(o){
     var document_srl = o.id.replace(/.*:/,'');
-    var tag = o.value;
+    var tag = $('tag:'+document_srl).value;
     var params = {};
     params['document_srl'] = document_srl;
     params['planet_content_tag'] = tag;
@@ -173,8 +196,10 @@ function planet_todo_setDone(o){
 }
 
 function planet_todo_setDel(document_srl){
-    var tag = $A($('document_srl:'+document_srl).value.split(','));
-    tag = tag.refuse('todo');
+//    var tag = $A($('document_srl:'+document_srl).value.split(','));
+    var tag = $A($('tag:'+document_srl).value.split(','));
+
+    tag = tag.filter(function(v){return !/todo/i.test(v);});
     tag.push('hide');
     tag = tag.$value().join(',');
 
