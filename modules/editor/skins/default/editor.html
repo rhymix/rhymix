@@ -141,7 +141,7 @@
                     <button type="button" class="exButton" title="{$lang->edit->extension}" onclick="showEditorExtension(event,{$editor_sequence})"><span>{$lang->edit->extension}</span></button>
                     <ul id="editor_component_{$editor_sequence}">
                         <!--@foreach($component_list as $component_name => $component)-->
-                            <!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_gallery','image_link','multimedia_link','quotation','table_maker','url_link')))-->
+                            <!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_link','multimedia_link','quotation','table_maker','url_link')))-->
                                 <li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span><img src="../../components/{$component_name}/component_icon.gif" alt="" /> {$component->title}</span></button></li>
                             <!--@end-->
                         <!--@end-->

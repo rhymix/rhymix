@@ -5,7 +5,7 @@
 
 /* Editor Type Selector */
 .editorTypeSelector a,
-.editorTypeSelector a span{ background-image:url(../../../common/tpl/images/buttonBlack.gif); color:#fff;}
+.editorTypeSelector a span{ background-image:url(../images/buttonBlack.gif); color:#fff;}
 
 /* Editor Container */
 .xeEditor{ border-color:#666;}
