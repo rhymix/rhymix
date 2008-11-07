@@ -64,6 +64,7 @@
 
 				</td>
 				<td class="lastReply">
+				<!--@if((int)($document->get('comment_count'))>0)-->
 					<a href="#" class="replyAnchor">{zdate($document->get('last_update'),'Y-m-d')}
 						<span class="bubble">{zdate($document->get('last_update'),'H:i')}</span>
 					</a>
@@ -72,6 +73,7 @@
 					<!--@else-->
 						<a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a>
 					<!--@end-->
+				<!--@end-->
 				</td>
 				<td class="replies">{(int)($document->get('comment_count'))}</td>
 				<td class="reading">{(int)($document->get('readed_count'))}</td>
@@ -98,6 +100,7 @@
 
 				</td>
 				<td class="lastReply">
+				<!--@if((int)($document->get('comment_count'))>0)-->				
 					<a href="#" class="replyAnchor">{zdate($document->get('last_update'),'Y-m-d')}
 						<span class="bubble">{zdate($document->get('last_update'),'H:i')}</span>
 					</a>
@@ -106,6 +109,7 @@
 					<!--@else-->
 						<a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a>
 					<!--@end-->
+				<!--@end-->					
 				</td>
 				<td class="replies">{(int)($document->get('comment_count'))}</td>
 				<td class="reading">{(int)($document->get('readed_count'))}</td>
