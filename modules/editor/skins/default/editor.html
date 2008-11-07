@@ -20,8 +20,8 @@
 <input type="hidden" name="_editor_sequence" value="{$editor_sequence}" />
 <div class="editorTemporary">
 	<!--@if($is_logged)-->
-	<span class="button small"><input type="button" value="{$lang->cmd_temp_save}"  onclick="doDocumentSave(this); return false;" /></span>
-	<span class="button small"><input type="button" value="{$lang->cmd_load}"  onclick="doDocumentLoad(this); return false;" /></span>
+	<span class="button small"><button type="button" onclick="doDocumentSave(this); return false;">{$lang->cmd_temp_save}</button></span>
+	<span class="button small"><button type="button" onclick="doDocumentLoad(this); return false;">{$lang->cmd_load}</button></span>
 	<!--@end-->
 </div>
 
