@@ -1,7 +1,7 @@
 function planetTab(){
     planet_todo_count.todo = planet_todo_count.todo ? planet_todo_count.todo:0;
     planet_todo_count.done = planet_todo_count.done ? planet_todo_count.done:0;
-    if($('planet_tab')) $('planet_tab').innerHTML += '<ul id="planetex_Tab" class="exTab"><li><a href="#planet_tab" onclick="planet_showTodoList(this);">ToDo<sup><span id="planet_todo_count">'+ planet_todo_count.todo + '</span>/<span id="planet_done_count">' + planet_todo_count.done + '</span></sup></a></li>';
+    if($('planet_tab')) $('planet_tab').innerHTML += '<ul id="planetex_Tab" class="exTab"><li><a href="#planet_tab" onclick="planet_showTodoList(this);">ToDo<sup><span id="planet_todo_count">'+ planet_todo_count.todo + '</span>/<span id="planet_done_count">' + planet_todo_count.done + '</span></sup></a></li></ul>';
 }
 xAddEventListener(window,'load',planetTab);
 
@@ -21,7 +21,7 @@ function planet_showTodoList(o){
 }
 
 function planet_reload_todo(){
-    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">TODO</h3><span class="button strong black todoWrite"><button type="button" onclick="showWritePostTodo()">TODO 쓰기</button></span></div>\n<div id="todoList" class="commentBody todoManager"></div>\n<div id="todoList_page" class="pagination a1"></div>\n<div class="commentHeader"><h3 class="exTitle">DONE</h3></div>\n<div id="doneList" class="commentBody todoManager"></div>\n<div id="doneList_page" class="pagination a1"></div>\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
+    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">TODO</h3><span class="button strong black todoWrite"><button type="button" onclick="showWritePostTodo()">TODO Post</button></span></div>\n<div id="todoList" class="commentBody todoManager"></div>\n<div id="todoList_page" class="pagination a1"></div>\n<div class="commentHeader"><h3 class="exTitle">DONE</h3></div>\n<div id="doneList" class="commentBody todoManager"></div>\n<div id="doneList_page" class="pagination a1"></div>\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
     planet_getTodo();
     planet_getDone();
 }
