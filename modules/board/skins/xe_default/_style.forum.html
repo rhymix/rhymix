@@ -68,7 +68,7 @@
                     <!--@end-->
 
                     <div class="author">
-                        by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong> on <strong>{$document->getRegdate('Y-m-d H:i')}</strong>
+                        by <strong><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></strong> on <strong>{$document->getRegdate('Y-m-d H:i')}</strong>
                     </div>
 
                 </td>
@@ -79,7 +79,7 @@
                         <!--@if($document->get('last_updater'))-->
                             by <strong>{htmlspecialchars($document->get('last_updater'))}</strong>
                         <!--@else-->
-                            by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong>
+                            by <strong><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></strong>
                         <!--@end-->
                     </div>
                     <div class="date">
@@ -108,7 +108,7 @@
                     <!--@end-->
 
                     <div class="author">
-                        by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong> on <strong>{$document->getRegdate('Y-m-d H:i')}</strong>
+                        by <strong><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></strong> on <strong>{$document->getRegdate('Y-m-d H:i')}</strong>
                     </div>
                 </td>
                 <td class="commentCount">{(int)($document->get('comment_count'))}</td>
@@ -118,7 +118,7 @@
                         <!--@if($document->get('last_updater'))-->
                             by <strong>{htmlspecialchars($document->get('last_updater'))}</strong>
                         <!--@else-->
-                            by <strong><span class="member_{$document->get('member_srl')}">{$document->getNickName()}</span></strong>
+                            by <strong><a href="#popup_menu_area" class="member_{$document->get('member_srl')}">{$document->getNickName()}</a></strong>
                         <!--@end-->
                     </div>
                     <div class="date">

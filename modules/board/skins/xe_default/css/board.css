@@ -235,10 +235,10 @@
 .board .userNameAndPw dt{ position:relative; top:-3px; font-weight:bold; display:inline;}
 .board .userNameAndPw dd{ margin-right:5px; display:inline;}
 .board .userNameAndPw dd .inputText{}
-.board .userNameAndPw dd.userName .inputText{ width:80px;}
-.board .userNameAndPw dd.userPw .inputText{ width:80px;}
-.board .userNameAndPw dd.emailAddress .inputText{ width:120px;}
-.board .userNameAndPw dd.homePage .inputText{ width:120px;}
+.board .userNameAndPw dd.userName .inputText{ width:70px;}
+.board .userNameAndPw dd.userPw .inputText{ width:70px;}
+.board .userNameAndPw dd.emailAddress .inputText{ width:100px;}
+.board .userNameAndPw dd.homePage .inputText{ width:100px;}
 .board .userNameAndPw dd .inputText{ padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px; vertical-align:middle;}
 
 /* Comment */

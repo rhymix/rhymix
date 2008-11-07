@@ -29,7 +29,7 @@
 
     <!--@if($module_info->extra_vars)-->
     <table border="1" cellspacing="0" summary="Extra Form" class="extraVarsList">
-	<caption><em>*</em> : 필수</caption>
+	<caption><em>*</em> : {$lang->is_required}</caption>
     <!--@foreach($module_info->extra_vars as $key => $val)-->
         <!--@if($val->name)-->
     <tr>
@@ -95,11 +95,11 @@
 	<div class="userNameAndPw">
 		<dl>
 			<dt><label for="userName">{$lang->writer}</label> :</dt>
-			<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName" title="필수" /></dd>
+			<dd class="userName"><input type="text" name="nick_name" value="{$oDocument->getNickName()}" class="inputText" id="userName" title="{$lang->is_required}" /></dd>
 		</dl>
 		<dl>
 			<dt><label for="userPw">{$lang->password}</label> :</dt>
-			<dd class="userPw"><input type="password" name="password" value="" id="userPw" class="inputText" title="필수" /></dd>
+			<dd class="userPw"><input type="password" name="password" value="" id="userPw" class="inputText" title="{$lang->is_required}" /></dd>
 		</dl>
 		<dl>
 			<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
