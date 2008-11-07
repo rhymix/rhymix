@@ -193,6 +193,11 @@
              **/
             $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             $tpl_file = 'editor.html';
+
+            if(!file_exists($tpl_path.$tpl_file)) {
+                $skin = 'default';
+                $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
+            }
             Context::set('editor_path', $tpl_path);
 
             // tpl 파일을 compile한 결과를 return
