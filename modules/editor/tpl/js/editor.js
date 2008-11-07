@@ -17,6 +17,10 @@ function editorGetTextArea(editor_sequence) {
     return xGetElementById( 'editor_textarea_' + editor_sequence );
 }
 
+function editorGetPreviewArea(editor_sequence) {
+    return xGetElementById( 'editor_preview_' + editor_sequence );
+}
+
 // editor_sequence에 해당하는 form문 구함
 function editorGetForm(editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -197,7 +201,7 @@ function editorKeyPress(evt) {
     if(!editor_sequence) return;
 
     // IE에서 enter키를 눌렀을때 P 태그 대신 BR 태그 입력
-    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13 && editorMode[editor_sequence]!='html') {
+    if (xIE4Up && !e.ctrlKey && !e.shiftKey && e.keyCode == 13 && !editorMode[editor_sequence]) {
         var iframe_obj = editorGetIFrame(editor_sequence);
         if(!iframe_obj) return;
 
@@ -252,7 +256,7 @@ function editorKeyPress(evt) {
         if(!iframe_obj) return;
 
         // html 에디터 모드일 경우 이벤트 취소 시킴
-        if(editorMode[editor_sequence]=='html') {
+        if(editorMode[editor_sequence]) {
             evt.cancelBubble = true;
             evt.returnValue = false;
             xPreventDefault(evt);
@@ -343,7 +347,7 @@ function editorDo(command, value, target) {
     }
 
     var editor_sequence = doc.body.getAttribute('editor_sequence');
-    if(editorMode[editor_sequence]=='html') return;
+    if(editorMode[editor_sequence]) return;
 
     // 포커스
     if(typeof(target)=="object") target.focus();
@@ -399,79 +403,59 @@ function editorChangeMode(mode, editor_sequence) {
     if(!iframe_obj) return;
 
     var textarea_obj = editorGetTextArea(editor_sequence);
-    xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
-    xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
-
+    var preview_obj = editorGetPreviewArea(editor_sequence);
     var contentDocument = iframe_obj.contentWindow.document;
 
-    // html 편집 사용시
-    if(mode == 'html') {
-        var html = contentDocument.body.innerHTML;
+    var html = null;
+    if(editorMode[editor_sequence]=='html') {
+        html = textarea_obj.value;
+    } else if (editorMode[editor_sequence]=='preview') {
+        html = xInnerHtml(preview_obj);
+    } else {
+        html = contentDocument.body.innerHTML;
         html = html.replace(/<br>/ig,"<br />\n");
         html = html.replace(/<br \/>\n\n/ig,"<br />\n");
-        textarea_obj.value = html;
+    }
 
-//        iframe_obj.parentNode.style.display = "none";
-        xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor html';
+    // html 편집 사용시
+    if(mode == 'html' && textarea_obj) {
+        textarea_obj.value = html;
+        xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
+        xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
         editorMode[editor_sequence] = 'html';
 
-        xGetElementById('use_rich_'+editor_sequence).className = '';
-        xGetElementById('use_html_'+editor_sequence).className = 'active';
+        if(xGetElementById('xeEditor_'+editor_sequence)) {
+            xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor html';
+            xGetElementById('use_rich_'+editor_sequence).className = '';
+            xGetElementById('preview_html_'+editor_sequence).className = '';
+            xGetElementById('use_html_'+editor_sequence).className = 'active';
+        }
+    // 미리보기
+    } else if(mode == 'preview' && preview_obj) {
+        xInnerHtml(preview_obj, html);
+        xWidth(preview_obj, xWidth(iframe_obj.parentNode));
+        editorMode[editor_sequence] = 'preview';
 
-
+        if(xGetElementById('xeEditor_'+editor_sequence)) {
+            xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor preview';
+            xGetElementById('use_rich_'+editor_sequence).className = '';
+            xGetElementById('preview_html_'+editor_sequence).className = 'active';
+            xGetElementById('use_html_'+editor_sequence).className = '';
+        }
     // 위지윅 모드 사용시
     } else {
-        var html = textarea_obj.value;
         contentDocument.body.innerHTML = html;
-
-//        iframe_obj.parentNode.style.display = "block";
-        xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor rich';
         editorMode[editor_sequence] = null;
 
-        xGetElementById('use_rich_'+editor_sequence).className = 'active';
-        xGetElementById('use_html_'+editor_sequence).className = '';
-
+        if(xGetElementById('xeEditor_'+editor_sequence)) {
+            xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor rich';
+            xGetElementById('use_rich_'+editor_sequence).className = 'active';
+            xGetElementById('preview_html_'+editor_sequence).className = '';
+            xGetElementById('use_html_'+editor_sequence).className = '';
+        }
     }
 
 }
-
-/*
-function editorChangeMode(obj, editor_sequence) {
-    var iframe_obj = editorGetIFrame(editor_sequence);
-    if(!iframe_obj) return;
-
-    var textarea_obj = editorGetTextArea(editor_sequence);
-    xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
-    xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
-
-    var contentDocument = iframe_obj.contentWindow.document;
-
-    // html 편집 사용시
-    if(obj.checked || obj == 'html') {
-        var html = contentDocument.body.innerHTML;
-        html = html.replace(/<br>/ig,"<br />\n");
-        html = html.replace(/<br \/>\n\n/ig,"<br />\n");
-
-        textarea_obj.value = html;
-
-        iframe_obj.parentNode.style.display = "none";
-        textarea_obj.style.display = "block";
-        xGetElementById('xeEditorOption_'+editor_sequence).style.display = "none";
-
-        editorMode[editor_sequence] = 'html';
-
-    // 위지윅 모드 사용시
-    } else {
-        var html = textarea_obj.value;
-        contentDocument.body.innerHTML = html;
-        iframe_obj.parentNode.style.display = "block";
-        textarea_obj.style.display = "none";
-        xGetElementById('xeEditorOption_'+editor_sequence).style.display = "block";
-        editorMode[editor_sequence] = null;
-    }
-
-}
-*/
 
 // Editor Info Close
 function closeEditorInfo(editor_sequence) {
@@ -488,15 +472,6 @@ function showEditorHelp(e,editor_sequence){
     if(xGetElementById(oid).className =='helpList'){
 
         xGetElementById(oid).className = 'helpList open';
-        /*
-        if(e.pageX <= xWidth('helpList_'+editor_sequence)){
-            xGetElementById('helpList_'+editor_sequence).style.right='auto';
-            xGetElementById('helpList_'+editor_sequence).style.left='0';
-        }else{
-            xGetElementById('helpList_'+editor_sequence).style.right='0';
-            xGetElementById('helpList_'+editor_sequence).style.left='';
-        }
-        */
     }else{
         xGetElementById(oid).className = 'helpList';
     }

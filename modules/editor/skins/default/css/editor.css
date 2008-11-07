@@ -212,15 +212,13 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .xeEditor .editorBox .editorMargin{ margin:0 5px;}
 
 /* Editor Display */
-.xeEditor .toolBox,
-.xeEditor .richEditor,
-.xeEditor .htmlEditor{ display:none;}
-.xeEditor.rich .toolBox,
-.xeEditor.rich .richEditor,
-.xeEditor.html .htmlEditor{ display:block;}
-.xeEditor .richEditor,
-.xeEditor .htmlEditor{ border:0;}
+.xeEditor .toolBox, .xeEditor .richEditor, .xeEditor .htmlEditor {display:none;}
+.xeEditor.rich .toolBox, .xeEditor.rich .richEditor, .xeEditor.html .htmlEditor{ display:block;}
+.xeEditor.preview .toolBox, .xeEditor.rich .xeEditor.html .htmlEditor { display:none;}
+.xeEditor.preview .previewEditor { display:block;}
+.xeEditor .richEditor, .xeEditor .htmlEditor{ border:0;}
 .xeEditor .htmlEditor{ width:100%; padding:10px 0; font-size:12px;}
+.xeEditor .previewEditor { display:none; }
 
 /* Editor Resize Bar */
 .xeEditor .textAreaDragIndicator{ border-top:1px solid; border-bottom:1px solid; clear:both; margin-bottom:5px;}

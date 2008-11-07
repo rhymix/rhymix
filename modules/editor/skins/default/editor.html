@@ -54,7 +54,7 @@
             <!--@end-->
         <!--@end-->
         
-        <li><a href="#" onclick="doDocumentPreview(this); return false;"><span>{$lang->cmd_preview}</span></a></li>
+        <li id="preview_html_{$editor_sequence}"><a href="#htmlEditor" onclick="editorChangeMode('preview','{$editor_sequence}');"><span>{$lang->cmd_preview}</span></a></li>
     </ul>
 
     <!-- 에디터 -->
@@ -183,6 +183,7 @@
             <div class="editorMargin" >
                 <iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
                 <textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20" title="HTML Editor"></textarea>
+                <div id="editor_preview_{$editor_sequence}" class="previewEditor"></div>
             </div>
         </div>
 
