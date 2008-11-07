@@ -7,6 +7,26 @@
         Front-end : Jeong, Chan Myeong (http://naradesign.net/)
         Back-end : Kim, Ye Sol (http://ngleader.com/)
     </description>
+    <description xml:lang="jp">
+        XE 預設面板。
+        Front-end : Jeong, Chan Myeong (http://naradesign.net/)
+        Back-end : Kim, Ye Sol (http://ngleader.com/)
+    </description>
+    <description xml:lang="zh-CN">
+        XE 預設面板。
+        Front-end : Jeong, Chan Myeong (http://naradesign.net/)
+        Back-end : Kim, Ye Sol (http://ngleader.com/)
+    </description>
+    <description xml:lang="en">
+        XE 預設面板。
+        Front-end : Jeong, Chan Myeong (http://naradesign.net/)
+        Back-end : Kim, Ye Sol (http://ngleader.com/)
+    </description>
+    <description xml:lang="es">
+        XE 預設面板。
+        Front-end : Jeong, Chan Myeong (http://naradesign.net/)
+        Back-end : Kim, Ye Sol (http://ngleader.com/)
+    </description>
     <description xml:lang="zh-TW">
         XE 預設面板。
         Front-end : Jeong, Chan Myeong (http://naradesign.net/)
@@ -21,6 +41,28 @@
     <author email_address="zero@zeroboard.com" link="http://ngleader.com">
         <name xml:lang="ko">sol</name>
     </author>
+
+    <license>GPL</license>
+
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（基本）</title>
+            <title xml:lang="en">White (default)</title>
+            <title xml:lang="es">Blanco (por defecto)</title>
+            <title xml:lang="zh-TW">白色(預設)</title>
+        </color>
+        <color name="black" src="screenshot/black.gif">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="ru">Черного</title>
+            <title xml:lang="es">Negro</title>
+            <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
+        </color>
+    </colorset>
 
     <extra_vars>
         <var name="default_style" type="select">
