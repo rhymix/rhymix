@@ -113,6 +113,8 @@
 
             $editor_config->editor_skin = Context::get('editor_skin');
             $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
+            $editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
+            $editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
 
             $enable_html_grant = trim(Context::get('enable_html_grant'));
             if($enable_html_grant) $editor_config->enable_html_grant = explode('|@|', $enable_html_grant);

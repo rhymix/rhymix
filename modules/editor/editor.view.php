@@ -78,6 +78,7 @@
             // 에디터 설정을 구함
             $oEditorModel = &getModel('editor');
             $editor_config = $oEditorModel->getEditorConfig($current_module_srl);
+
             Context::set('editor_config', $editor_config);
 
             // 에디터 스킨 목록을 구함
@@ -97,5 +98,7 @@
 
             return new Object();
         }
+
+
     }
 ?>

@@ -1,7 +1,7 @@
 <!--// 스킨 css 로드 -->
 <!--%import("css/editor.css")-->
 
-<!--@if($module_info->colorset == "black")-->
+<!--@if($colorset == "black")-->
 	<!--%import("css/black.css")-->
 <!--@else-->
 	<!--%import("css/white.css")-->
@@ -17,7 +17,7 @@
 <input type="hidden" name="_saved_doc_content" value="{htmlspecialchars($saved_doc->content)}" />
 <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 <!--@end-->
-
+<input type="hidden" name="_editor_sequence" value="{$editor_sequence}" />
 <div class="editorTemporary">
 	<!--@if($is_logged)-->
 	<span class="button small"><input type="button" value="{$lang->cmd_temp_save}"  onclick="doDocumentSave(this); return false;" /></span>
@@ -41,10 +41,10 @@
 </ul>
 
 <!-- 에디터 -->
-<div id="xeEditor_{$editor_sequence}" class="xeEditor rich">
+<div id="xeEditor_{$editor_sequence}" class="xeEditor rich" >
 <!-- class="xeEditor rich" | class="xeEditor html" -->
 
-	<div id="xeEditorOption_{$editor_sequence}" class="toolBox">
+	<div id="xeEditorOption_{$editor_sequence}" class="toolBox" >
 
 		<!--@if($enable_default_component)-->
 		<!-- 기본 컴포넌트 출력 -->
@@ -162,8 +162,8 @@
 	<!--@end-->
 
 	<!-- 에디터 출력 -->
-	<div class="editorBox" id="editorBox">
-		<div class="editorMargin">
+	<div class="editorBox" id="editorBox" >
+		<div class="editorMargin" >
 			<iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
 			<textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20" title="HTML Editor"></textarea>
 		</div>
@@ -218,6 +218,13 @@
     var auto_saved_msg = "{$lang->msg_auto_saved}";
 
     <!--@if(!$editor_manual_start)-->
-    editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' , '#000000');
+
+<!--@if($colorset == "black")-->
+    editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' , '#FFF');
+<!--@else-->
+    editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' , '#000');
+<!--@end-->
+
+
     <!--@end-->
 //]]></script>

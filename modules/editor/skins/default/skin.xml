@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-	<title xml:lang="ko">XE 기본 에디터</title>
-	<title xml:lang="zh-CN">XE编辑器默认皮肤</title>
-	<title xml:lang="jp">XE基本エディター</title>
-	<title xml:lang="zh-TW">XE編輯器預設面板</title>
-	<description xml:lang="ko">개발 : zero (http://blog.nzeo.com)</description>
-	<description xml:lang="zh-CN">程序 : zero (http://blog.nzeo.com)	</description>
-	<description xml:lang="jp">開発 : zero (http://blog.nzeo.com)</description>
-	<description xml:lang="zh-TW">程式 : zero (http://blog.nzeo.com)</description>
-	<version>0.1</version>
-	<date>2007-02-28</date>
+    <title xml:lang="ko">XE 기본 에디터</title>
+    <title xml:lang="zh-CN">XE编辑器默认皮肤</title>
+    <title xml:lang="jp">XE基本エディター</title>
+    <title xml:lang="zh-TW">XE編輯器預設面板</title>
+    <description xml:lang="ko">개발 : zero (http://blog.nzeo.com)</description>
+    <description xml:lang="zh-CN">程序 : zero (http://blog.nzeo.com)    </description>
+    <description xml:lang="jp">開発 : zero (http://blog.nzeo.com)</description>
+    <description xml:lang="zh-TW">程式 : zero (http://blog.nzeo.com)</description>
+    <version>0.1</version>
+    <date>2007-02-28</date>
 
-	<author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
-		<name xml:lang="ko">zero</name>
-		<name xml:lang="zh-CN">Zero</name>
-		<name xml:lang="jp">zero</name>
-		<name xml:lang="zh-TW">zero</name>
-	</author>
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+        <name xml:lang="zh-CN">Zero</name>
+        <name xml:lang="jp">zero</name>
+        <name xml:lang="zh-TW">zero</name>
+    </author>
+    <colorset>
+        <color name="white">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（基本）</title>
+            <title xml:lang="en">White (default)</title>
+            <title xml:lang="es">Blanco (por defecto)</title>
+            <title xml:lang="zh-TW">白色(預設)</title>
+        </color>
+        <color name="black">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="ru">Черного</title>
+            <title xml:lang="es">Negro</title>
+            <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
+        </color>
+    </colorset>
 </skin>

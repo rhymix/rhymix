@@ -64,6 +64,7 @@ function editorGetSelectedNode(editor_sequence) {
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
 function editorStart(editor_sequence, primary_key, content_key, editor_height, font_color) {
+
     if(typeof(font_color)=='undefined') font_color = '#000';
 
     // iframe obj를 찾음
@@ -482,12 +483,12 @@ function closeEditorInfo(editor_sequence) {
 
 
 function showEditorHelp(e,editor_sequence){
-    var oid = 'editorHelp_'+editor_sequence;
+    var oid = 'helpList_'+editor_sequence;
 
-    if(xGetElementById(oid).className =='editorHelp'){
+    if(xGetElementById(oid).className =='helpList'){
 
-        xGetElementById(oid).className = 'editorHelp open';
-		/*
+        xGetElementById(oid).className = 'helpList open';
+        /*
         if(e.pageX <= xWidth('helpList_'+editor_sequence)){
             xGetElementById('helpList_'+editor_sequence).style.right='auto';
             xGetElementById('helpList_'+editor_sequence).style.left='0';
@@ -495,9 +496,9 @@ function showEditorHelp(e,editor_sequence){
             xGetElementById('helpList_'+editor_sequence).style.right='0';
             xGetElementById('helpList_'+editor_sequence).style.left='';
         }
-		*/
+        */
     }else{
-        xGetElementById(oid).className = 'editorHelp';
+        xGetElementById(oid).className = 'helpList';
     }
 }
 
@@ -505,7 +506,7 @@ function showEditorExtension(e,editor_sequence){
     var oid = 'editorExtension_'+editor_sequence;
     if(xGetElementById(oid).className =='extension2'){
         xGetElementById(oid).className = 'extension2 open';
-		
+
         if(e.pageX <= xWidth('editor_component_'+editor_sequence)){
             xGetElementById('editor_component_'+editor_sequence).style.right='auto';
             xGetElementById('editor_component_'+editor_sequence).style.left='0';

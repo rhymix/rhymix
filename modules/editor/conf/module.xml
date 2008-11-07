@@ -7,6 +7,7 @@
 
         <action name="dispEditorAdminIndex" type="view" standalone="true" admin_index="true" />
         <action name="dispEditorAdminSetupComponent" type="view" standalone="true" />
+        <action name="dispEditorAdminSkinColorset" type="view" standalone="true" />
 
         <action name="procEditorSaveDoc" type="controller" standalone="true" />
         <action name="procEditorRemoveSavedDoc" type="controller" standalone="true" />

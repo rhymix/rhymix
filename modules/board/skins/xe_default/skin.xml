@@ -22,26 +22,6 @@
         <name xml:lang="ko">sol</name>
     </author>
 
-    <colorset>
-        <color name="white" src="screenshot/white.gif">
-            <title xml:lang="ko">하얀색(기본)</title>
-            <title xml:lang="jp">白（デフォルト）</title>
-            <title xml:lang="zh-CN">白色（基本）</title>
-            <title xml:lang="en">White (default)</title>
-            <title xml:lang="es">Blanco (por defecto)</title>
-            <title xml:lang="zh-TW">白色(預設)</title>
-        </color>
-        <color name="black" src="screenshot/black.gif">
-            <title xml:lang="ko">검은색</title>
-            <title xml:lang="jp">黒</title>
-            <title xml:lang="en">Black</title>
-            <title xml:lang="ru">Черного</title>
-            <title xml:lang="es">Negro</title>
-            <title xml:lang="zh-CN">黑色</title>
-            <title xml:lang="zh-TW">黑色</title>
-        </color>
-    </colorset>
-
     <extra_vars>
         <var name="default_style" type="select">
             <title xml:lang="ko">기본 형태</title>

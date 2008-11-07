@@ -1,4 +1,5 @@
 <!--%import("filter/insert_editor_module_config.xml")-->
+<!--%import("js/editor_module_config.js")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_editor_module_config)">
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
@@ -13,14 +14,19 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->editor_skin}</div></th>
         <td>
-            <select name="editor_skin">
+            <select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
             <!--@foreach($editor_skin_list as $editor)-->
             <option value="{$editor}" <!--@if($editor==$editor_config->editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
             <!--@end-->
             </select>
+            <select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none">
+            </select>
+            <script "text/javascript">//<![CDATA[
+                getEditorSkinColorList('{$editor_config->editor_skin}','{$editor_config->sel_editor_colorset}');
+            //]]></script>
         </td>
         <td>
             <select name="comment_editor_skin">
@@ -28,12 +34,17 @@
             <option value="{$editor}" <!--@if($editor==$editor_config->comment_editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
             <!--@end-->
             </select>
+            <select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset" style="display:none">
+            </select>
+            <script "text/javascript">//<![CDATA[
+                getEditorSkinColorList('{$editor_config->comment_editor_skin}','{$editor_config->sel_comment_editor_colorset}','comment');
+            //]]></script>
         </td>
     </tr>
     <tr>
         <td colspan="2"><p>{$lang->about_editor_skin}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->enable_html_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -49,7 +60,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_enable_html_grant}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->upload_file_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -65,7 +76,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_upload_file_grant}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->enable_default_component_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -81,7 +92,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_default_component_grant}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->enable_component_grant}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
@@ -97,7 +108,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_component_grant}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->editor_height}</div></th>
         <td>
             <input type="text" name="editor_height" value="{$editor_config->editor_height}" class="inputTypeText w80" />px
@@ -109,7 +120,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_editor_height}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->height_resizable}</div></th>
         <td>
             <input type="checkbox" value="Y" name="enable_height_resizable" <!--@if($editor_config->enable_height_resizable=='Y')-->checked="checked"<!--@end-->/>
@@ -121,7 +132,7 @@
     <tr>
         <td colspan="2"><p>{$lang->about_editor_height_resizable}</p></td>
     </tr>
-    <tr class="row2">    
+    <tr class="row2">
         <th rowspan="2"><div>{$lang->enable_autosave}</div></th>
         <td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
     </tr>
