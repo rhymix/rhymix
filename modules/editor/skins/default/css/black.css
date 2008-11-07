@@ -5,19 +5,7 @@
 
 /* Editor Type Selector */
 .editorTypeSelector a,
-.editorTypeSelector a span{ background-color:#444; background-image:url(../images/black/tabCorner.gif);}
-
-/* Editor Type Selector - Hover */
-.editorTypeSelector a:hover,
-.editorTypeSelector a:active,
-.editorTypeSelector a:focus,
-.editorTypeSelector a:hover span,
-.editorTypeSelector a:active span,
-.editorTypeSelector a:focus span{ background-color:#555;}
-
-/* Editor Type Selector - Active */
-.editorTypeSelector li.active a,
-.editorTypeSelector li.active a span{ background-color:#666;}
+.editorTypeSelector a span{ background-image:url(../../../common/tpl/images/buttonBlack.gif); color:#fff;}
 
 /* Editor Container */
 .xeEditor{ border-color:#666;}

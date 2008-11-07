@@ -13,8 +13,8 @@
 .editorTypeSelector li{ float:left; margin-right:5px;}
 .editorTypeSelector a,
 .editorTypeSelector a span{ position:relative; display:block; float:left; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand; white-space:nowrap;}
-.editorTypeSelector a{ background-position:left top; text-decoration:none !important;}
-.editorTypeSelector a span{ padding:3px 15px; left:3px; background-position:right top;}
+.editorTypeSelector a{ background-position:left -65px; text-decoration:none !important;}
+.editorTypeSelector a span{ padding:3px 15px; left:3px; background-position:right -65px;}
 
 /* Editor Type Selector - Hover */
 .editorTypeSelector a:hover span,
@@ -22,7 +22,7 @@
 .editorTypeSelector a:focus span{ font-weight:bold; letter-spacing:-1px;}
 
 /* Editor Type Selector - Active */
-.editorTypeSelector li.active a{ top:-2px; margin-bottom:-2px;}
+.editorTypeSelector li.active a{ top:-2px; margin-bottom:-4px;}
 .editorTypeSelector li.active a span{ padding:5px 15px; font-weight:bold; letter-spacing:-1px;}
 
 /* Skip Tool Box */

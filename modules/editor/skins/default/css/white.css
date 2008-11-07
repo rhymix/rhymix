@@ -5,19 +5,7 @@
 
 /* Editor Type Selector */
 .editorTypeSelector a,
-.editorTypeSelector a span{ background-color:#eee; background-image:url(../images/white/tabCorner.gif);}
-
-/* Editor Type Selector - Hover */
-.editorTypeSelector a:hover,
-.editorTypeSelector a:active,
-.editorTypeSelector a:focus,
-.editorTypeSelector a:hover span,
-.editorTypeSelector a:active span,
-.editorTypeSelector a:focus span{ background-color:#e8e8e8;}
-
-/* Editor Type Selector - Active */
-.editorTypeSelector li.active a,
-.editorTypeSelector li.active a span{ background-color:#ddd;}
+.editorTypeSelector a span{ background-image:url(../../../common/tpl/images/buttonWhite.gif);}
 
 /* Editor Container */
 .xeEditor{ border-color:#ddd;}

@@ -10,7 +10,7 @@
 .board .inputText,
 .board textarea,
 .board select{ background:#fff; color:#333;}
-.board a:link{color:#000;}
+.board a{color:#000;}
 
 /* Board Header */
 .boardHeader .boardTitle{ border-color:#ddd; background-image:url(../images/common/iconBoardHeading.gif);}

@@ -11,7 +11,7 @@
 .board .inputText,
 .board textarea,
 .board select{ background:#333; color:#fff;}
-.board a:link{color:#fff;}
+.board a{color:#fff;}
 
 /* Board Header */
 .boardHeader .boardTitle{ border-color:#999; background-image:url(../images/common/iconBoardHeading.gif);}
