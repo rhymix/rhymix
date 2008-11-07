@@ -12,9 +12,9 @@
 .editorTypeSelector *{ margin:0; padding:0; list-style:none;}
 .editorTypeSelector li{ float:left; margin-right:5px;}
 .editorTypeSelector a,
-.editorTypeSelector a span{ display:block; float:left; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand; white-space:nowrap;}
+.editorTypeSelector a span{ position:relative; display:block; float:left; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand; white-space:nowrap;}
 .editorTypeSelector a{ background-position:left top; text-decoration:none !important;}
-.editorTypeSelector a span{ position:relative; padding:5px 15px; left:3px; background-position:right top;}
+.editorTypeSelector a span{ padding:3px 15px; left:3px; background-position:right top;}
 
 /* Editor Type Selector - Hover */
 .editorTypeSelector a:hover span,
@@ -22,8 +22,20 @@
 .editorTypeSelector a:focus span{ font-weight:bold; letter-spacing:-1px;}
 
 /* Editor Type Selector - Active */
-.editorTypeSelector li.active a{ position:relative; top:-2px; margin-bottom:-2px;}
-.editorTypeSelector li.active a span{ padding:7px 15px; font-weight:bold; letter-spacing:-1px;}
+.editorTypeSelector li.active a{ top:-2px; margin-bottom:-2px;}
+.editorTypeSelector li.active a span{ padding:5px 15px; font-weight:bold; letter-spacing:-1px;}
+
+/* Skip Tool Box */
+a.skipToolBox,
+a.skipToolBox span{ width:0; height:0; overflow:hidden;}
+
+a.skipToolBox:hover,
+a.skipToolBox:focus,
+a.skipToolBox:active{ width:auto; height:auto;}
+
+a.skipToolBox:hover span,
+a.skipToolBox:focus span,
+a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weight:bold; letter-spacing:-1px;}
 
 /* Editor Container */
 .xeEditor{ clear:both; position:relative; z-index:1; border-top:1px solid; *zoom:1}

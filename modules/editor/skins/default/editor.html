@@ -37,6 +37,7 @@
 	<!--@end-->
 	
 	<li><a href="#" onclick="doDocumentPreview(this); return false;"><span>{$lang->cmd_preview}</span></a></li>
+	<li><a href="#editorBox" class="skipToolBox"><span>편집 도구모음 건너뛰기</span></a></li>
 </ul>
 
 <!-- 에디터 -->
@@ -161,7 +162,7 @@
 	<!--@end-->
 
 	<!-- 에디터 출력 -->
-	<div class="editorBox">
+	<div class="editorBox" id="editorBox">
 		<div class="editorMargin">
 			<iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
 			<textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20" title="HTML Editor"></textarea>
@@ -199,7 +200,7 @@
 	<div class="fileUploader">
 		<div class="preview" id="preview_uploaded_{$editor_sequence}"></div>
 		<div class="fileListArea">
-			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList"><option></option></select>
+			<select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
 		</div>
 		<div class="fileUploadControl">
 			<span class="button" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>

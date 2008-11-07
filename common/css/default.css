@@ -1,17 +1,7 @@
 @charset "utf-8";
 
-/* 
-Used Hack 
-IE6 & Below 
-{ property:value; _property:value; }
-IE7 Only
-*:first-child+html #selector
-IE7 & IE6 & Below
-*:first-child+html #selector,
-* html #selector {}
-*/
-
 /* default.css - Type Selector Definition */
+body{ font-size:.75em;}
 img { border:none; }
 label { cursor:pointer; }
 form { margin:0; padding:0; }
@@ -95,10 +85,3 @@ a.bold { font-weight:bold; }
 #popup_menu_area li a:hover,
 #popup_menu_area li a:active,
 #popup_menu_area li a:focus{ font-weight:bold; letter-spacing:-1px;}
-
-/*
-#popup_menu_area { position:absolute; left:0px; top:0px; z-index:1003; visibility:hidden; border:2px solid #D9D9D9; background-color:#FFFFFF; padding:0; }
-#popup_menu_area .box { border:1px solid #CACACA; background-color:#FFFFFF; padding:7px; }
-#popup_menu_area .item { color:#333333; cursor:pointer; margin:0; padding:3px 0 3px 0; white-space:nowrap; }
-#popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; letter-spacing:-1px; white-space:nowrap;}
-*/
