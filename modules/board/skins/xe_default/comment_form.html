@@ -50,7 +50,7 @@
     <div class="userNameAndPw">
 		<dl>
 			<dt><label for="userName">{$lang->writer}</label> :</dt>
-			<dd class="userName"><input type="text" name="nick_name" value="{$oComment->getNickName()}" class="inputText" id="userName"/></dd>
+			<dd class="userName"><input type="text" name="nick_name" value="" class="inputText" id="userName"/></dd>
 		</dl>
 		<dl>
 			<dt><label for="userPw">{$lang->password}</label> :</dt>
@@ -58,11 +58,11 @@
 		</dl>
 		<dl>
 			<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
-			<dd class="emailAddress"><input type="text" name="email_address" value="{htmlspecialchars($oComment->get('email_address'))}" id="emailAddress" class="inputText"/></dd>
+			<dd class="emailAddress"><input type="text" name="email_address" value="" id="emailAddress" class="inputText"/></dd>
 		</dl>
 		<dl>
 			<dt><label for="homePage">{$lang->homepage}</label> :</dt>
-			<dd class="homePage"><input type="text" name="homepage" value="{htmlspecialchars($oComment->get('homepage'))}" id="homePage" class="inputText"/></dd>
+			<dd class="homePage"><input type="text" name="homepage" value="" id="homePage" class="inputText"/></dd>
 		</dl>
 	</div>
 	<!--@end-->

@@ -144,15 +144,18 @@
 .boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden;}
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
-.boardReadBody .xe_content{ margin-bottom:15px; line-height:1.6em;}
-.boardReadBody .memberSignature { border:1px dotted; }
+.boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
+.boardReadBody .memberSignature { border:1px dotted; padding:10px; overflow:hidden; *zoom:1;}
+.boardReadBody .memberSignature img.profile { float:left; margin-right:10px; display:block;}
+.boardReadBody .memberSignature .signature { float:left; }
+
 
 .boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:11px Tahoma;}
 .boardReadFooter:after{ content:""; display:block; float:none; clear:both;}
 .boardReadFooter *{ margin:0; padding:0;}
 .boardReadFooter a{ text-decoration:underline; position:relative;}
-.boardReadFooter .footerLeft{ float:left;}
-.boardReadFooter .footerRight{ float:right;}
+.boardReadFooter .footerLeft{ }
+.boardReadFooter .footerRight{ float:right; clear:both; overflow:hidden; *zoom:1;}
 .boardReadFooter dl{ clear:both; position:relative;}
 .boardReadFooter dt{ position:relative; z-index:2; display:inline; padding-right:5px; font-weight:bold;}
 .boardReadFooter dd{ position:relative; z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; background-repeat:no-repeat; background-position:left center; *zoom:1;}
@@ -171,10 +174,12 @@
 .feedbackList .replyList .item .header{ font-size:1.5em; margin-bottom:5px;}
 .feedbackList .trackbackList .item .header{ font-size:1em; margin-bottom:5px;}
 .feedbackList .trackbackList .item p{ margin-bottom:10px;}
+.feedbackList .replyList .item {overflow:hidden; *zoom:1; }
+.feedbackList .replyList .item img.commentProfileImage { float:left; display:block; margin-right:10px;}
 
 .feedbackList .item{ position:relative; padding-top:10px; margin-bottom:10px; border-top:1px dashed;}
 .feedbackList .item .indent{ position:relative;}
-.feedbackList .reply .indent{ border-left:2px solid; padding-left:10px;}
+.feedbackList .reply .indent{ border-left:8px solid; padding-left:10px;}
 .feedbackList .item .header a{ font-size:1em;}
 .feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
 .feedbackList .item .comment_popup_menu a{ text-decoration:underline;}
@@ -298,3 +303,5 @@
 .tagCloud li.rank4 a{ font-size:1.25em; color:#666;}
 .tagCloud li.rank5 a{ font-size:1em; color:#666;}
 
+
+.smallBox .header { text-align:center; }
