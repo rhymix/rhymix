@@ -145,8 +145,10 @@
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
 .boardReadBody .xe_content{ margin-bottom:15px; line-height:1.6em;}
-.boardReadBody .memberSignature{ border:1px dotted;}
-.boardReadBody .memberSignature .signature{ margin:10px;}
+.boardReadBody .memberSignature { border:1px dotted; *zoom:1; overflow:hidden;}
+.boardReadBody .memberSignature .profile { float:left; margin:10px; }
+.boardReadBody .memberSignature .signature { padding:10px; }
+.boardReadBody .memberSignature .signature * { margin:0; padding:0; }
 
 .boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:11px Tahoma;}
 .boardReadFooter:after{ content:""; display:block; float:none; clear:both;}
