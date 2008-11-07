@@ -40,3 +40,7 @@
 /* File Uploader */
 .commentEditor .xeEditor .fileUploader{ border-color:#666;}
 .xeEditor .fileUploader .preview{ border-color:#ddd; background:#fff;}
+
+/* TextEditor */
+.xeTextEditor {padding:10px; overflow:hidden; margin:0 0 10px 0;}
+.xeTextEditor textarea { display:block; margin:0; padding:2px; color:#fff;}
