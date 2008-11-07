@@ -4,7 +4,7 @@
 /* Zeroboard XE */
 
 /* Board Reset */
-.board{ font-family:NanumGothic, "Malgun Gothic", AppleGothic, Gulim, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:1.1em;}
+.board{ font-family:AppleGothic, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:1.1em;}
 .board *{ font-size:1em;}
 .board .inputText,
 .board textarea{ border:1px solid;}
@@ -70,7 +70,7 @@
 .boardList td.title img{ vertical-align:middle; margin:0 1px;}
 .boardList td.title .replyNum{ font:11px Tahoma;}
 .boardList td.title .replyNum sup{ font:10px Tahoma;}
-.boardList td.author{}
+.boardList td.author{ text-align:left; }
 .boardList td.replies{ font:11px Tahoma;}
 .boardList td.reading{ font:11px Tahoma;}
 .boardList td.recommend{ font:11px Tahoma;}
@@ -141,7 +141,7 @@
 .boardReadHeader em{ position:relative; top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
 .boardReadHeader a{ font-weight:bold; font-size:1em;}
 
-.boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em;}
+.boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden;}
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
 .boardReadBody .xe_content{ margin-bottom:15px; line-height:1.6em;}

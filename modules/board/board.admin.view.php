@@ -157,6 +157,10 @@
 
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+            if(!$skin_info) {
+                $skin = 'xe_default';
+                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+            }
 
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {

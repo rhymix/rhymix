@@ -67,11 +67,11 @@
                     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                     
                     <!--@if($document->getCommentCount())-->
-                        <span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong><sup>Replies</sup></span>
+                        <span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong></span>
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
-                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>Tackbacks</sup></span>
+                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>T</sup></span>
                     <!--@end-->
 
                     {$document->printExtraImages(60*60*$module_info->duration_new)}
@@ -96,11 +96,11 @@
                     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                     
                     <!--@if($document->getCommentCount())-->
-                        <span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong><sup>Replies</sup></span>
+                        <span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong></span>
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
-                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>Tackbacks</sup></span>
+                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>T</sup></span>
                     <!--@end-->
 
                     {$document->printExtraImages(60*60*$module_info->duration_new)}

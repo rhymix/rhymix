@@ -3,7 +3,7 @@
 
 	<h3 class="feedbackHeader">
 		<!--@if($grant->write_comment && $oDocument->allowComment()) -->
-			<a href="#reply" title="{$lang->comment}"><strong>'{$oDocument->getCommentcount()}'</strong> Replies</a>
+			<a href="#reply" title="{$lang->comment}"><strong>'{$oDocument->getCommentcount()}'</strong> {$lang->comment}</a>
 		<!--@end-->
 	</h3>
 	
@@ -48,7 +48,7 @@
 					
 					<!--@if($comment->hasUploadedFIles())-->
 					<dl class="attachedFile">
-						<dt>Attached File :</dt>
+						<dt>{$lang->uploaded_file} :</dt>
 						{@ $_uploaded_files = $comment->getUploadedFiles() }
 						<!--@foreach($_uploaded_files as $key => $file)-->
 						<dd><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="bubble">[File Size:{FileHandler::filesize($file->file_size)}/Download{number_format($file->download_count)}]</span></a></dd>
@@ -57,7 +57,7 @@
 					<!--@end-->
 		
 					<dl class="time">
-						<dt>Time :</dt>
+						<dt>{$lang->regdate} :</dt>
 						<dd>
 							{$comment->getRegdate('Y.m.d')} 
 						</dd>
@@ -69,10 +69,10 @@
 	
 					<div class="option">
 						<!--@if($comment->isGranted() || !$comment->get('member_srl'))-->
-							<a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="button small"><span>Delete</span></a>
-							<a href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="button small"><span>Modify</span></a> 
+							<a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="button small"><span>{$lang->cmd_delete}</span></a>
+							<a href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="button small"><span>{$lang->cmd_modify}</span></a> 
 						<!--@end-->
-							<a href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="button small green"><span>Reply</span></a> 
+							<a href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="button small green"><span>{$lang->cmd_reply}</span></a> 
 					</div>
 		
 					<!--@if($comment->get('voted_count')!=0 || $comment->get('blamed_count') != 0)-->
