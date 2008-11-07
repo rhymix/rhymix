@@ -83,7 +83,7 @@ a.bold { font-weight:bold; }
 #popup_menu_area{ position:absolute; background:#fff; border:2px solid #eee; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0;}
 #popup_menu_area *{ margin:0; padding:0; list-style:none; font-size:12px; line-height:normal;}
 #popup_menu_area ul{ border:1px solid #ddd; -moz-border-radius:5px; -webkit-border-radius:5px; padding:10px 10px 5px 10px;}
-#popup_menu_area li{ padding:2px 0 2px 20px; background-repeat:no-repeat; background-position:left center; margin-bottom:3px; }
+#popup_menu_area li{ padding:2px 0 2px 20px; background-repeat:no-repeat; background-position:left center; margin-bottom:3px; white-space:nowrap;}
 #popup_menu_area li a{ text-decoration:none; color:#000;}
 #popup_menu_area li a:hover,
 #popup_menu_area li a:active,

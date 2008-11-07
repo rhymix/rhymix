@@ -475,56 +475,6 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     var menu_id = params["menu_id"];
     var menus = ret_obj['menus'];
     var html = "";
-/*
-    if(loaded_popup_menus[menu_id]) {
-        html = loaded_popup_menus[menu_id];
-    } else {
-        if(menus) {
-            var item = menus['item'];
-            if(item.length<1) item = new Array(item);
-            if(item.length) {
-                for(var i=0;i<item.length;i++) {
-                    var url = item[i].url;
-                    var str = item[i].str;
-                    var icon = item[i].icon;
-                    var target = item[i].target;
-
-                    var styleText = "";
-
-                    if(icon) styleText = " style=\"background:url('"+icon+"') no-repeat left center; padding-left:18px; \"";
-                    switch(target) {
-                        case "popup" :
-                                click_str = " onclick=\"popopen('"+url+"','"+target+"')\"; return false;";
-                            break;
-                        case "self" :
-                                click_str = " onclick=\"location.href='"+url+"'\"; return false;";
-                            break;
-                        case "javascript" :
-                                click_str = " onclick=\""+url+"\"; return false;";
-                            break;
-                        default :
-                                click_str = " onclick=\"window.open('"+url+"')\"; return false;";
-                            break;
-                    }
-
-                    html += '<div class="item" onmouseover="this.className=\'item_on\'" onmouseout="this.className=\'item\'"'+styleText+click_str+'>'+str+'</div> ';
-                }
-            }
-        }
-        loaded_popup_menus[menu_id] =  html;
-    }
-
-    // 레이어 출력
-    if(html) {
-        var area = xGetElementById("popup_menu_area");
-        xInnerHtml(area, "<div class=\"box\">"+html+"</div>");
-        xLeft(area, params["page_x"]);
-        xTop(area, params["page_y"]);
-        if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
-        if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
-        area.style.visibility = "visible";
-    }
-*/
 
     if(loaded_popup_menus[menu_id]) {
         html = loaded_popup_menus[menu_id];
