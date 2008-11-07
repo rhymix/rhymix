@@ -37,7 +37,6 @@
 	<!--@end-->
 	
 	<li><a href="#" onclick="doDocumentPreview(this); return false;"><span>{$lang->cmd_preview}</span></a></li>
-	<li><a href="#editorBox" class="skipToolBox"><span>편집 도구모음 건너뛰기</span></a></li>
 </ul>
 
 <!-- 에디터 -->
@@ -125,7 +124,7 @@
 				<ul id="editor_component_{$editor_sequence}">
 					<!--@foreach($component_list as $component_name => $component)-->
 						<!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_gallery','image_link','multimedia_link','quotation','table_maker','url_link')))-->
-							<li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span><img src="../../components/{$component_name}/icon.gif" alt="" /> {$component->title}</span></button></li>
+							<li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span><img src="../../components/{$component_name}/component_icon.gif" alt="" /> {$component->title}</span></button></li>
 						<!--@end-->
 					<!--@end-->
 				</ul>
