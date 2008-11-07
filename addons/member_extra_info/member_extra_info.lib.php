@@ -28,13 +28,10 @@
         // 이미지이름이나 마크가 없으면 원본 정보를 세팅
         if(!$image_name_file && !$image_mark_file) return $matches[0];
 
-        $text = $nick_name = htmlspecialchars(strip_tags($nick_name));
+        if($image_name_file) $nick_name = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" style="vertical-align:middle;margin-right:3px" />', $image_name_file, strip_tags($nick_name), strip_tags($nick_name));
+        if($image_mark_file) $nick_name = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" style="vertical-align:middle;margin-right:3px"/>%s', $image_mark_file, strip_tags($nick_name), strip_tags($nick_name), $nick_name);
 
-        // 이미지 이름이 있을 경우
-        if($image_name_file) $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id: %s" style="vertical-align:middle;margin-right:3px" />', $image_name_file, $nick_name, $nick_name);
-
-        if($image_mark_file) $text = sprintf('<img src="%s" border="0" alt="id: %s" title="id : %s" style="vertical-align:middle;margin-right:3px"/>%s', $image_mark_file, $nick_name, $nick_name, $text);
-
-        return sprintf('<span class="nowrap member_%d" style="cursor:pointer">%s</span>',$member_srl, $text);
+        $orig_text = preg_replace('/'.preg_quote($matches[5],'/').'<\/'.$matches[6].'>$/', '', $matches[0]);
+        return $orig_text.$nick_name.'</'.$matches[6].'>';
     }
 ?>

@@ -19,7 +19,7 @@
         require_once('./addons/member_extra_info/member_extra_info.lib.php');
 
         // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
-        $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', 'memberTransImageName', $output);
+        $output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', 'memberTransImageName', $output);
 
     }
 ?>
