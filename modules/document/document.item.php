@@ -576,7 +576,7 @@
 
             $buff = null;
             foreach($buffs as $key => $val) {
-                $buff .= sprintf('<img src="%s%s.gif" alt="%s" title="%s" style="margin-right:2px;" />', $path, $val, $val, $val);
+                $buff .= sprintf('<img src="%s%s.gif" alt="%s" title="%s" style="margin-left:2px;" />', $path, $val, $val, $val);
             }
             return $buff;
         }
