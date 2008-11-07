@@ -11,7 +11,7 @@
 .board .inputText,
 .board textarea,
 .board select{ background:#333; color:#fff;}
-.board a{color:#fff;}
+.board a:link{color:#fff;}
 
 /* Board Header */
 .boardHeader .boardTitle{ border-color:#999; background-image:url(../images/common/iconBoardHeading.gif);}
@@ -44,6 +44,9 @@
 .boardList td .category{ color:#fff; background-image:url(../images/black/lineVr11.gif);}
 .boardList td.title .replyNum{ color:#ccc;}
 .boardList td.title .replyNum sup{ color:#999;}
+.boardList td.title a.forum:link,
+.boardList td a.replyAnchor:link{ color:#6CF;}
+.boardList td .by{ color:#666;}
 
 .boardList td.summary .thumb{ border-color:#999; background:#444;}
 

@@ -36,10 +36,10 @@
                     {$lang->title}
                 </th>
                 <!--@if($module_info->display_author!='N')--><th scope="col">{$lang->writer}</th><!--@end-->
-                <!--@if($module_info->display_readed_count!='N')--><th scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
-                <!--@if($module_info->display_voted_count!='N')--><th scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
-                <!--@if($module_info->display_regdate != 'N')--><th scope="col"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
-                <!--@if($module_info->display_last_update=='Y')--><th scope="col"><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_readed_count!='N')--><th scope="col"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<!--@if($sort_index=='readed_count')--><img src="./images/common/{$order_icon}" alt="sort" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_voted_count!='N')--><th scope="col"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<!--@if($sort_index=='voted_count')--><img src="./images/common/{$order_icon}" alt="sort" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_regdate != 'N')--><th scope="col"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<!--@if($sort_index=='regdate')--><img src="./images/common/{$order_icon}" alt="sort" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
+                <!--@if($module_info->display_last_update=='Y')--><th scope="col"><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<!--@if($sort_index=='last_update')--><img src="./images/common/{$order_icon}" alt="sort" width="5" height="3" class="sort" /><!--@end--></a></th><!--@end-->
             </tr>
         </thead>
         <!--@end-->
@@ -65,13 +65,13 @@
 
                 <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                 
-                <!--@if($document->getCommentCount())-->
-                    <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
-                <!--@end-->
+				<!--@if($document->getCommentCount())-->
+					<span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong><sup>Replies</sup></span>
+				<!--@end-->
 
-                <!--@if($document->getTrackbackCount())-->
-                    <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
-                <!--@end-->
+				<!--@if($document->getTrackbackCount())-->
+					<span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>Tackbacks</sup></span>
+				<!--@end-->
                 
                 {$document->printExtraImages(60*60*$module_info->duration_new)}
             </td>
@@ -103,7 +103,7 @@
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
-                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>Tackback</sup></span>
+                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>Tackbacks</sup></span>
                     <!--@end-->
 
                     {$document->printExtraImages(60*60*$module_info->duration_new)}

@@ -67,12 +67,20 @@
 .boardList td.check{ font:11px Tahoma;}
 .boardList td .category{ padding-right:7px; margin-right:2px; background-repeat:no-repeat; background-position:right center;}
 .boardList td.title{ width:100%; white-space:normal; text-align:left;}
+.boardList td.title img{ vertical-align:middle; margin:0 1px;}
 .boardList td.title .replyNum{ font:11px Tahoma;}
 .boardList td.title .replyNum sup{ font:10px Tahoma;}
 .boardList td.author{}
+.boardList td.replies{ font:11px Tahoma;}
 .boardList td.reading{ font:11px Tahoma;}
 .boardList td.recommend{ font:11px Tahoma;}
 .boardList td.date{ font:11px Tahoma;}
+.boardList td .replyAnchor{ position:relative; margin-right:10px; font-size:.9em;}
+.boardList td .replyAnchor .bubble{ display:none; position:absolute; font:9px Tahoma; top:-7px; right:4px; text-decoration:none;}
+.boardList td .replyAnchor:hover .bubble,
+.boardList td .replyAnchor:active .bubble,
+.boardList td .replyAnchor:focus .bubble{ display:block;}
+.boardList td .by{ font:9px Tahoma;}
 
 .boardList td.summary { text-align:left; border-top-style:dotted; white-space:normal;}
 .boardList td.summary .thumb{ display:block; float:left; padding:2px; border:1px solid; margin-right:10px;}

@@ -10,7 +10,7 @@
 .board .inputText,
 .board textarea,
 .board select{ background:#fff; color:#333;}
-.board a{color:#000;}
+.board a:link{color:#000;}
 
 /* Board Header */
 .boardHeader .boardTitle{ border-color:#ddd; background-image:url(../images/common/iconBoardHeading.gif);}
@@ -43,6 +43,9 @@
 .boardList td .category{ color:#000; background-image:url(../images/white/lineVr11.gif);}
 .boardList td.title .replyNum{ color:#ccc;}
 .boardList td.title .replyNum sup{ color:#999;}
+.boardList td.title a.forum:link,
+.boardList td a.replyAnchor:link{ color:#06C;}
+.boardList td .by{ color:#ccc;}
 
 .boardList td.summary .thumb{ border-color:#ddd; background:#fff;}
 
