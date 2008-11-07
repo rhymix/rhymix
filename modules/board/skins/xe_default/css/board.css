@@ -298,12 +298,3 @@
 .tagCloud li.rank4 a{ font-size:1.25em; color:#666;}
 .tagCloud li.rank5 a{ font-size:1em; color:#666;}
 
-/* Layer */
-#popup_menu_area{ position:absolute; border:2px solid; -moz-border-radius:5px; -webkit-border-radius:5px; margin:0; padding:0; z-index:100;}
-#popup_menu_area *{ margin:0; padding:0; list-style:none; font-size:12px; line-height:normal;}
-#popup_menu_area ul{ border:1px solid; -moz-border-radius:3px; -webkit-border-radius:3px; padding:10px;}
-#popup_menu_area li{ padding-left:20px; background-repeat:no-repeat; background-position:left center; margin-bottom:3px; *margin-bottom:-2px;}
-#popup_menu_area li a{ text-decoration:none; white-space:nowrap;}
-#popup_menu_area li a:hover,
-#popup_menu_area li a:active,
-#popup_menu_area li a:focus{ font-weight:bold; letter-spacing:-1px;}
