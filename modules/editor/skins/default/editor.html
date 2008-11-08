@@ -36,12 +36,6 @@
     <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
     <!--@end-->
     <input type="hidden" name="_editor_sequence" value="{$editor_sequence}" />
-    <div class="editorTemporary">
-        <!--@if($is_logged)-->
-        <span class="button small"><button type="button" onclick="doDocumentSave(this); return false;">{$lang->cmd_temp_save}</button></span>
-        <span class="button small"><button type="button" onclick="doDocumentLoad(this); return false;">{$lang->cmd_load}</button></span>
-        <!--@end-->
-    </div>
 
 
     <ul class="editorTypeSelector">

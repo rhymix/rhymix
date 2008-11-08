@@ -113,6 +113,10 @@
 	<!--@end-->
 		
 	<div class="boardNavigation">
+        <!--@if($is_logged)-->
+        <span class="button"><button type="button" onclick="doDocumentSave(this); return false;">{$lang->cmd_temp_save}</button></span>
+        <span class="button"><button type="button" onclick="doDocumentLoad(this); return false;">{$lang->cmd_load}</button></span>
+        <!--@end-->
 		<span class="button red strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
 	</div>
 
