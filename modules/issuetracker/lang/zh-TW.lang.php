@@ -59,7 +59,7 @@
 
      $lang->status_list = array(
              'new' => '新建',
-             'reviewing' => '審查中',
+             'reviewing' => '審查',
              'assign' => '分配',
              'resolve' => '解決',
              'reopen' => '重新開始',
@@ -76,7 +76,7 @@
      $lang->project_menus = array(
              'dispIssuetrackerViewIssue' => '問題清單',
              'dispIssuetrackerNewIssue' => '發表問題',
-             'dispIssuetrackerViewMilestone' => '開發計劃',
+             'dispIssuetrackerViewMilestone' => '版本開發',
              'dispIssuetrackerViewSource' => '檢視原始碼',
              'dispIssuetrackerDownload' => '下載',
              'dispIssuetrackerAdminProjectSetting' => '設置',
