@@ -4,7 +4,7 @@
 /* Zeroboard XE */
 
 /* Board Reset */
-.board{ font-family:AppleGothic, Dotum, Tahoma, Sans-serif; line-height:normal; font-size:1.1em;}
+.board{ font-family:Dotum, Tahoma, Sans-serif; line-height:normal; font-size:1.1em;}
 .board *{ font-size:1em;}
 .board .inputText,
 .board textarea{ border:1px solid;}
@@ -22,20 +22,20 @@
 .boardHeader .boardTitleText{ float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 22px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
 .boardHeader .boardTitleText a{ text-decoration:none;}
 .boardHeader .boardTitleText em{ font-style:normal; font-weight:normal;}
-.boardHeader .boardDescription{ position:relative; padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; }
+.boardHeader .boardDescription{ ; padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; }
 
 /* Board Information */
-.boardInformation{ position:relative; width:100%; padding:10px 0; font-size:.85em; line-height:normal; *zoom:1;}
+.boardInformation{ ; width:100%; padding:10px 0; font-size:.85em; line-height:normal; *zoom:1;}
 .boardInformation *{ margin:0; padding:0;}
 .boardInformation:after{ content:""; display:block; float:none; clear:both;}
-.boardInformation ul{ position:relative; overflow:hidden;}
-.boardInformation li{ list-style:none; position:relative; left:-1px; display:block; float:left; padding:0 7px; background-repeat:no-repeat; background-position:left center;}
+.boardInformation ul{ ; overflow:hidden;}
+.boardInformation li{ list-style:none; ; left:-1px; display:block; float:left; padding:0 7px; background-repeat:no-repeat; background-position:left center;}
 .boardInformation strong{ font:bold 11px Tahoma;}
 .boardInformation .infoLeft{ padding-left:18px; float:left; background-repeat:no-repeat; background-position:left center;}
 .boardInformation .infoRight{ float:right;}
 .boardInformation .infoRight li.icon{ padding:0; margin-right:3px;}
 .boardInformation .infoRight li.icon a{ display:block; float:left; width:12px; height:12px; overflow:hidden; background-repeat:no-repeat;}
-.boardInformation .infoRight li.icon a span{ display:block; width:12px; height:12px; position:relative; z-index:-1; visibility:hidden;}
+.boardInformation .infoRight li.icon a span{ display:block; width:12px; height:12px; ; z-index:-1; visibility:hidden;}
 .boardInformation .infoRight li.rss a{ background-position:0 0;}
 .boardInformation .infoRight li.tag_info a{ background-position:-12px 0;}
 .boardInformation .infoRight li.listTypeClassic a{ background-position:-24px 0;}
@@ -46,7 +46,7 @@
 /* Board List Form */
 .boardListForm{ margin:0; line-height:normal;}
 .boardListForm *{ margin:0; padding:0;}
-.boardListForm fieldset{ border:0; position:relative; clear:both;}
+.boardListForm fieldset{ border:0; ; clear:both;}
 .boardListForm fieldset:after{ content:""; display:block; float:none; clear:both;}
 .boardListForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 .boardListForm em,
@@ -75,7 +75,7 @@
 .boardList td.reading{ font:11px Tahoma;}
 .boardList td.recommend{ font:11px Tahoma;}
 .boardList td.date{ font:11px Tahoma;}
-.boardList td .replyAnchor{ position:relative; margin-right:10px; font-size:.9em;}
+.boardList td .replyAnchor{ ; margin-right:10px; font-size:.9em;}
 .boardList td .replyAnchor .bubble{ display:none; position:absolute; font:9px Tahoma; top:-7px; right:4px; text-decoration:none;}
 .boardList td .replyAnchor:hover .bubble,
 .boardList td .replyAnchor:active .bubble,
@@ -101,8 +101,8 @@
 .thumbList{ border-bottom:1px solid; *zoom:1;}
 .thumbList:after{ content:""; display:block; clear:both;}
 .thumbList li{ margin:10px; list-style:none; overflow:hidden; float:left;}
-.thumbList li .thumb{ position:relative; float:left; clear:both; overflow:hidden; padding:2px; margin-bottom:5px; border:1px solid;}
-.thumbList li .thumb a{ position:relative; display:block;}
+.thumbList li .thumb{ ; float:left; clear:both; overflow:hidden; padding:2px; margin-bottom:5px; border:1px solid;}
+.thumbList li .thumb a{ ; display:block;}
 .thumbList li .thumb a *{ cursor:pointer;}
 .thumbList li .thumb a img{ display:block;}
 .thumbList li .thumb a .text{ position:absolute; left:0; top:50%; margin-top:-.8em; *margin-top:-1.5em; display:block; width:100%; text-align:center; font-size:2em; font-weight:bold; white-space:nowrap; letter-spacing:-1px;}
@@ -115,7 +115,7 @@
 .thumbList li .date{ font:11px Tahoma;}
 
 /* Board Navigation */
-.board .boardNavigation{ position:relative; padding:10px 0; *zoom:1; text-align:center;}
+.board .boardNavigation{ ; padding:10px 0; *zoom:1; text-align:center;}
 .board .boardNavigation:after{ content:""; display:block; float:none; clear:both;}
 .board .boardNavigation .pagination{ padding:5px 0;}
 .board .boardNavigation .buttonLeft{ float:left; text-align:left;}
@@ -124,7 +124,7 @@
 /* Search Form */
 .boardSearchForm{ margin:0; font-size:.75em; line-height:normal;}
 .boardSearchForm *{ margin:0; padding:0;}
-.boardSearchForm fieldset{ border:0; position:relative; clear:both; text-align:center;}
+.boardSearchForm fieldset{ border:0; ; clear:both; text-align:center;}
 .boardSearchForm fieldset:after{ content:""; display:block; float:none; clear:both;}
 .boardSearchForm fieldset *{ vertical-align:middle;}
 .boardSearchForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
@@ -138,13 +138,14 @@
 .boardReadHeader:after{ content:""; display:block; float:none; clear:both;}
 .boardReadHeader *{ margin:0; padding:0;}
 .boardReadHeader .title{ float:left; font-size:1.5em;}
-.boardReadHeader em{ position:relative; top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
+.boardReadHeader em{ ; top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
 .boardReadHeader a{ font-weight:bold; font-size:1em;}
 
 .boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden;}
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
 .boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
+.boardReadBody .xe_content a { text-decoration:underline; }
 .boardReadBody .memberSignature { border:1px dotted; padding:10px; overflow:hidden; *zoom:1;}
 .boardReadBody .memberSignature img.profile { float:left; margin-right:10px; display:block;}
 .boardReadBody .memberSignature .signature { float:left; }
@@ -153,52 +154,53 @@
 .boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:11px Tahoma;}
 .boardReadFooter:after{ content:""; display:block; float:none; clear:both;}
 .boardReadFooter *{ margin:0; padding:0;}
-.boardReadFooter a{ text-decoration:underline; position:relative;}
+.boardReadFooter a{ text-decoration:underline; }
 .boardReadFooter .footerLeft{ }
-.boardReadFooter .footerRight{ float:right; clear:both; overflow:hidden; *zoom:1;}
-.boardReadFooter dl{ clear:both; position:relative;}
-.boardReadFooter dt{ position:relative; z-index:2; display:inline; padding-right:5px; font-weight:bold;}
-.boardReadFooter dd{ position:relative; z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; background-repeat:no-repeat; background-position:left center; *zoom:1;}
-.boardReadFooter .footerRight dl{ float:right;}
-.boardReadFooter .footerRight dl.noBr{ position:relative; left:5px; float:right; clear:both; overflow:hidden; white-space:nowrap;}
-.boardReadFooter .footerRight dl.noBr dt{ position:relative; left:-1px; padding-left:10px; background-repeat:no-repeat; background-position:left center;}
+.boardReadFooter .footerRight{ clear:both; overflow:hidden; *zoom:1;}
+.boardReadFooter dl{ clear:both; margin-bottom:4px; font-family:tahoma;}
+.boardReadFooter dl dd a{ font-family:Tahoma; text-decoration:none; }
+.boardReadFooter dt{ z-index:2; display:inline; font-weight:bold;}
+.boardReadFooter dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; *zoom:1;}
+.boardReadFooter .footerRight dl.noBr{ left:5px; float:right; clear:both; overflow:hidden; white-space:nowrap;}
+.boardReadFooter .footerRight dl.noBr dt{ left:-1px; padding-left:10px; background-repeat:no-repeat; background-position:left center;}
 .boardReadFooter .footerRight dl.noBr dd{ margin-right:5px;}
 
 .boardRead .boardNavigation{ border-top:1px solid;}
 
 /* Feedback List */
-.feedbackList{ position:relative; overflow:hidden; padding-top:15px; margin-bottom:10px; }
+.feedbackList{ overflow:hidden; padding-top:15px; margin-bottom:10px; }
 .feedbackList *{ margin:0; padding:0;}
-.feedbackList .feedbackHeader{ position:relative; font-weight:bold; margin-bottom:10px; font-size:1.5em;}
+.feedbackList .feedbackHeader{ font-weight:bold; margin-bottom:10px; font-size:1.5em;}
 
-.feedbackList .replyList .item .header{ font-size:1.5em; margin-bottom:5px;}
+.feedbackList .replyList .item .header{ font-size:1em; padding:0; margin:0 0 5px 0; float:left;}
 .feedbackList .trackbackList .item .header{ font-size:1em; margin-bottom:5px;}
 .feedbackList .trackbackList .item p{ margin-bottom:10px;}
 .feedbackList .replyList .item {overflow:hidden; *zoom:1; }
 .feedbackList .replyList .item img.commentProfileImage { float:left; display:block; margin-right:10px;}
 
-.feedbackList .item{ position:relative; padding-top:10px; margin-bottom:10px; border-top:1px dashed;}
-.feedbackList .item .indent{ position:relative;}
+.feedbackList .item{ padding-top:10px; margin-bottom:10px; border-top:1px dashed;}
+.feedbackList .item .indent{ }
 .feedbackList .reply .indent{ border-left:8px solid; padding-left:10px;}
 .feedbackList .item .header a{ font-size:1em;}
 .feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
 .feedbackList .item .comment_popup_menu a{ text-decoration:underline;}
-.feedbackList .item .option{ text-align:right;}
+.feedbackList .item .option{ text-align:right; clear:both;}
+.feedbackList .item .itemContent { clear:both; }
 
 /* Time */
-.time{ position:absolute; top:10px; right:0;}
-.time *{ position:relative; font-size:11px; font-family:Tahoma; display:inline;}
-.time dt{ z-index:2; display:inline; padding-right:5px; font-weight:bold;}
-.time dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:3px; background-repeat:no-repeat; background-position:left center;}
+.time {float:right; }
+.time * { font-size:11px; font-family:Tahoma; display:inline; }
+.time dt{ z-index:2; display:inline; font-weight:bold; }
+.time dd{ z-index:1; left:-5px; display:inline; padding-left:3px; background-repeat:no-repeat; background-position:left center; }
 
 /* Attached File */
-.attachedFile{ position:relative; margin:0; padding:0; border:none;}
+.attachedFile{ margin:0; padding:0; border:none; clear:both;}
 .item .attachedFile{ position:absolute; left:0; bottom:0;}
 .reply .attachedFile{ position:absolute; left:10px; bottom:0;}
-.attachedFile *{ position:relative; font-size:11px; font-family:Tahoma; display:inline;}
-.attachedFile dt{ z-index:2; display:inline; padding-right:5px; font-weight:bold;}
-.attachedFile dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; background-repeat:no-repeat; background-position:left center; *zoom:1;}
-.attachedFile dd a{ position:relative; text-decoration:underline;}
+.attachedFile *{ ; font-size:11px; font-family:Tahoma; display:inline;}
+.attachedFile dt{ z-index:2; display:inline; font-weight:bold;}
+.attachedFile dd{ z-index:1; left:-5px; display:inline; padding-left:12px; *zoom:1; background:url(../images/common/iconFile.gif) no-repeat left 3px; }
+.attachedFile dd a{ text-decoration:underline; }
 .attachedFile dd a .bubble{ position:absolute; display:none; text-decoration:none; white-space:nowrap; border:1px solid; padding:2px 5px; left:0; top:-20px; cursor:pointer;}
 .attachedFile dd a:hover .bubble,
 .attachedFile dd a:active .bubble,
@@ -206,11 +208,11 @@
 
 .replyForm{ padding:10px 20px 15px 20px; font-size:.75em; margin-bottom:20px; -moz-border-radius:10px; -webkit-border-radius:10px;}
 .replyForm *{ margin:0; padding:0;}
-.replyForm fieldset{ border:0; position:relative;}
+.replyForm fieldset{ border:0; ;}
 .replyForm fieldset:after{ content:""; display:block; float:none; clear:both;}
 .replyForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 .replyForm .title{ font-weight:bold; font-size:1.5em; margin-bottom:10px;}
-.replyForm textarea{ position:relative; width:95%; height:150px; font-size:1em; overflow:auto; padding:10px; margin-bottom:10px;}
+.replyForm textarea{ ; width:95%; height:150px; font-size:1em; overflow:auto; padding:10px; margin-bottom:10px;}
 .replyForm .inputText{ padding:2px 4px 4px 4px; width:190px; height:15px; vertical-align:middle; *margin:-1px 0;}
 .replyForm dl{ margin-bottom:10px;}
 .replyForm dt{ width:80px; float:left; padding-top:6px; font-weight:bold;}
@@ -219,10 +221,10 @@
 /* Board Write */
 .boardWrite *{ margin:0; padding:0;}
 .boardWrite li{ list-style:none;}
-.boardWrite fieldset{ border:0; position:relative;}
+.boardWrite fieldset{ border:0; ;}
 .boardWrite legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 
-.boardWrite .boardWriteHeader{ position:relative;}
+.boardWrite .boardWriteHeader{ ;}
 .boardWrite .boardWriteHeader dl{ margin-bottom:5px;}
 .boardWrite .boardWriteHeader dl *{ vertical-align:middle;}
 .boardWrite .boardWriteHeader dt{ font-weight:bold; display:inline;}
@@ -244,13 +246,13 @@
 /* UserName & Password */
 .board .userNameAndPw{ margin:0; padding:5px 10px 0 10px; border-top:1px solid;}
 .board .userNameAndPw dl{ display:inline; white-space:nowrap;}
-.board .userNameAndPw dt{ position:relative; top:-3px; font-weight:bold; display:inline;}
+.board .userNameAndPw dt{ ; top:-3px; font-weight:bold; display:inline;}
 .board .userNameAndPw dd{ margin-right:5px; display:inline;}
 .board .userNameAndPw dd .inputText{}
 .board .userNameAndPw dd.userName .inputText{ width:70px;}
 .board .userNameAndPw dd.userPw .inputText{ width:50px; font:11px Tahoma;}
-.board .userNameAndPw dd.emailAddress .inputText{ width:120px; font:11px Tahoma;}
-.board .userNameAndPw dd.homePage .inputText{ width:120px; font:11px Tahoma;}
+.board .userNameAndPw dd.emailAddress .inputText{ width:110px; font:11px Tahoma;}
+.board .userNameAndPw dd.homePage .inputText{ width:110px; font:11px Tahoma;}
 .board .userNameAndPw dd .inputText{ padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px; vertical-align:middle;}
 
 /* Comment */
@@ -262,10 +264,10 @@
 .board .editorOption dd .inputCheck{ width:13px; height:13px;}
 .board .boardEditor{ border:1px solid; margin-bottom:20px;}
 .board .boardEditor .commentEditor{ margin:10px 15px;}
-.board .commentEditor .commentHeader{position:relative; border-bottom:1px solid; font-weight:bold; padding-bottom:5px; margin-bottom:10px; font-size:1.5em;}
+.board .commentEditor .commentHeader{; border-bottom:1px solid; font-weight:bold; padding-bottom:5px; margin-bottom:10px; font-size:1.5em;}
 
 /* Secret Message */
-.board .secretMessage{ margin:0;}
+.board .secretMessage{ margin:0; clear:both;}
 .board .secretMessage p{ text-align:center; margin:0; font-size:2em;}
 .board .secretMessage dl{ text-align:center; margin:15px 0;}
 .board .secretMessage dt{ font-weight:bold; display:inline;}

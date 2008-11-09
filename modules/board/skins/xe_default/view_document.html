@@ -149,7 +149,7 @@
     <!--#include("./trackback.html")-->
 <!--@end-->
 
-<!--#include("./comment.html")-->
+    <!--#include("./comment.html")-->
 
 <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
     <!--%import("filter/insert_comment.xml")-->
@@ -159,13 +159,10 @@
     <input type="hidden" name="comment_srl" value="" />
     <input type="hidden" name="content" value="" />
         <div class="boardWrite commentEditor">
-	
-			<h3 class="commentHeader">{$lang->comment}</h3>
-
             <div class="editor">{$oDocument->getCommentEditor()}</div>
 
 			<dl class="editorOption">
-				<dt>옵션 : </dt>
+				<dt>{$lang->cmd_option} : </dt>
 				<!--@if($is_logged)-->
 				<dd>
 					<input type="checkbox" name="notify_message" value="Y" id="notify_message" />

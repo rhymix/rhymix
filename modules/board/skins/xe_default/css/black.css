@@ -72,8 +72,6 @@
 .boardReadFooter{ color:#999;}
 .boardReadFooter a{ color:#999;}
 .boardReadFooter dt{ background:#000;}
-.boardReadFooter dd{ background-image:url(../images/black/lineVr11.gif);}
-.boardReadFooter .footerRight dl.noBr dt{ background-image:url(../images/black/lineVr11.gif);}
 
 .boardRead .boardNavigation{ border-color:#666;}
 
@@ -87,12 +85,9 @@
 /* Time */
 .time *{ color:#ccc;}
 .time dt{ background:#000;}
-.time dd{ background-image:url(../images/black/lineVr11.gif);}
 
 /* Attached File */
 .attachedFile *{ color:#999;}
-.attachedFile dt{ background:#000;}
-.attachedFile dd{ background-image:url(../images/black/lineVr11.gif);}
 .attachedFile dd a{ color:#999;}
 .attachedFile dd a .bubble{ background:#666; border-color:#555;}
 
