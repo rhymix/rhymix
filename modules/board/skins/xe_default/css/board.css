@@ -147,10 +147,13 @@
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
 .boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
+.itemContent .xe_content a,
 .boardReadBody .xe_content a { text-decoration:underline; }
 .boardReadBody .memberSignature { border:1px dotted; padding:10px; overflow:hidden; *zoom:1;}
 .boardReadBody .memberSignature img.profile { float:left; margin-right:10px; display:block;}
 .boardReadBody .memberSignature .signature { float:left; }
+.boardReadBody .memberSignature .signature p { margin:0; padding:0; }
+.boardReadBody .memberSignature .signature p a { text-decoration:underline; }
 
 
 .boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:12px Tahoma;}
