@@ -146,10 +146,12 @@ function editorDragMove(evt) {
 
     var iframe_obj = editorGetIFrame(editorDragObj.id);
     var textarea_obj = editorGetTextarea(editorDragObj.id);
-    var height = xHeight(iframe_obj) || xHeight(textarea_obj);
+    var preview_obj = xGetElementById('editor_preview_'+editorDragObj.id);
+    var height = xHeight(iframe_obj) || xHeight(textarea_obj) || xHeight(preview_obj);
     height += h;
     xHeight(iframe_obj, height);
     xHeight(textarea_obj, height);
+    xHeight(preview_obj, height);
 //    xHeight(iframe_obj.parentNode, height+200);
 }
 

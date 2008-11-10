@@ -22,7 +22,7 @@ function editorUploadInit(obj) {
     xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
 }
 
-// 파일 업로드를 위한 기본 준비를 함 
+// 파일 업로드를 위한 기본 준비를 함
 function XEUploaderStart(obj) {
     try { document.execCommand('BackgroundImageCache',false,true); } catch(e) { }
 
@@ -73,7 +73,7 @@ function XEUploaderStart(obj) {
         upload_error_handler : uploadError,
         upload_success_handler : uploadSuccess,
         upload_complete_handler : uploadComplete,
-        queue_complete_handler :queueComplete 
+        queue_complete_handler :queueComplete
     };
     settings["post_params"][obj["sessionName"]] = xGetCookie(obj["sessionName"]);
     settings["editorSequence"] = obj["editorSequence"];
@@ -167,39 +167,39 @@ function uploadSuccess(file, serverData) {
 }
 
 function uploadError(file, errorCode, message) {
-	try {
-		switch (errorCode) {
-		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
-			alert("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
-			alert("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.IO_ERROR:
-			alert("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
-			alert("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
-			alert("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
-			alert("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
-			// If there aren't any files left (they were all cancelled) disable the cancel button
-			if (this.getStats().files_queued === 0) {
-				document.getElementById(this.customSettings.cancelButtonId).disabled = true;
-			}
-			break;
-		case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-			break;
-		default:
-			alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-			break;
-		}
-	} catch (ex) {
+    try {
+        switch (errorCode) {
+        case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+            alert("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
+            break;
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+            alert("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+            break;
+        case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+            alert("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
+            break;
+        case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+            alert("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
+            break;
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+            alert("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+            break;
+        case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+            alert("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+            break;
+        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+            // If there aren't any files left (they were all cancelled) disable the cancel button
+            if (this.getStats().files_queued === 0) {
+                document.getElementById(this.customSettings.cancelButtonId).disabled = true;
+            }
+            break;
+        case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+            break;
+        default:
+            alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+            break;
+        }
+    } catch (ex) {
         this.debug(ex);
     }
 }
@@ -332,41 +332,48 @@ function removeUploadedFile(editorSequence) {
 }
 
 function insertUploadedFile(editorSequence) {
+
     var settings = uploaderSettings[editorSequence];
     var fileListAreaID = settings["fileListAreaID"];
     var fileListObj = xGetElementById(fileListAreaID);
     if(!fileListObj) return;
 
-    if(typeof(editorMode)!='undefined' && editorMode[editorSequence]=='html') return;
+    if(editorMode[editorSequence]=='preview') return;
 
-    var iframe_obj = editorGetIFrame(editorSequence);
-    if(!iframe_obj) return;
-
+    var text = new Array();
     for(var i=0;i<fileListObj.options.length;i++) {
         if(!fileListObj.options[i].selected) continue;
         var file_srl = fileListObj.options[i].value;
         if(!file_srl) continue;
 
         var file = uploadedFiles[file_srl];
-
         editorFocus(editorSequence);
-
-        var text = "";
 
         // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
         if(file.direct_download == 'Y') {
             // 이미지 파일의 경우 image_link 컴포넌트 열결
             if(/\.(jpg|jpeg|png|gif)$/i.test(file.download_url)) {
-                var text = "<img editor_component=\"image_link\" src=\""+file.download_url+"\" alt=\""+file.source_filename+"\" />";
+                text.push("<img editor_component=\"image_link\" src=\""+file.download_url+"\" alt=\""+file.source_filename+"\" />");
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
-                var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />";
+                text.push("<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
             }
 
-        // binary파일의 경우 url_link 컴포넌트 연결 
+        // binary파일의 경우 url_link 컴포넌트 연결
         } else {
-            var text = "<a href=\""+file.download_url+"\">"+file.source_filename+"</a>\n";
-        } 
-        if(text) editorReplaceHTML(iframe_obj, text);
+            text.push("<a href=\""+file.download_url+"\">"+file.source_filename+"</a>\n");
+        }
+    }
+
+
+    // html 모드
+    if(editorMode[editorSequence]=='html'){
+        if(text.length>0) xGetElementById('editor_textarea_'+editorSequence).value += text.join('');
+
+    // 위지윅 모드
+    }else{
+        var iframe_obj = editorGetIFrame(editorSequence);
+        if(!iframe_obj) return;
+        if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
     }
 }

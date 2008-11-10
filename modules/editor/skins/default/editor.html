@@ -40,14 +40,14 @@
 
     <ul class="editorTypeSelector">
         <li class="active" id="use_rich_{$editor_sequence}"><a href="#xeEditor" onclick="editorChangeMode('', '{$editor_sequence}')"><span>{$lang->edit->rich_editor}</span></a></li>
-        
+
         <!-- HTML 모드 사용 -->
         <!--@if($html_mode)-->
             <!--@if($html_mode)-->
             <li id="use_html_{$editor_sequence}"><a href="#htmlEditor"  onclick="editorChangeMode('html', '{$editor_sequence}')"><span>{$lang->edit->html_editor}</span></a></li>
             <!--@end-->
         <!--@end-->
-        
+
         <li id="preview_html_{$editor_sequence}"><a href="#htmlEditor" onclick="editorChangeMode('preview','{$editor_sequence}');"><span>{$lang->cmd_preview}</span></a></li>
     </ul>
 
@@ -63,7 +63,7 @@
                     <li class="undo"><button type="button" onclick="editorUnDo(this,'{$editor_sequence}')" id="editor_undo_{$editor_sequence}" title="Ctrl+Z:Un Do"><span>Un Do</span></button></li>
                     <li class="redo"><button type="button" onclick="editorReDo(this,'{$editor_sequence}')" id="editor_redo_{$editor_sequence}" title="Ctrl+Y:Re Do"><span>Re Do</span></button></li>
                 </ul>
-                
+
                 <ul class="type item">
                     <li class="hx">
                         <select onchange="editorChangeHeader(this,'{$editor_sequence}')" id="editor_header_{$editor_sequence}">
@@ -94,7 +94,7 @@
                         </select>
                     </li>
                 </ul>
-                
+
                 <ul class="style item">
                     <li class="bold"><button type="button" title="Ctrl+B:{$lang->edit->help_bold}" id="component_{$editor_sequence}_Bold"><span>Bold</span></button></li>
                     <li class="underline"><button type="button" title="Ctrl+U:{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline"><span>Underline</span></button></li>
@@ -106,7 +106,7 @@
                     <li class="bgColor"><button type="button" title="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg"><span>Background Color</span></button></li>
                     <li class="styleRemover"><button type="button" title="Ctrl+D:{$lang->edit->help_remove_format}" id="component_{$editor_sequence}_RemoveFormat"><span>Style Remover</span></button></li>
                 </ul>
-                
+
                 <ul class="paragraph item">
                     <li class="alignLeft"><button type="button" title="{$lang->edit->help_align_left}" id="component_{$editor_sequence}_JustifyLeft"><span>Align Left</span></button></li>
                     <li class="alignCenter"><button type="button" title="{$lang->edit->help_align_center}" id="component_{$editor_sequence}_JustifyCenter"><span>Align Center</span></button></li>
@@ -117,7 +117,7 @@
                     <li class="outdent"><button type="button" title="{$lang->edit->help_remove_indent}" id="component_{$editor_sequence}_Outdent"><span>Outdent</span></button></li>
                     <li class="indent"><button type="button" title="{$lang->edit->help_add_indent}" id="component_{$editor_sequence}_Indent"><span>Indent</span></button></li>
                 </ul>
-                
+
                 <ul class="extension1 item">
                     <li class="url"><button type="button" title="Ctrl+L:URL" id="component_1_url_link"><span>URL</span></button></li>
                     <li class="blockquote"><button type="button" title="Blockquote" id="component_1_quotation"><span>Blockquote</span></button></li>
@@ -127,7 +127,7 @@
                     <!--<li class="file"><button type="button" title="File" id="component_1_file"><span>Movie</span></button></li>-->
                     <li class="emoticon"><button type="button" title="Emoticon" id="component_1_emoticon"><span>Emoticon</span></button></li>
                 </ul>
-                
+
             <!--@end-->
             <!--@if($enable_component)-->
             <!-- 확장 컴포넌트 출력 -->
@@ -142,7 +142,7 @@
                     </ul>
                 </div>
             <!--@end-->
-            
+
             <div class="editorHelp" id="editorHelp_{$editor_sequence}">
                 <button type="button" class="helpButton" title="{$lang->edit->help}" onclick="showEditorHelp(event,{$editor_sequence})"><span>{$lang->edit->help}</span></button>
             </div>
@@ -165,7 +165,7 @@
                     </ul>
                 </li>
             </ul>
-                
+
         </div>
 
         <!--@if($enable_autosave)-->
@@ -177,7 +177,7 @@
             <div class="editorMargin" >
                 <iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
                 <textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20" title="HTML Editor"></textarea>
-                <div id="editor_preview_{$editor_sequence}" class="previewEditor"></div>
+                <iframe id="editor_preview_{$editor_sequence}" name="editor_preview_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="display:none;border:0;"></iframe>
             </div>
         </div>
 
@@ -209,7 +209,7 @@
             );
         //]]></script>
         <!-- 파일 업로드 영역 -->
-        <div class="fileUploader">
+        <div id="fileUploader_{$editor_sequence}" class="fileUploader">
             <div class="preview" id="preview_uploaded_{$editor_sequence}"></div>
             <div class="fileListArea">
                 <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
