@@ -67,11 +67,11 @@
                     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                     
                     <!--@if($document->getCommentCount())-->
-                        <a href="{getUrl('document_srl', $document->document_srl)}#comment"><span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong></span></a>
+                        <a href="{getUrl('document_srl', $document->document_srl)}#comment"><span class="replyNum" title="Replies"><strong>[{$document->getCommentCount()}]</strong></span></a>
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
-                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>T</sup></span>
+                        <a href="{getUrl('document_srl', $document->document_srl)}#trackback"><span class="replyNum" title="Trackbacks"><strong class="trackback">[{$document->getTrackbackCount()}]</strong></span></a>
                     <!--@end-->
 
                     {$document->printExtraImages(60*60*$module_info->duration_new)}
@@ -100,7 +100,7 @@
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
-                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>T</sup></span>
+                        <a href="{getUrl('document_srl', $document->document_srl)}#trackback"><span class="replyNum" title="Trackbacks"><strong class="trackback">[{$document->getTrackbackCount()}]</strong></span></a>
                     <!--@end-->
 
                     {$document->printExtraImages(60*60*$module_info->duration_new)}

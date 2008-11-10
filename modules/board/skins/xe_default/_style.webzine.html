@@ -70,7 +70,7 @@
 				<!--@end-->
 
 				<!--@if($document->getTrackbackCount())-->
-					<span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>T</sup></span>
+                    <a href="{getUrl('document_srl', $document->document_srl)}#trackback"><span class="replyNum" title="Trackbacks"><strong class="trackback">[{$document->getTrackbackCount()}]</strong></span></a>
 				<!--@end-->
                 
                 {$document->printExtraImages(60*60*$module_info->duration_new)}
@@ -103,7 +103,7 @@
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
-                        <span class="replyNum" title="Trackbacks"><strong>{$document->getTrackbackCount()}</strong><sup>T</sup></span>
+                        <a href="{getUrl('document_srl', $document->document_srl)}#trackback"><span class="replyNum" title="Trackbacks"><strong class="trackback">[{$document->getTrackbackCount()}]</strong></span></a>
                     <!--@end-->
 
                     {$document->printExtraImages(60*60*$module_info->duration_new)}

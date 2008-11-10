@@ -51,6 +51,7 @@
 .boardListForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
 .boardListForm em,
 .boardListForm strong{ font-style:normal;}
+.boardListForm strong.trackback { color:#423CC4; }
 
 /* Board List */
 .boardList{ border:0; border-top:1px solid; border-bottom:1px solid; width:100%;}
