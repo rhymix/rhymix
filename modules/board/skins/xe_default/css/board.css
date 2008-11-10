@@ -25,7 +25,7 @@
 .boardHeader .boardDescription{ padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; position:relative;}
 
 /* Board Information */
-.boardInformation{width:100%; padding:10px 0; font-size:.85em; line-height:normal; *zoom:1;}
+.boardInformation{width:100%; padding:10px 0; font-size:1em; line-height:normal; *zoom:1;}
 .boardInformation *{ margin:0; padding:0;}
 .boardInformation:after{ content:""; display:block; float:none; clear:both;}
 .boardInformation ul{ overflow:hidden;}
@@ -151,13 +151,14 @@
 .boardReadBody .memberSignature .signature { float:left; }
 
 
-.boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:11px Tahoma;}
+.boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:12px Tahoma;}
 .boardReadFooter:after{ content:""; display:block; float:none; clear:both;}
 .boardReadFooter *{ margin:0; padding:0;}
 .boardReadFooter a{ text-decoration:underline; }
 .boardReadFooter .footerLeft{ }
 .boardReadFooter .footerRight{ clear:both; overflow:hidden; *zoom:1;}
-.boardReadFooter dl{ clear:both; margin-bottom:4px; font-family:tahoma;}
+.boardReadFooter dl{ clear:both; margin-bottom:4px; }
+.boardReadFooter dl dd { font-family:Tahoma; }
 .boardReadFooter dl dd a{ font-family:Tahoma; text-decoration:none; }
 .boardReadFooter dt{ z-index:2; display:inline; font-weight:bold;}
 .boardReadFooter dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; *zoom:1;}
@@ -189,7 +190,7 @@
 
 /* Time */
 .time {float:right; }
-.time * { font-size:11px; font-family:Tahoma; display:inline; }
+.time * { font-family:Tahoma; display:inline; }
 .time dt{ z-index:2; display:inline; font-weight:bold; }
 .time dd{ z-index:1; left:-5px; display:inline; padding-left:3px; background-repeat:no-repeat; background-position:left center; }
 
@@ -197,7 +198,7 @@
 .attachedFile{ margin:0; padding:0; border:none; clear:both;}
 .item .attachedFile{ position:absolute; left:0; bottom:0;}
 .reply .attachedFile{ position:absolute; left:10px; bottom:0;}
-.attachedFile *{ font-size:11px; font-family:Tahoma; display:inline;}
+.attachedFile *{ font-family:Tahoma; display:inline;}
 .attachedFile dt{ z-index:2; display:inline; font-weight:bold;}
 .attachedFile dd{ z-index:1; left:-5px; display:inline; padding-left:12px; *zoom:1; background:url(../images/common/iconFile.gif) no-repeat left 3px; }
 .attachedFile dd a{ text-decoration:underline; }
