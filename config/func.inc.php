@@ -474,8 +474,11 @@
     }
 
     function removeJSEvent($matches) {
-        if(preg_match('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)javascript/is',$matches[2])) $matches[0] = preg_replace('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)javascript/is','$1=$2_javascript', $matches[0]);
-        return preg_replace('/([\r\n ]*)on([a-z]+)=/is',' _on$2=',$matches[0]);
+        $content = $matches[0];
+        if(preg_match('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is',$matches[2])) $content = preg_replace('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is','$1=$2_$4', $content);
+        $content = preg_replace('/([\r\n ]*)on([a-z]+)=/is',' _on$2=',$content);
+        $content = preg_replace('/_onclick=("|\')window\.open\(this\.href\);(.?)return false;("|\')/i','onclick=$1window.open(this.href);$2return false;$3',$content);
+        return str_replace('editor_comp _onent', 'editor_component', $content);
     }
 
     function removeSrcHack($matches) {
@@ -500,7 +503,6 @@
 
     function _isHackedSrc($src) {
         if(!$src) return false;
-        if($src && preg_match('/javascript:/i',$src)) return true;
         if($src) {
             $url_info = parse_url($src);
             $query = $url_info['query'];

@@ -24,7 +24,7 @@
 /* ToolBox Button Default */
 
 /* Auto Save */
-.xeEditor .editor_autosaved_message{ background:#fafafa; border-color:#ddd;}
+.xeEditor .editor_autosaved_message{ background:#fff; color:#666; }
 
 /* Edit Area */
 .xeEditor .editorBox{ border-color:#fff; background:#fff;}

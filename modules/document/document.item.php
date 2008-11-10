@@ -244,9 +244,6 @@
 
             $content = $this->get('content');
 
-            // CSRF등의 보안 취약점 문제를 막기위한 코드로 인하여 새창 띄우기 코드가 무효화 된것을 원상태로 변경
-            $content = str_replace('_onclick="window.open(this.href);return false;"','onclick="window.open(this.href);return false;"',$content);
-            
             // rewrite모듈을 사용하면 링크 재정의
             $oContext = &Context::getInstance();
             if($oContext->allow_rewrite) {
