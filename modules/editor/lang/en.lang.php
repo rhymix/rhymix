@@ -109,9 +109,9 @@
     $lang->about_dblclick_in_editor = 'You may set detail component configures by double-clicking background, text, images, or quotations';
 
 
-    $lang->edit->rich_editor = '스타일 편집기';
-    $lang->edit->html_editor = 'HTML 편집기';
-    $lang->edit->extension ='확장 컴포넌트';
-    $lang->edit->help = '도움말';
+    $lang->edit->rich_editor = 'Rich Text Editor';
+    $lang->edit->html_editor = 'HTML Editor';
+    $lang->edit->extension ='Extension Components';
+    $lang->edit->help = 'Help';
     $lang->edit->help_command = '단축키 안내';
 ?>
