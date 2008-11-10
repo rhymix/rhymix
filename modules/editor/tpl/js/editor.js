@@ -413,6 +413,7 @@ function editorChangeMode(mode, editor_sequence) {
     } else if (editorMode[editor_sequence]=='preview') {
 //        html = xInnerHtml(preview_obj);
         html = textarea_obj.value;
+//        xAddEventListener(xGetElementById('editor_preview_'+editor_sequence), 'load', function(){setPreviewHeight(editor_sequence)});
     } else {
         html = contentDocument.body.innerHTML;
         textarea_obj.value = html
@@ -446,7 +447,7 @@ function editorChangeMode(mode, editor_sequence) {
             fo_obj.id = "preview_form";
             fo_obj.action = request_uri;
             fo_obj.target = "editor_preview_"+editor_sequence;
-            xInnerHtml(fo_obj,'<input type="hidden" name="module" value="editor" /><input type="hidden" name="act" value="dispEditorPreview" /><input type="hidden" name="content" />');
+            xInnerHtml(fo_obj,'<input type="hidden" name="module" value="editor" /><input type="hidden" name="editor_sequence" value="'+editor_sequence+'" /><input type="hidden" name="act" value="dispEditorPreview" /><input type="hidden" name="content" />');
             document.body.appendChild(fo_obj);
         }
         fo_obj.content.value = html;
@@ -521,4 +522,8 @@ function showPreviewContent(ret_obj,response_tags, params, fo_obj) {
     xGetElementById('fileUploader_'+params.editor_sequence).style.display='none';
 //  alert(ret_obj.content);
     xInnerHtml(preview_obj, ret_obj.content);
+}
+
+function setPreviewHeight(editor_sequence){
+    xHeight('editor_preview_'+editor_sequence,xGetElementById('editor_preview_'+editor_sequence).contentWindow.document.body.scrollHeight+20);
 }

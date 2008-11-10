@@ -177,7 +177,7 @@
             <div class="editorMargin" >
                 <iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
                 <textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20" title="HTML Editor"></textarea>
-                <iframe id="editor_preview_{$editor_sequence}" name="editor_preview_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="display:none;overflow:hidden;"></iframe>
+                <iframe id="editor_preview_{$editor_sequence}" name="editor_preview_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="display:none;" onload="setPreviewHeight({$editor_sequence});"></iframe>
             </div>
         </div>
 
