@@ -121,8 +121,8 @@ function editorDragStart(evt) {
 
     var iframe_obj = editorGetIFrame(editorDragObj.id);
     var textarea_obj = editorGetTextarea(editorDragObj.id);
-
-    editorDragObj.source_height = xHeight(iframe_obj);
+    var preview_obj = xGetElementById('editor_preview_'+editorDragObj.id);
+    editorDragObj.source_height = xHeight(iframe_obj) || xHeight(preview_obj);
     xGetElementById('xeEditorMask_' + editorDragObj.id).style.display='block';
 
     xAddEventListener(document, 'mousemove', editorDragMove, true);

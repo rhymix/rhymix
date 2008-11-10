@@ -101,14 +101,6 @@
 
 
         function dispEditorPreview(){
-/*
-            Context::setResponseMethod();
-            $content = Context::get('content');
-            $oContext = Context::getInstance();
-            $content = $oContext->transContent($content);
-            Context::setResponseMethod('XMLRPC');
-            Context::set('content',$content);
-*/
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('preview');
         }
