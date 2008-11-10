@@ -10,7 +10,7 @@
 .editorTypeSelector{ float:right; clear:right; position:relative; right:3px; margin:0; padding:0; line-height:normal; *zoom:1;}
 .editorTypeSelector:after{ content:""; display:block; clear:both;}
 .editorTypeSelector *{ margin:0; padding:0; list-style:none;}
-.editorTypeSelector li{ float:left; margin-right:5px;}
+.editorTypeSelector li{ float:left; margin-right:5px; top:0;}
 .editorTypeSelector a,
 .editorTypeSelector a span{ position:relative; display:block; float:left; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand; white-space:nowrap;}
 .editorTypeSelector a{ background-position:left -65px; text-decoration:none !important;}
@@ -22,6 +22,7 @@
 .editorTypeSelector a:focus span{ font-weight:bold; letter-spacing:-1px;}
 
 /* Editor Type Selector - Active */
+.editorTypeSelector li a{ top:0; margin-bottom:-4px;}
 .editorTypeSelector li.active a{ top:-2px; margin-bottom:-4px;}
 .editorTypeSelector li.active a span{ padding:5px 15px; font-weight:bold; letter-spacing:-1px;}
 
