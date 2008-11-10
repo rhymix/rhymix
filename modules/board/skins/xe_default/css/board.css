@@ -147,7 +147,6 @@
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
 .boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
-.itemContent .xe_content a,
 .boardReadBody .xe_content a { text-decoration:underline; }
 .boardReadBody .memberSignature { border:1px dotted; padding:10px; overflow:hidden; *zoom:1;}
 .boardReadBody .memberSignature img.profile { float:left; margin-right:10px; display:block;}
@@ -175,12 +174,11 @@
 
 /* Feedback List */
 .feedbackList{ overflow:hidden; padding-top:15px; margin-bottom:10px; }
-.feedbackList *{ margin:0; padding:0;}
 .feedbackList .feedbackHeader{ font-weight:bold; margin-bottom:10px; font-size:1.5em;}
 
-.feedbackList .replyList .item .header{ font-size:1em; padding:0; margin:0 0 5px 0; float:left;}
-.feedbackList .trackbackList .item .header{ font-size:1em; margin-bottom:5px;}
-.feedbackList .trackbackList .item p{ margin-bottom:10px;}
+.feedbackList .replyList .item .header{ font-size:1em; padding:0; margin:0; float:left;}
+.feedbackList .trackbackList .item .header{ font-size:1em; float:left; padding:0; margin:0;}
+.feedbackList .trackbackList .item p { margin-bottom:10px;}
 .feedbackList .replyList .item {overflow:hidden; *zoom:1; }
 .feedbackList .replyList .item img.commentProfileImage { float:left; display:block; margin-right:10px;}
 
@@ -191,11 +189,12 @@
 .feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
 .feedbackList .item .comment_popup_menu a{ text-decoration:underline;}
 .feedbackList .item .option{ text-align:right; clear:both;}
-.feedbackList .item .itemContent { clear:both; }
+.feedbackList .item .itemContent { clear:both; margin:10px 0 0 0;}
+.feedbackList .item .itemContent .xe_content a { text-decoration:underline; }
 
 /* Time */
-.time {float:right; }
-.time * { font-family:Tahoma; display:inline; }
+.time {float:right; margin:0; padding:0;}
+.time * { font-family:Tahoma; font-size:11px; display:inline; margin:0; padding:0;}
 .time dt{ z-index:2; display:inline; font-weight:bold; }
 .time dd{ z-index:1; left:-5px; display:inline; padding-left:3px; background-repeat:no-repeat; background-position:left center; }
 
