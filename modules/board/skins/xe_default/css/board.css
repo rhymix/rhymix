@@ -4,7 +4,7 @@
 /* XE */
 
 /* Board Reset */
-.board{ font-family:Sans-serif; line-height:normal; font-size:1.1em;}
+.board{ font-family:Sans-serif; line-height:normal; font-size:1em;}
 .board *{ font-size:1em;}
 .board .inputText,
 .board textarea{ border:1px solid;}
