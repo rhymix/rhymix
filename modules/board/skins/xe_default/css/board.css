@@ -70,6 +70,7 @@
 .boardList td.title img{ vertical-align:middle; margin:0 1px;}
 .boardList td.title .replyNum{ font:11px Tahoma;}
 .boardList td.title .replyNum sup{ font:10px Tahoma;}
+.boardList td.title .replyNum strong { font-weight:normal; }
 .boardList td.author{ text-align:left; }
 .boardList td.replies{ font:11px Tahoma;}
 .boardList td.reading{ font:11px Tahoma;}
@@ -109,7 +110,7 @@
 .thumbList li .thumb a .category{ position:absolute; left:0; bottom:0; width:100%; padding:2px 0; white-space:nowrap; text-indent:4px;}
 .thumbList li .title{ clear:both; white-space:nowrap; margin-bottom:3px;}
 .thumbList li .title input{ width:13px; height:13px; vertical-align:middle; white-space:nowrap;}
-.thumbList li .author{}
+.thumbList li .author{ white-space:nowrap;}
 .thumbList li .reading{ font:11px Tahoma;}
 .thumbList li .recommend{ font:11px Tahoma;}
 .thumbList li .date{ font:11px Tahoma;}

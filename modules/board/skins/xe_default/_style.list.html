@@ -67,7 +67,7 @@
                     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                     
                     <!--@if($document->getCommentCount())-->
-                        <span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong></span>
+                        <a href="{getUrl('document_srl', $document->document_srl)}#comment"><span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong></span></a>
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->
@@ -96,7 +96,7 @@
                     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
                     
                     <!--@if($document->getCommentCount())-->
-                        <span class="replyNum" title="Replies"><strong>{$document->getCommentCount()}</strong></span>
+                        <a href="{getUrl('document_srl', $document->document_srl)}#comment"><span class="replyNum" title="Replies"><strong>[{$document->getCommentCount()}]</strong></span></a>
                     <!--@end-->
 
                     <!--@if($document->getTrackbackCount())-->

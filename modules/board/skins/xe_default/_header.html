@@ -29,6 +29,7 @@
     {@ $order_type = "desc"; }
 <!--@end-->
 
+{$module_info->default_style = 'blog' }
 <!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
     <!--@if($listStyle=='gallery')-->
         {@ $module_info->default_style = 'gallery'}
