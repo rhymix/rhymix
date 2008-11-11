@@ -413,6 +413,7 @@ function editorChangeMode(mode, editor_sequence) {
     } else if (editorMode[editor_sequence]=='preview') {
 //        html = xInnerHtml(preview_obj);
         html = textarea_obj.value;
+        preview_obj.contentWindow.document.body.innerHTML = '';
 //        xAddEventListener(xGetElementById('editor_preview_'+editor_sequence), 'load', function(){setPreviewHeight(editor_sequence)});
     } else {
         html = contentDocument.body.innerHTML;
@@ -525,5 +526,7 @@ function showPreviewContent(ret_obj,response_tags, params, fo_obj) {
 }
 
 function setPreviewHeight(editor_sequence){
-    xHeight('editor_preview_'+editor_sequence,xGetElementById('editor_preview_'+editor_sequence).contentWindow.document.body.scrollHeight+20);
+    var h = xGetElementById('editor_preview_'+editor_sequence).contentWindow.document.body.scrollHeight;
+    if(h < 400) h=400;
+    xHeight('editor_preview_'+editor_sequence,h+20);
 }
