@@ -143,7 +143,7 @@
 .boardReadHeader em{ top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
 .boardReadHeader a{ font-weight:bold; font-size:1em;}
 
-.boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden;}
+.boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden; *zoom:1;}
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
 .boardReadBody .document_popup_menu a{ text-decoration:underline;}
 .boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
