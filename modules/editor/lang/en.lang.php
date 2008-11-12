@@ -113,5 +113,5 @@
     $lang->edit->html_editor = 'HTML Editor';
     $lang->edit->extension ='Extension Components';
     $lang->edit->help = 'Help';
-    $lang->edit->help_command = '단축키 안내';
+    $lang->edit->help_command = 'Help Hotkeys';
 ?>

@@ -52,13 +52,13 @@
     $lang->member_info = 'Member Info';
     $lang->current_password = 'Current Password';
     $lang->openid = 'OpenID';
-    $lang->allow_message = '쪽지 허용';
+    $lang->allow_message = 'Allow Messages';
     $lang->allow_message_type = array(
-            'Y' => '모두 허용',
-            'F' => '등록된 친구들만 허용',
-            'N' => '모두 금지',
+            'Y' => 'Allow All',
+            'F' => 'Allow for Friends',
+            'N' => 'Reject All',
     );
-    $lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
+    $lang->about_allow_message = 'You may allow or reject messages.';
 
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
