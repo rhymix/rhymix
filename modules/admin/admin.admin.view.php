@@ -83,7 +83,7 @@
             $db_info = Context::getDBInfo();
             Context::set('selected_lang', $db_info->lang_type);
 
-            Context::set('current_version', __ZBXE_VERSION__);
+            Conㄴtext::set('current_version', __ZBXE_VERSION__);
             Context::set('installed_path', realpath('./'));
 
             $oModuleModel = &getModel('module');
@@ -95,36 +95,106 @@
             Context::set('addon_list', $addon_list);
 
             $args->date = date("Ymd000000", time()-60*60*24);
+            $today = date("Ymd");
 
+            // 회원
             $output = executeQueryArray("admin.getMemberStatus", $args);
-            $status->member->yesterday = number_format($output->data[0]->count);
-            $status->member->today = number_format($output->data[1]->count);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->member->today = $var->count;
+                    } else {
+                        $status->member->yesterday = $var->count;
+                    }
+                }
+            }
             $output = executeQuery("admin.getMemberCount", $args);
-            $status->member->total = number_format($output->data->count);
+            $status->member->total = $output->data->count;
 
+            // 문서
             $output = executeQueryArray("admin.getDocumentStatus", $args);
-            $status->document->yesterday = number_format($output->data[0]->count);
-            $status->document->today = number_format($output->data[1]->count);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->document->today = $var->count;
+                    } else {
+                        $status->document->yesterday = $var->count;
+                    }
+                }
+            }
             $output = executeQuery("admin.getDocumentCount", $args);
-            $status->document->total = number_format($output->data->count);
+            $status->document->total = $output->data->count;
 
+            // 댓글
             $output = executeQueryArray("admin.getCommentStatus", $args);
-            $status->comment->yesterday = number_format($output->data[0]->count);
-            $status->comment->today = number_format($output->data[1]->count);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->comment->today = $var->count;
+                    } else {
+                        $status->comment->yesterday = $var->count;
+                    }
+                }
+            }
             $output = executeQuery("admin.getCommentCount", $args);
-            $status->comment->total = number_format($output->data->count);
+            $status->comment->total = $output->data->count;
 
+            // 엮인글
             $output = executeQueryArray("admin.getTrackbackStatus", $args);
-            $status->trackback->yesterday = number_format($output->data[0]->count);
-            $status->trackback->today = number_format($output->data[1]->count);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->trackback->today = $var->count;
+                    } else {
+                        $status->trackback->yesterday = $var->count;
+                    }
+                }
+            }
             $output = executeQuery("admin.getTrackbackCount", $args);
-            $status->trackback->total = number_format($output->data->count);
+            $status->trackback->total = $output->data->count;
 
+            // 첨부파일
             $output = executeQueryArray("admin.getFileStatus", $args);
-            $status->file->yesterday = number_format($output->data[0]->count);
-            $status->file->today = number_format($output->data[1]->count);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->file->today = $var->count;
+                    } else {
+                        $status->file->yesterday = $var->count;
+                    }
+                }
+            }
             $output = executeQuery("admin.getFileCount", $args);
-            $status->file->total = number_format($output->data->count);
+            $status->file->total = $output->data->count;
+
+            // 게시물 신고
+            $output = executeQueryArray("admin.getDocumentDeclaredStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->documentDeclared->today = $var->count;
+                    } else {
+                        $status->documentDeclared->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getDocumentDeclaredCount", $args);
+            $status->documentDeclared->total = $output->data->count;
+
+            // 댓글 신고
+            $output = executeQueryArray("admin.getCommentDeclaredStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->commentDeclared->today = $var->count;
+                    } else {
+                        $status->commentDeclared->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getCommentDeclaredCount", $args);
+            $status->commentDeclared->total = $output->data->count;
+
             Context::set('status', $status);
 
             $this->setTemplateFile('index');

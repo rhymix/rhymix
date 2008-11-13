@@ -125,34 +125,46 @@
     </thead>
     <tbody>
     <tr class="row2">
-        <td class="circle">{$lang->member}</td>
-        <td class="number center">{$status->member->yesterday}</td>
-        <td class="number center">{$status->member->today}</td>
-        <td class="number center">{$status->member->total}</td>
+        <td class="circle"><a href="{getUrl('act','dispMemberAdminList')}">{$lang->member}</a></td>
+        <td class="number center">{number_format($status->member->yesterday)}</td>
+        <td class="number center">{number_format($status->member->today)}</td>
+        <td class="number center">{number_format($status->member->total)}</td>
     </tr>
     <tr>
-        <td class="circle">{$lang->document}</td>
-        <td class="number center">{$status->document->yesterday}</td>
-        <td class="number center">{$status->document->today}</td>
-        <td class="number center">{$status->document->total}</td>
+        <td class="circle"><a href="{getUrl('act','dispDocumentAdminList')}">{$lang->document}</a></td>
+        <td class="number center">{number_format($status->document->yesterday)}</td>
+        <td class="number center">{number_format($status->document->today)}</td>
+        <td class="number center">{number_format($status->document->total)}</td>
     </tr>
     <tr class="row2">
-        <td class="circle">{$lang->comment}</td>
-        <td class="number center">{$status->comment->yesterday}</td>
-        <td class="number center">{$status->comment->today}</td>
-        <td class="number center">{$status->comment->total}</td>
+        <td class="circle"><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment}</a></td>
+        <td class="number center">{number_format($status->comment->yesterday)}</td>
+        <td class="number center">{number_format($status->comment->today)}</td>
+        <td class="number center">{number_format($status->comment->total)}</td>
     </tr>
     <tr>
-        <td class="circle">{$lang->trackback}</td>
-        <td class="number center">{$status->trackback->yesterday}</td>
-        <td class="number center">{$status->trackback->today}</td>
-        <td class="number center">{$status->trackback->total}</td>
+        <td class="circle"><a href="{getUrl('act','dispTrackbackAdminList')}">{$lang->trackback}</a></td>
+        <td class="number center">{number_format($status->trackback->yesterday)}</td>
+        <td class="number center">{number_format($status->trackback->today)}</td>
+        <td class="number center">{number_format($status->trackback->total)}</td>
     </tr>
     <tr class="row2">
-        <td class="circle">{$lang->file}</td>
-        <td class="number center">{$status->file->yesterday}</td>
-        <td class="number center">{$status->file->today}</td>
-        <td class="number center">{$status->file->total}</td>
+        <td class="circle"><a href="{getUrl('act','dispFileAdminList')}">{$lang->file}</a></td>
+        <td class="number center">{number_format($status->file->yesterday)}</td>
+        <td class="number center">{number_format($status->file->today)}</td>
+        <td class="number center">{number_format($status->file->total)}</td>
+    </tr>
+    <tr>
+        <td class="circle"><a href="{getUrl('act','dispDocumentAdminDeclared')}">{$lang->document.' '.$lang->cmd_declare}</a></td>
+        <td class="number center">{number_format($status->documentDeclared->yesterday)}</td>
+        <td class="number center">{number_format($status->documentDeclared->today)}</td>
+        <td class="number center">{number_format($status->documentDeclared->total)}</td>
+    </tr>
+    <tr class="row2">
+        <td class="circle"><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->comment.' '.$lang->cmd_declare}</a></td>
+        <td class="number center">{number_format($status->commentDeclared->yesterday)}</td>
+        <td class="number center">{number_format($status->commentDeclared->today)}</td>
+        <td class="number center">{number_format($status->commentDeclared->total)}</td>
     </tr>
     </tbody>
     </table>
