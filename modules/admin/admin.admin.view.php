@@ -83,7 +83,7 @@
             $db_info = Context::getDBInfo();
             Context::set('selected_lang', $db_info->lang_type);
 
-            Conㄴtext::set('current_version', __ZBXE_VERSION__);
+            Context::set('current_version', __ZBXE_VERSION__);
             Context::set('installed_path', realpath('./'));
 
             $oModuleModel = &getModel('module');
