@@ -206,20 +206,19 @@
          * @brief 선택된 회원들을 일괄 삭제
          */
         function procMemberAdminDeleteMembers() {
-            $member_srl = Context::get('member_srl');
-            if(!$member_srl) return new Object(-1,'msg_invalid_request');
-            $member_srls = explode(',',$member_srl);
+            $target_member_srls = Context::get('target_member_srls');
+            if(!$target_member_srls) return new Object(-1, 'msg_invalid_request');
+            $member_srls = explode(',', $target_member_srls);
             $oMemberController = &getController('member');
-            foreach($member_srls as $member)
-            {
+
+            foreach($member_srls as $member) {
                 $output = $oMemberController->deleteMember($member);
-                if(!$output->toBool())
-                {
+                if(!$output->toBool()) {
                     $this->setMessage('failed_deleted');
                     return $output;
                 }
             }
-            
+
             $this->setMessage('success_deleted');
         }
 
