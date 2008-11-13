@@ -18,7 +18,7 @@
 </thead>
 <tbody>
     <!--@foreach($member_list as $no => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td class="center number">{$no}</td>
         <td class="nowrap">{htmlspecialchars($val->user_id)}</td>
         <td class="nowrap">{htmlspecialchars($val->user_name)}</td>

@@ -6,17 +6,6 @@
 <div class="adminLeftContent">
 
     <table cellspacing="0" class="adminTable">
-    <caption>{$lang->cmd_point_recal}</caption>
-    <tr>
-        <td>
-            <p>{$lang->about_cmd_point_recal}</p>
-            <p id="pointReCal"></p>
-            <span class="button"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
-        </td>
-    </tr>
-    </table>
-
-    <table cellspacing="0" class="adminTable">
     <caption>{$lang->cmd_setup}</caption>
     <tr class="row2">
         <th scope="col"><div>{$lang->max_level}</div></th>
@@ -40,7 +29,7 @@
             <p>{$lang->about_point_signup}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th colspan="2"><div>{$lang->cmd_login}</div></th>
         <td><input type="text" class="inputTypeText w80" value="{$config->login_point}" name="login_point" /> {$config->point_name}</td>
     </tr>
@@ -83,7 +72,7 @@
             <p>{$lang->about_level_icon}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="row2">
         <th scope="col"><div>{$lang->disable_download}</div></th>
         <td colspan="3">
             <input type="checkbox" name="disable_download" value="Y" <!--@if($config->disable_download=='Y')-->checked="checked"<!--@end--> />
@@ -121,6 +110,17 @@
         </td>
     </tr>
     </tbody>
+    </table>
+
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->cmd_point_recal}</caption>
+    <tr>
+        <td>
+            <p>{$lang->about_cmd_point_recal}</p>
+            <p id="pointReCal"></p>
+            <span class="button"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
+        </td>
+    </tr>
     </table>
 </div>
 
