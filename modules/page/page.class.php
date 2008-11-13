@@ -15,7 +15,7 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('page', 'view', 'dispPageIndex');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContent');
-            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminModuleConfig');
+            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInsert');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminDelete');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContentModify');
@@ -32,6 +32,7 @@
         function checkUpdate() {
             $oModuleModel = &getModel('module');
             if(!$oModuleModel->getActionForward('dispPageAdminContentModify')) return true;
+            if(!$oModuleModel->getActionForward('dispPageAdminInfo')) return true;
             return false;
         }
 
@@ -44,6 +45,8 @@
 
             if(!$oModuleModel->getActionForward('dispPageAdminContentModify')) 
                 $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContentModify');
+            if(!$oModuleModel->getActionForward('dispPageAdminInfo')) 
+                $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
 
             return new Object(0,'success_updated');
         }
