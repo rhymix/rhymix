@@ -474,11 +474,27 @@
     }
 
     function removeJSEvent($matches) {
-        $content = $matches[0];
-        if(preg_match('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is',$matches[2])) $content = preg_replace('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is','$1=$2_$4', $content);
-        $content = preg_replace('/([\r\n ]*)on([a-z]+)=/is',' _on$2=',$content);
-        $content = preg_replace('/_onclick=("|\')window\.open\(this\.href\);(.?)return false;("|\')/i','onclick=$1window.open(this.href);$2return false;$3',$content);
-        return str_replace('editor_comp _onent', 'editor_component', $content);
+        $attrs = $matches[2];
+
+        // vbscript|javascript 제거
+        if(preg_match('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is', $matches[2])) {
+            $attrs = preg_replace('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is','$1=$2_$4', $attrs);
+        }
+
+        // 이벤트 제거
+        // 전제 : 1. 이벤트명 앞에는 개행(r, n, rn)문자와 공백 문자만 올 수 있음
+        //        2. 이벤트명 뒤에는 등호(=)가 존재해야하나 앞, 뒤에 공백이 있을 수 있음
+        //        3. 에디터 컴포넌트에서 on으로 시작하는 변수명을 가질 수 있으므로 실제 이벤트명만을 체크해야 함
+        $attrs = preg_replace(
+            '/(\r|\n| )+on(click|dblclick|mousedown|mouseup|mouseover|mouseout|mousemove|keydown|keyup|keypress|load|unload|abort|error|select|change|submit|reset|resize|scroll|focus|blur)+([= ]+)/is',
+            ' _on$2=',
+            $attrs
+        );
+
+        // 링크를 새창으로 열기 위한 이벤트만 복구
+        $attrs = preg_replace('/_onclick=("|\')window\.open\(this\.href\);(.?)return false;("|\')/i','onclick=$1window.open(this.href);$2return false;$3', $attrs);
+
+        return '<'.$matches[1].$attrs.'>';
     }
 
     function removeSrcHack($matches) {
