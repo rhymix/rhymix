@@ -49,7 +49,7 @@
      $lang->completed_date = '結束日期';
      $lang->order = '順序';
      $lang->package = $lang->package_srl = '套裝包';
-     $lang->release = $lang->release_srl = '已發佈版本';
+     $lang->release = $lang->release_srl = '發佈版本';
      $lang->release_note = '發佈記錄';
      $lang->release_changes = '更新日誌';
      $lang->occured_version = $lang->occured_version_srl = '目前版本';
@@ -76,17 +76,18 @@
      $lang->project_menus = array(
              'dispIssuetrackerViewIssue' => '問題清單',
              'dispIssuetrackerNewIssue' => '發表問題',
+             'dispIssuetrackerTimeline' => '時間軸',
              'dispIssuetrackerViewMilestone' => '版本開發',
              'dispIssuetrackerViewSource' => '檢視原始碼',
              'dispIssuetrackerDownload' => '下載',
              'dispIssuetrackerAdminProjectSetting' => '設置',
     );
 
-    $lang->msg_not_attched = '請新增附加檔案。';
+    $lang->msg_not_attched = '請新增附檔。';
     $lang->msg_attached = '檔案已新增。';
     $lang->msg_no_releases = '尚未被新增的發佈版本。';
 
     $lang->cmd_document_do = '將把此問題.. ';
-    $lang->not_assigned = '沒有分配';
+    $lang->not_assigned = '尚未分配';
     $lang->not_assigned_description = '尚未被分配的問題清單';
 ?>

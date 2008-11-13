@@ -8,8 +8,8 @@
     $lang->integration_search = "搜尋";
 
     $lang->sample_code = "原始碼";
-    $lang->about_target_module = "只把被選模組作為搜尋對象。請注意權限設置。";
-    $lang->about_sample_code = "可把上述原始碼插入到相對應版面當中，即可實現搜尋功能。";
+    $lang->about_target_module = "只將所選擇的模組當作搜尋對象。請注意權限設置。";
+    $lang->about_sample_code = "將上述原始碼插入到相對應版面當中，即可實現搜尋功能。";
 
     $lang->is_result_text = "符合<strong>'%s'</strong>的搜尋結果，約有<strong>%d</strong>項";
 
