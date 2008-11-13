@@ -13,6 +13,24 @@
 <input type="hidden" name="word" value="" />
 </form>
 
+<!-- 수동 추가 -->
+<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_word)">
+    <table cellspacing="0" class="adminTable">
+    <tr>
+        <th scope="row"><div>{$lang->word}</div></th>
+        <td>
+            <input type="text" name="word" value="" class="inputTypeText" />
+            <p>{$lang->about_denied_word}</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </td>
+    </tr>
+    </table>
+</form>
+
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
 <thead>
@@ -35,21 +53,3 @@
     <!--@end-->
 </tbody>
 </table>
-
-<!-- 수동 추가 -->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_word)">
-    <table cellspacing="0" class="adminTable">
-    <tr>
-        <th scope="row"><div>{$lang->word}</div></th>
-        <td>
-            <input type="text" name="word" value="" class="inputTypeText" />
-            <p>{$lang->about_denied_word}</p>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
-    </tr>
-    </table>
-</form>

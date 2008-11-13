@@ -13,28 +13,6 @@
 <input type="hidden" name="ipaddress" value="" />
 </form>
 
-<!-- 목록 -->
-<table cellspacing="0" class="adminTable">
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col" class="wide"><div>{$lang->ipaddress}</div></th>
-        <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->cmd_delete}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($ip_list as $no => $val)-->
-    <tr>
-        <td class="center number">{count($ip_list)-$no}</td>
-        <td class="number">{$val->ipaddress}</td>
-        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="delete center"><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;">{$lang->cmd_delete}</a></td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
-
 <!-- 수동 추가 -->
 <form action="./" method="get" onsubmit="return procFilter(this, insert_denied_ip)">
     <table cellspacing="0" class="adminTable">
@@ -52,3 +30,25 @@
     </tr>
     </table>
 </form>
+
+<!-- 목록 -->
+<table cellspacing="0" class="adminTable">
+<thead>
+    <tr>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col" class="wide"><div>{$lang->ipaddress}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($ip_list as $no => $val)-->
+    <tr class="row{$cycle_idx}">
+        <td class="center number">{count($ip_list)-$no}</td>
+        <td class="number">{$val->ipaddress}</td>
+        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="delete center"><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;">{$lang->cmd_delete}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
