@@ -310,6 +310,9 @@
             $module_srl = $obj->module_srl;
             if(!$module_srl) return new Object();
 
+            // 자신의 올린 파일이면 패스
+            if($obj->member_srl == $member_srl) return new Object();
+
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
             $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
@@ -342,6 +345,9 @@
             $member_srl = $logged_info->member_srl;
             if(!$module_srl) return new Object();
 
+            // 자신의 올린 파일이면 패스
+            if($obj->member_srl == $member_srl) return new Object();
+
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
@@ -371,6 +377,9 @@
             if(!$logged_info->member_srl) return new Object();
             $member_srl = $logged_info->member_srl;
             $module_srl = $obj->get('module_srl');
+
+            // 자신의 글이면 패스
+            if($obj->get('member_srl') == $member_srl) return new Object();
 
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
