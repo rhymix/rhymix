@@ -212,8 +212,8 @@
         function procMenuAdminMoveItem() {
             // 변수 설정 
             $menu_id = Context::get('menu_id');
-            $source_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_item_srl'));
-            $target_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_item_srl'));
+            $source_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_item'));
+            $target_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_item'));
 
             // target_item 의 값을 구함
             $oMenuModel = &getAdminModel('menu');
