@@ -26,7 +26,7 @@
                 <input type="button" name="go_button" id="go_button" value="GO" class="buttonTypeGo" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;"/>
             </div>
         </th>
-        <th scope="col"><div>{$lang->user_name}</div></th>
+        <th scope="col"><div>{$lang->nick_name}</div></th>
         <th scope="col"><div>{$lang->date}</div></th>
         <th scope="col"><div>{$lang->last_update}</div></th>
         <th scope="col"><div>{$lang->ipaddress}</div></th>
@@ -38,7 +38,7 @@
     <tr class="row{$cycle_idx}">
         <td rowspan="2" class="number center">{$no}</td>
         <td colspan="2"><a href="./?mid={$module_list[$val->module_srl]->mid}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$val->module_srl]->browser_title)}</a>&nbsp;</td>
-        <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+        <td class="nowrap"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
         <td class="date center nowrap">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
         <td class="date center nowrap"><!--@if($val->last_update)-->{(zdate($val->last_update, "Y-m-d\nH:i:s"))}<!--@else-->&nbsp;<!--@end--></td>
         <td class="number center nowrap">{$val->ipaddress}</td>
