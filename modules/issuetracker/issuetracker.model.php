@@ -368,7 +368,7 @@
         }
 
 
-        function getChangesets($module_srl, $enddate = null, $limit = 90)
+        function getChangesets($module_srl, $enddate = null, $limit = 10)
         {
             if(!$enddate)
             {

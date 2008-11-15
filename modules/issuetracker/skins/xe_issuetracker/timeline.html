@@ -14,12 +14,12 @@
 <dt class="changeset">
     <span class="time">{zdate($changeset->date,"H:i")}</span>
     <!--@if($changeset->type == "i")-->
-    <a href="{getUrl('','document_srl',$changeset->target_srl)}">Issue <em>#{$changeset->target_srl}</em></a> ({$issues[$changeset->target_srl]->getTitleText(20)}) by <span class="author">{$changeset->author}</span>
+    <a href="{getUrl('','document_srl',$changeset->target_srl)}">Issue <em>#{$changeset->target_srl}</em></a> ({$issues[$changeset->target_srl]->getTitleText(30)}) by <span class="author">{$changeset->author}</span>
     <!--@else-->
     <a href="{getUrl('act','dispIssuetrackerViewSource','erev',$changeset->revision,'type','log')}">Changeset <em>[{$changeset->revision}]</em></a> by <span class="author">{$changeset->author}</span>
     <!--@end-->
 </dt>
 <dd class="changeset"> 
-<p><!--@if($changeset->type == "i")--><span class="status">{$changeset->message}</span><br>{$issues[$changeset->target_srl]->getContentText(50)}<!--@else-->{$changeset->message}<!--@end--></p> </dd>
+<p><!--@if($changeset->type == "i")--><span class="status">{$changeset->message}</span><br>{$issues[$changeset->target_srl]->getContentText(80)}<!--@else-->{$changeset->message}<!--@end--></p> </dd>
 <!--@end-->
 </dl>
