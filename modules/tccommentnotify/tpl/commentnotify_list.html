@@ -27,21 +27,21 @@
 <tbody>
     <!--@foreach($notify_list as $no => $val)-->
     {@ $parent = $val->parent; }
-    <tr class="row{$cycle_idx} <!--@if($parent->remoteid == -1)--> parentDocument<!--@else--> parent<!--@end-->" >
+    <tr class="row2 <!--@if($parent->remoteid == -1)--> parentDocument<!--@else--> parent<!--@end-->" >
         <td><input type="checkbox" name="cart" value="{$parent->notified_srl}" /></td>
         <td class="nowrap date center">{zdate($parent->written, "Y/m/d")}</td>
-        <td class="nowrap"><a href="{$parent->siteurl}">{$parent->title?$parent->title:"[No title]"}</a></td>
+        <td class="nowrap"><a href="{$parent->siteurl}" onclick="window.open(this.href);return false;">{$parent->title?$parent->title:"[No title]"}</a></td>
         <td class="nowrap">{$parent->name}</td>
-        <td><a href="{$parent->entryurl}">{$parent->entrytitle}</a> <a href="{$parent->commenturl}">{$parent->comment}</a></td>
+        <td><a href="{$parent->entryurl}" onclick="window.open(this.href);return false;">{$parent->entrytitle}</a> <a href="{$parent->commenturl}" onclick="window.open(this.href);return false;">{$parent->comment}</a></td>
         <td class="delete"><a href="#" onclick="deleteParent('{$parent->notified_srl}');">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@foreach($val->children as $child)-->
     <tr>
         <td></td>
         <td class="center nowrap date">{zdate($child->written, "Y/m/d")}</td>
-        <td class="nowrap"><a href="{$parent->siteurl}">{$parent->title?$parent->title:"[No title]"}</a></td>
+        <td class="nowrap"><a href="{$parent->siteurl}" onclick="window.open(this.href);return false;">{$parent->title?$parent->title:"[No title]"}</a></td>
         <td class="nowrap">{$child->name}</td>
-        <td><img src="images/iconReplyArrow.gif" /> <a href="{$child->url}">{$child->comment}</a></td>
+        <td><img src="images/iconReplyArrow.gif" /> <a href="{$child->url}" onclick="window.open(this.href);return false;">{$child->comment}</a></td>
         <td class="delete"><a href="#" onclick="deleteChild('{$child->notified_srl}');">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
