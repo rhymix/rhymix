@@ -69,9 +69,21 @@
 
         function dispIssuetrackerTimeline() {
             if(!$this->grant->access) return $this->dispIssuetrackerMessage('msg_not_permitted');
+            $oController = &getController('issuetracker');
+            $oController->syncChangeset();
             $oModel = &getModel('issuetracker');
             $changesets = $oModel->getChangesets($this->module_info->module_srl);
             Context::set('changesets', $changesets);
+            $issues = array();
+            foreach($changesets as $changeset)
+            {
+                if(!$changeset->target_srl) continue;
+                if(!$issues[$changeset->target_srl])
+                {
+                    $issues[$changeset->target_srl] = $oModel->getIssue($changeset->target_srl); 
+                }
+            }
+            Context::set('issues', $issues);
             $this->setTemplateFile('timeline');
         }
 

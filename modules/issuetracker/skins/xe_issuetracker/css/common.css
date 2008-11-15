@@ -273,3 +273,8 @@ dd { color: #777766; font-size: 0.90em; }
 dl { line-height: 1.3em; margin: 0; }
 dt { padding: 5px 4px 2px 0 }
 dd.changeset p { margin: 0; padding: 0; }
+span.status { color: #222222; }
+dd span.source { color:#4F86B0; }
+dd span.target { color:#4F86B0; font-weight:bold; }
+dd span.key { color:#888888; font-weight:bold; }
+dt a { color:#373737; text-decoration: none; }

@@ -395,10 +395,5 @@
             }
         }
 
-        function procIssuetrackerSync()
-        {
-            $this->syncChangeset();
-        }
-
     }
 ?>

@@ -55,7 +55,6 @@
         <action name="dispIssuetrackerDownload" type="view" standalone="true" />
         <actino name="dispIssuetrackerTimeline" type="view" standalone="true" />
 
-        <action name="procIssuetrackerSync" type="controller" standalone="true" />
         <action name="procIssuetrackerInsertIssue" type="controller" standalone="true" />
         <action name="procIssuetrackerDeleteIssue" type="controller" standalone="true" />
         <action name="procIssuetrackerDeleteTrackback" type="controller" standalone="true" />
