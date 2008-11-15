@@ -28,6 +28,18 @@
         }
 
         /**
+         * @brief action forward 삭제
+         **/
+        function deleteActionForward($module, $type, $act) {
+            $args->module = $module;
+            $args->type = $type;
+            $args->act = $act;
+
+            $output = executeQuery('module.deleteActionFoward', $args);
+            return $output;
+        }
+
+        /**
          * @brief module trigger 추가
          * module trigger는 trigger 대상이 등록된 대상을 호출하는 방법이다.
          *
@@ -43,6 +55,25 @@
 
             // 트리거 정보가 있는 파일 모두 삭제
             FileHandler::removeFilesInDir("./files/cache/triggers");
+
+            return $output;
+        }
+
+        /**
+         * @brief module trigger 삭제
+         *
+         **/
+        function deleteTrigger($trigger_name, $module, $type, $called_method, $called_position) {
+            $args->trigger_name = $trigger_name;
+            $args->module = $module;
+            $args->type = $type;
+            $args->called_method = $called_method;
+            $args->called_position = $called_position;
+
+            $output = executeQuery('module.deleteTrigger', $args);
+
+            // 트리거 캐시 삭제
+            FileHandler::removeFilesInDir('./files/cache/triggers');
 
             return $output;
         }
