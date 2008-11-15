@@ -370,13 +370,13 @@
             $this->setMessage('success_deleted');
         }
 
-        function syncChangeset()
+        function syncChangeset($module_info)
         {
             require_once($this->module_path.'classes/svn.class.php');
-            $oSvn = new Svn($this->module_info->svn_url, $this->module_info->svn_cmd, $this->module_info->diff_cmd);
+            $oSvn = new Svn($module_info->svn_url, $module_info->svn_cmd, $module_info->diff_cmd);
             $oModel = &getModel('issuetracker');
             $status = $oSvn->getStatus();
-            $latestRevision = $oModel->getLatestRevision($this->module_info->module_srl);
+            $latestRevision = $oModel->getLatestRevision($module_info->module_srl);
 
             $oController = &getController('issuetracker');
             if($latestRevision < $status->revision)
@@ -389,7 +389,7 @@
                     $obj->author = $log->author;
                     $obj->date = date("YmdHis", strtotime($log->date)); 
                     $obj->message = trim($log->msg);
-                    $obj->module_srl = $this->module_info->module_srl;
+                    $obj->module_srl = $module_info->module_srl;
                     executeQuery("issuetracker.insertChangeset", $obj);
                 }
             }
