@@ -36,6 +36,6 @@
         'filesize' => '檔案大小 (byte, 以上)',
         'download_count' => '下載次數 (以上)',
         'regdate' => '登錄日期',
-        'ipaddress' => 'IP地址',
+        'ipaddress' => 'IP位址',
     );
 ?>

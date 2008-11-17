@@ -33,6 +33,6 @@
     $lang->search_target_list = array(
         'title' => '標題',
         'regdate' => '登錄日期',
-        'ipaddress' => 'IP 地址',
+        'ipaddress' => 'IP 位址',
     );
 ?>
