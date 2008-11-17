@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+/* board Title */
+.boardHeader h3 { margin:0; border-bottom:3px solid #2895c0; }
+
+/* board Information */
+.articleNum { float:left; background:url(../images/cyan/iconArticle.gif) no-repeat left top; }
+.articleNum strong { font:bold 11px Tahoma; color:#2895c0;}
+
+/* account Navigation */
+.accountNavigation li.join a { background:url(../images/cyan/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.myInfo a { background:url(../images/cyan/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+
+/* style.list */
+.boardList th { background:#ffffff url(../images/cyan/lineBoardListTh.gif) no-repeat left bottom; }
+.boardList td.recommend { color:#2895c0; }
+.boardList td .replyAndTrackback { color:#2895c0; }
+.buttonTypeGo { background:url(../images/cyan/buttonTypeInput24.gif) no-repeat; }
+
+/* pagination */
+.pagenation strong { color:#2895c0; }
+
+/* boardRead */
+.boardRead .fileAttached li { background:url(../images/cyan/iconFile.gif) no-repeat left top;}
+
+/* replyAndTrackback */
+.buttonBox .replyAndTrackback a strong { color:#2895c0;}
+
+.replyBox .fileAttached li { background:url(../images/cyan/iconFile.gif) no-repeat left top;}

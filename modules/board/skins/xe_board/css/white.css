@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+/* board Title */
+.boardHeader h3 { margin:0; border-bottom:3px solid #fe3614; }
+
+/* board Information */
+.articleNum { float:left; background:url(../images/white/iconArticle.gif) no-repeat left top; }
+.articleNum strong { font:bold 11px Tahoma; color:#ff6600;}
+
+/* account Navigation */
+.accountNavigation li.join a { background:url(../images/white/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+.accountNavigation li.myInfo a { background:url(../images/white/iconMyInfo.gif) no-repeat left top; padding-left:14px; }
+
+/* boardRead */
+.boardRead .fileAttached li { background:url(../images/white/iconFile.gif) no-repeat left top;}
+
+/* style.list */
+.boardList th { background:#ffffff url(../images/white/lineBoardListTh.gif) no-repeat left bottom; }
+.boardList td.recommend { color:#ff6600; }
+.boardList td .replyAndTrackback { color:#ff6600; }
+.buttonTypeGo { background:url(../images/white/buttonTypeInput24.gif) no-repeat; }
+
+/* pagination */
+.pagenation strong { color:#ff6600; }
+
+/* replyAndTrackback */
+.buttonBox .replyAndTrackback a strong { color:#ff6600;}
+
+.replyBox .fileAttached li { background:url(../images/white/iconFile.gif) no-repeat left top;}
