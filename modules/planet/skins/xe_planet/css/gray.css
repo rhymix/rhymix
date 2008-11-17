@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+.authorHeader,
+.writePost{ background:#999;}
+.authorFooter,
+.commentList{ background:#efefef;}
+.writePost .writeBody button{ background-image:url(../images/buttonWriteGray.gif);}
+
+.myTab li,
+.exTab li,
+.myTab li a,
+.exTab li a{ background-color:#b7b7b7;}
+.myTab li.active,
+.exTab li.active,
+.myTab li.active a,
+.exTab li.active a{ background-color:#999;}

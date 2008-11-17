@@ -1,0 +1,10 @@
+<query id="insertSMSUser" action="insert">
+    <tables>
+        <table name="planet_sms_user" />
+    </tables>
+    <columns>
+        <column name="phone_number" var="phone_number" filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+    </columns>
+</query>

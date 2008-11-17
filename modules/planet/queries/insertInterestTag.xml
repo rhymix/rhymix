@@ -1,0 +1,9 @@
+<query id="insertInterestTag" action="insert">
+    <tables>
+        <table name="planet_interest_tags" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="tag" var="tag" notnull="notnull" />
+    </columns>
+</query>

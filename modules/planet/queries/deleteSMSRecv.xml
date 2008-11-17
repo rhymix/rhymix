@@ -1,0 +1,8 @@
+<query id="deleteSMSRecv" action="delete">
+    <tables>
+        <table name="planet_sms_recv" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="phone_number" var="phone_number" />
+    </conditions>
+</query>

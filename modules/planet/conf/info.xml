@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">플래닛</title>
+    <description xml:lang="ko">Microblog입니다.</description>
+    <version>0.1</version>
+    <date>2008-09-30</date>
+    <category>package</category>
+    <author email_address="sol@ngleader.com" link="http://www.ngleader.com">
+        <name xml:lang="ko">sol</name>
+    </author>
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+    </author>
+</module>

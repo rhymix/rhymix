@@ -1,0 +1,22 @@
+<filter name="modify_planet_info" module="planet" act="procPlanetInfoModify" confirm_msg_code="">
+  <form>
+    <node target="mid" required="true" />
+	<node target="target" required="true" />
+    <node target="planet_tag" maxlength="250" />
+	<node target="planet_name" maxlength="250" />
+	<node target="browser_title" maxlength="250" />
+	<node target="planet_info_photo" maxlength="250" />
+  </form>
+  <parameter>
+    <param name="mid" target="mid" />
+	<param name="target" target="target" />
+	<param name="planet_tag" target="planet_tag" />
+	<param name="planet_name" target="planet_name" />
+	<param name="browser_title" target="browser_title" />
+    <param name="planet_info_photo" target="planet_info_photo" />
+  </parameter>
+  <response callback_func="completeUpdatePlanetInfo">
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

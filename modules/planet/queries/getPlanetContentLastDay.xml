@@ -1,0 +1,14 @@
+<query id="getPlanetContentLastDay" action="select">
+    <tables>
+        <table name="modules"/>
+        <table name="documents"/>
+    </tables>
+    <columns>
+        <column name="max(documents.regdate)"  alias="last_date" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module" default="planet" />
+        <condition operation="equal" column="modules.module_srl" var="module_srl" pipe="and" />
+        <condition operation="equal" column="documents.module_srl" default="modules.module_srl" pipe="and" />
+    </conditions>
+</query>

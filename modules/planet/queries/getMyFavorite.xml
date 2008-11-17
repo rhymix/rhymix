@@ -1,0 +1,12 @@
+<query id="getMyFavorite" action="select">
+    <tables>
+        <table name="planet_favorite" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" filter="number" />
+        <condition operation="equal" column="reg_planet_srl" var="reg_planet_srl" notnull="notnull" filter="number" pipe="and"/>
+    </conditions>
+</query>

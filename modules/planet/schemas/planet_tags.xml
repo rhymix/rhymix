@@ -1,0 +1,5 @@
+<table name="planet_tags">
+  <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_tag" />
+  <column name="tag" type="varchar" size="40" notnull="notnull" index="idx_tag"/>
+  <column name="list_order" type="number" size="11" notnull="notnull" index="idx_tag_list_order" />
+</table>

@@ -1,0 +1,11 @@
+<query id="getPlanetCount" action="select">
+    <tables>
+        <table name="planet" alias="planet" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet.member_srl" var="member_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,12 @@
+<query id="updatePlanetBrowserTitle" action="update">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
+        <condition operation="equal" column="module" default="planet" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

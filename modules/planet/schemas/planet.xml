@@ -1,0 +1,12 @@
+<table name="planet">
+  <column name="module_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl"/>
+  <column name="planet_title" type="varchar" size="250" notnull="notnull" />
+  <column name="close_notice" type="char" size="1" notnull="notnull" default="N"/>
+  <column name="latest_document_srl" type="number" size="11" default="0" />
+  <column name="colorset" type="varchar" size="15" default="cyan" />
+  <column name="me2day_uid" type="varchar" size="40" />
+  <column name="me2day_ukey" type="varchar" size="40" />
+  <column name="me2day_autopush" type="varchar" size="1" default="N" />
+  <column name="regdate" type="date" notnull="notnull" />
+</table>

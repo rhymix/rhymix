@@ -1,0 +1,23 @@
+<query id="getPlanetPopularTags" action="select">
+    <tables>
+        <table name="tags" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="tags.tag" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.mid" var="mid" />
+        <condition operation="equal" column="modules.module" default="planet" pipe="and" />
+        <condition operation="equal" column="tags.module_srl" default="modules.module_srl" pipe="and" />
+        <condition operation="more" column="tags.regdate" var="date" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="count" default="count" order="desc" />
+        <list_count var="list_count" default="100" />
+    </navigation>
+    <groups>
+        <group column="tags.tag" />
+    </groups>
+</query>

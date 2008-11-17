@@ -1,0 +1,30 @@
+<!--%import("filter/delete_planet.xml")-->
+<!--%import("js/planet_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, delete_planet)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$planet_info->module_srl}" />
+
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->confirm_delete}</caption>
+    <tr>
+        <th scope="row"><div>{$lang->module_name}</div></th>
+        <td class="wide">{$planet_info->mid}</td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->module}</div></th>
+        <td>{$planet_info->module}</td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->document_count}</div></th>
+        <td>{$planet_info->document_count}</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="right">
+            <a href="{getUrl('act','dispPlanetAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+        </td>
+    </table>
+
+</form>

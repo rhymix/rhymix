@@ -1,0 +1,219 @@
+<!--%import("filter/modify_planet_info.xml")-->
+
+<div class="authorHeader">
+    <form action="{Context::getRequestUri()}" target="photo_iframe" method="post" onsubmit="return false;" enctype="multipart/form-data">
+        <input type="hidden" name="module" value="planet" />
+        <input type="hidden" name="mid" value="{$planet->getMid()}" />
+        <input type="hidden" name="act" value="" />
+        <input type="hidden" name="target" value="" />
+
+        <fieldset>
+            <legend>{$lang->planet_userinfo}</legend>
+            <div id="planet_thumb" class="thumb">
+                <!--@if(!$planet->isMyPlanet())-->
+                <a href="{getUrl('','mid',$planet->getMid())}"><img src="{$planet->getPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($planet->getNickName())}" /></a>
+                <!--@else-->
+                <a href="#" title="{$lang->planet_change_photo}" onclick="toggleObject($('planet_thumb'),'edit','edit|');return false;"><img src="{$planet->getPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($planet->getNickName())}" /><span>{$lang->planet_change_photo}</span></a>
+                <div class="file">
+                    <p>{$lang->about_planet_change_photo}</p>
+                    <input name="photo" type="file" />
+                    <div class="buttonArea">
+                        <button type="button" onclick="updatePlanetInfo(this.form,'photo')">{$lang->cmd_planet_image_upload}</button>
+                        <button type="button" onclick="toggleObject($('planet_thumb'),'','edit|')">{$lang->cmd_cancel}</button>
+                    </div>
+                </div>
+                <!--@end-->
+            </div>
+            <div class="title">
+                <!--@if($planet->isMyPlanet())-->
+                <h2 id="planet_name_block" class=""><a href="#" onclick="toggleObject($('planet_name_block'),'edit','edit|');$('planet_name').focus();$('planet_name').value=this.innerHTML;return false;" title="{$lang->cmd_planet_edit_subject}">{htmlspecialchars($planet->getPlanetTitle())}</a><input type="text" id="planet_name" name="planet_name" class="inputText" onkeyup="if(event.keyCode==13){ $Element(this).next().$value().click()}" /><button type="button" onclick="updatePlanetInfo(this.form,'planet_name')">{$lang->cmd_save}</button><button type="reset" onclick="toggleObject($('planet_name_block'),'','edit|')">{$lang->cmd_cancel}</button></h2>
+                <p id="planet_browser_title" class="authorPersonality"><a href="#" onclick="toggle('authorPersonality','edit','edit|');$('browser_title').focus();$('browser_title').value=this.innerHTML;return false;" title="{$lang->cmd_planet_edit_intro}">{htmlspecialchars($planet->getBrowserTitle())}</a><input id="browser_title" name="browser_title" type="text" class="inputText" onkeyup="if(event.keyCode==13){ $Element(this).next().$value().click()}" /><button type="button" onclick="updatePlanetInfo(this.form,'browser_title')">{$lang->cmd_save}</button><button type="reset" onclick="toggle('authorPersonality','','edit|')">{$lang->cmd_cancel}</button></p>
+                <!--@else-->
+                <h2 class="disable"><a href="{getUrl('','mid',$planet->getMid())}">{htmlspecialchars($planet->getPlanetTitle())}</a></h2>
+                <p class="authorPersonality disable"><a href="{getUrl('','mid',$planet->getMid())}">{htmlspecialchars($planet->getBrowserTitle())}</a></p>
+                <!--@end-->
+
+                <!--@if($is_logged && !$myplanet->isMyFavorite($planet))--><span class="addFavorite"><button type="button" onclick="doAddFavorite('{$planet->getModuleSrl()}'); return false;">{$lang->cmd_planet_addfavorite}</button></span><!--@end-->
+
+            </div>
+            <div id="planet_tag_block" class="authorTag">
+                <dl>
+                    <dt>TAG</dt>
+                    <!--@if($planet->isMyPlanet())-->
+                    <dd>
+                        <!--@foreach($planet->getTags() as $tag)-->
+                        <a href="{getUrl('act','dispPlanetTagSearch','keyword',urlencode($tag))}" onmouseover="$Element(this).next().className('delete hover')" onmouseout="$Element(this).next().className('delete')">{htmlspecialchars($tag)}</a><button type="button" class="delete" onclick="deletePlanetTag(this.form, $Element(this).prev().text())" onmouseover="this.className='delete hover'" onmouseout="this.className='delete'"><span>{$lang->cmd_planet_del_tag}</span></button>
+                        <!--@end-->
+                        <button type="button" class="modify" onclick="toggleObject($('planet_tag_block'),'edit','edit|');$('planet_tag').focus();"><span>{$lang->cmd_planet_edit_tag}</span></button>
+                    </dd>
+                    <dd class="tagModify">
+                        <input type="text" name="planet_tag" id="planet_tag" value="{htmlspecialchars($planet->getTagsString())}" class="inputText" onkeyup="if(event.keyCode==13){ $Element(this).next().$value().click()}" /><button type="button" onclick="updatePlanetInfo(this.form,'planet_tag')">{$lang->cmd_save}</button><button type="reset" onclick="toggleObject($('planet_tag_block'),'','edit|')">{$lang->cmd_cancel}</button>
+                    </dd>
+                    <!--@else-->
+                    <dd>
+                        <!--@foreach($planet->getTags() as $tag)-->
+                        <a href="{getUrl('act','dispPlanetTagSearch','keyword',urlencode($tag))}">{htmlspecialchars($tag)}</a>
+                        <!--@end-->
+                    </dd>
+                    <!--@end-->
+                </dl>
+                <a href="{$planet->getPermanentUrl()}" class="planetUri">{$planet->getPermanentUrl()}</a>
+                <!--@if($planet->isRssEnabled())--><a href="{getUrl('','mid',$planet->getMid(),'act','rss')}" class="rssFeed"><span>RSS Feed</span></a><!--@end-->
+            </div>
+            <!--@if($planet->isMyPlanet())-->
+                <!--@if(!$planet->isRssEnabled())-->
+                    <button type="button" class="rss off" title="{$lang->msg_planet_rss_disabled}" onclick="doEnableRss();"><span>{$lang->msg_planet_rss_disabled}</span></button>
+                <!--@else-->
+                    <button type="button" class="rss on" title="{$lang->msg_planet_rss_enabled}" onclick="doDisableRss();"><span>{$lang->msg_planet_rss_enabled}</span></button>
+                <!--@end-->
+                    <button type="button" class="color" title="{$lang->colorset}" onclick="$Element('colorPreset').toggleClass('close','open');"><span>{$lang->colorset}</span></button>
+                    <ul class="colorPreset close" id="colorPreset">
+                        <li class="gray"><a href="#" onclick="doUpdateColorset(this);return false;" title="Gray"><span>Gray</span></a></li>
+                        <li class="green"><a href="#" onclick="doUpdateColorset(this);return false;" title="Green"><span>Green</span></a></li>
+                        <li class="blue"><a href="#" onclick="doUpdateColorset(this);return false;" title="Blue"><span>Blue</span></a></li>
+                        <li class="cyan"><a href="#" onclick="doUpdateColorset(this);return false;" title="Cyan"><span>Cyan</span></a></li>
+                        <li class="red"><a href="#" onclick="doUpdateColorset(this);return false;" title="Red"><span>Red</span></a></li>
+                        <li class="orange"><a href="#" onclick="doUpdateColorset(this);return false;" title="Orange"><span>Orange</span></a></li>
+                    </ul>
+            <!--@end-->
+        </fieldset>
+    </form>
+    <!--@if($planet->isMyPlanet())-->
+
+    <!--@if($config->use_me2day=='Y')-->
+    <!--%import("filter/me2day_api.xml")-->
+    <form action="./" method="post" class="apiMe2day" onsubmit="return procFilter(this,me2day_api);">
+        <fieldset>
+            <legend>{$lang->msg_me2day_sync}</legend>
+            <button type="button" class="setupButton" onclick="$Element('Me2ApiProtocol').toggleClass('close','open');"><span>{$lang->msg_me2day_sync}</span></button>
+            <div class="apiProtocol close" id="Me2ApiProtocol">
+                <p class="summary">{$lang->msg_me2day_sync_q}</p>
+                <dl>
+                    <dt><label for="me2day_id">{$lang->me2day_id}</label> :</dt>
+                    <dd><input name="me2day_id" type="text" id="me2day_id" value="{$myplanet->getMe2dayUID()}" /></dd>
+                    <dt><label for="me2day_ukey">{$lang->me2day_ukey}</label> :</dt>
+                    <dd><input name="me2day_ukey" type="password" id="me2day_ukey" value="{$myplanet->getMe2dayUKey()}" /></dd>
+                </dl>
+                <!--@if($myplanet->getMe2dayUID() && $myplanet->getMe2dayUKey())-->
+                <p class="autoPush"><input name="me2day_autopush" type="checkbox" value="Y" id="autoPushToMe2day" <!--@if($myplanet->getMe2dayAuthPush())-->checked="checked"<!--@end--> /><label for="autoPushToMe2day">{$lang->msg_me2day_activate}</label></p>
+                <!--@end-->
+                <div class="buttonArea">
+                    <button type="submit">{$lang->cmd_save}</button>
+                    <button type="button" onclick="this.form.reset(); $Element('Me2ApiProtocol').toggleClass('open','close');">{$lang->cmd_close}</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <!--@end-->
+
+    <!--@if($config->use_mobile=='Y')-->
+    {@$phone_number=$myplanet->getPhoneNumber()}
+    <form method="post" class="mobile" onsubmit="setPhoneNumber(this);return false;">
+        <fieldset>
+            <legend>{$lang->planet_mobile_receive}</legend>
+            <button type="button" class="setupButton" onclick="showInsertPhoneNumber();" ><span>{$lang->planet_mobile_receive}</span></button>
+            <dl class="address">
+                <dt>{$lang->planet_mobile_number} : </dt>
+                <dd><input name="phone_number" type="text" maxlength="3" value='{$phone_number[0]}' onkeyup="if(this.value.length>=3){ this.form.phone_number[1].focus()}"/> - <input name="phone_number" type="text" maxlength="4"  value='{$phone_number[1]}' onkeyup="if(this.value.length>=4){ this.form.phone_number[2].focus()}" /> - <input name="phone_number" type="text" maxlength="4" value='{$phone_number[2]}' /></dd>
+                <dd class="buttonArea"><button type="submit">{$lang->cmd_save}</button><button type="button" onclick="closeInsertPhoneNumber();">{$lang->cmd_close}</button></dd>
+            </dl>
+        </fieldset>
+    </form>
+    <!--@end-->
+
+    <!--@end-->
+    <div class="fClear">
+    </div>
+    <span class="tl"></span><span class="tr"></span>
+</div>
+<div class="authorFooter">
+    <div class="memo" id="planetMemo">
+        <!--#include("memo_list.html")-->
+    </div>
+
+    <!--@if($myplanet->isExists())-->
+    <!--%import("./filter/insert_memo.xml")-->
+    <div class="memoWrite">
+        <span class="button large strong black"><button type="button" onclick="showWriteMemoForm()">{$lang->cmd_planet_show_memo_write_form}</button></span>
+
+        <div class="form close">
+            <form action="./" method="post" onsubmit="return procFilter(this, insert_memo)">
+                <input type="hidden" name="mid" value="{$planet->getMid()}" />
+                <input type="text" id="planet_memo" name="planet_memo" class="inputText" />
+                <span class="button large black strong"><button type="submit">{$lang->cmd_planet_memo_write_ok}</button></span>
+            </form>
+        </div>
+    </div>
+    <!--@end-->
+    <div class="nav">
+        <a href="{getUrl('act','favorite')}" class="button large strong"><span>{sprintf($lang->planet_whos_favorite,$planet->getNickName())}</span></a>
+        <span class="button large strong"><button type="button" onclick="this.innerHTML=toggle('myFavoriteTag')=='open'?'{$lang->cmd_planet_close_interest_tag}':'{$lang->cmd_planet_show_interest_tag}'">{$lang->cmd_planet_show_interest_tag}</button></span>
+        <!--//<span class="button large strong planetGreen"><button type="button">{$lang->cmd_planet_close_interest_tag}</button></span>-->
+    </div>
+    <span class="tl"></span><span class="tr"></span>
+</div>
+
+<!--%import("./filter/insert_interest_tag.xml")-->
+<div id="myFavoriteTag">
+    <!--#include("interest_tags.html")-->
+</div>
+
+<!--@if($planet->isMyPlanet())-->
+<iframe name="photo_iframe" style="visibility:hidden;width:1px;height:1px;"></iframe>
+<!--@end-->
+
+<!--@if($planet->isMyPlanet() && !$planet->isNoticeClosed())-->
+<div class="welcome" id="welcome">
+    <h2>{$lang->planet_welcome}</h2>
+    <p>{sprintf($lang->planet_notice_title, htmlspecialchars($planet->getUserName()), htmlspecialchars($planet->getUserName()))}</p>
+    <ol>
+        <!--@foreach($lang->planet_notice_list as $notice)-->
+        <li>{sprintf($notice, htmlspecialchars($planet->getUserName()))}</li>
+        <!--@end-->
+    </ol>
+    <p><input name="welcome_msg" id="welcome_msg" type="checkbox" value="{$planet->getModuleSrl()}" onclick="notReadWelcome()" /> <label for="welcome_msg">{$lang->planet_notice_disable}</label></p>
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+</div>
+<!--@end-->
+
+<!--@if($planet->isMyPlanet())-->
+<div id="writePost" class="writePost close">
+    <!--// class="writePost close" | class="writePost open"-->
+    <div class="writeHeader">
+        <h3>{$lang->cmd_planet_add_article}</h3>
+        <span class="toggle open"><button type="button" onclick="toggleWritePost()">{$lang->cmd_open}</button></span>
+        <span class="toggle close"><button type="button" onclick="toggleWritePost()">{$lang->cmd_close}</button></span>
+    </div>
+    <div id="writeBody" class="writeBody">
+        <form id="writePostForm" action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, write_content)" enctype="multipart/form-data">
+            <input type="hidden" name="mid" value="{$planet->getMid()}" />
+
+            <fieldset>
+                <legend>{$lang->cmd_planet_add_article}</legend>
+                <dl>
+                    <dt>{$lang->content}</dt>
+                    <dd>
+                        <textarea id="writePost_content" name="content" rows="" cols="" onkeyup="planetPreview(this);"></textarea>
+                    </dd>
+                    <dd id="preview" class="preview off">
+                    <!--// class="preview" | class="preview off" -->
+                        <p id="preview_text">&nbsp;</p>
+                    </dd>
+                    <dt>{$lang->planet_postscript}</dt>
+                    <dd><input type="text" name="about_postscript" value="{$lang->msg_planet_about_postscript}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" onfocus="toggleWriteFormHelp(this);"/><input name="postscript"  type="text" class="inputText" value="" style="display:none; "/></dd>
+                    <dt>{$lang->tag}</dt>
+                    <dd><input type="text" name="about_tag" value="{$lang->msg_planet_about_tag}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" onfocus="toggleWriteFormHelp(this);"/><input name="content_tag"  type="text" class="inputText" value="" style="display:none; "/></dd>
+                </dl>
+                <div class="writeOptions">
+                    <p><input id="btn_preview" name="" onclick="togglePreview()" type="checkbox" value="" checked="checked" /><label for="btn_preview">{$lang->planet_article_preview}</label></p>
+                    <!--@if($config->use_me2day =='Y' && $myplanet->getMe2dayUID())-->
+                    <p><input name="me2day_autopush" type="checkbox" value="Y" <!--@if($myplanet->getMe2dayAuthPush())-->checked="checked"<!--@end--> id="me2day_autopush" /><label for="me2day_autopush">{$lang->cmd_send_me2day}</label></p>
+                    <!--@end-->
+                </div>
+                <button type="submit"><span>{$lang->cmd_planet_post_article}</span></button>
+            </fieldset>
+        </form>
+    </div>
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+</div>
+<!--@end-->

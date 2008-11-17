@@ -1,0 +1,14 @@
+<query id="getPlanetReply" action="select">
+    <tables>
+        <table name="planet_reply"/>
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet_content_srl" var="planet_content_srl" filter="number" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="planet_reply_srl" order="desc" />
+    </navigation>
+</query>

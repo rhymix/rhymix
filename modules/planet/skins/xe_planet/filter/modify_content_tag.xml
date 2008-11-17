@@ -1,0 +1,15 @@
+<filter name="modify_content_tag" module="planet" act="procPlanetContentTagModify" confirm_msg_code="">
+  <form>
+    <node target="document_srl" required="true" />
+    <node target="planet_content_tag" maxlength="250" />
+  </form>
+  <parameter>
+    <param name="document_srl" target="document_srl" />
+    <param name="planet_content_tag" target="planet_content_tag" />
+  </parameter>
+  <response callback_func="completeUpdateContentTag">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="document_srl" />
+  </response>
+</filter>

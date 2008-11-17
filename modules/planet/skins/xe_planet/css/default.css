@@ -1,0 +1,617 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* xe layer */
+#waitingforserverresponse { border:2px solid #000000; font-weight:bold; color:#BBBBBB; padding: 7px 5px 5px 25px; background-color:#222222; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
+#popup_menu_area { position:absolute; left:0px; top:0px; z-index:1003; visibility:hidden; border:2px solid #D9D9D9; background-color:#FFFFFF; padding:0; }
+#popup_menu_area .box { border:1px solid #CACACA; background-color:#FFFFFF; padding:7px; }
+#popup_menu_area .item { color:#333333; cursor:pointer; margin:0; padding:3px 0 3px 0; white-space:nowrap; }
+#popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; letter-spacing:-1px; white-space:nowrap;}
+
+/* Reset */
+body{ margin:35px 30px; font-family:Sans-serif;}
+img, fieldset, button{border:0;}
+fieldset{ padding:0;}
+hr, button img{display:none;}
+a{text-decoration:none;}
+a:hover, a:active, a:focus{text-decoration:underline;}
+textarea{overflow:auto;}
+html:first-child select{padding-right:6px; height:20px;}
+option{ padding-right:6px;}
+button, label{cursor:pointer; cursor:hand;}
+button{background:none; background-repeat:no-repeat;}
+button *{position:relative;}
+button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibility:hidden;}
+.inputText, textarea{*margin:-1px 0; border:1px solid;}
+.inputCheck, .inputRadio{width:13px; height:13px;}
+.blind, legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;} 
+
+/* Layout */
+#container {}
+#header{ position:relative; z-index:30; height:65px; float:left; clear:both;}
+#header *{ margin:0; padding:0;}
+#header li{ list-style:none;}
+#body{ clear:both; z-index:20;}
+.nTop #navigation{ top:-65px !important; z-index:100; }
+.nTop #navigation .gnb ul{ margin:0;}
+.nTop #navigation li{ list-style:none;}
+.buttonArea{ text-align:center;}
+.languageSelect { position:absolute; right:30px; top:10px; }
+
+/* Heading */
+h1 { position:relative; top:-10px;}
+h1, x:-moz-any-link{ top:0;}
+h1, x:-moz-any-link, x:default{ top:-10px;}
+h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000; letter-spacing:-3px; text-decoration:none !important;}
+
+/* Footer */
+#footer{margin:0; clear:both; text-align:center; padding:30px 0;}
+#footer *{margin:0; padding:0; color:#444; list-style:none; font:9px Verdana; line-height:normal;}
+#footer a{text-decoration:none; color:#444;}
+#footer a:visited{text-decoration:none; color:#666;}
+#footer a:hover{text-decoration:underline;}
+#footer address a{font-weight:bold; font-family:Tahoma; color:#00535d;}
+
+/* ---------- Navigation ---------- */
+/* Search */
+.search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
+.search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
+.search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
+.search .button{ top:0;}
+.search .suggestion{ position:absolute; top:3px; left:174px; /* border:1px solid; */}
+.search .suggestion .autoComplete{ position:absolute; top:0; left:0; width:23px; height:23px; background:#fff url(../images/buttonAutoComplete.gif) no-repeat center -10px;}
+.search .suggestion ul.recommendation{ display:none; position:absolute; top:26px; left:-174px; width:198px; border:1px solid #e7e7e7; border-top:none; background:#fff;}
+.search .suggestion li button{ width:100%; text-align:left; padding:5px 4px 2px 4px; font:.75em AppleGothic, Gulim, Dotum, Sans-serif}
+.search .suggestion li button:hover,
+.search .suggestion li button:active,
+.search .suggestion li button:focus{ background:#eee;}
+.search .suggestion.open .autoComplete{ background-position:center 10px;}
+.search .suggestion.open ul.recommendation{ display:block;}
+
+/* GNB */
+.gnb{ position:relative; float:right; margin-left:20px; }
+.gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
+.gnb ul li{ position:relative; float:left;}
+.gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:11px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
+.gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70);}
+.gnb ul li a:hover,
+.gnb ul li a:active,
+.gnb ul li a:focus{ opacity:0.9; filter:alpha(opacity=90);}
+.gnb ul li.first a{ background-position:left top;}
+.gnb ul li.last a{ background-position:right top;}
+
+/* Tag */
+.tagRank{ position:relative; top:2px; float:right; margin-left:15px; }
+.tagRank *{ margin:0; padding:0;}
+.tagRank .buttonTag{ display:inline-block; position:relative; background:url(../images/buttonTagNavigation.gif) no-repeat left top;}
+.tagRank .buttonTag, x:-moz-any-link{ padding:3px 0 7px 0;} /* Firefox 2 Fix */
+.tagRank .buttonTag, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
+.tagRank .buttonTag button{ position:relative; left:3px; width:197px; padding:6px 10px 9px 10px; background:url(../images/buttonTagNavigation.gif) no-repeat right top; text-align:left;}
+.tagRank .buttonTag button span{ display:block; width:177px; height:auto; visibility:visible; position:relative; font:bold 12px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; background:url(../images/arrowTagNavigation.gif) no-repeat right -14px;}
+.tagRank .layer{ display:none; position:absolute; width:200px; top:27px; left:0; background:#50606b; background:url(../images/boxTagNavigation.gif) no-repeat left bottom;}
+.tagRank .layer a{ font:11px Dotum, Sans-serif; white-space:nowrap; text-decoration:none; line-height:normal;}
+.tagRank .layer ul{ padding:1px 13px 30px 13px; text-align:justify;}
+.tagRank .layer ul *{ line-height:16px;}
+.tagRank .layer ul li{ display:inline; margin-bottom:4px;}
+.tagRank .layer ul li a{ color:#cbd0d3; zoom:1;}
+.tagRank .layer .more{ display:block; padding:5px 13px 7px 10px; _margin:-1px 0; position:absolute; bottom:0; right:0; font-weight:bold; color:#fff;}
+.tagRank.open .buttonTag button span{ background-position:right 6px;}
+.tagRank.open .layer{ display:block;}
+
+/* ---------- Content ---------- */
+
+/* Tab */
+.generalTab{ margin:0 0 0 10px; padding:0; position:relative; clear:both; *zoom:1;}
+.generalTab *{ margin:0; padding:0; list-style:none;}
+.generalTab li{ position:relative; top:4px; float:left; margin-right:6px; text-align:center; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
+.generalTab li a{ position:relative; left:3px; display:block; padding:3px 23px 3px 20px; font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-decoration:none !important; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top;}
+.generalTab li a sup{ font:11px Tahoma, Sans-serif;}
+.generalTab li.active{ top:0; background-color:#50606B;}
+.generalTab li.active a{ padding:5px 23px 5px 20px; background-color:#50606B;}
+
+.tab{ *zoom:1;}
+.tab:after{ content:""; display:block; clear:both;}
+
+.myTab{ float:left; margin:0 0 0 10px; padding:0; position:relative; *zoom:1;}
+.myTab:after{ content:""; display:block; clear:both;}
+.myTab *{ margin:0; padding:0; list-style:none;}
+.myTab li{ position:relative; top:4px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
+.myTab li a{ position:relative; left:3px; display:block; padding:3px 23px 3px 20px; font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
+.myTab li a sup{ font:11px Tahoma, Sans-serif;}
+.myTab li.active{ top:0;}
+.myTab li.active a{ padding:5px 23px 5px 20px;}
+
+.exTab{ float:right; margin:0; padding:0; position:relative; right:7px; *zoom:1;}
+.exTab:after{ content:""; display:block; clear:both;}
+.exTab *{ margin:0; padding:0; list-style:none;}
+.exTab li{ position:relative; top:4px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
+.exTab li a{ position:relative; left:3px; display:block; padding:3px 23px 3px 20px; font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
+.exTab li a sup{ font:11px Tahoma, Sans-serif;}
+.exTab li.active{ top:0;}
+.exTab li.active a{ padding:5px 23px 5px 20px;}
+
+/* Try Planet */
+.tryPlanet{ position:relative; height:90px; background:url(../images/boxTryPlanet.gif) repeat-x 0 0; margin-bottom:15px;}
+.tryPlanet *{ margin:0; padding:0;}
+.tryPlanet p{ position:relative; top:20px; margin-left:80px; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#50606b;}
+.tryPlanet .leftCap,
+.tryPlanet .rightCap{ position:absolute; display:block; top:0; width:5px; height:90px; overflow:hidden; background:url(../images/boxTryPlanet.gif) no-repeat; white-space:nowrap;}
+.tryPlanet .leftCap{ left:0; background-position:left bottom;}
+.tryPlanet .rightCap{ right:0; _left:100%; _margin-left:-4px; background-position:right bottom;}
+.tryPlanet .button{ position:absolute; top:30px; right:80px;}
+
+/* Personal Header */
+.personalHeader{ position:relative; height:90px; background:url(../images/boxTryPlanet.gif) repeat-x 0 0; margin-bottom:15px;}
+.personalHeader *{ margin:0; padding:0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.personalHeader h2{ position:absolute; top:15px; left:30px; padding-top:15px; font-size:2em; _zoom:1; padding-left:30px; background:url(../images/bgPerson.png) no-repeat; _behavior:url(./common/js/iePngFix.htc); }
+.personalHeader p{ position:absolute; top:46px; left:220px;}
+.personalHeader .leftCap,
+.personalHeader .rightCap{ position:absolute; display:block; top:0; width:5px; height:90px; overflow:hidden; background:url(../images/boxTryPlanet.gif) no-repeat; white-space:nowrap;}
+.personalHeader .leftCap{ left:0; background-position:left bottom;}
+.personalHeader .rightCap{ right:0; _left:100%; _margin-left:-4px; background-position:right bottom;}
+.personalHeader .button{ position:absolute; top:30px; right:80px;}
+
+.searchHeader{ position:relative; height:90px; background:url(../images/boxTryPlanet.gif) repeat-x 0 0; margin-bottom:30px;}
+.searchHeader *{ margin:0; padding:0;}
+.searchHeader p{ position:absolute; top:27px; margin-left:80px; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#50606b;}
+.searchHeader p strong{ font:bold 1.5em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.searchHeader .leftCap,
+.searchHeader .rightCap{ position:absolute; display:block; top:0; width:5px; height:90px; overflow:hidden; background:url(../images/boxTryPlanet.gif) no-repeat; white-space:nowrap;}
+.searchHeader .leftCap{ left:0; background-position:left bottom;}
+.searchHeader .rightCap{ right:0; _left:100%; _margin-left:-4px; background-position:right bottom;}
+
+/* My Info */
+.myInfo{ padding:20px 30px 20px 30px; margin-bottom:15px; position:relative; border:1px solid #e9e9e9; *zoom:1;}
+.myInfo *{ margin:0; padding:0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.myInfo dl.login{ position:relative; width:500px; margin:0 auto; padding:70px 0;}
+.myInfo dt{ float:left; width:100px; font-weight:bold;}
+.myInfo dd{ margin-bottom:10px;}
+.myInfo .inputText{ border:1px solid #ccc; padding:3px 4px; width:190px;}
+.myInfo em{ color:#f00; font-style:normal; }
+.myInfo .thumb{ display:block; position:relative; left:110px; margin-top:5px; vertical-align:top; border:2px solid #eee;}
+.myInfo .tl,
+.myInfo .tr,
+.myInfo .bl,
+.myInfo .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxTagCloud.gif) no-repeat;}
+.myInfo .tl{ top:-1px; left:-1px; background-position:0 0;}
+.myInfo .tr{ top:-1px; right:-1px; background-position:-4px 0;}
+.myInfo .bl{ bottom:-1px; left:-1px; background-position:0 -4px;}
+.myInfo .br{ bottom:-1px; right:-1px; background-position:-4px -4px;}
+.myInfo button{ width:90px; height:60px; position:absolute; top:90px; left:50%; margin-left:80px; background:url(../images/buttonLogin.gif) no-repeat;}
+.myInfo button span{ position:relative; display:block; *padding-top:15px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 1.2em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
+
+/* Tag Cloud */
+.tagCloud{ display:none; padding:20px 20px 30px 20px; margin-bottom:15px; position:relative; border:1px solid #e9e9e9; *zoom:1;}
+.tagCloud *{ margin:0; padding:0;}
+.tagCloud.open{ display:block;}
+.tagCloud h2{ display:inline; margin-right:15px; font-size:18px; color:#50606b; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-2px;}
+.tagCloud p{ display:inline; color:#a7afb5; font:11px AppleGothic, Dotum, Gulim, Sans-serif;}
+.tagCloud ul{ position:relative; overflow:hidden; text-align:justify; line-height:24px; *zoom:1; margin-top:10px;}
+.tagCloud li{ position:relative; left:-5px; display:inline-block; *display:inline !important; background:url(../images/lineVccc.gif) no-repeat 0 center; padding:0 0 0 7px; *padding:0 5px 0 6px; *zoom:1;}
+.tagCloud li, x:-moz-any-link{ display:inline;} /* Firefox 2 Fix */
+.tagCloud li, x:-moz-any-link, x:default{ display:inline-block;} /* Firefox 2 Fix */
+.tagCloud a{ position:relative; color:#999; font-size:12px; font-family:AppleGothic, Dotum, Gulim, Sans-serif; white-space:nowrap; text-decoration:none !important;}
+.tagCloud a:hover,
+.tagCloud a:active,
+.tagCloud a:focus{ background:#000 !important; color:#ff0 !important;}
+.tagCloud a.closeButton { position:absolute; right:5px; bottom:5px; }
+
+.tagCloud li.rank1 a{ font-weight:bold; font-size:20px; background:#12d763; color:#fff;}
+.tagCloud li.rank2 a{ font-weight:bold; font-size:18px; color:#666;}
+.tagCloud li.rank3 a{ font-weight:bold; font-size:16px; color:#00b4b5;}
+.tagCloud li.rank4 a{ font-size:14px; color:#666;}
+
+.tagCloud .tl,
+.tagCloud .tr,
+.tagCloud .bl,
+.tagCloud .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxTagCloud.gif) no-repeat;}
+.tagCloud .tl{ top:-1px; left:-1px; background-position:0 0;}
+.tagCloud .tr{ top:-1px; right:-1px; background-position:-4px 0;}
+.tagCloud .bl{ bottom:-1px; left:-1px; background-position:0 -4px;}
+.tagCloud .br{ bottom:-1px; right:-1px; background-position:-4px -4px;}
+
+/* Comment List */
+.commentList{ position:relative; padding:15px; border:1px solid #dedede; *zoom:1; z-index:10; clear:both; background:#eee;}
+.commentList .commentHeader{ width:240px;position:relative; clear:both; margin-bottom:10px; z-index:10;}
+.commentList .commentHeader *{ margin:0;}
+.commentList h3{ position:relative; display:inline-block; *display:inline; margin-right:20px; background:url(../images/boxH2Comment.gif) no-repeat 0 0; vertical-align:middle; *zoom:1; line-height:18px;}
+.commentList h3, x:-moz-any-link { display:inline; padding-top:3px;}
+.commentList h3, x:-moz-any-link, x:default { display:inline-block; *display:inline; padding-top:0;}
+.commentList h3 span{ position:relative; left:3px; _top:-1px; display:inline-block; padding:4px 20px 0 17px; height:25px; _height /**/:29px; vertical-align:top; color:#fff; background:url(../images/boxH2Comment.gif) no-repeat right 0; font:bold 14px/18px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; vertical-align:middle; *zoom:1;}
+.commentList h3 span strong{ color:#ff0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; font-size:1em;}
+.commentList h3 span, x:-moz-any-link{ padding:8px 20px 5px 17px; }
+.commentList h3 span, x:-moz-any-link, x:default{ padding:5px 20px 0 17px}
+
+.commentList .timeNav{ left:20px; top:3px; padding:0 30px; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; *zoom:1; text-align:center;}
+.commentList .timeNav strong{ font:bold 18px/18px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentList .timeNav .prev,
+.commentList .timeNav .next{ position:absolute; top:2px; width:20px; height:20px; }
+.commentList .timeNav .prev{ left:0; }
+.commentList .timeNav .next{ right:0; }
+.commentList .timeNav a:hover,
+.commentList .timeNav a:activfe,
+.commentList .timeNav a:focus{ border:1px solid #fff !important; width:18px; height:18px;}
+.commentList .timeNav a img{ position:relative; top:3px;}
+
+.commentList h3.timeNav{ position:relative; float:left; vertical-align:top; clear:both; left:0; top:0; background:none; font-size:1em; *zoom:1; *line-height:24px; margin-bottom:10px; *margin-bottom:0;}
+.commentList h3.timeNav .prev,
+.commentList h3.timeNav .next{ *top:5px;}
+
+.commentList .commentHeader .button *{ font-size:12px;}
+.commentList .planetBlue{ top:-3px;}
+.commentList span.planetBlue{ margin-right:10px;}
+.commentList a.planetBlue{ *top:1px;}
+.commentList .planetGreen{ position:absolute; top:0; right:3px; _right:18px;}
+
+.commentList .tagChoiceAfter{ display:none; position:absolute; top:45px; left:50%; width:289px; height:121px; text-align:center; margin-left:-145px;}
+.commentList .tagChoiceAfter.alert{ display:block;}
+.commentList .tagChoiceAfter p{ position:absolute; top:0; left:0; width:289px; height:94px; _height /**/:121px; font-size:.75em; color:#fff; padding:37px 0 0 0; background:url(../images/boxTagChoice.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.commentList .tagChoiceAfter button,
+.commentList .tagChoiceAfter a{ position:relative; display:inline-block; top:60px; font-size:12px; color:#fff; text-decoration:none; vertical-align:top; cursor:pointer; _cursor /**/:hand;}
+.commentList .tagChoiceAfter button{ width:45px; height:23px; text-align:center; background:url(../images/buttonFixedBlack45.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.commentList .tagChoiceAfter a{ width:94px; height:18px; _height /**/:23px; padding-top:5px; text-align:center; background:url(../images/buttonFixedBlack94.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+
+.commentBody.myPlanet .comment .tongue{ margin:0;}
+.commentBody.myPlanet .comment .tongue .post,
+.commentBody.myPlanet .comment .tongue .postScript,
+.commentBody.myPlanet .comment .tongue .postExtra{ *zoom:1;}
+
+/* Comment Body */
+.commentBody{ position:relative; margin-top:10px; border:1px solid #d7dfe2; background:#fff; *zoom:1; clear:both;}
+.commentBody .comment{ position:relative; margin:0 15px; padding:15px 0 15px 0; clear:both; *zoom:1;}
+.commentBody .comment:after { content:""; display:block; width:0; height:0; font:0/0 Sans-serif; overflow:hidden; visibility:hidden; clear:both; float:none;}
+.commentBody .comment .identity{ position:relative; width:98px; float:left; margin:0 -98px 0 0; font-size:1em; background:none; *zoom:1;}
+.commentBody .comment .identity a{ position:relative; display:block; text-align:center; font-size:.75em; color:#fff !important; font-weight:bold;}
+.commentBody .comment .identity a img{ display:block; border:1px solid #ddd;}
+.commentBody .comment .identity a em{ position:absolute; width:96px; text-align:center; left:1px; bottom:1px; display:block; padding:5px 0; font-style:normal; background:#000; opacity:.6; filter:alpha(opacity=60); line-height:normal;}
+.commentBody .comment .tongue{ position:relative; margin-left:113px; *zoom:1;}
+.commentBody .comment .tongue .post{ margin:0 0 7px 0; font:1.2em/1.4em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentBody .comment .tongue .post a { font:1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#06C;}
+.commentBody .comment .tongue .post strong{ background:#f7b100; font:normal 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
+.commentBody .comment .tongue .postScript{ margin:0 0 10px 0; font-size:.75em; color:#999;}
+.commentBody .comment .tongue .postScript strong{ font-family:Arial; letter-spacing:-1px; margin-right:5px;}
+.commentBody .comment .tongue .postExtra{ overflow:hidden; padding-top:10px; border-top:1px dotted #ccc; *zoom:1;}
+.commentBody .comment .tongue .postExtra *{ margin:0; padding:0;}
+.commentBody .comment .tongue .postExtra .tag { float:left;}
+.commentBody .comment .tongue .postExtra .tag .time{ display:inline; margin-right:5px; color:#999; font:.7em AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentBody .comment .tongue .postExtra .tag dl{ display:inline;}
+.commentBody .comment .tongue .postExtra .tag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.gif) no-repeat center; font:bold .7em Tahoma; color:#fff;}
+.commentBody .comment .tongue .postExtra .tag dd{ display:inline; position:relative;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead a{ position:relative; margin-right:2px; font:.7em AppleGothic, Dotum, Gulim, Sans-serif; color:#999;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead a strong{ font:normal 1em AppleGothic, Dotum, Gulim, Sans-serif; background:#f7b100; color:#fff;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead .delete{ position:relative; top:-7px; left:-8px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead .delete.hover{ display:inline-block;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead .modify{ position:relative; width:13px; height:13px; background:url(../images/buttonModify.gif) no-repeat center; vertical-align:middle; *vertical-align:baseline; *top:-1px; *left:5px;}
+.commentBody .comment .tongue .postExtra .tag dd.tagModify{ display:none; top:2px;}
+.commentBody .comment .tongue .postExtra .tag dd.tagModify form{ display:inline;}
+.commentBody .comment .tongue .postExtra .tag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px; font-size:.75em;}
+.commentBody .comment .tongue .postExtra .tag dd.tagModify button{ height:19px; font-size:.7em; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
+.commentBody .comment .tongue .postExtra .tag.edit dd{ display:none;}
+.commentBody .comment .tongue .postExtra .tag.edit dd.tagModify{ display:inline;}
+.commentBody .comment .tongue .postExtra .sympathy{ float:right; position:relative; top:-2px;}
+.commentBody .comment .tongue .postExtra .sympathy button{ width:60px; height:20px; font:bold .7em AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/buttonSympathy.gif) no-repeat center; text-align:center; padding-top:3px; color:#999;}
+.commentBody .comment .tongue .postExtra .sympathy .num{ position:relative; display:inline-block; width:22px; height:22px; padding-top:6px; *margin-bottom:-10px; letter-spacing:-1px; color:#fff; text-align:center; font:bold .7em AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/bgSympathy.gif) no-repeat center top;}
+.commentBody .comment .tongue .postExtra .sympathy .num, x:-moz-any-link { padding-left:11px; padding-right:11px;}
+.commentBody .comment .tongue .postExtra .sympathy .num, x:-moz-any-link, x:default { padding-left:0; padding-right:0;}
+.commentBody .comment .tongue .postExtra .sympathy a{ position:relative; *top:-2px; margin-right:1px; color:#999; padding-left:8px; font:.7em AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; background:url(../images/arrowReplyOpen.gif) no-repeat left 3px;}
+
+/* Todo Manager */
+.commentList .commentHeader h3.exTitle{ font-family:"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; line-height:normal; background:none;}
+.commentList .commentHeader .todoWrite{ position:absolute; top:0; right:3px;}
+.todoManager ul{ position:relative; margin:0 0 0 40px; padding:20px 0;}
+.todoManager li{ position:relative; font-family:"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.todoManager li .button{ margin-left:5px;}
+.todoManager .time{ position:absolute; top:0; right:20px;}
+.todoManager .tag{ position:absolute; top:0; right:20px;}
+.todoManager .tag img { margin-right:5px; vertical-align:middle; }
+
+/* Comment Reply */
+.commentBody .reply{ display:none; clear:both; padding:15px; background:#f3f3f3; *zoom:1;}
+.commentBody .reply.open{ display:block;}
+.commentBody .reply dl{ position:relative; clear:both; overflow:hidden; *zoom:1; margin:0 0 5px 0;}
+.commentBody .reply dt{ float:left; width:83px; padding-left:15px; margin-right:-98px; font-size:.75em; font-weight:bold; color:#666;}
+.commentBody .reply dt a{ color:#a5b2c2; }
+.commentBody .reply dd{ margin:0 80px 0 113px; font-size:.75em; color:#666; line-height:1.4em;}
+.commentBody .reply dd a{ text-decoration:underline; color:#333;}
+.commentBody .reply dd .time{ position:absolute; top:0; right:0;}
+.commentBody .reply dd input{ position:relative; border:1px solid #ccc; padding:4px 5px; width:96%; height:14px; vertical-align:top; font-size:1em; *zoom:1;}
+.commentBody .reply dd .button{ position:absolute; top:0; right:3px;}
+
+.commentList .tl,
+.commentList .tr,
+.commentList .bl,
+.commentList .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxCommentOut.gif) no-repeat;}
+.commentList .commentBody .tl,
+.commentList .commentBody .tr,
+.commentList .commentBody .bl,
+.commentList .commentBody .br{ background-image:url(../images/boxCommentIn.gif); background-repeat:no-repeat;}
+.commentList .tl{ top:-1px; left:-1px; background-position:0 0;}
+.commentList .tr{ top:-1px; right:-1px; background-position:-4px 0;}
+.commentList .bl{ bottom:-1px; left:-1px; background-position:0 -4px;}
+.commentList .br{ bottom:-1px; right:-1px; background-position:-4px -4px;}
+
+/* Author Header */
+.authorHeader{ position:relative; padding:20px; *zoom:1; z-index:30;}
+.authorHeader *{ margin:0; padding:0; list-style:none;}
+.authorHeader fieldset{ position:relative;}
+.authorHeader .thumb{ position:relative; float:left; margin-right:-100px; z-index:10;}
+.authorHeader .thumb a{ position:relative; display:block; width:100px; height:100px; text-decoration:none;}
+.authorHeader .thumb a img{ position:relative; border:2px solid #fff;}
+.authorHeader .thumb a span{ position:absolute; display:none; top:2px; left:2px; padding-top:44px; width:96px; height:52px; _height /**/:96px; font-size:12px; color:#fff; font-weight:bold; text-align:center; cursor:pointer; _cursor /**/:hand; background:#000; opacity:.6; filter:alpha(opacity=60);}
+.authorHeader .thumb a:hover span,
+.authorHeader .thumb a:active span,
+.authorHeader .thumb a:focus span{ display:block;}
+.authorHeader .thumb .file{ display:none; position:absolute; top:0; left:115px; background:#fff; border:2px solid #eee; padding:15px; height:66px; _height /**/:100px; width:446px; font-size:.75em;}
+.authorHeader .thumb .file p{ margin-bottom:5px;}
+.authorHeader .thumb .file input{ padding:2px 4px; width:400px;}
+.authorHeader .thumb .file .buttonArea{ padding-top:10px;}
+.authorHeader .thumb .file .buttonArea button{ height:19px; font-size:11px; background:#eee; border:1px solid #ccc; margin-right:4px;}
+.authorHeader .thumb.edit .file{ position:absolute; display:block; z-index:100;}
+
+.authorHeader .title{ position:relative; margin-left:120px; height:60px; margin-bottom:10px; _margin-bottom:0; }
+.authorHeader .title h2{ position:relative; margin-bottom:10px; }
+.authorHeader .title h2 a{ font-size:1em; color:#fff; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
+.authorHeader .title h2 a:hover,
+.authorHeader .title .authorPersonality a:hover,
+.authorHeader .title h2 a:active,
+.authorHeader .title .authorPersonality a:active,
+.authorHeader .title h2 a:focus,
+.authorHeader .title .authorPersonality a:focus{ padding-right:15px; background:url(../images/buttonModify.gif) no-repeat right center;}
+
+.authorHeader .title h2.disable a { background:none !important; }
+.authorHeader .title p.disable a { background:none !important; }
+
+.authorHeader .title h2 .inputText,
+.authorHeader .title .authorPersonality .inputText{ display:none; border:1px solid #ccc; padding:2px 4px; height:13px; width:290px;}
+.authorHeader .title h2 .inputText{ height:30px; *margin-right:5px; font:bold 1em/1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.authorHeader .title h2 button,
+.authorHeader .title .authorPersonality button{ display:none; height:19px; font-size:11px; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
+.authorHeader .title h2 button{ height:36px;}
+.authorHeader .title h2.edit a,
+.authorHeader .title .authorPersonality.edit a{ display:none;}
+.authorHeader .title *.edit .inputText,
+.authorHeader .title *.edit button{ display:inline; vertical-align:top;}
+.authorHeader .title .authorPersonality{ float:left;}
+.authorHeader .title .authorPersonality a{ position:relative; float:left; color:#fff; font-size:.75em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
+.authorHeader .title .addFavorite{ position:relative; top:-3px; float:right; clear:right; background:url(../images/iconAddFavorite.gif) no-repeat left center;}
+.authorHeader .title .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
+
+.authorHeader .authorTag{ position:relative; border-top:1px solid #ddd; margin-left:120px; padding-top:10px; *zoom:1;}
+.authorHeader .authorTag dl{ position:relative; display:block; float:left;}
+.authorHeader .authorTag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc); font:bold .7em Tahoma; color:#fff; *zoom:1;}
+.authorHeader .authorTag dd{ display:inline;}
+.authorHeader .authorTag.edit dd{ display:none;}
+.authorHeader .authorTag dd a{ font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; margin-right:2px;}
+.authorHeader .authorTag dd .delete{ position:relative; top:-7px; left:-8px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
+.authorHeader .authorTag dd .delete span{ display:inline-block; width:0; height:0; font:0/0 Sans-serif; visibility:hidden;}
+.authorHeader .authorTag dd .delete.hover{ display:inline-block;}
+.authorHeader .authorTag dd .modify{ position:relative; width:13px; height:13px; background:url(../images/buttonModify.gif) no-repeat center; vertical-align:middle; *vertical-align:baseline; *top:-1px; *left:5px;}
+.authorHeader .authorTag dd.tagModify{ display:none;}
+.authorHeader .authorTag.edit dd.tagModify{ display:inline;}
+.authorHeader .authorTag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px;}
+.authorHeader .authorTag dd.tagModify button{ height:19px; font-size:.7em; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
+.authorHeader .authorTag .planetUri{ position:relative; right:20px; float:right; color:#fff; font-size:.7em; font-family:Tahoma Sans-serif;}
+.authorHeader .authorTag .rssFeed{ position:absolute; top:10px; right:0; width:12px; height:12px; cursor:pointer; background:url(../images/rssFeed.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .authorTag .rssFeed span{ position:absolute; width:0; height:0; overflow:hidden;}
+.authorHeader .tl,
+.authorHeader .tr{position:absolute; top:0; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxAuthorHeader.png) no-repeat; _background:url(../images/boxAuthorHeader.gif) no-repeat;}
+.authorHeader .tl{ left:0; background-position:left top;}
+.authorHeader .tr{ right:0; background-position:right top;}
+
+.authorHeader .rss{ position:absolute; display:block; top:0; right:58px; width:15px; height:15px; background-repeat:no-repeat; background-position:center; cursor:pointer;}
+.authorHeader .rss.off{ background-image:url(../images/rssOff.png); _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .rss.on{ background-image:url(../images/rssOn.png); _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .rss span{ display:block; width:0; height:0; overflow:hidden;}
+
+.authorHeader .color{ position:absolute; display:block; top:0; right:18px; border:1px solid #ccc; width:16px; height:16px;}
+.authorHeader .colorPreset{ position:absolute; display:none; top:25px; right:0;}
+.authorHeader .colorPreset.open{ display:block;}
+.authorHeader .colorPreset.close{ display:none;}
+.authorHeader .colorPreset li{ float:left; border:1px solid #ccc; margin-left:5px;}
+.authorHeader .colorPreset li.gray{ background:#999;}
+.authorHeader .colorPreset li.green{ background:#75B570;}
+.authorHeader .colorPreset li.blue{ background:#8BBED8;}
+.authorHeader .colorPreset li.cyan{ background:#9DB0B2;}
+.authorHeader .colorPreset li.red{ background:#D18675;}
+.authorHeader .colorPreset li.orange{ background:#E8A15E;}
+.authorHeader .colorPreset li a{ display:block; width:14px; height:14px;}
+.authorHeader .colorPreset li a span{ display:block; width:0; height:0; overflow:hidden; visibility:hidden;}
+
+.authorHeader .apiMe2day{ position:absolute; top:20px; right:58px;}
+.authorHeader .apiMe2day *{ font-size:12px;}
+.authorHeader .apiMe2day .setupButton{ position:absolute; top:0; right:0; width:16px; height:16px; background:url(../images/iconMe2day.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .apiMe2day .apiProtocol{ position:relative; width:240px; border:2px solid #eee; background:#fff; padding:10px 15px 10px 20px; position:absolute; top:25px; right:0;}
+.authorHeader .apiMe2day .apiProtocol.open{ display:block;}
+.authorHeader .apiMe2day .apiProtocol.close{ display:none;}
+.authorHeader .apiMe2day .apiProtocol .summary{ font-weight:bold; margin-bottom:10px;}
+.authorHeader .apiMe2day .apiProtocol dl{ font-size:.75em; overflow:hidden;}
+.authorHeader .apiMe2day .apiProtocol dt{ float:left; clear:left; margin:0 4px 0 0; padding-top:3px;}
+.authorHeader .apiMe2day .apiProtocol dd{ clear:right; margin-bottom:2px;}
+.authorHeader .apiMe2day .apiProtocol dd input{ width:120px; border:1px solid #ccc; padding:2px 4px; *margin:-1px 0;}
+.authorHeader .apiMe2day .apiProtocol .autoPush{ padding:5px 0;}
+.authorHeader .apiMe2day .apiProtocol .autoPush input{ width:13px; height:13px; vertical-align:top; margin-right:4px;}
+.authorHeader .apiMe2day .apiProtocol .autoPush label{}
+.authorHeader .apiMe2day .apiProtocol .buttonArea button{ border:1px solid #ccc; background:#eee; font-size:11px; *margin-right:4px;}
+
+.authorHeader .mobile{ position:absolute; top:20px; right:20px;}
+.authorHeader .mobile .setupButton{ position:absolute; top:-3px; right:0; width:12px; height:19px; background:url(../images/iconMobile.gif) no-repeat;}
+.authorHeader .mobile .address{ display:none; position:absolute; border:2px solid #eee; background:#fff; padding:10px 15px 10px 20px; position:absolute; top:25px; right:0; white-space:nowrap;}
+.authorHeader .mobile .address.open{ display:block;}
+.authorHeader .mobile .address *{ font-size:12px;}
+.authorHeader .mobile .address dt{ font-weight:bold; display:inline;}
+.authorHeader .mobile .address dd{ display:inline;}
+.authorHeader .mobile .address dd input { width:30px; border:1px solid #ccc; padding:2px 4px; *margin:-1px 0;}
+.authorHeader .mobile .address dd.buttonArea{ display:block; text-align:center; padding-top:10px;}
+.authorHeader .mobile .address dd.buttonArea button{ border:1px solid #ccc; background:#eee; font-size:11px; vertical-align:top; margin-right:4px;}
+
+/* Author Footer */
+.authorFooter{ position:relative; clear:both; padding:12px 18px 0 17px; height:45px; _height /**/:57px; margin-bottom:10px; z-index:20; border:1px solid #dedede; border-top-color:#fff;}
+.authorFooter *{ margin:0; padding:0;}
+.authorFooter .memo{ position:absolute; left:17px; top:12px; width:500px; background:url(../images/boxMemo.gif) no-repeat;}
+.authorFooter .memo p{ display:block; height:20px; padding-top:9px; margin:0; font-size:12px;white-space:nowrap;}
+.authorFooter .memo p .toggle,
+.authorFooter .memo li.first .toggle{ position:absolute; top:2px; right:2px; width:25px; height:25px; background:url(../images/arrowTagNavigation.gif) no-repeat center -9px;}
+.authorFooter .memo p .delete{ display:none;}
+.authorFooter .memo ul{ clear:both; display:none; position:relative; width:100%; padding:5px 0 10px 0; overflow:hidden; background:url(../images/boxMemo.gif) no-repeat left bottom;}
+.authorFooter .memo li{ clear:both; position:relative; font-size:12px; padding:7px 0 3px 0; overflow:hidden; *float:left; *zoom:1; width:100%; background:#333;}
+.authorFooter .memo li.first{ background:#333 url(../images/boxMemo.gif) no-repeat left top;}
+.authorFooter .memo p em,
+.authorFooter .memo li em{ display:block; padding-left:15px; width:370px; float:left; font-style:normal; color:#fff; overflow:hidden;}
+.authorFooter .memo p em a,
+.authorFooter .memo li em a{ color:#fff;}
+.authorFooter .memo p span,
+.authorFooter .memo li span{ position:relative; right:40px; float:right; color:#fff; font:11px AppleGothic, Dotum, Gulim, Sans-serif;}
+.authorFooter .memo p span .delete,
+.authorFooter .memo li span .delete{ position:relative; left:5px; vertical-align:top; width:12px; height:11px; background:url(../images/buttonX.gif) no-repeat center;}
+.authorFooter .memo .pagination{ position:relative; top:-10px; display:none; padding:0 0 10px 0; clear:both; background:url(../images/boxMemo.gif) no-repeat left bottom;}
+.authorFooter .memo .pagination a,
+.authorFooter .memo .pagination strong{ background:#333; color:#ccc; border-color:#666;}
+.authorFooter .memo .bottomCap{ clear:both; position:relative; top:2px; height:2px; overflow:hidden; background:url(../images/boxMemo.gif) no-repeat left -27px;}
+.authorFooter .memo.open p{ display:none;}
+.authorFooter .memo.open p .delete{ display:inline-block;}
+.authorFooter .memo.open p .toggle,
+.authorFooter .memo.open li.first .toggle{ display:block; background-position: center 10px;}
+.authorFooter .memo.open ul,
+.authorFooter .memo.open .pagination{ display:block; padding-top:2px; }
+.authorFooter .memoWrite{ position:relative; float:left; width:600px;}
+.authorFooter .memoWrite.close{ display:none;}
+.authorFooter .memoWrite .form.close{ display:none; }
+.authorFooter .memoWrite .inputText{ border:1px solid #ccc; width:480px; _width /**/:500px; padding:6px 9px 0 9px; height:21px; _height /**/:29px;}
+.authorFooter .memoWrite .button{ position:absolute; top:0; left:505px;}
+.authorFooter .memoWrite .button, x:-moz-any-link{ padding:0;}
+.authorFooter .memoWrite .button, x:-moz-any-link, x:default{ padding:0;}
+.authorFooter .button *{ font-size:12px !important;}
+.authorFooter .nav{ float:right; }
+.authorFooter .nav .button{ vertical-align:top;}
+.authorFooter .nav .button, x:-moz-any-link { vertical-align:middle;}
+.authorFooter .nav .button, x:-moz-any-link, x:default { vertical-align:top; }
+.authorFooter .nav a.button, x:-moz-any-link{ padding:4px 0 6px 0;}
+.authorFooter .nav a.button, x:-moz-any-link, x:default { padding:0;}
+.authorFooter .tl,
+.authorFooter .tr{position:absolute; bottom:-1px; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxCommentOut.gif) no-repeat;}
+.authorFooter .tl{ left:-1px; background-position:left bottom;}
+.authorFooter .tr{ right:-1px; background-position:right bottom;}
+
+/* Author List */
+.authorList{ position:relative; padding:15px; background:#e7e7e7; border:1px solid #dedede; *zoom:1; z-index:10; clear:both;}
+.authorList *{ margin:0; padding:0;}
+.authorList .authorBody{ position:relative; margin-top:10px; padding:15px; border:1px solid #d7dfe2; background:#fff; *zoom:1; clear:both; overflow:hidden;}
+.authorList .authorBody .thumb{ float:left; border:1px solid #ccc; margin-right:-98px;}
+.authorList .authorBody .thumb img{ display:block;}
+.authorList .authorBody .title{ position:relative; margin-left:120px; margin-bottom:10px; *zoom:1;}
+.authorList .authorBody .title h2{ margin-bottom:5px;} 
+.authorList .authorBody .title h2 a{ font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#465f7d;}
+.authorList .authorBody .title p{ color:#a2afbe; font-size:.75em;}
+.authorList .authorBody .title .planetUri{ position:absolute; right:0; bottom:0; font-size:.7em; color:#999;}
+.authorList .authorBody .authorTag{ position:relative; padding-top:10px; margin-left:120px; border-top:1px dotted #ccc; font-size:.75em; *zoom:1;}
+.authorList .authorBody .authorTag dt{ display:inline;}
+.authorList .authorBody .authorTag dd{ display:inline;}
+.authorList .authorBody .authorTag dd a{ color:#747474;}
+.authorList .authorBody .authorTag dd a strong{ font-weight:normal; color:#fff; background:#ffba00;}
+.authorList .authorBody .authorTag .addFavorite{ position:absolute; top:7px; right:0; background:url(../images/iconAddFavorite.gif) no-repeat left center;}
+.authorList .authorBody .authorTag .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.9em; color:#999; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-align:right; letter-spacing:-1px;}
+.authorList .tl,
+.authorList .tr,
+.authorList .bl,
+.authorList .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxCommentIn.gif) no-repeat;}
+.authorList .tl{ top:-1px; left:-1px; background-position:0 0;}
+.authorList .tr{ top:-1px; right:-1px; background-position:-4px 0;}
+.authorList .bl{ bottom:-1px; left:-1px; background-position:0 -4px;}
+.authorList .br{ bottom:-1px; right:-1px; background-position:-4px -4px;}
+
+/* Write Post */
+.writePost{ position:relative; margin-bottom:15px; padding:10px 0; *zoom:1;}
+.writePost *{ margin:0; padding:0; color:#fff; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.writePost h3{ margin-left:15px; line-height:1em; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.writePost .toggle{ display:none; position:absolute; top:5px; right:15px; background:url(../images/arrowTagNavigation.gif) no-repeat;}
+.writePost.close .toggle{ background-position:left -14px;}
+.writePost.open .toggle{ background-position:left 5px;}
+.writePost.close .toggle.open,
+.writePost.open .toggle.close{ display:block;}
+.writePost .toggle button{ padding-left:8px; position:relative; font:bold 12px AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px;}
+.writePost.close .writeBody{ display:none;}
+.writePost.open .writeBody{ display:block;}
+.writePost .writeHeader{ position:relative;}
+.writePost .writeBody{ position:relative; *zoom:1; padding-top:25px;}
+.writePost .writeBody form,
+.writePost .writeBody fieldset{ width:100%; position:relative;}
+.writePost .writeBody dl{ position:relative; margin:0 120px 0 90px; clear:both; *zoom:1; clear:both;}
+.writePost .writeBody dt{ position:relative; left:-65px; float:left; clear:left; width:70px; margin-right:-70px; font-weight:bold;}
+.writePost .writeBody dd{ position:relative; clear:right; margin-bottom:10px; width:100%;}
+.writePost .writeBody dd textarea,
+.writePost .writeBody dd .inputText{ position:relative; width:96%; border:1px solid #ccc; color:#333;}
+.writePost .writeBody dd textarea{ position:relative; padding:5px 10px; height:3em; overflow:auto;}
+.writePost .writeBody dd .inputText{ padding:3px 10px;}
+.writePost .writeBody dd.preview{ display:block; clear:both;}
+.writePost .writeBody dd.preview.off{ display:none;}
+.writePost .writeBody dd.preview p{ padding:5px 10px; border:1px solid #f4f4f4; width:96%; background:#f4f4f4; color:#000;} 
+.writePost .writeBody dd.preview p a{ color:#00f;}
+.writePost .writeBody .writeOptions{ position:absolute; top:0; left:100%; margin-left:-105px;}
+.writePost .writeBody .writeOptions p{ white-space:nowrap;}
+.writePost .writeBody .writeOptions input{ vertical-align:middle; width:13px; height:13px; margin-right:4px;}
+.writePost .writeBody button{ width:90px; height:68px; position:absolute; bottom:5px; right:15px; background-repeat:no-repeat;}
+.writePost .writeBody button span{ position:relative; display:block; *padding-top:20px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 1.2em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serifl;}
+.writePost .tl,
+.writePost .tr,
+.writePost .bl,
+.writePost .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxAuthorHeader.png) no-repeat; _background:url(../images/boxAuthorHeader.gif) no-repeat;}
+.writePost .tl{ top:0; left:0; background-position:left top;}
+.writePost .tr{ top:0; right:0; background-position:right top;}
+.writePost .bl{ bottom:0; left:0; background-position:left -4px;}
+.writePost .br{ bottom:0; right:0; background-position:right -4px;}
+
+/* My Favorite Tag */
+.myFavoriteTag{ display:none; position:relative; background:#7b735d; margin-bottom:10px; *zoom:1; padding:15px 20px 15px 20px;}
+.myFavoriteTag *{ margin:0; padding:0;}
+.myFavoriteTag.open{ display:block;}
+.myFavoriteTag *{ color:#fff;}
+.myFavoriteTag ul{ position:relative; padding:5px 0; overflow:hidden; *zoom:1;}
+.myFavoriteTag li{ position:relative; padding:0 6px 0 10px; left:-11px; display:inline; background:url(../images/lineVccc.gif) no-repeat left center; line-height:18px;}
+.myFavoriteTag li a,
+.myFavoriteTag li strong{ font-size:.75em; white-space:nowrap;}
+.myFavoriteTag li strong{ color:#ffba00;}
+.myFavoriteTag li .delete{ position:relative; top:-7px; left:-6px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
+.myFavoriteTag li .delete span{ display:inline-block; width:0; height:0; font:0/0 Sans-serif; visibility:hidden;}
+.myFavoriteTag li .delete.hover{ display:inline-block;}
+.myFavoriteTag .addTag{ text-align:right;}
+.myFavoriteTag .addTag .inputText{ border:1px solid #ccc; padding:3px 4px; color:#000; font-size:.75em; margin-right:5px;}
+.myFavoriteTag .addTag .addFavorite{ display:inline-block; position:relative; background:url(../images/iconAddFavorite.gif) no-repeat left center;}
+.myFavoriteTag .addTag .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
+.myFavoriteTag .tl,
+.myFavoriteTag .tr,
+.myFavoriteTag .bl,
+.myFavoriteTag .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxAuthorHeader.gif) no-repeat;}
+.myFavoriteTag .tl{ top:0; left:0; background-position:left top;}
+.myFavoriteTag .tr{ top:0; right:0; background-position:right top;}
+.myFavoriteTag .bl{ bottom:0; left:0; background-position:left -4px;}
+.myFavoriteTag .br{ bottom:0; right:0; background-position:right -4px;}
+
+/* Welcome Message */
+.welcome{ position:relative; *zoom:1; margin-bottom:15px; padding:30px; background:#000;}
+.welcome *{ margin:0; padding:0; color:#fff; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.welcome h2{ position:relative; _zoom:1; margin-bottom:10px; padding:10px 0 0 70px; height:50px; _height /**/:60px; background:url(../images/bgSmile.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.welcome p{ margin-bottom:10px; line-height:1.5em;}
+.welcome ol{ padding-left:20px; margin-bottom:10px; margin-left:20px;}
+.welcome ol li{ list-style:decimal; line-height:1.5em;}
+.welcome .tl,
+.welcome .tr,
+.welcome .bl,
+.welcome .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxWelcome.gif) no-repeat;}
+.welcome .tl{ top:0; left:0; background-position:left top;}
+.welcome .tr{ top:0; right:0; background-position:right top;}
+.welcome .bl{ bottom:0; left:0; background-position:left -4px;}
+.welcome .br{ bottom:0; right:0; background-position:right -4px;}
+
+/* Pagination */
+.pagination{ padding:15px 0; text-align:center;}
+.pagination *{ margin:0; padding:0;}
+.pagination a,
+.pagination strong{ _position:relative; font-weight:bold; display:inline-block; padding:5px 5px 3px 5px; color:#313031; text-decoration:none; line-height:normal; font:bold 12px Tahoma, Sans-serif;}
+.pagination strong{ color:#ff8600 !important;}
+.pagination a:hover{ background:#eee; }
+.pagination a.prev{ padding:5px 10px 3px 18px; background:url(../images/paginationPrev.gif) no-repeat 8px 8px !important; border:none; font-weight:normal; }
+.pagination a.prevEnd{ padding:5px 10px 3px 18px; background:url(../images/paginationPrevEnd.gif) no-repeat 4px 8px !important; border:none; border-right:1px solid #ccc; font-weight:normal;}
+.pagination a.next{ padding:5px 18px 3px 10px; background:url(../images/paginationNext.gif) no-repeat 40px 8px !important; border:none; font-weight:normal; }
+.pagination a.nextEnd{ padding:5px 18px 3px 10px; background:url(../images/paginationNextEnd.gif) no-repeat 40px 8px !important; border:none; border-left:1px solid #ccc; font-weight:normal;}
+
+

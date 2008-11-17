@@ -1,0 +1,4 @@
+<table name="planet_interest_tags">
+  <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_tag" />
+  <column name="tag" type="varchar" size="40" notnull="notnull" index="idx_tag"/>
+</table>

@@ -1,0 +1,90 @@
+<!--@foreach($content_list as $no => $item)-->
+    <div class="commentBody <!--@if($planet->getMid() == $item->getPlanetMid())-->myPlanet<!--@end-->">
+        <!--// Original Text -->
+        <div class="comment">
+            <!--@if($planet->getMid() != $item->getPlanetMid())-->
+            <h3 class="identity"> <a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($item->nick_name)}" /><em>{htmlspecialchars($item->get('nick_name'))}</em></a> </h3>
+            <!--@end-->
+            <div class="tongue">
+                <div class="post">
+                  {$item->getContent()}
+                </div>
+                <!--@if($item->getPostScript())-->
+                <p class="postScript"><strong>{$lang->planet_postscript}</strong> {htmlspecialchars($item->getPostScript())}</p>
+                <!--@end-->
+                <div class="postExtra">
+                    <div class="tag">
+                    <!--// class="tag" | class="tag edit" -->
+                        {@ $regdate = $item->get('regdate') }
+                        <p class="time">{getTimeGap($item->get('regdate'), sprintf('y/m/d a H%s i%s', $lang->unit_hour,$lang->unit_min))}</p>
+                        <dl>
+                            <dt>TAG</dt>
+                            <!--@if($item->get('mid')==$myplanet->getMid())-->
+                            <dd class="tagRead">
+                                <!--@for($i=0,$tag=$item->getArrTags(),$c=count($tag);$i<$c;$i++)-->
+                                    <a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($tag[$i]))}" onmouseover="showBtnDeleteTag($Element(this).next())" onmouseout="closeBtnDeleteTag($Element(this).next())" name="planet_content_tag:{$item->get('document_srl')}">{htmlspecialchars($tag[$i])}</a><button type="button" class="delete" onclick="deletePlanetContentTag({$item->get('document_srl')},{$i});return false;" onmouseover="showBtnDeleteTag(this)" onmouseout="closeBtnDeleteTag(this)"><span>{$lang->cmd_planet_del_tag}</span></button>
+                                <!--@end-->
+
+                                <button type="button" class="modify" onclick="showPlanetContentTagEditForm(this,{$item->get('document_srl')});"><span>{$lang->cmd_planet_edit_tag}</span></button>
+                            </dd>
+                            <dd class="tagModify">
+                                 <form id="form_planet_content_tag:{$item->get('document_srl')}" action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, modify_content_tag)" enctype="multipart/form-data">
+                                    <input type="hidden" name="document_srl" value="{$item->get('document_srl')}" />
+                                    <input type="text" name="planet_content_tag" value="{$item->getTextTags()}" class="inputText" /><button type="submit">{$lang->cmd_save}</button><button type="button" onclick="closePlanetContentTagEditForm(this);return false;">{$lang->cmd_cancel}</button>
+                                </form>
+                            </dd>
+                            <!--@else-->
+                            <dd class="tagRead">
+                                <!--@for($i=0,$tag=$item->getArrTags(),$c=count($tag);$i<$c;$i++)-->
+                                    <a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($tag[$i]))}" name="planet_content_tag:{$item->get('document_srl')}">{htmlspecialchars($tag[$i])}</a>
+                                <!--@end-->
+
+                            </dd>
+                            <!--@end-->
+                        </dl>
+                    </div>
+                    <div class="sympathy">
+                        <!--@if($myplanet->isExists() && $item->get('mid')!=$myplanet->getMid())--><button type="button" onclick="doPlanetVoteContent({$item->get('document_srl')});return false;">{$lang->cmd_planet_good} +</button> <!--@end-->
+                        <strong class="num" id="content_voted:{$item->get('document_srl')}">{$item->getVotedCount()}</strong>
+                        <a href="#" onclick="showPlanetReply({$item->get('document_srl')});return false;">{$lang->comment}(<span id="reply_count:{$item->get('document_srl')}">{$item->getCommentCount()}</span>)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--// //Original Text -->
+        <!--// Reply Text -->
+        <div class="reply" id="reply:{$item->get('document_srl')}">
+
+            <div id="reply_content:{$item->get('document_srl')}"></div>
+
+
+            <!--@if($myplanet->isExists())-->
+            <dl>
+                <dt>{$logged_info->nick_name}</dt>
+                <dd>
+                    <form id="writeReply:{$item->get('document_srl')}" action="./" method="post" onsubmit="return procFilter(this, insert_reply)">
+                        <input name="document_srl" type="hidden" value="{$item->get('document_srl')}"/>
+                        <input name="planet_reply_content" type="text" class="inputText" />
+                        <span class="button"><button type="submit">{$lang->cmd_input}</button></span>
+                    </form>
+                </dd>
+            </dl>
+            <!--@end-->
+        </div>
+        <!--// //Reply Text -->
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+    </div>
+<!--@end-->
+
+
+<!--@if($page_navigation->total_page>1)-->
+    <div class="pagination">
+        <!--@if($page_navigation->cur_page<$page_navigation->last_page)-->
+        <a href="{getUrl('page',$page_navigation->cur_page+1)}" class="prev">{$lang->cmd_prev}</a>
+        <!--@end-->
+        <!--@if($page_navigation->cur_page>1)-->
+        <a href="{getUrl('page',$page_navigation->cur_page-1)}" class="next">{$lang->cmd_next}</a>
+        <!--@end-->
+    </div>
+<!--@end-->
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>

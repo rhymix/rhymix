@@ -1,0 +1,36 @@
+<!--#include("header.html")-->
+
+<div class="personalHeader">
+    <h2>Message</h2>
+    <p>{$message}</p>
+    <span class="leftCap"></span><span class="rightCap"></span>
+</div>
+
+<!--@if(!$is_logged)-->
+    <!--%import("./filter/planet_login.xml")-->
+    <form action="" method="post" onsubmit="return procFilter(this, planet_login)">
+        <fieldset>
+            <legend>{$lang->planet_change_userinfo}</legend>
+            <div class="myInfo">
+                <dl class="login">
+                    <dt><label for="uid">{$lang->user_id}</label></dt>
+                    <dd>: <input name="user_id" id="uid" type="text" class="inputText" size="30" /></dd>
+                    <dt><label for="upw">{$lang->password}</label></dt>
+                    <dd>: <input name="password" id="upw" type="password" class="inputText" size="30" /></dd>
+                </dl>
+                <button type="submit"><span>{$lang->cmd_planet_login}</span></button>
+                <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+            </div>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+        doFocusPlanetUserId("uid");
+    </script>
+
+<!--@else-->
+    <div class="myInfo buttonArea">
+        <a href="{getUrl('act','')}" class="button large strong planetBlue"><span>{$lang->cmd_back}</span></a> 
+    </div>
+<!--@end-->
+
+<!--#include("footer.html")-->

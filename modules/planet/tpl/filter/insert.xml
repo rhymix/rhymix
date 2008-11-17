@@ -1,0 +1,17 @@
+<filter name="insert" module="planet" act="procPlanetAdminInsert" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="planet_mid" required="true" filter="alpha_number" />
+        <node target="planet_comment" required="true" maxlength="250" />
+    </form>
+    <parameter>
+        <param name="module_srl" target="module_srl" />
+        <param name="planet_mid" target="planet_mid" />
+        <param name="browser_title" target="planet_comment" />
+        <param name="description" target="description" />
+    </parameter>
+    <response callback_func="completeInsertPlanet">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+    </response>
+</filter>

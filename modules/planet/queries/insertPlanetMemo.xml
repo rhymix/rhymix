@@ -1,0 +1,12 @@
+<query id="insertPlanetMemo" action="insert">
+    <tables>
+        <table name="planet_memo" />
+    </tables>
+    <columns>
+        <column name="planet_memo_srl" var="planet_memo_srl" default="sequence()"  filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" notnull="notnull" />
+        <column name="write_planet_srl" var="write_planet_srl" filter="number" default="0" notnull="notnull" />
+        <column name="memo_content" var="memo_content" notnull="notnull"  minlength="1" maxlength="250" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

@@ -1,0 +1,8 @@
+<query id="deleteSMSUser" action="delete">
+    <tables>
+        <table name="planet_sms_user" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+    </conditions>
+</query>

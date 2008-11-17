@@ -1,0 +1,21 @@
+<query id="getContentList" action="select">
+    <tables>
+        <table name="planet_favorite" alias="planet_favorite" />
+        <table name="planet" alias="planet" />
+        <table name="documents" alias="documents" />
+    </tables>
+    <columns>
+        <column name="documents.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet_favorite.module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="planet.module_srl" default="planet_favorite.reg_planet_srl" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" default="planet.latest_document_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="asc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

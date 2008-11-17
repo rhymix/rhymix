@@ -1,0 +1,12 @@
+<query id="getPlanetTagSearchCount" action="select">
+    <tables>
+        <table name="planet_content"/>
+    </tables>
+    <columns>
+        <column name="count(*)" alias="cnt" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+        <condition operation="like" column="content"  var="search_text" pipe="and" />
+    </conditions>
+</query>

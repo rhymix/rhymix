@@ -1,0 +1,34 @@
+<!--#include("header.html")-->
+
+<ul class="generalTab">
+
+<!--@if(is_array($config->tagtab) && count($config->tagtab)>0)-->
+    <!--@foreach($tagtab_list as $key => $val)-->
+    <li <!--@if($tagtab==$key)-->class="active"<!--@end-->><a href="{getUrl('type','tagtab','page','','tagtab',$key)}">{$key}<sup>{number_format($val)}</sup></a></li>
+    <!--@end-->
+<!--@end-->
+
+    <li <!--@if($type=='all')-->class="active"<!--@end-->><a href="{getUrl('type','all','page','','tagtab')}">{$lang->planet_total_articles}<sup>{number_format($total_content)}</sup></a></li>
+    <li <!--@if($type=='wantyou')-->class="active"<!--@end-->><a href="{getUrl('type','wantyou','page','','tagtab')}">{$lang->planet_wantyou}<sup>{number_format($total_wantyou)}</sup></a></li>
+    <li <!--@if($type=='best')-->class="active"<!--@end-->><a href="{getUrl('type','best','page','','tagtab')}">{$lang->planet_best}<sup>{number_format($total_best)}</sup></a></li>
+</ul>
+
+<div class="commentList">
+    <div class="commentHeader">
+        <p class="timeNav">
+            <strong>{zdate($date,'Y')}</strong>{$lang->unit_year}
+            <strong>{zdate($date,'m')}</strong>{$lang->unit_month}
+            <strong>{zdate($date,'d')}</strong>{$lang->unit_day}
+            (<strong>{zdate($date,'l')}</strong>)
+            <a class="prev" href="{getUrl('date',$prev_date)}"><img src="./images/buttonPrev1.gif" border="0" alt="{$lang->cmd_prev}" /></a>
+            <a class="next" href="{getUrl('date',$next_date)}"><img src="./images/buttonNext1.gif" border="0" alt="{$lang->cmd_next}" /></a>
+        </p>
+    </div>
+
+    <!--#include("content_list.html")-->
+
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+
+</div>
+
+<!--#include("footer.html")-->

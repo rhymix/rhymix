@@ -1,0 +1,25 @@
+<query id="getPlanetMemoList" action="select">
+    <tables>
+        <table name="planet_memo" alias="planet_memo" />
+        <table name="planet" alias="planet" />
+        <table name="modules" alias="modules" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="planet_memo.*" />
+        <column name="modules.mid" alias="mid" />
+        <column name="member.nick_name" alias="nick_name" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet_memo.module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="modules.module_srl" default="planet_memo.write_planet_srl" pipe="and" /> 
+        <condition operation="equal" column="planet.module_srl" default="planet_memo.write_planet_srl" pipe="and" />
+        <condition operation="equal" column="member.member_srl" default="planet.member_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="planet_memo.planet_memo_srl" order="desc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

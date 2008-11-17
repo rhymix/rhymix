@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="access" default="guest">
+            <title xml:lang="ko">접근</title>
+        </grant>
+        <grant name="create" default="member">
+            <title xml:lang="ko">플래닛 생성</title>
+        </grant>
+        <grant name="write_document" default="member">
+            <title xml:lang="ko">글쓰기</title>
+        </grant>
+        <grant name="manager" default="root">
+            <title xml:lang="ko">관리</title>
+        </grant>
+    </grants>
+    <permissions>
+        <permission action="dispPlanetCreate" target="member" />
+        <permission action="procPlanetCreate" target="member" />
+
+        <permission action="dispPlanetAdminSetup" target="manager" />
+        <permission action="dispPlanetAdminInsert" target="manager" />
+        <permission action="dispPlanetAdminList" target="manager" />
+        <permission action="dispPlanetAdminSkinInfo" target="manager" />
+        <permission action="dispPlanetAdminDelete" target="manager" />
+
+        <permission action="procPlanetAdminInsertConfig" target="manager" />
+        <permission action="procPlanetAdminInsert" target="manager" />
+        <permission action="procPlanetAdminDelete" target="manager" />
+        <permission action="procPlanetAdminUpdateSkinInfo" target="manager" />
+    </permissions>
+    <actions>
+        <action name="dispPlanetLogin" type="view" />
+        <action name="dispPlanetCreate" type="view" />
+
+        <action name="dispPlanetHome" type="view" />
+        <action name="dispPlanet" type="view" index="true" />
+        <action name="dispPlanetInfo" type="view" />
+        <action name="dispPlanetTag" type="view" />
+        <action name="favorite" type="view" />
+        <action name="countContentTagSearch" type="view" />
+
+        <action name="dispPlanetMemo" type="view" />
+        <action name="dispPlanetContent" type="view" />
+        <action name="dispPlanetConetentReply" type="view" />
+        <action name="dispPlanetConetentTag" type="view" />
+        <action name="dispPlanetTopConetentTag" type="view" />
+        <action name="dispPlanetTagSearch" type="view" />
+        <action name="dispPlanetContentSearch" type="view" />
+        <action name="dispPlanetContentTagSearch" type="view" />
+
+        <action name="getPlanetMemoList" type="model" />
+        <action name="getPlanetReplyList" type="model" />
+
+        <action name="procPlanetCreate" type="controller" />
+        <action name="procPlanetColorsetModify" type="controller" />
+        <action name="procPlanetPhotoModify" type="controller" />
+        <action name="procPlanetContentWrite" type="controller" />
+        <action name="procPlanetContentTagModify" type="controller" />
+        <action name="procPlanetInsertMemo" type="controller" />
+        <action name="procPlanetDeleteMemo" type="controller" />
+        <action name="procPlanetInsertInterestTag" type="controller" />
+        <action name="procPlanetDeleteInterestTag" type="controller" />
+        <action name="procPlanetInsertFavorite" type="controller" />
+        <action name="procPlanetMe2dayApi" type="controller" />
+
+        <action name="procPlanetEnableRss" type="controller" />
+        <action name="procPlanetDisableRss" type="controller" />
+
+        <action name="procPlanetReplyWrite" type="controller" />
+        <action name="procNotReadWelcome" type="controller" />
+        <action name="procPlanetInfoModify" type="controller" />
+        <action name="procPlanetVoteContent" type="controller" />
+
+
+        <action name="dispPlanetAdminSetup" type="view" standalone="true" admin_index="true" />
+        <action name="dispPlanetAdminList" type="view" standalone="true" />
+        <action name="dispPlanetAdminInsert" type="view" standalone="true" />
+        <action name="dispPlanetAdminDelete" type="view" standalone="true" />
+        <action name="dispPlanetAdminSkinInfo" type="view" standalone="true" />
+
+        <action name="procPlanetAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procPlanetAdminInsert" type="controller" standalone="true" />
+        <action name="procPlanetAdminDelete" type="controller" standalone="true" />
+        <action name="procPlanetAdminUpdateSkinInfo" type="controller" standalone="true" />
+
+        <action name="procPlanetInsertSMS" type="controller" />
+        <action name="procPlanetSetSMS" type="controller" />
+    </actions>
+</module>

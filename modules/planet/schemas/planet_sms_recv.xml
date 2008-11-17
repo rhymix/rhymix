@@ -1,0 +1,5 @@
+<table name="planet_sms_recv">
+  <column name="phone_number" type="varchar" size="11" index="idx_phone_number" />
+  <column name="message" type="varchar" size="255" notnull="notnull" />
+  <column name="regdate" type="date" />
+</table>

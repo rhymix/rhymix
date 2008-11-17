@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">PlanetXE 기본 스킨</title>
+    <description xml:lang="ko">
+        PlanetXE의 기본 스킨입니다. 
+    </description>
+    <version>0.1</version>
+    <date>2008-10-01</date>
+
+    <author email_address="naradesign@naradesign.com" link="http://www.naradesign.com">
+        <name xml:lang="ko">정찬명</name>
+    </author>
+
+    <colorset>
+        <color name="blue">
+            <title xml:lang="ko">Blue</title>
+        </color>
+        <color name="cyan">
+            <title xml:lang="ko">Cyan</title>
+        </color>
+        <color name="green">
+            <title xml:lang="ko">Green</title>
+        </color>
+        <color name="orange">
+            <title xml:lang="ko">Orange</title>
+        </color>
+        <color name="red">
+            <title xml:lang="ko">Red</title>
+        </color>
+        <color name="gray">
+            <title xml:lang="ko">Gray</title>
+        </color>
+    </colorset>
+
+    <extra_vars>
+        <var name="logo_title" type="text">
+            <title xml:lang="ko">플래닛 타이틀</title>
+        </var>
+        <var name="logo_image" type="image">
+            <title xml:lang="ko">플래닛 메인 로고이미지</title>
+        </var>
+        <var name="notice" type="text">
+            <title xml:lang="ko">플래닛 한줄공지</title>
+        </var>
+    </extra_vars>
+</skin>

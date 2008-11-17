@@ -1,0 +1,11 @@
+<query id="getPlanetTagTextCount" action="select">
+    <tables>
+        <table name="planet_tag_text"/>
+    </tables>
+    <columns>
+        <column name="count(*)" alias="cnt" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="tag_text" var="tag_text" />
+    </conditions>
+</query>

@@ -1,0 +1,15 @@
+<query id="getSMSRecv" action="select">
+    <tables>
+        <table name="planet_sms_recv" />
+    </tables>
+    <columns>
+        <column name="message" />
+        <column name="regdate" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="phone_number" var="phone_number" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="regdate" order="asc" />
+    </navigation>
+</query>

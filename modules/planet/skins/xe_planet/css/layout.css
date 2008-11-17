@@ -1,0 +1,391 @@
+@charset "utf-8"; 
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* Float Clear */
+.fClear { display:block; float:none; clear:both; margin:0; padding:0; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden; } /* Use it when you want to float clearing */
+
+/* Container */
+#container { position:relative; margin:0 auto; height:auto !important; } /* alignCenter = margin:0 auto | alignLeft = margin:0 | alignRight = margin:0 0 0 auto  */
+
+/* Header */
+#header { }
+
+/* Body */
+#body { position:relative; }
+#body:after { content:""; display:block; clear:both; }
+
+/* Content */
+#content { position:relative; }
+#content .section { position:relative; }
+
+/* Navigation */
+#navigation { position:relative; }
+#navigation .section { position:relative; }
+
+/* Extra */
+#extra { position:relative; }
+#extra .section { position:relative; }
+
+/* Footer */
+#footer { position:relative; }
+
+/* ---------- Common Display ---------- */
+/* c = #content, n = #navigation, e = #extra */
+.c1 #navigation,
+.c2 #navigation,
+.c3 #navigation,
+.c1 #extra,
+.c2 #extra,
+.c3 #extra
+.cn #extra,
+.nc #extra { display:none; }
+
+.cn #navigation,
+.nc #navigation,
+.ce #navigation,
+.ec #navigation,
+.ne #navigation,
+.en #navigation,
+.cne #navigation,
+.ecn #navigation,
+.nec #navigation,
+.cen #navigation,
+.nce #navigation,
+.enc #navigation,
+.cee #navigation,
+.eec #navigation,
+.ece #navigation,
+.ce #extra,
+.ec #extra,
+.ne #extra,
+.en #extra,
+.cne #extra,
+.ecn #extra,
+.nec #extra,
+.cen #extra,
+.nce #extra,
+.enc #extra,
+.cee #extra,
+.eec #extra,
+.ece #extra { display:block; }
+
+#extra .section{ display:none; }
+.e0 #extra { display:none;}
+.e1 #extra,
+.e2 #extra,
+.e3 #extra,
+.e4 #extra,
+.e5 #extra,
+.e1 #extra .extra1,
+.e2 #extra .extra1,
+.e2 #extra .extra2,
+.e3 #extra .extra1,
+.e3 #extra .extra2,
+.e3 #extra .extra3,
+.e4 #extra .extra1,
+.e4 #extra .extra2,
+.e4 #extra .extra3,
+.e4 #extra .extra4,
+.e5 #extra .extra1,
+.e5 #extra .extra2,
+.e5 #extra .extra3,
+.e5 #extra .extra4,
+.e5 #extra .extra5,
+.cee #extra .section,
+.eec #extra .section,
+.ece #extra .section { display:block;}
+
+.nTop #navigation { display:block; }
+
+.ne #navigation,
+.ne #extra,
+.ne #extra .section { float:left; }
+.en #navigation,
+.en #extra,
+.en #extra .section { float:right; }
+
+/* ---------- Fixed Layout Preset ---------- */
+/* c = #content, n = #navigation, e = #extra */
+
+/* Width */
+.fixed #container { width:960px; }
+.fixed #body { width:auto; }
+.fixed #navigation,
+.fixed #extra .section { width:200px; }
+.fixed .c1 #content { width:100%; }
+.fixed .c1 #navigation { width:300px; }
+.fixed .c1 #extra { width:auto; }
+.fixed .c1 #extra .section { width:300px; }
+.fixed .c2 #content { width:740px; }
+.fixed .c3 #content { width:520px;}
+.fixed .cee #extra,
+.fixed .eec #extra{ width:420px;}
+.fixed .ece #extra { width:100%;}
+
+/* Floating 1 Columns */
+.fixed .c1 #content { clear:both; }
+
+.fixed .ne #navigation,
+.fixed .ne #extra .extra1 { margin-right:30px; }
+
+.fixed .en #navigation,
+.fixed .en #extra .extra1 { margin-left:30px; }
+
+/* Floating 2 Columns */
+.fixed .cn #content { float:left; }
+.fixed .cn #navigation,
+.fixed .cn #extra { float:right; }
+
+.fixed .nc #content { float:right; }
+.fixed .nc #navigation,
+.fixed .nc #extra { float:left; }
+
+.fixed .ce #content { float:left; }
+.fixed .ce #navigation,
+.fixed .ce #extra { float:right; *float:none; *left:20px; _left:17px;  }
+
+.fixed .ec #content { float:right; }
+.fixed .ec #navigation,
+.fixed .ec #extra { float:left; *float:none; }
+
+/* Floating 3 Columns */
+.fixed .cne #content { float:left; margin-right:20px; }
+.fixed .cne #navigation { float:left; }
+.fixed .cne #extra { float:right; }
+
+.fixed .ecn #content { float:left; margin-right:-520px; left:220px; }
+.fixed .ecn #navigation { float:right; }
+.fixed .ecn #extra { float:left; }
+
+.fixed .nec #content { float:right; }
+.fixed .nec #navigation { float:left; margin-right:20px; }
+.fixed .nec #extra { float:left; }
+
+.fixed .cen #content { float:left; margin-right:20px; }
+.fixed .cen #navigation { float:right; }
+.fixed .cen #extra { float:left; }
+
+.fixed .nce #content { float:left; margin-right:-520px; left:220px; }
+.fixed .nce #navigation { float:left; }
+.fixed .nce #extra { float:right; }
+
+.fixed .enc #content { float:right; margin-left:20px; }
+.fixed .enc #navigation { float:right; }
+.fixed .enc #extra { float:left; }
+
+.fixed .cee #content { float:left; _margin-right:-3px; }
+.fixed .cee #extra { float:right; *float:none; *left:20px; }
+.fixed .cee .section { float:left; }
+.fixed .cee .extra1 { margin-right:20px; }
+
+.fixed .eec #content { float:right; _margin-left:-3px; }
+.fixed .eec #extra { float:left; *float:none; *left:0; }
+.fixed .eec .section{ float:left;}
+.fixed .eec .extra1{ margin-right:20px; }
+
+.fixed .ece #content { float:left; margin-right:-100%; left:220px;}
+.fixed .ece #extra { float:none; }
+.fixed .ece .extra1{ float:left; }
+.fixed .ece .extra2{ float:right; }
+
+/* ---------- Liquid Layout Preset ---------- */
+/* c = #content, n = #navigation, e = #extra */
+
+/* Width */
+.liquid #container { width:100%; }
+.liquid #body { width:auto; }
+.liquid .c1 #content { width:100%; }
+.liquid .c1 #navigation { width:32%; }
+.liquid .c1 #extra { width:66%; }
+.liquid .c1 #extra .section { width:48.4%; }
+.liquid .c2 #content { width:75%; }
+.liquid .c2 #navigation,
+.liquid .c2 #extra { width:23%; }
+.liquid .c3 #content { width:56%; }
+.liquid .c3 #navigation { width:20%; }
+.liquid .c3 #extra { width:20%; }
+.liquid .cee #extra,
+.liquid .eec #extra { width:42%;}
+.liquid .ece #extra { width:100%;}
+.liquid .cee #extra .section,
+.liquid .eec #extra .section{ width:48%; }
+.liquid .ece #extra .section { width:20%; }
+
+/* Floating 1 Columns */
+.liquid .c1 #content { clear:both; }
+
+.liquid .ne #navigation { margin-right:2%; }
+.liquid .ne #extra .extra1 { float:left; }
+.liquid .ne #extra .extra2 { float:right; }
+
+.liquid .en #navigation { margin-left:2%; }
+.liquid .en #extra .extra1 { float:right; }
+.liquid .en #extra .extra2 { float:left; }
+
+/* Floating 2 Columns */
+.liquid .cn #content { float:left; }
+.liquid .cn #navigation,
+.liquid .cn #extra { float:right; }
+
+.liquid .nc #content { float:right; }
+.liquid .nc #navigation,
+.liquid .nc #extra { float:left; }
+
+.liquid .ce #content { float:left; _margin-right:-3px; }
+.liquid .ce #navigation,
+.liquid .ce #extra { float:right; *float:none; *left:2%; }
+
+.liquid .ec #content { float:right; }
+.liquid .ec #navigation,
+.liquid .ec #extra { float:left; *float:none; }
+
+/* Floating 3 Columns */
+.liquid .cne #content { float:left; margin-right:2%; }
+.liquid .cne #navigation { float:left; }
+.liquid .cne #extra { float:right; }
+
+.liquid .ecn #content { float:left; margin-right:-100%; left:22%; }
+.liquid .ecn #navigation { float:right; }
+.liquid .ecn #extra { float:left; }
+
+.liquid .nec #content { float:right; }
+.liquid .nec #navigation { float:left; margin-right:2%; }
+.liquid .nec #extra { float:left; }
+
+.liquid .cen #content { float:left; margin-right:2%; }
+.liquid .cen #navigation { float:right; }
+.liquid .cen #extra { float:left; }
+
+.liquid .nce #content { float:left; margin-right:-100%; left:22%; }
+.liquid .nce #navigation { float:left; }
+.liquid .nce #extra { float:right; }
+
+.liquid .enc #content { float:right; margin-left:2%; }
+.liquid .enc #navigation { float:right; }
+.liquid .enc #extra { float:left; }
+
+.liquid .cee #content { float:left; _margin-right:-3px; }
+.liquid .cee #extra { float:right; *float:none; *left:2%; }
+.liquid .cee .extra1 { float:left; }
+.liquid .cee .extra2 { float:right; }
+
+.liquid .eec #content { float:right; _margin-left:-3px; }
+.liquid .eec #extra { float:left; *float:none; *left:0; }
+.liquid .eec .extra1{ float:left; }
+.liquid .eec .extra2{ float:right; }
+
+.liquid .ece #content { float:left; margin-right:-100%; left:22%;}
+.liquid .ece #extra { float:none; }
+.liquid .ece .extra1{ float:left; }
+.liquid .ece .extra2{ float:right; }
+
+/* ---------- Hybrid Layout Preset ---------- */
+/* c = #content, n = #navigation, e = #extra */
+
+/* Width */
+.hybrid #container { width:100%; }
+.hybrid #body { width:auto; }
+.hybrid #content { width:100%; }
+.hybrid #navigation { width:200px; }
+.hybrid #extra { width:200px; }
+.hybrid .c1 #navigation { width:300px; }
+.hybrid .c1 #extra { width:auto; }
+.hybrid .c1 #extra .section { width:300px; }
+.hybrid .cee #extra,
+.hybrid .eec #extra { width:420px;}
+.hybrid .ece #extra { width:100%;}
+.hybrid .cee #extra .section,
+.hybrid .eec #extra .section,
+.hybrid .ece #extra .section { width:200px; }
+
+/* Floating 1 Columns */
+.hybrid .c1 #content { clear:both; }
+
+.hybrid .ne #navigation,
+.hybrid .ne #extra .extra1 { margin-right:30px; }
+
+.hybrid .en #navigation,
+.hybrid .en #extra .extra1 { margin-left:30px; }
+
+/* Floating 2 Columns */
+.hybrid .cn #body { margin-right:220px; }
+.hybrid .cn #content { float:left; margin-right:-100%; }
+.hybrid .cn #navigation,
+.hybrid .cn #extra { float:right; left:220px; clear:right; }
+
+.hybrid .nc #body { margin-left:220px; }
+.hybrid .nc #content { float:right; margin-left:-100%; *margin-left:0; }
+.hybrid .nc #navigation,
+.hybrid .nc #extra { float:left; left:-220px; clear:left; }
+
+.hybrid .ce #body { margin-right:220px; }
+.hybrid .ce #content { float:left; margin-right:-100%; }
+.hybrid .ce #navigation,
+.hybrid .ce #extra { float:right; left:220px; clear:right; *float:none; *left:100%; *margin-left:20px; *margin-right:-200px; }
+.hybrid .ce #navigation { width:100% !important; right:-220px; }
+
+.hybrid .ec #body { margin-left:220px; }
+.hybrid .ec #content { float:right; margin-left:-100%; _float:left; _margin-left:0; _margin-right:-100%; }
+.hybrid .ec #navigation,
+.hybrid .ec #extra { float:left; left:-220px; clear:left; *float:none; *margin-right:-200px; }
+.hybrid .ec #navigation { width:100% !important; }
+
+/* Floating 3 Columns */
+.hybrid .cne #body { margin-right:440px; }
+.hybrid .cne #content { float:left; }
+.hybrid .cne #navigation { float:left; margin-right:-200px; left:20px; }
+.hybrid .cne #extra { float:right; margin-left:-200px; left:440px; }
+
+.hybrid .ecn #body { margin-left:220px; margin-right:220px; }
+.hybrid .ecn #content { float:left; margin-right:-100%; }
+.hybrid .ecn #navigation { float:right; margin-left:-200px; left:220px; }
+.hybrid .ecn #extra { float:left; left:-220px; }
+
+.hybrid .nec #body { margin-left:440px; }
+.hybrid .nec #content { float:right; }
+.hybrid .nec #navigation { float:left; margin-right:-200px; left:-440px; }
+.hybrid .nec #extra { float:left; margin-right:-200px; left:-220px; }
+
+.hybrid .cen #body { margin-right:440px; }
+.hybrid .cen #content { float:left; }
+.hybrid .cen #navigation { float:right; margin-left:-200px; left:440px; }
+.hybrid .cen #extra { float:left; margin-right:-200px; left:20px; }
+
+.hybrid .nce #body { margin-left:220px; margin-right:220px; }
+.hybrid .nce #content { float:left; margin-right:-100%; }
+.hybrid .nce #navigation { float:left; margin-right:-200px; left:-220px; }
+.hybrid .nce #extra { float:right; right:-220px; }
+
+.hybrid .enc #body { margin-left:440px; }
+.hybrid .enc #content { float:right; }
+.hybrid .enc #navigation { float:right; margin-left:-200px; left:-20px; }
+.hybrid .enc #extra { float:left; margin-right:-200px; left:-440px; }
+
+.hybrid .cee #body { margin-right:440px;}
+.hybrid .cee #content { float:left; margin-right:-100%; }
+.hybrid .cee #navigation { right:-440px;}
+.hybrid .cee #extra { float:right; left:440px; *float:none; *left:100%; *margin-left:20px; *margin-right:-420px; }
+.hybrid .cee .extra1 { float:left; }
+.hybrid .cee .extra2 { float:right; }
+
+.hybrid .eec #body { margin-left:440px;}
+.hybrid .eec #content { float:left; margin-right:-100%; }
+.hybrid .eec #extra { float:left; left:-440px; *float:none; *margin-right:-420px; }
+.hybrid .eec .section{ float:left;}
+.hybrid .eec .extra1{ float:left; }
+.hybrid .eec .extra2{ float:right; }
+
+.hybrid .ece #body { margin:0 220px; }
+.hybrid .ece #content { float:left; margin-right:-100%; }
+.hybrid .ece #navigation { right:-220px; }
+.hybrid .ece #extra { float:none; }
+.hybrid .ece .extra1{ float:left; left:-220px; margin-right:-200px; }
+.hybrid .ece .extra2{ float:right; right:-220px; margin-left:-200px; }
+
+/* Navigation Top */
+.nTop #navigation { position:absolute; float:right !important; width:auto !important; margin:0 !important; *clear:none !important; overflow:visible; top:-4em; left:auto !important; right:0; }
+.nTop #navigation .section { position:absolute; float:right; top:0; right:0; width:auto; margin:0; padding:0; }
+.nTop #navigation .section:after { content:""; display:block; clear:both; width:0; height:0; overflow:hidden; visibility:hidden; font:0/0 Sans-serif;}
+.nTop #navigation h2 { position:absolute; left:0; top:0; width:0; height:0; border:0; overflow:hidden; visibility:hidden; font:0/0 Sans-serif;  }
+.nTop #navigation ul.nav { position:relative; display:block; float:right; margin:0; padding:0; list-style:none; overflow:hidden; text-align:right; white-space:nowrap; }
+.nTop #navigation ul.nav li { position:relative; left:-1px; display:inline; white-space:nowrap; border-left:1px solid #ccc; padding-left:5px; }

@@ -1,0 +1,19 @@
+<query id="getPlanetTagList" action="select">
+    <tables>
+        <table name="planet" alias="planet" />
+        <table name="planet_tags" alias="planet_tags" />
+    </tables>
+    <columns>
+        <column name="planet.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet.module_srl" default="planet_tags.module_srl" />
+        <condition operation="equal" column="planet_tags.tag" var="search_keyword" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="planet.module_srl" order="desc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -1,0 +1,16 @@
+<query id="getPlanetContents" action="select">
+    <tables>
+        <table name="documents"/>
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="more" column="regdate" var="start_date" pipe="and" />
+        <condition operation="less" column="regdate" var="end_date" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="desc" />
+    </navigation>
+</query>

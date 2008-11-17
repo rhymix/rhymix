@@ -1,0 +1,7 @@
+<table name="planet_memo">
+  <column name="planet_memo_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="module_srl" type="number" size="11" index="idx_planet_srl" />
+  <column name="write_planet_srl" type="number" size="11" notnull="notnull" index="idx_write_planet_srl" />
+  <column name="memo_content" type="varchar" size="255" />
+  <column name="regdate" type="date" />
+</table>

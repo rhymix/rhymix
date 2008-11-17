@@ -1,0 +1,20 @@
+<filter name="create" module="planet" act="procPlanetCreate" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="planet_title" required="true" minlength="1" maxlength="40" />
+    <node target="planet_myintro" required="true" minlength="1" maxlength="40" />
+    <node target="planet_url" required="true" minlength="1" maxlength="20" filter="alpha_number" />
+  </form>
+  <parameter>
+    <param name="planet_title" target="planet_title" />
+    <param name="photo" target="photo" />
+    <param name="browser_title" target="planet_myintro" />
+    <param name="planet_mid" target="planet_url" />
+	<param name="tag" target="planet_mytag" />
+  </parameter>
+  <response callback_func="completeCreate">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="mid" />
+    <tag name="mid_url" />
+  </response>
+</filter>

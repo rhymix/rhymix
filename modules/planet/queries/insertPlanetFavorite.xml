@@ -1,0 +1,11 @@
+<query id="insertPlanetFavorite" action="insert">
+    <tables>
+        <table name="planet_favorite" />
+    </tables>
+    <columns>
+        <column name="planet_favorite_srl" var="planet_favorite_srl" filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="reg_planet_srl" var="reg_planet_srl" filter="number" default="0" />
+        <column name="list_order" var="list_order" filter="number" />
+    </columns>
+</query>

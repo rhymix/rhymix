@@ -1,0 +1,12 @@
+<filter name="insert_memo" module="planet" act="procPlanetInsertMemo">
+  <form>
+    <node target="mid" required="true" />
+    <node target="planet_memo" required="true" minlength="1" maxlength="255" />
+  </form>
+  <parameter />
+  <response callback_func="completeInsertMemo">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="tpl" />
+  </response>
+</filter>

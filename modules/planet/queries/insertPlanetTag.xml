@@ -1,0 +1,10 @@
+<query id="insertPlanetTag" action="insert">
+    <tables>
+        <table name="planet_tags" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="tag" var="tag" notnull="notnull" />
+        <column name="list_order" default="sequence()" notnull="notnull" />
+    </columns>
+</query>

@@ -1,0 +1,14 @@
+<filter name="insert_reply" module="planet" act="procPlanetReplyWrite">
+  <form>
+    <node target="mid" required="true" />
+	<node target="document_srl" required="true" />
+    <node target="planet_reply_content" required="true" minlength="1" maxlength="255" />
+  </form>
+  <parameter />
+  <response callback_func="completeInsertReply">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="tpl" />
+	<tag name="document_srl" />
+  </response>
+</filter>

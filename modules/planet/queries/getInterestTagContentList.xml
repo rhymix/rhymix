@@ -1,0 +1,41 @@
+<query id="getInterestTagContentList" action="select">
+    <tables>
+        <table name="planet_interest_tags" alias="planet_interest_tags" />
+        <table name="tags" alias="tags" />
+        <table name="modules" alias="modules" />
+        <table name="documents" alias="documents" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="modules.mid" alias="mid" />
+        <column name="member.nick_name" alias="nick_name" />
+        <column name="member.user_id" alias="user_id" />
+        <column name="member.user_name" alias="user_name" />
+        <column name="documents.module_srl" alias="module_srl" />
+        <column name="documents.member_srl" alias="member_srl" />
+        <column name="documents.document_srl" alias="document_srl" />
+        <column name="documents.content" alias="content" />
+        <column name="documents.extra_vars20" alias="extra_vars20" />
+        <column name="documents.extra_vars20" alias="postscript" />
+        <column name="documents.comment_count" alias="comment_count" />
+        <column name="documents.voted_count" alias="voted_count" />
+        <column name="documents.tags" alias="tags" />
+        <column name="documents.regdate" alias="regdate" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet_interest_tags.module_srl" var="module_srl" filter="numbers" />
+        <condition operation="equal" column="tags.tag" default="planet_interest_tags.tag" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" default="tags.document_srl" pipe="and" />
+        <condition operation="like_prefix" column="documents.regdate" var="date" pipe="and" />
+        <condition operation="equal" column="member.member_srl" default="documents.member_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="asc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+    <groups>
+        <group column="documents.document_srl" />
+    </groups>
+</query>
