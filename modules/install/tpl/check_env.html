@@ -22,9 +22,9 @@
 
 <div class="buttonCenter">
     <!--@if($install_enable)-->
-        <a href="{getUrl('','act','dispInstallSelectDB')}" class="button"><span>{$lang->cmd_install_next}</span></a>
+        <a href="{getUrl('','act','dispInstallSelectDB')}" class="button blue"><span>{$lang->cmd_install_next}</span></a>
     <!--@else-->
-        <a href="{getUrl('','act',$act)}" class="button"><span>{$lang->cmd_install_fix_checklist}</span></a>
+        <a href="{getUrl('','act',$act)}" class="button red"><span>{$lang->cmd_install_fix_checklist}</span></a>
     <!--@end-->
 </div>
 
