@@ -1,0 +1,13 @@
+<query id="updateMenuItemListorder" action="update">
+    <tables>
+        <table name="menu_item" />
+    </tables>
+    <columns>
+        <column name="listorder" default="minus(1)" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="parent_srl" var="parent_srl" filter="number" notnull="notnull" pipe="and" />
+        <condition operation="less" column="listorder" var="listorder" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispHomepageManage" type="view" standalone="true" index="true" />
+        <action name="dispHomepageTopMenu" type="view" standalone="true" />
+        <action name="dispHomepageBottomMenu" type="view" standalone="true" />
+        <action name="dispHomepageMidSetup" type="view" standalone="true" />
+        <action name="dispHomepageBoardInfo" type="view" standalone="true" />
+        <action name="dispHomepageBoardAddition" type="view" standalone="true" />
+        <action name="dispHomepageBoardGrant" type="view" standalone="true" />
+        <action name="dispHomepageBoardSkin" type="view" standalone="true" />
+
+        <action name="getHomepageMenuItem" type="model" standalone="true" />
+
+        <action name="procHomepageChangeLayout" type="controller" standalone="true" />
+        <action name="procHomepageLayoutUpdate" type="controller" standalone="true" />
+        <action name="procHomepageInsertMenuItem" type="controller" standalone="true" />
+        <action name="procHomepageDeleteMenuItem" type="controller" standalone="true" />
+        <action name="procHomepageMenuItemMove" type="controller" standalone="true" />
+        <action name="procHomepageMenuUploadButton" type="controller" standalone="true" />
+        <action name="procHomepageDeleteButton" type="controller" standalone="true" />
+        <action name="procHomepageDeleteGroup" type="controller" standalone="true" />
+        <action name="procHomepageInsertGroup" type="controller" standalone="true" />
+        <action name="procHomepageUpdateMemberGroup" type="controller" standalone="true" />
+        <action name="procHomepageInsertBoard" type="controller" standalone="true" />
+        <action name="procHomepageInsertPage" type="controller" standalone="true" />
+        <action name="procHomepageUpdateBoardSkin" type="controller" standalone="true" />
+        <action name="procHomepageInsertBoardGrant" type="controller" standalone="true" />
+        <action name="procHomepageChangeIndex" type="controller" standalone="true" />
+
+        <action name="dispHomepageAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispHomepageAdminSetup" type="view" standalone="true" />
+        <action name="dispHomepageAdminDelete" type="view" standalone="true" />
+
+        <action name="procHomepageAdminInsertHomepage" type="controller" />
+        <action name="procHomepageAdminUpdateHomepage" type="controller" />
+        <action name="procHomepageAdminDeleteHomepage" type="controller" />
+    </actions>
+</module>

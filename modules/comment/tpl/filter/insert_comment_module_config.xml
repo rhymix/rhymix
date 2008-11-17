@@ -1,4 +1,4 @@
-<filter name="insert_comment_module_config" module="comment" act="procCommentAdminInsertModuleConfig" confirm_msg_code="confirm_submit">
+<filter name="insert_comment_module_config" module="comment" act="procCommentInsertModuleConfig" confirm_msg_code="confirm_submit">
     <form />
     <response>
         <tag name="error" />

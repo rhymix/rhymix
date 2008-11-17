@@ -6,6 +6,7 @@
         <column name="*" />
     </columns>
     <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" />
         <condition operation="equal" column="module_category_srl" var="module_category_srl" />
         <condition operation="equal" column="module" var="module" pipe="and" />
         <condition operation="in" column="module_srl" var="module_srls" pipe="and" />

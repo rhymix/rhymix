@@ -1,0 +1,9 @@
+<filter name="change_layout" module="homepage" act="procHomepageChangeLayout" confirm_msg_code="confirm_change_layout">
+    <form>
+        <node target="layout" required="true" />
+    </form>
+    <response callback_func="completeChangeLayout">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -1,0 +1,25 @@
+<query id="getSiteMemberList" action="select">
+    <tables>
+        <table name="member_group_member" />
+        <table name="member_group" />
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member.*" />
+        <column name="member_group_member.regdate" alias="regdate" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_group.site_srl" var="site_srl" notnull="notnull"/>
+        <condition operation="equal" column="member_group_member.group_srl" default="member_group.group_srl" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="member.member_srl" var="member_group_member.member_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="member.member_srl" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+    <groups>
+        <group column="member.member_srl" />
+    </groups>
+</query>

@@ -58,5 +58,23 @@
             // 페이지 캐시 파일 삭제
             FileHandler::removeFilesInDir("./files/cache/page");
         }
+
+        /**
+         * @brief Action중 Admin이 들어갔을 경우 권한 체크
+         **/
+        function checkAdminActionGrant() {
+            if(!Context::get('is_logged')) return false;
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin=='Y') return true;
+
+            $actions = array('procPageAdminRemoveWidgetCache','dispPageAdminContentModify','procPageAdminInsertContent');
+            if(!in_array($this->act, $actions)) return false;
+
+            $oModuleModel = &getModel('module');
+            if($oModuleModel->isSiteAdmin()) return true;
+
+            return false;
+        }
     }
 ?>

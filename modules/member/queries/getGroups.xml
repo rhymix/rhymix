@@ -5,4 +5,7 @@
     <navigation>
         <index var="sort_index" default="group_srl" order="desc" />
     </navigation>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" />
+    </conditions>
 </query>

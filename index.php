@@ -60,7 +60,10 @@
      * 그리고 해당 모듈을 실행후 컨텐츠를 출력한다\n
      **/
     $oModuleHandler = new ModuleHandler();
-    $oModuleHandler->init();
-    $oModule = &$oModuleHandler->procModule();
-    $oModuleHandler->displayContent($oModule);
+    if($oModuleHandler->init()) {
+        $oModule = &$oModuleHandler->procModule();
+        $oModuleHandler->displayContent($oModule);
+    }
+
+    $oContext->close();
 ?>

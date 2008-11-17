@@ -3,11 +3,8 @@
     * @class Context 
     * @author zero (zero@nzeo.com)
     * @brief  Request Argument/환경변수등의 모든 Context를 관리
-    *
     * Context 클래스는 Context::methodname() 처럼 쉽게 사용하기 위해 만들어진 객체를 받아서
     * 호출하는 구조를 위해 이중 method 구조를 가지고 있다.
-    * php5에서 static variables를 사용하게 된다면 불필요한 구조를 제거할 수 있다.
-    * php5 쓰고 싶당.. ㅡ.ㅜ
     **/
 
     define('FOLLOW_REQUEST_SSL',0);
@@ -35,7 +32,6 @@
 
         /**
          * @brief 언어 정보
-         *
          * 기본으로 ko. HTTP_USER_AGENT나 사용자의 직접 세팅(쿠키이용)등을 통해 변경됨
          **/
         var $lang_type = ''; ///< 언어 종류
@@ -50,7 +46,6 @@
 
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
-         *
          * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
          **/
         function &getInstance() {
@@ -61,9 +56,7 @@
 
         /**
          * @brief DB정보, Request Argument등을 세팅
-         *
-         * Context::init()은 단 한번만 호출되어야 하며 init()시에
-         * Request Argument, DB/언어/세션정보등의 모든 정보를 세팅한다
+         * Context::init()은 단 한번만 호출되어야 하며 init()시에 Request Argument, DB/언어/세션정보등의 모든 정보를 세팅한다
          **/
         function init() {
             // context 변수를 $GLOBALS의 변수로 지정
@@ -114,6 +107,11 @@
 
             // 인증 관련 정보를 Context와 세션에 설정
             if(Context::isInstalled()) {
+                // site_module_info를 구함
+                $oModuleModel = &getModel('module');
+                $site_module_info = $oModuleModel->getDefaultMid();
+                Context::set('site_module_info', $site_module_info);
+
                 // 인증관련 데이터를 Context에 설정
                 $oMemberModel = &getModel('member');
                 $oMemberController = &getController('member');
@@ -665,15 +663,20 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function getUrl($num_args=0, $args_list=array()) {
+        function getUrl($num_args=0, $args_list=array(), $domain = null) {
             $oContext = &Context::getInstance();
-            return $oContext->_getUrl($num_args, $args_list);
+            return $oContext->_getUrl($num_args, $args_list, $domain);
         }
 
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function _getUrl($num_args=0, $args_list=array()) {
+        function _getUrl($num_args=0, $args_list=array(), $domain = null) {
+            if($domain) {
+                $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
+                if(substr($domain,-1) != '/') $domain .= '/';
+            }
+
             if(!$this->get_vars || $args_list[0]=='') {
                 $get_vars = null;
                 if($args_list[0]=='') {
@@ -698,11 +701,16 @@
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
             elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
 
-            $var_count = count($get_vars);
-            if(!$var_count) return '';
+            if(!$domain) {
+                if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
+                else $path = $this->getRequestUri(RELEASE_SSL);
+            } else {
+                if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = 'https://'.$domain;
+                else $path = 'http://'.$domain;
+            }
 
-            if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
-            else $path = $this->getRequestUri(RELEASE_SSL);
+            $var_count = count($get_vars);
+            if(!$var_count) return $path;
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
             if($this->allow_rewrite) {
@@ -768,6 +776,10 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL) {
+            static $url = array();
+
+            if(isset($url[$ssl_mode])) return $url[$ssl_mode];
+
             switch($ssl_mode) {
                 case FOLLOW_REQUEST_SSL :
                         if($_SERVER['HTTPS']=='on') $use_ssl = true;
@@ -781,7 +793,16 @@
                     break;
             }
 
-            return sprintf("%s://%s%s",$use_ssl?'https':'http',$_SERVER['HTTP_HOST'], getScriptPath());
+            $site_module_info = Context::get('site_module_info');
+            $domain = trim($site_module_info->domain);
+            if($domain) {
+                $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
+                if(substr($domain,-1) != '/') $domain .= '/';
+            } else $domain = $_SERVER['HTTP_HOST'].getScriptPath();
+
+            $url[$ssl_mode] = sprintf("%s://%s",$use_ssl?'https':'http',$domain);
+
+            return $url[$ssl_mode];
         }
 
         /**

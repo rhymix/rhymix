@@ -46,7 +46,7 @@
             // 개인별로 그룹목록을 가져 옴
             if($output->data) {
                 foreach($output->data as $key => $member) {
-                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl);
+                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
 

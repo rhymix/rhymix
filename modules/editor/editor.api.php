@@ -6,7 +6,7 @@
      **/
 
     class editorAPI extends editor {
-        function dispEditorAdminSkinColorset(&$oModule) {
+        function dispEditorSkinColorset(&$oModule) {
             $oModule->add('colorset', Context::get('colorset'));
         }
     }

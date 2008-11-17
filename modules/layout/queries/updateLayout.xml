@@ -5,6 +5,7 @@
     <columns>
         <column name="title" var="title" />
         <column name="extra_vars" var="extra_vars" />
+        <column name="layout" var="layout" />
         <column name="layout_path" var="layout_path" />
     </columns>
     <conditions>

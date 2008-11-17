@@ -48,6 +48,9 @@
             if($editor_config->enable_comment_height_resizable!='Y') $editor_config->enable_comment_height_resizable= "N";
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
 
+            if(!$editor_config->editor_skin) $editor_config->editor_skin = 'default';
+            if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'default';
+
             return $editor_config;
         }
 

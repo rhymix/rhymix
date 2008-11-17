@@ -1,0 +1,14 @@
+<query id="insertHomepage" action="insert">
+    <tables>
+        <table name="homepages" />
+    </tables>
+    <columns>
+        <column name="site_srl" var="site_srl" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="layout_srl" var="layout_srl" notnull="notnull" />
+        <column name="first_menu_srl" var="first_menu_srl" notnull="notnull" />
+        <column name="second_menu_srl" var="second_menu_srl" notnull="notnull" />
+        <column name="list_order" var="list_order" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

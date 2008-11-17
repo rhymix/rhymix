@@ -37,31 +37,6 @@
             // 2007. 10. 17 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
             $oModuleController->insertTrigger('member.getMemberMenu', 'board', 'controller', 'triggerMemberMenu', 'after');
 
-            // 기본 게시판 생성
-            $output = executeQuery('module.getDefaultMidInfo');
-            if($output->data) return new Object();
-
-            // 기본 모듈을 찾음
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByMid();
-
-            // 기본 모듈이 없으면 새로 등록
-            if(!$module_info->module_srl)  {
-                $args->board_name = 'board';
-                $args->browser_title = 'test module';
-                $args->is_default = 'Y';
-                $args->skin = 'xe_default';
-
-                // board 라는 이름의 모듈이 있는지 확인
-                $module_info = $oModuleModel->getModuleInfoByMid($args->board_name);
-                if($module_info->module_srl) $args->module_srl = $module_info->module_srl;
-                else $args->module_srl = 0;
-
-                // 게시판 controller 생성
-                $oBoardController = &getAdminController('board');
-                $oBoardController->procBoardAdminInsertBoard($args);
-            }
-
             return new Object();
         }
 
@@ -117,6 +92,24 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
+        }
+
+        /**
+         * @brief Action중 Admin이 들어갔을 경우 권한 체크
+         **/
+        function checkAdminActionGrant() {
+            if(!Context::get('is_logged')) return false;
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin=='Y') return true;
+
+            $actions = array('getBoardAdminCategoryTplInfo','dispBoardAdminCategoryInfo','procBoardAdminInsertCategory','procBoardAdminUpdateCategory','procBoardAdminDeleteCategory','procBoardAdminMoveCategory');
+            if(!in_array($this->act, $actions)) return false;
+
+            $oModuleModel = &getModel('module');
+            if($oModuleModel->isSiteAdmin()) return true;
+
+            return false;
         }
     }
 ?>

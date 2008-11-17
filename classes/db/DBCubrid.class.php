@@ -249,6 +249,15 @@
         }
 
         /**
+         * @brief 특정 테이블의 특정 인덱스 삭제
+         **/
+        function dropIndex($table_name, $index_name, $is_unique = false) {
+            $query = sprintf("drop %s index %s on %s%s", $is_unique?'unique':'', $index_name, $this->prefix, $table_name);
+            $this->_query($query);
+        }
+
+
+        /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {

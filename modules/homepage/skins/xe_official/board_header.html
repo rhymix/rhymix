@@ -1,0 +1,9 @@
+<h3 class="title">{$lang->board} > {$module_info->browser_title} <span class="gray">{$lang->cmd_setup}</span></h3>
+
+<ul class="localNavigation">
+    <li><a href="{getUrl('act','dispHomepageBoardInfo','module_srl',$module_srl)}">{$lang->cmd_setup}</a></li>
+    <li><a href="{getUrl('act','dispHomepageBoardAddition','module_srl',$module_srl)}">{$lang->cmd_addition_setup}</a></li>
+    <li><a href="{getUrl('act','dispHomepageBoardGrant','module_srl',$module_srl)}">{$lang->grant}</a></li>
+    <li><a href="{getUrl('act','dispHomepageBoardSkin','module_srl',$module_srl)}">{$lang->skin}</a></li>
+    <li><a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></li>
+</ul>

@@ -110,6 +110,26 @@
         }
 
         /**
+         * @brief virtual site 생성
+         **/
+        function insertSite($domain, $index_module_srl) {
+            $args->site_srl = getNextSequence();
+            $args->domain = preg_replace('/\/$/','',$domain);
+            $args->index_module_srl = $index_module_srl;
+            $output = executeQuery('module.insertSite', $args);
+            if(!$output->toBool()) return null;
+
+            return $args->site_srl;
+        }
+
+        /**
+         * @brief virtual site 수정
+         **/
+        function updateSite($args) {
+            return executeQuery('module.updateSite', $args);
+        }
+
+        /**
          * @brief 모듈 입력
          **/
         function insertModule($args) {
@@ -118,6 +138,7 @@
             $oDB->begin();
 
             // 이미 존재하는 모듈 이름인지 체크
+            if(!$args->site_srl) $args->site_srl = 0;
             $output = executeQuery('module.isExistsModuleName', $args);
             if(!$output->toBool() || $output->data->count) {
                 $oDB->rollback();
@@ -156,7 +177,12 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // 이미 존재하는 모듈 이름인지 체크
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+
+            if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
+            if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
+
             $output = executeQuery('module.isExistsModuleName', $args);
             if(!$output->toBool() || $output->data->count) {
                 $oDB->rollback();
@@ -272,6 +298,37 @@
             $args->menu_srls = implode(',',$menu_srl_list);
             $output = executeQuery('module.updateModuleLayout', $args);
             return $output;
+        }
+
+        /**
+         * @brief 사이트의 관리를 변경
+         **/
+        function insertSiteAdmin($site_srl, $arr_admins) {
+            // 사이트 관리자 제거
+            $args->site_srl = $site_srl;
+            $output = executeQuery('module.deleteSiteAdmin', $args);
+            if(!$output->toBool()) return $output;
+
+            // 관리자 대상 멤버 번호를 구함
+            if(!is_array($arr_admins) || !count($arr_admins)) return new Object();
+            foreach($arr_admins as $key => $user_id) {
+                if(!trim($user_id)) continue;
+                $admins[] = trim($user_id);
+            }
+            if(!count($admins)) return new Object();
+
+            $args->user_ids = '\''.implode('\',\'',$admins).'\'';
+            $output = executeQueryArray('module.getAdminSrls', $args);
+            if(!$output->toBool()||!$output->data) return $output;
+
+            foreach($output->data as $key => $val) {
+                unset($args);
+                $args->site_srl = $site_srl;
+                $args->member_srl = $val->member_srl;
+                $output = executeQueryArray('module.insertSiteAdmin', $args);
+                if(!$output->toBool()) return $output;
+            }
+            return new Object();
         }
     }
 ?>

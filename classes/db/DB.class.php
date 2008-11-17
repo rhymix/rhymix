@@ -307,7 +307,7 @@
                     break;
                 case 'number' :
                 case 'numbers' :
-                        if(!preg_match('/^[0-9,]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^(-?)[0-9,]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'alpha' :
                         if(!preg_match('/^[a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key}?$lang->{$key}:$key));

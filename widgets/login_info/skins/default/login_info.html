@@ -21,6 +21,8 @@
     <!--@end-->
     <!--@if($logged_info->is_admin=="Y")-->
     <div class="item administrative"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
+    <!--@elseif($logged_info->is_site_admin)-->
+    <div class="item administrative"><a href="{getUrl('','module','homepage')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></div>
     <!--@end-->
     <div class="lastlogin">{$lang->last_login}<br/>{zDate($logged_info->last_login, "Y-m-d H:i")}</div>
 </div>

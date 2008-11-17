@@ -9,6 +9,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="b.member_srl" var="member_srl" filter="number" notnull="notnull" />
-        <condition operation="equal" column="b.group_srl" var="a.group_srl" pipe="and" />
+        <condition operation="equal" column="b.group_srl" default="a.group_srl" pipe="and" />
+        <condition operation="equal" column="a.site_srl" var="site_srl" pipe="and" />
     </conditions>
 </query>

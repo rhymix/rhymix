@@ -21,7 +21,20 @@
             $order_type = $args->order_type;
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
-            $mid_list = explode(",",$args->mid_list);
+            if($args->mid_list) $mid_list = explode(",",$args->mid_list);
+            else $mid_list = array();
+
+            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
+            $oModuleModel = &getModel('module');
+            if(!count($mid_list)) {
+                $site_module_info = Context::get('site_module_info');
+                if($site_module_info) {
+                    $margs->site_srl = $site_module_info->site_srl;
+                    $oModuleModel = &getModel('module');
+                    $output = $oModuleModel->getMidList($margs);
+                    if(count($output)) $mid_list = array_keys($output);
+                }
+            }
 
             // CommentModel::getCommentList()를 이용하기 위한 변수 정리
             $obj->mid = $mid_list;

@@ -1,0 +1,12 @@
+<filter name="delete_homepage" module="homepage" act="procHomepageAdminDeleteHomepage" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="site_srl" required="true" maxlength="250" />
+    </form>
+    <parameter>
+        <param name="site_srl" target="site_srl" />
+    </parameter>
+    <response callback_func="completeDeleteHomepage">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

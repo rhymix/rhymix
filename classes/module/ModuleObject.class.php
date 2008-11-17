@@ -86,6 +86,8 @@
             $user_group = $logged_info->group_list;
             $grant->is_admin = false;
 
+            $oModuleModel = &getModel('module');
+
             // 로그인되어 있다면 관리자 여부를 확인
             if($is_logged) {
                 /* 로그인 사용자에 대한 관리자 여부는 다양한 방법으로 체크가 됨 */
@@ -93,11 +95,16 @@
                 if($logged_info->is_admin == 'Y') {
                     $grant->is_admin = true;
 
-                // 2. 최고 관리자는 아니지만 모듈 object가 있고 admin_id 컬럼에 로그인 사용자의 아이디가 있을 경우
+                // 2. 사이트 관리자일 경우 사이트 관리 권한을 줌
+                } elseif($oModuleModel->isSiteAdmin()) {
+                    $grant->is_admin = true;
+
+
+                // 3. 최고 관리자는 아니지만 모듈 object가 있고 admin_id 컬럼에 로그인 사용자의 아이디가 있을 경우
                 } elseif($this->module_info->admin_id) {
                     if(is_array($this->module_info->admin_id) && in_array($user_id, $this->module_info->admin_id)) $grant->is_admin = true;
 
-                // 4. 1/2번이 아닐 경우 그룹을 체크하고 직접 모듈에 요청을 하여 체크를 함. (모듈.class.php에 정의)
+                // 4. 1/2/3번이 아닐 경우 그룹을 체크하고 직접 모듈에 요청을 하여 체크를 함. (모듈.class.php에 정의)
                 } else {
                     $manager_group = $this->module_info->grants['manager'];
                     if(count($user_group) && count($manager_group)) {
@@ -123,7 +130,7 @@
                     $title = $grant_item->title;
                     $default = $grant_item->default;
 
-                    // 관리자이면 모든 권한에 대해 true 설정
+                    // 최고 관리자이면 모든 권한에 대해 true 설정
                     if($grant->is_admin) {
                         $grant->{$grant_name} = true;
                         continue;
@@ -153,7 +160,7 @@
                                     if($is_logged) $grant->{$grant_name} = true;
                                 break;
                             case 'root' :
-                                    if($grant->is_admin) $grant->{$grant_name} = true;
+                                    if($logged_info->is_admin == 'Y') $grant->{$grant_name} = true;
                                 break;
                             default :
                                     $grant->{$grant_name} = true;
@@ -172,11 +179,12 @@
                 }
             }
 
-            // act값에 admin이 들어 있는데 관리자가 아닌 경우 오류 표시
+            // act값에 admin이 들어 있는데 관리자가 아닌 경우 해당 모듈의 관리자 체크 
             if(substr_count($this->act, 'Admin')) {
-                // 로그인 되어 있지 않다면 무조건 금지
                 if(!$is_logged) $this->setAct("dispMemberLoginForm");
-                elseif(!$grant->is_admin) $this->stop('msg_not_permitted_act');
+                else if($logged_info->is_admin != 'Y' && (!method_exists($this, 'checkAdminActionGrant') || !$this->checkAdminActionGrant())) {
+                    $this->stop('msg_not_permitted_act');
+                } 
             }
 
             // 권한변수 설정

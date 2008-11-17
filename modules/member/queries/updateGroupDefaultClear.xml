@@ -5,4 +5,7 @@
     <columns>
         <column name="is_default" default="N" />
     </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" default="0" notnull="notnull" />
+    </conditions>
 </query>

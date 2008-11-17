@@ -1,0 +1,158 @@
+<!--%import("./filter/insert_menu_item.xml")-->
+
+<!--%import("./filter/delete_menu_item.xml")-->
+<!--%import("./filter/move_up_menu_item.xml")-->
+<!--%import("./filter/move_down_menu_item.xml")-->
+
+<h3 class="title">{$lang->cmd_homepage_menus[$act]}</h1>
+<p class="infoText">{$lang->about_homepage_act[$act]}</p>
+
+<form method="post" action="./" id="menu_item_form">
+    <input type="hidden" name="menu_item_srl" value="" />
+</form>
+
+<form method="post" action="./" id="menu_form">
+    <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
+    <div id="menu"></div>
+    <br />
+    <a href="#" onclick="homepageAddMenu(); return false;" class="button blue"><span>{$lang->cmd_add_new_menu}</span></a>
+</form>
+
+<div id="menuItem">
+        <form id="fo_menu" action="./" method="post" onsubmit="return procFilter(this, insert_menu_item);" class="clear" target="tmp_upload_iframe" enctype="multipart/form-data">
+        <input type="hidden" name="module" value="homepage" />
+        <input type="hidden" name="act" value="procHompageUpdateMenuItem" />
+        <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
+        <input type="hidden" name="parent_srl" value="" />
+        <input type="hidden" name="menu_item_srl" value="" />
+        <input type="hidden" name="mode" value="" />
+        <input type="hidden" name="target" value="" />
+        <input type="hidden" name="normal_btn" value="" />
+        <input type="hidden" name="hover_btn" value="" />
+        <input type="hidden" name="active_btn" value="" />
+
+        <table cellspacing="0" class="adminTable" id="itemAttr1">
+        {@ $_row = 0;}
+        <!--@foreach($lang_supported as $key => $val)-->
+        <tr>
+            <!--@if($_row==0)--><th scope="row" rowspan="{count($lang_supported)+1}"><div>{$lang->menu_name}</div></th><!--@end-->
+            <th><div>{$val}</div></th>
+            <td><input type="text" name="menu_name_{$key}" value="" class="inputTypeText w400 menu_names"/></td>
+            {@ $_row ++ }
+        </tr>
+        <!--@end-->
+        <tr>
+            <td colspan="2">{$lang->about_menu_names}</td>
+        </tr>
+        <tr>
+            <th scope="row" colspan="2"><div>{$lang->cmd_option}</div></th>
+            <td>
+                <input type="checkbox" id="menu_open_window" name="menu_open_window" value="Y" />
+                <label for="menu_open_window">{$lang->menu_open_window}</label>
+                <input type="checkbox" id="menu_expand" name="menu_expand" value="Y" />
+                <label for="menu_expand">{$lang->menu_expand}</label>
+                <p>{$lang->about_menu_option}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" colspan="2"><div>{$lang->item_group_grant}</div></th>
+            <td>
+                <!--@foreach($group_list as $key=>$val)-->
+                <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="checked"<!--@end-->/>
+                <label for="group_{$key}">{$val->title}</label>
+                <!--@end-->
+                <p>{$lang->about_group_grant}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" colspan="2"><div>{$lang->module_type}</div></th>
+            <td>
+                <select name="module_type" onchange="changeMenuType(this)">
+                    <option value="board">{$lang->board}</option>
+                    <option value="page">{$lang->page}</option>
+                    <option value="url">{$lang->url}</option>
+                </select>
+                <p>{$lang->about_module_type}</p>
+            </td>
+        </tr>
+        </table>
+
+        <table cellspacing="0" class="adminTable" id="itemAttr2">
+        <tr>
+            <th scope="row"><div>{$lang->browser_title}</div></th>
+            <td>
+                <input type="text" name="browser_title" value="" class="inputTypeText w400" />
+                <p>{$lang->about_browser_title}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->module_id}</div></th>
+            <td>
+                <input type="text" name="module_id" value="" class="inputTypeText w400" />
+                <p>{$lang->about_module_id}</p>
+            </td>
+        </tr>
+        </table>
+
+        <table cellspacing="0" class="adminTable" id="itemAttr3">
+        <tr>
+            <th scope="row"><div>{$lang->url}</div></th>
+            <td>
+                http://<input type="text" name="url" value="" class="inputTypeText w400" />
+                <p>{$lang->about_menu_item_url}</p>
+            </td>
+        </tr>
+        </table>
+
+        <table cellspacing="0" class="adminTable" id="itemAttr4">
+        <tr>
+            <th scope="row" rowspan="4"><div>{$lang->menu_img_btn}</div></th>
+            <th scope="row"><div>{$lang->menu_normal_btn}</div></th>
+            <td>
+                <div id="menu_normal_btn_zone" <!--@if(!$item_info->normal_btn)-->style="display:none;"<!--@end-->>
+                    <img src="" alt="" id="menu_normal_btn_img" /><br />
+                    <a href="#" onclick="doDeleteButton('menu_normal_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+                </div>
+                <input type="file" name="menu_normal_btn" value="" class="inputTypeText" onchange="doHomepageMenuUploadButton(this); return false;"/>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->menu_hover_btn}</div></th>
+            <td>
+                <div id="menu_hover_btn_zone") <!--@if(!$item_info->hover_btn)-->style="display:none;"<!--@end-->>
+                    <img src="" alt="" id="menu_hover_btn_img" /><br />
+                    <a href="#" onclick="doDeleteButton('menu_hover_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+                </div>
+                <input type="file" name="menu_hover_btn" value="" class="inputTypeText" onchange="doHomepageMenuUploadButton(this); return false;"/>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->menu_active_btn}</div></th>
+            <td>
+                <div id="menu_active_btn_zone" <!--@if(!$item_info->active_btn)-->style="display:none;"<!--@end-->>
+                    <img src="" alt="" id="menu_active_btn_img" /><br />
+                    <a href="#" onclick="doDeleteButton('menu_active_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+                </div>
+                <input type="file" name="menu_active_btn" value="" class="inputTypeText" onchange="doHomepageMenuUploadButton(this); return false;"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">{$lang->about_menu_image_button}</td>
+        </tr>
+        </table>
+        
+        <span class="button green"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <a href="#" onclick="hideMenuItem();return false" class="button red"><span>{$lang->cmd_close}</span></a>
+
+    </form>
+</div>
+
+<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>
+
+<script type="text/javascript">
+    max_menu_depth = {$menu_max_depth};
+    xAddEventListener(window,'load',function() { homepageLoadMenuInfo("{$menu_info->xml_file}"); } );
+    xAddEventListener(document,'mousedown',chkMousePosition);
+    var alertImageOnly = "{$lang->alert_image_only}";
+    var confirmMenuMove = "{$lang->confirm_move}";
+</script>

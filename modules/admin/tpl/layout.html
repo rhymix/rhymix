@@ -7,6 +7,7 @@
         <!--@if($logged_info->is_admin=='Y')--><li><a href="{getUrl('','module','admin','act','dispAdminConfig')}">{$lang->cmd_setup}</a></li><!--@end-->
         <li><a href="{getUrl('','module','admin','act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
     </ul>
+    <!--@if($logged_info->is_admin=='Y')-->
     <div class="mainNavigator">
         <ul class="mainNavigator">
             <!--@foreach($lang->module_category_title as $key => $val)-->
@@ -28,6 +29,7 @@
             <!--@end-->
         </ul>
     </div>
+    <!--@end-->
 </div>
 
 <div class="adminFolder"><a href="#" onclick="toggleXEMainNavigator(); return false;"><img src="./images/n_folder_btn<!--@if($_COOKIE['XEMN']=='none')-->_off<!--@end-->.png" alt="folding" id="btnFolder"/></a></div>

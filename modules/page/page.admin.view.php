@@ -48,6 +48,7 @@
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
             $output = executeQuery('page.getPageList', $args);
+            moduleModel::syncModuleToSite($output->data);
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -71,7 +72,10 @@
             if($module_srl) {
                 $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
+                if($module_info->module_srl == $module_srl) {
+                    moduleModel::syncModuleToSite($module_info);
+                    Context::set('module_info',$module_info);
+                }
                 else {
                     unset($module_info);
                     unset($module_srl);

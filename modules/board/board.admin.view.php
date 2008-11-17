@@ -30,6 +30,7 @@
                     Context::set('module_srl','');
                     $this->act = 'list';
                 } else {
+                    ModuleModel::syncModuleToSite($module_info);
                     $this->module_info = $module_info;
                     Context::set('module_info',$module_info);
                 }
@@ -60,7 +61,9 @@
             $args->list_count = 40;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
-            $output = executeQuery('board.getBoardList', $args);
+            $output = executeQueryArray('board.getBoardList', $args);
+            ModuleModel::syncModuleToSite($output->data);
+
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -158,7 +161,7 @@
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
             if(!$skin_info) {
-                $skin = 'xe_default';
+                $skin = 'xe_board';
                 $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
             }
 

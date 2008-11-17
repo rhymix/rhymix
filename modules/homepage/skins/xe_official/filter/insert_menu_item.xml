@@ -1,0 +1,10 @@
+<filter name="insert_menu_item" module="homepage" act="procHomepageInsertMenuItem" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="menu_srl" required="true" />
+    </form>
+    <response callback_func="completeInsertMenuItem">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="xml_file" />
+    </response>
+</filter>

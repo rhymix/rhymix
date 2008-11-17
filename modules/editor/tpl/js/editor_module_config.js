@@ -2,7 +2,7 @@ function getEditorSkinColorList(skin_name,selected_colorset,type){
     if(skin_name.length>0){
         type = type || 'board';
         var response_tags = new Array('error','message','colorset');
-        exec_xml('editor','dispEditorAdminSkinColorset',{skin:skin_name},resultGetEditorSkinColorList,response_tags,{'selected_colorset':selected_colorset,'type':type});
+        exec_xml('editor','dispEditorSkinColorset',{skin:skin_name},resultGetEditorSkinColorList,response_tags,{'selected_colorset':selected_colorset,'type':type});
     }
 }
 

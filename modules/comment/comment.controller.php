@@ -563,5 +563,27 @@
             Context::set('comment_popup_menu_list', $comment_popup_menu_list);
         }
 
+        /**
+         * @brief 댓글의 모듈별 추가 확장 폼을 저장
+         **/
+        function procCommentInsertModuleConfig() {
+            $module_srl = Context::get('target_module_srl');
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
+            $comment_config = null;
+            $comment_config->comment_count = (int)Context::get('comment_count');
+            if(!$comment_config->comment_count) $comment_config->comment_count = 50;
+
+            $oModuleController = &getController('module');
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                $output = $oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
+            }
+
+            $this->setError(-1);
+            $this->setMessage('success_updated');
+        }
     }
 ?>

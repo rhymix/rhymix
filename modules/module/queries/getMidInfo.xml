@@ -8,5 +8,6 @@
     <conditions>
         <condition operation="equal" column="mid" var="mid" />
         <condition operation="equal" column="module_srl" var="module_srl" pipe="and" />
+        <condition operation="equal" column="site_srl" var="site_srl" default="0" pipe="and" />
     </conditions>
 </query>

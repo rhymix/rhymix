@@ -1,0 +1,11 @@
+<query id="insertSite" action="insert">
+    <tables>
+        <table name="sites" />
+    </tables>
+    <columns>
+        <column name="site_srl" var="site_srl" notnull="notnull" />
+        <column name="domain" var="domain" notnull="notnull" />
+        <column name="index_module_srl" var="index_module_srl" default="0" filter="number" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

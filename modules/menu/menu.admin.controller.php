@@ -276,7 +276,7 @@
 
             // 필수 요건이 없거나 업로드된 파일이 아니면 오류 발생
             if(!$menu_srl || !$menu_item_srl || !$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)/i',$target_file['name'])) {
-                Context::get('error_messge', Context::getLang('msg_invalid_request'));
+                Context::set('error_messge', Context::getLang('msg_invalid_request'));
 
             // 요건을 만족하고 업로드된 파일이면 지정된 위치로 이동
             } else {

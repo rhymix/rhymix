@@ -1,0 +1,10 @@
+<filter name="delete_menu_item" module="homepage" act="procHomepageDeleteMenuItem" confirm_msg_code="confirm_delete_menu_item">
+    <form>
+        <node target="menu_item_srl" required="true" />
+    </form>
+    <response callback_func="completeInsertMenuItem">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="xml_file" />
+    </response>
+</filter>

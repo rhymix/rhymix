@@ -19,7 +19,8 @@
             $oModuleController->insertActionForward('module', 'view', 'dispModuleAdminInfo');
 
             $oDB = &DB::getInstance();
-            //$oDB->addIndex("module_part_config","idx_module_part_config", array("module","module_srl"));
+
+            $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
@@ -36,6 +37,9 @@
 
             // 2008. 10. 27 module_part_config 테이블의 결합 인덱스 추가
             if(!$oDB->isIndexExists("module_part_config","idx_module_part_config")) return true;
+
+            // 2008. 11. 13 modules 의 mid를 unique를 없애고 site_srl을 추가 후에 site_srl + mid unique index
+            if(!$oDB->isIndexExists('modules',"idx_site_mid")) return true;
 
             return false;
         }
@@ -99,7 +103,14 @@
                 $oDB->addIndex("module_part_config","idx_module_part_config", array("module","module_srl"));
             }
 
-            return new Object();
+            // 2008. 11. 13 modules 의 mid를 unique를 없애고 site_srl을 추가 후에 site_srl + mid unique index
+            if(!$oDB->isIndexExists('modules',"idx_site_mid")) {
+                $oDB->dropIndex("modules","unique_mid",true);
+                $oDB->addColumn('modules','site_srl','number',11,0,true);
+                $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
+            }
+
+            return new Object(0, 'success_updated');
         }
 
         /**
