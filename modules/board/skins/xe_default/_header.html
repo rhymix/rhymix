@@ -64,7 +64,7 @@
 		<div class="infoRight">
 			<ul>
 			<!--@if($is_logged)-->
-				<!--@if($grant->is_admin && $module_info->display_setup_button != 'N')-->
+				<!--@if($logged_info->is_admin=='Y' && $module_info->display_setup_button != 'N')-->
 				<li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
 				<!--@end-->
 				<!--@if($module_info->display_login_info != 'N')-->
