@@ -339,6 +339,14 @@
             $this->setTemplateFile('search_planet');
         }
 
+        function dispReplyList(){
+            $page = Context::get('page');
+            $document_srl = Context::get('document_srl');
+            $oPlanetModel = &getModel('planet');
+            $output = $oPlanetModel->getReplyList($document_srl,$page);
+            Context::set('reply_list',$output->data);
+        }
+
     }
 
 ?>

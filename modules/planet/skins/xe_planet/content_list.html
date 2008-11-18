@@ -1,5 +1,5 @@
 <!--@foreach($content_list as $no => $item)-->
-    <div class="commentBody <!--@if($planet->getMid() == $item->getPlanetMid())-->myPlanet<!--@end-->">
+    <div id="commentBody:{$item->get('document_srl')}" class="commentBody <!--@if($planet->getMid() == $item->getPlanetMid())-->myPlanet<!--@end-->">
         <!--// Original Text -->
         <div class="comment">
             <!--@if($planet->getMid() != $item->getPlanetMid())-->

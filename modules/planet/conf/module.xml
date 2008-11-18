@@ -48,6 +48,7 @@
         <action name="dispPlanetTagSearch" type="view" />
         <action name="dispPlanetContentSearch" type="view" />
         <action name="dispPlanetContentTagSearch" type="view" />
+        <action name="dispReplyList" type="view" />
 
         <action name="getPlanetMemoList" type="model" />
         <action name="getPlanetReplyList" type="model" />

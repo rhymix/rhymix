@@ -37,18 +37,37 @@
             $oModule->add('pageNavigation', Context::get('page_navigation'));
         }
 
+        function dispReplyList(&$oModule){
+            $reply_list = Context::get('reply_list');
+            $output = array();
+            if(count($reply_list)) {
+                foreach($reply_list as $key => $val) {
+                    unset($obj);
+                    $obj->mid = $val->mid;
+                    $obj->document_srl = $val->document_srl;
+                    $obj->nick_name = $val->nick_name;
+                    $obj->content = $val->content;
+                    $obj->regdate = $val->regdate;
+                    $output[] = $obj;
+                }
+            }
+            $oModule->add('planetReplyList', $output );
+            $oModule->add('pageNavigation', Context::get('page_navigation'));
+        }
+
         function arrangeContentList($content_list) {
             $output = array();
             if(count($content_list)) {
                 foreach($content_list as $key => $val) {
                     $item = null;
-                    $item = $val->gets('mid','document_srl','nick_name','content','postscript','voted_count','regdate','tag_list');
+                    $item = $val->gets('mid','document_srl','nick_name','content','postscript','voted_count','regdate','tag_list','comment_count');
                     $item->photo = $val->getPlanetPhotoSrc();
                     $output[] = $item;
                 }
             }
             return $output;
         }
+
 
         function arrangePlanetList($planet_list) {
             $output = array();
