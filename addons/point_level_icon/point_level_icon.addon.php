@@ -10,7 +10,7 @@
      **/
 
     // before_display_content 가 아니면 return
-    if($called_position != "before_display_content") return;
+    if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify') return;
 
     require_once('./addons/point_level_icon/point_level_icon.lib.php');
 
