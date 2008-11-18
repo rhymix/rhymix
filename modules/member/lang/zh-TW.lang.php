@@ -99,12 +99,12 @@
     $lang->cmd_view_saved_document = '檢視臨時儲存箱';
     $lang->cmd_send_email = '發送郵件';
 
-    $lang->msg_email_not_exists = "找不到您輸入的 Email地址。";
+    $lang->msg_email_not_exists = "找不到您輸入的郵件地址。";
 
     $lang->msg_alreay_scrapped = '已收藏的主題！';
 
     $lang->msg_cart_is_null = '請選擇對象。';
-    $lang->msg_checked_file_is_deleted = '已刪除%d個附件。';
+    $lang->msg_checked_file_is_deleted = '已刪除%d個附檔。';
 
     $lang->msg_find_account_title = '註冊資料。';
     $lang->msg_find_account_info = '您要尋找的註冊資料如下。';
@@ -124,7 +124,7 @@
     $lang->msg_group_is_null = '無用戶組。';
     $lang->msg_not_delete_default = '無法刪除基本項目';
     $lang->msg_not_exists_member = '不存在的帳號';
-    $lang->msg_cannot_delete_admin = '無法解除管理員ID，請解除管理後再刪除';
+    $lang->msg_cannot_delete_admin = '無法解除管理員帳號，請解除管理後再刪除';
     $lang->msg_exists_user_id = '重複的帳號，請重新輸入。';
     $lang->msg_exists_email_address = '重複的電子郵件地址，請重新輸入電子郵件地址。';
     $lang->msg_exists_nick_name = '重複的暱稱，請重新輸入。';
@@ -148,11 +148,11 @@
     $lang->about_password = '密碼必須在 6~20字以內。';
     $lang->about_user_name = '姓名必須是 2~20字以內。';
     $lang->about_nick_name = '暱稱必須是 2~20字以內。';
-    $lang->about_email_address = '電子郵件地址除郵件認證外，在修改密碼或忘記密碼時使用。';
-    $lang->about_homepage = '請輸入您的主頁地址。';
-    $lang->about_blog_url = '請輸入部落格地址。';
+    $lang->about_email_address = '電子郵件地址除郵件認證外，當修改密碼或忘記密碼時也可以使用。';
+    $lang->about_homepage = '請輸入您的網址。';
+    $lang->about_blog_url = '請輸入部落格網址。';
     $lang->about_birthday = '請輸入您的出生年月日。';
-    $lang->about_allow_mailing = '如不選擇此項，以後無法接收站內發送的重要資料。';
+    $lang->about_allow_mailing = '不選擇此項，以後無法接收站內發送的重要資料。';
     $lang->about_denied = '選擇時不能使用此帳號。';
     $lang->about_is_admin = '選擇時將具有最高管理權限。';
     $lang->about_member_description = '管理員對會員的註記。';
@@ -166,7 +166,7 @@
     $lang->about_form_description = '說明欄裡輸入的內容，在註冊時會顯示。';
     $lang->about_required = '註冊時成為必填項目。';
 
-    $lang->about_enable_openid = '要想網站支援 OpenID時，請勾選此項。';
+    $lang->about_enable_openid = '想要網站支援 OpenID時，請勾選此項。';
     $lang->about_enable_join = '選擇此項後，用戶才可以註冊。';
     $lang->about_enable_confirm = '為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。';
     $lang->about_enable_ssl = '如主機提供 SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https)認證。';
@@ -185,8 +185,8 @@
 
     $lang->about_member_default = '將成為註冊會員時的預設用戶組。';
 
-    $lang->about_openid = '用 OpenID註冊時，該網站只儲存用戶名和 郵件等基本資料，密碼和認證處理是在提供 OpenID服務的網站中得到解決。';
-    $lang->about_openid_leave = '刪除 OpenID就等於永久刪除站內用戶的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去相應權限。';
+    $lang->about_openid = '用 OpenID註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供 OpenID服務的網站中得到解決。';
+    $lang->about_openid_leave = '刪除 OpenID就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。';
     $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 
     $lang->about_member = "可以新增/修改/刪除會員及管理用戶組或註冊表單的會員管理模組。\n此模組不僅可以建立預設用戶組以外的其他用戶組來管理會員，並且通過註冊表單的管理獲得除會員基本資料以外的延伸資料。";

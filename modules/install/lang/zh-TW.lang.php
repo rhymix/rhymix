@@ -198,11 +198,11 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-	        'php_version' => '[需求] 由於 PHP 5.2.2 版本的BUG，無法安裝 XE。',
-            'permission' => '[需求] XE的安裝路徑或 ./files目錄權限必須是707',
+	        'php_version' => '[需求] 由於 PHP 5.2.2 版本的 BUG，無法安裝 XE。',
+            'permission' => '[需求] XE的安裝路徑或 ./files資料夾權限必須是707',
             'xml' => '[需求]為了 XML通訊，將需要安裝 XML',
-            'session' => '[需求] 為了使用暫存功能，必須在 php.ini當中設置 session.auto_start=0',
-            'iconv' => '為了 UTF-8和其他語言環境之間能互相轉換，必須安裝 iconv',
+            'session' => '[需求] 為了能使用暫存功能，在 php.ini 中必須將 session.auto_start=0',
+            'iconv' => '為了使 UTF-8和其他語言環境之間能互相轉換，必須安裝 iconv',
             'gd' => '使用圖片轉換功能前，必須先得安裝 GD',
         );
 
@@ -211,9 +211,9 @@ EndOfLicense;
     $lang->install_checklist_gd = '安裝 GD';
     $lang->install_without_gd  = '還沒有安裝負責轉換圖片功能的 GD！';
     $lang->install_checklist_gd = '安裝 GD';
-    $lang->install_without_iconv = '還沒有安裝負責處理字串的iconv！';
-    $lang->install_session_auto_start = 'PHP設置中設置成session.auto_start==1，可能在處理 session時會發生錯誤。';
-    $lang->install_permission_denied = '安裝目錄權限不是707！';
+    $lang->install_without_iconv = '還沒有安裝負責處理字串的 iconv！';
+    $lang->install_session_auto_start = 'PHP設置中設置成 session.auto_start==1，可能在處理 session時會發生錯誤。';
+    $lang->install_permission_denied = '安裝目錄權限不是 707！';
 
     $lang->cmd_agree_license = '同意使用條款';
     $lang->cmd_install_fix_checklist = '已設置了必要的安裝條件。';
@@ -240,7 +240,7 @@ EndOfLicense;
     $lang->db_password = '密碼';
     $lang->db_database = '資料庫名稱';
     $lang->db_database_file = '資料庫檔案';
-    $lang->db_table_prefix = '前綴';
+    $lang->db_table_prefix = '前置字元';
 
     $lang->admin_title = '管理員資料';
 

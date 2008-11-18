@@ -27,7 +27,7 @@
     $lang->module_copy = "複製模組";
 
     $lang->header_script = "Header Script";
-    $lang->about_header_script = "可以直接輸入，並插入到HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等標籤。";
+    $lang->about_header_script = "可以直接輸入，並插入到 HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等標籤。";
 
     $lang->cmd_add_shortcut = "新增到快捷選單";
     $lang->cmd_install = "安裝";
@@ -52,8 +52,8 @@
     $lang->about_module_category = "可以分類管理模組。 模組分類可以在 <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">模組管理 > 模組分類 </a>中進行管理。";
     $lang->about_description= '管理使用說明。';
     $lang->about_default = '用沒有mid值的網址訪問網站時，將會顯示預設。';
-    $lang->about_header_text = '顯示在模組頂部的內容。(可以使用HTML)';
-    $lang->about_footer_text = '顯示在模組底部的內容。(可以使用HTML)';
+    $lang->about_header_text = '顯示在模組頂部的內容。(可以使用 HTML)';
+    $lang->about_footer_text = '顯示在模組底部的內容。(可以使用 HTML)';
     $lang->about_skin = '可以選擇模組面板。';
     $lang->about_use_category = '選擇此項可以使用分類功能。';
     $lang->about_list_count = '可以指定每頁顯示的主題數。(預設為20個)';
@@ -61,7 +61,7 @@
     $lang->about_page_count = '可以指定顯示在清單下方的頁面數(預設為10個)。 ';
     $lang->about_admin_id = '可以對該模組指定最高管理權限。<br />有多名管理員時，可以用,(逗號)來分隔(無法訪問管理頁面)。 ';
     $lang->about_grant = '全部解除特定權限的對象時，沒有登錄的會員也將具有相關權限。';
-    $lang->about_module = "除基本library以外Zeroboard XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
+    $lang->about_module = "除基本 library以外 Zeroboard XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
 
     $lang->about_extra_vars_default_value = '復選/單選預設值需要多個時，用，(逗號)來分隔。';
 ?>
