@@ -209,8 +209,8 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .xeEditor .editor_autosaved_message{background:none; border:none; text-align:right; clear:both; padding-right:5px; }
 
 /* Edit Area */
-.xeEditor .editorBox{ border-bottom:5px solid; position:relative;}
-.xeEditor .editorBox .editorMargin{ margin:0 5px;}
+.xeEditor .editorBox{ border-bottom:5px solid; position:relative; width:100%;}
+.xeEditor .editorBox .editorMargin{ margin:0 5px; *zoom:1;}
 
 /* Editor Display */
 .xeEditor .toolBox, .xeEditor .richEditor, .xeEditor .htmlEditor {display:none;}
