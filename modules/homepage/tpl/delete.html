@@ -10,7 +10,7 @@
     <table cellspacing="0" class="adminTable">
     <thead>
         <tr>
-            <th colspan="2">{$lang->cmd_homepage_delete}</th>
+            <th colspan="2"><div>{$lang->cmd_homepage_delete}</div></th>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +28,7 @@
                 <!--@foreach($admin_list as $key => $val)-->
                     {$val->nick_name} ({$val->user_id})<br />
                 <!--@end-->
+                &nbsp;
             </td>
         </tr>
         <tr>

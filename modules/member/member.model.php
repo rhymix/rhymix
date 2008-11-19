@@ -122,19 +122,14 @@
                 // site_module_info에 따라서 관리자/ 그룹 목록을 매번 재지정
                 $site_module_info = Context::get('site_module_info');
                 if($site_module_info) {
-                    unset($logged_info->group_list);
-                    $site_srl = $site_module_info->site_srl;
-                    $groups = $this->getMemberGroups($logged_info->member_srl, $site_srl);
-
-                    // 만약 현재 접속된 사이트의 그룹이 없으면 기본 그룹을 지정
-                    if(!count($groups)) {
+                    $logged_info->group_list = $this->getMemberGroups($logged_info->member_srl, $site_module_info->site_srl);
+                    if(!count($logged_info->group_list)) {
                         $default_group = $this->getDefaultGroup($site_module_info->site_srl);
                         $oMemberController = &getController('member');
-                        $oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_srl);
+                        $oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
                         $groups[$default_group->group_srl] = $default_group->title;
+                        $logged_info->group_list = $groups;
                     }
-                   
-                    $logged_info->group_list = $groups;
 
                     $oModuleModel = &getModel('module');
                     if($oModuleModel->isSiteAdmin()) $logged_info->is_site_admin = true;
@@ -168,14 +163,14 @@
         /**
          * @brief member_srl로 사용자 정보 return
          **/
-        function getMemberInfoByMemberSrl($member_srl) {
+        function getMemberInfoByMemberSrl($member_srl, $site_srl = 0) {
             if(!$member_srl) return;
             $args->member_srl = $member_srl;
             $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
             if(!$output) return $output;
 
             $member_info = $this->arrangeMemberInfo($output->data);
-            $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+            $member_info->group_list = $this->getMemberGroups($member_info->member_srl, $site_srl);
             return $member_info;
         }
 

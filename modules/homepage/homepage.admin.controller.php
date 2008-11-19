@@ -255,6 +255,9 @@
             // 회원 그룹 매핑 데이터 삭제
             executeQuery('member.deleteMemberGroup', $args);
 
+            // 회원 그룹 삭제
+            executeQuery('member.deleteSiteGroup', $args);
+
             // 메뉴 삭제
             $oMenuAdminController = &getAdminController('menu');
             Context::set('menu_srl', $homepage_info->first_menu_srl);
