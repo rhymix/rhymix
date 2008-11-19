@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">플래닛</title>
+    <title xml:lang="en">Planet</title>
     <title xml:lang="zh-CN">微博</title>
     <description xml:lang="ko">Microblog입니다.</description>
+    <description xml:lang="en">Microblog Package.</description>
     <description xml:lang="zh-CN">XE微博(Microblog)模块。</description>
     <version>0.1</version>
     <date>2008-09-30</date>
     <category>package</category>
     <author email_address="sol@ngleader.com" link="http://www.ngleader.com">
         <name xml:lang="ko">sol</name>
+	<name xml:lang="en">sol</name>
 	<name xml:lang="zh-CN">sol</name>
     </author>
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+	<name xml:lang="en">zero</name>
 	<name xml:lang="zh-CN">zero</name>
     </author>
 </module>
