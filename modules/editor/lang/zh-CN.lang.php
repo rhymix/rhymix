@@ -109,9 +109,9 @@
     $lang->about_dblclick_in_editor = '双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。';
 
 
-    $lang->edit->rich_editor = '스타일 편집기';
-    $lang->edit->html_editor = 'HTML 편집기';
-    $lang->edit->extension ='확장 컴포넌트';
-    $lang->edit->help = '도움말';
-    $lang->edit->help_command = '단축키 안내';
+    $lang->edit->rich_editor = '样式编辑器';
+    $lang->edit->html_editor = 'HTML 编辑器';
+    $lang->edit->extension ='扩展组建';
+    $lang->edit->help = '帮助';
+    $lang->edit->help_command = '快捷键说明';
 ?>
