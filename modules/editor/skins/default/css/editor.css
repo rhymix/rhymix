@@ -238,3 +238,5 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .xeEditor .fileUploader .fileUploadControl{ clear:right;}
 .xeEditor .fileUploader .fileUploadControl .button{ margin-bottom:5px;}
 .xeEditor .fileUploader .file_attach_info{ clear:right; margin:5px 0;}
+
+#editor_component_1 { list-style:none; }
