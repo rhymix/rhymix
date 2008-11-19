@@ -124,6 +124,8 @@
         function insertContent($obj,$manual_inserted=false){
 
             $obj->content = str_replace(array('<','>'),array('&lt;','&gt;'),$obj->content);
+            $obj->content = str_replace('...', '…', $obj->content);
+            $obj->content = str_replace('--', '—', $obj->content);
             $obj->content = preg_replace('/"([^"]*)":(http|ftp|https|mms)([^ ]+)/is','<a href="$2$3" onclick="window.open(this.href);return false;">$1</a>$4', $obj->content);
             $oDocumentController = &getController('document');
             $output = $oDocumentController->insertDocument($obj,$manual_inserted);

@@ -543,6 +543,8 @@
             if($output->data) {
                 foreach($output->data as $key => $val) {
                     $output->data[$key]->content = preg_replace('/"([^"]*)":(http|ftp|https|mms)([^ ]+)/is','<a href="$2$3" onclick="window.open(this.href);return false;">$1</a>$4', $val->content);
+                    $output->data[$key]->content = str_replace('...', '…', $output->data[$key]->content);
+                    $output->data[$key]->content = str_replace('--', '—', $output->data[$key]->content);
 
                 }
             }
