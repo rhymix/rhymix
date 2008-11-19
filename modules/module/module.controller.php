@@ -133,6 +133,8 @@
          * @brief 모듈 입력
          **/
         function insertModule($args) {
+            if(!ereg("^[a-zA-Z][a-zA-Z0-9_]+", $args->mid)) return new Object(-1, 'msg_limit_mid');
+
             // begin transaction
             $oDB = &DB::getInstance();
             $oDB->begin();

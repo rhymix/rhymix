@@ -7,7 +7,7 @@
         <column name="category_srl" var="category_srl" filter="number" default="0" />
         <column name="is_notice" var="is_notice" notnull="notnull" default="N" />
         <column name="is_secret" var="is_secret" notnull="notnull" default="N" />
-        <column name="title" var="title" notnull="notnull" minlength="2" maxlength="250" />
+        <column name="title" var="title" notnull="notnull" minlength="1" maxlength="250" />
         <column name="title_bold" var="title_bold" default="N" />
         <column name="title_color" var="title_color" default="N" />
         <column name="content" var="content" notnull="notnull" />

@@ -425,7 +425,7 @@ function editorChangeMode(mode, editor_sequence) {
     // html 편집 사용시
     if(mode == 'html' && textarea_obj) {
         preview_obj.style.display='none';
-        xGetElementById('fileUploader_'+editor_sequence).style.display='block';
+        if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+editor_sequence).style.display='block';
         textarea_obj.value = html;
         xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
         xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
@@ -440,7 +440,7 @@ function editorChangeMode(mode, editor_sequence) {
     // 미리보기
     } else if(mode == 'preview' && preview_obj) {
         preview_obj.style.display='';
-        xGetElementById('fileUploader_'+editor_sequence).style.display='none';
+        if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+editor_sequence).style.display='none';
 
         var fo_obj = xGetElementById("preview_form");
         if(!fo_obj) {
@@ -461,12 +461,12 @@ function editorChangeMode(mode, editor_sequence) {
             xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor preview';
             xGetElementById('use_rich_'+editor_sequence).className = '';
             xGetElementById('preview_html_'+editor_sequence).className = 'active';
-            xGetElementById('use_html_'+editor_sequence).className = '';
+            if(xGetElementById('use_html_'+editor_sequence)) xGetElementById('use_html_'+editor_sequence).className = '';
         }
     // 위지윅 모드 사용시
     } else {
         preview_obj.style.display='none';
-        xGetElementById('fileUploader_'+editor_sequence).style.display='block';
+        if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+editor_sequence).style.display='block';
         contentDocument.body.innerHTML = html;
         editorMode[editor_sequence] = null;
 
@@ -474,7 +474,7 @@ function editorChangeMode(mode, editor_sequence) {
             xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor rich';
             xGetElementById('use_rich_'+editor_sequence).className = 'active';
             xGetElementById('preview_html_'+editor_sequence).className = '';
-            xGetElementById('use_html_'+editor_sequence).className = '';
+            if(xGetElementById('use_html_'+editor_sequence)) xGetElementById('use_html_'+editor_sequence).className = '';
         }
     }
 
@@ -520,7 +520,7 @@ function showEditorExtension(e,editor_sequence){
 
 function showPreviewContent(ret_obj,response_tags, params, fo_obj) {
     var preview_obj = editorGetPreviewArea(params.editor_sequence);
-    xGetElementById('fileUploader_'+params.editor_sequence).style.display='none';
+    if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+params.editor_sequence).style.display='none';
 //  alert(ret_obj.content);
     xInnerHtml(preview_obj, ret_obj.content);
 }

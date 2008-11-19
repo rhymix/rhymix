@@ -45,6 +45,7 @@
     $lang->msg_no_checked_document = '선택된 게시물이 없습니다';
     $lang->msg_move_failed = '이동 실패하였습니다';
     $lang->msg_cannot_delete_for_child = '하부 분류가  있는 분류는 삭제하실 수 없습니다';
+    $lang->msg_limit_mid ="모듈이름은 영문+[영문+숫자+_] 만 가능합니다.";
 
     $lang->about_browser_title = "브라우저의 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.";
     $lang->about_mid = "모듈이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. ( 영문+[영문+숫자+_] 만 가능)";
