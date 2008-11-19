@@ -1224,5 +1224,11 @@
             return false;
         }
 
+        function getFixUrl($url){
+            if(eregi("(http|https):\/\/",$url)) return $url;
+            if(ereg("^/",$url)) return $url;
+            return dirname($_SERVER['PHP_SELF']) . "/" . $url;
+        }
+
     }
 ?>

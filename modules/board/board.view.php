@@ -166,6 +166,7 @@
             // 검색과 정렬을 위한 변수 설정
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
+
             if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
 
             $args->sort_index = Context::get('sort_index');

@@ -29,6 +29,7 @@
                 $config->is_default = $dummy->is_default;
                 $config->module_srl = $dummy->module_srl;
                 $config->browser_title = $dummy->browser_title;
+                if($config->logo_image) $config->logo_image = context::getFixUrl($config->logo_image);
             }
             return $config;
         }
@@ -505,7 +506,8 @@
             if(!is_dir($path)) return sprintf("%s%s%s", Context::getRequestUri(), $this->module_path, 'tpl/images/blank_photo.gif');
             $filename = sprintf('%s/%d.jpg', $path, $module_srl);
             if(!file_exists($filename)) return sprintf("%s%s%s", Context::getRequestUri(), $this->module_path, 'tpl/images/blank_photo.gif');
-            return Context::getRequestUri().$filename."?rnd=".filemtime($filename);
+            $src = Context::getRequestUri().$filename."?rnd=".filemtime($filename);
+            return $src;
         }
 
         /**

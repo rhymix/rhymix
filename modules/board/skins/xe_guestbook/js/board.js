@@ -107,7 +107,7 @@ function doChangeCategory() {
     var sel_obj = xGetElementById("board_category");
     var sel_idx = sel_obj.selectedIndex;
     var category_srl = sel_obj.options[sel_idx].value;
-    location.href = current_url.setQuery('category',category_srl);
+    location.href = decodeURI(current_url).setQuery('category',category_srl);
 }
 
 /* 스크랩 */
