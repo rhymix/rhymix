@@ -85,7 +85,7 @@
 .friendNum strong { font:bold 11px Tahoma; color:#ff6600;}
 
 /* message */
-.readMessage { border:1px solid #e0e1db; border-top:none; margin-bottom:2em;}
+.readMessage { background:#FFF; border:1px solid #e0e1db; border-top:none; margin-bottom:2em;}
 .readMessage .messageHeader { padding:1.5em; height:1em; overflow:hidden;}
 .readMessage .messageHeader h4 { margin:0; padding:0; float:left; padding-left:.5em; font-size:1em; background:url(../images/common/iconArrow99.gif) no-repeat left .3em;}
 .readMessage .messageHeader address { float:right; white-space:nowrap;}

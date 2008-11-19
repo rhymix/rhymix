@@ -4,18 +4,11 @@
 .memberSmallBox .header h3 { margin:0; border:none; float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border:none; border-bottom:3px solid #fe3614; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* button */
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
-    background-image:url(../images/black/form_buttons.png);
-    _background-image:url(../images/black/form_buttons.gif);
-}
-
-
-del.button span,
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
-    color:#FFFFFF;
-}
+a.button,
+a.button span,
+span.button,
+span.button button,
+span.button input { background-image:url(../../../../../common/tpl/images/buttonBlack.gif); color:#fff;}
 
 .inputTypeText { background-color:transparent !important; color:#AAAAAA !important; }
 .inputTypeText:hover, .inputTypeText:focus { background-color:transparent; color:#AAAAAA; }
@@ -27,6 +20,11 @@ a.button span, span.button button, span.button input, del.button span{
 .memberSmallBox .openid_user_id { color:#AAAAAA; background:transparent url("../images/black/openid_input_bg.gif") no-repeat left 50% !important; }
 .memberSmallBox .help { background-color:transparent; }
 
+.readMessage { background:#000; border:1px solid #444444;}
+.readMessage .messageHeader h4 { color:#BBBBBB; }
+.readMessage .messageBody a { color:#BBBBBB;}
+.readMessage .deleteOrKeep { background:#282829; border-top:1px solid #444444;}
+
 .memberInfoTable tr.first-child th, .memberInfoTable tr.first-child td { background-color:transparent; color:#AAAAAA; }
 .memberInfoTable tr th, .memberInfoTable tr td { background-color:transparent; color:#AAAAAA; }
 .memberInfoTable td input { background-color:transparent; color:#AAAAAA; }
@@ -37,7 +35,7 @@ div.checkValue { color:#BBBBBB !important; }
 .boardHeader { background:transparent url("../images/black/bgH3.gif") no-repeat left bottom; }
 .boardHeader h3 { border:none; background:transparent url("../images/black/lineH3.gif") no-repeat right bottom; color:#888888; border-bottom:3px solid #888888; }
 
-table.list { border:1px solid #000000 !important; }
+table.list { background:#000; border:1px solid #000000 !important; }
 table.list th { background:#282829 url("../images/black/lineBoardListTh.gif") no-repeat left bottom; border:1px solid #444444 !important; color:#AAAAAA; }
 table.list tr { background-color:transparent !important; }
 table.list tr td.title { color:#BBBBBB !important; }
