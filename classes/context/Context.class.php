@@ -601,7 +601,7 @@
          **/
         function _filterRequestVar($key, $val) {
             if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") 
-            return (strpos($val, ',') != false)?$val:(int)$val;
+            return (strpos($val, ',') !== false)?$val:(int)$val;
             if(is_array($val) && count($val) ) {
                 foreach($val as $k => $v) {
                     if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
