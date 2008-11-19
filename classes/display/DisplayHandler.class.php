@@ -100,7 +100,8 @@
             $variables = $oModule->getVariables();
             //if(function_exists('json_encode')) return json_encode($variables);
             //else return json_encode2($variables);
-            return json_encode2($variables);
+            $json = str_replace("\r\n",'\n',json_encode2($variables));
+            return $json;
         }
 
 
