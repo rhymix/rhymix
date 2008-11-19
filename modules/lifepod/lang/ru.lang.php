@@ -5,7 +5,7 @@
      * @brief  Russian basic language pack for lifepod module
      **/
 
-    $lang->lifepod = "據郁禎?;
+    $lang->lifepod = "據郁禎";
 
     $lang->calendar_address = "XML-雪釣?魏音庄燮";
     $lang->cmd_lifepod_list = '爛尿適 乙郁禎菴';
