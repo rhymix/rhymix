@@ -35,7 +35,7 @@
             <td>
                 <select name="admin_list" multiple="multiple" size="{count($admin_list)?count($admin_list):1}" class="w200">
                 <!--@foreach($admin_list as $key => $val)-->
-                    <option value="{$val->admin_id}">{$val->nick_name} ({$val->user_id})</option>
+                    <option value="{$val->user_id}">{$val->nick_name} ({$val->user_id})</option>
                 <!--@end-->
                 </select>
                 <br />
