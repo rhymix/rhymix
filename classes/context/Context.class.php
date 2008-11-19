@@ -600,8 +600,7 @@
          * _srl, page, cpage등의 변수는 integer로 형변환
          **/
         function _filterRequestVar($key, $val) {
-            if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") 
-            return (strpos($val, ',') !== false)?$val:(int)$val;
+            if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
             if(is_array($val) && count($val) ) {
                 foreach($val as $k => $v) {
                     if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
