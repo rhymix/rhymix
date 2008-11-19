@@ -40,6 +40,9 @@
 
             $this->grant->access = $oPlanetModel->isAccessGranted();
             $this->grant->create = $oPlanetModel->isCreateGranted();
+
+            // 플래닛은 별도 레이아웃 동작하지 않도록 변경
+            Context::set('layout', 'none');
         }
 
         /**
