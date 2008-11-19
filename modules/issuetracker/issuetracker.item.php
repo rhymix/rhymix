@@ -10,6 +10,7 @@
         var $status = null;
         var $component = null;
         var $occured_version = null;
+        var $closed_status = array('invalid', 'resolve');
         
         function issueItem($document_srl = 0) {
             parent::documentItem($document_srl);
@@ -139,6 +140,10 @@
                 $content = str_replace('r'.$mat[1][$k], sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>',getUrl('','mid',Context::get('mid'),'act','dispIssuetrackerViewSource','type','compare','erev',$mat[1][$k],'brev',''), 'r'.$mat[1][$k]), $content);
             }
             return $content;
+        }
+
+        function isClosed() {
+            return in_array($this->status, $this->closed_status);
         }
     }
 ?>

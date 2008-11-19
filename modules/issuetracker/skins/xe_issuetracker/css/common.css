@@ -278,3 +278,4 @@ dd span.source { color:#4F86B0; }
 dd span.target { color:#4F86B0; font-weight:bold; }
 dd span.key { color:#888888; font-weight:bold; }
 dt a { color:#373737; text-decoration: none; }
+dt span.closed { text-decoration: line-through; }

@@ -14,7 +14,8 @@
 <dt class="changeset">
     <span class="time">{zdate($changeset->date,"H:i")}</span>
     <!--@if($changeset->type == "i")-->
-    <a href="{getUrl('','document_srl',$changeset->target_srl)}">Issue <em>#{$changeset->target_srl}</em></a> ({$issues[$changeset->target_srl]->getTitleText(30)}) by <span class="author">{$changeset->author}</span>
+    {@ $oIssue = $issues[$changeset->target_srl]; }
+    <a href="{getUrl('','document_srl',$changeset->target_srl)}">Issue <em><!--@if($oIssue->isClosed())--><span class="closed"><!--@end-->#{$changeset->target_srl}<!--@if($oIssue->isClosed())--></span><!--@end--></em></a> ({$issues[$changeset->target_srl]->getTitleText(30)}) by <span class="author">{$changeset->author}</span>
     <!--@else-->
     <a href="{getUrl('act','dispIssuetrackerViewSource','erev',$changeset->revision,'type','log')}">Changeset <em>[{$changeset->revision}]</em></a> by <span class="author">{$changeset->author}</span>
     <!--@end-->
