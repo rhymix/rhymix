@@ -14,6 +14,7 @@
         <param name="access" target="access" />
         <param name="create" target="create" />
         <param name="manager" target="manager" />
+        <param name="write_document" target="write_document" />
         <param name="planet_tagtab" target="planet_tagtab" />
         <param name="planet_smstag" target="planet_smstag" />
         <param name="use_mobile" target="use_mobile" />

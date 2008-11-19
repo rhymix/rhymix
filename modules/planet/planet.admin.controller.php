@@ -64,7 +64,7 @@
             $config->use_signup = Context::get('use_signup');
             if($config->use_signup != 'Y') $config->use_signup = 'N';
 
-            $grant_list = array('access','create','manager');
+            $grant_list = array('access','create','manager','write_document');
             foreach($grant_list as $key) {
                 $tmp = trim(Context::get($key));
                 if(!$tmp) {

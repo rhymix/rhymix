@@ -45,7 +45,8 @@
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y') return true;
             $group_list = $logged_info->group_list;
-            $group_srls = array_keys($group_list);
+            if(count($group_list)) $group_srls = array_keys($group_list);
+            else return false;
 
             foreach($grant as $srl) if(in_array($srl, $group_srls)) return true;
             return false;

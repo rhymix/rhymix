@@ -37,6 +37,9 @@
             if($this->planet->isHome() && !in_array($this->act, array('dispPlanetCreate','dispPlanetLogin','dispPlanetTagSearch','dispPlanetContentSearch','dispPlanetContentTagSearch')) ) {
                 Context::set('act',$this->act = 'dispPlanetHome');
             }
+
+            $this->grant->access = $oPlanetModel->isAccessGranted();
+            $this->grant->create = $oPlanetModel->isCreateGranted();
         }
 
         /**
@@ -345,6 +348,13 @@
             $oPlanetModel = &getModel('planet');
             $output = $oPlanetModel->getReplyList($document_srl,$page);
             Context::set('reply_list',$output->data);
+        }
+
+        function dispPlanetMessage($msg_code) {
+            $msg = Context::getLang($msg_code);
+            if(!$msg) $msg = $msg_code;
+            Context::set('message', $msg);
+            $this->setTemplateFile('message');
         }
 
     }
