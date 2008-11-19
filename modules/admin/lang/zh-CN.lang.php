@@ -52,10 +52,10 @@
     $lang->xe_license = 'XE遵循 GPL协议';
     $lang->about_shortcut = '可以删除添加到常用模块中的快捷菜单。';
 
-    $lang->yesterday = "昨天";
-    $lang->today = "今日";
+    $lang->yesterday = "Yesterday";
+    $lang->today = "Today";
 
-    $lang->cmd_lang_select = "多国语言设置";
-    $lang->about_cmd_lang_select = "请选择要服务的语言";
-    $lang->about_recompile_cache = "整理无效或错误的缓冲文件";
+    $lang->cmd_lang_select = "多国语言支援";
+    $lang->about_cmd_lang_select = "只支援被选语言。";
+    $lang->about_recompile_cache = "整理无用的或错误的缓冲文件。";
 ?>

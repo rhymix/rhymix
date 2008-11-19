@@ -109,7 +109,7 @@
     $lang->about_dblclick_in_editor = '双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。';
 
 
-    $lang->edit->rich_editor = '样式编辑器';
+    $lang->edit->rich_editor = '所见即所得编辑器';
     $lang->edit->html_editor = 'HTML 编辑器';
     $lang->edit->extension ='扩展组建';
     $lang->edit->help = '帮助';
