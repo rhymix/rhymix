@@ -384,6 +384,7 @@ function createPopupMenu(evt) {
     area = xCreateElement("div");
     area.id = "popup_menu_area";
     area.style.visibility = 'hidden';
+    area.style.zIndex = 9999;
     document.body.appendChild(area);
 }
 
