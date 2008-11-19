@@ -29,5 +29,5 @@
     $lang->about_layout_code = 
         "It will be applied to the service when you save the layout code after editing it.
         Please first preview your code and then save it.
-        You can refer grammar of Zeroboard XE's template from <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Template</a>.";
+        You can refer grammar of XE's template from <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE Template</a>.";
 ?>

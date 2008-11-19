@@ -21,7 +21,7 @@
     $lang->cmd_springnote_list = 'Lista Springnote';
     $lang->cmd_view_info = 'Springnote Informacion';
 
-    $lang->about_springnote = "Springnote es un Wiki Openmaru de servicios que ofrece. <br /> Springnote ZeroboardXE modulo especifico springnote muestra las paginas como documentos internos.";
+    $lang->about_springnote = "Springnote es un Wiki Openmaru de servicios que ofrece. <br /> Springnote XE modulo especifico springnote muestra las paginas como documentos internos.";
     $lang->about_springnote_openid = "Por favor, introduzca su OpenID que creo Springnote";
     $lang->about_springnote_userkey = 'Usuario clave para que se pueda Springnote modulo. <br /> Por favor, de entrada generada clave de usuario despues de entrar en su OpenID [<a href = "https: / / api.openmaru.com / delegate_key / springnote? App_id = www.zeroboard.com&openid = "Onclick =" window.open (this.href); retorno false; "> Obtener clave de usuario </ a>].';
     $lang->about_springnote_pageid = 'Por favor, de entrada pageid si desea mostrar pagina concreta en primer lugar.';

@@ -29,5 +29,5 @@
     $lang->about_layout_code = 
         "Vous conservez la code de Mise en Page après l'éditer, la code sera appliquée sur le service.
         Utilisez [Avant-première] avant conserver la code S.V.P.
-        Vous pouvez référer la grammaire de modèle de Zeroboard XE sur <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">Modèle du ZeroboardXE</a>.";
+        Vous pouvez référer la grammaire de modèle de XE sur <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">Modèle du XE</a>.";
 ?>

@@ -61,7 +61,7 @@
     $lang->about_page_count = '可以指定顯示在清單下方的頁面數(預設為10個)。 ';
     $lang->about_admin_id = '可以對該模組指定最高管理權限。<br />有多名管理員時，可以用,(逗號)來分隔(無法訪問管理頁面)。 ';
     $lang->about_grant = '全部解除特定權限的對象時，沒有登錄的會員也將具有相關權限。';
-    $lang->about_module = "除基本 library以外 Zeroboard XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
+    $lang->about_module = "除基本 library以外 XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
 
     $lang->about_extra_vars_default_value = '復選/單選預設值需要多個時，用，(逗號)來分隔。';
 ?>

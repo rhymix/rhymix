@@ -40,7 +40,7 @@
 
     $lang->about_widget_code = 'Entrez les valeurs qui sont requises par le gadget choisi, et puis cliquz le bouton [Générer le Code] pour générer le code. Le code à appliquer au fichier de modèl se présentera en bas.';
     $lang->about_widget_code_in_page = 'Après entrer les valeurs requies, cliquez le bouton [Ajouter] pour insérer le gadjet dans la page.';
-    $lang->about_widget = "Un gadjet est un petit application indépendant qui est utilisé dans une Mise en Page ou dans une module de Page. Un gajet peut être lié avec un module intérieur ou avec un API extérieur ouvert. L'application divers est possible par la configuration. \nVous pouvez directement ajouter un gadget en utilisant la fonction [Générer le Code] sans utiliser un module de Page de Zeroboard XE ni un module de Mise en Page.";
+    $lang->about_widget = "Un gadjet est un petit application indépendant qui est utilisé dans une Mise en Page ou dans une module de Page. Un gajet peut être lié avec un module intérieur ou avec un API extérieur ouvert. L'application divers est possible par la configuration. \nVous pouvez directement ajouter un gadget en utilisant la fonction [Générer le Code] sans utiliser un module de Page de XE ni un module de Mise en Page.";
 
     $lang->cmd_content_insert = "Insérer le Contenu par vous-même";
     $lang->cmd_box_widget_insert = "Insérer le Gadget de Boîte";

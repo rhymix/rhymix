@@ -2,7 +2,7 @@
 
 // DyCalendar JA language
 // Author: Mihai Bazon, <mihai_bazon@yahoo.com>
-// Translation: ミニミ <@> for ZeroboardXE
+// Translation: ミニミ
 // Encoding: UTF-8
 // lang : jp
 // Distributed under the same terms as the calendar itself.

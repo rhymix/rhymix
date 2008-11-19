@@ -21,7 +21,7 @@
     $lang->cmd_springnote_list = 'Springnote列表';
     $lang->cmd_view_info = 'Springnote資訊';
 
-    $lang->about_springnote = "Springnote是由 Openmaru提供的一種 Wiki服務。<br />此模組能夠將 Springnote特定的頁面引用到 Zeroboard XE中的模組。";
+    $lang->about_springnote = "Springnote是由 Openmaru提供的一種 Wiki服務。<br />此模組能夠將 Springnote特定的頁面引用到 XE中的模組。";
     $lang->about_springnote_openid = "請輸入Springnote網站的 Open ID。";
     $lang->about_springnote_userkey = '請輸入用戶 Key值。<br />請輸入獲得的用戶 Key值。[<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">按此獲得</a>]';
     $lang->about_springnote_pageid = '請輸入要指定為預設頁面(即:首頁)的頁號(Springnote網站特定頁面的頁號)。';

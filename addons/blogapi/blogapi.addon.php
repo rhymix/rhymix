@@ -447,7 +447,7 @@
 <?xml version="1.0" ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >
 <service>
-    <engineName>zeroboardXE</engineName>
+    <engineName>XpressEngine</engineName>
     <engineLink>http://www.zeroboard.com/ </engineLink>
     <homePageLink>{$homepagelink}</homePageLink>
     <apis>

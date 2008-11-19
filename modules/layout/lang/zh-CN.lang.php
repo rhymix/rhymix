@@ -31,5 +31,5 @@
     $lang->about_layout_code = 
         "修改的布局代码保存后即可生效。
 	保存之前请必须先预览后再保存。
-        Zeroboard XE 布局语法请参考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">Zeroboard XE 模板</a>。";
+        XE 布局语法请参考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE 模板</a>。";
 ?>

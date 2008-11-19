@@ -29,5 +29,5 @@
     $lang->about_layout_code = 
         "儲存修改後的版面，即可生效。
 	     儲存之前，請先預覽後再儲存。
-        Zeroboard XE 版面設計語法，請參考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">Zeroboard XE 樣版</a>。";
+        XE 版面設計語法，請參考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE 樣版</a>。";
 ?>

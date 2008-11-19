@@ -11,5 +11,5 @@
     $lang->cmd_lifepod_list = 'Lifepods List';
     $lang->cmd_view_info = 'Lifepod Info.';
 
-    $lang->about_lifepod = "Lifepod is a calendar service provided by Openmaru Studio.<br />Lifepod Zeroboard XE module displays Lifepod's specific calendars as internal documents.";
+    $lang->about_lifepod = "Lifepod is a calendar service provided by Openmaru Studio.<br />Lifepod XE module displays Lifepod's specific calendars as internal documents.";
 ?>

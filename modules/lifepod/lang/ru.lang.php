@@ -5,11 +5,11 @@
      * @brief  Russian basic language pack for lifepod module
      **/
 
-    $lang->lifepod = "Лайфпод";
+    $lang->lifepod = "ж“љйѓЃз¦Ћ?;
 
-    $lang->calendar_address = "XML-адрес календаря";
-    $lang->cmd_lifepod_list = 'Список лайфпода';
-    $lang->cmd_view_info = 'Лайфпод инфо';
+    $lang->calendar_address = "XML-й›Єй‡Ј?й­Џйџіеє„з‡®пЈ·";
+    $lang->cmd_lifepod_list = 'п¤ћп¦ЅйЃ© д№™йѓЃз¦ЋиЏґ';
+    $lang->cmd_view_info = 'ж“љйѓЃз¦Ћ?е¦–пЁЂ';
 
-    $lang->about_lifepod = "Лайфпод -- это календарная служба, предоставляемая Openmaru Studio.<br />Лайфпод  Zeroboard XE модуль отображает определенные Лайфпод календари как внутренние документы.";
+    $lang->about_lifepod = "ж“љйѓЃз¦Ћ?-- ж†™?й­Џйџіеє„з‡®еЈЇпЈ· иЎ†ж§Ќи“Ђ, з©ЅжЉ‘е‰ЌиЁєзћ¬пЈ·и«є? Openmaru Studio.<br />ж“љйѓЃз¦Ћ? XE жєўж¶Їиџ» е‰ЄзїџиЄїзёЇеҐ„ е…Ёй‡ЈйґЁйџіз‰†й…· ж“љйѓЃз¦Ћ?й­Џйџіеє„з‡®?й­Џ?зґ”еЇЂй‡Јз‰†зЊҐ е“Ђжњ‰йќ­зІ§?";
 ?>

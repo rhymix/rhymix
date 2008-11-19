@@ -40,7 +40,7 @@
 
     $lang->about_widget_code = 'Please input required value first, and click [Generate Code] button to generate code to add to the template file.';
     $lang->about_widget_code_in_page = 'After entering the required values, click the [Add] button to insert the widget code into the page.';
-    $lang->about_widget = "A widget is a small free-standing application used in a layout or page module.\n It can be linked with internal module or external open api. Through its configuration setting, wide application is possible. \n You can directly add a widget by using the [Generate Code] function without using the Zeroboard XE page module or layout module.";
+    $lang->about_widget = "A widget is a small free-standing application used in a layout or page module.\n It can be linked with internal module or external open api. Through its configuration setting, wide application is possible. \n You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.";
 
     $lang->cmd_content_insert = "Insert Content by Yourself";
     $lang->cmd_box_widget_insert = "Insert Box Widget";
