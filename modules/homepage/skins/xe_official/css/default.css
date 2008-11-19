@@ -194,3 +194,5 @@ ul.nav li.active a { font-weight:bold; color:#FFFFFF; }
 
 div.blog_widget_ ul.items li { text-decoration:none; color:#000000; margin-bottom:5px;}
 div.blog_widget_ ul.items li a { text-decoration:none; color:#000000;}
+
+#menu_form { width:100%; }

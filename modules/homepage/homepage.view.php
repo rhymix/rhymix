@@ -50,6 +50,8 @@
             $menu_list = $oMenuAdminModel->getMenus();
             Context::set('menu_list', $menu_list);
 
+            if(!Context::get('act')) Context::set('act', 'dispHomepageManage');
+
             $this->setTemplateFile('index');
         }
 
