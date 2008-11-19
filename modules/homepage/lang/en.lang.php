@@ -76,7 +76,7 @@
     $lang->about_module_type = "For boards and pages, it would create a module, and for URLs, it would make a link to the url.<br/> The type cannot be modified after creation.";
     $lang->about_browser_title = "It will be displayed on the title of the web browser, when users connect to the menu.";
     $lang->about_module_id = "The module id will be used for accessing the board or page, <br /> ex) http://address/[moduleID]";
-    $lang->about_menu_item_url = "If the target is URL, input the address here <br />Do not include http://"
+    $lang->about_menu_item_url = "If the target is URL, input the address here <br />Do not include http://";
     $lang->about_menu_image_button = "Instead of the title, the menu image can be used.";
     $lang->about_homepage_delete = "Caution! If you delete the homepage, all the modules(boards, pages) linked to the homepage and all the documents will be removed.";
     $lang->about_homepage_admin = "You can set administrators of the homepage. <br />The administrators can access the administration page via http://address/?module=homepage . Only existing IDs can be registered as administrator";
