@@ -5,7 +5,7 @@
      * @brief  DB*의 상위 클래스
      * @version 0.1
      *
-     * 제로보드의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.
+     * XE의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.
      * xml의 종류에는 query xml, schema xml이 있다.
      * query xml의 경우 DB::executeQuery() method를 이용하여 xml파일을 php code로 compile한 후에 실행이 된다.
      * query xml은 고유한 query id를 가지며 생성은 module에서 이루어진다.

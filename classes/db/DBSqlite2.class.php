@@ -14,7 +14,7 @@
          * DB를 이용하기 위한 정보
          **/
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE설치 가능)
 
         /**
          * @brief sqlite 에서 사용될 column type

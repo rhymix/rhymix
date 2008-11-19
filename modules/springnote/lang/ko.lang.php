@@ -21,7 +21,7 @@
     $lang->cmd_springnote_list = '스프링노트 목록';
     $lang->cmd_view_info = '스프링노트 정보';
 
-    $lang->about_springnote = "스프링노트는 오픈마루에서 제공하는 위키서비스입니다.<br />스프링노트 제로보드XE모듈은 스프링노트의 특정 페이지들을 내부문서처럼 열람할 수 있는 모듈입니다.";
+    $lang->about_springnote = "스프링노트는 오픈마루에서 제공하는 위키서비스입니다.<br />스프링노트 XE모듈은 스프링노트의 특정 페이지들을 내부문서처럼 열람할 수 있는 모듈입니다.";
     $lang->about_springnote_openid = "스프링노트에서 페이지를 제작한 오픈아이디를 입력해주세요";
     $lang->about_springnote_userkey = '스프링노트 연동을 위한 사용자 Key값을 입력해주셔야 합니다.<br />[<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">사용자 키 받기</a>] 를 클릭하셔서 오픈아이디를 입력하시고 생성되는 키값을 입력해주세요.';
     $lang->about_springnote_pageid = '사용하시려는 스프링노트 중 특정 페이지를 먼저 출력하고자 하실때 pageid값을 입력해주세요';
