@@ -43,7 +43,7 @@
         <col width="100" />
         <col />
         <tr>
-            <th scope="row">{$lang->poll_stop_date}</th>
+            <th scope="row"><div>{$lang->poll_stop_date}</div></th>
             <td>
                 <div class="display_date" id="display_date">{date("Y-m-d",time()+60*60*24*30)}</div>
                 <script type="text/javascript">
@@ -52,7 +52,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">{$lang->skin}</th>
+            <th scope="row"><div>{$lang->skin}</div></th>
             <td>
                 <select name="skin">
                     <!--@foreach($skin_list as $skin=>$skin_info)-->
@@ -70,17 +70,17 @@
             <col width="100" />
             <col />
             <tr>
-                <th scope="row">{$lang->poll_title}</th>
+                <th scope="row"><div>{$lang->poll_title}</div></th>
                 <td><input type="text" name="title_tidx" class="inputTypeText w400" /></td>
             </tr>
 
             <tr>
-                <th scope="row">{$lang->poll_item} 1</th>
+                <th scope="row"><div>{$lang->poll_item} 1</div></th>
                 <td><input type="text" name="item_tidx_1" class="inputTypeText w400" /></td>
             </tr>
 
             <tr>
-                <th scope="row">{$lang->poll_item} 2</th>
+                <th scope="row"><div>{$lang->poll_item} 2</div></th>
                 <td><input type="text" name="item_tidx_2" class="inputTypeText w400" /></td>
             </tr>
             </table>
