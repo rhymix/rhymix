@@ -541,7 +541,7 @@
             preg_match_all('!<img([^>]*?)>!is', $content, $matches);
             $cnt = count($matches[0]);
             for($i=0;$i<$cnt;$i++) {
-                if(preg_match('/src=("|\'|\.|\/)*(common|modules|widgets|addons|layouts)/i', $matches[0][$i])) continue;
+                if(preg_match('/editor_component=/',$matches[0][$i])&&!preg_match('/image_(gallery|link)/i',$matches[0][$i])) continue;
                 $buffs[] = "image";
                 $check_files = true;
                 break;
