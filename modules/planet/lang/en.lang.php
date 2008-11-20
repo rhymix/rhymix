@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   ko.lang.php
-     * @author sol (sol@ngleader.com)
-     * @brief  플래닛(planet) 모듈의 기본 언어팩
+     * @file   en.lang.php
+     * @author sol (sol@ngleader.com) 
+     * @brief  English language pack for the Planet module 
      **/
 
     $lang->planet = "Planet";
@@ -51,7 +51,7 @@
     $lang->about_planet_change_photo = "Image size is set to 96*96 pixels(same with MSN)";
     $lang->cmd_planet_image_upload = "Upload";
 
-    $lang->cmd_planet_good = "원츄";
+    $lang->cmd_planet_good = "Thumbs up";
     $lang->cmd_planet_addfavorite = "Add to Favorite";
 
     $lang->planet_hot_tag = "Popular tags";
@@ -100,8 +100,8 @@
     $lang->cmd_planet_login = "Login";
 
 
-    $lang->planet_nowhot_tag = "플래닛 실시간 인기태그";
-    $lang->cmd_planet_close_nowhot_tag = "실시간 인기태그 닫기";
+    $lang->planet_nowhot_tag = "Popular tags";
+    $lang->cmd_planet_close_nowhot_tag = "Close the popular tags";
 
     $lang->about_planet_whats_textSearch_in_planet = "<strong>%s</strong>님의 플래닛에서 검색한 <strong>'%s'</strong> 에 대한 결과 입니다.";
     $lang->about_planet_whats_textSearch = "<strong>'%s'</strong> 에 대한 전체 검색결과 입니다.";
