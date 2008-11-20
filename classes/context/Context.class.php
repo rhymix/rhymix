@@ -805,7 +805,7 @@
             $domain = sprintf("%s://%s",$use_ssl?'https':'http',$domain);
 
             $url_info = parse_url($domain);
-            $url[$ssl_mode] = sprintf("%s://%s%s%s",$url_info['scheme'], $url_info['host'], $_SERVER['SERVER_PORT']!==80?':'.$_SERVER['SERVER_PORT']:'',$url_info['path']);
+            $url[$ssl_mode] = sprintf("%s://%s%s%s",$url_info['scheme'], $url_info['host'], $_SERVER['SERVER_PORT']!=80?':'.$_SERVER['SERVER_PORT']:'',$url_info['path']);
 
             return $url[$ssl_mode];
         }
