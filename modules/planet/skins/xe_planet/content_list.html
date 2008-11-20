@@ -44,7 +44,7 @@
                         </dl>
                     </div>
                     <div class="sympathy">
-                        <!--@if($myplanet->isExists() && $item->get('mid')!=$myplanet->getMid())--><button type="button" onclick="doPlanetVoteContent({$item->get('document_srl')});return false;">{$lang->cmd_planet_good} +</button> <!--@end-->
+                        <!--@if($myplanet->isExists() && $item->get('mid')!=$myplanet->getMid())--><span class="btnPlus"><span class="button small"><button type="button" onclick="doPlanetVoteContent({$item->get('document_srl')});return false;">{$lang->cmd_planet_good} +</button></span></span> <!--@end-->
                         <strong class="num" id="content_voted:{$item->get('document_srl')}">{$item->getVotedCount()}</strong>
                         <a href="#" onclick="showPlanetReply({$item->get('document_srl')});return false;">{$lang->comment}(<span id="reply_count:{$item->get('document_srl')}">{$item->getCommentCount()}</span>)</a>
                     </div>
