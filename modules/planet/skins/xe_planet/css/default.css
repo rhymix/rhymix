@@ -212,7 +212,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 
 /* Comment List */
 .commentList{ position:relative; padding:15px; border:1px solid #dedede; *zoom:1; z-index:10; clear:both; background:#eee;}
-.commentList .commentHeader{ width:240px;position:relative; clear:both; margin-bottom:10px; z-index:10;}
+.commentList .commentHeader{ float:left; position:relative; clear:both; margin-bottom:10px; z-index:10;}
 .commentList .commentHeader *{ margin:0;}
 .commentList h3{ position:relative; display:inline-block; *display:inline; margin-right:20px; background:url(../images/boxH2Comment.gif) no-repeat 0 0; vertical-align:middle; *zoom:1; line-height:18px;}
 .commentList h3, x:-moz-any-link { display:inline; padding-top:3px;}
@@ -289,8 +289,9 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .commentBody .comment .tongue .postExtra .tag.edit dd{ display:none;}
 .commentBody .comment .tongue .postExtra .tag.edit dd.tagModify{ display:inline;}
 .commentBody .comment .tongue .postExtra .sympathy{ float:right; position:relative; top:-2px;}
-.commentBody .comment .tongue .postExtra .sympathy button{ width:60px; height:20px; font:bold .7em AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/buttonSympathy.gif) no-repeat center; text-align:center; padding-top:3px; color:#999;}
-.commentBody .comment .tongue .postExtra .sympathy .num{ position:relative; display:inline-block; width:22px; height:22px; padding-top:6px; *margin-bottom:-10px; letter-spacing:-1px; color:#fff; text-align:center; font:bold .7em AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/bgSympathy.gif) no-repeat center top;}
+.commentBody .comment .tongue .postExtra .sympathy span.btnPlus { display:block; float:left; margin-right:10px; padding-top:3px;}
+.commentBody .comment .tongue .postExtra .sympathy button { color:#999;}
+.commentBody .comment .tongue .postExtra .sympathy .num{ position:relative; display:inline-block; width:22px; height:22px; padding-top:6px; letter-spacing:-1px; color:#fff; text-align:center; font:bold .7em AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/bgSympathy.gif) no-repeat center top; *margin-bottom:-10px;}
 .commentBody .comment .tongue .postExtra .sympathy .num, x:-moz-any-link { padding-left:11px; padding-right:11px;}
 .commentBody .comment .tongue .postExtra .sympathy .num, x:-moz-any-link, x:default { padding-left:0; padding-right:0;}
 .commentBody .comment .tongue .postExtra .sympathy a{ position:relative; *top:-2px; margin-right:1px; color:#999; padding-left:8px; font:.7em AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; background:url(../images/arrowReplyOpen.gif) no-repeat left 3px;}
@@ -373,7 +374,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .title *.edit button{ display:inline; vertical-align:top;}
 .authorHeader .title .authorPersonality{ float:left;}
 .authorHeader .title .authorPersonality a{ position:relative; float:left; color:#fff; font-size:.75em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
-.authorHeader .title .addFavorite{ position:relative; top:-3px; float:right; clear:right; background:url(../images/iconAddFavorite.gif) no-repeat left center;}
+.authorHeader .title .addFavorite{ position:relative; top:-3px; float:right; clear:right; background:url(../images/iconAddFavorite.gif) no-repeat left center; padding-left:7px; }
 .authorHeader .title .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
 
 .authorHeader .authorTag{ position:relative; border-top:1px solid #ddd; margin-left:120px; padding-top:10px; *zoom:1;}
@@ -390,23 +391,21 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .authorTag.edit dd.tagModify{ display:inline;}
 .authorHeader .authorTag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px;}
 .authorHeader .authorTag dd.tagModify button{ height:19px; font-size:.7em; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
-.authorHeader .authorTag .planetUri{ position:relative; float:right; color:#fff; font-size:.7em; font-family:Tahoma Sans-serif;}
-.authorHeader .authorTag .rssFeed{ float:right; display:block; margin:0 0 0 5px; width:12px; height:12px; cursor:pointer; background:url(../images/rssFeed.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .authorTag .planetUri{ position:relative; right:20px; float:right; color:#fff; font-size:.7em; font-family:Tahoma Sans-serif;}
+.authorHeader .authorTag .rssFeed{ position:absolute; top:10px; right:0; width:12px; height:12px; cursor:pointer; background:url(../images/rssFeed.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .authorTag .rssFeed span{ position:absolute; width:0; height:0; overflow:hidden;}
 .authorHeader .tl,
 .authorHeader .tr{position:absolute; top:0; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxAuthorHeader.png) no-repeat; _background:url(../images/boxAuthorHeader.gif) no-repeat;}
 .authorHeader .tl{ left:0; background-position:left top;}
 .authorHeader .tr{ right:0; background-position:right top;}
 
-.authorHeader .myOption{ position:absolute; top:20px; right:15px;}
-
-.authorHeader .rss{ float:left; margin:0 5px 0 0; position:relative; display:block; width:15px; height:15px; background-repeat:no-repeat; background-position:center; cursor:pointer;}
+.authorHeader .rss{ position:absolute; display:block; top:0; right:58px; width:15px; height:15px; background-repeat:no-repeat; background-position:center; cursor:pointer;}
 .authorHeader .rss.off{ background-image:url(../images/rssOff.png); _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .rss.on{ background-image:url(../images/rssOn.png); _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .rss span{ display:block; width:0; height:0; overflow:hidden;}
 
-.authorHeader .color{ float:left; margin:0 5px 0 0; display:block; border:1px solid #ccc; width:16px; height:16px;}
-.authorHeader .colorPreset{ position:absolute; display:none; top:25px; right:0; width:131px;}
+.authorHeader .color{ position:absolute; display:block; top:0; right:18px; border:1px solid #ccc; width:16px; height:16px;}
+.authorHeader .colorPreset{ position:absolute; display:none; top:25px; right:0;}
 .authorHeader .colorPreset.open{ display:block;}
 .authorHeader .colorPreset.close{ display:none;}
 .authorHeader .colorPreset li{ float:left; border:1px solid #ccc; margin-left:5px;}
@@ -419,7 +418,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .colorPreset li a{ display:block; width:14px; height:14px;}
 .authorHeader .colorPreset li a span{ display:block; width:0; height:0; overflow:hidden; visibility:hidden;}
 
-.authorHeader .apiMe2day{ float:left; margin:0 5px 0 0;}
+.authorHeader .apiMe2day{ position:absolute; top:20px; right:58px;}
 .authorHeader .apiMe2day *{ font-size:12px;}
 .authorHeader .apiMe2day .setupButton{ position:absolute; top:0; right:0; width:16px; height:16px; background:url(../images/iconMe2day.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .apiMe2day .apiProtocol{ position:relative; width:240px; border:2px solid #eee; background:#fff; padding:10px 15px 10px 20px; position:absolute; top:25px; right:0;}
@@ -435,7 +434,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .apiMe2day .apiProtocol .autoPush label{}
 .authorHeader .apiMe2day .apiProtocol .buttonArea button{ border:1px solid #ccc; background:#eee; font-size:11px; *margin-right:4px;}
 
-.authorHeader .mobile{ float:left; margin:0 5px 0 0; position:relative; top:-3px;}
+.authorHeader .mobile{ position:absolute; top:20px; right:20px;}
 .authorHeader .mobile .setupButton{ position:absolute; top:-3px; right:0; width:12px; height:19px; background:url(../images/iconMobile.gif) no-repeat;}
 .authorHeader .mobile .address{ display:none; position:absolute; border:2px solid #eee; background:#fff; padding:10px 15px 10px 20px; position:absolute; top:25px; right:0; white-space:nowrap;}
 .authorHeader .mobile .address.open{ display:block;}
@@ -615,5 +614,6 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .pagination a.prevEnd{ padding:5px 10px 3px 18px; background:url(../images/paginationPrevEnd.gif) no-repeat 4px 8px !important; border:none; border-right:1px solid #ccc; font-weight:normal;}
 .pagination a.next{ padding:5px 18px 3px 10px; background:url(../images/paginationNext.gif) no-repeat 40px 8px !important; border:none; font-weight:normal; }
 .pagination a.nextEnd{ padding:5px 18px 3px 10px; background:url(../images/paginationNextEnd.gif) no-repeat 40px 8px !important; border:none; border-left:1px solid #ccc; font-weight:normal;}
+
 
 
