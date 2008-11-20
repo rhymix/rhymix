@@ -58,17 +58,17 @@
         <var name="logo_title" type="text">
             <title xml:lang="ko">플래닛 타이틀</title>
 	    	<title xml:lang="zh-CN">微博标题</title>
-            <title xml:lang="zh-TW">planet標題</title>
+            <title xml:lang="zh-TW">微型部落格標題</title>
         </var>
         <var name="logo_image" type="image">
             <title xml:lang="ko">플래닛 메인 로고이미지</title>
 	    	<title xml:lang="zh-CN">微博LOGO</title>
-            <title xml:lang="zh-TW">planet Logo</title>
+            <title xml:lang="zh-TW">微型部落格 Logo</title>
         </var>
         <var name="notice" type="text">
             <title xml:lang="ko">플래닛 한줄공지</title>
 	    	<title xml:lang="zh-CN">微博公告(一句)</title>
-            <title xml:lang="zh-TW">planet公告</title>
+            <title xml:lang="zh-TW">微型部落格公告</title>
         </var>
     </extra_vars>
 </skin>

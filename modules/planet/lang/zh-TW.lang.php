@@ -148,25 +148,25 @@
 
     $lang->planet_total_articles = "全部";
     $lang->planet_wantyou = "推薦";
-    $lang->planet_best = "満船";
+    $lang->planet_best = "熱門討論";
     $lang->planet_catch = "釣った記事";
     $lang->planet_fish = "釣られた記事";
-    $lang->planet_bigfish = "満船";
+    $lang->planet_bigfish = "熱門討論";
     $lang->cmd_send_me2day = "me2day傳送";
 
-    $lang->msg_already_have_phone_number = '이미 전화번호가 등록되어 있습니다.';
+    $lang->msg_already_have_phone_number = '已註冊的手機號碼。';
     $lang->planet_mobile_receive = '모바일 연동';
-    $lang->planet_mobile_number = '전화번호';
-    $lang->msg_success_set_phone_number = '전화번호가 등록되었습니다.';
+    $lang->planet_mobile_number = '手機號碼';
+    $lang->msg_success_set_phone_number = '手機號碼註冊成功。';
 
     $lang->planet_tagtab = "Tag標籤";
-    $lang->about_planet_tagtab = "콤마(,)로 여러개의 Tag를 지정할 수 있으며, 지정한 Tag는 메인에 탭으로 출력 됩니다. 글쓰기 창에도 출력됩니다.";
+    $lang->about_planet_tagtab = "以「,」區分多個標籤，這些標籤將顯示在標籤頁。";
     $lang->planet_smstag = "SMS Tag";
-    $lang->about_planet_smstag = "콤마(,)로 여러개의 Tag를 지정할 수 있으며, SMS로 등록시에 등록 되는 Tag";
+    $lang->about_planet_smstag = "以「,」區分多個標籤， 以 SMS傳送時將自動新增標籤。";
 
-    $lang->planet_use_mobile = "使用 SMS";
-    $lang->about_use_mobile = "핸드폰 SMS로 글을 작성할 수 있게 합니다.";
-    $lang->planet_use_me2day = "미투데이 연동";
-    $lang->about_use_me2day = "글 작성시 me2day에 보내게 됩니다.";
+    $lang->planet_use_mobile = "開啟 SMS";
+    $lang->about_use_mobile = "可用手機發送 SMS";
+    $lang->planet_use_me2day = "使用 Me2day";
+    $lang->about_use_me2day = "發表主題的同時也傳送到 me2day(http://me2day.net)。";
 
 ?>
