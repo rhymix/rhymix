@@ -17,10 +17,10 @@
     $lang->ldap_username_entry = '請輸入使用者名稱';
     $lang->ldap_group_entry = '請輸入群組';
 
-    $lang->about_use_ldap = '請輸入 all necessary information first and then check this';
-    $lang->about_ldap_server = '請輸入 LDAP server information for authirization and data request'; 
+    $lang->about_use_ldap = '請輸入並檢查所有必填的資料。';
+    $lang->about_ldap_server = '請輸入已授權的 LDAP主機資料。'; 
     $lang->about_ldap_port = '請輸入 LDAP主機端口。';
-    $lang->about_ldap_userdn_suffix = '請輸入 userdn suffux for authorization. 例) @abc.com';
+    $lang->about_ldap_userdn_suffix = '請輸入已授權的 userdn後綴。例) @abc.com';
     $lang->about_ldap_basedn = '請輸入 base DN資料夾。 例) dc=abc,dc=com';
 
     $lang->about_ldap_email_entry = '請輸入 LDAP電子郵件資料。(禁止重複)';
