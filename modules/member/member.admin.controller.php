@@ -129,6 +129,7 @@
                     break;
                 case 'update' :
                         $args = Context::gets('group_srl','title','description','is_default');
+                        $args->site_srl = 0;
                         $output = $this->updateGroup($args);
                         if(!$output->toBool()) return $output;
                         $msg_code = 'success_updated';
