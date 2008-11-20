@@ -297,8 +297,8 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .commentBody .comment .tongue .postExtra .sympathy a{ position:relative; *top:-2px; margin-right:1px; color:#999; padding-left:8px; font:.7em AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; background:url(../images/arrowReplyOpen.gif) no-repeat left 3px;}
 
 /* Todo Manager */
-.commentList .commentHeader h3.exTitle{ font-family:"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; line-height:normal; background:none;}
-.commentList .commentHeader .todoWrite{ position:absolute; top:0; right:3px;}
+.commentList .commentHeader h3.exTitle{ font-family:"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; line-height:normal; background:none; float:left;}
+.commentList .commentHeader .todoWrite{ float:right; }
 .todoManager ul{ position:relative; margin:0 0 0 40px; padding:20px 0;}
 .todoManager li{ position:relative; font-family:"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
 .todoManager li .button{ margin-left:5px;}
