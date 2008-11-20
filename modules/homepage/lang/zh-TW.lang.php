@@ -67,7 +67,7 @@
         "dispHomepageMidSetup" => "可詳細設定網站所使用的討論板，頁面等模組",
     );
     $lang->about_homepage = "網站模組可快速建立網站，且容易進行設定。";
-    $lang->about_homepage_title = "只有在管理時才看的到此標題。此標題不會顯示。";
+    $lang->about_homepage_title = "只有在管理時才看的到此標題。";
     $lang->about_domain = "要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將 XE安裝路徑也一起輸入。<br />例) www.zeroboard.com/zbxe";
     $lang->about_menu_names = "可指定語言。<br/>如果只輸入其中一項，其他語言將會顯示一樣。";
     $lang->about_menu_option = "可設定案選單時，是否要以新視窗開啟。<br />選展開的話，是隨版面。";
