@@ -17,7 +17,7 @@
 
     $lang->planet_reply_content = "微博评论内容";
 
-    $lang->about_planet = 
+    $lang->about_planet =
         "XE的微博模块。用户可以创建自己的微博并使用。
         注意：主站使用的域名可能无法链接微博。
         注意：要想把微博设置为默认首页，你要链接的域名应是唯一的，不能同时用在其他站点。";
@@ -106,8 +106,8 @@
     $lang->planet_nowhot_tag = "微博实时人气标签";
     $lang->cmd_planet_close_nowhot_tag = "关闭实时人气标签";
 
-    $lang->about_planet_whats_textSearch_in_planet = "<strong>%s</strong>님의 플래닛에서 검색한 <strong>'%s'</strong> 에 대한 결과 입니다.";
-    $lang->about_planet_whats_textSearch = "<strong>'%s'</strong> 에 대한 전체 검색결과 입니다.";
+    $lang->about_planet_whats_textSearch_in_planet = "在<strong>%s</strong>的微博搜索 <strong>'%s'</strong> 的结果。";
+    $lang->about_planet_whats_textSearch = "<strong>'%s'</strong> 的搜索结果。";
 
     $lang->planet_acticle = "主题";
     $lang->planet_persontag = "形象标签";
