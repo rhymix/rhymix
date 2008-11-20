@@ -798,9 +798,14 @@
             if($domain) {
                 $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
                 if(substr($domain,-1) != '/') $domain .= '/';
-            } else $domain = $_SERVER['HTTP_HOST'].getScriptPath();
+            } else {
+                $domain = preg_replace('/:'.$_SERVER['SERVER_PORT'].'$/','',$_SERVER['HTTP_HOST']).getScriptPath();
+            }
 
-            $url[$ssl_mode] = sprintf("%s://%s",$use_ssl?'https':'http',$domain);
+            $domain = sprintf("%s://%s",$use_ssl?'https':'http',$domain);
+
+            $url_info = parse_url($domain);
+            $url[$ssl_mode] = sprintf("%s://%s%s%s",$url_info['scheme'], $url_info['host'], $_SERVER['SERVER_PORT']!==80?':'.$_SERVER['SERVER_PORT']:'',$url_info['path']);
 
             return $url[$ssl_mode];
         }
