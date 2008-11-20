@@ -1,46 +1,48 @@
 <?php
     /**
      * @file   zh-TW.lang.php
-     * @author sol (sol@ngleader.com) 翻譯:royallin     * @edit nmind(nmindplus@gmail.com)
-     * @brief  Planet(planet)模組正體中文
+     * @author sol (sol@ngleader.com) 翻譯:royallin
+     * @brief  微型部落格(planet)模組
      **/
 
-    $lang->planet = "planet";
-    $lang->planet_title = "planet標題";
-    $lang->planet_url = "planet URL";
-    $lang->planet_myplanet = "My planet";
-    $lang->planet_whos_planet = "%s 的 planet";
+    $lang->planet = "微型部落格";
+    $lang->planet_title = "微型部落格標題";
+    $lang->planet_url = "微型部落格網址";
+    $lang->planet_myplanet = "我的微型部落格";
+    $lang->planet_whos_planet = "%s 的微型部落格";
     $lang->planet_whos_favorite = "%s 的最愛";
-    $lang->planet_whos_favorite_list = "經常拜訪 '%s'的 planet";
+    $lang->planet_whos_favorite_list = "經常拜訪 '%s'的微型部落格";
 
     $lang->planet_welcome = "歡迎！";
 
-    $lang->planet_reply_content = "planet的回覆內容";
+    $lang->planet_reply_content = "微型部落格的回覆內容";
 
-    $lang->about_planet = "XE的微型部落模組。会員別のプラネットを作成して運営することができます。";
+    $lang->about_planet = 
+        "XE 微型部落格模組。每個會員都能建立自己的微型部落格。
+         Planet may not be accessible with the domain name used in the homepage package.
+         如果想將微型部落格當作首頁，請先在網站模組中設定其他的網域名稱。";
 
-    $lang->planet_mid = "planet連結網址";
-    $lang->about_planet_mid = "可以直接輸入網址訪問部落格，planet連結網址是「http://主程式網址/planet連結網址」。";
+    $lang->planet_mid = "微型部落格連結網址";
+    $lang->about_planet_mid = "可以直接輸入網址訪問部落格，微型部落格連結網址是「http://主程式網址/planet連結網址」。";
 
-    $lang->planet_default_skin = "planet基本面板";
-    $lang->about_planet_default_skin = "建立和設定 planet首頁。";
+    $lang->planet_default_skin = "微型部落格基本面板";
+    $lang->about_planet_default_skin = "建立和設定微型部落格首頁。";
 
-    $lang->planet_comment = "planet簡介";
-    $lang->about_planet_comment = "planet的簡介，同時也會顯示在瀏覽器的標題。";
+    $lang->planet_comment = "微型部落格簡介";
+    $lang->about_planet_comment = "微型部落格的簡介，同時也會顯示在瀏覽器的標題。";
 
     $lang->use_signup = "顯示會員註冊按鈕";
-    $lang->about_use_signup = "選擇此項，會在 planet首頁顯示『新會員註冊』按鈕。";
+    $lang->about_use_signup = "選擇此項，會在微型部落格首頁顯示『新會員註冊』按鈕。";
 
-
-    $lang->cmd_create_planet = "建立 My planet";
-    $lang->create_message = "My planet 簡介";
-    $lang->about_create_message = "可簡單地輸入 My Planet簡介。";
+    $lang->cmd_create_planet = "建立我的微型部落格";
+    $lang->create_message = "我的微型部落格簡介";
+    $lang->about_create_message = "可簡單地輸入簡介。";
 
     $lang->cmd_planet_setup = "基本設定";
-    $lang->cmd_planet_list = "planet列表";
+    $lang->cmd_planet_list = "微型部落格列表";
 
     $lang->msg_not_logged = "請先登入。";
-    $lang->msg_planet_exists = "已建立 planet，無法再新增。";
+    $lang->msg_planet_exists = "已建立微型部落格，無法再新增。";
 
     $lang->planet_userinfo = "個人資料";
     $lang->planet_change_userinfo = "修改個人資料";
@@ -54,7 +56,7 @@
 
     $lang->planet_hot_tag = "熱門標籤";
     $lang->planet_home = "TOP";
-    $lang->cmd_planet_more_tag = "更多標籤";
+    $lang->cmd_planet_more_tag = "更多";
 
     $lang->planet_memo = "memo";
     $lang->cmd_planet_show_memo_write_form = "發表 memo";
@@ -74,12 +76,10 @@
     $lang->cmd_planet_openclose_memo = "展開或關閉 memo";
     $lang->cmd_planet_del_tag = "刪除標籤";
 
-
     $lang->cmd_planet_openclose_recommend_search = "推薦検索を開く/關閉";
     $lang->about_planet_input_search_text = "輸入關鍵字";
 
-
-    $lang->about_planet_make_planet = "マイプラネットを作成しましょ。プラネットの上段に表示される「マイインフォ」を入力してください。";
+    $lang->about_planet_make_planet = "建立微型部落格。プラネットの上段に表示される「マイインフォ」を入力してください。";
     $lang->about_planet_make_planet_info = "マイプラネットの上段に表示されるマイインフォです。各項目を入力して設定を変更してください。";
     $lang->planet_input_personalinfo = "輸入個人資料";
     $lang->planet_photo = "照片";
@@ -91,8 +91,8 @@
 
     $lang->about_planet_tag = "以「,」區分多個標籤。";
 
-    $lang->cmd_planet_makeOk_move_myplanet = "確認 : 移動到 My Planet。";
-    $lang->cmd_planet_ok_move_myplanet = "確認 : 移動到 My Planet。";
+    $lang->cmd_planet_makeOk_move_myplanet = "確認 : 移動到我的微型部落格。";
+    $lang->cmd_planet_ok_move_myplanet = "確認 : 移動到我的微型部落格。";
 
 
     $lang->about_planet_login = "請輸入帳號密碼。";
@@ -100,7 +100,7 @@
     $lang->cmd_planet_login = "登入";
 
 
-    $lang->planet_nowhot_tag = "planet熱門標籤";
+    $lang->planet_nowhot_tag = "熱門標籤";
     $lang->cmd_planet_close_nowhot_tag = "關閉熱門標籤";
 
     $lang->about_planet_whats_textSearch_in_planet = "<strong>%s</strong>さんのプラネットから検索した<strong>'%s'</strong>的搜尋結果。";
