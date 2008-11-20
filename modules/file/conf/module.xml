@@ -5,6 +5,8 @@
         <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" />
         <action name="dispFileAdminConfig" type="view" standalone="true" />
 
+        <action name="getFileList" type="model" standalone="true" />
+
         <action name="procFileUpload" type="controller" standalone="true" />
         <action name="procFileDelete" type="controller" standalone="true" />
         <action name="procFileDownload" type="controller" standalone="true" />

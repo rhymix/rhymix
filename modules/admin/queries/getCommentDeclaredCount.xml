@@ -1,0 +1,8 @@
+<query id="getCommentDeclaredCount" action="select">
+    <tables>
+        <table name="comment_declared_log" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+</query>

@@ -37,11 +37,11 @@
             $title = sprintf('%s:%s%s %s, %s:%s/%s', Context::getLang('point'), $point, $config->point_name, $per?'('.$per.'%)':'', Context::getLang('level'), $level, $config->max_level);
             $alt = sprintf('[%s:%s]', Context::getLang('level'), $level);
 
-            $text = sprintf('<span class="nowrap member_%s" style="cursor:pointer"><img src="%s" alt="%s" title="%s" style="vertical-align:middle;margin-right:3px"/>%s</span>', $member_srl, $level_icon, $alt, $title, $text);
-
-            $GLOBALS['_pointLevelIcon'][$member_srl] = $text;
+            $GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" style="vertical-align:middle; margin-right:3px;" />', $level_icon, $alt, $title);
         }
+        $text = $GLOBALS['_pointLevelIcon'][$member_srl];
 
-        return $GLOBALS['_pointLevelIcon'][$member_srl];
+        $orig_text = preg_replace('/'.preg_quote($matches[5],'/').'<\/'.$matches[6].'>$/', '', $matches[0]);
+        return $orig_text.$text.$matches[5].'</'.$matches[6].'>';
     }
 ?>

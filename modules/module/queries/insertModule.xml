@@ -3,6 +3,7 @@
         <table name="modules" />
     </tables>
     <columns>
+        <column name="site_srl" var="site_srl" default="0" notnull="notnull" />
         <column name="module_srl" var="module_srl" notnull="notnull" />
         <column name="module_category_srl" var="module_category_srl" default="0" />
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />

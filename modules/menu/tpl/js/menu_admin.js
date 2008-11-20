@@ -128,17 +128,17 @@ function completeInsertMenuItem(ret_obj) {
 
 
 /* 메뉴를 드래그하여 이동한 후 실행할 함수 , 이동하는 item_srl과 대상 item_srl을 받음 */
-function doMoveTree(menu_id, source_item_srl, target_item_srl) {
+function doMoveTree(menu_id, source_item, target_item) {
     var fo_obj = xGetElementById("fo_move_menu");
     fo_obj.menu_id.value = menu_id;
-    fo_obj.source_item_srl.value = source_item_srl;
-    fo_obj.target_item_srl.value = target_item_srl;
+    fo_obj.source_item.value = source_item;
+    fo_obj.target_item.value = target_item;
 
     // 이동 취소를 선택하였을 경우 다시 그림;;
     if(!procFilter(fo_obj, move_menu_item)) {
         var params = new Array();
         params["xml_file"] = xGetElementById('fo_menu').xml_file.value;
-        params["source_item_srl"] = source_item_srl;
+        params["source_item"] = source_item;
         completeMoveMenuItem(params);
     }
 }

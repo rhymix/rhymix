@@ -10,20 +10,18 @@
 <!--@end-->
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
 
     <!--@if(!$module_srls)-->
         <tr>
-            <th scope="row">{$lang->mid}</th>
+            <th scope="row"><div>{$lang->mid}</div></th>
             <td>
                 <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
                 <p>{$lang->about_mid}</p>
             </td>
         </tr>
         <!--@if($module_info->is_default!='Y')-->
-        <tr>
-            <th scope="row">{$lang->is_default}</th>
+        <tr class="row2">
+            <th scope="row"><div>{$lang->is_default}</div></th>
             <td>
                 <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
                 <label for="fld_for_default">{$lang->about_default}</label>
@@ -32,7 +30,7 @@
         <!--@end-->
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->module_category}</th>
+        <th scope="row"><div>{$lang->module_category}</div></th>
         <td>
             <select name="module_category_srl">
                 <option value="0">{$lang->notuse}</option>
@@ -45,8 +43,8 @@
     </tr>
 
     <!--@if(!$module_srls)-->
-    <tr>
-        <th scope="row">{$lang->browser_title}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
             <p>{$lang->about_browser_title}</p>
@@ -55,7 +53,7 @@
     <!--@end-->
 
     <tr>
-        <th scope="row">{$lang->layout}</th>
+        <th scope="row"><div>{$lang->layout}</div></th>
         <td>
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
@@ -66,8 +64,8 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->skin}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin">
                 <!--@foreach($skin_list as $key=>$val)-->
@@ -78,14 +76,14 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->use_category}</th>
+        <th scope="row"><div>{$lang->use_category}</div></th>
         <td>
             <input type="checkbox" name="use_category" value="Y" <!--@if($module_info->use_category=='Y')-->checked="checked"<!--@end-->  class="checkbox" id="fld_for_category" />
             <label for="fld_for_category">{$lang->about_use_category}</label>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->order_target}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->order_target}</div></th>
         <td>
             <select name="order_target">
                 <!--@foreach($order_target as $key => $val)-->
@@ -96,7 +94,7 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->order_type}</th>
+        <th scope="row"><div>{$lang->order_type}</div></th>
         <td>
             <select name="order_type">
                 <option value="asc" <!--@if($module_info->order_type != 'desc')-->selected="selected"<!--@end-->>{$lang->order_asc}</option>
@@ -104,81 +102,81 @@
             </select>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->list_count}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->list_count}</div></th>
         <td>
             <input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}"  class="inputTypeText" />
             <p>{$lang->about_list_count}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->search_list_count}</th>
+        <th scope="row"><div>{$lang->search_list_count}</div></th>
         <td>
             <input type="text" name="search_list_count" value="{$module_info->search_list_count?$module_info->search_list_count:20}"  class="inputTypeText" />
             <p>{$lang->about_search_list_count}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->page_count}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->page_count}</div></th>
         <td>
             <input type="text" name="page_count" value="{$module_info->page_count?$module_info->page_count:10}"  class="inputTypeText" />
             <p>{$lang->about_page_count}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->except_notice}</th>
+        <th scope="row"><div>{$lang->except_notice}</div></th>
         <td>
             <input type="checkbox" name="except_notice" value="Y" <!--@if($module_info->except_notice!='N')-->checked="checked"<!--@end--> />
             <p>{$lang->about_except_notice}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->consultation}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->consultation}</div></th>
         <td>
             <input type="checkbox" name="consultation" value="Y" <!--@if($module_info->consultation=='Y')-->checked="checked"<!--@end--> />
             <p>{nl2br($lang->about_consultation)}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->admin_mail}</th>
+        <th scope="row"><div>{$lang->admin_mail}</div></th>
         <td>
             <input type="text" name="admin_mail" value="{$module_info->admin_mail}"  class="inputTypeText w400" />
             <p>{$lang->about_admin_mail}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->description}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->description)}</textarea>
             <p>{$lang->about_description}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->header_text}</th>
+        <th scope="row"><div>{$lang->header_text}</div></th>
         <td>
-            <textarea name="header_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->header_text)}</textarea>
+            <textarea name="header_text" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->header_text)}</textarea>
             <p>{$lang->about_header_text}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->footer_text}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->footer_text}</div></th>
         <td>
-            <textarea name="footer_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->footer_text)}</textarea>
+            <textarea name="footer_text" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->footer_text)}</textarea>
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->admin_id}</th>
+        <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
-            <textarea name="admin_id" class="inputTypeTextArea w100"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
+            <textarea name="admin_id" class="inputTypeTextArea fixWidth"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row" colspan="2" class="button">
+    <tr class="row2">
+        <td colspan="2" class="center">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
             <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
-        </th>
+        </td>
     </table>
 
     <!--@if(!$module_srls)-->
@@ -199,15 +197,13 @@
                 {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
             <!--@end-->
         <table cellspacing="0" class="adminTable ">
-        <col width="150" />
-        <col />
         <caption>{$lang->extra_vars} {$i}</caption>
-        <tr>
-            <th>{$lang->column_name}</th>
-            <td><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
+        <tr class="row2">
+            <th><div>{$lang->column_name}</div></th>
+            <td class="wide"><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
         </tr>
         <tr>
-            <th>{$lang->column_type}</th>
+            <th><div>{$lang->column_type}</div></th>
             <td>
                 <select name="extra_vars_{$i}_type">
                     <!--@foreach($lang->column_type_list as $key => $val)-->
@@ -218,24 +214,24 @@
                 </select>
             </td>
         </tr>
-        <tr>
-            <th>{$lang->is_required}</th>
+        <tr class="row2">
+            <th><div>{$lang->is_required}</div></th>
             <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
         </tr>
         <tr>
-            <th>{$lang->default_value}</th>
+            <th><div>{$lang->default_value}</div></th>
             <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
         </tr>
-        <tr>
-            <th>{$lang->description}</th>
+        <tr class="row2">
+            <th><div>{$lang->description}</div></th>
             <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
         </tr>
         <tr>
-            <th>{$lang->cmd_search}</th>
+            <th><div>{$lang->cmd_search}</div></th>
             <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
         </tr>
-        <tr>
-            <th scope="row" colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
+        <tr class="row2">
+            <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></div></th>
         </tr>
         </table>
         <!--@end-->

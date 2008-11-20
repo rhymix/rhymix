@@ -2,34 +2,15 @@
 
 <!-- 레이아웃의 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(0,50,120,60,75,140,80)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(0,60,130,55,75,140,95)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(0,50,120,60,75,140,80)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(0,60,120,70,75,140,90)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(0,60,120,60,75,140,110)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(0,60,120,60,75,140,110)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(0,60,130,55,60,140,90)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->layout_name}</th>
-        <th scope="col">{$lang->version}</th>
-        <th scope="col">{$lang->author}</th>
-        <th scope="col">{$lang->menu_count}</th>
-        <th scope="col">{$lang->date}</th>
-        <th scope="col">{$lang->path}</th>
-        <th scope="col">{$lang->cmd_make}</th>
+        <th scope="col" class="halfwide"><div>{$lang->layout_name}</div></th>
+        <th scope="col"><div>{$lang->version}</div></th>
+        <th scope="col"><div>{$lang->author}</div></th>
+        <th scope="col"><div>{$lang->menu_count}</div></th>
+        <th scope="col"><div>{$lang->date}</div></th>
+        <th scope="col"><div>{$lang->path}</div></th>
+        <th scope="col"><div>{$lang->cmd_make}</div></th>
     </tr>
 </thead>
 <tbody>
@@ -37,21 +18,23 @@
 
         <!--// 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
         <!--@if($val->title)-->
-        <tr>
+        <tr class="row{$cycle_idx}">
             <th rowspan="2">
-                <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
-                ({$val->layout})
+                <div>
+                    <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
+                    ({$val->layout})
+                </div>
             </th>
-            <td class="tahoma">{$val->version}</td>
-            <td>
-            <!--@foreach($val->author as $author)-->
-            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
-            <!--@endforeach-->
+            <td class="number center">{$val->version}</td>
+            <td class="center nowrap">
+                <!--@foreach($val->author as $author)-->
+                <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+                <!--@endforeach-->
             </td>
-            <td class="tahoma">{$val->menu_count}</td>
-            <td class="tahoma">{zdate($val->date, 'Y-m-d')}</td>
-            <td class="tahoma">{$val->path}</td>
-            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="button"><span>{$lang->cmd_make}</span></a></td>
+            <td class="number center">{$val->menu_count}</td>
+            <td class="date center nowrap">{zdate($val->date, 'Y-m-d')}</td>
+            <td class="nowrap">{$val->path}</td>
+            <td class="center"><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="button"><span>{$lang->cmd_make}</span></a></td>
         </tr>
         <tr>
             <td colspan="6" class="left">

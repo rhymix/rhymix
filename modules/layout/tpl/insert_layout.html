@@ -5,10 +5,8 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_layout)">
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="row">{$lang->layout_name}</th>
+        <th scope="row"><div>{$lang->layout_name}</div></th>
         <td>
             <select name="layout">
                 <!--@foreach($layout_list as $key => $val)-->
@@ -17,17 +15,17 @@
             </select>
         </td>
     </tr>
-    <tr>  
-        <th scope="row">{$lang->title}</th>
+    <tr class="row2">  
+        <th scope="row"><div>{$lang->title}</div></th>
         <td>
             <input type="text" name="title" value="{$info->title}" class="inputTypeText w400" />
             <p>{$lang->about_title}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row" colspan="2" class="button">
+        <td scope="row" colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_next}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
     </table>
 

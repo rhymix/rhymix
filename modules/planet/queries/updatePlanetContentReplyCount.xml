@@ -1,0 +1,11 @@
+<query id="updatePlanetContentReplyCount" action="update">
+    <tables>
+        <table name="planet_content" />
+    </tables>
+    <columns>
+        <column name="reply_count" var="reply_count" default="plus(1)" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet_content_srl" var="planet_content_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -2,8 +2,8 @@
 <!--#include("header.html")-->
 
 <!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
@@ -11,72 +11,51 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,0,150,65,50,90,45)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,0,150,80,60,90,50)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,0,150,65,45,90,45)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,0,150,80,60,90,50)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(80,0,150,80,60,90,50)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,0,150,70,75,70,95)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,0,150,80,60,85,60)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-        <th scope="col">{$lang->comment}</th>
-        <th scope="col">{$lang->user_name}</th>
-        <th scope="col">{$lang->date}</th>
-        <th scope="col">{$lang->cmd_declare}</th>
-        <th scope="col">{$lang->ipaddress}</th>
-        <th scope="col">{$lang->cmd_move}</th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col" class="wide"><div>{$lang->comment}</div></th>
+        <th scope="col"><div>{$lang->user_name}</div></th>
+        <th scope="col"><div>{$lang->date}</div></th>
+        <th scope="col"><div>{$lang->cmd_declare}</div></th>
+        <th scope="col"><div>{$lang->ipaddress}</div></th>
+        <th scope="col"><div>{$lang->cmd_move}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($comment_list as $no => $oComment)-->
-    <tr>
-        <td class="tahoma">{$no}</td>
-        <td class="left"><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
-        <td><div class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</div></td>
-        <td class="tahoma">{$oComment->getRegdate("Y-m-d")}</td>
-        <td class="tahoma red"><strong>{$oComment->get('declared_count')}</strong></td>
-        <td class="tahoma">{$oComment->get('ipaddress')}</td>
-        <td class="blue"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+    <tr class="row{$cycle_idx}">
+        <td class="number center">{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
+        <td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
+        <td class="date nowrap center">{$oComment->getRegdate("Y-m-d")}</td>
+        <td class="alert center number"><strong>{$oComment->get('declared_count')}</strong></td>
+        <td class="number center">{$oComment->get('ipaddress')}</td>
+        <td class="view center"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
     </tr>
     <!--@end-->
+    <tr>
+        <td colspan="7" class="right">
+            <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+        </td>
+    </tr>
 </tbody>
 </table>
-
-<!-- 버튼 -->
-    <div class="fl gap1">
-        <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
-    </div>
-    <div class="fr gap1">
-        <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
-        <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
-    </div>
 </form>
 
 <!-- 페이지 네비게이션 -->
 <div class="clear"></div>
-<div class="pageNavigation">
-    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
+            <strong>{$page_no}</strong> 
         <!--@else-->
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
 </div>

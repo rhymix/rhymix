@@ -1,0 +1,16 @@
+<filter name="insert_homepage" module="homepage" act="procHomepageAdminInsertHomepage" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="homepage_title" required="true" maxlength="250" />
+        <node target="domain" required="true" maxlength="250" />
+    </form>
+    <parameter>
+        <param name="title" target="homepage_title" />
+        <param name="domain" target="domain" />
+    </parameter>
+    <response callback_func="completeInsertHomepage">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="site_srl" />
+        <tag name="url" />
+    </response>
+</filter>

@@ -66,7 +66,9 @@
                 $this->setError(-1);
                 $this->setMessage($error['description']);
             } else {
-                $openid->SetApprovedURL( sprintf('%s?module=member&act=procMemberOpenIDValidate', Context::getRequestUri(RELEASE_SSL)) );
+                $goto = urlencode(substr($_SERVER['HTTP_REFERER'],strlen(Context::getRequestUri(RELEASE_SSL))));
+                $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=procMemberOpenIDValidate&goto=" . $goto;
+                $openid->SetApprovedURL($ApprovedURL);
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
             }
@@ -114,7 +116,13 @@
                 Context::close();
 
                 // 페이지 이동
-                header("location:./");
+                if(Context::get('goto')){
+                    $goto = Context::get('goto');
+                    header("location:./" . $goto);	
+                }else{
+                    header("location:./");	
+                }
+                
                 exit();
 
 
@@ -854,13 +862,39 @@
         /**
          * @brief member_srl에 group_srl을 추가
          **/
-        function addMemberToGroup($member_srl,$group_srl) {
+        function addMemberToGroup($member_srl,$group_srl,$site_srl=0) {
             $args->member_srl = $member_srl;
             $args->group_srl = $group_srl;
+            if($site_srl) $args->site_srl = $site_srl;
 
             // 추가
             return  executeQuery('member.addMemberToGroup',$args);
         }
+
+        /**
+         * @brief 특정 회원들의 그룹을 일괄 변경
+         **/
+        function replaceMemberGroup($args) {
+            $obj->site_srl = $args->site_srl;
+            $obj->member_srl = implode(',',$args->member_srl);
+            $output = executeQuery('member.deleteMembersGroup', $obj);
+            if(!$output->toBool()) return $output;
+
+            $inserted_members = array();
+            foreach($args->member_srl as $key => $val) {
+                if($inserted_members[$val]) continue;
+                $inserted_members[$val] = true;
+
+                unset($obj);
+                $obj->member_srl = $val;
+                $obj->group_srl = $args->group_srl;
+                $obj->site_srl = $args->site_srl;
+                $output = executeQuery('member.addMemberToGroup', $obj);
+                if(!$output->toBool()) return $output;
+            }
+            return new Object();
+        }
+
 
         /**
          * @brief 자동 로그인 시킴
@@ -985,12 +1019,13 @@
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['member_srl'] = $member_info->member_srl;
-            $_SESSION['is_admin'] = false;
+            $_SESSION['is_admin'] = '';
 
             // 비밀번호는 세션에 저장되지 않도록 지워줌;;
             unset($member_info->password);
 
             // 사용자 그룹 설정
+            /*
             if($member_info->group_list) {
                 $group_srl_list = array_keys($member_info->group_list);
                 $_SESSION['group_srls'] = $group_srl_list;
@@ -998,8 +1033,9 @@
                 // 관리자 그룹일 경우 관리자로 지정
                 $oMemberModel = &getModel('member');
                 $admin_group = $oMemberModel->getAdminGroup();
-                if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = true;
+                if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = 'Y';
             }
+            */
             
             // 세션에 로그인 사용자 정보 저장
             $_SESSION['logged_info'] = $member_info;
@@ -1111,7 +1147,7 @@
 
             // 입력된 그룹 값이 없으면 기본 그룹의 값을 등록
             if(!$args->group_srl_list) {
-                $default_group = $oMemberModel->getDefaultGroup();
+                $default_group = $oMemberModel->getDefaultGroup(0);
 
                 // 기본 그룹에 추가
                 $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);

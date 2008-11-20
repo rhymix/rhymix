@@ -5,13 +5,8 @@
      * @brief  Paquet du langage en français pour le module d\'Installation
      **/
 
-    $lang->introduce_title = 'Installation du Zeroboard XE ';
+    $lang->introduce_title = 'Installation du XE ';
     $lang->license = <<<EndOfLicense
-- Nom de Programme : zeroboard XE (zeroboardXE)
-- Licence : GNU LICENCE GÉNÉRALE PUBLIQUE 
-- Site Web Officiel : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- Auteur : zero (zero@zeroboard.com, http://www.zeroboard.com)
-
 Cette programme est un logiciel libre qui suit licence GPL.
 Mais quand un habillage qui a des éléments de design est inclus, l\'Auteur de l\'habillage peut appliquer la licence individuelle de lui-même.
 
@@ -172,10 +167,10 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Obligatoire] Si la version de PHP est 5.2.2, zeroboard ne sera pas  installé à cause du bogue',
-            'permission' => '[Obligatoire] Chemin de l\'installation de Zeroboard ou la permission de  répertoire de ./files doit être 707',
+			'php_version' => '[Obligatoire] Si la version de PHP est 5.2.2, XE ne sera pas  installé à cause du bogue',
+            'permission' => '[Obligatoire] Chemin de l\'installation de XE ou la permission de  répertoire de ./files doit être 707',
             'xml' => '[Obligatoire] La bibliothèque de XML est nécessaire pour la communication de XML',
-            'session' => '[Obligatoire] \'Session.auto_start\' dans le fichier de configuration pour PHP (php.ini) doit être égal à zéro car zeroboard utilise la session',
+            'session' => '[Obligatoire] \'Session.auto_start\' dans le fichier de configuration pour PHP (php.ini) doit être égal à zéro car XE utilise la session',
             'iconv' => 'Iconv doit être installé afin de convertir UTF-8 et des autres assortiments des  langues',
             'gd' => 'La bibliothèque de GD doit être installé afin d\'utiliser la fonction à convertir des images',
         );
@@ -192,6 +187,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'Je suis d\'accord avec la licence';
     $lang->cmd_install_fix_checklist = 'J\'ai corrigé les conditions obligatoires.';
     $lang->cmd_install_next = 'Continuer à  installer';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => 'Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.',
@@ -233,9 +229,9 @@ EndOfLicense;
     $lang->success_updated = 'Mise à Jour  s\'est complété';
 
     $lang->msg_cannot_proc = 'Environnement d\'Installation n\'est pas équipé à procéder.';
-    $lang->msg_already_installed = 'Zeroboard est déjà installé';
+    $lang->msg_already_installed = 'XE est déjà installé';
     $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter à la Base de Données.\nVérifiez encore une fois les informations sur la Base de Données, S.V.P.";
     $lang->msg_table_is_exists = "La Table est déjà créée dans la Base de Données.\nLe fichier de Configuration est recréé.";
-    $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir Zeroboard XE";
+    $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir XE";
     $lang->msg_install_failed = "Une erreur a lieu en créant le fichier d\'installation.";
 ?>

@@ -6,5 +6,7 @@
         <action name="dispAddonAdminSetup" type="view" standalone="true" />
         <action name="procAddonAdminToggleActivate" type="controller" standalone="true" />
         <action name="procAddonAdminSetupAddon" type="controller" standalone="true" />
+        <action name="procAddonSetupAddonAddMid" type="controller" />
+        <action name="procAddonSetupAddonDelMid" type="controller" />
     </actions>
 </module>

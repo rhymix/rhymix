@@ -93,6 +93,9 @@
                     $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
                     $icon_path = './modules/member/tpl/images/icon_management.gif';
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument-> getIpAddress());
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
                 }
             }
 
@@ -665,14 +668,12 @@
          * @brief 문서 설정 정보를 구함
          **/
         function getDocumentConfig() {
-            if(!$GLOBLAS['__document_config__'])  {
+            if(!$GLOBLAS['__document_config__']) {
                 $oModuleModel = &getModel('module');
                 $config = $oModuleModel->getModuleConfig('document');
-
                 if(!$config->thumbnail_type) $config->thumbnail_type = 'crop';
                 $GLOBLAS['__document_config__'] = $config;
             }
-
             return $GLOBLAS['__document_config__'];
         }
     }

@@ -1,0 +1,38 @@
+<!--#include("header.html")-->
+<!--%import("filter/create.xml")-->
+
+<div class="personalHeader">
+    <h2>Welcome</h2>
+    <p>{$lang->about_planet_make_planet}</p>
+    <span class="leftCap"></span><span class="rightCap"></span>
+</div>
+<form action="./" target="photo_iframe" method="post" enctype="multipart/form-data" onsubmit="return procFilter(this, create)">
+<input type="hidden" name="module" value="planet" />
+<input type="hidden" name="act" value="" />
+<input type="hidden" name="mid" value="" />
+    <fieldset>
+        <legend>{$lang->planet_input_personalinfo}</legend>
+        <div class="myInfo">
+            <dl>
+                <dt><label for="planet_title">{$lang->planet_title}</label></dt>
+                <dd>: <input name="planet_title" id="planet_title" type="text" value="{sprintf($lang->planet_whos_planet, $logged_info->nick_name)}" class="inputText" size="50" /></dd>
+                <dt><label for="photo">{$lang->planet_photo}</label></dt>
+                <dd>: <input name="photo" id="photo" type="file" size="42" onchange="doPlanetPhotoUpload(this);" /> </dd>
+                <dt><label for="summary">{$lang->planet_myintro}</label></dt>
+                <dd>: <input name="planet_myintro" id="summary" type="text" class="inputText" size="50" /></dd>
+                <dt><label for="url">{$lang->planet_url}</label></dt>
+                <dd>: {Context::getRequestUri()} <input name="planet_url" id="url" type="text" class="inputText" size="22" /> <em>*{$lang->about_planet_url}</em></dd>
+                <dt><label for="tag">{$lang->planet_mytag}</label></dt>
+                <dd>: <input name="planet_mytag" id="tag" type="text" class="inputText" size="50" /> <em>*{$lang->about_planet_mytag}</em></dd>
+            </dl>
+            <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        </div>
+        <div class="buttonArea">
+            <span class="button large strong planetBlue"><button type="submit">{$lang->cmd_planet_makeOk_move_myplanet}</button></span>
+        </div>
+    </fieldset>
+</form>
+
+<iframe name="photo_iframe" style="visibility:hidden;width:1px;height:1px;"></iframe>
+
+<!--#include("footer.html")-->

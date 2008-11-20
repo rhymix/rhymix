@@ -3,35 +3,31 @@
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col width="*" />
     <caption>{$lang->file}</caption>
-    <tr>
-        <th scope="col">{$lang->allowed_filesize}</th>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->allowed_filesize}</div></th>
         <td>
             <input type="text" name="allowed_filesize" value="{$file_config->allowed_filesize}" class="inputTypeText" size="3" />MB
             <p>{$lang->about_allowed_filesize}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col">{$lang->allowed_attach_size}</th>
+        <th scope="col"><div>{$lang->allowed_attach_size}</div></th>
         <td>
             <input type="text" name="allowed_attach_size" value="{$file_config->allowed_attach_size}" class="inputTypeText" size="3" />MB
             / {ini_get('upload_max_filesize')}
             <p>{$lang->about_allowed_attach_size}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="col">{$lang->allowed_filetypes}</th>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->allowed_filetypes}</div></th>
         <td>
             <input type="text" name="allowed_filetypes" value="{$file_config->allowed_filetypes}" class="inputTypeText w100" />
             <p>{$lang->about_allowed_filetypes}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col">
-            {$lang->enable_download_group}<br />
-        </th>
+        <th scope="col"><div>{$lang->enable_download_group}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
             <input type="checkbox" class="checkbox" name="download_grant" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(in_array($v->group_srl, $file_config->download_grant))-->checked="checked"<!--@end-->/> 
@@ -40,13 +36,11 @@
             <!--@end-->
         </td>
     </tr>
-    <tr>
-        <th colspan="2" class="button">
+    <tr class="row2">
+        <td class="right" colspan="2">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        </th>
+        </td>
     </tr>
     </table>
 
 </form>
-
-    <div class="gap1"></div>

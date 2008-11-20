@@ -1,0 +1,9 @@
+<query id="deleteInterestTag" action="delete">
+    <tables>
+        <table name="planet_interest_tags" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="tag" var="tag" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

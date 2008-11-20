@@ -120,9 +120,8 @@
             // header script를 레이아웃 모듈의 config에 저장
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-            $layout_config = $oModuleModel->getModuleConfig('layout');
-            $layout_config->header_script[$args->layout_srl] = Context::get('header_script');
-            $output = $oModuleController->insertModuleConfig('layout',$layout_config);
+            $layout_config->header_script = Context::get('header_script');
+            $oModuleController->insertModulePartConfig('layout',$args->layout_srl,$layout_config);
             
             // DB에 입력하기 위한 변수 설정 
             $args->extra_vars = serialize($extra_vars);

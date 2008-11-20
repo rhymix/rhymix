@@ -1,0 +1,14 @@
+<query id="getSMSUser" action="select">
+    <tables>
+        <table name="planet_sms_user" />
+    </tables>
+    <columns>
+        <column name="phone_number" />
+        <column name="module_srl" />
+        <column name="member_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="phone_number" var="phone_number" />
+        <condition operation="equal" column="member_srl" var="member_srl" pipe="or" />
+    </conditions>
+</query>

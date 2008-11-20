@@ -12,7 +12,7 @@
          * DB를 이용하기 위한 정보
          **/
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
 
         /**
          * PDO 사용시 필요한 변수들
@@ -266,6 +266,15 @@
         }
 
         /**
+         * @brief 특정 테이블의 특정 인덱스 삭제
+         **/
+        function dropIndex($table_name, $index_name, $is_unique = false) {
+            $key_name = sprintf('%s%s_%s', $this->prefix, $table_name, $index_name);
+            $query = sprintf("DROP INDEX %s", $this->prefix, $table_name, $key_name);
+            $this->_query($query);
+        }
+
+        /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
@@ -378,10 +387,12 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
-            foreach($output->conditions as $key => $val) {
+            foreach($output->conditions as $val) {
                 $sub_condition = '';
-                foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] === '') continue;
+                foreach($val['condition'] as $v) {
+                    if(!isset($v['value'])) continue;
+                    if($v['value'] === '') continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];

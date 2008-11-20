@@ -24,6 +24,8 @@
                 $oModule = &getClass($module->module);
                 if(method_exists($oModule, 'recompileCache')) $oModule->recompileCache();
             }
+
+            $this->setMessage('success_updated');
         }
     }
 ?>

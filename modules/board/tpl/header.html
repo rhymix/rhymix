@@ -7,7 +7,7 @@
 <!--@if($module_info)-->
 <div class="header4">
     <!--@if($module_info->mid)-->
-    <h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+    <h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
     <!--@end-->
 
     <ul class="localNavigation">
@@ -16,7 +16,7 @@
         <!--@else-->
         <li><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
         <!--@end-->
-        <li <!--@if($act=='dispBoardAdminBoardInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_view_info}</a></li>
+        <li <!--@if($act=='dispBoardAdminBoardInfo'||$act=='dispBoardAdminInsertBoard')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_view_info}</a></li>
         <li <!--@if($act=='dispBoardAdminBoardAdditionSetup')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminBoardAdditionSetup')}">{$lang->cmd_addition_setup}</a></li>
         <li <!--@if($act=='dispBoardAdminCategoryInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminCategoryInfo')}" onclick="winopen(this.href,'BoardMenu','width=850,height=800,resizable=yes,scrollbars=yes,toolbars=no');return false;">{$lang->cmd_manage_category}</a></li>
         <li <!--@if($act=='dispBoardAdminGrantInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispBoardAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>

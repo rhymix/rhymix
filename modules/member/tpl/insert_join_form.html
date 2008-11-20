@@ -6,11 +6,8 @@
 <input type="hidden" name="default_value" value="<!--@if(is_array($join_form->default_value))-->{implode($join_form->default_value,'|@|')}<!--@end-->" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
-
-    <tr id="zone_column_type">
-        <th scope="row">{$lang->column_type}</th>
+    <tr class="row2" id="zone_column_type">
+        <th scope="row"><div>{$lang->column_type}</div></th>
         <td>
             <select name="column_type" onchange="doShowJoinFormValue(this)">
                 <!--@foreach($lang->column_type_list as $key => $val)-->
@@ -45,45 +42,45 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->column_name}</th>
+        <th scope="row"><div>{$lang->column_name}</div></th>
         <td>
             <input type="text" name="column_name" value="{htmlspecialchars($join_form->column_name)}" class="inputTypeText w400" />
             <p>{$lang->about_column_name}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->column_title}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->column_title}</div></th>
         <td>
             <input type="text" name="column_title" value="{htmlspecialchars($join_form->column_title)}" class="inputTypeText w400" />
             <p>{$lang->about_column_title}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->is_active}</th>
+        <th scope="row"><div>{$lang->is_active}</div></th>
         <td>
             <input type="checkbox" name="is_active" value="Y" <!--@if($join_form->is_active=='Y')-->checked="checked"<!--@end-->/>
-            {$lang->about_active}
+            <p>{$lang->about_active}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->is_required}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->is_required}</div></th>
         <td>
             <input type="checkbox" name="required" value="Y" <!--@if($join_form->required=='Y')-->checked="checked"<!--@end-->/>
-            {$lang->about_required}
+            <p>{$lang->about_required}</p>
         </td>
     </tr>
     <tr>
-        <th rowspan="2">{$lang->description}</th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>
             <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($join_form->description)}</textarea>
             <p>{$lang->about_form_description}</p>
         </td>
     </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </td>
+    </tr>
     </table>
-
-    <!-- 가입폼 추가 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
-    </div>
 
 </form>

@@ -24,7 +24,7 @@
     $lang->current_version = "Versión actual";
     $lang->current_path = "Instalado Sendero";
     $lang->released_version = "Versión más reciente";
-    $lang->about_download_link = "La versión más reciente de Zerboard XE está disponible. Para descargar la versión más reciente, haga clic en enlace de descarga.";
+    $lang->about_download_link = "La versión más reciente Zerboard XE está disponible.\nPara descargar la versión más reciente, haga clic en enlace de descarga.";
 	
     $lang->item_module = "Lista de Módulos";
     $lang->item_addon  = "Lista de Addons";
@@ -44,45 +44,18 @@
     $lang->msg_manage_module_cannot_delete = 'No se puede eliminar acceso directo del Módulo, Addon, Diseño y Widget.';
     $lang->msg_default_act_is_null = 'No se puede registrar acceso directo por no estar determinada la acción del administrador predefinido.';
 	
-    $lang->welcome_to_zeroboard_xe = 'Esta es la página del Administrador de Zeroboard XE';
+    $lang->welcome_to_xe = 'Esta es la página del Administrador de XE';
     $lang->about_admin_page = "La página del Administrador aún está en desarrollo.";
     $lang->about_lang_env = "Para aplicar idioma seleccionado conjunto de los usuarios, como por defecto, haga clic en el botón [Guardar] el cambio.";
 
-    $lang->zeroboard_xe_user_links = 'Enlaces para los usuarios ';
-    $lang->zeroboard_xe_developer_links = 'Enlace para los desarrolladores';
 
-    $lang->xe_user_links = array(
-        'Página web oficial' => 'http://www.zeroboard.com',
-        //'Sitio versión beta' => 'http://spring.zeroboard.com',
-        //'Más Módulos´ => 'http://www.zeroboard.com',
-        //'Más Addon' => 'http://www.zeroboard.com',
-        //'Más Widgets' => 'http://www.zeroboard.com',
-        //'Más temas de módulos' => 'http://www.zeroboard.com',
-        //'Más temas de widget' => 'http://www.zeroboard.com',
-        //'Más temas de diseño' => 'http://www.zeroboard.com',
-    );
-
-    $lang->xe_developer_links = array(
-        'Manuales' => 'http://www.zeroboard.com/manual',
-        //'Foro Abierto para los desarrolladores' => 'http://spring.zeroboard.com',
-        'Huellas de distribuciones' => 'http://trac.zeroboard.com',
-        'Repositorio de SVN' => 'http://svn.zeroboard.com',
-        'Documento doxygen' => 'http://doc.zeroboard.com',
-        'Documentación en PDF' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
-    );
-
-    $lang->zeroboard_xe_usefulness_module = 'Módulos útiles';
-    $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => 'Manejo del Editor',
-        'dispDocumentAdminList' => 'Manejo de Documentos',
-        'dispCommentAdminList' => 'Manejo de Commentarios',
-        'dispFileAdminList' => 'Manejo de archivos',
-        'dispPollAdminList' => 'Manejo de recomendaciones',
-        'dispSpamfilterAdminConfig' => 'Manejo Filtro de Spam',
-        'dispCounterAdminIndex' => 'Manejo del contador',
-
-    );
-
-    $lang->xe_license = 'ZeroBoard XE está bajo la Licencia de GPL';
+    $lang->xe_license = 'XE está bajo la Licencia de GPL';
     $lang->about_shortcut = 'Puede Eliminar los accesos directos de módulos, los cuales fueron registrados en la lista de módulos usados frecuentemente';
+
+    $lang->yesterday = "Yesterday";
+    $lang->today = "Today";
+
+    $lang->cmd_lang_select = "언어선택";
+    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
+    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
 ?>

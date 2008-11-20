@@ -1,0 +1,6 @@
+<table name="planet_catch">
+    <column name="module_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="document_srl" type="number" size="11" notnull="notnull" primary_key="primary_key"/>
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+    <column name="regdate" type="date" notnull="notnull" />
+</table>

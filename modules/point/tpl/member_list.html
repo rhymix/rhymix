@@ -1,97 +1,52 @@
 <!--%import("filter/update_point.xml")-->
 <!--#include("header.html")-->
 
-<!-- 목록 -->
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <em>{number_format($page)}/{number_format($total_page)}</em>
+</div>
+
 <table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="175" />
-<col width="45" />
-
-<!--@else if($lang_type == 'en')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="185" />
-<col width="50" />
-
-<!--@else if($lang_type == 'zh-CN')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="185" />
-<col width="50" />
-
-<!--@else if($lang_type == 'jp')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="185" />
-<col width="60" />
-
-<!--@else if($lang_type == 'es')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="200" />
-<col width="50" />
-
-<!--@else if($lang_type == 'ru')-->
-<col width="50" />
-<col />
-<col />
-<col />
-<col width="220" />
-<col width="70" />
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col">{$lang->user_id}</th>
-        <th scope="col">{$lang->user_name}</th>
-        <th scope="col">{$lang->nick_name}</th>
-        <th scope="col">{$lang->point}</th>
-        <th scope="col">{$lang->level}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div>{$lang->user_id}</div></th>
+        <th scope="col"><div>{$lang->user_name}</div></th>
+        <th scope="col"><div>{$lang->nick_name}</div></th>
+        <th scope="col"><div>{$lang->point}</div></th>
+        <th scope="col"><div>{$lang->level}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($member_list as $no => $val)-->
-    <tr>
-        <td class="tahoma">{$no}</td>
-        <td class="blue">{htmlspecialchars($val->user_id)}</td>
-        <td>{htmlspecialchars($val->user_name)}</td>
-        <td class="left"><div class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div></td>
-        <td class="tahoma">
+    <tr class="row{$cycle_idx}">
+        <td class="center number">{$no}</td>
+        <td class="nowrap">{htmlspecialchars($val->user_id)}</td>
+        <td class="nowrap">{htmlspecialchars($val->user_name)}</td>
+        <td class="nowrap"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+        <td class="nowrap">
             <form action="./" method="get" onsubmit="return procFilter(this, update_point);">
                 <input type="hidden" name="member_srl" value="{$val->member_srl}" />
                 <input type="text" name="point" value="{$val->point}" class="inputTypeText w80" />
                 <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
             </form>
         </td>
-        <td class="tahoma">{$val->level}</td>
+        <td class="number center">{$val->level}</td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 
 <!-- 페이지 네비게이션 -->
-<div class="pageNavigation">
-    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
+            <strong>{$page_no}</strong> 
         <!--@else-->
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
 </div>
 
 <!-- 검색 -->

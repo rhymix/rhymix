@@ -1,0 +1,11 @@
+<filter name="insert_interest_tag" module="planet" act="procPlanetInsertInterestTag">
+  <form>
+    <node target="tag" required="true" minlength="1" maxlength="255" />
+  </form>
+  <parameter />
+  <response callback_func="completeInsertInterestTag">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="tpl" />
+  </response>
+</filter>

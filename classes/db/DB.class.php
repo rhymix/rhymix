@@ -5,7 +5,7 @@
      * @brief  DB*의 상위 클래스
      * @version 0.1
      *
-     * 제로보드의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.
+     * XE의 DB 사용은 xml을 이용하여 이루어짐을 원칙으로 한다.
      * xml의 종류에는 query xml, schema xml이 있다.
      * query xml의 경우 DB::executeQuery() method를 이용하여 xml파일을 php code로 compile한 후에 실행이 된다.
      * query xml은 고유한 query id를 가지며 생성은 module에서 이루어진다.
@@ -307,7 +307,7 @@
                     break;
                 case 'number' :
                 case 'numbers' :
-                        if(!preg_match('/^[0-9,]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
+                        if(!preg_match('/^(-?)[0-9,]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key}?$lang->{$key}:$key));
                     break;
                 case 'alpha' :
                         if(!preg_match('/^[a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key}?$lang->{$key}:$key));
@@ -373,43 +373,52 @@
         function getConditionPart($name, $value, $operation) {
             switch($operation) {
                 case 'equal' :
+                case 'more' :
+                case 'excess' :
+                case 'less' :
+                case 'below' :
+                case 'like_tail' :
+                case 'like_prefix' :
+                case 'like' :
+                case 'in' :
+                case 'notequal' :
+                        // 변수가 세팅되지 않고, 문자열이나 숫자형이 아니면 리턴
                         if(!isset($value)) return;
+                        if($value === '') return;
+                        if(!in_array(gettype($value), array('string', 'integer'))) return;
+            }
+
+            switch($operation) {
+                case 'equal' :
                         return $name.' = '.$value;
                     break;
                 case 'more' :
-                        if(!isset($value)) return;
                         return $name.' >= '.$value;
                     break;
                 case 'excess' :
-                        if(!isset($value)) return;
                         return $name.' > '.$value;
                     break;
                 case 'less' :
-                        if(!isset($value)) return;
                         return $name.' <= '.$value;
                     break;
-                case 'below' : 
-                        if(!isset($value)) return;
+                case 'below' :
                         return $name.' < '.$value;
                     break;
-                case 'like_tail' : 
-                case 'like_prefix' : 
-                case 'like' : 
-                        if(!isset($value)) return;
+                case 'like_tail' :
+                case 'like_prefix' :
+                case 'like' :
                         return $name.' like '.$value;
                     break;
-                case 'in' : 
-                        if(!isset($value)) return;
+                case 'in' :
                         return $name.' in ('.$value.')';
                     break;
-                case 'notequal' : 
-                        if(!isset($value)) return;
+                case 'notequal' :
                         return $name.' <> '.$value;
                     break;
-                case 'notnull' : 
+                case 'notnull' :
                         return $name.' is not null';
                     break;
-                case 'null' : 
+                case 'null' :
                         return $name.' is null';
                     break;
             }

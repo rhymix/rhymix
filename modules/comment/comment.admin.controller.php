@@ -68,41 +68,5 @@
             return $output;
         }
 
-
-        /**
-         * @brief 댓글의 모듈별 추가 확장 폼을 저장
-         **/
-        function procCommentAdminInsertModuleConfig() {
-            // 기존 설정을 가져옴 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('comment');
-
-            // 대상을 구함
-            $module_srl = Context::get('target_module_srl');
-
-            // 여러개의 모듈 일괄 설정일 경우
-            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
-            else $module_srl = array($module_srl);
-
-            $comment_config = null;
-
-            $comment_config->comment_count = (int)Context::get('comment_count');
-            if(!$comment_config->comment_count) $comment_config->comment_count = 50;
-
-            for($i=0;$i<count($module_srl);$i++) {
-                $srl = trim($module_srl[$i]);
-                if(!$srl) continue;
-                $config->module_config[$srl] = $comment_config;
-            }
-
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('comment',$config);
-
-            $this->setError(-1);
-            $this->setMessage('success_updated');
-        }
-
-
     }
 ?>

@@ -1,0 +1,12 @@
+<query id="insertChangeset" action="insert">
+    <tables>
+        <table name="issue_changesets" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="revision" var="revision" notnull="notnull" />
+        <column name="author" var="author" notnull="notnull" />
+        <column name="date" var="date" notnull="notnull" />
+        <column name="message" var="message" />
+    </columns>
+</query>

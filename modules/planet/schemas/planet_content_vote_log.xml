@@ -1,0 +1,6 @@
+<table name="planet_content_vote_log">
+  <column name="planet_content_vote_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+  <column name="module_srl" type="number" size="11" notnull="notnull" index="idx_planet_srl" />
+  <column name="planet_content_srl" type="number" size="11" notnull="notnull" index="idx_planet_content_srl" />
+  <column name="regdate" type="date" />
+</table>

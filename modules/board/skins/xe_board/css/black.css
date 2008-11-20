@@ -23,8 +23,16 @@
 .boardList td.title strong.category { color:#BBBBBB; }
 .buttonTypeGo { background:url(../images/black/buttonTypeInput24.gif) no-repeat; }
 
-/* pageNavigation */
-.pageNavigation .current { color:#BBBBBB; }
+/* Pagination*/
+.pagination a, .pagination strong{ color:#888; }
+.pagination a:hover, .pagination a:active, .pagination a:focus{ background-color:#555 !important; }
+.pagination strong{ color:#ff6600 !important;}
+.pagination.a1 a, .pagination.a1 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888;}
+.pagination.a1 a.prev, .pagination.a1 a.prevEnd, .pagination.a1 a.next, .pagination.a1 a.nextEnd { background:#000; }
+
+.pagination.a2 a, .pagination.a2 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888; }
+.pagination.a2 a.prev, .pagination.a2 a.prevEnd, .pagination.a2 a.next, .pagination.a2 a.nextEnd { background:#000; }
+
 
 /* replyAndTrackback */
 .buttonBox .replyAndTrackback a strong { color:#BBBBBB;}

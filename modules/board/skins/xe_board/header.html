@@ -79,7 +79,7 @@
         <!--@if($is_logged)-->
 
             <!--// 관리자이면 설정 버튼 출력 -->
-            <!--@if($grant->is_admin && $module_info->display_setup_button != 'N')-->
+            <!--@if($logged_info->is_admin=='Y' && $module_info->display_setup_button != 'N')-->
             <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
             <!--@end-->
 

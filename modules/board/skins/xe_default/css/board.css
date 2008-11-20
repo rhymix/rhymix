@@ -1,0 +1,312 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* XE */
+
+/* Board Reset */
+.board{ font-family:Sans-serif; line-height:normal; font-size:1em;}
+.board .inputText,
+.board textarea{ border:1px solid;}
+.board label{ cursor:pointer;}
+.board img{ border:0;}
+.board a{ text-decoration:none;}
+.board a:hover,
+.board a:active,
+.board a:focus{ text-decoration:underline;}
+
+/* Board Header */
+.boardHeader *{ margin:0; padding:0;}
+.boardHeader .boardTitle{ font-size:1em; letter-spacing:-.1em; margin-bottom:10px; border-bottom:3px solid; *zoom:1; background-repeat:no-repeat; background-position:left center;}
+.boardHeader .boardTitle:after{ content:""; display:block; clear:both;}
+.boardHeader .boardTitleText{ float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 22px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
+.boardHeader .boardTitleText a{ text-decoration:none;}
+.boardHeader .boardTitleText em{ font-style:normal; font-weight:normal;}
+.boardHeader .boardDescription{ padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; position:relative;}
+
+/* Board Information */
+.boardInformation{width:100%; padding:10px 0; font-size:1em; line-height:normal; *zoom:1;}
+.boardInformation *{ margin:0; padding:0;}
+.boardInformation:after{ content:""; display:block; float:none; clear:both;}
+.boardInformation ul{ overflow:hidden;}
+.boardInformation li{ list-style:none; left:-1px; display:block; float:left; padding:0 7px; background-repeat:no-repeat; background-position:left center;}
+.boardInformation strong{ font:bold 11px Tahoma;}
+.boardInformation .infoLeft{ padding-left:18px; float:left; background-repeat:no-repeat; background-position:left center;}
+.boardInformation .infoRight{ float:right;}
+.boardInformation .infoRight li.icon{ padding:0; margin-right:3px;}
+.boardInformation .infoRight li.icon a{ display:block; float:left; width:12px; height:12px; overflow:hidden; background-repeat:no-repeat;}
+.boardInformation .infoRight li.icon a span{ display:block; width:12px; height:12px; z-index:-1; visibility:hidden;}
+.boardInformation .infoRight li.rss a{ background-position:0 0;}
+.boardInformation .infoRight li.tag_info a{ background-position:-12px 0;}
+.boardInformation .infoRight li.listTypeClassic a{ background-position:-24px 0;}
+.boardInformation .infoRight li.listTypeZine a{ background-position:-36px 0;}
+.boardInformation .infoRight li.listTypeGallery a{ background-position:-48px 0;}
+.boardInformation .infoRight li.contributors a{ background-position:-60px 0;}
+
+/* Board List Form */
+.boardListForm{ margin:0; line-height:normal;}
+.boardListForm *{ margin:0; padding:0;}
+.boardListForm fieldset{ border:0; clear:both;}
+.boardListForm fieldset:after{ content:""; display:block; float:none; clear:both;}
+.boardListForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+.boardListForm em,
+.boardListForm strong{ font-style:normal;}
+.boardListForm strong.trackback { color:#423CC4; }
+
+/* Board List */
+.boardList{ border:0; border-top:1px solid; border-bottom:1px solid; width:100%;}
+.boardList .inputCheck{ width:13px; height:13px;}
+.boardList .jumpTo{ float:left;}
+.boardList .jumpTo *{ vertical-align:middle; *vertical-align:top;}
+.boardList .jumpTo select{ font-size:12px; *margin-right:5px;}
+.boardList .jumpTo button{ border:0; padding:0; margin:0; width:22px; height:20px; text-align:center; background-repeat:no-repeat; font-size:11px; letter-spacing:-1px; cursor:pointer; line-height:20px;}
+.boardList th{ border:0; border-bottom:1px solid; border-top:1px solid; padding:7px; white-space:nowrap; text-align:center; background-repeat:repeat-x; background-position:left bottom; line-height:normal;}
+.boardList th.title{ width:100%;}
+.boardList th a .sort{ vertical-align:middle; margin:0 5px;}
+.boardList td{ border:0; border-top:1px solid; padding:6px; white-space:nowrap; text-align:center; line-height:normal; vertical-align:top;}
+.boardList td.num{ font:11px Tahoma;}
+.boardList td.check{ font:11px Tahoma;}
+.boardList td .category{ padding-right:7px; margin-right:2px; background-repeat:no-repeat; background-position:right center;}
+.boardList td.title { width:100%; white-space:normal; text-align:left;}
+.boardList td.title img{ vertical-align:middle; margin:0 1px;}
+.boardList td.title .replyNum{ font:11px Tahoma;}
+.boardList td.title .replyNum sup{ font:10px Tahoma;}
+.boardList td.title .replyNum strong { font-weight:normal; }
+.boardList td.author{ text-align:left; }
+.boardList td.replies{ font:11px Tahoma;}
+.boardList td.reading{ font:11px Tahoma;}
+.boardList td.recommend{ font:11px Tahoma;}
+.boardList td.date{ font:11px Tahoma;}
+.boardList td .replyAnchor{ margin-right:10px; font-size:.9em;}
+.boardList td .replyAnchor .bubble{ display:none; position:absolute; font:9px Tahoma; top:-7px; right:4px; text-decoration:none;}
+.boardList td .replyAnchor:hover .bubble,
+.boardList td .replyAnchor:active .bubble,
+.boardList td .replyAnchor:focus .bubble{ display:block;}
+.boardList td .by{ font:9px Tahoma;}
+
+.boardList td.summary { text-align:left; border-top-style:dotted; white-space:normal;}
+.boardList td.summary .thumb{ display:block; float:left; padding:2px; border:1px solid; margin-right:10px;}
+.boardList td.summary .thumb img{ display:block;}
+
+.thumbHeader{ border:0; border-top:1px solid; border-bottom:1px solid; padding:7px; font-weight:bold; white-space:nowrap; background-repeat:repeat-x; background-position:left bottom; line-height:normal; text-align:right; *zoom:1;}
+.thumbHeader:after{ content:""; display:block; clear:both;}
+.thumbHeader .left{ float:left;}
+.thumbHeader .left input{ width:13px; height:13px; margin-right:10px;}
+.thumbHeader .right{ float:right;}
+.thumbHeader *{ vertical-align:middle;}
+.thumbHeader a{ margin:0 10px;}
+.thumbHeader .jumpTo *{ vertical-align:middle; *vertical-align:top;}
+.thumbHeader .jumpTo select{ font-size:12px; *margin-right:5px;}
+.thumbHeader .jumpTo button{ border:0; padding:0; margin:0; width:22px; height:20px; text-align:center; background-repeat:no-repeat; font-size:11px; letter-spacing:-1px; cursor:pointer; line-height:20px;}
+.thumbHeader .sort{ vertical-align:middle; margin:0 5px;}
+
+.thumbList{ border-bottom:1px solid; *zoom:1;}
+.thumbList:after{ content:""; display:block; clear:both;}
+.thumbList li{ margin:10px; list-style:none; overflow:hidden; float:left;}
+.thumbList li .thumb{ float:left; clear:both; overflow:hidden; padding:2px; margin-bottom:5px; border:1px solid;}
+.thumbList li .thumb a{ display:block;}
+.thumbList li .thumb a *{ cursor:pointer;}
+.thumbList li .thumb a img{ display:block;}
+.thumbList li .thumb a .text{ position:absolute; left:0; top:50%; margin-top:-.8em; *margin-top:-1.5em; display:block; width:100%; text-align:center; font-size:2em; font-weight:bold; white-space:nowrap; letter-spacing:-1px;}
+.thumbList li .thumb a .category{ position:absolute; left:0; bottom:0; width:100%; padding:2px 0; white-space:nowrap; text-indent:4px;}
+.thumbList li .title{ clear:both; white-space:nowrap; margin-bottom:3px;}
+.thumbList li .title input{ width:13px; height:13px; vertical-align:middle; white-space:nowrap;}
+.thumbList li .author{ white-space:nowrap;}
+.thumbList li .reading{ font:11px Tahoma;}
+.thumbList li .recommend{ font:11px Tahoma;}
+.thumbList li .date{ font:11px Tahoma;}
+
+/* Board Navigation */
+.board .boardNavigation{ padding:10px 0; *zoom:1; text-align:center;}
+.board .boardNavigation:after{ content:""; display:block; float:none; clear:both;}
+.board .boardNavigation .pagination{ padding:5px 0;}
+.board .boardNavigation .buttonLeft{ float:left; text-align:left;}
+.board .boardNavigation .buttonRight{ float:right; text-align:right;}
+
+/* Search Form */
+.boardSearchForm{ margin:0; font-size:.75em; line-height:normal;}
+.boardSearchForm *{ margin:0; padding:0;}
+.boardSearchForm fieldset{ border:0; clear:both; text-align:center;}
+.boardSearchForm fieldset:after{ content:""; display:block; float:none; clear:both;}
+.boardSearchForm fieldset *{ vertical-align:middle;}
+.boardSearchForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+.boardSearchForm select{ font-size:12px; height:23px;}
+.boardSearchForm .inputText{ width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
+
+/* Board Read */
+.boardRead{}
+
+.boardReadHeader{ padding-bottom:5px; margin-bottom:15px; *zoom:1; border-bottom:2px solid;}
+.boardReadHeader:after{ content:""; display:block; float:none; clear:both;}
+.boardReadHeader *{ margin:0; padding:0;}
+.boardReadHeader .title{ float:left; font-size:1.5em;}
+.boardReadHeader em{ top:5px; float:right; font-style:normal; font-weight:bold; font-size:1em;}
+.boardReadHeader a{ font-weight:bold; font-size:1em;}
+
+.boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden; *zoom:1;}
+.boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
+.boardReadBody .document_popup_menu a{ text-decoration:underline;}
+.boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
+.boardReadBody .xe_content a { text-decoration:underline; }
+.boardReadBody .memberSignature { border:1px dotted; padding:10px; overflow:hidden; *zoom:1;}
+.boardReadBody .memberSignature img.profile { float:left; margin-right:10px; display:block;}
+.boardReadBody .memberSignature .signature { float:left; }
+.boardReadBody .memberSignature .signature p { margin:0; padding:0; }
+.boardReadBody .memberSignature .signature p a { text-decoration:underline; }
+
+
+.boardReadFooter{ padding:10px 0; *zoom:1; line-height:1em; font:12px Tahoma;}
+.boardReadFooter:after{ content:""; display:block; float:none; clear:both;}
+.boardReadFooter *{ margin:0; padding:0;}
+.boardReadFooter a{ text-decoration:underline; }
+.boardReadFooter .footerLeft{ }
+.boardReadFooter .footerRight{ clear:both; overflow:hidden; *zoom:1;}
+.boardReadFooter dl{ clear:both; margin-bottom:4px; }
+.boardReadFooter dl dd { font-family:Tahoma; }
+.boardReadFooter dl dd a{ font-family:Tahoma; text-decoration:none; }
+.boardReadFooter dt{ z-index:2; display:inline; font-weight:bold;}
+.boardReadFooter dd{ z-index:1; left:-5px; display:inline; padding-left:7px; margin-right:5px; *zoom:1;}
+.boardReadFooter .footerRight dl.noBr{ left:5px; float:right; clear:both; overflow:hidden; white-space:nowrap;}
+.boardReadFooter .footerRight dl.noBr dt{ left:-1px; padding-left:10px; background-repeat:no-repeat; background-position:left center;}
+.boardReadFooter .footerRight dl.noBr dd{ margin-right:5px;}
+
+.boardRead .boardNavigation{ border-top:1px solid;}
+
+/* Feedback List */
+.feedbackList{ overflow:hidden; padding-top:15px; margin-bottom:10px; }
+.feedbackList .feedbackHeader{ font-weight:bold; margin-bottom:10px; font-size:1.5em;}
+
+.feedbackList .replyList .item .header{ font-size:1em; padding:0; margin:0; float:left;}
+.feedbackList .trackbackList .item .header{ font-size:1em; float:left; padding:0; margin:0;}
+.feedbackList .trackbackList .item p { margin-bottom:10px;}
+.feedbackList .replyList .item {overflow:hidden; *zoom:1; }
+.feedbackList .replyList .item img.commentProfileImage { float:left; display:block; margin-right:10px;}
+
+.feedbackList .item{ padding-top:10px; margin-bottom:10px; border-top:1px dashed;}
+.feedbackList .item .indent{ }
+.feedbackList .reply .indent{ border-left:8px solid; padding-left:10px;}
+.feedbackList .item .header a{ font-size:1em;}
+.feedbackList .item .comment_popup_menu{ text-align:right; margin-bottom:10px;}
+.feedbackList .item .comment_popup_menu a{ text-decoration:underline;}
+.feedbackList .item .option{ text-align:right; clear:both;}
+.feedbackList .item .itemContent { clear:both; margin:10px 0 0 0;}
+.feedbackList .item .itemContent .xe_content a { text-decoration:underline; }
+
+/* Time */
+.time {float:right; margin:0; padding:0;}
+.time * { font-family:Tahoma; font-size:11px; display:inline; margin:0; padding:0;}
+.time dt{ z-index:2; display:inline; font-weight:bold; }
+.time dd{ z-index:1; left:-5px; display:inline; padding-left:3px; background-repeat:no-repeat; background-position:left center; }
+
+/* Attached File */
+.attachedFile{ margin:0; padding:0; border:none; clear:both;}
+.attachedFile *{ font-family:Tahoma; display:inline; padding:0; margin:0;}
+.attachedFile dt{ z-index:2; display:inline; font-weight:bold;}
+.attachedFile dd{ z-index:1; left:-5px; display:inline; padding-left:12px; *zoom:1; background:url(../images/common/iconFile.gif) no-repeat left 3px; margin-right:5px; }
+.attachedFile dd a{ text-decoration:underline; }
+.attachedFile dd a .bubble{ position:absolute; display:none; text-decoration:none; white-space:nowrap; border:1px solid; padding:2px 5px; left:0; top:-20px; cursor:pointer;}
+.attachedFile dd a:hover .bubble,
+.attachedFile dd a:active .bubble,
+.attachedFile dd a:focus .bubble{ display:block;}
+
+.replyForm{ padding:10px 20px 15px 20px; font-size:.75em; margin-bottom:20px; -moz-border-radius:10px; -webkit-border-radius:10px;}
+.replyForm *{ margin:0; padding:0;}
+.replyForm fieldset{ border:0;}
+.replyForm fieldset:after{ content:""; display:block; float:none; clear:both;}
+.replyForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+.replyForm .title{ font-weight:bold; font-size:1.5em; margin-bottom:10px;}
+.replyForm textarea{ width:95%; height:150px; font-size:1em; overflow:auto; padding:10px; margin-bottom:10px;}
+.replyForm .inputText{ padding:2px 4px 4px 4px; width:190px; height:15px; vertical-align:middle; *margin:-1px 0;}
+.replyForm dl{ margin-bottom:10px;}
+.replyForm dt{ width:80px; float:left; padding-top:6px; font-weight:bold;}
+.replyForm dd{ margin-bottom:5px;}
+
+/* Board Write */
+.boardWrite *{ margin:0; padding:0;}
+.boardWrite li{ list-style:none;}
+.boardWrite fieldset{ border:0;}
+.boardWrite legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+
+.boardWrite .boardWriteHeader{ }
+.boardWrite .boardWriteHeader dl{ margin-bottom:5px; position:relative; }
+.boardWrite .boardWriteHeader dl *{ vertical-align:middle;}
+.boardWrite .boardWriteHeader dt{ font-weight:bold; display:inline;}
+.boardWrite .boardWriteHeader dd{ display:inline;}
+.boardWrite .boardWriteHeader dd select{ font-size:12px; vertical-align:top; height:23px;}
+.boardWrite .boardWriteHeader dd .inputText{ padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px;}
+.boardWrite .boardWriteHeader dd select { *margin-top:3px; }
+
+.boardWrite .boardWriteHeader dl.title dd{ white-space:nowrap;}
+.boardWrite .boardWriteHeader dl.title dd .inputText{ width:60%;}
+
+.boardWrite .tag{ clear:both; margin-bottom:10px; *zoom:1;}
+.boardWrite .tag:after{ content:""; display:block; float:none; clear:both;}
+.boardWrite .tag .inputText{ float:left; width:330px; padding:4px 4px 2px 4px; margin-right:10px; font-size:12px;}
+.boardWrite .tag p{ float:left;}
+
+.boardWrite .boardNavigation,
+.boardEditor .boardNavigation{ border-top:1px solid;}
+
+/* UserName & Password */
+.board .userNameAndPw{ margin:0; padding:5px 10px 0 10px; border-top:1px solid;}
+.board .userNameAndPw dl{ display:inline; white-space:nowrap;}
+.board .userNameAndPw dt{ top:-3px; font-weight:bold; display:inline;}
+.board .userNameAndPw dd{ margin-right:5px; display:inline;}
+.board .userNameAndPw dd .inputText{}
+.board .userNameAndPw dd.userName .inputText{ width:70px;}
+.board .userNameAndPw dd.userPw .inputText{ width:50px; font:11px Tahoma;}
+.board .userNameAndPw dd.emailAddress .inputText{ width:110px; font:11px Tahoma;}
+.board .userNameAndPw dd.homePage .inputText{ width:110px; font:11px Tahoma;}
+.board .userNameAndPw dd .inputText{ padding:3px 4px; height:15px; margin-bottom:5px; font-size:12px; *margin-top:-1px; vertical-align:middle;}
+
+/* Comment */
+.board .editorOption{ padding:8px 10px; border-top:1px solid;}
+.board .editorOption *{ vertical-align:middle;}
+.board .editorOption dt{ font-weight:bold; display:inline;}
+.board .editorOption dd{ margin-right:5px; display:inline;}
+.board .editorOption dd select{ font-size:12px;}
+.board .editorOption dd .inputCheck{ width:13px; height:13px;}
+.board .boardEditor{ border:1px solid; margin-bottom:20px;}
+.board .boardEditor .commentEditor{ margin:10px 15px;}
+.board .commentEditor .commentHeader{; border-bottom:1px solid; font-weight:bold; padding-bottom:5px; margin-bottom:10px; font-size:1.5em;}
+
+/* Secret Message */
+.board .secretMessage{ margin:0; clear:both;}
+.board .secretMessage p{ text-align:center; margin:0; font-size:2em;}
+.board .secretMessage dl{ text-align:center; margin:15px 0;}
+.board .secretMessage dt{ font-weight:bold; display:inline;}
+.board .secretMessage dd{ margin:0; display:inline;}
+.board .secretMessage dd .inputText{ padding:3px 4px; height:15px; vertical-align:middle; margin-right:5px;}
+
+/* Extra Var Table */
+.extraVarsList{ width:100%; border:0; border-bottom:1px solid; margin-bottom:15px;}
+.extraVarsList caption{ text-align:right;}
+.extraVarsList em{ font-style:normal; font-weight:normal;}
+.extraVarsList th,
+.extraVarsList td{ border:0; padding:5px 10px; text-align:left; border-top:1px solid; vertical-align:top;}
+.extraVarsList th{ white-space:nowrap;}
+.extraVarsList td{ width:100%;}
+.extraVarsList td p{ display:inline-block; *display:inline; margin:3px 0;}
+.extraVarsList td *{ vertical-align:middle;}
+.extraVarsList td li{ display:inline; margin-right:10px;}
+.extraVarsList td .inputText{ padding:3px 4px; font-size:12px; width:96%; display:block;}
+.extraVarsList td .inputNum{ padding:3px 4px; font-size:12px; width:50px; border:1px solid;}
+.extraVarsList td .inputCheck{ width:13px; height:13px; margin-right:5px;}
+.extraVarsList td select { font-size:12px;}
+.extraVarsList td textarea{ padding:3px 4px; font-size:12px; width:96%; display:block; overflow:auto;}
+
+/* Tag Cloud */
+.tagCloud{ padding-bottom:15px; border-bottom:1px solid #ddd;}
+.tagCloud *{ margin:0; padding:0;}
+.tagCloud .tagHeader{border:0; border-top:1px solid #ddd; border-bottom:1px solid #ddd; padding:7px; color:#333; background:#fff url(../images/white/bgThDefault.gif) repeat-x left bottom; line-height:normal;}
+.tagCloud .tagHeader strong{ color:#ff6600;}
+.tagCloud ul{ text-align:justify; margin-top:15px;}
+.tagCloud li{ display:inline; list-style:none; margin:0 5px;}
+.tagCloud li a{ white-space:nowrap;}
+.tagCloud li.rank1 a{ font-weight:bold; font-size:2em; background:#12d763; color:#fff;}
+.tagCloud li.rank2 a{ font-weight:bold; font-size:1.75em; color:#666;}
+.tagCloud li.rank3 a{ font-weight:bold; font-size:1.5em; color:#00b4b5;}
+.tagCloud li.rank4 a{ font-size:1.25em; color:#666;}
+.tagCloud li.rank5 a{ font-size:1em; color:#666;}
+
+
+.smallBox .header { text-align:center; }

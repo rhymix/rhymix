@@ -62,7 +62,8 @@
     $lang->cmd_publish = "発行";
     $lang->cmd_layout_setup = 'レイアウト設定';
     $lang->cmd_layout_edit = 'レイアウト編集';
-    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
+    $lang->cmd_search_by_ipaddress = 'IPアドレスで検索';
+    $lang->cmd_add_ip_to_spamfilter = 'スパムフィルターにIPを追加';
 
     $lang->enable = '可能';
     $lang->disable = '不可';
@@ -72,10 +73,10 @@
     $lang->notice = 'お知らせ';
     $lang->secret = '非公開';
     $lang->category = $lang->category_srl = 'カテゴリ';
-    $lang->none_category = 'None category';
+    $lang->none_category = 'カテゴリ無し';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザＩＤ';
-    $lang->author = '作者';
+    $lang->author = '作成者';
     $lang->password = 'パスワード';
     $lang->password1 = 'パスワード';
     $lang->password2 = 'パスワード確認';
@@ -133,7 +134,7 @@
     $lang->page_count = 'ページ数';
     $lang->list_count = 'リスト数';
     $lang->search_list_count = '検索リスト数';
-    $lang->readed_count = '照合数';
+    $lang->readed_count = '閲覧数';
     $lang->voted_count = '推薦数';
     $lang->comment_count = 'コメント数';
     $lang->member_count = '会員数';
@@ -159,8 +160,8 @@
     $lang->notuse = '未使用';
     $lang->not_exists = 'なし';
 
-    $lang->public = 'public';
-    $lang->private = 'private';
+    $lang->public = '公開';
+    $lang->private = '非公開';
 
     $lang->unit_sec = '秒';
     $lang->unit_min = '分';
@@ -170,13 +171,38 @@
     $lang->unit_month = '月';
     $lang->unit_year = '年';
 
-    // 説明関連 
+    $lang->unit_week = array(
+        'Monday' => '月',
+        'Tuesday' => '火',
+        'Wednesday' => '水',
+        'Thursday' => '木',
+        'Friday' => '金',
+        'Saturday' => '土',
+        'Sunday' => '日',
+    );
+
+    $lang->unit_meridiem = array(
+        'am' => '午前',
+        'pm' => '午後',
+        'AM' => '午前',
+        'PM' => '午後',
+    );
+
+    $lang->time_gap = array(
+        'min' => '%d 分前',
+        'mins' => '%d 分前',
+        'hour' => '%d 時間前',
+        'hours' => '%d 時間前',
+    );
+
+    // 説明関連
     $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録できます。';
     $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';
 
     // メッセージ関連
     $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください。';
     $lang->msg_db_not_setted = 'DBが設定されていません。';
+    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認してください。";
     $lang->msg_invalid_queryid = 'クエリIDの値が無効です。';
     $lang->msg_not_permitted = '権限がありません。';
     $lang->msg_input_password = 'パスワードを入力してください。';
@@ -196,7 +222,7 @@
     $lang->success_updated = '修正しました。';
     $lang->success_deleted = '削除しました。';
     $lang->success_voted = '推薦しました。';
-    $lang->success_blamed = 'Blamed success_blamed';
+    $lang->success_blamed = '非推薦しました。';
     $lang->success_moved = '移動しました。';
     $lang->success_sended = '送信しました。';
     $lang->success_reset = '初期化しました。';
@@ -207,7 +233,7 @@
     $lang->fail_to_move = '移動に失敗しました。';
 
     $lang->failed_voted = '推薦できません。';
-    $lang->failed_blamed = 'Could not blame';
+    $lang->failed_blamed = '非推薦できません。';
     $lang->failed_declared = '通報できません。';
     $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません。';
 
@@ -221,8 +247,8 @@
 
     $lang->column_type = 'タイプ';
     $lang->column_type_list['text'] = '入力フィールド(text)';
-    $lang->column_type_list['homepage'] = 'ホームページタイプ(url)';
-    $lang->column_type_list['email_address'] = 'メールタイプ(email)';
+    $lang->column_type_list['homepage'] = 'URLタイプ(url)';
+    $lang->column_type_list['email_address'] = 'メールアドレスタイプ(email)';
     $lang->column_type_list['tel'] = '電話番号タイプ(phone)';
     $lang->column_type_list['textarea'] = 'テキストエリア(textarea)';
     $lang->column_type_list['checkbox'] = 'チェックボックス(checkbox)';
@@ -237,37 +263,36 @@
     $lang->is_required = '必須項目';
 
     // ftp 관련
-    $lang->ftp_form_title = 'FTP 정보 입력';
+    $lang->ftp_form_title = 'FTP情報の入力';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
-    $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
+    $lang->cmd_check_ftp_connect = 'FTP接続確認';
     $lang->about_ftp_info = "
-        FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
-        1. PHP의 safe_mode=On일 경우에 FTP 정보를 이용해서 XE를 정상적으로 동작할 수 있게 합니다.<br/>
-        2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
-        이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
-        그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
-        <strong>FTP 정보 노출을 원하지 않으시면 입력하지 않으셔도 됩니다</strong>
+        FTP情報は次の場合、利用されます。<br/>
+        1. PHPの safe_mode=Onになった際、FTP情報を用いてゼロボードXEが正常に動きます。<br/>
+        2. 自動アップデート等で、FTP情報が使われます。<br/>
+        FTP情報は files/config/ftp.config.php の中に保存されます。<br/>
+        また、ゼロボードXEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。 <br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";
-    $lang->msg_ftp_not_connected = "localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요";
-    $lang->msg_ftp_invalid_auth_info = "입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요";
-    $lang->msg_ftp_mkdir_fail = "FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_chmod_fail = "FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_connect_success = "FTP 접속 및 인증 성공하였습니다";
+    $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、ゼロボードXEのインストール及び利用が可能になります。";
+    $lang->msg_ftp_not_connected = "localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。";
+    $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTP情報を再度ご確認下さい。";
+    $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認ください。";
+    $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認ください。";
+    $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
 
 
     // xml filterで用いられているjavascript用のアラートメッセージ
-    $lang->filter->isnull = '%sを入力してください';
-    $lang->filter->outofrange = '%sの文字の長さを合わせてください';
-    $lang->filter->equalto = '%sが正しくありません';
-    $lang->filter->invalid_email = '%sのパターンが正しくありません (例: zbxe@zeroboard.com)';
+    $lang->filter->isnull = '%sを入力して下さい。';
+    $lang->filter->outofrange = '%sの文字の長さを合わせて下さい。';
+    $lang->filter->equalto = '%sが正しくありません。';
+    $lang->filter->invalid_email = '%sのパターンが正しくありません。 (例: zbxe@zeroboard.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%sの形式が正しくありません。\\n半角の英数と記号「_」を組み合わせて入力してください。頭字は半角英文字でなければなりません。";
-    $lang->filter->invalid_homepage = '%sの形式が正しくありません (例: http://www.zeroboard.com)';
-    $lang->filter->invalid_korean = '%sの形式が正しくありません。ハングルのみ入力してください。';
-    $lang->filter->invalid_korean_number = '%sの形式が正しくありません。ハングルと半角数字で入力してください。';
-    $lang->filter->invalid_alpha = '%sの形式が正しくありません。半角英文字のみ入力してください。';
-    $lang->filter->invalid_alpha_number = '%sの形式が正しくありません。半角英数で入力してください。';
-    $lang->filter->invalid_number = '%sの形式が正しくありません。半角数字で入力してください。';
+    $lang->filter->invalid_homepage = '%sの形式が正しくありません。 (例: http://www.zeroboard.com)';
+    $lang->filter->invalid_korean = '%sの形式が正しくありません。ハングルのみ入力して下さい。';
+    $lang->filter->invalid_korean_number = '%sの形式が正しくありません。ハングルと半角数字で入力して下さい。';
+    $lang->filter->invalid_alpha = '%sの形式が正しくありません。半角英文字のみ入力して下さい。';
+    $lang->filter->invalid_alpha_number = '%sの形式が正しくありません。半角英数で入力して下さい。';
+    $lang->filter->invalid_number = '%sの形式が正しくありません。半角数字で入力して下さい。';
 ?>

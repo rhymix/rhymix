@@ -46,7 +46,7 @@
             // 개인별로 그룹목록을 가져 옴
             if($output->data) {
                 foreach($output->data as $key => $member) {
-                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl);
+                    $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
 
@@ -109,15 +109,7 @@
          * @brief 회원 정보 출력
          **/
         function dispMemberAdminInfo() {
-            // 추가 가입폼 목록을 받음
-            $oMemberModel = &getModel('member');
-            $oModuleModel = &getModel('module');
-            $member_config = $oModuleModel->getModuleConfig('member');
-
-            Context::set('member_config', $member_config);
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
-
-            $this->setTemplateFile('member_info');
+            return $this->dispMemberAdminInsert();
         }
 
         /**

@@ -1,0 +1,11 @@
+<filter name="update_member_group" module="homepage" act="procHomepageUpdateMemberGroup" confirm_msg_code="confirm_submit">
+    <form />
+    <parameter>
+        <param name="cart" target="cart" />
+        <param name="group_srl" target="group_srl" />
+    </parameter>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -7,7 +7,15 @@
 
     require_once(_XE_PATH_.'modules/issuetracker/issuetracker.item.php');
 
+    function _compare($a, $b)
+    {
+        if(!$a->date || !$b->date) return 0;
+        return strcmp($a->date, $b->date) * -1;
+    }
+
+
     class issuetrackerModel extends issuetracker {
+        var $oSvn = null;
 
         function init()
         {
@@ -346,6 +354,65 @@
 
             $args->group_srls = implode(',',$group_srls);
             $output = executeQueryArray('issuetracker.getGroupMembers', $args);
+            return $output->data;
+        }
+
+        function getLatestRevision($module_srl) {
+            $args->module_srl = $module_srl;
+            $output = executeQuery('issuetracker.getLatestRevision', $args);
+            if($output->data && $output->data->revision)
+            {
+                return $output->data->revision;
+            }
+            else return 0;
+        }
+
+
+        function getChangesets($module_srl, $enddate = null, $limit = 10)
+        {
+            if(!$enddate)
+            {
+                $enddate = date("Ymd");
+            }
+            $args->enddate = date("Ymd", ztime($enddate)+24*60*60);
+            $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
+            $args->module_srl = $module_srl;
+            $output = executeQueryArray("issuetracker.getChangesets", $args);
+            if(!$output->toBool() || !$output->data)
+            {
+                debugPrint($output);
+                return array();
+            }
+
+            $solvedHistory = array();
+            $output2 = executeQueryArray("issuetracker.getHistories", $args);
+            foreach($output2->data as $history)
+            {
+                $hist = unserialize($history->history);
+                $h = array();
+                if(!is_array($hist)) continue;
+                $res = "";
+                $bFirst = true;
+                foreach($hist as $key => $val) {
+                    if($bFirst) { $bFirst = false; }
+                    else { $res .= "<br />"; }
+                    if($val[0]) $str = Context::getLang('history_format');
+                    else $str = Context::getLang('history_format_not_source');
+                    $str = str_replace('[source]', $val[0], $str);
+                    $str = str_replace('[target]', $val[1], $str);
+                    $str = str_replace('[key]', Context::getLang($key), $str);
+                    $res .= $str;
+                }
+                $obj = null;
+                $obj->date = $history->regdate;
+                $obj->type = "i";
+                $obj->message = $res;
+                $obj->target_srl = $history->target_srl;
+                $obj->author = $history->nick_name;
+                $output->data[] = $obj;
+            }
+            usort($output->data, _compare);
+
             return $output->data;
         }
     }

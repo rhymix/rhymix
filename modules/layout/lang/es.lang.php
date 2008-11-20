@@ -29,5 +29,5 @@
     $lang->about_layout_code = 
         "El diseño sera aplicado al servicio cuando usted guarda el código del diseño luego de haber editado.
 		Primero visualiza previamente tus códigos y luego guardalos
-        Referente al código de planillas de Zeroboard dirijirse a<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Pamphlet(Ingles)</a> ";
+        Referente al código de planillas de XE dirijirse a<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE Pamphlet(Ingles)</a> ";
 ?>

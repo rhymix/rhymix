@@ -212,8 +212,8 @@
         function procMenuAdminMoveItem() {
             // 변수 설정 
             $menu_id = Context::get('menu_id');
-            $source_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_item_srl'));
-            $target_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_item_srl'));
+            $source_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_item'));
+            $target_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_item'));
 
             // target_item 의 값을 구함
             $oMenuModel = &getAdminModel('menu');
@@ -276,7 +276,7 @@
 
             // 필수 요건이 없거나 업로드된 파일이 아니면 오류 발생
             if(!$menu_srl || !$menu_item_srl || !$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)/i',$target_file['name'])) {
-                Context::get('error_messge', Context::getLang('msg_invalid_request'));
+                Context::set('error_messge', Context::getLang('msg_invalid_request'));
 
             // 요건을 만족하고 업로드된 파일이면 지정된 위치로 이동
             } else {

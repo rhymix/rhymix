@@ -54,6 +54,6 @@
     $lang->about_ttxml_user_id = '请输入导入TTXML数据时指定为主题发布者的ID(必须是已注册会员)。';
     $lang->about_type_module = '数据导入对象为版面主题时请选择此项。';
     $lang->about_type_syncmember = '导入会员信息和文章信息后需要同步会员信息时请选择此项。';
-    $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到Zeroboard XE当中。\n导入数据时请利用 <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>生成XML文件后再上传。";
+    $lang->about_importer = "不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到XE当中。\n导入数据时请利用 <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>生成XML文件后再上传。";
     $lang->about_target_path = "为了下载附件请输入Zeroboard 4的安装位置。\n位置在同一个服务器时，请输入如 /home/id/public_html/bbs的路径,在不同服务器时，请输入如 http://域名/bbs的url地址。";
 ?>

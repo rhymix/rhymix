@@ -142,7 +142,7 @@ function winopen(url, target, attribute) {
 
 /**
  * @brief 팝업으로만 띄우기 
- * common/tpl/popup_layout.html이 요청되는 제로보드 XE내의 팝업일 경우에 사용
+ * common/tpl/popup_layout.html이 요청되는 XE내의 팝업일 경우에 사용
  **/
 function popopen(url, target) {
     if(typeof(target)=="undefined") target = "_blank";
@@ -189,36 +189,99 @@ function toggleDisplay(obj, display_type) {
     }
 }
 
+/* jQuery의 extend. */
+/* TODO:jQuery 등 자바스크립트 프레임웍 차용시 대체 가능하면 제거 대상 */
+objectExtend = function() {
+    // copy reference to target object
+    var target = arguments[0] || {}, i = 1, length = arguments.length, deep = false, options;
+
+    // Handle a deep copy situation
+    if ( target.constructor == Boolean ) {
+        deep = target;
+        target = arguments[1] || {};
+        // skip the boolean and the target
+        i = 2;
+    }
+
+    // Handle case when target is a string or something (possible in deep copy)
+    if ( typeof target != "object" && typeof target != "function" )
+        target = {};
+
+    // extend jQuery itself if only one argument is passed
+    if ( length == i ) {
+        target = this;
+        --i;
+    }
+
+    for ( ; i < length; i++ )
+        // Only deal with non-null/undefined values
+        if ( (options = arguments[ i ]) != null )
+            // Extend the base object
+            for ( var name in options ) {
+                var src = target[ name ], copy = options[ name ];
+
+                // Prevent never-ending loop
+                if ( target === copy )
+                    continue;
+
+                // Recurse if we're merging object values
+                if ( deep && copy && typeof copy == "object" && !copy.nodeType )
+                    target[ name ] = objectExtend( deep, 
+                        // Never move original objects, clone them
+                        src || ( copy.length != null ? [ ] : { } )
+                    , copy );
+
+                // Don't bring in undefined values
+                else if ( copy !== undefined )
+                    target[ name ] = copy;
+
+            }
+
+    // Return the modified object
+    return target;
+};
+
 /**
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
-function displayMultimedia(src, width, height, auto_start, flashvars) {
-    if(src.indexOf('files')==0) src = request_uri+src;
-    if(auto_start) auto_start = "true";
-    else auto_start = "false";
+function displayMultimedia(src, width, height, options) {
+    if(src.indexOf('files') == 0) src = request_uri + src;
+
+    var defaults = {
+        wmode : 'transparent',
+        allowScriptAccess : 'sameDomain',
+        quality : 'high',
+        flashvars : ''
+    };
+
+    if(options) {
+        var autostart = (options.autostart) ? 'true' : 'false';
+        delete(options.autostart);
+    }
+
+    var params = objectExtend(defaults, options || {});
 
     var clsid = "";
     var codebase = "";
     var html = "";
 
-    if(typeof(flashvars)=="undefined") flashvars = "";
-
     if(/\.swf/i.test(src)) {
-        clsid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"; 
+        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'; 
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
-        html = ""+
-            "<object classid=\""+clsid+"\" codebase=\""+codebase+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\">"+
-            "<param name=\"wmode\" value=\"transparent\" />"+
-            "<param name=\"allowScriptAccess\" value=\"sameDomain\" />"+
-            "<param name=\"movie\" value=\""+src+"\" />"+
-            "<param name=\"quality\" value=\"high\" />"+
-            "<param name=\"flashvars\" value=\""+flashvars+"\" />"+
-            "<embed src=\""+src+"\" autostart=\""+auto_start+"\"  width=\""+width+"\" height=\""+height+"\" flashvars=\""+flashvars+"\" wmode=\"transparent\"></embed>"+
-            "<\/object>";
+        html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
+        html += '<param name="movie" value="'+src+'" />';
+        for(var name in params) {
+            if(params[name] != 'undefined' && params[name] != '') {
+                html += '<param name="'+name+'" value="'+params[name]+'" />';
+            }
+        }
+        html += ''
+            + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>'
+            + '</object>';
     } else if(/\.flv/i.test(src)) {
-        html = "<embed src=\""+request_uri+"common/tpl/images/flvplayer.swf\" allowfullscreen=\"true\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\" flashvars=\"&file="+src+"&width="+width+"&height="+height+"&autostart="+auto_start+"\" />";
+        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" />';
     } else {
-        html = "<embed src=\""+src+"\" autostart=\""+auto_start+"\" width=\""+width+"\" height=\""+height+"\"></embed>";
+        html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"></embed>';
     }
     document.writeln(html);
 }
@@ -321,43 +384,50 @@ function createPopupMenu(evt) {
     area = xCreateElement("div");
     area.id = "popup_menu_area";
     area.style.visibility = 'hidden';
+    area.style.zIndex = 9999;
     document.body.appendChild(area);
 }
 
 /* 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리 */
 function chkPopupMenu(evt) {
+
     // 이전에 호출되었을지 모르는 팝업메뉴 숨김
     var area = xGetElementById("popup_menu_area");
     if(!area) return;
 
-    if(area.style.visibility!="hidden") area.style.visibility="hidden";
+    if(area.style.visibility != "hidden") area.style.visibility = "hidden";
 
     // 이벤트 대상이 없으면 무시
     var e = new xEvent(evt);
+
     if(!e) return;
 
     // 대상의 객체 구함
     var obj = e.target;
     if(!obj) return;
 
+
     // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
-    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN') obj = obj.parentNode;
-    if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN')) return;
+    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN' && obj.nodeName != 'A') obj = obj.parentNode;
+    if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN' && obj.nodeName != 'A')) return;
 
     // 객체의 className값을 구함
     var class_name = obj.className;
     if(!class_name) return;
-
     // className을 분리
     var class_name_list = class_name.split(' ');
+
     var menu_id = '';
-    var menu_id_regx = /^([a-zA-Z]+)_([0-9]+)$/ig;
-    for(var i in class_name_list) {
+    var menu_id_regx = /^([a-zA-Z]+)_([0-9]+)$/;
+
+
+    for(var i=0,c=class_name_list.length;i<c;i++) {
         if(menu_id_regx.test(class_name_list[i])) {
             menu_id = class_name_list[i];
-            break;
         }
     }
+
+
     if(!menu_id) return;
 
     // module명과 대상 번호가 없으면 return
@@ -369,14 +439,15 @@ function chkPopupMenu(evt) {
     // action이름을 규칙에 맞게 작성
     var action_name = "get" + module_name.substr(0,1).toUpperCase() + module_name.substr(1,module_name.length-1) + "Menu";
 
+
     // 서버에 메뉴를 요청
     var params = new Array();
     params["target_srl"] = target_srl;
     params["cur_mid"] = current_mid;
     params["cur_act"] = current_url.getQuery('act');
     params["menu_id"] = menu_id;
-    params["page_x"] = e.pageX;
-    params["page_y"] = e.pageY;
+    params["page_x"] = e.pageX >0 ? e.pageX : GetObjLeft(obj);
+    params["page_y"] = e.pageY >0 ? e.pageY : GetObjTop(obj)+ xHeight(obj);
 
     var response_tags = new Array("error","message","menus");
 
@@ -384,13 +455,23 @@ function chkPopupMenu(evt) {
         displayPopupMenu(params, response_tags, params);
         return;
     }
-
     show_waiting_message = false;
     exec_xml(module_name, action_name, params, displayPopupMenu, response_tags, params);
     show_waiting_message = true;
+
 }
 
+function GetObjTop(obj) { 
+    if(obj.offsetParent == document.body) return xOffsetTop(obj); 
+    else return xOffsetTop(obj) + GetObjTop(obj.offsetParent); 
+} 
+function GetObjLeft(obj) { 
+    if(obj.offsetParent == document.body) return xOffsetLeft(obj); 
+    else return xOffsetLeft(obj) + GetObjLeft(obj.offsetParent); 
+} 
+
 function displayPopupMenu(ret_obj, response_tags, params) {
+	
     var target_srl = params["target_srl"];
     var menu_id = params["menu_id"];
     var menus = ret_obj['menus'];
@@ -398,10 +479,11 @@ function displayPopupMenu(ret_obj, response_tags, params) {
 
     if(loaded_popup_menus[menu_id]) {
         html = loaded_popup_menus[menu_id];
+
     } else {
         if(menus) {
             var item = menus['item'];
-            if(item.length<1) item = new Array(item);
+            if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
             if(item.length) {
                 for(var i=0;i<item.length;i++) {
                     var url = item[i].url;
@@ -410,24 +492,25 @@ function displayPopupMenu(ret_obj, response_tags, params) {
                     var target = item[i].target;
 
                     var styleText = "";
-
-                    if(icon) styleText = " style=\"background:url('"+icon+"') no-repeat left center; padding-left:18px; \"";
+                    var click_str = "";
+                    if(icon) styleText = " style=\"background-image:url('"+icon+"')\" ";
                     switch(target) {
                         case "popup" :
-                                click_str = " onclick=\"popopen('"+url+"','"+target+"')\"; return false;";
+                                click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
                             break;
                         case "self" :
-                                click_str = " onclick=\"location.href='"+url+"'\"; return false;";
+                                //click_str = " onclick=\"location.href='"+url+"' return false;\"";
                             break;
                         case "javascript" :
-                                click_str = " onclick=\""+url+"\"; return false;";
+                                click_str = " onclick=\""+url+"; return false; \"";
+                                url="#";
                             break;
                         default :
-                                click_str = " onclick=\"window.open('"+url+"')\"; return false;";
+                                click_str = " onclick=\"window.open(this.href); return false;\"";
                             break;
                     }
 
-                    html += '<div class="item" onmouseover="this.className=\'item_on\'" onmouseout="this.className=\'item\'"'+styleText+click_str+'>'+str+'</div> ';
+                    html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
                 }
             }
         }
@@ -437,13 +520,13 @@ function displayPopupMenu(ret_obj, response_tags, params) {
     // 레이어 출력
     if(html) {
         var area = xGetElementById("popup_menu_area");
-        xInnerHtml(area, "<div class=\"box\">"+html+"</div>");
+        xInnerHtml(area, '<ul>'+html+'</ul>');
         xLeft(area, params["page_x"]);
         xTop(area, params["page_y"]);
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
         if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
         area.style.visibility = "visible";
-    }
+    }    
 }
 
 /**
@@ -458,6 +541,11 @@ function doCallModuleAction(module, action, target_srl) {
 
 function completeCallModuleAction(ret_obj, response_tags) {
     if(ret_obj['message']!='success') alert(ret_obj['message']);
+    location.reload();
+}
+
+function completeMessage(ret_obj) {
+    alert(ret_obj['message']);
     location.reload();
 }
 
@@ -789,10 +877,13 @@ if(xIE4Up) {
         var sels = xGetElementsByTagName('select');
         for(var i=0; i < sels.length; i++){
             var disabled_exists = false;
+            var first_enable = new Array();
             for(var j=0; j < sels[i].options.length; j++) {
                 if(sels[i].options[j].disabled) {
                     sels[i].options[j].style.color = '#CCCCCC';
                     disabled_exists = true;
+                }else{
+                    first_enable[i] = first_enable[i]>-1? first_enable[i] : j;
                 }
             }
 
@@ -801,9 +892,14 @@ if(xIE4Up) {
             sels[i].oldonchange = sels[i].onchange;
             sels[i].onchange = function() {  
                 if(this.options[this.selectedIndex].disabled) {
-                    if(this.options.length<=1) this.selectedIndex = -1;
-                    else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
-                    else this.selectedIndex--;
+
+                    this.selectedIndex = first_enable[i];
+/*
+if(this.options.length<=1) this.selectedIndex = -1;
+else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
+else this.selectedIndex--;
+*/
+
                 } else {
                     if(this.oldonchange) this.oldonchange();
                 }
@@ -827,4 +923,8 @@ function toggleSecuritySignIn() {
 if(typeof(resizeImageContents) == 'undefined')
 {
     function resizeImageContents() {}
+}
+
+function reloadDocument() {
+    location.reload();
 }

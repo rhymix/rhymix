@@ -1,0 +1,13 @@
+<query id="insertPlanetReply" action="insert">
+    <tables>
+        <table name="planet_reply" />
+    </tables>
+    <columns>
+        <column name="planet_reply_srl" var="planet_reply_srl" default="sequence()"  filter="number" notnull="notnull" />
+        <column name="plante_content_srl" var="plante_content_srl" filter="number" default="0" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="write_planet_srl" var="write_planet_srl" filter="number" default="0" />
+        <column name="reply_content" var="reply_content" notnull="notnull"  minlength="1" maxlength="250" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

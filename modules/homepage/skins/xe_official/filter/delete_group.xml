@@ -1,0 +1,9 @@
+<filter name="delete_group" module="homepage" act="procHomepageDeleteGroup" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="title" required="true" />
+    </form>
+    <response callback_func="completeDeleteGroup">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

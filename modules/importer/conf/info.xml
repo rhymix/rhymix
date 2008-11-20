@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-    <title xml:lang="ko">제로보드 데이터 이전</title>
-    <title xml:lang="en">Zeroboard data transferation</title>
+    <title xml:lang="ko">XE 데이터 이전</title>
+    <title xml:lang="en">XE data transferation</title>
     <title xml:lang="zh-CN">数据导入</title>
-    <title xml:lang="jp">ZBデータ移転</title>
-    <title xml:lang="es">Transferencia de los datos de ZeroBoard</title>
-    <title xml:lang="ru">Трансферинг данных Zeroboard</title>
+    <title xml:lang="jp">XEデータ移転</title>
+    <title xml:lang="es">Transferencia de los datos de XE</title>
+    <title xml:lang="ru">Трансферинг данных XE</title>
+    <title xml:lang="zh-TW">資料匯入</title>
     <description xml:lang="ko">XML파일을 이용하여 회원정보 또는 게시판등의 데이터를 입력합니다.</description>
     <description xml:lang="en">Inputting member information or board's data using XML file.</description>
     <description xml:lang="zh-CN">利用XML文件导入会员信息或版面数据。</description>
     <description xml:lang="jp">XMLファイルを用いて会員情報または掲示板などの情報を入力します。</description>
     <description xml:lang="es">Ingresa la información del usuario o los datos del tablero utilizando el archivo XML.</description>
     <description xml:lang="ru">Запись информации пользователей или форума, используя XML-файл.</description>
+    <description xml:lang="zh-TW">利用XML檔案匯入會員或討論板資料。</description>
     <version>0.2</version>
     <date>2007-12-13</date>
     <category>accessory</category>
-    <link>http://www.zeroboard.com</link>
 
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
-        <name xml:lang="ko">제로</name>
-        <name xml:lang="en">Zero</name>
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+        <name xml:lang="en">zero</name>
         <name xml:lang="zh-CN">zero</name>
-        <name xml:lang="jp">Zero</name>
-        <name xml:lang="es">Zero</name>
+        <name xml:lang="jp">zero</name>
+        <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

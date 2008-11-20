@@ -24,7 +24,7 @@
     $lang->current_version = "Version Courante";
     $lang->current_path = "Chemin Installé";
     $lang->released_version = "Dernière Version";
-    $lang->about_download_link = "Nouvelle version est disponible. Pour télécharger la dernière version, cliquez le lien.";
+    $lang->about_download_link = "Nouvelle version est disponible.\nPour télécharger la dernière version, cliquez le lien.";
     
     $lang->item_module = "Liste des Modules";
     $lang->item_addon  = "Liste des Compagnons";
@@ -44,45 +44,17 @@
     $lang->msg_manage_module_cannot_delete = 'On ne peut pas supprimer les raccourcis pour les modules, les compagnons, les mises en page ou les gadgets';
     $lang->msg_default_act_is_null = 'on ne peut pas enrégistrer les raccourcis parce que les Actions Par Défaut de l\'Administrateur ne sont pas établies';
 
-    $lang->welcome_to_zeroboard_xe = 'Bienvenue sur la Page d\'Administration du Zeroboard XE';
+    $lang->welcome_to_xe = 'Bienvenue sur la Page d\'Administration du XE';
     $lang->about_admin_page = "La Page d\'Administration est encore en train de développer,\nNous allons ajouter des contenus essentiels par accepter beauoup de bons suggestions pendant Béta Proche.";
     $lang->about_lang_env = "Vous pouvez fixer la Langue Par Défaut par cliquer le boutton [Conserver] au-dessous. Les visiteurs vont voir tous les menus et les messages en langue que vous choisissez.";
 
-    $lang->zeroboard_xe_user_links = 'Liens pour les Utilisateurs';
-    $lang->zeroboard_xe_developer_links = 'Liens pour les Développeur';
-
-    $lang->xe_user_links = array(
-        'Site Web Officiel' => 'http://www.zeroboard.com',
-        //'Site Web Beta Proche' => 'http://spring.zeroboard.com',
-        //'Conservation des Modules' => 'http://www.zeroboard.com',
-        //'Conservation des Compagnons' => 'http://www.zeroboard.com',
-        //'Conservation des gadgets' => 'http://www.zeroboard.com',
-        //'Conservation des habillages des Modules' => 'http://www.zeroboard.com',
-        //Conservation des habillages des 'gadgets' => 'http://www.zeroboard.com',
-        //'Conservation des habillages des Mises en Page' => 'http://www.zeroboard.com',
-    );
-
-    $lang->xe_developer_links = array(
-        'Manuel' => 'http://www.zeroboard.com/manual',
-        //"Forum pour les Dveloppeurs" => 'http://spring.zeroboard.com',
-        'Traque des Issues' => 'http://trac.zeroboard.com',
-        'Répertoire de SVN' => 'http://svn.zeroboard.com',
-        'Documents de Doxygen' => 'http://doc.zeroboard.com',
-        'Documentation de PDF' => 'http://doc.zeroboard.com/zeroboard_xe.pdf',
-    );
-
-    $lang->zeroboard_xe_usefulness_module = 'Modules Utiles';
-    $lang->xe_usefulness_modules = array(
-        'dispEditorAdminIndex' => 'Administration de l\'Editeur',
-        'dispDocumentAdminList' => 'Administration des Articles',
-        'dispCommentAdminList' => 'Administration des Commentaires',
-        'dispFileAdminList' => 'Administration des Annexes',
-        'dispPollAdminList' => 'Administration des Enquêtes',
-        'dispSpamfilterAdminConfig' => 'Administration du Filtre contre Polluriel',
-        'dispCounterAdminIndex' => 'Journal de Compteur',
-
-    );
-
-    $lang->xe_license = 'Zeroboard XE s\'applique la GPL';
+    $lang->xe_license = 'XE s\'applique la GPL';
     $lang->about_shortcut = 'Vous pouvez supprimer les raccourcis pour les modules qui sont enrgistrés sur le liste des modules qui sont utilisés fréquemment';
+
+    $lang->yesterday = "Yesterday";
+    $lang->today = "Today";
+
+    $lang->cmd_lang_select = "언어선택";
+    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
+    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
 ?>

@@ -23,6 +23,9 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oModuleModel = &getModel('module');
+            if(!$oModuleModel->getActionForward('dispMessage')) return true;
+            if(!$oModuleModel->getActionForward('dispMessageAdminConfig')) return true;
             return false;
         }
 
@@ -30,6 +33,12 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+            if(!$oModuleModel->getActionForward('dispMessage')) 
+                $oModuleController->insertActionForward('message', 'view', 'dispMessage');
+            if(!$oModuleModel->getActionForward('dispMessageAdminConfig')) 
+                $oModuleController->insertActionForward('message', 'view', 'dispMessageAdminConfig');
             return new Object();
         }
 

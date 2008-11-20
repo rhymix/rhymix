@@ -1,0 +1,14 @@
+<query id="insertPlanetContent" action="insert">
+    <tables>
+        <table name="planet_content" />
+    </tables>
+    <columns>
+        <column name="planet_content_srl" var="planet_memo_srl" default="sequence()" filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="content" var="content" notnull="notnull"  minlength="1" maxlength="250" />
+        <column name="post_script" var="post_script"  minlength="1" maxlength="250" />
+        <column name="reply_count" var="reply_count" filter="number" default="0" />
+        <column name="voted_count" var="voted_count" filter="number" default="0" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

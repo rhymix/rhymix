@@ -1,0 +1,14 @@
+<query id="getPlanetTag" action="select">
+    <tables>
+        <table name="planet_tags" />
+    </tables>
+    <columns>
+        <column name="tag" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+    </navigation>
+</query>

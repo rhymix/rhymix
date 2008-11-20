@@ -1,0 +1,46 @@
+<!--%import("./js/homepage.js",optimized=false)-->
+<!--%import("./filter/delete_homepage.xml")-->
+
+<h3>{$lang->homepage} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="infoText">{nl2br($lang->about_homepage)}</div>
+
+<form action="./" method="post" onsubmit="return procFilter(this, delete_homepage)" id="fo_homepage">
+<input type="hidden" name="site_srl" value="{$homepage_info->site_srl}" />
+    <table cellspacing="0" class="adminTable">
+    <thead>
+        <tr>
+            <th colspan="2"><div>{$lang->cmd_homepage_delete}</div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row"><div>{$lang->homepage_title}</div></th>
+            <td>{$homepage_info->title}</td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->domain}</div></th>
+            <td>http://{$homepage_info->domain}</td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->homepage_admin}</div></th>
+            <td>
+                <!--@foreach($admin_list as $key => $val)-->
+                    {$val->nick_name} ({$val->user_id})<br />
+                <!--@end-->
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="red">
+                <p>{$lang->about_homepage_delete}</p>
+            </td>
+        </tr>
+        <tr class="row2">
+            <td colspan="2" class="right">
+                <span class="button red strong"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span></div>
+            </th>
+        </tr>
+    </tbody>
+    </table>
+</form>

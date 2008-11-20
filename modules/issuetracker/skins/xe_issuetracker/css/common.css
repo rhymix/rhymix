@@ -45,13 +45,6 @@ table.issues tbody td.title strong.trackback { background:url("../images/iconTra
 table.issues tbody td.regdate { text-align:center; font-family:tahoma; font-size:8pt; }
 table.issues tbody td.nick_name { text-align:left; }
 
-div.pageNavigation { margin:10px 0 0 0; text-align:center; padding:5px 3px; height:30px; }
-div.pageNavigation span { padding:3px 5px; border:1px solid #DDDDDD; color:#888888; margin:0 3px; } 
-div.pageNavigation span:hover { border-color:#888888; }
-div.pageNavigation span a { text-decoration:none; color:#888888; } 
-div.pageNavigation span a:hover { color:#444444; }
-div.pageNavigation span.current { text-decoration:none; padding:3px; margin:0 3px; color:#888888; font-weight:bold; border:none; }
-
 /* milestone */
 table.milestones { width:100%; clear:both; border:0; border-spacing:0; table-layout:fixed; border:1px solid #333333; border-bottom:none; }
 table.milestones thead tr { background:url("../images/tableHeader.gif") repeat left top; height:20px; color:#FFFFFF; }
@@ -133,12 +126,12 @@ div.editor table { width:95%; }
 /* view Issue */
 
 .viewIssue { }
-.viewIssue table { border-spacing:0; overflow:hidden; width:100%; border:1px solid #AAAAAA; background-color:#FFFFF6;}
+.viewIssue table { border-spacing:0; overflow:hidden; width:100%; border:1px solid #AAAAAA; background-color:#FFFFF6; table-layout:fixed;}
 .viewIssue table tr th { text-align:right; border-bottom:1px solid #EEEEEE; padding:8px 10px 5px 10px; vertical-align:top; color:#898700; font-weight:normal;}
 .viewIssue table tr th.title { color:#444444; font-size:13pt; text-align:left; font-weight:bold; }
 .viewIssue table tr th.title span { font-size:9pt; color:#4F86B0;}
 .viewIssue table tr td { border-bottom:1px solid #EEEEEE; padding:5px 0 5px 0; color:#3B3A00; }
-.viewIssue table tr td.description { color:#444444; text-align:left; padding:20px; }
+.viewIssue table tr td.description { color:#444444; text-align:left; padding:20px; overflow:hidden;}
 .viewIssue table tr td.description a { color:#3A945E; text-decoration:none; }
 .viewIssue table tr td.description a:hover { text-decoration:underline; }
 .viewIssue table tr td ul.tag { margin:0; padding:0; }
@@ -208,3 +201,81 @@ fieldset.history ul li.content { padding:10px; color:#444444;}
 .issue_duplicated, .issue_duplicted a { color:#949494 !important; }
 .issue_reviewing, .issue_reviewing a { color:#DD075A !important; }
 
+/* Pagination Reset */
+.pagination{ padding:15px 0; margin:0; text-align:center;}
+.pagination *{ margin:0; padding:0;}
+.pagination img{ border:0;}
+.pagination a,
+.pagination strong{ position:relative; display:inline-block; text-decoration:none; line-height:normal; color:#333; font-family:Tahoma, Sans-serif; vertical-align:middle;}
+.pagination a:hover,
+.pagination a:active,
+.pagination a:focus{ background-color:#f4f4f4 !important; }
+.pagination strong{ color:#ff6600 !important;}
+.pagination a.prev,
+.pagination a.prevEnd,
+.pagination a.next,
+.pagination a.nextEnd{ font-weight:normal !important; border:none !important; margin:0 !important; white-space:nowrap; }
+
+/* Pagination A1 */
+.pagination.a1 a,
+.pagination.a1 strong{ margin:0 -4px; padding:1px 10px 1px 8px; border:none; border-left:1px solid #ccc; border-right:1px solid #ddd; font-weight:bold; font-size:12px; background:#fff;}
+.pagination.a1 a.prev{ padding-left:10px; background:#fff url(../images/arrowPrevA1.gif) no-repeat left center; }
+.pagination.a1 a.prevEnd{ padding-left:15px; background:#fff url(../images/arrowPrevEndA1.gif) no-repeat left center; }
+.pagination.a1 a.next{ padding-right:10px; background:#fff url(../images/arrowNextA1.gif) no-repeat right center; }
+.pagination.a1 a.nextEnd{ padding-right:15px; background:#fff url(../images/arrowNextEndA1.gif) no-repeat right center; }
+
+/* Pagination A2 */
+.pagination.a2 a,
+.pagination.a2 strong{ margin:0 -4px; padding:0 10px 0 8px; font-weight:bold; font-size:11px; border:none; border-left:1px solid #ddd; border-right:1px solid #ccc; background:#fff; }
+.pagination.a2 a.prev{ padding-left:10px; background:#fff url(../images/arrowPrevA1.gif) no-repeat left center; }
+.pagination.a2 a.prevEnd{ padding-left:15px; background:#fff url(../images/arrowPrevEndA1.gif) no-repeat left center; }
+.pagination.a2 a.next{ padding-right:10px; background:#fff url(../images/arrowNextA1.gif) no-repeat right center; }
+.pagination.a2 a.nextEnd{ padding-right:15px; background:#fff url(../images/arrowNextEndA1.gif) no-repeat right center; }
+
+/* Pagination B1 */
+.pagination.b1 a,
+.pagination.b1 strong{ margin:0 -2px; padding:2px 8px; font-weight:bold; font-size:12px;}
+.pagination.b1 a.prev{ padding-left:16px; background:url(../images/arrowPrevB1.gif) no-repeat left center; }
+.pagination.b1 a.next{ padding-right:16px; background:url(../images/arrowNextB1.gif) no-repeat right center; }
+
+/* Pagination B2 */
+.pagination.b2 a,
+.pagination.b2 strong{ margin:0 -2px; padding:2px 6px; font-size:11px;}
+.pagination.b2 a.prev{ padding-left:12px; background:url(../images/arrowPrevB1.gif) no-repeat left center; }
+.pagination.b2 a.next{ padding-right:12px; background:url(../images/arrowNextB1.gif) no-repeat right center; }
+
+/* Pagination C1 */
+.pagination.c1 a,
+.pagination.c1 strong{ margin:0 -2px; padding:2px 4px; font-size:12px;}
+.pagination.c1 a.prev,
+.pagination.c1 a.next{ display:inline-block; width:13px; height:14px; padding:3px 4px; margin:0;}
+.pagination.c1 a.prev{ background:url(../images/arrowPrevC1.gif) no-repeat center;}
+.pagination.c1 a.next{ background:url(../images/arrowNextC1.gif) no-repeat center;}
+.pagination.c1 a.prev span,
+.pagination.c1 a.next span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden;}
+
+/* Pagination C2 */
+.pagination.c2 a,
+.pagination.c2 strong{ margin:0 -2px; padding:2px 4px; font-size:11px;}
+.pagination.c2 a.prev,
+.pagination.c2 a.next{ display:inline-block; width:13px; height:14px; padding:3px 4px; margin:0;}
+.pagination.c2 a.prev{ background:url(../images/arrowPrevC1.gif) no-repeat center;}
+.pagination.c2 a.next{ background:url(../images/arrowNextC1.gif) no-repeat center;}
+.pagination.c2 a.prev span,
+.pagination.c2 a.next span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden;}
+
+/* Timeline */
+h4 { background: #F7F7F7 none repeat scroll 0 0; border-bottom:1px solid #D7D7D7; font-size:1.05em; }
+dt .time { color: #999999; font-size: 0.90em; }
+dt em { border-bottom: 1px dotted #BBBBBB; color: #BB0000; font-style:normal; text-decoration: none; } 
+dt .author { color: #666666; }
+dd { color: #777766; font-size: 0.90em; }
+dl { line-height: 1.3em; margin: 0; }
+dt { padding: 5px 4px 2px 0 }
+dd.changeset p { margin: 0; padding: 0; }
+span.status { color: #222222; }
+dd span.source { color:#4F86B0; }
+dd span.target { color:#4F86B0; font-weight:bold; }
+dd span.key { color:#888888; font-weight:bold; }
+dt a { color:#373737; text-decoration: none; }
+dt span.closed { text-decoration: line-through; }

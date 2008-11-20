@@ -9,18 +9,13 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="list">
-<col width="80" />
-<col />
-<col width="120" />
-<col width="100" />
-<col width="100" />
 <thead>
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col">{$lang->title}</th>
-        <th scope="col">{$lang->writer}</th>
-        <th scope="col">{$lang->date}</th>
-        <th scope="col">{$lang->cmd_delete}</th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col" class="wide"><div>{$lang->title}</div></th>
+        <th scope="col"><div>{$lang->writer}</div></th>
+        <th scope="col"><div>{$lang->date}</div></th>
+        <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
 </thead>
 <tbody>
@@ -44,16 +39,16 @@
 </div>
 
 <!-- 페이지 네비게이션 -->
-<div class="pageNavigation">
-    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="./images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
+            <strong>{$page_no}</strong> 
         <!--@else-->
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="./images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
 </div>
 
 <!--#include("./common_footer.html")-->

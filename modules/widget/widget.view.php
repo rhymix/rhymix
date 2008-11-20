@@ -45,7 +45,9 @@
             $module_categories = $oModuleModel->getModuleCategories();
 
             // mid 목록을 가져옴
-            $mid_list = $oModuleModel->getMidList();
+            $site_module_info = Context::get('site_module_info');
+            $args->site_srl = $site_module_info->site_srl;
+            $mid_list = $oModuleModel->getMidList($args);
 
             // module_category와 module의 조합
             if($module_categories) {

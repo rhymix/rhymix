@@ -1,0 +1,18 @@
+<query id="getTotalTagSearchContents" action="select">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="modules" alias="modules" />
+        <table name="tags" alias="tags" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module" default="planet" />
+        <condition operation="equal" column="modules.module_srl" var="module_srl" pipe="and"/>
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="equal" column="tags.document_srl" default="documents.document_srl" pipe="and" />
+        <condition operation="equal" column="tags.tag" var="tag" pipe="and" />
+        <condition operation="like_prefix" column="documents.regdate" var="date" pipe="and" />
+    </conditions>
+</query>

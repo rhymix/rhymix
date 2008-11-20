@@ -30,12 +30,10 @@
 
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <caption>{$lang->member_default_info}</caption>
     <tr>
-        <th scope="row">{$lang->user_id}</th>
-        <td>
+        <th scope="row"><div>{$lang->user_id}</div></th>
+        <td class="wide">
             <!--@if($member_info->member_srl)-->
             {htmlspecialchars($member_info->user_id)}
             <!--@else-->
@@ -44,47 +42,47 @@
             <!--@end-->
         </td>
     </tr>
-    <tr>
-        <th>{$lang->password}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->password}</div></th>
         <td>
-            <input type="password" name="password" value="" class="inputTypeText" />
+            <input type="text" name="password" value="" class="inputTypeText" />
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->user_name}</th>
+        <th scope="row"><div>{$lang->user_name}</div></th>
         <td>
             <input type="text" name="user_name" value="{htmlspecialchars($member_info->user_name)}" class="inputTypeText" />
             <p>{$lang->about_user_name}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->nick_name}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->nick_name}</div></th>
         <td>
             <input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" class="inputTypeText" />
             <p>{$lang->about_nick_name}</p>
         </td>
     </tr>
     <tr>
-        <th>{$lang->email_address}</th>
+        <th scope="row"><div>{$lang->email_address}</div></th>
         <td>
             <input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" class="inputTypeText" />
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->homepage}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->homepage}</div></th>
         <td>
             <input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" class="inputTypeText"/>
             <p>{$lang->about_homepage}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->blog}</th>
+        <th scope="row"><div>{$lang->blog}</div></th>
         <td>
             <input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" class="inputTypeText" />
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->birthday}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->birthday}</div></th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="{$member_info->birthday}" />
             <div class="display_date" id="str_birthday">{zdate($member_info->birthday,"Y-m-d")}</div>
@@ -96,14 +94,14 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->allow_mailing}</th>
+        <th scope="row"><div>{$lang->allow_mailing}</div></th>
         <td>
             <input type="checkbox" name="allow_mailing" value="Y" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end-->/>
             {$lang->about_allow_mailing}
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->allow_message}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->allow_message}</div></th>
         <td>
             <select name="allow_message">
                 <!--@foreach($lang->allow_message_type as $key => $val)-->
@@ -115,19 +113,19 @@
     </tr>
     <!--@if($member_srl && $editor)-->
     <tr>
-        <th scope="row">{$lang->signature}</th>
+        <th scope="row"><div>{$lang->signature}</div></th>
         <td>{$editor}</td>
     </tr>
     <!--@end-->
-    <tr>
-        <th scope="row">{$lang->denied}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->denied}</div></th>
         <td>
             <input type="checkbox" name="denied" value="Y" <!--@if($member_info->denied=='Y')-->checked="checked"<!--@end-->/>
             <p>{$lang->about_denied}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->limit_date}</th>
+        <th scope="row"><div>{$lang->limit_date}</div></th>
         <td>
             <input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
             <div id="str_limit_date" class="display_date" >{zdate($member_info->limit_date,"Y-m-d")}</div>
@@ -137,22 +135,22 @@
             <p class="clear">{$lang->about_limit_date}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->is_admin}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->is_admin}</div></th>
         <td>
             <input type="checkbox" name="is_admin" value="Y" <!--@if($member_info->is_admin=='Y')-->checked="checked"<!--@end-->/>
             <p>{$lang->about_is_admin}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->description}</th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>
             <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($member_info->description)}</textarea>
             <p>{$lang->about_member_description}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->group}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->group}</div></th>
         <td>
             <!--@foreach($group_list as $key=>$val)-->
                 <input type="checkbox" name="group_srl_list" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> class="checkbox" />
@@ -166,21 +164,19 @@
     <!--@if($extend_form_list)-->
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <caption>{$lang->member_extend_info}</caption>
     <!--@foreach($extend_form_list as $key => $val)-->
         <!--@if($val->is_active=='Y')-->
-    <tr>
-        <th scope="row">
+    <tr class="row{$cycle_idx}">
+        <th scope="row"><div>
             {htmlspecialchars($val->column_title)}
             <!--@if($val->required=='Y')-->*<!--@end-->
             <div class="publicItem">
                 <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
                 <label for="open_{$val->column_name}">{$lang->public}</label>
             </div>
-        </th>
-        <td>
+        </div></th>
+        <td class="wide">
             <!--// 일반 text -->
             <!--@if($val->column_type == 'text')--> 
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
@@ -264,7 +260,7 @@
     </table>
     <!--@end-->
 
-    <div class="tRight gap1">
+    <div class="tRight">
         <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         <!--@if($member_srl)-->
         <a href="{getUrl('act','dispMemberAdminInfo')}" class="button"><span>{$lang->cmd_cancel}</span></a>

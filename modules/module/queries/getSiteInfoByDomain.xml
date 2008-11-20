@@ -1,0 +1,16 @@
+<query id="getSiteInfoByDomain" action="select">
+    <tables>
+        <table name="sites" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="sites.site_srl" alias="site_srl" />
+        <column name="sites.domain" alias="domain" />
+        <column name="sites.index_module_srl" alias="index_module_srl" />
+        <column name="modules.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="sites.domain" var="domain" notnull="notnull" />
+        <condition operation="equal" column="modules.module_srl" default="sites.index_module_srl" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -13,6 +13,7 @@
             return;
         }
         $oController = &getController('tccommentnotify');
+		if(!$oController) return;
         $oController->procNotifyReceived();
         return;
     }
@@ -20,6 +21,7 @@
     if($called_position == "after_module_proc")
     {
         $oModel = &getModel('tccommentnotify');
+		if(!$oModel) return;
         if($oModel->checkShouldNotify())
         {
             $scriptCode = <<<EndOfScript

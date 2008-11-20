@@ -1,0 +1,12 @@
+<query id="getModulePartConfigs" action="select">
+    <tables>
+        <table name="module_part_config" />
+    </tables>
+    <columns>
+        <column name="module_srl" />
+        <column name="config" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module" var="module" notnull="notnull" />
+    </conditions>
+</query>

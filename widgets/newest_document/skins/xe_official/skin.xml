@@ -4,6 +4,7 @@
 	<title xml:lang="jp">XE公式 レイアウト用の最新コンテンツ表示スキン</title>
 	<title xml:lang="zh-CN">XE官方网站最新主题列表皮肤</title>
 	<title xml:lang="en">XE Official Layout's newest document skin</title>
+	<title xml:lang="zh-TW">XE官方網站最新主題列表面板</title>
 	<description xml:lang="ko">
 		XE 공식 레이아웃에 적합한 최신글 스킨입니다.
 		디자인 : 이소라 (http://ra-ra.pe.kr)
@@ -28,6 +29,12 @@
 		HTML/CSS : Chan-Myung Jeong(http://naradesign.net)
 		Layout : zero (http://blog.nzeo.com)
 	</description>
+	<description xml:lang="zh-TW">
+		XE官方網站最新主題列表面板。
+		設計 : So-Ra Lee(http://ra-ra.pe.kr)
+		HTML/CSS : Chan-Myung Jeong(http://naradesign.net)
+		版面設計: zero (http://blog.nzeo.com)
+	</description>
 	<version>0.1</version>
 	<date>2007-08-01</date>
 	<link>http://www.zeroboard.com</link>
@@ -37,6 +44,7 @@
 		<name xml:lang="jp">zero</name>
 		<name xml:lang="zh-CN">zero</name>
 		<name xml:lang="en">zero</name>
+		<name xml:lang="zh-TW">zero</name>
 	</author>
 
 	<colorset>
@@ -45,12 +53,14 @@
 			<title xml:lang="jp">白い背景用</title>
 			<title xml:lang="zh-CN">白色背景</title>
 			<title xml:lang="en">White Background</title>
+			<title xml:lang="zh-TW">白色背景</title>
 		</color>
 		<color name="black">
 			<title xml:lang="ko">어두운 바탕용</title>
 			<title xml:lang="jp">暗い背景用</title>
 			<title xml:lang="zh-CN">暗色背景</title>
 			<title xml:lang="en">Dark Background</title>
+			<title xml:lang="zh-TW">暗色背景</title>
 		</color>
 	</colorset>
 </skin>

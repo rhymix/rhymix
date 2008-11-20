@@ -1,0 +1,12 @@
+<query id="insertPlanet" action="insert">
+    <tables>
+        <table name="planet" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="planet_title" var="planet_title" />
+        <column name="close_notice" var="close_notice" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

@@ -1,0 +1,70 @@
+<!--%unload("../../../../common/css/default.css")-->
+<!--%unload("../../../../common/css/button.css",optimized=false)-->
+<!--%import("css/layout.css")-->
+<!--%import("css/button.css")-->
+<!--%import("css/default.css")-->
+<!--%import("js/jindo2.js")-->
+<!--%import("js/planet.js")-->
+<!--%import("js/planet_func.js")-->
+
+<!--@if($planet->getColorset()=="red")-->
+    <!--%import("css/red.css")-->
+<!--@elseif($planet->getColorset()=="blue")-->
+    <!--%import("css/blue.css")-->
+<!--@elseif($planet->getColorset()=="green")-->
+    <!--%import("css/green.css")-->
+<!--@elseif($planet->getColorset()=="orange")-->
+    <!--%import("css/orange.css")-->
+<!--@elseif($planet->getColorset()=="gray")-->
+    <!--%import("css/gray.css")-->
+<!--@else-->
+    <!--%import("css/cyan.css")-->
+<!--@end-->
+
+<!--%import("filter/modify_content_tag.xml")-->
+<!--%import("filter/insert_reply.xml")-->
+
+<div class="liquid">
+    <div id="container" class="c1 nTop e0">
+        <div id="header">
+        <!--@if($config->logo_image)-->
+            <h1><a href="{getUrl('','mid',$config->mid)}"><img src="{$config->logo_image}" alt="{$config->logo_title}" /></a></h1>
+        <!--@elseif($config->logo_title)-->
+            <h1><a href="{getUrl('','mid',$config->mid)}">{htmlspecialchars($config->logo_title)}</a></h1>
+        <!--@else-->
+            <h1>&nbsp;</h1>
+        <!--@end-->
+        </div>
+        <hr />
+        <div id="body">
+            <div id="content">
+                <!--@if(!$myplanet->isExists() && $act == 'dispPlanetHome' && $grant->create)-->
+                <div class="tryPlanet">
+                    <p>{nl2br($config->create_message)}</p>
+                    <a href="{getUrl('','mid',$mid,'act','dispPlanetCreate')}" class="button large strong planetBlue"><span>{$lang->cmd_create_planet}</span></a>
+                    <span class="leftCap"></span><span class="rightCap"></span>
+                </div>
+                <!--@end-->
+
+                <!--@if($moretags)-->
+                <div class="tagCloud open">
+                    <h2>{$lang->planet_nowhot_tag}</h2>
+                    <p>{date("Y")}{$lang->unit_year} {date("m")}{$lang->unit_month} {date("d")}{$lang->unit_day} {date("H")}{$lang->unit_hour}</p>
+                    <button type="button"><span>{$lang->cmd_planet_close_nowhot_tag}</span></button>
+                    <ul>
+                        <!--@foreach($planet->getPopularTags(true,100) as $val)-->
+                        <li class="rank{$val->rank}"><a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a></li>
+                        <!--@end-->
+                    </ul>
+                    <a href="{getUrl('moretags','')}" class="closeButton"><img src="./images/buttonClose1.gif" alt="{$lang->cmd_planet_close_nowhot_tag}" border="0" /></a>
+                    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+                </div>
+                <hr />
+                <!--@end-->
+
+                <!--@if($config->notice)-->
+                <div class="searchHeader">
+                    <p>{$config->notice}</p>
+                    <span class="leftCap"></span><span class="rightCap"></span>
+                </div>
+                <!--@end-->

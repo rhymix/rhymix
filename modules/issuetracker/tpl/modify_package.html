@@ -9,14 +9,12 @@
 
 <table cellspacing="0" class="adminTable">
 <thead>
-<col width="120" />
-<col width="*" />
 <tr>
-    <th>{$lang->name}</th>
-    <td><input name="title" type="text" value="{htmlspecialchars($package->title)}" class="inputTypeText w400" /></td>
+    <th><div>{$lang->name}</div></th>
+    <td class="wide"><input name="title" type="text" value="{htmlspecialchars($package->title)}" class="inputTypeText w400" /></td>
 </tr>
 <tr>
-    <th>{$lang->description}</th>
+    <th><div>{$lang->description}</div></th>
     <td><textarea name="description" class="inputTypeTextArea w400" />{htmlspecialchars($package->description)}</textarea></td>
 </tr>
 <tr>

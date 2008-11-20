@@ -3,11 +3,8 @@
     * @class Context 
     * @author zero (zero@nzeo.com)
     * @brief  Request Argument/환경변수등의 모든 Context를 관리
-    *
     * Context 클래스는 Context::methodname() 처럼 쉽게 사용하기 위해 만들어진 객체를 받아서
     * 호출하는 구조를 위해 이중 method 구조를 가지고 있다.
-    * php5에서 static variables를 사용하게 된다면 불필요한 구조를 제거할 수 있다.
-    * php5 쓰고 싶당.. ㅡ.ㅜ
     **/
 
     define('FOLLOW_REQUEST_SSL',0);
@@ -35,7 +32,6 @@
 
         /**
          * @brief 언어 정보
-         *
          * 기본으로 ko. HTTP_USER_AGENT나 사용자의 직접 세팅(쿠키이용)등을 통해 변경됨
          **/
         var $lang_type = ''; ///< 언어 종류
@@ -50,7 +46,6 @@
 
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
-         *
          * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
          **/
         function &getInstance() {
@@ -61,9 +56,7 @@
 
         /**
          * @brief DB정보, Request Argument등을 세팅
-         *
-         * Context::init()은 단 한번만 호출되어야 하며 init()시에
-         * Request Argument, DB/언어/세션정보등의 모든 정보를 세팅한다
+         * Context::init()은 단 한번만 호출되어야 하며 init()시에 Request Argument, DB/언어/세션정보등의 모든 정보를 세팅한다
          **/
         function init() {
             // context 변수를 $GLOBALS의 변수로 지정
@@ -73,6 +66,9 @@
 
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
+
+            // 언어 파일 불러오기
+            $lang_supported = $this->loadLangSelected();
 
             // 세션 핸들러 지정
             $oSessionModel = &getModel('session');
@@ -90,25 +86,10 @@
             // 쿠키로 설정된 언어타입 가져오기 
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
             else $this->lang_type = $this->db_info->lang_type;
-
-            // 등록된 기본 언어파일 찾기
-            $langs = file(_XE_PATH_.'common/lang/lang.info');
-            $accept_lang = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            foreach($langs as $val) {
-                list($lang_prefix, $lang_text) = explode(',',$val);
-                $lang_text = trim($lang_text);
-                $lang_supported[$lang_prefix] = $lang_text;
-                if(!$this->lang_type && preg_match('/'.$lang_prefix.'/i',$_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-                    $this->lang_type = $lang_prefix;
-                    setcookie('lang_type', $this->lang_type, time()+60*60*24*365, '/');
-                }
-            }
-
             if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
             if(!$this->lang_type) $this->lang_type = "en";
 
             Context::set('lang_supported', $lang_supported);
-
             $this->setLangType($this->lang_type);
 
             // 기본 언어파일 로드
@@ -120,11 +101,17 @@
 
             // Request Argument 설정
             $this->_setXmlRpcArgument();
+            $this->_setJSONRequestArgument();
             $this->_setRequestArgument();
             $this->_setUploadedArgument();
 
             // 인증 관련 정보를 Context와 세션에 설정
             if(Context::isInstalled()) {
+                // site_module_info를 구함
+                $oModuleModel = &getModel('module');
+                $site_module_info = $oModuleModel->getDefaultMid();
+                Context::set('site_module_info', $site_module_info);
+
                 // 인증관련 데이터를 Context에 설정
                 $oMemberModel = &getModel('member');
                 $oMemberController = &getController('member');
@@ -152,7 +139,7 @@
             $this->addJsFile("./common/js/xml_handler.js");
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
-            $this->addCSSFile("./common/css/button.css");
+            $this->addCSSFile("./common/css/button.css",false);
 
             // 관리자 페이지일 경우 관리자 공용 CSS 추가
             if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
@@ -162,7 +149,13 @@
                 if($this->get_vars) {
                     foreach($this->get_vars as $key => $val) {
                         if(!$val) continue;
-                        $url .= ($url?'&':'').$key.'='.$val;
+                        if(is_array($val)&&count($val)) {
+                            foreach($val as $k => $v) {
+                                $url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
+                            }
+                        } else {
+                            $url .= ($url?'&':'').$key.'='.urlencode($val);
+                        }
                     }
                     Context::set('current_url',sprintf('%s?%s', $this->getRequestUri(), $url));
                 } else {
@@ -260,6 +253,47 @@
         function _getDBInfo() {
             return $this->db_info;
         }
+
+        /**
+         * @brief 지원되는 언어 파일 찾기
+         **/
+        function loadLangSupported() {
+            static $lang_supported = null;
+            if(is_null($lang_supported)) {
+                $langs = file(_XE_PATH_.'common/lang/lang.info');
+                foreach($langs as $val) {
+                    list($lang_prefix, $lang_text) = explode(',',$val);
+                    $lang_text = trim($lang_text);
+                    $lang_supported[$lang_prefix] = $lang_text;
+                }
+            }
+            return $lang_supported;
+        }
+
+        /**
+         * @brief 설정한 언어 파일 찾기
+         **/
+        function loadLangSelected() {
+            static $lang_selected = null;
+            if(is_null($lang_selected)) {
+                $orig_lang_file = _XE_PATH_.'common/lang/lang.info';
+                $selected_lang_file = _XE_PATH_.'files/cache/lang_selected.info';
+                if(!file_exists($selected_lang_file) || !filesize($selected_lang_file)) {
+                    $buff = FileHandler::readFile($orig_lang_file);
+                    FileHandler::writeFile($selected_lang_file, $buff);
+                    $lang_selected = Context::loadLangSupported();
+                } else {
+                    $langs = file($selected_lang_file);
+                    foreach($langs as $val) {
+                        list($lang_prefix, $lang_text) = explode(',',$val);
+                        $lang_text = trim($lang_text);
+                        $lang_selected[$lang_prefix] = $lang_text;
+                    }
+                }
+            }
+            return $lang_selected;
+        }
+
 
         /**
          * @biref FTP 정보가 등록되었는지 확인
@@ -417,13 +451,13 @@
          **/
         function convertEncoding($source_obj) {
             $charset_list = array(
-                'UTF-8', 'EUC-KR', 'CP949', 'ISO-8859-1', 'EUC-JP', 'SHIFT_JIS', 'CP932',
+                'UTF-8', 'EUC-KR', 'CP949', 'ISO8859-1', 'EUC-JP', 'SHIFT_JIS', 'CP932',
                 'EUC-CN', 'HZ', 'GBK', 'GB18030', 'EUC-TW', 'BIG5', 'CP950', 'BIG5-HKSCS',
-                'ISO-2022-CN', 'ISO-2022-CN-EXT', 'ISO-2022-JP', 'ISO-2022-JP-2', 'ISO-2022-JP-1',
-                'ISO-8859-6', 'ISO-8859-8', 'JOHAB', 'ISO-2022-KR', 'CP1255', 'CP1256', 'CP862',
-                'ASCII', 'ISO-8859-1', 'ISO-8850-2', 'ISO-8850-3', 'ISO-8850-4', 'ISO-8850-5',
-                'ISO-8850-7', 'ISO-8850-9', 'ISO-8850-10', 'ISO-8850-13', 'ISO-8850-14',
-                'ISO-8850-15', 'ISO-8850-16', 'CP1250', 'CP1251', 'CP1252', 'CP1253', 'CP1254',
+                'ISO2022-CN', 'ISO2022-CN-EXT', 'ISO2022-JP', 'ISO2022-JP-2', 'ISO2022-JP-1',
+                'ISO8859-6', 'ISO8859-8', 'JOHAB', 'ISO2022-KR', 'CP1255', 'CP1256', 'CP862',
+                'ASCII', 'ISO8859-1', 'ISO8850-2', 'ISO8850-3', 'ISO8850-4', 'ISO8850-5',
+                'ISO8850-7', 'ISO8850-9', 'ISO8850-10', 'ISO8850-13', 'ISO8850-14',
+                'ISO8850-15', 'ISO8850-16', 'CP1250', 'CP1251', 'CP1252', 'CP1253', 'CP1254',
                 'CP1257', 'CP850', 'CP866',
             );
 
@@ -457,7 +491,7 @@
         /**
          * @brief response method를 강제로 지정 (기본으로는 request method를 이용함)
          *
-         * method의 종류에는 HTML/ TEXT/ XMLRPC가 있음
+         * method의 종류에는 HTML/ TEXT/ XMLRPC/ JSON가 있음
          **/
         function setResponseMethod($method = "HTML") {
             $oContext = &Context::getInstance();
@@ -482,12 +516,14 @@
         function _getResponseMethod() {
             if($this->response_method) return $this->response_method;
 
-            if($this->_getRequestMethod()=="XMLRPC") return "XMLRPC";
+            $RequestMethod = $this->_getRequestMethod();
+            if($RequestMethod=="XMLRPC") return "XMLRPC";
+            else if($RequestMethod=="JSON") return "JSON";
             return "HTML";
         }
 
         /**
-         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
+         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC/JSON)
          **/
         function setRequestMethod($type) {
             $oContext = &Context::getInstance();
@@ -496,11 +532,12 @@
 
 
         /**
-         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC)
+         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC/JSON)
          **/
         function _setRequestMethod($type = '') {
             if($type) return $this->request_method = $type;
 
+            if(strpos($_SERVER['CONTENT_TYPE'],'json')) return $this->request_method = 'JSON';
             if($GLOBALS['HTTP_RAW_POST_DATA']) return $this->request_method = "XMLRPC";
 
             $this->request_method = $_SERVER['REQUEST_METHOD'];
@@ -515,22 +552,27 @@
 
             foreach($_REQUEST as $key => $val) {
                 if($val === "") continue;
-                if($key == "page" || $key == "cpage" || substr($key,-3)=="srl") $val = (int)$val;
-                else if(is_array($val) && count($val) ) {
-                    foreach($val as $k => $v) {
-                        if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
-                        $v = trim($v);
-                        $val[$k] = $v;
-                    }
-                } else {
-                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
-                    $val = trim($val);
-                }
-
+                $val = $this->_filterRequestVar($key, $val);
                 if($this->_getRequestMethod()=='GET'&&$_GET[$key]) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&$_POST[$key]) $set_to_vars = true;
                 else $set_to_vars = false;
                 $this->_set($key, $val, $set_to_vars);
+            }
+        }
+
+        /**
+         * @brief JSON 방식일 경우 처리
+         **/
+        function _setJSONRequestArgument() {
+            if($this->_getRequestMethod() != 'JSON') return;
+//            if(!$GLOBALS['HTTP_RAW_POST_DATA']) return;
+
+            $params = array();
+            parse_str($GLOBALS['HTTP_RAW_POST_DATA'],$params);
+
+            foreach($params as $key => $val) {
+                $val = $this->_filterRequestVar($key, $val);
+                $this->_set($key, $val, true);
             }
         }
 
@@ -547,11 +589,29 @@
 
             unset($params->attrs);
             if(!count($params)) return;
-
             foreach($params as $key => $obj) {
-                $val = trim($obj->body);
+                $val = $this->_filterRequestVar($key, $obj->body);
                 $this->_set($key, $val, true);
             }
+        }
+
+        /**
+         * @brief 변수명에 따라서 필터링 처리
+         * _srl, page, cpage등의 변수는 integer로 형변환
+         **/
+        function _filterRequestVar($key, $val) {
+            if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
+            if(is_array($val) && count($val) ) {
+                foreach($val as $k => $v) {
+                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
+                    $v = trim($v);
+                    $val[$k] = $v;
+                }
+            } else {
+                if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
+                $val = trim($val);
+            }
+            return $val;
         }
 
         /**
@@ -586,7 +646,7 @@
         }
 
         /**
-         * @brief Request Method값을 return (GET/POST/XMLRPC);
+         * @brief Request Method값을 return (GET/POST/XMLRPC/JSON);
          **/
         function getRequestMethod() {
             $oContext = &Context::getInstance();
@@ -594,7 +654,7 @@
         }
 
         /**
-         * @brief Request Method값을 return (GET/POST/XMLRPC);
+         * @brief Request Method값을 return (GET/POST/XMLRPC/JSON);
          **/
         function _getRequestMethod() {
             return $this->request_method;
@@ -603,15 +663,20 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function getUrl($num_args=0, $args_list=array()) {
+        function getUrl($num_args=0, $args_list=array(), $domain = null) {
             $oContext = &Context::getInstance();
-            return $oContext->_getUrl($num_args, $args_list);
+            return $oContext->_getUrl($num_args, $args_list, $domain);
         }
 
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function _getUrl($num_args=0, $args_list=array()) {
+        function _getUrl($num_args=0, $args_list=array(), $domain = null) {
+            if($domain) {
+                $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
+                if(substr($domain,-1) != '/') $domain .= '/';
+            }
+
             if(!$this->get_vars || $args_list[0]=='') {
                 $get_vars = null;
                 if($args_list[0]=='') {
@@ -636,11 +701,16 @@
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
             elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
 
-            $var_count = count($get_vars);
-            if(!$var_count) return '';
+            if(!$domain) {
+                if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
+                else $path = $this->getRequestUri(RELEASE_SSL);
+            } else {
+                if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = 'https://'.$domain;
+                else $path = 'http://'.$domain;
+            }
 
-            if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
-            else $path = $this->getRequestUri(RELEASE_SSL);
+            $var_count = count($get_vars);
+            if(!$var_count) return $path;
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
             if($this->allow_rewrite) {
@@ -674,9 +744,9 @@
                     case 'mid.search_keyword.search_target' :
                             switch($get_vars['search_target']) {
                                 case 'tag' : 
-                                    return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                                    return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
                                 case 'nick_name' : 
-                                    return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','-',$get_vars['search_keyword']));
+                                    return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
                                 case 'regdate' : 
                                     if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
                                     elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2)); 
@@ -690,7 +760,13 @@
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
             foreach($get_vars as $key => $val) {
                 if(!isset($val)) continue;
-                $url .= ($url?'&':'').$key.'='.urlencode($val);
+                if(is_array($val) && count($val)) {
+                    foreach($val as $k => $v) {
+                        $url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
+                    }
+                } else {
+                    $url .= ($url?'&':'').$key.'='.urlencode($val);
+                }
             }
 
             return $path.'?'.htmlspecialchars($url);
@@ -700,6 +776,10 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL) {
+            static $url = array();
+
+            if(isset($url[$ssl_mode])) return $url[$ssl_mode];
+
             switch($ssl_mode) {
                 case FOLLOW_REQUEST_SSL :
                         if($_SERVER['HTTPS']=='on') $use_ssl = true;
@@ -713,7 +793,21 @@
                     break;
             }
 
-            return sprintf("%s://%s%s",$use_ssl?'https':'http',$_SERVER['HTTP_HOST'], getScriptPath());
+            $site_module_info = Context::get('site_module_info');
+            $domain = trim($site_module_info->domain);
+            if($domain) {
+                $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
+                if(substr($domain,-1) != '/') $domain .= '/';
+            } else {
+                $domain = preg_replace('/:'.$_SERVER['SERVER_PORT'].'$/','',$_SERVER['HTTP_HOST']).getScriptPath();
+            }
+
+            $domain = sprintf("%s://%s",$use_ssl?'https':'http',$domain);
+
+            $url_info = parse_url($domain);
+            $url[$ssl_mode] = sprintf("%s://%s%s%s",$url_info['scheme'], $url_info['host'], $_SERVER['SERVER_PORT']!=80?':'.$_SERVER['SERVER_PORT']:'',$url_info['path']);
+
+            return $url[$ssl_mode];
         }
 
         /**
@@ -849,8 +943,27 @@
          **/
         function _addJsFile($file, $optimized, $targetie) {
             if(in_array($file, $this->js_files)) return;
-            //if(!preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->js_files[] = array('file' => $file, 'optimized' => $optimized, 'targetie' => $targetie);
+        }
+
+        /**
+         * @brief js file을 제거
+         **/
+        function unloadJsFile($file, $optimized = true, $targetie = '') {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadJsFile($file, $optimized, $targetie);
+        }
+
+        /**
+         * @brief js file을 제거
+         **/
+        function _unloadJsFile($file, $optimized, $targetie) {
+            foreach($this->js_files as $key => $val) {
+                if(realpath($val['file'])==realpath($file) && $val['optimized'] == $optimized && $val['targetie'] == $targetie) {
+                    unset($this->js_files[$key]);
+                    return;
+                }
+            }
         }
 
         /**
@@ -901,6 +1014,26 @@
 
             //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
             $this->css_files[] = array('file' => $file, 'optimized' => $optimized, 'media' => $media, 'targetie' => $targetie);
+        }
+
+        /**
+         * @brief css file을 제거
+         **/
+        function unloadCSSFile($file, $optimized = true, $media = 'all', $targetie = '') {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadCSSFile($file, $optimized, $media, $targetie);
+        }
+
+        /**
+         * @brief css file을 제거
+         **/
+        function _unloadCSSFile($file, $optimized, $media, $targetie) {
+            foreach($this->css_files as $key => $val) {
+                if(realpath($val['file'])==realpath($file) && $val['optimized'] == $optimized && $val['media'] == $media && $val['targetie'] == $targetie) {
+                    unset($this->css_files[$key]);
+                    return;
+                }
+            }
         }
 
         /**
@@ -1093,6 +1226,12 @@
                 extension_loaded('zlib')
             ) return true;
             return false;
+        }
+
+        function getFixUrl($url){
+            if(eregi("(http|https):\/\/",$url)) return $url;
+            if(ereg("^/",$url)) return $url;
+            return dirname($_SERVER['PHP_SELF']) . "/" . $url;
         }
 
     }

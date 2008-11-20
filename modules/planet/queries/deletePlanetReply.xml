@@ -1,0 +1,9 @@
+<query id="deletePlanetReply" action="delete">
+    <tables>
+        <table name="planet_reply" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="planet_reply_srl" var="planet_reply_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="write_planet_srl" var="write_planet_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

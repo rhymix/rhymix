@@ -1,0 +1,10 @@
+<filter name="insert_page" module="homepage" act="procHomepageInsertPage" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="module_srl" required="true" filter="number" />
+    </form>
+    <parameter />
+    <response callback_func="completeInsertPage">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -331,8 +331,8 @@
 
             // header_script
             $oModuleModel = &getModel('module');
-            $layout_config = $oModuleModel->getModuleConfig('layout');
-            $header_script = trim($layout_config->header_script[$layout_srl]);
+            $layout_config = $oModuleModel->getModulePartConfig('layout', $layout_srl);
+            $header_script = trim($layout_config->header_script);
 
             if($header_script) $buff .= sprintf(' $layout_info->header_script = "%s"; ', str_replace('"','\\"',$header_script));
 

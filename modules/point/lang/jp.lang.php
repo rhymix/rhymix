@@ -1,12 +1,12 @@
 <?php
     /**
      * @file   modules/point/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ポイント（point）モジュールの基本言語パッケージ
      **/
 
-    $lang->point = "ポイント"; 
-    $lang->level = "レベル"; 
+    $lang->point = "ポイント";
+    $lang->level = "レベル";
 
     $lang->about_point_module = "ポイントモジュールでは、書き込み作成/コメント作成/アップロード/ダウンロードなどのユーザの活動に対してポイントの計算を行います。但し、ポイントモジュールでは設定のみを行い、アドオンでポイントシステムを「使用」に設定しなければポイントは累積されません。";
     $lang->about_act_config = "掲示板、ブログなどのモジュールごと書き込み作成・削除/コメント作成・削除などのアクションがあります。掲示板/ブログ以外のモジュールにポイントシステムを連動させたい場合は、各機能のアクションの「act値」を追加します。連動は「,（コンマ）」で区切って追加します。";
@@ -31,8 +31,8 @@
     $lang->cmd_exp_calc = '計算';
     $lang->cmd_exp_reset = '初期化';
 
-    $lang->cmd_point_recal = '포인트 초기화';
-    $lang->about_cmd_point_recal = '게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화 합니다.<br />회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다.<br />데이터 이전등을 하여 포인트를 완전히 초기화 해야 할 경우에만 사용하세요.';
+    $lang->cmd_point_recal = 'ポイントの初期化';
+    $lang->about_cmd_point_recal = '書き込み/コメント/添付ファイル/会員登録のポイントのみ取り、全ての他のポイントを初期化します。<br />但し、会員登録ポイントは初期化後、該当会員の活動がスタートしたら付与されます。<br />データ移管などによるポイントを完全に初期化する必要がある場合など、利用は慎重に行なって下さい。';
 
     $lang->point_link_group = 'グループ連動';
     $lang->about_point_link_group = 'グループにレベルを指定すると、該当レベルになったらグループが変更されます。 ただし、新しいグループに変更されると以前自動登録されたグループは消去されます。';
@@ -47,9 +47,9 @@
     $lang->point_upload_file = 'アップロード';
     $lang->point_delete_file = 'ファイル削除';
     $lang->point_download_file = 'ダウンロード';
-    $lang->point_read_document = '書き込み照会';
-    $lang->point_voted = '추천 받음';
-    $lang->point_blamed = '비추천 받음';
+    $lang->point_read_document = '書き込み閲覧';
+    $lang->point_voted = '推薦';
+    $lang->point_blamed = '非推薦';
 
 
     $lang->cmd_point_config = 'デフォルト設定';

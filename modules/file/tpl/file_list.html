@@ -3,8 +3,8 @@
 <!--%import("css/file_list.css")-->
 <!--#include("header.html")-->
 
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<div class="summary">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
@@ -13,33 +13,13 @@
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
 <thead>
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(50,40,0,70,45,65,65,90)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(50,40,0,70,70,75,75,90)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(50,40,0,65,45,45,65,90)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(50,40,0,65,45,65,65,90)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(50,40,0,75,75,80,75,90)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(50,40,0,65,80,65,65,90)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(50,40,0,75,55,65,65,90)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
-
     <tr>
-        <th scope="col">{$lang->no}</th>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-        <th scope="col">
-            <div class="nowrap">
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col" class="wide">
+            <div>
                 <select name="module_srl" id="module_srl" class="w120">
-                    <option value="">{$lang->module}</option>
+                    <option value=""><div>{$lang->module}</option>
                     <!--@foreach($mid_list as $key => $val)-->
                     <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
                     <!--@end-->
@@ -47,11 +27,11 @@
                 <input type="button" name="go_button" id="go_button" value="GO" class="buttonTypeGo" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;"/>
             </div>
         </th>
-        <th scope="col">{$lang->file_size}</th>
-        <th scope="col">{$lang->status}</th>
-        <th scope="col">{$lang->cmd_download}</th>
-        <th scope="col">{$lang->date}</th>
-        <th scope="col">{$lang->ipaddress}</th>
+        <th scope="col"><div>{$lang->file_size}</div></th>
+        <th scope="col"><div>{$lang->status}</div></th>
+        <th scope="col"><div>{$lang->cmd_download}</div></th>
+        <th scope="col"><div>{$lang->date}</div></th>
+        <th scope="col"><div>{$lang->ipaddress}</div></th>
     </tr>
 </thead>
 
@@ -66,7 +46,7 @@
             {@ $move_uri = getUrl('', 'document_srl', $document_srl)}
         <!--@end-->
         {@ $cur_upload_target_srl = $val->upload_target_srl}
-    <tr class="bg1">
+    <tr class="row{$cycle_idx} bg1">
         <td colspan="8">
             <!--@if(!$document_list[$document_srl])-->
             {$lang->cmd_save}
@@ -78,45 +58,44 @@
     <!--@endif-->
 
     <tr>
-        <td class="tahoma">{$no}</td>
-        <td><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
-        <td class="left subject">
-            <a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a>
-        </td>
-        <td class="tahoma">{FileHandler::filesize($val->file_size)}</td>
+        <td class="center number">{$no}</td>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
+        <td><a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a></td>
+        <td class="number center">{FileHandler::filesize($val->file_size)}</td>
         <!--@if($val->isvalid=='Y')-->
-            <td class="blue">{$lang->is_valid}</td>
+            <td class="blue center">{$lang->is_valid}</td>
         <!--@else-->
-            <td class="red">{$lang->is_stand_by}</td>
+            <td class="red center">{$lang->is_stand_by}</td>
         <!--@end-->
-        <td class="tahoma">{$val->download_count}</td>
-        <td class="tahoma">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="tahoma">{$val->ipaddress}</td>
+        <td class="number center">{$val->download_count}</td>
+        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <td class="number center">{$val->ipaddress}</td>
     </tr>
 <!--@endforeach-->
+    <tr>
+        <td colspan="8" class="right">
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart', false)" class="button"><span>{$lang->cmd_unselect_all}</span></a>
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_file}" /></span>
+        </td>
+    </tr>
 </tbody>
 </table>
 
-<!-- 버튼 -->
-<div class="fr gap1">
-    <a href="javascript:checkboxSelectAll('fo_list', 'cart', false)" class="button"><span>{$lang->cmd_unselect_all}</span></a>
-    <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_file}" /></span>
-</div>
 
 </form>
 
 <!-- 페이지 네비게이션 -->
-<div class="pageNavigation">
-    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a>
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a>
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span>
+            <strong>{$page_no}</strong>
         <!--@else-->
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
 </div>
 
 <!-- 검색 -->

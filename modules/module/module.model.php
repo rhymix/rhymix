@@ -25,22 +25,46 @@
         }
 
         /**
+         * @brief domain에 따른 기본 mid를 구함
+         **/
+        function getDefaultMid() {
+            // domain 으로 등록된 virtual site가 있는지 확인
+            $url_info = parse_url(Context::getRequestUri());
+            $hostname = $url_info['host'];
+            $path = preg_replace('/\/$/','',$url_info['path']);
+            $sites_args->domain = sprintf('%s%s', $hostname, $path);
+            $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
+            if(!$output->toBool() || !$output->data) $output = executeQuery('module.getDefaultMidInfo');
+            $module_info = $output->data;
+            if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
+            return $this->arrangeModuleInfo($module_info);
+        }
+
+        /**
+         * @brief site 정보를 구함
+         **/
+        function getSiteInfo($site_srl) {
+            $args->site_srl = $site_srl;
+            $output = executeQuery('module.getSiteInfo', $args);
+            return $output->data;
+        }
+
+        function getSiteInfoByDomain($domain) {
+            $args->domain= $domain;
+            $output = executeQuery('module.getSiteInfoByDomain', $args);
+            return $output->data;
+        }
+
+        /**
          * @brief mid로 모듈의 정보를 구함
          **/
-        function getModuleInfoByMid($mid='') {
-            // $mid값이 인자로 주어질 경우 $mid로 모듈의 정보를 구함
-            if($mid) {
-                $args->mid = $mid;
-                $output = executeQuery('module.getMidInfo', $args);
-            }
-
-            // 모듈의 정보가 없다면($mid가 잘못이거나 없었을 경우) 기본 모듈을 가져옴
-            if(!$output->data) $output = executeQuery('module.getDefaultMidInfo');
-
-            // 기본 모듈이 한 개 이상 지정되어 있을 때의 예외 처리
-            if(!$output->data->module_srl && $output->data[0]) $output->data = $output->data[0];
-
-            return $this->arrangeModuleInfo($output->data);
+        function getModuleInfoByMid($mid, $site_srl = 0) {
+            $args->mid = $mid;
+            $args->site_srl = $site_srl;
+            $output = executeQuery('module.getMidInfo', $args);
+            $module_info = $output->data;
+            if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
+            return $this->arrangeModuleInfo($module_info);
         }
 
         /**
@@ -107,7 +131,10 @@
         function getModuleSrlByMid($mid) {
             if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
 
+            $site_module_info = Context::get('site_module_info');
+
             $args->mid = $mid;
+            if($site_module_info) $args->site_srl = $site_module_info->site_srl;
             $output = executeQuery('module.getModuleSrlByMid', $args);
             if(!$output->toBool()) return $output;
 
@@ -144,7 +171,7 @@
             // extra_vars의 정리
             if($extra_vars) {
                 $extra_vars = unserialize($extra_vars);
-                foreach($extra_vars as $key => $val) if(!$module_info->{$key}) $module_info->{$key} = $val;
+                if(is_array($extra_vars) || is_object($extra_vars)) foreach($extra_vars as $key => $val) if(!$module_info->{$key}) $module_info->{$key} = $val;
             }
 
             // skin_vars의 정리
@@ -575,29 +602,46 @@
         }
 
         /**
-         * @brief 특정 모듈의 설정 정보 return
-         * 캐시된 설정 정보가 없으면 만들 후 캐시하고 return
+         * @brief 특정 모듈의 설정 return
+         * board, member등 특정 모듈의 global config 관리용
          **/
         function getModuleConfig($module) {
             if(!$GLOBALS['__ModuleConfig__'][$module]) {
-                $cache_file = sprintf('./files/cache/module_info/%s.config.php',$module);
-
-                if(!file_exists($cache_file)) {
-                    $args->module = $module;
-                    $output = executeQuery('module.getModuleConfig', $args);
-
-                    $config = base64_encode($output->data->config);
-
-                    $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $config = "%s"; ?>', $config);
-
-                    FileHandler::writeFile($cache_file, $buff);
-                }
-
-                if(!$config && file_exists($cache_file)) @include($cache_file);
-
-                $GLOBALS['__ModuleConfig__'][$module] = unserialize(base64_decode($config));
+                $args->module = $module;
+                $output = executeQuery('module.getModuleConfig', $args);
+                $config = unserialize($output->data->config);
+                $GLOBALS['__ModuleConfig__'][$module] = $config;
             }
             return $GLOBALS['__ModuleConfig__'][$module];
+        }
+
+        /**
+         * @brief 특정 mid의 모듈 설정 정보 return
+         * mid의 모듈 의존적인 설정을 관리
+         **/
+        function getModulePartConfig($module, $module_srl) {
+            if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl]) {
+                $args->module = $module;
+                $args->module_srl = $module_srl;
+                $output = executeQuery('module.getModulePartConfig', $args);
+                $config = unserialize($output->data->config);
+                $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+            }
+            return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+        }
+
+        /**
+         * @brief mid별 모듈 설정 정보 전체를 구함
+         **/
+        function getModulePartConfigs($module) {
+            $args->module = $module;
+            $output = executeQueryArray('module.getModulePartConfigs', $args);
+            if(!$output->toBool() || !$output->data) return array();
+
+            foreach($output->data as $key => $val) {
+                $result[$val->module_srl] = unserialize($val->config);
+            }
+            return $result;
         }
 
 
@@ -824,6 +868,39 @@
         }
 
         /**
+         * @brief 특정 module srls를 sites의 domain과 결합
+         * 아직 XE DBHandler에서 left outer join이 안되어서..
+         * $output->data[]->module_srl 과 같은 구조여야 함
+         **/
+        function syncModuleToSite(&$data) {
+            if(!$data) return;
+
+            if(is_array($data)) {
+                foreach($data as $key => $val) {
+                    $module_srls[] = $val->module_srl;
+                }
+                if(!count($module_srls)) return;
+            } else {
+                $module_srls[] = $data->module_srl;
+            }
+
+            $args->module_srls = implode(',',$module_srls);
+            $output = executeQueryArray('module.getModuleSites', $args);
+            if(!$output->data) return array();
+            foreach($output->data as $key => $val) {
+                $modules[$val->module_srl] = $val;
+            }
+
+            if(is_array($data)) {
+                foreach($data as $key => $val) {
+                    $data[$key]->domain = $modules[$val->module_srl]->domain;
+                }
+            } else {
+                $data->domain = $modules[$data->module_srl]->domain;
+            }
+        }
+
+        /**
          * @brief 특정 모듈의 정보와 회원의 정보를 받아서 관리 권한 유무를 판단
          * 회원의 아이디가 해당 모듈의 admin_id에 있으면 true
          * 회원이 속한 그룹이 해당 모듈의 manager 그룹에 있으면 true
@@ -840,6 +917,33 @@
             // 관리자 그룹으로 등록되어 있을 경우 확인
             $manager_group = $module_info->grants['manager'];
             return count(array_intersect(array_keys($group_list), $manager_group));
+        }
+
+        /**
+         * @brief site_module_info의 관리자 인지 체크
+         **/
+        function isSiteAdmin() {
+            if(!Context::get('is_logged')) return false;
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') return true;
+
+            $site_module_info = Context::get('site_module_info');
+            if(!$site_module_info) return;
+            $args->site_srl = $site_module_info->site_srl;
+            $args->member_srl = $logged_info->member_srl;
+            $output = executeQuery('module.isSiteAdmin', $args);
+            if($output->data->member_srl == $args->member_srl) return true;
+            return false;
+
+        }
+
+        /**
+         * @brief site의 관리자 정보를 구함
+         **/
+        function getSiteAdmin($site_srl) {
+            $args->site_srl = $site_srl;
+            $output = executeQueryArray('module.getSiteAdmin', $args);
+            return $output->data;
         }
 
     }

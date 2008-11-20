@@ -6,12 +6,14 @@
 			<title xml:lang="zh-CN">目录</title>
             <title xml:lang="jp">リスト</title>
             <title xml:lang="en">list</title>
+			<title xml:lang="zh-TW">列表</title>
         </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
 			<title xml:lang="zh-CN">管理</title>
             <title xml:lang="jp">管理</title>
             <title xml:lang="en">manager</title>
+			<title xml:lang="zh-TW">管理</title>
         </grant>
     </grants>
     <actions>

@@ -52,6 +52,13 @@
     $lang->member_info = '会员信息';
     $lang->current_password = '当前密码';
     $lang->openid = 'OpenID';
+    $lang->allow_message = '接收短消息';
+    $lang->allow_message_type = array(
+            'Y' => '全部接收',
+            'F' => '拒收',
+            'N' => '只允许好友',
+    );
+    $lang->about_allow_message = '可以指定接收短消息方法及对象。';
 
     $lang->webmaster_name = '管理员名';
     $lang->webmaster_email = '管理员电子邮件';
@@ -149,7 +156,7 @@
     $lang->about_allow_mailing = '如不选择此项，以后不能接收站内发送的重要信息。';
     $lang->about_denied = '选择时不能使用此用户名。';
     $lang->about_is_admin = '选择时将具有最高管理权限。';
-    $lang->about_member_description = '管理员对会员的笔记。';
+    $lang->about_member_description = '管理员对会员的备忘录。';
     $lang->about_group = '一个用户名可属多个用户组。';
 
     $lang->about_column_type = '请选择要添加的注册表单格式。';

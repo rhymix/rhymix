@@ -2,7 +2,7 @@
     <form>
         <node target="time_zone" required="true" />
     </form>
-    <response>
+    <response callback_func="completeMessage">
         <tag name="error" />
         <tag name="message" />
     </response>

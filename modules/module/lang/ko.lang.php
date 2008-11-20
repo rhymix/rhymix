@@ -45,6 +45,7 @@
     $lang->msg_no_checked_document = '선택된 게시물이 없습니다';
     $lang->msg_move_failed = '이동 실패하였습니다';
     $lang->msg_cannot_delete_for_child = '하부 분류가  있는 분류는 삭제하실 수 없습니다';
+    $lang->msg_limit_mid ="모듈이름은 영문+[영문+숫자+_] 만 가능합니다.";
 
     $lang->about_browser_title = "브라우저의 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.";
     $lang->about_mid = "모듈이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. ( 영문+[영문+숫자+_] 만 가능)";
@@ -61,7 +62,7 @@
     $lang->about_page_count = '목록 하단 페이지 이동 하는 링크의 수를 지정하실 수 있습니다. (기본 10개)';
     $lang->about_admin_id = '해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.<br />,(콤마)로 다수 아이디 지정이 가능합니다. (관리자페이지 접근은 불가능)';
     $lang->about_grant = '특정 권한의 대상을 모두 해제하시면 로그인하지 않은 회원까지 권한을 가질 수 있습니다';
-    $lang->about_module = "제로보드XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.\n모듈관리 모듈은 설치된 모든 모듈을 보여주고 관리를 도와줍니다.";
+    $lang->about_module = "XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.\n모듈관리 모듈은 설치된 모든 모듈을 보여주고 관리를 도와줍니다.";
 
     $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';
 ?>

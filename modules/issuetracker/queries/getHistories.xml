@@ -7,6 +7,9 @@
     </columns>
     <conditions>
         <condition operation="equal" column="target_srl" var="target_srl" />
+        <condition operation="equal" column="module_srl" var="module_srl" pipe="and" />
+        <condition operation="below" column="regdate" var="enddate" pipe="and" />
+        <condition operation="more" column="regdate" var="startdate" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="issues_history_srl" order="asc" />

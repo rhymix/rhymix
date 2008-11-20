@@ -1,10 +1,8 @@
 <!--#include("header.html")-->
 
 <table cellspacing="0" class="adminTable">
-<col width="150" />
-<col />
 <tr>
-    <th scope="row">{$lang->module_category}</th>
+    <th scope="row"><div>{$lang->module_category}</div></th>
     <td>
         <!--@if(!$module_info->module_category_srl)-->
             {$lang->not_exists}
@@ -13,28 +11,28 @@
         <!--@end-->
     </td>
 </tr>
-<tr>
-    <th scope="row">{$lang->springnote_openid}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->springnote_openid}</div></th>
     <td>http://{$module_info->openid}/</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->springnote_userkey}</th>
+    <th scope="row"><div>{$lang->springnote_userkey}</div></th>
     <td>{$module_info->userkey}&nbsp;</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->springnote_pageid}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->springnote_pageid}</div></th>
     <td>{$module_info->pageid}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->springnote_pageid_setup}</th>
+    <th scope="row"><div>{$lang->springnote_pageid_setup}</div></th>
     <td><!--@if($module_info->pageid_option!='list')-->{$lang->springnote_pageid_option_only}<!--@else-->{$lang->springnote_pageid_option_list}<!--@end--></td>
 </tr>
-<tr>
-    <th scope="row">{$lang->springnote_domain}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->springnote_domain}</div></th>
     <td>{$module_info->domain}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->layout}</th>
+    <th scope="row"><div>{$lang->layout}</div></th>
     <td>
         <!--@if($module_info->layout_srl)-->
             {$module_info->layout_title} ({$module_info->layout})
@@ -44,48 +42,48 @@
         &nbsp;
     </td>
 </tr>
-<tr>
-    <th scope="row">{$lang->skin}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->skin}</div></th>
     <td>{$module_info->skin_title} ({$module_info->skin})</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->browser_title}</th>
+    <th scope="row"><div>{$lang->browser_title}</div></th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->use_category}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->use_category}</div></th>
     <td><!--@if($module_info->use_category=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
 </tr>
 <tr>
-    <th scope="row">{$lang->list_count}</th>
+    <th scope="row"><div>{$lang->list_count}</div></th>
     <td>{$module_info->list_count?$module_info->list_count:20}</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->page_count}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->page_count}</div></th>
     <td>{$module_info->page_count?$module_info->page_count:10}</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->description}</th>
+    <th scope="row"><div>{$lang->description}</div></th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->header_text}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->header_text}</div></th>
     <td>{htmlspecialchars($module_info->header_text)}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->footer_text}</th>
+    <th scope="row"><div>{$lang->footer_text}</div></th>
     <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->admin_id}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->admin_id}</div></th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row" colspan="2" class="button">
+    <td colspan="2" class="right">
         <a href="{getUrl('act','dispSpringnoteAdminInsertSpringnote')}" class="button"><span>{$lang->cmd_modify}</span></a>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispSpringnoteAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_springnote_list}</span></a>
         <!--@end-->
-    </th>
+    </td>
 </tr>
 </table>

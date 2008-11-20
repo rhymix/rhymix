@@ -28,22 +28,17 @@
 <!--@if($milestone->is_default=="Y")--><input type="hidden" name="is_default" value="Y" /><!--@end-->
 <table cellspacing="0" class="adminTable">
 <thead>
-<col width="*" />
-<col width="110" />
-<col width="100" />
-<col width="110" />
-<col width="100" />
 <tr>
-    <th scope="col">{$lang->name} </th> 
-    <th scope="col">{$lang->deadline} </th> 
-    <th scope="col">{$lang->complete}</th>
-    <th scope="col">{$lang->completed_date}</th>
-    <th scope="col">{$lang->is_default}</th>
+    <th scope="col" class="wide"><div>{$lang->name} </div></th> 
+    <th scope="col"><div>{$lang->deadline} </div></th> 
+    <th scope="col"><div>{$lang->complete}</div></th>
+    <th scope="col"><div>{$lang->completed_date}</div></th>
+    <th scope="col"><div>{$lang->is_default}</div></th>
 </tr>
 </thead>
 <tbody>
-<tr class="ht60">
-    <td><input name="title" type="text" class="inputTypeText w300" value="{$milestone->title}" /></td>
+<tr>
+    <td><input name="title" type="text" class="inputTypeText w400" value="{$milestone->title}" /></td>
     <td>
         <input type="hidden" name="deadline" id="date_deadline" value="{$milestone->deadline}"/>
         <div class="display_date" id="str_deadline"><!--@if($milestone->deadline)-->{zdate("Ymd",$milestone->deadline)}<!--@end--></div>
@@ -59,7 +54,7 @@
             DyCalendar.setup( { firstDay : 0, inputField : "date_released_date", ifFormat : "%Y%m%d", displayArea : "str_released_date", daFormat : "%Y-%m-%d" } );
         </script>
     </td>
-    <td>
+    <td class="nowrap">
         <!--@if($milestone->is_default=='Y')-->
             {$lang->is_default}
         <!--@else-->

@@ -23,7 +23,6 @@
             $current_module_srl = Context::get('module_srl');
 
             if(!$current_module_srl) {
-                // 선택된 모듈의 정보를 가져옴
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;
             }

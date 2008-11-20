@@ -1,0 +1,9 @@
+<filter name="update_index_mid" module="homepage" act="procHomepageChangeIndex" confirm_msg_code="confirm_update">
+    <form>
+        <node target="index_mid" required="true" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

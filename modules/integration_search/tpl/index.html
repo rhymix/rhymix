@@ -3,18 +3,15 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col width="150" />
-    <col />
-    <tr>
-        <th scope="row">{$lang->sample_code}</th>
-        <td colspan="2">
+    <tr class="row2">
+        <th scope="row"><div>{$lang->sample_code}<div></th>
+        <td colspan="2" class="wide">
             <textarea class="inputTypeTextArea w400" readonly="readonly">{$sample_code}</textarea>
             <p>{$lang->about_sample_code}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->skin}</th>
+        <th scope="row"><div>{$lang->skin}</div></th>
         <td colspan="2">
             <select name="skin">
                 <!--@foreach($skin_list as $key=>$val)-->
@@ -24,23 +21,23 @@
             <p>{$lang->about_skin}</p>
         </td>
     </tr>
-    <tr>
-        <th colspan="3"><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</th>
+    <tr class="row2">
+        <td colspan="3"><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</td>
     </tr>
     <!--@foreach($mid_list as $module_category_srl => $modules)-->
     <!--@if($modules->title)-->
     <tr>
-        <th rowspan="{count($modules->list)+1}">{$modules->title}</th>
+        <th rowspan="{count($modules->list)+1}"><div>{$modules->title}</div></th>
         <!--@if(count($modules->list)<1)--><td colspan="2">&nbsp;</td><!--@end-->
     </tr>
     <!--@else-->
     <tr>
-        <th rowspan="{count($modules->list)+1}">&nbsp;</th>
+        <th rowspan="{count($modules->list)+1}"><div>&nbsp;</div></th>
         <!--@if(count($modules->list)<1)--><td colspan="2">&nbsp;</td><!--@end-->
     </tr>
     <!--@end-->
     <!--@foreach($modules->list as $key => $val)-->
-    <tr>
+    <tr class="row{$cycle_idx}">
         <td>{$val->module}</td>
         <td>
             <input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> /> 
@@ -49,10 +46,10 @@
     </tr>
     <!--@end-->
     <!--@end-->
-    <tr>
-        <th scope="row" class="button" colspan="3">
+    <tr class="row2">
+        <td class="right" colspan="3">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
     </table>    
 </form>

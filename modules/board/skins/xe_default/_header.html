@@ -1,0 +1,92 @@
+<!--%import("js/board.js")-->
+
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset = "white"}
+<!--@end-->
+	
+<!--%import("css/board.css")-->
+<!--%import("css/pagination.css")-->
+
+<!--@if($module_info->colorset == "black")-->
+	<!--%import("css/black.css")-->
+<!--@else-->
+	<!--%import("css/white.css")-->
+<!--@end-->
+
+<!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
+    {@ $module_info->duration_new = 12 }
+<!--@end-->
+
+<!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
+<!--@if(!$module_info->thumbnail_width)-->{@ $module_info->thumbnail_width = 100; }<!--@end-->
+<!--@if(!$module_info->thumbnail_height)-->{@ $module_info->thumbnail_height = 100; }<!--@end-->
+
+<!--@if($order_type == "desc")-->
+    {@ $order_icon = "buttonDescending.gif" }
+    {@ $order_type = "asc"; }
+<!--@else-->
+    {@ $order_icon = "buttonAscending.gif" }
+    {@ $order_type = "desc"; }
+<!--@end-->
+
+<!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
+    <!--@if($listStyle=='gallery')-->
+        {@ $module_info->default_style = 'gallery'}
+    <!--@elseif($listStyle=='webzine')-->
+        {@ $module_info->default_style = 'webzine'}
+    <!--@elseif($listStyle=='list')-->
+        {@ $module_info->default_style = 'list'}
+    <!--@end-->
+<!--@end-->
+
+{$module_info->header_text}
+
+<div class="board">
+    <div class="boardHeader">
+		<!--@if($module_info->title)-->
+		<div class="boardTitle">
+			<h2 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+		</div>
+		<!--@end-->
+
+		<!--@if($module_info->comment)-->
+		<p class="boardDescription">{$module_info->comment}</p>
+		<!--@end-->
+    </div>
+
+<!--@if($module_info->display_login_info != 'N' || $module_info->display_setup_button != 'N')-->
+    <div class="boardInformation">
+
+        <!--@if($total_count && $module_info->default_style != 'blog')-->
+        <div class="infoLeft">{$lang->document_count} <strong>{number_format($total_count)}</strong></div>
+        <!--@end-->
+		
+		<div class="infoRight">
+			<ul>
+			<!--@if($is_logged)-->
+				<!--@if($logged_info->is_admin=='Y' && $module_info->display_setup_button != 'N')-->
+				<li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
+				<!--@end-->
+				<!--@if($module_info->display_login_info != 'N')-->
+				<li class="myInfo"><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+				<li class="loginAndLogout"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+				<!--@end-->
+				<!--@elseif(!$is_logged && $module_info->display_login_info != 'N')-->
+					<li class="join"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+					<li class="loginAndLogout"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+				<!--@end-->
+				<!--@if($rss_url)-->
+					<li class="rss icon"><a href="{$rss_url}" title="RSS"><span>RSS</span></a></li>
+				<!--@end-->
+				<li class="tag_info icon"><a href="{getUrl('act','dispBoardTagList')}" title="Tag List"><span>Tag List</span></a></li>
+				<!--@if($module_info->default_style != 'forum' && $module_info->default_style != 'blog')-->
+				<li class="listTypeClassic icon"><a href="{getUrl('listStyle','list','act','','document_srl','')}" title="Classic Board"><span>Classic Board</span></a></li>
+				<li class="listTypeZine icon"><a href="{getUrl('listStyle','webzine','act','','document_srl','')}" title="Web Zine"><span>Web Zine</span></a></li>
+				<li class="listTypeGallery icon"><a href="{getUrl('listStyle','gallery','act','','document_srl','')}" title="Gallery"><span>Gallery</span></a></li>
+				<!--@end-->
+
+				<li class="contributors icon"><a href="{getUrl('','module','module','act','dispModuleSkinInfo','selected_module',$module_info->module, 'skin', $module_info->skin)}" onclick="popopen(this.href,'skinInfo'); return false;" title="Contributors"><span>Contributors</span></a></li>
+			</ul>
+		</div>
+    </div>
+<!--@end-->

@@ -1,0 +1,18 @@
+<filter name="update_homepage" module="homepage" act="procHomepageAdminUpdateHomepage" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="site_srl" required="true" maxlength="250" />
+        <node target="homepage_title" required="true" maxlength="250" />
+        <node target="domain" required="true" maxlength="250" />
+    </form>
+    <parameter>
+        <param name="site_srl" target="site_srl" />
+        <param name="title" target="homepage_title" />
+        <param name="domain" target="domain" />
+        <param name="homepage_admin" target="homepage_admin" />
+    </parameter>
+    <response callback_func="completeUpdateHomepage">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="site_srl" />
+    </response>
+</filter>

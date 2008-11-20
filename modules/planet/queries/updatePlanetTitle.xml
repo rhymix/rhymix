@@ -1,0 +1,12 @@
+<query id="updatePlanetTitle" action="update">
+    <tables>
+        <table name="planet" />
+    </tables>
+    <columns>
+        <column name="planet_title" var="planet_title" notnull="notnull" minlength="1" maxlength="250" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

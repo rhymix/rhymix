@@ -1,0 +1,39 @@
+<!--%import("filter/write_content.xml")-->
+<!--%import("filter/modify_content_tag.xml")-->
+<!--%import("filter/insert_reply.xml")-->
+
+<!--#include("header.html")-->
+
+<!--#include("planet_info.include.html")-->
+<div id="planet_tab" class="tab">
+    <ul class="myTab" id="planet_myTab">
+        <li <!--@if(!$type)-->class="active"<!--@end-->><a href="{getUrl('type','')}">{$lang->planet_total_articles}<sup>{number_format($total_content)}</sup></a></li>
+        <li <!--@if($type=='catch')-->class="active"<!--@end-->><a href="{getUrl('type','catch')}">{$lang->planet_catch}<sup>{number_format($total_catch)}</sup></a></li>
+        <li <!--@if($type=='interest')-->class="active"<!--@end-->><a href="{getUrl('type','interest')}">{$lang->planet_interest_content}<sup>&nbsp;</sup></a></li>
+        <!--<li <!--@if($type=='fish')-->class="active"<!--@end-->><a href="{getUrl('type','fish')}">{$lang->planet_fish}<sup>&nbsp;</sup></a></li>
+        <li <!--@if($type=='bigfish')-->class="active"<!--@end-->><a href="{getUrl('type','bigfish')}">{$lang->planet_bigfish}<sup>&nbsp;</sup></a></li>-->
+    </ul>
+    <!--
+    <ul class="exTab">
+        <li><a href="#"><sup></sup></a></li>
+    </ul>
+    -->
+</div>
+
+<div class="commentList" id="commentList">
+    <div class="commentHeader">
+        <h3 class="timeNav">
+            <strong>{zdate($date,'Y')}</strong>{$lang->unit_year}
+            <strong>{zdate($date,'m')}</strong>{$lang->unit_month}
+            <strong>{zdate($date,'d')}</strong>{$lang->unit_day}
+            (<strong>{zdate($date,'l')}</strong>)
+            <a class="prev" href="{getUrl('date',$prev_date)}"><img src="./images/buttonPrev1.gif" border="0" alt="{$lang->cmd_prev}" /></a>
+            <a class="next" href="{getUrl('date',$next_date)}"><img src="./images/buttonNext1.gif" border="0" alt="{$lang->cmd_next}" /></a>
+        </h3>
+    </div>
+
+<!--#include("content_list.html")-->
+
+</div>
+
+<!--#include("footer.html")-->

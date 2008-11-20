@@ -17,8 +17,8 @@
 .boardList td .replyAndTrackback { color:#ff6600; }
 .buttonTypeGo { background:url(../images/red/buttonTypeInput24.gif) no-repeat; }
 
-/* pageNavigation */
-.pageNavigation .current { color:#ff6600; }
+/* pagination */
+.pagenation strong { color:#ff6600; }
 
 /* boardRead */
 .boardRead .fileAttached li a { background:url(../images/red/iconFile.gif) no-repeat left top;}

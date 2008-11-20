@@ -1,0 +1,21 @@
+    <div class="myFavoriteTag">
+        <!--@if(count($interest_tags))-->
+        <ul>
+            <!--@foreach($interest_tags as $key => $tag)-->
+            <li>
+                <a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($tag))}" <!--@if($planet->isMyPlanet())-->onmouseover="$Element('interest_tags_{$key}').className('delete hover')" onmouseout="$Element('interest_tags_{$key}').className('delete')"<!--@end-->>{htmlspecialchars($tag)}</a>
+                <!--@if($planet->isMyPlanet())--><button type="button" id="interest_tags_{$key}" class="delete" onclick="doDeleteInterestTags('{$tag}'); return false;" onmouseover="this.className='delete hover'" onmouseout="this.className='delete'"><span>{$lang->cmd_planet_del_tag}</span></button><!--@end-->
+            </li>
+            <!--@end-->
+        </ul>
+        <!--@end-->
+        <!--@if($planet->isMyPlanet())-->
+            <form action="./" method="post" onsubmit="return procFilter(this, insert_interest_tag)">
+                <div class="addTag">
+                    <input name="tag" type="text" class="inputText" />
+                    <span class="addFavorite"><button type="submit">{$lang->cmd_planet_add_tag}</button></span>
+                </div>
+            </form>
+        <!--@end-->
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+    </div>

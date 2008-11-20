@@ -1,0 +1,55 @@
+<!--%import("./js/homepage.js",optimized=false)-->
+<!--%import("./filter/update_homepage.xml")-->
+
+<h3>{$lang->homepage} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="infoText">{nl2br($lang->about_homepage)}</div>
+
+<form action="./" method="post" onsubmit="return doUpdateHomepage(this, update_homepage)" id="fo_homepage">
+<input type="hidden" name="site_srl" value="{$homepage_info->site_srl}" />
+<input type="hidden" name="homepage_admin" value="<!--@foreach($admin_list as $key=>$val)-->{$val->member_srl},<!--@end-->" />
+    <table cellspacing="0" class="adminTable">
+    <thead>
+        <tr>
+            <th colspan="2"><div>{$lang->cmd_homepage_setup}</div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row"><div>{$lang->homepage_title}</div></th>
+            <td>
+                <input type="text" name="homepage_title" value="{$homepage_info->title}" class="inputTypeText w200" />
+                <p>{$lang->about_homepage_title}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->domain}</div></th>
+            <td>
+                http://<input type="text" name="domain" value="{$homepage_info->domain}" class="inputTypeText w200" />
+                <a href="{getSiteUrl($homepage_info->domain, '')}" onclick="window.open(this.href); return false;" class="button"><span>{$lang->cmd_move}</span></a>
+                <p>{$lang->about_domain}</p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->homepage_admin}</div></th>
+            <td>
+                <select name="admin_list" multiple="multiple" size="{count($admin_list)?count($admin_list):1}" class="w200">
+                <!--@foreach($admin_list as $key => $val)-->
+                    <option value="{$val->user_id}">{$val->nick_name} ({$val->user_id})</option>
+                <!--@end-->
+                </select>
+                <br />
+                <input type="text" name="admin_id" class="inputTypeText w100" />
+                <span class="button blue"><button type="button" onclick="doHomepageInsertAdmin()">{$lang->cmd_insert}</button></span>
+                <span class="button red"><button type="button" onclick="doHomepageDeleteAdmin()">{$lang->cmd_delete}</button></span>
+                <p>{$lang->about_homepage_admin}</p>
+            </td>
+        </tr>
+        <tr class="row2">
+            <td colspan="2" class="right">
+                <span class="button red strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span></div>
+            </th>
+        </tr>
+    </tbody>
+    </table>
+</form>

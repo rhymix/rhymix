@@ -206,6 +206,24 @@
         }
 
         /**
+         * @brief Action중 Admin이 들어갔을 경우 권한 체크
+         **/
+        function checkAdminActionGrant() {
+            if(!Context::get('is_logged')) return false;
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin=='Y') return true;
+
+            $actions = array('procDocumentAdminAddCart','dispDocumentAdminManageDocument','procDocumentAdminManageCheckedDocument');
+            if(!in_array($this->act, $actions)) return false;
+
+            $oModuleModel = &getModel('module');
+            if($oModuleModel->isSiteAdmin()) return true;
+
+            return false;
+        }
+
+        /**
          * @brief 권한 체크를 실행하는 method
          * 모듈 객체가 생성된 경우는 직접 권한을 체크하지만 기능성 모듈등 스스로 객체를 생성하지 않는 모듈들의 경우에는
          * ModuleObject에서 직접 method를 호출하여 권한을 확인함

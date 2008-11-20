@@ -6,29 +6,26 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
+    <caption>{$lang->confirm_delete}</caption>
     <tr>
-        <th scope="row" colspan="2">{$lang->confirm_delete}</th>
+        <th scope="row"><div>{$lang->user_id}</div></th>
+        <td class="wide">{$member_info->user_id}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->user_id}</th>
-        <td>{$member_info->user_id}</td>
-    </tr>
-    <tr>
-        <th scope="row">{$lang->nick_name}</th>
+        <th scope="row"><div>{$lang->nick_name}</div></th>
         <td>{$member_info->nick_name}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->email_address}</th>
+        <th scope="row"><div>{$lang->email_address}</div></th>
         <td>{$member_info->email_address}</td>
     </tr>
+    <tr>
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+            <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
+        </td>
+    </tr>
     </table>
-
-    <div class="buttonRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
-        <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
-    </div>
 
 </form>
 

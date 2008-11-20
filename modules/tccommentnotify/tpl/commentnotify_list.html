@@ -5,8 +5,8 @@
 <!--%import("filter/delete_checked.xml")-->
 
 <!-- 정보 -->
-<div class="tableSummaryType1">
-    Total <strong>{number_format($total_count)}</strong>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<div class="summary topGap">
+    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
@@ -14,69 +14,63 @@
 
 <!-- 목록 -->
 <table cellspacing="0" class="adminTable">
-{@ $col_width = array(40,85, 150,65,0,45)}
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col"><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></th>
-        <th scope="col">등록일자</th>
-        <th scope="col">사이트명</th>
-        <th scope="col">이름</th>
-        <th scope="col">내용</th>
-        <th scope="col">삭제</th>
+        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col"><div>등록일자</div></th>
+        <th scope="col"><div>사이트명</div></th>
+        <th scope="col"><div>이름</div></th>
+        <th scope="col" class="wide"><div>내용</div></th>
+        <th scope="col"><div>삭제</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($notify_list as $no => $val)-->
     {@ $parent = $val->parent; }
-    <tr <!--@if($parent->remoteid == -1)--> class="parentDocument" <!--@else-->class="parent"<!--@end--> >
+    <tr class="row2 <!--@if($parent->remoteid == -1)--> parentDocument<!--@else--> parent<!--@end-->" >
         <td><input type="checkbox" name="cart" value="{$parent->notified_srl}" /></td>
-        <td class="date">{zdate($parent->written, "Y/m/d")}</td>
-        <td><a href="{$parent->siteurl}">{$parent->title?$parent->title:"[No title]"}</a></td>
-        <td>{$parent->name}</td>
-        <td><a href="{$parent->entryurl}" class="blue">{$parent->entrytitle}</a> <a href="{$parent->commenturl}">{$parent->comment}</a></td>
-        <td><a href="#" onclick="deleteParent('{$parent->notified_srl}');"><img src="images/buttonDeleteX.gif" /></a></td>
+        <td class="nowrap date center">{zdate($parent->written, "Y/m/d")}</td>
+        <td class="nowrap"><a href="{$parent->siteurl}" onclick="window.open(this.href);return false;">{$parent->title?$parent->title:"[No title]"}</a></td>
+        <td class="nowrap">{$parent->name}</td>
+        <td><a href="{$parent->entryurl}" onclick="window.open(this.href);return false;">{$parent->entrytitle}</a> <a href="{$parent->commenturl}" onclick="window.open(this.href);return false;">{$parent->comment}</a></td>
+        <td class="delete"><a href="#" onclick="deleteParent('{$parent->notified_srl}');">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@foreach($val->children as $child)-->
     <tr>
         <td></td>
-        <td class="date">{zdate($child->written, "Y/m/d")}</td>
-        <td><a href="{$parent->siteurl}">{$parent->title?$parent->title:"[No title]"}</a></td>
-        <td>{$child->name}</td>
-        <td><img src="images/iconReplyArrow.gif" /> <a href="{$child->url}">{$child->comment}</a></td>
-        <td><a href="#" onclick="deleteChild('{$child->notified_srl}');"><img src="images/buttonDeleteX.gif" /></a></td>
+        <td class="center nowrap date">{zdate($child->written, "Y/m/d")}</td>
+        <td class="nowrap"><a href="{$parent->siteurl}" onclick="window.open(this.href);return false;">{$parent->title?$parent->title:"[No title]"}</a></td>
+        <td class="nowrap">{$child->name}</td>
+        <td><img src="images/iconReplyArrow.gif" /> <a href="{$child->url}" onclick="window.open(this.href);return false;">{$child->comment}</a></td>
+        <td class="delete"><a href="#" onclick="deleteChild('{$child->notified_srl}');">{$lang->cmd_delete}</a></td>
     </tr>
     <!--@end-->
 
     <!--@end-->
+    <tr>
+        <td colspan="6" class="right">
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart', false)" class="button"><span>{$lang->cmd_unselect_all}</span></a>
+            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+        </td>
+    </tr>
 </tbody>
 </table>
-
-<!-- 버튼 -->
-<div class="fr gap1">
-    <a href="javascript:checkboxSelectAll('fo_list', 'cart', false)" class="button"><span>{$lang->cmd_unselect_all}</span></a>
-    <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
-</div>
-
 </form>
 <form id="deleteChildForm" action="./" method="POST">
 <input type="hidden" id="notified" name="notified_srl" value="" />
 </form>
 
 <!-- 페이지 네비게이션 -->
-<div class="pageNavigation">
-    <a href="{getUrl('page','','module_srl','')}" class="goToFirst"><img src="../../admin/tpl/images/bottomGotoFirst.gif" alt="{$lang->first_page}" width="7" height="5" /></a> 
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
+            <strong>{$page_no}</strong> 
         <!--@else-->
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="goToLast"><img src="../../admin/tpl/images/bottomGotoLast.gif" alt="{$lang->last_page}" width="7" height="5" /></a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
 </div>
 

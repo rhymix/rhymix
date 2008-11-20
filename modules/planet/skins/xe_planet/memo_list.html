@@ -1,0 +1,47 @@
+<p id="planetMemoFirst">
+<!--@if($memo_list)-->
+{@$memo=current($memo_list)}
+    <em>[<a href="{getUrl('','mid',$memo->mid)}">{$memo->nick_name}</a>] {htmlspecialchars($memo->memo_content)}</em>
+    <span>{getTimeGap($memo->regdate, 'y/m/d')}</span>
+    <!--@if(count($memo_list)>1)-->
+    <button type="button" class="toggle" onclick="toggleMemo()"><span>{$lang->cmd_planet_openclose_memo}</span></button>
+    <!--@end-->
+<!--@else-->
+    <em>{$lang->msg_planet_no_memo}</em>
+<!--@end-->
+</p>
+
+<ul id="planetMemoList">
+
+    <!--@if($memo_list)-->
+    {@$_isFirst=true}
+        <!--@foreach($memo_list as $memo)-->
+        <li <!--@if($_isFirst)-->class="first"<!--@end-->>
+            <em>[<a href="{getUrl('','mid',$memo->mid)}">{$memo->nick_name}</a>] {htmlspecialchars($memo->memo_content)} </em>
+            <span>{getTimeGap($memo->regdate, 'y/m/d')}
+            <!--@if($memo->write_planet_srl==$myplanet->getModuleSrl()||$planet->isMyPlanet())--><button type="button" class="delete" onclick="doDeleteMemo('{$memo->planet_memo_srl}'); return false;"><span>{$lang->cmd_planet_delete_memo}</span></button><!--@end-->
+            </span>
+            <!--@if($_isFirst && count($memo_list)>1)--><button type="button" class="toggle" onclick="toggleMemo()"><span>{$lang->cmd_planet_openclose_memo}</span></button><!--@end--></li>
+            {@$_isFirst=false}
+        <!--@end-->
+    <!--@else-->
+        <li class="first"><em>{$lang->msg_planet_no_memo}</em></li>
+    <!--@end-->
+</ul>
+<!--@if($memo_navigation->last_page>1)-->
+<div class="pagination">
+    <!--@if($memo_navigation->cur_page>1)-->
+    <a href="#planetMemo" onclick="memoPageMove('{$planet->getModuleSrl()}',{$page-1}); return false;" class="prev">{$lang->cmd_prev}</a>
+    <!--@end-->
+    <!--@while($page_no = $memo_navigation->getNextPage())-->
+        <!--@if($memo_navigation->cur_page == $page_no)-->
+            <strong>{$page_no}</strong>
+        <!--@else-->
+            <a href="#planetMemo" onclick="memoPageMove('{$planet->getModuleSrl()}',{$page_no}); return false;" >{$page_no}</a>
+        <!--@end-->
+    <!--@end-->
+    <!--@if($memo_navigation->cur_page<$memo_navigation->last_page)-->
+    <a href="#planetMemo" onclick="memoPageMove('{$planet->getModuleSrl()}',{$page+1}); return false;" class="next">{$lang->cmd_next}</a>
+    <!--@end-->
+</div>
+<!--@end-->

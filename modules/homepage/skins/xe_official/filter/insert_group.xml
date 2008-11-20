@@ -1,0 +1,9 @@
+<filter name="insert_group" module="homepage" act="procHomepageInsertGroup" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="title" required="true" />
+    </form>
+    <response callback_func="completeInsertGroup">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

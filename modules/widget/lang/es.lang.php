@@ -40,7 +40,7 @@
 
     $lang->about_widget_code = 'Ingrese primero los valores requeridos, luego presiona el botón "Generar códigos" para mostrar el código en el espacio inferior para ser añadido en el archivo de los temas.';
     $lang->about_widget_code_in_page = 'Luego de ingresar los valores requeridos, presiona el botón "Añadir" para insertar el código de widget dentro de la página.';
-    $lang->about_widget = "Un Widget es una pequena aplicación para ser usados en los diseños o en el módulo de páginas.\n Puede ser enlazados con un módulo interno o con open api externo y con la configuración de ella puede utilizar en variadas aplicaciones.\nSin la necesidad de utilizar los módulos de página o del diseño de Zeroboard XE, Usted puede directamente añadir un widget usando la función de [Generar Códigos].";
+    $lang->about_widget = "Un Widget es una pequena aplicación para ser usados en los diseños o en el módulo de páginas.\n Puede ser enlazados con un módulo interno o con open api externo y con la configuración de ella puede utilizar en variadas aplicaciones.\nSin la necesidad de utilizar los módulos de página o del diseño de XE, Usted puede directamente añadir un widget usando la función de [Generar Códigos].";
 
     $lang->cmd_content_insert = "Introduzca contenido por ti mismo";
     $lang->cmd_box_widget_insert = "Insertar cuadro de widget";

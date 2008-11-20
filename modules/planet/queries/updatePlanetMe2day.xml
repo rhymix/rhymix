@@ -1,0 +1,14 @@
+<query id="updatePlanetMe2day" action="update">
+    <tables>
+        <table name="planet" />
+    </tables>
+    <columns>
+        <column name="me2day_uid" var="me2day_id" minlength="1" maxlength="250" />
+        <column name="me2day_ukey" var="me2day_ukey" minlength="1" maxlength="250" />
+        <column name="me2day_autopush" var="me2day_autopush" default="N" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

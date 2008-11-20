@@ -74,7 +74,9 @@
             $clones = array();
             $args = Context::getAll();
             for($i=1;$i<=10;$i++) {
-                $mid = $args->{"mid_".$i};
+                $mid = trim($args->{"mid_".$i});
+                if(!$mid) continue;
+                if(!preg_match("/^[a-zA-Z]([a-zA-Z0-9_]*)$/i", $mid)) return new Object(-1, 'msg_limit_mid');
                 $browser_title = $args->{"browser_title_".$i};
                 if(!$mid) continue;
                 if($mid && !$browser_title) $browser_title = $mid;

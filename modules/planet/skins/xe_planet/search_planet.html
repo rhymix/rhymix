@@ -1,0 +1,52 @@
+<!--#include("header.html")-->
+<!--#include("search_tab.include.html")-->
+
+<div class="authorList">
+    <!--@foreach($planet_list as $planet)-->
+    <div class="authorBody">
+        <div class="thumb">
+            <a href="{getUrl('','mid',$planet->getMid())}"><img src="{$planet->getPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($planet->getNickName())}" /></a>
+        </div>
+        <div class="title">
+            <h2><a href="{getUrl('','mid',$planet->getMid())}">{$planet->getPlanetTitle()}</a></h2>
+            <p class="authorPersonality">{$planet->getBrowserTitle()}</p>
+            <a href="{getUrl('','mid',$planet->getMid())}" class="planetUri">{getUrl('','mid',$planet->getMid())}</a>
+        </div>
+        <div class="authorTag">
+            <dl>
+                <dt>{$lang->planet_mytag} : </dt>
+                <dd>
+                    <!--@foreach($planet->getTags() as $tag)-->
+                    <a href="{getUrl('act','dispPlanetTagSearch','keyword',urlencode($tag))}">{htmlspecialchars($tag)}</a> 
+                    <!--@end-->
+                </dd>
+            </dl>
+            <!--@if($myplanet->isExists() && $myplanet->module_srl != $planet->getModuleSrl())-->
+            <span class="addFavorite"><button type="button" onclick="doAddFavorite('{$planet->getModuleSrl()}'); return false;">{$lang->cmd_planet_addfavorite}</button></span>
+            <!--@end-->
+        </div>
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+    </div>
+    <!--@end-->
+
+    <!--@if($page_navigation->last_page>1)-->
+    <div class="pagination">
+        <!--@if($page>1)-->
+        <a href="{getUrl('page',$page-1)}" class="prev">{$lang->cmd_prev}</a>
+        <!--@end-->
+        <!--@while($page_no = $page_navigation->getNextPage())-->
+            <!--@if($page == $page_no)-->
+                <strong>{$page_no}</strong>
+            <!--@else-->
+                <a href="{getUrl('page',$page_no)}">2</a>
+            <!--@end-->
+        <!--@end-->
+        <!--@if($page<$page_navigation->last_page)-->
+            <a href="{getUrl('page',$page+1)}" class="next">{$lang->cmd_next}</a>
+        <!--@end-->
+    </div>
+    <!--@end-->
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+</div>
+
+<!--#include("footer.html")-->

@@ -1,10 +1,8 @@
 <!--#include("header.html")-->
 
 <table cellspacing="0" class="adminTable">
-<col width="150" />
-<col />
-<tr>
-    <th scope="row">{$lang->module_category}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->module_category}</div></th>
     <td>
         <!--@if(!$module_info->module_category_srl)-->
             {$lang->not_exists}
@@ -14,7 +12,7 @@
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->layout}</th>
+    <th scope="row"><div>{$lang->layout}</div></th>
     <td>
         <!--@if($module_info->layout_srl)-->
             {$module_info->layout_title} ({$module_info->layout})
@@ -23,41 +21,41 @@
         <!--@end-->
     </td>
 </tr>
-<tr>
-    <th scope="row">{$lang->skin}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->skin}</div></th>
     <td>{$module_info->skin_title} ({$module_info->skin})</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->browser_title}</th>
+    <th scope="row"><div>{$lang->browser_title}</div></th>
     <td>{htmlspecialchars($module_info->browser_title)}</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->svn_url}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->svn_url}</div></th>
     <td>{$module_info->svn_url}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->svn_cmd}</th>
+    <th scope="row"><div>{$lang->svn_cmd}</div></th>
     <td>{$module_info->svn_cmd}&nbsp;</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->diff_cmd}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->diff_cmd}</div></th>
     <td>{$module_info->diff_cmd}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row">{$lang->description}</th>
+    <th scope="row"><div>{$lang->description}</div></th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
-<tr>
-    <th scope="row">{$lang->admin_id}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->admin_id}</div></th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row" colspan="2" class="button">
+    <td colspan="2" class="right">
         <a href="{getUrl('act','dispIssuetrackerAdminInsertProject')}" class="button"><span>{$lang->cmd_modify}</span></a>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispIssuetrackerAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
         <!--@end-->
-    </th>
+    </td>
 </tr>
 </table>
 
@@ -70,33 +68,30 @@
     {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc?$module_info->extra_vars[$i]->desc:'&nbsp;'}
     {@ $extra_vars_search = $module_info->extra_vars[$i]->search=='Y'?'Y':'N'}
 
-    <div class="gap1"></div>
-    <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
+    <table cellspacing="0" class="adminTable topGap">
     <caption>{$lang->extra_vars} {$i}</caption>
-    <tr>
-        <th>{$lang->column_name}</th>
-        <td>{$extra_vars_name}</td>
+    <tr class="row2">
+        <th><div>{$lang->column_name}</div></th>
+        <td class="wide">{$extra_vars_name}</td>
     </tr>
     <tr>
-        <th>{$lang->column_type}</th>
+        <th><div>{$lang->column_type}</div></th>
         <td>{$extra_vars_type}</td>
     </tr>
-    <tr>
-        <th>{$lang->is_required}</th>
+    <tr class="row2">
+        <th><div>{$lang->is_required}</div></th>
         <td>{$extra_vars_is_required}</td>
     </tr>
     <tr>
-        <th>{$lang->default_value}</th>
+        <th><div>{$lang->default_value}</div></th>
         <td>{$extra_vars_default_value}</td>
     </tr>
-    <tr>
-        <th>{$lang->description}</th>
+    <tr class="row2">
+        <th><div>{$lang->description}</div></th>
         <td>{$extra_vars_desc}</td>
     </tr>
     <tr>
-        <th>{$lang->cmd_search}</th>
+        <th><div>{$lang->cmd_search}</div></th>
         <td>{$extra_vars_search}</td>
     </tr>
     </table>

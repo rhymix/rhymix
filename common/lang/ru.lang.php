@@ -2,7 +2,7 @@
   /**
      * @file   ru.lang.php
      * @author zero <zero@nzeo.com> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
-     * @brief  Russian basic language pack for Zeroboard XE
+     * @brief  Russian basic language pack
      **/
 
     // Основные слова для действий
@@ -62,7 +62,8 @@
     $lang->cmd_publish = "Опубликовать";
     $lang->cmd_layout_setup = 'Конфигурировать лейаут';
     $lang->cmd_layout_edit = 'Редактировать лейаут';
-    $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
+    $lang->cmd_search_by_ipaddress = 'Search by IP Address';
+    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 
     $lang->enable = 'Включено';
     $lang->disable = 'Выключено';
@@ -170,6 +171,30 @@
     $lang->unit_month = 'мес.';
     $lang->unit_year = 'г.';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
+    $lang->time_gap = array(
+        'min' => '%d minute ago',
+        'mins' => '%d minutes ago',
+        'hour' => '%d hour ago',
+        'hours' => '%d hours ago',
+    );
+
     // Описания
     $lang->about_tag = 'Вы можете применить несколько тегов, разделенных запятыми (,)';
     $lang->about_layout = 'Лейауты украшают внешний вид Ваших модулей. Вы можете сконфигирировать их с помощью меню Лейаут сверху';
@@ -177,6 +202,7 @@
     // Сообщение
     $lang->msg_call_server = 'Идет обработка. Пожалуйста, подождите...';
     $lang->msg_db_not_setted = 'Даза данных не сконфигурирована';
+    $lang->msg_dbconnect_failed = "Произошла ошибка подключения к базе данных.\nПожалуйста, проверьте иформацию базы данных еще раз";
     $lang->msg_invalid_queryid = 'Указанный ID запроса неверен';
     $lang->msg_not_permitted = 'У Вас нет прав доступа';
     $lang->msg_input_password = 'Пожалуйста, введите пароль';
@@ -245,7 +271,6 @@
         2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
         이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
         그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
-        <strong>FTP 정보 노출을 원하지 않으시면 입력하지 않으셔도 됩니다</strong>
     ";
 
     $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";

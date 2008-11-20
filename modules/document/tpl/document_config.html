@@ -3,22 +3,24 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
-    <col width="200" />
-    <col />
+    <tr class="row2">
+        <th scope="col"><div>{$lang->thumbnail_type}</div></th>
+    </tr>
     <tr>
-        <th scope="col">{$lang->thumbnail_type}</th>
         <td>
             <input type="radio" name="thumbnail_type" value="crop" <!--@if($config->thumbnail_type != 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_crop} <br />
             <input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
         </td>
     </tr>
+    <tr class="row2">
+        <td class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></td>
+    </tr>
     </table>
 
-    <!-- 버튼 -->
-    <div class="fl gap1">
-        <span class="button"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span>
-    </div>
-    <div class="fr gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
+    <table cellspacing="0" class="adminTable">
+    <tr class="row2">
+        <td class="right"><span class="button"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span></td>
+    </tr>
+    </table>
+
 </form>

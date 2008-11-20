@@ -1,0 +1,45 @@
+<h3 class="title">{$lang->cmd_homepage_menus[$act]}</h3>
+<p class="infoText">{$lang->about_homepage_act[$act]}</p>
+
+<!--%import("filter/update_index_mid.xml")-->
+
+<form method="post" action="./" onsubmit="return procFilter(this,update_index_mid)" class="midDefault">
+{$lang->cmd_select_index}
+<select name="index_mid">
+    <!--@foreach($mid_list as $no => $val)-->
+    <option value="{$val->module_srl}" <!--@if($val->module_srl==$homepage_info->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title} ({$val->mid})</option>
+    <!--@end-->
+</select>
+<span class="button"><input type="submit" value="{$lang->cmd_select}" /></span>
+</form>
+
+<table cellspacing="0" class="adminTable">
+<thead>
+    <tr>
+        <th scope="col"><div>{$lang->module}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_setup}</div></th>
+        <th scope="col"><div>{$lang->cmd_view}</div></th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($mid_list as $no => $val)-->
+    <tr class="row{$cycle_idx}">
+        <td class="center">{Context::getLang($val->module)}</td>
+        <td>{htmlspecialchars($val->mid)}</td>
+        <td>{htmlspecialchars($val->browser_title)}</td>
+        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <!--@if($val->module=='board')-->
+        <td class="setup center"><a href="{getUrl('act','dispHomepageBoardInfo','module_srl',$val->module_srl)}">{$lang->cmd_setup}</a></td>
+        <!--@else-->
+        <td class="setup center"><a href="{getUrl('act','dispHomepageBoardInfo','module_srl',$val->module_srl)}">{$lang->cmd_setup}</a></td>
+        <!--@end-->
+        <td class="view center"><a href="{getSiteUrl($site_module_info->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+</form>
+

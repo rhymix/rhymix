@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module version="0.2">
+    <title xml:lang="ko">LDAP 인증 연동 모듈</title>
+    <title xml:lang="zh-CN">LDAP认证模块</title>
+    <title xml:lang="zh-TW">LDAP認證模組</title>
+    <name xml:lang="ko">zero</name>
+    <name xml:lang="zh-CN">zero</name>
+    <name xml:lang="zh-TW">zero</name>
+    <description xml:lang="ko">
+        LDAP 인증 연동하는 모듈입니다.
+        적수님(http://ggang.net)님이 매우 큰 도움 주셨습니다.
+    </description>
+    <description xml:lang="zh-CN">
+        LDAP认证模块。
+        感谢JeokSu(http://ggang.net)无私帮助。
+    </description>
+    <description xml:lang="zh-TW">
+        LDAP認證模組。
+        感謝 적수님(http://ggang.net)提供非常大的幫助。
+    </description>
+    <version>0.1</version>
+    <date>2007-07-28</date>
+    <category>accessory</category>
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+	<name xml:lang="zh-CN">zero</name>
+        <name xml:lang="zh-TW">zero</name>
+    </author>
+</module>

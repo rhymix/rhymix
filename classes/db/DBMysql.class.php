@@ -17,7 +17,7 @@
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
 
         /**
          * @brief mysql에서 사용될 column type
@@ -83,7 +83,7 @@
 
             // 버전 확인후 4.1 이하면 오류 표시
             if(mysql_get_server_info($this->fd)<"4.1") {
-                $this->setError(-1, "Zeroboard XE cannot be installed under the version of mysql 4.1. Current mysql version is ".mysql_get_server_info());
+                $this->setError(-1, "XE cannot be installed under the version of mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
 
@@ -261,6 +261,15 @@
         }
 
         /**
+         * @brief 특정 테이블의 특정 인덱스 삭제
+         **/
+        function dropIndex($table_name, $index_name, $is_unique = false) {
+            $query = sprintf("alter table %s%s drop index %s;", $this->prefix, $table_name, $index_name);
+            $this->_query($query);
+        }
+
+
+        /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
@@ -366,10 +375,12 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
-            foreach($output->conditions as $key => $val) {
+            foreach($output->conditions as $val) {
                 $sub_condition = '';
-                foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] === '') continue;
+                foreach($val['condition'] as $v) {
+                    if(!isset($v['value'])) continue;
+                    if($v['value'] === '') continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];

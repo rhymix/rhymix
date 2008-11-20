@@ -67,6 +67,26 @@
             if(!Context::get('act')) Context::set('act','dispIssuetrackerViewIssue');
         }
 
+        function dispIssuetrackerTimeline() {
+            if(!$this->grant->access) return $this->dispIssuetrackerMessage('msg_not_permitted');
+            $oController = &getController('issuetracker');
+            $oController->syncChangeset($this->module_info);
+            $oModel = &getModel('issuetracker');
+            $changesets = $oModel->getChangesets($this->module_info->module_srl);
+            Context::set('changesets', $changesets);
+            $issues = array();
+            foreach($changesets as $changeset)
+            {
+                if(!$changeset->target_srl) continue;
+                if(!$issues[$changeset->target_srl])
+                {
+                    $issues[$changeset->target_srl] = $oModel->getIssue($changeset->target_srl); 
+                }
+            }
+            Context::set('issues', $issues);
+            $this->setTemplateFile('timeline');
+        }
+
         /**
          * @brief 마일스톤과 그에 따른 통계 제공
          **/
@@ -250,7 +270,7 @@
 
                 // status 점검
                 if(!is_array($args->status)||!count($args->status)) {
-                    $args->status = array('new','assign','reopen','reviewing','resolve','postponed','duplicated','invalid',);
+                    $args->status = array('new','assign','reopen','reviewing');
                     Context::set('status',$args->status);
                 }
                 $args->status = "'".implode("','",$args->status)."'";

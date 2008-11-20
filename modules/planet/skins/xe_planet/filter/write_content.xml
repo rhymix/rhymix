@@ -1,0 +1,20 @@
+<filter name="write_content" module="planet" act="procPlanetContentWrite">
+  <form>
+    <node target="content" required="true" />
+    <node target="postscript" maxlength="250" />
+    <node target="content_tag" maxlength="250" />
+	<node target="mid" required="true" />
+  </form>
+  <parameter>
+    <param name="content" target="content" />
+    <param name="extra_vars20" target="postscript" />
+    <param name="tags" target="content_tag" />
+	<param name="mid" target="mid" />
+	<param name="me2day_autopush" target="me2day_autopush" />
+  </parameter>
+  <response callback_func="completeInsertContent">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="document_srl" />
+  </response>
+</filter>

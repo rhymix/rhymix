@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/integration_search/lang/ko.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみう）
      **/
 
@@ -25,7 +25,7 @@
     $lang->is_sort_option = array(
         'regdate' => '登録日',
         'comment_count' => 'コメント数',
-        'readed_count' => '照合数',
+        'readed_count' => '閲覧数',
         'voted_count' => '推薦数',
     );
 ?>

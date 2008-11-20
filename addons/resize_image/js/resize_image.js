@@ -22,7 +22,7 @@ function resizeImageContents() {
         for(var i=0;i<objs.length;i++) {
             var obj = objs[i];
 
-            // zbXE내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
+            // XE내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
             if(!/\/(modules|addons|classes|common|layouts|libs|widgets)\//i.test(obj.src)) {
                 var parent = obj.parentNode;
                 while(parent) {
@@ -57,13 +57,13 @@ function resizeImageContents() {
                 // 만약 대상 이미지에 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
                 if(obj.parentNode.nodeName.toLowerCase()!='a' && !obj.getAttribute('onclick')) xAddEventListener(obj,"click", showOriginalImage);
 
-                imageGalleryIndex[j][i] = obj.src;
-                obj.setAttribute("rel", j+','+i);
+                obj.setAttribute("rel", j+','+imageGalleryIndex[j].length);
+                imageGalleryIndex[j][imageGalleryIndex[j].length] = obj.src;
             }
         }
     }
 }
-xAddEventListener(window, "load", resizeImageContents);
+xAddEventListener(window, "load", function() { setTimeout(resizeImageContents,1500); });
 
 /**
  * @brief 본문내에서 컨텐츠 영역보다 큰 이미지의 경우 원본 크기를 보여줌

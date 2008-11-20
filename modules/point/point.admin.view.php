@@ -55,6 +55,8 @@
             $mid_list = $oModuleModel->getMidList();
             Context::set('mid_list', $mid_list);
 
+            Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));
+
             // 템플릿 지정
             $this->setTemplateFile('module_config');
         }

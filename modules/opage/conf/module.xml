@@ -6,6 +6,7 @@
 			<title xml:lang="zh-CN">查看</title>
             <title xml:lang="jp">閲覧</title>
             <title xml:lang="en">view</title>
+			<title xml:lang="zh-TW">檢視</title>
         </grant>
     </grants>
     <actions>
@@ -16,7 +17,6 @@
         <action name="dispOpageAdminInsert" type="view" standalone="true" />
         <action name="dispOpageAdminDelete" type="view" standalone="true" />
         <action name="dispOpageAdminContentModify" type="view" standalone="true" />
-
         <action name="procOpageAdminRemoveWidgetCache" type="controller" standalone="true" />
         <action name="procOpageAdminInsert" type="controller" standalone="true" />
         <action name="procOpageAdminDelete" type="controller" standalone="true" />

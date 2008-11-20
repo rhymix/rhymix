@@ -15,7 +15,6 @@
             $oModuleController = &getController('module');
             $oModuleController->insertActionForward('page', 'view', 'dispPageIndex');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContent');
-            $oModuleController->insertActionForward('page', 'view', 'dispPageAdminModuleConfig');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInsert');
             $oModuleController->insertActionForward('page', 'view', 'dispPageAdminDelete');
@@ -33,6 +32,7 @@
         function checkUpdate() {
             $oModuleModel = &getModel('module');
             if(!$oModuleModel->getActionForward('dispPageAdminContentModify')) return true;
+            if(!$oModuleModel->getActionForward('dispPageAdminInfo')) return true;
             return false;
         }
 
@@ -45,6 +45,8 @@
 
             if(!$oModuleModel->getActionForward('dispPageAdminContentModify')) 
                 $oModuleController->insertActionForward('page', 'view', 'dispPageAdminContentModify');
+            if(!$oModuleModel->getActionForward('dispPageAdminInfo')) 
+                $oModuleController->insertActionForward('page', 'view', 'dispPageAdminInfo');
 
             return new Object(0,'success_updated');
         }
@@ -55,6 +57,24 @@
         function recompileCache() {
             // 페이지 캐시 파일 삭제
             FileHandler::removeFilesInDir("./files/cache/page");
+        }
+
+        /**
+         * @brief Action중 Admin이 들어갔을 경우 권한 체크
+         **/
+        function checkAdminActionGrant() {
+            if(!Context::get('is_logged')) return false;
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin=='Y') return true;
+
+            $actions = array('procPageAdminRemoveWidgetCache','dispPageAdminContentModify','procPageAdminInsertContent');
+            if(!in_array($this->act, $actions)) return false;
+
+            $oModuleModel = &getModel('module');
+            if($oModuleModel->isSiteAdmin()) return true;
+
+            return false;
         }
     }
 ?>

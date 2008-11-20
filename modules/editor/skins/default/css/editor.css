@@ -1,52 +1,238 @@
 @charset "utf-8";
+/* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
-.xeEditor { }
-.xeEditor .optionABC { clear:both; width:100%; overflow:hidden; background:transparent;}
-.xeEditor .optionABC .selectGroup { white-space:nowrap; display:block; height:21px; margin:0 .5em 0 0; padding-left:1em; float:left;}
-.xeEditor .optionABC .buttonGroup { white-space:nowrap; position:relative; display:block; margin:0 .5em 0 0; float:left; height:21px; overflow:hidden; padding-left:2px;}
-.xeEditor .optionABC .buttonGroup img { float:left; display:block; margin-left:-1px; cursor:pointer;}
-.xeEditor .optionA,
-.xeEditor .optionB,
-.xeEditor .optionC { float:left; background:transparent; padding:.5em 0 .5em .7em; overflow:hidden;}
-.xeEditor .optionA *,
-.xeEditor .optionB *,
-.xeEditor .optionC * { vertical-align:middle;}
-.xeEditor .optionA { background-position:-3px bottom; padding-left:0;}
-.xeEditor .optionA select option { font-size:.9em; }
-.xeEditor .optionDE { width:100%; clear:both; overflow:hidden; background:transparent;height:29px;}
-.xeEditor .optionDE .buttonGroup { white-space:nowrap; position:relative; display:block; float:left; height:21px; overflow:hidden; padding-left:2px;}
-.xeEditor .optionDE img { float:left; display:block; margin-right:.5em; cursor:pointer;}
-.xeEditor .optionD { padding:.5em 0 .5em .8em; overflow:hidden; float:left; border-right:1px solid #e0e0e0;}
-.xeEditor .optionE { padding:4px 0 0 9px; overflow:hidden; float:left;}
+/* Editor XE */
 
-.xeEditor .editorInfo { background:transparent; padding:.5em; border:1px solid #e1e1dd; color:#999999; position:relative; margin:5px 10px 0 10px;}
-.xeEditor .close { cursor:pointer; position:absolute; top:3px; right:3px; _top:3px; _right:15px;}
-.xeEditor .editor_iframe_box { clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:0; margin:3px 10px 5px 10px; }
-.xeEditor .editor_iframe_textarea { background:#ffffff; clear:both; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin:5px 10px 0 10px; width:100%; font-size:1em; display:none;}
+/* Editor Temporary */
+.editorTemporary{ float:left; clear:left;}
 
-.xeEditor .textAreaDragIndicator { text-align:center; background:url(../images/lineTextAreaDrag.gif) repeat-x left center; padding:5px 0 5px 0; }
-.xeEditor .textAreaDragIndicatorBar { background:url(../images/buttonTextAreaDrag.gif) no-repeat center; cursor:move;height:14px;}
+/* Editor Type Selector  */
+.editorTypeSelector{ float:right; clear:right; position:relative; right:3px; margin:0; padding:0; line-height:normal; *zoom:1;}
+.editorTypeSelector:after{ content:""; display:block; clear:both;}
+.editorTypeSelector *{ margin:0; padding:0; list-style:none;}
+.editorTypeSelector li{ float:left; margin-right:5px; top:0;}
+.editorTypeSelector a,
+.editorTypeSelector a span{ position:relative; display:block; float:left; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand; white-space:nowrap;}
+.editorTypeSelector a{ background-position:left -65px; text-decoration:none !important;}
+.editorTypeSelector a span{ padding:3px 15px; left:3px; background-position:right -65px;}
 
-.xeEditor .editor_info { clear:both; padding:5px 10px 0 10px; overflow:hidden;}
-.xeEditor .editor_info .editor_option { float:left; color:#888888; }
-.xeEditor .editor_info .editor_autosaved_message { display:none; color:#888888; float:right; }
+/* Editor Type Selector - Hover */
+.editorTypeSelector a:hover span,
+.editorTypeSelector a:active span,
+.editorTypeSelector a:focus span{ font-weight:bold; letter-spacing:-1px;}
 
-.xeEditor .inputTypeTextArea { background:#fbfbfb; padding:1em; width:94%;}
+/* Editor Type Selector - Active */
+.editorTypeSelector li a{ top:0; margin-bottom:-4px;}
+.editorTypeSelector li.active a{ top:-2px; margin-bottom:-4px;}
+.editorTypeSelector li.active a span{ padding:5px 15px; font-weight:bold; letter-spacing:-1px;}
 
-.xeEditor .fileAttach { border:none; table-layout:fixed; margin:0 10px 0 10px; }
+/* Skip Tool Box */
+a.skipToolBox,
+a.skipToolBox span{ width:0; height:0; overflow:hidden;}
 
-.xeEditor .fileAttach .preview { padding:5px; border:1px solid #e1e1dd; width:100px; height:100px; margin-right:10px;}
-.xeEditor .fileAttach .preview img { width:100px; height:100px; }
+a.skipToolBox:hover,
+a.skipToolBox:focus,
+a.skipToolBox:active{ width:auto; height:auto;}
 
-.xeEditor .fileAttach .fileListArea .fileList { background:transparent; overflow:auto; width:100%; height:auto; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; margin-bottom:10px; font-size:11px;}
-.xeEditor .fileAttach .fileListArea .fileList option { line-height:100%; padding-left:.5em;}
-.xeEditor .fileAttach .fileUploadControl { float:left; }
-.xeEditor .fileAttach .file_attach_info { color:#AAAAAA; font-size:.9em; _font-size:8pt; text-align:right;}
-*:first-child+html .xeEditor .fileAttach .file_attach_info { font-size:8pt; }
+a.skipToolBox:hover span,
+a.skipToolBox:focus span,
+a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weight:bold; letter-spacing:-1px;}
 
-.xeEditor .fileAttach .fileUploadControl .uploaderButton { display:block; cursor:pointer; background:url(../images/buttonTypeBCenter.gif) repeat-x left center; line-height:100%; overflow:visible; color:#3f4040; margin:0 1px; font-size:.9em; white-space:nowrap;}
-.xeEditor .fileAttach .fileUploadControl .uploaderButton:hover { text-decoration:none;}
-.xeEditor .fileAttach .fileUploadControl .uploaderButton img { vertical-align:middle;}
-.xeEditor .fileAttach .fileUploadControl .uploaderButton .leftCap { width:2px; height:21px; background:url(../images/buttonTypeBLeft.gif) no-repeat; margin:0 .3em 0 0;  position:relative; left:-1px;}
-.xeEditor .fileAttach .fileUploadControl .uploaderButton .rightCap { width:2px; height:21px; background:url(../images/buttonTypeBRight.gif) no-repeat; margin:0 -1px 0 .4em;}
-.xeEditor .fileAttach .fileUploadControl .uploaderButton .icon { margin:0 .2em;}
+/* Editor Container */
+.xeEditor{ clear:both; position:relative; z-index:1; border-top:1px solid; *zoom:1}
+ 
+ /* Tool Box */
+.toolBox{ position:relative; z-index:100; padding:5px 10px 3px 10px !important; *padding-bottom:8px !important; background-repeat:repeat-x; background-position:left bottom; *zoom:1;}
+.toolBox:after{ content:""; display:block; clear:both;}
+.toolBox .item{ float:left; margin:0 5px 5px 0;}
+.toolBox .item li{ float:left;}
+.toolBox .item li button{ display:block; border:0; width:21px; height:21px; background-position:no-repeat; cursor:pointer;}
+.toolBox .item li button span{ position:relative; z-index:-1; font-size:0; line-height:0;}
+
+.toolBox .extension2{ float:left; position:relative; margin:0 5px 5px 0;}
+.toolBox .extension2 .exButton{ float:left; border:0; width:68px; height:21px; background-repeat:no-repeat; background-position:-579px 0; cursor:pointer;}
+.toolBox .extension2 .exButton span{ position:relative; z-index:-1; font-size:0; line-height:0;}
+.toolBox .extension2 .exButton:hover,
+.toolBox .extension2 .exButton:focus{ background-position:-579px -21px;}
+.toolBox .extension2 .exButton:active{ background-position:-579px -42px;}
+.toolBox .extension2 ul { display:none; position:absolute; padding:5px 0; top:10px; *top:25px; right:0; border:1px solid; }
+.toolBox .extension2.open ul { display:block; }
+.toolBox .extension2 li{ text-align:left; padding:2px 3px !important; list-style:none; margin:0 !important; display:block; white-space:nowrap;}
+.toolBox .extension2 li a { color:#000000; text-decoration:none; }
+
+.toolBox .editorHelp{ float:left; position:relative; margin:0 5px 5px 0;}
+.toolBox .editorHelp .helpButton{ float:left; border:0; width:22px; height:21px; background-repeat:no-repeat; background-position:right top; cursor:pointer;}
+.toolBox .editorHelp .helpButton span{ position:relative; z-index:-1; font-size:0; line-height:0;}
+.toolBox .editorHelp .helpButton:hover,
+.toolBox .editorHelp .helpButton:focus{ background-position:right -21px;}
+.toolBox .editorHelp .helpButton:active{ background-position:right -42px;}
+
+.toolBox ul.helpList{ display:none; float:none !important; position:absolute; padding:5px 0; top:100%; right:0; margin-top:-3px; border:1px solid;}
+.toolBox ul.helpList.open{ display:block;}
+.toolBox ul.helpList li{ list-style:disc; float:none; text-align:left; white-space:nowrap; padding:0 10px 0 0; margin-left:25px; font-size:12px;}
+.toolBox ul.helpList li li{ list-style:circle; margin-left:20px;}
+
+/* ToolBox Button Default */
+.toolBox .item { list-style:none; padding:0; }
+.toolBox .item.do{ width:43px;}
+.toolBox .item .undo button{ width:22px;}
+.toolBox .item .redo button{ background-position:-22px 0;}
+
+.toolBox .item.type *{ font-size:12px; line-height:100%;}
+.toolBox .item.type select{ height:21px;}
+.toolBox .item.type .hx{}
+.toolBox .item.type .size .px10{ font-size:10px;}
+.toolBox .item.type .size .px13{ font-size:13px;}
+.toolBox .item.type .size .px16{ font-size:16px;}
+.toolBox .item.type .size .px18{ font-size:18px;}
+.toolBox .item.type .size .px24{ font-size:24px;}
+.toolBox .item.type .size .px32{ font-size:32px;}
+.toolBox .item.type .size .px48{ font-size:48px;}
+.toolBox .item.type .family{}
+
+.toolBox .item.style{ width:214px;}
+.toolBox .item .bold button{ width:22px; background-position:-43px 0;}
+.toolBox .item .underline button{ background-position:-65px 0;}
+.toolBox .item .italic button{ background-position:-86px 0;}
+.toolBox .item .strike button{ background-position:-107px 0;}
+.toolBox .item .sup button{ background-position:-128px 0;}
+.toolBox .item .sub button{ background-position:-149px 0;}
+.toolBox .item .txColor button{ background-position:-170px 0;}
+.toolBox .item .bgColor button{ background-position:-191px 0;}
+.toolBox .item .styleRemover button{ width:45px; background-position:-212px 0;}
+
+.toolBox .item.paragraph{ width:169px;}
+.toolBox .item .alignLeft button{ width:22px; background-position:-257px 0;}
+.toolBox .item .alignCenter button{ background-position:-279px 0;}
+.toolBox .item .alignRight button{ background-position:-300px 0;}
+.toolBox .item .alignJustify button{ background-position:-321px 0;}
+.toolBox .item .orderedList button{background-position:-342px 0;}
+.toolBox .item .unorderedList button{ background-position:-363px 0;}
+.toolBox .item .outdent button{ background-position:-384px 0;}
+.toolBox .item .indent button{ background-position:-405px 0;}
+
+.toolBox .item.extension1{ width:153px;}
+.toolBox .item .url button{ width:27px; background-position:-426px 0;}
+.toolBox .item .blockquote button{ background-position:-453px 0;}
+.toolBox .item .table button{ background-position:-474px 0;}
+.toolBox .item .image button{ background-position:-495px 0;}
+.toolBox .item .movie button{ background-position:-516px 0;}
+.toolBox .item .file button{ background-position:-537px 0;}
+.toolBox .item .emoticon button{ background-position:-558px 0;}
+
+/* ToolBox Button Hover & Focus & Active */
+.toolBox .item .undo button:hover,
+.toolBox .item .undo button:focus{ background-position:0 -21px;}
+.toolBox .item .undo button:active{ background-position:0 -42px;}
+.toolBox .item .redo button:hover,
+.toolBox .item .redo button:focus{ background-position:-22px -21px;}
+.toolBox .item .redo button:active{ background-position:-22px -42px;}
+
+.toolBox .item .bold button:hover,
+.toolBox .item .bold button:focus{ background-position:-43px -21px;}
+.toolBox .item .bold button:active{ background-position:-43px -42px;}
+.toolBox .item .underline button:hover,
+.toolBox .item .underline button:focus{ background-position:-65px -21px;}
+.toolBox .item .underline button:active{ background-position:-65px -42px;}
+.toolBox .item .italic button:hover,
+.toolBox .item .italic button:focus{ background-position:-86px -21px;}
+.toolBox .item .italic button:active{ background-position:-86px -42px;}
+.toolBox .item .strike button:hover,
+.toolBox .item .strike button:focus{ background-position:-107px -21px;}
+.toolBox .item .strike button:active{ background-position:-107px -42px;}
+.toolBox .item .sup button:hover,
+.toolBox .item .sup button:focus{ background-position:-128px -21px;}
+.toolBox .item .sup button:active{ background-position:-128px -42px;}
+.toolBox .item .sub button:hover,
+.toolBox .item .sub button:focus{ background-position:-149px -21px;}
+.toolBox .item .sub button:active{ background-position:-149px -42px;}
+.toolBox .item .txColor button:hover,
+.toolBox .item .txColor button:focus{ background-position:-170px -21px;}
+.toolBox .item .txColor button:active{ background-position:-170px -42px;}
+.toolBox .item .bgColor button:hover,
+.toolBox .item .bgColor button:focus{ background-position:-191px -21px;}
+.toolBox .item .bgColor button:active{ background-position:-191px -42px;}
+.toolBox .item .styleRemover button:hover,
+.toolBox .item .styleRemover button:focus{ background-position:-212px -21px;}
+.toolBox .item .styleRemover button:active{ background-position:-212px -42px;}
+
+.toolBox .item .alignLeft button:hover,
+.toolBox .item .alignLeft button:focus{ background-position:-257px -21px;}
+.toolBox .item .alignLeft button:active{ background-position:-257px -42px;}
+.toolBox .item .alignCenter button:hover,
+.toolBox .item .alignCenter button:focus{ background-position:-279px -21px;}
+.toolBox .item .alignCenter button:active{ background-position:-279px -42px;}
+.toolBox .item .alignRight button:hover,
+.toolBox .item .alignRight button:focus{ background-position:-300px -21px;}
+.toolBox .item .alignRight button:active{ background-position:-300px -42px;}
+.toolBox .item .alignJustify button:hover,
+.toolBox .item .alignJustify button:focus{ background-position:-321px -21px;}
+.toolBox .item .alignJustify button:active{ background-position:-321px -42px;}
+.toolBox .item .orderedList button:hover,
+.toolBox .item .orderedList button:focus{background-position:-342px -21px;}
+.toolBox .item .orderedList button:active{background-position:-342px -42px;}
+.toolBox .item .unorderedList button:hover,
+.toolBox .item .unorderedList button:focus{ background-position:-363px -21px;}
+.toolBox .item .unorderedList button:active{ background-position:-363px -42px;}
+.toolBox .item .outdent button:hover,
+.toolBox .item .outdent button:focus{ background-position:-384px -21px;}
+.toolBox .item .outdent button:active{ background-position:-384px -42px;}
+.toolBox .item .indent button:hover,
+.toolBox .item .indent button:focus{ background-position:-405px -21px;}
+.toolBox .item .indent button:active{ background-position:-405px -42px;}
+
+.toolBox .item .url button:hover,
+.toolBox .item .url button:focus{ background-position:-426px -21px;}
+.toolBox .item .url button:active{ background-position:-426px -42px;}
+.toolBox .item .blockquote button:hover,
+.toolBox .item .blockquote button:focus{ background-position:-453px -21px;}
+.toolBox .item .blockquote button:active{ background-position:-453px -42px;}
+.toolBox .item .table button:hover,
+.toolBox .item .table button:focus{ background-position:-474px -21px;}
+.toolBox .item .table button:active{ background-position:-474px -42px;}
+.toolBox .item .image button:hover,
+.toolBox .item .image button:focus{ background-position:-495px -21px;}
+.toolBox .item .image button:active{ background-position:-495px -42px;}
+.toolBox .item .movie button:hover,
+.toolBox .item .movie button:focus{ background-position:-516px -21px;}
+.toolBox .item .movie button:active{ background-position:-516px -42px;}
+.toolBox .item .file button:hover,
+.toolBox .item .file button:focus{ background-position:-537px -21px;}
+.toolBox .item .file button:active{ background-position:-537px -42px;}
+.toolBox .item .emoticon button:hover,
+.toolBox .item .emoticon button:focus{ background-position:-558px -21px;}
+.toolBox .item .emoticon button:active{ background-position:-558px -42px;}
+
+/* Auto Save */
+.xeEditor .editor_autosaved_message{background:none; border:none; text-align:right; clear:both; margin:0; padding:0 5px 0 0; }
+
+/* Edit Area */
+.xeEditor .editorBox{ border-bottom:5px solid; position:relative; width:100%;}
+.xeEditor .editorBox .editorMargin{ margin:0 5px; *zoom:1;}
+
+/* Editor Display */
+.xeEditor .toolBox, .xeEditor .richEditor, .xeEditor .htmlEditor {display:none;}
+.xeEditor.rich .toolBox, .xeEditor.rich .richEditor, .xeEditor.html .htmlEditor{ display:block;}
+.xeEditor.preview .toolBox, .xeEditor.rich .xeEditor.html .htmlEditor { display:none;}
+.xeEditor.preview .previewEditor { display:block;}
+.xeEditor .richEditor, .xeEditor .htmlEditor{ border:0;}
+.xeEditor .htmlEditor{ width:100%; padding:10px 0; font-size:12px;}
+.xeEditor .previewEditor { display:none; }
+
+/* Editor Resize Bar */
+.xeEditor .textAreaDragIndicator{ border-top:1px solid; border-bottom:1px solid; clear:both; margin-bottom:5px;}
+.xeEditor .textAreaDragIndicator button{ width:100%; height:9px; border:none; cursor:n-resize; background-repeat:no-repeat; background-position:center center; }
+.xeEditor .mask{ position:relative; width:100%;height:500px;margin-top:-500px;bottom:0; display:none; }
+
+/* File Uploader */
+.xeEditor .fileUploader{ clear:both; position:relative; padding-top:5px; *zoom:1; *margin-bottom:5px;}
+.commentEditor .xeEditor .fileUploader{ border-top:1px solid;}
+.xeEditor .fileUploader:after{ content:""; display:block; clear:both;}
+.xeEditor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid; padding:2px; margin:0 10px 5px 0;}
+.xeEditor .fileUploader .preview img{ display:block; width:64px; height:64px;}
+.xeEditor .fileUploader .fileListArea{ float:left; width:260px; margin:0 10px 5px 0;}
+.xeEditor .fileUploader .fileListArea select{ width:100%; height:70px; overflow:auto;}
+.xeEditor .fileUploader .fileListArea select option{ font-size:11px;}
+.xeEditor .fileUploader .fileUploadControl{ clear:right;}
+.xeEditor .fileUploader .fileUploadControl .button{ margin-bottom:5px;}
+.xeEditor .fileUploader .file_attach_info{ clear:right; margin:5px 0;}

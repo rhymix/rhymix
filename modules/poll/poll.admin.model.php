@@ -38,7 +38,7 @@
 
             if(!$oDocument->isExists()) $oComment = $oCommentModel->getComment($upload_target_srl);
 
-            if($oComment->isExists()) {
+            if($oComment && $oComment->isExists()) {
                 $this->add('document_srl', $oComment->get('document_srl'));
                 $this->add('comment_srl', $oComment->get('comment_srl'));
             } elseif($oDocument->isExists()) {

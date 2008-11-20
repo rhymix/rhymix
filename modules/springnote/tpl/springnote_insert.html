@@ -12,11 +12,9 @@
 <input type="hidden" name="use_category" value="N" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
 
-    <tr>
-        <th scope="row">{$lang->mid}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->mid}</div></th>
         <td>
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
@@ -24,15 +22,15 @@
     </tr>
     <!--@if($module_info->is_default!='Y')-->
     <tr>
-        <th scope="row">{$lang->is_default}</th>
+        <th scope="row"><div>{$lang->is_default}</div></th>
         <td>
             <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
             <label for="fld_for_default">{$lang->about_default}</label>
         </td>
     </tr>
     <!--@end-->
-    <tr>
-        <th scope="row">{$lang->module_category}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->module_category}</div></th>
         <td>
             <select name="module_category_srl">
                 <option value="0">{$lang->notuse}</option>
@@ -45,28 +43,28 @@
     </tr>
 
     <tr>
-        <th scope="row">{$lang->springnote_openid}</th>
+        <th scope="row"><div>{$lang->springnote_openid}</div></th>
         <td>
             http://<input type="text" name="springnote_openid" value="{htmlspecialchars($module_info->openid)}"  class="inputTypeText w300" />/
             <p>{$lang->about_springnote_openid}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->springnote_userkey}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->springnote_userkey}</div></th>
         <td>
             <input type="text" name="springnote_userkey" value="{htmlspecialchars($module_info->userkey)}"  class="inputTypeText w300" />
             <p>{$lang->about_springnote_userkey}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->springnote_pageid}</th>
+        <th scope="row"><div>{$lang->springnote_pageid}</div></th>
         <td>
             <input type="text" name="springnote_pageid" value="{htmlspecialchars($module_info->pageid)}"  class="inputTypeText w300" />
             <p>{$lang->about_springnote_pageid}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->springnote_pageid_setup}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->springnote_pageid_setup}</div></th>
         <td>
             <p><input type="radio" name="springnote_pageid_option" value="only" <!--@if($module_info->pageid_option!='list')-->checked="checked"<!--@end--> id="springnote_pageid_option_only" /> <label for="springnote_pageid_option_only">{$lang->springnote_pageid_option_only}</label></p>
             <p><input type="radio" name="springnote_pageid_option" value="list" <!--@if($module_info->pageid_option=='list')-->checked="checked"<!--@end--> id="springnote_pageid_option_list" /> <label for="springnote_pageid_option_list">{$lang->springnote_pageid_option_list}</label></p>
@@ -74,22 +72,22 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->springnote_domain}</th>
+        <th scope="row"><div>{$lang->springnote_domain}</div></th>
         <td>
             <input type="text" name="springnote_domain" value="{htmlspecialchars($module_info->domain)}"  class="inputTypeText w300" />
             <p>{$lang->about_springnote_domain}</p>
         </td>
     </tr>
 
-    <tr>
-        <th scope="row">{$lang->browser_title}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w300" />
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->layout}</th>
+        <th scope="row"><div>{$lang->layout}</div></th>
         <td>
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
@@ -100,8 +98,8 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->skin}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin">
                 <!--@foreach($skin_list as $key=>$val)-->
@@ -112,37 +110,37 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->description}</th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($module_info->description)}</textarea>
             <p>{$lang->about_description}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->header_text}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->header_text}</div></th>
         <td>
-            <textarea name="header_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->header_text)}</textarea>
+            <textarea name="header_text" class="inputTypeTextArea w400">{htmlspecialchars($module_info->header_text)}</textarea>
             <p>{$lang->about_header_text}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->footer_text}</th>
+        <th scope="row"><div>{$lang->footer_text}</div></th>
         <td>
-            <textarea name="footer_text" class="inputTypeTextArea w100">{htmlspecialchars($module_info->footer_text)}</textarea>
+            <textarea name="footer_text" class="inputTypeTextArea w400">{htmlspecialchars($module_info->footer_text)}</textarea>
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->admin_id}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
-            <textarea name="admin_id" class="inputTypeTextArea w100"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
+            <textarea name="admin_id" class="inputTypeTextArea w400"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row" colspan="2" class="button">
+        <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
     </table>
 

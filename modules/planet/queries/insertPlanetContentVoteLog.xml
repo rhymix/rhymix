@@ -1,0 +1,11 @@
+<query id="insertPlanetContentVoteLog" action="insert">
+    <tables>
+        <table name="planet_content_vote_log" />
+    </tables>
+    <columns>
+        <column name="planet_content_vote_srl" var="planet_content_vote_srl" default="sequence()"  filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="planet_content_srl" var="planet_content_srl" filter="number" default="0" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

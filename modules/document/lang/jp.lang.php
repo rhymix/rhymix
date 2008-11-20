@@ -14,8 +14,8 @@
     $lang->title_color = 'タイトルの色';
 
     $lang->cmd_search_next = '継続検索';
-    
-    $lang->cmd_temp_save = '臨時保存';
+
+    $lang->cmd_temp_save = '一時保存';
 
 	$lang->cmd_toggle_checked_document = '選択項目反転';
     $lang->cmd_delete_checked_document = '選択項目削除';
@@ -41,7 +41,7 @@
         'is_notice' => 'お知らせ',
         'is_secret' => '非公開書き込み',
         'tags' => 'タグ',
-        'readed_count' => '照合数（以上）',
+        'readed_count' => '閲覧数（以上）',
         'voted_count' => '推薦数（以上）',
         'comment_count ' => 'コメント数（以上）',
         'trackback_count ' => 'トラックバック数（以上）',

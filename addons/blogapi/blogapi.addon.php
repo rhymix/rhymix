@@ -23,7 +23,7 @@
     if($_REQUEST['act']!='api') return;
 
     /**
-     * blogapi의 경우 GET argument와 XML Content가 같이 오기에 제로보드XE의 경우 XML Content가 오면 이것만 처리하기에 
+     * blogapi의 경우 GET argument와 XML Content가 같이 오기에 XE의 경우 XML Content가 오면 이것만 처리하기에 
      * GET argument중에 mid값을 강제 설정해야 모듈을 정상적으로 찾는다 
      **/
     if($called_position == 'before_module_init') {
@@ -447,7 +447,7 @@
 <?xml version="1.0" ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >
 <service>
-    <engineName>zeroboardXE</engineName>
+    <engineName>XpressEngine</engineName>
     <engineLink>http://www.zeroboard.com/ </engineLink>
     <homePageLink>{$homepagelink}</homePageLink>
     <apis>

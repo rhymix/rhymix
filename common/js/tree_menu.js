@@ -4,7 +4,7 @@
  * @brief xml파일을 읽어서 트리 메뉴를 그려줌
  *
  * 일단 이것 저것 꽁수가 좀 들어간 것이긴 한데 속도나 기타 면에서 쓸만함...\n
- * 다만 제로보드에 좀 특화되어 있어서....\n
+ * 다만 XE에좀 특화되어 있어서....\n
  * GPL License 를 따릅니당~~~\n
  * 언제나 그렇듯 필요하신 분은 가져가서 쓰세요.\n
  * 더 좋게 개량하시면 공유해주세요~\n
@@ -402,9 +402,9 @@ function moveTreeMenu(menu_id, node) {
         return;
     }
 
-    // url이 있으면 url을 분석한다 (제로보드 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
+    // url이 있으면 url을 분석한다 (Xe 특화된 부분. url이 http나 ftp등으로 시작하면 그냥 해당 url 열기)
     if(url) {
-        // http, ftp등의 연결이 아닌 경우 제로보드용으로 처리
+        // http, ftp등의 연결이 아닌 경우 XE용으로 처리
         if(url.indexOf('://')==-1) url = "./?"+url;
 
         // open_window에 따라서 처리

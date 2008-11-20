@@ -9,27 +9,25 @@
 <!--@end-->
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
-    <tr>
-        <th scope="row">{$lang->mid}</th>
-        <td>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->mid}</div></th>
+        <td colspan="3">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
     <!--@if($module_info->is_default!='Y')-->
     <tr>
-        <th scope="row">{$lang->is_default}</th>
-        <td>
+        <th scope="row"><div>{$lang->is_default}</div></th>
+        <td colspan="3">
             <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
-            <label for="fld_for_default">{$lang->about_default}</label>
+            <p><label for="fld_for_default">{$lang->about_default}</label></p>
         </td>
     </tr>
     <!--@end-->
-    <tr>
-        <th scope="row">{$lang->module_category}</th>
-        <td>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->module_category}</div></th>
+        <td colspan="3">
             <select name="module_category_srl">
                 <option value="0">{$lang->notuse}</option>
                 <!--@foreach($module_category as $key => $val)-->
@@ -40,15 +38,15 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->browser_title}</th>
-        <td>
+        <th scope="row"><div>{$lang->browser_title}</div></th>
+        <td colspan="3">
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->layout}</th>
-        <td>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->layout}</div></th>
+        <td colspan="3">
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
             <!--@foreach($layout_list as $key => $val)-->
@@ -59,58 +57,47 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->opage_caching_interval}</th>
-        <td>
+        <th scope="row"><div>{$lang->opage_caching_interval}</div></th>
+        <td colspan="3">
             <input type="text" name="opage_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
             <p>{$lang->about_opage_caching_interval}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->opage_path}</th>
-        <td>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->opage_path}</div></th>
+        <td colspan="3">
             <input type="text" name="opage_path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
             <p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
         </td>
     </tr>
-    </table>
-
-    <!-- 권한 출력 -->
-    <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col width="*" />
-    <col width="120" />
-    <col width="120" />
-    <thead>
     <tr>
-        <th scope="col">{$lang->grant}</th>
-        <th scope="col" colspan="3">{$lang->target}</th>
+        <th scope="col"><div>{$lang->grant}</div></th>
+        <th scope="col" colspan="3"><div>{$lang->target}</div></th>
     </tr>
-    </thead>
-
-    <tbody>
-        <!--@foreach($grant_list as $key => $val)-->
-        <tr>
-            <th scope="row">{$val->title}</th>
-            <td class="left">
-                <!--@foreach($group_list as $k => $v)-->
-                <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
-                <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
-                <!--@end-->
-            </td>
-            <td><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
-            <td><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
-        </tr>
-        <!--@end-->
-    </tbody>
+    <!--@foreach($grant_list as $key => $val)-->
+    <tr class="row{$cycle_idx}">
+        <th scope="row"><div>{$val->title}</div></th>
+        <td class="wide">
+            <!--@foreach($group_list as $k => $v)-->
+            <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
+            <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
+            <!--@end-->
+        </td>
+        <td class="selectAll center"><a href="#" onclick="doSelectAll(this, '{$key}'); return false;" class="blue">{$lang->cmd_select_all}</a></td>
+        <td class="deSelectAll center"><a href="#" onclick="doUnSelectAll(this, '{$key}'); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
+    </tr>
+    <!--@end-->
+    <tr class="row2">
+        <td colspan="4" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            <!--@if($module == 'admin')-->
+            <span class="button"><input type="button" value="{$lang->cmd_list}" onclick="location.href='./?module=admin&act=dispOpageAdminContent';return false;" /></span>
+            <!--@else-->
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('module_srl','').setQuery('act','');return false;" /></span>
+            <!--@end-->
+        </td>
+    </tr>
     </table>
-
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        <!--@if($module == 'admin')-->
-        <span class="button"><input type="button" value="{$lang->cmd_list}" onclick="location.href='./?module=admin&act=dispOpageAdminContent';return false;" /></span>
-        <!--@else-->
-        <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('module_srl','').setQuery('act','');return false;" /></span>
-        <!--@end-->
     </div>
 
 </form>

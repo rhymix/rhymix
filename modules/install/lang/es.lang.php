@@ -5,13 +5,8 @@
      * @sumario Paquete del idioma espanol para la instalación
      **/
 
-    $lang->introduce_title = 'Instalación de Zeroboard XE ';
+    $lang->introduce_title = 'Instalación de XE ';
     $lang->license = <<<EndOfLicense
-- Nombre de programa : zeroboard XE (zeroboardXE)
-- Licencia : GNU GENERAL PUBLIC LICENSE
-- Official website : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- Autor : zero (zero@zeroboard.com, http://www.zeroboard.com)
-
 Esta es la traducción al español de la famosa licencia GPL "GNU Public License" (GPL), version 2 que cubre la mayor parte del software de la Free Software Foundation, y muchos más programas.
 
 IMPORTANTE: Esta traducción tiene caráter meramente informativo y carece de validez legal. Si distribuye software libre o ha recibido software libre con esta traducción utilice para cuestiones legales siempre la GPL versión 2 en Inglés de la Free Software Foundation. 
@@ -214,10 +209,10 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Requerido] Si la versión de PHP es 5.2.2, zeroboard no sera instalado por errores',
-            'permission' => '[Requerido] La ruta de la instalación de Zeroboard o el directorio de ./archivos deberia tener la atribución 707',
+			'php_version' => '[Requerido] Si la versión de PHP es 5.2.2, XE no sera instalado por errores',
+            'permission' => '[Requerido] La ruta de la instalación de XE o el directorio de ./archivos deberia tener la atribución 707',
             'xml' => '[Requerido] Libreria XML es necesario para la comunicación de XML',
-            'session' => '[Requerido] Para el uso de la sesion de Zeroboard, el archivo php.ini deberia estar configurada  session.auto_start=0',
+            'session' => '[Requerido] Para el uso de la sesion de XE, el archivo php.ini deberia estar configurada  session.auto_start=0',
             'iconv' => 'Para transformar UTF-8 y otra paquete del idioma deberia estar instalado el Iconv.',
             'gd' => 'Libreria GD deberia estar instalado para utilizar la funcion de convertir la imagen',
         );
@@ -234,6 +229,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'Yo accepto la licencia';
     $lang->cmd_install_fix_checklist = 'Yo he configurado las condiciones necesarias para la instalación.';
     $lang->cmd_install_next = 'Continuar la instalación';
+    $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
         'mysql' => 'Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.',
@@ -275,7 +271,7 @@ EndOfLicense;
     $lang->success_updated = 'Actualización finalizada';
 
     $lang->msg_cannot_proc = 'No puede ser ejecutado lo requerido por no disponer del ambiente de instalación.';
-    $lang->msg_already_installed = 'Instalación de Zeroboard ya existe.';
+    $lang->msg_already_installed = 'Instalación de XE ya existe.';
     $lang->msg_dbconnect_failed = "Ha ocurrido un error en la conección de BD.\n Por favor chequee la información de BD nuevamente";
     $lang->msg_table_is_exists = "La tabla ya ha sido creado en BD.\n Creado nuevamente el archivo de configuración.";
     $lang->msg_install_completed = "Instalación finalizada.\n Muchas gracias.";

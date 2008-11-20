@@ -2,30 +2,28 @@
 <input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
 
 <table cellspacing="0" class="adminTable">
-<col width="140" />
-<col width="*" />
 <!--@if($category_info->parent_category_title)-->
-<tr>
-    <th scope="row">{$lang->parent_category_title}</th>
-    <td>{$category_info->parent_category_title}</td>
+<tr class="row2">
+    <th scope="row"><div>{$lang->parent_category_title}</div></th>
+    <td class="wide">{$category_info->parent_category_title}</td>
 </tr>
 <!--@end-->
 <tr>
-    <th scope="row">{$lang->category_title}</th>
+    <th scope="row"><div>{$lang->category_title}</div></th>
     <td>
         <input type="text" name="category_title" value="{htmlspecialchars($category_info->title)}" class="inputTypeText" />
         <p>{$lang->about_category_title}</p>
     </td>
 </tr>
-<tr>
-    <th scope="row">{$lang->expand}</th>
+<tr class="row2">
+    <th scope="row"><div>{$lang->expand}</div></th>
     <td>
         <input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="checked"<!--@end--> class="checkbox" />
         {$lang->about_expand}
     </td>
 </tr>
 <tr>
-    <th scope="row">{$lang->category_group_srls} <input type="checkbox" onclick="checkboxSelectAll(this.form, 'group_srls'); return false;" /></th>
+    <th scope="row"><div>{$lang->category_group_srls} <input type="checkbox" onclick="checkboxSelectAll(this.form, 'group_srls'); return false;" /></div></th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
         <div><input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="checked"<!--@end--> class="checkbox" /> <label for="group_{$key}">{$val->title}</label></div>
@@ -33,8 +31,8 @@
         <p>{$lang->about_category_group_srls}</p>
     </td>
 </tr>
-<tr>
-    <th scope="row" colspan="2" class="button">
+<tr class="row2">
+    <td scope="row" colspan="2" class="right">
         <!--@if($category_info->title)-->
         <a href="#" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
         <!--@end-->
@@ -43,6 +41,6 @@
         <!--@if($category_info->title)-->
         <a href="#" onclick="doInsertCategory('{$category_info->category_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
         <!--@end-->
-    </th>
+    </td>
 </tr>
 </table>

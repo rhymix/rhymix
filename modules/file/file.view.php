@@ -38,7 +38,8 @@
 
             // 그룹의 설정을 위한 권한 가져오기
             $oMemberModel = &getModel('member');
-            $group_list = $oMemberModel->getGroups();
+            $site_module_info = Context::get('site_module_info');
+            $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
             Context::set('group_list', $group_list);
 
             // 템플릿 파일 지정

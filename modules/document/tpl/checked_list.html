@@ -10,10 +10,8 @@
 
 <div id="popBody">
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="row"><label for="textfield1">{$lang->checked_count} ({count($document_list)})</label></th>
+        <th scope="row"><div><label for="textfield1">{$lang->checked_count} ({count($document_list)})</label></div></th>
         <td>
             <!--@if(count($document_list))-->
             <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /> {$lang->cmd_select}
@@ -29,7 +27,7 @@
     </tr>
     <!--@if(count($document_list) && $module_list)-->
     <tr>
-        <th scope="row">{$lang->move_target_module}</th>
+        <th scope="row"><div>{$lang->move_target_module}</div></th>
         <td>
           <select id="target_module" name="target_module" class="w300" onchange="doGetCategoryFromModule(this); return false;">
           <!--@foreach($module_list as $module_category_srl => $modules )-->
@@ -46,14 +44,14 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->category}</th>
+        <th scope="row"><div>{$lang->category}</div></th>
         <td>
           <select id="target_category" name="target_category" class="w300">
           </select>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->cmd_send_message}</th>
+        <th scope="row"><div>{$lang->cmd_send_message}</div></th>
         <td>
             <textarea name="message_content" class="inputTypeTextArea w400" cols="45" rows="5"></textarea>
         </td>

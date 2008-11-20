@@ -1,0 +1,17 @@
+<query id="getTagSearchResult" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="planet" alias="planet" />
+        <table name="documents" alias="documents" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet.module_srl" var="module_srl" filter="numbers" />
+        <condition operation="equal" column="planet.module_srl" default="modules.module_srl" pipe="and" />
+        <condition operation="equal" column="documents.module_srl" default="planet.module_srl" pipe="and" />
+        <condition operation="like" column="documents.content" var="search_keyword" pipe="and" />
+    </conditions>
+</query>
+

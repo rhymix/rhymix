@@ -1,0 +1,127 @@
+<!--%import("./filter/update_env_config.xml")-->
+<!--%import("./filter/update_lang_select.xml")-->
+<!--%import("./filter/install_ftp_info.xml")-->
+<!--%import("../../install/lang")-->
+<!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
+
+<h3 class="bottomGap">{$lang->cmd_setup}</h3>
+
+<div class="adminLeftContent">
+    <form action="./" method="get" onsubmit="return procFilter(this, update_env_config);">
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->env_setup}</caption>
+    <tr>
+        <th><div>{$lang->use_rewrite}</div></th>
+        <td>
+            <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_rewrite}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th><div>{$lang->use_optimizer}</div></th>
+        <td>
+            <input type="checkbox" name="use_optimizer" value="Y"  <!--@if($use_optimizer!='N')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_optimizer}</p>
+        </td>
+    </tr>
+    <tr>
+        <th><div>Language Selection</div></th>
+        <td>
+            <select name="lang_type">
+                <!--@foreach($lang_supported as $key => $val)-->
+                    <option value="{$key}" <!--@if($key==$selected_lang)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@endforeach-->
+            </select>
+            <p>{$lang->about_lang_env}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th><div>{$lang->time_zone}</div></th>
+        <td>
+            <select name="time_zone" class="fixWidth">
+                <!--@foreach($time_zone_list as $key => $val)-->
+                <option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@endforeach-->
+            </select>
+            <p>{$lang->about_time_zone}</p>
+        </td>
+    </tr>
+    <tr>
+        <th><div>{$lang->qmail_compatibility}</div></th>
+        <td>
+            <input type="checkbox" name="qmail_compatibility" value="Y"  <!--@if($qmail_compatibility=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_qmail_compatibility}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+        </td>
+    </tr>
+    </table>
+    </form>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->ftp_form_title}</caption>
+    <tr>
+        <td colspan="3">
+            <p>{$lang->about_ftp_info}</p>
+        </td>
+    </tr>
+    <tr>
+        <th><div><label for="textfield21">{$lang->user_id}</label></div></th>
+        <th><div><label for="textfield22">{$lang->password}</label></div></th>
+        <th><div><label for="textfield24">{$lang->ftp_port}</label></div></th>
+    </tr>
+    <tr>
+        <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" /></td>
+        <td><input id="textfield22" type="password" name="ftp_password" value="{$ftp_info->ftp_password}" class="inputTypeText" /></td>
+        <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <td colspan="3" class="right">
+            <span class="button"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </td>
+    </tr>
+    </table>
+    </form>
+
+</div>
+
+<div class="adminRightExtra">
+    <form action="./" method="get" onsubmit="return procFilter(this, update_lang_select);">
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->cmd_lang_select}</caption>
+    <tr>
+        <td>
+            <!--@foreach($lang_supported as $key => $val)-->
+            <div><input id="lang_{$key}" type="checkbox" name="selected_lang" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked"<!--@end--> <!--@if($key==$selected_lang)-->disabled="disabled"<!--@end--> /> <label for="lang_{$key}">{$val}</label></div>
+            <!--@endforeach-->
+            <p>{$lang->about_cmd_lang_select}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <td class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+        </td>
+    </tr>
+    </table>
+    </form>
+
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->cmd_remake_cache}</caption>
+    <tr>
+        <td>
+            <p>{$lang->about_recompile_cache}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <td class="right">
+            <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
+        </td>
+    </tr>
+    </table>
+
+</div>

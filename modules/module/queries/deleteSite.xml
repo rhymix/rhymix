@@ -1,0 +1,8 @@
+<query id="deleteSite" action="delete">
+    <tables>
+        <table name="sites" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

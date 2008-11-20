@@ -1,0 +1,23 @@
+<query id="getHomepageList" action="select">
+    <tables>
+        <table name="homepages" />
+        <table name="sites" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="homepages.site_srl" alias="site_srl" />
+        <column name="homepages.title" alias="homepage_title" />
+        <column name="sites.domain" alias="domain" />
+        <column name="modules.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="sites.site_srl" default="homepages.site_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="modules.module_srl" default="sites.index_module_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="homepages.list_order" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -79,6 +79,21 @@
         }
 
         /**
+         * @brief 사이트별 회원 목록을 구함
+         **/
+        function getSiteMemberList($site_srl, $page = 1) {
+            $args->site_srl = $site_srl;
+            $args->page = $page;
+            $args->list_count = 40;
+            $args->page_count = 10;
+            $query_id = 'member.getSiteMemberList';
+            $output = executeQueryArray($query_id, $args);
+            if(!$output->data) return array();
+
+            return $output;
+        }
+
+        /**
          * @brief 회원 모듈의 특정 스킨에 속한 컬러셋 목록을 return
          **/
         function getMemberAdminColorset() {

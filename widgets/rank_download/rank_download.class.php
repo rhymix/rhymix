@@ -42,7 +42,7 @@
             // 다운로드 횟수 1이상만 검색
             $obj->s_download_count = 1;
 
-            $output = executeQuery('widgets.rank_download.getFileList', $obj);
+            $output = executeQueryArray('widgets.rank_download.getFileList', $obj);
 
             // 오류가 생기면 그냥 무시
             if(!$output->toBool()) ;

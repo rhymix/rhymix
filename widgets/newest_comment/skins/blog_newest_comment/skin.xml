@@ -4,10 +4,12 @@
     <title xml:lang="jp">ブログスタイルの最新コメントリスト</title>
     <title xml:lang="zh-CN">博客式最新评论列表</title>
     <title xml:lang="en">Newest Comments List of Blog Style</title>
+    <title xml:lang="zh-TW">部落格式最新評論列表</title>
     <description xml:lang="ko">블로그 스타일로 최신 댓글을 출력합니다.</description>
     <description xml:lang="jp">ブログスタイルで最新のコメントを表示します。</description>
     <description xml:lang="zh-CN">显示为博客式的最新评论。</description>
     <description xml:lang="en">It displays newest comments with blog style.</description>
+    <description xml:lang="zh-TW">部落格式最新評論。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>
@@ -17,6 +19,7 @@
         <name xml:lang="jp">Zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <colorset>
@@ -25,36 +28,42 @@
             <title xml:lang="jp">レイアウトに合わせる</title>
             <title xml:lang="zh-CN">随布局</title>
             <title xml:lang="en">레이아웃에 맞춤</title>
+            <title xml:lang="zh-TW">隨版面</title>
         </color>
         <color name="normal">
             <title xml:lang="ko">기본 컬러</title>
             <title xml:lang="jp">デフォルトカラー</title>
             <title xml:lang="zh-CN">默认颜色</title>
             <title xml:lang="en">Default color</title>
+            <title xml:lang="zh-TW">預設顏色</title>
         </color>
         <color name="cyan">
             <title xml:lang="ko">청록색</title>
             <title xml:lang="jp">青緑</title>
             <title xml:lang="zh-CN">青绿色</title>
             <title xml:lang="en">Cyan</title>
+            <title xml:lang="zh-TW">青綠色</title>
         </color>
         <color name="green">
             <title xml:lang="ko">초록색</title>
             <title xml:lang="jp">緑</title>
             <title xml:lang="zh-CN">绿色</title>
             <title xml:lang="en">Green</title>
+            <title xml:lang="zh-TW">綠色</title>
         </color>
         <color name="red">
             <title xml:lang="ko">빨간색</title>
             <title xml:lang="jp">赤</title>
             <title xml:lang="zh-CN">红色</title>
             <title xml:lang="en">Red</title>
+            <title xml:lang="zh-TW">紅色</title>
         </color>
         <color name="purple">
             <title xml:lang="ko">보라색</title>
             <title xml:lang="jp">紫</title>
             <title xml:lang="zh-CN">紫色</title>
             <title xml:lang="en">Purple</title>
+            <title xml:lang="zh-TW">紫色</title>
         </color>
     </colorset>
 </skin>

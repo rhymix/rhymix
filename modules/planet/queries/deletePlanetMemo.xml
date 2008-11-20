@@ -1,0 +1,8 @@
+<query id="deletePlanetMemo" action="delete">
+    <tables>
+        <table name="planet_memo" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="planet_memo_srl" var="planet_memo_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

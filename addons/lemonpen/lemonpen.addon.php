@@ -22,7 +22,7 @@
         return;
     }
 
-    // 제로보드XE의 문서와 permant link를 레몬펜의 규약에 맞춰서 출력
+    // XE의 문서와 permant link를 레몬펜의 규약에 맞춰서 출력
     if($GLOBALS['__lemonpen_is_called__'] && $called_position == 'before_display_content') {
         // 글 본문을 링크
         $output = preg_replace('/<div class="document_([0-9]+)_([0-9]+) xe_content">/is','<div class="document_$1_$2 xe_content hentry"><a href="'.getUrl('','document_srl',"$1").'" rel="bookmark" style="display:none;">'.getUrl('','document_srl',"$1").'</a>', $output);

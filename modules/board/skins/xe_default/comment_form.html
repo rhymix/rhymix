@@ -1,0 +1,78 @@
+<!--#include("_header.html")-->
+
+<!--@if($oSourceComment->isExists())-->
+<div class="feedbackList">
+    <div class="item">
+        <h4 class="header"><a href="#popup_menu_area" class="member_{$oSourceComment->getMemberSrl()}" onclick="return false">{$oSourceComment->getNickName()}</a></h4>
+        <dl class="time">
+			<dt>Time :</dt>
+            <dd>{$oSourceComment->getRegdate("Y.m.d H:i")}</dd>
+            <!--@if($grant->is_admin)-->
+			<dd>({$oSourceComment->get('ipaddress')})</dd>
+            <!--@end-->
+        </dl>
+
+		{$oSourceComment->getContent(false)}
+		
+    </div>
+</div>
+<!--@end-->
+
+<!--%import("filter/insert_comment.xml")-->
+<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+<input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
+<input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
+
+<div class="boardWrite commentEditor">
+	
+    <div class="editor">{$oComment->getEditor()}</div>
+	
+	<dl class="editorOption">
+		<dt>옵션 : </dt>
+		<!--@if($is_logged)-->
+		<dd>
+			<input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" class="inputCheck" />
+			<label for="notify_message">{$lang->notify}</label>
+		</dd>
+		<!--@end-->
+		<dd>
+			<input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" class="inputCheck" />
+			<label for="is_secret">{$lang->secret}</label>
+		</dd>
+	</dl>
+
+	<!--@if(!$is_logged)-->
+    <div class="userNameAndPw">
+		<dl>
+			<dt><label for="userName">{$lang->writer}</label> :</dt>
+			<dd class="userName"><input type="text" name="nick_name" value="" class="inputText" id="userName"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="userPw">{$lang->password}</label> :</dt>
+			<dd class="userPw"><input type="password" name="password" value="" id="userPw" class="inputText" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="emailAddress">{$lang->email_address}</label> :</dt>
+			<dd class="emailAddress"><input type="text" name="email_address" value="" id="emailAddress" class="inputText"/></dd>
+		</dl>
+		<dl>
+			<dt><label for="homePage">{$lang->homepage}</label> :</dt>
+			<dd class="homePage"><input type="text" name="homepage" value="" id="homePage" class="inputText"/></dd>
+		</dl>
+	</div>
+	<!--@end-->
+
+	
+	<div class="boardNavigation">
+		<span class="button strong red"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+	</div>
+	
+</div>
+
+
+</form>
+
+<!--#include("_footer.html")-->

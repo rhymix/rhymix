@@ -17,7 +17,7 @@
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
 
         /**
          * @brief firebird에서 사용될 column type
@@ -70,13 +70,13 @@
          **/
         function _connect() {
             // db 정보가 없으면 무시
-            if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+            if(!$this->hostname || !$this->port || !$this->userid || !$this->password || !$this->database) return;
 
             //if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
 
             // 접속시도
 
-            $host = $this->hostname.":".$this->database;
+            $host = $this->hostname."/".$this->port.":".$this->database;
 
             $this->fd = @ibase_connect($host, $this->userid, $this->password);
             if(ibase_errmsg()) {
@@ -102,7 +102,7 @@
             }
 
             if($ver < "2.0") {
-                $this->setError(-1, "Zeroboard XE cannot be installed under the version of firebird 2.0. Current firebird version is ".$ver);
+                $this->setError(-1, "XE cannot be installed under the version of firebird 2.0. Current firebird version is ".$ver);
                 return;
             }
 
@@ -419,6 +419,15 @@
         }
 
         /**
+         * @brief 특정 테이블의 특정 인덱스 삭제
+         **/
+        function dropIndex($table_name, $index_name, $is_unique = false) {
+            $query = sprintf('DROP INDEX "%s" ON "%s%s"', $index_name, $this->prefix, $table_name);
+            $this->_query($query);
+        }
+
+
+        /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
@@ -567,7 +576,7 @@
                 // Firebird에서 auto increment는 generator를 만들어 insert 발생시 트리거를 실행시켜
                 // generator의 값을 증가시키고 그값을 테이블에 넣어주는 방식을 사용함.
                 // 아래 트리거가 auto increment 역할을 하지만 쿼리로 트리거 등록이 되지 않아 주석처리 하였음.
-                // php 함수에서 generator 값을 증가시켜 주는 함수가 있어 제로보드에서는 굳이
+                // php 함수에서 generator 값을 증가시켜 주는 함수가 있어 XE에서는 굳이
                 // auto increment를 사용 할 필요가 없어보임.
                 /*
                 $schema = 'SET TERM ^ ; ';
@@ -589,10 +598,12 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
-            foreach($output->conditions as $key => $val) {
+            foreach($output->conditions as $val) {
                 $sub_condition = '';
-                foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] === '') continue;
+                foreach($val['condition'] as $v) {
+                    if(!isset($v['value'])) continue;
+                    if($v['value'] === '') continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];

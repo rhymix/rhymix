@@ -85,8 +85,10 @@
                     $args->document_srls = implode(',', $document_srl_list);
                     $document_output = executeQueryArray('document.getDocuments', $args);
 
-                    foreach($document_output->data as $document) {
-                        $document_list[$document->document_srl] = $document;
+                    if($document_output->data) {
+                        foreach($document_output->data as $document) {
+                            $document_list[$document->document_srl] = $document;
+                        }
                     }
                 }
 

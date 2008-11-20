@@ -166,6 +166,7 @@
             // 검색과 정렬을 위한 변수 설정
             $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
             $args->search_keyword = Context::get('search_keyword'); ///< 검색어
+
             if($this->module_info->use_category=='Y') $args->category_srl = Context::get('category'); ///< 카테고리 사용시 선택된 카테고리
 
             $args->sort_index = Context::get('sort_index');
@@ -280,11 +281,6 @@
             $oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
             $oDocument->setDocument($document_srl);
 
-            if(!$oDocument->isExists()) {
-                $document_srl = getNextSequence();
-                Context::set('document_srl',$document_srl);
-            }
-
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
 
@@ -372,7 +368,7 @@
 
             // 댓글이 없다면 오류
             if(!$oSourceComment->isExists()) return $this->dispBoardMessage('msg_invalid_request');
-            if(Context::get('document_srl') && $oSourceComment->get('document_srl') != Context::get('document_srl')) return $this->dispBoardMessage('meg_invalid_request');
+            if(Context::get('document_srl') && $oSourceComment->get('document_srl') != Context::get('document_srl')) return $this->dispBoardMessage('msg_invalid_request');
 
             // 대상 댓글을 생성
             $oComment = $oCommentModel->getComment();

@@ -4,24 +4,19 @@
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <caption>{$lang->comment}</caption>
     <tr>    
-        <th rowspan="2">{$lang->comment_count}</th>
-        <td>
+        <th><div>{$lang->comment_count}</div></th>
+        <td class="wide">
             <input type="text" name="comment_count" value="{$comment_config->comment_count}" class="inputTypeText w80" />
+            <p>{$lang->about_comment_count}</p>
         </td>
     </tr>
-    <tr>
-        <td>{$lang->about_comment_count}</td>
-    <tr>
-        <th class="button" colspan="2">
+    <tr class="row2">
+        <td class="right" colspan="2">
             <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </th>
+        </td>
     </tr>
     </table>
 
 </form>
-
-<div class="gap1"></div>

@@ -78,8 +78,6 @@
          **/
         function procFileAdminInsertConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('file');
             $config->allowed_filesize = Context::get('allowed_filesize');
             $config->allowed_attach_size = Context::get('allowed_attach_size');
             $config->allowed_filetypes = Context::get('allowed_filetypes');
@@ -103,26 +101,18 @@
 
             $download_grant = trim(Context::get('download_grant'));
 
-            // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('file');
+            $file_config->allowed_filesize = Context::get('allowed_filesize');
+            $file_config->allowed_attach_size = Context::get('allowed_attach_size');
+            $file_config->allowed_filetypes = Context::get('allowed_filetypes');
+            if($download_grant) $file_config->download_grant = explode('|@|',$download_grant);
+            else $file_config->download_grant = array();
 
-            $module_file_config->module_srl = $module_srl;
-            $module_file_config->allowed_filesize = Context::get('allowed_filesize');
-            $module_file_config->allowed_attach_size = Context::get('allowed_attach_size');
-            $module_file_config->allowed_filetypes = Context::get('allowed_filetypes');
-            if($download_grant) $module_file_config->download_grant = explode('|@|',$download_grant);
-            else $module_file_config->download_grant = array();
-
+            $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;
-                $config->module_config[$srl] = $module_file_config;
+                $oModuleController->insertModulePartConfig('file',$srl,$file_config);
             }
-
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('file',$config);
 
             $this->setError(-1);
             $this->setMessage('success_updated');

@@ -19,7 +19,7 @@
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
         var $port = 33000; ///< db server port 
-        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
         var $cutlen = 12000; ///< 큐브리드의 최대 상수 크기(스트링이 이보다 크면 '...'+'...' 방식을 사용해야 한다
 
         /**
@@ -249,6 +249,15 @@
         }
 
         /**
+         * @brief 특정 테이블의 특정 인덱스 삭제
+         **/
+        function dropIndex($table_name, $index_name, $is_unique = false) {
+            $query = sprintf("drop %s index %s on %s%s", $is_unique?'unique':'', $index_name, $this->prefix, $table_name);
+            $this->_query($query);
+        }
+
+
+        /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
@@ -377,11 +386,13 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
-            $condition = "";
-            foreach($output->conditions as $key => $val) {
+            $condition = '';
+            foreach($output->conditions as $val) {
                 $sub_condition = '';
-                foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] === '') continue;
+                foreach($val['condition'] as $v) {
+                    if(!isset($v['value'])) continue;
+                    if($v['value'] === '') continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];

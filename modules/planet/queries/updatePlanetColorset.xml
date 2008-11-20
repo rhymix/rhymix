@@ -1,0 +1,12 @@
+<query id="updatePlanetColorset" action="update">
+    <tables>
+        <table name="planet" />
+    </tables>
+    <columns>
+        <column name="colorset" var="colorset" notnull="notnull" minlength="1" maxlength="250" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull"/>
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

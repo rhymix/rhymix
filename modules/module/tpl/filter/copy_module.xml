@@ -1,6 +1,16 @@
 <filter name="copy_module" module="module" act="procModuleAdminCopyModule">
     <form>
         <node target="module_srl" required="true" />
+        <node target="mid_1" filter="alpha_number" />
+        <node target="mid_2" filter="alpha_number" />
+        <node target="mid_3" filter="alpha_number" />
+        <node target="mid_4" filter="alpha_number" />
+        <node target="mid_5" filter="alpha_number" />
+        <node target="mid_6" filter="alpha_number" />
+        <node target="mid_7" filter="alpha_number" />
+        <node target="mid_8" filter="alpha_number" />
+        <node target="mid_9" filter="alpha_number" />
+        <node target="mid_10" filter="alpha_number" />
     </form>
     <response callback_func="completeCopyModule">
         <tag name="error" />

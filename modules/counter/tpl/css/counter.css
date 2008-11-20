@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+.adminTable.counter th { font-size:.9em; text-align:center; padding:0;}
+.adminTable.counter th em { font:normal 1em Tahoma;}
+.adminTable td .graph { width:90%; position:relative;}
+.adminTable td .graph .bar { width:100%; position:absolute; margin-top:4px;}
+.adminTable td .graph .num { position:relative; background:#ffffff; color:#636363; font:.9em Tahoma; padding-left:10px; white-space:nowrap;}
+#str_selected_date { font-size:9pt; font-family:tahoma; }
+#trigger_calendar { vertical-align:middle; }

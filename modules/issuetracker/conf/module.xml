@@ -3,24 +3,45 @@
     <grants>
         <grant name="access" default="guest">
             <title xml:lang="ko">프로젝트 접근</title>
+            <title xml:lang="zh-CN">访问项目</title>
+            <title xml:lang="zh-TW">專案</title>
+            <title xml:lang="jp">プロジェクトへアクセス</title>
         </grant>
         <grant name="browser_source" default="guest">
             <title xml:lang="ko">소스 열람</title>
+            <title xml:lang="zh-CN">查看代码</title>
+            <title xml:lang="zh-TW">檢視原始碼</title>
+            <title xml:lang="jp">ソース閲覧</title>
         </grant>
         <grant name="ticket_view" default="guest">
             <title xml:lang="ko">티켓 열람</title>
+            <title xml:lang="zh-CN">查看计划</title>
+            <title xml:lang="zh-TW">檢視專案</title>
+            <title xml:lang="jp">チケット閲覧</title>
         </grant>
         <grant name="ticket_write" default="guest">
             <title xml:lang="ko">티켓 생성</title>
+            <title xml:lang="zh-CN">生成计划</title>
+            <title xml:lang="zh-TW">建立專案</title>
+            <title xml:lang="jp">チケット発行</title>
         </grant>
         <grant name="commiter" default="member">
             <title xml:lang="ko">개발자</title>
+            <title xml:lang="zh-CN">开发者</title>
+            <title xml:lang="zh-TW">開發</title>
+            <title xml:lang="jp">開発者</title>
         </grant>
         <grant name="download" default="guest">
             <title xml:lang="ko">다운로드</title>
+            <title xml:lang="zh-CN">下载</title>
+            <title xml:lang="zh-TW">下載</title>
+            <title xml:lang="jp">ダウンロード</title>
         </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">프로젝트 관리</title>
+            <title xml:lang="zh-CN">项目管理</title>
+            <title xml:lang="zh-TW">專案管理</title>
+            <title xml:lang="jp">プロジェクト管理</title>
         </grant>
     </grants>
     <actions>
@@ -32,6 +53,7 @@
         <action name="dispIssuetrackerDeleteTrackback" type="view" standalone="true"/>
         <action name="dispIssuetrackerMilestone" type="view" standalone="true" />
         <action name="dispIssuetrackerDownload" type="view" standalone="true" />
+        <actino name="dispIssuetrackerTimeline" type="view" standalone="true" />
 
         <action name="procIssuetrackerInsertIssue" type="controller" standalone="true" />
         <action name="procIssuetrackerDeleteIssue" type="controller" standalone="true" />

@@ -28,6 +28,18 @@
         }
 
         /**
+         * @brief action forward 삭제
+         **/
+        function deleteActionForward($module, $type, $act) {
+            $args->module = $module;
+            $args->type = $type;
+            $args->act = $act;
+
+            $output = executeQuery('module.deleteActionFoward', $args);
+            return $output;
+        }
+
+        /**
          * @brief module trigger 추가
          * module trigger는 trigger 대상이 등록된 대상을 호출하는 방법이다.
          *
@@ -47,36 +59,88 @@
             return $output;
         }
 
+        /**
+         * @brief module trigger 삭제
+         *
+         **/
+        function deleteTrigger($trigger_name, $module, $type, $called_method, $called_position) {
+            $args->trigger_name = $trigger_name;
+            $args->module = $module;
+            $args->type = $type;
+            $args->called_method = $called_method;
+            $args->called_position = $called_position;
+
+            $output = executeQuery('module.deleteTrigger', $args);
+
+            // 트리거 캐시 삭제
+            FileHandler::removeFilesInDir('./files/cache/triggers');
+
+            return $output;
+        }
 
         /**
-         * @brief 모듈의 기본 정보 입력
-         * 모듈의 정보를 입력받은 데이터를 serialize하여 등록한다.
+         * @brief 특정 모듈의 설정 입력
+         * board, member등 특정 모듈의 global config 관리용
          **/
         function insertModuleConfig($module, $config) {
-            // 변수 정리
             $args->module = $module;
             $args->config = serialize($config);
 
-            // 일단 삭제 (캐쉬 파일도 지운다)
             $output = executeQuery('module.deleteModuleConfig', $args);
             if(!$output->toBool()) return $output;
 
-            FileHandler::removeFile( sprintf('./files/cache/module_info/%s.config.php',$module) );
-
-            // 변수 정리후 query 실행
             $output = executeQuery('module.insertModuleConfig', $args);
             return $output;
+        }
+
+        /**
+         * @brief 특정 mid의 모듈 설정 정보 저장
+         * mid의 모듈 의존적인 설정을 관리
+         **/
+        function insertModulePartConfig($module, $module_srl, $config) {
+            $args->module = $module;
+            $args->module_srl = $module_srl;
+            $args->config = serialize($config);
+
+            $output = executeQuery('module.deleteModulePartConfig', $args);
+            if(!$output->toBool()) return $output;
+
+            $output = executeQuery('module.insertModulePartConfig', $args);
+            return $output;
+        }
+
+        /**
+         * @brief virtual site 생성
+         **/
+        function insertSite($domain, $index_module_srl) {
+            $args->site_srl = getNextSequence();
+            $args->domain = preg_replace('/\/$/','',$domain);
+            $args->index_module_srl = $index_module_srl;
+            $output = executeQuery('module.insertSite', $args);
+            if(!$output->toBool()) return null;
+
+            return $args->site_srl;
+        }
+
+        /**
+         * @brief virtual site 수정
+         **/
+        function updateSite($args) {
+            return executeQuery('module.updateSite', $args);
         }
 
         /**
          * @brief 모듈 입력
          **/
         function insertModule($args) {
+            if(!ereg("^[a-zA-Z][a-zA-Z0-9_]+", $args->mid)) return new Object(-1, 'msg_limit_mid');
+
             // begin transaction
             $oDB = &DB::getInstance();
             $oDB->begin();
 
             // 이미 존재하는 모듈 이름인지 체크
+            if(!$args->site_srl) $args->site_srl = 0;
             $output = executeQuery('module.isExistsModuleName', $args);
             if(!$output->toBool() || $output->data->count) {
                 $oDB->rollback();
@@ -115,7 +179,12 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // 이미 존재하는 모듈 이름인지 체크
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+
+            if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
+            if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
+
             $output = executeQuery('module.isExistsModuleName', $args);
             if(!$output->toBool() || $output->data->count) {
                 $oDB->rollback();
@@ -231,6 +300,37 @@
             $args->menu_srls = implode(',',$menu_srl_list);
             $output = executeQuery('module.updateModuleLayout', $args);
             return $output;
+        }
+
+        /**
+         * @brief 사이트의 관리를 변경
+         **/
+        function insertSiteAdmin($site_srl, $arr_admins) {
+            // 사이트 관리자 제거
+            $args->site_srl = $site_srl;
+            $output = executeQuery('module.deleteSiteAdmin', $args);
+            if(!$output->toBool()) return $output;
+
+            // 관리자 대상 멤버 번호를 구함
+            if(!is_array($arr_admins) || !count($arr_admins)) return new Object();
+            foreach($arr_admins as $key => $user_id) {
+                if(!trim($user_id)) continue;
+                $admins[] = trim($user_id);
+            }
+            if(!count($admins)) return new Object();
+
+            $args->user_ids = '\''.implode('\',\'',$admins).'\'';
+            $output = executeQueryArray('module.getAdminSrls', $args);
+            if(!$output->toBool()||!$output->data) return $output;
+
+            foreach($output->data as $key => $val) {
+                unset($args);
+                $args->site_srl = $site_srl;
+                $args->member_srl = $val->member_srl;
+                $output = executeQueryArray('module.insertSiteAdmin', $args);
+                if(!$output->toBool()) return $output;
+            }
+            return new Object();
         }
     }
 ?>

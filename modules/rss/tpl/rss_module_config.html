@@ -4,26 +4,21 @@
 <input type="hidden" name="target_module_srl" value="{$rss_config->module_srl?$rss_config->module_srl:$module_srls}" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
-    <col width="100" />
     <caption>{$lang->open_rss}</caption>    
     <tr>
-        <th scope="row">{$lang->open_rss}</th>
-        <td>
-            <select name="open_rss" class="w200">
+        <th scope="row"><div>{$lang->open_rss}</div></th>
+        <td class="wide">
+            <select name="open_rss" class="w400">
                 <!--@foreach($lang->open_rss_types as $key=>$val)-->
-                <option value="{$key}" <!--@if($rss_config->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
+                <option value="{$key}" <!--@if(!$rss_config->open_rss && $key=='N')-->selected="selected"<!--@elseif($rss_config->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@end-->
             </select>
             <p>{$lang->about_open_rss}</p>
         </td>
-        <th class="centerButton">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </th>
+    </tr>
+    <tr class="row2">
+        <td class="right" colspan="2"><span class="button"><input type="submit" value="{$lang->cmd_save}"/></span></td>
     </tr>
     </table>
 
 </form>
-
-    <div class="gap1"></div>

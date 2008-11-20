@@ -1,0 +1,27 @@
+<filter name="insert_config" module="planet" act="procPlanetAdminInsertConfig" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="mid" required="true" filter="alpha_number" />
+        <node target="browser_title" required="true" />
+        <node target="create_message" required="true" />
+    </form>
+    <parameter>
+        <param name="planet_mid" target="mid" />
+        <param name="browser_title" target="browser_title" />
+        <param name="create_message" target="create_message" />
+        <param name="is_default" target="is_default" />
+        <param name="use_signup" target="use_signup" />
+        <param name="planet_default_skin" target="planet_default_skin" />
+        <param name="access" target="access" />
+        <param name="create" target="create" />
+        <param name="manager" target="manager" />
+        <param name="write_document" target="write_document" />
+        <param name="planet_tagtab" target="planet_tagtab" />
+        <param name="planet_smstag" target="planet_smstag" />
+        <param name="use_mobile" target="use_mobile" />
+        <param name="use_me2day" target="use_me2day" />
+    </parameter>
+    <response callback_func="completeInsertConfig">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

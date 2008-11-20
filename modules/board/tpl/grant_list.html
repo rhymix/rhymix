@@ -6,39 +6,33 @@
 <input type="hidden" name="module_srl" value="{$module_srl?$module_srl:$module_srls}" />
 
 <table cellspacing="0" class="adminTable">
-<col width="150" />
-<col width="*" />
-<col width="120" />
-<col width="120" />
 <caption>{$lang->about_grant}</caption>
 <thead>
 <tr>
-    <th scope="col">{$lang->grant}</th>
-    <th scope="col" colspan="3">{$lang->target}</th>
+    <th scope="col"><div>{$lang->grant}</div></th>
+    <th scope="col" colspan="3"><div>{$lang->target}</div></th>
 </tr>
 </thead>
 
 <tbody>
     <!--@foreach($grant_list as $key => $val)-->
-    <tr>
-        <th scope="row">{$val->title}</th>
-        <td class="left">
+    <tr class="row{$cycle_idx}">
+        <th scope="row"><div>{$val->title}</div></th>
+        <td class="wide">
             <!--@foreach($group_list as $k => $v)-->
-            <div>
-                <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
-                <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
-            </div>
+            <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
+            <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
             <!--@end-->
         </td>
-        <td><a href="#" onclick="doSelectAll(this, '{$key}');return false;" class="blue">{$lang->cmd_select_all}</a></td>
-        <td><a href="#" onclick="doUnSelectAll(this, '{$key}');return false;" class="red">{$lang->cmd_unselect_all}</a></td>
+        <td class="selectAll center"><a href="#" onclick="doSelectAll(this, '{$key}');return false;">{$lang->cmd_select_all}</a></td>
+        <td class="deSelectAll center"><a href="#" onclick="doUnSelectAll(this, '{$key}');return false;">{$lang->cmd_unselect_all}</a></td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row" colspan="4" class="button">
+        <td colspan="4" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
             <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
-        </th>
+        </td>
     </tr>
 </tbody>
 </table>

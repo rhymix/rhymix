@@ -1,46 +1,36 @@
 <!--%import("filter/insert_point_module_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point">
-    <input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
+<input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
 
-    <table cellspacing="0" class="adminTable">
-    <col width="200" />
-    <col />
-    <caption>{$lang->point}</caption>
-    <tr>
-        <th>{$lang->point_insert_document}</th>
-        <td><input type="text" name="insert_document" value="{$module_config['insert_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th>{$lang->point_insert_comment}</th>
-        <td><input type="text" name="insert_comment" value="{$module_config['insert_comment']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th>{$lang->point_upload_file}</th>
-        <td><input type="text" name="upload_file" value="{$module_config['upload_file']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th>{$lang->point_download_file}</th>
-        <td><input type="text" name="download_file" value="{$module_config['download_file']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th>{$lang->point_read_document}</th>
-        <td><input type="text" name="read_document" value="{$module_config['read_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th>{$lang->point_voted}</th>
-        <td><input type="text" name="voted" value="{$module_config['voted']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th>{$lang->point_blamed}</th>
-        <td><input type="text" name="blamed" value="{$module_config['blamed']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
-    </tr>
-    <tr>
-        <th colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_save}" /></span></th>
-    </tr>
-    </table>
+<table cellspacing="0" class="adminTable">
+<caption>{$lang->point}</caption>
+<tr>
+    <th><div>{$lang->point_insert_document}</div></th>
+    <td class="wide"><input type="text" name="insert_document" value="{$module_config['insert_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+</tr>
+<tr>
+    <th><div>{$lang->point_insert_comment}</div></th>
+    <td><input type="text" name="insert_comment" value="{$module_config['insert_comment']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+</tr>
+<tr>
+    <th><div>{$lang->point_upload_file}</div></th>
+    <td><input type="text" name="upload_file" value="{$module_config['upload_file']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+</tr>
+<tr>
+    <th><div>{$lang->point_download_file}</div></th>
+    <td><input type="text" name="download_file" value="{$module_config['download_file']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+</tr>
+<tr>
+    <th><div>{$lang->point_read_document}</div></th>
+    <td><input type="text" name="read_document" value="{$module_config['read_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
+</tr>
+<tr>
+    <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_save}" /></span></td>
+</tr>
+</table>
 
-    <!-- 버튼 -->
+<!-- 버튼 -->
 
 </form>
-    <div class="gap1"></div>
+<div class="gap1"></div>

@@ -63,6 +63,7 @@
     $lang->cmd_layout_setup = 'Configurer la Mise en page';
     $lang->cmd_layout_edit = 'Editer la Mise en page';
     $lang->cmd_search_by_ipaddress = 'Recherce par l\'Address IP';
+    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 
     $lang->enable = 'Valide';
     $lang->disable = 'Invalide';
@@ -170,6 +171,30 @@
     $lang->unit_month = 'mois';
     $lang->unit_year = 'année';;
 
+    $lang->unit_week = array(
+        'Monday' => 'Lundi',
+        'Tuesday' => 'Mardi',
+        'Wednesday' => 'Mer.',
+        'Thursday' => 'Jeu.',
+        'Friday' => 'Vendredi',
+        'Saturday' => 'Samedi',
+        'Sunday' => 'Dimanche',
+    );
+
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
+    $lang->time_gap = array(
+        'min' => '%d heure',
+        'mins' => 'Il ya %d minutes',
+        'hour' => 'Il ya %d jour',
+        'hours' => 'Il ya %d jours',
+    );
+
     // Descriptions et information
     $lang->about_tag = 'Vous pouvez enrégistrer plusieurs balises en utilisant ,(virgule) entre chaque balise';
     $lang->about_layout = 'Le Mise en Page décore l\'apparence des modules. Vous pouvez les configurer avec le menu de Mise en Page en haut';
@@ -177,6 +202,7 @@
     // Messages et alertes
     $lang->msg_call_server = 'En demandant sur le serveur, attendez S.V.P.';
     $lang->msg_db_not_setted = 'La configuration de Base de Données n\'a pas été établie.';
+    $lang->msg_dbconnect_failed = "Erreur a lieu en essayant connecter à la Base de Données.\nVérifiez encore une fois les informations sur la Base de Données, S.V.P.";
     $lang->msg_invalid_queryid = 'La valeur spécifiée d\'identite de query est invalide.';
     $lang->msg_not_permitted = 'Vous n\'avez pas le droit d\'accès.';
     $lang->msg_input_password = 'Veuillez entrer votre mot de passe.';
@@ -247,7 +273,6 @@
         2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
         이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
         그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
-        <strong>FTP 정보 노출을 원하지 않으시면 입력하지 않으셔도 됩니다</strong>
     ";
 
     $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";

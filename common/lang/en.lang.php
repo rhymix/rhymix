@@ -63,6 +63,7 @@
     $lang->cmd_layout_setup = 'Configure layout';
     $lang->cmd_layout_edit = 'Edit layout';
     $lang->cmd_search_by_ipaddress = 'Search by IP Address';
+    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 
     $lang->enable = 'Enable';
     $lang->disable = 'Disable';
@@ -170,6 +171,30 @@
     $lang->unit_month = 'month';
     $lang->unit_year = 'year';
 
+    $lang->unit_week = array(
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    );
+
+    $lang->unit_meridiem = array(
+        'am' => 'am',
+        'pm' => 'pm',
+        'AM' => 'AM',
+        'PM' => 'PM',
+    );
+
+    $lang->time_gap = array(
+        'min' => '%d minute ago',
+        'mins' => '%d minutes ago',
+        'hour' => '%d hour ago',
+        'hours' => '%d hours ago',
+    );
+
     // Descriptions
     $lang->about_tag = 'You may submit multiple tags by inserting commas(,) between each tag';
     $lang->about_layout = 'Layouts decorate the appearance of your modules. you can configure them from Layout menu on the top';
@@ -177,6 +202,7 @@
     // Messages
     $lang->msg_call_server = 'Requesting to the server, please wait';
     $lang->msg_db_not_setted = 'DB configuration has not been set';
+    $lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
     $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
     $lang->msg_not_permitted = 'You do not have permission to access';
     $lang->msg_input_password = 'Please input the password';
@@ -237,25 +263,24 @@
     $lang->is_required = 'Required Field';
 
     // ftp 관련
-    $lang->ftp_form_title = 'FTP 정보 입력';
+    $lang->ftp_form_title = 'Input FTP account information';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
-    $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
+    $lang->cmd_check_ftp_connect = 'Check connection via FTP';
     $lang->about_ftp_info = "
-        FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
-        1. PHP의 safe_mode=On일 경우에 FTP 정보를 이용해서 XE를 정상적으로 동작할 수 있게 합니다.<br/>
-        2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
-        이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
-        그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
-        <strong>FTP 정보 노출을 원하지 않으시면 입력하지 않으셔도 됩니다</strong>
+        FTP account information can be used in following cases. <br />
+        1. If safe_mode setting of PHP is on, XE will be installed using FTP.  <br />
+        2. Automatic updates might use FTP information. <br />
+           This account info will be stored in files/config/ftp.config.php <br />
+           After installation, you can modify or delete the account info at the administration page. <br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";
-    $lang->msg_ftp_not_connected = "localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요";
-    $lang->msg_ftp_invalid_auth_info = "입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요";
-    $lang->msg_ftp_mkdir_fail = "FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_chmod_fail = "FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_connect_success = "FTP 접속 및 인증 성공하였습니다";
+    $lang->msg_safe_mode_ftp_needed = "If safe_mode setting of PHP is on, you should input FTP account information to install XE.";
+    $lang->msg_ftp_not_connected = "Connection to localhost via FTP failed. Please check the port number and if FTP service is available.";
+    $lang->msg_ftp_invalid_auth_info = "Authentication failed. Please check the username and password.";
+    $lang->msg_ftp_mkdir_fail = "Directory creation failed. Please check the permission of FTP account.";
+    $lang->msg_ftp_chmod_fail = "Chmod failed. Please check the permission and configuration of FTP server.";
+    $lang->msg_ftp_connect_success = "Connection and authentication to the FTP server succeeded.";
 
 
     // Alert messages for Javascript using by XML filter

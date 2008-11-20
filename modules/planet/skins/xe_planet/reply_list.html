@@ -1,0 +1,8 @@
+<!--@if($reply_list)-->
+	<!--@foreach($reply_list as $key => $reply)-->
+	<dl>
+	    <dt><a href="{getUrl('','mid',$reply->mid)}">{$reply->nick_name}</a></dt>
+	    <dd>{$reply->content} <span class="time">{getTimeGap($reply->regdate, 'Y/m/d')}</span></dd>
+	</dl>
+	<!--@end-->
+<!--@end-->

@@ -30,6 +30,7 @@
                     Context::set('module_srl','');
                     $this->act = 'list';
                 } else {
+                    ModuleModel::syncModuleToSite($module_info);
                     $this->module_info = $module_info;
                     Context::set('module_info',$module_info);
                 }
@@ -60,7 +61,9 @@
             $args->list_count = 40;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
-            $output = executeQuery('board.getBoardList', $args);
+            $output = executeQueryArray('board.getBoardList', $args);
+            ModuleModel::syncModuleToSite($output->data);
+
 
             // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
@@ -78,29 +81,7 @@
          **/
         function dispBoardAdminBoardInfo() {
 
-            // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
-            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
-                return $this->alertMessage('msg_invalid_request');
-            }
-
-            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($this->module_info->layout_srl) {
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
-                $this->module_info->layout = $layout_info->layout;
-                $this->module_info->layout_title = $layout_info->layout_title;
-            }
-
-            // 정해진 스킨이 있으면 해당 스킨의 정보를 구함
-            if($this->module_info->skin) {
-                $oModuleModel = &getModel('module');
-                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->module_info->skin);
-                $this->module_info->skin_title = $skin_info->title;
-            }
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('board_info');
+            $this->dispBoardAdminInsertBoard();
         }
 
         /**
@@ -179,6 +160,10 @@
 
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+            if(!$skin_info) {
+                $skin = 'xe_board';
+                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+            }
 
             // skin_info에 extra_vars 값을 지정
             if(count($skin_info->extra_vars)) {

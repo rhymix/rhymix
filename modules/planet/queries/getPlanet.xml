@@ -1,0 +1,25 @@
+<query id="getPlanet" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="planet" alias="planet" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="modules.*" />
+        <column name="planet.member_srl" alias="member_srl" />
+        <column name="planet.planet_title" alias="planet_title" />
+        <column name="planet.close_notice" alias="close_notice" />
+        <column name="planet.colorset" alias="colorset" />
+        <column name="member.nick_name" />
+        <column name="member.user_name" />
+        <column name="member.user_id" />
+        <column name="planet.me2day_uid" />
+        <column name="planet.me2day_ukey" />
+        <column name="planet.me2day_autopush" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module_srl" var="module_srl" notnull="notnull" filter="number" />
+        <condition operation="equal" column="modules.module_srl" default="planet.module_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="planet.member_srl" default="member.member_srl" filter="number" pipe="and" />
+    </conditions>
+</query>

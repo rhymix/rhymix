@@ -5,34 +5,32 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="col">{$lang->interval}</th>
-        <td class="left">
+        <th scope="col"><div>{$lang->interval}</div></th>
+        <td>
             <input type="text" name="interval" value="{$config->interval}" class="inputTypeText" /> {$lang->unit_sec}
             <p>{$lang->about_interval}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="col">{$lang->limit_count}</th>
-        <td class="left">
+    <tr class="row2">
+        <th scope="col"><div>{$lang->limit_count}</div></th>
+        <td>
             <input type="text" name="limit_count" value="{$config->limit_count?$config->limit_count:5}" class="inputTypeText" />
             <p>{$lang->about_limit_count}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col">{$lang->check_trackback}</th>
-        <td class="left">
+        <th scope="col"><div>{$lang->check_trackback}</div></th>
+        <td>
             <input type="checkbox" name="check_trackback" value="Y" <!--@if($config->check_trackback=='Y')-->checked="checked"<!--@end--> />
-            {$lang->about_check_trackback}
+            <p>{$lang->about_check_trackback}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>
     </tr>
     </table>
-
-    <!-- 버튼 -->
-    <div class="tRight gap1">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-    </div>
 
 </form>

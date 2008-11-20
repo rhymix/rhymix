@@ -7,26 +7,26 @@
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <caption>{$lang->confirm_delete}</caption>
     <tr>
-        <th scope="row">{$lang->module_name}</th>
-        <td>{$module_info->mid}</td>
+        <th scope="row"><div>{$lang->module_name}</div></th>
+        <td class="wide">{$module_info->mid}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->module}</th>
+        <th scope="row"><div>{$lang->module}</div></th>
         <td>{$module_info->module}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->document_count}</th>
+        <th scope="row"><div>{$lang->document_count}</div></th>
         <td>{$module_info->document_count}</td>
+    </tr>
+    <tr>
+        <td colspan="2" class="right">
+            <a href="{getUrl('act','dispBoardAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+        </td>
     </tr>
     </table>
 
-    <div class="tRight gap1">
-        <a href="{getUrl('act','dispBoardAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
-    </div>
 
 </form>

@@ -1,0 +1,30 @@
+<query id="getPlanetList" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="planet" alias="planet" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="modules.*" />
+        <column name="planet.member_srl" alias="member_srl" />
+        <column name="member.nick_name" />
+        <column name="modules.*" />
+        <column name="planet.member_srl" alias="member_srl" />
+        <column name="planet.planet_title" alias="planet_title" />
+        <column name="planet.close_notice" alias="close_notice" />
+        <column name="member.nick_name" />
+        <column name="member.user_name" />
+        <column name="member.user_id" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module" default="planet" />
+        <condition operation="equal" column="modules.module_srl" default="planet.module_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="planet.member_srl" default="member.member_srl" filter="number" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="modules.module_srl" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

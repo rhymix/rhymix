@@ -1,0 +1,40 @@
+<!--%import("filter/insert.xml")-->
+<!--#include("header.html")-->
+
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module" value="{$module}" />
+<input type="hidden" name="act" value="procPlanetAdminInsert" />
+<input type="hidden" name="module_srl" value="{$planet?$planet->getModuleSrl():0}" />
+
+    <table cellspacing="0" class="adminTable">
+    <tr>
+        <th scope="row"><div>{$lang->planet_mid}</div></th>
+        <td>
+            <input type="text" name="planet_mid" value="{$planet->getMid()}" class="inputTypeText w200" />
+            <p>{$lang->about_planet_mid}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->planet_comment}</div></th>
+        <td>
+            <input type="text" name="planet_comment" value="{htmlspecialchars($planet->getBrowserTitle())}"  class="inputTypeText w400" />
+            <p>{$lang->about_planet_comment}</p>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><div>{$lang->description}</div></th>
+        <td>
+            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($planet->get('description'))}</textarea>
+            <p>{$lang->about_description}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <td colspan="2" class="right">
+            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
+        </td>
+    </table>
+
+</form>

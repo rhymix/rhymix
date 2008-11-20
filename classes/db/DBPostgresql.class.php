@@ -17,7 +17,7 @@
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< 제로보드에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 제로보드 설치 가능)
+        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE설치 가능)
 
         /**
          * @brief postgresql에서 사용될 column type
@@ -250,6 +250,20 @@
         }
 
         /**
+         * @brief 특정 테이블의 특정 인덱스 삭제
+         **/
+        function dropIndex($table_name, $index_name, $is_unique = false) {
+            if(strpos($table_name,$this->prefix)===false) $table_name = $this->prefix.$table_name;
+
+            // index_name의 경우 앞에 table이름을 붙여줘서 중복을 피함
+            $index_name = $table_name.$index_name;
+
+            $query = sprintf("drop index %s", $index_name);
+            $this->_query($query);
+        }
+
+
+        /**
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
@@ -368,10 +382,12 @@
         function getCondition($output) {
             if(!$output->conditions) return;
 
-            foreach($output->conditions as $key => $val) {
+            foreach($output->conditions as $val) {
                 $sub_condition = '';
-                foreach($val['condition'] as $k =>$v) {
-                    if(!isset($v['value']) || $v['value'] === '') continue;
+                foreach($val['condition'] as $v) {
+                    if(!isset($v['value'])) continue;
+                    if($v['value'] === '') continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];

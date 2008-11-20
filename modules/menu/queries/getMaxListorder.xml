@@ -1,0 +1,13 @@
+<query id="getMaxListorder" action="select">
+    <tables>
+        <table name="menu_item" />
+    </tables>
+    <columns>
+        <column name="max(listorder)" alias="listorder" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="parent_srl" var="parent_srl" filter="number" notnull="notnull" pipe="and"/>
+        <condition operation="more" column="menu_item_srl" var="menu_item_srl" filter="number" pipe="and"/>
+    </conditions>
+</query>

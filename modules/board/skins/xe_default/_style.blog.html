@@ -1,0 +1,50 @@
+<!--@if($grant->list)-->
+
+    <!--@if($category || $search_keyword)-->
+
+        <!--@if($oDocument->isExists())-->
+        <div class="viewDocument">
+        <!--#include("./view_document.html")-->
+        </div>
+        <!--@end-->
+
+        <!--#include("./_style.list.html")-->
+
+    <!--@elseif($oDocument->isExists())-->
+
+        <div class="viewDocument">
+            <!--#include("./view_document.html")-->
+        </div>
+
+    <!--@else-->
+
+        <!--@if($notice_list)-->
+            <div class="blogNotice">
+            <!--@foreach($notice_list as $no => $document)-->
+                <div class="item">
+                    <span class="date">[{$document->getRegdate("Y-m-d")}]</span>
+                    <a href="{getUrl('document_srl',$document->document_srl,'cpage','')}">{$document->getTitle()}</a>
+
+                    <!--@if($document->getCommentCount())-->
+                        <span class="replyAndTrackback" title="Replies"><img src="./images/{$module_info->colorset}/iconReply.gif" alt="" width="12" height="12" class="icon" /> <strong>{$document->getCommentCount()}</strong></span>
+                    <!--@end-->
+
+                    <!--@if($document->getTrackbackCount())-->
+                        <span class="replyAndTrackback" title="Trackbacks"><img src="./images/{$module_info->colorset}/iconTrackback.gif" alt="" width="12" height="13" class="trackback icon" /> <strong>{$document->getTrackbackCount()}</strong></span>
+                    <!--@end-->
+
+                    {$document->printExtraImages(60*60*$module_info->duration_new)}
+                </div>
+            <!--@end-->
+            </div>
+        <!--@end-->
+
+        <!--@foreach($document_list as $no => $oDocument)-->
+        <div class="viewDocument">
+            <!--#include("./view_document.html")-->
+        </div>
+        <!--@end-->
+
+    <!--@end-->
+
+<!--@end-->

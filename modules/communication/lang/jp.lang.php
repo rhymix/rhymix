@@ -5,8 +5,8 @@
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
-    $lang->communication = '커뮤니케이션';
-    $lang->about_communication = '회원간의 쪽지나 친구 관리등 커뮤니케이션 기능을 수행하는 모듈입니다';
+    $lang->communication = 'コミュニケーション';
+    $lang->about_communication = '会員間にメッセージや友達管理などコミュニティ機能を持つモジュールです。';
 
     $lang->allow_message = 'メッセージの受信';
     $lang->allow_message_type = array(

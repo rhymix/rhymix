@@ -1,0 +1,9 @@
+<query id="deletePlanetFavorite" action="delete">
+    <tables>
+        <table name="planet_favorite" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="planet_favorite_srl" var="planet_favorite_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

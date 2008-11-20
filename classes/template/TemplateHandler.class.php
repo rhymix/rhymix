@@ -103,7 +103,7 @@
             // include 변경 <!--#include($filename)-->
             //$buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 제로보드의 root경로부터 시작하도록 변경
+            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 root경로부터 시작하도록 변경
             $buff = preg_replace_callback('/(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
@@ -120,6 +120,9 @@
 
             // import xml filter/ css/ js/ 언어파일 <!--%import("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media는 css에만 적용)
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileImportCode'), $buff);
+
+            // unload css/ js <!--%unload("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media는 css에만 적용)
+            $buff = preg_replace_callback('!<\!--%unload\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileUnloadCode'), $buff);
 
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
@@ -168,6 +171,7 @@
          * @brief <!--@, --> 사이의 구문을 php코드로 변경
          **/
         function _compileFuncToCode($matches) {
+            static $idx = 0;
             $code = trim($matches[1]);
             if(!$code) return;
 
@@ -200,11 +204,14 @@
                             $tmp_str = substr($code, 8);
                             $tmp_arr = explode(' ', $tmp_str);
                             $var_name = $tmp_arr[0];
+                            $prefix = '$Context->__idx['.$idx.']=0;';
                             if(substr($var_name, 0, 1) == '$') {
-                                $prefix = sprintf('if(count($__Context->%s)) ', substr($var_name, 1));
+                                $prefix .= sprintf('if(count($__Context->%s)) ', substr($var_name, 1));
                             } else {
-                                $prefix = sprintf('if(count(%s)) ', $var_name);
+                                $prefix .= sprintf('if(count(%s)) ', $var_name);
                             }
+                            $idx++;
+                            $suffix .= '$__idx['.$idx.']=($__idx['.$idx.']+1)%2; $cycle_idx = $__idx['.$idx.']+1;';
                         } elseif(substr($code, 0, 4) == 'case') {
                             $suffix = ':';
                         } elseif(substr($code, 0, 10) == 'break@case') {
@@ -347,6 +354,55 @@
             }
 
             $output = '<!--Meta:'.$meta_file.'-->'.$output;
+            return $output;
+        }
+
+        /**
+         * @brief <!--%filename-->의 확장자를 봐서 css/ js 파일을 제거하도록 수정
+         **/
+        function _compileUnloadCode($matches) {
+            // 현재 tpl 파일의 위치를 구해서 $base_path에 저장하여 적용하려는 xml file을 찾음
+            //$base_path = dirname($this->tpl_file).'/';
+            $base_path = $this->tpl_path;
+            $given_file = trim($matches[1]);
+            if(!$given_file) return;
+            if(isset($matches[3]))
+                $optimized = strtolower(trim($matches[3]));
+            if(!$optimized) $optimized = 'true';
+            if(isset($matches[5]))
+                $media = trim($matches[5]);
+            if(!$media) $media = 'all';
+            if(isset($matches[7]))
+                $targetie = trim($matches[7]);
+            if(!$targetie) $targetie = '';
+            else $optimized = 'false';
+
+            $filename = sprintf("%s%s",$base_path, $given_file);
+
+            // path와 파일이름을 구함
+            $tmp_arr = explode("/",$filename);
+            $filename = array_pop($tmp_arr);
+
+            $base_path = implode("/",$tmp_arr)."/";
+
+            // 확장자를 구함
+            $tmp_arr = explode(".",$filename);
+            $ext = strtolower(array_pop($tmp_arr));
+
+            // 확장자에 따라서 파일 import를 별도로
+            switch($ext) {
+                // css file
+                case 'css' :
+                        $meta_file = sprintf('%s%s', $base_path, $filename);
+                        $output = sprintf('<?php Context::unloadCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
+                    break;
+                // js file
+                case 'js' :
+                        $meta_file = sprintf('%s%s', $base_path, $filename);
+                        $output = sprintf('<?php Context::unloadJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                    break;
+            }
+
             return $output;
         }
 

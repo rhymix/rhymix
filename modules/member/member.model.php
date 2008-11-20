@@ -10,7 +10,6 @@
         /**
          * @brief 자주 호출될거라 예상되는 데이터는 내부적으로 가지고 있자...
          **/
-        var $member_groups = NULL;
         var $join_form_list = NULL;
 
         /**
@@ -117,7 +116,32 @@
          **/
         function getLoggedInfo() {
             // 로그인 되어 있고 세션 정보를 요청하면 세션 정보를 return
-            if($this->isLogged()) return $_SESSION['logged_info'];
+            if($this->isLogged()) {
+                $logged_info = $_SESSION['logged_info'];
+
+                // site_module_info에 따라서 관리자/ 그룹 목록을 매번 재지정
+                $site_module_info = Context::get('site_module_info');
+                if($site_module_info) {
+                    $logged_info->group_list = $this->getMemberGroups($logged_info->member_srl, $site_module_info->site_srl);
+                    if(!count($logged_info->group_list)) {
+                        $default_group = $this->getDefaultGroup($site_module_info->site_srl);
+                        $oMemberController = &getController('member');
+                        $oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
+                        $groups[$default_group->group_srl] = $default_group->title;
+                        $logged_info->group_list = $groups;
+                    }
+
+                    $oModuleModel = &getModel('module');
+                    if($oModuleModel->isSiteAdmin()) $logged_info->is_site_admin = true;
+                    else $logged_info->is_site_admin = false;
+                } else {
+                    $logged_info->is_site_admin = false;
+                }
+
+                $_SESSION['logged_info'] = $logged_info;
+                
+                return $logged_info;
+            }
             return NULL;
         }
 
@@ -139,14 +163,14 @@
         /**
          * @brief member_srl로 사용자 정보 return
          **/
-        function getMemberInfoByMemberSrl($member_srl) {
+        function getMemberInfoByMemberSrl($member_srl, $site_srl = 0) {
             if(!$member_srl) return;
             $args->member_srl = $member_srl;
             $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
             if(!$output) return $output;
 
             $member_info = $this->arrangeMemberInfo($output->data);
-            $member_info->group_list = $this->getMemberGroups($member_info->member_srl);
+            $member_info->group_list = $this->getMemberGroups($member_info->member_srl, $site_srl);
             return $member_info;
         }
 
@@ -216,9 +240,11 @@
         /**
          * @brief member_srl이 속한 group 목록을 가져옴
          **/
-        function getMemberGroups($member_srl) {
-            if(!$this->member_groups[$member_srl]) {
+        function getMemberGroups($member_srl, $site_srl = 0) {
+            static $member_groups = array();
+            if(!$member_groups[$member_srl][$site_srl]) {
                 $args->member_srl = $member_srl;
+                $args->site_srl = $site_srl;
                 $output = executeQuery('member.getMemberGroups', $args);
                 if(!$output->data) return array();
 
@@ -228,16 +254,33 @@
                 foreach($group_list as $group) {
                     $result[$group->group_srl] = $group->title;
                 }
-                $this->member_groups[$member_srl] = $result;
+                $member_groups[$member_srl][$site_srl] = $result;
             }
-            return $this->member_groups[$member_srl];
+            return $member_groups[$member_srl][$site_srl];
+        }
+
+        /**
+         * @brief member_srl들이 속한 group 목록을 가져옴
+         **/
+        function getMembersGroups($member_srls, $site_srl = 0) {
+            $args->member_srls = implode(',',$member_srls);
+            $args->site_srl = $site_srl;
+            $output = executeQuery('member.getMembersGroups', $args);
+            if(!$output->data) return array();
+
+            $result = array();
+            foreach($output->data as $key=>$val) {
+                $result[$val->member_srl][] = $val->title;
+            }
+            return $result;
         }
 
         /**
          * @brief 기본 그룹을 가져옴
          **/
-        function getDefaultGroup() {
-            $output = executeQuery('member.getDefaultGroup');
+        function getDefaultGroup($site_srl = 0) {
+            $args->site_srl = $site_srl;
+            $output = executeQuery('member.getDefaultGroup', $args);
             return $output->data;
         }
 
@@ -261,8 +304,9 @@
         /**
          * @brief 그룹 목록을 가져옴
          **/
-        function getGroups() {
-            $output = executeQuery('member.getGroups');
+        function getGroups($site_srl = 0) {
+            $args->site_srl = $site_srl;
+            $output = executeQuery('member.getGroups', $args);
             if(!$output->data) return;
 
             $group_list = $output->data;

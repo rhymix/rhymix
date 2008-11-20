@@ -1,0 +1,50 @@
+<!--%import("./css/layout.css",optimized=false)-->
+<!--%import("./css/default.css",optimized=false)-->
+<!--%import("./js/homepage.js",optimized=false)-->
+
+<div class="liquid">
+	<div id="container" class="c3 nce e2">
+		<div id="header">
+			<h1 class="title"><a href="{getUrl('','module','homepage','act','dispHomepageManage')}">{$homepage_info->title}</a></h1>
+
+            <ul class="gnb">
+                <!--@if($logged_info->is_admin == 'Y')--><li><a href="{getUrl('','module','admin','act','dispHomepageAdminContent')}" class="button red"><span>{$lang->cmd_go_homepage_admin}</span></a></li><!--@end-->
+                <li><a href="{getSiteUrl($site_module_info->domain, '', 'mid', $site_module_info->mid)}" class="button blue"><span>{$lang->cmd_go_home}</span></a></li>
+            </ul>
+		</div>
+		<hr />
+		<div id="body">
+			<div id="content">
+				<div class="section">
+                    {$content}
+				</div>
+			</div>
+			<hr />
+			<div id="navigation">
+				<div class="section">
+					<ul class="nav">
+
+                    <!--@foreach($lang->cmd_homepage_menus as $key => $val)-->
+						<li <!--@if($key==$act)-->class="active"<!--@end-->><a href="{getUrl('','module','homepage','act', $key)}" <!--@if($act==$val)-->class="selected"<!--@end-->>{$val}</a></li>
+                    <!--@end-->
+					</ul>
+				</div>
+			</div>
+
+			<div id="extra">
+				<div class="section extra1">
+                    <img widget="newest_document" skin="blog_newest_document" colorset="layout" list_count="5" subject_cut_size="100"/>
+				</div>
+				<div class="section extra2">
+                    <img widget="newest_comment" skin="blog_newest_comment" colorset="layout" list_count="5" />
+				</div>
+			</div>
+
+
+			<div class="fClear"></div>
+		</div>
+		<hr />
+	</div>
+
+</div>
+

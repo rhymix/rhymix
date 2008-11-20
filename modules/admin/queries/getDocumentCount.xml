@@ -1,0 +1,8 @@
+<query id="getDocumentCount" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+</query>

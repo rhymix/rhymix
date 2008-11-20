@@ -13,13 +13,11 @@
     /**
      * 출력되기 바로 직전일 경우에 이미지이름/이미지마크등을 변경
      **/
-    if($called_position == "before_display_content") {
+    if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify') return;
 
-        // 회원 이미지이름/ 마크/ 찾아서 대체할 함수를 담고 있는 파일을 include
-        require_once('./addons/member_extra_info/member_extra_info.lib.php');
+    // 회원 이미지이름/ 마크/ 찾아서 대체할 함수를 담고 있는 파일을 include
+    require_once('./addons/member_extra_info/member_extra_info.lib.php');
 
-        // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
-        $output = preg_replace_callback('!<(div|span)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span)\>!is', 'memberTransImageName', $output);
-
-    }
+    // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
+    $output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', 'memberTransImageName', $output);
 ?>

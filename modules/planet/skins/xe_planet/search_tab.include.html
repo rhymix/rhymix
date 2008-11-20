@@ -1,0 +1,19 @@
+<div class="searchHeader">
+    <p>
+        <!--@if(!$planet->isHome())-->
+            {sprintf($lang->about_planet_whats_textSearch_in_planet,$planet->getNickName(), htmlspecialchars(urldecode($keyword)))}
+        <!--@else-->
+            {sprintf($lang->about_planet_whats_textSearch,urldecode(htmlspecialchars($keyword)))}
+        <!--@end-->
+    </p>
+    <span class="leftCap"></span><span class="rightCap"></span>
+</div>
+
+<hr />
+
+<ul class="generalTab">
+    <li <!--@if($act=='dispPlanetContentTagSearch')-->class="active"<!--@end-->><a href="{getUrl('act','dispPlanetContentTagSearch')}">{$lang->tag} <sup>{$search_result->tag}</sup></a></li>
+    <li <!--@if($act=='dispPlanetContentSearch')-->class="active"<!--@end-->><a href="{getUrl('act','dispPlanetContentSearch')}">{$lang->planet_acticle} <sup>{$search_result->content}</sup></a></li>
+    <li <!--@if($act=='dispPlanetTagSearch')-->class="active"<!--@end-->><a href="{getUrl('act','dispPlanetTagSearch')}">{$lang->planet_persontag} <sup>{$search_result->planetTag}</sup></a></li>
+</ul>
+

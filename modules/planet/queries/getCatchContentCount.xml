@@ -1,0 +1,12 @@
+<query id="getTotalContents" action="select">
+    <tables>
+        <table name="planet_catch" alias="planet_catch" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+    </conditions>
+</query>
+

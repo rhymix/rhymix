@@ -3,6 +3,7 @@
         <table name="member_group" />
     </tables>
     <columns>
+        <column name="site_srl" var="site_srl" default="0" notnull="notnull" />
         <column name="group_srl" var="group_srl" default="sequence()" notnull="notnull" />
         <column name="title" var="title" notnull="notnull" />
         <column name="is_default" var="is_default" default="N" notnull="notnull" />

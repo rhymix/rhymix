@@ -3,64 +3,37 @@
 <h3>{$lang->editor} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <table cellspacing="0" class="adminTable gap1">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(0,60,130,75,50,60,50)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(0,60,130,75,75,60,50)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(0,60,130,75,45,55,50)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(0,80,130,80,50,60,50)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(0,60,130,75,100,85,50)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(0,60,130,80,100,100,95)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(0,60,130,75,95,65,60)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
 <thead>
     <tr>
-        <th scope="col">{$lang->component_name}</th>
-        <th scope="col">{$lang->component_version}</th>
-        <th scope="col">{$lang->component_author}</th>
-        <th scope="col">{$lang->component_date}</th>
-        <th scope="col">{$lang->cmd_setup}</th>
-        <th scope="col">{$lang->use}</th>
-        <th scope="col">{$lang->cmd_move}</th>
+        <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->component_author}</div></th>
+        <th scope="col" colspan="2"><div>{$lang->component_version}</div></th>
+        <th scope="col"><div>{$lang->component_date}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($component_list as $component_name => $xml_info)-->
+    <tr class="row2">
+        <th colspan="2" scope="row"><div><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;"><strong>{$xml_info->title}</strong></a> ({$component_name})</div></th>
+        <td class="setup center"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
+        <td class="center <!--@if($xml_info->enabled=='Y')-->activated<!--@else-->deactivated<!--@end-->">
+            <!--@if($xml_info->enabled=='Y')-->
+                <a href="#" onclick="doDisableComponent('{$component_name}');return false;">{$lang->cmd_enable}</a>
+            <!--@else-->
+                <a href="#" onclick="doEnableComponent('{$component_name}');return false;">{$lang->cmd_disable}</a>
+            <!--@end-->
+        </td>
+        <td class="center moveupdown"><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" class="up">{$lang->cmd_move_up}</a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" class="down">{$lang->cmd_move_down}</a></td>
+    </tr>
     <tr>
-        <th scope="row" rowspan="2"><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;" class="blue">{$xml_info->title}</a><br />({$component_name})</th>
-        <td class="tahoam">{$xml_info->version}</td>
-        <td class="blue">
+        <td>{nl2br($xml_info->description)}</td>
+        <td class="nowrap">
             <!--@foreach($xml_info->author as $author)-->
             <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
             <!--@endforeach-->
         </td>
-        <td class="tahoma">{zdate($xml_info->date, 'Y-m-d')}</td>
-        <td class="red"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
-        <td>
-            <!--@if($xml_info->enabled=='Y')-->
-                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" class="blue">{$lang->cmd_enable}</a>
-            <!--@else-->
-                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" class="red">{$lang->cmd_disable}</a>
-            <!--@end-->
-        </td>
-        <td>
-            <a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;"><img src="../../admin/tpl/images/button_up.gif" alt="{$lang->cmd_move_up}" width="14" height="14" /></a>
-            <a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;"><img src="../../admin/tpl/images/button_down.gif" alt="{$lang->cmd_move_down}" width="14" height="14" /></a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="6" class="left">
-            {nl2br($xml_info->description)}
-        </td>
+        <td class="number center" colspan="2">{$xml_info->version}</td>
+        <td class="date center nowrap">{zdate($xml_info->date, 'Y-m-d')}</td>
     </tr>
     <!--@end-->
 </tbody>

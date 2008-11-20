@@ -1,0 +1,36 @@
+<!--#include("header.html")-->
+<!--%import("./filter/planet_login.xml")-->
+
+<script type="text/javascript">
+    var keep_signed_msg = "{$lang->about_keep_signed}";
+    doFocusPlanetUserId("uid");
+</script>
+
+
+<div class="personalHeader">
+    <h2>Login</h2>
+    <p>{$lang->about_planet_login}</p>
+    <span class="leftCap"></span><span class="rightCap"></span>
+</div>
+<form action="" method="post" onsubmit="return procFilter(this, planet_login)">
+    <fieldset>
+        <legend>{$lang->cmd_login}</legend>
+        <div class="myInfo">
+            <dl class="login">
+                <dt><label for="uid">{$lang->user_id}</label></dt>
+                <dd>: <input name="user_id" id="uid" type="text" class="inputText" size="30" /></dd>
+                <dt><label for="upw">{$lang->password}</label></dt>
+                <dd>: <input name="password" id="upw" type="password" class="inputText" size="30" /></dd>
+                <dt>&nbsp;</dt>
+                <dd>
+                    &nbsp; <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
+                    <label for="keepid">{$lang->keep_signed}</label>
+                </dd>
+            </dl>
+            <button type="submit"><span>{$lang->cmd_planet_login}</span></button>
+            <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+        </div>
+    </fieldset>
+</form>
+
+<!--#include("footer.html")-->

@@ -63,6 +63,7 @@
          * @brief FTP 정보 등록
          **/
         function procInstallFTP() {
+            if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
             $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port');
             $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
             if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
@@ -198,13 +199,7 @@
          * 모든 module의 schemas 디렉토리를 확인하여 schema xml을 이용, 테이블 생성
          **/
         function installDownloadedModule() { 
-            // 수동으로 설치를 할 목록
-            $manual_modules = array('install','module','member');
-
-            // install, module 모듈은 미리 설치 
-            $this->installModule('install', './modules/install/');
-            $this->installModule('module', './modules/module/');
-            $this->installModule('member', './modules/member/');
+            $oModuleModel = &getModel('module');
 
             // 각 모듈의 schemas/*.xml 파일을 모두 찾아서 table 생성
             $module_list = FileHandler::readDir('./modules/', NULL, false, true);
@@ -213,10 +208,21 @@
                 $tmp_arr = explode('/',$module_path);
                 $module = $tmp_arr[count($tmp_arr)-1];
 
-                // 미리 수동으로 설치한 모듈이면 패스~
-                if(in_array($module, $manual_modules)) continue;
+                $xml_info = $oModuleModel->getModuleInfoXml($module);
+                if(!$xml_info) continue;
+                $modules[$xml_info->category][] = $module;
+            }
 
-                $this->installModule($module, $module_path);
+            // 모듈을 category에 의거 설치 순서를 정함
+            $install_step = array('base','utility','manager','accessory','service','package');
+
+            foreach($install_step as $category) {
+                foreach($modules[$category] as $module) {
+                    $this->installModule($module, sprintf('./modules/%s', $module));
+
+                    $oModule = &getClass($module);
+                    if($oModule->checkUpdate()) $oModule->moduleUpdate();
+                }
             }
 
             return new Object();

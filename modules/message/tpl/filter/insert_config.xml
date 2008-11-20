@@ -1,6 +1,6 @@
 <filter name="insert_config" module="message" act="procMessageAdminInsertConfig" confirm_msg_code="confirm_submit">
     <form />
-    <response>
+    <response callback_func="completeMessage">
         <tag name="error" />
         <tag name="message" />
     </response>

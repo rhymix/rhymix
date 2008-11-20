@@ -103,15 +103,14 @@
             if($key != $given_key) return $this->stop('fail');
 
             // 엮인글 모듈의 기본 설정을 받음
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('trackback');
-
-            // 현재 모듈의 설정을 구함
             $module_srl = Context::get('module_srl');
-            $enable_trackback = $config->module_config[$module_srl]->enable_trackback;
-            
-            // 설정 구함
-            if(!$enable_trackback) $enable_trackback = $config->enable_trackback;
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
+            $enable_trackback = $config->enable_trackback;
+            if(!$enable_trackback) {
+                $config = $oModuleModel->getModuleConfig('trackback');
+                $enable_trackback = $config->enable_trackback;
+            }
             
             // 관리자가 금지하였을 경우에는 엮인글을 받지 않음
             if($enable_trackback == 'N') return $this->stop('fail');

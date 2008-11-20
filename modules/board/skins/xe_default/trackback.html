@@ -1,0 +1,35 @@
+<!--@if($oDocument->getTrackbackCount())-->
+<div class="feedbackList" id="trackback">
+
+	<h3 class="feedbackHeader">
+		<!--@if($oDocument->allowTrackback() && $oDocument->getTrackbackCount() )-->
+			<a href="#trackback" title="{$lang->trackback}"><strong>'{$oDocument->getTrackbackCount()}'</strong> Trackbacks</a>
+		<!--@end-->
+	</h3>
+
+	<div class="trackbackList">
+	
+		<!--@if($oDocument->getTrackbackCount())-->
+			<!--@foreach($oDocument->getTrackbacks() as $key => $val)-->
+			<div class="item">
+				<a name="trackback_{$val->trackback_srl}"></a>
+				<h4 class="header"><a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a></h4>
+				<dl class="time">
+					<dt>Time :</dt>
+					<dd>{zdate($val->regdate, "Y.m.d H:i")}</dd>
+					<dd>({$val->ipaddress})</dd>
+				</dl>
+				<p class="itemContent">
+					{$val->excerpt}
+				</p>
+				<div class="option">
+					<a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}" class="button small"><span>{$lang->cmd_delete}</span></a>
+				</div>
+			</div>
+			<!--@end-->
+		<!--@end-->
+	
+	</div>
+	
+</div>
+<!--@end-->

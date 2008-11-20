@@ -6,12 +6,14 @@
 	<title xml:lang="en">Newest Articles in Tab Style</title>
 	<title xml:lang="es">탭 형태 최근 문서 출력</title>
 	<title xml:lang="ru">Отображение последних статей в стиле закладок</title>
+	<title xml:lang="zh-TW">最新主題分頁樣式</title>
 	<description xml:lang="ko">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
 	<description xml:lang="zh-CN">选项卡样式最新主题列表控件。</description>
 	<description xml:lang="jp">最新コンテンツをタブスタイルに出力するウィジェットです。</description>
 	<description xml:lang="en">This widget displays newest articles as tab style.</description>
 	<description xml:lang="es">최근 문서를 탭형태로 출력하는 위젯입니다.</description>
 	<description xml:lang="en">Этот виджет отображает последние статьи в tab-стиле.</description>
+	<description xml:lang="zh-TW">最新主題以分頁樣式顯示。</description>
 	<version>0.1</version>
 	<date>2007-02-28</date>
 
@@ -22,6 +24,7 @@
 		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
 		<name xml:lang="ru">zero</name>
+		<name xml:lang="zh-TW">zero</name>
 	</author>
 
 	<extra_vars>
@@ -33,12 +36,14 @@
 			<name xml:lang="en">Target to be sorted</name>
 			<name xml:lang="es">Objetivo para ser ordenados</name>
 			<name xml:lang="ru">Назначение для сортировки</name>
+			<name xml:lang="zh-TW">排列目標</name>
 			<description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
 			<description xml:lang="zh-CN">按照指定顺序进行排序。</description>
 			<description xml:lang="jp">登録順、変更順にソートできます。</description>
 			<description xml:lang="en">The list of newewst articles may be sorted by submitted order or modified order.</description>
 			<description xml:lang="es">La lista de los documentos recientes pueden ser ordenados en el orden del agregado o en el de modificados.</description>
 			<description xml:lang="ru">Список последних статей может быть отсортирован по дате размещения или изменения.</description>
+			<description xml:lang="zh-TW">按照指定方式排列順序。</description>
 			<options>
 				<value>list_order</value>
 				<name xml:lang="ko">최신 등록순</name>
@@ -47,6 +52,7 @@
 				<name xml:lang="en">Newest Submitted Order</name>
 				<name xml:lang="es">Orden de agregados recientemente</name>
 				<name xml:lang="ru">Порядок размещенных статей</name>
+				<name xml:lang="zh-TW">最新發表</name>
 			</options>
 			<options>
 				<value>update_order</value>
@@ -56,6 +62,7 @@
 				<name xml:lang="en">Newest Modified Order</name>
 				<name xml:lang="es">Orden de modificados recientemente</name>
 				<name xml:lang="ru">Порядок измененных статей</name>
+				<name xml:lang="zh-TW">最新修改</name>
 			</options>
 		</var>
 		<var id="order_type">
@@ -66,12 +73,14 @@
 			<name xml:lang="en">Sorting Type</name>
 			<name xml:lang="es">Tipo de ordenamiento</name>
 			<name xml:lang="ru">Тип сортировки</name>
+			<name xml:lang="zh-TW">排列方式</name>
 			<description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
 			<description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
 			<description xml:lang="jp">ソートタイプを、降順、昇順にソートできます。</description>
 			<description xml:lang="en">You can sort target articles by asending or desending order.</description>
 			<description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
 			<description xml:lang="ru">Вы можете сортировать статьи в порядке возрастания или убывания.</description>
+			<description xml:lang="zh-TW">可選擇升冪/降冪的方式對所選目標進行排列。</description>
 			<options>
 				<value>desc</value>
 				<name xml:lang="ko">내림차순</name>
@@ -80,6 +89,7 @@
 				<name xml:lang="en">Desending order</name>
 				<name xml:lang="es">Orden Descendente</name>
 				<name xml:lang="ru">По убыванию</name>
+				<name xml:lang="zh-TW">降冪</name>
 			</options>
 			<options>
 				<value>asc</value>
@@ -89,6 +99,7 @@
 				<name xml:lang="en">Asending order</name>
 				<name xml:lang="en">Orden Acendente</name>
 				<name xml:lang="ru">По возрастанию</name>
+				<name xml:lang="zh-TW">升冪</name>
 			</options>
 		</var>
 		<var id="duration_new">
@@ -98,11 +109,13 @@
 			<name xml:lang="jp">Newの表示時間 (Hours)</name>
 			<name xml:lang="en">Duration of indication for new item</name>
 			<name xml:lang="ru">Длительность индикации для новых объектов</name>
+			<name xml:lang="zh-TW">new圖案顯示時間(hours)</name>
 			<description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
 			<description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
 			<description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
 			<description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
 			<description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
+			<description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
 		</var>
 		<var id="subject_cut_size">
 			<type>text</type>
@@ -112,12 +125,14 @@
 			<name xml:lang="en">Length of Subject</name>
 			<name xml:lang="es">Número de letras del título</name>
 			<name xml:lang="ru">Длина темы</name>
+			<name xml:lang="zh-TW">標題字數</name>
 			<description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
 			<description xml:lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
 			<description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
 			<description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
 			<description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
 			<description xml:lang="ru">Длина темы может быть присвоена. (0 или пустое значение не будут ограничивать длину)</description>
+			<description xml:lang="zh-TW">可設置標題的字數。(0或留白為不限制)</description>
 		</var>
 		<var id="thumbnail_type">
 			<type>select</type>
@@ -126,17 +141,20 @@
 			<name xml:lang="zh-CN">缩略图生成方式</name>
 			<name xml:lang="en">Thumbnail Type</name>
 			<name xml:lang="ru">Тип миниатюры</name>
+			<name xml:lang="zh-TW">縮圖建立方式</name>
 			<description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
 			<description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
 			<description xml:lang="en">Thumbnail Type may be set here.</description>
 			<description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
+			<description xml:lang="zh-TW">選擇縮圖建立方式。 (crop : 裁減, ratio : 比例)</description>
 			<options>
 				<value>crop</value>
 				<name xml:lang="ko">Crop (채우기)</name>
-				<name xml:lang="jp">Crop (トリミング)</name>
+				<name xml:lang="jp">Crop (刈り込み)</name>
 				<name xml:lang="zh-CN">Crop (裁减)</name>
 				<name xml:lang="en">Crop</name>
 				<name xml:lang="ru">Crop (Обрезание)</name>
+				<name xml:lang="zh-TW">Crop (裁減)</name>
 			</options>
 			<options>
 				<value>ratio</value>
@@ -145,6 +163,7 @@
 				<name xml:lang="zh-CN">Ratio (比例)</name>
 				<name xml:lang="en">Ratio</name>
 				<name xml:lang="ru">Ratio (Отношение)</name>
+				<name xml:lang="zh-TW">Ratio (比例)</name>
 			</options>
 		</var>
 		<var id="thumbnail_width">
@@ -155,12 +174,14 @@
 			<name xml:lang="en">Width of Image</name>
 			<name xml:lang="es">Ancho de la imagen</name>
 			<name xml:lang="ru">Ширина изображения</name>
+			<name xml:lang="zh-TW">圖片寬度</name>
 			<description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 100)</description>
 			<description xml:lang="jp">表示されるイメージの横幅のサイズを指定することができます（デフォルト100）。</description>
 			<description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
 			<description xml:lang="en">You can set the width of image. (100 as default)</description>
 			<description xml:lang="es">Usted puede definir el ancho de la imagen. (predefinido:100)</description>
 			<description xml:lang="ru">Вы можете установить ширину изображения. (стандарт: 100)</description>
+			<description xml:lang="zh-TW">指定要顯示的圖片寬度。(預設是100)</description>
 		</var>
 		<var id="thumbnail_height">
 			<type>text</type>
@@ -169,11 +190,13 @@
 			<name xml:lang="zh-CN">高度</name>
 			<name xml:lang="en">Height of Image</name>
 			<name xml:lang="ru">Высота изображения</name>
+			<name xml:lang="zh-TW">圖片高度</name>
 			<description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
 			<description xml:lang="jp">イメージの縦幅サイズを指定します（デフォルト 100px）</description>
 			<description xml:lang="zh-CN">可以指定图片高度。(默认为100px)</description>
 			<description xml:lang="en">You can set the height of image. (100 as default)</description>
 			<description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 100px)</description>
+			<description xml:lang="zh-TW">指定圖片高度。(預設是100px)</description>
 		</var>
 		<var id="display_author">
 			<type>select</type>
@@ -183,6 +206,7 @@
 			<name xml:lang="en">Display Author</name>
 			<name xml:lang="es">Mostrar el Autor</name>
 			<name xml:lang="ru">Отображение автора</name>
+			<name xml:lang="zh-TW">顯示作者</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -192,6 +216,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -201,6 +226,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="display_regdate">
@@ -211,6 +237,7 @@
 			<name xml:lang="en">Display Registered Date</name>
 			<name xml:lang="es">Mostrar el día agregado</name>
 			<name xml:lang="ru">Отображение даты регистрации</name>
+			<name xml:lang="zh-TW">登錄日期</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -220,6 +247,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -229,6 +257,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="display_readed_count">
@@ -239,6 +268,7 @@
 			<name xml:lang="en">Display Hit</name>
 			<name xml:lang="es">Mostrar Ayuda</name>
 			<name xml:lang="ru">Отображение хитов</name>
+			<name xml:lang="zh-TW">點擊</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -248,6 +278,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -257,6 +288,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="display_voted_count">
@@ -267,6 +299,7 @@
 			<name xml:lang="en">Display Votes</name>
 			<name xml:lang="es">Mostrar Recomendados</name>
 			<name xml:lang="ru">Отображение голосов</name>
+			<name xml:lang="zh-TW">推薦</name>
 			<description />
 			<options>
 				<value>Y</value>
@@ -276,6 +309,7 @@
 				<name xml:lang="en">Show</name>
 				<name xml:lang="es">Mostrar</name>
 				<name xml:lang="ru">Показывать</name>
+				<name xml:lang="zh-TW">顯示</name>
 			</options>
 			<options>
 				<value>N</value>
@@ -285,6 +319,7 @@
 				<name xml:lang="en">Hide</name>
 				<name xml:lang="es">Ocultar</name>
 				<name xml:lang="ru">Скрывать</name>
+				<name xml:lang="zh-TW">隱藏</name>
 			</options>
 		</var>
 		<var id="mid_list">
@@ -295,12 +330,14 @@
 			<name xml:lang="en">Target Module</name>
 			<name xml:lang="es">Módulo Objetivo</name>
 			<name xml:lang="ru">Модуль назначения</name>
+			<name xml:lang="zh-TW">目標模組</name>
 			<description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
 			<description xml:lang="zh-CN">将把被选模块中的最新主题作为显示对象。</description>
 			<description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
 			<description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
 			<description xml:lang="ru">Статьи на выбранных модулях будут назначением.</description>
+			<description xml:lang="zh-TW">將所選擇的模組當成顯示目標。</description>
 		</var>
 	</extra_vars>
 </widget>

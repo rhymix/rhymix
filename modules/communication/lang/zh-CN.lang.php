@@ -8,7 +8,7 @@
     $lang->communication = '会员交流';
     $lang->about_communication = '管理在线会员间短信息及好友功能的模块。';
 
-    $lang->allow_message = '允许接收短消息';
+    $lang->allow_message = '接收短消息';
     $lang->allow_message_type = array(
              'Y' => '全部接收',
              'N' => '拒收',

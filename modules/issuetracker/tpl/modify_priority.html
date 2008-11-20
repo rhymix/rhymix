@@ -10,22 +10,18 @@
 <!--@if($priority->is_default=="Y")--><input type="hidden" name="is_default" value="Y" /><!--@end-->
 <table cellspacing="0" class="adminTable">
 <thead>
-<col width="*" />
-<col width="110" />
-<col width="100" />
-<col width="110" />
 <tr>
-    <th scope="col">{$lang->name}</th>
-    <th scope="col">{$lang->order}</th>
-    <th scope="col">{$lang->cmd_default}</th>
-    <th scope="col">&nbsp;</th>
+    <th scope="col" class="wide"><div>{$lang->name}<div></th>
+    <th scope="col"><div>{$lang->order}<div></th>
+    <th scope="col"><div>{$lang->is_default}<div></th>
+    <th scope="col"><div>&nbsp;<div></th>
 </tr>
 </thead>
 <tbody>
-<tr class="ht60">
+<tr>
     <td><input name="title" type="text" class="inputTypeText w300" value="{$priority->title}" /></td>
     <td><input name="listorder" type="text" class="inputTypeText w60" value="{$priority->listorder}" /></td>
-    <td>
+    <td class="nowrap">
         <!--@if($priority->is_default=='Y')-->
             {$lang->is_default}
         <!--@else-->

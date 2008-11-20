@@ -1,0 +1,12 @@
+<query id="updateShowReadWelcome" action="update">
+    <tables>
+        <table name="planet" />
+    </tables>
+    <columns>
+        <column name="close_notice" var="close_notice" default="R" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -5,14 +5,12 @@
 <div id="popBody">
 
     <table cellspacing="0" class="adminTable">
-    <col width="100" />
-    <col />
     <tr>
-        <th scope="row">{$lang->title}</th>
+        <th scope="row"><div>{$lang->title}</div></th>
         <td>{$module_info->title} ver {$module_info->version}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->author}</th>
+        <th scope="row"><div>{$lang->author}</div></th>
         <td class="blue">
             <!--@foreach($module_info->author as $author)-->
             {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
@@ -21,17 +19,17 @@
     </tr>
     <!--@if($module_info->homepage)-->
     <tr>
-        <th scope="row">{$lang->homepage}</th>
+        <th scope="row"><div>{$lang->homepage}</div></th>
         <td class="blue"><a href="{$module_info->homepage}" onclick="window.open(this.href);return false;">{$module_info->homepage}</a></td>
     </tr>
     <!--@endif-->
     <tr>
-        <th scope="row">{$lang->regdate}</th>
+        <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate($module_info->date, 'Y-m-d')}</td>
     </tr>
     <!--@if($module_info->license || $module_info->license_link)-->
     <tr>
-        <th scope="row">{$lang->module_license}</th>
+        <th scope="row"><div>{$lang->module_license}</div></th>
         <td>
             {nl2br(trim($module_info->license))}
         <!--@if($module_info->license_link)-->
@@ -41,7 +39,7 @@
     </tr>
     <!--@endif-->
     <tr>
-        <th scope="row">{$lang->description}</th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>{nl2br(trim($module_info->description))}</td>
     </tr>
     </table>

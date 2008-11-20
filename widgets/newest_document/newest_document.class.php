@@ -31,7 +31,8 @@
             if(!$list_count) $list_count = 5;
 
             // 대상 모듈
-            $mid_list = explode(",",$args->mid_list);
+            if($args->mid_list) $mid_list = explode(",",$args->mid_list);
+            else $mid_list = array();
 
             // 제목 길이 자르기
             $subject_cut_size = $args->subject_cut_size;
@@ -42,9 +43,18 @@
             if(!$duration_new) $duration_new = 12;
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
-            if($mid_list) {
-                $oModuleModel = &getModel('module');
+            $oModuleModel = &getModel('module');
+            if(count($mid_list)) {
                 $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+            } else {
+                $site_module_info = Context::get('site_module_info');
+                if($site_module_info) {
+                    $margs->site_srl = $site_module_info->site_srl;
+                    $oModuleModel = &getModel('module');
+                    $output = $oModuleModel->getMidList($margs);
+                    if(count($output)) $mid_list = array_keys($output);
+                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                }
             }
 
             // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리

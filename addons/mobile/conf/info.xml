@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">모바일XE 애드온</title>
+    <title xml:lang="jp">モバイルXEアドオン</title>
+    <title xml:lang="zh-CN">手机XE插件</title>
     <title xml:lang="en">Mobile XE</title>
+    <title xml:lang="zh-TW">行動版 XE</title>
     <description xml:lang="ko">
         모바일에서 접속시 헤더 정보를 분석하여 메뉴 - 모듈의 관계를 이용하여 WAP 태그로 출력하는 애드온입니다.
         wml, hdml, mhtml를 지원하고 그 이외의 경우에는 동작하지 않습니다.
+    </description>
+    <description xml:lang="jp">
+        モバイル端末機からアクセス時、ヘッダ情報を分析してメニュー - モジュールの関係を利用してWAPタグに変換して表示するアドオンです。
+        wml, hdml, mhtmlをサポートし、その以外は働きません。
+    </description>
+    <description xml:lang="zh-CN">
+        通过手机访问网站时将网页输出为WAP标签的插件。
+        支持语言：wml, hdml, mhtml
     </description>
     <description xml:lang="en">
         This addon displays WAP tag by analyzing header information on mobile connection.
         Only wml, hdml, mhtml formats are provided.
     </description>
+    <description xml:lang="zh-TW">
+        透過行動工具連結時，會將網頁轉換為WAP標籤顯示。
+        只限於 wml, hdml, mhtml格式。
+    </description>
     <version>0.1</version>
     <date>2008-06-20</date>
-    <link>http://www.zeroboard.com/</link>
 
-    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
-        <name xml:lang="ko">제로</name>
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+        <name xml:lang="jp">zero</name>
+        <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+        <name xml:lang="zh-TW">zero</name>
     </author>
 
     <extra_vars>
         <var name="charset">
             <title xml:lang="ko">문자셋</title>
+            <title xml:lang="jp">文字コード</title>
+            <title xml:lang="zh-CN">编码</title>
             <title xml:lang="en">Charset</title>
+            <title xml:lang="zh-TW">編碼</title>
             <description xml:lang="ko">
                 모바일 기기의 경우 utf-8 문자셋을 인식하지 못할 수 있습니다.
                 문자셋에 원하시는 문자셋을 입력하면 자동으로 변환하여 출력하여 모바일에서 이상없이 출력하도록 합니다.
                 기본값은 euc-kr입니다.
             </description>
+            <description xml:lang="jp">
+                ある特定のモバイル機器ではutf-8文字コードの認識が出来ない場合があります。
+                文字コードを設定すると、該当文字コードに自動変換して正常に表示できるようになります。
+                デフォルトはeuc-krです。
+            </description>
+            <description xml:lang="zh-CN">
+                手机有时无法识别utf-8编码，这时输入相应的编码值即可自动转换。
+                默认编码为euc-kr。
+            </description>
             <description xml:lang="en">
                 utf-8 cannot be read for mobile tools.
                 Mobile tools will display correct charset when you input charset you want.
                 Default charset is euc-kr.
+            </description>
+            <description xml:lang="zh-TW">
+                行動工具無法讀取 utf-8編碼。
+                當您輸入您想要的編碼時，行動工具將會正確的顯示。
+                預設編碼是 euc-kr.
             </description>
         </var>
     </extra_vars>

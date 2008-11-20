@@ -73,6 +73,9 @@
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
+            $site_module_info = Context::get('site_module_info');
+            $site_srl = $site_module_info->site_srl;
+
             // document_srl만 있을 경우 document_srl로 모듈과 모듈 정보를 구함
             if($this->document_srl && !$this->mid && !$this->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
@@ -81,8 +84,16 @@
 
             // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
             if(!$module_info && $this->mid) {
-                $module_info = $oModuleModel->getModuleInfoByMid($this->mid);
+                $module_info = $oModuleModel->getModuleInfoByMid($this->mid, $site_srl);
                 if($this->module && $module_info->module != $this->module) unset($module_info);
+            }
+
+            // 모듈정보와 사이트 모듈정보가 다르면(다른 사이트이면) 페이지 리다이렉트
+            if($module_info && $site_module_info && $module_info->site_srl != $site_module_info->site_srl) {
+                $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+                $redirect_url = getSiteUrl($site_info->domain, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'));
+                header("location:".$redirect_url);
+                return false;
             }
 
             // 모듈을 여전히(;;) 못 찾고 $module_srl이 있으면 해당 모듈을 구함
@@ -92,7 +103,13 @@
             }
 
             // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
-            if(!$module_info && !$this->module) $module_info = $oModuleModel->getModuleInfoByMid();
+            if(!$module_info && !$this->module) $module_info = $site_module_info;
+
+            if($module_info && $site_module_info && $site_module_info->site_srl != $module_info->site_srl) {
+                unset($site_module_info);
+                $site_module_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+            }
+            Context::set('site_module_info', $site_module_info);
 
             // 모듈 정보가 찾아졌을 경우 모듈 정보에서 기본 변수들을 구함, 모듈 정보에서 module 이름을 구해움
             if($module_info) {
@@ -117,7 +134,12 @@
                 
             // 실제 동작을 하기 전에 trigger 호출
             $output = ModuleHandler::triggerCall('display', 'before', $content);
-            if(!$output->toBool()) die($output->getMessage());
+            if(!$output->toBool()) {
+                $this->error = $output->getMessage();
+                return false;
+            }
+
+            return true;
         }
 
         /**
@@ -164,6 +186,7 @@
             $oModule->setAct($this->act);
 
             // 모듈 정보 세팅
+            $this->module_info->module_type = $type;
             $oModule->setModuleInfo($this->module_info, $xml_info);
 
             // 모듈을 수행하고 결과가 false이면 message 모듈 호출 지정
@@ -181,8 +204,13 @@
                 $this->error = 'msg_module_is_not_exists';
             }
 
+            // install 모듈이 아닐 때 DB 접속에 문제가 있으면 오류
+            if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->is_connected == false) {
+                $this->error = 'msg_dbconnect_failed';
+            }
+
             // XMLRPC call 이 아니면 message view 객체 이용하도록
-            if(Context::getRequestMethod() != 'XMLRPC') {
+            if(Context::getRequestMethod() != 'XMLRPC' && Context::getRequestMethod() != 'JSON') {
                 // 에러가 발생하였을시 처리
                 if($this->error) {
                     // message 모듈 객체를 생성해서 컨텐츠 생성
@@ -245,9 +273,6 @@
             // 컨텐츠 출력
             $oDisplayHandler = new DisplayHandler();
             $oDisplayHandler->printContent($oModule);
-
-            // DB 및 기타 자원의 종결 처리
-            Context::close();
         }
 
         /**
@@ -301,6 +326,10 @@
                                 $instance_name = sprintf("%s%s",$module,"Model");
                                 $class_file = sprintf('%s%s%s.%s.php', _XE_PATH_, $class_path, $module, $type);
                             }
+                        break;
+                    case 'api' :
+                            $instance_name = sprintf("%s%s",$module,"API");
+                            $class_file = sprintf('%s%s%s.api.php', _XE_PATH_, $class_path, $module);
                         break;
                     case 'class' :
                             $instance_name = $module;

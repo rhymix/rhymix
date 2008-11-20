@@ -10,12 +10,10 @@
 <!--@end-->
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
 
     <!--@if(!$module_srls)-->
-        <tr>
-            <th scope="row">{$lang->mid}</th>
+        <tr class="row2">
+            <th scope="row"><div>{$lang->mid}</div></th>
             <td>
                 <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
                 <p>{$lang->about_mid}</p>
@@ -23,7 +21,7 @@
         </tr>
         <!--@if($module_info->is_default!='Y')-->
         <tr>
-            <th scope="row">{$lang->is_default}</th>
+            <th scope="row"><div>{$lang->is_default}</div></th>
             <td>
                 <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
                 <label for="fld_for_default">{$lang->about_default}</label>
@@ -31,8 +29,8 @@
         </tr>
         <!--@end-->
     <!--@end-->
-    <tr>
-        <th scope="row">{$lang->module_category}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->module_category}</div></th>
         <td>
             <select name="module_category_srl">
                 <option value="0">{$lang->notuse}</option>
@@ -46,7 +44,7 @@
 
     <!--@if(!$module_srls)-->
     <tr>
-        <th scope="row">{$lang->browser_title}</th>
+        <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
             <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
             <p>{$lang->about_browser_title}</p>
@@ -54,8 +52,8 @@
     </tr>
     <!--@end-->
 
-    <tr>
-        <th scope="row">{$lang->layout}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->layout}</div></th>
         <td>
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
@@ -67,7 +65,7 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->skin}</th>
+        <th scope="row"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin">
                 <!--@foreach($skin_list as $key=>$val)-->
@@ -77,46 +75,46 @@
             <p>{$lang->about_skin}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->svn_url}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->svn_url}</div></th>
         <td>
             <input type="text" name="svn_url" value="{$module_info->svn_url}"  class="inputTypeText w300" />
             <p>{$lang->about_svn_url}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->svn_cmd}</th>
+        <th scope="row"><div>{$lang->svn_cmd}</div></th>
         <td>
             <input type="text" name="svn_cmd" value="{$module_info->svn_cmd}"  class="inputTypeText w300" />
             <p>{$lang->about_svn_cmd}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->diff_cmd}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->diff_cmd}</div></th>
         <td>
             <input type="text" name="diff_cmd" value="{$module_info->diff_cmd}"  class="inputTypeText w300" />
             <p>{$lang->about_diff_cmd}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->description}</th>
+        <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($module_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->description)}</textarea>
             <p>{$lang->about_description}</p>
         </td>
     </tr>
-    <tr>
-        <th scope="row">{$lang->admin_id}</th>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->admin_id}</div></th>
         <td>
-            <textarea name="admin_id" class="inputTypeTextArea w100"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
+            <textarea name="admin_id" class="inputTypeTextArea fixWidth"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
             <p>{$lang->about_admin_id}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row" colspan="2" class="button">
+        <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
             <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
-        </th>
+        </td>
     </table>
 
     <!--@if(!$module_srls)-->
@@ -137,15 +135,13 @@
                 {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
             <!--@end-->
         <table cellspacing="0" class="adminTable ">
-        <col width="150" />
-        <col />
         <caption>{$lang->extra_vars} {$i}</caption>
-        <tr>
-            <th>{$lang->column_name}</th>
-            <td><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
+        <tr class="row2">
+            <th><div>{$lang->column_name}</div></th>
+            <td class="wide"><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
         </tr>
         <tr>
-            <th>{$lang->column_type}</th>
+            <th><div>{$lang->column_type}</div></th>
             <td>
                 <select name="extra_vars_{$i}_type">
                     <!--@foreach($lang->column_type_list as $key => $val)-->
@@ -156,24 +152,24 @@
                 </select>
             </td>
         </tr>
-        <tr>
-            <th>{$lang->is_required}</th>
+        <tr class="row2">
+            <th><div>{$lang->is_required}</div></th>
             <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
         </tr>
         <tr>
-            <th>{$lang->default_value}</th>
+            <th><div>{$lang->default_value}</div></th>
             <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
         </tr>
-        <tr>
-            <th>{$lang->description}</th>
+        <tr class="row2">
+            <th><div>{$lang->description}</div></th>
             <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
         </tr>
         <tr>
-            <th>{$lang->cmd_search}</th>
+            <th><div>{$lang->cmd_search}</div></th>
             <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
         </tr>
-        <tr>
-            <th scope="row" colspan="2" class="button"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
+        <tr class="row2">
+            <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></td>
         </tr>
         </table>
         <!--@end-->

@@ -1,0 +1,6 @@
+<table name="sites">
+    <column name="site_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="index_module_srl" type="number" size="11" default="0" />
+    <column name="domain" type="varchar" size="255" notnull="notnull" index="idx_domain" />
+    <column name="regdate" type="date" />
+</table>

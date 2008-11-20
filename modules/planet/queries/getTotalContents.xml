@@ -1,0 +1,17 @@
+<query id="getTotalContents" action="select">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="modules" alias="modules" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module" default="planet" />
+        <condition operation="equal" column="modules.module_srl" var="module_srl" pipe="and"/>
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="like_prefix" column="documents.regdate" var="date" pipe="and" />
+        <condition operation="excess" column="documents.voted_count" var="voted_count" pipe="and" />
+        <condition operation="excess" column="documents.comment_count" var="comment_count" pipe="and" />
+    </conditions>
+</query>

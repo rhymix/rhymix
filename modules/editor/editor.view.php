@@ -78,6 +78,7 @@
             // 에디터 설정을 구함
             $oEditorModel = &getModel('editor');
             $editor_config = $oEditorModel->getEditorConfig($current_module_srl);
+
             Context::set('editor_config', $editor_config);
 
             // 에디터 스킨 목록을 구함
@@ -87,7 +88,8 @@
 
             // 그룹 목록을 구함
             $oMemberModel = &getModel('member');
-            $group_list = $oMemberModel->getGroups();
+            $site_module_info = Context::get('site_module_info');
+            $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
             Context::set('group_list', $group_list);
 
             // 템플릿 파일 지정
@@ -96,6 +98,20 @@
             $obj .= $tpl;
 
             return new Object();
+        }
+
+
+        function dispEditorPreview(){
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('preview');
+        }
+
+        function dispEditorSkinColorset(){
+            $skin = Context::get('skin');
+            $oModuleModel = &getModel('module');
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
+            $colorset = $skin_info->colorset;
+            Context::set('colorset', $colorset);
         }
     }
 ?>

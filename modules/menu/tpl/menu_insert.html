@@ -5,23 +5,21 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
 
     <table cellspacing="0" class="adminTable">
-    <col width="150" />
-    <col />
     <tr>
-        <th scope="col">{$lang->cmd_menu_insert}</th>
+        <th scope="col"><div>{$lang->cmd_menu_insert}</div></th>
         <td>{nl2br($lang->about_menu_management)}</td>
     </tr>
-    <tr>
-        <th scope="col">{$lang->title}</th>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->title}</div></th>
         <td>
             <input type="text" name="title" value="{$menu_info->title}" class="inputTypeText w400" />
             <p>{$lang->about_title}</p>
         </td>
     </tr>
     <tr>
-        <th scope="col" colspan="2" class="button">
+        <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_submit}" accesskey="s" /></span>
-        </th>
+        </td>
     </tr>
     </table>
 

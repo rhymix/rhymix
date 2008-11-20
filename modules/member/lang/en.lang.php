@@ -52,6 +52,13 @@
     $lang->member_info = 'Member Info';
     $lang->current_password = 'Current Password';
     $lang->openid = 'OpenID';
+    $lang->allow_message = 'Allow Messages';
+    $lang->allow_message_type = array(
+            'Y' => 'Allow All',
+            'F' => 'Allow for Friends',
+            'N' => 'Reject All',
+    );
+    $lang->about_allow_message = 'You may allow or reject messages.';
 
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";

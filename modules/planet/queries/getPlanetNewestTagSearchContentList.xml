@@ -1,0 +1,37 @@
+<query id="getPlanetNewestTagSearchContentList" action="select">
+    <tables>
+        <table name="planet" alias="planet" />
+        <table name="modules" alias="modules" />
+        <table name="member" alias="member" />
+        <table name="documents" alias="documents" />
+        <table name="tags" alias="tags" />
+    </tables>
+    <columns>
+        <column name="modules.mid" alias="mid" />
+        <column name="planet.module_srl" alias="module_srl" />
+        <column name="member.nick_name" />
+        <column name="documents.document_srl" alias="document_srl" />
+        <column name="documents.content" alias="content" />
+        <column name="documents.extra_vars20" alias="extra_vars20" />
+        <column name="documents.comment_count" alias="comment_count" />
+        <column name="documents.voted_count" alias="voted_count" />
+        <column name="documents.tags" alias="tags" />
+        <column name="documents.regdate" alias="regdate" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.mid" var="mid" />
+        <condition operation="equal" column="modules.module_srl" default="planet.module_srl" pipe="and" />
+        <condition operation="equal" column="documents.module_srl" default="modules.module_srl" pipe="and"/>
+        <condition operation="equal" column="member.member_srl" default="documents.member_srl" pipe="and" />
+        <condition operation="equal" column="tags.module_srl" default="planet.module_srl" pipe="and" />
+        <condition operation="equal" column="tags.document_srl" default="documents.document_srl" pipe="and" />
+        <condition operation="equal" column="tags.tag" var="tag" pipe="and" />
+        <condition operation="like_prefix" column="documents.regdate" var="date" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="order" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -45,18 +45,15 @@
             Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
 
-            Context::setBrowserTitle("ZeroboardXE Admin Page");
+            Context::setBrowserTitle("XE Admin Page");
         }
 
         /**
          * @brief 관리자 메인 페이지 출력
          **/
         function dispAdminIndex() {
-            // 공식사이트에서 최신 뉴스를 가져옴
             $newest_news_url = sprintf("http://news.zeroboard.com/%s/news.php", Context::getLangType());
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_,Context::getLangType());
-
-            // 1시간 단위로 캐싱 체크
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 FileHandler::getRemoteFile($newest_news_url, $cache_file);
             }
@@ -83,10 +80,140 @@
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
+            $db_info = Context::getDBInfo();
+            Context::set('selected_lang', $db_info->lang_type);
+
             Context::set('current_version', __ZBXE_VERSION__);
             Context::set('installed_path', realpath('./'));
 
+            $oModuleModel = &getModel('module');
+            $module_list = $oModuleModel->getModuleList();
+            Context::set('module_list', $module_list);
+
+            $oAddonModel = &getAdminModel('addon');
+            $addon_list = $oAddonModel->getAddonList();
+            Context::set('addon_list', $addon_list);
+
+            $args->date = date("Ymd000000", time()-60*60*24);
+            $today = date("Ymd");
+
+            // 회원
+            $output = executeQueryArray("admin.getMemberStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->member->today = $var->count;
+                    } else {
+                        $status->member->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getMemberCount", $args);
+            $status->member->total = $output->data->count;
+
+            // 문서
+            $output = executeQueryArray("admin.getDocumentStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->document->today = $var->count;
+                    } else {
+                        $status->document->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getDocumentCount", $args);
+            $status->document->total = $output->data->count;
+
+            // 댓글
+            $output = executeQueryArray("admin.getCommentStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->comment->today = $var->count;
+                    } else {
+                        $status->comment->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getCommentCount", $args);
+            $status->comment->total = $output->data->count;
+
+            // 엮인글
+            $output = executeQueryArray("admin.getTrackbackStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->trackback->today = $var->count;
+                    } else {
+                        $status->trackback->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getTrackbackCount", $args);
+            $status->trackback->total = $output->data->count;
+
+            // 첨부파일
+            $output = executeQueryArray("admin.getFileStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->file->today = $var->count;
+                    } else {
+                        $status->file->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getFileCount", $args);
+            $status->file->total = $output->data->count;
+
+            // 게시물 신고
+            $output = executeQueryArray("admin.getDocumentDeclaredStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->documentDeclared->today = $var->count;
+                    } else {
+                        $status->documentDeclared->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getDocumentDeclaredCount", $args);
+            $status->documentDeclared->total = $output->data->count;
+
+            // 댓글 신고
+            $output = executeQueryArray("admin.getCommentDeclaredStatus", $args);
+            if($output->data) {
+                foreach($output->data as $var) {
+                    if($var->date == $today) {
+                        $status->commentDeclared->today = $var->count;
+                    } else {
+                        $status->commentDeclared->yesterday = $var->count;
+                    }
+                }
+            }
+            $output = executeQuery("admin.getCommentDeclaredCount", $args);
+            $status->commentDeclared->total = $output->data->count;
+
+            Context::set('status', $status);
+
             $this->setTemplateFile('index');
+        }
+
+        /**
+         * @brief 관리자 설정
+         **/
+        function dispAdminConfig() {
+            $db_info = Context::getDBInfo();
+            Context::set('selected_lang', $db_info->lang_type);
+
+            Context::set('lang_supported', Context::loadLangSupported());
+
+            Context::set('lang_selected', Context::loadLangSelected());
+
+            Context::set('ftp_info', Context::getFTPInfo());
+
+            $this->setTemplateFile('config');
         }
     }
 ?>

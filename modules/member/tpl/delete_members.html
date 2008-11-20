@@ -6,20 +6,20 @@
 </div>
 
 <form action="./" method="get" id="fo_management" onsubmit="return procFilter(this, delete_members);">
-<input type="hidden" name="member_srl" value="{$member_srls}" />
+<input type="hidden" name="target_member_srls" value="{$member_srls}" />
 
 <div id="popBody">
     <table cellspacing="0" class="adminTable">
     <tr>
-        <th scope="col">{$lang->user_id}</th>
-        <th scope="col">{$lang->nick_name}</th>
-        <th scope="col">{$lang->signup_date}</th>
+        <th scope="col" class="half_wide"><div>{$lang->user_id}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->nick_name}</div></th>
+        <th scope="col"><div>{$lang->signup_date}</div></th>
     </tr>
     <!--@foreach($member_list as $key => $val)-->
     <tr>
         <td>{$val->user_id}</td>
         <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-        <td>{zdate($val->regdate, "Y-m-d H:i")}</td>
+        <td class="date center nowrap">{zdate($val->regdate, "Y-m-d H:i")}</td>
     </tr>
     <!--@end-->
     </table>

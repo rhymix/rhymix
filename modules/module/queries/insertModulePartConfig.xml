@@ -1,0 +1,11 @@
+<query id="insertModulePartConfig" action="insert">
+    <tables>
+        <table name="module_part_config" />
+    </tables>
+    <columns>
+        <column name="module" var="module" notnull="notnull" />
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="config" var="config" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

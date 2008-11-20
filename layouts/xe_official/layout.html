@@ -22,7 +22,7 @@
 
 <div id="bodyWrap">
     <div id="header">
-        <h1><a href="{$layout_info->index_url}"><!--@if(!$layout_info->logo_image)--><img src="./images/{$layout_info->colorset}/zeroBoardXE.png" alt="ZeroBoard™  XE" class="iePngFix" /><!--@else--><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /><!--@end--></a></h1>
+        <h1><!--@if($layout_info->logo_image)--><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a><!--@else-->&nbsp;<!--@end--></h1>
 
         <div id="language">
             <strong title="{$lang_type}">{$lang_supported[$lang_type]}</strong> <a href="#selectLang" onclick="showHide('selectLang');return false;"><img src="./images/{$layout_info->colorset}/buttonLang.gif" alt="Select Language" width="87" height="15" /></a>
@@ -95,7 +95,7 @@
     <ul id="footer">
         <li class="first-child">
             <address>
-            <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/{$layout_info->colorset}/powerdByZeroboard.gif" alt="Powered By ZeroBoard" width="106" height="5" /></a>
+            <a href="http://www.zeroboard.com" onclick="window.open(this.href);return false;"><img src="./images/powerdByXE.gif" alt="Powered By XpressEngine" width="70" height="5" /></a>
             </address>
 
         </li>

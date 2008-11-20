@@ -47,7 +47,8 @@
                 return $this->dispMemberSignUpForm();
             }
 
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            $site_module_info = Context::get('site_module_info');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl);
             unset($member_info->password);
             unset($member_info->email_id);
             unset($member_info->email_host);

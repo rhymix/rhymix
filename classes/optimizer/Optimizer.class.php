@@ -46,10 +46,12 @@
             // 캐시 디렉토리가 없으면 실행하지 않음
             if(!is_dir($this->cache_path)) return $this->_getOptimizedRemoved($source_files);
 
+            $files = array();
+
             if(!count($source_files)) return;
             foreach($source_files as $file) {
                 if(!$file || !$file['file']) continue;
-                if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) || $file['file'] == './common/css/button.css') $files[] = $file;
+                if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) ) $files[] = $file;
                 else $targets[] = $file;
             }
 
@@ -62,7 +64,7 @@
 
             $this->doOptimizedFile($path, $filename, $targets, $type);
 
-            $files[] = array('file' => $path.'/'.$filename, 'media' => 'all');
+            array_unshift($files, array('file' => $path.'/'.$filename, 'media' => 'all'));
 
             return $this->_getOptimizedRemoved($files);
         }
@@ -180,7 +182,7 @@ header("Last-Modified: '.substr(gmdate('r', $mtime), 0, -5).'GMT");
 header("ETag: \"'.dechex($unique).'-".dechex($size)."-'.dechex($mtime).'\""); 
 
 if(!$cached) {
-    if(!$buff) {
+    if(empty($buff)) {
         $f = fopen($content_filename,"r");
         fpassthru($f);
     } else print $buff;

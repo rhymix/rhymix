@@ -5,13 +5,8 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
-    $lang->introduce_title = '제로보드 XE 설치';
+    $lang->introduce_title = 'XE 설치';
     $lang->license = <<<EndOfLicense
-- 프로그램명 : 제로보드XE (zeroboardXE)
-- 라이선스   : GNU GENERAL PUBLIC LICENSE
-- 공식 사이트 : <a href="http://www.zeroboard.com">http://www.zeroboard.com</a>
-- 원저작자 : zero (zero@zeroboard.com, http://www.zeroboard.com)
-
 이 프로그램은 자유 소프트웨어 이며 GPL을 따릅니다.
 단 디자인 요소가 첨부된 스킨의 경우는 해당 스킨 제작자가 개별적인 라이선스를 적용할 수 있습니다.
 번역문과 원문의 내용상 차이가 발생시 원문의 내용을 따르게 됩니다.
@@ -211,9 +206,9 @@ EndOfLicense;
 
     $lang->install_checklist_desc = array(
             'php_version' => '[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다',
-            'permission' => '[필수] 제로보드의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다',
+            'permission' => '[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다',
             'xml' => '[필수] XML통신을 위하여 XML 라이브러리가 필요합니다',
-            'session' => '[필수] 제로보드에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다',
+            'session' => '[필수] XE에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다',
             'iconv' => 'UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다',
             'gd' => '이미지변환 기능을 사용하기 위해 GD라이브러리가 설치되어 있어야 합니다',
         );
@@ -230,6 +225,7 @@ EndOfLicense;
     $lang->cmd_agree_license = '라이선스에 동의합니다';
     $lang->cmd_install_fix_checklist = '필수 설치조건을 설정하였습니다.';
     $lang->cmd_install_next = '설치를 진행합니다';
+    $lang->cmd_ignore = '무시';
 
     $lang->db_desc = array(
         'mysql' => 'mysql DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',

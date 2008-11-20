@@ -1,0 +1,19 @@
+<query id="getPlanetComments" action="select">
+    <tables>
+        <table name="comments" alias="comments" />
+        <table name="planet" alias="planet" />
+        <table name="modules" alias="modules" />
+    </tables>
+    <columns>
+        <column name="comments.*" />
+        <column name="modules.mid" alias="mid" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="comments.document_srl" var="document_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="planet.member_srl" default="comments.member_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="modules.module_srl" default="planet.module_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="comments.comment_srl" order="asc" />
+    </navigation>
+</query>

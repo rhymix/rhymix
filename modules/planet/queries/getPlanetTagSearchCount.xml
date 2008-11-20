@@ -1,0 +1,14 @@
+<query id="getPlanetTagSearchCount" action="select">
+    <tables>
+        <table name="planet_tag" alias="planet_tag" />
+        <table name="planet_tag_text" alias="planet_tag_text" />
+    </tables>
+    <columns>
+        <column name="count(planet_tag_text_srl)" alias="PlanetTagCount" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="planet_tag.module_srl" var="module_srl" />
+        <condition operation="equal" column="planet_tag.tag_type" var="tag_type" default="P" pipe="and" />
+        <condition operation="equal" column="planet_tag_text" var="search_text" filter="string" pipe="and" />
+    </conditions>
+</query>

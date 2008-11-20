@@ -19,11 +19,9 @@
 
     <div id="popBody">
         <table cellspacing="0" class="adminTable">
-        <col width="150" />
-        <col />
         <caption>{nl2br($lang->about_widget_code_in_page)}</caption>
         <tr>
-            <th scope="row">{$lang->widget}</th>
+            <th scope="row"><div>{$lang->widget}</div></th>
             <td>
                 {$widget_info->title} ver {$widget_info->version}
                 <!--@if($widget_info->author->description)-->
@@ -33,7 +31,7 @@
         </tr>
         <!--@if(count($skin_list))-->
         <tr>
-            <th scope="row">{$lang->skin}</th>
+            <th scope="row"><div>{$lang->skin}</div></th>
             <td>
                 <select name="skin" onchange="doDisplaySkinColorset(this);return false;" id="widget_skin">
                     <option value="">&nbsp;</option>
@@ -53,7 +51,7 @@
         </tr>
         <!--@end-->
         <tr>
-            <th scope="row">{$lang->widget_cache}</th>
+            <th scope="row"><div>{$lang->widget_cache}</div></th>
             <td>
                 <input type="text" name="widget_cache" value="0" class="inputTypeText" size="2" />{$lang->unit_min}
                 <p>{$lang->about_widget_cache}</p>
@@ -65,18 +63,16 @@
         {@$group = $var->group}
         </table>
         <table cellspacing="0" class="adminTable">
-        <col width="150" />
-        <col width="*" />
         <caption>{$group}</caption>
         <!--@end-->
 
-        <tr>
-            <th scope="row">
+        <tr class="row{$cycle_idx}">
+            <th scope="row"><div>
                 {$var->name}
                 <!--@if($var->type == "mid_list")-->
                     <input type="checkbox" onclick="checkboxSelectAll(this.form, '{$id}'); return false;" />
                 <!--@end-->
-            </th>
+            </div></th>
             <td>
                 <!--@if($var->type == "text")-->
                 <input type="text" name="{$id}" value="" class="inputTypeText" />

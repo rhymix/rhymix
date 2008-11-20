@@ -63,6 +63,9 @@
                     $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->get('ipaddress'));
                     $icon_path = './modules/member/tpl/images/icon_management.gif';
                     $oCommentController->addCommentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment-> getIpAddress());
+                    $oCommentController->addCommentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
                 }
             }
 
@@ -383,18 +386,9 @@
          * @brief 모듈별 댓글 설정을 return
          **/
         function getCommentConfig($module_srl) {
-            if(!$GLOBLAS['__comment_module_config__']) {
-                // 선택된 모듈의 trackback설정을 가져옴
-                $oModuleModel = &getModel('module');
-                $GLOBLAS['__comment_module_config__'] = $oModuleModel->getModuleConfig('comment');
-            }
-
-            $comment_config = $GLOBLAS['__comment_module_config__']->module_config[$module_srl];
-
-            if(!is_object($comment_config)) $comment_config = null;
-
+            $oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
             if(!isset($comment_config->comment_count)) $comment_count->comment_count = 50;
-
             return $comment_config;
         }
 

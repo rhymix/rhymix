@@ -1,0 +1,38 @@
+<!--#include("./board_header.html")-->
+<!--%import("filter/insert_grant.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_grant)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_srl?$module_srl:$module_srls}" />
+
+<table cellspacing="0" class="adminTable">
+<caption>{$lang->about_grant}</caption>
+<thead>
+<tr>
+    <th scope="col"><div>{$lang->grant}</div></th>
+    <th scope="col" colspan="3"><div>{$lang->target}</div></th>
+</tr>
+</thead>
+
+<tbody>
+    <!--@foreach($grant_list as $key => $val)-->
+    <tr class="row{$cycle_idx}">
+        <th scope="row"><div>{$val->title}</div></th>
+        <td class="wide">
+            <!--@foreach($group_list as $k => $v)-->
+            <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
+            <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
+            <!--@end-->
+        </td>
+        <td class="selectAll center"><a href="#" onclick="doSelectAll(this, '{$key}');return false;">{$lang->cmd_select_all}</a></td>
+        <td class="deSelectAll center"><a href="#" onclick="doUnSelectAll(this, '{$key}');return false;">{$lang->cmd_unselect_all}</a></td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <td colspan="4" class="right">
+            <span class="button blue"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        </td>
+    </tr>
+</tbody>
+</table>
+</form>

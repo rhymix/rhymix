@@ -1,0 +1,16 @@
+<query id="getChangesets" action="select">
+    <tables>
+        <table name="issue_changesets" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+        <condition operation="below" column="date" var="enddate" pipe="and" />
+        <condition operation="more" column="date" var="startdate" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="revision" order="desc" />
+    </navigation>
+</query>

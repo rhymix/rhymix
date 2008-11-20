@@ -125,6 +125,7 @@
     <td class="no">{$no}</td>
             <!--@elseif($k == 'title')-->
     <td class="title issue_{$val->get('status')}">
+        <!--@if($grant->is_admin)--><input type="checkbox" name="cart" value="{$val->document_srl}" onclick="doAddDocumentCart(this);" <!--@if($val->isCarted())-->checked="checked"<!--@end-->/><!--@end-->
         <a href="{getUrl('document_srl', $val->get('document_srl'))}">{$val->getTitle()}</a> 
         {$val->printExtraImages(60*60*24)}
         <!--@if($val->getCommentCount())-->
@@ -169,11 +170,17 @@
 </tbody>
 </table>
 
+<!--@if($grant->is_admin)-->
+<div class="fr gap1">
+    <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+</div>
+<!--@end-->
+
 <!--@if($page_navigation->total_page>1)-->
-<div class="pageNavigation">
+<div class="pagination a1">
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
-            <span class="current">{$page_no}</span> 
+            <strong>{$page_no}</strong> 
         <!--@else-->
             <span><a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a></span>
         <!--@end-->

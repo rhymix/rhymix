@@ -14,11 +14,11 @@
         <col />
 
         <tr>
-            <th scope="row">{$lang->image_url}</th>
+            <th scope="row"><div>{$lang->image_url}</div></th>
             <td><input type="text" id="image_url" value="{url_decode($manual_url)}" onblur="getImageScale();" class="inputTypeText w400" /></td>
         </tr>
         <tr>
-            <th scope="row">{$lang->image_scale}</th>
+            <th scope="row"><div>{$lang->image_scale}</div></th>
             <td>
                 <ul>
                     <li><input type="text" id="width" value="0" size="4" class="inputTypeText" onblur="setScale('width');return false;" />px </li>
@@ -28,19 +28,19 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">URL</th>
+            <th scope="row"><div>URL</div></th>
             <td><input type="text" id="link_url" value="" class="inputTypeText w400"/></td>
         </tr>
         <tr>
-            <th scope="row">{$lang->urllink_open_window}</th>
+            <th scope="row"><div>{$lang->urllink_open_window}</div></th>
             <td><input type="checkbox" id="open_window" value="Y" /> {$lang->about_url_link_open_window}</td>
         </tr>
         <tr>
-            <th scope="row">{$lang->image_alt}</th>
+            <th scope="row"><div>{$lang->image_alt}</div></th>
             <td><input type="text" id="image_alt" value="" class="inputTypeText w400"/></td>
         </tr>
         <tr>
-            <th scope="row">{$lang->image_align}</th>
+            <th scope="row"><div>{$lang->image_align}</div></th>
             <td>
                 <div class="image_align">
                     <input type="radio" name="align" value="" id="align_normal" checked="checked"/>
@@ -76,7 +76,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row">{$lang->image_border}</th>
+            <th scope="row"><div>{$lang->image_border}</div></th>
             <td><input type="text" id="image_border" value="0" size="2" class="inputTypeText" />px</td>
         </tr>
         </table>

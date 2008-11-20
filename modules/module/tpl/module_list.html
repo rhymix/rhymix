@@ -5,72 +5,42 @@
 <form id="fo_shortcut" action="./" method="get">
     <input type="hidden" name="selected_module" value="" />
 </form>
-
-<table cellspacing="0" class="adminTable">
-<!--@if($lang_type == 'ko')-->
-{@ $col_width = array(0,40,80,75,70,140,70,100)}
-<!--@else if($lang_type == 'en')-->
-{@ $col_width = array(0,60,80,75,70,140,50,100)}
-<!--@else if($lang_type == 'zh-CN')-->
-{@ $col_width = array(0,40,80,75,60,140,65,80)}
-<!--@else if($lang_type == 'jp')-->
-{@ $col_width = array(0,80,80,70,80,140,45,100)}
-<!--@else if($lang_type == 'es')-->
-{@ $col_width = array(0,60,80,75,90,140,85,75)}
-<!--@else if($lang_type == 'ru')-->
-{@ $col_width = array(0,60,90,70,70,140,95,90)}
-<!--@else if($lang_type == 'fr')-->
-{@ $col_width = array(0,60,80,70,75,140,70,90)}
-<!--@end-->
-
-<!--@foreach($col_width as $width)-->
-<col <!--@if($width)-->width="{$width}" <!--@end-->/>
-<!--@end-->
-<thead>
-    <tr>
-        <th scope="col">{$lang->module_name}</th>
-        <th scope="col">{$lang->version}</th>
-        <th scope="col">{$lang->author}</th>
-        <th scope="col">{$lang->date}</th>
-        <th scope="col">{$lang->table_count}</th>
-        <th scope="col">{$lang->installed_path}</th>
-        <th scope="col">{$lang->module_info}</th>
-        <th scope="col">{$lang->module_action}</th>
-    </tr>
-</thead>
-<tbody>
-<!--@foreach($module_list as $key => $val)-->
-    <tr>
-        <td class="left gl3 blue">
-            <!--@if($val->admin_index_act)-->
-                <a href="{getUrl('act',$val->admin_index_act)}" title="{trim($val->description)}">{$val->title}</a> ({$val->module})
-            <!--@else-->
-                <span title="{trim($val->description)}">{$val->title}</span> ({$val->module})
-            <!--@end-->
-        </td>
-        <td class="tahoma">{$val->version}</td>
-        <td>
-            <!--@foreach($val->author as $author)-->
-            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
-            <!--@endforeach-->
-        </td>
-        <td class="tahoma">{zdate($val->date, 'Y-m-d')}</td>
-        <td class="tahoma <!--@if($val->created_table_count != $val->table_count)-->red<!--@end-->">
-            {$val->created_table_count}/{$val->table_count}
-        </td>
-        <td class="tahoma left">{$val->path}</td>
-        <td class="blue"><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false">{$lang->cmd_view}</a></td>
-        <td class="red">
-            <!--@if($val->need_install)-->
-                <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
-            <!--@end-->
-            <!--@if($val->need_update)-->
-                <a href="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->cmd_update}</a>
-            <!--@else-->
-                &nbsp;
-            <!--@end-->
-        </td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
+    <table cellspacing="0" class="adminTable">
+    <caption>{$lang->module}</caption>
+    <thead>
+        <tr>
+            <th class="wide"><div>{$lang->module_name}</div></th>
+            <th><div>{$lang->version}</div></th>
+            <th><div>{$lang->author}</div></th>
+            <th><div>{$lang->table_count}</div></th>
+            <th><div>{$lang->path}</div></th>
+            <th><div>{$lang->module_action}</div></th>
+        </tr>
+    </thead>
+    <tbody>
+    <!--@foreach($module_list as $key => $val)-->
+        <tr class="row{$cycle_idx}">
+            <td><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false"title="{trim($val->description)}">{$val->title}</a> ({$val->module})</td>
+            <td class="center number">{$val->version}</td>
+            <td class="nowrap">
+                <!--@foreach($val->author as $author)-->
+                <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+                <!--@endforeach-->
+            </td>
+            <td class="number center <!--@if($val->created_table_count != $val->table_count)-->alert<!--@end-->">
+                {$val->created_table_count}/{$val->table_count}
+            </td>
+            <td class="nowrap">{$val->path}</td>
+            <td class="nowrap center <!--@if($val->need_install || $val->need_update)-->alert<!--@end-->">
+                <!--@if($val->need_install)-->
+                    <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
+                <!--@elseif($val->need_update)-->
+                    <a href="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->cmd_update}</a>
+                <!--@else-->
+                    -
+                <!--@end-->
+            </td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>

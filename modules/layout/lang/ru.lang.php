@@ -2,7 +2,7 @@
   /**
      * @file   ru.lang.php
      * @author zero <zero@nzeo.com> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
-     * @brief  Russian basic language pack for Zeroboard XE
+     * @brief  Russian basic language pack
      **/
 
     $lang->cmd_layout_management = 'Настройки лейаута';
@@ -29,5 +29,5 @@
     $lang->about_layout_code = 
         "Применения к службе будут проиведены, когда Вы сохраните код лейаут после редактирование.
         Пожалуйста, сначала используйте предпросмотр кода и затем сохраните его.
-        Вы можете обратиться к грамматике шаблонов Zeroboard XE с <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ZeroboardXE Template</a>.";
+        Вы можете обратиться к грамматике шаблонов XE с <a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE Template</a>.";
 ?>

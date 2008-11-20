@@ -12,7 +12,7 @@
 
     $lang->layout_name = '布局名';
     $lang->layout_maker = "布局作者";
-    $lang->layout_license = 'License';
+    $lang->layout_license = '版权';
     $lang->layout_history = "更新记录 ";
     $lang->layout_info = "布局信息";
     $lang->layout_list = '布局目录';
@@ -31,5 +31,5 @@
     $lang->about_layout_code = 
         "修改的布局代码保存后即可生效。
 	保存之前请必须先预览后再保存。
-        Zeroboard XE 布局语法请参考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">Zeroboard XE 模板</a>。";
+        XE 布局语法请参考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE 模板</a>。";
 ?>

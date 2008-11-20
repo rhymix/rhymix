@@ -1,0 +1,12 @@
+<filter name="me2day_api" module="planet" act="procPlanetMe2dayApi" confirm_msg_code="confirm_submit">
+  <form>
+    <node target="me2day_id" required="true" minlength="1" maxlength="40" />
+    <node target="me2day_ukey" required="true" minlength="1" maxlength="40" />
+    <node target="me2day_autopush" />
+  </form>
+  <parameter />
+  <response callback_func="completeMe2Api">
+    <tag name="error" />
+    <tag name="message" />
+  </response>
+</filter>

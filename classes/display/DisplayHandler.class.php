@@ -26,13 +26,13 @@
 
             // header 출력
             $this->_printHeader();
-
             // request method에 따른 처리
             if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
+            else if(Context::getRequestMethod() == 'JSON') $content = $this->_toJSON($oModule);
             else $content = $this->_toHTMLDoc($oModule);
 
             // 요청방식에 따라 출력을 별도로
-            if(Context::getResponseMethod()!="XMLRPC") {
+            if(Context::getResponseMethod()=="HTML") {
                 
                 Context::set('content', $content);
 
@@ -92,6 +92,18 @@
             if($this->gz_enabled) print ob_gzhandler($content, 5);
             else print $content;
         }
+
+        /**
+         * @brief RequestMethod가 JSON이면 JSON 데이터로 컨텐츠 생성
+         **/
+        function _toJSON(&$oModule) {
+            $variables = $oModule->getVariables();
+            //if(function_exists('json_encode')) return json_encode($variables);
+            //else return json_encode2($variables);
+            $json = str_replace("\r\n",'\n',json_encode2($variables));
+            return $json;
+        }
+
 
         /**
          * @brief RequestMethod가 XML이면 XML 데이터로 컨텐츠 생성
@@ -209,7 +221,8 @@
          ***/
         function _printHeader() {
             if($this->gz_enabled) header("Content-Encoding: gzip");
-            if(Context::getResponseMethod() != 'HTML') return $this->_printXMLHeader();
+            if(Context::getResponseMethod() == 'JSON') return $this->_printJSONHeader();
+            else if(Context::getResponseMethod() != 'HTML') return $this->_printXMLHeader();
             else return $this->_printHTMLHeader();
         }
 
@@ -229,6 +242,18 @@
          * @brief html header 출력 (utf8 고정)
          **/
         function _printHTMLHeader() {
+            header("Content-Type: text/html; charset=UTF-8");
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");
+        }
+
+        /**
+         * @brief JSON header 출력 (utf8 고정)
+         **/
+        function _printJSONHeader() {
             header("Content-Type: text/html; charset=UTF-8");
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
             header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
