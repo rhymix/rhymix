@@ -2,7 +2,7 @@
     /**
      * @file   ja.lang.php
      * @author sol (sol@ngleader.com)
-      * @edit nmind(nmindplus@gmail.com)
+     * @edit nmind(nmindplus@gmail.com)
      * @brief  プラネット(planet)モジュールの日本語パック
      **/
 

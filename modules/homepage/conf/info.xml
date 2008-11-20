@@ -3,16 +3,19 @@
     <title xml:lang="ko">홈페이지</title>
     <title xml:lang="en">Homepage</title>
     <title xml:lang="zh-CN">站点</title>
+    <title xml:lang="zh-TW">Home</title>
     <description xml:lang="ko">XE의 여러 모듈들을 조합하여 홈페이지를 생성하기 가장 좋은 관리자 기능을 제공합니다</description>
     <description xml:lang="en">Homepage package provides convenient adminitration features to create an to manage homepages by combining several modules of XE.</description>
     <description xml:lang="zh-CN">组合XE各模块，快速新建站点。</description>
+    <description xml:lang="zh-TW">XE의 여러 모듈들을 조합하여 홈페이지를 생성하기 가장 좋은 관리자 기능을 제공합니다</description>
     <version>0.1</version>
     <date>2008-11-04</date>
     <category>package</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
-	<name xml:lang="en">zero</name>
-	<name xml:lang="zh-CN">zero</name>
+		<name xml:lang="en">zero</name>
+		<name xml:lang="zh-CN">zero</name>
+		<name xml:lang="zh-TW">zero</name>
     </author>
 </module>
