@@ -43,8 +43,15 @@ table.list tr td.title a { color:#BBBBBB !important; }
 table.list tr td { border-top:1px solid #888888 !important; }
 table .list tr td, table.list tr td * { color:#BBBBBB; }
 
-.pagenation a { border:none !important; }
-.pagenation strong { border:none !important; color:#EEEEEE; }
+/* Pagination*/
+.pagination a, .pagination strong{ color:#888; }
+.pagination a:hover, .pagination a:active, .pagination a:focus{ background-color:#555 !important; }
+.pagination strong{ color:#ff6600 !important;}
+.pagination.a1 a, .pagination.a1 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888;}
+.pagination.a1 a.prev, .pagination.a1 a.prevEnd, .pagination.a1 a.next, .pagination.a1 a.nextEnd { background:#000; }
+
+.pagination.a2 a, .pagination.a2 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888; }
+.pagination.a2 a.prev, .pagination.a2 a.prevEnd, .pagination.a2 a.next, .pagination.a2 a.nextEnd { background:#000; }
 
 .memberSmallBox .leftHeaderType th { background:transparent; color:#AAAAAA; }
 .memberSmallBox .leftHeaderType td { color:#AAAAAA; }
