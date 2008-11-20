@@ -89,18 +89,11 @@
 .boardRead .readBody { color:#BBBBBB; }
 
 /* button */
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
-    background-image:url(../images/black/form_buttons.png);
-    _background-image:url(../images/black/form_buttons.gif);
-}
-
-
-del.button span,
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
- color:#FFFFFF;
-}
+a.button,
+a.button span,
+span.button,
+span.button button,
+span.button input { background-image:url(../../../../../common/tpl/images/buttonBlack.gif); color:#fff;}
 
 
 .trackbackBox {border:1px solid #444444; }
@@ -110,3 +103,13 @@ a.button span, span.button button, span.button input, del.button span{
 .boardWrite { border:1px solid #555555; }
 .smallBox { border:1px solid #555555; }
 .smallBox .header { background-color:transparent; }
+
+/* Pagination*/
+.pagination a, .pagination strong{ color:#888; }
+.pagination a:hover, .pagination a:active, .pagination a:focus{ background-color:#555 !important; }
+.pagination strong{ color:#ff6600 !important;}
+.pagination.a1 a, .pagination.a1 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888;}
+.pagination.a1 a.prev, .pagination.a1 a.prevEnd, .pagination.a1 a.next, .pagination.a1 a.nextEnd { background:#000; }
+
+.pagination.a2 a, .pagination.a2 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888; }
+.pagination.a2 a.prev, .pagination.a2 a.prevEnd, .pagination.a2 a.next, .pagination.a2 a.nextEnd { background:#000; }

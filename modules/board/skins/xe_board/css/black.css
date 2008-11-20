@@ -102,12 +102,13 @@
 .smallBox .messageBox { background-color:#444444; border-bottom:1px solid #888888; color:#AAAAAA;}
 .smallBox .header { background:transparent !important; }
 
+
 /* button */
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
-    background-image:url(../images/black/form_buttons.png);
-    _background-image:url(../images/black/form_buttons.gif);
-}
+a.button,
+a.button span,
+span.button,
+span.button button,
+span.button input { background-image:url(../../../../../common/tpl/images/buttonBlack.gif); color:#fff;}
 
 
 del.button span,
