@@ -15,7 +15,7 @@
 
     $lang->planet_welcome = "Welcome!";
 
-    $lang->planet_reply_content = "플래닛 댓글 내용";
+    $lang->planet_reply_content = "Planet reply content";
 
     $lang->about_planet = 
         "XE microblog module. Each member can create the own planet.
@@ -28,8 +28,8 @@
     $lang->planet_default_skin = "Planet default skin";
     $lang->about_planet_default_skin = "It will be set for main planet page and created planets.";
 
-    $lang->planet_comment = "플래닛 한줄 소개";
-    $lang->about_planet_comment = "플래닛 한줄 소개는 플래닛 접속시 브라우저 제목과 플래닛의 한줄 소개란에 표시되는 내용입니다";
+    $lang->planet_comment = "Introduction";
+    $lang->about_planet_comment = "This message is displayed at the title of the browser and your planet."; 
 
     $lang->use_signup = "Display the link to sign up";
     $lang->about_use_signup = "If set, the link to sign up will be displayed at the top of the planet";
@@ -67,7 +67,7 @@
     $lang->planet_interest_content = "Interesting articles";
     $lang->cmd_planet_show_interest_tag = "Display interesting tags";
     $lang->cmd_planet_close_interest_tag = "Close interesting tags";
-    $lang->msg_planet_already_added_interest_tag = "이미 등록된 관심태그입니다";
+    $lang->msg_planet_already_added_interest_tag = "The tag is already registered";
 
     $lang->cmd_planet_edit_subject = "Edit title";
     $lang->cmd_planet_edit_intro = "Edit intro";
@@ -77,7 +77,7 @@
     $lang->cmd_planet_del_tag = "Delete tag";
 
     $lang->cmd_planet_openclose_recommend_search = "추천 검색어 열기/닫기";
-    $lang->about_planet_input_search_text = "검색어입력";
+    $lang->about_planet_input_search_text = "Search Text";
 
     $lang->about_planet_make_planet = "Create your own planet. Please input the following information";
     $lang->about_planet_make_planet_info = "내 플래닛의 상단에 보여질 나의 정보입니다. 각 항목을 원하는 대로 설정하고 변경해보세요.";
@@ -103,8 +103,8 @@
     $lang->planet_nowhot_tag = "Popular tags";
     $lang->cmd_planet_close_nowhot_tag = "Close the popular tags";
 
-    $lang->about_planet_whats_textSearch_in_planet = "<strong>%s</strong>님의 플래닛에서 검색한 <strong>'%s'</strong> 에 대한 결과 입니다.";
-    $lang->about_planet_whats_textSearch = "<strong>'%s'</strong> 에 대한 전체 검색결과 입니다.";
+    $lang->about_planet_whats_textSearch_in_planet = "Search results in <strong>%s</strong>'s planet for <strong>'%s'</strong>.";
+    $lang->about_planet_whats_textSearch = "Search results for <strong>'%s'</strong>.";
 
     $lang->planet_acticle = "Article";
     $lang->planet_persontag = "Person Tag";
@@ -147,11 +147,11 @@
     $lang->msg_success_auth_me2day = "Me2day authentication was successful";
 
     $lang->planet_total_articles = "All";
-    $lang->planet_wantyou = "원츄";
-    $lang->planet_best = "월척";
-    $lang->planet_catch = "낚은 글";
-    $lang->planet_fish = "낚인 글";
-    $lang->planet_bigfish = "월척";
+    $lang->planet_wantyou = "Thumbed up";
+    $lang->planet_best = "Most discussed";
+    $lang->planet_catch = "Fished others";
+    $lang->planet_fish = "You fished";
+    $lang->planet_bigfish = "Most discussed";
     $lang->cmd_send_me2day = "Me2day";
 
     $lang->msg_already_have_phone_number = 'The phone number is already registered';
