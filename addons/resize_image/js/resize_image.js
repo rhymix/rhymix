@@ -63,7 +63,7 @@ function resizeImageContents() {
         }
     }
 }
-xAddEventListener(window, "load", resizeImageContents);
+xAddEventListener(window, "load", function() { setTimeout(resizeImageContents,1500); });
 
 /**
  * @brief 본문내에서 컨텐츠 영역보다 큰 이미지의 경우 원본 크기를 보여줌

@@ -8,6 +8,6 @@
      **/
 
     if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {
-        Context::addJsFile('./addons/resize_image/js/resize_image.js');
+        Context::addJsFile('./addons/resize_image/js/resize_image.js',false);
     }
 ?>
