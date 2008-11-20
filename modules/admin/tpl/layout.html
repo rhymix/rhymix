@@ -36,13 +36,13 @@
 
 <div class="adminPackage">
     <ul>
+        <!--@if($logged_info->is_admin=='Y')-->
+        <li class="admin <!--@if(!$act||in_array($act,array('dispAdminIndex','dispAdminConfig')))-->active<!--@end-->"><a href="{getUrl('','module','admin')}">{$lang->admin_index}</a></li>
+        <!--@end-->
         <!--@foreach($installed_module_list as $k => $v)-->
         <!--@if($v->category=='package')-->
         <li <!--@if(in_array($act, $v->actions))-->class="active"<!--@end-->><a href="{getUrl('','module','admin','act',$v->admin_index_act)}" title="{trim($v->description)}" class="adminMenu">{$v->title}</a></li>
         <!--@end-->
-        <!--@end-->
-        <!--@if($logged_info->is_admin=='Y')-->
-        <li class="admin <!--@if(!$act||in_array($act,array('dispAdminIndex','dispAdminConfig')))-->active<!--@end-->"><a href="{getUrl('','module','admin')}">{$lang->admin_index}</a></li>
         <!--@end-->
     </ul>
 </div>

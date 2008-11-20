@@ -55,12 +55,10 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .toolBox .extension2 .exButton:hover,
 .toolBox .extension2 .exButton:focus{ background-position:-579px -21px;}
 .toolBox .extension2 .exButton:active{ background-position:-579px -42px;}
-.toolBox .extension2 ul { display:none; position:absolute; padding:5px 0; top:26px; right:0; border:1px solid;}
-.toolBox .extension2.open ul { display:block;}
-.toolBox .extension2 li{ float:none; text-align:left; padding:0 10px;}
-.toolBox .extension2 li button{ display:block; background:none; border:none; cursor:pointer; height:18px; font:11px Dotum, Tahoma; white-space:nowrap; width:auto; *width:100%;}
-.toolBox .extension2 li button span{ display:block; z-index:1; white-space:nowrap;}
-.toolBox .extension2 li button span img{ vertical-align:top; width:13px;}
+.toolBox .extension2 ul { display:none; position:absolute; padding:5px 0; top:10px; *top:25px; right:0; border:1px solid; }
+.toolBox .extension2.open ul { display:block; }
+.toolBox .extension2 li{ text-align:left; padding:2px 3px !important; list-style:none; margin:0 !important; display:block; white-space:nowrap;}
+.toolBox .extension2 li a { color:#000000; text-decoration:none; }
 
 .toolBox .editorHelp{ float:left; position:relative; margin:0 5px 5px 0;}
 .toolBox .editorHelp .helpButton{ float:left; border:0; width:22px; height:21px; background-repeat:no-repeat; background-position:right top; cursor:pointer;}
@@ -238,5 +236,3 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .xeEditor .fileUploader .fileUploadControl{ clear:right;}
 .xeEditor .fileUploader .fileUploadControl .button{ margin-bottom:5px;}
 .xeEditor .fileUploader .file_attach_info{ clear:right; margin:5px 0;}
-
-#editor_component_1 { list-style:none; }

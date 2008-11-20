@@ -133,10 +133,10 @@
             <!-- 확장 컴포넌트 출력 -->
                 <div class="extension2" id="editorExtension_{$editor_sequence}">
                     <button type="button" class="exButton" title="{$lang->edit->extension}" onclick="showEditorExtension(event,{$editor_sequence})"><span>{$lang->edit->extension}</span></button>
-                    <ul id="editor_component_{$editor_sequence}">
+                    <ul id="editor_component_{$editor_sequence}" class="editorComponent">
                         <!--@foreach($component_list as $component_name => $component)-->
                             <!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_link','multimedia_link','quotation','table_maker','url_link')))-->
-                                <li><button type="button" id="component_{$editor_sequence}_{$component_name}"><span><img src="../../components/{$component_name}/component_icon.gif" alt="" /> {$component->title}</span></button></li>
+                                <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}"><img src="../../components/{$component_name}/component_icon.gif" alt="" /> {$component->title}</a></li>
                             <!--@end-->
                         <!--@end-->
                     </ul>
