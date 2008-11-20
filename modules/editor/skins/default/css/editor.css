@@ -206,7 +206,7 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .toolBox .item .emoticon button:active{ background-position:-558px -42px;}
 
 /* Auto Save */
-.xeEditor .editor_autosaved_message{background:none; border:none; text-align:right; clear:both; padding-right:5px; }
+.xeEditor .editor_autosaved_message{background:none; border:none; text-align:right; clear:both; margin:0; padding:0 5px 0 0; }
 
 /* Edit Area */
 .xeEditor .editorBox{ border-bottom:5px solid; position:relative; width:100%;}
