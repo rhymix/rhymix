@@ -500,17 +500,18 @@ function showEditorHelp(e,editor_sequence){
     }
 }
 
-function showEditorExtension(e,editor_sequence){
+function showEditorExtension(evt,editor_sequence){
     var oid = 'editorExtension_'+editor_sequence;
+    var e = new xEvent(evt);
     if(xGetElementById(oid).className =='extension2'){
         xGetElementById(oid).className = 'extension2 open';
 
         if(e.pageX <= xWidth('editor_component_'+editor_sequence)){
             xGetElementById('editor_component_'+editor_sequence).style.right='auto';
-            xGetElementById('editor_component_'+editor_sequence).style.left='0';
+            xGetElementById('editor_component_'+editor_sequence).style.left='0px';
         }else{
-            xGetElementById('editor_component_'+editor_sequence).style.right='0';
-            xGetElementById('editor_component_'+editor_sequence).style.left='';
+            xGetElementById('editor_component_'+editor_sequence).style.right='0px';
+            xGetElementById('editor_component_'+editor_sequence).style.left='auto';
         }
 
     }else{
