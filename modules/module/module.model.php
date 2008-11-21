@@ -32,7 +32,7 @@
             $url_info = parse_url(Context::getRequestUri());
             $hostname = $url_info['host'];
             $path = preg_replace('/\/$/','',$url_info['path']);
-            $sites_args->domain = sprintf('%s%s', $hostname, $path);
+            $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
             $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
             if(!$output->toBool() || !$output->data) $output = executeQuery('module.getDefaultMidInfo');
             $module_info = $output->data;
