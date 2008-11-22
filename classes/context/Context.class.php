@@ -139,7 +139,7 @@
             $this->addJsFile("./common/js/xml_handler.js");
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
-            $this->addCSSFile("./common/css/button.css",false);
+            $this->addCSSFile("./common/css/button.css");
 
             // 관리자 페이지일 경우 관리자 공용 CSS 추가
             if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
