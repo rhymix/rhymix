@@ -23,10 +23,10 @@
          如果想將微型部落格當作首頁，請先在網站模組中設定其他的網域名稱。";
 
     $lang->planet_mid = "微型部落格連結網址";
-    $lang->about_planet_mid = "可以直接輸入網址訪問部落格，微型部落格連結網址是「http://主程式網址/planet連結網址」。";
+    $lang->about_planet_mid = "可以直接輸入網址訪問部落格，微型部落格連結網址是「http://主程式網址/微型部落格網址」。";
 
-    $lang->planet_default_skin = "微型部落格基本面板";
-    $lang->about_planet_default_skin = "建立和設定微型部落格首頁。";
+    $lang->planet_default_skin = "微型部落格面板";
+    $lang->about_planet_default_skin = "選擇微型部落格面板。";
 
     $lang->planet_comment = "微型部落格簡介";
     $lang->about_planet_comment = "微型部落格的簡介，同時也會顯示在瀏覽器的標題。";
@@ -35,8 +35,8 @@
     $lang->about_use_signup = "選擇此項，會在微型部落格首頁顯示『新會員註冊』按鈕。";
 
     $lang->cmd_create_planet = "建立我的微型部落格";
-    $lang->create_message = "我的微型部落格簡介";
-    $lang->about_create_message = "可簡單地輸入簡介。";
+    $lang->create_message = "微型部落格簡介";
+    $lang->about_create_message = "簡單地輸入關於部落格的簡介。";
 
     $lang->cmd_planet_setup = "基本設定";
     $lang->cmd_planet_list = "微型部落格列表";
@@ -55,7 +55,7 @@
     $lang->cmd_planet_addfavorite = "新增至最愛";
 
     $lang->planet_hot_tag = "熱門標籤";
-    $lang->planet_home = "TOP";
+    $lang->planet_home = "首頁";
     $lang->cmd_planet_more_tag = "更多";
 
     $lang->planet_memo = "memo";
@@ -159,7 +159,7 @@
     $lang->planet_mobile_number = '手機號碼';
     $lang->msg_success_set_phone_number = '手機號碼註冊成功。';
 
-    $lang->planet_tagtab = "Tag標籤";
+    $lang->planet_tagtab = "標籤頁";
     $lang->about_planet_tagtab = "以「,」區分多個標籤，這些標籤將顯示在標籤頁。";
     $lang->planet_smstag = "SMS標籤";
     $lang->about_planet_smstag = "以「,」區分多個標籤， 以 SMS傳送時將自動新增標籤。";

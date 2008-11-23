@@ -3,26 +3,26 @@
     <grants>
         <grant name="access" default="guest">
             <title xml:lang="ko">접근</title>
-	    <title xml:lang="en">Access</title>
-	    <title xml:lang="zh-CN">访问</title>
+	    	<title xml:lang="en">Access</title>
+	    	<title xml:lang="zh-CN">访问</title>
             <title xml:lang="zh-TW">訪問</title>
         </grant>
         <grant name="create" default="member">
             <title xml:lang="ko">플래닛 생성</title>
-	    <title xml:lang="en">Create a planet</title>
-	    <title xml:lang="zh-CN">生成微博</title>
+	    	<title xml:lang="en">Create a planet</title>
+	    	<title xml:lang="zh-CN">生成微博</title>
             <title xml:lang="zh-TW">建立</title>
         </grant>
         <grant name="write_document" default="member">
             <title xml:lang="ko">글쓰기</title>
-	    <title xml:lang="en">Write a document</title>
-	    <title xml:lang="zh-CN">发布主题</title>
+	    	<title xml:lang="en">Write a document</title>
+	    	<title xml:lang="zh-CN">发布主题</title>
             <title xml:lang="zh-TW">發表</title>
         </grant>
         <grant name="manager" default="root">
             <title xml:lang="ko">관리</title>
-	    <title xml:lang="en">Manager</title>
-	    <title xml:lang="zh-CN">管理</title>
+	    	<title xml:lang="en">Manager</title>
+	    	<title xml:lang="zh-CN">管理</title>
             <title xml:lang="zh-TW">管理</title>
         </grant>
     </grants>
