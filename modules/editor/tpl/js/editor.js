@@ -67,9 +67,11 @@ function editorGetSelectedNode(editor_sequence) {
 /**
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
+var _editorFontColor = new Array();
 function editorStart(editor_sequence, primary_key, content_key, editor_height, font_color) {
 
     if(typeof(font_color)=='undefined') font_color = '#000';
+    _editorFontColor[editor_sequence] = font_color;
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -519,11 +521,11 @@ function showEditorExtension(evt,editor_sequence){
     }
 }
 
-function showPreviewContent(ret_obj,response_tags, params, fo_obj) {
-    var preview_obj = editorGetPreviewArea(params.editor_sequence);
-    if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+params.editor_sequence).style.display='none';
-//  alert(ret_obj.content);
-    xInnerHtml(preview_obj, ret_obj.content);
+function showPreviewContent(editor_sequence) {
+    if(typeof(editor_sequence)=='undefined') return;
+    if(typeof(_editorFontColor[editor_sequence])=='undefined') return;
+    var preview_obj = editorGetPreviewArea(editor_sequence);
+    preview_obj.contentWindow.document.body.style.color = _editorFontColor[editor_sequence];
 }
 
 function setPreviewHeight(editor_sequence){

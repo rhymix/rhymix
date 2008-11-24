@@ -145,7 +145,7 @@
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w100">{htmlspecialchars($member_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($member_info->description)}</textarea>
             <p>{$lang->about_member_description}</p>
         </td>
     </tr>
@@ -197,7 +197,7 @@
 
             <!--// textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}" class="inputTypeTextArea w100">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
 
             <!--// 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
