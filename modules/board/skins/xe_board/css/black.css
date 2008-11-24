@@ -1,5 +1,7 @@
 @charset "utf-8";
 
+.viewDocument { color:#888; }
+
 /* board Title */
 .boardHeader h3 { margin:0; border-bottom:3px solid #fe3614; }
 
@@ -83,6 +85,7 @@
 .boardRead .fileAttached ul li a { color:#AAAAAA; }
 .replyBox .fileAttached { border:1px solid #888888; background-color:transparent; padding:5px; margin-top:10px; overflow:hidden;}
 .replyBox .fileAttached ul li a { color:#AAAAAA; }
+.boardWrite * { color:#888888; }
 .boardWrite dl.option dd * { color:#888888; }
 .replyBox .replyItem { background-color:transparent; border-bottom:1px dotted #888888; }
 .replyBox .date { color:#888888; }
