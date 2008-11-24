@@ -125,7 +125,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<style type="text/css">'+
-        'body {font-size:.8em; line-height:1.6; font-family:Sans-serif; height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
+        'body {font-size:.75em; line-height:1.6; font-family:Sans-serif; height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+
