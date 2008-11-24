@@ -10,7 +10,9 @@
 .myTab li,
 .exTab li,
 .myTab li a,
-.exTab li a{ background-color:#bac8c9;}
+.exTab li a,
+.tagRank .buttonTag,
+.tagRank .buttonTag button{ background-color:#bac8c9;}
 .myTab li.active,
 .exTab li.active,
 .myTab li.active a,
