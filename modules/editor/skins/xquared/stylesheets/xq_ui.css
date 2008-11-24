@@ -1,18 +1,25 @@
 /**
  * Default Toolbar
  */
- .xquared {
-	border: 1px solid #c2c2c2; 
- }
+.xquared .toolbar {
+	border: 1px solid #c2c2c2;
+	border-bottom: none;
+}
+.xquared .editor {
+	border: 1px solid #c2c2c2;
+	border-top: none; 
+}
+
 .xquared div.toolbar {
 	position: relative;
 	background-color: #ebebeb;
 	background-position: 0 0;
 	background-repeat: repeat-x;
-	background-image: url('../images/toolbar/toolbarBg.gif');
+	background-image: url(../images/toolbar/toolbarBg.gif);
 }
 
 .xquared ul.buttons {
+	position: relative;
 	margin: 0;
 	padding: 5px 4px 2px;
 	list-style: none;
@@ -26,14 +33,14 @@
 	padding-bottom: 3px;
 	background-position: 0 0;
 	background-repeat: repeat-x;
-	background-image: url('../images/toolbar/toolbarButtonBg.gif');
+	background-image: url(../images/toolbar/toolbarButtonBg.gif);
 }
 .xquared ul.buttons li.xq_separator {
 	padding-left: 8px;
 	margin-left: 8px; 
 	background-position: 0 0;
 	background-repeat: repeat-x;
-	background-image: url('../images/toolbar/toolbarSeparator.gif');
+	background-image: url(../images/toolbar/toolbarSeparator.gif);
 }
 .xquared ul.buttons li a {
 	display: block;
@@ -47,6 +54,7 @@
 	z-index: 0;
 }
 .xquared ul.buttons li a img {
+	height: 15px;
 	margin: 0;
 	padding: 0;
 	border: none;
@@ -90,9 +98,8 @@
 	border: 1px solid #dbdbdb;
 }
 
+/* editor */
 .xquared .editor {
-	border: 0 none;
-	border-top:1px solid #c2c2c2;
 	height:300px;
 }
 .xquared .editor textarea,
@@ -105,10 +112,12 @@
 }
 
 .xquared .editor textarea {
-	_height: expression(this.parentNode.clientHeight - 2); /* TODO remove IE6 hack */
+	/* TODO remove IE6 hack */
+	_height: expression(this.parentNode.clientHeight - 2 - parseInt(this.currentStyle.borderTopWidth) - parseInt(this.currentStyle.borderBottomWidth));
 }
 *+html .xquared .editor textarea {
-	height: expression(this.parentNode.clientHeight - 1); /* TODO remove IE7 hack */
+	/* TODO remove IE7 hack */
+	height: expression(this.parentNode.clientHeight - 1 - parseInt(this.currentStyle.borderTopWidth) - parseInt(this.currentStyle.borderBottomWidth));
 }
 
 .xquared .source_editor {
