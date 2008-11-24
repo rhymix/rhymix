@@ -17,6 +17,7 @@
             $oModuleController->insertActionForward('homepage', 'view', 'dispHomepageAdminDelete');
 
             // 신규 홈페이지 추가
+            /*
             $oModuleModel = &getModel('module');
             if(!$oModuleModel->getDefaultMid()) {
                 $tmp_url = parse_url(Context::getRequestUri());
@@ -24,6 +25,7 @@
                 $oHomepageAdminController = &getAdminController('homepage');
                 $oHomepageAdminController->insertHomepage('homepage', $domain);
             }
+            */
 
             return new Object();
         }
