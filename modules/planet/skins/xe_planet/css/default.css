@@ -28,7 +28,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 
 /* Layout */
 #container {}
-#header{ position:relative; z-index:30; float:left; clear:both; height:80px; font-family:"Malgun Gothic", AppleGothic, Dotum, Sans-serif;}
+#header{ position:relative; z-index:30; float:left; clear:both; height:80px;}
 #header *{ margin:0; padding:0;}
 #header li{ list-style:none;}
 #body{ clear:both; z-index:20;}
@@ -40,15 +40,18 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .languageSelect select{ font-size:12px;}
 
 /* Heading */
-h1 { position:relative; top:-10px; white-space:nowrap;}
+h1 { position:relative; top:-10px; white-space:nowrap; font-family:"Malgun Gothic", AppleGothic, Dotum, Sans-serif;}
 h1, x:-moz-any-link{ top:0;}
 h1, x:-moz-any-link, x:default{ top:-10px;}
 h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-decoration:none !important;}
 
 /* Time Navigation */
-.timeNav{ font-size:.8em; white-space:nowrap;}
+.timeNav{ font:11px Dotum, Tahoma; white-space:nowrap; color:#999;}
+.timeNav *{ color:#000;}
+.timeNav strong{ font-family:Arial; font-size:18px;}
+.timeNav em{ font-style:normal; font-weight:bold; font-size:18px; font-family:"Malgun Gothic", AppleGothic, Dotum, Tahoma, Sans-serif;}
 .timeNav .prev,
-.timeNav .next{ display:inline-block; font-weight:bold; color:#000; padding:0 3px !important; text-decoration:none;}
+.timeNav .next{ display:inline-block; font-size:18px; font-family:Arial; font-weight:bold; color:#000; padding:0 5px !important; text-decoration:none !important;}
 
 /* Footer */
 #footer{margin:0; clear:both; text-align:center; padding:30px 0;}
@@ -63,7 +66,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
 .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
 .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
-.search .button{ top:0;}
+.search .button{ top:0 !important;}
 .search .suggestion{ position:absolute; top:3px; left:174px; /* border:1px solid; */}
 .search .suggestion .autoComplete{ position:absolute; top:0; left:0; width:23px; height:23px; background:#fff url(../images/buttonAutoComplete.gif) no-repeat center -10px;}
 .search .suggestion ul.recommendation{ display:none; position:absolute; top:26px; left:-174px; width:198px; border:1px solid #e7e7e7; border-top:none; background:#fff;}
@@ -89,10 +92,10 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 /* ---------- Content ---------- */
 
 /* Tab */
-.generalTab{ float:left; margin:0 0 0 16px; padding:0; position:relative; *zoom:1;}
+.generalTab{ float:left; margin:0; padding:0 0 0 16px; position:relative; *zoom:1;}
 .generalTab *{ margin:0; padding:0; list-style:none;}
 .generalTab li{ position:relative; top:2px; float:left; margin-right:6px; text-align:center; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
-.generalTab li a{ position:relative; left:3px; display:block; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top;}
+.generalTab li a{ position:relative; left:3px; display:block; float:left; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top;}
 .generalTab li a sup{ font:9px Tahoma, Sans-serif;}
 .generalTab li.active{ top:0; background-color:#50606B;}
 .generalTab li.active a{ padding:7px 23px 0 20px; background-color:#50606B; font-weight:bold;}
@@ -100,26 +103,26 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .tab{ *zoom:1;}
 .tab:after{ content:""; display:block; clear:both;}
 
-.myTab{ float:left; margin:0 0 0 16px; padding:0; position:relative; *zoom:1;}
+.myTab{ float:left; margin:0; padding:0 0 0 16px; position:relative; *zoom:1;}
 .myTab:after{ content:""; display:block; clear:both;}
 .myTab *{ margin:0; padding:0; list-style:none;}
 .myTab li{ position:relative; top:2px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
-.myTab li a{ position:relative; left:3px; display:block; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
+.myTab li a{ position:relative; left:3px; display:block; float:left; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
 .myTab li a sup{ font:9px Tahoma, Sans-serif;}
 .myTab li.active{ top:0;}
 .myTab li.active a{ padding:7px 23px 0 20px; font-weight:bold;}
 
-.exTab{ float:right; margin:0; padding:0; position:relative; right:13px; *zoom:1;}
+.exTab{ float:right; margin:0; padding:0; position:relative; *zoom:1;}
 .exTab:after{ content:""; display:block; clear:both;}
 .exTab *{ margin:0; padding:0; list-style:none;}
-.exTab li{ position:relative; top:2px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
-.exTab li a{ position:relative; left:3px; display:block; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
+.exTab li{ position:relative; top:2px; float:left; margin-right:6px; _margin-right:3px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
+.exTab li a{ position:relative; left:3px; display:block; float:left; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
 .exTab li a sup{ font:9px Tahoma, Sans-serif;}
 .exTab li.active{ top:0;}
 .exTab li.active a{ padding:7px 23px 0 20px; font-weight:bold;}
 
 /* Tag */
-.tagRank{ float:right; position:relative; top:2px; right:19px; z-index:20;}
+.tagRank{ float:right; position:relative; top:2px; padding:0 19px 0 0; z-index:20; margin:0; *zoom:1;}
 .tagRank *{ margin:0; padding:0;}
 .tagRank .buttonTag{ width:197px; display:block; position:relative; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
 .tagRank .buttonTag button{ width:197px; display:block; position:relative; left:3px; height:27px; padding:5px 10px 0 10px; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top; text-align:left; vertical-align:middle;}
@@ -479,6 +482,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .authorFooter .nav .button, x:-moz-any-link, x:default { vertical-align:top; }
 .authorFooter .nav a.button, x:-moz-any-link{ padding:4px 0 6px 0;}
 .authorFooter .nav a.button, x:-moz-any-link, x:default { padding:0;}
+.authorFooter .nav span.button{ top:0;}
 .authorFooter .tl,
 .authorFooter .tr{position:absolute; bottom:-1px; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxCommentOut.gif) no-repeat;}
 .authorFooter .tl{ left:-1px; background-position:left bottom;}
