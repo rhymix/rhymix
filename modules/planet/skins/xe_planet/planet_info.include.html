@@ -110,7 +110,7 @@
 	
 			<!--@if($config->use_mobile=='Y')-->
 			{@$phone_number=$myplanet->getPhoneNumber()}
-			<form method="post" class="mobile" onsubmit="setPhoneNumber(this);return false;">
+			<form method="post" class="mobile" onsubmit="setPhoneNumber(this);return false;" action="">
 				<fieldset>
 					<legend>{$lang->planet_mobile_receive}</legend>
 					<button type="button" class="setupButton" onclick="showInsertPhoneNumber();" ><span>{$lang->planet_mobile_receive}</span></button>
