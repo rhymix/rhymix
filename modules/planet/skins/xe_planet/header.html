@@ -34,6 +34,16 @@
         <!--@else-->
             <h1>&nbsp;</h1>
         <!--@end-->
+
+		<div class="timeNav">
+			<a class="prev" href="{getUrl('date',$prev_date)}" title="{$lang->cmd_prev}">&lt;</a>
+			<strong>{zdate($date,'Y')}</strong>{$lang->unit_year}
+			<strong>{zdate($date,'m')}</strong>{$lang->unit_month}
+			<strong>{zdate($date,'d')}</strong>{$lang->unit_day}
+			(<strong>{zdate($date,'l')}</strong>)
+			<a class="next" href="{getUrl('date',$next_date)}" title="{$lang->cmd_next}">&gt;</a>
+		</div>
+
         </div>
         <hr />
         <div id="body">

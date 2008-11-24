@@ -24,25 +24,34 @@ button *{position:relative;}
 button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibility:hidden;}
 .inputText, textarea{*margin:-1px 0; border:1px solid;}
 .inputCheck, .inputRadio{width:13px; height:13px;}
-.blind, legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;} 
+.blind, legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0 !important; line-height:0;} 
 
 /* Layout */
 #container {}
-#header{ position:relative; z-index:30; height:65px; float:left; clear:both;}
+#header{ position:relative; z-index:30; float:left; clear:both; height:80px; font-family:"Malgun Gothic", AppleGothic, Dotum, Sans-serif;}
 #header *{ margin:0; padding:0;}
 #header li{ list-style:none;}
 #body{ clear:both; z-index:20;}
-.nTop #navigation{ top:-65px !important; z-index:100; }
+.nTop #navigation{ top:-80px !important; z-index:100; }
 .nTop #navigation .gnb ul{ margin:0;}
 .nTop #navigation li{ list-style:none;}
 .buttonArea{ text-align:center;}
-.languageSelect { position:absolute; right:30px; top:10px; }
+.languageSelect { position:absolute; right:0; top:-30px; }
+.languageSelect select{ font-size:12px;}
 
 /* Heading */
-h1 { position:relative; top:-10px;}
+h1 { position:relative; top:-10px; white-space:nowrap;}
 h1, x:-moz-any-link{ top:0;}
 h1, x:-moz-any-link, x:default{ top:-10px;}
-h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000; letter-spacing:-3px; text-decoration:none !important;}
+h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-decoration:none !important;}
+
+/* Time Navigation */
+.timeNav{ font-size:.8em; white-space:nowrap;}
+.timeNav .prev,
+.timeNav .next{ display:inline-block; font-weight:bold; color:#000; padding:0 3px !important; text-decoration:none;}
+.timeNav a:hover,
+.timeNav a:activfe,
+.timeNav a:focus{ border:1px solid #fff !important; width:18px; height:18px;}
 
 /* Footer */
 #footer{margin:0; clear:both; text-align:center; padding:30px 0;}
@@ -72,63 +81,61 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .gnb{ position:relative; float:right; margin-left:20px; }
 .gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
 .gnb ul li{ position:relative; float:left;}
-.gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:11px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
-.gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70);}
+.gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:12px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
+.gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70); font-weight:bold;}
 .gnb ul li a:hover,
 .gnb ul li a:active,
 .gnb ul li a:focus{ opacity:0.9; filter:alpha(opacity=90);}
 .gnb ul li.first a{ background-position:left top;}
 .gnb ul li.last a{ background-position:right top;}
 
+/* ---------- Content ---------- */
+
+/* Tab */
+.generalTab{ float:left; margin:0 0 0 16px; padding:0; position:relative; *zoom:1;}
+.generalTab *{ margin:0; padding:0; list-style:none;}
+.generalTab li{ position:relative; top:2px; float:left; margin-right:6px; text-align:center; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
+.generalTab li a{ position:relative; left:3px; display:block; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top;}
+.generalTab li a sup{ font:9px Tahoma, Sans-serif;}
+.generalTab li.active{ top:0; background-color:#50606B;}
+.generalTab li.active a{ padding:7px 23px 0 20px; background-color:#50606B; font-weight:bold;}
+
+.tab{ *zoom:1;}
+.tab:after{ content:""; display:block; clear:both;}
+
+.myTab{ float:left; margin:0 0 0 16px; padding:0; position:relative; *zoom:1;}
+.myTab:after{ content:""; display:block; clear:both;}
+.myTab *{ margin:0; padding:0; list-style:none;}
+.myTab li{ position:relative; top:2px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
+.myTab li a{ position:relative; left:3px; display:block; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
+.myTab li a sup{ font:9px Tahoma, Sans-serif;}
+.myTab li.active{ top:0;}
+.myTab li.active a{ padding:7px 23px 0 20px; font-weight:bold;}
+
+.exTab{ float:right; margin:0; padding:0; position:relative; right:13px; *zoom:1;}
+.exTab:after{ content:""; display:block; clear:both;}
+.exTab *{ margin:0; padding:0; list-style:none;}
+.exTab li{ position:relative; top:2px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
+.exTab li a{ position:relative; left:3px; display:block; height:22px; padding:5px 23px 0 20px; font-size:12px; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
+.exTab li a sup{ font:9px Tahoma, Sans-serif;}
+.exTab li.active{ top:0;}
+.exTab li.active a{ padding:7px 23px 0 20px; font-weight:bold;}
+
 /* Tag */
-.tagRank{ position:relative; top:2px; float:right; margin-left:15px; }
+.tagRank{ float:right; position:relative; top:2px; right:19px; z-index:20;}
 .tagRank *{ margin:0; padding:0;}
-.tagRank .buttonTag{ display:inline-block; position:relative; background:url(../images/buttonTagNavigation.gif) no-repeat left top;}
-.tagRank .buttonTag, x:-moz-any-link{ padding:3px 0 7px 0;} /* Firefox 2 Fix */
-.tagRank .buttonTag, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
-.tagRank .buttonTag button{ position:relative; left:3px; width:197px; padding:6px 10px 9px 10px; background:url(../images/buttonTagNavigation.gif) no-repeat right top; text-align:left;}
-.tagRank .buttonTag button span{ display:block; width:177px; height:auto; visibility:visible; position:relative; font:bold 12px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; background:url(../images/arrowTagNavigation.gif) no-repeat right -14px;}
-.tagRank .layer{ display:none; position:absolute; width:200px; top:27px; left:0; background:#50606b; background:url(../images/boxTagNavigation.gif) no-repeat left bottom;}
+.tagRank .buttonTag{ width:197px; display:block; position:relative; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
+.tagRank .buttonTag button{ width:197px; display:block; position:relative; left:3px; height:27px; padding:5px 10px 0 10px; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top; text-align:left; vertical-align:middle;}
+.tagRank .buttonTag button span{ padding:0 15px 0 0; display:block; visibility:visible; width:auto; height:auto; white-space:nowrap; position:relative; font-size:12px; line-height:12px; color:#fff; background:url(../images/arrowTagNavigation.gif) no-repeat right -14px;}
+.tagRank .layer{ display:none; position:absolute; width:200px; top:27px; left:0px; background:#50606b; background:url(../images/boxTagNavigation.gif) no-repeat left bottom;}
 .tagRank .layer a{ font:11px Dotum, Sans-serif; white-space:nowrap; text-decoration:none; line-height:normal;}
 .tagRank .layer ul{ padding:1px 13px 30px 13px; text-align:justify;}
 .tagRank .layer ul *{ line-height:16px;}
 .tagRank .layer ul li{ display:inline; margin-bottom:4px;}
 .tagRank .layer ul li a{ color:#cbd0d3; zoom:1;}
-.tagRank .layer .more{ display:block; padding:5px 13px 7px 10px; _margin:-1px 0; position:absolute; bottom:0; right:0; font-weight:bold; color:#fff;}
+.tagRank .layer .more{ display:block; padding:5px 13px 7px 10px; _margin:-1px 0; position:absolute; bottom:0; right:0; color:#fff;}
 .tagRank.open .buttonTag button span{ background-position:right 6px;}
 .tagRank.open .layer{ display:block;}
-
-/* ---------- Content ---------- */
-
-/* Tab */
-.generalTab{ margin:0 0 0 10px; padding:0; position:relative; clear:both; *zoom:1;}
-.generalTab *{ margin:0; padding:0; list-style:none;}
-.generalTab li{ position:relative; top:4px; float:left; margin-right:6px; text-align:center; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
-.generalTab li a{ position:relative; left:3px; display:block; padding:3px 23px 3px 20px; font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-decoration:none !important; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top;}
-.generalTab li a sup{ font:11px Tahoma, Sans-serif;}
-.generalTab li.active{ top:0; background-color:#50606B;}
-.generalTab li.active a{ padding:5px 23px 5px 20px; background-color:#50606B;}
-
-.tab{ *zoom:1;}
-.tab:after{ content:""; display:block; clear:both;}
-
-.myTab{ float:left; margin:0 0 0 10px; padding:0; position:relative; *zoom:1;}
-.myTab:after{ content:""; display:block; clear:both;}
-.myTab *{ margin:0; padding:0; list-style:none;}
-.myTab li{ position:relative; top:4px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
-.myTab li a{ position:relative; left:3px; display:block; padding:3px 23px 3px 20px; font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
-.myTab li a sup{ font:11px Tahoma, Sans-serif;}
-.myTab li.active{ top:0;}
-.myTab li.active a{ padding:5px 23px 5px 20px;}
-
-.exTab{ float:right; margin:0; padding:0; position:relative; right:7px; *zoom:1;}
-.exTab:after{ content:""; display:block; clear:both;}
-.exTab *{ margin:0; padding:0; list-style:none;}
-.exTab li{ position:relative; top:4px; float:left; margin-right:6px; text-align:center; background:url(../images/cr3pxLeft.gif) no-repeat left top;}
-.exTab li a{ position:relative; left:3px; display:block; padding:3px 23px 3px 20px; font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-decoration:none !important; background:url(../images/cr3pxRight.gif) no-repeat right top;}
-.exTab li a sup{ font:11px Tahoma, Sans-serif;}
-.exTab li.active{ top:0;}
-.exTab li.active a{ padding:5px 23px 5px 20px;}
 
 /* Try Planet */
 .tryPlanet{ position:relative; height:90px; background:url(../images/boxTryPlanet.gif) repeat-x 0 0; margin-bottom:15px;}
@@ -212,8 +219,6 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 
 /* Comment List */
 .commentList{ position:relative; padding:15px; border:1px solid #dedede; *zoom:1; z-index:10; clear:both; background:#eee;}
-.commentList .commentHeader{ float:left; position:relative; clear:both; margin-bottom:10px; z-index:10;}
-.commentList .commentHeader *{ margin:0;}
 .commentList h3{ position:relative; display:inline-block; *display:inline; margin-right:20px; background:url(../images/boxH2Comment.gif) no-repeat 0 0; vertical-align:middle; *zoom:1; line-height:18px;}
 .commentList h3, x:-moz-any-link { display:inline; padding-top:3px;}
 .commentList h3, x:-moz-any-link, x:default { display:inline-block; *display:inline; padding-top:0;}
@@ -221,21 +226,6 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .commentList h3 span strong{ color:#ff0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; font-size:1em;}
 .commentList h3 span, x:-moz-any-link{ padding:8px 20px 5px 17px; }
 .commentList h3 span, x:-moz-any-link, x:default{ padding:5px 20px 0 17px}
-
-.commentList .timeNav{ left:20px; top:3px; padding:0 30px; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; *zoom:1; text-align:center;}
-.commentList .timeNav strong{ font:bold 18px/18px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
-.commentList .timeNav .prev,
-.commentList .timeNav .next{ position:absolute; top:2px; width:20px; height:20px; }
-.commentList .timeNav .prev{ left:0; }
-.commentList .timeNav .next{ right:0; }
-.commentList .timeNav a:hover,
-.commentList .timeNav a:activfe,
-.commentList .timeNav a:focus{ border:1px solid #fff !important; width:18px; height:18px;}
-.commentList .timeNav a img{ position:relative; top:3px;}
-
-.commentList h3.timeNav{ position:relative; float:left; vertical-align:top; clear:both; left:0; top:0; background:none; font-size:1em; *zoom:1; *line-height:24px; margin-bottom:10px; *margin-bottom:0;}
-.commentList h3.timeNav .prev,
-.commentList h3.timeNav .next{ *top:5px;}
 
 .commentList .commentHeader .button *{ font-size:12px;}
 .commentList .planetBlue{ top:-3px;}
@@ -251,13 +241,13 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .commentList .tagChoiceAfter button{ width:45px; height:23px; text-align:center; background:url(../images/buttonFixedBlack45.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
 .commentList .tagChoiceAfter a{ width:94px; height:18px; _height /**/:23px; padding-top:5px; text-align:center; background:url(../images/buttonFixedBlack94.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
 
-.commentBody.myPlanet .comment .tongue{ margin:0;}
+.commentBody.myPlanet .comment .tongue{ margin:0 !important;}
 .commentBody.myPlanet .comment .tongue .post,
 .commentBody.myPlanet .comment .tongue .postScript,
 .commentBody.myPlanet .comment .tongue .postExtra{ *zoom:1;}
 
 /* Comment Body */
-.commentBody{ position:relative; margin-top:10px; border:1px solid #d7dfe2; background:#fff; *zoom:1; clear:both;}
+.commentBody{ position:relative; margin:10px 0; border:1px solid #d7dfe2; background:#fff; *zoom:1; clear:both;}
 .commentBody .comment{ position:relative; margin:0 15px; padding:15px 0 15px 0; clear:both; *zoom:1;}
 .commentBody .comment:after { content:""; display:block; width:0; height:0; font:0/0 Sans-serif; overflow:hidden; visibility:hidden; clear:both; float:none;}
 .commentBody .comment .identity{ position:relative; width:98px; float:left; margin:0 -98px 0 0; font-size:1em; background:none; *zoom:1;}
@@ -391,21 +381,23 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .authorTag.edit dd.tagModify{ display:inline;}
 .authorHeader .authorTag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px;}
 .authorHeader .authorTag dd.tagModify button{ height:19px; font-size:.7em; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
-.authorHeader .authorTag .planetUri{ position:relative; right:20px; float:right; color:#fff; font-size:.7em; font-family:Tahoma Sans-serif;}
-.authorHeader .authorTag .rssFeed{ position:absolute; top:10px; right:0; width:12px; height:12px; cursor:pointer; background:url(../images/rssFeed.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .authorTag .planetUri{ position:relative; float:right; color:#fff; font-size:.7em; font-family:Tahoma Sans-serif;}
+.authorHeader .authorTag .rssFeed{ float:right; display:block; margin:0 0 0 5px; width:12px; height:12px; cursor:pointer; background:url(../images/rssFeed.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .authorTag .rssFeed span{ position:absolute; width:0; height:0; overflow:hidden;}
 .authorHeader .tl,
 .authorHeader .tr{position:absolute; top:0; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxAuthorHeader.png) no-repeat; _background:url(../images/boxAuthorHeader.gif) no-repeat;}
 .authorHeader .tl{ left:0; background-position:left top;}
 .authorHeader .tr{ right:0; background-position:right top;}
 
-.authorHeader .rss{ position:absolute; display:block; top:0; right:58px; width:15px; height:15px; background-repeat:no-repeat; background-position:center; cursor:pointer;}
+.authorHeader .myOption{ position:absolute; top:20px; right:15px;}
+
+.authorHeader .rss{ float:left; margin:0 5px 0 0; position:relative; display:block; width:15px; height:15px; background-repeat:no-repeat; background-position:center; cursor:pointer;}
 .authorHeader .rss.off{ background-image:url(../images/rssOff.png); _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .rss.on{ background-image:url(../images/rssOn.png); _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .rss span{ display:block; width:0; height:0; overflow:hidden;}
 
-.authorHeader .color{ position:absolute; display:block; top:0; right:18px; border:1px solid #ccc; width:16px; height:16px;}
-.authorHeader .colorPreset{ position:absolute; display:none; top:25px; right:0;}
+.authorHeader .color{ float:left; margin:0 5px 0 0; display:block; border:1px solid #ccc; width:16px; height:16px;}
+.authorHeader .colorPreset{ position:absolute; display:none; top:25px; right:0; width:131px;}
 .authorHeader .colorPreset.open{ display:block;}
 .authorHeader .colorPreset.close{ display:none;}
 .authorHeader .colorPreset li{ float:left; border:1px solid #ccc; margin-left:5px;}
@@ -418,9 +410,10 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .colorPreset li a{ display:block; width:14px; height:14px;}
 .authorHeader .colorPreset li a span{ display:block; width:0; height:0; overflow:hidden; visibility:hidden;}
 
-.authorHeader .apiMe2day{ position:absolute; top:20px; right:58px;}
+.authorHeader .apiMe2day{ position:relative; float:left; width:16px; margin:0 5px 0 0;}
+.authorHeader .apiMe2day fieldset{ width:16px;}
 .authorHeader .apiMe2day *{ font-size:12px;}
-.authorHeader .apiMe2day .setupButton{ position:absolute; top:0; right:0; width:16px; height:16px; background:url(../images/iconMe2day.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc);}
+.authorHeader .apiMe2day .setupButton{ width:16px; height:16px; background:url(../images/iconMe2day.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .apiMe2day .apiProtocol{ position:relative; width:240px; border:2px solid #eee; background:#fff; padding:10px 15px 10px 20px; position:absolute; top:25px; right:0;}
 .authorHeader .apiMe2day .apiProtocol.open{ display:block;}
 .authorHeader .apiMe2day .apiProtocol.close{ display:none;}
@@ -434,8 +427,9 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorHeader .apiMe2day .apiProtocol .autoPush label{}
 .authorHeader .apiMe2day .apiProtocol .buttonArea button{ border:1px solid #ccc; background:#eee; font-size:11px; *margin-right:4px;}
 
-.authorHeader .mobile{ position:absolute; top:20px; right:20px;}
-.authorHeader .mobile .setupButton{ position:absolute; top:-3px; right:0; width:12px; height:19px; background:url(../images/iconMobile.gif) no-repeat;}
+.authorHeader .mobile{ float:left; width:12px; margin:0 5px 0 0; position:relative;}
+.authorHeader .mobile fieldset{ width:12px;}
+.authorHeader .mobile .setupButton{ position:relative; top:-3px; width:12px; height:19px; background:url(../images/iconMobile.gif) no-repeat;}
 .authorHeader .mobile .address{ display:none; position:absolute; border:2px solid #eee; background:#fff; padding:10px 15px 10px 20px; position:absolute; top:25px; right:0; white-space:nowrap;}
 .authorHeader .mobile .address.open{ display:block;}
 .authorHeader .mobile .address *{ font-size:12px;}
@@ -464,7 +458,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorFooter .memo li span{ position:relative; right:40px; float:right; color:#fff; font:11px AppleGothic, Dotum, Gulim, Sans-serif;}
 .authorFooter .memo p span .delete,
 .authorFooter .memo li span .delete{ position:relative; left:5px; vertical-align:top; width:12px; height:11px; background:url(../images/buttonX.gif) no-repeat center;}
-.authorFooter .memo .pagination{ position:relative; top:-10px; display:none; padding:0 0 10px 0; clear:both; background:url(../images/boxMemo.gif) no-repeat left bottom;}
+.authorFooter .memo .pagination{ position:relative; top:-14px; display:none; padding:0 0 10px 0; clear:both; background:url(../images/boxMemo.gif) no-repeat left bottom;}
 .authorFooter .memo .pagination a,
 .authorFooter .memo .pagination strong{ background:#333; color:#ccc; border-color:#666;}
 .authorFooter .memo .bottomCap{ clear:both; position:relative; top:2px; height:2px; overflow:hidden; background:url(../images/boxMemo.gif) no-repeat left -27px;}
@@ -473,7 +467,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .authorFooter .memo.open p .toggle,
 .authorFooter .memo.open li.first .toggle{ display:block; background-position: center 10px;}
 .authorFooter .memo.open ul,
-.authorFooter .memo.open .pagination{ display:block; padding-top:2px; }
+.authorFooter .memo.open .pagination{ display:block; padding-top:3px; }
 .authorFooter .memoWrite{ position:relative; float:left; width:600px;}
 .authorFooter .memoWrite.close{ display:none;}
 .authorFooter .memoWrite .form.close{ display:none; }
@@ -545,7 +539,7 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .writePost .writeBody dd .inputText{ padding:3px 10px;}
 .writePost .writeBody dd.preview{ display:block; clear:both;}
 .writePost .writeBody dd.preview.off{ display:none;}
-.writePost .writeBody dd.preview p{ padding:5px 10px; border:1px solid #f4f4f4; width:96%; background:#f4f4f4; color:#000;} 
+.writePost .writeBody dd.preview p{ padding:5px 10px; border:1px solid #ccc; width:96%; background:#fff; color:#000; opacity:.5; filter:alpha(opacity=50);} 
 .writePost .writeBody dd.preview p a{ color:#00f;}
 .writePost .writeBody .writeOptions{ position:absolute; top:0; left:100%; margin-left:-105px;}
 .writePost .writeBody .writeOptions p{ white-space:nowrap;}
@@ -604,16 +598,16 @@ h1 a{ font:bold 30px "Malgun Gothic", AppleGothic, Dotum, Sans-serif; color:#000
 .welcome .br{ bottom:0; right:0; background-position:right -4px;}
 
 /* Pagination */
-.pagination{ padding:15px 0; text-align:center;}
+.pagination{ padding:5px 0; text-align:center;}
 .pagination *{ margin:0; padding:0;}
 .pagination a,
-.pagination strong{ _position:relative; font-weight:bold; display:inline-block; padding:5px 5px 3px 5px; color:#313031; text-decoration:none; line-height:normal; font:bold 12px Tahoma, Sans-serif;}
+.pagination strong{ _position:relative; font-weight:bold; display:inline-block; padding:5px 5px 3px 5px; color:#313031; text-decoration:none; line-height:normal; font:bold 12px Tahoma, Sans-serif !important;}
 .pagination strong{ color:#ff8600 !important;}
 .pagination a:hover{ background:#eee; }
-.pagination a.prev{ padding:5px 10px 3px 18px; background:url(../images/paginationPrev.gif) no-repeat 8px 8px !important; border:none; font-weight:normal; }
-.pagination a.prevEnd{ padding:5px 10px 3px 18px; background:url(../images/paginationPrevEnd.gif) no-repeat 4px 8px !important; border:none; border-right:1px solid #ccc; font-weight:normal;}
-.pagination a.next{ padding:5px 18px 3px 10px; background:url(../images/paginationNext.gif) no-repeat 40px 8px !important; border:none; font-weight:normal; }
-.pagination a.nextEnd{ padding:5px 18px 3px 10px; background:url(../images/paginationNextEnd.gif) no-repeat 40px 8px !important; border:none; border-left:1px solid #ccc; font-weight:normal;}
+.pagination a.prev{ padding:5px 10px 3px 10px; background:url(../images/paginationPrev.gif) no-repeat left center !important; border:none; font-weight:normal; }
+.pagination a.prevEnd{ padding:5px 10px 3px 10px; background:url(../images/paginationPrevEnd.gif) no-repeat left center !important; border:none; border-right:1px solid #ccc;}
+.pagination a.next{ padding:5px 10px 3px 10px; background:url(../images/paginationNext.gif) no-repeat right center !important; border:none; font-weight:normal; }
+.pagination a.nextEnd{ padding:5px 10px 3px 10px; background:url(../images/paginationNextEnd.gif) no-repeat right center !important; border:none; border-left:1px solid #ccc;}
 
 
 

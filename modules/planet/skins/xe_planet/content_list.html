@@ -1,3 +1,15 @@
+<!--@if($page_navigation->total_page>1)-->
+    <div class="pagination">
+        <!--@if($page_navigation->cur_page<$page_navigation->last_page)-->
+        <a href="{getUrl('page',$page_navigation->cur_page+1)}" class="prev">{$lang->cmd_prev}</a>
+        <!--@end-->
+        <!--@if($page_navigation->cur_page>1)-->
+        <a href="{getUrl('page',$page_navigation->cur_page-1)}" class="next">{$lang->cmd_next}</a>
+        <!--@end-->
+    </div>
+<!--@end-->
+
+
 <!--@foreach($content_list as $no => $item)-->
     <div id="commentBody:{$item->get('document_srl')}" class="commentBody <!--@if($planet->getMid() == $item->getPlanetMid())-->myPlanet<!--@end-->">
         <!--// Original Text -->
