@@ -283,8 +283,11 @@
         }
 
         function getSummary($str_size = 50) {
-            // 먼저 태그들을 제거함
-            $content = preg_replace('!<([^>]*?)>!is','', $this->getContent(false,false));
+            // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도
+            $content = preg_replace('/([a-z0-9\-\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_\+]){20,}/is',"$0 ",$this->getContent(false,false));
+
+            // 태그 제거
+            $content = preg_replace('!<([^>]*?)>!is','', $content);
 
             // < , > , " 를 치환
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
