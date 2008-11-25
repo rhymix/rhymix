@@ -67,10 +67,11 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 #header .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
 #header .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
 #header .search .button{ top:0 !important;}
+#header .search .button button{ padding:0 10px 0 8px; font-family:Dotum;}
 #header .search .suggestion{ position:absolute; top:3px; left:174px; /* border:1px solid; */}
 #header .search .suggestion .autoComplete{ position:absolute; top:0; left:0; width:23px; height:23px; background:#fff url(../images/buttonAutoComplete.gif) no-repeat center -10px;}
 #header .search .suggestion ul.recommendation{ display:none; position:absolute; top:26px; left:-174px; width:198px; border:1px solid #e7e7e7; border-top:none; background:#fff;}
-#header .search .suggestion li button{ width:100%; text-align:left; padding:5px 4px 2px 4px; font:.75em AppleGothic, Gulim, Dotum, Sans-serif}
+#header .search .suggestion li button{ width:100%; text-align:left; padding:5px 4px 2px 4px; font:.75em AppleGothic, Gulim, Dotum, Sans-serif;}
 #header .search .suggestion li button:hover,
 #header .search .suggestion li button:active,
 #header .search .suggestion li button:focus{ background:#eee;}
