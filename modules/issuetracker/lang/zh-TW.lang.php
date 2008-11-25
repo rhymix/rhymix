@@ -49,7 +49,7 @@
      $lang->completed_date = '結束日期';
      $lang->order = '順序';
      $lang->package = $lang->package_srl = '套裝包';
-     $lang->release = $lang->release_srl = '發佈版本';
+     $lang->release = $lang->release_srl = '發佈版';
      $lang->release_note = '發佈記錄';
      $lang->release_changes = '更新日誌';
      $lang->occured_version = $lang->occured_version_srl = '目前版本';
@@ -70,7 +70,7 @@
 
      $lang->about_milestone = '設置開發計劃。';
      $lang->about_priority = '設置優先順序。';
-     $lang->about_type = '設置問題種類。 (ex. 問題, 改善項目)';
+     $lang->about_type = '設置問題種類。 (例如：問題，改善項目)';
      $lang->about_component = '設置問題組件。';
 
      $lang->project_menus = array(
