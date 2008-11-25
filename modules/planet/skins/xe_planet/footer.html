@@ -1,43 +1,4 @@
             </div>
-            <hr />
-            <div id="navigation">
-                <!-- GNB -->
-                <div class="gnb">
-                    <ul>
-                        <li class="first <!--@if($mid==$config->mid)-->active<!--@end-->"><a href="{getUrl('','mid',$config->mid)}">{$lang->planet_home}</a></li>
-                        <!--@if($myplanet->isExists())-->
-                            <li <!--@if($myplanet->isMyPlanet($planet))-->class="active"<!--@end-->><a href="{getUrl('','mid',$myplanet->getMid())}">{$lang->planet_myplanet}</a></li>
-                        <!--@end-->
-
-                        <!--@if($is_logged)-->
-                            <li class="last"><a href="#" onclick="doPlanetLogout()">{$lang->cmd_logout}</a></li>
-                        <!--@else-->
-                            <!--@if($config->use_signup=='Y')-->
-                            <li><a href="{getUrl('','module','member','act','dispMemberSignupForm','popup',1)}" onclick="winopen(this.href, 'PlanetSignUp','width=600px,height=700px,toolbars=no,scrollbars=yes');return false;">{$lang->cmd_signup}</a></li>
-                            <!--@end-->
-                            <li class="last"><a href="{getUrl('act','dispPlanetLogin')}">{$lang->cmd_login}</a></li>
-                        <!--@end-->
-                    </ul>
-                </div>
-                <!-- //GNB -->
-                <!-- 검색 -->
-                <form action="{Context::getRequestUri()}" method="get" class="search">
-                <input type="hidden" name="mid" value="{$mid}" />
-                <input type="hidden" name="act" value="dispPlanetContentTagSearch" />
-                    <fieldset>
-                        <legend>{$lang->cmd_search}</legend>
-                        <input name="keyword" type="text" class="inputText" value="{htmlspecialchars(urldecode($keyword))}" onfocus="this.className='inputText focus'" onblur="this.className='inputText'" accesskey="S" title="{$lang->about_planet_input_search_text}(S)" />
-                        <span class="button large strong"> <button type="submit">{$lang->cmd_search}</button> </span>
-                    </fieldset>
-                </form>
-                <!--// 검색 -->
-				
-				<div class="languageSelect">
-					<img widget="language_select" skin="default" colorset="normal" />
-				</div>
-				
-            </div>
-
         </div>
         <hr />
         <div id="footer">

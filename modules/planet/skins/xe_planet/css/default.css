@@ -28,11 +28,11 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 
 /* Layout */
 #container {}
-#header{ position:relative; z-index:30; float:left; clear:both; height:80px;}
+#header{ position:relative; z-index:30; clear:both; margin:0 0 20px 0;}
 #header *{ margin:0; padding:0;}
 #header li{ list-style:none;}
 #body{ clear:both; z-index:20;}
-.nTop #navigation{ top:-80px !important; z-index:100; }
+.nTop #navigation{ right:0; top:0 !important; z-index:100; }
 .nTop #navigation .gnb ul{ margin:0;}
 .nTop #navigation li{ list-style:none;}
 .buttonArea{ text-align:center;}
@@ -63,31 +63,31 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 
 /* ---------- Navigation ---------- */
 /* Search */
-.search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
-.search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
-.search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
-.search .button{ top:0 !important;}
-.search .suggestion{ position:absolute; top:3px; left:174px; /* border:1px solid; */}
-.search .suggestion .autoComplete{ position:absolute; top:0; left:0; width:23px; height:23px; background:#fff url(../images/buttonAutoComplete.gif) no-repeat center -10px;}
-.search .suggestion ul.recommendation{ display:none; position:absolute; top:26px; left:-174px; width:198px; border:1px solid #e7e7e7; border-top:none; background:#fff;}
-.search .suggestion li button{ width:100%; text-align:left; padding:5px 4px 2px 4px; font:.75em AppleGothic, Gulim, Dotum, Sans-serif}
-.search .suggestion li button:hover,
-.search .suggestion li button:active,
-.search .suggestion li button:focus{ background:#eee;}
-.search .suggestion.open .autoComplete{ background-position:center 10px;}
-.search .suggestion.open ul.recommendation{ display:block;}
+#header .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
+#header .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
+#header .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
+#header .search .button{ top:0 !important;}
+#header .search .suggestion{ position:absolute; top:3px; left:174px; /* border:1px solid; */}
+#header .search .suggestion .autoComplete{ position:absolute; top:0; left:0; width:23px; height:23px; background:#fff url(../images/buttonAutoComplete.gif) no-repeat center -10px;}
+#header .search .suggestion ul.recommendation{ display:none; position:absolute; top:26px; left:-174px; width:198px; border:1px solid #e7e7e7; border-top:none; background:#fff;}
+#header .search .suggestion li button{ width:100%; text-align:left; padding:5px 4px 2px 4px; font:.75em AppleGothic, Gulim, Dotum, Sans-serif}
+#header .search .suggestion li button:hover,
+#header .search .suggestion li button:active,
+#header .search .suggestion li button:focus{ background:#eee;}
+#header .search .suggestion.open .autoComplete{ background-position:center 10px;}
+#header .search .suggestion.open ul.recommendation{ display:block;}
 
 /* GNB */
-.gnb{ position:relative; float:right; margin-left:20px; }
-.gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
-.gnb ul li{ position:relative; float:left;}
-.gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:12px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
-.gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70); font-weight:bold;}
-.gnb ul li a:hover,
-.gnb ul li a:active,
-.gnb ul li a:focus{ opacity:0.9; filter:alpha(opacity=90);}
-.gnb ul li.first a{ background-position:left top;}
-.gnb ul li.last a{ background-position:right top;}
+#header .gnb{ position:relative; float:right; margin-left:20px; }
+#header .gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
+#header .gnb ul li{ position:relative; float:left;}
+#header .gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:12px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
+#header .gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70); font-weight:bold;}
+#header .gnb ul li a:hover,
+#header .gnb ul li a:active,
+#header .gnb ul li a:focus{ opacity:0.9; filter:alpha(opacity=90);}
+#header .gnb ul li.first a{ background-position:left top;}
+#header .gnb ul li.last a{ background-position:right top;}
 
 /* ---------- Content ---------- */
 
@@ -126,7 +126,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .tagRank *{ margin:0; padding:0;}
 .tagRank .buttonTag{ width:197px; display:block; position:relative; background:#848f97 url(../images/cr3pxLeft.gif) no-repeat left top;}
 .tagRank .buttonTag button{ width:197px; display:block; position:relative; left:3px; height:27px; padding:5px 10px 0 10px; background:#848f97 url(../images/cr3pxRight.gif) no-repeat right top; text-align:left; vertical-align:middle;}
-.tagRank .buttonTag button span{ padding:0 15px 0 0; display:block; visibility:visible; width:auto; height:auto; white-space:nowrap; position:relative; font-size:12px; line-height:12px; color:#fff; background:url(../images/arrowTagNavigation.gif) no-repeat right -14px;}
+.tagRank .buttonTag button span{ padding:0 15px 0 0; display:block; visibility:visible; width:auto; height:auto; white-space:nowrap; position:relative; font-size:12px; line-height:12px; color:#fff; background:url(../images/arrowTagNavigation.gif) no-repeat right -14px; text-align:center;}
 .tagRank .layer{ display:none; position:absolute; width:200px; top:27px; left:0px; background:#50606b; background:url(../images/boxTagNavigation.gif) no-repeat left bottom;}
 .tagRank .layer a{ font:11px Dotum, Sans-serif; white-space:nowrap; text-decoration:none; line-height:normal;}
 .tagRank .layer ul{ padding:1px 13px 30px 13px; text-align:justify;}
