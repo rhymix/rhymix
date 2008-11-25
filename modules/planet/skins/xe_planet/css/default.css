@@ -543,8 +543,8 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .writePost .writeBody dd.preview.off{ display:none;}
 .writePost .writeBody dd.preview p{ padding:5px 10px; border:1px solid #ccc; width:96%; background:#fff; color:#000; opacity:.5; filter:alpha(opacity=50);} 
 .writePost .writeBody dd.preview p a{ color:#00f;}
-.writePost .writeBody .writeOptions{ position:absolute; top:0; left:100%; margin-left:-105px;}
-.writePost .writeBody .writeOptions p{ white-space:nowrap;}
+.writePost .writeBody .writeOptions{ position:absolute; top:-8px; left:100%; margin-left:-105px;}
+.writePost .writeBody .writeOptions p{ white-space:nowrap; margin:0; padding:0;}
 .writePost .writeBody .writeOptions input{ vertical-align:middle; width:13px; height:13px; margin-right:4px;}
 .writePost .writeBody button{ width:90px; height:68px; position:absolute; bottom:5px; right:15px; background-repeat:no-repeat;}
 .writePost .writeBody button span{ position:relative; display:block; *padding-top:20px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 1.2em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serifl;}
