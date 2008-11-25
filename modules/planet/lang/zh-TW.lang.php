@@ -58,9 +58,9 @@
     $lang->planet_home = "首頁";
     $lang->cmd_planet_more_tag = "更多";
 
-    $lang->planet_memo = "memo";
-    $lang->cmd_planet_show_memo_write_form = "發表 memo";
-    $lang->cmd_planet_delete_memo = "刪除 memo";
+    $lang->planet_memo = "留言";
+    $lang->cmd_planet_show_memo_write_form = "發表留言";
+    $lang->cmd_planet_delete_memo = "刪除留言";
     $lang->cmd_planet_memo_write_ok = "輸入完畢";
 
     $lang->planet_interest_tag = "喜愛標籤";
@@ -133,7 +133,7 @@
     $lang->msg_planet_about_postscript = "請輸入附註。";
     $lang->msg_planet_about_tag = "請輸入標籤。(以「,」區隔)";
     $lang->msg_planet_already_added_favorite = "已新增的最愛。";
-    $lang->msg_planet_no_memo = "沒有 memo。";
+    $lang->msg_planet_no_memo = "目前沒有留言。";
 
     $lang->msg_planet_rss_enabled = "RSS使用中。";
     $lang->msg_planet_rss_disabled = "RSS暫停使用。";
@@ -168,5 +168,5 @@
     $lang->about_use_mobile = "可用手機發送 SMS";
     $lang->planet_use_me2day = "Me2day";
     $lang->about_use_me2day = "發表主題的同時也傳送到 me2day(http://me2day.net)。";
-    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
+    $lang->msg_search_thisplanet = "搜尋微型部落格";
 ?>
