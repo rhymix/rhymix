@@ -171,5 +171,5 @@
     $lang->about_use_mobile = "可以用手机SMS发送。";
     $lang->planet_use_me2day = "绑定me2day";
     $lang->about_use_me2day = "发布主题的同时发送到me2day。";
-
+    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
 ?>

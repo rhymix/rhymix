@@ -14,20 +14,20 @@
         <li <!--@if($type=='bigfish')-->class="active"<!--@end-->><a href="{getUrl('type','bigfish')}">{$lang->planet_bigfish}<sup>&nbsp;</sup></a></li>-->
     </ul>
 
-	<!-- 실시간 인기 태그-->
-	<div class="tagRank">
-		<!--// class="tagRank" | class="tagRank open" -->
-		<span class="buttonTag"><button type="button" onclick="toggleTagRank()"><span>{$lang->planet_hot_tag}</span></button></span>
-		<div class="layer">
-			<ul>
-				<!--@foreach($planet->getPopularTags(false,10) as $val)-->
-				<li><a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a></li>
-				<!--@end-->
-			</ul>
-			<a href="{getUrl('moretags',1)}" class="more">&gt;{$lang->cmd_planet_more_tag}</a>
-		</div>
-	</div>
-	<!-- //실시간 인기 태그 -->
+    <!-- 실시간 인기 태그-->
+    <div class="tagRank">
+        <!--// class="tagRank" | class="tagRank open" -->
+        <span class="buttonTag"><button type="button" onclick="toggleTagRank()"><span>{$lang->planet_hot_tag}</span></button></span>
+        <div class="layer">
+            <ul>
+                <!--@foreach($planet->getPopularTags(false,10) as $val)-->
+                <li><a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a></li>
+                <!--@end-->
+            </ul>
+            <a href="{getUrl('moretags',1)}" class="more">&gt;{$lang->cmd_planet_more_tag}</a>
+        </div>
+    </div>
+    <!-- //실시간 인기 태그 -->
 
 </div>
 

@@ -168,5 +168,5 @@
     $lang->about_use_mobile = "可用手機發送 SMS";
     $lang->planet_use_me2day = "Me2day";
     $lang->about_use_me2day = "發表主題的同時也傳送到 me2day(http://me2day.net)。";
-
+    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
 ?>

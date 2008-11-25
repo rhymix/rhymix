@@ -168,5 +168,5 @@
     $lang->about_use_mobile = "Enable to write posting via mobile SMS";
     $lang->planet_use_me2day = "Use Me2day";
     $lang->about_use_me2day = "When writing a message, users can send it to me2day(http://me2day.net).";
-
+    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
 ?>
