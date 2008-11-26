@@ -37,6 +37,32 @@
             // 2007. 10. 17 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
             $oModuleController->insertTrigger('member.getMemberMenu', 'board', 'controller', 'triggerMemberMenu', 'after');
 
+
+            // 기본 게시판 생성
+            $output = executeQuery('module.getDefaultMidInfo');
+            if($output->data) return new Object();
+
+            // 기본 모듈을 찾음
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getDefaultMid();
+
+            // 기본 모듈이 없으면 새로 등록
+            if(!$module_info->module_srl) {
+                $args->board_name = 'board';
+                $args->browser_title = 'test module';
+                $args->is_default = 'Y';
+                $args->skin = 'xe_default';
+
+                // board 라는 이름의 모듈이 있는지 확인
+                $module_info = $oModuleModel->getModuleInfoByMid($args->board_name);
+                if($module_info->module_srl) $args->module_srl = $module_info->module_srl;
+                else $args->module_srl = 0;
+
+                // 게시판 controller 생성
+                $oBoardController = &getAdminController('board');
+                $oBoardController->procBoardAdminInsertBoard($args);
+            }
+
             return new Object();
         }
 
