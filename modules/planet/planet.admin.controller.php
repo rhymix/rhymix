@@ -19,28 +19,38 @@
             $oPlanetModel = &getModel('planet');
             $config = $oPlanetModel->getPlanetConfig();
 
+            // 이미 등록된 플래닛의 유무 체크
+            if($config->mid && $oModuleModel->getModuleInfoByMid($config->mid)) {
+                $is_registed = true;
+            } else {
+                $is_registed = false;
+            }
+
             // mid, browser_title, is_default 값이 바뀌면 처리
             $config->mid = $args->mid = Context::get('planet_mid');
             $args->browser_title = Context::get('browser_title');
             $args->is_default = Context::get('is_default');
             $args->skin = Context::get('planet_default_skin');
-            
-
 
             $args->module = 'planet';
-            $args->module_srl = $config->module_srl;
+            $args->module_srl = $is_registed?$config->module_srl:getNextSequence();
+
             if($args->is_default == 'Y') {
                 $output = $oModuleController->clearDefaultModule();
                 if(!$output->toBool()) return $output;
             }
-            $output = $oModuleController->updateModule($args);
+
+            if($is_registed) {
+                $output = $oModuleController->updateModule($args);
+            } else {
+                $output = $oModuleController->insertModule($args);
+            }
             if(!$output->toBool()) return $output;
 
             // 그외 정보 처리
             $config->planet_default_skin = Context::get('planet_default_skin');
             $config->use_mobile = Context::get('use_mobile');
             $config->use_me2day = Context::get('use_me2day');
-
 
             $tagtab = explode(',',Context::get('planet_tagtab'));
             for($i=0,$c=count($tagtab);$i<$c;$i++){
