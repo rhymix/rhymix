@@ -388,7 +388,7 @@
                 $package_list[$release->package_srl]->releases[$release->release_srl] = $release;
             } else {
                 if(!$package_srl) {
-                    $package_list = $oIssuetrackerModel->getPackageList($this->module_srl, 0, 3);
+                    $package_list = $oIssuetrackerModel->getPackageList($this->module_srl, 0, 1);
                 } else {
                     $package_list = $oIssuetrackerModel->getPackageList($this->module_srl, $package_srl, 0);
                 }
