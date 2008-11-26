@@ -114,6 +114,7 @@
                 $option->disable_html = true;
                 $option->height = 200;
                 $option->skin = $this->member_config->editor_skin;
+                $option->colorset = $this->member_config->editor_colorset;
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }

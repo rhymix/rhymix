@@ -18,7 +18,7 @@
          **/
         function procCommunicationAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('skin','colorset','editor_skin');
+            $args = Context::gets('skin','colorset','editor_skin','editor_colorset');
 
             if(!$args->skin) $args->skin = "default";
             if(!$args->colorset) $args->colorset = "white";

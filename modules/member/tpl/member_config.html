@@ -1,4 +1,5 @@
 <!--%import("filter/insert_config.xml")-->
+<!--%import("../../editor/tpl/js/editor_module_config.js",optimized=false)-->
 
 <!--#include("header.html")-->
 
@@ -99,11 +100,16 @@
 <tr>
     <th scope="row"><div>{$lang->editor_skin}</div></th>
     <td>
-        <select name="editor_skin">
+        <select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
         <!--@foreach($editor_skin_list as $editor_skin)-->
         <option value="{$editor_skin}" <!--@if($editor_skin==$config->editor_skin)-->selected="selected"<!--@end-->>{$editor_skin}</option>
         <!--@end-->
         </select>
+        <select name="editor_colorset" id="sel_editor_colorset" style="display:none">
+        </select>
+        <script "text/javascript">//<![CDATA[
+            getEditorSkinColorList('{$config->editor_skin}','{$config->editor_colorset}');
+        //]]></script>
     </td>
 </tr>
 <tr class="row2">
