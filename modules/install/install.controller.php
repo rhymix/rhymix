@@ -217,11 +217,13 @@
             $install_step = array('base','utility','manager','accessory','service','package');
 
             foreach($install_step as $category) {
-                foreach($modules[$category] as $module) {
-                    $this->installModule($module, sprintf('./modules/%s', $module));
+                if(count($modules[$category])) {
+                    foreach($modules[$category] as $module) {
+                        $this->installModule($module, sprintf('./modules/%s', $module));
 
-                    $oModule = &getClass($module);
-                    if($oModule->checkUpdate()) $oModule->moduleUpdate();
+                        $oModule = &getClass($module);
+                        if($oModule->checkUpdate()) $oModule->moduleUpdate();
+                    }
                 }
             }
 
