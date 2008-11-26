@@ -95,8 +95,13 @@
 <script type="text/javascript">//<![CDATA[
     var auto_saved_msg = "{$lang->msg_auto_saved}";
     var xed_{$editor_sequence};
+    var load_{$editor_sequence} = function() {
+        setEditMode(xed_{$editor_sequence}, "{$editor_height}px", {$editor_sequence});
+    };
+
 	if(document.getElementById("comment_{$editor_sequence}") == null || document.getElementById("comment_{$editor_sequence}").style.display != 'none') { 
-        editorStart_xq(xed_{$editor_sequence}, document.getElementById("xqEditor_{$editor_sequence}"), {$editor_sequence}, "{$editor_content_key_name}", "{$editor_height}px", "{$editor_primary_key_name}"); 
+        xed_{$editor_sequence} = editorStart_xq(xed_{$editor_sequence}, document.getElementById("xqEditor_{$editor_sequence}"), {$editor_sequence}, "{$editor_content_key_name}", "{$editor_height}px", "{$editor_primary_key_name}");
+        xAddEventListener(window, 'load', load_{$editor_sequence}); 
 	}
 //]]></script>
 
