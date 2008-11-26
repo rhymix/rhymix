@@ -19,13 +19,17 @@
             
             // 몇가지 애드온을 등록
             $oAddonController = &getAdminController('addon');
+            $oAddonController->doInsert('autolink');
             $oAddonController->doInsert('blogapi');
             $oAddonController->doInsert('counter');
+            $oAddonController->doInsert('member_communication');
             $oAddonController->doInsert('member_extra_info');
+            $oAddonController->doInsert('mobile');
+            $oAddonController->doInsert('referer');
+            $oAddonController->doInsert('resize_image');
             $oAddonController->doInsert('openid_delegation_id');
             $oAddonController->doInsert('rainbow_link');
             $oAddonController->doInsert('point_level_icon');
-            $oAddonController->doInsert('referer');
 
             // 몇가지 애드온을 기본 활성화 상태로 변경
             $oAddonController->doActivate('autolink');
