@@ -93,7 +93,6 @@
                 }
             }
 
-
             $tagtab = null;
             if($type == 'tagtab'){
                 $tagtab = Context::get('tagtab');
@@ -152,6 +151,17 @@
                     $tagtab_list[$val] = $output->data->count;
                 }
                 Context::set('tagtab_list', $tagtab_list);
+            }
+
+            // tagtab_after을 만든다
+            if(is_array($this->config->tagtab_after) && $this->config->tagtab_after[0]){
+                $tagtab_after_list = array();
+                foreach($this->config->tagtab_after as $key => $val){
+                    $args->tag = $val;
+                    $output = executeQuery('planet.getTotalTagSearchContents', $args);
+                    $tagtab_after_list[$val] = $output->data->count;
+                }
+                Context::set('tagtab_after_list', $tagtab_after_list);
             }
 
             // 템플릿 지정

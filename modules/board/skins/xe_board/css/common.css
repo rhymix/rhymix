@@ -361,7 +361,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .pagination.c2 a.next span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden;}
 
 /* 게시물의 팝업 메뉴 */
-.comment_popup_menu, .document_popup_menu { text-align:right; background:none; background:url(../images/common/document_menu.gif) no-repeat right top; padding:0 15px 0 0; height:18px; }
+.comment_popup_menu, .document_popup_menu { text-align:right; background:none; background:url(../images/common/document_menu.gif) no-repeat right top; padding:0 15px 0 0; height:18px;  clear:both;}
 .comment_popup_menu a, .document_popup_menu a { cursor:pointer; display:inline; color:#555555; text-decoration:none; }
 
 /* tag list */
@@ -379,7 +379,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 
 
 /* 회원 서명 및 프로필 이미지 출력 */
-.memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px;}
+.memberSignature { border:1px solid #e0e1db; padding:10px; margin-top:20px; clear:both;}
 .memberSignature .profile { float:left; margin-right:20px; }
 .commentProfileImage { margin:0 10px 10px 0; float:left; }
 .replyBox .xe_content { display:inline; }

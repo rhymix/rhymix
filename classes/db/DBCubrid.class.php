@@ -244,7 +244,7 @@
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
-            $query = sprintf("create %s index %s on %s%s (%s);", $is_unique?'unique':'', $index_name, $this->prefix, $table_name, implode(',',$target_columns));
+            $query = sprintf("create %s index %s on %s%s (%s);", $is_unique?'unique':'', $index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
             $this->_query($query);
         }
 
@@ -403,6 +403,7 @@
                     $value = $this->getConditionValue($name, $value, $operation, $type, $output->column_type);
                     if(!$value) $value = $v['value'];
                     if(strpos($name,'.')===false) $name = '"'.$name.'"';
+                    else $name = str_replace('.','."',$name).'"';
 
                     $str = $this->getConditionPart($name, $value, $operation);
 

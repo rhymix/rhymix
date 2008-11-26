@@ -94,7 +94,7 @@
                         <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
 
                             <div class="title">{$lang->msg_is_secret}</div>
-                            <div class="content"><input type="password" name="password" id="cpw" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+                            <div class="content"><input type="password" name="password" id="cpw" class="inputTypeText" /><span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
 
                         </form>
                     </div>
@@ -145,11 +145,11 @@
     <!-- 목록, 수정/삭제 버튼 -->
     <div class="contentButton">
         <!--@if($module_info->default_style != 'blog')-->
-        <a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+        <a href="{getUrl('document_srl','')}" class="button {$btn_class}"><span>{$lang->cmd_list}</span></a>
         <!--@end-->
         <!--@if($oDocument->isEditable())-->
-        <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button"><span>{$lang->cmd_modify}</span></a>
-        <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button"><span>{$lang->cmd_delete}</span></a>
+        <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button {$btn_class}"><span>{$lang->cmd_modify}</span></a>
+        <a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button {$btn_class}"><span>{$lang->cmd_delete}</span></a>
         <!--@end-->
     </div>
 
@@ -200,7 +200,7 @@
         </div>
 
         <div class="commentButton tRight">
-            <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+            <span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
         </div>
     </form>
 <!--@end-->

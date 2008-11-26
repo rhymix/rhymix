@@ -17,13 +17,15 @@
             $oModuleController->insertActionForward('homepage', 'view', 'dispHomepageAdminDelete');
 
             // 신규 홈페이지 추가
+            /*
             $oModuleModel = &getModel('module');
             if(!$oModuleModel->getDefaultMid()) {
                 $tmp_url = parse_url(Context::getRequestUri());
-                $domain = sprintf('%s%s', $tmp_url['host'], $tmp_url['path']);
+                $domain = sprintf('%s%s%s', $tmp_url['host'], $tmp_url['port']&&$tmp_url['port']!=80?':'.$tmp_url['port']:'',$tmp_url['path']);
                 $oHomepageAdminController = &getAdminController('homepage');
                 $oHomepageAdminController->insertHomepage('homepage', $domain);
             }
+            */
 
             return new Object();
         }

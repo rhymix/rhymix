@@ -1,7 +1,7 @@
 <!--%import("filter/modify_planet_info.xml")-->
 <!--%import("filter/write_content.xml")-->
 
-<div class="authorHeader">
+<div class="authorHeader" >
     <form action="{Context::getRequestUri()}" target="photo_iframe" method="post" onsubmit="return false;" enctype="multipart/form-data">
         <input type="hidden" name="module" value="planet" />
         <input type="hidden" name="mid" value="{$planet->getMid()}" />
@@ -58,75 +58,78 @@
                     </dd>
                     <!--@end-->
                 </dl>
-                <a href="{$planet->getPermanentUrl()}" class="planetUri">{$planet->getPermanentUrl()}</a>
                 <!--@if($planet->isRssEnabled())--><a href="{getUrl('','mid',$planet->getMid(),'act','rss')}" class="rssFeed"><span>RSS Feed</span></a><!--@end-->
-            </div>
-            <!--@if($planet->isMyPlanet())-->
-                <!--@if(!$planet->isRssEnabled())-->
-                    <button type="button" class="rss off" title="{$lang->msg_planet_rss_disabled}" onclick="doEnableRss();"><span>{$lang->msg_planet_rss_disabled}</span></button>
-                <!--@else-->
-                    <button type="button" class="rss on" title="{$lang->msg_planet_rss_enabled}" onclick="doDisableRss();"><span>{$lang->msg_planet_rss_enabled}</span></button>
-                <!--@end-->
-                    <button type="button" class="color" title="{$lang->colorset}" onclick="$Element('colorPreset').toggleClass('close','open');"><span>{$lang->colorset}</span></button>
-                    <ul class="colorPreset close" id="colorPreset">
-                        <li class="gray"><a href="#" onclick="doUpdateColorset(this);return false;" title="Gray"><span>Gray</span></a></li>
-                        <li class="green"><a href="#" onclick="doUpdateColorset(this);return false;" title="Green"><span>Green</span></a></li>
-                        <li class="blue"><a href="#" onclick="doUpdateColorset(this);return false;" title="Blue"><span>Blue</span></a></li>
-                        <li class="cyan"><a href="#" onclick="doUpdateColorset(this);return false;" title="Cyan"><span>Cyan</span></a></li>
-                        <li class="red"><a href="#" onclick="doUpdateColorset(this);return false;" title="Red"><span>Red</span></a></li>
-                        <li class="orange"><a href="#" onclick="doUpdateColorset(this);return false;" title="Orange"><span>Orange</span></a></li>
-                    </ul>
-            <!--@end-->
-        </fieldset>
-    </form>
-    <!--@if($planet->isMyPlanet())-->
-
-    <!--@if($config->use_me2day=='Y')-->
-    <!--%import("filter/me2day_api.xml")-->
-    <form action="./" method="post" class="apiMe2day" onsubmit="return procFilter(this,me2day_api);">
-        <fieldset>
-            <legend>{$lang->msg_me2day_sync}</legend>
-            <button type="button" class="setupButton" onclick="$Element('Me2ApiProtocol').toggleClass('close','open');"><span>{$lang->msg_me2day_sync}</span></button>
-            <div class="apiProtocol close" id="Me2ApiProtocol">
-                <p class="summary">{$lang->msg_me2day_sync_q}</p>
-                <dl>
-                    <dt><label for="me2day_id">{$lang->me2day_id}</label> :</dt>
-                    <dd><input name="me2day_id" type="text" id="me2day_id" value="{$myplanet->getMe2dayUID()}" /></dd>
-                    <dt><label for="me2day_ukey">{$lang->me2day_ukey}</label> :</dt>
-                    <dd><input name="me2day_ukey" type="password" id="me2day_ukey" value="{$myplanet->getMe2dayUKey()}" /></dd>
-                </dl>
-                <!--@if($myplanet->getMe2dayUID() && $myplanet->getMe2dayUKey())-->
-                <p class="autoPush"><input name="me2day_autopush" type="checkbox" value="Y" id="autoPushToMe2day" <!--@if($myplanet->getMe2dayAuthPush())-->checked="checked"<!--@end--> /><label for="autoPushToMe2day">{$lang->msg_me2day_activate}</label></p>
-                <!--@end-->
-                <div class="buttonArea">
-                    <button type="submit">{$lang->cmd_save}</button>
-                    <button type="button" onclick="this.form.reset(); $Element('Me2ApiProtocol').toggleClass('open','close');">{$lang->cmd_close}</button>
-                </div>
+                <a href="{$planet->getPermanentUrl()}" class="planetUri">{$planet->getPermanentUrl()}</a>
             </div>
         </fieldset>
     </form>
+
+	<!--@if($planet->isMyPlanet())-->
+	<div class="myOption" >
+
+			<!--@if(!$planet->isRssEnabled())-->
+				<button type="button" class="rss off" title="{$lang->msg_planet_rss_disabled}" onclick="doEnableRss();"><span>{$lang->msg_planet_rss_disabled}</span></button>
+			<!--@else-->
+				<button type="button" class="rss on" title="{$lang->msg_planet_rss_enabled}" onclick="doDisableRss();"><span>{$lang->msg_planet_rss_enabled}</span></button>
+			<!--@end-->
+				<button type="button" class="color" title="{$lang->colorset}" onclick="$Element('colorPreset').toggleClass('close','open');"><span>{$lang->colorset}</span></button>
+				<ul class="colorPreset close" id="colorPreset">
+					<li class="gray"><a href="#" onclick="doUpdateColorset(this);return false;" title="Gray"><span>Gray</span></a></li>
+					<li class="green"><a href="#" onclick="doUpdateColorset(this);return false;" title="Green"><span>Green</span></a></li>
+					<li class="blue"><a href="#" onclick="doUpdateColorset(this);return false;" title="Blue"><span>Blue</span></a></li>
+					<li class="cyan"><a href="#" onclick="doUpdateColorset(this);return false;" title="Cyan"><span>Cyan</span></a></li>
+					<li class="red"><a href="#" onclick="doUpdateColorset(this);return false;" title="Red"><span>Red</span></a></li>
+					<li class="orange"><a href="#" onclick="doUpdateColorset(this);return false;" title="Orange"><span>Orange</span></a></li>
+				</ul>
+
+			<!--@if($config->use_me2day=='Y')-->
+				<!--%import("filter/me2day_api.xml")-->
+				<form action="./" method="post" class="apiMe2day" onsubmit="return procFilter(this,me2day_api);">
+					<fieldset>
+						<legend>{$lang->msg_me2day_sync}</legend>
+						<button type="button" class="setupButton" onclick="$Element('Me2ApiProtocol').toggleClass('close','open');"><span>{$lang->msg_me2day_sync}</span></button>
+						<div class="apiProtocol close" id="Me2ApiProtocol">
+							<p class="summary">{$lang->msg_me2day_sync_q}</p>
+							<dl>
+								<dt><label for="me2day_id">{$lang->me2day_id}</label> :</dt>
+								<dd><input name="me2day_id" type="text" id="me2day_id" value="{$myplanet->getMe2dayUID()}" /></dd>
+								<dt><label for="me2day_ukey">{$lang->me2day_ukey}</label> :</dt>
+								<dd><input name="me2day_ukey" type="password" id="me2day_ukey" value="{$myplanet->getMe2dayUKey()}" /></dd>
+							</dl>
+							<!--@if($myplanet->getMe2dayUID() && $myplanet->getMe2dayUKey())-->
+							<p class="autoPush"><input name="me2day_autopush" type="checkbox" value="Y" id="autoPushToMe2day" <!--@if($myplanet->getMe2dayAuthPush())-->checked="checked"<!--@end--> /><label for="autoPushToMe2day">{$lang->msg_me2day_activate}</label></p>
+							<!--@end-->
+							<div class="buttonArea">
+								<button type="submit">{$lang->cmd_save}</button>
+								<button type="button" onclick="this.form.reset(); $Element('Me2ApiProtocol').toggleClass('open','close');">{$lang->cmd_close}</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			<!--@end-->
+	
+			<!--@if($config->use_mobile=='Y')-->
+			{@$phone_number=$myplanet->getPhoneNumber()}
+			<form method="post" class="mobile" onsubmit="setPhoneNumber(this);return false;" action="">
+				<fieldset>
+					<legend>{$lang->planet_mobile_receive}</legend>
+					<button type="button" class="setupButton" onclick="showInsertPhoneNumber();" ><span>{$lang->planet_mobile_receive}</span></button>
+					<dl class="address">
+						<dt>{$lang->planet_mobile_number} : </dt>
+						<dd><input name="phone_number" type="text" maxlength="3" value='{$phone_number[0]}' onkeyup="if(this.value.length>=3){ this.form.phone_number[1].focus()}"/> - <input name="phone_number" type="text" maxlength="4"  value='{$phone_number[1]}' onkeyup="if(this.value.length>=4){ this.form.phone_number[2].focus()}" /> - <input name="phone_number" type="text" maxlength="4" value='{$phone_number[2]}' /></dd>
+						<dd class="buttonArea"><button type="submit">{$lang->cmd_save}</button><button type="button" onclick="closeInsertPhoneNumber();">{$lang->cmd_close}</button></dd>
+					</dl>
+				</fieldset>
+			</form>
+			<!--@end-->
+	</div>
     <!--@end-->
 
-    <!--@if($config->use_mobile=='Y')-->
-    {@$phone_number=$myplanet->getPhoneNumber()}
-    <form method="post" class="mobile" onsubmit="setPhoneNumber(this);return false;">
-        <fieldset>
-            <legend>{$lang->planet_mobile_receive}</legend>
-            <button type="button" class="setupButton" onclick="showInsertPhoneNumber();" ><span>{$lang->planet_mobile_receive}</span></button>
-            <dl class="address">
-                <dt>{$lang->planet_mobile_number} : </dt>
-                <dd><input name="phone_number" type="text" maxlength="3" value='{$phone_number[0]}' onkeyup="if(this.value.length>=3){ this.form.phone_number[1].focus()}"/> - <input name="phone_number" type="text" maxlength="4"  value='{$phone_number[1]}' onkeyup="if(this.value.length>=4){ this.form.phone_number[2].focus()}" /> - <input name="phone_number" type="text" maxlength="4" value='{$phone_number[2]}' /></dd>
-                <dd class="buttonArea"><button type="submit">{$lang->cmd_save}</button><button type="button" onclick="closeInsertPhoneNumber();">{$lang->cmd_close}</button></dd>
-            </dl>
-        </fieldset>
-    </form>
-    <!--@end-->
-
-    <!--@end-->
     <div class="fClear">
     </div>
     <span class="tl"></span><span class="tr"></span>
 </div>
+
 <div class="authorFooter">
     <div class="memo" id="planetMemo">
         <!--#include("memo_list.html")-->
@@ -196,14 +199,14 @@
                     <dd>
                         <textarea id="writePost_content" name="content" rows="" cols="" onkeyup="planetPreview(this);"></textarea>
                     </dd>
+                    <dt>{$lang->planet_postscript}</dt>
+                    <dd><input type="text" name="about_postscript" value="{$lang->msg_planet_about_postscript}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" /><input name="postscript"  type="text" class="inputText" value="" style="display:none; "/></dd>
+                    <dt>{$lang->tag}</dt>
+                    <dd><input type="text" name="about_tag" value="{$lang->msg_planet_about_tag}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" /><input name="content_tag"  type="text" class="inputText" value="" style="display:none; "/></dd>
                     <dd id="preview" class="preview off">
                     <!--// class="preview" | class="preview off" -->
                         <p id="preview_text">&nbsp;</p>
                     </dd>
-                    <dt>{$lang->planet_postscript}</dt>
-                    <dd><input type="text" name="about_postscript" value="{$lang->msg_planet_about_postscript}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" onfocus="toggleWriteFormHelp(this);"/><input name="postscript"  type="text" class="inputText" value="" style="display:none; "/></dd>
-                    <dt>{$lang->tag}</dt>
-                    <dd><input type="text" name="about_tag" value="{$lang->msg_planet_about_tag}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" onfocus="toggleWriteFormHelp(this);"/><input name="content_tag"  type="text" class="inputText" value="" style="display:none; "/></dd>
                 </dl>
                 <div class="writeOptions">
                     <p><input id="btn_preview" name="" onclick="togglePreview()" type="checkbox" value="" checked="checked" /><label for="btn_preview">{$lang->planet_article_preview}</label></p>
@@ -218,3 +221,4 @@
     <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
 </div>
 <!--@end-->
+

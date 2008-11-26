@@ -161,6 +161,8 @@
 
     $lang->planet_tagtab = "Tags for Main Tab";
     $lang->about_planet_tagtab = "You can set multiple tags seperated by comma(,), These tags displayed as tabs in the main page.";
+    $lang->planet_tagtab_after = "뒤 추가 Tag 탭";
+    $lang->about_planet_tagtab_after = "기본 태그탭 이후에 여러개의 Tag 탭을 추가할 수 있습니다. 콤마(,)로 여러개를 지정할 수 있습니다";
     $lang->planet_smstag = "SMS Tag";
     $lang->about_planet_smstag = "You can set multiple tags seperated by comma(,), These tags automatically added if the posting is registered via SMS";
 
@@ -168,5 +170,5 @@
     $lang->about_use_mobile = "Enable to write posting via mobile SMS";
     $lang->planet_use_me2day = "Use Me2day";
     $lang->about_use_me2day = "When writing a message, users can send it to me2day(http://me2day.net).";
-
+    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
 ?>

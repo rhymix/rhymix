@@ -67,9 +67,11 @@ function editorGetSelectedNode(editor_sequence) {
 /**
  * editor 시작 (editor_sequence로 iframe객체를 얻어서 쓰기 모드로 전환)
  **/
+var _editorFontColor = new Array();
 function editorStart(editor_sequence, primary_key, content_key, editor_height, font_color) {
 
     if(typeof(font_color)=='undefined') font_color = '#000';
+    _editorFontColor[editor_sequence] = font_color;
 
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
@@ -125,7 +127,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
         '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'+
         '<html xmlns="http://www.w3.org/1999/xhtml><head><meta http-equiv="content-type" content="text/html; charset=utf-8"/>'+
         '<style type="text/css">'+
-        'body {font-size:.8em; line-height:1.6; font-family:Sans-serif; height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
+        'body {font-size:.75em; line-height:1.6; font-family:Sans-serif; height:'+editor_height+'px; padding:0; margin:0; background-color:transparent; color:'+font_color+';}'+
         '</style>'+
         '</head><body editor_sequence="'+editor_sequence+'">'+
         content+
@@ -500,17 +502,18 @@ function showEditorHelp(e,editor_sequence){
     }
 }
 
-function showEditorExtension(e,editor_sequence){
+function showEditorExtension(evt,editor_sequence){
     var oid = 'editorExtension_'+editor_sequence;
+    var e = new xEvent(evt);
     if(xGetElementById(oid).className =='extension2'){
         xGetElementById(oid).className = 'extension2 open';
 
         if(e.pageX <= xWidth('editor_component_'+editor_sequence)){
             xGetElementById('editor_component_'+editor_sequence).style.right='auto';
-            xGetElementById('editor_component_'+editor_sequence).style.left='0';
+            xGetElementById('editor_component_'+editor_sequence).style.left='0px';
         }else{
-            xGetElementById('editor_component_'+editor_sequence).style.right='0';
-            xGetElementById('editor_component_'+editor_sequence).style.left='';
+            xGetElementById('editor_component_'+editor_sequence).style.right='0px';
+            xGetElementById('editor_component_'+editor_sequence).style.left='auto';
         }
 
     }else{
@@ -518,11 +521,11 @@ function showEditorExtension(e,editor_sequence){
     }
 }
 
-function showPreviewContent(ret_obj,response_tags, params, fo_obj) {
-    var preview_obj = editorGetPreviewArea(params.editor_sequence);
-    if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+params.editor_sequence).style.display='none';
-//  alert(ret_obj.content);
-    xInnerHtml(preview_obj, ret_obj.content);
+function showPreviewContent(editor_sequence) {
+    if(typeof(editor_sequence)=='undefined') return;
+    if(typeof(_editorFontColor[editor_sequence])=='undefined') return;
+    var preview_obj = editorGetPreviewArea(editor_sequence);
+    preview_obj.contentWindow.document.body.style.color = _editorFontColor[editor_sequence];
 }
 
 function setPreviewHeight(editor_sequence){

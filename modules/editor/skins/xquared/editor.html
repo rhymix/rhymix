@@ -1,14 +1,14 @@
 <!--// 스킨 css 로드 -->
-<!--%import("css/xq_ui.css")-->
-<!--%import("css/default.css")-->
+<!--%import("stylesheets/xq_ui.css")-->
+<!--%import("stylesheets/default.css")-->
 <script type="text/javascript">
     var editor_path = "{$editor_path}";
 </script>
 
 <!--// 기본 js/언어파일 로드 -->
 <!--%import("../../tpl/js/editor_common.js")-->
-<!--%import("js/xquared-min.js")-->
-<!--%import("js/xe_interface.js")-->
+<!--%import("javascripts/module/Full_merged_min.js",optimized=false)-->
+<!--%import("javascripts/xe_interface.js",optimized=false)-->
 
 <!-- 자동저장용 폼 -->
 <!--@if($enable_autosave)-->
@@ -40,7 +40,7 @@
     </div>
 
     <!-- 에디터 출력 -->
-    <div id="xqEditor_{$editor_sequence}"></div>
+    <textarea id="xqEditor_{$editor_sequence}"></textarea>
     <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
 
     <!-- 에디터 크기 조절 bar -->

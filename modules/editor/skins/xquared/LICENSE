@@ -2,13 +2,16 @@ Xquared is copyrighted free software by Alan Kang <jania902@gmail.com>.
 You can redistribute and/or modify it under the terms of the LGPL.
 (http://www.gnu.org/licenses/lgpl.html)
 
-Following is a list of dependencies:
- * prototype javascript framework
-   * Homepage: http://prototypejs.org
-   * License: http://dev.rubyonrails.org/browser/spinoffs/prototype/trunk/LICENSE?format=raw
+While Xquared itself has no dependencies with external libraries, you need following libraries in order to build Xquared from source code:
  * jsspec
    * Homepage: http://jania.pe.kr/aw/moin.cgi/JSSpec
    * License: http://www.gnu.org/licenses/lgpl.html
  * yui-compressor
    * Homepage: http://developer.yahoo.com/yui/compressor/
    * License: http://developer.yahoo.com/yui/license.html
+ * selenium-core
+   * Homepage: http://selenium-core.openqa.org/
+   * License: http://selenium-core.openqa.org/license.jsp
+ * jsdoc_toolkit
+   * Homepage: http://code.google.com/p/jsdoc-toolkit/
+   * License: http://www.opensource.org/licenses/mit-license.php

@@ -83,9 +83,11 @@
          **/
         function procMemberAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('webmaster_name','webmaster_email','skin','colorset','enable_openid','enable_join','enable_confirm','enable_ssl','limit_day','after_login_url','after_logout_url','redirect_url','agreement','profile_image','profile_image_max_width','profile_image_max_height','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height','signature_max_height','editor_skin');
+            $args = Context::gets('webmaster_name','webmaster_email','skin','colorset','enable_openid','enable_join','enable_confirm','enable_ssl','limit_day','after_login_url','after_logout_url','redirect_url','agreement','profile_image','profile_image_max_width','profile_image_max_height','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height','signature_max_height','editor_skin','editor_colorset');
             if(!$args->skin) $args->skin = "default";
             if(!$args->colorset) $args->colorset = "white";
+            if(!$args->editor_skin) $args->editor_skin= "default";
+            if(!$args->editor_colorset) $args->editor_colorset = "white";
             if($args->enable_join!='Y') $args->enable_join = 'N';
             if($args->enable_ssl!='Y') $args->enable_ssl = 'N';
             if($args->enable_openid!='Y') $args->enable_openid= 'N';

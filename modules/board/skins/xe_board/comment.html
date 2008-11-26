@@ -56,7 +56,7 @@
                         <input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
                         <input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
                             <div class="title">{$lang->msg_is_secret}</div>
-                            <div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+                            <div class="content"><input type="password" name="password" class="inputTypeText" /><span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
                         </form>
                     </div>
                 <!--@else-->

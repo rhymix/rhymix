@@ -17,7 +17,7 @@
 
     $lang->planet_reply_content = "微博评论内容";
 
-    $lang->about_planet = 
+    $lang->about_planet =
         "XE的微博模块。用户可以创建自己的微博并使用。
         注意：主站使用的域名可能无法链接微博。
         注意：要想把微博设置为默认首页，你要链接的域名应是唯一的，不能同时用在其他站点。";
@@ -106,8 +106,8 @@
     $lang->planet_nowhot_tag = "微博实时人气标签";
     $lang->cmd_planet_close_nowhot_tag = "关闭实时人气标签";
 
-    $lang->about_planet_whats_textSearch_in_planet = "<strong>%s</strong>님의 플래닛에서 검색한 <strong>'%s'</strong> 에 대한 결과 입니다.";
-    $lang->about_planet_whats_textSearch = "<strong>'%s'</strong> 에 대한 전체 검색결과 입니다.";
+    $lang->about_planet_whats_textSearch_in_planet = "在<strong>%s</strong>的微博搜索 <strong>'%s'</strong> 的结果。";
+    $lang->about_planet_whats_textSearch = "<strong>'%s'</strong> 的搜索结果。";
 
     $lang->planet_acticle = "主题";
     $lang->planet_persontag = "形象标签";
@@ -164,6 +164,8 @@
 
     $lang->planet_tagtab = "添加首页Tag标签页";
     $lang->about_planet_tagtab = "用逗号(,)来区分而难多个Tag标签页。";
+    $lang->planet_tagtab_after = "뒤 추가 Tag 탭";
+    $lang->about_planet_tagtab_after = "기본 태그탭 이후에 여러개의 Tag 탭을 추가할 수 있습니다. 콤마(,)로 여러개를 지정할 수 있습니다";
     $lang->planet_smstag = "添加SMS标签";
     $lang->about_planet_smstag = "用SMS发送时自动添加的标签，用逗号(,)来区分多个标签。";
 
@@ -171,5 +173,5 @@
     $lang->about_use_mobile = "可以用手机SMS发送。";
     $lang->planet_use_me2day = "绑定me2day";
     $lang->about_use_me2day = "发布主题的同时发送到me2day。";
-
+    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
 ?>

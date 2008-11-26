@@ -37,12 +37,6 @@
                 $args->skin = 'xe_planet';
                 $args->is_default = 'N';
                 $args->mid = 'planet';
-                $idx = 0;
-                while(true) {
-                    $_o = executeQuery('module.getMidInfo', $args);
-                    if(!$_o->data) break;
-                    $idx = $idx + 1;
-                }
                 $args->module_srl = getNextSequence();
                 $output = $oModuleController->insertModule($args);
 

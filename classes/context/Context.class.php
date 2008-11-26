@@ -139,7 +139,7 @@
             $this->addJsFile("./common/js/xml_handler.js");
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
-            $this->addCSSFile("./common/css/button.css",false);
+            $this->addCSSFile("./common/css/button.css");
 
             // 관리자 페이지일 경우 관리자 공용 CSS 추가
             if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
@@ -701,13 +701,8 @@
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
             elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
 
-            if(!$domain) {
-                if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL);
-                else $path = $this->getRequestUri(RELEASE_SSL);
-            } else {
-                if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = 'https://'.$domain;
-                else $path = 'http://'.$domain;
-            }
+            if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL, $domain);
+            else $path = $this->getRequestUri(RELEASE_SSL, $domain);
 
             $var_count = count($get_vars);
             if(!$var_count) return $path;
@@ -775,10 +770,13 @@
         /**
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
-        function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL) {
+        function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
             static $url = array();
 
-            if(isset($url[$ssl_mode])) return $url[$ssl_mode];
+            if($domain) $domain_key = md5($domain);
+            else $domain_key = 'default';
+
+            if(isset($url[$ssl_mode][$domain_key])) return $url[$ssl_mode][$domain_key];
 
             switch($ssl_mode) {
                 case FOLLOW_REQUEST_SSL :
@@ -793,21 +791,17 @@
                     break;
             }
 
-            $site_module_info = Context::get('site_module_info');
-            $domain = trim($site_module_info->domain);
             if($domain) {
-                $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
-                if(substr($domain,-1) != '/') $domain .= '/';
+                $target_url = trim($domain);
+                if(substr($target_url,-1) != '/') $target_url.= '/'; 
             } else {
-                $domain = preg_replace('/:'.$_SERVER['SERVER_PORT'].'$/','',$_SERVER['HTTP_HOST']).getScriptPath();
+                $target_url= $_SERVER['HTTP_HOST'].getScriptPath();
             }
 
-            $domain = sprintf("%s://%s",$use_ssl?'https':'http',$domain);
+            $url_info = parse_url('http://'.$target_url);
+            $url[$ssl_mode][$domain_key] = sprintf("%s://%s%s%s",$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
 
-            $url_info = parse_url($domain);
-            $url[$ssl_mode] = sprintf("%s://%s%s%s",$url_info['scheme'], $url_info['host'], $_SERVER['SERVER_PORT']!=80?':'.$_SERVER['SERVER_PORT']:'',$url_info['path']);
-
-            return $url[$ssl_mode];
+            return $url[$ssl_mode][$domain_key];
         }
 
         /**

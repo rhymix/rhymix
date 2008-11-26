@@ -28,7 +28,7 @@ function insertMultimedia(obj) {
 
     var url = xGetElementById("multimedia_url").value;
     url = url.replace(request_uri,'');
-	url = encodeURI(url);
+//	url = encodeURI(url);
 
     var caption = xGetElementById("multimedia_caption").value;
 

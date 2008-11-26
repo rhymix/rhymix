@@ -125,6 +125,7 @@
             $option->disable_html = true;
             $option->height = 300;
             $option->skin = $this->communication_config->editor_skin;
+            $option->colorset = $this->communication_config->editor_colorset;
             $editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
             Context::set('editor', $editor);
 

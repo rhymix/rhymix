@@ -34,6 +34,7 @@
             $group_list = $oMemberModel->getGroups();
             Context::set('group_list', $group_list);
             if(is_array($this->config->tagtab)) Context::set('tagtab', join(',',$this->config->tagtab));
+            if(is_array($this->config->tagtab_after)) Context::set('tagtab_after', join(',',$this->config->tagtab_after));
             if(is_array($this->config->smstag)) Context::set('smstag', join(',',$this->config->smstag));
 
 

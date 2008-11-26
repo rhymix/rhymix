@@ -29,15 +29,15 @@
     <!-- 글쓰기, 목록 버튼 -->
         <div class="leftButtonBox">
             <!--@if($grant->is_admin)-->
-                <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+                <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button {$btn_class}"><span>{$lang->cmd_manage_document}</span></a>
             <!--@end-->
             <!--@if($module_info->default_style != 'blog')-->
-            <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button"><span>{$lang->cmd_list}</span></a>
+            <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_list}</span></a>
             <!--@end-->
         </div>
 
         <div class="rightButtonBox">
-            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button"><span>{$lang->cmd_write}</span></a>
+            <a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="button {$btn_class}"><span>{$lang->cmd_write}</span></a>
         </div>
 
 
@@ -69,10 +69,10 @@
                 </select>
                 <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
                 <!--@if($last_division)-->
-                    <a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
+                    <a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="button {$btn_class}"><span>{$lang->cmd_search_next}</span></a>
                 <!--@end-->
-                <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button"><span>{$lang->cmd_search}</span></a>
-                <a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button"><span>{$lang->cmd_cancel}</span></a>
+                <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button {$btn_class}"><span>{$lang->cmd_search}</span></a>
+                <a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_cancel}</span></a>
             </form>
         </div>
         <!--@end-->

@@ -65,7 +65,7 @@
 <tr>
     <td class="packageLeft">&nbsp;</td>
     <td class="releaseLeft">&nbsp;</td>
-    <td class="filename"><a href="{$file->download_url}" name="attach_{$file->file_srl}" <!--@if($file->comment)-->rel="{str_replace("\n","<br />",htmlspecialchars($file->comment))}"<!--@end-->>{$file->source_filename}</a></td>
+    <td class="filename"><a href="{getUrl()}{$file->download_url}" name="attach_{$file->file_srl}" <!--@if($file->comment)-->rel="{str_replace("\n","<br />",htmlspecialchars($file->comment))}"<!--@end-->>{$file->source_filename}</a></td>
     <td class="filesize">{FileHandler::filesize($file->file_size)}</td>
     <td class="download_count">{$file->download_count}</td>
 </tr>

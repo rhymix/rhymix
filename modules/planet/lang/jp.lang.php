@@ -163,6 +163,8 @@
 
     $lang->planet_tagtab = "메인 추가 Tag 탭";
     $lang->about_planet_tagtab = "콤마(,)로 여러개의 Tag를 지정할 수 있으며, 지정한 Tag는 메인에 탭으로 출력 됩니다. 글쓰기 창에도 출력됩니다.";
+    $lang->planet_tagtab_after = "뒤 추가 Tag 탭";
+    $lang->about_planet_tagtab_after = "기본 태그탭 이후에 여러개의 Tag 탭을 추가할 수 있습니다. 콤마(,)로 여러개를 지정할 수 있습니다";
     $lang->planet_smstag = "SMS 등록 Tag";
     $lang->about_planet_smstag = "콤마(,)로 여러개의 Tag를 지정할 수 있으며, SMS로 등록시에 등록 되는 Tag";
 
@@ -170,5 +172,5 @@
     $lang->about_use_mobile = "핸드폰 SMS로 글을 작성할 수 있게 합니다.";
     $lang->planet_use_me2day = "미투데이 연동";
     $lang->about_use_me2day = "글 작성시 me2day에 보내게 됩니다.";
-
+    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
 ?>

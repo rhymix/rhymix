@@ -43,4 +43,5 @@
 
 /* TextEditor */
 .xeTextEditor {padding:10px; overflow:hidden; margin:0 0 10px 0;}
-.xeTextEditor textarea { display:block; margin:0; padding:2px; color:#fff;}
+.xeTextEditor textarea { display:block; margin:0; padding:2px; }
+.xeTextEditor.black textarea { color:#fff; background-color:#000;}

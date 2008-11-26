@@ -4,18 +4,11 @@
 .memberSmallBox .header h3 { margin:0; border:none; float:left; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border:none; border-bottom:3px solid #fe3614; background:url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* button */
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
-    background-image:url(../images/black/form_buttons.png);
-    _background-image:url(../images/black/form_buttons.gif);
-}
-
-
-del.button span,
-a.button, span.button, del.button,
-a.button span, span.button button, span.button input, del.button span{
-    color:#FFFFFF;
-}
+a.button,
+a.button span,
+span.button,
+span.button button,
+span.button input { background-image:url(../../../../../common/tpl/images/buttonBlack.gif); color:#fff;}
 
 .inputTypeText { background-color:transparent !important; color:#AAAAAA !important; }
 .inputTypeText:hover, .inputTypeText:focus { background-color:transparent; color:#AAAAAA; }
@@ -27,8 +20,10 @@ a.button span, span.button button, span.button input, del.button span{
 .memberSmallBox .openid_user_id { color:#AAAAAA; background:transparent url("../images/black/openid_input_bg.gif") no-repeat left 50% !important; }
 .memberSmallBox .help { background-color:transparent; }
 
+.memberInfoTable { border:1px solid #444; }
 .memberInfoTable tr.first-child th, .memberInfoTable tr.first-child td { background-color:transparent; color:#AAAAAA; }
-.memberInfoTable tr th, .memberInfoTable tr td { background-color:transparent; color:#AAAAAA; }
+.memberInfoTable tr th, .memberInfoTable tr td { border-top:1px solid #444; background-color:transparent; color:#AAAAAA; }
+.memberInfoTable td { border-left:1px solid #444; }
 .memberInfoTable td input { background-color:transparent; color:#AAAAAA; }
 .memberInfoTable caption  { color:#AAAAAA; }
 div.checkValue { color:#BBBBBB !important; }
@@ -45,8 +40,15 @@ table.list tr td.title a { color:#BBBBBB !important; }
 table.list tr td { border-top:1px solid #888888 !important; }
 table .list tr td, table.list tr td * { color:#BBBBBB; }
 
-.pagenation a { border:none !important; }
-.pagenation strong { border:none !important; color:#EEEEEE; }
+/* Pagination*/
+.pagination a, .pagination strong{ color:#888; }
+.pagination a:hover, .pagination a:active, .pagination a:focus{ background-color:#555 !important; }
+.pagination strong{ color:#ff6600 !important;}
+.pagination.a1 a, .pagination.a1 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888;}
+.pagination.a1 a.prev, .pagination.a1 a.prevEnd, .pagination.a1 a.next, .pagination.a1 a.nextEnd { background:#000; }
+
+.pagination.a2 a, .pagination.a2 strong{ background:#000; border-left:1px solid #555; border-right:1px solid #666; color:#888; }
+.pagination.a2 a.prev, .pagination.a2 a.prevEnd, .pagination.a2 a.next, .pagination.a2 a.nextEnd { background:#000; }
 
 .memberSmallBox .leftHeaderType th { background:transparent; color:#AAAAAA; }
 .memberSmallBox .leftHeaderType td { color:#AAAAAA; }

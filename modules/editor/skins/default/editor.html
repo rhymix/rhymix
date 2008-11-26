@@ -4,12 +4,13 @@
 <!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" )-->
     <!--@if($colorset == "black_texteditor")-->
         <!--%import("css/black.css")-->
+        {@ $editor_class = "black" }
     <!--@else-->
         <!--%import("css/white.css")-->
     <!--@end-->
 
     <!--%import("js/xe_interface.js")-->
-    <div class="xeTextEditor">
+    <div class="xeTextEditor {$editor_class}">
         <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="10" rows="10"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
@@ -23,6 +24,7 @@
 
     <!--@if($colorset == "black")-->
         <!--%import("css/black.css")-->
+        {@ $editor_class = "black" }
     <!--@else-->
         <!--%import("css/white.css")-->
     <!--@end-->
@@ -175,9 +177,9 @@
         <!-- 에디터 출력 -->
         <div class="editorBox" id="editorBox" >
             <div class="editorMargin" >
-                <iframe id="editor_iframe_{$editor_sequence}" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
+                <iframe id="editor_iframe_{$editor_sequence}" allowTransparency="true" class="richEditor" frameborder="0" height="{$editor_height}" title="Rich Text Editor"></iframe>
                 <textarea id="editor_textarea_{$editor_sequence}" class="htmlEditor" style="height:{$editor_height}"  rows="5" cols="20" title="HTML Editor"></textarea>
-                <iframe id="editor_preview_{$editor_sequence}" name="editor_preview_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="display:none;" onload="setPreviewHeight({$editor_sequence});"></iframe>
+                <iframe id="editor_preview_{$editor_sequence}" allowTransparency="true" name="editor_preview_{$editor_sequence}" frameborder="0" height="{$editor_height}" style="display:none;" onload="setPreviewHeight({$editor_sequence});"></iframe>
             </div>
         </div>
 
@@ -210,14 +212,14 @@
         //]]></script>
         <!-- 파일 업로드 영역 -->
         <div id="fileUploader_{$editor_sequence}" class="fileUploader">
-            <div class="preview" id="preview_uploaded_{$editor_sequence}"></div>
-            <div class="fileListArea">
+            <div class="preview {$editor_class}" id="preview_uploaded_{$editor_sequence}"></div>
+            <div class="fileListArea {$editor_class}">
                 <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
             </div>
             <div class="fileUploadControl">
-                <span class="button" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>
-                <span class="button"><button type="button" onclick="removeUploadedFile('{$editor_sequence}');return false;">{$lang->edit->delete_selected}</button></span>
-                <span class="button"><button type="button" onclick="insertUploadedFile('{$editor_sequence}');return false;">{$lang->edit->link_file}</button></span>
+                <span class="button {$editor_class}" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>
+                <span class="button {$editor_class}"><button type="button" onclick="removeUploadedFile('{$editor_sequence}');return false;">{$lang->edit->delete_selected}</button></span>
+                <span class="button {$editor_class}"><button type="button" onclick="insertUploadedFile('{$editor_sequence}');return false;">{$lang->edit->link_file}</button></span>
             </div>
             <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
         </div>

@@ -228,11 +228,14 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .xeEditor .fileUploader{ clear:both; position:relative; padding-top:5px; *zoom:1; *margin-bottom:5px;}
 .commentEditor .xeEditor .fileUploader{ border-top:1px solid;}
 .xeEditor .fileUploader:after{ content:""; display:block; clear:both;}
-.xeEditor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid; padding:2px; margin:0 10px 5px 0;}
+.xeEditor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid; padding:2px; margin:0 10px 5px 10px;}
+.xeEditor .fileUploader .preview.black { background-color:#000; border:1px solid #666;}
 .xeEditor .fileUploader .preview img{ display:block; width:64px; height:64px;}
 .xeEditor .fileUploader .fileListArea{ float:left; width:260px; margin:0 10px 5px 0;}
 .xeEditor .fileUploader .fileListArea select{ width:100%; height:70px; overflow:auto;}
 .xeEditor .fileUploader .fileListArea select option{ font-size:11px;}
+.xeEditor .fileUploader .fileListArea.black select { background-color:#000; border:1px solid #666;}
+.xeEditor .fileUploader .fileListArea.black select option { color:#aaa; }
 .xeEditor .fileUploader .fileUploadControl{ clear:right;}
 .xeEditor .fileUploader .fileUploadControl .button{ margin-bottom:5px;}
 .xeEditor .fileUploader .file_attach_info{ clear:right; margin:5px 0;}

@@ -176,6 +176,8 @@ function planetPreview(obj) {
         var text = obj.value;
         text = text.replace(/</ig,'&lt;');
         text = text.replace(/>/ig,'&gt;');
+        text = text.replace(/\.\.\./g, '…');
+        text = text.replace(/--/g, '—');
         $('preview_text').innerHTML = text.replace(/"([^"]*)":(mms|http|ftp|https)([^ ]+)/ig,'<a href="$2$3">$1</a>');
     }else{
         $Element('preview').addClass('off');

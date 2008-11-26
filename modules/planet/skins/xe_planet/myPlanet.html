@@ -13,24 +13,25 @@
         <!--<li <!--@if($type=='fish')-->class="active"<!--@end-->><a href="{getUrl('type','fish')}">{$lang->planet_fish}<sup>&nbsp;</sup></a></li>
         <li <!--@if($type=='bigfish')-->class="active"<!--@end-->><a href="{getUrl('type','bigfish')}">{$lang->planet_bigfish}<sup>&nbsp;</sup></a></li>-->
     </ul>
-    <!--
-    <ul class="exTab">
-        <li><a href="#"><sup></sup></a></li>
-    </ul>
-    -->
+
+    <!-- 실시간 인기 태그-->
+    <div class="tagRank">
+        <!--// class="tagRank" | class="tagRank open" -->
+        <span class="buttonTag"><button type="button" onclick="toggleTagRank()"><span>{$lang->planet_hot_tag}</span></button></span>
+        <div class="layer">
+            <ul>
+                <!--@foreach($planet->getPopularTags(false,10) as $val)-->
+                <li><a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a></li>
+                <!--@end-->
+            </ul>
+            <a href="{getUrl('moretags',1)}" class="more">&gt;{$lang->cmd_planet_more_tag}</a>
+        </div>
+    </div>
+    <!-- //실시간 인기 태그 -->
+
 </div>
 
 <div class="commentList" id="commentList">
-    <div class="commentHeader">
-        <h3 class="timeNav">
-            <strong>{zdate($date,'Y')}</strong>{$lang->unit_year}
-            <strong>{zdate($date,'m')}</strong>{$lang->unit_month}
-            <strong>{zdate($date,'d')}</strong>{$lang->unit_day}
-            (<strong>{zdate($date,'l')}</strong>)
-            <a class="prev" href="{getUrl('date',$prev_date)}"><img src="./images/buttonPrev1.gif" border="0" alt="{$lang->cmd_prev}" /></a>
-            <a class="next" href="{getUrl('date',$next_date)}"><img src="./images/buttonNext1.gif" border="0" alt="{$lang->cmd_next}" /></a>
-        </h3>
-    </div>
 
 <!--#include("content_list.html")-->
 
