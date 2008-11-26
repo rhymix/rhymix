@@ -81,7 +81,7 @@
             </div>
         </div>
 
-<!--@if(!($act=='dispPlanetLogin' || $act=='dispPlanetContentTagSearch' || $act=='dispPlanetTagSearch' || $act=='dispPlanetContentSearch'))-->
+<!--@if($date && !($act=='dispPlanetLogin' || $act=='dispPlanetContentTagSearch' || $act=='dispPlanetTagSearch' || $act=='dispPlanetContentSearch'))-->
         <div class="timeNav">
             <a class="prev" href="{getUrl('date',$prev_date)}" title="{$lang->cmd_prev}">&lt;</a>
             <strong>{zdate($date,'Y')}</strong>{$lang->unit_year}

@@ -50,6 +50,14 @@
             $tagtab = array_unique($tagtab);
             $config->tagtab = $tagtab;
 
+            $tagtab_after = explode(',',Context::get('planet_tagtab_after'));
+            for($i=0,$c=count($tagtab_after);$i<$c;$i++){
+                if(trim($tagtab_after[$i])) continue;
+                $tagtab_after[$i] = trim($tagtab_after[$i]);
+            }
+            $tagtab_after = array_unique($tagtab_after);
+            $config->tagtab_after = $tagtab_after;
+
 
             $smstag = explode(',',Context::get('planet_smstag'));
             for($i=0,$c=count($smstag);$i<$c;$i++){

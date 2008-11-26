@@ -11,6 +11,12 @@
     <li <!--@if($type=='all')-->class="active"<!--@end-->><a href="{getUrl('type','all','page','','tagtab')}">{$lang->planet_total_articles}<sup>{number_format($total_content)}</sup></a></li>
     <li <!--@if($type=='wantyou')-->class="active"<!--@end-->><a href="{getUrl('type','wantyou','page','','tagtab')}">{$lang->planet_wantyou}<sup>{number_format($total_wantyou)}</sup></a></li>
     <li <!--@if($type=='best')-->class="active"<!--@end-->><a href="{getUrl('type','best','page','','tagtab')}">{$lang->planet_best}<sup>{number_format($total_best)}</sup></a></li>
+
+<!--@if(is_array($config->tagtab_after) && count($config->tagtab_after)>0)-->
+    <!--@foreach($tagtab_after_list as $key => $val)-->
+    <li <!--@if($tagtab==$key)-->class="active"<!--@end-->><a href="{getUrl('type','tagtab','page','','tagtab',$key)}">{$key}<sup>{number_format($val)}</sup></a></li>
+    <!--@end-->
+<!--@end-->
 </ul>
 
 <!-- 실시간 인기 태그-->

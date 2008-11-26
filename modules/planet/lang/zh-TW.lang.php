@@ -161,6 +161,8 @@
 
     $lang->planet_tagtab = "標籤頁";
     $lang->about_planet_tagtab = "以「,」區分多個標籤，這些標籤將顯示在標籤頁。";
+    $lang->planet_tagtab_after = "뒤 추가 Tag 탭";
+    $lang->about_planet_tagtab_after = "기본 태그탭 이후에 여러개의 Tag 탭을 추가할 수 있습니다. 콤마(,)로 여러개를 지정할 수 있습니다";
     $lang->planet_smstag = "SMS標籤";
     $lang->about_planet_smstag = "以「,」區分多個標籤， 以 SMS傳送時將自動新增標籤。";
 
