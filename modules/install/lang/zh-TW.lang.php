@@ -245,14 +245,14 @@ EndOfLicense;
     $lang->admin_title = '管理員資料';
 
     $lang->env_title = '環境設置';
-    $lang->use_optimizer = '使用 Optimizer';
-    $lang->about_optimizer = '使用 Optimizer可以對大部分的 CSS/JS檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用Optimizer。';
-    $lang->use_rewrite = '使用 rewrite模組';
-    $lang->about_rewrite = '如主機支援 rewrite模組並選擇此項，可以簡化複雜的網址。<br />例如，http://域名/?document_srl=123可簡化成 http://域名/123。';
+    $lang->use_optimizer = '使用Optimizer';
+    $lang->about_optimizer = '使用Optimizer可以對大部分的CSS/JS檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用Optimizer。';
+    $lang->use_rewrite = '使用rewrite模組';
+    $lang->about_rewrite = '如主機支援rewrite模組並選擇此項，可以簡化複雜的網址。<br />例如，http://域名/?document_srl=123可簡化成 http://域名/123。';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';
     $lang->qmail_compatibility = 'Qmail互換';
-    $lang->about_qmail_compatibility = '支援無法識別 CRLF為換行符的 Qmail等 MTA，也能發送電子郵件。';
+    $lang->about_qmail_compatibility = '支援無法識別CRLF為換行符的Qmail等MTA，也能發送電子郵件。';
 
     $lang->about_database_file = 'Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在web不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有707權限的位置。</span>';
 
