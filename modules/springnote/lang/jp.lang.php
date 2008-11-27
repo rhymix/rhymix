@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   jp.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author zero (zero@nzeo.com)翻訳：ミニミ
      * @brief  スプリングノート(springnote) モジュールの基本言語パッケージ 日本語翻訳：RisaPapa
      **/
 

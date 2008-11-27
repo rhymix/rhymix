@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/widget/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジェット（widget）モジュール基本言語パッケージ
      **/
 
@@ -9,7 +9,7 @@
 
     $lang->widget_name = 'ウィジェット名';
     $lang->widget_maker = 'ウィジェット作者';
-    $lang->widget_license = 'License';
+    $lang->widget_license = 'ライセンス';
     $lang->widget_history = '変更内容';
     $lang->widget_info = 'ウィジェット情報';
     $lang->widget_code = 'コード';
