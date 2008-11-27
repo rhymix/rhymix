@@ -34,7 +34,7 @@
         ),
         'menu' => array(
             'first' => '基本メニュー',
-            'second' => '`フッターメニュー',
+            'second' => 'フッターメニュー',
         ),
         'widget' => array(
             'download_rank' => 'ダウンロードランキング',
