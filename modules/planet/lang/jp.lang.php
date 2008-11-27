@@ -162,7 +162,7 @@
     $lang->planet_mobile_number = '携帯電話番号';
     $lang->msg_success_set_phone_number = '電話番号を登録しました。';
 
-    $lang->planet_tagtab = "追加タグタブ";
+    $lang->planet_tagtab = "基本タグタブ";
     $lang->about_planet_tagtab = "半角コンマ(,)区切りで複数タグの登録が出来ます。 登録したタグはメインページにタブとして出力されます。";
     $lang->planet_tagtab_after = "追加タグタブ";
     $lang->about_planet_tagtab_after = "基本タグタブの後ろに、複数のタグタブの追加が出来ます。半角コンマ(,)区切りで複数登録出来ます。";
