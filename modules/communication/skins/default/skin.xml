@@ -2,7 +2,7 @@
 <skin version="0.2">
     <title xml:lang="ko">기본 스킨</title>
     <title xml:lang="zh-CN">默认皮肤</title>
-    <title xml:lang="jp">기본 스킨</title>
+    <title xml:lang="jp">基本スキン</title>
     <title xml:lang="en">Default Skin</title>
     <title xml:lang="es">Por defecto piel</title>
     <title xml:lang="ru">기본 스킨</title>
@@ -16,8 +16,8 @@
         HTML/CSS : Chan-Myung Jeong (http://naradesign.net)
     </description>
     <description xml:lang="jp">
-        デザイン：ソギジョン (http://blog.naver.com/addcozy)
-        HTML/CSS：ジョンチャンミョン (http://naradesign.net)
+        デザイン：Ki-Jeong Seo (http://blog.naver.com/addcozy)
+        HTML/CSS：Chan-Myung Jeong (http://naradesign.net)
     </description>
     <description xml:lang="en">
         Design : Ki-Jeong Seo (http://blog.naver.com/addcozy)
