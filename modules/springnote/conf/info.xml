@@ -8,7 +8,7 @@
     <title xml:lang="ru">Спрингноут</title>
     <title xml:lang="zh-TW">Springnote API</title>
     <description xml:lang="ko">스프링노트의 페이지를 XE에서 연동하여 출력하는 기능을 가지고 있는 모듈입니다.</description>
-    <description xml:lang="jp">スプリングノートのページをゼロボードXEと連動させて出力する機能のモジュールです。</description>
+    <description xml:lang="jp">スプリングノートのページをXEと連動させて出力する機能のモジュールです。</description>
     <description xml:lang="zh-CN">把Springnote网站页面整合到XE的模块。</description>
     <description xml:lang="en">This modules links pages of Springnote with XE, and display them.</description>
     <description xml:lang="es">Esta módulos de enlaces de páginas Springnote con XE, y lo muestra.</description>

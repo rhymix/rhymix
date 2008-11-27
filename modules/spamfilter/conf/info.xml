@@ -11,7 +11,7 @@
     <description xml:lang="zh-CN">XE的基本垃圾过滤模块。</description>
     <description xml:lang="en">A default spam filter of XE.</description>
     <description xml:lang="es">Filtro de Span predefinido de XE.</description>
-    <description xml:lang="jp">ゼロボードXEのスパムフィルターです。</description>
+    <description xml:lang="jp">XEのスパムフィルターです。</description>
     <description xml:lang="ru">Стандартный фильтр спама XE.</description>
     <description xml:lang="zh-TW">XE的基本垃圾過濾模組。</description>
     <version>0.1</version>

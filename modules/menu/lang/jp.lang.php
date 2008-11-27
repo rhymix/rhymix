@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/menu/lang/ko.lang.php
+     * @file   modules/menu/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、liahona
      * @brief  メニュー（menu）モジュールの基本言語パッケージ
      **/

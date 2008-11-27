@@ -1,17 +1,17 @@
 <?php
     /**
      * @file   jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa
+     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
      * @brief  Importer(importer) モジュールの基本言語パッケージ
      **/
 
     // ボタンに使用する用語
     $lang->cmd_sync_member = '同期化';
     $lang->cmd_continue = '続ける';
-    $lang->preprocessing = '데이터 이전을 위한 사전 준비중입니다.';
+    $lang->preprocessing = 'データ移転のため、準備中です。';
 
     // 項目
-    $lang->importer = 'ＺＢデータ変換';
+    $lang->importer = 'ZBデータ変換';
     $lang->source_type = 'データ変換の対象';
     $lang->type_member = '会員情報';
     $lang->type_message = 'メッセージ情報';
@@ -52,7 +52,7 @@
     $lang->about_ttxml_user_id = 'TTXML移転時に投稿者として指定するユーザIDを入力してください（すでに加入されているIDでなければなりません）。';
     $lang->about_type_module = 'データ変換の対象が書き込みデータである場合は選択してください。';
     $lang->about_type_syncmember = '会員情報と書き込みデータなどの変換を行った後、会員情報を同期化する必要がある場合は、選択してください。';
-    $lang->about_importer = "ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをゼロボードXEのデータに変換することができます。\n変換するためには、<a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。";
+    $lang->about_importer = "ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することができます。\n変換するためには、<a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。";
 
     $lang->about_target_path = "添付ファイルをダウンロードするためには、ゼロボード4がインストールされた場所を入力してください。同じサーバ上にある場合は「/home/ID/public_html/bbs」のように入力し、他のサーバにある場合は、「http://ドメイン/bbs」のようにゼロボードがインストールされているURLを入力してください。";
 ?>

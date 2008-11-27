@@ -44,17 +44,17 @@
     $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除できません。';
     $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することができません。';
 
-    $lang->welcome_to_xe = 'ゼロボードXEの管理者ページです。';
+    $lang->welcome_to_xe = 'XEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。\nクローズベータバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
     $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックしてください。";
 
-    $lang->xe_license = 'ゼロボードXEのライセンスはGPLです。';
+    $lang->xe_license = 'XEのライセンスはGPLです。';
     $lang->about_shortcut = 'よく使用するモジュールに登録されたショートカットは削除できます。';
 
     $lang->yesterday = "Yesterday";
     $lang->today = "Today";
 
-    $lang->cmd_lang_select = "언어선택";
-    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
-    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
+    $lang->cmd_lang_select = "言語選択";
+    $lang->about_cmd_lang_select = "選択された言語のみでサービスを行います。";
+    $lang->about_recompile_cache = "要らないか誤ったキャッシューファイルを整理します。";
 ?>

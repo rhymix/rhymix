@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/integration_search/lang/ko.lang.php
+     * @file   modules/integration_search/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみう）
      **/

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   jp.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  スプリングノート(springnote) モジュールの基本言語パッケージ 日本語翻訳：RisaPapa
      **/

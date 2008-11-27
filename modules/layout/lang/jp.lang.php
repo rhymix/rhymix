@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/layout/lang/ko.lang.php
+     * @file   modules/layout/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa
      * @brief  レイアウト（layout）モジュールの基本言語パッケージ
      **/
@@ -29,5 +29,5 @@
     $lang->about_layout_code = 
         "下のレイアウトコードを修正して保存するとサービスに反映されます。
         必ずプレビューで確認した上で保存してください。
-        ゼロボードXEのテンプレート文法は<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">ゼロボードXEテンプレート</a>を参考してください。";
+        XEのテンプレート文法は<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XEテンプレート</a>を参考してください。";
 ?>
