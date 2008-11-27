@@ -4,6 +4,7 @@
 	<title xml:lang="en">Planet TODO</title>
     <title xml:lang="zh-CN">微博TODO插件</title>
     <title xml:lang="zh-TW">Planet TODO 插件</title>
+    <title xml:lang="jp">Planet TODO アドオン</title>
     <description xml:lang="ko">
         플래닛 TODO 애드온
     </description>
@@ -15,6 +16,9 @@
     </description>
     <description xml:lang="zh-TW">
         Planet TODO 插件
+    </description>
+    <description xml:lang="jp">
+        Planet TODO アドオン
     </description>
     <version>0.1</version>
     <date>2008-10-31</date>

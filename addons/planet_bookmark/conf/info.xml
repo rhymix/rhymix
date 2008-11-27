@@ -3,6 +3,7 @@
     <title xml:lang="ko">플래닛 Bookmark 애드온</title>
     <title xml:lang="zh-CN">微博收藏插件</title>
     <title xml:lang="zh-TW">Planet 書籤</title>
+    <title xml:lang="jp">Planet Bookmark アドオン</title>
     <description xml:lang="ko">
         플래닛 Bookmark 애드온
     </description>
@@ -12,11 +13,15 @@
     <description xml:lang="zh-TW">
         Planet 書籤插件
     </description>
+    <description xml:lang="jp">
+        Planet Bookmark アドオン
+    </description>
     <version>0.1</version>
     <date>2008-10-31</date>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="jp">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="zh-TW">zero</name>
     </author>
