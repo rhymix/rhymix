@@ -8,7 +8,7 @@
     $lang->homepage = "ホームページ"; 
     $lang->homepage_title = "ホームページ名";
     $lang->domain = "ドメイン";
-    $lang->module_type = "ターゲット"; // 20081127 ミニミ：検討必要
+    $lang->module_type = "タイプ";
     $lang->board = "掲示板";
     $lang->page = "ページ";
     $lang->url = "URL";
@@ -69,14 +69,14 @@
     );
     $lang->about_homepage = "ホームページサービス管理者は複数のホームページ作成、および各ホームページを簡単に管理が出来ます。";
     $lang->about_homepage_title = "ホームページ名は管理のためのみ使われ、実サービスには表示されません。";
-    $lang->about_domain = "複数のホームページを作成するためには、専用のドメインが必要です。オリジナルドメインやサブ ドメインがあれば結構です。<br />また、 XEインストール経路も一緒に記入してください。<br />ex) www.zeroboard.com/zbxe";
+    $lang->about_domain = "複数のホームページを作成するためには、専用のドメインが必要です。オリジナルドメインやサブ ドメインがあれば結構です。<br />また、 XEインストールパスも一緒に記入してください。<br />ex) www.zeroboard.com/zbxe";
     $lang->about_menu_names = "ホームページに使うメニュー名を言語別に指定出来ます。<br/>一個だけ記入した場合、他言語に一括適用されます。";
     $lang->about_menu_option = "メニューを選択するとき新しいウィンドウズに開けるかを選択します。<br />拡張メニューはレイアウトによって動作します。";
     $lang->about_group_grant = "選択グループのみ、メニューが見えます。<br/>全てを解除すると非会員にも見えます。";
-    $lang->about_module_type = "掲示板、ページはモジュールを生成し、URLはリンクの情報のみ要ります。<br/>一度作成した後、変更は出来ません。"; // 20081127 ミニミ：検討必要
+    $lang->about_module_type = "掲示板、ページはモジュールを生成し、URLはリンクの情報のみ要ります。<br/>一度作成した後、変更は出来ません。";
     $lang->about_browser_title = "メニューにアクセスした時、ブラウザーのタイトルです。";
     $lang->about_module_id = "掲示板、ページなどにリンクさせるアドレスです。<br/>例) http://ドメイン/[モジュールID], http://ドメイン/?mid=[モジュールID]";
-    $lang->about_menu_item_url = "ターゲットをURLにした場合、リンク先を入れて下さい。<br/>http://は省いて入力して下さい。"; // 20081127 ミニミ：検討必要
+    $lang->about_menu_item_url = "タイプをURLにした場合、リンク先を入れて下さい。<br/>http://は省いて入力して下さい。";
     $lang->about_menu_image_button = "テキストのメニュー名の代わりに、イメージのメニューを使えます。";
     $lang->about_homepage_delete = "ホームページを削除すると、リンクされている全てのモジュール(掲示板、ページなど)とそれに付随する書き込みが削除されます。<br />ご注意ください。";
     $lang->about_homepage_admin = "ホームページ管理者の設定が出来ます。<br/>ホームページ管理者は 「 http://ドメイン/?module=homepage 」 として管理者ページにアクセスが出来ます。<br />存在しない会員は管理者に登録できません。";

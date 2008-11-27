@@ -282,7 +282,6 @@
     $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認ください。";
     $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
 
-
     // xml filterで用いられているjavascript用のアラートメッセージ
     $lang->filter->isnull = '%sを入力して下さい。';
     $lang->filter->outofrange = '%sの文字の長さを合わせて下さい。';
