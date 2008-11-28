@@ -1,6 +1,7 @@
 <filter name="openid_login" module="member" act="procMemberOpenIDLogin">
     <form>
-        <node target="user_id" required="true" />
+        <node target="openid" required="true" />
+        <node target="referer_url" required="true" />
     </form>
     <parameter />
     <response callback_func="completeOpenIDLogin">

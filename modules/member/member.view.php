@@ -201,6 +201,7 @@
          **/
         function dispMemberLoginForm() {
             // 템플릿 파일 지정
+            Context::set('referer_url', $_SERVER['HTTP_REFERER']);
             $this->setTemplateFile('login_form');
         }
 

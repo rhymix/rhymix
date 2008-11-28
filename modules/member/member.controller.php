@@ -52,6 +52,12 @@
             require_once('./modules/member/openid_lib/libcurlemu.inc.php');
 
             $user_id = Context::get('user_id');
+            if (!$user_id) $user_id = Context::get('openid');
+
+            $referer_url = Context::get('referer_url');
+            if (!$referer_url) $referer_url = $_SERVER['HTTP_REFERER'];
+            if (!$referer_url) 
+                $referer_url = htmlspecialchars_decode(getRequestUri(RELEASE_SSL));
 
             $openid = new SimpleOpenID();
 
@@ -65,12 +71,17 @@
                 $error = $openid->GetError();
                 $this->setError(-1);
                 $this->setMessage($error['description']);
+
+                if (Context::getRequestMethod() == 'POST') 
+                    header("location:" . $referer_url);
             } else {
-                $goto = urlencode(substr($_SERVER['HTTP_REFERER'],strlen(Context::getRequestUri(RELEASE_SSL))));
+                $goto = urlencode($referer_url);
                 $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=procMemberOpenIDValidate&goto=" . $goto;
                 $openid->SetApprovedURL($ApprovedURL);
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
+                if (Context::getRequestMethod() == 'POST') 
+                    header("location:" . $url);
             }
             ob_clean();
         }
@@ -118,7 +129,7 @@
                 // 페이지 이동
                 if(Context::get('goto')){
                     $goto = Context::get('goto');
-                    header("location:./" . $goto);	
+                    header("location:" . $goto);	
                 }else{
                     header("location:./");	
                 }
