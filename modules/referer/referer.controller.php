@@ -21,7 +21,7 @@
 
 	    $oDB = &DB::getInstance();
 	    $oDB -> begin();
-	    $this->insertRefererLog($referer['host'], $_SERVER["HTTP_REFERER"]);
+	    $this->insertRefererLog($referer['host'], removeHackTag($_SERVER["HTTP_REFERER"]));
 	    $this->deleteOlddatedRefererLogs();
 	    $this->updateRefererStatistics($referer['host']);
 	    $oDB -> commit();
