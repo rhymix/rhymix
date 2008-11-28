@@ -586,7 +586,7 @@
 
                 if ($output->order) {
                   foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                      $index_list[] = sprintf('%s %s', $val[0]=='count'?'count(*)':$val[0], $val[1]);
                   }
                   if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                   $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
@@ -606,7 +606,7 @@
 
                 if($output->order) {
                     foreach($output->order as $key => $val) {
-                        $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                        $index_list[] = sprintf('%s %s', $val[0]=='count'?'count(*)':$val[0], $val[1]);
                     }
                     if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                 }
