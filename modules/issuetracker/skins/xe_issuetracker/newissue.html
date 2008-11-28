@@ -58,7 +58,7 @@
                 </dd>
                 <!--@if($is_logged)-->
                 <dd>
-                    <input type="checkbox" name="notify_message" value="Y" <!--@if($oIssue->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
+                    <input type="checkbox" name="notify_message" value="Y" <!--@if($oIssue->useNotify() || !$oIssue->get('notify_message'))-->checked="checked"<!--@end--> id="notify_message" />
                     <label for="notify_message">{$lang->notify}</label>
                 </dd>
                 <!--@end-->
