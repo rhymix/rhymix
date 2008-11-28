@@ -226,7 +226,7 @@ EndOfLicense;
     $lang->cmd_agree_license = 'ライセンスに同意します。';
     $lang->cmd_install_fix_checklist = 'インストールするための必須条件を設定しました。';
     $lang->cmd_install_next = 'インストールを続けます。';
-    $lang->cmd_ignore = '無視';
+    $lang->cmd_ignore = 'FTP設定を省略する';
 
     $lang->db_desc = array(
         'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできません。',
