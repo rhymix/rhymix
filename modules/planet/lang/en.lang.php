@@ -76,12 +76,12 @@
     $lang->cmd_planet_openclose_memo = "Memo open/close";
     $lang->cmd_planet_del_tag = "Delete tag";
 
-    $lang->cmd_planet_openclose_recommend_search = "추천 검색어 열기/닫기";
+    $lang->cmd_planet_openclose_recommend_search = "Open/Close Recommended Search Keyword";
     $lang->about_planet_input_search_text = "Search Text";
 
     $lang->about_planet_make_planet = "Create your own planet. Please input the following information";
-    $lang->about_planet_make_planet_info = "내 플래닛의 상단에 보여질 나의 정보입니다. 각 항목을 원하는 대로 설정하고 변경해보세요.";
-    $lang->planet_input_personalinfo = "개인정보입력";
+    $lang->about_planet_make_planet_info = "This will be displayed top of your planet. Try setting for your own way.";
+    $lang->planet_input_personalinfo = "Personal Info";
     $lang->planet_photo = "Photo";
     $lang->planet_myintro = "Introduction";
 
@@ -155,7 +155,7 @@
     $lang->cmd_send_me2day = "Me2day";
 
     $lang->msg_already_have_phone_number = 'The phone number is already registered';
-    $lang->planet_mobile_receive = '모바일 연동';
+    $lang->planet_mobile_receive = 'Phone Linkage';
     $lang->planet_mobile_number = 'Phone number';
     $lang->msg_success_set_phone_number = 'The phone number is registered';
 
@@ -170,5 +170,5 @@
     $lang->about_use_mobile = "Enable to write posting via mobile SMS";
     $lang->planet_use_me2day = "Use Me2day";
     $lang->about_use_me2day = "When writing a message, users can send it to me2day(http://me2day.net).";
-    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
+    $lang->msg_search_thisplanet = "Search from this Planet";
 ?>
