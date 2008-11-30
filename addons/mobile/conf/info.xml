@@ -4,7 +4,7 @@
     <title xml:lang="jp">モバイルXEアドオン</title>
     <title xml:lang="zh-CN">手机XE插件</title>
     <title xml:lang="en">Mobile XE</title>
-    <title xml:lang="zh-TW">行動版 XE</title>
+    <title xml:lang="zh-TW">行動 XE</title>
     <description xml:lang="ko">
         모바일에서 접속시 헤더 정보를 분석하여 메뉴 - 모듈의 관계를 이용하여 WAP 태그로 출력하는 애드온입니다.
         wml, hdml, mhtml를 지원하고 그 이외의 경우에는 동작하지 않습니다.
@@ -22,7 +22,7 @@
         Only wml, hdml, mhtml formats are provided.
     </description>
     <description xml:lang="zh-TW">
-        透過行動工具連結時，會將網頁轉換為WAP標籤顯示。
+        透過行動工具上網時，會將網頁轉換為WAP標籤顯示。
         只限於 wml, hdml, mhtml格式。
     </description>
     <version>0.1</version>
