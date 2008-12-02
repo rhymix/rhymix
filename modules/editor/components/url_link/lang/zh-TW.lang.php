@@ -6,7 +6,7 @@
      **/
 
     $lang->urllink_title = "文字";
-    $lang->urllink_url = "URL";
+    $lang->urllink_url = "網址";
     $lang->urllink_open_window = "新視窗";
     $lang->urllink_bold = "粗體";
 

@@ -109,7 +109,7 @@
     $lang->edit->icon_align_middle = '置中';
     $lang->edit->icon_align_right = '靠右';
 
-    $lang->about_dblclick_in_editor = '雙擊背景, 文字, 圖片, 引用，即可對其相關組件進行詳細設置。';
+    $lang->about_dblclick_in_editor = '對背景, 文字, 圖片, 引用等組件按兩下，即可對其相關組件進行詳細設置。';
 
 
     $lang->edit->rich_editor = '所見即所得';
