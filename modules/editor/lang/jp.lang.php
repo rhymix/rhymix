@@ -54,8 +54,7 @@
     $lang->edit->fontlist = array(
     'ＭＳ Ｐゴシック',
     'ＭＳ Ｐ明朝',
-    'Osaka－等幅',
-    'ヒラギノ角ゴ Pro W3',
+    'MS UI Gothic',
     'Arial',
     'Arial Black',
     'Tahoma',
@@ -113,9 +112,12 @@
     $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。';
 
 
-    $lang->edit->rich_editor = '스타일 편집기';
-    $lang->edit->html_editor = 'HTML 편집기';
-    $lang->edit->extension ='확장 컴포넌트';
-    $lang->edit->help = '도움말';
-    $lang->edit->help_command = '단축키 안내';
+    $lang->edit->rich_editor = 'ウイジウイグ編集';
+    $lang->edit->html_editor = 'HTMLタグ編集';
+    $lang->edit->extension ='拡張コンポーネント';
+    $lang->edit->help = 'ヘルプ';
+    $lang->edit->help_command = 'ショートカット‐キーの説明';
+
+
+
 ?>
