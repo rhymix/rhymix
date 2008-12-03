@@ -135,6 +135,7 @@
 
             // 기본 JS/CSS 등록
             $this->addJsFile("./common/js/jquery-1.2.6.js");
+            $this->addJsFile("./common/js/jquery.noconflict.js");
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
             $this->addJsFile("./common/js/xml_handler.js");
