@@ -1,21 +1,3 @@
-<!--// calendar -->
-<!--%import("../../../../common/js/calendar.min.js",optimized=false)-->
-<!--@if($lang_type == 'ko')-->
-    <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
-<!--@elseif($lang_type == 'es')-->
-    <!--%import("../../../../common/js/calendar-es.js",optimized=false)-->
-<!--@elseif($lang_type == 'ge')-->
-    <!--%import("../../../../common/js/calendar-ge.js",optimized=false)-->
-<!--@elseif($lang_type == 'ru')-->
-    <!--%import("../../../../common/js/calendar-ru.js",optimized=false)-->
-<!--@elseif($lang_type == 'zh-CN')-->
-    <!--%import("../../../../common/js/calendar-zh-CN.js",optimized=false)-->
-<!--@else-->
-    <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
-<!--@end-->
-<!--%import("../../../../common/js/calendar-setup.js",optimized=false)-->
-<!--%import("../../../../common/css/calendar-system.css",optimized=false)-->
-
 <!--@if(in_array($val->type, array('select', 'checkbox')))-->
     {@ $val->default = explode(',', $val->default) }
 <!--@end-->
@@ -24,7 +6,7 @@
 
 {@ $val->value = $oDocument->getExtraValue($key)}
 
-<!--@if($val->type == 'text')--> 
+<!--@if($val->type == 'text')-->
     <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputText" />
 
 <!--@elseif($val->type == 'homepage')-->
@@ -61,12 +43,24 @@
     </select>
 
 <!--@elseif($val->type == 'date')-->
+    <!--// calendar -->
+    <!--%import("../../../../common/js/ui.datepicker.js",optimized=false)-->
+    <!--%import("../../../../common/css/ui.datepicker.css",optimized=false)-->
     <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-    <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
+    <input type="text" class="inputDate" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
 
-    <script type="text/javascript">
-        DyCalendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
-    </script>
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+</script>
 <!--@end-->
 
 <!--@if($val->desc)-->

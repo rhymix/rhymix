@@ -10,22 +10,8 @@
 <!--%import("filter/delete_component.xml")-->
 
 <!--// calendar -->
-<!--%import("../../common/js/calendar.min.js",optimized=false)-->
-<!--@if($lang_type == 'ko')-->
-    <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
-<!--@elseif($lang_type == 'es')-->
-    <!--%import("../../common/js/calendar-es.js",optimized=false)-->
-<!--@elseif($lang_type == 'ge')-->
-    <!--%import("../../common/js/calendar-ge.js",optimized=false)-->
-<!--@elseif($lang_type == 'ru')-->
-    <!--%import("../../common/js/calendar-ru.js",optimized=false)-->
-<!--@elseif($lang_type == 'zh-CN')-->
-    <!--%import("../../common/js/calendar-zh-CN.js",optimized=false)-->
-<!--@else-->
-    <!--%import("../../common/js/calendar-en.js",optimized=false)-->
-<!--@end-->
-<!--%import("../../common/js/calendar-setup.js",optimized=false)-->
-<!--%import("../../common/css/calendar-system.css",optimized=false)-->
+<!--%import("../../common/js/ui.datepicker.js",optimized=false)-->
+<!--%import("../../common/css/ui.datepicker.css",optimized=false)-->
 
     <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -61,10 +47,20 @@
             </td>
             <td class="nowrap">
                 <input type="hidden" name="deadline" id="date_deadline" />
-                <div class="display_date" id="str_deadline"></div>
-                <script type="text/javascript">
-                    DyCalendar.setup( { firstDay : 0, inputField : "date_deadline", ifFormat : "%Y%m%d", displayArea : "str_deadline", daFormat : "%Y-%m-%d" } );
-                </script>
+                <input type="text" class="inputDate" value="" readonly="readonly" />
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+</script>
+
             </td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td class="vtop" rowspan="2"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></td>

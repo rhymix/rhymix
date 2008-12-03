@@ -3,23 +3,8 @@
 <!--%import("filter/insert_milestone.xml")-->
 
 <!--// calendar -->
-<!--%import("../../common/js/calendar.min.js",optimized=false)-->
-<!--@if($lang_type == 'ko')-->
-    <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
-<!--@elseif($lang_type == 'es')-->
-    <!--%import("../../common/js/calendar-es.js",optimized=false)-->
-<!--@elseif($lang_type == 'ge')-->
-    <!--%import("../../common/js/calendar-ge.js",optimized=false)-->
-<!--@elseif($lang_type == 'ru')-->
-    <!--%import("../../common/js/calendar-ru.js",optimized=false)-->
-<!--@elseif($lang_type == 'zh-CN')-->
-    <!--%import("../../common/js/calendar-zh-CN.js",optimized=false)-->
-<!--@else-->
-    <!--%import("../../common/js/calendar-en.js",optimized=false)-->
-<!--@end-->
-<!--%import("../../common/js/calendar-setup.js",optimized=false)-->
-<!--%import("../../common/css/calendar-system.css",optimized=false)-->
-
+<!--%import("../../common/js/ui.datepicker.js",optimized=false)-->
+<!--%import("../../common/css/ui.datepicker.css",optimized=false)-->
 
 <!--@if($milestone)-->
 <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
@@ -29,8 +14,8 @@
 <table cellspacing="0" class="adminTable">
 <thead>
 <tr>
-    <th scope="col" class="wide"><div>{$lang->name} </div></th> 
-    <th scope="col"><div>{$lang->deadline} </div></th> 
+    <th scope="col" class="wide"><div>{$lang->name} </div></th>
+    <th scope="col"><div>{$lang->deadline} </div></th>
     <th scope="col"><div>{$lang->complete}</div></th>
     <th scope="col"><div>{$lang->completed_date}</div></th>
     <th scope="col"><div>{$lang->is_default}</div></th>
@@ -41,18 +26,12 @@
     <td><input name="title" type="text" class="inputTypeText w400" value="{$milestone->title}" /></td>
     <td>
         <input type="hidden" name="deadline" id="date_deadline" value="{$milestone->deadline}"/>
-        <div class="display_date" id="str_deadline"><!--@if($milestone->deadline)-->{zdate("Ymd",$milestone->deadline)}<!--@end--></div>
-        <script type="text/javascript">
-            DyCalendar.setup( { firstDay : 0, inputField : "date_deadline", ifFormat : "%Y%m%d", displayArea : "str_deadline", daFormat : "%Y-%m-%d" } );
-        </script>
+        <input type="text" class="inputDate" value="<!--@if($milestone->deadline)-->{zdate($milestone->deadline,'Y-m-d')}<!--@end-->" readonly="readonly" />
     </td>
     <td><input type="checkbox" value="Y" name="is_completed" <!--@if($milestone->is_completed == 'Y')-->checked<!--@end--> /></td>
     <td>
         <input type="hidden" name="released_date" id="date_released_date" value="{$milestone->released_date}"/>
-        <div class="display_date" id="str_released_date"><!--@if($milestone->released_date)-->{zdate("Ymd",$milestone->released_date)}<!--@end--></div>
-        <script type="text/javascript">
-            DyCalendar.setup( { firstDay : 0, inputField : "date_released_date", ifFormat : "%Y%m%d", displayArea : "str_released_date", daFormat : "%Y-%m-%d" } );
-        </script>
+        <input type="text" class="inputDate" value="<!--@if($milestone->released_date)-->{zdate($milestone->released_date,'Y-m-d')}<!--@end-->" readonly="readonly" />
     </td>
     <td class="nowrap">
         <!--@if($milestone->is_default=='Y')-->
@@ -73,4 +52,18 @@
 </tbody>
 </table>
 </form>
+
+
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+</script>
 <!--@end-->

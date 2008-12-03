@@ -20,7 +20,7 @@
     </tr>
     <tr class="row2">
         <th scope="row"><div>{$lang->regdate}</div></th>
-        <td>{zdate($component->date, 'Y-m-d')}</td>
+        <td>{zdate(str_replace('-',"",$component->date), 'Y-m-d')}</td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->component_license}</div></th>
