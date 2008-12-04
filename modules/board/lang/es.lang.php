@@ -5,9 +5,9 @@
      * @sumario  Paquete del idioma español para el Módulo de Teblero
      **/
 
-    $lang->board = "Tablero"; 
+    $lang->board = 'Tablero';
 
-    $lang->except_notice = "Excluir Avisos";
+    $lang->except_notice = 'Excluir Avisos';
     $lang->cmd_manage_menu = 'Manejo del menú';
     $lang->cmd_make_child = 'Agregar sub categoría';
     $lang->cmd_enable_move_category = "Cambiar la posición de la categoría. (arrastrar y soltar luego de haber selecionado)";
@@ -35,8 +35,8 @@
     $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
     $lang->about_layout_setup = 'Puede modificar manualmente el código del diseño de tableros. Insertar o modificar el código de widget.';
     $lang->about_board_category = 'Puede crear las categorias de tableros.<br />Cuando no funciona la categoría de tableros, rehacer el archivo caché manualmente para solucionar.';
-    $lang->about_except_notice = "Aviso de los artículos no se mostrará en la lista normal.";
-    $lang->about_board = "Este módulo es para crear y manejar los tableros.\nLuego de crear un Tablero, seleciona el nombre del módulo para la configuración más detallada.\nSea cuidadoso con el nombre del módulo, ya que ese nombre va a ser la dirección URL. (ej : http://dominio/zb/?mid=nombre del módulo)";
+    $lang->about_except_notice = 'Aviso de los artículos no se mostrará en la lista normal.';
+    $lang->about_board = 'Este módulo es para crear y manejar los tableros.';
     $lang->about_consultation = "No administrador de los miembros que consideran que su propia artocles. \ NNon miembros no serían capaces de escribir artículos al utilizar la consulta.";
     $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
 ?>
