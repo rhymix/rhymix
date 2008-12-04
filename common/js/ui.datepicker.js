@@ -163,7 +163,7 @@ function Datepicker() {
 		altFormat: '', // The date format to use for the alternate field
 		constrainInput: true // The input is constrained by the current date format
 	};
-//	$.extend(this._defaults, this.regional['']);
+	$.extend(this._defaults, this.regional['']);
 	this.dpDiv = $('<div id="' + this._mainDivId + '" style="display: none;"></div>');
 }
 
@@ -1784,3 +1784,23 @@ $.datepicker.uuid = new Date().getTime();
 $.datepicker.version = "@VERSION";
 
 })(jQuery);
+
+
+
+var DyCalendar={ setup :
+	function(option){
+		(function($){
+			var date = $("#"+option.displayArea).html();
+			$("#"+option.displayArea).after($('<input type="text" id="'+option.displayArea+'__input__" value="'+date+'"readonly="readonly" />')).remove();
+			var opt ={
+				gotoCurrent: false
+				,yearRange:'-100:+10'
+				,onSelect : function(){
+					$("#"+option.inputField).val(this.value.replace(/-/g,""));
+				}
+			};
+			$("#"+option.displayArea+"__input__").datepicker(opt);
+		})(jQuery);
+	}
+
+};
