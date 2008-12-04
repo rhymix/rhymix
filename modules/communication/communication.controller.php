@@ -135,7 +135,8 @@
             $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($receiver_srl);
             FileHandler::makeDir($flag_path);
             $flag_file = sprintf('%s%s', $flag_path, $receiver_srl);
-            FileHandler::writeFile($flag_file,'1');
+			$flag_count = FileHandler::readFile($flag_file);
+            FileHandler::writeFile($flag_file, ++$flag_count);
 
             $oDB->commit();
 

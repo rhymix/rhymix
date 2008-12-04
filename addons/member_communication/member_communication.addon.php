@@ -11,14 +11,14 @@
      * - MemberModel::getMemberMenu 호출시 친구 등록 메뉴를 추가합니다.
      **/
 
+    // 비로그인 사용자면 중지
+    $logged_info = Context::get('logged_info');
+    if(!$logged_info) return;
+
     /**
      * 기능 수행 : 팝업 및 회원정보 보기에서 쪽지/친구 메뉴 추가. 시작할때 새쪽지가 왔는지 검사
-     * 조건      : called_position = 'before_module_init', module = 'member'
      **/
-    if($called_position == 'before_module_init' && $this->module != 'member' && Context::get('is_logged') ) {
-
-        // 로그인된 사용자 정보를 구함
-        $logged_info = Context::get('logged_info');
+    if($called_position == 'before_module_init' && $this->module != 'member') {
 
         // 커뮤니케이션 모듈의 언어파일을 읽음
         Context::loadLang('./modules/communication/lang');
@@ -28,31 +28,26 @@
         $oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
         $oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
 
-        // 새로운 쪽지에 대한 플래그가 있으면 쪽지 보기 팝업 띄움 
+        // 새로운 쪽지에 대한 플래그가 있으면 쪽지 보기 팝업 띄움
         $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
         $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
 
         if(file_exists($flag_file)) {
+            $new_message_count = FileHandler::readFile($flag_file);
             FileHandler::removeFile($flag_file);
             Context::loadLang('./addons/member_communication/lang');
 
-            $script =  sprintf('<script type="text/javascript"> xAddEventListener(window,"load", function() {if(confirm("%s")) { popopen("%s"); }}); </script>', Context::getLang('alert_new_message_arrived'), Context::getRequestUri().'?module=communication&act=dispCommunicationNewMessage');
-            
+            $script =  sprintf('<script type="text/javascript"> jQuery(function() { if(confirm("%s")) { popopen("%s"); } }); </script>', sprintf(Context::getLang('alert_new_message_arrived'), $new_message_count), Context::getRequestUri().'?module=communication&act=dispCommunicationNewMessage');
+
             Context::addHtmlHeader( $script );
         }
 
     /**
      * 기능 수행 : 사용자 이름을 클릭시 요청되는 팝업메뉴의 메뉴에 쪽지 발송, 친구추가등의 링크 추가
-     * 조건      : called_position == 'after_module_proc', module = 'member', act = 'getMemberMenu'
      **/
     } elseif($called_position == 'before_module_proc' && $this->module == 'member' && $this->act == 'getMemberMenu') {
-        // 비로그인 사용자라면 패스
-        if(!Context::get('is_logged')) return;
 
         $oMemberController = &getController('member');
-
-        // 로그인된 사용자 정보를 구함
-        $logged_info = Context::get('logged_info');
         $member_srl = Context::get('target_srl');
         $mid = Context::get('cur_mid');
 
@@ -71,18 +66,18 @@
         // 아니라면 쪽지 발송, 친구 등록 추가
         } else {
             // 대상 회원의 정보를 가져옴
-            $target_member_info = $this->getMemberInfoByMemberSrl($member_srl); 
+            $target_member_info = $this->getMemberInfoByMemberSrl($member_srl);
             if(!$target_member_info->member_srl) return;
 
             // 로그인된 사용자 정보를 구함
             $logged_info = Context::get('logged_info');
-            
+
             // 쪽지 발송 메뉴를 만듬
-            if( $logged_info->is_admin == 'Y' || $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl))) 
+            if( $logged_info->is_admin == 'Y' || $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl)))
                 $oMemberController->addMemberPopupMenu(getUrl('','module','communication','act','dispCommunicationSendMessage','receiver_srl',$member_srl), 'cmd_send_message', './modules/communication/tpl/images/icon_write_message.gif', 'popup');
 
-            // 친구 등록 메뉴를 만듬 (이미 등록된 친구가 아닐 경우) 
-            if(!$oCommunicationModel->isAddedFriend($member_srl)) 
+            // 친구 등록 메뉴를 만듬 (이미 등록된 친구가 아닐 경우)
+            if(!$oCommunicationModel->isAddedFriend($member_srl))
                 $oMemberController->addMemberPopupMenu(getUrl('','module','communication','act','dispCommunicationAddFriend','target_srl',$member_srl), 'cmd_add_friend', './modules/communication/tpl/images/icon_add_friend.gif', 'popup');
         }
     }
