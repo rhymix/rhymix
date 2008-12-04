@@ -222,7 +222,7 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 /* Editor Resize Bar */
 .xeEditor .textAreaDragIndicator{ border-top:1px solid; border-bottom:1px solid; clear:both; margin-bottom:5px;}
 .xeEditor .textAreaDragIndicator button{ width:100%; height:9px; border:none; cursor:n-resize; background-repeat:no-repeat; background-position:center center; }
-.xeEditor .mask{ position:relative; width:100%;height:500px;margin-top:-500px;bottom:0; display:none; }
+.xeEditor .mask{ position:absolute; width:100%;height:500px;margin-top:-500px;bottom:0; display:none; }
 
 /* File Uploader */
 .xeEditor .fileUploader{ clear:both; position:relative; padding-top:5px; *zoom:1; *margin-bottom:5px;}
