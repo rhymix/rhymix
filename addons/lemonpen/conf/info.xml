@@ -47,7 +47,7 @@
             <description xml:lang="es">Por favor, de entrada sid valor que había que hacer después de registrarse en el sitio web LemonPen.</description>
             <description xml:lang="ru">Введите замороженный ценности, которые вы получили после регистрации на сайте LemonPen.</description>
             <description xml:lang="jp">レモンペンのサイトで発行されたsidを入力してください。 (LemonPen：Openmaru社提供)</description>
-            <description xml:lang="zh-TW">請輸入註冊LemonPen網站時，所給予的sid值。</description>
+            <description xml:lang="zh-TW">請輸入在LemonPen網站註冊時，所給予的sid值。</description>
         </var>
     </extra_vars>
 </addon>

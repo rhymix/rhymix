@@ -2,7 +2,7 @@
 <addon version="0.2">
     <title xml:lang="ko">플래닛 Bookmark 애드온</title>
     <title xml:lang="zh-CN">微博收藏插件</title>
-    <title xml:lang="zh-TW">Planet 書籤</title>
+    <title xml:lang="zh-TW">微型部落格書籤</title>
     <title xml:lang="jp">Planet Bookmark アドオン</title>
     <description xml:lang="ko">
         플래닛 Bookmark 애드온
@@ -11,7 +11,7 @@
         XE微博收藏插件。
     </description>
     <description xml:lang="zh-TW">
-        Planet 書籤插件
+        微型部落格書籤功能
     </description>
     <description xml:lang="jp">
         Planet Bookmark アドオン

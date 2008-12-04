@@ -30,7 +30,7 @@
         Body Bild eingefügt im Inneren des Körpers zu passen die Größe des Originals zeigen, wenn ich darauf klicke auf das Add-ons.
     </description>
     <description xml:lang="zh-TW">
-        自動調整文章内的圖片大小，點擊會顯示原始大小的插件。
+        自動調整文章内的圖片大小，點擊圖片後會顯示原始大小。
     </description>
     <version>0.1</version>
     <date>2008-04-22</date>

@@ -30,7 +30,7 @@
         Kommentare beginnen mit http naeyongjung Thema der gemeinsamen String automatisch Link zu hängen Sie mit der Maus über die einzelnen Links und saechang Stadt und auf dem Menü des Add-On Dekoration.
     </description>
     <description xml:lang="zh-TW">
-        主題及評論中以http開頭的字串，自動轉換成連結。當滑鼠移到連結上方時，會顯示(新視窗/本頁面)選擇框。
+        是種可將主題和評論內容中的URL網址字串自動轉換成連結的附加功能。
     </description>
     <version>0.1</version>
     <date>2008-04-22</date>
