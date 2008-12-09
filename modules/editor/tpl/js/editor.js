@@ -448,6 +448,7 @@ function editorChangeMode(mode, editor_sequence) {
         if(!fo_obj) {
             fo_obj = xCreateElement('form');
             fo_obj.id = "preview_form";
+            fo_obj.method = "post";
             fo_obj.action = request_uri;
             fo_obj.target = "editor_preview_"+editor_sequence;
             xInnerHtml(fo_obj,'<input type="hidden" name="module" value="editor" /><input type="hidden" name="editor_sequence" value="'+editor_sequence+'" /><input type="hidden" name="act" value="dispEditorPreview" /><input type="hidden" name="content" />');
