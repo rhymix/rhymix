@@ -15,34 +15,36 @@ if(jQuery) jQuery.noConflict();
 window.XE = {
     /**
      * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
-     * @param [itemName='cart' [,checked=true]] | [checked]
+     * @param [itemName='cart',][options={checked:true, doClick:false}]
      */
     setCheckedAll : function() {
-        var itemName='cart', checked=true;
+        var itemName='cart', options={checked:true, doClick:false};
 
         switch(arguments.length) {
             case 1:
-                if(typeof(arguments[0]) == "string" && arguments[0] != 'toggle') {
+                if(typeof(arguments[0]) == "string") {
                     itemName = arguments[0];
                 } else {
-                    checked = arguments[0];
+                    options = $.extend(options, arguments[0] || {});
                 }
                 break;
             case 2:
                 itemName = arguments[0];
-                checked = arguments[1];
+                options = $.extend(options, arguments[1] || {});
         }
 
-        if(checked == 'toggle') {
-            $('[name='+itemName+']').each(function() {
+        var obj = $('[name='+itemName+']');
+
+        if(options.checked == 'toggle') {
+            obj.each(function() {
                 if($(this).attr('checked')) {
-                    $(this).attr('checked', false);
+                    (options.doClick == true) ? $(this).click() : $(this).attr('checked', false);
                 } else {
-                    $(this).attr('checked', true);
+                    (options.doClick == true) ? $(this).click() : $(this).attr('checked', true);
                 }
             });
         } else {
-            $('[name='+itemName+']').attr('checked', checked);
+            (options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
         }
     }
 }
