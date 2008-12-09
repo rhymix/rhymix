@@ -17,8 +17,8 @@ window.XE = {
      * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
      * @param [itemName='cart',][options={checked:true, doClick:false}]
      */
-    setCheckedAll : function() {
-        var itemName='cart', options={checked:true, doClick:false};
+    checkboxToggleAll : function() {
+        var itemName='cart', options={checked:'toggle', doClick:false};
 
         switch(arguments.length) {
             case 1:
@@ -33,7 +33,7 @@ window.XE = {
                 options = $.extend(options, arguments[1] || {});
         }
 
-        var obj = $('[name='+itemName+']');
+        var obj = $('input[name='+itemName+']:checkbox');
 
         if(options.checked == 'toggle') {
             obj.each(function() {
