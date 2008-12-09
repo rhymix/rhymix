@@ -4,8 +4,51 @@
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
-
+/* jQuery 참조변수($) 제거 */
 if(jQuery) jQuery.noConflict();
+
+/**
+ * @brief XE 공용 유틸리티 함수
+ * @namespace XE
+ */
+;(function($) {
+window.XE = {
+    /**
+     * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
+     * @param [itemName='cart' [,checked=true]] | [checked]
+     */
+    setCheckedAll : function() {
+        var itemName='cart', checked=true;
+
+        switch(arguments.length) {
+            case 1:
+                if(typeof(arguments[0]) == "string" && arguments[0] != 'toggle') {
+                    itemName = arguments[0];
+                } else {
+                    checked = arguments[0];
+                }
+                break;
+            case 2:
+                itemName = arguments[0];
+                checked = arguments[1];
+        }
+
+        if(checked == 'toggle') {
+            $('[name='+itemName+']').each(function() {
+                if($(this).attr('checked')) {
+                    $(this).attr('checked', false);
+                } else {
+                    $(this).attr('checked', true);
+                }
+            });
+        } else {
+            $('[name='+itemName+']').attr('checked', checked);
+        }
+    }
+}
+}) (jQuery);
+
+
 
 /**
  * @brief location.href에서 특정 key의 값을 return
@@ -66,51 +109,12 @@ String.prototype.setQuery = function(key, val) {
 }
 
 /**
- * @breif replace outerHTML
- **/
-function replaceOuterHTML(obj, html) {
-    if(obj.outerHTML) {
-        obj.outerHTML = html;
-    } else {
-        var dummy = xCreateElement("div"); 
-        xInnerHtml(dummy, html);
-        var parent = obj.parentNode;
-        while(dummy.firstChild) {
-            parent.insertBefore(dummy.firstChild, obj);
-        }
-        parent.removeChild(obj);
-    }
-}
-
-/**
- * @breif get outerHTML
- **/
-function getOuterHTML(obj) {
-    if(obj.outerHTML) return obj.outerHTML;
-    var dummy = xCreateElement("div");
-    dummy.insertBefore(obj, dummy.lastChild);
-    return xInnerHtml(dummy);
-}
-
-/**
- * @brief xSleep(micro time) 
- **/
-function xSleep(sec) {
-    sec = sec / 1000;
-    var now = new Date();
-    var sleep = new Date();
-    while( sleep.getTime() - now.getTime() < sec) {
-        sleep = new Date();
-    }      
-}
-
-
-/**
  * @brief string prototype으로 trim 함수 추가
  **/
 String.prototype.trim = function() {
     return this.replace(/(^\s*)|(\s*$)/g, "");
 }
+
 
 /**
  * @brief 주어진 인자가 하나라도 defined되어 있지 않으면 false return
@@ -144,7 +148,7 @@ function winopen(url, target, attribute) {
 }
 
 /**
- * @brief 팝업으로만 띄우기 
+ * @brief 팝업으로만 띄우기
  * common/tpl/popup_layout.html이 요청되는 XE내의 팝업일 경우에 사용
  **/
 function popopen(url, target) {
@@ -229,7 +233,7 @@ objectExtend = function() {
 
                 // Recurse if we're merging object values
                 if ( deep && copy && typeof copy == "object" && !copy.nodeType )
-                    target[ name ] = objectExtend( deep, 
+                    target[ name ] = objectExtend( deep,
                         // Never move original objects, clone them
                         src || ( copy.length != null ? [ ] : { } )
                     , copy );
@@ -269,7 +273,7 @@ function displayMultimedia(src, width, height, options) {
     var html = "";
 
     if(/\.swf/i.test(src)) {
-        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'; 
+        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
         html += '<param name="movie" value="'+src+'" />';
@@ -290,50 +294,7 @@ function displayMultimedia(src, width, height, options) {
 }
 
 /**
- * @brief 에디터에서 사용되는 내용 여닫는 코드 (고정, zbxe용)
- **/
-function zbxe_folder_open(id) {
-    var open_text_obj = xGetElementById("folder_open_"+id);
-    var close_text_obj = xGetElementById("folder_close_"+id);
-    var folder_obj = xGetElementById("folder_"+id);
-    open_text_obj.style.display = "none";
-    close_text_obj.style.display = "block";
-    folder_obj.style.display = "block";
-}
-
-function zbxe_folder_close(id) {
-    var open_text_obj = xGetElementById("folder_open_"+id);
-    var close_text_obj = xGetElementById("folder_close_"+id);
-    var folder_obj = xGetElementById("folder_"+id);
-    open_text_obj.style.display = "block";
-    close_text_obj.style.display = "none";
-    folder_obj.style.display = "none";
-}
-
-
-/**
- * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
- **/
-function svc_folder_open(id) {
-    var open_text_obj = xGetElementById("_folder_open_"+id);
-    var close_text_obj = xGetElementById("_folder_close_"+id);
-    var folder_obj = xGetElementById("_folder_"+id);
-    open_text_obj.style.display = "none";
-    close_text_obj.style.display = "block";
-    folder_obj.style.display = "block";
-}
-
-function svc_folder_close(id) {
-    var open_text_obj = xGetElementById("_folder_open_"+id);
-    var close_text_obj = xGetElementById("_folder_close_"+id);
-    var folder_obj = xGetElementById("_folder_"+id);
-    open_text_obj.style.display = "block";
-    close_text_obj.style.display = "none";
-    folder_obj.style.display = "none";
-}
-
-/**
- * @brief 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 
+ * @brief 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌
  * 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
@@ -365,7 +326,7 @@ function setFixedPopupSize() {
         else w += 6;
     }
     window.resizeTo(w,h);
-   
+
     var h1 = xHeight(window.document.body);
     window.resizeBy(0,h-h1);
 
@@ -464,17 +425,17 @@ function chkPopupMenu(evt) {
 
 }
 
-function GetObjTop(obj) { 
-    if(obj.offsetParent == document.body) return xOffsetTop(obj); 
-    else return xOffsetTop(obj) + GetObjTop(obj.offsetParent); 
-} 
-function GetObjLeft(obj) { 
-    if(obj.offsetParent == document.body) return xOffsetLeft(obj); 
-    else return xOffsetLeft(obj) + GetObjLeft(obj.offsetParent); 
-} 
+function GetObjTop(obj) {
+    if(obj.offsetParent == document.body) return xOffsetTop(obj);
+    else return xOffsetTop(obj) + GetObjTop(obj.offsetParent);
+}
+function GetObjLeft(obj) {
+    if(obj.offsetParent == document.body) return xOffsetLeft(obj);
+    else return xOffsetLeft(obj) + GetObjLeft(obj.offsetParent);
+}
 
 function displayPopupMenu(ret_obj, response_tags, params) {
-	
+
     var target_srl = params["target_srl"];
     var menu_id = params["menu_id"];
     var menus = ret_obj['menus'];
@@ -529,7 +490,7 @@ function displayPopupMenu(ret_obj, response_tags, params) {
         if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
         if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
         area.style.visibility = "visible";
-    }    
+    }
 }
 
 /**
@@ -553,7 +514,7 @@ function completeMessage(ret_obj) {
 }
 
 /**
- * @brief 날짜 선택 (달력 열기) 
+ * @brief 날짜 선택 (달력 열기)
  **/
 function open_calendar(fo_id, day_str, callback_func) {
     if(typeof(day_str)=="undefined") day_str = "";
@@ -666,7 +627,7 @@ function viewSkinInfo(module, skin) {
 }
 
 /* 체크박스 선택 */
-function checkboxSelectAll(form, name, option){ 
+function checkboxSelectAll(form, name, option){
     var value;
     var fo_obj = xGetElementById(form);
     for ( var i = 0 ; i < fo_obj.length ; i++ ){
@@ -891,9 +852,9 @@ if(xIE4Up) {
             }
 
             if(!disabled_exists) continue;
-            
+
             sels[i].oldonchange = sels[i].onchange;
-            sels[i].onchange = function() {  
+            sels[i].onchange = function() {
                 if(this.options[this.selectedIndex].disabled) {
 
                     this.selectedIndex = first_enable[i];
@@ -920,7 +881,7 @@ function toggleSecuritySignIn() {
     var href = location.href;
     if(/https:\/\//i.test(href)) location.href = href.replace(/^https/i,'http');
     else location.href = href.replace(/^http/i,'https');
-}   
+}
 
 /* 하위호환성 문제 */
 if(typeof(resizeImageContents) == 'undefined')
@@ -930,4 +891,82 @@ if(typeof(resizeImageContents) == 'undefined')
 
 function reloadDocument() {
     location.reload();
+}
+
+
+
+/* --------------------------
+ * XE 2.0에서 제거될 함수
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ * -------------------------- */
+/**
+ * @brief 에디터에서 사용되는 내용 여닫는 코드 (고정, zbxe용)
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ **/
+function zbxe_folder_open(id) {
+    jQuery("#folder_open_"+id).hide();
+    jQuery("#folder_close_"+id).show();
+    jQuery("#folder_"+id).show();
+}
+function zbxe_folder_close(id) {
+    jQuery("#folder_open_"+id).show();
+    jQuery("#folder_close_"+id).hide();
+    jQuery("#folder_"+id).hide();
+}
+
+/**
+ * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ **/
+function svc_folder_open(id) {
+    jQuery("#_folder_open_"+id).hide();
+    jQuery("#_folder_close_"+id).show();
+    jQuery("#_folder_"+id).show();
+}
+function svc_folder_close(id) {
+    jQuery("#_folder_open_"+id).show();
+    jQuery("#_folder_close_"+id).hide();
+    jQuery("#_folder_"+id).hide();
+}
+
+/**
+ * @breif replace outerHTML
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ **/
+function replaceOuterHTML(obj, html) {
+    if(obj.outerHTML) {
+        obj.outerHTML = html;
+    } else {
+        var dummy = xCreateElement("div");
+        xInnerHtml(dummy, html);
+        var parent = obj.parentNode;
+        while(dummy.firstChild) {
+            parent.insertBefore(dummy.firstChild, obj);
+        }
+        parent.removeChild(obj);
+    }
+}
+
+/**
+ * @breif get outerHTML
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ **/
+function getOuterHTML(obj) {
+    if(obj.outerHTML) return obj.outerHTML;
+    var dummy = xCreateElement("div");
+    dummy.insertBefore(obj, dummy.lastChild);
+    return xInnerHtml(dummy);
+}
+
+/**
+ * @brief xSleep(micro time)
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ **/
+function xSleep(sec) {
+    sec = sec / 1000;
+    var now = new Date();
+    var sleep = new Date();
+    while( sleep.getTime() - now.getTime() < sec) {
+        sleep = new Date();
+    }
 }
