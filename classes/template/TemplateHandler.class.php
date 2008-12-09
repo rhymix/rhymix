@@ -104,7 +104,7 @@
             //$buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
             // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 root경로부터 시작하도록 변경
-            $buff = preg_replace_callback('/(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
+            $buff = preg_replace_callback('/<(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}.+>/is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
