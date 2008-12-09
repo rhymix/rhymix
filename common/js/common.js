@@ -88,7 +88,7 @@ String.prototype.setQuery = function(key, val) {
         for(var i in args) {
         if( !args.hasOwnProperty(i) ) continue;
             var arg = args[i];
-            if(!arg.toString().trim()) continue;
+            if(!arg || !arg.toString().trim()) continue;
 
             q_list[q_list.length] = i+'='+arg;
         }
