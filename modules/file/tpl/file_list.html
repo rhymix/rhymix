@@ -1,5 +1,4 @@
 <!--%import("filter/delete_checked.xml")-->
-<!--%import("js/file_admin.js")-->
 <!--%import("css/file_list.css")-->
 <!--#include("header.html")-->
 
@@ -15,7 +14,7 @@
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col" class="wide">
             <div>
                 <select name="module_srl" id="module_srl" class="w120">
@@ -74,8 +73,8 @@
 <!--@endforeach-->
     <tr>
         <td colspan="8" class="right">
-            <a href="javascript:checkboxSelectAll('fo_list', 'cart', false)" class="button"><span>{$lang->cmd_unselect_all}</span></a>
-            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <a href="javascript:XE.checkboxToggleAll({ checked:false })" class="button"><span>{$lang->cmd_unselect_all}</span></a>
+            <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
             <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_file}" /></span>
         </td>
     </tr>

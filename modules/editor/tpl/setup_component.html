@@ -54,13 +54,13 @@
         <tr>
             <th scope="row"><div>
                 {$lang->module}
-                <input type="checkbox" onclick="checkboxSelectAll(this.form, 'mid_list'); return false;" />
+                <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list'); return false;" />
             </div></th>
             <td>
                 <p>{$lang->about_component_mid}</p>
                 <!--@foreach($mid_list as $module_category_srl => $modules)-->
                     <div class="module_category_title">
-                        <input type="checkbox" onclick="toggleSectionCheckBox(this, 'section_{$module_category_srl}');" />
+                        <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrapId:'section_{$module_category_srl}' }); return false;" />
                     <!--@if($modules->title)-->
                         {$modules->title}
                     <!--@else-->

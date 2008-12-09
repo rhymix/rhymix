@@ -23,7 +23,7 @@
     </td>
 </tr>
 <tr>
-    <th scope="row"><div>{$lang->category_group_srls} <input type="checkbox" onclick="checkboxSelectAll(this.form, 'group_srls'); return false;" /></div></th>
+    <th scope="row"><div>{$lang->category_group_srls} <input type="checkbox" onclick="XE.checkboxToggleAll('group_srls'); return false;" /></div></th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
         <div><input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="checked"<!--@end--> class="checkbox" /> <label for="group_{$key}">{$val->title}</label></div>

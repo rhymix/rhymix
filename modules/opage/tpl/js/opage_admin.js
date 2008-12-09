@@ -47,29 +47,3 @@ function doChangeCategory(fo_obj) {
     }
     return true;
 }
-
-/* 권한 관련 */
-function doSelectAll(obj, key) {
-    var fo_obj = obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { 
-        fo_obj = fo_obj.parentNode; 
-    }
-
-    for(var i=0;i<fo_obj.length;i++) {
-        var tobj = fo_obj[i];
-        if(tobj.name == key) tobj.checked=true;
-    }
-}
-
-function doUnSelectAll(obj, key) {
-    var fo_obj = obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { 
-        fo_obj = fo_obj.parentNode; 
-    }
-
-    for(var i=0;i<fo_obj.length;i++) {
-        var tobj = fo_obj[i];
-        if(tobj.name == key) tobj.checked = false;
-    }
-}
-

@@ -70,7 +70,7 @@
             <th scope="row"><div>
                 {$var->name}
                 <!--@if($var->type == "mid_list")-->
-                    <input type="checkbox" onclick="checkboxSelectAll(this.form, '{$id}'); return false;" />
+                    <input type="checkbox" onclick="XE.checkboxToggleAll('{$id}'); return false;" />
                 <!--@end-->
             </div></th>
             <td>

@@ -7,7 +7,7 @@
             <tr>
                 <!--@if($grant->is_admin)--> 
                 <th scope="col" class="checkbox{$no_line_class}"><div>
-                    <input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" />
+                    <input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" />
                 </div></th>
                 {@ $no_line_class=""}
                 <!--@end-->

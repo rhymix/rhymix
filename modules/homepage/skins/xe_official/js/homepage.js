@@ -544,30 +544,6 @@ function completeDeleteGroup(ret_obj) {
 
 }
 
-function doSelectAll(obj, key) {
-    var fo_obj = obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { 
-        fo_obj = fo_obj.parentNode; 
-    }
-
-    for(var i=0;i<fo_obj.length;i++) {
-        var tobj = fo_obj[i];
-        if(tobj.name == key) tobj.checked=true;
-    }
-}
-
-function doUnSelectAll(obj, key) {
-    var fo_obj = obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { 
-        fo_obj = fo_obj.parentNode; 
-    }
-
-    for(var i=0;i<fo_obj.length;i++) {
-        var tobj = fo_obj[i];
-        if(tobj.name == key) tobj.checked = false;
-    }
-}
-
 function completeInsertGrant(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];

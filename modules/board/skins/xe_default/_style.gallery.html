@@ -4,7 +4,7 @@
 
             <div class="thumbHeader">
                 <div class="left">
-                    <!--@if($grant->is_admin)--><span><input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" /></span>{@ $no_line_class=""}<!--@end-->
+                    <!--@if($grant->is_admin)--><span><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></span>{@ $no_line_class=""}<!--@end-->
 
                     <!--@if($module_info->use_category == "Y")-->
                     <span class="jumpTo">

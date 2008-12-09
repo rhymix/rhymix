@@ -18,7 +18,7 @@ window.XE = {
      * @param [itemName='cart',][options={checked:true, doClick:false}]
      */
     checkboxToggleAll : function() {
-        var itemName='cart', options={checked:'toggle', doClick:false};
+        var itemName='cart', options={wrapId:'', checked:'toggle', doClick:false};
 
         switch(arguments.length) {
             case 1:
@@ -33,15 +33,14 @@ window.XE = {
                 options = $.extend(options, arguments[1] || {});
         }
 
-        var obj = $('input[name='+itemName+']:checkbox');
+        if(options.doClick == true) options.checked = null;
+        if(options.wrapId) options.wrapId ='#'+options.wrapId+' ';
+
+        var obj = $(options.wrapId+'input[name='+itemName+']:checkbox');
 
         if(options.checked == 'toggle') {
             obj.each(function() {
-                if($(this).attr('checked')) {
-                    (options.doClick == true) ? $(this).click() : $(this).attr('checked', false);
-                } else {
-                    (options.doClick == true) ? $(this).click() : $(this).attr('checked', true);
-                }
+                $(this).attr('checked', ($(this).attr('checked')) ? false : true);
             });
         } else {
             (options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
@@ -628,35 +627,7 @@ function viewSkinInfo(module, skin) {
     popopen("./?module=module&act=dispModuleSkinInfo&selected_module="+module+"&skin="+skin, 'SkinInfo');
 }
 
-/* 체크박스 선택 */
-function checkboxSelectAll(form, name, option){
-    var value;
-    var fo_obj = xGetElementById(form);
-    for ( var i = 0 ; i < fo_obj.length ; i++ ){
-        if(typeof(option) == "undefined") {
-            var select_mode = fo_obj[i].checked;
-            if ( select_mode == 0 ){
-                value = true;
-                select_mode = 1;
-            }else{
-                value = false;
-                select_mode = 0;
-            }
-        }
-        else if(option == true) value = true
-        else if(option == false) value = false
 
-        if(fo_obj[i].name == name) fo_obj[i].checked = value;
-    }
-}
-
-/* 체크박스를 실행 */
-function clickCheckBoxAll(form, name) {
-    var fo_obj = xGetElementById(form);
-    for ( var i = 0 ; i < fo_obj.length ; i++ ){
-        if(fo_obj[i].name == name) fo_obj[i].click();
-    }
-}
 
 /* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
 var addedDocument = new Array();
@@ -970,5 +941,39 @@ function xSleep(sec) {
     var sleep = new Date();
     while( sleep.getTime() - now.getTime() < sec) {
         sleep = new Date();
+    }
+}
+
+/* 체크박스를 실행
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ */
+function clickCheckBoxAll(form, name) {
+    var fo_obj = xGetElementById(form);
+    for ( var i = 0; i < fo_obj.length; i++){
+        if(fo_obj[i].name == name) fo_obj[i].click();
+    }
+}
+
+/* 체크박스 선택
+ * This feature has been DEPRECATED and REMOVED as of XE 2.0.
+ */
+function checkboxSelectAll(form, name, option){
+    var value;
+    var fo_obj = xGetElementById(form);
+    for ( var i = 0 ; i < fo_obj.length ; i++ ){
+        if(typeof(option) == "undefined") {
+            var select_mode = fo_obj[i].checked;
+            if ( select_mode == 0 ){
+                value = true;
+                select_mode = 1;
+            }else{
+                value = false;
+                select_mode = 0;
+            }
+        }
+        else if(option == true) value = true
+        else if(option == false) value = false
+
+        if(fo_obj[i].name == name) fo_obj[i].checked = value;
     }
 }
