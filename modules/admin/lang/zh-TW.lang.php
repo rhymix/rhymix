@@ -27,12 +27,12 @@
     $lang->about_download_link = "官方網站已發佈新版本。\n請按 [download] 下載最新版本。";
 
     $lang->item_module = "模組列表";
-    $lang->item_addon  = "插件列表";
+    $lang->item_addon  = "元件列表";
     $lang->item_widget = "控件列表";
     $lang->item_layout = "版面列表";
 
     $lang->module_name = "模組名稱";
-    $lang->addon_name = "插件名稱";
+    $lang->addon_name = "元件名稱";
     $lang->version = "版本";
     $lang->author = "作者";
     $lang->table_count = "表格數";
@@ -41,14 +41,14 @@
     $lang->cmd_shortcut_management = "編輯選單";
 
     $lang->msg_is_not_administrator = '只有管理員才可以檢視';
-    $lang->msg_manage_module_cannot_delete = '模組，插件，版面設計，控件模組的快捷選單是無法刪除的。';
+    $lang->msg_manage_module_cannot_delete = '模組，附加元件，版面設計，控件模組的快捷選單是無法刪除的。';
     $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快捷選單的。';
 
     $lang->welcome_to_xe = 'XE 管理頁面';
     $lang->about_admin_page = "後台管理頁面未完成";
     $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後，請按 [儲存] 按鈕進行儲存。";
 
-    $lang->xe_license = 'XE遵循 GPL協議';
+    $lang->xe_license = 'XE遵循 GPL 協議';
     $lang->about_shortcut = '可以刪除新增到常用模組中的快捷選單。';
 
     $lang->yesterday = "昨天";

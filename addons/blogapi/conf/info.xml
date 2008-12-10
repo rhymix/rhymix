@@ -51,7 +51,7 @@
         Только выбор опции использовать включает поведение RSD тега и api.
     </description>
     <description xml:lang="zh-TW">
-        支援MetaWeblog的部落格API附加功能。
+        支援MetaWeblog的部落格API附加元件。
         設置成"啟用"時，會使每個模組都顯示RSD圖示。
         API網址是 http://安裝位置/模組名稱/api。
         將狀態設置成"啟用"時，才可使用RSD和API

@@ -13,7 +13,7 @@
     <description xml:lang="en">This modules links pages of Springnote with XE, and display them.</description>
     <description xml:lang="es">Esta módulos de enlaces de páginas Springnote con XE, y lo muestra.</description>
     <description xml:lang="ru">Этот модуль связывает страницы Springnote с XE, и отображает их.</description>
-    <description xml:lang="zh-TW">將 Springnote網站的頁面整合到 XE中的模組。</description>
+    <description xml:lang="zh-TW">將Springnote網站的頁面整合到XE中的模組。</description>
     <version>0.1</version>
     <date>2007-11-30</date>
     <category>service</category>
