@@ -133,7 +133,7 @@ function nodeToggleAll(){
 }
 
 function deleteNode(node){
-    if(confirm(lang_confirm_delete){
+    if(confirm(lang_confirm_delete)){
         var params ={
                 "category_srl":node
                 ,"parent_srl":0
