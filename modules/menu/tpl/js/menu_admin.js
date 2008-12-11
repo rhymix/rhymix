@@ -226,3 +226,12 @@ function completeDeleteButton(ret_obj, response_tags) {
     img_obj.src = "";
     zone_obj.style.display = "none";
 }
+/* 메뉴 입력후 */ 
+function completeInsertMenu(ret_obj) {
+    var menu_srl = ret_obj['menu_srl'];
+    alert(ret_obj['message']);
+    location.href = current_url.setQuery('act','dispMenuAdminContent');
+
+    //var url = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
+    //window.open(url);
+} 
