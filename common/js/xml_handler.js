@@ -386,3 +386,59 @@ function xml2json(xml, tab, ignoreAttrib) {
    var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "");
    return "{" + (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) + "}";
 }
+
+
+/**
+ * @brief exec_json (exec_xml와 같은 용도)
+ **/
+(function($){
+$.exec_json = function(action,data,func){
+    if(typeof(data) == 'undefined') data = {};
+    action = action.split(".");
+    if(action.length == 2){
+
+        if(show_waiting_message) {
+            $("#waitingforserverresponse").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
+        }
+
+        $.extend(data,{module:action[0],act:action[1]});
+        $.ajax({
+            type:"POST"
+            ,dataType:"json"
+            ,url:request_uri
+            ,contentType:"application/json"
+            ,data:$.param(data)
+            ,success : function(data){
+                $("#waitingforserverresponse").css('visibility','hidden');
+                if(data.error > 0) alert(data.message);
+                if($.isFunction(func)) func(data);
+            }
+        });
+    }
+};
+
+$.fn.exec_html = function(action,data,type){
+    if(typeof(data) == 'undefined') data = {};
+    if(!$.inArray(type, ['html','append','prepend'])) type = 'html';
+
+    var self = $(this);
+    action = action.split(".");
+    if(action.length == 2){
+        if(show_waiting_message) {
+            $("#waitingforserverresponse").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
+        }
+
+        $.extend(data,{module:action[0],act:action[1]});
+        $.ajax({
+            type:"POST"
+            ,dataType:"html"
+            ,url:request_uri
+            ,data:$.param(data)
+            ,success : function(html){
+                $("#waitingforserverresponse").css('visibility','hidden');
+                self[type](html);
+            }
+        });
+    }
+};
+})(jQuery);

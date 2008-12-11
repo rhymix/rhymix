@@ -30,7 +30,7 @@
         }
 
         /**
-         * @brief 메뉴 제목 변경 
+         * @brief 메뉴 제목 변경
          **/
         function procMenuAdminUpdate() {
             // 입력할 변수 정리
@@ -50,7 +50,7 @@
         function procMenuAdminDelete() {
             $menu_srl = Context::get('menu_srl');
 
-            // 캐시 파일 삭제 
+            // 캐시 파일 삭제
             $cache_list = FileHandler::readDir("./files/cache/menu","",false,true);
             if(count($cache_list)) {
                 foreach($cache_list as $cache_file) {
@@ -139,7 +139,7 @@
             // XML 파일을 갱신하고 위치을 넘겨 받음
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
-            // url이 mid일 경우 기록 남김 
+            // url이 mid일 경우 기록 남김
             if(preg_match('/^([a-zA-Z0-9\_\-]+)$/', $args->url)) {
                 $mid = $args->url;
 
@@ -147,7 +147,7 @@
                 $mid_args->mid = $mid;
 
                 // menu_srl에 해당하는 레이아웃 값을 구함
-                $output = executeQuery('menu.getMenuLayout', $args); 
+                $output = executeQuery('menu.getMenuLayout', $args);
 
                 // 해당 모듈에 레이아웃 값이 정해져 있지 않으면 지정
                 $oModuleModel = &getModel('module');
@@ -167,15 +167,15 @@
         }
 
         /**
-         * @brief 메뉴 메뉴 삭제 
+         * @brief 메뉴 메뉴 삭제
          **/
         function procMenuAdminDeleteItem() {
-            // 변수 정리 
+            // 변수 정리
             $args = Context::gets('menu_srl','menu_item_srl');
 
             $oMenuAdminModel = &getAdminModel('menu');
 
-            // 원정보를 가져옴 
+            // 원정보를 가져옴
             $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
             if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
 
@@ -209,8 +209,9 @@
         /**
          * @brief 메뉴의 메뉴를 이동
          **/
+/*
         function procMenuAdminMoveItem() {
-            // 변수 설정 
+            // 변수 설정
             $menu_id = Context::get('menu_id');
             $source_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('source_item'));
             $target_item_srl = str_replace('menu_'.$menu_id.'_','',Context::get('target_item'));
@@ -233,7 +234,7 @@
             $output = executeQuery('menu.updateMenuItemParent', $target_args);
             if(!$output->toBool()) return $output;
 
-            // xml파일 재생성 
+            // xml파일 재생성
             $xml_file = $this->makeXmlFile($target_item->menu_srl);
 
             // return 변수 설정
@@ -241,6 +242,65 @@
             $this->add('xml_file', $xml_file);
             $this->add('source_item_srl', $source_item_srl);
         }
+*/
+
+        function procMenuAdminMoveItem() {
+            $menu_srl = Context::get('menu_srl');
+            $mode = Context::get('mode');
+            $parent_srl = Context::get('parent_srl');
+            $source_srl = Context::get('source_srl');
+            $target_srl = Context::get('target_srl');
+
+            if(!$menu_srl || !$mode || !$target_srl) return new Object(-1,'msg_invalid_request');
+            $this->moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode);
+        }
+
+
+
+        function moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode){
+            // 원본 메뉴들을 구함
+            $oMenuAdminModel = &getAdminModel('menu');
+
+            $target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
+            if($target_item->menu_item_srl != $target_srl) return new Object(-1,'msg_invalid_request');
+
+            // 위치 이동 (순서 조절)
+            if($mode == 'move') {
+                $args->parent_srl = $parent_srl;
+                $args->menu_srl = $menu_srl;
+
+                if($source_srl) {
+                    $source_item = $oMenuAdminModel->getMenuItemInfo($source_srl);
+                    if($source_item->menu_item_srl != $source_srl) return new Object(-1,'msg_invalid_request');
+                    $args->listorder = $source_item->listorder-1;
+                }  else {
+                    $output = executeQuery('menu.getMaxListorder', $args);
+                    if(!$output->toBool()) return $output;
+                    $args->listorder = (int)$output->data->listorder;
+                    if(!$args->listorder) $args->listorder= 0;
+                }
+                $args->parent_srl = $parent_srl;
+                $output = executeQuery('menu.updateMenuItemListorder', $args);
+                if(!$output->toBool()) return $output;
+
+                $args->parent_srl = $parent_srl;
+                $args->menu_item_srl = $target_srl;
+                $output = executeQuery('menu.updateMenuItemNode', $args);
+                if(!$output->toBool()) return $output;
+            // 자식으로 추가
+            } elseif($mode == 'insert') {
+                $args->menu_item_srl = $target_srl;
+                $args->parent_srl = $parent_srl;
+                $args->listorder = -1*getNextSequence();
+                $output = executeQuery('menu.updateMenuItemNode', $args);
+                if(!$output->toBool()) return $output;
+            }
+
+            $xml_file = $this->makeXmlFile($menu_srl);
+            return $xml_file;
+//            $this->add('xml_file', $xml_file);
+        }
+
 
         /**
          * @brief xml 파일을 갱신
@@ -249,7 +309,7 @@
          * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
          **/
         function procMenuAdminMakeXmlFile() {
-            // 입력값을 체크 
+            // 입력값을 체크
             $menu_srl = Context::get('menu_srl');
 
             // 해당 메뉴의 정보를 구함
@@ -257,10 +317,10 @@
             $menu_info = $oMenuAdminModel->getMenu($menu_srl);
             $menu_title = $menu_info->title;
 
-            // xml파일 재생성 
+            // xml파일 재생성
             $xml_file = $this->makeXmlFile($menu_srl);
 
-            // return 값 설정 
+            // return 값 설정
             $this->add('menu_title',$menu_title);
             $this->add('xml_file',$xml_file);
         }
@@ -316,8 +376,8 @@
         function makeXmlFile($menu_srl) {
             // xml파일 생성시 필요한 정보가 없으면 그냥 return
             if(!$menu_srl) return;
-            
-            // DB에서 menu_srl에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴 
+
+            // DB에서 menu_srl에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴
             $args->menu_srl = $menu_srl;
             $args->sort_index = 'listorder';
             $output = executeQuery('menu.getMenuItems', $args);
@@ -350,7 +410,7 @@
             }
 
             // 캐시 파일의 권한과 그룹 설정을 위한 공통 헤더
-            $header_script = 
+            $header_script =
                 '$lang_type = Context::getLangType(); '.
                 '$is_logged = Context::get(\'is_logged\'); '.
                 '$logged_info = Context::get(\'logged_info\'); '.
@@ -378,7 +438,7 @@
                 'header("Pragma: no-cache"); '.
                 '%s'.
                 '?>'.
-                '<root>%s</root>', 
+                '<root>%s</root>',
                 $header_script,
                 $this->getXmlTree($tree[0], $tree)
             );
@@ -391,9 +451,9 @@
                 '%s; '.
                 '%s; '.
                 '$menu->list = array(%s); '.
-                '?>', 
+                '?>',
                 $header_script,
-                $php_output['name'], 
+                $php_output['name'],
                 $php_output['buff']
             );
 
@@ -419,7 +479,7 @@
                 // 자식 노드의 데이터 가져옴
                 if($menu_item_srl&&$tree[$menu_item_srl]) $child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree);
 
-                // 변수 정리 
+                // 변수 정리
                 $names = $oMenuAdminModel->getMenuItemNames($node->name);
                 foreach($names as $key => $val) {
                     $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace('\\','\\\\',htmlspecialchars($val)));
@@ -457,7 +517,7 @@
                     $link = '<?php print $_names[$lang_type]; ?>';
                 }
 
-                // node->group_srls값이 있으면 
+                // node->group_srls값이 있으면
                 if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
                 else $group_check_code = "true";
                 $attribute = sprintf(
@@ -478,7 +538,7 @@
                     $group_check_code,
                     $link
                 );
-                
+
                 if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
                 else $buff .=  sprintf('<node %s />', $attribute);
             }
@@ -498,11 +558,11 @@
             $oMenuAdminModel = &getAdminModel('menu');
 
             foreach($source_node as $menu_item_srl => $node) {
-                // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴 
+                // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴
                 if($menu_item_srl&&$tree[$menu_item_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree);
                 else $child_output = array("buff"=>"", "url_list"=>array());
 
-                // 변수 정리 
+                // 변수 정리
                 $names = $oMenuAdminModel->getMenuItemNames($node->name);
                 foreach($names as $key => $val) {
                     $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace('\\','\\\\',htmlspecialchars($val)));
@@ -513,7 +573,7 @@
                 if($node->url) $child_output['url_list'][] = $node->url;
                 $output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 
-                // node->group_srls값이 있으면 
+                // node->group_srls값이 있으면
                 if($node->group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$node->group_srls);
                 else $group_check_code = "true";
 
@@ -584,7 +644,7 @@
                     $link_active,
                     $link
                 );
-                
+
                 // buff 데이터를 생성한다
                 $output['buff'] .=  sprintf('%s=>array(%s),', $node->menu_item_srl, $attribute);
                 $output['name'] .= $name_str;

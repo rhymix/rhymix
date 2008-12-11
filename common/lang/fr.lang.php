@@ -69,6 +69,7 @@
     $lang->disable = 'Invalide';
 
     // Mots essentiels
+    $lang->menu = 'Menu';
     $lang->no = 'No';
     $lang->notice = 'Notice';
     $lang->secret = 'Secret';

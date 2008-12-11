@@ -91,6 +91,7 @@
             $this->setTemplateFile('menu_manage');
         }
 
+
         function dispHomepageBottomMenu() {
             // 메뉴 정보 가져오기
             $menu_srl = $this->homepage_info->second_menu_srl;

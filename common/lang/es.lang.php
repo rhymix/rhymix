@@ -68,6 +68,7 @@
     $lang->disable = 'Desactivar'; //Desactivado
 
     // Palabras Esenciales
+    $lang->menu = 'Menu';
     $lang->no = 'Nº';
     $lang->notice = 'Aviso'; //boletín, noticia
     $lang->secret = 'Secreto';

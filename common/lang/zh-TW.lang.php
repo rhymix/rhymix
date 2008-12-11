@@ -69,6 +69,7 @@
     $lang->disable = '禁用';
 
     // 基本詞語
+    $lang->menu = 'Menu';
     $lang->no = '編號';
     $lang->notice = '公告';
     $lang->secret = '秘密';

@@ -1,8 +1,5 @@
 @charset "utf-8"; 
 
-#menu ul { margin-top:10px; }
-#menu li { padding-bottom:10px; }
-
 #menuItem { visibility:hidden; position:absolute; left:0; top:0; background-color:#FFFFFF; z-index:1000; border:2px solid #DDDDDD; padding:10px;}
 #menu_normal_btn_zone { display:none; }
 #menu_hover_btn_zone { display:none; }

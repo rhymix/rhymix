@@ -15,15 +15,8 @@
         <p>{$lang->about_category_title}</p>
     </td>
 </tr>
-<tr class="row2">
-    <th scope="row"><div>{$lang->expand}</div></th>
-    <td>
-        <input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="checked"<!--@end--> class="checkbox" />
-        {$lang->about_expand}
-    </td>
-</tr>
-<tr>
-    <th scope="row"><div>{$lang->category_group_srls} <input type="checkbox" onclick="XE.checkboxToggleAll('group_srls'); return false;" /></div></th>
+<tr >
+    <th scope="row2"><div>{$lang->category_group_srls} <input type="checkbox" onclick="XE.checkboxToggleAll('group_srls'); return false;" /></div></th>
     <td>
         <!--@foreach($group_list as $key=>$val)-->
         <div><input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($category_info->group_srls)&&in_array($key, $category_info->group_srls))-->checked="checked"<!--@end--> class="checkbox" /> <label for="group_{$key}">{$val->title}</label></div>
@@ -33,14 +26,8 @@
 </tr>
 <tr class="row2">
     <td scope="row" colspan="2" class="right">
-        <!--@if($category_info->title)-->
-        <a href="#" onclick="doDeleteCategory('{$category_srl->category_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
-        <!--@end-->
         <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
         <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        <!--@if($category_info->title)-->
-        <a href="#" onclick="doInsertCategory('{$category_info->category_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
-        <!--@end-->
     </td>
 </tr>
 </table>

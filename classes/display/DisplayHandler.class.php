@@ -98,6 +98,8 @@
          **/
         function _toJSON(&$oModule) {
             $variables = $oModule->getVariables();
+            $variables['error'] = $oModule->getError();
+            $variables['message'] = $oModule->getMessage();
             //if(function_exists('json_encode')) return json_encode($variables);
             //else return json_encode2($variables);
             $json = str_replace("\r\n",'\n',json_encode2($variables));

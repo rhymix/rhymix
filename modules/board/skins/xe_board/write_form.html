@@ -1,7 +1,7 @@
 <!--%import("filter/insert.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, window.insert)" id="fo_write">
+<form action="./" method="post" onsubmit="return procFilter(this, insert)" id="fo_write">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />

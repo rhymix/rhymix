@@ -1,46 +1,39 @@
+<!--#include("./header.html")-->
 <!--%import("filter/insert_category.xml")-->
 <!--%import("filter/delete_category.xml")-->
 <!--%import("filter/move_category.xml")-->
-<!--%import("css/board.css")-->
-<!--%import("js/board_admin.js")-->
 
+<!--%import("../../common/js/jquery.simple.tree.js",optimized=false)-->
+<!--%import("../../common/css/jquery.simple.tree.css",optimized=false)-->
+<!--%import("js/board_admin.js")-->
 <script type="text/javascript">
     var category_title = "{$lang->category}";
 </script>
 
     <h3>{$lang->board} <span class="gray">{$lang->cmd_management}</span></h3>
-    <div class="infoText">{nl2br($lang->about_board_category)}</div>
-
-    <div class="gap">
-        <a href="#" onclick="doInsertCategory(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
-        <a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
-        <a href="#" onclick="openAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
-        <a href="#" onclick="closeAllTreeMenu('category');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
-        <a href="#"  onclick="window.close();return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    <div class="infoText">{nl2br($lang->about_board_category)}
     </div>
-
-    <p class="gap1"><input type="checkbox" class="checkbox" id="category_enable_move" onclick="hideCategoryInfo()" /> <label for="category_enable_move">{$lang->cmd_enable_move_category}</label></p>
-
-
-    <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
-    <form id="fo_move_category" action="./" method="get">
-        <input type="hidden" name="module_srl" />
-        <input type="hidden" name="source_category_srl" />
-        <input type="hidden" name="target_category_srl" />
-    </form>
+<span style="float:right"><a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a></span>
 
     <div class="gap1">
         <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category)">
         <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
         <input type="hidden" name="xml_file" value="{$category_xml_file}" />
 
-            <div id="category_list">
-                <div id="zone_category"></div>
-            </div>
-            <div id="category_info"></div>
+        <div id="menu">
+            <ul class="simpleTree">
+                <li class="root" id='tree_0'><span>{$lang->category}</span></li>
+            </ul>
+        </div>
+            <div id="category_info" style="position:absolute;top:300px; width:70%; right:20px"></div>
         </form>
+    </div>
+
 
         <script type="text/javascript">
-            loadTreeMenu("{$category_xml_file}", "category", "zone_category", category_title, '', doGetCategoryInfo, 0, doMoveTree); 
+var simpleTreeCollection;
+var max_menu_depth = 999;
+var lang_confirm_delete = "{$lang->confirm_delete}";
+var xml_url = "{$category_xml_file}";
+Tree(xml_url);
         </script>
-    </div>

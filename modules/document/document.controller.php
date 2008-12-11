@@ -879,16 +879,17 @@
                 $group_srls = $node->group_srls;
                 $mid = $node->mid;
                 $module_srl = $node->module_srl;
-
+                $parent_srl = $node->parent_srl;
                 // node->group_srls값이 있으면
                 if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
-                        'mid="%s" module_srl="%d" node_srl="%d" category_srl = "%d" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
                         $mid,
                         $module_srl,
                         $category_srl,
+                        $parent_srl,
                         $category_srl,
                         $group_check_code,
                         $title,

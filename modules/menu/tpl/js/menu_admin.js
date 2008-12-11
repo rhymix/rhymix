@@ -1,12 +1,4 @@
-/* 메뉴 입력후 */ 
-function completeInsertMenu(ret_obj) {
-    var menu_srl = ret_obj['menu_srl'];
-    alert(ret_obj['message']);
-    location.href = current_url.setQuery('act','dispMenuAdminContent');
 
-    //var url = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
-    //window.open(url);
-} 
 
 /* 메뉴 삭제 */
 function doDeleteMenu(menu_srl) {
@@ -69,9 +61,7 @@ function checkMousePosition(e) {
 */
 
 function hideCategoryInfo() {
-    var obj = xGetElementById('menu_zone_info');
-    xInnerHtml(obj,'');
-    obj.style.display = "none";
+	jQuery("#menu_zone_info").html("");
 }
 
 function completeGetMenuItemTplInfo(ret_obj, response_tags) {
@@ -103,29 +93,6 @@ function completeGetMenuItemTplInfo(ret_obj, response_tags) {
     if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
     */
 }
-
-/* 메뉴 아이템 입력후 */ 
-function completeInsertMenuItem(ret_obj) {
-    var menu_id = ret_obj['menu_id'];
-    var xml_file = ret_obj['xml_file'];
-    var menu_title = ret_obj['menu_title'];
-    var menu_srl = ret_obj['menu_srl'];
-    var menu_item_srl = ret_obj['menu_item_srl'];
-    var parent_srl = ret_obj['parent_srl'];
-
-    if(!xml_file) return;
-
-    loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, '', doGetMenuItemInfo, menu_item_srl, doMoveTree);
-
-    if(!menu_srl) xInnerHtml("menu_zone_info", "");
-    else {
-        var params = {node_srl:menu_item_srl, parent_srl:parent_srl}
-        doGetMenuItemInfo('menu', params)
-    }
-
-    if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
-} 
-
 
 /* 메뉴를 드래그하여 이동한 후 실행할 함수 , 이동하는 item_srl과 대상 item_srl을 받음 */
 function doMoveTree(menu_id, source_item, target_item) {

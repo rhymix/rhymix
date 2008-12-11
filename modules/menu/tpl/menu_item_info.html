@@ -25,7 +25,7 @@
     <th scope="row" colspan="2"><div>{$lang->menu_url}</div></th>
     <td>
         <input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" />
-        <a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button"/><span>{$lang->cmd_search_mid}</span></a>
+        <a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button"><span>{$lang->cmd_search_mid}</span> </a>
         <p class="clear">{$lang->about_menu_url}</p>
     </td>
 </tr>
@@ -36,13 +36,7 @@
         <p>{$lang->about_menu_open_window}</p>
     </td>
 </tr>
-<tr>
-    <th scope="row" colspan="2"><div>{$lang->menu_expand}</div></th>
-    <td>
-        <input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="checked"<!--@end--> />
-        <p>{$lang->about_menu_expand}</p>
-    </td>
-</tr>
+
 <tr>
     <th scope="row" colspan="2"><div>{$lang->menu_img_btn}</div></th>
     <td><p>{$lang->about_menu_img_btn}</p></td>
@@ -89,14 +83,8 @@
 </tr>
 <tr>
     <th scope="row" colspan="3" class="button"><div>
-        <!--@if($item_info->name)-->
-        <a href="#" onclick="doDeleteMenuItem('{$menu_item_srl}');return false" class="button"><span>{$lang->cmd_delete}</span></a>
-        <!--@end-->
         <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
         <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        <!--@if($item_info->name)-->
-        <a href="#" onclick="doInsertMenuItem('{$item_info->menu_item_srl}');return false" class="button"><span>{$lang->cmd_make_child}</span></a>
-        <!--@end-->
     </div></th>
 </tr>
 </table>
