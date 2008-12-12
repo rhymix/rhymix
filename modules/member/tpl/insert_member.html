@@ -110,10 +110,7 @@
         <th scope="row"><div>{$lang->limit_date}</div></th>
         <td>
             <input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-            <div id="str_limit_date" class="display_date" >{zdate($member_info->limit_date,"Y-m-d")}</div>
-            <script type="text/javascript">
-                DyCalendar.setup( { firstDay : 0, inputField : "date_limit_date", ifFormat : "%Y%m%d", displayArea : "str_limit_date", daFormat : "%Y-%m-%d" } );
-            </script>
+            <input type="text" class="inputDate" value="{zdate($member_info->limit_date,'Y-m-d')}" readonly="readonly" />
             <p class="clear">{$lang->about_limit_date}</p>
         </td>
     </tr>
