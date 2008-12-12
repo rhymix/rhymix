@@ -36,7 +36,13 @@
         <p>{$lang->about_menu_open_window}</p>
     </td>
 </tr>
-
+<tr>
+    <th scope="row" colspan="2"><div>{$lang->menu_expand}</div></th>
+    <td>
+        <input type="checkbox" name="menu_expand" value="Y" <!--@if($item_info->expand=="Y")-->checked="checked"<!--@end--> />
+        <p>{$lang->about_menu_expand}</p>
+    </td>
+</tr>
 <tr>
     <th scope="row" colspan="2"><div>{$lang->menu_img_btn}</div></th>
     <td><p>{$lang->about_menu_img_btn}</p></td>
