@@ -1,7 +1,7 @@
 <filter name="insert_history" module="issuetracker" act="procIssuetrackerInsertHistory" confirm_msg_code="confirm_submit">
   <form>
     <node target="milestone_srl" />
-    <node target="priority_srl" required="true" />
+    <node target="priority_srl" />
     <node target="type_srl" required="true" />
     <node target="component_srl" required="true" />
     <node target="package_srl" required="true" />
