@@ -74,7 +74,7 @@
                 <p>{$lang->about_addon_mid}</p>
                 <!--@foreach($mid_list as $module_category_srl => $modules)-->
                     <div class="module_category_title">
-                        <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrapId:'section_{$module_category_srl}' });" />
+                        <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrap:'section_{$module_category_srl}' });" />
                     <!--@if($modules->title)-->
                         {$modules->title}
                     <!--@else-->

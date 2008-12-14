@@ -21,7 +21,7 @@
     <tr class="bg{($no+1)%2+1}">
         <td class="registDate">{$val->getRegdate("Y-m-d H:i:s")}</td>
         <td class="title">
-            <div><a href="#" onclick="toggleDisplay('saved_document_{$val->document_srl}','block'); return false;">{$val->getTitle()}</a></div>
+            <div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); return false;">{$val->getTitle()}</a></div>
             <div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
         </td>
         <td><a href="#" onclick="doDeleteSavedDocument('{$val->document_srl}','{$lang->confirm_delete}'); return false;" class="button"><span>{$lang->cmd_delete}</span></a></td>
