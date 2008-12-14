@@ -1344,8 +1344,7 @@ jQuery.each([ "Height", "Width" ], function(i, name){
 			jQuery.browser.opera  && document.body.parentNode[ "client" + name ] ||
 
 			// Safari reports inner[Width/Height] just fine (Mozilla and Opera include scroll bar widths)
-			// 사파리/크롬에서 스크롤바 두께를 강제적으로 제거하여 반환
-			jQuery.browser.safari && window[ "inner" + name ] - 16 ||
+			jQuery.browser.safari && window[ "inner" + name ] ||
 
 			// Everyone else use document.documentElement or document.body depending on Quirks vs Standards mode
 			document.compatMode == "CSS1Compat" && document.documentElement[ "client" + name ] || document.body[ "client" + name ] :
