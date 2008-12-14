@@ -117,6 +117,11 @@ if(jQuery) jQuery.noConflict();
                 if(area.outerWidth()+areaOffset.left > jQuery(window).width()+jQuery(window).scrollLeft())
                     areaOffset.left = jQuery(window).width() - area.outerWidth() + jQuery(window).scrollLeft();
 
+                if($.browser.safari) {
+                    areaOffset.top -= 16;
+                    areaOffset.left -= 16;
+                }
+
                 area.css({ visibility:"visible", top:areaOffset.top, left:areaOffset.left });
             }
         }
