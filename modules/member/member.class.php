@@ -28,6 +28,10 @@
                 Context::addSSLAction('procMemberInsert');
                 Context::addSSLAction('procMemberModifyInfo');
                 Context::addSSLAction('procMemberOpenIDLogin');
+                if($member_config->ssl_port)
+                {
+                    Context::setSSLPort($member_config->ssl_port);
+                }
             }
         }
 

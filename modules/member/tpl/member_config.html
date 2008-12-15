@@ -47,7 +47,8 @@
     <th scope="row"><div>{$lang->enable_ssl}</div></th>
     <td>
         <input type="checkbox" name="enable_ssl" value="Y" <!--@if($config->enable_ssl=='Y')-->checked="checked"<!--@end--> class="checkbox" />
-        {$lang->about_enable_ssl}
+        {$lang->about_enable_ssl} <BR />
+        <input type="text" name="ssl_port" value="{$config->ssl_port}" size="5" class="inputTypeText" /> {$lang->about_ssl_port}
     </td>
 </tr>
 <tr class="row2">
