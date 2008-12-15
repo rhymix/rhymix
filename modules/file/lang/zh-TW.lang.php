@@ -38,7 +38,7 @@
         'download_count' => '下載次數 (以上)',
         'user_id' => '아이디',
         'user_name' => '이름',
-        'nick_name' => '닉네임'
+        'nick_name' => '닉네임',
         'regdate' => '登錄日期',
         'ipaddress' => 'IP位址',
     );

@@ -38,7 +38,7 @@
         'download_count' => 'Téléchargés (surplus)',
         'user_id' => '아이디',
         'user_name' => '이름',
-        'nick_name' => '닉네임'
+        'nick_name' => '닉네임',
         'regdate' => 'Enrgistré',
         'ipaddress' => 'Adresse IP',
     );
