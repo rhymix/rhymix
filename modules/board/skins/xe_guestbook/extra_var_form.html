@@ -55,9 +55,9 @@
 
 <!--// 날짜 입력 -->
 <!--@elseif($val->type == 'date')-->
-    <!--// calendar -->
-    <!--%import("../../../../common/js/ui.datepicker.js",optimized=false)-->
-    <!--%import("../../../../common/css/ui.datepicker.css",optimized=false)-->
+    <!--// datepicker javascript plugin load -->
+    <!--%load_js_plugin("ui.datepicker")-->
+
     <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
     <input type="text" class="inputDate" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
 

@@ -2,9 +2,8 @@
 <!--%import("css/issuetracker.css")-->
 <!--%import("filter/insert_milestone.xml")-->
 
-<!--// calendar -->
-<!--%import("../../../common/js/ui.datepicker.js",optimized=false)-->
-<!--%import("../../../common/css/ui.datepicker.css",optimized=false)-->
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
 
 <!--@if($milestone)-->
 <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">

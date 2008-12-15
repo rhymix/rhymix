@@ -135,8 +135,7 @@
             else $this->allow_rewrite = false;
 
             // 기본 JS/CSS 등록
-            $this->addJsFile("./common/js/jquery-1.2.6.js");
-            $this->addJsFile("./common/js/jquery-1.2.6.fix.js"); // jQuery 1.2.6 bug fix
+            $this->addJsFile("./common/js/jquery.js");
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
             $this->addJsFile("./common/js/xml_handler.js");
@@ -1052,6 +1051,33 @@
             require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
             return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->css_files), "css");
+        }
+
+        /**
+         * @brief javascript plugin load
+         **/
+        function loadJavascriptPlugin($plugin_name) {
+            $oContext = &Context::getInstance();
+            return $oContext->_loadJavascriptPlugin($plugin_name);
+        }
+
+        function _loadJavascriptPlugin($plugin_name) {
+            $plugin_path = './common/js/plugins/'.$plugin_name.'/';
+            if(!is_dir($plugin_path)) return;
+
+            $info_file = $plugin_path.'plugin.load';
+            if(!file_exists($info_file)) return;
+
+            $list = file($info_file);
+            for($i=0,$cnt=count($list);$i<$cnt;$i++) {
+                $filename = trim($list[$i]);
+                if(!$filename) continue;
+                if(substr($filename,0,2)=='./') $filename = substr($filename,2);
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, false, '');
+                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, false, 'all','');
+            }
+
+            if(is_dir($plugin_path.'lang')) $this->_loadLang($plugin_path.'lang');
         }
 
         /**

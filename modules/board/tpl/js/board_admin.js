@@ -8,7 +8,7 @@
 function Tree(url){
     // clear tree;
     jQuery('#menu > ul > li > ul').remove();
-    if(jQuery("ul.simpleTree > li > a").size() ==0)jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){addNode(0,e);}).appendTo("ul.simpleTree > li");
+    if(jQuery("ul.simpleTree > li > a").size() ==0)jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){addNode(0,e);}).appendTo("ul.simpleTree > li");
 
     //ajax get data and transeform ul il
     jQuery.get(url,function(data){
@@ -31,19 +31,19 @@ function Tree(url){
 
 
             // button
-            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){
+            jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){
                 jQuery("#tree_"+node_srl+" > span").click();
                 addNode(node_srl,e);
                 return false;
             }).appendTo(node);
 
-            jQuery('<a href="#" class="modify"><img src="./common/tpl/images/tree/iconModify.gif" /></a>').bind("click",function(e){
+            jQuery('<a href="#" class="modify"><img src="./common/js/plugins/ui.tree/images/iconModify.gif" /></a>').bind("click",function(e){
                 jQuery("#tree_"+node_srl+" > span").click();
                 modifyNode(node_srl,e);
                 return false;
             }).appendTo(node);
 
-            jQuery('<a href="#" class="delete"><img src="./common/tpl/images/tree/iconDel.gif" /></a>').bind("click",function(e){
+            jQuery('<a href="#" class="delete"><img src="./common/js/plugins/ui.tree/images/iconDel.gif" /></a>').bind("click",function(e){
                 deleteNode(node_srl);
                 return false;
             }).appendTo(node);

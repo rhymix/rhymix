@@ -124,6 +124,10 @@
             // unload css/ js <!--%unload("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media는 css에만 적용)
             $buff = preg_replace_callback('!<\!--%unload\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileUnloadCode'), $buff);
 
+            // javascript plugin import
+            $buff = preg_replace_callback('!<\!--%load_js_plugin\(\"([^\"]*?)\"\)-->!is', array($this, '_compileLoadJavascriptPlugin'), $buff);
+
+
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
 
@@ -355,6 +359,16 @@
 
             $output = '<!--Meta:'.$meta_file.'-->'.$output;
             return $output;
+        }
+
+        /**
+         * @brief javascript 플러그인 import 
+         * javascript 플러그인의 경우 optimized = false로 동작하도록 고정시킴
+         **/
+        function _compileLoadJavascriptPlugin($matches) {
+            $base_path = $this->tpl_path;
+            $plugin = trim($matches[1]);
+            return sprintf('<?php Context::loadJavascriptPlugin("%s"); ?>', $plugin);
         }
 
         /**

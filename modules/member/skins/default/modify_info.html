@@ -16,9 +16,8 @@
     <!--%import("filter/delete_image_mark.xml")-->
 <!--@end-->
 
-<!--// calendar -->
-<!--%import("../../../../common/js/ui.datepicker.js",optimized=false)-->
-<!--%import("../../../../common/css/ui.datepicker.css",optimized=false)-->
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
 
 
     <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>

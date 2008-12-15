@@ -2,7 +2,7 @@ function Tree(url){
     // clear tree;
     jQuery('#menu > ul > li > ul').remove();
 
-    if(jQuery("ul.simpleTree > li > a").size() ==0)jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){addNode(0,e);}).appendTo("ul.simpleTree > li");
+    if(jQuery("ul.simpleTree > li > a").size() ==0)jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){addNode(0,e);}).appendTo("ul.simpleTree > li");
 
     //ajax get data and transeform ul il
     jQuery.get(url,function(data){
@@ -16,17 +16,17 @@ function Tree(url){
             var node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
 
             // button
-            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){
+            jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){
                 addNode(node_srl,e);
                 return false;
             }).appendTo(node);
 
-            jQuery('<a href="#" class="modify"><img src="./common/tpl/images/tree/iconModify.gif" /></a>').bind("click",function(e){
+            jQuery('<a href="#" class="modify"><img src="./common/js/plugins/ui.tree/images/iconModify.gif" /></a>').bind("click",function(e){
                 modifyNode(node_srl,e);
                 return false;
             }).appendTo(node);
 
-            jQuery('<a href="#" class="delete"><img src="./common/tpl/images/tree/iconDel.gif" /></a>').bind("click",function(e){
+            jQuery('<a href="#" class="delete"><img src="./common/js/plugins/ui.tree/images/iconDel.gif" /></a>').bind("click",function(e){
                 deleteNode(node_srl);
                 return false;
             }).appendTo(node);
@@ -96,7 +96,7 @@ function Tree(url){
 
 
         // image url replace
-//        jQuery("#menu ul.simpleTree img").attr("src",function(){ return jQuery(this).attr("src").replace("images/","./common/tpl/images/tree/");});
+//        jQuery("#menu ul.simpleTree img").attr("src",function(){ return jQuery(this).attr("src").replace("images/","./common/js/plugins/ui.tree/images/");});
 
 
 

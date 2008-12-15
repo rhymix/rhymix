@@ -9,9 +9,8 @@
 <!--%import("filter/insert_component.xml")-->
 <!--%import("filter/delete_component.xml")-->
 
-<!--// calendar -->
-<!--%import("../../../common/js/ui.datepicker.js",optimized=false)-->
-<!--%import("../../../common/css/ui.datepicker.css",optimized=false)-->
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
 
     <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
