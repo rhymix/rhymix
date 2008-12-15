@@ -1058,7 +1058,6 @@
             $this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
             $this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
             $this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
-            $this->addMemberMenu( 'dispMemberOwnComments', 'cmd_view_own_comment');
         }
 
         /**
