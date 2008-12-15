@@ -16,19 +16,28 @@ function homepageLoadMenuInfo(url){
             var node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
 
             // button
-            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){homepageAddMenu(node_srl,e);}).appendTo(node);
+            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){
+                jQuery("#tree_"+node_srl+" > span").click();
+                homepageAddMenu(node_srl,e);
+                return false;
+            }).appendTo(node);
 
             jQuery('<a href="#" class="modify"><img src="./common/tpl/images/tree/iconModify.gif" /></a>').bind("click",function(e){
                 jQuery.exec_json("homepage.getHomepageMenuItem",{ "node_srl":node_srl},function(data){
+                    jQuery("#tree_"+node_srl+" > span").click();
                     data.menu_info['mode'] = 'update';
                     menuFormInsert(data.menu_info);
                     jQuery("#menuItem").css('position','absolute').css('visibility','visible').css('top',e.pageY - jQuery("#header").height() - 70).css('left',e.pageX - jQuery("#navigation").width() -40);
                     jQuery('#itemAttr4').css("display",'block');
                 });
+                return false;
 
             }).appendTo(node);
 
-            jQuery('<a href="#" class="delete"><img src="./common/tpl/images/tree/iconDel.gif" /></a>').bind("click",function(e){homepageDeleteMenu(node_srl);}).appendTo(node);
+            jQuery('<a href="#" class="delete"><img src="./common/tpl/images/tree/iconDel.gif" /></a>').bind("click",function(e){
+                homepageDeleteMenu(node_srl);
+                return false;
+            }).appendTo(node);
 
             // insert parent child
             if(parent_srl>0){
@@ -239,6 +248,8 @@ function doReloadTreeMenu(){
                  homepageLoadMenuInfo(xml_url);
             }
     );
+    jQuery('#menuItem').css("visibility",'hidden');
+    menuFormReset();
 }
 
 function closeTreeMenuInfo(){

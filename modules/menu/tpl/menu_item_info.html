@@ -5,6 +5,16 @@
 <input type="hidden" name="active_btn" value="{$item_info->active_btn}" />
 
 <table cellspacing="0" class="adminTable">
+<tr>
+    <th scope="row" colspan="3" class="button"><div>
+
+
+        <span class="button green"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <span class="button red"><input type="button" onclick="hideCategoryInfo();return false" value="{$lang->cmd_close}" /></span>
+
+
+    </div></th>
+</tr>
 <!--@if($item_info->parent_menu_name)-->
 <tr class="row{$cycle_idx}">
     <th scope="row" colspan="2"><div>{$lang->parent_menu_name}</div></th>
@@ -17,7 +27,7 @@
 <tr>
     <!--@if($_row==0)--><th scope="row" rowspan="{count($lang_supported)}"><div>{$lang->menu_name}</div></th><!--@end-->
     <th><div>{$val}</div></th>
-    <td><input type="text" name="menu_name_{$key}" value="{htmlspecialchars($item_info->name[$key])}" class="inputTypeText"/></td>
+    <td><input type="checkbox" name="ck_menu_name_{$key}"  /><input type="text" name="menu_name_{$key}" value="{htmlspecialchars($item_info->name[$key])}" class="inputTypeText"/></td>
     {@ $_row ++ }
 </tr>
 <!--@end-->
@@ -89,9 +99,25 @@
 </tr>
 <tr>
     <th scope="row" colspan="3" class="button"><div>
-        <a href="#" onclick="hideCategoryInfo();return false" class="button"><span>{$lang->cmd_close}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+
+
+        <span class="button green"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <span class="button red"><input type="button" onclick="hideCategoryInfo();return false" value="{$lang->cmd_close}" /></span>
+
+
     </div></th>
 </tr>
 </table>
 
+<script type="text/javascript">
+
+(function($){
+$("[name^=menu_name_]").bind("blur",function(e){
+	if($("[name=ck_"+$(this).attr("name")+"]:checked").size()>0){
+		$("[name^=ck_menu_name_]:checked").each(function(i){
+			$("[name="+$(this).attr("name").substring(3)+"]").val(e.target.value);
+		});
+	}
+});
+})(jQuery);
+</script>

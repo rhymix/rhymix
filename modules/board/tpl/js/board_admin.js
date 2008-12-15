@@ -22,14 +22,21 @@ function Tree(url){
             var node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
 
             // button
-            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){addNode(node_srl,e);}).appendTo(node);
+            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){
+                jQuery("#tree_"+node_srl+" > span").click();
+                addNode(node_srl,e);
+                return false;
+            }).appendTo(node);
 
             jQuery('<a href="#" class="modify"><img src="./common/tpl/images/tree/iconModify.gif" /></a>').bind("click",function(e){
+                jQuery("#tree_"+node_srl+" > span").click();
                 modifyNode(node_srl,e);
+                return false;
             }).appendTo(node);
 
             jQuery('<a href="#" class="delete"><img src="./common/tpl/images/tree/iconDel.gif" /></a>').bind("click",function(e){
                 deleteNode(node_srl);
+                return false;
             }).appendTo(node);
 
             // insert parent child

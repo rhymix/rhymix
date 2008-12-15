@@ -16,14 +16,19 @@ function Tree(url){
             var node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
 
             // button
-            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){addNode(node_srl,e);}).appendTo(node);
+            jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){
+                addNode(node_srl,e);
+                return false;
+            }).appendTo(node);
 
             jQuery('<a href="#" class="modify"><img src="./common/tpl/images/tree/iconModify.gif" /></a>').bind("click",function(e){
                 modifyNode(node_srl,e);
+                return false;
             }).appendTo(node);
 
             jQuery('<a href="#" class="delete"><img src="./common/tpl/images/tree/iconDel.gif" /></a>').bind("click",function(e){
                 deleteNode(node_srl);
+                return false;
             }).appendTo(node);
 
             // insert parent child
@@ -111,6 +116,7 @@ function nodeToggleAll(){
 
 function modifyNode(node_srl,e){
     jQuery('#menu_zone_info').html('');
+    jQuery("#tree_"+node_srl+" > span").click();
     var params ={
             "parent_srl":0
             ,"menu_item_srl":node_srl
@@ -118,18 +124,22 @@ function modifyNode(node_srl,e){
 
     jQuery.exec_json('menu.getMenuAdminTplInfo', params, function(data){
         jQuery('#menu_zone_info').html(data.tpl);
+        jQuery('#menu_zone_info').html(data.tpl).css("margin-top",e.pageY-400);
     });
 }
 
 function addNode(node_srl,e){
+
     jQuery('#menu_zone_info').html('');
+    jQuery("#tree_"+node_srl+" > span").click();
+
     var params ={
             "menu_item_srl":0
             ,"parent_srl":node_srl
             };
 
     jQuery.exec_json('menu.getMenuAdminTplInfo', params, function(data){
-        jQuery('#menu_zone_info').html(data.tpl);
+        jQuery('#menu_zone_info').html(data.tpl).css("margin-top",e.pageY-400);
     });
 }
 

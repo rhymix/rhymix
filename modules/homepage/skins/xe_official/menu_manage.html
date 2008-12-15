@@ -34,13 +34,25 @@
     <input type="hidden" name="hover_btn" value="" />
     <input type="hidden" name="active_btn" value="" />
 
+    <table cellspacing="0" class="adminTable">
+    <tr>
+        <td>
+
+        <span class="button green"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <span class="button red"><input type="button" onclick="closeTreeMenuInfo();return false" value="{$lang->cmd_close}" /></span>
+
+        </td>
+    </tr>
+    </table>
+
     <table cellspacing="0" class="adminTable" id="itemAttr1">
     {@ $_row = 0;}
     <!--@foreach($lang_supported as $key => $val)-->
     <tr>
         <!--@if($_row==0)--><th scope="row" rowspan="{count($lang_supported)+1}"><div>{$lang->menu_name}</div></th><!--@end-->
         <th><div>{$val}</div></th>
-        <td><input type="text" name="menu_name_{$key}" value="" class="inputTypeText w400 menu_names"/></td>
+        <td><input type="checkbox" name="ck_menu_name_{$key}" /><input type="text" name="menu_name_{$key}" value="" class="inputTypeText w300 menu_names"  />
+        </td>
         {@ $_row ++ }
     </tr>
     <!--@end-->
@@ -147,8 +159,10 @@
     <table cellspacing="0" class="adminTable">
     <tr>
         <td>
-            <span class="button green"><input type="submit" value="{$lang->cmd_save}" /></span>
-            <a href="#" onclick="closeTreeMenuInfo()" class="button red"><span>{$lang->cmd_close}</span></a>
+
+        <span class="button green"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <span class="button red"><input type="button" onclick="closeTreeMenuInfo();return false" value="{$lang->cmd_close}" /></span>
+
         </td>
     </tr>
     </table>
@@ -165,4 +179,14 @@ var confirmMenuMove = "{$lang->confirm_move}";
 var lang_confirm_delete = "{$lang->confirm_delete}";
 var xml_url = "{$menu_info->xml_file}";
 homepageLoadMenuInfo(xml_url);
+
+(function($){
+$("[name^=menu_name_]").bind("blur",function(e){
+	if($("[name=ck_"+$(this).attr("name")+"]:checked").size()>0){
+		$("[name^=ck_menu_name_]:checked").each(function(i){
+			$("[name="+$(this).attr("name").substring(3)+"]").val(e.target.value);
+		});
+	}
+});
+})(jQuery);
 </script>
