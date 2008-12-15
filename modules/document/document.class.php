@@ -1,6 +1,6 @@
 <?php
     /**
-     * @class  document 
+     * @class  document
      * @author zero (zero@nzeo.com)
      * @brief  document 모듈의 high 클래스
      **/
@@ -85,7 +85,7 @@
 
             // 2007. 11. 20 게시글에 module_srl + is_notice 복합인덱스 만들기
             if(!$oDB->isIndexExists("documents","idx_module_notice")) return true;
-            
+
             // 2008. 02. 18 게시글에 module_srl + document_srl 복합인덱스 만들기 (manian님 확인)
             if(!$oDB->isIndexExists("documents","idx_module_document_srl")) return true;
 
@@ -94,10 +94,14 @@
              **/
             if(!$oDB->isColumnExists("documents","extra_vars")) return true;
 
-	    // 2008. 04. 23 blamed count 컬럼 추가
-	    if(!$oDB->isColumnExists("documents", "blamed_count")) return true;
+            // 2008. 04. 23 blamed count 컬럼 추가
+            if(!$oDB->isColumnExists("documents", "blamed_count")) return true;
             if(!$oDB->isIndexExists("documents","idx_module_blamed_count")) return true;
-	    if(!$oDB->isColumnExists("document_voted_log", "point")) return true;
+            if(!$oDB->isColumnExists("document_voted_log", "point")) return true;
+
+
+            // 2008-12-15 문서 분류에 color를 추가
+            if(!$oDB->isColumnExists("document_categories", "color")) return true;
 
             return false;
         }
@@ -149,19 +153,19 @@
             /**
              * 2007. 10. 11 : 관리자 페이지의 기본 설정 Action 추가, 게시글 관리 action 추가
              **/
-            if(!$oModuleModel->getActionForward('dispDocumentAdminConfig')) 
+            if(!$oModuleModel->getActionForward('dispDocumentAdminConfig'))
                 $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminConfig');
-            if(!$oModuleModel->getActionForward('dispDocumentAdminManageDocument')) 
+            if(!$oModuleModel->getActionForward('dispDocumentAdminManageDocument'))
                 $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminManageDocument');
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
-            if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after')) 
+            if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after'))
                 $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
 
             /**
              * 2007. 10. 18 : 관리자 페이지의 신고된 목록 보기 action 추가
              **/
-            if(!$oModuleModel->getActionForward('dispDocumentAdminDeclared')) 
+            if(!$oModuleModel->getActionForward('dispDocumentAdminDeclared'))
                 $oModuleController->insertActionForward('document', 'view', 'dispDocumentAdminDeclared');
 
             // 2007. 10. 25 문서 분류에 parent_srl, expand를 추가
@@ -184,7 +188,7 @@
 
             // 2008. 04. 23 blamed count 컬럼 추가
             if(!$oDB->isColumnExists("documents", "blamed_count")) {
-                $oDB->addColumn('documents', 'blamed_count', 'number', 11, 0, true); 
+                $oDB->addColumn('documents', 'blamed_count', 'number', 11, 0, true);
                 $oDB->addIndex('documents', 'idx_blamed_count', array('blamed_count'));
             }
 
@@ -192,10 +196,15 @@
                 $oDB->addIndex('documents', 'idx_module_blamed_count', array('module_srl', 'blamed_count'));
             }
 
-            if(!$oDB->isColumnExists("document_voted_log", "point")) 
-            $oDB->addColumn('document_voted_log', 'point', 'number', 11, 0, true); 
-                return new Object(0,'success_updated');
-            }
+            if(!$oDB->isColumnExists("document_voted_log", "point"))
+            $oDB->addColumn('document_voted_log', 'point', 'number', 11, 0, true);
+
+
+            if(!$oDB->isColumnExists("document_categories","color")) $oDB->addColumn('document_categories',"color","char",7);
+
+            return new Object(0,'success_updated');
+
+        }
 
         /**
          * @brief 캐시 파일 재생성

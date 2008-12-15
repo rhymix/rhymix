@@ -19,6 +19,8 @@
     // 項目
     $lang->parent_category_title = '上位カテゴリ名';
     $lang->category_title = 'カテゴリ名';
+    $lang->category_color = '분류 폰트색깔';
+
     $lang->expand = '拡張表示';
     $lang->category_group_srls = 'グループ制限';
     $lang->search_result = '検索結果';
@@ -40,4 +42,6 @@
     $lang->about_board = '掲示板の生成、および管理する掲示板モジュールです。';
     $lang->about_consultation = "相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。\n但し、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。";
     $lang->about_admin_mail = '書き込みやコメントが掲載される時、登録メールアドレス宛にメールが送信されます。<br /> 複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録して下さい。';
+    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
+
 ?>

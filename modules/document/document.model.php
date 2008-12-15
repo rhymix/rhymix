@@ -513,7 +513,6 @@
                 $this->_arrangeCategory($document_category, $menu->list, 0);
                 $this->category_list[$module_srl] = $document_category;
             }
-
             return $this->category_list[$module_srl];
         }
 
@@ -532,6 +531,7 @@
                 $obj->parent_srl = $val['parent_srl'];
                 $obj->title = $obj->text = $val['text'];
                 $obj->expand = $val['expand']=='Y'?true:false;
+                $obj->color = $val['color'];
                 $obj->document_count = $val['document_count'];
                 $obj->depth = $depth;
                 $obj->child_count = 0;

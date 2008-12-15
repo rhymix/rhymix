@@ -16,6 +16,7 @@
     // Item
     $lang->parent_category_title = 'Parent Category';
     $lang->category_title = 'Category';
+    $lang->category_color = '분류 폰트색깔';
     $lang->expand = 'Expand';
     $lang->category_group_srls = 'Accessable Group';
     $lang->search_result = 'Search Result';
@@ -37,4 +38,6 @@
     $lang->about_board = 'This module is for creating and managing boards.';
     $lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
     $lang->about_admin_mail = 'A mail will be sent when an article or comment is submitted.<br />Multiple mails can be sent with commas(,).';
+
+    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 ?>

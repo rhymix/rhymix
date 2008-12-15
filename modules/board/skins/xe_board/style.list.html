@@ -7,7 +7,6 @@
     <!--@if($module_info->display_voted_count!='N')-->{@ $_col_count++}<!--@end-->
     <!--@if($module_info->display_regdate != 'N')-->{@ $_col_count++}<!--@end-->
     <!--@if($module_info->display_last_update == 'Y')-->{@ $_col_count++}<!--@end-->
-
     <form action="./" method="get">
 
         <table cellspacing="0" summary="" class="boardList">
@@ -65,7 +64,7 @@
                     <!--@if($grant->is_admin)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
                     <td class="title">
                         <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
-                        <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
+                        <strong class="category" <!--@if($category_list[$document->get('category_srl')]->color)-->style="color:{$category_list[$document->get('category_srl')]->color};"<!--@end-->>{$category_list[$document->get('category_srl')]->title}</strong>
                         <!--@end-->
 
                         <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
@@ -95,7 +94,7 @@
                     <!--@if($grant->is_admin)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
                     <td class="title">
                         <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
-                        <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
+                        <strong class="category" <!--@if($category_list[$document->get('category_srl')]->color)-->style="color:{$category_list[$document->get('category_srl')]->color};"<!--@end-->>{$category_list[$document->get('category_srl')]->title}</strong>
                         <!--@end-->
 
                         <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>

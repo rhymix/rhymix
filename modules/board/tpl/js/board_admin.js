@@ -16,10 +16,19 @@ function Tree(url){
             var text = jQuery(this).attr("text");
             var node_srl = jQuery(this).attr("node_srl");
             var parent_srl = jQuery(this).attr("parent_srl");
+            var color = jQuery(this).attr("color");
             var url = jQuery(this).attr("url");
 
             // node
-            var node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
+
+            var node = '';
+            if(color){
+                node = jQuery('<li id="tree_'+node_srl+'"><span style="color:'+color+';">'+text+'</span></li>');
+            }else{
+                node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
+            }
+
+
 
             // button
             jQuery('<a href="#" class="add"><img src="./common/tpl/images/tree/iconAdd.gif" /></a>').bind("click",function(e){

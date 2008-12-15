@@ -265,7 +265,7 @@
          **/
         function procBoardAdminInsertCategory($args = null) {
             // 입력할 변수 정리
-            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls');
+            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color');
 
             if($args->expand !="Y") $args->expand = "N";
             $args->group_srls = str_replace('|@|',',',$args->group_srls);

@@ -18,6 +18,7 @@
     // Artículos
     $lang->parent_category_title = 'Categoría Superior';
     $lang->category_title = 'Nombre de la categoría';
+    $lang->category_color = '분류 폰트색깔';
     $lang->expand = 'Expandir';
     $lang->category_group_srls = 'Limitar el grupo';
     $lang->search_result = 'Resultado de la búsqueda';
@@ -39,4 +40,7 @@
     $lang->about_board = 'Este módulo es para crear y manejar los tableros.';
     $lang->about_consultation = "No administrador de los miembros que consideran que su propia artocles. \ NNon miembros no serían capaces de escribir artículos al utilizar la consulta.";
     $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
+
+    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
+
 ?>

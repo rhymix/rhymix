@@ -19,6 +19,8 @@
     // Объект
     $lang->parent_category_title = 'Родительская категория';
     $lang->category_title = 'Категория';
+    $lang->category_color = '분류 폰트색깔';
+
     $lang->expand = 'Расширить';
     $lang->category_group_srls = 'Доступные группы';
     $lang->search_result = 'Результат поиска';
@@ -40,4 +42,7 @@
     $lang->about_board = 'Этот модуль служит для создания и управления форумами.';
     $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
     $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
+
+    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
+
 ?>

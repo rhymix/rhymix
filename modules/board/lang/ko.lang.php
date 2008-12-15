@@ -16,6 +16,8 @@
     // 항목
     $lang->parent_category_title = '상위 카테고리명';
     $lang->category_title = '분류명';
+    $lang->category_color = '분류 폰트색깔';
+    
     $lang->expand = '펼침';
     $lang->category_group_srls = '그룹제한';
     $lang->search_result = '검색결과';
@@ -37,4 +39,6 @@
     $lang->about_board = '게시판을 생성하고 관리할 수 있는 게시판 모듈입니다.';
     $lang->about_consultation = "상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다\n단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.";
     $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
+
+    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 ?>
