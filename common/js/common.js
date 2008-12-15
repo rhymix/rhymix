@@ -127,34 +127,6 @@ if(jQuery) jQuery.noConflict();
         }
     }
 
-    /**
-     * jQuery 플러그인 로드
-     * 시험중
-     */
-    $.getPlugin = function(name, options) {
-        $.loaded_plugin = new Array();
-        var version = '';
-        var defaults = {
-            version:'',
-            prefix:'jquery.',
-            path:'./common/js/jquery/'
-        };
-        var options = $.extend(defaults, options || {});
-        if(options.version) version = '-' + options.version;
-
-        $.ajax({
-            type: 'GET',
-            url : options.path + options.prefix + name + version + '.js',
-            cache : true,
-            async:false,
-            success : function() {
-                $.loaded_plugin[name] = {'version':options.version};
-            },
-            dataType : 'script'
-        });
-
-    }
-
 }) (jQuery);
 
 /* jQuery(document).ready() */
