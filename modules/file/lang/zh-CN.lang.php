@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = '已删除%d个文件！';
     $lang->msg_exceeds_limit_size = '已超过系统指定的上传文件大小！';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => '文件名',
         'filesize' => '文件大小 (byte, 以上)',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => '下载次数 (以上)',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임'
         'regdate' => '登录日期',
         'ipaddress' => 'IP地址',
     );

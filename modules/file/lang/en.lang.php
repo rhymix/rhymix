@@ -31,11 +31,16 @@
     $lang->msg_checked_file_is_deleted = '%d attachment(s) was(were) deleted';
     $lang->msg_exceeds_limit_size = 'File size of attachment is bigger than allowed size.';
 
-    $lang->search_target_list = array(
+
+    $lang->file_search_target_list = array(
         'filename' => 'File Name',
         'filesize' => 'File Size (byte, over)',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => 'Downloads (over)',
         'regdate' => 'Registered Date',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임',
         'ipaddress' => 'IP Address',
     );
 ?>

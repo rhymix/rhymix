@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
     $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => '파일이름',
         'filesize' => '파일크기 (byte, 이상)',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => '다운로드 회수 (이상)',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임',
         'regdate' => '등록일',
         'ipaddress' => 'IP 주소',
     );

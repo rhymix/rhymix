@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルを削除しました';
     $lang->msg_exceeds_limit_size = 'ファイルサイズの制限を超えたため、添付できません。';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => 'ファイル名',
         'filesize' => 'ファイルサイズ（(Byte以上）',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => 'ダウンロード数（以上）',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임'
         'regdate' => '登録日',
         'ipaddress' => 'IPアドレス',
     );
