@@ -447,9 +447,8 @@ function zbxe_folder_close(id) {
 
 /**
  * @brief 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌
+ * 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
  * popup_layout 에서 window.onload 시 자동 요청됨.
- * @FIXME 크롬에서 resizeTo()후에 창 크기를 잘못 가져옴
- *        resizeTo() 후에 alert()창 띄운 후에 체크하면 정상.
  **/
 function setFixedPopupSize() {
     var bodyObj = jQuery('#popBody');
@@ -460,20 +459,28 @@ function setFixedPopupSize() {
         }
     }
 
-    var wrapWidth = jQuery(document).width();
-    var wrapHeight = jQuery(document).height();
+    var w = jQuery("#popup_content").width();
+    var h = jQuery("#popup_content").height();
 
-    window.resizeTo(wrapWidth, wrapHeight);
+    jQuery('div').each(function() {
+        var ww = jQuery(this).width();
+        if(jQuery.inArray(this.id, ['waitingforserverresponse', 'fororiginalimagearea', 'fororiginalimageareabg']) == -1) {
+            if(ww > w) w = ww;
+        }
+    });
 
-    var w1 = jQuery(window).width();
+    // 윈도우에서는 브라우저 상관없이 가로 픽셀이 조금 더 늘어나야 한다.
+    if(navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
+        if(jQuery.browser.opera) w += 10;
+        else if(jQuery.browser.msie) w += 10;
+        else w += 6;
+    }
+    window.resizeTo(w, h);
+
     var h1 = jQuery(window).height();
+    window.resizeBy(0, h-h1);
 
-    // 크롬의 문제로 W, H 값을 따로 설정
-    // window.resizeBy(wrapWidth - w1, wrapHeight-h1);
-    window.resizeBy(wrapWidth - w1, 0);
-    window.resizeBy(0, wrapHeight-h1);
-
-    window.scrollTo(0, 0);
+    window.scrollTo(0,0);
 }
 
 /**
