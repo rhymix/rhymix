@@ -10,7 +10,6 @@
         <action name="dispMemberLeave" type="view" standalone="true" />
         <action name="dispMemberOpenIDLeave" type="view" standalone="true" />
         <action name="dispMemberOwnDocument" type="view" standalone="true" />
-        <action name="dispMemberOwnComments" type="view" standalone="true" />
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
         <action name="dispMemberSavedDocument" type="view" standalone="true" />
         <action name="dispMemberFindAccount" type="view" standalone="true" />

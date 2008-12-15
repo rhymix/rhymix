@@ -123,23 +123,6 @@
             $this->setTemplateFile('modify_info');
         }
 
-        function dispMemberOwnComments() {
-            $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
-            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
-
-            $logged_info = Context::get('logged_info');
-            $member_srl = $logged_info->member_srl;
-
-            $module_srl = Context::get('module_srl');
-            Context::set('module_srl',Context::get('selected_module_srl'));
-            Context::set('search_target','member_srl');
-            Context::set('search_keyword',$member_srl);
-
-            $oCommentAdminView = &getAdminView('document');
-            $oCommentAdminView->dispCommentAdminList();
-        }
 
         /**
          * @brief 회원 작성글 보기
