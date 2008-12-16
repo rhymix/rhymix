@@ -74,6 +74,11 @@
             }
             Context::set('display_option', $display_option);
 
+            if(Context::get('document_srl')) {
+                $this->act = 'dispIssuetrackerViewIssue';
+                Context::set('act','dispIssuetrackerViewIssue');
+            }
+
             if(!Context::get('act')) Context::set('act','dispIssuetrackerViewMilestone');
         }
 
