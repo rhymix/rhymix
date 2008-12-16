@@ -106,13 +106,13 @@
             if($output) {
                 foreach($output as $key => $milestone) {
                     $issues = null;
-                    $issues['new'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'new');
-                    $issues['reviewing'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'reviewing');
-                    $issues['assign'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'assign');
-                    $issues['resolve'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'resolve');
-                    $issues['reopen'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'reopen');
-                    $issues['postponed'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'postponed');
-                    $issues['invalid'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'invalid');
+                    $issues['new'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'new');
+                    $issues['reviewing'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'reviewing');
+                    $issues['assign'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'assign');
+                    $issues['resolve'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'resolve');
+                    $issues['reopen'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'reopen');
+                    $issues['postponed'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'postponed');
+                    $issues['invalid'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'invalid');
                     $issues['total'] = $issues['new']+$issues['assign']+$issues['resolve']+$issues['reopen']+$issues['reviewing'];
                     $milestone->issues = $issues;
                     $milestones[$milestone->milestone_srl] = $milestone;
