@@ -40,6 +40,6 @@
         'user_name' => '姓名',
         'nick_name' => '昵称',
         'regdate' => '登录日期',
-        'ipaddress' => 'IP地址'
+        'ipaddress' => 'IP地址',
     );
 ?>
