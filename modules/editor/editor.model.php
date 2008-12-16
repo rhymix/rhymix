@@ -44,8 +44,6 @@
 
             if(!$editor_config->editor_height) $editor_config->editor_height = 500;
             if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
-            if($editor_config->enable_height_resizable!='N') $editor_config->enable_height_resizable= "Y";
-            if($editor_config->enable_comment_height_resizable!='Y') $editor_config->enable_comment_height_resizable= "N";
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
 
             if(!$editor_config->editor_skin) $editor_config->editor_skin = 'default';
@@ -82,10 +80,6 @@
             // html 모드 조절
             if($option->disable_html) $html_mode = false;
             else $html_mode = true;
-
-            // 크기 조절 옵션 설정
-            if(!$option->resizable) $resizable = false;
-            else $resizable = true;
 
             // 높이 설정
             if(!$option->height) $editor_height = 400;
@@ -179,11 +173,6 @@
             Context::set('html_mode', $html_mode);
 
             /**
-             * resizable 가능한지 변수 설정
-             **/
-            Context::set('enable_resizable', $resizable);
-
-            /**
              * 에디터 세로 크기 설정
              **/
             Context::set('editor_height', $editor_height);
@@ -228,7 +217,6 @@
                 $config->enable_component_grant = $editor_config->enable_component_grant;
                 $config->enable_html_grant = $editor_config->enable_html_grant;
                 $config->editor_height = $editor_config->editor_height;
-                $config->enable_height_resizable = $editor_config->enable_height_resizable;
                 $config->enable_autosave = $editor_config->enable_autosave;
             } else {
                 $config->editor_skin = $editor_config->comment_editor_skin;
@@ -238,7 +226,6 @@
                 $config->enable_component_grant = $editor_config->enable_comment_component_grant;
                 $config->enable_html_grant = $editor_config->enable_comment_html_grant;
                 $config->editor_height = $editor_config->comment_editor_height;
-                $config->enable_height_resizable = $editor_config->enable_comment_height_resizable;
                 $config->enable_autosave = 'N';
             }
 
@@ -303,9 +290,6 @@
 
             // 높이 설정
             $option->height = $config->editor_height;
-
-            // 높이 조절 옵션 설정
-            $option->resizable = $config->enable_height_resizable=='Y'?true:false;
 
             // 자동 저장 유무 옵션 설정
             $option->enable_autosave = $config->enable_autosave=='Y'?true:false;

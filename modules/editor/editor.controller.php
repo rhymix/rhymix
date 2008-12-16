@@ -156,14 +156,8 @@
 
             $editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
 
-            $editor_config->enable_height_resizable = Context::get('enable_height_resizable');
-
-            $editor_config->enable_comment_height_resizable = Context::get('enable_comment_height_resizable');
-
             $editor_config->enable_autosave = Context::get('enable_autosave');
 
-            if($editor_config->enable_height_resizable != 'Y') $editor_config->enable_height_resizable = 'N';
-            if($editor_config->enable_comment_height_resizable != 'Y') $editor_config->enable_comment_height_resizable = 'N';
             if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
 
             $oModuleController = &getController('module');
