@@ -37,6 +37,16 @@
             $this->setTemplatePath($template_path);
 
             // 권한에 따른 메뉴 제한
+            if(!$this->grant->access) {
+                $this->grant->ticket_view = $this->grant->ticket_write = $this->grant->timeline = $this->grant->browser_source = $this->grant->download = 0;
+                unset($GLOBALS['lang']->project_menus);
+            } else {
+                if(!$this->grant->ticket_view) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewIssue']);
+                if(!$this->grant->ticket_write) unset($GLOBALS['lang']->project_menus['dispIssuetrackerNewIssue']);
+                if(!$this->grant->timeline) unset($GLOBALS['lang']->project_menus['dispIssuetrackerTimeline']);
+                if(!$this->grant->browser_source) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewSource']);
+                if(!$this->grant->download) unset($GLOBALS['lang']->project_menus['dispIssuetrackerDownload']);
+            }
             if(!$this->grant->manager) unset($GLOBALS['lang']->project_menus['dispIssuetrackerAdminProjectSetting']);
 
             // 템플릿에서 사용할 검색옵션 세팅 (검색옵션 key값은 미리 선언되어 있는데 이에 대한 언어별 변경을 함)
@@ -68,7 +78,7 @@
         }
 
         function dispIssuetrackerTimeline() {
-            if(!$this->grant->access) return $this->dispIssuetrackerMessage('msg_not_permitted');
+            if(!$this->grant->timeline) return $this->dispIssuetrackerMessage('msg_not_permitted');
             $oController = &getController('issuetracker');
             $oController->syncChangeset($this->module_info);
             $oModel = &getModel('issuetracker');
