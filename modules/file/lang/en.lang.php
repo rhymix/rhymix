@@ -35,12 +35,12 @@
     $lang->file_search_target_list = array(
         'filename' => 'File Name',
         'filesize' => 'File Size (byte, over)',
-        'filesize_mega' => '파일크기 (Mb, 이상)',
+        'filesize_mega' => 'File Size (mbyte, over)',
         'download_count' => 'Downloads (over)',
         'regdate' => 'Registered Date',
-        'user_id' => '아이디',
-        'user_name' => '이름',
-        'nick_name' => '닉네임',
+        'user_id' => 'User UD',
+        'user_name' => 'User Name',
+        'nick_name' => 'Nickname',
         'ipaddress' => 'IP Address',
     );
 ?>
