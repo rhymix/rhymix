@@ -74,10 +74,10 @@
      $lang->about_component = '문제의 대상 구성요소를 설정합니다';
 
      $lang->project_menus = array(
+             'dispIssuetrackerViewMilestone' => '개발계획',
              'dispIssuetrackerViewIssue' => '문제 열람',
              'dispIssuetrackerNewIssue' => '문제 작성',
              'dispIssuetrackerTimeline' => '타임 라인',
-             'dispIssuetrackerViewMilestone' => '개발계획',
              'dispIssuetrackerViewSource' => '코드 열람',
              'dispIssuetrackerDownload' => '다운로드',
              'dispIssuetrackerAdminProjectSetting' => '설정',

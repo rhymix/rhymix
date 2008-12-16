@@ -45,9 +45,9 @@
         </grant>
     </grants>
     <actions>
-        <action name="dispIssuetrackerViewIssue" type="view" standalone="true" index="true"/>
+        <action name="dispIssuetrackerViewMilestone" type="view" standalone="true" index="true" />
+        <action name="dispIssuetrackerViewIssue" type="view" standalone="true" />
         <action name="dispIssuetrackerViewSource" type="view" standalone="true"/>
-        <action name="dispIssuetrackerViewMilestone" type="view" standalone="true" />
         <action name="dispIssuetrackerNewIssue" type="view" standalone="true"/>
         <action name="dispIssuetrackerDeleteIssue" type="view" standalone="true"/>
         <action name="dispIssuetrackerDeleteTrackback" type="view" standalone="true"/>

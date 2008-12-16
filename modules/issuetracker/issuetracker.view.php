@@ -64,7 +64,7 @@
             }
             Context::set('display_option', $display_option);
 
-            if(!Context::get('act')) Context::set('act','dispIssuetrackerViewIssue');
+            if(!Context::get('act')) Context::set('act','dispIssuetrackerViewMilestone');
         }
 
         function dispIssuetrackerTimeline() {
