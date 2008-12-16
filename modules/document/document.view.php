@@ -31,9 +31,20 @@
             // 권한 체크
             if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
 
+
+            // 설정된 확장 변수를 찾는다.
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+            $extra_vars = array();
+            foreach($module_info->extra_vars as $key => $extra_var){
+                $extra_vars[$key]->name = $extra_var->name;
+                $extra_vars[$key]->value = $oDocument->getExtraValue($key);
+                if(is_array($extra_vars[$key]->value)) $extra_vars[$key]->value = join("",$extra_vars[$key]->value);
+            }
+            Context::set('extra_vars', $extra_vars);
+
             // 브라우저 타이틀 설정
             Context::setBrowserTitle($oDocument->getTitleText());
-
             Context::set('oDocument', $oDocument);
 
             Context::set('layout','none');
