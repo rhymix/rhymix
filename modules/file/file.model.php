@@ -17,6 +17,12 @@
          * @brief 특정 문서에 속한 첨부파일 목록을 return
          **/
         function getFileList() {
+
+            $mid = Context::get("mid");
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleInfoByMid($mid);
+            Context::set("module_srl",$config->module_srl);
+
             $editor_sequence = Context::get("editor_sequence");
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if($upload_target_srl) {
@@ -89,6 +95,7 @@
             if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';
             if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
             if(!$config->download_grant) $config->download_grant = array();
+
             return $config;
         }
 

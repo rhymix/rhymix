@@ -48,9 +48,10 @@
         <input type="checkbox" name="notify_message" value="Y" <!--@if($oComment->useNotify())-->checked="checked"<!--@end--> id="notify_message" />
         <label for="notify_message">{$lang->notify}</label>
         <!--@end-->
-
+        <!--@if($module_info->secret=="Y")-->
         <input type="checkbox" name="is_secret" value="Y" <!--@if($oComment->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
         <label for="is_secret">{$lang->secret}</label>
+        <!--@end-->
     </div>
 
     <div class="editor">{$oComment->getEditor()}</div>

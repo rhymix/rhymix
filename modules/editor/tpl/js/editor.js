@@ -174,6 +174,24 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
 
     // 자동저장 필드가 있다면 자동 저장 기능 활성화
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
+
+
+    // 좋지는 않으나;; 스타일 변형을 막기 위해 start 할때 html이면 바꿔주자
+    if (xGetCookie('editor_mode') == 'html'){
+        var iframe_obj = editorGetIFrame(editor_sequence);
+        if(xGetElementById('fileUploader_'+editor_sequence)) xGetElementById('fileUploader_'+editor_sequence).style.display='block';
+        textarea_obj = editorGetTextArea(editor_sequence);
+        textarea_obj.value = content;
+        xWidth(textarea_obj, xWidth(iframe_obj.parentNode));
+        xHeight(textarea_obj, xHeight(iframe_obj.parentNode));
+        editorMode[editor_sequence] = 'html';
+        if(xGetElementById('xeEditor_'+editor_sequence)) {
+            xGetElementById('xeEditor_'+editor_sequence).className = 'xeEditor html';
+            xGetElementById('use_rich_'+editor_sequence).className = '';
+            xGetElementById('preview_html_'+editor_sequence).className = '';
+            xGetElementById('use_html_'+editor_sequence).className = 'active';
+        }
+    }
 }
 
 
@@ -401,6 +419,13 @@ function editorChangeHeader(obj,srl) {
  **/
 
 function editorChangeMode(mode, editor_sequence) {
+
+    if(mode == 'html' || mode ==''){
+        var expire = new Date();
+        expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
+        xSetCookie('editor_mode', mode, expire);
+    }
+
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
 

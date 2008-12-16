@@ -25,6 +25,7 @@
     $lang->category_group_srls = 'グループ制限';
     $lang->search_result = '検索結果';
     $lang->consultation = '相談機能';
+    $lang->secret = '비밀글 기능';
     $lang->admin_mail = '管理者メールアドレス';
 
     // ボタンに使用する用語
@@ -41,6 +42,7 @@
     $lang->about_except_notice = "リストの上段に常に表示されるお知らせの書き込みを一般リストからお知らせの書き込みが表示されないようにします。";
     $lang->about_board = '掲示板の生成、および管理する掲示板モジュールです。';
     $lang->about_consultation = "相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。\n但し、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。";
+    $lang->about_secret = '게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.';
     $lang->about_admin_mail = '書き込みやコメントが掲載される時、登録メールアドレス宛にメールが送信されます。<br /> 複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録して下さい。';
     $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 

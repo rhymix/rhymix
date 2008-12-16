@@ -21,6 +21,7 @@
     $lang->category_group_srls = '用戶組';
     $lang->search_result = '搜尋結果';
     $lang->consultation = '咨詢功能';
+    $lang->secret = '비밀글 기능';
     $lang->admin_mail = '管理員電子郵件';
 
     // 按鈕語言
@@ -37,6 +38,7 @@
     $lang->about_except_notice = '設置公告列表項目，不再重複顯示到普通列表當中。';
     $lang->about_board = '可建立及管理討論板的模組。';
     $lang->about_consultation = "咨詢功能是指除有管理權限的會員以外，其他會員只能瀏覽自己發表的主題。\n使用咨詢功能時系統將自動禁止非會員的發表主題權限。";
+    $lang->about_secret = '게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.';
     $lang->about_admin_mail = '有新的主題或評論時，將自動發電子郵件來通知管理員。<br />多數電子郵件由逗號(,)區隔。';
     $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 ?>

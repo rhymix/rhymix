@@ -61,10 +61,12 @@
             <label for="lock_comment">{$lang->lock_comment}</label>
         </dd>
         <!--@endif-->
+        <!--@if($module_info->secret=="Y")-->
         <dd>
             <input type="checkbox" name="is_secret" value="Y" <!--@if($oDocument->isSecret())-->checked="checked"<!--@end--> id="is_secret" />
             <label for="is_secret">{$lang->secret}</label>
         </dd>
+        <!--@end-->
         <dd>
             <input type="checkbox" name="allow_comment" value="Y" <!--@if($oDocument->allowComment())-->checked="checked"<!--@end--> id="allow_comment" />
             <label for="allow_comment">{$lang->allow_comment}</label>

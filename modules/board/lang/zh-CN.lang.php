@@ -24,6 +24,7 @@
     $lang->category_group_srls = '用户组';
     $lang->search_result = '搜索结果';
     $lang->consultation = '咨询功能';
+    $lang->secret = '비밀글 기능';
     $lang->admin_mail = '管理员电子邮件';
 
     // 按钮语言
@@ -41,6 +42,7 @@
     $lang->about_except_notice = "设置公告目录项不再重复显示到普通目录当中。";
     $lang->about_board = "可生成及管理版面的模块。";
     $lang->about_consultation = "咨询功能是指除有管理权限的会员以外，其他会员只能浏览自己发表的主题。\n使用咨询功能时系统将自动禁止非会员的发表主题权限。";
+    $lang->about_secret = '게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.';
     $lang->about_admin_mail = '有新的主题或评论时，将自动发电子邮件来通知管理员。<br />多数电子邮件由逗号(,)来分隔。';
     $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 ?>

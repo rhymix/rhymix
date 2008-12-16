@@ -655,11 +655,14 @@
         function getDocumentCategories() {
             $module_srl = Context::get('module_srl');
             $categories= $this->getCategoryList($module_srl);
-            if(!$categories) return;
+            $lang = Context::get('lang');
 
-            $output = '';
-            foreach($categories as $category_srl => $category) {
-                $output .= sprintf("%d,%d,%s\n",$category_srl, $category->depth,$category->title);
+            // 분류 없음 추가
+            $output = "0,0,{$lang->none_category}\n";
+            if($categories){
+                foreach($categories as $category_srl => $category) {
+                    $output .= sprintf("%d,%d,%s\n",$category_srl, $category->depth,$category->title);
+                }
             }
             $this->add('categories', $output);
         }

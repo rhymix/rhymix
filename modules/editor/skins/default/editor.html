@@ -145,6 +145,8 @@
                 </div>
             <!--@end-->
 
+
+            <!--@if($enable_default_component || $enable_component)-->
             <div class="editorHelp" id="editorHelp_{$editor_sequence}">
                 <button type="button" class="helpButton" title="{$lang->edit->help}" onclick="showEditorHelp(event,{$editor_sequence})"><span>{$lang->edit->help}</span></button>
             </div>
@@ -167,7 +169,7 @@
                     </ul>
                 </li>
             </ul>
-
+            <!--@end-->
         </div>
 
         <!--@if($enable_autosave)-->
@@ -236,8 +238,6 @@
     <!--@else-->
         editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' , '#000');
     <!--@end-->
-
-
         <!--@end-->
     //]]></script>
 
