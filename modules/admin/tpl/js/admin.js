@@ -52,3 +52,6 @@ function doRecompileCacheFile() {
 }
 
 
+jQuery(function(){
+    jQuery("table.adminTable tr").attr('class','').filter(":nth-child(even)").attr('class','row2');
+});
