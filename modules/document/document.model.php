@@ -122,6 +122,7 @@
             }
             $args->document_srls = $document_srls;
             $args->list_count = $list_count;
+            $args->order_type = 'asc';
 
             $output = executeQuery('document.getDocuments', $args);
             $document_list = $output->data;
