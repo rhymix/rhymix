@@ -18,8 +18,8 @@
     $lang->planet_reply_content = "微型部落格的回覆內容";
 
     $lang->about_planet = 
-        "XE 微型部落格模組。每個會員都能建立自己的微型部落格。
-         網站模組所使用的網域名稱可能無法用於微型部落格。
+        "XE微型部落格模組，可讓會員建立自己的微型部落格。
+         網站模組所使用的網域名稱無法用於微型部落格模組。
          如果想將微型部落格當作首頁，請先在網站模組中設定其他的網域名稱。";
 
     $lang->planet_mid = "微型部落格連結網址";
@@ -149,26 +149,26 @@
     $lang->planet_total_articles = "全部";
     $lang->planet_wantyou = "推薦";
     $lang->planet_best = "熱門討論";
-    $lang->planet_catch = "釣った記事";
-    $lang->planet_fish = "釣られた記事";
+    $lang->planet_catch = "文章選擇";
+    $lang->planet_fish = "選擇文章";
     $lang->planet_bigfish = "熱門討論";
     $lang->cmd_send_me2day = "me2day傳送";
 
     $lang->msg_already_have_phone_number = '已註冊的手機號碼。';
-    $lang->planet_mobile_receive = 'Mobile work';
+    $lang->planet_mobile_receive = '行動上網';
     $lang->planet_mobile_number = '手機號碼';
     $lang->msg_success_set_phone_number = '手機號碼註冊成功。';
 
     $lang->planet_tagtab = "標籤頁";
     $lang->about_planet_tagtab = "以「,」區分多個標籤，這些標籤將顯示在標籤頁。";
-    $lang->planet_tagtab_after = "新增標籤分頁";
-    $lang->about_planet_tagtab_after = "기본 태그탭 이후에 여러개의 Tag 탭을 추가할 수 있습니다. 以「,」區分多個標籤。";
+    $lang->planet_tagtab_after = "新增標籤頁";
+    $lang->about_planet_tagtab_after = "可新增多個標籤頁。以「,」區分多個標籤。";
     $lang->planet_smstag = "SMS標籤";
     $lang->about_planet_smstag = "以「,」區分多個標籤，用SMS傳送時將自動新增標籤。";
 
     $lang->planet_use_mobile = "開啟SMS";
     $lang->about_use_mobile = "可用手機發送SMS";
     $lang->planet_use_me2day = "Me2day";
-    $lang->about_use_me2day = "發表主題的同時也傳送到 me2day(http://me2day.net)。";
+    $lang->about_use_me2day = "發表主題的同時也傳送到Me2day(http://me2day.net)。";
     $lang->msg_search_thisplanet = "搜尋微型部落格";
 ?>

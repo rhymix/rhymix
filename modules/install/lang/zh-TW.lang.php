@@ -5,16 +5,15 @@
      * @brief  正體中文語言(包含基本內容)
      **/
 
-    $lang->introduce_title = '安裝 XE';
+    $lang->introduce_title = 'XE程式安裝';
     $lang->license = <<<EndOfLicense
-XE遵循 通用公共許可證(GNU General Public License) 開發，任何人都可以永久免費安裝使用。
+此程式是遵守 GNU 通用公共許可證(GNU General Public License)的自由軟體。
+面板原創作者擁有其版權。
+經過翻譯後的內容如果與原始內容有差異的話，以原始內容為主。
 
 <b>GNU通用公共許可證</b> -  翻譯文
-1991．6第二版
-
-版權所有(c)1989，1991 free software foundation, inc.
-
-675 mass ave， cambridge,mao2139， usa
+Version2、1991年6月
+Copyright (C) 1989, 1991 Free Software Foundation, Inc.  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
 
 允許每個人複製和發佈此許可證原始檔案的副本，但絕對不允許對它進行任何修改。
 
@@ -186,45 +185,45 @@ END OF TERMS AND CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "確認安裝所需環境。";
+    $lang->install_condition_title = "確認安裝時必須要具備的條件";
 
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP版本',
             'permission' => '權限',
-            'xml' => 'XML',
-            'iconv' => 'ICONV',
-            'gd' => 'GD',
-            'session' => 'Session.auto_start 設置',
+            'xml' => 'XML Library',
+            'iconv' => 'ICONV Library',
+            'gd' => 'GD Library',
+            'session' => 'Session.auto_start設置',
         );
 
     $lang->install_checklist_desc = array(
-	        'php_version' => '[需求] 由於 PHP 5.2.2 版本的 BUG，無法安裝 XE。',
-            'permission' => '[需求] XE的安裝路徑或 ./files資料夾權限必須是707',
-            'xml' => '[需求]為了 XML通訊，將需要安裝 XML',
-            'session' => '[需求] 為了能使用暫存功能，在 php.ini 中必須將 session.auto_start=0',
-            'iconv' => '為了使 UTF-8和其他語言環境之間能互相轉換，必須安裝 iconv',
-            'gd' => '使用圖片轉換功能前，必須先得安裝 GD',
+	        'php_version' => '[必須] 由於 PHP 5.2.2 版本的問題，無法安裝 XE程式。',
+            'permission' => '[必須] XE的資料夾或 ./files資料夾權限必須是『707』。',
+            'xml' => '[必須] 必須要安裝 XML Library，才能夠使用 XML通訊。',
+            'session' => '[必須] 在『php.ini』中必須要設定『session.auto_start=0』，才能使用暫存功能',
+            'iconv' => '安裝『iconv』，才能夠使 UTF-8和其他語言文字能互相轉換。',
+            'gd' => '安裝『GD Library』才可以使用圖片轉換功能。',
         );
 
-    $lang->install_checklist_xml = '安裝 XML';
-    $lang->install_without_xml = '還沒有安裝 XML！';
-    $lang->install_checklist_gd = '安裝 GD';
-    $lang->install_without_gd  = '還沒有安裝負責轉換圖片功能的 GD！';
-    $lang->install_checklist_gd = '安裝 GD';
-    $lang->install_without_iconv = '還沒有安裝負責處理字串的 iconv！';
+    $lang->install_checklist_xml = '安裝 XML Library';
+    $lang->install_without_xml = '尚未安裝 XML Library！';
+    $lang->install_checklist_gd = '安裝 GD Library';
+    $lang->install_without_gd  = '尚未安裝負責轉換圖片功能的 GD Library！';
+    $lang->install_checklist_gd = '安裝 GD Library';
+    $lang->install_without_iconv = '尚未安裝負責處理字串的 iconv！';
     $lang->install_session_auto_start = 'PHP設置中設置成 session.auto_start==1，可能在處理 session時會發生錯誤。';
-    $lang->install_permission_denied = '安裝目錄權限不是 707！';
+    $lang->install_permission_denied = '安裝目錄權限不是『707』！';
 
     $lang->cmd_agree_license = '同意使用條款';
-    $lang->cmd_install_fix_checklist = '已設置了必要的安裝條件。';
+    $lang->cmd_install_fix_checklist = '重新檢查';
     $lang->cmd_install_next = '開始進行安裝';
     $lang->cmd_ignore = '忽略';
 
     $lang->db_desc = array(
-        'mysql' => '利用 php的 mysql*()函數使用 mysql 資料庫。<br />資料庫數據是以 myisam 建立，因此不能實現 transaction。',
-        'mysql_innodb' => '利用innodb使用 mysql 資料庫。<br />innodb可以使用 transaction。',
-        'sqlite2' => '支援用檔案形式保存數據的 sqlite2。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。<br />(尚未通過安全測試)',
-        'sqlite3_pdo' => '用 PHP的 PDO支援 sqlite3。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。',
+        'mysql' => '利用PHP的『mysql*()』函數使用MySQL資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現 transaction。',
+        'mysql_innodb' => '利用『innodb』使用 mysql 資料庫。<br />innodb可以使用 transaction。',
+        'sqlite2' => '支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。<br />(尚未通過安全測試)',
+        'sqlite3_pdo' => '用 PHP的 PDO支援『sqlite3』。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。',
         'cubrid' => '使用 CUBRID DB。',
         'postgresql' => '使用 PostgreSql DB。',
         'firebird' => '使用 Firebird DB。',
