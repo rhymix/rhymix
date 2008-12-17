@@ -57,4 +57,13 @@
     $lang->cmd_lang_select = "言語選択";
     $lang->about_cmd_lang_select = "選択された言語のみでサービスを行います。";
     $lang->about_recompile_cache = "要らないか誤ったキャッシューファイルを整理します。";
+    $lang->use_ssl = "SSL 사용";
+    $lang->ssl_options = array(
+        'none' => "사용안함",
+        'optional' => "선택적으로",
+        'always' => "항상사용"
+    );
+    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
+    $lang->server_ports = "서버포트지정";
+    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
 ?>
