@@ -1,7 +1,20 @@
 <!--// 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
-
 <!--@if($colorset=="normal"||!$colorset)-->
     <!--%import("css/normal.css")-->
+<!--@end-->
+
+<!--@if(count($widget_info->document_list))-->
+    {@ shuffle($widget_info->document_list)}
+<!--@end-->
+<!--@if(!$widget_info->thumbnail_width)--> 
+    {@ $width = 40}
+<!--@else-->
+    {@ $width = $widget_info->thumbnail_width }
+<!--@end-->
+<!--@if(!$widget_info->thumbnail_height)--> 
+    {@ $height = 40}
+<!--@else-->
+    {@ $height = $widget_info->thumbnail_height }
 <!--@end-->
 
 <div class="imgcloudoutline">
@@ -13,86 +26,36 @@
         <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
     <!--@end-->
 
-    <!--@if(count($widget_info->document_list))-->
-    {@ shuffle($widget_info->document_list)}
+	<!--@for($i = 0; $i < $widget_info->rows_list_count; $i++)-->
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr valign="middle">
+            <td colspan="2" rowspan="2"><a href="{$widget_info->document_list[$i*14+0]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+0]->getThumbnail($width*2+2, $height*2+2, $widget_info->thumbnail_type)}" width="{$width*2+2}" height="{$height*2+2}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+1]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+1]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+2]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+2]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+3]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+3]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+        </tr>
 
-    <!--@for($i = 0; $i < $widget_info->cols_list_count * $widget_info->rows_list_count; $i++)-->
-        {@
-            $width = $widget_info->thumbnail_width ? $widget_info->thumbnail_width : "40";
-            $height = $widget_info->thumbnail_height ? $widget_info->thumbnail_height : "40";
-            $image[$i] = ($widget_info->document_list[$i]->document_srl) ? $widget_info->document_list[$i]->getThumbnail($width*2,$height*2,$widget_info->thumbnail_type) : $tpl_path."/images/blank.gif";
-            $url[$i] = ($widget_info->document_list[$i]->document_srl) ? "href=\"".getUrl('','document_srl',$widget_info->document_list[$i]->document_srl)."\"" : "";
-        }
-    <!--@end-->
+        <tr>
+            <td><a href="{$widget_info->document_list[$i*14+4]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+4]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+5]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+5]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+6]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+6]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+        </tr>
 
- <!--//
- 편집 방법
- 1. 원하는 모양으로 표를 디자인 합니다.
- 2. <a>, <img> 코드를 복사한 다음 이미지 번호는 0부터 순서대로 입력합니다.
-  - 기본 표는 14개 이미지이므로 0부터 13까지 입력했음.
- 3. 이미지 크기를 직접 입력하거나 수식을 넣으면 다른 크기로 출력할 수 있습니다.
- -->
+        <tr valign="middle">
+            <td><a href="{$widget_info->document_list[$i*14+7]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+7]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+8]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+8]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+9]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+9]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td colspan="2" rowspan="2"><a href="{$widget_info->document_list[$i*14+10]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+10]->getThumbnail($width*2+2, $height*2+2, $widget_info->thumbnail_type)}" width="{$width*2+2}" height="{$height*2+2}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+        </tr>
 
-	<!--@for($j = 0; $j < $widget_info->rows_list_count; $j++)-->
-	{@ $colsrows = $widget_info->cols_list_count * $j}
-	<table cellpadding="0" cellspacing="0" border="0">
-		<tbody>
-		<tr valign="middle">
-			<td colspan="2" rowspan="2">
-				<div><a {$url[0 + $colsrows]}><img align="absmiddle" class="imgcloudbig" src="{$image[0 + $colsrows]}" width="{$width*2+6}" height="{$height*2+6}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[1 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[1 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[2 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[2 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[3 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[3 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-		</tr>
+        <tr>
+            <td><a href="{$widget_info->document_list[$i*14+11]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+11]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+12]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+12]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+            <td><a href="{$widget_info->document_list[$i*14+13]->getPermanentUrl()}"><img class="cloudimg" src="{$widget_info->document_list[$i*14+13]->getThumbnail($width, $height, $widget_info->thumbnail_type)}" width="{$width}" height="{$height}" onerror="this.src='./common/tpl/images/blank.gif'" alt="" /></a></td>
+        </tr>
 
-		<tr>
-			<td>
-				<div><a {$url[4 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[4 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[5 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[5 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[6 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[6 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-		</tr>
-
-		<tr valign="middle">
-			<td>
-				<div><a {$url[7 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[7 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[8 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[8 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[9 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[9 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td colspan="2" rowspan="2">
-				<div><a {$url[10 + $colsrows]}><img align="absmiddle" class="imgcloudbig" src="{$image[10 + $colsrows]}" width="{$width*2+6}" height="{$height*2+6}" /></a></div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<div><a {$url[11 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[11 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[12 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[12 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-			<td>
-				<div><a {$url[13 + $colsrows]}><img align="absmiddle" class="imgcloud" src="{$image[13 + $colsrows]}" width="{$width}" height="{$height}" /></a></div>
-			</td>
-		</tr>
-
-		</tbody>
-	</table>
-	<!--@end-->
+        </tbody>
+    </table>
     <!--@end-->
 </div>
