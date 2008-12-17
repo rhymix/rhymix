@@ -57,13 +57,13 @@
     $lang->cmd_lang_select = "選擇語言";
     $lang->about_cmd_lang_select = "只提供所選擇的語言服務";
     $lang->about_recompile_cache = "可有效的整理錯誤的暫存檔";
-    $lang->use_ssl = "SSL 사용";
+    $lang->use_ssl = "SSL功能";
     $lang->ssl_options = array(
-        'none' => "사용안함",
-        'optional' => "선택적으로",
-        'always' => "항상사용"
+        'none' => "禁止使用",
+        'optional' => "選擇使用",
+        'always' => "總是使用"
     );
-    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
-    $lang->server_ports = "서버포트지정";
-    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
+    $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用 SSL 功能。";
+    $lang->server_ports = "主機埠口";
+    $lang->about_server_ports = "HTTP是 80、HTTPS是 443，如果想使用其他的埠口的話，請自行設定。";
 ?>
