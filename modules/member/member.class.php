@@ -17,7 +17,7 @@
             $member_config = $oModuleModel->getModuleConfig('member');
 
             // SSL 사용시 회원가입/정보/비밀번호등과 관련된 action에 대해 SSL 전송하도록 지정
-            if($member_config->enable_ssl == 'Y') {
+            if($GLOBALS['_use_ssl'] == 'optional') {
                 Context::addSSLAction('dispMemberLoginForm');
                 Context::addSSLAction('dispMemberModifyPassword');
                 Context::addSSLAction('dispMemberSignUpForm');
