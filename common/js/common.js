@@ -317,12 +317,33 @@ String.prototype.setQuery = function(key, val) {
         if(val.toString().trim()) uri = uri+"?"+key+"="+val;
     }
 
-    uri = uri.replace(/^https:\/\//i,'http://');
+    var re = /https:\/\/([^:\/]+)(:\d+|)/i;
+    var check = re.exec(uri);
+    if(check)
+    {
+        var toReplace = "http://"+check[1];
+        if(typeof(http_port)!='undefined' && http_port != 80)
+        {
+            toReplace += ":" + http_port;
+        }
+        uri = uri.replace(re,toReplace);
+    }
+    
     if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
         var act = uri.getQuery('act');
         for(i=0;i<ssl_actions.length;i++) {
             if(ssl_actions[i]==act) {
-                uri = uri.replace(/^http:\/\//i,'https://');
+                var re = /http:\/\/([^:\/]+)(:\d+|)/i;
+                var check = re.exec(uri);
+                if(check)
+                {
+                    var toReplace = "https://"+check[1];
+                    if(typeof(https_port)!='undefined' && https_port != 443)
+                    {
+                        toReplace += ":" + https_port;
+                    }
+                    uri = uri.replace(re,toReplace);
+                }
                 break;
             }
         }

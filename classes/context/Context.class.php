@@ -21,7 +21,6 @@
         var $db_info = NULL; ///< @brief DB 정보
         var $ftp_info = NULL; ///< @brief FTP 정보
 
-        var $ssl_port = NULL; ///< @brief SSL Port number
         var $ssl_actions = array(); ///< @brief ssl로 전송해야 할 action등록 (common/js/xml_handler.js에서 ajax통신시 활용)
         var $js_files = array(); ///< @brief display시에 사용하게 되는 js files의 목록
         var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
@@ -204,11 +203,21 @@
             else $db_info->use_optimizer = 'N';
             if(!$db_info->qmail_compatibility || $db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
             else $db_info->qmail_compatibility = 'Y';
+            if(!$db_info->use_ssl) $db_info->use_ssl = 'none';
 
             $this->_setDBInfo($db_info);
             
             $GLOBALS['_time_zone'] = $db_info->time_zone;
             $GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
+            $GLOBALS['_use_ssl'] = $db_info->use_ssl;
+            if($db_info->http_port)
+            {
+                $GLOBALS['_http_port'] = $db_info->http_port;
+            }
+            if($db_info->https_port)
+            {
+                $GLOBALS['_https_port'] = $db_info->https_port;
+            }
         }
 
         /**
@@ -801,8 +810,17 @@
             }
 
             $url_info = parse_url('http://'.$target_url);
-            if($use_ssl && $this->ssl_port && $this->ssl_port != 443) {
-                $url_info['port'] = $this->ssl_port;
+            if($use_ssl)
+            {
+                if($GLOBALS["_https_port"] && $GLOBALS["_https_port"] != 443) {
+                    $url_info['port'] = $GLOBALS["_https_port"];
+                }
+            }
+            else
+            {
+                if($GLOBALS["_http_port"] && $GLOBALS["_http_port"] != 80) {
+                    $url_info['port'] = $GLOBALS["_http_port"];
+                }
             }
 
             $url[$ssl_mode][$domain_key] = sprintf("%s://%s%s%s",$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
@@ -1261,13 +1279,5 @@
             return dirname($_SERVER['PHP_SELF']) . "/" . $url;
         }
 
-        function setSSLPort($port) {
-            $oContext = &Context::getInstance();
-            $oContext->_setSSLPort($port);
-        }
-
-        function _setSSLPort($port) {
-            $this->ssl_port = (int) $port;
-        }
     }
 ?>

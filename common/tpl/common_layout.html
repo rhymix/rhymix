@@ -51,6 +51,8 @@
         var current_mid = "{$mid}";
         var waiting_message = "{$lang->msg_call_server}";
         var ssl_actions = new Array(<!--@if(count($ssl_actions))-->"{implode('","',$ssl_actions)}"<!--@end-->);
+        <!--@if($GLOBALS["_http_port"])-->var http_port = {$GLOBALS["_http_port"]};<!--@end-->
+        <!--@if($GLOBALS["_https_port"])-->var https_port = {$GLOBALS["_https_port"]};<!--@end-->
     //]]></script>
 
     {Context::getHtmlHeader()}
