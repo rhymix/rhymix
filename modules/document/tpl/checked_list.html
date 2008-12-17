@@ -63,8 +63,12 @@
 <div id="popFooter">
     <div class="tRight gap1">
         <!--@if(count($document_list))-->
+
+        <!--@if($logged_info->is_admin=='Y')-->
         <a href="#" onclick="doManageDocument('move');return false;" class="button"><span>{$lang->cmd_move}</span></a>
         <a href="#" onclick="doManageDocument('copy');return false;" class="button"><span>{$lang->cmd_copy}</span></a>
+        <!--@end-->
+
         <a href="#" onclick="doManageDocument('delete');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
         <!--@end-->
         <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>

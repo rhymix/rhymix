@@ -224,7 +224,7 @@
             if($logged_info->is_admin=='Y') return true;
 
             $actions = array('procDocumentAdminAddCart','dispDocumentAdminManageDocument','procDocumentAdminManageCheckedDocument');
-            if(!in_array($this->act, $actions)) return false;
+            if(in_array($this->act, $actions)) return true;
 
             $oModuleModel = &getModel('module');
             if($oModuleModel->isSiteAdmin()) return true;

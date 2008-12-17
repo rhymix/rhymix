@@ -19,6 +19,10 @@
             <condition operation="like" column="extra_vars" var="s_extra_vars" pipe="or" />
             <condition operation="like_prefix" column="member.regdate" var="s_regdate" pipe="or" />
             <condition operation="like_prefix" column="member.last_login" var="s_last_login" pipe="or" />
+            <condition operation="more" column="member.regdate" var="s_regdate_more" pipe="or" />
+            <condition operation="less" column="member.regdate" var="s_regdate_less" pipe="or" />
+            <condition operation="more" column="member.last_login" var="s_last_login_more" pipe="or" />
+            <condition operation="less" column="member.last_login" var="s_last_login_less" pipe="or" />
         </group>
     </conditions>
     <navigation>

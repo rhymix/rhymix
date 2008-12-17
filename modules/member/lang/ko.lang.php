@@ -73,7 +73,11 @@
         'nick_name' => '닉네임',
         'email_address' => '메일주소',
         'regdate' => '가입일시',
+        'regdate_more' => '가입일시(이상)',
+        'regdate_less' => '가입일시(이하)',
         'last_login' => '최근로그인일시',
+        'last_login_more' => '최근로그인일시(이상)',
+        'last_login_less' => '최근로그인일시(이하)',
         'extra_vars' => '확장변수',
     );
 

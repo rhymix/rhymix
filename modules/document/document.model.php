@@ -330,7 +330,7 @@
 
                 $target_args->document_srls = implode(',',$target_srls);
                 $target_args->list_order = $args->sort_index;
-                $target_args->order = $args->order_type;
+                $target_args->order_type = $args->order_type;
                 $target_args->list_count = $args->list_count;
                 $target_args->page = 1;
                 $output = executeQueryArray('document.getDocuments', $target_args);
