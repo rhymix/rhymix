@@ -450,7 +450,8 @@
             $output = $this->_fetch($result);
             //commit();
             @ibase_commit($this->fd);
-
+            if(!$output) return;
+            if(!is_array($output)) $output = array($output);
             for($i=0;$i<count($output);$i++) {
                 if(trim($output[$i]->KEY_NAME) == $index_name) return true;
             }

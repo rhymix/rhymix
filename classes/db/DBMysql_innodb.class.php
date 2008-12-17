@@ -287,6 +287,8 @@
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
+            if(!$output) return;
+            if(!is_array($output)) $output = array($output);
 
             for($i=0;$i<count($output);$i++) {
                 if($output[$i]->Key_name == $index_name) return true;
