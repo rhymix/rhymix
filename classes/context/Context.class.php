@@ -573,7 +573,7 @@
             parse_str($GLOBALS['HTTP_RAW_POST_DATA'],$params);
 
             foreach($params as $key => $val) {
-                $val = $this->_filterRequestVar($key, $val);
+                $val = $this->_filterRequestVar($key, $val,0);
                 $this->_set($key, $val, true);
             }
         }
@@ -592,7 +592,7 @@
             unset($params->attrs);
             if(!count($params)) return;
             foreach($params as $key => $obj) {
-                $val = $this->_filterRequestVar($key, $obj->body);
+                $val = $this->_filterRequestVar($key, $obj->body,0);
                 $this->_set($key, $val, true);
             }
         }
@@ -601,16 +601,16 @@
          * @brief 변수명에 따라서 필터링 처리
          * _srl, page, cpage등의 변수는 integer로 형변환
          **/
-        function _filterRequestVar($key, $val) {
+        function _filterRequestVar($key, $val, $do_stripslashes = 1) {
             if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
             if(is_array($val) && count($val) ) {
                 foreach($val as $k => $v) {
-                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
+                    if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
                     $v = trim($v);
                     $val[$k] = $v;
                 }
             } else {
-                if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
+                if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
                 $val = trim($val);
             }
             return $val;
