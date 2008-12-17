@@ -155,7 +155,7 @@
             $cache_list = FileHandler::readDir("./files/cache/layout","",false,true);
             if(count($cache_list)) {
                 foreach($cache_list as $cache_file) {
-                    $pos = strpos($cache_file, $layout_srl.'_');
+                    $pos = strpos($cache_file, $layout_srl.'.');
                     if($pos>0)FileHandler::removeFile($cache_file);
                 }
             }
