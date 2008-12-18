@@ -309,7 +309,7 @@ String.prototype.setQuery = function(key, val) {
         if( !args.hasOwnProperty(i) ) continue;
             var arg = args[i];
             if(!arg.toString().trim()) continue;
-
+            arg = decodeURI(arg);
             q_list[q_list.length] = i+'='+arg;
         }
         uri = uri+"?"+q_list.join("&");
@@ -328,7 +328,7 @@ String.prototype.setQuery = function(key, val) {
         }
         uri = uri.replace(re,toReplace);
     }
-    
+
     if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
         var act = uri.getQuery('act');
         for(i=0;i<ssl_actions.length;i++) {
