@@ -10,8 +10,8 @@
 
     $lang->module_category_title = array(
         'service' => 'サービス型モジュール',
-        'manager' => '管理型モジュール',
         'utility' => '機能性モジュール',
+        'manager' => '管理型モジュール',
         'accessory' => '付加モジュール',
         'base' => '基本モジュール',
     );
