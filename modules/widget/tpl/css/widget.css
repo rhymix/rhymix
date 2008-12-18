@@ -15,20 +15,22 @@
 
 .widgetOutput { float:left; cursor:move; z-index:998; overflow:hidden; position:relative; width:100%; }
 
-.widgetOutput .widgetBorder { border:1px dotted #17DA29; z-index:999; }
+.widgetOutput .widgetBorder { border:1px solid #C7DBE9; z-index:999; }
+.widgetOutput .widgetBoxBorder { border:1px solid #D2E9C7; z-index:999; }
 
 .widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetBoxResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetBoxResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
 
-.widgetButtons { z-index:9999;  border:1px solid #555555; background-color:#FFFFFF; overflow:hidden; *zoom:1; float:left; padding:3px; position:absolute; left:0; top:0; visibility:hidden;}
+.widgetButtons { z-index:9999; overflow:hidden; *zoom:1; float:left; padding:3px; position:absolute; visibility:hidden;}
+#widgetButton { background-color:#C7DBE9;left:0; top:0;}
+#widgetBoxButton { background-color:#D2E9C7; right:0; top:0;}
 .widgetButtons div { float:left; }
 .widgetButtons .widgetSetup { background:transparent url("../images/widget_setup.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
 .widgetButtons .widgetCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
 .widgetButtons .widgetSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
 .widgetButtons .widgetRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
-.widgetButtons .widgetBoxBorder { border:1px dotted #267BEE; z-index:999; }
 .widgetButtons .widgetBoxCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px; cursor:pointer; z-index:1000;}
 .widgetButtons .widgetBoxSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px; cursor:pointer; z-index:1000;}
 .widgetButtons .widgetBoxRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px; cursor:pointer; z-index:1000;}

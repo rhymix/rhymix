@@ -718,7 +718,6 @@ function restoreWidgetButtons() {
 }
 
 function showWidgetButton(name, obj) {
-    restoreWidgetButtons();
     var widgetButton = xGetElementById(name);
     if(!widgetButton) return;
     widgetButton.style.visibility = 'visible';
@@ -742,8 +741,22 @@ function widgetSetup(evt) {
     var widget = obj.getAttribute('widget');
     if(!widget) return;
 
-    if(widget == 'widgetBox') showWidgetButton('widgetBoxButton', obj);
-    else showWidgetButton('widgetButton', obj);
+    if(widget == 'widgetBox') {
+        restoreWidgetButtons();
+        showWidgetButton('widgetBoxButton', obj);
+    } else {
+        restoreWidgetButtons();
+
+        var p_obj = obj.parentNode;
+        while(p_obj) {
+            if(p_obj.getAttribute('widget')=='widgetBox') {
+                showWidgetButton('widgetBoxButton', p_obj);
+                break;
+            }
+            p_obj = p_obj.parentNode;
+        }
+        showWidgetButton('widgetButton', obj);
+    }
 }
 
 /* 위젯 드래그 */
