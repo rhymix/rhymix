@@ -64,6 +64,7 @@
             // cache 파일을 비교하여 문제 없으면 include하고 $widget_info 변수를 return
             $cache_file = sprintf('./files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
 
+
             if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
                 return $widget_info;
@@ -76,7 +77,7 @@
             if(!$xml_obj) return;
 
             $buff = '';
-
+debugPrint($xml_obj);
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
                 // 위젯의 제목, 버전
                 $buff .= sprintf('$widget_info->widget = "%s";', $widget);
