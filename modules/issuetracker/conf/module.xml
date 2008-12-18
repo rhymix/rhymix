@@ -21,7 +21,7 @@
         </grant>
         <grant name="timeline" default="guest">
             <title xml:lang="ko">타임라인</title>
-            <title xml:lang="zh-CN">Timeline</title>
+            <title xml:lang="zh-CN">时间轴</title>
             <title xml:lang="zh-TW">Timeline</title>
             <title xml:lang="jp">Timeline</title>
         </grant>
