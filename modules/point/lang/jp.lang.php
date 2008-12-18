@@ -5,7 +5,7 @@
      * @brief  ポイント（point）モジュールの基本言語パッケージ
      **/
 
-    $lang->point = "ポイント";
+    $lang->point = "ポイント"; 
     $lang->level = "レベル";
 
     $lang->about_point_module = "ポイントモジュールでは、書き込み作成/コメント作成/アップロード/ダウンロードなどのユーザの活動に対してポイントの計算を行います。但し、ポイントモジュールでは設定のみを行い、アドオンでポイントシステムを「使用」に設定しなければポイントは累積されません。";
@@ -50,7 +50,6 @@
     $lang->point_read_document = '書き込み閲覧';
     $lang->point_voted = '推薦';
     $lang->point_blamed = '非推薦';
-
 
     $lang->cmd_point_config = 'デフォルト設定';
     $lang->cmd_point_module_config = 'モジュール別設定';

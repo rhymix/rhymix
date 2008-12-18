@@ -36,7 +36,7 @@
         'filesize' => 'ファイルサイズ（(Byte以上）',
         'filesize_mega' => 'ファイルサイズ (Mb、以上)',
         'download_count' => 'ダウンロード数（以上）',
-        'user_id' => 'ＩＤ',
+        'user_id' => 'ユーザーＩＤ',
         'user_name' => '名前',
         'nick_name' => 'ニックネーム',
         'regdate' => '登録日',

@@ -37,7 +37,7 @@
     $lang->image_mark_max_width = '横幅制限サイズ';
     $lang->image_mark_max_height = '縦幅制限サイズ';
     $lang->signature_max_height = '署名欄の高さの制限';
-	$lang->enable_openid = 'OpenID使用';
+    $lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員登録を許可する';
     $lang->enable_confirm = 'メール認証を使用';
     $lang->enable_ssl = 'SSL使用';
@@ -64,7 +64,7 @@
     $lang->webmaster_email = 'ウェブマスターのメールアドレス';
 
     $lang->about_keep_signed = 'ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトしてください。';
-	$lang->about_webmaster_name = '確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力してください（デフォルト : webmaster）。';
+    $lang->about_webmaster_name = '確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力してください（デフォルト : webmaster）。';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力して下さい。';
 
     $lang->search_target_list = array(

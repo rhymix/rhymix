@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   jp.lang.php
-     * @author zero (zero@nzeo.com)　翻訳：ミニミ
+          * @author zero (zero@nzeo.com)　翻訳：ミニミ
      * @brief  ホームページ(homepage)モジュールの日本語言語パッケージ（基本的な内容のみ）
      **/
 

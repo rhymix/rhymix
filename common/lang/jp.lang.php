@@ -76,7 +76,7 @@
     $lang->category = $lang->category_srl = 'カテゴリ';
     $lang->none_category = 'カテゴリ無し';
     $lang->document_srl = '書き込み番号';
-    $lang->user_id = 'ユーザＩＤ';
+    $lang->user_id = 'ユーザーＩＤ';
     $lang->author = '作成者';
     $lang->password = 'パスワード';
     $lang->password1 = 'パスワード';

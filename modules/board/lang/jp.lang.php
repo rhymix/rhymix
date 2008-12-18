@@ -17,7 +17,7 @@
     $lang->parent_category_title = '上位カテゴリ名';
     $lang->category_title = 'カテゴリ名';
     $lang->category_color = 'カテゴリフォント色';
-
+    
     $lang->expand = '拡張表示';
     $lang->category_group_srls = 'グループ制限';
     $lang->search_result = '検索結果';

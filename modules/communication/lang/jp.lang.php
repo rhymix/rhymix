@@ -44,6 +44,5 @@
     $lang->msg_content_is_null = '内容を入力してください。';
     $lang->msg_allow_message_to_friend = '友達からのみメッセージを受信できるように設定したユーザであるため、送信できませんでした。';
     $lang->msg_disallow_message = 'メッセージの受信を拒否している受信者であるため、送信できませんでした。';
-
     $lang->about_allow_message = 'メッセージを受信するかを設定します。';
 ?>

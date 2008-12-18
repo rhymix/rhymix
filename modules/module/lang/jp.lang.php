@@ -45,6 +45,7 @@
     $lang->msg_no_checked_document = '選択された書き込みがありません。';
     $lang->msg_move_failed = '移動することができませんでした。';
     $lang->msg_cannot_delete_for_child = '下位カテゴリのカテゴリは削除することができません。';
+    $lang->msg_limit_mid ="モジュール名は「 半角英小文字+[半角英小文字+半角数字+_] 」のみ出来ます。";
 
     $lang->about_browser_title = "ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。";
     $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋[英数,_のみ可]）。";

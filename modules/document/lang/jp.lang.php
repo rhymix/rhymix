@@ -32,7 +32,7 @@
     $lang->search_target_list = array(
         'title' => 'タイトル',
         'content' => '内容',
-        'user_id' => 'ユーザＩＤ',
+        'user_id' => 'ユーザーＩＤ',
         'member_srl' => '会員番号',
         'user_name' => 'ユーザ名',
         'nick_name' => 'ニックネーム',
