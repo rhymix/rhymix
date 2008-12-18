@@ -49,6 +49,23 @@ describe('SetQuery', {
         targetsp = "https://www.zeroboard.com:443/?q=r";
         http_port = 80;
         value_of(targetsp.setQuery("act","dispLogin2")).should_be("http://www.zeroboard.com/?q=r&act=dispLogin2");
+    },
+    'should work if enforce_ssl is set' : function() {
+        target = "http://www.zeroboard.com/";
+        enforce_ssl = true;
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com/?act=dispLogin");
+    },
+    'should work if enforce_ssl is set with 443 port' : function() {
+        target = "http://www.zeroboard.com/";
+        enforce_ssl = true;
+        https_port = 443;
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com/?act=dispLogin");
+    },
+    'should work if enforce_ssl is set with none-443 port' : function() {
+        target = "http://www.zeroboard.com/";
+        enforce_ssl = true;
+        https_port = 445;
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com:445/?act=dispLogin");
     }
 })
 // ]]></script>

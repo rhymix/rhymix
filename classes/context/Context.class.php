@@ -783,6 +783,7 @@
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
             static $url = array();
+            if($GLOBALS['_use_ssl'] == "always") $ssl_mode = ENFORCE_SSL;
 
             if($domain) $domain_key = md5($domain);
             else $domain_key = 'default';

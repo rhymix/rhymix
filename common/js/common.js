@@ -328,26 +328,36 @@ String.prototype.setQuery = function(key, val) {
         }
         uri = uri.replace(re,toReplace);
     }
-
-    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
+    var bUseSSL = false;
+    if(typeof(enforce_ssl)!='undefined' && enforce_ssl)
+    {
+        bUseSSL = true;
+    }
+    else if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
         var act = uri.getQuery('act');
         for(i=0;i<ssl_actions.length;i++) {
             if(ssl_actions[i]==act) {
-                var re = /http:\/\/([^:\/]+)(:\d+|)/i;
-                var check = re.exec(uri);
-                if(check)
-                {
-                    var toReplace = "https://"+check[1];
-                    if(typeof(https_port)!='undefined' && https_port != 443)
-                    {
-                        toReplace += ":" + https_port;
-                    }
-                    uri = uri.replace(re,toReplace);
-                }
+                bUseSSL = true;
                 break;
             }
         }
     }
+
+    if(bUseSSL)
+    {
+        var re = /http:\/\/([^:\/]+)(:\d+|)/i;
+        var check = re.exec(uri);
+        if(check)
+        {
+            var toReplace = "https://"+check[1];
+            if(typeof(https_port)!='undefined' && https_port != 443)
+            {
+                toReplace += ":" + https_port;
+            }
+            uri = uri.replace(re,toReplace);
+        }
+    }
+
     return encodeURI(uri);
 }
 
