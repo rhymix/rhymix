@@ -209,14 +209,14 @@
             
             $GLOBALS['_time_zone'] = $db_info->time_zone;
             $GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
-            $GLOBALS['_use_ssl'] = $db_info->use_ssl;
+            $this->set('_use_ssl', $db_info->use_ssl);
             if($db_info->http_port)
             {
-                $GLOBALS['_http_port'] = $db_info->http_port;
+                $this->set('_http_port',  $db_info->http_port);
             }
             if($db_info->https_port)
             {
-                $GLOBALS['_https_port'] = $db_info->https_port;
+                $this->set('_https_port',  $db_info->https_port);
             }
         }
 
@@ -783,7 +783,7 @@
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
             static $url = array();
-            if($GLOBALS['_use_ssl'] == "always") $ssl_mode = ENFORCE_SSL;
+            if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
             if($domain) $domain_key = md5($domain);
             else $domain_key = 'default';
@@ -813,14 +813,14 @@
             $url_info = parse_url('http://'.$target_url);
             if($use_ssl)
             {
-                if($GLOBALS["_https_port"] && $GLOBALS["_https_port"] != 443) {
-                    $url_info['port'] = $GLOBALS["_https_port"];
+                if(Context::get("_https_port") && Context::get("_https_port") != 443) {
+                    $url_info['port'] = Context::get("_https_port");
                 }
             }
             else
             {
-                if($GLOBALS["_http_port"] && $GLOBALS["_http_port"] != 80) {
-                    $url_info['port'] = $GLOBALS["_http_port"];
+                if(Context::get("_http_port") && Context::get("_http_port") != 80) {
+                    $url_info['port'] = Context::get("_http_port");
                 }
             }
 
