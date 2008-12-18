@@ -121,6 +121,7 @@
             $widget_padding_bottom = $args->widget_padding_bottom;
             $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
+            $oDocumentModel = &getModel('document');
             /**
              * 위젯 출력물을 구함
              **/
@@ -129,7 +130,12 @@
                 switch($widget) {
                     // 내용 직접 추가일 경우 
                     case 'widgetContent' :
-                            $body = base64_decode($args->body);
+                            if($args->document_srl) {
+                                $oDocument = $oDocumentModel->getDocument($args->document_srl);
+                                $body = $oDocument->getContent(false,false,false);
+                            } else {
+                                $body = base64_decode($args->body);
+                            }
                             $output = sprintf('<div style="overflow:hidden;%s"><div style="%s">%s</div></div>', $style, $inner_style, $body);
                         break;
 
@@ -149,15 +155,16 @@
                 switch($widget) {
                     // 내용 직접 추가일 경우 
                     case 'widgetContent' :
-                            $body = base64_decode($args->body);
+                            if($args->document_srl) {
+                                $oDocument = $oDocumentModel->getDocument($args->document_srl);
+                                $body = $oDocument->getContent(false,false,false);
+                            } else {
+                                $body = base64_decode($args->body);
+                            }
                             $oWidgetController = &getController('widget');
 
                             $output = sprintf(
-                                '<div class="widgetOutput" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent">'.
-                                    '<div class="widgetSetup"></div>'.
-                                    '<div class="widgetCopy"></div>'.
-                                    '<div class="widgetSize"></div>'.
-                                    '<div class="widgetRemove"></div>'.
+                                '<div class="widgetOutput" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d">'.
                                     '<div class="widgetResize"></div>'.
                                     '<div class="widgetResizeLeft"></div>'.
                                     '<div class="widgetBorder">'.
@@ -169,6 +176,7 @@
                                 '</div>',
                                 $style,
                                 $args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
+                                $args->document_srl,
                                 $inner_style,
                                 $body,
                                 base64_encode($body)
@@ -179,9 +187,6 @@
                     case 'widgetBox' :
                             $output = sprintf(
                                 '<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s">'.
-                                    '<div class="widgetBoxCopy"></div>'.
-                                    '<div class="widgetBoxSize"></div>'.
-                                    '<div class="widgetBoxRemove"></div>'.
                                     '<div class="widgetBoxResize"></div>'.
                                     '<div class="widgetBoxResizeLeft"></div>'.
                                     '<div class="widgetBoxBorder">'.
@@ -203,10 +208,6 @@
 
                             $output = sprintf(
                                     '<div class="widgetOutput" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
-                                        '<div class="widgetSetup"></div>'.
-                                        '<div class="widgetCopy"></div>'.
-                                        '<div class="widgetSize"></div>'.
-                                        '<div class="widgetRemove"></div>'.
                                         '<div class="widgetResize"></div>'.
                                         '<div class="widgetResizeLeft"></div>'.
                                         '<div class="widgetBorder">'.
