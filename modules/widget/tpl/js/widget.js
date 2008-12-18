@@ -712,9 +712,9 @@ function restoreWidgetButtons() {
     var boxWidgetButton = xGetElementById('widgetBoxButton');
     if(!widgetButton || !boxWidgetButton) return;
     widgetButton.style.visibility = 'hidden';
-    document.body.appendChild(widgetButton);
+    xGetElementById("zonePageContent").parentNode.appendChild(widgetButton);
     boxWidgetButton.style.visibility = 'hidden';
-    document.body.appendChild(boxWidgetButton);
+    xGetElementById("zonePageContent").parentNode.appendChild(boxWidgetButton);
 }
 
 function showWidgetButton(name, obj) {
@@ -746,6 +746,7 @@ function widgetSetup(evt) {
         showWidgetButton('widgetBoxButton', obj);
     } else {
         restoreWidgetButtons();
+        showWidgetButton('widgetButton', obj);
 
         var p_obj = obj.parentNode;
         while(p_obj) {
@@ -755,7 +756,6 @@ function widgetSetup(evt) {
             }
             p_obj = p_obj.parentNode;
         }
-        showWidgetButton('widgetButton', obj);
     }
 }
 
