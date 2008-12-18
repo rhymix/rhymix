@@ -12,21 +12,20 @@
     $lang->cmd_manage_menu = 'メニュー管理';
     $lang->cmd_make_child = '下位カテゴリ追加';
     $lang->cmd_enable_move_category = "カテゴリ位置変更（選択後上のメニューをドラッグして下さい）";
-    $lang->cmd_remake_cache = 'キャッシュファイル再生性';
-    $lang->cmd_layout_setup = 'レイアウト設定';
-    $lang->cmd_layout_edit = 'レイアウト編集';
 
     // 項目
     $lang->parent_category_title = '上位カテゴリ名';
     $lang->category_title = 'カテゴリ名';
-    $lang->category_color = '분류 폰트색깔';
+    $lang->category_color = 'カテゴリフォント色';
 
     $lang->expand = '拡張表示';
     $lang->category_group_srls = 'グループ制限';
     $lang->search_result = '検索結果';
     $lang->consultation = '相談機能';
-    $lang->secret = '비밀글 기능';
+    $lang->secret = '秘密文機能';
     $lang->admin_mail = '管理者メールアドレス';
+
+
 
     // ボタンに使用する用語
     $lang->cmd_board_list = '掲示板リスト';
@@ -42,8 +41,8 @@
     $lang->about_except_notice = "リストの上段に常に表示されるお知らせの書き込みを一般リストからお知らせの書き込みが表示されないようにします。";
     $lang->about_board = '掲示板の生成、および管理する掲示板モジュールです。';
     $lang->about_consultation = "相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。\n但し、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。";
-    $lang->about_secret = '게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.';
+    $lang->about_secret = '掲示板およびコメントの秘密文を登録できるようにします。';
     $lang->about_admin_mail = '書き込みやコメントが掲載される時、登録メールアドレス宛にメールが送信されます。<br /> 複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録して下さい。';
-    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 
+    $lang->about_category_color = 'カテゴリのフォント色を設定します。';
 ?>

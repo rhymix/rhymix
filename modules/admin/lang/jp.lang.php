@@ -57,13 +57,13 @@
     $lang->cmd_lang_select = "言語選択";
     $lang->about_cmd_lang_select = "選択された言語のみでサービスを行います。";
     $lang->about_recompile_cache = "要らないか誤ったキャッシューファイルを整理します。";
-    $lang->use_ssl = "SSL 사용";
+    $lang->use_ssl = "SSL環境設定";
     $lang->ssl_options = array(
-        'none' => "사용안함",
-        'optional' => "선택적으로",
-        'always' => "항상사용"
+        'none' => "使わない",
+        'optional' => "部分的に使う",
+        'always' => "常に使う"
     );
-    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
-    $lang->server_ports = "서버포트지정";
-    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
+    $lang->about_use_ssl = "「部分的に使う場合」は「会員登録/会員情報変更」など特定のactionでSSLを利用する場合、「常に使う」は全てのサービスがSSLを使う場合に選択します。";
+    $lang->server_ports = "サーバーポート指定";
+    $lang->about_server_ports = "一般的に使われているHTTPの80、HTTPSの443以外の他のポートを使うために、ポートを指定して下さい。";
 ?>

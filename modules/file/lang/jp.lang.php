@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/file/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  添付ファイル（file）モジュールの基本言語パッケージ
      **/
 
@@ -34,11 +34,11 @@
     $lang->file_search_target_list = array(
         'filename' => 'ファイル名',
         'filesize' => 'ファイルサイズ（(Byte以上）',
-        'filesize_mega' => '파일크기 (Mb, 이상)',
+        'filesize_mega' => 'ファイルサイズ (Mb、以上)',
         'download_count' => 'ダウンロード数（以上）',
-        'user_id' => '아이디',
-        'user_name' => '이름',
-        'nick_name' => '닉네임',
+        'user_id' => 'ＩＤ',
+        'user_name' => '名前',
+        'nick_name' => 'ニックネーム',
         'regdate' => '登録日',
         'ipaddress' => 'IPアドレス',
     );
