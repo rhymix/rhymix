@@ -1,4 +1,4 @@
 <table name="member_autologin">
-    <column name="autologin_key" type="varchar" size="80" notnull="notnull" primary_key="primary_key" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="autologin_key" type="varchar" size="80" notnull="notnull" unique="unique_key" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" unique="unique_key" />
 </table>
