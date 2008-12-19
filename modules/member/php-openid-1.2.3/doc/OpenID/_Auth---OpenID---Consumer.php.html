@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page Consumer.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name">/Auth/OpenID/Consumer.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-classes">Classes</a>
+			|							<a href="#sec-includes">Includes</a>
+			|							<a href="#sec-constants">Constants</a>
+										</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This module documents the main interface with the OpenID consumer</p>
+<p class="description"><p>library.  The only part of the library which has to be used and  isn't documented in full here is the store required to create an  Auth_OpenID_Consumer instance.  More on the abstract store type and  concrete implementations of it that are provided in the  documentation for the Auth_OpenID_Consumer constructor.</p><p>OVERVIEW</p><p>The OpenID identity verification process most commonly uses the  following steps, as visible to the user of this library:</p><p><ol><li>The user enters their OpenID into a field on the consumer's
+      site, and hits a login button.</li><li>The consumer site discovers the user's OpenID server using the
+      YADIS protocol.</li><li>The consumer site sends the browser a redirect to the identity
+      server.  This is the authentication request as described in
+      the OpenID specification.</li><li>The identity server's site sends the browser a redirect back
+      to the consumer site.  This redirect contains the server's
+      response to the authentication request.</li></ol>  The most important part of the flow to note is the consumer's site  must handle two separate HTTP requests in order to perform the full  identity check.</p><p>LIBRARY DESIGN</p><p>This consumer library is designed with that flow in mind.  The goal  is to make it as easy as possible to perform the above steps  securely.</p><p>At a high level, there are two important parts in the consumer  library.  The first important part is this module, which contains  the interface to actually use this library.  The second is the  Auth_OpenID_Interface class, which describes the interface to use  if you need to create a custom method for storing the state this  library needs to maintain between requests.</p><p>In general, the second part is less important for users of the  library to know about, as several implementations are provided  which cover a wide variety of situations in which consumers may use  the library.</p><p>This module contains a class, Auth_OpenID_Consumer, with methods  corresponding to the actions necessary in each of steps 2, 3, and 4  described in the overview.  Use of this library should be as easy  as creating an Auth_OpenID_Consumer instance and calling the  methods appropriate for the action the site wants to take.</p><p>STORES AND DUMB MODE</p><p>OpenID is a protocol that works best when the consumer site is able  to store some state.  This is the normal mode of operation for the  protocol, and is sometimes referred to as smart mode.  There is  also a fallback mode, known as dumb mode, which is available when  the consumer site is not able to store state.  This mode should be  avoided when possible, as it leaves the implementation more  vulnerable to replay attacks.</p><p>The mode the library works in for normal operation is determined by  the store that it is given.  The store is an abstraction that  handles the data that the consumer needs to manage between http  requests in order to operate efficiently and securely.</p><p>Several store implementation are provided, and the interface is  fully documented so that custom stores can be used as well.  See  the documentation for the Auth_OpenID_Consumer class for more  information on the interface for stores.  The implementations that  are provided allow the consumer site to store the necessary data in  several different ways, including several SQL databases and normal  files on disk.</p><p>There is an additional concrete store provided that puts the system  in dumb mode.  This is not recommended, as it removes the library's  ability to stop replay attacks reliably.  It still uses time-based  checking to make replay attacks only possible within a small  window, but they remain possible within that window.  This store  should only be used if the consumer site has no way to retain data  between requests at all.</p><p>IMMEDIATE MODE</p><p>In the flow described above, the user may need to confirm to the  lidentity server that it's ok to authorize his or her identity.  The server may draw pages asking for information from the user  before it redirects the browser back to the consumer's site.  This  is generally transparent to the consumer site, so it is typically  ignored as an implementation detail.</p><p>There can be times, however, where the consumer site wants to get a  response immediately.  When this is the case, the consumer can put  the library in immediate mode.  In immediate mode, there is an  extra response possible from the server, which is essentially the  server reporting that it doesn't have enough information to answer  the question yet.  In addition to saying that, the identity server  provides a URL to which the user can be sent to provide the needed  information and let the server finish handling the original  request.</p><p>USING THIS LIBRARY</p><p>Integrating this library into an application is usually a  relatively straightforward process.  The process should basically  follow this plan:</p><p>Add an OpenID login field somewhere on your site.  When an OpenID  is entered in that field and the form is submitted, it should make  a request to the your site which includes that OpenID URL.</p><p>First, the application should instantiate the Auth_OpenID_Consumer  class using the store of choice (Auth_OpenID_FileStore or one of  the SQL-based stores).  If the application has any sort of session  framework that provides per-client state management, a dict-like  object to access the session should be passed as the optional  second parameter.  (The default behavior is to use PHP's standard  session machinery.)</p><p>Next, the application should call the Auth_OpenID_Consumer object's  'begin' method.  This method takes the OpenID URL.  The 'begin'  method returns an Auth_OpenID_AuthRequest object.</p><p>Next, the application should call the 'redirectURL' method of the  Auth_OpenID_AuthRequest object.  The 'return_to' URL parameter is  the URL that the OpenID server will send the user back to after  attempting to verify his or her identity.  The 'trust_root' is the  URL (or URL pattern) that identifies your web site to the user when  he or she is authorizing it.  Send a redirect to the resulting URL  to the user's browser.</p><p>That's the first half of the authentication process.  The second  half of the process is done after the user's ID server sends the  user's browser a redirect back to your site to complete their  login.</p><p>When that happens, the user will contact your site at the URL given  as the 'return_to' URL to the Auth_OpenID_AuthRequest::redirectURL  call made above.  The request will have several query parameters  added to the URL by the identity server as the information  necessary to finish the request.</p><p>Lastly, instantiate an Auth_OpenID_Consumer instance as above and  call its 'complete' method, passing in all the received query  arguments.</p><p>There are multiple possible return types possible from that  method. These indicate the whether or not the login was successful,  and include any additional information appropriate for their type.</p><p>PHP versions 4 and 5</p><p>LICENSE: See the COPYING file included in this distribution.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> JanRain, Inc. &lt;<a href="mailto:openid@janrain.com">openid@janrain.com</a>&gt;</li>
+				<li><span class="field">copyright:</span> 2005 Janrain, Inc.</li>
+				<li><span class="field">license:</span> <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+	<a name="sec-classes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Classes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Classes</span>
+			|							<a href="#sec-includes">Includes</a>
+				|										<a href="#sec-constants">Constants</a>
+															</div>
+		<div class="info-box-body">	
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_Consumer.html">Auth_OpenID_Consumer</a>
+					</td>
+					<td>
+											An OpenID consumer implementation that performs discovery and does  session management.  See the Consumer.php file documentation for  more information.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_DiffieHellmanConsumerSession.html">Auth_OpenID_DiffieHellmanConsumerSession</a>
+					</td>
+					<td>
+											
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_PlainTextConsumerSession.html">Auth_OpenID_PlainTextConsumerSession</a>
+					</td>
+					<td>
+											
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_AuthRequest.html">Auth_OpenID_AuthRequest</a>
+					</td>
+					<td>
+											This class represents an authentication request from a consumer to  an OpenID server.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_ConsumerResponse.html">Auth_OpenID_ConsumerResponse</a>
+					</td>
+					<td>
+											The base class for responses from the Auth_OpenID_Consumer.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_SuccessResponse.html">Auth_OpenID_SuccessResponse</a>
+					</td>
+					<td>
+											A response with a status of Auth_OpenID_SUCCESS. Indicates that
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_FailureResponse.html">Auth_OpenID_FailureResponse</a>
+					</td>
+					<td>
+											A response with a status of Auth_OpenID_FAILURE. Indicates that the  OpenID protocol has failed. This could be locally or remotely  triggered.  This has three relevant attributes:
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_CancelResponse.html">Auth_OpenID_CancelResponse</a>
+					</td>
+					<td>
+											A response with a status of Auth_OpenID_CANCEL. Indicates that the  user cancelled the OpenID authentication request.  This has two  relevant attributes:
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_SetupNeededResponse.html">Auth_OpenID_SetupNeededResponse</a>
+					</td>
+					<td>
+											A response with a status of Auth_OpenID_SETUP_NEEDED. Indicates  that the request was in immediate mode, and the server is unable to  authenticate the user without further interaction.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	<a name="sec-includes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Includes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|						<span class="disabled">Includes</span>
+			|							<a href="#sec-constants">Constants</a>
+															</div>
+		<div class="info-box-body">	
+			<a name="_Auth/OpenID/Discover_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/Discover.php"</span>)
+			(line <span class="line-number">173</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/KVForm_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/KVForm.php"</span>)
+			(line <span class="line-number">172</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/DiffieHellman_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/DiffieHellman.php"</span>)
+			(line <span class="line-number">171</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../OpenID/_Auth---OpenID.php.html">"Auth/OpenID.php"</a></span>)
+			(line <span class="line-number">167</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Require utility classes and functions for the consumer.</p>
+	
+</div>
+<a name="_Services/Yadis/Manager_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../Yadis/_Services---Yadis---Manager.php.html">"Services/Yadis/Manager.php"</a></span>)
+			(line <span class="line-number">174</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Services/Yadis/XRI_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Services/Yadis/XRI.php"</span>)
+			(line <span class="line-number">175</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/Association_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../OpenID/_Auth---OpenID---Association.php.html">"Auth/OpenID/Association.php"</a></span>)
+			(line <span class="line-number">169</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/HMACSHA1_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/HMACSHA1.php"</span>)
+			(line <span class="line-number">168</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/CryptUtil_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/CryptUtil.php"</span>)
+			(line <span class="line-number">170</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+		</div>
+	</div>
+	
+	<a name="sec-constants"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|										<a href="#sec-includes">Includes</a>
+				|						<span class="disabled">Constants</span>
+											</div>
+		<div class="info-box-body">	
+			<a name="defineAuth_OpenID_CANCEL"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_CANCEL</span> = 'cancel'
+			(line <span class="line-number">186</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status to indicate cancellation of OpenID authentication.</p>
+	
+		
+</div>
+<a name="defineAuth_OpenID_DEFAULT_NONCE_CHRS"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_DEFAULT_NONCE_CHRS</span> = &quot;abcdefghijklmnopqrstuvwxyz&quot;.&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;
+			(line <span class="line-number">212</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the characters that the nonces are made from.</p>
+	
+		
+</div>
+<a name="defineAuth_OpenID_FAILURE"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_FAILURE</span> = 'failure'
+			(line <span class="line-number">192</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the status code completeAuth returns when the value it  received indicated an invalid login.</p>
+	
+		
+</div>
+<a name="defineAuth_OpenID_PARSE_ERROR"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_PARSE_ERROR</span> = 'parse error'
+			(line <span class="line-number">207</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the status code beginAuth returns when the page fetched  from the entered OpenID URL doesn't contain the necessary link tags  to function as an identity page.</p>
+	
+		
+</div>
+<a name="defineAuth_OpenID_SETUP_NEEDED"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_SETUP_NEEDED</span> = 'setup needed'
+			(line <span class="line-number">200</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the status code completeAuth returns when the  <a href="../OpenID/Auth_OpenID_Consumer.html">Auth_OpenID_Consumer</a> instance is in immediate mode, and the  identity server sends back a URL to send the user to to complete his  or her login.</p>
+	
+		
+</div>
+<a name="defineAuth_OpenID_SUCCESS"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_SUCCESS</span> = 'success'
+			(line <span class="line-number">181</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the status code returned when the complete method returns  successfully.</p>
+	
+		
+</div>
+		</div>
+	</div>
+	
+	
+	
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:27 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

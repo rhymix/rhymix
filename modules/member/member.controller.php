@@ -86,37 +86,112 @@
             ob_clean();
         }
 
+        function getLegacyUserIDsFromOpenID($openid_identity) {
+            //  Issue 17515512:
+            //  OpenID Provider가 openid.identity를 
+            //  http://araste.myid.net/ 으로 넘겨주든
+            //  http://araste.myid.net  으로 넘겨주든,
+            //  동일한 제로보드 사용자 이름에 매핑되어야 한다.
+            //  가입되지 않은 경우엔 / 를 뗀 것이 우선이 된다.
+            //  OpenID Provider의 정책의 일시적 변경 때문에 
+            //  / 가 붙은 꼴의 유저아이디로 (예: jangxyz.myid.net/ )
+            //  가입된 사례가 있다. 이 때는
+            //  jangxyz.myid.net 과 jangxyz.myid.net/  둘 모두로 시도해보아야 한다.
+            //  이를 위한 workaround이다.
+
+            $result = array();
+            $uri_matches = array();
+            preg_match(Auth_OpenID_getURIPattern(), $openid_identity, $uri_matches);
+
+            if (count($uri_matches) < 9) {
+                for ($i = count($uri_matches); $i <= 9; $i++) {
+                    $uri_matches[] = '';
+                }
+            }
+
+            $scheme = $uri_matches[2];
+            $authority = $uri_matches[4];
+            $path = $uri_matches[5];
+            $query = $uri_matches[6];
+            $fragment = $uri_matches[8];
+
+            if ($scheme === null) $scheme = '';
+            if ($authority === null) $authority = '';
+            if ($path === null) $path = '';
+            if ($query === null) $query = '';
+            if ($fragment === null) $fragment = '';
+
+            if ($scheme == 'http' or $scheme == '') 
+                $scheme_part = '';
+            else
+                $scheme_part = $scheme."://";
+
+ 
+            if ($path == '' || $path == '/') {
+                $result[] = $scheme_part.$authority.''.$query.$fragment;
+                $result[] = $scheme_part.$authority.'/'.$query.$fragment;
+            }
+            else {
+                $result[] = $scheme_part.$authority.$path.$query.$fragment;
+            }
+
+            return $result;
+        }
+
         /** 
          * @brief openid 인증 체크
          **/
         function procMemberOpenIDValidate() {
+            // use the JanRain php-openid library 
+            ini_set('include_path', ini_get('include_path').':./modules/member/php-openid-1.2.3');
+            require_once('Auth/OpenID/URINorm.php');
+
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
+
+            $openid_identity = Auth_OpenID_urinorm($_GET['openid_identity']);
 
             ob_start();
             require('./modules/member/openid_lib/class.openid.php');
             require_once('./modules/member/openid_lib/libcurlemu.inc.php');
 
             $openid = new SimpleOpenID;
-            $openid->SetIdentity($_GET['openid_identity']);
+            $openid->SetIdentity($openid_identity);
             $openid_validation_result = $openid->ValidateWithServer();
+
             ob_clean();
 
             // 인증 성공
             if ($openid_validation_result == true) {
-                // 기본 정보들을 받음
-                $args->user_id = $args->nick_name = preg_replace('/^http:\/\//i','',Context::get('openid_identity'));
-                $args->email_address = Context::get('openid_sreg_email');
-                $args->user_name = Context::get('openid_sreg_fullname');
-                if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
-                $args->birthday = str_replace('-','',Context::get('openid_sreg_dob'));
 
-                // 자체 인증 시도
-                $output = $this->doLogin($args->user_id);
+                //  이 오픈아이디와 연결된 (또는 연결되어 있을 가능성이 있는) 제로보드 아이디들을 받아온다.
+                $login_success = false;
+                $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
+
+                $default_user_id = $user_id_candidates[0];
+
+                foreach($user_id_candidates as $user_id) {
+                    $args->user_id = $args->nick_name = $user_id;
+                    // 기본 정보들을 받음
+                    $args->email_address = Context::get('openid_sreg_email');
+                    $args->user_name = Context::get('openid_sreg_fullname');
+                    if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
+                    $args->birthday = str_replace('-','',Context::get('openid_sreg_dob'));
+
+                    // 자체 인증 시도
+                    $output = $this->doLogin($args->user_id);
+
+
+                    if ($output->toBool()) {
+                        $login_success = true;
+                        break;
+                    }
+                }
 
                 // 자체 인증 실패시 회원 가입시킴
-                if(!$output->toBool()) {
+                if(!$login_success) {
+                    $args->user_id = $args->nick_name = $default_user_id;
                     $args->password = md5(getmicrotime());
                     $output = $this->insertMember($args);
                     if(!$output->toBool()) return $this->stop($output->getMessage());

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page OpenID.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name">/Auth/OpenID.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+									<a href="#sec-includes">Includes</a>
+			|							<a href="#sec-constants">Constants</a>
+										</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the PHP OpenID library by JanRain, Inc.</p>
+<p class="description"><p>This module contains core utility functionality used by the  library.  See Consumer.php and Server.php for the consumer and  server implementations.</p><p>PHP versions 4 and 5</p><p>LICENSE: See the COPYING file included in this distribution.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> JanRain, Inc. &lt;<a href="mailto:openid@janrain.com">openid@janrain.com</a>&gt;</li>
+				<li><span class="field">copyright:</span> 2005 Janrain, Inc.</li>
+				<li><span class="field">license:</span> <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	<a name="sec-includes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Includes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Includes</span>
+			|							<a href="#sec-constants">Constants</a>
+															</div>
+		<div class="info-box-body">	
+			<a name="_Auth/OpenID/BigMath_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/BigMath.php"</span>)
+			(line <span class="line-number">25</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Services/Yadis/PlainHTTPFetcher_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Services/Yadis/PlainHTTPFetcher.php"</span>)
+			(line <span class="line-number">23</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Require the fetcher code.</p>
+	
+</div>
+<a name="_Services/Yadis/ParanoidHTTPFetcher_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Services/Yadis/ParanoidHTTPFetcher.php"</span>)
+			(line <span class="line-number">24</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+		</div>
+	</div>
+	
+	<a name="sec-constants"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-includes">Includes</a>
+				|						<span class="disabled">Constants</span>
+											</div>
+		<div class="info-box-body">	
+			<a name="defineAuth_OpenID_digits"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_digits</span> = &quot;0123456789&quot;
+			(line <span class="line-number">93</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+		
+</div>
+<a name="defineAuth_OpenID_DO_ABOUT"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_DO_ABOUT</span> = 'do_about'
+			(line <span class="line-number">85</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status code returned when there were no OpenID arguments  passed. This code indicates that the caller should return a 200 OK  response and display an HTML page that says that this is an OpenID  server endpoint.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a></li>
+			</ul>
+	
+		
+</div>
+<a name="defineAuth_OpenID_DO_AUTH"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_DO_AUTH</span> = 'do_auth'
+			(line <span class="line-number">75</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status code returned when the caller needs to authenticate the</p>
+<p class="description"><p>user. The associated value is a <a href="../OpenID/Auth_OpenID_ServerRequest.html">Auth_OpenID_ServerRequest</a>  object that can be used to complete the authentication. If the user  has taken some authentication action, use the retry() method of the  <a href="../OpenID/Auth_OpenID_ServerRequest.html">Auth_OpenID_ServerRequest</a> object to complete the request.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a></li>
+			</ul>
+	
+		
+</div>
+<a name="defineAuth_OpenID_letters"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_letters</span> = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;
+			(line <span class="line-number">90</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Defines for regexes and format checking.</p>
+	
+		
+</div>
+<a name="defineAuth_OpenID_LOCAL_ERROR"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_LOCAL_ERROR</span> = 'local_error'
+			(line <span class="line-number">35</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status code returned by the server when the only option is to show  an error page, since we do not have enough information to redirect  back to the consumer. The associated value is an error message that  should be displayed on an HTML error page.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a></li>
+			</ul>
+	
+		
+</div>
+<a name="defineAuth_OpenID_NO_MATH_SUPPORT"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_NO_MATH_SUPPORT</span> = true
+			(line <span class="line-number">100</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+		
+</div>
+<a name="defineAuth_OpenID_punct"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_punct</span> = &quot;!!\&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~&quot;
+			(line <span class="line-number">96</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+		
+</div>
+<a name="defineAuth_OpenID_REDIRECT"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_REDIRECT</span> = 'redirect'
+			(line <span class="line-number">64</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status code returned when there is a redirect back to the  consumer. The value is the URL to redirect back to. The caller  should return a 302 Found redirect with a Location: header  containing the URL.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a></li>
+			</ul>
+	
+		
+</div>
+<a name="defineAuth_OpenID_REMOTE_ERROR"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_REMOTE_ERROR</span> = 'remote_error'
+			(line <span class="line-number">44</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status code returned when there is an error to return in key-value  form to the consumer. The caller should return a 400 Bad Request  response with content-type text/plain and the value as the body.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a></li>
+			</ul>
+	
+		
+</div>
+<a name="defineAuth_OpenID_REMOTE_OK"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">Auth_OpenID_REMOTE_OK</span> = 'remote_ok'
+			(line <span class="line-number">54</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Status code returned when there is a key-value form OK response to  the consumer. The value associated with this code is the  response. The caller should return a 200 OK response with  content-type text/plain and the value as the body.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a></li>
+			</ul>
+	
+		
+</div>
+		</div>
+	</div>
+	
+	
+	
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:29 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

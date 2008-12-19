@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Services_Yadis_SessionLoader</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Services_Yadis_SessionLoader</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|													<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A session helper class designed to translate between arrays and</p>
+<p class="description"><p>objects.  Note that the class used must have a constructor that  takes no parameters.  This is not a general solution, but it works  for dumb objects that just need to have attributes set.  The idea  is that you'll subclass this and override $this-&gt;check($data) -&gt;  bool to implement your own session data validation.</p></p>
+		<p class="notes">
+			Located in <a class="field" href="_Services---Yadis---Manager.php.html">/Services/Yadis/Manager.php</a> (line <span class="field">74</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../Yadis/Auth_OpenID_ServiceEndpointLoader.html">Auth_OpenID_ServiceEndpointLoader</a></td>
+					<td>
+											A session helper class designed to translate between arrays and
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../Yadis/Services_Yadis_ManagerLoader.html">Services_Yadis_ManagerLoader</a></td>
+					<td>
+											A session helper class designed to translate between arrays and
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#check" title="details" class="method-name">check</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#fromSession" title="details" class="method-name">fromSession</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#newObject" title="details" class="method-name">newObject</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#prepareForLoad" title="details" class="method-name">prepareForLoad</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#prepareForSave" title="details" class="method-name">prepareForSave</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#toSession" title="details" class="method-name">toSession</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcheck" id="check"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">check</span> (line <span class="line-number">78</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Override this.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			check
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Yadis/Auth_OpenID_ServiceEndpointLoader.html#methodcheck">Auth_OpenID_ServiceEndpointLoader::check()</a>
+							</li>
+					<li>
+				<a href="../Yadis/Services_Yadis_ManagerLoader.html#methodcheck">Services_Yadis_ManagerLoader::check()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodfromSession" id="fromSession"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">fromSession</span> (line <span class="line-number">91</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Given a session data value (an array), this creates an object</p>
+<p class="description"><p>(returned by $this-&gt;newObject()) whose attributes and values  are those in $data.  Returns null if $data lacks keys found in  $this-&gt;requiredKeys().  Returns null if $this-&gt;check($data)  evaluates to false.  Returns null if $this-&gt;newObject()  evaluates to false.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			fromSession
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodnewObject" id="newObject"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">newObject</span> (line <span class="line-number">139</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new instance of this loader's class, using the  session data to construct it if necessary.  The object need  only be created; $this-&gt;fromSession() will take care of setting  the object's attributes.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			newObject
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Yadis/Auth_OpenID_ServiceEndpointLoader.html#methodnewObject">Auth_OpenID_ServiceEndpointLoader::newObject()</a>
+							</li>
+					<li>
+				<a href="../Yadis/Services_Yadis_ManagerLoader.html#methodnewObject">Services_Yadis_ManagerLoader::newObject()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodprepareForLoad" id="prepareForLoad"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">prepareForLoad</span> (line <span class="line-number">128</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Prepares the data array by making any necessary changes.</p>
+<p class="description"><p>Returns an array whose keys and values will be used to update  the original data array before calling $this-&gt;newObject($data).</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			prepareForLoad
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Yadis/Services_Yadis_ManagerLoader.html#methodprepareForLoad">Services_Yadis_ManagerLoader::prepareForLoad()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodprepareForSave" id="prepareForSave"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">prepareForSave</span> (line <span class="line-number">171</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Override this.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			prepareForSave
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$obj</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../Yadis/Services_Yadis_ManagerLoader.html#methodprepareForSave">Services_Yadis_ManagerLoader::prepareForSave()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodtoSession" id="toSession"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">toSession</span> (line <span class="line-number">150</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of keys and values built from the attributes  of $obj.  If $this-&gt;prepareForSave($obj) returns an array, its keys  and values are used to update the $data array of attributes  from $obj.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			toSession
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$obj</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:29 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

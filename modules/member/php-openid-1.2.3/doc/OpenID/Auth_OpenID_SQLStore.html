@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Auth_OpenID_SQLStore</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Auth_OpenID_SQLStore</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the parent class for the SQL stores, which contains the  logic common to all of the SQL stores.</p>
+<p class="description"><p>The table names used are determined by the class variables  settings_table_name, associations_table_name, and  nonces_table_name.  To change the name of the tables used, pass new  table names into the constructor.</p><p>To create the tables with the proper schema, see the createTables  method.</p><p>This class shouldn't be used directly.  Use one of its subclasses  instead, as those contain the code necessary to use a specific  database.  If you're an OpenID integrator and you'd like to create  an SQL-driven store that wraps an application's database  abstraction, be sure to create a subclass of  <a href="../OpenID/Auth_OpenID_DatabaseConnection.html">Auth_OpenID_DatabaseConnection</a> that calls the application's  database abstraction calls.  Then, pass an instance of your new  database connection class to your SQLStore subclass constructor.</p><p>All methods other than the constructor and createTables should be  considered implementation details.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> JanRain, Inc. &lt;<a href="mailto:openid@janrain.com">openid@janrain.com</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_Auth---OpenID---SQLStore.php.html">/Auth/OpenID/SQLStore.php</a> (line <span class="field">57</span>)
+		</p>
+		
+				
+		<pre><a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a>
+   |
+   --Auth_OpenID_SQLStore</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-vars">Vars</a>
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../OpenID/Auth_OpenID_SQLiteStore.html">Auth_OpenID_SQLiteStore</a></td>
+					<td>
+											An SQL store that uses SQLite as its backend.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../OpenID/Auth_OpenID_PostgreSQLStore.html">Auth_OpenID_PostgreSQLStore</a></td>
+					<td>
+											An SQL store that uses PostgreSQL as its backend.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../OpenID/Auth_OpenID_MySQLStore.html">Auth_OpenID_MySQLStore</a></td>
+					<td>
+											An SQL store that uses MySQL as its backend.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">Auth_OpenID_SQLStore</span>
+										<a href="#Auth_OpenID_SQLStore" title="details" class="method-name">Auth_OpenID_SQLStore</a>
+											(<span class="var-type">connection</span>&nbsp;<span class="var-name">$connection</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$settings_table</span> = <span class="var-default">null</span>], [<span class="var-type">associations_table:</span>&nbsp;<span class="var-name">$associations_table</span> = <span class="var-default">null</span>], [<span class="var-type">nonces_table:</span>&nbsp;<span class="var-name">$nonces_table</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#blobDecode" title="details" class="method-name">blobDecode</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$blob</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#blobEncode" title="details" class="method-name">blobEncode</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#createTables" title="details" class="method-name">createTables</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#create_assoc_table" title="details" class="method-name">create_assoc_table</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#create_nonce_table" title="details" class="method-name">create_nonce_table</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#create_settings_table" title="details" class="method-name">create_settings_table</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getAssociation" title="details" class="method-name">getAssociation</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$server_url</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$handle</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getAuthKey" title="details" class="method-name">getAuthKey</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#isError" title="details" class="method-name">isError</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeAssociation" title="details" class="method-name">removeAssociation</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$handle</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#reset" title="details" class="method-name">reset</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#resultToBool" title="details" class="method-name">resultToBool</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setSQL" title="details" class="method-name">setSQL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#storeAssociation" title="details" class="method-name">storeAssociation</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$association</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#tableExists" title="details" class="method-name">tableExists</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$table_name</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#useNonce" title="details" class="method-name">useNonce</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$nonce</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#var$AUTH_KEY_LEN">Auth_OpenID_OpenIDStore::$AUTH_KEY_LEN</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodAuth_OpenID_SQLStore" id="Auth_OpenID_SQLStore"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor Auth_OpenID_SQLStore</span> (line <span class="line-number">82</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This creates a new SQLStore instance.  It requires an  established database connection be given to it, and it allows  overriding the default table names.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">Auth_OpenID_SQLStore</span>
+		<span class="method-name">
+			Auth_OpenID_SQLStore
+		</span>
+					(<span class="var-type">connection</span>&nbsp;<span class="var-name">$connection</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$settings_table</span> = <span class="var-default">null</span>], [<span class="var-type">associations_table:</span>&nbsp;<span class="var-name">$associations_table</span> = <span class="var-default">null</span>], [<span class="var-type">nonces_table:</span>&nbsp;<span class="var-name">$nonces_table</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">connection</span>
+				<span class="var-name">$connection</span><span class="var-description">: This must be an established  connection to a database of the correct type for the SQLStore  subclass you're using.  This must either be an PEAR DB  connection handle or an instance of a subclass of  Auth_OpenID_DatabaseConnection.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$settings_table</span><span class="var-description">: This is an optional parameter to  specify the name of the table used for this store's settings.  The default value is 'oid_settings'.</span>			</li>
+					<li>
+				<span class="var-type">associations_table:</span>
+				<span class="var-name">$associations_table</span><span class="var-description">: This is an optional parameter to  specify the name of the table used for storing associations.  The default value is 'oid_associations'.</span>			</li>
+					<li>
+				<span class="var-type">nonces_table:</span>
+				<span class="var-name">$nonces_table</span><span class="var-description">: This is an optional parameter to specify  the name of the table used for storing nonces.  The default  value is 'oid_nonces'.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodblobDecode" id="blobDecode"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">blobDecode</span> (line <span class="line-number">301</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			blobDecode
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$blob</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$blob</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodblobEncode" id="blobEncode"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">blobEncode</span> (line <span class="line-number">306</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			blobEncode
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$str</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateTables" id="createTables"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createTables</span> (line <span class="line-number">311</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			createTables
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcreate_assoc_table" id="create_assoc_table"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">create_assoc_table</span> (line <span class="line-number">335</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			create_assoc_table
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcreate_nonce_table" id="create_nonce_table"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">create_nonce_table</span> (line <span class="line-number">326</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			create_nonce_table
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcreate_settings_table" id="create_settings_table"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">create_settings_table</span> (line <span class="line-number">344</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			create_settings_table
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetAssociation" id="getAssociation"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAssociation</span> (line <span class="line-number">475</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getAssociation
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$server_url</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$handle</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$server_url</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$handle</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodgetAssociation">Auth_OpenID_OpenIDStore::getAssociation()</a></dt>
+						<dd>This method returns an Association object from storage that  matches the server URL and, if specified, handle. It returns  null if no such association is found or if the matching  association is expired.</dd>
+					</dl>
+			
+	</div>
+<a name="methodgetAuthKey" id="getAuthKey"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAuthKey</span> (line <span class="line-number">370</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getAuthKey
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodgetAuthKey">Auth_OpenID_OpenIDStore::getAuthKey()</a></dt>
+						<dd>This method returns a key used to sign the tokens, to ensure  that they haven't been tampered with in transit. It should  return the same key every time it is called. The key returned  should be AUTH_KEY_LEN bytes long.</dd>
+					</dl>
+			
+	</div>
+<a name="methodisError" id="isError"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isError</span> (line <span class="line-number">177</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true if $value constitutes a database error; returns  false otherwise.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			isError
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveAssociation" id="removeAssociation"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeAssociation</span> (line <span class="line-number">458</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeAssociation
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$handle</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$server_url</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$handle</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodremoveAssociation">Auth_OpenID_OpenIDStore::removeAssociation()</a></dt>
+						<dd>This method removes the matching association if it's found, and  returns whether the association was removed or not.</dd>
+					</dl>
+			
+	</div>
+<a name="methodreset" id="reset"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">reset</span> (line <span class="line-number">209</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Resets the store by removing all records from the store's  tables.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			reset
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodreset">Auth_OpenID_OpenIDStore::reset()</a></dt>
+						<dd>Removes all entries from the store; implementation is optional.</dd>
+					</dl>
+			
+	</div>
+<a name="methodresultToBool" id="resultToBool"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">resultToBool</span> (line <span class="line-number">187</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Converts a query result to a boolean.  If the result is a  database error according to $this-&gt;isError(), this returns  false; otherwise, this returns true.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			resultToBool
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$obj</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetSQL" id="setSQL"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setSQL</span> (line <span class="line-number">201</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method should be overridden by subclasses.  This method is  called by the constructor to set values in $this-&gt;sql, which is  an array keyed on sql name.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setSQL
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLiteStore.html#methodsetSQL">Auth_OpenID_SQLiteStore::setSQL()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodstoreAssociation" id="storeAssociation"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">storeAssociation</span> (line <span class="line-number">412</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			storeAssociation
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$association</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$server_url</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$association</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodstoreAssociation">Auth_OpenID_OpenIDStore::storeAssociation()</a></dt>
+						<dd>This method puts an Association object into storage,  retrievable by server URL and handle.</dd>
+					</dl>
+			
+	</div>
+<a name="methodtableExists" id="tableExists"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">tableExists</span> (line <span class="line-number">166</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			tableExists
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$table_name</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$table_name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoduseNonce" id="useNonce"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">useNonce</span> (line <span class="line-number">575</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			useNonce
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$nonce</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$nonce</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methoduseNonce">Auth_OpenID_OpenIDStore::useNonce()</a></dt>
+						<dd>This method is called when the library is attempting to use a  nonce. If the nonce is in the store, this method removes it and  returns a value which evaluates as true. Otherwise it returns a  value which evaluates as false.</dd>
+					</dl>
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodgetAssociation">Auth_OpenID_OpenIDStore::getAssociation()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodgetAuthKey">Auth_OpenID_OpenIDStore::getAuthKey()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodisDumb">Auth_OpenID_OpenIDStore::isDumb()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodremoveAssociation">Auth_OpenID_OpenIDStore::removeAssociation()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodreset">Auth_OpenID_OpenIDStore::reset()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodstoreAssociation">Auth_OpenID_OpenIDStore::storeAssociation()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methodstoreNonce">Auth_OpenID_OpenIDStore::storeNonce()</a></span><br>
+													<span class="method-name"><a href="../OpenID/Auth_OpenID_OpenIDStore.html#methoduseNonce">Auth_OpenID_OpenIDStore::useNonce()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:30 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

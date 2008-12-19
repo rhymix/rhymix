@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Auth_OpenID_OpenIDStore</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Auth_OpenID_OpenIDStore</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This is the interface for the store objects the OpenID library</p>
+<p class="description"><p>uses. It is a single class that provides all of the persistence  mechanisms that the OpenID library needs, for both servers and  consumers.  If you want to create an SQL-driven store, please see  then <a href="../OpenID/Auth_OpenID_SQLStore.html">Auth_OpenID_SQLStore</a> class.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> JanRain, Inc. &lt;<a href="mailto:openid@janrain.com">openid@janrain.com</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_Auth---OpenID---Interface.php.html">/Auth/OpenID/Interface.php</a> (line <span class="field">26</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../OpenID/Auth_OpenID_DumbStore.html">Auth_OpenID_DumbStore</a></td>
+					<td>
+											This is a store for use in the worst case, when you have no way of  saving state on the consumer site. Using this store makes the  consumer vulnerable to replay attacks, as it's unable to use  nonces. Avoid using this store if it is at all possible.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../OpenID/Auth_OpenID_FileStore.html">Auth_OpenID_FileStore</a></td>
+					<td>
+											This is a filesystem-based store for OpenID associations and
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../OpenID/Auth_OpenID_SQLStore.html">Auth_OpenID_SQLStore</a></td>
+					<td>
+											This is the parent class for the SQL stores, which contains the  logic common to all of the SQL stores.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																								<div class="var-title">
+					<span class="var-type">integer</span>
+					<a href="#$AUTH_KEY_LEN" title="details" class="var-name">$AUTH_KEY_LEN</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																														
+				<div class="method-definition">
+											<span class="method-result">Association</span>
+										<a href="#getAssociation" title="details" class="method-name">getAssociation</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$server_url</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$handle</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getAuthKey" title="details" class="method-name">getAuthKey</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#isDumb" title="details" class="method-name">isDumb</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#removeAssociation" title="details" class="method-name">removeAssociation</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$handle</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#reset" title="details" class="method-name">reset</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#storeAssociation" title="details" class="method-name">storeAssociation</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type">Association</span>&nbsp;<span class="var-name">$association</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">null</span>
+										<a href="#storeNonce" title="details" class="method-name">storeNonce</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$nonce</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">bool</span>
+										<a href="#useNonce" title="details" class="method-name">useNonce</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$nonce</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$AUTH_KEY_LEN" id="$AUTH_KEY_LEN"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">integer</span>
+			<span class="var-name">$AUTH_KEY_LEN</span>
+			 = <span class="var-default"> 20</span>			(line <span class="line-number">31</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">var:</span> The length of the auth key that should be returned  by the getAuthKey method.</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodgetAssociation" id="getAssociation"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAssociation</span> (line <span class="line-number">82</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method returns an Association object from storage that  matches the server URL and, if specified, handle. It returns  null if no such association is found or if the matching  association is expired.</p>
+<p class="description"><p>If no handle is specified, the store may return any association  which matches the server URL. If multiple associations are  valid, the recommended return value for this method is the one  that will remain valid for the longest duration.</p><p>This method is allowed (and encouraged) to garbage collect  expired associations when found. This method must not return  expired associations.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The Association for the given identity  server.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">Association</span>
+		<span class="method-name">
+			getAssociation
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$server_url</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$handle</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$server_url</span><span class="var-description">: The URL of the identity server to get  the association for. Because of the way the server portion of  the library uses this interface, don't assume there are any  limitations on the character set of the input string.  In  particular, expect to see unescaped non-url-safe characters in  the server_url field.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$handle</span><span class="var-description">: This optional parameter is the handle of  the specific association to get. If no specific handle is  provided, any valid association matching the server URL is  returned.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methodgetAssociation">Auth_OpenID_DumbStore::getAssociation()</a>
+								: This implementation always returns null.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_FileStore.html#methodgetAssociation">Auth_OpenID_FileStore::getAssociation()</a>
+								: Retrieve an association. If no handle is specified, return the  association with the most recent issue time.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLStore.html#methodgetAssociation">Auth_OpenID_SQLStore::getAssociation()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodgetAuthKey" id="getAuthKey"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAuthKey</span> (line <span class="line-number">157</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method returns a key used to sign the tokens, to ensure  that they haven't been tampered with in transit. It should  return the same key every time it is called. The key returned  should be AUTH_KEY_LEN bytes long.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The key. It should be <a href="../OpenID/Auth_OpenID_OpenIDStore.html#var$AUTH_KEY_LEN">AUTH_KEY_LEN</a> bytes in  length, and use the full range of byte values. That is, it  should be treated as a lump of binary data stored in a string.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getAuthKey
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methodgetAuthKey">Auth_OpenID_DumbStore::getAuthKey()</a>
+								: This method returns the auth key generated by the constructor.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_FileStore.html#methodgetAuthKey">Auth_OpenID_FileStore::getAuthKey()</a>
+								: Retrieve the auth key from the file specified by  $this-&gt;auth_key_name, creating it if it does not exist.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLStore.html#methodgetAuthKey">Auth_OpenID_SQLStore::getAuthKey()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodisDumb" id="isDumb"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isDumb</span> (line <span class="line-number">175</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method must return true if the store is a dumb-mode-style  store. Unlike all other methods in this class, this one  provides a default implementation, which returns false.</p>
+<p class="description"><p>In general, any custom subclass of <a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a>  won't override this method, as custom subclasses are only likely to  be created when the store is fully functional.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if the store works fully, false if the  consumer will have to use dumb mode to use this store.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			isDumb
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methodisDumb">Auth_OpenID_DumbStore::isDumb()</a>
+								: This store is a dumb mode store, so this method is overridden  to return true.
+							</li>
+				</ul>
+	</div>
+<a name="methodremoveAssociation" id="removeAssociation"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeAssociation</span> (line <span class="line-number">106</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method removes the matching association if it's found, and  returns whether the association was removed or not.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Returns whether or not the given association existed.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			removeAssociation
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$handle</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$server_url</span><span class="var-description">: The URL of the identity server the  association to remove belongs to. Because of the way the server  portion of the library uses this interface, don't assume there  are any limitations on the character set of the input  string. In particular, expect to see unescaped non-url-safe  characters in the server_url field.</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$handle</span><span class="var-description">: This is the handle of the association to  remove. If there isn't an association found that matches both  the given URL and handle, then there was no matching handle  found.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methodremoveAssociation">Auth_OpenID_DumbStore::removeAssociation()</a>
+								: This implementation always returns false.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_FileStore.html#methodremoveAssociation">Auth_OpenID_FileStore::removeAssociation()</a>
+								: Remove an association if it exists. Do nothing if it does not.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLStore.html#methodremoveAssociation">Auth_OpenID_SQLStore::removeAssociation()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodreset" id="reset"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">reset</span> (line <span class="line-number">183</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes all entries from the store; implementation is optional.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			reset
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLStore.html#methodreset">Auth_OpenID_SQLStore::reset()</a>
+								: Resets the store by removing all records from the store's  tables.
+							</li>
+				</ul>
+	</div>
+<a name="methodstoreAssociation" id="storeAssociation"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">storeAssociation</span> (line <span class="line-number">46</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method puts an Association object into storage,  retrievable by server URL and handle.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			storeAssociation
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$server_url</span>, <span class="var-type">Association</span>&nbsp;<span class="var-name">$association</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$server_url</span><span class="var-description">: The URL of the identity server that  this association is with. Because of the way the server portion  of the library uses this interface, don't assume there are any  limitations on the character set of the input string. In  particular, expect to see unescaped non-url-safe characters in  the server_url field.</span>			</li>
+					<li>
+				<span class="var-type">Association</span>
+				<span class="var-name">$association</span><span class="var-description">: The Association to store.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methodstoreAssociation">Auth_OpenID_DumbStore::storeAssociation()</a>
+								: This implementation does nothing.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_FileStore.html#methodstoreAssociation">Auth_OpenID_FileStore::storeAssociation()</a>
+								: Store an association in the association directory.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLStore.html#methodstoreAssociation">Auth_OpenID_SQLStore::storeAssociation()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodstoreNonce" id="storeNonce"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">storeNonce</span> (line <span class="line-number">120</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Stores a nonce. This is used by the consumer to prevent replay  attacks.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">null</span>
+		<span class="method-name">
+			storeNonce
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nonce</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nonce</span><span class="var-description">: The nonce to store.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methodstoreNonce">Auth_OpenID_DumbStore::storeNonce()</a>
+								: This implementation does nothing.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_FileStore.html#methodstoreNonce">Auth_OpenID_FileStore::storeNonce()</a>
+								: Mark this nonce as present.
+							</li>
+				</ul>
+	</div>
+<a name="methoduseNonce" id="useNonce"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">useNonce</span> (line <span class="line-number">141</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This method is called when the library is attempting to use a  nonce. If the nonce is in the store, this method removes it and  returns a value which evaluates as true. Otherwise it returns a  value which evaluates as false.</p>
+<p class="description"><p>This method is allowed and encouraged to treat nonces older  than some period (a very conservative window would be 6 hours,  for example) as no longer existing, and return False and remove  them.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Whether or not the nonce was valid.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">bool</span>
+		<span class="method-name">
+			useNonce
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$nonce</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$nonce</span><span class="var-description">: The nonce to use.</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../OpenID/Auth_OpenID_DumbStore.html#methoduseNonce">Auth_OpenID_DumbStore::useNonce()</a>
+								: In a system truly limited to dumb mode, nonces must all be  accepted. This therefore always returns true, which makes  replay attacks feasible.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_FileStore.html#methoduseNonce">Auth_OpenID_FileStore::useNonce()</a>
+								: Return whether this nonce is present. As a side effect, mark it  as no longer present.
+							</li>
+					<li>
+				<a href="../OpenID/Auth_OpenID_SQLStore.html#methoduseNonce">Auth_OpenID_SQLStore::useNonce()</a>
+							</li>
+				</ul>
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:29 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

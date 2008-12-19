@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Auth_OpenID_Consumer</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Auth_OpenID_Consumer</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">An OpenID consumer implementation that performs discovery and does  session management.  See the Consumer.php file documentation for  more information.</p>
+		<p class="notes">
+			Located in <a class="field" href="_Auth---OpenID---Consumer.php.html">/Auth/OpenID/Consumer.php</a> (line <span class="field">222</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																														
+				<div class="method-definition">
+											<span class="method-result">Auth_OpenID_Consumer</span>
+										<a href="#Auth_OpenID_Consumer" title="details" class="method-name">Auth_OpenID_Consumer</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$store</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$session</span> = <span class="var-default">null</span>], <span class="var-type"><a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a></span>&nbsp;<span class="var-name">$store</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../OpenID/Auth_OpenID_AuthRequest.html">Auth_OpenID_AuthRequest</a></span>
+										<a href="#begin" title="details" class="method-name">begin</a>
+											(<span class="var-type">User_url:</span>&nbsp;<span class="var-name">$user_url</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../OpenID/Auth_OpenID_AuthRequest.html">Auth_OpenID_AuthRequest</a></span>
+										<a href="#beginWithoutDiscovery" title="details" class="method-name">&amp;beginWithoutDiscovery</a>
+											(<span class="var-type">Auth_OpenID_ServiceEndpoint</span>&nbsp;<span class="var-name">$endpoint</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../OpenID/Auth_OpenID_ConsumerResponse.html">Auth_OpenID_ConsumerResponse</a></span>
+										<a href="#complete" title="details" class="method-name">complete</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$query</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodAuth_OpenID_Consumer" id="Auth_OpenID_Consumer"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor Auth_OpenID_Consumer</span> (line <span class="line-number">259</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Initialize a Consumer instance.</p>
+<p class="description"><p>You should create a new instance of the Consumer object with  every HTTP request that handles OpenID transactions.</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">Auth_OpenID_Consumer</span>
+		<span class="method-name">
+			Auth_OpenID_Consumer
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$store</span>, [<span class="var-type">mixed</span>&nbsp;<span class="var-name">$session</span> = <span class="var-default">null</span>], <span class="var-type"><a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a></span>&nbsp;<span class="var-name">$store</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a></span>
+				<span class="var-name">$store</span><span class="var-description">: This must be an object  that implements the interface in <a href="../OpenID/Auth_OpenID_OpenIDStore.html">Auth_OpenID_OpenIDStore</a>.  Several concrete implementations are  provided, to cover most common use cases.  For stores backed by  MySQL, PostgreSQL, or SQLite, see the <a href="../OpenID/Auth_OpenID_SQLStore.html">Auth_OpenID_SQLStore</a> class and its sublcasses.  For a  filesystem-backed store, see the <a href="../OpenID/Auth_OpenID_FileStore.html">Auth_OpenID_FileStore</a>  module.  As a last resort, if it isn't possible for the server  to store state at all, an instance of <a href="../OpenID/Auth_OpenID_DumbStore.html">Auth_OpenID_DumbStore</a> can be used.</span>			</li>
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$session</span><span class="var-description">: session An object which implements the interface  of the Services_Yadis_Session class.  Particularly, this object  is expected to have these methods: get($key), set($key,  $value), and del($key).  This defaults to a session object  which wraps PHP's native session machinery.  You should only  need to pass something here if you have your own sessioning  implementation.</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$store</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodbegin" id="begin"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">begin</span> (line <span class="line-number">287</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Start the OpenID authentication process. See steps 1-2 in the  overview at the top of this file.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An object  containing the discovered information will be returned, with a  method for building a redirect URL to the server, as described  in step 3 of the overview. This object may also be used to add  extension arguments to the request, using its 'addExtensionArg'  method.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../OpenID/Auth_OpenID_AuthRequest.html">Auth_OpenID_AuthRequest</a></span>
+		<span class="method-name">
+			begin
+		</span>
+					(<span class="var-type">User_url:</span>&nbsp;<span class="var-name">$user_url</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">User_url:</span>
+				<span class="var-name">$user_url</span><span class="var-description">: Identity URL given by the user. This method  performs a textual transformation of the URL to try and make  sure it is normalized. For example, a user_url of example.com  will be normalized to http://example.com/ normalizing and  resolving any redirects the server might issue.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodbeginWithoutDiscovery" id="beginWithoutDiscovery"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">beginWithoutDiscovery</span> (line <span class="line-number">350</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Start OpenID verification without doing OpenID server</p>
+<p class="description"><p>discovery. This method is used internally by Consumer.begin  after discovery is performed, and exists to provide an  interface for library users needing to perform their own  discovery.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> An OpenID  authentication request object.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../OpenID/Auth_OpenID_AuthRequest.html">Auth_OpenID_AuthRequest</a></span>
+		<span class="method-name">
+			&amp;beginWithoutDiscovery
+		</span>
+					(<span class="var-type">Auth_OpenID_ServiceEndpoint</span>&nbsp;<span class="var-name">$endpoint</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">Auth_OpenID_ServiceEndpoint</span>
+				<span class="var-name">$endpoint</span><span class="var-description">: an OpenID service  endpoint descriptor.</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcomplete" id="complete"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">complete</span> (line <span class="line-number">372</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Called to interpret the server's response to an OpenID  request. It is called in step 4 of the flow described in the  consumer overview.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> A instance of an  Auth_OpenID_ConsumerResponse subclass. The type of response is  indicated by the status attribute, which will be one of  SUCCESS, CANCEL, FAILURE, or SETUP_NEEDED.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../OpenID/Auth_OpenID_ConsumerResponse.html">Auth_OpenID_ConsumerResponse</a></span>
+		<span class="method-name">
+			complete
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$query</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$query</span><span class="var-description">: An array of the query parameters (key =&gt;  value pairs) for this HTTP request.</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:28 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

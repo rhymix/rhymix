@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page Server.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name">/Auth/OpenID/Server.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-classes">Classes</a>
+			|							<a href="#sec-includes">Includes</a>
+			|							<a href="#sec-constants">Constants</a>
+										</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">OpenID server protocol and logic.</p>
+<p class="description"><p>Overview</p><p>An OpenID server must perform three tasks:</p><p><ol><li>Examine the incoming request to determine its nature and validity.</li><li>Make a decision about how to respond to this request.</li><li>Format the response according to the protocol.</li></ol>  The first and last of these tasks may performed by the  'decodeRequest' and 'encodeResponse' methods of the  Auth_OpenID_Server object.  Who gets to do the intermediate task --  deciding how to respond to the request -- will depend on what type  of request it is.</p><p>If it's a request to authenticate a user (a 'checkid_setup' or  'checkid_immediate' request), you need to decide if you will assert  that this user may claim the identity in question.  Exactly how you  do that is a matter of application policy, but it generally  involves making sure the user has an account with your system and  is logged in, checking to see if that identity is hers to claim,  and verifying with the user that she does consent to releasing that  information to the party making the request.</p><p>Examine the properties of the Auth_OpenID_CheckIDRequest object,  and if and when you've come to a decision, form a response by  calling Auth_OpenID_CheckIDRequest::answer.</p><p>Other types of requests relate to establishing associations between  client and server and verifing the authenticity of previous  communications.  Auth_OpenID_Server contains all the logic and data  necessary to respond to such requests; just pass it to  Auth_OpenID_Server::handleRequest.</p><p>OpenID Extensions</p><p>Do you want to provide other information for your users in addition  to authentication?  Version 1.2 of the OpenID protocol allows  consumers to add extensions to their requests.  For example, with  sites using the Simple Registration  Extension  (http://www.openidenabled.com/openid/simple-registration-extension/),  a user can agree to have their nickname and e-mail address sent to  a site when they sign up.</p><p>Since extensions do not change the way OpenID authentication works,  code to handle extension requests may be completely separate from  the Auth_OpenID_Request class here.  But you'll likely want data  sent back by your extension to be signed.  Auth_OpenID_Response  provides methods with which you can add data to it which can be  signed with the other data in the OpenID signature.</p><p>For example:</p><p>//  when request is a checkid_* request    response = request.answer(True)    // this will a signed 'openid.sreg.timezone' parameter to the response    response.addField('sreg', 'timezone', 'America/Los_Angeles')</p><p>Stores</p><p>The OpenID server needs to maintain state between requests in order  to function.  Its mechanism for doing this is called a store.  The  store interface is defined in Interface.php.  Additionally, several  concrete store implementations are provided, so that most sites  won't need to implement a custom store.  For a store backed by flat  files on disk, see Auth_OpenID_FileStore.  For stores based on  MySQL, SQLite, or PostgreSQL, see the Auth_OpenID_SQLStore  subclasses.</p><p>Upgrading</p><p>The keys by which a server looks up associations in its store have  changed in version 1.2 of this library.  If your store has entries  created from version 1.0 code, you should empty it.</p><p>PHP versions 4 and 5</p><p>LICENSE: See the COPYING file included in this distribution.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> JanRain, Inc. &lt;<a href="mailto:openid@janrain.com">openid@janrain.com</a>&gt;</li>
+				<li><span class="field">copyright:</span> 2005 Janrain, Inc.</li>
+				<li><span class="field">license:</span> <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+	<a name="sec-classes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Classes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Classes</span>
+			|							<a href="#sec-includes">Includes</a>
+				|										<a href="#sec-constants">Constants</a>
+															</div>
+		<div class="info-box-body">	
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_ServerError.html">Auth_OpenID_ServerError</a>
+					</td>
+					<td>
+											An error class which gets instantiated and returned whenever an  OpenID protocol error occurs.  Be prepared to use this in place of  an ordinary server response.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_MalformedReturnURL.html">Auth_OpenID_MalformedReturnURL</a>
+					</td>
+					<td>
+											An error indicating that the return_to URL is malformed.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_MalformedTrustRoot.html">Auth_OpenID_MalformedTrustRoot</a>
+					</td>
+					<td>
+											This error is returned when the trust_root value is malformed.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_PlainTextServerSession.html">Auth_OpenID_PlainTextServerSession</a>
+					</td>
+					<td>
+											
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_DiffieHellmanServerSession.html">Auth_OpenID_DiffieHellmanServerSession</a>
+					</td>
+					<td>
+											
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_WebResponse.html">Auth_OpenID_WebResponse</a>
+					</td>
+					<td>
+											A web-capable response object which you can use to generate a  user-agent response.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_Signatory.html">Auth_OpenID_Signatory</a>
+					</td>
+					<td>
+											Responsible for the signature of query data and the verification of  OpenID signature values.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_Encoder.html">Auth_OpenID_Encoder</a>
+					</td>
+					<td>
+											Encode an Auth_OpenID_Response to an Auth_OpenID_WebResponse.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_SigningEncoder.html">Auth_OpenID_SigningEncoder</a>
+					</td>
+					<td>
+											An encoder which also takes care of signing fields when required.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_Decoder.html">Auth_OpenID_Decoder</a>
+					</td>
+					<td>
+											Decode an incoming Auth_OpenID_WebResponse into an  Auth_OpenID_Request.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_EncodingError.html">Auth_OpenID_EncodingError</a>
+					</td>
+					<td>
+											An error that indicates an encoding problem occurred.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_AlreadySigned.html">Auth_OpenID_AlreadySigned</a>
+					</td>
+					<td>
+											An error that indicates that a response was already signed.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_UntrustedReturnURL.html">Auth_OpenID_UntrustedReturnURL</a>
+					</td>
+					<td>
+											An error that indicates that the given return_to is not under the  given trust_root.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../OpenID/Auth_OpenID_Server.html">Auth_OpenID_Server</a>
+					</td>
+					<td>
+											An object that implements the OpenID protocol for a single URL.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	<a name="sec-includes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Includes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|						<span class="disabled">Includes</span>
+			|							<a href="#sec-constants">Constants</a>
+															</div>
+		<div class="info-box-body">	
+			<a name="_Auth/OpenID/DiffieHellman_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/DiffieHellman.php"</span>)
+			(line <span class="line-number">98</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/KVForm_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/KVForm.php"</span>)
+			(line <span class="line-number">99</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/BigMath_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/BigMath.php"</span>)
+			(line <span class="line-number">97</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/TrustRoot_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/TrustRoot.php"</span>)
+			(line <span class="line-number">100</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/ServerRequest_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../OpenID/_Auth---OpenID---ServerRequest.php.html">"Auth/OpenID/ServerRequest.php"</a></span>)
+			(line <span class="line-number">101</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../OpenID/_Auth---OpenID.php.html">"Auth/OpenID.php"</a></span>)
+			(line <span class="line-number">94</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Required imports</p>
+	
+</div>
+<a name="_Auth/OpenID/CryptUtil_php"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name">"Auth/OpenID/CryptUtil.php"</span>)
+			(line <span class="line-number">96</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+<a name="_Auth/OpenID/Association_php"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="include-title">
+			<span class="include-type">require_once</span>
+			(<span class="include-name"><a href="../OpenID/_Auth---OpenID---Association.php.html">"Auth/OpenID/Association.php"</a></span>)
+			(line <span class="line-number">95</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+</div>
+		</div>
+	</div>
+	
+	<a name="sec-constants"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Constants</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|										<a href="#sec-includes">Includes</a>
+				|						<span class="disabled">Constants</span>
+											</div>
+		<div class="info-box-body">	
+			<a name="defineAUTH_OPENID_HTTP_ERROR"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">AUTH_OPENID_HTTP_ERROR</span> = 400
+			(line <span class="line-number">105</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+		
+</div>
+<a name="defineAUTH_OPENID_HTTP_OK"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">AUTH_OPENID_HTTP_OK</span> = 200
+			(line <span class="line-number">103</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+		
+</div>
+<a name="defineAUTH_OPENID_HTTP_REDIRECT"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="const-title">
+			<span class="const-name">AUTH_OPENID_HTTP_REDIRECT</span> = 302
+			(line <span class="line-number">104</span>)
+		</span>
+	</div>
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+		
+</div>
+		</div>
+	</div>
+	
+	
+	
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 10 Sep 2007 13:29:29 -0700 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>
