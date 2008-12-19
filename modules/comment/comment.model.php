@@ -184,7 +184,7 @@
         /** 
          * @brief document_srl에 해당하는 문서의 댓글 목록을 가져옴
          **/
-        function getCommentList($document_srl, $page = 0, $is_admin = false) {
+        function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
             // 해당 문서의 모듈에 해당하는 댓글 수를 구함
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
@@ -197,9 +197,14 @@
 
             // 정해진 댓글수에 따른 댓글 목록 구함
             $module_srl = $oDocument->get('module_srl');
-            $comment_config = $this->getCommentConfig($module_srl);
-            $comment_count = $comment_config->comment_count;
-            if(!$comment_count) $comment_count = 50;
+
+            if(!$count) {
+                $comment_config = $this->getCommentConfig($module_srl);
+                $comment_count = $comment_config->comment_count;
+                if(!$comment_count) $comment_count = 50;
+            } else {
+                $comment_count = $count;
+            }
 
             // 페이지가 없으면 제일 뒤 페이지를 구함
             if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;                

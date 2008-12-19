@@ -4,6 +4,274 @@
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
+/* jQuery 참조변수($) 제거 */
+if(jQuery) jQuery.noConflict();
+
+;(function($) {
+    /**
+     * @brief XE 공용 유틸리티 함수
+     * @namespace XE
+     */
+    window.XE = {
+        loaded_popup_menus : new Array(),
+        addedDocument : new Array(),
+        /**
+         * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
+         * @param [itemName='cart',][options={}]
+         */
+        checkboxToggleAll : function() {
+            var itemName='cart';
+            var options = {
+                wrap : null,
+                checked : 'toggle',
+                doClick : false
+            };
+
+            switch(arguments.length) {
+                case 1:
+                    if(typeof(arguments[0]) == "string") {
+                        itemName = arguments[0];
+                    } else {
+                        $.extend(options, arguments[0] || {});
+                    }
+                    break;
+                case 2:
+                    itemName = arguments[0];
+                    $.extend(options, arguments[1] || {});
+            }
+
+            if(options.doClick == true) options.checked = null;
+            if(typeof(options.wrap) == "string") options.wrap ='#'+options.wrap;
+
+            if(options.wrap) {
+                var obj = $(options.wrap).find('input[name='+itemName+']:checkbox');
+            } else {
+                var obj = $('input[name='+itemName+']:checkbox');
+            }
+
+            if(options.checked == 'toggle') {
+                obj.each(function() {
+                    $(this).attr('checked', ($(this).attr('checked')) ? false : true);
+                });
+            } else {
+                (options.doClick == true) ? obj.click() : obj.attr('checked', options.checked);
+            }
+        },
+
+        /**
+         * @brief 문서/회원 등 팝업 메뉴 출력
+         */
+        displayPopupMenu : function(ret_obj, response_tags, params) {
+            var target_srl = params["target_srl"];
+            var menu_id = params["menu_id"];
+            var menus = ret_obj['menus'];
+            var html = "";
+
+            if(this.loaded_popup_menus[menu_id]) {
+                html = this.loaded_popup_menus[menu_id];
+
+            } else {
+                if(menus) {
+                    var item = menus['item'];
+                    if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
+                    if(item.length) {
+                        for(var i=0;i<item.length;i++) {
+                            var url = item[i].url;
+                            var str = item[i].str;
+                            var icon = item[i].icon;
+                            var target = item[i].target;
+
+                            var styleText = "";
+                            var click_str = "";
+                            if(icon) styleText = " style=\"background-image:url('"+icon+"')\" ";
+                            switch(target) {
+                                case "popup" :
+                                        click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
+                                    break;
+                                case "self" :
+                                        //click_str = " onclick=\"location.href='"+url+"' return false;\"";
+                                    break;
+                                case "javascript" :
+                                        click_str = " onclick=\""+url+"; return false; \"";
+                                        url="#";
+                                    break;
+                                default :
+                                        click_str = " onclick=\"window.open(this.href); return false;\"";
+                                    break;
+                            }
+
+                            html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
+                        }
+                    }
+                }
+                this.loaded_popup_menus[menu_id] =  html;
+            }
+
+            // 레이어 출력
+            if(html) {
+                var area = jQuery("#popup_menu_area").html('<ul>'+html+'</ul>');
+                var areaOffset = {top:params['page_y'], left:params['page_x']};
+
+                if(area.outerHeight()+areaOffset.top > jQuery(window).height()+jQuery(window).scrollTop())
+                    areaOffset.top = jQuery(window).height() - area.outerHeight() + jQuery(window).scrollTop();
+                if(area.outerWidth()+areaOffset.left > jQuery(window).width()+jQuery(window).scrollLeft())
+                    areaOffset.left = jQuery(window).width() - area.outerWidth() + jQuery(window).scrollLeft();
+
+                if($.browser.safari) {
+                    areaOffset.top -= 16;
+                    areaOffset.left -= 16;
+                }
+
+                area.css({ visibility:"visible", top:areaOffset.top, left:areaOffset.left });
+            }
+        }
+    }
+
+}) (jQuery);
+
+/* jQuery(document).ready() */
+jQuery(function($) {
+    /* 팝업메뉴 레이어 생성 */
+    if(!$('#popup_menu_area').length) {
+        var menuObj = $('<div>')
+            .attr('id', 'popup_menu_area')
+            .css({visibility:'hidden', zIndex:9999});
+        $(document.body).append(menuObj);
+    }
+
+    $(document).click(function(evt) {
+        var area = jQuery("#popup_menu_area");
+        if(!area.length) return;
+
+        // 이전에 호출되었을지 모르는 팝업메뉴 숨김
+        area.css('visibility', 'hidden');
+
+        var targetObj = $(evt.target);
+        if(!targetObj.length) return;
+
+        // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
+        if(targetObj.length && jQuery.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) targetObj = targetObj.parent();
+        if(!targetObj.length || jQuery.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) return;
+
+        // 객체의 className값을 구함
+        var class_name = targetObj.attr('className');
+        if(class_name.indexOf('_') <= 0) return;
+        // className을 분리
+        var class_name_list = class_name.split(' ');
+
+        var menu_id = '';
+        var menu_id_regx = /^([a-zA-Z]+)_([0-9]+)$/;
+
+
+        for(var i = 0, c = class_name_list.length; i < c; i++) {
+            if(menu_id_regx.test(class_name_list[i])) {
+                menu_id = class_name_list[i];
+            }
+        }
+
+        if(!menu_id) return;
+
+        // module명과 대상 번호가 없으면 return
+        var tmp_arr = menu_id.split('_');
+        var module_name = tmp_arr[0];
+        var target_srl = tmp_arr[1];
+        if(!module_name || !target_srl || target_srl < 1) return;
+
+        // action이름을 규칙에 맞게 작성
+        var action_name = "get" + module_name.substr(0,1).toUpperCase() + module_name.substr(1,module_name.length-1) + "Menu";
+
+        // 서버에 메뉴를 요청
+        var params = new Array();
+        params["target_srl"] = target_srl;
+        params["cur_mid"] = current_mid;
+        params["cur_act"] = current_url.getQuery('act');
+        params["menu_id"] = menu_id;
+        params["page_x"] = evt.pageX;
+        params["page_y"] = evt.pageY;
+
+        var response_tags = new Array("error","message","menus");
+
+        if(typeof(XE.loaded_popup_menus[menu_id]) != 'undefined') {
+            XE.displayPopupMenu(params, response_tags, params);
+            return;
+        }
+        show_waiting_message = false;
+        exec_xml(module_name, action_name, params, XE.displayPopupMenu, response_tags, params);
+        show_waiting_message = true;
+    });
+
+    /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
+    if($.browser.msie) {
+        $('select').each(function(i, sels) {
+            var disabled_exists = false;
+            var first_enable = new Array();
+
+            for(var j=0; j < sels.options.length; j++) {
+                if(sels.options[j].disabled) {
+                    sels.options[j].style.color = '#CCCCCC';
+                    disabled_exists = true;
+                }else{
+                    first_enable[i] = (first_enable[i] > -1) ? first_enable[i] : j;
+                }
+            }
+
+            if(!disabled_exists) return;
+
+            sels.oldonchange = sels.onchange;
+            sels.onchange = function() {
+                if(this.options[this.selectedIndex].disabled) {
+
+                    this.selectedIndex = first_enable[i];
+                    /*
+                    if(this.options.length<=1) this.selectedIndex = -1;
+                    else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
+                    else this.selectedIndex--;
+                    */
+
+                } else {
+                    if(this.oldonchange) this.oldonchange();
+                }
+            };
+
+            if(sels.selectedIndex >= 0 && sels.options[ sels.selectedIndex ].disabled) sels.onchange();
+
+        });
+    }
+});
+
+/*
+ * jQuery 1.2.6
+ * Opera 브라우저에서 $(window).height() / width() 값을 잘못 가져오는 문제 수정
+ * jQuery 1.3에서 수정되었음
+ * @link http://dev.jquery.com/changeset/5938
+ */
+if(jQuery.fn.jquery == '1.2.6') {
+    jQuery.each([ "Height", "Width" ], function(i, name){
+        var type = name.toLowerCase();
+
+        jQuery.fn[ type ] = function( size ) {
+            return this[0] == window ?
+                // Opera 브라우저에서 $(window).height() / width() 값을 잘못 가져오는 문제 수정
+                jQuery.browser.opera  && document.body.parentNode[ "client" + name ] ||
+
+                jQuery.browser.safari && window[ "inner" + name ] ||
+                document.compatMode == "CSS1Compat" && document.documentElement[ "client" + name ] || document.body[ "client" + name ] :
+
+                this[0] == document ?
+                    Math.max(
+                        Math.max(document.body["scroll" + name], document.documentElement["scroll" + name]),
+                        Math.max(document.body["offset" + name], document.documentElement["offset" + name])
+                    ) :
+
+                    size == undefined ?
+                        (this.length ? jQuery.css( this[0], type ) : null) :
+                        this.css( type, size.constructor == String ? size : size + "px" );
+        };
+    });
+}
+
+
+
 /**
  * @brief location.href에서 특정 key의 값을 return
  **/
@@ -11,7 +279,7 @@ String.prototype.getQuery = function(key) {
     var idx = this.indexOf('?');
     if(idx == -1) return null;
     var query_string = this.substr(idx+1, this.length);
-    var args = {}
+    var args = {};
     query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
     var q = args[key];
@@ -41,7 +309,7 @@ String.prototype.setQuery = function(key, val) {
         if( !args.hasOwnProperty(i) ) continue;
             var arg = args[i];
             if(!arg.toString().trim()) continue;
-
+            arg = decodeURI(arg);
             q_list[q_list.length] = i+'='+arg;
         }
         uri = uri+"?"+q_list.join("&");
@@ -49,58 +317,49 @@ String.prototype.setQuery = function(key, val) {
         if(val.toString().trim()) uri = uri+"?"+key+"="+val;
     }
 
-    uri = uri.replace(/^https:\/\//i,'http://');
-    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
+    var re = /https:\/\/([^:\/]+)(:\d+|)/i;
+    var check = re.exec(uri);
+    if(check)
+    {
+        var toReplace = "http://"+check[1];
+        if(typeof(http_port)!='undefined' && http_port != 80)
+        {
+            toReplace += ":" + http_port;
+        }
+        uri = uri.replace(re,toReplace);
+    }
+    var bUseSSL = false;
+    if(typeof(enforce_ssl)!='undefined' && enforce_ssl)
+    {
+        bUseSSL = true;
+    }
+    else if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
         var act = uri.getQuery('act');
         for(i=0;i<ssl_actions.length;i++) {
             if(ssl_actions[i]==act) {
-                uri = uri.replace(/^http:\/\//i,'https://');
+                bUseSSL = true;
                 break;
             }
         }
     }
+
+    if(bUseSSL)
+    {
+        var re = /http:\/\/([^:\/]+)(:\d+|)/i;
+        var check = re.exec(uri);
+        if(check)
+        {
+            var toReplace = "https://"+check[1];
+            if(typeof(https_port)!='undefined' && https_port != 443)
+            {
+                toReplace += ":" + https_port;
+            }
+            uri = uri.replace(re,toReplace);
+        }
+    }
+
     return encodeURI(uri);
 }
-
-/**
- * @breif replace outerHTML
- **/
-function replaceOuterHTML(obj, html) {
-    if(obj.outerHTML) {
-        obj.outerHTML = html;
-    } else {
-        var dummy = xCreateElement("div"); 
-        xInnerHtml(dummy, html);
-        var parent = obj.parentNode;
-        while(dummy.firstChild) {
-            parent.insertBefore(dummy.firstChild, obj);
-        }
-        parent.removeChild(obj);
-    }
-}
-
-/**
- * @breif get outerHTML
- **/
-function getOuterHTML(obj) {
-    if(obj.outerHTML) return obj.outerHTML;
-    var dummy = xCreateElement("div");
-    dummy.insertBefore(obj, dummy.lastChild);
-    return xInnerHtml(dummy);
-}
-
-/**
- * @brief xSleep(micro time) 
- **/
-function xSleep(sec) {
-    sec = sec / 1000;
-    var now = new Date();
-    var sleep = new Date();
-    while( sleep.getTime() - now.getTime() < sec) {
-        sleep = new Date();
-    }      
-}
-
 
 /**
  * @brief string prototype으로 trim 함수 추가
@@ -110,11 +369,23 @@ String.prototype.trim = function() {
 }
 
 /**
+ * @brief xSleep(micro time)
+ **/
+function xSleep(sec) {
+    sec = sec / 1000;
+    var now = new Date();
+    var sleep = new Date();
+    while( sleep.getTime() - now.getTime() < sec) {
+        sleep = new Date();
+    }
+}
+
+/**
  * @brief 주어진 인자가 하나라도 defined되어 있지 않으면 false return
  **/
 function isDef() {
-    for(var i=0; i<arguments.length; ++i) {
-        if(typeof(arguments[i])=="undefined") return false;
+    for(var i=0; i < arguments.length; ++i) {
+        if(typeof(arguments[i]) == "undefined") return false;
     }
     return true;
 }
@@ -133,19 +404,19 @@ function winopen(url, target, attribute) {
     } catch(e) {
     }
 
-    if(typeof(target)=='undefined') target = '_blank';
-    if(typeof(attribute)=='undefined') attribute = '';
+    if(typeof(target) == 'undefined') target = '_blank';
+    if(typeof(attribute) == 'undefined') attribute = '';
     var win = window.open(url, target, attribute);
     win.focus();
     if(target != "_blank") winopen_list[target] = win;
 }
 
 /**
- * @brief 팝업으로만 띄우기 
+ * @brief 팝업으로만 띄우기
  * common/tpl/popup_layout.html이 요청되는 XE내의 팝업일 경우에 사용
  **/
 function popopen(url, target) {
-    if(typeof(target)=="undefined") target = "_blank";
+    if(typeof(target) == "undefined") target = "_blank";
     winopen(url, target, "left=10,top=10,width=10,height=10,scrollbars=no,resizable=yes,toolbars=no");
 }
 
@@ -161,9 +432,12 @@ function sendMailTo(to) {
  **/
 function move_url(url, open_wnidow) {
     if(!url) return false;
-    if(typeof(open_wnidow)=='undefined') open_wnidow = 'N';
-    if(open_wnidow=='N') open_wnidow = false;
-    else open_wnidow = true;
+    if(typeof(open_wnidow) == 'undefined') open_wnidow = 'N';
+    if(open_wnidow=='N') {
+        open_wnidow = false;
+    } else {
+        open_wnidow = true;
+    }
 
     if(/^\./.test(url)) url = request_uri+url;
 
@@ -172,74 +446,9 @@ function move_url(url, open_wnidow) {
     } else {
         location.href=url;
     }
+
     return false;
 }
-
-/**
- * @brief 특정 Element의 display 옵션 토글
- **/
-function toggleDisplay(obj, display_type) {
-    var obj = xGetElementById(obj);
-    if(!obj) return;
-    if(!obj.style.display || obj.style.display != 'none') {
-        obj.style.display = 'none';
-    } else {
-        if(display_type) obj.style.display = display_type;
-        else obj.style.display = '';
-    }
-}
-
-/* jQuery의 extend. */
-/* TODO:jQuery 등 자바스크립트 프레임웍 차용시 대체 가능하면 제거 대상 */
-objectExtend = function() {
-    // copy reference to target object
-    var target = arguments[0] || {}, i = 1, length = arguments.length, deep = false, options;
-
-    // Handle a deep copy situation
-    if ( target.constructor == Boolean ) {
-        deep = target;
-        target = arguments[1] || {};
-        // skip the boolean and the target
-        i = 2;
-    }
-
-    // Handle case when target is a string or something (possible in deep copy)
-    if ( typeof target != "object" && typeof target != "function" )
-        target = {};
-
-    // extend jQuery itself if only one argument is passed
-    if ( length == i ) {
-        target = this;
-        --i;
-    }
-
-    for ( ; i < length; i++ )
-        // Only deal with non-null/undefined values
-        if ( (options = arguments[ i ]) != null )
-            // Extend the base object
-            for ( var name in options ) {
-                var src = target[ name ], copy = options[ name ];
-
-                // Prevent never-ending loop
-                if ( target === copy )
-                    continue;
-
-                // Recurse if we're merging object values
-                if ( deep && copy && typeof copy == "object" && !copy.nodeType )
-                    target[ name ] = objectExtend( deep, 
-                        // Never move original objects, clone them
-                        src || ( copy.length != null ? [ ] : { } )
-                    , copy );
-
-                // Don't bring in undefined values
-                else if ( copy !== undefined )
-                    target[ name ] = copy;
-
-            }
-
-    // Return the modified object
-    return target;
-};
 
 /**
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
@@ -251,22 +460,20 @@ function displayMultimedia(src, width, height, options) {
         wmode : 'transparent',
         allowScriptAccess : 'sameDomain',
         quality : 'high',
-        flashvars : ''
+        flashvars : '',
+        autostart : false
     };
 
-    if(options) {
-        var autostart = (options.autostart) ? 'true' : 'false';
-        delete(options.autostart);
-    }
-
-    var params = objectExtend(defaults, options || {});
+    var params = jQuery.extend(defaults, options || {});
+    var autostart = (params.autostart && params.autostart != 'false') ? 'true' : 'false';
+    delete(params.autostart);
 
     var clsid = "";
     var codebase = "";
     var html = "";
 
     if(/\.swf/i.test(src)) {
-        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'; 
+        clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
         html += '<param name="movie" value="'+src+'" />';
@@ -290,243 +497,52 @@ function displayMultimedia(src, width, height, options) {
  * @brief 에디터에서 사용되는 내용 여닫는 코드 (고정, zbxe용)
  **/
 function zbxe_folder_open(id) {
-    var open_text_obj = xGetElementById("folder_open_"+id);
-    var close_text_obj = xGetElementById("folder_close_"+id);
-    var folder_obj = xGetElementById("folder_"+id);
-    open_text_obj.style.display = "none";
-    close_text_obj.style.display = "block";
-    folder_obj.style.display = "block";
+    jQuery("#folder_open_"+id).hide();
+    jQuery("#folder_close_"+id).show();
+    jQuery("#folder_"+id).show();
 }
-
 function zbxe_folder_close(id) {
-    var open_text_obj = xGetElementById("folder_open_"+id);
-    var close_text_obj = xGetElementById("folder_close_"+id);
-    var folder_obj = xGetElementById("folder_"+id);
-    open_text_obj.style.display = "block";
-    close_text_obj.style.display = "none";
-    folder_obj.style.display = "none";
-}
-
-
-/**
- * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
- **/
-function svc_folder_open(id) {
-    var open_text_obj = xGetElementById("_folder_open_"+id);
-    var close_text_obj = xGetElementById("_folder_close_"+id);
-    var folder_obj = xGetElementById("_folder_"+id);
-    open_text_obj.style.display = "none";
-    close_text_obj.style.display = "block";
-    folder_obj.style.display = "block";
-}
-
-function svc_folder_close(id) {
-    var open_text_obj = xGetElementById("_folder_open_"+id);
-    var close_text_obj = xGetElementById("_folder_close_"+id);
-    var folder_obj = xGetElementById("_folder_"+id);
-    open_text_obj.style.display = "block";
-    close_text_obj.style.display = "none";
-    folder_obj.style.display = "none";
+    jQuery("#folder_open_"+id).show();
+    jQuery("#folder_close_"+id).hide();
+    jQuery("#folder_"+id).hide();
 }
 
 /**
- * @brief 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌 
+ * @brief 팝업의 경우 내용에 맞춰 현 윈도우의 크기를 조절해줌
  * 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
 function setFixedPopupSize() {
+    var bodyObj = jQuery('#popBody');
 
-    if(xGetElementById('popBody')) {
-        if(xHeight('popBody')>500) {
-            xGetElementById('popBody').style.overflowY = 'scroll';
-            xGetElementById('popBody').style.overflowX = 'hidden';
-            xHeight('popBody', 500);
+    if(bodyObj.length) {
+        if(bodyObj.height() > 500) {
+            bodyObj.css({ overflowY:'scroll', overflowX:'hidden', height:500 });
         }
     }
 
-    var w = xWidth("popup_content");
-    var h = xHeight("popup_content");
+    var w = jQuery("#popup_content").width();
+    var h = jQuery("#popup_content").height();
 
-    var obj_list = xGetElementsByTagName('div');
-    for(i=0;i<obj_list.length;i++) {
-        var ww = xWidth(obj_list[i]);
-        var id = obj_list[i].id;
-        if(id == 'waitingforserverresponse' || id == 'fororiginalimagearea' || id == 'fororiginalimageareabg') continue;
-        if(ww>w) w = ww;
-    }
+    jQuery('div').each(function() {
+        var ww = jQuery(this).width();
+        if(jQuery.inArray(this.id, ['waitingforserverresponse', 'fororiginalimagearea', 'fororiginalimageareabg']) == -1) {
+            if(ww > w) w = ww;
+        }
+    });
 
     // 윈도우에서는 브라우저 상관없이 가로 픽셀이 조금 더 늘어나야 한다.
-    if(xUA.indexOf('windows')>0) {
-        if(xOp7Up) w += 10;
-        else if(xIE4Up) w += 10;
+    if(navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
+        if(jQuery.browser.opera) w += 10;
+        else if(jQuery.browser.msie) w += 10;
         else w += 6;
     }
-    window.resizeTo(w,h);
-   
-    var h1 = xHeight(window.document.body);
-    window.resizeBy(0,h-h1);
+    window.resizeTo(w, h);
+
+    var h1 = jQuery(window).height();
+    window.resizeBy(0, h-h1);
 
     window.scrollTo(0,0);
-}
-
-/**
- * @brief 이름, 게시글등을 클릭하였을 경우 팝업 메뉴를 보여주는 함수
- **/
-xAddEventListener(window, 'load', createPopupMenu);
-xAddEventListener(document, 'click', chkPopupMenu);
-
-var loaded_popup_menus = new Array();
-
-/* 멤버 팝업 메뉴 레이어를 생성하는 함수 (문서 출력이 완료되었을때 동작) */
-function createPopupMenu(evt) {
-    var area = xGetElementById("popup_menu_area");
-    if(area) return;
-    area = xCreateElement("div");
-    area.id = "popup_menu_area";
-    area.style.visibility = 'hidden';
-    area.style.zIndex = 9999;
-    document.body.appendChild(area);
-}
-
-/* 클릭 이벤트 발생시 이벤트가 일어난 대상을 검사하여 적절한 규칙에 맞으면 처리 */
-function chkPopupMenu(evt) {
-
-    // 이전에 호출되었을지 모르는 팝업메뉴 숨김
-    var area = xGetElementById("popup_menu_area");
-    if(!area) return;
-
-    if(area.style.visibility != "hidden") area.style.visibility = "hidden";
-
-    // 이벤트 대상이 없으면 무시
-    var e = new xEvent(evt);
-
-    if(!e) return;
-
-    // 대상의 객체 구함
-    var obj = e.target;
-    if(!obj) return;
-
-
-    // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
-    if(obj && obj.nodeName != 'DIV' && obj.nodeName != 'SPAN' && obj.nodeName != 'A') obj = obj.parentNode;
-    if(!obj || (obj.nodeName != 'DIV' && obj.nodeName != 'SPAN' && obj.nodeName != 'A')) return;
-
-    // 객체의 className값을 구함
-    var class_name = obj.className;
-    if(!class_name) return;
-    // className을 분리
-    var class_name_list = class_name.split(' ');
-
-    var menu_id = '';
-    var menu_id_regx = /^([a-zA-Z]+)_([0-9]+)$/;
-
-
-    for(var i=0,c=class_name_list.length;i<c;i++) {
-        if(menu_id_regx.test(class_name_list[i])) {
-            menu_id = class_name_list[i];
-        }
-    }
-
-
-    if(!menu_id) return;
-
-    // module명과 대상 번호가 없으면 return
-    var tmp_arr = menu_id.split('_');
-    var module_name = tmp_arr[0];
-    var target_srl = tmp_arr[1];
-    if(!module_name || !target_srl || target_srl < 1) return;
-
-    // action이름을 규칙에 맞게 작성
-    var action_name = "get" + module_name.substr(0,1).toUpperCase() + module_name.substr(1,module_name.length-1) + "Menu";
-
-
-    // 서버에 메뉴를 요청
-    var params = new Array();
-    params["target_srl"] = target_srl;
-    params["cur_mid"] = current_mid;
-    params["cur_act"] = current_url.getQuery('act');
-    params["menu_id"] = menu_id;
-    params["page_x"] = e.pageX >0 ? e.pageX : GetObjLeft(obj);
-    params["page_y"] = e.pageY >0 ? e.pageY : GetObjTop(obj)+ xHeight(obj);
-
-    var response_tags = new Array("error","message","menus");
-
-    if(loaded_popup_menus[menu_id]) {
-        displayPopupMenu(params, response_tags, params);
-        return;
-    }
-    show_waiting_message = false;
-    exec_xml(module_name, action_name, params, displayPopupMenu, response_tags, params);
-    show_waiting_message = true;
-
-}
-
-function GetObjTop(obj) { 
-    if(obj.offsetParent == document.body) return xOffsetTop(obj); 
-    else return xOffsetTop(obj) + GetObjTop(obj.offsetParent); 
-} 
-function GetObjLeft(obj) { 
-    if(obj.offsetParent == document.body) return xOffsetLeft(obj); 
-    else return xOffsetLeft(obj) + GetObjLeft(obj.offsetParent); 
-} 
-
-function displayPopupMenu(ret_obj, response_tags, params) {
-	
-    var target_srl = params["target_srl"];
-    var menu_id = params["menu_id"];
-    var menus = ret_obj['menus'];
-    var html = "";
-
-    if(loaded_popup_menus[menu_id]) {
-        html = loaded_popup_menus[menu_id];
-
-    } else {
-        if(menus) {
-            var item = menus['item'];
-            if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
-            if(item.length) {
-                for(var i=0;i<item.length;i++) {
-                    var url = item[i].url;
-                    var str = item[i].str;
-                    var icon = item[i].icon;
-                    var target = item[i].target;
-
-                    var styleText = "";
-                    var click_str = "";
-                    if(icon) styleText = " style=\"background-image:url('"+icon+"')\" ";
-                    switch(target) {
-                        case "popup" :
-                                click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
-                            break;
-                        case "self" :
-                                //click_str = " onclick=\"location.href='"+url+"' return false;\"";
-                            break;
-                        case "javascript" :
-                                click_str = " onclick=\""+url+"; return false; \"";
-                                url="#";
-                            break;
-                        default :
-                                click_str = " onclick=\"window.open(this.href); return false;\"";
-                            break;
-                    }
-
-                    html += '<li '+styleText+'><a href="'+url+'"'+click_str+'>'+str+'</a></li> ';
-                }
-            }
-        }
-        loaded_popup_menus[menu_id] =  html;
-    }
-
-    // 레이어 출력
-    if(html) {
-        var area = xGetElementById("popup_menu_area");
-        xInnerHtml(area, '<ul>'+html+'</ul>');
-        xLeft(area, params["page_x"]);
-        xTop(area, params["page_y"]);
-        if(xWidth(area)+xLeft(area)>xClientWidth()+xScrollLeft()) xLeft(area, xClientWidth()-xWidth(area)+xScrollLeft());
-        if(xHeight(area)+xTop(area)>xClientHeight()+xScrollTop()) xTop(area, xClientHeight()-xHeight(area)+xScrollTop());
-        area.style.visibility = "visible";
-    }    
 }
 
 /**
@@ -549,23 +565,11 @@ function completeMessage(ret_obj) {
     location.reload();
 }
 
-/**
- * @brief 날짜 선택 (달력 열기) 
- **/
-function open_calendar(fo_id, day_str, callback_func) {
-    if(typeof(day_str)=="undefined") day_str = "";
 
-    var url = "./common/tpl/calendar.php?";
-    if(fo_id) url+="fo_id="+fo_id;
-    if(day_str) url+="&day_str="+day_str;
-    if(callback_func) url+="&callback_func="+callback_func;
-
-    popopen(url, 'Calendar');
-}
 
 /* 언어코드 (lang_type) 쿠키값 변경 */
 function doChangeLangType(obj) {
-    if(typeof(obj)=="string") {
+    if(typeof(obj) == "string") {
         setLangType(obj);
     } else {
         var val = obj.options[obj.selectedIndex].value;
@@ -590,20 +594,20 @@ function doDocumentPreview(obj) {
 
     var content = editorGetContent(editor_sequence);
 
-    var win = window.open("","previewDocument","toolbars=no,width=700px;height=800px,scrollbars=yes,resizable=yes");
+    var win = window.open("", "previewDocument","toolbars=no,width=700px;height=800px,scrollbars=yes,resizable=yes");
 
-    var dummy_obj = xGetElementById("previewDocument");
+    var dummy_obj = jQuery("#previewDocument");
 
-    if(!dummy_obj) {
-        var fo_code = '<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
-                      '<input type="hidden" name="module" value="document" />'+
-                      '<input type="hidden" name="act" value="dispDocumentPreview" />'+
-                      '<input type="hidden" name="content" />'+
-                      '</form>';
-        var dummy = xCreateElement("DIV");
-        xInnerHtml(dummy, fo_code);
-        window.document.body.insertBefore(dummy,window.document.body.lastChild);
-        dummy_obj = xGetElementById("previewDocument");
+    if(!dummy_obj.length) {
+        jQuery(
+            '<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
+            '<input type="hidden" name="module" value="document" />'+
+            '<input type="hidden" name="act" value="dispDocumentPreview" />'+
+            '<input type="hidden" name="content" />'+
+            '</form>'
+        ).appendTo(document.body);
+
+        dummy_obj = jQuery("#previewDocument")[0];
     }
 
     if(dummy_obj) {
@@ -632,7 +636,7 @@ function doDocumentSave(obj) {
 }
 
 function completeDocumentSave(ret_obj) {
-    xGetElementsByAttribute('input', 'name', 'document_srl')[0].value = ret_obj['document_srl'];
+    jQuery('input[name=document_srl]').eq(0).val(ret_obj['document_srl']);
     alert(ret_obj['message']);
 }
 
@@ -662,35 +666,6 @@ function viewSkinInfo(module, skin) {
     popopen("./?module=module&act=dispModuleSkinInfo&selected_module="+module+"&skin="+skin, 'SkinInfo');
 }
 
-/* 체크박스 선택 */
-function checkboxSelectAll(form, name, option){ 
-    var value;
-    var fo_obj = xGetElementById(form);
-    for ( var i = 0 ; i < fo_obj.length ; i++ ){
-        if(typeof(option) == "undefined") {
-            var select_mode = fo_obj[i].checked;
-            if ( select_mode == 0 ){
-                value = true;
-                select_mode = 1;
-            }else{
-                value = false;
-                select_mode = 0;
-            }
-        }
-        else if(option == true) value = true
-        else if(option == false) value = false
-
-        if(fo_obj[i].name == name) fo_obj[i].checked = value;
-    }
-}
-
-/* 체크박스를 실행 */
-function clickCheckBoxAll(form, name) {
-    var fo_obj = xGetElementById(form);
-    for ( var i = 0 ; i < fo_obj.length ; i++ ){
-        if(fo_obj[i].name == name) fo_obj[i].click();
-    }
-}
 
 /* 관리자가 문서를 관리하기 위해서 선택시 세션에 넣음 */
 var addedDocument = new Array();
@@ -725,6 +700,18 @@ function transRGB2Hex(value) {
     }
     return hex;
 }
+
+/* 보안 로그인 모드로 전환 */
+function toggleSecuritySignIn() {
+    var href = location.href;
+    if(/https:\/\//i.test(href)) location.href = href.replace(/^https/i,'http');
+    else location.href = href.replace(/^http/i,'https');
+}
+
+function reloadDocument() {
+    location.reload();
+}
+
 
 /**
 *
@@ -869,62 +856,98 @@ var Base64 = {
 
 }
 
-/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
-if(xIE4Up) {
-    xAddEventListener(window, 'load', activateOptionDisabled);
-
-    function activateOptionDisabled(evt) {
-        var sels = xGetElementsByTagName('select');
-        for(var i=0; i < sels.length; i++){
-            var disabled_exists = false;
-            var first_enable = new Array();
-            for(var j=0; j < sels[i].options.length; j++) {
-                if(sels[i].options[j].disabled) {
-                    sels[i].options[j].style.color = '#CCCCCC';
-                    disabled_exists = true;
-                }else{
-                    first_enable[i] = first_enable[i]>-1? first_enable[i] : j;
-                }
-            }
-
-            if(!disabled_exists) continue;
-            
-            sels[i].oldonchange = sels[i].onchange;
-            sels[i].onchange = function() {  
-                if(this.options[this.selectedIndex].disabled) {
-
-                    this.selectedIndex = first_enable[i];
-/*
-if(this.options.length<=1) this.selectedIndex = -1;
-else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
-else this.selectedIndex--;
-*/
-
-                } else {
-                    if(this.oldonchange) this.oldonchange();
-                }
-            }
-
-            if(sels[i].selectedIndex >= 0 && sels[i].options[ sels[i].selectedIndex ].disabled) sels[i].onchange();
-
-        }
-    }
-}
 
 
-/* 보안 로그인 모드로 전환 */
-function toggleSecuritySignIn() {
-    var href = location.href;
-    if(/https:\/\//i.test(href)) location.href = href.replace(/^https/i,'http');
-    else location.href = href.replace(/^http/i,'https');
-}   
 
-/* 하위호환성 문제 */
-if(typeof(resizeImageContents) == 'undefined')
-{
+
+
+/* ----------------------------------------------
+ * DEPRECATED
+ * 하위호환용으로 남겨 놓음
+ * ------------------------------------------- */
+
+if(typeof(resizeImageContents) == 'undefined') {
     function resizeImageContents() {}
 }
 
-function reloadDocument() {
-    location.reload();
+if(typeof(activateOptionDisabled) == 'undefined') {
+    function activateOptionDisabled() {}
+}
+
+objectExtend = jQuery.extend;
+
+/**
+ * @brief 특정 Element의 display 옵션 토글
+ **/
+function toggleDisplay(objId) {
+    jQuery('#'+objId).toggle();
+}
+
+/* 체크박스 선택 */
+function checkboxSelectAll(formObj, name, checked) {
+    var itemName = name;
+    var option = {};
+    if(typeof(formObj) != "undefined") option.wrap = formObj;
+    if(typeof(checked) != "undefined") option.checked = checked;
+
+    XE.checkboxToggleAll(itemName, option);
+}
+
+/* 체크박스를 실행 */
+function clickCheckBoxAll(formObj, name) {
+    var itemName = name;
+    var option = { doClick:true };
+    if(typeof(formObj) != "undefined") option.wrap = formObj;
+
+    XE.checkboxToggleAll(itemName, option);
+}
+
+/**
+ * @brief 에디터에서 사용하되 내용 여닫는 코드 (zb5beta beta 호환용으로 남겨 놓음)
+ **/
+function svc_folder_open(id) {
+    jQuery("#_folder_open_"+id).hide();
+    jQuery("#_folder_close_"+id).show();
+    jQuery("#_folder_"+id).show();
+}
+function svc_folder_close(id) {
+    jQuery("#_folder_open_"+id).show();
+    jQuery("#_folder_close_"+id).hide();
+    jQuery("#_folder_"+id).hide();
+}
+
+/**
+ * @brief 날짜 선택 (달력 열기)
+ **/
+function open_calendar(fo_id, day_str, callback_func) {
+    if(typeof(day_str)=="undefined") day_str = "";
+
+    var url = "./common/tpl/calendar.php?";
+    if(fo_id) url+="fo_id="+fo_id;
+    if(day_str) url+="&day_str="+day_str;
+    if(callback_func) url+="&callback_func="+callback_func;
+
+    popopen(url, 'Calendar');
+}
+
+var loaded_popup_menus = XE.loaded_popup_menus;
+function createPopupMenu() {}
+function chkPopupMenu() {}
+function displayPopupMenu(ret_obj, response_tags, params) {
+    XE.displayPopupMenu(ret_obj, response_tags, params);
+}
+
+function GetObjLeft(obj) {
+    return jQuery(obj).offset().left;
+}
+function GetObjTop(obj) {
+    return jQuery(obj).offset().top;
+}
+
+function replaceOuterHTML(obj, html) {
+    jQuery(obj).replaceWith(html);
+}
+
+function getOuterHTML(obj) {
+    return jQuery(obj).html().trim();
 }

@@ -31,7 +31,7 @@
             <tr class="bg{($no+1)%2+1}">
                 <td class="registDate">{$val->getRegdate("Y-m-d H:i:s")}</td>
                 <td class="subject">
-                    <div><a href="#" onclick="toggleDisplay('saved_document_{$val->document_srl}','block'); setFixedPopupSize(); return false;">{$val->getTitle()}</a></div>
+                    <div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a></div>
                     <div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
                 </td>
                 <td><a href="#" onclick="doDocumentSelect('{$val->document_srl}'); return false;" class="button"><span>{$lang->cmd_select}</span></a></td>

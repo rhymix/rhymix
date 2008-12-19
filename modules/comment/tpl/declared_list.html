@@ -13,7 +13,7 @@
 <table cellspacing="0" class="adminTable">
 <thead>
     <tr>
-        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col" class="wide"><div>{$lang->comment}</div></th>
         <th scope="col"><div>{$lang->user_name}</div></th>
         <th scope="col"><div>{$lang->date}</div></th>
@@ -37,8 +37,8 @@
     <tr>
         <td colspan="7" class="right">
             <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
-            <a href="javascript:checkboxSelectAll('fo_list', 'cart', true)" class="button"><span>{$lang->cmd_select_all}</span></a>
-            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <a href="javascript:XE.checkboxToggleAll({ checked:true })" class="button"><span>{$lang->cmd_select_all}</span></a>
+            <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
             <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
         </td>
     </tr>

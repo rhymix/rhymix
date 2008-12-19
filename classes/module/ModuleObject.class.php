@@ -358,11 +358,18 @@
             }
 
             // view action이고 결과 출력이 XMLRPC일 경우 해당 모듈의 api method를 실행
-            if((Context::getResponseMethod() == 'XMLRPC' || Context::getResponseMethod() == 'JSON') && $this->module_info->module_type == 'view') {
-                $oAPI = getAPI($this->module_info->module, 'api');
-                if(method_exists($oAPI, $this->act)) {
-                    $oAPI->{$this->act}($this);
+            if($this->module_info->module_type == 'view'){
+                if(Context::getResponseMethod() == 'XMLRPC' || Context::getResponseMethod() == 'JSON') {
+                    $oAPI = getAPI($this->module_info->module, 'api');
+                    if(method_exists($oAPI, $this->act)) {
+                        $oAPI->{$this->act}($this);
+                    }
                 }
+            }else if($this->module_info->module_type == 'controller'){
+                if(Context::getResponseMethod() == 'JSON'){
+
+                }
+
             }
 
             return true;

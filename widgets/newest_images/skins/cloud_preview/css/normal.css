@@ -1,4 +1,4 @@
-.imgcloudoutline_preview { padding-bottom:5px; overflow:hidden; position:relative; text-align:center;}
+.imgcloudoutline_preview { padding-bottom:5px; overflow:hidden; position:relative;}
 .imgcloudoutline_preview h2 { text-align:left; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
 
 .imgcloudoutline_preview { padding-bottom:5px; overflow:hidden; position:relative;}
@@ -6,36 +6,21 @@
 .imgcloudoutline_preview a.more { text-decoration:none;} 
 .imgcloudoutline_preview a.more:hover { text-decoration:underline;} 
 
-	.imgcloudoutline_preview table {  
-		margin: 0px auto;
-		border:1px solid #ddd;
-	}
-	
-	.imgcloudoutline_preview .imgcloud {  
-		border:1px solid #ddd;
-		padding: 1px;
-		overflow: hidden;
-	}
+.imgcloudoutline_preview table {  
+    border:1px solid #ddd;
+}
 
-	.imgcloudoutline_preview .imgcloud:hover {  
-		border: 2px solid #7899AF;
-		padding: 0px;
-		overflow: hidden;
-	}
+.imgcloudoutline_preview table td {  
+    vertical-align:middle;
+    text-align:center;
+}
 
-	.imgcloudoutline_preview .imgcloudbig {  
-		border:1px solid #ddd;
-		padding: 1px;
-		overflow: hidden;
-	}
-	
-	.imgcloudoutline_preview .imgcloudbig:hover {  
-		border: 2px solid #7899AF;
-		padding: 0px;
-		overflow: hidden;
-	}
-	
-	.imgcloudoutline_preview .cloudimg {  
-		border: 0px;
-		cursor: pointer;
-	}
+.imgcloudoutline_preview table tbody tr td {
+    padding:1px; 
+    background-color:transparent;
+    vertical-align:middle;
+}
+
+.imgcloudoutline_preview table tbody tr td:hover {
+    background-color:#7899AF;
+}

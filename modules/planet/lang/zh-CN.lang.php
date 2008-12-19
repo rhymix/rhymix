@@ -162,10 +162,10 @@
     $lang->planet_mobile_number = '手机号';
     $lang->msg_success_set_phone_number = '已成功添加手机号。';
 
-    $lang->planet_tagtab = "添加首页Tag标签页";
-    $lang->about_planet_tagtab = "用逗号(,)来区分而难多个Tag标签页。";
-    $lang->planet_tagtab_after = "뒤 추가 Tag 탭";
-    $lang->about_planet_tagtab_after = "기본 태그탭 이후에 여러개의 Tag 탭을 추가할 수 있습니다. 콤마(,)로 여러개를 지정할 수 있습니다";
+    $lang->planet_tagtab = "添加Tag标签页";
+    $lang->about_planet_tagtab = "默认标签页之前，可以添加多个Tag标签页。同时输入多个标签页请用逗号(,)来区分。";
+    $lang->planet_tagtab_after = "追加Tag标签页";
+    $lang->about_planet_tagtab_after = "默认标签页之后，可以追加多个Tag标签页。同时输入多个标签页请用逗号(,)来区分。";
     $lang->planet_smstag = "添加SMS标签";
     $lang->about_planet_smstag = "用SMS发送时自动添加的标签，用逗号(,)来区分多个标签。";
 
@@ -173,5 +173,5 @@
     $lang->about_use_mobile = "可以用手机SMS发送。";
     $lang->planet_use_me2day = "绑定me2day";
     $lang->about_use_me2day = "发布主题的同时发送到me2day。";
-    $lang->msg_search_thisplanet = "이 플래닛에서 검색";
+    $lang->msg_search_thisplanet = "在此微博中搜索";
 ?>

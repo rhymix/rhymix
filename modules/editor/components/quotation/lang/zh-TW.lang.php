@@ -8,8 +8,8 @@
     $lang->quotation_use_folder = "使用折疊功能";
     $lang->quotation_opener = "開啟按鈕名稱";
     $lang->quotation_closer = "關閉按鈕名稱";
-    $lang->quotation_padding = "內測邊距";
-    $lang->quotation_margin = "外側邊距";
+    $lang->quotation_padding = "內距";
+    $lang->quotation_margin = "邊距";
     $lang->quotation_border_color = "邊框顏色";
     $lang->quotation_border_thickness = "邊框粗細";
 
@@ -26,7 +26,7 @@
     $lang->quotation_border_style_list = array(
       "無",
       "實線",
-      "點線",
+      "虛線",
       "左側實線",
       "右側實線",
     );

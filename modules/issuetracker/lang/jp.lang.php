@@ -74,9 +74,10 @@
      $lang->about_component = 'イシューのコンポーネントを設定します。';
 
      $lang->project_menus = array(
+             'dispIssuetrackerViewMilestone' => 'マイルストーン',
              'dispIssuetrackerViewIssue' => 'イシュー閲覧',
              'dispIssuetrackerNewIssue' => 'イシュー登録',
-             'dispIssuetrackerViewMilestone' => 'マイルストーン',
+             'dispIssuetrackerTimeline' => 'マイルストーン',
              'dispIssuetrackerViewSource' => 'ソースコード閲覧',
              'dispIssuetrackerDownload' => 'ダウンロード',
              'dispIssuetrackerAdminProjectSetting' => '設定',

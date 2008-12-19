@@ -14,7 +14,7 @@
         <th scope="row"><div><label for="textfield1">{$lang->checked_count} ({count($document_list)})</label></div></th>
         <td>
             <!--@if(count($document_list))-->
-            <input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /> {$lang->cmd_select}
+            <input type="checkbox" onclick="XE.checkboxToggleAll()" checked="checked"/> {$lang->cmd_select}
             <ul class="document_list_box">
                 <!--@foreach($document_list as $key => $document)-->
                 <li class="document_list"><input type="checkbox" checked="checked" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this);"/> <address>{$document->getNickName()}</address> <span class="document_title">{$document->getTitle()}</span></li>
@@ -29,7 +29,7 @@
     <tr>
         <th scope="row"><div>{$lang->move_target_module}</div></th>
         <td>
-          <select id="target_module" name="target_module" class="w300" onchange="doGetCategoryFromModule(this); return false;">
+          <select id="target_module" name="target_module" class="w400" onchange="doGetCategoryFromModule(this); return false;">
           <!--@foreach($module_list as $module_category_srl => $modules )-->
               <!--@if($modules->title)-->
                   <option disabled="disabled">{$modules->title}</option>
@@ -46,7 +46,7 @@
     <tr>
         <th scope="row"><div>{$lang->category}</div></th>
         <td>
-          <select id="target_category" name="target_category" class="w300">
+          <select id="target_category" name="target_category" class="w400">
           </select>
         </td>
     </tr>
@@ -63,11 +63,13 @@
 <div id="popFooter">
     <div class="tRight gap1">
         <!--@if(count($document_list))-->
-        <a href="#" onclick="doManageDocument('move');return false;" class="button"><span>{$lang->cmd_move}</span></a>
-        <a href="#" onclick="doManageDocument('copy');return false;" class="button"><span>{$lang->cmd_copy}</span></a>
-        <a href="#" onclick="doManageDocument('delete');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+
+        <a href="#" onclick="doManageDocument('move');return false;" class="button blue"><span>{$lang->cmd_move}</span></a>
+        <a href="#" onclick="doManageDocument('copy');return false;" class="button green"><span>{$lang->cmd_copy}</span></a>
+
+        <a href="#" onclick="doManageDocument('delete');return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
         <!--@end-->
-        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+        <a href="#" onclick="window.close(); return false;" class="button black"><span>{$lang->cmd_close}</span></a>
     </div>
 </div>
 

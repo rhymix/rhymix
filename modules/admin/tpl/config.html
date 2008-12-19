@@ -54,6 +54,25 @@
         </td>
     </tr>
     <tr class="row2">
+        <th><div>{$lang->use_ssl}</div></th>
+        <td>
+            <select name="use_ssl">
+            <!--@foreach($lang->ssl_options as $key => $val)-->
+                <option value="{$key}" <!--@if($key == $use_ssl)-->selected<!--@end--> >{$val}</option>
+            <!--@endforeach-->
+            </select>
+            <p>{$lang->about_use_ssl}</p>
+        </td>
+    </tr>
+    <tr>
+        <th><div>{$lang->server_ports}</div></th>
+        <td>
+            HTTP : <input type="text" name="http_port" class="inputTypeText" size="5" value="{$http_port}">, 
+            HTTPS: <input type="text" name="https_port" class="inputTypeText" size="5" value="{$https_port}">
+            <p>{$lang->about_server_ports}</p>
+        </td>
+    </tr>
+    <tr class="row2">
         <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
         </td>

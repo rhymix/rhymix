@@ -134,6 +134,7 @@
             else $this->allow_rewrite = false;
 
             // 기본 JS/CSS 등록
+            $this->addJsFile("./common/js/jquery.js");
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
             $this->addJsFile("./common/js/xml_handler.js");
@@ -202,11 +203,21 @@
             else $db_info->use_optimizer = 'N';
             if(!$db_info->qmail_compatibility || $db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
             else $db_info->qmail_compatibility = 'Y';
+            if(!$db_info->use_ssl) $db_info->use_ssl = 'none';
 
             $this->_setDBInfo($db_info);
             
             $GLOBALS['_time_zone'] = $db_info->time_zone;
             $GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
+            $this->set('_use_ssl', $db_info->use_ssl);
+            if($db_info->http_port)
+            {
+                $this->set('_http_port',  $db_info->http_port);
+            }
+            if($db_info->https_port)
+            {
+                $this->set('_https_port',  $db_info->https_port);
+            }
         }
 
         /**
@@ -571,7 +582,7 @@
             parse_str($GLOBALS['HTTP_RAW_POST_DATA'],$params);
 
             foreach($params as $key => $val) {
-                $val = $this->_filterRequestVar($key, $val);
+                $val = $this->_filterRequestVar($key, $val,0);
                 $this->_set($key, $val, true);
             }
         }
@@ -590,7 +601,7 @@
             unset($params->attrs);
             if(!count($params)) return;
             foreach($params as $key => $obj) {
-                $val = $this->_filterRequestVar($key, $obj->body);
+                $val = $this->_filterRequestVar($key, $obj->body,0);
                 $this->_set($key, $val, true);
             }
         }
@@ -599,16 +610,16 @@
          * @brief 변수명에 따라서 필터링 처리
          * _srl, page, cpage등의 변수는 integer로 형변환
          **/
-        function _filterRequestVar($key, $val) {
+        function _filterRequestVar($key, $val, $do_stripslashes = 1) {
             if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
             if(is_array($val) && count($val) ) {
                 foreach($val as $k => $v) {
-                    if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
+                    if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
                     $v = trim($v);
                     $val[$k] = $v;
                 }
             } else {
-                if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
+                if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
                 $val = trim($val);
             }
             return $val;
@@ -772,6 +783,7 @@
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
             static $url = array();
+            if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
             if($domain) $domain_key = md5($domain);
             else $domain_key = 'default';
@@ -799,6 +811,19 @@
             }
 
             $url_info = parse_url('http://'.$target_url);
+            if($use_ssl)
+            {
+                if(Context::get("_https_port") && Context::get("_https_port") != 443) {
+                    $url_info['port'] = Context::get("_https_port");
+                }
+            }
+            else
+            {
+                if(Context::get("_http_port") && Context::get("_http_port") != 80) {
+                    $url_info['port'] = Context::get("_http_port");
+                }
+            }
+
             $url[$ssl_mode][$domain_key] = sprintf("%s://%s%s%s",$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
 
             return $url[$ssl_mode][$domain_key];
@@ -1045,6 +1070,33 @@
             require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
             $oOptimizer = new Optimizer();
             return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->css_files), "css");
+        }
+
+        /**
+         * @brief javascript plugin load
+         **/
+        function loadJavascriptPlugin($plugin_name) {
+            $oContext = &Context::getInstance();
+            return $oContext->_loadJavascriptPlugin($plugin_name);
+        }
+
+        function _loadJavascriptPlugin($plugin_name) {
+            $plugin_path = './common/js/plugins/'.$plugin_name.'/';
+            if(!is_dir($plugin_path)) return;
+
+            $info_file = $plugin_path.'plugin.load';
+            if(!file_exists($info_file)) return;
+
+            $list = file($info_file);
+            for($i=0,$cnt=count($list);$i<$cnt;$i++) {
+                $filename = trim($list[$i]);
+                if(!$filename) continue;
+                if(substr($filename,0,2)=='./') $filename = substr($filename,2);
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, false, '');
+                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, false, 'all','');
+            }
+
+            if(is_dir($plugin_path.'lang')) $this->_loadLang($plugin_path.'lang');
         }
 
         /**

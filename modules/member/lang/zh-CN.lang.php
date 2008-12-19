@@ -73,7 +73,11 @@
         'nick_name' => '昵称',
         'email_address' => '邮箱地址',
         'regdate' => '注册日期',
-        'last_login' => '最近登录',
+        'regdate_more' => '注册日期(以上)',
+        'regdate_less' => '注册日期(以下)',
+        'last_login' => '最后登录',
+        'last_login_more' => '最后登录(以上)',
+        'last_login_less' => '最后登录시(以下)',
         'extra_vars' => '扩展变数',
     );
 

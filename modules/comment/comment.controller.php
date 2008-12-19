@@ -73,7 +73,7 @@
         }
 
         /**
-         * @brief 코멘트의 권한 부여 
+         * @brief 코멘트의 권한 부여
          * 세션값으로 현 접속상태에서만 사용 가능
          **/
         function addGrant($comment_srl) {
@@ -84,6 +84,7 @@
          * @brief 댓글 입력
          **/
         function insertComment($obj, $manual_inserted = false) {
+            $obj->__isupdate = false;
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
             if(!$output->toBool()) return $output;
@@ -209,11 +210,11 @@
                 // 댓글의 권한을 부여
                 $this->addGrant($obj->comment_srl);
             }
-            
+
 
             // trigger 호출 (after)
             if($output->toBool()) {
-	            $trigger_output = ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
+                $trigger_output = ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
                 if(!$trigger_output->toBool()) {
                     $oDB->rollback();
                     return $trigger_output;
@@ -243,6 +244,7 @@
          * @brief 댓글 수정
          **/
         function updateComment($obj, $is_admin = false) {
+            $obj->__isupdate = true;
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
             if(!$output->toBool()) return $output;

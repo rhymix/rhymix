@@ -50,12 +50,12 @@
 <!-- OpenID -->
 <!--@if($member_config->enable_openid=='Y')-->
 <div class="default_login openid_login" id="openid_login">
-    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)" id="fo_openid_login_widget">
+    <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" id="fo_openid_login_widget">
         <div class="form_field">
             <div class="openIDTitle">
                 OpenID <input name="use_open_id_2" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" checked="true"/>
             </div>
-            <input type="text" name="user_id" class="input" />
+            <input type="text" name="openid" class="input" />
         </div>
         <input type="submit" value=" " class="submit" />
   </form>

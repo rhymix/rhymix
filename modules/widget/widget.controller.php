@@ -219,5 +219,171 @@
 
         }
 
+        /**
+         * @brief 컨텐츠 위젯 추가
+         **/
+        function procWidgetInsertDocument() {
+            // 변수 구함
+            $module_srl = Context::get('module_srl');
+            $document_srl = Context::get('document_srl');
+            $content = Context::get('content');
+            $editor_sequence = Context::get('editor_sequence');
+
+            // 대상 페이지 모듈 정보 구함
+            $oModuleModel = &getModel('module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+
+            // 권한 체크
+            $is_logged = Context::get('is_logged');
+            $logged_info = Context::get('logged_info');
+            $user_group = $logged_info->group_list;
+            $is_admin = false;
+            if(count($user_group)&&count($page_info->grants['manager'])) {
+                $manager_group = $page_info->grants['manager'];
+                foreach($user_group as $group_srl => $group_info) {
+                    if(in_array($group_srl, $manager_group)) $is_admin = true;
+                }
+            } 
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+
+
+            // 글 입력
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+           
+            $obj->module_srl = $module_srl;
+            $obj->content = $content;
+            $obj->document_srl = $document_srl;
+
+            $oDocument = $oDocumentModel->getDocument($obj->document_srl, true);
+            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+                $output = $oDocumentController->updateDocument($oDocument, $obj);
+            } else {
+                $output = $oDocumentController->insertDocument($obj);
+                $obj->document_srl = $output->get('document_srl');
+            }
+
+            // 오류 발생시 멈춤
+            if(!$output->toBool()) return $output;
+
+            // 결과를 리턴
+            $this->add('document_srl', $obj->document_srl);
+        }
+
+        /**
+         * @brief 컨텐츠 위젯 복사
+         **/
+        function procWidgetCopyDocument() {
+            // 변수 구함
+            $document_srl = Context::get('document_srl');
+
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+            $oDocumentAdminController = &getAdminController('document');
+
+            $oDocument = $oDocumentModel->getDocument($document_srl, true);
+            if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
+            $module_srl = $oDocument->get('module_srl');
+
+            // 대상 페이지 모듈 정보 구함
+            $oModuleModel = &getModel('module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+
+            // 권한 체크
+            $is_logged = Context::get('is_logged');
+            $logged_info = Context::get('logged_info');
+            $user_group = $logged_info->group_list;
+            $is_admin = false;
+            if(count($user_group)&&count($page_info->grants['manager'])) {
+                $manager_group = $page_info->grants['manager'];
+                foreach($user_group as $group_srl => $group_info) {
+                    if(in_array($group_srl, $manager_group)) $is_admin = true;
+                }
+            } 
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+
+            $output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
+            if(!$output->toBool()) return $output;
+
+            // 결과를 리턴
+            $copied_srls = $output->get('copied_srls');
+            $this->add('document_srl', $copied_srls[$oDocument->get('document_srl')]);
+        }
+
+        /**
+         * @brief 위젯 삭제
+         **/
+        function procWidgetDeleteDocument() {
+            // 변수 구함
+            $document_srl = Context::get('document_srl');
+
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+
+            $oDocument = $oDocumentModel->getDocument($document_srl, true);
+            if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
+            $module_srl = $oDocument->get('module_srl');
+
+            // 대상 페이지 모듈 정보 구함
+            $oModuleModel = &getModel('module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+
+            // 권한 체크
+            $is_logged = Context::get('is_logged');
+            $logged_info = Context::get('logged_info');
+            $user_group = $logged_info->group_list;
+            $is_admin = false;
+            if(count($user_group)&&count($page_info->grants['manager'])) {
+                $manager_group = $page_info->grants['manager'];
+                foreach($user_group as $group_srl => $group_info) {
+                    if(in_array($group_srl, $manager_group)) $is_admin = true;
+                }
+            } 
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+
+            $output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true);
+            if(!$output->toBool()) return $output;
+        }
+
+        /**
+         * @brief 내용 지우기
+         **/
+        function procWidgetRemoveContents() {
+            $module_srl = Context::get('module_srl');
+            if(!$module_srl) return new Object(-1,'msg_invalid_request');
+
+            // 대상 페이지 모듈 정보 구함
+            $oModuleModel = &getModel('module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+
+            // 권한 체크
+            $is_logged = Context::get('is_logged');
+            $logged_info = Context::get('logged_info');
+            $user_group = $logged_info->group_list;
+            $is_admin = false;
+            if(count($user_group)&&count($page_info->grants['manager'])) {
+                $manager_group = $page_info->grants['manager'];
+                foreach($user_group as $group_srl => $group_info) {
+                    if(in_array($group_srl, $manager_group)) $is_admin = true;
+                }
+            } 
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+
+            // 등록된 글 목록 구함
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+            $obj->module_srl = $module_srl;
+            $obj->list_count = 99999999;
+            $output = $oDocumentModel->getDocumentList($obj);
+            if(!$output->total_count) return new Object();
+            for($i=0;$i<$output->data;$i++) {
+                $oDocumentController->deleteDocument($output->data[$i]->document_srl, true);
+            }
+            return new Object();
+        }
     }
 ?>

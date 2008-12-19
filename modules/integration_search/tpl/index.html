@@ -22,7 +22,7 @@
         </td>
     </tr>
     <tr class="row2">
-        <td colspan="3"><input type="checkbox" onclick="checkboxSelectAll(this.form,'target_mid'); return false;" /> {$lang->about_target_module}</td>
+        <td colspan="3"><input type="checkbox" onclick="XE.checkboxToggleAll('target_mid'); return false;" /> {$lang->about_target_module}</td>
     </tr>
     <!--@foreach($mid_list as $module_category_srl => $modules)-->
     <!--@if($modules->title)-->
@@ -40,7 +40,7 @@
     <tr class="row{$cycle_idx}">
         <td>{$val->module}</td>
         <td>
-            <input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> /> 
+            <input type="checkbox" name="target_mid" value="{$key}" id="target_mid_{$key}" <!--@if(in_array($key,$config->target_mid))-->checked="checked"<!--@end--> />
             <label for="target_mid_{$key}">{$val->browser_title} ({$val->mid})</label>
         </td>
     </tr>
@@ -51,5 +51,5 @@
             <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </td>
     </tr>
-    </table>    
+    </table>
 </form>

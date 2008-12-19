@@ -19,7 +19,7 @@
     $lang->gallery_border_color = "邊框顏色";
     $lang->gallery_border_thickness = "邊框粗細";
     $lang->gallery_bg_color = "背景顏色";
-    $lang->about_image_list = "請選擇要新增的圖片檔案。選擇後可以拖曳框選或按住 shift+左鍵(範圍選擇), ctrl+左鍵(個別選擇)";
+    $lang->about_image_list = "請選擇要新增的圖片檔案。可以框選或按住 shift+左鍵(範圍選擇), ctrl+左鍵(個別選擇)選擇檔案。";
 
     $lang->cmd_gallery_prev = "上一個";
     $lang->cmd_gallery_next = "下一個";

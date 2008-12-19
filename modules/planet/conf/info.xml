@@ -4,10 +4,12 @@
     <title xml:lang="en">Planet</title>
     <title xml:lang="zh-CN">微博</title>
     <title xml:lang="zh-TW">微型部落格</title>
+    <title xml:lang="jp">プラネット</title>
     <description xml:lang="ko">Microblog입니다.</description>
     <description xml:lang="en">Microblog Package.</description>
     <description xml:lang="zh-CN">XE微博(Microblog)模块。</description>
     <description xml:lang="zh-TW">微型部落格模組。</description>
+    <description xml:lang="ko">Microblogパッケージ</description>
     <version>0.1</version>
     <date>2008-09-30</date>
     <category>package</category>
@@ -16,11 +18,13 @@
         <name xml:lang="en">sol</name>
         <name xml:lang="zh-CN">sol</name>
         <name xml:lang="zh-TW">sol</name>
+        <name xml:lang="jp">sol</name>
     </author>
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="zh-TW">zero</name>
+        <name xml:lang="jp">zero</name>
     </author>
 </module>

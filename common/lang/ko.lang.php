@@ -69,6 +69,7 @@
     $lang->disable = '불가능';
 
     // 기본 단어
+    $lang->menu = '메뉴';
     $lang->no = '번호';
     $lang->notice = '공지';
     $lang->secret = '비밀';

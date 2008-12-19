@@ -20,7 +20,7 @@
 
     $lang->about_allowed_filesize = '最大單一上傳檔案大小(管理員不受此限制)。';
     $lang->about_allowed_attach_size = '每個主題最大上傳檔案大小(管理員不受此限制)。';
-    $lang->about_allowed_filetypes = '只允許上傳指定的檔案類型。 可以用"*.副檔名"來指定或用 ";"來 區分多個副檔名<br />例) *.* or *.jpg;*.gif;<br />(管理員不受此限制)';
+    $lang->about_allowed_filetypes = '設定允許上傳的檔案類型。 可以用"*.副檔名"來指定或用 ";"來 區分多個副檔名<br />例) *.* or *.jpg;*.gif;<br />(管理員不受此限制)';
 
     $lang->cmd_delete_checked_file = '刪除所選項目';
     $lang->cmd_move_to_document = '檢視原始主題';
@@ -29,12 +29,16 @@
     $lang->msg_not_permitted_download = '您不具備下載的權限。';
     $lang->msg_cart_is_null = ' 請選擇要刪除的檔案。';
     $lang->msg_checked_file_is_deleted = '已刪除%d個檔案！';
-    $lang->msg_exceeds_limit_size = '已超過系統指定的上傳檔案大小！';
+    $lang->msg_exceeds_limit_size = '已超過系統指定的檔案大小！';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => '檔案名稱',
         'filesize' => '檔案大小 (byte, 以上)',
+        'filesize_mega' => '檔案大小 (Mb, 以上)',
         'download_count' => '下載次數 (以上)',
+        'user_id' => '帳號',
+        'user_name' => '姓名',
+        'nick_name' => '暱稱',
         'regdate' => '登錄日期',
         'ipaddress' => 'IP位址',
     );

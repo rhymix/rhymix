@@ -58,4 +58,13 @@
     $lang->cmd_lang_select = "多国语言支援";
     $lang->about_cmd_lang_select = "只支援被选语言。";
     $lang->about_recompile_cache = "整理无用的或错误的缓冲文件。";
+    $lang->use_ssl = "SSL使用";
+    $lang->ssl_options = array(
+        'none' => "不使用",
+        'optional' => "选择性",
+        'always' => "使用"
+    );
+    $lang->about_use_ssl = "选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。";
+    $lang->server_ports = "指定服务器端口";
+    $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
 ?>

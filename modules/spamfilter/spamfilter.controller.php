@@ -48,9 +48,11 @@
             $output = $oFilterModel->isDeniedWord($text);
             if(!$output->toBool()) return $output;
 
-            // 지정된 시간 체크
-            $output = $oFilterModel->checkLimited();
-            if(!$output->toBool()) return $output;
+            // 지정된 시간 체크, 수정시 제외
+            if($obj->document_srl == 0){
+                $output = $oFilterModel->checkLimited();
+                if(!$output->toBool()) return $output;
+            }
 
             // 로그 남김
             $this->insertLog();
@@ -86,9 +88,12 @@
             $output = $oFilterModel->isDeniedWord($text);
             if(!$output->toBool()) return $output;
 
-            // 지정된 시간 체크
-            $output = $oFilterModel->checkLimited();
-            if(!$output->toBool()) return $output;
+            // 지정된 시간 체크 수정이 아닌경우만
+            if(!$obj->__isupdate){
+                $output = $oFilterModel->checkLimited();
+                if(!$output->toBool()) return $output;
+            }
+            unset($obj->__isupdate);
 
             // 로그 남김
             $this->insertLog();

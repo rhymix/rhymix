@@ -155,6 +155,7 @@
                     $extra_vars->search_list_count = $args->search_list_count;
                     $extra_vars->except_notice = $args->except_notice!='Y'?'N':'Y';
                     $extra_vars->consultation = $args->consultation!='Y'?'N':'Y';
+                    $extra_vars->secret = $args->secret!='Y'?'N':'Y';
                     $extra_vars->admin_mail = $args->admin_mail;
                     $extra_vars->page_count = $args->page_count;
 
@@ -265,7 +266,7 @@
          **/
         function procBoardAdminInsertCategory($args = null) {
             // 입력할 변수 정리
-            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls');
+            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color');
 
             if($args->expand !="Y") $args->expand = "N";
             $args->group_srls = str_replace('|@|',',',$args->group_srls);
@@ -316,7 +317,7 @@
          * @brief 카테고리 삭제
          **/
         function procBoardAdminDeleteCategory() {
-            // 변수 정리 
+            // 변수 정리
             $args = Context::gets('module_srl','category_srl');
 
             $oDB = &DB::getInstance();
@@ -324,7 +325,7 @@
 
             $oDocumentModel = &getModel('document');
 
-            // 원정보를 가져옴 
+            // 원정보를 가져옴
             $category_info = $oDocumentModel->getCategory($args->category_srl);
             if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
 
@@ -352,6 +353,7 @@
         /**
          * @brief 카테고리 이동
          **/
+/*
         function procBoardAdminMoveCategory() {
             $source_category_srl = Context::get('source_category_srl');
             $target_category_srl = Context::get('target_category_srl');
@@ -373,13 +375,78 @@
             $output = $oDocumentController->updateCategory($source_args);
             if(!$output->toBool()) return $output;
 
-            // xml파일 재생성 
+            // xml파일 재생성
             $xml_file = $oDocumentController->makeCategoryFile($source_category->module_srl);
 
             // return 변수 설정
             $this->add('xml_file', $xml_file);
             $this->add('source_category_srl', $source_category_srl);
         }
+*/
+
+        function procBoardAdminMoveCategory() {
+            $source_category_srl = Context::get('source_srl');
+
+            // parent_srl 이 있으면 첫 자식으로 들어간다
+            $parent_category_srl = Context::get('parent_srl');
+
+            // target_srl 이 있으면 target_srl 아래로 형제로 들어간다
+            $target_category_srl = Context::get('target_srl');
+
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+            $source_category = $oDocumentModel->getCategory($source_category_srl);
+
+
+            //parent_category_srl 의 첫 자식으로 넣자
+            if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0)){
+                $parent_category = $oDocumentModel->getCategory($parent_category_srl);
+
+                $args->module_srl = $source_category->module_srl;
+                $args->parent_srl = $parent_category_srl;
+                $output = executeQuery('document.getChildCategoryMinListOrder', $args);
+
+                if(!$output->toBool()) return $output;
+                $args->list_order = (int)$output->data->list_order;
+                if(!$args->list_order) $args->list_order = 0;
+                $args->list_order--;
+
+
+                $source_args->category_srl = $source_category_srl;
+                $source_args->parent_srl = $parent_category_srl;
+                $source_args->list_order = $args->list_order;
+                $output = $oDocumentController->updateCategory($source_args);
+                if(!$output->toBool()) return $output;
+
+
+            // $target_category_srl의 아래동생으로
+            }else if($target_category_srl > 0){
+                $target_category = $oDocumentModel->getCategory($target_category_srl);
+
+                //$target_category의 아래 동생을 모두 내린다
+                $output = $oDocumentController->updateCategoryListOrder($target_category->module_srl, $target_category->list_order+1);
+                if(!$output->toBool()) return $output;
+
+
+                $source_args->category_srl = $source_category_srl;
+                $source_args->parent_srl = $target_category->parent_srl;
+                $source_args->list_order = $target_category->list_order+1;
+                $output = $oDocumentController->updateCategory($source_args);
+                if(!$output->toBool()) return $output;
+
+            }
+
+
+            // xml파일 재생성
+            $xml_file = $oDocumentController->makeCategoryFile($source_category->module_srl);
+
+            // return 변수 설정
+            $this->add('xml_file', $xml_file);
+            $this->add('source_category_srl', $source_category_srl);
+
+        }
+
+
 
         /**
          * @brief xml 파일을 갱신
@@ -388,14 +455,14 @@
          * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
          **/
         function procBoardAdminMakeXmlFile() {
-            // 입력값을 체크 
+            // 입력값을 체크
             $module_srl = Context::get('module_srl');
 
-            // xml파일 재생성 
+            // xml파일 재생성
             $oDocumentController = &getController('document');
             $xml_file = $oDocumentController->makeCategoryFile($module_srl);
 
-            // return 값 설정 
+            // return 값 설정
             $this->add('xml_file',$xml_file);
         }
     }

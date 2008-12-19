@@ -5,7 +5,7 @@
      * @brief  評論(comment)模組語言
      **/
 	
-    $lang->cmd_comment_do = '將把此評論..';
+    $lang->cmd_comment_do = '將此評論..';
     
     $lang->comment_list = '評論列表';
     $lang->cmd_toggle_checked_comment = '反選';

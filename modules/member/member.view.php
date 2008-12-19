@@ -123,6 +123,7 @@
             $this->setTemplateFile('modify_info');
         }
 
+
         /**
          * @brief 회원 작성글 보기
          **/
@@ -201,6 +202,7 @@
          **/
         function dispMemberLoginForm() {
             // 템플릿 파일 지정
+            Context::set('referer_url', $_SERVER['HTTP_REFERER']);
             $this->setTemplateFile('login_form');
         }
 

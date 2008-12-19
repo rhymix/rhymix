@@ -303,6 +303,21 @@
                 }
 
                 if($change_args!==null) {
+                    // 이슈 상태 변경시 보고자에게 쪽지 발송
+                    if($oIssue->get('member_srl') && $oIssue->useNotify()) {
+                        // 현재 로그인한 사용자와 글을 쓴 사용자를 비교하여 동일하지 않으면 진행
+                        if($logged_info->member_srl != $oIssue->get('member_srl')) {
+                            // 변수 정리
+                            $title = '['.Context::getLang('cmd_resolve_as').'-'.$status_lang[$change_args->status].'] '.$oIssue->getTitleText();
+                            $content = sprintf('%s<br /><br />from : <a href="%s" onclick="window.open(this.href);return false;">%s</a>', nl2br($args->content), $oIssue->getPermanentUrl(), $oIssue->getPermanentUrl());
+                            $receiver_srl = $oIssue->get('member_srl');
+                            $sender_member_srl = $logged_info->member_srl;
+
+                            // 쪽지 발송
+                            $oCommunicationController = &getController('communication');
+                            $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+                        }
+                    }
 
                     $change_args->target_srl = $target_srl;
                     $output = executeQueryArray('issuetracker.updateIssue', $change_args);

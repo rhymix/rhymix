@@ -9,7 +9,7 @@
     <title xml:lang="ge">Auto-Link Addon</title>
     <title xml:lang="zh-TW">自動連結</title>
     <description xml:lang="ko">
-        게시글과 댓글의 내용중 http로 시작되는 일반 문자열에 자동으로 링크를 걸고 각 링크에 마우스 오버시 새창과 현재창 메뉴가 나타나도록 꾸미는 애드온입니다.
+        글과 댓글의 내용 중 URL 문자열에 링크를 걸어주는 애드온입니다.
     </description>
     <description xml:lang="jp">
         書き込み本文とコメントの内容にhttpで始まる一般文字列にリンクを貼り付け、そのリンクにマウスオーバする際、別ウィンドウと同一ウィンドウに表示させるメニュが現れるアドオンです。
@@ -30,7 +30,7 @@
         Kommentare beginnen mit http naeyongjung Thema der gemeinsamen String automatisch Link zu hängen Sie mit der Maus über die einzelnen Links und saechang Stadt und auf dem Menü des Add-On Dekoration.
     </description>
     <description xml:lang="zh-TW">
-        主題及評論中以http開頭的字串，自動轉換成連結。當滑鼠移到連結上方時，會顯示(新視窗/本頁面)選擇框。
+        是種可將主題和評論內容中的URL網址字串自動轉換成連結的附加元件。
     </description>
     <version>0.1</version>
     <date>2008-04-22</date>

@@ -14,7 +14,7 @@
         <condition operation="like" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="documents.list_order" order="asc" />
+        <index var="sort_index" default="documents.list_order" order="order_type" />
         <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

@@ -37,6 +37,16 @@
             $this->setTemplatePath($template_path);
 
             // 권한에 따른 메뉴 제한
+            if(!$this->grant->access) {
+                $this->grant->ticket_view = $this->grant->ticket_write = $this->grant->timeline = $this->grant->browser_source = $this->grant->download = 0;
+                unset($GLOBALS['lang']->project_menus);
+            } else {
+                if(!$this->grant->ticket_view) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewIssue']);
+                if(!$this->grant->ticket_write) unset($GLOBALS['lang']->project_menus['dispIssuetrackerNewIssue']);
+                if(!$this->grant->timeline) unset($GLOBALS['lang']->project_menus['dispIssuetrackerTimeline']);
+                if(!$this->grant->browser_source) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewSource']);
+                if(!$this->grant->download) unset($GLOBALS['lang']->project_menus['dispIssuetrackerDownload']);
+            }
             if(!$this->grant->manager) unset($GLOBALS['lang']->project_menus['dispIssuetrackerAdminProjectSetting']);
 
             // 템플릿에서 사용할 검색옵션 세팅 (검색옵션 key값은 미리 선언되어 있는데 이에 대한 언어별 변경을 함)
@@ -64,11 +74,16 @@
             }
             Context::set('display_option', $display_option);
 
-            if(!Context::get('act')) Context::set('act','dispIssuetrackerViewIssue');
+            if(Context::get('document_srl')) {
+                $this->act = 'dispIssuetrackerViewIssue';
+                Context::set('act','dispIssuetrackerViewIssue');
+            }
+
+            if(!Context::get('act')) Context::set('act','dispIssuetrackerViewMilestone');
         }
 
         function dispIssuetrackerTimeline() {
-            if(!$this->grant->access) return $this->dispIssuetrackerMessage('msg_not_permitted');
+            if(!$this->grant->timeline) return $this->dispIssuetrackerMessage('msg_not_permitted');
             $oController = &getController('issuetracker');
             $oController->syncChangeset($this->module_info);
             $oModel = &getModel('issuetracker');
@@ -106,13 +121,13 @@
             if($output) {
                 foreach($output as $key => $milestone) {
                     $issues = null;
-                    $issues['new'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'new');
-                    $issues['reviewing'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'reviewing');
-                    $issues['assign'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'assign');
-                    $issues['resolve'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'resolve');
-                    $issues['reopen'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'reopen');
-                    $issues['postponed'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'postponed');
-                    $issues['invalid'] = $oIssuetrackerModel->getIssuesCount('milestone_srl', $milestone->milestone_srl,'invalid');
+                    $issues['new'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'new');
+                    $issues['reviewing'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'reviewing');
+                    $issues['assign'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'assign');
+                    $issues['resolve'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'resolve');
+                    $issues['reopen'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'reopen');
+                    $issues['postponed'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'postponed');
+                    $issues['invalid'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'invalid');
                     $issues['total'] = $issues['new']+$issues['assign']+$issues['resolve']+$issues['reopen']+$issues['reviewing'];
                     $milestone->issues = $issues;
                     $milestones[$milestone->milestone_srl] = $milestone;
@@ -388,7 +403,7 @@
                 $package_list[$release->package_srl]->releases[$release->release_srl] = $release;
             } else {
                 if(!$package_srl) {
-                    $package_list = $oIssuetrackerModel->getPackageList($this->module_srl, 0, 3);
+                    $package_list = $oIssuetrackerModel->getPackageList($this->module_srl, 0, 1);
                 } else {
                     $package_list = $oIssuetrackerModel->getPackageList($this->module_srl, $package_srl, 0);
                 }

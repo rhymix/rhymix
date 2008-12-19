@@ -2,29 +2,14 @@
 <!--%import("../../tpl/js/krzip_search.js")-->
 <!--%import("filter/signup.xml")-->
 
-<!--// calendar -->
-<!--%import("../../../../common/js/calendar.min.js",optimized=false)-->
-<!--@if($lang_type == 'ko')-->
-    <!--%import("../../../../common/js/calendar-ko.js",optimized=false)-->
-<!--@elseif($lang_type == 'es')-->
-    <!--%import("../../../../common/js/calendar-es.js",optimized=false)-->
-<!--@elseif($lang_type == 'ge')-->
-    <!--%import("../../../../common/js/calendar-ge.js",optimized=false)-->
-<!--@elseif($lang_type == 'ru')-->
-    <!--%import("../../../../common/js/calendar-ru.js",optimized=false)-->
-<!--@elseif($lang_type == 'zh-CN')-->
-    <!--%import("../../../../common/js/calendar-zh-CN.js",optimized=false)-->
-<!--@else-->
-    <!--%import("../../../../common/js/calendar-en.js",optimized=false)-->
-<!--@end-->
-<!--%import("../../../../common/js/calendar-setup.js",optimized=false)-->
-<!--%import("../../../../common/css/calendar-system.css",optimized=false)-->
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
 
 <!--#include("./common_header.html")-->
 
-	<div class="boardHeader">
-		<h3>{$lang->cmd_signup}</h3>
-	</div>
+    <div class="boardHeader">
+        <h3>{$lang->cmd_signup}</h3>
+    </div>
 
     <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, signup)">
     <input type="hidden" name="mid" value="{$mid}" />
@@ -60,35 +45,35 @@
     <tr>
         <th scope="row">{$lang->user_name} *</th>
         <td>
-            <input type="text" name="user_name" value="" /> 
+            <input type="text" name="user_name" value="" />
             <p>{$lang->about_user_name}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->nick_name} *</th>
         <td>
-            <input type="text" name="nick_name" value="" /> 
+            <input type="text" name="nick_name" value="" />
             <p>{$lang->about_nick_name}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->email_address} *</th>
         <td>
-            <input type="text" name="email_address" value="" /> 
+            <input type="text" name="email_address" value="" />
             <p>{$lang->about_email_address}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->homepage}</th>
         <td>
-            <input type="text" name="homepage" value="" /> 
+            <input type="text" name="homepage" value="" />
             <p>{$lang->about_homepage}</p>
         </td>
     </tr>
     <tr>
         <th scope="row">{$lang->blog}</th>
         <td>
-            <input type="text" name="blog" value="" /> 
+            <input type="text" name="blog" value="" />
             <p>{$lang->about_blog_url}</p>
         </td>
     </tr>
@@ -96,7 +81,9 @@
         <th scope="row">{$lang->birthday}</th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <div class="display_date" id="str_birthday"></div>
+            <input type="text" class="inputDate" value="" readonly="readonly" />
+
+
             <p>{$lang->about_birthday}</p>
         </td>
     </tr>
@@ -105,10 +92,6 @@
         <td><input type="checkbox" class="checkbox" name="allow_mailing" value="Y" checked="checked" /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
     </table>
-
-    <script type="text/javascript">
-        DyCalendar.setup( { firstDay : 0, inputField : "date_birthday", ifFormat : "%Y%m%d", displayArea : "str_birthday", daFormat : "%Y-%m-%d"});
-    </script>
 
     <!--@if($extend_form_list)-->
     <table cellspacing="0" class="memberInfoTable">
@@ -128,7 +111,7 @@
         </th>
         <td>
             <!--// 일반 text -->
-            <!--@if($val->column_type == 'text')--> 
+            <!--@if($val->column_type == 'text')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!--// 홈페이지 주소 -->
@@ -198,11 +181,7 @@
             <!--// 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-                <div class="display_date" id="str_{$val->column_name}">{zdate($val->value,"Y-m-d")}</div>
-
-                <script type="text/javascript">
-                    DyCalendar.setup( { firstDay : 0, inputField : "date_{$val->column_name}", ifFormat : "%Y%m%d", displayArea : "str_{$val->column_name}", daFormat : "%Y-%m-%d"});
-                </script>
+                <input type="text" class="inputDate" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
             <!--@end-->
 
             <div class="extendDesc">{$val->description}</div>
@@ -221,5 +200,16 @@
         <!--@end-->
     </div>
 </form>
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
 
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+</script>
 <!--#include("./common_footer.html")-->

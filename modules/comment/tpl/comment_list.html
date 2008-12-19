@@ -14,7 +14,7 @@
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div><input type="checkbox" onclick="checkboxSelectAll(this.form, 'cart'); return false;" /></div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col" class="wide">
             <div>
                     <select name="module_srl" id="module_srl">
@@ -53,8 +53,8 @@
     <!--@end-->
     <tr>
         <td colspan="8">
-            <a href="javascript:checkboxSelectAll('fo_list', 'cart', false)" class="button"><span>{$lang->cmd_unselect_all}</span></a>
-            <a href="javascript:checkboxSelectAll('fo_list', 'cart')" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+            <a href="javascript:XE.checkboxToggleAll({ checked:false })" class="button"><span>{$lang->cmd_unselect_all}</span></a>
+            <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
             <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
         </td>
     </tr>
@@ -65,15 +65,15 @@
 
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">
-    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
+    <a href="{getUrl('page','','module_srl',$module_srl)}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
             <strong>{$page_no}</strong> 
         <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+            <a href="{getUrl('page',$page_no,'module_srl',$module_srl)}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="nextEnd">{$lang->last_page}</a>
 </div>
 
 <!-- 검색 -->

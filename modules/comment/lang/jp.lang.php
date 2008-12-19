@@ -6,10 +6,10 @@
      **/
 	
     $lang->cmd_comment_do = 'このコメントを..';
-    
+
     $lang->comment_list = 'コメントリスト';
 	$lang->cmd_toggle_checked_comment = '選択項目の反転';
-	$lang->cmd_delete_checked_comment = '選択項目削除';
+    $lang->cmd_delete_checked_comment = '選択項目削除';
 
     $lang->comment_count = 'コメント数';
     $lang->about_comment_count = 'コメントを指定した数だけ表示し、それ以上はリスト化します。';

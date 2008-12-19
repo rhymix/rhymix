@@ -45,6 +45,7 @@
     $lang->msg_no_checked_document = 'No checked articles exist.';
     $lang->msg_move_failed = 'Failed to move';
     $lang->msg_cannot_delete_for_child = 'Cannot delete a category having child categories.';
+	$lang->msg_limit_mid ="Only alphabets+[alphabets+numbers+_] can be used as module name.";
 
     $lang->about_browser_title = "It will be shown in the browser title. It will be also used in a RSS/Trackback.";
     $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(only english alphabet + [english alphabet ,numbers, and underscore(_)] are allowed)";

@@ -44,9 +44,7 @@
     <textarea id="editor_textarea_{$editor_sequence}" class="editor_iframe_textarea" style="display:none; height:{$editor_height}"  rows="10" cols="10"></textarea>
 
     <!-- 에디터 크기 조절 bar -->
-    <!--@if($enable_resizable)-->
     <div class="textAreaDragIndicator"><div class="textAreaDragIndicatorBar" id="editor_drag_bar_{$editor_sequence}"></div></div>
-    <!--@end-->
 
 <!--@if($allow_fileupload)-->
     <!--%import("../../tpl/js/uploader.js",optimized=false)-->
@@ -95,8 +93,13 @@
 <script type="text/javascript">//<![CDATA[
     var auto_saved_msg = "{$lang->msg_auto_saved}";
     var xed_{$editor_sequence};
+    var load_{$editor_sequence} = function() {
+        setEditMode(xed_{$editor_sequence}, "{$editor_height}px", {$editor_sequence});
+    };
+
 	if(document.getElementById("comment_{$editor_sequence}") == null || document.getElementById("comment_{$editor_sequence}").style.display != 'none') { 
-        editorStart_xq(xed_{$editor_sequence}, document.getElementById("xqEditor_{$editor_sequence}"), {$editor_sequence}, "{$editor_content_key_name}", "{$editor_height}px", "{$editor_primary_key_name}"); 
+        xed_{$editor_sequence} = editorStart_xq(xed_{$editor_sequence}, document.getElementById("xqEditor_{$editor_sequence}"), {$editor_sequence}, "{$editor_content_key_name}", "{$editor_height}px", "{$editor_primary_key_name}");
+        xAddEventListener(window, 'load', load_{$editor_sequence}); 
 	}
 //]]></script>
 

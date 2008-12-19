@@ -69,13 +69,14 @@
     $lang->disable = '不可';
 
     // 基本用語
+    $lang->menu = 'Menu';
     $lang->no = '番号';
     $lang->notice = 'お知らせ';
     $lang->secret = '非公開';
     $lang->category = $lang->category_srl = 'カテゴリ';
     $lang->none_category = 'カテゴリ無し';
     $lang->document_srl = '書き込み番号';
-    $lang->user_id = 'ユーザＩＤ';
+    $lang->user_id = 'ユーザーＩＤ';
     $lang->author = '作成者';
     $lang->password = 'パスワード';
     $lang->password1 = 'パスワード';
@@ -263,25 +264,24 @@
     $lang->is_required = '必須項目';
 
     // ftp 관련
-    $lang->ftp_form_title = 'FTP情報の入力';
+    $lang->ftp_form_title = 'サーバーのFTP情報の入力';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
-    $lang->cmd_check_ftp_connect = 'FTP接続確認';
+    $lang->cmd_check_ftp_connect = 'FTP接続をテストする';
     $lang->about_ftp_info = "
         FTP情報は次の場合、利用されます。<br/>
-        1. PHPの safe_mode=Onになった際、FTP情報を用いてゼロボードXEが正常に動きます。<br/>
-        2. 自動アップデート等で、FTP情報が使われます。<br/>
+        1. PHPのsafe_mode=Onになった際、FTP情報を用いてXEが正常に動きます。<br/>
+        2. FTP経由でXEの自動アップデート等に使われます。<br/>
         FTP情報は files/config/ftp.config.php の中に保存されます。<br/>
-        また、ゼロボードXEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。 <br />
+        また、XEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。（省略可能） <br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、ゼロボードXEのインストール及び利用が可能になります。";
+    $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。";
     $lang->msg_ftp_not_connected = "localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。";
     $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTP情報を再度ご確認下さい。";
     $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認ください。";
     $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認ください。";
     $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
-
 
     // xml filterで用いられているjavascript用のアラートメッセージ
     $lang->filter->isnull = '%sを入力して下さい。';

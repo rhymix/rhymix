@@ -37,8 +37,8 @@
     $lang->image_mark_max_width = '横幅制限サイズ';
     $lang->image_mark_max_height = '縦幅制限サイズ';
     $lang->signature_max_height = '署名欄の高さの制限';
-	$lang->enable_openid = 'OpenID使用';
-    $lang->enable_join = '会員加入を許可する';
+    $lang->enable_openid = 'OpenID使用';
+    $lang->enable_join = '会員登録を許可する';
     $lang->enable_confirm = 'メール認証を使用';
     $lang->enable_ssl = 'SSL使用';
     $lang->security_sign_in = 'セキュア（SSL）';
@@ -46,25 +46,25 @@
     $lang->limit_date = '制限日';
     $lang->after_login_url = 'ログイン後表示するページのURL';
     $lang->after_logout_url = 'ログアウト後表示するページのURL';
-    $lang->redirect_url = '加入後表示するページ';
-    $lang->agreement = '会員加入規約';
+    $lang->redirect_url = '登録後表示するページ';
+    $lang->agreement = '会員登録規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->member_info = '会員情報';
     $lang->current_password = '現在のパスワード';
     $lang->openid = 'OpenID';
-    $lang->allow_message = '쪽지 허용';
+    $lang->allow_message = 'メッセージ許可';
     $lang->allow_message_type = array(
-            'Y' => '모두 허용',
-            'F' => '등록된 친구들만 허용',
-            'N' => '모두 금지',
+            'Y' => '全て許可',
+            'F' => '登録した友達のみ許可',
+            'N' => '全て禁止',
     );
-    $lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
+    $lang->about_allow_message = 'メッセージの許可タイプ及び対象を設定します。';
 
     $lang->webmaster_name = 'ウェブマスターのお名前';
     $lang->webmaster_email = 'ウェブマスターのメールアドレス';
 
     $lang->about_keep_signed = 'ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトしてください。';
-	$lang->about_webmaster_name = '確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力してください（デフォルト : webmaster）。';
+    $lang->about_webmaster_name = '確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力してください（デフォルト : webmaster）。';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力して下さい。';
 
     $lang->search_target_list = array(
@@ -72,14 +72,18 @@
         'user_name' => 'お名前',
         'nick_name' => 'ニックネーム',
         'email_address' => 'メールアドレス',
-        'regdate' => '加入日',
+        'regdate' => '登録日',
+        'regdate_more' => '登録日(以上)',
+        'regdate_less' => '登録日(以下)',
         'last_login' => '最近のログイン',
+        'last_login_more' => '最近ログイン日(以上)',
+        'last_login_less' => '最近ログイン日(以下)',
         'extra_vars' => '拡張変数',
     );
 
     $lang->cmd_login = 'ログイン';
     $lang->cmd_logout = 'ログアウト';
-    $lang->cmd_signup = '会員加入';
+    $lang->cmd_signup = '会員登録';
     $lang->cmd_modify_member_info = '会員情報修正';
     $lang->cmd_modify_member_password = 'パスワード変更';
     $lang->cmd_view_member_info = '会員情報表示';
@@ -91,7 +95,7 @@
     $lang->cmd_member_group = 'グループ管理';
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
-    $lang->cmd_manage_form = '加入フォーム管理';
+    $lang->cmd_manage_form = '登録フォーム管理';
     $lang->cmd_view_own_document = '書き込み表示';
     $lang->cmd_trace_document = 'Trace Written Articles';
     $lang->cmd_trace_comment = 'Trace Written Comments';
@@ -128,8 +132,8 @@
     $lang->msg_exists_user_id = '既に存在するユーザＩＤです。他のＩＤを入力して下さい。';
     $lang->msg_exists_email_address = '既に存在するメールアドレスです。他のメールアドレスを入力して下さい。';
     $lang->msg_exists_nick_name = '既に存在するニックネームです。他のニックネームを入力して下さい。';
-    $lang->msg_signup_disabled = '会員に加入することができません。';
-    $lang->msg_already_logged = '既に会員に加入されています。';
+    $lang->msg_signup_disabled = '会員に登録することができません。';
+    $lang->msg_already_logged = '既に会員に登録されています。';
     $lang->msg_not_logged = 'ログインしていません。';
     $lang->msg_insert_group_name = 'グループ名を入力して下さい。';
     $lang->msg_check_group = 'グループを選択して下さい。';
@@ -158,36 +162,37 @@
     $lang->about_member_description = '会員に対する管理者のメモ帳です。';
     $lang->about_group = '一つのユーザＩＤは多数のグループに属することができます。';
 
-    $lang->about_column_type = '追加する加入フォームのタイプを指定して下さい。';
+    $lang->about_column_type = '追加する登録フォームのタイプを指定して下さい。';
     $lang->about_column_name = 'テンプレートで使用できる英文字の名前を入力して下さい（変数名）。';
-    $lang->about_column_title = '加入または情報修正・照合時に表示されるタイトルです。';
+    $lang->about_column_title = '登録または情報修正・照合時に表示されるタイトルです。';
     $lang->about_default_value = 'デフォルトで入力される値を指定することができます。';
     $lang->about_active = '活性化（有効化）にチェックを入れないと正常に表示されません。';
-    $lang->about_form_description = '説明欄に入力すると加入時に表示されます。';
-    $lang->about_required = 'チェックを入れると会員加入時に必須入力項目として設定されます。';
+    $lang->about_form_description = '説明欄に入力すると登録時に表示されます。';
+    $lang->about_required = 'チェックを入れると会員登録時に必須入力項目として設定されます。';
 
     $lang->about_enable_openid = 'OpenIDをサポートする際にチェックを入れます。';
-    $lang->about_enable_join = 'チェックを入れないとユーザが会員に加入できません。';
+    $lang->about_enable_join = 'チェックを入れないとユーザが会員に登録できません。';
     $lang->about_enable_confirm = '登録されたメールアドレスに確認メールを送信し、会員登録を確認します。';
     $lang->about_enable_ssl = 'サーバーでSSLが可能な場合、会員登録/情報変更/ログイン等の個人情報はSSL(https)経由でサーバーにより安全に送信されます。';
-    $lang->about_limit_day = '会員加入後一定の期間中、認証制限を行うことができます。';
+    $lang->about_limit_day = '会員登録後一定の期間中、認証制限を行うことができます。';
     $lang->about_limit_date = '指定された期間まで該当ユーザはログインできなくします。';
     $lang->about_after_login_url = 'ログイン後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。';
     $lang->about_after_logout_url = 'ログアウト後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。';
-    $lang->about_redirect_url = '会員加入後、表示されるページのURLを指定できます。指定のない場合は会員加入する前のページに戻ります。';
-    $lang->about_agreement = '会員加入規約がない場合は表示されません。';
+    $lang->about_redirect_url = '会員登録後、表示されるページのURLを指定できます。指定のない場合は会員登録する前のページに戻ります。';
+    $lang->about_agreement = '会員登録規約がない場合は表示されません。';
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
     $lang->about_profile_image = 'ユーザのプロフィールイメージが使用できるようにします。';
     $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
-    $lang->about_accept_agreement = '加入規約をすべて読んだ上で同意します。';
+    $lang->about_accept_agreement = '登録規約をすべて読んだ上で同意します。';
 
-    $lang->about_member_default = '会員加入時に基本グループとして設定されます。';
+    $lang->about_member_default = '会員登録時に基本グループとして設定されます。';
 
-    $lang->about_openid = 'OpenIDで加入する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
-    $lang->about_openid_leave = 'OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく加入することになり、書き込んだコンテンツに対する権限を維持することができません。';
-    $lang->about_find_member_account = 'ID/パスワードは加入時に登録されたメールにてお知らせします。<br />加入時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックして下さい。<br />';
+    $lang->about_openid = 'OpenIDで登録する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
+    $lang->about_openid_leave = 'OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく登録することになり、書き込んだコンテンツに対する権限を維持することができません。';
+    $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックして下さい。<br />';
 
-    $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、加入フォームの管理などが行える会員管理モジュールです。デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、加入フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";
+    $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、登録フォームの管理などが行える会員管理モジュールです。デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、登録フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";
+    $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';    
 ?>

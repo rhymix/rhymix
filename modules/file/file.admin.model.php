@@ -30,6 +30,9 @@
                     case 'filesize' :
                             $args->s_filesize = (int)$search_keyword;
                         break;
+                    case 'filesize_mega' :
+                            $args->s_filesize = (int)$search_keyword * 1024 * 1024;
+                        break;
                     case 'download_count' :
                             $args->s_download_count = (int)$search_keyword;
                         break;
@@ -37,7 +40,16 @@
                             $args->s_regdate = $search_keyword;
                         break;
                     case 'ipaddress' :
-                            $args->s_ipaddress= $search_keyword;
+                            $args->s_ipaddress = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            $args->s_user_id = $search_keyword;
+                        break;
+                    case 'user_name' :
+                            $args->s_user_name = $search_keyword;
+                        break;
+                    case 'nick_name' :
+                            $args->s_nick_name = $search_keyword;
                         break;
                 }
             }

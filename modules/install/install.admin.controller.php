@@ -56,12 +56,37 @@
             $qmail_compatibility = Context::get('qmail_compatibility');
             if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
+            $use_ssl = Context::get('use_ssl');
+            if(!$use_ssl) $use_ssl = 'none';
+
+            $http_port = Context::get('http_port');
+            $https_port = Context::get('https_port');
+
             $db_info = Context::getDBInfo();
             $db_info->time_zone = $time_zone;
             $db_info->qmail_compatibility = $qmail_compatibility;
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_optimizer = $use_optimizer;
             $db_info->lang_type = Context::get('lang_type');
+            $db_info->use_ssl = $use_ssl;
+            if($http_port)
+            {
+                $db_info->http_port = (int) $http_port;
+            }
+            else if($db_info->http_port)
+            {
+                unset($db_info->http_port);
+            }
+
+            if($https_port)
+            {
+                $db_info->https_port = (int) $https_port;
+            }
+            else if($db_info->https_port)
+            {
+                unset($db_info->https_port);
+            }
+
             Context::setDBInfo($db_info);
 
             $oInstallController = &getController('install');

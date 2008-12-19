@@ -111,7 +111,12 @@
 <tr>
 <!--@foreach($display_option as $k => $v)-->
     <!--@if($v->checked)-->
-    <th class="{$k}"><div>{$v->title}</div></th>
+    <th class="{$k}">
+        <div>
+            <!--@if($k=='title' && $grant->is_admin)--><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /><!--@end-->
+            {$v->title}
+        </div>
+    </th>
     <!--@end-->
 <!--@end-->
 </tr>

@@ -1,5 +1,6 @@
 <!--%import("filter/delete_menu.xml")-->
 <!--%import("js/menu_admin.js")-->
+
 <!--#include("header.html")-->
 
 <!-- 정보 -->
@@ -26,7 +27,7 @@
     <!--@foreach($menu_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
         <td class="number center">{$no}</td>
-        <td><a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}" onclick="winopen(this.href,'MenuManage','width=850,height=800,resizable=yes,scrollbars=yes,toolbars=no');return false;">{htmlspecialchars($val->title)}</a></td>
+        <td><a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}">{htmlspecialchars($val->title)}</a></td>
         <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="delete center"><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;">{$lang->cmd_delete}</a></td>
     </tr>

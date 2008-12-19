@@ -74,10 +74,10 @@
      $lang->about_component = '設置問題組件。';
 
      $lang->project_menus = array(
+             'dispIssuetrackerViewMilestone' => '版本開發',
              'dispIssuetrackerViewIssue' => '問題清單',
              'dispIssuetrackerNewIssue' => '發表問題',
              'dispIssuetrackerTimeline' => '時間軸',
-             'dispIssuetrackerViewMilestone' => '版本開發',
              'dispIssuetrackerViewSource' => '檢視原始碼',
              'dispIssuetrackerDownload' => '下載',
              'dispIssuetrackerAdminProjectSetting' => '設置',
@@ -87,7 +87,7 @@
     $lang->msg_attached = '檔案已新增。';
     $lang->msg_no_releases = '尚未被新增的發佈版本。';
 
-    $lang->cmd_document_do = '將把此問題.. ';
+    $lang->cmd_document_do = '將此問題.. ';
     $lang->not_assigned = '尚未分配';
     $lang->not_assigned_description = '尚未被分配的問題清單';
 ?>

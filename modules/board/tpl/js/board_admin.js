@@ -4,6 +4,185 @@
  * @brief  board 모듈의 관리자용 javascript
  **/
 
+
+function Tree(url){
+    // clear tree;
+    jQuery('#menu > ul > li > ul').remove();
+    if(jQuery("ul.simpleTree > li > a").size() ==0)jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){addNode(0,e);}).appendTo("ul.simpleTree > li");
+
+    //ajax get data and transeform ul il
+    jQuery.get(url,function(data){
+        jQuery(data).find("node").each(function(i){
+            var text = jQuery(this).attr("text");
+            var node_srl = jQuery(this).attr("node_srl");
+            var parent_srl = jQuery(this).attr("parent_srl");
+            var color = jQuery(this).attr("color");
+            var url = jQuery(this).attr("url");
+
+            // node
+
+            var node = '';
+            if(color){
+                node = jQuery('<li id="tree_'+node_srl+'"><span style="color:'+color+';">'+text+'</span></li>');
+            }else{
+                node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
+            }
+
+
+
+            // button
+            jQuery('<a href="#" class="add"><img src="./common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){
+                jQuery("#tree_"+node_srl+" > span").click();
+                addNode(node_srl,e);
+                return false;
+            }).appendTo(node);
+
+            jQuery('<a href="#" class="modify"><img src="./common/js/plugins/ui.tree/images/iconModify.gif" /></a>').bind("click",function(e){
+                jQuery("#tree_"+node_srl+" > span").click();
+                modifyNode(node_srl,e);
+                return false;
+            }).appendTo(node);
+
+            jQuery('<a href="#" class="delete"><img src="./common/js/plugins/ui.tree/images/iconDel.gif" /></a>').bind("click",function(e){
+                deleteNode(node_srl);
+                return false;
+            }).appendTo(node);
+
+            // insert parent child
+            if(parent_srl>0){
+                if(jQuery('#tree_'+parent_srl+'>ul').length==0) jQuery('#tree_'+parent_srl).append(jQuery('<ul>'));
+                jQuery('#tree_'+parent_srl+'> ul').append(node);
+            }else{
+                if(jQuery('#menu ul.simpleTree > li > ul').length==0) jQuery("<ul>").appendTo('#menu ul.simpleTree > li');
+                jQuery('#menu ul.simpleTree > li > ul').append(node);
+            }
+
+        });
+
+        //button show hide
+        jQuery("#menu li").each(function(){
+            if(jQuery(this).parents('ul').size() > max_menu_depth) jQuery("a.add",this).hide();
+            if(jQuery(">ul",this).size()>0) jQuery(">a.delete",this).hide();
+        });
+
+
+        // draw tree
+        simpleTreeCollection = jQuery('.simpleTree').simpleTree({
+            autoclose: false,
+            afterClick:function(node){
+                //alert("text-"+jQuery('span:first',node).text());
+            },
+            afterDblClick:function(node){
+                //alert("text-"+jQuery('span:first',node).text());
+            },
+            afterMove:function(destination, source, pos){
+                var module_srl = jQuery("#fo_category input[name=module_srl]").val();
+                var parent_srl = destination.attr('id').replace(/.*_/g,'');
+                var source_srl = source.attr('id').replace(/.*_/g,'');
+
+                var target = source.prevAll("li:not([class^=line])");
+                var target_srl = 0;
+                if(target.length >0){
+                    target_srl = source.prevAll("li:not([class^=line])").get(0).id.replace(/.*_/g,'');
+                    parent_srl = 0;
+                }
+
+                jQuery.exec_json("board.procBoardAdminMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
+                function(data){
+                   if(data.error > 0) Tree(xml_url);
+                });
+
+            },
+
+            // i want you !! made by sol
+            beforeMovedToLine : function(destination, source, pos){
+                return (jQuery(destination).parents('ul').size() + jQuery('ul',source).size() <= max_menu_depth);
+            },
+
+            // i want you !! made by sol
+            beforeMovedToFolder : function(destination, source, pos){
+                return (jQuery(destination).parents('ul').size() + jQuery('ul',source).size() <= max_menu_depth-1);
+            },
+            afterAjax:function()
+            {
+                //alert('Loaded');
+            },
+            animate:true
+            ,docToFolderConvert:true
+        });
+
+
+
+        // open all node
+        nodeToggleAll();
+    },"xml");
+}
+function addNode(node,e){
+    var params ={
+            "category_srl":0
+            ,"parent_srl":node
+            ,"module_srl":jQuery("#fo_category [name=module_srl]").val()
+            };
+
+    jQuery.exec_json('board.getBoardAdminCategoryTplInfo', params, function(data){
+        jQuery('#category_info').html(data.tpl);
+    });
+}
+
+function modifyNode(node,e){
+    var params ={
+            "category_srl":node
+            ,"parent_srl":0
+            ,"module_srl":jQuery("#fo_category [name=module_srl]").val()
+            };
+
+    jQuery.exec_json('board.getBoardAdminCategoryTplInfo', params, function(data){
+        jQuery('#category_info').html(data.tpl);
+    });
+}
+
+
+function nodeToggleAll(){
+    jQuery("[class*=close]", simpleTreeCollection[0]).each(function(){
+        simpleTreeCollection[0].nodeToggle(this);
+    });
+}
+
+function deleteNode(node){
+    if(confirm(lang_confirm_delete)){
+        var params ={
+                "category_srl":node
+                ,"parent_srl":0
+                ,"module_srl":jQuery("#fo_category [name=module_srl]").val()
+                };
+
+        jQuery.exec_json('board.procBoardAdminDeleteCategory', params, function(data){
+            if(data.error==0) Tree(xml_url);
+        });
+    }
+}
+
+/* 카테고리 아이템 입력후 */
+function completeInsertCategory(ret_obj) {
+    jQuery('#category_info').html("");
+    Tree(xml_url);
+}
+
+function hideCategoryInfo() {
+    jQuery('#category_info').html("");
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* 모듈 생성 후 */
 function completeInsertBoard(ret_obj) {
     var error = ret_obj['error'];
@@ -57,30 +236,6 @@ function completeUpdateCategory(ret_obj) {
 }
 
 /* 권한 관련 */
-function doSelectAll(obj, key) {
-    var fo_obj = obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { 
-        fo_obj = fo_obj.parentNode; 
-    }
-
-    for(var i=0;i<fo_obj.length;i++) {
-        var tobj = fo_obj[i];
-        if(tobj.name == key) tobj.checked=true;
-    }
-}
-
-function doUnSelectAll(obj, key) {
-    var fo_obj = obj.parentNode;
-    while(fo_obj.nodeName != 'FORM') { 
-        fo_obj = fo_obj.parentNode; 
-    }
-
-    for(var i=0;i<fo_obj.length;i++) {
-        var tobj = fo_obj[i];
-        if(tobj.name == key) tobj.checked = false;
-    }
-}
-
 function completeInsertGrant(ret_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
@@ -120,42 +275,11 @@ function doCartSetup(act_type) {
 
 /**
  * 카테고리 관리
- **/ 
+ **/
 
-/* 빈 카테고리 아이템 추가 */
-function doInsertCategory(parent_srl) {
-    if(typeof(parent_srl)=='undefined') parent_srl = 0;
-    var params = {node_srl:0, parent_srl:parent_srl}
-    doGetCategoryInfo(null, params);
-    deSelectNode();
-}
 
-/* 카테고리 클릭시 적용할 함수 */
-function doGetCategoryInfo(category_id, obj) {
-    // category, category_id, node_srl을 추출
-    var fo_obj = xGetElementById("fo_category");
-    var module_srl = fo_obj.module_srl.value;
-    var node_srl = 0;
-    var parent_srl = 0;
 
-    if(typeof(obj)!="undefined") {
-        if(typeof(obj.getAttribute)!="undefined") { 
-          node_srl = obj.getAttribute("node_srl");
-        } else {
-            node_srl = obj.node_srl; 
-            parent_srl = obj.parent_srl; 
-        }
-    }
 
-    var params = new Array();
-    params["category_srl"] = node_srl;
-    params["parent_srl"] = parent_srl;
-    params["module_srl"] = module_srl;
-
-    // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
-    var response_tags = new Array('error','message','tpl');
-    exec_xml('board', 'getBoardAdminCategoryTplInfo', params, completeGetCategoryTplInfo, response_tags, params);
-}
 
 /* 서버로부터 받아온 카테고리 정보를 출력 */
 xAddEventListener(document,'mousedown',checkMousePosition);
@@ -167,10 +291,7 @@ function checkMousePosition(e) {
     _yPos = evt.pageY;
 }
 
-function hideCategoryInfo() {
-    var obj = xGetElementById('category_info');
-    obj.style.display = "none";
-}
+
 
 function completeGetCategoryTplInfo(ret_obj, response_tags) {
     var obj = xGetElementById('category_info');
@@ -188,26 +309,7 @@ function completeGetCategoryTplInfo(ret_obj, response_tags) {
     fo_obj.category_title.focus();
 }
 
-/* 카테고리 아이템 입력후 */ 
-function completeInsertCategory(ret_obj) {
-    var xml_file = ret_obj['xml_file'];
-    var category_srl = ret_obj['category_srl'];
-    var module_srl = ret_obj['module_srl'];
-    var parent_srl = ret_obj['parent_srl'];
 
-    if(!xml_file) return;
-
-    loadTreeMenu(xml_file, 'category', 'zone_category', category_title, '',doGetCategoryInfo, category_srl, doMoveTree);
-
-    if(!category_srl) {
-        xInnerHtml("category_info", "");
-    } else {
-        var params = {node_srl:category_srl, parent_srl:parent_srl}
-        doGetCategoryInfo(null, params)
-    }
-
-    if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
-} 
 
 
 /* 카테고리를 드래그하여 이동한 후 실행할 함수 , 이동하는 category_srl과 대상 category_srl을 받음 */
@@ -242,7 +344,7 @@ function doReloadTreeCategory(module_srl) {
     var params = new Array();
     params["module_srl"] = module_srl;
 
-    // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
+    // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다.
     var response_tags = new Array('error','message', 'xml_file');
     exec_xml('board', 'procBoardAdminMakeXmlFile', params, completeInsertCategory, response_tags, params);
 }
@@ -255,7 +357,7 @@ function doDeleteCategory(category_srl) {
       procFilter(fo_obj, delete_category);
 }
 
-/* 카테고리 아이템 삭제 후 */ 
+/* 카테고리 아이템 삭제 후 */
 function completeDeleteCategory(ret_obj) {
     var module_srl = ret_obj['module_srl'];
     var category_srl = ret_obj['category_srl'];
@@ -267,5 +369,5 @@ function completeDeleteCategory(ret_obj) {
     var obj = xGetElementById('category_info');
     xInnerHtml(obj, "");
     obj.style.display = 'none';
-} 
+}
 

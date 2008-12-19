@@ -149,6 +149,11 @@
                 }
             }
 
+            // 게시판만 뽑자
+            foreach($module_list as $module_srl => $module) {
+                if($module->module != 'board') unset($module_list[$module_srl]);
+            }
+
             // module_category와 module의 조합
             if($module_categories) {
                 foreach($module_list as $module_srl => $module) {

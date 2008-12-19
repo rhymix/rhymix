@@ -35,6 +35,11 @@
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return $this->stop("msg_invalid_request");
 
+            $document_srl = Context::get('document_srl');
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            Context::set('oDocument', $oDocument);
+
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             Context::set('module_info', $module_info);
@@ -48,7 +53,7 @@
             $option->enable_default_component = true;
             $option->enable_component = true;
             $option->resizable = false;
-            $option->height = 400;
+            $option->height = 300;
             $editor = $oEditorModel->getEditor($module_srl, $option);
             Context::set('editor', $editor);
 

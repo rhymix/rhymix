@@ -51,13 +51,25 @@
                             $args->s_email_address = $search_keyword;
                         break;
                     case 'regdate' :
-                            $args->s_regdate = $search_keyword;
+                            $args->s_regdate = ereg_replace("[^0-9]","",$search_keyword);
+                        break;
+                    case 'regdate_more' :
+                            $args->s_regdate_more = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                        break;
+                    case 'regdate_less' :
+                            $args->s_regdate_less = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'last_login' :
                             $args->s_last_login = $search_keyword;
                         break;
+                    case 'last_login_more' :
+                            $args->s_last_login_more = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                        break;
+                    case 'last_login_less' :
+                            $args->s_last_login_less = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                        break;
                     case 'extra_vars' :
-                            $args->s_extra_vars = $search_keyword;
+                            $args->s_extra_vars = ereg_replace("[^0-9]","",$search_keyword);
                         break;
                 }
             }

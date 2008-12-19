@@ -152,7 +152,8 @@
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');
 
             // return 할 변수 설정
-            $this->add('tpl', $tpl);
+
+            $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 
     }

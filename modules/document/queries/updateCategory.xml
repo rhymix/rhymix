@@ -9,6 +9,7 @@
         <column name="expand" var="expand" />
         <column name="parent_srl" var="parent_srl" filter="number" />
         <column name="group_srls" var="group_srls" />
+        <column name="color" var="color" />
     </columns>
     <conditions>
         <condition operation="equal" column="category_srl" var="category_srl" filter="number" notnull="notnull" />

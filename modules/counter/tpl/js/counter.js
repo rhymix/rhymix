@@ -4,7 +4,7 @@
  **/
 
 // 이벤트 등록
-xAddEventListener(window,'load',doCallCounter);
+jQuery(doCallCounter);
 
 // counter 모듈을 호출하는 함수
 function doCallCounter() {

@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = 'Всего %d вложений было удалено';
     $lang->msg_exceeds_limit_size = 'Вложение провалено: превышен лимит размера файлов';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => 'Имя файла',
         'filesize' => 'Размер файла (байт, Выше)',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => 'Скачано (Выше)',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임',
         'regdate' => 'Дата',
         'ipaddress' => 'IP-Адрес',
     );

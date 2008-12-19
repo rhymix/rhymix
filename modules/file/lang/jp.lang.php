@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/file/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  添付ファイル（file）モジュールの基本言語パッケージ
      **/
 
@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルを削除しました';
     $lang->msg_exceeds_limit_size = 'ファイルサイズの制限を超えたため、添付できません。';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => 'ファイル名',
         'filesize' => 'ファイルサイズ（(Byte以上）',
+        'filesize_mega' => 'ファイルサイズ (Mb、以上)',
         'download_count' => 'ダウンロード数（以上）',
+        'user_id' => 'ユーザーＩＤ',
+        'user_name' => '名前',
+        'nick_name' => 'ニックネーム',
         'regdate' => '登録日',
         'ipaddress' => 'IPアドレス',
     );

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/emoticon/lang/ko.lang.php
+     * @file   /modules/editor/components/emoticon/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor）モジュール >  引用句 （quotation）コンポネント言語パッケージ
      **/

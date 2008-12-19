@@ -2,21 +2,18 @@
 <!--%import("filter/insert_menu_item.xml")-->
 <!--%import("filter/delete_menu_item.xml")-->
 <!--%import("filter/move_menu_item.xml")-->
-<!--%import("css/menu.css")-->
+
+<!--%import("js/menu_tree.js")-->
 <!--%import("js/menu_admin.js")-->
+
+<!--// tree javascript plugin load -->
+<!--%load_js_plugin("ui.tree")-->
 
 <script type="text/javascript">
     var alertImageOnly = "{$lang->alert_image_only}";
 </script>
 
 <div class="menuManagement">
-
-    <!-- 메뉴 이동을 위해 임시로 사용하는 form -->
-    <form id="fo_move_menu" action="./" method="get">
-        <input type="hidden" name="menu_id" />
-        <input type="hidden" name="source_item" />
-        <input type="hidden" name="target_item" />
-    </form>
 
     <!--@if($module == 'admin')-->
         <form action="./" method="get" onsubmit="return procFilter(this, update_menu_title)">
@@ -31,13 +28,14 @@
                     </div>
                     <div class="fr">
                         <span class="button"><input type="submit" value="{$lang->cmd_modify}" /></span>
-                        <a href="#" onclick="window.close();return false;" class="button"><span>{$lang->cmd_close}</span></a>
                     </div>
                 </td>
             </tr>
             <tr>
                 <th scope="col"><div>{$lang->menu_management}</div></th>
-                <td class="left">{nl2br($lang->about_menu_management)}</td>
+                <td class="left">{nl2br($lang->about_menu_management)}
+<span style="float:right"><a href="#" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a></span>
+                </td>
             </tr>
             </table>
         </form>
@@ -57,14 +55,6 @@
         </table>
     <!--@end-->
 
-    <div class="gap1">
-        <a href="#" onclick="doInsertMenuItem(0);return false;" class="button"><span>{$lang->cmd_insert}</span></a>
-        <a href="#" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
-        <a href="#" onclick="openAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_open_all}</span></a>
-        <a href="#" onclick="closeAllTreeMenu('menu');return false;" class="button"><span>{$lang->cmd_close_all}</span></a>
-    </div>
-
-    <p class="gap1"><input type="checkbox" id="menu_enable_move" class="checkbox" /> <label for="menu_enable_move">{$lang->cmd_enable_move_menu}</label></p>
 
     <div class="gap1">
         <form id="fo_menu" action="./" method="post" onsubmit="return procFilter(this, insert_menu_item)" class="clear" target="tmp_upload_iframe" enctype="multipart/form-data">
@@ -76,19 +66,23 @@
         <input type="hidden" name="act" value="" />
         <input type="hidden" name="target" value="" />
 
-            <div id="category_list">
-                <div id="menu_zone_menu"></div>
-            </div>
-            <div id="menu_zone_info"></div>
-
-
-        </form>
-
-        <script type="text/javascript">
-            loadTreeMenu("{$menu_info->xml_file}", "menu", "menu_zone_menu", "{$menu_info->title}", '', doGetMenuItemInfo, 0, doMoveTree); 
-        </script>
+    <div id="menu">
+        <ul class="simpleTree">
+            <li class="root" id='tree_0'><span>{$lang->menu}</span></li>
+        </ul>
     </div>
-
+<div id="menu_zone_info" style="position:absolute;top:200px; width:70%; right:20px"></div>
+        </form>
+    </div>
 </div>
 
 <iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>
+
+
+<script type="text/javascript">
+var simpleTreeCollection;
+var max_menu_depth = 999;
+var xml_url = "{$menu_info->xml_file}";
+var lang_confirm_delete = "{$lang->confirm_delete}";
+Tree(xml_url);
+</script>

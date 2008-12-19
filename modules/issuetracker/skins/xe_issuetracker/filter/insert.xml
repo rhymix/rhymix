@@ -4,7 +4,7 @@
     <node target="type_srl" required="true" />
     <node target="component_srl" required="true" />
     <node target="package_srl" required="true" />
-    <node target="occured_version_srl" required="true" />
+    <node target="occured_version_srl" required="true"/>
     <node target="nick_name" required="true" />
     <node target="password" required="true" />
     <node target="email_address" maxlength="250" />

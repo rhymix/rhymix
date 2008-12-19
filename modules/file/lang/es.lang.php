@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = 'Total de %d archivos eliminados';
     $lang->msg_exceeds_limit_size = 'Ha excedido el límite del tamaño total de los archivos adjuntos';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => 'Nombre del archivo',
         'filesize' => 'Tamaño del archivo (Byte, sobre)',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => 'Descargados (Sobre)',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임',
         'regdate' => 'La fecha registrada',
         'ipaddress' => 'Dirección IP',
     );

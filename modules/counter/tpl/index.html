@@ -1,23 +1,8 @@
 <!--%import("js/counter_admin.js")-->
 <!--%import("css/counter.css")-->
 
-<!--// calendar -->
-<!--%import("../../common/js/calendar.min.js",optimized=false)-->
-<!--@if($lang_type == 'ko')-->
-    <!--%import("../../common/js/calendar-ko.js",optimized=false)-->
-<!--@elseif($lang_type == 'es')-->
-    <!--%import("../../common/js/calendar-es.js",optimized=false)-->
-<!--@elseif($lang_type == 'ge')-->
-    <!--%import("../../common/js/calendar-ge.js",optimized=false)-->
-<!--@elseif($lang_type == 'ru')-->
-    <!--%import("../../common/js/calendar-ru.js",optimized=false)-->
-<!--@elseif($lang_type == 'zh-CN')-->
-    <!--%import("../../common/js/calendar-zh-CN.js",optimized=false)-->
-<!--@else-->
-    <!--%import("../../common/js/calendar-en.js",optimized=false)-->
-<!--@end-->
-<!--%import("../../common/js/calendar-setup.js",optimized=false)-->
-<!--%import("../../common/css/calendar-system.css",optimized=false)-->
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
 
 <script type="text/javascript">
     function moveDate() {
@@ -42,10 +27,29 @@
         <th scope="row" class="half_wide"><div>{$lang->total_counter}</div></th>
         <th scope="row" class="half_wide">
             <div>
-                <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span> 
-                <img src="./images/buttonCalendar.gif" alt="calendar" width="16" height="13" id="trigger_calendar" />
+                <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span>
+<input type="hidden" class="inputDate" value="{zdate($selected_date,'Y-m-d')}" />
                 <script type="text/javascript">
-                    DyCalendar.setup( { firstDay : 0, inputField : "selected_date", ifFormat : "%Y%m%d", displayArea : "str_selected_date", daFormat : "%Y-%m-%d" , button : "trigger_calendar", onClose: moveDate } );
+(function($){
+    $(function(){
+        var option = {
+            gotoCurrent: false
+            ,yearRange:'-100:+10'
+            ,showOn:"button"
+            ,buttonImage:"./modules/counter/tpl/images/buttonCalendar.gif"
+            ,buttonImageOnly:true
+            ,mandatory:true
+            ,onSelect:function(){
+                $("#str_selected_date").html(this.value);
+                $("#selected_date").val(this.value.replace(/-/g,''));
+                moveDate();
+            }
+        };
+
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
                 </script>
             </div>
         </th>

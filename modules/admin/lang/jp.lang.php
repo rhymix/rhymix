@@ -10,8 +10,8 @@
 
     $lang->module_category_title = array(
         'service' => 'サービス型モジュール',
-        'manager' => '管理型モジュール',
         'utility' => '機能性モジュール',
+        'manager' => '管理型モジュール',
         'accessory' => '付加モジュール',
         'base' => '基本モジュール',
     );
@@ -44,17 +44,26 @@
     $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除できません。';
     $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することができません。';
 
-    $lang->welcome_to_xe = 'ゼロボードXEの管理者ページです。';
+    $lang->welcome_to_xe = 'XEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。\nクローズベータバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
     $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックしてください。";
 
-    $lang->xe_license = 'ゼロボードXEのライセンスはGPLです。';
+    $lang->xe_license = 'XEのライセンスはGPLです。';
     $lang->about_shortcut = 'よく使用するモジュールに登録されたショートカットは削除できます。';
 
     $lang->yesterday = "Yesterday";
     $lang->today = "Today";
 
-    $lang->cmd_lang_select = "언어선택";
-    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
-    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
+    $lang->cmd_lang_select = "言語選択";
+    $lang->about_cmd_lang_select = "選択された言語のみでサービスを行います。";
+    $lang->about_recompile_cache = "要らないか誤ったキャッシューファイルを整理します。";
+    $lang->use_ssl = "SSL環境設定";
+    $lang->ssl_options = array(
+        'none' => "使わない",
+        'optional' => "部分的に使う",
+        'always' => "常に使う"
+    );
+    $lang->about_use_ssl = "「部分的に使う場合」は「会員登録/会員情報変更」など特定のactionでSSLを利用する場合、「常に使う」は全てのサービスがSSLを使う場合に選択します。";
+    $lang->server_ports = "サーバーポート指定";
+    $lang->about_server_ports = "一般的に使われているHTTPの80、HTTPSの443以外の他のポートを使うために、ポートを指定して下さい。";
 ?>

@@ -31,10 +31,14 @@
     $lang->msg_checked_file_is_deleted = '%d Annexe(s) est(sont) supprimé(s)';
     $lang->msg_exceeds_limit_size = 'La mesure de l\'(des) Annexe(s) est plus grande que celle consentie.';
 
-    $lang->search_target_list = array(
+    $lang->file_search_target_list = array(
         'filename' => 'Nom de Fichier',
         'filesize' => 'Mesure de Fichier (octet, surplus)',
+        'filesize_mega' => '파일크기 (Mb, 이상)',
         'download_count' => 'Téléchargés (surplus)',
+        'user_id' => '아이디',
+        'user_name' => '이름',
+        'nick_name' => '닉네임',
         'regdate' => 'Enrgistré',
         'ipaddress' => 'Adresse IP',
     );

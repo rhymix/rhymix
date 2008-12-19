@@ -18,7 +18,7 @@
             <tr>
                 <!--@if($module_info->display_number!='N')--><th scope="col">{$lang->no}</th>{@ $no_line_class=""}<!--@end-->
 
-                <!--@if($grant->is_admin)--><th scope="col"><input type="checkbox" onclick="clickCheckBoxAll(this.form, 'cart'); return false;" /></th>{@ $no_line_class=""}<!--@end-->
+                <!--@if($grant->is_admin)--><th scope="col"><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></th>{@ $no_line_class=""}<!--@end-->
 
                 <th scope="col" class="title">
 

@@ -30,8 +30,7 @@ function editorGetContent_xq(editor_sequence) {
 
 function editorStart_xq(editor, element, editor_sequence, content_key, editor_height, primary_key) {
     editor = new xq.Editor(element);
-    //editor.config.imagePathForDefaultToobar = request_uri+editor_path.substring(2)+'images/toolbar/'; 
-    //editor.config.imagePathForContent = request_uri+editor_path.substring(2)+'images/content/'; 
+    editor.config.whitelist.img = editor.config.whitelist.img.concat('editor_component', 'poll_srl','multimedia_src', 'auto_start', 'link_url', 'editor_sequence', 'use_folder', 'folder_opener', 'folder_closer', 'color', 'border_thickness', 'border_color', 'bg_color', 'border_style', 'margin', 'padding', 'bold', 'nx', 'ny', 'gx', 'gy', 'address', 'reg_sinpic', 'language','align');
 
     editorRelKeys[editor_sequence] = new Array();
     editorRelKeys[editor_sequence]['editor'] = editor; 
@@ -62,6 +61,10 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
     editor.setStaticContent(fo_obj[content_key].value);
 	editor.config.imagePathForDefaultToolbar = request_uri+editor_path+'images/toolbar/'; 
     editor.config.contentCssList = [request_uri+editor_path+"/stylesheets/xq_contents.css"];
+    return editor;
+}
+
+function setEditMode(editor, editor_height, editor_sequence) {
     editor.setEditMode('wysiwyg');
     editor.getFrame().style.width = "100%";
     editor.getFrame().parentNode.style.height = editor_height;
@@ -73,7 +76,8 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
         xAddEventListener(editor.getFrame().contentWindow.document,'dblclick',editorSearchComponent);
     } catch(e) {
     }
-
+    
+    var fo_obj = editorGetForm_xq(xq.$("xqEditor_"+editor_sequence));
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
 }
 

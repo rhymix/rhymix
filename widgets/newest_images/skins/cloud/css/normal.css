@@ -1,4 +1,4 @@
-.imgcloudoutline { padding-bottom:5px; overflow:hidden; position:relative; text-align:center;}
+.imgcloudoutline { padding-bottom:5px; overflow:hidden; position:relative; }
 .imgcloudoutline h2 { text-align:left; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
 
 .imgcloudoutline { padding-bottom:5px; overflow:hidden; position:relative;}
@@ -6,35 +6,21 @@
 .imgcloudoutline a.more { text-decoration:none;} 
 .imgcloudoutline a.more:hover { text-decoration:underline;} 
 
-	.imgcloudoutline table {  
-		margin: 1px auto;
-		border: 0px solid #ddd;
-	}
-	
-	.imgcloudoutline img.imgcloud {  
-		border: 1px solid #e0e1db;
-		padding: 2px;
-		overflow: hidden;
-		display:block;
-	}
+.imgcloudoutline table {  
+    border:1px solid #ddd;
+}
 
-	.imgcloudoutline img.imgcloud:hover {  
-		border: 2px solid #7899AF;
-		padding: 1px;
-		overflow: hidden;
-		display:block;
-		cursor: pointer;
-	}
+.imgcloudoutline table td {  
+    vertical-align:middle;
+    text-align:center;
+}
 
-	.imgcloudoutline img.imgcloudbig {  
-		border: 1px solid #e0e1db;
-		padding: 2px;
-		overflow: hidden;
-	}
-	
-	.imgcloudoutline img.imgcloudbig:hover {  
-		border: 2px solid #7899AF;
-		padding: 1px;
-		overflow: hidden;
-		cursor: pointer;
-	}
+.imgcloudoutline table tbody tr td {
+    padding:1px; 
+    background-color:transparent;
+    vertical-align:middle;
+}
+
+.imgcloudoutline table tbody tr td:hover {
+    background-color:#7899AF;
+}

@@ -14,20 +14,26 @@
 .pageAddContent { width:700px; }
 
 .widgetOutput { float:left; cursor:move; z-index:998; overflow:hidden; position:relative; width:100%; }
-.widgetOutput .widgetBorder { border:1px dotted #17DA29; z-index:999; }
-.widgetOutput .widgetSetup { background:transparent url("../images/widget_setup.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; right:58px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; right:44px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; right:30px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; right:15px; cursor:pointer; z-index:1000;}
+
+.widgetOutput .widgetBorder { border:1px solid #C7DBE9; z-index:999; }
+.widgetOutput .widgetBoxBorder { border:1px solid #D2E9C7; z-index:999; }
+
 .widgetOutput .widgetResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
-
-.widgetOutput .widgetBoxBorder { border:1px dotted #267BEE; z-index:999; }
-.widgetOutput .widgetBoxCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; left:1px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetBoxSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; left:15px; cursor:pointer; z-index:1000;}
-.widgetOutput .widgetBoxRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px; position:absolute; top:1px; left:30px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetBoxResize { background:transparent url("../images/btn_resize.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:1px; right:1px; cursor:pointer; z-index:1000;}
 .widgetOutput .widgetBoxResizeLeft { background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom; width:12px; height:12px; position:absolute; bottom:0; left:1px; cursor:pointer; z-index:1000;}
+
+.widgetButtons { z-index:9999; overflow:hidden; *zoom:1; float:left; padding:3px; position:absolute; visibility:hidden;}
+#widgetButton { background-color:#C7DBE9;left:0; top:0;}
+#widgetBoxButton { background-color:#D2E9C7; right:0; top:0;}
+.widgetButtons div { float:left; }
+.widgetButtons .widgetSetup { background:transparent url("../images/widget_setup.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
+.widgetButtons .widgetCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
+.widgetButtons .widgetSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
+.widgetButtons .widgetRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
+.widgetButtons .widgetBoxCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px; cursor:pointer; z-index:1000;}
+.widgetButtons .widgetBoxSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px; cursor:pointer; z-index:1000;}
+.widgetButtons .widgetBoxRemove { background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px; width:14px; height:14px; cursor:pointer; z-index:1000;}
 
 #pageSizeLayer { width:500px; overflow:hidden; border:1px solid #888888; background:#FFFFFF; z-index:2000; position:absolute; }
 #pageSizeLayer table { border:0; width:100%; table-layout:fixed; }
@@ -44,3 +50,5 @@
 #pageSizeLayer .submit { width:90%; border:1px solid #DEDEDE; background-color:#FFFFFF;}
 
 div.editor { width:700px; }
+
+.help { padding:5px 0; background-color:#EFEFEF; border-top:1px solid #CCCCCC; }

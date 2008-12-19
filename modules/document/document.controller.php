@@ -879,21 +879,24 @@
                 $group_srls = $node->group_srls;
                 $mid = $node->mid;
                 $module_srl = $node->module_srl;
-
+                $parent_srl = $node->parent_srl;
+                $color = $node->color;
                 // node->group_srls값이 있으면
                 if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
                 else $group_check_code = "true";
 
                 $attribute = sprintf(
-                        'mid="%s" module_srl="%d" node_srl="%d" category_srl = "%d" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" document_count="%d" ',
+                        'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?"%s":"")?>" url="%s" expand="%s" color="%s" document_count="%d" ',
                         $mid,
                         $module_srl,
                         $category_srl,
+                        $parent_srl,
                         $category_srl,
                         $group_check_code,
                         $title,
                         getUrl('','mid',$node->mid,'category',$category_srl),
                         $expand,
+                        $color,
                         $node->document_count
                 );
 
@@ -938,7 +941,7 @@
 
                 // 속성을 생성한다 ( category_srl_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
-                    '"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_category_title[%d],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+                    '"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_category_title[%d],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s", "list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
                     $node->mid,
                     $node->module_srl,
                     $node->category_srl,
@@ -947,6 +950,7 @@
                     $node->category_srl,
                     $selected,
                     $expand,
+                    $node->color,
                     $child_buff,
                     $node->document_count,
                     $group_check_code

@@ -56,7 +56,7 @@
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'category_info');
-
+            $tpl = str_replace("\n",'',$tpl);
             // return 할 변수 설정
             $this->add('tpl', $tpl);
         }

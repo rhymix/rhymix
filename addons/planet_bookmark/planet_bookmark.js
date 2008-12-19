@@ -11,7 +11,7 @@ function planetShowBookmarkList(o){
 }
 
 function planetBookmarkReload(){
-    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">Bookmark</h3><span class="button strong black todoWrite"><button type="button" onclick="showWritePostBookmark()">Bookmark</button></span></div>\n<div id="bookmarkList" class="commentBody todoManager"></div>\n<div id="todoList_page" class="pagination a1"></div>\n\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
+    $('commentList').innerHTML = '<div class="commentHeader"><h3 class="exTitle">Bookmark</h3><span class="button strong black todoWrite"><button type="button" onclick="showWritePostBookmark()">Bookmark</button></span></div>\n<div id="bookmarkList" class="commentBody todoManager"></div>\n<div id="bookmarkList_page" class="pagination a1"></div>\n\n<span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>\n';
     planetGetBookmark(0);
 }
 

@@ -46,7 +46,8 @@
             return $GLOBALS['__IssueItem__'][$document_srl];
         }
 
-        function getIssuesCount($target, $value, $status = null) {
+        function getIssuesCount($module_srl,$target, $value, $status = null) {
+            $args->module_srl = $module_srl;
             $args->{$target} = $value;
             if($status !== null) $args->status = $status;
             $output = executeQuery('issuetracker.getIssuesCount', $args);
@@ -386,30 +387,32 @@
 
             $solvedHistory = array();
             $output2 = executeQueryArray("issuetracker.getHistories", $args);
-            foreach($output2->data as $history)
-            {
-                $hist = unserialize($history->history);
-                $h = array();
-                if(!is_array($hist)) continue;
-                $res = "";
-                $bFirst = true;
-                foreach($hist as $key => $val) {
-                    if($bFirst) { $bFirst = false; }
-                    else { $res .= "<br />"; }
-                    if($val[0]) $str = Context::getLang('history_format');
-                    else $str = Context::getLang('history_format_not_source');
-                    $str = str_replace('[source]', $val[0], $str);
-                    $str = str_replace('[target]', $val[1], $str);
-                    $str = str_replace('[key]', Context::getLang($key), $str);
-                    $res .= $str;
+            if(count($output2->data)) {
+                foreach($output2->data as $history)
+                {
+                    $hist = unserialize($history->history);
+                    $h = array();
+                    if(!is_array($hist)) continue;
+                    $res = "";
+                    $bFirst = true;
+                    foreach($hist as $key => $val) {
+                        if($bFirst) { $bFirst = false; }
+                        else { $res .= "<br />"; }
+                        if($val[0]) $str = Context::getLang('history_format');
+                        else $str = Context::getLang('history_format_not_source');
+                        $str = str_replace('[source]', $val[0], $str);
+                        $str = str_replace('[target]', $val[1], $str);
+                        $str = str_replace('[key]', Context::getLang($key), $str);
+                        $res .= $str;
+                    }
+                    $obj = null;
+                    $obj->date = $history->regdate;
+                    $obj->type = "i";
+                    $obj->message = $res;
+                    $obj->target_srl = $history->target_srl;
+                    $obj->author = $history->nick_name;
+                    $output->data[] = $obj;
                 }
-                $obj = null;
-                $obj->date = $history->regdate;
-                $obj->type = "i";
-                $obj->message = $res;
-                $obj->target_srl = $history->target_srl;
-                $obj->author = $history->nick_name;
-                $output->data[] = $obj;
             }
             usort($output->data, _compare);
 

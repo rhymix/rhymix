@@ -70,12 +70,12 @@
             <th scope="row"><div>
                 {$var->name}
                 <!--@if($var->type == "mid_list")-->
-                    <input type="checkbox" onclick="checkboxSelectAll(this.form, '{$id}'); return false;" />
+                    <input type="checkbox" onclick="XE.checkboxToggleAll('{$id}'); return false;" />
                 <!--@end-->
             </div></th>
             <td>
                 <!--@if($var->type == "text")-->
-                <input type="text" name="{$id}" value="" class="inputTypeText" />
+                <input type="text" name="{$id}" value="" class="inputTypeText w400" />
 
                 <!--@elseif($var->type == "textarea")-->
                 <textarea name="{$id}" class="inputTypeTextArea w100"></textarea>

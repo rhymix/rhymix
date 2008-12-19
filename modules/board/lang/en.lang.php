@@ -5,9 +5,9 @@
      * @brief  board modules's basic language pack
      **/
 
-    $lang->board = "Board"; 
+    $lang->board = 'Board';
 
-    $lang->except_notice = "Exclude Notices";
+    $lang->except_notice = 'Exclude Notices';
 
     $lang->cmd_manage_menu = 'Manage Menus';
     $lang->cmd_make_child = 'Add Child Category';
@@ -16,10 +16,12 @@
     // Item
     $lang->parent_category_title = 'Parent Category';
     $lang->category_title = 'Category';
+    $lang->category_color = 'Category Font Color';
     $lang->expand = 'Expand';
     $lang->category_group_srls = 'Accessable Group';
     $lang->search_result = 'Search Result';
     $lang->consultation = 'Consultation';
+    $lang->secret = 'Secret';
     $lang->admin_mail = "Administrator's Mail";
 
     // words used in button
@@ -33,8 +35,11 @@
     $lang->about_category_group_srls = 'Only selected group will be able to use current category';
     $lang->about_layout_setup = 'You can manually modify board layout code. Insert or manage the widget code anywhere you want';
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
-    $lang->about_except_notice = "Notice articles will not be displayed on normal list.";
-    $lang->about_board = "This module is for creating and managing boards.\nYou may select the module name from the list after creating one to configure specifically.\nPlease be careful with board's module name, since it will be the url. (ex : http://domain/zb/?mid=modulename)"; 
-	$lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
+    $lang->about_except_notice = 'Notice articles will not be displayed on normal list.';
+    $lang->about_board = 'This module is for creating and managing boards.';
+    $lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
+    $lang->about_secret = 'Users will be able to write secret articles or comments.';
     $lang->about_admin_mail = 'A mail will be sent when an article or comment is submitted.<br />Multiple mails can be sent with commas(,).';
+
+    $lang->about_category_color = 'You can set font color of category.';
 ?>

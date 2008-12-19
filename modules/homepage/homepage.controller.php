@@ -237,47 +237,8 @@
             $target_srl = Context::get('target_srl');
 
             if(!$menu_srl || !$mode || !$target_srl) return new Object(-1,'msg_invalid_request');
-
-            // 원본 메뉴들을 구함
-            $oMenuAdminModel = &getAdminModel('menu');
             $oMenuAdminController = &getAdminController('menu');
-
-            $target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
-            if($target_item->menu_item_srl != $target_srl) return new Object(-1,'msg_invalid_request');
-
-            // 위치 이동 (순서 조절)
-            if($mode == 'move') {
-                $args->parent_srl = $parent_srl;
-                $args->menu_srl = $menu_srl;
-
-                if($source_srl) {
-                    $source_item = $oMenuAdminModel->getMenuItemInfo($source_srl);
-                    if($source_item->menu_item_srl != $source_srl) return new Object(-1,'msg_invalid_request');
-                    $args->listorder = $source_item->listorder-1;
-                }  else {
-                    $output = executeQuery('menu.getMaxListorder', $args);
-                    if(!$output->toBool()) return $output;
-                    $args->listorder = (int)$output->data->listorder;
-                    if(!$args->listorder) $args->listorder= 0;
-                }
-                $args->parent_srl = $parent_srl;
-                $output = executeQuery('menu.updateMenuItemListorder', $args);
-                if(!$output->toBool()) return $output;
-
-                $args->parent_srl = $parent_srl;
-                $args->menu_item_srl = $target_srl;
-                $output = executeQuery('menu.updateMenuItemNode', $args);
-                if(!$output->toBool()) return $output;
-            // 자식으로 추가
-            } elseif($mode == 'insert') {
-                $args->menu_item_srl = $target_srl;
-                $args->parent_srl = $parent_srl;
-                $args->listorder = -1*getNextSequence();
-                $output = executeQuery('menu.updateMenuItemNode', $args);
-                if(!$output->toBool()) return $output;
-            }
-
-            $xml_file = $oMenuAdminController->makeXmlFile($menu_srl);
+            $xml_file = $oMenuAdminController->moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode);
             $this->add('xml_file', $xml_file);
         }
 

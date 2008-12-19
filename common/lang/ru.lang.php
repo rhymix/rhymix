@@ -69,6 +69,7 @@
     $lang->disable = 'Выключено';
 
     // Существенные слова
+    $lang->menu = 'Menu';
     $lang->no = 'No.';
     $lang->notice = 'Уведомление';
     $lang->secret = 'Секрет';

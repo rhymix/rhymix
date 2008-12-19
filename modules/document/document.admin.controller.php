@@ -295,7 +295,7 @@
                 // 댓글 이전
                 if($oDocument->getCommentCount()) {
                     $oCommentModel = &getModel('comment');
-                    $comment_output = $oCommentModel->getCommentList($document_srl, true);
+                    $comment_output = $oCommentModel->getCommentList($document_srl, 0, true, 99999999);
                     $comments = $comment_output->data;
                     if(count($comments)) {
                         $oCommentController = &getController('comment');
@@ -338,10 +338,14 @@
                         $oDocumentController->updateTrackbackCount($obj->document_srl, $success_count);
                     }
                 }
+
+                $copied_srls[$document_srl] = $obj->document_srl;
             }
-            
             $oDB->commit();
-            return new Object();
+
+            $output = new Object();
+            $output->add('copied_srls', $copied_srls);
+            return $output;
         }
 
         /**

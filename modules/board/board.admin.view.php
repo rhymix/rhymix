@@ -198,7 +198,7 @@
             Context::set('category_xml_file', $category_xml_file);
             Context::addJsFile('./common/js/tree_menu.js');
 
-            Context::set('layout','none');
+//            Context::set('layout','none');
             $this->setTemplateFile('category_list');
         }
 

@@ -1,7 +1,6 @@
 <filter name="insert_page_content" module="page" act="procPageAdminInsertContent" confirm_msg_code="confirm_submit">
     <form>
         <node target="module_srl" required="true" />
-        <node target="content" required="true" />
     </form>
     <parameter>
         <param name="module_srl" target="module_srl" />

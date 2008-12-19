@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>JSSpec results</title>
+<link rel="stylesheet" type="text/css" href="css/JSSpec.css" />
+<script type="text/javascript" src="JSSpec/JSSpec.js"></script>
+<script type="text/javascript" src="JSSpec/diff_match_patch.js"></script>
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript" src="../common.js"></script>
+<script type="text/javascript">// <![CDATA[
+describe('SetQuery', {
+    'should satisfy basic uri condition' : function() {
+        target = "http://www.zeroboard.com/";
+        value_of(target.setQuery("q","r")).should_be("http://www.zeroboard.com/?q=r");
+    },
+    'should work when ssl is on' : function() {
+        target = "http://www.zeroboard.com/";
+        ssl_actions = new Array("dispLogin");
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com/?act=dispLogin");
+    },
+    'should work when ssl is on and https_port is set (not 443)' : function() {
+        target = "http://www.zeroboard.com/";
+        https_port = 445;
+        ssl_actions = new Array("dispLogin");
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com:445/?act=dispLogin");
+    },
+    'should work when ssl is on and https_port is set as 443' : function() {
+        target = "http://www.zeroboard.com/";
+        https_port = 443;
+        ssl_actions = new Array("dispLogin");
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com/?act=dispLogin");
+    },
+    'should replace https to http if act is not a member of ssl_actions': function() {
+        targets = "https://www.zeroboard.com/";
+        ssl_actions = new Array("dispLogin");
+        value_of(targets.setQuery("act","dispLogin2")).should_be("http://www.zeroboard.com/?act=dispLogin2");
+    },
+    'should remove https port' : function() {
+        targetsp = "https://www.zeroboard.com:443/?q=r";
+        value_of(targetsp.setQuery("act","dispLogin2")).should_be("http://www.zeroboard.com/?q=r&act=dispLogin2");
+    },
+    'should remove https port and add http port if http port is defined' : function() {
+        targetsp = "https://www.zeroboard.com:443/?q=r";
+        http_port = 8000;
+        value_of(targetsp.setQuery("act","dispLogin2")).should_be("http://www.zeroboard.com:8000/?q=r&act=dispLogin2");
+    },
+    'should only remove https port and if http port is defined as 80' : function() {
+        targetsp = "https://www.zeroboard.com:443/?q=r";
+        http_port = 80;
+        value_of(targetsp.setQuery("act","dispLogin2")).should_be("http://www.zeroboard.com/?q=r&act=dispLogin2");
+    },
+    'should work if enforce_ssl is set' : function() {
+        target = "http://www.zeroboard.com/";
+        enforce_ssl = true;
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com/?act=dispLogin");
+    },
+    'should work if enforce_ssl is set with 443 port' : function() {
+        target = "http://www.zeroboard.com/";
+        enforce_ssl = true;
+        https_port = 443;
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com/?act=dispLogin");
+    },
+    'should work if enforce_ssl is set with none-443 port' : function() {
+        target = "http://www.zeroboard.com/";
+        enforce_ssl = true;
+        https_port = 445;
+        value_of(target.setQuery("act","dispLogin")).should_be("https://www.zeroboard.com:445/?act=dispLogin");
+    }
+})
+// ]]></script>
+</head>
+<body><div style="display:none;"><p>A</p><p>B</p></div></body>
+</html>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.2">
     <title xml:lang="ko">XE 블로그 기본 스킨</title>
-    <title xml:lang="jp">ZBXEブログのデフォルトスキン</title>
+    <title xml:lang="jp">XEブログのデフォルトスキン</title>
     <title xml:lang="zh-CN">XE博客默认皮肤</title>
     <title xml:lang="en">Default Skin of XE blog</title>
     <title xml:lang="ge">Standard-Skin von XE Blog</title>
@@ -14,7 +14,7 @@
         HTML/CSS : 소지훈
     </description>
     <description xml:lang="jp">
-        ゼロボードXEブログの基本スキンです。
+        XEブログの基本スキンです。
         デザイン：ソギジョン (http://blog.naver.com/addcozy)
         HTML/CSS : Ju-Hoon So
     </description>

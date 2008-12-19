@@ -2,10 +2,11 @@
 <!--%import("css/widget.css")-->
 
 <div class="pageAddContent"></div>
-<form action="./" method="get" onsubmit="return completeAddContent(this); return false;" id="content_fo">
-<input type="hidden" name="content" value="" />
+<form action="./" method="get" onsubmit="return addContentWidget(this); return false;" id="content_fo">
+<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
 <input type="hidden" name="mid" value="{$module_info->mid}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="style" value="float:left;padding:none;margin:none;width:100%;" />
 <input type="hidden" name="widget_padding_left" value="" />
 <input type="hidden" name="widget_padding_right" value="" />

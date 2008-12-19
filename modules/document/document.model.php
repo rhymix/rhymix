@@ -122,6 +122,7 @@
             }
             $args->document_srls = $document_srls;
             $args->list_count = $list_count;
+            $args->order_type = 'asc';
 
             $output = executeQuery('document.getDocuments', $args);
             $document_list = $output->data;
@@ -330,7 +331,7 @@
 
                 $target_args->document_srls = implode(',',$target_srls);
                 $target_args->list_order = $args->sort_index;
-                $target_args->order = $args->order_type;
+                $target_args->order_type = $args->order_type;
                 $target_args->list_count = $args->list_count;
                 $target_args->page = 1;
                 $output = executeQueryArray('document.getDocuments', $target_args);
@@ -513,7 +514,6 @@
                 $this->_arrangeCategory($document_category, $menu->list, 0);
                 $this->category_list[$module_srl] = $document_category;
             }
-
             return $this->category_list[$module_srl];
         }
 
@@ -532,6 +532,7 @@
                 $obj->parent_srl = $val['parent_srl'];
                 $obj->title = $obj->text = $val['text'];
                 $obj->expand = $val['expand']=='Y'?true:false;
+                $obj->color = $val['color'];
                 $obj->document_count = $val['document_count'];
                 $obj->depth = $depth;
                 $obj->child_count = 0;
@@ -655,11 +656,14 @@
         function getDocumentCategories() {
             $module_srl = Context::get('module_srl');
             $categories= $this->getCategoryList($module_srl);
-            if(!$categories) return;
+            $lang = Context::get('lang');
 
-            $output = '';
-            foreach($categories as $category_srl => $category) {
-                $output .= sprintf("%d,%d,%s\n",$category_srl, $category->depth,$category->title);
+            // 분류 없음 추가
+            $output = "0,0,{$lang->none_category}\n";
+            if($categories){
+                foreach($categories as $category_srl => $category) {
+                    $output .= sprintf("%d,%d,%s\n",$category_srl, $category->depth,$category->title);
+                }
             }
             $this->add('categories', $output);
         }

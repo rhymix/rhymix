@@ -23,12 +23,6 @@
         <td>{$oIssue->getComponentTitle()}</td>
     </tr>
     <tr>
-        <th>{$lang->package} :</th>
-        <td>{$oIssue->getPackageTitle()}</td>
-        <th>{$lang->occured_version} :</th>
-        <td>{$oIssue->getReleaseTitle()}</td>
-    </tr>
-    <tr>
         <th>{$lang->status} :</th>
         <td>{$oIssue->getStatus()}</td>
         <th>{$lang->assignee} :</th>
@@ -40,6 +34,14 @@
             <!--@end-->
         </td>
     </tr>
+    <!--@if(count($project->packages))-->
+    <tr>
+        <th>{$lang->package} :</th>
+        <td>{$oIssue->getPackageTitle()}</td>
+        <th>{$lang->occured_version} :</th>
+        <td>{$oIssue->getReleaseTitle()}</td>
+    </tr>
+    <!--@end-->
 
     <!--@if($module_info->extra_vars)--><!--@foreach($module_info->extra_vars as $key => $val)-->
         <!--@if($val->name)-->
@@ -195,6 +197,7 @@
             </select>
         </td>
     </tr>
+    <!--@if(count($project->packages))-->
     <tr>
         <th><label for="inputPackage">{$lang->occured_version} :</label></th>
         <td colspan="3">
@@ -216,6 +219,7 @@
             </select>
         </td>
     </tr>
+    <!--@end-->
     <tr>
         <th><label>{$lang->action} :</label></th>
         <td colspan="3">

@@ -1,7 +1,7 @@
 <?php
     /**
-     * @file   modules/widget/lang/ko.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa
+     * @file   modules/widget/lang/jp.lang.php
+     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジェット（widget）モジュール基本言語パッケージ
      **/
 
@@ -9,7 +9,7 @@
 
     $lang->widget_name = 'ウィジェット名';
     $lang->widget_maker = 'ウィジェット作者';
-    $lang->widget_license = 'License';
+    $lang->widget_license = 'ライセンス';
     $lang->widget_history = '変更内容';
     $lang->widget_info = 'ウィジェット情報';
     $lang->widget_code = 'コード';
@@ -40,7 +40,7 @@
 
     $lang->about_widget_code = '選択されたウィゼットで求められる下の項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。';
     $lang->about_widget_code_in_page = '下に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。';
-    $lang->about_widget = "ウィジェットまたはページモジュールに用いられる小単位の構成要素です。内部モジュールまたは外部の OPEN API と連動でき、設定によって様々な応用が利きます。ゼロボードXEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加できます。";
+    $lang->about_widget = "ウィジェットまたはページモジュールに用いられる小単位の構成要素です。内部モジュールまたは外部の OPEN API と連動でき、設定によって様々な応用が利きます。XEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加できます。";
 
     $lang->cmd_content_insert = "内容直接追加";
     $lang->cmd_box_widget_insert = "ボックスウィジェット追加";

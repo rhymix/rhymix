@@ -145,6 +145,8 @@
                 </div>
             <!--@end-->
 
+
+            <!--@if($enable_default_component || $enable_component)-->
             <div class="editorHelp" id="editorHelp_{$editor_sequence}">
                 <button type="button" class="helpButton" title="{$lang->edit->help}" onclick="showEditorHelp(event,{$editor_sequence})"><span>{$lang->edit->help}</span></button>
             </div>
@@ -167,7 +169,7 @@
                     </ul>
                 </li>
             </ul>
-
+            <!--@end-->
         </div>
 
         <!--@if($enable_autosave)-->
@@ -186,9 +188,7 @@
         <div class="mask" id="xeEditorMask_{$editor_sequence}"></div>
 
         <!-- 에디터 크기 조절 bar -->
-        <!--@if($enable_resizable)-->
         <div class="textAreaDragIndicator"><button type="button" id="editor_drag_bar_{$editor_sequence}" title="Text Area Resizer"></button></div>
-        <!--@end-->
 
     <!--@if($allow_fileupload)-->
         <!-- 첨부파일 영역 -->
@@ -238,8 +238,6 @@
     <!--@else-->
         editorStart("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", '{$editor_height}' , '#000');
     <!--@end-->
-
-
         <!--@end-->
     //]]></script>
 

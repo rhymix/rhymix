@@ -71,7 +71,6 @@
             Context::set('menu_info', $menu_info);
 
             // 레이아웃을 팝업으로 지정
-            Context::set('layout','none');
             $this->setTemplateFile('menu_management');
         }
 

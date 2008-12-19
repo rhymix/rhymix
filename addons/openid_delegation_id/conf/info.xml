@@ -38,7 +38,7 @@
     </description>
     <description xml:lang="zh-TW">
         可將原本的域名當做OpenID來使用。
-        必須在設置中輸入openid provider相關值後再使用。
+        必須在設置中輸入openid provider相關資料後再使用。
     </description>
     <version>0.1</version>
     <date>2007-02-28</date>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.2">
-    <title xml:lang="ko">ZBXE 공식 사이트 레이아웃</title>
-    <title xml:lang="jp">ZBXEオフィシャルレイアウト</title>
-    <title xml:lang="en">ZBXE Official website layout</title>
-    <title xml:lang="ge">ZBXE Offizielle Website-Layout</title>
-    <title xml:lang="ru">ZBXE Официальный сайт макет</title>
-    <title xml:lang="es">Diseño oficial de la página web de ZBXE</title>
-    <title xml:lang="zh-CN">ZBXE 官方网站布局</title>
-    <title xml:lang="zh-TW">ZBXE 官方網站版面</title>
+    <title xml:lang="ko">XE 공식 사이트 레이아웃</title>
+    <title xml:lang="jp">XEオフィシャルレイアウト</title>
+    <title xml:lang="en">XE Official website layout</title>
+    <title xml:lang="ge">XE Offizielle Website-Layout</title>
+    <title xml:lang="ru">XE Официальный сайт макет</title>
+    <title xml:lang="es">Diseño oficial de la página web de XE</title>
+    <title xml:lang="zh-CN">XE 官方网站布局</title>
+    <title xml:lang="zh-TW">XE 官方網站版面</title>
     <description xml:lang="ko">
         XE 공식 사이트 레이아웃입니다.
         디자인 : 이소라
@@ -15,7 +15,7 @@
         레이아웃 제작 : zero
     </description>
     <description xml:lang="jp">
-        ゼロボードXEのオフィシャルサイトのレイアウトです。
+        XEのオフィシャルサイトのレイアウトです。
         デザイン：イ ソラ
         パブリシング：ジョン チャンミョン
         レイアウト作成：Zero
@@ -141,7 +141,7 @@
             <title xml:lang="ko">홈 페이지 URL</title>
             <title xml:lang="jp">ホームページURL</title>
             <title xml:lang="zh-CN">主页地址</title>
-            <title xml:lang="zh-TW">主頁URL</title>
+            <title xml:lang="zh-TW">主頁網址</title>
             <title xml:lang="en">Homepage URL</title>
             <title xml:lang="ge">Homepage URL</title>
             <title xml:lang="ru">Домашняя страница URL</title>
@@ -149,7 +149,7 @@
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
-            <description xml:lang="zh-TW">請輸入要移往的頁面URL，當用戶按了網站LOGO後。</description>
+            <description xml:lang="zh-TW">請輸入當用戶按了網站LOGO後，要前往的頁面網址。</description>
             <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
             <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
             <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>

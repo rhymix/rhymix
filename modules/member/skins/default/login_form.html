@@ -46,15 +46,16 @@
         <h3>{$lang->openid}</h3>
     </div>
 
-    <form action="./" method="post" onsubmit="return procFilter(this, openid_login)">
+    <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)">
         <fieldset class="login">
             <dl>
                 <dt><label for="open_uid">{$lang->user_id}</label></dt>
-                <dd><input type="text" name="user_id" id="open_uid" value="" class="openid_user_id" /></dd>
+                <dd><input type="text" name="openid" id="open_uid" value="" class="openid_user_id" /></dd>
             </dl>
             <span class="button"><input type="submit" value="{$lang->cmd_login}" /></span>
 
         </fieldset>
+        <input type="hidden" name="referer_url" value="{$referer_url}" />
     </form>
 
     <div class="help tLeft">{$lang->about_openid}</div>

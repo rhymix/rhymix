@@ -10,6 +10,6 @@
         <condition operation="equal" column="is_completed" var="is_completed" pipe="and"/>
     </conditions>
     <navigation>
-        <index var="sort_index" default="deadline" order="asc" />
+        <index var="sort_index" default="deadline" order="desc" />
     </navigation>
 </query>

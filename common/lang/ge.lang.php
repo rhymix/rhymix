@@ -69,6 +69,7 @@
     $lang->deaktivieren = 'Deaktivieren';
 
     // Essential Words
+    $lang->menu = 'Menu';
     $lang->no = 'Nein';
     $lang->notice = 'Hinweis';
     $lang->secret = 'Geheim';
