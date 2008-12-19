@@ -11,7 +11,7 @@
     $lang->module_type = "目標";
     $lang->board = "討論板";
     $lang->page = "頁面";
-    $lang->url = "URL";
+    $lang->url = "網址";
     $lang->module_id = "模組 ID";
     $lang->item_group_grant = "顯示群組";
     $lang->homepage_admin = "網站管理者";

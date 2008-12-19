@@ -38,7 +38,7 @@
     $lang->about_except_notice = '設置公告列表項目，不再重複顯示到普通列表當中。';
     $lang->about_board = '可建立及管理討論板的模組。';
     $lang->about_consultation = "咨詢功能是指除有管理權限的會員以外，其他會員只能瀏覽自己發表的主題。\n使用咨詢功能時系統將自動禁止非會員的發表主題權限。";
-    $lang->about_secret = '可用於討論板或回覆時使用。';
+    $lang->about_secret = '可用於討論板或回覆時選擇是否使用。';
     $lang->about_admin_mail = '有新的主題或評論時，將自動發電子郵件來通知管理員。<br />多數電子郵件由逗號(,)區隔。';
     $lang->about_category_color = '設定分類顏色。';
 ?>

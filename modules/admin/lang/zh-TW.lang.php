@@ -10,8 +10,8 @@
 
     $lang->module_category_title = array(
         'service' => '服務類模組',
-        'manager' => '管理類模組',
         'utility' => '功能模組',
+        'manager' => '管理類模組',
         'accessory' => '附加模組',
         'base' => '基本模組',
     );
@@ -65,5 +65,5 @@
     );
     $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用 SSL 功能。";
     $lang->server_ports = "主機埠口";
-    $lang->about_server_ports = "HTTP是 80、HTTPS是 443，如果想使用其他的埠口的話，請自行設定。";
+    $lang->about_server_ports = "預設 HTTP 是 80、HTTPS 是 443，如果想使用其他的埠口的話，請自行設定。";
 ?>

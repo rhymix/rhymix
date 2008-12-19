@@ -46,7 +46,7 @@
     $lang->limit_date = '限制日期';
     $lang->after_login_url = '登入後頁面轉向';
     $lang->after_logout_url = '登出後頁面轉向';
-    $lang->redirect_url = '註冊會員後頁面轉向';
+    $lang->redirect_url = '會員註冊後頁面轉向';
     $lang->agreement = '會員使用條款';
     $lang->accept_agreement = '同意條款';
     $lang->member_info = '會員資料';
@@ -177,8 +177,8 @@
     $lang->about_limit_day = '註冊會員後的認證有效期限。';
     $lang->about_limit_date = '直到指定日期，否則該帳號都無法登入。';
     $lang->about_after_login_url = '可以指定登入後的頁面轉向網址(留空為目前頁面)。';
-    $lang->about_after_logout_url = '可以指定登出登錄後的頁面轉向網址(留空為目前頁面)。';
-    $lang->about_redirect_url = '請輸入註冊會員後的頁面轉向網址。(留空為返回前頁)';
+    $lang->about_after_logout_url = '可以指定登出後的頁面轉向網址(留空為目前頁面)。';
+    $lang->about_redirect_url = '請輸入會員註冊後的頁面轉向網址。(留空為返回前頁)';
     $lang->about_agreement = '沒有會員條款時不顯示。';
 
     $lang->about_image_name = '用戶暱稱可以用圖片替代。';
@@ -194,4 +194,5 @@
     $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 
     $lang->about_member = "可以新增/修改/刪除會員及管理用戶組或註冊表單的會員管理模組。\n此模組不僅可以建立預設用戶組以外的其他用戶組來管理會員，並且通過註冊表單的管理獲得除會員基本資料以外的延伸資料。";
+    $lang->about_ssl_port = '請輸入想要使用預設 SSL 埠口以外的埠口。';
 ?>
