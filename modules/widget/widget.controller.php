@@ -323,7 +323,7 @@
             $oDocumentController = &getController('document');
 
             $oDocument = $oDocumentModel->getDocument($document_srl, true);
-            if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
+            if(!$oDocument->isExists()) return new Object();
             $module_srl = $oDocument->get('module_srl');
 
             // 대상 페이지 모듈 정보 구함
