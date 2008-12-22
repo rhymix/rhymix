@@ -24,7 +24,7 @@
                 }
             }
         }
-debugPrint($json);
+
         if(count($json) > 0){
             $addon_keyword_link = json_encode2($json);
             Context::addHtmlHeader("<script type=\"text/javascript\">//<![CDATA[\nvar addon_keyword_link={$addon_keyword_link};\nvar addon_keyword_link_cssquery='{$addon_info->cssquery}';\nvar addon_keyword_link_reg_type='{$addon_info->reg_type}';\n//]]></script>");
