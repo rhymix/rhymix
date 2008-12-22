@@ -61,6 +61,11 @@ function Tree(url){
             afterMove:function(destination, source, pos){
 
                 jQuery("#menu_zone_info").html("");
+
+                if(destination.size() == 0){
+                    Tree(xml_url);
+                    return;
+                }
                 var menu_srl = jQuery("#fo_menu input[name=menu_srl]").val();
                 var parent_srl = destination.attr('id').replace(/.*_/g,'');
                 var target_srl = source.attr('id').replace(/.*_/g,'');

@@ -77,6 +77,10 @@ function Tree(url){
                 //alert("text-"+jQuery('span:first',node).text());
             },
             afterMove:function(destination, source, pos){
+                if(destination.size() == 0){
+                    Tree(xml_url);
+                    return;
+                }
                 var module_srl = jQuery("#fo_category input[name=module_srl]").val();
                 var parent_srl = destination.attr('id').replace(/.*_/g,'');
                 var source_srl = source.attr('id').replace(/.*_/g,'');
