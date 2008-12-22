@@ -20,10 +20,10 @@
         <!--@foreach($member_list as $no => $val)-->
         {@ $val->group_list = implode(', ', $val->group_list)}
         <tr class="row{$cycle_idx}">
-            <td class="center number" >{$no}</td>
-            <td><input type="checkbox" name="cart" value="{$val->member_srl}" />{htmlspecialchars($val->user_id)}</td>
-            <td>{htmlspecialchars($val->user_name)}</td>
-            <td>{htmlspecialchars($val->nick_name)}</td>
+            <td class="center number" > <input type="checkbox" name="cart" value="{$val->member_srl}" /> {$no}</td>
+            <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->user_id)}</span></td>
+            <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->user_name)}</span></td>
+            <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
             <td class="nowrap">
                 <!--@if($members_groups[$val->member_srl])-->
                     {implode(',',$members_groups[$val->member_srl])}
@@ -31,7 +31,7 @@
                 &nbsp;
                 <!--@end-->
             </td>
-            <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+            <td class="date center nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
             <td class="date center nowrap">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
         </tr>
         <!--@end-->
