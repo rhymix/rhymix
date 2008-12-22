@@ -379,7 +379,7 @@
             $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
             $args->module_srl = $module_srl;
             $output = executeQueryArray("issuetracker.getChangesets", $args);
-            if(!$output->toBool() || !$output->data)
+            if(!$output->toBool())
             {
                 debugPrint($output);
                 return array();
