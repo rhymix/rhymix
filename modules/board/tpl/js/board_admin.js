@@ -70,6 +70,7 @@ function Tree(url){
         simpleTreeCollection = jQuery('.simpleTree').simpleTree({
             autoclose: false,
             afterClick:function(node){
+                jQuery('#category_info').html("");
                 //alert("text-"+jQuery('span:first',node).text());
             },
             afterDblClick:function(node){
@@ -89,6 +90,7 @@ function Tree(url){
 
                 jQuery.exec_json("board.procBoardAdminMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
                 function(data){
+                    jQuery('#category_info').html('');
                    if(data.error > 0) Tree(xml_url);
                 });
 
@@ -150,6 +152,7 @@ function nodeToggleAll(){
 
 function deleteNode(node){
     if(confirm(lang_confirm_delete)){
+        jQuery('#category_info').html("");
         var params ={
                 "category_srl":node
                 ,"parent_srl":0
