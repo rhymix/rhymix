@@ -270,7 +270,9 @@ function doFitBorderSize() {
     var obj_list = xGetElementsByClassName('widgetBorder', zonePageObj);
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
-        xHeight(obj, xHeight(obj.parentNode));
+        var height = xHeight(obj.parentNode);
+        if(height<3) height = 20;
+        xHeight(obj, height);
         obj.parentNode.style.clear = '';
     }
     var obj_list = xGetElementsByClassName('widgetBoxBorder', zonePageObj);
