@@ -8,21 +8,23 @@
      **/
     if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC" && Context::getResponseMethod()!="JSON" ) {
         $json = array();
+        $arg = array();
         for($i=1;$i<=5;$i++){
+        $arg = array();
             $ii = sprintf("%02d",$i);
             $keyword = $addon_info->{"keyword".$ii};
             $url = $addon_info->{"url".$ii};
             if($keyword  && $url){
-                $arg->url = $url;
+                $arg['url'] = $url;
                 $keyword = explode(",",$keyword);
                 for($j=0,$c=count($keyword);$j<$c;$j++){
                     if(trim($keyword[$j]) == "") continue;
-                    $arg->keyword = trim($keyword[$j]);
+                    $arg['keyword'] = trim($keyword[$j]);
                     $json[] = $arg;
                 }
             }
         }
-
+debugPrint($json);
         if(count($json) > 0){
             $addon_keyword_link = json_encode2($json);
             Context::addHtmlHeader("<script type=\"text/javascript\">//<![CDATA[\nvar addon_keyword_link={$addon_keyword_link};\nvar addon_keyword_link_cssquery='{$addon_info->cssquery}';\nvar addon_keyword_link_reg_type='{$addon_info->reg_type}';\n//]]></script>");
