@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">키워드 링크 애드온</title>
+    <description xml:lang="ko">
+        게시글과 댓글의 내용중 등록된 키워드에 링크를 걸어주는 애드온입니다.
+        키워드는 콤마(,)로 구분하여 여러개 등록할 수 있습니다.
+        먼저 등록된 키워드가 우선순위를 갖습니다.
+    </description>
+    <version>0.1</version>
+    <date>2008-12-20</date>
+    <author email_address="sol@ngleader.com" link="http://ngleader.tistory.com">
+        <name xml:lang="ko">SOL</name>
+        <name xml:lang="jp">SOL</name>
+        <name xml:lang="en">SOL</name>
+        <name xml:lang="zh-CN">SOL</name>
+        <name xml:lang="es">SOL</name>
+        <name xml:lang="ru">SOL</name>
+        <name xml:lang="ge">SOL</name>
+        <name xml:lang="zh-TW">SOL</name>
+    </author>
+    <extra_vars>
+        <var name="cssquery">
+            <title xml:lang="ko">cssquery</title>
+            <description xml:lang="ko">치환할 부분의 jQuery cssquery입니다.
+            xe_board 게시판 스킨이면 공백으로 두면 됩니다.</description>
+        </var>
+
+        <var name="reg_type" type="select">
+            <title xml:lang="ko">링크 방법</title>
+            <description xml:lang="ko"> 키워드가 여러개 있을때 "첫번째 키워드"에만 링크를 걸 것인지 "모든 키워드"에 걸 것인지 선택합니다.
+            </description>
+            <options value="">
+                <title xml:lang="ko">첫번째 키워드</title>
+            </options>
+            <options value="g">
+                <title xml:lang="ko">모든 키워드</title>
+            </options>
+        </var>
+
+        <var name="keyword01">
+            <title xml:lang="ko">키워드</title>
+        </var>
+        <var name="url01">
+            <title xml:lang="ko">링크</title>
+        </var>
+        <var name="keyword02">
+            <title xml:lang="ko">키워드</title>
+        </var>
+        <var name="url02">
+            <title xml:lang="ko">링크</title>
+        </var>
+        <var name="keyword03">
+            <title xml:lang="ko">키워드</title>
+        </var>
+        <var name="url03">
+            <title xml:lang="ko">링크</title>
+        </var>
+        <var name="keyword04">
+            <title xml:lang="ko">키워드</title>
+        </var>
+        <var name="url04">
+            <title xml:lang="ko">링크</title>
+        </var>
+        <var name="keyword05">
+            <title xml:lang="ko">키워드</title>
+        </var>
+        <var name="url05">
+            <title xml:lang="ko">링크</title>
+        </var>
+    </extra_vars>
+</addon>
