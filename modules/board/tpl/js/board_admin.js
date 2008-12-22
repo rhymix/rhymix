@@ -70,12 +70,17 @@ function Tree(url){
         simpleTreeCollection = jQuery('.simpleTree').simpleTree({
             autoclose: false,
             afterClick:function(node){
+                jQuery('#category_info').html("");
                 //alert("text-"+jQuery('span:first',node).text());
             },
             afterDblClick:function(node){
                 //alert("text-"+jQuery('span:first',node).text());
             },
             afterMove:function(destination, source, pos){
+                if(destination.size() == 0){
+                    Tree(xml_url);
+                    return;
+                }
                 var module_srl = jQuery("#fo_category input[name=module_srl]").val();
                 var parent_srl = destination.attr('id').replace(/.*_/g,'');
                 var source_srl = source.attr('id').replace(/.*_/g,'');
@@ -89,6 +94,7 @@ function Tree(url){
 
                 jQuery.exec_json("board.procBoardAdminMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
                 function(data){
+                    jQuery('#category_info').html('');
                    if(data.error > 0) Tree(xml_url);
                 });
 
@@ -150,6 +156,7 @@ function nodeToggleAll(){
 
 function deleteNode(node){
     if(confirm(lang_confirm_delete)){
+        jQuery('#category_info').html("");
         var params ={
                 "category_srl":node
                 ,"parent_srl":0

@@ -22,7 +22,7 @@
 </thead>
 <tbody>
 <tr>
-    <td><input name="title" type="text" class="inputTypeText w400" value="{$milestone->title}" /></td>
+    <td><input name="title" type="text" class="inputTypeText w200" value="{$milestone->title}" /></td>
     <td>
         <input type="hidden" name="deadline" id="date_deadline" value="{$milestone->deadline}"/>
         <input type="text" class="inputDate" value="<!--@if($milestone->deadline)-->{zdate($milestone->deadline,'Y-m-d')}<!--@end-->" readonly="readonly" />

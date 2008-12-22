@@ -107,7 +107,7 @@
 .memberInfoTable tr.first-child th, .memberInfoTable tr.first-child td { border-top:none;}
 .memberInfoTable th, .memberInfoTable td { border-top:1px solid #eaebe7; padding:.5em;}
 .memberInfoTable th { background:#f5f5f3; text-align:left; padding:.5em 1em;}
-.memberInfoTable td { border-left:1px solid #eaebe7;}
+.memberInfoTable td { border-left:1px solid #eaebe7; background:#fff;}
 .memberInfoTable td input { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px; height:1em; line-height:1em; background:#fbfbfb; vertical-align:middle; margin-right:.5em; margin-bottom:.5em; color:#666666;}
 .memberInfoTable td input.radio, .memberInfoTable td input.check { border:none; padding:0; margin:0; background:none; margin-top:.4em;}
 .memberInfoTable td input.w4em { width:4em;}

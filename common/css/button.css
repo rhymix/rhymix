@@ -38,7 +38,7 @@ span.button.large { background-position:left -30px;}
 span.button.large, x:-moz-any-link{ font:0/29px Sans-serif; padding:14px 0;} /* Firefox 2 Fix */
 span.button.large, x:-moz-any-link, x:default{ padding:0;} /* Firefox 2 Fix */
 span.button.large button,
-span.button.large input { height:30px; *top:0 !important; padding:0 10px 0 8px; *padding:0 5px 0 3px; font:16px/30px Sans-serif; background-position:right -30px;}
+span.button.large input { height:30px; *top:0; _top:-1px; padding:0 10px 0 8px; *padding:0 5px 0 3px; font:16px/30px Sans-serif; background-position:right -30px;}
 /* xLarge Size */
 span.button.xLarge { background-position:left -65px;}
 span.button.xLarge, x:-moz-any-link{ font:0/35px Sans-serif; padding:17px 0;} /* Firefox 2 Fix */

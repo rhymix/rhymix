@@ -107,7 +107,7 @@ if(jQuery) jQuery.noConflict();
                 this.loaded_popup_menus[menu_id] =  html;
             }
 
-            // 레이어 출력
+            /* 레이어 출력 */
             if(html) {
                 var area = jQuery("#popup_menu_area").html('<ul>'+html+'</ul>');
                 var areaOffset = {top:params['page_y'], left:params['page_x']};

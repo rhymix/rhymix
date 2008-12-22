@@ -122,6 +122,23 @@
             return $this->get('close_notice')=='Y'?true:false;
         }
 
+        function getPrevDate($date) {
+            if(!$this->isExists()) return;
+            $args->cur_date = substr($date,0,8).'000000';
+            if(!$this->isHome()) $args->module_srl = $this->getModuleSrl();
+            $output = executeQuery('planet.getPrevDate', $args);
+            return substr($output->data->prev_date,0,8);
+        }
+
+        function getNextDate($date) {
+            if(!$this->isExists()) return;
+            if(!$date) return;
+            $args->cur_date = substr($date,0,8).'235959';
+            if(!$this->isHome()) $args->module_srl = $this->getModuleSrl();
+            $output = executeQuery('planet.getNextDate', $args);
+            return substr($output->data->next_date,0,8);
+        }
+
         function isMyPlanet($planet = null) {
             if(!$this->isExists()) return;
             if(!Context::get('is_logged')) return false;

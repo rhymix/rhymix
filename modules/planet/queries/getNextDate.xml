@@ -1,0 +1,12 @@
+<query id="getNextDate" action="select">
+    <tables>
+        <table name="documents" alias="modules" />
+    </tables>
+    <columns>
+        <column name="min(regdate)" alias="next_date" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+        <condition operation="more" column="regdate" var="cur_date" notnull="notnull" pipe="and" />
+    </conditions>
+</query>
