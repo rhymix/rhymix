@@ -90,4 +90,8 @@
     $lang->cmd_document_do = '이 문제를.. ';
     $lang->not_assigned = '할당 안됨';
     $lang->not_assigned_description = '할당 안된 문제들의 목록입니다.';
+    $lang->timeline_msg = array(
+        'changed' => '변경',
+        'created' => '생성'
+    );
 ?>

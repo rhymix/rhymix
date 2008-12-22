@@ -77,6 +77,7 @@
              'dispIssuetrackerViewIssue' => 'View Issue',
              'dispIssuetrackerNewIssue' => 'New Issue',
              'dispIssuetrackerViewMilestone' => 'Milestone',
+             'dispIssuetrackerTimeline' => 'Timeline',
              'dispIssuetrackerViewSource' => 'View Source',
              'dispIssuetrackerDownload' => 'Download',
              'dispIssuetrackerAdminProjectSetting' => 'Settings',
@@ -89,4 +90,8 @@
     $lang->cmd_document_do = 'You would...';
     $lang->not_assigned = 'Unassigned';
     $lang->not_assigned_description = 'List of unassigned issues.';
+    $lang->timeline_msg = array(
+        'changed' => 'changed',
+        'created' => 'created'
+    );
 ?>

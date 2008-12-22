@@ -407,13 +407,27 @@
                     }
                     $obj = null;
                     $obj->date = $history->regdate;
-                    $obj->type = "i";
+                    $obj->type = "changed";
                     $obj->message = $res;
                     $obj->target_srl = $history->target_srl;
                     $obj->author = $history->nick_name;
                     $output->data[] = $obj;
                 }
             }
+
+            $output2 = executeQueryArray("issuetracker.getDocumentListForChangeset", $args);
+            if(count($output2->data)) {
+                foreach($output2->data as $history)
+                {
+                    $obj = null;
+                    $obj->date = $history->regdate;
+                    $obj->type = "created";
+                    $obj->author = $history->nick_name;
+                    $obj->target_srl = $history->document_srl;
+                    $output->data[] = $obj;
+                }
+            }
+
             usort($output->data, _compare);
 
             return $output->data;
