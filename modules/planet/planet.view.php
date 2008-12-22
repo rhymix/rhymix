@@ -76,8 +76,8 @@
             $date = Context::get('date');
             if(!$date || $date > $last_date) $date = $last_date;
             Context::set('date', $date);
-            Context::set('prev_date', date("Ymd",ztime($date)-60*60*24));
-            Context::set('next_date', date("Ymd",ztime($date)+60*60*24));
+            Context::set('prev_date', $this->planet->getPrevDate($date));
+            Context::set('next_date', $this->planet->getNextDate($date));
 
 
             // 초기화면에서 tagtab이 나오기 위해 set type 한다  
@@ -181,8 +181,8 @@
             $date = Context::get('date');
             if(!$date || $date > $last_date) $date = $last_date;
             Context::set('date', $date);
-            Context::set('prev_date', date("Ymd",ztime($date)-60*60*24));
-            Context::set('next_date', date("Ymd",ztime($date)+60*60*24));
+            Context::set('prev_date', $this->planet->getPrevDate($date));
+            Context::set('next_date', $this->planet->getNextDate($date));
 
             // 최신 업데이트 글 추출
             $page = Context::get('page');
