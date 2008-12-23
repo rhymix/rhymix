@@ -220,6 +220,8 @@
             if(!in_array($args->sort_index, $this->order_target)) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
             if(!in_array($args->order_type, array('asc','desc'))) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
 
+            $oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
+
             // 특정 문서의 permalink로 직접 접속할 경우 page값을 직접 구함
             if(count($_GET)==1 && isset($_GET['document_srl']) && $oDocument->isExists() && !$oDocument->isNotice()) {
                 $page = $oDocumentModel->getDocumentPage($oDocument, $args);
