@@ -24,7 +24,7 @@
 
 <tbody>
 <!--@foreach($addon_list as $key => $val)-->
-<tr class="row{$cycle_idx}">
+<tr>
     <th scope="row" rowspan="2">
         <div>
             <a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$val->title}</a> <br />

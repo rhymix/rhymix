@@ -17,7 +17,7 @@
             <p>{$lang->about_rewrite}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->use_optimizer}</div></th>
         <td>
             <input type="checkbox" name="use_optimizer" value="Y"  <!--@if($use_optimizer!='N')-->checked="checked"<!--@end--> />
@@ -35,7 +35,7 @@
             <p>{$lang->about_lang_env}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->time_zone}</div></th>
         <td>
             <select name="time_zone" class="fixWidth">
@@ -53,7 +53,7 @@
             <p>{$lang->about_qmail_compatibility}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->use_ssl}</div></th>
         <td>
             <select name="use_ssl">
@@ -72,7 +72,7 @@
             <p>{$lang->about_server_ports}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td colspan="2" class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
         </td>
@@ -121,7 +121,7 @@
             <p>{$lang->about_cmd_lang_select}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td class="right">
             <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
         </td>
@@ -136,7 +136,7 @@
             <p>{$lang->about_recompile_cache}</p>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td class="right">
             <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
         </td>

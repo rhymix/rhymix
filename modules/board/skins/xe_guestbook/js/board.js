@@ -104,9 +104,7 @@ function completeDeleteTrackback(ret_obj) {
 
 /* 카테고리 이동 */
 function doChangeCategory() {
-    var sel_obj = xGetElementById("board_category");
-    var sel_idx = sel_obj.selectedIndex;
-    var category_srl = sel_obj.options[sel_idx].value;
+    var category_srl = jQuery('#board_category option:selected').val();
     location.href = decodeURI(current_url).setQuery('category',category_srl);
 }
 

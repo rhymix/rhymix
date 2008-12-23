@@ -9,8 +9,6 @@ function doGetSkinColorset(skin) {
 
 function doDisplaySkinColorset(ret_obj) {
     var tpl = ret_obj["tpl"];
-    var old_height = xHeight("communication_colorset");
-    xInnerHtml("communication_colorset", tpl);
-    var new_height = xHeight("communication_colorset");
+    jQuery('#communication_colorset').html(tpl);
 }
 

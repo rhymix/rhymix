@@ -80,15 +80,11 @@ function doChangeCategory(fo_obj) {
 
 /* 일괄 설정 */
 function doCartSetup(act_type) {
-    var fo_obj = xGetElementById('fo_list');
     var module_srl = new Array();
-    if(typeof(fo_obj.cart.length)=='undefined') {
-        if(fo_obj.cart.checked) module_srl[module_srl.length] = fo_obj.cart.value;
-    } else {
-        for(var i=0;i<fo_obj.cart.length;i++) {
-            if(fo_obj.cart[i].checked) module_srl[module_srl.length] = fo_obj.cart[i].value;
-        }
-    }
+    jQuery('#fo_list input[name=cart]:checked').each(function() {
+        module_srl[module_srl.length] = jQuery(this).val();
+    });
+
     if(module_srl.length<1) return;
 
     var url = current_url.setQuery('act',act_type).setQuery('module_srl','').setQuery('module_srls',module_srl.join(','));

@@ -9,7 +9,7 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 
     <table cellspacing="0" class="adminTable">
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->editor_skin}</div></th>
         <td>
             <select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
@@ -35,7 +35,7 @@
             </select>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->colorset}</div></th>
         <td><div id="communication_colorset"></div></td>
     </tr>
@@ -50,5 +50,5 @@
 </form>
 
 <script type="text/javascript">
-    xAddEventListener(window,'load', function() { doGetSkinColorset("{$communication_config->skin}"); });
+    jQuery(function() { doGetSkinColorset("{$communication_config->skin}"); });
 </script>

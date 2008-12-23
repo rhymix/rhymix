@@ -5,7 +5,7 @@
 <div id="popBody">
 
     <table cellspacing="0" class="adminTable">
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$addon_info->title} ver. {$addon_info->version}</td>
     </tr>
@@ -17,7 +17,7 @@
             <!--@endforeach-->
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->homepage}</div></th>
         <td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
     </tr>
@@ -25,7 +25,7 @@
         <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate($addon_info->date, 'Y-m-d')}</td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->addon_license}</div></th>
         <td>
             {nl2br(trim($addon_info->license))}

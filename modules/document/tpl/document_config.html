@@ -3,7 +3,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
-    <tr class="row2">
+    <tr>
         <th scope="col"><div>{$lang->thumbnail_type}</div></th>
     </tr>
     <tr>
@@ -12,13 +12,13 @@
             <input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></td>
     </tr>
     </table>
 
     <table cellspacing="0" class="adminTable">
-    <tr class="row2">
+    <tr>
         <td class="right"><span class="button"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span></td>
     </tr>
     </table>
