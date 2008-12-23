@@ -6,7 +6,8 @@
         <column name="max(regdate)" alias="prev_date" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" />
+        <condition operation="equal" column="module" default="planet" />
+        <condition operation="equal" column="module_srl" var="module_srl" pipe="and" />
         <condition operation="less" column="regdate" var="cur_date" notnull="notnull" pipe="and" />
     </conditions>
 </query>
