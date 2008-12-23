@@ -128,6 +128,7 @@
                     $issues['reopen'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'reopen');
                     $issues['postponed'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'postponed');
                     $issues['invalid'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'invalid');
+                    $issues['duplicated'] = $oIssuetrackerModel->getIssuesCount($this->module_srl,'milestone_srl', $milestone->milestone_srl,'duplicated');
                     $issues['total'] = $issues['new']+$issues['assign']+$issues['resolve']+$issues['reopen']+$issues['reviewing'];
                     $milestone->issues = $issues;
                     $milestones[$milestone->milestone_srl] = $milestone;
