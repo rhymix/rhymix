@@ -1,7 +1,7 @@
 (function($){
 $(function(){
     if(addon_keyword_link.length > 0){
-        if(!addon_keyword_link_cssquery) addon_keyword_link_cssquery= 'div.contentBody > div, div.replyContent > div';
+        if(!addon_keyword_link_cssquery) addon_keyword_link_cssquery= '.xe_content';
         $(addon_keyword_link_cssquery).each(function(){
             var content = $(this).html();
             for(var i=0,c=addon_keyword_link.length;i<c;i++){
