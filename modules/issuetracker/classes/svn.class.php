@@ -245,7 +245,7 @@
             return $output;
         }
 
-        function getLog($path, $erev=null, $brev=null, $quiet = false, $limit = 2) {
+        function getLog($path, $erev=null, $brev=null, $quiet = false, $limit = 2, $link = true) {
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
@@ -287,7 +287,7 @@
                     $obj->paths[] = $tmp_obj;
                 }
 
-                $obj->msg = $this->linkXE($tmp->msg->body);
+                $obj->msg = $link?$this->linkXE($tmp->msg->body):$tmp->msg->body;
                 $output[] = $obj;
             }
             return $output;

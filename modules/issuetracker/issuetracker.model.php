@@ -190,6 +190,10 @@
                 for($k=0;$k<count($mat[1]);$k++) {
                     $histories[$i]->content = str_replace('r'.$mat[1][$k], sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>',getUrl('','mid',Context::get('mid'),'act','dispIssuetrackerViewSource','type','compare','erev',$mat[1][$k],'brev',''), 'r'.$mat[1][$k]), $histories[$i]->content);
                 }
+                preg_match_all('/\[([0-9]+)\]/',$histories[$i]->content, $mat);
+                for($k=0;$k<count($mat[1]);$k++) {
+                    $histories[$i]->content = str_replace('['.$mat[1][$k].']', sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>',getUrl('','mid',Context::get('mid'),'act','dispIssuetrackerViewSource','type','compare','erev',$mat[1][$k],'brev',''), '['.$mat[1][$k].']'), $histories[$i]->content);
+                }
             }
             return $histories;
         }
@@ -368,6 +372,16 @@
             else return 0;
         }
 
+        function _linkDocument($matches) {
+            $document_srl = $matches[1];
+            return sprintf('<a href="%s" onclick="window.open(this.href); return false;">#%d</a>', getUrl('','document_srl',$document_srl), $document_srl);
+        }
+
+        function _linkXE($message)
+        {
+            return preg_replace_callback('/^\#?([0-9]+)( |\:)/', array($this, '_linkDocument'), $message);
+        }
+
 
         function getChangesets($module_srl, $enddate = null, $limit = 10)
         {
@@ -383,6 +397,10 @@
             {
                 debugPrint($output);
                 return array();
+            }
+            foreach($output->data as $key => $changeset)
+            {
+                $changeset->message = $this->_linkXE($changeset->message);
             }
 
             $solvedHistory = array();

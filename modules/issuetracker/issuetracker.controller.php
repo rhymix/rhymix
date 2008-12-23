@@ -396,7 +396,7 @@
             $oController = &getController('issuetracker');
             if($latestRevision < $status->revision)
             {
-                $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $status->revision-$latestRevision);
+                $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $status->revision-$latestRevision, false);
                 foreach($logs as $log)
                 {
                     $obj = null;
