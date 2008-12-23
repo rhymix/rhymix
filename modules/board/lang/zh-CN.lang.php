@@ -25,6 +25,7 @@
     $lang->search_result = '搜索结果';
     $lang->consultation = '咨询功能';
     $lang->secret = '密帖';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = '管理员电子邮件';
 
     // 按钮语言

@@ -23,6 +23,7 @@
     $lang->search_result = '検索結果';
     $lang->consultation = '相談機能';
     $lang->secret = '秘密文機能';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = '管理者メールアドレス';
 
 

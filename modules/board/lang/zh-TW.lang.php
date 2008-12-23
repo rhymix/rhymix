@@ -22,6 +22,7 @@
     $lang->search_result = '搜尋結果';
     $lang->consultation = '咨詢功能';
     $lang->secret = '秘密';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = '管理員電子郵件';
 
     // 按鈕語言

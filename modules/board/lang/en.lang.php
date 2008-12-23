@@ -22,6 +22,7 @@
     $lang->search_result = 'Search Result';
     $lang->consultation = 'Consultation';
     $lang->secret = 'Secret';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = "Administrator's Mail";
 
     // words used in button

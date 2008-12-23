@@ -21,6 +21,7 @@
     $lang->search_result = 'Résultat de la Recherche';
     $lang->consultation = 'Consultation';
     $lang->secret = '비밀글 기능';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = 'Mél de l\'administrateur';
 
     // Mots utilisés en bouton
