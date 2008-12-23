@@ -42,4 +42,5 @@
     $lang->about_secret = '可用於討論板或回覆時選擇是否使用。';
     $lang->about_admin_mail = '有新的主題或評論時，將自動發電子郵件來通知管理員。<br />多數電子郵件由逗號(,)區隔。';
     $lang->about_category_color = '設定分類顏色。';
+    $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

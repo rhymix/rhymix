@@ -45,5 +45,5 @@
     $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
 
     $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
-
+    $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

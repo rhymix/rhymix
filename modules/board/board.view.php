@@ -328,6 +328,25 @@
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
+            if(!$oDocument->isExists())
+            {
+                $oModuleModel = &getModel('module');
+                $point_config = $oModuleModel->getModulePartConfig('point',$this->module_srl);
+                $logged_info = Context::get('logged_info');
+                $oPointModel = &getModel('point');
+                $pointForInsert = $point_config["insert_document"];
+                if($pointForInsert < 0)
+                {
+                    if( !$logged_info )
+                    {
+                        return $this->dispBoardMessage('msg_not_permitted');
+                    }
+                    else if (($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert )< 0 )
+                    {
+                        return $this->dispBoardMessage('msg_not_enough_point');
+                    }
+                }
+            }
 
             Context::set('document_srl',$document_srl);
             Context::set('oDocument', $oDocument);
