@@ -11,11 +11,14 @@
          * @brief 초기화
          **/
         function init() {
+
+	    if(!preg_match('/planet/i', $this->act)) return;
             /**
              * @brief 플래닛 모듈의 기본 설정은 view에서는 언제든지 사용하도록 load하여 Context setting
              **/
             $oPlanetModel = &getModel('planet');
             Context::set('config',$this->config = $oPlanetModel->getPlanetConfig());
+	    $this->module_info->layout_srl = $this->config->layout_srl;
 
             /**
              * 스킨이 없으면 플래닛 기본 설정의 스킨으로 설정
