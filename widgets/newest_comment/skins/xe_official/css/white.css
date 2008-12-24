@@ -1,0 +1,16 @@
+.latest_comment_white { width:100%; padding-bottom:15px; overflow:hidden; position:relative;}
+.latest_comment_white h2 { margin:0; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:12px; color:#000000; background:url(../images/white/lineNotice.gif) no-repeat left bottom; font-size:1em;}
+
+.latest_comment_white ul { margin:0; padding:0; }
+.latest_comment_white ul li { height:20px; background:url(../images/white/bulletD0.gif) no-repeat left 5px; padding-left:10px; overflow:hidden; list-style:none; white-space:nowrap;}
+
+.latest_comment_white ul li .title a { color:#555555; text-decoration:none; }
+.latest_comment_white ul li .title a:hover { text-decoration:underline; }
+.latest_comment_white ul li .title span.comment { color:#FE6700; font:.9em Tahoma; }
+.latest_comment_white ul li .title span.comment a { color:#FE6700; font:.9em Tahoma; }
+
+.latest_comment_white ul li .date { color:#999999; font:.8em Tahoma; white-space:nowrap; margin-right:5px;}
+
+.latest_comment_white .more { position:absolute; top:12px; right:11px; color:#54564b; font:.8em Tahoma;}
+.latest_comment_white a.more { text-decoration:none;} 
+.latest_comment_white a.more:hover { text-decoration:underline;} 
