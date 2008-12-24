@@ -90,6 +90,7 @@
             $widget_info->rss_list = $rss_list;
             $widget_info->title = $title;
             $widget_info->rss_height = $args->rss_height ? $args->rss_height : 200;
+            $widget_info->subject_cut_size = $args->subject_cut_size;
 
             Context::set('widget_info', $widget_info);
 
