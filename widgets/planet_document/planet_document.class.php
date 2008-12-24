@@ -25,7 +25,7 @@
             // 플래닛 글 목록 구함
             $oPlanetModel = &getModel('planet');
             Context::set('planet', $planet = $oPlanetModel->getPlanet());
-            $output = $oPlanetModel->getNewestContentList(null, $planet->getContentLastDay(),  $page, $list_count, 'documents.list_order', 'asc', null);
+            $output = $oPlanetModel->getContentList(null, 'content', '', 1, $list_count);
             Context::set('planet_list', $output->data);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
