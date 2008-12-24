@@ -29,7 +29,7 @@
                             <dt>TAG</dt>
                             <dd class="tagRead">
                                 <!--@for($i=0,$tag=$item->getArrTags(),$c=count($tag);$i<$c;$i++)-->
-                                    <a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($tag[$i]))}" name="planet_content_tag:{$item->get('document_srl')}">{htmlspecialchars($tag[$i])}</a>
+                                    <a href="{getUrl('','mid',$item->getPlanetmid(), 'act','dispPlanetContentTagSearch','keyword',urlencode($tag[$i]))}" name="planet_content_tag:{$item->get('document_srl')}">{htmlspecialchars($tag[$i])}</a>
                                 <!--@end-->
 
                             </dd>
