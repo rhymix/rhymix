@@ -11,7 +11,7 @@
 .commentBody .comment{ margin:0 1px 0 0; padding:0; clear:both; *zoom:1; overflow:hidden;}
 
 .commentBody .comment .identity{ width:98px; height:98px; padding:0; float:left; margin:0 -98px 0 0; background:none; *zoom:1;}
-.commentBody .comment .identity a{ position:relative; display:block; text-align:center; color:#fff !important; font-weight:bold; text-decoration:none; }
+.commentBody .comment .identity a{ position:relative; font-size:12px; display:block; text-align:center; color:#fff !important; font-weight:bold; text-decoration:none; }
 .commentBody .comment .identity a img{ display:block; border:1px solid #000;}
 .commentBody .comment .identity a em{ position:absolute; width:96px; text-align:center; left:1px; bottom:1px; display:block; padding:5px 0; font-style:normal; background:#000; opacity:.6; filter:alpha(opacity=60); line-height:normal;}
 
