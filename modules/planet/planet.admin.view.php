@@ -37,6 +37,11 @@
             if(is_array($this->config->tagtab_after)) Context::set('tagtab_after', join(',',$this->config->tagtab_after));
             if(is_array($this->config->smstag)) Context::set('smstag', join(',',$this->config->smstag));
 
+            // 레이아웃 목록을 구해옴
+            $oLayoutMode = &getModel('layout');
+            $layout_list = $oLayoutMode->getLayoutList();
+            Context::set('layout_list', $layout_list);
+
 
             $this->setTemplateFile('setup');
         }
