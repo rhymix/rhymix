@@ -30,7 +30,7 @@
             <select name="layout_srl">
             <option value="0">{$lang->notuse}</option>
             <!--@foreach($layout_list as $key => $val)-->
-            <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+            <option value="{$val->layout_srl}" <!--@if($config->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
             <!--@end-->
             </select>
             <p>{$lang->about_layout}</p>

@@ -29,6 +29,7 @@
                 $config->is_default = $dummy->is_default;
                 $config->module_srl = $dummy->module_srl;
                 $config->browser_title = $dummy->browser_title;
+                $config->layout_srl = $dummy->layout_srl;
                 if($config->logo_image) $config->logo_image = context::getFixUrl($config->logo_image);
             }
             return $config;
