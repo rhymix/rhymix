@@ -90,4 +90,8 @@
     $lang->cmd_document_do = 'このイシューを・・・ ';
     $lang->not_assigned = 'アサイン無し';
     $lang->not_assigned_description = 'アサインされてないイシューのリストです。';
+    $lang->timeline_msg = array(
+        'changed' => '変更',
+        'created' => '作成'
+    );
 ?>
