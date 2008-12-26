@@ -398,6 +398,10 @@
                 debugPrint($output);
                 return array();
             }
+            if(!$output->data)
+            {
+                $output->data = array();
+            }
             foreach($output->data as $key => $changeset)
             {
                 $changeset->message = $this->_linkXE($changeset->message);
