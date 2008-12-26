@@ -28,7 +28,7 @@
             $password = $obj->password;
 
             // 인증 시도
-            $output = $oLdapModel->ldap_conn($user_id, $password, $config->ldap_userdn_suffix, $config->ldap_basedn, $config->ldap_server, $config->ldap_port);
+            $output = $oLdapModel->ldap_conn($user_id, $password, $config->ldap_userdn_prefix, $config->ldap_userdn_suffix, $config->ldap_basedn, $config->ldap_server, $config->ldap_port);
 
             // 인증 실패시 아무 event없이 그냥 return하여 기존 인증을 계속 유지
             if(!$output->toBool()) return new Object();

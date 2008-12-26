@@ -9,6 +9,7 @@
     $lang->use_ldap = '使用 LDAP';
     $lang->ldap_server = 'LDAP主機位置';
     $lang->ldap_port = 'LDAP主機端口';
+    $lang->ldap_userdn_prefix = 'UserDN prefix';
     $lang->ldap_userdn_suffix = '後綴';
     $lang->ldap_basedn = 'base DN';
 
@@ -20,6 +21,7 @@
     $lang->about_use_ldap = '請輸入並檢查所有必填的資料。';
     $lang->about_ldap_server = '請輸入已授權的 LDAP主機資料。'; 
     $lang->about_ldap_port = '請輸入 LDAP主機端口。';
+    $lang->about_ldap_userdn_prefix = 'Please input userdn prefux for authorization. ex) cn=';
     $lang->about_ldap_userdn_suffix = '請輸入已授權的 userdn後綴。例) @abc.com';
     $lang->about_ldap_basedn = '請輸入 base DN資料夾。 例) dc=abc,dc=com';
 
