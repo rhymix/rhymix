@@ -391,12 +391,15 @@
             $oSvn = new Svn($module_info->svn_url, $module_info->svn_cmd, $module_info->diff_cmd);
             $oModel = &getModel('issuetracker');
             $status = $oSvn->getStatus();
+            if(!$status || !$status->revision) return;
             $latestRevision = $oModel->getLatestRevision($module_info->module_srl);
 
             $oController = &getController('issuetracker');
-            if($latestRevision < $status->revision)
+            while($latestRevision < $status->revision)
             {
-                $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $status->revision-$latestRevision, false);
+                $gap = $status->revision-$latestRevision; 
+                if($gap > 500) $gap = 500;
+                $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $gap, false);
                 foreach($logs as $log)
                 {
                     $obj = null;
@@ -407,6 +410,7 @@
                     $obj->module_srl = $module_info->module_srl;
                     executeQuery("issuetracker.insertChangeset", $obj);
                 }
+                $latestRevision = $oModel->getLatestRevision($module_info->module_srl);
             }
         }
 
