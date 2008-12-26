@@ -48,11 +48,11 @@
             $oMemberModel = &getModel('member');
             $member = $oMemberModel->getMemberInfoByUserID($info->user_id);
 
-            // 이미 존재하면 메일주소/닉네임/사용자이름/그룹중에 변경된 것이 있는지 확인
+            // 이미 존재하면 메일주소/그룹중에 변경된 것이 있는지 확인
             if($member->user_id == $info->user_id) {
                 $info->member_srl = $member->member_srl;
 
-                if($info->password != $member->password || $info->email_address != $member->email_address || $info->nick_name != $member->nick_name || $info->user_name != $member->user_name) {
+                if($info->password != $member->password || $info->email_address != $member->email_address) {
                     $output = executeQuery('member.updateMember', $info);
                 } else $output = new Object();
 
