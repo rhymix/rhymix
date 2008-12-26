@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 .planetDocument { overflow:hidden; margin-bottom:5px; *zoom:1;}
-.planetDocument .identity { width:52px; height:52px; padding:0; float:left; margin:3px 10px 3px 3px; background:none; *zoom:1; overflow:hidden;}
+.planetDocument .identity { padding:0; float:left; margin:3px 10px 3px 3px; background:none; *zoom:1; overflow:hidden;}
 .planetDocument .identity a img{ display:block; border:1px solid #545554;}
 
 .planetDocument .article { position:relative; overflow:hidden; *zoom:1; margin:3px 0 0 0; padding:0; }

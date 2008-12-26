@@ -35,6 +35,12 @@
             // 템플릿 파일을 지정
             $tpl_file = 'list';
 
+	    if(!$args->thumbnail_width) $args->thumbnail_width = 50;
+	    if(!$args->thumbnail_height) $args->thumbnail_height = 50;
+	    $widget_info->thumbnail_width = $args->thumbnail_width;
+	    $widget_info->thumbnail_height = $args->thumbnail_height;
+	    Context::set('widget_info', $widget_info);
+
             // 템플릿 컴파일
             $oTemplate = &TemplateHandler::getInstance();
             $output = $oTemplate->compile($tpl_path, $tpl_file);
