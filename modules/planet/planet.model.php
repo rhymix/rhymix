@@ -154,7 +154,7 @@
         /**
          * @brief 플래닛 개별 정보 return
          **/
-        function getPlanet($module_srl) {
+        function getPlanet($module_srl=0) {
             return new PlanetInfo($module_srl);
         }
 

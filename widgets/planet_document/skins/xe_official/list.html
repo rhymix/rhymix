@@ -1,13 +1,7 @@
-{@ $colorset = "white"}
-
-<!--@if($colorset=="black")-->
-    <!--%import("css/black.css")-->
-<!--@else-->
-    <!--%import("css/white.css")-->
-<!--@end-->
+<!--%import("./style.css")-->
 
 <!--@foreach($planet_list as $no => $item)-->
-    <div class="planetDocument">
+    <div class="planetDocument <!--@if($colorset=='black')-->black<!--@end-->">
 	    <!--@if($planet->getMid() != $item->getPlanetMid())-->
 	    <h3 class="identity"><a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc(50,50)}" width="50" height="50" alt="{htmlspecialchars($item->nick_name)}" /></a></h3>
 	    <!--@end-->

@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+.planetDocument { overflow:hidden; margin-bottom:5px; *zoom:1;}
+.planetDocument .identity { width:52px; height:52px; padding:0; float:left; margin:3px 10px 3px 3px; background:none; *zoom:1; overflow:hidden;}
+.planetDocument .identity a img{ display:block; border:1px solid #545554;}
+
+.planetDocument .article { position:relative; overflow:hidden; *zoom:1; margin-top:3px; }
+.planetDocument .article .tooltipLT,
+.planetDocument .article .tooltipRT,
+.planetDocument .article .tooltipLB,
+.planetDocument .article .tooltipRB { position:absolute; background:url("./tooltip.gif") no-repeat; display:block; width:10px; height:10px; z-index:10; background-color:#FFFFFF; overflow:hidden; }
+.planetDocument .article .tooltipArrow { position:absolute; background:url("./tooltip.gif") no-repeat left -20px; width:7px; height:4px; left:0; top:10px; z-index:10;}
+.planetDocument .article .tooltipLT { left:4px; top:0px; background-position:0 0; }
+.planetDocument .article .tooltipRT { right:0px; _right:-1px; top:0px; background-position:-10px 0; }
+.planetDocument .article .tooltipLB { left:4px; bottom:0px; background-position:0 -10px; }
+.planetDocument .article .tooltipRB { right:0px; _right:-1px; bottom:0px; background-position:-10px -10px; }
+.planetDocument .article .content { border:1px solid #545554; z-index:1; display:block; padding:10px; margin-left:4px; }
+.planetDocument .article .content div { line-height:1.4; }
+
+.planetDocument .article .tooltipLT,
+.planetDocument .article .tooltipRT,
+.planetDocument .article .tooltipLB,
+.planetDocument .article .tooltipRB { background-color:#000; }
+.planetDocument.black .article .tooltipLT { background-position:0 -25px; }
+.planetDocument.black .article .tooltipRT { top:0px; background-position:-10px -25px; }
+.planetDocument.black .article .tooltipLB { background-position:0 -35px; }
+.planetDocument.black .article .tooltipRB { bottom:0px; background-position:-10px -35px; }
+.planetDocument.black .article .tooltipArrow { background-position:left -45px; }
+.planetDocument.black .article .content { border:1px solid #ABAAAB; }
+.planetDocument.black .article .content div { color:#aaa;}
