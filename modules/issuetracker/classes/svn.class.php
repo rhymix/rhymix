@@ -32,7 +32,7 @@
             if(substr($path,0,1)=='/') $path = substr($path,1);
             if(strpos($path,'..')!==false) return;
 
-            $command = sprintf("%s --non-interactive --config-dir %s log --xml --limit 1 '%s%s'", $this->svn_cmd, $this->tmp_dir, $this->url, $path);
+            $command = sprintf("%s --non-interactive --config-dir %s log --xml --limit 1 \"%s%s\"", $this->svn_cmd, $this->tmp_dir, $this->url, $path);
             $buff = $this->execCmd($command, $error);
             $xmlDoc = $this->oXml->parse($buff);
 
@@ -52,7 +52,7 @@
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
-                "%s --non-interactive --config-dir %s list '%s%s'%s",
+                '%s --non-interactive --config-dir %s list "%s%s"%s',
                 $this->svn_cmd,
                 $this->tmp_dir,
                 $this->url,
@@ -94,7 +94,7 @@
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
-                "%s --non-interactive --config-dir %s cat '%s%s'%s",
+                '%s --non-interactive --config-dir %s cat "%s%s"%s',
                 $this->svn_cmd,
                 $this->tmp_dir,
                 $this->url,
@@ -178,14 +178,14 @@
 
         function getComp($path, $brev, $erev) {
             if(!$brev) {
-                $command = sprintf("%s --non-interactive --config-dir %s log --xml --limit 2 '%s%s@%d'", $this->svn_cmd, $this->tmp_dir, $this->url, $path, $erev);
+                $command = sprintf('%s --non-interactive --config-dir %s log --xml --limit 2 "%s%s@%d"', $this->svn_cmd, $this->tmp_dir, $this->url, $path, $erev);
                 $buff = $this->execCmd($command, $error);
                 $xmlDoc = $this->oXml->parse($buff);
                 $brev = $xmlDoc->log->logentry[1]->attrs->revision;
                 if(!$brev) return;
             }
 
-            $command = sprintf("%s --non-interactive --config-dir %s diff '%s%s@%d' '%s%s@%d'",
+            $command = sprintf('%s --non-interactive --config-dir %s diff "%s%s@%d" "%s%s@%d"',
                     $this->svn_cmd,
                     $this->tmp_dir,
                     $this->url,
@@ -249,7 +249,7 @@
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
-                "%s --non-interactive --config-dir %s log --xml %s %s %s '%s%s'",
+                '%s --non-interactive --config-dir %s log --xml %s %s %s "%s%s"',
                 $this->svn_cmd,
                 $this->tmp_dir,
                 $quiet?'--quiet':'--verbose',
