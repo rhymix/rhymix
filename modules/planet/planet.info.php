@@ -67,10 +67,10 @@
             return $this->get('planet_title');
         }
 
-        function getPhotoSrc() {
+        function getPhotoSrc($width=96,$height=96) {
             if(!$this->isExists()) return;
             $oPlanetModel = &getModel('planet');
-            return $oPlanetModel->getPlanetPhotoSrc($this->planet_srl);
+            return $oPlanetModel->getPlanetPhotoSrc($this->planet_srl, $width, $height);
         }
 
         function getMid() {

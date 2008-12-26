@@ -502,13 +502,21 @@
         /**
          * @brief 플래닛 이미지 유무 체크후 경로 return
          **/
-        function getPlanetPhotoSrc($module_srl) {
+        function getPlanetPhotoSrc($module_srl, $width=96,$height=96) {
             $path = $this->getPlanetPhotoPath($module_srl);
-            if(!is_dir($path)) return sprintf("%s%s%s", Context::getRequestUri(), $this->module_path, 'tpl/images/blank_photo.gif');
-            $filename = sprintf('%s/%d.jpg', $path, $module_srl);
-            if(!file_exists($filename)) return sprintf("%s%s%s", Context::getRequestUri(), $this->module_path, 'tpl/images/blank_photo.gif');
-            $src = Context::getRequestUri().$filename."?rnd=".filemtime($filename);
-            return $src;
+            $source_filename = sprintf('%s/%d.jpg', $path, $module_srl);
+
+            if(!is_dir($path) || !file_exists($source_filename)) return sprintf("%s%s%s", Context::getRequestUri(), $this->module_path, 'tpl/images/blank_photo.gif');
+
+            if($width!=96&&$height!=96) {
+                $filename = sprintf('%s%d.%d.%d.jpg', $path, $module_srl, $width, $height); 
+                if(!file_exists($filename) && FileHandler::createImageFile($source_filename, $filename, $width, $height)) {
+		    $source_filename = $filename;
+                }
+            } else {
+                $filename = $source_filename;
+            }
+            return Context::getRequestUri().$filename."?rnd=".filemtime($filename);
         }
 
         /**

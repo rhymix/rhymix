@@ -7,38 +7,17 @@
 <!--@end-->
 
 <!--@foreach($planet_list as $no => $item)-->
-    <div id="commentBody:{$item->get('document_srl')}" class="commentBody <!--@if($planet->getMid() == $item->getPlanetMid())-->myPlanet<!--@end-->">
-        <!--// Original Text -->
-        <div class="comment">
-            <!--@if($planet->getMid() != $item->getPlanetMid())-->
-            <h3 class="identity"> <a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($item->nick_name)}" /><em>{htmlspecialchars($item->get('nick_name'))}</em></a> </h3>
-            <!--@end-->
-            <div class="tongue">
-                <div class="post">
-                  {$item->getContent()}
-                </div>
-                <!--@if($item->getPostScript())-->
-                <p class="postScript"><strong>{$lang->planet_postscript}</strong> {htmlspecialchars($item->getPostScript())}</p>
-                <!--@end-->
-                <div class="postExtra">
-                    <div class="tag">
-                    <!--// class="tag" | class="tag edit" -->
-                        {@ $regdate = $item->get('regdate') }
-                        <p class="time">{getTimeGap($item->get('regdate'), sprintf('y/m/d a H%s i%s', $lang->unit_hour,$lang->unit_min))}</p>
-                        <dl>
-                            <dt>TAG</dt>
-                            <dd class="tagRead">
-                                <!--@for($i=0,$tag=$item->getArrTags(),$c=count($tag);$i<$c;$i++)-->
-                                    <a href="{getUrl('','mid',$item->getPlanetmid(), 'act','dispPlanetContentTagSearch','keyword',urlencode($tag[$i]))}" name="planet_content_tag:{$item->get('document_srl')}">{htmlspecialchars($tag[$i])}</a>
-                                <!--@end-->
-
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--// //Reply Text -->
-        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+    <div class="planetDocument">
+	    <!--@if($planet->getMid() != $item->getPlanetMid())-->
+	    <h3 class="identity"><a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc(50,50)}" width="50" height="50" alt="{htmlspecialchars($item->nick_name)}" /></a></h3>
+	    <!--@end-->
+	    <div class="article">
+		<span class="content">{$item->getContent()}</span>
+		<span class="tooltipLT"></span>
+		<span class="tooltipRT"></span>
+		<span class="tooltipLB"></span>
+		<span class="tooltipRB"></span>
+		<span class="tooltipArrow"></span>
+	    </div>
     </div>
 <!--@end-->
