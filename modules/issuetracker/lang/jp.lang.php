@@ -27,6 +27,10 @@
      $lang->about_svn_cmd = 'SVN連動のためのsvn clientファイルのロケーションを入力して下さい。 (ex: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFFファイルのロケーション';
      $lang->about_diff_cmd = 'SVN revision間の比較のためのdiffファイルのロケーションを入力して下さい。(ex: /usr/bin/diff)';
+     $lang->svn_userid = 'SVN ID';
+     $lang->about_svn_userid = 'If authentication is necessary, input userid for accessing the SVN repository';
+     $lang->svn_passwd = 'SVN password';
+     $lang->about_svn_passwd = 'If authentication is necessary, input password for accessing the SVN repository';
 
      $lang->issue = 'イシュー';
      $lang->total_issue = 'イシュー全体';

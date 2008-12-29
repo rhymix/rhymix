@@ -27,6 +27,10 @@
      $lang->about_svn_cmd = 'Please input the location of svn client to link with SVN. (ex: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFF Command Location';
      $lang->about_diff_cmd = 'Please input the location of diff to compare SVN revisions. (ex: /usr/bin/diff)';
+     $lang->svn_userid = 'SVN ID';
+     $lang->about_svn_userid = 'If authentication is necessary, input userid for accessing the SVN repository';
+     $lang->svn_passwd = 'SVN password';
+     $lang->about_svn_passwd = 'If authentication is necessary, input password for accessing the SVN repository';
 
      $lang->issue = 'Issue';
      $lang->total_issue = 'All Issues';
