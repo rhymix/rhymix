@@ -43,7 +43,7 @@
          * @brief 첨부파일 다운로드
          * 직접 요청을 받음
          * file_srl : 파일의 sequence
-         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 낳음
+         * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 않음
          **/
         function procFileDownload() {
             $file_srl = Context::get('file_srl');
