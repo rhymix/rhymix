@@ -3,7 +3,7 @@
 <!--@foreach($planet_list as $no => $item)-->
     <div class="planetDocument <!--@if($colorset=='black')-->black<!--@end-->">
 	    <!--@if($planet->getMid() != $item->getPlanetMid())-->
-	    <h3 class="identity"><a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc($widget_info->thumbnail_width,$widget_info->thumbnail_height)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" alt="{htmlspecialchars($item->nick_name)}" /></a></h3>
+	    <h3 class="identity"><a href="{getUrl('','mid',$item->getPlanetMid(),'date',$item->getRegdate())}"><img src="{$item->getPlanetPhotoSrc($widget_info->thumbnail_width,$widget_info->thumbnail_height)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" alt="{htmlspecialchars($item->nick_name)}" /></a></h3>
 	    <!--@end-->
 	    <div class="article">
             <span class="tooltipLT"></span>
