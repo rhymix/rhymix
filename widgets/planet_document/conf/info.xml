@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
 	<title xml:lang="ko">플래닛 최근 글 출력</title>
+	<title xml:lang="zh-TW">微型部落格主題輸出</title>
 	<description xml:lang="ko">플래닛의 글들만 출력하는 위젯입니다 .</description>
+	<description xml:lang="zh-TW">微型部落格主題輸出控件。</description>
 	<version>0.1</version>
 	<date>2008-12-24</date>
 
 	<author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
 		<name xml:lang="ko">zero</name>
+		<name xml:lang="zh-TW">zero</name>
 	</author>
 
 	<extra_vars>
