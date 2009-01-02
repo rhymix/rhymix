@@ -5,7 +5,7 @@ jQuery(function($) {
     function replaceHrefLink(obj) {
         var obj_list = obj.childNodes;
 
-        for(var i=0; i < obj_list.length; ++i) {
+        for(var i = 0; i < obj_list.length; ++i) {
             var obj = obj_list[i];
             var pObj = obj.parentNode;
             if(!pObj) continue;
@@ -15,14 +15,16 @@ jQuery(function($) {
 
             if(obj.nodeType == 3 && obj.length >= 10) {
                 var content = obj.nodeValue;
-                content = content.replace('<', '&lt;');
-                content = content.replace('>', '&gt;');
+                if(!url_regx.test(content)) continue;
+
+                content = content.replace(/</g, '&lt;');
+                content = content.replace(/>/g, '&gt;');
                 content = content.replace(url_regx, '<a href="$1" onclick="window.open(this.href); return false;">$1</a>');
+
                 $(obj).replaceWith(content);
                 delete(content);
 
             } else if(obj.nodeType == 1 && obj.childNodes.length) {
-                if($.inArray(obj.nodeName.toLowerCase(), ['a', 'pre', 'xml', 'textarea', 'input', 'option', 'code']) != -1) continue;
                 replaceHrefLink(obj);
             }
         }
