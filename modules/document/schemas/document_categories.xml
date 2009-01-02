@@ -9,4 +9,5 @@
     <column name="last_update" type="date" />
     <column name="list_order" type="number" size="11" notnull="notnull" />
     <column name="group_srls" type="text" />
+    <column name="color" type="char" size="7" />
 </table>
