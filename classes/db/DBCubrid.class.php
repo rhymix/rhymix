@@ -18,7 +18,7 @@
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $port = 33000; ///< db server port 
+        var $port = 33000; ///< db server port
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
         var $cutlen = 12000; ///< 큐브리드의 최대 상수 크기(스트링이 이보다 크면 '...'+'...' 방식을 사용해야 한다
 
@@ -75,7 +75,7 @@
             // db 정보가 없으면 무시
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database || !$this->port) return;
 
-            // 접속시도  
+            // 접속시도
             $this->fd = @cubrid_connect($this->hostname, $this->port, $this->database, $this->userid, $this->password);
 
             // 접속체크
@@ -385,9 +385,19 @@
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
+            $condition = $this->_getCondition($output->conditions,$output->column_type);
+            if($condition) $condition = ' where '.$condition;
+            return $condition;
+        }
 
+        function getLeftCondition($conditions,$column_type){
+            return $this->_getCondition($conditions,$column_type);
+        }
+
+
+        function _getCondition($conditions,$column_type) {
             $condition = '';
-            foreach($output->conditions as $val) {
+            foreach($conditions as $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
@@ -397,29 +407,23 @@
                     $name = $v['column'];
                     $operation = $v['operation'];
                     $value = $v['value'];
-                    $type = $this->getColumnType($output->column_type,$name);
+                    $type = $this->getColumnType($column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $output->column_type);
+                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
                     if(!$value) $value = $v['value'];
-                    if(strpos($name,'.')===false) $name = '"'.$name.'"';
-                    else $name = str_replace('.','."',$name).'"';
-
                     $str = $this->getConditionPart($name, $value, $operation);
-
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
                 }
-
                 if($sub_condition) {
                     if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
                     $condition .= '('.$sub_condition.')';
                 }
             }
-
-            if($condition) $condition = ' where '.$condition;
             return $condition;
         }
+
 
         /**
          * @brief insertAct 처리
@@ -430,7 +434,7 @@
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
@@ -471,15 +475,15 @@
                 $table_list[] = "\"".$this->prefix.$val."\" as ".$key;
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
-								for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음 
-									if ($output->columns[$i]['name'] == $name) break;
-								}
-								if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
+                                for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
+                                    if ($output->columns[$i]['name'] == $name) break;
+                                }
+                                if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') {
@@ -543,6 +547,17 @@
                 $table_list[] = '"'.$this->prefix.$val.'" as '.$key;
             }
 
+            $left_join = array();
+            // why???
+            $left_tables= (array)$output->left_tables;
+
+            foreach($left_tables as $key => $val) {
+                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
+                if($condition){
+                    $left_join[] = $val . ' "'.$this->prefix.$output->tables[$key].'" as '.$key  . ' on (' . $condition . ')';
+                }
+            }
+
             if(!$output->columns) {
                 $columns = '*';
             } else {
@@ -572,9 +587,9 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
@@ -597,7 +612,7 @@
                   else {
                     if ($condition)
                       $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
-                    else 
+                    else
                       $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                   }
                 }
@@ -630,7 +645,7 @@
             $output = "<div style='text-align: left;'>\n";
             $output .= "<b>Backtrace:</b><br />\n";
             $backtrace = debug_backtrace();
-        
+
             foreach ($backtrace as $bt) {
                 $args = '';
                 foreach ($bt['args'] as $a) {
@@ -672,18 +687,18 @@
             $output .= "</div>\n";
             return $output;
         }
-       
+
 
         /**
          * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
          *
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
-        function _getNavigationData($table_list, $columns, $condition, $output) {
+        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf('select count(*) as "count" from %s %s', implode(',',$table_list), $condition);
+            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
                 $result = $this->_query($count_query);
@@ -707,7 +722,7 @@
             if($page > $total_page) $page = $total_page;
             $start_count = ($page-1)*$list_count;
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
@@ -724,7 +739,7 @@
               else {
                 if ($condition)
                   $query = sprintf('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
-                else 
+                else
                   $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
               }
             }

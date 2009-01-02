@@ -129,7 +129,7 @@
         }
 
         /**
-         * @brief 로그 남김 
+         * @brief 로그 남김
          **/
         function actStart($query) {
             $this->setError(0,'success');
@@ -149,7 +149,7 @@
 
             // 에러 발생시 에러 로그를 남김 (__DEBUG_DB_OUTPUT__이 지정되어 있을경우)
             if($this->isError()) {
-                $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr); 
+                $str .= sprintf("\t    Query Failed : %d\n\t\t\t   %s\n", $this->errno, $this->errstr);
 
                 if(__DEBUG_DB_OUTPUT__==1)  {
                     $debug_file = _XE_PATH_."files/_debug_db_query.php";
@@ -207,7 +207,7 @@
         /**
          * @brief query xml 파일을 실행하여 결과를 return
          *
-         * query_id = module.queryname 
+         * query_id = module.queryname
          * query_id에 해당하는 xml문(or 캐싱파일)을 찾아서 컴파일 후 실행
          **/
         function executeQuery($query_id, $args = NULL) {
@@ -229,6 +229,20 @@
             $xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
             if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
 
+            // 캐쉬파일을 찾아 본다
+            $cache_file = $this->checkQueryCacheFile($query_id,$xml_file);
+
+            // 쿼리를 실행한다
+            return $this->_executeQuery($cache_file, $args, $query_id);
+        }
+
+
+        /**
+         * @brief 캐쉬파일을 찾아 본다
+         *
+         **/
+        function checkQueryCacheFile($query_id,$xml_file){
+
             // 일단 cache 파일을 찾아본다
             $cache_file = sprintf('%s%s%s.cache.php', _XE_PATH_, $this->cache_file, $query_id);
             if(file_exists($cache_file)) $cache_time = filemtime($cache_file);
@@ -236,14 +250,13 @@
 
             // 캐시 파일이 없거나 시간 비교하여 최근것이 아니면 원본 쿼리 xml파일을 찾아서 파싱을 한다
             if($cache_time<filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php')) {
-                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');   
+                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);
             }
-
-            // 쿼리를 실행한다
-            return $this->_executeQuery($cache_file, $args, $query_id);
+            return $cache_file;
         }
+
 
         /**
          * @brief 쿼리문을 실행하고 결과를 return한다
@@ -258,6 +271,7 @@
             $output = @include($cache_file);
 
             if( (is_a($output, 'Object')||is_subclass_of($output,'Object'))&&!$output->toBool()) return $output;
+            $output->_tables = ($output->_tables && is_array($output->_tables)) ? $output->_tables : array();
 
 
             // action값에 따라서 쿼리 생성으로 돌입
@@ -349,13 +363,13 @@
             $value = preg_replace('/(^\'|\'$){1}/','',$value);
 
             switch($operation) {
-                case 'like_prefix' : 
+                case 'like_prefix' :
                         $value = $value.'%';
                     break;
-                case 'like_tail' : 
+                case 'like_tail' :
                         $value = '%'.$value;
                     break;
-                case 'like' : 
+                case 'like' :
                         $value = '%'.$value.'%';
                     break;
                 case 'in' :
@@ -454,7 +468,7 @@
 
             if(!is_array($tables)) $tables_str = $tables;
             else $tables_str = implode('.',$tables);
-            
+
             $cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
             if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 
@@ -511,5 +525,17 @@
 
             return true;
         }
+
+        function getSupportedDatabase(){
+            $result = array();
+            if(function_exists('mysql_connect')) $result[] = 'MySQL';
+            if(function_exists('cubrid_connect')) $result[] = 'Cubrid';
+            if(function_exists('ibase_connect')) $result[] = 'FireBird';
+            if(function_exists('pg_connect')) $result[] = 'Postgre';
+            if(function_exists('sqlite_open')) $result[] = 'sqlite2';
+            if(function_exists('PDO')) $result[] = 'sqlite3(PDO)';
+            return $result;
+        }
+
     }
 ?>

@@ -89,7 +89,7 @@
                 // get server version and implementation strings
                 $server_info  = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
                 ibase_service_detach($service);
-            }    
+            }
             else {
                 $this->setError(ibase_errcode(), ibase_errmsg());
                 return;
@@ -341,7 +341,7 @@
         /**
          * @brief 1씩 증가되는 sequence값을 return (firebird의 generator 값을 증가)
          **/
-        function getNextSequence() { 
+        function getNextSequence() {
             $gen = "GEN_".$this->prefix."sequence_ID";
             $sequence = ibase_gen_id($gen, 1);
             return $sequence;
@@ -509,7 +509,7 @@
 
                 if($this->column_type[$type]=='INTEGER') $size = null;
                 else if($this->column_type[$type]=='VARCHAR' && !$size) $size = 256;
-             	
+
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
                     $this->column_type[$type],
@@ -540,8 +540,8 @@
             //commit();
             @ibase_commit($this->fd);
             if(!$output) return false;
-           
-            if(count($index_list)) { 
+
+            if(count($index_list)) {
                 foreach($index_list as $key => $val) {
                     // index name = prefix  + table name + index_list
                     // index name 크기가 31byte로 제한되어 있어 중복되지 않을만큼 테이블명을 줄임
@@ -567,7 +567,7 @@
                     if(!$output) return false;
                 }
             }
-            
+
             foreach($auto_increment_list as $increment) {
                 $schema = sprintf('CREATE GENERATOR GEN_%s_ID;', $table_name);
                 $output = $this->_query($schema);
@@ -598,8 +598,19 @@
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
+            $condition = $this->_getCondition($output->conditions,$output->column_type);
+            if($condition) $condition = ' where '.$condition;
+            return $condition;
+        }
 
-            foreach($output->conditions as $val) {
+        function getLeftCondition($conditions,$column_type){
+            return $this->_getCondition($conditions,$column_type);
+        }
+
+
+        function _getCondition($conditions,$column_type) {
+            $condition = '';
+            foreach($conditions as $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
@@ -609,15 +620,11 @@
                     $name = $v['column'];
                     $operation = $v['operation'];
                     $value = $v['value'];
-                    $type = $this->getColumnType($output->column_type,$name);
+                    $type = $this->getColumnType($column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue('"'.$name.'"', $value, $operation, $type, $output->column_type);
+                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
                     if(!$value) $value = $v['value'];
-
-                    $name = $this->autoQuotes($name);
-                    $value = $this->autoValueQuotes($value, $output);
-
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
@@ -627,8 +634,6 @@
                     $condition .= '('.$sub_condition.')';
                 }
             }
-
-            if($condition) $condition = ' Where '.$condition;
             return $condition;
         }
 
@@ -641,7 +646,7 @@
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
@@ -752,8 +757,20 @@
             // 테이블 정리
             $table_list = array();
             foreach($output->tables as $key => $val) {
-				$table_list[] = sprintf("\"%s%s\" as \"%s\"", $this->prefix, $val, $key);
+                $table_list[] = sprintf("\"%s%s\" as \"%s\"", $this->prefix, $val, $key);
             }
+
+            $left_join = array();
+            // why???
+            $left_tables= (array)$output->left_tables;
+
+            foreach($left_tables as $key => $val) {
+                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
+                if($condition){
+                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as '.$key  . ' on (' . $condition . ')';
+                }
+            }
+
 
             if(!$output->columns) {
                 $columns = '*';
@@ -762,7 +779,7 @@
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
                     $alias = $val['alias'];
-					
+
                     if($alias == "")
                         $column_list[] = $this->autoQuotes($name);
                     else
@@ -773,7 +790,7 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
@@ -792,7 +809,7 @@
             if($output->list_count['value']) $limit = sprintf('FIRST %d', $output->list_count['value']);
             else $limit = '';
 
-            $query = sprintf("select %s %s from %s %s", $limit, $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
             if($output->groups) {
                 foreach($output->groups as $key => $val) {
@@ -825,11 +842,11 @@
          *
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
-        function _getNavigationData($table_list, $columns, $condition, $output) {
+        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf('select count(*) as "count" from %s %s;', implode(',',$table_list), $condition);
+            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
                 $result = $this->_query($count_query);
@@ -868,8 +885,8 @@
                 }
             }
 
-			$limit = sprintf('FIRST %d SKIP %d ', $list_count, $start_count);
-            $query = sprintf('SELECT %s %s FROM %s %s', $limit, $columns, implode(',',$table_list), $condition);
+            $limit = sprintf('FIRST %d SKIP %d ', $list_count, $start_count);
+            $query = sprintf('SELECT %s %s FROM %s %s %s', $limit, $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
             if($output->groups) {
                 foreach($output->groups as $key => $val) {
