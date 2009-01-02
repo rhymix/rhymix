@@ -593,7 +593,7 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, ,$left_join, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
