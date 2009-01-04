@@ -277,7 +277,7 @@
         $g_min = $t_min - $c_min;
         $g_hour = $t_hour - $c_hour;
 
-        $gap = $g_min*60 + $g_hour*60*60; //TODO : 연산 우선순위에 따라 코드를 묶어줄 필요가 있음
+        $gap = $g_min*60 + $g_hour*60*60;
         return $gap;
     }
 
@@ -387,16 +387,18 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        $debug_file = _XE_PATH_."files/_debug_message.php";
-        $bt = debug_backtrace();
-        if(is_array($bt)) $first = array_shift($bt);
-        $buff = sprintf("[%s %s:%d]\n%s\n", date("Y-m-d H:i:s"), array_pop(explode(DIRECTORY_SEPARATOR, $first["file"])), $first["line"], print_r($buff,true));
+        if(__DEBUG__ != 0 && __DEBUG_OUTPUT__ === 1) {
+            $debug_file = _XE_PATH_."files/_debug_message.php";
+            $bt = debug_backtrace();
+            if(is_array($bt)) $first = array_shift($bt);
+            $buff = sprintf("[%s %s:%d]\n%s\n", date("Y-m-d H:i:s"), array_pop(explode(DIRECTORY_SEPARATOR, $first["file"])), $first["line"], print_r($buff,true));
 
-        if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
+            if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
 
-        if(@!$fp = fopen($debug_file,"a")) return;
-        fwrite($fp, $buff);
-        fclose($fp);
+            if(@!$fp = fopen($debug_file,"a")) return;
+            fwrite($fp, $buff);
+            fclose($fp);
+        }
     }
 
     /**
