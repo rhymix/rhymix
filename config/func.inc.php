@@ -387,7 +387,7 @@
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
     function debugPrint($buff = null, $display_line = true) {
-        if(__DEBUG__ != 0 && __DEBUG_OUTPUT__ === 1) {
+        if(__DEBUG__ != 0 && __DEBUG_OUTPUT__ !== 1) {
             $debug_file = _XE_PATH_."files/_debug_message.php";
             $bt = debug_backtrace();
             if(is_array($bt)) $first = array_shift($bt);
