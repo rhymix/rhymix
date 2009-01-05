@@ -172,7 +172,7 @@
 
             $end = getMicroTime();
 
-            if(__DEBUG_OUTPUT__ != 2) {
+            if(__DEBUG_OUTPUT__ != 2 || (__DEBUG_OUTPUT__ == 2 && version_compare(phpversion(), '5.2', '>') == 1)) {
                 // debug string 작성 시작
                 $buff  = "\n\n** Debug at ".date('Y-m-d H:i:s')." ************************************************************\n";
 
@@ -233,7 +233,7 @@
             if(__DEBUG_OUTPUT__==0) debugPrint($buff, false);
 
             // Firebug 콘솔 출력
-            if(__DEBUG_OUTPUT__ == 2) {
+            if(__DEBUG_OUTPUT__ == 2 && version_compare(phpversion(), '5.2', '>') == 1) {
                 debugPrint(
                     array('Request / Response info >>> '.Context::getResponseMethod().' / '.$_SERVER['REQUEST_METHOD'],
                         array(
