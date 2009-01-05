@@ -25,7 +25,7 @@
                     <!--@if($layout_info->mid)-->
                         <a href="{getUrl('','mid',$layout_info->mid,'search_target','tag','search_keyword',$val->tag)}">{htmlspecialchars($val->tag)}</a>
                     <!--@else-->
-                        <a href="{getUrl('act','IS','search_target','tag','search_keyword',$val->tag)}">{htmlspecialchars($val->tag)}</a>
+                        <a href="{getUrl('act','IS','search_target','tag','is_keyword',$val->tag)}">{htmlspecialchars($val->tag)}</a>
                     <!--@end-->
                 <!--@end-->
             </span>

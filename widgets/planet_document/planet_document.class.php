@@ -21,12 +21,13 @@
             // 출력된 목록 수
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
+            $args->list_count = $list_count;
 
             // 중복 허용/ 비허용 체크
             if($args->allow_repetition != 'Y') {
-                $output = executeQueryArray('widgets.planet_document.getUniqueNewestDocuments');
+                $output = executeQueryArray('widgets.planet_document.getUniqueNewestDocuments', $args);
             } else {
-                $output = executeQueryArray('widgets.planet_document.getNewestDocuments');
+                $output = executeQueryArray('widgets.planet_document.getNewestDocuments', $args);
             }
 
             // 플래닛 글 목록 구함
