@@ -79,5 +79,38 @@
 			<description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 50px)</description>
 			<description xml:lang="zh-TW">指定圖片高度。(預設是50px)</description>
 		</var>
+		<var id="allow_repetition">
+			<type>select</type>
+			<name xml:lang="ko">중복 허용</name>
+			<name xml:lang="jp">중복 허용</name>
+			<name xml:lang="zh-CN">중복 허용</name>
+			<name xml:lang="en">중복 허용</name>
+			<name xml:lang="ru">중복 허용</name>
+			<name xml:lang="zh-TW">중복 허용</name>
+			<description xml:lang="ko">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="jp">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="zh-CN">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="en">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="ru">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="zh-TW">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<options>
+				<value>N</value>
+				<name xml:lang="ko">중복하지 않음</name>
+				<name xml:lang="en">중복하지 않음</name>
+				<name xml:lang="jp">중복하지 않음</name>
+				<name xml:lang="zh-CN">중복하지 않음</name>
+				<name xml:lang="es">중복하지 않음</name>
+				<name xml:lang="zh-TW">중복하지 않음</name>
+			</options>
+			<options>
+				<value>Y</value>
+				<name xml:lang="ko">중복 허용</name>
+				<name xml:lang="en">중복 허용</name>
+				<name xml:lang="jp">중복 허용</name>
+				<name xml:lang="zh-CN">중복 허용</name>
+				<name xml:lang="es">중복 허용</name>
+				<name xml:lang="zh-TW">중복 허용</name>
+			</options>
+		</var>
 	</extra_vars>
 </widget>
