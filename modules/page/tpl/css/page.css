@@ -1,7 +1,7 @@
 @charset "utf-8";
 h3 { margin:0 10px 0 10px; }
 
-.adminLayer { margin-top:30px; background-color:#fff;}
+.adminLayer { margin-top:30px; background-color:#eee; border:1px solid #888;}
 
 .buttonBox { border:2px solid #EEEEEE; padding:5px; overflow:hidden; *zoom:1;}
 .buttonBox .fr { height:28px; }
