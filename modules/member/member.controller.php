@@ -1167,7 +1167,7 @@
         /**
          * @brief member 테이블에 사용자 추가
          **/
-        function insertMember($args, $password_is_hashed = false) {
+        function insertMember(&$args, $password_is_hashed = false) {
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
             if(!$output->toBool()) return $output;
