@@ -99,7 +99,7 @@
         function transHTML($xml_obj) {
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
-            $marker = $xml_obj->attrs->marker;
+            $marker = urlencode($xml_obj->attrs->marker);
             $style = $xml_obj->attrs->style;
 
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$style,$matches);
@@ -108,7 +108,7 @@
             if(!$width) $width = 400;
             if(!$height) $height = 400;
 
-            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%s&amp;height=%s&amp;x=%s&amp;y=%s&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker, $width, $height);
+            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%d&amp;height=%d&amp;x=%f&amp;y=%f&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker, $width, $height);
             return $body_code;
         }
 
@@ -117,15 +117,19 @@
 
             $width = Context::get('width');
             if(!$width) $width = 640;
+            settype($width,"float");
 
             $height = Context::get('height');
             if(!$height) $height = 480;
+            settype($height,"float");
 
             $x = Context::get('x');
             if(!$x) $x = 321198;
+            settype($x,"int");
 
             $y = Context::get('y');
             if(!$y) $y = 529730;
+            settype($y,"int");
 
             $marker = Context::get('marker');
 
@@ -160,6 +164,10 @@
                 $marker_list = explode('|@|', $marker);
                 $icon_no = 0;
                 for($i=0;$i<count($marker_list);$i++) {
+                    $marker_list[$i] = explode(',', $marker_list[$i]);
+                    settype($marker_list[$i][0],"int");
+                    settype($marker_list[$i][1],"int");
+                    $marker_list[$i] = $marker_list[$i][0].','.$marker_list[$i][1];
                     $pos = trim($marker_list[$i]);
                     if(!$pos) continue;
                     $icon_url = 'http://static.naver.com/local/map_img/set/icos_free_'.chr(ord('a')+$icon_no).'.gif';
