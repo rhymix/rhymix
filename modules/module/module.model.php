@@ -129,6 +129,7 @@
          * @brief mid 목록에 대응하는 module_srl을 배열로 return
          **/
         function getModuleSrlByMid($mid) {
+            if($mid && !is_array($mid)) $mid = explode(',',$mid);
             if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
 
             $site_module_info = Context::get('site_module_info');
