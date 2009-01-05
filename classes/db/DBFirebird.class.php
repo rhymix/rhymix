@@ -623,7 +623,7 @@
                     $type = $this->getColumnType($column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
+                    $value = $this->getConditionValue('"'.$name.'"', $value, $operation, $type, $column_type);
                     if(!$value) $value = $v['value'];
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
