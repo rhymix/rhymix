@@ -172,7 +172,7 @@
 
             $end = getMicroTime();
 
-            if(__DEBUG_OUTPUT__ != 2) {
+            if(__DEBUG_OUTPUT__ != 2 || (__DEBUG_OUTPUT__ == 2 && !version_compare(PHP_VERSION, '5.2.0', '>'))) {
                 // debug string 작성 시작
                 $buff  = "\n\n** Debug at ".date('Y-m-d H:i:s')." ************************************************************\n";
 
@@ -233,7 +233,7 @@
             if(__DEBUG_OUTPUT__==0) debugPrint($buff, false);
 
             // Firebug 콘솔 출력
-            if(__DEBUG_OUTPUT__ == 2) {
+            if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '5.2.0', '>')) {
                 debugPrint(
                     array('Request / Response info >>> '.Context::getResponseMethod().' / '.$_SERVER['REQUEST_METHOD'],
                         array(
@@ -246,7 +246,7 @@
                             )
                         )
                     ),
-                    FirePHP::TABLE
+                    'TABLE'
                 );
 
                 // 기타 로그 작성
@@ -265,7 +265,7 @@
                                 )
                             )
                         ),
-                        FirePHP::TABLE
+                        'TABLE'
                     );
                 }
 
@@ -277,7 +277,7 @@
                     }
                     debugPrint(
                         array('DB Queries >>> '.count($GLOBALS['__db_queries__']).' Queries, '.sprintf('%0.5f sec', $GLOBALS['__db_elapsed_time__']), $queries_output),
-                        FirePHP::TABLE
+                        'TABLE'
                     );
                 }
 
