@@ -386,18 +386,37 @@
      * ./files/_debug_message.php 파일에 $buff 내용을 출력한다.
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
-    function debugPrint($buff = null, $display_line = true) {
-        if(__DEBUG__ != 0 && __DEBUG_OUTPUT__ !== 1) {
-            $debug_file = _XE_PATH_."files/_debug_message.php";
-            $bt = debug_backtrace();
-            if(is_array($bt)) $first = array_shift($bt);
-            $buff = sprintf("[%s %s:%d]\n%s\n", date("Y-m-d H:i:s"), array_pop(explode(DIRECTORY_SEPARATOR, $first["file"])), $first["line"], print_r($buff,true));
+    function debugPrint($buff = null, $display_option = true) {
+        static $firephp;
+        $bt = debug_backtrace();
+        if(is_array($bt)) $first = array_shift($bt);
+        $file_name = array_pop(explode(DIRECTORY_SEPARATOR, $first['file']));
+        $line_num = $first['line'];
 
-            if($display_line) $buff = "\n====================================\n".$buff."------------------------------------\n";
+        if(__DEBUG_OUTPUT__ == 0 || (__DEBUG_OUTPUT__ == 2 && version_compare(phpversion(), '5.2', '>') != 1) ) {
+            $debug_file = _XE_PATH_.'files/_debug_message.php';
+            $buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
 
-            if(@!$fp = fopen($debug_file,"a")) return;
+            if($display_option === true) $buff = "\n====================================\n".$buff."------------------------------------\n";
+            $buff = "\n<?php\n/*".$buff."*/\n?>\n";
+            if(@!$fp = fopen($debug_file, 'a')) return;
             fwrite($fp, $buff);
             fclose($fp);
+
+        } elseif(__DEBUG_OUTPUT__ == 2 && version_compare(phpversion(), '5.2', '>') == 1) {
+            if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
+            $label = sprintf('%s:%d', $file_name, $line_num);
+            // FirePHP 옵션
+            if($display_option === 'TABLE') {
+                $label = $display_option;
+            }
+
+            if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
+                $buff = '허용되지 않은 IP 입니다. config/config.inc.php 파일의 __DEBUG_PROTECT_IP__ 상수 값을 자신의 IP로 변경하세요.';
+                $label = null;
+            }
+
+            $firephp->fb($buff, $label);
         }
     }
 
