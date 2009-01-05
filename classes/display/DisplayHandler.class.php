@@ -246,7 +246,7 @@
                             )
                         )
                     ),
-                    FirePHP::TABLE
+                    'TABLE'
                 );
 
                 // 기타 로그 작성
@@ -265,7 +265,7 @@
                                 )
                             )
                         ),
-                        FirePHP::TABLE
+                        'TABLE'
                     );
                 }
 
@@ -277,7 +277,7 @@
                     }
                     debugPrint(
                         array('DB Queries >>> '.count($GLOBALS['__db_queries__']).' Queries, '.sprintf('%0.5f sec', $GLOBALS['__db_elapsed_time__']), $queries_output),
-                        FirePHP::TABLE
+                        'TABLE'
                     );
                 }
 
