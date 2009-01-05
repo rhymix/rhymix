@@ -54,7 +54,7 @@
     <tbody>
     <!--@foreach($module_list as $key => $val)-->
         <tr>
-            <td class="circle"><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim($val->description)}">{$val->title}</a> ({$val->module})</td>
+            <td class="circle"><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</td>
             <td class="view">
                 <a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false">{$lang->module_info}</a>
             </td>
