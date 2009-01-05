@@ -9,7 +9,7 @@
     <table cellspacing="0" class="adminTable">
     <caption>{$lang->env_information}</caption>
     <tbody>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->current_version}</div></th>
         <td><strong>{$current_version}</strong></td>
     </tr>
@@ -17,7 +17,7 @@
         <th><div>{$lang->current_path}</div></th>
         <td>{$installed_path}/</td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->time_zone}</div></th>
         <td><!--@foreach($time_zone_list as $key => $val)--><!--@if($time_zone==$key)-->{$val}<!--@end--><!--@endforeach--></td>
     </tr>
@@ -25,7 +25,7 @@
         <th><div>{$lang->use_rewrite}</div></th>
         <td><!--@if($use_rewrite=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->use_optimizer}</div></th>
         <td><!--@if($use_optimizer=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
     </tr>
@@ -33,7 +33,7 @@
         <th><div>Language</div></th>
         <td><!--@foreach($lang_supported as $key => $val)--><!--@if($key == $selected_lang)-->{$val}<!--@endif--><!--@endforeach--></td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th><div>{$lang->qmail_compatibility}</div></th>
         <td><!--@if($qmail_compatibility=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
     </tr>
@@ -53,8 +53,8 @@
     </thead>
     <tbody>
     <!--@foreach($module_list as $key => $val)-->
-        <tr class="row{$cycle_idx}">
-            <td class="circle"><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim($val->description)}">{$val->title}</a> ({$val->module})</td>
+        <tr>
+            <td class="circle"><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</td>
             <td class="view">
                 <a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false">{$lang->module_info}</a>
             </td>
@@ -102,7 +102,7 @@
     <caption>{$lang->newest_news}</caption>
     <tbody>
     <!--@foreach($news as $key => $val)-->
-    <tr class="row{$cycle_idx}">
+    <tr>
         <td class="paper">
             <a href="{$val->url}" onclick="window.open(this.href);return false;" class="fl">{$val->title}</a>
             <span class="date fr">{zdate($val->date,"Y-m-d")}</span> 
@@ -124,7 +124,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="row2">
+    <tr>
         <td class="circle"><a href="{getUrl('act','dispMemberAdminList')}">{$lang->member}</a></td>
         <td class="number center">{number_format($status->member->yesterday)}</td>
         <td class="number center">{number_format($status->member->today)}</td>
@@ -136,7 +136,7 @@
         <td class="number center">{number_format($status->document->today)}</td>
         <td class="number center">{number_format($status->document->total)}</td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td class="circle"><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment}</a></td>
         <td class="number center">{number_format($status->comment->yesterday)}</td>
         <td class="number center">{number_format($status->comment->today)}</td>
@@ -148,7 +148,7 @@
         <td class="number center">{number_format($status->trackback->today)}</td>
         <td class="number center">{number_format($status->trackback->total)}</td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td class="circle"><a href="{getUrl('act','dispFileAdminList')}">{$lang->file}</a></td>
         <td class="number center">{number_format($status->file->yesterday)}</td>
         <td class="number center">{number_format($status->file->today)}</td>
@@ -160,7 +160,7 @@
         <td class="number center">{number_format($status->documentDeclared->today)}</td>
         <td class="number center">{number_format($status->documentDeclared->total)}</td>
     </tr>
-    <tr class="row2">
+    <tr>
         <td class="circle"><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->comment.' '.$lang->cmd_declare}</a></td>
         <td class="number center">{number_format($status->commentDeclared->yesterday)}</td>
         <td class="number center">{number_format($status->commentDeclared->today)}</td>
@@ -179,7 +179,7 @@
     <col width="25" />
     <tbody>
     <!--@foreach($addon_list as $key => $val)-->
-    <tr class="row{$cycle_idx}">
+    <tr>
         <td class="circle">
             <a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$val->title}</a>
         </td>

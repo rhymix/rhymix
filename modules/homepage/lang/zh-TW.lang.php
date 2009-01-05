@@ -26,7 +26,7 @@
             'community' => '討論',
             'freeboard' => '自由討論',
             'humor' => '新鮮趣事',
-            'qa' => 'Q & A',
+            'qa' => 'Q and A',
         ),
         'second' => array(
             'profile' => '網站介紹',

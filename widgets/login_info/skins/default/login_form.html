@@ -28,13 +28,13 @@
         <!--@end-->
 
         <p>
-            <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
+            <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />
             <label for="keepid">{$lang->keep_signed}</label>
         </p>
 
         <!--@if($member_config->enable_openid=='Y')-->
         <p>
-            <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;"/>
+            <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" />
             <label for="use_open_id">Open ID</label>
         </p>
         <!--@end-->
@@ -53,7 +53,7 @@
     <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" id="fo_openid_login_widget">
         <div class="form_field">
             <div class="openIDTitle">
-                OpenID <input name="use_open_id_2" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" checked="true"/>
+                OpenID <input name="use_open_id_2" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" checked="checked" />
             </div>
             <input type="text" name="openid" class="input" />
         </div>

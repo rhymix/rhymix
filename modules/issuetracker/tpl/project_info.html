@@ -42,11 +42,15 @@
     <td>{$module_info->diff_cmd}&nbsp;</td>
 </tr>
 <tr>
-    <th scope="row"><div>{$lang->description}</div></th>
+    <th scope="row"><div>{$lang->svn_userid}</div></th>
+    <td>{$module_info->svn_userid}&nbsp;</td>
+</tr>
+<tr>
+    <th scope="row2"><div>{$lang->description}</div></th>
     <td>{nl2br(htmlspecialchars($module_info->description))}&nbsp;</td>
 </tr>
-<tr class="row2">
-    <th scope="row"><div>{$lang->admin_id}</div></th>
+<tr class="row">
+    <th scope="row2"><div>{$lang->admin_id}</div></th>
     <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
 </tr>
 <tr>

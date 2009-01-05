@@ -4,13 +4,13 @@
  * @brief  admin 모듈의 javascript
  **/
 
-xAddEventListener(document,'click',showXESubMenu);
+jQuery(document).click(showXESubMenu);
 var openedSubMenus = null;
+
 function showXESubMenu(evt) {
-    var e = new xEvent(evt);
-    if(e.target && /^adminMainMenu/.test(e.target.id)) {
-        var key = e.target.id.split('_')[1];
-        var obj = xGetElementById('adminSubMenu'+key);
+    if(evt.target && /^adminMainMenu/.test(evt.target.id)) {
+        var key = evt.target.id.split('_')[1];
+        var obj = jQuery('#adminSubMenu'+key).get(0);
         if(!obj) return;
         if(openedSubMenus) openedSubMenus.style.visibility = 'hidden';
         if(openedSubMenus == obj) {
@@ -31,8 +31,8 @@ function showXESubMenu(evt) {
 
 // open/close Main Navigator
 function toggleXEMainNavigator() {
-    var obj = xGetElementsByClassName('xeAdmin')[0];
-    var btnObj = xGetElementById('btnFolder');
+    var obj = jQuery('.xeAdmin').get(0);
+    var btnObj = jQuery('#btnFolder').get(0);
     if(!obj) return;
     if(obj.style.display == 'none') {
         obj.style.display = 'block';

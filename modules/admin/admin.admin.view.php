@@ -214,7 +214,7 @@
          **/
         function dispAdminConfig() {
             $db_info = Context::getDBInfo();
-            debugPrint($db_info);
+
             Context::set('selected_lang', $db_info->lang_type);
 
             Context::set('lang_supported', Context::loadLangSupported());

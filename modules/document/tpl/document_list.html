@@ -36,7 +36,7 @@
 </thead>
 <tbody>
     <!--@foreach($document_list as $no => $oDocument)-->
-    <tr class="row{$cycle_idx}">
+    <tr>
         <td class="number center" rowspan="2">{$no}</td>
         <td colspan="2"><!--@if($oDocument->get('module_srl')!=$oDocument->get('member_srl'))--><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a><!--@else-->-<!--@end--></td>
         <td class="nowrap"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></td>

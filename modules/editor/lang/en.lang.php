@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = 'Selected component is already inserted';
     $lang->msg_component_is_first_order = 'Selected component is located at the first position';
     $lang->msg_component_is_last_order = 'Selected component is located at the last position';
-    $lang->msg_load_saved_doc = 'There is an automatically saved article. Do you wish to recover it?\nThe auto-saved draft will be discarded after saving current article';
+    $lang->msg_load_saved_doc = "There is an automatically saved article. Do you wish to recover it?\nThe auto-saved draft will be discarded after saving current article";
     $lang->msg_auto_saved = 'Automatically Saved';
 
     $lang->cmd_disable = 'Inactive';
@@ -85,6 +85,8 @@
     $lang->edit->help_italic = 'Make italic font';
     $lang->edit->help_underline = 'Underline font';
     $lang->edit->help_strike = 'Strike font';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = 'Redo';
     $lang->edit->help_undo = 'Undo';
     $lang->edit->help_align_left = 'Align left';

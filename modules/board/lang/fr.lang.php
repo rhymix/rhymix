@@ -21,6 +21,7 @@
     $lang->search_result = 'Résultat de la Recherche';
     $lang->consultation = 'Consultation';
     $lang->secret = '비밀글 기능';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = 'Mél de l\'administrateur';
 
     // Mots utilisés en bouton
@@ -39,4 +40,7 @@
     $lang->about_consultation = "Les membres non-administratifs verront seulement les ariticles d\'eux-même.\nNon-membres ne pourraient pas écrire des articles quand la Consultation est appliqué.";
     $lang->about_secret = '게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.';
     $lang->about_admin_mail = 'Un message éléctronique sera envoyé à l\'adresse inscrite quand un article ou commentaire se soumet. <br />On peut inscrire multiple adresses délimité par les virgules.';
+
+    $lang->about_category_color = 'You can set font color of category.';
+    $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

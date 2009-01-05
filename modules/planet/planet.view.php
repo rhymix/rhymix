@@ -11,11 +11,14 @@
          * @brief 초기화
          **/
         function init() {
+
+	    if(!preg_match('/planet/i', $this->act)) return;
             /**
              * @brief 플래닛 모듈의 기본 설정은 view에서는 언제든지 사용하도록 load하여 Context setting
              **/
             $oPlanetModel = &getModel('planet');
             Context::set('config',$this->config = $oPlanetModel->getPlanetConfig());
+	    $this->module_info->layout_srl = $this->config->layout_srl;
 
             /**
              * 스킨이 없으면 플래닛 기본 설정의 스킨으로 설정
@@ -42,7 +45,7 @@
             $this->grant->create = $oPlanetModel->isCreateGranted();
 
             // 플래닛은 별도 레이아웃 동작하지 않도록 변경
-            Context::set('layout', 'none');
+            //Context::set('layout', 'none');
             if(!Context::get('mid')) Context::set('mid', $this->config->mid, true);
         }
 
@@ -176,10 +179,20 @@
 
             $oPlanetModel = &getModel('planet');
 
+            // 글 고유 링크가 있으면 처리
+            if(Context::get('document_srl')) {
+                $oDocumentModel = &getModel('document');
+                $oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
+            }
+
             // 플래닛의 기본 단위인 날짜를 미리 계산 (지정된 일자의 이전/다음날도 미리 계산하여 세팅)
-            $last_date = $this->planet->getContentLastDay();
-            $date = Context::get('date');
-            if(!$date || $date > $last_date) $date = $last_date;
+            if($oDocument && $oDocument->isExists()) {
+                $date = $oDocument->getRegdate('Ymd');
+            } else {
+                $last_date = $this->planet->getContentLastDay();
+                $date = Context::get('date');
+                if(!$date || $date > $last_date) $date = $last_date;
+            }
             Context::set('date', $date);
             Context::set('prev_date', $this->planet->getPrevDate($date));
             Context::set('next_date', $this->planet->getNextDate($date));

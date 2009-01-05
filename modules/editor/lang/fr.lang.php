@@ -85,6 +85,8 @@
     $lang->edit->help_italic = 'Caractère italique';
     $lang->edit->help_underline = 'Caractère souligné';
     $lang->edit->help_strike = 'Caractère biffé';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = 'Réfaire';
     $lang->edit->help_undo = 'Annuler';
     $lang->edit->help_align_left = 'Aligner à gauche';

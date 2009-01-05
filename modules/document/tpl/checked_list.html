@@ -74,7 +74,7 @@
 </div>
 
 <script type="text/javascript">
-    xAddEventListener(window,'load',function() { doGetCategoryFromModule(xGetElementById('target_module')); } );
+    jQuery(function() { doGetCategoryFromModule(jQuery('#target_module').get(0)); } );
 </script>
 
 </form>

@@ -1,0 +1,8 @@
+.tag_list .items span  a { text-decoration:none; color:#000; display:inline-block; margin:0 10px 5px 0; }
+.tag_list .items span  a:hover { text-decoration:underline;}
+.tag_list .items .type1 a { font-weight:bold; font-size:18px; }
+.tag_list .items .type2 a { font-size:18px; }
+.tag_list .items .type3 a { font-weight:bold; font-size:14px; }
+.tag_list .items .type4 a {  }
+
+.blog_widget_black .tag_list .items span  a { color:#fff; }

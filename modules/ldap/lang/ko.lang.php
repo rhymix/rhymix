@@ -9,6 +9,7 @@
     $lang->use_ldap = 'LDAP 인증 사용';
     $lang->ldap_server = 'LDAP 서버 주소';
     $lang->ldap_port = 'LDAP 서버 포트번호';
+    $lang->ldap_userdn_prefix = '사용자 접두사';
     $lang->ldap_userdn_suffix = '사용자 접미사';
     $lang->ldap_basedn = 'base DN';
 
@@ -20,6 +21,7 @@
     $lang->about_use_ldap = 'LDAP 인증 연동을 위해서는 서버 정보등을 입력 후 사용에 체크를 하셔야 합니다';
     $lang->about_ldap_server = '인증과 정보를 요청할 수 있는 LDAP 서버 정보를 입력해주세요'; 
     $lang->about_ldap_port = 'LDAP 서버의 port 정보를 입력해주세요';
+    $lang->about_ldap_userdn_prefix = '인증을 위한 사용자 접두사를 입력해주세요 (예: cn= )';
     $lang->about_ldap_userdn_suffix = '인증을 위한 사용자 접미사를 입력해주세요. (예: @abc.com)';
     $lang->about_ldap_basedn = '디렉토리의 base DN을 입력해주세요. (예: dc=abc,dc=com)';
 

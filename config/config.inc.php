@@ -14,7 +14,7 @@
      * 이 내용은 XE의 버전을 관리자 페이지에 표시하기 위한 용도이며
      * config.inc.php의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.1.3');
+    define('__ZBXE_VERSION__', '1.1.4');
 
     /**
      * @brief 디버깅 메세지 출력
@@ -28,9 +28,18 @@
     /**
      * @brief 디버그 메세지의 출력 장소
      * 0 : files/_debug_message.php 에 연결하여 출력
-     * 1 : Response Method 가 XML 형식이 아닐 경우 브라우저에 최상단에 주석으로 표시
+     * 1 : Response Method 가 XML 형식이 아닐 경우 브라우저에 최하단에 주석으로 표시
+     * 2 : Firebug 콘솔에 출력 (PHP 5.2 이상. firebug / firephp 플러그인 필요)
      **/
     define('__DEBUG_OUTPUT__', 0);
+
+    /**
+     * @brief FirePHP 콘솔 및 브라우저 주석 출력 보안
+     * 0 : 제한 없음 (권장하지 않음)
+     * 1 : 지정한 IP 주소에만 허용
+     **/
+    define('__DEBUG_PROTECT__', 1);
+    define('__DEBUG_PROTECT_IP__', '127.0.0.1');
 
     /**
      * @brief DB 오류 메세지 출력 정의
@@ -61,9 +70,16 @@
     define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
     /**
+     * @brief Firebug 콘솔 출력 사용시 관련 파일 require
+     **/
+    if(__DEBUG_OUTPUT__ == 2 && version_compare(phpversion(), '5.2', '>') == 1) {
+        require_once _XE_PATH_.'libs/FirePHPCore/FirePHP.class.php';
+    }
+
+    /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
      **/
-    require_once(_XE_PATH_.'config/func.inc.php');
+        require_once(_XE_PATH_.'config/func.inc.php');
 
 
     if(__DEBUG__) define('__StartTime__', getMicroTime());

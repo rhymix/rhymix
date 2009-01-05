@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">XE 공식 레이아웃용 플래닛 글 스킨</title>
+	<title xml:lang="zh-TW">XE 微型部落格版面</title>
+	<description xml:lang="ko">
+		플래닛 글들을 출력하는 위젯 스킨입니다.
+	</description>
+	<description xml:lang="zh-TW">
+		微型部落格主題輸出面板。
+	</description>
+	<version>0.1</version>
+	<date>2008-12-24</date>
+	<link>http://www.zeroboard.com</link>
+
+	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+		<name xml:lang="ko">zero</name>
+		<name xml:lang="zh-TW">zero</name>
+	</author>
+	<colorset>
+		<color name="white">
+			<title xml:lang="ko">흰색 바탕용</title>
+			<title xml:lang="jp">白い背景用</title>
+			<title xml:lang="zh-CN">白色背景</title>
+			<title xml:lang="en">White Background</title>
+			<title xml:lang="zh-TW">白色背景</title>
+		</color>
+		<color name="black">
+			<title xml:lang="ko">어두운 바탕용</title>
+			<title xml:lang="jp">暗い背景用</title>
+			<title xml:lang="zh-CN">暗色背景</title>
+			<title xml:lang="en">Dark Background</title>
+			<title xml:lang="zh-TW">暗色背景</title>
+		</color>
+	</colorset>
+</skin>

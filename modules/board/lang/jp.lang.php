@@ -23,6 +23,7 @@
     $lang->search_result = '検索結果';
     $lang->consultation = '相談機能';
     $lang->secret = '秘密文機能';
+    $lang->thisissecret = '秘密文です。';
     $lang->admin_mail = '管理者メールアドレス';
 
 
@@ -45,4 +46,6 @@
     $lang->about_admin_mail = '書き込みやコメントが掲載される時、登録メールアドレス宛にメールが送信されます。<br /> 複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録して下さい。';
 
     $lang->about_category_color = 'カテゴリのフォント色を設定します。';
+
+    $lang->msg_not_enough_point = '書き込みするためのポイントが足りません。';
 ?>

@@ -12,7 +12,9 @@
     <ul>
         <!--@foreach($widget_info->document_list as $oDocument)-->
         <li>
+	  <!--@if($widget_info->display_regdate == 'Y')-->
           <span class="date">{$oDocument->getRegdate("Y-m-d")}</span>
+	  <!--@end-->
           <span class="title">
             <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a>
             <!--@if($oDocument->getCommentCount())-->

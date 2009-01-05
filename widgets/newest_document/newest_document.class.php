@@ -96,6 +96,7 @@
             $widget_info->document_list = $document_list;
             $widget_info->subject_cut_size = $subject_cut_size;
             $widget_info->duration_new = $duration_new * 60*60;
+            $widget_info->display_regdate = $args->display_regdate=='N'?'N':'Y';
 
             Context::set('widget_info', $widget_info);
 

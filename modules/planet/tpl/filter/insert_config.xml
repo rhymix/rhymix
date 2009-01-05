@@ -11,6 +11,7 @@
         <param name="is_default" target="is_default" />
         <param name="use_signup" target="use_signup" />
         <param name="planet_default_skin" target="planet_default_skin" />
+        <param name="layout_srl" target="layout_srl" />
         <param name="access" target="access" />
         <param name="create" target="create" />
         <param name="manager" target="manager" />

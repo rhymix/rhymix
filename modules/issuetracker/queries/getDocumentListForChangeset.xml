@@ -1,0 +1,17 @@
+<query id="getDocumentListForChangeset" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+        <column name="regdate" />
+        <column name="nick_name" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <group pipe="and">
+            <condition operation="more" column="regdate" var="startdate" pipe="and" />
+            <condition operation="less" column="regdate" var="enddate" pipe="and" />
+        </group>
+    </conditions>
+</query>

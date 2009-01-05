@@ -23,6 +23,7 @@
     $lang->search_result = '검색결과';
     $lang->consultation = '상담 기능';
     $lang->secret = '비밀글 기능';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = '관리자 메일';
 
 
@@ -45,4 +46,6 @@
     $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
 
     $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
+
+    $lang->msg_not_enough_point = '포인트가 부족합니다';
 ?>

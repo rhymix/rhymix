@@ -190,6 +190,10 @@
                 for($k=0;$k<count($mat[1]);$k++) {
                     $histories[$i]->content = str_replace('r'.$mat[1][$k], sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>',getUrl('','mid',Context::get('mid'),'act','dispIssuetrackerViewSource','type','compare','erev',$mat[1][$k],'brev',''), 'r'.$mat[1][$k]), $histories[$i]->content);
                 }
+                preg_match_all('/\[([0-9]+)\]/',$histories[$i]->content, $mat);
+                for($k=0;$k<count($mat[1]);$k++) {
+                    $histories[$i]->content = str_replace('['.$mat[1][$k].']', sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>',getUrl('','mid',Context::get('mid'),'act','dispIssuetrackerViewSource','type','compare','erev',$mat[1][$k],'brev',''), '['.$mat[1][$k].']'), $histories[$i]->content);
+                }
             }
             return $histories;
         }
@@ -368,6 +372,16 @@
             else return 0;
         }
 
+        function _linkDocument($matches) {
+            $document_srl = $matches[1];
+            return sprintf('<a href="%s" onclick="window.open(this.href); return false;">#%d</a>', getUrl('','document_srl',$document_srl), $document_srl);
+        }
+
+        function _linkXE($message)
+        {
+            return preg_replace_callback('/^\#?([0-9]+)( |\:)/', array($this, '_linkDocument'), $message);
+        }
+
 
         function getChangesets($module_srl, $enddate = null, $limit = 10)
         {
@@ -379,10 +393,18 @@
             $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
             $args->module_srl = $module_srl;
             $output = executeQueryArray("issuetracker.getChangesets", $args);
-            if(!$output->toBool() || !$output->data)
+            if(!$output->toBool())
             {
                 debugPrint($output);
                 return array();
+            }
+            if(!$output->data)
+            {
+                $output->data = array();
+            }
+            foreach($output->data as $key => $changeset)
+            {
+                $changeset->message = $this->_linkXE($changeset->message);
             }
 
             $solvedHistory = array();
@@ -407,13 +429,27 @@
                     }
                     $obj = null;
                     $obj->date = $history->regdate;
-                    $obj->type = "i";
+                    $obj->type = "changed";
                     $obj->message = $res;
                     $obj->target_srl = $history->target_srl;
                     $obj->author = $history->nick_name;
                     $output->data[] = $obj;
                 }
             }
+
+            $output2 = executeQueryArray("issuetracker.getDocumentListForChangeset", $args);
+            if(count($output2->data)) {
+                foreach($output2->data as $history)
+                {
+                    $obj = null;
+                    $obj->date = $history->regdate;
+                    $obj->type = "created";
+                    $obj->author = $history->nick_name;
+                    $obj->target_srl = $history->document_srl;
+                    $output->data[] = $obj;
+                }
+            }
+
             usort($output->data, _compare);
 
             return $output->data;

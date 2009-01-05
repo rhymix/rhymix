@@ -11,6 +11,7 @@
 
 
 <!--@foreach($content_list as $no => $item)-->
+    <a name="document_{$item->document_srl}"></a>
     <div id="commentBody:{$item->get('document_srl')}" class="commentBody <!--@if($planet->getMid() == $item->getPlanetMid())-->myPlanet<!--@end-->">
         <!--// Original Text -->
         <div class="comment">
@@ -100,3 +101,9 @@
     </div>
 <!--@end-->
     <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+
+<!--@if($document_srl)-->
+<script type="text/javascript">
+    xAddEventListener(window,'load', function() { try { location.href=location.href.replace(/#(.+)$/,'')+"#document_"+{$document_srl}; } catch(e) { } } );
+</script>
+<!--@end-->

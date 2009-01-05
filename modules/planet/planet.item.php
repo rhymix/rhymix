@@ -40,9 +40,9 @@
             }
         }
 
-        function getPlanetPhotoSrc() {
+        function getPlanetPhotoSrc($width=96,$height=96) {
             $oPlanetModel = &getModel('planet');
-            return $oPlanetModel->getPlanetPhotoSrc($this->get('module_srl'));
+            return $oPlanetModel->getPlanetPhotoSrc($this->get('module_srl'), $width, $height);
         }
 
         function getPlanetMid() {

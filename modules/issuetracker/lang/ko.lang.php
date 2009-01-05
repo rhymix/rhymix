@@ -27,6 +27,10 @@
      $lang->about_svn_cmd = 'SVN 연동을 위해 svn client 실행파일의 위치를 입력해주세요. (ex: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFF 실행파일 위치';
      $lang->about_diff_cmd = 'SVN revision들의 비교를 위한 diff 실행파일의 위치를 입력해주세요. (ex: /usr/bin/diff)';
+     $lang->svn_userid = 'SVN 인증 아이디';
+     $lang->about_svn_userid = '인증이 필요한 경우 아이디를 입력해주세요';
+     $lang->svn_passwd = 'SVN 인증 패스워드';
+     $lang->about_svn_passwd = '인증이 필요한 경우 패스워드를 입력해주세요';
 
      $lang->issue = '문제';
      $lang->total_issue = '전체 문제';
@@ -90,4 +94,8 @@
     $lang->cmd_document_do = '이 문제를.. ';
     $lang->not_assigned = '할당 안됨';
     $lang->not_assigned_description = '할당 안된 문제들의 목록입니다.';
+    $lang->timeline_msg = array(
+        'changed' => '변경',
+        'created' => '생성'
+    );
 ?>

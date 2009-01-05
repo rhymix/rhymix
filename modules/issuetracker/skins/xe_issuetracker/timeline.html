@@ -13,14 +13,14 @@
 <!--@end-->
 <dt class="changeset">
     <span class="time">{zdate($changeset->date,"H:i")}</span>
-    <!--@if($changeset->type == "i")-->
+    <!--@if($changeset->type)-->
     {@ $oIssue = $issues[$changeset->target_srl]; }
-    <a href="{getUrl('','document_srl',$changeset->target_srl)}">Issue <em><!--@if($oIssue->isClosed())--><span class="closed"><!--@end-->#{$changeset->target_srl}<!--@if($oIssue->isClosed())--></span><!--@end--></em></a> ({htmlspecialchars($issues[$changeset->target_srl]->getTitleText(30))}) by <span class="author">{$changeset->author}</span>
+    <a href="{getUrl('','document_srl',$changeset->target_srl)}">Issue <em><!--@if($oIssue->isClosed())--><span class="closed"><!--@end-->#{$changeset->target_srl}<!--@if($oIssue->isClosed())--></span><!--@end--></em></a> ({htmlspecialchars($issues[$changeset->target_srl]->getTitleText(30))}) {$lang->timeline_msg[$changeset->type]} by <span class="author">{$changeset->author}</span>
     <!--@else-->
     <a href="{getUrl('act','dispIssuetrackerViewSource','erev',$changeset->revision,'type','log')}">Changeset <em>[{$changeset->revision}]</em></a> by <span class="author">{$changeset->author}</span>
     <!--@end-->
 </dt>
 <dd class="changeset"> 
-<p><!--@if($changeset->type == "i")--><span class="status">{$changeset->message}</span><br>{$issues[$changeset->target_srl]->getContentText(80)}<!--@else-->{$changeset->message}<!--@end--></p> </dd>
+<p><!--@if($changeset->type)--><!--@if($changeset->type == "changed")--><span class="status">{$changeset->message}</span><br><!--@endif-->{$issues[$changeset->target_srl]->getContentText(80)}<!--@else-->{$changeset->message}<!--@end--></p> </dd>
 <!--@end-->
 </dl>

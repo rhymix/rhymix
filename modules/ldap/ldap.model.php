@@ -31,8 +31,7 @@
         /**
          * @brief LDAP 연동하여 정보를 return하는 method
          **/
-        function ldap_conn($user_id, $password, $ldap_userdn_suffix, $base_dn, $ldap_server, $ldap_port = 389) {
-
+        function ldap_conn($user_id, $password, $ldap_userdn_prefix, $ldap_userdn_suffix, $base_dn, $ldap_server, $ldap_port = 389) {
             if(!function_exists('ldap_connect')) return new Object(-1,'ldap module is not exists');
 
             $ds = @ldap_connect($ldap_server, $ldap_port);
@@ -40,8 +39,7 @@
 
             if(!ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3)) return new Object(-1,'fail to set option');
 
-            $userdn = $user_id.$ldap_userdn_suffix;
-
+            $userdn = $ldap_userdn_prefix.$user_id.$ldap_userdn_suffix;
             if(!@ldap_bind($ds, $userdn, $password)) return new Object(-1,'fail to bind');
 
             $ldap_sr = @ldap_search($ds, $base_dn, '(cn='.$user_id.')', array ('*'));

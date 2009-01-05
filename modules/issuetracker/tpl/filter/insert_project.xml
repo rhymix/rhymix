@@ -16,6 +16,8 @@
         <param name="svn_url" target="svn_url" />
         <param name="svn_cmd" target="svn_cmd" />
         <param name="diff_cmd" target="diff_cmd" />
+        <param name="svn_userid" target="svn_userid" />
+        <param name="svn_passwd" target="svn_passwd" />
         <param name="extra_vars_1_name" target="extra_vars_1_name" />
         <param name="extra_vars_1_type" target="extra_vars_1_type" />
         <param name="extra_vars_1_is_required" target="extra_vars_1_is_required" />

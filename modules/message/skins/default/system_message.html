@@ -1,14 +1,21 @@
 <!--%import("css/message.css")-->
-<div class="system_message">
-    {$system_message}
 
-    <div class="system_button">
-        <a href="#" onclick="history.back(); return false;" class="button"><span>{$lang->cmd_back}</span></a>
-        <!--@if(!$is_logged)-->
-        <a href="{getUrl('','act','dispMemberLoginForm')}" class="button blue"><span>{$lang->cmd_login}</span></a>
-        <!--@else-->
-        <a href="{getUrl('act','dispMemberLogout')}" class="button red"><span>{$lang->cmd_logout}</span></a>
+<div class="system_message_box">
+    <blockquote>
+        {$system_message}
+    </blockquote>
+
+    <ul>
+        <li><a href="#" onclick="history.back(); return false;" class="button"><span>{$lang->cmd_back}</span></a></li>
+        <!--@if($is_logged)-->
+        <li><a href="{getUrl('act','dispMemberLogout')}" class="button red"><span>{$lang->cmd_logout}</span></a></li>
         <!--@end-->
-    </div>
+    </ul>
 </div>
+
+<!--@if(!$is_logged)-->
+<div class="loginForm">
+    <img widget="login_info" skin="xe_official" colorset="default" />
+</div>
+<!--@end-->
 

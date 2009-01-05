@@ -69,20 +69,20 @@
          * @brief DB 접속
          **/
         function _connect() {
-			// pg용 connection string 
-			$conn_string = "";
+            // pg용 connection string
+            $conn_string = "";
 
             // db 정보가 없으면 무시
             if(!$this->hostname || !$this->userid || !$this->database) return;
 
-			// connection string 만들기
-			$conn_string .= ($this->hostname) ? " host=$this->hostname" : "";
-			$conn_string .= ($this->userid) ? " user=$this->userid" : "";
-			$conn_string .= ($this->password) ? " password=$this->password" : "";
-			$conn_string .= ($this->database) ? " dbname=$this->database" : "";
-			$conn_string .= ($this->port) ? " port=$this->port" : "";
+            // connection string 만들기
+            $conn_string .= ($this->hostname) ? " host=$this->hostname" : "";
+            $conn_string .= ($this->userid) ? " user=$this->userid" : "";
+            $conn_string .= ($this->password) ? " password=$this->password" : "";
+            $conn_string .= ($this->database) ? " dbname=$this->database" : "";
+            $conn_string .= ($this->port) ? " port=$this->port" : "";
 
-            // 접속시도  
+            // 접속시도
             $this->fd = @pg_connect($conn_string);
             if(!$this->fd || pg_connection_status($this->fd) != PGSQL_CONNECTION_OK) {
                 $this->setError(-1, "CONNECTION FAILURE");
@@ -314,10 +314,10 @@
             // 테이블 생성 schema 작성
             $table_name = $xml_obj->table->attrs->name;
 
-			if($table_name == 'sequence') {
+            if($table_name == 'sequence') {
                 $query = sprintf('create sequence %s', $this->prefix.$table_name);
-				return $this->_query($query);
-			}
+                return $this->_query($query);
+            }
 
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;
@@ -336,7 +336,7 @@
                 $default = $column->attrs->default;
                 $auto_increment = $column->attrs->auto_increment;
 
-				if($type == "bignumber" || $type == "number") $size = 0;
+                if($type == "bignumber" || $type == "number") $size = 0;
 
                 $column_schema[] = sprintf('%s %s%s %s %s',
                     $name,
@@ -361,7 +361,7 @@
                 }
             }
 
-            
+
             $schema = sprintf('create table %s (%s%s);', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
 
             $output = $this->_query($schema);
@@ -381,8 +381,19 @@
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
+            $condition = $this->_getCondition($output->conditions,$output->column_type);
+            if($condition) $condition = ' where '.$condition;
+            return $condition;
+        }
 
-            foreach($output->conditions as $val) {
+        function getLeftCondition($conditions,$column_type){
+            return $this->_getCondition($conditions,$column_type);
+        }
+
+
+        function _getCondition($conditions,$column_type) {
+            $condition = '';
+            foreach($conditions as $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
@@ -392,10 +403,10 @@
                     $name = $v['column'];
                     $operation = $v['operation'];
                     $value = $v['value'];
-                    $type = $this->getColumnType($output->column_type,$name);
+                    $type = $this->getColumnType($column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $output->column_type);
+                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
                     if(!$value) $value = $v['value'];
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
@@ -406,10 +417,9 @@
                     $condition .= '('.$sub_condition.')';
                 }
             }
-
-            if($condition) $condition = ' where '.$condition;
             return $condition;
         }
+
 
         /**
          * @brief insertAct 처리
@@ -420,7 +430,7 @@
                 $table_list[] = $this->prefix.$val;
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
@@ -446,7 +456,7 @@
                 $table_list[] = $this->prefix.$val.' as '.$key;
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
@@ -498,6 +508,18 @@
                 $table_list[] = $this->prefix.$val.' as '.$key;
             }
 
+            $left_join = array();
+            // why???
+            $left_tables= (array)$output->left_tables;
+
+            foreach($left_tables as $key => $val) {
+                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
+                if($condition){
+                    $left_join[] = $val . ' '.$this->prefix.$output->_tables[$key].' as '.$key  . ' on (' . $condition . ')';
+                }
+            }
+
+
             if(!$output->columns) {
                 $columns = '*';
             } else {
@@ -520,7 +542,7 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
@@ -535,7 +557,7 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
@@ -560,11 +582,11 @@
          *
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
-        function _getNavigationData($table_list, $columns, $condition, $output) {
+        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);
+            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
                 $result = $this->_query($count_query);
@@ -601,7 +623,7 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 

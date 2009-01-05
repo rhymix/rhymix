@@ -1,12 +1,15 @@
 <query id="getPrevDate" action="select">
     <tables>
-        <table name="documents" alias="modules" />
+        <table name="modules" alias="modules" />
+        <table name="documents" alias="documents" />
     </tables>
     <columns>
-        <column name="max(regdate)" alias="prev_date" />
+        <column name="max(documents.regdate)" alias="prev_date" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" />
-        <condition operation="less" column="regdate" var="cur_date" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="modules.module" default="planet" />
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="equal" column="documents.module_srl" var="module_srl" pipe="and" />
+        <condition operation="less" column="documents.regdate" var="cur_date" notnull="notnull" pipe="and" />
     </conditions>
 </query>

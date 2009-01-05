@@ -27,6 +27,10 @@
      $lang->about_svn_cmd = '请输入svn clien应用程序位置。(ex: /usr/bin/svn)';
      $lang->diff_cmd = 'DIF应用程序位置';
      $lang->about_diff_cmd = '为比较SVN revision，请输入diff应用程序位置。 (ex: /usr/bin/diff)';
+     $lang->svn_userid = 'SVN ID';
+     $lang->about_svn_userid = 'If authentication is necessary, input userid for accessing the SVN repository';
+     $lang->svn_passwd = 'SVN password';
+     $lang->about_svn_passwd = 'If authentication is necessary, input password for accessing the SVN repository';
 
      $lang->issue = '问题';
      $lang->total_issue = '全部问题';

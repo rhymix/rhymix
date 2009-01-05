@@ -28,7 +28,7 @@
             $password = $obj->password;
 
             // 인증 시도
-            $output = $oLdapModel->ldap_conn($user_id, $password, $config->ldap_userdn_suffix, $config->ldap_basedn, $config->ldap_server, $config->ldap_port);
+            $output = $oLdapModel->ldap_conn($user_id, $password, $config->ldap_userdn_prefix, $config->ldap_userdn_suffix, $config->ldap_basedn, $config->ldap_server, $config->ldap_port);
 
             // 인증 실패시 아무 event없이 그냥 return하여 기존 인증을 계속 유지
             if(!$output->toBool()) return new Object();
@@ -48,11 +48,11 @@
             $oMemberModel = &getModel('member');
             $member = $oMemberModel->getMemberInfoByUserID($info->user_id);
 
-            // 이미 존재하면 메일주소/닉네임/사용자이름/그룹중에 변경된 것이 있는지 확인
+            // 이미 존재하면 메일주소/그룹중에 변경된 것이 있는지 확인
             if($member->user_id == $info->user_id) {
                 $info->member_srl = $member->member_srl;
 
-                if($info->password != $member->password || $info->email_address != $member->email_address || $info->nick_name != $member->nick_name || $info->user_name != $member->user_name) {
+                if($info->password != $member->password || $info->email_address != $member->email_address) {
                     $output = executeQuery('member.updateMember', $info);
                 } else $output = new Object();
 

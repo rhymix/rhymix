@@ -81,6 +81,8 @@
     $lang->edit->help_italic = 'Сделать шрифт наклонным';
     $lang->edit->help_underline = 'Сделать шрифт подчеркнутым';
     $lang->edit->help_strike = 'Сделать шрифт зачеркнутым';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = 'Восстановить отмененное';
     $lang->edit->help_undo = 'Отмена';
     $lang->edit->help_align_left = 'Выровнять по левому краю';

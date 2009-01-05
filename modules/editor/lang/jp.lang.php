@@ -88,6 +88,8 @@
     $lang->edit->help_italic = 'テキストを斜体にします。';
     $lang->edit->help_underline = 'テキストに下線（アンダーライン）を引きます。';
     $lang->edit->help_strike = '取り消し線を引きます。';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = '繰り返し';
     $lang->edit->help_undo = '元に戻す';
     $lang->edit->help_align_left = 'テキストを左揃えで表示します。';

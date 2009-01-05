@@ -1,12 +1,15 @@
 <query id="getNextDate" action="select">
     <tables>
-        <table name="documents" alias="modules" />
+        <table name="modules" alias="modules" />
+        <table name="documents" alias="documents" />
     </tables>
     <columns>
-        <column name="min(regdate)" alias="next_date" />
+        <column name="min(documents.regdate)" alias="next_date" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" />
-        <condition operation="more" column="regdate" var="cur_date" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="modules.module" default="planet" />
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="equal" column="documents.module_srl" var="module_srl" pipe="and" />
+        <condition operation="more" column="documents.regdate" var="cur_date" notnull="notnull" pipe="and" />
     </conditions>
 </query>

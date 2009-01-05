@@ -26,7 +26,7 @@
             'community' => '社区',
             'freeboard' => '自由交流区',
             'humor' => '幽默/休闲',
-            'qa' => 'Q&A',
+            'qa' => 'Q and A',
         ),
         'second' => array(
             'profile' => '关于我们',

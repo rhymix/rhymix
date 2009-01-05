@@ -13,7 +13,7 @@
         <!--@foreach($widget_info->rss_list as $key => $item)-->
         <li>
           <span class="date">{$item->date}</span>
-          <span class="title"><a href="{$item->link}" onclick="window.open(this.href);return false">{htmlspecialchars($item->title)}</a></span>
+          <span class="title"><a href="{$item->link}" onclick="window.open(this.href);return false">{htmlspecialchars(cut_str($item->title, $widget_info->subject_cut_size))}</a></span>
         </li>
         <!--@end-->
     </ul>

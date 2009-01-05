@@ -386,8 +386,19 @@
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
+            $condition = $this->_getCondition($output->conditions,$output->column_type);
+            if($condition) $condition = ' where '.$condition;
+            return $condition;
+        }
 
-            foreach($output->conditions as $val) {
+        function getLeftCondition($conditions,$column_type){
+            return $this->_getCondition($conditions,$column_type);
+        }
+
+
+        function _getCondition($conditions,$column_type) {
+            $condition = '';
+            foreach($conditions as $val) {
                 $sub_condition = '';
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
@@ -397,12 +408,11 @@
                     $name = $v['column'];
                     $operation = $v['operation'];
                     $value = $v['value'];
-                    $type = $this->getColumnType($output->column_type,$name);
+                    $type = $this->getColumnType($column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $output->column_type);
+                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
                     if(!$value) $value = $v['value'];
-
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
@@ -412,8 +422,6 @@
                     $condition .= '('.$sub_condition.')';
                 }
             }
-
-            if($condition) $condition = ' where '.$condition;
             return $condition;
         }
 
@@ -550,6 +558,19 @@
                 $table_list[] = $this->prefix.$val.' as '.$key;
             }
 
+            $left_join = array();
+            // why???
+            $left_tables= (array)$output->left_tables;
+
+            foreach($left_tables as $key => $val) {
+                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
+                if($condition){
+                    $left_join[] = $val . ' '.$this->prefix.$output->_tables[$key].' as '.$key  . ' on (' . $condition . ')';
+                }
+            }
+
+
+
             if(!$output->columns) {
                 $columns = '*';
             } else {
@@ -572,7 +593,7 @@
 
             $condition = $this->getCondition($output);
 
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $condition, $output);
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
@@ -587,7 +608,7 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
@@ -615,11 +636,11 @@
          *
          * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
          **/
-        function _getNavigationData($table_list, $columns, $condition, $output) {
+        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s", implode(',',$table_list), $condition);
+            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
                 $this->_prepare($count_query);
@@ -656,7 +677,7 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s", $columns, implode(',',$table_list), $condition);
+            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 

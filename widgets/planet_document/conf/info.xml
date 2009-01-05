@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+	<title xml:lang="ko">플래닛 최근 글 출력</title>
+	<title xml:lang="zh-TW">微型部落格主題輸出</title>
+	<description xml:lang="ko">플래닛의 글들만 출력하는 위젯입니다 .</description>
+	<description xml:lang="zh-TW">微型部落格主題輸出控件。</description>
+	<version>0.1</version>
+	<date>2008-12-24</date>
+
+	<author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+		<name xml:lang="ko">zero</name>
+		<name xml:lang="zh-TW">zero</name>
+	</author>
+
+	<extra_vars>
+		<var id="title">
+			<type>text</type>
+			<name xml:lang="ko">제목</name>
+			<name xml:lang="zh-CN">栏目名</name>
+			<name xml:lang="jp">タイトル</name>
+			<name xml:lang="en">Title</name>
+			<name xml:lang="es">Título</name>
+			<name xml:lang="ru">Заголовок</name>
+			<name xml:lang="zh-TW">標題</name>
+			<description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
+			<description xml:lang="zh-CN">显示为最新主题列表的标题。</description>
+			<description xml:lang="jp">最新の書き込みのタイトルとして表示されます。</description>
+			<description xml:lang="en">It will be the title of the newest articles.</description>
+			<description xml:lang="es">Este será el título de los documentos recientes.</description>
+			<description xml:lang="ru">Это будет заголовком последних статей.</description>
+			<description xml:lang="zh-TW">顯示最新主題列表的標題。</description>
+		</var>
+		<var id="list_count">
+			<type>text</type>
+			<name xml:lang="ko">목록수</name>
+			<name xml:lang="zh-CN">目录数</name>
+			<name xml:lang="jp">リスト数</name>
+			<name xml:lang="en">The number of list</name>
+			<name xml:lang="es">Número de la lista</name>
+			<name xml:lang="ru">Число списка</name>
+			<name xml:lang="zh-TW">目錄數</name>
+			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+			<description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
+			<description xml:lang="jp">出力されるリストの数を指定することができます。（デフォルト５個）</description>
+			<description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
+			<description xml:lang="es">Usted puede definir el número de los documentos a mostrar. (predefinido: 5)</description>
+			<description xml:lang="ru">Вы можете выбрать число списка статей для отображения. (стандарт: 5)</description>
+			<description xml:lang="zh-TW">設置要顯示的目錄數。(預設是5個)</description>
+		</var>
+		<var id="thumbnail_width">
+			<type>text</type>
+			<name xml:lang="ko">이미지 가로크기</name>
+			<name xml:lang="jp">イメージ横幅</name>
+			<name xml:lang="zh-CN">宽度</name>
+			<name xml:lang="en">Width of Image</name>
+			<name xml:lang="es">Ancho de la imagen</name>
+			<name xml:lang="ru">Ширина изображения</name>
+			<name xml:lang="zh-TW">圖片寬度</name>
+			<description xml:lang="ko">출력될 이미지의 가로크기를 정하실 수 있습니다. (기본 50)</description>
+			<description xml:lang="jp">表示されるイメージの横幅のサイズを指定することができます（デフォルト50）。</description>
+			<description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为50)</description>
+			<description xml:lang="en">You can set the width of image. (50 as default)</description>
+			<description xml:lang="es">Usted puede definir el ancho de la imagen. (predefinido:50px)</description>
+			<description xml:lang="ru">Вы можете установить ширину изображения. (стандарт: 50px)</description>
+			<description xml:lang="zh-TW">指定顯示的圖片寬度。(預設是50)</description>
+		</var>
+		<var id="thumbnail_height">
+			<type>text</type>
+			<name xml:lang="ko">이미지 세로크기</name>
+			<name xml:lang="jp">イメージ縦幅</name>
+			<name xml:lang="zh-CN">高度</name>
+			<name xml:lang="en">Height of Image</name>
+			<name xml:lang="ru">Высота изображения</name>
+			<name xml:lang="zh-TW">圖片高度</name>
+			<description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 50px)</description>
+			<description xml:lang="jp">イメージの縦幅サイズを指定します（デフォルト 50px）</description>
+			<description xml:lang="zh-CN">可以指定图片高度。(默认为50px)</description>
+			<description xml:lang="en">You can set the height of image. (50 as default)</description>
+			<description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 50px)</description>
+			<description xml:lang="zh-TW">指定圖片高度。(預設是50px)</description>
+		</var>
+		<var id="allow_repetition">
+			<type>select</type>
+			<name xml:lang="ko">중복 허용</name>
+			<name xml:lang="jp">중복 허용</name>
+			<name xml:lang="zh-CN">중복 허용</name>
+			<name xml:lang="en">중복 허용</name>
+			<name xml:lang="ru">중복 허용</name>
+			<name xml:lang="zh-TW">중복 허용</name>
+			<description xml:lang="ko">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="jp">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="zh-CN">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="en">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="ru">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<description xml:lang="zh-TW">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
+			<options>
+				<value>N</value>
+				<name xml:lang="ko">중복하지 않음</name>
+				<name xml:lang="en">중복하지 않음</name>
+				<name xml:lang="jp">중복하지 않음</name>
+				<name xml:lang="zh-CN">중복하지 않음</name>
+				<name xml:lang="es">중복하지 않음</name>
+				<name xml:lang="zh-TW">중복하지 않음</name>
+			</options>
+			<options>
+				<value>Y</value>
+				<name xml:lang="ko">중복 허용</name>
+				<name xml:lang="en">중복 허용</name>
+				<name xml:lang="jp">중복 허용</name>
+				<name xml:lang="zh-CN">중복 허용</name>
+				<name xml:lang="es">중복 허용</name>
+				<name xml:lang="zh-TW">중복 허용</name>
+			</options>
+		</var>
+	</extra_vars>
+</widget>

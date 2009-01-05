@@ -10,14 +10,6 @@ function doSendMessage(member_srl, message_srl) {
     popopen(url, 'sendMessage');
 }
 
-/* 쪽지 모두 선택 */
-function doCheckAll(obj, fo_id) {
-    var fo_obj = xGetElementById(fo_id);
-    for(var i=0; i<fo_obj.length; i++) {
-        if(fo_obj[i].type == "checkbox" && fo_obj[i] != obj) fo_obj[i].checked = obj.checked;
-    }
-}
-
 /* 개별 쪽지 삭제 */
 function doDeleteMessage(message_srl) {
     if(!message_srl) return;
@@ -65,11 +57,12 @@ function completeAddFriendGroup(ret_obj) {
 
 /* 친구 그룹 삭제 */
 function doDeleteFriendGroup() {
-    var obj = xGetElementById('friend_group_list');
-    if(obj.options.length<1) return;
-    var friend_group_srl = obj.options[obj.selectedIndex].value;
-    var fo_obj = xGetElementById('for_delete_group');
+    var friend_group_srl = jQuery('#friend_group_list option:selected').val();
+    if(!friend_group_srl) return;
+
+    var fo_obj = jQuery('#for_delete_group').get(0);
     fo_obj.friend_group_srl.value = friend_group_srl;
+
     procFilter(fo_obj, delete_friend_group);
 }
 
@@ -80,22 +73,20 @@ function completeDeleteFriendGroup(ret_obj) {
 
 /* 친구 그룹의 이름 변경 */
 function doRenameFriendGroup() {
-    var obj = xGetElementById('friend_group_list');
-    if(obj.options.length<1) return;
-    var friend_group_srl = obj.options[obj.selectedIndex].value;
+    var friend_group_srl = jQuery('#friend_group_list option:selected').val();
+    if(!friend_group_srl) return;
+
     popopen("./?module=communication&act=dispCommunicationAddFriendGroup&friend_group_srl="+friend_group_srl);
 }
 
 /* 친구 그룹 이동 */
 function doMoveFriend() {
-    var fo_obj = xGetElementById('fo_friend_list');
+    var fo_obj = jQuery('#fo_friend_list').get(0);
     procFilter(fo_obj, move_friend);
 }
 
 /* 친구 그룹 선택 */
 function doJumpFriendGroup() {
-    var sel_obj = xGetElementById('jumpMenu');
-    var sel_idx = sel_obj.selectedIndex;
-    var sel_val = sel_obj.options[sel_idx].value;
+    var sel_val = jQuery('#jumpMenu option:selected').val();
     location.href = current_url.setQuery('friend_group_srl', sel_val);
 }

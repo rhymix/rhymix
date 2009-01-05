@@ -22,6 +22,7 @@
     $lang->search_result = 'Search Result';
     $lang->consultation = 'Consultation';
     $lang->secret = 'Secret';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = "Administrator's Mail";
 
     // words used in button
@@ -42,4 +43,6 @@
     $lang->about_admin_mail = 'A mail will be sent when an article or comment is submitted.<br />Multiple mails can be sent with commas(,).';
 
     $lang->about_category_color = 'You can set font color of category.';
+
+    $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

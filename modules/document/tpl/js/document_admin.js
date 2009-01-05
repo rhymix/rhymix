@@ -1,12 +1,3 @@
-function doCheckAll(bToggle) {
-    var fo_obj = xGetElementById('fo_list');
-	if(typeof(bToggle) == "undefined") bToggle = false;
-    for(var i=0;i<fo_obj.length;i++) {
-        if(fo_obj[i].name == 'cart'){
-			if( !fo_obj[i].checked || !bToggle) fo_obj[i].checked = true; else fo_obj[i].checked = false;
-		}
-    }
-}
 
 /**
  * @brief 모든 생성된 썸네일 삭제하는 액션 호출
@@ -22,7 +13,7 @@ function completeDeleteAllThumbnail(ret_obj) {
 
 /* 선택된 글의 삭제 또는 이동 */
 function doManageDocument(type) {
-    var fo_obj = xGetElementById("fo_management");
+    var fo_obj = jQuery("#fo_management").get(0);
     fo_obj.type.value = type;
 
     procFilter(fo_obj, manage_checked_document);
@@ -50,7 +41,7 @@ function doGetCategoryFromModule(obj) {
 }
 
 function completeGetCategoryFromModules(ret_obj, response_tags) {
-    var obj = xGetElementById('target_category');
+    var obj = jQuery('#target_category').get(0);
     var length = obj.options.length;
     for(var i=0;i<length;i++) obj.remove(0);
 
@@ -78,15 +69,11 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
 }
 
 function doCancelDeclare() {
-    var fo_obj = xGetElementById('fo_list');
     var document_srl = new Array();
-    if(fo_obj.cart.length) {
-        for(var i=0;i<fo_obj.cart.length;i++) {
-            if(fo_obj.cart[i].checked) document_srl[document_srl.length] = fo_obj.cart[i].value;
-        }
-    } else {
-        if(fo_obj.cart.checked) document_srl[document_srl.length] = fo_obj.cart.value;
-    }
+    jQuery('#fo_list input[name=cart]:checked').each(function() {
+        document_srl[document_srl.length] = jQuery(this).val();
+    });
+
     if(document_srl.length<1) return;
 
     var params = new Array();

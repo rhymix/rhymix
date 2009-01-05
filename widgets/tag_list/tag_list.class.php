@@ -19,15 +19,9 @@
             $title = $args->title;
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 20;
-            if($args->mid_list) {
-                $tmp_mid = explode(",",$args->mid_list);
-                $mid = $tmp_mid[0];
-            } else {
-                $mid = $args->mid;
-            }
 
             // TagModel::getTagList()를 이용하기 위한 변수 정리
-            $obj->mid = $mid;
+            $obj->mid = $args->mid_list;
             $obj->list_count = $list_count;
 
             // tag 모듈의 model 객체를 받아서 getTagList() method를 실행
@@ -35,21 +29,37 @@
             $output = $oTagModel->getTagList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            $widget_info->module_name = $mid;
-            
+            if(preg_match('/^([0-9a-z\_]+)$/i', $args->mid_list)) $widget_info->mid = $widget_info->module_name = $args->mid_list;
             $widget_info->title = $title;
-            $widget_info->mid = $mid;
 
             if(count($output->data)) {
-
-                // 내용을 랜던으로 정렬
-                $numbers = array_keys($output->data);
-                shuffle($numbers);
                 
-                foreach($numbers as $k => $v) {
-                    $widget_info->tag_list[] = $output->data[$v];
+                $tags = array();
+                $max = 0;
+                $min = 99999999;
+                foreach($output->data as $key => $val) {
+                    $tag = trim($val->tag);
+                    if(!$tag) continue;
+                    $count = $val->count;
+                    if($max < $count) $max = $count;
+                    if($min > $count) $min = $count;
+                    $tags[] = $val;
                 }
+
+                $mid2 = $min+(int)(($max-$min)/2);
+                $mid1 = $mid2+(int)(($max-$mid2)/2);
+                $mid3 = $min+(int)(($mid2-$min)/2);
+
+                foreach($tags as $key => $item) {
+                    if($item->count > $mid1) $rank = 1;
+                    elseif($item->count > $mid2) $rank = 2;
+                    elseif($item->count > $mid3) $rank = 3;
+                    else $rank= 4;
+                    $tags[$key]->rank = $rank;
+                }
+                shuffle($tags);
             }
+            $widget_info->tag_list = $tags;
 
             Context::set('widget_info', $widget_info);
 

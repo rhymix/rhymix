@@ -6,7 +6,7 @@
     <col width="140" />
     <col width="*" />
     <tr>
-        <th colspan="3" class="title">{$oIssue->getTitle()} <span>- {$oIssue->getStatus()}</span></th>
+        <th colspan="3" class="title"><a href="{getUrl('','document_srl',$oIssue->document_srl)}">{$oIssue->getTitle()}</a><span>- {$oIssue->getStatus()}</span></th>
         <td><SPAn class="member_{$oIssue->getMemberSrl()}">{$oIssue->getNickName()}</span></td>
     </tr>
     <!--@if(!$oIssue->isSecret() || $oIssue->isGranted())-->

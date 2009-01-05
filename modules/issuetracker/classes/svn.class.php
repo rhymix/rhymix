@@ -14,25 +14,43 @@
         var $tmp_dir = '/tmp';
 
         var $oXml = null;
+        var $userid = null;
+        var $passwd = null;
 
-        function Svn($url, $svn_cmd='/usr/bin/svn', $diff_cmd='/usr/bin/diff') {
+        function Svn($url, $svn_cmd='/usr/bin/svn', $diff_cmd='/usr/bin/diff', $userid=null, $passwd=null) {
             if(substr($url,-1)!='/') $url .= '/';
             $this->url = $url;
 
-            $this->svn_cmd = $svn_cmd;
+            if(strstr($svn_cmd, " ") != FALSE) $this->svn_cmd = '"'.$svn_cmd.'"' ;
+            else $this->svn_cmd = $svn_cmd;
             $this->diff_cmd = $diff_cmd;
 
             $this->tmp_dir = _XE_PATH_.'files/cache/tmp';
             if(!is_dir($this->tmp_dir)) FileHandler::makeDir($this->tmp_dir);
 
+            $this->userid = $userid;
+            $this->passwd = $passwd;
+
             $this->oXml = new XmlParser();
+        }
+
+        function _getAuthInfo()
+        {
+            if($this->userid && $this->passwd)
+            {
+                return sprintf("--username %s --password %s", $this->userid, $this->passwd);
+            }
+            else 
+            {
+                return '';
+            }
         }
 
         function getStatus($path = '/') {
             if(substr($path,0,1)=='/') $path = substr($path,1);
             if(strpos($path,'..')!==false) return;
 
-            $command = sprintf("%s --non-interactive --config-dir %s log --xml --limit 1 '%s%s'", $this->svn_cmd, $this->tmp_dir, $this->url, $path);
+            $command = sprintf("%s --non-interactive --config-dir %s log --xml --limit 1 %s %s%s", $this->svn_cmd, $this->tmp_dir, $this->_getAuthInfo(), $this->url, $path);
             $buff = $this->execCmd($command, $error);
             $xmlDoc = $this->oXml->parse($buff);
 
@@ -52,8 +70,9 @@
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
-                "%s --non-interactive --config-dir %s list '%s%s'%s",
+                '%s --non-interactive %s --config-dir %s list %s%s%s',
                 $this->svn_cmd,
+                $this->_getAuthInfo(),
                 $this->tmp_dir,
                 $this->url,
                 $path,
@@ -94,8 +113,9 @@
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
-                "%s --non-interactive --config-dir %s cat '%s%s'%s",
+                '%s --non-interactive %s --config-dir %s cat %s%s%s',
                 $this->svn_cmd,
+                $this->_getAuthInfo(),
                 $this->tmp_dir,
                 $this->url,
                 $path,
@@ -178,15 +198,16 @@
 
         function getComp($path, $brev, $erev) {
             if(!$brev) {
-                $command = sprintf("%s --non-interactive --config-dir %s log --xml --limit 2 '%s%s@%d'", $this->svn_cmd, $this->tmp_dir, $this->url, $path, $erev);
+                $command = sprintf('%s --non-interactive %s --config-dir %s log --xml --limit 2 %s%s@%d', $this->svn_cmd, $this->_getAuthInfo(), $this->tmp_dir, $this->url, $path, $erev);
                 $buff = $this->execCmd($command, $error);
                 $xmlDoc = $this->oXml->parse($buff);
                 $brev = $xmlDoc->log->logentry[1]->attrs->revision;
                 if(!$brev) return;
             }
 
-            $command = sprintf("%s --non-interactive --config-dir %s diff '%s%s@%d' '%s%s@%d'",
+            $command = sprintf('%s --non-interactive %s --config-dir %s diff %s%s@%d %s%s@%d',
                     $this->svn_cmd,
+                    $this->_getAuthInfo(),
                     $this->tmp_dir,
                     $this->url,
                     $path,
@@ -245,12 +266,13 @@
             return $output;
         }
 
-        function getLog($path, $erev=null, $brev=null, $quiet = false, $limit = 2) {
+        function getLog($path, $erev=null, $brev=null, $quiet = false, $limit = 2, $link = true) {
             if(strpos($path,'..')!==false) return;
 
             $command = sprintf(
-                "%s --non-interactive --config-dir %s log --xml %s %s %s '%s%s'",
+                '%s --non-interactive %s --config-dir %s log --xml %s %s %s %s%s',
                 $this->svn_cmd,
+                $this->_getAuthInfo(),
                 $this->tmp_dir,
                 $quiet?'--quiet':'--verbose',
                 $limit?'--limit '.$limit:'',
@@ -287,7 +309,7 @@
                     $obj->paths[] = $tmp_obj;
                 }
 
-                $obj->msg = $this->linkXE($tmp->msg->body);
+                $obj->msg = $link?$this->linkXE($tmp->msg->body):$tmp->msg->body;
                 $output[] = $obj;
             }
             return $output;

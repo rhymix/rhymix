@@ -24,7 +24,7 @@
 </thead>
 <tbody>
     <!--@foreach($comment_list as $no => $oComment)-->
-    <tr class="row{$cycle_idx}">
+    <tr>
         <td class="number center">{$no}</td>
         <td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
         <td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>

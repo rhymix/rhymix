@@ -25,6 +25,7 @@
     $lang->search_result = '搜索结果';
     $lang->consultation = '咨询功能';
     $lang->secret = '密帖';
+    $lang->thisissecret = '비밀글입니다.';
     $lang->admin_mail = '管理员电子邮件';
 
     // 按钮语言
@@ -45,4 +46,5 @@
     $lang->about_secret = '设置主题及评论当中使用密帖与否。';
     $lang->about_admin_mail = '有新的主题或评论时，将自动发电子邮件来通知管理员。<br />多数电子邮件由逗号(,)来分隔。';
     $lang->about_category_color = '请指定分类颜色（必须带#符号）。ex）#ff0000';
+    $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

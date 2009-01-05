@@ -81,6 +81,8 @@
     $lang->edit->help_italic = 'Letra cursiva';
     $lang->edit->help_underline = 'Letra subrayada';
     $lang->edit->help_strike = 'Letra con linea';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = 'Rehacer';
     $lang->edit->help_undo = 'Deshacer';
     $lang->edit->help_align_left = 'Margen izquierdo';

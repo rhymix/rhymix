@@ -97,8 +97,10 @@
             {
                 foreach($output->data as $data)
                 {
+                    debugPrint("start");
                     $this->deleteFromQueue($data->comment_srl);
                     $this->sendCommentNotify($data->comment_srl);
+                    debugPrint("end");
                 }
             }
             FileHandler::removeFile($lockFilePath);
@@ -177,7 +179,6 @@
                 return;
             }
 
-
             $parentHomepage = $oParent->getHomepageUrl();
             $oMemberModel = &getModel('member');
             if(!$parentHomepage)
@@ -190,7 +191,6 @@
                 if(!$parentHomepage)
                     return;
             }
-
 
             $childHomepage = $oChild->getHomepageUrl();
             if(!$childHomepage)
@@ -262,8 +262,11 @@
 
             $oReq->addPostData('r2_body', strip_tags($oChild->get('content')));
 
+            debugPrint($target);
             $oReq->sendRequest(false);
+            debugPrint("ok");
             $code = $oReq->getResponseCode();
+            debugPrint($code);
             return $code;
         }
 

@@ -56,6 +56,7 @@
             $caption = $xml_obj->body;
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
+            $src = str_replace('&amp;amp;', '&amp;', $src);
 
             return sprintf("<div><script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\", { autostart : %s });</script></div>", $src, $width, $height, $auto_start);
         }

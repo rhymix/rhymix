@@ -126,6 +126,7 @@ function getContentWidgetCode(childObj, widget) {
         if(cobj.nodeName == "DIV" && cobj.className == "widgetContent") {
             var body = xInnerHtml(cobj);
             var document_srl = childObj.getAttribute('document_srl');
+            if(document_srl>0) body = '';
             return '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" />';
         }
         cobj = cobj.nextSibling;

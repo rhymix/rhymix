@@ -66,10 +66,12 @@
 
             $headers = sprintf(
                 "From: %s".$eol.
+                "To: %s".$eol.
                 "MIME-Version: 1.0".$eol.
                 "Content-Type: multipart/alternative;".$eol."\tboundary=\"%s\"".$eol.$eol.
                 "",
                 $this->getSender(),
+                $this->getReceiptor(),
                 $boundary
             );
 
@@ -93,7 +95,7 @@
                 $boundary
             );
 
-            return mail($this->getReceiptor(), $this->getTitle(), $body, $headers);
+            return mail($this->receiptor_email, $this->getTitle(), $body, $headers);
         }
 
         function checkMailMX($email_address) {

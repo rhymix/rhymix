@@ -31,6 +31,7 @@
             $args->browser_title = Context::get('browser_title');
             $args->is_default = Context::get('is_default');
             $args->skin = Context::get('planet_default_skin');
+            $args->layout_srl = Context::get('layout_srl');
 
             $args->module = 'planet';
             $args->module_srl = $is_registed?$config->module_srl:getNextSequence();

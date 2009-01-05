@@ -18,7 +18,7 @@
          **/
         function procLdapAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('use_ldap','ldap_server','ldap_port','ldap_userdn_suffix','ldap_basedn','ldap_email_entry','ldap_nickname_entry','ldap_username_entry','ldap_group_entry');
+            $args = Context::gets('use_ldap','ldap_server','ldap_port','ldap_userdn_prefix', 'ldap_userdn_suffix','ldap_basedn','ldap_email_entry','ldap_nickname_entry','ldap_username_entry','ldap_group_entry');
             if($args->use_ldap !='Y') $args->use_ldap = 'N';
             if(!$args->ldap_port) $args->ldap_port = 389;
 

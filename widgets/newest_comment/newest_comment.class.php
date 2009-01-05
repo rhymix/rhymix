@@ -55,6 +55,7 @@
             $widget_info->title = $title;
             $widget_info->comment_list = $output;
             $widget_info->subject_cut_size = $subject_cut_size;
+            $widget_info->display_regdate = $args->display_regdate=='N'?'N':'Y';
 
             Context::set('widget_info', $widget_info);
 

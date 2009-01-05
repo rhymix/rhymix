@@ -67,10 +67,8 @@
             /**
              * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
              **/
-            if($this->module_info->use_category=='Y') {
-                $oDocumentModel = &getModel('document');
-                Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
-            }
+            $this->dispBoardCatogoryList();
+
 
             /**
              * 목록이 노출될때 같이 나오는 검색 옵션을 정리하여 스킨에서 쓸 수 있도록 context set
@@ -82,14 +80,34 @@
             for($i=1;$i<=20;$i++) {
                 $ex_name = trim($this->module_info->extra_vars[$i]->name);
                 if(!$ex_name) continue;
-
                 if($this->module_info->extra_vars[$i]->search == 'Y') $search_option['extra_vars'.$i] = $ex_name;
             }
             Context::set('search_option', $search_option);
 
-            /**
-             * 게시글 목록을 추출함
-             **/
+
+            // 게시글을 가져옴
+            $this->dispBoardContentView();
+
+            // 공지사항 목록을 구해서 context set (공지사항을 매페이지 제일 상단에 위치하기 위해서)
+            $this->dispBoardNoticeList();
+
+            // 목록
+            $this->dispBoardContentList();
+
+            // template_file을 list.html로 지정
+            $this->setTemplateFile('list');
+        }
+
+        function dispBoardCatogoryList(){
+            if($this->module_info->use_category=='Y') {
+                $oDocumentModel = &getModel('document');
+                Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
+            }
+        }
+
+        function dispBoardContentView(){
+            $oDocumentModel = &getModel('document');
+            $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
 
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
@@ -135,9 +153,7 @@
                     if(!$this->grant->view && !$oDocument->isGranted()) {
                         $oDocument = null;
                         $oDocument = $oDocumentModel->getDocument(0);
-
                         Context::set('document_srl','',true);
-
                         $this->alertMessage('msg_not_permitted');
                     } else {
                         // 브라우저 타이틀에 글의 제목을 추가
@@ -145,21 +161,49 @@
 
                         // 조회수 증가 (비밀글일 경우 권한 체크)
                         if(!$oDocument->isSecret() || $oDocument->isGranted()) $oDocument->updateReadedCount();
+
+                        // 비밀글일때 컨텐츠를 보여주지 말자.
+                        if($oDocument->isSecret() && !$oDocument->isGranted()){
+                           $oDocument->add('content',Context::getLang('thisissecret'));
+                            $obj = null;
+                            for($i=1;$i<=20;$i++) $obj->{"extra_vars".$i} = '';
+                            $oDocument->adds($obj);
+                         }
                     }
                 }
             }
 
             // 스킨에서 사용하기 위해 context set
             Context::set('oDocument', $oDocument);
+        }
 
-            // 공지사항 목록을 구해서 context set (공지사항을 매페이지 제일 상단에 위치하기 위해서)
+        function dispBoardContentCommentList(){
+            $oDocumentModel = &getModel('document');
+            $document_srl = Context::get('document_srl');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            $comment_list = $oDocument->getComments();
+
+            // 비밀글일때 컨텐츠를 보여주지 말자.
+            foreach($comment_list as $key => $val){
+                if(!$val->isAccessible()){
+                    $val->add('content',Context::getLang('thisissecret'));
+                }
+            }
+            Context::set('comment_list',$comment_list);
+        }
+
+        function dispBoardNoticeList(){
+            $oDocumentModel = &getModel('document');
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
-
             $notice_output = $oDocumentModel->getNoticeList($args);
             Context::set('notice_list', $notice_output->data);
+        }
 
+        function dispBoardContentList(){
+            $oDocumentModel = &getModel('document');
+            $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
             // 목록을 구하기 위한 대상 모듈/ 페이지 수/ 목록 수/ 페이지 목록 수에 대한 옵션 설정
-            $args->page = $page; ///< 페이지
+            $args->page = Context::get('page');; ///< 페이지
             $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수
             $args->page_count = $this->page_count; ///< 페이지 네비게이션에 나타날 페이지의 수
 
@@ -175,6 +219,8 @@
             // 지정된 정렬값이 없다면 스킨에서 설정한 정렬 값을 이용함
             if(!in_array($args->sort_index, $this->order_target)) $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
             if(!in_array($args->order_type, array('asc','desc'))) $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
+
+            $oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
 
             // 특정 문서의 permalink로 직접 접속할 경우 page값을 직접 구함
             if(count($_GET)==1 && isset($_GET['document_srl']) && $oDocument->isExists() && !$oDocument->isNotice()) {
@@ -199,10 +245,8 @@
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('page_navigation', $output->page_navigation);
-
-            // template_file을 list.html로 지정
-            $this->setTemplateFile('list');
         }
+
 
         /**
          * @brief 태그 목록 모두 보기
@@ -284,6 +328,25 @@
 
             // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
             if($oDocument->isExists()&&!$oDocument->isGranted()) return $this->setTemplateFile('input_password_form');
+            if(!$oDocument->isExists())
+            {
+                $oModuleModel = &getModel('module');
+                $point_config = $oModuleModel->getModulePartConfig('point',$this->module_srl);
+                $logged_info = Context::get('logged_info');
+                $oPointModel = &getModel('point');
+                $pointForInsert = $point_config["insert_document"];
+                if($pointForInsert < 0)
+                {
+                    if( !$logged_info )
+                    {
+                        return $this->dispBoardMessage('msg_not_permitted');
+                    }
+                    else if (($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert )< 0 )
+                    {
+                        return $this->dispBoardMessage('msg_not_enough_point');
+                    }
+                }
+            }
 
             Context::set('document_srl',$document_srl);
             Context::set('oDocument', $oDocument);
