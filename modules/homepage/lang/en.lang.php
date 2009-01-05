@@ -26,7 +26,7 @@
             'community' => 'Community',
             'freeboard' => 'Off-topics',
             'humor' => 'Humor',
-            'qa' => 'Question&Answer',
+            'qa' => 'Q and A',
         ),
         'second' => array(
             'profile' => 'Introduction',

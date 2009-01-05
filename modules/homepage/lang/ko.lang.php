@@ -26,7 +26,7 @@
             'community' => '커뮤니티',
             'freeboard' => '자유게시판',
             'humor' => '재밌는 이야기',
-            'qa' => '질문&답변',
+            'qa' => '질문/답변',
         ),
         'second' => array(
             'profile' => '홈페이지 소개',
