@@ -88,6 +88,8 @@
     $lang->edit->help_italic = '斜體';
     $lang->edit->help_underline = '底線';
     $lang->edit->help_strike = '虛線';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = '重新操作';
     $lang->edit->help_undo = '返回操作';
     $lang->edit->help_align_left = '靠左對齊';

@@ -85,6 +85,8 @@
     $lang->edit->help_italic = '斜体';
     $lang->edit->help_underline = '下划线';
     $lang->edit->help_strike = '取消线';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = '重新操作';
     $lang->edit->help_undo = '返回操作';
     $lang->edit->help_align_left = '左对齐';

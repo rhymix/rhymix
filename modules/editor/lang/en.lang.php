@@ -85,6 +85,8 @@
     $lang->edit->help_italic = 'Make italic font';
     $lang->edit->help_underline = 'Underline font';
     $lang->edit->help_strike = 'Strike font';
+    $lang->edit->help_sup = 'Sup';
+    $lang->edit->help_sub = 'Sub';
     $lang->edit->help_redo = 'Redo';
     $lang->edit->help_undo = 'Undo';
     $lang->edit->help_align_left = 'Align left';
