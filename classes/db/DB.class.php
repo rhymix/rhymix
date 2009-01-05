@@ -372,6 +372,9 @@
                 case 'like' :
                         $value = '%'.$value.'%';
                     break;
+                case 'notin' :
+                        return "'".$value."'";
+                    break;
                 case 'in' :
                         return "'".$value."'";
                     break;
@@ -395,6 +398,7 @@
                 case 'like_prefix' :
                 case 'like' :
                 case 'in' :
+                case 'notin' :
                 case 'notequal' :
                         // 변수가 세팅되지 않고, 문자열이나 숫자형이 아니면 리턴
                         if(!isset($value)) return;
@@ -425,6 +429,9 @@
                     break;
                 case 'in' :
                         return $name.' in ('.$value.')';
+                    break;
+                case 'notin' :
+                        return $name.' notin ('.$value.')';
                     break;
                 case 'notequal' :
                         return $name.' <> '.$value;
