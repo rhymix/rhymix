@@ -179,10 +179,20 @@
 
             $oPlanetModel = &getModel('planet');
 
+            // 글 고유 링크가 있으면 처리
+            if(Context::get('document_srl')) {
+                $oDocumentModel = &getModel('document');
+                $oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
+            }
+
             // 플래닛의 기본 단위인 날짜를 미리 계산 (지정된 일자의 이전/다음날도 미리 계산하여 세팅)
-            $last_date = $this->planet->getContentLastDay();
-            $date = Context::get('date');
-            if(!$date || $date > $last_date) $date = $last_date;
+            if($oDocument && $oDocument->isExists()) {
+                $date = $oDocument->getRegdate('Ymd');
+            } else {
+                $last_date = $this->planet->getContentLastDay();
+                $date = Context::get('date');
+                if(!$date || $date > $last_date) $date = $last_date;
+            }
             Context::set('date', $date);
             Context::set('prev_date', $this->planet->getPrevDate($date));
             Context::set('next_date', $this->planet->getNextDate($date));
