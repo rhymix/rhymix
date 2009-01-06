@@ -292,3 +292,8 @@ function completeInsertGrant(ret_obj) {
 
     alert(message);
 }
+
+function completeInsertPage(ret_obj) {
+    alert(ret_obj['message']);
+    location.reload();
+}
