@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '您选择的组件已插入！';
     $lang->msg_component_is_first_order = '您选择的组件已到最上端位置！';
     $lang->msg_component_is_last_order = '您选择的组件已到最下端位置！';
-    $lang->msg_load_saved_doc = '有自动保存的内容， 确定要恢复吗？\n保存内容后，自动保存的文本将会被删除。';
+    $lang->msg_load_saved_doc = "有自动保存的内容， 确定要恢复吗？\n保存内容后，自动保存的文本将会被删除。";
     $lang->msg_auto_saved = '已自动保存！';
 
     $lang->cmd_disable = '非激活';

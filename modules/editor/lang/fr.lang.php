@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = 'Composant choisi est déjà entré';
     $lang->msg_component_is_first_order = 'Composant choisi est localisé à la première position';
     $lang->msg_component_is_last_order = 'Composant choisi est localisé à la position dernière';
-    $lang->msg_load_saved_doc = 'Il y a un article conservé automatiquement. Voulez-vous le réstaurer?\nL\'esquisse conservé automatiquement va être débarrasser après conserver l\'article courant.';
+    $lang->msg_load_saved_doc = "Il y a un article conservé automatiquement. Voulez-vous le réstaurer?\nL'esquisse conservé automatiquement va être débarrasser après conserver l'article courant.";
     $lang->msg_auto_saved = 'Conservé automatiquement';
 
     $lang->cmd_disable = 'Invalider';

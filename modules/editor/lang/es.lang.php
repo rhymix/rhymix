@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = 'El componente seleccionado ya esta insertado';
     $lang->msg_component_is_first_order = 'El componente seleccionado se localiza en la primera posición';
     $lang->msg_component_is_last_order = 'El componente seleccionado se localiza en la última posición';
-    $lang->msg_load_saved_doc = 'Existe un documento guardado automáticamente ¿desea recuperarlo ?\nDespués de guardar el documento escrito, el documento autoguardado sera eliminado.';
+    $lang->msg_load_saved_doc = "Existe un documento guardado automáticamente ¿desea recuperarlo ?\nDespués de guardar el documento escrito, el documento autoguardado sera eliminado.";
     $lang->msg_auto_saved = 'Documento guardado automáticamente';
 
     $lang->cmd_disable = 'Desactivado';

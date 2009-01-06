@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '選択されたコンポーネントは既に入力されています。';
     $lang->msg_component_is_first_order = '選択されたコンポーネントは最初に位置しています。';
     $lang->msg_component_is_last_order = '選択されたコンポーネントは最後に位置しています。';
-    $lang->msg_load_saved_doc = '自動保存された書き込みがあります。復旧しますか？\n書き終わってから登録すると前の自動保存データは削除されます。';
+    $lang->msg_load_saved_doc = "自動保存された書き込みがあります。復旧しますか？\n書き終わってから登録すると前の自動保存データは削除されます。";
     $lang->msg_auto_saved = '自動保存されました。';
 
     $lang->cmd_disable = '未使用';
