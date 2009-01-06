@@ -84,8 +84,8 @@
     $lang->edit->italic = '기울임';
     $lang->edit->underline = '밑줄';
     $lang->edit->strike = '취소선';
-    $lang->edit->sup = '윗첨자';
-    $lang->edit->sub = '아랫첨자';
+    $lang->edit->sup = '위 첨자';
+    $lang->edit->sub = '아래 첨자';
     $lang->edit->redo = '다시 실행';
     $lang->edit->undo = '되돌리기';
     $lang->edit->align_left = '왼쪽 정렬';
@@ -108,8 +108,8 @@
     $lang->edit->help_italic = '글자를 기울이게 합니다.';
     $lang->edit->help_underline = '밑줄을 긋습니다.';
     $lang->edit->help_strike = '취소선을 긋습니다.';
-    $lang->edit->help_sup = '윗첨자를 입력합니다.';
-    $lang->edit->help_sub = '아랫첨자를 입력합니다.';
+    $lang->edit->help_sup = '위 첨자를 입력합니다.';
+    $lang->edit->help_sub = '아래 첨자를 입력합니다.';
     $lang->edit->help_redo = '다음 동작으로 돌아갑니다.';
     $lang->edit->help_undo = '이전 동작으로 돌아갑니다.';
     $lang->edit->help_align_left = '왼쪽 정렬을 합니다.';
