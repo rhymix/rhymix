@@ -275,3 +275,20 @@ function completeInsertBoard(ret_obj) {
     if(page) url.setQuery('page',page);
     location.href = url;
 }
+function completeInsertGroup(ret_obj) {
+    location.href = current_url.setQuery('group_srl','');
+}
+
+function completeDeleteGroup(ret_obj) {
+    location.href = current_url.setQuery('group_srl','');
+
+}
+
+function completeInsertGrant(ret_obj) {
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+    var page = ret_obj['page'];
+    var module_srl = ret_obj['module_srl'];
+
+    alert(message);
+}
