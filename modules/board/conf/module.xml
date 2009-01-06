@@ -86,7 +86,7 @@
         <action name="dispBoardContentView" type="view" />
         <action name="dispBoardCatogoryList" type="view" />
         <action name="dispBoardContentCommentList" type="view" />
-
+        <action name="dispBoardContentFileList" type="view" />
 
         <action name="dispBoardTagList" type="view" />
         <action name="dispBoardWrite" type="view" />

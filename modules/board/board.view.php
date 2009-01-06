@@ -177,6 +177,14 @@
             Context::set('oDocument', $oDocument);
         }
 
+
+        function dispBoardContentFileList(){
+            $oDocumentModel = &getModel('document');
+            $document_srl = Context::get('document_srl');
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            Context::set('file_list',$oDocument->getUploadedFiles());
+        }
+
         function dispBoardContentCommentList(){
             $oDocumentModel = &getModel('document');
             $document_srl = Context::get('document_srl');
