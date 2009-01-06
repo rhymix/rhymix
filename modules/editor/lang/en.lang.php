@@ -75,6 +75,26 @@
 
     $lang->edit->submit = 'Submit';
 
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
+
     $lang->edit->help_remove_format = 'Tags in selected area will be removed';
     $lang->edit->help_strike_through = 'Strike will be on the words';
     $lang->edit->help_align_full = 'Align left and right';
@@ -85,8 +105,8 @@
     $lang->edit->help_italic = 'Make italic font';
     $lang->edit->help_underline = 'Underline font';
     $lang->edit->help_strike = 'Strike font';
-    $lang->edit->help_sup = 'Sup';
-    $lang->edit->help_sub = 'Sub';
+    $lang->edit->help_sup = 'Superscript';
+    $lang->edit->help_sub = 'Subscript';
     $lang->edit->help_redo = 'Redo';
     $lang->edit->help_undo = 'Undo';
     $lang->edit->help_align_left = 'Align left';
@@ -96,7 +116,14 @@
     $lang->edit->help_remove_indent = 'Remove indent';
     $lang->edit->help_list_number = 'Apply number list';
     $lang->edit->help_list_bullet = 'Apply bullet list';
-    $lang->edit->help_use_paragrapth = 'Press Ctrl+Enter to use paragraph. (Press Alt+S to submit)';
+    $lang->edit->help_use_paragraph = 'Press Ctrl+Enter to use paragraph. (Press Alt+S to submit)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = 'Attachment';
     $lang->edit->upload_file = 'Attach';

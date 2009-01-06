@@ -75,6 +75,26 @@
 
     $lang->edit->submit = 'Confirmar';
 
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
+
     $lang->edit->help_fontcolor = 'Selecciona el color de las letras';
     $lang->edit->help_fontbgcolor = 'Selecciona el color del fondo de la letras';
     $lang->edit->help_bold = 'Letra gruesa';
@@ -92,7 +112,14 @@
     $lang->edit->help_remove_indent = 'Quitar tabulación';
     $lang->edit->help_list_number = 'Aplicar la lista con números';
     $lang->edit->help_list_bullet = 'Aplicar la lista con símbolos';
-    $lang->edit->help_use_paragrapth = 'Presiona Ctrl+Enter para usar el párrafo (Presiona Alt+S para guardar)';
+    $lang->edit->help_use_paragraph = 'Presiona Ctrl+Enter para usar el párrafo (Presiona Alt+S para guardar)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = 'Adjuntar';
     $lang->edit->upload_file = 'Archivo adjunto';

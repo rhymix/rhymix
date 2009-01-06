@@ -78,6 +78,26 @@
 
     $lang->edit->submit = '確認';
 
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
+
     $lang->edit->help_remove_format = '移除格式';
     $lang->edit->help_strike_through = '文字刪除線';
     $lang->edit->help_align_full = '左右對齊';
@@ -99,7 +119,14 @@
     $lang->edit->help_remove_indent = '凸排';
     $lang->edit->help_list_number = '編號';
     $lang->edit->help_list_bullet = '清單符號';
-    $lang->edit->help_use_paragrapth = '換行請按 ctrl+backspace (快速發表主題：alt+S)';
+    $lang->edit->help_use_paragraph = '換行請按 ctrl+backspace (快速發表主題：alt+S)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';

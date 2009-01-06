@@ -75,6 +75,26 @@
 
     $lang->edit->submit = 'Принять';
 
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
+
     $lang->edit->help_fontcolor = 'Выберать цвет шрифта';
     $lang->edit->help_fontbgcolor = 'Выберать цвет фона шрифта';
     $lang->edit->help_bold = 'Сделать шрифт жирным';
@@ -92,7 +112,14 @@
     $lang->edit->help_remove_indent = 'Удалить отступ';
     $lang->edit->help_list_number = 'Применить числовой список';
     $lang->edit->help_list_bullet = 'Применить маркированный список';
-    $lang->edit->help_use_paragrapth = 'Нажмите Ctrl+Enter, чтобы отметить параграф. (Нажмите Alt+S , чтобы сохранить)';
+    $lang->edit->help_use_paragraph = 'Нажмите Ctrl+Enter, чтобы отметить параграф. (Нажмите Alt+S , чтобы сохранить)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = 'Вложение';
     $lang->edit->upload_file = 'Вложить';
