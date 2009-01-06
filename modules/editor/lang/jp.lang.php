@@ -52,18 +52,18 @@
     $lang->edit->fontsize = 'フォントサイズ';
     $lang->edit->use_paragraph = '段落機能';
     $lang->edit->fontlist = array(
-    'ＭＳ Ｐゴシック',
-    'ＭＳ Ｐ明朝',
-    'MS UI Gothic',
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    'MS PGothic'=>'ＭＳ Ｐゴシック',
+    'MS PMincho'=>'ＭＳ Ｐ明朝',
+    'MS UI Gothic'=>'MS UI Gothic',
+    'Arial'=>'Arial',
+    'Arial Black'=>'Arial Black',
+    'Tahoma'=>'Tahoma',
+    'Verdana'=>'Verdana',
+    'Sans-serif'=>'Sans-serif',
+    'Serif'=>'Serif',
+    'Monospace'=>'Monospace',
+    'Cursive'=>'Cursive',
+    'Fantasy'=>'Fantasy',
     );
 
     $lang->edit->header = '見出し';

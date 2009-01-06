@@ -91,7 +91,7 @@
                         <select onchange="editorChangeFontName(this,'{$editor_sequence}')" id="editor_font_{$editor_sequence}">
                             <option value="">{$lang->edit->fontname}</option>
                             <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                            <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+                            <option style="font-family:{$key}" value="{$key}">{$obj}</option>
                             <!--@end-->
                         </select>
                     </li>

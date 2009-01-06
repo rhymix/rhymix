@@ -26,7 +26,7 @@
     $lang->msg_component_is_first_order = '선택하신 컴포넌트는 첫번째에 위치하고 있습니다';
     $lang->msg_component_is_last_order = '선택하신 컴포넌트는 마지막에 위치하고 있습니다';
     $lang->msg_load_saved_doc = "자동저장된 글이 있습니다. 복구하시겠습니까?\n글을 다 쓰신 후 저장하시면 자동저장본은 사라집니다";
-    $lang->msg_auto_saved = "자동 저장되었습니다";
+    $lang->msg_auto_saved = "자동 저장되었습니다.";
 
     $lang->cmd_disable = "비활성";
     $lang->cmd_enable = "활성";
@@ -52,18 +52,18 @@
     $lang->edit->fontsize = '크기';
     $lang->edit->use_paragraph = '문단기능';
     $lang->edit->fontlist = array(
-    'Dotum',
-    'Gulim',
-    'Batang',
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    'Dotum' => '돋움',
+    'Gulim' => '굴림',
+    'Batang' => '바탕',
+    'Arial' => 'Arial',
+    'Arial Black' => 'Arial Black',
+    'Tahoma' => 'Tahoma',
+    'Verdana' => 'Verdana',
+    'Sans-serif' => 'Sans-serif',
+    'Serif' => 'Serif',
+    'Monospace' => 'Monospace',
+    'Cursive' => 'Cursive',
+    'Fantasy' => 'Fantasy',
     );
 
     $lang->edit->header = '형식';
