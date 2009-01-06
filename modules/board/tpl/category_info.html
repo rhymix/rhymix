@@ -22,7 +22,13 @@
         <p>{$lang->about_category_color}</p>
     </td>
 </tr>
-
+<tr>
+    <th scope="row"><div>{$lang->expand}</div></th>
+    <td>
+        <input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="checked"<!--@end--> class="checkbox" />
+        <p>{$lang->about_expand}</p>
+    </td>
+</tr>
 <tr >
     <th scope="row2"><div>{$lang->category_group_srls} <input type="checkbox" onclick="XE.checkboxToggleAll('group_srls'); return false;" /></div></th>
     <td>
