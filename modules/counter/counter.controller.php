@@ -68,9 +68,8 @@
          * @brief pageview 등록
          **/
         function insertPageView() {
-            $args->regdate = date("Ymd");
+            $args->regdate = '0, '.date('Ymd');
             executeQuery('counter.updateCounterPageview', $args);
-            executeQuery('counter.updateTotalCounterPageview');
         }
 
         /**
