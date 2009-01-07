@@ -96,7 +96,7 @@
     $lang->edit->remove_indent = '내어쓰기';
     $lang->edit->list_number = '번호 매기기';
     $lang->edit->list_bullet = '목록';
-    $lang->edit->remove_format = '글꼴 지우기';
+    $lang->edit->remove_format = '글맵시 지우기';
 
     $lang->edit->help_remove_format = '선택된 영역 내의 태그를 지웁니다.';
     $lang->edit->help_strike_through = '글자에 취소선을 표시합니다.';
