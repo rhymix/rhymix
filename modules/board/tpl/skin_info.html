@@ -17,18 +17,20 @@
         <th scope="row"><div>{$lang->skin_author}</div></th>
         <td>
             <!--@foreach($skin_info->author as $author)-->
-            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
             <!--@endforeach-->
         </td>
     </tr>
+<!--@if($skin_info->homepage)-->
     <tr>
         <th scope="row"><div>{$lang->homepage}</div></th>
         <td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
-    </tr>
+    </tr><!--@end-->
     <tr>
         <th scope="row"><div>{$lang->date}</div></th>
         <td>{zdate($skin_info->date, 'Y-m-d')}&nbsp;</td>
     </tr>
+<!--@if($skin_info->license || $skin_info->license_link)-->
     <tr>
         <th scope="row"><div>{$lang->skin_license}</div></th>
         <td>
@@ -36,13 +38,13 @@
         <!--@if($skin_info->license_link)-->
             <p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
         <!--@end-->
-            &nbsp;
         </td>
-    </tr>
+    </tr><!--@end-->
+<!--@if($skin_info->description)-->
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>{nl2br(trim($skin_info->description))}</td>
-    </tr>
+    </tr><!--@end-->
     </table>
 
     <table cellspacing="0" class="adminTable">
