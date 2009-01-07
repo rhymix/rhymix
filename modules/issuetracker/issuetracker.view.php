@@ -74,7 +74,7 @@
             }
             Context::set('display_option', $display_option);
 
-            if(Context::get('document_srl') && Context::get('act')!='dispIssuetrackerNewIssue') {
+            if(Context::get('document_srl') && !in_array(Context::get('act'),array('dispIssuetrackerNewIssue','dispIssuetrackerDeleteIssue'))) {
                 $this->act = 'dispIssuetrackerViewIssue';
                 Context::set('act','dispIssuetrackerViewIssue');
             }
