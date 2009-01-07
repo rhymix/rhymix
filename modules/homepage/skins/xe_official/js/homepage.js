@@ -297,3 +297,7 @@ function completeInsertPage(ret_obj) {
     alert(ret_obj['message']);
     location.reload();
 }
+
+function completeChangeLayout(ret_obj) {
+    location.reload();
+}
