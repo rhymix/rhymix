@@ -77,7 +77,7 @@
             if(!$xml_obj) return;
 
             $buff = '';
-debugPrint($xml_obj);
+
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
                 // 위젯의 제목, 버전
                 $buff .= sprintf('$widget_info->widget = "%s";', $widget);
