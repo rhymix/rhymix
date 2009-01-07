@@ -307,3 +307,15 @@ function doDeleteGroup(group_srl) {
     fo_obj.group_srl.value = group_srl;
     procFilter(fo_obj, delete_group);
 }
+
+function changeMenuType(obj) {
+    if(obj.selectedIndex == 2) {
+        xGetElementById('itemAttr2').style.display = 'none';
+        xGetElementById('itemAttr3').style.display = 'block';
+        return;
+    } 
+
+    xGetElementById('itemAttr2').style.display = 'block';
+    xGetElementById('itemAttr3').style.display = 'none';
+
+}
