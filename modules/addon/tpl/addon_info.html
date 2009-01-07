@@ -8,7 +8,6 @@
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$addon_info->title} ver. {$addon_info->version}</td>
     </tr>
-<!--@if($addon_info->author)-->
     <tr>
         <th scope="row"><div>{$lang->author}</div></th>
         <td>
@@ -16,7 +15,7 @@
             {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
             <!--@endforeach-->
         </td>
-    </tr><!--@end-->
+    </tr>
 <!--@if($addon_info->homepage)-->
     <tr>
         <th scope="row"><div>{$lang->homepage}</div></th>

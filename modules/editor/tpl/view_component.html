@@ -11,31 +11,33 @@
         <th scope="row"><div>{$lang->component_author}</div></th>
         <td>
             <!--@foreach($component->author as $author)-->
-            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
             <!--@end-->
     </tr>
+<!--@if($component->homepage)-->
     <tr>
         <th scope="row"><div>{$lang->homepage}</div></th>
-        <td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a>&nbsp;</td>
-    </tr>
+        <td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></td>
+    </tr><!--@end-->
     <tr class="row2">
         <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate(str_replace('-',"",$component->date), 'Y-m-d')}</td>
     </tr>
+<!--@if($component->license || $component->license_link)-->
     <tr>
         <th scope="row"><div>{$lang->component_license}</div></th>
         <td>
             {nl2br(trim($component->license))}
-        <!--@if($layout_info->license_link)-->
+        <!--@if($component->license_link)-->
             <p><a href="{$component->license_link}" onclick="window.close(); return false;">{$component->license_link}</a></p>
         <!--@end-->
-        &nbsp;
         </td>
-    </tr>
+    </tr><!--@end-->
+<!--@if($component->description)-->
     <tr class="row2">
         <th scope="row"><div>{$lang->component_description}</div></th>
         <td>{nl2br(trim($component->description))}</td>
-    </tr>
+    </tr><!--@end-->
     </table>
 </div>
 
