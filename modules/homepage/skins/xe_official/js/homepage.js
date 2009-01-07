@@ -201,6 +201,7 @@ function menuFormReset() {
     jQuery('#menu_normal_btn_img','#menu_hover_btn_img','#menu_active_btn_img').attr("src","");
     jQuery('#itemAttr4').css("display","none");
     fo_obj.reset();
+    location.href = '#';
 }
 
 function completeInsertMenuItem(data) {
