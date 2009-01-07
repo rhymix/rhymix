@@ -301,3 +301,9 @@ function completeInsertPage(ret_obj) {
 function completeChangeLayout(ret_obj) {
     location.reload();
 }
+
+function doDeleteGroup(group_srl) {
+    var fo_obj = xGetElementById('fo_group');
+    fo_obj.group_srl.value = group_srl;
+    procFilter(fo_obj, delete_group);
+}
