@@ -263,7 +263,7 @@
             }
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
-            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi|asf)$/i", $file_info['name'])) {
+            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|mid|midi|asf)$/i", $file_info['name'])) {
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_info['name'];
                 $direct_download = 'Y';
@@ -423,7 +423,7 @@
                 $old_file = $file_info->uploaded_filename;
 
                 // 이미지인지 기타 파일인지 체크하여 이동할 위치 정함
-                if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi|asf)$/i", $file_info->source_filename)) {
+                if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|mid|midi|asf)$/i", $file_info->source_filename)) {
                     $path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
                     $new_file = $path.$file_info->source_filename;
                 } else {
