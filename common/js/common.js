@@ -485,9 +485,9 @@ function displayMultimedia(src, width, height, options) {
         html += ''
             + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>'
             + '</object>';
-    } else if(/\.flv/i.test(src)) {
+    } else if(/\.flv/i.test(src) || /\.mov/i.test(src) || /\.moov/i.test(src)) {
         html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" />';
-    } else {
+    }  else {
         html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"></embed>';
     }
     document.writeln(html);
