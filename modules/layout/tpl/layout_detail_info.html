@@ -12,18 +12,20 @@
         <th scope="row"><div>{$lang->author}</div></th>
         <td>
             <!--@foreach($layout_info->author as $author)-->
-            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
             <!--@endforeach-->
         </td>
     </tr>
+<!--@if($layout_info->homepage)-->
     <tr class="row2">
         <th scope="row"><div>{$lang->homepage}</div></th>
-        <td><a href="{$layout_info->author->homepage}" onclick="window.open(this.href);return false;">{$layout_info->homepage}</a>&nbsp;</td>
-    </tr>
+        <td><a href="{$layout_info->author->homepage}" onclick="window.open(this.href);return false;">{$layout_info->homepage}</a></td>
+    </tr><!--@end-->
     <tr>
         <th scope="row"><div>{$lang->regdate}</div></th>
         <td>{zdate($layout_info->date, 'Y-m-d')}</td>
     </tr>
+<!--@if($layout_info->license || $layout_info->license_link)-->
     <tr class="row2">
         <th scope="row"><div>{$lang->layout_license}</div></th>
         <td>
@@ -33,11 +35,12 @@
         <!--@end-->
             &nbsp;
         </td>
-    </tr>
+    </tr><!--@end-->
+<!--@if($layout_info->description)-->
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>{nl2br(trim($layout_info->description))}</td>
-    </tr>
+    </tr><!--@end-->
     </table>
 </div>
 

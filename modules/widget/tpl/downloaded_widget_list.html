@@ -27,7 +27,7 @@
         <td class="number center">{$val->version}</td>
         <td class="nowrap">
             <!--@foreach($val->author as $author)-->
-            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+            <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
             <!--@endforeach-->
         </td>
         <td class="date nowrap center">{zdate($val->date, 'Y-m-d')}</td>
@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <td colspan="5" class="left">
-            {nl2br(trim($val->description))}
+            {nl2br(trim($val->description))}&nbsp;
         </td>
     </tr>
     <!--@end-->
