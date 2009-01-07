@@ -27,11 +27,12 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .blind, legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0 !important; line-height:0;} 
 
 /* Layout */
+#planet{}
 #container {}
-#header{ position:relative; z-index:30; clear:both; margin:0 0 20px 0;}
-#header *{ margin:0; padding:0;}
-#header li{ list-style:none;}
-#body{ clear:both; z-index:20;}
+#planetHeader{ position:relative; z-index:30; clear:both; margin:0 0 20px 0;}
+#planetHeader *{ margin:0; padding:0;}
+#planetHeader li{ list-style:none;}
+#planetBody{ clear:both; z-index:20;}
 .nTop #navigation{ right:0; top:0 !important; z-index:100; }
 .nTop #navigation .gnb ul{ margin:0;}
 .nTop #navigation li{ list-style:none;}
@@ -43,7 +44,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 h1 { position:relative; top:-10px; white-space:nowrap; font-family:"Malgun Gothic", AppleGothic, Dotum, Sans-serif;}
 h1, x:-moz-any-link{ top:0;}
 h1, x:-moz-any-link, x:default{ top:-10px;}
-h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-decoration:none !important;}
+h1 a{ font-weight:bold; font-size:26px; color:#000; letter-spacing:-3px; text-decoration:none !important;}
 
 /* Time Navigation */
 .timeNav{ font:11px Dotum, Tahoma; white-space:nowrap; color:#999;}
@@ -54,41 +55,32 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .timeNav .next{ display:inline-block; font-size:18px; font-family:Arial; font-weight:bold; color:#000; padding:0 5px !important; text-decoration:none !important;}
 
 /* Footer */
-#footer{margin:0; clear:both; text-align:center; padding:30px 0;}
-#footer *{margin:0; padding:0; color:#444; list-style:none; font:9px Verdana; line-height:normal;}
-#footer a{text-decoration:none; color:#444;}
-#footer a:visited{text-decoration:none; color:#666;}
-#footer a:hover{text-decoration:underline;}
-#footer address a{font-weight:bold; font-family:Tahoma; color:#00535d;}
+#planetFooter{margin:0; clear:both; text-align:center; padding:30px 0;}
+#planetFooter *{margin:0; padding:0; color:#444; list-style:none; font:9px Verdana; line-height:normal;}
+#planetFooter a{text-decoration:none; color:#444;}
+#planetFooter a:visited{text-decoration:none; color:#666;}
+#planetFooter a:hover{text-decoration:underline;}
+#planetFooter address a{font-weight:bold; font-family:Tahoma; color:#00535d;}
 
 /* ---------- Navigation ---------- */
 /* Search */
-#header .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
-#header .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
-#header .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
-#header .search .button{ top:1px;}
-#header .search .button button{ padding:0 10px 0 8px; font-family:Dotum;}
-#header .search .suggestion{ position:absolute; top:3px; left:174px; /* border:1px solid; */}
-#header .search .suggestion .autoComplete{ position:absolute; top:0; left:0; width:23px; height:23px; background:#fff url(../images/buttonAutoComplete.gif) no-repeat center -10px;}
-#header .search .suggestion ul.recommendation{ display:none; position:absolute; top:26px; left:-174px; width:198px; border:1px solid #e7e7e7; border-top:none; background:#fff;}
-#header .search .suggestion li button{ width:100%; text-align:left; padding:5px 4px 2px 4px; font:.75em AppleGothic, Gulim, Dotum, Sans-serif;}
-#header .search .suggestion li button:hover,
-#header .search .suggestion li button:active,
-#header .search .suggestion li button:focus{ background:#eee;}
-#header .search .suggestion.open .autoComplete{ background-position:center 10px;}
-#header .search .suggestion.open ul.recommendation{ display:block;}
+#planetHeader .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
+#planetHeader .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
+#planetHeader .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
+#planetHeader .search .button{ top:1px;}
+#planetHeader .search .button button{ padding:0 10px 0 8px; font-family:Dotum;}
 
 /* GNB */
-#header .gnb{ position:relative; float:right; margin-left:20px; }
-#header .gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
-#header .gnb ul li{ position:relative; float:left;}
-#header .gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:12px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
-#header .gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70); font-weight:bold;}
-#header .gnb ul li a:hover,
-#header .gnb ul li a:active,
-#header .gnb ul li a:focus{ opacity:0.9; filter:alpha(opacity=90);}
-#header .gnb ul li.first a{ background-position:left top;}
-#header .gnb ul li.last a{ background-position:right top;}
+#planetHeader .gnb{ position:relative; float:right; margin-left:20px; }
+#planetHeader .gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
+#planetHeader .gnb ul li{ position:relative; float:left;}
+#planetHeader .gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:12px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
+#planetHeader .gnb ul li.active a{ opacity:0.7; filter:alpha(opacity=70); font-weight:bold;}
+#planetHeader .gnb ul li a:hover,
+#planetHeader .gnb ul li a:active,
+#planetHeader .gnb ul li a:focus{ opacity:0.9; filter:alpha(opacity=90);}
+#planetHeader .gnb ul li.first a{ background-position:left top;}
+#planetHeader .gnb ul li.last a{ background-position:right top;}
 
 /* ---------- Content ---------- */
 
@@ -151,7 +143,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 /* Personal Header */
 .personalHeader{ position:relative; height:90px; background:url(../images/boxTryPlanet.gif) repeat-x 0 0; margin-bottom:15px;}
 .personalHeader *{ margin:0; padding:0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
-.personalHeader h2{ position:absolute; top:15px; left:30px; padding-top:15px; font-size:2em; _zoom:1; padding-left:30px; background:url(../images/bgPerson.png) no-repeat; _behavior:url(./common/js/iePngFix.htc); }
+.personalHeader h2{ position:absolute; top:15px; left:30px; padding-top:15px; font-size:24px; _zoom:1; padding-left:30px; background:url(../images/bgPerson.png) no-repeat; _behavior:url(./common/js/iePngFix.htc); }
 .personalHeader p{ position:absolute; top:46px; left:220px;}
 .personalHeader .leftCap,
 .personalHeader .rightCap{ position:absolute; display:block; top:0; width:5px; height:90px; overflow:hidden; background:url(../images/boxTryPlanet.gif) no-repeat; white-space:nowrap;}
@@ -162,7 +154,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .searchHeader{ position:relative; height:90px; background:url(../images/boxTryPlanet.gif) repeat-x 0 0; margin-bottom:30px;}
 .searchHeader *{ margin:0; padding:0;}
 .searchHeader p{ position:absolute; top:27px; margin-left:80px; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#50606b;}
-.searchHeader p strong{ font:bold 1.5em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.searchHeader p strong{ font:bold 18px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
 .searchHeader .leftCap,
 .searchHeader .rightCap{ position:absolute; display:block; top:0; width:5px; height:90px; overflow:hidden; background:url(../images/boxTryPlanet.gif) no-repeat; white-space:nowrap;}
 .searchHeader .leftCap{ left:0; background-position:left bottom;}
@@ -186,7 +178,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .myInfo .bl{ bottom:-1px; left:-1px; background-position:0 -4px;}
 .myInfo .br{ bottom:-1px; right:-1px; background-position:-4px -4px;}
 .myInfo button{ width:90px; height:60px; position:absolute; top:90px; left:50%; margin-left:80px; background:url(../images/buttonLogin.gif) no-repeat;}
-.myInfo button span{ position:relative; display:block; *padding-top:15px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 1.2em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
+.myInfo button span{ position:relative; display:block; *padding-top:15px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 14px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
 
 /* Tag Cloud */
 .tagCloud{ display:none; padding:20px 20px 30px 20px; margin-bottom:15px; position:relative; border:1px solid #e9e9e9; *zoom:1;}
@@ -236,7 +228,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 
 .commentList .tagChoiceAfter{ display:none; position:absolute; top:45px; left:50%; width:289px; height:121px; text-align:center; margin-left:-145px;}
 .commentList .tagChoiceAfter.alert{ display:block;}
-.commentList .tagChoiceAfter p{ position:absolute; top:0; left:0; width:289px; height:94px; _height /**/:121px; font-size:.75em; color:#fff; padding:37px 0 0 0; background:url(../images/boxTagChoice.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
+.commentList .tagChoiceAfter p{ position:absolute; top:0; left:0; width:289px; height:94px; _height /**/:121px; font-size:12px; color:#fff; padding:37px 0 0 0; background:url(../images/boxTagChoice.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
 .commentList .tagChoiceAfter button,
 .commentList .tagChoiceAfter a{ position:relative; display:inline-block; top:60px; font-size:12px; color:#fff; text-decoration:none; vertical-align:top; cursor:pointer; _cursor /**/:hand;}
 .commentList .tagChoiceAfter button{ width:45px; height:23px; text-align:center; background:url(../images/buttonFixedBlack45.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
@@ -251,41 +243,41 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .commentBody{ position:relative; margin:10px 0; border:1px solid #d7dfe2; background:#fff; *zoom:1; clear:both;}
 .commentBody .comment{ position:relative; margin:0 15px; padding:15px 0 15px 0; clear:both; *zoom:1;}
 .commentBody .comment:after { content:""; display:block; width:0; height:0; font:0/0 Sans-serif; overflow:hidden; visibility:hidden; clear:both; float:none;}
-.commentBody .comment .identity{ position:relative; width:98px; float:left; margin:0 -98px 0 0; font-size:1em; background:none; *zoom:1;}
-.commentBody .comment .identity a{ position:relative; display:block; text-align:center; font-size:.75em; color:#fff !important; font-weight:bold;}
+.commentBody .comment .identity{ position:relative; width:98px; float:left; margin:0 -98px 0 0; font-size:12px; background:none; *zoom:1;}
+.commentBody .comment .identity a{ position:relative; display:block; text-align:center; font-size:12px; color:#fff !important; font-weight:bold;}
 .commentBody .comment .identity a img{ display:block; border:1px solid #ddd;}
 .commentBody .comment .identity a em{ position:absolute; width:96px; text-align:center; left:1px; bottom:1px; display:block; padding:5px 0; font-style:normal; background:#000; opacity:.6; filter:alpha(opacity=60); line-height:normal;}
 .commentBody .comment .tongue{ position:relative; margin-left:113px; *zoom:1;}
-.commentBody .comment .tongue .post{ margin:0 0 7px 0; font:1.2em/1.4em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentBody .comment .tongue .post{ margin:0 0 7px 0; font:16px/1.6 NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
 .commentBody .comment .tongue .post a { font:1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#06C;}
 .commentBody .comment .tongue .post strong{ background:#f7b100; font:normal 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
-.commentBody .comment .tongue .postScript{ margin:0 0 10px 0; font-size:.75em; color:#999;}
+.commentBody .comment .tongue .postScript{ margin:0 0 10px 0; font-size:12px; color:#999;}
 .commentBody .comment .tongue .postScript strong{ font-family:Arial; letter-spacing:-1px; margin-right:5px;}
 .commentBody .comment .tongue .postExtra{ overflow:hidden; padding-top:10px; border-top:1px dotted #ccc; *zoom:1;}
 .commentBody .comment .tongue .postExtra *{ margin:0; padding:0;}
 .commentBody .comment .tongue .postExtra .tag { float:left;}
-.commentBody .comment .tongue .postExtra .tag .time{ display:inline; margin-right:5px; color:#999; font:.7em AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentBody .comment .tongue .postExtra .tag .time{ display:inline; margin-right:5px; color:#999; font:11px AppleGothic, Dotum, Gulim, Sans-serif;}
 .commentBody .comment .tongue .postExtra .tag dl{ display:inline;}
-.commentBody .comment .tongue .postExtra .tag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.gif) no-repeat center; font:bold .7em Tahoma; color:#fff;}
+.commentBody .comment .tongue .postExtra .tag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.gif) no-repeat center; font:bold 11px Tahoma; color:#fff;}
 .commentBody .comment .tongue .postExtra .tag dd{ display:inline; position:relative;}
-.commentBody .comment .tongue .postExtra .tag dd.tagRead a{ position:relative; margin-right:2px; font:.7em AppleGothic, Dotum, Gulim, Sans-serif; color:#999;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead a{ position:relative; margin-right:2px; font:11px AppleGothic, Dotum, Gulim, Sans-serif; color:#999;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead a strong{ font:normal 1em AppleGothic, Dotum, Gulim, Sans-serif; background:#f7b100; color:#fff;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead .delete{ position:relative; top:-7px; left:-8px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead .delete.hover{ display:inline-block;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead .modify{ position:relative; width:13px; height:13px; background:url(../images/buttonModify.gif) no-repeat center; vertical-align:middle; *vertical-align:baseline; *top:-1px; *left:5px;}
 .commentBody .comment .tongue .postExtra .tag dd.tagModify{ display:none; top:2px;}
 .commentBody .comment .tongue .postExtra .tag dd.tagModify form{ display:inline;}
-.commentBody .comment .tongue .postExtra .tag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px; font-size:.75em;}
-.commentBody .comment .tongue .postExtra .tag dd.tagModify button{ height:19px; font-size:.7em; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
+.commentBody .comment .tongue .postExtra .tag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px; font-size:12px;}
+.commentBody .comment .tongue .postExtra .tag dd.tagModify button{ height:19px; font-size:11px; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
 .commentBody .comment .tongue .postExtra .tag.edit dd{ display:none;}
 .commentBody .comment .tongue .postExtra .tag.edit dd.tagModify{ display:inline;}
 .commentBody .comment .tongue .postExtra .sympathy{ float:right; position:relative; top:-2px;}
 .commentBody .comment .tongue .postExtra .sympathy span.btnPlus { display:block; float:left; margin-right:10px; padding-top:3px;}
 .commentBody .comment .tongue .postExtra .sympathy button { color:#999;}
-.commentBody .comment .tongue .postExtra .sympathy .num{ position:relative; display:inline-block; width:22px; height:22px; padding-top:6px; letter-spacing:-1px; color:#fff; text-align:center; font:bold .7em AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/bgSympathy.gif) no-repeat center top; *margin-bottom:-10px;}
+.commentBody .comment .tongue .postExtra .sympathy .num{ position:relative; display:inline-block; width:22px; height:22px; padding-top:6px; letter-spacing:-1px; color:#fff; text-align:center; font:bold 11px AppleGothic, Dotum, Gulim, Sans-serif; background:url(../images/bgSympathy.gif) no-repeat center top; *margin-bottom:-10px;}
 .commentBody .comment .tongue .postExtra .sympathy .num, x:-moz-any-link { padding-left:11px; padding-right:11px;}
 .commentBody .comment .tongue .postExtra .sympathy .num, x:-moz-any-link, x:default { padding-left:0; padding-right:0;}
-.commentBody .comment .tongue .postExtra .sympathy a{ position:relative; *top:-2px; margin-right:1px; color:#999; padding-left:8px; font:.7em AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; background:url(../images/arrowReplyOpen.gif) no-repeat left 3px;}
+.commentBody .comment .tongue .postExtra .sympathy a{ position:relative; *top:-2px; margin-right:1px; color:#999; padding-left:8px; font:11px AppleGothic, Dotum, Gulim, Sans-serif; letter-spacing:-1px; background:url(../images/arrowReplyOpen.gif) no-repeat left 3px;}
 
 /* Todo Manager */
 .commentList .commentHeader h3.exTitle{ font-family:"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; line-height:normal; background:none; float:left;}
@@ -301,9 +293,9 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .commentBody .reply{ display:none; clear:both; padding:15px; background:#f3f3f3; *zoom:1;}
 .commentBody .reply.open{ display:block;}
 .commentBody .reply dl{ position:relative; clear:both; overflow:hidden; *zoom:1; margin:0 0 5px 0;}
-.commentBody .reply dt{ float:left; width:83px; padding-left:15px; margin-right:-98px; font-size:.75em; font-weight:bold; color:#666;}
+.commentBody .reply dt{ float:left; width:83px; padding-left:15px; margin-right:-98px; font-size:12px; font-weight:bold; color:#666;}
 .commentBody .reply dt a{ color:#a5b2c2; }
-.commentBody .reply dd{ margin:0 80px 0 113px; font-size:.75em; color:#666; line-height:1.4em;}
+.commentBody .reply dd{ margin:0 80px 0 113px; font-size:12px; color:#666; line-height:1.4em;}
 .commentBody .reply dd a{ text-decoration:underline; color:#333;}
 .commentBody .reply dd .time{ position:absolute; top:0; right:0;}
 .commentBody .reply dd input{ position:relative; border:1px solid #ccc; padding:4px 5px; width:96%; height:14px; vertical-align:top; font-size:1em; *zoom:1;}
@@ -333,7 +325,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .authorHeader .thumb a:hover span,
 .authorHeader .thumb a:active span,
 .authorHeader .thumb a:focus span{ display:block;}
-.authorHeader .thumb .file{ display:none; position:absolute; top:0; left:115px; background:#fff; border:2px solid #eee; padding:15px; height:66px; _height /**/:100px; width:446px; font-size:.75em;}
+.authorHeader .thumb .file{ display:none; position:absolute; top:0; left:115px; background:#fff; border:2px solid #eee; padding:15px; height:66px; _height /**/:100px; width:446px; font-size:12px;}
 .authorHeader .thumb .file p{ margin-bottom:5px;}
 .authorHeader .thumb .file input{ padding:2px 4px; width:400px;}
 .authorHeader .thumb .file .buttonArea{ padding-top:10px;}
@@ -364,16 +356,16 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .authorHeader .title *.edit .inputText,
 .authorHeader .title *.edit button{ display:inline; vertical-align:top;}
 .authorHeader .title .authorPersonality{ float:left;}
-.authorHeader .title .authorPersonality a{ position:relative; float:left; color:#fff; font-size:.75em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
+.authorHeader .title .authorPersonality a{ position:relative; float:left; color:#fff; font-size:12px; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
 .authorHeader .title .addFavorite{ position:relative; top:-3px; float:right; clear:right; background:url(../images/iconAddFavorite.gif) no-repeat left center; padding-left:7px; }
-.authorHeader .title .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
+.authorHeader .title .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:11px; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
 
 .authorHeader .authorTag{ position:relative; border-top:1px solid #ddd; margin-left:120px; padding-top:10px; *zoom:1;}
 .authorHeader .authorTag dl{ position:relative; display:block; float:left;}
-.authorHeader .authorTag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc); font:bold .7em Tahoma; color:#fff; *zoom:1;}
+.authorHeader .authorTag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc); font:bold 11px Tahoma; color:#fff; *zoom:1;}
 .authorHeader .authorTag dd{ display:inline;}
 .authorHeader .authorTag.edit dd{ display:none;}
-.authorHeader .authorTag dd a{ font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; margin-right:2px;}
+.authorHeader .authorTag dd a{ font-size:11px; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; margin-right:2px;}
 .authorHeader .authorTag dd .delete{ position:relative; top:-7px; left:-8px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
 .authorHeader .authorTag dd .delete span{ display:inline-block; width:0; height:0; font:0/0 Sans-serif; visibility:hidden;}
 .authorHeader .authorTag dd .delete.hover{ display:inline-block;}
@@ -381,8 +373,8 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .authorHeader .authorTag dd.tagModify{ display:none;}
 .authorHeader .authorTag.edit dd.tagModify{ display:inline;}
 .authorHeader .authorTag dd.tagModify .inputText{ border:1px solid #ccc; padding:2px 4px; height:13px; width:290px;}
-.authorHeader .authorTag dd.tagModify button{ height:19px; font-size:.7em; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
-.authorHeader .authorTag .planetUri{ position:relative; float:right; color:#fff; font-size:.7em; font-family:Tahoma Sans-serif;}
+.authorHeader .authorTag dd.tagModify button{ height:19px; font-size:11px; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
+.authorHeader .authorTag .planetUri{ position:relative; float:right; color:#fff; font-size:11px; font-family:Tahoma Sans-serif;}
 .authorHeader .authorTag .rssFeed{ float:right; display:block; margin:0 0 0 5px; width:12px; height:12px; cursor:pointer; background:url(../images/rssFeed.png) no-repeat; _behavior:url(./common/js/iePngFix.htc);}
 .authorHeader .authorTag .rssFeed span{ position:absolute; width:0; height:0; overflow:hidden;}
 .authorHeader .tl,
@@ -419,7 +411,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .authorHeader .apiMe2day .apiProtocol.open{ display:block;}
 .authorHeader .apiMe2day .apiProtocol.close{ display:none;}
 .authorHeader .apiMe2day .apiProtocol .summary{ font-weight:bold; margin-bottom:10px;}
-.authorHeader .apiMe2day .apiProtocol dl{ font-size:.75em; overflow:hidden;}
+.authorHeader .apiMe2day .apiProtocol dl{ font-size:12px; overflow:hidden;}
 .authorHeader .apiMe2day .apiProtocol dt{ float:left; clear:left; margin:0 4px 0 0; padding-top:3px;}
 .authorHeader .apiMe2day .apiProtocol dd{ clear:right; margin-bottom:2px;}
 .authorHeader .apiMe2day .apiProtocol dd input{ width:120px; border:1px solid #ccc; padding:2px 4px; *margin:-1px 0;}
@@ -498,15 +490,15 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .authorList .authorBody .title{ position:relative; margin-left:120px; margin-bottom:10px; *zoom:1;}
 .authorList .authorBody .title h2{ margin-bottom:5px;} 
 .authorList .authorBody .title h2 a{ font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#465f7d;}
-.authorList .authorBody .title p{ color:#a2afbe; font-size:.75em;}
-.authorList .authorBody .title .planetUri{ position:absolute; right:0; bottom:0; font-size:.7em; color:#999;}
-.authorList .authorBody .authorTag{ position:relative; padding-top:10px; margin-left:120px; border-top:1px dotted #ccc; font-size:.75em; *zoom:1;}
+.authorList .authorBody .title p{ color:#a2afbe; font-size:12px;}
+.authorList .authorBody .title .planetUri{ position:absolute; right:0; bottom:0; font-size:11px; color:#999;}
+.authorList .authorBody .authorTag{ position:relative; padding-top:10px; margin-left:120px; border-top:1px dotted #ccc; font-size:12px; *zoom:1;}
 .authorList .authorBody .authorTag dt{ display:inline;}
 .authorList .authorBody .authorTag dd{ display:inline;}
 .authorList .authorBody .authorTag dd a{ color:#747474;}
 .authorList .authorBody .authorTag dd a strong{ font-weight:normal; color:#fff; background:#ffba00;}
 .authorList .authorBody .authorTag .addFavorite{ position:absolute; top:7px; right:0; background:url(../images/iconAddFavorite.gif) no-repeat left center;}
-.authorList .authorBody .authorTag .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.9em; color:#999; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-align:right; letter-spacing:-1px;}
+.authorList .authorBody .authorTag .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:11px; color:#999; font-family:AppleGothic, Dotum, Gulim, Sans-serif; text-align:right; letter-spacing:-1px;}
 .authorList .tl,
 .authorList .tr,
 .authorList .bl,
@@ -541,7 +533,7 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .writePost .writeBody dd .inputText{ padding:3px 10px;}
 .writePost .writeBody dd.preview{ display:block; clear:both;}
 .writePost .writeBody dd.preview.off{ display:none;}
-.writePost .writeBody dd.preview p{ padding:5px 10px; border:1px solid #ccc; width:96%; background:#fff; color:#000; opacity:.5; filter:alpha(opacity=50);} 
+.writePost .writeBody dd.preview p{ padding:5px 10px; border:1px solid #ccc; width:96%; background:#fff; color:#000; opacity:.5; filter:alpha(opacity=50); font-size:12px;} 
 .writePost .writeBody dd.preview p a{ color:#00f;}
 .writePost .writeBody .writeOptions{ position:absolute; top:-8px; left:100%; margin-left:-105px;}
 .writePost .writeBody .writeOptions p{ white-space:nowrap; margin:0; padding:0;}
@@ -565,15 +557,15 @@ h1 a{ font-weight:bold; font-size:30px; color:#000; letter-spacing:-3px; text-de
 .myFavoriteTag ul{ position:relative; padding:5px 0; overflow:hidden; *zoom:1;}
 .myFavoriteTag li{ position:relative; padding:0 6px 0 10px; left:-11px; display:inline; background:url(../images/lineVccc.gif) no-repeat left center; line-height:18px;}
 .myFavoriteTag li a,
-.myFavoriteTag li strong{ font-size:.75em; white-space:nowrap;}
+.myFavoriteTag li strong{ font-size:12px; white-space:nowrap;}
 .myFavoriteTag li strong{ color:#ffba00;}
 .myFavoriteTag li .delete{ position:relative; top:-7px; left:-6px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
 .myFavoriteTag li .delete span{ display:inline-block; width:0; height:0; font:0/0 Sans-serif; visibility:hidden;}
 .myFavoriteTag li .delete.hover{ display:inline-block;}
 .myFavoriteTag .addTag{ text-align:right;}
-.myFavoriteTag .addTag .inputText{ border:1px solid #ccc; padding:3px 4px; color:#000; font-size:.75em; margin-right:5px;}
+.myFavoriteTag .addTag .inputText{ border:1px solid #ccc; padding:3px 4px; color:#000; font-size:12px; margin-right:5px;}
 .myFavoriteTag .addTag .addFavorite{ display:inline-block; position:relative; background:url(../images/iconAddFavorite.gif) no-repeat left center;}
-.myFavoriteTag .addTag .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:.7em; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
+.myFavoriteTag .addTag .addFavorite button{ position:relative; *top:2px; width:80px; height:20px; font-size:11px; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; text-align:right; letter-spacing:-1px;}
 .myFavoriteTag .tl,
 .myFavoriteTag .tr,
 .myFavoriteTag .bl,
