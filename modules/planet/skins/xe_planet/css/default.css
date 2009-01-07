@@ -64,7 +64,7 @@ h1 a{ font-weight:bold; font-size:26px; color:#000; letter-spacing:-3px; text-de
 
 /* ---------- Navigation ---------- */
 /* Search */
-#planetHeader .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1;}
+#planetHeader .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1; margin-right:2px;}
 #planetHeader .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
 #planetHeader .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
 #planetHeader .search .button{ top:1px;}

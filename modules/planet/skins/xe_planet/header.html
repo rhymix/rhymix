@@ -33,6 +33,7 @@
 
 			<div id="navigation">
 				<!-- GNB -->
+                <!--@if($config->display_menu!='N')-->
 				<div class="gnb">
 					<ul>
 						<li class="first <!--@if($mid==$config->mid)-->active<!--@end-->"><a href="{getUrl('','mid',$config->mid)}">{$lang->planet_home}</a></li>
@@ -50,9 +51,11 @@
 						<!--@end-->
 					</ul>
 				</div>
+                <!--@end-->
 				<!-- //GNB -->
 	
 				<!-- 검색 -->
+                <!--@if($config->display_search!='N')-->
 				<form action="{Context::getRequestUri()}" method="get" class="search">
 				<input type="hidden" name="mid" value="{$mid}" />
 				<input type="hidden" name="act" value="dispPlanetContentTagSearch" />
@@ -68,9 +71,7 @@
 						<span class="button large strong"> <button type="submit">{$lang->cmd_search}</button> </span>
 					</fieldset>
 				</form>
-	
-	
-	
+                <!--@end-->
 				<!--// 검색 -->
 	
 	
