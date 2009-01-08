@@ -67,8 +67,7 @@
             /**
              * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
              **/
-            $this->dispBoardCatogoryList();
-
+            $this->dispBoardCategoryList();
 
             /**
              * 목록이 노출될때 같이 나오는 검색 옵션을 정리하여 스킨에서 쓸 수 있도록 context set
@@ -98,7 +97,7 @@
             $this->setTemplateFile('list');
         }
 
-        function dispBoardCatogoryList(){
+        function dispBoardCategoryList(){
             if($this->module_info->use_category=='Y') {
                 $oDocumentModel = &getModel('document');
                 Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
@@ -113,10 +112,8 @@
             $document_srl = Context::get('document_srl');
             $page = Context::get('page');
 
-            // document model 객체를 생성
-            $oDocumentModel = &getModel('document');
-
-            // 혹시 선택된 문서가 있다면 해당 문서에 대한 객체를 생성함 (일단 빈객체를 만드는 것은 선택된 글이 없을때 스킨에서 object 오류발생하는 것을 막기 위함)
+            // 혹시 선택된 문서가 있다면 해당 문서에 대한 객체를 생성함 
+            // (일단 빈객체를 만드는 것은 선택된 글이 없을때 스킨에서 object 오류발생하는 것을 막기 위함)
             $oDocument = $oDocumentModel->getDocument(0);
 
             // document_srl이 있다면 해당 글을 구해와서 $oDocument로 세팅
@@ -210,6 +207,7 @@
         function dispBoardContentList(){
             $oDocumentModel = &getModel('document');
             $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
+
             // 목록을 구하기 위한 대상 모듈/ 페이지 수/ 목록 수/ 페이지 목록 수에 대한 옵션 설정
             $args->page = Context::get('page');; ///< 페이지
             $args->list_count = $this->list_count; ///< 한페이지에 보여줄 글 수

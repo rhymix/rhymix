@@ -7,4 +7,5 @@
 
     $lang->cmd_go_upper = '回上頁';
     $lang->cmd_go_home = '回首頁';
+    $lang->cmd_view_sitemap = 'View site map';
 ?>

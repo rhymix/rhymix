@@ -6,4 +6,5 @@
      **/
     $lang->cmd_go_upper = '上位';
     $lang->cmd_go_home = 'トップへ';
+    $lang->cmd_view_sitemap = 'View site map';
 ?>

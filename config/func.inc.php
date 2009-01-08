@@ -148,6 +148,15 @@
     }
 
     /**
+     * @brief module의 wap 객체 생성용
+     * @param module_name 모듈이름
+     * @return module wap class instance
+     **/
+    function &getWAP($module_name) {
+        return getModule($module_name, 'wap');
+    }
+
+    /**
      * @brief module의 상위 class 객체 생성용
      * @param module_name 모듈이름
      * @return module class instance
