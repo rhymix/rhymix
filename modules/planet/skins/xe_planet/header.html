@@ -24,9 +24,28 @@
     <div id="planet">
         <div id="planetHeader">
 			<!--@if($config->logo_image)-->
-            <h1><a href="{getUrl('','mid',$config->mid)}"><img src="{$config->logo_image}" alt="{$config->logo_title}" /></a></h1>
+                <h1><a href="{getUrl('','mid',$config->mid)}"><img src="{$config->logo_image}" alt="{$config->logo_title}" /></a></h1>
 			<!--@elseif($config->logo_title)-->
-            <h1><a href="{getUrl('','mid',$config->mid)}">{htmlspecialchars($config->logo_title)}</a></h1>
+                <h1><a href="{getUrl('','mid',$config->mid)}">{htmlspecialchars($config->logo_title)}</a></h1>
+			<!--@end-->
+
+			<!--@if($date && !($act=='dispPlanetLogin' || $act=='dispPlanetContentTagSearch' || $act=='dispPlanetTagSearch' || $act=='dispPlanetContentSearch'))-->
+			<div class="timeNav">
+				<!--@if($prev_date)-->
+                    <a class="prev" href="{getUrl('date',$prev_date)}" title="{$lang->cmd_prev}">&lt;</a>
+                <!--@else-->
+                    <span class="prev">&lt;</span>
+                <!--@end-->
+				<strong>{zdate($date,'Y')}</strong>{$lang->unit_year}
+				<strong>{zdate($date,'m')}</strong>{$lang->unit_month}
+				<strong>{zdate($date,'d')}</strong>{$lang->unit_day}
+				(<em>{zdate($date,'l')}</em>)
+				<!--@if($next_date)-->
+                    <a class="next" href="{getUrl('date',$next_date)}" title="{$lang->cmd_next}">&gt;</a>
+                <!--@else-->
+                    <span class="next">&gt;</span>
+                <!--@end-->
+			</div>
 			<!--@end-->
 
 			<div id="navigation">
@@ -66,24 +85,13 @@
 						<input name="keyword" type="text" class="inputText" value="{htmlspecialchars(urldecode($keyword))}" onfocus="this.className='inputText focus';" onblur="this.className='inputText'" accesskey="S" title="{$lang->about_planet_input_search_text}(S)" />
 	<!--@end-->
 	
-						<span class="button large strong"> <button type="submit">{$lang->cmd_search}</button> </span>
+						<span class="button strong"> <button type="submit">{$lang->cmd_search}</button> </span>
 					</fieldset>
 				</form>
                 <!--@end-->
 				<!--// 검색 -->
 	
 			</div>
-
-			<!--@if($date && !($act=='dispPlanetLogin' || $act=='dispPlanetContentTagSearch' || $act=='dispPlanetTagSearch' || $act=='dispPlanetContentSearch'))-->
-			<div class="timeNav">
-				<!--@if($prev_date)--><a class="prev" href="{getUrl('date',$prev_date)}" title="{$lang->cmd_prev}">&lt;</a><!--@end-->
-				<strong>{zdate($date,'Y')}</strong>{$lang->unit_year}
-				<strong>{zdate($date,'m')}</strong>{$lang->unit_month}
-				<strong>{zdate($date,'d')}</strong>{$lang->unit_day}
-				(<em>{zdate($date,'l')}</em>)
-				<!--@if($next_date)--><a class="next" href="{getUrl('date',$next_date)}" title="{$lang->cmd_next}">&gt;</a><!--@end-->
-			</div>
-			<!--@end-->
         </div>
         
 		<hr />

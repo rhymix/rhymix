@@ -1,13 +1,6 @@
 @charset "utf-8";
 /* NHN > UIT Center > Open UI Platform Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
-/* xe layer */
-#waitingforserverresponse { border:2px solid #000000; font-weight:bold; color:#BBBBBB; padding: 7px 5px 5px 25px; background-color:#222222; top:40px; left:40px; position:absolute; z-index:100; visibility:hidden; }
-#popup_menu_area { position:absolute; left:0px; top:0px; z-index:1003; visibility:hidden; border:2px solid #D9D9D9; background-color:#FFFFFF; padding:0; }
-#popup_menu_area .box { border:1px solid #CACACA; background-color:#FFFFFF; padding:7px; }
-#popup_menu_area .item { color:#333333; cursor:pointer; margin:0; padding:3px 0 3px 0; white-space:nowrap; }
-#popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; letter-spacing:-1px; white-space:nowrap;}
-
 /* Reset */
 img, fieldset, button{border:0;}
 fieldset{ padding:0;}
@@ -26,32 +19,33 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .blind, legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0 !important; line-height:0;} 
 
 /* Layout */
-#planet{margin:10px; font-family:Sans-serif;}
+#planet {font-family:Sans-serif; margin:0; padding:0; }
 #container {}
-#planetHeader{ position:relative; z-index:30; clear:both; margin:0 0 20px 0;}
+#planetHeader{ z-index:30; clear:both; margin:0 0 20px 0; overflow:hidden; *zoom:1; padding-bottom:3px;}
 #planetHeader *{ margin:0; padding:0;}
 #planetHeader li{ list-style:none;}
 #planetBody{ clear:both; z-index:20;}
-.nTop #navigation{ right:0; top:0 !important; z-index:100; }
-.nTop #navigation .gnb ul{ margin:0;}
-.nTop #navigation li{ list-style:none;}
-.buttonArea{ text-align:center;}
-.languageSelect { position:absolute; right:0; top:-30px; }
-.languageSelect select{ font-size:12px;}
 
 /* Heading */
-h1 { position:relative; top:-10px; white-space:nowrap; font-family:"Malgun Gothic", AppleGothic, Dotum, Sans-serif;}
-h1, x:-moz-any-link{ top:0;}
-h1, x:-moz-any-link, x:default{ top:-10px;}
-h1 a{ font-weight:bold; font-size:26px; color:#000; letter-spacing:-3px; text-decoration:none !important;}
+#planetHeader h1 { white-space:nowrap; margin:0; padding:0;}
+#planetHeader h1 a { font-weight:bold; font-size:26px; color:#000; text-decoration:none !important;}
 
 /* Time Navigation */
-.timeNav{ font:11px Dotum, Tahoma; white-space:nowrap; color:#999;}
+.timeNav{ font:11px Dotum, Tahoma; white-space:nowrap; color:#999; float:left;}
 .timeNav *{ color:#000;}
 .timeNav strong{ font-family:Arial; font-size:18px;}
 .timeNav em{ font-style:normal; font-weight:bold; font-size:18px; font-family:"Malgun Gothic", AppleGothic, Dotum, Tahoma, Sans-serif;}
 .timeNav .prev,
-.timeNav .next{ display:inline-block; font-size:18px; font-family:Arial; font-weight:bold; color:#000; padding:0 5px !important; text-decoration:none !important;}
+.timeNav .next { display:inline-block; font-size:18px; font-family:Arial; font-weight:bold; color:#000; padding:0 5px !important; text-decoration:none !important;}
+.timeNav span.prev,
+.timeNav span.next { color:#AAA; }
+
+#navigation{ float:right; z-index:100; }
+#navigation .gnb { clear:both; margin:0;}
+#navigation .gnb ul{ margin:0;}
+#navigation li{ list-style:none;}
+.buttonArea{ text-align:center;}
+
 
 /* Footer */
 #planetFooter{margin:0; clear:both; text-align:center; padding:30px 0;}
@@ -63,8 +57,8 @@ h1 a{ font-weight:bold; font-size:26px; color:#000; letter-spacing:-3px; text-de
 
 /* ---------- Navigation ---------- */
 /* Search */
-#planetHeader .search{ position:relative; top:2px; float:right; margin:0; padding:0; white-space:nowrap; text-align:right; *zoom:1; margin-right:2px;}
-#planetHeader .search .inputText{ padding:4px 5px 2px 5px; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
+#planetHeader .search{ clear:both; padding:0; white-space:nowrap; text-align:right; *zoom:1; margin-right:2px;}
+#planetHeader .search .inputText{ padding:0; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
 #planetHeader .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
 #planetHeader .search .button{ top:1px;}
 #planetHeader .search .button button{ padding:0 10px 0 8px; font-family:Dotum;}
@@ -247,7 +241,7 @@ h1 a{ font-weight:bold; font-size:26px; color:#000; letter-spacing:-3px; text-de
 .commentBody .comment .identity a img{ display:block; border:1px solid #ddd;}
 .commentBody .comment .identity a em{ position:absolute; width:96px; text-align:center; left:1px; bottom:1px; display:block; padding:5px 0; font-style:normal; background:#000; opacity:.6; filter:alpha(opacity=60); line-height:normal;}
 .commentBody .comment .tongue{ position:relative; margin-left:113px; *zoom:1;}
-.commentBody .comment .tongue .post{ margin:0 0 7px 0; font:16px/1.6 NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentBody .comment .tongue .post{ margin:0 0 7px 0; font:16px/1.6 NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; word-break:break-all; }
 .commentBody .comment .tongue .post a { font:1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#06C;}
 .commentBody .comment .tongue .post strong{ background:#f7b100; font:normal 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
 .commentBody .comment .tongue .postScript{ margin:0 0 10px 0; font-size:12px; color:#999;}
