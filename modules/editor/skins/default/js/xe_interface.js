@@ -10,7 +10,7 @@ function editorStartTextarea(editor_sequence, content_key, primary_key) {
     editorRelKeys[editor_sequence]["func"] = editorGetContentTextarea;
 
     var content = obj.form[content_key].value;
-    content = content.replace(/<br([^>]+)>/ig,"");
+    content = content.replace(/<br([^>]*)>/ig,"\n");
     obj.value = content;
 }
 
