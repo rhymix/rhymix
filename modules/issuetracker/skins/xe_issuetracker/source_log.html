@@ -49,7 +49,7 @@
         <td class="log"><a href="{getUrl('type','file','path',urlencode($p),'revs',$item->revision)}">{$item->revision}</a></td>
         <td class="tCenter"><input type="radio" name="erev" value="{$item->revision}" <!--@if($erev==$item->revision)-->checked="checked"<!--@end--> /></td>
         <td class="tCenter"><input type="radio" name="brev" value="{$item->revision}" <!--@if($brev==$item->revision)-->checked="checked"<!--@end--> /></td>
-        <td class="summaryText"><div class="close">{$item->msg}&nbsp;</div></td>
+        <td class="summaryText"><div class="close">{htmlspecialchars($item->msg)}&nbsp;</div></td>
         <td class="tCenter"><span class="author">{$item->author}</span></td>
         <td>{$item->gap} ({$item->date})</td>
     </tr>
