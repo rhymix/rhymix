@@ -124,11 +124,11 @@
             $cur_menu_item = $listed_items[$node_list[$this->module_info->mid]];
             if($cur_menu_item['parent_srl']) {
                 $parent_srl = $cur_menu_item['parent_srl'];
-                if($parent_srl && $node_list[$parent_srl]) {
-                    $parent_item = $listed_items[$node_list[$parent_srl]];
-                    if($parent_item) $this->setUpperUrl(getUrl('',$parent_item['mid']), Context::getLang('cmd_go_upper'));
+                if($parent_srl && $listed_items[$parent_srl]) {
+                    $parent_item = $listed_items[$parent_srl];
+                    if($parent_item) $this->setUpperUrl(getUrl('','mid',$parent_item['mid']), Context::getLang('cmd_go_upper'));
                 }
-            } else {
+            } elseif (!$this->isNavigationMode()) {
                 $this->setUpperUrl(getUrl('','mid',$this->index_mid,'nm','1','cmid',0), Context::getLang('cmd_view_sitemap'));
             }
         }
