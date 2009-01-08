@@ -18,6 +18,39 @@
             return $source;
         }
 
+
+
+        /**
+         * @brief 특정 디렉토리를 복사
+         **/
+        function copyDir($source_dir, $target_dir, $filter=null,$type=null){
+            $source_dir = FileHandler::getRealPath($source_dir);
+            $target_dir = FileHandler::getRealPath($target_dir);
+            if(!is_dir($source_dir)) return false;
+
+            // target이 없을땐 생성
+            if(!file_exists($target_dir)) FileHandler::makeDir($target_dir);
+
+            if(substr($source_dir, -1) != '/') $source_dir .= '/';
+            if(substr($target_dir, -1) != '/') $target_dir .= '/';
+
+            $oDir = dir($source_dir);
+            while($file = $oDir->read()) {
+                if(substr($file,0,1)=='.') continue;
+                if($filter && preg_match($filter, $file)) continue;
+                if(is_dir($source_dir.$file)){
+                    FileHandler::copyDir($source_dir.$file,$target_dir.$file,$type);
+                }else{
+                    if($type == 'force'){
+                        @unlink($target_dir.$file);
+                    }else{
+                        if(!file_exists($target_dir.$file)) @copy($source_dir.$file,$target_dir.$file);
+                    }
+                }
+            }
+        }
+
+
         /**
          * @brief 파일의 내용을 읽어서 return
          **/
