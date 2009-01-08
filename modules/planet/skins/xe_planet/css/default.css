@@ -58,7 +58,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 /* ---------- Navigation ---------- */
 /* Search */
 #planetHeader .search{ clear:both; padding:0; white-space:nowrap; text-align:right; *zoom:1; margin-right:2px;}
-#planetHeader .search .inputText{ padding:0; height:21px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 14px AppleGothic, Dotum, Gulim, Sans-serif;}
+#planetHeader .search .inputText{ padding:4px 0 0 2px; height:17px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 12px AppleGothic, Dotum, Gulim, Sans-serif;}
 #planetHeader .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
 #planetHeader .search .button{ top:1px;}
 #planetHeader .search .button button{ padding:0 10px 0 8px; font-family:Dotum;}
