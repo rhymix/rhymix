@@ -9,7 +9,6 @@
 #popup_menu_area .item_on { color:#333333; font-weight:bold; margin:0; cursor:pointer; padding:3px 0 3px 0; letter-spacing:-1px; white-space:nowrap;}
 
 /* Reset */
-body{ margin:35px 30px; font-family:Sans-serif;}
 img, fieldset, button{border:0;}
 fieldset{ padding:0;}
 hr, button img{display:none;}
@@ -27,7 +26,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .blind, legend {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0 !important; line-height:0;} 
 
 /* Layout */
-#planet{}
+#planet{margin:10px; font-family:Sans-serif;}
 #container {}
 #planetHeader{ position:relative; z-index:30; clear:both; margin:0 0 20px 0;}
 #planetHeader *{ margin:0; padding:0;}
