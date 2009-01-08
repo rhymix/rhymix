@@ -21,7 +21,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 /* Layout */
 #planet {font-family:Sans-serif; margin:0; padding:0; }
 #container {}
-#planetHeader{ z-index:30; clear:both; margin:0 0 20px 0; overflow:hidden; *zoom:1; padding-bottom:3px;}
+#planetHeader{ z-index:30; clear:both; margin:0 0 15px 0; overflow:hidden; *zoom:1;}
 #planetHeader *{ margin:0; padding:0;}
 #planetHeader li{ list-style:none;}
 #planetBody{ clear:both; z-index:20;}
@@ -57,14 +57,14 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 
 /* ---------- Navigation ---------- */
 /* Search */
-#planetHeader .search{ clear:both; padding:0; white-space:nowrap; text-align:right; *zoom:1; margin-right:2px;}
-#planetHeader .search .inputText{ padding:4px 0 0 2px; height:17px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:bold 12px AppleGothic, Dotum, Gulim, Sans-serif;}
-#planetHeader .search .inputText.focus{ border:3px solid #4ba300; height:17px; width:156px;}
-#planetHeader .search .button{ top:1px;}
+#planetHeader .search{ clear:both; padding:0; white-space:nowrap; text-align:right; *zoom:1; margin-right:2px; float:right;}
+#planetHeader .search .inputText{ padding:4px 0 0 4px; height:17px; width:160px; border:1px solid #e7e7e7; vertical-align:top; font:12px AppleGothic, Dotum, Gulim, Sans-serif;}
+#planetHeader .search .inputText.focus{padding:3px 0 1px 4px;  border:3px solid #4ba300; height:13px; width:156px;}
+#planetHeader .search .button{ *top:1px;}
 #planetHeader .search .button button{ padding:0 10px 0 8px; font-family:Dotum;}
 
 /* GNB */
-#planetHeader .gnb{ position:relative; float:right; margin-left:20px; }
+#planetHeader .gnb{ position:relative; float:right; margin-left:20px; margin-bottom:5px; }
 #planetHeader .gnb ul{ margin:0; padding:0; position:relative; float:left; overflow:hidden;}
 #planetHeader .gnb ul li{ position:relative; float:left;}
 #planetHeader .gnb ul li a{ position:relative; display:block; float:left; background:url(../images/buttonGnb.gif) no-repeat center top; padding:11px 25px 11px 25px; font:12px AppleGothic, Dotum, Gulim, Sans-serif; color:#fff !important; text-decoration:none !important; letter-spacing:-1px; white-space:nowrap;}
@@ -355,7 +355,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 
 .authorHeader .authorTag{ position:relative; border-top:1px solid #ddd; margin-left:120px; padding-top:10px; *zoom:1;}
 .authorHeader .authorTag dl{ position:relative; display:block; float:left;}
-.authorHeader .authorTag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc); font:bold 11px Tahoma; color:#fff; *zoom:1;}
+.authorHeader .authorTag dt{ text-align:center; padding:0 7px; _padding:0 3px; margin-right:5px; display:inline; background:url(../images/bgTag.png) no-repeat center; _behavior:url(./common/js/iePngFix.htc); font:bold 11px Tahoma; color:#fff; *zoom:1;}
 .authorHeader .authorTag dd{ display:inline;}
 .authorHeader .authorTag.edit dd{ display:none;}
 .authorHeader .authorTag dd a{ font-size:11px; font-family:AppleGothic, Dotum, Gulim, Sans-serif; color:#fff; margin-right:2px;}
@@ -463,12 +463,9 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .authorFooter .memoWrite .button, x:-moz-any-link, x:default{ padding:0;}
 .authorFooter .button *{ font-size:12px !important;}
 .authorFooter .nav{ float:right; }
-.authorFooter .nav .button{ vertical-align:top;}
-.authorFooter .nav .button, x:-moz-any-link { vertical-align:middle;}
-.authorFooter .nav .button, x:-moz-any-link, x:default { vertical-align:top; }
-.authorFooter .nav a.button, x:-moz-any-link{ padding:4px 0 6px 0;}
-.authorFooter .nav a.button, x:-moz-any-link, x:default { padding:0;}
-.authorFooter .nav span.button{ top:0;}
+.authorFooter .nav *{ font:11px Dotum; letter-spacing:-1px; color:#333; text-decoration:none !important;}
+.authorFooter .nav li{ list-style:none; text-align:right;}
+.authorFooter .nav li button{ position:relative; height:16px; text-align:right; left:3px; *left:1px;}
 .authorFooter .tl,
 .authorFooter .tr{position:absolute; bottom:-1px; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxCommentOut.gif) no-repeat;}
 .authorFooter .tl{ left:-1px; background-position:left bottom;}
@@ -539,8 +536,8 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .writePost .br{ position:absolute; display:block; width:4px; height:4px; overflow:hidden; background:url(../images/boxAuthorHeader.png) no-repeat; _background:url(../images/boxAuthorHeader.gif) no-repeat;}
 .writePost .tl{ top:0; left:0; background-position:left top;}
 .writePost .tr{ top:0; right:0; background-position:right top;}
-.writePost .bl{ bottom:0; left:0; background-position:left -4px;}
-.writePost .br{ bottom:0; right:0; background-position:right -4px;}
+.writePost .bl{ bottom:0; _bottom:-1px; left:0; background-position:left -4px;}
+.writePost .br{ bottom:0; _bottom:-1px; right:0; background-position:right -4px;}
 
 /* My Favorite Tag */
 .myFavoriteTag{ display:none; position:relative; background:#7b735d; margin-bottom:10px; *zoom:1; padding:15px 20px 15px 20px;}

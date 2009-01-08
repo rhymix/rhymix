@@ -149,11 +149,10 @@
         </div>
     </div>
     <!--@end-->
-    <div class="nav">
-        <a href="{getUrl('act','favorite')}" class="button large strong"><span>{sprintf($lang->planet_whos_favorite,$planet->getNickName())}</span></a>
-        <span class="button large strong"><button type="button" onclick="this.innerHTML=toggle('myFavoriteTag')=='open'?'{$lang->cmd_planet_close_interest_tag}':'{$lang->cmd_planet_show_interest_tag}'">{$lang->cmd_planet_show_interest_tag}</button></span>
-        <!--//<span class="button large strong planetGreen"><button type="button">{$lang->cmd_planet_close_interest_tag}</button></span>-->
-    </div>
+    <ul class="nav">
+        <li><a href="{getUrl('act','favorite')}">{sprintf($lang->planet_whos_favorite,$planet->getNickName())}</a></li>
+        <li><button type="button" onclick="this.innerHTML=toggle('myFavoriteTag')=='open'?'{$lang->cmd_planet_close_interest_tag}':'{$lang->cmd_planet_show_interest_tag}'">{$lang->cmd_planet_show_interest_tag}</button></li>
+    </ul>
     <span class="tl"></span><span class="tr"></span>
 </div>
 
