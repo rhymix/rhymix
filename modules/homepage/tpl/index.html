@@ -14,8 +14,8 @@
     <thead>
         <tr>
             <th scope="col"><div>{$lang->no}</div></th>
-            <th scope="col" class="wide"><div>{$lang->title}</div></th>
-            <th scope="col"><div>{$lang->domain}</div></th>
+            <th scope="col" class="half_wide"><div>{$lang->title}</div></th>
+            <th scope="col" class="half_wide"><div>{$lang->domain}</div></th>
             <th scope="col"><div>{$lang->regdate}</div></th>
             <th scope="col"><div>{$lang->cmd_setup}</div></th>
             <th scope="col"><div>{$lang->cmd_delete}</div></th>
@@ -27,7 +27,7 @@
         <tr class="row{$cycle_idx}">
             <td class="center number">{$no}</td>
             <td><a href="{getSiteUrl($val->domain,'module','homepage','act','dispHomepageManage','site_srl',$val->site_srl)}">{htmlspecialchars($val->homepage_title)}</a></td>
-            <td class="nowrap">{$val->domain}</td>
+            <td class="nowrap">http://<a href="http://{$val->domain}" onclick="window.open(this.href);return false;">{$val->domain}</a></td>
             <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
             <td class="setup center"><a href="{getUrl('act','dispHomepageAdminSetup','site_srl',$val->site_srl)}">{$lang->cmd_setup}</a></td>
             <td class="delete center"><a href="{getUrl('act','dispHomepageAdminDelete','site_srl',$val->site_srl)}">{$lang->cmd_delete}</a></td>
