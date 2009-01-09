@@ -1,349 +1,217 @@
 /**
  * @brief 화면내에서 상위 영역보다 이미지가 크면 리사이즈를 하고 클릭시 원본을 보여줄수 있도록 변경
  **/
-var imageGalleryIndex = new Array();
-function resizeImageContents() {
-    // 이미지 태그 정규 표현식
-    var img_regx = new RegExp("<img","im");
-    var site_regx = new RegExp("^"+request_uri,"im");
-    
-    // xe_content 내의 이미지 요소들에 대한 체크
-    var xe_objs = xGetElementsByClassName("xe_content");
-    for(var j=0;j<xe_objs.length;j++) {
+(function($){
+	
+var xScreen = null;
 
-        imageGalleryIndex[j] = new Array();
+// 슬라이드를 위한 블랙 스크린을 만들거나 반환하는 함수
+function getScreen() {
+	var body    = $(document.body);
+	var controls, imgframe, closebtn, prevbtn, nextbtn;
+	
+	// 스크린이 없으면 스크린을 만든다.
+	if (!xScreen) {
+		// 검은 스크린
+		xScreen = $("<div>")
+			.attr("id","xe_gallery_screen")
+			.css({
+				position:"absolute",
+				display:"none",
+				backgroundColor:"black",
+				zIndex:500,
+				opacity:0.5
+			});
+			
+		// 이미지를 보여주고 컨트롤 버튼을 다룰 레이어
+		controls = $("<div>")
+			.attr("id","xe_gallery_controls")
+			.css({
+				position:"absolute",
+				display:"none",
+				overflow:"hidden",
+				zIndex:510
+			});
+			
+		// 닫기 버튼
+		closebtn = $("<img>")
+			.attr("id", "xe_gallery_closebtn")
+			.attr("src", request_uri+"addons/resize_image/iconClose.png")
+			.css({
+				top : "10px"
+			})
+			.click(function(){xScreen.xeHide()})
+			.appendTo(controls);
+			
+		// 이전 버튼
+		prevbtn = $("<img>")
+			.attr("id", "xe_gallery_prevbtn")
+			.attr("src", request_uri+"addons/resize_image/iconLeft.png")
+			.css("left","10px")
+			.click(function(){xScreen.xePrev()})
+			.appendTo(controls);
+		
+		// 다음 버튼
+		nextbtn = $("<img>")
+			.attr("id", "xe_gallery_nextbtn")
+			.attr("src", request_uri+"addons/resize_image/iconRight.png")
+			.css("right","10px")
+			.click(function(){xScreen.xeNext()})
+			.appendTo(controls);
+			
+		// 버튼 공통 속성
+		controls.find("img")
+			.attr({
+				width  : 60,
+				height : 60,
+				className : "iePngFix"
+			})
+			.css({
+				position : "absolute",
+				width : "60px",
+				height : "60px",
+				zIndex : 530,
+				cursor : "pointer"
+			});
+			
+		// 이미지 홀더
+		imgframe = $("<img>")
+			.attr("id", "xe_gallery_holder")
+			.css("border", "7px solid white")
+			.css("zIndex", 520)
+			.appendTo(controls).draggable();
 
-        var html = xInnerHtml(xe_objs[j]);
-        if(!img_regx.test(html)) continue;
+		body.append(xScreen).append(controls);
+		
+		// xScreen 객체를 확장한다.
+		xScreen.xeShow = function() {
+			var clientWidth  = $(window).width();
+			var clientHeight = $(window).height();
+			
+			$("#xe_gallery_controls,#xe_gallery_screen").css({
+				display:"block",
+				width  : clientWidth + "px",
+				height : clientHeight + "px",
+				left   : $(document).scrollLeft(),
+				top    : $(document).scrollTop()
+			});
 
-        // 모든 이미지에 대한 체크를 시작
-        var objs = xGetElementsByTagName("IMG", xe_objs[j]);
+			closebtn.css("left", Math.round((clientWidth-60)/2) + "px");
 
-        for(var i=0;i<objs.length;i++) {
-            var obj = objs[i];
+			$("#xe_gallery_prevbtn,#xe_gallery_nextbtn").css("top", Math.round( (clientHeight-60)/2 ) + "px");
 
-            // XE내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
-            if(!/\/(modules|addons|classes|common|layouts|libs|widgets)\//i.test(obj.src)) {
-                var parent = obj.parentNode;
-                while(parent) {
-                    if(/(document|comment)_([0-9]*)_([0-9]*)/i.test(parent.className) ) break;
-                    parent = parent.parentNode;
-                }
-                if(!parent) continue;
+			this.xeMove(0);
+		};
+		xScreen.xeHide = function(event) {
+			xScreen.css("display","none");
+			controls.css("display","none");
+		};
+		xScreen.xePrev = function() {
+			this.xeMove(-1);
+		};
+		xScreen.xeNext = function() {
+			this.xeMove(1);
+		};
+		xScreen.xeMove = function(val) {
+			var clientWidth  = $(window).width();
+			var clientHeight = $(window).height();
+			
+			this.index += val;
 
-                var dummy = xCreateElement("div");
-                dummy.style.visibility = "hidden";
-                dummy.style.border = "1px solid red";
-                parent.parentNode.insertBefore(dummy, parent);
-
-                var parent_width = xWidth(dummy);
-                parent.parentNode.removeChild(dummy);
-                dummy = null;
-
-                var obj_width = xWidth(obj);
-                var obj_height = xHeight(obj);
-
-                // 만약 선택된 이미지의 가로 크기가 부모의 가로크기보다 크면 리사이즈 (이때 부모의 가로크기 - 2 정도로 지정해줌)
-                if(obj_width > parent_width - 2) {
-                    obj.style.cursor = "pointer";
-                    var new_w = parent_width - 2;
-                    var new_h = Math.round(obj_height * new_w/obj_width);
-                    xWidth(obj, new_w);
-                    xHeight(obj, new_h);
-                } 
-
-                obj.style.cursor = "pointer";
-
-                // 만약 대상 이미지에 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
-                if(obj.parentNode.nodeName.toLowerCase()!='a' && !obj.getAttribute('onclick')) xAddEventListener(obj,"click", showOriginalImage);
-
-                obj.setAttribute("rel", j+','+imageGalleryIndex[j].length);
-                imageGalleryIndex[j][imageGalleryIndex[j].length] = obj.src;
-            }
-        }
-    }
-}
-xAddEventListener(window, "load", function() { setTimeout(resizeImageContents,1500); });
-
-/**
- * @brief 본문내에서 컨텐츠 영역보다 큰 이미지의 경우 원본 크기를 보여줌
- **/
-function showOriginalImage(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var src = obj.src;
-    var rel = obj.getAttribute('rel');
-    displayOriginalImage(src, rel);
-}
-
-function displayOriginalImage(src, rel) {
-    // 투명 배경을 지정
-    var bgObj = xGetElementById("forOriginalImageBGArea");
-    if(!bgObj) {
-        bgObj = xCreateElement("div");
-        bgObj.id = "forOriginalImageBGArea";
-        bgObj.style.visibility = "hidden";
-        bgObj.style.backgroundColor = "#000000";
-        bgObj.style.zIndex = 500;
-        bgObj.style.position = "absolute";
-        document.body.appendChild(bgObj);
-    }
-    xWidth(bgObj, xClientWidth());
-    xHeight(bgObj, xClientHeight());
-    xLeft(bgObj, xScrollLeft());
-    xTop(bgObj, xScrollTop());
-    bgObj.style.opacity = .5;
-    bgObj.style.filter = "alpha(opacity=50);";
-    bgObj.style.visibility = "visible";
-
-    // 원본 이미지 노출을 위한 준비
-    var foreObj = xGetElementById("forOriginalImageArea");
-    if(!foreObj) {
-        foreObj = xCreateElement("div");
-        foreObj.id = "forOriginalImageArea";
-        foreObj.style.visibility = "hidden";
-        foreObj.style.overflow = "hidden";
-        foreObj.style.position = "absolute";
-        foreObj.style.zIndex = 510;
-        document.body.appendChild(foreObj);
-    }
-    xWidth(foreObj, xClientWidth());
-    xHeight(foreObj, xClientHeight());
-    xLeft(foreObj, xScrollLeft());
-    xTop(foreObj, xScrollTop());
-    foreObj.style.visibility = "visible";
-
-    var foreWidth = xWidth(foreObj);
-    var foreHeight = xHeight(foreObj);
-
-    // 버튼
-    var iconClose = xGetElementById("forOriginalImageIconClose");
-    if(!iconClose) {
-        iconClose = xCreateElement("img");
-        iconClose.id = "forOriginalImageIconClose";
-        iconClose.style.position = "absolute";
-        iconClose.src = request_uri+"addons/resize_image/iconClose.png";
-        iconClose.style.width = iconClose.style.height = "60px";
-        iconClose.className = 'iePngFix';
-        iconClose.style.zIndex = 530;
-        iconClose.style.cursor = "pointer";
-        foreObj.appendChild(iconClose);
-    }
-    iconClose.style.visibility = 'visible';
-    xLeft(iconClose, (foreWidth-60)/2);
-    xTop(iconClose, 10);
-
-    var iconLeft = xGetElementById("forOriginalImageIconLeft");
-    if(!iconLeft) {
-        iconLeft = xCreateElement("img");
-        iconLeft.id = "forOriginalImageIconLeft";
-        iconLeft.style.position = "absolute";
-        iconLeft.src = request_uri+"addons/resize_image/iconLeft.png";
-        iconLeft.style.width = iconLeft.style.height = "60px";
-        iconLeft.style.zIndex = 530;
-        iconLeft.className = 'iePngFix';
-        iconLeft.style.cursor = "pointer";
-        foreObj.appendChild(iconLeft);
-    }
-    iconLeft.onclick = null;
-    xLeft(iconLeft, 10);
-    xTop(iconLeft, (foreHeight-60)/2);
-    iconLeft.style.visibility = 'hidden';
-
-    var iconRight = xGetElementById("forOriginalImageIconRight");
-    if(!iconRight) {
-        iconRight = xCreateElement("img");
-        iconRight.id = "forOriginalImageIconRight";
-        iconRight.style.position = "absolute";
-        iconRight.src = request_uri+"addons/resize_image/iconRight.png";
-        iconRight.style.width = iconRight.style.height = "60px";
-        iconRight.className = 'iePngFix';
-        iconRight.style.zIndex = 530;
-        iconRight.style.cursor = "pointer";
-        foreObj.appendChild(iconRight);
-    }
-    iconRight.onclick = null;
-    xLeft(iconRight, foreWidth - 10 - 60);
-    xTop(iconRight, (foreHeight-60)/2);
-    iconRight.style.visibility = 'hidden';
-
-
-    if(rel) {
-        var tmp = rel.split(',');
-        var j = parseInt(tmp[0],10);
-        var i = parseInt(tmp[1],10);
-        var length = imageGalleryIndex[j].length;
-
-        if(length>1) {
-
-            var prev = i-1;
-            var next = i+1;
-            if(prev>=0) {
-                iconLeft.style.visibility = 'visible';
-                iconLeft.onclick = function() { displayOriginalImage(imageGalleryIndex[j][prev], j+','+prev); }
-            } else {
-                iconLeft.style.visibility = 'hidden';
-            }
-
-            if(next<length) {
-                iconRight.style.visibility = 'visible';
-                iconRight.onclick = function() { displayOriginalImage(imageGalleryIndex[j][next], j+','+next); }
-            } else {
-                iconRight.style.visibility = 'hidden';
-            }
-
-        }
-
-    }
-
-    // 원본 이미지를 추가
-    var origObj = xGetElementById("forOriginalImage");
-    if(origObj) foreObj.removeChild(origObj);
-
-    origObj = null;
-    origObj = xCreateElement("img");
-    origObj.id = "forOriginalImage";
-    origObj.style.border = "7px solid #ffffff";
-    origObj.style.visibility = "hidden";
-    origObj.style.cursor = "move";
-    origObj.style.zIndex = 520;
-    foreObj.appendChild(origObj);
-
-    origObj.style.position = "relative";
-    origObj.src = src;
-
-    var objWidth = xWidth(origObj);
-    var objHeight = xHeight(origObj);
-
-    var posX = 0;
-    var posY = 0;
-
-    if(objWidth < foreWidth) posX = parseInt( (foreWidth - objWidth) / 2, 10);
-    if(objHeight < foreHeight) posY = parseInt( (foreHeight - objHeight) / 2, 10);
-
-    xLeft(origObj, posX);
-    xTop(origObj, posY);
-
-    origObj.style.visibility = "visible";
-
-    var sel_list = xGetElementsByTagName("select");
-    for (var i = 0; i < sel_list.length; ++i) sel_list[i].style.visibility = "hidden";
-
-    xAddEventListener(origObj, "mousedown", origImageDragEnable);
-    xAddEventListener(origObj, "dblclick", closeOriginalImage);
-    xAddEventListener(iconClose, "mousedown", closeOriginalImage);
-    xAddEventListener(window, "scroll", closeOriginalImage);
-    xAddEventListener(window, "resize", closeOriginalImage);
-    xAddEventListener(document, 'keydown',closeOriginalImage);
+			prevbtn.css("visibility", (this.index>0)?"visible":"hidden");
+			nextbtn.css("visibility", (this.index<this.list.size()-1)?"visible":"hidden");
+			
+			imgframe.attr("src", this.list.eq(this.index).attr("src"))
+				.css({
+					left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
+					top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
+				});
+		};
+		
+		// 스크린을 닫는 상황
+		$(document).scroll(xScreen.xeHide);
+		$(document).keydown(xScreen.xeHide);
+		$(window).resize(xScreen.xeHide);
+	} else {
+		controls = $("#xe_gallery_controls");
+		imgframe = $("#xe_gallery_holder");
+		closebtn = $("#xe_gallery_closebtn");
+		prevbtn  = $("#xe_gallery_prevbtn");
+		nextbtn  = $("#xe_gallery_nextbtn");
+	}
+	
+	return xScreen;
 }
 
-/**
- * @brief 원본 이미지 보여준 후 닫는 함수
- **/
-function closeOriginalImage(evt) {
-    var bgObj = xGetElementById("forOriginalImageBGArea");
-    var foreObj = xGetElementById("forOriginalImageArea");
-    var origObj = xGetElementById("forOriginalImage");
-    var iconClose = xGetElementById("forOriginalImageIconClose");
-    var iconLeft = xGetElementById("forOriginalImageIconLeft");
-    var iconRight = xGetElementById("forOriginalImageIconRight");
-
-    var sel_list = xGetElementsByTagName("select");
-    for (var i = 0; i < sel_list.length; ++i) sel_list[i].style.visibility = "visible";
-
-    xRemoveEventListener(origObj, "mousedown", origImageDragEnable);
-    xRemoveEventListener(origObj, "dblclick", closeOriginalImage);
-    xRemoveEventListener(iconClose, "mousedown", closeOriginalImage);
-    xRemoveEventListener(window, "scroll", closeOriginalImage);
-    xRemoveEventListener(window, "resize", closeOriginalImage);
-    xRemoveEventListener(document, 'keydown',closeOriginalImage);
-
-    bgObj.style.visibility = "hidden";
-    foreObj.style.visibility = "hidden";
-    origObj.style.visibility = "hidden";
-    iconClose.style.visibility = 'hidden';
-    iconLeft.style.visibility = 'hidden';
-    iconRight.style.visibility = 'hidden';
+// 이미지 슬라이드를 보는 함수
+function slideshow(event) {
+	var container  = $(this).parents(".xe_content");
+	var imglist    = container.find("img[rel=xe_gallery]");
+	var currentIdx = $.inArray($(this).get(0), imglist.get());
+	var xScreen    = getScreen();
+	
+	// 스크린을 보여주고
+	xScreen.list  = imglist;
+	xScreen.index = currentIdx;
+	xScreen.xeShow();
 }
 
-/**
- * @brief 원본 이미지 드래그
- **/
-var origDragManager = {obj:null, isDrag:false}
-function origImageDragEnable(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    if(obj.id != "forOriginalImage") return;
+// 이미지를 리사이즈 하는 함수
+function resize(event) {
+	var img = event.data[0];
+	var img_width  = parseInt(event.data[1]);
+	var img_height = parseInt(event.data[2]);
+	var img_src    = event.data[3];
+	var dummy = $("<div>").css({height:"1px",overflow:"hidden",opacity:0,display:"block"});
+	var newWidth = -1;
+	
+	// 더미 객체를 넣어서 너비 구하기
+	img.before(dummy);
+	newWidth = dummy.innerWidth();
+	dummy.remove();
 
-    obj.draggable = true;
-    obj.startX = e.pageX;
-    obj.startY = e.pageY;
-
-    if(!origDragManager.isDrag) {
-        origDragManager.isDrag = true;
-        xAddEventListener(document, "mousemove", origImageDragMouseMove, false);
-    }
-
-    xAddEventListener(document, "mousedown", origImageDragMouseDown, false);
+	// 리사이즈 및 경로 지정
+	if (img_width  <= 0) img_width  = $(this).attr("width");
+	if (img_height <= 0) img_height = $(this).attr("height");
+	if (img_width > newWidth) {
+		img_height = newWidth * img_height/img_width;
+		img_width  = newWidth;
+	}
+	img.attr({width:img_width,height:img_height,src:img_src});
+	
+	// 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
+	if ( img.parent("a").size() || img.attr("onclick") ) return;
+	
+	// 스타일 설정
+	img.css("cursor", "pointer");
+	
+	// 클릭하면 슬라이드쇼 시작
+	img.click(slideshow);
 }
 
-function origImageDrag(obj, px, py) {
-    var x = px - obj.startX;
-    var y = py - obj.startY;
+$(document).ready(function(){
+	var regx_skip   = /(?:modules|addons|classes|common|layouts|libs|widgets)/i;
+	var regx_parent = /(?:document|comment)_[0-9]+_[0-9]+/i;
 
-    var origObj = xGetElementById("forOriginalImage");
-    xLeft(origObj, xLeft(origObj)+x);
-    xTop(origObj, xTop(origObj)+y);
+	// 이미지 목록을 가져와서 리사이즈
+	$(".xe_content img").each(function(){
+		var img = $(this);
+		var src = img.attr("src");
+		var width  = img.attr("width");
+		var height = img.attr("height");
+		
+		// XE 내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
+		if ( regx_skip.test(src) ) return;
+		
+		// 커스텀 속성 추가
+		img.attr("rel", "xe_gallery");
+		
+		// 크기를 줄인다.
+		img.attr({src:"about:blank", width:16,height:16});
+		
+		// 이미지를 다 읽어들이면 리사이즈
+		$("<img>").bind("load", [img, width, height, src], resize).attr("src", src);
+	});
+});
 
-    obj.startX = px;
-    obj.startY = py;
-}
-
-function origImageDragMouseDown(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    if(obj.id != "forOriginalImage" || !obj.draggable) return;
-
-    if(obj) {
-        xPreventDefault(evt);
-        obj.startX = e.pageX;
-        obj.startY = e.pageY;
-        origDragManager.obj = obj;
-        xAddEventListener(document, 'mouseup', origImageDragMouseUp, false);
-        origImageDrag(obj, e.pageX, e.pageY);
-    }
-}
-
-function origImageDragMouseUp(evt) {
-    if(origDragManager.obj) {
-        xPreventDefault(evt);
-        xRemoveEventListener(document, 'mouseup', origImageDragMouseUp, false);
-        xRemoveEventListener(document, 'mousemove', origImageDragMouseMove, false);
-        xRemoveEventListener(document, 'mousemdown', origImageDragMouseDown, false);
-        origDragManager.obj.draggable  = false;
-        origDragManager.obj = null;
-        origDragManager.isDrag = false;
-    }
-}
-
-function origImageDragMouseMove(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    if(!obj) return;
-    if(obj.id != "forOriginalImage") {
-        xPreventDefault(evt);
-        xRemoveEventListener(document, 'mouseup', origImageDragMouseUp, false);
-        xRemoveEventListener(document, 'mousemove', origImageDragMouseMove, false);
-        xRemoveEventListener(document, 'mousemdown', origImageDragMouseDown, false);
-        origDragManager.obj.draggable  = false;
-        origDragManager.obj = null;
-        origDragManager.isDrag = false;
-        return;
-    }
-
-    xPreventDefault(evt);
-    origDragManager.obj = obj;
-    xAddEventListener(document, 'mouseup', origImageDragMouseUp, false);
-    origImageDrag(obj, e.pageX, e.pageY);
-}
-
+})(jQuery);
