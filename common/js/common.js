@@ -490,7 +490,7 @@ function displayMultimedia(src, width, height, options) {
     }  else {
         html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
         if(params.wmode == 'transparent') {
-            html += 'windowlessvideo="1"';
+            html += ' windowlessvideo="1"';
         }
         html += '></embed>';
     }
