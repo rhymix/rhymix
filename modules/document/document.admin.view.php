@@ -112,58 +112,6 @@
 
             $oModuleModel = &getModel('module');
 
-            // 모듈 카테고리 목록을 구함
-            $module_categories = $oModuleModel->getModuleCategories();
-
-            // 모듈의 목록을 가져옴
-            $site_module_info = Context::get('site_module_info');
-            $args->site_srl = $site_module_info->site_srl;
-            $module_list = $oModuleModel->getMidList($args);
-
-            // 사이트 운영자가 아닌 경우
-            if(!$oModuleModel->isSiteAdmin()) {
-                $logged_info = Context::get('logged_info');
-                $user_id = $logged_info->user_id;
-                $group_list = $logged_info->group_list;
-
-                if($logged_info->is_admin != 'Y') {
-                    foreach($module_list as $key => $val) {
-                        $info = $oModuleModel->arrangeModuleInfo($val);
-
-                        // 직접 최고 관리자로 지정이 안되어 있으면 그룹을 체크
-                        if(!in_array($user_id, $info->admin_id)) {
-
-                            $is_granted = false;
-                            $manager_group = $info->grants['manager'];
-                            if(count($group_list) && count($manager_group)) {
-                                foreach($group_list as $group_srl => $group_info) {
-                                    if(in_array($group_srl, $manager_group)) {
-                                        $is_granted = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if(!$is_granted) unset($module_list[$key]);
-                        }
-                    }
-                }
-            }
-
-            // 게시판만 뽑자
-            foreach($module_list as $module_srl => $module) {
-                if($module->module != 'board') unset($module_list[$module_srl]);
-            }
-
-            // module_category와 module의 조합
-            if($module_categories) {
-                foreach($module_list as $module_srl => $module) {
-                    $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
-                }
-            } else {
-                $module_categories[0]->list = $module_list;
-            }
-
-
             // 모듈 카테고리 목록과 모듈 목록의 조합
             if(count($module_list)>1) Context::set('module_list', $module_categories);
 

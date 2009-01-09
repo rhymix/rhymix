@@ -5,6 +5,7 @@
      * @brief  English language pack 
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "Modules List";
     $lang->module_index = "Modules List";
     $lang->module_category = "Module Category";
@@ -25,6 +26,7 @@
     $lang->skin_license = 'License';
     $lang->skin_history = 'Update history';
     $lang->module_copy = "Duplicate Module";
+    $lang->module_selector = "Module Selector";
 
     $lang->header_script = "Header Script";
     $lang->about_header_script = "You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tag";
@@ -65,4 +67,5 @@
     $lang->about_module = "XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.";
 
 	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

@@ -126,6 +126,8 @@
     $lang->colorset = '컬러셋';
     $lang->extra_vars = '확장변수';
 
+    $lang->domain = "도메인";
+    $lang->url = "URL";
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
     $lang->blog_name = '블로그이름';

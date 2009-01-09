@@ -37,6 +37,7 @@
     $lang->msg_widget_is_not_exists = 'No existe widget %s .';
     $lang->msg_widget_object_is_null = 'No puede ser creado el objeto de widget %s.';
     $lang->msg_widget_proc_is_null = 'No puede ser ejecutado el proc() de widget %s.';
+    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
 
     $lang->about_widget_code = 'Ingrese primero los valores requeridos, luego presiona el botón "Generar códigos" para mostrar el código en el espacio inferior para ser añadido en el archivo de los temas.';
     $lang->about_widget_code_in_page = 'Luego de ingresar los valores requeridos, presiona el botón "Añadir" para insertar el código de widget dentro de la página.';

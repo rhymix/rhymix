@@ -15,13 +15,33 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 위젯 자체적으로 설정한 변수들을 체크
+            // 제목
             $title = $args->title;
+
+            // 출력된 목록 수
             $list_count = (int)$args->list_count;
-            if(!$list_count) $list_count = 20;
+            if(!$list_count) $list_count = 5;
+
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
+            $oModuleModel = &getModel('module');
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                if(count($mid_list)) {
+                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                } else {
+                    $site_module_info = Context::get('site_module_info');
+                    if($site_module_info) {
+                        $margs->site_srl = $site_module_info->site_srl;
+                        $oModuleModel = &getModel('module');
+                        $output = $oModuleModel->getMidList($margs);
+                        if(count($output)) $mid_list = array_keys($output);
+                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                    }
+                }
+            } else $module_srl = explode(',',$args->module_srls);
 
             // TagModel::getTagList()를 이용하기 위한 변수 정리
-            $obj->mid = $args->mid_list;
+            $obj->module_srl = $args->module_srl;
             $obj->list_count = $list_count;
 
             // tag 모듈의 model 객체를 받아서 getTagList() method를 실행
@@ -29,11 +49,14 @@
             $output = $oTagModel->getTagList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            if(preg_match('/^([0-9a-z\_]+)$/i', $args->mid_list)) $widget_info->mid = $widget_info->module_name = $args->mid_list;
+            if(count($module_srl)==1) {
+                $srl = $module_srl[0];
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
+                $widget_info->mid = $widget_info->module_name = $module_info->mid;
+            }
             $widget_info->title = $title;
 
             if(count($output->data)) {
-                
                 $tags = array();
                 $max = 0;
                 $min = 99999999;

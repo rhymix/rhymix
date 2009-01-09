@@ -26,16 +26,29 @@
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
 
-            // 대상 모듈
-            if($args->mid_list) $mid_list = explode(",",$args->mid_list);
-            else return;
-
-            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
             $oModuleModel = &getModel('module');
-            $module_srls = $oModuleModel->getModuleSrlByMid($mid_list);
+
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                if(count($mid_list)) {
+                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                } else {
+                    $site_module_info = Context::get('site_module_info');
+                    if($site_module_info) {
+                        $margs->site_srl = $site_module_info->site_srl;
+                        $oModuleModel = &getModel('module');
+                        $output = $oModuleModel->getMidList($margs);
+                        if(count($output)) $mid_list = array_keys($output);
+                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                    }
+                }
+            } else $module_srl = explode(',',$args->module_srls);
+            if(!is_array($module_srl)) $module_srl = array($module_srl);
+            for($i=0;$i<count($module_srl);$i++) $modules[$module_srl[$i]] = null;
 
             // 대상 모듈의 정보를 구함
-            $module_list = $oModuleModel->getModulesInfo($module_srls);
+            $module_list = $oModuleModel->getModulesInfo($module_srl);
 
             // 각 모듈별로 먼저 정리 시작
             foreach($module_list as $module) {
@@ -74,9 +87,7 @@
             }
 
             // 각 모듈별 전체글을 구함
-            $total_documents_args->module_srl = $module->module_srl;
-            $total_documents_args->module_srls = implode(',',$module_srls);
-
+            if($module_srl) $total_documents_args->module_srls = implode(',',$module_srl);
             $total_documents_output = executeQueryArray('widgets.forum.getTotalDocuments',$total_documents_args);
             if($total_documents_output->data) {
                 foreach($total_documents_output->data as $val) {
@@ -85,8 +96,7 @@
             }
 
             // 각 모듈별 댓글 수를 구함
-            $total_comments_args->module_srl = $module->module_srl;
-            $total_comments_args->module_srls = implode(',',$module_srls);
+            $total_comments_args->module_srls = implode(',',$module_srl);
 
             $total_comments_output = executeQueryArray('widgets.forum.getTotalComments',$total_comments_args);
             if($total_comments_output->data) {

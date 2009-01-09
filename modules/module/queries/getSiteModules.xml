@@ -1,0 +1,23 @@
+<query id="getSiteModules" action="select">
+    <tables>
+        <table name="sites" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="sites.domain" />
+        <column name="modules.site_srl" />
+        <column name="modules.module" />
+        <column name="modules.mid" />
+        <column name="modules.browser_title" />
+        <column name="modules.module_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="sites.site_srl" var="site_srl" />
+        <condition operation="equal" column="sites.domain" var="site_keyword" pipe="and" />
+        <condition operation="equal" column="sites.site_srl" default="modules.site_srl" pipe="and"/>
+    </conditions>
+    <navigation>
+        <index  var="sort_index" default="modules.module" order="asc" />
+        <index  var="sort_index" default="modules.mid" order="asc" />
+    </navigation>
+</query>

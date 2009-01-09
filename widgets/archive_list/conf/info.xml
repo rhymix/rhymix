@@ -66,7 +66,7 @@
             <description xml:lang="en">Это будет заголовком отчета.</description>
             <description xml:lang="zh-TW">顯示封存標題。</description>
         </var>
-        <var id="mid">
+        <var id="srl">
             <type>mid</type>
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">对象模块</name>

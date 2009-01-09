@@ -126,6 +126,8 @@
     $lang->colorset = 'カラーセット';
     $lang->extra_vars = '拡張変数';
 
+    $lang->domain = "ドメイン";
+    $lang->url = "URL";
     $lang->document_url = '書き込みＵＲＬ';
     $lang->trackback_url = 'トラックバックＵＲＬ';
     $lang->blog_name = 'ブログ名';

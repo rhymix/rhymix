@@ -126,6 +126,8 @@
     $lang->colorset = '顏色設定';
     $lang->extra_vars = '延伸變數';
 
+    $lang->domain = "域名";
+    $lang->url = "網址";
     $lang->document_url = '連結網址';
     $lang->trackback_url = '引用';
     $lang->blog_name = '部落格名稱';

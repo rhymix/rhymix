@@ -7,11 +7,9 @@
 
     $lang->homepage = "Homepage"; 
     $lang->homepage_title = "Title of homepage";
-    $lang->domain = "Domain Name";
     $lang->module_type = "Type of target module";
     $lang->board = "Board";
     $lang->page = "Page";
-    $lang->url = "URL";
     $lang->module_id = "module ID";
     $lang->item_group_grant = "Accessible group";
     $lang->homepage_admin = "Homepage administrator";

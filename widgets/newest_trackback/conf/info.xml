@@ -62,8 +62,8 @@
             <description xml:lang="ru">Вы можете выбрать число списка трекбеков для отображения. (стандарт: 5)</description>
             <description xml:lang="zh-TW">可設置要顯示的列表數。(預設是5個)</description>
         </var>
-        <var id="mid_list">
-            <type>mid_list</type>
+        <var id="module_srls">
+            <type>module_srl_list</type>
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">模块对象</name>
             <name xml:lang="jp">モジュール</name>

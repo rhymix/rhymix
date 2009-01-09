@@ -3,7 +3,6 @@
 .widget_title { border:1px solid #DDDDDD; margin:10px 5px 5px 0; padding:3px; }
 .widget_mid_list { margin:0 0 5px 10px; }
 .widget_description { color:#AAAAAA; border-top:1px dotted #EEEEEE; margin:5px 0 0 0; padding:5px 0 0 0; }
-
 #colorset_area { margin-top:.5em; }
 
 #colorset_area .header { float:left; margin-right:.5em; padding-top:.2em;}
@@ -52,3 +51,6 @@
 div.editor { width:700px; }
 
 .help { padding:5px 0; background-color:#EFEFEF; border-top:1px solid #CCCCCC; }
+
+ul.midCommand { float:left; margin:0 0 0 10px;; padding:0;}
+ul.midCommand li { display:block; margin-bottom:5px; list-style:none;}

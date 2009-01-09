@@ -146,8 +146,8 @@
                 <name xml:lang="zh-TW">隱藏</name>
             </options>
         </var>
-        <var id="mid_list">
-            <type>mid_list</type>
+        <var id="module_srls">
+            <type>module_srl_list</type>
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="jp">対象モジュール</name>
             <name xml:lang="en">Target Module</name>

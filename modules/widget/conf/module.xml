@@ -8,6 +8,8 @@
         <action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" />
         <action name="dispWidgetAdminAddContent" type="view" standalone="true" />
 
+        <action name="getWidgetAdminModuleList" type="model" standalone="true" />
+
         <action name="procWidgetGenerateCode" type="controller" standalone="true" />
         <action name="procWidgetAddContent" type="controller" standalone="true" />
         <action name="procWidgetInsertDocument" type="controller" standalone="true" />

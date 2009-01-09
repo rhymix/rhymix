@@ -7,11 +7,9 @@
 
     $lang->homepage = "ホームページ"; 
     $lang->homepage_title = "ホームページ名";
-    $lang->domain = "ドメイン";
     $lang->module_type = "タイプ";
     $lang->board = "掲示板";
     $lang->page = "ページ";
-    $lang->url = "URL";
     $lang->module_id = "モジュール ID";
     $lang->item_group_grant = "メニューを見せるグループ";
     $lang->homepage_admin = "ホームページ管理者";
@@ -54,7 +52,6 @@
     $lang->cmd_homepage_delete = "ホームページ削除";
     $lang->cmd_go_home = "ホームへ移動";
     $lang->cmd_go_homepage_admin = 'ホームページ全体管理';
-    $lang->cmd_change_layout = "変更";
     $lang->cmd_change_layout = "変更";
     $lang->cmd_select_index = "初期ページ選択";
     $lang->cmd_add_new_menu = "新しいメニュー追加";

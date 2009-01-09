@@ -23,7 +23,7 @@
 
                 <div class="title">
                     <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->title_length)}</a>
-                    <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
+                    <!--@if($oDocument->getCommentCount())--><a href="{$oDocument->getPermanentUrl()}#comment"><strong>[{$oDocument->getCommentCount()}]</strong></a><!--@end-->
                 </div>
                 <!--@if($widget_info->display_author == 'Y')-->
                 <div class="author"><div class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</div></div>

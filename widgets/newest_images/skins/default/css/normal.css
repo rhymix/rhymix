@@ -12,11 +12,11 @@
 
 .ni_box .thumbnail_box td div { text-align:center; }
 .ni_box .thumbnail_box td.bottomBorder { border-bottom:1px dashed #EEEEEE; padding-bottom:5px; }
-.ni_box .thumbnail_box div strong { font-weight:bold; font-size:0.75em; color:#CCCCCC; }
+.ni_box .thumbnail_box div strong { font-weight:normal; font-size:0.9em; color:#ed2a32; }
 .ni_box .thumbnail_box div.author { color:#AAAAAA; }
 .ni_box .thumbnail_box div.author a { color:#AAAAAA; }
 .ni_box .thumbnail_box div.regdate { font-size:0.75em; color:#CCCCCC; margin-top:2px;}
 
 .ni_box .thumbnail_box div.readAndVoted { color:#AAAAAA; font-size:0.75em; }
 .ni_box .thumbnail_box div.readAndVoted span.div_block { color:#DDDDDD; font-size:0.75em; }
-.ni_box .thumbnail_box div.readAndVoted strong { color:#FE6700; }
+.ni_box .thumbnail_box div.readAndVoted strong { font-weight:normal; color:#FE6700; }

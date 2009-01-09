@@ -37,6 +37,7 @@
     $lang->msg_widget_is_not_exists = "'%s' does not exist.";
     $lang->msg_widget_object_is_null = "Object of '%s' could not be created.";
     $lang->msg_widget_proc_is_null = "proc() of '%s' could not be executed.";
+    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
 
     $lang->about_widget_code = 'Please input required value first, and click [Generate Code] button to generate code to add to the template file.';
     $lang->about_widget_code_in_page = 'After entering the required values, click the [Add] button to insert the widget code into the page.';

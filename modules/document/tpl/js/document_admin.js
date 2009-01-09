@@ -27,10 +27,7 @@ function completeManageDocument(ret_obj) {
 }
 
 /* 선택된 모듈의 카테고리 목록을 가져오는 함수 */
-function doGetCategoryFromModule(obj) {
-    if(!obj) return;
-    var module_srl = obj.options[obj.selectedIndex].value;
-
+function doGetCategoryFromModule(module_srl) {
     var params = new Array();
     params['module_srl'] = module_srl;
 
@@ -84,4 +81,12 @@ function doCancelDeclare() {
 
 function completeCancelDeclare(ret_obj) {
     location.reload();
+}
+
+function insertSelectedModule(id, module_srl, mid, browser_title) {
+    var obj= xGetElementById('_'+id);
+    var sObj = xGetElementById(id);
+    sObj.value = module_srl;
+    obj.value = browser_title+' ('+mid+')';
+    doGetCategoryFromModule(module_srl);
 }

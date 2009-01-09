@@ -125,6 +125,8 @@
     $lang->colorset = 'Conjunto de Colores';
     $lang->extra_vars = 'Variables Extra';
 
+    $lang->domain = "Domain Name";
+    $lang->url = "URL";
     $lang->document_url = 'URL del Documento';
     $lang->trackback_url = 'URL del Trackback';
     $lang->blog_name = 'Titulo del Blog';

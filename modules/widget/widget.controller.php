@@ -14,19 +14,27 @@
         }
 
         /**
-         * @brief 위젯의 생성된 코드를 return
+         * @brief request 변수와 위젯 정보를 통해 변수 정렬
          **/
-        function procWidgetGenerateCode() {
-            // 변수 정리
-            $vars = Context::getRequestVars();
+        function arrangeWidgetVars($widget, $request_vars, &$vars) {
+            $oWidgetModel = &getModel('widget');
+            $widget_info = $oWidgetModel->getWidgetInfo($widget);
+
             $widget = $vars->selected_widget;
-
-            $blank_img_path = Context::getRequestUri()."common/tpl/images/widget_bg.jpg";
-
-            unset($vars->module);
-            unset($vars->act);
-            unset($vars->selected_widget);
-            unset($vars->body);
+            $vars->skin = trim($request_vars->skin);
+            $vars->colorset = trim($request_vars->colorset);
+            $vars->widget_sequence = (int)($request_vars->widget_sequence);
+            $vars->widget_cache = (int)($request_vars->widget_cache);
+            $vars->style = trim($request_vars->style);
+            $vars->widget_padding_left = trim($request_vars->widget_padding_left);
+            $vars->widget_padding_right = trim($request_vars->widget_padding_right);
+            $vars->widget_padding_top = trim($request_vars->widget_padding_top);
+            $vars->widget_padding_bottom = trim($request_vars->widget_padding_bottom);
+            if(count($widget_info->extra_var)) {
+                foreach($widget_info->extra_var as $key=>$val) {
+                    $vars->{$key} = trim($request_vars->{$key}); 
+                }
+            }
 
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
@@ -37,20 +45,30 @@
             if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
 
             $attribute = array();
-            if($vars) {
-                foreach($vars as $key => $val) {
-                    if(!$val) continue;
-                    if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
-                    $val = htmlspecialchars($val);
-                    $attribute[] = sprintf('%s="%s"', $key, $val);
+            foreach($vars as $key => $val) {
+                if(!$val) {
+                    unset($vars->{$key});
+                    continue;
                 }
+                if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
+                $vars->{$key} = htmlspecialchars($val);
+                $attribute[] = sprintf('%s="%s"', $key, $val);
             }
 
-            $widget_code = sprintf('<img class="zbxe_widget_output" widget="%s" %s />', $widget, implode(' ',$attribute));
+            return $attribute;
+        }
 
-            $cache_path = './files/cache/widget_cache/';
-            $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-            FileHandler::removeFile($cache_file);
+        /**
+         * @brief 위젯의 생성된 코드를 return
+         **/
+        function procWidgetGenerateCode() {
+            $widget = Context::get('selected_widget');
+            if(!$widget) return new Object(-1,'msg_invalid_request');
+            if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+
+            $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
+
+            $widget_code = sprintf('<img class="zbxe_widget_output" widget="%s" %s />', $widget, implode(' ',$attribute));
 
             // 코드 출력
             $this->add('widget_code', $widget_code);
@@ -60,38 +78,11 @@
          * @brief 페이지 수정시 위젯 코드의 생성 요청
          **/
         function procWidgetGenerateCodeInPage() {
-            // 먼저 정상적인 widget 코드를 구함
-            $this->procWidgetGenerateCode();
-            $widget_code = $this->get('widget_code');
+            $widget = Context::get('selected_widget');
+            if(!$widget) return new Object(-1,'msg_invalid_request');
+            if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
 
-            // 변수 정리
-            $vars = Context::getRequestVars();
-            $widget = $vars->selected_widget;
-            unset($vars->module);
-            unset($vars->act);
-            unset($vars->body);
-            unset($vars->selected_widget);
-
-            if($vars->widget_sequence) {
-                $cache_path = './files/cache/widget_cache/';
-                $cache_file = sprintf('%s%d.%s.cache', $cache_path, $vars->widget_sequence, Context::getLangType());
-                FileHandler::removeFile($cache_file);
-            }
-
-            if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
-
-            // args 정리
-            $attribute = array();
-            if($vars) {
-                foreach($vars as $key => $val) {
-                    if(!$val) continue;
-                    if(strpos($val,'|@|')>0) {
-                        $val = str_replace('|@|',',',$val);
-                        $vars->{$key} = $val;
-                    }
-                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
-                }
-            }
+            $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
             // 결과물을 구함
             $oWidgetHandler = new WidgetHandler();

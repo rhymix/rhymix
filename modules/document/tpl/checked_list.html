@@ -25,22 +25,12 @@
             <!--@end-->
         </td>
     </tr>
-    <!--@if(count($document_list) && $module_list)-->
+    <!--@if(count($document_list))-->
     <tr>
         <th scope="row"><div>{$lang->move_target_module}</div></th>
         <td>
-          <select id="target_module" name="target_module" class="w400" onchange="doGetCategoryFromModule(this); return false;">
-          <!--@foreach($module_list as $module_category_srl => $modules )-->
-              <!--@if($modules->title)-->
-                  <option disabled="disabled">{$modules->title}</option>
-              <!--@else-->
-                  <option disabled="disabled">&nbsp;</option>
-              <!--@end-->
-              <!--@foreach($modules->list as $key => $val)-->
-                  <option value="{$val->module_srl}">&nbsp; {$val->browser_title} ({$val->mid})</option>
-              <!--@end-->
-          <!--@end-->
-          </select>
+            <input type="hidden" name="target_module" id="target_module" value="" />
+            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="" /><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
         </td>
     </tr>
     <tr>

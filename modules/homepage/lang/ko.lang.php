@@ -7,11 +7,9 @@
 
     $lang->homepage = "홈페이지"; 
     $lang->homepage_title = "홈페이지 이름";
-    $lang->domain = "도메인";
     $lang->module_type = "대상";
     $lang->board = "게시판";
     $lang->page = "페이지";
-    $lang->url = "URL";
     $lang->module_id = "모듈 ID";
     $lang->item_group_grant = "보여줄 그룹";
     $lang->homepage_admin = "홈페이지 관리자";
@@ -54,7 +52,6 @@
     $lang->cmd_homepage_delete = "홈페이지 삭제";
     $lang->cmd_go_home = "홈으로 이동";
     $lang->cmd_go_homepage_admin = '홈페이지 전체 관리';
-    $lang->cmd_change_layout = "변경";
     $lang->cmd_change_layout = "변경";
     $lang->cmd_select_index = "초기화면 선택";
     $lang->cmd_add_new_menu = "새로운 메뉴 추가";

@@ -5,6 +5,7 @@
      * @brief  한국어 언어팩 
      **/
 
+    $lang->virtual_site = "가상 사이트";
     $lang->module_list = "모듈 목록";
     $lang->module_index = "모듈 목록";
     $lang->module_category = "모듈 분류";
@@ -25,6 +26,7 @@
     $lang->skin_license = '라이선스';
     $lang->skin_history = '변경 이력';
     $lang->module_copy = "모듈 복사";
+    $lang->module_selector = "모듈 선택기";
 
     $lang->header_script = "헤더 스크립트";
     $lang->about_header_script = "html의 &lt;head&gt;와 &lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
@@ -63,6 +65,6 @@
     $lang->about_admin_id = '해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.<br />,(콤마)로 다수 아이디 지정이 가능합니다. (관리자페이지 접근은 불가능)';
     $lang->about_grant = '특정 권한의 대상을 모두 해제하시면 로그인하지 않은 회원까지 권한을 가질 수 있습니다';
     $lang->about_module = "XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.\n모듈관리 모듈은 설치된 모든 모듈을 보여주고 관리를 도와줍니다.";
-
     $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

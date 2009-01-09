@@ -52,7 +52,7 @@
             // module_category와 module의 조합
             if($module_categories) {
                 foreach($mid_list as $module_srl => $module) {
-                    $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+                    $module_categories[$module->module_category_srl]->list[$module_srl] = $module;
                 }
             } else {
                 $module_categories[0]->list = $mid_list;

@@ -56,3 +56,17 @@ function completeCopyModule() {
     if(typeof(opener)!='undefined') opener.location.href = opener.location.href;
     window.close();
 }
+
+/* 모듈 선택기에서 선택된 모듈의 입력 */
+function insertModule(id, module_srl, mid, browser_title, multi_select) {
+    if(typeof(multi_select)=='undefined') multi_select = true;
+    if(!window.opener) window.close();
+    if(typeof(opener.insertSelectedModule)=='undefined') return;
+
+    if(multi_select) {
+        opener.insertSelectedModules(id, module_srl, mid, browser_title);
+    } else {
+        opener.insertSelectedModule(id, module_srl, mid, browser_title);
+        window.close();
+    }
+}

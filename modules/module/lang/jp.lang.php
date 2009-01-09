@@ -5,6 +5,7 @@
      * @brief  日本語言語パッケージ
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "モジュールリスト";
     $lang->module_index = "モジュールインデックス";
     $lang->module_category = "モジュールカテゴリ";
@@ -25,6 +26,7 @@
     $lang->skin_license = 'License';
     $lang->skin_history = '変更内容';
     $lang->module_copy = "モジュールコピー";
+    $lang->module_selector = "Module Selector";
 
     $lang->header_script = "ヘッダースクリプト";
     $lang->about_header_script = "HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどが利用できます";
@@ -65,4 +67,5 @@
     $lang->about_module = "XEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。";
 
     $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

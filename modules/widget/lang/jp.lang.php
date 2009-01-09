@@ -37,6 +37,7 @@
     $lang->msg_widget_is_not_exists = '%s ウィジェットが見つかりません。';
     $lang->msg_widget_object_is_null = '%s ウィジェットのオブジェクトが生成できません。';
     $lang->msg_widget_proc_is_null = '%s ウィセットの proc() が実行できません。';
+    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
 
     $lang->about_widget_code = '選択されたウィゼットで求められる下の項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。';
     $lang->about_widget_code_in_page = '下に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。';

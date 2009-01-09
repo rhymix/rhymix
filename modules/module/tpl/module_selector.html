@@ -1,0 +1,80 @@
+<!--%import("./js/module_admin.js")-->
+
+<div id="popHeadder">
+    <h3>{$lang->module_selector}</h3>
+</div>
+
+<div id="popBody">
+    <form action="./" method="post">
+        <input type="hidden" name="module" value="module" />
+        <input type="hidden" name="act" value="dispModuleAdminSelectList" />
+        <input type="hidden" name="id" value="{$id}" />
+        <input type="hidden" name="type" value="{$type}" />
+        <table class="adminTable" cellspacing="0">
+        <tbody>
+            <!--@if($site_count && $logged_info->is_admin == 'Y')-->
+            <tr>
+                <th><div>{$lang->virtual_site}</div></th>
+                <td>
+                    <input type="text" name="site_keyword" value="{$site_keyword}" class="inputTypeText w200" /> <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
+                    <p>{$lang->about_search_virtual_site}</p>
+                </td>
+            </tr>
+            <!--@end-->
+            <tr>
+                <th><div>{$lang->module}</div></th>
+                <td>
+                    <select name="selected_module">
+                    <!--@foreach($mid_list as $key=>$val)-->
+                        <option value="{$key}" <!--@if($selected_module == $key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                    </select><span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        <table class="adminTable" cellspacing="0">
+        <thead>
+            <tr>
+                <!--@if($module_category_exists)--><th><div>{$lang->module_category}</div></th><!--@end-->
+                <th><div>{$lang->mid}</div></th>
+                <th class="wide"><div>{$lang->browser_title}</div></th>
+                <th><div>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</div></th>
+            <tr>
+        </thead>
+        <tbody>
+            <!--@if($module_category_exists)-->
+                <!--@foreach($selected_mids as $key => $val)-->
+                <tr>
+                    <td rowspan="{count($val)}">{$key}</td>
+                    {@ $_idx =0; }
+                    <!--@foreach($val as $k => $v)-->
+                    <!--@if($_idx >0)--><tr><!--@end-->
+                    <td>{$k}</td>
+                    <td>{$v->browser_title}</td>
+                    <td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$v->browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+                    <!--@if($_idx <count($val))--></tr><!--@end-->
+                    {@ $_idx ++; }
+                    <!--@end-->
+                </tr>
+                <!--@end-->
+            <!--@else-->
+                <!--@foreach($selected_mids as $key => $val)-->
+                <!--@foreach($val as $k => $v)-->
+                <tr>
+                    <td>{$k}</td>
+                    <td>{$v->browser_title}</td>
+                    <td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$v->browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+                </tr>
+                <!--@end-->
+                <!--@end-->
+            <!--@end-->
+        </tbody>
+        </table>
+    </form>
+</div>
+
+<div id="popFooter" class="tCenter gap1">
+    <span class="button red"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;"/></span>
+</div>
+

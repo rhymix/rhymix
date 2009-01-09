@@ -37,6 +37,7 @@
     $lang->msg_widget_is_not_exists = '%s 위젯을 찾을 수 없습니다';
     $lang->msg_widget_object_is_null = '%s 위젯의 객체 생성을 할 수가 없습니다';
     $lang->msg_widget_proc_is_null = '%s 위젯의 proc() 를 실행할 수가 없습니다';
+    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
 
     $lang->about_widget_code = '선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르시면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다';
     $lang->about_widget_code_in_page = '아래 필요한 값들을 입력하신 후 추가 버튼을 누르시면 페이지 내에 위젯이 삽입이 됩니다';

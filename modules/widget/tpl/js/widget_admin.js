@@ -90,6 +90,7 @@ function doFillWidgetVars() {
     fo_obj.widget_padding_top.value = selected_node.getAttribute("widget_padding_top");
 
     for(var name in fo_obj) {
+        if(name.indexOf('_')==0) continue;
         var node = fo_obj[name];
         if(!node || typeof(node)=="undefined") continue;
 
@@ -99,6 +100,7 @@ function doFillWidgetVars() {
         else length = 0;
 
         switch(type) {
+            case "hidden" :
             case "text" :
             case "textarea" :
                     var val = selected_node.getAttribute(name);
@@ -164,4 +166,141 @@ function checkFixType(obj) {
         var width = fo_obj.widget_width.value;
         if(width>100) fo_obj.widget_width.value = 100;
     }
+}
+
+// 위젯의 대상 모듈 입력기 (단일 선택)
+function insertSelectedModule(id, module_srl, mid, browser_title) {
+    var obj= xGetElementById('_'+id);
+    var sObj = xGetElementById(id);
+    sObj.value = module_srl;
+    obj.value = browser_title+' ('+mid+')';
+    
+}
+
+// 위젯의 대상 모듈 입력기 (다중 선택)
+function insertSelectedModules(id, module_srl, mid, browser_title) {
+    var sel_obj = xGetElementById('_'+id);
+    for(var i=0;i<sel_obj.options.length;i++) if(sel_obj.options[i].value==module_srl) return;
+    var opt = new Option(browser_title+' ('+mid+')', module_srl, false, false);
+    sel_obj.options[sel_obj.options.length] = opt;
+    if(sel_obj.options.length>8) sel_obj.size = sel_obj.options.length;
+    
+    syncMid(id);
+}
+
+function midMoveUp(id) {
+    var sel_obj = xGetElementById('_'+id);
+    if(sel_obj.selectedIndex<0) return;
+    var idx = sel_obj.selectedIndex;
+
+    if(idx < 1) return;
+
+    var s_obj = sel_obj.options[idx];
+    var t_obj = sel_obj.options[idx-1];
+    var value = s_obj.value;
+    var text = s_obj.text;
+    s_obj.value = t_obj.value;
+    s_obj.text = t_obj.text;
+    t_obj.value = value;
+    t_obj.text = text;
+    sel_obj.selectedIndex = idx-1;
+    
+    syncMid(id);
+}
+
+function midMoveDown(id) {
+    var sel_obj = xGetElementById('_'+id);
+    if(sel_obj.selectedIndex<0) return;
+    var idx = sel_obj.selectedIndex;
+
+    if(idx == sel_obj.options.length-1) return;
+
+    var s_obj = sel_obj.options[idx];
+    var t_obj = sel_obj.options[idx+1];
+    var value = s_obj.value;
+    var text = s_obj.text;
+    s_obj.value = t_obj.value;
+    s_obj.text = t_obj.text;
+    t_obj.value = value;
+    t_obj.text = text;
+    sel_obj.selectedIndex = idx+1;
+
+    syncMid(id);
+}
+
+function midRemove(id) {
+    var sel_obj = xGetElementById('_'+id);
+    if(sel_obj.selectedIndex<0) return;
+    var idx = sel_obj.selectedIndex;
+    sel_obj.remove(idx);
+    idx = idx-1;
+    if(idx < 0) idx = 0;
+    if(sel_obj.options.length) sel_obj.selectedIndex = idx;
+
+    syncMid(id);
+}
+
+function syncMid(id) {
+    var sel_obj = xGetElementById('_'+id);
+    var valueArray = new Array();
+    for(var i=0;i<sel_obj.options.length;i++) valueArray[valueArray.length] = sel_obj.options[i].value;
+    xGetElementById(id).value = valueArray.join(',');
+}
+
+function getModuleSrlList(id) {
+    var obj = xGetElementById(id);
+    if(!obj.value) return;
+    var value = obj.value;
+    var params = new Array();
+    params["module_srls"] = obj.value;
+    params["id"] = id;
+
+    var response_tags = new Array("error","message","module_list","id");
+    exec_xml("widget", "getWidgetAdminModuleList", params, completeGetModuleSrlList, response_tags, params);
+}
+
+function completeGetModuleSrlList(ret_obj, response_tags) {
+    var id = ret_obj['id'];
+    var sel_obj = xGetElementById('_'+id);
+    if(!sel_obj) return;
+
+    var module_list = ret_obj['module_list'];
+    if(!module_list) return;
+    var item = module_list['item'];
+    if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
+
+    for(var i=0;i<item.length;i++) {
+        var module_srl = item[i].module_srl;
+        var mid = item[i].mid;
+        var browser_title = item[i].browser_title;
+        var opt = new Option(browser_title+' ('+mid+')', module_srl);
+        sel_obj.options.add(opt);
+    }
+}
+
+function getModuleSrl(id) {
+    var obj = xGetElementById(id);
+    if(!obj.value) return;
+    var value = obj.value;
+    var params = new Array();
+    params["module_srls"] = obj.value;
+    params["id"] = id;
+
+    var response_tags = new Array("error","message","module_list","id");
+    exec_xml("widget", "getWidgetAdminModuleList", params, completeGetModuleSrl, response_tags, params);
+}
+
+function completeGetModuleSrl(ret_obj, response_tags) {
+    var id = ret_obj['id'];
+    var obj = xGetElementById('_'+id);
+    var sObj = xGetElementById(id);
+    if(!sObj || !obj) return;
+
+    var module_list = ret_obj['module_list'];
+    if(!module_list) return;
+    var item = module_list['item'];
+    if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
+
+    sObj.value = item[0].module_srl;
+    obj.value = item[0].browser_title+' ('+item[0].mid+')';
 }
