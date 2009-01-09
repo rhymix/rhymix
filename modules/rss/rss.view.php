@@ -72,9 +72,10 @@
             $output = $oDocumentModel->getDocumentList($args);
             $document_list = $output->data;
 
-            // rss 제목 및 정보등을 추출
+            // rss 제목 및 정보등을 추출 Context::getBrowserTitle 
             if($mid) {
                 $info->title = Context::getBrowserTitle();
+                $info->title = str_replace('\'', '&apos;',$info->title);
                 $info->description = $this->module_info->description;
                 $info->link = getUrl('','mid',Context::get('mid'));
             } else {
