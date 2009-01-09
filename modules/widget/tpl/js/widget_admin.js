@@ -80,18 +80,9 @@ function doFillWidgetVars() {
 
     var fo_obj = xGetElementById("fo_widget");
 
-    var style = selected_node.getAttribute("style");
-    if(typeof(style)=="object") style = style["cssText"];
-    fo_obj.style.value = style;
-
-    fo_obj.widget_padding_left.value = selected_node.getAttribute("widget_padding_left");
-    fo_obj.widget_padding_right.value = selected_node.getAttribute("widget_padding_right");
-    fo_obj.widget_padding_bottom.value = selected_node.getAttribute("widget_padding_bottom");
-    fo_obj.widget_padding_top.value = selected_node.getAttribute("widget_padding_top");
-
     var obj_list = new Array();
-    jQuery('form input, form select, form textarea').each( function(){
-        obj_list.push(this);
+    jQuery('form input, form select, form textarea').each( function() {
+            obj_list.push(this);
     });
     for(var j=0;j<obj_list.length;j++) {
         var node = obj_list[j];
@@ -152,6 +143,16 @@ function doFillWidgetVars() {
     var border = 0;
     if(selected_node.style.border) border= parseInt(selected_node.style.boarder.replace(/px$/,''),10);
 */
+
+    var style = selected_node.getAttribute("style");
+    if(typeof(style)=="object") style = style["cssText"];
+    fo_obj.style.value = style;
+
+    fo_obj.widget_padding_left.value = selected_node.getAttribute("widget_padding_left");
+    fo_obj.widget_padding_right.value = selected_node.getAttribute("widget_padding_right");
+    fo_obj.widget_padding_bottom.value = selected_node.getAttribute("widget_padding_bottom");
+    fo_obj.widget_padding_top.value = selected_node.getAttribute("widget_padding_top");
+
     
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
