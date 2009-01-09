@@ -46,7 +46,7 @@
             <!--@if($module_category_exists)-->
                 <!--@foreach($selected_mids as $key => $val)-->
                 <tr>
-                    <td rowspan="{count($val)}">{$key}</td>
+                    <td rowspan="{count($val)}">{$key}&nbsp;</td>
                     {@ $_idx =0; }
                     <!--@foreach($val as $k => $v)-->
                     <!--@if($_idx >0)--><tr><!--@end-->

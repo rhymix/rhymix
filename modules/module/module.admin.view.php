@@ -125,6 +125,7 @@
                         Context::set('site_keyword', $site_keyword);
                     } else {
                         $query_id = 'module.getDefaultModules';
+                        $args->site_srl = 0;
                         $module_category_exists = true;
                     }
                 // 사이트 검색어가 있으면 해당 사이트(들)의 정보를 추출
