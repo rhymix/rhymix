@@ -89,15 +89,18 @@ function doFillWidgetVars() {
     fo_obj.widget_padding_bottom.value = selected_node.getAttribute("widget_padding_bottom");
     fo_obj.widget_padding_top.value = selected_node.getAttribute("widget_padding_top");
 
-    for(var name in fo_obj) {
-        if(name.indexOf('_')==0) continue;
-        var node = fo_obj[name];
-        if(!node || typeof(node)=="undefined") continue;
-
+    var obj_list = new Array();
+    jQuery('form input, form select, form textarea').each( function(){
+        obj_list.push(this);
+    });
+    for(var j=0;j<obj_list.length;j++) {
+        var node = obj_list[j];
+        if(node.name.indexOf('_')==0) continue;
         var length = node.length;
         var type = node.type;
         if((typeof(type)=='undefined'||!type) && typeof(length)!='undefined' && typeof(node[0])!='undefined' && length>0) type = node[0].type;
         else length = 0;
+        var name = node.name;
 
         switch(type) {
             case "hidden" :
@@ -304,3 +307,14 @@ function completeGetModuleSrl(ret_obj, response_tags) {
     sObj.value = item[0].module_srl;
     obj.value = item[0].browser_title+' ('+item[0].mid+')';
 }
+
+var windowLoadEventLoader = new Array();
+function doAddWindowLoadEventLoader(func) {
+    windowLoadEventLoader.push(func);
+}
+function excuteWindowLoadEvent() {
+    for(var i=0;i<windowLoadEventLoader.length;i++) {
+        windowLoadEventLoader[i]();
+    }
+}
+xAddEventListener(window,'load',excuteWindowLoadEvent);

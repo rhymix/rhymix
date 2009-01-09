@@ -4,7 +4,7 @@
 <!--%import("../../admin/tpl/css/admin.css")-->
 
 <script type="text/javascript">
-    xAddEventListener(window, "load", doFillWidgetVars);
+    doAddWindowLoadEventLoader(doFillWidgetVars);
 </script>
 
 <form action="./" method="get" onsubmit="return procFilter(this, generate_code_in_page);" id="fo_widget">

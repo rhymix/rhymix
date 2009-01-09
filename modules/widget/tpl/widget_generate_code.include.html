@@ -97,7 +97,7 @@
                     </ul>
                     <script type="text/javascript">
                         if(typeof(getModuleSrlList)!=='undefined') {
-                            xAddEventListener(window,'load',function() { getModuleSrlList('{$id}'); });
+                            doAddWindowLoadEventLoader( function() { getModuleSrlList('{$id}'); } );
                         }
                     </script>
                 <!--@elseif($var->type == "mid")-->
@@ -105,7 +105,7 @@
                     <input type="text" name="_{$id}" id="_{$id}" value="" class="inputTypeText w300" readonly="readonly"/><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id',$id,'type','single')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_select}</span></a>
                     <script type="text/javascript">
                         if(typeof(getModuleSrlList)!=='undefined') {
-                            xAddEventListener(window,'load',function() { getModuleSrl('{$id}'); });
+                            doAddWindowLoadEventLoader( function() { getModuleSrl('{$id}'); });
                         }
                     </script>
                 <!--@end-->
