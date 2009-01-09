@@ -4,7 +4,7 @@
     <channel>
         <title>{$info->title}</title>
         <link>{$info->link}</link>
-        <description><![CDATA[{$info->description}]]></description>
+        <description>{htmlspecialchars(str_replace('\'', '&apos;',$info->description))}</description>
         <language>{$info->language}</language>
         <pubDate>{$info->date}</pubDate>
         <totalCount>{$info->total_count}</totalCount>
@@ -14,13 +14,13 @@
             <author>{str_replace('\'', '&apos;',$oDocument->getNickName())}</author>
             <link>{$oDocument->getPermanentUrl()}</link>
             <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
-            <description><![CDATA[{$oDocument->getContent(false,false,true)}]]></description>
+            <description>{htmlspecialchars(str_replace('\'', '&apos;',$oDocument->getContent(false,false,true)))}</description>
             <!--@else-->
-            <description><![CDATA[{$oDocument->getContentText(100)}]]></description>
+            <description>{htmlspecialchars(str_replace('\'', '&apos;',$oDocument->getContentText(100)))}</description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
-            <category><![CDATA[{$tag}]]></category>
+            <category>{htmlspecialchars(str_replace('\'', '&apos;',$tag))}</category>
             <!--@end-->
         </item>
         <!--@end-->
