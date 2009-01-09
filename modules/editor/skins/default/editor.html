@@ -1,16 +1,15 @@
 <!--// 기본 js/언어파일 로드 -->
 <!--%import("../../tpl/js/editor_common.js")-->
-
-<!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" )-->
+<!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" || $colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->
     <!--@if($colorset == "black_texteditor")-->
         <!--%import("css/black.css")-->
         {@ $editor_class = "black" }
     <!--@else-->
         <!--%import("css/white.css")-->
     <!--@end-->
-
     <!--%import("js/xe_interface.js")-->
     <div class="xeTextEditor {$editor_class}">
+        <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end-->" />
         <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="10" rows="10"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
