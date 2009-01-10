@@ -79,7 +79,10 @@
                 $info->description = $this->module_info->description;
                 $info->link = getUrl('','mid',Context::get('mid'));
             } else {
-                $info->title = $info->link = Context::getRequestUri();
+                $site_module_info = Context::get('site_module_info');
+                $info->title = $site_module_info->browser_title;
+                $info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title));
+                $info->link = Context::getRequestUri();
             }
             $info->total_count = $output->total_count;
             $info->total_page = $output->total_page;
