@@ -15,7 +15,9 @@
             <author>{str_replace('\'', '&apos;',$oDocument->getNickName())}</author>
             <link>{$oDocument->getPermanentUrl()}</link>
             <guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
+            <!--@if($oDocument->allowComment()) -->
             <comments>{$oDocument->getPermanentUrl()}#comment</comments>
+            <!--@end-->
             <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContent(false,false,true)))}</description>
             <!--@else-->
