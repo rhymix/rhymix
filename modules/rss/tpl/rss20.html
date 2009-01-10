@@ -4,7 +4,7 @@
     <channel>
         <title>{$info->title}</title>
         <link>{$info->link}</link>
-        <description>{htmlspecialchars(str_replace('\'', '&apos;',$info->description))}</description>
+        <description>{str_replace('\'', '&apos;', htmlspecialchars($info->description))}</description>
         <language>{$info->language}</language>
         <pubDate>{$info->date}</pubDate>
         <totalCount>{$info->total_count}</totalCount>
@@ -14,13 +14,13 @@
             <author>{str_replace('\'', '&apos;',$oDocument->getNickName())}</author>
             <link>{$oDocument->getPermanentUrl()}</link>
             <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
-            <description>{htmlspecialchars(str_replace('\'', '&apos;',$oDocument->getContent(false,false,true)))}</description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContent(false,false,true)))}</description>
             <!--@else-->
-            <description>{htmlspecialchars(str_replace('\'', '&apos;',$oDocument->getContentText(100)))}</description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
-            <category>{htmlspecialchars(str_replace('\'', '&apos;',$tag))}</category>
+            <category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
             <!--@end-->
         </item>
         <!--@end-->
