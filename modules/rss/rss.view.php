@@ -24,6 +24,8 @@
              * RSS 출력을 위한 변수 설정
              **/
             $mid = Context::get('mid'); ///< 대상 모듈 id, 없으면 전체로
+            $start_date = Context::get('start_date');
+            $end_date = Context::get('end_date');
 
             $oModuleModel = &getModel('module');
 
@@ -59,8 +61,9 @@
 
             $args->search_target = 'is_secret';
             $args->search_keyword = 'N';
-            $args->page = 1;
+            $args->page = (int)Context::get('page');
             $args->list_count = 15;
+            if(!$args->page) $args->page = 1;
             if($start_date) $args->start_date = $start_date;
             if($end_date) $args->end_date = $end_date;
 
@@ -77,7 +80,7 @@
                 $info->title = Context::getBrowserTitle();
                 $info->title = str_replace('\'', '&apos;',$info->title);
                 $info->description = $this->module_info->description;
-                $info->link = getUrl('','mid',Context::get('mid'));
+                $info->link = getUrl('','mid',$mid);
             } else {
                 $site_module_info = Context::get('site_module_info');
                 $info->title = $site_module_info->browser_title;
@@ -99,8 +102,9 @@
 
             // 결과물을 얻어와서 에디터 컴포넌트등의 전처리 기능을 수행시킴
             $path = $this->module_path.'tpl/';
-            if($args->start_date || $args->end_date) $file = 'xe_rss';
-            else $file = 'rss20';
+            //if($args->start_date || $args->end_date) $file = 'xe_rss';
+            //else $file = 'rss20';
+            $file = 'rss20';
 
             $oTemplate = new TemplateHandler();
             $oContext = &Context::getInstance();
