@@ -125,18 +125,15 @@
             $this->setMessage('success_deleted');
         }
 
-        function procIssuetrackerInsertHistory() {
-            // 권한 체크
-            if(!$this->grant->ticket_write && !$this->grant->commiter) return new Object(-1, 'msg_not_permitted');
-
-            // 원 이슈를 가져옴
-            $target_srl = Context::get('target_srl');
+        function insertHistory($target_srl, $objs, $module_srl, $grant)
+        {
             $oIssuetrackerModel = &getModel('issuetracker');
             $oIssue = $oIssuetrackerModel->getIssue($target_srl);
             if(!$oIssue->isExists()) return new Object(-1,'msg_not_founded');
 
-            // 로그인 정보
             $logged_info = Context::get('logged_info');
+
+            $args = null;
 
             // 글작성시 필요한 변수를 세팅
             $args->target_srl = $target_srl;
@@ -150,18 +147,18 @@
             }
 
             // 커미터일 경우 각종 상태 변경값을 받아서 이슈의 상태를 변경하고 히스토리 생성
-            if($this->grant->commiter) {
-                $milestone_srl = Context::get('milestone_srl');
-                $priority_srl = Context::get('priority_srl');
-                $type_srl = Context::get('type_srl');
-                $component_srl = Context::get('component_srl');
-                $package_srl = Context::get('package_srl');
-                $occured_version_srl = Context::get('occured_version_srl');
-                $action = Context::get('action');
-                $status = Context::get('status');
-                $assignee_srl = Context::get('assignee_srl');
+            if($grant) {
+                $milestone_srl = $objs->milestone_srl;
+                $priority_srl = $objs->priority_srl;
+                $type_srl = $objs->type_srl;
+                $component_srl = $objs->component_srl;
+                $package_srl = $objs->package_srl;
+                $occured_version_srl = $objs->occured_version_srl;
+                $action = $objs->action;
+                $status = $objs->status;
+                $assignee_srl = $objs->assignee_srl;
 
-                $project = $oIssuetrackerModel->getProjectInfo($this->module_srl);
+                $project = $oIssuetrackerModel->getProjectInfo($module_srl);
                 $history = array();
                 $change_args = null;
 
@@ -326,7 +323,7 @@
                 }
             }
             $args->issues_history_srl = getNextSequence();
-            $args->module_srl = $this->module_srl;
+            $args->module_srl = $module_srl;
 
             $output = executeQueryArray('issuetracker.insertHistory', $args);
             if(!$output->toBool()) return $output;
@@ -335,6 +332,21 @@
             $cnt = $oIssuetrackerModel->getHistoryCount($target_srl);
             $oDocumentController = &getController('document');
             $oDocumentController->updateCommentCount($target_srl, $cnt, $logged_info->member_srl);
+            return new Object();
+        }
+
+        function procIssuetrackerInsertHistory() {
+            // 권한 체크
+            if(!$this->grant->ticket_write && !$this->grant->commiter) return new Object(-1, 'msg_not_permitted');
+
+            // 원 이슈를 가져옴
+            $target_srl = Context::get('target_srl');
+            $args = Context::gets('milestone_srl', 'priority_srl', 'type_srl', 'component_srl', 'package_srl', 'occured_version_srl', 'action', 'status', 'assignee_srl'); 
+            $output = $this->insertHistory($target_srl, $args, $this->module_srl, $this->grant->commiter);
+            if(!$output->toBool())
+            {
+                return $output;
+            }
 
             $this->add('document_srl', $target_srl);
             $this->add('mid', $this->module_info->mid);

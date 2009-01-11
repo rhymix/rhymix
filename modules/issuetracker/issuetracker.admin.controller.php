@@ -452,6 +452,31 @@
             $this->setTemplateFile("top_refresh.html");
         }
 
+        function procIssuetrackerAdminManageCheckedIssue() {
+            $module_srl = Context::get('module_srl');
+            $cart = Context::get('cart');
+            if($cart) $document_srl_list = explode('|@|', $cart);
+            else $document_srl_list = array();
+
+            $document_srl_count = count($document_srl_list);
+            $objs = Context::gets('priority_srl', 'component_srl', 'type_srl', 'milestone_srl');
+            $oController = &getController('issuetracker');
+            foreach($document_srl_list as $target_srl)
+            {
+                $output = $oController->insertHistory($target_srl, $objs, $module_srl, true);
+                if(!$output->toBool())
+                {
+                    return $output;
+                }
+            }
+
+            $_SESSION['document_management'] = array();
+
+            $this->setMessage('success_updated');
+        }
+
+
+
 
     }
 ?>

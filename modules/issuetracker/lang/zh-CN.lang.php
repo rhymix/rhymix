@@ -81,6 +81,7 @@
              'dispIssuetrackerViewIssue' => '查看问题',
              'dispIssuetrackerNewIssue' => '提交问题',
              'dispIssuetrackerViewMilestone' => '开发计划',
+             'dispIssuetrackerTimeline' => 'Timeline',
              'dispIssuetrackerViewSource' => '查看代码',
              'dispIssuetrackerDownload' => '下载',
              'dispIssuetrackerAdminProjectSetting' => '设置',
@@ -93,4 +94,9 @@
     $lang->cmd_document_do = '将吧此问题.. ';
     $lang->not_assigned = '没有分配';
     $lang->not_assigned_description = '没被分配的问题目录';
+    $lang->timeline_msg = array(
+        'changed' => 'changed',
+        'created' => 'created'
+    );
+    $lang->cmd_manage_issue = 'Manage issues';
 ?>

@@ -98,4 +98,5 @@
         'changed' => '変更',
         'created' => '作成'
     );
+    $lang->cmd_manage_issue = 'Manage issues';
 ?>

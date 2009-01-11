@@ -94,4 +94,9 @@
     $lang->cmd_document_do = '將此問題.. ';
     $lang->not_assigned = '尚未分配';
     $lang->not_assigned_description = '尚未被分配的問題清單';
+    $lang->timeline_msg = array(
+        'changed' => 'changed',
+        'created' => 'created'
+    );
+    $lang->cmd_manage_issue = 'Manage issues';
 ?>

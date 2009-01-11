@@ -22,3 +22,12 @@ img.btnDelete { vertical-align:middle; }
 
 td.filename { background-color:#EFEFEF; }
 td.filename a { font-weight:bold;}
+
+ul.document_list_box { margin:0; padding:0; list-style:none; }
+.document_list_box { height:230px; overflow-y:scroll; overflow-x:hidden;}
+.document_list { margin-top:.5em; overflow:hidden; white-space:nowrap; clear:both;}
+.document_list input { float:left; margin-right:10px; }
+.document_list address { float:left; width:100px; margin-right:10px; overflow:hidden; white-space:nowrap;}
+.document_list .document_title { }
+
+#popbody .adminTable tr th { width: 200px; }
