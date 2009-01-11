@@ -42,6 +42,7 @@
 <!--@end-->
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{getUrl('','mid',Context::get('mid'),'act','rss','format','atom')}" />
 <!--@end-->
 
 {@ $ssl_actions = Context::getSSLActions() }
