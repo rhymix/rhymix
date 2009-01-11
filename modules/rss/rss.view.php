@@ -89,7 +89,16 @@
             }
             $info->total_count = $output->total_count;
             $info->total_page = $output->total_page;
-            $info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
+            switch (Context::get('format')) {
+                case 'atom':
+                    $info->date = date('Y-m-d\TH:i:sP');
+                    if($mid) { $info->id = getUrl('','mid',$mid,'act','rss','format','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
+                    else { $info->id = getUrl('','module','rss','act','rss','format','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
+                    break;
+                default:
+                    $info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
+                    break;
+            }
             $info->language = Context::getLangType();
 
             // RSS 출력물에서 사용될 변수 세팅
