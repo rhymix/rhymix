@@ -55,7 +55,7 @@
          **/
         function getBodyScript($content) {
             // 내용 추출
-            preg_match('!<body([^>]*)>(.*?)<\/body>!is', $content, $body_buff);
+            preg_match('!<body([^>]*)>(.*)<\/body>!is', $content, $body_buff);
             $body_script = $body_buff[2];
 
             // link, style, script등 제거
@@ -71,11 +71,11 @@
             if(substr($path,-1)!='/') $path.='/';
             $this->target_path = $path;
 
-            // element의 속성중 value에 " 로 안 묶여 있는 것을 검사하여 묶어줌
-            $content = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $content);
+            // element의 속성중 value에 " 로 안 묶여 있는 것을 검사하여 묶어줌 - 에러날 수 있음 ex) window.open('*','*','width=320, height=240 ,left=100,top=100')
+            //$content = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $content);
 
             // img, input, a, link등의 href, src값 변경
-            $content = preg_replace_callback('!(script|link|a|img|input)([^>]*)(href|src)=[\'"](.*?)[\'"]!is', array($this, '_replaceSrc'), $content);
+            $content = preg_replace_callback('!<(script|link|a|img|input|iframe)([^>]*)(href|src)=[\'"](.*?)[\'"]!is', array($this, '_replaceSrc'), $content);
 
             // background:url의 값 변경
             $content = preg_replace_callback('!url\((.*?)\)!is', array($this, '_replaceBackgroundUrl'), $content);
@@ -90,7 +90,7 @@
             if(substr($href,0,1)=='/') $href = substr($href,1);
             $href = $this->target_path.$href;
 
-            $buff = sprintf('%s%s%s="%s"', $matches[1], $matches[2], $matches[3], $href);
+            $buff = sprintf('<%s%s%s="%s"', $matches[1], $matches[2], $matches[3], $href);
             return $buff;
         }
 

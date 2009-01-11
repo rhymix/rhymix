@@ -76,9 +76,10 @@
                         $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
                     }
                 }
-            } else $module_srl = explode(',',$args->module_srls);
+            }
+            else $module_srl = explode(',' ,$args->module_srls);
 
-            $obj->module_srls = implode(',',$module_srl);
+            if(is_array($module_srl)) $obj->module_srls = implode(',' ,$module_srl);
 
             // 모듈 목록을 구함
             $module_list = $oModuleModel->getMidList($obj);
@@ -92,6 +93,7 @@
             $obj->list_count = $widget_info->list_count;
             $obj->sort_index = $widget_info->order_target;
             $obj->order_type = $widget_info->order_type=="desc"?"asc":"desc";
+            if(is_array($tab_list)) {
             foreach($tab_list as $mid => $module) {
                 $obj->module_srl = $module->module_srl;
                 $output = executeQueryArray("widgets.tab_newest_document.getNewestDocuments", $obj);
@@ -99,16 +101,16 @@
 
                 if($output->data && count($output->data)) {
                     foreach($output->data as $k => $v) {
-                        $oDocument = null;
-                        $oDocument = $oDocumentModel->getDocument();
-                        $oDocument->setAttribute($v);
-                        $tab_list[$mid]->document_list[] = $oDocument;
+                            $oDocument = null;
+                            $oDocument = $oDocumentModel->getDocument();
+                            $oDocument->setAttribute($v);
+                            $tab_list[$mid]->document_list[] = $oDocument;
+                        }
+                    } else {
+                        $tab_list[$mid]->document_list = array();
                     }
-                } else {
-                    $tab_list[$mid]->document_list = array();
                 }
             }
-            
             Context::set('widget_info', $widget_info);
             Context::set('tab_list', $tab_list);
 
