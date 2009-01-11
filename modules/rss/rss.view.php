@@ -104,7 +104,21 @@
             $path = $this->module_path.'tpl/';
             //if($args->start_date || $args->end_date) $file = 'xe_rss';
             //else $file = 'rss20';
-            $file = 'rss20';
+            switch (Context::get('format')) {
+                case 'xe':
+                    $file = 'xe_rss';
+                    break;
+                case 'atom':
+                    $file = 'atom10';
+                    break;
+                case 'rss1.0':
+                    $file = 'rss10';
+                    break;
+                default:
+                    $file = 'rss20';
+                    break;
+            }
+            
 
             $oTemplate = new TemplateHandler();
             $oContext = &Context::getInstance();
