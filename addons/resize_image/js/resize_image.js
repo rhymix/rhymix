@@ -132,6 +132,7 @@ function getScreen() {
 		$(document).scroll(xScreen.xeHide);
 		$(document).keydown(xScreen.xeHide);
 		$(window).resize(xScreen.xeHide);
+		$(window).scroll(xScreen.xeHide);
 	} else {
 		controls = $("#xe_gallery_controls");
 		imgframe = $("#xe_gallery_holder");
@@ -156,42 +157,18 @@ function slideshow(event) {
 	xScreen.xeShow();
 }
 
-// 이미지를 리사이즈 하는 함수
-function resize(event) {
-	var img = event.data[0];
-	var img_width  = parseInt(event.data[1]);
-	var img_height = parseInt(event.data[2]);
-	var img_src    = event.data[3];
-	var dummy = $("<div>").css({height:"1px",overflow:"hidden",opacity:0,display:"block"});
-	var newWidth = -1;
-	
-	// 더미 객체를 넣어서 너비 구하기
-	img.before(dummy);
-	newWidth = dummy.innerWidth();
-	dummy.remove();
-
-	// 리사이즈 및 경로 지정
-	if (img_width  <= 0) img_width  = $(this).attr("width");
-	if (img_height <= 0) img_height = $(this).attr("height");
-	if (img_width > newWidth) {
-		img_height = newWidth * img_height/img_width;
-		img_width  = newWidth;
-	}
-	img.attr({width:img_width,height:img_height,src:img_src});
-	
-	// 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
-	if ( img.parent("a").size() || img.attr("onclick") ) return;
-	
-	// 스타일 설정
-	img.css("cursor", "pointer");
-	
-	// 클릭하면 슬라이드쇼 시작
-	img.click(slideshow);
-}
-
-$(document).ready(function(){
+$(window).load(function(){
 	var regx_skip   = /(?:modules|addons|classes|common|layouts|libs|widgets)/i;
 	var regx_parent = /(?:document|comment)_[0-9]+_[0-9]+/i;
+
+    var xe_content = $(".xe_content");
+    var overflow = xe_content.css("overflow");
+    var width = xe_content.css("width");
+    xe_content.css("overflow","hidden");
+    xe_content.css("width","100%");
+    var offsetWidth = xe_content.attr("offsetWidth");
+    xe_content.css("overflow",overflow);
+    xe_content.css("width",width);
 
 	// 이미지 목록을 가져와서 리사이즈
 	$(".xe_content img").each(function(){
@@ -205,12 +182,22 @@ $(document).ready(function(){
 		
 		// 커스텀 속성 추가
 		img.attr("rel", "xe_gallery");
-		
-		// 크기를 줄인다.
-		img.attr({src:"about:blank", width:16,height:16});
-		
-		// 이미지를 다 읽어들이면 리사이즈
-		$("<img>").bind("load", [img, width, height, src], resize).attr("src", src);
+
+        // 크기를 계산한다
+        if(width>offsetWidth) {
+            img.attr("width",offsetWidth-1);
+            img.attr("height",parseInt(offsetWidth/width*height,10));
+        }
+
+        // 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
+        if ( !img.parent("a").size() && !img.attr("onclick") )  {
+            // 스타일 설정
+            img.css("cursor", "pointer");
+            
+            // 클릭하면 슬라이드쇼 시작
+            img.click(slideshow);
+        }
+
 	});
 });
 
