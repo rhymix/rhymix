@@ -132,7 +132,7 @@
                     case 'widgetContent' :
                             if($args->document_srl) {
                                 $oDocument = $oDocumentModel->getDocument($args->document_srl);
-                                $body = $oDocument->getContent(false,false,false);
+                                $body = $oDocument->getContent(false,false,false, false);
                             } else {
                                 $body = base64_decode($args->body);
                             }
