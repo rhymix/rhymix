@@ -78,6 +78,7 @@
             $oDocumentModel = &getModel('document');
 
             // 정해진 모듈에서 문서별 파일 목록을 구함
+            $obj->list_count = $widget_info->rows_list_count*$widget_info->cols_list_count;
             $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
             $files_count = count($files_output->data);
 
