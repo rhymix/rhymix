@@ -61,11 +61,12 @@ function completeCopyModule() {
 function insertModule(id, module_srl, mid, browser_title, multi_select) {
     if(typeof(multi_select)=='undefined') multi_select = true;
     if(!window.opener) window.close();
-    if(typeof(opener.insertSelectedModule)=='undefined') return;
 
     if(multi_select) {
+        if(typeof(opener.insertSelectedModules)=='undefined') return;
         opener.insertSelectedModules(id, module_srl, mid, browser_title);
     } else {
+        if(typeof(opener.insertSelectedModule)=='undefined') return;
         opener.insertSelectedModule(id, module_srl, mid, browser_title);
         window.close();
     }
