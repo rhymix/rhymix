@@ -55,7 +55,7 @@
          **/
         function getBodyScript($content) {
             // 내용 추출
-            preg_match('!<body([^>]*)>(.*)<\/body>!is', $content, $body_buff);
+            preg_match('!<body([^>]*)>(.*?)<\/body>!is', $content, $body_buff);
             $body_script = $body_buff[2];
 
             // link, style, script등 제거

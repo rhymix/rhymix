@@ -84,7 +84,7 @@
             $body_script = $oOpageController->getBodyScript($content);
             if(!$body_script) $body_script = $content;
 
-            return $body_script;
+            return $content;
         }
 
         /**
