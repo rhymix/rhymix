@@ -426,5 +426,39 @@
             }
         }
 
+        /**
+         * @brief 아이디 클릭시 나타나는 팝업메뉴에 "작성글 보기" 메뉴를 추가하는 trigger - board 모듈과 동일
+         **/
+        function triggerMemberMenu(&$obj) {
+            $member_srl = Context::get('target_srl');
+            $mid = Context::get('cur_mid');
+
+            if(!$member_srl || !$mid) return new Object();
+
+            $logged_info = Context::get('logged_info');
+
+            // 호출된 모듈의 정보 구함
+            $oModuleModel = &getModel('module');
+            $cur_module_info = $oModuleModel->getModuleInfoByMid($mid);
+
+            if($cur_module_info->module != 'issuetracker') return new Object();
+
+            // 자신의 아이디를 클릭한 경우
+            if($member_srl == $logged_info->member_srl) {
+                $member_info = $logged_info;
+            } else {
+                $oMemberModel = &getModel('member');
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            }
+
+            if(!$member_info->user_id) return new Object();
+
+            // 아이디로 검색기능 추가
+            $url = getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','status%5B%5D','new','status%5B%5D','reviewing','status%5B%5D','assign','status%5B%5D','resolve','status%5B%5D','reopen','status%5B%5D','postponed','status%5B%5D','duplicated','status%5B%5D','invalid','search_target','user_id','search_keyword',$member_info->user_id);
+            $oMemberController = &getController('member');
+            $oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', './modules/member/tpl/images/icon_view_written.gif');
+
+            return new Object();
+        }
     }
 ?>
