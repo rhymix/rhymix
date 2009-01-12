@@ -24,8 +24,8 @@
              * RSS 출력을 위한 변수 설정
              **/
             $mid = Context::get('mid'); ///< 대상 모듈 id, 없으면 전체로
-            $start_date = Context::get('start_date');
-            $end_date = Context::get('end_date');
+            $start_date = (int)Context::get('start_date');
+            $end_date = (int)Context::get('end_date');
 
             $oModuleModel = &getModel('module');
 
@@ -63,9 +63,11 @@
             $args->search_keyword = 'N';
             $args->page = (int)Context::get('page');
             $args->list_count = 15;
-            if(!$args->page) $args->page = 1;
-            if($start_date) $args->start_date = $start_date;
-            if($end_date) $args->end_date = $end_date;
+            if(!$args->page || $args->page =< 0) $args->page = 1;
+            if($start_date || $start_date != 0) $args->start_date = $start_date;
+            if($end_date || $end_date != 0) $args->end_date = $end_date;
+            if($start_date == 0) unset($start_date);
+            if($end_date == 0) unset($end_date);
 
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
