@@ -63,7 +63,7 @@
             $args->search_keyword = 'N';
             $args->page = (int)Context::get('page');
             $args->list_count = 15;
-            if(!$args->page || $args->page =< 0) $args->page = 1;
+            if(!$args->page || $args->page < 1) $args->page = 1;
             if($start_date || $start_date != 0) $args->start_date = $start_date;
             if($end_date || $end_date != 0) $args->end_date = $end_date;
             if($start_date == 0) unset($start_date);
