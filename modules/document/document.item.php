@@ -235,7 +235,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
@@ -271,7 +271,7 @@
                 );
             // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
             } else {
-                $content = sprintf('<div class="xe_content">%s</div>', $content);
+                if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
 
             // resource_realpath가 true이면 내용내 이미지의 경로를 절대 경로로 변경
