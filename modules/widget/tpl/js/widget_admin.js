@@ -260,7 +260,7 @@ function getModuleSrlList(id) {
     params["id"] = id;
 
     var response_tags = new Array("error","message","module_list","id");
-    exec_xml("widget", "getWidgetAdminModuleList", params, completeGetModuleSrlList, response_tags, params);
+    exec_xml("module", "getModuleAdminModuleList", params, completeGetModuleSrlList, response_tags, params);
 }
 
 function completeGetModuleSrlList(ret_obj, response_tags) {
@@ -291,7 +291,7 @@ function getModuleSrl(id) {
     params["id"] = id;
 
     var response_tags = new Array("error","message","module_list","id");
-    exec_xml("widget", "getWidgetAdminModuleList", params, completeGetModuleSrl, response_tags, params);
+    exec_xml("module", "getModuleAdminModuleList", params, completeGetModuleSrl, response_tags, params);
 }
 
 function completeGetModuleSrl(ret_obj, response_tags) {
