@@ -161,11 +161,11 @@
         }
 
         /**
-         * @brief 디버그 모드일 경우 디버기 메세지 출력
+         * @brief 디버그 모드일 경우 디버깅 메시지 출력
          *
-         * __DEBUG__가 1이상일 경우 각 부분의 실행시간등을 debugPrint 함수를 이용해서 출력\n
-         * 개발시나 테스트시에 config/config.inc.php의 __DEBUG__를 세팅하고\n
-         * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함\n
+         * __DEBUG__ 값이 1 이상이면 __DEBUG_OUTPUT__ 값에 따라 메시지 출력.
+         * __DEBUG__를 세팅하고, __DEBUG_OUTPUT__ == 0 이면
+         * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함
          **/
         function _debugOutput() {
             if(!__DEBUG__) return;
