@@ -8,7 +8,7 @@
     <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget_info->version}</option>
     <!--@end-->
 </select>
-<a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_move}</span></a>
+<a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_select}</span></a>
 
 
                 <!--@if($widget_info->author->description)-->
@@ -26,7 +26,7 @@
                     <option value="{$key}">{$val->title} ({$key})</option>
                 <!--@end-->
                 </select>
-<a href="#" class="button small" onclick="doDisplaySkinColorset(jQuery('#widget_skin').get(0))"><span>{$lang->cmd_move}</span></a>
+<a href="#" class="button small" onclick="doDisplaySkinColorset(jQuery('#widget_skin').get(0))"><span>{$lang->cmd_select}</span></a>
                 <div id="colorset_area" style="display:none">
                     <div class="header">{$lang->colorset}</div>
                     <div class="footer">
