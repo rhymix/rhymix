@@ -58,6 +58,9 @@
 
         function checkUpdate()
         {
+            $oModuleModel = &getModel('module');
+            // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
+            if(!$oModuleModel->getTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after')) return true;
             return false;
         }
     }
