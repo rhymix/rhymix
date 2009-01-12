@@ -36,6 +36,7 @@
         function dispWidgetGenerateCode() {
             // 선택된 위젯 정보를 구함
             $oWidgetModel = &getModel('widget');
+
             $widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
             Context::set('widget_info', $widget_info);
 
@@ -75,6 +76,14 @@
          * @brief 페이지 관리에서 사용될 코드 생성 팝업
          **/
         function dispWidgetGenerateCodeInPage() {
+
+            $oWidgetModel = &getModel('widget');
+            $widget_list = $oWidgetModel->getDownloadedWidgetList();
+            Context::set('widget_list',$widget_list);
+
+            // 선택된 위젯이 없을경우 첫 위젯으로
+            if(!Context::get('selected_widget')) Context::set('selected_widget',$widget_list[0]->widget);
+
             $this->dispWidgetGenerateCode();
             $this->setTemplateFile('widget_generate_code_in_page');
         }

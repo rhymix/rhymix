@@ -10,20 +10,20 @@ function completeGenerateCode(ret_obj) {
 
     var zone = xGetElementById("widget_code");
     zone.value = widget_code;
-} 
+}
 
 /* 생성된 코드를 페이지 zone에 출력 */
 function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     var widget_code = ret_obj["widget_code"];
     if(!opener || !widget_code) {
-        window.close(); 
+        window.close();
         return;
     }
 
     opener.doAddWidgetCode(widget_code);
 
     window.close();
-} 
+}
 
 /* 위젯 코드 생성시 스킨을 고르면 컬러셋의 정보를 표시 */
 function doDisplaySkinColorset(sel, colorset) {
@@ -153,7 +153,7 @@ function doFillWidgetVars() {
     fo_obj.widget_padding_bottom.value = selected_node.getAttribute("widget_padding_bottom");
     fo_obj.widget_padding_top.value = selected_node.getAttribute("widget_padding_top");
 
-    
+
     //  컬러셋 설정
     if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
         doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);
@@ -178,7 +178,7 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
     var sObj = xGetElementById(id);
     sObj.value = module_srl;
     obj.value = browser_title+' ('+mid+')';
-    
+
 }
 
 // 위젯의 대상 모듈 입력기 (다중 선택)
@@ -188,7 +188,7 @@ function insertSelectedModules(id, module_srl, mid, browser_title) {
     var opt = new Option(browser_title+' ('+mid+')', module_srl, false, false);
     sel_obj.options[sel_obj.options.length] = opt;
     if(sel_obj.options.length>8) sel_obj.size = sel_obj.options.length;
-    
+
     syncMid(id);
 }
 
@@ -208,7 +208,7 @@ function midMoveUp(id) {
     t_obj.value = value;
     t_obj.text = text;
     sel_obj.selectedIndex = idx-1;
-    
+
     syncMid(id);
 }
 
@@ -319,3 +319,9 @@ function excuteWindowLoadEvent() {
     }
 }
 xAddEventListener(window,'load',excuteWindowLoadEvent);
+
+
+function selectWidget(val){
+    var url =current_url.setQuery('selected_widget', val);
+    document.location.href = url;
+}

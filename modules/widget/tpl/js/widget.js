@@ -88,7 +88,7 @@ function removeAllWidget() {
     exec_xml('widget',"procWidgetRemoveContents",params,function() { restoreWidgetButtons(); xInnerHtml(zonePageObj,'') });
 }
 
-/** 
+/**
  * 특정 영역에 편집된 위젯들을 약속된 태그로 변환하여 return
  **/
 function getWidgetContent(obj) {
@@ -266,6 +266,8 @@ function doAddWidget(fo) {
     popopen(url,'GenerateWidgetCode');
 }
 
+
+
 // widgetBorder에 height를 widgetOutput와 맞춰줌
 function doFitBorderSize() {
     var obj_list = xGetElementsByClassName('widgetBorder', zonePageObj);
@@ -325,7 +327,7 @@ function doAddWidgetCode(widget_code) {
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리
 function doCheckWidget(e) {
     var evt = new xEvent(e); if(!evt.target) return;
-    var obj = evt.target; 
+    var obj = evt.target;
 
     selectedWidget = null;
 
@@ -459,7 +461,7 @@ function completeDeleteWidgetContent(ret_obj, response_tags, params, p_obj) {
 // 마우스 다운 이벤트 발생시 위젯의 이동을 처리
 function doCheckWidgetDrag(e) {
     var evt = new xEvent(e); if(!evt.target) return;
-    var obj = evt.target; 
+    var obj = evt.target;
 
     var pObj = obj.parentNode;
     while(pObj) {
@@ -588,7 +590,7 @@ function _getBorderStyle(fld_color, fld_thick, fld_type) {
     else color = '#'+color;
     var width = fld_thick.value;
     if(!width) width = '0px';
-    else width = parseInt(width,10)+'px'; 
+    else width = parseInt(width,10)+'px';
     var style = fld_type.options[fld_type.selectedIndex].value;
     if(!style) style = 'solid';
 
@@ -706,7 +708,7 @@ function doApplyWidgetSize(fo_obj) {
         selectedSizeWidget = null;
         doFitBorderSize();
     }
-        
+
     doHideWidgetSizeSetup();
 }
 
@@ -821,7 +823,7 @@ function widgetGetTmpObject(obj) {
     return tmpObj;
 }
 
-// 메뉴에 마우스 클릭이 일어난 시점에 드래그를 위한 제일 첫 동작 (해당 object에 각종 함수나 상태변수 설정) 
+// 메뉴에 마우스 클릭이 일어난 시점에 드래그를 위한 제일 첫 동작 (해당 object에 각종 함수나 상태변수 설정)
 function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
 
     // 상위 object에 드래그 가능하다는 상태와 각 드래그 관련 함수를 설정
@@ -834,11 +836,11 @@ function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
     if (!widgetDragManager.isDrag) {
         widgetDragManager.isDrag = true;
         xAddEventListener(document, 'mousemove', widgetDragMouseMove, false);
-    } 
-} 
+    }
+}
 
 // 드래그를 시작할때 호출되는 함수 (이동되는 형태를 보여주기 위한 작업을 함)
-function widgetDragStart(tobj, px, py) { 
+function widgetDragStart(tobj, px, py) {
     if(tobj.className == 'widgetResize' || tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResize' || tobj.className == 'widgetBoxResizeLeft') return;
     var obj = widgetGetTmpObject(tobj);
 
@@ -986,7 +988,7 @@ function widgetDrag(tobj, dx, dy) {
 
                             // 이동을 멈춤
                             widgetManualEnd();
-                            
+
                             doFitBorderSize();
                             boxList = null;
                             return;
@@ -1030,8 +1032,8 @@ function widgetDrag(tobj, dx, dy) {
             widgetList = null;
         }
     }
-} 
-  
+}
+
 // 드래그 종료 (이동되는 object가 이동할 곳에 서서히 이동되는 것처럼 보이는 효과)
 function widgetDragEnd(tobj, px, py) {
     var obj = widgetGetTmpObject(tobj);
@@ -1092,7 +1094,7 @@ function widgetMouseDown(e) {
 }
 
 // 마우스 버튼을 놓았을때 동작될 함수 (각종 이벤트 해제 및 변수 설정 초기화)
-function widgetMouseUp(e) { 
+function widgetMouseUp(e) {
     if (widgetDragManager.obj) {
         xPreventDefault(e);
         xRemoveEventListener(document, 'mouseup', widgetMouseUp, false);
@@ -1100,14 +1102,14 @@ function widgetMouseUp(e) {
         if (widgetDragManager.obj.dragEnd) {
             var evt = new xEvent(e);
             widgetDragManager.obj.dragEnd(widgetDragManager.obj, evt.pageX, evt.pageY);
-        } 
+        }
 
         widgetDragManager.obj = null;
         widgetDragManager.isDrag = false;
-    } 
-}  
+    }
+}
 
-// 드래그할때의 object이동등을 담당 
+// 드래그할때의 object이동등을 담당
 function widgetDragMouseMove(e) {
     var evt = new xEvent(e);
     if(widgetDragManager.obj) {
