@@ -13,13 +13,13 @@
     $lang->is_valid = 'Valid';
     $lang->is_stand_by = 'Stand by';
     $lang->file_list = 'Attachments List';
-    $lang->allow_outlink = 'ÆÄÀÏ ¿ÜºÎ ¸µÅ©';
+    $lang->allow_outlink = 'íŒŒì¼ ì™¸ë¶€ ë§í¬';
     $lang->allowed_filesize = 'Maximum File Size';
     $lang->allowed_attach_size = 'Maximum Attachments';
     $lang->allowed_filetypes = 'Allowed Extensions';
     $lang->enable_download_group = 'Download Allowed Groups';
 
-    $lang->about_allow_outlink = '¸®ÆÛ·¯¿¡ µû¶ó ÆÄÀÏ ¿ÜºÎ ¸µÅ©¸¦ Â÷´ÜÇÒ ¼ö ÀÖ½À´Ï´Ù.(*.wmv, *.mp3µî ¹Ìµð¾î ÆÄÀÏ Á¦¿Ü)';
+    $lang->about_allow_outlink = 'ë¦¬í¼ëŸ¬ì— ë”°ë¼ íŒŒì¼ ì™¸ë¶€ ë§í¬ë¥¼ ì°¨ë‹¨í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.(*.wmv, *.mp3ë“± ë¯¸ë””ì–´ íŒŒì¼ ì œì™¸)';
     $lang->about_allowed_filesize = 'You can assign file size limit for each file. (Exclude administrators)';
     $lang->about_allowed_attach_size = 'You can assign file size limit for each document. (Exclude administrators)';
     $lang->about_allowed_filetypes = 'Only allowed extentsions can be attached. To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension.<br />ex) *.* or *.jpg;*.gif;<br />(Exclude Administrators)';
