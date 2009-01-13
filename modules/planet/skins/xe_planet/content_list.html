@@ -29,7 +29,7 @@
                     <div class="tag">
                     <!--// class="tag" | class="tag edit" -->
                         {@ $regdate = $item->get('regdate') }
-                        <p class="time">{getTimeGap($item->get('regdate'), sprintf('y/m/d a H%s i%s', $lang->unit_hour,$lang->unit_min))}</p>
+                        <p class="time"><a href="{$item->getPermanentUrl()}#document_{$item->get('document_srl')}">{getTimeGap($item->get('regdate'), sprintf('y/m/d a H%s i%s', $lang->unit_hour,$lang->unit_min))}</a></p>
                         <dl>
                             <dt>TAG</dt>
                             <!--@if($item->get('mid')==$myplanet->getMid())-->
