@@ -65,7 +65,10 @@
                         if(!is_array($allow_outlink_site_array)) $allow_outlink_site_array[0] = $file_module_config->allow_outlink_site;
                         foreach($allow_outlink_site_array as $val) {
                             $site = parse_url(trim($val));
-                            if($site['host'] == $referer['host']) $file_module_config->allow_outlink = 'Y';
+                            if($site['host'] == $referer['host']) {
+                                $file_module_config->allow_outlink = 'Y';
+                                break;
+                            }
                         }
                         if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
                     }
