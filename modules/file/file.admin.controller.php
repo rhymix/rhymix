@@ -82,6 +82,7 @@
             $config->allowed_attach_size = Context::get('allowed_attach_size');
             $config->allowed_filetypes = Context::get('allowed_filetypes');
             $config->allow_outlink = Context::get('allow_outlink');
+            $config->allow_outlink_site = Context::get('allow_outlink_site');
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
@@ -103,6 +104,7 @@
             $download_grant = trim(Context::get('download_grant'));
 
             $file_config->allow_outlink = Context::get('allow_outlink');
+            $file_config->allow_outlink_site = Context::get('allow_outlink_site');
             $file_config->allowed_filesize = Context::get('allowed_filesize');
             $file_config->allowed_attach_size = Context::get('allowed_attach_size');
             $file_config->allowed_filetypes = Context::get('allowed_filetypes');

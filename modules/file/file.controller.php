@@ -73,7 +73,19 @@
             }
             if($file_module_config->allow_outlink == 'N') {
                 $referer = parse_url($_SERVER["HTTP_REFERER"]);
-                if($referer['host'] != $_SERVER['HTTP_HOST']) return $this->stop('msg_not_permitted_download');
+                if($referer['host'] != $_SERVER['HTTP_HOST']) {
+                    if($file_module_config->allow_outlink_site) {
+                        $allow_outlink_site_array = array();
+                        $allow_outlink_site_array = explode("\n", $file_module_config->allow_outlink_site);
+                        if(!is_array($allow_outlink_site_array)) $allow_outlink_site_array[0] = $file_module_config->allow_outlink_site;
+                        foreach($allow_outlink_site_array as $val) {
+                            $site = parse_url(trim($val));
+                            if($site['host'] == $referer['host']) $file_module_config->allow_outlink = 'Y';
+                        }
+                        if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
+                    }
+                    else return $this->stop('msg_not_permitted_download');
+                }
             }
 
             // trigger 호출 (before)
