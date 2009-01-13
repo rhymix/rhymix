@@ -454,7 +454,7 @@
             if(!$member_info->user_id) return new Object();
 
             // 아이디로 검색기능 추가
-            $url = getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','search_target','user_id','search_keyword',$member_info->user_id);
+            $url = getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','status[0]','new','status[1]','reviewing','status[2]','assign','status[3]','resolve','status[4]','reopen','status[5]','postponed','status[6]','duplicated','status[7]','invalid','search_target','user_id','search_keyword',$member_info->user_id);
             $oMemberController = &getController('member');
             $oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', './modules/member/tpl/images/icon_view_written.gif');
 
