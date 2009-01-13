@@ -13,11 +13,13 @@
     $lang->is_valid = '有效';
     $lang->is_stand_by = '等待';
     $lang->file_list = '附件目录';
+    $lang->allow_outlink = '파일 외부 링크';
     $lang->allowed_filesize = '文件大小限制';
     $lang->allowed_attach_size = '上传限制';
     $lang->allowed_filetypes = '可用扩展名';
     $lang->enable_download_group = '允许下载的用户组';
 
+    $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
     $lang->about_allowed_filesize = '最大单个上传文件大小(管理员不受此限制)。';
     $lang->about_allowed_attach_size = '每个主题最大上传文件大小(管理员不受此限制)。';
     $lang->about_allowed_filetypes = '只允许上传指定的扩展名。 可以用"*.扩展名"来指定或用 ";"来 区分多个扩展名<br />例) *.* or *.jpg;*.gif;<br />(管理员不受此限制)';

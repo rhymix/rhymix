@@ -13,11 +13,13 @@
     $lang->is_valid = 'Valid';
     $lang->is_stand_by = 'Stand by';
     $lang->file_list = 'Attachments List';
+    $lang->allow_outlink = '파일 외부 링크';
     $lang->allowed_filesize = 'Maximum File Size';
     $lang->allowed_attach_size = 'Maximum Attachments';
     $lang->allowed_filetypes = 'Allowed Extensions';
     $lang->enable_download_group = 'Download Allowed Groups';
 
+    $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
     $lang->about_allowed_filesize = 'You can assign file size limit for each file. (Exclude administrators)';
     $lang->about_allowed_attach_size = 'You can assign file size limit for each document. (Exclude administrators)';
     $lang->about_allowed_filetypes = 'Only allowed extentsions can be attached. To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension.<br />ex) *.* or *.jpg;*.gif;<br />(Exclude Administrators)';

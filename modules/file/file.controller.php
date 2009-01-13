@@ -71,6 +71,10 @@
                     if(!$is_permitted) return $this->stop('msg_not_permitted_download');
                 }
             }
+            if($file_module_config->allow_outlink == 'N') {
+                $referer = parse_url($_SERVER["HTTP_REFERER"]);
+                if($referer['host'] != $_SERVER['HTTP_HOST']) return $this->stop('msg_not_permitted_download');
+            }
 
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
