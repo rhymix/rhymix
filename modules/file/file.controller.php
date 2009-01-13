@@ -54,23 +54,8 @@
             $file_obj = $oFileModel->getFile($file_srl);
             if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid || $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
 
-            // 파일 다운로드 권한이 있는지 확인
             $file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
-            if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
-                if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
-                $logged_info = Context::get('logged_info');
-                if($logged_info->is_admin != 'Y') {
-                    $is_permitted = false;
-                    for($i=0;$i<count($file_module_config->download_grant);$i++) {
-                        $group_srl = $file_module_config->download_grant[$i];
-                        if($logged_info->group_list[$group_srl]) {
-                            $is_permitted = true;
-                            break;
-                        }
-                    }
-                    if(!$is_permitted) return $this->stop('msg_not_permitted_download');
-                }
-            }
+            // 파일 외부링크 차단
             if($file_module_config->allow_outlink == 'N') {
                 $referer = parse_url($_SERVER["HTTP_REFERER"]);
                 if($referer['host'] != $_SERVER['HTTP_HOST']) {
@@ -85,6 +70,22 @@
                         if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
                     }
                     else return $this->stop('msg_not_permitted_download');
+                }
+            }
+            // 파일 다운로드 권한이 있는지 확인
+            if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
+                if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
+                $logged_info = Context::get('logged_info');
+                if($logged_info->is_admin != 'Y') {
+                    $is_permitted = false;
+                    for($i=0;$i<count($file_module_config->download_grant);$i++) {
+                        $group_srl = $file_module_config->download_grant[$i];
+                        if($logged_info->group_list[$group_srl]) {
+                            $is_permitted = true;
+                            break;
+                        }
+                    }
+                    if(!$is_permitted) return $this->stop('msg_not_permitted_download');
                 }
             }
 
