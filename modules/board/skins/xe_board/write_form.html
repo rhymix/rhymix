@@ -110,11 +110,11 @@
             <!--@if($is_logged)-->
             <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_temp_save}"  onclick="doDocumentSave(this); return false;" /></span>
             <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_load}"  onclick="doDocumentLoad(this); return false;" /></span>
+            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" /></span>
             <!--@end-->
         </div>
 
         <div class="fr gap1">
-            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" /></span>
             <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
             <span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </div>
