@@ -7,11 +7,11 @@
 <!--#include("planet_info.include.html")-->
 <div id="planet_tab" class="tab">
     <ul class="myTab" id="planet_myTab">
-        <li <!--@if(!$type)-->class="active"<!--@end-->><a href="{getUrl('type','')}">{$lang->planet_total_articles}<sup>{number_format($total_content)}</sup></a></li>
-        <li <!--@if($type=='catch')-->class="active"<!--@end-->><a href="{getUrl('type','catch')}">{$lang->planet_catch}<sup>{number_format($total_catch)}</sup></a></li>
-        <li <!--@if($type=='interest')-->class="active"<!--@end-->><a href="{getUrl('type','interest')}">{$lang->planet_interest_content}<sup>&nbsp;</sup></a></li>
-        <!--<li <!--@if($type=='fish')-->class="active"<!--@end-->><a href="{getUrl('type','fish')}">{$lang->planet_fish}<sup>&nbsp;</sup></a></li>
-        <li <!--@if($type=='bigfish')-->class="active"<!--@end-->><a href="{getUrl('type','bigfish')}">{$lang->planet_bigfish}<sup>&nbsp;</sup></a></li>-->
+        <li <!--@if(!$type)-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','')}">{$lang->planet_total_articles}<sup>{number_format($total_content)}</sup></a></li>
+        <li <!--@if($type=='catch')-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','catch')}">{$lang->planet_catch}<sup>{number_format($total_catch)}</sup></a></li>
+        <li <!--@if($type=='interest')-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','interest')}">{$lang->planet_interest_content}<sup>&nbsp;</sup></a></li>
+        <!--<li <!--@if($type=='fish')-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','fish')}">{$lang->planet_fish}<sup>&nbsp;</sup></a></li>
+        <li <!--@if($type=='bigfish')-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','bigfish')}">{$lang->planet_bigfish}<sup>&nbsp;</sup></a></li>-->
     </ul>
 
     <!-- 실시간 인기 태그-->
@@ -21,10 +21,10 @@
         <div class="layer">
             <ul>
                 <!--@foreach($planet->getPopularTags(false,10) as $val)-->
-                <li><a href="{getUrl('act','dispPlanetContentTagSearch','keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a></li>
+                <li><a href="{getUrl('document_srl','', 'act','dispPlanetContentTagSearch', 'keyword',urlencode($val->tag))}">{htmlspecialchars($val->tag)}</a></li>
                 <!--@end-->
             </ul>
-            <a href="{getUrl('moretags',1)}" class="more">&gt;{$lang->cmd_planet_more_tag}</a>
+            <a href="{getUrl('document_srl','', 'moretags',1)}" class="more">&gt;{$lang->cmd_planet_more_tag}</a>
         </div>
     </div>
     <!-- //실시간 인기 태그 -->
