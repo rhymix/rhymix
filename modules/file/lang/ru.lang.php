@@ -14,6 +14,7 @@
     $lang->is_stand_by = 'Ожидание';
     $lang->file_list = 'Список Вложений';
     $lang->allow_outlink = '파일 외부 링크';
+    $lang->allow_outlink_site = '파일 외부 허용 사이트';
     $lang->allowed_filesize = 'Лимит размера файла';
     $lang->allowed_attach_size = 'Общий лимит размера';
     $lang->allowed_filetypes = 'Разрешенные расширения';

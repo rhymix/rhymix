@@ -14,13 +14,15 @@
     $lang->is_stand_by = 'Attente';
     $lang->file_list = 'Liste des Annexes';
     $lang->allow_outlink = '파일 외부 링크';
+    $lang->allow_outlink_site = '파일 외부 허용 사이트';
     $lang->allowed_filesize = 'Mesure du Fichier Maximum';
     $lang->allowed_attach_size = 'Somme des Annexes Maximum';
     $lang->allowed_filetypes = 'Extensions consentis';
     $lang->enable_download_group = 'Groupe permis de telecharger';
 
     $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
-    $lang->about_allowed_filesize = 'Vous pouvez designer la limite de mesure pour chaque fichier. (Exclure administrateurs)';
+    $lang->about_allow_outlink_site = '파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요.<br />ex)http://www.zeroboard.com';
+	$lang->about_allowed_filesize = 'Vous pouvez designer la limite de mesure pour chaque fichier. (Exclure administrateurs)';
     $lang->about_allowed_attach_size = 'Vous pouvez designer la limite de mesure pour chaque document. (Exclure administrateurs)';
     $lang->about_allowed_filetypes = 'Extensions consentis seulement peuvent etre attaches. Pour consentir une extension, utilisez "*.[extention]". Pour consentir plusieurs extensions, utilisez ";" entre chaque extension.<br />ex) *.* ou *.jpg;*.gif;<br />(Exclure Administrateurs)';
 
