@@ -7,12 +7,11 @@
         <description>{str_replace('\'', '&apos;', htmlspecialchars($info->description))}</description>
         <language>{$info->language}</language>
         <pubDate>{$info->date}</pubDate>
-        <totalCount>{$info->total_count}</totalCount>
         <generator>XpressEngine {__ZBXE_VERSION__}</generator>
         <!--@foreach($document_list as $oDocument)-->
         <item>
             <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title>
-            <author>{str_replace('\'', '&apos;',$oDocument->getNickName())}</author>
+            <dc:creator>{str_replace('\'', '&apos;',$oDocument->getNickName())}</dc:creator>
             <link>{$oDocument->getPermanentUrl()}</link>
             <guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
             <!--@if($oDocument->allowComment()) -->
