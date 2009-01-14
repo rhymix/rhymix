@@ -23,13 +23,11 @@
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
-            {@$i=0;}
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
             <category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
-            {@$i++;}
             <!--@end-->
-            <!--@if($i>0)-->
-            <slash:comments>{$i}</slash:comments>
+            <!--@if($oDocument->getCommentcount()>0)-->
+            <slash:comments>{$oDocument->getCommentcount()}</slash:comments>
             <!--@end-->
         </item>
         <!--@end-->

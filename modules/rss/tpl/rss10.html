@@ -1,6 +1,6 @@
 {'<?xml version="1.0" encoding="UTF-8" ?>'}
 
-<rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" >
+<rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
     <channel rdf:about="{getUrl('','mid',$mid,'module','rss','act','rss','format','rss1.0','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date'))}">
         <title>{$info->title}</title> 
         <link>{$info->link}</link>
@@ -14,14 +14,13 @@
         </items>
         <dc:date>{$info->date}</dc:date> 
         <dc:language>{$info->language}</dc:language> 
-        <totalCount>{$info->total_count}</totalCount>
 	</channel>
     <!--@foreach($document_list as $oDocument)-->
     <item rdf:about="{$oDocument->getPermanentUrl()}">
         <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title> 
         <link>{$oDocument->getPermanentUrl()}</link>
         <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(200)))}</description>
-        <dc:date>{$oDocument->getRegdateGM()}</dc:date> 
+        <dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sO')}</dc:date> 
     </item>
     <!--@end-->
 </rdf:RDF>
