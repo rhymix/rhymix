@@ -1,6 +1,6 @@
 {'<?xml version="1.0" encoding="UTF-8" ?>'}
 
-<rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
         <title>{$info->title}</title>
         <link>{$info->link}</link>
@@ -23,8 +23,13 @@
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
+            {@$i=0;}
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
             <category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
+            {@$i++;}
+            <!--@end-->
+            <!--@if($i>0)-->
+            <slash:comments>{$i}</slash:comments>
             <!--@end-->
         </item>
         <!--@end-->
