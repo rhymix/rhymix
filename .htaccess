@@ -25,9 +25,9 @@ RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
 RewriteRule ^rss/([[:digit:]]+){0,14}/([[:digit:]]+){0,14}/([[:digit:]]+)$ ./index.php?module=rss&act=rss&start_date=$1&end_date=$2&page=$3 [L]
 RewriteRule ^rss/([[:digit:]]+)$ ./index.php?module=rss&act=rss&page=$1 [L]
 RewriteRule ^rss$ ./index.php?module=rss&act=rss [L]
-RewriteRule ^atom/([[:digit:]]+){0,14}/([[:digit:]]+){0,14}/([[:digit:]]+)$ ./index.php?module=rss&act=rss&format=atom&start_date=$1&end_date=$2&page=$3 [L]
-RewriteRule ^atom/([[:digit:]]+)$ ./index.php?module=rss&act=rss&format=atom&page=$1 [L]
-RewriteRule ^atom$ ./index.php?module=rss&act=rss&format=atom [L]
+RewriteRule ^atom/([[:digit:]]+){0,14}/([[:digit:]]+){0,14}/([[:digit:]]+)$ ./index.php?module=rss&act=atom&start_date=$1&end_date=$2&page=$3 [L]
+RewriteRule ^atom/([[:digit:]]+)$ ./index.php?module=rss&act=atom&page=$1 [L]
+RewriteRule ^atom$ ./index.php?module=rss&act=atom [L]
 
 # administrator page
 RewriteRule ^admin$ ./index.php?module=admin [L]
