@@ -94,8 +94,8 @@
             switch (Context::get('format')) {
                 case 'atom':
                     $info->date = date('Y-m-d\TH:i:sP');
-                    if($mid) { $info->id = getUrl('','mid',$mid,'act','rss','format','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
-                    else { $info->id = getUrl('','module','rss','act','rss','format','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
+                    if($mid) { $info->id = getUrl('','mid',$mid,'act','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
+                    else { $info->id = getUrl('','module','rss','act','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
                     break;
                 case 'rss1.0':
                     $info->date = date('Y-m-d\TH:i:sP');
