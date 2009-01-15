@@ -106,7 +106,9 @@
 <script type="text/javascript">
 jQuery(window).load(function() {
     try { location.href=location.href.replace(/#(.+)$/,'')+"#document_"+{$document_srl}; } catch(e) { }
-    jQuery('#commentBody\\:{$document_srl} .xe_content').effect("highlight", {}, 2000);
+    if(jQuery.effects && jQuery.effects.highlight) {
+        jQuery('#commentBody\\:{$document_srl} .xe_content').effect("highlight", { color:'#FFFF00' }, 2500);
+    }
 });
 </script>
 <!--@end-->
