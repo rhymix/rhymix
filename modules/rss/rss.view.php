@@ -146,6 +146,11 @@
             $this->setTemplateFile('display');
         }
 
+        function atom() {
+            Context::set('format', 'atom');
+            $this->rss();
+        }
+
         /**
          * @brief 에러 출력
          **/

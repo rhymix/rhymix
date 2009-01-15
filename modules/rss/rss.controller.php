@@ -34,6 +34,7 @@
             $rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 
             if($rss_config->open_rss != 'N') Context::set('rss_url', getUrl('','mid',Context::get('mid'),'act','rss'));
+            if($rss_config->open_rss != 'N') Context::set('atom_url', getUrl('','mid',Context::get('mid'),'act','atom'));
 
             return new Object();
         }
