@@ -20,7 +20,7 @@
         <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title> 
         <link>{$oDocument->getPermanentUrl()}</link>
         <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(200)))}</description>
-        <dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sO')}</dc:date> 
+        <dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sP')}</dc:date> 
     </item>
     <!--@end-->
 </rdf:RDF>

@@ -25,7 +25,8 @@
             $obj->module_srl = $this->module_srl;
             if($obj->is_notice!='Y'||!$this->grant->manager) $obj->is_notice = 'N';
 
-            if(!$obj->title) $obj->title = cut_str(strip_tags($obj->content),20,'...');
+            settype($obj->title, "string");
+            if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
 
             // 관리자가 아니라면 게시글 색상/굵기 제거
             if(!$this->grant->manager) {

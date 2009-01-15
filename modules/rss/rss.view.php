@@ -98,7 +98,7 @@
                     else { $info->id = getUrl('','module','rss','act','rss','format','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
                     break;
                 case 'rss1.0':
-                    $info->date = date('Y-m-d\TH:i:sO');
+                    $info->date = date('Y-m-d\TH:i:sP');
                     break;
                 default:
                     $info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
