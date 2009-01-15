@@ -217,7 +217,7 @@
                 }
 
                 // DB 쿼리 내역 출력
-                if(__DEBUG__ & 4) {
+                if((__DEBUG__ & 4) && $GLOBALS['__db_queries__']) {
                     $queries_output = array(array('Query', 'Elapsed time', 'Result'));
                     foreach($GLOBALS['__db_queries__'] as $query) {
                         array_push($queries_output, array($query['query'], sprintf('%0.5f', $query['elapsed_time']), $query['result']));
