@@ -47,7 +47,7 @@
             // tpl_file이 비어 있거나 해당 파일이 없으면 return
             if(!$tpl_file || !file_exists(FileHandler::getRealPath($tpl_file))) return;
 
-            $this->tpl_path = $tpl_path;
+            $this->tpl_path = preg_replace('/^\.\//','',$tpl_path);
             $this->tpl_file = $tpl_file;
 
             // compiled된(or 될) 파일이름을 구함
@@ -155,12 +155,11 @@
             $str1 = $matches[0];
             $str2 = $path = $matches[3];
 
-            if(!preg_match('/^([a-z0-9\_\.])/i',$path)) return $str1;
+            if(substr($path,0,1)=='/') return $str1;
 
-            $path = preg_replace('/^(\.\/|\/)/','',$path);
-            $path = '<?php echo $this->tpl_path?>'.$path;
-            $output = str_replace($str2, $path, $str1);
-            return $output;
+            if(substr($path,0,2)=='./') $path = substr($path,2);
+            $path = '<?php echo Context::getRequestUri().$this->tpl_path; ?>'.$path;
+            return str_replace($str2, $path, $str1);
         }
 
         /**

@@ -66,7 +66,13 @@
 
             array_unshift($files, array('file' => $path.'/'.$filename, 'media' => 'all'));
 
-            return $this->_getOptimizedRemoved($files);
+            $files = $this->_getOptimizedRemoved($files);
+            if(!count($files)) return $files;
+
+            foreach($files as $key => $val) {
+                if(substr($val['file'],0,2)=='./') $files[$key]['file'] = Context::getRequestUri().substr($val['file'],2);
+            }
+            return $files;
         }
 
         /**
@@ -208,10 +214,15 @@ if(!$cached) {
         }
 
         function _replaceCssPath($matches) {
+            static $abpath = null;
+            if(is_null($abpath)) {
+                $url_info = parse_url(Context::getRequestUri());
+                $abpath = $url_info['path'];
+            }
             $path = str_replace(array('"',"'"),'',$matches[1]);
             if(preg_match('/^http|^\//i', $path) || preg_match('/\.htc$/i',$path) ) return $matches[0];
 
-            return 'url("../../../../'.$this->tmp_css_path.$path.'")';
+            return 'url("'.$abpath.$this->tmp_css_path.$path.'")';
         }
 
     }

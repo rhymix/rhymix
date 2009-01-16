@@ -27,8 +27,6 @@
         require _XE_PATH_.'config/config.user.inc.php';
     }
 
-
-
     /**
      * @brief 디버깅 메시지 출력 (비트 값)
      * 0 : 디버그 메시지를 생성/ 출력하지 않음
