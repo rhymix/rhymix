@@ -112,7 +112,7 @@
              * 관리자가 지정한 위젯의 style을 구함
              **/
             // 가끔 잘못된 코드인 background-image:url(none)이 들어 있을 수가 있는데 이럴 경우 none에 대한 url을 요청하므로 무조건 제거함
-            $style = preg_replace('/background\-image: url\(none\)/is','', $args->style);
+            $style = preg_replace('/background\-image: url\((.+)(\/?)none\)/is','', $args->style);
 
             // 내부 여백을 둔 것을 구해서 style문으로 미리 변경해 놓음
             $widget_padding_left = $args->widget_padding_left;
