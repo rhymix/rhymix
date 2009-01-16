@@ -1203,10 +1203,6 @@
             // <img|br> 코드 변환
             $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
 
-            // 이미지등의 잘못된 경로를 제거
-            $content = str_replace(Context::getRequestUri().Context::get('mid').'/'.Context::get('act'),Context::getRequestUri(),$content);
-            $content = str_replace(Context::getRequestUri().Context::get('mid'),Context::getRequestUri(),$content);
-
             return $content;
         }
 
