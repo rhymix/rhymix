@@ -1203,6 +1203,9 @@
             // <img|br> 코드 변환
             $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
 
+            // templateHandler의 이미지 경로로 인하여 생기는 절대경로 이미지등의 경로 중복 처리
+            $content = preg_replace('/http:\/\/([^ ]+)http:\/\//is','http://', $content);
+
             return $content;
         }
 
