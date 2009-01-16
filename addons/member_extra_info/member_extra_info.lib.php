@@ -14,8 +14,8 @@
         // 전역변수에 미리 설정한 데이터가 있다면 그걸 return
         if(!$GLOBALS['_transImageNameList'][$member_srl]->cached) {
             $GLOBALS['_transImageNameList'][$member_srl]->cached = true;
-            $image_name_file = sprintf('./files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-            $image_mark_file = sprintf('./files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+            $image_name_file = sprintf('%sfiles/member_extra_info/image_name/%s%d.gif', Context::getRequestUri(), getNumberingPath($member_srl), $member_srl);
+            $image_mark_file = sprintf('%sfiles/member_extra_info/image_mark/%s%d.gif', Context::getRequestUri(), getNumberingPath($member_srl), $member_srl);
             if(file_exists($image_name_file)) $GLOBALS['_transImageNameList'][$member_srl]->image_name_file = $image_name_file;
             else $image_name_file = '';
             if(file_exists($image_mark_file)) $GLOBALS['_transImageNameList'][$member_srl]->image_mark_file = $image_mark_file;
