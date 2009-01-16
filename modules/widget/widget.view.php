@@ -13,7 +13,7 @@
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
-        
+
         /**
          * @brief 위젯의 상세 정보(conf/info.xml)를 팝업 출력
          **/
@@ -37,8 +37,15 @@
             // 선택된 위젯 정보를 구함
             $oWidgetModel = &getModel('widget');
 
-            $widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
+            $oWidgetModel = &getModel('widget');
+            $widget_list = $oWidgetModel->getDownloadedWidgetList();
+            $selected_widget = Context::get('selected_widget');
+            if(!$selected_widget) $selected_widget = $widget_list[0]->widget;
+
+            $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
             Context::set('widget_info', $widget_info);
+            Context::set('widget_list', $widget_list);
+            Context::set('selected_widget', $selected_widget);
 
             $oModuleModel = &getModel('module');
 

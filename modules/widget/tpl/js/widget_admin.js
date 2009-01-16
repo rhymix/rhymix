@@ -51,6 +51,8 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
     var selected_colorset = params["colorset"];
     for(var i=0;i<length;i++) sel.remove(0);
 
+    if(!ret_obj["colorset_list"]) return;
+
     var colorset_list = ret_obj["colorset_list"].split("\n");
     var selected_index = 0;
     for(var i=0;i<colorset_list.length;i++) {
