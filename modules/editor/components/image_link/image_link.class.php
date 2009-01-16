@@ -49,6 +49,7 @@
             $link_url = $xml_obj->attrs->link_url;
             $open_window = $xml_obj->attrs->open_window;
             $style = $xml_obj->attrs->style;
+            $margin = (int)$xml_obj->attrs->margin;
 
             if(!$alt) {
                 $tmp_arr = explode('/',$src);
@@ -64,6 +65,10 @@
                 $attr_output[] = "alt=\"".$alt."\"";
                 $attr_output[] = "title=\"".$alt."\"";
             }
+            if($margin) {
+                $style = preg_replace('/margin[: 0-9a-z]+\;/i','', $style);
+                $style .= 'margin:'.$margin.'px;';
+            }
             if($align) $attr_output[] = "align=\"".$align."\"";
 
             if(preg_match("/\.png$/i",$src)) $attr_output[] = "class=\"iePngFix\"";
@@ -72,7 +77,7 @@
             if($height) $attr_output[] = 'height="'.$height.'"';
             if($border) $attr_output[] = 'border="'.$border.'"';
 
-            $code = sprintf("<img %s style=\"%s\" />", implode(" ",$attr_output), $style);
+            $code = sprintf("<img %s style=\"%s\" />", implode(' ',$attr_output), $style);
 
             if($link_url) {
                 if($open_window =='Y') $code = sprintf('<a href="%s" onclick="window.open(this.href);return false;">%s</a>', $link_url, $code);

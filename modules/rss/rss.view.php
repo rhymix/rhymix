@@ -4,7 +4,7 @@
      * @author zero (zero@nzeo.com)
      * @brief  rss module의 view class
      *
-     * RSS 2.0형식으로 문서 출력
+     * Feed 문서 출력
      *
      **/
 
@@ -132,13 +132,10 @@
                     $file = 'rss20';
                     break;
             }
-            
 
             $oTemplate = new TemplateHandler();
-            $oContext = &Context::getInstance();
 
             $content = $oTemplate->compile($path, $file);
-            $content = $oContext->transContent($content);
             Context::set('content', $content);
 
             // 템플릿 파일 지정
@@ -146,6 +143,7 @@
             $this->setTemplateFile('display');
         }
 
+        /** @brief ATOM 출력 **/
         function atom() {
             Context::set('format', 'atom');
             $this->rss();
