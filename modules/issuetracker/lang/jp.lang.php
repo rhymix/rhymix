@@ -26,11 +26,11 @@
      $lang->svn_cmd = 'SVNファイルのロケーション';
      $lang->about_svn_cmd = 'SVN連動のためのsvn clientファイルのロケーションを入力して下さい。 (ex: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFFファイルのロケーション';
-     $lang->about_diff_cmd = 'SVN revision間の比較のためのdiffファイルのロケーションを入力して下さい。(ex: /usr/bin/diff)';
+     $lang->about_diff_cmd = 'SVN リビジョン（revision）間の比較のためのdiffファイルのロケーションを入力して下さい。(ex: /usr/bin/diff)';
      $lang->svn_userid = 'SVN ID';
-     $lang->about_svn_userid = 'If authentication is necessary, input userid for accessing the SVN repository';
-     $lang->svn_passwd = 'SVN password';
-     $lang->about_svn_passwd = 'If authentication is necessary, input password for accessing the SVN repository';
+     $lang->about_svn_userid = 'SVNリポジトリへの認証が必要の場合、IDを入力して下さい。';
+     $lang->svn_passwd = 'SVN パスワード';
+     $lang->about_svn_passwd = 'SVNリポジトリへの認証が必要の場合、パスワードを入力して下さい。';
 
      $lang->issue = 'イシュー';
      $lang->total_issue = 'イシュー全体';
@@ -98,5 +98,6 @@
         'changed' => '変更',
         'created' => '作成'
     );
-    $lang->cmd_manage_issue = 'Manage issues';
+
+    $lang->cmd_manage_issue = 'イシューの管理';
 ?>
