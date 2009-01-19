@@ -23,7 +23,7 @@
          <!--@end-->
       </author>
       <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
-      <content type="html">{str_replace('\'', '&apos;', htmlspecialchars(Context::getInstance()->transContent($oDocument->getContent(false,false,true))))}</content>
+      <content type="html">{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</content>
       <!--@else-->
       <summary type="text">{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</summary>
       <!--@end-->

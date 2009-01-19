@@ -18,7 +18,7 @@
             <comments>{$oDocument->getPermanentUrl()}#comment</comments>
             <!--@end-->
             <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
-            <description>{str_replace('\'', '&apos;', htmlspecialchars(Context::getInstance()->transContent($oDocument->getContent(false,false,true))))}</description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
             <!--@else-->
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
             <!--@end-->

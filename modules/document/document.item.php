@@ -282,6 +282,18 @@
             return $content;
         }
 
+        /**
+         * 에디터 코드가 변환된 내용 반환
+         **/
+        function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
+            $oContext = &Context::getInstance();
+
+            $content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
+            $content = $oContext->transContent($content);
+
+            return $content;
+        }
+
         function getSummary($str_size = 50) {
             // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도 - {20,}으로 길이를 정하면, 20개 이상 문자열 맨 마지막에 스페이스를 추가할 뿐 원하는 의도는 달성되지 못함
             $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$this->getContent(false,false));
