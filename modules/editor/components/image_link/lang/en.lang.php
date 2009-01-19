@@ -15,6 +15,7 @@
     $lang->image_align_right = "Right of Article";
     $lang->image_border = "Border Thickness";
     $lang->urllink_url = "URL";
+    $lang->image_margin = 'Image Margin';
 
     $lang->about_url_link_open_window = "Make the link to open as a new window";
     $lang->cmd_get_scale = "Get Image Size";

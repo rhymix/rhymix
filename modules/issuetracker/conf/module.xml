@@ -84,6 +84,7 @@
         <action name="dispIssuetrackerAdminModifyPackage" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminModifyRelease" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminAttachRelease" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminManageDocument" type="view" standalone="true" />
 
         <action name="procIssuetrackerAdminInsertProject" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertMilestone" type="controller" standalone="true" />
@@ -103,6 +104,7 @@
         <action name="procIssuetrackerAdminAttachRelease" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertGrant" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminManageCheckedIssue" type="controller" standalone="true" />
 
     </actions>
 </module>

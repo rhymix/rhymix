@@ -178,7 +178,9 @@ function planetPreview(obj) {
         text = text.replace(/>/ig,'&gt;');
         text = text.replace(/\.\.\./g, '…');
         text = text.replace(/--/g, '—');
-        $('preview_text').innerHTML = text.replace(/"([^"]*)":(mms|http|ftp|https)([^ ]+)/ig,'<a href="$2$3">$1</a>');
+        text = text.replace(/"([^"]*)":([0-9]+)/ig,'<a href="'+request_uri+'$2">$1</a>');
+        text = text.replace(/"([^"]*)":(mms|http|ftp|https)([^ ]+)/ig,'<a href="$2$3">$1</a>');
+        $('preview_text').innerHTML = text;
     }else{
         $Element('preview').addClass('off');
         $('preview_text').innerHTML = '';

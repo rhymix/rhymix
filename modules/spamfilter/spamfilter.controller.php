@@ -155,6 +155,7 @@
          **/
         function insertIP($ipaddress) {
             $args->ipaddress = $ipaddress;
+
             return executeQuery('spamfilter.insertDeniedIP', $args);
         }
 

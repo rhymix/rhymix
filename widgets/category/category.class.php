@@ -29,7 +29,8 @@
             }
 
             if($args->srl) $module_srl = $args->srl;
-            debugPrint($args);
+
+            if(is_array($module_srl)) $module_srl = $module_srl[0];
 
             // DocumentModel::getMonthlyArchivedList()를 이용하기 위한 변수 정리
             $obj->module_srl = $module_srl;

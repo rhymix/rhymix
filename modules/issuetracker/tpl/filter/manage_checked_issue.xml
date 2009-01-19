@@ -1,0 +1,7 @@
+<filter name="manage_checked_issue" module="issuetracker" act="procIssuetrackerAdminManageCheckedIssue">
+    <form />
+    <response callback_func="completeManageIssue">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

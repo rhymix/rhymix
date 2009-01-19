@@ -86,7 +86,7 @@ function completePreProcessing(ret_obj, response_tags) {
     fo_obj.key.value = key;
 
     var fo_import = xGetElementById('fo_import');
-    if(fo_import && fo_import.target_module) fo_obj.target_module.value = fo_import.target_module.options[fo_import.target_module.selectedIndex].value;
+    if(fo_import && fo_import.target_module) fo_obj.target_module.value = fo_import.target_module.value;
     if(fo_import && fo_import.user_id) fo_obj.user_id.value = fo_import.user_id.value;
 
     fo_obj.unit_count.value = fo_import.unit_count.options[fo_import.unit_count.selectedIndex].value;
@@ -159,4 +159,11 @@ function displayProgress(total, cur) {
     status += '<div class="progress2">'+cur+'/'+total+'</div>';
     status += '<div class="clear"></div></div>';
     xInnerHtml('status', status);
+}
+
+function insertSelectedModule(id, module_srl, mid, browser_title) {
+    var obj= xGetElementById('_'+id);
+    var sObj = xGetElementById(id);
+    sObj.value = module_srl;
+    obj.value = browser_title+' ('+mid+')';
 }

@@ -4,6 +4,23 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="adminTable">
     <tr class="row2">
+        <th scope="col"><div>{$lang->allow_outlink}</div></th>
+        <td>
+            <select name="allow_outlink">
+                <option value="Y"<!--@if($config->allow_outlink=='Y')--> selected="selected"<!--@end-->>{$lang->enable}</option>
+                <option value="N"<!--@if($config->allow_outlink=='N')--> selected="selected"<!--@end-->>{$lang->disable}</option>
+            </select>
+            <p>{$lang->about_allow_outlink}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="col"><div>{$lang->allow_outlink_site}</div></th>
+        <td>
+            <textarea name="allow_outlink_site" cols="70">{$config->allow_outlink_site}</textarea>
+            <p>{$lang->about_allow_outlink_site}</p>
+        </td>
+    </tr>
+    <tr class="row2">
         <th scope="col"><div>{$lang->allowed_filesize}</div></th>
         <td>
             <input type="text" name="allowed_filesize" value="{$config->allowed_filesize}" class="inputTypeText" size="3" />MB

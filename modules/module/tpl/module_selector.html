@@ -52,7 +52,7 @@
                     <!--@if($_idx >0)--><tr><!--@end-->
                     <td>{$k}</td>
                     <td>{$v->browser_title}</td>
-                    <td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$v->browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+                    <td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{str_replace("'","\\'",$v->browser_title)}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
                     <!--@if($_idx <count($val))--></tr><!--@end-->
                     {@ $_idx ++; }
                     <!--@end-->
@@ -64,7 +64,7 @@
                 <tr>
                     <td>{$k}</td>
                     <td>{$v->browser_title}</td>
-                    <td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{$v->browser_title}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+                    <td><a href="#" onclick="insertModule('{$id}', {$v->module_srl}, '{$k}', '{str_replace("'","\\'",$v->browser_title)}',{$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
                 </tr>
                 <!--@end-->
                 <!--@end-->

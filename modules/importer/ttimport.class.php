@@ -438,7 +438,7 @@
                 $parent_output = executeQuery('comment.getCommentListItem', $parent_args);
 
                 // 부모댓글이 존재하지 않으면 return
-                if(!$parent_output->toBool() || !$parent_output->data) continue;
+                if(!$parent_output->toBool() || !$parent_output->data) return false;
                 $parent = $parent_output->data;
 
                 $list_args->head = $parent->head;

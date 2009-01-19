@@ -54,8 +54,28 @@
             $file_obj = $oFileModel->getFile($file_srl);
             if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid || $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
 
-            // 파일 다운로드 권한이 있는지 확인
             $file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
+            // 파일 외부링크 차단
+            if($file_module_config->allow_outlink == 'N') {
+                $referer = parse_url($_SERVER["HTTP_REFERER"]);
+                if($referer['host'] != $_SERVER['HTTP_HOST']) {
+                    if($file_module_config->allow_outlink_site) {
+                        $allow_outlink_site_array = array();
+                        $allow_outlink_site_array = explode("\n", $file_module_config->allow_outlink_site);
+                        if(!is_array($allow_outlink_site_array)) $allow_outlink_site_array[0] = $file_module_config->allow_outlink_site;
+                        foreach($allow_outlink_site_array as $val) {
+                            $site = parse_url(trim($val));
+                            if($site['host'] == $referer['host']) {
+                                $file_module_config->allow_outlink = 'Y';
+                                break;
+                            }
+                        }
+                        if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
+                    }
+                    else return $this->stop('msg_not_permitted_download');
+                }
+            }
+            // 파일 다운로드 권한이 있는지 확인
             if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
                 if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
                 $logged_info = Context::get('logged_info');

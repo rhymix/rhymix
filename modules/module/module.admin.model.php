@@ -1,12 +1,12 @@
 <?php
     /**
-     * @class  widgetAdminModel
+     * @class  moduleAdminModel
      * @author zero (zero@nzeo.com)
      * @version 0.1
-     * @brief  widget 모듈의 AdminModel class
+     * @brief  module 모듈의 AdminModel class
      **/
 
-    class widgetAdminModel extends widget {
+    class moduleAdminModel extends module {
 
         /**
          * @brief 초기화
@@ -17,7 +17,7 @@
         /**
          * @brief 위젯의 경로를 구함
          **/
-        function getWidgetAdminModuleList() {
+        function getModuleAdminModuleList() {
             $args->module_srls = Context::get('module_srls');
             $output = executeQueryArray('module.getModulesInfo', $args);
             if(!$output->toBool() || !$output->data) return new Object();

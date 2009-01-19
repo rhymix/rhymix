@@ -14,6 +14,7 @@
     $lang->image_align_middle = "中央揃え";
     $lang->image_align_right = "右揃え";
     $lang->image_border = "ボーダー";
+    $lang->image_margin = 'Image Margin';
 
     $lang->urllink_open_window = "新しいウィンドウで開く";
     $lang->about_url_link_open_window = "チェックすると、リンクをクリックした時に新しいウィンドウで開きます。";

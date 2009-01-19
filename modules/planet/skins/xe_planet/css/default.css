@@ -250,6 +250,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentBody .comment .tongue .postExtra *{ margin:0; padding:0;}
 .commentBody .comment .tongue .postExtra .tag { float:left;}
 .commentBody .comment .tongue .postExtra .tag .time{ display:inline; margin-right:5px; color:#999; font:11px AppleGothic, Dotum, Gulim, Sans-serif;}
+.commentBody .comment .tongue .postExtra .tag .time a{color:#999;}
 .commentBody .comment .tongue .postExtra .tag dl{ display:inline;}
 .commentBody .comment .tongue .postExtra .tag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.gif) no-repeat center; font:bold 11px Tahoma; color:#fff;}
 .commentBody .comment .tongue .postExtra .tag dd{ display:inline; position:relative;}

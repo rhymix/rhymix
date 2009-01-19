@@ -15,6 +15,7 @@
             $oModuleController = &getController('module');
 
             $oModuleController->insertActionForward('rss', 'view', 'rss');
+            $oModuleController->insertActionForward('rss', 'view', 'atom');
 
             // 2007. 10. 18 서비스형 모듈의 추가 설정에 참여하기 위한 trigger 추가
             $oModuleController->insertTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before');
@@ -31,6 +32,9 @@
         function checkUpdate() {
             $oModuleModel = &getModel('module');
 
+            // atom 을 위한 Action forward 추가
+            if(!$oModuleModel->getActionForward('atom')) return true;
+
             // 2007. 10. 18 서비스형 모듈의 추가 설정에 참여하기 위한 trigger 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before')) return true;
 
@@ -46,6 +50,10 @@
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
+
+            // atom act 추가
+            if(!$oModuleModel->getActionForward('atom'))
+                $oModuleController->insertActionForward('rss', 'view', 'atom');
 
             // 2007. 10. 18 서비스형 모듈의 추가 설정에 참여하기 위한 trigger 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before')) 

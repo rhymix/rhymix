@@ -3,7 +3,14 @@
         <tr>
             <th scope="row"><div>{$lang->widget}</div></th>
             <td>
-                {$widget_info->title} ver {$widget_info->version}
+<select name="selected_widget">
+    <!--@foreach($widget_list as $widget)-->
+    <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget_info->version}</option>
+    <!--@end-->
+</select>
+<a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_select}</span></a>
+
+
                 <!--@if($widget_info->author->description)-->
                 <div class="widget_description">{nl2br(trim($widget_info->author->description))}</div>
                 <!--@end-->
@@ -13,13 +20,13 @@
         <tr>
             <th scope="row"><div>{$lang->skin}</div></th>
             <td>
-                <select name="skin" onchange="doDisplaySkinColorset(this);return false;" id="widget_skin">
+                <select name="skin" id="widget_skin">
                     <option value="">&nbsp;</option>
                 <!--@foreach($skin_list as $key => $val)-->
                     <option value="{$key}">{$val->title} ({$key})</option>
                 <!--@end-->
                 </select>
-
+<a href="#" class="button small" onclick="doDisplaySkinColorset(jQuery('#widget_skin').get(0))"><span>{$lang->cmd_select}</span></a>
                 <div id="colorset_area" style="display:none">
                     <div class="header">{$lang->colorset}</div>
                     <div class="footer">

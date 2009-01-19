@@ -98,4 +98,6 @@
         'changed' => '변경',
         'created' => '생성'
     );
+
+    $lang->cmd_manage_issue = '이슈 관리';
 ?>

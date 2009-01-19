@@ -15,6 +15,7 @@
     $lang->image_align_right = "Право";
     $lang->image_border = "Толщина рамки";
     $lang->urllink_url = "URL";
+    $lang->image_margin = 'Image Margin';
 
     $lang->about_url_link_open_window = "Создайте ссылку для открытия в новом окне";
     $lang->cmd_get_scale = "Получить размер изображения";

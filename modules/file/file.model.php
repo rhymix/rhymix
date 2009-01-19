@@ -93,18 +93,23 @@
                 $config->allowed_attach_size = $file_config->allowed_attach_size;
                 $config->allowed_filetypes = $file_config->allowed_filetypes;
                 $config->download_grant = $file_config->download_grant;
+                $config->allow_outlink = $file_config->allow_outlink;
+                $config->allow_outlink_site = $file_config->allow_outlink_site;
             }
 
             // 전체 파일첨부 속성을 먼저 따른다
             if(!$config->allowed_filesize) $config->allowed_filesize = $file_module_config->allowed_filesize;
             if(!$config->allowed_attach_size) $config->allowed_attach_size = $file_module_config->allowed_attach_size;
             if(!$config->allowed_filetypes) $config->allowed_filetypes = $file_module_config->allowed_filetypes;
+            if(!$config->allow_outlink) $config->allow_outlink = $file_module_config->allow_outlink;
+            if(!$config->allow_outlink_site) $config->allow_outlink_site = $file_module_config->allow_outlink_site;
             if(!$config->download_grant) $config->download_grant = $file_module_config->download_grant;
 
             // 그래도 없으면 default로 
             if(!$config->allowed_filesize) $config->allowed_filesize = '2';
             if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';
             if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
+            if(!$config->allow_outlink) $config->allow_outlink = 'Y';
             if(!$config->download_grant) $config->download_grant = array();
 
             return $config;

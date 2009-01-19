@@ -89,7 +89,7 @@ ul.localNavigation li.on a { background-position:right top; padding:8px 15px 5px
 
 #popHeadder, #popHistoryHeadder { margin-bottom:10px;}
 #popHeadder h1, #popHistoryHeadder h1 { background:url("../images/top_head_title_bg.gif") repeat-x left top; font-size:1em; border:1px solid #E3E3E2; padding:9px; color:#555555; margin:0; }
-#popBody, #popHistoryBody { width:600px; padding:10px; background:#ffffff;}
+#popBody, #popHistoryBody { width:600px; padding:10px; background:#ffffff; *zoom:1; position:relative;}
 #popHistoryBody { height: 200px; overflow: auto; padding-right:0; }
 #popFooter { width:620px; background:#70A2C6; border-top:1px solid #e8e8e7; padding:.5em 0 .5em 0; overflow:hidden; }
 #popFooter .close { position:relative; left:50%; margin-left:-1em; float:left;}

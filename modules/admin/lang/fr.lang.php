@@ -54,16 +54,16 @@
     $lang->yesterday = "Yesterday";
     $lang->today = "Today";
 
-    $lang->cmd_lang_select = "언어선택";
-    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
-    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
-    $lang->use_ssl = "SSL 사용";
+    $lang->cmd_lang_select = "langue";
+    $lang->about_cmd_lang_select = "La langue choisie seulement sera servie";
+    $lang->about_recompile_cache = "Vous pouvez arranger les fichiers inutils ou les fichiers invalides d'antémémoire";
+    $lang->use_ssl = "Utiliser SSL";
     $lang->ssl_options = array(
-        'none' => "사용안함",
-        'optional' => "선택적으로",
-        'always' => "항상사용"
+        'none' => "Ne Pas utiliser",
+        'optional' => "Optionnel",
+        'always' => "Toujours"
     );
-    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
-    $lang->server_ports = "서버포트지정";
-    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
+    $lang->about_use_ssl = "Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services.";
+    $lang->server_ports = "déclarer le port de serveur";
+    $lang->about_server_ports = "Si l'on ne veut pas utiliser le port 80 pour HTTP mais un autre port, ou bien, si l'on ne veut pas utiliser le port 443 pour HTTPS mais un autre port, on doit déclarer les ports.";
 ?>

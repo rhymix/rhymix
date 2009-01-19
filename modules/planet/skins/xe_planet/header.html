@@ -32,7 +32,7 @@
 			<!--@if($date && !($act=='dispPlanetLogin' || $act=='dispPlanetContentTagSearch' || $act=='dispPlanetTagSearch' || $act=='dispPlanetContentSearch'))-->
 			<div class="timeNav">
 				<!--@if($prev_date)-->
-                    <a class="prev" href="{getUrl('date',$prev_date)}" title="{$lang->cmd_prev}">&lt;</a>
+                    <a class="prev" href="{getUrl('date',$prev_date, 'document_srl','')}" title="{$lang->cmd_prev}">&lt;</a>
                 <!--@else-->
                     <span class="prev">&lt;</span>
                 <!--@end-->
@@ -41,7 +41,7 @@
 				<strong>{zdate($date,'d')}</strong>{$lang->unit_day}
 				(<em>{zdate($date,'l')}</em>)
 				<!--@if($next_date)-->
-                    <a class="next" href="{getUrl('date',$next_date)}" title="{$lang->cmd_next}">&gt;</a>
+                    <a class="next" href="{getUrl('date',$next_date, 'document_srl','')}" title="{$lang->cmd_next}">&gt;</a>
                 <!--@else-->
                     <span class="next">&gt;</span>
                 <!--@end-->

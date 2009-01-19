@@ -26,7 +26,7 @@
             $text = $matches[5];
 
             // 레벨 아이콘의 위치를 구함
-            $level_icon = sprintf('./modules/point/icons/%s/%d.gif', $config->level_icon, $level);
+            $level_icon = sprintf('%smodules/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
 
             // 최고 레벨이 아니면 다음 레벨로 가기 위한 per을 구함 :: 주석과 실제 내용이 맞지 않아 실제 내용을 수정
             if($level < $config->max_level) {

@@ -48,13 +48,31 @@
 
             $oModuleController->insertActionForward('issuetracker', 'controller', 'procIssuetrackerAdminAttachRelease');
 
+            // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
+            $oModuleController->insertTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after');
+
+
             $oDB = &DB::getInstance();
             $oDB->addIndex("issue_changesets","idx_unique_revision", array("module_srl","revision"), true);
         }
 
         function checkUpdate()
         {
+            $oModuleModel = &getModel('module');
+            // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
+            if(!$oModuleModel->getTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after')) return true;
             return false;
+        }
+
+        function moduleUpdate() {
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
+            // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
+            if(!$oModuleModel->getTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after'))
+                $oModuleController->insertTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after');
+
+            return new Object(0, 'success_updated');
         }
     }
 ?>

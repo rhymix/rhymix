@@ -13,11 +13,15 @@
     $lang->is_valid = '유효';
     $lang->is_stand_by = '대기';
     $lang->file_list = '첨부 파일 목록';
+    $lang->allow_outlink = '파일 외부 링크';
+    $lang->allow_outlink_site = '파일 외부 허용 사이트';
     $lang->allowed_filesize = '파일 제한 크기';
     $lang->allowed_attach_size = '문서 첨부 제한';
     $lang->allowed_filetypes = '허용 확장자';
     $lang->enable_download_group = '다운로드 가능 그룹';
 
+    $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
+    $lang->about_allow_outlink_site = '파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요.<br />ex)http://www.zeroboard.com';
     $lang->about_allowed_filesize = '하나의 파일에 대해 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
     $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
     $lang->about_allowed_filetypes = '허용한 확장자만 첨부할 수 있습니다. "*.확장자"로 지정할 수 있고 ";" 으로 여러개 지정이 가능합니다.<br />ex) *.* or *.jpg;*.gif;<br />(관리자는 제외)';
