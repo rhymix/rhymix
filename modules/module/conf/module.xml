@@ -8,6 +8,9 @@
 
         <action name="dispModuleSkinInfo" type="view" standalone="true" />
 
+        <action name="getModuleAdminModuleList" type="model" standalone="true" />
+
+        <action name="dispModuleAdminSelectList" type="view" standalone="true" />
         <action name="dispModuleAdminCopyModule" type="view" standalone="true" />
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" />

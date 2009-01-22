@@ -24,7 +24,7 @@
             <td class="center number">{$val->version}</td>
             <td class="nowrap">
                 <!--@foreach($val->author as $author)-->
-                <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+                <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
                 <!--@endforeach-->
             </td>
             <td class="number center <!--@if($val->created_table_count != $val->table_count)-->alert<!--@end-->">

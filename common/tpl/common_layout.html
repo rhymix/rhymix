@@ -42,6 +42,10 @@
 <!--@end-->
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{$atom_url}" />
+<!--@elseif($site_module_info->mid == $mid)-->
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{getUrl('','module','rss','act','rss')}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{getUrl('','module','rss','act','atom')}" />
 <!--@end-->
 
 {@ $ssl_actions = Context::getSSLActions() }

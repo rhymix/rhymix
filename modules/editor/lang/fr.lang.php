@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = 'Composant choisi est déjà entré';
     $lang->msg_component_is_first_order = 'Composant choisi est localisé à la première position';
     $lang->msg_component_is_last_order = 'Composant choisi est localisé à la position dernière';
-    $lang->msg_load_saved_doc = 'Il y a un article conservé automatiquement. Voulez-vous le réstaurer?\nL\'esquisse conservé automatiquement va être débarrasser après conserver l\'article courant.';
+    $lang->msg_load_saved_doc = "Il y a un article conservé automatiquement. Voulez-vous le réstaurer?\nL'esquisse conservé automatiquement va être débarrasser après conserver l'article courant.";
     $lang->msg_auto_saved = 'Conservé automatiquement';
 
     $lang->cmd_disable = 'Invalider';
@@ -52,15 +52,15 @@
     $lang->edit->fontsize = 'Mesure';
     $lang->edit->use_paragraph = 'Fonctions sur Paragraphe';
     $lang->edit->fontlist = array(
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    'Arial'=>'Arial',
+    'Arial Black'=>'Arial Black',
+    'Tahoma'=>'Tahoma',
+    'Verdana'=>'Verdana',
+    'Sans-serif'=>'Sans-serif',
+    'Serif'=>'Serif',
+    'Monospace'=>'Monospace',
+    'Cursive'=>'Cursive',
+    'Fantasy'=>'Fantasy',
     );
 
     $lang->edit->header = 'Style';
@@ -74,6 +74,26 @@
     );
 
     $lang->edit->submit = 'Soumettre';
+
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
 
     $lang->edit->help_remove_format = 'Supprimer les balises dans l\'endroit sélectionné';
     $lang->edit->help_strike_through = 'Représenter la ligne d\'annulation sur les lettres.';
@@ -96,7 +116,14 @@
     $lang->edit->help_remove_indent = 'Enlever un Rentré';
     $lang->edit->help_list_number = 'Appliquer la liste numroté';
     $lang->edit->help_list_bullet = 'Appliquer la liste à puces';
-    $lang->edit->help_use_paragrapth = 'Appuyez Ctrl+Enter pour séparer les paragraphe. (Appuyez Alt+S pour conserver)';
+    $lang->edit->help_use_paragraph = 'Appuyez Ctrl+Enter pour séparer les paragraphe. (Appuyez Alt+S pour conserver)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = 'Attacher';
     $lang->edit->upload_file = 'Attacher un(des) Fichier(s)';

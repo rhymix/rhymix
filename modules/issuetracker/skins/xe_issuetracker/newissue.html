@@ -144,16 +144,22 @@
     <tr>
         <td colspan="4"><div class="editor">{$oIssue->getEditor()}</div></td>
     </tr>
-    <tr>
-        <td colspan="4" class="tRight">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'" /></span>
-        </td>
-    </tr>
     </table>
-</div>
 
+	<div class="fl gap1">
+		<span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'" /></span>
+	</div>
+
+	<div class="fr gap1">
+		<span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+	</div>
+
+	<div class="clear"></div>
+
+</div>
 </form>
+
+
 <form action="./" method="get" class="close">
 <!--@foreach($project->packages as $key => $val)-->
 <select id="release_{$val->package_srl}">

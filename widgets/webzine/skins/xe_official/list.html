@@ -1,7 +1,7 @@
 <!--// 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
 
 <!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("css/normal.css")-->
+    <!--%import("normal.css")-->
 <!--@end-->
 
 <div class="nw_box">
@@ -33,7 +33,7 @@
 
                             <span class="title">
                                 <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a>
-                                <!--@if($oDocument->getCommentCount())--><strong>[{$oDocument->getCommentCount()}]</strong><!--@end-->
+                                <!--@if($oDocument->getCommentCount())--> <a href="{$oDocument->getPermanentUrl()}#comment"><strong>[{$oDocument->getCommentCount()}]</strong></a><!--@end-->
                             </span>
 
                             <!--@if($widget_info->display_regdate == 'Y')-->

@@ -1,16 +1,15 @@
 <!--// 기본 js/언어파일 로드 -->
 <!--%import("../../tpl/js/editor_common.js")-->
-
-<!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" )-->
-    <!--@if($colorset == "black_texteditor")-->
+<!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" || $colorset == "white_text_nohtml" || $colorset == "black_text_nohtml" || $colorset == "white_text_usehtml" || $colorset == "black_text_usehtml")-->
+    <!--@if($colorset == "black_texteditor" || $colorset == "black_text_nohtml" || $colorset == "black_text_usehtml")-->
         <!--%import("css/black.css")-->
         {@ $editor_class = "black" }
     <!--@else-->
         <!--%import("css/white.css")-->
     <!--@end-->
-
     <!--%import("js/xe_interface.js")-->
     <div class="xeTextEditor {$editor_class}">
+        <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
         <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="10" rows="10"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
@@ -54,16 +53,16 @@
     </ul>
 
     <!-- 에디터 -->
-    <div id="xeEditor_{$editor_sequence}" class="xeEditor rich" >
+    <div id="xeEditor_{$editor_sequence}" class="xeEditor rich">
     <!-- class="xeEditor rich" | class="xeEditor html" -->
 
-        <div id="xeEditorOption_{$editor_sequence}" class="toolBox" >
+        <div id="xeEditorOption_{$editor_sequence}" class="toolBox">
 
             <!--@if($enable_default_component)-->
             <!-- 기본 컴포넌트 출력 -->
                 <ul class="do item">
-                    <li class="undo"><button type="button" onclick="editorUnDo(this,'{$editor_sequence}')" id="editor_undo_{$editor_sequence}" title="Ctrl+Z:Un Do"><span>Un Do</span></button></li>
-                    <li class="redo"><button type="button" onclick="editorReDo(this,'{$editor_sequence}')" id="editor_redo_{$editor_sequence}" title="Ctrl+Y:Re Do"><span>Re Do</span></button></li>
+                    <li class="undo"><button type="button" onclick="editorUnDo(this,'{$editor_sequence}')" id="editor_undo_{$editor_sequence}" title="Ctrl+Z:{$lang->edit->undo}"><span>{$lang->edit->undo}</span></button></li>
+                    <li class="redo"><button type="button" onclick="editorReDo(this,'{$editor_sequence}')" id="editor_redo_{$editor_sequence}" title="Ctrl+Y:{$lang->edit->redo}"><span>{$lang->edit->redo}</span></button></li>
                 </ul>
 
                 <ul class="type item">
@@ -91,43 +90,43 @@
                         <select onchange="editorChangeFontName(this,'{$editor_sequence}')" id="editor_font_{$editor_sequence}">
                             <option value="">{$lang->edit->fontname}</option>
                             <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                            <option style="font-family:{$obj}" value="{$obj}">{$obj}</option>
+                            <option style="font-family:{$key}" value="{$key}">{$obj}</option>
                             <!--@end-->
                         </select>
                     </li>
                 </ul>
 
                 <ul class="style item">
-                    <li class="bold"><button type="button" title="Ctrl+B:{$lang->edit->help_bold}" id="component_{$editor_sequence}_Bold"><span>Bold</span></button></li>
-                    <li class="underline"><button type="button" title="Ctrl+U:{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline"><span>Underline</span></button></li>
-                    <li class="italic"><button type="button" title="Ctrl+I:{$lang->edit->help_italic}" id="component_{$editor_sequence}_Italic"><span>Italic</span></button></li>
-                    <li class="strike"><button type="button" title="{$lang->edit->help_strike_through}" id="component_{$editor_sequence}_StrikeThrough"><span>Strike</span></button></li>
-                    <li class="sup"><button type="button" title="{$lang->edit->help_sup}" id="component_{$editor_sequence}_Superscript"><span>Sup</span></button></li>
-                    <li class="sub"><button type="button" title="{$lang->edit->help_sub}" id="component_{$editor_sequence}_Subscript"><span>Sub</span></button></li>
-                    <li class="txColor"><button type="button" title="{$lang->edit->help_fontcolor}" id="component_{$editor_sequence}_colorpicker_text"><span>Text Color</span></button></li>
-                    <li class="bgColor"><button type="button" title="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg"><span>Background Color</span></button></li>
-                    <li class="styleRemover"><button type="button" title="Ctrl+D:{$lang->edit->help_remove_format}" id="component_{$editor_sequence}_RemoveFormat"><span>Style Remover</span></button></li>
+                    <li class="bold"><button type="button" title="Ctrl+B:{$lang->edit->help_bold}" id="component_{$editor_sequence}_Bold"><span>{$lang->edit->bold}</span></button></li>
+                    <li class="underline"><button type="button" title="Ctrl+U:{$lang->edit->help_underline}" id="component_{$editor_sequence}_Underline"><span>{$lang->edit->underline}</span></button></li>
+                    <li class="italic"><button type="button" title="Ctrl+I:{$lang->edit->help_italic}" id="component_{$editor_sequence}_Italic"><span>{$lang->edit->italic}</span></button></li>
+                    <li class="strike"><button type="button" title="{$lang->edit->help_strike_through}" id="component_{$editor_sequence}_StrikeThrough"><span>{$lang->edit->strike}</span></button></li>
+                    <li class="sup"><button type="button" title="{$lang->edit->help_sup}" id="component_{$editor_sequence}_Superscript"><span>{$lang->edit->sup}</span></button></li>
+                    <li class="sub"><button type="button" title="{$lang->edit->help_sub}" id="component_{$editor_sequence}_Subscript"><span>{$lang->edit->sub}</span></button></li>
+                    <li class="txColor"><button type="button" title="{$lang->edit->help_fontcolor}" id="component_{$editor_sequence}_colorpicker_text"><span>{$lang->edit->fontcolor}</span></button></li>
+                    <li class="bgColor"><button type="button" title="{$lang->edit->help_fontbgcolor}" id="component_{$editor_sequence}_colorpicker_bg"><span>{$lang->edit->fontbgcolor}</span></button></li>
+                    <li class="styleRemover"><button type="button" title="Ctrl+D:{$lang->edit->help_remove_format}" id="component_{$editor_sequence}_RemoveFormat"><span>{$lang->edit->remove_format}</span></button></li>
                 </ul>
 
                 <ul class="paragraph item">
-                    <li class="alignLeft"><button type="button" title="{$lang->edit->help_align_left}" id="component_{$editor_sequence}_JustifyLeft"><span>Align Left</span></button></li>
-                    <li class="alignCenter"><button type="button" title="{$lang->edit->help_align_center}" id="component_{$editor_sequence}_JustifyCenter"><span>Align Center</span></button></li>
-                    <li class="alignRight"><button type="button" title="{$lang->edit->help_align_right}" id="component_{$editor_sequence}_JustifyRight"><span>Align Right</span></button></li>
-                    <li class="alignJustify"><button type="button" title="{$lang->edit->help_align_full}" id="component_{$editor_sequence}_JustifyFull"><span>Align Justify</span></button></li>
-                    <li class="orderedList"><button type="button" title="{$lang->edit->help_list_number}" id="component_{$editor_sequence}_InsertOrderedList"><span>Orderd List</span></button></li>
-                    <li class="unorderedList"><button type="button" title="{$lang->edit->help_list_bullet}" id="component_{$editor_sequence}_InsertUnorderedList"><span>Unordered List</span></button></li>
-                    <li class="outdent"><button type="button" title="{$lang->edit->help_remove_indent}" id="component_{$editor_sequence}_Outdent"><span>Outdent</span></button></li>
-                    <li class="indent"><button type="button" title="{$lang->edit->help_add_indent}" id="component_{$editor_sequence}_Indent"><span>Indent</span></button></li>
+                    <li class="alignLeft"><button type="button" title="{$lang->edit->help_align_left}" id="component_{$editor_sequence}_JustifyLeft"><span>{$lang->edit->align_left}</span></button></li>
+                    <li class="alignCenter"><button type="button" title="{$lang->edit->help_align_center}" id="component_{$editor_sequence}_JustifyCenter"><span>{$lang->edit->align_center}</span></button></li>
+                    <li class="alignRight"><button type="button" title="{$lang->edit->help_align_right}" id="component_{$editor_sequence}_JustifyRight"><span>{$lang->edit->align_right}</span></button></li>
+                    <li class="alignJustify"><button type="button" title="{$lang->edit->help_align_full}" id="component_{$editor_sequence}_JustifyFull"><span>{$lang->edit->align_justify}</span></button></li>
+                    <li class="orderedList"><button type="button" title="{$lang->edit->help_list_number}" id="component_{$editor_sequence}_InsertOrderedList"><span>{$lang->edit->list_number}</span></button></li>
+                    <li class="unorderedList"><button type="button" title="{$lang->edit->help_list_bullet}" id="component_{$editor_sequence}_InsertUnorderedList"><span>{$lang->edit->list_bullet}</span></button></li>
+                    <li class="outdent"><button type="button" title="{$lang->edit->help_remove_indent}" id="component_{$editor_sequence}_Outdent"><span>{$lang->edit->remove_indent}</span></button></li>
+                    <li class="indent"><button type="button" title="{$lang->edit->help_add_indent}" id="component_{$editor_sequence}_Indent"><span>{$lang->edit->add_indent}</span></button></li>
                 </ul>
 
                 <ul class="extension1 item">
-                    <li class="url"><button type="button" title="Ctrl+L:URL" id="component_1_url_link"><span>URL</span></button></li>
-                    <li class="blockquote"><button type="button" title="Blockquote" id="component_1_quotation"><span>Blockquote</span></button></li>
-                    <li class="table"><button type="button" title="Table" id="component_1_table_maker"><span>Table</span></button></li>
-                    <li class="image"><button type="button" title="Image" id="component_1_image_link"><span>Image</span></button></li>
-                    <li class="movie"><button type="button" title="Movie" id="component_1_multimedia_link"><span>Movie</span></button></li>
-                    <!--<li class="file"><button type="button" title="File" id="component_1_file"><span>Movie</span></button></li>-->
-                    <li class="emoticon"><button type="button" title="Emoticon" id="component_1_emoticon"><span>Emoticon</span></button></li>
+                    <li class="url"><button type="button" title="Ctrl+L:{$lang->edit->url}" id="component_1_url_link"><span>{$lang->edit->url}</span></button></li>
+                    <li class="blockquote"><button type="button" title="{$lang->edit->blockquote}" id="component_1_quotation"><span>{$lang->edit->blockquote}</span></button></li>
+                    <li class="table"><button type="button" title="{$lang->edit->table}" id="component_1_table_maker"><span>{$lang->edit->table}</span></button></li>
+                    <li class="image"><button type="button" title="{$lang->edit->image}" id="component_1_image_link"><span>{$lang->edit->image}</span></button></li>
+                    <li class="movie"><button type="button" title="{$lang->edit->multimedia}" id="component_1_multimedia_link"><span>{$lang->edit->multimedia}</span></button></li>
+                    <!--<li class="file"><button type="button" title="File" id="component_1_file"><span>{$lang->edit->multimedia}</span></button></li>-->
+                    <li class="emoticon"><button type="button" title="{$lang->edit->emoticon}" id="component_1_emoticon"><span>{$lang->edit->emoticon}</span></button></li>
                 </ul>
 
             <!--@end-->
@@ -155,17 +154,17 @@
                 <!--@if(!$_COOKIE['EditorInfo'])-->
                 <!-- 에디터 안내 출력 -->
                 <li>{$lang->about_dblclick_in_editor}</li>
-                <li>{$lang->edit->help_use_paragrapth}</li>
+                <li>{$lang->edit->help_use_paragraph}</li>
                 <!--@end-->
                 <li>{$lang->edit->help_command}
                     <ul>
-                        <li>Un Do : Ctrl+Z</li>
-                        <li>Re Do : Ctrl+Y</li>
-                        <li>Bold : Ctrl+B</li>
-                        <li>Underline : Ctrl+U</li>
-                        <li>Italic : Ctrl+I</li>
-                        <li>Style Remover : Ctrl+D</li>
-                        <li>URL : Ctrl+L</li>
+                        <li>{$lang->edit->undo} : Ctrl+Z</li>
+                        <li>{$lang->edit->redo} : Ctrl+Y</li>
+                        <li>{$lang->edit->bold} : Ctrl+B</li>
+                        <li>{$lang->edit->underline} : Ctrl+U</li>
+                        <li>{$lang->edit->italic} : Ctrl+I</li>
+                        <li>{$lang->edit->remove_format} : Ctrl+D</li>
+                        <li>{$lang->edit->url} : Ctrl+L</li>
                     </ul>
                 </li>
             </ul>

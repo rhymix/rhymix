@@ -19,6 +19,7 @@
             <th scope="row"><div>{$lang->homepage_title}</div></th>
             <td>
                 <input type="text" name="homepage_title" value="{$homepage_info->title}" class="inputTypeText w200" />
+                <a href="{getSiteUrl($homepage_info->domain,'', 'act','dispHomepageManage')}" onclick="window.open(this.href); return false;" class="button blue"><span>{$lang->cmd_management}</span></a>
                 <p>{$lang->about_homepage_title}</p>
             </td>
         </tr>
@@ -26,7 +27,7 @@
             <th scope="row"><div>{$lang->domain}</div></th>
             <td>
                 http://<input type="text" name="domain" value="{$homepage_info->domain}" class="inputTypeText w200" />
-                <a href="{getSiteUrl($homepage_info->domain, '')}" onclick="window.open(this.href); return false;" class="button"><span>{$lang->cmd_move}</span></a>
+                <a href="{getSiteUrl($homepage_info->domain, '')}" onclick="window.open(this.href); return false;" class="button blue"><span>{$lang->cmd_move}</span></a>
                 <p>{$lang->about_domain}</p>
             </td>
         </tr>

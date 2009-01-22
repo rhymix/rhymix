@@ -170,7 +170,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $add_xe_content_class = true) {
             if($this->isSecret() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
             $content = $this->get('content');
@@ -195,7 +195,7 @@
                 );
             // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
             } else {
-                $content = sprintf('<div class="xe_content">%s</div>', $content);
+                if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
 
             return $content;

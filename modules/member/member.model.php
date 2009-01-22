@@ -203,7 +203,7 @@
         }
 
         /**
-         * @brief userid에 해당하는 member_srl을 구함
+         * @brief EmailAddress에 해당하는 member_srl을 구함
          **/
         function getMemberSrlByEmailAddress($email_address) {
             $args->email_address = $email_address;
@@ -212,7 +212,7 @@
         }
 
         /**
-         * @brief userid에 해당하는 member_srl을 구함
+         * @brief NickName에 해당하는 member_srl을 구함
          **/
         function getMemberSrlByNickName($nick_name) {
             $args->nick_name = $nick_name;

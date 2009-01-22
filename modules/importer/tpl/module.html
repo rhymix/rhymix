@@ -4,17 +4,13 @@
 <div id="importForm">
     <form action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
         <input type="hidden" name="type" value="module" />
+        <input type="hidden" name="target_module" value="" id="target_module" />
 
         <table cellspacing="0" class="adminTable">
         <caption>{$lang->import_step_title[1]} - {$lang->import_step_desc[12]}</caption>
         <tr>
             <td>
-                <select name="target_module" class="w400">
-                    <option value="">====================</option>
-                <!--@foreach($mid_list as $key => $val)-->
-                    <option value="{$val->module_srl}">{$val->browser_title}</option>
-                <!--@end-->
-                </select>
+                <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" readonly="readonly"><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
             </td>
         </tr>
         </table>

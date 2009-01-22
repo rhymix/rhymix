@@ -5,6 +5,7 @@
      * @brief  简体中文语言包
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "模块目录";
     $lang->module_index = "模块目录";
     $lang->module_category = "模块分类";
@@ -25,6 +26,7 @@
     $lang->skin_license = '版权';
     $lang->skin_history = '更新日志';
     $lang->module_copy = "Copy Module";
+    $lang->module_selector = "Module Selector";
 
     $lang->header_script = "文件头部脚本";
     $lang->about_header_script = "可以直接输入插入到html中&lt;head&gt;区的代码。<br />可使用&lt;script, &lt;style 或 &lt;meta 等标签。";
@@ -64,4 +66,5 @@
     $lang->about_module = "除基本library以外XE全部由模块组成。\n模块管理中列出所有已安装的模块，因此易于管理。";
 
     $lang->about_extra_vars_default_value = '复选/单选缺省值需要多个时,用,(逗号)来分隔。';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

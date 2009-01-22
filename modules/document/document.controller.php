@@ -137,7 +137,8 @@
             }
 
             // 제목이 없으면 내용에서 추출
-            if(!$obj->title) $obj->title = cut_str(strip_tags($obj->content),20,'...');
+            settype($obj->title, "string");
+            if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
 
             // 내용에서 XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
@@ -238,7 +239,8 @@
             }
 
             // 제목이 없으면 내용에서 추출
-            if(!$obj->title) $obj->title = cut_str(strip_tags($obj->content),20,'...');
+            settype($obj->title, "string");
+            if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
 
             // 내용에서 XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);

@@ -37,6 +37,7 @@
     $lang->msg_widget_is_not_exists = "Le Gadget de(d') '%s' n'existe pas.";
     $lang->msg_widget_object_is_null = "L'Objet de '%s' n'a pas pu être créé.";
     $lang->msg_widget_proc_is_null = "proc() de '%s' n'a pas pu être exécuté.";
+    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
 
     $lang->about_widget_code = 'Entrez les valeurs qui sont requises par le gadget choisi, et puis cliquz le bouton [Générer le Code] pour générer le code. Le code à appliquer au fichier de modèl se présentera en bas.';
     $lang->about_widget_code_in_page = 'Après entrer les valeurs requies, cliquez le bouton [Ajouter] pour insérer le gadjet dans la page.';

@@ -13,12 +13,16 @@
     $lang->is_valid = '有效';
     $lang->is_stand_by = '等待';
     $lang->file_list = '檔案清單';
+    $lang->allow_outlink = '파일 외부 링크';
+    $lang->allow_outlink_site = '파일 외부 허용 사이트';
     $lang->allowed_filesize = '檔案大小限制';
     $lang->allowed_attach_size = '上傳限制';
     $lang->allowed_filetypes = '允許檔案類型';
     $lang->enable_download_group = '允許下載的用戶組';
 
-    $lang->about_allowed_filesize = '最大單一上傳檔案大小(管理員不受此限制)。';
+    $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
+    $lang->about_allow_outlink_site = '파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요.<br />ex)http://www.zeroboard.com';
+	$lang->about_allowed_filesize = '最大單一上傳檔案大小(管理員不受此限制)。';
     $lang->about_allowed_attach_size = '每個主題最大上傳檔案大小(管理員不受此限制)。';
     $lang->about_allowed_filetypes = '設定允許上傳的檔案類型。 可以用"*.副檔名"來指定或用 ";"來 區分多個副檔名<br />例) *.* or *.jpg;*.gif;<br />(管理員不受此限制)';
 

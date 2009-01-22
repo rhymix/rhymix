@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '您选择的组件已插入！';
     $lang->msg_component_is_first_order = '您选择的组件已到最上端位置！';
     $lang->msg_component_is_last_order = '您选择的组件已到最下端位置！';
-    $lang->msg_load_saved_doc = '有自动保存的内容， 确定要恢复吗？\n保存内容后，自动保存的文本将会被删除。';
+    $lang->msg_load_saved_doc = "有自动保存的内容， 确定要恢复吗？\n保存内容后，自动保存的文本将会被删除。";
     $lang->msg_auto_saved = '已自动保存！';
 
     $lang->cmd_disable = '非激活';
@@ -52,19 +52,19 @@
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
-    '仿宋_GB2312',
-    '黑体',
-    '楷体_GB2312',
-    '宋体',
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    '仿宋_GB2312'=>'仿宋_GB2312',
+    '黑体'=>'黑体',
+    '楷体_GB2312'=>'楷体_GB2312',
+    '宋体'=>'宋体',
+    'Arial'=>'Arial',
+    'Arial Black'=>'Arial Black',
+    'Tahoma'=>'Tahoma',
+    'Verdana'=>'Verdana',
+    'Sans-serif'=>'Sans-serif',
+    'Serif'=>'Serif',
+    'Monospace'=>'Monospace',
+    'Cursive'=>'Cursive',
+    'Fantasy'=>'Fantasy',
     );
 
     $lang->edit->header = '样式';
@@ -78,6 +78,26 @@
     );
 
     $lang->edit->submit = '确认';
+
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
 
     $lang->edit->help_fontcolor = '文本颜色';
     $lang->edit->help_fontbgcolor = '背景颜色';
@@ -96,7 +116,14 @@
     $lang->edit->help_remove_indent = '清除缩进';
     $lang->edit->help_list_number = '有序列表';
     $lang->edit->help_list_bullet = '无序列表';
-    $lang->edit->help_use_paragrapth = '分段请按 ctrl＋回车． (发表主题快捷键：alt＋S)';
+    $lang->edit->help_use_paragraph = '分段请按 ctrl＋回车． (发表主题快捷键：alt＋S)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = '上传';
     $lang->edit->upload_file = '上传附件';

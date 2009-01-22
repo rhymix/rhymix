@@ -485,7 +485,8 @@
          * @brief 특정 카테고리에 child가 있는지 체크
          **/
         function getCategoryChlidCount($category_srl) {
-            $output = executeQuery('document.getChildCategoryCount');
+            $args->category_srl = $category_srl;
+            $output = executeQuery('document.getChildCategoryCount',$args);
             if($output->data->count > 0) return true;
             return false;
         }

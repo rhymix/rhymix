@@ -15,6 +15,7 @@
     $lang->image_align_right = "靠右";
     $lang->image_border = "邊框粗細";
     $lang->urllink_url = "網址";
+    $lang->image_margin = 'Image Margin';
 
     $lang->about_url_link_open_window = "開啟連結於新視窗。";
     $lang->cmd_get_scale = "取得圖片大小";

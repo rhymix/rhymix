@@ -37,6 +37,7 @@
     $lang->msg_widget_is_not_exists = '找不到%s控件！';
     $lang->msg_widget_object_is_null = '无法生成%s控件对象！';
     $lang->msg_widget_proc_is_null = '不能执行%s控件的 proc()！';
+    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
 
     $lang->about_widget_code = '输入被选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。';
     $lang->about_widget_code_in_page = '输入下列各项必要值后，按『生成代码』按钮，即可把控件插入到页面当中。';

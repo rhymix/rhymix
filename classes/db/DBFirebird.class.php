@@ -623,8 +623,12 @@
                     $type = $this->getColumnType($column_type,$name);
                     $pipe = $v['pipe'];
 
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
+                    $value = $this->getConditionValue('"'.$name.'"', $value, $operation, $type, $column_type);
                     if(!$value) $value = $v['value'];
+
+                    $name = $this->autoQuotes($name);
+                    $value = $this->autoValueQuotes($value, $output);
+
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;

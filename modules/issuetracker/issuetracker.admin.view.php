@@ -302,5 +302,39 @@
             $this->setTemplateFile('issuetracker_delete');
         }
 
+        function dispIssuetrackerAdminManageDocument() {
+            // 선택한 목록을 세션에서 가져옴
+            $flag_list = $_SESSION['document_management'];
+            if(count($flag_list)) {
+                foreach($flag_list as $key => $val) {
+                    if(!is_bool($val)) continue;
+                    $document_srl_list[] = $key;
+                }
+            }
+
+            if(count($document_srl_list)) {
+                $oDocumentModel = &getModel('document');
+                $document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
+                Context::set('document_list', $document_list);
+            }
+
+            $module_srl = $this->module_info->module_srl;
+            Context::set('module_srl', $module_srl);
+
+            $oIssuetrackerModel = &getModel('issuetracker');
+            $project = null;
+            $project->priorities = $oIssuetrackerModel->getList($module_srl, "Priorities");
+            $project->components = $oIssuetrackerModel->getList($module_srl, "Components");
+            $project->milestones = $oIssuetrackerModel->getList($module_srl, "Milestones");
+            $project->types = $oIssuetrackerModel->getList($module_srl, "Types");
+            Context::set('project', $project);
+
+            // 팝업 레이아웃 선택
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('popup_layout');
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('checked_list');
+        }
     }
 ?>

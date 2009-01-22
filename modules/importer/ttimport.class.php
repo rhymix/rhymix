@@ -285,7 +285,7 @@
             $name = $xmlDoc->attachment->name->body;
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
-            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp3|asaf|wav|asx|midi|asf)$/i", $file_obj->source_filename)) {
+            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|asaf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_obj->source_filename)) {
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_obj->source_filename;
                 $file_obj->direct_download = 'Y';
@@ -438,7 +438,7 @@
                 $parent_output = executeQuery('comment.getCommentListItem', $parent_args);
 
                 // 부모댓글이 존재하지 않으면 return
-                if(!$parent_output->toBool() || !$parent_output->data) continue;
+                if(!$parent_output->toBool() || !$parent_output->data) return false;
                 $parent = $parent_output->data;
 
                 $list_args->head = $parent->head;

@@ -5,6 +5,7 @@
      * @brief  正體中文語言
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "模組列表";
     $lang->module_index = "模組列表";
     $lang->module_category = "模組分類";
@@ -25,6 +26,7 @@
     $lang->skin_license = '版權';
     $lang->skin_history = '更新事項';
     $lang->module_copy = "複製模組";
+    $lang->module_selector = "Module Selector";
 
     $lang->header_script = "Header Script";
     $lang->about_header_script = "可以直接輸入，並插入到 HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等標籤。";
@@ -65,4 +67,5 @@
     $lang->about_module = "除基本函式庫以外XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
 
     $lang->about_extra_vars_default_value = '當復選或單選的預設值需要很多個時，用 (,) 區隔。';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

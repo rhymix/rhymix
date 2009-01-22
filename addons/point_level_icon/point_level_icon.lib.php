@@ -26,15 +26,19 @@
             $text = $matches[5];
 
             // 레벨 아이콘의 위치를 구함
-            $level_icon = sprintf('./modules/point/icons/%s/%d.gif', $config->level_icon, $level);
+            $level_icon = sprintf('%smodules/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
 
-            // 최고 레벨이 아니면 다음 레벨로 가기 위한 per을 구함
+            // 최고 레벨이 아니면 다음 레벨로 가기 위한 per을 구함 :: 주석과 실제 내용이 맞지 않아 실제 내용을 수정
             if($level < $config->max_level) {
                 $next_point = $config->level_step[$level+1];
-                if($next_point > 0) $per = (int)($point / $next_point*100);
+                $present_point = $config->level_step[$level];
+                if($next_point > 0) { 
+                    $per = (int)(($point - $present_point) / ($next_point - $present_point)*100);
+                    $per = $per.'%';
+                }
             }
 
-            $title = sprintf('%s:%s%s %s, %s:%s/%s', Context::getLang('point'), $point, $config->point_name, $per?'('.$per.'%)':'', Context::getLang('level'), $level, $config->max_level);
+            $title = sprintf('%s:%s%s%s, %s:%s/%s', Context::getLang('point'), $point, $config->point_name, $per?' ('.$per.')':'', Context::getLang('level'), $level, $config->max_level);
             $alt = sprintf('[%s:%s]', Context::getLang('level'), $level);
 
             $GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" style="vertical-align:middle; margin-right:3px;" />', $level_icon, $alt, $title);

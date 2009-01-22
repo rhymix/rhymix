@@ -6,6 +6,13 @@
     class wap extends mobileXE {
 
         /**
+         * @brief constructor
+         **/
+        function wap() {
+            parent::mobileXE();
+        }
+
+        /**
          * @brief hdml 헤더 출력
          **/
         function printHeader() {
@@ -37,12 +44,12 @@
          * @brief 버튼을 출력함 
          **/
         function printBtn() {
-            if($this->prevUrl) {
-                $url = $this->prevUrl;
-                printf('<a href="%s">%s</a><br>%s', $url->url, $url->text, "\n");
-            }
             if($this->nextUrl) {
                 $url = $this->nextUrl;
+                printf('<a href="%s">%s</a><br>%s', $url->url, $url->text, "\n");
+            }
+            if($this->prevUrl) {
+                $url = $this->prevUrl;
                 printf('<a href="%s">%s</a><br>%s', $url->url, $url->text, "\n");
             }
             if($this->upperUrl) {

@@ -6,6 +6,13 @@
     class wap extends mobileXE {
 
         /**
+         * @brief constructor
+         **/
+        function wap() {
+            parent::mobileXE();
+        }
+
+        /**
          * @brief hdml 헤더 출력
          **/
         function printHeader() {
@@ -54,12 +61,12 @@
         function printBtn() {
             // 메뉴 형식
             if($this->hasChilds()) {
-                if($this->prevUrl) {
-                    $url = $this->prevUrl;
-                    printf('<ce task=go label="%s" dest="%s">%s%s', $url->text, $url->url, $url->text, "\n");
-                }
                 if($this->nextUrl) {
                     $url = $this->nextUrl;
+                    printf('<ce task=go label="%s" dest="%s">%s%s', $url->text, $url->url, $url->text, "\n");
+                }
+                if($this->prevUrl) {
+                    $url = $this->prevUrl;
                     printf('<ce task=go label="%s" dest="%s">%s%s', $url->text, $url->url, $url->text, "\n");
                 }
                 if($this->homeUrl) {
@@ -68,12 +75,12 @@
                 }
             // 컨텐츠 형식
             } else {
-                if($this->prevUrl) {
-                    $url = $this->prevUrl;
-                    printf('<a task=gosub label="%s" dest="%s">%s</a>', $url->text, $url->url, $url->text);
-                }
                 if($this->nextUrl) {
                     $url = $this->nextUrl;
+                    printf('<a task=gosub label="%s" dest="%s">%s</a>', $url->text, $url->url, $url->text);
+                }
+                if($this->prevUrl) {
+                    $url = $this->prevUrl;
                     printf('<a task=gosub label="%s" dest="%s">%s</a>', $url->text, $url->url, $url->text);
                 }
                 if($this->homeUrl) {

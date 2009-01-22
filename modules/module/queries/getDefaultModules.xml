@@ -1,0 +1,26 @@
+<query id="getDefaultModules" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="module_categories" alias="module_categories" type="left join">
+            <conditions>
+                <condition operation="equal" column="module_categories.module_category_srl" default="modules.module_category_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="modules.site_srl" />
+        <column name="modules.module" />
+        <column name="modules.mid" />
+        <column name="modules.browser_title" />
+        <column name="module_categories.title" alias="category" />
+        <column name="modules.module_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.site_srl" var="site_srl" default="0" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index  var="sort_index" default="modules.module" order="asc" />
+        <index  var="sort_index" default="module_categories.title" order="asc" />
+        <index  var="sort_index" default="modules.mid" order="asc" />
+    </navigation>
+</query>

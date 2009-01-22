@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = 'Выбранный компонент уже присутствует';
     $lang->msg_component_is_first_order = 'Выбранный компонент находится на первой позиции';
     $lang->msg_component_is_last_order = 'Выбранный компонент находится на последней позиции';
-    $lang->msg_load_saved_doc = 'Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить?\nАвтоматически сохраненный черновик будет отменен после сохранения текущей статьи';
+    $lang->msg_load_saved_doc = "Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить?\nАвтоматически сохраненный черновик будет отменен после сохранения текущей статьи";
     $lang->msg_auto_saved = 'Автоматически сохранено';
 
     $lang->cmd_disable = 'Неавтивно';
@@ -52,15 +52,15 @@
     $lang->edit->fontsize = 'Размер';
     $lang->edit->use_paragraph = 'Функции параграфа';
     $lang->edit->fontlist = array(
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    'Arial'=>'Arial',
+    'Arial Black'=>'Arial Black',
+    'Tahoma'=>'Tahoma',
+    'Verdana'=>'Verdana',
+    'Sans-serif'=>'Sans-serif',
+    'Serif'=>'Serif',
+    'Monospace'=>'Monospace',
+    'Cursive'=>'Cursive',
+    'Fantasy'=>'Fantasy',
     );
 
     $lang->edit->header = 'Стиль';
@@ -74,6 +74,26 @@
     );
 
     $lang->edit->submit = 'Принять';
+
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
 
     $lang->edit->help_fontcolor = 'Выберать цвет шрифта';
     $lang->edit->help_fontbgcolor = 'Выберать цвет фона шрифта';
@@ -92,7 +112,14 @@
     $lang->edit->help_remove_indent = 'Удалить отступ';
     $lang->edit->help_list_number = 'Применить числовой список';
     $lang->edit->help_list_bullet = 'Применить маркированный список';
-    $lang->edit->help_use_paragrapth = 'Нажмите Ctrl+Enter, чтобы отметить параграф. (Нажмите Alt+S , чтобы сохранить)';
+    $lang->edit->help_use_paragraph = 'Нажмите Ctrl+Enter, чтобы отметить параграф. (Нажмите Alt+S , чтобы сохранить)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = 'Вложение';
     $lang->edit->upload_file = 'Вложить';

@@ -30,10 +30,6 @@
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
 
-            // 대상 모듈
-            if($args->mid_list) $mid_list = explode(",",$args->mid_list);
-            else $mid_list = array();
-
             // 제목 길이 자르기
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
@@ -42,28 +38,30 @@
             $duration_new = $args->duration_new;
             if(!$duration_new) $duration_new = 12;
 
-            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
-            $oModuleModel = &getModel('module');
-            if(count($mid_list)) {
-                $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-            } else {
-                $site_module_info = Context::get('site_module_info');
-                if($site_module_info) {
-                    $margs->site_srl = $site_module_info->site_srl;
-                    $oModuleModel = &getModel('module');
-                    $output = $oModuleModel->getMidList($margs);
-                    if(count($output)) $mid_list = array_keys($output);
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                $oModuleModel = &getModel('module');
+                if(count($mid_list)) {
                     $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                } else {
+                    $site_module_info = Context::get('site_module_info');
+                    if($site_module_info) {
+                        $margs->site_srl = $site_module_info->site_srl;
+                        $oModuleModel = &getModel('module');
+                        $output = $oModuleModel->getMidList($margs);
+                        if(count($output)) $mid_list = array_keys($output);
+                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                    }
                 }
-            }
+            } else $module_srl = explode(',',$args->module_srls);
 
-            // DocumentModel::getDocumentList()를 이용하기 위한 변수 정리
+            // newest_document 위젯에서 정의한 query문을 직접 사용
             if(is_array($module_srl)) $obj->module_srl = implode(',',$module_srl);
             else $obj->module_srl = $module_srl;
             $obj->sort_index = $order_target;
             $obj->order_type = $order_type=="desc"?"asc":"desc";
             $obj->list_count = $list_count;
-
             $output = executeQueryArray('widgets.newest_document.getNewestDocuments', $obj);
 
             // document 모듈의 model 객체를 받아서 결과를 객체화 시킴

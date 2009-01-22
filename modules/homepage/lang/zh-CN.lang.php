@@ -7,11 +7,9 @@
 
     $lang->homepage = "站点"; 
     $lang->homepage_title = "站点名称";
-    $lang->domain = "域名";
     $lang->module_type = "对象";
     $lang->board = "版面";
     $lang->page = "页面";
-    $lang->url = "URL";
     $lang->module_id = "模块ID";
     $lang->item_group_grant = "用户组";
     $lang->homepage_admin = "管理员";
@@ -55,7 +53,6 @@
     $lang->cmd_go_home = "查看主页";
     $lang->cmd_go_homepage_admin = '站点管理';
     $lang->cmd_change_layout = "修改";
-    $lang->cmd_change_layout = "切换";
     $lang->cmd_select_index = "选择默认首页";
     $lang->cmd_add_new_menu = "添加新菜单";
 

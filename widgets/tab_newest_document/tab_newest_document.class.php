@@ -57,63 +57,62 @@
             if(!$widget_info->duration_new) $widget_info->duration_new = 12 * 60 * 60;
 
 
-            // 대상 모듈 정리
-            $mid_list = explode(",",$args->mid_list);
-
-            // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
-
-            // mid에 해당하는 module_srl을 구함
             $oModuleModel = &getModel('module');
             $oDocumentModel = &getModel('document');
-            $module_srl_list = $oModuleModel->getModuleSrlByMid($mid_list);
-            if(is_array($module_srl_list)) $obj->module_srls = implode(",",$module_srl_list);
-            else $obj->module_srls = $module_srl_list;
+
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                $oModuleModel = &getModel('module');
+                if(count($mid_list)) {
+                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                } else {
+                    $site_module_info = Context::get('site_module_info');
+                    if($site_module_info) {
+                        $margs->site_srl = $site_module_info->site_srl;
+                        $oModuleModel = &getModel('module');
+                        $output = $oModuleModel->getMidList($margs);
+                        if(count($output)) $mid_list = array_keys($output);
+                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                    }
+                }
+            }
+            else $module_srl = explode(',' ,$args->module_srls);
+
+            if(is_array($module_srl)) $obj->module_srls = implode(',' ,$module_srl);
 
             // 모듈 목록을 구함
-            $tab_list = $oModuleModel->getMidList($obj);
-            if(!$tab_list || !count($tab_list)) return;
+            $module_list = $oModuleModel->getMidList($obj);
+            if(!$module_list || !count($module_list)) return;
+            foreach($module_list as $key => $val) $mid_module_list[$val->module_srl] = $key;
 
-            // 최근글이 등록된 탭의 순서를 정하기 위한 변수
-            $newest_tab = array();
+            for($i=0;$i<count($module_srl);$i++) $tab_list[$mid_module_list[$module_srl[$i]]] = $module_list[$mid_module_list[$module_srl[$i]]];
 
             // 각 모듈에 해당하는 문서들을 구함
             $obj = null;
             $obj->list_count = $widget_info->list_count;
             $obj->sort_index = $widget_info->order_target;
             $obj->order_type = $widget_info->order_type=="desc"?"asc":"desc";
-            foreach($tab_list as $key => $value) {
-                $mid = $key;
-                $module_srl = $value->module_srl;
-                $browser_title = $value->browser_title;
-
-                $obj->module_srl = $module_srl;
+            if(is_array($tab_list)) {
+            foreach($tab_list as $mid => $module) {
+                $obj->module_srl = $module->module_srl;
                 $output = executeQueryArray("widgets.tab_newest_document.getNewestDocuments", $obj);
                 unset($data);
 
                 if($output->data && count($output->data)) {
                     foreach($output->data as $k => $v) {
-                        $oDocument = null;
-                        $oDocument = $oDocumentModel->getDocument();
-                        $oDocument->setAttribute($v);
-                        $data[$k] = $oDocument;
-                        if(!$newest_tab[$key]) $newest_tab[$key] = $oDocument->get('last_update');
+                            $oDocument = null;
+                            $oDocument = $oDocumentModel->getDocument();
+                            $oDocument->setAttribute($v);
+                            $tab_list[$mid]->document_list[] = $oDocument;
+                        }
+                    } else {
+                        $tab_list[$mid]->document_list = array();
                     }
-                    $tab_list[$key]->document_list = $data;
-                } else {
-                    unset($tab_list[$key]);
                 }
             }
-            
-            if(count($newest_tab)) {
-                arsort($newest_tab);
-                foreach($newest_tab as $key => $val) {
-                    $sorted_tab_list[$key] = $tab_list[$key];
-                }
-            } else $sorted_tab_list = $tab_list;
-
             Context::set('widget_info', $widget_info);
-            Context::set('tab_list', $sorted_tab_list);
+            Context::set('tab_list', $tab_list);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);

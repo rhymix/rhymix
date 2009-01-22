@@ -1,26 +1,33 @@
 {'<?xml version="1.0" encoding="UTF-8" ?>'}
 
-<rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
-        <title><![CDATA[{$info->title}]]></title>
-        <link><![CDATA[{$info->link}]]></link>
-        <description><![CDATA[{$info->description}]]></description>
+        <title>{$info->title}</title>
+        <link>{$info->link}</link>
+        <description>{str_replace('\'', '&apos;', htmlspecialchars($info->description))}</description>
         <language>{$info->language}</language>
         <pubDate>{$info->date}</pubDate>
-        <totalCount>{$info->total_count}</totalCount>
+        <generator>XpressEngine {__ZBXE_VERSION__}</generator>
         <!--@foreach($document_list as $oDocument)-->
         <item>
-            <title><![CDATA[{$oDocument->getTitleText()}]]></title>
-            <author><![CDATA[{$oDocument->getNickName()}]]></author>
-            <link><![CDATA[{$oDocument->getPermanentUrl()}]]></link>
+            <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title>
+            <dc:creator>{str_replace('\'', '&apos;',$oDocument->getNickName())}</dc:creator>
+            <link>{$oDocument->getPermanentUrl()}</link>
+            <guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
+            <!--@if($oDocument->allowComment()) -->
+            <comments>{$oDocument->getPermanentUrl()}#comment</comments>
+            <!--@end-->
             <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
-            <description><![CDATA[{$oDocument->getContent(false,false,true)}]]></description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
             <!--@else-->
-            <description><![CDATA[{$oDocument->getContentText(100)}]]></description>
+            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
             <!--@end-->
             <pubDate>{$oDocument->getRegdateGM()}</pubDate>
             <!--@foreach($oDocument->get('tag_list') as $tag)-->
-            <category><![CDATA[{$tag}]]></category>
+            <category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
+            <!--@end-->
+            <!--@if($oDocument->getCommentcount()>0)-->
+            <slash:comments>{$oDocument->getCommentcount()}</slash:comments>
             <!--@end-->
         </item>
         <!--@end-->

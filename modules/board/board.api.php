@@ -43,6 +43,15 @@
             $oModule->add('oDocument',$this->arrangeContent(Context::get('oDocument')));
         }
 
+
+        /**
+         * @brief 컨텐츠의 파일 목록
+         **/
+        function dispBoardContentFileList(&$oModule) {
+            $oModule->add('file_list',$this->arrangeFile(Context::get('file_list')));
+        }
+
+
         /**
          * @brief 태그 목록
          **/
@@ -50,8 +59,10 @@
             $oModule->add('tag_list',Context::get('tag_list'));
         }
 
-
-        function dispBoardConentCommentList(&$oModule) {
+        /**
+         * @brief 컨텐츠의 코멘트 목록
+         **/
+        function dispBoardContentCommentList(&$oModule) {
             $oModule->add('comment_list',$this->arrangeComment(Context::get('comment_list')));
         }
 
@@ -78,6 +89,25 @@
                 foreach($comment_list as $key => $val){
                     $item = null;
                     $item = $val->gets('comment_srl','parent_srl','depth','is_secret','content','voted_count','blamed_count','user_id','user_name','nick_name','email_address','homepage','regdate','last_update');
+                    $output[] = $item;
+                }
+            }
+            return $output;
+        }
+
+
+        function arrangeFile($file_list) {
+            $output = array();
+            if(count($file_list)) {
+                foreach($file_list as $key => $val){
+                    $item = null;
+                    $item->sid = $val->sid;
+                    $item->download_count = $val->download_count;
+                    $item->source_filename = $val->source_filename;
+                    $item->uploaded_filename = $val->uploaded_filename;
+                    $item->file_size = $val->file_size;
+                    $item->regdate = $val->regdate;
+                    $item->download_url = $val->download_url;
                     $output[] = $item;
                 }
             }

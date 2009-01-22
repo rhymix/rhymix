@@ -52,26 +52,33 @@
             // 제목
             $widget_info->title = $args->title;
 
-            // 대상 모듈 정리
-            $mid_list = explode(",",$args->mid_list);
-
-            // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
-
-            // 변수 정리
-            $obj->list_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
-
-            // mid에 해당하는 module_srl을 구함
             $oModuleModel = &getModel('module');
-            $module_srl_list = $oModuleModel->getModuleSrlByMid($mid_list);
-            if(is_array($module_srl_list)) $obj->module_srls = implode(",",$module_srl_list);
-            else $obj->module_srls = $module_srl_list;
+
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                $oModuleModel = &getModel('module');
+                if(count($mid_list)) {
+                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                } else {
+                    $site_module_info = Context::get('site_module_info');
+                    if($site_module_info) {
+                        $margs->site_srl = $site_module_info->site_srl;
+                        $oModuleModel = &getModel('module');
+                        $output = $oModuleModel->getMidList($margs);
+                        if(count($output)) $mid_list = array_keys($output);
+                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
+                    }
+                }
+            } else $module_srl = explode(',',$args->module_srls);
+
+            $obj->module_srls = implode(",",$module_srl);
             $obj->direct_download = 'Y';
             $obj->isvalid = 'Y';
-
             $oDocumentModel = &getModel('document');
 
             // 정해진 모듈에서 문서별 파일 목록을 구함
+            $obj->list_count = $widget_info->rows_list_count*$widget_info->cols_list_count;
             $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
             $files_count = count($files_output->data);
 

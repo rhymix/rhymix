@@ -5,6 +5,7 @@
      * @brief  Paque du langage en français pour le module de Module
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "Liste des Modules";
     $lang->module_index = "Liste des Modules";
     $lang->module_category = "Catégorie des Modules";
@@ -25,6 +26,7 @@
     $lang->skin_license = 'Licence';
     $lang->skin_history = 'Histoire des Mises à jour';
     $lang->module_copy = "Copier un Module";
+    $lang->module_selector = "Module Selector";
 
     $lang->header_script = "Script en-tête";
     $lang->about_header_script = "Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;.<br />Vous pouvez utiliser &lt;script, &lt;style ou &lt;meta tag";
@@ -64,4 +66,5 @@
     $lang->about_module = "XE se compose des modules sauf la bibliothèque fondamental.\nLe module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.";
 
 	$lang->about_extra_vars_default_value = 'Si plusieurs valeurs sont nécessaires, vous pouvez les connecter avec la virgule(,).';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

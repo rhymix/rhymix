@@ -4,11 +4,13 @@
     <title xml:lang="jp">イシュートラッカー</title>
     <title xml:lang="zh-CN">问题跟踪</title>
 	<title xml:lang="en">Issue Tracker</title>
+    <title xml:lang="es">Issue Tracker</title>
     <title xml:lang="zh-TW">問題追蹤</title>
     <description xml:lang="ko">각종 이슈 처리를 위한 모듈입니다.</description>
     <description xml:lang="jp">各種イシューを処理するモジュールです。</description>
     <description xml:lang="zh-CN">一个具有项目跟踪功能的模块。</description>
 	<description xml:lang="en">This module handles many kinds of issues.</description>
+	<description xml:lang="es">Este módulo se ocupa de muchos tipos de cuestiones.</description>
     <description xml:lang="zh-TW">可以處理追蹤多種問題的模組。</description>
     <version>1.0</version>
     <date>2008-08-04</date>
@@ -18,6 +20,7 @@
         <name xml:lang="jp">haneul</name>
         <name xml:lang="zh-CN">haneul</name>
 		<name xml:lang="en">haneul</name>
+		<name xml:lang="es">haneul</name>
         <name xml:lang="zh-TW">haneul</name>
     </author>
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
@@ -25,6 +28,7 @@
         <name xml:lang="jp">zero</name>
         <name xml:lang="zh-CN">zero</name>
 		<name xml:lang="en">zero</name>
+		<name xml:lang="es">zero</name>
         <name xml:lang="zh-TW">zero</name>
     </author>
 </module>

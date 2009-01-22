@@ -126,6 +126,8 @@
     $lang->colorset = 'Цветовой набор';
     $lang->extra_vars = 'Доп. перем.';
 
+    $lang->domain = "Domain Name";
+    $lang->url = "URL";
     $lang->document_url = 'Адрес статьи';
     $lang->trackback_url = 'Адрес трекбек';
     $lang->blog_name = 'Название блога';

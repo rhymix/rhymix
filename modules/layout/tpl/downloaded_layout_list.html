@@ -28,7 +28,7 @@
             <td class="number center">{$val->version}</td>
             <td class="center nowrap">
                 <!--@foreach($val->author as $author)-->
-                <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+                <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
                 <!--@endforeach-->
             </td>
             <td class="number center">{$val->menu_count}</td>

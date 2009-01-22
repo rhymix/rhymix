@@ -7,4 +7,5 @@
 
     $lang->cmd_go_upper = 'Upper';
     $lang->cmd_go_home = 'Go Home';
+    $lang->cmd_view_sitemap = 'View site map';
 ?>

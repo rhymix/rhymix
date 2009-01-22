@@ -235,7 +235,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
@@ -271,7 +271,7 @@
                 );
             // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
             } else {
-                $content = sprintf('<div class="xe_content">%s</div>', $content);
+                if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
 
             // resource_realpath가 true이면 내용내 이미지의 경로를 절대 경로로 변경
@@ -282,9 +282,21 @@
             return $content;
         }
 
+        /**
+         * 에디터 코드가 변환된 내용 반환
+         **/
+        function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
+            $oContext = &Context::getInstance();
+
+            $content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
+            $content = $oContext->transContent($content);
+
+            return $content;
+        }
+
         function getSummary($str_size = 50) {
-            // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도
-            $content = preg_replace('/([a-z0-9\-\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_\+]){20,}/is',"$0 ",$this->getContent(false,false));
+            // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도 - {20,}으로 길이를 정하면, 20개 이상 문자열 맨 마지막에 스페이스를 추가할 뿐 원하는 의도는 달성되지 못함
+            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$this->getContent(false,false));
 
             // 태그 제거
             $content = preg_replace('!<([^>]*?)>!is','', $content);

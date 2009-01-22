@@ -1,12 +1,12 @@
 .nw_box { padding-bottom:5px; overflow:hidden; }
-.nw_box h2 { margin:0; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(../images/normal/lineNotice.gif) no-repeat left bottom;}
+.nw_box h2 { margin:0; font-size:1em; display:block; height:21px; padding:9px 0 0 9px; margin-bottom:5px; color:#000000; background:url(./lineNotice.gif) no-repeat left bottom;}
 
 .nw_box a.more { text-decoration:none;} 
 .nw_box a.more:hover { text-decoration:underline;} 
 
 .nw_box .listTable { width:100%; table-layout:fixed; border:none;}
 
-.nw_box .listTable tr td { border-bottom:1px dotted #DEDEDE; padding:0;margin:0; vertical-align:top; overflow:hidden; }
+.nw_box .listTable tr td { padding:0;margin:0; vertical-align:top; overflow:hidden; }
 
 .nw_box .thumbnailBox { width:100%; margin:0;padding:0;border:none; table-layout:fixed; }
 .nw_box .thumbnailBox tr td { border-bottom:none; padding:none; margin:none; }

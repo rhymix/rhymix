@@ -472,7 +472,7 @@ function displayMultimedia(src, width, height, options) {
     var codebase = "";
     var html = "";
 
-    if(/\.swf/i.test(src)) {
+    if(/\.swf$/i.test(src)) {
         clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
@@ -485,10 +485,14 @@ function displayMultimedia(src, width, height, options) {
         html += ''
             + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>'
             + '</object>';
-    } else if(/\.flv/i.test(src)) {
-        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" />';
-    } else {
-        html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"></embed>';
+    } else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
+        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
+    }  else {
+        html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
+        if(params.wmode == 'transparent') {
+            html += ' windowlessvideo="1"';
+        }
+        html += '></embed>';
     }
     document.writeln(html);
 }

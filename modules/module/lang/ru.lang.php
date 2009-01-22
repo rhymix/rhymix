@@ -5,6 +5,7 @@
      * @brief  Russian basic language pack
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "Список модулей";
     $lang->module_index = "Список модулей";
     $lang->module_category = "Категория модуля";
@@ -24,6 +25,7 @@
     $lang->skin_author = 'Разработчик скина';
     $lang->skin_license = 'License';
     $lang->skin_history = 'История обновлений';
+    $lang->module_selector = "Module Selector";
     $lang->module_copy = "Копировать модуль";
 
     $lang->header_script = "헤더 스크립트";
@@ -64,4 +66,5 @@
     $lang->about_module = "XE состоит из модулей, за исключением базовой библиотеки.\n Управление модулем покажет все установленные модули и поможет управлять ими.";
 
 	$lang->about_extra_vars_default_value = 'Если нужно несколько значений по умолчанию, разделите их запятыми(,).';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>

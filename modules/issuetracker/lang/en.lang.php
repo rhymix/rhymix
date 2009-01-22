@@ -98,4 +98,5 @@
         'changed' => 'changed',
         'created' => 'created'
     );
+    $lang->cmd_manage_issue = 'Manage issues';
 ?>

@@ -49,6 +49,7 @@
             $link_url = $xml_obj->attrs->link_url;
             $open_window = $xml_obj->attrs->open_window;
             $style = $xml_obj->attrs->style;
+            $margin = (int)$xml_obj->attrs->margin;
 
             if(!$alt) {
                 $tmp_arr = explode('/',$src);
@@ -64,15 +65,26 @@
                 $attr_output[] = "alt=\"".$alt."\"";
                 $attr_output[] = "title=\"".$alt."\"";
             }
+            if($margin) {
+                $style = trim(preg_replace('/margin[a-z\-]*[ ]*:[ ]*[0-9 a-z]+(;| )/i','', $style)).';';
+                $style = str_replace(';;',';',$style);
+                if($style == ';') $style = '';
+                $style .= ' margin:'.$margin.'px;';
+            }
             if($align) $attr_output[] = "align=\"".$align."\"";
 
             if(preg_match("/\.png$/i",$src)) $attr_output[] = "class=\"iePngFix\"";
 
             if($width) $attr_output[] = 'width="'.$width.'"';
             if($height) $attr_output[] = 'height="'.$height.'"';
-            if($border) $attr_output[] = 'border="'.$border.'"';
+            if($border) {
+                $style = trim(preg_replace('/border[a-z\-]*[ ]*:[ ]*[0-9 a-z]+(;| )/i','', $style)).';';
+                $style = str_replace(';;',';',$style);
+                if($style == ';') $style = '';
+                $style .= ' border-style: solid; border-width:'.$border.'px;';
+            }
 
-            $code = sprintf("<img %s style=\"%s\" />", implode(" ",$attr_output), $style);
+            $code = sprintf("<img %s style=\"%s\" />", implode(' ',$attr_output), $style);
 
             if($link_url) {
                 if($open_window =='Y') $code = sprintf('<a href="%s" onclick="window.open(this.href);return false;">%s</a>', $link_url, $code);

@@ -331,6 +331,10 @@
                             $instance_name = sprintf("%s%s",$module,"API");
                             $class_file = sprintf('%s%s%s.api.php', _XE_PATH_, $class_path, $module);
                         break;
+                    case 'wap' :
+                            $instance_name = sprintf("%s%s",$module,"WAP");
+                            $class_file = sprintf('%s%s%s.wap.php', _XE_PATH_, $class_path, $module);
+                        break;
                     case 'class' :
                             $instance_name = $module;
                             $class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);

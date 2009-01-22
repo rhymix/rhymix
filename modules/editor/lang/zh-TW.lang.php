@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '您選擇的組件已插入！';
     $lang->msg_component_is_first_order = '您選擇的組件已達最頂端位置！';
     $lang->msg_component_is_last_order = '您選擇的組件已達最底端位置！';
-    $lang->msg_load_saved_doc = '有自動儲存的內容，確定要恢復嗎?\n儲存內容後，自動儲存的內容將會被刪除。';
+    $lang->msg_load_saved_doc = "有自動儲存的內容，確定要恢復嗎?\n儲存內容後，自動儲存的內容將會被刪除。";
     $lang->msg_auto_saved = '已自動儲存！';
 
     $lang->cmd_disable = '暫停';
@@ -52,18 +52,18 @@
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
-    '新細明體',
-    '標楷體',
-    '細明體',
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    '新細明體'=>'新細明體',
+    '標楷體'=>'標楷體',
+    '細明體'=>'細明體',
+    'Arial'=>'Arial',
+    'Arial Black'=>'Arial Black',
+    'Tahoma'=>'Tahoma',
+    'Verdana'=>'Verdana',
+    'Sans-serif'=>'Sans-serif',
+    'Serif'=>'Serif',
+    'Monospace'=>'Monospace',
+    'Cursive'=>'Cursive',
+    'Fantasy'=>'Fantasy',
     );
 
     $lang->edit->header = '樣式';
@@ -77,6 +77,26 @@
     );
 
     $lang->edit->submit = '確認';
+
+    $lang->edit->fontcolor = 'Text Color';
+    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->bold = 'Bold';
+    $lang->edit->italic = 'Italic';
+    $lang->edit->underline = 'Underline';
+    $lang->edit->strike = 'Strike';
+    $lang->edit->sup = 'Sup';
+    $lang->edit->sub = 'Sub';
+    $lang->edit->redo = 'Re Do';
+    $lang->edit->undo = 'Un Do';
+    $lang->edit->align_left = 'Align Left';
+    $lang->edit->align_center = 'Align Center';
+    $lang->edit->align_right = 'Align Right';
+    $lang->edit->align_justify = 'Align Justify';
+    $lang->edit->add_indent = 'Indent';
+    $lang->edit->remove_indent = 'Outdent';
+    $lang->edit->list_number = 'Orderd List';
+    $lang->edit->list_bullet = 'Unordered List';
+    $lang->edit->remove_format = 'Style Remover';
 
     $lang->edit->help_remove_format = '移除格式';
     $lang->edit->help_strike_through = '文字刪除線';
@@ -99,7 +119,14 @@
     $lang->edit->help_remove_indent = '凸排';
     $lang->edit->help_list_number = '編號';
     $lang->edit->help_list_bullet = '清單符號';
-    $lang->edit->help_use_paragrapth = '換行請按 ctrl+backspace (快速發表主題：alt+S)';
+    $lang->edit->help_use_paragraph = '換行請按 ctrl+backspace (快速發表主題：alt+S)';
+
+    $lang->edit->url = 'URL';
+    $lang->edit->blockquote = 'Blockquote';
+    $lang->edit->table = 'Table';
+    $lang->edit->image = 'Image';
+    $lang->edit->multimedia = 'Movie';
+    $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';

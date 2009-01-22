@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '選択されたコンポーネントは既に入力されています。';
     $lang->msg_component_is_first_order = '選択されたコンポーネントは最初に位置しています。';
     $lang->msg_component_is_last_order = '選択されたコンポーネントは最後に位置しています。';
-    $lang->msg_load_saved_doc = '自動保存された書き込みがあります。復旧しますか？\n書き終わってから登録すると前の自動保存データは削除されます。';
+    $lang->msg_load_saved_doc = "自動保存された書き込みがあります。復旧しますか？\n書き終わってから登録すると前の自動保存データは削除されます。";
     $lang->msg_auto_saved = '自動保存されました。';
 
     $lang->cmd_disable = '未使用';
@@ -37,33 +37,33 @@
     $lang->enable_component_grant = 'コンポーネント使用権限';
     $lang->enable_html_grant = 'HTML編集権限';
     $lang->enable_autosave = '自動保存使用';
-    $lang->height_resizable = '高さの調節';
+    $lang->height_resizable = '高さの調整';
     $lang->editor_height = 'エディターの高さ';
 
     $lang->about_editor_skin = 'エディターのスキンの選択が出来ます。';
     $lang->about_upload_file_grant = 'ファイル添付可能な権限の設定が出来ます。(選択なしの場合、誰でも添付が可能)';
     $lang->about_default_component_grant = 'エディターでの基本コンポーネントを使用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
     $lang->about_editor_height = 'エディターの基本高さを設定します。';
-    $lang->about_editor_height_resizable = 'エディターの高さを直接変更出来るようにします。';
-    $lang->about_enable_html_grant = 'HTML編集権限を付与します。';
+    $lang->about_editor_height_resizable = 'エディターの高さを変更出来るようにします。';
+    $lang->about_enable_html_grant = 'HTML編集権限を設定します。';
     $lang->about_enable_autosave = '書き込みのとき、自動保存機能をオンにします。';
 
     $lang->edit->fontname = 'フォント';
     $lang->edit->fontsize = 'フォントサイズ';
     $lang->edit->use_paragraph = '段落機能';
     $lang->edit->fontlist = array(
-    'ＭＳ Ｐゴシック',
-    'ＭＳ Ｐ明朝',
-    'MS UI Gothic',
-    'Arial',
-    'Arial Black',
-    'Tahoma',
-    'Verdana',
-    'Sans-serif',
-    'Serif',
-    'Monospace',
-    'Cursive',
-    'Fantasy',
+    'MS PGothic'=>'ＭＳ Ｐゴシック',
+    'MS PMincho'=>'ＭＳ Ｐ明朝',
+    'MS UI Gothic'=>'MS UI Gothic',
+    'Arial'=>'Arial',
+    'Arial Black'=>'Arial Black',
+    'Tahoma'=>'Tahoma',
+    'Verdana'=>'Verdana',
+    'Sans-serif'=>'Sans-serif',
+    'Serif'=>'Serif',
+    'Monospace'=>'Monospace',
+    'Cursive'=>'Cursive',
+    'Fantasy'=>'Fantasy',
     );
 
     $lang->edit->header = '見出し';
@@ -78,6 +78,26 @@
 
     $lang->edit->submit = '送信';
 
+    $lang->edit->fontcolor = 'テキストの色';
+    $lang->edit->fontbgcolor = 'ハイライト カラー';
+    $lang->edit->bold = '太字';
+    $lang->edit->italic = '斜体';
+    $lang->edit->underline = '下線';
+    $lang->edit->strike = '取り消し線';
+    $lang->edit->sup = '上付き文字';
+    $lang->edit->sub = '下付き文字';
+    $lang->edit->redo = '繰り返し';
+    $lang->edit->undo = '元に戻す';
+    $lang->edit->align_left = '左揃え';
+    $lang->edit->align_center = '中央揃え';
+    $lang->edit->align_right = '右揃え';
+    $lang->edit->align_justify = '均等割付';
+    $lang->edit->add_indent = 'インデント増';
+    $lang->edit->remove_indent = 'インデント減';
+    $lang->edit->list_number = '番号付リスト';
+    $lang->edit->list_bullet = '箇条書き';
+    $lang->edit->remove_format = '書式をクリア';
+
     $lang->edit->help_remove_format = '選択領域の中のタグを消します。';
     $lang->edit->help_strike_through = 'テキストに取り消し線を表示します。';
     $lang->edit->help_align_full = '左右の余白に合わせて文字列を配置します。';
@@ -88,8 +108,8 @@
     $lang->edit->help_italic = 'テキストを斜体にします。';
     $lang->edit->help_underline = 'テキストに下線（アンダーライン）を引きます。';
     $lang->edit->help_strike = '取り消し線を引きます。';
-    $lang->edit->help_sup = 'Sup';
-    $lang->edit->help_sub = 'Sub';
+    $lang->edit->help_sup = '上付き文字';
+    $lang->edit->help_sub = '下付き文字';
     $lang->edit->help_redo = '繰り返し';
     $lang->edit->help_undo = '元に戻す';
     $lang->edit->help_align_left = 'テキストを左揃えで表示します。';
@@ -97,9 +117,16 @@
     $lang->edit->help_align_right = 'テキストを右揃えで表示します。';
     $lang->edit->help_add_indent = 'インデントを増やします。';
     $lang->edit->help_remove_indent = 'インデントを減らします。';
-    $lang->edit->help_list_number = '段落番号';
+    $lang->edit->help_list_number = '番号付リスト';
     $lang->edit->help_list_bullet = '箇条書き';
-    $lang->edit->help_use_paragrapth = '段落機能を使用する場合は、「Ctrl+Enter」を押します（書き終わった後、「Alt+S」を押すと保存されます）。';
+    $lang->edit->help_use_paragraph = '段落機能を使用する場合は、「Ctrl+Enter」を押します（書き終わった後、「Alt+S」を押すと保存されます）。';
+
+    $lang->edit->url = 'リンク';
+    $lang->edit->blockquote = '引用文';
+    $lang->edit->table = '表';
+    $lang->edit->image = 'イメージ';
+    $lang->edit->multimedia = '動画';
+    $lang->edit->emoticon = '絵文字';
 
     $lang->edit->upload = '添付';
     $lang->edit->upload_file = 'ファイル添付';
@@ -119,7 +146,5 @@
     $lang->edit->extension ='拡張コンポーネント';
     $lang->edit->help = 'ヘルプ';
     $lang->edit->help_command = 'ショートカット‐キーの説明';
-
-
 
 ?>

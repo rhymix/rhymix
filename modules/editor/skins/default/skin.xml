@@ -36,22 +36,58 @@
             <title xml:lang="zh-TW">黑色</title>
         </color>
         <color name="white_texteditor">
-            <title xml:lang="ko">하얀색 텍스트편집기</title>
-            <title xml:lang="jp">White Text Editor</title>
-            <title xml:lang="en">White Text Editor</title>
-            <title xml:lang="ru">White Text Editor</title>
-            <title xml:lang="es">White Text Editor</title>
-            <title xml:lang="zh-CN">White Text Editor</title>
-            <title xml:lang="zh-TW">白色文字編輯器</title>
+            <title xml:lang="ko">하얀색 텍스트편집기(자동 줄 바꿈)</title>
+            <title xml:lang="jp">白色テキストエディター(自動に改行を入れる)</title>
+            <title xml:lang="en">White Text Editor(Auto Line Break)</title>
+            <title xml:lang="ru">White Text Editor(Auto Line Break)</title>
+            <title xml:lang="es">White Text Editor(Auto Line Break)</title>
+            <title xml:lang="zh-CN">White Text Editor(Auto Line Break)</title>
+            <title xml:lang="zh-TW">白色文字編輯器(Auto Line Break)</title>
         </color>
         <color name="black_texteditor">
-            <title xml:lang="ko">검은색 텍스트편집기</title>
-            <title xml:lang="jp">Black Text Editor</title>
-            <title xml:lang="en">Black Text Editor</title>
-            <title xml:lang="ru">Black Text Editor</title>
-            <title xml:lang="es">Black Text Editor</title>
-            <title xml:lang="zh-CN">Black Text Editor</title>
-            <title xml:lang="zh-TW">黑色文字編輯器</title>
+            <title xml:lang="ko">검은색 텍스트편집기(자동 줄 바꿈)</title>
+            <title xml:lang="jp">黒色テキストエディター(自動に改行を入れる)</title>
+            <title xml:lang="en">Black Text Editor(Auto Line Break)</title>
+            <title xml:lang="ru">Black Text Editor(Auto Line Break)</title>
+            <title xml:lang="es">Black Text Editor(Auto Line Break)</title>
+            <title xml:lang="zh-CN">Black Text Editor(Auto Line Break)</title>
+            <title xml:lang="zh-TW">黑色文字編輯器(Auto Line Break)</title>
+        </color>
+        <color name="white_text_usehtml">
+            <title xml:lang="ko">하얀색 텍스트편집기(HTML 사용)</title>
+            <title xml:lang="jp">白色テキストエディター(HTMLタグを使う)</title>
+            <title xml:lang="en">White Text Editor(Use HTML)</title>
+            <title xml:lang="ru">White Text Editor(Use HTML)</title>
+            <title xml:lang="es">White Text Editor(Use HTML)</title>
+            <title xml:lang="zh-CN">White Text Editor(Use HTML)</title>
+            <title xml:lang="zh-TW">白色文字編輯器(Use HTML)</title>
+        </color>
+        <color name="black_text_usehtml">
+            <title xml:lang="ko">검은색 텍스트편집기(HTML 사용)</title>
+            <title xml:lang="jp">黒色テキストエディター(HTMLタグを使う)</title>
+            <title xml:lang="en">Black Text Editor(Use HTML)</title>
+            <title xml:lang="ru">Black Text Editor(Use HTML)</title>
+            <title xml:lang="es">Black Text Editor(Use HTML)</title>
+            <title xml:lang="zh-CN">Black Text Editor(Use HTML)</title>
+            <title xml:lang="zh-TW">黑色文字編輯器(Use HTML)</title>
+        </color>
+        <color name="white_text_nohtml">
+            <title xml:lang="ko">하얀색 텍스트편집기(HTML 사용 안함)</title>
+            <title xml:lang="jp">白色テキストエディター(HTMLタグを使わない)</title>
+            <title xml:lang="en">White Text Editor(No HTML)</title>
+            <title xml:lang="ru">White Text Editor(No HTML)</title>
+            <title xml:lang="es">White Text Editor(No HTML)</title>
+            <title xml:lang="zh-CN">White Text Editor(No HTML)</title>
+            <title xml:lang="zh-TW">白色文字編輯器(No HTML)</title>
+        </color>
+        <color name="black_text_nohtml">
+            <title xml:lang="ko">검은색 텍스트편집기(HTML 사용 안함)</title>
+            <title xml:lang="jp">黒色テキストエディター(HTMLタグを使わない)</title>
+            <title xml:lang="en">Black Text Editor(No HTML)</title>
+            <title xml:lang="ru">Black Text Editor(No HTML)</title>
+            <title xml:lang="es">Black Text Editor(No HTML)</title>
+            <title xml:lang="zh-CN">Black Text Editor(No HTML)</title>
+            <title xml:lang="zh-TW">黑色文字編輯器(No HTML)</title>
         </color>
     </colorset>
 </skin>

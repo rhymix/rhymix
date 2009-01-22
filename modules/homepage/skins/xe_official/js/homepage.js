@@ -201,6 +201,7 @@ function menuFormReset() {
     jQuery('#menu_normal_btn_img','#menu_hover_btn_img','#menu_active_btn_img').attr("src","");
     jQuery('#itemAttr4').css("display","none");
     fo_obj.reset();
+    location.href = '#';
 }
 
 function completeInsertMenuItem(data) {
@@ -274,4 +275,48 @@ function completeInsertBoard(ret_obj) {
     if(module_srl) url = url.setQuery('module_srl',module_srl);
     if(page) url.setQuery('page',page);
     location.href = url;
+}
+function completeInsertGroup(ret_obj) {
+    location.href = current_url.setQuery('group_srl','');
+}
+
+function completeDeleteGroup(ret_obj) {
+    location.href = current_url.setQuery('group_srl','');
+
+}
+
+function completeInsertGrant(ret_obj) {
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+    var page = ret_obj['page'];
+    var module_srl = ret_obj['module_srl'];
+
+    alert(message);
+}
+
+function completeInsertPage(ret_obj) {
+    alert(ret_obj['message']);
+    location.reload();
+}
+
+function completeChangeLayout(ret_obj) {
+    location.reload();
+}
+
+function doDeleteGroup(group_srl) {
+    var fo_obj = xGetElementById('fo_group');
+    fo_obj.group_srl.value = group_srl;
+    procFilter(fo_obj, delete_group);
+}
+
+function changeMenuType(obj) {
+    if(obj.selectedIndex == 2) {
+        xGetElementById('itemAttr2').style.display = 'none';
+        xGetElementById('itemAttr3').style.display = 'block';
+        return;
+    } 
+
+    xGetElementById('itemAttr2').style.display = 'block';
+    xGetElementById('itemAttr3').style.display = 'none';
+
 }

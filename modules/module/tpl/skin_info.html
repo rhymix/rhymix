@@ -15,7 +15,7 @@
         <th scope="row"><label for="textfield2">{$lang->author}</label></th>
         <td class="blue">
             <!--@foreach($skin_info->author as $author)-->
-            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+            {$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
             <!--@endforeach-->
         </td>
     </tr>
@@ -40,10 +40,12 @@
         </td>
     </tr>
     <!--@end-->
+    <!--@if($skin_info->description)-->
     <tr>
         <th scope="row" class="borderBottomNone">{$lang->description}</th>
         <td class="borderBottomNone">{nl2br(trim($skin_info->description))}</td>
     </tr>
+    <!--@end-->
     </table>
 </div>
 

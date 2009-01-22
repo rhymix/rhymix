@@ -7,4 +7,5 @@
 
     $lang->cmd_go_upper = '上一级';
     $lang->cmd_go_home = '首页';
+    $lang->cmd_view_sitemap = 'View site map';
 ?>

@@ -34,6 +34,5 @@
 
             $this->setTemplateFile('content');
         }
-
     }
 ?>

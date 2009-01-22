@@ -4,6 +4,18 @@
  * @brief  관리자용 javascript
  **/
 
+function doManageIssue() {
+    var fo_obj = jQuery("#fo_management").get(0);
+
+    procFilter(fo_obj, manage_checked_issue);
+}
+
+function completeManageIssue(ret_obj) {
+    if(opener) opener.window.location.reload();
+    alert(ret_obj['message']);
+    window.close();
+}
+
 /* 모듈 생성 후 */
 function completeInsertProject(ret_obj) {
     var error = ret_obj['error'];

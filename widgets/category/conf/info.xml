@@ -28,8 +28,8 @@
     </author>
 
     <extra_vars>
-        <var id="mid_list">
-            <type>mid_list</type>
+        <var id="srl">
+            <type>mid</type>
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="es">대상 모듈</name>
             <name xml:lang="en">Target Module</name>

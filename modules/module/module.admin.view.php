@@ -97,5 +97,83 @@
             $this->setTemplateFile('copy_module');
         }
 
+        /**
+         * @brief 모듈 선택기
+         **/
+        function dispModuleAdminSelectList() {
+            $oModuleModel = &getModel('module');
+
+            // virtual site의 개수를 추출
+            $output = executeQuery('module.getSiteCount');
+            $site_count = $output->data->count;
+            Context::set('site_count', $site_count);
+
+            // 사이트 검색어 변수 설정
+            $site_keyword = Context::get('site_keyword');
+
+            // 사이트 검색어가 없으면 현재 가상 사이트의 정보를 설정
+            $args = null;
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') {
+                $query_id = 'module.getSiteModules';
+                $module_category_exists = false;
+                if(!$site_keyword) {
+                    $site_module_info = Context::get('site_module_info');
+                    if($site_module_info && $logged_info->is_admin != 'Y') {
+                        $site_keyword = $site_module_info->domain;
+                        $args->site_srl = (int)$site_module_info->site_srl;
+                        Context::set('site_keyword', $site_keyword);
+                    } else {
+                        $query_id = 'module.getDefaultModules';
+                        $args->site_srl = 0;
+                        $module_category_exists = true;
+                    }
+                // 사이트 검색어가 있으면 해당 사이트(들)의 정보를 추출
+                } else {
+                    $args->site_keyword = $site_keyword;
+                }
+            } else {
+                $query_id = 'module.getSiteModules';
+                $site_module_info = Context::get('site_module_info');
+                $args->site_srl = (int)$site_module_info->site_srl;
+            }
+
+            // 지정된 사이트(혹은 전체)의 module 목록을 구함
+            $output = executeQueryArray($query_id, $args);
+            $category_list = $mid_list = array();
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $module = trim($val->module);
+                    if(!$module) continue;
+
+                    $category = $val->category;
+                    $obj = null;
+                    $obj->module_srl = $val->module_srl;
+                    $obj->browser_title = $val->browser_title;
+                    $mid_list[$module]->list[$category][$val->mid] = $obj;
+                }
+            }
+
+            $selected_module = Context::get('selected_module');
+            if(count($mid_list)) {
+                foreach($mid_list as $module => $val) {
+                    if(!$selected_module) $selected_module = $module;
+                    $xml_info = $oModuleModel->getModuleInfoXml($module);
+                    $mid_list[$module]->title = $xml_info->title;
+                }
+            }
+
+            Context::set('mid_list', $mid_list);
+            Context::set('selected_module', $selected_module);
+            Context::set('selected_mids', $mid_list[$selected_module]->list);
+            Context::set('module_category_exists', $module_category_exists);
+
+            // 레이아웃을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('module_selector');
+        }
+
     }
 ?>

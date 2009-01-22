@@ -5,6 +5,7 @@
      * @sumario  Paquete del idioma español 
      **/
 
+    $lang->virtual_site = "Virtual Site";
     $lang->module_list = "Lista de Módulos";
     $lang->module_index = "Lista de Módulos";
     $lang->module_category = "Categoría de Módulos ";
@@ -25,6 +26,7 @@
     $lang->skin_license = 'License';
     $lang->skin_history = 'Historia de actualización';
     $lang->module_copy = "Copy Module";
+    $lang->module_selector = "Module Selector";
 
     $lang->header_script = "헤더 스크립트";
     $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
@@ -64,4 +66,5 @@
     $lang->about_module = "XE consiste de módulos excepto la librería básica.\n Módulo del Manejo del Módulo muestra todos los módulos instalados y ayuda el manejo de ellos.";
 
 	$lang->about_extra_vars_default_value = 'Si múltiples valores predefinidos son requeridos, usted puede enlazar con la coma(,).';
+    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
 ?>
