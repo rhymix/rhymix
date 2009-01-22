@@ -13,7 +13,7 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.1.4');
+    define('__ZBXE_VERSION__', '1.1.5');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
