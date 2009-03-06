@@ -10,6 +10,7 @@
 <div class="clear"></div>
 <div class="adminLayer">
     <form action="./" method="post" id="pageFo" onsubmit="return doSubmitPageContent(this);">
+        <input type="hidden" name="mid" value="" />
         <input type="hidden" name="module" value="page" />
         <input type="hidden" name="act" value="dispPageAdminContentModify" />
         <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />

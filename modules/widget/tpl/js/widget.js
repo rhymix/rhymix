@@ -373,7 +373,7 @@ function doAddWidgetCode(widget_code) {
 
     var fo_obj = xGetElementById('pageFo');
     fo_obj.content.value = tpl;
-
+    fo_obj.mid.value = current_mid;
     fo_obj.submit();
 }
 
