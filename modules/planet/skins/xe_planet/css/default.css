@@ -208,7 +208,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentBody{ position:relative; margin:10px 0; border:1px solid #d7dfe2; background:#fff; *zoom:1; clear:both;}
 .commentBody .comment{ position:relative; margin:0 15px; padding:15px 0 15px 0; clear:both; *zoom:1;}
 .commentBody .comment:after { content:""; display:block; width:0; height:0; font:0/0 Sans-serif; overflow:hidden; visibility:hidden; clear:both; float:none;}
-.commentBody .comment .identity{ position:relative; width:98px; float:left; margin:0 -98px 0 0; font-size:12px; background:none; *zoom:1;}
+.commentBody .comment .identity{ position:relative; width:98px; float:left; margin:0 -98px 0 0; font-size:12px; background:none; *zoom:1; white-space:nowrap;}
 .commentBody .comment .identity a{ position:relative; display:block; text-align:center; font-size:12px; color:#fff !important; font-weight:bold;}
 .commentBody .comment .identity a img{ display:block; border:1px solid #ddd;}
 .commentBody .comment .identity em{ position:absolute; width:96px; text-align:center; left:1px; bottom:1px; display:block; padding:5px 0; font-style:normal; background:#000; opacity:.6; filter:alpha(opacity=60); line-height:normal;}
