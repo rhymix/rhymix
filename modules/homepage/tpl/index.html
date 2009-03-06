@@ -1,37 +1,31 @@
 <!--%import("./js/homepage.js",optimized=false)-->
 <!--%import("./filter/insert_homepage.xml")-->
 
-<h3>{$lang->homepage} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->cafe} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<div class="infoText">{nl2br($lang->about_homepage)}</div>
-
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
+<div class="infoText">{nl2br($lang->about_cafe)}</div>
 
 <div class="adminLeftContent">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="colTable">
+    <caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
     <thead>
         <tr>
             <th scope="col"><div>{$lang->no}</div></th>
             <th scope="col" class="half_wide"><div>{$lang->title}</div></th>
             <th scope="col" class="half_wide"><div>{$lang->domain}</div></th>
             <th scope="col"><div>{$lang->regdate}</div></th>
-            <th scope="col"><div>{$lang->cmd_setup}</div></th>
-            <th scope="col"><div>{$lang->cmd_delete}</div></th>
-            <th scope="col"><div>{$lang->cmd_view}</div></th>
+            <th scope="col" colspan="3"><div>&nbsp;</div></th>
         </tr>
     </thead>
     <tbody>
         <!--@foreach($homepage_list as $no => $val)-->
         <tr class="row{$cycle_idx}">
-            <td class="center number">{$no}</td>
+            <td>{$no}</td>
             <td><a href="{getSiteUrl($val->domain,'module','homepage','act','dispHomepageManage','site_srl',$val->site_srl)}">{htmlspecialchars($val->homepage_title)}</a></td>
-            <td class="nowrap">http://<a href="http://{$val->domain}" onclick="window.open(this.href);return false;">{$val->domain}</a></td>
-            <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-            <td class="setup center"><a href="{getUrl('act','dispHomepageAdminSetup','site_srl',$val->site_srl)}">{$lang->cmd_setup}</a></td>
-            <td class="delete center"><a href="{getUrl('act','dispHomepageAdminDelete','site_srl',$val->site_srl)}">{$lang->cmd_delete}</a></td>
-            <td class="view center"><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
+            <td>http://<a href="http://{$val->domain}" onclick="window.open(this.href);return false;">{$val->domain}</a></td>
+            <td>{zdate($val->regdate,"Y-m-d")}</td>
+            <td><a href="{getUrl('act','dispHomepageAdminSetup','site_srl',$val->site_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+            <td><a href="{getUrl('act','dispHomepageAdminDelete','site_srl',$val->site_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
         </tr>
         <!--@end-->
     </tbody>
@@ -54,29 +48,29 @@
 
 <div class="adminRightExtra">
     <form action="./" method="post" onsubmit="return procFilter(this, insert_homepage)">
-        <table cellspacing="0" class="adminTable">
-        <thead>
-            <tr>
-                <th colspan="2"><div>{$lang->cmd_homepage_registration}</div></th>
-            </tr>
-        </thead>
+        <table cellspacing="0" class="colTable">
+        <caption>&nbsp;</caption>
         <tbody>
             <tr>
-                <th scope="row"><div>{$lang->homepage_title}</div></th>
+                <th scope="row"><div>{$lang->cafe_title}</div></th>
+			</tr>
+			<tr>
                 <td>
                     <input type="text" name="homepage_title" value="" class="inputTypeText w200" />
-                    <p>{$lang->about_homepage_title}</p>
+                    <p>{$lang->about_cafe_title}</p>
                 </td>
             </tr>
             <tr>
                 <th scope="row"><div>{$lang->domain}</div></th>
+			</tr>
+			<tr>
                 <td>
                     http://<input type="text" name="domain" value="" class="inputTypeText w200" />
                     <p>{$lang->about_domain}</p>
                 </td>
             </tr>
             <tr class="row2">
-                <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_make}" accesskey="s" /></span></div></th>
+                <td colspan="2" class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_cafe_registration}" accesskey="s" /></span></div></td>
             </tr>
         </tbody>
         </table>

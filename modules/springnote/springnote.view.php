@@ -35,7 +35,7 @@
          **/
         function dispSpringnoteContent() {
             // 권한 체크
-            if(!$this->grant->list) return $this->dispSpringnoteMessage('msg_not_permitted');
+            if(!$this->grant->access) return $this->dispSpringnoteMessage('msg_not_permitted');
 
             $pageid = (int)Context::get('pageid');
             if($this->module_info->pageid && $this->module_info->pageid_option != 'list') $pageid = $this->module_info->pageid;

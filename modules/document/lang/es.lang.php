@@ -13,6 +13,19 @@
     $lang->move_target_module = "Módulo para cambiar de posición";
     $lang->title_bold = 'Bold';
     $lang->title_color = 'Color';
+    $lang->new_document_count = '새글';
+
+    $lang->parent_category_title = 'Categoría Superior';
+    $lang->category_title = 'Nombre de la categoría';
+    $lang->category_color = '분류 폰트색깔';
+    $lang->expand = 'Expandir';
+    $lang->category_group_srls = 'Limitar el grupo';
+    $lang->cmd_make_child = 'Agregar sub categoría';
+    $lang->cmd_enable_move_category = "Cambiar la posición de la categoría. (arrastrar y soltar luego de haber selecionado)";
+    $lang->about_category_title = 'Ingresar el nombre de la categoría.';
+    $lang->about_expand = 'Si seleccionas esta opción, siempre estará expandido.';
+    $lang->about_category_group_srls = '선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다';
+    $lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 
     $lang->cmd_search_next = 'Buscar siguiente';
 
@@ -49,4 +62,8 @@
         'last_update' => 'Día de la última actualización',
         'ipaddress' => 'Dirección IP',
     );
+    $lang->alias = "Alias";
+    $lang->history = "히스토리";
+    $lang->about_use_history = "히스토리 기능의 사용여부를 지정합니다. 히스토리 기능을 사용할 경우 문서 수정시 이전 리비전을 기록하고 복원할 수 있습니다.";
+    $lang->trace_only = "흔적만 남김";
 ?>

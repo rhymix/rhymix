@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <tr class="row2">
     <th scope="row"><div>{$lang->module_category}</div></th>
     <td class="wide">
@@ -58,16 +58,12 @@
     <th scope="row"><div>{$lang->footer_text}</div></th>
     <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
-<tr>
-    <th scope="row"><div>{$lang->admin_id}</div></th>
-    <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
-</tr>
 <tr class="row2">
-    <td colspan="2" class="right">
-        <a href="{getUrl('act','dispLifepodAdminInsertLifepod')}" class="button"><span>{$lang->cmd_modify}</span></a>
+    <th colspan="2" class="button">
+        <a href="{getUrl('act','dispLifepodAdminInsertLifepod')}" class="button black strong"><span>{$lang->cmd_modify}</span></a>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispLifepodAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_lifepod_list}</span></a>
         <!--@end-->
-    </td>
+    </th>
 </tr>
 </table>

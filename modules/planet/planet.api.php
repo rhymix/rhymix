@@ -60,7 +60,8 @@
             if(count($content_list)) {
                 foreach($content_list as $key => $val) {
                     $item = null;
-                    $item = $val->gets('mid','document_srl','nick_name','content','postscript','voted_count','regdate','tag_list','comment_count');
+                    $item = $val->gets('mid','document_srl','nick_name','content','voted_count','regdate','tag_list','comment_count');
+                    $item->postscript = $val->getExtraVars(20);
                     $item->photo = $val->getPlanetPhotoSrc();
                     $output[] = $item;
                 }
@@ -74,7 +75,8 @@
             if(count($planet_list)) {
                 foreach($planet_list as $key => $val) {
                     $item = null;
-                    $item = $val->gets('mid','document_srl','nick_name','content','postscript','voted_count','regdate','tag_list');
+                    $item = $val->gets('mid','document_srl','nick_name','content','voted_count','regdate','tag_list');
+                    $item->postscript = $val->getExtraVars(20);
                     $item->photo = $val->getPhotoSrc();
                     $output[] = $item;
                 }

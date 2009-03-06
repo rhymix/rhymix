@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+    <grants />
+    <permissions />
     <actions>
         <action name="dispImporterAdminContent" type="view" standalone="true" admin_index="true" />
 

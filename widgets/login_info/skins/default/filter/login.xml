@@ -4,8 +4,5 @@
     <node target="password" required="true" />
   </form>
   <parameter />
-  <response callback_func="completeLogin">
-    <tag name="error" />
-    <tag name="message" />
-  </response>
+  <response />
 </filter>

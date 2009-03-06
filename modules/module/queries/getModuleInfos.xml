@@ -1,0 +1,6 @@
+<query id="getModuleInfos" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <conditions />
+</query>

@@ -1,0 +1,9 @@
+<table name="module_filebox">
+    <column name="module_filebox_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+    <column name="filename" type="varchar" size="250" notnull="notnull" />
+    <column name="fileextension" type="varchar" size="4" notnull="notnull" index="idx_fileextension" />
+    <column name="filesize" type="number" size="11" default="0" notnull="notnull" />
+    <column name="comment" type="varchar" size="250" />
+    <column name="regdate" type="date" />
+</table>

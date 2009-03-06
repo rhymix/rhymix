@@ -1,0 +1,21 @@
+@charset "utf-8";
+.widgetContainer a{ text-decoration:none;}
+.widgetContainer a:hover,
+.widgetContainer a:active,
+.widgetContainer a:focus{ text-decoration:underline;}
+.widgetContainer img{ border:0;}
+.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer form{ margin:0; padding:0;}
+.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+.widgetTagCloud { text-align:justify; font-size:12px; line-height:1.5; margin:0; padding:0;}
+.widgetTagCloud li{ display:inline; white-space:nowrap; list-style:none;}
+.widgetTagCloud li.level4 a{ font-size:11px;}
+.widgetTagCloud li.level3 a{ font-size:12px;}
+.widgetTagCloud li.level2 a{ font-size:14px; font-weight:bold;}
+.widgetTagCloud li.level1 a{ font-size:18px; font-weight:bold;}
+.widgetTagCloud li a{ color:#999;}
+.widgetTagCloud li.level4 a{ color:#333;}
+.widgetTagCloud li.level3 a{ color:#666;}
+.widgetTagCloud li.level2 a{ color:#999;}
+.widgetTagCloud li.level1 a{ color:#fff;}
+

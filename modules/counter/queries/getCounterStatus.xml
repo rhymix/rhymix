@@ -3,9 +3,11 @@
         <table name="counter_status" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="sum(unique_visitor)" alias="unique_visitor" />
+        <column name="sum(pageview)" alias="pageview" />
     </columns>
     <conditions>
-        <condition operation="in" column="regdate" var="regdate" notnull="notnull" />
+        <condition operation="more" column="regdate" var="start_date" notnull="notnull" pipe="and" />
+        <condition operation="less" column="regdate" var="end_date" notnull="notnull" pipe="and" />
     </conditions>
 </query>

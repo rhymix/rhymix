@@ -258,6 +258,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
                 uploadedFiles[file_srl] = item[i];
                 var opt = new Option(item[i].source_filename+" ("+item[i].disp_file_size+")", file_srl, true, true);
                 listObj.options[listObj.options.length] = opt;
+                previewFiles('', file_srl);
             }
         }
     }
@@ -265,7 +266,9 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
     xAddEventListener(listObj,'click',previewFiles);
 }
 
-function previewFiles(evt) {
+var img_loaded_check = Array();
+function previewFiles(evt, given_file_srl) {
+    if(!given_file_srl) {
     var e = new xEvent(evt);
     var obj = e.target;
     var selObj = null;
@@ -276,13 +279,21 @@ function previewFiles(evt) {
     obj = selObj.options[selObj.selectedIndex];
 
     var file_srl = obj.value;
+    }
+    else {
+        var file_srl = given_file_srl;
+    }
     if(!file_srl || typeof(uploadedFiles[file_srl])=="undefined") return;
     var file_info = uploadedFiles[file_srl];
     var previewAreaID = file_info.previewAreaID;
     var previewObj = xGetElementById("previewAreaID");
     if(!previewAreaID) return;
     xInnerHtml(previewAreaID,"&nbsp;");
-    if(file_info.direct_download != "Y") return;
+    if(file_info.direct_download != "Y") {
+        var html = "<img src=\""+request_uri+"./modules/editor/tpl/images/files.gif\" border=\"0\" width=\"100%\" height=\"100%\" />";
+        xInnerHtml(previewAreaID, html);
+        return;
+    }
 
     var html = "";
     var uploaded_filename = file_info.download_url;
@@ -302,9 +313,30 @@ function previewFiles(evt) {
     // 이미지 파일의 경우
     } else if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
         html = "<img src=\""+uploaded_filename+"\" border=\"0\" width=\"100%\" height=\"100%\" />";
-
+    } else if(uploaded_filename) {
+        html = "<img src=\""+request_uri+"/modules/editor/tpl/images/files.gif\" border=\"0\" width=\"100%\" height=\"100%\" />";
     }
     xInnerHtml(previewAreaID, html);
+
+    // 이미지 파일중, 파일 목록 리로드시 불러오는 이미지는 미리 로드시킴, 로드시키는 이유는 이미지 가로/세로 크기를 얻기 위함. 로드 횟수는 4번을 초과하지 않게 (그 이상은 포기)
+    if(given_file_srl) {
+        if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
+            var uploaded_obj = new Image();
+            uploaded_obj.src = uploaded_filename;
+            if(!uploaded_obj.width || !uploaded_obj.width) {
+                if(!img_loaded_check[given_file_srl]) {
+                    img_loaded_check[given_file_srl] = 1;
+                }
+                else {
+                    img_loaded_check[given_file_srl]++;
+                }
+
+                if(img_loaded_check[given_file_srl] < 5) {
+                    previewFiles('', given_file_srl);
+                }
+            }
+        }
+    }
 }
 
 function removeUploadedFile(editorSequence) {
@@ -354,7 +386,9 @@ function insertUploadedFile(editorSequence) {
         if(file.direct_download == 'Y') {
             // 이미지 파일의 경우 image_link 컴포넌트 열결
             if(/\.(jpg|jpeg|png|gif)$/i.test(file.download_url)) {
-                text.push("<img editor_component=\"image_link\" src=\""+file.download_url+"\" alt=\""+file.source_filename+"\" />");
+                var obj = new Image();
+                obj.src = file.download_url;
+                text.push("<img editor_component=\"image_link\" src=\""+file.download_url+"\" alt=\""+file.source_filename+"\" width=\""+obj.width+"\" height=\""+obj.height+"\" />");
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
                 text.push("<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");

@@ -2,6 +2,9 @@
 <!--%import("filter/update_group.xml")-->
 
 <!--#include("header.html")-->
+<!--%load_js_plugin("ui")-->
+<!--%load_js_plugin("filebox")-->
+
 
 <!-- 그룹의 삭제와 관련된 form -->
 <form id="fo_group_info" action="./" method="get">
@@ -10,7 +13,7 @@
 <input type="hidden" name="mode" value="" />
 </form>
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
     <tr>
         <th scope="col" class="half_wide"><div>{$lang->group_title}</div></th>
@@ -28,14 +31,14 @@
     <!--@end-->
     <!--@foreach($group_list as $group_srl => $group_info)-->
     <tr class="row{$cycle_idx}">
-        <td class="nowrap">{$group_info->title}</td>
+        <td><!--@if($group_info->image_mark)--><img src="{$group_info->image_mark}" width="{$config->group_image_mark_max_width}" height="{$config->group_image_mark_max_height}" style="vertical-align: middle; margin-right: 3px;" /><!--@endif-->{$group_info->title}</td>
         <td>{nl2br($group_info->description)}&nbsp;</td>
-        <td class="date center nowrap">{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
-        <td class="center number"><!--@if($group_info->is_default=='Y')-->Y<!--@else-->&nbsp;<!--@end--></td>
-        <td class="modify"><a href="{getUrl('group_srl',$group_info->group_srl)}">{$lang->cmd_modify}</a></td>
-        <td class="delete">
+        <td>{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
+        <td><!--@if($group_info->is_default=='Y')-->Y<!--@else-->&nbsp;<!--@end--></td>
+        <td><a href="{getUrl('group_srl',$group_info->group_srl)}" title="{$lang->cmd_modify}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
+        <td>
             <!--@if($group_info->is_default!='Y' && $group_info->is_admin !='Y')-->
-            <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a>
+            <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
             <!--@else-->
             &nbsp;
             <!--@end-->
@@ -51,7 +54,7 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="group_srl" value="" />
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->group_title}</div></th>
         <td class="wide"><input type="text" name="title" class="inputTypeText w400" /></td>
@@ -65,11 +68,41 @@
         <td><textarea name="description" class="inputTypeTextArea w400"></textarea></td>
     </tr>
     <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <th scope="row"><div>{$lang->group_image_mark}</div></th>
+        <td class="left">
+            <div id="filebox_preview_image_mark" style="width:{$config->group_image_mark_max_width}px;height:{$config->group_image_mark_max_height}px;display:none"></div>
+            <input type="hidden" name="image_mark" value="" />
+            <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name=image_mark]').get(0), 'jpg,jpeg,gif,png')">{$lang->cmd_select}</button></span>
+            <span id="filebox_cancel_image_mark" class="button red" style="display:none"><button type="button" onclick="XE.filebox.cancel('image_mark')">{$lang->cmd_delete}</button></span>
         </td>
     </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
-
 </form>
+
+
+<h4 class="xeAdmin">{$lang->group_image_mark_order}</h4>
+<!--@if(count($group_list))-->
+<ol id="group_image_mark_order">
+<!--@if(count($config->group_image_mark_order))-->
+    <!--@foreach($config->group_image_mark_order as $group_srl)-->
+        <li id="group_srl_{$group_srl}" class="<!--@if(!$group_list[$group_srl]->image_mark)-->inactive<!--@else-->active<!--@end-->"><!--@if($group_list[$group_srl]->image_mark)--><img src="{$group_list[$group_srl]->image_mark}" width="{$config->group_image_mark_max_width}" height="{$config->group_image_mark_max_height}" style="vertical-align: middle; margin-right: 3px;" /><!--@endif-->{$group_list[$group_srl]->title}</li>
+    <!--@endforeach-->
+<!--@endif-->
+<!--@foreach($group_list as $group)-->
+    <!--@if(!in_array($group->group_srl, $config->group_image_mark_order))-->
+    <li id="group_srl_{$group->group_srl}" class="<!--@if(!$group->image_mark)-->inactive<!--@else-->active<!--@end-->"><!--@if($group->image_mark)--><img src="{$group->image_mark}" width="{$config->group_image_mark_max_width}" height="{$config->group_image_mark_max_height}" style="vertical-align: middle; margin-right: 3px;" /><!--@endif-->{$group->title}</li>
+    <!--@endif-->
+<!--@endforeach-->
+</ol>
+<!--@endif-->
+
+<div class="clear">
+    <div class="fr">
+        <a href="#" class="button black" onclick="doGorupImageMarkUpdateOrder('group_image_mark_order'); return false;"><span>{$lang->cmd_registration}</span></a>
+    </div>
+</div>

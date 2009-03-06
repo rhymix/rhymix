@@ -16,6 +16,8 @@
     $lang->limit_count = "Número limite";
     $lang->check_trackback = "Chequear trackback";
     $lang->word = "Palabra";
+    $lang->hit = '히트';
+    $lang->latest_hit = '최근 히트';
 
     // para las palabras de descripcion
     $lang->about_interval = "Se bloquea el posteo de todo tipo de documentos durante el tiempo asignado.";
@@ -27,6 +29,6 @@
     // para registrar un documento
     $lang->msg_alert_limited_by_config = 'Se prohibe poestear antes de %s segundos.\n Si Usted trata varias veces, su dirección IP puede ser agregada en la lista negra.';
     $lang->msg_alert_denied_word = 'La palabra "%s" no esta permitido para ser posteado.';
-    $lang->msg_alert_registered_denied_ip = 'Su dirección IP fue agregaa en la lista negra,\n por lo cual Usted puede tener limitaciones en su uso normal de este sitio.\n Si Usted tiene alguna inquietud sobre el tema, por favor contactese con el administrador del sitio.'; 
+    $lang->msg_alert_registered_denied_ip = 'Su dirección IP fue agregaa en la lista negra,\n por lo cual Usted puede tener limitaciones en su uso normal de este sitio.\n Si Usted tiene alguna inquietud sobre el tema, por favor contactese con el administrador del sitio.';
     $lang->msg_alert_trackback_denied = 'Sólo un trackback por documento está permitido.';
 ?>

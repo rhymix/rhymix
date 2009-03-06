@@ -24,9 +24,9 @@
 
             $this->setTemplateFile('index');
         }
- 
+
         /**
-         * @brief 레이아웃 등록 페이지 
+         * @brief 레이아웃 등록 페이지
          * 1차적으로 레이아웃만 선택한 후 DB 에 빈 값을 넣고 그 후 상세 값 설정하는 단계를 거침
          **/
         function dispLayoutAdminInsert() {
@@ -42,7 +42,8 @@
          * @brief 레이아웃 세부 정보 입력
          **/
         function dispLayoutAdminModify() {
-            // 선택된 레이아웃의 정보르 구해서 세팅 
+
+            // 선택된 레이아웃의 정보르 구해서 세팅
             $layout_srl = Context::get('layout_srl');
 
             // 레이아웃의 정보를 가져옴
@@ -52,6 +53,8 @@
             // 등록된 레이아웃이 없으면 오류 표시
             if(!$layout_info) return $this->dispLayoutAdminContent();
 
+            // faceoff면 경로를 보여줄 필요는 없다
+            if($layout_info->type == 'faceoff') unset($layout_info->path);
             Context::set('selected_layout', $layout_info);
 
             // 메뉴 목록을 가져옴
@@ -66,7 +69,7 @@
          * @brief 레이아웃 코드 편집
          **/
         function dispLayoutAdminEdit() {
-            // 선택된 레이아웃의 정보르 구해서 세팅 
+            // 선택된 레이아웃의 정보르 구해서 세팅
             $layout_srl = Context::get('layout_srl');
 
             // 레이아웃의 정보를 가져옴
@@ -76,13 +79,34 @@
             // 등록된 레이아웃이 없으면 오류 표시
             if(!$layout_info) return $this->dispLayoutAdminContent();
             Context::set('selected_layout', $layout_info);
-            
+
             // 레이아웃 코드 가져오기
-            $layout_file = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
-            if(!file_exists($layout_file)) $layout_file = sprintf('%s%s', $layout_info->path, 'layout.html');
+            $oLayoutModel = &getModel('layout');
+            $layout_file = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
+            if(!file_exists($layout_file)){
+                // faceoff 면
+                if($oLayoutModel->useDefaultLayout($layout_info->layout_srl)){
+                    $layout_file  = $oLayoutModel->getDefaultLayoutHtml($layout_info->layout);
+                }else{
+                    $layout_file = sprintf('%s%s', $layout_info->path, 'layout.html');
+                }
+            }
+
+            $layout_css_file = $oLayoutModel->getUserLayoutCss($layout_info->layout_srl);
+            if(file_exists($layout_css_file)){
+                $layout_code_css = FileHandler::readFile($layout_css_file);
+                Context::set('layout_code_css', $layout_code_css);
+            }
 
             $layout_code = FileHandler::readFile($layout_file);
             Context::set('layout_code', $layout_code);
+
+            // set User Images
+            $layout_image_list = $oLayoutModel->getUserLayoutImageList($layout_info->layout_srl);
+            Context::set('layout_image_list', $layout_image_list);
+
+            $layout_image_path = $oLayoutModel->getUserLayoutImagePath($layout_info->layout_srl);
+            Context::set('layout_image_path', $layout_image_path);
 
             // 위젯 목록을 세팅
             $oWidgetModel = &getModel('widget');
@@ -108,6 +132,7 @@
          * @brief 레이아웃 미리 보기
          **/
         function dispLayoutAdminPreview() {
+//            debugPrint(Context::getRequestVars());
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
 
@@ -118,6 +143,15 @@
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayout($layout_srl);
             if(!$layout_info) return new Object(-1, 'msg_invalid_request');
+
+            // faceoff 레이아웃일 경우 별도 처리
+            if($layout_info && $layout_info->type == 'faceoff') {
+                $oLayoutModel->doActivateFaceOff($layout_info);
+            }
+
+            // 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
+            $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+            if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css);
 
             // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
             if($layout_info->extra_var_count) {
@@ -153,7 +187,7 @@
             $oContext = &Context::getInstance();
             $layout_tpl = $oContext->transContent($layout_tpl);
             Context::set('layout_tpl', $layout_tpl);
-            
+
             // 임시 파일 삭제
             FileHandler::removeFile($edited_layout_file);
 
@@ -164,7 +198,7 @@
          * @brief 레이아웃의 상세 정보(conf/info.xml)를 팝업 출력
          **/
         function dispLayoutAdminInfo() {
-            // 선택된 레이아웃 정보를 구함 
+            // 선택된 레이아웃 정보를 구함
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
             Context::set('layout_info', $layout_info);
@@ -174,6 +208,74 @@
 
             // 템플릿 파일 지정
             $this->setTemplateFile('layout_detail_info');
+        }
+
+
+        /**
+         * @brief faceoff의 관리자 layout 수정
+         **/
+        function dispLayoutAdminLayoutModify(){
+            // widget 을 수정용으로 컴파일
+            Context::setTransWidgetCodeIncludeInfo(true);
+
+            //layout_srl 를 가져온다
+            $current_module_info = Context::get('current_module_info');
+            $layout_srl = $current_module_info->layout_srl;
+
+            // 파일로 임시저장을 하기때문에 남아 있을지 모르는 tmp를 지운다
+            // to do 개선이 필요
+            $delete_tmp = Context::get('delete_tmp');
+            if($delete_tmp =='Y'){
+                $oLayoutAdminController = &getAdminController('layout');
+                $oLayoutAdminController->deleteUserLayoutTempFile($layout_srl);
+            }
+
+            $oLayoutModel = &getModel('layout');
+
+            // layout file들은 temp로 사용한다.
+            $oLayoutModel->setUseUserLayoutTemp();
+
+            // css 를 inline style로 뽑는다
+            $faceoffcss = $oLayoutModel->_getUserLayoutFaceOffCss($current_module_info->layout_srl);
+
+            $css = FileHandler::readFile($faceoffcss);
+            $match = null;
+            preg_match_all('/([^\{]+)\{([^\}]*)\}/is',$css,$match);
+            for($i=0,$c=count($match[1]);$i<$c;$i++) {
+                $name = trim($match[1][$i]);
+                $css = trim($match[2][$i]);
+                if(!$css) continue;
+                $css = str_replace('./images/',Context::getRequestUri().$oLayoutModel->getUserLayoutImagePath($layout_srl),$css);
+                $style[] .= sprintf('"%s":"%s"',$name,$css);
+            }
+
+            if(count($style)) {
+                $script = '<script type="text/javascript"> var faceOffStyle = {'.implode(',',$style).'}; </script>';
+                Context::addHtmlHeader($script);
+            }
+
+            $oTemplate = &TemplateHandler::getInstance();
+            Context::set('content', $oTemplate->compile($this->module_path.'tpl','about_faceoff'));
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('faceoff_layout_edit');
+        }
+
+        function dispLayoutAdminLayoutImageList(){
+            $layout_srl = Context::get('layout_srl');
+            $oLayoutModel = &getModel('layout');
+
+            // 이미지 목록
+            $layout_image_list = $oLayoutModel->getUserLayoutImageList($layout_srl);
+            Context::set('layout_image_list',$layout_image_list);
+
+            // 경로
+            $layout_image_path = $oLayoutModel->getUserLayoutImagePath($layout_srl);
+            Context::set('layout_image_path',$layout_image_path);
+
+            $this->setLayoutFile('popup_layout');
+
+            $this->setTemplateFile('layout_image_list');
         }
     }
 ?>

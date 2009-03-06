@@ -9,7 +9,7 @@
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
 
     <!--@if(!$module_srls)-->
         <tr class="row2">
@@ -46,7 +46,8 @@
     <tr>
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
-            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
+            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" id="browser_title"/>
+            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
@@ -113,81 +114,31 @@
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea fullWidth">{htmlspecialchars($module_info->description)}</textarea>
             <p>{$lang->about_description}</p>
         </td>
     </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->admin_id}</div></th>
+    <tr>
+        <th scope="row"><div>{$lang->header_text}</div></th>
         <td>
-            <textarea name="admin_id" class="inputTypeTextArea fixWidth"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
-            <p>{$lang->about_admin_id}</p>
+            <textarea name="header_text" class="inputTypeTextArea fullWidth" id="header_text">{htmlspecialchars($module_info->header_text)}</textarea>
+            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','header_text')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+            <p>{$lang->about_header_text}</p>
         </td>
     </tr>
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
+        <th scope="row"><div>{$lang->footer_text}</div></th>
+        <td>
+            <textarea name="footer_text" class="inputTypeTextArea fullWidth" id="footer_text">{htmlspecialchars($module_info->footer_text)}</textarea>
+            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','footer_text')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+            <p>{$lang->about_footer_text}</p>
         </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="history.back(); return false;" /></span>
+        </th>
     </table>
-
-    <!--@if(!$module_srls)-->
-        <!--@for($i=1;$i<=20;$i++)-->
-            <div class="gap1"></div>
-            {@ $extra_vars_name = ''}
-            {@ $extra_vars_type = ''}
-            {@ $extra_vars_is_required = ''}
-            {@ $extra_vars_default_value = ''}
-            {@ $extra_vars_desc = ''}
-            {@ $extra_vars_search = ''}
-            <!--@if($module_info->extra_vars[$i])-->
-                {@ $extra_vars_name = $module_info->extra_vars[$i]->name}
-                {@ $extra_vars_type = $module_info->extra_vars[$i]->type}
-                {@ $extra_vars_is_required = $module_info->extra_vars[$i]->is_required}
-                {@ $extra_vars_default_value = $module_info->extra_vars[$i]->default}
-                {@ $extra_vars_desc = $module_info->extra_vars[$i]->desc}
-                {@ $extra_vars_search = $module_info->extra_vars[$i]->search}
-            <!--@end-->
-        <table cellspacing="0" class="adminTable ">
-        <caption>{$lang->extra_vars} {$i}</caption>
-        <tr class="row2">
-            <th><div>{$lang->column_name}</div></th>
-            <td class="wide"><input type="text" name="extra_vars_{$i}_name" value="{$extra_vars_name}" class="inputTypeText w200" /> </td>
-        </tr>
-        <tr>
-            <th><div>{$lang->column_type}</div></th>
-            <td>
-                <select name="extra_vars_{$i}_type">
-                    <!--@foreach($lang->column_type_list as $key => $val)-->
-                        <!--@if($key != 'kr_zip')-->
-                        <option value="{$key}" <!--@if($extra_vars_type==$key)-->selected="selected"<!--@end-->>{$lang->column_type_list[$key]}</option>
-                        <!--@end-->
-                    <!--@end-->
-                </select>
-            </td>
-        </tr>
-        <tr class="row2">
-            <th><div>{$lang->is_required}</div></th>
-            <td><input type="checkbox" name="extra_vars_{$i}_is_required" value="Y" <!--@if($extra_vars_is_required=='Y')-->checked="checked"<!--@end--> /></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->default_value}</div></th>
-            <td><input type="text" name="extra_vars_{$i}_default" value="{$extra_vars_default_value}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
-        </tr>
-        <tr class="row2">
-            <th><div>{$lang->description}</div></th>
-            <td><input type="text" name="extra_vars_{$i}_desc" value="{$extra_vars_desc}" class="inputTypeText w400" /></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->cmd_search}</div></th>
-            <td><input type="checkbox" name="extra_vars_{$i}_search" value="Y" <!--@if($extra_vars_search=='Y')-->checked="checked"<!--@end--> /></td>
-        </tr>
-        <tr class="row2">
-            <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></td>
-        </tr>
-        </table>
-        <!--@end-->
-    <!--@end-->
-
 
 </form>

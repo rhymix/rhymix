@@ -4,7 +4,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->cmd_menu_insert}</div></th>
         <td>{nl2br($lang->about_menu_management)}</td>
@@ -17,9 +17,9 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_submit}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_submit}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 

@@ -1,0 +1,13 @@
+<query id="updateAuthMail" action="update">
+    <tables>
+        <table name="member_auth_mail" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="auth_key" var="auth_key" notnull="notnull" minlength="1" maxlength="60" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number"/>
+    </conditions>
+</query>

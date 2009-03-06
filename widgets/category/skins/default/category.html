@@ -1,58 +1,44 @@
-<!--%import("css/category.css")-->
 <!--%import("js/category.js")-->
 
-<div class="categoryWidget">
-
-    <div class="top <!--@if($mid == $widget_info->mid && !$category)-->selected<!--@end-->"><a href="{getUrl('','mid',$widget_info->mid)}">{$widget_info->module_info->browser_title}</a> <strong>[{$widget_info->total_document_count}]</strong></div>
-
-    {@ $prev_depth = 0}
-    {@ $prev_last = false}
-    {@ $prev_srl = 0}
-    {@ $prev_expand = false}
-
-<!--@foreach($widget_info->category_list as $key => $val)-->
-
-    <!--@if($val->last)-->
-        <!--@if($val->child_count)-->
-            <!--@if(!$val->expand)-->{@ $class = "plusBottom" }<!--@else-->{@ $class = "minusBottom" }<!--@end-->
-        <!--@else-->
-            {@ $class = "joinBottom" }
-        <!--@end-->
-    <!--@elseif($val->first)-->
-        <!--@if($val->child_count)-->
-            <!--@if(!$val->expand)-->{@ $class = "plus" }<!--@else-->{@ $class = "minus" }<!--@end-->
-        <!--@else-->
-            {@ $class = "join" }
-        <!--@end-->
-    <!--@else-->
-        <!--@if($val->child_count)-->
-            <!--@if(!$val->expand)-->{@ $class = "plus" }<!--@else-->{@ $class = "minus" }<!--@end-->
-        <!--@else-->
-            {@ $class = "join" }
-        <!--@end-->
-    <!--@end-->
-
-    <!--@if($prev_depth < $val->depth)-->
-        {@ $prev_depth = $val->depth }
-        <div class="<!--@if(!$prev_last)-->child<!--@else-->childBottom<!--@end-->" id="category_{$prev_srl}" <!--@if(!$prev_expand)-->style="display:none;"<!--@end-->>
-    <!--@elseif($prev_depth > $val->depth)-->
-        <!--@for($i=$val->depth;$i<$prev_depth;$i++)--></div><!--@end-->
-        {@ $prev_depth = $val->depth }
-    <!--@end-->
-
-    <div class="{$class}" id="category_parent_{$val->category_srl}">
-        <div class="item <!--@if($val->selected)-->selected<!--@end-->">
-            <a href="{getUrl('','mid',$widget_info->mid, 'category',$val->category_srl)}">{$val->text}</a> 
-            <!--@if($val->document_count)--><strong>[{$val->document_count}]</strong><!--@end-->
-        </div>
-    </div>
-
-    {@ $prev_last = $val->last}
-    {@ $prev_srl = $val->category_srl}
-    {@ $prev_expand = $val->expand}
-
+<!--@if($colorset == "black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset == "white" || $colorset == "normal")-->
+    <!--%import("./css/white.css")-->
 <!--@end-->
 
-    <!--@for($i=0;$i<$prev_depth;$i++)--></div><!--@end-->
+{@ $_pDepth = 0;}
 
+<div class="widgetContainer">
+    <div class="widgetTree">
+        <a href="{getSiteUrl($widget_info->domain,'','mid',$widget_info->module_info->mid)}" class="title">{$widget_info->module_info->browser_title}</a> <span>({$widget_info->total_document_count})</span>
+        <ul>
+    <!--@foreach($widget_info->category_list as $key => $val)-->
+        <!--@if($_pDepth > $val->depth)-->
+            <!--@for($i=$val->depth; $i<$_pDepth; $i++)-->
+            </li>
+        </ul>
+            <!--@end-->
+            {@ $_pDepth = $val->depth}
+        <!--@end-->
+
+            <li class="<!--@if($val->last)-->nav_tree_last<!--@end--> <!--@if($val->expand)-->nav_tree_on<!--@else-->nav_tree_off<!--@end-->" id="category_parent_{$val->category_srl}">
+                <!--@if($val->child_count)-->
+                    <!--@if($val->expand)-->
+                        <button type="button" class="category_{$val->category_srl}">+</button>
+                    <!--@else-->
+                        <button type="button" class="category_{$val->category_srl}">-</button>
+                    <!--@end-->
+                <!--@end-->
+                <a href="{getSiteUrl($widget_info->domain, '','mid',$widget_info->module_info->mid, 'category',$val->category_srl)}" class="nav_tree_label <!--@if($val->selected)-->selected<!--@end-->">{$val->text}</a> 
+                <!--@if($val->document_count)--><span>({$val->document_count})</span><!--@end-->
+
+            <!--@if($val->child_count)-->
+                {@$_pDepth++}
+                <ul>
+            <!--@else-->
+            </li>
+            <!--@end-->
+    <!--@end-->
+        </ul>
+    </div>
 </div>

@@ -1,0 +1,32 @@
+<!--%import("filter/delete_wiki.xml")-->
+<!--%import("js/wiki_admin.js")-->
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, delete_wiki)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+
+    <h4 class="xeAdmin">{$lang->confirm_delete}</h4>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row"><div>{$lang->module_name}</div></th>
+        <td class="wide">{$module_info->mid}</td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->module}</div></th>
+        <td>{$module_info->module}</td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->document_count}</div></th>
+        <td>{$module_info->document_count}</td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
+            <a href="{getUrl('act','dispWikiAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
+        </th>
+    </tr>
+    </table>
+
+
+</form>

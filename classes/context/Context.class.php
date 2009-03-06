@@ -1,6 +1,6 @@
 <?php
     /**
-    * @class Context 
+    * @class Context
     * @author zero (zero@nzeo.com)
     * @brief  Request Argument/환경변수등의 모든 Context를 관리
     * Context 클래스는 Context::methodname() 처럼 쉽게 사용하기 위해 만들어진 객체를 받아서
@@ -16,7 +16,7 @@
         var $request_method = 'GET'; ///< @brief GET/POST/XMLRPC 중 어떤 방식으로 요청이 왔는지에 대한 값이 세팅. GET/POST/XML 3가지가 있음
         var $response_method = ''; ///< @brief HTML/XMLRPC 중 어떤 방식으로 결과를 출력할지 결정. (강제 지정전까지는 request_method를 따름)
 
-        var $context = NULL; ///< @brief request parameter 및 각종 환경 변수등을 정리하여 담을 변수 
+        var $context = NULL; ///< @brief request parameter 및 각종 환경 변수등을 정리하여 담을 변수
 
         var $db_info = NULL; ///< @brief DB 정보
         var $ftp_info = NULL; ///< @brief FTP 정보
@@ -26,6 +26,7 @@
         var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
 
         var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트코드
+        var $body_header = NULL; ///< @brief display시에 사용하게 되는 <body> 바로 다음에 출력될 스크립트 코드
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
         var $path = ''; ///< zbxe의 경로
@@ -40,9 +41,11 @@
 
         var $site_title = ''; ///< @brief 현 사이트의 browser title. Context::setBrowserTitle() 로 변경 가능
 
-        var $get_vars = NULL; ///< @brief form이나 get으로 요청이 들어온 변수만 별도로 관리 
+        var $get_vars = NULL; ///< @brief form이나 get으로 요청이 들어온 변수만 별도로 관리
 
         var $is_uploaded = false; ///< @brief 첨부파일이 업로드 된 요청이였는지에 대한 체크 플래그
+
+        var $widget_include_info_flag = false; // 위젯 정보 코드 출력
 
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
@@ -64,6 +67,9 @@
             $this->context->lang = &$GLOBALS['lang'];
             $this->context->_COOKIE = $_COOKIE;
 
+            // 사용자의 쿠키 설정된 언어 타입 추출
+            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
@@ -83,19 +89,6 @@
             );
             session_start();
 
-            // 쿠키로 설정된 언어타입 가져오기 
-            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
-            else $this->lang_type = $this->db_info->lang_type;
-            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
-            if(!$this->lang_type) $this->lang_type = "en";
-
-            Context::set('lang_supported', $lang_supported);
-            $this->setLangType($this->lang_type);
-
-            // 기본 언어파일 로드
-            $this->lang = &$GLOBALS['lang'];
-            $this->_loadLang(_XE_PATH_."common/lang/");
-
             // Request Method 설정
             $this->_setRequestMethod();
 
@@ -105,13 +98,31 @@
             $this->_setRequestArgument();
             $this->_setUploadedArgument();
 
-            // 인증 관련 정보를 Context와 세션에 설정
+            // 설치가 되어 있다면 가상 사이트 정보를 구함
             if(Context::isInstalled()) {
                 // site_module_info를 구함
                 $oModuleModel = &getModel('module');
                 $site_module_info = $oModuleModel->getDefaultMid();
                 Context::set('site_module_info', $site_module_info);
+            }
 
+            // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
+            if(!$this->lang_type) {
+                // 가상 사이트라면 가상사이트의 언어타입으로 지정
+                if($site_module_info && $site_module_info->default_language) $this->db_info->lang_type = $site_module_info->default_language;
+
+                // 언어 타입 지정
+                $this->lang_type = $this->db_info->lang_type;
+            }
+            // 지정된 언어가 지원 언어에 속하지 않거나 없으면 영문으로 지정
+            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
+            if(!$this->lang_type) $this->lang_type = "en";
+
+            Context::set('lang_supported', $lang_supported);
+            $this->setLangType($this->lang_type);
+
+            // 인증 관련 정보를 Context와 세션에 설정
+            if(Context::isInstalled()) {
                 // 인증관련 데이터를 Context에 설정
                 $oMemberModel = &getModel('member');
                 $oMemberController = &getController('member');
@@ -128,6 +139,10 @@
                 $this->_set('is_logged', $oMemberModel->isLogged() );
                 $this->_set('logged_info', $oMemberModel->getLoggedInfo() );
             }
+
+            // 기본 언어파일 로드
+            $this->lang = &$GLOBALS['lang'];
+            $this->_loadLang(_XE_PATH_."common/lang/");
 
             // rewrite 모듈사용 상태 체크
             if(file_exists(_XE_PATH_.'.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
@@ -206,7 +221,7 @@
             if(!$db_info->use_ssl) $db_info->use_ssl = 'none';
 
             $this->_setDBInfo($db_info);
-            
+
             $GLOBALS['_time_zone'] = $db_info->time_zone;
             $GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
             $this->set('_use_ssl', $db_info->use_ssl);
@@ -266,6 +281,14 @@
         }
 
         /**
+         * @brief 기본 URL을 return
+         **/
+        function getDefaultUrl() {
+            $db_info = Context::getDBInfo();
+            return $db_info->default_url;
+        }
+
+        /**
          * @brief 지원되는 언어 파일 찾기
          **/
         function loadLangSupported() {
@@ -305,6 +328,46 @@
             return $lang_selected;
         }
 
+        /**
+         * @brief SSO URL이 설정되어 있고 아직 SSO URL검사를 하지 않았다면 return true
+         **/
+        function checkSSO() {
+            // GET 접속이 아니거나 설치가 안되어 있으면 패스
+            if(Context::getRequestMethod()!='GET' || !Context::isInstalled()) return true;
+
+            // DB info에 설정된 Default URL이 없다면 무조건 무사통과
+            $default_url = trim($this->db_info->default_url);
+            if(!$default_url) return true;
+            if(substr($default_url,-1)!='/') $default_url .= '/';
+
+            // SSO 검증을 요청 받는 사이트
+            if($default_url == Context::getRequestUri()) {
+                if(Context::get('default_url')) {
+                    $url = base64_decode(Context::get('default_url'));
+                    $url_info = parse_url($url);
+                    $url_info['query'].= ($url_info['query']?'&':'').'SSOID='.session_id();
+                    $redirect_url = sprintf('%s://%s%s%s?%s',$url_info['scheme'],$url_info['host'],$url_info['port']?':'.$url_info['port']:'',$url_info['path'], $url_info['query']);
+                    header("location:".$redirect_url);
+                    return false;
+                }
+            // SSO 검증을 요청하는 사이트
+            } else {
+                // SSO 결과를 받는 경우 session_name() 세팅
+                if(Context::get('SSOID')) {
+                    setcookie(session_name(), Context::get('SSOID'), 0, '/');
+                    header("location:".getUrl('SSOID',''));
+                    return false;
+                // SSO 결과를 요청
+                } else if($_COOKIE['sso']!=md5(Context::getRequestUri()) && !Context::get('SSOID')) {
+                    setcookie('sso',md5(Context::getRequestUri()),0,'/');
+                    $url = sprintf("%s?default_url=%s", $default_url, base64_encode(Context::getRequestUrl()));
+                    header("location:".$url);
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /**
          * @biref FTP 정보가 등록되었는지 확인
@@ -347,8 +410,8 @@
          * @brief 사이트 title adding
          **/
         function _addBrowserTitle($site_title) {
-            if($this->site_title) $this->site_title .= ' - '.htmlspecialchars($site_title);
-            else $this->site_title .= htmlspecialchars($site_title);
+            if($this->site_title) $this->site_title .= ' - '.$site_title;
+            else $this->site_title .= $site_title;
         }
 
         /**
@@ -364,7 +427,7 @@
          * @brief 사이트 title setting
          **/
         function _setBrowserTitle($site_title) {
-            $this->site_title = htmlspecialchars($site_title);
+            $this->site_title = $site_title;
         }
 
         /**
@@ -558,7 +621,7 @@
          * @brief GET/POST방식일 경우 처리
          **/
         function _setRequestArgument() {
-            if($this->_getRequestMethod() == 'XMLRPC') return;
+            if($this->_getRequestMethod() == 'XMLRPC' || $this->_getRequestMethod() == 'JSON') return;
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
@@ -672,6 +735,21 @@
         }
 
         /**
+         * @brief 현재 요청된 full url을 return
+         **/
+        function getRequestUrl() {
+            static $url = null;
+            if(is_null($url)) {
+                $url = Context::getRequestUri();
+                if(count($_GET)) {
+                    foreach($_GET as $key => $val) $vars[] = $key.'='.$val;
+                    $url .= '?'.implode('&',$vars);
+                }
+            }
+            return $url;
+        }
+
+        /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
         function getUrl($num_args=0, $args_list=array(), $domain = null) {
@@ -683,14 +761,25 @@
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
         function _getUrl($num_args=0, $args_list=array(), $domain = null) {
-            if($domain) {
-                $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
-                if(substr($domain,-1) != '/') $domain .= '/';
+            static $site_module_info = null;
+            if(is_null($site_module_info)) {
+                $site_module_info = Context::get('site_module_info');
             }
+
+            if(!$domain) {
+                if($site_module_info->domain) $domain = $site_module_info->domain;
+                else {
+                    if($this->db_info->default_url) $domain = $this->db_info->default_url;
+                    else if(!$domain) $domain = Context::getRequestUri();
+                }
+            }
+
+            $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
+            if(substr($domain,-1) != '/') $domain .= '/';
 
             if(!$this->get_vars || $args_list[0]=='') {
                 $get_vars = null;
-                if($args_list[0]=='') {
+                if(is_array($args_list) && $args_list[0]=='') {
                     array_shift($args_list);
                     $num_args = count($args_list);
                 }
@@ -711,6 +800,9 @@
             /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
             elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
+            /* 기존의 action의 값이 바뀌어서 이를 강제 변경 */
+            elseif($get_vars['act'] == 'dispDocumentAdminManageDocument') $get_vars['act'] = 'dispDocumentManageDocument';
+            elseif($get_vars['act'] == 'dispModuleAdminSelectList') $get_vars['act'] = 'dispModuleSelectList';
 
             if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL, $domain);
             else $path = $this->getRequestUri(RELEASE_SSL, $domain);
@@ -727,39 +819,41 @@
                 $target = implode('.',$var_keys);
 
                 switch($target) {
-                    case 'mid' : 
+                    case 'mid' :
                         return $path.$get_vars['mid'];
-                    case 'document_srl' : 
+                    case 'document_srl' :
                         return $path.$get_vars['document_srl'];
-                    case 'act.mid' : 
+                    case 'act.mid' :
                         return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
-                    case 'document_srl.mid' : 
+                    case 'document_srl.mid' :
                         return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
-                    case 'act.document_srl' : 
+                    case 'act.document_srl' :
                         return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
-                    case 'mid.page' : 
+                    case 'mid.page' :
                         return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
-                    case 'category.mid' : 
+                    case 'category.mid' :
                         return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
-                    case 'act.document_srl.key' : 
+                    case 'act.document_srl.key' :
                         return sprintf('%s%s/%s/%s',$path,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
-                    case 'document_srl.mid.page' : 
+                    case 'document_srl.mid.page' :
                         return sprintf('%s%s/%s/page/%s',$path,$get_vars['mid'],$get_vars['document_srl'],$get_vars['page']);
-                    case 'category.mid.page' : 
+                    case 'category.mid.page' :
                         return sprintf('%s%s/category/%s/page/%s',$path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
                     case 'mid.search_keyword.search_target' :
                             switch($get_vars['search_target']) {
-                                case 'tag' : 
+                                case 'tag' :
                                     return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
-                                case 'nick_name' : 
+                                case 'nick_name' :
                                     return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
-                                case 'regdate' : 
+                                case 'regdate' :
                                     if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
-                                    elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2)); 
+                                    elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2));
                             }
                         break;
                     case 'act.document_srl.mid' :
                         return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
+                    case 'entry.mid' :
+                        return sprintf('%s%s/entry/%s',$path,$get_vars['mid'],$get_vars['entry']);
                 }
             }
 
@@ -805,7 +899,7 @@
 
             if($domain) {
                 $target_url = trim($domain);
-                if(substr($target_url,-1) != '/') $target_url.= '/'; 
+                if(substr($target_url,-1) != '/') $target_url.= '/';
             } else {
                 $target_url= $_SERVER['HTTP_HOST'].getScriptPath();
             }
@@ -952,17 +1046,20 @@
         /**
          * @brief js file을 추가
          **/
-        function addJsFile($file, $optimized = true, $targetie = '') {
+        function addJsFile($file, $optimized = true, $targetie = '',$index=null) {
             $oContext = &Context::getInstance();
-            return $oContext->_addJsFile($file, $optimized, $targetie);
+            return $oContext->_addJsFile($file, $optimized, $targetie,$index);
         }
 
         /**
          * @brief js file을 추가
          **/
-        function _addJsFile($file, $optimized, $targetie) {
+        function _addJsFile($file, $optimized, $targetie,$index) {
             if(in_array($file, $this->js_files)) return;
-            $this->js_files[] = array('file' => $file, 'optimized' => $optimized, 'targetie' => $targetie);
+
+            if(is_null($index)) $index=count($this->js_files);
+            for($i=$index;array_key_exists($i,$this->js_files);$i++);
+            $this->js_files[$i] = array('file' => $file, 'optimized' => $optimized, 'targetie' => $targetie);
         }
 
         /**
@@ -986,9 +1083,19 @@
         }
 
         /**
+         * @brief javascript filter 추가
+         **/
+        function addJsFilter($path, $filename) {
+            $oXmlFilter = new XmlJSFilter($path, $filename);
+            $oXmlFilter->compile();
+        }
+
+        /**
          * @brief array_unique와 동작은 동일하나 file 첨자에 대해서만 동작함
          **/
         function _getUniqueFileList($files) {
+            ksort($files);
+            $files = array_values($files);
             $filenames = array();
             $size = count($files);
             for($i = 0; $i < $size; ++ $i)
@@ -997,6 +1104,7 @@
                     unset($files[$i]);
                 $filenames[] = $files[$i]['file'];
             }
+
             return $files;
         }
 
@@ -1020,19 +1128,22 @@
         /**
          * @brief CSS file 추가
          **/
-        function addCSSFile($file, $optimized = true, $media = 'all', $targetie = '') {
+        function addCSSFile($file, $optimized = true, $media = 'all', $targetie = '',$index = null) {
             $oContext = &Context::getInstance();
-            return $oContext->_addCSSFile($file, $optimized, $media, $targetie);
+            return $oContext->_addCSSFile($file, $optimized, $media, $targetie,$index);
         }
 
         /**
          * @brief CSS file 추가
          **/
-        function _addCSSFile($file, $optimized, $media, $targetie) {
+        function _addCSSFile($file, $optimized, $media, $targetie, $index) {
             if(in_array($file, $this->css_files)) return;
 
+            if(is_null($index)) $index=count($this->css_files);
+            for($i=$index;array_key_exists($i,$this->css_files);$i++);
+
             //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
-            $this->css_files[] = array('file' => $file, 'optimized' => $optimized, 'media' => $media, 'targetie' => $targetie);
+            $this->css_files[$i] = array('file' => $file, 'optimized' => $optimized, 'media' => $media, 'targetie' => $targetie);
         }
 
         /**
@@ -1081,6 +1192,10 @@
         }
 
         function _loadJavascriptPlugin($plugin_name) {
+            static $loaded_plugins = array();
+            if($loaded_plugins[$plugin_name]) return;
+            $loaded_plugins[$plugin_name] = true;
+
             $plugin_path = './common/js/plugins/'.$plugin_name.'/';
             if(!is_dir($plugin_path)) return;
 
@@ -1127,6 +1242,36 @@
          **/
         function _getHtmlHeader() {
             return $this->html_header;
+        }
+
+        /**
+         * @brief BodyHeader 추가
+         **/
+        function addBodyHeader($header) {
+            $oContext = &Context::getInstance();
+            return $oContext->_addBodyHeader($header);
+        }
+
+        /**
+         * @brief BodyHeader 추가
+         **/
+        function _addBodyHeader($header) {
+            $this->body_header .= "\n".$header;
+        }
+
+        /**
+         * @brief BodyHeader return
+         **/
+        function getBodyHeader() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getBodyHeader();
+        }
+
+        /**
+         * @brief BodyHeader return
+         **/
+        function _getBodyHeader() {
+            return $this->body_header;
         }
 
         /**
@@ -1179,24 +1324,40 @@
          * 단순히 db config 파일의 존재 유무로 설치 여부를 체크한다
          **/
         function isInstalled() {
-            return file_exists(Context::getConfigFile());
+            return file_exists(Context::getConfigFile()) && filesize(Context::getConfigFile());
+        }
+
+
+        /**
+         * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경을 위한 flag set
+         **/
+        function setTransWidgetCodeIncludeInfo($flag=false){
+            $oContext = &Context::getInstance();
+            $oContext->widget_include_info_flag = $flag ? true : false;
         }
 
         /**
          * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경
          **/
         function transContent($content) {
-            // 위젯 코드 변경 
+
+            // 사용자 정의 언어로 변경
+            $oModuleController = &getController('module');
+            $oModuleController->replaceDefinedLangCode($content);
+
+            // 위젯 코드 변경
             $oWidgetController = &getController('widget');
-            $content = $oWidgetController->transWidgetCode($content, false);
+            $content = $oWidgetController->transWidgetCode($content,$this->widget_include_info_flag);
 
             // 메타 파일 변경
             $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'transMeta'), $content);
-            
+
             // 에디터 컴포넌트를 찾아서 결과 코드로 변환
             $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
             $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
 
+            // style의 url 경로를 재정의 한다.
+            $content = preg_replace('/url\(http:\/\/([^ ]+)http:\/\//is','url(http://', $content);
             // body 내의 <style ..></style>를 header로 이동
             $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
 
@@ -1267,7 +1428,7 @@
         function isGzEnabled() {
             if(
                 (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
-                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false && 
+                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false &&
                 function_exists('ob_gzhandler') &&
                 extension_loaded('zlib')
             ) return true;

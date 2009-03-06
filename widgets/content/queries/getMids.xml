@@ -1,0 +1,21 @@
+<query id="getMids" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="sites" alias="sites" type="left join">
+            <conditions>
+                <condition operation="equal" column="sites.site_srl" default="modules.site_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="modules.site_srl" />
+        <column name="modules.module_srl" />
+        <column name="modules.mid" />
+        <column name="modules.browser_title" />
+        <column name="sites.domain" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.site_srl" var="site_srl" pipe="and" />
+        <condition operation="in" column="modules.module_srl" var="module_srls" pipe="and" />
+    </conditions>
+</query>

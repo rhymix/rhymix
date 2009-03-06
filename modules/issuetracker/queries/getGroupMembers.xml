@@ -1,13 +1,16 @@
 <query id="getGroupMembers" action="select">
     <tables>
+        <table name="module_grants" alias="module_grants"/>
+        <table name="member_group_member" alias="member_group_member"/>
         <table name="member" alias="member"/>
-        <table name="member_group_member" alias="group_member"/>
     </tables>
     <columns>
         <column name="member.*" />
     </columns>
     <conditions>
-        <condition operation="in" column="group_member.group_srl" var="group_srls" />
-        <condition operation="equal" column="group_member.member_srl" var="member.member_srl" pipe="and" />
+        <condition operation="equal" column="module_grants.module_srl" var="module_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="module_grants.name" var="name" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="member_group_member.group_srl" default="module_grants.group_srl" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="member.member_srl" default="member_group_member.member_srl" notnull="notnull" pipe="and" />
     </conditions>
 </query>

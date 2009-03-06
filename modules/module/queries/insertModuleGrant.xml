@@ -1,0 +1,10 @@
+<query id="insertModuleGrant" action="insert">
+    <tables>
+        <table name="module_grants" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="group_srl" var="group_srl" notnull="notnull" />
+    </columns>
+</query>

@@ -1,0 +1,40 @@
+<!--%import("css/default.css")-->
+<div class="shadow_box_type01">
+    <div class="shadow_level_01">
+    <div class="shadow_level_02">
+    <div class="box_contents" <!--@if($widgetstyle_extar_var->ws_border_color)-->style="border:2px solid {$widgetstyle_extar_var->ws_border_color}"<!--@end-->>
+
+
+        <!--@if($widgetstyle_extar_var->ws_title_image || $widgetstyle_extar_var->ws_title)-->
+            <h3 class="layer_header" style="<!--@if($widgetstyle_extar_var->ws_title_bgcolor)-->background-color:{$widgetstyle_extar_var->ws_title_bgcolor};<!--@end-->"<!--@if($widgetstyle_extar_var->ws_title_color)-->color:{$widgetstyle_extar_var->ws_title_color};<!--@end-->">
+            <!--@if($widgetstyle_extar_var->ws_title_icon)-->
+                <img src="{$widgetstyle_extar_var->ws_title_icon}" />
+            <!--@end-->
+
+            <!--@if($widgetstyle_extar_var->ws_title_image)-->
+                    <img src="{$widgetstyle_extar_var->ws_title_image}" />
+            <!--@else-->
+                <!--@if($widgetstyle_extar_var->ws_title)-->
+                    {$widgetstyle_extar_var->ws_title}
+                <!--@end-->
+            <!--@end-->
+            </h3>
+        <!--@end-->
+        {$widget_content}
+
+
+        <!--@if($widgetstyle_extar_var->ws_more_url)-->
+            <a href="http://{$widgetstyle_extar_var->ws_more_url}" style="position:absolute;right:15px;top:10px;">
+            <!--@if($widgetstyle_extar_var->ws_more_image)-->
+                <img src="{$widgetstyle_extar_var->ws_more_image}" />
+            <!--@else if($widgetstyle_extar_var->ws_more_text)-->
+                {$widgetstyle_extar_var->ws_more_text}
+            <!--@else-->
+                more
+            <!--@end-->
+            </a>
+        <!--@end-->
+    </div>
+    </div>
+    </div>
+</div>

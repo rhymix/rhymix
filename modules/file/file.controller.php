@@ -54,26 +54,47 @@
             $file_obj = $oFileModel->getFile($file_srl);
             if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid || $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
 
+            // 파일 이름
+            $filename = $file_obj->source_filename;
+
             $file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
             // 파일 외부링크 차단
             if($file_module_config->allow_outlink == 'N') {
-                $referer = parse_url($_SERVER["HTTP_REFERER"]);
-                if($referer['host'] != $_SERVER['HTTP_HOST']) {
-                    if($file_module_config->allow_outlink_site) {
-                        $allow_outlink_site_array = array();
-                        $allow_outlink_site_array = explode("\n", $file_module_config->allow_outlink_site);
-                        if(!is_array($allow_outlink_site_array)) $allow_outlink_site_array[0] = $file_module_config->allow_outlink_site;
-                        foreach($allow_outlink_site_array as $val) {
-                            $site = parse_url(trim($val));
-                            if($site['host'] == $referer['host']) {
-                                $file_module_config->allow_outlink = 'Y';
-                                break;
+                //외부링크 허용 확장자 처리
+                if($file_module_config->allow_outlink_format) {
+                    $allow_outlink_format_array = array();
+                    $allow_outlink_format_array = explode(',', $file_module_config->allow_outlink_format);
+                    if(!is_array($allow_outlink_format_array)) $allow_outlink_format_array[0] = $file_module_config->allow_outlink_format;
+
+                    foreach($allow_outlink_format_array as $val) {
+                        $val = trim($val);
+                        if(preg_match("/\.{$val}$/i", $filename)) {
+                            $file_module_config->allow_outlink = 'Y';
+                            break;
+                        }
+                    }
+                }
+                //외부링크 허용 사이트 처리
+                if($file_module_config->allow_outlink != 'Y') {
+                    $referer = parse_url($_SERVER["HTTP_REFERER"]);
+                    if($referer['host'] != $_SERVER['HTTP_HOST']) {
+                        if($file_module_config->allow_outlink_site) {
+                            $allow_outlink_site_array = array();
+                            $allow_outlink_site_array = explode("\n", $file_module_config->allow_outlink_site);
+                            if(!is_array($allow_outlink_site_array)) $allow_outlink_site_array[0] = $file_module_config->allow_outlink_site;
+
+                            foreach($allow_outlink_site_array as $val) {
+                                $site = parse_url(trim($val));
+                                if($site['host'] == $referer['host']) {
+                                    $file_module_config->allow_outlink = 'Y';
+                                    break;
+                                }
                             }
                         }
-                        if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
                     }
-                    else return $this->stop('msg_not_permitted_download');
+                    else $file_module_config->allow_outlink = 'Y';
                 }
+                if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
             }
             // 파일 다운로드 권한이 있는지 확인
             if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
@@ -97,8 +118,6 @@
             if(!$output->toBool()) return $this->stop('msg_not_permitted_download');
 
             // 파일 출력
-            $filename = $file_obj->source_filename;
-
             if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
                 $filename = urlencode($filename);
                 $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
@@ -169,8 +188,7 @@
          **/
         function triggerAttachFiles(&$obj) {
             $document_srl = $obj->document_srl;
-            $uploaded_count = $obj->uploaded_count;
-            if(!$document_srl || !$uploaded_count) return new Object();
+            if(!$document_srl) return new Object();
 
             $output = $this->setFilesValid($document_srl);
             if(!$output->toBool()) return $output;

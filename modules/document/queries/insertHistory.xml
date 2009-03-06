@@ -1,0 +1,15 @@
+<query id="insertHistory" action="insert">
+    <tables>
+        <table name="document_histories" />
+    </tables>
+    <columns>
+        <column name="history_srl" var="history_srl" filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+        <column name="content" var="content" />
+        <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="regdate" var="regdate" notnull="notnull" />
+        <column name="ipaddress" var="ipaddress" notnull="notnull" />
+    </columns>
+</query>

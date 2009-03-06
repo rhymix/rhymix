@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-    <title xml:lang="ko">회원</title>
-    <title xml:lang="zh-CN">会员</title>
-    <title xml:lang="jp">会員</title>
-    <title xml:lang="en">Member</title>
-    <title xml:lang="es">Usuario</title>
-    <title xml:lang="ru">Пользователи</title>
-    <title xml:lang="zh-TW">會員</title>
+    <title xml:lang="ko">회원 관리</title>
+    <title xml:lang="zh-CN">会员管理</title>
+    <title xml:lang="jp">会員 管理</title>
+    <title xml:lang="en">Member Management</title>
+    <title xml:lang="es">Usuario Gestión</title>
+    <title xml:lang="ru">Пользователи Управление</title>
+    <title xml:lang="zh-TW">會員 管理</title>
     <description xml:lang="ko">회원 관리 및 회원 관련 설정등을 하는 모듈입니다.</description>
     <description xml:lang="zh-CN">对会员进行管理及相关设置的模块。</description>
     <description xml:lang="jp">会員管理及び会員関連設定などを行うモジュールです。</description>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">對會員進行管理與相關設置的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>service</category>
+    <category>member</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

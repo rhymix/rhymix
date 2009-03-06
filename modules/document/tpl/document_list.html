@@ -3,50 +3,58 @@
 <!--#include("header.html")-->
 
 
-<!-- 정보 -->
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
+<!-- 검색 -->
+<div class="fl">
+    <form action="./" method="get" class="adminSearch">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+
+        <fieldset>
+            <select name="search_target">
+                <option value="">{$lang->search_target}</option>
+                <!--@foreach($lang->search_target_list as $key => $val)-->
+                <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+                <!--@end-->
+            </select>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+            <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
+            <a href="{getUrl('','module',$module,'act',$act)}" class="button black"><span>{$lang->cmd_cancel}</span></a>
+        </fieldset>
+    </form>
 </div>
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
+<!-- 모듈 선택 -->
+<div class="fr">
+    <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_find_module}</span></a>
+    <a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button blue"><span>{$lang->cmd_manage_document}</span></a>
+</div>
+
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable clear">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
         <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></div></th>
-        <th scope="col" class="wide">
-            <div>
-                <select name="module_srl" id="module_srl">
-                    <option value="">{$lang->module}</option>
-                    <!--@foreach($mid_list as $key => $val)-->
-                    <option value="{$val->module_srl}" <!--@if($module_srl == $val->module_srl)-->selected="selected"<!--@end-->>{$val->browser_title}</option>
-                    <!--@end-->
-                </select>
-                <input type="button" name="go_button" id="go_button" value="GO" class="buttonTypeGo" onclick="location.href=current_url.setQuery('module_srl',xGetElementById('module_srl').options[xGetElementById('module_srl').selectedIndex].value);return false;"/>
-            </div>
-        </th>
+        <th scope="col" class="wide"><div>{$lang->document}</div></th>
         <th scope="col"><div>{$lang->nick_name}</div></th>
         <th scope="col"><div>{$lang->readed_count}</div></th>
         <th scope="col"><div>{$lang->voted_count}</div></th>
         <th scope="col"><div>{$lang->date}</div></th>
+        <th scope="col"><div>{$lang->ipaddress}</div></th>
+        <th scope="col"><div>{$lang->alias}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($document_list as $no => $oDocument)-->
     <tr>
-        <td class="number center" rowspan="2">{$no}</td>
-        <td colspan="2"><!--@if($oDocument->get('module_srl')!=$oDocument->get('member_srl'))--><a href="{getUrl('','mid',$module_list[$oDocument->get('module_srl')]->mid)}" onclick="window.open(this.href);return false">{htmlspecialchars($module_list[$oDocument->get('module_srl')]->browser_title)}</a><!--@else-->-<!--@end--></td>
-        <td class="nowrap"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></td>
-        <td class="number center">{$oDocument->get('readed_count')}</td>
-        <td class="number center">{$oDocument->get('voted_count')} / {$oDocument->get('blamed_count')}</td>
-        <td class="date center nowrap">{$oDocument->getRegdate("Y-m-d H:i:s")}</td>
-    </tr>
-    <tr>
+        <td class="number center">{$no}</td>
         <td class="center"><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
-        <td class="left subject" colspan="5">
+        <td class="left subject">
             <!--@if($oDocument->get('module_srl')==$oDocument->get('member_srl'))-->
                 {$lang->cmd_save}
             <!--@else-->
@@ -61,15 +69,16 @@
                 [{$oDocument->getTrackbackCount()}]
             <!--@end-->
         </td>
+        <td class="nowrap"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></td>
+        <td class="number center">{$oDocument->get('readed_count')}</td>
+        <td class="number center">{$oDocument->get('voted_count')} / {$oDocument->get('blamed_count')}</td>
+        <td class="date center nowrap">{$oDocument->getRegdate("Y-m-d H:i:s")}</td>
+        <td class="number center nowrap"><a href="{getUrl('search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'))}">{$oDocument->get('ipaddress')}</a></td>
+        <td class="center"><a href="{getUrl('act','dispDocumentAdminAlias','document_srl',$oDocument->document_srl)}">{$lang->alias}</a>
     </tr>
     <!--@end-->
 </tbody>
 </table>
-
-<!-- 버튼 -->
-<div class="fr gap1">
-    <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
-</div>
 
 </form>
 
@@ -85,22 +94,3 @@
     <!--@end-->
     <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="nextEnd">{$lang->last_page}</a>
 </div>
-
-<!-- 검색 -->
-<form action="./" method="get" class="adminSearch">
-<input type="hidden" name="module" value="{$module}" />
-<input type="hidden" name="act" value="{$act}" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
-
-    <fieldset>
-        <select name="search_target">
-            <option value="">{$lang->search_target}</option>
-            <!--@foreach($lang->search_target_list as $key => $val)-->
-            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-            <!--@end-->
-        </select>
-        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <a href="{getUrl('','module',$module,'act',$act)}" class="button"><span>{$lang->cmd_cancel}</span></a>
-    </fieldset>
-</form>

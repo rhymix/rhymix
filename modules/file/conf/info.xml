@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">첨부파일</title>
-    <title xml:lang="zh-CN">上传附件</title>
+    <title xml:lang="zh-CN">附件管理</title>
     <title xml:lang="en">Attachment</title>
     <title xml:lang="es">Adjuntar archivos</title>
     <title xml:lang="jp">添付ファイル</title>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">管理附加檔案的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>utility</category>
+    <category>content</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

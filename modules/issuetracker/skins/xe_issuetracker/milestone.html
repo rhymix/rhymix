@@ -21,7 +21,9 @@
 <!--@end-->
 <tr class="title">
     <td class="title <!--@if($val->is_completed=='Y')-->completed<!--@end-->" colspan="{$col_count}" >
-        <a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl)}">{$val->title}</a>
+    	{@$resolved = $val->issues['resolve'] + $val->issues['postponed'] + $val->issues['duplicated'] + $val->issues['invalid']}
+        <div class="progress" style="width:{$val->issues['total'] ? $resolved/$val->issues['total']*100 : 0}%;" />
+        <div class="titlewrap" style=""><a href="{getUrl('','mid',$mid,'act','dispIssuetrackerViewIssue','milestone_srl', $val->milestone_srl)}">{$val->title}</a></div>
     </td>
 </tr>
 <tr>

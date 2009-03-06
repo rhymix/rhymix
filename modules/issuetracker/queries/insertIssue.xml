@@ -5,6 +5,8 @@
     <columns>
         <column name="target_srl" var="document_srl" notnull="notnull" />
         <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="assignee_srl" var="assignee_srl" />
+        <column name="assignee_name" var="assignee_name" />
         <column name="milestone_srl" var="milestone_srl" />
         <column name="priority_srl" var="priority_srl" />
         <column name="type_srl" var="type_srl" />

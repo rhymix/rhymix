@@ -15,6 +15,20 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srls로 위젯에서 변경)
+            $oModuleModel = &getModel('module');
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                if(count($mid_list)) {
+                    $module_srls = $oModuleModel->getModuleSrlByMid($mid_list);
+                    if(count($module_srls)) $args->module_srls = implode(',',$module_srls);
+                    else $args->module_srls = null;
+                } 
+            }
+
+            // 선택된 모듈이 없으면 실행 취소
+            if(!$args->module_srls) return Context::getLang('msg_not_founded');
+
             // 정렬 대상
             $widget_info->order_target = $args->order_target;
             if(!in_array($widget_info->order_target, array('list_order','update_order'))) $widget_info->order_target = 'list_order';
@@ -56,36 +70,28 @@
             $widget_info->duration_new = (int)$args->duration_new * 60 * 60;
             if(!$widget_info->duration_new) $widget_info->duration_new = 12 * 60 * 60;
 
-
             $oModuleModel = &getModel('module');
             $oDocumentModel = &getModel('document');
 
-            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
-            if($args->mid_list) {
-                $mid_list = explode(",",$args->mid_list);
-                $oModuleModel = &getModel('module');
-                if(count($mid_list)) {
-                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                } else {
-                    $site_module_info = Context::get('site_module_info');
-                    if($site_module_info) {
-                        $margs->site_srl = $site_module_info->site_srl;
-                        $oModuleModel = &getModel('module');
-                        $output = $oModuleModel->getMidList($margs);
-                        if(count($output)) $mid_list = array_keys($output);
-                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                    }
-                }
-            }
-            else $module_srl = explode(',' ,$args->module_srls);
-
-            if(is_array($module_srl)) $obj->module_srls = implode(',' ,$module_srl);
-
             // 모듈 목록을 구함
-            $module_list = $oModuleModel->getMidList($obj);
-            if(!$module_list || !count($module_list)) return;
-            foreach($module_list as $key => $val) $mid_module_list[$val->module_srl] = $key;
+            $module_list = $oModuleModel->getModulesInfo($args->module_srls);
+            if(!count($module_list)) return Context::getLang('msg_not_founded');
 
+            // 각 모듈별로 먼저 정리 시작
+            $site_domain = array(0 => Context::getDefaultUrl());
+            $site_module_info = Context::get('site_module_info');
+            if($site_module_info) $site_domain[$site_module_info->site_srl] = $site_module_info->domain;
+
+            foreach($module_list as $key => $val) {
+                if(!$site_domain[$val->site_srl]) {
+                    $site_info = $oModuleModel->getSiteInfo($val->site_srl);
+                    $site_domain[$site_info->site_srl] = $site_info->domain;
+                }
+                $module_list[$key]->domain = $site_domain[$val->site_srl];
+                $mid_module_list[$val->module_srl] = $key;
+            }
+
+            $module_srl = explode(',',$args->module_srls);
             for($i=0;$i<count($module_srl);$i++) $tab_list[$mid_module_list[$module_srl[$i]]] = $module_list[$mid_module_list[$module_srl[$i]]];
 
             // 각 모듈에 해당하는 문서들을 구함

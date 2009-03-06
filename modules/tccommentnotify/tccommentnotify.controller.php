@@ -97,10 +97,8 @@
             {
                 foreach($output->data as $data)
                 {
-                    debugPrint("start");
                     $this->deleteFromQueue($data->comment_srl);
                     $this->sendCommentNotify($data->comment_srl);
-                    debugPrint("end");
                 }
             }
             FileHandler::removeFile($lockFilePath);
@@ -137,11 +135,6 @@
         {
             $args->comment_srl = $comment_srl;
             return executeQuery("tccommentnotify.insertQueue", $args);
-        }
-
-        function procTestSendComment()
-        {
-            $this->sendCommentNotify(16775);
         }
 
         function sendCommentNotify($comment_srl)
@@ -262,11 +255,8 @@
 
             $oReq->addPostData('r2_body', strip_tags($oChild->get('content')));
 
-            debugPrint($target);
             $oReq->sendRequest(false);
-            debugPrint("ok");
             $code = $oReq->getResponseCode();
-            debugPrint($code);
             return $code;
         }
 

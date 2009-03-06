@@ -13,7 +13,6 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('ldap', 'view', 'dispLdapAdminConfig');
 
             // 로그인 연동 트리거
             $oModuleController->insertTrigger('member.doLogin', 'ldap', 'controller', 'triggerLdapLogin', 'before');
@@ -26,7 +25,6 @@
          **/
         function checkUpdate() {
             $oModuleModel = &getModel('module');
-            if(!$oModuleModel->getActionForward('dispLdapAdminConfig')) return true;
 
             if(!$oModuleModel->getTrigger('member.doLogin', 'ldap', 'controller', 'triggerLdapLogin', 'before')) return true;
             return false;
@@ -38,9 +36,6 @@
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-
-            if(!$oModuleModel->getActionForward('dispLdapAdminConfig')) 
-                $oModuleController->insertActionForward('ldap', 'view', 'dispLdapAdminConfig');
 
             if(!$oModuleModel->getTrigger('member.doLogin', 'ldap', 'controller', 'triggerLdapLogin', 'before')) 
                 $oModuleController->insertTrigger('member.doLogin', 'ldap', 'controller', 'triggerLdapLogin', 'before');

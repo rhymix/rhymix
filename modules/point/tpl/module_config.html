@@ -3,14 +3,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_module_config);" id="fo_point">
 
-    <table cellspacing="0" class="adminTable">
-    <col width="14%" />
-    <col width="14%" />
-    <col width="14%" />
-    <col width="14%" />
-    <col width="14%" />
-    <col width="14%" />
-    <col width="14%" />
+    <table cellspacing="0" class="crossTable">
     <thead>
         <tr>
             <th><div>{$lang->point_insert_document}</div></th>
@@ -40,9 +33,9 @@
     <!--@end-->
     <!--@end-->
     <tr>
-        <td colspan="7" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="7" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </tbody>
     </table>

@@ -1,0 +1,192 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* html{ overflow:auto;} */
+
+#header h1 a { text-decoration:none; }
+#footer address { font-style:normal; }
+#footer address a { text-decoration:none; }
+
+/* Skip To Content */
+a.skipToContent{ display:block; position:relative; top:0; clear:both; overflow:hidden; height:0; text-decoration:none;}
+a.skipToContent:hover,
+a.skipToContent:active,
+a.skipToContent:focus{ height:auto; margin:0 0 10px 0; padding:5px;}
+
+/* Hr */
+hr{ display:none; position:absolute;}
+
+/* Heading 
+h1{ position:relative; float:left; margin:0;}
+h2{ position:relative; margin:0 0 10px 0; border-bottom:2px solid;}
+h3{ position:relative; margin:0;}*/
+
+/* Container + Header + Body + Footer */
+#container{ position:relative; margin:0 20px;}
+#header{ position:relative; *zoom:1;}
+#header:after{ content:""; display:block; clear:both;}
+#body{ position:relative; *zoom:1;}
+#body:after{ content:""; display:block; clear:both;}
+#content{ position:relative; text-align:justify; padding:0 10px;}
+#footer{ position:relative; *zoom:1; padding:20px 0 10px 0;}
+#footer address{ text-align:center;}
+
+/* Layout Width */
+.fixed #container{ width:960px; margin-left:auto; margin-right:auto;}
+.liquid #container{ width:80%; margin-left:auto; margin-right:auto;}
+.hybrid #container{ width:80%; margin-left:auto; margin-right:auto;}
+
+/* Align Layout */
+.aLeft #container{ margin-left:0;}
+.aRight #container{ margin-right:0;}
+
+/* Top Navigation */
+#header .navigation{ position:relative; padding:15px 0 0 0; margin:0; overflow:hidden; float:right;}
+#header .navigation:after{ content:""; display:block; clear:both;}
+#header .navigation *{ margin:0; padding:0;}
+#header .navigation h2{ display:none;}
+#header .navigation li{ position:relative; float:left; list-style:none; padding:0 5px;}
+
+/* Footer Navigation */
+#footer .navigation{ position:relative; padding:0; margin:0;}
+#footer .navigation:after{ content:""; display:block; clear:both;}
+#footer .navigation *{ margin:0; padding:0;}
+#footer .navigation h2{ display:none;}
+#footer .navigation .section{ text-align:center;}
+#footer .navigation ul{ position:relative; overflow:hidden;}
+#footer .navigation li{ display:inline; position:relative; list-style:none; padding:0 5px;}
+
+/* Neck */
+#neck{ position:relative; clear:both; *zoom:1;}/* overflow:hidden;}*/
+#neck .extension{ /* margin-right:-30px;*/ *zoom:1;}
+#neck .extension:after{ content:""; display:block; clear:both;}
+#neck .extension .section{ position:relative; float:left; width:300px; margin-right:30px;}
+.liquid #neck .extension .section{ width:30%; margin-right:3.3%;}
+
+/* Knee */
+#knee{ position:relative; clear:both; *zoom:1;}/* overflow:hidden;}*/
+#knee .extension{ /* margin-right:-30px;*/ *zoom:1;}
+#knee .extension:after{ content:""; display:block; clear:both;}
+#knee .extension .section{ position:relative; float:left; width:300px; margin-right:30px;}
+.liquid #knee .extension .section{ width:30%; margin-right:3.3%;}
+
+/* Extension */
+.extension, .section{position:relative;}
+#body .extension{ position:relative; display:none; margin-bottom:20px;}
+.extension .section{ margin-bottom:20px;}
+.extension .section ul{ margin-left:20px; padding:0;}
+
+/* ----- Fixed 2 Column Layout ----- */
+.fixed .ce #body .e1,
+.fixed .ec #body .e1{ width:220px;}
+.fixed .ce #body #content,
+.fixed .ec #body #content{ width:700px;}
+.fixed .ce #body #content{ float:left;}
+.fixed .ec #body #content{ float:right;}
+.fixed .ce #body .e1,
+.fixed .ec #body .e1{ display:block;}
+.fixed .ce #body .e1{ float:right; clear:right;}
+.fixed .ec #body .e1{ float:left; clear:left;}
+
+/* ----- Liquid 2 Column Layout ----- */
+.liquid .ce #body .e1,
+.liquid .ec #body .e1{ width:23%;}
+.liquid .ce #body #content,
+.liquid .ec #body #content{ width:75%;}
+.liquid .ce #body #content{ float:left;}
+.liquid .ec #body #content{ float:right;}
+.liquid .ce #body .e1,
+.liquid .ec #body .e1{ display:block;}
+.liquid .ce #body .e1{ float:right; clear:right;}
+.liquid .ec #body .e1{ float:left; clear:left;}
+
+/* ----- Hybrid 2 Column Layout ----- */
+.hybrid .ce #body{ padding-right:280px;}
+.hybrid .ec #body{ padding-left:280px;}
+.hybrid .ce #body .e1,
+.hybrid .ec #body .e1{ width:260px;}
+.hybrid .ce #body #content{ float:left;}
+.hybrid .ec #body #content{ float:right;}
+.hybrid .ce #body .e1,
+.hybrid .ec #body .e1{ display:block;}
+.hybrid .ce #body .e1{ float:right; clear:right; margin-left:-260px; right:-280px;}
+.hybrid .ec #body .e1{ float:left; clear:left; margin-right:-260px; left:-280px;}
+
+/* ----- Fixed 3 Column Layout ----- */
+.fixed .cee #body .e1,
+.fixed .cee #body .e2,
+.fixed .ece #body .e1,
+.fixed .ece #body .e2,
+.fixed .eec #body .e1,
+.fixed .eec #body .e2{ display:block; width:200px;}
+
+.fixed .cee #body #content,
+.fixed .ece #body #content,
+.fixed .eec #body #content{ width:500px;}
+
+.fixed .cee #body #content{ float:left; margin-right:20px;}
+.fixed .ece #body #content{ float:left; margin-right:-100%; left:220px;}
+.fixed .eec #body #content{ float:right;}
+
+.fixed .ece #body .e1,
+.fixed .eec #body .e1{ float:left; margin-right:20px;}
+
+.fixed .cee #body .e1,
+.fixed .eec #body .e2{ float:left;}
+
+.fixed .cee #body .e2,
+.fixed .ece #body .e2{ float:right;}
+
+/* ----- Liquid 3 Column Layout ----- */
+.liquid .cee #body .e1,
+.liquid .cee #body .e2,
+.liquid .ece #body .e1,
+.liquid .ece #body .e2,
+.liquid .eec #body .e1,
+.liquid .eec #body .e2{ display:block; width:20%;}
+
+.liquid .cee #body #content,
+.liquid .ece #body #content,
+.liquid .eec #body #content{ width:56%;}
+
+.liquid .cee #body #content{ float:left; margin-right:2%;}
+.liquid .ece #body #content{ float:left; margin-right:-100%; left:22%;}
+.liquid .eec #body #content{ float:right;}
+
+.liquid .ece #body .e1,
+.liquid .eec #body .e1{ float:left; margin-right:2%;}
+
+.liquid .cee #body .e1,
+.liquid .eec #body .e2{ float:left;}
+
+.liquid .cee #body .e2,
+.liquid .ece #body .e2{ float:right;}
+
+/* ----- Hybrid 3 Column Layout ----- */
+.hybrid .cee #body .e1,
+.hybrid .cee #body .e2,
+.hybrid .ece #body .e1,
+.hybrid .ece #body .e2,
+.hybrid .eec #body .e1,
+.hybrid .eec #body .e2{ display:block; width:220px;}
+
+.hybrid .cee #body{ padding-right:480px;}
+.hybrid .ece #body{ padding-left:240px; padding-right:240px;}
+.hybrid .eec #body{ padding-left:480px;}
+
+.hybrid .cee #body #content,
+.hybrid .ece #body #content,
+.hybrid .eec #body #content{ width:100%;}
+
+.hybrid .cee #body #content,
+.hybrid .ece #body #content{ float:left; margin-right:-100%;}
+.hybrid .eec #body #content{ float:right;}
+
+.hybrid .ece #body .e1,
+.hybrid .eec #body .e2{ float:left; left:-240px; margin-right:-220px;}
+.hybrid .eec #body .e1{ float:left; left:-480px; margin-right:-220px;}
+
+.hybrid .cee #body .e1,
+.hybrid .ece #body .e2{ float:right; left:240px; margin-left:-220px;}
+.hybrid .cee #body .e2{ float:right; left:480px; margin-left:-220px;}
+

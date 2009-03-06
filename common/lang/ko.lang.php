@@ -42,7 +42,7 @@
     $lang->cmd_select = '선택';
     $lang->cmd_select_all = '모두선택';
     $lang->cmd_unselect_all = '모두해제';
-    $lang->cmd_reverse_all = "선택반전";
+    $lang->cmd_reverse_all = '선택반전';
     $lang->cmd_close_all = '모두닫기';
     $lang->cmd_open_all = '모두열기';
     $lang->cmd_reload = '다시읽기';
@@ -50,7 +50,7 @@
     $lang->cmd_open = '열기';
     $lang->cmd_setup = '설정';
     $lang->cmd_addition_setup = '추가 설정';
-	$lang->cmd_option = '옵션';
+    $lang->cmd_option = '옵션';
     $lang->cmd_apply = '적용';
     $lang->cmd_open_calendar = '날짜 선택';
     $lang->cmd_send = '발송';
@@ -58,8 +58,8 @@
     $lang->cmd_scrap = '스크랩';
     $lang->cmd_preview = '미리 보기';
     $lang->cmd_reset = '초기화';
-    $lang->cmd_remake_cache = "캐시파일 재생성";
-    $lang->cmd_publish = "발행";
+    $lang->cmd_remake_cache = '캐시파일 재생성';
+    $lang->cmd_publish = '발행';
     $lang->cmd_layout_setup = '레이아웃 설정';
     $lang->cmd_layout_edit = '레이아웃 편집';
     $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
@@ -75,6 +75,7 @@
     $lang->secret = '비밀';
     $lang->category = $lang->category_srl = '분류';
     $lang->none_category = '분류 없음';
+    $lang->none_image = '이미지 없음';
     $lang->document_srl = '문서번호';
     $lang->user_id = '아이디';
     $lang->author = '작성자';
@@ -95,7 +96,7 @@
     $lang->topic = '주제';
     $lang->replies = '댓글';
     $lang->content = '내용';
-    $lang->document = '게시물';
+    $lang->document = '문서';
     $lang->comment = '댓글';
     $lang->description = '설명';
     $lang->trackback = '엮인글';
@@ -117,6 +118,7 @@
     $lang->order_type = '정렬방법';
     $lang->order_asc = '올림차순';
     $lang->order_desc = '내림차순';
+    $lang->file = '파일';
 
     $lang->mid = '모듈이름';
     $lang->layout = '레이아웃';
@@ -126,8 +128,8 @@
     $lang->colorset = '컬러셋';
     $lang->extra_vars = '확장변수';
 
-    $lang->domain = "도메인";
-    $lang->url = "URL";
+    $lang->domain = '도메인';
+    $lang->url = 'URL';
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
     $lang->blog_name = '블로그이름';
@@ -216,7 +218,7 @@
     $lang->msg_not_founded = '대상을 찾을 수 없습니다';
     $lang->msg_no_result = '검색 결과가 없습니다';
 
-    $lang->msg_not_permitted_act = '요청하신 action을 실행할 수 있는 권한이 없습니다';
+    $lang->msg_not_permitted_act = '요청하신 기능을 실행할 수 있는 권한이 없습니다';
     $lang->msg_module_is_not_exists = '요청하신 모듈을 찾을 수 없습니다';
     $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수가 없습니다';
 
@@ -250,12 +252,13 @@
 
     $lang->column_type = '형식';
     $lang->column_type_list['text'] = '한줄 입력칸 (text)';
-    $lang->column_type_list['homepage'] = '홈페이지 형식 (url)';
+    $lang->column_type_list['homepage'] = 'URL 형식';
     $lang->column_type_list['email_address'] = '이메일 형식 (email)';
     $lang->column_type_list['tel'] = '전화번호 형식 (phone)';
     $lang->column_type_list['textarea'] = '여러줄 입력칸 (textarea)';
     $lang->column_type_list['checkbox'] = '다중 선택 (checkbox)';
     $lang->column_type_list['select'] = '단일 선택 (select)';
+    $lang->column_type_list['radio'] = '라디오 버튼 (radio)';
     $lang->column_type_list['kr_zip'] = '한국주소 (zip)';
     $lang->column_type_list['date'] = '일자 (년월일)';
     //$lang->column_type_list['jp_zip'] = '일본주소 (zip)';
@@ -278,12 +281,12 @@
         그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";
-    $lang->msg_ftp_not_connected = "localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요";
-    $lang->msg_ftp_invalid_auth_info = "입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요";
-    $lang->msg_ftp_mkdir_fail = "FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_chmod_fail = "FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_connect_success = "FTP 접속 및 인증 성공하였습니다";
+    $lang->msg_safe_mode_ftp_needed = 'PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다';
+    $lang->msg_ftp_not_connected = 'localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요';
+    $lang->msg_ftp_invalid_auth_info = '입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요';
+    $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요';
+    $lang->msg_ftp_chmod_fail = 'FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요';
+    $lang->msg_ftp_connect_success = 'FTP 접속 및 인증 성공하였습니다';
 
     // xml filter에서 사용되는 javascript용 alert msg
     $lang->filter->isnull = '%s의 값을 입력해주세요';

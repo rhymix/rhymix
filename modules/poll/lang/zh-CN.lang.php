@@ -2,10 +2,10 @@
     /**
      * @file   modules/poll/lang/zh-CN.lang.php
      * @author zero <zero@nzeo.com>
-     * @brief  投票调查 (poll) 模块的基本语言包
+     * @brief  投票系统 (poll) 模块简体中文语言包
      **/
 
-    $lang->poll = "投票调查";
+    $lang->poll = "投票系统";
     $lang->poll_stop_date = "投票调查结束日期";
     $lang->poll_join_count = "投票者";
     $lang->poll_checkcount = "必选项目数";

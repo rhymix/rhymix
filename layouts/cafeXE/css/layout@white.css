@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* Body */
+.cafeXe{ background:#fff;}
+
+/* Heading */
+#cafeXeHeader a{ color:#999;}
+#cafeXeHeader h1.cafeXeH1 a{ color:#fff;}
+#cafeXeBody h2.cafeXeBodyH2{ color:#333; border-color:#666;}
+#cafeXeBody h2.cafeXeExtensionH2{ color:#333; border-color:#666;}
+#cafeXeKnee h2.cafeXeExtensionH2{ color:#ccc; border-color:#434343;}
+
+/* Layout */
+#cafeXeHeader,
+#cafeXeKnee,
+#cafeXeFooter{ background:#333; color:#666;}
+
+/* Footer */
+.cafeXeAddress abbr{ color:#fff;}

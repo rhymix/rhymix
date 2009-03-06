@@ -370,16 +370,31 @@
         }
 
         function isExtraVarsExists() {
-            for($i=1;$i<=20;$i++) {
-                if($this->get('extra_vars'.$i)) return true;
-            }
-            return false;
+            if(!$this->get('module_srl')) return false;
+            $oDocumentModel = &getModel('document');
+            $extra_keys = $oDocumentModel->getExtraKeys($this->get('module_srl'));
+            return count($extra_keys)?true:false;
         }
 
-        function getExtraValue($key) {
-            $val = $this->get('extra_vars'.$key);
-            if(strpos($val,'|@|')!==false) $val = explode('|@|', $val);
-            return $val;
+        function getExtraVars() {
+            if(!$this->get('module_srl') || !$this->document_srl) return null;
+            $oDocumentModel = &getModel('document');
+            return $oDocumentModel->getExtraVars($this->get('module_srl'), $this->document_srl);
+        }
+
+        function getExtraValue($idx) {
+            $extra_vars = $this->getExtraVars();
+            return $extra_vars[$idx]->value;
+        }
+
+        function getExtraValueHTML($idx) {
+            $extra_vars = $this->getExtraVars();
+            if(array_key_exists($idx,$extra_vars)){
+                return $extra_vars[$idx]->getValueHTML();
+            }else{
+                return '';
+            }
+
         }
 
         function getExtraVarsValue($key) {

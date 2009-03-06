@@ -8,6 +8,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="menu_item.menu_srl" var="menu_srl" notnull="notnull" />
+        <condition operation="equal" column="modules.site_srl" var="site_srl" default="0" pipe="and" />
         <condition operation="equal" column="menu_item.url" default="modules.mid" notnull="notnull" pipe="and" />
     </conditions>
 </query>

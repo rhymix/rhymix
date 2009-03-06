@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+        <grant name="write_document" default="guest">
+            <title xml:lang="ko">글 작성</title>
+            <title xml:lang="zh-CN">发表新主题</title>
+            <title xml:lang="jp">書き込み作成</title>
+            <title xml:lang="en">write document</title>
+            <title xml:lang="es">Escribir el documento</title>
+            <title xml:lang="zh-TW">發表主題</title>
+        </grant>
+        <grant name="write_comment" default="guest">
+            <title xml:lang="ko">댓글 작성</title>
+            <title xml:lang="zh-CN">发表评论</title>
+            <title xml:lang="jp">コメント作成</title>
+            <title xml:lang="en">write comment</title>
+            <title xml:lang="es">Escribir comentario</title>
+            <title xml:lang="zh-TW">發表評論</title>
+        </grant>
+    </grants>
+    <permissions>
+    </permissions>
+    <actions>
+        <action name="dispWikiContent" type="view" index="true" />
+        <action name="dispWikiEditPage" type="view" />
+        <action name="dispWikiTitleIndex" type="view" />
+        <action name="dispWikiAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispWikiAdminInsertWiki" type="view" standalone="true" />
+        <action name="dispWikiAdminGrantInfo" type="view" standalone="true" />
+        <action name="dispWikiAdminSkinInfo" type="view" standalone="true" />
+        <action name="dispWikiAdminWikiAdditionSetup" type="view" standalone="true" />
+        <action name="procWikiAdminInsertWiki" type="controller" standalone="true" />
+        <action name="dispWikiAdminDeleteWiki" type="view" standalone="true" />
+        <action name="procWikiAdminDeleteWiki" type="controller" standalone="true" />
+        <action name="procWikiInsertDocument" type="controller" standalone="true" />
+    </actions>
+</module>

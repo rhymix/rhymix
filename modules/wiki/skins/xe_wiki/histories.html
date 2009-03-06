@@ -1,0 +1,29 @@
+<!--#include("header.html")-->
+<div class="readBody">
+<table>
+<tr>
+<td>
+    {$oDocument->getUpdate()}
+</td>
+<td>
+    by {$oDocument->getNickName()}
+</td>
+<td>
+    (current revision)
+</td>
+</tr>
+<!--@foreach($histories as $val)-->
+<tr>
+<td>
+    {zdate($val->regdate, 'Y.m.d H:i:s')}
+</td>
+<td>
+    by {$val->nick_name}
+</td>
+<td>
+</td>
+</tr>
+<!--@end-->
+</table>
+</div>
+<!--#include("footer.html")-->

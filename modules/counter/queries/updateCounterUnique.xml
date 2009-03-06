@@ -7,6 +7,6 @@
         <column name="pageview" default="plus(1)" />
     </columns>
     <conditions>
-        <condition operation="equal" column="regdate" var="regdate" notnull="notnull" />
+        <condition operation="in" column="regdate" var="regdate" notnull="notnull" />
     </conditions>
 </query>

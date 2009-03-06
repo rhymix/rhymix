@@ -1,0 +1,20 @@
+@charset "utf-8";
+.widgetMenuA{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.2; border-top:1px solid;}
+.widgetMenuA li{ position:relative; list-style:none; border-bottom:1px solid; *zoom:1;}
+.widgetMenuA li sup{ font-size:10px; font-family:Tahoma; line-height:1; color:#888; font-weight:normal;}
+.widgetMenuA li li.active sup{ color:#ff1a1a;}
+.widgetMenuA li li{ padding:0; border:0;}
+.widgetMenuA li ul{ display:none; margin:0 0 10px 20px; padding:0;}
+.widgetMenuA li.active ul{ display:block;}
+.widgetMenuA li a{ position:relative; display:block; padding:7px 0 7px 10px; background-repeat:no-repeat; background-position:0 center; text-decoration:none !important;}
+.widgetMenuA li.active a{ font-weight:bold;}
+.widgetMenuA li.active li a{ font-weight:normal; padding:1px 0; background:none !important;}
+.widgetMenuA li li.active a{ color:#ff1a1a;}
+.widgetMenuA li.active li a:hover,
+.widgetMenuA li.active li a:active,
+.widgetMenuA li.active li a:focus{ text-decoration:underline !important;}
+
+.widgetMenuA{ border-color:#e5e5e5;}
+.widgetMenuA li{ border-color:#e5e5e5;}
+.widgetMenuA li a{ color:#333; background-image:url(../img/white/iconMenuAnormal.gif);}
+.widgetMenuA li.active a{ background-image:url(../img/white/iconMenuAactive.gif);}

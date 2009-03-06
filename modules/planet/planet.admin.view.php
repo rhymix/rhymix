@@ -12,9 +12,8 @@
          **/
         function init() {
             $oPlanetModel = &getModel('planet');
-            $this->config = $oPlanetModel->getPlanetConfig();
-            Context::set('config',$this->config);
-            $oPlanetModel->isAccessGranted();
+            $this->module_info = $oPlanetModel->getPlanetConfig();
+            Context::set('module_info',$this->module_info);
 
             $this->setTemplatePath($this->module_path."/tpl/");
             $template_path = sprintf("%stpl/",$this->module_path);
@@ -27,15 +26,12 @@
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list',$skin_list);
 
-            $grant_list = $this->xml_info->grant;
-            Context::set('grant_list', $grant_list);
-
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups();
             Context::set('group_list', $group_list);
-            if(is_array($this->config->tagtab)) Context::set('tagtab', join(',',$this->config->tagtab));
-            if(is_array($this->config->tagtab_after)) Context::set('tagtab_after', join(',',$this->config->tagtab_after));
-            if(is_array($this->config->smstag)) Context::set('smstag', join(',',$this->config->smstag));
+            if(is_array($this->module_info->tagtab)) Context::set('tagtab', join(',',$this->module_info->tagtab));
+            if(is_array($this->module_info->tagtab_after)) Context::set('tagtab_after', join(',',$this->module_info->tagtab_after));
+            if(is_array($this->module_info->smstag)) Context::set('smstag', join(',',$this->module_info->smstag));
 
             // 레이아웃 목록을 구해옴
             $oLayoutMode = &getModel('layout');
@@ -89,29 +85,27 @@
         }
 
         function dispPlanetAdminSkinInfo() {
-            $oPlanetModel = &getModel('planet');
-            $config = $oPlanetModel->getPlanetConfig();
-            $skin = $config->planet_default_skin;
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
+            Context::set('skin_content', $skin_content);
 
-            $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-
-            // skin_info에 extra_vars 값을 지정
-            if(count($skin_info->extra_vars)) {
-                foreach($skin_info->extra_vars as $key => $val) {
-                    $group = $val->group;
-                    $name = $val->name;
-                    $type = $val->type;
-                    $value = $config->{$name};
-                    if($type=="checkbox"&&!$value) $value = array();
-                    $skin_info->extra_vars[$key]->value= $value;
-                }
-            }
-
-            Context::set('skin_info', $skin_info);
             $this->setTemplateFile('skin_info');
         }
 
+        /**
+         * @brief 권한 목록 출력
+         **/
+        function dispPlanetAdminGrantInfo() {
+            Context::set('module_srl', $this->module_info->module_srl);
+
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
+            Context::set('grant_content', $grant_content);
+
+            $this->setTemplateFile('grant_list');
+        }
     }
 
 ?>

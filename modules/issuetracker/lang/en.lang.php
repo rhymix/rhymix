@@ -41,6 +41,7 @@
      $lang->assignee = 'Assignee';
      $lang->status = 'Status';
      $lang->action = 'Action';
+     $lang->display_option = 'Display Option';
 
      $lang->history_format_not_source = '<span class="key">[key]</span> Modify to <span class="target">[target]</span>';
      $lang->history_format = '<span class="key">[key]</span> Modify from <span class="source">[source]</span> to <span class="target">[target]</span>';
@@ -99,4 +100,11 @@
         'created' => 'created'
     );
     $lang->cmd_manage_issue = 'Manage issues';
+    $lang->msg_changes_from = 'View changes from';
+    $lang->duration = 'Duration';
+    $lang->target_list = array(
+        'issue_created' => 'Created issues',
+        'issue_changed' => 'Changed issues',
+        'commit' => 'Repository checkins'
+        );
 ?>

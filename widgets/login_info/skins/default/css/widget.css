@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+/* widgetLogin */
+.widgetLogin{ font-size:12px;}
+.widgetLogin fieldset{ border:0; margin:0; padding:0;}
+.widgetLogin dl{ margin:0;}
+.widgetLogin dt{ display:none;}
+.widgetLogin dd{ margin:0 0 5px 0;}
+.widgetLogin dd .widgetXeInputText{ width:90%; height:16px;}
+.widgetLogin p{ margin:5px 0;}
+.widgetLogin p .widgetXeInputCheck{ margin-right:5px;}
+.widgetLogin .help{ position:relative; width:100%; overflow:hidden; margin:10px 0 0 0; padding:0;}
+.widgetLogin .help li{ position:relative; left:-5px; padding-left:5px; list-style:none; display:inline; letter-spacing:-1px;}
+
+/* widgetLastLogin */
+.widgetLastLogin{ margin:10px 0; font-size:12px;}
+.widgetLastLogin dt,
+.widgetLastLogin dd{ display:inline; margin:0;}
+.widgetLastLogin dd{ font-size:11px; font-family:Tahoma;}
+
+/* widgetMyInfo */
+.widgetMyInfo{ margin:0; padding:0; font-size:12px;}
+.widgetMyInfo:after{ content:""; display:block; clear:both; *zoom:1;}
+.widgetMyInfo li{ margin-bottom:5px; padding:0; text-indent:12px; list-style:none;}

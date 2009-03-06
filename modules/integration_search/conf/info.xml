@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">통합검색</title>
-    <title xml:lang="zh-CN">搜索</title>
+    <title xml:lang="zh-CN">综合搜索</title>
     <title xml:lang="jp">統合検索</title>
     <title xml:lang="en">Integrated Search</title>
     <title xml:lang="es">Búsqueda Integrada</title>
@@ -12,8 +12,8 @@
         선택된 모듈의 글중 비밀글만 검색을 하지 않고 나머지는 모두 검색을 하기에 공개되지 않은 모듈은 대상에 포함하지 않도록 하셔야 합니다.
     </description>
     <description xml:lang="zh-CN">
-        把被选模块作为搜索对象进行搜索。
-        被选模块当中只有密帖不会被搜索，因此请注意选择您不想搜索的模块。
+        把所选模块作为搜索对象。
+        所选模块当中只有密帖不会被搜索，因此请留意您不想搜索的模块。
     </description>
     <description xml:lang="jp">
         選択されたモジュールを対象に統合検索を行う機能をサポートします。

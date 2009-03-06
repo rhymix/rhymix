@@ -1,0 +1,64 @@
+<!--%import("./filter/insert_lang.xml")-->
+<!--%import("./js/module_admin.js")-->
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->lang_code}</h3>
+</div>
+
+<div id="popBody" style="width:700px;">
+    <table cellspacing="0" class="colTable" style="width:700px;">
+    <col width="50%"/>
+    <col width="50%"/>
+    <tr>
+        <td>
+            <table cellspacing="0" class="rowTable">
+            <tbody>
+            <!--@foreach($lang_list as $key => $val)-->
+            <tr>
+                <td>
+                    <div class="fl"><a href="#" onclick="doInsertLangCode('{$val->name}','{$target}'); return false;">{$val->name}</a></div>
+                    <div class="fr">
+                        <a href="{getUrl('name',$val->name)}" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a>
+                        <a href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteLang('{$val->name}','{$target}'); return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_select}</span></a>
+                    </div>
+                </td>
+            </tr>
+            <!--@end-->
+            </tbody>
+            </table>
+        </td>
+        <td>
+            <form action="./" method="post" onsubmit="return procFilter(this, insert_lang)" id="menu_fo">
+                <input type="hidden" name="target" value="{$target}" />
+                <table cellspacing="0" class="rowTable">
+                <tbody>
+                <tr>
+                    <th scope="row"><div>{$lang->lang_code}</div></th>
+                    <td>
+                        <input type="text" name="lang_code" value="{$name}" class="inputTypeText w200" />
+                    </td>
+                </tr>
+                <!--@foreach($lang_supported as $key => $val)-->
+                <tr>
+                    <th scope="row"><div>{$val}</div></th>
+                    <td>
+                        <textarea name="{$key}" class="inputTypeTextArea" style="height:40px; width:90%;">{$selected_lang[$key]}</textarea>
+                    </td>
+                </tr>
+                <!--@end-->
+                <tr>
+                    <th class="button" colspan="2">
+                        <span class="button black strong"><input type="submit" value="{$lang->cmd_save}"></span>
+                    </th>
+                </tr>
+                </tbody>
+                </table>
+            </form>
+        </td>
+    </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+    xAddEventListener(window,'load', doFillLangName);
+</script>

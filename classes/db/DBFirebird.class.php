@@ -209,7 +209,7 @@
             return $string;
         }
 
-        function autoValueQuotes($string, $output){
+        function autoValueQuotes($string, $tables){
             $tok = strtok($string, ",");
             while($tok !== false) {
                 $values[] = $tok;
@@ -225,8 +225,9 @@
                     $tmpString2 = trim($tmpString2);
 
                     $isTable = false;
-                    foreach($output->tables as $key => $val) {
+                    foreach($tables as $key => $val) {
                         if($key == $tmpString1) $isTable = true;
+						if($val == $tmpString1) $isTable = true;
                     }
 
                     if($isTable) {
@@ -321,10 +322,18 @@
 
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val) {
-                    $type = $output->column_type[$key];
+					$type = $output->column_type[$key];
+
+					if($type == null) {
+						foreach($output->columns as $cols) {
+							if($cols['alias'] == $key) {
+								$type = $output->column_type[$cols['name']];
+							}
+						}
+					}
 
                     if($type == "text" || $type == "bigtext") {
-                        $blob_data = ibase_blob_info($tmp->{$key});
+						$blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
                         ibase_blob_close($blob_hndl);
@@ -380,6 +389,14 @@
             $this->_query($query);
             //commit();
             @ibase_commit($this->fd);
+        }
+
+        /**
+         * @brief 특정 테이블에 특정 column 제거
+         **/
+        function dropColumn($table_name, $column_name) {
+            $query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
+            $this->_query($query);
         }
 
 
@@ -598,17 +615,17 @@
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
-            $condition = $this->_getCondition($output->conditions,$output->column_type);
+            $condition = $this->_getCondition($output->conditions,$output->column_type,$output->tables);
             if($condition) $condition = ' where '.$condition;
             return $condition;
         }
 
-        function getLeftCondition($conditions,$column_type){
-            return $this->_getCondition($conditions,$column_type);
+        function getLeftCondition($conditions,$column_type,$tables){
+            return $this->_getCondition($conditions,$column_type,$tables);
         }
 
 
-        function _getCondition($conditions,$column_type) {
+        function _getCondition($conditions,$column_type,$tables) {
             $condition = '';
             foreach($conditions as $val) {
                 $sub_condition = '';
@@ -627,7 +644,7 @@
                     if(!$value) $value = $v['value'];
 
                     $name = $this->autoQuotes($name);
-                    $value = $this->autoValueQuotes($value, $output);
+                    $value = $this->autoValueQuotes($value, $tables);
 
                     $str = $this->getConditionPart($name, $value, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
@@ -638,6 +655,7 @@
                     $condition .= '('.$sub_condition.')';
                 }
             }
+
             return $condition;
         }
 
@@ -710,12 +728,17 @@
                     }
 
                     if(strlen($value) != 0) {
-                        if(($pos = strpos($value, '+1')) !== false) {
-                            $substr = substr($value, 0, $pos);
-                            $value = '"'.$substr.'"'."+1";
-                            $column_list[] = sprintf("\"%s\" = %s", $name, $value);
-                            continue;
-                        }
+						$pos = strpos($value, '+');
+						if($pos == 0) $pos = strpos($value, '-');
+						if($pos == 0) $pos = strpos($value, '*');
+						if($pos == 0) $pos = strpos($value, '/');
+
+						if($pos != 0) {
+							$substr = substr($value, 0, $pos);
+							$value = '"'.$substr.'"'.substr($value, $pos, strlen($value));
+							$column_list[] = sprintf("\"%s\" = %s", $name, $value);
+							continue;
+						}
                     }
 
                     $values[] = $value;
@@ -769,7 +792,7 @@
             $left_tables= (array)$output->left_tables;
 
             foreach($left_tables as $key => $val) {
-                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
+                $condition = $this->getLeftCondition($output->left_conditions[$key],$output->column_type,$output->tables);
                 if($condition){
                     $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as '.$key  . ' on (' . $condition . ')';
                 }
@@ -850,7 +873,7 @@
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
+            $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
                 $result = $this->_query($count_query);
@@ -924,6 +947,14 @@
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val){
                     $type = $output->column_type[$key];
+
+					if($type == null) {
+						foreach($output->columns as $cols) {
+							if($cols['alias'] == $key) {
+								$type = $output->column_type[$cols['name']];
+							}
+						}
+					}
 
                     if($type == "text" || $type == "bigtext") {
                         $blob_data = ibase_blob_info($tmp->{$key});

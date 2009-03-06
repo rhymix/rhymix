@@ -1,42 +1,36 @@
-{@ $member_title = $lang->cmd_view_scrapped_document }
 <!--#include("./common_header.html")-->
 
-<!-- 정보 -->
-<div class="boardInformation">
-    Total : <strong>{number_format($total_count)}</strong>, 
-    Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
+<h3>{$member_title = $lang->cmd_view_scrapped_document}</h3>
 
 <!-- 목록 -->
-<table cellspacing="0" class="list">
+<table cellspacing="0" class="colTable">
+<caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col" class="wide"><div>{$lang->title}</div></th>
-        <th scope="col"><div>{$lang->writer}</div></th>
-        <th scope="col"><div>{$lang->date}</div></th>
-        <th scope="col"><div>{$lang->cmd_delete}</div></th>
+        <th class="title"><div>{$lang->no}</div></th>
+        <th class="title" class="wide"><div>{$lang->title}</div></th>
+        <th class="title"><div>{$lang->writer}</div></th>
+        <th class="title"><div>{$lang->date}</div></th>
+        <th class="title"><div>{$lang->cmd_delete}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($document_list as $no => $val)-->
-    <tr class="bg{($no+1)%2+1}">
-        <td class="num">{$no}</td>
-        <td class="title">
-            <a href="{getUrl('','document_srl',$val->document_srl)}" onclick="window.open(this.href);return false;">{htmlspecialchars($val->title)}</a>
-        </td>
-        <td class="author"><div class="member_{$val->target_member_srl}">{$val->nick_name}</div></td>
-        <td class="registDate">{zdate($val->regdate, "Y-m-d H:i")}</td>
-        <td><a href="#" onclick="doDeleteScrap({$val->document_srl}); return false;" class="button"><span>{$lang->cmd_delete}</span></a></td>
+    <tr>
+        <td>{$no}</td>
+        <td class="wide"><a href="{getUrl('','document_srl',$val->document_srl)}" onclick="window.open(this.href);return false;">{htmlspecialchars($val->title)}</a></td>
+        <td class="nowrap"><div class="member_{$val->target_member_srl}">{$val->nick_name}</div></td>
+        <td class="nowrap">{zdate($val->regdate, "Y-m-d H:i")}</td>
+        <td><a href="#" onclick="doDeleteScrap({$val->document_srl}); return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
+    <tr>
+        <th class="button" colspan="5">
+            <a href="{getUrl('act','','selected_module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+        </th>
+    </tr>
 </tbody>
 </table>
-
-<!-- 버튼 -->
-<div class="tRight gap1">
-    <a href="{getUrl('act','','selected_module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-</div>
 
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">

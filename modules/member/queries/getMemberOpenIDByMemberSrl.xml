@@ -1,0 +1,14 @@
+<query id="getMemberOpenIDByMemberSrl" action="select">
+    <tables>
+        <table name="member_openid" />
+    </tables>
+    <columns>
+        <column name="openid" />
+    </columns>
+    <navigation>
+        <index var="sort_index" default="regdate" order="asc" />
+    </navigation>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+    </conditions>
+</query>

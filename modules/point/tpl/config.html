@@ -5,66 +5,74 @@
 
 <div class="adminLeftContent">
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->cmd_setup}</caption>
-    <tr class="row2">
-        <th scope="col"><div>{$lang->max_level}</div></th>
-        <td colspan="3">
+    <h4 class="xeAdmin">{$lang->max_level}</h4>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <td colspan="2">
             <input type="text" class="inputTypeText w80" value="{$config->max_level}" name="max_level" />
             <p>{$lang->about_max_level}</p>
         </td>
     </tr>
+    </table>
+
+    <h4 class="xeAdmin">{$lang->point_name}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="col"><div>{$lang->point_name}</div></th>
-        <td colspan="3">
+        <td colspan="2">
             <input type="text" class="inputTypeText w80" value="{$config->point_name}" name="point_name" />
             <p>{$lang->about_point_name}</p>
         </td>
     </tr>
+    </table>
+
+    <h4 class="xeAdmin">{$lang->is_default}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr class="row2">
-        <th scope="col" rowspan="9"><div>{$lang->is_default}</div></th>
-        <th colspan="2"><div>{$lang->point_signup}</div></th>
+        <td><div>{$lang->point_signup}</div></td>
         <td>
             <input type="text" class="inputTypeText w80" value="{$config->signup_point}" name="signup_point" /> {$config->point_name}
             <p>{$lang->about_point_signup}</p>
         </td>
     </tr>
     <tr>
-        <th colspan="2"><div>{$lang->cmd_login}</div></th>
+        <td><div>{$lang->cmd_login}</div></td>
         <td><input type="text" class="inputTypeText w80" value="{$config->login_point}" name="login_point" /> {$config->point_name}</td>
     </tr>
     <tr class="row2">
-        <th colspan="2"><div>{$lang->point_insert_document}</div></th>
+        <td><div>{$lang->point_insert_document}</div></td>
         <td><input type="text" name="insert_document" value="{$config->insert_document}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <th colspan="2"><div>{$lang->point_insert_comment}</div></th>
+        <td><div>{$lang->point_insert_comment}</div></td>
         <td><input type="text" name="insert_comment" value="{$config->insert_comment}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr class="row2">
-        <th colspan="2"><div>{$lang->point_upload_file}</div></th>
+        <td><div>{$lang->point_upload_file}</div></td>
         <td><input type="text" name="upload_file" value="{$config->upload_file}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <th colspan="2"><div>{$lang->point_download_file}</div></th>
+        <td><div>{$lang->point_download_file}</div></td>
         <td><input type="text" name="download_file" value="{$config->download_file}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr class="row2">
-        <th colspan="2"><div>{$lang->point_read_document}</div></th>
+        <td><div>{$lang->point_read_document}</div></td>
         <td><input type="text" name="read_document" value="{$config->read_document}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr>
-        <th colspan="2"><div>{$lang->point_voted}</div></th>
+        <td><div>{$lang->point_voted}</div></td>
         <td><input type="text" name="voted" value="{$config->voted}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
     <tr class="row2">
-        <th colspan="2"><div>{$lang->point_blamed}</div></th>
+        <td><div>{$lang->point_blamed}</div></td>
         <td><input type="text" name="blamed" value="{$config->blamed}" class="inputTypeText w80" /> {$config->point_name}</td>
     </tr>
+    </table>
+
+    <h4 class="xeAdmin">{$lang->level_icon}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="col"><div>{$lang->level_icon}</div></th>
-        <td colspan="3">
-            <select name="level_icon">
+        <td colspan="2">
+            <select name="level_icon" class="fullWidth">
             <!--@foreach($level_icon_list as $key => $val)-->
                 <option value="{$val}" <!--@if($config->level_icon == $val)-->selected="selected"<!--@end-->>{$val}</option>
             <!--@end-->
@@ -72,22 +80,28 @@
             <p>{$lang->about_level_icon}</p>
         </td>
     </tr>
-    <tr class="row2">
-        <th scope="col"><div>{$lang->disable_download}</div></th>
-        <td colspan="3">
+    </table>
+
+    <h4 class="xeAdmin">{$lang->disable_download}</h4>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <td colspan="2">
             <input type="checkbox" name="disable_download" value="Y" <!--@if($config->disable_download=='Y')-->checked="checked"<!--@end--> />
             <p>{$lang->about_disable_download}</p>
         </td>
     </tr>
+    </table>
+
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <td colspan="4" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->point_link_group}</caption>
+    <h4 class="xeAdmin">{$lang->point_link_group}</h4>
+    <table cellspacing="0" class="rowTable">
     <thead>
     <tr>
         <th class="half_wide"><div>{$lang->group}<div></th>
@@ -105,34 +119,26 @@
         <td colspan="3"><p>{$lang->about_point_link_group}</p></td>
     </tr>
     <tr>
-        <td colspan="3" class="right">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="3" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        </th>
     </tr>
     </tbody>
-    </table>
-
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->cmd_point_recal}</caption>
-    <tr>
-        <td>
-            <p>{$lang->about_cmd_point_recal}</p>
-            <p id="pointReCal"></p>
-            <span class="button"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
-        </td>
-    </tr>
     </table>
 </div>
 
 <div class="adminRightExtra">
-    <table cellspacing="0" class="adminTable">
+    <h4 class="xeAdmin">{$lang->level_point_calc}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="col"><div>{$lang->level_point_calc}</div></th>
-        <td colspan="3"><input name="expression" value="{$config->expression}" size="4"/> <input type="button" onclick="exp_calc(this.form)" value="{$lang->cmd_exp_calc}" /> <input type="button" onclick="exp_calc(this.form, true)" value="{$lang->cmd_exp_reset}" /><p>{$lang->expression}</p>
+        <td><input name="expression" value="{$config->expression}" size="4" class="inputTypeText w100"/> <input type="button" onclick="exp_calc(this.form)" value="{$lang->cmd_exp_calc}" /> <input type="button" onclick="exp_calc(this.form, true)" value="{$lang->cmd_exp_reset}" /><p>{$lang->expression}</p>
         </td>
     </tr>
+    </table>
+
+    <h4 class="xeAdmin">{$lang->level_point}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="col" rowspan="{$config->max_level}"><div>{$lang->level_point}</div></th>
         <td>1</td>
         <td><img src="{getUrl()}/modules/point/icons/{$config->level_icon}/1.gif" alt="" /></td>
         <td><input type="text" name="level_step_1" value="{$config->level_step[1]}" class="inputTypeText w80" /> {$config->point_name}</td>
@@ -145,8 +151,23 @@
     </tr>
     <!--@end-->
     <tr>
-        <td colspan="4" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <th colspan="4" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+
+    <h4 class="xeAdmin">{$lang->cmd_point_recal}</h4>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <td>
+            <p>{$lang->about_cmd_point_recal}</p>
+            <p id="pointReCal"></p>
+        </td>
+    </tr>
+    <tr>
+        <th class="button">
+            <span class="button black strong"><input type="button" value="{$lang->cmd_point_recal}" onclick="doPointRecal(); return false;"/></span>
         </td>
     </tr>
     </table>

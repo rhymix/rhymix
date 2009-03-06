@@ -7,18 +7,27 @@
 
     $lang->admin_info = 'Administrador de Información';
     $lang->admin_index = 'Índice de la página admin';
+    $lang->control_panel = 'Control panel';
 
     $lang->module_category_title = array(
-        'service' => 'Módulos de Servicio',
-        'manager' => 'La gestión de módulos',
-        'utility' => 'Utilidad de módulos',
-        'accessory' => 'Módulos adicionales',
-        'base' => 'Módulos por defecto',
+        'service' => 'Service Setting',
+        'member' => 'Member Setting',
+        'content' => 'Content Setting',
+        'statistics' => 'Statistics',
+        'construction' => 'Construction',
+        'utility' => 'Utility Setting',
+        'interlock' => 'Interlock Setting',
+        'accessory' => 'Accessories',
+        'migration' => 'Data Migration',
+        'system' => 'System Setting',
     );
+
 
     $lang->newest_news = "Noticias recientes";
     
     $lang->env_setup = "Configuración";
+    $lang->default_url = "기본 URL";
+    $lang->about_default_url = "XE 가상 사이트(cafeXE등)의 기능을 사용할때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글/모듈등의 연결이 정상적으로 이루어집니다. (ex: http://도메인/설치경로)";
 
     $lang->env_information = "Información Ambiental";
     $lang->current_version = "Versión actual";

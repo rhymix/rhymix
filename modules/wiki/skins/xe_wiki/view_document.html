@@ -1,0 +1,56 @@
+<!--#include("header.html")-->
+<!-- 글 내용 보여주기 -->
+<div class="boardRead">
+    <div class="originalContent">
+        <div class="readBody">
+            <div class="contentBody">
+
+                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                    <div class="secretContent">
+                        <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+                        <input type="hidden" name="mid" value="{$mid}" />
+                        <input type="hidden" name="page" value="{$page}" />
+                        <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+
+                            <div class="title">{$lang->msg_is_secret}</div>
+                            <div class="content"><input type="password" name="password" id="cpw" class="inputTypeText" /><span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
+
+                        </form>
+                    </div>
+                <!--@else-->
+                    {$oDocument->getContent(false)}
+                <!--@end-->
+            </div>
+        </div>
+
+        {@ $tag_list = $oDocument->get('tag_list') }
+        <!--@if(count($tag_list))-->
+        <div class="tag">
+            <ul>
+                <!--@for($i=0;$i<count($tag_list);$i++)-->
+                    {@ $tag = $tag_list[$i]; }
+                    <li><a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,&nbsp;<!--@end--></li>
+                <!--@end-->
+            </ul>
+        </div>
+        <!--@end-->
+
+        <!--@if($oDocument->hasUploadedFiles())-->
+        <div class="fileAttached">
+            {@ $uploaded_list = $oDocument->getUploadedFiles() }
+            <ul>
+                <!--@foreach($uploaded_list as $key => $file)-->
+                <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
+                <!--@end-->
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <!--@end-->
+    </div>
+
+    <!-- 목록, 수정/삭제 버튼 -->
+    <div class="contentButton">
+    </div>
+
+</div>
+<!--#include("footer.html")-->

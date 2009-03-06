@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+/* widgetLogin */
+.widgetLogin label{ color:#333;}
+.widgetLogin .help a{ color:#333;}
+.widgetLogin .help li{ background:url(../img/white/lineTextDiv.gif) no-repeat left center;}
+
+/* widgetLastLogin */
+.widgetLastLogin dt{ color:#333;}
+.widgetLastLogin dd{ color:#888;}
+.widgetLastLogin a{ color:#333;}
+.widgetLastLogin li{ background:url(../img/white/iconInfoMine.gif) no-repeat left center;}
+
+/* widgetMyInfo */
+.widgetMyInfo li a{ color:#666;}
+.widgetMyInfo li{ background:url(../img/white/iconMyInfo.gif) no-repeat left 1px;}
+

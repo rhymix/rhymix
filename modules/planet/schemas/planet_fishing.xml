@@ -1,0 +1,6 @@
+<table name="planet_fishing">
+    <column name="module_srl" type="number" size="11" notnull="notnull" unique="fishing" />
+    <column name="document_srl" type="number" size="11" notnull="notnull" unique="fishing"/>
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+    <column name="regdate" type="date" notnull="notnull" />
+</table>

@@ -42,7 +42,7 @@
             <description xml:lang="es">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
             <description xml:lang="ru">선택하신 모듈을 대상으로 합니다. 꼭 한개의 모듈만 선택해 주세요.</description>
             <description xml:lang="jp">選択されたモジュールを対象とします。必ず一つのモジュールのみ選択してください。</description>
-            <description xml:lang="zh-CN">将把被选模块当中的主题作为对象。只能选一个模块。</description>
+            <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。只能选一个模块。</description>
             <description xml:lang="zh-TW">將所選擇的模組作為目標。只能選擇一個模組。</description>
         </var>
     </extra_vars>

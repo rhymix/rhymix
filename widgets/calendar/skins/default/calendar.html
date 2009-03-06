@@ -1,0 +1,68 @@
+<!--@if($colorset=="black")-->
+    <!--%import("css/black.css")-->
+<!--@elseif($colorset=="white"||$colorset=="normal")-->
+    <!--%import("css/white.css")-->
+<!--@end-->
+
+<div class="widgetContainer">
+    <div class="widgetCalendarNavigation">
+        <button type="button" class="prevYear" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->prev_year)}'">&lt;&lt;</button> <button type="button" class="prevMonth" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->prev_month)}'">&lt;</button>
+        <button type="button" class="nextMonth" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->next_month)}'">&gt;</button> <button type="button" class="nextYear" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->next_year)}'">&gt;&gt;</button>
+    </div>
+    <table border="1" cellspacing="0" class="widgetCalendar">
+        <caption>{zdate($widget_info->cur_date,"Y.m")}</caption>
+        <thead>
+            <tr>
+                <th scope="col" class="sun">{$lang->unit_week['Sunday']}</th>
+                <th scope="col">{$lang->unit_week['Monday']}</th>
+                <th scope="col">{$lang->unit_week['Tuesday']}</th>
+                <th scope="col">{$lang->unit_week['Wednesday']}</th>
+                <th scope="col">{$lang->unit_week['Thursday']}</th>
+                <th scope="col">{$lang->unit_week['Friday']}</th>
+                <th scope="col">{$lang->unit_week['Saturday']}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--@for($i=0;$i<6;$i++)-->
+                <!--@if($day < $widget_info->last_day)-->
+                <tr>
+                    <!--@for($j=0;$j<7;$j++)-->
+
+                        {@ $num = $i*7 + $j}
+                        <!--@if(!$started && $num >= $widget_info->start_week)-->
+                            {@ $started = true}
+                            {@ $day = 1}
+                            {@ $cur_date = $widget_info->cur_date.sprintf('%02d',$day) }
+                        <!--@elseif($started)-->
+                            {@ $day++}
+                            {@ $cur_date = $widget_info->cur_date.sprintf('%02d',$day) }
+                        <!--@end-->
+
+                        <!--@if($cur_date == date("Ymd"))-->{@ $today_class = "today"}<!--@else-->{@ $today_class = ""}<!--@end-->
+
+                        <!--@if($widget_info->calendar[$cur_date])-->
+                            {@ $item_class_name = "posted"}
+                              {@ $day_link = getSiteUrl($widget_info->domain,'mid',$widget_info->module_info->mid,'search_target','regdate','search_keyword',$cur_date) }
+                        <!--@else-->
+                            {@ $item_class_name = ""}
+                            {@ $day_link = ''}
+                        <!--@end-->
+
+                        <td class="<!--@if($j==0)-->sun<!--@end-->{$today_class} {$cell_class_name} {$item_class_name}">
+                            <!--@if($day <= $widget_info->last_day)-->
+                                <!--@if($day_link)-->
+                                    <a href="{$day_link}"><strong>{$day}</strong></a>
+                                <!--@else-->
+                                    {$day}
+                                <!--@end-->
+                            <!--@else-->
+                                &nbsp;
+                            <!--@end-->
+                        </td>
+                    <!--@end-->
+                </tr>
+                <!--@end-->
+            <!--@end-->
+        </tbody>
+    </table>
+</div>

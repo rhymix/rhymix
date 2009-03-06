@@ -12,7 +12,7 @@
 </script>
 
 
-<h3>{$lang->counter} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->counter} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="header4 gap1">
 
@@ -21,7 +21,7 @@
     <input type="hidden" name="act" value="{$act}" />
     <input type="hidden" name="selected_date" id="selected_date" value="{zDate('Ymd',$selected_date)}" />
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="colTable">
     <thead>
     <tr>
         <th scope="row" class="half_wide"><div>{$lang->total_counter}</div></th>
@@ -82,11 +82,11 @@
 
 
 <!-- unique visitor 그래프 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <!--@foreach($detail_status->list as $key => $val)-->
     <!--@if($detail_status->sum>0)-->
         {@$percent = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
-        {@$img_width = sprintf("%0.0f", $val / $detail_status->max * 100 )}
+        {@$img_width = sprintf("%d", $val / $detail_status->max * 100 )}
     <!--@else-->
         {@$percent = 0}
         {@$img_width = 1}
@@ -123,13 +123,14 @@
         </div>
     </th>
     <!--@end-->
-    <td>
-        <div class="graph">
-            <img src="./images/iconBar.gif" alt="" width="12" height="6" class="bar" />
-            <div class="num" style="left:{$percent}%;width:{100-$percent}%;">
-                <strong>{number_format($val)}</strong> ({$percent}%)
-            </div>
-        </div>
+    <td class="wide">
+        {@$img_percent = $img_width-30}
+        <!--@if($img_percent<1)-->
+            <img class="graphHr" style="width:3px;" alt="" src="./images/iconBar.gif" />
+        <!--@else-->
+            <img class="graphHr" style="width:{$img_percent}%;" alt="" src="./images/iconBar.gif" />
+        <!--@end-->
+        {number_format($val)}({$percent}%)
     </td>
 </tr>
 <!--@end-->

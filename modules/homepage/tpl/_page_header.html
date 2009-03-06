@@ -1,0 +1,8 @@
+<!--#include("_header.html")-->
+
+<h4 class="xeAdmin">{$lang->page} > {$module_info->browser_title} <span class="gray">{$lang->cmd_setup}</span></h4>
+
+<ul class="localNavigation">
+    <li class="on"><a href="{getUrl('act','dispHomepagePageGrant','module_srl',$module_srl)}">{$lang->grant}</a></li>
+    <li><a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></li>
+</ul>

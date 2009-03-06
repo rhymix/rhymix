@@ -1,0 +1,6 @@
+<table name="lang">
+    <column name="site_srl" type="number" size="11" notnull="notnull" index="idx_lang" />
+    <column name="name" type="varchar" size="255" notnull="notnull" index="idx_lang" />
+    <column name="lang_code" type="varchar" size="10" notnull="notnull" index="idx_lang" />
+    <column name="value" type="text"  />
+</table>

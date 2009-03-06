@@ -36,33 +36,31 @@
 
             $this->setTemplatePath($template_path);
 
-            // 권한에 따른 메뉴 제한
-            if(!$this->grant->access) {
-                $this->grant->ticket_view = $this->grant->ticket_write = $this->grant->timeline = $this->grant->browser_source = $this->grant->download = 0;
-                unset($GLOBALS['lang']->project_menus);
-            } else {
-                if(!$this->grant->ticket_view) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewIssue']);
-                if(!$this->grant->ticket_write) unset($GLOBALS['lang']->project_menus['dispIssuetrackerNewIssue']);
-                if(!$this->grant->timeline) unset($GLOBALS['lang']->project_menus['dispIssuetrackerTimeline']);
-                if(!$this->grant->browser_source) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewSource']);
-                if(!$this->grant->download) unset($GLOBALS['lang']->project_menus['dispIssuetrackerDownload']);
-            }
+            if(!$this->grant->ticket_view) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewIssue']);
+            if(!$this->grant->ticket_write) unset($GLOBALS['lang']->project_menus['dispIssuetrackerNewIssue']);
+            if(!$this->grant->timeline) unset($GLOBALS['lang']->project_menus['dispIssuetrackerTimeline']);
+            if(!$this->grant->browser_source) unset($GLOBALS['lang']->project_menus['dispIssuetrackerViewSource']);
+            if(!$this->grant->download) unset($GLOBALS['lang']->project_menus['dispIssuetrackerDownload']);
             if(!$this->grant->manager) unset($GLOBALS['lang']->project_menus['dispIssuetrackerAdminProjectSetting']);
 
             // 템플릿에서 사용할 검색옵션 세팅 (검색옵션 key값은 미리 선언되어 있는데 이에 대한 언어별 변경을 함)
-            $search_option = array();
-            foreach($this->search_option as $opt) {
-                $search_option[$opt] = Context::getLang($opt);
-            }
+            foreach($this->search_option as $opt) $search_option[$opt] = Context::getLang($opt);
+
+            $oDocumentModel = &getModel('document');
+            $extra_keys = $oDocumentModel->getExtraKeys($this->module_srl);
+            Context::set('extra_keys', $extra_keys);
 
             // 모듈정보를 확인하여 확장변수에서도 검색이 설정되어 있는지 확인
-            for($i=1;$i<=20;$i++) {
-                $ex_name = trim($this->module_info->extra_vars[$i]->name);
-                if(!$ex_name) continue;
-
-                if($this->module_info->extra_vars[$i]->search == 'Y') $search_option['extra_vars'.$i] = $ex_name;
+            if(count(Context::get('extra_keys'))) {
+                foreach(Context::get('extra_keys') as $key => $val) {
+                    if($val->search == 'Y') $search_option['extra_vars'.$val->idx] = $val->name;
+                }
             }
             Context::set('search_option', $search_option);
+            
+            $oModuleModel = &getModel('module');
+            $module_config = $oModuleModel->getModulePartConfig('issuetracker',$this->module_srl);
+            if($module_config) $this->default_enable = $module_config->display_option;
 
             // 템플릿에서 사용할 노출옵션 세팅
             foreach($this->display_option as $opt) {
@@ -83,6 +81,10 @@
                     Context::set('act','dispIssuetrackerViewIssue');
                 }
             }
+
+            // javascript, JS 필터 추가
+            Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
+            Context::addJsFile($this->module_path.'tpl/js/issuetracker.js');
         }
 
         function dispIssuetrackerTimeline() {
@@ -90,7 +92,15 @@
             $oController = &getController('issuetracker');
             $oController->syncChangeset($this->module_info);
             $oModel = &getModel('issuetracker');
-            $changesets = $oModel->getChangesets($this->module_info->module_srl);
+            $duration = Context::get('duration');
+            if(!$duration) $duration = 10;
+            $targets = Context::get('targets');
+            if(!$targets || !is_array($targets) || !count($targets))
+            {
+                $targets = array('issue_created', 'issue_changed', 'commit');
+                Context::set('targets', $targets);
+            }
+            $changesets = $oModel->getChangesets($this->module_info->module_srl, Context::get('enddate'), $duration, $targets);
             Context::set('changesets', $changesets);
             $issues = array();
             foreach($changesets as $changeset)
@@ -212,6 +222,27 @@
 
                         $path_tree = Svn::explodePath($path, true);
                         Context::set('path_tree', $path_tree);
+                        
+                        $file_name = array_pop(array_keys($path_tree));
+                        $file_ext = array_pop(explode(".",$file_name));
+                        $extlist = array(
+                            "document" => array("doc", "pdf", "hwp"),
+                            "image" => array("jpg", "jpeg", "jpe", "gif", "png", "bmp"),
+                            "sound" => array("mp3", "ogg", "wma", "wav"),
+                            "movie" => array("avi", "mpg", "mpeg", "mpe", "wmv", "asf", "asx", "mov", "flv", "swf")
+                        );
+                        
+						foreach($extlist as $key => $exts) {
+							foreach($exts as $s_key => $ext) {
+                                if(!strcasecmp($file_ext, $ext)) {
+                                    $file_type = $key;
+                                    break 2;
+                                }
+                            }
+						}
+
+                        if(!$file_type) $file_type = "code";
+                        Context::set('file_type', $file_type);
 
                         $this->setTemplateFile('source_file_view');
                     break;
@@ -225,6 +256,8 @@
                         $this->setTemplateFile('source_list');
                     break;
             }
+
+            Context::addJsFile($this->module_path.'tpl/js/svn.js');
         }
 
         /**
@@ -273,7 +306,7 @@
 
                 // 목록을 구하기 위한 대상 모듈/ 페이지 수/ 목록 수/ 페이지 목록 수에 대한 옵션 설정
                 $args->page = Context::get('page');
-                $args->list_count = 50;
+                $args->list_count = 20;
                 $args->page_count = 10;
 
                 // issue 검색을 위한 변수 
@@ -298,10 +331,6 @@
                 $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
                 $args->search_keyword = Context::get('search_keyword'); ///< 검색어
 
-                // 커미터 목록 구함
-                $commiters = $oIssuetrackerModel->getGroupMembers($this->module_info->grants['commiter']);
-                Context::set('commiters', $commiters);
-
                 // 일반 글을 구해서 context set
                 $output = $oIssuetrackerModel->getIssueList($args);
                 Context::set('issue_list', $output->data);
@@ -322,12 +351,14 @@
                 // 스킨에서 사용하기 위해 context set
                 Context::set('oIssue', $oIssue);
 
-                // 커미터 목록을 추출
-                $commiters = $oIssuetrackerModel->getGroupMembers($this->module_info->grants['commiter']);
-                Context::set('commiters', $commiters);
+                // javascript 필터 추가
+                Context::addJsFilter($this->module_path.'tpl/filter', 'insert_history.xml');
 
                 $this->setTemplateFile('view_issue');
             }
+
+            // 커미터 목록을 추출
+            Context::set('commiters', $oIssuetrackerModel->getGroupMembers($this->module_info->module_srl,'commiter'));
         }
 
         /**
@@ -359,9 +390,16 @@
 
             // 확장변수처리를 위해 xml_js_filter를 직접 header에 적용
             $oDocumentController = &getController('document');
-            $oDocumentController->addXmlJsFilter($this->module_info);
+            $oDocumentController->addXmlJsFilter($this->module_info->module_srl);
+            if($oIssue->isExists()) Context::set('extra_keys', $oIssue->getExtraVars());
+
+            // javascript 필터 추가
+            Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
 
             $this->setTemplateFile('newissue');
+            
+            // 커미터 목록을 추출
+            Context::set('commiters', $oIssuetrackerModel->getGroupMembers($this->module_info->module_srl,'commiter'));
         }
 
         function dispIssuetrackerDeleteIssue() {
@@ -383,6 +421,9 @@
             if(!$oIssue->isGranted()) return $this->setTemplateFile('input_password_form');
 
             Context::set('oIssue', $oIssue);
+
+            // javascript 필터 추가
+            Context::addJsFilter($this->module_path.'tpl/filter', 'delete_issue.xml');
 
             $this->setTemplateFile('delete_form');
         }
@@ -440,6 +481,9 @@
             if(!$trackback) return $this->dispIssuetrackerMessage('msg_invalid_request');
 
             Context::set('trackback',$trackback);
+
+            // javascript 필터 추가
+            Context::addJsFilter($this->module_path.'tpl/filter', 'delete_trackback.xml');
 
             $this->setTemplateFile('delete_trackback');
         }

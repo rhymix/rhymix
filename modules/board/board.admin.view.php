@@ -36,6 +36,8 @@
                 }
             }
 
+            if($module_info && $module_info->module != 'board') return $this->stop("msg_invalid_request");
+
             // 모듈 카테고리 목록을 구함
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
@@ -58,7 +60,7 @@
             // 등록된 board 모듈을 불러와 세팅
             $args->sort_index = "module_srl";
             $args->page = Context::get('page');
-            $args->list_count = 40;
+            $args->list_count = 20;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
             $output = executeQueryArray('board.getBoardList', $args);
@@ -77,10 +79,9 @@
         }
 
         /**
-         * @brief 선택된 게시판의 정보 출력
+         * @brief 선택된 게시판의 정보 출력 (바로 정보 입력으로 변경)
          **/
         function dispBoardAdminBoardInfo() {
-
             $this->dispBoardAdminInsertBoard();
         }
 
@@ -128,7 +129,6 @@
          * @brief 게시판 삭제 화면 출력
          **/
         function dispBoardAdminDeleteBoard() {
-
             if(!Context::get('module_srl')) return $this->dispBoardAdminContent();
             if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
                 return $this->alertMessage('msg_invalid_request');
@@ -147,58 +147,29 @@
         }
 
         /**
-         * @brief 스킨 정보 보여줌
+         * @brief 게시판의 목록 설정
          **/
-        function dispBoardAdminSkinInfo() {
-            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
-                return $this->alertMessage('msg_invalid_request');
-            }
+        function dispBoardAdminListSetup() {
+            $oBoardModel = &getModel('board');
 
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
-            $module_info = Context::get('module_info');
-            $skin = $module_info->skin;
+            // 대상 항목을 구함
+            Context::set('extra_vars', $oBoardModel->getDefaultListConfig($this->module_info->module_srl));
 
-            $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-            if(!$skin_info) {
-                $skin = 'xe_board';
-                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-            }
+            // 설정 항목 추출 (설정항목이 없을 경우 기본 값을 세팅)
+            Context::set('list_config', $oBoardModel->getListConfig($this->module_info->module_srl));
 
-            // skin_info에 extra_vars 값을 지정
-            if(count($skin_info->extra_vars)) {
-                foreach($skin_info->extra_vars as $key => $val) {
-                    $group = $val->group;
-                    $name = $val->name;
-                    $type = $val->type;
-                    $value = $module_info->{$name};
-                    if($type=="checkbox"&&!$value) $value = array();
-                    $skin_info->extra_vars[$key]->value= $value;
-                }
-            }
-
-            Context::set('skin_info', $skin_info);
-            $this->setTemplateFile('skin_info');
+            $this->setTemplateFile('list_setting');
         }
 
         /**
          * @brief 카테고리의 정보 출력
          **/
         function dispBoardAdminCategoryInfo() {
-            // module_srl을 구함
-            $module_srl = $this->module_info->module_srl;
-            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
-                return $this->alertMessage('msg_invalid_request');
-            }
-
-            // 카테고리 정보를 가져옴
             $oDocumentModel = &getModel('document');
-            $category_xml_file = $oDocumentModel->getCategoryXmlFile($module_srl);
+            $catgegory_content = $oDocumentModel->getCategoryHTML($this->module_info->module_srl);
+            Context::set('category_content', $catgegory_content);
 
-            Context::set('category_xml_file', $category_xml_file);
-            Context::addJsFile('./common/js/tree_menu.js');
-
-//            Context::set('layout','none');
+            Context::set('module_info', $this->module_info);
             $this->setTemplateFile('category_list');
         }
 
@@ -206,24 +177,41 @@
          * @brief 권한 목록 출력
          **/
         function dispBoardAdminGrantInfo() {
-            // module_srl을 구함
-            $module_srl = Context::get('module_srl');
-            if(!in_array($this->module_info->module, array('admin', 'board','blog','guestbook'))) {
-                return $this->alertMessage('msg_invalid_request');
-            }
-
-            // module.xml에서 권한 관련 목록을 구해옴
-            $grant_list = $this->xml_info->grant;
-            Context::set('grant_list', $grant_list);
-
-            // 권한 그룹의 목록을 가져온다
-            $oMemberModel = &getModel('member');
-            $group_list = $oMemberModel->getGroups();
-            Context::set('group_list', $group_list);
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
+            Context::set('grant_content', $grant_content);
 
             $this->setTemplateFile('grant_list');
         }
 
+        /**
+         * @brief 확장 변수 설정
+         **/
+        function dispBoardAdminExtraVars() {
+            $oDocumentAdminModel = &getModel('document');
+            $extra_vars_content = $oDocumentAdminModel->getExtraVarsHTML($this->module_info->module_srl);
+            Context::set('extra_vars_content', $extra_vars_content);
+
+            $this->setTemplateFile('extra_vars');
+        }
+
+        /**
+         * @brief 스킨 정보 보여줌
+         **/
+        function dispBoardAdminSkinInfo() {
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
+            Context::set('skin_content', $skin_content);
+
+            $this->setTemplateFile('skin_info');
+        }
+
+
+        /**
+         * @brief board module용 메시지 출력
+         **/
         function alertMessage($message) {
             $script =  sprintf('<script type="text/javascript"> xAddEventListener(window,"load", function() { alert("%s"); } );</script>', Context::getLang($message));
             Context::addHtmlHeader( $script );

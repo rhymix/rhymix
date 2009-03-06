@@ -1,0 +1,17 @@
+<!--%import("../../admin/tpl/css/font.css")-->
+<!--%import("../../admin/tpl/css/pagination.css")-->
+<!--%import("../../admin/tpl/css/admin.css")-->
+<!--%import("./js/homepage.js",optimized=false)-->
+<div id="xeAdmin">
+
+    <h3 class="xeAdmin">{$lang->cafe_admin}</h3>
+
+    <div class="header4">
+        <ul class="localNavigation">
+        {@$_s = false; }
+        <!--@foreach($lang->cmd_admin_menus as $key => $val)-->
+            <li <!--@if($key==$act || (!$_s && $key=='dispHomepageMidSetup'))-->{@$_s=true}class="on"<!--@end-->><a href="{getUrl('act', $key)}" <!--@if($act==$val)-->class="selected"<!--@end-->>{$val}</a></li>
+        <!--@end-->
+        </ul>
+
+    </div>

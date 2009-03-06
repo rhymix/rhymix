@@ -7,7 +7,8 @@
 /* 생성된 코드를 textarea에 출력 */
 function completeGenerateCode(ret_obj) {
     var widget_code = ret_obj["widget_code"];
-
+        widget_code = widget_code.replace(/&/g, "&amp;");
+        widget_code = widget_code.replace(/\'/g, "&apos;");
     var zone = xGetElementById("widget_code");
     zone.value = widget_code;
 }
@@ -21,7 +22,6 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
     }
 
     opener.doAddWidgetCode(widget_code);
-
     window.close();
 }
 
@@ -68,9 +68,30 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
     setFixedPopupSize();
 }
 
-/* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
+
 var selected_node = null;
+/* 페이지 모듈에서 위젯스타일 수정하려고 할 경우 */
+function getWidgetVars() {
+    if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
+    selected_node = opener.selectedWidget;
+
+    var fo_widget = jQuery('#fo_widget');
+    var attrs = selected_node.attributes;
+    for (i=0; i< attrs.length ; i++){
+        var input = jQuery("[name='"+attrs[i].name+"']" ,'#fo_widget');
+        if( input.size() == 0 && attrs[i].name != 'style'){
+            fo_widget.prepend('<input type="hidden" name="'+attrs[i].name+'" value="'+attrs[i].value+'" />');
+        }else{
+            if(!input.val() && attrs[i].value ){
+                input.val(attrs[i].value);
+            }
+        }
+    }
+}
+
+/* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
 function doFillWidgetVars() {
+
     if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
 
     selected_node = opener.selectedWidget;
@@ -80,12 +101,30 @@ function doFillWidgetVars() {
     var colorset = selected_node.getAttribute("colorset");
     var widget_sequence = parseInt(selected_node.getAttribute("widget_sequence"),10);
 
+    var fo_widget = jQuery("#fo_widget");
     var fo_obj = xGetElementById("fo_widget");
+    jQuery('#widget_skin').val(skin);
 
+    // 위젯 스타일 유지를 위한 hidden input 추가하고 값을 저장
+    var attrs = selected_node.attributes;
+    for (i=0; i< attrs.length ; i++){
+        var name = attrs[i].name;
+        var value = jQuery(selected_node).attr(name);
+        if(jQuery("[name="+name+"]",fo_widget).size()>0 || !value || name == 'style') continue;
+
+        var dummy = xCreateElement("input");
+        dummy.type = 'hidden';
+        dummy.name = name;
+        dummy.value = value;
+        fo_obj.appendChild(dummy);
+    }
+
+    // 위젯의 속성 설정
     var obj_list = new Array();
     jQuery('form input, form select, form textarea').each( function() {
             obj_list.push(this);
     });
+
     for(var j=0;j<obj_list.length;j++) {
         var node = obj_list[j];
         if(node.name.indexOf('_')==0) continue;
@@ -97,6 +136,8 @@ function doFillWidgetVars() {
 
         switch(type) {
             case "hidden" :
+                if(jQuery('[name=_' + node.name+']').size() == 0)  continue;
+
             case "text" :
             case "textarea" :
                     var val = selected_node.getAttribute(name);
@@ -111,8 +152,8 @@ function doFillWidgetVars() {
                         if(fo_obj[name].length) {
                             for(var i=0;i<fo_obj[name].length;i++) {
                                 var v = fo_obj[name][i].value;
-                                for(var j=0;j<val.length;j++) {
-                                    if(v == val[j]) {
+                                for(var k=0;k<val.length;k++) {
+                                    if(v == val[k]) {
                                         fo_obj[name][i].checked=true;
                                         break;
                                     }
@@ -326,4 +367,127 @@ xAddEventListener(window,'load',excuteWindowLoadEvent);
 function selectWidget(val){
     var url =current_url.setQuery('selected_widget', val);
     document.location.href = url;
+}
+
+function widgetstyle_extra_image_upload(f){
+    f.act.value='procWidgetStyleExtraImageUpload';
+    f.submit();
+}
+
+
+
+
+function MultiOrderSet(id){
+    var selectedObj = jQuery("[name='selected_"+id+"']").get(0);
+
+    var value = [];
+    for(i=0;i<selectedObj.options.length;i++){
+        value.push(selectedObj.options[i].value);
+    }
+    jQuery("[name='"+id+"']").val(value.join(','));
+}
+
+
+function MultiOrderAdd(id){
+    var showObj = jQuery("[name='show_"+id+"']").get(0);
+    var selectedObj = jQuery("[name='selected_"+id+"']").get(0);
+    var defaultObj = jQuery("[name='default_"+id+"']").val().split(',');
+
+    if(showObj.selectedIndex<0) return;
+    var idx = showObj.selectedIndex;
+    var svalue = showObj.options[idx].value;
+
+
+    for(i=0;i<selectedObj.options.length;i++){
+        if(selectedObj.options[i].value == svalue) return;
+    }
+    selectedObj.options.add(new Option(svalue, svalue, false, false));
+
+    MultiOrderSet(id);
+}
+
+
+function MultiOrderDelete(id){
+    var showObj = jQuery("[name='show_"+id+"']").get(0);
+    var selectedObj = jQuery("[name='selected_"+id+"']").get(0);
+    var defaultObj = jQuery("[name='default_"+id+"']").val().split(',');
+
+    var idx = selectedObj.selectedIndex;
+    if(idx<0) return;
+    for(i=0;i<defaultObj.length;i++){
+        if(jQuery.inArray(selectedObj.options[idx].value, defaultObj) > -1) return;
+    }
+
+    selectedObj.remove(idx);
+    idx = idx-1;
+    if(idx < 0) idx = 0;
+    if(selectedObj.options.length) selectedObj.selectedIndex = idx;
+
+    MultiOrderSet(id);
+}
+
+function MultiOrderUp(id){
+    var selectedObj = jQuery("[name='selected_"+id+"']").get(0);
+    if(selectedObj.selectedIndex<0) return;
+    var idx = selectedObj.selectedIndex;
+
+    if(idx < 1) return;
+
+    var s_obj = selectedObj.options[idx];
+    var t_obj = selectedObj.options[idx-1];
+    var value = s_obj.value;
+    var text = s_obj.text;
+    s_obj.value = t_obj.value;
+    s_obj.text = t_obj.text;
+    t_obj.value = value;
+    t_obj.text = text;
+    selectedObj.selectedIndex = idx-1;
+
+    MultiOrderSet(id);
+}
+
+
+function MultiOrderDown(id){
+    var selectedObj = jQuery("[name='selected_"+id+"']").get(0);
+    if(selectedObj.selectedIndex<0) return;
+    var idx = selectedObj.selectedIndex;
+
+    if(idx == selectedObj.options.length-1) return;
+
+    var s_obj = selectedObj.options[idx];
+    var t_obj = selectedObj.options[idx+1];
+    var value = s_obj.value;
+    var text = s_obj.text;
+    s_obj.value = t_obj.value;
+    s_obj.text = t_obj.text;
+    t_obj.value = value;
+    t_obj.text = text;
+    selectedObj.selectedIndex = idx+1;
+
+    MultiOrderSet(id);
+}
+
+function initMultiOrder(id){
+    var selectedObj = jQuery("[name='selected_"+id+"']").get(0);
+    var init_value = jQuery("[name='init_"+id+"']").val();
+    var save_value = jQuery("[name='"+id+"']").val();
+    if(save_value){
+        var arr_save_value = save_value.split(',');
+        for(i=0;i<arr_save_value.length;i++){
+            if(arr_save_value[i].length>0){
+                var opt = new Option(arr_save_value[i], arr_save_value[i]);
+                selectedObj.options.add(opt);
+            }
+        }
+    }else{
+        var arr_init_value = init_value.split(',');
+        for(i=0;i<arr_init_value.length;i++){
+            if(arr_init_value[i].length>0){
+                var opt = new Option(arr_init_value[i], arr_init_value[i]);
+                selectedObj.options.add(opt);
+            }
+        }
+
+    }
+    MultiOrderSet(id);
 }

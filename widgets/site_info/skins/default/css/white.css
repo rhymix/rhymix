@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+/* widgetDlistA */
+.widgetDlistA dt{ color:#333;}
+.widgetDlistA dd,
+.widgetDlistA  dd a{ color:#888;}

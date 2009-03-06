@@ -27,12 +27,11 @@ function doMoveListOrder(component_name, mode) {
 }
 
 function completeUpdate(ret_obj) {
-    alert(ret_obj['message']);
-    location.href = location.href;
+    location.reload();
 }
 
 function doSetupComponent(component_name) {
-    popopen("./?module=editor&act=dispEditorAdminSetupComponent&component_name="+component_name, "SetupComponent");
+    popopen(request_uri.setQuery('module','editor').setQuery('act','dispEditorAdminSetupComponent').setQuery('component_name',component_name), 'SetupComponent');
 }
 
 function toggleSectionCheckBox(obj, id) {

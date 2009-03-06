@@ -14,7 +14,9 @@
 
         function init() {
             $oModuleModel = &getModel('module');
-            if(!$oModuleModel->isSiteAdmin()) return $this->stop('msg_not_permitted');
+
+            $logged_info = Context::get('logged_info');
+            if(!$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
 
             // site_module_info값으로 홈페이지의 정보를 구함
             $this->site_module_info = Context::get('site_module_info');
@@ -28,19 +30,38 @@
 
         }
 
+        function procHomepageChangeLanguage() {
+            $lang_code = Context::get('language');
+            if(!$lang_code) return;
+            $args->site_srl = $this->site_module_info->site_srl;
+            $args->index_module_srl= $this->site_module_info->index_module_srl;
+            $args->domain = $this->site_module_info->domain;
+            $args->default_language = $lang_code;
+            $oModuleController = &getController('module');
+            return $oModuleController->updateSite($args);
+        }
+
         function procHomepageChangeLayout() {
-            $layout = Context::get('layout');
-            if(!$layout || !is_dir(_XE_PATH_.'layouts/'.$layout)) return new Object(-1,'msg_invalid_request');
-
-            $layout_srl = $this->selected_layout->layout_srl;
-
-            if($layout == $this->selected_layout->layout) return;
-
             $oLayoutAdminController = &getAdminController('layout');
+            $oLayoutModel = &getModel('layout');
+
+            $layout = Context::get('layout');
+            if(!$layout || ($layout!='faceoff' && !is_dir(_XE_PATH_.'layouts/'.$layout))) return new Object(-1,'msg_invalid_request');
+
+            // 원래 레이아웃 정보를 가져옴
+            $layout_srl = $this->selected_layout->layout_srl;
             $args->layout_srl = $layout_srl;
-            $args->layout = $layout;
-            $args->layout_path = '';
-            return $oLayoutAdminController->updateLayout($args);
+            $output = executeQuery('layout.getLayout', $args);
+            if(!$output->toBool() || !$output->data) return $output;
+            $layout_info = $output->data;
+
+            if($layout == $layout_info->layout) return new Object();
+
+            $layout_info->layout = $layout;
+            $output = $oLayoutAdminController->updateLayout($layout_info);
+            if(!$output->toBool()) return $output;
+
+            $oLayoutAdminController->initLayout($layout_srl, $layout);
         }
 
         function procHomepageLayoutUpdate() {
@@ -79,17 +100,6 @@
             $oMenuAdminModel = &getAdminModel('menu');
             $oMenuAdminController = &getAdminController('menu');
 
-            // 메뉴 이름 체크
-            $lang_supported = Context::get('lang_supported');
-            $name_inserted = false;
-            foreach($lang_supported as $key => $val) {
-                $menu_name[$key] = $source_args->{"menu_name_".strtolower($key )};
-                if($menu_name[$key]) $name_inserted = true;
-            }
-            if(!$name_inserted) {
-                return new Object(-1, sprintf($lang->filter->isnull, $lang->menu_name));
-            }
-
             $mode = Context::get('mode');
 
             // module_type이 url이 아니면 게시판 또는 페이지를 생성한다
@@ -117,7 +127,7 @@
             $args->menu_item_srl = $source_args->menu_item_srl;
             $args->parent_srl = $source_args->parent_srl;
             $args->menu_srl = $source_args->menu_srl;
-            $args->name = serialize($menu_name);
+            $args->name = $source_args->menu_name;
             if($module_type=='url') $args->url = 'http://'.preg_replace('/^(http|https):\/\//i','',$url);
             else $args->url = $module_id;
             $args->open_window = $source_args->menu_open_window;
@@ -274,6 +284,17 @@
             if(!$output->toBool()) return $output;
         }
 
+        function procHomepageDeleteMember() {
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(-1,'msg_invalid_request');
+
+            $args->site_srl= $this->site_srl;
+            $args->member_srl = $member_srl;
+            $output = executeQuery('member.deleteMembersGroup', $args);
+            if(!$output->toBool()) return $output;
+            $this->setMessage('success_deleted');
+        }
+
         function procHomepageUpdateMemberGroup() {
             if(!Context::get('cart')) return new Object();
             $args->site_srl = $this->site_srl;
@@ -281,16 +302,6 @@
             $args->group_srl = Context::get('group_srl');
             $oMemberController = &getController('member');
             return $oMemberController->replaceMemberGroup($args);
-        }
-
-        function procHomepageUpdateBoardSkin() {
-            $oBoardAdminController = &getAdminController('board');
-            $oBoardAdminController->procBoardAdminUpdateSkinInfo();
-
-            $this->setLayoutPath($oBoardAdminController->getLayoutPath());
-            $this->setLayoutFile($oBoardAdminController->getLayoutFile());
-            $this->setTemplatePath($oBoardAdminController->getTemplatePath());
-            $this->setTemplateFile($oBoardAdminController->getTemplateFile());
         }
 
         function procHomepageInsertBoardGrant() {
@@ -348,8 +359,20 @@
 
             $oModuleController = &getController('module');
             $output = $oModuleController->updateSite($args);
-            debugPrint($output);
             return $output;
+        }
+
+        function triggerMemberMenu(&$content) {
+            $site_module_info = Context::get('site_module_info');
+            $logged_info = Context::get('logged_info');
+            if(!$site_module_info->site_srl || !$logged_info->member_srl) return new Object();
+
+            if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) {
+                $oMemberController = &getController('member');
+                $oMemberController->addMemberMenu('dispHomepageManage','cmd_cafe_setup');
+            } 
+            return new Object();
+
         }
     }
 ?>

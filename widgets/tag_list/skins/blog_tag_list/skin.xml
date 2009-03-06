@@ -23,21 +23,21 @@
 	</author>
 
 	<colorset>
-		<color name="layout">
-			<title xml:lang="ko">레이아웃에 맞춤</title>
-			<title xml:lang="jp">レイアウトに合わせる</title>
-			<title xml:lang="zh-CN">随布局</title>
-			<title xml:lang="en">레이아웃에 맞춤</title>
-			<title xml:lang="zh-TW">隨版面</title>
-		</color>
+	<color name="layout">
+		<title xml:lang="ko">레이아웃에 맞춤</title>
+		<title xml:lang="jp">レイアウトに合わせる</title>
+		<title xml:lang="zh-CN">随布局</title>
+		<title xml:lang="en">레이아웃에 맞춤</title>
+		<title xml:lang="zh-TW">隨版面</title>
+	</color>
         <color name="black">
-            <title xml:lang="ko">검은색</title>
-            <title xml:lang="jp">黒</title>
-            <title xml:lang="en">Black</title>
-            <title xml:lang="ru">Черного</title>
-            <title xml:lang="es">Negro</title>
-            <title xml:lang="zh-CN">黑色</title>
-            <title xml:lang="zh-TW">黑色</title>
+		<title xml:lang="ko">검은색</title>
+		<title xml:lang="jp">黒</title>
+		<title xml:lang="en">Black</title>
+		<title xml:lang="ru">Черного</title>
+		<title xml:lang="es">Negro</title>
+		<title xml:lang="zh-CN">黑色</title>
+		<title xml:lang="zh-TW">黑色</title>
         </color>
 	</colorset>
 </skin>

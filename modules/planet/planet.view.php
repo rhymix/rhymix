@@ -11,20 +11,20 @@
          * @brief 초기화
          **/
         function init() {
-
             if(!preg_match('/planet/i', $this->act) && !in_array($this->act, array('favorite','countContentTagSearch','dispReplyList'))) return;
 
             /**
              * @brief 플래닛 모듈의 기본 설정은 view에서는 언제든지 사용하도록 load하여 Context setting
              **/
             $oPlanetModel = &getModel('planet');
-            Context::set('config',$this->config = $oPlanetModel->getPlanetConfig());
-            $this->module_info->layout_srl = $this->config->layout_srl;
+            $oModuleModel = &getModel('module');
+            Context::set('module_info',$this->module_info = $oPlanetModel->getPlanetConfig());
+            $this->module_info->layout_srl = $this->module_info->layout_srl;
 
             /**
              * 스킨이 없으면 플래닛 기본 설정의 스킨으로 설정
              **/
-            if(!$this->module_info->skin) $this->module_info->skin = $this->config->planet_default_skin;
+            if(!$this->module_info->skin) $this->module_info->skin = $this->module_info->planet_default_skin;
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             $this->setTemplatePath($template_path);
 
@@ -42,12 +42,9 @@
                 Context::set('act',$this->act = 'dispPlanetHome');
             }
 
-            $this->grant->access = $oPlanetModel->isAccessGranted();
-            $this->grant->create = $oPlanetModel->isCreateGranted();
-
             // 플래닛은 별도 레이아웃 동작하지 않도록 변경
             //Context::set('layout', 'none');
-            if(!Context::get('mid')) Context::set('mid', $this->config->mid, true);
+            if(!Context::get('mid')) Context::set('mid', $this->module_info->mid, true);
         }
 
         /**
@@ -73,8 +70,6 @@
          * @biref 플래닛 메인 페이지
          **/
         function dispPlanetHome() {
-            if(!$this->grant->access) return $this->dispPlanetMessage("msg_not_permitted");
-
             // 플래닛의 기본 단위인 날짜를 미리 계산 (지정된 일자의 이전/다음날도 미리 계산하여 세팅)
             $last_date = $this->planet->getContentLastDay();
             $date = Context::get('date');
@@ -87,10 +82,10 @@
             // 초기화면에서 tagtab이 나오기 위해 set type 한다  
             $type = Context::get('type');
             if(!$type){
-                if(is_array($this->config->tagtab) && $this->config->tagtab[0]){
+                if(is_array($this->module_info->tagtab) && $this->module_info->tagtab[0]){
                     $type = 'tagtab';
                     Context::set('type',$type);
-                    Context::set('tagtab',$this->config->tagtab[0]);
+                    Context::set('tagtab',$this->module_info->tagtab[0]);
                 }else{
                    $type = 'all';
                    Context::set('type',$type);
@@ -147,9 +142,9 @@
 
 
             // tagtab을 만든다
-            if(is_array($this->config->tagtab) && $this->config->tagtab[0]){
+            if(is_array($this->module_info->tagtab) && $this->module_info->tagtab[0]){
                 $tagtab_list = array();
-                foreach($this->config->tagtab as $key => $val){
+                foreach($this->module_info->tagtab as $key => $val){
                     $args->tag = $val;
                     $output = executeQuery('planet.getTotalTagSearchContents', $args);
                     $tagtab_list[$val] = $output->data->count;
@@ -158,9 +153,9 @@
             }
 
             // tagtab_after을 만든다
-            if(is_array($this->config->tagtab_after) && $this->config->tagtab_after[0]){
+            if(is_array($this->module_info->tagtab_after) && $this->module_info->tagtab_after[0]){
                 $tagtab_after_list = array();
-                foreach($this->config->tagtab_after as $key => $val){
+                foreach($this->module_info->tagtab_after as $key => $val){
                     $args->tag = $val;
                     $output = executeQuery('planet.getTotalTagSearchContents', $args);
                     $tagtab_after_list[$val] = $output->data->count;
@@ -176,8 +171,6 @@
          * @brief 개별 플래닛
          **/
         function dispPlanet(){
-            if(!$this->grant->access) return $this->dispPlanetMessage("msg_not_permitted");
-
             $oPlanetModel = &getModel('planet');
 
             // 글 고유 링크가 있으면 처리
@@ -206,6 +199,9 @@
                 case 'catch':
                         $output = $this->planet->getCatchContentList($page);
                     break;
+                case 'fishing':
+                        $output = $this->planet->getFishingContentList($page);
+                    break;
                 case 'interest':
                         $output = $this->planet->getInterestTagContentList($date, $page);
                     break;
@@ -231,6 +227,10 @@
             $output = executeQuery('planet.getCatchContentCount', $args);
             Context::set('total_catch', $output->data->count);
 
+            // 낚인 글 수
+            $output = executeQuery('planet.getFishingContentCount', $args);
+            Context::set('total_fishing', $output->data->count);
+
             // 플래닛의 메모 가져오기
             $memo_output = $oPlanetModel->getMemoList($this->module_srl);
             Context::set('memo_list', $memo_output->data);
@@ -251,8 +251,6 @@
          * @brief 즐겨찾기 보기
          **/
         function favorite() {
-            if(!$this->grant->access) return $this->dispPlanetMessage("msg_not_permitted");
-
             $oPlanetModel = &getModel('planet');
 
             // 개별 플래닛의 정보를 세팅
@@ -297,8 +295,6 @@
         }
 
         function dispPlanetContentTagSearch(){
-            if(!$this->grant->access) return $this->dispPlanetMessage("msg_not_permitted");
-
             $keyword = urldecode(Context::get('keyword'));
             $page = Context::get('page');
             if(!$this->planet->isHome()) $module_srl = $this->module_srl;
@@ -321,8 +317,6 @@
         }
 
         function dispPlanetContentSearch(){
-            if(!$this->grant->access) return $this->dispPlanetMessage("msg_not_permitted");
-
             $keyword = urldecode(Context::get('keyword'));
             $page = Context::get('page');
             if(!$this->planet->isHome()) $module_srl = $this->module_srl;
@@ -346,8 +340,6 @@
         }
 
         function dispPlanetTagSearch(){
-            if(!$this->grant->access) return $this->dispPlanetMessage("msg_not_permitted");
-
             $keyword = urldecode(Context::get('keyword'));
             $page = Context::get('page');
             if(!$this->planet->isHome()) $module_srl = $this->module_srl;

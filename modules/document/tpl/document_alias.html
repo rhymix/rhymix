@@ -1,0 +1,49 @@
+<!--#include("header.html")-->
+<!--%import("css/document.css")-->
+<!--%import("filter/insert_alias.xml")-->
+<!--%import("filter/delete_alias.xml")-->
+
+<form id="deleteForm" action="./" method="POST">
+<input type="hidden" id="target_srl" name="target_srl" value="" />
+</form>
+
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_alias)">
+<input type="hidden" name="document_srl" value="{$document_srl}" />
+<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
+
+<h4 class="xeAdmin">{$lang->alias}</h4>
+
+<table cellspacing="0" class="crossTable">
+<thead>
+<tr>
+    <th scope="col" class="half_wide"><div>{$lang->title}</div></th>
+    <th scope="col" class="half_wide"><div>{$lang->alias}</div></th>
+    <th scope="col"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
+    {@ $bFirst = true; }
+    <!--@foreach($aliases as $val)-->
+    <!--@if(!$bFirst)-->
+<tr>
+    {@ $bFirst = false; }
+    <!--@end-->
+    <td>{$val->alias_title}</td>
+    <td><a href="#" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);"><img src="images/buttonDeleteX.gif" alt="" /></a>
+    </td>
+</tr>
+    <!--@end-->
+    <!--@if(!$bFirst)-->
+<tr>
+    <!--@end-->
+    <td>
+    <input type="text" class="inputTypeText fixWidth" name="alias_title" />
+    </td>
+    <td><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></span></td>
+</tr>
+</tbody>
+</table>
+
+</form>

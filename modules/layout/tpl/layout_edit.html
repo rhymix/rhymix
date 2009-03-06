@@ -2,41 +2,118 @@
 <!--%import("filter/reset_layout_code.xml")-->
 
 <!--#include("header.html")-->
+<h3 class="xeAdmin">{$selected_layout->layout_title}</h3>
 
-<table cellspacing="0" class="adminTable">
-<caption>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</caption>
-<tbody>
-    <tr>
-        <td>{nl2br($lang->about_layout_code)}</td>
-    </tr>
-</tbody>
-</table>
+<div class="header4">
+    <ul class="localNavigation">
+        <li><a href="{getUrl('act','dispLayoutAdminModify')}">{$lang->cmd_layout_management}</a></li>
+        <li class="on"><a href="#" onclick="return false;">{$lang->cmd_layout_edit}</a></li>
+    </ul>
+</div>
 
-<table cellspacing="0" class="adminTable">
-<caption>{$lang->widget}</caption>
+<h4 class="xeAdmin">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</h4>
+<p class="summary">{nl2br($lang->about_layout_code)}</p>
+
+<h4 class="xeAdmin">{$lang->layout_image_repository}</h4>
+<p class="summary">{nl2br($lang->about_layout_image_repository)}</p>
+<form action="{Context::getRequestUri()}" target="hidden_iframe" method="post" onsubmit="return checkFile(this)" enctype="multipart/form-data">
+    <input type="hidden" name="module" value="layout" />
+    <input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
+    <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+
+    <table cellspacing="0" class="crossTable">
+    <tbody>
+        <tr>
+            <td>
+                <!--@foreach($layout_image_list as $no => $file)-->
+                {@$ext=substr(strrchr($file,'.'),1)}
+                <div class="preview_image" style="width:100px;height:100px;float:left; position:relative;margin-right:10px; ">
+                    <!--@if($ext=='swf'||$ext=='flv')-->
+                    <script type="text/javascript">//<![CDATA[
+                    displayMultimedia('{getUrl('')}{$layout_image_path}{$file}', '100%', '100%');
+                    //]]></script>
+                    <!--@elseif(in_array($ext,array('gif','png','jpg','jpeg')))-->
+                        <img src="{getUrl('')}{$layout_image_path}{$file}" width="100%" height="100%" />
+                    <!--@end-->
+                    <a href="#" onclick="deleteFile({$layout_srl},'{$file}');return false" onmouseover="jQuery('div.imagePath').html('{$layout_image_path}{$file}')" style="position:absolute; left:3px; top:3px;" class="small button red"><span>{$lang->cmd_delete}</span></a>
+                </div>
+                <!--@end-->
+                &nbsp;
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <div class="imagePath"></div>
+                <input name="user_layout_image" type="file" />
+                <span class="button black strong"><button type="submit">{$lang->cmd_save}</button></span>
+                {$lang->msg_layout_image_target}
+            </td>
+        </tr>
+    </tfoot>
+    </table>
+</form>
+
+
+<!--@if($selected_layout->type=='faceoff')-->
+<h4 class="xeAdmin">{$lang->layout_migration}</h4>
+<p class="summary">{nl2br($lang->about_layout_migration)}</p>
+<table cellspacing="0" class="rowTable">
 <tr>
+    <th scope="row"><div>{$lang->layout_export}</div></th>
     <td>
-        <!--@foreach($widget_list as $widget)-->
-        <a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
-        <!--@end-->
+        <a href="{getUrl('','act','procLayoutAdminUserLayoutExport','layout_srl',$layout_srl)}" class="button black strong"><span>{$lang->layout_btn_export}</span></a>
+        <p>{$lang->about_layout_export}</p>
+    </td>
+</tr>
+<tr>
+    <th scope="row"><div>{$lang->layout_import}</div></th>
+    <td>
+        <form action="{getUrl('')}" method="post" enctype="multipart/form-data" target="hidden_iframe">
+            <input type="hidden" name="module" value="layout" />
+            <input type="hidden" name="act" value="procLayoutAdminUserLayoutImport" />
+            <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+            <input type="file" name="file" />
+            <span class="button black strong"><button type="submit">{$lang->cmd_submit}</button></span>
+        </form>
+        <p>{$lang->about_layout_import}</p>
     </td>
 </tr>
 </table>
+<!--@end-->
 
-<div class="gap1">
-    <form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_code);">
-        <input type="hidden" name="layout_srl" value="{$layout_srl}" />
-        <input type="hidden" name="module" value="layout" />
-        <input type="hidden" name="act" value="" />
 
-        <div class="layout_editor_box">
-            <textarea name="code" class="layout_editor">{htmlspecialchars($layout_code)}</textarea>
-        </div>
+<form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_code);">
+<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+<input type="hidden" name="act" value="" />
 
-        <div class="tRight gap1">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+<table cellspacing="0" class="rowTable">
+<tbody>
+    <tr><th class="title">HTML</th></tr>
+    <tr>
+        <td>
+            <textarea name="code" style="width:100%;height:300px;font-size:11px;">{htmlspecialchars($layout_code)}</textarea>
+            <!--@foreach($widget_list as $widget)-->
+            <a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;" class="button"><span>{$widget->title}</span></a>
+            <!--@end-->
+        </td>
+    </tr>
+    <tr><th class="title">CSS</th></tr>
+    <tr>
+        <td>
+            <textarea name="code_css" style="width:100%;height:300px;font-size:11px;">{htmlspecialchars($layout_code_css)}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <th class="button">
+            <span class="button black strong"><button type="submit">{$lang->cmd_save}</button></span>
             <a href="#" onclick="doPreviewLayoutCode();return false"  class="button"><span>{$lang->cmd_preview}</span></a>
-            <a href="#"  onclick="doResetLayoutCode('{$layout_srl}');return false"  class="button"><span>{$lang->cmd_reset}</span></a>
-        </div>
-    </form>
-</div>
+            <a href="#" onclick="doResetLayoutCode('{$layout_srl}');return false"  class="button red"><span>{$lang->cmd_reset}</span></a>
+        </th>
+    </tr>
+</tbody>
+</table>
+</form>
+
+<iframe name="hidden_iframe" style="width:0;height:0;border:0" ></iframe>

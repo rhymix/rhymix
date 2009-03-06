@@ -1,0 +1,10 @@
+<filter name="insert_lang" module="module" act="procModuleAdminInsertLang" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="lang_code" required="true" filter="alpha_number"/>
+    </form>
+    <response callback_func="completeInsertLang">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="name" />
+    </response>
+</filter>

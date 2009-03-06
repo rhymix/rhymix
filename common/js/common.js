@@ -7,7 +7,20 @@
 /* jQuery 참조변수($) 제거 */
 if(jQuery) jQuery.noConflict();
 
-;(function($) {
+(function($) {
+    /* OS check */
+    var UA = navigator.userAgent.toLowerCase();
+    $.os = {
+        Linux: /linux/.test(UA),
+        Unix: /x11/.test(UA),
+        Mac: /mac/.test(UA),
+        Windows: /win/.test(UA)
+    };
+    $.os.name = ($.os.Windows) ? 'Windows' :
+        ($.os.Linux) ? 'Linux' :
+        ($.os.Unix) ? 'Unix' :
+        ($.os.Mac) ? 'Mac' : '';
+
     /**
      * @brief XE 공용 유틸리티 함수
      * @namespace XE
@@ -109,25 +122,22 @@ if(jQuery) jQuery.noConflict();
 
             /* 레이어 출력 */
             if(html) {
-                var area = jQuery("#popup_menu_area").html('<ul>'+html+'</ul>');
+                var area = $('#popup_menu_area').html('<ul>'+html+'</ul>');
                 var areaOffset = {top:params['page_y'], left:params['page_x']};
 
-                if(area.outerHeight()+areaOffset.top > jQuery(window).height()+jQuery(window).scrollTop())
-                    areaOffset.top = jQuery(window).height() - area.outerHeight() + jQuery(window).scrollTop();
-                if(area.outerWidth()+areaOffset.left > jQuery(window).width()+jQuery(window).scrollLeft())
-                    areaOffset.left = jQuery(window).width() - area.outerWidth() + jQuery(window).scrollLeft();
+                if(area.outerHeight()+areaOffset.top > $(window).height()+$(window).scrollTop())
+                    areaOffset.top = $(window).height() - area.outerHeight() + $(window).scrollTop();
+                if(area.outerWidth()+areaOffset.left > $(window).width()+$(window).scrollLeft())
+                    areaOffset.left = $(window).width() - area.outerWidth() + $(window).scrollLeft();
 
-                if($.browser.safari) {
-                    areaOffset.top -= 16;
-                    areaOffset.left -= 16;
-                }
-
-                area.css({ visibility:"visible", top:areaOffset.top, left:areaOffset.left });
+                area.css({ top:areaOffset.top, left:areaOffset.left }).show();
             }
         }
     }
 
 }) (jQuery);
+
+
 
 /* jQuery(document).ready() */
 jQuery(function($) {
@@ -135,23 +145,23 @@ jQuery(function($) {
     if(!$('#popup_menu_area').length) {
         var menuObj = $('<div>')
             .attr('id', 'popup_menu_area')
-            .css({visibility:'hidden', zIndex:9999});
+            .css({display:'none', zIndex:9999});
         $(document.body).append(menuObj);
     }
 
     $(document).click(function(evt) {
-        var area = jQuery("#popup_menu_area");
+        var area = $('#popup_menu_area');
         if(!area.length) return;
 
         // 이전에 호출되었을지 모르는 팝업메뉴 숨김
-        area.css('visibility', 'hidden');
+        area.hide();
 
         var targetObj = $(evt.target);
         if(!targetObj.length) return;
 
         // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
-        if(targetObj.length && jQuery.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) targetObj = targetObj.parent();
-        if(!targetObj.length || jQuery.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) return;
+        if(targetObj.length && $.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) targetObj = targetObj.parent();
+        if(!targetObj.length || $.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) return;
 
         // 객체의 className값을 구함
         var class_name = targetObj.attr('className');
@@ -238,38 +248,6 @@ jQuery(function($) {
         });
     }
 });
-
-/*
- * jQuery 1.2.6
- * Opera 브라우저에서 $(window).height() / width() 값을 잘못 가져오는 문제 수정
- * jQuery 1.3에서 수정되었음
- * @link http://dev.jquery.com/changeset/5938
- */
-if(jQuery.fn.jquery == '1.2.6') {
-    jQuery.each([ "Height", "Width" ], function(i, name){
-        var type = name.toLowerCase();
-
-        jQuery.fn[ type ] = function( size ) {
-            return this[0] == window ?
-                // Opera 브라우저에서 $(window).height() / width() 값을 잘못 가져오는 문제 수정
-                jQuery.browser.opera  && document.body.parentNode[ "client" + name ] ||
-
-                jQuery.browser.safari && window[ "inner" + name ] ||
-                document.compatMode == "CSS1Compat" && document.documentElement[ "client" + name ] || document.body[ "client" + name ] :
-
-                this[0] == document ?
-                    Math.max(
-                        Math.max(document.body["scroll" + name], document.documentElement["scroll" + name]),
-                        Math.max(document.body["offset" + name], document.documentElement["offset" + name])
-                    ) :
-
-                    size == undefined ?
-                        (this.length ? jQuery.css( this[0], type ) : null) :
-                        this.css( type, size.constructor == String ? size : size + "px" );
-        };
-    });
-}
-
 
 
 /**
@@ -454,6 +432,10 @@ function move_url(url, open_wnidow) {
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
 function displayMultimedia(src, width, height, options) {
+    var html = _displayMultimedia(src, width, height, options);
+    if(html) document.writeln(html);
+}
+function _displayMultimedia(src, width, height, options) {
     if(src.indexOf('files') == 0) src = request_uri + src;
 
     var defaults = {
@@ -472,7 +454,9 @@ function displayMultimedia(src, width, height, options) {
     var codebase = "";
     var html = "";
 
-    if(/\.swf$/i.test(src)) {
+    if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
+        html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
+    } else if(/\.swf$/i.test(src)) {
         clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
         codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
         html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
@@ -494,7 +478,7 @@ function displayMultimedia(src, width, height, options) {
         }
         html += '></embed>';
     }
-    document.writeln(html);
+    return html;
 }
 
 /**
@@ -516,37 +500,54 @@ function zbxe_folder_close(id) {
  * 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
+var _popupHeight = 0;
 function setFixedPopupSize() {
     var bodyObj = jQuery('#popBody');
 
     if(bodyObj.length) {
-        if(bodyObj.height() > 500) {
-            bodyObj.css({ overflowY:'scroll', overflowX:'hidden', height:500 });
+        if(bodyObj.height() > 400) {
+            bodyObj.css({ overflowY:'scroll', overflowX:'hidden', height:400 });
         }
     }
 
     var w = jQuery("#popup_content").width();
+    w = w< 400 ? 400 : w;
     var h = jQuery("#popup_content").height();
 
-    jQuery('div').each(function() {
-        var ww = jQuery(this).width();
-        if(jQuery.inArray(this.id, ['waitingforserverresponse', 'fororiginalimagearea', 'fororiginalimageareabg']) == -1) {
-            if(ww > w) w = ww;
+    if(h != _popupHeight)  {
+        _popupHeight = h;
+
+        jQuery('div').each(function() { var ww = jQuery(this).width(); if(jQuery.inArray(this.id, ['waitingforserverresponse', 'fororiginalimagearea', 'fororiginalimageareabg']) == -1) { if(ww > w) w = ww; } });
+        jQuery('table').each(function() { var ww = jQuery(this).width(); if(ww > w) w = ww; });
+        jQuery('form').each(function() { var ww = jQuery(this).width(); if(ww > w) w = ww; });
+
+        jQuery("#popup_content").width(w-4);
+        jQuery("#popHeader").width(w-4);
+        jQuery("#popFooter").width(w-4);
+
+        window.resizeTo(w, h);
+
+        // 윈도우 OS에서는 브라우저별로 미세 조절이 필요
+        var moreW = 0;
+        if(navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
+            if(jQuery.browser.opera) moreW += 9;
+            else if(jQuery.browser.msie) moreW += 10;
+            else if(jQuery.browser.mozilla) moreW += 8;
+            else if(jQuery.browser.safari) {
+                moreW += 4;
+                h -= 12;
+            }
         }
-    });
-
-    // 윈도우에서는 브라우저 상관없이 가로 픽셀이 조금 더 늘어나야 한다.
-    if(navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
-        if(jQuery.browser.opera) w += 10;
-        else if(jQuery.browser.msie) w += 10;
-        else w += 6;
+        var h1 = jQuery(window).height();
+        if(!/chrome/.test(navigator.userAgent.toLowerCase())) {
+            window.resizeBy(moreW, h-h1+5);
+        } else {
+            window.resizeBy(10,60);
+        }
+        window.scrollTo(0,0);
     }
-    window.resizeTo(w, h);
 
-    var h1 = jQuery(window).height();
-    window.resizeBy(0, h-h1);
-
-    window.scrollTo(0,0);
+    setTimeout(setFixedPopupSize, 300);
 }
 
 /**
@@ -584,7 +585,7 @@ function doChangeLangType(obj) {
 function setLangType(lang_type) {
     var expire = new Date();
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
-    xSetCookie('lang_type', lang_type, expire);
+    xSetCookie('lang_type', lang_type, expire, '/');
 }
 
 /* 미리보기 */
@@ -683,7 +684,7 @@ function callAddDocumentCart(document_length) {
     if(addedDocument.length<1 || document_length != addedDocument.length) return;
     var params = new Array();
     params["srls"] = addedDocument.join(",");
-    exec_xml("document","procDocumentAdminAddCart", params, null);
+    exec_xml("document","procDocumentAddCart", params, null);
     addedDocument = new Array();
 }
 

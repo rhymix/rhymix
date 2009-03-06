@@ -24,7 +24,7 @@
             $object_vars = get_object_vars($args);
             if(count($object_vars)) {
                 foreach($object_vars as $key => $val) {
-                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right'))) continue;
+                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right','document_srl'))) continue;
                     $args->{$key} = utf8RawUrlDecode($val);
                 }
             }
@@ -68,7 +68,7 @@
 
             // 캐시 파일을 갱신하여야 할 경우 lock파일을 만들고 캐시 생성
             $oWidget = WidgetHandler::getObject($widget);
-            if(!$oWidget) return;
+            if(!$oWidget || !method_exists($oWidget,'proc')) return;
 
             $widget_content = $oWidget->proc($args);
             FileHandler::writeFile($cache_file, $widget_content);
@@ -93,10 +93,11 @@
             $object_vars = get_object_vars($args);
             if(count($object_vars)) {
                 foreach($object_vars as $key => $val) {
-                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right'))) continue;
+                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right','widgetstyle','document_srl'))) continue;
                     $args->{$key} = utf8RawUrlDecode($val);
                 }
             }
+
 
             /**
              * 위젯이 widgetContent/ widgetBox가 아니라면 내용을 구함
@@ -122,11 +123,19 @@
             $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
             $oDocumentModel = &getModel('document');
+
+
             /**
              * 위젯 출력물을 구함
              **/
+
+            $widget_content_header = '';
+            $widget_content_body = '';
+            $widget_content_footer = '';
+
             // 일반 페이지 호출일 경우 지정된 스타일만 꾸면서 바로 return 함
             if(!$include_info) {
+                if($args->id) $args->id = ' id="'.$args->id.'" ';
                 switch($widget) {
                     // 내용 직접 추가일 경우 
                     case 'widgetContent' :
@@ -136,17 +145,23 @@
                             } else {
                                 $body = base64_decode($args->body);
                             }
-                            $output = sprintf('<div style="overflow:hidden;%s"><div style="%s">%s</div></div>', $style, $inner_style, $body);
+
+                            $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s"><div style="%s">', $args->id, $style,  $inner_style);
+                            $widget_content_body = $body;
+                            $widget_content_footer = '</div></div>';
+
                         break;
 
                     // 위젯 박스일 경우
                     case 'widgetBox' :
-                            $output = sprintf('<div style="overflow:hidden;%s;"><div style="%s"><div>', $style, $inner_style);
+                            $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
                         break;
 
                     // 일반 위젯일 경우
                     default :
-                            $output = sprintf('<div style="overflow:hidden;%s;"><div style="%s">%s</div></div>', $style, $inner_style, $widget_content);
+                            $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s">',$args->id,$style);
+                            $widget_content_body = sprintf('<div style="%s">%s</div>', $inner_style,$widget_content);
+                            $widget_content_footer = '</div>';
                         break;
                 }
 
@@ -161,37 +176,49 @@
                             } else {
                                 $body = base64_decode($args->body);
                             }
+
+                            // args 정리
+                            $attribute = array();
+                            if($args) {
+                                foreach($args as $key => $val) {
+                                    if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
+                                    if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
+                                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                                }
+                            }
+
                             $oWidgetController = &getController('widget');
 
-                            $output = sprintf(
-                                '<div class="widgetOutput" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d">'.
+                            $widget_content_header = sprintf(
+                                '<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
                                     '<div class="widgetResize"></div>'.
                                     '<div class="widgetResizeLeft"></div>'.
                                     '<div class="widgetBorder">'.
-                                        '<div style="%s">'.
-                                            '%s'.
-                                        '</div><div class="clear"></div>'.
-                                    '</div>'.
-                                    '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
-                                '</div>',
+                                        '<div style="%s">',$args->widgetstyle,
                                 $style,
                                 $args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
                                 $args->document_srl,
-                                $inner_style,
-                                $body,
-                                base64_encode($body)
-                            );
+                                implode(' ',$attribute),
+                                $inner_style);
+
+                            $widget_content_body = $body;
+                            $widget_content_footer = sprintf('</div><div class="clear"></div>'.
+                                    '</div>'.
+                                    '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
+                                '</div>',base64_encode($body));
+
                         break;
 
                     // 위젯 박스일 경우
                     case 'widgetBox' :
-                            $output = sprintf(
-                                '<div class="widgetOutput" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s">'.
+
+                            $widget_content_header = sprintf(
+                                '<div class="widgetOutput" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s">'.
                                     '<div class="widgetBoxResize"></div>'.
                                     '<div class="widgetBoxResizeLeft"></div>'.
-                                    '<div class="widgetBoxBorder">'.
-                                        '<div class="nullWidget" style="%s">', 
-                                    $style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, $inner_style);
+                                    '<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,$inner_style);
+
+
                         break;
 
                     // 일반 위젯일 경우
@@ -206,29 +233,31 @@
                                 }
                             }
 
-                            $output = sprintf(
-                                    '<div class="widgetOutput" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
+                            $widget_content_header = sprintf('<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
                                         '<div class="widgetResize"></div>'.
                                         '<div class="widgetResizeLeft"></div>'.
-                                        '<div class="widgetBorder">'.
-                                            '<div style="%s">'.
-                                                '%s'.
-                                            '</div><div class="clear"></div>'.
-                                        '</div>'.
-                                    '</div>', 
-                                    $style, 
+                                        '<div class="widgetBorder">',$args->widgetstyle,$style, 
                                     $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
-                                    $widget, implode(' ',$attribute), 
-                                    $inner_style, 
-                                    $widget_content
-                            );
+                                    $widget, implode(' ',$attribute));
+
+                            $widget_content_body = sprintf('<div style="%s">%s</div></div><div class="clear"></div>',$inner_style, $widget_content);
+
+                            $widget_content_footer = '</div>';
+
                         break;
                 }
             }
 
+
+            // 위젯 스타일을 컴파일 한다.
+            if($args->widgetstyle){
+                $widget_content_body = WidgetHandler::complieWidgetStyle($args->widgetstyle, $widget_content_body, $args);
+            }
+
+            $output = $widget_content_header . $widget_content_body . $widget_content_footer;
+
             // 위젯 결과물 생성 시간을 debug 정보에 추가
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
-
             // 결과 return
             return $output;
         }
@@ -263,5 +292,31 @@
             return $GLOBALS['_xe_loaded_widgets_'][$widget];
         }
 
+
+        function complieWidgetStyle($widgetStyle,$widget_content_body, $args){
+            if(!$widgetStyle) return $widget_content_body;
+
+            $oWidgetModel = &getModel('widget');
+
+            // 위젯 스타일의 extra_var를 가져와 묶는다
+            $widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
+            if(!$widgetstyle_info) return $widget_content_body;
+
+            $widgetstyle_extar_var_key = get_object_vars($widgetstyle_info);
+            if(count($widgetstyle_extar_var_key['extra_var'])){
+                foreach($widgetstyle_extar_var_key['extra_var'] as $key => $val){
+                    $widgetstyle_extar_var->{$key} =  $args->{$key};
+                }
+            }
+            Context::set('widgetstyle_extar_var', $widgetstyle_extar_var);
+            Context::set('widget_content', $widget_content_body);
+
+            // 컴파일
+            $widgetstyle_path = $oWidgetModel->getWidgetStylePath($widgetStyle);
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile($widgetstyle_path, 'widgetstyle');
+
+            return $tpl;
+        }
     }
 ?>

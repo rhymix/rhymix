@@ -25,9 +25,9 @@
         /**
          * @brief 애드온의 종류와 정보를 구함
          **/
-        function getAddonList() {
+        function getAddonList($site_srl = 0) {
             // activated된 애드온 목록을 구함
-            $inserted_addons = $this->getInsertedAddons();
+            $inserted_addons = $this->getInsertedAddons($site_srl);
 
             // 다운받은 애드온과 설치된 애드온의 목록을 구함
             $searched_list = FileHandler::readDir('./addons');
@@ -44,7 +44,7 @@
 
                 // 해당 애드온의 정보를 구함
                 unset($info);
-                $info = $this->getAddonInfoXml($addon_name);
+                $info = $this->getAddonInfoXml($addon_name, $site_srl);
 
                 $info->addon = $addon_name;
                 $info->path = $path;
@@ -54,7 +54,7 @@
                 if(!in_array($addon_name, array_keys($inserted_addons))) {
                     // DB에 입력되어 있지 않으면 입력 (model에서 이런짓 하는거 싫지만 귀찮아서.. ㅡ.ㅜ)
                     $oAddonAdminController = &getAdminController('addon');
-                    $oAddonAdminController->doInsert($addon_name);
+                    $oAddonAdminController->doInsert($addon_name, $site_srl);
 
                 // 활성화 되어 있는지 확인
                 } else {
@@ -69,7 +69,7 @@
         /**
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          **/
-        function getAddonInfoXml($addon) {
+        function getAddonInfoXml($addon, $site_srl = 0) {
             // 요청된 모듈의 경로를 구한다. 없으면 return
             $addon_path = $this->getAddonPath($addon);
             if(!$addon_path) return;
@@ -87,7 +87,11 @@
 
             // DB에 설정된 내역을 가져온다
             $db_args->addon = $addon;
-            $output = executeQuery('addon.getAddonInfo',$db_args);
+            if(!$site_srl) $output = executeQuery('addon.getAddonInfo',$db_args);
+            else {
+                $db_args->site_srl = $site_srl;
+                $output = executeQuery('addon.getSiteAddonInfo',$db_args);
+            }
             $extra_vals = unserialize($output->data->extra_vars);
 
             if($extra_vals->mid_list) {
@@ -266,9 +270,13 @@
         /**
          * @brief 활성화된 애드온 목록을 구해옴
          **/
-        function getInsertedAddons() {
+        function getInsertedAddons($site_srl = 0) {
             $args->list_order = 'addon';
-            $output = executeQuery('addon.getAddons', $args);
+            if(!$site_srl) $output = executeQuery('addon.getAddons', $args);
+            else {
+                $args->site_srl = $site_srl;
+                $output = executeQuery('addon.getSiteAddons', $args);
+            }
             if(!$output->data) return array();
             if(!is_array($output->data)) $output->data = array($output->data);
 
@@ -283,9 +291,13 @@
         /**
          * @brief 애드온이 활성화 되어 있는지 체크
          **/
-        function isActivatedAddon($addon) {
+        function isActivatedAddon($addon, $site_srl = 0) {
             $args->addon = $addon;
-            $output = executeQuery('addon.getAddonIsActivated', $args);
+            if(!$site_srl) $output = executeQuery('addon.getAddonIsActivated', $args);
+            else {
+                $args->site_srl = $site_srl;
+                $output = executeQuery('addon.getSiteAddonIsActivated', $args);
+            }
             if($output->data->count>0) return true;
             return false;
         }

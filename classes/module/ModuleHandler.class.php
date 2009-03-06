@@ -56,6 +56,8 @@
             if(!$module_srl) $this->module_srl = (int)Context::get('module_srl');
             else $this->module_srl = (int)$module_srl;
 
+            $this->entry = Context::get('entry');
+
             // 기본 변수들의 검사 (XSS방지를 위한 기초적 검사)
             if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));
             if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->mid)) die(Context::getLang("msg_invalid_request"));
@@ -63,7 +65,9 @@
 
             // 애드온 실행 (모듈 실행 전)
             $called_position = 'before_module_init';
-            @include(_XE_PATH_."files/cache/activated_addons.cache.php");
+            $oAddonController = &getController('addon');
+            $addon_file = $oAddonController->getCacheFilePath();
+            if(file_exists($addon_file)) @include($addon_file);
         }
 
         /**
@@ -74,42 +78,63 @@
             $oModuleModel = &getModel('module');
 
             $site_module_info = Context::get('site_module_info');
-            $site_srl = $site_module_info->site_srl;
 
-            // document_srl만 있을 경우 document_srl로 모듈과 모듈 정보를 구함
-            if($this->document_srl && !$this->mid && !$this->module_srl) {
+            if(!$this->document_srl && $this->mid && $this->entry) {
+                $oDocumentModel = &getModel('document');
+                $this->document_srl = $oDocumentModel->getDocumentSrlByAlias($this->mid, $this->entry);
+                if($this->document_srl) Context::set('document_srl', $this->document_srl);
+            }
+
+            // 문서번호(document_srl)가 있을 경우 모듈 정보를 구해옴
+            if($this->document_srl) {
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
+
+                // 문서가 존재하지 않으면 문서 정보를 제거
+                if(!$module_info) {
+                    unset($this->document_srl);
+                // 문서가 존재할 경우 모듈 정보를 바탕으로 virtual site 및 mid 비교
+                } else {
+                    // mid 값이 다르면 문서의 mid로 설정
+                    if($this->mid != $module_info->mid) {
+                        $this->mid = $module_info->mid;
+                        Context::set('mid', $module_info->mid, true);
+                    }
+                }
+                // 요청된 모듈과 문서 번호가 다르면 문서 번호에 의한 모듈 정보를 제거
                 if($this->module && $module_info->module != $this->module) unset($module_info);
             }
 
-            // 아직 모듈을 못 찾았고 $mid값이 있으면 $mid로 모듈을 구함
+            // 모듈정보를 구하지 못했고 mid 요청이 있으면 mid에 해당하는 모듈 정보를 구함
             if(!$module_info && $this->mid) {
-                $module_info = $oModuleModel->getModuleInfoByMid($this->mid, $site_srl);
+                $module_info = $oModuleModel->getModuleInfoByMid($this->mid, $site_module_info->site_srl);
                 if($this->module && $module_info->module != $this->module) unset($module_info);
             }
 
-            // 모듈정보와 사이트 모듈정보가 다르면(다른 사이트이면) 페이지 리다이렉트
-            if($module_info && $site_module_info && $module_info->site_srl != $site_module_info->site_srl) {
-                $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
-                $redirect_url = getSiteUrl($site_info->domain, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'));
-                header("location:".$redirect_url);
-                return false;
-            }
-
-            // 모듈을 여전히(;;) 못 찾고 $module_srl이 있으면 해당 모듈을 구함
-            if(!$module_info && $this->module_srl) {
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl);
-                if($this->module && $module_info->module != $this->module) unset($module_info);
-            }
+            // 모듈을 여전히(;;) 못 찾고 모듈번호(module_srl)가 있으면 해당 모듈을 구함
+            // module_srl로 대상 모듈을 찾는 것을 주석 처리함.
+            //if(!$module_info && $this->module_srl) {
+                //$module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl);
+                //if($this->module && $module_info->module != $this->module) unset($module_info);
+            //}
 
             // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
             if(!$module_info && !$this->module) $module_info = $site_module_info;
 
-            if($module_info && $site_module_info && $site_module_info->site_srl != $module_info->site_srl) {
-                unset($site_module_info);
-                $site_module_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+            // 모듈정보와 사이트 모듈정보가 다르면(다른 사이트이면) 페이지 리다이렉트
+            if($module_info && $module_info->site_srl != $site_module_info->site_srl) {
+                // 현재 요청된 모듈이 가상 사이트 모듈일 경우
+                if($module_info->site_srl) {
+                    $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+                    $redirect_url = getSiteUrl($site_info->domain, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
+                // 가상 사이트 모듈이 아닌데 가상 사이트에서 호출되었을 경우
+                } else {
+                    $db_info = Context::getDBInfo();
+                    if(!$db_info->default_url) return die("기본 URL이 정해지지 않아서 동작을 중지합니다");
+                    else $redirect_url = getSiteUrl($db_info->default_url, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
+                }
+                header("location:".$redirect_url);
+                return false;
             }
-            Context::set('site_module_info', $site_module_info);
 
             // 모듈 정보가 찾아졌을 경우 모듈 정보에서 기본 변수들을 구함, 모듈 정보에서 module 이름을 구해움
             if($module_info) {
@@ -117,6 +142,8 @@
                 $this->mid = $module_info->mid;
                 $this->module_info = $module_info;
                 Context::setBrowserTitle($module_info->browser_title);
+                $part_config= $oModuleModel->getModulePartConfig('layout',$module_info->layout_srl);
+                Context::addHtmlHeader($part_config->header_script);
             }
 
             // 모듈정보에 module과 mid를 강제로 지정
@@ -146,8 +173,14 @@
          * @brief 모듈과 관련된 정보를 이용하여 객체를 구하고 act 실행까지 진행시킴
          **/
         function procModule() {
-            // 에러가 있으면 return
-            if($this->error) return;
+            // 에러가 있으면 메세지 객체를 만들어서 return
+            if($this->error) {
+                $oMessageView = &getView('message');
+                $oMessageView->setError(-1);
+                $oMessageView->setMessage($this->error);
+                $oMessageView->dispMessage();
+                return $oMessageView;
+            }
 
             // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
@@ -169,9 +202,8 @@
                 return;
             }
 
-            // type, grant 값 구함
+            // type, kind 값 구함
             $type = $xml_info->action->{$this->act}->type;
-            $grant = $xml_info->action->{$this->act}->grant;
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 
@@ -209,8 +241,8 @@
                 $this->error = 'msg_dbconnect_failed';
             }
 
-            // XMLRPC call 이 아니면 message view 객체 이용하도록
-            if(Context::getRequestMethod() != 'XMLRPC' && Context::getRequestMethod() != 'JSON') {
+            // HTML call 이면 message view 객체 이용하도록
+            if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
                 // 에러가 발생하였을시 처리
                 if($this->error) {
                     // message 모듈 객체를 생성해서 컨텐츠 생성
@@ -236,16 +268,18 @@
                     // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
                     $oLayoutModel = &getModel('layout');
                     $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
-
                     if($layout_info) {
 
                         // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
                         if($layout_info->extra_var_count) {
+
                             foreach($layout_info->extra_var as $var_id => $val) {
+                                if($val->type == 'image') {
+                                    if(preg_match('/^\.\/files\/attach\/images\/(.+)/i',$val->value)) $val->value = Context::getRequestUri().substr($val->value,2);
+                                }
                                 $layout_info->{$var_id} = $val->value;
                             }
                         }
-                        
                         // 레이아웃 정보중 menu를 Context::set
                         if($layout_info->menu_count) {
                             foreach($layout_info->menu as $menu_id => $menu) {
@@ -254,9 +288,6 @@
                             }
                         }
 
-                        // 레이아웃 정보중 header_script가 있으면 헤더 추가
-                        if($layout_info->header_script) Context::addHtmlHeader($layout_info->header_script);
-
                         // 레이아웃 정보를 Context::set
                         Context::set('layout_info', $layout_info);
 
@@ -264,7 +295,9 @@
                         $oModule->setLayoutFile('layout');
 
                         // 레이아웃이 수정되었을 경우 수정본을 지정
-                        $edited_layout = sprintf('./files/cache/layout/%d.html', $layout_info->layout_srl);
+                        $edited_layout = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
+//                        $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_info->layout_srl);
+//                        Context::addCSSFile($edited_layout_css);
                         if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                     }
                 }
@@ -379,8 +412,6 @@
 
             if(__DEBUG__==3) $GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
 
-            // init method가 있으면 실행
-
             // 객체 리턴
             return $GLOBALS['_loaded_module'][$module][$type][$kind];
         }
@@ -393,20 +424,7 @@
             if(!Context::isInstalled()) return new Object();
 
             $oModuleModel = &getModel('module');
-
-            $cache_dir = sprintf("%sfiles/cache/triggers/",_XE_PATH_);
-            if(!is_dir($cache_dir)) FileHandler::makeDir($cache_dir);
-
-            $cache_file = sprintf("%s%s.%s", $cache_dir, $trigger_name, $called_position);
-
-            if(!@file_exists($cache_file)) {
-                $triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
-                FileHandler::writeFile($cache_file, serialize($triggers));
-            } else {
-                $buff = FileHandler::readFile($cache_file);
-                $triggers = unserialize($buff);
-            }
-
+            $triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
             if(!$triggers || !count($triggers)) return new Object();
 
             foreach($triggers as $item) {
@@ -420,6 +438,7 @@
 
                 $output = $oModule->{$called_method}($obj);
                 if(!$output->toBool()) return $output;
+                unset($oModule);
             }
 
             return new Object();

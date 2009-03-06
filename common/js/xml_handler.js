@@ -26,6 +26,14 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 
 // 결과 처리 후 callback_func에 넘겨줌
 function xml_response_filter(oXml, callback_func, response_tags, callback_func_arg, fo_obj) {
+    var text = oXml.getResponseText();
+    if(text && !/^<response>/i.test(text)) {
+        var waiting_obj = xGetElementById("waitingforserverresponse");
+        if(waiting_obj) waiting_obj.style.visibility = "hidden";
+        alert(text);
+        return null;
+    }
+
     var xmlDoc = oXml.getResponseXml();
     if(!xmlDoc) return null;
 
@@ -64,6 +72,7 @@ function xml_handler() {
     this.setPath = xml_handlerSetPath;
     this.addParam = xml_handlerAddParam;
     this.getResponseXml = xml_handlerGetResponseXML;
+    this.getResponseText = xml_handlerGetResponseText;
     this.toZMsgObject = xml_handlerToZMsgObject;
     this.parseXMLDoc = xml_parseXmlDoc;
 
@@ -160,6 +169,13 @@ function xml_handlerGetResponseXML() {
     return null;
 }
 
+function xml_handlerGetResponseText() {
+    if(this.objXmlHttp && this.objXmlHttp.readyState == 4 && isDef(this.objXmlHttp.responseText)) {
+        return this.objXmlHttp.responseText;
+    }
+    return null;
+}
+
 
 function xml_parseXmlDoc(dom) {
 
@@ -216,6 +232,17 @@ function xml_handlerToZMsgObject(xmlDoc, tags) {
     tags[tags.length] = "act";
 
     var parsed_array = this.parseXMLDoc(xmlDoc.getElementsByTagName('response')[0]);
+
+    if(typeof(parsed_array)=='undefined') {
+        var ret = new Array();
+        ret['error'] = -1;
+        ret['message'] = "Unexpected error occured.";
+        try{
+            if(typeof(xmlDoc.childNodes[0].firstChild.data)!='undefined') ret['message']+="\r\n"+xmlDoc.childNodes[0].firstChild.data;
+        } catch(e) {
+        }
+        return ret;
+    }
 
     var obj_ret = new Array();
     for(var i=0; i<tags.length; i++) {
@@ -417,7 +444,7 @@ $.exec_json = function(action,data,func){
     }
 };
 
-$.fn.exec_html = function(action,data,type){
+$.fn.exec_html = function(action,data,type,func,args){
     if(typeof(data) == 'undefined') data = {};
     if(!$.inArray(type, ['html','append','prepend'])) type = 'html';
 
@@ -437,6 +464,7 @@ $.fn.exec_html = function(action,data,type){
             ,success : function(html){
                 $("#waitingforserverresponse").css('visibility','hidden');
                 self[type](html);
+                if($.isFunction(func)) func(args);
             }
         });
     }

@@ -83,7 +83,19 @@
          **/
         function procMemberAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('webmaster_name','webmaster_email','skin','colorset','enable_openid','enable_join','enable_confirm','limit_day','after_login_url','after_logout_url','redirect_url','agreement','profile_image','profile_image_max_width','profile_image_max_height','image_name','image_mark', 'image_name_max_width', 'image_name_max_height','image_mark_max_width','image_mark_max_height','signature_max_height','editor_skin','editor_colorset');
+            $args = Context::gets(
+                'webmaster_name', 'webmaster_email',
+                'skin', 'colorset',
+                'editor_skin', 'editor_colorset',
+                'enable_openid', 'enable_join', 'enable_confirm', 'limit_day',
+                'after_login_url', 'after_logout_url', 'redirect_url', 'agreement',
+                'profile_image', 'profile_image_max_width', 'profile_image_max_height',
+                'image_name', 'image_name_max_width', 'image_name_max_height',
+                'image_mark', 'image_mark_max_width', 'image_mark_max_height',
+                'group_image_mark', 'group_image_mark_max_width', 'group_image_mark_max_height',
+                'signature_max_height'
+            );
+
             if(!$args->skin) $args->skin = "default";
             if(!$args->colorset) $args->colorset = "white";
             if(!$args->editor_skin) $args->editor_skin= "default";
@@ -93,6 +105,7 @@
             if($args->profile_image !='Y') $args->profile_image = 'N';
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
+            if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
             if(!trim(strip_tags($args->agreement))) $args->agreement = null;
             $args->limit_day = (int)$args->limit_day;
 
@@ -106,7 +119,7 @@
          * @brief 사용자 그룹 추가
          **/
         function procMemberAdminInsertGroup() {
-            $args = Context::gets('title','description','is_default');
+            $args = Context::gets('title','description','is_default','image_mark');
             $output = $this->insertGroup($args);
             if(!$output->toBool()) return $output;
 
@@ -129,7 +142,7 @@
                         $msg_code = 'success_deleted';
                     break;
                 case 'update' :
-                        $args = Context::gets('group_srl','title','description','is_default');
+                        $args = Context::gets('group_srl','title','description','is_default','image_mark');
                         $args->site_srl = 0;
                         $output = $this->updateGroup($args);
                         if(!$output->toBool()) return $output;
@@ -385,6 +398,17 @@
 
             $args->group_srl = $group_srl;
             return executeQuery('member.deleteGroup', $args);
+        }
+
+
+        function procMemberAdminGroupImageMarkUpdateOrder() {
+            $oModuleModel = &getModel('module');
+            $oModuleControll = getController('module');
+
+            $config = $oModuleModel->getModuleConfig('member');
+            $config->group_image_mark_order = Context::get('group_image_mark_order');
+
+            $oModuleControll->insertModuleConfig('member', $config);
         }
 
         /**

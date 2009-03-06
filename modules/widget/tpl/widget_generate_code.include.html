@@ -1,123 +1,183 @@
-        <table cellspacing="0" class="adminTable">
-        <caption>{nl2br($_caption)}</caption>
-        <tr>
-            <th scope="row"><div>{$lang->widget}</div></th>
-            <td>
-<select name="selected_widget">
-    <!--@foreach($widget_list as $widget)-->
-    <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget_info->version}</option>
-    <!--@end-->
-</select>
-<a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_select}</span></a>
-
-
-                <!--@if($widget_info->author->description)-->
-                <div class="widget_description">{nl2br(trim($widget_info->author->description))}</div>
-                <!--@end-->
-            </td>
-        </tr>
-        <!--@if(count($skin_list))-->
-        <tr>
-            <th scope="row"><div>{$lang->skin}</div></th>
-            <td>
-                <select name="skin" id="widget_skin">
-                    <option value="">&nbsp;</option>
-                <!--@foreach($skin_list as $key => $val)-->
-                    <option value="{$key}">{$val->title} ({$key})</option>
-                <!--@end-->
-                </select>
+<p class="summary">{nl2br($_caption)}</p>
+<table cellspacing="0" class="rowTable">
+<tr>
+    <th scope="row"><div>{$lang->widget}</div></th>
+    <td>
+        <select name="selected_widget" class="fullWidth">
+        <!--@foreach($widget_list as $widget)-->
+        <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget_info->version}</option>
+        <!--@end-->
+        </select>
+        <a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_select}</span></a>
+        <!--@if($widget_info->author->description)-->
+        <div class="widget_description">{nl2br(trim($widget_info->author->description))}</div>
+        <!--@end-->
+    </td>
+</tr>
+<!--@if(count($skin_list))-->
+<tr>
+    <th scope="row"><div>{$lang->skin}</div></th>
+    <td>
+        <select name="skin" id="widget_skin" class="fullWidth">
+            <option value="">&nbsp;</option>
+        <!--@foreach($skin_list as $key => $val)-->
+            <option value="{$key}">{$val->title} ({$key})</option>
+        <!--@end-->
+        </select>
 <a href="#" class="button small" onclick="doDisplaySkinColorset(jQuery('#widget_skin').get(0))"><span>{$lang->cmd_select}</span></a>
-                <div id="colorset_area" style="display:none">
-                    <div class="header">{$lang->colorset}</div>
-                    <div class="footer">
-                        <select name="colorset" id="widget_colorset">
-                        </select>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <!--@end-->
-        <tr>
-            <th scope="row"><div>{$lang->widget_cache}</div></th>
-            <td>
-                <input type="text" name="widget_cache" value="0" class="inputTypeText" size="2" />{$lang->unit_min}
-                <p>{$lang->about_widget_cache}</p>
-            </td>
-        </tr>
-        <!--@foreach($widget_info->extra_var as $id => $var)-->
-
-        <!--@if($var->group && ((!$group) || $group != $var->group))-->
-        {@$group = $var->group}
-        </table>
-        <table cellspacing="0" class="adminTable">
-        <caption>{$group}</caption>
-        <!--@end-->
-
-        <tr class="row{$cycle_idx}">
-            <th scope="row">
-                <div>
-                    {$var->name}
-                    <!--@if($var->type == "mid_list")-->
-                        <input type="checkbox" onclick="XE.checkboxToggleAll('{$id}'); return false;" />
-                    <!--@end-->
-                </div>
-            </th>
-            <td>
-                <!--@if($var->type == "text")-->
-                <input type="text" name="{$id}" value="" class="inputTypeText w400" />
-
-                <!--@elseif($var->type == "textarea")-->
-                <textarea name="{$id}" class="inputTypeTextArea w400"></textarea>
-
-                <!--@elseif($var->type == "select")-->
-                <select name="{$id}">
-                    <!--@foreach($var->options as $key => $val)-->
-                    <option value="{$key}">{$val}</option>
-                    <!--@end-->
+        <div id="colorset_area" style="display:none">
+            <div class="header">{$lang->colorset}</div>
+            <div class="footer">
+                <select name="colorset" id="widget_colorset">
                 </select>
+            </div>
+        </div>
+    </td>
+</tr>
+<!--@end-->
+<tr>
+    <th scope="row"><div>{$lang->widget_cache}</div></th>
+    <td>
+        <input type="text" name="widget_cache" value="0" class="inputTypeText" size="2" />{$lang->unit_min}
+        <p>{$lang->about_widget_cache}</p>
+    </td>
+</tr>
+<!--@foreach($widget_info->extra_var as $id => $var)-->
 
-                <!--@elseif($var->type == "mid_list")-->
+<!--@if($var->group && ((!$group) || $group != $var->group))-->
+{@$group = $var->group}
+</table>
 
-                    <!--@foreach($mid_list as $module_category_srl => $modules)-->
-                        <!--@if($modules->title)-->
-                            <div class="widget_title">{$modules->title}</div>
-                        <!--@else-->
-                            <div class="widget_title">{$lang->none_category}</div>
-                        <!--@end-->
 
-                        <!--@foreach($modules->list as $key => $val)-->
-                            <div class="widget_mid_list">
-                                <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
-                                <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-                            </div>
-                        <!--@end-->
-                    <!--@end-->
+<h3 class="xeAdmin">{$group}</h3>
+<table cellspacing="0" class="rowTable">
+<!--@end-->
+<tr class="row{$cycle_idx}">
+    <th scope="row">
+        <div>
+            {$var->name}
+            <!--@if($var->type == "mid_list")-->
+                <input type="checkbox" onclick="XE.checkboxToggleAll('{$id}'); return false;" />
+            <!--@end-->
+        </div>
+    </th>
+    <td>
+        <!--@if($var->type == "text")-->
+        <input type="text" name="{$id}" value="" class="inputTypeText fullWidth" />
 
-                <!--@elseif($var->type == "module_srl_list")-->
-                    <input type="hidden" name="{$id}" id="{$id}" value="" />
-                    <select name="_{$id}" id="_{$id}" size="8" class="w300 fl"></select>
-                    <ul class="midCommand">
-                        <li><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id',$id)}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a></li>
-                        <li><a href="#" onclick="midMoveUp('{$id}');return false;" class="button black"><span>{$lang->cmd_move_up}</span></a></li>
-                        <li><a href="#" onclick="midMoveDown('{$id}');return false;" class="button black"><span>{$lang->cmd_move_down}</span></a></li>
-                        <li><a href="#" onclick="midRemove('{$id}');return false;" class="button red"><span>{$lang->cmd_delete}</span></a></li>
-                    </ul>
-                    <script type="text/javascript">
-                        if(typeof(getModuleSrlList)!=='undefined') {
-                            doAddWindowLoadEventLoader( function() { getModuleSrlList('{$id}'); } );
-                        }
-                    </script>
-                <!--@elseif($var->type == "mid")-->
-                    <input type="hidden" name="{$id}" id="{$id}" value="" />
-                    <input type="text" name="_{$id}" id="_{$id}" value="" class="inputTypeText w300" readonly="readonly"/><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id',$id,'type','single')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_select}</span></a>
-                    <script type="text/javascript">
-                        if(typeof(getModuleSrlList)!=='undefined') {
-                            doAddWindowLoadEventLoader( function() { getModuleSrl('{$id}'); });
-                        }
-                    </script>
+        <!--@elseif($var->type == "textarea")-->
+        <textarea name="{$id}" class="inputTypeTextArea fullWidth"></textarea>
+
+        <!--@elseif($var->type == "select")-->
+        <select name="{$id}">
+            <!--@foreach($var->options as $key => $val)-->
+            <option value="{$key}">{$val}</option>
+            <!--@end-->
+        </select>
+
+
+
+        <!--@elseif($var->type == "select-multi-order")-->
+        <input type="hidden" name="{$id}" value="" />
+        <input type="hidden" name="default_{$id}" value="" />
+        <input type="hidden" name="init_{$id}" value="" />
+
+        <div style="float:left;margin-left:30px;">
+            <select name="show_{$id}" size="8" class="w100">
+                <!--@foreach($var->options as $key => $val)-->
+                <option value="{$key}">{$key}</option>
                 <!--@end-->
-                <p class="clear">{nl2br($var->description)}</p>
-            </td>
-        </tr>
+            </select>
+        </div>
+        <div style="float:left;margin-left:30px;">
+            <a class="buttonSet buttonRight" onclick="MultiOrderAdd('{$id}'); return false;" href="#"></a>
+            <br/><br/>
+            <a class="buttonSet buttonLeft" onclick="MultiOrderDelete('{$id}'); return false;" href="#"></a>
+            <br/><br/>
+            <a class="buttonSet buttonUp" onclick="MultiOrderUp('{$id}'); return false;" href="#"></a>
+            <br/><br/>
+            <a class="buttonSet buttonDown" onclick="MultiOrderDown('{$id}'); return false;" href="#"></a>
+        </div>
+
+
+        <div style="float:left;margin-left:30px;">
+            <select name="selected_{$id}" name="selected_{$id}" size="8" class="w100">
+            </select>
+        </div>
+
+
+        <script type="text/javascript">
+            <!--@foreach($var->options as $key => $val)-->
+                <!--@if($var->default_options[$key] == true)-->
+                    jQuery("[name='default_{$id}']").get(0).value += '{$key},';
+                <!--@end-->
+
+                <!--@if($var->init_options[$key] == true)-->
+                    jQuery("[name='init_{$id}']").get(0).value += ','+'{$key}';
+                <!--@end-->
+
+            <!--@end-->
+
+            if(typeof(initMultiOrder)!=='undefined') {
+                doAddWindowLoadEventLoader( function() { initMultiOrder('{$id}'); } );
+            }
+//            MultiOrderSet('{$id}');
+        </script>
+        <!--@elseif($var->type == "mid_list")-->
+
+            <!--@foreach($mid_list as $module_category_srl => $modules)-->
+                <!--@if($modules->title)-->
+                    <div class="widget_title">{$modules->title}</div>
+                <!--@else-->
+                    <div class="widget_title">{$lang->none_category}</div>
+                <!--@end-->
+
+                <!--@foreach($modules->list as $key => $val)-->
+                    <div class="widget_mid_list">
+                        <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
+                        <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                    </div>
+                <!--@end-->
+            <!--@end-->
+        <!--@elseif($var->type == "member_group")-->
+
+            <!--@foreach($group_list as $key => $val)-->
+                <input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" />
+                <label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
+            <!--@end-->
+
+        <!--@elseif($var->type == "module_srl_list")-->
+            <input type="hidden" name="{$id}" id="{$id}" value="" />
+            <select name="_{$id}" id="_{$id}" size="8" class="w300 fl"></select>
+            <ul class="midCommand">
+                <li><a href="{getUrl('','module','module','act','dispModuleSelectList','id',$id)}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a></li>
+                <li><a href="#" onclick="midMoveUp('{$id}');return false;" class="button black"><span>{$lang->cmd_move_up}</span></a></li>
+                <li><a href="#" onclick="midMoveDown('{$id}');return false;" class="button black"><span>{$lang->cmd_move_down}</span></a></li>
+                <li><a href="#" onclick="midRemove('{$id}');return false;" class="button red"><span>{$lang->cmd_delete}</span></a></li>
+            </ul>
+            <script type="text/javascript">
+                if(typeof(getModuleSrlList)!=='undefined') {
+                    doAddWindowLoadEventLoader( function() { getModuleSrlList('{$id}'); } );
+                }
+            </script>
+        <!--@elseif($var->type == "mid")-->
+            <input type="hidden" name="{$id}" id="{$id}" value="" />
+            <input type="text" name="_{$id}" id="_{$id}" value="" class="inputTypeText w300" readonly="readonly"/><a href="{getUrl('','module','module','act','dispModuleSelectList','id',$id,'type','single')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_select}</span></a>
+            <script type="text/javascript">
+                if(typeof(getModuleSrlList)!=='undefined') {
+                    doAddWindowLoadEventLoader( function() { getModuleSrl('{$id}'); });
+                }
+            </script>
+        <!--@elseif($var->type == "menu")-->
+            <select name="{$id}" class="w300 fl">
+                <option value="">-</option>
+                <!--@foreach($menu_list as $key => $val)-->
+                <option value="{$val->menu_srl}">{$val->title}</option>
+                <!--@end-->
+            </select>
         <!--@end-->
-        </table>
+        <p class="clear">{nl2br($var->description)}</p>
+    </td>
+</tr>
+<!--@end-->
+</table>

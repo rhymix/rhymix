@@ -61,7 +61,7 @@
          * @brief 등록된 금지 Word 의 목록을 return
          **/
         function getDeniedWordList() {
-            $args->sort_index = "regdate";
+            $args->sort_index = "hit";
             $output = executeQuery('spamfilter.getDeniedWordList', $args);
             if(!$output->data) return;
             if(!is_array($output->data)) return array($output->data);
@@ -78,7 +78,11 @@
             $count = count($word_list);
             for($i=0;$i<$count;$i++) {
                 $word = $word_list[$i]->word;
-                if(preg_match('/'.preg_quote($word,'/').'/is', $text)) return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
+                if(preg_match('/'.preg_quote($word,'/').'/is', $text)) {
+                    $args->word = $word;
+                    $output = executeQuery('spamfilter.updateDeniedWordHit', $args);
+                    return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
+                }
             }
 
             return new Object();

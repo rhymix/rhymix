@@ -13,13 +13,21 @@
     $lang->msg_no_keyword = "Please input keyword to search";
 
     $lang->is_result_text = "There are <strong>%d</strong> result(s) for <strong>'%s'</strong>";
+    $lang->multimedia = "Images/ Movies";
 
     $lang->is_search_option = array(
-        'title' => 'Subject',
-        'content' => 'Content',
-        'title_content' => 'Subject+Content',
-        'comment' => 'Comment',
-        'tag' => 'Tags',
+        'document' => array(
+            'title_content' => 'Subject+Content',
+            'title' => 'Subject',
+            'content' => 'Content',
+            'tag' => 'Tags',
+        ),
+        'trackback' => array(
+            'url' => 'Target URL',
+            'blog_name' => 'Target Site Name',
+            'title' => 'Title',
+            'excerpt' => 'Excerpt',
+        ),
     );
 
     $lang->is_sort_option = array(

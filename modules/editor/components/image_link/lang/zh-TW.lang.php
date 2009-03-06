@@ -2,7 +2,7 @@
     /**
      * @file   /modules/editor/components/image_link/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  網頁編輯器(editor) 模組 > 圖片連結(image_link) 組件的語言
+     * @brief  網頁編輯器(editor)模組 > 圖片連結(image_link)組件語言
      **/
 
     $lang->image_url = "圖片路徑";
@@ -15,7 +15,7 @@
     $lang->image_align_right = "靠右";
     $lang->image_border = "邊框粗細";
     $lang->urllink_url = "網址";
-    $lang->image_margin = 'Image Margin';
+    $lang->image_margin = '圖片邊距';
 
     $lang->about_url_link_open_window = "開啟連結於新視窗。";
     $lang->cmd_get_scale = "取得圖片大小";

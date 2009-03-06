@@ -1,8 +1,8 @@
 <!--%import("filter/manage_checked_issue.xml")-->
 <!--%import("js/issue_admin.js")-->
 <!--%import("css/issuetracker.css")-->
-<div id="popHeadder">
-    <h3>{$lang->cmd_manage_document}</h3>
+<div id="popHeader">
+    <h3 class="xeAdmin">{$lang->cmd_manage_document}</h3>
 </div>
 
 <form action="./" method="get" id="fo_management">
@@ -10,7 +10,7 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
 <div id="popBody">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div><label for="textfield1">{$lang->checked_count} ({count($document_list)})</label></div></th>
         <td colspan="3">
@@ -71,14 +71,10 @@
     </table>
 </div>
 
+<!--@if(count($document_list))-->
 <div id="popFooter">
-    <div class="tRight gap1">
-        <!--@if(count($document_list))-->
-
-        <a href="#" onclick="doManageIssue();return false;" class="button blue"><span>{$lang->cmd_modify}</span></a>
-        <!--@end-->
-        <a href="#" onclick="window.close(); return false;" class="button black"><span>{$lang->cmd_close}</span></a>
-    </div>
+    <a href="#" onclick="doManageIssue();return false;" class="button black strong"><span>{$lang->cmd_modify}</span></a>
 </div>
+<!--@end-->
 
 </form>

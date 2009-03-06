@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   modules/spamfilter/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
-     * @brief  简体中文语言包（只收录基本内容）
+     * @author zero <zero@nzeo.com>　翻译：guny
+     * @brief  垃圾过滤简体中文语言包
      **/
 
     // action 相关
@@ -16,6 +16,8 @@
     $lang->limit_count = "限制数";
     $lang->check_trackback = "检查引用";
     $lang->word = "单词";
+    $lang->hit = '点击';
+    $lang->latest_hit = '最后点击';
 
     // 说明文
     $lang->about_interval = "指定的时间内禁止发表新主题。";

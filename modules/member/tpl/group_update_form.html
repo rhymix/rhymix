@@ -1,5 +1,6 @@
 <!--#include("header.html")-->
 <!--%import("filter/update_group.xml")-->
+<!--%load_js_plugin("filebox")-->
 
 <!-- 그룹 수정 -->
 <!--@if($selected_group)-->
@@ -7,7 +8,7 @@
 <input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
 <input type="hidden" name="mode" value="update" />
 <!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->group_title}</div></th>
         <td class="left"><input type="text" name="title" class="inputTypeText w400" value="{$selected_group->title}"/></td>
@@ -22,13 +23,23 @@
         <th scope="row"><div>{$lang->description}</div></th>
         <td class="left"><textarea name="description" class="inputTypeTextArea w400">{$selected_group->description}</textarea></td>
     </tr>
-    <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
+    <tr>
+        <th scope="row"><div>{$lang->group_image_mark}</div></th>
+        <td class="left">
+            <div id="filebox_preview_image_mark" style="width:{$config->group_image_mark_max_width}px;height:{$config->group_image_mark_max_height}px;<!--@if(!$selected_group->image_mark)-->display:none<!--@endif-->"></div>
+            <input type="hidden" name="image_mark" value="{$selected_group->image_mark}" />
+            <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name=image_mark]').get(0), 'jpg,jpeg,gif,png')">{$lang->cmd_select}</button></span>
+            <span id="filebox_cancel_image_mark" class="button red"<!--@if(!$selected_group->image_mark)--> style="display:none" <!--@endif-->><button type="button" onclick="XE.filebox.cancel('image_mark')">{$lang->cmd_delete}</button></span>
+            <script type="text/javascript">//<![CDATA[
+                XE.filebox.init('image_mark');
+            //]]></script>
         </td>
     </tr>
+    <tr class="row2">
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
+        </th>
+    </tr>
     </table>
-
 </form>
 <!--@end-->
-

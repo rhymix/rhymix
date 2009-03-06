@@ -13,13 +13,21 @@
     $lang->msg_no_keyword = "Entrez le mot de clé à rechercher, S.V.P.";
 
     $lang->is_result_text = "Il y a <strong>%d</strong> résultat(s) pour <strong>'%s'</strong>";
+    $lang->multimedia = "Images/ Movies";
 
     $lang->is_search_option = array(
-        'title' => 'Titre',
-        'content' => 'Contenu',
-        'title_content' => 'Titre+Contenu',
-        'comment' => 'Commentaire',
-        'tag' => 'Balise',
+        'document' => array(
+            'title_content' => 'Titre+Contenu',
+            'title' => 'Titre',
+            'content' => 'Contenu',
+            'tag' => 'Balise',
+        ),
+        'trackback' => array(
+            'url' => 'URL objectif',
+            'blog_name' => 'Nom du Site objectif',
+            'title' => 'Titre',
+            'excerpt' => 'Contenu',
+        ),
     );
 
     $lang->is_sort_option = array(

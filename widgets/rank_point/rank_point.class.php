@@ -21,24 +21,6 @@
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
 
-            //그룹 정보를 구해옴 (그룹 포함)
-            $tmp_groups = explode(",",$args->with_group);
-            $count = count($tmp_groups);
-            for($i = 0; $i < $count; $i++) {
-                $group_name = trim($tmp_groups[$i]);
-                if(!$group_name) continue;
-                $target_group[$i] = $group_name;
-            }
-
-            //그룹 정보를 구해옴 (그룹 제외)
-            $tmp_groups = explode(",",$args->without_group);
-            $count = count($tmp_groups);
-            for($i = 0; $i < $count; $i++) {
-                $group_name = trim($tmp_groups[$i]);
-                if(!$group_name) continue;
-                $target_group_without[$i] = $group_name;
-            }
-
             $oMemberModel = &getModel('member');
             $this->oPointModel = &getModel('point');
 
@@ -47,28 +29,10 @@
 
             $output = new Object();
 
-            if(count($target_group) || count($target_group_without)) {
-                // 그룹 목록을 구해옴
-                $group_list = $oMemberModel->getGroups();
-
-                if(count($target_group)) {
-                    foreach($group_list as $group_srl => $val) {
-                        if(!in_array($val->title, $target_group)) continue;
-                        $target_group_srl_list[] = $group_srl;
-                    }
-                } else {
-                    foreach($group_list as $group_srl => $val) {
-                        if(!in_array($val->title, $target_group_without)) continue;
-                        $target_group_without_srl_list[] = $group_srl;
-                    }
-                }
-
-                // 해당 그룹의 멤버를 구해옴
-                if(count($target_group_srl_list) || count($target_group_without_srl_list)) {
-                    if(count($target_group_srl_list)) $obj->selected_group_srl = implode(',',$target_group_srl_list);
-                    else $obj->selected_group_without_srl = implode(',',$target_group_without_srl_list);
-                    $output = executeQuery('widgets.rank_point.getMemberListWithinGroup', $obj);
-                }
+            if($args->with_group || $args->without->group) {
+                if($args->with_group) $obj->selected_group_srl = $args->with_group;
+                else $obj->selected_group_without_srl = $args->without_group;
+                $output = executeQuery('widgets.rank_point.getMemberListWithinGroup', $obj);
             }
             else {
               //전체 포인트 목록을 구해옴

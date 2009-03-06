@@ -20,7 +20,8 @@
 
             // 출력된 목록 수
             $list_count = (int)$args->list_count;
-            if(!$list_count) $list_count = 5;
+            if(!$list_count) $list_count = 20;
+            $list_count ++;
 
             // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
             $oModuleModel = &getModel('module');
@@ -41,7 +42,7 @@
             } else $module_srl = explode(',',$args->module_srls);
 
             // TagModel::getTagList()를 이용하기 위한 변수 정리
-            $obj->module_srl = $args->module_srl;
+            $obj->module_srl = $module_srl;
             $obj->list_count = $list_count;
 
             // tag 모듈의 model 객체를 받아서 getTagList() method를 실행
@@ -67,6 +68,7 @@
                     if($max < $count) $max = $count;
                     if($min > $count) $min = $count;
                     $tags[] = $val;
+                    if(count($tags)>=20) continue;
                 }
 
                 $mid2 = $min+(int)(($max-$min)/2);

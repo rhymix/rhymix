@@ -1,0 +1,11 @@
+<filter name="delete_category" module="document" act="procDocumentAdminDeleteCategory" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="category_srl" required="true" />
+    </form>
+    <response callback_func="completeDeleteCategory">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="xml_file" />
+        <tag name="category_srl" />
+    </response>
+</filter>

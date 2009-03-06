@@ -4,11 +4,11 @@
     <form action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
         <input type="hidden" name="type" value="message" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</caption>
+        <h4 class="xeAdmin">{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</h4>
+        <table cellspacing="0" class="rowTable">
         <tr>
             <td>
-                <input type="text" name="xml_file" value="./" class="inputTypeText w700" />
+                <input type="text" name="xml_file" value="./" class="inputTypeText fullWidth" />
                 <p>ex1) ../message.xml</p>
                 <p>ex2) http://...../message.xml</p>
             </td>
@@ -24,7 +24,7 @@
                     <option value="500">500</option>
                     <option value="1000">1000</option>
                 </select>
-                <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
+                <span class="button black strong"><input type="submit" value="{$lang->cmd_next}" /></span>
             </th>
         </tr>
         </table>

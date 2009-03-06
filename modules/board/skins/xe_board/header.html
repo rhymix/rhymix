@@ -1,6 +1,3 @@
-<!--// JS 파일 로드 -->
-    <!--%import("js/board.js")-->
-
 <!--// 컬러셋 체크 -->
     <!--@if(!$module_info->colorset)-->
         {@$module_info->colorset = "white"}
@@ -81,7 +78,7 @@
         <!--@if($is_logged)-->
 
             <!--// 관리자이면 설정 버튼 출력 -->
-            <!--@if($logged_info->is_admin=='Y' && $module_info->display_setup_button != 'N')-->
+            <!--@if($grant->manager && $module_info->display_setup_button != 'N')-->
             <li class="setup"><a href="{getUrl('act','dispBoardAdminBoardInfo')}">{$lang->cmd_setup}</a></li>
             <!--@end-->
 

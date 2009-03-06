@@ -27,6 +27,8 @@
 
             settype($obj->title, "string");
             if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
+            //그래도 없으면 Untitled
+            if($obj->title == '') $obj->title = 'Untitled';
 
             // 관리자가 아니라면 게시글 색상/굵기 제거
             if(!$this->grant->manager) {
@@ -139,8 +141,8 @@
             $oCommentController = &getController('comment');
 
             // comment_srl이 존재하는지 체크
-			// 만일 comment_srl이 n/a라면 getNextSequence()로 값을 얻어온다.
-			if(!$obj->comment_srl) {
+			      // 만일 comment_srl이 n/a라면 getNextSequence()로 값을 얻어온다.
+			      if(!$obj->comment_srl) {
                 $obj->comment_srl = getNextSequence();
             } else {
                 $comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);

@@ -1,0 +1,41 @@
+<!--#include("header.html")-->
+
+<h3 class="subTitle">{$lang->trackback} <span>({number_format($output->total_count)})</span></h3>
+
+<ul class="subNavigation">
+    <!--@foreach($lang->is_search_option['trackback'] as $key => $val)-->
+    <li value="{$key}" class="<!--@if($search_target == $key)-->on<!--@end--><!--@if($key=="tag")--> last<!--@end-->"><a href="{getUrl('where','trackback','search_target',$key,'page',1)}">{$val}</a></li>
+    <!--@end-->
+</ul>
+
+
+<!--@if(!count($output->data))-->
+    <span class="noResult">{$lang->msg_no_result}</span>
+<!--@else-->
+    <ul class="searchResult">
+    <!--@foreach($output->data as $no => $trackback)-->
+        <li>
+            <dl>
+                <dt><a href="{getUrl('','document_srl',$trackback->document_srl)}" onclick="window.open(this.href);return false;">{htmlspecialchars($trackback->title)}</a> </span></dt>
+                <dd>{cut_str(htmlspecialchars($trackback->excerpt))}</dd>
+            </dl>
+            <address><strong><a href="{$trackback->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($trackback->blog_name)}</a></strong> | <span class="time">{zdate($trackback->regdate, "Y-m-d H:i")}</span> </address>
+
+        </li>
+    <!--@end-->
+    </ul>
+
+    <!--@if($where == 'trackback' && $output->page_navigation)-->
+        <div class="pagination a1">
+            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@while($page_no = $output->page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no)}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$output->page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a>
+        </div>
+    <!--@end-->
+<!--@end-->

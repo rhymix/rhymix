@@ -24,16 +24,59 @@
          * @brief 문서 가져오기
          **/
         function getDocument($document_srl=0, $is_admin = false) {
+            static $document_list = array();
             if(!$document_srl) return new documentItem();
 
-            if(!$GLOBALS['__DocumentItem__'][$document_srl]) {
+            if(!isset($document_list[$document_srl])) {
                 $oDocument = new documentItem($document_srl);
-                if($is_admin) $oDocument->setGrant();
-                $GLOBALS['__DocumentItem__'][$document_srl] = $oDocument;
-            }
+                $document_list[$document_srl] = &$oDocument;
+            } else $oDocument = $document_list[$document_srl];
+            if($is_admin) $oDocument->setGrant();
 
-            return $GLOBALS['__DocumentItem__'][$document_srl];
-       }
+            return $oDocument;
+        }
+
+        /**
+         * @brief document의 확장 변수 키값을 가져오는 함수
+         * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
+         **/
+        function getExtraKeys($module_srl) {
+            $oExtraVar = &ExtraVar::getInstance($module_srl);
+            if(!$oExtraVar->isSettedExtraVars()) {
+                $obj->module_srl = $module_srl;
+                $obj->sort_index = 'var_idx';
+                $obj->order = 'asc';
+                $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+                $oExtraVar->setExtraVarKeys($output->data);
+            }
+            return $oExtraVar->getExtraVars();
+        }
+
+        /**
+         * @brief 특정 document의 확장 변수 값을 가져오는 함수
+         **/
+        function getExtraVars($module_srl, $document_srl) {
+            static $extra_vars = array();
+
+            if(!isset($extra_vars[$module_srl][$document_srl])) {
+                $obj->module_srl = $module_srl;
+                $obj->document_srl = $document_srl;
+                $obj->sort_index = 'extra_keys.var_idx';
+                $obj->order = 'asc';
+                $obj->lang_code = Context::getLangType();
+                $output = executeQueryArray('document.getDocumentExtraVars', $obj);
+
+                if($output->data) {
+                    foreach($output->data as $key => $val) {
+                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                        $extra_vars[$module_srl][$document_srl][$obj->idx] = $obj;
+                    }
+                } else {
+                    $extra_vars[$module_srl][$document_srl] = array();
+                }
+            }
+            return $extra_vars[$module_srl][$document_srl];
+        }
 
         /**
          * @brief 선택된 게시물의 팝업메뉴 표시
@@ -244,10 +287,11 @@
                             $query_id = 'document.getDocumentListWithinTag';
                         break;
                     default :
-                            preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);
-                            if($matches[1]) {
-                                $args->{"s_extra_vars".$matches[1]} = $search_keyword;
-                                $use_division = true;
+                            if(strpos($search_target,'extra_vars')!==false) {
+                                $args->var_idx = substr($search_target, strlen('extra_vars'));
+                                $args->var_value = str_replace(' ','%',$search_keyword);
+                                $args->sort_index = 'documents.'.$args->sort_index;
+                                $query_id = 'document.getDocumentListWithExtraVars';
                             }
                         break;
                 }
@@ -381,27 +425,30 @@
          * @brief module_srl값을 가지는 문서의 공지사항만 가져옴
          **/
         function getNoticeList($obj) {
-            $args->module_srl = $obj->module_srl;
-            $args->category_srl = $obj->category_srl;
-            $args->sort_index = 'list_order';
+            $cache_file = _XE_PATH_.'files/cache/document_notice/'.getNumberingPath($obj->module_srl,4).$obj->module_srl.'.txt';
+            if(!file_exists($cache_file)) {
+                $oDocumentController = &getController('document');
+                $oDocumentController->updateDocumentNoticeCache($obj->module_srl);
+            }
+
+            $document_srls = FileHandler::readFile($cache_file);
+            if(!$document_srls) return;
+
+            $list_count = count(explode(',',$document_srls));
+            $args->document_srls = $document_srls;
+            $args->list_count = $list_count;
+            $args->list_order = 'list_order';
             $args->order_type = 'asc';
-
-            $output = executeQueryArray('document.getNoticeList', $args);
-
-            // 결과가 없거나 오류 발생시 그냥 return
-            if(!$output->toBool()||!count($output->data)) return $output;
-
-            foreach($output->data as $key => $attribute) {
-                $document_srl = $attribute->document_srl;
-
+            $output = executeQueryArray('document.getDocuments', $args);
+            if(!$output->toBool()||!$output->data) return;
+            foreach($output->data as $key => $val) {
+                if(!$val->document_srl) continue;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute);
-
-                $output->data[$key] = $oDocument;
-            
+                $oDocument->setAttribute($val);
+                $result->data[$val->document_srl] = $oDocument;
             }
-            return $output;
+            return $result;
         }
 
         /**
@@ -496,26 +543,21 @@
          * 속도나 여러가지 상황을 고려해서 카테고리 목록은 php로 생성된 script를 include하여 사용하는 것을 원칙으로 함
          **/
         function getCategoryList($module_srl) {
-            // 한 페이지에서 여러번 호출될 경우를 대비해서 static var로 보관 (php4때문에 다른 방법으로 구현)
-            if(!isset($this->category_list[$module_srl])) {
+            // 대상 모듈의 카테고리 파일을 불러옴
+            $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-                // 대상 모듈의 카테고리 파일을 불러옴
-                $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
-
-                // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
-                if(!file_exists($filename)) {
-                    $oDocumentController = &getController('document');
-                    if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
-                }
-
-                @include($filename);
-
-                // 카테고리의 정리
-                $document_category = array();
-                $this->_arrangeCategory($document_category, $menu->list, 0);
-                $this->category_list[$module_srl] = $document_category;
+            // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
+            if(!file_exists($filename)) {
+                $oDocumentController = &getController('document');
+                if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
             }
-            return $this->category_list[$module_srl];
+
+            @include($filename);
+
+            // 카테고리의 정리
+            $document_category = array();
+            $this->_arrangeCategory($document_category, $menu->list, 0);
+            return $document_category;
         }
 
         /**
@@ -655,6 +697,7 @@
          * @brief 특정 모듈의 분류를 구함
          **/
         function getDocumentCategories() {
+            if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
             $module_srl = Context::get('module_srl');
             $categories= $this->getCategoryList($module_srl);
             $lang = Context::get('lang');
@@ -680,6 +723,51 @@
                 $GLOBLAS['__document_config__'] = $config;
             }
             return $GLOBLAS['__document_config__'];
+        }
+
+        /**
+         * @brief 공통 :: 모듈의 확장 변수 관리
+         * 모듈의 확장변수 관리는  모든 모듈에서 document module instance를 이용할때 사용할 수 있음
+         **/
+        function getExtraVarsHTML($module_srl) {
+            // 기존의 extra_keys 가져옴
+            $extra_keys = $this->getExtraKeys($module_srl);
+            Context::set('extra_keys', $extra_keys);
+
+            // grant 정보를 추출
+            $oTemplate = &TemplateHandler::getInstance();
+            return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
+        }
+
+        /**
+         * @brief 공통 :: 모듈의 카테고리 변수 관리
+         **/
+        function getCategoryHTML($module_srl) {
+            $category_xml_file = $this->getCategoryXmlFile($module_srl);
+
+            Context::set('category_xml_file', $category_xml_file);
+            Context::addJsFile('./common/js/tree_menu.js');
+
+            // grant 정보를 추출
+            $oTemplate = &TemplateHandler::getInstance();
+            return $oTemplate->compile($this->module_path.'tpl', 'category_list');
+        }
+
+        function getDocumentSrlByAlias($mid, $alias)
+        {
+            if(!$mid || !$alias) return null;
+            $args->mid = $mid;
+            $args->alias_title = $alias;
+            $output = executeQuery('document.getDocumentSrlByAlias', $args);
+            if(!$output->data) return null;
+            else return $output->data->document_srl;
+        }
+
+        function getHistories($document_srl)
+        {
+            $args->document_srl = $document_srl;
+            $output = executeQueryArray('document.getHistories', $args);
+            return $output->data;
         }
     }
 ?>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">Captcha 애드온</title>
+    <title xml:lang="jp">Captchaアドオン</title>
+    <description xml:lang="ko">
+        프로그램 글 등록기를 막기 위해 게시판/ issueTracker에서 글/ 댓글을 입력하려 할 때 이미지를 보여주고 글에 해당하는 이미지를 선택하게 하는 애드온입니다.
+        로그인하지 않은 경우에만 해당됩니다.
+    </description>
+    <description xml:lang="jp">
+        ボット(bot)がプログラムによるスパム行為を防ぐために、掲示板／issueTrackerで書き込み・コメントを入力する際、ランダムな文字や数字の列を画面に表示し、表示されたものと同じ情報を入力して、データを登録させるアドオンです。
+        ログインしてない時だけ、動作します。
+    </description>
+    <version>0.1</version>
+    <date>2009-02-20</date>
+
+    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
+        <name xml:lang="ko">zero</name>
+		<name xml:lang="jp">zero</name>
+    </author>
+
+    <extra_vars>
+        <var name="target" type="select">
+            <title xml:lang="ko">Captcha 표시 대상</title>
+			<title xml:lang="jp">Captchaを表示する対象</title>
+            <description xml:lang="ko">글/댓글 등록시 captcha가 동작할 대상을 정할 수 있습니다. 관리자는 무조건 제외됩니다</description>
+			<description xml:lang="jp">管理者以外、書き込み・コメントを入力する際captchaを見せる対象を設定します。</description>
+            <options value="">
+                <title xml:lang="ko">로그인하지 않은 사용자</title>
+				<title xml:lang="jp">ログインしてないユーザー</title>
+            </options>
+            <options value="all">
+                <title xml:lang="ko">모든 사용자</title>
+				<title xml:lang="jp">すべてのユーザー</title>
+            </options>
+        </var>
+        <var name="act_type" type="select">
+            <title xml:lang="ko">동작 방식</title>
+			<title xml:lang="jp">動作方式</title>
+            <description xml:lang="ko">"1번만 동작"을 선택하시면 1번만 동작후 상태를 저장해서 다음부터 물어보지 않고 그렇지 않으면 매번 물어보게 됩니다</description>
+			<description xml:lang="jp">"1回だけ表示"を選択すると、1回だけ動作した後、その情報を保存して次回からはCaptchaを見せないようにし、もう一つのオプションは毎回Captchaを表示します。</description>
+            <options value="onetime">
+                <title xml:lang="ko">1번만 동작</title>
+				<title xml:lang="jp">1回だけ表示</title>
+            </options>
+            <options value="everytime">
+                <title xml:lang="ko">매번 동작</title>
+				<title xml:lang="jp">毎回表示</title>
+            </options>
+        </var>
+    </extra_vars>
+</addon>

@@ -1,0 +1,45 @@
+<!--%import("./js/navigator.js")-->
+
+<!--@if($colorset == "black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset == "white")-->
+    <!--%import("./css/white.css")-->
+<!--@end-->
+
+{@ $_pDepth = 0;}
+
+<div class="widgetContainer">
+    <div class="widgetTree">
+        <ul>
+    <!--@foreach($widget_info->arranged_menu as $key => $val)-->
+        <!--@if($val->text)-->
+
+            <!--@if($_pDepth > $val->depth)-->
+                <!--@for($i=$val->depth; $i<$_pDepth; $i++)-->
+                </li>
+            </ul>
+                <!--@end-->
+                {@ $_pDepth = $val->depth}
+            <!--@end-->
+
+                <li class="<!--@if($val->last)-->nav_tree_last<!--@end--> <!--@if($val->expand)-->nav_tree_on<!--@else-->nav_tree_off<!--@end-->" id="menu_parent_{$val->node_srl}">
+                    <!--@if($val->child_count)-->
+                        <!--@if($val->expand)-->
+                            <button type="button" class="menu_{$val->node_srl}">+</button>
+                        <!--@else-->
+                            <button type="button" class="menu_{$val->node_srl}">-</button>
+                        <!--@end-->
+                    <!--@end-->
+                    <a href="{$val->href}" class="nav_tree_label <!--@if($val->selected)-->selected<!--@end-->">{$val->text}</a> 
+
+                <!--@if($val->child_count)-->
+                    {@$_pDepth++}
+                    <ul>
+                <!--@else-->
+                </li>
+                <!--@end-->
+        <!--@end-->
+    <!--@end-->
+        </ul>
+    </div>
+</div>

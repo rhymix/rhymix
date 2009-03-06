@@ -2,14 +2,14 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 
-<div id="popHeadder">
-    <h3>{$component_info->title} ver. {$component_info->version}</h3>
+<div id="popHeader">
+    <h3 class="xeAdmin">{$component_info->title} ver. {$component_info->version}</h3>
 </div>
 
 <form action="./" method="get" id="fo_component" onSubmit="return false">
 
     <div id="popBody">
-        <table cellspacing="0" class="adminTable">
+        <table cellspacing="0" class="rowTable">
         <col width="100" />
         <col />
 
@@ -56,9 +56,8 @@
         </tr>
         </table>
     </div>
-    <div id="popFooter" class="tCenter">
-        <a href="#" onclick="setText()" class="button"><span>{$lang->cmd_insert}</span></a>
-        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    <div id="popFooter">
+        <a href="#" onclick="setText()" class="button black strong"><span>{$lang->cmd_insert}</span></a>
         <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
     </div>
 

@@ -11,11 +11,11 @@
 <!--@end-->
 <input type="hidden" name="use_category" value="N" />
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
 
     <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
-        <td>
+        <td class="wide">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
@@ -82,7 +82,8 @@
     <tr class="row2">
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td>
-            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w300" />
+            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" id="browser_title"/>
+            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
@@ -130,17 +131,10 @@
             <p>{$lang->about_footer_text}</p>
         </td>
     </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->admin_id}</div></th>
-        <td>
-            <textarea name="admin_id" class="inputTypeTextArea w400"><!--@if($module_info->admin_id)-->{implode(",",$module_info->admin_id)}<!--@end--></textarea>
-            <p>{$lang->about_admin_id}</p>
-        </td>
-    </tr>
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 

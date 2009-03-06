@@ -12,6 +12,19 @@
     $lang->cmd_delete_all_thumbnail = 'すべてのサムネール削除';
     $lang->title_bold = 'タイトル太字';
     $lang->title_color = 'タイトルの色';
+    $lang->new_document_count = '새글';
+
+    $lang->parent_category_title = '上位カテゴリ名';
+    $lang->category_title = 'カテゴリ名';
+    $lang->category_color = 'カテゴリフォント色';
+    $lang->expand = '拡張表示';
+    $lang->category_group_srls = 'グループ制限';
+    $lang->cmd_make_child = '下位カテゴリ追加';
+    $lang->cmd_enable_move_category = "カテゴリ位置変更（選択後上のメニューをドラッグして下さい）";
+    $lang->about_category_title = 'カテゴリ名を入力して下さい。';
+    $lang->about_expand = 'チェックすると常に展開された状態になります。';
+    $lang->about_category_group_srls = '選択したグループのみ、現在のカテゴリの指定が出来ます。';
+    $lang->about_category_color = 'カテゴリのフォント色を設定します。';
 
     $lang->cmd_search_next = '継続検索';
 
@@ -50,4 +63,8 @@
         'last_update' => '最近修正日',
         'ipaddress' => 'IPアドレス',
     );
+    $lang->alias = "Alias";
+    $lang->history = "히스토리";
+    $lang->about_use_history = "히스토리 기능의 사용여부를 지정합니다. 히스토리 기능을 사용할 경우 문서 수정시 이전 리비전을 기록하고 복원할 수 있습니다.";
+    $lang->trace_only = "흔적만 남김";
 ?>

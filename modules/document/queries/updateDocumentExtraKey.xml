@@ -1,0 +1,17 @@
+<query id="updateDocumentExtraKey" action="update">
+    <tables>
+        <table name="document_extra_keys" />
+    </tables>
+    <columns>
+        <column name="var_name" var="var_name" notnull="notnull" />
+        <column name="var_type" var="var_type" notnull="notnull" />
+        <column name="var_is_required" var="var_is_required" default="N" notnull="notnull" />
+        <column name="var_search" var="var_search" default="N" notnull="notnull" />
+        <column name="var_default" var="var_default" notnull="notnull" />
+        <column name="var_desc" var="var_desc" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="var_idx" var="var_idx" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

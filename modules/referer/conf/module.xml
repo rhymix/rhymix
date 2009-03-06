@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
+    <permissions />
     <actions>
-	<action name="procRefererExecute" type="controller" standalone="true" />
+        <action name="procRefererExecute" type="controller" standalone="true" />
         <action name="dispRefererAdminIndex" type="view" standalone="true" admin_index="true" />
         <action name="dispRefererAdminDeleteStat" type="view" standalone="true" />
-	<action name="procRefererAdminDeleteStat" type="controller" standalone="true" />
+        <action name="procRefererAdminDeleteStat" type="controller" standalone="true" />
     </actions>
 </module>

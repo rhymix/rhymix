@@ -22,6 +22,16 @@
 
     /**
      * @brief 기본 설정에 우선하는 사용자 설정 파일
+     * config/config.user.inc.php 파일에 아래 내용을 저장하면 됨
+     * <?php 
+     * define('__DEBUG__', 0);
+     * define('__DEBUG_OUTPUT__', 0);
+     * define('__DEBUG_PROTECT__', 1);
+     * define('__DEBUG_PROTECT_IP__', '127.0.0.1');
+     * define('__DEBUG_DB_OUTPUT__', 0);
+     * define('__LOG_SLOW_QUERY__', 0);
+     * define('__OB_GZHANDLER_ENABLE__', 1);
+     * ?>
      */
     if(file_exists(_XE_PATH_.'config/config.user.inc.php')) {
         require _XE_PATH_.'config/config.user.inc.php';
@@ -75,8 +85,6 @@
      **/
     if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 1);
 
-
-
     /**
      * @brief Firebug 콘솔 출력 사용시 관련 파일 require
      **/
@@ -98,8 +106,10 @@
      **/
     if(__DEBUG__) define('__ClassLoadStartTime__', getMicroTime());
     require_once(_XE_PATH_.'classes/object/Object.class.php');
+    require_once(_XE_PATH_.'classes/extravar/Extravar.class.php');
     require_once(_XE_PATH_.'classes/handler/Handler.class.php');
     require_once(_XE_PATH_.'classes/xml/XmlParser.class.php');
+    require_once(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
     require_once(_XE_PATH_.'classes/context/Context.class.php');
     require_once(_XE_PATH_.'classes/db/DB.class.php');
     require_once(_XE_PATH_.'classes/file/FileHandler.class.php');
@@ -110,5 +120,6 @@
     require_once(_XE_PATH_.'classes/display/DisplayHandler.class.php');
     require_once(_XE_PATH_.'classes/template/TemplateHandler.class.php');
     require_once(_XE_PATH_.'classes/mail/Mail.class.php');
+    require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
     if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 ?>

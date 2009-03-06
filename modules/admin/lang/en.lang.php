@@ -7,18 +7,26 @@
 
     $lang->admin_info = 'Administrator Info';
     $lang->admin_index = 'Index Admin Page';
+    $lang->control_panel = 'Control panel';
 
     $lang->module_category_title = array(
-        'service' => 'Service Modules',
-        'manager' => 'Managing Modules',
-        'utility' => 'Utility Modules',
-        'accessory' => 'Additional Modules',
-        'base' => 'Default Modules',
+        'service' => 'Service Setting',
+        'member' => 'Member Setting',
+        'content' => 'Content Setting',
+        'statistics' => 'Statistics',
+        'construction' => 'Construction',
+        'utility' => 'Utility Setting',
+        'interlock' => 'Interlock Setting',
+        'accessory' => 'Accessories',
+        'migration' => 'Data Migration',
+        'system' => 'System Setting',
     );
 
     $lang->newest_news = "Latest News";
     
     $lang->env_setup = "Setting";
+    $lang->default_url = "기본 URL";
+    $lang->about_default_url = "XE 가상 사이트(cafeXE등)의 기능을 사용할때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글/모듈등의 연결이 정상적으로 이루어집니다. (ex: http://도메인/설치경로)";
 
     $lang->env_information = "Environment Information";
     $lang->current_version = "Current Version";
@@ -57,13 +65,13 @@
     $lang->cmd_lang_select = "Language";
     $lang->about_cmd_lang_select = "Selected languages only will be serviced";
     $lang->about_recompile_cache = "You can arrange useless or invalid cache files";
-    $lang->use_ssl = "SSL 사용";
+    $lang->use_ssl = "Use SSL";
     $lang->ssl_options = array(
-        'none' => "사용안함",
-        'optional' => "선택적으로",
-        'always' => "항상사용"
+        'none' => "Not use",
+        'optional' => "optional",
+        'always' => "always"
     );
-    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
-    $lang->server_ports = "서버포트지정";
-    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
+    $lang->about_use_ssl = "If you choose 'optional', SSL will be used for actions such as sign up / changing information. And for 'always', your site will be served only via https.";
+    $lang->server_ports = "Server port";
+    $lang->about_server_ports = "If your web-server uses other than 80 for HTTP, 443 for HTTPS, you should specify server ports";
 ?>

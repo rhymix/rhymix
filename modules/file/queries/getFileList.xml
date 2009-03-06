@@ -7,8 +7,9 @@
         <column name="files.*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="files.module_srl" var="s_module_srl" />
+        <condition operation="in" column="files.module_srl" var="s_module_srl" />
         <condition operation="equal" column="files.isvalid" var="isvalid" pipe="and" />
+        <condition operation="equal" column="files.direct_download" var="direct_download" pipe="and" />
         <condition operation="equal" column="files.member_srl" default="member.member_srl" pipe="and" />
         <group pipe="and">
             <condition operation="like" column="files.source_filename" var="s_filename" pipe="or" />

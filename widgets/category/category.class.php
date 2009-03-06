@@ -17,26 +17,18 @@
         function proc($args) {
             $oModuleModel = &getModel('module');
 
-            // 기존에 mid_list, mid를 쓸 때의 코드를 위하여 하위 호환 유지 코드
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
             if($args->mid_list) {
                 $tmp_mid = explode(",",$args->mid_list);
-                $mid = $tmp_mid[0];
-            } elseif($args->mid) {
-                $mid = $args->mid;
-            }
-            if($mid) {
-                $module_srl = $oModuleModel->getModuleSrlByMid($mid);
-            }
+                $args->mid = $tmp_mid[0];
+            } 
 
-            if($args->srl) $module_srl = $args->srl;
+            if($args->mid) $args->srl = $oModuleModel->getModuleSrlByMid($args->mid);
 
-            if(is_array($module_srl)) $module_srl = $module_srl[0];
-
-            // DocumentModel::getMonthlyArchivedList()를 이용하기 위한 변수 정리
-            $obj->module_srl = $module_srl;
+            $obj->module_srl = $args->srl;
 
             // 선택된 모듈이 없으면 실행 취소
-            if(!$obj->module_srl) return;
+            if(!$obj->module_srl) return Context::getLang('msg_not_founded');
 
             // 모듈의 정보를 구함
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($obj->module_srl);
@@ -45,15 +37,22 @@
             $oDocumentModel = &getModel('document');
             $category_list = $oDocumentModel->getCategoryList($obj->module_srl);
 
-            // 모듈의 정보를 구함
+            // 전체 개수를 구함
+            $widget_info->total_document_count = $oDocumentModel->getDocumentCount($obj->module_srl);
+
             $widget_info->module_info = $module_info;
             $widget_info->mid = $module_info->mid;
             $widget_info->document_category = $document_category;
             $widget_info->category_list = $category_list;
 
-            // 전체 개수를 구함
-            $total_count = $oDocumentModel->getDocumentCount($obj->module_srl);
-            $widget_info->total_document_count = $total_count;
+            if($module_info->site_srl) {
+                $site_module_info = Context::get('site_module_info');
+                if($site_module_info->site_srl == $module_info->site_srl) $widget_info->domain = $site_module_info->domain;
+                else {
+                    $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+                    $widget_info->domain = $site_info->domain;
+                }
+            } else $widget_info->domain = Context::getDefaultUrl();
 
             Context::set('widget_info', $widget_info);
 

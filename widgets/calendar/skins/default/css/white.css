@@ -1,0 +1,32 @@
+@charset "utf-8";
+.widgetContainer a{ text-decoration:none;}
+.widgetContainer a:hover,
+.widgetContainer a:active,
+.widgetContainer a:focus{ text-decoration:underline;}                                                                                                                            .widgetContainer img{ border:0;}
+.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer form{ margin:0; padding:0;}
+.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+.widgetCalendarNavigation{ position:relative; height:15px; margin-bottom:-15px; z-index:10;}
+.widgetCalendarNavigation button{ position:absolute; top:0; font-size:10px; font-family:Tahoma; background:none; border:0; padding:0; cursor:pointer;}
+.widgetCalendarNavigation button.prevYear{ left:0;}
+.widgetCalendarNavigation button.prevMonth{ left:25px;}
+.widgetCalendarNavigation button.nextYear{ right:0;}
+.widgetCalendarNavigation button.nextMonth{ right:25px;}
+.widgetCalendar{ position:relative; border:0; width:100%;}
+.widgetCalendar caption { position:relative; padding-bottom:5px; text-align:center; font-size:12px; font-weight:bold; font-family:Tahoma;}
+.widgetCalendar th,
+.widgetCalendar td{ border:0; text-align:center; padding:5px 0;}
+.widgetCalendar th{ font-size:12px; font-family:Tahoma; font-weight:normal;}
+.widgetCalendar td,
+.widgetCalendar td a{ font-size:11px; font-family:Tahoma;}
+.widgetCalendar td em{ font-style:normal;}
+.widgetCalendarNavigation button{ color:#333;}
+.widgetCalendar caption{ color:#333;}
+.widgetCalendar th{ background:#eee; color:#333;}
+.widgetCalendar th.sun,
+.widgetCalendar td.sun,
+.widgetCalendar td em{ color:#ff1a1a;}
+.widgetCalendar td,
+.widgetCalendar td a{ color:#666;}
+.widgetCalendar td.sun a{ color:#ff1a1a;}
+

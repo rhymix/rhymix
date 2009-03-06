@@ -1,29 +1,28 @@
-{@ $member_title = $lang->msg_leave_member}
 <!--#include("./common_header.html")-->
 
 <!--%import("filter/leave_member.xml")-->
 
+    <h3>{$member_title = $lang->msg_leave_member}</h3>
     <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, leave_member)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
 
-    <table cellspacing="0" class="memberInfoTable gap1" title="{$lang->msg_leave_member}">
-    <col width="140" />
-    <col />
+    <table cellspacing="0" class="rowTable" title="{$lang->msg_leave_member}">
     <tr>
-        <th scope="row">{$lang->user_id}</th>
-        <td>{$member_info->user_id}</td>
+        <th scope="row"><div>{$lang->user_id}</div></th>
+        <td class="wide">{$member_info->user_id}</td>
     </tr>
     <tr>
-        <th scope="row"><label for="cpw">{$lang->password}</label></th>
+        <th scope="row"><div><label for="cpw">{$lang->password}</label></div></th>
         <td><input type="password" name="password" id="cpw" class="inputTypeText" /></td>
     </tr>
+    <tr>
+        <th class="button" colspan="2">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_leave}" accesskey="s" /></span>
+            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+        </th>
+    </tr>
     </table>
-
-    <div class="help tCenter">
-        <span class="button"><input type="submit" value="{$lang->cmd_leave}" accesskey="s" /></span>
-        <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-    </div>
 </form>
 <!--#include("./common_footer.html")-->

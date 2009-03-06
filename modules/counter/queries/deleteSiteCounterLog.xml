@@ -1,0 +1,8 @@
+<query id="deleteSiteCounterLog" action="delete">
+    <tables>
+        <table name="counter_log" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" filter="number" pipe="and" />
+    </conditions>
+</query>

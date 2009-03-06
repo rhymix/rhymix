@@ -1,9 +1,9 @@
-<div id="popHeadder">
-    <h3>{$lang->layout_maker}</h3>
+<div id="popHeader">
+    <h3 class="xeAdmin">{$lang->layout_maker}</h3>
 </div>
 
 <div id="popBody">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr class="row2">
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$layout_info->title} ver {$layout_info->version}</td>
@@ -46,11 +46,11 @@
 
 <!--@if($layout_info->history)-->
 <div id="popHistoryHeadder">
-    <h3>{$lang->layout_history}</h3>
+    <h3 class="xeAdmin">{$lang->layout_history}</h3>
 </div>
 
 <div id="popHistoryBody">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <!--@foreach($layout_info->history as $history)-->
     <tr class="row{$cycle_idx}">
         <th scope="row"><div>
@@ -81,9 +81,3 @@
     </table>
 </div>
 <!--@endif-->
-
-<div id="popFooter">
-    <div class="tCenter gap1">
-        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
-    </div>
-</div>

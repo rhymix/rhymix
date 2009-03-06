@@ -1,0 +1,54 @@
+<!--#include("header.html")-->
+
+<h3 class="subTitle">{$lang->document} <span>({number_format($output->total_count)})</span></h3>
+
+<ul class="subNavigation">
+    <!--@foreach($lang->is_search_option['document'] as $key => $val)-->
+    <li value="{$key}" class="<!--@if($search_target == $key)-->on<!--@end--><!--@if($key=="tag")--> last<!--@end-->"><a href="{getUrl('where','document','search_target',$key,'page',1,'division','')}">{$val}</a></li>
+    <!--@end-->
+</ul>
+
+
+<!--@if(!count($output->data))-->
+    <span class="noResult">
+        {$lang->msg_no_result}
+        <!--@if($last_division)-->
+        <br />{$lang->msg_document_more_search}
+        <br /><a href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
+        <!--@end-->
+    </span>
+<!--@else-->
+    <ul class="searchResult">
+    <!--@foreach($output->data as $no => $document)-->
+        <li>
+            <!--@if($document->thumbnailExists(80))-->
+            <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(80)}" alt="" width="80" height="80" class="thumb" /></a>
+            <!--@end-->
+            <dl>
+                <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitle()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--></dt>
+
+                <dd>{$document->getSummary(200)}</dd>
+            </dl>
+            <address><strong>{$document->getNickName()}</strong> | <span class="time">{$document->getRegdate("Y-m-d H:i")}</span> | <span class="read">{$lang->readed_count}</span> <span class="readNum">{$document->get('readed_count')}</span><!--@if($document->get('voted_count'))--> | <span class="recom">{$lang->voted_count}</span> <span class="recomNum">{$document->get('voted_count')}</span><!--@end--></address>
+
+        </li>
+    <!--@end-->
+    </ul>
+
+    <!--@if($where == 'document' && $output->page_navigation)-->
+        <div class="pagination a1">
+            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@while($page_no = $output->page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no)}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$output->page_navigation->last_page)}" <!--@if(!$last_division)-->class="nextEnd"<!--@end-->>{$lang->last_page}</a>
+            <!--@if($last_division)-->
+            <a href="{getUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="nextEnd">{$lang->cmd_search_next}</a>
+            <!--@end-->
+        </div>
+    <!--@end-->
+<!--@end-->

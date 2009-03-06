@@ -1,0 +1,11 @@
+<query id="insertSiteComponent" action="insert">
+    <tables>
+        <table name="editor_components_site" />
+    </tables>
+    <columns>
+        <column name="site_srl" var="site_srl" notnull="notnull" />
+        <column name="component_name" var="component_name" notnull="notnull" />
+        <column name="enabled" var="enabled" default="N" />
+        <column name="list_order" var="list_order" default="sequence()" />
+    </columns>
+</query>

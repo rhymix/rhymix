@@ -158,9 +158,11 @@
             /**
              * 에디터 컴포넌트 체크
              **/
+            $site_module_info = Context::get('site_module_info');
+            $site_srl = (int)$site_module_info->site_srl;
             if($enable_component) {
                 if(!Context::get('component_list')) {
-                    $component_list = $this->getComponentList();
+                    $component_list = $this->getComponentList(true, $site_srl);
                     Context::set('component_list', $component_list);
                 }
             }
@@ -345,7 +347,7 @@
         /**
          * @brief component의 객체 생성
          **/
-        function getComponentObject($component, $editor_sequence = 0) {
+        function getComponentObject($component, $editor_sequence = 0, $site_srl = 0) {
             if(!$this->loaded_component_list[$component][$editor_sequence]) {
                 // 해당 컴포넌트의 객체를 생성해서 실행
                 $class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
@@ -359,7 +361,7 @@
                 if(!$oComponent) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
                 // 설정 정보를 추가
-                $component_info = $this->getComponent($component);
+                $component_info = $this->getComponent($component, $site_srl);
                 $oComponent->setInfo($component_info);
                 $this->loaded_component_list[$component][$editor_sequence] = $oComponent;
             }
@@ -375,110 +377,46 @@
         }
 
         /**
+         * @brief 에디터 컴포넌트 목록 캐시 파일 이름 return
+         **/
+        function getCacheFile($filter_enabled= true, $site_srl = 0) {
+            $cache_path = _XE_PATH_.'files/cache/editor/cache/';
+            if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
+            $cache_file = $cache_path.'component_list.';
+            if($filter_enabled) $cache_file .= 'filter.';
+            if($site_srl) $cache_file .= $site_srl.'.';
+            $cache_file .= 'php';
+            return $cache_file;
+        }
+
+        /**
          * @brief component 목록을 return (DB정보 보함)
          **/
-        function getComponentList($filter_enabled = true) {
-            if($filter_enabled) $args->enabled = "Y";
-
-            $output = executeQuery('editor.getComponentList', $args);
-            $db_list = $output->data;
-
-            // 파일목록을 구함
-            $downloaded_list = FileHandler::readDir($this->module_path.'components');
-
-            // 로그인 여부 및 소속 그룹 구함
-            $is_logged = Context::get('is_logged');
-            if($is_logged) {
-                $logged_info = Context::get('logged_info');
-                if($logged_info->group_list && is_array($logged_info->group_list)) {
-                    $group_list = array_keys($logged_info->group_list);
-                } else $group_list = array();
+        function getComponentList($filter_enabled = true, $site_srl=0) {
+            $cache_file = $this->getCacheFile($filter_enabled, $site_srl);
+            if(!file_exists($cache_file)) {
+                $oEditorController = &getController('editor');
+                $oEditorController->makeCache($filter_enabled, $site_srl);
             }
 
-            // DB 목록을 loop돌면서 xml정보까지 구함
-            if(!is_array($db_list)) $db_list = array($db_list);
-            foreach($db_list as $component) {
-                if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
+            if(!file_exists($cache_file)) return;
 
-                $component_name = $component->component_name;
-                if(!$component_name) continue;
-
-                if(!in_array($component_name, $downloaded_list)) continue;
-
-                unset($xml_info);
-                $xml_info = $this->getComponentXmlInfo($component_name);
-                $xml_info->enabled = $component->enabled;
-
-                if($component->extra_vars) {
-                    $extra_vars = unserialize($component->extra_vars);
-
-                    // 사용권한이 있으면 권한 체크
-                    if($extra_vars->target_group) {
-                        // 사용권한이 체크되어 있는데 로그인이 되어 있지 않으면 무조건 사용 중지
-                        if(!$is_logged) continue;
-
-                        // 대상 그룹을 구해서 현재 로그인 사용자의 그룹과 비교
-                        $target_group = $extra_vars->target_group;
-                        unset($extra_vars->target_group);
-
-                        $is_granted = false;
-                        foreach($group_list as $group_srl) {
-                            if(in_array($group_srl, $target_group)) {
-                                $is_granted = true;
-                                break;
-                            }
-                        }
-                        if(!$is_granted) continue;
-                    }
-
-                    // 대상 모듈이 있으면 체크
-                    if($extra_vars->mid_list && count($extra_vars->mid_list) ) {
-                        if(!in_array(Context::get('mid'), $extra_vars->mid_list)) continue;
-                    }
-
-                    // 에디터 컴포넌트의 설정 정보를 체크
-                    if($xml_info->extra_vars) {
-                        foreach($xml_info->extra_vars as $key => $val) {
-                            $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
-                        }
-                    }
-                }
-
-                $component_list->{$component_name} = $xml_info;
-            }
-
-            // enabled만 체크하도록 하였으면 그냥 return
-            if($filter_enabled) return $component_list;
-
-            // 다운로드된 목록의 xml_info를 마저 구함
-            foreach($downloaded_list as $component_name) {
-                if(in_array($component_name, array('colorpicker_text','colorpicker_bg'))) continue;
-
-                // 설정된 것이라면 패스
-                if($component_list->{$component_name}) continue;
-
-                // DB에 입력
-                $oEditorController = &getAdminController('editor');
-                $oEditorController->insertComponent($component_name, false);
-
-                // component_list에 추가
-                unset($xml_info);
-                $xml_info = $this->getComponentXmlInfo($component_name);
-                $xml_info->enabled = 'N';
-
-                $component_list->{$component_name} = $xml_info;
-            }
-
+            @include($cache_file);
             return $component_list;
         }
 
         /**
          * @brief compnent의 xml+db정보를 구함
          **/
-        function getComponent($component_name) {
+        function getComponent($component_name, $site_srl = 0) {
             $args->component_name = $component_name;
 
-            $output = executeQuery('editor.getComponent', $args);
+            if($site_srl) {
+                $args->site_srl = $site_srl;
+                $output = executeQuery('editor.getSiteComponent', $args);
+            } else {
+                $output = executeQuery('editor.getComponent', $args);
+            }
             $component = $output->data;
 
             $component_name = $component->component_name;
@@ -511,7 +449,6 @@
                     }
                 }
             }
-
 
             return $xml_info;
         }
@@ -648,6 +585,7 @@
 
             FileHandler::writeFile($cache_file, $buff, "w");
 
+            include($cache_file);
             return $xml_info;
         }
     }

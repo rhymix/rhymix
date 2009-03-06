@@ -8,6 +8,7 @@
 
     class layoutModel extends layout {
 
+        var $useUserLayoutTemp = null;
         /**
          * @brief 초기화
          **/
@@ -18,10 +19,14 @@
          * @brief DB 에 생성된 레이아웃의 목록을 구함
          * 생성되었다는 것은 DB에 등록이 되었다는 것을 의미
          **/
-        function getLayoutList() {
-            $output = executeQuery('layout.getLayoutList');
+        function getLayoutList($site_srl = 0) {
+            if(!$site_srl) {
+                $site_module_info = Context::get('site_module_info');
+                $site_srl = (int)$site_module_info->site_srl;
+            }
+            $args->site_srl = $site_srl;
+            $output = executeQuery('layout.getLayoutList', $args);
             if(!$output->data) return;
-
             if(is_array($output->data)) return $output->data;
             return array($output->data);
         }
@@ -45,9 +50,12 @@
          * @brief 레이아웃의 경로를 구함
          **/
         function getLayoutPath($layout_name) {
-            $class_path = sprintf('./layouts/%s/', $layout_name);
+            if($layout_name == 'faceoff'){
+                $class_path = './modules/layout/faceoff/';
+            }else{
+                $class_path = sprintf('./layouts/%s/', $layout_name);
+            }
             if(is_dir($class_path)) return $class_path;
-
             return "";
         }
 
@@ -83,6 +91,7 @@
                 $layout_title = $info->title;
                 $layout = $info->layout;
                 $layout_srl = $info->layout_srl;
+                $site_srl = $info->site_srl;
                 $vars = unserialize($info->extra_vars);
 
                 if($info->module_srl) {
@@ -105,8 +114,11 @@
             }
 
             // cache 파일을 비교하여 문제 없으면 include하고 $layout_info 변수를 return
-            if(!$layout_srl) $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout, Context::getLangType());
-            else $cache_file = sprintf('./files/cache/layout/%s.%s.cache.php', $layout_srl, Context::getLangType());
+            if(!$layout_srl){
+                $cache_file = $this->getLayoutCache($layout, Context::getLangType());
+            }else{
+                $cache_file = $this->getUserLayoutCache($layout_srl, Context::getLangType());
+            }
 
             if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
@@ -130,12 +142,14 @@
             if(!$xml_obj) return;
 
             $buff = '';
+            $buff .= sprintf('$layout_info->site_srl = "%s";', $site_srl);
 
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
                 // 레이아웃의 제목, 버전
                 sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
                 $date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
                 $buff .= sprintf('$layout_info->layout = "%s";', $layout);
+                $buff .= sprintf('$layout_info->type = "%s";', $xml_obj->attrs->type);
                 $buff .= sprintf('$layout_info->path = "%s";', $layout_path);
                 $buff .= sprintf('$layout_info->title = "%s";', $xml_obj->title->body);
                 $buff .= sprintf('$layout_info->description = "%s";', $xml_obj->description->body);
@@ -342,5 +356,245 @@
             return $layout_info;
         }
 
+
+        /**
+         * @brief layout설정화면에서의 업로드한 이미지목록을 반환한다
+         **/
+        function getUserLayoutImageList($layout_srl){
+            $path = $this->getUserLayoutImagePath($layout_srl);
+            $list = FileHandler::readDir($path);
+            return $list;
+        }
+
+
+        /**
+         * @brief ini config들을 가져온다 array다.
+         **/
+        function getUserLayoutIniConfig($layout_srl, $layout_name=null){
+            $file = $this->getUserLayoutIni($layout_srl);
+            if($layout_name && !file_exists(FileHandler::getRealPath($file))){
+                FileHandler::copyFile($this->getDefaultLayoutIni($layout_name),$this->getUserLayoutIni($layout_srl));
+            }
+
+            $output = FileHandler::readIniFile($file);
+            return $output;
+        }
+
+        /**
+         * @brief user layout path
+         **/
+        function getUserLayoutPath($layout_srl){
+            return sprintf("./files/faceOff/%s",getNumberingPath($layout_srl,3));
+        }
+
+        /**
+         * @brief user layout image path
+         **/
+        function getUserLayoutImagePath($layout_srl){
+            return $this->getUserLayoutPath($layout_srl). 'images/';
+        }
+
+        /**
+         * @brief user layout css 관리자가 설정화면에서 저장한 css
+         **/
+        function getUserLayoutCss($layout_srl){
+            return $this->getUserLayoutPath($layout_srl). 'layout.css';
+        }
+
+
+        /**
+         * @brief faceoff용 css module handler에서 import 한다
+         **/
+        function getUserLayoutFaceOffCss($layout_srl){
+            $src = $this->_getUserLayoutFaceOffCss($layout_srl);
+            if($this->useUserLayoutTemp == 'temp') return;
+            return $src;
+        }
+
+
+        /**
+         * @brief faceoff용 css module handler에서 import 한다
+         **/
+        function _getUserLayoutFaceOffCss($layout_srl){
+            return $this->getUserLayoutPath($layout_srl). 'faceoff.css';
+        }
+
+        /**
+         * @brief user layout tmp html
+         **/
+        function getUserLayoutTempFaceOffCss($layout_srl){
+            return $this->getUserLayoutPath($layout_srl). 'tmp.faceoff.css';
+        }
+
+
+
+        /**
+         * @brief user layout html
+         **/
+        function getUserLayoutHtml($layout_srl){
+            $src = $this->getUserLayoutPath($layout_srl). 'layout.html';
+            $temp = $this->getUserLayoutTempHtml($layout_srl);
+            if($this->useUserLayoutTemp == 'temp'){
+                if(!file_exists(FileHandler::getRealPath($temp))) FileHandler::copyFile($src,$temp);
+                return $temp;
+            }else{
+                return $src;
+            }
+        }
+
+        /**
+         * @brief user layout tmp html
+         **/
+        function getUserLayoutTempHtml($layout_srl){
+            return $this->getUserLayoutPath($layout_srl). 'tmp.layout.html';
+        }
+
+
+        /**
+         * @brief user layout ini
+         **/
+        function getUserLayoutIni($layout_srl){
+            $src = $this->getUserLayoutPath($layout_srl). 'layout.ini';
+            $temp = $this->getUserLayoutTempIni($layout_srl);
+            if($this->useUserLayoutTemp == 'temp'){
+                if(!file_exists(FileHandler::getRealPath($temp))) FileHandler::copyFile($src,$temp);
+                return $temp;
+            }else{
+                return $src;
+            }
+        }
+
+        /**
+         * @brief user layout tmp ini
+         **/
+        function getUserLayoutTempIni($layout_srl){
+            return $this->getUserLayoutPath($layout_srl). 'tmp.layout.ini';
+        }
+
+        /**
+         * @brief user layout cache 
+         * todo 파일 자체를 삭제 필요가 있다
+         **/
+        function getUserLayoutCache($layout_srl,$lang_type){
+            return $this->getUserLayoutPath($layout_srl). "{$lang_type}.cache.php";
+        }
+
+        /**
+         * @brief layout cache 
+         **/
+        function getLayoutCache($layout_name,$lang_type){
+            return sprintf("./files/cache/layout/%s.%s.cache.php",$layout_name,$lang_type);
+        }
+
+        /**
+         * @brief default layout ini  사용자의 임의 수정을 막기 위해 
+         **/
+        function getDefaultLayoutIni($layout_name){
+            return $this->getDefaultLayoutPath($layout_name). 'layout.ini';
+        }
+
+        /**
+         * @brief default layout html 사용자의 임의 수정을 막기 위해 
+         **/
+        function getDefaultLayoutHtml($layout_name){
+            return $this->getDefaultLayoutPath($layout_name). 'layout.html';
+        }
+
+        /**
+         * @brief default layout css 사용자의 임의 수정을 막기 위해 
+         **/
+        function getDefaultLayoutCss($layout_name){
+            return $this->getDefaultLayoutPath($layout_name). 'css/layout.css';
+        }
+
+        /**
+         * @brief default layout path 사용자의 임의 수정을 막기 위해 
+         **/
+        function getDefaultLayoutPath() {
+            return "./modules/layout/faceoff/";
+        }
+
+
+        /**
+         * @brief faceoff 인지 
+         **/
+        function useDefaultLayout($layout_name){
+            $info = $this->getLayoutInfo($layout_name);
+            if($info->type == 'faceoff') return true;
+            else return false;
+        }
+
+
+        /**
+         * @brief User Layout 을 임시 저장 모드로
+         **/
+        function setUseUserLayoutTemp($flag='temp'){
+            $this->useUserLayoutTemp = $flag;
+        }
+
+
+        /**
+         * @brief User Layout 임시 저장 파일 목록.
+         **/
+        function getUserLayoutTempFileList($layout_srl){
+            $file_list = array(
+                $this->getUserLayoutTempHtml($layout_srl)
+                ,$this->getUserLayoutTempFaceOffCss($layout_srl)
+                ,$this->getUserLayoutTempIni($layout_srl)
+            );
+            return $file_list;
+        }
+
+
+        /**
+         * @brief User Layout 저장 파일 목록.
+         **/
+        function getUserLayoutFileList($layout_srl){
+            $file_list = array(
+                basename($this->getUserLayoutHtml($layout_srl))
+                ,basename($this->getUserLayoutFaceOffCss($layout_srl))
+                ,basename($this->getUserLayoutIni($layout_srl))
+                ,basename($this->getUserLayoutCss($layout_srl))
+            );
+
+            $image_path = $this->getUserLayoutImagePath($layout_srl);
+            $image_list = FileHandler::readDir($image_path,'/(.*(?:swf|jpg|jpeg|gif|bmp|png)$)/i');
+
+            for($i=0,$c=count($image_list);$i<$c;$i++) $file_list[] = 'images/' . $image_list[$i];
+            return $file_list;
+        }
+
+        /**
+         * @brief faceOff관련 서비스 출력을 위한 동작 실행
+         **/
+        function doActivateFaceOff(&$layout_info) {
+            $layout_info->faceoff_ini_config = $this->getUserLayoutIniConfig($layout_info->layout_srl, $layout_info->layout);
+
+            // 기본 faceoff layout CSS
+            Context::addCSSFile($this->getDefaultLayoutCss($layout_info->layout));
+
+            // 레이아웃 매니져에서 생성된 CSS
+            $faceoff_layout_css = $this->getUserLayoutFaceOffCss($layout_info->layout_srl);
+            if($faceoff_layout_css) Context::addCSSFile($faceoff_layout_css);
+
+            // 레이아웃의 위젯을 위한 css출력
+            Context::addCSSFile($this->module_path.'/tpl/css/widget.css');
+            if($layout_info->extra_var->colorset->value == 'black') Context::addCSSFile($this->module_path.'/tpl/css/widget@black.css');
+            else Context::addCSSFile($this->module_path.'/tpl/css/widget@white.css');
+
+            // 권한에 따른 다른 내용 출력
+            $logged_info = Context::get('logged_info');
+
+            // faceOff 레이아웃 편집 버튼 노출
+            if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')===false && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin)) {
+                Context::addHtmlFooter("<div class=\"faceOffManager\"><a href=\"".getUrl('','mid',Context::get('mid'),'act','dispLayoutAdminLayoutModify','delete_tmp','Y')."\" class=\"buttonSet buttonLayoutEditor\"><span>".Context::getLang('cmd_layout_edit')."</span></a></div>");
+            }
+
+            // faceOff페이지 수정시에 메뉴 출력
+            if(Context::get('act')=='dispLayoutAdminLayoutModify' && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin)) {
+                $oTemplate = &TemplateHandler::getInstance();
+                Context::addBodyHeader($oTemplate->compile($this->module_path.'/tpl', 'faceoff_layout_menu'));
+            }
+        }
     }
 ?>

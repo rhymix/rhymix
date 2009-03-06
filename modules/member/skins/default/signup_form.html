@@ -7,9 +7,7 @@
 
 <!--#include("./common_header.html")-->
 
-    <div class="boardHeader">
-        <h3>{$lang->cmd_signup}</h3>
-    </div>
+    <h3>{$lang->cmd_signup}</h3>
 
     <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, signup)">
     <input type="hidden" name="mid" value="{$mid}" />
@@ -26,89 +24,74 @@
     </div>
     <!--@end-->
 
-    <table cellspacing="0" class="memberInfoTable">
-    <col width="20%" />
-    <col width="80%" />
-    <caption>{$lang->member_default_info}</caption>
-    <tr class="first-child">
-        <th scope="row">{$lang->user_id} *</th>
-        <td><input type="text" name="user_id" value="" /> <p>{$lang->about_user_id}</p> </td>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th colspan="2" class="title"><div>{$lang->member_default_info}</div></th>
     </tr>
     <tr>
-        <th scope="row">{$lang->password} *</th>
-        <td><input type="password" name="password1" value="" /><p>{$lang->about_password}</p></td>
+        <th><div>{$lang->user_id} <span class="require">*</span></div></th>
+        <td class="wide"><input type="text" name="user_id" value="" class="inputTypeText"/> <p>{$lang->about_user_id}</p> </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->password2} *</th>
-        <td><input type="password" name="password2" value="" /></td>
+        <th><div>{$lang->password} <span class="require">*</span></div></th>
+        <td><input type="password" name="password1" value="" class="inputTypeText"/><p>{$lang->about_password}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->user_name} *</th>
+        <th><div>{$lang->password2} <span class="require">*</span></div></th>
+        <td><input type="password" name="password2" value="" class="inputTypeText"/></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->user_name} <span class="require">*</span></div></th>
         <td>
-            <input type="text" name="user_name" value="" />
-            <p>{$lang->about_user_name}</p>
+            <input type="text" name="user_name" value="" class="inputTypeText"/><p>{$lang->about_user_name}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->nick_name} *</th>
+        <th><div>{$lang->nick_name} <span class="require">*</span></div></th>
         <td>
-            <input type="text" name="nick_name" value="" />
-            <p>{$lang->about_nick_name}</p>
+            <input type="text" name="nick_name" value="" class="inputTypeText"/><p>{$lang->about_nick_name}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->email_address} *</th>
+        <th><div>{$lang->email_address} <span class="require">*</span></div></th>
         <td>
-            <input type="text" name="email_address" value="" />
-            <p>{$lang->about_email_address}</p>
+            <input type="text" name="email_address" value="" class="inputTypeText"/><p>{$lang->about_email_address}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->homepage}</th>
+        <th><div>{$lang->homepage}</div></th>
         <td>
-            <input type="text" name="homepage" value="" />
-            <p>{$lang->about_homepage}</p>
+            <input type="text" name="homepage" value="" class="inputTypeText"/><p>{$lang->about_homepage}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->blog}</th>
+        <th><div>{$lang->blog}</div></th>
         <td>
-            <input type="text" name="blog" value="" />
-            <p>{$lang->about_blog_url}</p>
+            <input type="text" name="blog" value="" class="inputTypeText"/><p>{$lang->about_blog_url}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->birthday}</th>
+        <th><div>{$lang->birthday}</div></th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <input type="text" class="inputDate" value="" readonly="readonly" />
-
-
-            <p>{$lang->about_birthday}</p>
+            <input type="text" value="" readonly="readonly" class="inputDate inputTypeText" /><p>{$lang->about_birthday}</p>
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->allow_mailing}</th>
+        <th><div>{$lang->allow_mailing}</div></th>
         <td><input type="checkbox" class="checkbox" name="allow_mailing" value="Y" checked="checked" /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
-    </table>
-
     <!--@if($extend_form_list)-->
-    <table cellspacing="0" class="memberInfoTable">
-    <col width="20%" />
-    <col width="80%" />
-    <caption>{$lang->member_extend_info}</caption>
-    {@ $dummy_chk = 0 }
-    <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
-    <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
-        <th scope="row">
-            {htmlspecialchars($val->column_title)}
-            <!--@if($val->required=='Y')-->*<!--@end-->
-            <div class="publicItem">
-                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" />
-                <label for="open_{$val->column_name}">{$lang->public}</label>
-            </div>
-        </th>
+    <tr>
+        <th class="title" colspan="2"><div>{$lang->member_extend_info}</div></th>
+    </tr>
+
+        <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
+        <tr>
+            <th>
+                {htmlspecialchars($val->column_title)}
+                <!--@if($val->required=='Y')--><span class="require">*</span><!--@end-->
+            </th>
         <td>
             <!--// 일반 text -->
             <!--@if($val->column_type == 'text')-->
@@ -156,7 +139,7 @@
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div class="krZip">
                     <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="w400"/>
+                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="inputTypeText w400"/>
                         <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
                     </div>
                     <div id="zone_address_list_{$val->column_name}" style="display:none">
@@ -165,12 +148,12 @@
                         <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
                     </div>
                     <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
-                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="w400" value="" />
+                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="inputTypeText w400" value="" />
                         <a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_search}</span></a>
                     </div>
 
                     <div class="address2">
-                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="w400" />
+                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="inputTypeText w400" />
                     </div>
                 </div>
 
@@ -181,25 +164,28 @@
             <!--// 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-                <input type="text" class="inputDate" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
+                <input type="text" class="inputDate inputTypeText" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
             <!--@end-->
 
-            <div class="extendDesc">{$val->description}</div>
+            <p>{$val->description}</p>
+
+            <div class="publicItem">
+                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" />
+                <label for="open_{$val->column_name}">{$lang->public}</label>
+            </div>
         </td>
     </tr>
-    <!--@end--><!--@end-->
-    </table>
+        <!--@end--><!--@end-->
     <!--@end-->
-
-    <div class="tCenter">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        <!--@if($popup)-->
-        <a href="#" class="button" onclick="window.close();return false;"><span>{$lang->cmd_close}</span></a>
-        <!--@else-->
-        <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
-        <!--@end-->
-    </div>
+    <tr>
+        <th class="button" colspan="2">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+        </th>
+    </tr>
+    </table>
 </form>
+
 <script type="text/javascript">
 (function($){
     $(function(){

@@ -1,0 +1,12 @@
+<filter name="add_openid_to_member" module="member" act="procMemberAddOpenIDToMember">
+    <form>
+        <node target="openid" required="true" minlength="2" maxlength="80"/>
+    </form>
+    <parameter>
+        <param name="openid" target="openid" />
+    </parameter>
+    <response callback_func="completeModify">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

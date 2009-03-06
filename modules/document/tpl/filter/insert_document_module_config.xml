@@ -1,0 +1,7 @@
+<filter name="insert_document_module_config" module="document" act="procDocumentInsertModuleConfig" confirm_msg_code="confirm_submit">
+    <form />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

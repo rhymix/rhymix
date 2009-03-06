@@ -1,0 +1,5 @@
+<table name="module_grants">
+    <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_module" />
+    <column name="name" type="varchar" size="20" notnull="notnull" unique="unique_module" />
+    <column name="group_srl" type="number" size="11" notnull="notnull" unique="unique_module" />
+</table>

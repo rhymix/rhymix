@@ -36,6 +36,10 @@
     $lang->image_mark = 'Marque en Image';
     $lang->image_mark_max_width = 'Largeur Maximum';
     $lang->image_mark_max_height = 'Hauteur Maximum';
+    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark_max_width = 'Largeur Maximum';
+    $lang->group_image_mark_max_height = 'Hauteur Maximum';
+    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
 	$lang->signature_max_height = 'Hauteur Maximum de la Signature';
     $lang->enable_openid = 'Permettre OpenID';
     $lang->enable_join = 'Permettre l\'inscription';
@@ -59,6 +63,7 @@
             'N' => '모두 금지',
     );
     $lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
+    $lang->logged_users = 'Logged Users';
 
     $lang->webmaster_name = "Nom de Webmestre";
     $lang->webmaster_email = "Mél de Webmestre";
@@ -84,6 +89,7 @@
     $lang->cmd_login = 'Connexion';
     $lang->cmd_logout = 'Déconnexion';
     $lang->cmd_signup = 'Inscription';
+    $lang->cmd_site_signup = 'Join';
     $lang->cmd_modify_member_info = 'Modifier Mon Information';
     $lang->cmd_modify_member_password = 'Modifier le Mot de Passe';
     $lang->cmd_view_member_info = 'Voir Mon Information';
@@ -141,6 +147,7 @@
     $lang->msg_not_uploaded_profile_image = 'L\'image de Profil n\'a pas pu être enrégistré';
     $lang->msg_not_uploaded_image_name = 'Le nom d\'image n\'a pas pu être enrégistré';
     $lang->msg_not_uploaded_image_mark = 'La marque en image n\'a pas pu être enrégistrée';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
     $lang->msg_accept_agreement = 'Vous devez agréer l\'accord'; 
 
@@ -183,6 +190,7 @@
 
     $lang->about_image_name = "Permettre aux utilisateurs d'utiliser une image pour présenter leurs noms au lieu des lettres";
     $lang->about_image_mark = "Permettre aux utilisateurs d'utiliser une marque devent leurs noms";
+    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = 'Permettre aux utilisateurs d\'utiliser une image de profil';
     $lang->about_accept_agreement = "J'ai lu l'Accord et je suis d'accord."; 
 

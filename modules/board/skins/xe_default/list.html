@@ -1,7 +1,5 @@
 <!--#include("_header.html")-->
 
-<!--%import("filter/search.xml")-->
-
 <!--@if($oDocument->isExists() && $module_info->default_style != 'blog')-->
 <div class="viewDocument">
     <!--#include("./view_document.html")-->
@@ -23,8 +21,8 @@
 <div class="boardNavigation">
 
     <div class="buttonLeft">
-        <!--@if($grant->is_admin)-->
-            <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
+        <!--@if($grant->manager)-->
+            <a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
         <!--@end-->
         <!--@if($module_info->default_style != 'blog')-->
         <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button"><span>{$lang->cmd_list}</span></a>

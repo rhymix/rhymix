@@ -1,0 +1,11 @@
+<query id="getMemberSrlByOpenID" action="select">
+    <tables>
+        <table name="member_openid" />
+    </tables>
+    <columns>
+        <column name="member_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="openid" var="openid" notnull="notnull" />
+    </conditions>
+</query>

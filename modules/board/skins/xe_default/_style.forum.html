@@ -5,7 +5,7 @@
 		<thead>
 			{@ $no_line_class = " no_line" }
 			<tr>
-				<!--@if($grant->is_admin)--> 
+				<!--@if($grant->manager)--> 
 				<th scope="col">
 					<input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" />
 				</th>
@@ -37,7 +37,7 @@
 	
         <!--@if(!$document_list && !$notice_list)-->
             <tr>
-                <td colspan="<!--@if($grant->is_admin)-->5<!--@else-->4<!--@end-->">
+                <td colspan="<!--@if($grant->manager)-->5<!--@else-->4<!--@end-->">
                     {$lang->no_documents}
                 </td>
             </tr>
@@ -45,7 +45,7 @@
 
 		<!--@foreach($notice_list as $no => $document)-->
 			<tr class="notice">
-				<!--@if($grant->is_admin)-->
+				<!--@if($grant->manager)-->
 				<td class="check">
 					<input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> />
 				</td>
@@ -82,7 +82,7 @@
 
 		<!--@foreach($document_list as $no => $document)-->
 			<tr class="bg{($no+1)%2+1}">
-				<!--@if($grant->is_admin)-->
+				<!--@if($grant->manager)-->
 				<td class="check">
 					<input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> />
 				</td>

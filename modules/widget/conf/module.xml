@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+    <grants />
+    <permissions />
     <actions>
         <action name="dispWidgetInfo" type="view" standalone="true" />
         <action name="dispWidgetGenerateCode" type="view" standalone="true" />
         <action name="dispWidgetGenerateCodeInPage" type="view" standalone="true" />
-
+        <action name="dispWidgetStyleGenerateCodeInPage" type="view" standalone="true" />
         <action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" />
         <action name="dispWidgetAdminAddContent" type="view" standalone="true" />
-
         <action name="procWidgetGenerateCode" type="controller" standalone="true" />
+        <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
+        <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
         <action name="procWidgetAddContent" type="controller" standalone="true" />
         <action name="procWidgetInsertDocument" type="controller" standalone="true" />
         <action name="procWidgetCopyDocument" type="controller" standalone="true" />
@@ -16,5 +19,8 @@
         <action name="procWidgetGenerateCodeInPage" type="controller" standalone="true" />
         <action name="procWidgetGetColorsetList" type="controller" standalone="true" />
         <action name="procWidgetRemoveContents" type="controller" standalone="true" />
+
+        <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
+        <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
     </actions>
 </module>

@@ -13,10 +13,6 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
-            $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('addon', 'view', 'dispAddonAdminIndex');
-            
             // 몇가지 애드온을 등록
             $oAddonController = &getAdminController('addon');
             $oAddonController->doInsert('autolink');
@@ -39,7 +35,7 @@
             $oAddonController->doActivate('mobile');
             $oAddonController->doActivate('referer');
             $oAddonController->doActivate('resize_image');
-            $oAddonController->procAddonAdminToggleActivate();
+            $oAddonController->makeCacheFile(0);
             return new Object();
         }
 
@@ -47,6 +43,7 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            if(file_exists($this->cache_file)) FileHandler::removeFile($this->cache_file);
             return false;
         }
 
@@ -61,8 +58,7 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
-            $oAddonController = &getAdminController('addon');
-            $oAddonController->makeCacheFile();
+            FileHandler::removeFilesInDir('./files/cache/addons');
         }
 
     }

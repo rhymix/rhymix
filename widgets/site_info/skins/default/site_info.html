@@ -1,0 +1,33 @@
+<!--%import("./js/site_info.js")-->
+<!--%import("./css/widget.css")-->
+
+<!--@if($colorset=="black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset=="white" || $colorset=="default")-->
+    <!--%import("./css/white.css")-->
+<!--@else-->
+    <!--@if($layout_info->colorset=="black")-->
+        <!--%import("./css/black.css")-->
+    <!--@else-->
+        <!--%import("./css/white.css")-->
+    <!--@end-->
+<!--@end-->
+
+<div class="widgetContainer">
+    <dl class="widgetDlistA">
+        <dt>{$lang->member}:</dt>
+        <dd>{number_format($widget_info->member_count)}</dd>
+        <dt class="div">{$lang->new_document_count}:</dt>
+        <dd>{number_format($widget_info->new_documents)}</dd>
+        <dt>{$lang->regdate}:</dt>
+        <dd>{zdate($widget_info->created, "Y.m.d")}</dd>
+    </dl>
+
+    <!--@if($is_logged)-->
+        <!--@if(!$widget_info->joined)-->
+        <a href="#" onclick="doSiteSignUp(); return false;" class="button green strong"><span>{$lang->cmd_site_signup}</span></a>
+        <!--@else-->
+        <a href="#" onclick="doSiteLeave('{$lang->confirm_leave}'); return false;" class="button"><span>{$lang->cmd_leave}</span></a>
+        <!--@end-->
+    <!--@end-->
+</div>

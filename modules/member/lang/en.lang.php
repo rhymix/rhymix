@@ -36,6 +36,10 @@
     $lang->image_mark = 'Image Mark';
     $lang->image_mark_max_width = 'Max Width';
     $lang->image_mark_max_height = 'Max Height';
+    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark_max_width = 'Max Width';
+    $lang->group_image_mark_max_height = 'Max Height';
+    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
@@ -59,6 +63,7 @@
             'N' => 'Reject All',
     );
     $lang->about_allow_message = 'You may allow or reject messages.';
+    $lang->logged_users = 'Logged Users';
 
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
@@ -84,6 +89,7 @@
     $lang->cmd_login = 'Login';
     $lang->cmd_logout = 'Logout';
     $lang->cmd_signup = 'Join';
+    $lang->cmd_site_signup = 'Join';
     $lang->cmd_modify_member_info = 'Modify Member Info';
     $lang->cmd_modify_member_password = 'Modify Password';
     $lang->cmd_view_member_info = 'Member Info';
@@ -141,6 +147,7 @@
     $lang->msg_not_uploaded_profile_image = 'Profile image could not be registered';
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
     $lang->msg_not_uploaded_image_mark = 'Image mark could not be registered';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
     $lang->msg_accept_agreement = 'You have to agree the agreement'; 
 
@@ -183,6 +190,7 @@
 
     $lang->about_image_name = "Allow users to use image name instead of text name";
     $lang->about_image_mark = "Allow users to use mark in front of their names";
+    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = 'Allow users to use profile images';
     $lang->about_accept_agreement = "I have read the agreement and agree"; 
 
@@ -193,4 +201,5 @@
 
     $lang->about_member = "This is a module for creating/modifying/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
+    $lang->add_openid = 'Add OpenID';
 ?>

@@ -16,7 +16,7 @@
 .ni_box .thumbnail_box a:visited { color:#54564b; text-decoration:none; }
 
 .ni_box .thumbnail_box td.bottomBorder { border-bottom:1px dashed #EEEEEE; padding-bottom:5px; }
-.ni_box .thumbnail_box div strong { font-weight:normal; font-size:0.9em; color:#ed2a32; }
+.ni_box .thumbnail_box div strong { font-weight:normal; color:#FE6700; font:.9em Tahoma; }
 .ni_box .thumbnail_box div.author { color:#54564b; text-align:center;}
 .ni_box .thumbnail_box div.author span, .ni_box .thumbnail_box div.author div { color:#54564b; }
 .ni_box .thumbnail_box div.regdate { font-size:0.9em; color:#AAAAAA; margin-top:2px;text-align:center;}

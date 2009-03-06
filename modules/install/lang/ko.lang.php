@@ -271,5 +271,5 @@ EndOfLicense;
     $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요";
     $lang->msg_table_is_exists = "이미 DB에 테이블이 생성되어 있습니다.\nconfig파일을 재생성하였습니다";
     $lang->msg_install_completed = "설치가 완료되었습니다.\n감사합니다";
-    $lang->msg_install_failed = "설치 파일 생성시에 오류가 발생하였습니다.";
+    $lang->msg_install_failed = '설치 파일 생성시에 오류가 발생하였습니다.';
 ?>

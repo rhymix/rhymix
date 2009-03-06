@@ -1,0 +1,22 @@
+<query id="getDocumentExtraKeys" action="select">
+    <tables>
+        <table name="document_extra_keys" />
+    </tables>
+    <columns>
+        <column name="module_srl" alias="module_srl" />
+        <column name="var_idx" alias="idx" />
+        <column name="var_name" alias="name" />
+        <column name="var_type" alias="type" />
+        <column name="var_is_required" alias="is_required" />
+        <column name="var_search" alias="search" />
+        <column name="var_default" alias="default" />
+        <column name="var_desc" alias="desc" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="var_idx" var="var_idx" filter="number" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="var_idx" order="asc" />
+    </navigation>
+</query>

@@ -6,6 +6,6 @@
         <column name="group_srl" var="group_srl" notnull="notnull" />
         <column name="member_srl" var="member_srl" notnull="notnull" />
         <column name="site_srl" var="site_srl" default="0" />
-        <column name="regdate" default="curdate()" />
+        <column name="regdate" var="regdate" default="curdate()" />
     </columns>
 </query>

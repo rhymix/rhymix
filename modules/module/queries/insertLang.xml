@@ -1,0 +1,11 @@
+<query id="insertLang" action="insert">
+    <tables>
+        <table name="lang" />
+    </tables>
+    <columns>
+        <column name="site_srl" var="site_srl" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="lang_code" var="lang_code" notnull="notnull" />
+        <column name="value" var="value" notnull="notnull" />
+    </columns>
+</query>

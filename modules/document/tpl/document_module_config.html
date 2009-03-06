@@ -1,0 +1,26 @@
+<!--%import("filter/insert_document_module_config.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_document_module_config)">
+<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+
+    <h4 class="xeAdmin">{$lang->document}</h4>
+    <p class="summary">{$lang->about_use_history}</p>
+    <table cellspacing="0" class="rowTable">
+    <tr>    
+        <th><div>{$lang->history}</div></th>
+        <td class="wide">
+            <select name="use_history" class="w100">
+                <option value="N" <!--@if($document_config->use_history=='N')-->selected<!--@end-->>{$lang->notuse}</option>
+                <option value="Y" <!--@if($document_config->use_history=='Y')-->selected<!--@end-->>{$lang->use}</option>
+                <option value="Trace" <!--@if($document_config->use_history=='Trace')-->selected<!--@end-->>{$lang->trace_only}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th class="button" colspan="2">
+            <span class="button strong black"><input type="submit" value="{$lang->cmd_save}"/></span>
+        </th>
+    </tr>
+    </table>
+
+</form>

@@ -1,0 +1,105 @@
+<!--%import("filter/style_generate_code_in_page.xml")-->
+<!--%import("js/widget_admin.js")-->
+<!--%import("css/widget.css")-->
+<!--%import("../../admin/tpl/css/admin.css")-->
+<!--%load_js_plugin("filebox")-->
+
+
+<script type="text/javascript">
+    doAddWindowLoadEventLoader(getWidgetVars);
+</script>
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->widgetstyle}</h3>
+</div>
+
+<form action="{getUrl('')}" method="post" enctype="multipart/form-data" target="hidden_iframe" onsubmit="return procFilter(this, style_generate_code_in_page);" id="fo_widget">
+<input type="hidden" name="module" value="widget" />
+<input type="hidden" name="act" value="" />
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="widgetstyle" value="{$widgetstyle}" />
+<input type="hidden" name="widget_sequence" value="" />
+<input type="hidden" name="style" value="float:left;width:100%;margin:none;padding:none;" />
+<input type="hidden" name="selected_widget" value="{$selected_widget}" />
+
+
+
+<div id="popBody">
+
+    <a href="{getUrl('widgetstyle','none')}" class="widgetStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
+    <!--@foreach($widgetStyle_list as $key => $widgetStyle)-->
+        <!--@if($widgetStyle->preview)-->
+    <a href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /></a>
+        <!--@end-->
+    <!--@end-->
+    <div class="clear"></div>
+
+
+<!--@if($widgetstyle_info)-->
+    <h4 class="xeAdmin">{$widgetstyle_info->title} ver {$widgetstyle_info->version}</h4>
+    <table cellspacing="0" class="rowTable">
+        <tr>
+            <th scope="row"><div>{$lang->description}</div></th>
+            <td>{$widgetstyle_info->description}</td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->author}</div></th>
+            <td>
+            <!--@foreach($widgetstyle_info->author as $k => $author)-->
+                {$author->name} ({$author->homepage})
+            <!--@end-->
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->regdate}</div></th>
+            <td>{zdate($widgetstyle_info->date,'Y-m-d')}</td>
+        </tr>
+        </table>
+
+        <h4 class="xeAdmin">{$lang->cmd_setup}</h4>
+        <table cellspacing="0" class="rowTable">
+        <!--@foreach($widgetstyle_info->extra_var as $id => $var)-->
+        <tr>
+            <th scope="row">
+                <div>
+                    {$var->name}
+                </div>
+            </th>
+            <td>
+                <!--@if($var->type == "text")-->
+                <input type="text" name="{$id}" value="" class="inputTypeText w400" />
+
+                <!--@elseif($var->type == "textarea")-->
+                <textarea name="{$id}" class="inputTypeTextArea w400"></textarea>
+
+                <!--@elseif($var->type == "select")-->
+                <select name="{$id}">
+                    <!--@foreach($var->options as $key => $val)-->
+                    <option value="{$key}">{$val}</option>
+                    <!--@end-->
+                </select>
+                <!--@elseif($var->type == "filebox")-->
+                    <div id="filebox_preview_{$id}" style="width:100px;height:100px;display:none" ></div>
+                    <input type="hidden" name="{$id}" value="" />
+                    <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name={$id}]', '#fo_widget').get(0), '{$var->filter}')">{$lang->cmd_select}</button></span>
+                    <span id="filebox_cancel_{$id}" class="button red" style="display:none" ><button type="button" onclick="XE.filebox.cancel('{$id}')">{$lang->cmd_delete}</button></span>
+                    <script type="text/javascript">//<![CDATA[
+                        XE.filebox.init('{$id}');
+                    //]]></script>
+
+
+                <!--@end-->
+                <p class="clear">{nl2br($var->description)}</p>
+            </td>
+        </tr>
+        <!--@end-->
+        </table>
+<!--@end-->
+
+</div>
+<div id="popFooter">
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_setup}"  /></span>
+</div>
+</form>
+
+<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

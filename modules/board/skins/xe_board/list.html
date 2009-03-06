@@ -1,9 +1,6 @@
 <!--// header.html include -->
     <!--#include("header.html")-->
 
-<!--// 검색을 위한 xml filter import-->
-    <!--%import("filter/search.xml")-->
-
 <!--// 선택된 게시물이 있고 권한이 있으면 내용 출력 -->
     <!--@if($oDocument->isExists() && $module_info->default_style != 'blog')-->
     <div class="viewDocument">
@@ -28,8 +25,8 @@
 
     <!-- 글쓰기, 목록 버튼 -->
         <div class="leftButtonBox">
-            <!--@if($grant->is_admin)-->
-                <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button {$btn_class}"><span>{$lang->cmd_manage_document}</span></a>
+            <!--@if($grant->manager)-->
+                <a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button {$btn_class}"><span>{$lang->cmd_manage_document}</span></a>
             <!--@end-->
             <!--@if($module_info->default_style != 'blog')-->
             <a href="{getUrl('','mid',$mid,'page',$page,'document_srl','','listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_list}</span></a>
@@ -43,15 +40,15 @@
 
     <!-- 페이지 네비게이션 -->
         <div class="pagination a1">
-            <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="prevEnd">{$lang->first_page}</a> 
+            <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="prevEnd">{$lang->first_page}</a> 
             <!--@while($page_no = $page_navigation->getNextPage())-->
                 <!--@if($page == $page_no)-->
                     <strong>{$page_no}</strong> 
                 <!--@else-->
-                    <a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
+                    <a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division,'entry','')}">{$page_no}</a>
                 <!--@end-->
             <!--@end-->
-            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="nextEnd">{$lang->last_page}</a>
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="nextEnd">{$lang->last_page}</a>
         </div>
 
 
@@ -69,7 +66,7 @@
                 </select>
                 <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
                 <!--@if($last_division)-->
-                    <a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="button {$btn_class}"><span>{$lang->cmd_search_next}</span></a>
+                    <a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','','entry','')}" class="button {$btn_class}"><span>{$lang->cmd_search_next}</span></a>
                 <!--@end-->
                 <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button {$btn_class}"><span>{$lang->cmd_search}</span></a>
                 <a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_cancel}</span></a>

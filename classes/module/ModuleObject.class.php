@@ -82,109 +82,39 @@
             // 웹서비스에서 꼭 필요한 인증 정보와 권한 설정 체크
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
-            $user_id = $logged_info->user_id;
-            $user_group = $logged_info->group_list;
-            $grant->is_admin = false;
 
+            // module model 객체 생성
             $oModuleModel = &getModel('module');
 
-            // 로그인되어 있다면 관리자 여부를 확인
-            if($is_logged) {
-                /* 로그인 사용자에 대한 관리자 여부는 다양한 방법으로 체크가 됨 */
-                // 1. 최고관리자일 경우
-                if($logged_info->is_admin == 'Y') {
-                    $grant->is_admin = true;
+            // 사이트 관리자이면 로그인 정보의 is_admin 에 'Y'로 세팅
+            //if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_admin = 'Y';
 
-                // 2. 사이트 관리자일 경우 사이트 관리 권한을 줌
-                } elseif($oModuleModel->isSiteAdmin()) {
-                    $grant->is_admin = true;
+            // XE에서 access, manager (== is_admin) 는 고정된 권한명이며 이와 관련된 권한 설정
+            $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
 
+            // 현재 모듈의 access 권한이 없으면 권한 없음 표시
+            //if(!$grant->access) return $this->stop("msg_not_permitted");
 
-                // 3. 최고 관리자는 아니지만 모듈 object가 있고 admin_id 컬럼에 로그인 사용자의 아이디가 있을 경우
-                } elseif($this->module_info->admin_id) {
-                    if(is_array($this->module_info->admin_id) && in_array($user_id, $this->module_info->admin_id)) $grant->is_admin = true;
-
-                // 4. 1/2/3번이 아닐 경우 그룹을 체크하고 직접 모듈에 요청을 하여 체크를 함. (모듈.class.php에 정의)
-                } else {
-                    $manager_group = $this->module_info->grants['manager'];
-                    if(count($user_group) && count($manager_group)) {
-                        foreach($user_group as $group_srl => $group_info) {
-                            if(in_array($group_srl, $manager_group)) $grant->is_admin = true;
-                        }
-                    }
-
-                    if(!$grant->is_admin && $module_info->module) {
-                        $oClass = &getClass($module_info->module);
-                        if($oClass && method_exists($oClass, 'isAdmin')) $grant->is_admin = $oClass->isAdmin();
-                    }
-                }
-            }
-
-            // 권한 설정
-            if($xml_info->grant) {
-
-                // 이 모듈에 action.xml에서 선언된 권한 목록을 루프
-                foreach($xml_info->grant as $grant_name => $grant_item) {
-
-                    // 제목과 기타 설정 없을 경우의 기본 권한(guest, member, root)에 대한 변수 설정
-                    $title = $grant_item->title;
-                    $default = $grant_item->default;
-
-                    // 최고 관리자이면 모든 권한에 대해 true 설정
-                    if($grant->is_admin) {
-                        $grant->{$grant_name} = true;
-                        continue;
-                    }
-
-                    // 일단 현재 권한에 대해 false 지정
-                    $grant->{$grant_name} = false;
-
-                    // 모듈의 개별 설정에서 이 권한에 대한 그룹 지정이 있으면 체크
-                    if(count($this->module_info->grants[$grant_name])) {
-                        $group_srls = $this->module_info->grants[$grant_name];
-                        if(!is_array($group_srls)) $group_srls = array($group_srls);
-
-                        if(count($user_group)) {
-                            foreach($user_group as $group_srl => $group_title) {
-                                if(in_array($group_srl, $group_srls)) {
-                                    $grant->{$grant_name} = true;
-                                    break;
-                                }
-                            }
-                        } 
-
-                    // 별도의 지정이 없으면 default값으로 권한 체크
-                    } else {
-                        switch($default) {
-                            case 'member' :
-                                    if($is_logged) $grant->{$grant_name} = true;
-                                break;
-                            case 'root' :
-                                    if($logged_info->is_admin == 'Y') $grant->{$grant_name} = true;
-                                break;
-                            default :
-                                    $grant->{$grant_name} = true;
-                                break;
-                        }
-
-                    }
-                }
-            }
-
-            // 현재 action값에 따른 최고 관리 권한 부여
-            if($this->act && $xml_info->permission) {
+            // 관리 권한이 없으면 permision, action 확인
+            if(!$grant->manager) {
+                // 현재 요청된 action의 퍼미션 type(guest, member, manager, root)를 구함
                 $permission_target = $xml_info->permission->{$this->act};
-                if($permission_target && $grant->{$permission_target}) {
-                    foreach($grant as $key => $val) $grant->{$key} = true;
-                }
-            }
 
-            // act값에 admin이 들어 있는데 관리자가 아닌 경우 해당 모듈의 관리자 체크 
-            if(substr_count($this->act, 'Admin')) {
-                if(!$is_logged) $this->setAct("dispMemberLoginForm");
-                else if($logged_info->is_admin != 'Y' && (!method_exists($this, 'checkAdminActionGrant') || !$this->checkAdminActionGrant())) {
-                    $this->stop('msg_not_permitted_act');
-                } 
+                // module.xml에 명시된 퍼미션이 없을때 ation명에 Admin이 있으면 manager로 체크
+                if(!$permission_target && substr_count($this->act, 'Admin')) $permission_target = 'manager';
+
+                // 권한 체크
+                switch($permission_target) {
+                    case 'root' :
+                            $this->stop('msg_not_permitted_act');
+                        break;
+                    case 'manager' :
+                            if(!$grant->manager) $this->stop('msg_not_permitted_act');
+                        break;
+                    case 'member' :
+                            if(!$is_logged) $this->stop('msg_not_permitted_act');
+                        break;
+                }
             }
 
             // 권한변수 설정
@@ -301,55 +231,90 @@
          **/
         function proc() {
             // stop_proc==true이면 그냥 패스
-            if($this->stop_proc==true) return false;
+            if($this->stop_proc) return false;
 
             // addon 실행(called_position 를 before_module_proc로 하여 호출)
             $called_position = 'before_module_proc';
-            @include(_XE_PATH_."files/cache/activated_addons.cache.php");
+            $oAddonController = &getController('addon');
+            $addon_file = $oAddonController->getCacheFilePath();
+            if(file_exists($addon_file)) @include($addon_file);
 
-            // 지금까지 이상이 없었다면 action 실행
-            if(!$this->stop_proc) {
-                // 현재 모듈에 act값이 있으면 해당 act를 실행
-                if(method_exists($this, $this->act)) {
-                    $output = $this->{$this->act}();
+            // action 실행
+            if(method_exists($this, $this->act)) {
 
-                // act가 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
-                } else if(Context::isInstalled()) {
+                // 권한 체크
+                if(!$this->grant->access) return $this->stop("msg_not_permitted_act");
 
-                    $oModuleModel = &getModel('module');
-                    $forward = $oModuleModel->getActionForward($this->act);
-                    if($forward->module && $forward->type && $forward->act) {
+                // 모듈의 스킨 정보를 연동 (스킨 정보의 테이블 분리로 동작대상 모듈에만 스킨 정보를 싱크시키도록 변경)
+                $oModuleModel = &getModel('module');
+                $oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
+                Context::set('module_info', $this->module_info);
 
-                        $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
-                        $oModule = &getModule($forward->module, $forward->type, $kind);
-                        $xml_info = $oModuleModel->getModuleActionXml($forward->module);
-                        $oModule->setAct($forward->act);
-                        $oModule->init();
-                        $oModule->setModuleInfo($this->module_info, $xml_info);
+                // 실행
+                $output = $this->{$this->act}();
 
-                        $output = $oModule->{$forward->act}();
+            // act이 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
+            } else if(Context::isInstalled()) {
+                $oModuleModel = &getModel('module');
 
-                        $this->setTemplatePath($oModule->getTemplatePath());
-                        $this->setTemplateFile($oModule->getTemplateFile());
+                $forward = null;
 
-                    } else {
-                        if($this->xml_info->default_index_act) {
-                            if(method_exists($this, $this->xml_info->default_index_act)) {
-                                $output = $this->{$this->xml_info->default_index_act}();
-                            }
-                        } else {
-                            return false;
-                        }
+                // 현재 요청된 action의 대상 모듈을 찾음
+                // 1. action이름으로 검색 (DB검색 없이 하기 위함)
+                if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches)) {
+                    $module = strtolower($matches[2].$matches[3]);
+                    $xml_info = $oModuleModel->getModuleActionXml($module);
+                    if($xml_info->action->{$this->act}) {
+                        $forward->module = $module;
+                        $forward->type = $xml_info->action->{$this->act}->type;
+                        $forward->act = $this->act;
                     }
-                    
+                }
+
+                // 2. 1번에서 찾지 못하면 action forward를 검색
+                if(!$forward) $forward = $oModuleModel->getActionForward($this->act);
+
+                // 찾아진 forward 모듈이 있으면 실행
+                if($forward->module && $forward->type && $forward->act) {
+
+                    $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
+
+                    $oModule = &getModule($forward->module, $forward->type, $kind);
+                    $xml_info = $oModuleModel->getModuleActionXml($forward->module);
+
+                    $oModule->setAct($forward->act);
+                    $oModule->init();
+                    if($oModule->stop_proc) return $this->stop($oModule->getMessage());
+
+                    $oModule->setModuleInfo($this->module_info, $xml_info);
+
+                    if(method_exists($oModule, $forward->act)) {
+                        $output = $oModule->{$forward->act}();
+                    } else {
+                        return $this->stop("msg_module_is_not_exists");
+                    }
+
+                    // forward 모듈의 실행 결과 검사
+                    if($oModule->stop_proc) return $this->stop($oModule->getMessage());
+
+                    $this->setTemplatePath($oModule->getTemplatePath());
+                    $this->setTemplateFile($oModule->getTemplateFile());
+
+                // forward 모듈을 찾지 못했다면 원 모듈의 default index action을 실행
+                } else if($this->xml_info->default_index_act && method_exists($this, $this->xml_info->default_index_act)) {
+                    $output = $this->{$this->xml_info->default_index_act}();
                 } else {
                     return false;
                 }
+            } else {
+                return false;
             }
 
             // addon 실행(called_position 를 after_module_proc로 하여 호출)
             $called_position = 'after_module_proc';
-            @include(_XE_PATH_."files/cache/activated_addons.cache.php");
+            $oAddonController = &getController('addon');
+            $addon_file = $oAddonController->getCacheFilePath();
+            if(file_exists($addon_file)) @include($addon_file);
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());
@@ -357,7 +322,7 @@
                 return false;
             }
 
-            // view action이고 결과 출력이 XMLRPC일 경우 해당 모듈의 api method를 실행
+            // view action이고 결과 출력이 XMLRPC 또는 JSON일 경우 해당 모듈의 api method를 실행
             if($this->module_info->module_type == 'view'){
                 if(Context::getResponseMethod() == 'XMLRPC' || Context::getResponseMethod() == 'JSON') {
                     $oAPI = getAPI($this->module_info->module, 'api');
@@ -365,11 +330,6 @@
                         $oAPI->{$this->act}($this);
                     }
                 }
-            }else if($this->module_info->module_type == 'controller'){
-                if(Context::getResponseMethod() == 'JSON'){
-
-                }
-
             }
 
             return true;

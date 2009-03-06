@@ -7,7 +7,7 @@
 <input type="hidden" name="temp_srl" value="" />
 <input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <tr class="row2">
     <th scope="row"><div>{$lang->webmaster_name}</div></th>
     <td>
@@ -83,6 +83,17 @@
         {$lang->image_mark_max_height} : <input type="text" name="image_mark_max_height" size="3" value="{$config->image_mark_max_height}" class="inputTypeText"/>px<br />
     </td>
 </tr>
+<tr>
+    <th scope="row"><div>{$lang->group_image_mark}</div></th>
+    <td>
+        <p>
+            <input type="checkbox" name="group_image_mark" value="Y" <!--@if($config->group_image_mark=='Y')-->checked="checked"<!--@end--> class="checkbox"/>
+            {$lang->about_group_image_mark}
+        </p>
+        {$lang->group_image_mark_max_width} : <input type="text" name="group_image_mark_max_width" size="3" value="{$config->group_image_mark_max_width}" class="inputTypeText"/>px<br />
+        {$lang->group_image_mark_max_height} : <input type="text" name="group_image_mark_max_height" size="3" value="{$config->group_image_mark_max_height}" class="inputTypeText"/>px<br />
+    </td>
+</tr>
 <tr class="row2">
     <th scope="row"><div>{$lang->signature_max_height}</div></th>
     <td>
@@ -148,12 +159,12 @@
     <td><div id="member_colorset"></div></td>
 </tr>
 <tr class="row2">
-    <td colspan="2" class="right">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+    <th colspan="2" class="button">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
         <!--@end-->
-    </td>
+    </th>
 </tr>
 </table>
 

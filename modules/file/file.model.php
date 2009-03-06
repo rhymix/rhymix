@@ -95,6 +95,7 @@
                 $config->download_grant = $file_config->download_grant;
                 $config->allow_outlink = $file_config->allow_outlink;
                 $config->allow_outlink_site = $file_config->allow_outlink_site;
+                $config->allow_outlink_format = $file_config->allow_outlink_format;
             }
 
             // 전체 파일첨부 속성을 먼저 따른다
@@ -103,6 +104,7 @@
             if(!$config->allowed_filetypes) $config->allowed_filetypes = $file_module_config->allowed_filetypes;
             if(!$config->allow_outlink) $config->allow_outlink = $file_module_config->allow_outlink;
             if(!$config->allow_outlink_site) $config->allow_outlink_site = $file_module_config->allow_outlink_site;
+            if(!$config->allow_outlink_format) $config->allow_outlink_format = $file_module_config->allow_outlink_format;
             if(!$config->download_grant) $config->download_grant = $file_module_config->download_grant;
 
             // 그래도 없으면 default로 

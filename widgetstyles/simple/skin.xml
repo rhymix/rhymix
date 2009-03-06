@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgetstyle>
+    <title xml:lang="ko">제목, more버튼 위젯스타일</title>
+    <title xml:lang="zh-CN">简易控件样式</title>
+    <title xml:lang="zh-TW">標題、more按紐控件樣式</title>
+    <description xml:lang="ko">제목과 more버튼만 있는 간단한 위젯 스타일</description>
+    <description xml:lang="zh-CN">只有栏目名和查看更多(more)选项的简易控件样式。</description>
+    <description xml:lang="zh-TW">標題與more按紐的簡單控件樣式。</description>
+    <version>0.1</version>
+    <date>2009-02-03</date>
+
+    <author email_address="sol@ngleader.com" link="http://www.ngleader.com">
+        <name xml:lang="ko">sol</name>
+        <name xml:lang="zh-CN">sol</name>
+        <name xml:lang="zh-TW">sol</name>
+    </author>
+
+    <extra_vars>
+        <var name="ws_colorset" type="select">
+            <title xml:lang="ko">컬러셋</title>
+            <title xml:lang="zh-CN">颜色</title>
+            <title xml:lang="zh-TW">顏色</title>
+            <description xml:lang="ko">컬러셋을 지정해주세요</description>
+            <description xml:lang="zh-CN">请指定适当的颜色。</description>
+            <description xml:lang="zh-TW">請選擇顏色。</description>
+            <options>
+                <name xml:lang="ko">하얀색</name>
+                <name xml:lang="zh-CN">白色</name>
+                <name xml:lang="zh-TW">白色</name>
+                <value>white</value>
+            </options>
+            <options>
+                <name xml:lang="ko">검은색</name>
+                <name xml:lang="zh-CN">黑色</name>
+                <name xml:lang="zh-TW">黑色</name>
+                <value>black</value>
+            </options>
+        </var>
+        <var name="ws_title" type="text">
+            <name xml:lang="ko">제목</name>
+            <name xml:lang="zh-CN">栏目名</name>
+            <name xml:lang="zh-TW">標題</name>
+            <description xml:lang="ko">제목 텍스트</description>
+            <description xml:lang="zh-CN">请输入栏目名。</description>
+            <description xml:lang="zh-TW">請輸入標題。</description>
+        </var>
+        <var name="ws_more_url" type="text">
+            <name xml:lang="ko">더보기 URL</name>
+            <name xml:lang="zh-CN">查看更多(链接)</name>
+            <name xml:lang="zh-TW">more URL</name>
+            <description xml:lang="ko">http:// 포함한 URL를 등록합니다.</description>
+        </var>
+        <var name="ws_more_text" type="text">
+            <name xml:lang="ko">더보기 텍스트</name>
+            <name xml:lang="zh-CN">查看更多(文本)</name>
+            <name xml:lang="zh-TW">more TEXT</name>
+            <description xml:lang="ko">더보기 텍스트</description>
+            <description xml:lang="zh-CN">文本形式的"查看更多"。</description>
+            <description xml:lang="zh-TW">純文字格式。</description>
+       </var>
+    </extra_vars>
+</widgetstyle>

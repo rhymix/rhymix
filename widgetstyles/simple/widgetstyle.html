@@ -1,0 +1,13 @@
+<!--@if($widgetstyle_extar_var->ws_colorset == "black")-->
+    {@ $_wsClassName = "black"}
+<!--@else-->
+    {@ $_wsClassName = "white"}
+<!--@end-->
+
+<!--%import("style.css")-->
+
+<div class="simpleWidgetStyle {$_wsClassName}">
+    <h2>{$widgetstyle_extar_var->ws_title}</h2>
+    <!--@if($widgetstyle_extar_var->ws_more_url)--><a href="{$widgetstyle_extar_var->ws_more_url}" class="widgetMoreLink">{$widgetstyle_extar_var->ws_more_text}</a><!--@end-->
+    {$widget_content}
+</div>

@@ -1,31 +1,21 @@
 function toggleCategory(evt) {
     var e = new xEvent(evt);
     var obj = e.target;
-    var srl = null;
-    if(obj.nodeName != 'DIV') return;
+    if(obj.nodeName != 'BUTTON') return;
 
-    if(obj.id && /^category_parent_/.test(obj.id)) {
-        srl = obj.id.replace(/^category_parent_/,'');
-    } else if(obj.id && /^category_/.test(obj.id)) {
-        srl = obj.id.replace(/^category_parent_/,'');
-    } else if(obj.className && /item/.test(obj.className)) {
-        var pObj = obj.parentNode;
-        srl = pObj.id.replace(/^category_parent_/,'');
-    }
+    var node_srl = obj.className.replace(/^category_/,'');
+    if(!node_srl) return;
 
-    if(!srl) return;
-    var obj = xGetElementById("category_"+srl);
-    if(!obj) return;
+    var li_obj = xGetElementById("category_parent_"+node_srl);
+    if(!li_obj) return;
+    var className = li_obj.className;
 
-    var selObj = xGetElementById("category_parent_"+srl);
-    if(!selObj) return;
-
-    if(!obj.style.display || obj.style.display == 'block') {
-        obj.style.display = 'none';
-        selObj.className = selObj.className.replace('minus','plus');
+    if(/nav_tree_off/.test(className)) {
+        xInnerHtml(obj,'-');
+        li_obj.className = className.replace(/nav_tree_off/,'nav_tree_on');
     } else {
-        obj.style.display = 'block';
-        selObj.className = selObj.className.replace('plus','minus');
+        xInnerHtml(obj,'+');
+        li_obj.className = className.replace(/nav_tree_on/,'nav_tree_off');
     }
 }
 

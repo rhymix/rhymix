@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+/* widgetDlistA */
+.widgetDlistA{ margin:0; padding:0; font-size:12px; line-height:1.5; zoom:1;}
+.widgetDlistA:after{ content:""; display:block; clear:both;}
+.widgetDlistA dt{ float:left; clear:left; margin-right:5px; white-space:nowrap;}
+.widgetDlistA dd{ clear:right; white-space:nowrap; font-family:Tahoma;}
+

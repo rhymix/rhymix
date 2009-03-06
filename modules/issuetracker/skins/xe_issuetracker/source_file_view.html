@@ -15,6 +15,16 @@
     <!--@end-->
 </ol>
 
-<pre>{htmlspecialchars($content->content)}</pre>
+<pre>
+<!--@if($file_type == "code")-->
+{htmlspecialchars($content->content)}
+<!--@elseif($file_type == "document")-->
+document file
+<!--@elseif($file_type == "image")-->
+image file
+<!--@elseif($file_type == "movie")-->
+movie file
+<!--@end-->
+</pre>
 
 <!--#include("source_footer.html")-->

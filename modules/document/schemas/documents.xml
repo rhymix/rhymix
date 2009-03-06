@@ -33,24 +33,4 @@
     <column name="lock_comment" type="char" size="1" default="N" notnull="notnull" />
     <column name="allow_trackback" type="char" size="1" default="Y" notnull="notnull" />
     <column name="notify_message" type="char" size="1" default="N" notnull="notnull" />
-    <column name="extra_vars1" type="text" />
-    <column name="extra_vars2" type="text" />
-    <column name="extra_vars3" type="text" />
-    <column name="extra_vars4" type="text" />
-    <column name="extra_vars5" type="text" />
-    <column name="extra_vars6" type="text" />
-    <column name="extra_vars7" type="text" />
-    <column name="extra_vars8" type="text" />
-    <column name="extra_vars9" type="text" />
-    <column name="extra_vars10" type="text" />
-    <column name="extra_vars11" type="text" />
-    <column name="extra_vars12" type="text" />
-    <column name="extra_vars13" type="text" />
-    <column name="extra_vars14" type="text" />
-    <column name="extra_vars15" type="text" />
-    <column name="extra_vars16" type="text" />
-    <column name="extra_vars17" type="text" />
-    <column name="extra_vars18" type="text" />
-    <column name="extra_vars19" type="text" />
-    <column name="extra_vars20" type="text" />
 </table>

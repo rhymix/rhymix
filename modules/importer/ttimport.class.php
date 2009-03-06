@@ -15,7 +15,8 @@
         /**
          * @brief module.xml 형식의 데이터 import
          **/
-        function importModule($key, $cur, $index_file, $unit_count, $module_srl, $user_id) {
+        function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id) {
+            DebugPrint('Import start...');
             // 필요한 객체 미리 생성
             $this->oXmlParser = new XmlParser();
 
@@ -27,18 +28,17 @@
             if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
 
             // 먼저 카테고리 정보를 입력함
-            $category_file = preg_replace('/index$/i', 'category', $index_file);
+            $category_file = preg_replace('/index$/i', 'category.xml', $index_file);
             if(file_exists($category_file)) {
-                $buff = FileHandler::readFile($category_file);
-               
+                DebugPrint('Category importing...');
                 // xmlParser객체 생성
                 $xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
 
                 // 카테고리 정보를 정리
-                if($xmlDoc->items->category) {
+                if($xmlDoc->categories->category) {
                     $categories = array();
                     $idx = 0;
-                    $this->arrangeCategory($xmlDoc->items, $categories, $idx, 0);
+                    $this->arrangeCategory($xmlDoc->categories, $categories, $idx, 0);
 
                     $match_sequence = array();
                     foreach($categories as $k => $v) {
@@ -51,11 +51,12 @@
                         if($v->parent) $obj->parent_srl = $match_sequence[$v->parent];
                         $output = $oDocumentController->insertCategory($obj);
 
-                        if($output->toBool()) $match_sequence[$v->sequence] = $output->get('category_srl');
+                        if($output->toBool()) $match_sequence[$v->sequence] = $category_titles[$category] = $output->get('category_srl');
                     }
                     $oDocumentController->makeCategoryFile($module_srl);
                 }
                 FileHandler::removeFile($category_file);
+                DebugPrint('Category imported.');
             }
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
@@ -64,6 +65,79 @@
             // 관리자 정보를 구함
             $oMemberModel = &getModel('member');
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+
+            // 방명록 정보를 입력함
+            $guestbook_file = preg_replace('/index$/i', 'guestbook.xml', $index_file);
+            if (file_exists($guestbook_file)) {
+                DebugPrint('Guestbook importing...');
+                // xmlParser객체 생성
+                $xmlDoc = $this->oXmlParser->loadXmlFile($guestbook_file);
+
+                // 방명록 정보를 처리
+                if($guestbook_module_srl && $xmlDoc->guestbook->comment) {
+                    DebugPrint('Started.');
+                    $comment = $xmlDoc->guestbook->comment;
+                    if(!is_array($comment)) $comment = array($comment);
+                    foreach($comment as $key => $val) {
+                        $obj = null;
+                        $obj->module_srl = $guestbook_module_srl;
+                        $obj->document_srl = getNextSequence();
+                        $obj->uploaded_count = 0;
+                        $obj->is_notice = 'N';
+                        $obj->is_secret = $val->secret->body=='1'?'Y':'N';
+                        $obj->content = nl2br($val->content->body);
+
+                        DebugPrint($obj->content);
+
+                        // 본문에서 제목 추출
+                        $obj->title = cut_str(strip_tags($obj->content),20,'...');
+                        if ($obj->title == '') $obj->title = 'Untitled';
+
+                        $obj->allow_comment = 'Y';
+                        $obj->allow_trackback = 'N';
+                        $obj->regdate = date("YmdHis",$val->written->body);
+                        $obj->last_update = date("YmdHis", $val->written->body);
+                        if(!$obj->last_update) $obj->last_update = $obj->regdate;
+                        $obj->tags = '';
+                        $obj->readed_count = 0;
+                        $obj->voted_count = 0;
+                        if ($val->commenter->attrs->id) {
+                            $obj->password = '';
+                            $obj->nick_name = $member_info->nick_name;
+                            $obj->user_name = $member_info->user_name;
+                            $obj->user_id = $member_info->user_id;
+                            $obj->member_srl = $member_info->member_srl;
+                            $obj->email_address = $member_info->email_address;
+                            $obj->homepage = $member_info->homepage;
+                        }
+                        else {
+                            $obj->password = $val->password->body;
+                            $obj->nick_name = $val->commenter->name->body;
+                            $obj->member_srl = 0;
+                            $homepage = $val->commenter->homepage->body;
+                        }
+                        $obj->ipaddress = $val->commenter->ip->body;
+                        $obj->list_order = $obj->update_order = $obj->document_srl*-1;
+                        $obj->lock_comment = 'N';
+                        $obj->notify_message = 'N';
+                        $obj->trackback_count = 0;
+
+                        $obj->comment_count = 0;
+                        if($val->comment) {
+                            $child_comment = $val->comment;
+                            if(!is_array($child_comment)) $child_comment = array($child_comment);
+                            foreach($child_comment as $k => $v) {
+                                $result = $this->insertComment($v, $module_srl, $obj->document_srl, $member_info, 0);
+                                if($result !== false) $obj->comment_count++;
+                            }
+                        }
+                        
+                        // 문서 입력
+                        $output = executeQuery('document.insertDocument', $obj);
+                    }
+                }
+                FileHandler::removeFile($guestbook_file);
+            }
            
             if(!$cur) $cur = 0;
 
@@ -127,10 +201,10 @@
                 $obj->title = $xmlDoc->post->title->body;
                 $obj->content = $xmlDoc->post->content->body;
                 $obj->password = md5($xmlDoc->post->password->body);
-                //$obj->allow_comment = $xmlDoc->post->acceptComment->body==1?'Y':'N';
-                $obj->allow_comment = 'Y';
-                //$obj->allow_trackback = $xmlDoc->post->acceptTrackback->body==1?'Y':'N';
-                $obj->allow_trackback = 'Y';
+                $obj->allow_comment = $xmlDoc->post->acceptcomment->body=='1'?'Y':'N';
+                $obj->allow_trackback = $xmlDoc->post->accepttrackback->body=='1'?'Y':'N';
+                //$obj->allow_comment = $xmlDoc->post->acceptComment->body=='1'?'Y':'N';
+                //$obj->allow_trackback = $xmlDoc->post->acceptTrackback->body=='1'?'Y':'N';
                 $obj->regdate = date("YmdHis",$xmlDoc->post->published->body);
                 $obj->last_update = date("YmdHis", $xmlDoc->post->modified->body);
                 if(!$obj->last_update) $obj->last_update = $obj->regdate;
@@ -202,7 +276,7 @@
                     $comment = $xmlDoc->post->comment;
                     if(!is_array($comment)) $comment = array($comment);
                     foreach($comment as $key => $val) {
-                        $parent_srl = $this->insertComment($val, $module_srl, $obj->document_srl, 0);
+                        $parent_srl = $this->insertComment($val, $module_srl, $obj->document_srl, $member_info, 0);
                         if($parent_srl === false) continue;
 
                         $obj->comment_count++;
@@ -210,7 +284,7 @@
                             $child_comment = $val->comment;
                             if(!is_array($child_comment)) $child_comment = array($child_comment);
                             foreach($child_comment as $k => $v) {
-                                $result = $this->insertComment($v, $module_srl, $obj->document_srl, $parent_srl);
+                                $result = $this->insertComment($v, $module_srl, $obj->document_srl, $member_info, $parent_srl);
                                 if($result !== false) $obj->comment_count++;
                             }
                         }
@@ -296,7 +370,7 @@
             }
 
             // 디렉토리 생성
-            if(!FileHandler::makeDir($path)) continue;
+            if(!FileHandler::makeDir($path)) return;
 
             FileHandler::rename($file_obj->file, $filename);
 
@@ -327,7 +401,7 @@
          * @biref 임의로 사용할 파일이름을 return
          **/
         function getTmpFilename() {
-            $path = "./files/cache/tmp";
+            $path = "./files/cache/importer";
             if(!is_dir($path)) FileHandler::makeDir($path);
             $filename = sprintf("%s/%d", $path, rand(11111111,99999999));
             if(file_exists($filename)) $filename .= rand(111,999);
@@ -400,19 +474,29 @@
         /**
          * @brief 댓글 입력 
          **/
-        function insertComment($val, $module_srl, $document_srl, $parent_srl = 0) {
+        function insertComment($val, $module_srl, $document_srl, $member_info, $parent_srl = 0) {
             $tobj = null;
             $tobj->comment_srl = getNextSequence();
             $tobj->module_srl = $module_srl;
             $tobj->document_srl = $document_srl;
-            $tobj->is_secret = $val->secret->body==1?'Y':'N';
+            $tobj->is_secret = $val->secret->body=='1'?'Y':'N';
             $tobj->notify_message = 'N';
             $tobj->content = nl2br($val->content->body);
             $tobj->voted_count = 0;
-            $tobj->password = $val->password->body;
-            $tobj->nick_name = $val->commenter->name->body;
-            $tobj->member_srl = 0;
-            $tobj->homepage = $val->commenter->homepage->body;
+            if ($val->commenter->attrs->id) {
+                $tobj->password = '';
+                $tobj->nick_name = $member_info->nick_name;
+                $tobj->user_name = $member_info->user_name;
+                $tobj->user_id = $member_info->user_id;
+                $tobj->member_srl = $member_info->member_srl;
+                $tobj->homepage = $member_info->homepage;
+                $tobj->email_address = $member_info->email_address;
+            } else {
+                $tobj->password = $val->password->body;
+                $tobj->nick_name = $val->commenter->name->body;
+                $tobj->homepage = $val->commenter->homepage->body;
+                $tobj->member_srl = 0;
+            }
             $tobj->last_update = $tobj->regdate = date("YmdHis",$val->written->body);
             $tobj->ipaddress = $val->commenter->ip->body;
             $tobj->list_order = $tobj->comment_srl*-1;

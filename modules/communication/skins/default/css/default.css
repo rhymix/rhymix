@@ -1,0 +1,123 @@
+@charset "utf-8";
+
+#communicationModule h3 {border-bottom:2px solid #ccc; padding:5px 0 5px 25px; margin:0 0 10px 0; background:url(../img/iconH2.gif) no-repeat left center; font-size:12px; color:#666; }
+#communicationModule h4 {padding:5px 0 5px 20px; background:url(../img/iconH3.gif) no-repeat left center;}
+#communicationModule h4 span.vr { font-size:11px; color:#AAA; }
+#communicationModule h4 a.view { font-size:11px; font-family:vertical; color:#777e86; }
+#communicationModule p.summary, 
+#communicationModule div.infoText { margin:0 0 15px 0; line-height:1.6;}
+#communicationModule p.summary{ color:#888;}
+#communicationModule p.summary a { text-decoration:none; color:#888; }
+#communicationModule p.summary.red { color:#A54D4D; }
+#communicationModule p.summary.red a { text-decoration:none; color:#A54D4D; }
+#communicationModule div.infoText { color:#888;}
+
+#communicationModule .agreementBox { border:1px solid #CCC; margin:10px 0 0 0; padding:10px; border-bottom:none; height:200px; overflow-y:scroll;}
+#communicationModule .agreementButton { background-color:#EFEFEF; padding:10px; border:1px solid #CCC; border-top:none; margin-bottom:10px;}
+
+#communicationModule .localNavigation { border-bottom:1px solid #ccc; *zoom:1; margin:0 0 20px 0px; padding:0; overflow:hidden; }
+#communicationModule .localNavigation:after {content:""; display:block; clear:both;}
+#communicationModule .localNavigation li{ position:relative; list-style:none; float:left; margin:0 -1px 0 0; padding:0;background:#fff;}
+#communicationModule .localNavigation li a{ float:left; padding:7px 15px 0 15px; height:18px; border:1px solid #ddd; border-bottom:none; background:url(../img/bgTab.gif) repeat-x;}
+#communicationModule .localNavigation li a{ text-decoration:none !important; color:#666;}
+#communicationModule .localNavigation li.active a{ font-weight:bold; color:#1e6aac;}
+#communicationModule .localNavigation li.on { margin-bottom:-1px;}
+#communicationModule .localNavigation li.on a{ height:19px; background:none;}
+
+#communicationModule .layer { display:none; position:absolute; border:2px solid #777; margin:0; font-size:12px; background:#fff;}
+#communicationModule .layer * { margin:0; padding:0; font-size:12px; }
+#communicationModule .layer h4 { font-size:14px !important; font-family:Dotum; background:#f4f4f4 !important; padding:8px 30px 8px 15px !important; letter-spacing:-1px !important; }
+#communicationModule .layer .xButton { position:absolute; top:9px; right:9px; width:15px; height:14px; background-color:transparent; background:url(../img/buttonClose.gif) no-repeat; border:0; cursor:pointer; overflow:hidden; }
+#communicationModule .layer .xButton span { position:relative; z-index:-1; visibility:hidden; }
+#communicationModule .layer .layerBody{ margin:15px;}
+
+#communicationModule .crossTable{ width:100%; border:0; margin:0 0 20px 0; padding:0;}
+#communicationModule .crossTable th div { white-space:nowrap; }
+#communicationModule .crossTable th,
+#communicationModule .crossTable td{ border:0; padding:5px 10px; vertical-align:top; font-weight:normal;}
+#communicationModule .crossTable thead th{ border-top:2px solid #cfcfcf; border-bottom:1px solid #e5e5e5; background-image:url(../img/lineVrText.gif); background-repeat:no-repeat; background-position:left center;}
+#communicationModule .crossTable thead th:first-child{ background-image:none;}
+#communicationModule .crossTable tbody th{ border-bottom:1px solid #e5e5e5; text-align:left;}
+#communicationModule .crossTable td{ border-bottom:1px solid #f0f0f0;}
+
+#communicationModule .colTable{ width:100%; border:0; margin:0 0 20px 0; padding:0;}
+#communicationModule .colTable th div { white-space:nowrap; }
+#communicationModule .colTable th,
+#communicationModule .colTable td{ border:0; padding:5px 10px; vertical-align:top; font-weight:normal;}
+#communicationModule .colTable th{ border-top:2px solid #cfcfcf; border-bottom:1px solid #e5e5e5; background:#f4f4f4; background-image:url(../img/lineVrText.gif); background-repeat:no-repeat; background-position:left center;}
+#communicationModule .colTable th:first-child{ background-image:none;}
+#communicationModule .colTable td{ border-bottom:1px solid #f0f0f0;}
+
+#communicationModule .rowTable{ width:100%; border:0; border-top:2px solid #cfcfcf; margin:0 0 20px 0; padding:0;}
+#communicationModule .rowTable th div { white-space:nowrap; }
+#communicationModule .rowTable th,
+#communicationModule .rowTable td{ border:0; padding:10px 10px; text-align:left; vertical-align:top; font-weight:normal;}
+#communicationModule .rowTable tbody th{ border-bottom:1px solid #e5e5e5;}
+#communicationModule .rowTable td{ border-bottom:1px solid #e5e5e5;}
+
+#communicationModule .rowTable th.button, 
+#communicationModule .colTable th.button, 
+#communicationModule .crossTable th.button { text-align:right; background:#EAEAEA; }
+
+#communicationModule .colTable td a,
+#communicationModule .rowTable td a,
+#communicationModule .crossTable td a { color:#000; text-decoration:none; }
+
+#communicationModule .colTable td.wide, 
+#communicationModule .rowTable td.wide, 
+#communicationModule .crossTable td.wide { width:100%;}
+
+#communicationModule .rowTable th.title,
+#communicationModule .crossTable th.title,
+#communicationModule .colTable th.title { padding:10px; font-weight:bold; text-align:center; border-bottom:1px solid #DDD;  background:url(../img/bgTab.gif) repeat-x left bottom;}
+
+#communicationModule .rowTable th.title *,
+#communicationModule .crossTable th.title *,
+#communicationModule .colTable th.title * { padding:0; margin:0; vertical-align:middle; }
+
+#communicationModule p { color:#AAA; margin:3px 0 0 0; padding:0;}
+#dummy_check_nick_name { color:red; margin:3px 0 0 0; padding:0; }
+#communicationModule .require { color:red; font-size:10px; font-family:tahoma; font-weight:bold; margin-left:5px; }
+#communicationModule .publicItem { margin:5px 0 0 0; padding:0; color:#aaa; }
+#communicationModule .publicItem input { padding:0; margin: 0; }
+
+#communicationModule caption{ font-size:11px; font-family:Tahoma; color:#888; text-align:left;}
+
+#communicationModule td.openids div { float:left; margin-right:10px; margin-bottom:10px; }
+#communicationModule td.openids div a { color:#AAA; text-decoration:none;}
+#communicationModule .openid_user_id { background: url(../img/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; line-height:1em; vertical-align:middle; color:#666666; width:200px;}
+#communicationModule .insertOpenID { clear:both; margin-top:10px; }
+#communicationModule .savedContent { margin-top:10px; border:1px solid #EEE; padding:10px; }
+
+#communicationModule .pagination{ padding:15px 0; margin:0; text-align:center; clear:both; }
+#communicationModule .pagination *{ margin:0; padding:0;}
+#communicationModule .pagination img{ border:0;}
+#communicationModule .pagination a,
+#communicationModule .pagination strong{ position:relative; display:inline-block; text-decoration:none; line-height:normal; color:#333; font-family:Tahoma, Sans-serif; vertical-align:middle;}
+#communicationModule .pagination a:hover,
+#communicationModule .pagination a:active,
+#communicationModule .pagination a:focus{ background-color:#f4f4f4 !important; }
+#communicationModule .pagination strong{ color:#ff6600 !important;}
+#communicationModule .pagination a.prev,
+#communicationModule .pagination a.prevEnd,
+#communicationModule .pagination a.next,
+#communicationModule .pagination a.nextEnd{ font-weight:normal !important; border:none !important; margin:0 !important; white-space:nowrap; }
+
+#communicationModule .pagination.a1 a,
+#communicationModule .pagination.a1 strong{ margin:0 -4px; padding:1px 10px 1px 8px; border:none; border-left:1px solid #ccc; border-right:1px solid #ddd; font-weight:bold; font-size:12px; background:#fff;}
+#communicationModule .pagination.a1 a.prev{ padding-left:10px; background:#fff url(../img/arrowPrevA1.gif) no-repeat left center; }
+#communicationModule .pagination.a1 a.prevEnd{ padding-left:15px; background:#fff url(../img/arrowPrevEndA1.gif) no-repeat left center; }
+#communicationModule .pagination.a1 a.next{ padding-right:10px; background:#fff url(../img/arrowNextA1.gif) no-repeat right center; }
+#communicationModule .pagination.a1 a.nextEnd{ padding-right:15px; background:#fff url(../img/arrowNextEndA1.gif) no-repeat right center; }
+
+#communicationModule .regdate { font-size:10px; font-family:tahoma; color:#AAA; }
+#communicationModule .readed_date  { font-size:10px; font-family:tahoma; color:#888; letter-spacing:-1px;}
+
+#communicationModule .xeMessages ,
+#communicationModule .xeGroups { position:relative; }
+#communicationModule .xeMessages select ,
+#communicationModule .xeGroups select { margin:0; padding:0; vertical-align:middle; }
+#communicationModule .xeGroups .setupGroup, 
+#communicationModule .xeMessages .setupMessage { position:absolute; right:0; top:0;}
+
+#communicationModule .jumpMenu { margin-bottom:5px; text-align:right; }

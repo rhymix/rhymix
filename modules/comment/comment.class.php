@@ -15,8 +15,6 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('comment', 'view', 'dispCommentAdminList');
-            $oModuleController->insertActionForward('comment', 'view', 'dispCommentAdminDeclared');
 
             // 2007. 10. 17 게시글이 삭제될때 댓글도 삭제되도록 trigger 등록
             $oModuleController->insertTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after');
@@ -46,8 +44,6 @@
             // 2007. 10. 23 댓글에도 추천/ 알림 기능을 위한 컬럼 추가
             if(!$oDB->isColumnExists("comments","voted_count")) return true;
             if(!$oDB->isColumnExists("comments","notify_message")) return true;
-
-            if(!$oModuleModel->getActionForward('dispCommentAdminDeclared')) return true;
 
             // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before')) return true;
@@ -84,9 +80,6 @@
             if(!$oDB->isColumnExists("comments","notify_message")) {
                 $oDB->addColumn("comments","notify_message", "char","1");
             }
-
-            if(!$oModuleModel->getActionForward('dispCommentAdminDeclared'))
-                $oModuleController->insertActionForward('comment', 'view', 'dispCommentAdminDeclared');
 
             // 2008. 02. 22 모듈의 추가 설정에서 댓글 추가 설정 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before')) 

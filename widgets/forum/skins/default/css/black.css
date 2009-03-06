@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+.widgetContainer a{ text-decoration:none;}
+.widgetContainer a:hover,
+.widgetContainer a:active,
+.widgetContainer a:focus{ text-decoration:underline;}
+.widgetContainer img{ border:0;}
+.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer form{ margin:0; padding:0;}
+.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+
+.widgetTableC { width:100%; font-size:12px; position:relative; border:0; border-top:1px solid;}
+.widgetTableC td{ border:0; line-height:1.5; white-space:nowrap; vertical-align:top; padding:10px; border-bottom:1px solid;}
+.widgetTableC td.title,
+.widgetTableC td.lastDoc{ width:100%; white-space:nowrap;}
+.widgetTableC td.docNum{}
+.widgetTableC td.docNum em{ display:block; padding:12px 0 0 5px; width:50px; height:21px; font-size:11px; font-weight:bold; font-style:normal; font-family:Tahoma; color:#fff; background:url(../img/iconForumNum.gif) no-repeat 0 0;}
+.widgetTableC td.title a{ font-weight:bold; text-decoration:underline !important;}
+.widgetTableC td.title dl{ margin:0;}
+.widgetTableC td.title dd{ margin:0;}
+.widgetTableC td.lastDoc p{ margin:0;}
+.widgetTableC td .author{ margin-right:5px;}
+.widgetTableC td .time{ font-size:11px; font-family:Tahoma;}
+.widgetTableC td .time .date{ margin-right:5px;}
+
+.widgetTableC{ border-color:#7f7f7f;}
+.widgetTableC td{ border-color:#7f7f7f;}
+.widgetTableC td.title a{ color:#ccc;}
+.widgetTableC td.title dd{ color:#888;}
+.widgetTableC td.lastDoc p a{ color:#ccc;}
+.widgetTableC td.lastDoc .author{ color:#888;}
+.widgetTableC td.lastDoc .time{ color:#888;}

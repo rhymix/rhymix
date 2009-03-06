@@ -1,0 +1,32 @@
+<!--@if($colorset == "black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset == "white")-->
+    <!--%import("./css/white.css")-->
+<!--@end-->
+
+{@ $_pDepth = 0;}
+<div class="widgetContainer">
+    <ul class="widgetMenuA dhtml">
+        <!--@foreach($widget_info->arranged_menu as $key => $val)-->
+            <!--@if($val->text)-->
+
+                <!--@if($_pDepth > $val->depth)-->
+                    <!--@for($i=$val->depth; $i<$_pDepth; $i++)-->
+                    </li>
+                </ul>
+                    <!--@end-->
+                    {@ $_pDepth = $val->depth}
+                <!--@end-->
+                    <li class="menu_{$val->node_srl}<!--@if($val->selected)--> active<!--@end-->">
+                        <a href="{$val->href}">{$val->text}</a>
+
+                    <!--@if($val->child_count)-->
+                        {@$_pDepth++}
+                        <ul style="display:<!--@if(!$val->selected)-->none<!--@else-->block<!--@end-->">
+                    <!--@else-->
+                    </li>
+                    <!--@end-->
+            <!--@end-->
+        <!--@end-->
+    </ul>
+</div>

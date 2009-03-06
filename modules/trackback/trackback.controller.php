@@ -229,7 +229,7 @@
         function sendTrackback($oDocument, $trackback_url, $charset) {
             // 발송할 정보를 정리
             $http = parse_url($trackback_url);
-            $obj->blog_name = Context::getBrowserTitle();
+            $obj->blog_name = str_replace(array('&lt;','&gt;','&amp;','&quot;'), array('<','>','&','"'), Context::getBrowserTitle());
             $obj->title = $oDocument->getTitleText();
             $obj->excerpt = $oDocument->getSummary(200);
             $obj->url = getUrl('','document_srl',$oDocument->document_srl);

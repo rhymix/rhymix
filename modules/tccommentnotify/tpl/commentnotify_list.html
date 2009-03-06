@@ -4,16 +4,12 @@
 <!--%import("filter/delete_parent.xml")-->
 <!--%import("filter/delete_checked.xml")-->
 
-<!-- 정보 -->
-<div class="summary topGap">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
-
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
@@ -32,8 +28,8 @@
         <td class="nowrap date center">{zdate($parent->written, "Y/m/d")}</td>
         <td class="nowrap"><a href="{$parent->siteurl}" onclick="window.open(this.href);return false;">{$parent->title?$parent->title:"[No title]"}</a></td>
         <td class="nowrap">{$parent->name}</td>
-        <td><a href="{$parent->entryurl}" onclick="window.open(this.href);return false;">{$parent->entrytitle}</a> <a href="{$parent->commenturl}" onclick="window.open(this.href);return false;">{$parent->comment}</a></td>
-        <td class="delete"><a href="#" onclick="deleteParent('{$parent->notified_srl}');">{$lang->cmd_delete}</a></td>
+        <td class="content"><a href="{$parent->entryurl}" onclick="window.open(this.href);return false;">{$parent->entrytitle}</a> <a href="{$parent->commenturl}" onclick="window.open(this.href);return false;">{$parent->comment}</a></td>
+        <td><a href="#" onclick="deleteParent('{$parent->notified_srl}');" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@foreach($val->children as $child)-->
     <tr>
@@ -42,7 +38,7 @@
         <td class="nowrap"><a href="{$parent->siteurl}" onclick="window.open(this.href);return false;">{$parent->title?$parent->title:"[No title]"}</a></td>
         <td class="nowrap">{$child->name}</td>
         <td><img src="images/iconReplyArrow.gif" /> <a href="{$child->url}" onclick="window.open(this.href);return false;">{$child->comment}</a></td>
-        <td class="delete"><a href="#" onclick="deleteChild('{$child->notified_srl}');">{$lang->cmd_delete}</a></td>
+        <td><a href="#" onclick="deleteChild('{$child->notified_srl}');" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 

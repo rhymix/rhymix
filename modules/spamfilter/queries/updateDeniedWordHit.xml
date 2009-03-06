@@ -1,0 +1,14 @@
+<query id="updateDeniedWordHit" action="update">
+    <tables>
+        <table name="spamfilter_denied_word" />
+    </tables>
+
+    <columns>
+        <column name="hit" default="plus(1)" />
+        <column name="latest_hit" default="curdate()" />
+    </columns>
+
+    <conditions>
+        <condition operation="equal" column="word" var="word" notnull="notnull" />
+    </conditions>
+</query>

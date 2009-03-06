@@ -33,11 +33,12 @@
     $lang->about_widget_cache = '指定的時間內可以利用已暫存的資料。';
 
     $lang->generated_code = '已建立的原始碼';
+    $lang->widgetstyle= '控件樣式';
 
     $lang->msg_widget_is_not_exists = '找不到%s控件！';
     $lang->msg_widget_object_is_null = '無法建立%s控件目標！';
     $lang->msg_widget_proc_is_null = '無法執行%s控件的 proc()！';
-    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
+    $lang->msg_widget_skin_is_null = '請選擇一個可正常使用的控件面板';
 
     $lang->about_widget_code = '輸入所選控件所需要的各項資料後，按『建立原始碼』按鈕，即可在頁面下方獲得運用在版面設計中的部分原始碼。';
     $lang->about_widget_code_in_page = '輸入下列各項必要資料後，按『建立原始碼』按鈕，即可把控件插入到頁面當中。';

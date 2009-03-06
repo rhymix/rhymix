@@ -1,0 +1,12 @@
+<query id="insertDocumentExtraVar" action="insert">
+    <tables>
+        <table name="document_extra_vars" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+        <column name="var_idx" var="var_idx" filter="number" notnull="notnull" />
+        <column name="value" var="value" notnull="notnull" />
+        <column name="lang_code" var="lang_code" />
+    </columns>
+</query>

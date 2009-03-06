@@ -1,0 +1,99 @@
+<!--// 스킨 css 로드 -->
+<!--%import("../default/css/editor.css")-->
+<!--%import("../default/css/white.css")-->
+<script type="text/javascript">
+    var editor_path = "{$editor_path}";
+</script>
+
+
+
+<!--// 기본 js/언어파일 로드 -->
+<!--%import("fckeditor.js",optimized=false)-->
+<!--%import("../../tpl/js/editor_common.js",optimized=false)-->
+<!--%import("js/xe_interface.js",optimized=false)-->
+
+<!-- 자동저장용 폼 -->
+<!--@if($enable_autosave)-->
+<input type="hidden" name="_saved_doc_title" value="{htmlspecialchars($saved_doc->title)}" />
+<input type="hidden" name="_saved_doc_content" value="{htmlspecialchars($saved_doc->content)}" />
+<input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
+<!--@end-->
+
+<div class="xeEditor">
+        <!--@if($enable_autosave)-->
+        <p class="editor_autosaved_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</p>
+        <!--@end-->
+    <!-- 에디터 출력 -->
+    <textarea id="fckeditor_{$editor_sequence}">qweqwe</textarea>
+
+    <!--@if($enable_component)-->
+    <!-- 확장 컴포넌트 출력 -->
+    <div style="display:none" id="editorExtension_{$editor_sequence}">
+        <ul id="editor_component_{$editor_sequence}" class="editorComponent">
+            <!--@foreach($component_list as $component_name => $component)-->
+                <!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_link','multimedia_link','quotation','table_maker','url_link')))-->
+                    <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}"><img src="../../components/{$component_name}/component_icon.gif" alt="" /> {$component->title}</a></li>
+                <!--@end-->
+            <!--@end-->
+        </ul>
+    </div>
+    <!--@end-->
+
+<script type="text/javascript">//<![CDATA[
+
+    var fck_{$editor_sequence};
+    var auto_saved_msg = "{$lang->msg_auto_saved}";
+    if(document.getElementById("comment_{$editor_sequence}") == null || document.getElementById("comment_{$editor_sequence}").style.display != 'none') {
+
+        fck_{$editor_sequence} = editorStart_fck(
+            fck_{$editor_sequence}
+            ,document.getElementById("fckeditor_{$editor_sequence}")
+            ,{$editor_sequence}
+            ,"{$editor_content_key_name}"
+            ,"{$editor_height}px"
+            ,"{$editor_primary_key_name}"
+            ,editor_path
+            );
+    }
+
+    function getEditorExtension(editor_sequence){
+        return document.getElementById('editorExtension_'+editor_sequence).innerHTML;
+    };
+//]]></script>
+
+
+    <!--@if($allow_fileupload)-->
+        <!-- 첨부파일 영역 -->
+        <!--%import("../../tpl/js/uploader.js",optimized=false)-->
+        <!--%import("../../tpl/js/swfupload.js",optimized=false)-->
+        <script type="text/javascript">//<![CDATA[
+            editorUploadInit(
+                {
+                    "editorSequence" : {$editor_sequence},
+                    "sessionName" : "{session_name()}",
+                    "allowedFileSize" : "{$file_config->allowed_filesize}",
+                    "allowedFileTypes" : "{$file_config->allowed_filetypes}",
+                    "allowedFileTypesDescription" : "{$file_config->allowed_filetypes}",
+                    "insertedFiles" : {(int)$files_count},
+                    "replaceButtonID" : "swfUploadButton{$editor_sequence}",
+                    "fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
+                    "previewAreaID" : "preview_uploaded_{$editor_sequence}",
+                    "uploaderStatusID" : "uploader_status_{$editor_sequence}"
+                }
+            );
+        //]]></script>
+        <!-- 파일 업로드 영역 -->
+        <div id="fileUploader_{$editor_sequence}" class="fileUploader">
+            <div class="preview" id="preview_uploaded_{$editor_sequence}"></div>
+            <div class="fileListArea">
+                <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
+            </div>
+            <div class="fileUploadControl">
+                <span class="button" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>
+                <span class="button"><button type="button" onclick="removeUploadedFile('{$editor_sequence}');return false;">{$lang->edit->delete_selected}</button></span>
+                <span class="button"><button type="button" onclick="insertUploadedFile('{$editor_sequence}');return false;">{$lang->edit->link_file}</button></span>
+            </div>
+            <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
+        </div>
+    <!--@end-->
+</div>

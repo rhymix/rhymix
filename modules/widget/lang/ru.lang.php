@@ -33,6 +33,7 @@
     $lang->about_widget_cache = 'Кешированные данные будут использоваться на указанный срок.';
 
     $lang->generated_code = 'Сгенерированный код';
+    $lang->widgetstyle= '위젯스타일';
 
     $lang->msg_widget_is_not_exists = '%s виджет не существует.';
     $lang->msg_widget_object_is_null = '%s объектов виджета не могут быть созданы.';

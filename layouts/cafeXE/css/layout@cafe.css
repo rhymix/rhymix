@@ -1,0 +1,70 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* Common */
+.cafeXe{ margin:0; font-family:AppleGothic, Sans-serif;}
+.cafeXe a{ text-decoration:none;}
+.cafeXe a:hover,
+.cafeXe a:active,
+.cafeXe a:focus{ text-decoration:underline;}
+.cafeXe img{ border:0;}
+.cafeXe sup,
+.cafeXe sub{ line-height:1;}
+.cafeXeAddress{ font-style:normal;}
+
+/* Heading */
+#cafeXeBody h2.cafeXeBodyH2{ margin:0; padding-bottom:5px; font-size:16px; border-bottom:2px solid;}
+#cafeXeBody h2.cafeXeExtensionH2{ margin:0; padding-bottom:5px; font-size:16px; border-bottom:2px solid;}
+#cafeXeKnee h2.cafeXeExtensionH2{ position:relative; margin:0; font-size:12px; padding-bottom:5px; border-bottom:2px solid;}
+
+/* Container */
+.cafeXeFixed #cafeXeContainer{ width:auto;}
+
+/* Header */
+.cafeXeFixed .cafeXeEC #cafeXeHeader,
+.cafeXeFixed .cafeXeCE #cafeXeHeader{ border:0; padding:20px 0 0 0;}
+.cafeXeFixed .cafeXeEC #cafeXeHeader .cafeXeHeader,
+.cafeXeFixed .cafeXeCE #cafeXeHeader .cafeXeHeader{ position:relative; width:960px; margin:0 auto; padding-bottom:30px;}
+.cafeXeFixed .cafeXeEC #cafeXeHeader h1.cafeXeH1,
+.cafeXeFixed .cafeXeCE #cafeXeHeader h1.cafeXeH1{ margin:0;}
+.cafeXeFixed .cafeXeEC #cafeXeHeader h1.cafeXeH1 a,
+.cafeXeFixed .cafeXeCE #cafeXeHeader h1.cafeXeH1 a{ text-decoration:none;}
+.cafeXeFixed .cafeXeEC #cafeXeHeader .cafeXeUrl,
+.cafeXeFixed .cafeXeCE #cafeXeHeader .cafeXeUrl{ margin:0;}
+.cafeXeFixed .cafeXeEC #cafeXeHeader .cafeXeUrl a,
+.cafeXeFixed .cafeXeCE #cafeXeHeader .cafeXeUrl a{ font:10px Tahoma;}
+
+/* Body */
+.cafeXeFixed .cafeXeEC #cafeXeBody,
+.cafeXeFixed .cafeXeCE #cafeXeBody{ width:740px; margin:0 auto; padding-top:40px;}
+.cafeXeFixed .cafeXeEC #cafeXeBody{ padding-left:220px;}
+.cafeXeFixed .cafeXeCE #cafeXeBody{ padding-right:220px;}
+.cafeXeFixed .cafeXeEC #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeCE #cafeXeBody .cafeXeE1{ width:180px;}
+.cafeXeFixed .cafeXeEC #cafeXeBody .cafeXeE1{ left:-220px; margin-right:-180px;}
+.cafeXeFixed .cafeXeCE #cafeXeBody .cafeXeE1{ right:-220px; margin-left:-180px;}
+.cafeXeFixed .cafeXeEC #cafeXeBody #cafeXeContent,
+.cafeXeFixed .cafeXeCE #cafeXeBody #cafeXeContent{ width:100%;}
+.cafeXeFixed .cafeXeEC #cafeXeBody #cafeXeContent .cafeXeSection,
+.cafeXeFixed .cafeXeCE #cafeXeBody #cafeXeContent .cafeXeSection{ margin-bottom:40px; *zoom:1;}
+
+/* Knee */
+.cafeXeFixed .cafeXeEC #cafeXeKnee,
+.cafeXeFixed .cafeXeCE #cafeXeKnee{ padding:30px 0; border:0;}
+.cafeXeFixed .cafeXeEC #cafeXeKnee .cafeXeExtension,
+.cafeXeFixed .cafeXeCE #cafeXeKnee .cafeXeExtension{ left:14px; _left:28px; width:988px; margin:0 auto;}
+.cafeXeFixed .cafeXeEC #cafeXeKnee .cafeXeExtension .cafeXeSection,
+.cafeXeFixed .cafeXeCE #cafeXeKnee .cafeXeExtension .cafeXeSection{ width:219px; margin-right:28px;}
+
+/* Footer */
+.cafeXeFixed .cafeXeEC #cafeXeFooter,
+.cafeXeFixed .cafeXeCE #cafeXeFooter{ padding:30px 0; border:0;}
+.cafeXeFixed .cafeXeEC #cafeXeFooter .cafeXeFooter,
+.cafeXeFixed .cafeXeCE #cafeXeFooter .cafeXeFooter{ position:relative; width:960px; margin:0 auto; *zoom:1; font:10px Tahoma;}
+.cafeXeFixed .cafeXeEC #cafeXeFooter .cafeXeFooter a,
+.cafeXeFixed .cafeXeCE #cafeXeFooter .cafeXeFooter a{ text-decoration:none;}
+.cafeXeFixed .cafeXeEC #cafeXeFooter .cafeXeFooter:after,
+.cafeXeFixed .cafeXeCE #cafeXeFooter .cafeXeFooter:after{ content:""; display:block; clear:both;}
+.cafeXeFixed .cafeXeEC #cafeXeFooter .cafeXeFooter address,
+.cafeXeFixed .cafeXeCE #cafeXeFooter .cafeXeFooter address{ float:left;}
+

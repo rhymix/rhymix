@@ -1,20 +1,35 @@
+<!--#include("_header.html")-->
+
 <!--%import("./filter/update_env_config.xml")-->
 <!--%import("./filter/update_lang_select.xml")-->
 <!--%import("./filter/install_ftp_info.xml")-->
 <!--%import("../../install/lang")-->
 <!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
 
-<h3 class="bottomGap">{$lang->cmd_setup}</h3>
+<div class="content">
+    <!--@if($logged_info->is_admin == 'Y')-->
+        <p class="path">
+            <a href="{getUrl('','module','admin')}">{$lang->control_panel}</a> 
+            &gt; <a href="{getUrl('','mid',$mid,'module',$module,'act',$act)}">{$lang->env_setup}</a>
+        </p>
+    <!--@end-->
 
-<div class="adminLeftContent">
+    <h4 class="xeAdmin">{$lang->cmd_setup}</h4>
+
     <form action="./" method="get" onsubmit="return procFilter(this, update_env_config);">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->env_setup}</caption>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th><div>{$lang->use_rewrite}</div></th>
         <td>
             <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
             <p>{$lang->about_rewrite}</p>
+        </td>
+    </tr>
+    <tr>
+        <th><div>{$lang->default_url}</div></th>
+        <td>
+            <input type="text" name="default_url" value="{$default_url}" class="inputTypeText w300"/>
+            <p>{$lang->about_default_url}</p>
         </td>
     </tr>
     <tr>
@@ -25,9 +40,9 @@
         </td>
     </tr>
     <tr>
-        <th><div>Language Selection</div></th>
+        <th><div>Language</div></th>
         <td>
-            <select name="lang_type">
+            <select name="change_lang_type">
                 <!--@foreach($lang_supported as $key => $val)-->
                     <option value="{$key}" <!--@if($key==$selected_lang)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@endforeach-->
@@ -38,7 +53,7 @@
     <tr>
         <th><div>{$lang->time_zone}</div></th>
         <td>
-            <select name="time_zone" class="fixWidth">
+            <select name="time_zone" class="fullWidth">
                 <!--@foreach($time_zone_list as $key => $val)-->
                 <option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@endforeach-->
@@ -73,21 +88,17 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+        </th>
     </tr>
     </table>
     </form>
 
+    <h4 class="xeAdmin">{$lang->ftp_form_title}</h4>
+    <p class="summary">{$lang->about_ftp_info}</p>
     <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->ftp_form_title}</caption>
-    <tr>
-        <td colspan="3">
-            <p>{$lang->about_ftp_info}</p>
-        </td>
-    </tr>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th><div><label for="textfield21">{$lang->user_id}</label></div></th>
         <th><div><label for="textfield22">{$lang->password}</label></div></th>
@@ -99,48 +110,50 @@
         <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
     </tr>
     <tr>
-        <td colspan="3" class="right">
-            <span class="button"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
-        </td>
+        <th colspan="3" class="button">
+            <span class="button blue"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
     </tr>
     </table>
     </form>
 
 </div>
 
-<div class="adminRightExtra">
-    <form action="./" method="get" onsubmit="return procFilter(this, update_lang_select);">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->cmd_lang_select}</caption>
-    <tr>
-        <td>
-            <!--@foreach($lang_supported as $key => $val)-->
-            <div><input id="lang_{$key}" type="checkbox" name="selected_lang" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked"<!--@end--> <!--@if($key==$selected_lang)-->disabled="disabled"<!--@end--> /> <label for="lang_{$key}">{$val}</label></div>
-            <!--@endforeach-->
-            <p>{$lang->about_cmd_lang_select}</p>
-        </td>
-    </tr>
-    <tr>
-        <td class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        </td>
-    </tr>
-    </table>
-    </form>
+<hr />
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->cmd_remake_cache}</caption>
-    <tr>
-        <td>
-            <p>{$lang->about_recompile_cache}</p>
-        </td>
-    </tr>
-    <tr>
-        <td class="right">
-            <span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
-        </td>
-    </tr>
-    </table>
+<div class="extension e2">
+    <div class="section">
 
+        <h4 class="xeAdmin">{$lang->cmd_lang_select}</h4>
+        <p class="summary">{$lang->about_cmd_lang_select}</p>
+        <form action="./" method="get" onsubmit="return procFilter(this, update_lang_select);">
+        <table cellspacing="0" class="rowTable">
+        <!--@foreach($langs as $key => $val)-->
+        <tr>
+            <td>
+                <input id="lang_{$key}" type="checkbox" name="selected_lang" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked"<!--@end--> <!--@if($key==$selected_lang)-->disabled="disabled"<!--@end--> /> <label for="lang_{$key}">{$val}</label>
+            </td>
+        </tr>
+        <!--@endforeach-->
+        <tr>
+            <th class="button">
+                <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+            </th>
+        </tr>
+        </table>
+        </form>
+
+        <h4 class="xeAdmin">{$lang->cmd_remake_cache}</h4>
+        <p class="summary">{$lang->about_recompile_cache}</p>
+        <table cellspacing="0" class="colTable">
+        <tr>
+            <th class="button">
+                <span class="button black strong"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
+            </th>
+        </tr>
+        </table>
+    </div>
 </div>
+
+<!--#include("_footer.html")-->

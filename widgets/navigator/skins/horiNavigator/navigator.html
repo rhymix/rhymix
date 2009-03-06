@@ -1,0 +1,22 @@
+<!--%import("./js/navigator.js")-->
+<!--%import("./css/widget.css")-->
+
+<script type="text/javascript">
+if(typeof(widget_navigator) != 'Object') var widget_navigator={};
+var hrMenuColorset = "{$colorset}";
+widget_navigator[{$widget_info->menu_srl}] = new WidgetNavigator({$widget_info->menu_srl});
+widget_navigator[{$widget_info->menu_srl}].load('{$widget_info->xml_file}');
+</script>
+
+<div class="widgetContainer">
+    <div class="widgetMenuC widgetMenuC{$colorset}">
+        <ul class="widget_navigator_{$widget_info->menu_srl} navigator"  menu_srl='{$widget_info->menu_srl}'>
+        <!--@foreach($widget_info->arranged_menu as $key => $val)-->
+            <!--@if($val->text && $val->depth == 0)-->
+            <li class="node_{$val->node_srl} <!--@if($val->first)-->first<!--@end--> {$_first} <!--@if($val->selected)-->active<!--@end-->" node_srl='{$val->node_srl}' ><a href="{$val->href}">{$val->text}</a>
+            </li>
+            <!--@end-->
+        <!--@end-->
+        </ul>
+    </div>
+</div>

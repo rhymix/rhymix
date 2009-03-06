@@ -12,6 +12,7 @@
     $lang->planet_whos_planet = "%s さんのプラネット";
     $lang->planet_whos_favorite = "%s さんのお気に入り";
     $lang->planet_whos_favorite_list = "'%s'さんがよく訪れるプラネット";
+    $lang->planet_favorite = "お気に入り";
 
     $lang->planet_welcome = "ようこそ！";
 
@@ -56,7 +57,7 @@
     $lang->cmd_planet_addfavorite = "お気に入り追加";
 
     $lang->planet_hot_tag = "リアルタイム人気タグ";
-    $lang->planet_home = "TOP";
+    $lang->planet_home = "Planet TOP";
     $lang->cmd_planet_more_tag = "タグをもっと見る";
 
     $lang->planet_memo = "メモ";

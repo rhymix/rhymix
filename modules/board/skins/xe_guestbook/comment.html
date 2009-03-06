@@ -1,7 +1,7 @@
 <!--@if($oDocument->getCommentCount())-->
 <div class="replyBox">
 
-    <a name="comment_{$comment->comment_srl}"></a>
+    <a name="comment<!--@if($comment->comment_srl)-->_{$comment->comment_srl}<!--@end-->"></a>
     {@ $_comment_list = $oDocument->getComments() }
     <!--@foreach($_comment_list as $key => $comment)-->
 
@@ -35,7 +35,7 @@
 
                 <strong>{$comment->getRegdate('Y.m.d')}</strong> {$comment->getRegdate('H:i:s')}
 
-                <!--@if($grant->is_admin)-->
+                <!--@if($grant->manager)-->
                     ({$comment->get('ipaddress')})
                 <!--@end-->
             </div>
@@ -51,7 +51,6 @@
 
             <div class="replyContent">
                 <!--@if(!$comment->isAccessible())-->
-                    <!--%import("filter/input_password.xml")-->
                     <div class="secretContent">
                         <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
                         <input type="hidden" name="mid" value="{$mid}" />

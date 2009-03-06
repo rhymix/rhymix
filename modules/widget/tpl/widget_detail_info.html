@@ -1,9 +1,13 @@
 <!--%import("css/widget.css")-->
 <!--%import("../../admin/tpl/css/admin.css")-->
 
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->widget}</h3>
+</div>
+
 <div id="popBody">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->widget_maker}</caption>
+    <h4 class="xeAdmin">{$lang->widget_maker}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$widget_info->title} ver {$widget_info->version}</td>
@@ -45,12 +49,12 @@
 </div>
 
 <!--@if($widget_info->history)-->
-<div id="popHistoryHeadder">
-    <h3>{$lang->widget_history}</h3>
+<div id="popHistoryHeader">
+    <h3 class="xeAdmin">{$lang->widget_history}</h3>
 </div>
 
 <div id="popHistoryBody">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <!--@foreach($widget_info->history as $history)-->
     <tr>
         <th scope="row"><div>
@@ -79,7 +83,3 @@
     </table>
 </div>
 <!--@endif-->
-
-<div id="popFooter" class="tCenter gap1">
-    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
-</div>

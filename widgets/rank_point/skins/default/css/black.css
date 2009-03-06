@@ -1,0 +1,14 @@
+@charset "utf-8";
+.widgetContainer a{ text-decoration:none;}
+.widgetContainer a:hover,
+.widgetContainer a:active,
+.widgetContainer a:focus{ text-decoration:underline;}
+.widgetContainer img{ border:0;}
+.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer form{ margin:0; padding:0;}
+.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+.widgetOlistA { margin:0; padding:0; font-size:12px; line-height:1.5;}
+.widgetOlistA li{ margin-left:25px;}
+.widgetOlistA li,
+.widgetOlistA li a{ color:#999;}
+.widgetOlistA li sup{ color:#666; font-size:10px; font-family:tahoma; padding-left:10px;}

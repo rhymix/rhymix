@@ -4,13 +4,13 @@
     <node target="password" required="true" />
     <node target="email_address" maxlength="250" />
     <node target="homepage" maxlength="250"/>
-    <node target="content" required="true" />
+    <node target="content" required="true" minlength="1" />
+    <node target="category_srl" required="true" />
   </form>
   <response callback_func="completeDocumentInserted">
     <tag name="error" />
     <tag name="message" />
     <tag name="mid" />
-    <tag name="document_srl" />
     <tag name="category_srl" />
   </response>
 </filter>

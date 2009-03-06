@@ -36,7 +36,7 @@
     </description>
     <description xml:lang="zh-TW">
         利用訪問統計模組顯示總訪問量與昨天、今日的訪問統計量。
-        想要使用此組件，必須先安裝訪問統計模組並啟動插件。
+        想要使用此組件，必須先安裝訪問統計模組並啟動元件。
     </description>
     <version>0.1</version>
     <date>2007-02-28</date>

@@ -6,7 +6,7 @@
     <div class="boardSubMenu">
         <!--@if($module_info->use_category == "Y")-->
         <div class="fl">
-            <!--@if($grant->is_admin)--><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /><!--@end-->
+            <!--@if($grant->manager)--><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /><!--@end-->
         <!--// 카테고리 사용시 카테고리 선택 표시 -->
                 <select name="category" id="board_category">
                     <option value="">{$lang->category}</option>
@@ -45,7 +45,7 @@
             <!--@foreach($notice_list as $no => $document)-->
                 <table cellspacing="0" summary="" class="boardList boardListNoTopBorder">
                 <!--@if($module_info->display_number!='N')--><col width="80" />{@ $_col_count++}<!--@end-->
-                <!--@if($grant->is_admin)--><col width="30" />{@ $_col_count++}<!--@end-->
+                <!--@if($grant->manager)--><col width="30" />{@ $_col_count++}<!--@end-->
                 <col />
                 <!--@if($module_info->display_author!='N')--><col width="120" />{@ $_col_count++}<!--@end-->
                 <!--@if($module_info->display_readed_count!='N')--><col width="70" />{@ $_col_count++}<!--@end-->
@@ -55,7 +55,7 @@
                 <tbody>
                     <tr class="notice">
                         <!--@if($module_info->display_number!='N')--><td class="notice">{$lang->notice}</td><!--@end-->
-                        <!--@if($grant->is_admin)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
+                        <!--@if($grant->manager)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
                         <td class="title">
                             <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
                             <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
@@ -106,7 +106,7 @@
                         <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong><br />
                         <!--@end-->
 
-                        <!--@if($grant->is_admin)-->
+                        <!--@if($grant->manager)-->
                             <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
                         <!--@end-->
 

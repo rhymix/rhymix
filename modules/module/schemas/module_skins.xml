@@ -1,0 +1,5 @@
+<table name="module_skins">
+    <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_module_skins" />
+    <column name="name" type="varchar" size="80" notnull="notnull" unique="unique_module_skins" />
+    <column name="value" type="text" />
+</table>

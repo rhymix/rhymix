@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+/* Widget Tree */
+.widgetTree { margin-top:10px;}
+.widgetTree *{ margin:0; padding:0; font-size:12px;}
+.widgetTree a strong{ letter-spacing:-1px; cursor:pointer; _cursor /**/:hand;}
+.widgetTree ul{ position:relative; display:block; padding:3px 0 0 0 !important; zoom:1;}
+.widgetTree ul li{ list-style:none; position:relative; padding:3px 0 2px 8px; white-space:nowrap;}
+.widgetTree ul li a,
+.widgetTree ul li span.nav_tree_label{ position:relative; left:16px; _left /**/:0; top:0;}
+.widgetTree ul li a {text-decoration:none; }
+.widgetTree ul li a.selected {font-weight:bold;}
+.widgetTree ul li button{ display:inline-block; position:relative; _left /**/:-16px; *top:-2px; width:13px; height:13px; *width:17px; *height:17px; margin:0 -13px 0 0; *margin:0 -17px -2px -2px; text-indent:-10000px; *text-indent:0; *font:0/0 Sans-serif; border:none; cursor:pointer; _cursor /**/:hand;}
+.widgetTree ul li ul{ display:none; padding:2px 0 0 0 !important; margin:0 0 -2px 6px; background-position:left top;}
+.widgetTree ul li ul li{ display:none;}
+.widgetTree ul li.nav_tree_on button{ background-position:0 -13px; *background-position:2px -11px;}
+.widgetTree ul li.nav_tree_off button{ background-position:0 0; *background-position:2px 2px;}
+.widgetTree ul li.nav_tree_on ul{ display:block;}
+.widgetTree ul li.nav_tree_on ul li{ display:block;}
+.widgetTree ul li.nav_tree_off ul{ display:none;}
+.widgetTree ul li.nav_tree_off ul li{ display:none;}
+.widgetTree .icon{ position:relative; left:16px;}
+
+/* widgetTree */
+.widgetTree{ color:#999;}
+.widgetTree a { color:#999;}
+
+/* Widget Tree */
+.widgetTree ul{ background:url(../img/black/lineTreeVr.gif) repeat-y 0 -1px;}
+.widgetTree ul li{ background:url(../img/black/lineTreeHr.gif) no-repeat 1px 5px !important;}
+.widgetTree ul li button{ background:url(../img/black/buttonTreeCollapse.gif) no-repeat;}
+.widgetTree ul li.nav_tree_last{ background:url(../img/black/lineTreeLastHr.gif) no-repeat 0 5px !important;}
+

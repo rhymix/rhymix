@@ -20,6 +20,7 @@
         function naver_map($upload_target_srl, $component_path) {
             $this->upload_target_srl = $upload_target_srl;
             $this->component_path = $component_path;
+            Context::loadLang($component_path.'lang');
         }
 
         /**
@@ -48,7 +49,8 @@
             Context::loadLang($this->component_path."lang");
 
             // 지정된 서버에 요청을 시도한다
-            $query_string = iconv("UTF-8","EUC-KR",sprintf('/api/geocode.php?key=%s&query=%s', $this->api_key, $address));
+            $address = urlencode(iconv("UTF-8","EUC-KR",$address));
+            $query_string = sprintf('/api/geocode.php?key=%s&query=%s', $this->api_key, $address);
 
             $fp = fsockopen('maps.naver.com', 80, $errno, $errstr);
             if(!$fp) return new Object(-1, 'msg_fail_to_socket_open');
@@ -71,6 +73,10 @@
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
 
+            //If a Naver OpenApi Error message exists.
+            if($xml_doc->error->error_code->body || $xml_doc->error->message->body) return new Object(-1, 'NAVER OpenAPI Error'."\n".'Code : '.$xml_doc->error->error_code->body."\n".'Message : '.$xml_doc->error->message->body);
+
+            if($xml_doc->geocode->total->body == 0) return new Object(-1,'msg_no_result');
             $addrs = $xml_doc->geocode->item;
             if(!is_array($addrs)) $addrs = array($addrs);
             $addrs_count = count($addrs);
@@ -99,6 +105,7 @@
         function transHTML($xml_obj) {
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
+            $zoom = $xml_obj->attrs->zoom;
             $marker = urlencode($xml_obj->attrs->marker);
             $style = $xml_obj->attrs->style;
 
@@ -108,7 +115,7 @@
             if(!$width) $width = 400;
             if(!$height) $height = 400;
 
-            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%d&amp;height=%d&amp;x=%f&amp;y=%f&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $marker, $width, $height);
+            $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%d&amp;height=%d&amp;x=%f&amp;y=%f&amp;zoom=%d&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $zoom, $marker, $width, $height);
             return $body_code;
         }
 
@@ -131,17 +138,21 @@
             if(!$y) $y = 529730;
             settype($y,"int");
 
+            $zoom = Context::get('zoom');
+            if(!$zoom) $zoom = 3;
+            settype($zoom,"int");
+
             $marker = Context::get('marker');
 
             $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">'.
                     '<html>'.
                     '<head>'.
                     '<title></title>'.
-                    '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
+                    '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'.
                     '<script type="text/javascript" src="./common/js/x.js"></script>'.
                     '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key='.$this->api_key.'"></script>'.
                     '<script type="text/javascript">'.
-                    'function moveMap(x,y,scale) {mapObj.setCenterAndZoom(new NPoint(x,y),scale);}'.
+                    'function moveMap(x,y,scale) { mapObj.setCenterAndZoom(new NPoint(x,y),scale); }'.
                     'function createMarker(pos) { if(typeof(top.addMarker)=="function") { if(!top.addMarker(pos)) return; var iconUrl = "http://static.naver.com/local/map_img/set/icos_free_"+String.fromCharCode(96+top.marker_count-1)+".gif"; var marker = new NMark(pos,new NIcon(iconUrl,new NSize(15,14))); mapObj.addOverlay(marker); } }'.
                     '</script>'.
                     '</head>'.
@@ -156,9 +167,9 @@
                     'var infowin = new NInfoWindow();'.
                     'mapObj.addOverlay(infowin);'.
                     'NEvent.addListener(mapObj,"click",createMarker);'.
-                    '';
+                    "\n";
 
-            if($x&&$y) $html .= 'mapObj.setCenterAndZoom(new NPoint('.$x.','.$y.'),3);';
+            if($x&&$y) $html .= 'mapObj.setCenterAndZoom(new NPoint('.$x.','.$y.'),'.$zoom.');';
 
             if($marker) {
                 $marker_list = explode('|@|', $marker);
@@ -167,6 +178,7 @@
                     $marker_list[$i] = explode(',', $marker_list[$i]);
                     settype($marker_list[$i][0],"int");
                     settype($marker_list[$i][1],"int");
+                    if(!$marker_list[$i][0] || !$marker_list[$i][1]) continue;
                     $marker_list[$i] = $marker_list[$i][0].','.$marker_list[$i][1];
                     $pos = trim($marker_list[$i]);
                     if(!$pos) continue;
@@ -178,8 +190,6 @@
 
             $html .= ''.
                      //'mapObj.enableWheelZoom();'.
-                     'NEvent.addListener(mapObj, "click", function(pos) { if(typeof(top.mapClicked)!="undefined") top.mapClicked(pos); });'.
-                     'NEvent.addListener(mapObj, "mouseup", function(pos) { if(typeof(top.mapClicked)!="undefined") top.mapClicked(pos); });'.
                      '</script>'.
                      '</body>'.
                      '</html>';

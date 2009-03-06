@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+/* widgetCounter */
+.widgetCounter{ font-size:12px; margin:0;}
+.widgetCounter dt,
+.widgetCounter dd{ height:18px;}
+.widgetCounter dt{ float:left; clear:left;}
+.widgetCounter dd{ font-size:11px; font-family:Tahoma;}
+.widgetCounter dt{ color:#333;}
+.widgetCounter dd{ color:#888;}

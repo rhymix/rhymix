@@ -1,81 +1,94 @@
-{@ $member_title = $lang->cmd_view_member_info }
 <!--#include("./common_header.html")-->
 
-    <table cellspacing="0" class="memberInfoTable">
-    <col width="140" />
-    <col />
-    <caption>{$lang->member_default_info}</caption>
+    <h3>{$lang->cmd_view_member_info}</h3>
+
+    <table cellspacing="0" class="rowTable">
+    <tr><th colspan="2" class="title"><div>{$lang->member_default_info}</div></th></tr>
     <tr>
-        <th scope="row">{$lang->user_name}</th>
-        <td>{htmlspecialchars($member_info->user_name)}</td>
+        <th><div>{$lang->user_name}</div></th>
+        <td class="wide">{htmlspecialchars($member_info->user_name)}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->nick_name}</th>
+        <th><div>{$lang->nick_name}</div></th>
         <td>{htmlspecialchars($member_info->nick_name)}</td>
     </tr>
     <!--@if($member_info->profile_image->src)-->
     <tr>
-        <th scope="row">{$lang->profile_image}</th>
+        <th><div>{$lang->profile_image}</div></th>
         <td><img src="{$member_info->profile_image->src}" border="0" alt="profile_image" /></td>
     </tr>
     <!--@end-->
     <!--@if($member_info->image_name->src)-->
     <tr>
-        <th scope="row">{$lang->image_name}</th>
+        <th><div>{$lang->image_name}</div></th>
         <td><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></td>
     </tr>
     <!--@end-->
     <!--@if($member_info->image_mark->src)-->
     <tr>
-        <th scope="row">{$lang->image_mark}</th>
+        <th><div>{$lang->image_mark}</div></th>
         <td><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->homepage}</th>
+        <th><div>{$lang->homepage}</div></th>
         <td><!--@if($member_info->homepage)--><a href="{htmlspecialchars($member_info->homepage)}" onclick="window.open(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->blog}</th>
+        <th><div>{$lang->blog}</div></th>
         <td><!--@if($member_info->blog)--><a href="{htmlspecialchars($member_info->blog)}" onclick="window.open(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->birthday}</th>
+        <th><div>{$lang->birthday}</div></th>
         <td><!--@if($member_info->birthday)-->{zdate($member_info->birthday,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@if($member_info->signature)-->
     <tr>
-        <th scope="row">{$lang->signature}</th>
+        <th><div>{$lang->signature}</div></th>
         <td>{$member_info->signature}</td>
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->group}</th>
+        <th><div>{$lang->group}</div></th>
         <td><!--@foreach($member_info->group_list as $key => $val)-->{$val} <!--@end--></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->signup_date}</th>
+        <th><div>{$lang->signup_date}</div></th>
         <td>{zdate($member_info->regdate,"Y-m-d H:i")}</td>
     </tr>
 
     <!--@if($member_info->member_srl == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
     <tr>
-        <th scope="row">{$lang->last_login}</th>
+        <th><div>{$lang->last_login}</div></th>
         <td>{zdate($member_info->last_login,"Y-m-d H:i")}</td>
     </tr>
     <!--@end-->
-    </table>
+
+    <!--@if($member_config->enable_openid=="Y")-->
+    <!--@if(sizeof($openids) > 0)-->
+    <tr>
+        <th colspan="2" class="title"><div>{$lang->openid} </div></th>
+    </tr>
+    <!--@foreach($openids as $openid)-->
+    <tr>
+        <th><div>{$lang->openid}</div></th>
+        <td> <a href="{$openid->bookmarklet}">{$openid->openid}</a> </td>
+    </tr>
+    <!--@end-->
+    <!--@end-->
+    <!--@end-->
 
     <!--@if($extend_form_list)-->
-    <table cellspacing="0" class="memberInfoTable">
-    <col width="140" />
-    <col />
-    <caption>{$lang->member_extend_info}</caption>
+    <tr>
+        <th class="title" colspan="2"><div>{$lang->member_extend_info}</div></th>
+    </tr>
     {@ $dummy_chk = 0 }
     <!--@foreach($extend_form_list as $key => $val)-->
     <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
         <th>
-            {htmlspecialchars($val->column_title)}
+            <div>
+                {htmlspecialchars($val->column_title)}
+            </div>
         </th>
         <td>
             <!--@if($val->is_private)-->
@@ -100,20 +113,21 @@
         </td>
     </tr>
     <!--@end-->
-    </table>
     <!--@end-->
 
-    <div class="tCenter">
-        <!--@if($member_info->member_srl == $logged_info->member_srl)-->
-        <a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_info}</span></a>
-            <!--@if($logged_info->is_openid)-->
-                <a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
-            <!--@else-->
-                <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button"><span>{$lang->cmd_modify_member_password}</span></a>
-                <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button"><span>{$lang->cmd_leave}</span></a>
+    <tr>
+        <th colspan="2" class="button">
+            <!--@if($member_info->member_srl == $logged_info->member_srl)-->
+            <a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button black strong"><span>{$lang->cmd_modify_member_info}</span></a>
+                <!--@if($logged_info->is_openid)-->
+                    <a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
+                <!--@else-->
+                    <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button green"><span>{$lang->cmd_modify_member_password}</span></a>
+                    <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
+                <!--@end-->
             <!--@end-->
-        <!--@end-->
-        <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-    </div>
+            <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+    </tr>
+    </table>
 
 <!--#include("./common_footer.html")-->

@@ -161,6 +161,12 @@
          * @brief 그룹 목록 출력
          **/
         function dispMemberAdminGroupList() {
+            $oModuleModel = &getModel('module');
+
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->group_image_mark_order) $config->group_image_mark_order = explode(',', $config->group_image_mark_order);
+            Context::set('config', $config);
+
             $group_srl = Context::get('group_srl');
 
             if($group_srl && $this->group_list[$group_srl]) {
@@ -237,7 +243,7 @@
         }
 
         /**
-         * @brief 회원 일괄 삭제 
+         * @brief 회원 일괄 삭제
          **/
         function dispMemberAdminDeleteMembers() {
             // 선택된 회원 목록을 구함

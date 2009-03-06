@@ -1,0 +1,15 @@
+<filter name="insert_module_setup" module="module" act="procModuleAdminModuleSetup">
+    <form>
+        <node target="module_srls" required="true" />
+        <node target="module_category_srl" />
+        <node target="layout_srl" />
+        <node target="skin" required="true" />
+        <node target="description" />
+        <node target="header_text" />
+        <node target="footer_text" />
+    </form>
+    <response callback_func="completeModuleSetup">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

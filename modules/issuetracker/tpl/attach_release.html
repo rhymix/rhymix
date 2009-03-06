@@ -11,21 +11,21 @@
 <input type="hidden" name="package_srl" value="{$release->package_srl}" />
 <input type="hidden" name="act" value="procIssuetrackerAdminAttachRelease" />
 
-<table cellspacing="0" class="adminTable">
+<h4 class="xeAdmin">{$release->title}</h4>
+<table cellspacing="0" class="rowTable">
 <thead>
-<caption>{$release->title}</caption>
 <tr>
     <th><div>{$lang->cmd_attach_file}</div></th>
-    <td class="wide"><input type="file" name="file" value="" class="inputTypeTextArea w400" /></td>
+    <td class="wide"><input type="file" name="file" value="" class="inputTypeText" /></td>
 </tr>
 <tr>
     <th><div>{$lang->description}</div></th>
-    <td><textarea name="comment" class="inputTypeTextArea w400" />{$relese->description}</textarea></td>
+    <td><textarea name="comment" class="inputTypeTextArea fullWidth" />{$relese->description}</textarea></td>
 </tr>
 <tr>
-    <td colspan="2">
-        <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
-    </td>
+    <th colspan="2" class="button">
+        <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </th>
 </tr>
 </table>
 

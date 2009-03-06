@@ -8,8 +8,8 @@
 	<description xml:lang="jp">ポイント状況出力ウィジェットのデフォルトスキンです。</description>
 	<description xml:lang="zh-CN">显示在线会员积分现况的默认皮肤。</description>
 	<description xml:lang="zh-TW">顯示線上會員積分狀況的預設面板。</description>
-	<version>0.1</version>
-	<date>2008-04-23</date>
+	<version>0.2</version>
+	<date>2009-02-17</date>
 	<link>http://www.zeroboard.com</link>
 
 	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
@@ -20,12 +20,26 @@
 	</author>
 
 	<colorset>
-		<color name="normal">
-			<title xml:lang="ko">기본 컬러</title>
-			<title xml:lang="jp">デフォルトカラー</title>
-			<title xml:lang="zh-CN">默认颜色</title>
-			<title xml:lang="en">Default color</title>
-			<title xml:lang="zh-TW">預設顏色</title>
-		</color>
+        <color name="layout">
+            <title xml:lang="ko">레이아웃에 맞춤</title>
+            <title xml:lang="jp">レイアウトに合わせる</title>
+            <title xml:lang="zh-CN">随布局</title>
+            <title xml:lang="en">레이아웃에 맞춤</title>
+            <title xml:lang="zh-TW">隨版面</title>
+        </color>
+        <color name="white">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（默认）</title>
+            <title xml:lang="en">White (default)</title>
+            <title xml:lang="zh-TW">白色(預設)</title>
+        </color>
+        <color name="black">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
+        </color>
 	</colorset>
 </skin>

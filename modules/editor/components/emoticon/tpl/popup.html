@@ -1,8 +1,8 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 
-<div id="popHeadder">
-    <h3>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">
         {$component_info->title} ver. {$component_info->version}
     </h3>
 </div>
@@ -20,8 +20,4 @@
     <img src="images/{$src}" alt="{$src}" onclick="insertEmoticon(this); return false;" class="emoticon" />
     <!--@end-->
 
-</div>
-
-<div id="popFooter" class="tCenter">
-    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
 </div>

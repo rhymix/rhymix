@@ -2,11 +2,11 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr class="row2">
         <th scope="row"><div>{$lang->sample_code}<div></th>
         <td colspan="2" class="wide">
-            <textarea class="inputTypeTextArea w400" readonly="readonly">{$sample_code}</textarea>
+            <textarea class="inputTypeTextArea fullWidth" readonly="readonly">{$sample_code}</textarea>
             <p>{$lang->about_sample_code}</p>
         </td>
     </tr>
@@ -47,9 +47,9 @@
     <!--@end-->
     <!--@end-->
     <tr class="row2">
-        <td class="right" colspan="3">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th class="button" colspan="3">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 </form>

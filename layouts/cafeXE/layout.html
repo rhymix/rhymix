@@ -1,0 +1,116 @@
+<!--%import("./lang")-->
+<!--%import("css/layout.css")-->
+<!--%import("css/layout@cafe.css")-->
+
+<!--%import("css/widget.css")-->
+
+<!--@if($layout_info->colorset == "black")-->
+    <!--%import("css/layout@black.css")-->
+    <!--%import("css/widget@black.css")-->
+<!--@else-->
+    <!--%import("css/layout@white.css")-->
+    <!--%import("css/widget@white.css")-->
+<!--@end-->
+
+<!--// 모양 설정 > 본문 위치 -->
+<!--@if($layout_info->content_position == "right")-->{@$_posClass = "cafeXeEC"}<!--@else-->{@$_posClass = "cafeXeCE"}<!--@end-->
+
+<!--// indexUrl 설정 -->
+<!--@if(!$layout_info->index_url)-->{@$layout_info->index_url = Context::getRequestUri()}<!--@end-->
+
+<!--// 로고 영역 이미지 -->
+<!--@if($layout_info->logo_background_image)-->
+<style type="text/css"> #cafeXeHeader {background:#FFFFFF url("{$layout_info->logo_background_image}") repeat left top !important; } </style>
+<!--@end-->
+
+<!--// 내용 영역 이미지 -->
+<!--@if($layout_info->content_background_image)-->
+<style type="text/css"> #cafeXeContainer {background:#FFFFFF url("{$layout_info->content_background_image}") repeat left top !important; } </style>
+<!--@end-->
+
+
+
+<div class="cafeXe">
+    <div class="cafeXeFixed">
+        <div id="cafeXeContainer" class="{$_posClass}">
+            <!-- #header -->
+            <div id="cafeXeHeader">
+                <div class="cafeXeHeader"><a href="#content" class="skipToContent">Skip to content</a>
+                    <!--@if($layout_info->logo_image)-->
+                    <h1 class="cafeXeH1"><a href="{$layout_info->index_url}" class="cafeXeA"><img src="{$layout_info->logo_image}" title="{$layout_info->logo_text}" /></a></h1>
+                    <!--@elseif($layout_info->logo_text)-->
+                    <h1 class="cafeXeH1"><a href="{$layout_info->index_url}" class="cafeXeA">{$layout_info->logo_text}</a></h1>
+                    <!--@else-->
+                    <h1 class="cafeXeH1"><a href="{$layout_info->index_url}" class="cafeXeA">Cafe<sup>XE</sup></a></h1>
+                    <!--@end-->
+
+					<form action="{getUrl()}" method="post" class="widgetSearch">
+						<fieldset>
+							<input type="hidden" name="mid" value="{$mid}" />
+							<input type="hidden" name="act" value="IS" />
+							<input type="hidden" name="search_target" value="title" />
+							<!--<legend>{$lang->cmd_search}</legend>-->
+							<input type="text" name="is_keyword" class="widgetXeInputText" title="{$lang->cmd_search}" />
+							<input type="image" src="./img/white/buttonSearch.gif" value="{$lang->cmd_search}" class="widgetSearch" />
+						</fieldset>
+					</form>
+
+                    <p class="cafeXeUrl"><a href="{$layout_info->index_url}" class="cafeXeA">{$layout_info->index_url}</a></p>
+
+                </div>
+            </div>
+            <!-- /#header -->
+            <hr class="cafeXeHr" />
+            <!-- #body -->
+            <div id="cafeXeBody">
+                <div id="cafeXeContent">
+                    {$content}
+                </div>
+                <hr class="cafeXeHr" />
+                <div class="cafeXeExtension cafeXeE1">
+                    <!--// Left/Right Widget -->
+
+                    <!--// Site Status -->
+                    <!--@if($site_module_info->site_srl>0)-->
+                    <img class="zbxe_widget_output" widget="site_info" skin="default" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->cafe_info}"  ws_more_url="" ws_more_text=""/>
+                    <!--@end-->
+
+                    <!--// Login Info Widget -->
+                    <img class="zbxe_widget_output" widget="login_info" skin="default" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="<!--@if($is_logged)-->{$logged_info->nick_name}<!--@else-->{$lang->cmd_login}<!--@end-->" ws_more_url="" ws_more_text=""/>
+
+                    <!--// Menu Widget -->
+                    <img class="zbxe_widget_output" widget="navigator" skin="tree" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->menu}" />
+
+                    <!--// Visitor Status Widget -->
+                    <img class="zbxe_widget_output" widget="counter_status" skin="default" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->counter}" />
+                </div>
+            </div>
+            <!-- /#body -->
+            <hr class="cafeXeHr" />
+            <!-- #knee -->
+            <div id="cafeXeKnee">
+                <div class="cafeXeExtension">
+                    <!--// Bottom Widget -->
+                    <img class="zbxe_widget_output" widget="member_group" skin="default" colorset="black" widgetstyle="simple" ws_colorset="{$layout->colorset}" ws_title="{$lang->new_members}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
+                    <img class="zbxe_widget_output" widget="rank_count" rankby="document" skin="default" colorset="black" widgetstyle="simple" ws_colorset="{$layout->colorset}" ws_title="{$lang->document_ranking}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
+                    <img class="zbxe_widget_output" widget="rank_count" rankby="comment" skin="default" colorset="black" widgetstyle="simple" ws_colorset="{$layout->colorset}" ws_title="{$lang->comment_ranking}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
+                    <img class="zbxe_widget_output" widget="logged_members" skin="default"  widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->logged_users}" list_count="99999" style="width:219px; float:left;margin-right:28px;" />
+                </div>
+            </div>
+            <!-- /#knee -->
+            <hr class="cafeXeHr" />
+            <!-- #footer -->
+            <div id="cafeXeFooter">
+                <div class="cafeXeFooter">
+                    <address class="cafeXeAddress">
+                    Powered by <a href="http://www.xpressengine.com" onclick="window.open(this.href);return false;"><abbr title="Xpress Engine">XE</abbr></a>.
+                    </address>
+
+                    <!-- 언어 선택 위젯 -->
+                    <img class="zbxe_widget_output" widget="language_select" skin="default" />
+                </div>
+            </div>
+            <!-- /#footer -->
+        </div>
+    </div>
+</div>

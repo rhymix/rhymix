@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants>
-        <grant name="view" default="guest">
-            <title xml:lang="ko">열람</title>
-			<title xml:lang="es">Opinión</title>
-			<title xml:lang="ru">мнение</title>
-	        <title xml:lang="zh-CN">查看</title>
-            <title xml:lang="jp">閲覧</title>
-            <title xml:lang="en">view</title>
-	        <title xml:lang="zh-TW">檢視</title>
-        </grant>
-    </grants>
+    <grants />
+    <permissions />
     <actions>
         <action name="dispLifepodContent" type="view" index="true" />
 
@@ -23,7 +14,5 @@
 
         <action name="procLifepodAdminInsertLifepod" type="controller" standalone="true" />
         <action name="procLifepodAdminDeleteLifepod" type="controller" standalone="true" />
-        <action name="procLifepodAdminInsertGrant" type="controller" standalone="true" />
-        <action name="procLifepodAdminUpdateSkinInfo" type="controller" standalone="true" />
     </actions>
 </module>

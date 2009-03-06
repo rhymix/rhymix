@@ -11,8 +11,8 @@
 .exTab li,
 .myTab li a,
 .exTab li a,
-.tab .tagRank .buttonTag,
-.tab .tagRank .buttonTag button{ background-color:#dfaa9e;}
+.tagRank .buttonTag,
+.tagRank .buttonTag button{ background-color:#dfaa9e;}
 .myTab li.active,
 .exTab li.active,
 .myTab li.active a,

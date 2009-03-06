@@ -30,9 +30,9 @@
 
     $lang->cmd_send_message = '发送短消息';
     $lang->cmd_reply_message = '回复短消息';
-    $lang->cmd_view_friend = '查看好友';
+    $lang->cmd_view_friend = '我的好友';
     $lang->cmd_add_friend = '加为好友';
-    $lang->cmd_view_message_box = '查看短信箱';
+    $lang->cmd_view_message_box = '短信箱';
     $lang->cmd_store = "保管";
     $lang->cmd_add_friend_group = '添加好友组';
     $lang->cmd_rename_friend_group = '修改好友组名称';

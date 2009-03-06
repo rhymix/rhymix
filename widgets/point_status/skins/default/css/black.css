@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+.widgetContainer a{ text-decoration:none;}
+.widgetContainer a:hover,
+.widgetContainer a:active,
+.widgetContainer a:focus{ text-decoration:underline;}
+.widgetContainer img{ border:0;}
+.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer form{ margin:0; padding:0;}
+.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+
+.widgetPoint{ margin:0; *zoom:1; clear:both;}
+.widgetPoint:after{ content:""; display:block; clear:both;}
+.widgetPoint dt{ font-size:12px; font-family:Tahoma; font-weight:bold;}
+.widgetPoint dd{ margin:0;}
+.widgetPoint dd.graph{ height:5px; overflow:hidden; background:#e5e5e5; font-size:0; line-height:0;}
+.widgetPoint dd.graph img{ width:0%;}
+.widgetPoint dd.point{ font-size:10px; font-family:Tahoma; float:left; color:#888;}
+.widgetPoint dd.percentage{ font-size:10px; font-family:Tahoma; float:right; color:#888;}
+.widgetPoint dt{ color:#999;}
+

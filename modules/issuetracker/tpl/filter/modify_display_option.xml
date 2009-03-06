@@ -1,0 +1,25 @@
+<filter name="modify_display_option" module="issuetracker" act="procIssuetrackerAdminModifyDisplayOption" confirm_msg_code="confirm_submit">
+    <form />
+    <parameter>
+    	<param name="module_srl" target="module_srl" />
+    	<param name="displayopts" target="displayopts" />
+        <!-- <param name="d_no" target="d_no" />
+        <param name="d_title" target="d_title" />
+        <param name="d_milestone" target="d_milestone" />
+        <param name="d_priority" target="d_priority" />
+        <param name="d_type" target="d_type" />
+        <param name="d_component" target="d_component" />
+        <param name="d_status" target="d_status" />
+        <param name="d_occured_version" target="d_occured_version" />
+        <param name="d_package" target="d_package" />
+        <param name="d_regdate" target="d_regdate" />
+        <param name="d_assignee" target="d_assignee" />
+        <param name="d_writer" target="d_writer" /> -->
+    </parameter>
+    <response callback_func="completeInsertSetting">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module_srl" />
+    </response>
+</filter>
+

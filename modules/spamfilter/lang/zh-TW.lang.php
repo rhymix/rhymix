@@ -16,6 +16,8 @@
     $lang->limit_count = "限制數";
     $lang->check_trackback = "檢查引用";
     $lang->word = "單字";
+    $lang->hit = '히트';
+    $lang->latest_hit = '최근 히트';
 
     // 說明
     $lang->about_interval = "指定的時間內禁止發表新主題。";

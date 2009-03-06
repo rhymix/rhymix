@@ -32,7 +32,7 @@
                 <div class="uri" title="{$lang->document_url}"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getPermanentUrl()}</a></div>
 
                 <div class="date" title="{$lang->regdate}">
-                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')} <!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->({$oDocument->getIpaddress()})<!--@end-->
+                    <strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i:s')} <!--@if($grant->manager || $module_info->display_ip_address!='N')-->({$oDocument->getIpaddress()})<!--@end-->
                 </div>
 
                 <div class="readedCount" title="{$lang->readed_count}">{$oDocument->get('readed_count')}</div>
@@ -63,21 +63,15 @@
         </div>
 
         <div class="clear"></div>
-
         <!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
         <table cellspacing="0" summary="" class="extraVarsList">
         <col width="150" />
         <col />
-        <!--@foreach($module_info->extra_vars as $key => $val)-->
-            <!--@if($val->name)-->
+        <!--@foreach($oDocument->getExtraVars() as $key => $val)-->
         <tr>
-            <th scope="row">{$val->name}</th>
-            <td>
-                <!--// 확장변수(extra_var)의 type에 따른 값을 출력하기 위해서 특별히 제작된 파일을 include 한다 -->
-                <!--#include("./extra_var_value.html")-->
-            </td>
+            <th>{$val->name}</th>
+            <td>{$val->getValueHTML()}</td>
         </tr>
-            <!--@end-->
         <!--@end-->
         </table>
         <!--@end-->
@@ -86,7 +80,6 @@
             <div class="contentBody">
 
                 <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
-                    <!--%import("filter/input_password.xml")-->
                     <div class="secretContent">
                         <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
                         <input type="hidden" name="mid" value="{$mid}" />
@@ -103,7 +96,7 @@
                 <!--@end-->
 
                 <!-- 서명 / 프로필 이미지 출력 -->
-                <!--@if($oDocument->getProfileImage() || $oDocument->getSignature())-->
+                <!--@if($module_info->display_sign != 'N' && ($oDocument->getProfileImage() || $oDocument->getSignature()))-->
                     <div class="memberSignature">
                     <!--@if($oDocument->getProfileImage())-->
                         <div class="profile"><img src="{$oDocument->getProfileImage()}" alt="profile" /></div>
@@ -166,7 +159,6 @@
 
 <!-- 댓글 입력 폼 -->
 <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
-    <!--%import("filter/insert_comment.xml")-->
     <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
@@ -190,10 +182,10 @@
                 <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
                 <label for="notify_message">{$lang->notify}</label>
                 <!--@end-->
-
+                <!--@if($module_info->secret=="Y")-->
                 <input type="checkbox" name="is_secret" value="Y" id="is_secret" />
                 <label for="is_secret">{$lang->secret}</label>
-
+                <!--@end-->
             </div>
 
             <div class="editor">{$oDocument->getCommentEditor()}</div>

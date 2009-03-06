@@ -6,19 +6,19 @@
 
 /* document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수 */
 document.write = document.writeln = function(str){
-	if ( str.match(/^<\//) ) return;
-	if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
+    if ( str.match(/^<\//) ) return;
+    if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
     str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
     var div = null;
     if(document.createElementNS) div = document.createElementNS("http://www.w3.org/1999/xhtml","div");
     else div = xCreateElement('div');
     xInnerHtml(div, str);
-	var pos;
+    var pos;
     pos = document.getElementsByTagName("*");
     pos = pos[pos.length - 1];
-	var nodes = div.childNodes;
-	while ( nodes.length ) {
-		pos.parentNode.appendChild( nodes[0] );
+    var nodes = div.childNodes;
+    while ( nodes.length ) {
+        pos.parentNode.appendChild( nodes[0] );
     }
 };
 
@@ -61,7 +61,9 @@ function doStartPageModify(zoneID, module_srl) {
     var dummy = xCreateElement("div");
     xInnerHtml(dummy, xInnerHtml(obj));
     dummy.id="pageSizeLayer";
+    dummy.className=obj.className;
     dummy.style.visibility = "hidden";
+    dummy.style.display = "block";
     dummy.style.position = "absolute";
     dummy.style.left = 0;
     dummy.style.top = 0;
@@ -115,21 +117,54 @@ function getWidgetContent(obj) {
         }
         childObj = childObj.nextSibling;
     }
-
     return html;
 }
 
 // 컨텐츠 위젯 코드 구함
 function getContentWidgetCode(childObj, widget) {
     var cobj = childObj.firstChild;
-    while(cobj) {
-        if(cobj.nodeName == "DIV" && cobj.className == "widgetContent") {
-            var body = xInnerHtml(cobj);
-            var document_srl = childObj.getAttribute('document_srl');
-            if(document_srl>0) body = '';
-            return '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" />';
+
+    var widgetContent = jQuery('div.widgetContent',childObj);
+    var body = '';
+    var document_srl = 0;
+    var attrs ='';
+
+    if(widgetContent.size() > 0){
+        document_srl = jQuery(childObj).attr('document_srl');
+        if(document_srl>0){
+            body = '';
+        }else{
+            body = widgetContent.html();
         }
-        cobj = cobj.nextSibling;
+
+
+        for(var i=0;i<childObj.attributes.length;i++) {
+            if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
+            var name = childObj.attributes[i].nodeName.toLowerCase();
+            if(name == "contenteditable"
+                || name == "id"
+                || name=="style"
+                || name=="src"
+                || name=="widget"
+                || name == "body"
+                || name == "class"
+                || name == "widget_width"
+                || name == "widget_width_type"
+                || name == "xdpx"
+                || name == "xdpy"
+                || name == "height"
+                || name == "document_srl"
+                || name == "widget_padding_left"
+                || name == "widget_padding_right"
+                || name == "widget_padding_top"
+                || name == "widget_padding_bottom") continue;
+            var value = childObj.attributes[i].nodeValue;
+            if(!value) continue;
+            attrs += name+'="'+escape(value)+'" ';
+        }
+        return '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
+    }else{
+        return '';
     }
 }
 
@@ -180,6 +215,7 @@ function doAddContent(mid) {
 // 직접 내용을 입력하기 위한 에디터 활성화 작업 및 form 데이터 입력
 function doSyncPageContent() {
     if(opener && opener.selectedWidget) {
+
         var fo_obj = xGetElementById("content_fo");
         var sel_obj = opener.selectedWidget;
         fo_obj.style.value = getStyle(opener.selectedWidget);
@@ -211,7 +247,6 @@ function addContentWidget(fo_obj) {
     var module_srl = fo_obj.module_srl.value;
     var document_srl = fo_obj.document_srl.value;
     var content = editorGetContent(editor_sequence);
-
     var response_tags = new Array('error','message','document_srl');
     var params = new Array();
     params['editor_sequence'] = editor_sequence;
@@ -219,12 +254,19 @@ function addContentWidget(fo_obj) {
     params['module_srl'] = module_srl;
     params['document_srl'] = document_srl;
     exec_xml('widget',"procWidgetInsertDocument",params,completeAddContent,response_tags,params,fo_obj);
-
     return false;
+
 }
 
 function completeAddContent(ret_obj, response_tags, params, fo_obj) {
     var document_srl = ret_obj['document_srl'];
+
+    var contentWidget = opener.jQuery('div.widgetOutput[widget=widgetContent][document_srl='+document_srl+']');
+    var attr = null;
+    if(contentWidget.size()>0) {
+        attr = contentWidget.get(0).attributes;
+    }
+
     var tpl = ''+
         '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
         '<div class="widgetResize"></div>'+
@@ -235,6 +277,17 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
         '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
         '</div>';
 
+    var oTpl = jQuery(tpl);
+    if(attr) {
+        jQuery.each(attr,function(i){
+            if(!oTpl.attr(attr[i].name)){
+                oTpl.attr(attr[i].name,attr[i].value);
+            }
+        });
+    }
+
+    oTpl = jQuery('<div>').append(oTpl);
+    tpl = oTpl.html();
     opener.doAddWidgetCode(tpl);
     window.close();
 }
@@ -345,7 +398,17 @@ function doCheckWidget(e) {
         if(!widget) return;
         selectedWidget = p_obj;
         if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl"), "addContent");
-        else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget,'GenerateCodeInPage');
+        else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
+        return;
+
+    // 위젯 스타일
+    } else if(obj.className == 'widgetStyle') {
+        var p_obj = obj.parentNode.parentNode;
+        var widget = p_obj.getAttribute("widget");
+        var widgetstyle = p_obj.getAttribute("widgetstyle");
+        if(!widget) return;
+        selectedWidget = p_obj;
+        popopen(request_uri+"?module=widget&act=dispWidgetStyleGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
         return;
 
     // 위젯 복사
@@ -471,7 +534,7 @@ function doCheckWidgetDrag(e) {
 
     doHideWidgetSizeSetup();
 
-    if(obj.className == 'widgetSetup' || obj.className == 'widgetCopy' || obj.className == 'widgetBoxCopy' || obj.className == 'widgetSize' || obj.className == 'widgetBoxSize' || obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') return;
+    if(obj.className == 'widgetSetup' || obj.className == 'widgetStyle' || obj.className == 'widgetCopy' || obj.className == 'widgetBoxCopy' || obj.className == 'widgetSize' || obj.className == 'widgetBoxSize' || obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') return;
 
     p_obj = obj;
     while(p_obj) {
@@ -733,20 +796,15 @@ function showWidgetButton(name, obj) {
     var widgetButton = xGetElementById(name);
     if(!widgetButton) return;
     widgetButton.style.visibility = 'visible';
-
+    obj.insertBefore(widgetButton, obj.firstChild);
+    /*
     var cobj = obj.firstChild;
     while(cobj) {
-        if(cobj.nodeName == "DIV" && cobj.className == "widgetBorder") {
-            if(/embed/i.test(xInnerHtml(cobj))) {
-                hideElements[hideElements.length] = cobj;
-                cobj.style.paddingTop = '20px';
-            }
-        }
         cobj = cobj.nextSibling;
     }
 
     obj.appendChild(widgetButton);
-
+    */
 }
 
 function widgetSetup(evt) {

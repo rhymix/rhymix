@@ -21,10 +21,6 @@
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
         function moduleInstall() {
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
-            $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('session', 'view', 'dispSessionAdminIndex');
-
             $oDB = &DB::getInstance();
             $oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
 
@@ -36,16 +32,9 @@
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
-            $oModuleModel = &getModel('module');
-
-            if(!$oModuleModel->getActionForward('dispSessionAdminIndex')) return true;
-
             if(!$oDB->isTableExists('session')) return true;
-
             if(!$oDB->isColumnExists("session","cur_mid")) return true;
-
             if(!$oDB->isIndexExists("session","idx_session_update_mid")) return true;
-
             return false;
         }
 
@@ -55,20 +44,12 @@
         function moduleUpdate() {
             $oDB = &DB::getInstance();
             $oModuleModel = &getModel('module');
-            $oModuleController = &getController('module');
             
             if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
 
-            if(!$oModuleModel->getActionForward('dispSessionAdminIndex')) 
-                $oModuleController->insertActionForward('session', 'view', 'dispSessionAdminIndex');
+            if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
 
-            if(!$oDB->isColumnExists("session","cur_mid")) {
-                $oDB->addColumn('session',"cur_mid","varchar",128);
-            }
-
-            if(!$oDB->isIndexExists("session","idx_session_update_mid")) 
-                $oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
-
+            if(!$oDB->isIndexExists("session","idx_session_update_mid")) $oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
         }
 
         /**

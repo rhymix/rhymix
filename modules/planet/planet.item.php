@@ -16,29 +16,12 @@
         function _loadFromDB() {
             if(!$this->document_srl) return;
             parent::_loadFromDB();
-
-            $this->add('postscript', $this->get('extra_vars20'));
         }
 
         function setAttribute($attribute) {
             parent::setAttribute($attribute);
-            $this->add('postscript', $attribute->extra_vars20);
         }
 
-
-        function getWriteInfo() {
-            static $planet_info = array();
-            if(!isset($planet_info[$this->get('module_srl')])) {
-                $oPlanetModel = &getModel('planet');
-                $info = $planet_info[$this->get('module_srl')] = $oPlanetModel->getPlanet($this->get('module_srl'));
-                $this->add('planet_title', $info->getBrowserTitle());
-                $this->add('nick_name', $info->getNickName());
-                $this->add('user_name', $info->getUserName());
-                $this->add('user_id', $info->getUserID());
-                $this->add('planet_title', $info->getPlanetTitle());
-                $this->add('mid', $info->getMid());
-            }
-        }
 
         function getPlanetPhotoSrc($width=96,$height=96) {
             $oPlanetModel = &getModel('planet');
@@ -46,33 +29,28 @@
         }
 
         function getPlanetMid() {
-            $this->getWriteInfo();
             return $this->get('mid');
         }
 
         function getPlanetTitle() {
-            $this->getWriteInfo();
             return $this->get('planet_title');
         }
 
         function getUserID() {
-            $this->getWriteInfo();
             return parent::getUserID();
         }
         
         function getUserName() {
-            $this->getWriteInfo();
             return parent::getUserName();
         }
         
         function getNickName() {
-            $this->getWriteInfo();
             return parent::getNickName();
         }
 
         
         function getPostScript() {
-            return $this->get('postscript');
+            return $this->getExtraValue(20);
         }
         
 		function getContent() {

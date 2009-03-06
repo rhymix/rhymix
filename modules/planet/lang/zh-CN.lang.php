@@ -12,6 +12,7 @@
     $lang->planet_whos_planet = "%s的微博";
     $lang->planet_whos_favorite = "%s的收藏";
     $lang->planet_whos_favorite_list = "'%s'的收藏";
+    $lang->planet_favorite = "的微博";
 
     $lang->planet_welcome = "欢迎您来到个人微博！";
 
@@ -39,7 +40,7 @@
     $lang->create_message = "简单微博介绍";
     $lang->about_create_message = "可以输入简单的关于微博的简介。";
 
-    $lang->cmd_planet_setup = "基本设置";
+    $lang->cmd_planet_setup = "常规选项";
     $lang->cmd_planet_list = "微博列表";
 
     $lang->msg_not_logged = "请登录。";
@@ -56,7 +57,7 @@
     $lang->cmd_planet_addfavorite = "收藏";
 
     $lang->planet_hot_tag = "实时人气标签";
-    $lang->planet_home = "首页";
+    $lang->planet_home = "微博首页";
     $lang->cmd_planet_more_tag = "更多";
 
     $lang->planet_memo = "留言";

@@ -3,19 +3,19 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_comment_module_config)">
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->comment}</caption>
+    <h4 class="xeAdmin">{$lang->comment}</h4>
+    <p class="summary">{$lang->about_comment_count}</p>
+    <table cellspacing="0" class="rowTable">
     <tr>    
         <th><div>{$lang->comment_count}</div></th>
         <td class="wide">
             <input type="text" name="comment_count" value="{$comment_config->comment_count}" class="inputTypeText w80" />
-            <p>{$lang->about_comment_count}</p>
         </td>
     </tr>
     <tr>
-        <td class="right" colspan="2">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button strong black"><input type="submit" value="{$lang->cmd_save}"/></span>
+        </th>
     </tr>
     </table>
 

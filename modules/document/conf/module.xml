@@ -2,31 +2,43 @@
 <module>
     <grants />
     <permissions>
-        <permission action="dispDocumentAdminManageDocument" target="manager" />
-        <permission action="getDocumentCategories" target="manager" />
-        <permission action="procDocumentAdminAddCart" target="manager" />
-        <permission action="procDocumentAdminManageCheckedDocument" target="manager" />
+        <permission action="dispDocumentManageDocument" target="member" />
+        <permission action="getDocumentCategories" target="member" />
+        <permission action="procDocumentAddCart" target="member" />
+        <permission action="procDocumentManageCheckedDocument" target="member" />
     </permissions>
     <actions>
         <action name="dispDocumentPrint" type="view" standalone="true" />
         <action name="dispDocumentPreview" type="view" standalone="true" />
-
-        <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" />
-        <action name="dispDocumentAdminConfig" type="view" standalone="true" />
-        <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
-
-        <action name="dispDocumentAdminManageDocument" type="view" standalone="true"/>
-
-        <action name="procDocumentVoteUp" type="controller" standalone="true" />
-        <action name="procDocumentVoteDown" type="controller" standalone="true" />
-        <action name="procDocumentDeclare" type="controller" standalone="true" />
+        <action name="dispDocumentManageDocument" type="view" standalone="true"/>
 
         <action name="getDocumentCategories" type="model" standalone="true"/>
         <action name="getDocumentMenu" type="model" standalone="true"/>
 
-        <action name="procDocumentAdminAddCart" type="controller" standalone="true" />
-        <action name="procDocumentAdminManageCheckedDocument" type="controller" standalone="true" />
+        <action name="procDocumentVoteUp" type="controller" standalone="true" />
+        <action name="procDocumentVoteDown" type="controller" standalone="true" />
+        <action name="procDocumentDeclare" type="controller" standalone="true" />
+        <action name="procDocumentAddCart" type="controller" standalone="true" />
+        <action name="procDocumentManageCheckedDocument" type="controller" standalone="true" />
+        <action name="procDocumentInsertModuleConfig" type="controller" standalone="true" />
 
+        <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispDocumentAdminConfig" type="view" standalone="true" />
+        <action name="dispDocumentAdminAlias" type="view" standalone="true" />
+        <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
+
+        <action name="getDocumentAdminCategoryTplInfo" type="model" standalone="true"/>
+
+        <action name="procDocumentAdminInsertCategory" type="controller" standalone="true"/>
+        <action name="procDocumentAdminDeleteCategory" type="controller" standalone="true"/>
+        <action name="procDocumentAdminMoveCategory" type="controller" standalone="true"/>
+        <action name="procDocumentAdminMakeXmlFile" type="controller" standalone="true"/>
+        <action name="procDocumentAdminInsertAlias" type="controller" standalone="true"/>
+        <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true"/>
+        <action name="procAdminMoveExtraVar" type="controller" standalone="true"/>
+
+        <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" />
+        <action name="procDocumentAdminDeleteExtraVar" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteChecked" type="controller" standalone="true" />
         <action name="procDocumentAdminInsertConfig" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteAllThumbnail" type="controller" standalone="true" />

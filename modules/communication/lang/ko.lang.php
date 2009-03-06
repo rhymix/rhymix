@@ -21,7 +21,7 @@
         'T' => '보관함',
     );
 
-    $lang->readed_date = "읽은 시간"; 
+    $lang->readed_date = '읽은 시간'; 
 
     $lang->sender = '보낸이';
     $lang->receiver = '받는이';
@@ -33,7 +33,7 @@
     $lang->cmd_view_friend = '친구 보기';
     $lang->cmd_add_friend = '친구 등록';
     $lang->cmd_view_message_box = '쪽지함 보기';
-    $lang->cmd_store = "보관";
+    $lang->cmd_store = '보관';
     $lang->cmd_add_friend_group = '친구 그룹 추가';
     $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
 

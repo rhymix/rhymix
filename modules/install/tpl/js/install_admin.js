@@ -21,7 +21,7 @@ function completeInstallFTPInfo(ret_obj) {
 }
 
 function doCheckFTPInfo() {
-    var fo_obj = xGetElementById("ftp_form");
+    var fo_obj = jQuery("#ftp_form").get(0);
     var oFilter = new XmlJsFilter(fo_obj, "install", "procInstallCheckFTP", completeInstallCheckFtpInfo);
     oFilter.addResponseItem("error");
     oFilter.addResponseItem("message");

@@ -1,63 +1,50 @@
 <!--// colorset의 값에 따라 css 파일을 import 한다 -->
-<!--@if($colorset=="default"||!$colorset)-->
-    <!--%import("css/default.css")-->
-<!--@end-->
-
 <!--%import("./filter/login.xml")-->
 <!--%import("./filter/openid_login.xml")-->
-<!--%import("./js/login.js")-->
+
+<!--%import("./css/widget.css")-->
+<!--@if($colorset=="black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset=="white" || $colorset=="default")-->
+    <!--%import("./css/white.css")-->
+<!--@end-->
 
 <script type="text/javascript">
     var keep_signed_msg = "{$lang->about_keep_signed}";
-    xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
+    xAddEventListener(window, "load", function(){ xGetElementById("formLogin").user_id.focus(); });
 </script>
 
-<div class="default_login" id="login">
-    <form action="./" method="post" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
-
-        <div class="form_field">
-            <input name="user_id" type="text" class="input" id="login_form_user_id" />
-            <input name="password" type="password" class="input" />
-        </div>
-        <input type="submit" value=" " class="submit" />
-
-        <!--@if($member_config->enable_ssl=='Y')-->
-        <p class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
-            <a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
-        </p>
-        <!--@end-->
-
-        <p>
-            <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />
-            <label for="keepid">{$lang->keep_signed}</label>
-        </p>
-
+<div class="widgetContainer">
+    <!--// XE Login -->
+    <form action="./" method="post" onsubmit="return procFilter(this, widget_login)" id="formLogin" class="widgetLogin">
+    <fieldset>
+        <dl>
+            <dt><label for="uid">{$lang->user_id} :</label></dt>
+            <dd><input name="user_id" type="text" id="uid" class="widgetXeInputText" title="{$lang->user_id}" /></dd>
+            <dt><label for="upw">{$lang->password} :</label></dt>
+            <dd><input name="password" type="password" id="upw" class="widgetXeInputText" title="{$lang->password}" /></dd>
+        </dl>
+        <p><input name="keep_signed" id="keepid" type="checkbox" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" class="widgetXeInputCheck" /><label for="keepid">{$lang->keep_signed}</label></p>
         <!--@if($member_config->enable_openid=='Y')-->
-        <p>
-            <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" />
-            <label for="use_open_id">Open ID</label>
-        </p>
+        <p><input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="xGetElementById('formLogin').style.display = 'none';xGetElementById('formOpenID').style.display='block';xGetElementById('formOpenID').openid.focus();return false;" class="inputCheck" /><label for="use_open_id">Open ID</label></p>
         <!--@end-->
-
-        <ul class="extra_option">
+        <span class="button green login"><input name="" type="submit" value="{$lang->cmd_login}" /></span>
+        <ul class="help">
             <li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
             <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
         </ul>
+    </fieldset>
     </form>
-    <div class="clear"></div>
-</div>
 
-<!-- OpenID -->
-<!--@if($member_config->enable_openid=='Y')-->
-<div class="default_login openid_login" id="openid_login">
-    <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" id="fo_openid_login_widget">
-        <div class="form_field">
-            <div class="openIDTitle">
-                OpenID <input name="use_open_id_2" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" checked="checked" />
-            </div>
-            <input type="text" name="openid" class="input" />
-        </div>
-        <input type="submit" value=" " class="submit" />
-  </form>
+    <!--// OpenID Login -->
+    <!--@if($member_config->enable_openid=='Y')-->
+    <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" id="formOpenID" style="display:none;" class="widgetLogin">
+    <dl>
+        <dt><label for="OpenID">OpenID :</label></dt>
+        <dd><input name="openid" type="text" class="inputText" title="openid" /></dd>
+    </dl>
+    <p><input name="use_open_id" id="uopenid" type="checkbox" checked="checked" value="Y" onclick="xGetElementById('formLogin').style.display = 'block';xGetElementById('formOpenID').style.display='none';xGetElementById('formLogin').user_id.focus();return false;" class="inputCheck" /><label for="uopenid">Open ID</label></p>
+    <span class="button green login"><input name="" type="submit" value="{$lang->cmd_login}" /></span>
+    </form>
+    <!--@end-->
 </div>
-<!--@end-->

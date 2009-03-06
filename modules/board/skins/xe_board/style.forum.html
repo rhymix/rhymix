@@ -5,7 +5,7 @@
         <thead>
             {@ $no_line_class = " no_line" }
             <tr>
-                <!--@if($grant->is_admin)--> 
+                <!--@if($grant->manager)--> 
                 <th scope="col" class="checkbox{$no_line_class}"><div>
                     <input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" />
                 </div></th>
@@ -51,7 +51,7 @@
         <!--@if(!$document_list && !$notice_list)-->
             <!--// 게시물이 없으면 등록된 글이 없음을 표시 -->
             <tr class="bg0 tCenter">
-                <td colspan="<!--@if($grant->is_admin)-->5<!--@else-->4<!--@end-->" class="title">
+                <td colspan="<!--@if($grant->manager)-->5<!--@else-->4<!--@end-->" class="title">
                     {$lang->no_documents}
                 </td>
             </tr>
@@ -60,7 +60,7 @@
             <!--// 공지사항 출력 -->
             <!--@foreach($notice_list as $no => $document)-->
                 <tr class="notice">
-                    <!--@if($grant->is_admin)-->
+                    <!--@if($grant->manager)-->
                     <td class="checkbox">
                         <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> />
                     </td>
@@ -100,7 +100,7 @@
             <!--// 일반 글 출력 -->
             <!--@foreach($document_list as $no => $document)-->
                 <tr class="bg{($no+1)%2+1}">
-                    <!--@if($grant->is_admin)-->
+                    <!--@if($grant->manager)-->
                     <td class="checkbox">
                         <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> />
                     </td>

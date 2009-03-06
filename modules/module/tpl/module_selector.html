@@ -1,16 +1,16 @@
 <!--%import("./js/module_admin.js")-->
 
-<div id="popHeadder">
-    <h3>{$lang->module_selector}</h3>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->module_selector}</h3>
 </div>
 
 <div id="popBody">
     <form action="./" method="post">
         <input type="hidden" name="module" value="module" />
-        <input type="hidden" name="act" value="dispModuleAdminSelectList" />
+        <input type="hidden" name="act" value="dispModuleSelectList" />
         <input type="hidden" name="id" value="{$id}" />
         <input type="hidden" name="type" value="{$type}" />
-        <table class="adminTable" cellspacing="0">
+        <table class="rowTable" cellspacing="0">
         <tbody>
             <!--@if($site_count && $logged_info->is_admin == 'Y')-->
             <tr>
@@ -33,7 +33,7 @@
             </tr>
         </tbody>
         </table>
-        <table class="adminTable" cellspacing="0">
+        <table class="rowTable" cellspacing="0">
         <thead>
             <tr>
                 <!--@if($module_category_exists)--><th><div>{$lang->module_category}</div></th><!--@end-->
@@ -72,9 +72,5 @@
         </tbody>
         </table>
     </form>
-</div>
-
-<div id="popFooter" class="tCenter gap1">
-    <span class="button red"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;"/></span>
 </div>
 

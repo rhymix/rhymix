@@ -31,15 +31,16 @@
             </div>
             <div class="buttonDiv"></div>
             <div class="tRight">
-                <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('mid','{$module_info->mid}').setQuery('act','');return false;"/></span>
+                <span class="button black strong"><input type="submit" value="{$lang->cmd_save}"/></span>
                 <span class="button red"><input type="button" value="{$lang->cmd_remove_all_widgets}" onclick="removeAllWidget();return false;"/></span>
-                <span class="button blue"><input type="submit" value="{$lang->cmd_save}"/></span>
+                <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href=current_url.setQuery('mid','{$module_info->mid}').setQuery('act','');return false;"/></span>
             </div>
         </div>
     </form>
 </div>
 
 <div id="widgetButton" class="widgetButtons">
+    <div class="widgetStyle"></div>
     <div class="widgetSetup"></div>
     <div class="widgetCopy"></div>
     <div class="widgetSize"></div>

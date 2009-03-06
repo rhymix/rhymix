@@ -13,15 +13,15 @@
     $lang->is_valid = 'Válido';
     $lang->is_stand_by = 'En espera';
     $lang->file_list = 'Lista de archivos adjuntos';
-    $lang->allow_outlink = '파일 외부 링크';
-    $lang->allow_outlink_site = '파일 외부 허용 사이트';
+    $lang->allow_outlink = 'Archivo Enlaces externos';
+    $lang->allow_outlink_site = 'Fuera del archivo de sitios permitidos';
     $lang->allowed_filesize = 'Límite del tamaño del archivo adjunto';
     $lang->allowed_attach_size = 'Límite del tamaño total de los archivos adjuntos por documento';
     $lang->allowed_filetypes = 'Tipos de archivos permitidos';
     $lang->enable_download_group = 'Descargar permitió grupos';
 
-    $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
-    $lang->about_allow_outlink_site = '파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요.<br />ex)http://www.zeroboard.com';
+    $lang->about_allow_outlink = 'Enlaces externos a Rusia Ripper puede bloquear el archivo. (*. WMV, *. mp3, etc, excepto los archivos multimedia)';
+    $lang->about_allow_outlink_site = 'Archivos, independientemente de la configuración para permitir a los enlaces externos es la dirección del sitio. Entrada múltiples gubunhaeju un cambio en la línea, por favor. <br /> Ej.) http://www.zeroboard.com';
 	$lang->about_allowed_filesize = 'Puede definir el límite del tamaño del archivo adjunto. (exceptuando el administrador)';
     $lang->about_allowed_attach_size = 'Puede definir el límite del tamaño total de los archivos adjuntos por documento. (exceptuando el administrador)';
     $lang->about_allowed_filetypes = 'Puede definir las extensiones de los archivos permitidos. Para permitir una extensión use "*.extensión". Para permitir más de una extensión use ";".<br />ej) *.* o *.jpg;*.gif;etc.<br />(exceptuando el administrador)';
@@ -38,11 +38,11 @@
     $lang->file_search_target_list = array(
         'filename' => 'Nombre del archivo',
         'filesize' => 'Tamaño del archivo (Byte, sobre)',
-        'filesize_mega' => '파일크기 (Mb, 이상)',
+        'filesize_mega' => 'Tamaño del archivo (Mb, o mb)',
         'download_count' => 'Descargados (Sobre)',
-        'user_id' => '아이디',
-        'user_name' => '이름',
-        'nick_name' => '닉네임',
+        'user_id' => 'ID',
+        'user_name' => 'Nombre',
+        'nick_name' => 'Apodo',
         'regdate' => 'La fecha registrada',
         'ipaddress' => 'Dirección IP',
     );

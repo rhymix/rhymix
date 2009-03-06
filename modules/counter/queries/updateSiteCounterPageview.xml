@@ -1,0 +1,12 @@
+<query id="updateSiteCounterPageview" action="update">
+    <tables>
+        <table name="counter_site_status" />
+    </tables>
+    <columns>
+        <column name="pageview" default="plus(1)" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" default="0" pipe="and" />
+        <condition operation="in" column="regdate" var="regdate" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

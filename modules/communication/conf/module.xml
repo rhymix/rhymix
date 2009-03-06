@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+    <grants />
+    <permissions />
     <actions>
-
         <action name="dispCommunicationMessages" type="view" standalone="true" />
         <action name="dispCommunicationSendMessage" type="view" standalone="true" />
         <action name="dispCommunicationNewMessage" type="view" standalone="true" />

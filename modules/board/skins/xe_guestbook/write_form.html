@@ -1,8 +1,9 @@
 <!--@if($act=="dispBoardWrite")-->
     <!--#include("header.html")-->
+<!--@else-->
+    <!--%import("filter/insert.xml")-->
 <!--@end-->
 
-<!--%import("filter/insert.xml")-->
 <form action="./" method="post" onsubmit="return procFilter(this, window.insert)" id="fo_write">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
@@ -69,17 +70,15 @@
             <!--@end-->
         </dl>
 
-        <!--@if($module_info->extra_vars)-->
+        <!--@if($extra_keys)-->
         <table cellspacing="0" summary="" class="extraVarsList">
         <col width="150" />
         <col />
-        <!--@foreach($module_info->extra_vars as $key => $val)-->
-            <!--@if($val->name)-->
+        <!--@foreach($extra_keys as $key => $val)-->
         <tr>
             <th scope="row">{$val->name} <!--@if($val->is_required=='Y')-->*<!--@end--></th>
-            <td><!--#include("./extra_var_form.html")--></td>
+            <td>{$val->getFormHTML()}</td>
         </tr>
-            <!--@end-->
         <!--@end-->
         </table>
         <!--@end-->

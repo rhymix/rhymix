@@ -1,29 +1,25 @@
-{@ $member_title = $lang->cmd_find_member_account}
 <!--#include("./common_header.html")-->
-
 <!--%import("filter/find_member_account.xml")-->
 
-    <form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
+<h3>{$member_title = $lang->cmd_find_member_account}</h3>
+
+<p class="summary">{$lang->about_find_member_account}</p>
+
+<form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
 
-    <table cellspacing="0" class="memberInfoTable gap1" title="{$lang->email_address}">
-    <col width="140" />
-    <col />
-    <tr class="first-child">
-        <th rowspan="2" scope="row"><label for="cpw">{$lang->email_address}</label></th>
-        <td>
-            <input type="text" name="email_address" class="inputTypeText w400" />
-        </td>
+    <table cellspacing="0" class="rowTable" title="{$lang->email_address}">
+    <tr>
+        <th><div><label for="cpw">{$lang->email_address}</label></div></th>
+        <td class="wide"><input type="text" name="email_address" class="inputTypeText w400" /></td>
     </tr>
     <tr>
-        <td><p>{$lang->about_find_member_account}</p></td>
+        <th class="button" colspan="2"><span class="button black strong"><input type="submit" value="{$lang->cmd_find_member_account}" accesskey="s" /></span></th>
     </tr>
+    </div>
     </table>
 
-    <div class="help tCenter">
-        <span class="button"><input type="submit" value="{$lang->cmd_find_member_account}" accesskey="s" /></span>
-    </div>
 </form>
 <!--#include("./common_footer.html")-->

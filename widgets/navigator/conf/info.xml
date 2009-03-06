@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">메뉴 출력기</title>
+    <title xml:lang="zh-CN">菜单显示器</title>
+    <title xml:lang="zh-TW">導覽列</title>
+    <description xml:lang="ko">메뉴 모듈에서 생성된 메뉴를 출력하는 위젯입니다.</description>
+    <description xml:lang="zh-CN">此控件可以在任意位置显示菜单模块中的菜单。</description>
+    <description xml:lang="zh-TW">메뉴 모듈에서 생성된 메뉴를 출력하는 위젯입니다.</description>
+    <version>0.1</version>
+    <date>2009-02-10</date>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">zero</name>
+        <name xml:lang="zh-CN">zero</name>
+        <name xml:lang="zh-TW">zero</name>
+    </author>
+
+    <extra_vars>
+        <var id="menu_srl">
+            <type>menu</type>
+            <name xml:lang="ko">메뉴</name>
+            <name xml:lang="zh-CN">菜单</name>
+            <name xml:lang="zh-TW">選單</name>
+            <description xml:lang="ko">선택하신 메뉴를 출력합니다. 선택하지 않으면 호출된 레이아웃의 첫번째 메뉴를 자동으로 지정합니다.</description>
+            <description xml:lang="zh-CN">请选择要显示的菜单。</description>
+            <description xml:lang="zh-TW">선택하신 메뉴를 출력합니다. 선택하지 않으면 호출된 레이아웃의 첫번째 메뉴를 자동으로 지정합니다.</description>
+        </var>
+        <var id="start_depth">
+            <type>select</type>
+            <name xml:lang="ko">시작 깊이</name>
+            <name xml:lang="zh-CN">开始深度</name>
+            <name xml:lang="zh-TW">階層數</name>
+            <description xml:lang="ko">출력될 메뉴의 시작 깊이(depth)를 지정할 수 있습니다. 1이 최상단이고 2부터는 선택된 상위 메뉴가 있으면 출력하게 됩니다</description>
+            <options>
+                <value>1</value>
+                <name xml:lang="ko">1 depth</name>
+                <name xml:lang="zh-CN">1 depth</name>
+                <name xml:lang="zh-TW">1 depth</name>
+            </options>
+            <options>
+                <value>2</value>
+                <name xml:lang="ko">2 depth</name>
+                <name xml:lang="zh-CN">2 depth</name>
+                <name xml:lang="zh-TW">2 depth</name>
+            </options>
+
+        </var>
+    </extra_vars>
+</widget>

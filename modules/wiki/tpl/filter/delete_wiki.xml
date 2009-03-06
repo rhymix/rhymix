@@ -1,0 +1,10 @@
+<filter name="delete_wiki" module="wiki" act="procWikiAdminDeleteWiki">
+    <form>
+        <node target="module_srl" required="true" />
+    </form>
+    <response callback_func="completeDeleteWiki">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="page" />
+    </response>
+</filter>

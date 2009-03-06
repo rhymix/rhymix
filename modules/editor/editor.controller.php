@@ -171,5 +171,134 @@
             $this->setMessage('success_updated');
         }
 
+        /**
+         * @brief 가상 사이트에서 사용된 에디터 컴포넌트 정보를 제거
+         **/
+        function removeEditorConfig($site_srl) {
+            $args->site_srl = $site_srl;
+            executeQuery('editor.deleteSiteComponent', $args);
+        }
+
+        /**
+         * @brief 에디터 컴포넌트 목록 캐싱 (editorModel::getComponentList)
+         * 에디터 컴포넌트 목록의 경우 DB query + Xml Parsing 때문에 캐싱 파일을 이용하도록 함
+         **/
+        function makeCache($filter_enabled = true, $site_srl) {
+            $oEditorModel = &getModel('editor');
+
+            if($filter_enabled) $args->enabled = "Y";
+
+            if($site_srl) {
+                $args->site_srl = $site_srl;
+                $output = executeQuery('editor.getSiteComponentList', $args);
+            } else $output = executeQuery('editor.getComponentList', $args);
+            $db_list = $output->data;
+
+            // 파일목록을 구함
+            $downloaded_list = FileHandler::readDir(_XE_PATH_.'modules/editor/components');
+
+            // 로그인 여부 및 소속 그룹 구함
+            $is_logged = Context::get('is_logged');
+            if($is_logged) {
+                $logged_info = Context::get('logged_info');
+                if($logged_info->group_list && is_array($logged_info->group_list)) {
+                    $group_list = array_keys($logged_info->group_list);
+                } else $group_list = array();
+            }
+
+            // DB 목록을 loop돌면서 xml정보까지 구함
+            if(!is_array($db_list)) $db_list = array($db_list);
+            foreach($db_list as $component) {
+                if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
+
+                $component_name = $component->component_name;
+                if(!$component_name) continue;
+
+                if(!in_array($component_name, $downloaded_list)) continue;
+
+                unset($xml_info);
+                $xml_info = $oEditorModel->getComponentXmlInfo($component_name);
+                $xml_info->enabled = $component->enabled;
+
+                if($component->extra_vars) {
+                    $extra_vars = unserialize($component->extra_vars);
+
+                    // 사용권한이 있으면 권한 체크
+                    if($extra_vars->target_group) {
+                        // 사용권한이 체크되어 있는데 로그인이 되어 있지 않으면 무조건 사용 중지
+                        if(!$is_logged) continue;
+
+                        // 대상 그룹을 구해서 현재 로그인 사용자의 그룹과 비교
+                        $target_group = $extra_vars->target_group;
+                        unset($extra_vars->target_group);
+
+                        $is_granted = false;
+                        foreach($group_list as $group_srl) {
+                            if(in_array($group_srl, $target_group)) {
+                                $is_granted = true;
+                                break;
+                            }
+                        }
+                        if(!$is_granted) continue;
+                    }
+
+                    // 대상 모듈이 있으면 체크
+                    if($extra_vars->mid_list && count($extra_vars->mid_list) && Context::get('mid')) {
+                        if(!in_array(Context::get('mid'), $extra_vars->mid_list)) continue;
+                    }
+
+                    // 에디터 컴포넌트의 설정 정보를 체크
+                    if($xml_info->extra_vars) {
+                        foreach($xml_info->extra_vars as $key => $val) {
+                            $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
+                        }
+                    }
+                }
+
+                $component_list->{$component_name} = $xml_info;
+            }
+
+            // enabled만 체크하도록 하였으면 그냥 return
+            if($filter_enabled) {
+                $cache_file = $oEditorModel->getCacheFile($filter_enabled, $site_srl);
+                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $component_list = unserialize("%s"); ?>', str_replace('"','\\"',serialize($component_list)));
+                FileHandler::writeFile($cache_file, $buff);
+                return $component_list;
+            }
+
+            // 다운로드된 목록의 xml_info를 마저 구함
+            foreach($downloaded_list as $component_name) {
+                if(in_array($component_name, array('colorpicker_text','colorpicker_bg'))) continue;
+
+                // 설정된 것이라면 패스
+                if($component_list->{$component_name}) continue;
+
+                // DB에 입력
+                $oEditorController = &getAdminController('editor');
+                $oEditorController->insertComponent($component_name, false, $site_srl);
+
+                // component_list에 추가
+                unset($xml_info);
+                $xml_info = $oEditorModel->getComponentXmlInfo($component_name);
+                $xml_info->enabled = 'N';
+
+                $component_list->{$component_name} = $xml_info;
+            }
+
+            $cache_file = $oEditorModel->getCacheFile($filter_enabled, $site_srl);
+            $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $component_list = unserialize("%s"); ?>', str_replace('"','\\"',serialize($component_list)));
+            FileHandler::writeFile($cache_file, $buff);
+
+            return $component_list;
+        }
+
+        /**
+         * @brief 캐시 파일 삭제
+         **/
+        function removeCache($site_srl = 0) {
+            $oEditorModel = &getModel('editor');
+            FileHandler::removeFile($oEditorModel->getCacheFile(true, $site_srl));
+            FileHandler::removeFile($oEditorModel->getCacheFile(false, $site_srl));
+        }
     }
 ?>

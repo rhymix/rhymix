@@ -1,0 +1,14 @@
+<query id="getNewDocument" action="select">
+    <tables>
+        <table name="documents" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="cnt" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.site_srl" var="site_srl" default="0" notnull="notnull" />
+        <condition operation="equal" column="documents.module_srl" default="modules.module_srl" notnull="notnull" pipe="and" />
+        <condition operation="more" column="documents.regdate" var="regdate" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

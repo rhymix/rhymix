@@ -15,8 +15,6 @@
         <column name="member.member_srl" alias="member_srl" />
         <column name="documents.document_srl" alias="document_srl" />
         <column name="documents.content" alias="content" />
-        <column name="documents.extra_vars20" alias="extra_vars20" />
-        <column name="documents.extra_vars20" alias="postscript" />
         <column name="documents.comment_count" alias="comment_count" />
         <column name="documents.voted_count" alias="voted_count" />
         <column name="documents.tags" alias="tags" />

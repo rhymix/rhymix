@@ -1,0 +1,18 @@
+<!--%import("./js/content_widget.js")-->
+<!--@if($colorset == "black")-->
+    <!--%import("./css/widget.css")-->
+    <!--%import("./css/black.css")-->
+<!--@else-->
+    <!--%import("./css/widget.css")-->
+    <!--%import("./css/white.css")-->
+<!--@end-->
+
+<div class="widgetContainer">
+    <!--@if($widget_info->tab_type  == "tab_left")-->
+        <!--#include("./_tab_left.html")-->
+    <!--@elseif($widget_info->tab_type == "tab_top")-->
+        <!--#include("./_tab_top.html")-->
+    <!--@else-->
+        <!--#include("./_tab_none.html")-->
+    <!--@end-->
+</div>

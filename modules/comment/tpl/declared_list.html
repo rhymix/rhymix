@@ -1,16 +1,12 @@
 <!--%import("filter/delete_checked.xml")-->
 <!--#include("header.html")-->
 
-<!-- 정보 -->
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
-
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="crossTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
@@ -19,28 +15,26 @@
         <th scope="col"><div>{$lang->date}</div></th>
         <th scope="col"><div>{$lang->cmd_declare}</div></th>
         <th scope="col"><div>{$lang->ipaddress}</div></th>
-        <th scope="col"><div>{$lang->cmd_move}</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($comment_list as $no => $oComment)-->
     <tr>
-        <td class="number center">{$no}</td>
-        <td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> {$oComment->getSummary(100)}</td>
+        <td>{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$oComment->get('comment_srl')}" /> <a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
         <td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
-        <td class="date nowrap center">{$oComment->getRegdate("Y-m-d")}</td>
-        <td class="alert center number"><strong>{$oComment->get('declared_count')}</strong></td>
-        <td class="number center">{$oComment->get('ipaddress')}</td>
-        <td class="view center"><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$lang->cmd_move}</a></td>
+        <td>{$oComment->getRegdate("Y-m-d")}</td>
+        <td><strong>{$oComment->get('declared_count')}</strong></td>
+        <td>{$oComment->get('ipaddress')}</td>
     </tr>
     <!--@end-->
     <tr>
-        <td colspan="7" class="right">
-            <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
+        <th colspan="6" class="button">
+            <a href="#" onclick="doCancelDeclare();return false;" class="button strong black"><span>{$lang->cmd_cancel_declare}</span></a>
             <a href="javascript:XE.checkboxToggleAll({ checked:true })" class="button"><span>{$lang->cmd_select_all}</span></a>
             <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
             <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
-        </td>
+        </th>
     </tr>
 </tbody>
 </table>

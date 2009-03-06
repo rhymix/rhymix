@@ -1,0 +1,19 @@
+<ul class="widgetTabA widgetTab">
+{@$i=0}
+<!--@foreach($widget_info->tab as $module_srl => $tab)-->
+    <li<!--@if($i==0)--> class="active"<!--@end-->><a href="{$tab->url}" onmouseover="content_widget_tab_show(jQuery(this),jQuery(this).parents('ul.widgetTabA').next('dl.widgetDivider'),{$i})">{$tab->title}</a></li>
+{@$i++}
+<!--@end-->
+</ul>
+
+<dl class="widgetDivider">
+{@$i=0}
+<!--@foreach($widget_info->tab as $module_srl => $tab)-->
+    <dt>{$tab->title}</dt>
+    <dd<!--@if($i==0)--> class="open"<!--@end-->>
+        {@$widget_info->content_items = $tab->content_items}
+        <!--#include("_tab_none.html")-->
+    </dd>
+{@$i++}
+<!--@end-->
+</dl>

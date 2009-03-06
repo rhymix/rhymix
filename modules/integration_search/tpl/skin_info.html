@@ -4,8 +4,8 @@
 <input type="hidden" name="module" value="integration_search" />
 <input type="hidden" name="act" value="procIntegration_searchAdminInsertSkin" />
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->skin_default_info}</caption>
+    <h4 class="xeAdmin">{$lang->skin_default_info}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->skin}</div></th>
         <td class="wide" >{$skin_info->title}</td>
@@ -42,8 +42,8 @@
     </tr>
     </table>
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->extra_vars}</caption>
+    <h4 class="xeAdmin">{$lang->extra_vars}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr valign="top">
         <th scope="row"><div>{$lang->colorset}</div></th>
         <td class="wide">
@@ -132,9 +132,9 @@
     <!--@end-->
 
     <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="right">
+            <span class="button strong black strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 

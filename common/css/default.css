@@ -88,3 +88,6 @@ a.bold { font-weight:bold; }
 #popup_menu_area li a:hover,
 #popup_menu_area li a:active,
 #popup_menu_area li a:focus{ font-weight:bold; letter-spacing:-1px;}
+
+/* xe faceoff */
+.faceOffManager { position:fixed; _position:absolute; right:3px; top:3px;  height:23px; }

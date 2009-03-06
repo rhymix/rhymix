@@ -1,39 +1,34 @@
-{@ $member_title = $lang->cmd_view_saved_document }
 <!--#include("./common_header.html")-->
 
-<!-- 정보 -->
-<div class="boardInformation">
-    Total : <strong>{number_format($total_count)}</strong>, 
-    Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
+<h3>{$member_title = $lang->cmd_view_saved_document}</h3>
 
-<!-- 목록 -->
-<table cellspacing="0" class="list">
+<table cellspacing="0" class="colTable">
+<caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
-    <tr>
-        <th scope="col"><div>{$lang->date}</th>
-        <th scope="col" class="wide"><div>{$lang->title}</th>
-        <th scope="col"><div>{$lang->cmd_delete}</th>
+    <tr class="title">
+        <th class="title"><div>{$lang->date}</th>
+        <th class="title"><div>{$lang->title}</th>
+        <th class="title"><div>{$lang->cmd_delete}</th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($document_list as $no => $val)-->
-    <tr class="bg{($no+1)%2+1}">
-        <td class="registDate">{$val->getRegdate("Y-m-d H:i:s")}</td>
-        <td class="title">
+    <tr>
+        <td class="nowrap">{$val->getRegdate("Y-m-d H:i:s")}</td>
+        <td class="wide">
             <div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); return false;">{$val->getTitle()}</a></div>
-            <div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
+            <div id="saved_document_{$val->document_srl}" class="savedContent" style="display:none;">{$val->getContent(false)}</div>
         </td>
-        <td><a href="#" onclick="doDeleteSavedDocument('{$val->document_srl}','{$lang->confirm_delete}'); return false;" class="button"><span>{$lang->cmd_delete}</span></a></td>
+        <td><a href="#" onclick="doDeleteSavedDocument('{$val->document_srl}','{$lang->confirm_delete}'); return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
+    <tr>
+        <th colspan="3" class="button">
+            <a href="{getUrl('act','','selected_module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+        </th>
+    </tr>
 </tbody>
 </table>
-
-<!-- 버튼 -->
-<div class="tRight gap1">
-    <a href="{getUrl('act','','selected_module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-</div>
 
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">

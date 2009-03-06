@@ -1,0 +1,9 @@
+<filter name="insert_grant" module="module" act="procModuleAdminInsertGrant" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="module_srl" required="true" filter="number" />
+    </form>
+    <response callback_func="completeInsertGrant">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

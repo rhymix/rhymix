@@ -18,8 +18,6 @@
             return $source;
         }
 
-
-
         /**
          * @brief 특정 디렉토리를 복사
          **/
@@ -50,6 +48,14 @@
             }
         }
 
+        function copyFile($source, $target, $force='Y'){
+            $source = FileHandler::getRealPath($source);
+            $target_dir = FileHandler::getRealPath(dirname($target));
+            $target = basename($target);
+            if(!file_exists($target_dir)) FileHandler::makeDir($target_dir);
+            if($force=='Y') @unlink($target_dir.'/'.$target);
+            @copy($source, $target_dir.'/'.$target);
+        }
 
         /**
          * @brief 파일의 내용을 읽어서 return
@@ -255,8 +261,8 @@
          **/
         function filesize($size) {
             if(!$size) return "0Byte";
-            if($size<1024) return ($size."Byte");
-            if($size >1024 && $size< 1024 *1024) return sprintf("%0.1fKB",$size / 1024);
+            if($size < 1024) return ($size."Byte");
+            if($size >= 1024 && $size < 1024*1024) return sprintf("%0.1fKB",$size / 1024);
             return sprintf("%0.2fMB",$size / (1024*1024));
         }
 
@@ -440,6 +446,45 @@
             @chmod($target_file, 0644);
 
             return true;
+        }
+
+
+        /**
+         * @brief ini 파일을 읽는다
+         **/
+        function readIniFile($filename){
+            $filename = FileHandler::getRealPath($filename);
+            if(!file_exists($filename)) return false;
+            $arr = parse_ini_file($filename, true);
+            if(is_array($arr) && count($arr)>0) return $arr;
+            else return array();
+        }
+
+
+        /**
+         * @brief array를 ini 파일로 저장한다.
+         **/
+        function writeIniFile($filename,$arr){
+            if(count($arr)==0) return false;
+            FileHandler::writeFile($filename,FileHandler::_makeIniBuff($arr));
+            return true;
+        }
+
+        function _makeIniBuff($arr){
+            $return = '';
+            foreach($arr as $key => $val){
+                // section
+                if(is_array($val)){
+                    $return .= sprintf("[%s]\n",$key);
+                    foreach($val as $k => $v){
+                        $return .= sprintf("%s=\"%s\"\n",$k,$v);
+                    }
+                // value
+                }else if(is_string($val) || is_int($val)){
+                    $return .= sprintf("%s=\"%s\"\n",$key,$val);
+                }
+            }
+            return $return;
         }
     }
 ?>

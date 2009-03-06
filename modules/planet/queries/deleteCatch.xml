@@ -1,6 +1,6 @@
 <query id="deleteCatch" action="delete">
     <tables>
-        <table name="planet_catch" alias="modules" />
+        <table name="planet_catch" />
     </tables>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" />

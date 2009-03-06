@@ -41,6 +41,7 @@
      $lang->assignee = 'Propietario';
      $lang->status = 'Estado';
      $lang->action = 'Comportamiento';
+     $lang->display_option = 'Display Option';
 
      $lang->history_format_not_source = '<span class="target"> [objetivo] </ span> <span a class="key"> [clave] </ span> Cambiar';
      $lang->history_format = '<span class="source"> [fuente] </ span> <span class="target"> en el [objetivo] </ span> <span a class="key"> [clave] </ span> Cambiar';
@@ -100,4 +101,11 @@
     );
 
     $lang->cmd_manage_issue = 'Cuestiones de gestión';
+    $lang->msg_changes_from = 'View changes from';
+    $lang->duration = 'Duration';
+    $lang->target_list = array(
+        'issue_created' => 'Created issues',
+        'issue_changed' => 'Changed issues',
+        'commit' => 'Repository checkins'
+        );
 ?>

@@ -1,8 +1,8 @@
 <!--%import("js/editor_admin.js")-->
 
-<h3>{$lang->editor} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->editor} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<table cellspacing="0" class="adminTable gap1">
+<table cellspacing="0" class="crossTable">
 <thead>
     <tr>
         <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
@@ -15,15 +15,15 @@
     <!--@foreach($component_list as $component_name => $xml_info)-->
     <tr class="row2">
         <th colspan="2" scope="row"><div><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;"><strong>{$xml_info->title}</strong></a> ({$component_name})</div></th>
-        <td class="setup center"><a href="#" onclick="doSetupComponent('{$component_name}'); return false;">{$lang->cmd_setup}</a></td>
-        <td class="center <!--@if($xml_info->enabled=='Y')-->activated<!--@else-->deactivated<!--@end-->">
+        <th><a href="#" onclick="doSetupComponent('{$component_name}'); return false;" title="{htmlspecialchars($lang->cmd_setup)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></th>
+        <th>
             <!--@if($xml_info->enabled=='Y')-->
-                <a href="#" onclick="doDisableComponent('{$component_name}');return false;">{$lang->cmd_enable}</a>
+                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" title="{htmlspecialchars($lang->cmd_enable)}" class="buttonSet buttonActive"><span>{$lang->cmd_enable}</span></a>
             <!--@else-->
-                <a href="#" onclick="doEnableComponent('{$component_name}');return false;">{$lang->cmd_disable}</a>
+                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" title="{htmlspecialchars($lang->cmd_disable)}" class="buttonSet buttonDisable"><span>{$lang->cmd_disable}</span></a>
             <!--@end-->
-        </td>
-        <td class="center moveupdown"><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" class="up">{$lang->cmd_move_up}</a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" class="down">{$lang->cmd_move_down}</a></td>
+        </th>
+        <th><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" title="{htmlspecialchars($lang->cmd_move_up)}" class="buttonSet buttonUp"><span>{$lang->cmd_move_up}</span></a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" title="{htmlspecialchars($lang->cmd_move_down)}" class="buttonSet buttonDown"><span>{$lang->cmd_move_down}</span></a></th>
     </tr>
     <tr>
         <td>{nl2br($xml_info->description)}</td>
@@ -32,8 +32,8 @@
             <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
             <!--@endforeach-->
         </td>
-        <td class="number center" colspan="2">{$xml_info->version}</td>
-        <td class="date center nowrap">{zdate($xml_info->date, 'Y-m-d')}</td>
+        <td colspan="2">{$xml_info->version}</td>
+        <td>{zdate($xml_info->date, 'Y-m-d')}</td>
     </tr>
     <!--@end-->
 </tbody>

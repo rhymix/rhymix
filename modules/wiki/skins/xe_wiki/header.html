@@ -1,0 +1,57 @@
+<!--%import("css/wiki.css")-->
+<div class="wikimain">
+<div class="header">
+    <!--@if($oDocument)-->
+    <div class="title"><H1 class="pageTitle">{$entry}</H1></div> 
+    <div class="edit"><!--@if($oDocument->isExists())--><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">Edit</a><!--@end--></div>
+    <!--@end-->
+    <div class="go">
+        <form action="{getUrl()}" method="get">
+            <input type="hidden" name="mid" value="{$module_info->mid}" />
+            <input type="text" class="inputTypeText w100" name="entry" />
+            <span class="button"><input type="submit" value="Go" /></span>
+        </form>
+    </div>
+</div>
+<div class="clear"></div>
+        <div class="readHeader">
+            <div class="pageHistory">
+                <!--@if($oDocument)-->
+                <div class="userInfo">
+                    <!--@if(!$oDocument->getMemberSrl())-->
+                        <div class="author">
+                    last edited by 
+                        <!--@if($oDocument->isExistsHomepage())-->
+                            <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getNickName()}</a>
+                        <!--@else-->
+                            {$oDocument->getNickName()}
+                        <!--@end-->
+                        </div>
+                    <!--@else-->
+                        <div class="author">
+                    last edited by 
+                        <span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
+                    <!--@end-->
+                <div class="date" title="{$lang->regdate}">
+                    <strong>{$oDocument->getUpdate('Y.m.d')}</strong> {$oDocument->getUpdate('H:i:s')} 
+                </div>
+                </div>
+                <!--@if($use_history != 'N')-->
+                <div class="history">
+                    <a href="{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl)}">View History</a>
+                </div>
+                <!--@end-->
+                <!--@end-->
+                <div class="links">
+                <a href="{getUrl('act','dispWikiContent','entry','')}">Front Page</a> 
+                <a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">Title Index</a>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+
+

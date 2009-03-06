@@ -1,20 +1,15 @@
-<!--// 설정된 컬러셋의 종류에 따라서 css파일을 import 합니다 -->
-
-<!--@if($colorset=="normal"||!$colorset)-->
-    <!--%import("css/normal.css")-->
+<!--@if($colorset == "black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset == "white" || $colorset == "normal")-->
+    <!--%import("./css/white.css")-->
 <!--@end-->
 
-<div class="mg">
+<div class="widgetContainer">
 
-    <!--@if($widget_info->title)-->
-    <h2>{$widget_info->title}</h2>
-    <!--@end-->
-
-    <ul>
+    <ul class="widgetUlistA">
     <!--@foreach($widget_info->member_list as $key => $val)-->
-        <li>
-            <div class="nick_name member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</div>
-        </li>
+        <li><a href="#" onclick="return false;" class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</a></li>
     <!--@end-->
     </ul>
+
 </div>

@@ -1,21 +1,16 @@
-<!--@if($colorset == "normal")-->
-    <!--%import("normal/style.css")-->
+<!--@if($colorset == "black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset == "white" || $colorset == "normal")-->
+    <!--%import("./css/white.css")-->
 <!--@end-->
 
-<div class="counter_widget">
-
-    <ul>
-      <!--@if($total_counter)-->
-      <li><strong>Total</strong> : {$total_counter->unique_visitor}</li>
-      <!--@end-->
-
-      <!--@if($today_counter)-->
-      <li><strong>Today</strong> : {$today_counter->unique_visitor}</li>
-      <!--@end-->
-
-      <!--@if($yesterday_counter)-->
-      <li><strong>Yesterday</strong> : {$yesterday_counter->unique_visitor}</li>
-      <!--@end-->
-    </ul>
-
+<div class="widgetContainer">
+    <dl class="widgetCounter">
+        <dt>{$lang->today} :</dt>
+        <dd>{number_format($today_counter->unique_visitor)}</dd>
+        <dt>{$lang->yesterday} :</dt>
+        <dd>{number_format($yesterday_counter->unique_visitor)}</dd>
+        <dt>{$lang->total} :</dt>
+        <dd>{number_format($total_counter->unique_visitor)}</dd>
+    </dl>
 </div>

@@ -7,7 +7,7 @@
   </form>
   <parameter>
     <param name="content" target="content" />
-    <param name="extra_vars20" target="postscript" />
+    <param name="postscript" target="postscript" />
     <param name="tags" target="content_tag" />
 	<param name="mid" target="mid" />
 	<param name="me2day_autopush" target="me2day_autopush" />

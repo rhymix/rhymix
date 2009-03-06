@@ -12,6 +12,7 @@
     $lang->planet_whos_planet = "%s 的微型部落格";
     $lang->planet_whos_favorite = "%s 的最愛";
     $lang->planet_whos_favorite_list = "'%s'的微型部落格清單";
+    $lang->planet_favorite = "的最愛";
 
     $lang->planet_welcome = "歡迎光臨！";
 
@@ -55,7 +56,7 @@
     $lang->cmd_planet_addfavorite = "新增至最愛";
 
     $lang->planet_hot_tag = "熱門標籤";
-    $lang->planet_home = "首頁";
+    $lang->planet_home = "微型部落格首頁";
     $lang->cmd_planet_more_tag = "更多";
 
     $lang->planet_memo = "留言";

@@ -9,11 +9,12 @@
         <input type="hidden" name="cur" value="" />
         <input type="hidden" name="key" value="" />
         <input type="hidden" name="target_module" value="" />
+        <input type="hidden" name="guestbook_target_module" value="" />
         <input type="hidden" name="unit_count" value="" />
         <input type="hidden" name="user_id" value="" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->import_step_title[99]} - {$lang->import_step_desc[99]}</caption>
+        <h4 class="xeAdmin">{$lang->import_step_title[99]} - {$lang->import_step_desc[99]}</h4>
+        <table cellspacing="0" class="rowTable">
         <tr>
             <td>
                 <div id="status"></div>
@@ -21,8 +22,8 @@
         </tr>
         <tr>    
             <th class="button">
+                <div id="btn_continue" style="display:none;"><span class="button black strong"><input type="submit" value="{$lang->cmd_continue}" /></span></div>
                 <div id="btn_reload" style="display:block;"><span class="button"><input type="button" value="{$lang->cmd_reload}" onclick="location.reload(); return false;"/></span></div>
-                <div id="btn_continue" style="display:none;"><span class="button"><input type="submit" value="{$lang->cmd_continue}" /></span></div>
             </th>
         </tr>
         </table>

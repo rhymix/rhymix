@@ -8,7 +8,7 @@
     <input type="hidden" name="member_srl" />
 </form>
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <tr class="row2">
     <th scope="row"><div>{$lang->user_id}</div></th>
     <td>{htmlspecialchars($member_info->user_id)}</td>
@@ -173,15 +173,15 @@
     <td>{htmlspecialchars($member_info->description)}&nbsp;</td>
 </tr>
 <tr class="row2">
-    <td colspan="2" class="right">
-        <a href="{getUrl('act','dispMemberAdminInsert')}" class="button"><span>{$lang->cmd_modify}</span></a>
+    <th colspan="2" class="button">
+        <a href="{getUrl('act','dispMemberAdminInsert')}" class="button black strong"><span>{$lang->cmd_modify}</span></a>
         <!--@if($member_info->is_admin!='Y')-->
-        <a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="button"><span>{$lang->cmd_delete}</span></a>
+        <a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl',$member_info->member_srl)}" class="button red"><span>{$lang->cmd_delete}</span></a>
         <!--@end-->
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispMemberAdminList','module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
         <!--@end-->
-    </td>
+    </th>
 </tr>
 </table>
 

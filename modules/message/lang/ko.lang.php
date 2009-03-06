@@ -6,5 +6,5 @@
      **/
 
     $lang->message = '오류 표시';
-    $lang->about_skin = "메세지 출력시 스킨을 지정하실 수 있습니다.";
+    $lang->about_skin = '메세지 출력시 스킨을 지정하실 수 있습니다.';
 ?>

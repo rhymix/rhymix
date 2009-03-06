@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
     <title xml:lang="ko">XE 기본 에디터</title>
+    <title xml:lang="es">XE básico Editor</title>
+    <title xml:lang="en">XE default Editor</title>
     <title xml:lang="zh-CN">XE编辑器默认皮肤</title>
     <title xml:lang="jp">XE基本エディター</title>
     <title xml:lang="zh-TW">XE預設編輯器面板</title>
     <description xml:lang="ko">개발 : zero (http://blog.nzeo.com)</description>
+    <description xml:lang="en">Developer : zero (http://blog.nzeo.com)</description>
+    <description xml:lang="es">Desarrollo : zero (http://blog.nzeo.com)</description>
     <description xml:lang="zh-CN">程序 : zero (http://blog.nzeo.com)</description>
     <description xml:lang="jp">開発 : zero (http://blog.nzeo.com)</description>
     <description xml:lang="zh-TW">開發 : zero (http://blog.nzeo.com)</description>
@@ -15,6 +19,8 @@
         <name xml:lang="ko">zero</name>
         <name xml:lang="zh-CN">Zero</name>
         <name xml:lang="jp">zero</name>
+	<name xml:lang="es">zero</name>
+	<name xml:lang="en">zero</name>
         <name xml:lang="zh-TW">zero</name>
     </author>
     <colorset>
@@ -40,8 +46,8 @@
             <title xml:lang="jp">白色テキストエディター(自動に改行を入れる)</title>
             <title xml:lang="en">White Text Editor(Auto Line Break)</title>
             <title xml:lang="ru">White Text Editor(Auto Line Break)</title>
-            <title xml:lang="es">White Text Editor(Auto Line Break)</title>
-            <title xml:lang="zh-CN">White Text Editor(Auto Line Break)</title>
+            <title xml:lang="es">Editor de texto en blanco (Auto de línea)</title>
+            <title xml:lang="zh-CN">白色文本编辑器(自动换行)</title>
             <title xml:lang="zh-TW">白色文字編輯器(Auto Line Break)</title>
         </color>
         <color name="black_texteditor">
@@ -49,8 +55,8 @@
             <title xml:lang="jp">黒色テキストエディター(自動に改行を入れる)</title>
             <title xml:lang="en">Black Text Editor(Auto Line Break)</title>
             <title xml:lang="ru">Black Text Editor(Auto Line Break)</title>
-            <title xml:lang="es">Black Text Editor(Auto Line Break)</title>
-            <title xml:lang="zh-CN">Black Text Editor(Auto Line Break)</title>
+            <title xml:lang="es">Editor de texto negro (salto de línea automático)</title>
+            <title xml:lang="zh-CN">黑色文本编辑器(自动换行)</title>
             <title xml:lang="zh-TW">黑色文字編輯器(Auto Line Break)</title>
         </color>
         <color name="white_text_usehtml">
@@ -58,8 +64,8 @@
             <title xml:lang="jp">白色テキストエディター(HTMLタグを使う)</title>
             <title xml:lang="en">White Text Editor(Use HTML)</title>
             <title xml:lang="ru">White Text Editor(Use HTML)</title>
-            <title xml:lang="es">White Text Editor(Use HTML)</title>
-            <title xml:lang="zh-CN">White Text Editor(Use HTML)</title>
+            <title xml:lang="es">Editor de texto en blanco (Uso de HTML)</title>
+            <title xml:lang="zh-CN">白色文本编辑器(使用HTML)</title>
             <title xml:lang="zh-TW">白色文字編輯器(Use HTML)</title>
         </color>
         <color name="black_text_usehtml">
@@ -67,8 +73,8 @@
             <title xml:lang="jp">黒色テキストエディター(HTMLタグを使う)</title>
             <title xml:lang="en">Black Text Editor(Use HTML)</title>
             <title xml:lang="ru">Black Text Editor(Use HTML)</title>
-            <title xml:lang="es">Black Text Editor(Use HTML)</title>
-            <title xml:lang="zh-CN">Black Text Editor(Use HTML)</title>
+            <title xml:lang="es">Editor de texto negro (Uso de HTML)</title>
+            <title xml:lang="zh-CN">黑色文本编辑器(使用HTML)</title>
             <title xml:lang="zh-TW">黑色文字編輯器(Use HTML)</title>
         </color>
         <color name="white_text_nohtml">
@@ -76,8 +82,8 @@
             <title xml:lang="jp">白色テキストエディター(HTMLタグを使わない)</title>
             <title xml:lang="en">White Text Editor(No HTML)</title>
             <title xml:lang="ru">White Text Editor(No HTML)</title>
-            <title xml:lang="es">White Text Editor(No HTML)</title>
-            <title xml:lang="zh-CN">White Text Editor(No HTML)</title>
+            <title xml:lang="es">Editor de texto en blanco (no HTML)</title>
+            <title xml:lang="zh-CN">白色文本编辑器(不使用HTML)</title>
             <title xml:lang="zh-TW">白色文字編輯器(No HTML)</title>
         </color>
         <color name="black_text_nohtml">
@@ -85,8 +91,8 @@
             <title xml:lang="jp">黒色テキストエディター(HTMLタグを使わない)</title>
             <title xml:lang="en">Black Text Editor(No HTML)</title>
             <title xml:lang="ru">Black Text Editor(No HTML)</title>
-            <title xml:lang="es">Black Text Editor(No HTML)</title>
-            <title xml:lang="zh-CN">Black Text Editor(No HTML)</title>
+            <title xml:lang="es">Editor de texto negro (no HTML)</title>
+            <title xml:lang="zh-CN">黑色文本编辑器(不使用HTML)</title>
             <title xml:lang="zh-TW">黑色文字編輯器(No HTML)</title>
         </color>
     </colorset>

@@ -13,14 +13,6 @@
         function moduleInstall() {
             // 새쪽지 알림을 위한 임시 파일 저장소 생성
             FileHandler::makeDir('./files/member_extra_info/new_message_flags');
-
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
-            $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('communication', 'view', 'dispCommunicationAdminConfig');
-
-            $oModuleController->insertActionForward('communication', 'view', 'dispCommunicationMessages');
-            $oModuleController->insertActionForward('communication', 'view', 'dispCommunicationFriend');
-
             return new Object();
         }
 
@@ -29,14 +21,6 @@
          **/
         function checkUpdate() {
             if(!is_dir("./files/member_extra_info/new_message_flags")) return true;
-
-            $oModuleModel = &getModel('module');
-
-            if(!$oModuleModel->getActionForward('dispCommunicationAdminConfig')) return true;
-
-            if(!$oModuleModel->getActionForward('dispCommunicationMessages')) return true;
-            if(!$oModuleModel->getActionForward('dispCommunicationFriend')) return true;
-
             return false;
         }
 
@@ -46,19 +30,6 @@
         function moduleUpdate() {
             if(!is_dir("./files/member_extra_info/new_message_flags")) 
                 FileHandler::makeDir('./files/member_extra_info/new_message_flags');
-
-            $oModuleModel = &getModel('module');
-            $oModuleController = &getController('module');
-
-            if(!$oModuleModel->getActionForward('dispCommunicationAdminConfig')) 
-                $oModuleController->insertActionForward('communication', 'view', 'dispCommunicationAdminConfig');
-
-            if(!$oModuleModel->getActionForward('dispCommunicationMessages')) 
-                $oModuleController->insertActionForward('communication', 'view', 'dispCommunicationMessages');
-
-            if(!$oModuleModel->getActionForward('dispCommunicationFriend')) 
-                $oModuleController->insertActionForward('communication', 'view', 'dispCommunicationFriend');
-
             return new Object(0, 'success_updated');
         }
 

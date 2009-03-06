@@ -5,6 +5,7 @@
     <columns>
         <column name="index_module_srl" var="index_module_srl" />
         <column name="domain" var="domain" />
+        <column name="default_language" var="default_language" />
     </columns>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" filter="number" notnull="notnull" />

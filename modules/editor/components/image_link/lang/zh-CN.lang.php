@@ -14,9 +14,10 @@
     $lang->image_align_middle = "居中";
     $lang->image_align_right = "内容右侧";
     $lang->image_border = "边框粗细";
-    $lang->urllink_url = "URL";
-    $lang->image_margin = 'Image Margin';
+    $lang->image_margin = '外边距';
 
+    $lang->urllink_open_window = '新窗口打开';
     $lang->about_url_link_open_window = "将在新窗口中打开链接。";
+
     $lang->cmd_get_scale = "获得图片大小";
 ?>

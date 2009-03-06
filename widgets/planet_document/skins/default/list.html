@@ -1,0 +1,20 @@
+<!--@if($colorset=="black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset=="white")-->
+    <!--%import("./css/white.css")-->
+<!--@end-->
+
+<div class="widgetContainer">
+    <ul class="widgetUlistB">
+        <!--@foreach($planet_list as $no => $item)-->
+        <li>
+            <a href="{getSiteUrl($widget_info->domain,'','mid',$item->getPlanetMid(),'date',$item->getRegdate())}" class="author" title="{htmlspecialchars($item->nick_name)}"><img src="{$item->getPlanetPhotoSrc($widget_info->thumbnail_width,$widget_info->thumbnail_height)}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" alt="{htmlspecialchars($item->nick_name)}" /></a>
+            <div class="title">
+                {$item->getContent()}
+                <span class="date">{zdate($item->get('regdate'),"y.m.d",false)}</span> <span class="hour">{zdate($item->get('regdate'),"H:i",false)}</span>
+                <span class="arrow"></span><span class="deco topLeft"></span><span class="deco topRight"></span><span class="deco bottomLeft"></span><span class="deco bottomRight"></span>
+            </div>
+        </li>
+        <!--@end-->
+    </ul>
+</div>

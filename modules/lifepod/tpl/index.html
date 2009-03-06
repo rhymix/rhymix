@@ -2,20 +2,21 @@
 
 <!-- 정보 -->
 <div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
 </div>
 
+<form action="./" method="get" onsubmit="return doChangeCategory(this);" id="fo_list">
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col">
             <div>
-                <form action="./" method="get" onsubmit="return doChangeCategory(this);">
                     <input type="hidden" name="module" value="{$module}" />
                     <input type="hidden" name="act" value="{$act}" />
-                    <select name="module_category_srl" class="w120">
+                    <select name="module_category_srl" class="fullWidth">
                         <option value="">{$lang->module_category}</option>
                         <!--@foreach($module_category as $key => $val)-->
                         <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -24,7 +25,6 @@
                         <option value="-1">{$lang->cmd_management}</option>
                     </select>
                     <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
-                </form>
             </div>
         </th>
         <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
@@ -37,6 +37,7 @@
     <!--@foreach($lifepod_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
         <td class="number center">{$no}</td>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
         <td>
             <!--@if(!$val->module_category_srl)-->
                 {$lang->not_exists}
@@ -44,20 +45,28 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispLifepodAdminLifepodInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->mid)}</a></td>
-        <td><a href="{getUrl('act','dispLifepodAdminLifepodInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->browser_title)}</a></td>
+        <td>{htmlspecialchars($val->mid)}</td>
+        <td><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->browser_title)}</a></td>
         <td class="date nowrap center">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="view center"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="delete center"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispLifepodAdminDeleteLifepod','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@end--></td>
+        <td><a href="{getUrl('act','dispLifepodAdminLifepodInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setting}</span></a></td>
+        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispLifepodAdminDeleteLifepod','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a><!--@else-->-<!--@end--></td>
     </tr>
     <!--@end-->
-    <tr>
-        <td colspan="7" class="right">
-            <a href="{getUrl('act','dispLifepodAdminInsertLifepod','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
-        </td>
-    </tr>
 </tbody>
 </table>
+
+<!-- 버튼 -->
+<div class="clear">
+    <div class="fl">
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="button green"><span>{$lang->cmd_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="button blue"><span>{$lang->cmd_manage_grant}</span></a>
+    </div>
+    <div class="fr">
+        <a href="{getUrl('act','dispLifepodAdminInsertLifepod','module_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+    </div>
+</div>
+
+</form>
 
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">

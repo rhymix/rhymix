@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+/* widgetUlistA */
+.widgetUlistA { margin:0; padding:0; font-size:12px; line-height:1.5;}
+.widgetUlistA li{ list-style:none;}
+.widgetUlistA li a{ color:#666; text-decoration:none;}

@@ -3,16 +3,12 @@
 
 <!--#include("./header.html")-->
 
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <em>{number_format($page)}/{number_format($total_page)}</em>
-</div>
-
-
 <form action="./" method="get" onsubmit="return procFilter(this, delete_checked)" id="fo_list">
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="crossTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
@@ -33,17 +29,21 @@
         <td class="number center">{$val->checkcount}</td>
         <td class="number center">{$val->poll_count}</td>
         <td class="date nowrap center">{zdate($val->regdate,"Y-m-d H:i")}</td>
-        <td class="center nowrap view"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;">{$lang->cmd_view}</a></td>
+        <td class="center nowrap view"><a href="{getUrl('','module','poll','act','dispPollAdminResult','poll_srl',$val->poll_srl,'poll_index_srl',$val->poll_index_srl)}" onclick="popopen(this.href); return false;" title="{htmlspecialchars($lang->cmd_view)}">{$lang->cmd_view}</a></td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 
 <!-- 버튼 -->
-<div class="fr gap1">
-    <a href="javascript:XE.checkboxToggleAll({ checked:false })" class="button"><span>{$lang->cmd_unselect_all}</span></a>
-    <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-    <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_poll}" /></span>
+<div class="clear">
+    <div class="fl">
+        <a href="javascript:XE.checkboxToggleAll({ checked:false })" class="button"><span>{$lang->cmd_unselect_all}</span></a>
+        <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
+    </div>
+    <div class="fr">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_delete_checked_poll}" /></span>
+    </div>
 </div>
 
 </form>

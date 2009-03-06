@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">게시판</title>
-    <title xml:lang="zh-CN">版面</title>
+    <title xml:lang="zh-CN">版面管理</title>
     <title xml:lang="en">Board</title>
     <title xml:lang="es">Tablero</title>
     <title xml:lang="jp">掲示板</title>

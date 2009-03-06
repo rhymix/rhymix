@@ -8,24 +8,24 @@
 <input type="hidden" name="release_srl" value="{$release->release_srl}" />
 <input type="hidden" name="package_srl" value="{$release->package_srl?$release->package_srl:$package_srl}" />
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
 <tr>
     <th><div>{$lang->name}</div></th>
-    <td><input name="title" type="text" value="{htmlspecialchars($release->title)}" class="inputTypeText w400" /></td>
+    <td class="wide"><input name="title" type="text" value="{htmlspecialchars($release->title)}" class="inputTypeText fullWidth" /></td>
 </tr>
 <tr>
     <th><div>{$lang->release_note}</div></th>
-    <td><textarea name="release_note" class="inputTypeTextArea w400" />{htmlspecialchars($release->release_note)}</textarea></td>
+    <td><textarea name="release_note" class="inputTypeTextArea fullWidth" />{htmlspecialchars($release->release_note)}</textarea></td>
 </tr>
 <tr>
     <th><div>{$lang->release_changes}</div></th>
-    <td><textarea name="release_changes" class="inputTypeTextArea w400" />{htmlspecialchars($release->release_changes)}</textarea></td>
+    <td><textarea name="release_changes" class="inputTypeTextArea fullWidth" />{htmlspecialchars($release->release_changes)}</textarea></td>
 </tr>
 <tr>
-    <td colspan="2">
-        <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
-    </td>
+    <th colspan="2" class="button">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </th>
 </tr>
 </table>
 

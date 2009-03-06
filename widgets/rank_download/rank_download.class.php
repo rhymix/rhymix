@@ -14,6 +14,17 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srls로 위젯에서 변경)
+            $oModuleModel = &getModel('module');
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                if(count($mid_list)) {
+                    $module_srls = $oModuleModel->getModuleSrlByMid($mid_list);
+                    if(count($module_srls)) $args->module_srls = implode(',',$module_srls);
+                    else $args->module_srls = null;
+                } 
+            }
+
             // 제목
             $title = $args->title;
 
@@ -28,26 +39,12 @@
             $list_count = (int)$args->list_count;
             if(!$list_count) $list_count = 5;
 
-            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
-            if($args->mid_list) {
-                $mid_list = explode(",",$args->mid_list);
-                $oModuleModel = &getModel('module');
-                if(count($mid_list)) {
-                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                } else {
-                    $site_module_info = Context::get('site_module_info');
-                    if($site_module_info) {
-                        $margs->site_srl = $site_module_info->site_srl;
-                        $oModuleModel = &getModel('module');
-                        $output = $oModuleModel->getMidList($margs);
-                        if(count($output)) $mid_list = array_keys($output);
-                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                    }
-                }
-            } else $module_srl = explode(',',$args->module_srls);
+            // 대상 모듈이 선택되어 있지 않으면 해당 사이트의 전체 모듈을 대상으로 함
+            $site_module_info = Context::get('site_module_info');
+            if($args->module_srls) $obj->module_srl = $args->module_srls;
+            else if($site_module_info) $obj->site_srl = (int)$site_module_info->site_srl;
 
             // FileModel::getFileList()를 이용하기 위한 변수 정리
-            $obj->s_module_srl = implode(',',$module_srl);
             $obj->direct_download = ($args->attach_type == "noimage") ? "N": (($args->attach_type == "image") ? "Y" : "");
 
             if($args->without_image == "true") $obj->direct_download = "N";
@@ -56,7 +53,7 @@
             $obj->order_type = $args->order_type;
 
             // 다운로드 횟수 1이상만 검색
-            $obj->s_download_count = 1;
+            $obj->download_count = 1;
 
             $output = executeQueryArray('widgets.rank_download.getFileList', $obj);
 

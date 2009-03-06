@@ -1,15 +1,8 @@
 <!--%import("css/poll.css")-->
-
-<div class="poll_box">
-
-    <div class="poll_title_box">
-        <div class="poll_join_count">
-            {$lang->poll_join_count} : {number_format($poll->poll_count)}
-        </div>
-        <div class="poll_stop_date">
-            {$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")}
-        </div>
-    </div>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")} {$lang->poll_join_count} : {number_format($poll->poll_count)}</h3>
+</div>
+<div class="popBody">
         <!--@foreach($poll->poll as $poll_srl_index => $val)-->
         <div class="poll_detail_box">
             <div class="title">{$val->title} ({$val->poll_count})</div>
@@ -29,7 +22,5 @@
             <!--@end-->
 
         </div>
-
         <!--@end-->
-
 </div>

@@ -1,6 +1,10 @@
-<div id="tmpPageSizeLayer" style="visibility:hidden;">
-    <form action="./" onsubmit="doApplyWidgetSize(this); return false;">
-        <table cellspacing="0">
+<div id="tmpPageSizeLayer" class="layer boxModelController">
+<form action="./" onsubmit="doApplyWidgetSize(this); return false;">
+    <h4 class="xeAdmin">&nbsp;</h4>
+    <!--button class="xButton" type="button" onclick="hideCategoryInfo();return false" ><span>{$lang->cmd_close}</span></button-->
+
+    <div class="layerBody">
+        <table cellspacing="0" class="adminTable">
         <col width="140" />
         <col />
         <col />
@@ -103,10 +107,11 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3" class="buttonBox">
-                <input type="submit" value="{$lang->cmd_save}" class="submit"/>
-            </td>
+            <th colspan="3">
+                <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" class="submit"/></span>
+            </th>
         </tr>
         </table>
-    </form>
+    </div>
+</form>
 </div>

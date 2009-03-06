@@ -8,8 +8,7 @@
  * @copyright 2005 Janrain, Inc.
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-
-require_once 'Services/Yadis/Misc.php';
+require_once $this->module_path.'php-openid-1.2.3/Services/Yadis/Misc.php';
 
 // from appendix B of rfc 3986 (http://www.ietf.org/rfc/rfc3986.txt)
 function Auth_OpenID_getURIPattern()

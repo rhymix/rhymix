@@ -54,6 +54,7 @@
             if(!$args->thumbnail_height) $args->thumbnail_height = 50;
             $widget_info->thumbnail_width = $args->thumbnail_width;
             $widget_info->thumbnail_height = $args->thumbnail_height;
+            $widget_info->domain = Context::getDefaultUrl();
             Context::set('widget_info', $widget_info);
 
             // 템플릿 컴파일

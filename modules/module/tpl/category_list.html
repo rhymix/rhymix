@@ -9,7 +9,7 @@
     <input type="hidden" name="mode" value="" />
 </form>
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
     <tr>
         <th scope="col" class="wide"><div>{$lang->category_title}</div></th>
@@ -25,10 +25,10 @@
     <!--@end-->
     <!--@foreach($category_list as $key => $val)-->
     <tr>
-        <td>{$val->title}</td>
-        <td class="date nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        <td class="center modify"><a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a></td>
-        <td class="center delete"><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</a></td>
+        <td class="wide">{$val->title}</td>
+        <td class="nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+        <td><a href="{getUrl('module_category_srl',$val->module_category_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>
@@ -40,7 +40,7 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="module_category_srl" value="" />
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->category_title}</div></th>
         <td>
@@ -48,9 +48,9 @@
         </td>
     </tr>
     <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 </form>

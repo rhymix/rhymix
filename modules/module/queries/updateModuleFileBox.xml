@@ -1,0 +1,15 @@
+<query id="updateModuleFileBox" action="update">
+    <tables>
+        <table name="module_filebox" />
+    </tables>
+    <columns>
+        <column name="filename" var="filename" />
+        <column name="fileextension" var="fileextension" />
+        <column name="filesize" var="filesize" />
+        <column name="comment" var="comment" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_filebox_srl" var="module_filebox_srl" notnull="notnull"/>
+    </conditions>
+</query>

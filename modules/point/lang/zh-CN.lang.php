@@ -51,8 +51,7 @@
     $lang->point_voted = '推荐';
     $lang->point_blamed = '反对';
 
-
-    $lang->cmd_point_config = '基本设置';
+    $lang->cmd_point_config = '常规选项';
     $lang->cmd_point_module_config = '对象模块设置';
     $lang->cmd_point_act_config = '功能act设置';
     $lang->cmd_point_member_list = '会员积分目录';

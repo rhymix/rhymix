@@ -1,0 +1,8 @@
+<query id="getModuleSkinVars" action="select">
+    <tables>
+        <table name="module_skins" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" notnull="notnull" filter="number" />
+    </conditions>
+</query>

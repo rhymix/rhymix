@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants>
-        <grant name="access" default="guest">
-            <title xml:lang="ko">프로젝트 접근</title>
-            <title xml:lang="zh-CN">访问项目</title>
-            <title xml:lang="zh-TW">專案</title>
-            <title xml:lang="jp">プロジェクトへアクセス</title>
-        </grant>
         <grant name="ticket_view" default="guest">
             <title xml:lang="ko">티켓 열람</title>
             <title xml:lang="zh-CN">查看计划</title>
@@ -43,13 +37,8 @@
             <title xml:lang="zh-TW">下載</title>
             <title xml:lang="jp">ダウンロード</title>
         </grant>
-        <grant name="manager" default="root">
-            <title xml:lang="ko">프로젝트 관리</title>
-            <title xml:lang="zh-CN">项目管理</title>
-            <title xml:lang="zh-TW">專案管理</title>
-            <title xml:lang="jp">プロジェクト管理</title>
-        </grant>
     </grants>
+    <permissions />
     <actions>
         <action name="dispIssuetrackerViewMilestone" type="view" standalone="true" index="true" />
         <action name="dispIssuetrackerViewIssue" type="view" standalone="true" />
@@ -71,6 +60,7 @@
         <action name="dispIssuetrackerAdminProjectSetting" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminReleaseSetting" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminAdditionSetup" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminExtraVars" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminGrantInfo" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminSkinInfo" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminProjectInfo" type="view" standalone="true" />
@@ -90,6 +80,7 @@
         <action name="procIssuetrackerAdminInsertMilestone" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertPriority" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertComponent" type="controller" standalone="true" />
+        <action name="procIssuetrackerAdminModifyDisplayOption" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertType" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertPackage" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminInsertRelease" type="controller" standalone="true" />
@@ -102,8 +93,6 @@
         <action name="procIssuetrackerAdminDeleteRelease" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminDeleteFile" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminAttachRelease" type="controller" standalone="true" />
-        <action name="procIssuetrackerAdminInsertGrant" type="controller" standalone="true" />
-        <action name="procIssuetrackerAdminUpdateSkinInfo" type="controller" standalone="true" />
         <action name="procIssuetrackerAdminManageCheckedIssue" type="controller" standalone="true" />
 
     </actions>

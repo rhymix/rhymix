@@ -1,11 +1,24 @@
 <!--%import("js/blog_admin.js")-->
 <!--%import("js/page_admin.js")-->
-<h3>{$lang->page} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->page} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_page)}</div>
 
 <!--@if($module_info)-->
-<!--@if($module_info->mid)-->
-<h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+<div class="header4">
+    <!--@if($module_info->mid)-->
+    <h4 class="xeAdmin">{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+    <!--@end-->
+
+    <ul class="localNavigation">
+        <!--@if($module=='admin')-->
+        <li><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></li>
+        <!--@else-->
+        <li><a href="{getUrl('act','')}">{$lang->cmd_back}</a></li>
+        <!--@end-->
+        <li <!--@if($act=='dispPageAdminInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispPageAdminInfo')}">{$lang->module_info}</a></li>
+        <li <!--@if($act=='dispPageAdminGrantInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispPageAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>
+    </ul>
+</div>
 <!--@end-->
-<!--@end-->
+

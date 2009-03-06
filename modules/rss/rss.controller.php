@@ -4,7 +4,7 @@
      * @author zero (zero@nzeo.com)
      * @brief  rss module의 controller class
      *
-     * RSS 2.0형식으로 문서 출력
+     * Feed 로 문서 출력
      *
      **/
 

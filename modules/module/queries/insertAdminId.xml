@@ -1,0 +1,10 @@
+<query id="insertAdminId" action="insert">
+    <tables>
+        <table name="module_admins" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

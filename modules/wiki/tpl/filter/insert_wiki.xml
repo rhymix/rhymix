@@ -1,0 +1,27 @@
+<filter name="insert_wiki" module="wiki" act="procWikiAdminInsertWiki" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="mid" required="true" filter="alpha_number" />
+        <node target="browser_title" required="true" maxlength="250" />
+    </form>
+    <parameter>
+        <param name="wiki_name" target="mid" />
+        <param name="module_srl" target="module_srl" />
+        <param name="module_category_srl" target="module_category_srl" />
+        <param name="layout_srl" target="layout_srl" />
+        <param name="skin" target="skin" />
+        <param name="browser_title" target="browser_title" />
+        <param name="admin_mail" target="admin_mail" />
+        <param name="is_default" target="is_default" />
+        <param name="description" target="description" />
+        <param name="header_text" target="header_text" />
+        <param name="footer_text" target="footer_text" />
+    </parameter>
+    <response callback_func="completeInsertWiki">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="module" />
+        <tag name="act" />
+        <tag name="page" />
+        <tag name="module_srl" />
+    </response>
+</filter>

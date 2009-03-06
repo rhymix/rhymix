@@ -1,0 +1,12 @@
+<query id="isSiteComponentInserted" action="select">
+    <tables>
+        <table name="editor_components_site" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull"/>
+        <condition operation="equal" column="component_name" var="component_name" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

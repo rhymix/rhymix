@@ -34,12 +34,17 @@
             // 요청방식에 따라 출력을 별도로
             if(Context::getResponseMethod()=="HTML") {
 
+                // 관리자 모드일 경우 #xeAdmin id를 가지는 div 추가
+                if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $content = '<div id="xeAdmin">'.$content.'</div>';
+
+                // 내용을 content라는 변수로 설정 (layout에서 {$content}에서 대체됨) 
                 Context::set('content', $content);
 
                 // 레이아웃을 컴파일
                 if(__DEBUG__==3) $start = getMicroTime();
                 $oTemplate = &TemplateHandler::getInstance();
 
+                // layout이라는 변수가 none으로 설정되면 기본 레이아웃으로 변경
                 if(Context::get('layout') != 'none') {
                     $layout_path = $oModule->getLayoutPath();
                     $layout_file = $oModule->getLayoutFile();
@@ -47,8 +52,30 @@
                 }
                 if(!$layout_path) $layout_path = './common/tpl/';
                 if(!$layout_file) $layout_file = 'default_layout.html';
-                $zbxe_final_content = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
+                // 현재 요청된 레이아웃 정보를 구함
+                $oLayoutModel = &getModel('layout');
+                $current_module_info = Context::get('current_module_info');
+                $layout_srl = $current_module_info->layout_srl;
+
+                // 생성된 레이아웃과 연결되어 있으면 처리
+                if($layout_srl > 0){
+                    $layout_info = Context::get('layout_info');
+
+                    // faceoff 레이아웃일 경우 별도 처리
+                    if($layout_info && $layout_info->type == 'faceoff') {
+                        $oLayoutModel->doActivateFaceOff($layout_info);
+                    }
+
+                    // 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
+                    $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+
+
+                    if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
+                }
+                Context::set('layout_info', $layout_info);
+
+                $zbxe_final_content = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
                 if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
 
 
@@ -62,17 +89,23 @@
 
                 // 최종 결과를 common_layout에 넣어버림
                 Context::set('zbxe_final_content', $zbxe_final_content);
+
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');
 
+                // 사용자 정의 언어 변경
+                $oModuleController = &getController('module');
+                $oModuleController->replaceDefinedLangCode($output);
+
+
             } else {
-
                 $output = $content;
-
             }
 
             // 애드온 실행
             $called_position = 'before_display_content';
-            @include("./files/cache/activated_addons.cache.php");
+            $oAddonController = &getController('addon');
+            $addon_file = $oAddonController->getCacheFilePath();
+            if(file_exists($addon_file)) @include($addon_file);
 
             $this->content_size = strlen($output);
 
@@ -234,8 +267,6 @@
 
             // 파일 및 HTML 주석으로 출력
             } else {
-                // debug string 작성 시작
-                $buff  = "** Debug at ".date('Y-m-d H:i:s').str_repeat('*', 60)."\n";
 
                 // 전체 실행 시간 출력, Request/Response info 출력
                 if(__DEBUG__ & 2) {
@@ -283,22 +314,25 @@
 
                 // HTML 주석으로 출력
                 if(__DEBUG_OUTPUT__ == 1 && Context::getResponseMethod() == 'HTML') {
+                    $buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
+
                     if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
                         $buff = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
                     }
+
                     return "<!--\r\n".$buff."\r\n-->";
                 }
 
                 // 파일에 출력
                 if(__DEBUG_OUTPUT__ == 0) {
                     $debug_file = _XE_PATH_.'files/_debug_message.php';
-                    $debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, true));
+                    $buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
 
-                    if($display_option === true) $debug_output = str_repeat('=', 40)."\n".$debug_output.str_repeat('-', 40);
-                    $debug_output = "\n<?php\n/*".$debug_output."*/\n?>\n";
+                    $buff = str_repeat('=', 40)."\n".$buff.str_repeat('-', 40);
+                    $buff = "\n<?php\n/*".$buff."*/\n?>\n";
 
                     if(@!$fp = fopen($debug_file, 'a')) return;
-                    fwrite($fp, $debug_output);
+                    fwrite($fp, $buff);
                     fclose($fp);
                 }
             }

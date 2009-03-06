@@ -1,0 +1,80 @@
+<ul class="widgetZineA">
+{@$_idx=0}
+<!--@foreach($widget_info->content_items as $key => $item)-->
+    <li<!--@if($_idx >= $widget_info->list_count)--> style="display:none"<!--@end-->>
+
+        <p class="thumbArea" style="width:{$widget_info->thumbnail_width}px;margin-right:-{$widget_info->thumbnail_width}px;">
+            <a href="{$item->getLink()}" class="thumb" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px">
+                <!--@if($item->getThumbnail())-->
+                    <img src="{$item->getThumbnail()}" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px" />
+                <!--@else-->
+                    <span class="imgNone">{$lang->none_image}</span>
+                <!--@end-->
+
+                <!--@if($widget_info->show_category=='Y' && $item->getCategory())-->
+                    <strong class="category">{$item->getCategory()}</strong>
+                <!--@end-->
+            </a>
+        </p>
+
+    <!--@for($j=0,$c=count($widget_info->option_view_arr);$j<$c;$j++)-->
+
+        <!--@if($widget_info->option_view_arr[$j]=='title')-->
+        <p class="titleArea" style="margin-left:{$widget_info->thumbnail_width+20}px;">
+
+            <!--@if($widget_info->show_browser_title=='Y' && $item->getBrowserTitle())-->
+                <a href="{getSiteUrl($item->domain, '', 'mid', $item->get('mid'))}"><strong class="board">{$item->getBrowserTitle()}</strong></a>
+            <!--@end-->
+
+            <!--@if($widget_info->show_category=='Y' && $item->get('category_srl') )-->
+                <a href="{getSiteUrl($item->domain,'','mid',$item->get('mid'),'category',$item->get('category_srl'))}"><strong class="category">{$item->getCategory()}</strong></a>
+            <!--@end-->
+
+            <a href="{$item->getLink()}" class="title">{$item->getTitle($widget_info->subject_cut_size)}</a>
+
+            <!--@if($widget_info->show_trackback_count=='Y' && $item->getCommentCount())-->
+                <sup class="replyNum"><a href="{$item->getLink()}#comment">{$item->getCommentCount()}</a></sup>
+            <!--@end-->
+
+            <!--@if($widget_info->show_trackback_count=='Y' && $item->getTrackbackCount())-->
+                <sup class="trackbackNum"><a href="{$item->getLink()}#trackback">{$item->getTrackbackCount()}</a></sup>
+            <!--@end-->
+
+            <!--@if($widget_info->show_icon=='Y')-->
+                <span class="icon">{$item->printExtraImages()}<span></td>
+            <!--@end-->
+
+            <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
+                <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
+            <!--@end-->
+        </p>
+
+        <!--@else if($widget_info->option_view_arr[$j]=='content')-->
+        <p class="text" style="margin-left:{$widget_info->thumbnail_width+20}px;">
+            {$item->getContent()}
+            <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
+                <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
+            <!--@end-->
+        </p>
+
+        <!--@else if($widget_info->option_view_arr[$j]=='nickname')-->
+        <p class="authorArea" style="margin-left:{$widget_info->thumbnail_width+20}px;">
+                <a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}">{$item->getNickName()}</a>
+            <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
+                <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
+            <!--@end-->
+        </p>
+        <!--@end-->
+
+    <!--@end-->
+    </li>
+{@$_idx++}
+<!--@end-->
+</ul>
+
+<!--@if($widget_info->page_count > 1 && $widget_info->list_count<$_idx)-->
+    <ul class="widgetNavigator">
+        <li><button type="button" class="prev" title="{$lang->cmd_prev}" onclick="content_widget_prev(jQuery(this).parents('ul.widgetNavigator').prev('ul.widgetZineA'),{$widget_info->list_count})"><span>{$lang->cmd_prev}</span></button></li>
+        <li><button type="button" class="next" title="{$lang->cmd_next}" onclick="content_widget_next(jQuery(this).parents('ul.widgetNavigator').prev('ul.widgetZineA'),{$widget_info->list_count})"><span>{$lang->cmd_next}</span></button></li>
+    </ul>
+<!--@end-->

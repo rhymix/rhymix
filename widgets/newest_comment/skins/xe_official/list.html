@@ -22,7 +22,7 @@
         </li>
         <!--@end-->
     </ul>
-    <!--@if($widget_info->title && $widget_info->module_name)-->
-    <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
+    <!--@if($widget_info->title && $widget_info->more_link)-->
+    <a href="{$widget_info->more_link}" class="more">more</a>
     <!--@end-->
 </div>

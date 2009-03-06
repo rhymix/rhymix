@@ -4,7 +4,7 @@
 
             <div class="thumbHeader">
                 <div class="left">
-                    <!--@if($grant->is_admin)--><span><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></span>{@ $no_line_class=""}<!--@end-->
+                    <!--@if($grant->manager)--><span><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></span>{@ $no_line_class=""}<!--@end-->
 
                     <!--@if($module_info->use_category == "Y")-->
                     <span class="jumpTo">
@@ -42,7 +42,7 @@
             <tbody>
                 <tr class="notice">
                 <!--@if($module_info->display_number!='N')--><td class="notice">{$lang->notice}</td><!--@end-->
-                <!--@if($grant->is_admin)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
+                <!--@if($grant->manager)--><td class="checkbox"><input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /></td><!--@end-->
                 <td class="title">
                     <!--@if($module_info->use_category == "Y" && $document->get('category_srl'))-->
                     <strong class="category">{$category_list[$document->get('category_srl')]->title}</strong>
@@ -102,7 +102,7 @@
                     </div>
 
                     <div class="title">
-                        <!--@if($grant->is_admin)-->
+                        <!--@if($grant->manager)-->
                             <input type="checkbox" name="cart" value="{$document->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($document->isCarted())-->checked="checked"<!--@end--> /> 
                         <!--@end-->
 

@@ -1,0 +1,7 @@
+<table name="document_extra_vars">
+    <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_module_vars" />
+    <column name="document_srl" type="number" size="11" notnull="notnull" unique="unique_module_vars" />
+    <column name="var_idx" type="number" size="11" notnull="notnull" unique="unique_module_vars" />
+    <column name="lang_code" type="varchar" size="10" notnull="notnull" unique="unique_module_vars" />
+    <column name="value" type="bigtext" />
+</table>

@@ -1,0 +1,19 @@
+<!--@if($colorset == "black")-->
+    <!--%import("./css/black.css")-->
+<!--@elseif($colorset == "white" || $colorset == "normal")-->
+    <!--%import("./css/white.css")-->
+<!--@end-->
+
+<div class="widgetContainer">
+    <ol class="widgetOlistA">
+        {@ $no = 1}
+        <!--@foreach($widget_info->data as $val)-->
+        <li><a href="#" class="member_{$val->member_srl}" onclick="return false;">{$val->nick_name}</a> <sup>{number_format($val->count)}</sup></li>
+        {@ $no++}
+        <!--@end-->
+    </ol>
+    <!--@if($widget_info->period)-->
+    <address class="period">{$widget_info->date_from} ~ {date("Y-m-d")}</address>
+    <!--@end-->
+</div>
+

@@ -14,101 +14,53 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 위젯 자체적으로 설정한 변수들을 체크
-            $title = $args->title;
-            $rankby = $args->rankby;
-            $period = (int)$args->regdate;
-            $list_count = (int)$args->list_count;
-            if(!$list_count) $list_count = 5;
-            $mid_list = explode(",",$args->mid_list);
-            $subject_cut_size = $args->subject_cut_size;
-            if(!$subject_cut_size) $subject_cut_size = 0;
+            // 그룹이 선택되지 않으면 출력이 되지 않는다.
+            if(!$args->with_group) return '';
 
-            //그룹 정보를 구해옴 (그룹 포함)
-            $tmp_groups = explode(",",$args->with_group);
-            $count = count($tmp_groups);
-            for($i = 0; $i < $count; $i++) {
-                $group_name = trim($tmp_groups[$i]);
-                if(!$group_name) continue;
-                $target_group[$i] = $group_name;
-            }
+            $site_module_info = Context::get('site_module_info');
+            $obj->site_srl = (int)$site_module_info->site_srl;
+            $obj->list_count = $args->list_count?$args->list_count:5;
+            $obj->selected_group_srl = $args->with_group;
 
-            //그룹 정보를 구해옴 (그룹 제외)
-            $tmp_groups = explode(",",$args->without_group);
-            $count = count($tmp_groups);
-            for($i = 0; $i < $count; $i++) {
-                $group_name = trim($tmp_groups[$i]);
-                if(!$group_name) continue;
-                $target_group_without[$i] = $group_name;
-            }
+            //if($args->without_group) $obj->selected_group_without_srl = $args->without_group;
 
-            if($period) {
+            if($args->period) {
                 $before_month_month_day = $this->convertDatetoDay( date("n") == 1 ? date("Y") - 1 : date("Y"),  date("n") == 1 ? 12 :  date("n") - 1);
-
                 $m = date("n");
                 $y = date("Y");
-
-                if(date("j") < $period) {
-                    $day = $before_month_month_day + date("j") - $period + 1;
+                if(date("j") < $args->period) {
+                    $day = $before_month_month_day + date("j") - $args->period + 1;
                     $m = $m - 1;
                     if($m < 1) {
                         $m = 12;
                         $y = $y - 1;
                     }
                 } else {
-                    $day = date("j") - $period + 1;
+                    $day = date("j") - $args->period + 1;
                 }
-
                 $widget_info->date_from = $y."-".sprintf("%02d", $m)."-".sprintf("%02d", $day);
-                $widget_info->period = $period;
+                $widget_info->period = $args->period;
                 $obj->regdate = $y.sprintf("%02d", $m).sprintf("%02d", $day).date("His");
             }
 
-            $oMemberModel = &getModel('member');
-            $this->oPointModel = &getModel('point');
-
-            $obj->list_count = $list_count;
-            $obj->is_admin = $args->without_admin == "true" ? "N" : "";
-
-            if(count($target_group) || count($target_group_without)) {
-                // 그룹 목록을 구해옴
-                $group_list = $oMemberModel->getGroups();
-
-                if(count($target_group)) {
-                    foreach($group_list as $group_srl => $val) {
-                        if(!in_array($val->title, $target_group)) continue;
-                        $target_group_srl_list[] = $group_srl;
-                    }
-                } else {
-                    foreach($group_list as $group_srl => $val) {
-                        if(!in_array($val->title, $target_group_without)) continue;
-                        $target_group_without_srl_list[] = $group_srl;
-                    }
-                }
-
-                // 해당 그룹의 멤버를 구해옴
-                if(count($target_group_srl_list) || count($target_group_without_srl_list)) {
-                    if(count($target_group_srl_list)) $obj->selected_group_srl = implode(',',$target_group_srl_list);
-                    else $obj->selected_group_without_srl = implode(',',$target_group_without_srl_list);
-                    
-                    if($rankby == "document") $output = executeQueryArray('widgets.rank_count.getRankDocumentCountWithinGroup', $obj);
-                    elseif($rankby == "comment") $output = executeQueryArray('widgets.rank_count.getRankCommentCountWithinGroup', $obj);
-                    elseif($rankby == "attach") $output = executeQueryArray('widgets.rank_count.getRankUploadedCountWithinGroup', $obj);
-                    elseif($rankby == "vote") $output = executeQueryArray('widgets.rank_count.getRankVotedCountWithinGroup', $obj);
-                    elseif($rankby == "read") $output = executeQueryArray('widgets.rank_count.getRankReadedCountWithinGroup', $obj);
-                }
+            //전체 목록을 구해옴
+            switch($args->rankby) {
+                case "read" :
+                        $output = executeQueryArray('widgets.rank_count.getRankReadedCount', $obj);
+                    break;
+                case "vote" :
+                        $output = executeQueryArray('widgets.rank_count.getRankVotedCount', $obj);
+                    break;
+                case "attach" :
+                        $output = executeQueryArray('widgets.rank_count.getRankUploadedCount', $obj);
+                    break;
+                case "comment" :
+                        $output = executeQueryArray('widgets.rank_count.getRankCommentCount', $obj);
+                    break;
+                default :
+                        $output = executeQueryArray('widgets.rank_count.getRankDocumentCount', $obj);
+                    break;
             }
-            else {
-                //전체 목록을 구해옴
-                if($rankby == "document") $output = executeQueryArray('widgets.rank_count.getRankDocumentCount', $obj);
-                elseif($rankby == "comment") $output = executeQueryArray('widgets.rank_count.getRankCommentCount', $obj);
-                elseif($rankby == "attach") $output = executeQueryArray('widgets.rank_count.getRankUploadedCount', $obj);
-                elseif($rankby == "vote") $output = executeQueryArray('widgets.rank_count.getRankVotedCount', $obj);
-                elseif($rankby == "read") $output = executeQueryArray('widgets.rank_count.getRankReadedCount', $obj);
-            }
-
-            // 오류가 생기면 그냥 무시
-            //if(!$output->toBool()) return;
 
             // 결과가 있으면 각 문서 객체화를 시킴
             if(count($output->data)) {
@@ -119,14 +71,9 @@
                 $rank_list = array();
             }
             
-            // 템플릿 파일에서 사용할 변수들을 세팅
-            if(count($mid_list)==1) $widget_info->module_name = $mid_list[0];
-
-            $widget_info->title = $title;
             $widget_info->list_count = $list_count;
             $widget_info->data = $rank_list;
             $widget_info->rankby = $rankby;
-
             Context::set('widget_info', $widget_info);
 
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
@@ -140,32 +87,6 @@
             $oTemplate = &TemplateHandler::getInstance();
             $output = $oTemplate->compile($tpl_path, $tpl_file);
             return $output;
-        }
-
-        /**
-         * @brief 포인트 정보 표시
-         **/
-        function point_info($member_srl) {
-                $oModuleModel = &getModel('module');
-                $this->config = $oModuleModel->getModuleConfig('point');
-
-            $point = $this->oPointModel->getPoint($member_srl);
-            $level = $this->oPointModel->getLevel($point, $this->config->level_step);
-
-            $src = sprintf("modules/point/icons/%s/%d.gif", $this->config->level_icon, $level);
-                $info = getimagesize($src);
-                $this->icon_width = $info[0];
-                $this->icon_height = $info[1];
-
-            if($level < $this->config->max_level) {
-                $next_point = $this->config->level_step[$level+1];
-                if($next_point > 0) {
-                    $per = (int)($point / $next_point*100);
-                }
-            }
-
-            $code = sprintf('title="%s:%s%s %s, %s:%s/%s" style="background:url(%s) no-repeat left;padding-left:%dpx; height:%dpx"', Context::getLang('point'), $point, $this->config->point_name, $per?"(".$per."%)":"", Context::getLang('level'), $level, $this->config->max_level, Context::getRequestUri().$src, $this->icon_width+2, $this->icon_height);
-            return $code;
         }
 
         /**

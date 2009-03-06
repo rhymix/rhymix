@@ -12,6 +12,7 @@
     $lang->planet_whos_planet = "%s's planet";
     $lang->planet_whos_favorite = "%s's favorite planets";
     $lang->planet_whos_favorite_list = "%s's favorite planets";
+    $lang->planet_favorite = "Favorites";
 
     $lang->planet_welcome = "Welcome!";
 
@@ -55,7 +56,7 @@
     $lang->cmd_planet_addfavorite = "Add to Favorite";
 
     $lang->planet_hot_tag = "Popular tags";
-    $lang->planet_home = "Home";
+    $lang->planet_home = "Planet Home";
     $lang->cmd_planet_more_tag = "Display more tags";
 
     $lang->planet_memo = "Memo";

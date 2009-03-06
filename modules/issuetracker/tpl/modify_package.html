@@ -7,20 +7,20 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="package_srl" value="{$package->package_srl}" />
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
 <tr>
     <th><div>{$lang->name}</div></th>
-    <td class="wide"><input name="title" type="text" value="{htmlspecialchars($package->title)}" class="inputTypeText w400" /></td>
+    <td class="wide"><input name="title" type="text" value="{htmlspecialchars($package->title)}" class="inputTypeText fullWidth" /></td>
 </tr>
 <tr>
     <th><div>{$lang->description}</div></th>
-    <td><textarea name="description" class="inputTypeTextArea w400" />{htmlspecialchars($package->description)}</textarea></td>
+    <td><textarea name="description" class="inputTypeTextArea fullWidth" />{htmlspecialchars($package->description)}</textarea></td>
 </tr>
 <tr>
-    <td colspan="2">
-        <input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" />
-    </td>
+    <th colspan="2" class="button">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </th>
 </tr>
 </table>
 

@@ -6,6 +6,7 @@
         <column name="title" var="title" notnull="notnull" />
         <column name="is_default" var="is_default" default="N" notnull="notnull" />
         <column name="description" var="description" default="" />
+        <column name="image_mark" var="image_mark" default="" />
     </columns>
     <conditions>
         <condition operation="equal" column="group_srl" var="group_srl" notnull="notnull" filter="number" />

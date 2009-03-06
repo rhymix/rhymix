@@ -36,6 +36,7 @@
          * @brief XML파일을 미리 분석하여 개발 단위로 캐싱
          **/
         function procImporterAdminPreProcessing() {
+            DebugPrint('procImporterAdminPreProcessing...');
             // 이전할 대상 xml파일을 구함
             $xml_file = Context::get('xml_file');
 
@@ -55,33 +56,62 @@
                         if($output->toBool()) $oExtract->saveItems();
                     break;
                 case 'ttxml' :
-                        // 카테고리 정보를 먼저 구함
-                        $output = $oExtract->set($xml_file,'','<author', '<category>', '<post ');
-                        if($output->toBool()) {
+                        DebugPrint('preprocessing ttxml started.');
+                        // 카테고리 정보를 구함
+                        $output = $oExtract->set($xml_file, '', '', '', '');
+                        if ($output->toBool()) {
                             // ttxml 카테고리는 별도로 구함
                             $started = false;
                             $buff = '';
-                            while(!feof($oExtract->fd)) {
+                            while (!feof($oExtract->fd)) {
                                 $str = fgets($oExtract->fd, 1024);
                                 if(substr($str,0,strlen('<category>'))=='<category>') $started = true;
-                                if(substr($str,0,strlen('<post '))=='<post ') break;
-                                if($started) $buff .= $str;
+                                if(substr($str,0,strlen('<post ')) == '<post ') break;
+                                if ($started) $buff .= $str;
                             }
-                            $buff = '<items>'.$buff.'</items>';
+                            $buff = '<categories>'.$buff.'</categories>';
                             $oExtract->closeFile();
-                            $category_filename = sprintf('%s/%s', $oExtract->cache_path, 'category');
+                            $category_filename = sprintf('%s/%s', $oExtract->cache_path, 'category.xml');
                             FileHandler::writeFile($category_filename, $buff);
 
-                            // 개별 아이템 구함
-                            $output = $oExtract->set($xml_file,'<blog', '</blog>', '<post ', '</post>');
-                            if($output->toBool()) $oExtract->saveItems();
+                            DebugPrint('category finished.');
+                            
+                            // 방명록 정보를 구함
+                            $output = $oExtract->set($xml_file, '', '', '', '');
+                            if ($output->toBool()) {
+                                $started = false;
+                                $buff = '';
+                                while (!feof($oExtract->fd)) {
+                                    $str = fgets($oExtract->fd, 1024);
+                                    if(substr($str,0,strlen('<guestbook>'))=='<guestbook>') $started = true;
+                                    if ($started) {
+                                        $pos = strpos($str, '</guestbook>');
+                                        if ($pos !== false) {
+                                            $buff .= substr($str, 0, $pos + strlen('</guestbook>'));
+                                            break;
+                                        }
+                                        $buff .= $str;
+                                    }
+                                }
+                                $oExtract->closeFile();
+                                $guestbook_filename = sprintf('%s/%s', $oExtract->cache_path, 'guestbook.xml');
+                                FileHandler::writeFile($guestbook_filename, $buff);
+
+                                DebugPrint('guestbook finished.');
+
+                                // 개별 아이템 구함
+                                $output = $oExtract->set($xml_file,'<blog', '</blog>', '<post ', '</post>');
+                                if($output->toBool()) $oExtract->saveItems();
+
+                                DebugPrint('data finished.');
+                            }
                         }
                     break;
                 default :
                         // 카테고리 정보를 먼저 구함
                         $output = $oExtract->set($xml_file,'<categories>', '</categories>', '<category','</category>');
                         if($output->toBool()) {
-                            $oExtract->mergeItems('category');
+                            $oExtract->mergeItems('category.xml');
 
                             // 개별 아이템 구함
                             $output = $oExtract->set($xml_file,'<posts ', '</posts>', '<post>', '</post>');
@@ -110,6 +140,7 @@
          * @brief xml파일의 내용이 extract되고 난후 차례대로 마이그레이션
          **/
         function procImporterAdminImport() {
+
             // 변수 설정
             $type = Context::get('type');
             $total = Context::get('total');
@@ -117,10 +148,11 @@
             $key = Context::get('key');
             $user_id = Context::get('user_id');
             $target_module = Context::get('target_module');
+            $guestbook_target_module = Context::get('guestbook_target_module');
             $this->unit_count = Context::get('unit_count');
             
             // index파일이 있는지 확인
-            $index_file = './files/cache/tmp/'.$key.'/index';
+            $index_file = './files/cache/importer/'.$key.'/index';
             if(!file_exists($index_file)) return new Object(-1, 'msg_invalid_xml_file');
 
             switch($type) {
@@ -129,7 +161,7 @@
 
                         require_once('./modules/importer/ttimport.class.php');
                         $oTT = new ttimport();
-                        $cur = $oTT->importModule($key, $cur, $index_file, $this->unit_count, $target_module, $user_id);
+                        $cur = $oTT->importModule($key, $cur, $index_file, $this->unit_count, $target_module, $guestbook_target_module, $user_id);
                     break;
                 case 'message' :
                         $cur = $this->importMessage($key, $cur, $index_file);
@@ -154,7 +186,7 @@
             // 모두 입력시 성공 메세지 출력하고 cache 파일제거
             if($total <= $cur) {
                 $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $cur, $total) );
-                FileHandler::removeFilesInDir('./files/cache/tmp/');
+                FileHandler::removeFilesInDir('./files/cache/importer/'.$key);
             } else $this->setMessage( sprintf(Context::getLang('msg_importing'), $total, $cur) );
         }
 
@@ -404,7 +436,7 @@
             if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
 
             // 먼저 카테고리 정보를 입력함
-            $category_file = preg_replace('/index$/i', 'category', $index_file);
+            $category_file = preg_replace('/index$/i', 'category.xml', $index_file);
             if(file_exists($category_file)) {
                 $buff = FileHandler::readFile($category_file);
                
@@ -793,7 +825,7 @@
                         // 디렉토리 생성
                         if(!FileHandler::makeDir($path)) continue;
 
-                        if(preg_match('/^\.\/files\/cache\/tmp/i',$file_obj->file)) FileHandler::rename($file_obj->file, $filename);
+                        if(preg_match('/^\.\/files\/cache\/importer/i',$file_obj->file)) FileHandler::rename($file_obj->file, $filename);
                         else @copy($file_obj->file, $filename);
 
                         // DB입력
@@ -825,7 +857,7 @@
          * @biref 임의로 사용할 파일이름을 return
          **/
         function getTmpFilename() {
-            $path = "./files/cache/tmp";
+            $path = "./files/cache/importer";
             if(!is_dir($path)) FileHandler::makeDir($path);
             $filename = sprintf("%s/%d", $path, rand(11111111,99999999));
             if(file_exists($filename)) $filename .= rand(111,999);

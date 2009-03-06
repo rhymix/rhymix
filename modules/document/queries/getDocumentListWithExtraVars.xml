@@ -1,0 +1,23 @@
+<query id="getDocumentListWithExtraVars" action="select">
+    <tables>
+        <table name="documents" />
+        <table name="document_extra_vars" alias="extra_vars" />
+    </tables>
+    <columns>
+        <column name="documents.*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="extra_vars.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="equal" column="extra_vars.document_srl" default="documents.document_srl" pipe="and" />
+        <condition operation="equal" column="extra_vars.var_idx" var="var_idx" notnull="notnull" pipe="and" />
+        <condition operation="like" column="extra_vars.value" var="var_value" notnull="notnull" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">위젯</title>
-    <title xml:lang="zh-CN">控件</title>
+    <title xml:lang="zh-CN">控件管理</title>
     <title xml:lang="jp">ウィジェット</title>
     <title xml:lang="en">Widget</title>
     <title xml:lang="es">Widget</title>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">控件管理模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>manager</category>
+    <category>construction</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

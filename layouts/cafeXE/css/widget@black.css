@@ -1,0 +1,278 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+/* Common Class */
+.widgetXeInputText{ border-color:#666; background:#333; color:#ccc;}
+
+/* widgetTableA */
+.widgetTableA td.title a{ color:#999;}
+.widgetTableA td .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetTableA td .notice{ color:#ff1a1a; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetTableA td .category{ color:#666; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetTableA td .replyNum{ color:#ff1a1a;}
+.widgetTableA td .trackbackNum{ color:#66c;}
+.widgetTableA td .author { color:#999;}
+.widgetTableA td .date{ color:#999;}
+.widgetTableA td .hour{ color:#888;}
+
+/* widgetTableB */
+.widgetTableB,
+.widgetTableB td{ border-color:#7f7f7f;}
+.widgetTableB td.title a{ color:#999;}
+.widgetTableB td .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetTableB td .notice{ color:#ff1a1a; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetTableB td .category{ color:#666; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetTableB td .replyNum{ color:#ff1a1a;}
+.widgetTableB td .trackbackNum{ color:#66c;}
+.widgetTableB td .author { color:#999;}
+.widgetTableB td .date{ color:#999;}
+.widgetTableB td .hour{ color:#888;}
+
+/* widgetTableC */
+.widgetTableC{ border-color:#7f7f7f;}
+.widgetTableC td{ border-color:#7f7f7f;}
+.widgetTableC td.title a{ color:#ccc;}
+.widgetTableC td.title dd{ color:#888;}
+.widgetTableC td.lastDoc p a{ color:#ccc;}
+.widgetTableC td.lastDoc .author{ color:#888;}
+.widgetTableC td.lastDoc .time{ color:#888;}
+
+/* widgetUlistA */
+.widgetUlistA li a{ color:#999;}
+
+/* widgetUlistB */
+.widgetUlistB li .author img{ border-color:#666;}
+.widgetUlistB li .title{ border-color:#333; color:#999; background:#000;}
+.widgetUlistB li .title a{ color:#3399ff;}
+.widgetUlistB li .title .arrow{ background:url(../img/black/arrowUlistB.gif) no-repeat;}
+.widgetUlistB li .title .deco{ background:#000;}
+.widgetUlistB li .title .date{ color:#999;}
+.widgetUlistB li .title .hour{ color:#888;}
+
+/* widgetOlistA */
+.widgetOlistA li,
+.widgetOlistA li a{ color:#999;}
+.widgetOlistA li sup{ color:#666;}
+
+/* widgetDlistA */
+.widgetDlistA dt{ color:#999;}
+.widgetDlistA dd,
+.widgetDlistA  dd a{ color:#888;}
+
+/* widgetGalleryA */
+.widgetGalleryA li .title{ color:#999;}
+.widgetGalleryA li .replyNum a{ color:#ff1a1a;}
+.widgetGalleryA li .trackbackNum a{ color:#66c;}
+.widgetGalleryA li .author{ color:#999;}
+.widgetGalleryA li .date{ color:#999;}
+.widgetGalleryA li .hour{ color:#888;}
+
+/* widgetGalleryB */
+.widgetGalleryB li{ border-color:#7f7f7f;}
+.widgetGalleryB li .title{ color:#999;}
+.widgetGalleryB li .replyNum a{ color:#ff1a1a;}
+.widgetGalleryB li .trackbackNum a{ color:#66c;}
+.widgetGalleryB li .author{ color:#999;}
+.widgetGalleryB li .date{ color:#999;}
+.widgetGalleryB li .hour{ color:#888;}
+
+/* widgetZineA */
+.widgetZineA li .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetZineA li .title{ color:#999;}
+.widgetZineA li .replyNum a{ color:#ff1a1a;}
+.widgetZineA li .trackbackNum a{ color:#66c;}
+.widgetZineA li .author{ color:#999;}
+.widgetZineA li .date{ color:#999;}
+.widgetZineA li .hour{ color:#888;}
+.widgetZineA li .text{ color:#888;}
+
+/* widgetZineB */
+.widgetZineB li .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.widgetZineB li{ border-color:#7f7f7f;}
+.widgetZineB li .title{ color:#999;}
+.widgetZineB li .replyNum a{ color:#ff1a1a;}
+.widgetZineB li .trackbackNum a{ color:#66c;}
+.widgetZineB li .author{ color:#999;}
+.widgetZineB li .date{ color:#999;}
+.widgetZineB li .hour{ color:#888;}
+.widgetZineB li .text{ color:#888;}
+
+/* widgetLogin */
+.widgetLogin label{ color:#999;}
+.widgetLogin .help a{ color:#ccc;}
+.widgetLogin .help li{ background:url(../img/black/lineTextDiv.gif) no-repeat left center;}
+
+/* widgetLastLogin */
+.widgetLastLogin dt{ color:#999;}
+.widgetLastLogin dd{ color:#888;}
+.widgetLastLogin a{ color:#333;}
+.widgetLastLogin li{ background:url(../img/black/iconInfoMine.gif) no-repeat left center;}
+
+/* widgetMyInfo */
+.widgetMyInfo li a{ color:#999;}
+.widgetMyInfo li{ background:url(../img/black/iconMyInfo.gif) no-repeat left 1px;}
+
+/* widgetTree */
+.widgetTree{ color:#999;}
+.widgetTree a{ color:#999;}
+
+/* widgetCounter */
+.widgetCounter dt{ color:#999;}
+.widgetCounter dd{ color:#888;}
+
+/* widgetLanguage */
+.widgetLanguage p a{ color:#b3b3b3;}
+.widgetLanguage .langList{ background:#fff; border:1px solid #ccc;}
+.widgetLanguage .langList a{ color:#333;}
+
+/* Widget Tree */
+.widgetTree ul{ background:url(../img/black/lineTreeVr.gif) repeat-y 0 -1px;}
+.widgetTree ul li{ background:url(../img/black/lineTreeHr.gif) no-repeat 1px 5px !important;}
+.widgetTree ul li button{ background:url(../img/black/buttonTreeCollapse.gif) no-repeat;}
+.widgetTree ul li.nav_tree_last{ background:url(../img/black/lineTreeLastHr.gif) no-repeat 0 5px !important;}
+
+/* widgetLevel */
+.widgetLevel.num0 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/0.gif);}
+.widgetLevel.num1 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/1.gif);}
+.widgetLevel.num2 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/2.gif);}
+.widgetLevel.num3 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/3.gif);}
+.widgetLevel.num4 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/4.gif);}
+.widgetLevel.num5 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/5.gif);}
+.widgetLevel.num6 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/6.gif);}
+.widgetLevel.num7 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/7.gif);}
+.widgetLevel.num8 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/8.gif);}
+.widgetLevel.num9 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/9.gif);}
+.widgetLevel.num10 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/10.gif);}
+.widgetLevel.num11 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/11.gif);}
+.widgetLevel.num12 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/12.gif);}
+.widgetLevel.num13 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/13.gif);}
+.widgetLevel.num14 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/14.gif);}
+.widgetLevel.num15 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/15.gif);}
+.widgetLevel.num16 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/16.gif);}
+.widgetLevel.num17 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/17.gif);}
+.widgetLevel.num18 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/18.gif);}
+.widgetLevel.num19 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/19.gif);}
+.widgetLevel.num20 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/20.gif);}
+.widgetLevel.num21 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/21.gif);}
+.widgetLevel.num22 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/22.gif);}
+.widgetLevel.num23 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/23.gif);}
+.widgetLevel.num24 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/24.gif);}
+.widgetLevel.num25 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/25.gif);}
+.widgetLevel.num26 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/26.gif);}
+.widgetLevel.num27 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/27.gif);}
+.widgetLevel.num28 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/28.gif);}
+.widgetLevel.num29 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/29.gif);}
+.widgetLevel.num30 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/30.gif);}
+
+/* widgetTabA */
+.widgetTabA{ border-color:#999;}
+.widgetTabA li,
+.widgetTabA li a{ background-image:url(../img/black/buttonWidgetTab.gif);}
+.widgetTabA li a{ color:#999;}
+
+/* widgetTabB */
+.widgetTabB li a{ color:#999;}
+
+/* widgetTabC */
+.widgetTabC{ border-color:#7f7f7f;}
+.widgetTabC li{ border-color:#7f7f7f; background:#222;}
+.widgetTabC li a{ color:#999;}
+.widgetTabC li a:hover,
+.widgetTabC li a:active,
+.widgetTabC li a:focus{ background:#333;}
+
+/* widgetThumb */
+.widgetThumb{ color:#999;}
+.widgetThumb a{ color:#999;}
+.widgetThumb .hour{ color:#888;}
+
+/* widgetTagCloud */
+.widgetTagCloud li a{ color:#999;}
+.widgetTagCloud li.level1 a{ color:#333;}
+.widgetTagCloud li.level2 a{ color:#666;}
+.widgetTagCloud li.level3 a{ color:#999;}
+.widgetTagCloud li.level4 a{ color:#fff;}
+
+/* widgetCalendar */
+.widgetCalendarNavigation button{ color:#999;}
+.widgetCalendar caption{ color:#999;}
+.widgetCalendar th{ background:#333; color:#fff;}
+.widgetCalendar th.sun,
+.widgetCalendar td.sun,
+.widgetCalendar td em{ color:#ff1a1a;}
+.widgetCalendar td,
+.widgetCalendar td a{ color:#999;}
+.widgetCalendar td.sun a{ color:#ff1a1a;}
+
+/* widgetPoint */
+.widgetPoint dt{ color:#999;}
+
+/* widgetMenuA */
+.widgetMenuA{ border-color:#7f7f7f;}
+.widgetMenuA li{ border-color:#7f7f7f;}
+.widgetMenuA li a{ color:#999; background-image:url(../img/black/iconMenuAnormal.gif);}
+.widgetMenuA li.active a{ background-image:url(../img/black/iconMenuAactive.gif);}
+
+/* widgetMenuB */
+.widgetMenuB{ border-color:#7f7f7f;}
+.widgetMenuB li{ border-color:#7f7f7f;}
+.widgetMenuB li a{ color:#999; background-image:url(../img/black/iconMenuAnormal.gif);}
+.widgetMenuB li.active a{ background-image:url(../img/black/iconMenuAactive.gif);}
+.widgetMenuB li ul{ border-color:#777; background:#000;}
+.widgetMenuB li li.first{ background-image:url(../img/black/arrowMenuB.gif);}
+
+/* widgetMenuCgreen */
+.widgetMenuCgreen{ background-image:url(../img/white/bgMenuCgreen.gif);}
+.widgetMenuCgreen ul li ul{ background:#35ad06; border-color:#027a00;}
+.widgetMenuCgreen li{ background-image:url(../img/white/bgMenuCgreen.gif);}
+.widgetMenuCgreen li.first a{ background-image:url(../img/white/bgMenuCgreen.gif);}
+.widgetMenuCgreen li.active{ background-image:url(../img/white/bgMenuCgreen.gif);}
+.widgetMenuCgreen li.active a{ background-image:url(../img/white/bgMenuCgreen.gif);}
+.widgetMenuCgreen li.active li.first{ background-image:url(../img/white/arrowMenuCgreen.gif);}
+
+/* widgetMenuCblue */
+.widgetMenuCblue{ background-image:url(../img/white/bgMenuCblue.gif);}
+.widgetMenuCblue ul li ul{ background:#0688ad; border-color:#00557a;}
+.widgetMenuCblue li{ background-image:url(../img/white/bgMenuCblue.gif);}
+.widgetMenuCblue li.first a{ background-image:url(../img/white/bgMenuCblue.gif);}
+.widgetMenuCblue li.active{ background-image:url(../img/white/bgMenuCblue.gif);}
+.widgetMenuCblue li.active a{ background-image:url(../img/white/bgMenuCblue.gif);}
+.widgetMenuCblue li.active li.first{ background-image:url(../img/white/arrowMenuCblue.gif);}
+
+/* widgetMenuCcyan */
+.widgetMenuCcyan{ background-image:url(../img/white/bgMenuCcyan.gif);}
+.widgetMenuCcyan ul li ul{ background:#06a4ad; border-color:#00717a;}
+.widgetMenuCcyan li{ background-image:url(../img/white/bgMenuCcyan.gif);}
+.widgetMenuCcyan li.first a{ background-image:url(../img/white/bgMenuCcyan.gif);}
+.widgetMenuCcyan li.active{ background-image:url(../img/white/bgMenuCcyan.gif);}
+.widgetMenuCcyan li.active a{ background-image:url(../img/white/bgMenuCcyan.gif);}
+.widgetMenuCcyan li.active li.first{ background-image:url(../img/white/arrowMenuCcyan.gif);}
+
+/* widgetMenuCorange */
+.widgetMenuCorange{ background-image:url(../img/white/bgMenuCorange.gif);}
+.widgetMenuCorange ul li ul{ background:#ad9906; border-color:#7a6600;}
+.widgetMenuCorange li{ background-image:url(../img/white/bgMenuCorange.gif);}
+.widgetMenuCorange li.first a{ background-image:url(../img/white/bgMenuCorange.gif);}
+.widgetMenuCorange li.active{ background-image:url(../img/white/bgMenuCorange.gif);}
+.widgetMenuCorange li.active a{ background-image:url(../img/white/bgMenuCorange.gif);}
+.widgetMenuCorange li.active li.first{ background-image:url(../img/white/arrowMenuCorange.gif);}
+
+/* widgetMenuCred */
+.widgetMenuCred{ background-image:url(../img/white/bgMenuCred.gif);}
+.widgetMenuCred ul li ul{ background:#ad4606; border-color:#7a1300;}
+.widgetMenuCred li{ background-image:url(../img/white/bgMenuCred.gif);}
+.widgetMenuCred li.first a{ background-image:url(../img/white/bgMenuCred.gif);}
+.widgetMenuCred li.active{ background-image:url(../img/white/bgMenuCred.gif);}
+.widgetMenuCred li.active a{ background-image:url(../img/white/bgMenuCred.gif);}
+.widgetMenuCred li.active li.first{ background-image:url(../img/white/arrowMenuCred.gif);}
+
+/* widgetMenuCgray */
+.widgetMenuCgray{ background-image:url(../img/white/bgMenuCgray.gif);}
+.widgetMenuCgray ul li ul{ background:#595959; border-color:#7a1300;}
+.widgetMenuCgray li{ background-image:url(../img/white/bgMenuCgray.gif);}
+.widgetMenuCgray li.first a{ background-image:url(../img/white/bgMenuCgray.gif);}
+.widgetMenuCgray li.active{ background-image:url(../img/white/bgMenuCgray.gif);}
+.widgetMenuCgray li.active a{ background-image:url(../img/white/bgMenuCgray.gif);}
+.widgetMenuCgray li.active li.first{ background-image:url(../img/white/arrowMenuCgray.gif);}
+
+address.period { color:#333; }

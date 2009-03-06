@@ -7,7 +7,7 @@
         <div class="author"><div class="member_{$oSourceComment->getMemberSrl()}">{$oSourceComment->getNickName()}</div></div>
         <div class="date">
             {$oSourceComment->getRegdate("Y.m.d H:i")}
-            <!--@if($grant->is_admin)-->
+            <!--@if($grant->manager)-->
                 ({$oSourceComment->get('ipaddress')})
             <!--@end-->
         </div>
@@ -21,7 +21,6 @@
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
-<!--%import("filter/insert_comment.xml")-->
 <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />

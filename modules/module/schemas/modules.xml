@@ -10,11 +10,7 @@
     <column name="browser_title" type="varchar" size="250" notnull="notnull"/>
     <column name="description" type="text" />
     <column name="is_default" type="char" size="1" notnull="notnull" default="N" />
-    <column name="extra_vars" type="text" />
-    <column name="skin_vars" type="text" />
     <column name="content" type="bigtext"/>
-    <column name="grants" type="text" />
-    <column name="admin_id" type="text" />
     <column name="open_rss" type="char" size="1" notnull="notnull" default="Y" />
     <column name="header_text" type="text" />
     <column name="footer_text" type="text" />

@@ -1,0 +1,13 @@
+<query id="updateSiteAddon" action="update">
+    <tables>
+      <table name="addons_site" />
+    </tables>
+    <columns>
+      <column name="is_used" var="is_used" />
+      <column name="extra_vars" var="extra_vars" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" />
+        <condition operation="equal" column="addon" var="addon" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

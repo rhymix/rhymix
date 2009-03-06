@@ -20,17 +20,19 @@
         function procAddonAdminToggleActivate() {
             $oAddonModel = &getAdminModel('addon');
 
+            $site_module_info = Context::get('site_module_info');
+
             // addon값을 받아옴
             $addon = Context::get('addon');
             if($addon) {
                 // 활성화 되어 있으면 비활성화 시킴
-                if($oAddonModel->isActivatedAddon($addon)) $this->doDeactivate($addon);
+                if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl)) $this->doDeactivate($addon, $site_module_info->site_srl);
 
                 // 비활성화 되어 있으면 활성화 시킴
-                else $this->doActivate($addon);
+                else $this->doActivate($addon, $site_module_info->site_srl);
             }
 
-            $this->makeCacheFile();
+            $this->makeCacheFile($site_module_info->site_srl);
         }
 
         /**
@@ -44,9 +46,11 @@
             unset($args->addon_name);
             unset($args->body);
 
-            $this->doSetup($addon_name, $args);
+            $site_module_info = Context::get('site_module_info');
 
-            $this->makeCacheFile();
+            $this->doSetup($addon_name, $args, $site_module_info->site_srl);
+
+            $this->makeCacheFile($site_module_info->site_srl);
         }
 
 
@@ -55,20 +59,24 @@
          * @brief 애드온 추가
          * DB에 애드온을 추가함
          **/
-        function doInsert($addon) {
+        function doInsert($addon, $site_srl = 0) {
             $args->addon = $addon;
             $args->is_used = 'N';
-            return executeQuery('addon.insertAddon', $args);
+            if(!$site_srl) return executeQuery('addon.insertAddon', $args);
+            $args->site_srl = $site_srl;
+            return executeQuery('addon.insertSiteAddon', $args);
         }
 
         /**
          * @brief 애드온 활성화 
          * addons라는 테이블에 애드온의 활성화 상태를 on 시켜줌
          **/
-        function doActivate($addon) {
+        function doActivate($addon, $site_srl = 0) {
             $args->addon = $addon;
             $args->is_used = 'Y';
-            return executeQuery('addon.updateAddon', $args);
+            if(!$site_srl) return executeQuery('addon.updateAddon', $args);
+            $args->site_srl = $site_srl;
+            return executeQuery('addon.updateSiteAddon', $args);
         }
 
         /**
@@ -76,10 +84,12 @@
          *
          * addons라는 테이블에 애드온의 이름을 제거하는 것으로 비활성화를 시키게 된다
          **/
-        function doDeactivate($addon) {
+        function doDeactivate($addon, $site_srl = 0) {
             $args->addon = $addon;
             $args->is_used = 'N';
-            return executeQuery('addon.updateAddon', $args);
+            if(!$site_srl) return executeQuery('addon.updateAddon', $args);
+            $args->site_srl = $site_srl;
+            return executeQuery('addon.updateSiteAddon', $args);
         }
 
 

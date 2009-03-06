@@ -1,0 +1,12 @@
+<query id="updateDocumentExtraKeyIdx" action="update">
+    <tables>
+        <table name="document_extra_keys" />
+    </tables>
+    <columns>
+        <column name="var_idx" var="new_idx" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="var_idx" var="var_idx" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

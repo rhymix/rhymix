@@ -36,23 +36,29 @@
          * @brief 통합 검색 출력
          **/
         function IS() {
+            // 권한 체크
+            if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
+
             // 검색이 가능한 목록을 구하기 위해 전체 목록을 구해옴
             $oModuleModel = &getModel('module');
             $site_module_info = Context::get('site_module_info');
-            $args->site_srl = (int)$site_module_info->site_srl;
-            $module_list = $oModuleModel->getMidList($args);
-
-            // 대상 모듈을 정리함
-            $module_srl_list = array();
-            foreach($module_list as $mid => $val) {
-                $mid_list[$val->module_srl] = $val;
-                if(count($this->target_mid) && !in_array($mid, $this->target_mid)) continue;
-                $module_srl_list[] = $val->module_srl;
+            if($site_module_info->site_srl) {
+                $args->site_srl = (int)$site_module_info->site_srl;
+                $module_list = $oModuleModel->getMidList($args);
+                foreach($module_list as $mid => $val) {
+                    $mid_list[$val->module_srl] = $val;
+                    $module_srl_list[] = $val->module_srl;
+                }
+            } else {
+                // 대상 모듈을 정리함
+                $module_list = $oModuleModel->getMidList($args);
+                $module_srl_list = array();
+                foreach($module_list as $mid => $val) {
+                    $mid_list[$val->module_srl] = $val;
+                    if(count($this->target_mid) && !in_array($mid, $this->target_mid)) continue;
+                    $module_srl_list[] = $val->module_srl;
+                }
             }
-
-            // 검색대상 변수 설정
-            $search_target = Context::get('search_target');
-            if(!in_array($search_target, array('title','content','title_content','comment','tag'))) $search_target = 'title';
 
             // 검색어 변수 설정
             $is_keyword = Context::get('is_keyword');
@@ -61,43 +67,61 @@
             $page = (int)Context::get('page');
             if(!$page) $page = 1;
 
+            // 검색탭에 따른 검색
+            $where = Context::get('where');
 
-            $list_count = (int)Context::get('list_count');
-            if(!$list_count|| $list_count>20) $list_count = 20;
+            $oFile = &getClass('file');
 
-            // 출력할 컨텐츠 추출을 위한 인자 정리
-            $args->module_srl = implode(',',$module_srl_list);
-            $args->page = $page;
-            $args->list_count = $list_count;
-            $args->page_count = 10;
-            $args->search_target = $search_target;
-            $args->search_keyword = Context::get('is_keyword'); 
-            $args->sort_index = 'list_order'; 
-            $args->order_type = 'asc';
+            // integration search model객체 생성
+            if($is_keyword) {
+                $oIS = &getModel('integration_search');
+                switch($where) {
+                    case 'document' :
+                            $search_target = Context::get('search_target');
+                            if(!in_array($search_target, array('title','content','title_content','tag'))) $search_target = 'title';
+                            Context::set('search_target', $search_target);
 
-            // 검색글이 있을 경우 검색 시도
-            if($args->search_keyword) {
+                            $output = $oIS->getDocuments($module_srl_list, $search_target, $is_keyword, $page, 10);
+                            Context::set('output', $output);
+                            $this->setTemplateFile("document", $page);
+                        break;
+                    case 'comment' :
+                            $output = $oIS->getComments($module_srl_list, $is_keyword, $page, 10);
+                            Context::set('output', $output);
+                            $this->setTemplateFile("comment", $page);
+                        break;
+                    case 'trackback' :
+                            $search_target = Context::get('search_target');
+                            if(!in_array($search_target, array('title','url','blog_name','excerpt'))) $search_target = 'title';
+                            Context::set('search_target', $search_target);
 
-                // 대상 문서들을 가져옴
-                $oDocumentModel = &getModel('document');
-                $output = $oDocumentModel->getDocumentList($args);
-                Context::set('total_count', $output->total_count);
-                Context::set('total_page', $output->total_page);
-                Context::set('page', $output->page);
-                Context::set('document_list', $output->data);
-                Context::set('page_navigation', $output->page_navigation);
+                            $output = $oIS->getTrackbacks($module_srl_list, $search_target, $is_keyword, $page, 10);
+                            Context::set('output', $output);
+                            $this->setTemplateFile("trackback", $page);
+                        break;
+                    case 'multimedia' :
+                            $output = $oIS->getImages($module_srl_list, $is_keyword, $page,20);
+                            Context::set('output', $output);
+                            $this->setTemplateFile("multimedia", $page);
+                        break;
+                    case 'file' :
+                            $output = $oIS->getFiles($module_srl_list, $is_keyword, $page, 20);
+                            Context::set('output', $output);
+                            $this->setTemplateFile("file", $page);
+                        break;
+                    default :
+                            $output['document'] = $oIS->getDocuments($module_srl_list, 'title', $is_keyword, $page, 5);
+                            $output['comment'] = $oIS->getComments($module_srl_list, $is_keyword, $page, 5);
+                            $output['trackback'] = $oIS->getTrackbacks($module_srl_list, 'title', $is_keyword, $page, 5);
+                            $output['multimedia'] = $oIS->getImages($module_srl_list, $is_keyword, $page, 5);
+                            $output['file'] = $oIS->getFiles($module_srl_list, $is_keyword, $page, 5);
+                            Context::set('search_result', $output);
+                            $this->setTemplateFile("index", $page);
+                        break;
+                }
+            } else {
+                $this->setTemplateFile("no_keywords");
             }
-
-            // 텍스트 생성
-			if(Context::getLangType()=='en')
-				$result_text = sprintf(Context::getLang("is_result_text"), $output->total_count, htmlspecialchars($is_keyword, ENT_NOQUOTES, 'UTF-8'));
-			else
-				$result_text = sprintf(Context::getLang("is_result_text"), htmlspecialchars($is_keyword, ENT_NOQUOTES, 'UTF-8'), $output->total_count);
-            Context::set('result_text', $result_text);
-            Context::set('mid_list', $mid_list);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('index');
         }
     }
 ?>

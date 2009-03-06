@@ -25,20 +25,6 @@
     </author>
 
     <extra_vars>
-        <var id="title">
-            <type>text</type>
-            <name xml:lang="ko">제목</name>
-            <name xml:lang="jp">タイトル</name>
-            <name xml:lang="zh-CN">栏目名</name>
-            <name xml:lang="en">Title</name>
-            <name xml:lang="zh-TW">標題</name>
-            <description xml:lang="ko">위젯의 제목으로 출력됩니다.</description>
-            <description xml:lang="jp">ウィジェットのタイトルとして表示されます。</description>
-            <description xml:lang="en">It will be displayed as widget's title.</description>
-            <description xml:lang="zh-CN">显示为栏目名。</description>
-            <description xml:lang="ru">Это будет заголовком виджета.</description>
-            <description xml:lang="zh-TW">顯示標題名稱。</description>
-        </var>
 	<var id="subject_cut_size">
 		<type>text</type>
 		<name xml:lang="ko">제목 글자수</name>

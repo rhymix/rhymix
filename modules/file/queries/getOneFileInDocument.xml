@@ -1,16 +1,19 @@
 <query id="getOneFileInDocument" action="select">
     <tables>
         <table name="files" alias="files"/>
+        <table name="modules" alias="modules"/>
         <table name="documents" alias="documents"/>
     </tables>
     <columns>
         <column name="files.upload_target_srl" alias="document_srl"/>
     </columns>
     <conditions>
-        <condition operation="in" column="files.module_srl" var="module_srls" notnull="notnull" filter="numbers" />
+        <condition operation="equal" column="modules.site_srl" var="site_srl" />
+        <condition operation="in" column="modules.module_srl" var="module_srls" filter="numbers" pipe="and" />
+        <condition operation="equal" column="files.module_srl" default="modules.module_srl" pipe="and" />
         <condition operation="equal" column="files.direct_download" var="direct_download" pipe="and" />
         <condition operation="equal" column="files.isvalid" var="isvalid" pipe="and" />
-        <condition operation="equal" column="files.upload_target_srl" var="documents.document_srl" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" default="files.upload_target_srl" pipe="and" />
     </conditions>
     <groups>
         <group column="files.upload_target_srl" />

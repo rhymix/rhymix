@@ -6,8 +6,8 @@
      **/
     class extract {
         var $key = '';
-        var $cache_path = './files/cache/tmp';
-        var $cache_index_file = './files/cache/tmp';
+        var $cache_path = './files/cache/importer';
+        var $cache_index_file = './files/cache/importer';
         
         var $filename = null;
         var $startTag = '';
@@ -38,7 +38,7 @@
 
             $this->key = md5($filename);
 
-            $this->cache_path = './files/cache/tmp/'.$this->key;
+            $this->cache_path = './files/cache/importer/'.$this->key;
             $this->cache_index_file = $this->cache_path.'/index';
 
             if(!is_dir($this->cache_path)) FileHandler::makeDir($this->cache_path);

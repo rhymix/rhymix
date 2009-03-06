@@ -33,6 +33,7 @@
     $lang->about_widget_cache = '指定された時間内にキャッシュされたデータが利用できます。';
 
     $lang->generated_code = '生成コード';
+    $lang->widgetstyle= '위젯스타일';
 
     $lang->msg_widget_is_not_exists = '%s ウィジェットが見つかりません。';
     $lang->msg_widget_object_is_null = '%s ウィジェットのオブジェクトが生成できません。';

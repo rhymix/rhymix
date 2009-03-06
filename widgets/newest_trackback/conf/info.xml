@@ -28,23 +28,6 @@
     </author>
 
     <extra_vars>
-        <var id="title">
-            <type>text</type>
-            <name xml:lang="ko">제목</name>
-            <name xml:lang="zh-CN">栏目名</name>
-            <name xml:lang="jp">タイトル</name>
-            <name xml:lang="en">Title</name>
-            <name xml:lang="es">Título</name>
-            <name xml:lang="ru">Заголовок</name>
-            <name xml:lang="zh-TW">標題</name>
-            <description xml:lang="ko">최근 엮인글 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">显示为最新引用列表的标题。</description>
-            <description xml:lang="jp">最新のトラックバックタイトルとして表示されます。</description>
-            <description xml:lang="en">This will be the title of the Newest Trackbacks to be displayed.</description>
-            <description xml:lang="es">Este será el título de los trackbacks recientes.</description>
-            <description xml:lang="ru">Это будет заголовком последних трекбеков.</description>
-            <description xml:lang="zh-TW">顯示最新引用的標題。</description>
-        </var>
         <var id="list_count">
             <type>text</type>
             <name xml:lang="ko">목록수</name>
@@ -72,7 +55,7 @@
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">将把被选模块当中的主题作为对象。</description>
+            <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles for the newest trackbacks will be the ones submitted in the selected module.</description>
             <description xml:lang="es">Objetivo de los documentos agregados serán los del módulo seleccionado.</description>

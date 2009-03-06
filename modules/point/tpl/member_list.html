@@ -1,11 +1,8 @@
 <!--%import("filter/update_point.xml")-->
 <!--#include("header.html")-->
 
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <em>{number_format($page)}/{number_format($total_page)}</em>
-</div>
-
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="crossTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
@@ -77,7 +74,7 @@
             <!--@end-->
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_search}" /></span>
         <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

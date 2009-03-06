@@ -24,114 +24,150 @@
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
 
-            $default_menus = Context::getLang('homepage_default_menus');
-
             $info->title = $title;
             $info->domain = $domain;
+
+            // 언어 코드 추출
+            $files = FileHandler::readDir('./modules/homepage/lang');
+            foreach($files as $filename) {
+                $lang_code = str_replace('.lang.php', '', $filename);
+                $lang = null;
+                @include('./modules/homepage/lang/'.$filename);
+                if(count($lang->default_menus)) {
+                    foreach($lang->default_menus as $key => $val) {
+                        $defined_lang[$lang_code]->{$key} = $val;
+                    }
+                }
+            }
+            $lang = null;
 
             // 도메인 검사
             $domain_info = $oModuleModel->getSiteInfoByDomain($domain);
             if($domain_info) return new Object(-1,'msg_already_registed_domain');
 
-            // virtual site 생성
-            $info->site_srl = $oModuleController->insertSite($domain, $info->first->home_srl);
+            // virtual site 생성하고 site_srl을 보관
+            $info->site_srl = $oModuleController->insertSite($domain, 0);
+
+            // 언어 코드 등록 (홈, 공지사항, 등업신청, 자유게시판, 전체 글 보기, 한줄이야기, 카페앨범, 메뉴등)
+            foreach($defined_lang as $lang_code => $v) {
+                foreach($v as $key => $val) {
+                    unset($lang_args);
+                    $lang_args->site_srl = $info->site_srl;
+                    $lang_args->name = $key;
+                    $lang_args->lang_code = $lang_code;
+                    $lang_args->value = $val;
+                    executeQuery('module.insertLang', $lang_args);
+                }
+            }
+            $oModuleAdminController = &getAdminController('module');
+            $oModuleAdminController->makeCacheDefinedLangCode($info->site_srl);
 
             // 레이아웃 생성
-            $info->layout_srl = $this->makeLayout($title,'xe_official');
+            $info->layout_srl = $this->makeLayout($info->site_srl, $title,'cafeXE');
 
             // 기본 게시판+페이지 생성
-            $info->first->home_srl = $this->makePage($info->site_srl, 'home', $default_menus['first']['home'], $this->getHomeContent($default_menus), $content, $info->layout_srl);
-            $info->first->notice_srl = $this->makeBoard($info->site_srl, 'notice', $default_menus['first']['notice'], $info->layout_srl);
-            $info->first->download_srl = $this->makeBoard($info->site_srl, 'download', $default_menus['first']['download'], $info->layout_srl);
-            $info->first->gallery_srl = $this->makeBoard($info->site_srl, 'gallery', $default_menus['first']['gallery'], $info->layout_srl);
-            $info->first->community_srl = $this->makePage($info->site_srl, 'community', $default_menus['first']['community'], $content, $info->layout_srl);
-            $info->first->freeboard_srl = $this->makeBoard($info->site_srl, 'freeboard', $default_menus['first']['freeboard'], $info->layout_srl);
-            $info->first->humor_srl = $this->makeBoard($info->site_srl, 'humor', $default_menus['first']['humor'], $info->layout_srl);
-            $info->first->qa_srl = $this->makeBoard($info->site_srl, 'qa', $default_menus['first']['qa'], $info->layout_srl);
-
-            $info->second->profile = $this->makePage($info->site_srl, 'profile', $default_menus['second']['profile'], $content, $info->layout_srl);
-            $info->second->rule = $this->makePage($info->site_srl, 'rule', $default_menus['second']['rule'], $content, $info->layout_srl);
+            $info->module->home_srl = $this->makePage($info->site_srl, 'home', '$user_lang->home', $info->layout_srl, $this->getHomeContent());
+            $info->module->notice_srl = $this->makeBoard($info->site_srl, 'notice', '$user_lang->notice', $info->layout_srl);
+            $info->module->notice_srl = $this->makeBoard($info->site_srl, 'levelup', '$user_lang->levelup', $info->layout_srl);
+            $info->module->freeboard_srl = $this->makeBoard($info->site_srl, 'freeboard', '$user_lang->freeboard', $info->layout_srl);
 
             // 메뉴 생성
-            $info->first_menu_srl = $this->makeMenu($title, $default_menus['menu']['first']);
-            $info->second_menu_srl = $this->makeMenu($title, $default_menus['menu']['second']);
+            $info->menu_srl = $this->makeMenu($info->site_srl, $title, 'Main Menu');
 
-            // first menu 설정
-            $item_srl = $this->insertMenuItem($info->first_menu_srl, 0, 'home', $default_menus['first']['home']);
-            $this->insertMenuItem($info->first_menu_srl, $item_srl, 'notice', $default_menus['first']['notice']);
-            $this->insertMenuItem($info->first_menu_srl, 0, 'download', $default_menus['first']['download']);
-            $this->insertMenuItem($info->first_menu_srl, 0, 'gallery', $default_menus['first']['gallery']);
-            $item_srl = $this->insertMenuItem($info->first_menu_srl, 0, 'community', $default_menus['first']['community']);
-            $this->insertMenuItem($info->first_menu_srl, $item_srl, 'freeboard', $default_menus['first']['freeboard']);
-            $this->insertMenuItem($info->first_menu_srl, $item_srl, 'humor', $default_menus['first']['humor']);
-            $this->insertMenuItem($info->first_menu_srl, $item_srl, 'qa', $default_menus['first']['qa']);
-
-            // second menu 설정
-            $this->insertMenuItem($info->second_menu_srl, 0, 'profile', $default_menus['second']['profile']);
-            $this->insertMenuItem($info->second_menu_srl, 0, 'rule', $default_menus['second']['rule']);
+            // menu 설정
+            $this->insertMenuItem($info->menu_srl, 0, 'home', '$user_lang->home');
+            $this->insertMenuItem($info->menu_srl, 0, 'notice', '$user_lang->notice');
+            $this->insertMenuItem($info->menu_srl, 0, 'levelup', '$user_lang->levelup');
+            $this->insertMenuItem($info->menu_srl, 0, 'freeboard', '$user_lang->freeboard');
 
             // layout의 설정
             $oLayoutModel = &getModel('layout');
             $layout_args = $oLayoutModel->getLayout($info->layout_srl);
-
-            $layout->colorset = 'default';
+            $layout->colorset = 'white';
             if($domain) $layout->index_url = 'http://'.$domain; else $layout->index_url = Context::getRequestUri();
-            $layout->main_menu = $info->first_menu_srl;
-            $layout->bottom_menu = $info->second_menu_srl;
-
+            $layout->main_menu = $info->menu_srl;
             $layout_args->extra_vars = serialize($layout);
 
             $oLayoutController = &getAdminController('layout');
             $oLayoutController->updateLayout($layout_args);
 
             // 생성된 게시판/ 페이지들의 레이아웃 변경
-            $menu_args = null;
-            $menu_args->menu_srl = $info->first_menu_srl;
+            $menu_args->menu_srl = $info->menu_srl;
             $output = executeQueryArray('layout.getLayoutModules', $menu_args);
-
-            $menu_args->menu_srl = $info->second_menu_srl;
-            $output = executeQueryArray('layout.getLayoutModules', $menu_args);
-
             $modules = array();
-            foreach($info->first as $module_srl) $modules[] = $module_srl;
-            foreach($info->second as $module_srl) $modules[] = $module_srl;
+            foreach($info->module as $module_srl) $modules[] = $module_srl;
             $layout_module_args->layout_srl = $info->layout_srl;
             $layout_module_args->module_srls = implode(',',$modules);
             $output = executeQuery('layout.updateModuleLayout', $layout_module_args);
 
             // 메뉴 XML 파일 생성
             $oMenuAdminController = &getAdminController('menu');
-            $oMenuAdminController->makeXmlFile($info->first_menu_srl);
-            $oMenuAdminController->makeXmlFile($info->second_menu_srl);
+            $oMenuAdminController->makeXmlFile($info->menu_srl, $info->site_srl);
 
+            // 홈페이지 등록
             $args->site_srl = $info->site_srl;
             $args->title = $info->title;
             $args->layout_srl = $info->layout_srl;
-            $args->first_menu_srl = $info->first_menu_srl;
-            $args->second_menu_srl = $info->second_menu_srl;
+            $args->first_menu_srl = $info->menu_srl;
             $args->list_order = $info->site_srl * -1;
             $output = executeQuery('homepage.insertHomepage', $args);
 
             // site의 index_module_srl 을 변경
             $site_args->site_srl = $info->site_srl;
-            $site_args->index_module_srl = $info->first->home_srl;
+            $site_args->index_module_srl = $info->module->home_srl;
             $oModuleController->updateSite($site_args);
 
-            // 기본 그룹 (준회원, 정회원)을 추가
+            // 기본그룹 추가
             $oMemberAdminController = &getAdminController('member');
             unset($args);
-            $args->title = Context::getLang('default_group_1');
+            $args->title = '$user_lang->default_group1';
             $args->is_default = 'Y';
             $args->is_admin = 'N';
             $args->site_srl = $info->site_srl;
             $oMemberAdminController->insertGroup($args);
 
             unset($args);
-            $args->title = Context::getLang('default_group_2');
+            $args->title = '$user_lang->default_group2';
             $args->is_default = 'N';
             $args->is_admin = 'N';
             $args->site_srl = $info->site_srl;
             $oMemberAdminController->insertGroup($args);
+
+            unset($args);
+            $args->title = '$user_lang->default_group3';
+            $args->is_default = 'N';
+            $args->is_admin = 'N';
+            $args->site_srl = $info->site_srl;
+            $oMemberAdminController->insertGroup($args);
+
+            // 기본 애드온 On
+            $oAddonController = &getAdminController('addon');
+            $oAddonController->doInsert('autolink', $info->site_srl);
+            $oAddonController->doInsert('counter', $info->site_srl);
+            $oAddonController->doInsert('member_communication', $info->site_srl);
+            $oAddonController->doInsert('member_extra_info', $info->site_srl);
+            $oAddonController->doInsert('referer', $info->site_srl);
+            $oAddonController->doInsert('resize_image', $info->site_srl);
+            $oAddonController->doActivate('autolink', $info->site_srl);
+            $oAddonController->doActivate('counter', $info->site_srl);
+            $oAddonController->doActivate('member_communication', $info->site_srl);
+            $oAddonController->doActivate('member_extra_info', $info->site_srl);
+            $oAddonController->doActivate('referer', $info->site_srl);
+            $oAddonController->doActivate('resize_image', $info->site_srl);
+            $oAddonController->makeCacheFile($info->site_srl);
+
+            // 기본 에디터 컴포넌트 On
+            $oEditorController = &getAdminController('editor');
+            $oEditorController->insertComponent('colorpicker_text',true, $info->site_srl);
+            $oEditorController->insertComponent('colorpicker_bg',true, $info->site_srl);
+            $oEditorController->insertComponent('emoticon',true, $info->site_srl);
+            $oEditorController->insertComponent('url_link',true, $info->site_srl);
+            $oEditorController->insertComponent('image_link',true, $info->site_srl);
+            $oEditorController->insertComponent('multimedia_link',true, $info->site_srl);
+            $oEditorController->insertComponent('quotation',true, $info->site_srl);
+            $oEditorController->insertComponent('table_maker',true, $info->site_srl);
+            $oEditorController->insertComponent('poll_maker',true, $info->site_srl);
+            $oEditorController->insertComponent('image_gallery',true, $info->site_srl);
 
             $this->add('site_srl', $info->site_srl);
             $this->add('url', getSiteUrl($info->domain, ''));
@@ -152,7 +188,7 @@
             return $output->get('module_srl');
         }
 
-        function makePage($site_srl, $mid, $browser_title, $content, $layout_srl) {
+        function makePage($site_srl, $mid, $browser_title, $layout_srl, $content) {
             $args->site_srl = $site_srl;
             $args->module_srl = getNextSequence();
             $args->module = 'page';
@@ -167,7 +203,8 @@
             return $output->get('module_srl');
         }
 
-        function makeMenu($title, $menu_title) {
+        function makeMenu($site_srl, $title, $menu_title) {
+            $args->site_srl = $site_srl;
             $args->title = $title.' - '.$menu_title;
             $args->menu_srl = getNextSequence();
             $args->listorder = $args->menu_srl * -1;
@@ -178,12 +215,14 @@
             return $args->menu_srl;
         }
 
-        function makeLayout($title, $layout) {
+        function makeLayout($site_srl, $title, $layout) {
+            $args->site_srl = $site_srl;
             $args->layout_srl = getNextSequence();
             $args->layout = $layout;
             $args->title = $title;
 
-            $output = executeQuery("layout.insertLayout", $args);
+            $oLayoutAdminController = &getAdminController('layout');
+            $output = $oLayoutAdminController->insertLayout($args);
             if(!$output->toBool()) return $output;
 
             return $args->layout_srl;
@@ -207,8 +246,12 @@
             return $args->menu_item_srl;
         }
 
-        function getHomeContent( $default_menus) {
-            return '<div widget="widgetBox" style="border: 3px solid rgb(221, 221, 221); margin: 0pt; background-position: 0pt 50%; float: left; width: 500px; background-repeat: repeat; background-color: transparent; background-image: none;" widget_padding_left="8px" widget_padding_right="8px" widget_padding_top="8px" widget_padding_bottom="8px"><div><div><img style="border: 0px solid rgb(255, 255, 255); margin: 0pt; background-position: 0pt 50%; float: left; width: 482px; background-repeat: repeat; background-color: transparent; height: 200px;" widget="webzine" widget_sequence="'.getNextSequence().'" skin="notice_style" colorset="normal" widget_cache="5" order_target="list_order" order_type="desc" content_cut_size="400" thumbnail_type="crop" thumbnail_width="130" thumbnail_height="130" cols_list_count="1" rows_list_count="1" display_author="N" display_regdate="Y" display_readed_count="N" display_voted_count="N" mid_list="notice"  /><img style="border: 0px solid rgb(255, 255, 255); margin: 5px 0px 0px; background-position: 0pt 50%; float: left; width: 481px; background-repeat: repeat; height: 59px; background-color: transparent;" widget="newest_document" widget_sequence="'.getNextSequence().'" widget_cache="5" mid_list="notice" order_type="desc" order_target="list_order" skin="xe_official" colorset="white" list_count="3" duration_new="96" /><div class="clear"></div></div></div></div><div widget="widgetBox" style="border: 0px solid rgb(255, 255, 255); margin: 0pt; background-position: 0pt 50%; float: right; width: 252px; background-repeat: repeat; height: 797px; background-color: transparent;" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0"><div><div><img widget="widgetContent" style="border: 3px solid rgb(221, 221, 221); margin: 0pt; background-position: 0pt 50%; float: left; width: 240px; background-repeat: repeat; height: 22px; background-color: transparent;" body="'.base64_encode($default_menus['first']['gallery']).'" widget_padding_left="5px" widget_padding_right="0" widget_padding_top="3px" widget_padding_bottom="0" /><img style="border: 0px solid rgb(255, 255, 255); margin: 5px 0pt 0pt; background-position: 0pt 50%; float: left; width: 246px; background-repeat: repeat; background-color: transparent;" widget="webzine" module_srl="0" widget_sequence="'.getNextSequence().'" skin="xe_official" colorset="normal" widget_cache="10" order_target="list_order" order_type="desc" subject_cut_size="8" content_cut_size="40" thumbnail_type="crop" thumbnail_width="70" thumbnail_height="70" cols_list_count="1" rows_list_count="2" display_author="N" display_regdate="N" display_readed_count="Y" display_voted_count="Y" mid_list="gallery"  /><img widget="widgetContent" style="border: 3px solid rgb(221, 221, 221); margin: 0pt; background-position: 0pt 50%; float: left; width: 240px; background-repeat: repeat; height: 22px; background-color: transparent;" body="'.base64_encode($default_menus['first']['download']).'" widget_padding_left="5px" widget_padding_right="0" widget_padding_top="3px" widget_padding_bottom="0" /><img style="border: 0px solid rgb(255, 255, 255); margin: 5px 0pt 0pt; background-position: 0pt 50%; float: left; width: 246px; background-repeat: repeat; background-color: transparent;" widget="webzine" module_srl="0" widget_sequence="'.getNextSequence().'" skin="xe_official" colorset="normal" widget_cache="10" order_target="list_order" order_type="desc" subject_cut_size="8" content_cut_size="40" thumbnail_type="crop" thumbnail_width="70" thumbnail_height="70" cols_list_count="1" rows_list_count="2" display_author="N" display_regdate="N" display_readed_count="Y" display_voted_count="Y" mid_list="download"  /><img widget="widgetContent" style="border: 3px solid rgb(221, 221, 221); margin: 5px 0pt 0pt; background-position: 0pt 50%; float: left; width: 240px; background-repeat: repeat; height: 22px; background-color: transparent; background-image: none;" body="'.base64_encode($default_menus['widget']['download_rank']).'" widget_padding_left="5px" widget_padding_right="0" widget_padding_top="3px" widget_padding_bottom="0" /><img style="border: 0px solid rgb(255, 255, 255); margin: 0pt; float: left; width: 246px; background-color: transparent; background-image: none; background-repeat: repeat; background-position: 0pt 0pt;" widget="rank_download" module_srl="85" skin="sz_xe" colorset="Box_000" widget_cache="10" widget_sequence=".getNextSequence()." list_count="5" attach_type="all" download="Y" mid_list="download" order_type="desc"  /><div class="clear"></div></div></div></div><div widget="widgetBox" style="border: 0px solid rgb(255, 255, 255); margin: 10px 0pt 0pt; background-position: 0pt 50%; float: left; width: 508px; background-repeat: repeat; height: 530px; background-color: transparent;" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0"><div><div><img widget="widgetContent" style="border: 3px solid rgb(221, 221, 221); margin: 10px 0px 0px; background-position: 0pt 50%; float: left; background-image: none; width: 500px; background-repeat: repeat; height: 22px; background-color: transparent;" body="'.base64_encode($default_menus['first']['freeboard']).'" widget_padding_left="5px" widget_padding_right="0" widget_padding_top="3px" widget_padding_bottom="0" /><img style="border: 1px solid rgb(227, 227, 227); margin: 2px 0pt 0pt; background-position: 0pt 50%; float: left; width: 504px; background-repeat: repeat; background-color: transparent; height: 108px;" widget="newest_document" mid_list="freeboard" subject_cut_size="0" duration_new="96" list_count="5" order_type="desc" order_target="list_order" widget_cache="10" colorset="white" skin="xe_official" widget_sequence="'.getNextSequence().'" widget_padding_left="5px" widget_padding_bottom="5px" widget_padding_right="5px" widget_padding_top="5px"  /><div class="clear"></div><img widget="widgetContent" style="border: 3px solid rgb(221, 221, 221); margin: 10px 0px 0px; background-position: 0pt 50%; float: left; background-image: none; width: 500px; background-repeat: repeat; height: 22px; background-color: transparent;" body="'.base64_encode($default_menus['first']['humor']).'" widget_padding_left="5px" widget_padding_right="0" widget_padding_top="3px" widget_padding_bottom="0" /><img style="border: 1px solid rgb(227, 227, 227); margin: 2px 0pt 0pt; background-position: 0pt 50%; float: left; width: 504px; background-repeat: repeat; background-color: transparent; height: 108px;" widget="newest_document" mid_list="humor" subject_cut_size="0" duration_new="96" list_count="5" order_type="desc" order_target="list_order" widget_cache="10" colorset="white" skin="xe_official" widget_sequence="'.getNextSequence().'" widget_padding_left="5px" widget_padding_bottom="5px" widget_padding_right="5px" widget_padding_top="5px"  /><div class="clear"></div><img widget="widgetContent" style="border: 3px solid rgb(221, 221, 221); margin: 10px 0px 0px; background-position: 0pt 50%; float: left; background-image: none; width: 500px; background-repeat: repeat; height: 22px; background-color: transparent;" body="'.base64_encode($default_menus['first']['qa']).'" widget_padding_left="5px" widget_padding_right="0" widget_padding_top="3px" widget_padding_bottom="0" /><img style="border: 1px solid rgb(227, 227, 227); margin: 2px 0pt 0pt; background-position: 0pt 50%; float: left; width: 504px; background-repeat: repeat; background-color: transparent; height: 108px;" widget="newest_document" mid_list="qa" subject_cut_size="0" duration_new="96" list_count="5" order_type="desc" order_target="list_order" widget_cache="10" colorset="white" skin="xe_official" widget_sequence="'.getNextSequence().'" widget_padding_left="5px" widget_padding_bottom="5px" widget_padding_right="5px" widget_padding_top="5px"  /><div class="clear"></div></div></div></div>';
+        function getHomeContent() {
+            return 
+                '<img class="zbxe_widget_output" widget="content" skin="default" colorset="white" content_type="document" list_type="normal" tab_type="none" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" order_target="list_order" order_type="desc" thumbnail_type="crop" page_count="2" duration_new="24" widgetstyle="simple" list_count="7" ws_colorset="white" ws_title="$user_lang->view_total" ws_more_url="" ws_more_text="" style="float:left;width:100%"/>'.
+                '<img class="zbxe_widget_output" widget="content" skin="default" colorset="white" content_type="comment" list_type="normal" tab_type="none" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" order_target="list_order" order_type="desc" thumbnail_type="crop" page_count="2" duration_new="24" widgetstyle="simple" list_count="7" ws_colorset="white" ws_title="$user_lang->view_comment" ws_more_url="" ws_more_text="" style="float:left;width:100%" />'.
+                '<img class="zbxe_widget_output" widget="content" skin="default" colorset="white" content_type="image" list_type="gallery" tab_type="none" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" order_target="list_order" order_type="desc" thumbnail_type="crop" thumbnail_width="100" thumbnail_height="75" list_count="10" page_count="1" cols_list_count="5" duration_new="24" content_cut_size="20" widgetstyle="simple" ws_colorset="white" ws_title="$user_lang->cafe_album" ws_more_url="" ws_more_text="" style="float:left;width:100%"/>'.
+                '';
         }
 
         function procHomepageAdminUpdateHomepage() {
@@ -260,10 +303,19 @@
 
             // 메뉴 삭제
             $oMenuAdminController = &getAdminController('menu');
-            Context::set('menu_srl', $homepage_info->first_menu_srl);
-            $oMenuAdminController->procMenuAdminDelete();
-            Context::set('menu_srl', $homepage_info->second_menu_srl);
-            $oMenuAdminController->procMenuAdminDelete();
+            $oMenuAdminController->deleteMenu($homepage_info->first_menu_srl);
+
+            // 카운터 정보 삭제
+            $oCounterController = &getController('counter');
+            $oCounterController->deleteSiteCounterLogs($site_srl);
+
+            // 애드온 삭제
+            $oAddonController = &getController('addon');
+            $oAddonController->removeAddonConfig($site_srl);
+
+            // 에디터 컴포넌트 삭제
+            $oEditorController = &getController('editor');
+            $oEditorController->removeEditorConfig($site_srl);
 
             // 레이아웃 삭제
             Context::set('layout_srl', $homepage_info->layout_srl);
@@ -272,16 +324,11 @@
 
             // 게시판 & 페이지 삭제
             $oModuleModel = &getModel('module');
+            $oModuleController =&getController('module');
             $mid_list = $oModuleModel->getMidList($args);
-            $oBoardAdminController = &getAdminController('board');
-            $oPageAdminController = &getAdminController('page');
             foreach($mid_list as $key => $val) {
-                Context::set('module_srl', $val->module_srl);
-                if($val->module == 'page') {
-                    $oPageAdminController->procPageAdminDelete();
-                } elseif($val->module == 'board') {
-                    $oBoardAdminController->procBoardAdminDeleteBoard();
-                }
+                $module_srl = $val->module_srl;
+                $oModuleController->deleteModule($module_srl);
             }
 
             $this->setMessage('success_deleted');
