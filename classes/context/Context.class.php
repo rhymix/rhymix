@@ -1207,8 +1207,8 @@
                 $filename = trim($list[$i]);
                 if(!$filename) continue;
                 if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, false, '');
-                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, false, 'all','');
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, false, '', null);
+                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, false, 'all','', null);
             }
 
             if(is_dir($plugin_path.'lang')) $this->_loadLang($plugin_path.'lang');
