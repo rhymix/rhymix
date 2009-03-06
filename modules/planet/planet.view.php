@@ -19,7 +19,10 @@
             $oPlanetModel = &getModel('planet');
             $oModuleModel = &getModel('module');
             Context::set('module_info',$this->module_info = $oPlanetModel->getPlanetConfig());
-            $this->module_info->layout_srl = $this->module_info->layout_srl;
+	    $current_module_info = Context::get('current_module_info');
+	    $current_module_info->layout_srl = $this->module_info->layout_srl = $this->module_info->layout_srl;
+            Context::set('current_module_info', $current_module_info);
+
 
             /**
              * 스킨이 없으면 플래닛 기본 설정의 스킨으로 설정
