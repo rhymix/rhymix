@@ -5,7 +5,7 @@
      * @brief  captcha正體中文語言
      **/
 
-    $lang->about_captcha = "可防止機器人程式之垃圾留言，請選擇一個符合下列詞語的圖像。";
+    $lang->about_captcha = "用於防止機器人程式之垃圾留言，請選擇一個符合下列詞語的圖像。";
     $lang->target_captcha = array(
         "airplane" => "飛機",
         "apple" => "蘋果",
