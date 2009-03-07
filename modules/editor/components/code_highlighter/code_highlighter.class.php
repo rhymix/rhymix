@@ -62,7 +62,6 @@ class code_highlighter extends EditorHandler {
 <script type="text/javascript">
 SyntaxHighlighter.config.clipboardSwf = '{$this->component_path}script/clipboard.swf';
 SyntaxHighlighter.all();
-dp.SyntaxHighlighter.HighlightAll('code');
 </script>
 dpScript;
 
