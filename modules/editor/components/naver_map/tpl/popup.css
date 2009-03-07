@@ -5,7 +5,7 @@
 #address { width:100px; }
 .about_address { clear:both; color:#DDDDDD; }
 
-.address_list_box { color:#AAAAAA; margin-top:1em; clear:both; padding:5px; }
+.address_list_box { color:#AAAAAA; margin-top:1em; clear:both; padding:5px; height:110px; overflow-y:scroll }
 .address_list_box a { color:#AAAAAA; }
 .address_lists { list-style:none; }
 

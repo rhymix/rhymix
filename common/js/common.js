@@ -521,9 +521,9 @@ function setFixedPopupSize() {
         jQuery('table').each(function() { var ww = jQuery(this).width(); if(ww > w) w = ww; });
         jQuery('form').each(function() { var ww = jQuery(this).width(); if(ww > w) w = ww; });
 
-        jQuery("#popup_content").width(w-4);
-        jQuery("#popHeader").width(w-4);
-        jQuery("#popFooter").width(w-4);
+        jQuery("#popup_content").width(w);
+        jQuery("#popHeader").width(w);
+        jQuery("#popFooter").width(w);
 
         window.resizeTo(w, h);
 

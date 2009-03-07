@@ -35,7 +35,7 @@ function getNaverMap() {
 
 function insertNaverMap(obj) {
     if(typeof(opener)=="undefined") return;
-    
+
     var x = display_map.mapObj.getCenter().x;
     var y = display_map.mapObj.getCenter().y;
     var marker = xGetElementById("marker").value;
@@ -90,6 +90,9 @@ function complete_search_address(ret_obj, response_tags, selected_address) {
 
     naver_address_list[naver_address_list.length] = item;
     html += "<li class=\"address_lists\"><a href='#' onclick=\"moveMap('"+item[0]+"','"+item[1]+"');return false;\">"+item[2]+"</a></li>";
+  }
+  if(address_list.length == 1) {
+    moveMap(item[0],item[1]);
   }
 
   var list_zone = xGetElementById("address_list");
