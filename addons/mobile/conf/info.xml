@@ -4,7 +4,7 @@
     <title xml:lang="jp">モバイルXEアドオン</title>
     <title xml:lang="zh-CN">手机XE插件</title>
     <title xml:lang="en">Mobile XE</title>
-    <title xml:lang="zh-TW">行動 XE</title>
+    <title xml:lang="zh-TW">XE行動上網</title>
     <description xml:lang="ko">
         모바일에서 접속시 헤더 정보를 분석하여 메뉴 - 모듈의 관계를 이용하여 WAP 태그로 출력하는 애드온입니다.
         wml, hdml, mhtml를 지원하고 그 이외의 경우에는 동작하지 않습니다.
@@ -63,9 +63,9 @@
                 Default charset is euc-kr.
             </description>
             <description xml:lang="zh-TW">
-                行動工具無法讀取 utf-8編碼。
-                當您輸入您想要的編碼時，行動工具將會正確的顯示。
-                預設編碼是 euc-kr.
+                行動工具無法讀取utf-8編碼。
+                當您輸入所想要的編碼時，行動工具將會正確的顯示。
+                預設編碼是euc-kr.
             </description>
         </var>
     </extra_vars>

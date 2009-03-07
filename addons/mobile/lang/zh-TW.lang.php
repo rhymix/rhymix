@@ -2,7 +2,7 @@
     /**
      * @file   addons/mobile/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言包 (只有基本內容)
+     * @brief  XE行動上網正體中文語言
      **/
 
     $lang->cmd_go_upper = '回上頁';
