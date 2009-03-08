@@ -151,14 +151,18 @@
                     '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'.
                     '<script type="text/javascript" src="./common/js/x.js"></script>'.
                     '<script type="text/javascript" src="http://maps.naver.com/js/naverMap.naver?key='.$this->api_key.'"></script>'.
-                    '<script type="text/javascript">'.
+                    '<script type="text/javascript">'."\n".
+                    '//<!--'."\n".
                     'function moveMap(x,y,scale) { mapObj.setCenterAndZoom(new NPoint(x,y),scale); }'.
+                    'function showInfo(x,y,content) { infowin.hideWindow(); infowin = new NInfoWindow(); infowin.set(new NPoint(x,y), \'<div style="background-color:#FFFFFF;"><strong>\'+content+\'</strong></div>\'); infowin.setOpacity(0.6); mapObj.addOverlay(infowin); infowin.showWindow(); infowin.delayHideWindow(2000); }'.
                     'function createMarker(pos) { if(typeof(top.addMarker)=="function") { if(!top.addMarker(pos)) return; var iconUrl = "http://static.naver.com/local/map_img/set/icos_free_"+String.fromCharCode(96+top.marker_count-1)+".gif"; var marker = new NMark(pos,new NIcon(iconUrl,new NSize(15,14))); mapObj.addOverlay(marker); } }'.
+                    "\n".'//-->'."\n".
                     '</script>'.
                     '</head>'.
                     '<body style="margin:0px;">'.
                     '<div id="'.$id.'" style="width:'.$width.'px;height:'.$height.'px;"></div>'.
                     '<script type="text/javascript">'.
+                    '//<!--'."\n".
                     'var mapObj = new NMap(document.getElementById("'.$id.'"));'.
                     'mapObj.addControl(new NSaveBtn());'.
                     'var zoom = new NZoomControl();'.
@@ -190,6 +194,7 @@
 
             $html .= ''.
                      //'mapObj.enableWheelZoom();'.
+                     "\n".'//-->'."\n".
                      '</script>'.
                      '</body>'.
                      '</html>';

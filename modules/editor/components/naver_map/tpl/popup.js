@@ -76,7 +76,13 @@ function moveMap(x,y,scale) {
     display_map.moveMap(x,y,scale);
 }
 
+function selectPoint(i) {
+    moveMap(item[i][0],item[i][1],3);
+    display_map.showInfo(item[i][0],item[i][1],item[i][2]);
+}
+
 var naver_address_list = new Array();
+var item = new Array();
 function complete_search_address(ret_obj, response_tags, selected_address) {
   var address_list = ret_obj['address_list'];
   if(!address_list) return;
@@ -85,14 +91,18 @@ function complete_search_address(ret_obj, response_tags, selected_address) {
 
   var html = "";
   var address_list = address_list.split("\n");
-  for(var i=0;i<address_list.length;i++) {
-    var item = address_list[i].split(",");
+  if(address_list.length) {
+    item = new Array();
+    for(var i=0;i<address_list.length;i++) {
+      item[i] = new Array();
+      item[i] = address_list[i].split(",");
 
-    naver_address_list[naver_address_list.length] = item;
-    html += "<li class=\"address_lists\"><a href='#' onclick=\"moveMap('"+item[0]+"','"+item[1]+"');return false;\">"+item[2]+"</a></li>";
+      naver_address_list[naver_address_list.length] = item;
+      html += "<li class=\"address_lists\"><a href='#' onclick=\"selectPoint("+i+");return false;\">"+item[i][2]+"</a></li>";
+    }
   }
   if(address_list.length == 1) {
-    moveMap(item[0],item[1]);
+    selectPoint(0);
   }
 
   var list_zone = xGetElementById("address_list");
