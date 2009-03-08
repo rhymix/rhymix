@@ -181,6 +181,7 @@
 
             // 스킨에서 사용할 oDocument 변수 세팅
             Context::set('oDocument', $oDocument);
+            $oDocument->add('module_srl', $this->module_srl);
 
             /** 
              * 사용되는 javascript 필터 추가
