@@ -6,6 +6,7 @@
         <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
         <column name="module_srl" var="module_srl" filter="number" default="0" />
         <column name="category_srl" var="category_srl" filter="number" default="0" />
+        <column name="lang_code" var="lang_code" default="" />
         <column name="is_notice" var="is_notice" notnull="notnull" default="N" />
         <column name="is_secret" var="is_secret" notnull="notnull" default="N" />
         <column name="title" var="title" notnull="notnull" minlength="1" maxlength="250" />

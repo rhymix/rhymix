@@ -92,6 +92,10 @@
 
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before')) return true;
 
+            // 2009. 03. 09 documents에 lang_code 컬럼 추가
+            if(!$oDB->isColumnExists("documents","lang_code")) return true;
+
+
             return false;
         }
 
@@ -176,6 +180,13 @@
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before')) 
                 $oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
 
+            // 2009. 03. 09 documents에 lang_code 컬럼 추가
+            if(!$oDB->isColumnExists("documents","lang_code")) {
+                $db_info = Context::getDBInfo();
+                $oDB->addColumn('documents',"lang_code","varchar",10, $db_info->lang_code);
+                $obj->lang_code = $db_info->lang_type;
+                executeQuery('document.updateDocumentsLangCode', $obj);
+            }
 
             return new Object(0,'success_updated');
 

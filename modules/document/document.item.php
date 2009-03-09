@@ -8,6 +8,7 @@
     class documentItem extends Object {
 
         var $document_srl = 0;
+        var $lang_code = null;
 
         var $allow_trackback_status = null;
 
@@ -36,6 +37,7 @@
                 return;
             }
             $this->document_srl = $attribute->document_srl;
+            $this->lang_code = $attribute->lang_code;
             $this->adds($attribute);
 
             // 태그 정리
@@ -161,6 +163,10 @@
             // 쪽지 발송
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+        }
+
+        function getLangCode() {
+            return $this->get('lang_code');
         }
 
         function getIpaddress() {
@@ -378,6 +384,7 @@
 
         function getExtraVars() {
             if(!$this->get('module_srl') || !$this->document_srl) return null;
+
             $oDocumentModel = &getModel('document');
             return $oDocumentModel->getExtraVars($this->get('module_srl'), $this->document_srl);
         }

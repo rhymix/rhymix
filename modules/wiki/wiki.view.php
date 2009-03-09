@@ -88,7 +88,6 @@
             $obj->page = $page;
             $obj->list_count = 50;
             $output = $oDocumentModel->getDocumentList($obj);
-            debugPrint($output);
 
             Context::set('document_list', $output->data);
             Context::set('total_count', $output->total_count);

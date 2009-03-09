@@ -16,7 +16,9 @@
         <table cellspacing="0" class="crossTable ">
         <tr>
             <th><div>{$lang->column_name}</div></th>
-            <td class="wide"><input type="text" name="name" value="{$selected_var->name}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> </td>
+            <td class="wide">
+                <input type="text" name="name" value="{$selected_var->name}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
+            </td>
         </tr>
         <tr>
             <th><div>{$lang->column_type}</div></th>

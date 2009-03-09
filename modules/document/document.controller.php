@@ -192,6 +192,8 @@
             // 로그인정보가 없고 사용자 이름이 없으면 오류 표시
             if(!$logged_info->member_srl && !$obj->nick_name) return new Object(-1,'msg_invalid_request');
 
+            $obj->lang_code = Context::getLangType();
+
             // DB에 입력
             $output = executeQuery('document.insertDocument', $obj);
             if(!$output->toBool()) {
@@ -254,13 +256,11 @@
             if(!isset($document_config->use_history)) $document_config->use_history = 'N';
             $bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
 
-            if($bUseHistory)
-            {
+            if($bUseHistory) {
                 $args->history_srl = getNextSequence();
                 $args->document_srl = $obj->document_srl;
                 $args->module_srl = $module_srl;
-                if($document_config->use_history == 'Y')
-                    $args->content = $source_obj->get('content');
+                if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
                 $args->nick_name = $source_obj->get('nick_name');
                 $args->member_srl = $source_obj->get('member_srl');
                 $args->regdate = $source_obj->get('last_update');
@@ -329,6 +329,14 @@
             // 내용에서 XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
+            // 글쓴이의 언어변수와 원문의 언어변수가 다르면 확장변수로 처리
+            if($source_obj->lang_code != Context::getLangType()) {
+                $extra_content->title = $obj->title;
+                $extra_content->content = $obj->content;
+                $obj->title = $source_obj->title;
+                $obj->content = $source_obj->content;
+            }
+
             // 세션에서 최고 관리자가 아니면 iframe, script 제거
             if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
 
@@ -342,7 +350,9 @@
             // 등록 성공시 확장 변수 등록
             $extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
             if(count($extra_keys)) {
-                $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl);
+                $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl, Context::getLangType());
+
+                // 관리자 설정 확장변수 등록
                 foreach($extra_keys as $idx => $extra_item) {
                     $value = '';
                     if(isset($obj->{'extra_vars'.$idx})) $value = trim($obj->{'extra_vars'.$idx});
@@ -350,6 +360,10 @@
                     if(!isset($value)) continue;
                     $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value);
                 }
+
+                // 제목/내용의 다국어 확장변수 등록
+                if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title);
+                if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content);
             }
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
@@ -549,10 +563,11 @@
         /**
          * @brief documents 확장변수 값 제거
          **/
-        function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null) {
+        function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_type = null) {
             $obj->module_srl = $module_srl;
             if(!is_null($document_srl)) $obj->document_srl = $document_srl;
             if(!is_null($var_idx)) $obj->var_idx = $var_idx;
+            if(!is_null($lang_type)) $obj->lang_type = $lang_type;
             return executeQuery('document.deleteDocumentExtraVars', $obj);
         }
         

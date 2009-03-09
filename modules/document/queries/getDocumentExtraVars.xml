@@ -4,9 +4,10 @@
         <table name="document_extra_vars" alias="extra_vars" type="left join">
             <conditions>
                 <condition operation="equal" column="extra_vars.module_srl" default="extra_keys.module_srl" />
-                <condition operation="equal" column="extra_vars.document_srl" var="document_srl" pipe="and" notnull="notnull" />
+                <condition operation="in" column="extra_vars.document_srl" var="document_srl" pipe="and" notnull="notnull" />
                 <condition operation="equal" column="extra_vars.var_idx" default="extra_keys.var_idx" pipe="and" />
                 <condition operation="equal" column="extra_vars.lang_code" var="lang_code" pipe="and" />
+                <condition operation="in" column="extra_vars.lang_code" var="lang_codes" pipe="and" />
             </conditions>
         </table>
     </tables>

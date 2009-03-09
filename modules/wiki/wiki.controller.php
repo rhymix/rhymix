@@ -20,7 +20,6 @@
             if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
             //그래도 없으면 Untitled
             if($obj->title == '') $obj->title = 'Untitled';
-            debugPrint($obj);
 
             // document module의 model 객체 생성
             $oDocumentModel = &getModel('document');

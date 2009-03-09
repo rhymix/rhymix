@@ -24,7 +24,7 @@
             <div class="fr">
                 <select name="widget_list">
                     <!--@foreach($widget_list as $widget)-->
-                    <option value="{$widget->widget}">{$widget->title}</option>
+                    <option value="{$widget->widget}" <!--@if($widget->widget=='content')-->selected="selected"<!--@end-->>{$widget->title}</option>
                     <!--@end-->
                 </select>
                 <span class="button blue"><input type="button" value="{$lang->cmd_insert}" onclick="doAddWidget(this.form); return false;"/></span>

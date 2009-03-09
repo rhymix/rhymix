@@ -132,7 +132,6 @@
          * @brief 레이아웃 미리 보기
          **/
         function dispLayoutAdminPreview() {
-//            debugPrint(Context::getRequestVars());
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
 
