@@ -307,7 +307,6 @@ html:not([lang*=""]) .boardList th { height:33px; }
 
 .display_date {  cursor:pointer; width:80px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px;  margin-right:10px;}
 
-.wikimain { width:80%; margin:20px;}
 .wikimain .header .title { float:left; }
 .wikimain .header .title h1.pageTitle { overflow:hidden; color:#32576B; font-size:24px; font-weight:bold; line-height: 1em; padding:0; margin:0; } 
 .wikimain .header .edit { float:left; margin-left: 10px; }
