@@ -36,8 +36,10 @@ var calledArgs = null;
                     if(act == 'procBoardInsertDocument' || act == 'procBoardInsertComment' || act == 'procIssuetrackerInsertIssue' || act == 'procIssuetrackerInsertHistory') {
                         oldExecXml('captcha','setCaptchaSession',new Array(),this.show,new Array('error','message','about','keyword'));
                         calledArgs = args;
+			return true;
                     } else {
                         oldExecXml(args.module, args.act,args.params,args.callback_func,args.response_tags,args.callback_func_arg,args.fo_obj);
+			return true;
                     }
                 };
 
