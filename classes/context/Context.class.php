@@ -627,8 +627,8 @@
             foreach($_REQUEST as $key => $val) {
                 if($val === "") continue;
                 $val = $this->_filterRequestVar($key, $val);
-                if($this->_getRequestMethod()=='GET'&&$_GET[$key]) $set_to_vars = true;
-                elseif($this->_getRequestMethod()=='POST'&&$_POST[$key]) $set_to_vars = true;
+                if($this->_getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
+                elseif($this->_getRequestMethod()=='POST'&&isset($_POST[$key])) $set_to_vars = true;
                 else $set_to_vars = false;
                 $this->_set($key, $val, $set_to_vars);
             }
