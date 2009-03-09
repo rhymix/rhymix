@@ -63,7 +63,7 @@
             /**
              * 목록보기 권한 체크 (모든 권한은 ModuleObject에서 xml 정보와 module_info의 grant 값을 비교하여 미리 설정하여 놓음)
              **/
-            if(!$this->grant->access) return $this->dispBoardMessage('msg_not_permitted');
+            if(!$this->grant->access || !$this->grant->list) return $this->dispBoardMessage('msg_not_permitted');
 
             /**
              * 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
@@ -86,7 +86,6 @@
 
             // 게시글을 가져옴
             $this->dispBoardContentView();
-//            if(!$output->toBool()) return;
 
             // 공지사항 목록을 구해서 context set (공지사항을 매페이지 제일 상단에 위치하기 위해서)
             $this->dispBoardNoticeList();
