@@ -1,3 +1,4 @@
+
 <input type="hidden" name="category_srl" value="{$category_info->category_srl}" />
 <input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
 
@@ -25,7 +26,7 @@
         <tr>
             <th scope="row"><div>{$lang->category_color}</div></th>
             <td>
-                <input type="text" name="category_color" value="{htmlspecialchars($category_info->color)}" class="inputTypeText" />
+                <input type="text" name="category_color" value="{htmlspecialchars($category_info->color)}" class="color-indicator inputTypeText" />
                 <p>{$lang->about_category_color}</p>
             </td>
         </tr>
@@ -54,3 +55,8 @@
 
     </div>
 </div>
+<script type="text/javascript">
+jQuery(function(){
+    jQuery('input.color-indicator').xe_colorpicker();
+});
+</script>
