@@ -140,11 +140,12 @@
          * @brief 회원 포인트 변경
          **/
         function procPointAdminUpdatePoint() {
+            $action = Context::get('action');
             $member_srl = Context::get('member_srl');
-            $point = Context::get('point');
+            $point = Context::get('point');		
 
             $oPointController = &getController('point');
-            return $oPointController->setPoint($member_srl, (int)$point);
+            return $oPointController->setPoint($member_srl, (int)$point, $action);
         }
 
         /**
