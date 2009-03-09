@@ -80,8 +80,7 @@
             );
 
             $buff = $this->execCmd($command, $error);
-
-            $list = explode("\n",$buff);
+            $list = explode(PHP_EOL,$buff);
 
             if(!count($list)) return null;
 
@@ -365,7 +364,7 @@
 
         function explodePath($source_path, $is_file = false) {
             if(!$source_path) return;
-
+            $source_path = rtrim($source_path);
             $arr_path = explode('/', $source_path);
             if(substr($source_path,-1)!='/') $file = array_pop($arr_path);
 
