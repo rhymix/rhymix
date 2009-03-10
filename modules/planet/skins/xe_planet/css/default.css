@@ -260,7 +260,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentBody .reply{ display:none; clear:both; padding:15px; background:#f3f3f3; *zoom:1;}
 .commentBody .reply.open{ display:block;}
 .commentBody .reply dl{ position:relative; clear:both; overflow:hidden; *zoom:1; margin:0 0 5px 0;}
-.commentBody .reply dt{ float:left; width:83px; padding-left:15px; margin-right:-98px; font-size:12px; font-weight:bold; color:#666;}
+.commentBody .reply dt{ float:left; width:83px; padding-left:15px; margin-right:-98px; font-size:12px; font-weight:bold; color:#666; white-space:nowrap;}
 .commentBody .reply dt a{ color:#a5b2c2; }
 .commentBody .reply dd{ margin:0 80px 0 113px; font-size:12px; color:#666; line-height:1.4em;}
 .commentBody .reply dd a{ text-decoration:underline; color:#333;}
