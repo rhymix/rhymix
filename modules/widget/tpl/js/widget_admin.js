@@ -110,13 +110,10 @@ function doFillWidgetVars() {
     for (i=0; i< attrs.length ; i++){
         var name = attrs[i].name;
         var value = jQuery(selected_node).attr(name);
+        if(value=='Array') continue;
         if(jQuery("[name="+name+"]",fo_widget).size()>0 || !value || name == 'style') continue;
 
-        var dummy = xCreateElement("input");
-        dummy.type = 'hidden';
-        dummy.name = name;
-        dummy.value = value;
-        fo_obj.appendChild(dummy);
+        var dummy = jQuery('<input type="hidden" name="'+name+'" >').val(value).appendTo("#fo_widget").get(0);
     }
 
     // 위젯의 속성 설정
@@ -128,6 +125,7 @@ function doFillWidgetVars() {
     for(var j=0;j<obj_list.length;j++) {
         var node = obj_list[j];
         if(node.name.indexOf('_')==0) continue;
+
         var length = node.length;
         var type = node.type;
         if((typeof(type)=='undefined'||!type) && typeof(length)!='undefined' && typeof(node[0])!='undefined' && length>0) type = node[0].type;
@@ -137,7 +135,6 @@ function doFillWidgetVars() {
         switch(type) {
             case "hidden" :
                 if(jQuery('[name=_' + node.name+']').size() == 0)  continue;
-
             case "text" :
             case "textarea" :
                     var val = selected_node.getAttribute(name);
