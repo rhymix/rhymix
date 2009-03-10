@@ -35,7 +35,7 @@ var calledArgs = null;
                 captchaXE.exec= function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
                     if(act == 'procBoardInsertDocument' || act == 'procBoardInsertComment' || act == 'procIssuetrackerInsertIssue' || act == 'procIssuetrackerInsertHistory') {
                         oldExecXml('captcha','setCaptchaSession',new Array(),this.show,new Array('error','message','about','keyword'));
-                        calledArgs = args;
+                        calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj}
                         return true;
                     } else {
                         oldExecXml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj);
