@@ -3,9 +3,14 @@
      * @brief div 또는 span에 member_번호 가 있을때 해당 회원 번호에 맞는 이미지이름이나 닉이미지를 대체
      **/
     function memberTransImageName($matches) {
+
         // 회원번호를 추출하여 0보다 찾으면 본문중 text만 return
         $member_srl = $matches[3];
         if($member_srl<0) return $matches[5];
+
+        $site_module_info = Context::get('site_module_info');
+        $oMemberModel = &getModel('member');
+        $group_image = $oMemberModel->getGroupImageMark($member_srl,$site_module_info->site_srl);
 
         // 회원이 아닐경우(member_srl = 0) 본문 전체를 return
         $nick_name = $matches[5];
@@ -30,6 +35,9 @@
 
         if($image_name_file) $nick_name = sprintf('<img src="%s%s" border="0" alt="id: %s" title="id: %s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri(),$image_name_file, strip_tags($nick_name), strip_tags($nick_name));
         if($image_mark_file) $nick_name = sprintf('<img src="%s%s" border="0" alt="id: %s" title="id : %s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri(),$image_mark_file, strip_tags($nick_name), strip_tags($nick_name), $nick_name);
+
+        if($group_image) $nick_name = sprintf('<img src="%s" border="0" style="vertical-align:middle;margin-right:3px"/>%s', $group_image->src, $nick_name);
+
 
         $orig_text = preg_replace('/'.preg_quote($matches[5],'/').'<\/'.$matches[6].'>$/', '', $matches[0]);
         return $orig_text.$nick_name.'</'.$matches[6].'>';
