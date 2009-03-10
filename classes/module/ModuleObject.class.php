@@ -300,12 +300,15 @@
                     $this->setTemplatePath($oModule->getTemplatePath());
                     $this->setTemplateFile($oModule->getTemplateFile());
 
+                    $this->adds($oModule->getVariables());
+
                 // forward 모듈을 찾지 못했다면 원 모듈의 default index action을 실행
                 } else if($this->xml_info->default_index_act && method_exists($this, $this->xml_info->default_index_act)) {
                     $output = $this->{$this->xml_info->default_index_act}();
                 } else {
                     return false;
                 }
+
             } else {
                 return false;
             }
