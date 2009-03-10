@@ -6,7 +6,7 @@ function completeSendMessage(ret_obj) {
 
 function doSendMessage(member_srl, message_srl) {
     if(typeof(message_srl)=='undefined') message_srl = 0;
-    var url = current_url.setQuery('module','communication').setQuery('act','dispCommunicationSendMessage').setQuery('receiver_srl',member_srl).setQuery('message_srl',message_srl);
+    var url = request_uri.setQuery('module','communication').setQuery('act','dispCommunicationSendMessage').setQuery('receiver_srl',member_srl).setQuery('message_srl',message_srl);
     popopen(url, 'sendMessage');
 }
 
