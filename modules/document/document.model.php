@@ -64,7 +64,7 @@
                 }
             }
             foreach($document_srls as $key => $document_srl) {
-                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) $GLOBALS['XE_EXTRA_VARS'][$document_srl] = false;
+                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) $GLOBALS['XE_EXTRA_VARS'][$document_srl] = array();
             }
 
         }
