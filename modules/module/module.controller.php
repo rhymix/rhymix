@@ -502,16 +502,16 @@
                 $site_module_info = Context::get('site_module_info');
                 $cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, $site_module_info->site_srl, Context::getLangType());
                 if(!file_exists($cache_file)) {
-                    $lang = array();
-                    return;
+                    $oModuleAdminController = &getAdminController('module');
+                    $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
                 }
+
                 require_once($cache_file);
             }
             if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
 
             return $matches[0];
         }
-
 
 
         /**
