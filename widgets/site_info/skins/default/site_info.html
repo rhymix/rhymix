@@ -1,19 +1,10 @@
 <!--%import("./js/site_info.js")-->
-<!--%import("./css/widget.css")-->
 
-<!--@if($colorset=="black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset=="white" || $colorset=="default")-->
-    <!--%import("./css/white.css")-->
-<!--@else-->
-    <!--@if($layout_info->colorset=="black")-->
-        <!--%import("./css/black.css")-->
-    <!--@else-->
-        <!--%import("./css/white.css")-->
-    <!--@end-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <dl class="widgetDlistA">
         <dt>{$lang->member}:</dt>
         <dd>{number_format($widget_info->member_count)}</dd>

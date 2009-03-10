@@ -3,6 +3,7 @@
 @import url("./pagination.css");
 /* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
+#xeAdmin {background-color:#fff; }
 #xeAdmin .open{ display:block !important;}
 #xeAdmin h1.xeAdmin { float:left; white-space:nowrap; margin:0;padding:0;}
 #xeAdmin caption{ text-align:left;}

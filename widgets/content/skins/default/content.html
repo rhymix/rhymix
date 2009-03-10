@@ -1,13 +1,10 @@
 <!--%import("./js/content_widget.js")-->
-<!--@if($colorset == "black")-->
+
+<!--@if($colorset == "black" || $colorset == "white")-->
     <!--%import("./css/widget.css")-->
-    <!--%import("./css/black.css")-->
-<!--@else-->
-    <!--%import("./css/widget.css")-->
-    <!--%import("./css/white.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <!--@if($widget_info->tab_type  == "tab_left")-->
         <!--#include("./_tab_left.html")-->
     <!--@elseif($widget_info->tab_type == "tab_top")-->

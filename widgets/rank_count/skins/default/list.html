@@ -1,10 +1,8 @@
-<!--@if($colorset == "black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset == "white" || $colorset == "normal")-->
-    <!--%import("./css/white.css")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <ol class="widgetOlistA">
         {@ $no = 1}
         <!--@foreach($widget_info->data as $val)-->

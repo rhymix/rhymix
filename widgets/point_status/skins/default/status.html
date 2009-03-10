@@ -1,10 +1,8 @@
-<!--@if($colorset=="black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset=="white" || $colorset=="default")-->
-    <!--%import("./css/white.css")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <dl class="widgetPoint">
         <dt>Level. {$widget_info->level}</dt>
         <dd class="graph"><img src="./img/white/linePoint.gif" width="1" height="5" alt="{$widget_info->per}%" style="width:{$widget_info->per}%" /></dd>

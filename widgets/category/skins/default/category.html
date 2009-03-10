@@ -1,14 +1,11 @@
 <!--%import("js/category.js")-->
-
-<!--@if($colorset == "black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset == "white" || $colorset == "normal")-->
-    <!--%import("./css/white.css")-->
-<!--@end-->
-
 {@ $_pDepth = 0;}
 
-<div class="widgetContainer">
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
+<!--@end-->
+
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <div class="widgetTree">
         <a href="{getSiteUrl($widget_info->domain,'','mid',$widget_info->module_info->mid)}" class="title">{$widget_info->module_info->browser_title}</a> <span>({$widget_info->total_document_count})</span>
         <ul>

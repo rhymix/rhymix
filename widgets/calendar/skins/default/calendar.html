@@ -1,10 +1,8 @@
-<!--@if($colorset=="black")-->
-    <!--%import("css/black.css")-->
-<!--@elseif($colorset=="white"||$colorset=="normal")-->
-    <!--%import("css/white.css")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <div class="widgetCalendarNavigation">
         <button type="button" class="prevYear" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->prev_year)}'">&lt;&lt;</button> <button type="button" class="prevMonth" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->prev_month)}'">&lt;</button>
         <button type="button" class="nextMonth" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->next_month)}'">&gt;</button> <button type="button" class="nextYear" onclick="location.href='{getUrl('search_target','regdate','search_keyword',$widget_info->next_year)}'">&gt;&gt;</button>

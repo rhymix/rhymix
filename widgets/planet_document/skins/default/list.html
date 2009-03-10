@@ -1,10 +1,8 @@
-<!--@if($colorset=="black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset=="white")-->
-    <!--%import("./css/white.css")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <ul class="widgetUlistB">
         <!--@foreach($planet_list as $no => $item)-->
         <li>

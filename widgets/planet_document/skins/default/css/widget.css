@@ -30,3 +30,24 @@
 .widgetUlistB li .title .deco{ background:#fff;}
 .widgetUlistB li .title .date{ color:#333;}
 .widgetUlistB li .title .hour{ color:#888;}
+
+.widgetContainer.black .widgetUlistB{ margin:0; padding:0; font-size:12px; line-height:1.5; *zoom:1;}
+.widgetContainer.black .widgetUlistB:after{ content:""; display:block; clear:both;}
+.widgetContainer.black .widgetUlistB li{ position:relative; list-style:none; margin-bottom:10px; *zoom:1;}
+.widgetContainer.black .widgetUlistB li .author{ float:left; margin-right:-42px;}
+.widgetContainer.black .widgetUlistB li .author img{ border:1px solid;}
+.widgetContainer.black .widgetUlistB li .title{ position:relative; margin:0 0 0 60px; border:2px solid; padding:10px 15px; *zoom:1;}
+.widgetContainer.black .widgetUlistB li .title a{ text-decoration:underline;}
+.widgetContainer.black .widgetUlistB li .title .arrow{ position:absolute; top:16px; left:-6px; display:block; overflow:hidden; width:6px; height:7px; font-size:0; line-height:0;}
+.widgetContainer.black .widgetUlistB li .title .deco{ position:absolute; display:block; overflow:hidden; width:1px; height:1px; font-size:0; line-height:0;}
+.widgetContainer.black .widgetUlistB li .title .deco .topLeft{}
+.widgetContainer.black .widgetUlistB li .title .date{ font-size:11px; font-family:Tahoma;}
+.widgetContainer.black .widgetUlistB li .title .hour{ font-size:11px; font-family:Tahoma;}
+
+.widgetContainer.black .widgetUlistB li .author img{ border-color:#666;}
+.widgetContainer.black .widgetUlistB li .title{ border-color:#333; color:#999; background:#000;}
+.widgetContainer.black .widgetUlistB li .title a{ color:#3399ff;}
+.widgetContainer.black .widgetUlistB li .title .arrow{ background:url(../img/black/arrowUlistB.gif) no-repeat;}
+.widgetContainer.black .widgetUlistB li .title .deco{ background:#000;}
+.widgetContainer.black .widgetUlistB li .title .date{ color:#999;}
+.widgetContainer.black .widgetUlistB li .title .hour{ color:#888;}

@@ -6,3 +6,10 @@
 .widgetDlistA dt{ float:left; clear:left; margin-right:5px; white-space:nowrap;}
 .widgetDlistA dd{ clear:right; white-space:nowrap; font-family:Tahoma;}
 
+.widgetDlistA dt{ color:#333;}
+.widgetDlistA dd,
+.widgetDlistA  dd a{ color:#888;}
+
+.widgetContainer.black .widgetDlistA dt{ color:#999;}
+.widgetContainer.black .widgetDlistA dd,
+.widgetContainer.black .widgetDlistA  dd a{ color:#888;}

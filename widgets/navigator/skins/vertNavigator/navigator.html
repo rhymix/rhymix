@@ -1,11 +1,9 @@
-<!--@if($colorset == "black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset == "white")-->
-    <!--%import("./css/white.css")-->
+{@ $_pDepth = 0;}
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-{@ $_pDepth = 0;}
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <ul class="widgetMenuA dhtml">
         <!--@foreach($widget_info->arranged_menu as $key => $val)-->
             <!--@if($val->text)-->

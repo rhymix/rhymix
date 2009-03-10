@@ -1,12 +1,8 @@
-<!--// colorset의 값에 따라 css 파일을 import 한다 -->
 <!--%import("./filter/login.xml")-->
 <!--%import("./filter/openid_login.xml")-->
 
-<!--%import("./css/widget.css")-->
-<!--@if($colorset=="black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset=="white" || $colorset=="default")-->
-    <!--%import("./css/white.css")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
 <script type="text/javascript">
@@ -14,7 +10,7 @@
     xAddEventListener(window, "load", function(){ xGetElementById("formLogin").user_id.focus(); });
 </script>
 
-<div class="widgetContainer">
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <!--// XE Login -->
     <form action="./" method="post" onsubmit="return procFilter(this, widget_login)" id="formLogin" class="widgetLogin">
     <fieldset>

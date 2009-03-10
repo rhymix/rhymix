@@ -1,15 +1,14 @@
 <!--%import("./lang")-->
 <!--%import("css/layout.css")-->
 <!--%import("css/layout@cafe.css")-->
-
 <!--%import("css/widget.css")-->
 
 <!--@if($layout_info->colorset == "black")-->
     <!--%import("css/layout@black.css")-->
-    <!--%import("css/widget@black.css")-->
+    {@ $middle_widget_colorset = "black" }
 <!--@else-->
     <!--%import("css/layout@white.css")-->
-    <!--%import("css/widget@white.css")-->
+    {@ $middle_widget_colorset = "white" }
 <!--@end-->
 
 <!--// 모양 설정 > 본문 위치 -->
@@ -27,8 +26,6 @@
 <!--@if($layout_info->content_background_image)-->
 <style type="text/css"> #cafeXeContainer {background:#FFFFFF url("{$layout_info->content_background_image}") repeat left top !important; } </style>
 <!--@end-->
-
-
 
 <div class="cafeXe">
     <div class="cafeXeFixed">
@@ -72,17 +69,17 @@
 
                     <!--// Site Status -->
                     <!--@if($site_module_info->site_srl>0)-->
-                    <img class="zbxe_widget_output" widget="site_info" skin="default" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->cafe_info}"  ws_more_url="" ws_more_text=""/>
+                    <img class="zbxe_widget_output" widget="site_info" skin="default" colorset="{$middle_widget_colorset}" widgetstyle="simple" ws_colorset="{$middle_widget_colorset}" ws_title="{$lang->cafe_info}"  ws_more_url="" ws_more_text=""/>
                     <!--@end-->
 
                     <!--// Login Info Widget -->
-                    <img class="zbxe_widget_output" widget="login_info" skin="default" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="<!--@if($is_logged)-->{$logged_info->nick_name}<!--@else-->{$lang->cmd_login}<!--@end-->" ws_more_url="" ws_more_text=""/>
+                    <img class="zbxe_widget_output" widget="login_info" skin="default" colorset="{$middle_widget_colorset}" widgetstyle="simple" ws_colorset="{$middle_widget_colorset}" ws_title="<!--@if($is_logged)-->{$logged_info->nick_name}<!--@else-->{$lang->cmd_login}<!--@end-->" ws_more_url="" ws_more_text=""/>
 
                     <!--// Menu Widget -->
-                    <img class="zbxe_widget_output" widget="navigator" skin="tree" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->menu}" />
+                    <img class="zbxe_widget_output" widget="navigator" skin="tree" colorset="{$middle_widget_colorset}" widgetstyle="simple" ws_colorset="{$middle_widget_colorset}" ws_title="{$lang->menu}" />
 
                     <!--// Visitor Status Widget -->
-                    <img class="zbxe_widget_output" widget="counter_status" skin="default" widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->counter}" />
+                    <img class="zbxe_widget_output" widget="counter_status" skin="default" colorset="{$middle_widget_colorset}" widgetstyle="simple" ws_colorset="{$middle_widget_colorset}" ws_title="{$lang->counter}" />
                 </div>
             </div>
             <!-- /#body -->
@@ -91,10 +88,10 @@
             <div id="cafeXeKnee">
                 <div class="cafeXeExtension">
                     <!--// Bottom Widget -->
-                    <img class="zbxe_widget_output" widget="member_group" skin="default" colorset="black" widgetstyle="simple" ws_colorset="{$layout->colorset}" ws_title="{$lang->new_members}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
-                    <img class="zbxe_widget_output" widget="rank_count" rankby="document" skin="default" colorset="black" widgetstyle="simple" ws_colorset="{$layout->colorset}" ws_title="{$lang->document_ranking}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
-                    <img class="zbxe_widget_output" widget="rank_count" rankby="comment" skin="default" colorset="black" widgetstyle="simple" ws_colorset="{$layout->colorset}" ws_title="{$lang->comment_ranking}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
-                    <img class="zbxe_widget_output" widget="logged_members" skin="default"  widgetstyle="simple" ws_colorset="{$layout_info->colorset}" ws_title="{$lang->logged_users}" list_count="99999" style="width:219px; float:left;margin-right:28px;" />
+                    <img class="zbxe_widget_output" widget="member_group" skin="default" colorset="black" widgetstyle="simple" ws_colorset="black" ws_title="{$lang->new_members}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
+                    <img class="zbxe_widget_output" widget="rank_count" rankby="document" skin="default" colorset="black"  widgetstyle="simple" ws_colorset="black" ws_title="{$lang->document_ranking}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
+                    <img class="zbxe_widget_output" widget="rank_count" rankby="comment" skin="default" colorset="black"  widgetstyle="simple" ws_colorset="black" ws_title="{$lang->comment_ranking}" list_count="5" style="width:219px;float:left;margin-right:28px;"/>
+                    <img class="zbxe_widget_output" widget="logged_members" skin="default"  colorset="black"  widgetstyle="simple" ws_colorset="black" ws_title="{$lang->logged_users}" list_count="99999" style="width:219px; float:left;margin-right:28px;" />
                 </div>
             </div>
             <!-- /#knee -->

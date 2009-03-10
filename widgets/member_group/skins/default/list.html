@@ -1,11 +1,8 @@
-<!--@if($colorset == "black")-->
-    <!--%import("./css/black.css")-->
-<!--@elseif($colorset == "white" || $colorset == "normal")-->
-    <!--%import("./css/white.css")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
 <!--@end-->
 
-<div class="widgetContainer">
-
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <ul class="widgetUlistA">
     <!--@foreach($widget_info->member_list as $key => $val)-->
         <li><a href="#" onclick="return false;" class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</a></li>
