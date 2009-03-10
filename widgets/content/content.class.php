@@ -236,27 +236,31 @@
             $first_thumbnail_idx = -1;
             if(count($output->data)) {
                 foreach($output->data as $key => $attribute) {
-                    $category = $category_lists[$attribute->module_srl][$attribute->category_srl]->title;
-                    $browser_title = $args->module_srls_info[$attribute->module_srl]->browser_title;
-                    $domain = $args->module_srls_info[$attribute->module_srl]->domain;
-
                     $oDocument = new documentItem();
                     $oDocument->setAttribute($attribute);
-                    $content = $oDocument->getSummary($args->content_cut_size);
-                    $url = getSiteUrl($domain,'','document_srl',$oDocument->document_srl);
-                    $thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
-                    $extra_images = $oDocument->printExtraImages($args->duration_new);
+                    $GLOBALS['XE_DOCUMENT_LIST'][$oDocument->document_srl] = $oDocument;
+                    $document_srls[] = $oDocument->document_srl;
+                }
+                $oDocumentModel->setToAllDocumentExtraVars();
 
-                    $content_item = new contentItem($browser_title);
-                    $content_item->adds($attribute);
-                    $content_item->setCategory($category);
-                    $content_item->setContent($content);
-                    $content_item->setLink($url);
+                for($i=0,$c=count($document_srls);$i<$c;$i++) {
+                    $oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srls[$i]];
+                    $document_srl = $oDocument->document_srl;
+                    $module_srl = $oDocument->get('module_srl');
+                    $category_srl = $oDocument->get('category_srl');
+                    $thunbmail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
+
+                    $content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
+                    $content_item->adds($oDocument->getObjectVars());
+                    $content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
+                    $content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
+                    $content_item->setContent($oDocument->getSummary($args->content_cut_size));
+                    $content_item->setLink( getSiteUrl($domain,'','document_srl',$document_srl) );
                     $content_item->setThumbnail($thumbnail);
+                    $content_item->setExtraImages($oDocument->printExtraImages($args->duration_new));
+                    $content_item->add('mid', $args->mid_lists[$module_srl]);
                     if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $key;
-                    $content_item->setExtraImages($extra_images);
-                    $content_item->setDomain($domain);
-                    $content_item->add('mid', $args->mid_lists[$attribute->module_srl]);
+
                     $content_items[] = $content_item;
                 }
 
