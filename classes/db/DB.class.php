@@ -105,9 +105,13 @@
                 $eval_str = sprintf('$oDB = new %s();', $class_name);
                 eval($eval_str);
 
-                if(!$oDB || !$oDB->isSupported()) continue;
+                if(!$oDB) continue;
 
-                $this->supported_list[] = $db_type;
+                $obj = null;
+                $obj->db_type = $db_type;
+                $obj->enable = $oDB->isSupported()?true:false;
+
+                $this->supported_list[] = $obj;
             }
 
             return $this->supported_list;
