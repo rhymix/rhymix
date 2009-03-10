@@ -186,9 +186,16 @@
          **/
         function arrangeMemberInfo($info, $site_srl = 0) {
             if(!$GLOBALS['__member_info__'][$info->member_srl]) {
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('member');
+
+
                 $info->profile_image = $this->getProfileImage($info->member_srl);
                 $info->image_name = $this->getImageName($info->member_srl);
                 $info->image_mark = $this->getImageMark($info->member_srl);
+                if($config->group_image_mark=='Y'){
+                    $info->group_mark = $this->getGroupImageMark($info->member_srl,$site_srl);
+                }
                 $info->signature = $this->getSignature($info->member_srl);
                 $info->group_list = $this->getMemberGroups($info->member_srl, $site_srl);
 
@@ -319,17 +326,21 @@
          * @brief 그룹 목록을 가져옴
          **/
         function getGroups($site_srl = 0) {
-            $args->site_srl = $site_srl;
-            $output = executeQuery('member.getGroups', $args);
-            if(!$output->data) return;
+            if(!$GLOBALS['__group_info__'][$site_srl]) {
+                $args->site_srl = $site_srl;
+                $output = executeQuery('member.getGroups', $args);
+                if(!$output->data) return;
 
-            $group_list = $output->data;
-            if(!is_array($group_list)) $group_list = array($group_list);
+                $group_list = $output->data;
+                if(!is_array($group_list)) $group_list = array($group_list);
 
-            foreach($group_list as $val) {
-                $result[$val->group_srl] = $val;
+                foreach($group_list as $val) {
+                    $result[$val->group_srl] = $val;
+                }
+
+                $GLOBALS['__group_info__'][$site_srl] = $result;
             }
-            return $result;
+            return $GLOBALS['__group_info__'][$site_srl];
         }
 
         /**
@@ -552,7 +563,31 @@
                     $GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
                 } else $GLOBALS['__member_info__']['image_mark'][$member_srl] = null;
             }
+
             return $GLOBALS['__member_info__']['image_mark'][$member_srl];
+        }
+
+
+        /**
+         * @brief group의 이미지마크 정보를 구함
+         **/
+        function getGroupImageMark($member_srl,$site_srl=0) {
+           $member_group = $this->getMemberGroups($member_srl,$site_srl);
+
+           $groups_info = $this->getGroups($site_srl);
+           $image_mark = null;
+           if(count($member_group) > 0 && is_array($member_group)){
+               $group_srl = array_keys($member_group);
+               $image_mark = $groups_info[$group_srl[0]]->image_mark;
+           }
+           if($image_mark){
+                list($width, $height, $type, $attrs) = getimagesize($image_mark);
+                $info->width = $width;
+                $info->height = $height;
+                $info->src = $image_mark;
+                return $info;
+
+           }else return false;
         }
 
         /**

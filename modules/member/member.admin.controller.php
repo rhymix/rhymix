@@ -406,7 +406,7 @@
             $oModuleControll = getController('module');
 
             $config = $oModuleModel->getModuleConfig('member');
-            $config->group_image_mark_order = Context::get('group_image_mark_order');
+//            $config->group_image_mark_order = Context::get('group_image_mark_order');
 
             $oModuleControll->insertModuleConfig('member', $config);
         }

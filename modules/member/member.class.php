@@ -56,6 +56,8 @@
             if(!$args->image_mark_max_height) $args->image_mark_max_height = '20';
             if(!$args->profile_image_max_width) $args->profile_image_max_width = '80';
             if(!$args->profile_image_max_height) $args->profile_image_max_height = '80';
+            if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
+
             $oModuleController->insertModuleConfig('member',$args);
 
             // 멤버 컨트롤러 객체 생성
