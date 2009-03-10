@@ -112,7 +112,7 @@
 
             // 모듈을 여전히(;;) 못 찾고 모듈번호(module_srl)가 있으면 해당 모듈을 구함
             // module_srl로 대상 모듈을 찾는 것을 주석 처리함.
-            if(!$module_info && $this->module_srl) {
+            if(!$this->module && !$module_info && $this->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl);
                 //if($this->module && $module_info->module != $this->module) unset($module_info);
             }
