@@ -32,14 +32,14 @@ var calledArgs = null;
                     
                 body.append(captchaXE);
                 
-                captchaXE.exec= function(act, args) {
+                captchaXE.exec= function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
                     if(act == 'procBoardInsertDocument' || act == 'procBoardInsertComment' || act == 'procIssuetrackerInsertIssue' || act == 'procIssuetrackerInsertHistory') {
                         oldExecXml('captcha','setCaptchaSession',new Array(),this.show,new Array('error','message','about','keyword'));
                         calledArgs = args;
-			return true;
+                        return true;
                     } else {
-                        oldExecXml(args.module, args.act,args.params,args.callback_func,args.response_tags,args.callback_func_arg,args.fo_obj);
-			return true;
+                        oldExecXml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj);
+                        return true;
                     }
                 };
 
@@ -101,11 +101,9 @@ var calledArgs = null;
             return captchaXE;
         }
 
-        $(window).ready(function(){
+        $(window).load(function(){
             oldExecXml = exec_xml;
-            exec_xml = null;
-            var newFunc = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {xeCaptcha().exec(act, {module:module, act:act,params:params,callback_func:callback_func,response_tags:response_tags,callback_func_arg:callback_func_arg,fo_obj:fo_obj})};
-            exec_xml = newFunc;
+            exec_xml = xeCaptcha().exec;
         });
     });
 })(jQuery);
