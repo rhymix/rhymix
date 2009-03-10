@@ -32,15 +32,14 @@ var calledArgs = null;
                     
                 body.append(captchaXE);
                 
-                captchaXE.exec= function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
+                captchaXE.exec = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
                     if(act == 'procBoardInsertDocument' || act == 'procBoardInsertComment' || act == 'procIssuetrackerInsertIssue' || act == 'procIssuetrackerInsertHistory') {
-                        oldExecXml('captcha','setCaptchaSession',new Array(),this.show,new Array('error','message','about','keyword'));
-                        calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj}
-                        return true;
+                        calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj};
+                        oldExecXml('captcha','setCaptchaSession',new Array(),captchaXE.show,new Array('error','message','about','keyword'));
                     } else {
                         oldExecXml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj);
-                        return true;
                     }
+                    return true;
                 };
 
                 captchaXE.show = function(ret_obj) {
@@ -101,7 +100,7 @@ var calledArgs = null;
             return captchaXE;
         }
 
-        $(window).load(function(){
+        $(window).ready(function(){
             oldExecXml = exec_xml;
             exec_xml = xeCaptcha().exec;
         });
