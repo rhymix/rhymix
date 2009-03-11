@@ -1,4 +1,5 @@
 <!--%import("./js/navigator.js")-->
+<!--%import("./css/widget.css")-->
 
 <script type="text/javascript">
 if(typeof(widget_navigator) != 'Object') var widget_navigator={};
@@ -7,10 +8,8 @@ widget_navigator[{$widget_info->menu_srl}] = new WidgetNavigator({$widget_info->
 widget_navigator[{$widget_info->menu_srl}].load('{$widget_info->xml_file}');
 </script>
 
-<!--%import("./css/widget.css")-->
-
 <div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
-    <div class="widgetMenuC widgetMenuC{$colorset}">
+    <div class="widgetNavC widgetNavC{$colorset}">
         <ul class="widget_navigator_{$widget_info->menu_srl} navigator"  menu_srl='{$widget_info->menu_srl}'>
         <!--@foreach($widget_info->arranged_menu as $key => $val)-->
             <!--@if($val->text && $val->depth == 0)-->

@@ -559,6 +559,8 @@ var PropertyDialog = {
         isWidget = sel.is('.widgetOutput');
         isBody  = sel.is('html>body');
         isContainer  = sel.is('#container');
+        isHeader = sel.is('#header');
+
 
         $('fieldset',dlg).show();
 
@@ -569,6 +571,11 @@ var PropertyDialog = {
         if(isBody){
             $('fieldset[name!=background]',dlg).hide();
             $('fieldset[name=font]',dlg).show();
+        }
+
+        if(isHeader){
+            $('fieldset[name=margin]',dlg).show();
+            $('fieldset[name=padding]',dlg).show();
         }
 
         // remove visible more

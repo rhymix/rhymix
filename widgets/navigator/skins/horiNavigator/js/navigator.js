@@ -74,7 +74,7 @@ WidgetNavigator.prototype.drawMenu = function(parent_srl){
         var parent_offset = jQuery('li.node_'+parent_srl).offset();
         h.css({
                 top : parent_offset.top + jQuery('li.node_'+parent_srl).height()-2,
-                left : parent_offset.left + 2
+                left : parent_offset.left 
              })
 
     // 2차메뉴
@@ -98,6 +98,7 @@ WidgetNavigator.prototype.drawMenu = function(parent_srl){
         var t = jQuery(this);
 
         var m = t.attr('text');
+        if(!m) return;
         var u ='#';
         if(t.attr('url')){
             if(/^http\:\/\//.test(t.attr('url'))){
