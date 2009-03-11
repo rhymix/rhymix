@@ -301,7 +301,8 @@
             $buff .= sprintf('$widgetStyle_info->license_link = "%s";', $xml_obj->license->attrs->link);
 
             // preview
-            $preview_file = sprintf("%spreview.jpg", $widgetStyle_path);
+            if(!$xml_obj->preview->body) $xml_obj->preview->body = 'preview.jpg';
+            $preview_file = sprintf("%s%s", $widgetStyle_path,$xml_obj->preview->body);
             if(file_exists($preview_file)) $buff .= sprintf('$widgetStyle_info->preview = "%s";', $preview_file);
 
             // 작성자 정보

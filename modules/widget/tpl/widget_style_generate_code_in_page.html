@@ -3,7 +3,7 @@
 <!--%import("css/widget.css")-->
 <!--%import("../../admin/tpl/css/admin.css")-->
 <!--%load_js_plugin("filebox")-->
-
+<!--%load_js_plugin("ui.colorpicker")-->
 
 <script type="text/javascript">
     doAddWindowLoadEventLoader(getWidgetVars);
@@ -68,6 +68,10 @@
             <td>
                 <!--@if($var->type == "text")-->
                 <input type="text" name="{$id}" value="" class="inputTypeText w400" />
+
+                <!--@elseif($var->type == "color")-->
+
+                <input type="text" name="{$id}" value="" class="inputTypeText color-indicator" />
 
                 <!--@elseif($var->type == "textarea")-->
                 <textarea name="{$id}" class="inputTypeTextArea w400"></textarea>
