@@ -37,7 +37,10 @@
             if(!is_array($source_files) || !count($source_files)) return;
 
             // $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
-            foreach($source_files as $key => $file) $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
+            foreach($source_files as $key => $file){
+                $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
+                if(substr($file['file'],0,2)=='./') $source_files[$key]['file'] = getScriptPath().substr($file['file'],2);
+            }
 
             // 관리자 설정시 설정이 되어 있지 않으면 패스
             $db_info = Context::getDBInfo();
@@ -68,10 +71,11 @@
 
             $files = $this->_getOptimizedRemoved($files);
             if(!count($files)) return $files;
-
+/*
             foreach($files as $key => $val) {
                 if(substr($val['file'],0,2)=='./') $files[$key]['file'] = Context::getRequestUri().substr($val['file'],2);
             }
+*/
             return $files;
         }
 
