@@ -208,7 +208,7 @@ function getWidgetCode(childObj, widget) {
  **/
 // 팝업 띄움
 function doAddContent(mid) {
-    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
+    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl);
     popopen(url, "addContent");
 }
 
@@ -315,7 +315,7 @@ function doAddWidget(fo) {
     var val = sel.options[idx].value;
     var module_srl = fo.module_srl.value;
 
-    var url = current_url.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
+    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
     popopen(url,'GenerateWidgetCode');
 }
 

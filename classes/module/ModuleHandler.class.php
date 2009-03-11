@@ -86,7 +86,7 @@
             }
 
             // 문서번호(document_srl)가 있을 경우 모듈 정보를 구해옴
-            if($this->document_srl) {
+            if($this->document_srl && !$this->module) {
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
 
                 // 문서가 존재하지 않으면 문서 정보를 제거
