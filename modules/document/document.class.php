@@ -28,6 +28,7 @@
             $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
             $oDB->addIndex("documents","idx_module_blamed_count", array("module_srl","blamed_count"));
             $oDB->addIndex("document_aliases", "idx_module_title", array("module_srl","alias_title"), true);
+            $oDB->addIndex("document_extra_vars", "unique_extra_vars", array("module_srl","document_srl","var_idx","lang_code"), true);
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 글도 모두 삭제하는 트리거 추가
             $oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
@@ -95,6 +96,8 @@
             // 2009. 03. 09 documents에 lang_code 컬럼 추가
             if(!$oDB->isColumnExists("documents","lang_code")) return true;
 
+            // 2009. 03. 11 확장변수 값 테이블의 인덱스 점검
+            if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) return true;
 
             return false;
         }
@@ -186,6 +189,15 @@
                 $oDB->addColumn('documents',"lang_code","varchar",10, $db_info->lang_code);
                 $obj->lang_code = $db_info->lang_type;
                 executeQuery('document.updateDocumentsLangCode', $obj);
+            }
+
+            // 2009. 03. 11 확장변수 값 테이블의 인덱스 점검
+            if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) {
+                $oDB->addIndex("document_extra_vars", "unique_extra_vars", array("module_srl","document_srl","var_idx","lang_code"), true);
+            }
+
+            if($oDB->isIndexExists("document_extra_vars", "unique_module_vars")) {
+                $oDB->dropIndex("document_extra_vars", "unique_module_vars", true);
             }
 
             return new Object(0,'success_updated');
