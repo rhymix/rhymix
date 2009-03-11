@@ -24,6 +24,8 @@
         <action name="dispWikiContent" type="view" index="true" />
         <action name="dispWikiEditPage" type="view" />
         <action name="dispWikiTitleIndex" type="view" />
+        <action name="dispWikiReplyComment" type="view" />
+        <action name="dispWikiModifyComment" type="view" />
         <action name="dispWikiAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispWikiAdminInsertWiki" type="view" standalone="true" />
         <action name="dispWikiAdminGrantInfo" type="view" standalone="true" />
@@ -33,5 +35,7 @@
         <action name="dispWikiAdminDeleteWiki" type="view" standalone="true" />
         <action name="procWikiAdminDeleteWiki" type="controller" standalone="true" />
         <action name="procWikiInsertDocument" type="controller" standalone="true" />
+        <action name="procWikiInsertComment" type="controller" standalone="true" />
+        <action name="procWikiDeleteComment" type="controller" standalone="true" />
     </actions>
 </module>

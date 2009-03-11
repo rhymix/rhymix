@@ -38,6 +38,16 @@
             <p>{$lang->about_module_category}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row"><div>{$lang->use_comment}</div></th>
+        <td>
+            <select name="use_comment">
+                <option value="N" <!--@if($module_info->use_comment=='N')-->selected="selected"<!--@end--> >{$lang->notuse}</option>
+                <option value="Y" <!--@if($module_info->use_comment!='N')-->selected="selected"<!--@end--> >{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_comment}</p>
+        </td>
+    </tr>
 
     <tr>
         <th scope="row"><div>{$lang->browser_title}</div></th>

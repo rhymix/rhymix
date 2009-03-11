@@ -53,4 +53,55 @@
     </div>
 
 </div>
+
+<!-- 엮인글 -->
+<!--@if($oDocument->allowTrackback())-->
+    <!--#include("./trackback.html")-->
+<!--@end-->
+
+
+<!--@if($module_info->use_comment != 'N')-->
+<!-- 댓글 -->
+<a name="comment"></a>
+<!--#include("./comment.html")-->
+<!-- 댓글 입력 폼 -->
+<!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
+    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+    <input type="hidden" name="comment_srl" value="" />
+    <input type="hidden" name="content" value="" />
+        <div class="boardWrite commentEditor">
+            <div class="userNameAndPw">
+                <!--@if(!$is_logged)-->
+                <label for="userName">{$lang->writer}</label>
+                <input type="text" name="nick_name" value="" class="userName inputTypeText" id="userName"/>
+
+                <label for="userPw">{$lang->password}</label>
+                <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
+
+                <label for="emailAddress">{$lang->email_address}</label>
+                <input type="text" name="email_address" value="" id="emailAddress" class="emailAddress inputTypeText"/>
+
+                <label for="homePage">{$lang->homepage}</label>
+                <input type="text" name="homepage" value="" id="homePage" class="homePage inputTypeText"/>
+                <!--@else-->
+                <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
+                <label for="notify_message">{$lang->notify}</label>
+                <!--@end-->
+                <!--@if($module_info->secret=="Y")-->
+                <input type="checkbox" name="is_secret" value="Y" id="is_secret" />
+                <label for="is_secret">{$lang->secret}</label>
+                <!--@end-->
+            </div>
+
+            <div class="editor">{$oDocument->getCommentEditor()}</div>
+        </div>
+
+        <div class="commentButton tRight">
+            <span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+        </div>
+    </form>
+<!--@end-->
+<!--@end-->
 <!--#include("footer.html")-->

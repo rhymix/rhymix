@@ -172,5 +172,112 @@
         
             return new Object();
         }
+
+        /**
+         * @brief 댓글의 답글 화면 출력
+         **/
+        function dispWikiReplyComment() {
+            // 권한 체크
+            if(!$this->grant->write_comment) return $this->dispWikiMessage('msg_not_permitted');
+
+            // 목록 구현에 필요한 변수들을 가져온다
+            $parent_srl = Context::get('comment_srl');
+
+            // 지정된 원 댓글이 없다면 오류
+            if(!$parent_srl) return new Object(-1, 'msg_invalid_request');
+
+            // 해당 댓글를 찾아본다
+            $oCommentModel = &getModel('comment');
+            $oSourceComment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
+
+            // 댓글이 없다면 오류
+            if(!$oSourceComment->isExists()) return $this->dispWikiMessage('msg_invalid_request');
+            if(Context::get('document_srl') && $oSourceComment->get('document_srl') != Context::get('document_srl')) return $this->dispWikiMessage('msg_invalid_request');
+
+            // 대상 댓글을 생성
+            $oComment = $oCommentModel->getComment();
+            $oComment->add('parent_srl', $parent_srl);
+            $oComment->add('document_srl', $oSourceComment->get('document_srl'));
+
+            // 필요한 정보들 세팅
+            Context::set('oSourceComment',$oSourceComment);
+            Context::set('oComment',$oComment);
+
+            /** 
+             * 사용되는 javascript 필터 추가
+             **/
+            Context::addJsFilter($this->module_path.'tpl/filter', 'insert_comment.xml');
+
+            $this->setTemplateFile('comment_form');
+        }
+
+        /**
+         * @brief 댓글 수정 폼 출력
+         **/
+        function dispWikiModifyComment() {
+            // 권한 체크
+            if(!$this->grant->write_comment) return $this->dispWikiMessage('msg_not_permitted');
+
+            // 목록 구현에 필요한 변수들을 가져온다
+            $document_srl = Context::get('document_srl');
+            $comment_srl = Context::get('comment_srl');
+
+            // 지정된 댓글이 없다면 오류
+            if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+
+            // 해당 댓글를 찾아본다
+            $oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+
+            // 댓글이 없다면 오류
+            if(!$oComment->isExists()) return $this->dispWikiMessage('msg_invalid_request');
+
+            // 글을 수정하려고 할 경우 권한이 없는 경우 비밀번호 입력화면으로
+            if(!$oComment->isGranted()) return $this->setTemplateFile('input_password_form');
+
+            // 필요한 정보들 세팅
+            Context::set('oSourceComment', $oCommentModel->getComment());
+            Context::set('oComment', $oComment);
+
+            /** 
+             * 사용되는 javascript 필터 추가
+             **/
+            Context::addJsFilter($this->module_path.'tpl/filter', 'insert_comment.xml');
+
+            $this->setTemplateFile('comment_form');
+        }
+
+        /**
+         * @brief 댓글 삭제 화면 출력
+         **/
+        function dispWikiDeleteComment() {
+            // 권한 체크
+            if(!$this->grant->write_comment) return $this->dispWikiMessage('msg_not_permitted');
+
+            // 삭제할 댓글번호를 가져온다
+            $comment_srl = Context::get('comment_srl');
+
+            // 삭제하려는 댓글이 있는지 확인
+            if($comment_srl) {
+                $oCommentModel = &getModel('comment');
+                $oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+            }
+
+            // 삭제하려는 글이 없으면 에러
+            if(!$oComment->isExists() ) return $this->dispWikiContent();
+
+            // 권한이 없는 경우 비밀번호 입력화면으로
+            if(!$oComment->isGranted()) return $this->setTemplateFile('input_password_form');
+
+            Context::set('oComment',$oComment);
+
+            /** 
+             * 필요한 필터 추가
+             **/
+            Context::addJsFilter($this->module_path.'tpl/filter', 'delete_comment.xml');
+
+            $this->setTemplateFile('delete_comment_form');
+        }
+
     }
 ?>

@@ -15,6 +15,7 @@
         <param name="description" target="description" />
         <param name="header_text" target="header_text" />
         <param name="footer_text" target="footer_text" />
+        <param name="use_comment" target="use_comment" />
     </parameter>
     <response callback_func="completeInsertWiki">
         <tag name="error" />

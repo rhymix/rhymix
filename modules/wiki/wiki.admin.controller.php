@@ -20,6 +20,8 @@
             $args = Context::getRequestVars();
             $args->module = 'wiki';
             $args->mid = $args->wiki_name;
+            if($args->use_comment!='N') $args->use_comment = 'Y';
+
             unset($args->wiki_name);
             if($args->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
