@@ -46,20 +46,21 @@
                 $setted = array();
                 foreach($output->data as $key => $val) {
                     if(!$val->document_srl) continue;
-                    if($val->idx == -1 && $val->lang_code == $lang_code) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('title', $val->value);
-                    else if($val->idx == -2 && $val->lang_code == $lang_code) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('content', $val->value);
 
-                    if($val->idx<0) continue;
-
-                    if($lang_code == $val->lang_code) {
-                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
-                        $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                    } else if($lang_code == $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->lang_code && !isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
-                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
-                        $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                    } else if(!isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
-                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
-                        $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                    if($val->idx<0 && $val->lang_code == $lang_code) {
+                        if($val->idx == -1) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('title', $val->value);
+                        else if($val->idx == -2) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('content', $val->value);
+                    } else {
+                        if($lang_code == $val->lang_code) {
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                        } else if($lang_code == $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->lang_code && !isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                        } else if(!isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                        }
                     }
                 }
             }
