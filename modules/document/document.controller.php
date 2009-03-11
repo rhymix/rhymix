@@ -350,7 +350,7 @@
             // 등록 성공시 확장 변수 등록
             $extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
             if(count($extra_keys)) {
-                $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl, Context::getLangType());
+                $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl, null, Context::getLangType());
 
                 // 관리자 설정 확장변수 등록
                 foreach($extra_keys as $idx => $extra_item) {
@@ -563,12 +563,13 @@
         /**
          * @brief documents 확장변수 값 제거
          **/
-        function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_type = null) {
+        function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null) {
             $obj->module_srl = $module_srl;
             if(!is_null($document_srl)) $obj->document_srl = $document_srl;
             if(!is_null($var_idx)) $obj->var_idx = $var_idx;
-            if(!is_null($lang_type)) $obj->lang_type = $lang_type;
-            return executeQuery('document.deleteDocumentExtraVars', $obj);
+            if(!is_null($lang_code)) $obj->lang_code = $lang_code;
+            $output = executeQuery('document.deleteDocumentExtraVars', $obj);
+            return $output;
         }
         
 
