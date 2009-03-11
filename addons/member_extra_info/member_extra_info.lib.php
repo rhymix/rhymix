@@ -31,7 +31,7 @@
         }
 
         // 이미지이름이나 마크가 없으면 원본 정보를 세팅
-        if(!$image_name_file && !$image_mark_file) return $matches[0];
+        if(!$image_name_file && !$image_mark_file && !$group_image) return $matches[0];
 
         if($image_name_file) $nick_name = sprintf('<img src="%s%s" border="0" alt="id: %s" title="id: %s" style="vertical-align:middle;margin-right:3px" />', Context::getRequestUri(),$image_name_file, strip_tags($nick_name), strip_tags($nick_name));
         if($image_mark_file) $nick_name = sprintf('<img src="%s%s" border="0" alt="id: %s" title="id : %s" style="vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri(),$image_mark_file, strip_tags($nick_name), strip_tags($nick_name), $nick_name);
