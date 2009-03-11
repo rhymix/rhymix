@@ -347,12 +347,13 @@
                 return $output;
             }
 
+            // 모든 확장 변수 삭제
+            $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl, null, Context::getLangType());
+
             // 등록 성공시 확장 변수 등록
             $extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
+            debugPrint($extra_keys);
             if(count($extra_keys)) {
-                $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl, null, Context::getLangType());
-
-                // 관리자 설정 확장변수 등록
                 foreach($extra_keys as $idx => $extra_item) {
                     $value = '';
                     if(isset($obj->{'extra_vars'.$idx})) $value = trim($obj->{'extra_vars'.$idx});
@@ -360,11 +361,11 @@
                     if(!isset($value)) continue;
                     $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value);
                 }
-
-                // 제목/내용의 다국어 확장변수 등록
-                if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title);
-                if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content);
             }
+
+            // 제목/내용의 다국어 확장변수 등록
+            if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title);
+            if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content);
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($source_obj->get('category_srl')!=$obj->category_srl) {
