@@ -10,4 +10,6 @@
     $lang->cmd_create = 'Create document';
     $lang->cmd_wiki_list = 'List';
     $lang->cmd_view_info = 'Wiki information';
+    $lang->use_comment = 'Use comment';
+    $lang->about_use_comment = 'You may configure to enable comments.';
 ?>

@@ -10,4 +10,6 @@
     $lang->cmd_create = '檔案建立';
     $lang->cmd_wiki_list = '列表';
     $lang->cmd_view_info = '維基資訊';
+    $lang->use_comment = 'Use comment';
+    $lang->about_use_comment = 'You may configure to enable comments.';
 ?>

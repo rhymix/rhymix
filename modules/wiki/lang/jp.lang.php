@@ -10,4 +10,6 @@
     $lang->cmd_create = '新規作成';
     $lang->cmd_wiki_list = 'リスト';
     $lang->cmd_view_info = 'wiki情報';
+    $lang->use_comment = 'Use comment';
+    $lang->about_use_comment = 'You may configure to enable comments.';
 ?>
