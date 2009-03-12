@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
     <title xml:lang="ko">Content 위젯</title>
+    <title xml:lang="en">Content widget</title>
     <title xml:lang="zh-CN">全局内容控件</title>
     <title xml:lang="zh-TW">內容組件</title>
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
+    <description xml:lang="en">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
     <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的控件。</description>
     <version>0.1</version>
@@ -23,186 +25,222 @@
         <var id="content_type">
             <type>select</type>
             <name xml:lang="ko">추출대상</name>
-	    	<name xml:lang="zh-CN">对象</name>
-	    	<name xml:lang="zh-tw">目標</name>
+            <name xml:lang="en">추출대상</name>
+            <name xml:lang="zh-CN">对象</name>
+            <name xml:lang="zh-tw">目標</name>
             <options>
                 <value>document</value>
                 <name xml:lang="ko">게시물</name>
-				<name xml:lang="zh-CN">主题</name>
+                <name xml:lang="eno">게시물</name>
+                <name xml:lang="zh-CN">主题</name>
             </options>
             <options>
                 <value>comment</value>
                 <name xml:lang="ko">댓글</name>
-				<name xml:lang="zh-CN">评论</name>
+                <name xml:lang="en">댓글</name>
+                <name xml:lang="zh-CN">评论</name>
             </options>
             <options>
                 <value>image</value>
                 <name xml:lang="ko">첨부이미지</name>
-				<name xml:lang="zh-CN">图片</name>
+                <name xml:lang="en">첨부이미지</name>
+                <name xml:lang="zh-CN">图片</name>
             </options>
             <options>
                 <value>trackback</value>
                 <name xml:lang="ko">트랙백</name>
-				<name xml:lang="zh-CN">引用</name>
+                <name xml:lang="en">트랙백</name>
+                <name xml:lang="zh-CN">引用</name>
             </options>
             <options>
                 <value>rss</value>
                 <name xml:lang="ko">RSS</name>
-				<name xml:lang="zh-CN">RSS</name>
+                <name xml:lang="en">RSS</name>
+                <name xml:lang="zh-CN">RSS</name>
             </options>
         </var>
         <var id="list_type">
             <type>select</type>
             <name xml:lang="ko">내용형태</name>
-	    	<name xml:lang="zh-CN">内容样式</name>
+            <name xml:lang="en">내용형태</name>
+            <name xml:lang="zh-CN">内容样式</name>
             <options>
                 <value>normal</value>
                 <name xml:lang="ko">제목</name>
-				<name xml:lang="zh-CN">标题</name>
+                <name xml:lang="en">제목</name>
+                <name xml:lang="zh-CN">标题</name>
             </options>
             <options>
                 <value>image_title</value>
                 <name xml:lang="ko">이미지+제목</name>
-				<name xml:lang="zh-CN">图片+标题</name>
+                <name xml:lang="enko">이미지+제목</name>
+                <name xml:lang="zh-CN">图片+标题</name>
             </options>
             <options>
                 <value>gallery</value>
                 <name xml:lang="ko">겔러리</name>
-				<name xml:lang="zh-CN">相册</name>
+                <name xml:lang="en">겔러리</name>
+                <name xml:lang="zh-CN">相册</name>
             </options>
             <options>
                 <value>image_title_content</value>
                 <name xml:lang="ko">이미지+제목+내용</name>
-				<name xml:lang="zh-CN">图片+标题+内容</name>
+                <name xml:lang="en">이미지+제목+내용</name>
+                <name xml:lang="zh-CN">图片+标题+内容</name>
             </options>
         </var>
         <var id="tab_type">
             <type>select</type>
             <name xml:lang="ko">탭형태</name>
-	    	<name xml:lang="zh-CN">选项卡样式</name>
+            <name xml:lang="en">탭형태</name>
+            <name xml:lang="zh-CN">选项卡样式</name>
             <options>
                 <value>none</value>
                 <name xml:lang="ko">없음</name>
-				<name xml:lang="zh-CN">无</name>
+                <name xml:lang="en">없음</name>
+                <name xml:lang="zh-CN">无</name>
             </options>
             <options>
                 <value>tab_top</value>
                 <name xml:lang="ko">상단 탭형</name>
-				<name xml:lang="zh-CN">顶端选项卡</name>
+                <name xml:lang="en">상단 탭형</name>
+                <name xml:lang="zh-CN">顶端选项卡</name>
             </options>
             <options>
                 <value>tab_left</value>
                 <name xml:lang="ko">왼쪽 탭형</name>
-				<name xml:lang="zh-CN">左侧选项卡</name>
+                <name xml:lang="en">왼쪽 탭형</name>
+                <name xml:lang="zh-CN">左侧选项卡</name>
             </options>
         </var>
 
         <var id="option_view">
             <type>select-multi-order</type>
             <name xml:lang="ko">표시항목 및 순서</name>
-	    	<name xml:lang="zh-CN">显示项及顺序</name>
+            <name xml:lang="en">표시항목 및 순서</name>
+            <name xml:lang="zh-CN">显示项及顺序</name>
             <options default="false" init="true">
                 <value>title</value>
                 <name xml:lang="ko">제목</name>
-				<name xml:lang="zh-CN">标题</name>
+                <name xml:lang="en">제목</name>
+                <name xml:lang="zh-CN">标题</name>
             </options>
             <options>
                 <value>thumbnail</value>
                 <name xml:lang="ko">섬네일</name>
-				<name xml:lang="zh-CN">缩略图</name>
+                <name xml:lang="en">섬네일</name>
+                <name xml:lang="zh-CN">缩略图</name>
             </options>
             <options init="true">
                 <value>regdate</value>
                 <name xml:lang="ko">등록일</name>
-				<name xml:lang="zh-CN">发布日期</name>
+                <name xml:lang="en">등록일</name>
+                <name xml:lang="zh-CN">发布日期</name>
             </options>
             <options init="true">
                 <value>nickname</value>
                 <name xml:lang="ko">글쓴이</name>
-				<name xml:lang="zh-CN">发布者</name>
+                <name xml:lang="en">글쓴이</name>
+                <name xml:lang="zh-CN">发布者</name>
             </options>
             <options>
                 <value>content</value>
                 <name xml:lang="ko">내용</name>
-				<name xml:lang="zh-CN">内容</name>
+                <name xml:lang="en">내용</name>
+                <name xml:lang="zh-CN">内容</name>
             </options>
         </var>
 
         <var id="show_browser_title">
             <type>select</type>
             <name xml:lang="ko">게시판 이름 표시</name>
-	    	<name xml:lang="zh-CN">显示版面名称</name>
+            <name xml:lang="en">게시판 이름 표시</name>
+            <name xml:lang="zh-CN">显示版面名称</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-				<name xml:lang="zh-CN">显示</name>
+                <name xml:lang="en">출력</name>
+                <name xml:lang="zh-CN">显示</name>
             </options>
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-				<name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
             </options>
         </var>
 
         <var id="show_comment_count">
             <type>select</type>
             <name xml:lang="ko">댓글수 표시</name>
-	    	<name xml:lang="zh-CN">显示评论数</name>
+            <name xml:lang="en">댓글수 표시</name>
+            <name xml:lang="zh-CN">显示评论数</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-				<name xml:lang="zh-CN">显示</name>
+                <name xml:lang="en">출력</name>
+                <name xml:lang="zh-CN">显示</name>
             </options>
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-				<name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
             </options>
         </var>
 
         <var id="show_trackback_count">
             <type>select</type>
             <name xml:lang="ko">엮인글수 표시</name>
-	    	<name xml:lang="zh-CN">显示引用数</name>
+            <name xml:lang="en">엮인글수 표시</name>
+            <name xml:lang="zh-CN">显示引用数</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-				<name xml:lang="zh-CN">显示</name>
+                <name xml:lang="en">출력</name>
+                <name xml:lang="zh-CN">显示</name>
             </options>
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-				<name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
             </options>
         </var>
         <var id="show_category">
             <type>select</type>
             <name xml:lang="ko">분류 표시</name>
-	    	<name xml:lang="zh-CN">显示分类</name>
+            <name xml:lang="en">분류 표시</name>
+            <name xml:lang="zh-CN">显示分类</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-				<name xml:lang="zh-CN">显示</name>
+                <name xml:lang="en">출력</name>
+                <name xml:lang="zh-CN">显示</name>
             </options>
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-				<name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
             </options>
         </var>
         <var id="show_icon">
             <type>select</type>
             <name xml:lang="ko">아이콘 표시</name>
-	    	<name xml:lang="zh-CN">显示图标</name>
+            <name xml:lang="en">아이콘 표시</name>
+            <name xml:lang="zh-CN">显示图标</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-				<name xml:lang="zh-CN">显示</name>
+                <name xml:lang="en">출력</name>
+                <name xml:lang="zh-CN">显示</name>
             </options>
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-				<name xml:lang="zh-CN">不显示</name>
+                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="zh-CN">不显示</name>
             </options>
         </var>
 
@@ -386,24 +424,24 @@
         <var id="page_count">
             <type>select</type>
             <name xml:lang="ko">페이지수</name>
-	    <name xml:lang="zh-CN">分页</name>
+        <name xml:lang="zh-CN">分页</name>
             <options>
                 <value>1</value>
                 <name xml:lang="ko">1</name>
-		<name xml:lang="zh-CN">1</name>
+        <name xml:lang="zh-CN">1</name>
             </options>
             <options>
                 <value>2</value>
                 <name xml:lang="ko">2</name>
-		<name xml:lang="zh-CN">2</name>
+        <name xml:lang="zh-CN">2</name>
             </options>
             <options>
                 <value>3</value>
                 <name xml:lang="ko">3</name>
-		<name xml:lang="zh-CN">3</name>
+        <name xml:lang="zh-CN">3</name>
             </options>
             <description xml:lang="ko">페이지수 2이상일 경우 이전/다음 버튼이 나타납니다.</description>
-	    <description xml:lang="zh-CN">分页数在2以上时，将会出现上一页/下一页按钮。</description>
+        <description xml:lang="zh-CN">分页数在2以上时，将会出现上一页/下一页按钮。</description>
         </var>
         <var id="duration_new">
             <type>text</type>
@@ -440,7 +478,7 @@
         <var id="content_cut_size">
             <type>text</type>
             <name xml:lang="ko">내용 글자수</name>
-	    <name xml:lang="zh-CN">内容摘要字数</name>
+        <name xml:lang="zh-CN">内容摘要字数</name>
         </var>
         <var id="module_srls">
             <type>module_srl_list</type>
