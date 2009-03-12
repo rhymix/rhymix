@@ -118,7 +118,7 @@ function doFillWidgetVars() {
 
     // 위젯의 속성 설정
     var obj_list = new Array();
-    jQuery('form input, form select, form textarea').each( function() {
+    jQuery('input,select,textarea','#fo_widget').each( function() {
             obj_list.push(this);
     });
 
@@ -134,7 +134,6 @@ function doFillWidgetVars() {
 
         switch(type) {
             case "hidden" :
-                if(jQuery('[name=_' + node.name+']').size() == 0)  continue;
             case "text" :
             case "textarea" :
                     var val = selected_node.getAttribute(name);
