@@ -109,9 +109,11 @@
                     foreach($output->data as $k => $v) {
                             $oDocument = null;
                             $oDocument = $oDocumentModel->getDocument();
-                            $oDocument->setAttribute($v);
+                            $oDocument->setAttribute($v, false);
+                            $GLOBALS['XE_DOCUMENT_LIST'][$oDocument->document_srl] = $oDocument;
                             $tab_list[$mid]->document_list[] = $oDocument;
                         }
+                        $oDocumentModel->setToAllDocumentExtraVars();
                     } else {
                         $tab_list[$mid]->document_list = array();
                     }

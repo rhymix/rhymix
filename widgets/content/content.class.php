@@ -237,7 +237,7 @@
             if(count($output->data)) {
                 foreach($output->data as $key => $attribute) {
                     $oDocument = new documentItem();
-                    $oDocument->setAttribute($attribute);
+                    $oDocument->setAttribute($attribute, false);
                     $GLOBALS['XE_DOCUMENT_LIST'][$oDocument->document_srl] = $oDocument;
                     $document_srls[] = $oDocument->document_srl;
                 }
