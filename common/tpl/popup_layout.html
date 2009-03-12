@@ -1,7 +1,11 @@
-<!--%import("css/popup.css")-->
 <!--%import("../../modules/admin/tpl/css/admin.css")-->
-<div id="popup_content">{$content}</div>
-
+<!--%import("../../modules/admin/tpl/css/pagination.css")-->
+<div id="xeAdmin">
+<div id="popup_content">
+    {$content}
+    <button class="xButton" type="button" onclick="window.close();return false;"><span>{$lang->cmd_close}</span></button>
+</div>
+</div>
 <script type="text/javascript">
     xAddEventListener(window, 'load', setFixedPopupSize); 
     var _isPoped = true;

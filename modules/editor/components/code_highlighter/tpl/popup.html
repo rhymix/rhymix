@@ -1,0 +1,77 @@
+<!--%import("popup.js")-->
+<!--%import("popup.css")-->
+<!--%import("../lang")-->
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$component_info->title} ver. {$component_info->version}</h3>
+</div>
+
+<form action="./" method="get" onSubmit="return false" id="fo">
+    <div id="popBody">
+        <table cellspacing="0" class="rowTable">
+        <col width="150" />
+        <col />
+        <tr>
+            <th scope="row"><div>{$lang->code_type}</div></th>
+            <td>
+                <select id="code_type" name="code_type">
+                    <option value="Php">PHP</option>
+                    <option value="Xml">HTML/XML</option>
+                    <option value="Css">CSS</option>
+                    <option value="JScript">Javascript</option>
+                    <option value="Plain">Plain Text</option>
+                    <option value="Diff">Diff</option>
+                    <option value="Cpp">C++</option>
+                    <option value="CSharp">C#</option>
+                    <option value="Vb">Visual Basic</option>
+                    <option value="Java">Java</option>
+                    <option value="Delphi">Delphi</option>
+                    <option value="Python">Python</option>
+                    <option value="Ruby">Ruby</option>
+                    <option value="Sql">SQL</option>
+                    <option value="Abap">Abap</option>
+                    <option value="Bash">Bash/shell</option>
+                    <option value="Groovy">Groovy</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->file_path}</div></th>
+            <td>
+                <input type="text" id="file_path" name="file_path" class="inputTypeText w400" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->description}</div></th>
+            <td>
+                <input type="text" id="description" name="description" class="inputTypeText w400" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->first_line}</div></th>
+            <td>
+                <input type="text" id="first_line" name="first_line" value="1" class="inputTypeText w40" />
+                <input type="checkbox" id="nogutter" name="nogutter" value="Y" /> <label for="nogutter">{$lang->hidden_linenumber}</label>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->used_collapse}</div></th>
+            <td>
+                <input type="checkbox" id="collapse" name="collapse" value="Y" />
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><div>{$lang->hidden_controls}</div></th>
+            <td>
+                <input type="checkbox" id="nocontrols" name="nocontrols" value="Y" />
+            </td>
+        </tr>
+        </table>
+    </div>
+
+    <div id="popFooter">
+        <a href="#" onclick="insertCode()" class="button black strong"><span>{$lang->cmd_insert}</span></a>
+        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    </div>
+
+</form>

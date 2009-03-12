@@ -8,8 +8,8 @@
     <!--@if($widget_info->title)-->
     <div class="title_box">
         <div class="title">{$widget_info->title}</div>
-        <!--@if($widget_info->module_name)-->
-        <div class="more"><a href="{getUrl('','mid',$widget_info->module_name)}">more</a></div>
+        <!--@if($widget_info->more_link)-->
+        <div class="more"><a href="{$widget_info->more_link}">more</a></div>
         <!--@end-->
     </div>
     <!--@end-->

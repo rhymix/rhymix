@@ -58,3 +58,5 @@ div.buttonCenter { text-align:center; }
 #content .tableType7 td p { line-height:1.4em; margin:5px 0 0 0; padding:0;}
 #content .tableType7 .borderBottomNone { border-bottom:none;}
 #content .tableType7 .none { color:#c95b53;}
+
+a.manual { background:url("../images/iconManual.gif") no-repeat left top; vertical-align:middle; display:inline-block; width:12px; height:13px; overflow:hidden; line-height:0; font-size:1px; text-decoration:none;}

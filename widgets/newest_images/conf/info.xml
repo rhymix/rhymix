@@ -28,23 +28,6 @@
 	</author>
 
 	<extra_vars>
-		<var id="title">
-			<type>text</type>
-			<name xml:lang="ko">제목</name>
-			<name xml:lang="zh-CN">栏目名</name>
-			<name xml:lang="jp">タイトル</name>
-			<name xml:lang="en">Title</name>
-			<name xml:lang="es">Título</name>
-			<name xml:lang="ru">Заголовок</name>
-			<name xml:lang="zh-TW">標題</name>
-			<description xml:lang="ko">최근 게시물의 제목으로 출력됩니다.</description>
-			<description xml:lang="zh-CN">显示为最新主题列表的标题。</description>
-			<description xml:lang="jp">最新の書き込みのタイトルとして表示されます。</description>
-			<description xml:lang="en">It will be the title of the newest articles.</description>
-			<description xml:lang="es">Este será el título de los documentos recientes.</description>
-			<description xml:lang="ru">Это будет заголовком последних статей.</description>
-			<description xml:lang="zh-TW">顯示最新主題列表的標題。</description>
-		</var>
 		<var id="title_length">
 			<type>text</type>
 			<name xml:lang="ko">글 제목 길이</name>
@@ -296,7 +279,7 @@
 			<name xml:lang="zh-TW">目標模組</name>
 			<description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
 			<description xml:lang="jp">チェックされたコンテンツを対象とします。</description>
-			<description xml:lang="zh-CN">把被选模块中的主题作为对象。</description>
+			<description xml:lang="zh-CN">把所选模块中的主题作为对象。</description>
 			<description xml:lang="en">Articles on chosen module will be the target.</description>
 			<description xml:lang="es">Objetivo de los documentos será los del módulo seleccionado.</description>
 			<description xml:lang="ru">Статьи на выбранных модулях будут назначением.</description>

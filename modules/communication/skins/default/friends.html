@@ -1,95 +1,88 @@
-{@ $member_title = $lang->cmd_view_friend }
-
 <!--#include("./common_header.html")-->
 
 <!--%import("filter/delete_checked_friend.xml")-->
 <!--%import("filter/delete_friend_group.xml")-->
 <!--%import("filter/move_friend.xml")-->
 
-<form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
+<div class="xeGroups">
 
-    <div class="boardInformation">
-            <span class="friendNum">{$lang->friend} : <strong>{$total_count}</strong></span> 
-            <div class="fr">
-                <select name="friend_group_list" id="friend_group_list">
-                    <!--@foreach($friend_group_list as $key => $val)-->
-                    <option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
-                    <!--@end-->
-                </select>
-                <a href="#" onclick="doRenameFriendGroup();return false;" class="button"><span>{$lang->cmd_modify}</span></a>
-                <a href="#" onclick="doDeleteFriendGroup();return false;" class="button"><span>{$lang->cmd_delete}</span></a>
-                <a href="{getUrl('module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button"><span>{$lang->cmd_add_friend_group}</span></a>
-            </div>
-    </div>
+    <h3>{$member_title = $lang->cmd_view_friend } ({$total_count})</h3>
 
-    <table cellspacing="0" class="list">
-    <thead>
+    <form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
+
+        <div class="setupGroup">
+            <select name="friend_group_list" id="friend_group_list">
+                <!--@foreach($friend_group_list as $key => $val)-->
+                <option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
+                <!--@end-->
+            </select>
+            <a href="#" onclick="doRenameFriendGroup();return false;" class="button small blue"><span>{$lang->cmd_modify}</span></a>
+            <a href="#" onclick="doDeleteFriendGroup();return false;" class="button small red"><span>{$lang->cmd_delete}</span></a>
+            <a href="{getUrl('module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button small black strong"><span>{$lang->cmd_add_friend_group}</span></a>
+        </div>
+
+        <div class="jumpMenu">
+            <select name="jumpMenu" id="jumpMenu">
+                <option value="">{$lang->default_friend_group}</option>
+                <!--@foreach($friend_group_list as $key => $val)-->
+                <option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
+                <!--@end-->
+            </select><a href="#" onclick="doJumpFriendGroup(); return false;" class="small button"><span>{$lang->cmd_move}</span></a>
+        </div>
+
+        <table cellspacing="0" class="colTable">
         <tr>
-            <th scope="col" class="check first-child"><div><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list', { wrap:'fo_friend_list' }); return false;" /><div></th>
-            <th scope="col" class="friendGroup">
-                <div>
-                    <select name="jumpMenu" id="jumpMenu" class="w100">
-                        <option value="">{$lang->default_friend_group}</option>
+            <th class="title"><div>{$lang->friend_group}<div></th>
+            <th class="title"><div><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list', { wrap:'fo_friend_list' }); return false;" /> {$lang->nick_name}<div></th>
+            <th class="title"><div>{$lang->user_id} / {$lang->user_name}<div></th>
+            <th class="title"><div>{$lang->regdate}<div></th>
+        </tr>
+        <tbody>
+            <!--@foreach($friend_list as $no => $val)-->
+            <tr>
+                <td class="nowrap">{$val->group_title?$val->group_title:"&nbsp;"}</td>
+                <td class="nowrap"><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /><span class="member_{$val->target_srl}">{$val->nick_name}</span></td>
+                <td class="nowrap wide">{$val->user_id} / {$val->user_name}</td>
+                <td class="nowrap"><span class="regdate">{zdate($val->regdate,"Y-m-d")}</span></td>
+            </tr>
+            <!--@end-->
+            <tr>
+                <th class="button" colspan="4">
+                    <select name="target_friend_group_srl">
                         <!--@foreach($friend_group_list as $key => $val)-->
-                        <option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
+                        <option value="{$val->friend_group_srl}">{$val->title}</option>
                         <!--@end-->
-                    </select><a href="#" onclick="doJumpFriendGroup(); return false;"><img src="./images/button_go.gif" alt="" align="absmiddle" /></a>
-                <div>
-            </th>
-            <th scope="col" class="half_wide"><div>{$lang->nick_name}<div></th>
-            <th scope="col" class="half_wide"><div>{$lang->user_id} / {$lang->user_name}<div></th>
-            <th scope="col" class="registDate"><div>{$lang->regdate}<div></th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--@foreach($friend_list as $no => $val)-->
-        <tr class="bg{($no+1)%2+1}">
-            <td class="check"><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /></td>
-            <td class="friendGroup">{$val->group_title?$val->group_title:"&nbsp;"}</td>
-            <td class="userNick"><div class="member_{$val->target_srl}">{$val->nick_name}</div></td>
-            <td class="userName">{$val->user_id} / {$val->user_name}</td>
-            <td class="registDate">{zdate($val->regdate,"Y-m-d")}</td>
-        </tr>
-        <!--@end-->
-    </tbody>
-    </table>
+                    </select>
+                    <a href="#" onclick="doMoveFriend();return false;" class="small button blue"><span>{$lang->cmd_move}</span></a>
+                    <span class="small button red"><input type="submit" value="{$lang->cmd_delete}" /></span>
+                    <a href="{getUrl('act','','message_type','','friend_gruop_srl','')}" class="small button"><span>{$lang->cmd_back}</span></a>
+                </th>
+            </tr>
+        </tbody>
+        </table>
 
-    <!-- 페이지 네비게이션 -->
-    <div class="pagination a1">
-        <a href="{getUrl('page','','document_srl','')}" class="prevEnd">{$lang->first_page}</a> 
-        <!--@while($page_no = $page_navigation->getNextPage())-->
-            <!--@if($page == $page_no)-->
-                <strong>{$page_no}</strong> 
-            <!--@else-->
-                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+        <!-- 페이지 네비게이션 -->
+        <div class="pagination a1">
+            <a href="{getUrl('page','','document_srl','')}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+                <!--@end-->
             <!--@end-->
-        <!--@end-->
-        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="nextEnd">{$lang->last_page}</a>
-    </div>
-
-    <div class="fl memberSelect">
-        <select name="target_friend_group_srl">
-            <!--@foreach($friend_group_list as $key => $val)-->
-            <option value="{$val->friend_group_srl}">{$val->title}</option>
-            <!--@end-->
-        </select>
-    </div>
-    <div class="fl">
-        <a href="#" onclick="doMoveFriend();return false;" class="button"><span>{$lang->cmd_move}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
-    </div>
-
-    <div class="fr">
-        <a href="{getUrl('act','','message_type','','friend_gruop_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-    </div>
-
-</form>
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="nextEnd">{$lang->last_page}</a>
+        </div>
 
 
-<!-- 그룹 삭제를 위한 빈 form -->
-<form action="./" method="get" id="for_delete_group">
-    <input type="hidden" name="friend_group_srl" value="" />
-</form>
+    </form>
+
+
+    <!-- 그룹 삭제를 위한 빈 form -->
+    <form action="./" method="get" id="for_delete_group">
+        <input type="hidden" name="friend_group_srl" value="" />
+    </form>
+</div>
 
 
 <!--#include("./common_footer.html")-->

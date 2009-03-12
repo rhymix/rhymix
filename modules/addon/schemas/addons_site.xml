@@ -1,0 +1,7 @@
+<table name="addons_site">
+    <column name="site_srl" type="number" size="11" notnull="notnull" default="0" unique="unique_addon_site"/>
+    <column name="addon" type="varchar" size="250" notnull="notnull" unique="unique_addon_site" />
+    <column name="is_used" type="char" size="1" default="Y" notnull="notnull" />
+    <column name="extra_vars" type="text"/>
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>

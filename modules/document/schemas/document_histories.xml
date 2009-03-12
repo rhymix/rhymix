@@ -1,0 +1,10 @@
+<table name="document_histories">
+    <column name="history_srl" type="number" size="11" default="0" notnull="notnull" primary_key="primary_key" />
+    <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+    <column name="document_srl" type="number" size="11" default="0" notnull="notnull" index="idx_document_srl" />
+    <column name="content" type="bigtext" />
+    <column name="nick_name" type="varchar" size="80" notnull="notnull" />
+    <column name="member_srl" type="number" size="11" />
+    <column name="regdate" type="date" index="idx_regdate" />
+    <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress"/>
+</table>

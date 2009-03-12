@@ -8,6 +8,7 @@
 <!--%import("filter/delete_type.xml")-->
 <!--%import("filter/insert_component.xml")-->
 <!--%import("filter/delete_component.xml")-->
+<!--%import("filter/modify_display_option.xml")-->
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
@@ -15,8 +16,8 @@
     <form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_milestone)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->milestone}</caption>
+        <h4 class="xeAdmin">{$lang->milestone}</h4>
+        <table cellspacing="0" class="crossTable">
         <thead>
         <tr>
             <th scope="col" class="wide"><div>{$lang->name}</div></th>
@@ -29,7 +30,7 @@
         <tbody>
         <!--@foreach($milestone_list as $val)-->
         <tr>
-            <td <!--@if($val->is_completed=='Y')-->class="strike"<!--@end-->>{$val->title}</td>
+            <td class="wide <!--@if($val->is_completed=='Y')-->strike<!--@end-->">{$val->title}</td>
             <td class="date center nowrap"><!--@if($val->released_date)-->{zdate($val->released_date,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
             <td class="date center nowrap"><!--@if($val->deadline)-->{zdate($val->deadline,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
             <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
@@ -42,31 +43,30 @@
 
         <tr>
             <td colspan="2">
-                <input name="title" type="text" class="inputTypeText fixWidth" /><br />
+                <input name="title" type="text" class="inputTypeText fullWidth" /><br />
             </td>
             <td class="nowrap">
                 <input type="hidden" name="deadline" id="date_deadline" />
                 <input type="text" class="inputDate" value="" readonly="readonly" />
-<script type="text/javascript">
-(function($){
-    $(function(){
-        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+                <script type="text/javascript">
+                (function($){
+                    $(function(){
+                        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
 
-            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
-        };
-        $.extend(option,$.datepicker.regional['{$lang_type}']);
-        $(".inputDate").datepicker(option);
-    });
-})(jQuery);
-</script>
-
+                            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+                        };
+                        $.extend(option,$.datepicker.regional['{$lang_type}']);
+                        $(".inputDate").datepicker(option);
+                    });
+                })(jQuery);
+                </script>
             </td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td class="vtop" rowspan="2"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></td>
         </tr>
         <tr>
-            <td colspan="4">
-                <textarea name="description" class="inputTypeTextArea fixWidth" /></textarea>
+            <td colspan="5">
+                <textarea name="description" class="inputTypeTextArea fullWidth" /></textarea>
             </td>
         </tr>
         </tbody>
@@ -80,8 +80,8 @@
     <form action="./" method="post" onsubmit="return procFilter(this, insert_priority)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->priority}</caption>
+        <h4 class="xeAdmin">{$lang->priority}</h4>
+        <table cellspacing="0" class="crossTable">
         <thead>
         <tr>
             <th scope="col" class="wide"><div>{$lang->name}</div></th>
@@ -93,7 +93,7 @@
         <tbody>
         <!--@foreach($priority_list as $val)-->
         <tr>
-            <td>{$val->title}</td>
+            <td class="wide">{$val->title}</td>
             <td class="center number">{$val->listorder}</td>
             <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
             <td class="button">
@@ -103,7 +103,7 @@
         </tr>
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText fixWidth" /></td>
+            <td><input name="title" type="text" class="inputTypeText fullWidth" /></td>
             <td>&nbsp;</td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
@@ -115,8 +115,8 @@
 
     <form action="./" method="post" onsubmit="return procFilter(this, insert_type)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->type}</caption>
+        <h4 class="xeAdmin">{$lang->type}</h4>
+        <table cellspacing="0" class="crossTable">
         <thead>
         <tr>
             <th scope="col" class="wide"><div>{$lang->type}</div></th>
@@ -127,7 +127,7 @@
         <tbody>
         <!--@foreach($type_list as $val)-->
         <tr>
-            <td>{$val->title}</td>
+            <td class="wide">{$val->title}</td>
             <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
             <td class="center">
                 <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyType','type_srl',$val->type_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
@@ -136,7 +136,7 @@
         </tr>
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText fixWidth" /></td>
+            <td><input name="title" type="text" class="inputTypeText fullWidth" /></td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tbody>
@@ -147,8 +147,8 @@
     <form action="./" method="post" onsubmit="return procFilter(this, insert_component)">
     <input type="hidden" name="module_srl" value="{$module_srl}" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->component}</caption>
+        <h4 class="xeAdmin">{$lang->component}</h4>
+        <table cellspacing="0" class="crossTable">
         <thead>
         <tr>
             <th scope="col" class="wide"><div>{$lang->component}</div></th>
@@ -159,7 +159,7 @@
         <tbody>
         <!--@foreach($component_list as $val)-->
         <tr>
-            <td>{$val->title}</td>
+            <td class="wide">{$val->title}</td>
             <td class="center"><!--@if($val->is_default=='Y')-->{$lang->is_default}<!--@else-->&nbsp;<!--@end--></td>
             <td class="center">
                 <a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyComponent','component_srl',$val->component_srl)}"><img src="images/buttonModify.gif" alt="" /></a> &nbsp;
@@ -169,9 +169,23 @@
 
         <!--@end-->
         <tr>
-            <td><input name="title" type="text" class="inputTypeText fixWidth" /></td>
+            <td><input name="title" type="text" class="inputTypeText fullWidth" /></td>
             <td class="center"><input type="checkbox" name="is_default" value="Y" /></td>
             <td><input type="submit" value="{$lang->cmd_registration}" class="btnSubmit" accesskey="s"/></td>
         </tbody>
         </table>
+    </form>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, modify_display_option)">
+    <input type="hidden" name="module_srl" value="{$module_srl}" />
+
+        <h4 class="xeAdmin">{$lang->display_option}</h4>
+        <ol class="displayOpt">
+            <!--@foreach($display_option as $key => $val)-->
+            <li><input type="checkbox" name="displayopts" value="{$key}" id="display_{$key}" <!--@if($val->checked)-->checked="checked"<!--@end--> <!--@if($key=='title')-->disabled="disabled"<!--@end--> /><label for="display_{$key}">{$val->title}</label></li>
+            <!--@end-->
+        </ol>
+        <div class="right">
+        <input type="submit" value="{$lang->cmd_modify}" class="btnSubmit" accesskey="s"/>
+        </div>
     </form>

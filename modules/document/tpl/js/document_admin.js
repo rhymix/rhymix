@@ -90,3 +90,49 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
     obj.value = browser_title+' ('+mid+')';
     doGetCategoryFromModule(module_srl);
 }
+
+function completeInsertExtraVar(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = current_url.setQuery('type','').setQuery('selected_var_idx','');
+}
+
+function completeInsertAlias(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = current_url;
+}
+
+function insertSelectedModule(id, module_srl, mid, browser_title) {
+    if(current_url.getQuery('act')=='dispDocumentManageDocument') {
+        var obj= xGetElementById('_'+id);
+        var sObj = xGetElementById(id);
+        sObj.value = module_srl;
+        obj.value = browser_title+' ('+mid+')';
+        doGetCategoryFromModule(module_srl);
+    } else {
+        location.href = current_url.setQuery('module_srl',module_srl);
+    }
+}
+
+function deleteByFilter(target_srl, filter)
+{
+    var e = xGetElementById('target_srl');
+    e.value= target_srl;
+    var hF = xGetElementById("deleteForm");
+    procFilter(hF, filter);
+}
+
+function doDeleteExtraKey(module_srl, var_idx) {
+    var fo_obj = xGetElementById('fo_delete');
+    fo_obj.module_srl.value = module_srl;
+    fo_obj.var_idx.value = var_idx;
+    return procFilter(fo_obj, delete_extra_var);
+}
+
+function moveVar(type, module_srl, var_idx) {
+    var params = new Array();
+    params['type'] = type;
+    params['module_srl'] = module_srl;
+    params['var_idx'] = var_idx;
+    var response_tags = new Array('error','message');
+    exec_xml('document','procAdminMoveExtraVar', params, function() { location.reload(); });
+}

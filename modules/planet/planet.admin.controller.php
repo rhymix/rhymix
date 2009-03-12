@@ -17,24 +17,26 @@
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
             $oPlanetModel = &getModel('planet');
-            $config = $oPlanetModel->getPlanetConfig();
+            $module_info = $oPlanetModel->getPlanetConfig();
 
             // 이미 등록된 플래닛의 유무 체크
-            if($config->mid && $oModuleModel->getModuleInfoByMid($config->mid)) {
+            $_module_info = $oModuleModel->getModuleInfoByMid($module_info->mid);
+            if($module_info->mid && $_module_info) {
+                $module_info->module_srl = $_module_info->module_srl;
                 $is_registed = true;
             } else {
                 $is_registed = false;
             }
 
             // mid, browser_title, is_default 값이 바뀌면 처리
-            $config->mid = $args->mid = Context::get('planet_mid');
+            $module_info->mid = $args->mid = Context::get('planet_mid');
             $args->browser_title = Context::get('browser_title');
             $args->is_default = Context::get('is_default');
             $args->skin = Context::get('planet_default_skin');
             $args->layout_srl = Context::get('layout_srl');
 
             $args->module = 'planet';
-            $args->module_srl = $is_registed?$config->module_srl:getNextSequence();
+            $args->module_srl = $is_registed?$module_info->module_srl:getNextSequence();
 
             if($args->is_default == 'Y') {
                 $output = $oModuleController->clearDefaultModule();
@@ -49,9 +51,9 @@
             if(!$output->toBool()) return $output;
 
             // 그외 정보 처리
-            $config->planet_default_skin = Context::get('planet_default_skin');
-            $config->use_mobile = Context::get('use_mobile');
-            $config->use_me2day = Context::get('use_me2day');
+            $module_info->planet_default_skin = Context::get('planet_default_skin');
+            $module_info->use_mobile = Context::get('use_mobile');
+            $module_info->use_me2day = Context::get('use_me2day');
 
             $tagtab = explode(',',Context::get('planet_tagtab'));
             for($i=0,$c=count($tagtab);$i<$c;$i++){
@@ -59,7 +61,7 @@
                 $tagtab[$i] = trim($tagtab[$i]);
             }
             $tagtab = array_unique($tagtab);
-            $config->tagtab = $tagtab;
+            $module_info->tagtab = $tagtab;
 
             $tagtab_after = explode(',',Context::get('planet_tagtab_after'));
             for($i=0,$c=count($tagtab_after);$i<$c;$i++){
@@ -67,7 +69,7 @@
                 $tagtab_after[$i] = trim($tagtab_after[$i]);
             }
             $tagtab_after = array_unique($tagtab_after);
-            $config->tagtab_after = $tagtab_after;
+            $module_info->tagtab_after = $tagtab_after;
 
 
             $smstag = explode(',',Context::get('planet_smstag'));
@@ -76,25 +78,15 @@
                 $tagtab[$i] = trim($tagtab[$i]);
             }
             $smstag = array_unique($smstag);
-            $config->smstag = $smstag;
+            $module_info->smstag = $smstag;
 
 
-            $config->create_message = Context::get('create_message');
-            $config->use_signup = Context::get('use_signup');
-            if($config->use_signup != 'Y') $config->use_signup = 'N';
-
-            $grant_list = array('access','create','manager','write_document');
-            foreach($grant_list as $key) {
-                $tmp = trim(Context::get($key));
-                if(!$tmp) {
-                    $config->grants[$key] = null;
-                    continue;
-                }
-                $config->grants[$key] = explode('|@|', $tmp);
-            }
+            $module_info->create_message = Context::get('create_message');
+            $module_info->use_signup = Context::get('use_signup');
+            if($module_info->use_signup != 'Y') $module_info->use_signup = 'N';
 
             $oPlanetController = &getController('planet');
-            $oPlanetController->insertPlanetConfig($config);
+            $oPlanetController->insertPlanetConfig($module_info);
 
             $this->setMessage("success_saved");
         }
@@ -142,79 +134,5 @@
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
         }
-
-        function procPlanetAdminUpdateSkinInfo() {
-            $oPlanetModel = &getModel('planet');
-            $config = $oPlanetModel->getPlanetConfig();
-            $skin = $config->planet_default_skin;
-
-            $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-
-            $obj = Context::getRequestVars();
-            unset($obj->act);
-            unset($obj->module_srl);
-            unset($obj->page);
-            unset($obj->module);
-
-            $config->colorset = $obj->colorset;
-
-            // 원 skin_info에서 extra_vars의 type이 image일 경우 별도 처리를 해줌
-            if($skin_info->extra_vars) {
-                foreach($skin_info->extra_vars as $vars) {
-                    if($vars->type!='image') {
-                        $config->{$vars->name} = $obj->{$vars->name};
-                        continue;
-                    }
-
-                    $image_obj = $obj->{$vars->name};
-
-                    // 삭제 요청에 대한 변수를 구함
-                    $del_var = $obj->{"del_".$vars->name};
-                    unset($obj->{"del_".$vars->name});
-                    if($del_var == 'Y') {
-                        FileHandler::removeFile($config->{$vars->name});
-                        $config->{$vars->name} = '';
-                        continue;
-                    }
-
-                    // 업로드 되지 않았다면 이전 데이터를 그대로 사용
-                    if(!$image_obj['tmp_name']) continue;
-
-                    // 정상적으로 업로드된 파일이 아니면 무시
-                    if(!is_uploaded_file($image_obj['tmp_name'])) continue;
-
-                    // 이미지 파일이 아니어도 무시
-                    if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) continue;
-
-                    // 경로를 정해서 업로드
-                    $path = sprintf("./files/attach/planet/", $module_srl);
-
-                    // 디렉토리 생성
-                    if(!FileHandler::makeDir($path)) return false;
-
-                    $filename = $path.$image_obj['name'];
-
-                    // 파일 이동
-                    if(!move_uploaded_file($image_obj['tmp_name'], $filename)) {
-                        unset($obj->{$vars->name});
-                        continue;
-                    }
-
-                    // 변수를 바꿈
-                    $config->{$vars->name} = $filename;
-                }
-            }
-            
-            $oPlanetController = &getController('planet');
-            $oPlanetController->insertPlanetConfig($config);
-
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile("top_refresh.html");
-        }
-
-
     }
 ?>

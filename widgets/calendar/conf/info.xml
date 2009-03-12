@@ -28,7 +28,7 @@
 	</author>
 
 	<extra_vars>
-		<var id="mid">
+		<var id="srl">
 			<type>mid</type>
 			<name xml:lang="ko">대상 모듈</name>
 			<name xml:lang="zh-CN">模块对象</name>
@@ -38,7 +38,7 @@
 			<name xml:lang="zh-TW">目標模組</name>
 			<name xml:lang="ru">Модуль назначения</name>
 			<description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-			<description xml:lang="zh-CN">将把被选模块作为关联对象。</description>
+			<description xml:lang="zh-CN">将把所选模块作为关联对象。</description>
 			<description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
 			<description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
 			<description xml:lang="es">Los documentos del módulo seleccionado serán objetivos.</description>

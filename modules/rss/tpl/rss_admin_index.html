@@ -1,0 +1,82 @@
+<h3 class="xeAdmin">{$lang->total_feed} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<!--%import("filter/insert_rss_config.xml")-->
+<form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+    <input type="hidden" name="module" value="rss" />
+    <input type="hidden" name="act" value="procRssAdminInsertConfig" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row"><div>{$lang->total_feed}</div></th>
+        <td class="wide">
+            <select name="use_total_feed" class="w200">
+                <option value="Y" <!--@if(!$total_config->use_total_feed || $total_config->use_total_feed == 'Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+                <option value="N" <!--@if($total_config->use_total_feed == 'N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->title}</div></th>
+        <td class="wide">
+            <input type="text" class="inputTypeText" name="feed_title" value="{htmlspecialchars($total_config->feed_title)}" />
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->description}</div></th>
+        <td class="wide">
+            <textarea name="feed_description" class="inputTypeTextArea">{$total_config->feed_description}</textarea>
+        </td>
+    </tr>
+    <tr>
+    <th scope="row"><div>{$lang->feed_image}</div></th>
+        <td class="wide">
+            <!--@if($total_config->image)-->
+            <div>
+                <img src="../../../{$total_config->image}" alt="image" /><br />
+                <input type="checkbox" name="del_image" value="Y" id="del_image" class="checkbox" />
+                <label for="del_image">{$lang->cmd_delete}</label>
+            </div>
+            <!--@end-->
+            <input type="file" name="image" value="" />
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->feed_copyright}</div></th>
+        <td class="wide">
+            <input type="text" class="inputTypeText" name="feed_copyright" value="{htmlspecialchars($total_config->feed_copyright)}" />
+            <p>{$lang->about_feed_copyright}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->feed_document_count}</div></th>
+        <td class="wide">
+            <input type="text" class="inputTypeText" name="feed_document_count" value="{$total_config->feed_document_count}" />
+            <p>{$lang->about_feed_document_count}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th class="button" colspan="2"><span class="button strong black"><input type="submit" value="{$lang->cmd_save}"/></span></th>
+    </tr>
+    </table>
+</form>
+
+<h3 class="xeAdmin">{$lang->feed} <span class="gray">{$lang->cmd_management}</span></h3>
+<table cellspacing="0" class="crossTable">
+    <thead>
+	      <tr>
+		        <th scope="col">{$lang->mid}</td>
+		        <th scope="col">{$lang->open_rss}</td>
+		        <th scope="col">{$lang->open_feed_to_total}</td>
+	      </tr>
+	  </thead>
+	  <tbody>
+	  <!--@foreach($feed_config as $config)-->
+	      <tr>
+		        <th>{$config['mid']}</th>
+		        <td>{$lang->open_rss_types[$config['open_feed']]}</td>
+		        <td><!--@if($config['open_total_feed'] == 'T_N')-->{$lang->notuse}<!--@else-->{$lang->use}<!--@end--></td>
+	      </tr>
+    <!--@end-->
+    </tbody>
+</table>
+
+<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

@@ -1,10 +1,10 @@
 <!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return doSync(this)">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->import_step_title[3]} - {$lang->import_step_desc[3]}</caption>
+    <h4 class="xeAdmin">{$lang->import_step_title[3]} - {$lang->import_step_desc[3]}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <td><span class="button"><input type="submit" value="{$lang->cmd_sync_member}" /></span></td>
+        <th class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_sync_member}" /></span></th>
     </tr>
     </table>
 </form>

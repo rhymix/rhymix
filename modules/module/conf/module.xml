@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+    <grants />
+    <permissions>
+        <permission action="dispModuleSelectList" target="member" />
+    </permissions>
     <actions>
+        <action name="dispModuleSelectList" type="view" standalone="true" />
+        <action name="dispModuleSkinInfo" type="view" standalone="true" />
+
         <action name="dispModuleAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispModuleAdminList" type="view" standalone="true" />
         <action name="dispModuleAdminCategory" type="view" standalone="true" />
         <action name="dispModuleAdminInfo" type="view" standalone="true" />
+        <action name="dispModuleAdminModuleSetup" type="view" standalone="true" />
+        <action name="dispModuleAdminModuleAdditionSetup" type="view" standalone="true" />
+        <action name="dispModuleAdminModuleGrantSetup" type="view" standalone="true" />
+        <action name="dispModuleAdminCopyModule" type="view" standalone="true" />
+        <action name="dispModuleAdminLangcode" type="view" standalone="true" />
 
-        <action name="dispModuleSkinInfo" type="view" standalone="true" />
+        <action name="dispModuleFileBox" type="view" standalone="true" />
+        <action name="dispModuleFileBoxAdd" type="view" standalone="true" />
+
+        <action name="procModuleFileBoxAdd" type="controller" standalone="true" />
+        <action name="procModuleFileBoxAdd" type="controller" standalone="true" />
+        <action name="procModuleFileBoxDelete" type="controller" standalone="true" />
 
         <action name="getModuleAdminModuleList" type="model" standalone="true" />
+        <action name="getModuleAdminLangCode" type="model" standalone="true" />
 
-        <action name="dispModuleAdminSelectList" type="view" standalone="true" />
-        <action name="dispModuleAdminCopyModule" type="view" standalone="true" />
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" />
         <action name="procModuleAdminCopyModule" type="controller" standalone="true" />
+        <action name="procModuleAdminInsertGrant" type="controller" standalone="true" />
+        <action name="procModuleAdminUpdateSkinInfo" type="controller" standalone="true" />
+        <action name="procModuleAdminModuleSetup" type="controller" standalone="true" />
+        <action name="procModuleAdminModuleGrantSetup" type="controller" standalone="true" />
+        <action name="procModuleAdminInsertLang" type="controller" standalone="true" />
+        <action name="procModuleAdminDeleteLang" type="controller" standalone="true" />
     </actions>
 </module>

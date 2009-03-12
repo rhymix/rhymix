@@ -67,7 +67,8 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
 function setEditMode(editor, editor_height, editor_sequence) {
     editor.setEditMode('wysiwyg');
     editor.getFrame().style.width = "100%";
-    editor.getFrame().parentNode.style.height = editor_height;
+    editor.setWidth("100%");
+    editor.setHeight(editor_height);
     editor.getBody().setAttribute('editor_sequence', editor_sequence);
     editor.addAutocompletions(getAdditionalAutocompletions());
 

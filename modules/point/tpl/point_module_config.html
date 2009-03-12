@@ -3,8 +3,8 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point">
 <input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
 
-<table cellspacing="0" class="adminTable">
-<caption>{$lang->point}</caption>
+<h4 class="xeAdmin">{$lang->point}</h4>
+<table cellspacing="0" class="rowTable">
 <tr>
     <th><div>{$lang->point_insert_document}</div></th>
     <td class="wide"><input type="text" name="insert_document" value="{$module_config['insert_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
@@ -26,7 +26,7 @@
     <td><input type="text" name="read_document" value="{$module_config['read_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
 </tr>
 <tr>
-    <td colspan="2" class="right"><span class="button"><input type="submit" value="{$lang->cmd_save}" /></span></td>
+    <th colspan="2" class="button"><span class="button strong black"><input type="submit" value="{$lang->cmd_save}" /></span></th>
 </tr>
 </table>
 

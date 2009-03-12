@@ -2,7 +2,7 @@
 <module version="0.2">
     <title xml:lang="ko">댓글</title>
     <title xml:lang="jp">コメント</title>
-    <title xml:lang="zh-CN">评论</title>
+    <title xml:lang="zh-CN">评论管理</title>
     <title xml:lang="en">Comment</title>
     <title xml:lang="es">Commentarios</title>
     <title xml:lang="ru">Комментарии</title>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">管理討論板或部落格評論的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>utility</category>
+    <category>content</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

@@ -14,6 +14,6 @@
         <list_count var="list_count" default="2" />
     </navigation>
     <groups>
-        <group column="substr(regdate,0,8)" />
+        <group column="substr(regdate,1,8)" />
     </groups>
 </query>

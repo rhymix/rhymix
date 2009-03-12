@@ -1,0 +1,10 @@
+<filter name="move_category" module="document" act="procDocumentAdminMoveCategory" confirm_msg_code="confirm_move">
+    <form />
+    <parameter />
+    <response callback_func="completeMoveCategory">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="xml_file" />
+        <tag name="source_category_srl" />
+    </response>
+</filter>

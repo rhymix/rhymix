@@ -446,11 +446,12 @@
             return new Object();
         }
 
-        /**
+		/**
          * @brief 포인트 설정
          **/
         function setPoint($member_srl, $point, $mode = null) {
-            if($point < 0) $point = 0;
+            $mode_arr = array('add', 'minus', 'update', 'signup');
+            if(!$mode || !in_array($mode,$mode_arr)) $mode = 'update';
 
             // 설정 정보 가져오기
             $oMemberModel = &getModel('member');
@@ -464,7 +465,18 @@
 
             // 포인트 변경
             $args->member_srl = $member_srl;
-            $args->point = $point;
+            $args->point = $prev_point;
+
+            if($mode == 'add') {
+                $args->point += $point;
+            } elseif($mode == 'minus') {
+                $args->point -= $point;
+                if($args->point < 0) $args->point = 0;
+            } elseif($mode == 'update') {
+                $args->point = $point;
+                if($args->point < 0) $args->point = 0;
+            }
+
 
             // 포인트가 있는지 체크
             $oPointModel = &getModel('point');

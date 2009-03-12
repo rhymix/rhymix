@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/issuetracker/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  問題追蹤模組語言
+     * @brief  問題追蹤(Issuetracker)模組語言
      **/
 
      $lang->issuetracker = '問題追蹤';
@@ -12,7 +12,7 @@
      $lang->cmd_view_info = '專案資訊';
      $lang->cmd_project_setting = '專案設置';
      $lang->cmd_release_setting = '發佈設置';
-     $lang->cmd_insert_package = '新增套裝包';
+     $lang->cmd_insert_package = '新增套裝軟體';
      $lang->cmd_insert_release = '新增發佈版';
      $lang->cmd_attach_file = '新增附加檔案';
      $lang->cmd_display_item = '顯示專案';
@@ -24,9 +24,9 @@
      $lang->svn_url = 'SVN位址';
      $lang->about_svn_url = '請輸入專案的 SVN 位址。';
      $lang->svn_cmd = 'SVN應用程式位置';
-     $lang->about_svn_cmd = '請輸入 SVN Client 應用程式位置。(ex: /usr/bin/svn)';
+     $lang->about_svn_cmd = '請輸入 SVN Client 應用程式位置。(例: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFF應用程式位置';
-     $lang->about_diff_cmd = '為了比較 SVN 版本，請輸入 diff 應用程式位置。 (ex: /usr/bin/diff)';
+     $lang->about_diff_cmd = '為了比較 SVN 版本，請輸入 diff 應用程式位置。 (例: /usr/bin/diff)';
      $lang->svn_userid = 'SVN帳號';
      $lang->about_svn_userid = '必須要驗證時，請輸入帳號來登入 SVN 檔案庫';
      $lang->svn_passwd = 'SVN密碼';
@@ -41,6 +41,7 @@
      $lang->assignee = '所有者';
      $lang->status = '狀態';
      $lang->action = '動作';
+     $lang->display_option = '顯示選項';
 
      $lang->history_format_not_source = '<span class="key">[key]</span>修改為<span class="target">[target]</span>';
      $lang->history_format = '<span class="key">[key]</span>，從<span class="source">[source]</span>修改為<span class="target">[target]</span>';
@@ -52,7 +53,7 @@
      $lang->complete = '完成';
      $lang->completed_date = '結束日期';
      $lang->order = '順序';
-     $lang->package = $lang->package_srl = '套裝包';
+     $lang->package = $lang->package_srl = '套裝軟體';
      $lang->release = $lang->release_srl = '發佈版';
      $lang->release_note = '發佈記錄';
      $lang->release_changes = '更新日誌';
@@ -91,12 +92,20 @@
     $lang->msg_attached = '檔案已新增。';
     $lang->msg_no_releases = '尚未被新增的發佈版本。';
 
-    $lang->cmd_document_do = '將此問題.. ';
+    $lang->cmd_document_do = '將此問題...';
     $lang->not_assigned = '尚未分配';
     $lang->not_assigned_description = '尚未被分配的問題清單';
     $lang->timeline_msg = array(
-        'changed' => 'changed',
-        'created' => 'created'
+        'changed' => '變更',
+        'created' => '建立'
     );
-    $lang->cmd_manage_issue = 'Manage issues';
+
+    $lang->cmd_manage_issue = '問題管理';
+    $lang->msg_changes_from = 'View changes from';
+    $lang->duration = 'Duration';
+    $lang->target_list = array(
+        'issue_created' => '建立問題',
+        'issue_changed' => '變更問題',
+        'commit' => 'Repository checkins'
+        );
 ?>

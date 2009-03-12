@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+    <grants />
+    <permissions />
     <actions>
         <action name="dispLayoutInfo" type="view" standalone="true" />
         <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
@@ -9,11 +11,20 @@
         <action name="dispLayoutAdminDownloadedList" type="view" standalone="true" />
         <action name="dispLayoutAdminPreview" type="view" standalone="true" />
         <action name="dispLayoutAdminInfo" type="view" standalone="true" />
+        <action name="dispLayoutAdminLayoutModify" type="view" standalone="true" />
+        <action name="dispLayoutAdminLayoutImageList" type="view" standalone="true" />
+
 
         <action name="procLayoutAdminInsert" type="controller" standalone="true" />
         <action name="procLayoutAdminUpdate" type="controller" standalone="true" />
         <action name="procLayoutAdminDelete" type="controller" standalone="true" />
         <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" />
         <action name="procLayoutAdminCodeReset" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserImageUpload" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserImageDelete" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserValueInsert" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserLayoutExport" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" />
+
     </actions>
 </module>

@@ -2,13 +2,13 @@
 <!--%import("../../editor/tpl/js/editor_module_config.js",optimized=false)-->
 <!--%import("filter/insert_config.xml")-->
 
-<h3>{$lang->communication} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->communication} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_communication)}</div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->editor_skin}</div></th>
         <td>
@@ -41,8 +41,8 @@
     </tr>
 
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        <th colspan="2" class="button">
+            <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </th>
     </tr>
     </table>

@@ -5,7 +5,7 @@
 <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
 <input type="hidden" name="default_value" value="<!--@if(is_array($join_form->default_value))-->{implode($join_form->default_value,'|@|')}<!--@end-->" />
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr class="row2" id="zone_column_type">
         <th scope="row"><div>{$lang->column_type}</div></th>
         <td>
@@ -77,9 +77,9 @@
         </td>
     </tr>
     <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
     </tr>
     </table>
 

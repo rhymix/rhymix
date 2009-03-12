@@ -49,9 +49,11 @@ table.issues tbody td.nick_name { text-align:left; }
 table.milestones { width:100%; clear:both; border:0; border-spacing:0; table-layout:fixed; border:1px solid #333333; border-bottom:none; }
 table.milestones thead tr { background:url("../images/tableHeader.gif") repeat left top; height:20px; color:#FFFFFF; }
 table.milestones thead tr th { white-space:nowrap; }
-table.milestones tbody tr.title td { background-color:#EFEFEF; padding:7px; }
+table.milestones tbody tr.title td { background-color:#EFEFEF; height:28px; vertical-align:baseline;}
 table.milestones tbody td { padding:5px; text-align:center; border-bottom:1px solid #EEEEEE; }
-table.milestones tbody td.title { font-weight:bold; text-align:left; font-size:10pt;}
+table.milestones tbody td.title { padding:0; font-weight:bold; text-align:left; font-size:10pt; }
+table.milestones tbody td.title div.progress { width:100px;height:28px;background-color:#DFDFDF; }
+table.milestones tbody td.title div.titlewrap { position:absolute;padding:6px; }
 table.milestones tbody td.title a { text-decoration:none; color:#444444; }
 table.milestones tbody td.deadline { color:#0A6E03; font-family:tahoma; font-size:9pt; white-space:nowrap;}
 table.milestones tbody td.status a { text-decoration:none; font-family:tahoma; font-size:8pt; font-weight:bold;}
@@ -280,3 +282,17 @@ dd span.target { color:#4F86B0; font-weight:bold; }
 dd span.key { color:#888888; font-weight:bold; }
 dt a { color:#373737; text-decoration: none; }
 dt span.closed { text-decoration: line-through; }
+
+.search { float: right; }
+.left { float: left; }
+
+
+/* 확장 변수 폼 */
+.extraVarForm .text { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:90%; }
+.extraVarForm .email_address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+.extraVarForm .homepage { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+.extraVarForm .tel { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:40px; margin-right:10px;}
+.extraVarForm .textarea { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:90%; height:80px; font-size:12px;}
+.extraVarForm ul { margin:0; padding:0; list-style:none; }
+.extraVarForm .date { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:100px; }
+.extraVarForm .address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }

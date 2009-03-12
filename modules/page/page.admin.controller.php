@@ -17,32 +17,26 @@
          * @brief 페이지 추가
          **/
         function procPageAdminInsert() {
-            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
-            $args = Context::gets('module_srl','module_category_srl','page_name','browser_title','is_default','layout_srl','content');
+            // module 모듈의 model/controller 객체 생성
+            $oModuleController = &getController('module');
+            $oModuleModel = &getModel('module');
+
+            // 게시판 모듈의 정보 설정
+            $args = Context::getRequestVars();
             $args->module = 'page';
             $args->mid = $args->page_name;
-            if(!$args->content) $args->content = $content;
-            else unset($args->conetnt);
             unset($args->page_name);
-            if($args->is_default!='Y') $args->is_default = 'N';
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
-                $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+                if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
             }
 
-            // module 모듈의 controller 객체 생성
-            $oModuleController = &getController('module');
-
-            // is_default=='Y' 이면
-            if($args->is_default=='Y') $oModuleController->clearDefaultModule();
-
             // module_srl의 값에 따라 insert/update
-            if($module_info->module_srl != $args->module_srl) {
+            if(!$args->module_srl) {
                 $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
-                $module_info->module_srl = $output->get('module_srl');
             } else {
                 $output = $oModuleController->updateModule($args);
                 $msg_code = 'success_updated';
@@ -50,26 +44,8 @@
 
             if(!$output->toBool()) return $output;
 
-            /**
-             * 권한 저장
-             **/
-            // 현 모듈의 권한 목록을 저장
-            $grant_list = $this->xml_info->grant;
-
-            if(count($grant_list)) {
-                foreach($grant_list as $key => $val) {
-                    $group_srls = Context::get($key);
-                    if($group_srls) $arr_grant[$key] = explode('|@|',$group_srls);
-                }
-                $grants = serialize($arr_grant);
-            }
-
-            $oModuleController = &getController('module');
-            $oModuleController->updateModuleGrant($module_info->module_srl, $grants);
-
-
-            $this->add("module_srl", $args->module_srl);
             $this->add("page", Context::get('page'));
+            $this->add('module_srl',$output->get('module_srl'));
             $this->setMessage($msg_code);
         }
 
@@ -183,8 +159,6 @@
             // widget controller 의 캐시파일 재생성 실행
             $oWidgetController = &getController('widget');
             $oWidgetController->recompileWidget($content);
-
-            $this->setMessage('success_updated');
         }
 
     }

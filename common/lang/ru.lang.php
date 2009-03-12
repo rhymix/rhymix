@@ -256,6 +256,7 @@
     $lang->column_type_list['textarea'] = 'многолетних-лайн textarea';
     $lang->column_type_list['checkbox'] = 'флажок (несколько отбор)';
     $lang->column_type_list['select'] = 'выберите поле (один отбор)';
+    $lang->column_type_list['radio'] = 'radio button (radio)';
     $lang->column_type_list['kr_zip'] = 'почтовый индекс (корейский)';
     $lang->column_type_list['date'] = 'Дата (гггг / мм / дд)';
     //$lang->column_type_list['jp_zip'] = 'почтовый индекс (японский)';

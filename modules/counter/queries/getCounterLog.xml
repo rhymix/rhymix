@@ -6,7 +6,8 @@
         <column name="count(*)" alias="count"/>
     </columns>
     <conditions>
-        <condition operation="equal" column="ipaddress" var="ipaddress" />
+        <condition operation="equal" column="site_srl" var="site_srl" default="0" pipe="and" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" pipe="and" />
         <condition operation="like_prefix" column="regdate" var="regdate" notnull="notnull" pipe="and" />
     </conditions>
 </query>

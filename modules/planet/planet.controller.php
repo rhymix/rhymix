@@ -11,6 +11,50 @@
          * @brief 초기화
          **/
         function init() {
+            $oPlanetModel = &getModel('planet');
+            $oModuleModel = &getModel('module');
+
+            Context::set('module_info',$this->module_info = $oPlanetModel->getPlanetConfig());
+            $this->grant = $oModuleModel->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
+            Context::set('grant', $this->grant);
+        }
+
+        /**
+         * @brief 플래닛 글 삭제
+         **/
+        function procPlanetDeleteDocument() {
+            $document_srl = Context::get('document_srl');
+            if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
+            // document module model 객체 생성
+            $oDocumentController = &getController('document');
+
+            // 삭제 시도
+            $output = $oDocumentController->deleteDocument($document_srl);
+            if(!$output->toBool()) return $output;
+
+            // 성공 메세지 등록
+            $this->add('document_srl', $document_srl);
+            $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 코멘트 삭제
+         **/
+        function procPlanetDeleteComment() {
+            // 댓글 번호 확인
+            $comment_srl = Context::get('comment_srl');
+            if(!$comment_srl) return $this->doError('msg_invalid_request');
+
+            // comment 모듈의 controller 객체 생성
+            $oCommentController = &getController('comment');
+
+            $output = $oCommentController->deleteComment($comment_srl, $this->grant->manager);
+            if(!$output->toBool()) return $output;
+
+            $this->add('comment_srl', $comment_srl);
+            $this->add('document_srl', $output->get('document_srl'));
+            $this->setMessage('success_deleted');
         }
 
         /**
@@ -34,6 +78,10 @@
             $output = $this->insertPlanet($args);
             if(!$output->toBool()) return $output;
 
+            // planet에서 사용하는 postscript의 경우 확장변수에 추가되기에 확장변수 체크
+            $oDocumentController = &getController('document');
+            $oDocumentController->insertDocumentExtraKey($output->get('module_srl'), 20, 'postscript', 'text', 'N', 'N', '', '');
+
             $this->setError($output->getError());
             $this->setMessage($output->getMessage());
             $this->add('mid', $args->mid);
@@ -53,8 +101,8 @@
             $planet = $oPlanetModel->getMemberPlanet();
             if($planet->isExists()) $url = getUrl('','mid',$planet->getMid());
             else {
-                $config = $oPlanetModel->getPlanetConfig();
-                $url = getUrl('','mid',$config->mid);
+                $module_info = $oPlanetModel->getPlanetConfig();
+                $url = getUrl('','mid',$module_info->mid);
             }
             Context::set('url',$url);
 
@@ -106,7 +154,7 @@
             if(Context::get('me2day_autopush')=='Y') {
                 $content = Context::get('content');
                 $tags = Context::get('tags');
-                $postscript = Context::get('extra_vars20');
+                $postscript = Context::get('postscript');
                 if($postscript) $content .= " (".$postscript.")";
                 if($tags) $tags = str_replace(',',' ',str_replace(' ','',$tags));
                 $this->doPostToMe2day($myplanet->getMe2dayUID(), $myplanet->getMe2dayUKey(), $content, $tags);
@@ -122,7 +170,7 @@
 
 
         function insertContent($obj,$manual_inserted=false){
-
+            // 게시글 등록
             $obj->content = str_replace(array('<','>'),array('&lt;','&gt;'),$obj->content);
             $obj->content = str_replace('...', '…', $obj->content);
             $obj->content = str_replace('--', '—', $obj->content);
@@ -131,6 +179,8 @@
             $oDocumentController = &getController('document');
             $output = $oDocumentController->insertDocument($obj,$manual_inserted);
             if(!$output->toBool()) return $output;
+
+            // 플래닛 최근 업데이트 적용
             $planet_args->latest_document_srl = $output->get('document_srl');
             $planet_args->module_srl = $obj->module_srl;
             $output = executeQuery('planet.updatePlanetLatestDocument', $planet_args);
@@ -556,7 +606,7 @@
 
             if(!$output->toBool()) return $output;
 
-            // notice 남김
+            // 낚은글 로그 남김 (글쓴이에게 알림)
             $logged_info = Context::get('logged_info');
             if($oDocument->get('member_srl') != $logged_info->member_srl) {
                 $h_args->module_srl = $obj->module_srl;
@@ -565,6 +615,23 @@
                 $checkOutput = executeQuery('planet.getCatch', $h_args);
                 if($checkOutput->data->count) executeQuery('planet.deleteCatch', $h_args);
                 executeQuery('planet.insertCatch', $h_args);
+            }
+
+            // 낚인글 로그 남김 (댓글을 쓰는 대상 글의 모든 댓글 사용자들에게 알림)
+            $f_args->document_srl = $obj->document_srl;
+            $f_args->member_srl = $logged_info->member_srl;
+            $output = executeQueryArray('planet.getFishings', $f_args);
+            if($output->toBool() && $output->data) {
+                $list_order = getNextSequence();
+                foreach($output->data as $val) {
+                    $val->module_srl;
+                    $args = null;
+                    $args->module_srl = $val->module_srl;
+                    $args->document_srl = $obj->document_srl;
+                    $args->list_order = -1*getNextSequence();
+                    $args->regdate = date("YmdHis");
+                    executeQuery('planet.insertFishings', $args);
+                }
             }
 
             $this->setMessage('success_registed');
@@ -658,8 +725,8 @@
                 $args->email_address = $output->email_address;
                 $args->homepage = $output->homepage;
                
-                $config = $oPlanetModel->getPlanetConfig();
-                $args->tags = join(',',$config->smstag);
+                $module_info = $oPlanetModel->getPlanetConfig();
+                $args->tags = join(',',$module_info->smstag);
 
                 $manual_inserted = true;
                 $output = $this->insertContent($args,$manual_inserted);
@@ -731,8 +798,8 @@
             $oPlanetModel = &getModel('planet');
             $output = $oPlanetModel->getSMSRecv($phone_number);
             if($output->data && is_array($output->data)){
-                $config = $oPlanetModel->getPlanetConfig();
-                $smstag = join(',',$config->smstag);
+                $module_info = $oPlanetModel->getPlanetConfig();
+                $smstag = join(',',$module_info->smstag);
                 for($i=0,$c=count($output->data);$i<$c;$i++){
                     unset($obj);
                     $obj->content = $output->data[$i]->message;
@@ -759,6 +826,30 @@
             return $output;
 
         }
+
+        /**
+         * @brief 아이디 클릭시 나타나는 팝업메뉴에 "플래닛" 메뉴를 추가하는 trigger
+         **/
+        function triggerMemberMenu(&$obj) {
+            $member_srl = Context::get('target_srl');
+            if(!$member_srl) return new Object();
+
+            $args->member_srl = $member_srl;
+            $output = executeQuery('planet.getMemberPlanet', $args);
+            if(!$output->toBool() || !$output->data) return new Object();
+
+            $site_module_info = Context::get('site_module_info');
+            $default_url = Context::getDefaultUrl();
+
+            if($site_module_info->site_srl && !$default_url) return new Object();
+
+            $url = getSiteUrl($default_url, '','mid',$output->data->mid);
+            $oMemberController = &getController('member');
+            $oMemberController->addMemberPopupMenu($url, 'planet', './modules/planet/tpl/images/planet.gif');
+
+            return new Object();
+        }
+
     }
 
 ?>

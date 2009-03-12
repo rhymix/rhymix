@@ -4,18 +4,19 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_editor_module_config)">
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->editor}</caption>
+    <h4 class="xeAdmin">{$lang->editor}</h4>
+    <table cellspacing="0" class="crossTable">
     <thead>
     <tr>
-        <th scope="col"><div>&nbsp;</div></th>
         <th scope="col" class="half_wide"><div>{$lang->document}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->comment}</div></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <th rowspan="2"><div>{$lang->editor_skin}</div></th>
+        <th colspan="2"><div>{$lang->editor_skin}</div></th>
+    </tr>
+    <tr>
         <td>
             <select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
             <!--@foreach($editor_skin_list as $editor)-->
@@ -45,36 +46,38 @@
         <td colspan="2"><p>{$lang->about_editor_skin}</p></td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->enable_html_grant}</div></th>
+        <th colspan="2"><div>{$lang->enable_html_grant}</div></th>
+    </tr>
+    <tr>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_html_grant" value="{$k}" id="enable_html_{$k}" <!--@if(in_array($k, $editor_config->enable_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_html_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="enable_html_grant" value="{$k}" id="enable_html_{$k}" <!--@if(in_array($k, $editor_config->enable_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_html_{$k}">{$v->title}</label>
             <!--@end-->
-
-        <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_html_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-        <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_html_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
+            <br/>
+            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_html_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
+            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_html_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
         </td>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_comment_html_grant" value="{$k}" id="enable_comment_html_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_comment_html_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="enable_comment_html_grant" value="{$k}" id="enable_comment_html_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_comment_html_{$k}">{$v->title}</label>
             <!--@end-->
-
-
+            <br/>
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_html_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_html_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
         </td>
     </tr>
     <tr>
         <td colspan="2"><p>{$lang->about_enable_html_grant}</p></td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->upload_file_grant}</div></th>
+        <th colspan="2"><div>{$lang->upload_file_grant}</div></th>
+    </tr>
+    <tr>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="upload_file_grant" value="{$k}" id="fileupload_{$k}" <!--@if(in_array($k, $editor_config->upload_file_grant))-->checked="checked"<!--@end-->/> <label for="fileupload_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="upload_file_grant" value="{$k}" id="fileupload_{$k}" <!--@if(in_array($k, $editor_config->upload_file_grant))-->checked="checked"<!--@end-->/> <label for="fileupload_{$k}">{$v->title}</label>
             <!--@end-->
+            <br/>
 
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('upload_file_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('upload_file_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
@@ -82,8 +85,9 @@
         </td>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="comment_upload_file_grant" value="{$k}" id="comment_fileupload_{$k}" <!--@if(in_array($k, $editor_config->comment_upload_file_grant))-->checked="checked"<!--@end-->/> <label for="comment_fileupload_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="comment_upload_file_grant" value="{$k}" id="comment_fileupload_{$k}" <!--@if(in_array($k, $editor_config->comment_upload_file_grant))-->checked="checked"<!--@end-->/> <label for="comment_fileupload_{$k}">{$v->title}</label>
             <!--@end-->
+            <br/>
 
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('comment_upload_file_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('comment_upload_file_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
@@ -94,18 +98,22 @@
         <td colspan="2"><p>{$lang->about_upload_file_grant}</p></td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->enable_default_component_grant}</div></th>
+        <th colspan="2"><div>{$lang->enable_default_component_grant}</div></th>
+    </tr>
+    <tr>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_default_component_grant" value="{$k}" id="default_componen_{$k}" <!--@if(in_array($k, $editor_config->enable_default_component_grant))-->checked="checked"<!--@end-->/> <label for="default_componen_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="enable_default_component_grant" value="{$k}" id="default_componen_{$k}" <!--@if(in_array($k, $editor_config->enable_default_component_grant))-->checked="checked"<!--@end-->/> <label for="default_componen_{$k}">{$v->title}</label>
             <!--@end-->
+            <br/>
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_default_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_default_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
         </td>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_comment_default_component_grant" value="{$k}" id="comment_default_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_default_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_default_component_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="enable_comment_default_component_grant" value="{$k}" id="comment_default_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_default_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_default_component_{$k}">{$v->title}</label>
             <!--@end-->
+            <br/>
 
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_default_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_default_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
@@ -116,11 +124,14 @@
         <td colspan="2"><p>{$lang->about_default_component_grant}</p></td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->enable_component_grant}</div></th>
+        <th colspan="2"><div>{$lang->enable_component_grant}</div></th>
+    </tr>
+    <tr>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_component_grant" value="{$k}" id="componen_{$k}" <!--@if(in_array($k, $editor_config->enable_component_grant))-->checked="checked"<!--@end-->/> <label for="componen_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="enable_component_grant" value="{$k}" id="componen_{$k}" <!--@if(in_array($k, $editor_config->enable_component_grant))-->checked="checked"<!--@end-->/> <label for="componen_{$k}">{$v->title}</label>
             <!--@end-->
+            <br/>
 
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
@@ -128,8 +139,9 @@
         </td>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_comment_component_grant" value="{$k}" id="comment_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_component_{$k}">{$v->title}</label> <br />
+            <input type="checkbox" name="enable_comment_component_grant" value="{$k}" id="comment_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_component_{$k}">{$v->title}</label>
             <!--@end-->
+            <br/>
 
             <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
             <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
@@ -140,7 +152,9 @@
         <td colspan="2"><p>{$lang->about_component_grant}</p></td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->editor_height}</div></th>
+        <th colspan="2"><div>{$lang->editor_height}</div></th>
+    </tr>
+    <tr>
         <td>
             <input type="text" name="editor_height" value="{$editor_config->editor_height}" class="inputTypeText w80" />px
         </td>
@@ -152,16 +166,18 @@
         <td colspan="2"><p>{$lang->about_editor_height}</p></td>
     </tr>
     <tr>
-        <th rowspan="2"><div>{$lang->enable_autosave}</div></th>
+        <th colspan="2"><div>{$lang->enable_autosave}</div></th>
+    </tr>
+    <tr>
         <td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
     </tr>
     <tr>
         <td colspan="2"><p>{$lang->about_enable_autosave}</p></td>
     </tr>
     <tr>
-        <td class="right" colspan="3">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </td>
+        <th class="button" colspan="2">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}"/></span>
+        </th>
     </tr>
     </tbody>
     </table>

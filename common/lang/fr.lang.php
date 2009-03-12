@@ -75,6 +75,7 @@
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Catégorie';
     $lang->none_category = 'None category';
+    $lang->none_image = '이미지 없음';
     $lang->document_srl = 'Numéro de série du Document';
     $lang->user_id = 'Compte';
     $lang->author = 'Auteur';
@@ -117,6 +118,7 @@
     $lang->order_type = 'Sorting Type';
     $lang->order_asc = 'Ascend';
     $lang->order_desc = 'Descendre';
+    $lang->file = 'file';
 
     $lang->mid = 'Nom';
     $lang->layout = 'Mise en Page';
@@ -256,6 +258,7 @@
     $lang->column_type_list['textarea'] = 'Texte en plusieurs lignes';
     $lang->column_type_list['checkbox'] = 'Case à cocher (multichoix)';
     $lang->column_type_list['select'] = 'Case d\'option (seul choix)';
+    $lang->column_type_list['radio'] = 'radio button (radio)';
     $lang->column_type_list['kr_zip'] = 'Code postal (coréen)';
     $lang->column_type_list['date'] = 'Jour (yyyy/mm/dd)';
     //$lang->column_type_list['jp_zip'] = 'code postal (japonais)';

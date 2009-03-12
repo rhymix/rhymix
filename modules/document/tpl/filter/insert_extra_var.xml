@@ -1,0 +1,11 @@
+<filter name="insert_extra_var" module="document" act="procDocumentAdminInsertExtraVar" confirm_msg_code="confirm_insert">
+    <form>
+        <node target="name" required="true" />
+        <node target="module_srl" required="true" />
+    </form>
+    <parameter />
+    <response callback_func="completeInsertExtraVar">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

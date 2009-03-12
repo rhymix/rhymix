@@ -86,7 +86,6 @@
         }
 
         function _loadFromDB() {
-            if(!$this->document_srl) return;
             parent::_loadFromDB();
 
             $obj->target_srl = $this->document_srl;

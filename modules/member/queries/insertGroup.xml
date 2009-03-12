@@ -10,5 +10,6 @@
         <column name="is_admin" var="is_admin" default="N" notnull="notnull" />
         <column name="regdate" default="curdate()" />
         <column name="description" var="description" default="" />
+        <column name="image_mark" var="image_mark" default="" />
     </columns>
 </query>

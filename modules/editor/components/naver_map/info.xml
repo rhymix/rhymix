@@ -15,7 +15,7 @@
     <description xml:lang="ru">Вы можете добавить карту в редактор или изменить ее, используя Naver Map open api, предлагаемые Naver.\nВы сможете использовать это после регистрации ключа Naver Map API, полученного с http://www.naver.com.</description>
     <description xml:lang="zh-TW">naver所提供的地圖，利用Open API在編輯器中，新增或修改成您所需要的地圖。\n使用 naver地圖要先獲得 Open API key，然後登錄 key才能正常使用。</description>
     <version>0.1</version>
-    <date>2007-02-28</date>
+    <date>2009-02-23</date>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
@@ -25,6 +25,15 @@
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>
         <name xml:lang="zh-TW">zero</name>
+    </author>
+    <author email_address="misol221@paran.com" link="http://www.imsoo.net">
+        <name xml:lang="ko">misol</name>
+        <name xml:lang="jp">misol</name>
+        <name xml:lang="zh-CN">misol</name>
+        <name xml:lang="en">misol</name>
+        <name xml:lang="es">misol</name>
+        <name xml:lang="ru">misol</name>
+        <name xml:lang="zh-TW">misol</name>
     </author>
 
     <extra_vars>

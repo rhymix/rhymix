@@ -31,18 +31,6 @@
             // 권한 체크
             if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
 
-
-            // 설정된 확장 변수를 찾는다.
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-            $extra_vars = array();
-            foreach($module_info->extra_vars as $key => $extra_var){
-                $extra_vars[$key]->name = $extra_var->name;
-                $extra_vars[$key]->value = $oDocument->getExtraValue($key);
-                if(is_array($extra_vars[$key]->value)) $extra_vars[$key]->value = join("",$extra_vars[$key]->value);
-            }
-            Context::set('extra_vars', $extra_vars);
-
             // 브라우저 타이틀 설정
             Context::setBrowserTitle($oDocument->getTitleText());
             Context::set('oDocument', $oDocument);
@@ -63,5 +51,62 @@
             $this->setTemplateFile('preview_page');
         }
         
+        /**
+         * @brief 관리자가 선택한 문서에 대한 관리
+         **/
+        function dispDocumentManageDocument() {
+            if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+
+            // 선택한 목록을 세션에서 가져옴
+            $flag_list = $_SESSION['document_management'];
+            if(count($flag_list)) {
+                foreach($flag_list as $key => $val) {
+                    if(!is_bool($val)) continue;
+                    $document_srl_list[] = $key;
+                }
+            }
+
+            if(count($document_srl_list)) {
+                $oDocumentModel = &getModel('document');
+                $document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
+                Context::set('document_list', $document_list);
+            }
+
+            $oModuleModel = &getModel('module');
+
+            // 모듈 카테고리 목록과 모듈 목록의 조합
+            if(count($module_list)>1) Context::set('module_list', $module_categories);
+
+            // 팝업 레이아웃 선택
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('popup_layout');
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('checked_list');
+        }
+
+        function triggerDispDocumentAdditionSetup(&$obj) {
+            $current_module_srl = Context::get('module_srl');
+            $current_module_srls = Context::get('module_srls');
+
+            if(!$current_module_srl && !$current_module_srls) {
+                // 선택된 모듈의 정보를 가져옴
+                $current_module_info = Context::get('current_module_info');
+                $current_module_srl = $current_module_info->module_srl;
+                if(!$current_module_srl) return new Object();
+            }
+
+            $oModuleModel = &getModel('module');
+            $document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+            if(!isset($document_config->use_history)) $document_config->use_history = 'N';
+            Context::set('document_config', $document_config);
+
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'document_module_config');
+            $obj .= $tpl;
+            
+            return new Object();
+        }
+
     }
 ?>

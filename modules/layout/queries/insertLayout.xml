@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="layout_srl" var="layout_srl" filter="number" notnull="notnull" />
+        <column name="site_srl" var="site_srl" filter="number" default="0" notnull="notnull" />
         <column name="layout" var="layout" notnull="notnull" />
         <column name="title" var="title" notnull="notnull" />
         <column name="module_srl" var="module_srl" />

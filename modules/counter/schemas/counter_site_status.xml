@@ -1,0 +1,6 @@
+<table name="counter_site_status">
+    <column name="site_srl" type="number" size="11" notnull="notnull" unique="site_status" />
+    <column name="regdate" type="number" size="11" notnull="notnull" unique="site_status" />
+    <column name="unique_visitor" type="number" size="11" default="0" />
+    <column name="pageview" type="number" size="11" default="0" />
+</table>

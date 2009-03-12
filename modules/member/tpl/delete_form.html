@@ -5,8 +5,8 @@
 <form action="./" method="get" onsubmit="return procFilter(this, delete_member)" class="gap1">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->confirm_delete}</caption>
+    <h4 class="xeAdmin">{$lang->confirm_delete}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->user_id}</div></th>
         <td class="wide">{$member_info->user_id}</td>
@@ -20,10 +20,10 @@
         <td>{$member_info->email_address}</td>
     </tr>
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
             <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
-        </td>
+        </th>
     </tr>
     </table>
 

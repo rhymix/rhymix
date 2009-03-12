@@ -1,16 +1,20 @@
 <query id="getNewestDocuments" action="select">
     <tables>
+        <table name="modules" />
         <table name="documents" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="modules.site_srl" alias="site_srl"/>
+        <column name="modules.mid" alias="mid"/>
+        <column name="documents.*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
-        <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+        <condition operation="equal" column="modules.site_srl" var="site_srl" />
+        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" filter="number" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="list_order" order="order_type" />
+        <index var="sort_index" default="documents.list_order" order="order_type" />
         <list_count var="list_count" default="20" />
     </navigation>
 </query>

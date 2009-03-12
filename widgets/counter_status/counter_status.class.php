@@ -17,7 +17,8 @@
             // 전체, 어제, 오늘 접속 현황을 가져옴
             $oCounterModel = &getModel('counter');
 
-            $output = $oCounterModel->getStatus(array('00000000', date('Ymd', time()-60*60*24), date('Ymd')));
+            $site_module_info = Context::get('site_module_info');
+            $output = $oCounterModel->getStatus(array('00000000', date('Ymd', time()-60*60*24), date('Ymd')), $site_module_info->site_srl);
             foreach($output as $key => $val) {
                 if(!$key) Context::set('total_counter', $val);
                 elseif($key == date("Ymd")) Context::set('today_counter', $val);

@@ -1,0 +1,8 @@
+<query id="deleteMemberOpenIDByMemberSrl" action="delete">
+    <tables>
+        <table name="member_openid" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+    </conditions>
+</query>

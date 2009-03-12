@@ -1,0 +1,9 @@
+<query id="getModuleFileBox" action="select">
+    <tables>
+        <table name="module_filebox" />
+    </tables>
+    <columns />
+    <conditions>
+        <condition operation="equal" column="module_filebox_srl" var="module_filebox_srl" filter="number" />
+    </conditions>
+</query>

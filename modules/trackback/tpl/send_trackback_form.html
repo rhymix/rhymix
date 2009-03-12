@@ -1,14 +1,14 @@
 <!--%import("filter/send_trackback.xml")-->
 
-<div id="popHeadder">
-    <h3>{$lang->cmd_send_trackback}</h3>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->cmd_send_trackback}</h3>
 </div>
 
 <form action="./" method="get" onsubmit="return procFilter(this, send_trackback)">
 <input type="hidden" name="target_srl" value="{$oDocument->document_srl}" />
 
 <div id="popBody">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div><label>{$lang->title}</label></div></th>
         <td>{$oDocument->getTitleText()}</td>
@@ -36,10 +36,7 @@
 </div>
 
 <div id="popFooter">
-    <div class="tCenter gap1">
-        <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
-        <span class="button"><input type="submit" value="{$lang->cmd_send_trackback}" /></span>
-    </div>
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_send_trackback}" /></span>
 </div>
 
 </form>

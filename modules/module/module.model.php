@@ -14,33 +14,6 @@
         }
 
         /**
-         * @brief document_srl로 모듈의 정보르 구함
-         * 이 경우는 캐시파일을 이용할 수가 없음
-         **/
-        function getModuleInfoByDocumentSrl($document_srl) {
-            $args->document_srl = $document_srl;
-            $output = executeQuery('module.getModuleInfoByDocument', $args);
-
-            return $this->arrangeModuleInfo($output->data);
-        }
-
-        /**
-         * @brief domain에 따른 기본 mid를 구함
-         **/
-        function getDefaultMid() {
-            // domain 으로 등록된 virtual site가 있는지 확인
-            $url_info = parse_url(Context::getRequestUri());
-            $hostname = $url_info['host'];
-            $path = preg_replace('/\/$/','',$url_info['path']);
-            $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
-            $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
-            if(!$output->toBool() || !$output->data) $output = executeQuery('module.getDefaultMidInfo');
-            $module_info = $output->data;
-            if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
-            return $this->arrangeModuleInfo($module_info);
-        }
-
-        /**
          * @brief site 정보를 구함
          **/
         function getSiteInfo($site_srl) {
@@ -56,6 +29,39 @@
         }
 
         /**
+         * @brief document_srl로 모듈의 정보르 구함
+         * 이 경우는 캐시파일을 이용할 수가 없음
+         **/
+        function getModuleInfoByDocumentSrl($document_srl) {
+            $args->document_srl = $document_srl;
+            $output = executeQuery('module.getModuleInfoByDocument', $args);
+            return $this->addModuleExtraVars($output->data);
+        }
+
+        /**
+         * @brief domain에 따른 기본 mid를 구함
+         **/
+        function getDefaultMid() {
+            // domain 으로 등록된 virtual site가 있는지 확인
+            $url_info = parse_url(Context::getRequestUri());
+            $hostname = $url_info['host'];
+            $path = preg_replace('/\/$/','',$url_info['path']);
+            $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
+
+            $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
+
+            // virtual site를 못 찾으면 가장 기본 모듈 추출
+            if(!$output->toBool() || !$output->data) {
+                $args->site_srl = 0;
+                $output = executeQuery('module.getDefaultMidInfo', $args);
+            }
+            $module_info = $output->data;
+            if(!$module_info->module_srl) return;
+            if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
+            return $this->addModuleExtraVars($module_info);
+        }
+
+        /**
          * @brief mid로 모듈의 정보를 구함
          **/
         function getModuleInfoByMid($mid, $site_srl = 0) {
@@ -64,7 +70,7 @@
             $output = executeQuery('module.getMidInfo', $args);
             $module_info = $output->data;
             if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
-            return $this->arrangeModuleInfo($module_info);
+            return $this->addModuleExtraVars($module_info);
         }
 
         /**
@@ -75,8 +81,8 @@
             $args->module_srl = $module_srl;
             $output = executeQuery('module.getMidInfo', $args);
             if(!$output->data) return;
-
-            return $this->arrangeModuleInfo($output->data);
+            $module_info = $this->addModuleExtraVars($output->data);
+            return $module_info;
         }
 
         /**
@@ -91,9 +97,9 @@
 
             $modules = array();
             for($i=0;$i<$count;$i++) {
-                $modules[] = $this->arrangeModuleInfo($output->data[$i]);
+                $modules[] = $output->data[$i];
             }
-            return $modules;
+            return $this->addModuleExtraVars($modules);
         }
 
         /**
@@ -104,7 +110,38 @@
             $args->module_srls = $module_srls;
             $output = executeQueryArray('module.getModulesInfo', $args);
             if(!$output->toBool()) return;
-            return $output->data;
+            return $this->addModuleExtraVars($output->data);
+        }
+
+        /**
+         * @brief 모듈의 기본 정보에 추가 변수 구함
+         **/
+        function addModuleExtraVars($module_info) {
+            // 1개 이상의 모듈정보를 요청받아도 처리 가능하도록
+            if(!is_array($module_info)) $target_module_info = array($module_info);
+            else $target_module_info = $module_info;
+
+            // 모듈 번호를 구함 
+            $module_srls = array();
+            foreach($target_module_info as $key => $val) {
+                $module_srl = $val->module_srl;
+                if(!$module_srl) continue;
+                $module_srls[] = $val->module_srl;
+            }
+
+            // 모듈의 추가정보/ 스킨 정보를 추출
+            $extra_vars = $this->getModuleExtraVars($module_srls);
+            if(!count($module_srls) || !count($extra_vars)) return $module_info;
+
+            foreach($target_module_info as $key => $val) {
+                if(!$extra_vars[$val->module_srl] || !count($extra_vars[$val->module_srl])) continue;
+                foreach($extra_vars[$val->module_srl] as $k => $v) {
+                    if($target_module_info[$key]->{$k}) continue;
+                    $target_module_info[$key]->{$k} = $v;
+                }
+            }
+            if(is_array($module_info)) return $target_module_info;
+            return $target_module_info[0];
         }
 
         /**
@@ -151,47 +188,6 @@
         }
 
         /**
-         * @brief DB에서 가져온 원 모듈 정보에서 grant, extraVar등의 정리
-         **/
-        function arrangeModuleInfo($source_module_info) {
-            if(!$source_module_info || !is_object($source_module_info) ) return;
-
-            // serialize되어 있는 변수들 추출
-            $extra_vars = $source_module_info->extra_vars;
-            $skin_vars = $source_module_info->skin_vars;
-            $grants = $source_module_info->grants;
-            $admin_id = $source_module_info->admin_id;
-
-            unset($source_module_info->extra_vars);
-            unset($source_module_info->skin_vars);
-            unset($source_module_info->grants);
-            unset($source_module_info->admin_id);
-
-            $module_info = clone($source_module_info);
-
-            // extra_vars의 정리
-            if($extra_vars) {
-                $extra_vars = unserialize($extra_vars);
-                if(is_array($extra_vars) || is_object($extra_vars)) foreach($extra_vars as $key => $val) if(!$module_info->{$key}) $module_info->{$key} = $val;
-            }
-
-            // skin_vars의 정리
-            if($skin_vars) {
-                $skin_vars = unserialize($skin_vars);
-                foreach($skin_vars as $key => $val) if(!$module_info->{$key}) $module_info->{$key} = $val;
-            }
-
-            // 권한의 정리
-            if($grants) $module_info->grants = unserialize($grants);
-
-            // 관리자 아이디의 정리
-            if($admin_id) $module_info->admin_id = explode(',',$admin_id);
-            else $module_info->admin_id = array();
-
-            return $module_info;
-        }
-
-        /**
          * @brief act 값에 의한 forward 값을 구함
          **/
         function getActionForward($act) {
@@ -224,6 +220,230 @@
         }
 
         /**
+         * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
+         **/
+        function getModuleInfoXml($module) {
+            // 요청된 모듈의 경로를 구한다. 없으면 return
+            $module_path = ModuleHandler::getModulePath($module);
+            if(!$module_path) return;
+
+            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
+            $xml_file = sprintf("%s/conf/info.xml", $module_path);
+            if(!file_exists($xml_file)) return;
+
+            $oXmlParser = new XmlParser();
+            $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
+            $xml_obj = $tmp_xml_obj->module;
+
+            if(!$xml_obj) return;
+
+            // 모듈 정보
+            if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
+                // module format 0.2
+                $module_info->title = $xml_obj->title->body;
+                $module_info->description = $xml_obj->description->body;
+                $module_info->version = $xml_obj->version->body;
+                $module_info->homepage = $xml_obj->link->body;
+                $module_info->category = $xml_obj->category->body;
+                if(!$module_info->category) $module_info->category = 'service';
+                sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $module_info->license = $xml_obj->license->body;
+                $module_info->license_link = $xml_obj->license->attrs->link;
+
+                if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
+                else $author_list = $xml_obj->author;
+
+                foreach($author_list as $author) {
+                    unset($author_obj);
+                    $author_obj->name = $author->name->body;
+                    $author_obj->email_address = $author->attrs->email_address;
+                    $author_obj->homepage = $author->attrs->link;
+                    $module_info->author[] = $author_obj;
+                }
+
+                // history
+                if($xml_obj->history) {
+                    if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
+                    else $history = $xml_obj->history;
+
+                    foreach($history as $item) {
+                        unset($obj);
+
+                        if($item->author) {
+                            (!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
+
+                            foreach($obj->author_list as $author) {
+                                unset($author_obj);
+                                $author_obj->name = $author->name->body;
+                                $author_obj->email_address = $author->attrs->email_address;
+                                $author_obj->homepage = $author->attrs->link;
+                                $obj->author[] = $author_obj;
+                            }
+                        }
+
+                        $obj->name = $item->name->body;
+                        $obj->email_address = $item->attrs->email_address;
+                        $obj->homepage = $item->attrs->link;
+                        $obj->version = $item->attrs->version;
+                        $obj->date = $item->attrs->date;
+                        $obj->description = $item->description->body;
+
+                        if($item->log) {
+                            (!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
+
+                            foreach($obj->log as $log) {
+                                unset($logs_obj);
+                                $logs_obj->text = $log->body;
+                                $logs_obj->link = $log->attrs->link;
+                                $obj->logs[] = $logs_obj;
+                            }
+                        }
+
+                        $module_info->history[] = $obj;
+                    }
+                }
+
+
+            } else {
+                // module format 0.1
+                $module_info->title = $xml_obj->title->body;
+                $module_info->description = $xml_obj->author->description->body;
+                $module_info->version = $xml_obj->attrs->version;
+                $module_info->category = $xml_obj->attrs->category;
+                if(!$module_info->category) $module_info->category = 'service';
+                sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+                $author_obj->name = $xml_obj->author->name->body;
+                $author_obj->email_address = $xml_obj->author->attrs->email_address;
+                $author_obj->homepage = $xml_obj->author->attrs->link;
+                $module_info->author[] = $author_obj;
+            }
+
+            // action 정보를 얻어서 admin_index를 추가
+            $action_info = $this->getModuleActionXml($module);
+            $module_info->admin_index_act = $action_info->admin_index_act;
+
+            return $module_info;
+        }
+
+        /**
+         * @brief module의 conf/module.xml 을 통해 grant(권한) 및 action 데이터를 return
+         * module.xml 파일의 경우 파싱하는데 시간이 걸리기에 캐싱을 한다...
+         * 캐싱을 할때 바로 include 할 수 있도록 역시 코드까지 추가하여 캐싱을 한다.
+         * 이게 퍼포먼스 상으로는 좋은데 어떤 부정적인 결과를 유도할지는 잘 모르겠...
+         **/
+        function getModuleActionXml($module) {
+            // 요청된 모듈의 경로를 구한다. 없으면 return
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!$class_path) return;
+
+            // 해당 경로에 module.xml 파일이 있는지 체크한다. 없으면 return
+            $xml_file = sprintf("%sconf/module.xml", $class_path);
+            if(!file_exists($xml_file)) return;
+
+            // 캐시된 파일이 있는지 확인
+            $cache_file = sprintf("./files/cache/module_info/%s.%s.php", $module, Context::getLangType());
+
+            // 캐시 파일이 없거나 캐시 파일이 xml 파일보다 오래되었으면 내용 다시 갱신
+            if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file)) {
+
+                $buff = ""; ///< 캐시 파일에 쓸 buff 변수 설정
+
+                $xml_obj = XmlParser::loadXmlFile($xml_file); ///< xml 파일을 읽어서 xml object로 변환
+
+                if(!count($xml_obj->module)) return; ///< xml 내용중에 module 태그가 없다면 오류;;
+
+                $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
+                $permissions = $xml_obj->module->permissions->permission; ///< 권한 대행 (없는 경우도 있음)
+                $actions = $xml_obj->module->actions->action; ///< action list (필수)
+
+                $default_index = $admin_index = '';
+
+                // 권한 정보의 정리
+                if($grants) {
+                    if(is_array($grants)) $grant_list = $grants;
+                    else $grant_list[] = $grants;
+
+                    foreach($grant_list as $grant) {
+                        $name = $grant->attrs->name;
+                        $default = $grant->attrs->default?$grant->attrs->default:'guest';
+                        $title = $grant->title->body;
+
+                        $info->grant->{$name}->title = $title;
+                        $info->grant->{$name}->default = $default;
+
+                        $buff .= sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
+                        $buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
+                    }
+                }
+
+                // 권한 허용 정리
+                if($permissions) {
+                    if(is_array($permissions)) $permission_list = $permissions;
+                    else $permission_list[] = $permissions;
+
+                    foreach($permission_list as $permission) {
+                        $action = $permission->attrs->action;
+                        $target = $permission->attrs->target;
+
+                        $info->permission->{$action} = $target;
+
+                        $buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
+                    }
+                }
+
+                // actions 정리
+                if($actions) {
+                    if(is_array($actions)) $action_list = $actions;
+                    else $action_list[] = $actions;
+
+                    foreach($action_list as $action) {
+                        $name = $action->attrs->name;
+
+                        $type = $action->attrs->type;
+                        $grant = $action->attrs->grant?$action->attrs->grant:'guest';
+                        $standalone = $action->attrs->standalone=='true'?'true':'false';
+
+                        $index = $action->attrs->index;
+                        $admin_index = $action->attrs->admin_index;
+
+                        $output->action->{$name}->type = $type;
+                        $output->action->{$name}->grant = $grant;
+                        $output->action->{$name}->standalone= $standalone;
+
+                        $info->action->{$name}->type = $type;
+                        $info->action->{$name}->grant = $grant;
+                        $info->action->{$name}->standalone = $standalone=='true'?true:false;
+
+                        $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
+                        $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
+                        $buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
+
+                        if($index=='true') {
+                            $default_index_act = $name;
+                            $info->default_index_act = $name;
+                        }
+                        if($admin_index=='true') {
+                            $admin_index_act = $name;
+                            $info->admin_index_act = $name;
+                        }
+                    }
+                }
+                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
+
+                FileHandler::writeFile($cache_file, $buff);
+
+                return $info;
+            }
+
+            @include($cache_file);
+
+            return $info;
+        }
+
+
+        /**
          * @brief 주어진 곳의 스킨 목록을 구함
          * 스킨과 skin.xml 파일을 분석 정리한 결과를 return
          **/
@@ -243,13 +463,13 @@
             return $skin_list;
         }
 
-
         /**
          * @brief 특정 위치의 특정 스킨의 정보를 구해옴
          **/
         function loadSkinInfo($path, $skin) {
 
             // 모듈의 스킨의 정보 xml 파일을 읽음
+            if(substr($path,-1)!='/') $path .= '/';
             $skin_xml_file = sprintf("%sskins/%s/skin.xml", $path, $skin);
             if(!file_exists($skin_xml_file)) return;
 
@@ -320,8 +540,8 @@
                                     $obj->options[$i]->value = $val->options[$i]->attrs->value;
                                 }
                             } else {
-                                $obj->options[0]->title = $val->options[0]->title->body;
-                                $obj->options[0]->value = $val->options[0]->attrs->value;
+                                $obj->options[0]->title = $val->options->title->body;
+                                $obj->options[0]->value = $val->options->attrs->value;
                             }
 
                             $skin_info->extra_vars[] = $obj;
@@ -487,120 +707,6 @@
             return $skin_info;
         }
 
-        /**
-         * @brief module의 conf/module.xml 을 통해 grant(권한) 및 action 데이터를 return
-         * module.xml 파일의 경우 파싱하는데 시간이 걸리기에 캐싱을 한다...
-         * 캐싱을 할때 바로 include 할 수 있도록 역시 코드까지 추가하여 캐싱을 한다.
-         * 이게 퍼포먼스 상으로는 좋은데 어떤 부정적인 결과를 유도할지는 잘 모르겠...
-         **/
-        function getModuleActionXml($module) {
-            // 요청된 모듈의 경로를 구한다. 없으면 return
-            $class_path = ModuleHandler::getModulePath($module);
-            if(!$class_path) return;
-
-            // 해당 경로에 module.xml 파일이 있는지 체크한다. 없으면 return
-            $xml_file = sprintf("%sconf/module.xml", $class_path);
-            if(!file_exists($xml_file)) return;
-
-            // 캐시된 파일이 있는지 확인
-            $cache_file = sprintf("./files/cache/module_info/%s.%s.php", $module, Context::getLangType());
-
-            // 캐시 파일이 없거나 캐시 파일이 xml 파일보다 오래되었으면 내용 다시 갱신
-            if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file)) {
-
-                $buff = ""; ///< 캐시 파일에 쓸 buff 변수 설정
-
-                $xml_obj = XmlParser::loadXmlFile($xml_file); ///< xml 파일을 읽어서 xml object로 변환
-
-                if(!count($xml_obj->module)) return; ///< xml 내용중에 module 태그가 없다면 오류;;
-
-                $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
-                $permissions = $xml_obj->module->permissions->permission; ///< 권한 대행 (없는 경우도 있음)
-                $actions = $xml_obj->module->actions->action; ///< action list (필수)
-
-                $default_index = $admin_index = '';
-
-                // 권한 정보의 정리
-                if($grants) {
-                    if(is_array($grants)) $grant_list = $grants;
-                    else $grant_list[] = $grants;
-
-                    foreach($grant_list as $grant) {
-                        $name = $grant->attrs->name;
-                        $default = $grant->attrs->default?$grant->attrs->default:'guest';
-                        $title = $grant->title->body;
-
-                        $info->grant->{$name}->title = $title;
-                        $info->grant->{$name}->default = $default;
-
-                        $buff .= sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
-                        $buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
-                    }
-                }
-
-                // 권한 허용 정리
-                if($permissions) {
-                    if(is_array($permissions)) $permission_list = $permissions;
-                    else $permission_list[] = $permissions;
-
-                    foreach($permission_list as $permission) {
-                        $action = $permission->attrs->action;
-                        $target = $permission->attrs->target;
-
-                        $info->permission->{$action} = $target;
-
-                        $buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
-                    }
-                }
-
-                // actions 정리
-                if($actions) {
-                    if(is_array($actions)) $action_list = $actions;
-                    else $action_list[] = $actions;
-
-                    foreach($action_list as $action) {
-                        $name = $action->attrs->name;
-
-                        $type = $action->attrs->type;
-                        $grant = $action->attrs->grant?$action->attrs->grant:'guest';
-                        $standalone = $action->attrs->standalone=='true'?'true':'false';
-
-                        $index = $action->attrs->index;
-                        $admin_index = $action->attrs->admin_index;
-
-                        $output->action->{$name}->type = $type;
-                        $output->action->{$name}->grant = $grant;
-                        $output->action->{$name}->standalone= $standalone;
-
-                        $info->action->{$name}->type = $type;
-                        $info->action->{$name}->grant = $grant;
-                        $info->action->{$name}->standalone = $standalone=='true'?true:false;
-
-                        $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
-                        $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
-                        $buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
-
-                        if($index=='true') {
-                            $default_index_act = $name;
-                            $info->default_index_act = $name;
-                        }
-                        if($admin_index=='true') {
-                            $admin_index_act = $name;
-                            $info->admin_index_act = $name;
-                        }
-                    }
-                }
-                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
-
-                FileHandler::writeFile($cache_file, $buff);
-
-                return $info;
-            }
-
-            @include($cache_file);
-
-            return $info;
-        }
 
         /**
          * @brief 특정 모듈의 설정 return
@@ -645,114 +751,6 @@
             return $result;
         }
 
-
-        /**
-         * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
-         **/
-        function getModuleInfoXml($module) {
-            // 요청된 모듈의 경로를 구한다. 없으면 return
-            $module_path = ModuleHandler::getModulePath($module);
-            if(!$module_path) return;
-
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
-            $xml_file = sprintf("%s/conf/info.xml", $module_path);
-            if(!file_exists($xml_file)) return;
-
-            $oXmlParser = new XmlParser();
-            $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-            $xml_obj = $tmp_xml_obj->module;
-
-            if(!$xml_obj) return;
-
-            // 모듈 정보
-            if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
-                // module format 0.2
-                $module_info->title = $xml_obj->title->body;
-                $module_info->description = $xml_obj->description->body;
-                $module_info->version = $xml_obj->version->body;
-                $module_info->homepage = $xml_obj->link->body;
-                $module_info->category = $xml_obj->category->body;
-                if(!$module_info->category) $module_info->category = 'service';
-                sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-                $module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-                $module_info->license = $xml_obj->license->body;
-                $module_info->license_link = $xml_obj->license->attrs->link;
-
-                if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
-                else $author_list = $xml_obj->author;
-
-                foreach($author_list as $author) {
-                    unset($author_obj);
-                    $author_obj->name = $author->name->body;
-                    $author_obj->email_address = $author->attrs->email_address;
-                    $author_obj->homepage = $author->attrs->link;
-                    $module_info->author[] = $author_obj;
-                }
-
-                // history
-                if($xml_obj->history) {
-                    if(!is_array($xml_obj->history)) $history[] = $xml_obj->history;
-                    else $history = $xml_obj->history;
-
-                    foreach($history as $item) {
-                        unset($obj);
-
-                        if($item->author) {
-                            (!is_array($item->author)) ? $obj->author_list[] = $item->author : $obj->author_list = $item->author;
-
-                            foreach($obj->author_list as $author) {
-                                unset($author_obj);
-                                $author_obj->name = $author->name->body;
-                                $author_obj->email_address = $author->attrs->email_address;
-                                $author_obj->homepage = $author->attrs->link;
-                                $obj->author[] = $author_obj;
-                            }
-                        }
-
-                        $obj->name = $item->name->body;
-                        $obj->email_address = $item->attrs->email_address;
-                        $obj->homepage = $item->attrs->link;
-                        $obj->version = $item->attrs->version;
-                        $obj->date = $item->attrs->date;
-                        $obj->description = $item->description->body;
-
-                        if($item->log) {
-                            (!is_array($item->log)) ? $obj->log[] = $item->log : $obj->log = $item->log;
-
-                            foreach($obj->log as $log) {
-                                unset($logs_obj);
-                                $logs_obj->text = $log->body;
-                                $logs_obj->link = $log->attrs->link;
-                                $obj->logs[] = $logs_obj;
-                            }
-                        }
-
-                        $module_info->history[] = $obj;
-                    }
-                }
-
-
-            } else {
-                // module format 0.1
-                $module_info->title = $xml_obj->title->body;
-                $module_info->description = $xml_obj->author->description->body;
-                $module_info->version = $xml_obj->attrs->version;
-                $module_info->category = $xml_obj->attrs->category;
-                if(!$module_info->category) $module_info->category = 'service';
-                sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
-                $module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-                $author_obj->name = $xml_obj->author->name->body;
-                $author_obj->email_address = $xml_obj->author->attrs->email_address;
-                $author_obj->homepage = $xml_obj->author->attrs->link;
-                $module_info->author[] = $author_obj;
-            }
-
-            // action 정보를 얻어서 admin_index를 추가
-            $action_info = $this->getModuleActionXml($module);
-            $module_info->admin_index_act = $action_info->admin_index_act;
-
-            return $module_info;
-        }
 
         /**
          * @brief 모듈 카테고리의 목록을 구함
@@ -902,36 +900,16 @@
         }
 
         /**
-         * @brief 특정 모듈의 정보와 회원의 정보를 받아서 관리 권한 유무를 판단
-         * 회원의 아이디가 해당 모듈의 admin_id에 있으면 true
-         * 회원이 속한 그룹이 해당 모듈의 manager 그룹에 있으면 true
-         * 이 method는 각 모듈.class.php 에서 isAdmin method에서 사용됨
-         **/
-        function isModuleAdmin($module_info, $member_info) {
-           $user_id = $member_info->user_id;
-           $group_list = $member_info->group_list;
-           if(!$group_list || !is_array($group_list) || !count($group_list)) return false;
-
-            // 직접 관리자로 선택하였을 경우 확인
-            if(is_array($module_info->admin_id) && in_array($user_id, $module_info->admin_id)) return true;
-
-            // 관리자 그룹으로 등록되어 있을 경우 확인
-            $manager_group = $module_info->grants['manager'];
-            return count(array_intersect(array_keys($group_list), $manager_group));
-        }
-
-        /**
          * @brief site_module_info의 관리자 인지 체크
          **/
-        function isSiteAdmin() {
-            if(!Context::get('is_logged')) return false;
-            $logged_info = Context::get('logged_info');
-            if($logged_info->is_admin == 'Y') return true;
+        function isSiteAdmin($member_info) {
+            if(!$member_info->member_srl) return false;
+            if($member_info->is_admin == 'Y') return true;
 
             $site_module_info = Context::get('site_module_info');
             if(!$site_module_info) return;
             $args->site_srl = $site_module_info->site_srl;
-            $args->member_srl = $logged_info->member_srl;
+            $args->member_srl = $member_info->member_srl;
             $output = executeQuery('module.isSiteAdmin', $args);
             if($output->data->member_srl == $args->member_srl) return true;
             return false;
@@ -947,5 +925,207 @@
             return $output->data;
         }
 
+        /**
+         * @brief 특정 모듈의 관리자 아이디 구함
+         **/
+        function getAdminId($module_srl) {
+            $obj->module_srl = $module_srl;
+            $output = executeQueryArray('module.getAdminID', $obj);
+            if(!$output->toBool() || !$output->data) return;
+
+            return $output->data;
+        }
+
+        /**
+         * @brief 특정 모듈의 추가 변수를 구함 
+         * modules 테이블의 기본 정보 이외의 것
+         **/
+        function getModuleExtraVars($module_srl) {
+            if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
+            $args->module_srl = $module_srl;
+            $output = executeQueryArray('module.getModuleExtraVars',$args);
+            if(!$output->toBool() || !$output->data) return;
+
+            $vars = array();
+            foreach($output->data as $key => $val) {
+                if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
+                $vars[$val->module_srl]->{$val->name} = $val->value;
+            }
+            return $vars;
+        }
+
+        /**
+         * @brief 특정 모듈의 스킨 정보를 구함
+         **/
+        function getModuleSkinVars($module_srl) {
+            $args->module_srl = $module_srl;
+            $output = executeQueryArray('module.getModuleSkinVars',$args);
+            if(!$output->toBool() || !$output->data) return;
+
+            $skin_vars = array();
+            foreach($output->data as $val) $skin_vars[$val->name] = $val;
+            return $skin_vars;
+        }
+
+        /**
+         * @brief 특정 모듈의 스킨 정보를 모듈 정보와 결합
+         **/
+        function syncSkinInfoToModuleInfo(&$module_info) {
+            if(!$module_info->module_srl) return;
+
+            $args->module_srl = $module_info->module_srl;
+            $output = executeQueryArray('module.getModuleSkinVars',$args);
+            if(!$output->toBool() || !$output->data) return;
+
+            foreach($output->data as $val) {
+                if(isset($module_info->{$val->name})) continue;
+                $module_info->{$val->name} = $val->value;
+            }
+        }
+
+        /**
+         * @brief 특정 모듈정보와 XML, 그리고 회원 정보로 권한을 return
+         **/
+        function getGrant($module_info, $member_info, $xml_info = '') {
+            if(!$xml_info) {
+                $module = $module_info->module;
+                $xml_info = $this->getModuleActionXml($module);
+            }
+            // 그룹 권한 설정에 필요한 변수를 세팅
+            $module_srl = $module_info->module_srl;
+            $grant_info = $xml_info->grant;
+            if($member_info->member_srl) {
+                if(is_array($member_info->group_list)) $group_list = array_keys($member_info->group_list);
+                else $group_list = array();
+            } else {
+                $group_list = array();
+            }
+
+            // module_srl이 없는 즉 별도의 권한 설정이 안되는 경우
+            if(!$module_srl) {
+                $grant->access = true;
+                if($this->isSiteAdmin($member_info)) $grant->access = $grant->is_admin = $grant->manager = true;
+                else $grant->is_admin = $grant->manager = $member_info->is_admin=='Y'?true:false;
+
+            // module_srl이 있는 경우
+            } else {
+
+                // grant 종류를 구함
+                $grant->access = $grant->is_admin = $grant->manager = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info))?true:false;
+
+                // 관리자가 아니라 로그인 회원일 경우 이 모듈의 관리자인지 확인
+                if(!$grant->manager && $member_info->member_srl) {
+                    $args->module_srl = $module_srl;
+                    $args->member_srl = $member_info->member_srl;
+                    $output = executeQuery('module.getModuleAdmin',$args);
+                    if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = $grant->is_admin = true;
+                }
+
+                // 관리자가 아니면 직접 DB에서 정보를 구해서 권한 설정
+                if(!$grant->manager) {
+                    $args = null;
+                    $args->module_srl = $module_srl;
+                    $output = executeQueryArray('module.getModuleGrants', $args);
+
+                    $grant_exists = $granted = array();
+
+                    if($output->data) {
+                        // 1차적으로 권한 대상 이름과 그룹을 정리
+                        foreach($output->data as $val) {
+                            $grant_exists[$val->name] = true;
+                            if($granted[$val->name]) continue;
+
+                            // 로그인 회원만
+                            if($val->group_srl == -1) {
+                                $granted[$val->name] = true;
+                                if($member_info->member_srl) $grant->{$val->name} = true;
+
+                            // 사이트 가입한 회원만
+                            } elseif($val->group_srl == -2) {
+                                $granted[$val->name] = true;
+                                // 비로그인 회원이면 권한 미부여
+                                if(!$member_info->member_srl) $grant->{$val->name} = false;
+                                // 로그인 회원
+                                else {
+                                    $site_module_info = Context::get('site_module_info');
+                                    // 현재 접속된 사이트 정보가 없으면 권한 부여
+                                    if(!$site_module_info->site_srl) $grant->{$val->name} = true;
+                                    // 현재 접속된 사이트의 그룹 정보가 있 으면 권한 미부여
+                                    elseif(count($group_list)) $grant->{$val->name} = true;
+                                }
+
+                            // 비로그인 회원 모두
+                            } elseif($val->group_srl == 0) {
+                                $granted[$val->name] = true;
+                                $grant->{$val->name} = true;
+                            // 특정 그룹 대상일 경우
+                            } else {
+                                if($group_list && count($group_list) && in_array($val->group_srl, $group_list)) {
+                                    $grant->{$val->name} = true;
+                                    $granted[$val->name] = true;
+                                }
+                            }
+                        }
+                    }
+
+                    // 가상 그룹인 access에 대해서 별도 처리
+                    if(!$grant_exists['access']) $grant->access = true;
+                    if(count($grant_info)) {
+                        foreach($grant_info as  $grant_name => $grant_item) {
+                            if($grant_exists[$grant_name]) continue;
+                            switch($grant_item->default) {
+                                case 'guest' :
+                                        $grant->{$grant_name} = true;
+                                    break;
+                                case 'member' :
+                                        if($member_info->member_srl) $grant->{$grant_name} = true;
+                                        else $grant->{$grant_name} = false;
+                                    break;
+                                case 'site' :
+                                        $site_module_info = Context::get('site_module_info');
+                                        if($member_info->member_srl && (($site_module_info->site_srl && count($group_list)) || !$site_module_info->site_srl)) $grant->{$grant_name} = true;
+                                        else $grant->{$grant_name} = false;
+                                    break;
+                                case 'manager' :
+                                case 'root' :
+                                        if($member_info->is_admin == 'Y') $grant->{$grant_name} = true;
+                                        else $grant->{$grant_name} = false;
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                // 관리자일 경우 모든 권한에 대해 true 지정
+                if($grant->manager) {
+                    $grant->access = true;
+                    if(count($grant_info)) {
+                        foreach($grant_info as $key => $val) {
+                            $grant->{$key} = true;
+                        }
+                    }
+                }
+
+            }
+            return $grant;
+        }
+
+
+
+        function getModuleFileBox($module_filebox_srl){
+            $args->module_filebox_srl = $module_filebox_srl;
+            return executeQuery('getModuleFileBox', $args);
+        }
+
+        function getModuleFileBoxList(){
+            $args->page = Context::get('page');
+            $args->list_count = 10;
+            $args->page_count = 10;
+            return executeQuery('module.getModuleFileBoxList', $args);
+        }
+
+        function getModuleFileBoxPath($module_filebox_srl){
+            return sprintf("./files/attach/filebox/%s",getNumberingPath($module_filebox_srl,3));
+        }
     }
 ?>

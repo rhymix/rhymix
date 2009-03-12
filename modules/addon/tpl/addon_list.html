@@ -1,7 +1,7 @@
 <!--%import("filter/toggle_activate_addon.xml")-->
 <!--%import("js/addon.js")-->
 
-<h3>{$lang->addon} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->addon} <span class="gray">{$lang->cmd_management}</span></h3>
 <div class="infoText">{nl2br($lang->about_addon)}</div>
 
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
@@ -10,7 +10,7 @@
 </form>
 
 <!-- 애드온의 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="crossTable">
 <thead>
     <tr>
         <th scope="col"><div>{$lang->addon_name}</div></th>
@@ -31,20 +31,20 @@
             ({$val->addon})
         </div>
     </th>
-    <td class="number center">{$val->version}</td>
-    <td class="center nowrap">
+    <td>{$val->version}</td>
+    <td>
         <!--@foreach($val->author as $author)-->
         <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
         <!--@endforeach-->
     </td>
-    <td class="date center nowrap">{zdate($val->date, 'Y-m-d')}</td>
-    <td class="number nowrap">{$val->path}</td>
-    <td class="nowrap center setup"><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$lang->cmd_setup}</a></td>
-    <td class="nowrap center <!--@if($val->activated)-->activated<!--@else-->deactivated<!--@end-->">
+    <td>{zdate($val->date, 'Y-m-d')}</td>
+    <td>{$val->path}</td>
+    <td><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" title="{htmlspecialchars($lang->cmd_setup)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+    <td>
         <!--@if($val->activated)-->
-        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->use}</a>
+        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
         <!--@else-->
-        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->notuse}</a>
+        <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
         <!--@end-->
     </td>
 </tr>

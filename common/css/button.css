@@ -89,3 +89,24 @@ span.button.blue input { background-image:url(../tpl/images/buttonBlue.gif); col
 /* Offset Debug */
 a.button,
 span.button{ margin-right:2px;}
+
+/* Button Set */
+.buttonSet{ width:16px; height:16px; background-image:url(../tpl/images/buttonSet.gif); background-repeat:no-repeat; border:0; background-color:transparent; vertical-align:middle; display:inline-block; text-decoration:none;}
+.buttonSet span{ z-index:-1; font-size:0; line-height:0; visibility:hidden;}
+.buttonSet.buttonUp{ background-position:0 0;}
+.buttonSet.buttonDown{ background-position:0 -16px;}
+.buttonSet.buttonLeft{ background-position:0 -32px;}
+.buttonSet.buttonRight{ background-position:0 -48px;}
+.buttonSet.buttonInfo{ background-position:0 -64px;}
+.buttonSet.buttonCopy{ background-position:0 -80px;}
+.buttonSet.buttonSetting{ background-position:0 -96px;}
+.buttonSet.buttonActive{ background-position:0 -112px;}
+.buttonSet.buttonDisable{ background-position:0 -128px;}
+.buttonSet.buttonDelete{ background-position:0 -144px;}
+.buttonSet.buttonHomepage{ background-position:0 -160px;}
+.buttonSet.buttonBlog{ background-position:0 -176px;}
+.buttonSet.buttonCalendar{ background-position:0 -192px;}
+.buttonSet.buttonLayoutEditor{ background-position:0 -208px;}
+.buttonSet.buttonAddWidget{ background-position:0 -224px;}
+.buttonSet.buttonAddContent{ background-position:0 -240px;}
+

@@ -2,7 +2,7 @@
     /**
      * @file   zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言 (包含基本內容)
+     * @brief  會員(member)模組正體中文語言 (包含基本內容)
      **/
 
     $lang->member = '會員';
@@ -23,9 +23,9 @@
     $lang->allow_mailing = '接收郵件';
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理權限';
-    $lang->group = '用戶組';
-    $lang->group_title = '用戶組標題';
-    $lang->group_srl = '用戶組編號';
+    $lang->group = '群組';
+    $lang->group_title = '群組標題';
+    $lang->group_srl = '群組編號';
     $lang->signature = '簽名檔';
     $lang->profile_image = '個人圖片';
     $lang->profile_image_max_width = '寬度限制';
@@ -36,11 +36,15 @@
     $lang->image_mark = '用戶圖示';
     $lang->image_mark_max_width = '寬度限制';
     $lang->image_mark_max_height = '高度限制';
+    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark_max_width = '寬度限制';
+    $lang->group_image_mark_max_height = '高度限制';
+    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->signature_max_height = '簽名檔高度限制';
-    $lang->enable_openid = '支援 OpenID';
+    $lang->enable_openid = '支援OpenID';
     $lang->enable_join = '允許會員註冊';
     $lang->enable_confirm = '使用郵件認證';
-    $lang->enable_ssl = '使用 SSL 功能';
+    $lang->enable_ssl = '使用SSL功能';
     $lang->security_sign_in = '使用安全登入';
     $lang->limit_day = '認證限制';
     $lang->limit_date = '限制日期';
@@ -59,6 +63,7 @@
             'N' => '全部禁止',
     );
     $lang->about_allow_message = '可選擇是否接收短訊息。';
+    $lang->logged_users = '線上會員';
 
     $lang->webmaster_name = '管理員名稱';
     $lang->webmaster_email = '管理員電子郵件';
@@ -73,17 +78,18 @@
         'nick_name' => '暱稱',
         'email_address' => '電子郵件',
         'regdate' => '註冊日期',
-        'regdate_more' => '註冊日期(更多)',
-        'regdate_less' => '註冊日期(較少)',
+        'regdate_more' => '註冊日期(以上)',
+        'regdate_less' => '註冊日期(以下)',
         'last_login' => '最近登入',
-        'last_login_more' => '最近登入(更多)',
-        'last_login_less' => '最近登入(較少)',
+        'last_login_more' => '最近登入(以上)',
+        'last_login_less' => '最近登入(以下)',
         'extra_vars' => '延伸變數',
     );
 
     $lang->cmd_login = '登入';
     $lang->cmd_logout = '登出';
     $lang->cmd_signup = '會員註冊';
+    $lang->cmd_site_signup = 'Join';
     $lang->cmd_modify_member_info = '修改會員資料';
     $lang->cmd_modify_member_password = '修改密碼';
     $lang->cmd_view_member_info = '檢視會員資料';
@@ -103,7 +109,7 @@
     $lang->cmd_view_saved_document = '檢視臨時儲存箱';
     $lang->cmd_send_email = '發送郵件';
 
-    $lang->msg_email_not_exists = "找不到您輸入的郵件地址。";
+    $lang->msg_email_not_exists = '找不到您輸入的郵件地址。';
 
     $lang->msg_alreay_scrapped = '已收藏的主題！';
 
@@ -124,8 +130,8 @@
 
     $lang->msg_new_member = '會員註冊';
     $lang->msg_update_member = '修改會員資料';
-    $lang->msg_leave_member = '退出會員';
-    $lang->msg_group_is_null = '無用戶組。';
+    $lang->msg_leave_member = '會員退出';
+    $lang->msg_group_is_null = '無群組。';
     $lang->msg_not_delete_default = '無法刪除基本項目';
     $lang->msg_not_exists_member = '不存在的帳號';
     $lang->msg_cannot_delete_admin = '無法解除管理員帳號，請解除管理後再刪除';
@@ -141,6 +147,7 @@
     $lang->msg_not_uploaded_profile_image = '無法登錄個人圖片！';
     $lang->msg_not_uploaded_image_name = '無法登錄暱稱圖片！';
     $lang->msg_not_uploaded_image_mark = '無法登錄用戶圖示！';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
     $lang->msg_accept_agreement = '您必須同意條款。'; 
 
@@ -160,7 +167,7 @@
     $lang->about_denied = '選擇時不能使用此帳號。';
     $lang->about_is_admin = '選擇時將具有最高管理權限。';
     $lang->about_member_description = '管理員對會員的註記。';
-    $lang->about_group = '一個用戶名稱可擁有多個用戶組。';
+    $lang->about_group = '一個帳號可擁有多個群組。';
 
     $lang->about_column_type = '請選擇要新增的註冊表單格式。';
     $lang->about_column_name = '請輸入在樣板中可以使用的英文名稱。(變數名稱)';
@@ -170,10 +177,10 @@
     $lang->about_form_description = '說明欄裡輸入的內容，在註冊時會顯示。';
     $lang->about_required = '註冊時成為必填項目。';
 
-    $lang->about_enable_openid = '想要網站支援 OpenID 時，請勾選此項。';
+    $lang->about_enable_openid = '想要網站支援OpenID時，請勾選此項。';
     $lang->about_enable_join = '選擇此項後，用戶才可以註冊。';
     $lang->about_enable_confirm = '為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。';
-    $lang->about_enable_ssl = '如主機提供 SSL 認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https) 認證。';
+    $lang->about_enable_ssl = '如主機提供SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用SSL(https)認證。';
     $lang->about_limit_day = '註冊會員後的認證有效期限。';
     $lang->about_limit_date = '直到指定日期，否則該帳號都無法登入。';
     $lang->about_after_login_url = '可以指定登入後的頁面轉向網址(留空為目前頁面)。';
@@ -183,16 +190,18 @@
 
     $lang->about_image_name = '用戶暱稱可以用圖片替代。';
     $lang->about_image_mark = '顯示在用戶暱稱前的圖示。';
+    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = '可以使用個人圖片。';
     $lang->about_signature_max_height = '可以限制簽名檔高度(0或留空為不限制)。';
     $lang->about_accept_agreement = '已閱讀全部條款並同意。'; 
 
     $lang->about_member_default = '將成為註冊會員時的預設用戶組。';
 
-    $lang->about_openid = '用 OpenID 註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供 OpenID 服務的網站中得到解決。';
-    $lang->about_openid_leave = '刪除 OpenID 就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。';
+    $lang->about_openid = '用OpenID註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供OpenID服務的網站中得到解決。';
+    $lang->about_openid_leave = '刪除OpenID就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。';
     $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 
     $lang->about_member = "可以新增/修改/刪除會員及管理用戶組或註冊表單的會員管理模組。\n此模組不僅可以建立預設用戶組以外的其他用戶組來管理會員，並且通過註冊表單的管理獲得除會員基本資料以外的延伸資料。";
-    $lang->about_ssl_port = '請輸入想要使用預設 SSL 埠口以外的埠口。';
+    $lang->about_ssl_port = '請輸入想要使用預設SSL埠口以外的埠口。';
+    $lang->add_openid = 'Add OpenID';
 ?>

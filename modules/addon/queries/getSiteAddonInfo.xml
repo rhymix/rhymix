@@ -1,0 +1,10 @@
+<query id="getSiteAddonInfo" action="select">
+    <tables>
+      <table name="addons_site" />
+    </tables>
+    <columns />
+    <conditions>
+      <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" />
+      <condition operation="equal" column="addon" var="addon" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

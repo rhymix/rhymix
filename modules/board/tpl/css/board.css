@@ -1,11 +1,11 @@
 @charset "utf-8";
 
-body { margin:10px; }
+.aboutListConfig { border:1px solid #ccc; padding:5px; line-height:160%; margin-bottom:20px; }
 
-.menuListZone { table-layout:fixed; }
-.menuListZone td { vertical-align:top; }
-.menuListZone td.category_zone { padding-right:10px; }
+.targetItem strong , .displayItem strong { margin-bottom:5px; display:block;}
+.targetItem { float:left; width:250px; overflow:hidden; *zoom:1; margin-left:30px; }
+.displayItem { float:left; width:250px; overflow:hidden; *zoom:1; }
+.displayItem select, .targetItem  select { width:99%;  overflow:hidden; *zoom:1;}
 
-#category_list { padding:.5em 0 .5em 0; margin-bottom:2em; width:250px; overflow:hidden; float:left; position:absolute; left:10px;}
-#category_info { margin-left:10px; width:560px; _width:540px; float:left; position:absolute; right:10px;}
-*:first-child+html #category_info { width:550px; }
+.displayButton { float:left; width:40px; text-align:center; margin-top:80px; }
+.displayButton a { margin-bottom:10px; }

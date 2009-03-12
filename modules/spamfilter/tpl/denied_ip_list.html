@@ -3,11 +3,6 @@
 
 <!--#include("header.html")-->
 
-<!-- 스패머 정보 -->
-<div class="summary">
-    <strong>Total</strong> <em>{count($ip_list)}</em>
-</div>
-
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
 <form id="fo_denied_ip" action="./" method="get">
 <input type="hidden" name="ipaddress" value="" />
@@ -15,7 +10,7 @@
 
 <!-- 수동 추가 -->
 <form action="./" method="get" onsubmit="return procFilter(this, insert_denied_ip)">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->denied_ip}</div></th>
         <td>
@@ -24,19 +19,20 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
+<caption>Total{count($ip_list)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col" class="wide"><div>{$lang->ipaddress}</div></th>
+        <th scope="col"><div>{$lang->ipaddress}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
         <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
@@ -44,10 +40,10 @@
 <tbody>
     <!--@foreach($ip_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
-        <td class="center number">{count($ip_list)-$no}</td>
-        <td class="number">{$val->ipaddress}</td>
-        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="delete center"><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;">{$lang->cmd_delete}</a></td>
+        <td>{count($ip_list)-$no}</td>
+        <td class="wide">{$val->ipaddress}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>

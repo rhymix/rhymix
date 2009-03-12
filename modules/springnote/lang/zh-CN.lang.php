@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   zh-CN.lang.php
-     * @author zero (zero@nzeo.com)
-     * @brief  Springnote模块语言包
+     * @author zero (zero@nzeo.com)　翻译：guny
+     * @brief  Springnote模块简体中文语言包
      **/
 
     $lang->springnote = "Springnote";

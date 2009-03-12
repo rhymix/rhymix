@@ -3,9 +3,10 @@
      * @class DBCubrid
      * @author zero (zero@nzeo.com)
      * @brief Cubrid DBMS를 이용하기 위한 class
-     * @version 0.1
+     * @version 0.1p1
      *
-     * cubrid 7.0 에서 테스트 하였음.
+     * CUBRID2008 R1.3 에 대응하도록 수정 Prototype (prototype@cubrid.com) / 09.02.23
+     * 7.3 ~ 2008 R1.3 까지 테스트 완료함. 
      * 기본 쿼리만 사용하였기에 특화된 튜닝이 필요
      **/
 
@@ -223,6 +224,14 @@
         }
 
         /**
+         * @brief 특정 테이블에 특정 column 제거
+         **/
+        function dropColumn($table_name, $column_name) {
+            $query = sprintf("alter class %s%s drop %s ", $this->prefix, $table_name, $column_name);
+            $this->_query($query);
+        }
+
+        /**
          * @brief 특정 테이블의 column의 정보를 return
          **/
         function isColumnExists($table_name, $column_name) {
@@ -411,8 +420,14 @@
                     $pipe = $v['pipe'];
 
                     $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
-                    if(!$value) $value = $v['value'];
-                    $str = $this->getConditionPart($name, $value, $operation);
+					if(!$value) {
+						$value = $v['value'];
+						if(strpos($value, ".") == false) $valuetmp = $value;
+						else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
+					} else $valuetmp = $value;
+					if(strpos($name, ".") == false) $nametmp = '"'.$name.'"';
+					else $nametmp = '"'.str_replace('.', '"."', $name).'"';
+                    $str = $this->getConditionPart($nametmp, $valuetmp, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .=  $str;
                 }
@@ -544,7 +559,7 @@
             // 테이블 정리
             $table_list = array();
             foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$val.'" as '.$key;
+                $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
 
             $left_join = array();
@@ -554,7 +569,7 @@
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
                 if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->tables[$key].'" as '.$key  . ' on (' . $condition . ')';
+                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as "'.$key  . '" on (' . $condition . ')';
                 }
             }
 
@@ -698,7 +713,7 @@
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
+            $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
                 $result = $this->_query($count_query);

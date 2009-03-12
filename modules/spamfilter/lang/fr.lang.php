@@ -16,6 +16,8 @@
     $lang->limit_count = "Limite d'affichage";
     $lang->check_trackback = "Vérifier les Rétroliens";
     $lang->word = "Mot";
+    $lang->hit = '히트';
+    $lang->latest_hit = '최근 히트';
 
     // descriptions
     $lang->about_interval = "L'affichage sera bloqué pendant le temps designé.";
@@ -27,6 +29,6 @@
     // messages
     $lang->msg_alert_limited_by_config = 'L\'Affichage d\'un article en %s secondes n\'est pas permis.\n Si vous essayez encore, votre adresse IP peut être enrégistré dans la liste noire.';
     $lang->msg_alert_denied_word = 'Le mot "%s" n\'est pas permis d\'afficher.';
-    $lang->msg_alert_registered_denied_ip = 'Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact to the site administrator. Votre adresse IP est dans la liste noire, \nvous pouvez donc avoir limitation d\'activité dans ce site. Si vous avez quelque question sur ce fait, contactez l\'administrateur du site, S.V.P.'; 
+    $lang->msg_alert_registered_denied_ip = 'Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact to the site administrator. Votre adresse IP est dans la liste noire, \nvous pouvez donc avoir limitation d\'activité dans ce site. Si vous avez quelque question sur ce fait, contactez l\'administrateur du site, S.V.P.';
     $lang->msg_alert_trackback_denied = 'Un seul rétrolien par article est permis.';
 ?>

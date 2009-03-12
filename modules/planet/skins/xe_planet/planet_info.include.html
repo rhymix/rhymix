@@ -82,7 +82,7 @@
 					<li class="orange"><a href="#" onclick="doUpdateColorset(this);return false;" title="Orange"><span>Orange</span></a></li>
 				</ul>
 
-			<!--@if($config->use_me2day=='Y')-->
+			<!--@if($module_info->use_me2day=='Y')-->
 				<!--%import("filter/me2day_api.xml")-->
 				<form action="./" method="post" class="apiMe2day" onsubmit="return procFilter(this,me2day_api);">
 					<fieldset>
@@ -108,7 +108,7 @@
 				</form>
 			<!--@end-->
 	
-			<!--@if($config->use_mobile=='Y')-->
+			<!--@if($module_info->use_mobile=='Y')-->
 			{@$phone_number=$myplanet->getPhoneNumber()}
 			<form method="post" class="mobile" onsubmit="setPhoneNumber(this);return false;" action="">
 				<fieldset>
@@ -149,16 +149,7 @@
         </div>
     </div>
     <!--@end-->
-    <ul class="nav">
-        <li><a href="{getUrl('act','favorite')}">{sprintf($lang->planet_whos_favorite,$planet->getNickName())}</a></li>
-        <li><button type="button" onclick="this.innerHTML=toggle('myFavoriteTag')=='open'?'{$lang->cmd_planet_close_interest_tag}':'{$lang->cmd_planet_show_interest_tag}'">{$lang->cmd_planet_show_interest_tag}</button></li>
-    </ul>
     <span class="tl"></span><span class="tr"></span>
-</div>
-
-<!--%import("./filter/insert_interest_tag.xml")-->
-<div id="myFavoriteTag">
-    <!--#include("interest_tags.html")-->
 </div>
 
 <!--@if($planet->isMyPlanet())-->
@@ -180,7 +171,7 @@
 <!--@end-->
 
 <!--@if($planet->isMyPlanet())-->
-<div id="writePost" class="writePost close">
+<div id="writePost" class="writePost <!--@if($_COOKIE['writePost']=='close')-->close<!--@else-->open<!--@end-->">
     <!--// class="writePost close" | class="writePost open"-->
     <div class="writeHeader">
         <h3>{$lang->cmd_planet_add_article}</h3>
@@ -209,7 +200,7 @@
                 </dl>
                 <div class="writeOptions">
                     <p><input id="btn_preview" name="" onclick="togglePreview()" type="checkbox" value="" checked="checked" /><label for="btn_preview">{$lang->planet_article_preview}</label></p>
-                    <!--@if($config->use_me2day =='Y' && $myplanet->getMe2dayUID())-->
+                    <!--@if($module_info->use_me2day =='Y' && $myplanet->getMe2dayUID())-->
                     <p><input name="me2day_autopush" type="checkbox" value="Y" <!--@if($myplanet->getMe2dayAuthPush())-->checked="checked"<!--@end--> id="me2day_autopush" /><label for="me2day_autopush">{$lang->cmd_send_me2day}</label></p>
                     <!--@end-->
                 </div>

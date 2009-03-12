@@ -49,6 +49,10 @@
          * mid : 특정 mid에 속한 사용자
          **/
         function getLoggedMembers($args) {
+            if(!$args->site_srl) {
+                $site_module_info = Context::get('site_module_info');
+                $args->site_srl = (int)$site_module_info->site_srl;
+            }
             if(!$args->list_count) $args->list_count = 20;
             if(!$args->page) $args->page = 1;
             if(!$args->period_time) $args->period_time = 3;

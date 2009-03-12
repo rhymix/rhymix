@@ -12,7 +12,7 @@
     <description xml:lang="zh-TW">當有新評論時，此模組會告知。</description>
     <version>0.2.1</version>
     <date>2008-07-31</date>
-    <category>accessory</category>
+    <category>interlock</category>
 
     <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
         <name xml:lang="ko">haneul</name>

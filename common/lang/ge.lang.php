@@ -75,6 +75,7 @@
     $lang->secret = 'Geheim';
     $lang->category = $lang->category_srl = 'Kategorie';
     $lang->none_category = '분류없음';
+    $lang->none_image = '이미지 없음';
     $lang->document_srl = 'Doc. No ';
     $lang->user_id = 'User-ID';
     $lang->author = 'Entwickler';
@@ -117,6 +118,7 @@
     $lang->order_type = 'Sortieren Typ';
     $lang->order_asc = 'Aufstieg';
     $lang->order_desc = 'Abstieg';
+    $lang->file = 'file';
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';
@@ -256,6 +258,7 @@
     $lang->column_type_list['textarea'] = 'Multi-line textarea';
     $lang->column_type_list['checkbox'] = 'Checkbox (multiple Auswahl)';
     $lang->column_type_list['select'] = 'select box (Einzel-Auswahl) ';
+    $lang->column_type_list['radio'] = 'radio button (radio)';
     $lang->column_type_list['kr_zip'] = 'Postleitzahl (Koreanisch) ';
     $lang->column_type_list['date'] = 'Datum (jjjj / mm / dd)';
     // $lang->column_type_list [ 'jp_zip'] = 'Postleitzahl (Japanisch)';

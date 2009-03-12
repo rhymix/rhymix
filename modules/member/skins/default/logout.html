@@ -4,19 +4,19 @@
 <form action="./" method="get" onsubmit="return procFilter(this, logout)">
 <input type="hidden" name="mid" value="{$mid}" />
 
-<div class="memberSmallBox w400">
-    <div class="header">
-        <h3>{$lang->cmd_logout}</h3>
-    </div>
-    <div class="text">
-        <p class="fwB">{$lang->confirm_logout}</p>
-    </div>
+    <h3>{$lang->cmd_logout}</h3>
 
-    <div class="help tCenter">
-        <span class="button"><input type="submit" value="{$lang->cmd_logout}" /></span>
-        <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-    </div>
-</div>
+    <table class="crossTable">
+    <tr>
+        <th class="title">{$lang->confirm_logout}</th>
+    </tr>
+    <tr>
+        <th class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_logout}" /></span>
+            <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
+        </th>
+    </tr>
+    </table>
 
 </form>
 <!--#include("./common_footer.html")-->

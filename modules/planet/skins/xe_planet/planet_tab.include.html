@@ -1,0 +1,8 @@
+    <ul class="myTab" id="planet_myTab">
+        <li <!--@if(!$type&&(!$act||$act=="dispPlanet"))-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','','act','dispPlanet')}">{$lang->planet_total_articles}<sup>{number_format($total_content)}</sup></a></li>
+        <li <!--@if($type=='catch'&&$act=="dispPlanet")-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','catch','act','dispPlanet')}">{$lang->planet_catch}<sup>{number_format($total_catch)}</sup></a></li>
+        <li <!--@if($type=='fishing'&&$act=="dispPlanet")-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','fishing','act','dispPlanet')}">{$lang->planet_fish}<sup>{number_format($total_fishing)}</sup></a></li>
+        <li <!--@if($type=='interest'&&$act=="dispPlanet")-->class="active"<!--@end-->><a href="{getUrl('document_srl','', 'type','interest','act','dispPlanet')}">{$lang->planet_interest_content}<sup>&nbsp;</sup></a></li>
+        <li <!--@if($act=="favorite")-->class="active"<!--@end-->><a href="{getUrl('act','favorite')}">{$lang->planet_favorite}<sup>&nbsp;</sup></a></li>
+    </ul>
+

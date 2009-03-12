@@ -7,18 +7,26 @@
 
     $lang->admin_info = '管理者情報';
     $lang->admin_index = '管理者トップページ';
+    $lang->control_panel = 'コントロールパネル';
 
     $lang->module_category_title = array(
-        'service' => 'サービス型モジュール',
-        'utility' => '機能性モジュール',
-        'manager' => '管理型モジュール',
-        'accessory' => '付加モジュール',
-        'base' => '基本モジュール',
+        'service' => 'サービス管理',
+        'member' => '会員管理',
+        'content' => 'コンテンツ管理',
+        'statistics' => '統計確認',
+        'construction' => 'サイト設定',
+        'utility' => '機能設定',
+        'interlock' => '連動設定',
+        'accessory' => '付加機能設定',
+        'migration' => 'データ管理／復元',
+        'system' => 'システム管理',
     );
 
     $lang->newest_news = "最新ニュース";
 
     $lang->env_setup = "環境設定";
+    $lang->sso_url = "SSO（シングルサインオン） URL";
+    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持できるようにするためには、基本になるサイトでのXEをインストールしたurlを登録してください。 (例: http://ドメイン/xe)";
 
     $lang->env_information = "環境情報";
     $lang->current_version = "インストールバージョン";
@@ -51,12 +59,12 @@
     $lang->xe_license = 'XEのライセンスはGPLです。';
     $lang->about_shortcut = 'よく使用するモジュールに登録されたショートカットは削除できます。';
 
-    $lang->yesterday = "Yesterday";
-    $lang->today = "Today";
+    $lang->yesterday = "昨日";
+    $lang->today = "今日";
 
     $lang->cmd_lang_select = "言語選択";
     $lang->about_cmd_lang_select = "選択された言語のみでサービスを行います。";
-    $lang->about_recompile_cache = "要らないか誤ったキャッシューファイルを整理します。";
+    $lang->about_recompile_cache = "要らないｄか誤ったキャッシューファイルを整理します。";
     $lang->use_ssl = "SSL環境設定";
     $lang->ssl_options = array(
         'none' => "使わない",

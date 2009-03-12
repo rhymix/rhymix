@@ -1,35 +1,12 @@
 <!--%import("js/member.js")-->
-
-<!--%import("css/common.css")-->
-<!--@if($member_config->colorset=="purple")-->
-    <!--%import("css/purple.css")-->
-<!--@elseif($member_config->colorset=="green")-->
-    <!--%import("css/green.css")-->
-<!--@elseif($member_config->colorset=="red")-->
-    <!--%import("css/red.css")-->
-<!--@elseif($member_config->colorset=="cyan")-->
-    <!--%import("css/cyan.css")-->
-<!--@elseif($member_config->colorset=="black")-->
-    <!--%import("css/black.css")-->
-<!--@else-->
-    <!--%import("css/white.css")-->
-<!--@end-->
+<!--%import("css/default.css")-->
 
 <div id="memberModule">
 
-    <!--@if($member_title)-->
-    <div class="boardHeader">
-        <h3>{$member_title}</h3>
-
-        <!--@if($is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl) )-->
-        <div class="member_option">
-            <select name="act" id="selected_act">
-                <!--@foreach($logged_info->menu_list as $key => $val)-->
-                <option value="{$key}" <!--@if($key == $act)-->selected="selected"<!--@end-->>{Context::getLang($val)}</option>
-                <!--@end-->
-            </select>
-            <a href="#" onclick="location.href=current_url.setQuery('act', xGetElementById('selected_act').options[xGetElementById('selected_act').selectedIndex].value); return false;"><img src="./images/button_go.gif" border="0" alt="" class="button_go" /></a>
-        </div>
+    <!--@if($is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl) )-->
+    <ul class="localNavigation">
+        <!--@foreach($logged_info->menu_list as $key => $val)-->
+        <li <!--@if($key == $act)-->class="on"<!--@end-->><a href="{getUrl('act',$key)}">{Context::getLang($val)}</a></li>
         <!--@end-->
-    </div>
+    </ul>
     <!--@end-->

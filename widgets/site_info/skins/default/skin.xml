@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">가상 사이트 현황 기본 스킨 </title>
+    <title xml:lang="zh-CN">站点信息默认皮肤</title>
+    <title xml:lang="zh-TW">虛擬網站預設面板</title>
+    <description xml:lang="ko">가상 사이트의 현황을 출력하는 기본 스킨입니다</description>
+    <description xml:lang="zh-CN">站点信息默认皮肤。</description>
+    <description xml:lang="zh-TW">虛擬網站預設面板。</description>
+    <version>0.1</version>
+    <date>2009-02-16</date>
+    <link>http://www.zeroboard.com</link>
+
+    <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
+        <name xml:lang="ko">zero</name>
+		<name xml:lang="zh-CN">zero</name>
+		<name xml:lang="zh-TW">zero</name>
+    </author>
+
+    <colorset>
+        <color name="layout">
+            <title xml:lang="ko">레이아웃에 맞춤</title>
+            <title xml:lang="jp">レイアウトに合わせる</title>
+            <title xml:lang="zh-CN">随布局</title>
+            <title xml:lang="en">레이아웃에 맞춤</title>
+            <title xml:lang="zh-TW">隨版面</title>
+        </color>
+        <color name="white">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+            <title xml:lang="zh-CN">白色（默认）</title>
+            <title xml:lang="en">White (default)</title>
+            <title xml:lang="zh-TW">白色(預設)</title>
+        </color>
+        <color name="black">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+            <title xml:lang="en">Black</title>
+            <title xml:lang="zh-CN">黑色</title>
+            <title xml:lang="zh-TW">黑色</title>
+        </color>
+    </colorset>
+</skin>

@@ -13,6 +13,7 @@
         function init() {
         }
 
+
         function procIssuetrackerInsertIssue() {
             // 권한 체크
             if(!$this->grant->ticket_write) return new Object(-1, 'msg_not_permitted');
@@ -27,6 +28,17 @@
             if(!$this->grant->manager) {
                 unset($obj->title_color);
                 unset($obj->title_bold);
+            }
+            // 커미터가 아니라면 마일스톤(계획), 우선순위, 소유자 설정 제거
+            // (이슈 상태는 여기서 건드릴수없음 / 종류, 컴포넌트, 패키지 설정은 ticket_write권한이면 가능)
+            if(!$this->grant->commiter) {
+                unset($obj->assignee_srl);
+                unset($obj->milestone_srl);
+                unset($obj->priority_srl);
+            }
+            if($obj->release_srl)
+            {
+                $obj->occured_version_srl = $obj->release_srl;
             }
 
             if($obj->occured_version_srl == 0)
@@ -52,11 +64,16 @@
 
             // 그렇지 않으면 신규 등록
             } else {
+            	// assignee name
+            	$oMemberModel = &getModel('member');
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->assignee_srl);
+                $obj->assignee_name = $member_info->nick_name;
+                
                 // transaction start
                 $oDB = &DB::getInstance();
                 $oDB->begin();
 
-                $output = executeQuery("issuetracker.insertIssue", $obj); 
+                $output = executeQuery("issuetracker.insertIssue", $obj);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
@@ -116,13 +133,22 @@
             if(!$output->toBool()) return $output;
 
             // 이슈 삭제
-            $args->target_srl = $document_srl;
-            $output = executeQuery('issuetracker.deleteIssue', $args);
 
             // 성공 메세지 등록
             $this->add('mid', Context::get('mid'));
             $this->add('page', $output->get('page'));
             $this->setMessage('success_deleted');
+        }
+
+        function triggerDeleteDocument(&$obj)
+        {
+            $args->target_srl = $obj->document_srl;
+            if(!$args->target_srl) return new Object();
+            $output = executeQuery('issuetracker.deleteIssue', $args);
+            if(!$output->toBool()) return $output;
+
+            $output = executeQuery('issuetracker.deleteHistories', $args);
+            return $output; 
         }
 
         function insertHistory($target_srl, $objs, $module_srl, $grant)
@@ -399,6 +425,7 @@
 
         function syncChangeset($module_info)
         {
+            if(!$module_info->svn_url || !$module_info->svn_cmd) return;
             require_once($this->module_path.'classes/svn.class.php');
             $oSvn = new Svn($module_info->svn_url, $module_info->svn_cmd, $module_info->diff_cmd, $module_info->svn_userid, $module_info->svn_passwd);
             $oModel = &getModel('issuetracker');

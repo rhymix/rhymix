@@ -2,12 +2,12 @@
 <skin version="0.2">
     <title xml:lang="ko">XE 공식 레이아웃용 최신 댓글 스킨</title>
     <title xml:lang="jp">XE 공식 레이아웃용 최신 댓글 스킨</title>
-    <title xml:lang="zh-CN">XE 공식 레이아웃용 최신 댓글 스킨</title>
+    <title xml:lang="zh-CN">XE官方网站最新评论列表皮肤</title>
     <title xml:lang="en">XE 공식 레이아웃용 최신 댓글 스킨</title>
     <title xml:lang="zh-TW">XE 공식 레이아웃용 최신 댓글 스킨</title>
     <description xml:lang="ko">댓글을 출력합니다</description>
     <description xml:lang="jp">댓글을 출력합니다</description>
-    <description xml:lang="zh-CN">댓글을 출력합니다</description>
+    <description xml:lang="zh-CN">显示评论列表。</description>
     <description xml:lang="en">댓글을 출력합니다</description>
     <description xml:lang="zh-TW">댓글을 출력합니다</description>
     <version>0.1</version>

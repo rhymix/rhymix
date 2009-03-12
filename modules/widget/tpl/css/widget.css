@@ -26,6 +26,7 @@
 #widgetButton { background-color:#C7DBE9;left:0; top:0;}
 #widgetBoxButton { background-color:#D2E9C7; right:0; top:0;}
 .widgetButtons div { float:left; }
+.widgetButtons .widgetStyle { background:transparent url("../images/widgetstyle_setup.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
 .widgetButtons .widgetSetup { background:transparent url("../images/widget_setup.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
 .widgetButtons .widgetCopy { background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
 .widgetButtons .widgetSize { background:transparent url("../images/widget_size.gif") no-repeat 1px 1px; width:14px; height:14px;  cursor:pointer; z-index:1000;}
@@ -55,3 +56,7 @@ div.editor { width:700px; }
 ul.midCommand { float:left; margin:0 0 0 10px;; padding:0; *zoom:1; }
 ul.midCommand li { display:block; margin-bottom:5px; list-style:none;}
 
+a.widgetStyle { float:left; margin-right:10px; border:1px solid #CCC; overflow:hidden; *zoom:1; }
+a.widgetStyle:hover { border:1px solid #444; }
+a.widgetStyle.selected { border:1px solid #000; }
+a.widgetStyle img {width:96px; height:96px; margin:1px; }

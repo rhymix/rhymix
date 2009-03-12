@@ -1,0 +1,10 @@
+<table name="document_extra_keys">
+    <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_module_keys" />
+    <column name="var_idx" type="number" size="11" notnull="notnull" unique="unique_module_keys" />
+    <column name="var_name" type="varchar" size="250" notnull="notnull" />
+    <column name="var_type" type="varchar" size="50" notnull="notnull" />
+    <column name="var_is_required" type="char" size="1" default="N" notnull="notnull" />
+    <column name="var_search" type="char" size="1" default="N" notnull="notnull" />
+    <column name="var_default" type="text" />
+    <column name="var_desc" type="text" />
+</table>

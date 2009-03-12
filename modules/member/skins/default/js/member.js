@@ -151,3 +151,21 @@ function doDeleteSavedDocument(document_srl, confirm_message) {
     params['document_srl'] = document_srl;
     exec_xml('member', 'procMemberDeleteSavedDocument', params, function() { location.reload(); });
 }
+
+function insertSelectedModule(id, module_srl, mid, browser_title) {
+    location.href = current_url.setQuery('selected_module_srl',module_srl);
+}
+
+/* 오픈아이디 연결 */
+function doAddOpenIDToMember() {
+    var fo_obj = xGetElementById("fo_insert_member");
+    procFilter(fo_obj, add_openid_to_member);
+}
+
+/* 오픈아이디 연결 해제 */
+function doDeleteOpenIDFromMember(openid) {
+    var fo_obj = xGetElementById("fo_insert_member");
+    fo_obj.openid_to_delete.value = openid;
+    procFilter(fo_obj, delete_openid_from_member);
+}
+

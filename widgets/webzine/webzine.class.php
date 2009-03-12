@@ -103,10 +103,12 @@
 
                     $oDocument = null;
                     $oDocument = new documentItem();
-                    $oDocument->setAttribute($attribute);
+                    $oDocument->setAttribute($attribute, false);
+                    $GLOBALS['XE_DOCUMENT_LIST'][$oDocument->document_srl] = $oDocument;
 
                     $document_list[$key] = $oDocument;
                 }
+                $oDocumentModel->setToAllDocumentExtraVars();
             } else {
 
                 $document_list = array();

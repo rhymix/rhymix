@@ -1,0 +1,9 @@
+<query id="getModuleAdmin" action="select">
+    <tables>
+        <table name="module_admins" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" filter="number" />
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

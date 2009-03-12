@@ -6,26 +6,26 @@
         <input type="hidden" name="type" value="module" />
         <input type="hidden" name="target_module" value="" id="target_module" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->import_step_title[1]} - {$lang->import_step_desc[12]}</caption>
+        <h4 class="xeAdmin">{$lang->import_step_title[1]} - {$lang->import_step_desc[12]}</h4>
+        <table cellspacing="0" class="rowTable">
         <tr>
             <td>
-                <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" readonly="readonly"><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+                <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" readonly="readonly"><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
             </td>
         </tr>
         </table>
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</caption>
+        <h4 class="xeAdmin">{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</h4>
+        <table cellspacing="0" class="rowTable">
         <tr>
             <td>
-                <input type="text" name="xml_file" value="./" class="inputTypeText w700" />
+                <input type="text" name="xml_file" value="./" class="inputTypeText fullWidth" />
                 <p>ex1) ../module.xml</p>
                 <p>ex2) http://...../module.xml</p>
             </td>
         </tr>
         <tr>    
-            <td>
+            <th>
                 <select name="unit_count" class="w100">
                     <option value="10" selected="selected">10</option>
                     <option value="20">20</option>
@@ -38,8 +38,8 @@
                     <option value="500">500</option>
                     <option value="1000">1000</option>
                 </select>
-                <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
-            </td>
+                <span class="button black strong"><input type="submit" value="{$lang->cmd_next}" /></span>
+            </th>
         </tr>
         </table>
 

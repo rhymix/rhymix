@@ -1,0 +1,12 @@
+<filter name="delete_openid_from_member" module="member" act="procMemberDeleteOpenIDFromMember">
+    <form>
+        <node target="openid_to_delete" required="true" minlength="2" maxlength="80"/>
+    </form>
+    <parameter>
+        <param name="openid_to_delete" target="openid_to_delete" />
+    </parameter>
+    <response callback_func="completeModify">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -21,6 +21,8 @@
             $widget_info = $oWidgetModel->getWidgetInfo($widget);
 
             $widget = $vars->selected_widget;
+            $vars->widgetstyle = $request_vars->widgetstyle;
+
             $vars->skin = trim($request_vars->skin);
             $vars->colorset = trim($request_vars->colorset);
             $vars->widget_sequence = (int)($request_vars->widget_sequence);
@@ -30,11 +32,28 @@
             $vars->widget_padding_right = trim($request_vars->widget_padding_right);
             $vars->widget_padding_top = trim($request_vars->widget_padding_top);
             $vars->widget_padding_bottom = trim($request_vars->widget_padding_bottom);
+            $vars->document_srl= trim($request_vars->document_srl);
+
+
             if(count($widget_info->extra_var)) {
                 foreach($widget_info->extra_var as $key=>$val) {
-                    $vars->{$key} = trim($request_vars->{$key}); 
+                    $vars->{$key} = trim($request_vars->{$key});
                 }
             }
+
+            // 위젯 스타일이 있는 경우
+            if($request_vars->widgetstyle){
+                $widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
+                if(count($widgetStyle_info->extra_var)) {
+                    foreach($widgetStyle_info->extra_var as $key=>$val) {
+                        if($val->type =='text' || $val->type =='select' || $val->type =='filebox'){
+                            $vars->{$key} = trim($request_vars->{$key});
+                        }
+                    }
+                }
+            }
+
+
 
             if($vars->widget_sequence) {
                 $cache_path = './files/cache/widget_cache/';
@@ -51,8 +70,8 @@
                     continue;
                 }
                 if(strpos($val,'|@|') > 0) $val = str_replace('|@|', ',', $val);
-                $vars->{$key} = htmlspecialchars($val);
-                $attribute[] = sprintf('%s="%s"', $key, $val);
+                $vars->{$key} = htmlspecialchars(Context::convertEncodingStr($val));
+                $attribute[] = sprintf('%s="%s"', $key, Context::convertEncodingStr($val));
             }
 
             return $attribute;
@@ -80,8 +99,7 @@
         function procWidgetGenerateCodeInPage() {
             $widget = Context::get('selected_widget');
             if(!$widget) return new Object(-1,'msg_invalid_request');
-            if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
-
+//            if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
             // 결과물을 구함
@@ -90,6 +108,17 @@
 
             $this->add('widget_code', $widget_code);
         }
+
+        function procWidgetStyleExtraImageUpload(){
+            $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
+
+            $this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('default_layout.html');
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile("top_refresh.html");
+        }
+
+
 
         /**
          * @brief 선택된 위젯 - 스킨의 컬러셋을 return
@@ -115,7 +144,11 @@
          * @breif 특정 content의 위젯 태그들을 변환하여 return
          **/
         function transWidgetCode($content, $include_info = false) {
+            // 사용자 정의 언어 변경
+            $oModuleController = &getController('module');
+            $oModuleController->replaceDefinedLangCode($content);
 
+            // 편집 정보 포함 여부 체크
             $this->include_info = $include_info;
 
             // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
@@ -214,16 +247,24 @@
          * @brief 컨텐츠 위젯 추가
          **/
         function procWidgetInsertDocument() {
+
             // 변수 구함
             $module_srl = Context::get('module_srl');
             $document_srl = Context::get('document_srl');
             $content = Context::get('content');
             $editor_sequence = Context::get('editor_sequence');
 
+            $err = 0;
+            $oLayoutModel = &getModel('layout');
+            $layout_info = $oLayoutModel->getLayout($module_srl);
+            if(!$layout_info || $layout_info->type != 'faceoff') $err++;
+
             // 대상 페이지 모듈 정보 구함
             $oModuleModel = &getModel('module');
             $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-            if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+            if(!$page_info->module_srl || $page_info->module != 'page') $err++;
+            
+            if($err > 1) return new Object(-1,'msg_invalid_request');
 
             // 권한 체크
             $is_logged = Context::get('is_logged');
@@ -235,14 +276,14 @@
                 foreach($user_group as $group_srl => $group_info) {
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
-            } 
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            }
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 
 
             // 글 입력
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
-           
+
             $obj->module_srl = $module_srl;
             $obj->content = $content;
             $obj->document_srl = $document_srl;
@@ -292,8 +333,8 @@
                 foreach($user_group as $group_srl => $group_info) {
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
-            } 
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            }
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 
             $output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
             if(!$output->toBool()) return $output;
@@ -332,8 +373,8 @@
                 foreach($user_group as $group_srl => $group_info) {
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
-            } 
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            }
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 
             $output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true);
             if(!$output->toBool()) return $output;
@@ -361,8 +402,8 @@
                 foreach($user_group as $group_srl => $group_info) {
                     if(in_array($group_srl, $manager_group)) $is_admin = true;
                 }
-            } 
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin() && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+            }
+            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
 
             // 등록된 글 목록 구함
             $oDocumentModel = &getModel('document');
@@ -376,5 +417,8 @@
             }
             return new Object();
         }
+
+
+
     }
 ?>

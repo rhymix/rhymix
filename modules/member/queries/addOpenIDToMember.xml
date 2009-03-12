@@ -1,0 +1,10 @@
+<query id="addOpenIDToMember" action="insert">
+    <tables>
+        <table name="member_openid" />
+    </tables>
+    <columns>
+        <column name="openid" var="openid" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

@@ -21,6 +21,19 @@
             // module model 객체 생성 
             $oModuleModel = &getModel('module');
 
+            // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
+            if($module_srl) {
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if(!$module_info) {
+                    Context::set('module_srl','');
+                    $this->act = 'list';
+                } else {
+                    ModuleModel::syncModuleToSite($module_info);
+                    $this->module_info = $module_info;
+                    Context::set('module_info',$module_info);
+                }
+            }
+
             // 모듈 카테고리 목록을 구함
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
@@ -28,14 +41,6 @@
             // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path.'tpl');
 
-            // 권한 그룹의 목록을 가져온다
-            $oMemberModel = &getModel('member');
-            $group_list = $oMemberModel->getGroups();
-            Context::set('group_list', $group_list);
-
-            // module.xml에서 권한 관련 목록을 구해옴
-            $grant_list = $this->xml_info->grant;
-            Context::set('grant_list', $grant_list);
         }
 
         /**
@@ -122,10 +127,6 @@
                 }
             }
 
-            // module_srl이 없으면 sequence값으로 미리 구해 놓음
-            if(!$module_srl) $module_srl = getNextSequence();
-            Context::set('module_srl',$module_srl);
-
             // 레이아웃 목록을 구해옴
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
@@ -177,5 +178,16 @@
             $this->setTemplateFile('page_delete');
         }
 
+        /**
+         * @brief 권한 목록 출력
+         **/
+        function dispPageAdminGrantInfo() {
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
+            Context::set('grant_content', $grant_content);
+
+            $this->setTemplateFile('grant_list');
+        }
     }
 ?>

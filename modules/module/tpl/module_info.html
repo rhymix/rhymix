@@ -1,10 +1,10 @@
-<div id="popHeadder">
-    <h3>{$lang->module_maker}</h3>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->module_maker}</h3>
 </div>
 
 <div id="popBody">
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$module_info->title} ver {$module_info->version}</td>
@@ -49,11 +49,11 @@
 
 <!--@if($module_info->history)-->
 <div id="popHistoryHeadder">
-    <h3>{$lang->module_history}</h3>
+    <h3 class="xeAdmin">{$lang->module_history}</h3>
 </div>
 
 <div id="popHistoryBody">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <col width="100" />
     <col />
 
@@ -87,7 +87,3 @@
     </table>
 </div>
 <!--@endif-->
-
-<div id="popFooter" class="tCenter gap1">
-    <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
-</div>

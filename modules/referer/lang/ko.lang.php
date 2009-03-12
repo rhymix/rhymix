@@ -5,6 +5,6 @@
      * @brief Korean language pack
      */
 
-    $lang->referer = "레퍼러";
-    $lang->ranking = "순위";
+    $lang->referer = '레퍼러';
+    $lang->ranking = '순위';
 ?>

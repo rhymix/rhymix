@@ -8,7 +8,7 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="type_srl" value="{$type->type_srl}" />
 <!--@if($type->is_default=="Y")--><input type="hidden" name="is_default" value="Y" /><!--@end-->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
 <tr>
     <th scope="col" class="wide"><div>{$lang->name}</div></th>
@@ -27,7 +27,7 @@
         <!--@end-->
     </td>
     <td>
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
     </td>
 </tr>
 <tr>

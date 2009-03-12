@@ -12,6 +12,19 @@
     $lang->cmd_delete_all_thumbnail = 'Supprimer toutes les vignettes';
     $lang->title_bold = 'Gras';
     $lang->title_color = 'Couleur';
+    $lang->new_document_count = '새글';
+
+    $lang->parent_category_title = 'catégorie supérieure';
+    $lang->category_title = 'Catégorie';
+    $lang->category_color = '분류 폰트색깔';
+    $lang->expand = 'Etendre';
+    $lang->category_group_srls = 'Groupe Accessible';
+    $lang->cmd_make_child = 'Ajouter une catégorie inférieure';
+    $lang->cmd_enable_move_category = "Bouger la position de la catégorie (Cochez la case et puis glisser la catégorie que vous voulez déplacer)";
+    $lang->about_category_title = 'Entrez le nom de la catégorie, S.V.P.';
+    $lang->about_expand = 'Si vous cochez la case à cocher, ce sera toujours tendu';
+    $lang->about_category_group_srls = 'Le groupe choisi seulement pourra utiliser la catégorie courante';
+    $lang->about_category_color = 'You can set font color of category.';
 
     $lang->cmd_search_next = 'Recherche Suivante';
 
@@ -50,4 +63,8 @@
         'last_update' => 'La Dernière Mise à Jour',
         'ipaddress' => 'Adresse IP',
     );
+    $lang->alias = "Alias";
+    $lang->history = "히스토리";
+    $lang->about_use_history = "히스토리 기능의 사용여부를 지정합니다. 히스토리 기능을 사용할 경우 문서 수정시 이전 리비전을 기록하고 복원할 수 있습니다.";
+    $lang->trace_only = "흔적만 남김";
 ?>

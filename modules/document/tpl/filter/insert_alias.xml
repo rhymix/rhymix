@@ -1,0 +1,14 @@
+<filter name="insert_alias" module="document" act="procDocumentAdminInsertAlias" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="module_srl" required="true" />
+        <node target="document_srl" required="true" />
+        <node target="alias_title" required="true" />
+    </form>
+    <parameter>
+    </parameter>
+    <response callback_func="completeInsertAlias">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
+

@@ -10,8 +10,8 @@
     var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
 
-<div id="popHeadder">
-    <h3>{$component_info->title} ver. {$component_info->version}</h3>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$component_info->title} ver. {$component_info->version}</h3>
 </div>
 
 <form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;">
@@ -22,7 +22,7 @@
 
     <div id="popBody">
 
-        <table cellspacing="0" class="adminTable">
+        <table cellspacing="0" class="rowTable">
         <col width="100" />
         <col />
         <tr>
@@ -59,12 +59,15 @@
                 </select>
             </td>
         </tr>
+        <tr>
+            <th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
+            <td><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></td>
         </table>
 
         <div id="poll_source" class="clear" style="display:none">
             <div class="clear"></div>
 
-            <table cellspacing="0" class="adminTable gap1">
+            <table cellspacing="0" class="rowTable gap1">
             <col width="100" />
             <col />
             <tr>
@@ -83,30 +86,16 @@
             </tr>
             </table>
 
-            <div class="pollButton clear">
-                <div class="fl">
-                    <label>{$lang->poll_chk_count}</label>
-                    <input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" />
-                </div>
-                <div class="fr">
-                    <a href="#" onclick="doPollDelete(this); return false;" class="delPoll">{$lang->cmd_del_poll}</a> |
-                    <a href="#" onclick="doPollAddItem(this); return false;">{$lang->cmd_add_item}</a>
-                </div>
-                <div class="clear"></div>
-            </div>
+            <a href="#" onclick="doPollAddItem(this); return false;" class="button black small"><span>{$lang->cmd_add_item}</span></a>
+            <a href="#" onclick="doPollDelete(this); return false;" class="button red small"><span>{$lang->cmd_del_poll}</span></a> 
         </div>
 
     </div>
 
-    <div id="popFooter" class="tCenter clear">
-        <div class="fl">
-            <a href="#" onclick="doPollAdd(); return false;" class="button"><span>{$lang->cmd_add_poll}</span></a>
-        </div>
-        <div class="fr">
-            <span class="button"><input type="submit" value="{$lang->cmd_submit}" /></span>
-            <a href="#" onclick="window.close(); return false;" class="button"><span>{$lang->cmd_close}</span></a>
+    <div id="popFooter">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_submit}" /></span>
+            <a href="#" onclick="doPollAdd(); return false;" class="button blue"><span>{$lang->cmd_add_poll}</span></a>
             <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
-        </div>
     </div>
 
 

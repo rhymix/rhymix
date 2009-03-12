@@ -82,7 +82,8 @@ function doPollAdd() {
  * 항목 삭제
  **/
 function doPollDelete(obj) {
-    var pobj = obj.parentNode.parentNode.parentNode;
+    var pobj = xPrevSib(xPrevSib(obj)).lastChild.lastChild;
+    if(!pobj || typeof(pobj.id)=='undefined') return;
     var tmp_arr = pobj.id.split('_');
     var index = tmp_arr[1];
     if(index==1) return;
@@ -106,7 +107,7 @@ function doPollDelete(obj) {
  * 새 항목 추가
  **/
 function doPollAddItem(obj) {
-    var tbl = xPrevSib(obj.parentNode.parentNode);
+    var tbl = xPrevSib(obj);
     var tbody = tbl.lastChild;
     var tmp = tbody.firstChild;
     var source = null;

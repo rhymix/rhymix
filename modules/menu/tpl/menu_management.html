@@ -18,8 +18,8 @@
     <!--@if($module == 'admin')-->
         <form action="./" method="get" onsubmit="return procFilter(this, update_menu_title)">
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
-            <table cellspacing="0" class="adminTable">
-            <caption>{$lang->menu} {$lang->cmd_management}</caption>
+            <h4 class="xeAdmin">{$lang->menu} {$lang->cmd_management}</h4>
+            <table cellspacing="0" class="rowTable">
             <tr>
                 <th scope="col"><div>{$lang->title}</div></th>
                 <td>
@@ -41,7 +41,7 @@
         </form>
 
     <!--@else-->
-        <table cellspacing="0" class="adminTable">
+        <table cellspacing="0" class="rowTable">
         <tr>
             <th scope="col"><div>{$lang->title}</div></th>
             <td class="left">
@@ -65,24 +65,30 @@
         <input type="hidden" name="module" value="menu" />
         <input type="hidden" name="act" value="" />
         <input type="hidden" name="target" value="" />
-
-    <div id="menu">
-        <ul class="simpleTree">
-            <li class="root" id='tree_0'><span>{$lang->menu}</span></li>
-        </ul>
-    </div>
-<div id="menu_zone_info" style="position:absolute;top:200px; width:70%; right:20px"></div>
+        <div id="menu_zone_info"></div>
         </form>
+        <div id="menu">
+            <ul class="simpleTree">
+                <li class="root" id='tree_0'><span>{$lang->menu}</span></li>
+            </ul>
+        </div>
     </div>
 </div>
 
 <iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>
 
 
-<script type="text/javascript">
+<script type="text/javascript">//<![CDATA[
+//언어파일 로드용
+var lang_cmd_insert = "{htmlspecialchars($lang->cmd_insert)}";
+var lang_cmd_delete = "{htmlspecialchars($lang->cmd_delete)}";
+var lang_cmd_modify = "{htmlspecialchars($lang->cmd_modify)}";
+
 var simpleTreeCollection;
 var max_menu_depth = 999;
 var xml_url = "{$menu_info->xml_file}";
 var lang_confirm_delete = "{$lang->confirm_delete}";
+doMoveMenuInfo();
 Tree(xml_url);
+//]]>
 </script>

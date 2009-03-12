@@ -1,72 +1,33 @@
-<!--// 컬러셋 체크 -->
-<!--@if($module_info->colorset != "white")-->
-    {@$module_info->colorset = "white"}
+<!--#include("header.html")-->
+
+{@ $output = $search_result['document'] }
+{@ $search_target = 'title'; }
+<!--#include("document.html")-->
+<!--@if(count($output->data))-->
+<div class="isMore"><a href="{getUrl('where','document','page',1)}">more</a></div>
 <!--@end-->
 
-<!--// CSS 파일 로드 (컬러셋에 따라서) -->
-<!--@if($module_info->colorset == "white")-->
-    <!--%import("css/white.css")-->
+{@ $output = $search_result['comment'] }
+<!--#include("comment.html")-->
+<!--@if(count($output->data))-->
+<div class="isMore"><a href="{getUrl('where','comment','page',1)}">more</a></div>
 <!--@end-->
 
-<div id="spot">
-    <h2><img src="./images/white/h2Search.gif" alt="{$lang->cmd_search}" width="82" height="17" /></h2>
-    <form action="{getUrl()}" method="post" class="search">
-        <input type="hidden" name="mid" value="{$mid}" />
-        <input type="hidden" name="act" value="IS" />
-        <select name="search_target">
-            <!--@foreach($lang->is_search_option as $key => $val)-->
-            <option value="{$key}" <!--@if($search_target == $key)-->selected="selected"<!--@end-->>{$val}</option>
-            <!--@end-->
-        </select>
-        <input name="is_keyword" type="text" class="inputText" value="{htmlspecialchars($is_keyword)}"/>
-        <input type="image" src="./images/white/buttonSearch2.gif" alt="검색" class="submit" />
-    </form>
-</div>
-
-<!--@if(!$document_list)-->
-    <div id="content">
-        <!--@if(!$is_keyword)-->
-            <h3 class="result">{$lang->msg_no_keyword}</h3>
-        <!--@else-->
-            <h3 class="result">{$lang->msg_no_result}</h3>
-        <!--@end-->
-    </div>
-<!--@else-->
-    <div id="content">
-        <h3 class="result">{$result_text}</h3>
-        <ul class="searchResult">
-        <!--@foreach($document_list as $no => $document)-->
-            <li>
-                <!--@if($document->thumbnailExists(100))-->
-                <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(100)}" alt="" width="100" height="100" class="thumb" /></a>
-                <!--@end-->
-                <dl>
-                    <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitle()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--> | <span class="category"><a href="{getUrl('','mid',$mid_list[$document->get('module_srl')]->mid)}" onclick="window.open(this.href);return false;">{$mid_list[$document->get('module_srl')]->browser_title}</a></span></dt>
-
-                    <dd>{$document->getSummary(140)}</dd>
-                </dl>
-                <address><strong>{$document->getNickName()}</strong> | <span class="time">{$document->getRegdate("Y-m-d H:i")}</span> | <span class="read">{$lang->readed_count}</span> <span class="readNum">{$document->get('readed_count')}</span><!--@if($document->get('voted_count'))--> | <span class="recom">{$lang->voted_count}</span> <span class="recomNum">{$document->get('voted_count')}</span><!--@end--></address>
-
-            </li>
-        <!--@end-->
-        </ul>
-        <div class="pagination a1">
-            <a href="{getUrl('page','','document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$division,'last_division',$last_division)}" class="prevEnd">{$lang->first_page}</a> 
-            <!--@while($page_no = $page_navigation->getNextPage())-->
-                <!--@if($page == $page_no)-->
-                    <strong>{$page_no}</strong> 
-                <!--@else-->
-                    <a href="{getUrl('page',$page_no,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$division,'last_division',$last_division)}">{$page_no}</a>
-                <!--@end-->
-            <!--@end-->
-            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$division,'last_division',$last_division)}" class="nextEnd">{$lang->last_page}</a>
-        </div>
-    </div>
-
-
+{@ $output = $search_result['trackback'] }
+{@ $search_target = 'title'; }
+<!--#include("trackback.html")-->
+<!--@if(count($output->data))-->
+<div class="isMore"><a href="{getUrl('where','trackback','page',1)}">more</a></div>
 <!--@end-->
-    <!--@if($last_division)-->
-    <div class="searchNext">
-        <span class="button"><input type="button" value="{$lang->cmd_search_next}" onclick="location.href='{getUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}';return false;" /></span>
-    </div>
-    <!--@end-->
+
+{@ $output = $search_result['multimedia'] }
+<!--#include("multimedia.html")-->
+<!--@if(count($output->data))-->
+<div class="isMore"><a href="{getUrl('where','multimedia','page',1)}">more</a></div>
+<!--@end-->
+
+{@ $output = $search_result['file'] }
+<!--#include("file.html")-->
+<!--@if(count($output->data))-->
+<div class="isMore"><a href="{getUrl('where','file','page',1)}">more</a></div>
+<!--@end-->

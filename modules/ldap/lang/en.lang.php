@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/ldap/lang/ko.lang.php
+     * @file   modules/ldap/lang/en.lang.php
      * @author zero <zero@nzeo.com>
      * @brief  English Language Pack (Basic)
      **/

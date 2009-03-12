@@ -338,3 +338,28 @@ function completeDeleteMembers(ret_obj) {
     window.close();
 }
 
+
+function doGorupImageMarkUpdateOrder(id) {
+    var sort = jQuery('#'+id).sortable('toArray');
+
+    var params = [];
+    params['group_image_mark_order'] = [];
+    jQuery.each(sort, function(i, val) {
+        params['group_image_mark_order'][params['group_image_mark_order'].length] = val.replace('group_srl_', '');
+    });
+
+    var response_tags = new Array('error','message');
+    exec_xml('member', 'procMemberAdminGroupImageMarkUpdateOrder', params, completeGroupImageMarkUpdateOrder, response_tags);
+}
+
+function completeGroupImageMarkUpdateOrder(ret_obj) {
+    alert(ret_obj['message']);
+}
+
+jQuery(function($) {
+    $("#group_image_mark_order")
+        .sortable({
+            cursor: 'move',
+            cancel: '.inactive'
+        });
+});

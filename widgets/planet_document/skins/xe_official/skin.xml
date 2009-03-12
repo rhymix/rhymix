@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
 	<title xml:lang="ko">XE 공식 레이아웃용 플래닛 글 스킨</title>
-	<title xml:lang="zh-TW">XE 微型部落格版面</title>
+	<title xml:lang="zh-CN">XE官方网站微博主题列表皮肤</title>
+	<title xml:lang="zh-TW">XE 官方網站微型部落格版面</title>
 	<description xml:lang="ko">
 		플래닛 글들을 출력하는 위젯 스킨입니다.
+	</description>
+	<description xml:lang="zh-CN">
+		微博主题列表皮肤。
 	</description>
 	<description xml:lang="zh-TW">
 		微型部落格主題輸出面板。
@@ -14,6 +18,7 @@
 
 	<author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
 		<name xml:lang="ko">zero</name>
+		<name xml:lang="zh-CN">zero</name>
 		<name xml:lang="zh-TW">zero</name>
 	</author>
 	<colorset>

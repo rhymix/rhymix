@@ -1,0 +1,16 @@
+<filter name="delete_planet_comment" module="planet" act="procPlanetDeleteComment" confirm_msg_code="confirm_delete">
+  <form>
+    <node target="comment_srl" required="true" />
+    <node target="document_srl" required="true" />
+  </form>
+  <parameter>
+    <param name="comment_srl" target="comment_srl" />
+    <param name="document_srl" target="document_srl" />
+  </parameter>
+  <response callback_func="completeDeletePlanetComment">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="comment_srl" />
+    <tag name="document_srl" />
+  </response>
+</filter>

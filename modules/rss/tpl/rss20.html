@@ -4,10 +4,21 @@
     <channel>
         <title>{$info->title}</title>
         <link>{$info->link}</link>
-        <description>{str_replace('\'', '&apos;', htmlspecialchars($info->description))}</description>
+        <description>{$info->description}</description>
         <language>{$info->language}</language>
         <pubDate>{$info->date}</pubDate>
+        <lastBuildDate>{$info->date}</lastBuildDate>
         <generator>XpressEngine {__ZBXE_VERSION__}</generator>
+        <!--@if($info->feed_copyright)-->
+        <copyright>{$info->feed_copyright}</copyright>
+        <!--@end-->
+        <!--@if($info->image)-->
+        <image>
+            <url>{$info->image}</url>
+            <title>{$info->title}</title>
+            <link>{$info->link}</link>
+        </image>
+        <!--@end-->
         <!--@foreach($document_list as $oDocument)-->
         <item>
             <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title>
@@ -17,7 +28,7 @@
             <!--@if($oDocument->allowComment()) -->
             <comments>{$oDocument->getPermanentUrl()}#comment</comments>
             <!--@end-->
-            <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
+            <!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
             <!--@else-->
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>

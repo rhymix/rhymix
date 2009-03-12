@@ -1,21 +1,20 @@
 <!--#include("./header.html")-->
 
 <!-- 정보 -->
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
 
 <!-- 목록 -->
 <form action="{Context::getRequestUri()}" method="get" onsubmit="return doChangeCategory(this);" id="fo_list">
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col">
             <div>
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
-                <select name="module_category_srl" class="w120">
+                <select name="module_category_srl" class="fullWidth">
                     <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -29,13 +28,14 @@
         <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col" colspan="2"><div>&nbsp;</div></th>
+        <th scope="col" colspan="3"><div>&nbsp;</div></th>
     </tr>
 </thead>
 <tbody>
     <!--@foreach($project_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
-        <td class="center number">{$no}</td>
+        <td>{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
         <td>
             <!--@if(!$val->module_category_srl)-->
                 {$lang->not_exists}
@@ -43,20 +43,28 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->mid)}</a></td>
-        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->browser_title)}</a></td>
-        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="view"><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="delete"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispIssuetrackerAdminDeleteIssuetracker','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td>{htmlspecialchars($val->mid)}</td>
+        <td><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->browser_title)}</a></td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td><a href="{getUrl('act','dispIssuetrackerAdminProjectInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <td><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;" class="buttonSet buttonCopy"><span>{$lang->cmd_copy}</span></a></td>
+        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispIssuetrackerAdminDeleteIssuetracker','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a><!--@else-->-<!--@end--></td>
     </tr>
     <!--@end-->
-    <tr class="row2">
-        <td colspan="7" class="right">
-            <a href="{getUrl('act','dispIssuetrackerAdminInsertProject','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
-        </td>
-    </tr>
 </tbody>
 </table>
+
+<!-- 버튼 -->
+<div class="clear">
+    <div class="fl">
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="button green"><span>{$lang->cmd_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleAdditionSetup')}" onclick="doCartSetup(this.href); return false;" class="button red"><span>{$lang->cmd_addition_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="button blue"><span>{$lang->cmd_manage_grant}</span></a>
+    </div>
+    <div class="fr gap1">
+        <a href="{getUrl('act','dispIssuetrackerAdminInsertProject','module_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+    </div>
+</div>
 </form>
 
 <!-- 페이지 네비게이션 -->

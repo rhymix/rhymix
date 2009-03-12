@@ -7,3 +7,10 @@ function doToggleAddon(addon) {
     fo_obj.addon.value = addon;
     procFilter(fo_obj, toggle_activate_addon);
 }
+
+// 관리자 제어판 페이지용
+function doToggleAddonInAdmin(obj, addon) {
+    var params = new Array();
+    params['addon'] = addon;
+    exec_xml('addon','procAddonAdminToggleActivate',params,function() { if(/Active/.test(obj.className)) obj.className = "buttonSet buttonDisable"; else obj.className = "buttonSet buttonActive"; } );
+}

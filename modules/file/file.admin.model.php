@@ -18,8 +18,8 @@
          **/
         function getFileList($obj) {
             // 검색 옵션 정리
-            $search_target = trim(Context::get('search_target'));
-            $search_keyword = trim(Context::get('search_keyword'));
+            $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
+            $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
 
             if($search_target && $search_keyword) {
                 switch($search_target) {
@@ -57,6 +57,10 @@
             // 유효/대기 상태 설정
             if($obj->isvalid == 'Y') $args->isvalid = 'Y';
             elseif($obj->isvalid == 'N') $args->isvalid = 'N';
+
+            // 멀티미디어/ 일반 상태 설정
+            if($obj->direct_download == 'Y') $args->direct_download = 'Y';
+            elseif($obj->direct_download == 'N') $args->direct_download= 'N';
 
             // 변수 설정
             $args->sort_index = $obj->sort_index;

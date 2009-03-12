@@ -22,22 +22,17 @@
 
 	<!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
     <table border="1" cellspacing="0" summary="Extra Form" class="extraVarsList">
-	<!--@foreach($module_info->extra_vars as $key => $val)-->
-		<!--@if($val->name)-->
-	<tr>
-		<th scope="row">{$val->name}</th>
-		<td>
-			<!--#include("./_extra_var_value.html")-->
-		</td>
-	</tr>
-		<!--@end-->
-	<!--@end-->
+    <!--@foreach($oDocument->getExtraVars() as $key => $val)-->
+    <tr>
+        <th>{$val->name} :</th>
+        <td>{$val->getValueHTML()}</td>
+    </tr>
+    <!--@end-->
 	</table>
 	<!--@end-->
 
 	<div class="boardReadBody">
 		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
-			<!--%import("filter/input_password.xml")-->
 			<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretMessage">
 			<input type="hidden" name="mid" value="{$mid}" />
 			<input type="hidden" name="page" value="{$page}" />
@@ -54,7 +49,7 @@
 			{$oDocument->getContent()}
 		<!--@end-->
 
-		<!--@if($oDocument->getProfileImage() || $oDocument->getSignature())-->
+        <!--@if($module_info->display_sign != 'N' && ($oDocument->getProfileImage() || $oDocument->getSignature()))-->
 			<div class="memberSignature">
 			<!--@if($oDocument->getProfileImage())-->
 				<img src="{$oDocument->getProfileImage()}" alt="profile" class="profile" />
@@ -111,7 +106,7 @@
 				<!--@end-->
 				<dt>{$lang->regdate} :</dt>
 				<dd title="{$lang->regdate}">{$oDocument->getRegdate('Y.m.d')}</dd>
-				<dd>{$oDocument->getRegdate('H:i:s')} <!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->({$oDocument->getIpaddress()})<!--@end--></dd>
+				<dd>{$oDocument->getRegdate('H:i:s')} <!--@if($grant->manager || $module_info->display_ip_address!='N')-->({$oDocument->getIpaddress()})<!--@end--></dd>
 			</dl>
 			
 			<dl>
@@ -153,7 +148,6 @@
     <!--#include("./comment.html")-->
 
     <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
-        <!--%import("filter/insert_comment.xml")-->
         <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
         <input type="hidden" name="mid" value="{$mid}" />
         <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />

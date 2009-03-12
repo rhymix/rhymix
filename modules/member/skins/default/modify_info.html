@@ -1,4 +1,3 @@
-{@ $member_title = $lang->msg_update_member}
 <!--#include("./common_header.html")-->
 <!--%import("../../tpl/js/signup_check.js")-->
 <!--%import("../../tpl/js/krzip_search.js")-->
@@ -16,9 +15,15 @@
     <!--%import("filter/delete_image_mark.xml")-->
 <!--@end-->
 
+<!--@if($member_config->enable_openid=="Y")-->
+    <!--%import("filter/add_openid_to_member.xml")-->
+    <!--%import("filter/delete_openid_from_member.xml")-->
+<!--@end-->
+
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
 
+    <h3>{$lang->msg_update_member}</h3>
 
     <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
     <input type="hidden" name="mid" value="{$mid}" />
@@ -27,30 +32,28 @@
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <input type="hidden" name="page" value="{$page}" />
 
-    <table cellspacing="0" class="memberInfoTable">
-    <col width="130" />
-    <col />
-    <caption>{$lang->member_default_info}</caption>
-    <tr class="first-child">
-        <th scope="row">{$lang->user_id}</th>
-        <td>{htmlspecialchars($member_info->user_id)}</td>
+    <table cellspacing="0" class="rowTable">
+    <tr><th colspan="2" class="title"><div>{$lang->member_default_info}</div></th></tr>
+    <tr>
+        <th><div>{$lang->user_id}</div></th>
+        <td class="wide">{htmlspecialchars($member_info->user_id)}</td>
     </tr>
     <tr>
-        <th scope="row">{$lang->user_name} *</th>
-        <td><input type="text" name="user_name" value="{htmlspecialchars($member_info->user_name)}" /> <p>{$lang->about_user_name}</p></td>
+        <th><div>{$lang->user_name} <span class="require">*</span></div></th>
+        <td class="wide"><input type="text" name="user_name" value="{htmlspecialchars($member_info->user_name)}" /> <p>{$lang->about_user_name}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->nick_name} *</th>
+        <th><div>{$lang->nick_name} <span class="require">*</span></div></th>
         <td><input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" /> <p>{$lang->about_nick_name}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->email_address} *</th>
+        <th><div>{$lang->email_address} <span class="require">*</span></div></th>
         <td><input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" /><p>{$lang->about_email_address}</p></td>
     </tr>
 
     <!--@if($member_config->profile_image == 'Y')-->
     <tr>
-        <th scope="row">{$lang->profile_image}</th>
+        <th><div>{$lang->profile_image}</div></th>
         <td>
             <!--@if($member_info->profile_image->src)-->
             <div class="memberImage">
@@ -69,7 +72,7 @@
     <!--@end-->
     <!--@if($member_config->image_name == 'Y')-->
     <tr>
-        <th scope="row">{$lang->image_name}</th>
+        <th><div>{$lang->image_name}</div></th>
         <td>
             <!--@if($member_info->image_name->src)-->
             <div class="memberImage">
@@ -88,7 +91,7 @@
     <!--@end-->
     <!--@if($member_config->image_mark == 'Y')-->
     <tr>
-        <th scope="row">{$lang->image_mark}</th>
+        <th><div>{$lang->image_mark}</div></th>
         <td>
             <!--@if($member_info->image_mark->src)-->
             <div class="memberImage">
@@ -106,15 +109,15 @@
     </tr>
     <!--@end-->
     <tr>
-        <th scope="row">{$lang->homepage}</th>
+        <th><div>{$lang->homepage}</div></th>
         <td><input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" /> <p>{$lang->about_homepage}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->blog}</th>
+        <th><div>{$lang->blog}</div></th>
         <td><input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" /> <p>{$lang->about_blog_url}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->birthday}</th>
+        <th><div>{$lang->birthday}</div></th>
         <td>
 
             <input type="hidden" name="birthday" value="{$member_info->birthday}" />
@@ -124,30 +127,22 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">{$lang->allow_mailing}</th>
+        <th><div>{$lang->allow_mailing}</div></th>
         <td><input type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
     <tr>
-        <th scope="row">{$lang->signature}</th>
+        <th><div>{$lang->signature}</div></th>
         <td>{$editor}</td>
     </tr>
-    </table>
 
     <!--@if($extend_form_list)-->
-    <table cellspacing="0" class="memberInfoTable">
-    <col width="130" />
-    <col />
-    <caption>{$lang->member_extend_info}</caption>
+    <tr><th colspan="2" class="title"><div>{$lang->member_extend_info}</div></th></tr>
     {@ $dummy_chk = 0 }
     <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
     <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
-        <th scope="row">
+        <th>
             {htmlspecialchars($val->column_title)}
-            <!--@if($val->required=='Y')-->*<!--@end-->
-            <div class="publicItem">
-                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
-                <label for="open_{$val->column_name}">{$lang->public}</label>
-            </div>
+            <!--@if($val->required=='Y')--><span class="require">*</span><!--@end-->
         </th>
         <td>
             <!--// 일반 text -->
@@ -227,18 +222,41 @@
 
             <!--@end-->
 
-            <div class="extendDesc">{$val->description}</div>
+            <p>{$val->description}</p>
+            <div class="publicItem">
+                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
+                <label for="open_{$val->column_name}">{$lang->public}</label>
+            </div>
         </td>
     </tr>
     <!--@end--><!--@end-->
-    </table>
     <!--@end-->
 
-    <div class="tRight">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
-    </div>
+    <!--@if($member_config->enable_openid=="Y")-->
+    <tr><th class="title" colspan="2"><div>{$lang->openid}</div></th></tr>
+    <tr>
+        <td colspan="2" class="openids"> 
+            <!--@foreach($openids as $openid)-->
+            <div><a href="{$openid->bookmarklet}">{$openid->openid}</a> <a onclick="doDeleteOpenIDFromMember('{$openid->openid}')" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></div>
+            <!--@end-->
+
+            <div class="insertOpenID">
+                <input name="openid" type="text" class="openid_user_id" />  
+                <input name="openid_to_delete" type="hidden" />
+                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a> 
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th class="button" colspan="2">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+        </th>
+    </tr>
+    </table>
 </form>
+
 
 <script type="text/javascript">
 (function($){

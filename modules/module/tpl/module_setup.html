@@ -1,0 +1,78 @@
+<!--%import("./filter/insert_module_setup.xml")-->
+<!--%import("./js/module_admin.js")-->
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->bundle_setup}</h3>
+</div>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_module_setup)" enctype="multipart/form-data">
+<input type="hidden" name="module_srls" value="{$module_srls}" />
+<div id="popBody">
+
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row"><div>{$lang->module_category}</div></th>
+        <td>
+            <select name="module_category_srl">
+                <option value="0">{$lang->notuse}</option>
+                <!--@foreach($module_category as $key => $val)-->
+                <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_module_category}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->layout}</div></th>
+        <td>
+            <select name="layout_srl">
+            <option value="0">{$lang->notuse}</option>
+            <!--@foreach($layout_list as $key => $val)-->
+            <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+            <!--@end-->
+            </select>
+            <p>{$lang->about_layout}</p>
+        </td>
+    </tr>
+    <!--@if(count($skin_list))-->
+    <tr>
+        <th scope="row"><div>{$lang->skin}</div></th>
+        <td>
+            <select name="skin">
+                <!--@foreach($skin_list as $key=>$val)-->
+                <option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='xe_board'))-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_skin}</p>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th scope="row"><div>{$lang->description}</div></th>
+        <td>
+            <textarea name="description" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->description)}</textarea>
+            <p>{$lang->about_description}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->header_text}</div></th>
+        <td>
+            <textarea name="header_text" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->header_text)}</textarea>
+            <p>{$lang->about_header_text}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->footer_text}</div></th>
+        <td>
+            <textarea name="footer_text" class="inputTypeTextArea fixWidth">{htmlspecialchars($module_info->footer_text)}</textarea>
+            <p>{$lang->about_footer_text}</p>
+        </td>
+    </tr>
+    </table>
+</div>
+
+<div id="popFooter" class="tCenter gap1">
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+</div>
+
+</form>

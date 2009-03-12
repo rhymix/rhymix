@@ -36,6 +36,10 @@
     $lang->image_mark = 'Изображение-марка';
     $lang->image_mark_max_width = 'Макс. ширина';
     $lang->image_mark_max_height = 'Макс. высота';
+    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark_max_width = 'Макс. ширина';
+    $lang->group_image_mark_max_height = 'Макс. высота';
+    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->enable_openid = 'Включить открытый ID (OpenID)';
     $lang->enable_join = 'Позволить пользователям регистрироваться';
     $lang->enable_confirm = '메일 인증 사용';
@@ -58,6 +62,7 @@
             'N' => '모두 금지',
     );
     $lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
+    $lang->logged_users = 'Logged Users';
 
     $lang->webmaster_name = "Имя веб-мастера";
     $lang->webmaster_email = "Email веб-мастера";
@@ -83,6 +88,7 @@
     $lang->cmd_login = 'Войти';
     $lang->cmd_logout = 'Выйти';
     $lang->cmd_signup = 'Регистрация';
+    $lang->cmd_site_signup = 'Join';
     $lang->cmd_modify_member_info = 'Изменить информацию пользователя';
     $lang->cmd_modify_member_password = 'Изменить пароль';
     $lang->cmd_view_member_info = 'Информация пользователя';
@@ -140,6 +146,7 @@
 
     $lang->msg_not_uploaded_image_name = 'Имя изображения не может быть зарегистрировано';
     $lang->msg_not_uploaded_image_mark = 'Марка не может быть зарегистрирована';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
     $lang->msg_accept_agreement = 'Вы должны принять Соглашение'; 
 
@@ -182,6 +189,7 @@
 
     $lang->about_image_name = "Позволить пользователям использовать изображение вместо текста";
     $lang->about_image_mark = "Позволить пользователям использовать марку перед их именами";
+    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = 'Позволить пользователям использовать изображения профиля';
     $lang->about_accept_agreement = "Я прочитал соглашение полностью и согласен"; 
 

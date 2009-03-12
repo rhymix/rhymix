@@ -1,0 +1,13 @@
+<query id="getAdminID" action="select">
+    <tables>
+        <table name="module_admins" />
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" />
+        <condition operation="equal" column="member.member_srl" default="module_admins.member_srl" notnull="notnull" pipe="and"/>
+    </conditions>
+</query>

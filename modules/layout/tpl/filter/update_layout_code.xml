@@ -2,6 +2,7 @@
     <form>
         <node target="layout_srl" required="true" />
         <node target="code" required="true" />
+        <node target="code_css"  />
     </form>
     <response>
         <tag name="error" />

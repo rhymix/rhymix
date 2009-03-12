@@ -71,3 +71,118 @@ function insertModule(id, module_srl, mid, browser_title, multi_select) {
         window.close();
     }
 }
+
+/* 권한 선택용 */
+function doShowGrantZone() {
+    jQuery(".grant_default").each( function() {
+        var id = "#zone_"+this.name.replace(/_default$/,'');
+        if(!jQuery(this).val()) jQuery(id).css("display","block");
+        else jQuery(id).css("display","none");
+    } );
+}
+
+/* 권한 등록 후 알림 메세지 */
+function completeInsertGrant(ret_obj) {
+    alert(ret_obj['message']);
+    location.reload();
+}
+
+/* 관리자 아이디 등록/ 제거 */
+function doInsertAdmin() {
+    var fo_obj = xGetElementById("fo_obj");
+    var sel_obj = fo_obj._admin_member;
+    var admin_id = fo_obj.admin_id.value;
+    if(!admin_id) return;
+
+    var opt = new Option(admin_id,admin_id,true,true);
+    sel_obj.options[sel_obj.options.length] = opt;
+
+    fo_obj.admin_id.value = '';
+    sel_obj.size = sel_obj.options.length;
+    sel_obj.selectedIndex = -1;
+
+    var members = new Array();
+    for(var i=0;i<sel_obj.options.length;i++) {
+        members[members.length] = sel_obj.options[i].value;
+        
+    }
+    fo_obj.admin_member.value = members.join(',');
+
+    fo_obj.admin_id.focus();
+}
+
+function doDeleteAdmin() {
+    var fo_obj = xGetElementById("fo_obj");
+    var sel_obj = fo_obj._admin_member;
+    sel_obj.remove(sel_obj.selectedIndex);
+
+    sel_obj.size = sel_obj.options.length;
+    sel_obj.selectedIndex = -1;
+
+    var members = new Array();
+    for(var i=0;i<sel_obj.options.length;i++) {
+        members[members.length] = sel_obj.options[i].value;
+        
+    }
+    fo_obj.admin_member.value = members.join(',');
+}
+
+
+function completeModuleSetup(ret_obj) {
+    alert(ret_obj['message']);
+    window.close();
+}
+
+/**
+ * 언어 관련
+ **/
+function doInsertLangCode(name) {
+    var fo_obj = xGetElementById("menu_fo");
+    var target = fo_obj.target.value;
+    if(window.opener && target) {
+        var obj = window.opener.xGetElementById(target);
+        if(obj) obj.value = '$user_lang->'+name;
+    }
+    window.close();
+}
+
+function completeInsertLang(ret_obj) {
+    doInsertLangCode(ret_obj['name']);
+}
+
+function doDeleteLang(name) {
+    var params = new Array();
+    params['name'] = name;
+    var response_args = new Array('error','message');
+    exec_xml('module','procModuleAdminDeleteLang',params, completeDeleteLang);
+}
+
+function completeDeleteLang(ret_obj) {
+    location.href = current_url.setQuery('name','');
+}
+
+function doFillLangName() {
+    var fo_obj = xGetElementById("menu_fo");
+    var target = fo_obj.target.value;
+    if(window.opener && window.opener.xGetElementById(target)) {
+        var value = window.opener.xGetElementById(target).value;
+        if(/^\$user_lang->/.test(value)) {
+            var param = new Array();
+            param['name'] = value.replace(/^\$user_lang->/,'');
+            var response_tags = new Array('error','message','name','langs');
+            exec_xml('module','getModuleAdminLangCode',param,completeFillLangName, response_tags);
+        }
+    }
+}
+
+function completeFillLangName(ret_obj, response_tags) {
+    var name = ret_obj['name'];
+    var langs = ret_obj['langs'];
+    if(typeof(langs)=='undefined') return;
+    var fo_obj = xGetElementById("menu_fo");
+    fo_obj.lang_code.value = name;
+    for(var i in langs) {
+        fo_obj[i].value = langs[i];
+    }
+
+}

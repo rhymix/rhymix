@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+.messageLayer { border:2px solid #777; font-size:12px; background:#fff; margin:50px auto; width:370px;}
+.messageLayer * { margin:0; padding:0; font-size:12px; }
+.messageLayer h4 { font-size:14px !important; font-family:Dotum; background:#f4f4f4 !important; padding:8px 30px 8px 15px !important; letter-spacing:-1px !important; }
+.messageLayer .messageLayerBody{ margin:0;}
+
+.messageLogin { padding:0; }
+.messageLogin fieldset{ position:relative; border:0; margin:0; padding:20px 10px;}
+
+.openid_login { display:none; }
+.messageLogin .openIDTitle { width:99%; white-space:nowrap; overflow:hidden; background:url("images/openid_login_bg.gif") no-repeat left top; padding:1px 0 0 25px; margin-bottom:8px; color:#888888; font-weight:bold; }
+.messageLogin .openIDTitle input { vertical-align:middle; }
+.messageLogin .openid_login { display:none; clear:both; height:38px; border:3px solid #D5D8DB; background-color:#FFFFFF; margin:0 0 10px 0; }
+.messageLogin .openIDTitle input { margin:0; padding:0; }
+
+.messageLogin .login dl { margin:0; padding:0; overflow:hidden; margin-right:10px; width:250px;}
+.messageLogin .login dl dt { margin:0; padding:0; width:100px; clear:left; float:left; color:#54564b; height:24px; padding-top:3px; text-indent:10px;}
+.messageLogin .login dl dd { margin:0; padding:0; float:left; height:27px; width:150px; }
+.messageLogin .login dl dd .inputText{ border:1px solid; border-color:#A6A6A6 #D8D8D8 #D8D8D8 #A6A6A6; padding:2px 6px; height:16px; width:130px;}
+.messageLogin .login dl dd .inputText:hover,
+.messageLogin .login dl dd .inputText:focus{ background:#f4f4f4;}
+.messageLogin .login .keep { clear:both; white-space:nowrap; margin-left:100px;}
+.messageLogin .login .keep input { vertical-align:middle;}
+.messageLogin .login .keep label { margin:0; padding:0; font-size:12px; color:#999999;}
+.messageLogin .openid_user_id { background: url(../img/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; line-height:1em; vertical-align:middle; color:#666666; width:120px;}
+.messageLogin .help { background:#f5f5f3; color:#666666; overflow:hidden; padding:10px; color:#ccc; text-align:center;}
+.messageLogin .help a{ color:#666; text-decoration:underline;}
+.messageLogin .buttonArea{ position:absolute; top:20px; left:260px;}
+
+.buttonArea{ text-align:center;}

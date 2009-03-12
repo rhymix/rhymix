@@ -1,0 +1,27 @@
+@charset "utf-8";
+.widgetContainer a{ text-decoration:none;}
+.widgetContainer a:hover,
+.widgetContainer a:active,
+.widgetContainer a:focus{ text-decoration:underline;}
+.widgetContainer img{ border:0;}
+.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer form{ margin:0; padding:0;}
+.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+.widgetOlistA { margin:0; padding:0; font-size:12px; line-height:1.5;}
+.widgetOlistA li{ margin-left:25px;}
+.widgetOlistA li,
+.widgetOlistA li a{ color:#666;}
+.widgetOlistA li sup{ color:#AAA; font-size:10px; font-family:tahoma; padding-left:10px;}
+.widgetContainer.black .widgetContainer a{ text-decoration:none;}
+.widgetContainer.black .widgetContainer a:hover,
+.widgetContainer.black .widgetContainer a:active,
+.widgetContainer.black .widgetContainer a:focus{ text-decoration:underline;}
+.widgetContainer.black .widgetContainer img{ border:0;}
+.widgetContainer.black .widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer.black .widgetContainer form{ margin:0; padding:0;}
+.widgetContainer.black .widgetContainer fieldset{ border:0; margin:0; padding:0;}
+.widgetContainer.black .widgetOlistA { margin:0; padding:0; font-size:12px; line-height:1.5;}
+.widgetContainer.black .widgetOlistA li{ margin-left:25px;}
+.widgetContainer.black .widgetOlistA li,
+.widgetContainer.black .widgetOlistA li a{ color:#999;}
+.widgetContainer.black .widgetOlistA li sup{ color:#666; font-size:10px; font-family:tahoma; padding-left:10px;}

@@ -28,7 +28,8 @@
             $oCounterModel = &getModel('counter');
 
             // 전체 카운터 및 지정된 일자의 현황 가져오기
-            $status = $oCounterModel->getStatus(array(0,$selected_date));
+            $site_module_info = Context::get('site_module_info');
+            $status = $oCounterModel->getStatus(array(0,$selected_date),$site_module_info->site_srl);
             Context::set('total_counter', $status[0]);
             Context::set('selected_day_counter', $status[$selected_date]);
 
@@ -38,7 +39,7 @@
                 $type = 'day';
                 Context::set('type',$type);
             }
-            $detail_status = $oCounterModel->getHourlyStatus($type, $selected_date);
+            $detail_status = $oCounterModel->getHourlyStatus($type, $selected_date, $site_module_info->site_srl);
             Context::set('detail_status', $detail_status);
             
             // 표시

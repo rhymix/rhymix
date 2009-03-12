@@ -333,3 +333,15 @@ h5 { padding:2px; }
 .listWrite { margin-bottom:20px; }
 
 .display_date {  cursor:pointer; width:80px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px;  margin-right:10px;}
+
+
+/* 확장 변수 폼 */
+.extraVarsList tr td .text { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:90%; }
+.extraVarsList tr td .email_address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+.extraVarsList tr td .homepage { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+.extraVarsList tr td .tel { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:40px; margin-right:10px;}
+.extraVarsList tr td .textarea { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:90%; height:80px; }
+.extraVarsList tr td ul { margin:0; padding:0; list-style:none; }
+.extraVarsList tr td ul li { display:inline-block; margin-right:10px; }
+.extraVarsList tr td .date { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:100px; }
+.extraVarsList tr td .address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">메뉴</title>
-    <title xml:lang="zh-CN">菜单</title>
+    <title xml:lang="zh-CN">菜单管理</title>
     <title xml:lang="jp">メニュー</title>
     <title xml:lang="en">Menu</title>
     <title xml:lang="es">Menú</title>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">可建立並管理連結版面和模組的選單。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>manager</category>
+    <category>construction</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

@@ -5,17 +5,25 @@
     <form action="./" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
         <input type="hidden" name="type" value="ttxml" />
         <input type="hidden" name="target_module" value="" id="target_module" />
+        <input type="hidden" name="guestbook_target_module" value="" id="guestbook_target_module" />
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->import_step_title[1]} - {$lang->import_step_desc[12]}</caption>
+        <h4 class="xeAdmin">{$lang->import_step_title[1]} - {$lang->import_step_desc[12]}</h4>
+        <table cellspacing="0" class="rowTable">
         <tr>
+            <td>{$lang->import_step_desc[121]} </td>
             <td>
-                <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" readonly="readonly"><a href="{getUrl('','module','module','act','dispModuleAdminSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+                <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" readonly="readonly"><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+            </td>
+        </tr>
+        <tr>
+            <td>{$lang->import_step_desc[122]} </td>
+            <td>
+                <input type="text" name="_guestbook_target_module" id="_guestbook_target_module" class="inputTypeText w300" readonly="readonly"><a href="{getUrl('','module','module','act','dispModuleSelectList','id','guestbook_target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
             </td>
         </tr>
         </table>
 
-        <table cellspacing="0" class="adminTable">
+        <table cellspacing="0" class="rowTable">
         <tr>
             <td>
                 {$lang->user_id} : <input type="text" name="user_id" value="{$logged_info->user_id}" class="inputTypeText w200" />
@@ -24,8 +32,8 @@
         </tr>
         </table>
 
-        <table cellspacing="0" class="adminTable">
-        <caption>{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</caption>
+        <h4 class="xeAdmin">{$lang->import_step_title[2]} - {$lang->import_step_desc[2]}</h4>
+        <table cellspacing="0" class="rowTable">
         <tr>
             <td>
                 <input type="text" name="xml_file" value="./" class="inputTypeText w700" />
@@ -47,7 +55,7 @@
                     <option value="500">500</option>
                     <option value="1000">1000</option>
                 </select>
-                <span class="button"><input type="submit" value="{$lang->cmd_next}" /></span>
+                <span class="button black strong"><input type="submit" value="{$lang->cmd_next}" /></span>
             </th>
         </tr>
         </table>

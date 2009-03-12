@@ -33,6 +33,8 @@
     $lang->import_step_desc = array(
         1 => 'Choisissez la sorte du fichier en XML que vous voulez transférer.',
         12 => 'Choisissez le module objectif dans lequel vous voulez tranférer les données.',
+        121 => '글:',
+        122 => '방명록:',
         13 => 'Choisissez la catégorie objective dans laquelle vous voulez transférer les données.',
         2 => "Entrez le chemin du fichier en XML pour transférer les données.\nS'il est localisé dans le même compte, entréz le chemin absolut ou relatif. Sinon, entrez l'URL commençant avec http://..",
         3 => 'Les données des membres et ceux des articles peuvent ne pas s\'accorder après la transfèrement. Dans ce cas, synchronisez S.V.P. Ça arrangera les données en étant basé sur le compte d\'utilisateur.',

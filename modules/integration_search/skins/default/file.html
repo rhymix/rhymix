@@ -1,0 +1,32 @@
+<!--#include("header.html")-->
+
+<h3 class="subTitle">{$lang->file} <span>({number_format($output->total_count)})</span></h3>
+
+<!--@if(!count($output->data))-->
+    <span class="noResult">{$lang->msg_no_result}</span>
+<!--@else-->
+    <ul class="searchResult">
+    <!--@foreach($output->data as $no => $file)-->
+        <li>
+            <dl>
+                <dt><a href="{$file->url}" onclick="window.open(this.href);return false;">{$file->filename}</a> ({FileHandler::filesize($file->file_size)})</dt>
+            </dl>
+            <address><strong>{$file->nick_name}</strong> | <span class="time">{$file->regdate}</span> | <span class="recomNum">{number_format($file->download_count)}</span> </address>
+        </li>
+    <!--@end-->
+    </ul>
+
+    <!--@if($where == 'file' &&  $output->page_navigation)-->
+        <div class="pagination a1">
+            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@while($page_no = $output->page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no)}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$output->page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a>
+        </div>
+    <!--@end-->
+<!--@end-->

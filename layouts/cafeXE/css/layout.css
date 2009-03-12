@@ -1,0 +1,182 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+/* You'd better not fix : 이 파일 수정을 권장 안함 */
+
+/* Skip To Content */
+a.skipToContent{ display:block; position:relative; top:0; clear:both; overflow:hidden; height:0; text-decoration:none;}
+a.skipToContent:hover,
+a.skipToContent:active,
+a.skipToContent:focus{ height:auto; margin:0 0 10px 0; padding:5px;}
+
+/* Hr */
+hr.cafeXeHr{ display:none; position:absolute;}
+
+/* Container + Header + Body + Footer */
+#cafeXeContainer{ position:relative; margin:0 20px; *zoom:1;}
+#cafeXeHeader{ position:relative; padding:20px 0 10px; border-bottom:3px solid; *zoom:1; z-index:100;}
+#cafeXeHeader:after{ content:""; display:block; clear:both;}
+#cafeXeBody{ position:relative; padding-top:20px; padding-bottom:20px; *zoom:1;}
+#cafeXeBody:after{ content:""; display:block; clear:both;}
+#cafeXeContent{ position:relative; margin-bottom:20px; text-align:justify;}
+#cafeXeFooter{ position:relative; padding:10px 0; border-top:1px solid; *zoom:1; z-index:100;}
+#cafeXeFooter address{ text-align:center;}
+
+/* Layout Width */
+.cafeXeFixed #cafeXeContainer{ width:960px; margin-left:auto; margin-right:auto;}
+.cafeXeLiquid #cafeXeContainer{ width:80%; margin-left:auto; margin-right:auto;}
+.cafeXeHybrid #cafeXeContainer{ width:80%; margin-left:auto; margin-right:auto;}
+
+/* Align Layout */
+.aLeft #cafeXeContainer{ margin-left:0;}
+.aRight #cafeXeContainer{ margin-right:0;}
+
+/* Top Navigation */
+#cafeXeHeader .cafeXeNavigation{ position:relative; padding:15px 0 0 0; margin:0; overflow:hidden; float:right;}
+#cafeXeHeader .cafeXeNavigation:after{ content:""; display:block; clear:both;}
+#cafeXeHeader .cafeXeNavigation *{ margin:0; padding:0;}
+#cafeXeHeader .cafeXeNavigation h2{ display:none;}
+#cafeXeHeader .cafeXeNavigation li{ position:relative; float:left; list-style:none; padding:0 5px;}
+
+/* Footer Navigation */
+#cafeXeFooter .cafeXeNavigation{ position:relative; padding:0; margin:0 0 10px 0;}
+#cafeXeFooter .cafeXeNavigation:after{ content:""; display:block; clear:both;}
+#cafeXeFooter .cafeXeNavigation *{ margin:0; padding:0;}
+#cafeXeFooter .cafeXeNavigation h2{ display:none;}
+#cafeXeFooter .cafeXeNavigation .cafeXeSection{ text-align:center;}
+#cafeXeFooter .cafeXeNavigation ul{ position:relative; overflow:hidden;}
+#cafeXeFooter .cafeXeNavigation li{ display:inline; position:relative; list-style:none; padding:0 5px;}
+
+/* Neck */
+#neck{ position:relative; clear:both; *zoom:1;}
+#neck .cafeXeExtension{ margin-right:-30px; *zoom:1;}
+#neck .cafeXeExtension:after{ content:""; display:block; clear:both;}
+#neck .cafeXeExtension .cafeXeSection{ position:relative; float:left; width:300px; margin-right:30px;}
+.cafeXeLiquid #neck .cafeXeExtension .cafeXeSection{ width:30%; margin-right:3.3%;}
+
+/* Knee */
+#cafeXeKnee{ position:relative; clear:both; *zoom:1;}
+#cafeXeKnee{ padding-top:30px; border-top:1px solid;}
+#cafeXeKnee .cafeXeExtension{ margin-right:-30px; *zoom:1;}
+#cafeXeKnee .cafeXeExtension:after{ content:""; display:block; clear:both;}
+#cafeXeKnee .cafeXeExtension .cafeXeSection{ position:relative; float:left; width:300px; margin-right:30px;}
+.cafeXeLiquid #cafeXeKnee .cafeXeExtension .cafeXeSection{ width:30%; margin-right:3.3%;}
+
+/* Extension */
+.cafeXeExtension, 
+.cafeXeSection{position:relative; *zoom:1;}
+#cafeXeBody .cafeXeExtension{ position:relative; display:none; margin-bottom:20px;}
+.cafeXeExtension .cafeXeSection{ margin-bottom:20px;}
+
+/* ----- Fixed 2 Column Layout ----- */
+.cafeXeFixed .cafeXeCE #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeEC #cafeXeBody .cafeXeE1{ width:220px;}
+.cafeXeFixed .cafeXeCE #cafeXeBody #cafeXeContent,
+.cafeXeFixed .cafeXeEC #cafeXeBody #cafeXeContent{ width:720px;}
+.cafeXeFixed .cafeXeCE #cafeXeBody #cafeXeContent{ float:left;}
+.cafeXeFixed .cafeXeEC #cafeXeBody #cafeXeContent{ float:right;}
+.cafeXeFixed .cafeXeCE #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeEC #cafeXeBody .cafeXeE1{ display:block;}
+.cafeXeFixed .cafeXeCE #cafeXeBody .cafeXeE1{ float:right; clear:right;}
+.cafeXeFixed .cafeXeEC #cafeXeBody .cafeXeE1{ float:left; clear:left;}
+
+/* ----- Liquid 2 Column Layout ----- */
+.cafeXeLiquid .cafeXeCE #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeEC #cafeXeBody .cafeXeE1{ width:23%;}
+.cafeXeLiquid .cafeXeCE #cafeXeBody #cafeXeContent,
+.cafeXeLiquid .cafeXeEC #cafeXeBody #cafeXeContent{ width:75%;}
+.cafeXeLiquid .cafeXeCE #cafeXeBody #cafeXeContent{ float:left;}
+.cafeXeLiquid .cafeXeEC #cafeXeBody #cafeXeContent{ float:right;}
+.cafeXeLiquid .cafeXeCE #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeEC #cafeXeBody .cafeXeE1{ display:block;}
+.cafeXeLiquid .cafeXeCE #cafeXeBody .cafeXeE1{ float:right; clear:right;}
+.cafeXeLiquid .cafeXeEC #cafeXeBody .cafeXeE1{ float:left; clear:left;}
+
+/* ----- Hybrid 2 Column Layout ----- */
+.cafeXeHybrid .cafeXeCE #cafeXeBody{ padding-right:280px;}
+.cafeXeHybrid .cafeXeEC #cafeXeBody{ padding-left:280px;}
+.cafeXeHybrid .cafeXeCE #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeEC #cafeXeBody .cafeXeE1{ width:260px;}
+.cafeXeHybrid .cafeXeCE #cafeXeBody #cafeXeContent{ float:left; width:100%;}
+.cafeXeHybrid .cafeXeEC #cafeXeBody #cafeXeContent{ float:right; width:100%;}
+.cafeXeHybrid .cafeXeCE #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeEC #cafeXeBody .cafeXeE1{ display:block;}
+.cafeXeHybrid .cafeXeCE #cafeXeBody .cafeXeE1{ float:right; clear:right; margin-left:-260px; right:-280px;}
+.cafeXeHybrid .cafeXeEC #cafeXeBody .cafeXeE1{ float:left; clear:left; margin-right:-260px; left:-280px;}
+
+/* ----- Fixed 3 Column Layout ----- */
+.cafeXeFixed .cafeXeCEE #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeCEE #cafeXeBody .cafeXeE2,
+.cafeXeFixed .cafeXeECE #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeECE #cafeXeBody .cafeXeE2,
+.cafeXeFixed .cafeXeEEC #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeEEC #cafeXeBody .cafeXeE2{ display:block; width:200px;}
+
+.cafeXeFixed .cafeXeCEE #cafeXeBody #cafeXeContent,
+.cafeXeFixed .cafeXeECE #cafeXeBody #cafeXeContent,
+.cafeXeFixed .cafeXeEEC #cafeXeBody #cafeXeContent{ width:520px;}
+
+.cafeXeFixed .cafeXeCEE #cafeXeBody #cafeXeContent{ float:left; margin-right:20px;}
+.cafeXeFixed .cafeXeECE #cafeXeBody #cafeXeContent{ float:left; margin-right:-100%; left:220px;}
+.cafeXeFixed .cafeXeEEC #cafeXeBody #cafeXeContent{ float:right;}
+
+.cafeXeFixed .cafeXeECE #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeEEC #cafeXeBody .cafeXeE1{ float:left; margin-right:20px;}
+
+.cafeXeFixed .cafeXeCEE #cafeXeBody .cafeXeE1,
+.cafeXeFixed .cafeXeEEC #cafeXeBody .cafeXeE2{ float:left;}
+
+.cafeXeFixed .cafeXeCEE #cafeXeBody .cafeXeE2,
+.cafeXeFixed .cafeXeECE #cafeXeBody .cafeXeE2{ float:right;}
+
+/* ----- Liquid 3 Column Layout ----- */
+.cafeXeLiquid .cafeXeCEE #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeCEE #cafeXeBody .cafeXeE2,
+.cafeXeLiquid .cafeXeECE #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeECE #cafeXeBody .cafeXeE2,
+.cafeXeLiquid .cafeXeEEC #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeEEC #cafeXeBody .cafeXeE2{ display:block; width:20%;}
+
+.cafeXeLiquid .cafeXeCEE #cafeXeBody #cafeXeContent,
+.cafeXeLiquid .cafeXeECE #cafeXeBody #cafeXeContent,
+.cafeXeLiquid .cafeXeEEC #cafeXeBody #cafeXeContent{ width:56%;}
+
+.cafeXeLiquid .cafeXeCEE #cafeXeBody #cafeXeContent{ float:left; margin-right:2%;}
+.cafeXeLiquid .cafeXeECE #cafeXeBody #cafeXeContent{ float:left; margin-right:-100%; left:22%;}
+.cafeXeLiquid .cafeXeEEC #cafeXeBody #cafeXeContent{ float:right;}
+
+.cafeXeLiquid .cafeXeECE #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeEEC #cafeXeBody .cafeXeE1{ float:left; margin-right:2%;}
+
+.cafeXeLiquid .cafeXeCEE #cafeXeBody .cafeXeE1,
+.cafeXeLiquid .cafeXeEEC #cafeXeBody .cafeXeE2{ float:left;}
+
+.cafeXeLiquid .cafeXeCEE #cafeXeBody .cafeXeE2,
+.cafeXeLiquid .cafeXeECE #cafeXeBody .cafeXeE2{ float:right;}
+
+/* ----- Hybrid 3 Column Layout ----- */
+.cafeXeHybrid .cafeXeCEE #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeCEE #cafeXeBody .cafeXeE2,
+.cafeXeHybrid .cafeXeECE #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeECE #cafeXeBody .cafeXeE2,
+.cafeXeHybrid .cafeXeEEC #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeEEC #cafeXeBody .cafeXeE2{ display:block; width:220px;}
+
+.cafeXeHybrid .cafeXeCEE #cafeXeBody{ padding-right:480px;}
+.cafeXeHybrid .cafeXeECE #cafeXeBody{ padding-left:240px; padding-right:240px;}
+.cafeXeHybrid .cafeXeEEC #cafeXeBody{ padding-left:480px;}
+
+.cafeXeHybrid .cafeXeCEE #cafeXeBody #cafeXeContent,
+.cafeXeHybrid .cafeXeECE #cafeXeBody #cafeXeContent,
+.cafeXeHybrid .cafeXeEEC #cafeXeBody #cafeXeContent{ width:100%;}
+
+.cafeXeHybrid .cafeXeCEE #cafeXeBody #cafeXeContent,
+.cafeXeHybrid .cafeXeECE #cafeXeBody #cafeXeContent{ float:left; margin-right:-100%;}
+.cafeXeHybrid .cafeXeEEC #cafeXeBody #cafeXeContent{ float:right;}
+
+.cafeXeHybrid .cafeXeECE #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeEEC #cafeXeBody .cafeXeE2{ float:left; left:-240px; margin-right:-220px;}
+.cafeXeHybrid .cafeXeEEC #cafeXeBody .cafeXeE1{ float:left; left:-480px; margin-right:-220px;}
+
+.cafeXeHybrid .cafeXeCEE #cafeXeBody .cafeXeE1,
+.cafeXeHybrid .cafeXeECE #cafeXeBody .cafeXeE2{ float:right; left:240px; margin-left:-220px;}
+.cafeXeHybrid .cafeXeCEE #cafeXeBody .cafeXeE2{ float:right; left:480px; margin-left:-220px;}

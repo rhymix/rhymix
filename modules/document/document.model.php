@@ -21,93 +21,69 @@
         }
 
         /**
+         * @brief 확장변수를 매 문서마다 처리하지 않기 위해 매크로성으로 일괄 select 및 적용 
+         **/
+        function setToAllDocumentExtraVars() {
+            // XE에서 모든 문서 객체는 XE_DOCUMENT_LIST라는 전역 변수에 세팅을 함
+            if(!count($GLOBALS['XE_DOCUMENT_LIST'])) continue;
+
+            // 모든 호출된 문서 객체를 찾아서 확장변수가 설정되었는지를 확인
+            $document_srls = array();
+            foreach($GLOBALS['XE_DOCUMENT_LIST'] as $key => $val) {
+                if(!$val->document_srl || isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl])) continue;
+                $document_srls[$key] = $val->document_srl;
+            }
+
+            // 검출된 문서 번호가 없으면 return
+            if(!count($document_srls)) return;
+
+            $lang_code = Context::getLangType();
+
+            // 확장변수 미지정된 문서에 대해서 일단 현재 접속자의 언어코드로 확장변수를 검색
+            $obj->document_srl = implode(',',$document_srls);
+            $output = executeQueryArray('document.getDocumentsExtraVars', $obj);
+            if($output->toBool() && $output->data) {
+                $setted = array();
+                foreach($output->data as $key => $val) {
+                    if(!$val->document_srl) continue;
+
+                    if($val->idx<0 && $val->lang_code == $lang_code) {
+                        if($val->idx == -1) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('title', $val->value);
+                        else if($val->idx == -2) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('content', $val->value);
+                    } elseif($val->idx>0) {
+                        if($lang_code == $val->lang_code) {
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                        } else if($lang_code == $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->lang_code && !isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                        } else if(!isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
+                        }
+                    }
+                }
+            }
+            foreach($document_srls as $key => $document_srl) {
+                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) $GLOBALS['XE_EXTRA_VARS'][$document_srl] = array();
+            }
+
+        }
+
+        /**
          * @brief 문서 가져오기
          **/
         function getDocument($document_srl=0, $is_admin = false) {
             if(!$document_srl) return new documentItem();
 
-            if(!$GLOBALS['__DocumentItem__'][$document_srl]) {
-                $oDocument = new documentItem($document_srl);
-                if($is_admin) $oDocument->setGrant();
-                $GLOBALS['__DocumentItem__'][$document_srl] = $oDocument;
-            }
+            if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
+                $oDocument = new documentItem($document_srl, true);
+                $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                $this->setToAllDocumentExtraVars();
+            } 
+            if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
-            return $GLOBALS['__DocumentItem__'][$document_srl];
-       }
-
-        /**
-         * @brief 선택된 게시물의 팝업메뉴 표시
-         *
-         * 인쇄, 스크랩, 추천, 비추천, 신고 기능 추가
-         **/
-        function getDocumentMenu() {
-
-            // 요청된 게시물 번호와 현재 로그인 정보 구함
-            $document_srl = Context::get('target_srl');
-            $mid = Context::get('cur_mid');
-            $logged_info = Context::get('logged_info');
-            $act = Context::get('cur_act');
-            
-            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
-            $menu_list = array();
-
-            // trigger 호출
-            ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
-
-            $oDocumentController = &getController('document');
-
-            // 회원이어야만 가능한 기능
-            if($logged_info->member_srl) {
-
-                // 추천 버튼 추가
-                $url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
-
-                // 비추천 버튼 추가
-                $url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
-
-                // 신고 기능 추가
-                $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
-
-                // 스크랩 버튼 추가
-                $url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
-            }
-
-            // 인쇄 버튼 추가
-            $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
-            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
-
-            // trigger 호출 (after)
-            ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
-
-            // 관리자일 경우 ip로 글 찾기
-            if($logged_info->is_admin == 'Y') {
-                $oDocumentModel = &getModel('document');
-                $oDocument = $oDocumentModel->getDocument($document_srl);
-
-                if($oDocument->isExists()) {
-                    // ip주소에 해당하는 글 찾기
-                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
-                    $icon_path = './modules/member/tpl/images/icon_management.gif';
-                    $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
-
-                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument-> getIpAddress());
-                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
-                }
-            }
-
-            // 팝업메뉴의 언어 변경
-            $menus = Context::get('document_popup_menu_list');
-            $menus_count = count($menus);
-            for($i=0;$i<$menus_count;$i++) {
-                $menus[$i]->str = Context::getLang($menus[$i]->str);
-            }
-
-            // 최종적으로 정리된 팝업메뉴 목록을 구함
-            $this->add('menus', $menus);
+            return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
         }
 
         /**
@@ -134,11 +110,14 @@
                 if(!$attribute->document_srl) continue;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute);
+                $oDocument->setAttribute($attribute, false);
                 if($is_admin) $oDocument->setGrant();
 
                 $result[$attribute->document_srl] = $oDocument;
+
+                $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
             }
+            $this->setToAllDocumentExtraVars();
             return $result;
         }
 
@@ -244,10 +223,11 @@
                             $query_id = 'document.getDocumentListWithinTag';
                         break;
                     default :
-                            preg_match('/^extra_vars([0-9]+)$/',$search_target,$matches);
-                            if($matches[1]) {
-                                $args->{"s_extra_vars".$matches[1]} = $search_keyword;
-                                $use_division = true;
+                            if(strpos($search_target,'extra_vars')!==false) {
+                                $args->var_idx = substr($search_target, strlen('extra_vars'));
+                                $args->var_value = str_replace(' ','%',$search_keyword);
+                                $args->sort_index = 'documents.'.$args->sort_index;
+                                $query_id = 'document.getDocumentListWithExtraVars';
                             }
                         break;
                 }
@@ -367,13 +347,16 @@
                 $document_srl = $attribute->document_srl;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute);
+                $oDocument->setAttribute($attribute, false);
                 if($is_admin) $oDocument->setGrant();
+
+                $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
 
                 $output->data[$virtual_number] = $oDocument;
                 $virtual_number --;
             
             }
+            $this->setToAllDocumentExtraVars();
             return $output;
         }
 
@@ -381,27 +364,136 @@
          * @brief module_srl값을 가지는 문서의 공지사항만 가져옴
          **/
         function getNoticeList($obj) {
-            $args->module_srl = $obj->module_srl;
-            $args->category_srl = $obj->category_srl;
-            $args->sort_index = 'list_order';
+            $cache_file = _XE_PATH_.'files/cache/document_notice/'.getNumberingPath($obj->module_srl,4).$obj->module_srl.'.txt';
+            if(!file_exists($cache_file)) {
+                $oDocumentController = &getController('document');
+                $oDocumentController->updateDocumentNoticeCache($obj->module_srl);
+            }
+
+            $document_srls = FileHandler::readFile($cache_file);
+            if(!$document_srls) return;
+
+            $list_count = count(explode(',',$document_srls));
+            $args->document_srls = $document_srls;
+            $args->list_count = $list_count;
+            $args->list_order = 'list_order';
             $args->order_type = 'asc';
-
-            $output = executeQueryArray('document.getNoticeList', $args);
-
-            // 결과가 없거나 오류 발생시 그냥 return
-            if(!$output->toBool()||!count($output->data)) return $output;
-
-            foreach($output->data as $key => $attribute) {
-                $document_srl = $attribute->document_srl;
-
+            $output = executeQueryArray('document.getDocuments', $args);
+            if(!$output->toBool()||!$output->data) return;
+            foreach($output->data as $key => $val) {
+                if(!$val->document_srl) continue;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute);
-
-                $output->data[$key] = $oDocument;
-            
+                $oDocument->setAttribute($val, false);
+                $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl] = $oDocument;
+                $result->data[$val->document_srl] = $oDocument;
             }
-            return $output;
+            $this->setToAllDocumentExtraVars();
+            return $result;
+        }
+
+
+        /**
+         * @brief document의 확장 변수 키값을 가져오는 함수
+         * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
+         **/
+        function getExtraKeys($module_srl) {
+            $oExtraVar = &ExtraVar::getInstance($module_srl);
+            if(!$oExtraVar->isSettedExtraVars()) {
+                $obj->module_srl = $module_srl;
+                $obj->sort_index = 'var_idx';
+                $obj->order = 'asc';
+                $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+                $oExtraVar->setExtraVarKeys($output->data);
+            }
+            return $oExtraVar->getExtraVars();
+        }
+
+        /**
+         * @brief 특정 document의 확장 변수 값을 가져오는 함수
+         **/
+        function getExtraVars($module_srl, $document_srl) {
+            if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) {
+                $oDocument = $this->getDocument($document_srl, false);
+                $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                $this->setToAllDocumentExtraVars();
+            }
+            return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
+        }
+
+        /**
+         * @brief 선택된 게시물의 팝업메뉴 표시
+         *
+         * 인쇄, 스크랩, 추천, 비추천, 신고 기능 추가
+         **/
+        function getDocumentMenu() {
+
+            // 요청된 게시물 번호와 현재 로그인 정보 구함
+            $document_srl = Context::get('target_srl');
+            $mid = Context::get('cur_mid');
+            $logged_info = Context::get('logged_info');
+            $act = Context::get('cur_act');
+            
+            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
+            $menu_list = array();
+
+            // trigger 호출
+            ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
+
+            $oDocumentController = &getController('document');
+
+            // 회원이어야만 가능한 기능
+            if($logged_info->member_srl) {
+
+                // 추천 버튼 추가
+                $url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+
+                // 비추천 버튼 추가
+                $url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+
+                // 신고 기능 추가
+                $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
+
+                // 스크랩 버튼 추가
+                $url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
+            }
+
+            // 인쇄 버튼 추가
+            $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
+
+            // trigger 호출 (after)
+            ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
+
+            // 관리자일 경우 ip로 글 찾기
+            if($logged_info->is_admin == 'Y') {
+                $oDocumentModel = &getModel('document');
+                $oDocument = $oDocumentModel->getDocument($document_srl);
+
+                if($oDocument->isExists()) {
+                    // ip주소에 해당하는 글 찾기
+                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
+                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
+
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument-> getIpAddress());
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
+                }
+            }
+
+            // 팝업메뉴의 언어 변경
+            $menus = Context::get('document_popup_menu_list');
+            $menus_count = count($menus);
+            for($i=0;$i<$menus_count;$i++) {
+                $menus[$i]->str = Context::getLang($menus[$i]->str);
+            }
+
+            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            $this->add('menus', $menus);
         }
 
         /**
@@ -496,26 +588,21 @@
          * 속도나 여러가지 상황을 고려해서 카테고리 목록은 php로 생성된 script를 include하여 사용하는 것을 원칙으로 함
          **/
         function getCategoryList($module_srl) {
-            // 한 페이지에서 여러번 호출될 경우를 대비해서 static var로 보관 (php4때문에 다른 방법으로 구현)
-            if(!isset($this->category_list[$module_srl])) {
+            // 대상 모듈의 카테고리 파일을 불러옴
+            $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
 
-                // 대상 모듈의 카테고리 파일을 불러옴
-                $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
-
-                // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
-                if(!file_exists($filename)) {
-                    $oDocumentController = &getController('document');
-                    if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
-                }
-
-                @include($filename);
-
-                // 카테고리의 정리
-                $document_category = array();
-                $this->_arrangeCategory($document_category, $menu->list, 0);
-                $this->category_list[$module_srl] = $document_category;
+            // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
+            if(!file_exists($filename)) {
+                $oDocumentController = &getController('document');
+                if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
             }
-            return $this->category_list[$module_srl];
+
+            @include($filename);
+
+            // 카테고리의 정리
+            $document_category = array();
+            $this->_arrangeCategory($document_category, $menu->list, 0);
+            return $document_category;
         }
 
         /**
@@ -655,6 +742,7 @@
          * @brief 특정 모듈의 분류를 구함
          **/
         function getDocumentCategories() {
+            if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
             $module_srl = Context::get('module_srl');
             $categories= $this->getCategoryList($module_srl);
             $lang = Context::get('lang');
@@ -673,13 +761,58 @@
          * @brief 문서 설정 정보를 구함
          **/
         function getDocumentConfig() {
-            if(!$GLOBLAS['__document_config__']) {
+            if(!$GLOBALS['__document_config__']) {
                 $oModuleModel = &getModel('module');
                 $config = $oModuleModel->getModuleConfig('document');
                 if(!$config->thumbnail_type) $config->thumbnail_type = 'crop';
-                $GLOBLAS['__document_config__'] = $config;
+                $GLOBALS['__document_config__'] = $config;
             }
-            return $GLOBLAS['__document_config__'];
+            return $GLOBALS['__document_config__'];
+        }
+
+        /**
+         * @brief 공통 :: 모듈의 확장 변수 관리
+         * 모듈의 확장변수 관리는  모든 모듈에서 document module instance를 이용할때 사용할 수 있음
+         **/
+        function getExtraVarsHTML($module_srl) {
+            // 기존의 extra_keys 가져옴
+            $extra_keys = $this->getExtraKeys($module_srl);
+            Context::set('extra_keys', $extra_keys);
+
+            // grant 정보를 추출
+            $oTemplate = &TemplateHandler::getInstance();
+            return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
+        }
+
+        /**
+         * @brief 공통 :: 모듈의 카테고리 변수 관리
+         **/
+        function getCategoryHTML($module_srl) {
+            $category_xml_file = $this->getCategoryXmlFile($module_srl);
+
+            Context::set('category_xml_file', $category_xml_file);
+            Context::addJsFile('./common/js/tree_menu.js');
+
+            // grant 정보를 추출
+            $oTemplate = &TemplateHandler::getInstance();
+            return $oTemplate->compile($this->module_path.'tpl', 'category_list');
+        }
+
+        function getDocumentSrlByAlias($mid, $alias)
+        {
+            if(!$mid || !$alias) return null;
+            $args->mid = $mid;
+            $args->alias_title = $alias;
+            $output = executeQuery('document.getDocumentSrlByAlias', $args);
+            if(!$output->data) return null;
+            else return $output->data->document_srl;
+        }
+
+        function getHistories($document_srl)
+        {
+            $args->document_srl = $document_srl;
+            $output = executeQueryArray('document.getHistories', $args);
+            return $output->data;
         }
     }
 ?>

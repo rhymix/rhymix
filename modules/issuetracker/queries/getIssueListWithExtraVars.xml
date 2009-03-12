@@ -1,0 +1,41 @@
+<query id="getIssueListWithExtraVars" action="select">
+    <tables>
+        <table name="documents" alias="documents" />
+        <table name="issues" alias="issues" />
+        <table name="document_extra_vars" alias="extra_vars" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="less" column="documents.update_order" default="2100000000" pipe="and" />
+        <condition operation="equal" column="issues.target_srl" default="documents.document_srl" pipe="and" />
+        <condition operation="equal" column="extra_vars.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="equal" column="extra_vars.document_srl" default="documents.document_srl" pipe="and" />
+        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="issues.milestone_srl" var="milestone_srl" pipe="and" />
+        <condition operation="equal" column="issues.priority_srl" var="priority_srl" pipe="and" />
+        <condition operation="equal" column="issues.type_srl" var="type_srl" pipe="and" />
+        <condition operation="equal" column="issues.component_srl" var="component_srl" pipe="and" />
+        <condition operation="in" column="issues.status" var="status" pipe="and" />
+        <condition operation="equal" column="issues.occured_version_srl" var="occured_version_srl" pipe="and" />
+        <condition operation="equal" column="issues.resolution_srl" var="resolution_srl" pipe="and" />
+        <condition operation="equal" column="issues.assignee_srl" var="assignee_srl" pipe="and" />
+        <condition operation="equal" column="extra_vars.var_idx" var="var_idx" notnull="notnull" pipe="and" />
+        <condition operation="like" column="extra_vars.value" var="var_value" pipe="and" notnull="notnull" />
+        <group pipe="and">
+            <condition operation="like" column="documents.title" var="s_title" pipe="or" />
+            <condition operation="like" column="documents.content" var="s_content" pipe="or" />
+            <condition operation="like" column="documents.user_id" var="s_user_id" pipe="or" />
+            <condition operation="like" column="documents.user_name" var="s_user_name" pipe="or" />
+            <condition operation="like" column="documents.nick_name" var="s_nick_name" pipe="or" />
+        </group>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.update_order" order="asc" />
+        <list_count var="list_count" default="50" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

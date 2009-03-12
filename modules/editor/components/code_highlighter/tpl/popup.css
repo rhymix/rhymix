@@ -1,0 +1,24 @@
+@charset "utf-8";
+@import url(../../../../../modules/admin/tpl/css/admin.css);
+
+#folder_area { clear:left; }
+
+.border_type { float:left; margin-right:1em; width:120px; }
+
+img.color_icon { width:14px; height:14px; border:1px solid #FFFFFF; }
+
+img.color_icon_over { width:14px; height:14px; border:1px solid #000000; cursor:pointer; }
+
+img.border_preview_color { width:30px; height:16px; border:1px solid #EEEEEE; background-color:#88EE22; }
+
+img.border_preview_none_color { width:30px; height:12px; border:1px solid #EEEEEE; background-color:#FFFFFF; }
+
+img.bg_preview_color { width:30px; height:16px; border:1px solid #000000; background-color:#FFFFFF; }
+
+.editor_color_box { clear:both; height:65px; width:400px; border:1px solid #DDDDDD; padding:2px; }
+
+.editor_link_type { float:left; margin-right:.5em; vertical-align:middle; white-space:nowrap; }
+
+.editor_color_input { clear:both; }
+
+li { list-style:none; float:left; margin:5px 10px 0px 0;}

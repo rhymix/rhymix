@@ -9,10 +9,12 @@
     <columns>
         <column name="modules.mid" alias="mid" />
         <column name="planet.module_srl" alias="module_srl" />
-        <column name="member.nick_name" />
+        <column name="member.nick_name" alias="nick_name" />
+        <column name="member.user_id" alias="user_id" />
+        <column name="member.user_name" alias="user_name" />
+        <column name="member.member_srl" alias="member_srl" />
         <column name="documents.document_srl" alias="document_srl" />
         <column name="documents.content" alias="content" />
-        <column name="documents.extra_vars20" alias="extra_vars20" />
         <column name="documents.comment_count" alias="comment_count" />
         <column name="documents.voted_count" alias="voted_count" />
         <column name="documents.tags" alias="tags" />

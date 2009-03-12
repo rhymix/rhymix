@@ -30,59 +30,56 @@
         /**
          * @brief Reformatting date data from Lifepod API into data type compatible to Lifepod UI 
          **/
-	function dateFormatChange($dates, $plus = 0) {
-	    $dates = sprintf("%s-%s-%s %s:%s:%s+0", substr($dates,0,4), substr($dates,4,2), substr($dates,6,2), substr($dates,9,2), substr($dates,11,2), substr($dates,13,2));
-	    $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus + zgap());
-	    return $dates;
-	}
+        function dateFormatChange($dates, $plus = 0) {
+            $dates = sprintf("%s-%s-%s %s:%s:%s+0", substr($dates,0,4), substr($dates,4,2), substr($dates,6,2), substr($dates,9,2), substr($dates,11,2), substr($dates,13,2));
+            $dates = date("Y-m-d H:i:s", strtotime($dates) + $plus + zgap());
+            return $dates;
+        }
 
         /**
          * @brief Displaying Calendar 
          **/
         function dispLifepodContent() {
-            // check permission
-            if(!$this->grant->view) return $this->dispLifepodMessage('msg_not_permitted');
-
             $oLifepodModel = &getModel('lifepod');
-	    $caladdresses = split(", ", $this->module_info->calendar_address);
-	    $cYear = Context::get('year');
-	    $cMonth = Context::get('month');
-	    $cDay = Context::get('day');
+            $caladdresses = split(", ", $this->module_info->calendar_address);
+            $cYear = Context::get('year');
+            $cMonth = Context::get('month');
+            $cDay = Context::get('day');
 
-	    $calendars = array();
-           
-	    foreach($caladdresses as $key=>$val)
-	    {
-		$shouldGetMore = false;
-		$pageNumber = 1;
-		$page = null;
-		do {
-		    $page = $oLifepodModel->getPage($val, $cYear, $pageNumber);
-		    if(!$page) break;
-		    for($j=0;$j<count($page->data);$j++)
-		    {
-			$data = &$page->data[$j];
-			if($data->childNodes["date-start"])
-			{
-			    $data->childNodes["date-start"]->body = $this->dateFormatChange($data->childNodes["date-start"]->body);
-			}
+            $calendars = array();
+               
+            foreach($caladdresses as $key=>$val)
+            {
+            $shouldGetMore = false;
+            $pageNumber = 1;
+            $page = null;
+            do {
+                $page = $oLifepodModel->getPage($val, $cYear, $pageNumber);
+                if(!$page) break;
+                for($j=0;$j<count($page->data);$j++)
+                {
+                $data = &$page->data[$j];
+                if($data->childNodes["date-start"])
+                {
+                    $data->childNodes["date-start"]->body = $this->dateFormatChange($data->childNodes["date-start"]->body);
+                }
 
-			if($data->childNodes["date-end"])
-			{
-			    $plus = 0;
-			    if($data->childNodes["type"]->body == "daylong")
-				$plus = -1;
-			    $data->childNodes["date-end"]->body = $this->dateFormatChange($data->childNodes["date-end"]->body, $plus);
-			}
+                if($data->childNodes["date-end"])
+                {
+                    $plus = 0;
+                    if($data->childNodes["type"]->body == "daylong")
+                    $plus = -1;
+                    $data->childNodes["date-end"]->body = $this->dateFormatChange($data->childNodes["date-end"]->body, $plus);
+                }
 
-			$data->childNodes["description"]->body = str_replace("\n", "<BR />", $data->childNodes["description"]->body);
-			$data->childNodes["description"]->body = str_replace("'", "\'", $data->childNodes["description"]->body);
-			$data->childNodes["title"]->body = str_replace("'", "\'", $data->childNodes["title"]->body);
-		    }
-		    $calendars[] = $page;
-		    $pageNumber++;
-		} while ( $page->start + $page->perpage - 1 < $page->total );
-	    }
+                $data->childNodes["description"]->body = str_replace("\n", "<BR />", $data->childNodes["description"]->body);
+                $data->childNodes["description"]->body = str_replace("'", "\'", $data->childNodes["description"]->body);
+                $data->childNodes["title"]->body = str_replace("'", "\'", $data->childNodes["title"]->body);
+                }
+                $calendars[] = $page;
+                $pageNumber++;
+            } while ( $page->start + $page->perpage - 1 < $page->total );
+            }
 
             Context::set('calendars', $calendars);
 

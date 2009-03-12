@@ -1,11 +1,9 @@
 <!--%import("filter/update_point.xml")-->
+<!--%import("js/point_admin.js")-->
 <!--#include("header.html")-->
 
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <em>{number_format($page)}/{number_format($total_page)}</em>
-</div>
-
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="crossTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
@@ -24,10 +22,13 @@
         <td class="nowrap">{htmlspecialchars($val->user_name)}</td>
         <td class="nowrap"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
         <td class="nowrap">
-            <form action="./" method="get" onsubmit="return procFilter(this, update_point);">
+            <form action="./" method="get">
                 <input type="hidden" name="member_srl" value="{$val->member_srl}" />
-                <input type="text" name="point" value="{$val->point}" class="inputTypeText w80" />
-                <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+                <input type="text" name="orgpoint" value="{$val->point}" class="inputTypeText w80" readonly />
+                <input type="text" id="point_{$val->member_srl}" name="point" class="inputTypeText w80" />
+                <span class="button"><input type="button" value="+" onclick="updatePoint({$val->member_srl}, 'add')"/></span>
+                <span class="button"><input type="button" value="-" onclick="updatePoint({$val->member_srl}, 'minus')"/></span>
+                <span class="button"><input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl}, 'update')" /></span>
             </form>
         </td>
         <td class="number center">{$val->level}</td>
@@ -35,6 +36,13 @@
     <!--@end-->
 </tbody>
 </table>
+
+<form id="updateForm" action="./" method="POST">
+    <input type="hidden" id="update_action" name="action" value="" />
+    <input type="hidden" id="update_member_srl" name="member_srl" value="" />
+    <input type="hidden" id="update_point" name="point" class="inputTypeText w80" />
+</form>
+
 
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">
@@ -77,7 +85,7 @@
             <!--@end-->
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_search}" /></span>
         <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

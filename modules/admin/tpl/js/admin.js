@@ -4,54 +4,48 @@
  * @brief  admin 모듈의 javascript
  **/
 
-jQuery(document).click(showXESubMenu);
-var openedSubMenus = null;
-
-function showXESubMenu(evt) {
-    if(evt.target && /^adminMainMenu/.test(evt.target.id)) {
-        var key = evt.target.id.split('_')[1];
-        var obj = jQuery('#adminSubMenu'+key).get(0);
-        if(!obj) return;
-        if(openedSubMenus) openedSubMenus.style.visibility = 'hidden';
-        if(openedSubMenus == obj) {
-            openedSubMenus = null;
-            return;
-        }
-        openedSubMenus = obj;
-        //xLeft(obj, xPageX(e.target) + (xWidth(e.target)-xWidth(obj))/2);
-        //if(xLeft(obj) + xWidth(obj) + 10 > xClientWidth()) xLeft(obj, xClientWidth() - xWidth(obj) - 10);
-        //xTop(obj, xPageY(e.target)+28);
-        obj.style.visibility = 'visible';
-        return;
-    } else if(openedSubMenus) {
-        openedSubMenus.style.visibility = 'hidden';
-        openedSubMenus = null;
-    }
-}
-
-// open/close Main Navigator
-function toggleXEMainNavigator() {
-    var obj = jQuery('.xeAdmin').get(0);
-    var btnObj = jQuery('#btnFolder').get(0);
-    if(!obj) return;
-    if(obj.style.display == 'none') {
-        obj.style.display = 'block';
-        btnObj.src = btnObj.src.replace(/btn_off.png/,'btn.png');
-    } else {
-        obj.style.display = 'none';
-        btnObj.src = btnObj.src.replace(/btn.png/,'btn_off.png');
-    }
-    var expire = new Date();
-    expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
-    xSetCookie('XEMN', obj.style.display, expire);
-}
-
 // 캐시파일 모두 재 생성
 function doRecompileCacheFile() {
     exec_xml("admin","procAdminRecompileCacheFile", new Array(), completeMessage);
 }
 
+// 모듈 목록 오픈
+function toggleModuleMenu(category) {
+    var obj = xGetElementById('module_'+category);
+    if(obj.className == 'open') obj.className = '';
+    else obj.className = 'open';
+}
+
+// 메인 모듈/ 애드온 토글
+function toggleModuleAddon(target) {
+    if(target == 'module') {
+        xGetElementById('moduleOn').className = 'on';
+        xGetElementById('xeModules').style.display = 'block';
+        xGetElementById('addonOn').className = '';
+        xGetElementById('xeAddons').style.display = 'none';
+    } else {
+        xGetElementById('addonOn').className = 'on';
+        xGetElementById('xeAddons').style.display = 'block';
+        xGetElementById('moduleOn').className = '';
+        xGetElementById('xeModules').style.display = 'none';
+    }
+}
+
+// 언어 목록 toggle
+function toggleAdminLang() {
+    var obj = xGetElementById("adminLang");
+    if(!obj) return;
+    if(obj.style.display == 'block') obj.style.display = 'none';
+    else obj.style.display = 'block';
+}
+
 
 jQuery(function(){
-    jQuery("table.adminTable tr").attr('class','').filter(":nth-child(even)").attr('class','row2');
+    jQuery("table.rowTable tr").attr('class','').filter(":nth-child(even)").attr('class','bg1');
 });
+
+
+// 로그아웃
+function doAdminLogout() {
+    exec_xml('admin','procAdminLogout',new Array(), function() { location.reload(); });
+}

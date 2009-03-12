@@ -4,8 +4,6 @@ function toggleWriteFormHelp(obj) {
     obj.nextSibling.focus();
 }
 
-
-
 function toggle(objclass,f,type){
     var obj = $$('.'+objclass)[0];
     return toggleObject(obj,f,type);
@@ -146,7 +144,6 @@ function toggleWritePost(){
             t.attr('style','overflow:hidden');
             t.height(0);
             moveHeight('writeBody',{start:0,end:30,callback:function(){t.attr('style','');}});
-
         }
 
         $Cookie().set('writePost','open',30);
@@ -189,16 +186,9 @@ function togglePreview(){
 }
 
 function toggleTagRank(){
-    var o = $Element($$('.layer')[0]);
-    // do close
-    if($Element($$('.tagRank')[0]).hasClass('open')){
-        o.disappear(0,function(){toggle('tagRank','close');o.attr('style','');})
-
-    // do open
-    }else{
-        o.appear(0,function(){toggle('tagRank','open');})
-    }
-
+    var o = $Element($$('.tagLayer')[0]);
+    if(o.css("display")!="block") o.css("display","block");
+    else o.css("display","none");
 }
 
 
@@ -325,4 +315,19 @@ function setTag(tag){
     }else{
         input_tag.value = tag;
     }
+}
+
+function completeDeletePlanetDocument(ret_obj,response_tags) {
+    var obj = xGetElementById("commentBody:"+ret_obj['document_srl']);
+    if(!obj) return;
+    obj.parentNode.removeChild(obj);
+    if(xGetElementsByClassName("commentBody").length<1) xGetElementById("noDocument").style.display = "block";
+}
+
+function completeDeletePlanetComment(ret_obj,response_tags) {
+    var obj = xGetElementById("commentBody:"+ret_obj['comment_srl']);
+    if(!obj) return;
+    obj.parentNode.removeChild(obj);
+
+    $('reply_count:'+ ret_obj['document_srl']).innerHTML = parseInt($('reply_count:'+ ret_obj['document_srl']).innerHTML)-1;
 }

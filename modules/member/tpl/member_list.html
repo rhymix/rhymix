@@ -29,73 +29,74 @@
             <!--@end-->
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_search}" /></span>
         <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>
 
 <!-- 목록 -->
 <form method="get" action="./" id="member_fo">
-<table cellspacing="0" class="adminTable">
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;"/></div></th>
-        <th scope="col" class="quarter_wide"><div>{$lang->user_id}</div></th>
-        <th scope="col" class="quarter_wide"><div>{$lang->user_name}</div></th>
-        <th scope="col" class="quarter_wide"><div>{$lang->nick_name}</div></th>
-        <th scope="col" class="quarter_wide"><div>{$lang->email_address}</div></th>
-        <th scope="col" class="quarter_wide"><div>{$lang->signup_date}</div></th>
-        <th scope="col"><div>{$lang->last_login}</div></th>
-        <th scope="col" colspan="2"><div>&nbsp;</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($member_list as $no => $val)-->
-    {@ $val->group_list = implode(', ', $val->group_list)}
-    <tr class="row{$cycle_idx}">
-        <td class="center number" rowspan="2">{$no}</td>
-        <td class="center" rowspan="2"><input type="checkbox" name="cart" value="{$val->member_srl}"/></td>
-        <td><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
-        <td>{htmlspecialchars($val->user_name)}</td>
-        <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
-        <td>{$val->email_address}</td>
-        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        <td class="date center nowrap">{zdate($val->last_login,"Y-m-d H:i:s")}</td>
-        <td class="nowrap">
-            <!--@if($val->homepage)--><a href="{$val->homepage}" class="homepage" onclick="window.open(this.href);return false;"><img src="./images/icon_homepage.gif" title="{$lang->homepage}" alt="{$lang->homepage}" /></a> <!--@end-->
-            <!--@if($val->blog)--><a href="{$val->blog}" class="blog" onclick="window.open(this.href);return false;"><img src="./images/icon_blog.gif" title="{$lang->blog}" alt="{$lang->blog}" /></a> <!--@end-->&nbsp;
-        </td>
-        <td class="delete center"><!--@if($val->is_admin != 'Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}">{$lang->cmd_delete}</a><!--@else--><img src="./images/icon_management.gif" title="{$lang->is_admin}" alt="{$lang->is_admin}" /><!--@end--></td>
-    </tr>
-    <tr>
-        <td colspan="8"><p>{$val->group_list}&nbsp;</p></td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
-
-<!-- 버튼 -->
-<div class="fl gap1">
-    <a href="#" onclick="doManageMemberGroup(); return false;" class="button"><span>{$lang->cmd_member_group}</span></a>
-    <a href="#" onclick="doDeleteMembers(); return false;" class="button"><span>{$lang->cmd_delete}</span></a>
-</div>
-<div class="fr gap1">
-    <a href="{getUrl('act','dispMemberAdminInsert','member_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
-</div>
-
-<!-- 페이지 네비게이션 -->
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+    <table cellspacing="0" class="rowTable">
+    <caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+    <thead>
+        <tr>
+            <th scope="col"><div>{$lang->no}</div></th>
+            <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;"/></div></th>
+            <th scope="col" class="quarter_wide"><div>{$lang->user_id}</div></th>
+            <th scope="col" class="quarter_wide"><div>{$lang->user_name}</div></th>
+            <th scope="col" class="quarter_wide"><div>{$lang->nick_name}</div></th>
+            <th scope="col" class="quarter_wide"><div>{$lang->signup_date}</div></th>
+            <th scope="col"><div>{$lang->last_login}</div></th>
+            <th scope="col" colspan="2"><div>&nbsp;</div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--@foreach($member_list as $no => $val)-->
+        {@ $val->group_list = implode(', ', $val->group_list)}
+        <tr class="row{$cycle_idx}">
+            <td rowspan="2">{$no}</td>
+            <td rowspan="2"><input type="checkbox" name="cart" value="{$val->member_srl}"/></td>
+            <td><a href="{getUrl('act','dispMemberAdminInfo','member_srl',$val->member_srl)}">{htmlspecialchars($val->user_id)}</a></td>
+            <td>{htmlspecialchars($val->user_name)}</td>
+            <td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+            <td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+            <td>{zdate($val->last_login,"Y-m-d H:i:s")}</td>
+            <td class="nowrap">
+                <!--@if($val->homepage)--><a href="{$val->homepage}" class="homepage" onclick="window.open(this.href);return false;"><img src="./images/icon_homepage.gif" title="{$lang->homepage}" alt="{$lang->homepage}" /></a> <!--@end-->
+                <!--@if($val->blog)--><a href="{$val->blog}" class="blog" onclick="window.open(this.href);return false;"><img src="./images/icon_blog.gif" title="{$lang->blog}" alt="{$lang->blog}" /></a> <!--@end-->&nbsp;
+            </td>
+            <td><!--@if($val->is_admin != 'Y')--><a href="{getUrl('act','dispMemberAdminDeleteForm','member_srl', $val->member_srl)}" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a><!--@else--><img src="./images/icon_management.gif" title="{$lang->is_admin}" alt="{$lang->is_admin}" /><!--@end--></td>
+        </tr>
+        <tr>
+            <td colspan="8"><p>{$val->group_list}&nbsp;</p></td>
+        </tr>
         <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
-</div>
+    </tbody>
+    </table>
+
+    <!-- 버튼 -->
+    <div class="clear">
+        <div class="fl">
+            <a href="#" onclick="doManageMemberGroup(); return false;" class="button blue"><span>{$lang->cmd_member_group}</span></a>
+            <a href="#" onclick="doDeleteMembers(); return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
+        </div>
+        <div class="fr">
+            <a href="{getUrl('act','dispMemberAdminInsert','member_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+        </div>
+    </div>
+
+    <!-- 페이지 네비게이션 -->
+    <div class="pagination a1">
+        <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
+        <!--@while($page_no = $page_navigation->getNextPage())-->
+            <!--@if($page == $page_no)-->
+                <strong>{$page_no}</strong> 
+            <!--@else-->
+                <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+            <!--@end-->
+        <!--@end-->
+        <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+    </div>
 </form>
 
 <form action="./" method="get" class="adminSearch">
@@ -125,7 +126,7 @@
             <!--@end-->
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-        <span class="button"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_search}" /></span>
         <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
     </fieldset>
 </form>

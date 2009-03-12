@@ -15,6 +15,17 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srls로 위젯에서 변경)
+            $oModuleModel = &getModel('module');
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                if(count($mid_list)) {
+                    $module_srls = $oModuleModel->getModuleSrlByMid($mid_list);
+                    if(count($module_srls)) $args->module_srls = implode(',',$module_srls);
+                    else $args->module_srls = null;
+                } 
+            }
+
             // 글자 제목 길이
             $widget_info->title_length = (int)$args->title_length;
             if(!$widget_info->title_length) $widget_info->title_length = 10;
@@ -54,28 +65,13 @@
 
             $oModuleModel = &getModel('module');
 
-            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
-            if($args->mid_list) {
-                $mid_list = explode(",",$args->mid_list);
-                $oModuleModel = &getModel('module');
-                if(count($mid_list)) {
-                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                } else {
-                    $site_module_info = Context::get('site_module_info');
-                    if($site_module_info) {
-                        $margs->site_srl = $site_module_info->site_srl;
-                        $oModuleModel = &getModel('module');
-                        $output = $oModuleModel->getMidList($margs);
-                        if(count($output)) $mid_list = array_keys($output);
-                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                    }
-                }
-            } else $module_srl = explode(',',$args->module_srls);
+            // 대상 모듈이 선택되어 있지 않으면 해당 사이트의 전체 모듈을 대상으로 함
+            $site_module_info = Context::get('site_module_info');
+            if($args->module_srls) $obj->module_srls = $args->module_srls;
+            else if($site_module_info) $obj->site_srl = (int)$site_module_info->site_srl;
 
-            $obj->module_srls = implode(",",$module_srl);
             $obj->direct_download = 'Y';
             $obj->isvalid = 'Y';
-            $oDocumentModel = &getModel('document');
 
             // 정해진 모듈에서 문서별 파일 목록을 구함
             $obj->list_count = $widget_info->rows_list_count*$widget_info->cols_list_count;
@@ -85,6 +81,7 @@
             $document_srl_list = array();
             $document_list = array();
 
+            $oDocumentModel = &getModel('document');
             if($files_count>0) {
                 for($i=0;$i<$files_count;$i++) $document_srl_list[] = $files_output->data[$i]->document_srl;
 
@@ -98,6 +95,22 @@
             $total_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
             for($i=$document_count;$i<$total_count;$i++) $document_list[] = new DocumentItem();
             $widget_info->document_list = $document_list;
+
+            // 모듈이 하나만 선택되었을 경우 대상 모듈 이름과 링크를 생성
+            $module_srl = explode(',',$args->module_srls);
+            if(count($module_srl)==1) {
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl[0]);
+                if($module_info->site_srl) {
+                    $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+                    if($site_info->domain) {
+                        $widget_info->more_link = getSiteUrl('http://'.$site_info->domain, '','mid', $module_info->mid);
+                    }
+                } else {
+                    $widget_info->more_link = getUrl('','mid',$module_info->mid);
+                }
+                $widget_info->module_name = $module_info->mid;
+            }
 
             Context::set('widget_info', $widget_info);
 

@@ -172,6 +172,22 @@
             // milestone
             $milestone_list = $oIssuetrackerModel->getList($module_srl, "Milestones");
             Context::set('milestone_list', $milestone_list);
+            
+            // display option
+            $oModuleModel = &getModel('module');
+            $module_config = $oModuleModel->getModulePartConfig('issuetracker',$this->module_srl);
+            if($module_config) $this->default_enable = $module_config->display_option;
+
+            // 템플릿에서 사용할 노출옵션 세팅
+            foreach($this->display_option as $opt) {
+                $obj = null;
+                $obj->title = Context::getLang($opt);
+                $checked = Context::get('d_'.$opt);
+                if($opt == 'title' || $checked==1 || (Context::get('d')!=1&&in_array($opt,$this->default_enable))) $obj->checked = true;
+                $display_option[$opt] = $obj;
+            }
+            
+            Context::set('display_option', $display_option);
 
             // type
             $type_list = $oIssuetrackerModel->getList($module_srl, "Types");
@@ -200,27 +216,7 @@
         }
 
         function dispIssuetrackerAdminProjectInfo() {
-
-            // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispIssuetrackerAdminContent();
-
-            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($this->module_info->layout_srl) {
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
-                $this->module_info->layout = $layout_info->layout;
-                $this->module_info->layout_title = $layout_info->layout_title;
-            }
-
-            // 정해진 스킨이 있으면 해당 스킨의 정보를 구함
-            if($this->module_info->skin) {
-                $oModuleModel = &getModel('module');
-                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->module_info->skin);
-                $this->module_info->skin_title = $skin_info->title;
-            }
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('project_info');
+            $this->dispIssuetrackerAdminInsertProject();
         }
 
         function dispIssuetrackerAdminAdditionSetup() {
@@ -240,47 +236,12 @@
          * @brief 권한 목록 출력
          **/
         function dispIssuetrackerAdminGrantInfo() {
-            // module_srl을 구함
-            $module_srl = Context::get('module_srl');
-
-            // module.xml에서 권한 관련 목록을 구해옴
-            $grant_list = $this->xml_info->grant;
-            Context::set('grant_list', $grant_list);
-
-            // 권한 그룹의 목록을 가져온다
-            $oMemberModel = &getModel('member');
-            $group_list = $oMemberModel->getGroups();
-            Context::set('group_list', $group_list);
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
+            Context::set('grant_content', $grant_content);
 
             $this->setTemplateFile('grant_list');
-        }
-
-        /**
-         * @brief 스킨 정보 보여줌
-         **/
-        function dispIssuetrackerAdminSkinInfo() {
-
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
-            $module_info = Context::get('module_info');
-            $skin = $module_info->skin;
-
-            $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-
-            // skin_info에 extra_vars 값을 지정
-            if(count($skin_info->extra_vars)) {
-                foreach($skin_info->extra_vars as $key => $val) {
-                    $group = $val->group;
-                    $name = $val->name;
-                    $type = $val->type;
-                    $value = $module_info->{$name};
-                    if($type=="checkbox"&&!$value) $value = array();
-                    $skin_info->extra_vars[$key]->value= $value;
-                }
-            }
-
-            Context::set('skin_info', $skin_info);
-            $this->setTemplateFile('skin_info');
         }
 
         /**
@@ -336,5 +297,29 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('checked_list');
         }
+
+        /**
+         * @brief 확장 변수 설정
+         **/
+        function dispIssuetrackerAdminExtraVars() {
+            $oDocumentModel = &getModel('document');
+            $extra_vars_content = $oDocumentModel->getExtraVarsHTML($this->module_info->module_srl);
+            Context::set('extra_vars_content', $extra_vars_content);
+
+            $this->setTemplateFile('extra_vars');
+        }
+
+        /**
+         * @brief 스킨 정보 보여줌
+         **/
+        function dispIssuetrackerAdminSkinInfo() {
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
+            Context::set('skin_content', $skin_content);
+
+            $this->setTemplateFile('skin_info');
+        }
+
     }
 ?>

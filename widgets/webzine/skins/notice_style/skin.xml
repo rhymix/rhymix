@@ -2,12 +2,12 @@
 <skin version="0.2">
 	<title xml:lang="ko">공지사항 형태의 출력</title>
 	<title xml:lang="jp">お知らせスタイル</title>
-	<title xml:lang="zh-CN">公告列表皮肤</title>
+	<title xml:lang="zh-CN">公告样式皮肤</title>
 	<title xml:lang="en">Output Result of Notice type</title>
 	<title xml:lang="zh-TW">公告樣式面板</title>
 	<description xml:lang="ko">글 목록과 이미지가 같이 출력되는 웹진형 스킨입니다. 이미지가 있는 글들만 노출이 됩니다.</description>
 	<description xml:lang="jp">コンテンツリストとイメージが一緒に出力されるウェブジンスタイルスキンです。イメージを含むコンテンツのみ表示されます。</description>
-	<description xml:lang="zh-CN">可同时显示内容及缩略图的网络杂志型默认皮肤。只显示有图片的最新主题。</description>
+	<description xml:lang="zh-CN">图文并貌新闻型最新主题列表默认皮肤。只显示有图片的最新主题。</description>
 	<description xml:lang="en">This is a webzine style skin that displays article list and images. Articles with images will be exposed only.</description>
 	<description xml:lang="zh-TW">可顯示主題列表和圖片的網路雜誌型面板。只顯示有圖片的最新主題。</description>
     <version>0.1</version>

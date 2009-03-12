@@ -18,6 +18,9 @@ td.summaryText div { line-height:20px; padding-left:20px; cursor:pointer;}
 td.summaryText div.open { background:url("../images/opener.gif") no-repeat left 4px; overflow:visible; }
 td.summaryText div.close { background:url("../images/closer.gif") no-repeat left 4px; height:20px; overflow:hidden; }
 
+ol.displayOpt { margin:0 2px 0 0; padding:0; border-bottom:none; }
+ol.displayOpt li { padding:0 2px; list-style:none; white-space:nowrap; overflow:hidden; float:left; letter-spacing:-2px;}
+
 img.btnDelete { vertical-align:middle; }
 
 td.filename { background-color:#EFEFEF; }

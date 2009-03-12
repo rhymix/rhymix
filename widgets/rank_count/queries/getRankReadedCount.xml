@@ -1,26 +1,29 @@
-<query id="getRankReadedCount" action="select">
+<query id="getRankRadedCount" action="select">
     <tables>
         <table name="documents" alias="documents" />
+        <table name="modules" alias="modules" />
         <table name="member" alias="member" />
+        <table name="member_group_member" alias="member_group" />
     </tables>
     <columns>
         <column name="member.*" />
-        <column name="sum(readed_count)" alias="count" />
+        <column name="sum(documents.readed_count)" alias="count" />
     </columns>
     <conditions>
-        <condition operation="excess" column="documents.member_srl" default="0" />
+        <condition operation="equal" column="modules.site_srl" var="site_srl" pipe="and" />
+        <condition operation="equal" column="modules.module_srl" default="documents.module_srl" pipe="and" />
+        <condition operation="equal" column="documents.member_srl" default="member.member_srl" pipe="and" />
         <condition operation="excess" column="documents.readed_count" default="0" pipe="and" />
-        <condition operation="equal" column="documents.member_srl" var="member.member_srl" pipe="and" />
-        <condition operation="equal" column="member.is_admin" var="is_admin" pipe="and" />
-        <group pipe="and">
-            <condition operation="more" column="documents.regdate" var="regdate" pipe="or" />
-        </group>
+        <condition operation="more" column="documents.regdate" var="regdate" pipe="and" />
+        <condition operation="equal" column="member_group.site_srl" var="site_srl" default="0"  pipe="and"/>
+        <condition operation="in" column="member_group.group_srl" var="selected_group_srl" pipe="and" />
+        <condition operation="equal" column="member_group.member_srl" default="member.member_srl" pipe="and" />
     </conditions>
     <groups>
         <group column="documents.member_srl" />
     </groups>
     <navigation>
         <index var="sort_index" default="count" order="desc" />
-        <list_count var="list_count" default="20" />
+        <list_count var="list_count" default="5" />
     </navigation>
 </query>

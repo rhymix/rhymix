@@ -9,7 +9,7 @@
 <input type="hidden" name="is_default" value="Y" />
 <!--@end-->
 
-    <table cellspacing="0" class="adminTable topGap">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
@@ -41,7 +41,8 @@
     <tr>
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td colspan="3">
-            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" />
+            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" id="browser_title"/>
+            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             <p>{$lang->about_browser_title}</p>
         </td>
     </tr>
@@ -58,33 +59,15 @@
         </td>
     </tr>
     <tr>
-        <th scope="col"><div>{$lang->grant}</div></th>
-        <th scope="col" class="wide" colspan="3"><div>{$lang->target}</div></th>
-    </tr>
-
-    <!--@foreach($grant_list as $key => $val)-->
-    <tr>
-        <th scope="row"><div>{$val->title}</div></th>
-        <td class="left">
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" class="checkbox" name="{$key}" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(is_array($module_info->grants[$key])&&in_array($v->group_srl,$module_info->grants[$key]))-->checked="checked"<!--@end-->/> 
-            <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
-            <!--@end-->
-        </td>
-        <td class="selectAll center"><a href="#" onclick="XE.checkboxToggleAll('{$key}', { checked:true }); return false;" class="blue">{$lang->cmd_select_all}</a></td>
-        <td class="deSelectAll center"><a href="#" onclick="XE.checkboxToggleAll('{$key}', { checked:false }); return false;" class="red">{$lang->cmd_unselect_all}</a></td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <td colspan="4" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-            <a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;" class="button"><span>{$lang->cmd_page_modify}</span></a>
+        <th colspan="4" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+            <a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;" class="button red"><span>{$lang->cmd_page_modify}</span></a>
             <!--@if($module=="admin")-->
             <a href="{getUrl('act','dispPageAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
             <!--@else-->
             <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
             <!--@end-->
-        </td>
+        </th>
     </tr>
     </table>
 

@@ -4,6 +4,7 @@
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
+<!--%load_js_plugin("filebox")-->
 
 <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
     <input type="hidden" name="page" value="{$page}" />
@@ -14,8 +15,8 @@
     <!--@end-->
 
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->member_default_info}</caption>
+    <h4 class="xeAdmin">{$lang->member_default_info}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->user_id}</div></th>
         <td class="wide">
@@ -123,7 +124,7 @@
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($member_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea fullWidth">{htmlspecialchars($member_info->description)}</textarea>
             <p>{$lang->about_member_description}</p>
         </td>
     </tr>
@@ -141,8 +142,8 @@
 
     <!--@if($extend_form_list)-->
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->member_extend_info}</caption>
+    <h4 class="xeAdmin">{$lang->member_extend_info}</h4>
+    <table cellspacing="0" class="rowTable">
     <!--@foreach($extend_form_list as $key => $val)-->
         <!--@if($val->is_active=='Y')-->
     <tr class="row{$cycle_idx}">
@@ -234,14 +235,20 @@
     </table>
     <!--@end-->
 
-    <div class="tRight">
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        <!--@if($member_srl)-->
-        <a href="{getUrl('act','dispMemberAdminInfo')}" class="button"><span>{$lang->cmd_cancel}</span></a>
-        <!--@else-->
-        <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_cancel}</span></a>
-        <!--@end-->
-    </div>
+    <table cellspacing="0" class="rowTable">
+    <tbody>
+    <tr>
+        <th class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <!--@if($member_srl)-->
+            <a href="{getUrl('act','dispMemberAdminInfo')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+            <!--@else-->
+            <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_cancel}</span></a>
+            <!--@end-->
+        </td>
+    </tr>
+    </tbody>
+    </table>
 </form>
 
 

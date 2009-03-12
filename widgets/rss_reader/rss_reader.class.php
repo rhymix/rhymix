@@ -10,6 +10,53 @@
     require_once('HTTP/Request.php');
 
     class rss_reader extends WidgetHandler {
+
+       /**
+         * @brief rss 주소로 부터 내용을 받아오는 함수
+         *
+         * tistory 의 경우 원본 주소가 location 헤더를 뿜는다.(내용은 없음) 이를 해결하기 위한 수정
+         **/
+        function rss_request($rss_url) {
+            // request rss
+            $rss_url = Context::convertEncodingStr($rss_url);
+            $URL_parsed = parse_url($rss_url);
+            if(strpos($URL_parsed["host"],'naver.com')) $rss_url = iconv('UTF-8', 'euc-kr', $rss_url);
+            $rss_url = str_replace(array('%2F','%3F','%3A','%3D','%3B','%26'),array('/','?',':','=',';','&'),urlencode($rss_url));
+
+            $URL_parsed = parse_url($rss_url);
+
+            $host = $URL_parsed["host"];
+            $port = $URL_parsed["port"];
+
+            if ($port == 0) $port = 80;
+
+            $path = $URL_parsed["path"];
+
+            if ($URL_parsed["query"] != '') $path .= "?".$URL_parsed["query"];
+
+            $oReqeust = new HTTP_Request($rss_url);
+            $oReqeust->addHeader('Content-Type', 'application/xml');
+            $oReqeust->setMethod('GET');
+
+            $user = $URL_parsed["user"];
+            $pass = $URL_parsed["pass"];
+
+            if($user) $oReqeust->setBasicAuth($user, $pass);
+
+            $oResponse = $oReqeust->sendRequest();
+            if (PEAR::isError($oResponse)) {
+                return new Object(-1, 'msg_fail_to_request_open');
+            }
+            $header = $oReqeust->getResponseHeader();
+            if($header['location']) {   
+                return $this->rss_request(trim($header['location']));
+            }
+            else {
+                return $oReqeust->getResponseBody();
+            }
+        }
+
+
         /**
          * @brief 위젯의 실행 부분
          *
@@ -24,31 +71,10 @@
             // 날짜 형태
             $DATE_FORMAT = $args->date_format ? $args->date_format : "Y-m-d H:i:s";
 
-            $URL_parsed = parse_url($args->rss_url); 
+            $buff = $this->rss_request($args->rss_url);
 
-            $host = $URL_parsed["host"]; 
-            $port = $URL_parsed["port"]; 
+            if(!$buff) return new Object(-1, 'msg_fail_to_request_open');
 
-            if ($port == 0) $port = 80; 
-
-            $path = $URL_parsed["path"]; 
-
-            if ($URL_parsed["query"] != "") $path .= "?".$URL_parsed["query"]; 
-
-            $oReqeust = new HTTP_Request($args->rss_url);
-            $oReqeust->addHeader('Content-Type', 'application/xml');
-            $oReqeust->setMethod('GET');
-
-            $user = $URL_parsed["user"];
-            $pass = $URL_parsed["pass"];
-
-            if($user) $oReqeust->setBasicAuth($user, $pass);
-
-            $oResponse = $oReqeust->sendRequest();
-            if (PEAR::isError($oResponse)) {
-                return new Object(-1, 'msg_fail_to_request_open');
-            }
-            $buff = $oReqeust->getResponseBody();
             $encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
             if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = trim(iconv($matches[1]=="ks_c_5601-1987"?"EUC-KR":$matches[1], "UTF-8", $buff));
 
@@ -56,11 +82,11 @@
 
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
-
             $rss->title = $xml_doc->rss->channel->title->body;
             $rss->link = $xml_doc->rss->channel->link->body;
 
             $items = $xml_doc->rss->channel->item;
+            
             if(!$items) return; 
             if($items && !is_array($items)) $items = array($items);
 
@@ -103,5 +129,6 @@
             $output = $oTemplate->compile($tpl_path, 'list');
             return $output;
         }
+
     }
 ?>

@@ -6,3 +6,8 @@
 span.publicItem { display:inline; margin:0; font-weight:normal; color:#666666; }
 
 .display_date { cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px; }
+
+
+.ui-sortable { list-style:none; margin:0; padding:0; }
+.ui-sortable li { display:block; width:100%; border:1px solid #E5E5E5; background:#F6F6F6; padding:5px; margin:3px 0; }
+.ui-sortable li.active { cursor:move; }

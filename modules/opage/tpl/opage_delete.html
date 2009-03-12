@@ -5,8 +5,8 @@
 <form action="./" method="get" onsubmit="return procFilter(this, delete_opage)">
 <input type="hidden" name="opage" value="{$opage}" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->confirm_delete}</caption>
+    <h4 class="xeAdmin">{$lang->confirm_delete}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->module_name}</div></th>
         <td class="wide">{$module_info->mid}</td>
@@ -16,10 +16,10 @@
         <td>{$module_info->module}</td>
     </tr>
     <tr>
-        <td colspan="2" class="right">
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
             <a href="{getUrl('act','dispOpageAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
-            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
-        </td>
+        </th>
     </tr>
     </table>
 

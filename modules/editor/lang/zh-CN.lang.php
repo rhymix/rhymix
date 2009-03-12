@@ -25,7 +25,7 @@
     $lang->msg_component_is_inserted = '您选择的组件已插入！';
     $lang->msg_component_is_first_order = '您选择的组件已到最上端位置！';
     $lang->msg_component_is_last_order = '您选择的组件已到最下端位置！';
-    $lang->msg_load_saved_doc = "有自动保存的内容， 确定要恢复吗？\n保存内容后，自动保存的文本将会被删除。";
+    $lang->msg_load_saved_doc = "有自动保存的内容， 确定要恢复吗？\n发布主题后，自动保存的文本将会被删除。";
     $lang->msg_auto_saved = '已自动保存！';
 
     $lang->cmd_disable = '非激活';
@@ -52,10 +52,12 @@
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
-    '仿宋_GB2312'=>'仿宋_GB2312',
-    '黑体'=>'黑体',
-    '楷体_GB2312'=>'楷体_GB2312',
     '宋体'=>'宋体',
+    '黑体'=>'黑体',
+    '楷体_GB2312'=>'楷体',
+    '仿宋_GB2312'=>'仿宋',
+    '隶书'=>'隶书',
+    '幼圆'=>'幼圆',
     'Arial'=>'Arial',
     'Arial Black'=>'Arial Black',
     'Tahoma'=>'Tahoma',
@@ -79,25 +81,25 @@
 
     $lang->edit->submit = '确认';
 
-    $lang->edit->fontcolor = 'Text Color';
-    $lang->edit->fontbgcolor = 'Background Color';
-    $lang->edit->bold = 'Bold';
-    $lang->edit->italic = 'Italic';
-    $lang->edit->underline = 'Underline';
-    $lang->edit->strike = 'Strike';
-    $lang->edit->sup = 'Sup';
-    $lang->edit->sub = 'Sub';
-    $lang->edit->redo = 'Re Do';
-    $lang->edit->undo = 'Un Do';
-    $lang->edit->align_left = 'Align Left';
-    $lang->edit->align_center = 'Align Center';
-    $lang->edit->align_right = 'Align Right';
-    $lang->edit->align_justify = 'Align Justify';
-    $lang->edit->add_indent = 'Indent';
-    $lang->edit->remove_indent = 'Outdent';
-    $lang->edit->list_number = 'Orderd List';
-    $lang->edit->list_bullet = 'Unordered List';
-    $lang->edit->remove_format = 'Style Remover';
+    $lang->edit->fontcolor = '文本颜色';
+    $lang->edit->fontbgcolor = '背景颜色';
+    $lang->edit->bold = '粗体';
+    $lang->edit->italic = '斜体';
+    $lang->edit->underline = '下划线';
+    $lang->edit->strike = '取消线';
+    $lang->edit->sup = '上标';
+    $lang->edit->sub = '下标';
+    $lang->edit->redo = '恢复';
+    $lang->edit->undo = '撤销';
+    $lang->edit->align_left = '左对齐';
+    $lang->edit->align_center = '居中对齐';
+    $lang->edit->align_right = '右对齐';
+    $lang->edit->align_justify = '两端对齐';
+    $lang->edit->add_indent = '增加缩进';
+    $lang->edit->remove_indent = '减少缩进';
+    $lang->edit->list_number = '有序列表';
+    $lang->edit->list_bullet = '无序列表';
+    $lang->edit->remove_format = '删除文字格式';
 
     $lang->edit->help_fontcolor = '文本颜色';
     $lang->edit->help_fontbgcolor = '背景颜色';
@@ -105,29 +107,29 @@
     $lang->edit->help_italic = '斜体';
     $lang->edit->help_underline = '下划线';
     $lang->edit->help_strike = '取消线';
-    $lang->edit->help_sup = 'Sup';
-    $lang->edit->help_sub = 'Sub';
-    $lang->edit->help_redo = '重新操作';
-    $lang->edit->help_undo = '返回操作';
+    $lang->edit->help_sup = '上标';
+    $lang->edit->help_sub = '下标';
+    $lang->edit->help_redo = '恢复';
+    $lang->edit->help_undo = '撤销';
     $lang->edit->help_align_left = '左对齐';
     $lang->edit->help_align_center = '居中对齐';
     $lang->edit->help_align_right = '右对齐';
-    $lang->edit->help_add_indent = '缩进';
-    $lang->edit->help_remove_indent = '清除缩进';
+    $lang->edit->help_add_indent = '增加缩进';
+    $lang->edit->help_remove_indent = '减少缩进';
     $lang->edit->help_list_number = '有序列表';
     $lang->edit->help_list_bullet = '无序列表';
     $lang->edit->help_use_paragraph = '分段请按 ctrl＋回车． (发表主题快捷键：alt＋S)';
 
-    $lang->edit->url = 'URL';
-    $lang->edit->blockquote = 'Blockquote';
-    $lang->edit->table = 'Table';
-    $lang->edit->image = 'Image';
-    $lang->edit->multimedia = 'Movie';
-    $lang->edit->emoticon = 'Emoticon';
+    $lang->edit->url = '插入链接';
+    $lang->edit->blockquote = '插入注释框';
+    $lang->edit->table = '表格';
+    $lang->edit->image = '图片';
+    $lang->edit->multimedia = '视频';
+    $lang->edit->emoticon = '表情图标';
 
     $lang->edit->upload = '上传';
     $lang->edit->upload_file = '上传附件';
-    $lang->edit->link_file = '插入内容';
+    $lang->edit->link_file = '插入附件';
     $lang->edit->delete_selected = '删除所选';
 
     $lang->edit->icon_align_article = '占一个段落';

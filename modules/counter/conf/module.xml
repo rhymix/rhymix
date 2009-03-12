@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
+    <permissions />
     <actions>
         <action name="dispCounterAdminIndex" type="view" standalone="true" admin_index="true" />
         <action name="procCounterExecute" type="controller" standalone="true" />

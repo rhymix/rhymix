@@ -15,6 +15,20 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srls로 위젯에서 변경)
+            $oModuleModel = &getModel('module');
+            if($args->mid_list) {
+                $mid_list = explode(",",$args->mid_list);
+                if(count($mid_list)) {
+                    $module_srls = $oModuleModel->getModuleSrlByMid($mid_list);
+                    if(count($module_srls)) $args->module_srls = implode(',',$module_srls);
+                    else $args->module_srls = null;
+                } 
+            }
+
+            // 선택된 모듈이 없으면 실행 취소
+            if(!$args->module_srls) return Context::getLang('msg_not_founded');
+
             // 제목
             $title = $args->title;
 
@@ -26,31 +40,16 @@
             $subject_cut_size = $args->subject_cut_size;
             if(!$subject_cut_size) $subject_cut_size = 0;
 
-            $oModuleModel = &getModel('module');
-
-            // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srl로 위젯에서 변경)
-            if($args->mid_list) {
-                $mid_list = explode(",",$args->mid_list);
-                if(count($mid_list)) {
-                    $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                } else {
-                    $site_module_info = Context::get('site_module_info');
-                    if($site_module_info) {
-                        $margs->site_srl = $site_module_info->site_srl;
-                        $oModuleModel = &getModel('module');
-                        $output = $oModuleModel->getMidList($margs);
-                        if(count($output)) $mid_list = array_keys($output);
-                        $module_srl = $oModuleModel->getModuleSrlByMid($mid_list);
-                    }
-                }
-            } else $module_srl = explode(',',$args->module_srls);
-            if(!is_array($module_srl)) $module_srl = array($module_srl);
-            for($i=0;$i<count($module_srl);$i++) $modules[$module_srl[$i]] = null;
-
-            // 대상 모듈의 정보를 구함
-            $module_list = $oModuleModel->getModulesInfo($module_srl);
+            // 대상 모듈 목록을 구함
+            $module_list = $oModuleModel->getModulesInfo($args->module_srls);
+            if(!count($module_list)) return Context::getLang('msg_not_founded');
 
             // 각 모듈별로 먼저 정리 시작
+            $site_domain = array(0 => Context::getDefaultUrl());
+            $site_module_info = Context::get('site_module_info');
+            if($site_module_info) $site_domain[$site_module_info->site_srl] = $site_module_info->domain;
+
+            $module_srls = array();
             foreach($module_list as $module) {
                 $modules[$module->module_srl]->title = $module->browser_title;
                 $modules[$module->module_srl]->mid = $module->mid;
@@ -58,19 +57,32 @@
                 $modules[$module->module_srl]->document_count = 0;
                 $modules[$module->module_srl]->comment_count = 0;
 
+                if(!$site_domain[$module->site_srl]) {
+                    $site_info = $oModuleModel->getSiteInfo($module->site_srl);
+                    $site_domain[$site_info->site_srl] = $site_info->domain;
+                }
+                $modules[$module->module_srl]->domain = $site_domain[$module->site_srl];
+
+
                 // 최근 등록된 댓글의 정보
                 $last_comment = null;
                 $last_args = null;
                 $last_args->module_srl = $module->module_srl;
                 $output = executeQuery('widgets.forum.getLatestComments', $last_args);
-                if($output->data && is_array($output->data)) $last_comment = array_pop($output->data);
+                if($output->data && is_array($output->data)) {
+                    $last_comment = array_pop($output->data);
+                    $last_comment->content_type = 'comment';
+                }
 
                 // 최근 등록된 글의 정보
                 $last_document = null;
                 $last_args = null;
                 $last_args->module_srl = $module->module_srl;
                 $output = executeQuery('widgets.forum.getLatestDocuments', $last_args);
-                if($output->data && is_array($output->data)) $last_document = array_pop($output->data);
+                if($output->data && is_array($output->data)) {
+                    $last_document = array_pop($output->data);
+                    $last_document->content_type = 'document';
+                }
 
                 $last_item = null;
                 if($last_comment && $last_document) {
@@ -84,10 +96,11 @@
                 $modules[$module->module_srl]->last_item = $last_item;
 
                 if($last_item && $last_item->regdate > date("YmdHis",time()-$duration_new*60*60)) $modules[$module->module_srl]->is_new = true;
+                $module_srls[] = $module->module_srl;
             }
 
             // 각 모듈별 전체글을 구함
-            if($module_srl) $total_documents_args->module_srls = implode(',',$module_srl);
+            if($module_srls) $total_documents_args->module_srls = implode(',',$module_srls);
             $total_documents_output = executeQueryArray('widgets.forum.getTotalDocuments',$total_documents_args);
             if($total_documents_output->data) {
                 foreach($total_documents_output->data as $val) {
@@ -96,7 +109,7 @@
             }
 
             // 각 모듈별 댓글 수를 구함
-            $total_comments_args->module_srls = implode(',',$module_srl);
+            $total_comments_args->module_srls = implode(',',$module_srls);
 
             $total_comments_output = executeQueryArray('widgets.forum.getTotalComments',$total_comments_args);
             if($total_comments_output->data) {

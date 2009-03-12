@@ -27,6 +27,6 @@
         'homepage' => '主頁',
         'regdate' => '日期',
         'last_update' => '最後更新',
-        'ipaddress' => 'IP 位址',
+        'ipaddress' => 'IP位址',
     );
 ?>

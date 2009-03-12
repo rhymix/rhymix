@@ -28,9 +28,9 @@
      $lang->diff_cmd = 'DIF应用程序位置';
      $lang->about_diff_cmd = '为比较SVN revision，请输入diff应用程序位置。 (ex: /usr/bin/diff)';
      $lang->svn_userid = 'SVN ID';
-     $lang->about_svn_userid = 'If authentication is necessary, input userid for accessing the SVN repository';
-     $lang->svn_passwd = 'SVN password';
-     $lang->about_svn_passwd = 'If authentication is necessary, input password for accessing the SVN repository';
+     $lang->about_svn_userid = '请输入SVN ID。';
+     $lang->svn_passwd = 'SVN密码';
+     $lang->about_svn_passwd = '请输入SVN密码。';
 
      $lang->issue = '问题';
      $lang->total_issue = '全部问题';
@@ -41,6 +41,7 @@
      $lang->assignee = '所有者';
      $lang->status = '状态';
      $lang->action = '动作';
+     $lang->display_option = '显示选项';
 
      $lang->history_format_not_source = '<span class="key">[key]</span>修改为<span class="target">[target]</span>';
      $lang->history_format = '<span class="key">[key]</span>，从<span class="source">[source]</span>修改为<span class="target">[target]</span>';
@@ -81,7 +82,7 @@
              'dispIssuetrackerViewIssue' => '查看问题',
              'dispIssuetrackerNewIssue' => '提交问题',
              'dispIssuetrackerViewMilestone' => '开发计划',
-             'dispIssuetrackerTimeline' => 'Timeline',
+             'dispIssuetrackerTimeline' => '时间轴',
              'dispIssuetrackerViewSource' => '查看代码',
              'dispIssuetrackerDownload' => '下载',
              'dispIssuetrackerAdminProjectSetting' => '设置',
@@ -95,8 +96,15 @@
     $lang->not_assigned = '没有分配';
     $lang->not_assigned_description = '没被分配的问题目录';
     $lang->timeline_msg = array(
-        'changed' => 'changed',
-        'created' => 'created'
+        'changed' => '修改',
+        'created' => '生成'
     );
-    $lang->cmd_manage_issue = 'Manage issues';
+    $lang->cmd_manage_issue = '问题管理';
+    $lang->msg_changes_from = '开始日期';
+    $lang->duration = '期间';
+    $lang->target_list = array(
+        'issue_created' => '生成的问题',
+        'issue_changed' => '修改过的问题',
+        'commit' => '代码更新'
+        );
 ?>

@@ -47,6 +47,7 @@
          * @brief constructor
          **/
         function XmlJsFilter($path, $xml_file) {
+            if(substr($path,-1)!=='/') $path .= '/';
             $this->xml_file = sprintf("%s%s",$path, $xml_file);
             $this->js_file = $this->_getCompiledFileName($this->xml_file);
         }

@@ -1,10 +1,10 @@
 <!--%import("filter/insert_config.xml")-->
 
-<h3>{$lang->ldap} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->ldap} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 
-    <table cellspacing="0" class="adminTable topGap">
+    <table cellspacing="0" class="rowTable">
     <tr class="row2">
         <th scope="col"><div>{$lang->use_ldap}</div></th>
         <td>
@@ -76,9 +76,9 @@
         </td>
     </tr>
     <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 

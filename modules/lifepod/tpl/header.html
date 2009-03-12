@@ -1,13 +1,13 @@
 <!--%import("js/lifepod_admin.js")-->
 
-<h3>{$lang->lifepod} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->lifepod} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_lifepod)}</div>
 
 <!--@if($module_info)-->
 <div class="header4">
     <!--@if($module_info->mid)-->
-    <h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+    <h4 class="xeAdmin">{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
     <!--@end-->
 
     <ul class="localNavigation">

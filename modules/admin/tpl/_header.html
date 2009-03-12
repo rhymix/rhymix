@@ -1,0 +1,44 @@
+<!--%import("css/layout.css")-->
+<!--%import("js/admin.js")-->
+<div id="xeAdmin" class="<!--@if(!$act || ($act == 'dispAdminIndex' || $act == 'dispAdminConfig'))-->ece<!--@else-->ec<!--@end-->">
+	<div class="header">
+		<h1 class="xeAdmin"><a href="{getUrl('','module','admin')}">XpressEngine</a></h1>
+		<ul class="gnb">
+            <li><a href="#" onclick="doAdminLogout(); return false;">Logout</a></li>
+			<!--@if($logged_info->is_admin=='Y')--><li><a href="{getUrl('','module','admin','act','dispAdminConfig')}">Settings</a></li><!--@end-->
+			<li><a href="#" onclick="toggleAdminLang();return false;">Language</a>
+				<ul id="adminLang">
+                    <!--@foreach($lang_supported as $key => $val)-->
+					<li <!--@if($key == $lang_type)-->class="open"<!--@end-->><a href="#" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+                    <!--@end-->
+				</ul>
+			</li>
+		</ul>
+		<ul class="lnb">
+			<li class="core <!--@if(!$package_selected)-->selected<!--@end-->"><a href="{getUrl('','module','admin')}">{$lang->control_panel}</a></li>
+
+            <!--@foreach($package_modules as $key => $val)-->
+                <li class="{$val->position} <!--@if($val->selected)-->selected<!--@end-->"><a href="{getUrl('','module','admin','act',$val->index_act)}" title="{trim($val->description)}">{$val->title}</a></li>
+            <!--@end-->
+		</ul>
+	</div>
+	<hr />
+	<div class="body">
+		<div class="extension e1">
+			<div class="section">
+				<ul class="navigation">
+                    <!--@foreach($lang->module_category_title as $key => $val)-->
+					<li id="module_{$key}" class="<!--@if($selected_module_category == $key)-->open<!--@end-->"><a href="#"  onclick="toggleModuleMenu('{$key}'); return false;">{$val}</a>
+						<ul>
+                            <!--@foreach($installed_modules as $k => $v)-->
+                            <!--@if($v->category == $key)-->
+                            <li <!--@if($v->selected)-->class="active"<!--@end-->><a href="{getUrl('','module','admin','act',$v->index_act)}" title="{$v->description}">{$v->title}</a></li>
+                            <!--@end-->
+                            <!--@end-->
+						</ul>
+					</li>
+                    <!--@end-->
+                </ul>
+            </div>
+		</div>
+		<hr />

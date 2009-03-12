@@ -1,0 +1,84 @@
+<!--#include("./header.html")-->
+
+
+<!-- 목록 -->
+<form action="./" method="get" onsubmit="return doChangeCategory(this);" id="fo_list">
+<table cellspacing="0" class="rowTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+<thead>
+    <tr>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
+        <th scope="col">
+            <div>
+                <input type="hidden" name="module" value="{$module}" />
+                <input type="hidden" name="act" value="{$act}" />
+                <select name="module_category_srl" class="fullWidth">
+                    <option value="">{$lang->module_category}</option>
+                    <!--@foreach($module_category as $key => $val)-->
+                    <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                    <!--@end-->
+                    <option value="">---------</option>
+                    <option value="-1">{$lang->cmd_management}</option>
+                </select>
+                <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
+            </div>
+        </th>
+        <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col" colspan="3"><div>&nbsp;</div></th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($wiki_list as $no => $val)-->
+    <tr>
+        <td class="center number">{$no}</td>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
+        <td>
+            <!--@if(!$val->module_category_srl)-->
+                <!--@if($val->site_srl)-->
+                {$lang->virtual_site}
+                <!--@else-->
+                {$lang->not_exists}
+                <!--@end-->
+            <!--@else-->
+                {$module_category[$val->module_category_srl]->title}
+            <!--@end-->
+        </td>
+        <td>{htmlspecialchars($val->mid)}</td>
+        <td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->browser_title)}</a></td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td><a href="{getUrl('act','dispWikiAdminInsertWiki','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <td><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;" class="buttonSet buttonCopy"><span>{$lang->cmd_copy}</span></a></td>
+        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispWikiAdminDeleteWiki','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a><!--@else-->&nbsp;<!--@end--></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+</form>
+
+<!-- 버튼 -->
+<div class="clear">
+    <div class="fl">
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="button green"><span>{$lang->cmd_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleAdditionSetup')}" onclick="doCartSetup(this.href); return false;" class="button red"><span>{$lang->cmd_addition_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="button blue"><span>{$lang->cmd_manage_grant}</span></a>
+    </div>
+    <div class="fr">
+        <a href="{getUrl('act','dispWikiAdminInsertWiki','module_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+    </div>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <strong>{$page_no}</strong> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+</div>

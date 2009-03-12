@@ -6,8 +6,8 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->confirm_delete}</caption>
+    <h4 class="xeAdmin">{$lang->confirm_delete}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->module_name}</div></th>
         <td class="wide">{$module_info->mid}</td>
@@ -21,10 +21,10 @@
         <td>{$module_info->document_count}</td>
     </tr>
     <tr>
-        <td class="right" colspan="2">
+        <th class="button" colspan="2">
+            <span class="button strong black"><input type="submit" value="{$lang->cmd_delete}" /></span>
             <a href="{getUrl('act','dispIssuetrackerAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
-            <span class="button"><input type="submit" value="{$lang->cmd_delete}" /></span>
-        </td>
+        </th>
     </tr>
     </table>
 

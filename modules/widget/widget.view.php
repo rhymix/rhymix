@@ -18,6 +18,9 @@
          * @brief 위젯의 상세 정보(conf/info.xml)를 팝업 출력
          **/
         function dispWidgetInfo() {
+            // 위젯 스킨명이 있을 경우 위젯 스킨 상세 정보 함수로 출력
+            if(Context::get('skin')) return $this->dispWidgetSkinInfo();
+
             // 선택된 위젯 정보를 구함
             $oWidgetModel = &getModel('widget');
             $widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
@@ -31,13 +34,34 @@
         }
 
         /**
+         * @brief 위젯 스킨의 상세 정보(skin.xml)를 팝업 출력
+         **/
+        function dispWidgetSkinInfo() {
+            $widget = Context::get('selected_widget');
+            $skin = Context::get('skin');
+
+            $path = sprintf('./widgets/%s/', $widget);
+
+            // 선택된 위젯 정보를 구함
+            $oModuleModel = &getModel('module');
+            $skin_info = $oModuleModel->loadSkinInfo($path, $skin);
+
+            Context::set('skin_info',$skin_info);
+
+            // 위젯을 팝업으로 지정
+            $this->setLayoutFile('popup_layout');
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('skin_info');
+        }
+
+        /**
          * @brief 위젯의 코드 생성기
          **/
         function dispWidgetGenerateCode() {
             // 선택된 위젯 정보를 구함
             $oWidgetModel = &getModel('widget');
 
-            $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             $selected_widget = Context::get('selected_widget');
             if(!$selected_widget) $selected_widget = $widget_list[0]->widget;
@@ -57,6 +81,11 @@
             $args->site_srl = $site_module_info->site_srl;
             $mid_list = $oModuleModel->getMidList($args);
 
+            // 그룹 목록을 가져옴
+            $oMemberModel = &getModel('member');
+            $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
+            Context::set('group_list', $group_list);
+
             // module_category와 module의 조합
             if($module_categories) {
                 foreach($mid_list as $module_srl => $module) {
@@ -67,6 +96,11 @@
             }
 
             Context::set('mid_list',$module_categories);
+
+            // 메뉴 목록을 구함
+            $output = executeQueryArray('menu.getMenus');
+            Context::set('menu_list',$output->data);
+
 
             // 스킨의 정보를 구함
             $skin_list = $oModuleModel->getSkins($widget_info->path);
@@ -95,5 +129,26 @@
             $this->setTemplateFile('widget_generate_code_in_page');
         }
 
+        /**
+         * @brief 페이지 관리에서 사용될 위젯 스타일 코드 생성 팝업
+         **/
+        function dispWidgetStyleGenerateCodeInPage() {
+
+            // 위젯 스타일 목록
+            $oWidgetModel = &getModel('widget');
+            $widgetStyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
+            Context::set('widgetStyle_list',$widgetStyle_list);
+
+            // 선택된 위젯 스타일 목록
+            $widgetstyle = Context::get('widgetstyle');
+            $widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetstyle);
+            if($widgetstyle && $widgetstyle_info){
+                Context::set('widgetstyle_info',$widgetstyle_info);
+            }
+            
+            $this->dispWidgetGenerateCode();
+            $this->setLayoutFile('popup_layout');
+            $this->setTemplateFile('widget_style_generate_code_in_page');
+        }
     }
 ?>

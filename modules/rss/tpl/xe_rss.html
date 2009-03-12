@@ -14,7 +14,7 @@
             <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title>
             <author>{str_replace('\'', '&apos;',$oDocument->getNickName())}</author>
             <link>{$oDocument->getPermanentUrl()}</link>
-            <!--@if($rss_config[$oDocument->get('module_srl')]=='Y')-->
+            <!--@if($open_rss_config[$oDocument->get('module_srl')]->open_rss=='Y')-->
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
             <!--@else-->
             <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>

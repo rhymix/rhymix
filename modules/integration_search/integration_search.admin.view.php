@@ -38,7 +38,8 @@
             $module_categories = $oModuleModel->getModuleCategories();
 
             // 생성된 mid목록을 구함
-            $mid_list = $oModuleModel->getMidList();
+            $obj->site_srl = 0;
+            $mid_list = $oModuleModel->getMidList($obj);
 
             // module_category와 module의 조합
             if($module_categories) {

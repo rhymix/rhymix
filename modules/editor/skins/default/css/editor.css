@@ -46,8 +46,8 @@ a.skipToolBox:active span{ width:auto; height:auto; padding:3px 15px; font-weigh
 .toolBox:after{ content:""; display:block; clear:both;}
 .toolBox .item{ float:left; margin:0 5px 5px 0;}
 .toolBox .item li{ float:left;}
-.toolBox .item li button{ display:block; border:0; width:21px; height:21px; background-position:no-repeat; cursor:pointer;}
-.toolBox .item li button span{ position:relative; z-index:-1; font-size:0; line-height:0;}
+.toolBox .item li button{ display:block; border:0; width:21px; height:21px; background-position:no-repeat; cursor:pointer; overflow:hidden; }
+.toolBox .item li button span {position:relative !important; z-index:-1 !important; font-size:0 !important; line-height:0 !important;}
 
 .toolBox .extension2{ float:left; position:relative; margin:0 5px 5px 0;}
 .toolBox .extension2 .exButton{ float:left; border:0; width:68px; height:21px; background-repeat:no-repeat; background-position:-579px 0; cursor:pointer;}

@@ -5,10 +5,10 @@
      * @brief  설문조사 (poll) 모듈의 기본 언어팩
      **/
 
-    $lang->poll = "설문조사"; 
-    $lang->poll_stop_date = "설문조사 종료일";
-    $lang->poll_join_count = "참가자";
-    $lang->poll_checkcount = "필수 선택 항목수";
+    $lang->poll = '설문조사'; 
+    $lang->poll_stop_date = '설문조사 종료일';
+    $lang->poll_join_count = '참가자';
+    $lang->poll_checkcount = '필수 선택 항목수';
 
     $lang->cmd_poll_list = '설문조사 목록 보기';
     $lang->cmd_delete_checked_poll = '선택항목 삭제';
@@ -28,7 +28,7 @@
 
     $lang->cmd_null_item = "설문조사로 등록할 값이 없습니다.\n다시 설정해주세요";
 
-    $lang->confirm_poll_submit = "설문조사에 응하시겠습니까?";
+    $lang->confirm_poll_submit = '설문조사에 응하시겠습니까?';
 
     $lang->search_target_list = array(
         'title' => '제목',

@@ -1,9 +1,9 @@
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <tr>
     <th scope="row"><div>{$lang->module_category}</div></th>
-    <td>
+    <td class="wide">
         <!--@if(!$module_info->module_category_srl)-->
             {$lang->not_exists}
         <!--@else-->
@@ -74,16 +74,12 @@
     <th scope="row"><div>{$lang->footer_text}</div></th>
     <td>{htmlspecialchars($module_info->footer_text)}&nbsp;</td>
 </tr>
-<tr class="row2">
-    <th scope="row"><div>{$lang->admin_id}</div></th>
-    <td>{implode(",",$module_info->admin_id)}&nbsp;</td>
-</tr>
 <tr>
-    <td colspan="2" class="right">
-        <a href="{getUrl('act','dispSpringnoteAdminInsertSpringnote')}" class="button"><span>{$lang->cmd_modify}</span></a>
+    <th colspan="2" class="button">
+        <a href="{getUrl('act','dispSpringnoteAdminInsertSpringnote')}" class="button black strong"><span>{$lang->cmd_modify}</span></a>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispSpringnoteAdminContent','module_srl','')}" class="button"><span>{$lang->cmd_springnote_list}</span></a>
         <!--@end-->
-    </td>
+    </th>
 </tr>
 </table>

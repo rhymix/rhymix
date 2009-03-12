@@ -2,11 +2,11 @@
     /**
      * @file   zh-CN.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  简体中文语言包 (只收录基本内容)
+     * @brief  会员模块简体中文语言包
      **/
 
     $lang->member = '会员';
-    $lang->member_default_info = '基本信息';
+    $lang->member_default_info = '基本资料';
     $lang->member_extend_info = '扩展信息';
     $lang->default_group_1 = "准会员";
     $lang->default_group_2 = "正会员";
@@ -27,7 +27,7 @@
     $lang->group_title = '用户组标题';
     $lang->group_srl = '用户组编号';
     $lang->signature = '签名';
-    $lang->profile_image = '签名图片';
+    $lang->profile_image = '个性头像';
     $lang->profile_image_max_width = '宽度限制';
     $lang->profile_image_max_height = '高度限制';
     $lang->image_name = '昵称图片';
@@ -36,6 +36,10 @@
     $lang->image_mark = '用户图标';
     $lang->image_mark_max_width = '宽度限制';
     $lang->image_mark_max_height = '高度限制';
+    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark_max_width = '宽度限制';
+    $lang->group_image_mark_max_height = '高度限制';
+    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->signature_max_height = '签名高度限制';
     $lang->enable_openid = '支持OpenID';
     $lang->enable_join = '允许会员注册';
@@ -59,6 +63,7 @@
             'N' => '只允许好友',
     );
     $lang->about_allow_message = '可以指定接收短消息方法及对象。';
+    $lang->logged_users = '在线用户';
 
     $lang->webmaster_name = '管理员名';
     $lang->webmaster_email = '管理员电子邮件';
@@ -78,30 +83,31 @@
         'last_login' => '最后登录',
         'last_login_more' => '最后登录(以上)',
         'last_login_less' => '最后登录시(以下)',
-        'extra_vars' => '扩展变数',
+        'extra_vars' => '扩展信息',
     );
 
 
     $lang->cmd_login = '登录';
     $lang->cmd_logout = '退出';
     $lang->cmd_signup = '新会员注册';
-    $lang->cmd_modify_member_info = '修改会员信息';
+    $lang->cmd_site_signup = '注册';
+    $lang->cmd_modify_member_info = '编辑个人资料';
     $lang->cmd_modify_member_password = '修改密码';
-    $lang->cmd_view_member_info = '查看会员信息';
+    $lang->cmd_view_member_info = '个人资料';
     $lang->cmd_leave = '注销';
     $lang->cmd_find_member_account = '查找用户名/密码';
 
     $lang->cmd_member_list = '会员目录';
-    $lang->cmd_module_config = '基本设置';
-    $lang->cmd_member_group = '用户组管理';
+    $lang->cmd_module_config = '常规选项';
+    $lang->cmd_member_group = '用户组';
     $lang->cmd_send_mail = '发送邮件';
-    $lang->cmd_manage_id = '禁止用户名管理';
-    $lang->cmd_manage_form = '注册表单管理';
-    $lang->cmd_view_own_document = '查看发表主题';
+    $lang->cmd_manage_id = '禁止用户名';
+    $lang->cmd_manage_form = '扩展注册表单';
+    $lang->cmd_view_own_document = '我的话题';
     $lang->cmd_trace_document = '主题追踪';
     $lang->cmd_trace_comment = '评论追踪';
-    $lang->cmd_view_scrapped_document = '查看收藏';
-    $lang->cmd_view_saved_document = '查看临时保存箱';
+    $lang->cmd_view_scrapped_document = '我的收藏';
+    $lang->cmd_view_saved_document = '临时保存箱';
     $lang->cmd_send_email = '发送邮件';
 
     $lang->msg_email_not_exists = "没有找到您输入的Email地址。";
@@ -142,6 +148,7 @@
     $lang->msg_not_uploaded_profile_image = '不能登录签名图像！';
     $lang->msg_not_uploaded_image_name = '不能登录昵称图像！';
     $lang->msg_not_uploaded_image_mark = '不能登录用户图标！';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
     $lang->msg_accept_agreement = '您必须同意条款。'; 
 
@@ -184,6 +191,7 @@
 
     $lang->about_image_name = '用户昵称可以用小图片来替代显示。';
     $lang->about_image_mark = '显示在用户昵称前的小图标。';
+    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = '可以使用签名图片。';
     $lang->about_signature_max_height = '可以限制签名栏高度(0或留空为不限制)。';
     $lang->about_accept_agreement = '已阅读全部条款并同意。'; 

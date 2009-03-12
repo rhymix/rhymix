@@ -33,6 +33,7 @@
     $lang->about_widget_cache = 'Les données d\'antémémoire peuvent être utilisées pendant le temps que vous désignez.';
 
     $lang->generated_code = 'Code généré';
+    $lang->widgetstyle= '위젯스타일';
 
     $lang->msg_widget_is_not_exists = "Le Gadget de(d') '%s' n'existe pas.";
     $lang->msg_widget_object_is_null = "L'Objet de '%s' n'a pas pu être créé.";

@@ -1,18 +1,21 @@
 <query id="getFileList" action="select">
     <tables>
         <table name="files" />
+        <table name="modules" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="files.*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="s_module_srl" />
-        <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
-        <condition operation="more" column="download_count" var="s_download_count" pipe="and" />
-        <condition operation="equal" column="direct_download" var="direct_download" pipe="and" />
+        <condition operation="equal" column="modules.site_srl" var="site_srl" />
+        <condition operation="in" column="modules.module_srl" var="module_srl" pipe="and" />
+        <condition operation="equal" column="files.module_srl" default="modules.module_srl" pipe="and" />
+        <condition operation="equal" column="files.isvalid" default="Y" pipe="and" />
+        <condition operation="more" column="files.download_count" var="download_count" pipe="and" />
+        <condition operation="equal" column="files.direct_download" var="direct_download" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="download_count" order="desc" />
+        <index var="sort_index" default="files.download_count" order="desc" />
         <list_count var="list_count" default="20" />
     </navigation>
 </query>

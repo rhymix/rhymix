@@ -30,6 +30,12 @@
 
                 $poll_index = $tmp_arr[1];
 
+                if(Context::get('is_logged')) {
+                    $logged_info = Context::get('logged_info');
+                    // 세션에서 최고 관리자가 아니면 태그 제거
+                    if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val);
+                }
+
                 if($tmp_arr[0]=='title') $tmp_args[$poll_index]->title = $val;
                 else if($tmp_arr[0]=='checkcount') $tmp_args[$poll_index]->checkcount = $val;
                 else if($tmp_arr[0]=='item') $tmp_args[$poll_index]->item[] = $val;

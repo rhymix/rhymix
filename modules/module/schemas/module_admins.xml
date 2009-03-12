@@ -1,0 +1,5 @@
+<table name="module_admins">
+    <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_module_admin" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" unique="unique_module_admin" />
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>

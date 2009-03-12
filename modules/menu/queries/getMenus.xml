@@ -5,6 +5,9 @@
     <columns>
         <column name="*" />
     </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" filter="number" default="0" notnull="notnull" />
+    </conditions>
     <navigation>
         <index var="sort_index" default="listorder" order="asc" />
     </navigation>

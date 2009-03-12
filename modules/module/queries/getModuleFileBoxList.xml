@@ -1,0 +1,15 @@
+<query id="getModuleFileBoxList" action="select">
+    <tables>
+        <table name="module_filebox" />
+    </tables>
+    <columns />
+    <conditions>
+        <condition operation="in" column="fileextension" var="fileextension" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="module_filebox_srl" order="desc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

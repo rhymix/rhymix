@@ -232,7 +232,7 @@ EndOfLicense;
         'mysql_innodb' => 'mysql DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다',
         'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다)',
         'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
-        'cubrid' => 'CUBRID DB를 이용합니다.',
+        'cubrid' => 'CUBRID DB를 이용합니다. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'PostgreSql을 이용합니다',
         'firebird' => 'Firebird를 이용합니다',
     );
@@ -271,5 +271,5 @@ EndOfLicense;
     $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요";
     $lang->msg_table_is_exists = "이미 DB에 테이블이 생성되어 있습니다.\nconfig파일을 재생성하였습니다";
     $lang->msg_install_completed = "설치가 완료되었습니다.\n감사합니다";
-    $lang->msg_install_failed = "설치 파일 생성시에 오류가 발생하였습니다.";
+    $lang->msg_install_failed = '설치 파일 생성시에 오류가 발생하였습니다.';
 ?>

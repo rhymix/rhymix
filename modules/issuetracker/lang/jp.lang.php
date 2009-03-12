@@ -41,6 +41,7 @@
      $lang->assignee = '担当者';
      $lang->status = 'ステータス';
      $lang->action = '動作';
+     $lang->display_option = 'Display Option';
 
      $lang->history_format_not_source = '<span class="target">[target]</span> へ <span class="key">[key]</span> 変更';
      $lang->history_format = '<span class="source">[source]</span> から <span class="target">[target]</span> へ <span class="key">[key]</span> 変更';
@@ -100,4 +101,11 @@
     );
 
     $lang->cmd_manage_issue = 'イシューの管理';
+    $lang->msg_changes_from = 'View changes from';
+    $lang->duration = 'Duration';
+    $lang->target_list = array(
+        'issue_created' => 'Created issues',
+        'issue_changed' => 'Changed issues',
+        'commit' => 'Repository checkins'
+        );
 ?>

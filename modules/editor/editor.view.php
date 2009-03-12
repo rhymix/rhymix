@@ -24,9 +24,12 @@
             $editor_sequence = Context::get('editor_sequence ');
             $component = Context::get('component');
 
+            $site_module_info = Context::get('site_module_info');
+            $site_srl = (int)$site_module_info->site_srl;
+
             // component 객체를 받음
             $oEditorModel = &getModel('editor');
-            $oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence);
+            $oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence, $site_srl);
             if(!$oComponent->toBool()) {
                 Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
                 $this->setTemplatePath($this->module_path.'tpl');
@@ -52,8 +55,11 @@
         function dispEditorComponentInfo() {
             $component_name = Context::get('component_name');
 
+            $site_module_info = Context::get('site_module_info');
+            $site_srl = (int)$site_module_info->site_srl;
+
             $oEditorModel = &getModel('editor');
-            $component = $oEditorModel->getComponent($component_name);
+            $component = $oEditorModel->getComponent($component_name, $site_srl);
             Context::set('component', $component);
 
             $this->setTemplatePath($this->module_path.'tpl');

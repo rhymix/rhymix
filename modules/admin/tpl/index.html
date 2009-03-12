@@ -1,198 +1,211 @@
+<!--#include("_header.html")-->
+
 <!--%import("../../install/lang")-->
 <!--%import("../../module/tpl/js/module_admin.js",optimized=false)-->
 <!--%import("../../addon/tpl/js/addon.js",optimized=false)-->
 <!--%import("../../addon/tpl/filter/toggle_activate_addon.xml")-->
 
-<h3 class="bottomGap">{$lang->welcome_to_xe}</h3>
+<div class="content">
+    <!--@if($logged_info->is_admin == 'Y')-->
+        <p class="path">
+            <a href="{getUrl('','module','admin')}">{$lang->control_panel}</a> 
+            &gt; <a href="{getUrl('','mid',$mid,'module',$module,'act',$act)}">{$lang->admin_index}</a>
+        </p>
+    <!--@end-->
 
-<div class="adminLeftContent">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->env_information}</caption>
-    <tbody>
-    <tr>
-        <th><div>{$lang->current_version}</div></th>
-        <td><strong>{$current_version}</strong></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->current_path}</div></th>
-        <td>{$installed_path}/</td>
-    </tr>
-    <tr>
-        <th><div>{$lang->time_zone}</div></th>
-        <td><!--@foreach($time_zone_list as $key => $val)--><!--@if($time_zone==$key)-->{$val}<!--@end--><!--@endforeach--></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->use_rewrite}</div></th>
-        <td><!--@if($use_rewrite=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->use_optimizer}</div></th>
-        <td><!--@if($use_optimizer=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-    </tr>
-    <tr>
-        <th><div>Language</div></th>
-        <td><!--@foreach($lang_supported as $key => $val)--><!--@if($key == $selected_lang)-->{$val}<!--@endif--><!--@endforeach--></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->qmail_compatibility}</div></th>
-        <td><!--@if($qmail_compatibility=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-    </tr>
-    </tbody>
-    </table>
+    <ul class="localNavigation">
+        <li class="on" id="moduleOn"><a href="#" onclick="toggleModuleAddon('module');return false;">{$lang->module}</a></li>
+        <li id="addonOn"><a href="#" onclick="toggleModuleAddon('addon');return false;">{$lang->addon}</a></li>
+    </ul>
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->module}</caption>
-    <thead>
+    <div id="xeModules">
+        <table cellspacing="0" class="rowTable">
+        <thead>
+            <tr>
+                <th><div>{$lang->module_name}</div></th>
+                <th><div>{$lang->version}</div></th>
+                <th><div>{$lang->author}</div></th>
+                <th><div>{$lang->table_count}</div></th>
+                <th><div>{$lang->module_action}</div></th>
+                <th><div>&nbsp;</div></th>
+            </tr>
+        </thead>
+        <tbody>
+        <!--@foreach($module_list as $key => $val)-->
+            <tr class="bg{$cycle_idx-1}">
+                <td><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</td>
+                <td>{$val->version}</td>
+                <td>
+                    <!--@foreach($val->author as $author)-->
+                    <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
+                    <!--@endforeach-->
+                </td>
+                <td <!--@if($val->created_table_count != $val->table_count)-->class="alert"<!--@end-->>
+                    {$val->created_table_count}/{$val->table_count}
+                </td>
+                <td <!--@if($val->need_install || $val->need_update)-->class="alert"<!--@end-->>
+                    <!--@if($val->need_install)-->
+                        <a href="#" onclick="doInstallModule('{$val->module}');return false;" title="{htmlspecialchars($lang->cmd_install)}">{$lang->cmd_install}</a>
+                    <!--@elseif($val->need_update)-->
+                        <a href="#" onclick="doUpdateModule('{$val->module}'); return false;" title="{htmlspecialchars($lang->cmd_update)}">{$lang->cmd_update}</a>
+                    <!--@else-->
+                        -
+                    <!--@end-->
+                </td>
+                <td><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false" title="{htmlspecialchars($lang->module_info)}" class="buttonSet buttonInfo"><span>{$lang->module_info}</span></a></td>
+            </tr>
+            <!--@end-->
+        </tbody>
+        </table>
+    </div>
+
+    <div id="xeAddons" style="display:none;">
+
+        <form id="fo_addon" action="./" method="get">
+            <input type="hidden" name="addon" value="" />
+        </form>
+        <table cellspacing="0" class="rowTable">
+        <thead>
+            <tr>
+                <th><div>{$lang->addon}</div></th>
+                <th><div>{$lang->cmd_setup}</div></th>
+                <th><div>{$lang->status}</div></th>
+            </tr>
+        </thead>
+        <tbody>
+        <!--@foreach($addon_list as $key => $val)-->
         <tr>
-            <th class="wide" colspan="2"><div>{$lang->module_name}</div></th>
-            <th><div>{$lang->version}</div></th>
-            <th><div>{$lang->author}</div></th>
-            <th><div>{$lang->table_count}</div></th>
-            <th><div>{$lang->module_action}</div></th>
-        </tr>
-    </thead>
-    <tbody>
-    <!--@foreach($module_list as $key => $val)-->
-        <tr>
-            <td class="circle"><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</td>
-            <td class="view">
-                <a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false">{$lang->module_info}</a>
-            </td>
-            <td class="number center">{$val->version}</td>
-            <td class="nowrap">
-                <!--@foreach($val->author as $author)-->
-                <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
-                <!--@endforeach-->
-            </td>
-            <td class="number center <!--@if($val->created_table_count != $val->table_count)-->alert<!--@end-->">
-                {$val->created_table_count}/{$val->table_count}
-            </td>
-            <td class="nowrap center <!--@if($val->need_install || $val->need_update)-->alert<!--@end-->">
-                <!--@if($val->need_install)-->
-                    <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->cmd_install}</a>
-                <!--@elseif($val->need_update)-->
-                    <a href="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->cmd_update}</a>
+            <td class="wide"><a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$val->title}</a></td>
+            <td><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+            <td>
+                <!--@if($val->activated)-->
+                <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
                 <!--@else-->
-                    -
+                <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
                 <!--@end-->
             </td>
         </tr>
         <!--@end-->
-    </tbody>
-    </table>
+        </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="adminRightExtra">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->released_version}</caption>
-    <tr>
-        <td class="center">
-            <!--@if($current_version < $released_version)-->
-            <strong class="alert">{$released_version}</strong> [<a href="{$download_link}" onclick="window.open(this.href);return false;">download</a>]
-            <p>{nl2br($lang->about_download_link)}</p>
-            <!--@else-->
-            <strong>{$released_version}</strong> [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_view}</a>]
-            <!--@end-->
-        </td>
-    </tr>
-    </table>
+<div class="extension e2">
+    <div class="section">
+        <h4 class="xeAdmin">{$lang->status} <span class="date">{zdate(date("Ymd"),"Y.m.d")}</h4>
+        <table cellspacing="0" class="crossTable">
+        <thead>
+        <tr>
+            <th class="wide"><div>&nbsp;</div></th>
+            <th><div>{$lang->yesterday}</div></th>
+            <th><div>{$lang->today}</div></th>
+            <th><div>{$lang->total}</div></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th><a href="{getUrl('act','dispMemberAdminList')}">{$lang->member}</a></th>
+            <td class="number center">{number_format($status->member->yesterday)}</td>
+            <td class="number center">{number_format($status->member->today)}</td>
+            <td class="number center">{number_format($status->member->total)}</td>
+        </tr>
+        <tr>
+            <th><a href="{getUrl('act','dispDocumentAdminList')}">{$lang->document}</a></th>
+            <td class="number center">{number_format($status->document->yesterday)}</td>
+            <td class="number center">{number_format($status->document->today)}</td>
+            <td class="number center">{number_format($status->document->total)}</td>
+        </tr>
+        <tr>
+            <th><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment}</a></th>
+            <td class="number center">{number_format($status->comment->yesterday)}</td>
+            <td class="number center">{number_format($status->comment->today)}</td>
+            <td class="number center">{number_format($status->comment->total)}</td>
+        </tr>
+        <tr>
+            <th><a href="{getUrl('act','dispTrackbackAdminList')}">{$lang->trackback}</a></th>
+            <td class="number center">{number_format($status->trackback->yesterday)}</td>
+            <td class="number center">{number_format($status->trackback->today)}</td>
+            <td class="number center">{number_format($status->trackback->total)}</td>
+        </tr>
+        <tr>
+            <th><a href="{getUrl('act','dispFileAdminList')}">{$lang->file}</a></th>
+            <td class="number center">{number_format($status->file->yesterday)}</td>
+            <td class="number center">{number_format($status->file->today)}</td>
+            <td class="number center">{number_format($status->file->total)}</td>
+        </tr>
+        <tr>
+            <th><a href="{getUrl('act','dispDocumentAdminDeclared')}">{$lang->document.' '.$lang->cmd_declare}</a></th>
+            <td class="number center">{number_format($status->documentDeclared->yesterday)}</td>
+            <td class="number center">{number_format($status->documentDeclared->today)}</td>
+            <td class="number center">{number_format($status->documentDeclared->total)}</td>
+        </tr>
+        <tr>
+            <th><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->comment.' '.$lang->cmd_declare}</a></th>
+            <td class="number center">{number_format($status->commentDeclared->yesterday)}</td>
+            <td class="number center">{number_format($status->commentDeclared->today)}</td>
+            <td class="number center">{number_format($status->commentDeclared->total)}</td>
+        </tr>
+        </tbody>
+        </table>
 
-    <!--@if($news)-->
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->newest_news}</caption>
-    <tbody>
-    <!--@foreach($news as $key => $val)-->
-    <tr>
-        <td class="paper">
-            <a href="{$val->url}" onclick="window.open(this.href);return false;" class="fl">{$val->title}</a>
-            <span class="date fr">{zdate($val->date,"Y-m-d")}</span> 
-        </td>
-    </tr>
-    <!--@endforeach-->
-    </tbody>
-    </table>
-    <!--@endif-->
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->status}</caption>
-    <thead>
-    <tr>
-        <th class="wide"><div>{$lang->target}</div></th>
-        <th><div>{$lang->yesterday}</div></th>
-        <th><div>{$lang->today}</div></th>
-        <th><div>{$lang->total}</div></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispMemberAdminList')}">{$lang->member}</a></td>
-        <td class="number center">{number_format($status->member->yesterday)}</td>
-        <td class="number center">{number_format($status->member->today)}</td>
-        <td class="number center">{number_format($status->member->total)}</td>
-    </tr>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispDocumentAdminList')}">{$lang->document}</a></td>
-        <td class="number center">{number_format($status->document->yesterday)}</td>
-        <td class="number center">{number_format($status->document->today)}</td>
-        <td class="number center">{number_format($status->document->total)}</td>
-    </tr>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispCommentAdminList')}">{$lang->comment}</a></td>
-        <td class="number center">{number_format($status->comment->yesterday)}</td>
-        <td class="number center">{number_format($status->comment->today)}</td>
-        <td class="number center">{number_format($status->comment->total)}</td>
-    </tr>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispTrackbackAdminList')}">{$lang->trackback}</a></td>
-        <td class="number center">{number_format($status->trackback->yesterday)}</td>
-        <td class="number center">{number_format($status->trackback->today)}</td>
-        <td class="number center">{number_format($status->trackback->total)}</td>
-    </tr>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispFileAdminList')}">{$lang->file}</a></td>
-        <td class="number center">{number_format($status->file->yesterday)}</td>
-        <td class="number center">{number_format($status->file->today)}</td>
-        <td class="number center">{number_format($status->file->total)}</td>
-    </tr>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispDocumentAdminDeclared')}">{$lang->document.' '.$lang->cmd_declare}</a></td>
-        <td class="number center">{number_format($status->documentDeclared->yesterday)}</td>
-        <td class="number center">{number_format($status->documentDeclared->today)}</td>
-        <td class="number center">{number_format($status->documentDeclared->total)}</td>
-    </tr>
-    <tr>
-        <td class="circle"><a href="{getUrl('act','dispCommentAdminDeclared')}">{$lang->comment.' '.$lang->cmd_declare}</a></td>
-        <td class="number center">{number_format($status->commentDeclared->yesterday)}</td>
-        <td class="number center">{number_format($status->commentDeclared->today)}</td>
-        <td class="number center">{number_format($status->commentDeclared->total)}</td>
-    </tr>
-    </tbody>
-    </table>
+        <h4 class="xeAdmin">{$lang->env_information}</h4>
+        <!--@if($current_version < $released_version)-->
+        <p class="summary red">{nl2br($lang->about_download_link)} [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_download}</a>]</p>
+        <!--@end-->
+        <table cellspacing="0" class="rowTable">
+        <tbody>
+        <tr>
+            <th><div>{$lang->current_version}</div></th>
+            <td>
+                <strong>{$released_version}</strong> [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_view}</a>]
+            </td>
+        </tr>
+        <tr>
+            <th><div>{$lang->current_path}</div></th>
+            <td>{$installed_path}/</td>
+        </tr>
+        <tr>
+            <th><div>{$lang->time_zone}</div></th>
+            <td><!--@foreach($time_zone_list as $key => $val)--><!--@if($time_zone==$key)-->{substr($val,1,10)}<!--@end--><!--@endforeach--></td>
+        </tr>
+        <tr>
+            <th><div>{$lang->use_rewrite}</div></th>
+            <td><!--@if($use_rewrite=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+        </tr>
+        <tr>
+            <th><div>{$lang->use_optimizer}</div></th>
+            <td><!--@if($use_optimizer=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+        </tr>
+        <tr>
+            <th><div>Language</div></th>
+            <td><!--@foreach($lang_supported as $key => $val)--><!--@if($key == $selected_lang)-->{$val}<!--@endif--><!--@endforeach--></td>
+        </tr>
+        <tr>
+            <th><div>{$lang->qmail_compatibility}</div></th>
+            <td><!--@if($qmail_compatibility=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+        </tr>
+        </tbody>
+        </table>
 
-    <form id="fo_addon" action="./" method="get">
-        <input type="hidden" name="addon" value="" />
-    </form>
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->addon}</caption>
-    <col width="" />
-    <col width="25" />
-    <col width="25" />
-    <tbody>
-    <!--@foreach($addon_list as $key => $val)-->
-    <tr>
-        <td class="circle">
-            <a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$val->title}</a>
-        </td>
-        <td class="nowrap center"><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false"><img src="./images/n_setup.gif" alt="setup" /></a></td>
-        <td class="nowrap center <!--@if($val->activated)-->activated<!--@else-->deactivated<!--@end-->">
-            <!--@if($val->activated)-->
-            <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->use}</a>
-            <!--@else-->
-            <a href="#" onclick="doToggleAddon('{$val->addon}');return false;">{$lang->notuse}</a>
-            <!--@end-->
-        </td>
-    </tr>
-    <!--@end-->
-    </tbody>
-    </table>
+
+        <!--@if($news)-->
+        <h4 class="xeAdmin">{$lang->newest_news}</h4>
+        <table cellspacing="0" class="rowTable">
+        <tbody>
+        <!--@foreach($news as $key => $val)-->
+        <tr>
+            <td>
+                <a href="{$val->url}" onclick="window.open(this.href);return false;" class="fl">{$val->title}</a>
+                <span class="date fr">{zdate($val->date,"Y-m-d")}</span> 
+            </td>
+        </tr>
+        <!--@endforeach-->
+        </tbody>
+        </table>
+        <!--@endif-->
+    </div>
 </div>
+
+<!--#include("_footer.html")-->

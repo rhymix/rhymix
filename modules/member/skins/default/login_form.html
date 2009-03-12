@@ -8,11 +8,9 @@
 </script>
 
 <!-- XE 로그인 폼 -->
-<div class="memberSmallBox w400">
+<div class="memberSmallBox">
 
-    <div class="header">
-        <h3>{$lang->cmd_login}</h3>
-    </div>
+    <div class="header">{$lang->cmd_login}</div>
 
     <form action="./" method="post" onsubmit="return procFilter(this, login)" id="fo_member_login">
         <fieldset class="login">
@@ -23,28 +21,29 @@
                 <dd><input type="password" name="password" id="upw" value="" class="inputTypeText w140" /></dd>
             </dl>
 
-            <span class="button"><input type="submit" value="{$lang->cmd_login}" /></span>
-
             <p class="keep">
                 <input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
                 <label for="keepid_opt">{$lang->keep_signed}</label>
             </p>
+			
+			<div class="buttonArea">
+				<span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span>
+			</div>
+
         </fieldset>
     </form>
 
     <div class="help tCenter">
-        <a href="{getUrl('act','dispMemberFindAccount')}" class="button"><span>{$lang->cmd_find_member_account}</span></a>
-        <a href="{getUrl('act','dispMemberSignUpForm')}" class="button"><span>{$lang->cmd_signup}</span></a>
+        <a href="{getUrl('act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a> |
+        <a href="{getUrl('act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a>
     </div>
 </div>
 
 <!--@if($member_config->enable_openid=='Y')-->
 <!-- OpenID 로그인 폼 -->
-<div class="memberSmallBox w400">
+<div class="memberSmallBox">
 
-    <div class="header">
-        <h3>{$lang->openid}</h3>
-    </div>
+    <div class="header">{$lang->openid}</div>
 
     <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)">
         <fieldset class="login">
@@ -52,7 +51,7 @@
                 <dt><label for="open_uid">{$lang->user_id}</label></dt>
                 <dd><input type="text" name="openid" id="open_uid" value="" class="openid_user_id" /></dd>
             </dl>
-            <span class="button"><input type="submit" value="{$lang->cmd_login}" /></span>
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span>
 
         </fieldset>
         <input type="hidden" name="referer_url" value="{$referer_url}" />

@@ -1,0 +1,13 @@
+<filter name="delete_planet_document" module="planet" act="procPlanetDeleteDocument" confirm_msg_code="confirm_delete">
+  <form>
+    <node target="document_srl" required="true" />
+  </form>
+  <parameter>
+    <param name="document_srl" target="document_srl" />
+  </parameter>
+  <response callback_func="completeDeletePlanetDocument">
+    <tag name="error" />
+    <tag name="message" />
+    <tag name="document_srl" />
+  </response>
+</filter>

@@ -19,9 +19,6 @@
          * @brief 일반 요청시 출력
          **/
         function dispOpageIndex() {
-            // 권한 체크
-            if(!$this->grant->view) return $this->stop('msg_not_permitted'); 
-
             // 외부 페이지 모듈의 정보를 구함
             $oOpageModel = &getModel('opage');
             $module_info = $oOpageModel->getOpage($this->module_srl);

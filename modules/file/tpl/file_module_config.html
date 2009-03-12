@@ -2,8 +2,8 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_file_module_config)">
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->file}</caption>
+    <h4 class="xeAdmin">{$lang->file}</h4>
+    <table cellspacing="0" class="rowTable">
     <tr class="row2">
         <th scope="col"><div>{$lang->allowed_filesize}</div></th>
         <td>
@@ -37,9 +37,9 @@
         </td>
     </tr>
     <tr class="row2">
-        <td class="right" colspan="2">
-            <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-        </td>
+        <th class="button" colspan="2">
+            <span class="button strong black"><input type="submit" value="{$lang->cmd_save}" /></span>
+        </th>
     </tr>
     </table>
 

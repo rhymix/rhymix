@@ -100,8 +100,6 @@
             $args->page_count = 10;
             $query_id = 'member.getSiteMemberList';
             $output = executeQueryArray($query_id, $args);
-            if(!$output->data) return array();
-
             return $output;
         }
 

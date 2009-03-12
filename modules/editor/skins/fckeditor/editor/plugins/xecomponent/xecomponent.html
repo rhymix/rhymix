@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+    <style type="text/css">
+        *{margin:0;padding:0;list-style:none;vertical-align:middle; }
+        img{ border:0; margin-right:3px;}
+        a{text-decoration:none;}
+    </style>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta content="noindex, nofollow" name="robots">
+        <script type="text/javascript" src="../../../../../../../common/js/x.js"></script>
+        <script type="text/javascript">
+
+var oEditor = window.parent.InnerDialogLoaded();
+var editor_sequence = oEditor.FCK.Name.replace(/.*_/,"");
+var editorExtension = window.parent.parent.getEditorExtension(editor_sequence);
+
+function OnLoad()
+{
+    oEditor.FCKLanguageManager.TranslatePage( document ) ;
+    document.getElementById('fck_editorExtension').innerHTML = editorExtension;
+    window.parent.SetAutoSize( true ) ;
+}
+
+function feditorExtension(e){
+    var e = new xEvent(e);
+    var id = e.target.id;
+    var component_name = id.replace(/^component_([0-9]+)_/,'');
+    if(id && editor_sequence && component_name){
+        window.parent.parent.openComponent(component_name,editor_sequence);
+    }else{
+    }
+}
+
+        </script>
+    </head>
+    <body onload="OnLoad()" >
+    <div id="fck_editorExtension" onclick="feditorExtension(event)"></div>
+    </body>
+</html>

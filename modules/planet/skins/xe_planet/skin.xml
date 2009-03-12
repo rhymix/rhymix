@@ -86,7 +86,7 @@
         </var>
         <var name="display_search" type="select">
             <title xml:lang="ko">플래닛 검색 출력</title>
-            <title xml:lang="zh-CN">플래닛 검색 출력</title>
+            <title xml:lang="zh-CN">微博搜索</title>
             <title xml:lang="zh-TW">플래닛 검색 출력</title>
             <title xml:lang="jp">플래닛 검색 출력</title>
             <options value="Y">
@@ -108,7 +108,7 @@
         </var>
         <var name="display_menu" type="select">
             <title xml:lang="ko">플래닛 메뉴 출력</title>
-            <title xml:lang="zh-CN">플래닛 메뉴 출력</title>
+            <title xml:lang="zh-CN">微博菜单</title>
             <title xml:lang="zh-TW">플래닛 메뉴 출력</title>
             <title xml:lang="jp">플래닛 메뉴 출력</title>
             <options value="Y">

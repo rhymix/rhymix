@@ -107,6 +107,7 @@
             $page->css_files = array(
                     sprintf('%sstylesheets/xhtmlContent.css?%d', $uri, time()),
                     sprintf('%sstylesheets/template.css?%d', $uri, time()),
+					"http://static2.springnote.com/stylesheets/readonly_30102.css"
             );
             return $page;
         }

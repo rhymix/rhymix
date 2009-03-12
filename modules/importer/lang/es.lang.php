@@ -27,14 +27,18 @@
         13 => 'Paso 1-3. Seleccione la categoría del módulo',
         2 => 'Paso 2. Subir el archivo XML',
         3 => 'Paso 2. Sincronizar las informaciones del usuario y la del documento',
+        99 => '데이터 이전',
     );
 
     $lang->import_step_desc = array(
         1 => 'Seleccione el tipo de archivo XML a transfrerir.',
         12 => 'Seleccione el módulo para transferir los datos.',
+        121 => '글:',
+        122 => '방명록:',
         13 => 'Seleccione la categoría para transferir los datos.',
         2 => "Ingrese la ubicación del archivo XML para transfer los datos.\nPuede ser ruta absoluto o relativo.",
         3 => 'La información del usuario y del documento podría ser incorrecto luego de la transferencia. Si ese es el caso, sincroniza para la corrección basado a la ID del usuario.',
+        99 => '데이터를 이전중입니다',
     );
 
     // Guía/ Alerta

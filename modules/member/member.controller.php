@@ -42,7 +42,7 @@
         /**
          * @brief openid로그인
          **/
-        function procMemberOpenIDLogin() {
+        function procMemberOpenIDLogin($validator = "procMemberOpenIDValidate") {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
@@ -76,7 +76,7 @@
                     header("location:" . $referer_url);
             } else {
                 $goto = urlencode($referer_url);
-                $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=procMemberOpenIDValidate&goto=" . $goto;
+                $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
                 $openid->SetApprovedURL($ApprovedURL);
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
@@ -87,18 +87,7 @@
         }
 
         function getLegacyUserIDsFromOpenID($openid_identity) {
-            //  Issue 17515512:
-            //  OpenID Provider가 openid.identity를 
-            //  http://araste.myid.net/ 으로 넘겨주든
-            //  http://araste.myid.net  으로 넘겨주든,
-            //  동일한 제로보드 사용자 이름에 매핑되어야 한다.
-            //  가입되지 않은 경우엔 / 를 뗀 것이 우선이 된다.
-            //  OpenID Provider의 정책의 일시적 변경 때문에 
-            //  / 가 붙은 꼴의 유저아이디로 (예: jangxyz.myid.net/ )
-            //  가입된 사례가 있다. 이 때는
-            //  jangxyz.myid.net 과 jangxyz.myid.net/  둘 모두로 시도해보아야 한다.
-            //  이를 위한 workaround이다.
-
+            //  Issue 17515512: workaround
             $result = array();
             $uri_matches = array();
             preg_match(Auth_OpenID_getURIPattern(), $openid_identity, $uri_matches);
@@ -138,38 +127,60 @@
             return $result;
         }
 
-        /** 
-         * @brief openid 인증 체크
-         **/
-        function procMemberOpenIDValidate() {
-            // use the JanRain php-openid library 
-            ini_set('include_path', ini_get('include_path').':./modules/member/php-openid-1.2.3');
-            require_once('Auth/OpenID/URINorm.php');
+        function doOpenIDValidate($openid) {
+            // use the JanRain php-openid library
+            require_once($this->module_path.'php-openid-1.2.3/Auth/OpenID/URINorm.php');
 
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
 
-            $openid_identity = Auth_OpenID_urinorm($_GET['openid_identity']);
-
             ob_start();
-            require('./modules/member/openid_lib/class.openid.php');
-            require_once('./modules/member/openid_lib/libcurlemu.inc.php');
+            require($this->module_path.'openid_lib/class.openid.php');
+            require_once($this->module_path.'openid_lib/libcurlemu.inc.php');
 
-            $openid = new SimpleOpenID;
-            $openid->SetIdentity($openid_identity);
-            $openid_validation_result = $openid->ValidateWithServer();
+            $openid_ctx = new SimpleOpenID;
 
+            $openid_ctx->SetIdentity(Auth_OpenID_urinorm($openid));
+            $openid_ctx->validation_result = $openid_ctx->ValidateWithServer();
             ob_clean();
+
+            return $openid_ctx;
+        }
+
+        /** 
+         * @brief openid 인증 체크
+         **/
+        function procMemberOpenIDValidate() {
+            $openid = $this->doOpenIDValidate($_GET['openid_identity']);
+            $openid_identity = $openid->GetIdentity();
+            $openid_validation_result = $openid->validation_result;
 
             // 인증 성공
             if ($openid_validation_result == true) {
+                $oMemberModel = &getModel('member');
 
                 //  이 오픈아이디와 연결된 (또는 연결되어 있을 가능성이 있는) 제로보드 아이디들을 받아온다.
                 $login_success = false;
-                $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
+                $assoc_member_info = null;
 
+                $args->openid = $openid_identity;
+                $output = executeQuery('member.getMemberSrlByOpenID', $args);
+
+                if ($output->toBool() && !is_array($output->data)) {
+                    $member_srl = $output->data->member_srl;
+                    $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+                    if ($member_info) {
+                        $assoc_member_info = $member_info;
+                    }
+                }
+
+                $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
                 $default_user_id = $user_id_candidates[0];
+
+                if ($assoc_member_info != null) {
+                    $user_id_candidates = array_merge(array($assoc_member_info->user_id), $user_id_candidates);
+                }
 
                 foreach($user_id_candidates as $user_id) {
                     $args->user_id = $args->nick_name = $user_id;
@@ -184,6 +195,12 @@
 
 
                     if ($output->toBool()) {
+                        if ($assoc_member_info == null) {
+                            $logged_info = Context::get('logged_info');
+                            $args->member_srl = $logged_info->member_srl;
+                            $args->openid = $openid_identity;
+                            executeQuery('member.addOpenIDToMember', $args);
+                        }
                         $login_success = true;
                         break;
                     }
@@ -193,24 +210,29 @@
                 if(!$login_success) {
                     $args->user_id = $args->nick_name = $default_user_id;
                     $args->password = md5(getmicrotime());
+
                     $output = $this->insertMember($args);
                     if(!$output->toBool()) return $this->stop($output->getMessage());
                     $output = $this->doLogin($args->user_id);
                     if(!$output->toBool()) return $this->stop($output->getMessage());
+
+                    $logged_info = Context::get('logged_info');
+                    $args->member_srl = $logged_info->member_srl;
+                    $args->openid = $openid_identity;
+                    executeQuery('member.addOpenIDToMember', $args);
                 }
 
                 Context::close();
 
                 // 페이지 이동
-                if(Context::get('goto')){
+                if(Context::get('goto')) {
                     $goto = Context::get('goto');
                     header("location:" . $goto);	
-                }else{
+                } else {
                     header("location:./");	
                 }
                 
                 exit();
-
 
             // 인증 실패
             } else if($openid->IsError() == true) {
@@ -220,6 +242,82 @@
                 return $this->stop('invalid_authorization');
             }
         }
+
+        /**
+         * @brief 오픈아이디 연결 요청
+         **/
+        function procMemberAddOpenIDToMember() {
+            return $this->procMemberOpenIDLogin("procMemberValidateAddOpenIDToMember");
+        }
+
+        /**
+         * @brief 오픈아이디 연결 요청 마무리
+         **/
+        function procMemberValidateAddOpenIDToMember() {
+            $openid = $this->doOpenIDValidate($_GET['openid_identity']);
+            $openid_identity = $openid->GetIdentity();
+            $openid_validation_result = $openid->validation_result;
+
+            if ($openid_validation_result == true) {
+                $logged_info = Context::get('logged_info');
+                if (!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+                $member_srl = $logged_info->member_srl;
+
+                $args->member_srl = $member_srl;
+                $args->openid = $openid_identity;
+
+                $output = executeQuery('member.addOpenIDToMember', $args);
+                if (!$output->toBool()) return $output;
+
+                Context::close();
+
+                if(Context::get('goto')){
+                    $goto = Context::get('goto');
+                    header("location:" . $goto);	
+                }else{
+                    header("location:./");	
+                }
+                exit();
+            } else if($openid->IsError() == true) {
+                $error = $openid->GetError();
+                return $this->stop($error['description']);
+            } else {
+                return $this->stop('invalid_authorization');
+            }
+        }
+
+        /**
+         * @brief 오픈아이디 연결 해제
+         **/
+        function procMemberDeleteOpenIDFromMember() {
+            $logged_info = Context::get('logged_info');
+            $openid_identity = Context::get('openid_to_delete');
+            $arg->openid = $openid_identity;
+            $result = executeQuery('member.getMemberSrlByOpenID', $arg);
+
+            if (!Context::get('is_logged')) {
+                $this->setError(-1);
+                $this->setMessage('msg_not_logged');
+                return;
+            } else if (!$result->data || is_array($result->data)) {
+                $this->setError(-1);
+                $this->setMessage('msg_not_founded');
+                return;
+            } else if ($result->data->member_srl != $logged_info->member_srl) {
+                $this->setError(-1);
+                $this->setMessage('msg_not_permitted');
+                return;
+            }
+
+            $arg->openid = $openid_identity;
+
+            $output = executeQuery('member.deleteMemberOpenID', $arg);
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_updated');
+        }
+
 
         /**
          * @brief 로그아웃
@@ -818,6 +916,7 @@
             if(!$email_address) return new Object(-1, 'msg_invalid_request');
 
             $oMemberModel = &getModel('member');
+            $oModuleModel = &getModel('module');
 
             // 메일 주소에 해당하는 회원이 있는지 검사
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
@@ -846,8 +945,18 @@
             // 메일 내용을 구함
             Context::set('auth_args', $args);
             Context::set('member_info', $member_info);
+            
+            $member_config = $oModuleModel->getModuleConfig('member');
+            if(!$member_config->skin) $this->member_config->skin = "default";
+            if(!$member_config->colorset) $this->member_config->colorset = "white";
+
+            Context::set('member_config', $member_config);
+            
+            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+            
             $oTemplate = &TemplateHandler::getInstance();
-            $content = $oTemplate->compile($this->module_path.'tpl', 'find_member_account_mail');
+            $content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
 
             // 사이트 웹마스터 정보를 구함
             $oModuleModel = &getModel('module');
@@ -919,6 +1028,101 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('msg_success_authed');
         }
+        
+        /**
+         * @brief 아이디/비밀번호 찾기 기능 실행
+         * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
+         **/
+        function procMemberUpdateAuthMail() {
+        	$member_srl = Context::get('member_srl');
+        	if(!$member_srl) return new Object(-1, 'msg_invalid_request');
+
+            $oMemberModel = &getModel('member');
+        	
+            // 회원의 정보를 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            
+            // 인증메일 재발송 요청이 가능한 상태의 회원인지 검사
+            if ($member_info->denied != 'Y') 
+                return new Object(-1, 'msg_invalid_request');
+            
+            $chk_args->member_srl = $member_srl;
+            $output = executeQuery('member.chkAuthMail', $chk_args);
+            if ($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
+            
+            // 인증 DB에 데이터를 넣음
+            $auth_args->member_srl = $member_srl;
+            $auth_args->auth_key = md5(rand(0, 999999));
+
+            $output = executeQuery('member.updateAuthMail', $auth_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // 메일 내용을 구함
+            Context::set('auth_args', $auth_args);
+            Context::set('member_info', $member_info);
+            
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+            if(!$member_config->skin) $this->member_config->skin = "default";
+            if(!$member_config->colorset) $this->member_config->colorset = "white";
+
+            Context::set('member_config', $member_config);
+            
+            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+            
+            $oTemplate = &TemplateHandler::getInstance();
+            $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+            
+            // 사이트 웹마스터 정보를 구함
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+
+            // 메일 발송
+            $oMail = new Mail();
+            $oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+            $oMail->setContent($content);
+            $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
+            $oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+            $oMail->send();
+            
+            // 메세지 return
+            $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
+            return new Object(-1, $msg);
+        }
+
+        /**
+         * @brief 가상 사이트 가입
+         **/
+        function procModuleSiteSignUp() {
+            $site_module_info = Context::get('site_module_info');
+            $logged_info = Context::get('logged_info');
+            if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new Object(-1,'msg_invalid_request');
+
+            $oMemberModel = &getModel('member');
+            $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl);
+            $this->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
+            $groups[$default_group->group_srl] = $default_group->title;
+            $logged_info->group_list = $groups;
+        }
+
+        /**
+         * @brief 가상 사이트 탈퇴
+         **/
+        function procModuleSiteLeave() {
+            $site_module_info = Context::get('site_module_info');
+            $logged_info = Context::get('logged_info');
+            if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new Object(-1,'msg_invalid_request');
+
+            $args->site_srl= $site_module_info->site_srl;
+            $args->member_srl = $logged_info->member_srl;
+            $output = executeQuery('member.deleteMembersGroup', $args);
+            if(!$output->toBool()) return $output;
+            $this->setMessage('success_deleted');
+        }
 
         /**
          * @brief 서명을 파일로 저장
@@ -959,10 +1163,15 @@
 
         /**
          * @brief 특정 회원들의 그룹을 일괄 변경
+         * 가상 사이트와 같이 한 회원이 하나의 그룹만 가질 경우 사용할 수 있음
          **/
         function replaceMemberGroup($args) {
             $obj->site_srl = $args->site_srl;
             $obj->member_srl = implode(',',$args->member_srl);
+
+            $output = executeQueryArray('member.getMembersGroup', $obj);
+            if($output->data) foreach($output->data as $key => $val) $date[$val->member_srl] = $val->regdate;
+
             $output = executeQuery('member.deleteMembersGroup', $obj);
             if(!$output->toBool()) return $output;
 
@@ -975,6 +1184,7 @@
                 $obj->member_srl = $val;
                 $obj->group_srl = $args->group_srl;
                 $obj->site_srl = $args->site_srl;
+                $obj->regdate = $date[$obj->member_srl];
                 $output = executeQuery('member.addMemberToGroup', $obj);
                 if(!$output->toBool()) return $output;
             }
@@ -1108,7 +1318,7 @@
             $_SESSION['is_admin'] = '';
 
             // 비밀번호는 세션에 저장되지 않도록 지워줌;;
-            unset($member_info->password);
+            //unset($member_info->password);
 
             // 사용자 그룹 설정
             /*
@@ -1273,8 +1483,18 @@
                 // 메일 내용을 구함
                 Context::set('auth_args', $auth_args);
                 Context::set('member_info', $args);
-                $oTemplate = &TemplateHandler::getInstance();
-                $content = $oTemplate->compile($this->module_path.'tpl', 'confirm_member_account_mail');
+                
+	            $member_config = $oModuleModel->getModuleConfig('member');
+	            if(!$member_config->skin) $this->member_config->skin = "default";
+	            if(!$member_config->colorset) $this->member_config->colorset = "white";
+	
+	            Context::set('member_config', $member_config);
+	            
+	            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+	            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+	            
+	            $oTemplate = &TemplateHandler::getInstance();
+                $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 
                 // 사이트 웹마스터 정보를 구함
                 $oModuleModel = &getModel('module');
@@ -1445,6 +1665,17 @@
                 return $output;
             }
 
+            //  member_openid에서 해당 항목들 삭제
+            $output = executeQuery('member.deleteMemberOpenIDByMemberSrl', $ags);
+
+            //  TODO: 테이블 업그레이드를 하지 않은 경우에 실패할 수 있다.
+            /*
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+            */
+
             // member_group_member에서 해당 항목들 삭제
             $output = executeQuery('member.deleteMemberGroupMember', $args);
             if(!$output->toBool()) {
@@ -1487,6 +1718,8 @@
                 $_SESSION[$key] = '';
             }
             session_destroy();
+            setcookie(session_name(), '', time()-42000, '/');
+            setcookie('sso','',time()-42000, '/');
 
             if($_COOKIE['xeak']) {
                 $args->autologin_key = $_COOKIE['xeak'];

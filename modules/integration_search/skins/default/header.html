@@ -1,0 +1,34 @@
+<!--@if(!$_loaded)-->
+    {@ $_loaded = true; }
+
+    <!--// 컬러셋 체크 -->
+    <!--@if($module_info->colorset != "white")-->
+        {@$module_info->colorset = "white"}
+    <!--@end-->
+
+    <!--// CSS 파일 로드 (컬러셋에 따라서) -->
+    <!--@if($module_info->colorset == "white")-->
+        <!--%import("white.css")-->
+    <!--@end-->
+
+    <!--%import("is.js")-->
+
+    <div id="spot">
+        <form action="{getUrl()}" method="post" class="search" id="fo_is">
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="act" value="IS" />
+            <input type="hidden" name="where" value="{$where}" />
+            <input name="is_keyword" type="text" class="inputText" value="{htmlspecialchars($is_keyword)}"/>
+            <span class="button large strong black"><input type="submit" value="{$lang->cmd_search}" /></span>
+        </form>
+    </div>
+
+    <ul class="localNavigation">
+        <li <!--@if(!$where)-->class="on"<!--@end-->><a href="{getUrl('where','','page','','division','')}">{$lang->integration_search}</a></li>
+        <li <!--@if($where=='document')-->class="on"<!--@end-->><a href="{getUrl('where','document','page',1,'division','')}">{$lang->document}</a></li>
+        <li <!--@if($where=='comment')-->class="on"<!--@end-->><a href="{getUrl('where','comment','page',1,'division','')}">{$lang->comment}</a></li>
+        <li <!--@if($where=='trackback')-->class="on"<!--@end-->><a href="{getUrl('where','trackback','page',1,'division','')}">{$lang->trackback}</a></li>
+        <li <!--@if($where=='multimedia')-->class="on"<!--@end-->><a href="{getUrl('where','multimedia','page',1,'division','')}">{$lang->multimedia}</a></li>
+        <li <!--@if($where=='file')-->class="on"<!--@end-->><a href="{getUrl('where','file','page',1,'division','')}">{$lang->file}</a></li>
+    </ul>
+<!--@end-->

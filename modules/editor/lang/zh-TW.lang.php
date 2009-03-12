@@ -2,7 +2,7 @@
     /**
      * @file   modules/editor/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  網頁編輯器(editor) 模組語言
+     * @brief  網頁編輯器(editor)模組語言
      **/
 
     $lang->editor = '網頁編輯器';
@@ -46,7 +46,7 @@
     $lang->about_editor_height = '指定編輯器的預設高度。';
     $lang->about_editor_height_resizable = '允許用戶拖曳編輯器高度。';
     $lang->about_enable_html_grant = 'HTML原始碼編輯權限設置。';
-    $lang->about_enable_autosave = '發表主題時，啟動內容自動儲存功能。';
+    $lang->about_enable_autosave = '發表主題時，開啟內容自動儲存功能。';
 
     $lang->edit->fontname = '字體';
     $lang->edit->fontsize = '大小';
@@ -78,25 +78,25 @@
 
     $lang->edit->submit = '確認';
 
-    $lang->edit->fontcolor = 'Text Color';
-    $lang->edit->fontbgcolor = 'Background Color';
-    $lang->edit->bold = 'Bold';
-    $lang->edit->italic = 'Italic';
-    $lang->edit->underline = 'Underline';
-    $lang->edit->strike = 'Strike';
-    $lang->edit->sup = 'Sup';
-    $lang->edit->sub = 'Sub';
-    $lang->edit->redo = 'Re Do';
-    $lang->edit->undo = 'Un Do';
-    $lang->edit->align_left = 'Align Left';
-    $lang->edit->align_center = 'Align Center';
-    $lang->edit->align_right = 'Align Right';
-    $lang->edit->align_justify = 'Align Justify';
-    $lang->edit->add_indent = 'Indent';
-    $lang->edit->remove_indent = 'Outdent';
-    $lang->edit->list_number = 'Orderd List';
-    $lang->edit->list_bullet = 'Unordered List';
-    $lang->edit->remove_format = 'Style Remover';
+    $lang->edit->fontcolor = '文字顏色';
+    $lang->edit->fontbgcolor = '背景顏色';
+    $lang->edit->bold = '粗體';
+    $lang->edit->italic = '斜體';
+    $lang->edit->underline = '底線';
+    $lang->edit->strike = '虛線';
+    $lang->edit->sup = '上標';
+    $lang->edit->sub = '下標';
+    $lang->edit->redo = '重新操作';
+    $lang->edit->undo = '返回操作';
+    $lang->edit->align_left = '靠左對齊';
+    $lang->edit->align_center = '置中對齊';
+    $lang->edit->align_right = '靠右對齊';
+    $lang->edit->align_justify = '左右對齊';
+    $lang->edit->add_indent = '縮排';
+    $lang->edit->remove_indent = '凸排';
+    $lang->edit->list_number = '編號';
+    $lang->edit->list_bullet = '清單符號';
+    $lang->edit->remove_format = '移除格式';
 
     $lang->edit->help_remove_format = '移除格式';
     $lang->edit->help_strike_through = '文字刪除線';
@@ -108,8 +108,8 @@
     $lang->edit->help_italic = '斜體';
     $lang->edit->help_underline = '底線';
     $lang->edit->help_strike = '虛線';
-    $lang->edit->help_sup = 'Sup';
-    $lang->edit->help_sub = 'Sub';
+    $lang->edit->help_sup = '上標';
+    $lang->edit->help_sub = '下標';
     $lang->edit->help_redo = '重新操作';
     $lang->edit->help_undo = '返回操作';
     $lang->edit->help_align_left = '靠左對齊';
@@ -119,14 +119,14 @@
     $lang->edit->help_remove_indent = '凸排';
     $lang->edit->help_list_number = '編號';
     $lang->edit->help_list_bullet = '清單符號';
-    $lang->edit->help_use_paragraph = '換行請按 ctrl+backspace (快速發表主題：alt+S)';
+    $lang->edit->help_use_paragraph = '換行請按 Ctrl+Backspace (快速發表主題：Alt+S)';
 
-    $lang->edit->url = 'URL';
-    $lang->edit->blockquote = 'Blockquote';
-    $lang->edit->table = 'Table';
-    $lang->edit->image = 'Image';
-    $lang->edit->multimedia = 'Movie';
-    $lang->edit->emoticon = 'Emoticon';
+    $lang->edit->url = '連結';
+    $lang->edit->blockquote = '引用';
+    $lang->edit->table = '表格';
+    $lang->edit->image = '圖片';
+    $lang->edit->multimedia = '影片';
+    $lang->edit->emoticon = '表情符號';
 
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';
@@ -138,10 +138,10 @@
     $lang->edit->icon_align_middle = '置中';
     $lang->edit->icon_align_right = '靠右';
 
-    $lang->about_dblclick_in_editor = '對背景, 文字, 圖片, 引用等組件按兩下，即可對其相關組件進行詳細設置。';
+    $lang->about_dblclick_in_editor = '對背景，文字，圖片，引用等組件按兩下，即可對其相關組件進行詳細設置。';
 
 
-    $lang->edit->rich_editor = '所見即所得';
+    $lang->edit->rich_editor = '所見即得';
     $lang->edit->html_editor = 'HTML';
     $lang->edit->extension ='延伸組件';
     $lang->edit->help = '使用說明';

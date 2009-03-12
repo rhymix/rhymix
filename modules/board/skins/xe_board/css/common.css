@@ -56,7 +56,7 @@ Jeong, Chan Myeong 070601~070630
 
 .boardRead .titleAndUser .userInfo { float:right; white-space:nowrap; margin-top:11px; }
 .boardRead .titleAndUser .userInfo .author { color:#3074a5; }
-.boardRead .titleAndUser .userInfo .author a { font-size:.9em; color:#3074a5; text-decoration:none; }
+.boardRead .titleAndUser .userInfo .author a { color:#3074a5; text-decoration:none; }
 
 .boardRead .dateAndCount { clear:both; white-space:nowrap; color:#444444; margin:5px 0 0 0; font-size:.9em; font-family:tahoma; line-height:17px; padding-bottom:10px; }
 
@@ -112,7 +112,7 @@ Jeong, Chan Myeong 070601~070630
 .replyBox { padding:10px; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
 .replyBox .replyItem { background-color:#FFFFFF; padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
 .replyBox p { display:inline; margin-bottom:1em;}
-.replyBox .author { float:left; padding:0 .3em 0 0; font-size:.9em; color:#3074a5; margin:0 .3em .5em 0;}
+.replyBox .author { float:left; padding:0 .3em 0 0; color:#3074a5; margin:0 .3em .5em 0;}
 .replyBox .author a { color:#3074a5; margin-right:.3em; text-decoration:none; }
 .replyBox .voted { float:left; font-size:.9em; color:#AAAAAA; margin:0 .3em .5em 1em;}
 .replyBox .date { float:right; font:.8em Tahoma; color:#cccccc; margin:.3em 0 .5em 0;}
@@ -147,6 +147,7 @@ Jeong, Chan Myeong 070601~070630
 .boardList tbody td { white-space:nowrap; }
 .boardList tbody td.title { white-space:normal; }
 .boardList tbody td.webzineTitle { white-space:normal; }
+.boardList tbody td.wrap { white-space:normal; }
 
 .boardListNoTopBorder { border:none; }
 .boardList th { color:#3e3f3e; font-weight:normal; border-top:1px solid #e0e1db; border-bottom:1px solid #ffffff; white-space:nowrap; padding-top:5px; height:28px; overflow:hidden;}
@@ -187,13 +188,13 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardList td.topic strong a { font-size:1em; font-weight:normal; text-decoration:none; color:#222222; }
 .boardList td.topic strong a:visited { color:#777777; }
 .boardList td.topic .category { background:url(../images/common/line_1x10_e0e0e0.gif) no-repeat left 3px; padding-left:.5em; margin-left:.5em; color:#AAAAAA; }
-.boardList td.topic div.author { margin-top:.5em; color:#BBBBBB; font-size:0.8em; }
-.boardList td.topic div.author strong { font-size:1.2em; font-weight:normal; color:#666666; }
+.boardList td.topic div.author { margin-top:.5em; color:#BBBBBB; }
+.boardList td.topic div.author strong { font-weight:normal; color:#666666; }
 .boardList td.commentCount { font:bold .8em Tahoma; color:#888888; text-align:center; }
 
 .boardList td.latestPost { color:#888888; }
-.boardList td.latestPost div.author { margin-top:.5em; color:#BBBBBB; font-size:0.8em; }
-.boardList td.latestPost div.author strong { font-size:1.2em; font-weight:normal; color:#666666; }
+.boardList td.latestPost div.author { margin-top:.5em; color:#BBBBBB; }
+.boardList td.latestPost div.author strong { font-weight:normal; color:#666666; }
 .boardList td.latestPost div.date { font-size:0.8em; margin-top:.5em; }
 .boardList td.latestPost div.date strong { font-family:Tahoma; font-weight:normal; color:#666666; }
 
@@ -214,8 +215,8 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardList td .replyAndTrackback img.trackback { margin-bottom:-.1em;}
 .boardList td .replyAndTrackback strong { font:bold 1em Tahoma;}
 .boardList td .replyAndTrackback { font:.8em Tahoma; }
-.boardList td.author { color:#333333; font-size:.95em; padding-left:1em;}
-.boardList td.author a { font-size:1em; color:#333333;}
+.boardList td.author { color:#333333; padding-left:1em;}
+.boardList td.author a { color:#333333;}
 .boardList td.reading { font:.8em Tahoma; color:#999999; text-align:center;}
 .boardList td.recommend { font:bold .8em Tahoma; text-align:center;}
 .boardList td.date { font:.8em Tahoma; color:#999999; text-align:center; white-space:nowrap;}
@@ -287,7 +288,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .boardWrite .extraVarsList p { margin:5px 0 0 0; padding:0; }
 .boardWrite .extraVarsList ul { margin:0; padding:0; }
 
-.smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; }
+.smallBox { border:1px solid #e0e1db; margin-left:auto; margin-right:auto; padding-bottom:10px; }
 .smallBox.w268 { width:268px;}
 .smallBox .header { margin:0; padding:0; position:relative; _width:100%; background:#ffffff url(../images/common/bgH3.gif) no-repeat left bottom; overflow:hidden;}
 .smallBox .header h3 { margin:0; padding:0; clear:both; font-size:1.2em; padding:.8em 2em .6em 1.2em; border-bottom:3px solid #fe3614; }
@@ -295,7 +296,7 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .smallBox .inputPassword { position:relative; border:none; padding:2em 2em 1.5em 2em;}
 .smallBox .inputPassword .inputTypeText { float:left; margin-right:.5em; width:8em;}
 .smallBox .inputPassword legend { position:absolute; overflow:hidden; width:1px; height:1px; font-size:.001em; text-indent:-100em;}
-.smallBox .messageBox { background-color:#F3F3F3; padding:20px; border-bottom:1px solid #EEEEEE;}
+.smallBox .messageBox { background-color:#F3F3F3; padding:10px; border-bottom:1px solid #EEEEEE;}
 
 /* Pagination Reset */
 .pagination{ padding:15px 0; margin:0; text-align:center;}
@@ -385,3 +386,15 @@ html:not([lang*=""]) .boardList th { height:33px; }
 .replyBox .xe_content { display:inline; }
 
 .display_date {  cursor:pointer; width:80px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px;  margin-right:10px;}
+
+/* 확장 변수 폼 */
+.extraVarsList tr td .text { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:90%; }
+.extraVarsList tr td .email_address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+.extraVarsList tr td .homepage { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+.extraVarsList tr td .tel { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:40px; margin-right:10px;}
+.extraVarsList tr td .textarea { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:90%; height:80px; font-size:12px;}
+.extraVarsList tr td ul { margin:0; padding:0; list-style:none; }
+.extraVarsList tr td ul li { display:inline-block; margin-right:10px; }
+.extraVarsList tr td ul li input { margin-right:5px; vertical-align:middle;}
+.extraVarsList tr td .date { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:100px; }
+.extraVarsList tr td .address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }

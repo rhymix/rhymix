@@ -41,7 +41,15 @@
             // 현재부터 지난 $day_range동안의 카운터 로그를 가져옴
             $obj->e_regdate = date("Ymd"); 
             $obj->s_regdate = date("Ymd", ztime(date("YmdHis"))-$day_range*60*60*24+1); 
-            $output = executeQuery('widgets.image_counter.getCounterStatus', $obj);
+
+            $site_module_info = Context::get('site_module_info');
+            if($site_module_info->site_srl) {
+                $obj->site_srl = $site_module_info->site_srl;
+                $output = executeQuery('widgets.image_counter.getCounterSiteStatus', $obj);
+            } else {
+                $output = executeQuery('widgets.image_counter.getCounterStatus', $obj);
+            }
+            $site_srl = (int)($site_module_info->site_srl);
 
             // 결과가 있다면 loop를 돌면서 최고/최저값을 구하고 그래프를 그릴 준비
             $max_unique_visitor = 0;
@@ -56,7 +64,7 @@
 
             // 이미지를 그림 (이미지 위치는 ./files/cache/widget_cache/couter_graph.gif로 고정)
             if(!is_dir(_XE_PATH_.'files/cache/widget_cache/')) FileHandler::makeDir(_XE_PATH_.'files/cache/widget_cache/');
-            $image_src = "files/cache/widget_cache/couter_graph.gif";
+            $image_src = "files/cache/widget_cache/couter_graph.".$site_srl.".gif";
 
             // 이미지 생성
             $image = imagecreate($graph_width, $graph_height);

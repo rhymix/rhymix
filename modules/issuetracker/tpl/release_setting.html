@@ -10,28 +10,26 @@
 </form>
 
 <div class="top1">
-    <table cellspacing="0" class="adminTable">
-    <caption>{$lang->package}</caption>
+    <h4 class="xeAdmin">{$lang->package}</h4>
+    <table cellspacing="0" class="rowTable">
     <!--@foreach($package_list as $key => $val)-->
     <tr>
         <th><div><a href="{getUrl('package_srl', $key)}">{$val->title}</a></div></th>
         <td class="wide summaryText"><div class="close">{nl2br($val->description)}</div></td>
-        <td class="modify center"><a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyPackage','package_srl',$val->package_srl)}">{$lang->cmd_modify}</a></td>
-        <td class="delete center"><!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->package_srl}', delete_package);">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td><a href="{getUrl('module_srl',$module_srl,'act','dispIssuetrackerAdminModifyPackage','package_srl',$val->package_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
+        <td><!--@if($val->is_default!='Y')--><a href="#" onclick="deleteByFilter('{$val->package_srl}', delete_package);" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</a></span><!--@else-->&nbsp;<!--@end--></td>
     </tr>
     <!--@end-->
     <tr>
-        <td colspan="4">
-            <div class="fr">
-                <form action="{Context::getRequestUri()}" method="get">
-                <input type="hidden" name="module" value="{$module}"/>
-                <input type="hidden" name="mid" value="{$mid}"/>
-                <input type="hidden" name="module_srl" value="{$module_srl}"/>
-                <input type="hidden" name="act" value="dispIssuetrackerAdminModifyPackage" />
-                    <input type="submit" value="{$lang->cmd_insert_package}" class="btnSubmit" />
-                </form>
-            </div>
-        </td>
+        <th colspan="4" class="button">
+            <form action="{Context::getRequestUri()}" method="get">
+            <input type="hidden" name="module" value="{$module}"/>
+            <input type="hidden" name="mid" value="{$mid}"/>
+            <input type="hidden" name="module_srl" value="{$module_srl}"/>
+            <input type="hidden" name="act" value="dispIssuetrackerAdminModifyPackage" />
+                <input type="submit" value="{$lang->cmd_insert_package}" class="btnSubmit" />
+            </form>
+        </th>
     </tr>
     </table>
 </div>
@@ -40,8 +38,8 @@
     {@ $package = $package_list[$package_srl] }
 <div class="top2">
 
-<table cellspacing="0" class="adminTable">
-<caption>{$lang->package} : {$package->title}</caption>
+<h4 class="xeAdmin">{$lang->package} : {$package->title}</h4>
+<table cellspacing="0" class="rowTable">
 <tbody>
     <tr>
         <td colspan="4">
@@ -81,7 +79,7 @@
         <td colspan="2">
             <!--@if($val->files)-->
             <!--@foreach($val->files as $file)-->
-            <table cellspacing="0" class="adminTable">
+            <table cellspacing="0" class="rowTable">
             <col width="180" />
             <col width="*" />
             <tbody>

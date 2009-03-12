@@ -2,7 +2,7 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr class="row2">
         <th scope="col"><div>{$lang->allow_outlink}</div></th>
         <td>
@@ -14,9 +14,16 @@
         </td>
     </tr>
     <tr class="row2">
+        <th scope="col"><div>{$lang->allow_outlink_format}</div></th>
+        <td>
+            <input type="text" name="allow_outlink_format" value="{$config->allow_outlink_format}" class="inputTypeText" />
+            <p>{$lang->about_allow_outlink_format}</p>
+        </td>
+    </tr>
+    <tr class="row2">
         <th scope="col"><div>{$lang->allow_outlink_site}</div></th>
         <td>
-            <textarea name="allow_outlink_site" cols="70">{$config->allow_outlink_site}</textarea>
+            <textarea name="allow_outlink_site" class="fullWidth">{$config->allow_outlink_site}</textarea>
             <p>{$lang->about_allow_outlink_site}</p>
         </td>
     </tr>
@@ -43,9 +50,9 @@
         </td>
     </tr>
     <tr>
-        <td scope="row" colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th scope="row" colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 </form>

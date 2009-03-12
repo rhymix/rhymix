@@ -1,0 +1,17 @@
+<query id="getFishings" action="select">
+    <tables>
+        <table name="comments" alias="comments" />
+        <table name="planet" alias="planet" />
+    </tables>
+    <columns>
+        <column name="planet.module_srl" alias="module_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="comments.document_srl" var="document_srl" notnull="notnull" />
+        <condition operation="notequal" column="comments.member_srl" var="member_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="planet.member_srl" default="comments.member_srl" notnull="notnull" pipe="and" />
+    </conditions>
+    <groups>
+        <column target="planet.module_srl" />
+    </groups>
+</query>

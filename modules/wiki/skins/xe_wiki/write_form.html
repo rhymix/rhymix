@@ -1,0 +1,34 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert)" id="fo_write">
+<input type="hidden" name="mid" value="{$mid}" />
+<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
+<input type="hidden" name="title" value="{$entry}" />
+
+<div class="boardWrite">
+
+    <div class="editor">{$oDocument->getEditor()}</div>
+
+    <div class="tag">
+        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />
+        <p class="info">{$lang->about_tag}</p>
+    </div>
+</div>
+
+        <div class="fl gap1">
+            <!--@if($is_logged)-->
+            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_temp_save}"  onclick="doDocumentSave(this); return false;" /></span>
+            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_load}"  onclick="doDocumentLoad(this); return false;" /></span>
+            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" /></span>
+            <!--@end-->
+        </div>
+
+        <div class="fr gap1">
+            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
+            <span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </div>
+
+        <div class="clear"></div>
+    </form>
+<!--#include("footer.html")-->

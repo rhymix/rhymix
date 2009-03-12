@@ -2,28 +2,14 @@
 
 <!--#include("header.html")-->
 
-<table cellspacing="0" class="adminTable">
-<tr>
-    <th scope="row"><div>{$lang->layout}</div></th>
-    <td>{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
-</tr>
-<tr class="row2">  
-    <th scope="row"><div>{$lang->path}</div></th>
-    <td>{$selected_layout->path}</td>
-</tr>
-<!--@if($selected_layout->author->homepage)-->
-<tr>  
-    <th scope="row"><div>{$lang->author}</div></th>
-    <td><a href="{$selected_layout->author->homepage}" onclick="window.open(this.href);return false;" class="blue">{$selected_layout->author->name}</a></td>
-</tr>
-<!--@end-->
-<!--@if($selected_layout->author->description)-->
-<tr class="row2">  
-    <th scope="row"><div>{$lang->description}</div></th>
-    <td>{nl2br(trim($selected_layout->author->description))}</td>
-</tr>
-<!--@end-->
-</table>
+<h3 class="xeAdmin">{$selected_layout->layout_title}</h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li class="on"><a href="#" onclick="return false;">{$lang->cmd_layout_management}</a></li>
+        <li><a href="{getUrl('act','dispLayoutAdminEdit')}">{$lang->cmd_layout_edit}</a></li>
+    </ul>
+</div>
 
 <form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
 <input type="hidden" name="module" value="layout" />
@@ -31,7 +17,34 @@
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="layout" value="{$selected_layout->layout}" />
 
-<table cellspacing="0" class="adminTable">
+
+<table cellspacing="0" class="rowTable">
+<tr>
+    <th scope="row"><div>{$lang->layout}</div></th>
+    <td class="wide">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
+</tr>
+
+<!--@if($selected_layout->path)-->
+<tr class="row2">
+    <th scope="row"><div>{$lang->path}</div></th>
+    <td>{$selected_layout->path}</td>
+</tr>
+<!--@end-->
+
+<!--@if($selected_layout->description)-->
+<tr class="row2">
+    <th scope="row"><div>{$lang->description}</div></th>
+    <td>{nl2br(trim($selected_layout->description))}</td>
+</tr>
+<!--@end-->
+
+<!--@if($selected_layout->author->homepage)-->
+<tr>
+    <th scope="row"><div>{$lang->author}</div></th>
+    <td><a href="{$selected_layout->author->homepage}" onclick="window.open(this.href);return false;" class="blue">{$selected_layout->author->name}</a></td>
+</tr>
+<!--@end-->
+
 <tr>
     <th scope="row"><div>{$lang->header_script}</div></th>
     <td>
@@ -46,20 +59,16 @@
         <p>{$lang->about_title}</p>
     </td>
 </tr>
+
 <!--@foreach($selected_layout->extra_var as $name => $var)-->
 
 <!--@if($var->group && ((!$group) || $group != $var->group))-->
 {@$group = $var->group}
-</table>
-<table cellspacing="0" class="adminTable">
-<col width="150" />
-<col width="*" />
-<caption>{$group}</caption>
+<tr><th colspan="2" class="title">{$group}</th></tr>
 <!--@end-->
 
 <tr>
     <th scope="row"><div>{$var->title}</div></th>
-
     <td>
     <!--@if($var->type == "text")-->
         <input type="text" name="{$name}" value="{htmlspecialchars($var->value)}"  class="inputTypeText w400"/>
@@ -71,7 +80,7 @@
 
       <!--@if($var->value)-->
       <div>
-          <img src="{$var->value}" alt="image" /><br />
+          <img src="../../../{$var->value}" alt="image" /><br />
           <input type="checkbox" name="del_{$name}" value="Y" id="del_{$name}" class="checkbox" />
           <label for="del_{$name}">{$lang->cmd_delete}</label>
       </div>
@@ -115,16 +124,16 @@
         {$lang->about_not_apply_menu}
     </td>
 </tr>
+
 <tr class="row2">
-    <td colspan="2" class="right">
-        <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
+    <th colspan="2" class="button">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
         <!--@if($module=="admin")-->
         <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
         <!--@else-->
         <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
         <!--@end-->
-    </td>
+    </th>
 </tr>
 </table>
-
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

@@ -1,0 +1,12 @@
+<filter name="delete_alias" module="document" act="procDocumentAdminDeleteAlias" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="target_srl" required="true" />
+    </form>
+    <parameter>
+        <param name="alias_srl" target="target_srl" />
+    </parameter>
+    <response callback_func="completeInsertAlias">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

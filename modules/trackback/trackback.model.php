@@ -76,6 +76,9 @@
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
+            $args->site_srl = (int)$obj->site_srl;
+            $args->sort_index = 'trackbacks.list_order';
+            $args->order = 'asc';
 
             $output = executeQueryArray('trackback.getNewestTrackbackList', $args);
 

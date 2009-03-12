@@ -1,0 +1,15 @@
+<query id="getNewestDocuments" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="order_type" />
+        <list_count var="list_count" default="20" />
+    </navigation>
+</query>

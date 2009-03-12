@@ -1,0 +1,34 @@
+<!--%import("js/layout_image_list.js")-->
+<!--%import("js/layout_admin.js")-->
+<!--%import("../../admin/tpl/css/admin.css")-->
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">레이아웃 이미지 목록</h3>
+</div>
+
+<div id="popBody">
+    <!--@foreach($layout_image_list as $no => $file)-->
+        {@$ext=substr(strrchr($file,'.'),1)}
+        <div class="filebox_preview_{$val->module_filebox_srl}" style="width:100px;height:100px;float:left; position:relative;margin-right:10px; ">
+            <!--@if($ext=='swf'||$ext=='flv')-->
+            <script type="text/javascript">//<![CDATA[
+            displayMultimedia('{getUrl('')}{$layout_image_path}{$file}', '100%', '100%');
+            //]]></script>
+            <!--@elseif(in_array($ext,array('gif','png','jpg','jpeg')))-->
+                <img src="{getUrl('')}{$layout_image_path}{$file}" width="100%" height="100%" />
+            <!--@end-->
+            <span class="small button" style="position:absolute;left:3px; top:3px;"><button type="button" onclick="selectLayoutImage(request_uri+'{$layout_image_path}{$file}');">{$lang->cmd_select}</button></span>
+        </div>
+    <!--@end-->
+
+</div>
+<div id="popFooter">
+    <form action="{Context::getRequestUri()}" target="hidden_iframe" method="post" onsubmit="return checkFile(this)" enctype="multipart/form-data">
+    <input type="hidden" name="module" value="layout" />
+    <input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
+    <input type="hidden" name="layout_srl" value="{$layout_srl}" />
+        <input name="user_layout_image" type="file" />
+        <span class="button black strong"><button type="submit">{$lang->cmd_save}</button></span>
+    </form>
+</div>
+<iframe name="hidden_iframe" style="width:0;height:0;border:0"></iframe>

@@ -8,34 +8,37 @@
     class documentItem extends Object {
 
         var $document_srl = 0;
+        var $lang_code = null;
 
         var $allow_trackback_status = null;
 
-        function documentItem($document_srl = 0) {
+        function documentItem($document_srl = 0, $load_extra_vars = true) {
             $this->document_srl = $document_srl;
-            $this->_loadFromDB();
+
+            $this->_loadFromDB($load_extra_vars);
         }
 
-        function setDocument($document_srl) {
+        function setDocument($document_srl, $load_extra_vars = true) {
             $this->document_srl = $document_srl;
-            $this->_loadFromDB();
+            $this->_loadFromDB($load_extra_vars);
         }
 
-        function _loadFromDB() {
+        function _loadFromDB($load_extra_vars=true) {
             if(!$this->document_srl) return;
 
             $args->document_srl = $this->document_srl;
             $output = executeQuery('document.getDocument', $args);
 
-            $this->setAttribute($output->data);
+            $this->setAttribute($output->data,$load_extra_vars);
         }
 
-        function setAttribute($attribute) {
+        function setAttribute($attribute,$load_extra_vars=true) {
             if(!$attribute->document_srl) {
                 $this->document_srl = null;
                 return;
             }
             $this->document_srl = $attribute->document_srl;
+            $this->lang_code = $attribute->lang_code;
             $this->adds($attribute);
 
             // 태그 정리
@@ -45,6 +48,10 @@
                 for($i=0;$i<$tag_count;$i++) if(trim($tags[$i])) $tag_list[] = trim($tags[$i]);
                 $this->add('tag_list', $tag_list);
             }
+
+            $oDocumentModel = &getModel('document');
+            $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+            if($load_extra_vars) $oDocumentModel->setToAllDocumentExtraVars();
         }
 
         function isExists() {
@@ -161,6 +168,10 @@
             // 쪽지 발송
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+        }
+
+        function getLangCode() {
+            return $this->get('lang_code');
         }
 
         function getIpaddress() {
@@ -370,16 +381,32 @@
         }
 
         function isExtraVarsExists() {
-            for($i=1;$i<=20;$i++) {
-                if($this->get('extra_vars'.$i)) return true;
-            }
-            return false;
+            if(!$this->get('module_srl')) return false;
+            $oDocumentModel = &getModel('document');
+            $extra_keys = $oDocumentModel->getExtraKeys($this->get('module_srl'));
+            return count($extra_keys)?true:false;
         }
 
-        function getExtraValue($key) {
-            $val = $this->get('extra_vars'.$key);
-            if(strpos($val,'|@|')!==false) $val = explode('|@|', $val);
-            return $val;
+        function getExtraVars() {
+            if(!$this->get('module_srl') || !$this->document_srl) return null;
+
+            $oDocumentModel = &getModel('document');
+            return $oDocumentModel->getExtraVars($this->get('module_srl'), $this->document_srl);
+        }
+
+        function getExtraValue($idx) {
+            $extra_vars = $this->getExtraVars();
+            return $extra_vars[$idx]->value;
+        }
+
+        function getExtraValueHTML($idx) {
+            $extra_vars = $this->getExtraVars();
+            if(array_key_exists($idx,$extra_vars)){
+                return $extra_vars[$idx]->getValueHTML();
+            }else{
+                return '';
+            }
+
         }
 
         function getExtraVarsValue($key) {

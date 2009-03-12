@@ -1,7 +1,7 @@
 <!--#include("header.html")-->
 
 <!-- 레이아웃의 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="crossTable">
 <thead>
     <tr>
         <th scope="col" class="halfwide"><div>{$lang->layout_name}</div></th>
@@ -25,16 +25,16 @@
                     ({$val->layout})
                 </div>
             </th>
-            <td class="number center">{$val->version}</td>
-            <td class="center nowrap">
+            <td>{$val->version}</td>
+            <td>
                 <!--@foreach($val->author as $author)-->
                 <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
                 <!--@endforeach-->
             </td>
-            <td class="number center">{$val->menu_count}</td>
-            <td class="date center nowrap">{zdate($val->date, 'Y-m-d')}</td>
-            <td class="nowrap">{$val->path}</td>
-            <td class="center"><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="button"><span>{$lang->cmd_make}</span></a></td>
+            <td>{$val->menu_count}</td>
+            <td>{zdate($val->date, 'Y-m-d')}</td>
+            <td>{$val->path}</td>
+            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout)}" class="button"><span>{$lang->cmd_make}</span></a></td>
         </tr>
         <tr>
             <td colspan="6" class="left">

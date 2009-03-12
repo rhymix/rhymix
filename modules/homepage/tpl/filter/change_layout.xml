@@ -1,0 +1,7 @@
+<filter name="change_layout" module="homepage" act="procHomepageChangeLayout">
+    <form />
+    <response classback_func="completeChangeLayout">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

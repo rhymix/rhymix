@@ -75,6 +75,7 @@
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Category';
     $lang->none_category = 'None category';
+    $lang->none_image = '이미지 없음';
     $lang->document_srl = 'Doc. No.';
     $lang->user_id = 'User ID';
     $lang->author = 'Developer';
@@ -117,6 +118,7 @@
     $lang->order_type = 'Sorting Type';
     $lang->order_asc = 'ascend';
     $lang->order_desc = 'descend';
+    $lang->file = 'file';
 
     $lang->mid = 'Module Name';
     $lang->layout = 'Layout';
@@ -256,6 +258,7 @@
     $lang->column_type_list['textarea'] = 'multi-line textarea';
     $lang->column_type_list['checkbox'] = 'checkbox (multiple selection)';
     $lang->column_type_list['select'] = 'select box (single selection)';
+    $lang->column_type_list['radio'] = 'radio button (radio)';
     $lang->column_type_list['kr_zip'] = 'zip code (Korean)';
     $lang->column_type_list['date'] = 'date (yyyy/mm/dd)';
     //$lang->column_type_list['jp_zip'] = 'zip code (Japanese)';

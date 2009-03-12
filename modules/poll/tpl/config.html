@@ -4,15 +4,9 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config);" id="fo_poll">
 
-    <table cellspacing="0" class="adminTable">
-    <thead>
-        <tr>
-            <th scope="col" class="half_wide"><div>{$lang->skin}</div></th>
-            <th scope="col" class="half_wide"><div>{$lang->colorset}</div></th>
-        </tr>
-    </thead>
-    <tbody>
+    <table cellspacing="0" class="rowTable">
     <tr>
+        <th scope="col" class="half_wide"><div>{$lang->skin}</div></th>
         <td class="center">
             <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
             <!--@foreach($skin_list as $key => $val)-->
@@ -20,6 +14,9 @@
             <!--@end-->
             </select>
         </td>
+    </tr>
+    <tr>
+        <th scope="col" class="half_wide"><div>{$lang->colorset}</div></th>
         <td class="center">
             <select name="colorset" id="poll_colorset">
             <!--@foreach($colorset_list as $key => $val)-->
@@ -29,9 +26,9 @@
         </td>
     </tr>
     <tr class="row2">
-        <td scope="row" colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th scope="row" colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </tbody>
     </table>

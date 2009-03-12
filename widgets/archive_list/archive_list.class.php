@@ -17,24 +17,16 @@
         function proc($args) {
             $oModuleModel = &getModel('module');
 
-            // 기존에 mid_list, mid를 쓸 때의 코드를 위하여 하위 호환 유지 코드
+            // 대상 모듈 추출
             if($args->mid_list) {
                 $tmp_mid = explode(",",$args->mid_list);
-                $mid = $tmp_mid[0];
-            } elseif($args->mid) {
-                $mid = $args->mid;
-            }
-            if($mid) {
-                $module_srl = $oModuleModel->getModuleSrlByMid($mid);
-            }
-
-            if($args->srl) $module_srl = $args->srl;
-
-            // DocumentModel::getMonthlyArchivedList()를 이용하기 위한 변수 정리
-            $obj->module_srl = $module_srl;
+                $args->mid = $tmp_mid[0];
+            } 
+            if($args->mid) $args->srl = $oModuleModel->getModuleSrlByMid($args->mid);
 
             // 선택된 모듈이 없으면 실행 취소
-            if(!$obj->module_srl) return;
+            $obj->module_srl = $args->srl;
+            if(!$obj->module_srl) return Context::getLang('msg_not_founded');
 
             // 모듈의 정보를 구함
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($obj->module_srl);
@@ -44,8 +36,16 @@
             $output = $oDocumentModel->getMonthlyArchivedList($obj);
 
             // 템플릿 파일에서 사용할 변수들을 세팅
-            $widget_info->mid = $widget_info->module_name = $module_info->mid;
-            $widget_info->title = $args->title;
+            if($module_info->site_srl) {
+                $site_module_info = Context::get('site_module_info');
+                if($site_module_info->site_srl == $module_info->site_srl) $widget_info->domain = $site_module_info->domain;
+                else {
+                    $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
+                    $widget_info->domain = $site_info->domain;
+                }
+            } else $widget_info->domain = Context::getDefaultUrl();
+            $widget_info->module_info = $module_info;
+            $widget_info->mid = $module_info->mid;
             $widget_info->archive_list = $output->data;
 
             Context::set('widget_info', $widget_info);

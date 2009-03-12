@@ -1,0 +1,5 @@
+<table name="member_openid">
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+    <column name="openid" type="varchar" size="80" notnull="notnull" unique="unique_openid" />
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>

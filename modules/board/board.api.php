@@ -24,7 +24,8 @@
          * @brief 컨텐츠 목록
          **/
         function dispBoardContentList(&$oModule) {
-            $oModule->add('document_list',$this->arrangeContentList(Context::get('document_list')));
+            $document_list = $this->arrangeContentList(Context::get('document_list'));
+            $oModule->add('document_list',$document_list);
             $oModule->add('page_navigation',Context::get('page_navigation'));
         }
 
@@ -40,7 +41,10 @@
          * @brief 게시물 보기
          **/
         function dispBoardContentView(&$oModule) {
-            $oModule->add('oDocument',$this->arrangeContent(Context::get('oDocument')));
+            $oDocument = Context::get('oDocument');
+            $extra_vars = $oDocument->getExtraVars();
+            $oDocument->add('extra_vars',$this->arrangeExtraVars($extra_vars));
+            $oModule->add('oDocument',$this->arrangeContent($oDocument));
         }
 
 
@@ -78,14 +82,14 @@
         function arrangeContent($content) {
             $output = null;
             if($content){
-                $output= $content->gets('document_srl','category_srl','is_secret','nick_name','user_id','user_name','title','content','tags','voted_count','blamed_count','comment_count','regdate','last_update','extra_vars1','extra_vars2','extra_vars3','extra_vars4','extra_vars5','extra_vars6','extra_vars7','extra_vars8','extra_vars9','extra_vars10','extra_vars11','extra_vars12','extra_vars13','extra_vars14','extra_vars15','extra_vars16','extra_vars17','extra_vars18','extra_vars19','extra_vars20');
+                $output= $content->gets('document_srl','category_srl','is_secret','nick_name','user_id','user_name','title','content','tags','voted_count','blamed_count','comment_count','regdate','last_update','extra_vars');
             }
             return $output;
         }
 
         function arrangeComment($comment_list) {
             $output = array();
-            if(count($comment_list)) {
+            if(count($comment_list) > 0 ) {
                 foreach($comment_list as $key => $val){
                     $item = null;
                     $item = $val->gets('comment_srl','parent_srl','depth','is_secret','content','voted_count','blamed_count','user_id','user_name','nick_name','email_address','homepage','regdate','last_update');
@@ -98,7 +102,7 @@
 
         function arrangeFile($file_list) {
             $output = array();
-            if(count($file_list)) {
+            if(count($file_list) > 0) {
                 foreach($file_list as $key => $val){
                     $item = null;
                     $item->sid = $val->sid;
@@ -108,6 +112,21 @@
                     $item->file_size = $val->file_size;
                     $item->regdate = $val->regdate;
                     $item->download_url = $val->download_url;
+                    $output[] = $item;
+                }
+            }
+            return $output;
+        }
+
+        function arrangeExtraVars($list) {
+            $output = array();
+            if(count($list)) {
+                foreach($list as $key => $val){
+                    $item = null;
+                    $item->name = $val->name;
+                    $item->type = $val->type;
+                    $item->desc = $val->desc;
+                    $item->value = $val->value;
                     $output[] = $item;
                 }
             }

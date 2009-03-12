@@ -1,0 +1,7 @@
+<filter name="change_language" module="homepage" act="procHomepageChangeLanguage">
+    <form />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

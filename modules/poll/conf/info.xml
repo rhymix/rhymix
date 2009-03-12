@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">설문조사</title>
-    <title xml:lang="zh-CN">投票调查</title>
+    <title xml:lang="zh-CN">投票系统</title>
     <title xml:lang="jp">アンケート</title>
     <title xml:lang="en">Poll</title>
     <title xml:lang="es">Encuesta</title>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">管理投票調查的模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>accessory</category>
+    <category>content</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

@@ -33,6 +33,7 @@
     $lang->about_widget_cache = 'Se puede usar datos de caché creado durante el tiempo asignado.';
 
     $lang->generated_code = 'Generar códigos';
+    $lang->widgetstyle= '위젯스타일';
 
     $lang->msg_widget_is_not_exists = 'No existe widget %s .';
     $lang->msg_widget_object_is_null = 'No puede ser creado el objeto de widget %s.';

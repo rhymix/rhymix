@@ -2,7 +2,7 @@
 <!--%import("filter/insert_config.xml")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->thumbnail_type}</div></th>
     </tr>
@@ -13,13 +13,13 @@
         </td>
     </tr>
     <tr>
-        <td class="right"><span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></td>
+        <th class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
     </tr>
     </table>
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
-        <td class="right"><span class="button"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span></td>
+        <th class="button"><span class="button black strong"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span></th>
     </tr>
     </table>
 

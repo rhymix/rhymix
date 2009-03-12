@@ -33,7 +33,7 @@
 						<dd>
 							{$comment->getRegdate('H:i:s')}
 						</dd>
-                        <!--@if($grant->is_admin || $module_info->display_ip_address!='N')-->
+                        <!--@if($grant->manager || $module_info->display_ip_address!='N')-->
 						<dd>
                             ({$comment->getIpaddress()})
 						</dd>
@@ -43,7 +43,6 @@
                     <a name="comment_{$comment->get('comment_srl')}"></a>
                     <div class="itemContent">
 					<!--@if(!$comment->isAccessible())-->
-					<!--%import("filter/input_password.xml")-->
 						<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretMessage">
 						<input type="hidden" name="mid" value="{$mid}" />
 						<input type="hidden" name="page" value="{$page}" />

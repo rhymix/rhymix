@@ -49,23 +49,6 @@
     </author>
 
     <extra_vars>
-        <var id="title">
-            <type>text</type>
-            <name xml:lang="ko">제목</name>
-            <name xml:lang="zh-CN">栏目名</name>
-            <name xml:lang="jp">タイトル</name>
-            <name xml:lang="en">Title</name>
-            <name xml:lang="es">Título</name>
-            <name xml:lang="ru">Заголовок</name>
-            <name xml:lang="zh-TW">標題</name>
-            <description xml:lang="ko">보관 현황 제목으로 출력됩니다.</description>
-            <description xml:lang="zh-CN">将显示为存档标题。</description>
-            <description xml:lang="jp">バックアップリストのタイトルとして出力されます。</description>
-            <description xml:lang="en">It will be the title of the report.</description>
-            <description xml:lang="es">Este será el título del reporte.</description>
-            <description xml:lang="en">Это будет заголовком отчета.</description>
-            <description xml:lang="zh-TW">顯示封存標題。</description>
-        </var>
         <var id="srl">
             <type>mid</type>
             <name xml:lang="ko">대상 모듈</name>
@@ -76,7 +59,7 @@
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">把被选模块作为统计对象。</description>
+            <description xml:lang="zh-CN">把所选模块作为统计对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles will be the ones submitted in the selected module.</description>
             <description xml:lang="es">Los documentos ingresados en el módulo seleccionado serán el objetivo.</description>

@@ -49,7 +49,7 @@
     $lang->cmd_close = '关闭';
     $lang->cmd_open = '打开';
     $lang->cmd_setup = '设置';
-    $lang->cmd_addition_setup = '扩展设置';
+    $lang->cmd_addition_setup = '高级选项';
     $lang->cmd_option = '选项';
     $lang->cmd_apply = '应用';
     $lang->cmd_open_calendar = '选择日期';
@@ -58,7 +58,7 @@
     $lang->cmd_scrap = '收藏';
     $lang->cmd_preview = '预览';
     $lang->cmd_reset = '初始化';
-    $lang->cmd_remake_cache = "重新生成缓冲文件";
+    $lang->cmd_remake_cache = "更新缓冲";
     $lang->cmd_publish = "发表";
     $lang->cmd_layout_setup = '布局设置';
     $lang->cmd_layout_edit = '编辑布局';
@@ -75,6 +75,7 @@
     $lang->secret = '密帖';
     $lang->category = $lang->category_srl = '分类';
     $lang->none_category = '无分类';
+    $lang->none_image = '无图';
     $lang->document_srl = '文章编号';
     $lang->user_id = '用户名';
     $lang->author = '制作';
@@ -117,6 +118,7 @@
     $lang->order_type = '排序方式';
     $lang->order_asc = '升序';
     $lang->order_desc = '倒序';
+    $lang->file = '文件';
 
     $lang->mid = '模块名称';
     $lang->layout = '布局';
@@ -124,7 +126,7 @@
     $lang->module = '模块';
     $lang->skin = '皮肤';
     $lang->colorset = '颜色设定';
-    $lang->extra_vars = '扩展变数';
+    $lang->extra_vars = '扩展变量';
 
     $lang->domain = "域名";
     $lang->url = "URL";
@@ -256,6 +258,7 @@
     $lang->column_type_list['textarea'] = '多行文本框 (textarea)';
     $lang->column_type_list['checkbox'] = '复选框 (checkbox)';
     $lang->column_type_list['select'] = '下拉列表框 (select)';
+    $lang->column_type_list['radio'] = '单选框 (radio)';
     $lang->column_type_list['kr_zip'] = '韩国邮编(zip)';
     $lang->column_type_list['date'] = '日期 (年月日)';
     //$lang->column_type_list['jp_zip'] = '日本地址 (zip)';

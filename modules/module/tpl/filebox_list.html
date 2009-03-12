@@ -1,0 +1,65 @@
+<!--%load_js_plugin("filebox")-->
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->filebox}</h3>
+</div>
+
+<div id="popBody">
+    <table class="rowTable" cellspacing="0">
+    <thead>
+        <tr>
+            <th width="105">{$lang->file}</th>
+            <th>{$lang->description}</th>
+            <th width="105">{$lang->regdate}</th>
+            <th width="100"></th>
+        </tr>
+    </thead>
+    <tbody>
+<!--@foreach($filebox_list as $key=>$val)-->
+    <tr>
+        <td>
+        <div id="filebox_preview_{$val->module_filebox_srl}" style="width:100px;height:100px;float:left;">
+            <!--@if($val->fileextension=='swf')-->
+
+            <object height="100%" width="100%" flashvars="" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" xmlns="http://www.w3.org/1999/xhtml">
+                <param value="{getUrl('')}{$val->filename}" name="movie" xmlns="http://www.w3.org/1999/xhtml" />
+                <param value="transparent" name="wmode" xmlns="http://www.w3.org/1999/xhtml" />
+                <param value="sameDomain" name="allowScriptAccess" xmlns="http://www.w3.org/1999/xhtml" />
+                <param value="high" name="quality" xmlns="http://www.w3.org/1999/xhtml" />
+                <embed height="100%" width="100%" wmode="transparent" flashvars="" autostart="false" src="{getUrl('')}{$val->filename}" xmlns="http://www.w3.org/1999/xhtml" />
+            </object>
+
+            <!--@elseif(in_array($val->fileextension,array('gif','png','jpg','jpeg')))-->
+                <img src="{getUrl('')}{$val->filename}" width="100%" height="100%" />
+            <!--@end-->
+        </div>
+        </td>
+        <td>{$val->comment}</td>
+        <td>{zdate($val->regdate,'Y-m-d H:i')}</td>
+        <td>
+            <!--@if(!$filter || (is_array($arrfilter) && in_array($val->fileextension,$arrfilter)))-->
+            <span class="small button black"><button type="button" onclick="XE.filebox.selectFile('{getUrl('')}{$val->filename}','{$val->module_filebox_srl}');">{$lang->cmd_select}</button></span>
+            <!--@end-->
+            <span class="small button"><button type="button" onclick="XE.filebox.deleteFile('{$val->module_filebox_srl}');">{$lang->cmd_delete}</button></span>
+        </td>
+    </tr>
+<!--@end-->
+    </tbody>
+    </table>
+        <!-- 페이지 네비게이션 -->
+        <div class="pagination a1">
+            <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a>
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong>
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+        </div>
+</div>
+
+<div id="popFooter">
+    <a href="{getUrl('','module','module','act','dispModuleFileBoxAdd','filter',$filter,'input',$input)}" class="button black"><span>{$lang->cmd_registration}</span></a>
+</div>

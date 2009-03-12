@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
+    <permissions />
     <actions>
         <action name="dispPollAdminList" type="view" admin_index="true" standalone="true" />
         <action name="dispPollAdminResult" type="view" standalone="true" />
 
-        <action name="dispPollAdminConfig" type="controller" standalone="true" />
+        <action name="dispPollAdminConfig" type="view" standalone="true" />
 
         <action name="getPollGetColorsetList" type="model" standalone="true" />
 

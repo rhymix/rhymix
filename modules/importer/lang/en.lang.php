@@ -27,14 +27,18 @@
         13 => 'Step 1-3. Select target category',
         2 => 'Step 2. Upload XML file',
         3 => 'Step 2. Synchronize member data and article data',
+        99 => 'Transferring data',
     );
 
     $lang->import_step_desc = array(
         1 => 'Please select the XML file\'s type you wish to transfer.',
         12 => 'Please select the module you wish to transfer datas.',
+        121 => 'Posts:',
+        122 => 'Guestbook:',
         13 => 'Please select the target category you wish to tranfer datas.',
         2 => "Please input the XML file's location you wish to tranfer datas.\nIf it is located in the same account, input absolute/relative path. If not, input the url starting with http://..",
         3 => 'The member data and article data may not be correct after the transferation. If that is the case, synchronize to repair it based on user_id.',
+        99 => 'Transferring data in progress.',
     );
 
     // guide/alert

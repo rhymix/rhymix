@@ -18,39 +18,10 @@
 
         function moduleInstall() 
         {
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
-            $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerViewMilestone');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerViewSource');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerViewIssue');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerNewIssue');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerDeleteIssue');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerDeleteTrackback');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerDownload');
-
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminContent');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminProjectSetting');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminReleaseSetting');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminAdditionSetup');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminGrantInfo');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminSkinInfo');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminInsertProject');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminDeleteIssuetracker');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminProjectInfo');
-
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminModifyMilestone');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminModifyPriority');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminModifyType');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminModifyComponent');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminModifyPackage');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminModifyRelease');
-            $oModuleController->insertActionForward('issuetracker', 'view', 'dispIssuetrackerAdminAttachRelease');
-
-            $oModuleController->insertActionForward('issuetracker', 'controller', 'procIssuetrackerAdminAttachRelease');
-
             // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
+            $oModuleController = &getController('module');
             $oModuleController->insertTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after');
-
+            $oModuleController->insertTrigger('document.deleteDocument', 'issuetracker', 'controller', 'triggerDeleteDocument', 'after');
 
             $oDB = &DB::getInstance();
             $oDB->addIndex("issue_changesets","idx_unique_revision", array("module_srl","revision"), true);
@@ -61,6 +32,7 @@
             $oModuleModel = &getModel('module');
             // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
             if(!$oModuleModel->getTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after')) return true;
+            if(!$oModuleModel->getTrigger('document.deleteDocument', 'issuetracker', 'controller', 'triggerDeleteDocument', 'after')) return true;
             return false;
         }
 
@@ -71,7 +43,8 @@
             // 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
             if(!$oModuleModel->getTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after'))
                 $oModuleController->insertTrigger('member.getMemberMenu', 'issuetracker', 'controller', 'triggerMemberMenu', 'after');
-
+            if(!$oModuleModel->getTrigger('document.deleteDocument', 'issuetracker', 'controller', 'triggerDeleteDocument', 'after')) 
+                $oModuleController->insertTrigger('document.deleteDocument', 'issuetracker', 'controller', 'triggerDeleteDocument', 'after');
             return new Object(0, 'success_updated');
         }
     }

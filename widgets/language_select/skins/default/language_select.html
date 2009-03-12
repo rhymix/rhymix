@@ -1,10 +1,18 @@
-<div class="tCenter">
-    <select name="lang_type" onchange="doChangeLangType(this)">
-        <option value="{$lang_type}">{$lang_supported[$lang_type]}</option>
-        <!--@foreach($lang_supported as $key => $val)-->
-        <!--@if($key != $lang_type)-->
-        <option value="{$key}">{$val}</option>
-        <!--@end-->
-        <!--@end-->
-    </select>
+<!--%import("./js/language_select.js")-->
+<!--@if($colorset == "black" || $colorset == "white")-->
+    <!--%import("./css/widget.css")-->
+<!--@end-->
+
+<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
+    <div class="widgetLanguage">
+        <p><a href="#" class="cafeXeA language_selector">Language:{$lang_supported[$lang_type]}</a></p>
+        <ul class="langList" class="" style="right: 3px;">
+            <!-- class="" | class="open" -->
+            <!--@foreach($lang_supported as $key => $val)-->
+            <!--@if($key != $lang_type)-->
+            <li><a href="#" onclick="doChangeLangType('{$key}');return false;">{$val}</a></li>
+            <!--@end-->
+            <!--@end-->
+        </ul>
+    </div>
 </div>

@@ -17,8 +17,7 @@
     class issuetrackerModel extends issuetracker {
         var $oSvn = null;
 
-        function init()
-        {
+        function init() {
         }
 
         function &getProjectInfo($module_srl) {
@@ -96,7 +95,11 @@
                         break;
                     default :
                             preg_match('/^extra_vars([0-9]+)$/',$args->search_target,$matches);
-                            if($matches[1]) $args->{"s_extra_vars".$matches[1]} = $args->search_keyword;
+                            if($matches[1]) {
+                                $query_id = 'issuetracker.getIssueListWithExtraVars';
+                                $args->var_idx = $matches[1];
+                                $args->var_value = str_replace(' ','%',$args->search_keyword);
+                            }
                         break;
                 }
             }
@@ -353,11 +356,9 @@
             return $release;
         }
 
-        function getGroupMembers($group_srls) {
-            if(!$group_srls) return;
-            if(!is_array($group_srls)) $group_srls = array($group_srls);
-
-            $args->group_srls = implode(',',$group_srls);
+        function getGroupMembers($module_srl, $grant_name) {
+            $args->module_srl = $module_srl;
+            $args->name = $grant_name;
             $output = executeQueryArray('issuetracker.getGroupMembers', $args);
             return $output->data;
         }
@@ -383,7 +384,7 @@
         }
 
 
-        function getChangesets($module_srl, $enddate = null, $limit = 10)
+        function getChangesets($module_srl, $enddate = null, $limit = 10, $targets)
         {
             if(!$enddate)
             {
@@ -392,11 +393,13 @@
             $args->enddate = date("Ymd", ztime($enddate)+24*60*60);
             $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
             $args->module_srl = $module_srl;
-            $output = executeQueryArray("issuetracker.getChangesets", $args);
-            if(!$output->toBool())
+            if(in_array('commit', $targets))
             {
-                debugPrint($output);
-                return array();
+                $output = executeQueryArray("issuetracker.getChangesets", $args);
+                if(!$output->toBool())
+                {
+                    return array();
+                }
             }
             if(!$output->data)
             {
@@ -407,46 +410,52 @@
                 $changeset->message = $this->_linkXE($changeset->message);
             }
 
-            $solvedHistory = array();
-            $output2 = executeQueryArray("issuetracker.getHistories", $args);
-            if(count($output2->data)) {
-                foreach($output2->data as $history)
-                {
-                    $hist = unserialize($history->history);
-                    $h = array();
-                    if(!is_array($hist)) continue;
-                    $res = "";
-                    $bFirst = true;
-                    foreach($hist as $key => $val) {
-                        if($bFirst) { $bFirst = false; }
-                        else { $res .= "<br />"; }
-                        if($val[0]) $str = Context::getLang('history_format');
-                        else $str = Context::getLang('history_format_not_source');
-                        $str = str_replace('[source]', $val[0], $str);
-                        $str = str_replace('[target]', $val[1], $str);
-                        $str = str_replace('[key]', Context::getLang($key), $str);
-                        $res .= $str;
+            if(in_array('issue_changed', $targets))
+            {
+                $solvedHistory = array();
+                $output2 = executeQueryArray("issuetracker.getHistories", $args);
+                if(count($output2->data)) {
+                    foreach($output2->data as $history)
+                    {
+                        $hist = unserialize($history->history);
+                        $h = array();
+                        if(!is_array($hist)) continue;
+                        $res = "";
+                        $bFirst = true;
+                        foreach($hist as $key => $val) {
+                            if($bFirst) { $bFirst = false; }
+                            else { $res .= "<br />"; }
+                            if($val[0]) $str = Context::getLang('history_format');
+                            else $str = Context::getLang('history_format_not_source');
+                            $str = str_replace('[source]', $val[0], $str);
+                            $str = str_replace('[target]', $val[1], $str);
+                            $str = str_replace('[key]', Context::getLang($key), $str);
+                            $res .= $str;
+                        }
+                        $obj = null;
+                        $obj->date = $history->regdate;
+                        $obj->type = "changed";
+                        $obj->message = $res;
+                        $obj->target_srl = $history->target_srl;
+                        $obj->author = $history->nick_name;
+                        $output->data[] = $obj;
                     }
-                    $obj = null;
-                    $obj->date = $history->regdate;
-                    $obj->type = "changed";
-                    $obj->message = $res;
-                    $obj->target_srl = $history->target_srl;
-                    $obj->author = $history->nick_name;
-                    $output->data[] = $obj;
                 }
             }
 
-            $output2 = executeQueryArray("issuetracker.getDocumentListForChangeset", $args);
-            if(count($output2->data)) {
-                foreach($output2->data as $history)
-                {
-                    $obj = null;
-                    $obj->date = $history->regdate;
-                    $obj->type = "created";
-                    $obj->author = $history->nick_name;
-                    $obj->target_srl = $history->document_srl;
-                    $output->data[] = $obj;
+            if(in_array('issue_created', $targets))
+            {
+                $output2 = executeQueryArray("issuetracker.getDocumentListForChangeset", $args);
+                if(count($output2->data)) {
+                    foreach($output2->data as $history)
+                    {
+                        $obj = null;
+                        $obj->date = $history->regdate;
+                        $obj->type = "created";
+                        $obj->author = $history->nick_name;
+                        $obj->target_srl = $history->document_srl;
+                        $output->data[] = $obj;
+                    }
                 }
             }
 

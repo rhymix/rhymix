@@ -36,6 +36,10 @@
     $lang->image_mark = '이미지 마크';
     $lang->image_mark_max_width = '가로 제한 크기';
     $lang->image_mark_max_height = '세로 제한 크기';
+    $lang->group_image_mark = '그룹 이미지 마크';
+    $lang->group_image_mark_max_width = '가로 제한 크기';
+    $lang->group_image_mark_max_height = '세로 제한 크기';
+    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->signature_max_height = '서명 높이 제한';
     $lang->enable_openid = 'OpenID 지원';
     $lang->enable_join = '회원 가입 허가';
@@ -59,6 +63,7 @@
             'N' => '모두 금지',
     );
     $lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
+    $lang->logged_users = '현재 접속자';
 
     $lang->webmaster_name = '웹마스터 이름';
     $lang->webmaster_email = '웹마스터 메일주소';
@@ -84,6 +89,7 @@
     $lang->cmd_login = '로그인';
     $lang->cmd_logout = '로그아웃';
     $lang->cmd_signup = '회원 가입';
+    $lang->cmd_site_signup = '가입';
     $lang->cmd_modify_member_info = '회원 정보 수정';
     $lang->cmd_modify_member_password = '비밀번호 변경';
     $lang->cmd_view_member_info = '회원 정보 보기';
@@ -108,7 +114,7 @@
     $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다';
 
     $lang->msg_cart_is_null = '대상을 선택해주세요';
-    $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
+    $lang->msg_checked_file_is_deleted = "%d개의 첨부파일이 삭제되었습니다";
 
     $lang->msg_find_account_title = '아이디/ 비밀번호 정보입니다';
     $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다';
@@ -116,8 +122,8 @@
     $lang->msg_confirm_account_title = '가입 인증 메일 입니다';
     $lang->msg_confirm_account_info = '가입하신 계정 정보는 아래와 같습니다';
     $lang->msg_confirm_account_comment = '아래 링크를 클릭하시면 가입 인증이 이루어집니다.';
-    $lang->msg_auth_mail_sent = '%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.';
-    $lang->msg_confirm_mail_sent = '%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.';
+    $lang->msg_auth_mail_sent = "%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.";
+    $lang->msg_confirm_mail_sent = "%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.";
     $lang->msg_invalid_auth_key = '잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요';
     $lang->msg_success_authed = '인증이 정상적으로 되어 로그인 처리가 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.';
     $lang->msg_success_confirmed = '가입 인증이 정상적으로 처리 되었습니다.';
@@ -141,12 +147,13 @@
     $lang->msg_not_uploaded_profile_image = '프로필 이미지를 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다';
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
     $lang->msg_accept_agreement = '약관에 동의하셔야 합니다'; 
 
     $lang->msg_user_denied = '입력하신 아이디의 사용이 중지되셨습니다';
     $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
-    $lang->msg_user_limited = '입력하신 아이디는 %s 이후부터 사용하실 수 있습니다';
+    $lang->msg_user_limited = "입력하신 아이디는 %s 이후부터 사용하실 수 있습니다";
 
     $lang->about_user_id = '사용자 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다';
     $lang->about_password = '비밀번호는 6~20자로 되어야 합니다';
@@ -183,6 +190,7 @@
 
     $lang->about_image_name = '사용자의 이름을 글자 대신 이미지로 사용할 수 있게 합니다';
     $lang->about_image_mark = '사용자의 이름앞에 마크를 달 수 있습니다';
+    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
     $lang->about_signature_max_height = '서명란의 높이를 제한 할 수 있습니다. (0 또는 비워두면 제한하지 않습니다)';
     $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다'; 
@@ -195,4 +203,5 @@
 
     $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입폼 관리등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입폼관리를 통한 기본 정보외의 추가 정보를 요구받을 수도 있습니다.";
     $lang->about_ssl_port = '기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요';
+    $lang->add_openid = '오픈아이디 추가';
 ?>

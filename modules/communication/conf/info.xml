@@ -12,7 +12,7 @@
     <description xml:lang="zh-TW">管理線上會員間短訊及好友功能的模組。</description>
     <version>0.1</version>
     <date>2008-05-30</date>
-    <category>utility</category>
+    <category>member</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

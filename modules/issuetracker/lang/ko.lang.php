@@ -41,6 +41,7 @@
      $lang->assignee = '소유자';
      $lang->status = '상태';
      $lang->action = '동작';
+     $lang->display_option = '표시 옵션';
 
      $lang->history_format_not_source = '<span class="target">[target]</span> 으로 <span class="key">[key]</span> 변경';
      $lang->history_format = '<span class="source">[source]</span> 에서 <span class="target">[target]</span> 으로 <span class="key">[key]</span> 변경';
@@ -100,4 +101,11 @@
     );
 
     $lang->cmd_manage_issue = '이슈 관리';
+    $lang->msg_changes_from = '시작 날짜';
+    $lang->duration = '기간';
+    $lang->target_list = array(
+        'issue_created' => '생성된 이슈',
+        'issue_changed' => '변경된 이슈',
+        'commit' => '소스변경'
+        );
 ?>

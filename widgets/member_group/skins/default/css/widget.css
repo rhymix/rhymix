@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+/* widgetUlistA */
+.widgetUlistA { margin:0; padding:0; font-size:12px; line-height:1.5;}
+.widgetUlistA li{ list-style:none;}
+.widgetUlistA li a{ color:#666; text-decoration:none;}
+
+.widgetContainer.black .widgetUlistA { margin:0; padding:0; font-size:12px; line-height:1.5;}
+.widgetContainer.black .widgetUlistA li{ list-style:none;}
+.widgetContainer.black .widgetUlistA li a{ color:#999; text-decoration:none;}

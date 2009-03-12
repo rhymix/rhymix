@@ -19,7 +19,6 @@
 <!--@if(!$layout_info->colorset)-->
     {@$layout_info->colorset = "default"}
 <!--@end-->
-
 <div id="bodyWrap">
     <div id="header">
         <h1><!--@if($layout_info->logo_image)--><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a><!--@else-->&nbsp;<!--@end--></h1>
@@ -64,7 +63,7 @@
 
             <!-- 왼쪽 2차 메뉴 -->
             <img src="./images/blank.gif" alt="" class="mask" />
-
+			
             <!--@if($menu_1st)-->
             <ol id="lnb">
                 {@ $idx = 1 }

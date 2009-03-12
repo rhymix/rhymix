@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2" type="faceoff">
+    <title xml:lang="ko">XE Face off 레이아웃</title>
+    <title xml:lang="zh-TW">XE Face off 版面</title>
+    <description xml:lang="ko">XE FaceOff 레이아웃입니다.</description>
+    <description xml:lang="zh-TW">XE FaceOff版面</description>
+    <version>0.1</version>
+    <date>2009-01-02</date>
+    <author email_address="sol@ngleader.com" link="http://ngleader.com">
+        <name xml:lang="ko">sol</name>
+        <name xml:lang="jp">sol</name>
+        <name xml:lang="en">sol</name>
+        <name xml:lang="ge">sol</name>
+        <name xml:lang="ru">sol</name>
+        <name xml:lang="es">sol</name>
+        <name xml:lang="zh-CN">sol</name>
+        <name xml:lang="zh-TW">sol</name>
+    </author>
+    <author email_address="" link="http://naradesign.com">
+        <name xml:lang="ko">sol</name>
+        <name xml:lang="jp">sol</name>
+        <name xml:lang="en">sol</name>
+        <name xml:lang="ge">sol</name>
+        <name xml:lang="ru">sol</name>
+        <name xml:lang="es">sol</name>
+        <name xml:lang="zh-CN">sol</name>
+        <name xml:lang="zh-TW">sol</name>
+    </author>
+
+
+    <extra_vars>
+        <var name="index_url" type="text">
+            <title xml:lang="ko">홈 페이지 URL</title>
+            <title xml:lang="jp">ホームページURL</title>
+            <title xml:lang="zh-CN">主页地址</title>
+            <title xml:lang="zh-TW">主頁網址</title>
+            <title xml:lang="en">Homepage URL</title>
+            <title xml:lang="ge">Homepage URL</title>
+            <title xml:lang="ru">Домашняя страница URL</title>
+            <title xml:lang="es">URL de la página web</title>
+            <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+            <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力してください。</description>
+            <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
+            <description xml:lang="zh-TW">請輸入當用戶按了網站Logo後，要前往的頁面網址。</description>
+            <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
+            <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
+            <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
+            <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
+        </var>
+        <var name="logo_image" type="image">
+            <title xml:lang="ko">로고이미지</title>
+            <title xml:lang="jp">ロゴイメージ</title>
+            <title xml:lang="zh-CN">LOGO图片</title>
+            <title xml:lang="zh-TW">Logo圖片</title>
+            <title xml:lang="en">Logo image</title>
+            <title xml:lang="ge">Logobildes</title>
+            <title xml:lang="ru">Изображения логотипа</title>
+            <title xml:lang="es">Imagen del logotipo</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
+            <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力してください。 (縦幅が23pxである透明イメージが最も合います。)</description>
+            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为23px的透明图片为适。)</description>
+            <description xml:lang="zh-TW">請輸入要顯示在版面上端的Logo圖片。(適當高度為23px的透明圖片。)</description>
+            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
+            <description xml:lang="ge">Bitte geben Sie ein Logo das Bild wird auf dem oberen Layout. (Transparent Bild mit einer Höhe von 23px wird empfohlen).</description>
+            <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
+            <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
+        </var>
+        <var name="logo_text" type="text">
+            <title xml:lang="ko">로고 글자</title>
+            <title xml:lang="jp">ロゴ文字</title>
+            <title xml:lang="zh-CN">标志字符</title>
+            <title xml:lang="zh-TW">Logo文字</title>
+            <title xml:lang="en">LOGO characters</title>
+            <title xml:lang="ge">LOGO Zeichen </title>
+            <title xml:lang="ru">LOGO символов </title>
+            <title xml:lang="es">LOGO caracteres </title>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고 글자를 입력해주세요. 로고 이미지가 있으면 표시되지 않습니다.</description>
+            <description xml:lang="jp">レイアウトの上部に表示されるロゴの文字を入力してください。ロゴ画像がある場合は表示されません。</description>
+            <description xml:lang="zh-CN">顶部的徽标上的显示布局，请输入字母。如果图片不显示徽标。</description>
+            <description xml:lang="zh-TW">請輸入要顯示在版面上方的文字。</description>
+            <description xml:lang="en">Logo at the top of the display layout, please enter the letters. If the image does not display the logo.</description>
+            <description xml:lang="ge">Logo am oberen Rand des Displays Layout, geben Sie bitte die Buchstaben. Wenn das Bild nicht das Logo.</description>
+            <description xml:lang="ru">Логотип на верхней части дисплея формата, пожалуйста, введите буквы. Если изображение не отображается логотип.</description>
+            <description xml:lang="es">Logo en la parte superior de la pantalla de diseño, por favor, introduzca las letras. Si la imagen no se muestra el logotipo.</description>
+        </var>
+        <var name="copyright_text" type="text"> 
+            <title xml:lang="ko">카피라이트 문구</title>
+            <title xml:lang="jp">Copyright文具</title>
+            <title xml:lang="zh-CN">版权所有文具</title>
+            <title xml:lang="zh-TW">版權所有</title>
+            <title xml:lang="en">Copyright Stationery </title>
+            <title xml:lang="ge">Copyright Stationery </title>
+            <title xml:lang="ru">Copyright Канцтовары</title>
+            <title xml:lang="es">Papel del derecho de autor</title>
+            <description xml:lang="ko">하단에 표시될 카피라이트 문구를 설정할 수 있습니다</description>
+            <description xml:lang="jp">レイアウトの下部に表示されるcopyrightフレーズを入力してください。</description>
+            <description xml:lang="zh-CN">布局显示在下方的版权声明请。</description>
+            <description xml:lang="zh-TW">請輸入要顯示在版面下方的版權聲明。</description>
+            <description xml:lang="en">Layout displayed in the bottom of the copyright notice please.</description>
+            <description xml:lang="ge">Layout angezeigt, im unteren Teil der Urheberrechtsschutz bitte.</description>
+            <description xml:lang="ru">Макет отображается в нижней части авторских прав, пожалуйста.</description>
+            <description xml:lang="es">Diseño de muestra en la parte inferior de la nota de copyright, por favor.</description>
+        </var>
+    </extra_vars>
+    <menus>
+        <menu name="main_menu" maxdepth="3" default="true">
+            <title xml:lang="ko">상단 메뉴</title>
+            <title xml:lang="jp">上段メニュー</title>
+            <title xml:lang="zh-CN">主菜单</title>
+            <title xml:lang="zh-TW">主選單</title>
+            <title xml:lang="en">Top menu</title>
+            <title xml:lang="ge">Top Menü</title>
+            <title xml:lang="ru">Верхнее меню</title>
+            <title xml:lang="es">Menú Principal</title>
+        </menu>
+    </menus>
+</layout>

@@ -1,0 +1,34 @@
+<!--#include("_header.html")-->
+
+<h4 class="xeAdmin">{$lang->cmd_admin_menus[$act]}</h4>
+<p class="summary">{$lang->about_cafe_act[$act]}</p>
+
+<table cellspacing="0" class="rowTable">
+<thead>
+    <tr>
+        <th scope="col"><div>{$lang->module}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
+        <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->cmd_setup}</div></th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($mid_list as $no => $val)-->
+    <tr class="row{$cycle_idx}">
+        <td class="nowrap">{Context::getLang($val->module)}</td>
+        <td class="nowrap"><a href="{getSiteUrl($site_module_info->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->mid)}</a></td>
+        <td class="wide"><a href="{getSiteUrl($site_module_info->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$val->browser_title}</a></td>
+        <td class="nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+        <!--@if($val->module=='board')-->
+        <td><a href="{getUrl('act','dispHomepageBoardInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <!--@else-->
+        <td><a href="{getUrl('act','dispHomepagePageGrant','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <!--@end-->
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+</form>
+
+<!--#include("_footer.html")-->

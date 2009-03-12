@@ -1,18 +1,12 @@
 <!--%import("js/member_admin.js")-->
 <!--%import("js/krzip_search.js")-->
+<!--%import("css/member_admin.css")-->
 
-<h3>{$lang->member} <span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->member} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_member)}</div>
 
 <div class="header4">
-<!-- 정보 -->
-    <!--@if($total_count)-->
-    <div class="summary">
-        <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-    </div>
-    <!--@end-->
-
     <ul class="localNavigation">
         <li <!--@if($act=='dispMemberAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminList','member_srl','')}">{$lang->cmd_member_list}</a></li>
         <li <!--@if($act=='dispMemberAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminConfig')}">{$lang->cmd_module_config}</a></li>

@@ -1,0 +1,15 @@
+<query id="getHistories" action="select">
+    <tables>
+        <table name="document_histories" />
+    </tables>
+    <columns>
+        <column name="history_srl" />
+        <column name="nick_name" />
+        <column name="member_srl" />
+        <column name="regdate" />
+        <column name="ipaddress" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

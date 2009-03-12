@@ -1,0 +1,14 @@
+<query id="insertModuleFileBox" action="insert">
+    <tables>
+        <table name="module_filebox" />
+    </tables>
+    <columns>
+        <column name="module_filebox_srl"  var="module_filebox_srl"  notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="filename" var="filename" />
+        <column name="fileextension" var="fileextension" />
+        <column name="filesize" var="filesize" />
+        <column name="comment" var="comment" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

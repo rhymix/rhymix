@@ -1,0 +1,58 @@
+<!--%import("js/module_admin.js")-->
+<!--%import("filter/insert_modules_grant.xml")-->
+
+<script type="text/javascript">
+    jQuery( function() { jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); doShowGrantZone() } );
+</script>
+
+
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->bundle_grant_setup}</h3>
+</div>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_modules_grant)" id="fo_obj">
+<input type="hidden" name="module_srls" value="{$module_srls}" />
+
+<div id="popBody">
+
+    <h4 class="xeAdmin">{$lang->about_grant}</h4>
+    <p class="summary">{$lang->about_grant_deatil}</p>
+    <table cellspacing="0" class="crossTable">
+    <thead>
+    <tr>
+        <th scope="col"><div>{$lang->grant}</div></th>
+        <th scope="col" colspan="3"><div>{$lang->target}</div></th>
+    </tr>
+    </thead>
+
+    <tbody>
+        <!--@foreach($grant_list as $grant_name => $grant_item)-->
+        <tr class="row{$cycle_idx}">
+            <th scope="row"><div>{$grant_item->title}</div></th>
+            <td class="wide">
+                <select name="{$grant_name}_default" class="grant_default">
+                    <!--@if($grant_item->default == 'guest')--><option value="0">{$lang->grant_to_all}</option><!--@end-->
+                    <!--@if($grant_item->default != 'manager')--><option value="-1">{$lang->grant_to_login_user}</option><!--@end-->
+                    <!--@if($grant_item->default != 'manager')--><option value="-2" <!--@if($default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_site_user}</option><!--@end-->
+                    <option value="">{$lang->grant_to_group}</option>
+                </select>
+                <div id="zone_{$grant_name}" style="display:none">
+                    <!--@foreach($group_list as $group_srl => $group_item)-->
+                    <input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" /> 
+                    <label for="grant_{$grant_name}_{$group_srl}">{$group_item->title}</label>
+                    <!--@end-->
+                </div>
+            </td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+
+</div>
+
+<div id="popFooter">
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+</div>
+
+</form>
+

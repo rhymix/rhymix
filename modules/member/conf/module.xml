@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
+    <grants />
+    <permissions />
     <actions>
         <action name="dispMemberInfo" type="view" standalone="true" />
         <action name="dispMemberSignUpForm" type="view" standalone="true" />
@@ -33,6 +35,11 @@
         <action name="procMemberLogin" type="controller" standalone="true" />
         <action name="procMemberOpenIDLogin" type="controller" standalone="true" />
         <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
+        <action name="procModuleSiteSignUp" type="controller" standalone="true" />
+        <action name="procModuleSiteLeave" type="controller" standalone="true" />
+        <action name="procMemberAddOpenIDToMember" type="controller" standalone="true" />
+        <action name="procMemberValidateAddOpenIDToMember" type="controller" standalone="true" />
+        <action name="procMemberDeleteOpenIDFromMember" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberCheckValue" type="controller" standalone="true" />
         <action name="procMemberInsert" type="controller" standalone="true" />
@@ -54,6 +61,7 @@
 
         <action name="procMemberFindAccount" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />
+        <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
 
         <action name="procMemberAdminInsert" type="controller" standalone="true" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />
@@ -66,5 +74,6 @@
         <action name="procMemberAdminUpdateJoinForm" type="controller" standalone="true" />
         <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
+        <action name="procMemberAdminGroupImageMarkUpdateOrder" type="controller" standalone="true" />
     </actions>
 </module>

@@ -1,0 +1,31 @@
+<!--#include("header.html")-->
+<div class="readBody">
+    <!--@if(!$document_list)-->
+    <div>
+            {$lang->no_documents}
+    </div>
+    <!--@else-->
+    <table>
+    <!--@foreach($document_list as $val)-->
+    <tr>
+    <td>
+        <a href="{getUrl('','mid',$module_info->mid,'entry',$val->get('title'))}">{$val->get('title')}</a>
+    </td>
+    </tr>
+    <!--@end-->
+    </table>
+    <!--@end-->
+</div>
+
+        <div class="pagination a1">
+            <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division,'entry','')}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="nextEnd">{$lang->last_page}</a>
+        </div>
+<!--#include("footer.html")-->

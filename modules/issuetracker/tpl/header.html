@@ -1,13 +1,13 @@
 <!--%import("js/issue_admin.js")-->
 
-<h3>{$lang->issuetracker} {$lang->project}<span class="gray">{$lang->cmd_management}</span></h3>
+<h3 class="xeAdmin">{$lang->issuetracker} {$lang->project}<span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_issuetracker)}</div>
 
 <!--@if($module_info)-->
 <div class="header4">
     <!--@if($module_info->mid)-->
-    <h4>{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
+    <h4 class="xeAdmin">{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getUrl('','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
     <!--@end-->
 
     <ul class="localNavigation">
@@ -25,6 +25,7 @@
         <li <!--@if($act=='dispIssuetrackerAdminProjectSetting')-->class="on"<!--@end-->><a href="{getUrl('','module_srl',$module_srl,'mid',$mid,'module',$module,'act','dispIssuetrackerAdminProjectSetting')}">{$lang->cmd_project_setting}</a></li>
         <li <!--@if($act=='dispIssuetrackerAdminReleaseSetting')-->class="on"<!--@end-->><a href="{getUrl('','module_srl',$module_srl,'mid',$mid,'module',$module,'act','dispIssuetrackerAdminReleaseSetting')}">{$lang->cmd_release_setting}</a></li>
         <li <!--@if($act=='dispIssuetrackerAdminAdditionSetup')-->class="on"<!--@end-->><a href="{getUrl('','module_srl',$module_srl,'mid',$mid,'module',$module,'act','dispIssuetrackerAdminAdditionSetup')}">{$lang->cmd_addition_setup}</a></li>
+        <li <!--@if($act=='dispIssuetrackerAdminExtraVars')-->class="on"<!--@end-->><a href="{getUrl('act','dispIssuetrackerAdminExtraVars')}">{$lang->extra_vars}</a></li>
         <li <!--@if($act=='dispIssuetrackerAdminGrantInfo')-->class="on"<!--@end-->><a href="{getUrl('','module_srl',$module_srl,'mid',$mid,'module',$module,'act','dispIssuetrackerAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>
         <li <!--@if($act=='dispIssuetrackerAdminSkinInfo')-->class="on"<!--@end-->><a href="{getUrl('','module_srl',$module_srl,'mid',$mid,'module',$module,'act','dispIssuetrackerAdminSkinInfo')}">{$lang->cmd_manage_skin}</a></li>
     </ul>

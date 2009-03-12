@@ -7,6 +7,7 @@
         <column name="sites.site_srl" alias="site_srl" />
         <column name="sites.domain" alias="domain" />
         <column name="sites.index_module_srl" alias="index_module_srl" />
+        <column name="sites.default_language" alias="default_language" />
         <column name="modules.*" />
     </columns>
     <conditions>

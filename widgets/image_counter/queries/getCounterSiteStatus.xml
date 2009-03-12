@@ -1,0 +1,13 @@
+<query id="getCounterSiteStatus" action="select">
+    <tables>
+        <table name="counter_site_status" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" />
+        <condition operation="excess" column="regdate" var="s_regdate" notnull="notnull" pipe="and" />
+        <condition operation="less" column="regdate" var="e_regdate" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

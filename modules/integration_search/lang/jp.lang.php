@@ -13,13 +13,21 @@
     $lang->msg_no_keyword = "検索語を入力してください。";
 
     $lang->is_result_text = "<strong>'%s'</strong>に対する検索結果<strong>%d</strong>件";
+    $lang->multimedia = "Images/ Movies";
 
     $lang->is_search_option = array(
-        'title' => 'タイトル',
-        'content' => '内容',
-        'title_content' => 'タイトル+内容',
-        'comment' => 'コメント',
-        'tag' => 'タグ',
+        'document' => array(
+            'title_content' => 'タイトル+内容',
+            'title' => 'タイトル',
+            'content' => '内容',
+            'tag' => 'タグ',
+        ),
+        'trackback' => array(
+            'url' => 'URL',
+            'blog_name' => 'サイト（ブログ）名',
+            'title' => 'タイトル',
+            'excerpt' => '要約内容',
+        ),
     );
 
     $lang->is_sort_option = array(

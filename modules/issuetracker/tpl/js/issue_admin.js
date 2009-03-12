@@ -34,9 +34,8 @@ function completeInsertProject(ret_obj) {
 
 function deleteByFilter(target_srl, filter)
 {
-    var e = xGetElementById('target_srl');
-    e.value= target_srl;
-    var hF = xGetElementById("deleteForm");
+    var e = jQuery('#target_srl').val(target_srl);
+    var hF = jQuery("#deleteForm").get(0);
     procFilter(hF, filter);
 }
 
@@ -312,4 +311,17 @@ function openSummaryText(evt) {
         }
         pObj = pObj.parentNode;
     }
+}
+
+/* 일괄 설정 */
+function doCartSetup(url) {
+    var module_srl = new Array();
+    jQuery('#fo_list input[name=cart]:checked').each(function() {
+        module_srl[module_srl.length] = jQuery(this).val();
+    });
+
+    if(module_srl.length<1) return;
+
+    url += "&module_srls="+module_srl.join(',');
+    popopen(url,'modulesSetup');
 }

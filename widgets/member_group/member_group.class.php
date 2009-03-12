@@ -15,7 +15,6 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-
             // 위젯 자체적으로 설정한 변수들을 체크
             $title = $args->title;
             $list_count = (int)$args->list_count;
@@ -27,28 +26,20 @@
                 $group_name = trim($tmp_groups[$i]);
                 if(!$group_name) continue;
                 $target_group[] = $group_name;
-
             }
 
-            if(count($target_group)) {
-
-                // 그룹 목록을 구해옴
+            if(!count($target_group)) {
+                $site_module_info = Context::get('site_module_info');
                 $oMemberModel = &getModel('member');
-                $group_list = $oMemberModel->getGroups();
-
-                foreach($group_list as $group_srl => $val) {
-                    if(!in_array($val->title, $target_group)) continue;
-                    $target_group_srl_list[] = $group_srl;
-                }
-
-                // 해당 그룹의 멤버를 구해옴
-                if(count($target_group_srl_list)) {
-                    $obj->selected_group_srl = implode(',',$target_group_srl_list);
-                    $obj->list_count = $list_count;
-                    $output = executeQuery('member.getMemberListWithinGroup', $obj);
-                    $widget_info->member_list = $output->data;
-                }
+                $group_list = $oMemberModel->getGroups((int)$site_module_info->site_srl);
+                if(!$group_list) return;
+                $target_group = array_keys($group_list);
             }
+
+            $obj->selected_group_srl = implode(',',$target_group);
+            $obj->list_count = $list_count;
+            $output = executeQuery('member.getMemberListWithinGroup', $obj);
+            $widget_info->member_list = $output->data;
 
             $widget_info->title = $title;
             Context::set('widget_info', $widget_info);

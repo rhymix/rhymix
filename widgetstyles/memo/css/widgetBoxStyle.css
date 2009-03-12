@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+.widgetBoxContainer{ position:relative;}
+
+.widgetBox{ position:relative;}
+.widgetBox .widgetBoxHeader{ font-size:16px; font-family:Tahoma; margin:0; z-index:10;}
+.widgetBox .widgetContainer{ position:relative; z-index:10;}
+.widgetBox .widgetMore{ position:absolute; display:block; text-decoration:none; font-size:11px !important; white-space:nowrap; font-family:Tahoma; color:#000; text-align:center; z-index:20;}
+.widgetBox .widgetMore img{ border:0;}
+.widgetBox .rcContainer{ display:block; width:100%; font-size:0; line-height:0; z-index:1;}
+.widgetBox .rcTop{ position:absolute;}
+.widgetBox .rcBottom{ position:relative;}
+.widgetBox .rc{ position:absolute; display:block; font-size:0; line-height:0; overflow:hidden;}
+.widgetBox .rcTop .tl{ top:0;}
+.widgetBox .rcTop .tr{ top:0;}
+.widgetBox .rcBottom .bl{ top:0;}
+.widgetBox .rcBottom .br{ top:0;}
+
+.widgetBoxH{ padding:50px 0 4px 0;}
+.widgetBoxH .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9;}
+.widgetBoxH .widgetBoxHeader{ position:absolute; width:100%; left:0; top:-40px; padding:3px 0; text-indent:15px;}
+.widgetBoxH .widgetMore{ top:-32px; right:50px;}
+.widgetBoxH .rcTop{ top:-50px; height:50px;}
+.widgetBoxH .rcBottom{ bottom:-4px; height:4px;} 
+.widgetBoxH .rc { width:50%; background-image:url(../img/widgetBoxH.png); _background-image:url(../img/widgetBoxH.gif); background-repeat:no-repeat;}
+.widgetBoxH .rcTop .rc{ height:50px;}
+.widgetBoxH .rcBottom .rc{ height:4px;}
+.widgetBoxH .rcTop .tl{ background-position:0 0; left:-1px !important; padding-right:1px;}
+.widgetBoxH .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:-1px; _right:auto; padding-left:1px;}
+.widgetBoxH .rcBottom .bl{ background-position:0 bottom; left:-1px; padding-right:1px;}
+.widgetBoxH .rcBottom .br{ background-position:right bottom; left:50%; *left:auto; right:auto; *right:-1px; _right:auto; _left:50%; padding-left:1px;}
+
+.widgetBoxI{ padding-top:50px;}
+.widgetBoxI .widgetBox{ background:#fdf59b; padding-bottom:5px;}
+.widgetBoxI .widgetBoxHeader{ position:absolute; width:100%; left:0; top:-40px; padding:3px 0; text-indent:15px;}
+.widgetBoxI .widgetMore{ top:-32px; right:50px;}
+.widgetBoxI .rcTop{ top:-50px; height:50px;}
+.widgetBoxI .rcBottom{ display:none;} 
+.widgetBoxI .rc { width:50%; background-image:url(../img/widgetBoxI.png); _background-image:url(../img/widgetBoxI.gif); background-repeat:no-repeat;}
+.widgetBoxI .rcTop .rc{ height:50px;}
+.widgetBoxI .rcTop .tl{ background-position:0 0;}
+.widgetBoxI .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:0; _right:auto;}

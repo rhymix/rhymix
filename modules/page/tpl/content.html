@@ -1,12 +1,12 @@
 <div>{$page_content}</div>
 
 <!--@if($grant->manager)-->
-<!--%import("./js/page_admin.js")-->
-<div class="tRight gap1 clear">
-    <a href="#" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;" class="button blue"><span>{$lang->cmd_remake_cache}</span></a>
-    <!--@if($logged_info->is_admin=='Y')-->
-    <a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}" class="button green"><span>{$lang->cmd_setup}</span></a>
-    <!--@end-->
-    <a href="{getUrl('act','dispPageAdminContentModify')}" class="button red"><span>{$lang->cmd_page_modify}</span></a>
-</div>
+    <!--%import("./js/page_admin.js")-->
+    <div class="tRight gap1 clear">
+        <a href="#" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;" class="button blue"><span>{$lang->cmd_remake_cache}</span></a>
+        <!--@if($logged_info->is_admin=='Y')-->
+        <a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}" class="button green"><span>{$lang->cmd_setup}</span></a>
+        <!--@end-->
+        <a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}" class="button red"><span>{$lang->cmd_page_modify}</span></a>
+    </div>
 <!--@end-->

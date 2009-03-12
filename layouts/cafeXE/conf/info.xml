@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">XE Cafe 공식 레이아웃</title>
+    <title xml:lang="zh-CN">官方站点模块布局</title>
+    <title xml:lang="zh-TW">虛擬網站官網版面</title>
+    <description xml:lang="ko">
+        XE Cafe 공식 레이아웃입니다.
+    </description>
+    <description xml:lang="zh-CN">
+        官方站点模块布局。
+    </description>
+    <description xml:lang="zh-TW">
+        虛擬網站官網版面。
+    </description>
+    <version>0.1</version>
+    <date>2009-02-09</date>
+    <link>http://www.xpressengine.com</link>
+
+    <author email_address="webmaster@xpressengine.com" link="http://www.xpressengine.com">
+        <name xml:lang="ko">XpressEngine</name>
+        <name xml:lang="zh-CN">XpressEngine</name>
+        <name xml:lang="zh-TW">XpressEngine</name>
+    </author>
+    <extra_vars>
+        <group>
+            <title xml:lang="ko">기본 설정</title>
+            <title xml:lang="zh-CN">常规选项</title>
+            <title xml:lang="zh-TW">預設</title>
+            <var name="colorset" type="select">
+                <title xml:lang="ko">컬러셋</title>
+                <title xml:lang="zh-CN">颜色</title>
+                <title xml:lang="zh-TW">顏色設定</title>
+                <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
+                <description xml:lang="zh-CN">请选择颜色。</description>
+                <description xml:lang="zh-TW">請選擇顏色。</description>
+                <options value="white">
+                    <title xml:lang="ko">하얀색</title>
+                    <title xml:lang="zh-CN">白色</title>
+                    <title xml:lang="zh-TW">白色</title>
+                </options>
+                <options value="black">
+                    <title xml:lang="ko">검은색</title>
+                    <title xml:lang="zh-CN">黑色</title>
+                    <title xml:lang="zh-TW">黑色</title>
+                </options>
+            </var>
+            <var name="index_url" type="text">
+                <title xml:lang="ko">홈 페이지 URL</title>
+                <title xml:lang="zh-CN">站点地址</title>
+                <title xml:lang="zh-TW">主頁網址</title>
+                <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+                <description xml:lang="zh-CN">点击LOGO时要移动的页面地址。</description>
+                <description xml:lang="zh-TW">請輸入當用戶按了網站Logo後，要前往的頁面網址。</description>
+            </var>
+            <var name="logo_text" type="text">
+                <title xml:lang="ko">로고 글자</title>
+                <title xml:lang="zh-CN">站点标题</title>
+                <title xml:lang="zh-TW">Logo文字</title>
+                <description xml:lang="ko">좌측 상단의 로고 부분에 글자를 지정할 수 있습니다. 로고 이미지가 있으면 로고 이미지의 caption으로 표시됩니다.</description>
+                <description xml:lang="zh-CN">将显示在您的站点左侧头部，如你已上传lOGO图片，此标题将变成LOGO图片的caption。</description>
+                <description xml:lang="zh-TW">將顯示在虛擬網站的左上方，如果有上傳過Logo圖片，將會以圖片顯示。</description>
+            </var>
+            <var name="logo_image" type="image">
+                <title xml:lang="ko">로고이미지</title>
+                <title xml:lang="zh-CN">LOGO图片</title>
+                <title xml:lang="zh-TW">Logo圖片</title>
+                <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요.</description>
+                <description xml:lang="zh-CN">上传LOGO图片。</description>
+                <description xml:lang="zh-TW">請輸入要顯示在版面上端的Logo圖片。(適當高度為23px的透明圖片。)</description>
+            </var>
+            <var name="logo_background_image" type="image">
+                <title xml:lang="ko">로고 배경 이미지</title>
+                <title xml:lang="zh-CN">布局头部背景图片</title>
+                <title xml:lang="zh-TW">Logo背景圖片</title>
+                <description xml:lang="ko">로고가 있는 상단 영역의 배경 이미지를 적용하시려면 이미지를 등록해주세요.</description>
+                <description xml:lang="zh-CN">上传LOGO所在位头部背景图片。</description>
+                <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>
+            </var>
+            <var name="content_background_image" type="image">
+                <title xml:lang="ko">내용 배경 이미지</title>
+                <title xml:lang="zh-CN">内容区背景图片</title>
+                <title xml:lang="zh-TW">內容背景圖片</title>
+                <description xml:lang="ko">내용이 있는 영역의 배경 이미지를 사용하시려면 이미지를 등록해주세요.</description>
+                <description xml:lang="zh-CN">上传内容区背景图片。</description>
+                <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>
+            </var>
+        </group>
+        <group>
+            <title xml:lang="ko">모양 설정</title>
+            <title xml:lang="zh-CN">样式设置</title>
+            <title xml:lang="zh-TW">外觀設定</title>
+            <var name="content_position" type="select">
+                <title xml:lang="ko">본문 위치</title>
+                <title xml:lang="zh-CN">内容区位置</title>
+                <title xml:lang="zh-TW">選擇位置</title>
+                <description xml:lang="ko">본문의 위치를 좌/우중 선택할 수 있습니다.</description>
+                <description xml:lang="zh-CN">可以设置内容区的位置(左侧/右侧)。</description>
+                <description xml:lang="zh-TW">內容區域可選擇靠左側或右側。</description>
+                <options value="left">
+                    <title xml:lang="ko">왼쪽</title>
+                    <title xml:lang="zh-CN">左侧</title>
+                    <title xml:lang="zh-TW">左側</title>
+                </options>
+                <options value="right">
+                    <title xml:lang="ko">오른쪽</title>
+                    <title xml:lang="zh-CN">右侧</title>
+                    <title xml:lang="zh-TW">右側</title>
+                </options>
+            </var>
+        </group>
+
+    </extra_vars>
+
+    <menus>
+        <menu name="main_menu" maxdepth="5" default="true">
+            <title xml:lang="ko">메인 메뉴</title>
+            <title xml:lang="zh-CN">主菜单</title>
+            <title xml:lang="zh-TW">主選單</title>
+        </menu>
+    </menus>
+</layout>

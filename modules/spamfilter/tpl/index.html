@@ -4,7 +4,7 @@
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->interval}</div></th>
         <td>
@@ -27,9 +27,9 @@
         </td>
     </tr>
     <tr class="row2">
-        <td colspan="2" class="right">
-            <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </td>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
     </tr>
     </table>
 

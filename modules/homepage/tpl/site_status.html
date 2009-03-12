@@ -1,0 +1,140 @@
+<!--#include("_header.html")-->
+
+<!--%import("../../counter/tpl/js/counter_admin.js")-->
+
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
+
+<script type="text/javascript">
+    function moveDate() {
+        xGetElementById('fo_calendar').submit();
+        return true;
+    }
+</script>
+
+
+<h3 class="xeAdmin">{$lang->counter} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4 gap1">
+
+    <form action="./index.php" method="get" id="fo_calendar">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="selected_date" id="selected_date" value="{zDate('Ymd',$selected_date)}" />
+
+    <table cellspacing="0" class="colTable">
+    <thead>
+    <tr>
+        <th scope="row" class="half_wide"><div>{$lang->total_counter}</div></th>
+        <th scope="row" class="half_wide">
+            <div>
+                <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span>
+<input type="hidden" class="inputDate" value="{zdate($selected_date,'Y-m-d')}" />
+                <script type="text/javascript">
+(function($){
+    $(function(){
+        var option = {
+            gotoCurrent: false
+            ,yearRange:'-100:+10'
+            ,showOn:"button"
+            ,buttonImage:"./modules/counter/tpl/images/buttonCalendar.gif"
+            ,buttonImageOnly:true
+            ,mandatory:true
+            ,onSelect:function(){
+                $("#str_selected_date").html(this.value);
+                $("#selected_date").val(this.value.replace(/-/g,''));
+                moveDate();
+            }
+        };
+
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+                </script>
+            </div>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="number center">Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
+        <td class="number center">Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
+    </tr>
+    </tbody>
+    </table>
+
+    </form>
+
+    <ul class="localNavigation">
+        <!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
+        <li <!--@if($type==$key || (!$type && $key == "hour"))-->class="on"<!--@end-->><a href="{getUrl('type',$key)}">{$val}</a></li>
+        <!--@end-->
+    </ul>
+</div>
+
+
+<!-- 일자를 옮기는 form -->
+<form action="./" method="get" id="fo_counter">
+    <input type="hidden" name="module" value="{$module}" />
+    <input type="hidden" name="act" value="{$act}" />
+    <input type="hidden" name="selected_date" value="{$selected_date}" />
+</form>
+
+
+<!-- unique visitor 그래프 -->
+<table cellspacing="0" class="rowTable">
+<!--@foreach($detail_status->list as $key => $val)-->
+    <!--@if($detail_status->sum>0)-->
+        {@$percent = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
+        {@$img_width = sprintf("%0.0f", $val / $detail_status->max * 100 )}
+    <!--@else-->
+        {@$percent = 0}
+        {@$img_width = 1}
+    <!--@end-->
+<tr>
+    <!--@if(Context::getLangType()=='en')-->
+    <th scope="row">
+        <div>
+        <!--// 시간대별 -->
+        <!--@if($type == 'year')-->
+            <em>{$key}</em>
+        <!--@elseif($type == 'month')-->
+            <em>{$key}</em>
+        <!--@elseif($type == 'day')-->
+            <em>{$key}</em> {$lang->unit_day}
+        <!--@else-->
+            <em>{$key}</em>
+        <!--@end-->
+        </div>
+    </th>
+    <!--@else-->
+    <th scope="row">
+        <div>
+        <!--// 시간대별 -->
+        <!--@if($type == 'year')-->
+            <em>{$key}</em> {$lang->unit_year}
+        <!--@elseif($type == 'month')-->
+            <em>{$key}</em> {$lang->unit_month}
+        <!--@elseif($type == 'day')-->
+            <em>{$key}</em> {$lang->unit_day}
+        <!--@else-->
+            <em>{$key}</em> {$lang->unit_hour}
+        <!--@end-->
+        </div>
+    </th>
+    <!--@end-->
+    <td class="wide">
+        {@$img_percent = $percent-30}
+        <!--@if($img_percent<1)-->
+            <img class="graphHr" style="width:3px;" alt="" src="../../counter/tpl/images/iconBar.gif" />
+        <!--@else-->
+            <img class="graphHr" style="width:{$img_percent}%;" alt="" src="../../counter/tpl/images/iconBar.gif" />
+        <!--@end-->
+        {number_format($val)}({$percent}%) 
+    </td>
+</tr>
+<!--@end-->
+</table>
+
+<!--#include("_footer.html")-->

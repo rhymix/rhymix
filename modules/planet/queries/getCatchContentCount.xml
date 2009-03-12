@@ -1,4 +1,4 @@
-<query id="getTotalContents" action="select">
+<query id="getCatchContentCount" action="select">
     <tables>
         <table name="planet_catch" alias="planet_catch" />
     </tables>

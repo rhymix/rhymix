@@ -33,6 +33,7 @@
     $lang->about_widget_cache = '지정된 시간동안 캐시된 데이터를 이용할 수 있습니다.';
 
     $lang->generated_code = '생성된 코드';
+    $lang->widgetstyle= '위젯스타일';
 
     $lang->msg_widget_is_not_exists = '%s 위젯을 찾을 수 없습니다';
     $lang->msg_widget_object_is_null = '%s 위젯의 객체 생성을 할 수가 없습니다';
@@ -43,25 +44,25 @@
     $lang->about_widget_code_in_page = '아래 필요한 값들을 입력하신 후 추가 버튼을 누르시면 페이지 내에 위젯이 삽입이 됩니다';
     $lang->about_widget = "위젯은 레이아웃이나 페이지 모듈에서 사용되는 작은 구성요소입니다.\n내부 모듈 또는 외부 open api와 연동될 수도 있고 설정을 통해서 다양한 응용이 가능합니다.\nXE의 페이지 모듈이나 레이아웃 모듈을 사용하지 않더라도 [코드생성] 기능을 통해 직접 위젯 추가도 할 수 있습니다";
 
-    $lang->cmd_content_insert = "내용 직접 추가";
-    $lang->cmd_box_widget_insert = "상자 위젯 추가";
-    $lang->cmd_remove_all_widgets  = "내용 모두 지우기";
+    $lang->cmd_content_insert = '내용 직접 추가';
+    $lang->cmd_box_widget_insert = '상자 위젯 추가';
+    $lang->cmd_remove_all_widgets  = '내용 모두 지우기';
 
-    $lang->cmd_widget_size = "위젯 크기";
-    $lang->cmd_widget_align = "위젯 정렬";
-    $lang->cmd_widget_align_left = "왼쪽";
-    $lang->cmd_widget_align_right = "오른쪽";
-    $lang->cmd_widget_margin = "외부 여백";
-    $lang->cmd_widget_padding = "내부 여백";
-    $lang->cmd_widget_border = "위젯 테두리";
-    $lang->cmd_widget_border_solid = "실선";
-    $lang->cmd_widget_border_dotted = "점선";
-    $lang->cmd_widget_background_color = "배경색";
-    $lang->cmd_widget_background_image_url = "배경 이미지";
-    $lang->cmd_widget_background_image_repeat = "반복";
-    $lang->cmd_widget_background_image_no_repeat = "고정";
-    $lang->cmd_widget_background_image_x_repeat = "가로 반복";
-    $lang->cmd_widget_background_image_y_repeat = "세로 반복";
-    $lang->cmd_widget_background_image_x = "가로 위치";
-    $lang->cmd_widget_background_image_y = "세로 위치";
+    $lang->cmd_widget_size = '위젯 크기';
+    $lang->cmd_widget_align = '위젯 정렬';
+    $lang->cmd_widget_align_left = '왼쪽';
+    $lang->cmd_widget_align_right = '오른쪽';
+    $lang->cmd_widget_margin = '외부 여백';
+    $lang->cmd_widget_padding = '내부 여백';
+    $lang->cmd_widget_border = '위젯 테두리';
+    $lang->cmd_widget_border_solid = '실선';
+    $lang->cmd_widget_border_dotted = '점선';
+    $lang->cmd_widget_background_color = '배경색';
+    $lang->cmd_widget_background_image_url = '배경 이미지';
+    $lang->cmd_widget_background_image_repeat = '반복';
+    $lang->cmd_widget_background_image_no_repeat = '고정';
+    $lang->cmd_widget_background_image_x_repeat = '가로 반복';
+    $lang->cmd_widget_background_image_y_repeat = '세로 반복';
+    $lang->cmd_widget_background_image_x = '가로 위치';
+    $lang->cmd_widget_background_image_y = '세로 위치';
 ?>

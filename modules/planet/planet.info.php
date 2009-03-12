@@ -43,15 +43,15 @@
         }
 
         function isHome() {
-            $config = Context::get('config');
-            if($this->getModuleSrl() == $config->module_srl) return true;
+            $module_info = Context::get('module_info');
+            if($this->getModuleSrl() == $module_info->module_srl) return true;
             return false;
         }
 
         function getColorset() {
             if($this->isHome() || !$this->colorset) {
-                $config = Context::get('config');
-                return $config->colorset;
+                $module_info = Context::get('module_info');
+                return $module_info->colorset;
             }
             return $this->colorset;
 
@@ -187,8 +187,8 @@
             if(!$this->isExists()) return;
             if(is_null($open_rss)) {
                 $oRssModel = &getModel('rss');
-                $config = $oRssModel->getRssModuleConfig($this->getModuleSrl());
-                $open_rss = $config->open_rss;
+                $module_info = $oRssModel->getRssModuleConfig($this->getModuleSrl());
+                $open_rss = $module_info->open_rss;
             }
             return $open_rss=='Y'?true:false;
 
@@ -235,6 +235,27 @@
             $args->module_srl = $this->getModuleSrl();
             $args->page = $page;
             $output = executeQueryArray('planet.getCatchContentList', $args);
+            if(!$output->toBool()) return $output;
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    unset($oPlanet);
+                    $oPlanet = new PlanetItem();
+                    $oPlanet->setAttribute($val);
+                    $output->data[$key] = $oPlanet;
+                }
+            }
+            return $output;
+        }
+
+        /**
+         * @brief 내가 댓글을 단 글에 댓글이 달렸는데 확인을 하지 않은 글
+         **/
+        function getFishingContentList($page=1) {
+            if(!$page) $page = 1;
+
+            $args->module_srl = $this->getModuleSrl();
+            $args->page = $page;
+            $output = executeQueryArray('planet.getFishingContentList', $args);
             if(!$output->toBool()) return $output;
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {

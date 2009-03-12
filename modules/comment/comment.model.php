@@ -333,8 +333,8 @@
             $args->s_module_srl = $obj->module_srl;
 
             // 검색 옵션 정리
-            $search_target = trim(Context::get('search_target'));
-            $search_keyword = trim(Context::get('search_keyword'));
+            $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
+            $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
             if($search_target && $search_keyword) {
                 switch($search_target) {
                     case 'content' :
@@ -393,7 +393,7 @@
         function getCommentConfig($module_srl) {
             $oModuleModel = &getModel('module');
             $comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
-            if(!isset($comment_config->comment_count)) $comment_count->comment_count = 50;
+            if(!isset($comment_config->comment_count)) $comment_config->comment_count = 50;
             return $comment_config;
         }
 

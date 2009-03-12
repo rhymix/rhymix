@@ -4,6 +4,7 @@
     </form>
     <parameter>
         <param name="module_srl" target="module_srl" />
+        <param name="mid" target="mid" />
         <param name="content" target="content" />
     </parameter>
     <response callback_func="completeInsertPageContent">

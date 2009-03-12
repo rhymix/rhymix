@@ -1,0 +1,83 @@
+<!--#include("_header.html")-->
+
+<!--%import("../../editor/tpl/js/editor_admin.js")-->
+<!--%import("../../addon/tpl/js/addon.js")-->
+<!--%import("../../admin/tpl/js/admin.js")-->
+
+<h4 class="xeAdmin">{$lang->cmd_admin_menus[$act]}</h4>
+<p class="summary">{$lang->about_cafe_act[$act]}</p>
+
+<ul class="localNavigation">
+    <li class="on" id="moduleOn"><a href="#" onclick="toggleModuleAddon('module');return false;">{$lang->editor}</a></li>
+    <li id="addonOn"><a href="#" onclick="toggleModuleAddon('addon');return false;">{$lang->addon}</a></li>
+</ul>
+
+<div id="xeModules">
+    <table cellspacing="0" class="crossTable">
+    <thead>
+        <tr>
+            <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
+            <th scope="col" class="half_wide"><div>{$lang->component_author}</div></th>
+            <th scope="col" colspan="2"><div>{$lang->component_version}</div></th>
+            <th scope="col"><div>{$lang->component_date}</div></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--@foreach($component_list as $component_name => $xml_info)-->
+        <tr class="row2">
+            <th colspan="2" scope="row"><div><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;"><strong>{$xml_info->title}</strong></a> ({$component_name})</div></th>
+            <th><a href="#" onclick="doSetupComponent('{$component_name}'); return false;" title="{htmlspecialchars($lang->cmd_setup)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></th>
+            <th>
+                <!--@if($xml_info->enabled=='Y')-->
+                    <a href="#" onclick="doDisableComponent('{$component_name}');return false;" title="{htmlspecialchars($lang->cmd_enable)}" class="buttonSet buttonActive"><span>{$lang->cmd_enable}</span></a>
+                <!--@else-->
+                    <a href="#" onclick="doEnableComponent('{$component_name}');return false;" title="{htmlspecialchars($lang->cmd_disable)}" class="buttonSet buttonDisable"><span>{$lang->cmd_disable}</span></a>
+                <!--@end-->
+            </th>
+            <th><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" title="{htmlspecialchars($lang->cmd_move_up)}" class="buttonSet buttonUp"><span>{$lang->cmd_move_up}</span></a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" title="{htmlspecialchars($lang->cmd_move_down)}" class="buttonSet buttonDown"><span>{$lang->cmd_move_down}</span></a></th>
+        </tr>
+        <tr>
+            <td>{nl2br($xml_info->description)}</td>
+            <td class="nowrap">
+                <!--@foreach($xml_info->author as $author)-->
+                <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
+                <!--@endforeach-->
+            </td>
+            <td colspan="2">{$xml_info->version}</td>
+            <td>{zdate($xml_info->date, 'Y-m-d')}</td>
+        </tr>
+        <!--@end-->
+    </tbody>
+    </table>
+</div>
+<div id="xeAddons" style="display:none;">
+    <form id="fo_addon" action="./" method="get">
+        <input type="hidden" name="addon" value="" />
+    </form>
+    <table cellspacing="0" class="rowTable">
+    <thead>
+        <tr>
+            <th><div>{$lang->addon}</div></th>
+            <th><div>{$lang->cmd_setup}</div></th>
+            <th><div>{$lang->status}</div></th>
+        </tr>
+    </thead>
+    <tbody>
+    <!--@foreach($addon_list as $key => $val)-->
+    <tr>
+        <td class="wide"><a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{$val->title}</a></td>
+        <td><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <td>
+            <!--@if($val->activated)-->
+            <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
+            <!--@else-->
+            <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+    </tbody>
+    </table>
+</div>
+
+<!--#include("_footer.html")-->

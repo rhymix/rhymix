@@ -13,11 +13,6 @@ RewriteRule ^(.+)/widgets/(.*) ./widgets/$2 [L]
 RewriteRule ^(.+)/layouts/(.*) ./layouts/$2 [L]
 RewriteRule ^(.+)/addons/(.*) ./addons/$2 [L]
 
-# tools
-RewriteRule ^tools/([a-zA-Z0-9_]+)$ ./tools/$1 [L]
-RewriteRule ^tools/$ ./tools/index.php [L]
-RewriteRule ^tools$ ./tools/index.php [L]
-
 # page 
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
 
@@ -30,7 +25,7 @@ RewriteRule ^atom/([[:digit:]]+)$ ./index.php?module=rss&act=atom&page=$1 [L]
 RewriteRule ^atom$ ./index.php?module=rss&act=atom [L]
 
 # administrator page
-RewriteRule ^admin$ ./index.php?module=admin [L]
+RewriteRule ^admin/?$ ./index.php?module=admin [L]
 
 # mid + act 
 RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?mid=$1&act=api [L]
@@ -52,6 +47,9 @@ RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?mid=$1&act=$2 [L]
 
 # mid + page link
 RewriteRule ^([a-zA-Z0-9_]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&page=$2 [L]
+
+# mid + entry title
+RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
 
 # mid + category link
 RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)$ ./index.php?mid=$1&category=$2 [L]

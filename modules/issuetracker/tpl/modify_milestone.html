@@ -10,7 +10,7 @@
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="milestone_srl" value="{$milestone->milestone_srl}" />
 <!--@if($milestone->is_default=="Y")--><input type="hidden" name="is_default" value="Y" /><!--@end-->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
 <tr>
     <th scope="col" class="wide"><div>{$lang->name} </div></th>
@@ -41,9 +41,9 @@
     </td>
 </tr>
 <tr>
-    <td colspan="4"><textarea name="description" class="inputTypeTextArea w400" />{$milestone->description}</textarea></td>
+    <td colspan="4"><textarea name="description" class="inputTypeTextArea fullWidth" />{$milestone->description}</textarea></td>
     <td>
-        <span class="button"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
     </td>
 </tr>
 <tr>

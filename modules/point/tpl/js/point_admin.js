@@ -49,3 +49,14 @@ function completePointRecal(ret_obj) {
         exec_xml('point','procPointAdminApplyPoint',params, completePointRecal, response_tags);
     }
 }
+
+function updatePoint(member_srl, action)
+{
+    var pointEl = jQuery("#point_"+member_srl);
+    var e = jQuery("#update_member_srl").val(member_srl);
+    e = jQuery("#update_action").val(action);
+    e = jQuery("#update_point").val(pointEl.attr("value"));
+    var hF = jQuery("#updateForm").get(0);
+    procFilter(hF, update_point);
+}
+

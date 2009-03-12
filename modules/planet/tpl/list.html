@@ -1,10 +1,7 @@
 <!--#include("./header.html")-->
-<!-- 정보 -->
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($page_navigation->total_count)}</em>, Page <strong>{number_format($page_navigation->cur_page)}</strong>/{number_format($page_navigation->total_page)}
-</div>
 
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
+<caption>Total {number_format($page_navigation->total_count)}, Page {number_format($page_navigation->cur_page)}/{number_format($page_navigation->total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
@@ -18,13 +15,13 @@
 <tbody>
     <!--@foreach($planet_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
-        <td class="number center">{$no}</td>
-        <td class="nowrap"><span class="member_{$val->getMemberSrl()}">{$val->getNickName()}</span></td>
-        <td><a href="{getUrl('module_srl',$val->getModuleSrl(),'act','dispPlanetAdminInsert')}">{$val->getMid()}</a></td>
-        <td><a href="{getUrl('module_srl',$val->getModuleSrl(),'act','dispPlanetAdminInsert')}">{$val->getBrowserTitle()}</a></td>
-        <td class="date center nowrap">{zdate($val->get('regdate'),"Y-m-d")}</td>
-        <td class="center view"><a href="{getUrl('','mid',$val->getMid())}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="center delete"><a href="{getUrl('act','dispPlanetAdminDelete','module_srl',$val->getModuleSrl())}">{$lang->cmd_delete}</a></td>
+        <td>{$no}</td>
+        <td><span class="member_{$val->getMemberSrl()}">{$val->getNickName()}</span></td>
+        <td>{$val->getMid()}</td>
+        <td><a href="{getUrl('','mid',$val->getMid())}" onclick="window.open(this.href); return false;" title="{htmlspecialchars($lang->cmd_view)}">{$val->getBrowserTitle()}</a></td>
+        <td>{zdate($val->get('regdate'),"Y-m-d")}</td>
+        <td><a href="{getUrl('module_srl',$val->getModuleSrl(),'act','dispPlanetAdminInsert')}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <td><a href="{getUrl('act','dispPlanetAdminDelete','module_srl',$val->getModuleSrl())}" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>

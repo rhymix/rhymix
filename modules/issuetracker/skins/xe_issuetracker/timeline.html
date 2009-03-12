@@ -1,5 +1,25 @@
 <!--#include('header.html')-->
-<h2> Timeline </h2>
+<!--%load_js_plugin("ui.datepicker")-->
+<div class="left"><h2> Timeline </h2></div>
+<div class="search">
+<form action="{getUrl()}" id="fo_search">
+    <br />
+    <input type="hidden" name="act" value="dispIssuetrackerTimeline" />
+    <input type="hidden" name="mid" value="{$mid}" />
+    {$lang->msg_changes_from}: 
+    <input type="hidden" name="enddate" id="enddate" class="inputTypeText" value="{$enddate}">
+    <input type="text" class="inputDate" value="<!--@if($enddate)-->{zdate($enddate,'Y-m-d')}<!--@end-->" readonly="readonly" />
+    , {$lang->duration}: <input type="text" name="duration" class="inputTypeText w40" value={$duration}>
+    <BR />
+    <!--@foreach($lang->target_list as $key => $val)-->
+    <input name="targets[]" type="checkbox" value="{$key}" <!--@if(in_array($key,$targets))-->checked="checked"<!--@end--> id="targets_{$key}"/><label for="targets_{$key}">{$val}</label>
+    <!--@end-->
+    <a href="#" onclick="xGetElementById('fo_search').submit();return false;" class="button {$btn_class}"><span>{$lang->cmd_update}</span></a>
+
+</form>
+</div>
+<div class="clear"></div>
+
 
 {@ $curDate = null }
 <!--@foreach($changesets as $changeset)-->
@@ -24,3 +44,15 @@
 <p><!--@if($changeset->type)--><!--@if($changeset->type == "changed")--><span class="status">{$changeset->message}</span><br><!--@endif-->{$issues[$changeset->target_srl]->getContentText(80)}<!--@else-->{$changeset->message}<!--@end--></p> </dd>
 <!--@end-->
 </dl>
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+</script>

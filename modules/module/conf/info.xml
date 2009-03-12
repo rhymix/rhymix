@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
     <title xml:lang="ko">모듈</title>
-    <title xml:lang="zh-CN">模块</title>
+    <title xml:lang="zh-CN">模块列表</title>
     <title xml:lang="jp">モジュール</title>
     <title xml:lang="en">Module</title>
     <title xml:lang="es">Módulo</title>
@@ -16,7 +16,7 @@
     <description xml:lang="zh-TW">用於建立與管理其他模組。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
-    <category>base</category>
+    <category>system</category>
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>

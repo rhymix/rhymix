@@ -69,12 +69,13 @@
     $lang->disable = '不可';
 
     // 基本用語
-    $lang->menu = 'Menu';
+    $lang->menu = 'メニュー';
     $lang->no = '番号';
     $lang->notice = 'お知らせ';
     $lang->secret = '非公開';
     $lang->category = $lang->category_srl = 'カテゴリ';
     $lang->none_category = 'カテゴリ無し';
+    $lang->none_image = 'イメージなし';
     $lang->document_srl = '書き込み番号';
     $lang->user_id = 'ユーザーＩＤ';
     $lang->author = '作成者';
@@ -117,6 +118,7 @@
     $lang->order_type = 'ソート方法';
     $lang->order_asc = '昇る';
     $lang->order_desc = '降下';
+    $lang->file = 'ファイル';
 
     $lang->mid = 'モジュール名';
     $lang->layout = 'レイアウト';
@@ -256,6 +258,7 @@
     $lang->column_type_list['textarea'] = 'テキストエリア(textarea)';
     $lang->column_type_list['checkbox'] = 'チェックボックス(checkbox)';
     $lang->column_type_list['select'] = '選択(select)';
+    $lang->column_type_list['radio'] = 'radio button (radio)';
     $lang->column_type_list['kr_zip'] = '韓国住所(zip)';
     $lang->column_type_list['date'] = '日付(年月日)';
     //$lang->column_type_list['jp_zip'] = '日本住所(zip)';

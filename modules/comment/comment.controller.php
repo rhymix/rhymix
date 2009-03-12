@@ -118,6 +118,9 @@
                 }
             }
 
+            // 로그인정보가 없고 사용자 이름이 없으면 오류 표시
+            if(!$logged_info->member_srl && !$obj->nick_name) return new Object(-1,'msg_invalid_request');
+
             if(!$obj->comment_srl) $obj->comment_srl = getNextSequence();
 
             // 순서를 정함

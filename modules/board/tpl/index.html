@@ -7,7 +7,7 @@
 
 <!-- 목록 -->
 <form action="./" method="get" onsubmit="return doChangeCategory(this);" id="fo_list">
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
@@ -16,7 +16,7 @@
             <div>
                 <input type="hidden" name="module" value="{$module}" />
                 <input type="hidden" name="act" value="{$act}" />
-                <select name="module_category_srl" class="w120">
+                <select name="module_category_srl" class="fullWidth">
                     <option value="">{$lang->module_category}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -30,9 +30,7 @@
         <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->cmd_view}</div></th>
-        <th scope="col"><div>{$lang->cmd_copy}</div></th>
-        <th scope="col"><div>{$lang->cmd_delete}</div></th>
+        <th scope="col" colspan="3"><div>&nbsp;</div></th>
     </tr>
 </thead>
 <tbody>
@@ -42,31 +40,37 @@
         <td class="center"><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
         <td>
             <!--@if(!$val->module_category_srl)-->
+                <!--@if($val->site_srl)-->
+                {$lang->virtual_site}
+                <!--@else-->
                 {$lang->not_exists}
+                <!--@end-->
             <!--@else-->
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->mid)}</a></td>
-        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}">{htmlspecialchars($val->browser_title)}</a></td>
-        <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-        <td class="view center"><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$lang->cmd_view}</a></td>
-        <td class="copy center"><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a></td>
-        <td class="delete center"><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a><!--@else-->&nbsp;<!--@end--></td>
+        <td>{htmlspecialchars($val->mid)}</td>
+        <td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->browser_title)}</a></td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td><a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+        <td><a href="./?module=module&amp;act=dispModuleAdminCopyModule&amp;module_srl={$val->module_srl}" onclick="popopen(this.href);return false;" class="buttonSet buttonCopy"><span>{$lang->cmd_copy}</span></a></td>
+        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a><!--@else-->-<!--@end--></td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 </form>
 
-<!-- 버튼 -->
-<div class="fl gap1">
-    <a href="#" onclick="doCartSetup('dispBoardAdminInsertBoard'); return false;" class="button"><span>{$lang->cmd_setup}</span></a>
-    <a href="#" onclick="doCartSetup('dispBoardAdminBoardAdditionSetup'); return false;" class="button"><span>{$lang->cmd_addition_setup}</span></a>
-    <a href="#" onclick="doCartSetup('dispBoardAdminGrantInfo'); return false;" class="button"><span>{$lang->cmd_manage_grant}</span></a>
-</div>
-<div class="fr gap1">
-    <a href="{getUrl('act','dispBoardAdminInsertBoard','module_srl','')}" class="button"><span>{$lang->cmd_make}</span></a>
+<div class="clear">
+    <div class="fl">
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="button green"><span>{$lang->cmd_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleAdditionSetup')}" onclick="doCartSetup(this.href); return false;" class="button red"><span>{$lang->cmd_addition_setup}</span></a>
+        <a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="button blue"><span>{$lang->cmd_manage_grant}</span></a>
+    </div>
+
+    <div class="fr">
+        <a href="{getUrl('act','dispBoardAdminInsertBoard','module_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+    </div>
 </div>
 
 <!-- 페이지 네비게이션 -->
@@ -81,3 +85,5 @@
     <!--@end-->
     <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
 </div>
+
+

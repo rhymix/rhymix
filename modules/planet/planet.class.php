@@ -25,13 +25,13 @@
             $oModuleController = &getController('module');
             $oPlanetController = &getController('planet');
 
-            $config = $oModuleModel->getModuleConfig('planet');
-            if($config->mid) {
-                $_o = executeQuery('module.getMidInfo', $config);
-                if(!$_o->data) unset($config);
+            $module_info = $oModuleModel->getModuleConfig('planet');
+            if($module_info->mid) {
+                $_o = executeQuery('module.getMidInfo', $module_info);
+                if(!$_o->data) unset($module_info);
             }
 
-            if(!$config->mid) {
+            if(!$module_info->mid) {
                 $args->module = 'planet';
                 $args->browser_title = 'planetXE';
                 $args->skin = 'xe_planet';
@@ -44,21 +44,19 @@
                 $oPlanetController->insertPlanetConfig($planet_args);
             }
 
-
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
-            $oModuleController->insertActionForward('planet', 'view', 'dispPlanetHome');
-            $oModuleController->insertActionForward('planet', 'view', 'dispPlanetAdminSetup');
-            $oModuleController->insertActionForward('planet', 'view', 'dispPlanetAdminList');
-            $oModuleController->insertActionForward('planet', 'view', 'dispPlanetAdminSkinInfo');
-            $oModuleController->insertActionForward('planet', 'view', 'dispPlanetAdminDelete');
-            $oModuleController->insertActionForward('planet', 'view', 'dispPlanetAdminInsert');
-            $oModuleController->insertActionForward('planet', 'view', 'favorite');
+            // 2009. 01. 29 아이디 클릭시 나타나는 팝업메뉴에 플래닛 보기 기능 추가
+            $oModuleController->insertTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after');
         }
 
         /**
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oModuleModel = &getModel('module');
+
+            // 2009. 01. 29 아이디 클릭시 나타나는 팝업메뉴에 플래닛 보기 기능 추가
+            if(!$oModuleModel->getTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after')) return true;
+
             return false;
         }
 
@@ -66,6 +64,13 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
+            // 2009. 01. 29 아이디 클릭시 나타나는 팝업메뉴에 플래닛 보기 기능 추가
+            if(!$oModuleModel->getTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after')) 
+                $oModuleController->insertTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after');
+
             return new Object(0, 'success_updated');
         }
 

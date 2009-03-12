@@ -7,7 +7,7 @@
         <div class="author"><div class="member_{$oSourceComment->getMemberSrl()}">{$oSourceComment->getNickName()}</div></div>
         <div class="date">
             {$oSourceComment->getRegdate("Y.m.d H:i")}
-            <!--@if($grant->is_admin)-->
+            <!--@if($grant->manager)-->
                 ({$oSourceComment->get('ipaddress')})
             <!--@end-->
         </div>
@@ -25,7 +25,7 @@
         <div class="author"><div class="member_{$oDocument->getMemberSrl()}">{$oDocument->getNickName()}</div></div>
         <div class="date">
             {$oDocument->getRegdate("Y.m.d H:i")}
-            <!--@if($grant->is_admin)-->
+            <!--@if($grant->manager)-->
                 ({$oDocument->get('ipaddress')})
             <!--@end-->
         </div>
@@ -39,7 +39,6 @@
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
-<!--%import("filter/insert_comment.xml")-->
 <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
@@ -86,7 +85,7 @@
   <div class="editor">{$oComment->getEditor()}</div>
 
   <div class="commentButton tRight">
-      <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'"/></span>
+      <span class="button"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','','document_srl','')}'"/></span>
       <span class="button"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
   </div>
 

@@ -8,7 +8,7 @@
 	<title xml:lang="ru">Отображение списка тегов</title>
 	<title xml:lang="zh-TW">標籤</title>
 	<description xml:lang="ko">선택된 모듈의 꼬리표 목록을 정해진 순위만큼 노출하여 줍니다</description>
-	<description xml:lang="zh-CN">显示被选模块指定个数的标签目录。</description>
+	<description xml:lang="zh-CN">此控件将显示所选模块指定个数的标签云。</description>
 	<description xml:lang="jp">選択されたモジュールのタグリストを指定された順位まで表示します。</description>
 	<description xml:lang="en">This widget displays configured number of tags from target module.</description>
 	<description xml:lang="es">Este widget muestra la liste de etiqueta según el orden definido en el módulo seleccionado.</description>
@@ -28,23 +28,6 @@
 	</author>
 
 	<extra_vars>
-		<var id="title">
-			<type>text</type>
-			<name xml:lang="ko">제목</name>
-			<name xml:lang="zh-CN">栏目名</name>
-			<name xml:lang="jp">タイトル</name>
-			<name xml:lang="en">Title</name>
-			<name xml:lang="es">Título</name>
-			<name xml:lang="ru">Заголовок</name>
-			<name xml:lang="zh-TW">標題</name>
-			<description xml:lang="ko">꼬리표 출력시 제목으로 출력됩니다.</description>
-			<description xml:lang="zh-CN">显示为标签目录的标题。</description>
-			<description xml:lang="jp">タグ出力の際、タイトルとして表示されます。</description>
-			<description xml:lang="en">This will be shown as a title with tag list.</description>
-			<description xml:lang="es">Este será el título al ser mostrada la etiqueta.</description>
-			<description xml:lang="ru">Это будет показано как заголовок со списком тегов.</description>
-			<description xml:lang="zh-TW">顯示標籤列表的標題。</description>
-		</var>
 		<var id="list_count">
 			<type>text</type>
 			<name xml:lang="ko">목록수</name>
@@ -72,7 +55,7 @@
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">将把被选模块当中的主题作为对象。</description>
+            <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="en">The target articles for the newest comments will be the ones submitted in the selected module.</description>
             <description xml:lang="es">El objetivo de los comentarios recientes serán los comentarios agragados en el módulo selccionado.</description>

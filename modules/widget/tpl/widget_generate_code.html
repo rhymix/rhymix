@@ -4,28 +4,23 @@
 <!--%import("../../admin/tpl/css/admin.css")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, generate_code);" id="fo_widget">
-
-
-    <div id="popHeadder">
-        <h3>{$lang->cmd_generate_code}</h3>
+    <div id="popHeader" class="wide">
+        <h3 class="xeAdmin">{$lang->cmd_generate_code}</h3>
     </div>
 
     <div id="popBody">
         {@ $_caption = $lang->about_widget_code}
         <!--#include("widget_generate_code.include.html")-->
-        <table cellspacing="0" class="adminTable">
-        <col width="100" />
-        <col width="*" />
+        <h3 class="xeAdmin">{$lang->widget_code}</h3>
+        <table cellspacing="0" class="rowTable">
         <tr>
-            <th><div>{$lang->widget_code}</div></th>
-            <td><textarea readonly="true" id="widget_code" class="inputTypeTextArea w400"></textarea></td>
+            <td class="wide"><textarea readonly="true" id="widget_code" class="inputTypeTextArea fullWidth"></textarea></td>
         </tr>
         </table>
     </div>
 
-    <div id="popFooter" class="tCenter gap1">
-        <span class="button green"><input type="submit" value="{$lang->cmd_generate_code}"  /></span>
-        <a href="#" onclick="window.close(); return false;" class="button red"><span>{$lang->cmd_close}</span></a>
+    <div id="popFooter">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_generate_code}"  /></span>
     </div>
 
 </form>

@@ -13,8 +13,6 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
-            $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminList');
-            $oModuleController->insertActionForward('poll', 'view', 'dispPollAdminConfig');
 
             // 기본 스킨 설정
             $oModuleController = &getController('module');

@@ -1,8 +1,8 @@
 <!--%import("js/module_admin.js")-->
 <!--%import("filter/copy_module.xml")-->
 
-<div id="popHeadder">
-    <h3>{$lang->module_copy}</h3>
+<div id="popHeader" class="wide">
+    <h3 class="xeAdmin">{$lang->module_copy}</h3>
 </div>
 
 <form action="./" method="post" onsubmit="return procFilter(this, copy_module)" >
@@ -10,10 +10,10 @@
 
 <div id="popBody">
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->module}</div></th>
-        <td>{$module_info->module}</td>
+        <td class="wide">{$module_info->module}</td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->mid}</div></th>
@@ -26,7 +26,7 @@
     </table>
 
 
-    <table cellspacing="0" class="adminTable">
+    <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->mid}<div></th>
         <th scope="col"><div>{$lang->browser_title}<div></th>
@@ -75,9 +75,8 @@
 
 </div>
 
-<div id="popFooter" class="tCenter gap1">
-    <span class="button"><input type="submit" value="{$lang->cmd_save}" /></span>
-    <span class="button"><input type="button" value="{$lang->cmd_close}" onclick="window.close(); return false;"/></span>
+<div id="popFooter">
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
 </div>
 
 </form>

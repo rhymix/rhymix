@@ -1,4 +1,3 @@
-<!--%import("filter/delete_issue.xml")-->
 <!--#include("header.html")-->
 
 <div class="deleteIssue">
@@ -11,8 +10,8 @@
     <input type="hidden" name="document_srl" value="{$document_srl}" />
 
     <ul class="button">
-        <li><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></li>
-        <li><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'; return false;" /></li>
+        <li><span class="button"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span></li>
+        <li><span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'; return false;" /></span></li>
     </ul>
 
     </form>

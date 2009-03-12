@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/trackback/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author zero <zero@nzeo.com> 翻译：guny
      * @brief  引用(trackback) 模块的基本语言包
      **/
     $lang->cmd_toggle_checked_trackback = '反选';

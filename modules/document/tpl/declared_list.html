@@ -2,17 +2,12 @@
 <!--%import("filter/manage_checked_document.xml")-->
 <!--#include("header.html")-->
 
-
-<!-- 정보 -->
-<div class="summary">
-    <strong>Total</strong> <em>{number_format($total_count)}</em>, Page <strong>{number_format($page)}</strong>/{number_format($total_page)}
-</div>
-
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 목록 -->
-<table cellspacing="0" class="adminTable">
+<table cellspacing="0" class="rowTable">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
@@ -28,8 +23,8 @@
 <tbody>
     <!--@foreach($document_list as $no => $oDocument)-->
     <tr>
-        <td class="number center">{$no}</td>
-        <td class="center"><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
+        <td>{$no}</td>
+        <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
         <td>
             <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
 
@@ -42,17 +37,17 @@
             <!--@end-->
         </td>
         <td><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></td>
-        <td class="alert number center"><strong>{$oDocument->get('declared_count')}</strong></td>
-        <td class="number center alert">{$oDocument->get('readed_count')}</td>
-        <td class="number center">{$oDocument->get('voted_count')}</td>
-        <td class="date center nowrap">{$oDocument->getRegdate("Y-m-d")}</td>
+        <td><strong>{$oDocument->get('declared_count')}</strong></td>
+        <td>{$oDocument->get('readed_count')}</td>
+        <td>{$oDocument->get('voted_count')}</td>
+        <td>{$oDocument->getRegdate("Y-m-d")}</td>
     </tr>
     <!--@end-->
     <tr>
-        <td colspan="8" class="right">
+        <th colspan="8" class="button">
+            <a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button black strong"><span>{$lang->cmd_manage_document}</span></a>
             <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
-            <a href="{getUrl('','module','document','act','dispDocumentAdminManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button"><span>{$lang->cmd_manage_document}</span></a>
-        </td>
+        </th>
     </tr>
 </tbody>
 </table>

@@ -13,6 +13,19 @@
     $lang->move_target_module = "移动目标模块";
     $lang->title_bold = '粗标题';
     $lang->title_color = '标题颜色';
+    $lang->new_document_count = '新帖';
+
+    $lang->parent_category_title = '上级分类名';
+    $lang->category_title = '分类名';
+    $lang->category_color = '分类颜色';
+    $lang->expand = '展开';
+    $lang->category_group_srls = '用户组';
+    $lang->cmd_make_child = '添加下级分类';
+    $lang->cmd_enable_move_category = "分类顺序(勾选后用鼠标拖动分类项)";
+    $lang->about_category_title = '请输入分类名。';
+    $lang->about_expand = '选择此项将维持展开状态。';
+    $lang->about_category_group_srls = '所选用户组才可以查看此分类。';
+    $lang->about_category_color = '请指定分类颜色（必须带#符号）。ex）#ff0000';
 
     $lang->cmd_search_next = '继续搜索';
 
@@ -49,4 +62,8 @@
         'last_update' => '最近更新日期',
         'ipaddress' => 'IP 地址',
     );
+    $lang->alias = "Alias";
+    $lang->history = "编辑记录";
+    $lang->about_use_history = "设置启用编辑记录与否。启用将记录修改主题版本，并可以复原。";
+    $lang->trace_only = "只留痕迹";
 ?>
