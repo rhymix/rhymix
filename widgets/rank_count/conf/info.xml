@@ -123,7 +123,7 @@
             <name xml:lang="zh-TW">用戶組</name>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원, (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="jp">出力する会員グループ名を入力してください（例：準会員、正会員）。(선택이 되지 않으면 출력이 되지 않습니다.)</description>
-            <description xml:lang="zh-CN">请输入要显示的会员组。例)准会员,正会员 (선택이 되지 않으면 출력이 되지 않습니다.)</description>
+            <description xml:lang="zh-CN">请选择要显示的用戶组。例)准会员,正会员。</description>
             <description xml:lang="en">Enables group's ranking (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="es">Permite grupo de la clasificación (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="ru">Включает учет рейтинга группы (선택이 되지 않으면 출력이 되지 않습니다.)</description>

@@ -36,10 +36,10 @@
     $lang->image_mark = '用户图标';
     $lang->image_mark_max_width = '宽度限制';
     $lang->image_mark_max_height = '高度限制';
-    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark = '用户组图标';
     $lang->group_image_mark_max_width = '宽度限制';
     $lang->group_image_mark_max_height = '高度限制';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
+    $lang->group_image_mark_order = '用户组图标顺序';
     $lang->signature_max_height = '签名高度限制';
     $lang->enable_openid = '支持OpenID';
     $lang->enable_join = '允许会员注册';
@@ -148,7 +148,7 @@
     $lang->msg_not_uploaded_profile_image = '不能登录签名图像！';
     $lang->msg_not_uploaded_image_name = '不能登录昵称图像！';
     $lang->msg_not_uploaded_image_mark = '不能登录用户图标！';
-    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_group_image_mark = '可以指定用户组图标。';
 
     $lang->msg_accept_agreement = '您必须同意条款。'; 
 
@@ -191,7 +191,7 @@
 
     $lang->about_image_name = '用户昵称可以用小图片来替代显示。';
     $lang->about_image_mark = '显示在用户昵称前的小图标。';
-    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
+    $lang->about_group_image_mark = '用户名前显示用户组图标。';
     $lang->about_profile_image = '可以使用签名图片。';
     $lang->about_signature_max_height = '可以限制签名栏高度(0或留空为不限制)。';
     $lang->about_accept_agreement = '已阅读全部条款并同意。'; 

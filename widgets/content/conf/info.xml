@@ -24,14 +24,14 @@
     <extra_vars>
         <var id="content_type">
             <type>select</type>
-            <name xml:lang="ko">추출대상</name>
-            <name xml:lang="en">추출대상</name>
-            <name xml:lang="zh-CN">对象</name>
-            <name xml:lang="zh-tw">目標</name>
+                <name xml:lang="ko">추출대상</name>
+                <name xml:lang="en">추출대상</name>
+                <name xml:lang="zh-CN">对象</name>
+                <name xml:lang="zh-tw">目標</name>
             <options>
                 <value>document</value>
                 <name xml:lang="ko">게시물</name>
-                <name xml:lang="eno">게시물</name>
+                <name xml:lang="en">게시물</name>
                 <name xml:lang="zh-CN">主题</name>
             </options>
             <options>

@@ -95,7 +95,7 @@
             <description xml:lang="jp">出力する会員のグループ名を入力してください（例：準会員、正会員）。</description>
             <description xml:lang="en">Please input name of group to include. ex) Associate, Regular Group </description>
             <description xml:lang="es">Introduce nombre de grupo a incluir. Ex) Asociado, Grupo Regular </description>
-            <description xml:lang="zh-CN">请输入要显示的会员组。例)准会员,正会员</description>
+            <description xml:lang="zh-CN">请选择要显示的会员组。例)准会员,正会员</description>
             <description xml:lang="ru">Пожалуйста, введите имя группы для включения. например: Общая, Обычная (Associate, Regular Group)</description>
             <description xml:lang="zh-TW">請輸入要顯示的會員組。例)準會員，正會員</description>
         </var>

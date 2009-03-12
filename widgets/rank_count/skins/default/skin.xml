@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
     <title xml:lang="ko">기본 회원 랭킹 스킨</title>
+    <title xml:lang="zh-CN">会员排行默认皮肤</title>
     <description xml:lang="ko">글/댓글/파일업로드 추천/조회수로 회원 랭킹을 출력하는 기본 스킨입니다</description>
+    <description xml:lang="zh-CN">显示会员排行的默认皮肤(发布主题数/评论数/附件数及推荐/查看数排行)。</description>
     <version>0.1</version>
     <date>2009-02-23</date>
     <link>http://www.zeroboard.com</link>
 
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">zero</name>
+	<name xml:lang="zh-CN">zero</name>
     </author>
 
     <colorset>

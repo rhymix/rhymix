@@ -12,7 +12,7 @@
     $lang->planet_whos_planet = "%s的微博";
     $lang->planet_whos_favorite = "%s的收藏";
     $lang->planet_whos_favorite_list = "'%s'的收藏";
-    $lang->planet_favorite = "的微博";
+    $lang->planet_favorite = "收藏";
 
     $lang->planet_welcome = "欢迎您来到个人微博！";
 

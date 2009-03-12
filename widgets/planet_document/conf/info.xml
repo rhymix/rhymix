@@ -75,7 +75,10 @@
 			<name xml:lang="zh-TW">是否重複</name>
 			<description xml:lang="ko">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
 			<description xml:lang="jp">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
-			<description xml:lang="zh-CN">允许重复：不管你发布了多少个主题，按时间顺列出；不重复：只列出每个用户的最近一个主题。</description>
+			<description xml:lang="zh-CN">
+			允许重复：不管你发布了多少个主题，按时间顺列出；
+			不重复：只列出每个用户的最近一个主题。
+			</description>
 			<description xml:lang="en">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
 			<description xml:lang="ru">Y로 하시면 플래닛 멤버들의 중복을 검사하지 않고 무조건 최신순으로 글을 추출하여 출력합니다</description>
 			<description xml:lang="zh-TW">可重複：按照時間順序排列顯示主題；不重複：只會顯示用戶最近發表的主題。</description>
