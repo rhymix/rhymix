@@ -352,7 +352,6 @@
 
             // 등록 성공시 확장 변수 등록
             $extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
-            debugPrint($extra_keys);
             if(count($extra_keys)) {
                 foreach($extra_keys as $idx => $extra_item) {
                     $value = '';
