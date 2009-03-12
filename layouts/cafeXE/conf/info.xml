@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.2">
     <title xml:lang="ko">XE Cafe 공식 레이아웃</title>
-    <title xml:lang="zh-CN">官方站点模块布局</title>
+    <title xml:lang="zh-CN">站点模块官方布局</title>
     <title xml:lang="zh-TW">虛擬網站官網版面</title>
     <description xml:lang="ko">
         XE Cafe 공식 레이아웃입니다.
     </description>
     <description xml:lang="zh-CN">
-        官方站点模块布局。
+        站点模块官方布局。
     </description>
     <description xml:lang="zh-TW">
         虛擬網站官網版面。

@@ -2,13 +2,13 @@
     /**
      * @file   zh-CN.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  中文语言包 （只收录了基本内容）
+     * @brief  安装模块简体中文语言包
      **/
 
-    $lang->introduce_title = '安装 XE';
+    $lang->introduce_title = 'XE GNU通用许可协议';
     $lang->license = <<<EndOfLicense
-XE 是基于通用公共许可证(GNU General Public License)下的自由软件。
-但程序所用到的皮肤等设计要素，将遵循设计者自定的许可协议。
+本程序是自由软件，遵守自由软件基金会出版的GNU通用公共许可证(GNU General Public License)的各项条款。
+但本程序所用到的皮肤，插件，控件等扩展设计要素，将遵循设计者自定的许可协议。
 原文与翻译有差异时，以原文为准。
 
 <b>GNU通用公共许可证</b> -  翻译文
@@ -184,7 +184,7 @@ END OF TERMS AND CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "确认安装所需环境。";
+    $lang->install_condition_title = "检测运行环境";
 
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP版本',
@@ -213,9 +213,9 @@ EndOfLicense;
     $lang->install_session_auto_start = 'PHP设置中设置成session.auto_start==1，可能处理session时发生错误。';
     $lang->install_permission_denied = '安装目录属性不是707！';
 
-    $lang->cmd_agree_license = '同意条款';
+    $lang->cmd_agree_license = '同意';
     $lang->cmd_install_fix_checklist = '已设置了必要的安装条件。';
-    $lang->cmd_install_next = '开始进行安装';
+    $lang->cmd_install_next = '开始安装';
     $lang->cmd_ignore = '忽略';
 
     $lang->db_desc = array(
@@ -228,10 +228,10 @@ EndOfLicense;
         'firebird' => '使用Firebird DB。',
     );
 
-    $lang->form_title = '输入数据库及管理员信息';
+    $lang->form_title = '数据库及管理员基本信息';
     $lang->db_title = '输入数据库信息';
     $lang->db_type = '数据库类型';
-    $lang->select_db_type = '请选择要使用的数据库。';
+    $lang->select_db_type = '选择数据库';
     $lang->db_hostname = '服务器名';
     $lang->db_port = '数据库端口';
     $lang->db_userid = 'DB用户名';
