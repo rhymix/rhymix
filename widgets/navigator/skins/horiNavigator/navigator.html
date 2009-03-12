@@ -13,7 +13,7 @@ widget_navigator[{$widget_info->menu_srl}].load('{$widget_info->xml_file}');
         <ul class="widget_navigator_{$widget_info->menu_srl} navigator"  menu_srl='{$widget_info->menu_srl}'>
         <!--@foreach($widget_info->arranged_menu as $key => $val)-->
             <!--@if($val->text && $val->depth == 0)-->
-            <li class="node_{$val->node_srl} <!--@if($val->first)-->first<!--@end--> {$_first} <!--@if($val->selected)-->active<!--@end-->" node_srl='{$val->node_srl}' ><a href="{$val->href}">{$val->text}</a>
+            <li class="node_{$val->node_srl} <!--@if($val->first)-->first<!--@end--> {$_first} <!--@if($val->selected)-->active<!--@end-->" node_srl='{$val->node_srl}' ><a href="{$val->href}"<!--@if($val->open_window=='Y')--> target="_black"<!--@end-->>{$val->text}</a>
             </li>
             <!--@end-->
         <!--@end-->
