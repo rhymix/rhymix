@@ -12,26 +12,27 @@
 
         var $allow_trackback_status = null;
 
-        function documentItem($document_srl = 0) {
+        function documentItem($document_srl = 0, $load_extra_vars = true) {
             $this->document_srl = $document_srl;
-            $this->_loadFromDB();
+
+            $this->_loadFromDB($load_extra_vars);
         }
 
-        function setDocument($document_srl) {
+        function setDocument($document_srl, $load_extra_vars = true) {
             $this->document_srl = $document_srl;
-            $this->_loadFromDB();
+            $this->_loadFromDB($load_extra_vars);
         }
 
-        function _loadFromDB() {
+        function _loadFromDB($load_extra_vars=true) {
             if(!$this->document_srl) return;
 
             $args->document_srl = $this->document_srl;
             $output = executeQuery('document.getDocument', $args);
 
-            $this->setAttribute($output->data);
+            $this->setAttribute($output->data,$load_extra_vars);
         }
 
-        function setAttribute($attribute) {
+        function setAttribute($attribute,$load_extra_vars=true) {
             if(!$attribute->document_srl) {
                 $this->document_srl = null;
                 return;
@@ -47,6 +48,10 @@
                 for($i=0;$i<$tag_count;$i++) if(trim($tags[$i])) $tag_list[] = trim($tags[$i]);
                 $this->add('tag_list', $tag_list);
             }
+
+            $oDocumentModel = &getModel('document');
+            $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+            if($load_extra_vars) $oDocumentModel->setToAllDocumentExtraVars();
         }
 
         function isExists() {

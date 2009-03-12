@@ -77,13 +77,13 @@
             if(!$document_srl) return new documentItem();
 
             if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
-                $oDocument = new documentItem($document_srl);
+                $oDocument = new documentItem($document_srl, true);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();
-            } else $oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-            if($is_admin) $oDocument->setGrant();
+            } 
+            if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
-            return $oDocument;
+            return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
         }
 
         /**
@@ -110,7 +110,7 @@
                 if(!$attribute->document_srl) continue;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute);
+                $oDocument->setAttribute($attribute, false);
                 if($is_admin) $oDocument->setGrant();
 
                 $result[$attribute->document_srl] = $oDocument;
@@ -347,7 +347,7 @@
                 $document_srl = $attribute->document_srl;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute);
+                $oDocument->setAttribute($attribute, false);
                 if($is_admin) $oDocument->setGrant();
 
                 $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
@@ -384,7 +384,7 @@
                 if(!$val->document_srl) continue;
                 $oDocument = null;
                 $oDocument = new documentItem();
-                $oDocument->setAttribute($val);
+                $oDocument->setAttribute($val, false);
                 $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl] = $oDocument;
                 $result->data[$val->document_srl] = $oDocument;
             }
@@ -414,7 +414,7 @@
          **/
         function getExtraVars($module_srl, $document_srl) {
             if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) {
-                $oDocument = $this->getDocument($document_srl);
+                $oDocument = $this->getDocument($document_srl, false);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();
             }
