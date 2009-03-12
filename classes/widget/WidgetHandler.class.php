@@ -240,9 +240,9 @@
                                     $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
                                     $widget, implode(' ',$attribute));
 
-                            $widget_content_body = sprintf('<div style="%s">%s</div></div><div class="clear"></div>',$inner_style, $widget_content);
+                            $widget_content_body = sprintf('<div style="%s">%s</div><div class="clear"></div>',$inner_style, $widget_content);
 
-                            $widget_content_footer = '</div>';
+                            $widget_content_footer = '</div></div>';
 
                         break;
                 }
