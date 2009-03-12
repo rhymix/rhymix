@@ -248,7 +248,7 @@
                     $document_srl = $oDocument->document_srl;
                     $module_srl = $oDocument->get('module_srl');
                     $category_srl = $oDocument->get('category_srl');
-                    $thunbmail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
+                    $thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
 
                     $content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
                     $content_item->adds($oDocument->getObjectVars());
