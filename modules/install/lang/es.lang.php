@@ -236,7 +236,7 @@ EndOfLicense;
         'mysql_innodb' => 'Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb',
         'sqlite2' => 'Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)',
         'sqlite3_pdo' => 'A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.',
-        'cubrid' => 'Usar BD CUBRID.',
+        'cubrid' => 'Usar BD CUBRID. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'Usar BD PostgreSql.',
         'firebird' => 'Usar BD firebird.',
     );

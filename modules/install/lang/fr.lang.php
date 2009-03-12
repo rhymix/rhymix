@@ -194,7 +194,7 @@ EndOfLicense;
         'mysql_innodb' => 'Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb',
         'sqlite2' => 'Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l\'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)',
         'sqlite3_pdo' => 'Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l\'on ne peut pas accéder par Web.',
-        'cubrid' => 'Utiliser la Base de Données de CUBRID.',
+        'cubrid' => 'Utiliser la Base de Données de CUBRID.  <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'Utiliser la Base de Données de PostgreSql.',
         'firebird' => 'Utiliser la Base de Données de firebird.',
     );

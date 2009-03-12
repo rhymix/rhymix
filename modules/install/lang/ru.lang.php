@@ -324,7 +324,7 @@ EndOfLicense;
         'mysql_innodb' => 'Используем innodb  чтобы использовать базу данных mysql.<br />Транзакция включена для innodb',
         'sqlite2' => 'Поддерживает sqlite2, которая сохраняет данные в файл.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.<br />(Никогда не тестировалось на стабильность)',
         'sqlite3_pdo' => 'Поддерживает sqlite3 посредством PHP\'s PDO.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.',
-        'cubrid' => 'Используем CUBRID DB.',
+        'cubrid' => 'Используем CUBRID DB. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'Используем PostgreSql DB.',
         'firebird' => 'Используем firebird DB.',
     );
