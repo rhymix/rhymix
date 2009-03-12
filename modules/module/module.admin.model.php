@@ -149,8 +149,10 @@
                 if($tmp) {
                     $selected_lang = array();
                     $rand_name = $tmp[Context::getLangType()];
-                    if(!$rand_name) $rand_name = array_shift(unserialize($name));
-                    foreach($tmp as $key => $val) $selected_lang[$key] = $tmp[$key]?$tmp[$key]:$rand_name;
+                    if(!$rand_name) $rand_name = array_shift($tmp);
+                    foreach($lang_supported as $key => $val) {
+                        $selected_lang[$key] = $tmp[$key]?$tmp[$key]:$rand_name;
+                    }
                 }
             }
 
