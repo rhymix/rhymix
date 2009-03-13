@@ -794,7 +794,7 @@
             foreach($left_tables as $key => $val) {
                 $condition = $this->getLeftCondition($output->left_conditions[$key],$output->column_type,$output->tables);
                 if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as '.$key  . ' on (' . $condition . ')';
+                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as "'.$key.'" on (' . $condition . ')';
                 }
             }
 
