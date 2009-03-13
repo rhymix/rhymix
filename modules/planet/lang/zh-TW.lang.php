@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/planet/lang/zh-TW.lang.php
      * @author sol (sol@ngleader.com) 翻譯:royallin
-     * @brief  微型部落格(planet)模組
+     * @brief  微型部落格(planet)模組正體中文語言
      **/
 
     $lang->planet = "微型部落格";
@@ -20,7 +20,7 @@
 
     $lang->about_planet = 
         "XE微型部落格模組，可讓會員建立自己的微型部落格。
-         網站模組所使用的網域名稱無法用於微型部落格模組。
+         虛擬網站模組所使用的網域名稱無法用於微型部落格模組。
          如果想將微型部落格當作首頁，請先在網站模組中設定其他的網域名稱。";
 
     $lang->planet_mid = "微型部落格連結網址";

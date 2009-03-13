@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/homepage/lang/zh-TW.lang.phpzh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯︰royallin
-     * @brief  虛擬網站(homepage)基本模組
+     * @brief  虛擬網站(homepage)模組正體中文語言
      **/
 
     $lang->cafe = "虛擬網站"; 

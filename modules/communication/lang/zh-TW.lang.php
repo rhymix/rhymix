@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/communication/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言 (包含基本內容)
+     * @brief  交流(communication)模組正體中文語言
      **/
 
     $lang->communication = '交流';

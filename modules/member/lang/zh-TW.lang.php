@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/member/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  會員(member)模組正體中文語言 (包含基本內容)
+     * @brief  會員(member)模組正體中文語言
      **/
 
     $lang->member = '會員';
@@ -36,10 +36,10 @@
     $lang->image_mark = '用戶圖示';
     $lang->image_mark_max_width = '寬度限制';
     $lang->image_mark_max_height = '高度限制';
-    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark = '群組圖示';
     $lang->group_image_mark_max_width = '寬度限制';
     $lang->group_image_mark_max_height = '高度限制';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
+    $lang->group_image_mark_order = '群組圖示順序';
     $lang->signature_max_height = '簽名檔高度限制';
     $lang->enable_openid = '支援OpenID';
     $lang->enable_join = '允許會員註冊';
@@ -147,7 +147,7 @@
     $lang->msg_not_uploaded_profile_image = '無法登錄個人圖片！';
     $lang->msg_not_uploaded_image_name = '無法登錄暱稱圖片！';
     $lang->msg_not_uploaded_image_mark = '無法登錄用戶圖示！';
-    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_group_image_mark = '無法登錄群組圖示！';
 
     $lang->msg_accept_agreement = '您必須同意條款。'; 
 
@@ -190,18 +190,18 @@
 
     $lang->about_image_name = '用戶暱稱可以用圖片替代。';
     $lang->about_image_mark = '顯示在用戶暱稱前的圖示。';
-    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
+    $lang->about_group_image_mark = '顯示在用戶群組前的圖示。';
     $lang->about_profile_image = '可以使用個人圖片。';
     $lang->about_signature_max_height = '可以限制簽名檔高度(0或留空為不限制)。';
     $lang->about_accept_agreement = '已閱讀全部條款並同意。'; 
 
-    $lang->about_member_default = '將成為註冊會員時的預設用戶組。';
+    $lang->about_member_default = '將成為註冊會員時的預設群組。';
 
     $lang->about_openid = '用OpenID註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供OpenID服務的網站中得到解決。';
     $lang->about_openid_leave = '刪除OpenID就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。';
     $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 
-    $lang->about_member = "可以新增/修改/刪除會員及管理用戶組或註冊表單的會員管理模組。\n此模組不僅可以建立預設用戶組以外的其他用戶組來管理會員，並且通過註冊表單的管理獲得除會員基本資料以外的延伸資料。";
+    $lang->about_member = "可以新增/修改/刪除會員及管理群組或註冊表單的會員管理模組。\n此模組不僅可以建立預設群組以外的其他群組來管理會員，並且通過註冊表單的管理獲得會員基本資料以外的延伸資料。";
     $lang->about_ssl_port = '請輸入想要使用預設SSL埠口以外的埠口。';
     $lang->add_openid = 'Add OpenID';
 ?>

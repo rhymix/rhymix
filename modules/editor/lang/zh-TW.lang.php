@@ -2,7 +2,7 @@
     /**
      * @file   modules/editor/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  網頁編輯器(editor)模組語言
+     * @brief  網頁編輯器(editor)模組正體中文語言
      **/
 
     $lang->editor = '網頁編輯器';

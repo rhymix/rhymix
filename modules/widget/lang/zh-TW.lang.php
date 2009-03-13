@@ -2,7 +2,7 @@
     /**
      * @file   modules/widget/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  控件(widget)模組語言
+     * @brief  控件(widget)模組正體中文語言
      **/
 
     $lang->cmd_generate_code = '建立原始碼';

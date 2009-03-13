@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/board/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  討論板(board)模組語言
+     * @brief  討論板(board)模組正體中文語言
      **/
 
     $lang->board = '討論板';
@@ -25,7 +25,7 @@
     $lang->cmd_view_info = '討論板資料';
     $lang->cmd_list_setting = '列表設定';
 
-    // 信息、提示..
+    // 訊息、提示..
     $lang->about_layout_setup = '可直接編輯部落格版面設計原始碼。可把控件原始碼插入到您喜歡的位置。';
     $lang->about_board_category = '可以新增/刪除分類項目<br />分類有異常情況時，可以嘗試重新建立暫存檔。';
     $lang->about_except_notice = '設置公告列表項目，不再重複顯示到普通列表當中。';

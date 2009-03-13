@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/importer/lang/zh-TW.lang.phpzh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  匯入(importer)模組語言
+     * @brief  匯入(importer)模組正體中文語言語言
      **/
 
     // 按鈕語言

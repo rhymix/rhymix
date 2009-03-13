@@ -2,7 +2,7 @@
     /**
      * @file   modules/poll/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  投票調查 (poll) 模組的基本語言
+     * @brief  投票調查 (poll) 模組正體中文語言
      **/
 
     $lang->poll = "投票調查";
@@ -33,6 +33,6 @@
     $lang->search_target_list = array(
         'title' => '標題',
         'regdate' => '登錄日期',
-        'ipaddress' => 'IP 位址',
+        'ipaddress' => 'IP位址',
     );
 ?>

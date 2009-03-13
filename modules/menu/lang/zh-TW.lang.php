@@ -2,7 +2,7 @@
     /**
      * @file   modules/menu/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  選單(menu) 模組的基本語言
+     * @brief  選單(menu) 模組正體中文語言
      **/
 
     $lang->cmd_menu_insert = '建立選單';
@@ -14,7 +14,7 @@
     $lang->depth = '層級';
     $lang->parent_menu_name = '主選單名稱';
     $lang->menu_name = '選單名稱';
-    $lang->menu_srl = '選單固有編號';
+    $lang->menu_srl = '選單編號';
     $lang->menu_id = '選單名稱';
     $lang->menu_url = '連結';
     $lang->menu_open_window = '新視窗';
@@ -23,7 +23,7 @@
     $lang->menu_normal_btn = '普通';
     $lang->menu_hover_btn = '滑鼠移過';
     $lang->menu_active_btn = '啟動連結';
-    $lang->menu_group_srls = '用戶組';
+    $lang->menu_group_srls = '群組';
     $lang->layout_maker = "版面作者";
     $lang->layout_history = "更新列表";
     $lang->layout_info = "版面資料";

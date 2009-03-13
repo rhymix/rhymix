@@ -2,7 +2,7 @@
     /**
      * @file   modules/layout/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  版面設計(layout)模組語言
+     * @brief  版面設計(layout)模組正體中文語言
      **/
 
     $lang->cmd_layout_management = '版面設置';
@@ -31,10 +31,10 @@
 	     儲存之前，請先預覽後再儲存。
         XE版面設計語法，請參考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE 樣版</a>。";
 
-    $lang->layout_export = '내보내기';
+    $lang->layout_export = '匯出';
     $lang->layout_btn_export = '내 레이아웃 다운로드';
     $lang->about_layout_export = '현재 수정된 레이아웃을 내보내기를 합니다.';
-    $lang->layout_import = '가져오기';
+    $lang->layout_import = '匯入';
     $lang->about_layout_import = '가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다.
     가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.';
     $lang->layout_manager = array(
@@ -97,7 +97,7 @@
 
     $lang->layout_image_repository = '레이아웃 파일 저장소';
     $lang->about_layout_image_repository = '선택된 레이아웃에 사용될 이미지/플래시파일등을 올릴 수 있습니다. 내보내기에 같이 포함이 됩니다';
-    $lang->msg_layout_image_target = 'gif, png, jpg, swf, flv파일만 가능합니다';
+    $lang->msg_layout_image_target = '只允許上傳gif, png, jpg, swf, flv等檔案格式。';
     $lang->layout_migration = '레이아웃 내보내기/ 들이기';
     $lang->about_layout_migration = '수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다'."\n".'(아직은 faceOff레이아웃만 내보내기/들이기가 됩니다';
 

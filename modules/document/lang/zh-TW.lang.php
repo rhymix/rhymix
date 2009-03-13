@@ -2,7 +2,7 @@
     /**
      * @file   modules/document/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  文章(document)模組語言
+     * @brief  文章(document)模組正體中文語言
      **/
 
     $lang->document_list = '主題列表';
@@ -26,7 +26,7 @@
     $lang->about_category_title = '請輸入分類名稱。';
     $lang->about_expand = '選擇此項將維持展開狀態。';
     $lang->about_category_group_srls = '被選擇的群組才可以檢視此分類。';
-    $lang->about_category_color = '設定分類顏色。例)#ff0000';
+    $lang->about_category_color = '設定分類顏色。例)紅色為#ff0000';
 
     $lang->cmd_search_next = '繼續搜尋';
 

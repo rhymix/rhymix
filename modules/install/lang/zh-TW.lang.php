@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/install/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言(包含基本內容)
+     * @brief  安裝(install)模組正體中文語言(包含基本內容)
      **/
 
     $lang->introduce_title = 'XE程式安裝';

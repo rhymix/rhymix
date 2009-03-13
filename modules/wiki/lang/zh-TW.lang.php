@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/wiki/lang/zh-TW.lang.php
      * @author haneul (haneul0318@gmail.com) 翻譯：royallin
-     * @brief  維基(wiki)模組基本語言
+     * @brief  維基(wiki)模組正體中文語言
      **/
 
     $lang->wiki = '維基';

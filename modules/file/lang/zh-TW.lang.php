@@ -2,7 +2,7 @@
     /**
      * @file   modules/file/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  附加檔案(file)模組語言
+     * @brief  附加檔案(file)模組正體中文語言
      **/
 
     $lang->file = '附加檔案';

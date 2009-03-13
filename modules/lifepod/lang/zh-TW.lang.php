@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/lifepod/lang/zh-TW.lang.phpzh-TW.lang.php
      * @author haneul (haneul0318@gmail.com) 翻譯：royallin
-     * @brief  lifepod模組語言
+     * @brief  lifepod模組正體中文語言語言
      **/
 
     $lang->lifepod = "Lifepod API";
