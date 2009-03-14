@@ -205,9 +205,9 @@
     $lang->about_layout = '版面設計是佈置網站的外觀模組，在上端版面選單中，可以進行管理';
 
     // 訊息
-    $lang->msg_call_server = '系統正在連結服務器，請稍後。';
+    $lang->msg_call_server = '系統正在連接伺服器，請稍後。';
     $lang->msg_db_not_setted = '還沒有設定資料庫';
-    $lang->msg_dbconnect_failed = "連接資料庫時發生錯誤。\n請重新確認資料庫資訊。";
+    $lang->msg_dbconnect_failed = '連接資料庫時發生錯誤。\n請重新確認資料庫資訊。';
     $lang->msg_invalid_queryid = 'Query ID值指定錯誤';
     $lang->msg_not_permitted = '沒有權限';
     $lang->msg_input_password = '請輸入密碼';
@@ -293,7 +293,7 @@
     $lang->filter->outofrange = '請確認%s字數';
     $lang->filter->equalto = '%s值有誤。';
     $lang->filter->invalid_email = '%s格式有誤。(例：zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只能用英文，數字和 _，第一個字母必須是英文。";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只能用英文，數字和 _，開頭必須是英文。";
     $lang->filter->invalid_homepage = '%s格式有誤。(例： http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%s只能輸入中文';
     $lang->filter->invalid_korean_number = '%s只能輸入中文或數字';
