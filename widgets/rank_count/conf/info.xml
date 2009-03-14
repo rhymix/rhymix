@@ -6,14 +6,14 @@
     <title xml:lang="es">El artículo, el comentario ranking</title>
     <title xml:lang="zh-CN">会员各项活动排行榜</title>
     <title xml:lang="ru">Рейтинг статей, комментариев</title>
-    <title xml:lang="zh-TW">主題，回覆排行榜</title>
+    <title xml:lang="zh-TW">主題、評論排行榜</title>
     <description xml:lang="ko">글, 댓글 작성 순위를 출력합니다.</description>
     <description xml:lang="jp">書き込み、コメント作成順位を出力します。</description>
     <description xml:lang="en">This widget displays articles and comments ranking.</description>
     <description xml:lang="es">Este widget muestra de artículos y comentarios ranking.</description>
     <description xml:lang="zh-CN">按发表主题/评论/附件/推荐/查看数显示会员排行的控件。</description>
     <description xml:lang="ru">Этот виджет отображает рейтинг статей и комментариев.</description>
-    <description xml:lang="zh-TW">顯示會員主題數與回覆數的排行榜。</description>
+    <description xml:lang="zh-TW">顯示會員發表主題/評論/附檔/推薦/點閱排行的控件。</description>
     <version>1.5</version>
     <date>2009-02-23</date>
 
@@ -69,7 +69,7 @@
                 <name xml:lang="en">Article</name>
                 <name xml:lang="es">Artículo</name>
                 <name xml:lang="ru">Статья</name>
-                <name xml:lang="zh-TW">發表主題</name>
+                <name xml:lang="zh-TW">主題</name>
             </options>
             <options>
                 <value>comment</value>
@@ -79,7 +79,7 @@
                 <name xml:lang="en">Comment</name>
                 <name xml:lang="es">Comentario</name>
                 <name xml:lang="ru">Комментарий</name>
-                <name xml:lang="zh-TW">發表評論</name>
+                <name xml:lang="zh-TW">評論</name>
             </options>
             <options>
                 <value>attach</value>
@@ -89,7 +89,7 @@
                 <name xml:lang="en">Attach</name>
                 <name xml:lang="es">Adjuntar</name>
                 <name xml:lang="ru">Вложение</name>
-                <name xml:lang="zh-TW">附件</name>
+                <name xml:lang="zh-TW">附檔</name>
             </options>
             <options>
                 <value>vote</value>
@@ -120,14 +120,14 @@
             <name xml:lang="en">With Group</name>
             <name xml:lang="es">Con Grupo</name>
             <name xml:lang="ru">С группой</name>
-            <name xml:lang="zh-TW">用戶組</name>
+            <name xml:lang="zh-TW">群組</name>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원, (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="jp">出力する会員グループ名を入力してください（例：準会員、正会員）。(선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="zh-CN">请选择要显示的用戶组。例)准会员,正会员。</description>
             <description xml:lang="en">Enables group's ranking (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="es">Permite grupo de la clasificación (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="ru">Включает учет рейтинга группы (선택이 되지 않으면 출력이 되지 않습니다.)</description>
-            <description xml:lang="zh-TW">請輸入要顯示的會員組。例)準會員，正式會員 (선택이 되지 않으면 출력이 되지 않습니다.)</description>
+            <description xml:lang="zh-TW">請輸入要顯示的群組。例)準會員，正式會員 (如果都沒選擇，就不會輸出顯示)</description>
         </var>
         <var id="period">
             <type>text</type>
