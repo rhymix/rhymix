@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widgetstyle>
     <title xml:lang="ko">라운드 위젯스타일</title>
+    <title xml:lang="zh-TW">圓角外框樣式</title>
     <description xml:lang="ko">외각이 라운드로 꾸며진 위젯스타일 입니다.</description>
+    <description xml:lang="zh-TW">可變換多種圓角外框的控件樣式。</description>
     <version>0.1</version>
     <date>2009-03-10</date>
     <preview>preview.gif</preview>
@@ -17,29 +19,36 @@
     <extra_vars>
         <var name="ws_style" type="select">
             <name xml:lang="ko">스타일</name>
+            <name xml:lang="zh-TW">樣式</name>
             <options>
                 <value>widgetBoxDred</value>
                 <name xml:lang="ko">빨강색 선</name>
+                <name xml:lang="zh-TW">紅框</name>
             </options>
             <options>
                 <value>widgetBoxDgreen</value>
                 <name xml:lang="ko">녹색 선</name>
+                <name xml:lang="zh-TW">綠框</name>
             </options>
             <options>
                 <value>widgetBoxDblue</value>
                 <name xml:lang="ko">파랑색 선</name>
+                <name xml:lang="zh-TW">藍框</name>
             </options>
             <options>
                 <value>widgetBoxEred</value>
                 <name xml:lang="ko">빨강색</name>
+                <name xml:lang="zh-TW">紅色</name>
             </options>
             <options>
                 <value>widgetBoxEgreen</value>
                 <name xml:lang="ko">녹색</name>
+                <name xml:lang="zh-TW">綠色</name>
             </options>
             <options>
                 <value>widgetBoxEblue</value>
                 <name xml:lang="ko">파랑색</name>
+                <name xml:lang="zh-TW">藍色</name>
             </options>
         </var>
         <var name="ws_title_image" type="filebox" filter="jpg,jpeg,gif,png">

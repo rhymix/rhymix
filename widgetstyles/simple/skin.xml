@@ -2,10 +2,10 @@
 <widgetstyle>
     <title xml:lang="ko">제목, more버튼 위젯스타일</title>
     <title xml:lang="zh-CN">简易控件样式</title>
-    <title xml:lang="zh-TW">標題、more按紐控件樣式</title>
+    <title xml:lang="zh-TW">簡單樣式</title>
     <description xml:lang="ko">제목과 more버튼만 있는 간단한 위젯 스타일</description>
     <description xml:lang="zh-CN">只有栏目名和查看更多(more)选项的简易控件样式。</description>
-    <description xml:lang="zh-TW">標題與more按紐的簡單控件樣式。</description>
+    <description xml:lang="zh-TW">只有標題與more按紐的簡單控件樣式。</description>
     <version>0.1</version>
     <date>2009-02-03</date>
 

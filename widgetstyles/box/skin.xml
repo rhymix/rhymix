@@ -2,10 +2,10 @@
 <widgetstyle>
     <title xml:lang="ko">박스 위젯스타일</title>
     <title xml:lang="zh-CN">盒状控件样式</title>
-    <title xml:lang="zh-TW">盒狀控件樣式</title>
+    <title xml:lang="zh-TW">外框樣式</title>
     <description xml:lang="ko">박스 위젯스타일</description>
     <description xml:lang="zh-CN">可指定控件盒的样式。</description>
-    <description xml:lang="zh-TW">可指定盒狀控件樣式。</description>
+    <description xml:lang="zh-TW">可指定控件箱的外框樣式。</description>
     <version>0.1</version>
     <date>2009-02-03</date>
 
