@@ -175,20 +175,17 @@
                 $as = $this->addDoubleQuotes($as);
             }
 
-            // 함수 사용시
+			// 함수 사용시
+			$tmpFunc1 = null;
+			$tmpFunc2 = null;
             if(($no1 = strpos($string,'('))!==false && ($no2 = strpos($string, ')'))!==false) {
-                $tmpString1 = substr($string, 0, $no1+1);
-                $tmpString2 = substr($string, $no1+1, $no2-$no1-1);
-                $tmpString3 = substr($string, $no2, strlen($string)-$no2+1);
-
-                $tmpString2 = trim($tmpString2);
-
-                if($tmpString2 != "*") $tmpString2 = $this->addDoubleQuotes($tmpString2);
-
-                $string = $tmpString1.$tmpString2.$tmpString3;
+                $tmpFunc1 = substr($string, 0, $no1+1);
+				$tmpFunc2 = substr($string, $no2, strlen($string)-$no2+1);
+                $string = trim(substr($string, $no1+1, $no2-$no1-1));
             }
-            // 테이블.필드
-            else if(($no1 = strpos($string,'.'))!==false) {
+
+			// 테이블.필드
+            if(($no1 = strpos($string,'.'))!==false) {
                 $tmpString1 = substr($string, 0, $no1); // table
                 $tmpString2 = substr($string, $no1+1, strlen($string)-$no1+1); // field
 
@@ -199,11 +196,13 @@
                 if($tmpString2 != "*") $tmpString2 = $this->addDoubleQuotes($tmpString2);
 
                 $string = $tmpString1.".".$tmpString2;
-
             }
             else {
                 $string = $this->addDoubleQuotes($string);
             }
+
+			if($tmpFunc1 != null) $string = $tmpFunc1.$string;
+			if($tmpFunc2 != null) $string = $string.$tmpFunc2;
 
             if($as !== false) $string = $string." as ".$as;
             return $string;
@@ -731,7 +730,10 @@
 						$pos = strpos($value, '+');
 						if($pos == 0) $pos = strpos($value, '-');
 						if($pos == 0) $pos = strpos($value, '*');
-						if($pos == 0) $pos = strpos($value, '/');
+						if($pos == 0) {
+							$pos = strpos($value, '/');
+							if(substr_count($value, ".") > 1) $pos = 0;	// value에 url주소가 들어가는경우
+						}
 
 						if($pos != 0) {
 							$substr = substr($value, 0, $pos);
