@@ -8,7 +8,7 @@
     <td class="title">
 
         <!--@if($widget_info->show_browser_title=='Y' && $item->getBrowserTitle())-->
-            <a href="{getSiteUrl($item->domain, '', 'mid', $item->get('mid'))}"><strong class="board">{$item->getBrowserTitle()}</strong></a>
+            <a href="<!--@if($item->domain)-->{getSiteUrl($item->domain, '', 'mid', $item->get('mid'))}<!--@elseif($item->getContentsLink())-->{$item->getContentsLink()}<!--@end-->"><strong class="board">{$item->getBrowserTitle()}</strong></a>
         <!--@end-->
         <!--@if($widget_info->show_category=='Y' && $item->get('category_srl') )-->
             <a href="{getSiteUrl($item->domain,'','mid',$item->get('mid'),'category',$item->get('category_srl'))}"><strong class="category">{$item->getCategory()}</strong></a>
@@ -29,7 +29,7 @@
         <!--@end-->
     </td>
 <!--@else if($v=='nickname')-->
-    <td><a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}">{$item->getNickName()}</a></td>
+    <td><a <!--@if($item->getMemberSrl())-->href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}"<!--@elseif($item->getAuthorSite())-->href="{$item->getAuthorSite()}" onclick="window.open(this.href); return false;" class="author member"<!--@else-->href="#" onclick="return false;" class="author member"<!--@end--> >{$item->getNickName()}</a></td>
 <!--@else if($v=='regdate')-->
     <td class="time"><span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span></td>
 <!--@end-->

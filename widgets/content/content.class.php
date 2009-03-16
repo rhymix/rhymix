@@ -483,40 +483,44 @@
 
                     $content_items[] = $content_item;
                 }
-            } elseif($xml_doc->{'rdf:RDF'}) {
-                $rss->title = $xml_doc->{'rdf:RDF'}->channel->title->body;
-                $rss->link = $xml_doc->{'rdf:RDF'}->channel->link->body;
-
-                $items = $xml_doc->{'rdf:RDF'}->item;
-
-                if(!$items) return;
-                if($items && !is_array($items)) $items = array($items);
-
-                $content_items = array();
-
-                foreach ($items as $key => $value) {
-                    if($key >= $args->list_count * $args->page_count) break;
-                    unset($item);
-
-                    foreach($value as $key2 => $value2) {
-                        if(is_array($value2)) $value2 = array_shift($value2);
-                        $item->{$key2} = $this->_getRssBody($value2);
-                    }
-
-                    $content_item = new contentItem($rss->title);
-                    $content_item->setContentsLink($rss->link);
-                    $content_item->setTitle($item->title);
-                    $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
-                    //$content_item->setCategory($item->category);
-                    $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
-                    $content_item->setContent($item->description);
-                    $content_item->setLink($item->link);
-                    $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
-                    $content_item->setRegdate($date);
-
-                    $content_items[] = $content_item;
-                }
+/*
+              } elseif($xml_doc->{'rdf:RDF'}) {
+                  // rss1.0 지원 by misol
+                  $rss->title = $xml_doc->{'rdf:RDF'}->channel->title->body;
+                  $rss->link = $xml_doc->{'rdf:RDF'}->channel->link->body;
+  
+                  $items = $xml_doc->{'rdf:RDF'}->item;
+  
+                  if(!$items) return;
+                  if($items && !is_array($items)) $items = array($items);
+  
+                  $content_items = array();
+  
+                  foreach ($items as $key => $value) {
+                      if($key >= $args->list_count * $args->page_count) break;
+                      unset($item);
+  
+                      foreach($value as $key2 => $value2) {
+                          if(is_array($value2)) $value2 = array_shift($value2);
+                          $item->{$key2} = $this->_getRssBody($value2);
+                      }
+  
+                      $content_item = new contentItem($rss->title);
+                      $content_item->setContentsLink($rss->link);
+                      $content_item->setTitle($item->title);
+                      $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+                      //$content_item->setCategory($item->category);
+                      $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+                      $content_item->setContent($item->description);
+                      $content_item->setLink($item->link);
+                      $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
+                      $content_item->setRegdate($date);
+  
+                      $content_items[] = $content_item;
+                  }
+*/
             } elseif($xml_doc->{'rdf:rdf'}) {
+                // rss1.0 지원 (Xml이 대소문자를 구분해야 하는데 XE의 XML파서가 전부 소문자로 바꾸는 바람에 생긴 case) by misol
                 $rss->title = $xml_doc->{'rdf:rdf'}->channel->title->body;
                 $rss->link = $xml_doc->{'rdf:rdf'}->channel->link->body;
 
@@ -550,6 +554,7 @@
                     $content_items[] = $content_item;
                 }
             } elseif($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom') {
+                // Atom 1.0 spec 지원 by misol
                 $rss->title = $xml_doc->feed->title->body;
                 $links = $xml_doc->feed->link;
                 if(is_array($links)) {
@@ -596,6 +601,7 @@
                     }
                     $content_item->setTitle($item->title);
                     $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+                    $content_item->setAuthorSite($value->author->uri->body);
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
                     if($item->description) {
@@ -767,6 +773,11 @@
         function setNickName($nick_name){
             $this->add('nick_name',$nick_name);
         }
+
+        // 글 작성자의 홈페이지 주소를 저장 by misol
+        function setAuthorSite($site_url){
+            $this->add('author_site',$site_url);
+        }
         function setCategory($category){
             $this->add('category',$category);
         }
@@ -803,6 +814,9 @@
         }
         function getNickName(){
             return $this->get('nick_name');
+        }
+        function getAuthorSite(){
+            return $this->get('author_site');
         }
         function getCommentCount(){
             $comment_count = $this->get('comment_count');

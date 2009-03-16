@@ -9,7 +9,7 @@
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
     <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的控件。</description>
     <version>0.1</version>
-    <date>2009-02-10</date>
+    <date>2009-03-16</date>
 
     <author email_address="sol@ngleader.com" link="http://www.ngleader.com">
         <name xml:lang="ko">sol</name>
@@ -546,7 +546,8 @@
             <name xml:lang="en">RSS URL</name>
             <name xml:lang="ru">RSS URL</name>
             <name xml:lang="zh-TW">RSS URL</name>
-            <description xml:lang="ko">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.</description>
+            <description xml:lang="ko">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.
+            (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="zh-TW">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.</description>
         </var>
         <var id="rss_url1">
