@@ -24,4 +24,7 @@
     <conditions>
         <condition operation="in" column="extra_vars.document_srl" var="document_srl" pipe="and"  />
     </conditions>
+    <navigation>
+        <index var="sort_index" default="extra_keys.var_idx" order="asc" />
+    </navigation>
 </query>
