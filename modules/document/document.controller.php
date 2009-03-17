@@ -373,7 +373,7 @@
             }
 
             // 공지사항 글이면 공지사항 캐시 업데이트
-            if($source_obj->is_notice == 'Y' || $obj->is_notice == 'Y') $this->updateDocumentNoticeCache($obj->module_srl);
+            if($source_obj->get('is_notice') == 'Y' || $obj->is_notice == 'Y') $this->updateDocumentNoticeCache($obj->module_srl);
 
             // trigger 호출 (after)
             if($output->toBool()) {
