@@ -476,6 +476,7 @@
                 $args->point = $point;
                 if($args->point < 0) $args->point = 0;
             }
+            $point = $args->point;
 
 
             // 포인트가 있는지 체크
