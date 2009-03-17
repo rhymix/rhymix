@@ -44,6 +44,7 @@
             $output = executeQueryArray('document.getDocumentsExtraVars', $obj);
             if($output->toBool() && $output->data) {
                 $setted = array();
+
                 foreach($output->data as $key => $val) {
                     if(!$val->document_srl) continue;
 
@@ -64,8 +65,14 @@
                     }
                 }
             }
+
+
             foreach($document_srls as $key => $document_srl) {
-                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) $GLOBALS['XE_EXTRA_VARS'][$document_srl] = array();
+                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])){
+                    $module_srl = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('module_srl');
+                    $oExtraItem = $GLOBALS['XE_EXTRAVARS'][$module_srl];
+                    $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $oExtraItem;
+                }
             }
 
         }
