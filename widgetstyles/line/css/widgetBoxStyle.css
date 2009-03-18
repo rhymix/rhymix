@@ -17,19 +17,17 @@
 .widgetBox .rcBottom .bl{ top:0;}
 .widgetBox .rcBottom .br{ top:0;}
 
-.widgetBoxA .widgetBox{ background:#fff;}
 .widgetBoxA .widgetBoxHeader{ position:relative; padding:4px 0; margin:1px; border-bottom:1px solid #ccc;}
 .widgetBoxA .widgetMore{ top:10px; right:0; color:#888;}
 .widgetBoxA .rcContainer{ display:none;}
 
-.widgetBoxB .widgetBox{ background:#fff;}
 .widgetBoxB .widgetBox{ border:1px solid #ccc;}
 .widgetBoxB .widgetBoxHeader{ position:relative; padding:4px 0; margin:1px; text-indent:15px; border-bottom:1px solid #ddd; background:url(../img/headerBgB.gif) repeat-x;}
 .widgetBoxB .widgetMore{ top:7px; right:15px;}
 .widgetBoxB .rcContainer{ display:none;}
 
-.widgetBoxC{ padding:3px 0; background:#fff;}
-.widgetBoxC .widgetBox{ border-left:1px solid #ccc; border-right:1px solid #ccc;}
+.widgetBoxC{ padding:3px 0;}
+.widgetBoxC .widgetBox{ border-left:1px solid #ccc; border-right:1px solid #ccc; background-color:#fff;}
 .widgetBoxC .widgetBoxHeader{ position:relative; padding:4px 0; margin:1px; text-indent:15px; border-bottom:1px solid #ddd; background:url(../img/headerBgC.gif) repeat-x;}
 .widgetBoxC .widgetMore{ top:5px; right:15px;}
 .widgetBoxC .rcTop,
@@ -42,7 +40,6 @@
 .widgetBoxC .rcBottom .bl{ background-position:0 bottom; left:0px;}
 .widgetBoxC .rcBottom .br{ background-position:right bottom; left:50%;}
 
-.widgetBoxG .widgetBox{ background:#fff;}
 .widgetBoxG .widgetBoxHeader{ position:relative; border:1px solid #ccc; padding:4px 0; text-indent:15px; background:url(../img/headerBgG.gif) repeat-x 0 center;}
 .widgetBoxG .widgetMore{ top:7px; right:15px;}
 

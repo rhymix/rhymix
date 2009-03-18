@@ -17,14 +17,14 @@
 .widgetBox .rcBottom .bl{ top:0;}
 .widgetBox .rcBottom .br{ top:0;}
 
-.widgetBoxFred .widgetBox{ background:#fff; border:1px solid #ffcccc; border-top-width:5px; border-bottom-width:5px;}
+.widgetBoxFred .widgetBox{ border:1px solid #ffcccc; border-top-width:5px; border-bottom-width:5px;}
 .widgetBoxFred .widgetBoxHeader{ position:relative; padding:4px 0; text-indent:15px; repeat-x 0 center; border-bottom:1px solid #ffcccc; color:#ff3333;}
 .widgetBoxFred .widgetMore{ top:7px; right:15px; color:#888;}
 
-.widgetBoxFgreen .widgetBox{ position:relative; background:#fff; border:1px solid #d9efb9; border-top-width:5px; border-bottom-width:5px;}
+.widgetBoxFgreen .widgetBox{ border:1px solid #d9efb9; border-top-width:5px; border-bottom-width:5px;}
 .widgetBoxFgreen .widgetBoxHeader{ padding:4px 0; text-indent:15px; repeat-x 0 center; border-bottom:1px solid #d9efb9; color:#ff3333;}
 .widgetBoxFgreen .widgetMore{ top:7px; right:15px; color:#888;}
 
-.widgetBoxFblue .widgetBox{ background:#fff; border:1px solid #d8e6e7; border-top-width:5px; border-bottom-width:5px;}
+.widgetBoxFblue .widgetBox{ border:1px solid #d8e6e7; border-top-width:5px; border-bottom-width:5px;}
 .widgetBoxFblue .widgetBoxHeader{ position:relative; padding:4px 0; text-indent:15px; repeat-x 0 center; border-bottom:1px solid #d8e6e7; color:#55ccdd;}
 .widgetBoxFblue .widgetMore{ top:7px; right:15px; color:#888;}
