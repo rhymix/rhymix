@@ -181,6 +181,7 @@
             $layout_file = 'layout';
 
             $layout_tpl = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
+            Context::set('layout','none');
 
             // 위젯등을 변환
             $oContext = &Context::getInstance();
@@ -189,8 +190,8 @@
 
             // 임시 파일 삭제
             FileHandler::removeFile($edited_layout_file);
-
             $this->setTemplateFile('layout_preview');
+
         }
 
         /**
