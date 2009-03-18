@@ -54,6 +54,7 @@
                 }
             } else $widget_info->domain = Context::getDefaultUrl();
 
+            Context::set('colorset', $args->colorset);
             Context::set('widget_info', $widget_info);
 
             // 템플릿 컴파일
