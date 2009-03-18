@@ -79,8 +79,8 @@ function getWidgetVars() {
     var attrs = selected_node.attributes;
     for (i=0; i< attrs.length ; i++){
         var input = jQuery("[name='"+attrs[i].name+"']" ,'#fo_widget');
-        if( input.size() == 0 && attrs[i].name != 'style'){
-            fo_widget.prepend('<input type="hidden" name="'+attrs[i].name+'" value="'+attrs[i].value+'" />');
+        if( input.size() == 0){
+            jQuery('<input type="hidden" name="'+attrs[i].name+'" />').val(attrs[i].value).prependTo(fo_widget);
         }else{
             if(!input.val() && attrs[i].value ){
                 input.val(attrs[i].value);
