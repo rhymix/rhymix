@@ -139,7 +139,7 @@
             settype($y,"int");
 
             $zoom = Context::get('zoom');
-            if(!$zoom) $zoom = 3;
+            if($zoom == '') $zoom = 3;
             settype($zoom,"int");
 
             $marker = Context::get('marker');
