@@ -27,7 +27,7 @@
 .widgetBoxB .rcContainer{ display:none;}
 
 .widgetBoxC{ padding:3px 0;}
-.widgetBoxC .widgetBox{ border-left:1px solid #ccc; border-right:1px solid #ccc; background-color:#fff;}
+.widgetBoxC .widgetBox{ border-left:1px solid #ccc; border-right:1px solid #ccc;}
 .widgetBoxC .widgetBoxHeader{ position:relative; padding:4px 0; margin:1px; text-indent:15px; border-bottom:1px solid #ddd; background:url(../img/headerBgC.gif) repeat-x;}
 .widgetBoxC .widgetMore{ top:5px; right:15px;}
 .widgetBoxC .rcTop,
