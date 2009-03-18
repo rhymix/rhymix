@@ -172,4 +172,6 @@
     $lang->planet_use_me2day = "Use Me2day";
     $lang->about_use_me2day = "When writing a message, users can send it to me2day(http://me2day.net).";
     $lang->msg_search_thisplanet = "Search from this Planet";
+
+    $lang->msg_welcome_planet = 'Congratulations on the Planet to open.';
 ?>

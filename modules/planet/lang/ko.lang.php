@@ -178,5 +178,5 @@
 
     $lang->msg_search_thisplanet = '이 플래닛에서 검색';
     
-
+    $lang->msg_welcome_planet = '플래닛 개설을 축하드립니다';
 ?>

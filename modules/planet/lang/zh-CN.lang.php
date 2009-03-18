@@ -175,4 +175,5 @@
     $lang->planet_use_me2day = "绑定me2day";
     $lang->about_use_me2day = "发布主题的同时发送到me2day。";
     $lang->msg_search_thisplanet = "在此微博中搜索";
+    $lang->msg_welcome_planet = 'Congratulations on the Planet to open.';
 ?>

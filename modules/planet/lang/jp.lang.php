@@ -178,5 +178,5 @@
 
     $lang->msg_search_thisplanet = "このプラネットで検索";
 
-
+    $lang->msg_welcome_planet = 'Congratulations on the Planet to open.';
 ?>
