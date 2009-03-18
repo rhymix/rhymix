@@ -106,6 +106,7 @@
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
             $zoom = $xml_obj->attrs->zoom;
+            if(!is_numeric($zoom)) $zoom = 3;
             $marker = urlencode($xml_obj->attrs->marker);
             $style = $xml_obj->attrs->style;
 
@@ -116,7 +117,7 @@
             if(!$height) $height = 400;
 
             $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%d&amp;height=%d&amp;x=%f&amp;y=%f&amp;zoom=%d&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $zoom, $marker, $width, $height);
-            return $body_code;
+            return $zoom;
         }
 
         function displayMap() {
@@ -139,7 +140,7 @@
             settype($y,"int");
 
             $zoom = Context::get('zoom');
-            if($zoom == '') $zoom = 3;
+            if(!is_int($zoom)) $zoom = 3;
             settype($zoom,"int");
 
             $marker = Context::get('marker');
