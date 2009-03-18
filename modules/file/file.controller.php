@@ -294,7 +294,7 @@
                     $allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 
                     // 한 파일당 허용 용량 초과시 오류 출력
-                    if($allowed_filesize > filesize($file_info['tmp_name'])) return new Object(-1, 'msg_exceeds_limit_size');
+                    if($allowed_filesize < filesize($file_info['tmp_name'])) return new Object(-1, 'msg_exceeds_limit_size');
 
 
                     // 해당 문서에 첨부된 모든 파일의 용량을 가져옴 (DB에서 가져옴)

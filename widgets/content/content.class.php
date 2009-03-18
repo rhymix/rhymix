@@ -415,8 +415,16 @@
 
             if ($URL_parsed["query"] != '') $path .= "?".$URL_parsed["query"];
 
+            // $buff = FileHandler::readFile('./widgets/content/conf/info.xml');
+            // $buff = str_replace('<?xml version="1.0" encoding="UTF-8"?>','',$buff);
+
+            // $oXmlParser = new XmlParser();
+            // $info_xml = $oXmlParser->parse($buff);
+
             $oReqeust = new HTTP_Request($rss_url);
             $oReqeust->addHeader('Content-Type', 'application/xml');
+            // $oReqeust->addHeader('User-agent', 'Content Widget/'.$info_xml->widget->version->body.' (XpressEngine '.__ZBXE_VERSION__.' ( http://www.xpressengine.com ); PEAR HTTP_Request class ( http://pear.php.net/ );)');
+            $oReqeust->addHeader('User-agent', 'Content Widget (XE '.__ZBXE_VERSION__.' ( http://www.xpressengine.com ); PEAR HTTP_Request class ( http://pear.php.net/ );)');
             $oReqeust->setMethod('GET');
 
             $user = $URL_parsed["user"];

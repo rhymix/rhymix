@@ -80,11 +80,6 @@
          * @brief 파일 설정 정보를 구함
          **/
         function getFileConfig($module_srl = null) {
-            // module_srl이 없으면 현재 모듈
-            if(!$module_srl) {
-                $current_module_info = Context::get('current_module_info');
-                $module_srl = $current_module_info->module_srl;
-            }
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
 
@@ -171,6 +166,11 @@
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $module_srl = Context::get('module_srl');
+                // module_srl이 없으면 현재 모듈
+                if(!$module_srl) {
+                    $current_module_info = Context::get('current_module_info');
+                    $module_srl = $current_module_info->module_srl;
+                }
                 $file_config = $this->getFileConfig($module_srl);
             }
             return $file_config;
