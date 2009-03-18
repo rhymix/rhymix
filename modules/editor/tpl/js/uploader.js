@@ -39,7 +39,7 @@ function XEUploaderStart(obj) {
         flash_url : request_uri+"modules/editor/tpl/images/SWFUpload.swf",
         upload_url: request_uri,
         post_params: {
-            "mid" : current_url.getQuery("mid"),
+            "mid" : current_mid,
             "act" : "procFileUpload",
             "editor_sequence" : obj["editorSequence"]
         },
