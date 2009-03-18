@@ -117,7 +117,7 @@
             if(!$height) $height = 400;
 
             $body_code = sprintf('<div style="width:%dpx;height:%dpx;margin-bottom:5px;"><iframe src="%s?module=editor&amp;act=procEditorCall&amp;method=displayMap&amp;component=naver_map&amp;width=%d&amp;height=%d&amp;x=%f&amp;y=%f&amp;zoom=%d&amp;marker=%s" frameBorder="0" style="padding:1px; border:1px solid #AAAAAA;width:%dpx;height:%dpx;margin:0px;"></iframe></div>', $width, $height, Context::getRequestUri(), $width, $height, $x, $y, $zoom, $marker, $width, $height);
-            return $zoom;
+            return $body_code;
         }
 
         function displayMap() {
@@ -140,7 +140,7 @@
             settype($y,"int");
 
             $zoom = Context::get('zoom');
-            if(!is_int($zoom)) $zoom = 3;
+            if($zoom == '') $zoom = 3;
             settype($zoom,"int");
 
             $marker = Context::get('marker');
