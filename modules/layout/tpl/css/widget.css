@@ -497,39 +497,6 @@ address.period { font-style:normal; font-size:10px; font-family:tahoma; text-ali
 .widgetContainer .widgetTree ul li button{ background:url(../img/white/buttonTreeCollapse.gif) no-repeat;}
 .widgetContainer .widgetTree ul li.nav_tree_last{ background:url(../img/white/lineTreeLastHr.gif) no-repeat 0 5px !important;}
 
-/* widgetLevel */
-.widgetContainer .widgetLevel.num0 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/0.gif);}
-.widgetContainer .widgetLevel.num1 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/1.gif);}
-.widgetContainer .widgetLevel.num2 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/2.gif);}
-.widgetContainer .widgetLevel.num3 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/3.gif);}
-.widgetContainer .widgetLevel.num4 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/4.gif);}
-.widgetContainer .widgetLevel.num5 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/5.gif);}
-.widgetContainer .widgetLevel.num6 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/6.gif);}
-.widgetContainer .widgetLevel.num7 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/7.gif);}
-.widgetContainer .widgetLevel.num8 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/8.gif);}
-.widgetContainer .widgetLevel.num9 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/9.gif);}
-.widgetContainer .widgetLevel.num10 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/10.gif);}
-.widgetContainer .widgetLevel.num11 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/11.gif);}
-.widgetContainer .widgetLevel.num12 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/12.gif);}
-.widgetContainer .widgetLevel.num13 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/13.gif);}
-.widgetContainer .widgetLevel.num14 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/14.gif);}
-.widgetContainer .widgetLevel.num15 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/15.gif);}
-.widgetContainer .widgetLevel.num16 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/16.gif);}
-.widgetContainer .widgetLevel.num17 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/17.gif);}
-.widgetContainer .widgetLevel.num18 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/18.gif);}
-.widgetContainer .widgetLevel.num19 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/19.gif);}
-.widgetContainer .widgetLevel.num20 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/20.gif);}
-.widgetContainer .widgetLevel.num21 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/21.gif);}
-.widgetContainer .widgetLevel.num22 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/22.gif);}
-.widgetContainer .widgetLevel.num23 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/23.gif);}
-.widgetContainer .widgetLevel.num24 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/24.gif);}
-.widgetContainer .widgetLevel.num25 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/25.gif);}
-.widgetContainer .widgetLevel.num26 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/26.gif);}
-.widgetContainer .widgetLevel.num27 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/27.gif);}
-.widgetContainer .widgetLevel.num28 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/28.gif);}
-.widgetContainer .widgetLevel.num29 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/29.gif);}
-.widgetContainer .widgetLevel.num30 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/30.gif);}
-
 /* widgetTabA */
 .widgetContainer .widgetTabA{ border-color:#666;}
 .widgetContainer .widgetTabA li,
@@ -772,39 +739,6 @@ address.period { font-style:normal; font-size:10px; font-family:tahoma; text-ali
 .widgetContainer.black .widgetTree ul li{ background:url(../img/black/lineTreeHr.gif) no-repeat 1px 5px !important;}
 .widgetContainer.black .widgetTree ul li button{ background:url(../img/black/buttonTreeCollapse.gif) no-repeat;}
 .widgetContainer.black .widgetTree ul li.nav_tree_last{ background:url(../img/black/lineTreeLastHr.gif) no-repeat 0 5px !important;}
-
-/* widgetLevel */
-.widgetContainer.black .widgetLevel.num0 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/0.gif);}
-.widgetContainer.black .widgetLevel.num1 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/1.gif);}
-.widgetContainer.black .widgetLevel.num2 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/2.gif);}
-.widgetContainer.black .widgetLevel.num3 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/3.gif);}
-.widgetContainer.black .widgetLevel.num4 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/4.gif);}
-.widgetContainer.black .widgetLevel.num5 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/5.gif);}
-.widgetContainer.black .widgetLevel.num6 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/6.gif);}
-.widgetContainer.black .widgetLevel.num7 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/7.gif);}
-.widgetContainer.black .widgetLevel.num8 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/8.gif);}
-.widgetContainer.black .widgetLevel.num9 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/9.gif);}
-.widgetContainer.black .widgetLevel.num10 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/10.gif);}
-.widgetContainer.black .widgetLevel.num11 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/11.gif);}
-.widgetContainer.black .widgetLevel.num12 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/12.gif);}
-.widgetContainer.black .widgetLevel.num13 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/13.gif);}
-.widgetContainer.black .widgetLevel.num14 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/14.gif);}
-.widgetContainer.black .widgetLevel.num15 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/15.gif);}
-.widgetContainer.black .widgetLevel.num16 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/16.gif);}
-.widgetContainer.black .widgetLevel.num17 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/17.gif);}
-.widgetContainer.black .widgetLevel.num18 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/18.gif);}
-.widgetContainer.black .widgetLevel.num19 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/19.gif);}
-.widgetContainer.black .widgetLevel.num20 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/20.gif);}
-.widgetContainer.black .widgetLevel.num21 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/21.gif);}
-.widgetContainer.black .widgetLevel.num22 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/22.gif);}
-.widgetContainer.black .widgetLevel.num23 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/23.gif);}
-.widgetContainer.black .widgetLevel.num24 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/24.gif);}
-.widgetContainer.black .widgetLevel.num25 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/25.gif);}
-.widgetContainer.black .widgetLevel.num26 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/26.gif);}
-.widgetContainer.black .widgetLevel.num27 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/27.gif);}
-.widgetContainer.black .widgetLevel.num28 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/28.gif);}
-.widgetContainer.black .widgetLevel.num29 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/29.gif);}
-.widgetContainer.black .widgetLevel.num30 { background-image:url(http://www.zeroboard.com/modules/point/icons/default/30.gif);}
 
 /* widgetTabA */
 .widgetContainer.black .widgetTabA{ border-color:#999;}
