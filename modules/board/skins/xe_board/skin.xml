@@ -452,38 +452,6 @@
             </options>
             <description />
         </var>
-<<<<<<< .mine
-        <var name="display_sign" type="select">
-            <title xml:lang="ko">서명 표시</title>
-            <title xml:lang="jp">서명 표시</title>
-            <title xml:lang="zh-CN">서명 표시</title>
-            <title xml:lang="en">서명 표시</title>
-            <title xml:lang="es">서명 표시</title>
-            <title xml:lang="zh-TW">서명 표시</title>
-            <description xml:lang="ko">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="jp">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="zh-CN">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="en">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="es">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="zh-TW">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <options value="Y">
-                <title xml:lang="ko">출력</title>
-                <title xml:lang="en">display</title>
-                <title xml:lang="jp">表示</title>
-                <title xml:lang="zh-CN">显示</title>
-                <title xml:lang="es">display</title>
-                <title xml:lang="zh-TW">顯示</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">출력하지 않음</title> 
-                <title xml:lang="en">not display</title> 
-                <title xml:lang="jp">非表示</title>
-                <title xml:lang="zh-CN">不显示</title>
-                <title xml:lang="es">not display</title>
-                <title xml:lang="zh-TW">隱藏</title>
-            </options>
-        </var>  
-=======
         <var name="display_sign" type="select">
             <title xml:lang="ko">서명 표시</title>
             <title xml:lang="jp">서명 표시</title>
@@ -514,7 +482,6 @@
                 <title xml:lang="zh-TW">隱藏</title>
             </options>
         </var>
->>>>>>> .r5911
         <var name="duration_new" type="text" default="24">
             <title xml:lang="ko">new표시 시간 (hours)</title>
             <title xml:lang="jp">Newの表示時間 (Hours)</title>
