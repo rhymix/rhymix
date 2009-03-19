@@ -4,24 +4,6 @@
  * @brief  위젯 관리용 자바스크립트
  **/
 
-/* document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수 */
-document.write = document.writeln = function(str){
-    if ( str.match(/^<\//) ) return;
-    if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
-    str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
-    var div = null;
-    if(document.createElementNS) div = document.createElementNS("http://www.w3.org/1999/xhtml","div");
-    else div = xCreateElement('div');
-    xInnerHtml(div, str);
-    var pos;
-    pos = document.getElementsByTagName("*");
-    pos = pos[pos.length - 1];
-    var nodes = div.childNodes;
-    while ( nodes.length ) {
-        pos.parentNode.appendChild( nodes[0] );
-    }
-};
-
 /* DOM 속성을 구하기 위한 몇가지 함수들.. */
 // style의 값을 구하는게 IE랑 그외가 다름.
 function getStyle(obj) {
@@ -267,12 +249,15 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
         attr = contentWidget.get(0).attributes;
     }
 
+    var editor_sequence = params['editor_sequence'];
+    var content = editorGetContent(editor_sequence);
+
     var tpl = ''+
         '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
         '<div class="widgetResize"></div>'+
         '<div class="widgetResizeLeft"></div>'+
         '<div class="widgetBorder">'+
-        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div><div class="clear"></div>'+
+        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+'<div class="clear"></div>'+
         '</div>'+
         '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
         '</div>';
@@ -340,33 +325,94 @@ function doFitBorderSize() {
 }
 
 var selectedWidget = null;
+var writedText = null;
+var checkDocumentWrite = false;
+
+// document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수 
+// 아래 함수는 str 내용을 단지 전역 변수에 보관 후 doAddWidgetCode 에서 재사용하기 위해 사용됨.
+window.document.write = window.document.writeln = function(str){ 
+    if(checkDocumentWrite) {
+        writedText = str;
+        return;
+    }
+    if ( str.match(/^<\//) ) return;
+    if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
+    str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
+
+    var div = xCreateElement("DIV");
+    xInnerHtml(div, str);
+
+    var pos;
+    pos = document.getElementsByTagName("*");
+    pos = pos[pos.length - 1];
+    var nodes = div.childNodes;
+    while ( nodes.length ) {
+        pos.parentNode.appendChild( nodes[0] );
+    }
+}
 
 // 위젯 추가
 function doAddWidgetCode(widget_code) {
+    restoreWidgetButtons();
+
+    // css 추가
+    var tmp = widget_code;
+    while(tmp.indexOf("<!--Meta:")>-1) {
+        var pos = tmp.indexOf("<!--Meta:");
+        tmp = tmp.substr(pos);
+        var eos = tmp.indexOf("-->");
+        var cssfile = tmp.substr(9,eos-9);
+        if(!cssfile) break;
+        tmp = tmp.substr(eos);
+
+        var cssfile = request_uri+'/'+cssfile;
+        var css ='<style type="text/css"> @import url("'+cssfile+'"); </style>';
+        var dummy  = xCreateElement("DIV");
+        xInnerHtml(dummy , css);
+        document.body.appendChild(dummy);
+    }
+
+    // widget 코드에서 javascript 부분을 빼서 eval후 결과값을 대체함
+    checkDocumentWrite = true; ///< document.write(ln)등의 함수값을 바로 사용하기 위한 check flag
+
+    // widget_code의 javascript 부분 수정
+    var tmp = widget_code.toLowerCase();
+    while(tmp.indexOf("<script")>-1) {
+
+        var pos = tmp.indexOf("<script");
+
+        tmp = tmp.substr(pos);
+        var length = tmp.indexOf("</script>")+9;
+
+        var script = widget_code.substr(pos,length);
+        script = script.replace(/^<script([^>]*)>/i,'').replace(/<\/script>$/i,'');
+
+        writedText = null;
+        eval(script);
+        widget_code = widget_code.substr(0,pos)+writedText+widget_code.substr(pos+length);
+        tmp = widget_code.toLowerCase();
+    }
+
+    checkDocumentWrite = false;
+
+    // html 추가
     var dummy = xCreateElement('div');
     xInnerHtml(dummy, widget_code);
+    var obj = dummy.childNodes[0];
 
-    var nodes = dummy.childNodes;
+    if(selectedWidget && selectedWidget.getAttribute("widget")) {
+        selectedWidget.parentNode.insertBefore(obj, selectedWidget);
+        selectedWidget.parentNode.removeChild(selectedWidget);
+    } else {
+        xGetElementById('zonePageContent').appendChild(obj);
+    }
 
-    var zoneObj = xGetElementById('zonePageContent');
+    selectedWidget = null;
 
+    /*
     //zoneObj.style.visibility = 'hidden';
     zoneObj.style.opacity = 0.2;
     zoneObj.style.filter = "alpha(opacity=20)";
-
-
-    if(selectedWidget  && selectedWidget.getAttribute("widget")) {
-        while ( nodes.length ) {
-            if(nodes[0].className == 'widgetClass') zoneObj.parentNode.insertBefore(nodes[0], zoneObj);
-            else selectedWidget.parentNode.insertBefore(nodes[0], selectedWidget);
-        }
-        selectedWidget.parentNode.removeChild(selectedWidget);
-    } else {
-        while ( nodes.length ) {
-            if(nodes[0].className == 'widgetClass') zoneObj.parentNode.insertBefore(nodes[0], zoneObj);
-            else zoneObj.appendChild(nodes[0]);
-        }
-    }
 
     // 위젯 추가후 페이지 리로딩
     var tpl = getWidgetContent();
@@ -375,6 +421,7 @@ function doAddWidgetCode(widget_code) {
     fo_obj.content.value = tpl;
     fo_obj.mid.value = current_mid;
     fo_obj.submit();
+    */
 }
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리

@@ -75,6 +75,15 @@ function getWidgetVars() {
     if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
     selected_node = opener.selectedWidget;
 
+    if(!xGetElementById('fo_widget').widgetstyle.value) {
+        xGetElementById('fo_widget').widgetstyle.value = selected_node.getAttribute('widgetstyle');
+    }
+
+    doFillWidgetVars();
+    /*
+    if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
+    selected_node = opener.selectedWidget;
+
     var fo_widget = jQuery('#fo_widget');
     var attrs = selected_node.attributes;
     for (i=0; i< attrs.length ; i++){
@@ -87,13 +96,12 @@ function getWidgetVars() {
             }
         }
     }
+    */
 }
 
 /* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
 function doFillWidgetVars() {
-
     if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
-
     selected_node = opener.selectedWidget;
 
     // 스킨과 컬러셋은 기본
@@ -125,6 +133,7 @@ function doFillWidgetVars() {
     for(var j=0;j<obj_list.length;j++) {
         var node = obj_list[j];
         if(node.name.indexOf('_')==0) continue;
+        if(node.name == 'widgetstyle') continue;
 
         var length = node.length;
         var type = node.type;

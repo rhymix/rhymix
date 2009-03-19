@@ -2,7 +2,6 @@
 <div class="replyBox">
 
     {@ $_comment_list = $oDocument->getComments() }
-    {@ debugPrint($oDocument) }
     <!--@foreach($_comment_list as $key => $comment)-->
 
         <div class="replyItem <!--@if($comment->get('depth'))-->reply<!--@end-->">

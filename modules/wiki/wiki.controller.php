@@ -138,7 +138,6 @@
 
         function procWikiDeleteComment() {
             // check the comment's sequence number 
-            debugPrint('here');
             $comment_srl = Context::get('comment_srl');
             if(!$comment_srl) return $this->doError('msg_invalid_request');
 
@@ -146,7 +145,6 @@
             $oCommentController = &getController('comment');
 
             $output = $oCommentController->deleteComment($comment_srl, $this->grant->manager);
-            debugPrint($output);
             if(!$output->toBool()) return $output;
 
             $this->add('mid', Context::get('mid'));
