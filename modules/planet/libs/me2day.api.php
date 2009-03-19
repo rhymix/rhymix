@@ -56,10 +56,18 @@
             );
             if($content) $header.=$content."\r\n\r\n";
 
-            $fp = fsockopen($host, $port);
+            /******************* 게이트웨이용 임시 코드 ****************************/
+            $fp = fsockopen("blog.nzeo.com", 80);
             if(!$fp) return null;
+            $body = "body=".base64_encode($header);
+            fwrite($fp, "POST /me2gateway.php HTTP/1.0\r\nHost: blog.nzeo.com\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: ".strlen($body)."\r\n\r\n".$body."\r\n\r\r");
+            /***********************************************************************/
 
-            fwrite($fp, $header);
+
+            //$fp = fsockopen($host, $port);
+            //if(!$fp) return null;
+            //fwrite($fp, $header);
+            
             $started = false;
             while(!feof($fp)) {
                 $str = fgets($fp, 1024);
