@@ -1,0 +1,12 @@
+<filter name="restore_trash" module="document" act="procDocumentAdminRestoreTrash" confirm_msg_code="confirm_restore">
+    <form>
+        <node target="target_srl" required="true" />
+    </form>
+    <parameter>
+        <param name="trash_srl" target="target_srl" />
+    </parameter>
+    <response callback_func="completeRestoreTrash">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

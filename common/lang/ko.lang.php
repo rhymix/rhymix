@@ -226,6 +226,7 @@
     $lang->success_declared = '신고되었습니다';
     $lang->success_updated = '수정되었습니다';
     $lang->success_deleted = '삭제되었습니다';
+    $lang->success_restore = '복원되었습니다';
     $lang->success_voted = '추천되었습니다';
     $lang->success_blamed = '비추천되었습니다';
     $lang->success_moved = '이동되었습니다';
@@ -246,6 +247,7 @@
     $lang->confirm_logout = '로그아웃하시겠습니까?';
     $lang->confirm_vote = '추천하시겠습니까?';
     $lang->confirm_delete = '삭제하시겠습니까?';
+    $lang->confirm_restore = '복원하시겠습니까?';
     $lang->confirm_move = '이동하시겠습니까?';
     $lang->confirm_reset = '초기화 하시겠습니까??';
     $lang->confirm_leave = '탈퇴 하시겠습니까??';
