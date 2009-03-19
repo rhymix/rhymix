@@ -26,6 +26,7 @@
         <action name="dispDocumentAdminConfig" type="view" standalone="true" />
         <action name="dispDocumentAdminAlias" type="view" standalone="true" />
         <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
+        <action name="dispDocumentAdminTrashList" type="view" standalone="true" />
 
         <action name="getDocumentAdminCategoryTplInfo" type="model" standalone="true"/>
 
@@ -35,6 +36,7 @@
         <action name="procDocumentAdminMakeXmlFile" type="controller" standalone="true"/>
         <action name="procDocumentAdminInsertAlias" type="controller" standalone="true"/>
         <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true"/>
+        <action name="procDocumentAdminRestoreTrash" type="controller" standalone="true"/>
         <action name="procAdminMoveExtraVar" type="controller" standalone="true"/>
 
         <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" />

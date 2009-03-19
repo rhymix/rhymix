@@ -116,8 +116,16 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 function deleteByFilter(target_srl, filter)
 {
     var e = xGetElementById('target_srl');
-    e.value= target_srl;
+    e.value = target_srl;
     var hF = xGetElementById("deleteForm");
+    procFilter(hF, filter);
+}
+
+function executeFilterByTargetSrl(form_name, target_srl, filter)
+{
+    var e = xGetElementById('target_srl');
+    e.value = target_srl;
+    var hF = xGetElementById(form_name);
     procFilter(hF, filter);
 }
 
@@ -135,4 +143,9 @@ function moveVar(type, module_srl, var_idx) {
     params['var_idx'] = var_idx;
     var response_tags = new Array('error','message');
     exec_xml('document','procAdminMoveExtraVar', params, function() { location.reload(); });
+}
+
+function completeRestoreTrash(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = current_url;
 }

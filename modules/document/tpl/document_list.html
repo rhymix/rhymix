@@ -55,10 +55,14 @@
         <td class="number center">{$no}</td>
         <td class="center"><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
         <td class="left subject">
-            <!--@if($oDocument->get('module_srl')==$oDocument->get('member_srl'))-->
-                {$lang->cmd_save}
+            <!--@if($oDocument->get('module_srl') != 0)-->
+                <!--@if($oDocument->get('module_srl')==$oDocument->get('member_srl'))-->
+                    {$lang->cmd_save}
+                <!--@else-->
+                    <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitle()}</a>
+                <!--@end-->
             <!--@else-->
-                <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitle()}</a>
+                [{$lang->in_trash}] {$oDocument->getTitle()}
             <!--@end-->
 
             <!--@if($oDocument->getCommentCount())-->

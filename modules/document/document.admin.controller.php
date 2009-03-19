@@ -620,6 +620,44 @@
             $alias_srl = Context::get('alias_srl');
             $args->alias_srl = $alias_srl;
             $output = executeQuery("document.deleteAlias", $args);
+            if (!$output->toBool())
+            {
+                return $output;
+            }
+        }
+
+        function procDocumentAdminRestoreTrash() {
+            $trash_srl = Context::get('trash_srl');
+
+            $oDB = &DB::getInstance();
+
+            $trash_args->trash_srl = $trash_srl;
+
+            $output = executeQuery('document.getTrash', $args);
+            if (!$output->toBool()) {
+                return $output;
+            }
+
+            $document_args->document_srl = $output->data->document_srl;
+            $document_args->module_srl = $output->data->module_srl;
+
+            // begin transaction
+            $oDB->begin();
+
+            $output = executeQuery('document.updateDocument', $document_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $output = executeQuery('document.deleteTrash', $trash_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
         }
 
     }

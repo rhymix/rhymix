@@ -399,7 +399,6 @@
             return $result;
         }
 
-
         /**
          * @brief document의 확장 변수 키값을 가져오는 함수
          * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부

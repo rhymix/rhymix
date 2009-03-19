@@ -461,6 +461,59 @@
         }
 
         /**
+         * @brief 문서를 휴지통으로 옮김
+         **/
+        function moveDocumentToTrash($obj) {
+            // 주어진 trash_srl이 없으면 trash_srl 등록
+            if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
+            else $trash_args->trash_srl = $obj->trash_srl;
+
+            // 해당 document가 속해 잇는 module_srl을 구한다
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($obj->document_srl);
+
+            $trash_args->module_srl = $oDocument->get('module_srl');
+
+            // 데이터 설정
+            $trash_args->document_srl = $obj->document_srl;
+            $trash_args->description = $obj->description;
+
+            // 수동 등록이 아니고 로그인 된 회원일 경우 회원의 정보를 입력
+            if(Context::get('is_logged')&&!$manual_inserted) {
+                $logged_info = Context::get('logged_info');
+                $trash_args->member_srl = $logged_info->member_srl;
+                $trash_args->user_id = $logged_info->user_id;
+                $trash_args->user_name = $logged_info->user_name;
+                $trash_args->nick_name = $logged_info->nick_name;
+            }
+
+            // documents update를 위한 데이터 설정
+            $document_args->module_srl = 0;
+            $document_args->document_srl = $obj->document_srl;
+
+            // begin transaction
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+            $output = executeQuery('document.insertTrash', $trash_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $output = executeQuery('document.updateDocument', $document_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
+
+            return $output;
+        }
+
+        /**
          * @brief 특정 모듈의 공지사항 글에 대해 캐시
          **/
         function updateDocumentNoticeCache($module_srl) {
@@ -1326,6 +1379,18 @@
                 }
                 $oDB->commit();
                 $msg_code = 'success_deleted';
+            } elseif($type == 'trash') {
+                $args->description = $message_content;
+
+                $oDB = &DB::getInstance();
+                $oDB->begin();
+                for($i=0;$i<$document_srl_count;$i++) {
+                    $args->document_srl = $document_srl_list[$i];
+                    $output = $this->moveDocumentToTrash($args);
+                    if(!$output->toBool()) return new Object(-1, 'fail_to_trash');
+                }
+                $oDB->commit();
+                $msg_code = 'success_trashed';
             }
 
             $_SESSION['document_management'] = array();

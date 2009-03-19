@@ -1,0 +1,29 @@
+<query id="getTrashList" action="select">
+    <tables>
+        <table name="documents" />
+        <table name="document_trash" />
+    </tables>
+    <columns>
+        <column name="documents.*" />
+        <column name="document_trash.trash_srl" alias="trash_srl" />
+        <column name="document_trash.module_srl" alias="module_srl" />
+        <column name="document_trash.trash_date" alias="trash_date" />
+        <column name="document_trash.description" alias="trash_description" />
+        <column name="document_trash.ipaddress" alias="trash_ipaddress" />
+        <column name="document_trash.user_id" alias="trash_user_id" />
+        <column name="document_trash.user_name" alias="trash_user_name" />
+        <column name="document_trash.nick_name" alias="trash_nick_name" />
+        <column name="document_trash.member_srl" alias="trash_member_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="document_trash.document_srl" default="documents.document_srl" notnull="notnull" />
+        <condition operation="in" column="document_trash.module_srl" var="module_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="document_trash.member_srl" var="member_srl" filter="number" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="documents.list_order" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>
