@@ -633,7 +633,7 @@
 
             $trash_args->trash_srl = $trash_srl;
 
-            $output = executeQuery('document.getTrash', $args);
+            $output = executeQuery('document.getTrash', $trash_args);
             if (!$output->toBool()) {
                 return $output;
             }
