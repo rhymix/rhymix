@@ -8,6 +8,7 @@
     $lang->board = '掲示板';
 
     $lang->except_notice = 'お知らせの非表示機能';
+    $lang->use_anonymous = '익명 사용';
 
     $lang->cmd_manage_menu = 'メニュー管理';
     $lang->list_target_item = 'Target Item';
@@ -32,6 +33,7 @@
     $lang->about_layout_setup = 'ブログのレイアウトのコードを直接修正します。ウィジェットコードを好きなところに入力、又は管理して下さい。';
     $lang->about_board_category = 'ブログのカテゴリを作成します。<br />ブログのカテゴリが誤作動する場合、「キャッシュファイルの再生性」を手動で行うことで解決できます。';
     $lang->about_except_notice = "リストの上段に常に表示されるお知らせの書き込みを一般リストからお知らせの書き込みが表示されないようにします。";
+    $lang->about_use_anonymous = '글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다';
     $lang->about_board = '掲示板の生成、および管理する掲示板モジュールです。';
     $lang->about_consultation = "相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。\n但し、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。";
     $lang->about_secret = '掲示板およびコメントの秘密文を登録できるようにします。';

@@ -53,7 +53,7 @@
 
             if($logged_info->is_admin == 'Y') return true;
 
-            if($this->get('member_srl') && $this->get('member_srl') == $logged_info->member_srl) return true;
+            if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl')*-1 == $logged_info->member_srl)) return true;
 
             return false;
         }
