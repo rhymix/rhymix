@@ -20,6 +20,7 @@
         <column name="extra_vars.document_srl" alias="document_srl" />
         <column name="extra_vars.lang_code" alias="lang_code" />
         <column name="extra_vars.value" alias="value" />
+        <column name="extra_vars.eid" alias="eid" />
     </columns>
     <conditions>
         <condition operation="in" column="extra_vars.document_srl" var="document_srl" pipe="and"  />

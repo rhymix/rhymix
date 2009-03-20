@@ -45,7 +45,7 @@
                     if(!is_array($GLOBALS['XE_EXTRAVARS'][$this->module_srl])) $GLOBALS['XE_EXTRAVARS'][$this->module_srl] = array();
                     foreach($extra_keys as $key => $val) {
                         $obj = null;
-                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value); 
+                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value,  $val->eid); 
                         $GLOBALS['XE_EXTRAVARS'][$this->module_srl][$val->idx] = $obj;
                     }
                 }
@@ -76,11 +76,12 @@
         var $is_required = 'N';
         var $search = 'N';
         var $value = null;
+        var $eid = '';
 
         /**
          * @brief constructor
          **/
-        function ExtraItem($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null) {
+        function ExtraItem($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '') {
             if(!$idx) return;
             $this->module_srl = $module_srl;
             $this->idx = $idx;
@@ -91,6 +92,7 @@
             $this->is_required = $is_required;
             $this->search = $search;
             $this->value = $value;
+            $this->eid = $eid;
         }
 
         /**

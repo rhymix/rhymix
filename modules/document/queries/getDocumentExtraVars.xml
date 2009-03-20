@@ -20,6 +20,7 @@
         <column name="extra_keys.var_search" alias="search" />
         <column name="extra_keys.var_default" alias="default" />
         <column name="extra_keys.var_desc" alias="desc" />
+        <column name="extra_keys.eid" alias="eid" />
         <column name="extra_vars.document_srl" alias="document_srl" />
         <column name="extra_vars.lang_code" alias="lang_code" />
         <column name="extra_vars.value" alias="value" />
@@ -27,6 +28,7 @@
     <conditions>
         <condition operation="equal" column="extra_keys.module_srl" var="module_srl" pipe="and" notnull="notnull" />
         <condition operation="equal" column="extra_keys.var_idx" var="var_idx" pipe="and" />
+        <condition operation="equal" column="extra_keys.eid" var="eid" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="extra_keys.var_idx" order="asc" />

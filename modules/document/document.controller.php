@@ -209,7 +209,7 @@
                     if(isset($obj->{'extra_vars'.$idx})) $value = trim($obj->{'extra_vars'.$idx});
                     elseif(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
                     if(!isset($value)) continue;
-                    $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value);
+                    $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
                 }
             }
 
@@ -358,7 +358,7 @@
                     if(isset($obj->{'extra_vars'.$idx})) $value = trim($obj->{'extra_vars'.$idx});
                     elseif(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
                     if(!isset($value)) continue;
-                    $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value);
+                    $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
                 }
             }
 
@@ -566,8 +566,8 @@
         /**
          * @breif documents 테이블의 확장 변수 등록
          **/
-        function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '') {
-            if(!$module_srl || !$var_idx || !$var_name || !$var_type) return new Object(-1,'msg_invalid_request');
+        function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid) {
+            if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new Object(-1,'msg_invalid_request');
     
             $obj->module_srl = $module_srl;
             $obj->var_idx = $var_idx;
@@ -577,6 +577,27 @@
             $obj->var_search = $var_search=='Y'?'Y':'N';
             $obj->var_default = $var_default;
             $obj->var_desc = $var_desc;
+			$obj->eid = $eid;
+
+            $output = executeQuery('document.getDocumentExtraKeys', $obj);
+            if(!$output->data) return executeQuery('document.insertDocumentExtraKey', $obj);
+            $output = executeQuery('document.updateDocumentExtraKey', $obj);
+			
+			// extra_vars에서 확장 변수 eid를 일괄 업데이트
+			$output = executeQuery('document.updateDocumentExtraVar', $obj);
+
+            return $output;
+        }
+
+		/**
+         * @breif documents 테이블의 확장 변수 등록
+         **/
+        function updateDocumentExtraKey($module_srl, $var_idx, $eid) {
+            if(!$module_srl || !$var_idx || !$eid) return new Object(-1,'msg_invalid_request');
+    
+            $obj->module_srl = $module_srl;
+            $obj->var_idx = $var_idx;
+			$obj->eid = $eid;
 
             $output = executeQuery('document.getDocumentExtraKeys', $obj);
             if(!$output->data) return executeQuery('document.insertDocumentExtraKey', $obj);
@@ -600,7 +621,7 @@
         /**
          * @breif documents 테이블의 확장 변수 값 등록
          **/
-        function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $lang_code = '') {
+        function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '') {
             if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new Object(-1,'msg_invalid_request');
             if(!$lang_code) $lang_code = Context::getLangType();
     
@@ -608,7 +629,8 @@
             $obj->document_srl = $document_srl;
             $obj->var_idx = $var_idx;
             $obj->value = $value;
-            $obj->lang_code = $lang_code ;
+            $obj->lang_code = $lang_code;
+			$obj->eid = $eid;
 
             executeQuery('document.insertDocumentExtraVar', $obj);
         }
@@ -616,11 +638,12 @@
         /**
          * @brief documents 확장변수 값 제거
          **/
-        function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null) {
+        function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null) {
             $obj->module_srl = $module_srl;
             if(!is_null($document_srl)) $obj->document_srl = $document_srl;
             if(!is_null($var_idx)) $obj->var_idx = $var_idx;
             if(!is_null($lang_code)) $obj->lang_code = $lang_code;
+            if(!is_null($eid)) $obj->lang_code = $eid;
             $output = executeQuery('document.deleteDocumentExtraVars', $obj);
             return $output;
         }

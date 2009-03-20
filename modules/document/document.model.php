@@ -53,13 +53,13 @@
                         else if($val->idx == -2) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('content', $val->value);
                     } elseif($val->idx>0) {
                         if($lang_code == $val->lang_code) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
                             $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
                         } else if($lang_code == $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->lang_code && !isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
                             $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
                         } else if(!isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
+                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
                             $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
                         }
                     }

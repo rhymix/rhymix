@@ -7,4 +7,5 @@
     <column name="var_search" type="char" size="1" default="N" notnull="notnull" />
     <column name="var_default" type="text" />
     <column name="var_desc" type="text" />
+    <column name="eid" type="varchar" size="40" />
 </table>

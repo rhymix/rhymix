@@ -99,6 +99,12 @@
             // 2009. 03. 11 확장변수 값 테이블의 인덱스 점검
             if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) return true;
 
+            /**
+             * 2009. 03. 19 : 확장변수 값 테이블에 eid가 없을 경우 추가
+             **/
+            if(!$oDB->isColumnExists("document_extra_keys","eid")) return true;
+            if(!$oDB->isColumnExists("document_extra_vars","eid")) return true;
+
             return false;
         }
 
@@ -199,6 +205,37 @@
             if($oDB->isIndexExists("document_extra_vars", "unique_module_vars")) {
                 $oDB->dropIndex("document_extra_vars", "unique_module_vars", true);
             }
+
+            /**
+             * 2009. 03. 19 : 확장변수 값 테이블에 eid 없을 경우 추가
+             **/
+            if(!$oDB->isColumnExists("document_extra_keys","eid")) {
+				$oDB->addColumn("document_extra_keys","eid","varchar",40);
+
+				$output = executeQuery('document.getGroupsExtraKeys', $obj);
+				if($output->toBool() && $output->data && count($output->data)) {
+					foreach($output->data as $extra_keys) {
+						$args = $extra_keys;
+						$args->var_idx = $extra_keys->idx;
+						$args->eid = "extra_vars".$extra_keys->idx;
+						$output = executeQuery('document.updateDocumentExtraKey', $args);
+					}
+				}
+			}
+
+            if(!$oDB->isColumnExists("document_extra_vars","eid")) {
+				$oDB->addColumn("document_extra_vars","eid","varchar",40);
+				$obj->var_idx = '-1,-2';
+				$output = executeQuery('document.getGroupsExtraVars', $obj);
+				if($output->toBool() && $output->data && count($output->data)) {
+					foreach($output->data as $extra_vars) {
+						$args = $extra_vars;
+						$args->var_idx = $extra_vars->idx;
+						$args->eid = "extra_vars".$extra_vars->idx;
+						$output = executeQuery('document.updateDocumentExtraVar', $args);
+					}
+				}
+			}
 
             return new Object(0,'success_updated');
 

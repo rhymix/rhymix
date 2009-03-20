@@ -4,4 +4,5 @@
     <column name="var_idx" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
     <column name="lang_code" type="varchar" size="10" notnull="notnull" unique="unique_extra_vars" />
     <column name="value" type="bigtext" />
+    <column name="eid" type="varchar" size="40" />
 </table>

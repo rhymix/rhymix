@@ -337,8 +337,9 @@
             $default = Context::get('default');
             $desc = Context::get('desc');
             $search = Context::get('search');
+			$eid = Context::get('eid');
 
-            if(!$module_srl || !$name) return new Object(-1,'msg_invalid_request');
+            if(!$module_srl || !$name || !$eid) return new Object(-1,'msg_invalid_request');
 
             // idx가 지정되어 있지 않으면 최고 값을 지정
             if(!$var_idx) {
@@ -347,9 +348,18 @@
                 $var_idx = $output->data->var_idx+1;
             }
 
+			// 이미 존재하는 모듈 이름인지 체크
+			$obj->module_srl = $module_srl;
+			$obj->var_idx = $var_idx;
+			$obj->eid = $eid;
+            $output = executeQuery('document.isExistsExtraKey', $obj);
+            if(!$output->toBool() || $output->data->count) {
+                return new Object(-1, 'msg_extra_name_exists');
+            }
+
             // insert or update
             $oDocumentController = &getController('document');
-            $output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc);
+            $output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc, $eid);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
@@ -574,7 +584,7 @@
             } else {
                 $args->module_srl = $module_srl;
                 $args->var_idx = $new_idx;
-                $args->new_idx = -1;
+                $args->new_idx = -10000;
                 $output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
                 if(!$output->toBool()) return $output;
                 $output = executeQuery('document.updateDocumentExtraVarIdx', $args);
@@ -587,7 +597,7 @@
                 $output = executeQuery('document.updateDocumentExtraVarIdx', $args);
                 if(!$output->toBool()) return $output;
 
-                $args->var_idx = -1;
+                $args->var_idx = -10000;
                 $args->new_idx = $var_idx;
                 $output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
                 if(!$output->toBool()) return $output;
