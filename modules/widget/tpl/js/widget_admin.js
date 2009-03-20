@@ -203,7 +203,7 @@ function doFillWidgetVars() {
 
 
     //  컬러셋 설정
-    if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
+    if(skin && xGetElementById("widget_colorset") && xGetElementById("widget_colorset").options.length<1 && colorset) {
         doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);
     }
 

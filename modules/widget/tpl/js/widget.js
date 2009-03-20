@@ -177,7 +177,7 @@ function getWidgetCode(childObj, widget) {
         var name = childObj.attributes[i].nodeName.toLowerCase();
         if(name == "contenteditable" || name == "id" || name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
         var value = childObj.attributes[i].nodeValue;
-        if(!value) continue;
+        if(!value || value == "Array") continue;
 
         attrs += name+'="'+escape(value)+'" ';
     }
@@ -362,14 +362,22 @@ function doAddWidgetCode(widget_code) {
         tmp = tmp.substr(pos);
         var eos = tmp.indexOf("-->");
         var cssfile = tmp.substr(9,eos-9);
+        if(cssfile.indexOf('.js')>-1) {
+            tmp = tmp.substr(eos);
+            continue;
+        }
         if(!cssfile) break;
         tmp = tmp.substr(eos);
 
         var cssfile = request_uri+'/'+cssfile;
-        var css ='<style type="text/css"> @import url("'+cssfile+'"); </style>';
-        var dummy  = xCreateElement("DIV");
-        xInnerHtml(dummy , css);
-        document.body.appendChild(dummy);
+        if(typeof(document.createStyleSheet)=='undefined') {
+            var css ='<link rel="stylesheet" href="'+cssfile+'" type="text/css" charset="UTF-8" />';
+            var dummy  = xCreateElement("DIV");
+            xInnerHtml(dummy , css);
+            document.body.appendChild(dummy);
+        } else {
+            document.createStyleSheet(cssfile,0);
+        }
     }
 
     // widget 코드에서 javascript 부분을 빼서 eval후 결과값을 대체함
@@ -815,10 +823,24 @@ function doApplyWidgetSize(fo_obj) {
             borderObj = borderObj.nextSibling;
         }
 
+        selectedWidget = selectedSizeWidget;
         selectedSizeWidget = null;
-        doFitBorderSize();
-    }
 
+        var widget = selectedWidget.getAttribute("widget");
+        var params = new Array();
+        for(var i=0;i<selectedWidget.attributes.length;i++) {
+            if(!selectedWidget.attributes[i].nodeName || !selectedWidget.attributes[i].nodeValue) continue;
+            var name = selectedWidget.attributes[i].nodeName.toLowerCase();
+            if(name == "contenteditable" || name == "id" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
+            var value = selectedWidget.attributes[i].nodeValue;
+            if(!value || value == "Array") continue;
+            params[name] = value;
+        }
+        params["style"] = getStyle(selectedWidget);
+        params["selected_widget"] = widget;
+        params["module_srl"] = xGetElementById("pageFo").module_srl.vlaue;
+        exec_xml('widget','procWidgetGenerateCodeInPage',params,function(ret_obj) { doAddWidgetCode(ret_obj["widget_code"]);  },new Array('error','message','widget_code','tpl','css_header'));
+    }
     doHideWidgetSizeSetup();
 }
 
