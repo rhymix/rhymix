@@ -1408,8 +1408,8 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
-            if($args->homepage && !preg_match("/^http:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-            if($args->blog && !preg_match("/^http:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
+            if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
@@ -1556,8 +1556,8 @@
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
             // 홈페이지, 블로그의 주소 검사
-            if($args->homepage && !preg_match("/^http:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-            if($args->blog && !preg_match("/^http:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
+            if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
+            if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
             // 아이디, 닉네임, email address 의 중복 체크
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);

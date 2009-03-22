@@ -17,7 +17,7 @@
 	</channel>
     <!--@foreach($document_list as $oDocument)-->
     <item rdf:about="{$oDocument->getPermanentUrl()}">
-        <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title> 
+        <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title> 
         <link>{$oDocument->getPermanentUrl()}</link>
         <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(200)))}</description>
         <dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sP')}</dc:date> 

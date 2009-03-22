@@ -132,7 +132,7 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-            if($obj->homepage &&  !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
             if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 
             // $extra_vars를 serialize
@@ -273,7 +273,7 @@
             if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
             if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
             if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-            if($obj->homepage &&  !preg_match('/^http:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
+            if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
             if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 
             // $extra_vars를 serialize
