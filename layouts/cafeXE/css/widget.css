@@ -98,7 +98,7 @@ dl.widgetDivider dd{ display:none; margin:0;}
 /* widgetGalleryA */
 .widgetGalleryA{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.5; *zoom:1; _margin-right:-100%;}
 .widgetGalleryA:after{ content:""; display:block; clear:both;}
-.widgetGalleryA li { float:left; overflow:hidden; width:100px; margin-right:28px; margin-bottom:15px; padding-bottom:15px; white-space:nowrap; list-style:none;}
+.widgetGalleryA li { float:left; overflow:hidden; width:100px; margin-right:28px; margin-bottom:15px; padding-bottom:0; white-space:nowrap; list-style:none;}
 .widgetGalleryA li.clearRight{ margin-right:0;}
 .widgetGalleryA li .thumb{ display:block; position:relative; width:100px; height:75px; margin-bottom:10px; overflow:hidden; text-decoration:none;}
 .widgetGalleryA li .thumb img{ display:block; position:relative; width:100%;}
