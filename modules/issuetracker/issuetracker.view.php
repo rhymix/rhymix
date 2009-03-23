@@ -241,7 +241,44 @@
                             }
 						}
 
-                        if(!$file_type) $file_type = "code";
+                        if(!$file_type) 
+                        {
+                            $file_type = "code";
+                            $extToLang = array(
+                                "h" => "Cpp",
+                                "cpp" => "Cpp",
+                                "csharp" => "CSharp",
+                                "css" => "Css",
+                                "html" => "Xml",
+                                "sql" => "Sql",
+                                "java" => "Java",
+                                "py" => "Python",
+                                "rb" => "Ruby",
+                                "js" => "JScript",
+                                "c" => "Cpp",
+                                "vb" => "Vb",
+                                "xml" => "Xml",
+                                "php" => "Php"
+                            );
+
+                            $file_ext = strtolower($file_ext);
+                            if($extToLang[$file_ext])
+                            {
+                                $file_ext = $extToLang[$file_ext];
+                            }
+                            if(file_exists("./common/js/plugins/code_highlighter/script/shBrush".$file_ext.".js"))
+                            {
+                                Context::loadJavascriptPlugin("code_highlighter");
+                                Context::addJsFile('./common/js/plugins/code_highlighter/script/shBrush'.$file_ext.'.js', false);
+                                $js_code = <<<dpScript
+                                    <script type="text/javascript">
+                                        SyntaxHighlighter.config.clipboardSwf = './modules/editor/components/code_highlighter/script/clipboard.swf';
+                                        SyntaxHighlighter.all();
+                                    </script> 
+dpScript;
+                                Context::addHtmlFooter($js_code);
+                            }
+                        }
                         Context::set('file_type', $file_type);
 
                         $this->setTemplateFile('source_file_view');
