@@ -261,10 +261,10 @@
                                 "php" => "Php"
                             );
 
-                            $file_ext = strtolower($file_ext);
-                            if($extToLang[$file_ext])
+                            $file_ext_tmp = strtolower($file_ext);
+                            if($extToLang[$file_ext_tmp])
                             {
-                                $file_ext = $extToLang[$file_ext];
+                                $file_ext = $extToLang[$file_ext_tmp];
                             }
                             if(file_exists("./common/js/plugins/code_highlighter/script/shBrush".$file_ext.".js"))
                             {
@@ -277,7 +277,7 @@
                                     </script> 
 dpScript;
                                 Context::addHtmlFooter($js_code);
-                                Context::set('file_ext', $file_ext);
+                                Context::set('file_ext', $file_ext_tmp);
                             }
                         }
                         Context::set('file_type', $file_type);
