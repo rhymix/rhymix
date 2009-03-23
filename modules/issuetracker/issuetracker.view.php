@@ -277,6 +277,7 @@
                                     </script> 
 dpScript;
                                 Context::addHtmlFooter($js_code);
+                                Context::set('file_ext', $file_ext);
                             }
                         }
                         Context::set('file_type', $file_type);

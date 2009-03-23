@@ -15,7 +15,7 @@
     <!--@end-->
 </ol>
 <br />
-<pre class="brush: cpp;">
+<pre <!--@if($file_ext)-->class="brush: {$file_ext};"<!--@endif--> >
 <!--@if($file_type == "code")-->
 {htmlspecialchars($content->content)}
 <!--@elseif($file_type == "document")-->
