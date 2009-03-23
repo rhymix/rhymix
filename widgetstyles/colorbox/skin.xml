@@ -21,19 +21,35 @@
             <name xml:lang="ko">스타일</name>
             <name xml:lang="zh-TW">樣式</name>
             <options>
-                <value>widgetBoxFblue</value>
-                <name xml:lang="ko">파랑색</name>
-                <name xml:lang="zh-TW">藍色</name>
+                <value>widgetBoxFred</value>
+                <name xml:lang="ko">빨강</name>
+                <name xml:lang="zh-TW">紅色</name>
             </options>
             <options>
                 <value>widgetBoxFgreen</value>
-                <name xml:lang="ko">녹색</name>
+                <name xml:lang="ko">초록</name>
                 <name xml:lang="zh-TW">綠色</name>
             </options>
             <options>
-                <value>widgetBoxFred</value>
-                <name xml:lang="ko">빨강색</name>
-                <name xml:lang="zh-TW">紅色</name>
+                <value>widgetBoxFblue</value>
+                <name xml:lang="ko">파랑</name>
+                <name xml:lang="zh-TW">藍色</name>
+            </options>
+            <options>
+                <value>widgetBoxJgray</value>
+                <name xml:lang="ko">회색</name>
+            </options>
+            <options>
+                <value>widgetBoxJred</value>
+                <name xml:lang="ko">빨강</name>
+            </options>
+            <options>
+                <value>widgetBoxJgreen</value>
+                <name xml:lang="ko">초록</name>
+            </options>
+            <options>
+                <value>widgetBoxJblue</value>
+                <name xml:lang="ko">파랑</name>
             </options>
         </var>
         <var name="ws_title_image" type="filebox" filter="jpg,jpeg,gif,png">

@@ -9,35 +9,124 @@
 .widgetBox .widgetMore{ position:absolute; display:block; text-decoration:none; font-size:11px !important; white-space:nowrap; font-family:Tahoma; color:#000; text-align:center; z-index:20;}
 .widgetBox .widgetMore img{ border:0;}
 .widgetBox .rcContainer{ display:block; width:100%; font-size:0; line-height:0; z-index:1; *zoom:1;}
-.widgetBox .rcTop{ position:absolute;}
-.widgetBox .rcBottom{ position:relative;}
 .widgetBox .rc{ position:absolute; display:block; font-size:0; line-height:0; overflow:hidden;}
 .widgetBox .rcTop .tl{ top:0;}
 .widgetBox .rcTop .tr{ top:0;}
 .widgetBox .rcBottom .bl{ top:0;}
 .widgetBox .rcBottom .br{ top:0;}
 
-.widgetBoxH{ padding:50px 0 4px 0;}
-.widgetBoxH .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9;}
-.widgetBoxH .widgetBoxHeader{ position:absolute; width:100%; left:0; top:-40px; padding:3px 0; text-indent:15px;}
-.widgetBoxH .widgetMore{ top:-32px; right:50px;}
-.widgetBoxH .rcTop{ top:-50px; height:50px;}
-.widgetBoxH .rcBottom{ bottom:-4px; height:4px;} 
-.widgetBoxH .rc { width:50%; background-image:url(../img/widgetBoxH.png); _background-image:url(../img/widgetBoxH.gif); background-repeat:no-repeat;}
-.widgetBoxH .rcTop .rc{ height:50px;}
-.widgetBoxH .rcBottom .rc{ height:4px;}
-.widgetBoxH .rcTop .tl{ background-position:0 0; left:-1px !important; padding-right:1px;}
-.widgetBoxH .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:-1px; _right:auto; padding-left:1px;}
-.widgetBoxH .rcBottom .bl{ background-position:0 bottom; left:-1px; padding-right:1px;}
-.widgetBoxH .rcBottom .br{ background-position:right bottom; left:50%; *left:auto; right:auto; *right:-1px; _right:auto; _left:50%; padding-left:1px;}
+.widgetBoxHgray{ padding-top:50px; padding-bottom:4px;} 
+.widgetBoxHgray .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
+.widgetBoxHgray .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHgray .widgetContainer{ margin-top:-50px;}
+.widgetBoxHgray .widgetMore{ top:-31px; right:50px;}
+.widgetBoxHgray .rcContainer{ position:absolute;}
+.widgetBoxHgray .rcTop{ top:-50px; height:50px;}
+.widgetBoxHgray .rcBottom{ bottom:-4px; height:4px;} 
+.widgetBoxHgray .rc { width:50%; background-image:url(../img/widgetBoxHgray.png); _background-image:url(../img/widgetBoxHgray.gif); background-repeat:no-repeat;}
+.widgetBoxHgray .rcTop .rc{ height:50px;}
+.widgetBoxHgray .rcBottom .rc{ height:4px;}
+.widgetBoxHgray .rcTop .tl{ background-position:0 0; left:-1px !important; padding-right:1px;}
+.widgetBoxHgray .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto;  *right:-1px; _right:auto; padding-left:1px;}
+.widgetBoxHgray .rcBottom .bl{ background-position:0 bottom; left:-1px; padding-right:1px;}
+.widgetBoxHgray .rcBottom .br{ background-position:right bottom; left:50%; *left:auto; right:auto;  *right:-1px; _right:auto; _left:50%; padding-left:1px;}
 
-.widgetBoxI{ padding-top:50px;}
-.widgetBoxI .widgetBox{ background:#fdf59b; padding-bottom:5px;}
-.widgetBoxI .widgetBoxHeader{ position:absolute; width:100%; left:0; top:-40px; padding:3px 0; text-indent:15px;}
-.widgetBoxI .widgetMore{ top:-32px; right:50px;}
-.widgetBoxI .rcTop{ top:-50px; height:50px;}
-.widgetBoxI .rcBottom{ display:none;} 
-.widgetBoxI .rc { width:50%; background-image:url(../img/widgetBoxI.png); _background-image:url(../img/widgetBoxI.gif); background-repeat:no-repeat;}
-.widgetBoxI .rcTop .rc{ height:50px;}
-.widgetBoxI .rcTop .tl{ background-position:0 0;}
-.widgetBoxI .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:0; _right:auto;}
+.widgetBoxHred{ padding-top:50px; padding-bottom:4px;} 
+.widgetBoxHred .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
+.widgetBoxHred .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHred .widgetContainer{ margin-top:-50px;}
+.widgetBoxHred .widgetMore{ top:-31px; right:50px;}
+.widgetBoxHred .rcContainer{ position:absolute;}
+.widgetBoxHred .rcTop{ top:-50px; height:50px;}
+.widgetBoxHred .rcBottom{ bottom:-4px; height:4px;} 
+.widgetBoxHred .rc { width:50%; background-image:url(../img/widgetBoxHred.png); _background-image:url(../img/widgetBoxHred.gif); background-repeat:no-repeat;}
+.widgetBoxHred .rcTop .rc{ height:50px;}
+.widgetBoxHred .rcBottom .rc{ height:4px;}
+.widgetBoxHred .rcTop .tl{ background-position:0 0; left:-1px !important; padding-right:1px;}
+.widgetBoxHred .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto;  *right:-1px; _right:auto; padding-left:1px;}
+.widgetBoxHred .rcBottom .bl{ background-position:0 bottom; left:-1px; padding-right:1px;}
+.widgetBoxHred .rcBottom .br{ background-position:right bottom; left:50%; *left:auto; right:auto;  *right:-1px; _right:auto; _left:50%; padding-left:1px;}
+
+.widgetBoxHgreen{ padding-top:50px; padding-bottom:4px;} 
+.widgetBoxHgreen .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
+.widgetBoxHgreen .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHgreen .widgetContainer{ margin-top:-50px;}
+.widgetBoxHgreen .widgetMore{ top:-31px; right:50px;}
+.widgetBoxHgreen .rcContainer{ position:absolute;}
+.widgetBoxHgreen .rcTop{ top:-50px; height:50px;}
+.widgetBoxHgreen .rcBottom{ bottom:-4px; height:4px;} 
+.widgetBoxHgreen .rc { width:50%; background-image:url(../img/widgetBoxHgreen.png); _background-image:url(../img/widgetBoxHgreen.gif); background-repeat:no-repeat;}
+.widgetBoxHgreen .rcTop .rc{ height:50px;}
+.widgetBoxHgreen .rcBottom .rc{ height:4px;}
+.widgetBoxHgreen .rcTop .tl{ background-position:0 0; left:-1px !important; padding-right:1px;}
+.widgetBoxHgreen .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto;  *right:-1px; _right:auto; padding-left:1px;}
+.widgetBoxHgreen .rcBottom .bl{ background-position:0 bottom; left:-1px; padding-right:1px;}
+.widgetBoxHgreen .rcBottom .br{ background-position:right bottom; left:50%; *left:auto; right:auto;  *right:-1px; _right:auto; _left:50%; padding-left:1px;}
+
+.widgetBoxHblue{ padding-top:50px; padding-bottom:4px;} 
+.widgetBoxHblue .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
+.widgetBoxHblue .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHblue .widgetContainer{ margin-top:-50px;}
+.widgetBoxHblue .widgetMore{ top:-31px; right:50px;}
+.widgetBoxHblue .rcContainer{ position:absolute;}
+.widgetBoxHblue .rcTop{ top:-50px; height:50px;}
+.widgetBoxHblue .rcBottom{ bottom:-4px; height:4px;} 
+.widgetBoxHblue .rc { width:50%; background-image:url(../img/widgetBoxHblue.png); _background-image:url(../img/widgetBoxHblue.gif); background-repeat:no-repeat;}
+.widgetBoxHblue .rcTop .rc{ height:50px;}
+.widgetBoxHblue .rcBottom .rc{ height:4px;}
+.widgetBoxHblue .rcTop .tl{ background-position:0 0; left:-1px !important; padding-right:1px;}
+.widgetBoxHblue .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto;  *right:-1px; _right:auto; padding-left:1px;}
+.widgetBoxHblue .rcBottom .bl{ background-position:0 bottom; left:-1px; padding-right:1px;}
+.widgetBoxHblue .rcBottom .br{ background-position:right bottom; left:50%; *left:auto; right:auto;  *right:-1px; _right:auto; _left:50%; padding-left:1px;}
+
+.widgetBoxIyellow{ padding-top:50px;}
+.widgetBoxIyellow .widgetBox{ background:#fdf59b; padding-top:10px; padding-bottom:5px;}
+.widgetBoxIyellow .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIyellow .widgetContainer{ margin-top:-50px;}
+.widgetBoxIyellow .widgetMore{ top:-31px; right:50px;}
+.widgetBoxIyellow .rcContainer{ position:absolute;}
+.widgetBoxIyellow .rcTop{ top:-50px; height:50px;}
+.widgetBoxIyellow .rcBottom{ display:none !important;} 
+.widgetBoxIyellow .rc { width:50%; background-image:url(../img/widgetBoxIyellow.png); _background-image:url(../img/widgetBoxIyellow.gif); background-repeat:no-repeat;}
+.widgetBoxIyellow .rcTop .rc{ height:50px;}
+.widgetBoxIyellow .rcTop .tl{ background-position:0 0;}
+.widgetBoxIyellow .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:0; _right:auto;}
+
+.widgetBoxIred{ padding-top:50px;}
+.widgetBoxIred .widgetBox{ background:#fd9bda; padding-top:10px; padding-bottom:5px;}
+.widgetBoxIred .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIred .widgetContainer{ margin-top:-50px;}
+.widgetBoxIred .widgetMore{ top:-31px; right:50px;}
+.widgetBoxIred .rcContainer{ position:absolute;}
+.widgetBoxIred .rcTop{ top:-50px; height:50px;}
+.widgetBoxIred .rcBottom{ display:none !important;} 
+.widgetBoxIred .rc { width:50%; background-image:url(../img/widgetBoxIred.png); _background-image:url(../img/widgetBoxIred.gif); background-repeat:no-repeat;}
+.widgetBoxIred .rcTop .rc{ height:50px;}
+.widgetBoxIred .rcTop .tl{ background-position:0 0;}
+.widgetBoxIred .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:0; _right:auto;}
+
+.widgetBoxIgreen{ padding-top:50px;}
+.widgetBoxIgreen .widgetBox{ background:#9bfda3; padding-top:10px; padding-bottom:5px;}
+.widgetBoxIgreen .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIgreen .widgetContainer{ margin-top:-50px;}
+.widgetBoxIgreen .widgetMore{ top:-31px; right:50px;}
+.widgetBoxIgreen .rcContainer{ position:absolute;}
+.widgetBoxIgreen .rcTop{ top:-50px; height:50px;}
+.widgetBoxIgreen .rcBottom{ display:none !important;} 
+.widgetBoxIgreen .rc { width:50%; background-image:url(../img/widgetBoxIgreen.png); _background-image:url(../img/widgetBoxIgreen.gif); background-repeat:no-repeat;}
+.widgetBoxIgreen .rcTop .rc{ height:50px;}
+.widgetBoxIgreen .rcTop .tl{ background-position:0 0;}
+.widgetBoxIgreen .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:0; _right:auto;}
+
+.widgetBoxIblue{ padding-top:50px;}
+.widgetBoxIblue .widgetBox{ background:#9bf4fd; padding-top:10px; padding-bottom:5px;}
+.widgetBoxIblue .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIblue .widgetContainer{ margin-top:-50px;}
+.widgetBoxIblue .widgetMore{ top:-31px; right:50px;}
+.widgetBoxIblue .rcContainer{ position:absolute;}
+.widgetBoxIblue .rcTop{ top:-50px; height:50px;}
+.widgetBoxIblue .rcBottom{ display:none !important;} 
+.widgetBoxIblue .rc { width:50%; background-image:url(../img/widgetBoxIblue.png); _background-image:url(../img/widgetBoxIblue.gif); background-repeat:no-repeat;}
+.widgetBoxIblue .rcTop .rc{ height:50px;}
+.widgetBoxIblue .rcTop .tl{ background-position:0 0;}
+.widgetBoxIblue .rcTop .tr{ background-position:right 0; left:50%; *left:auto; _left:50%; right:auto; *right:0; _right:auto;}

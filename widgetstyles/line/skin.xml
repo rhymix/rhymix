@@ -40,11 +40,6 @@
                 <name xml:lang="ko">제목 박스</name>
                 <name xml:lang="zh-TW">標題框</name>
             </options>
-            <options>
-                <value>widgetBoxJ</value>
-                <name xml:lang="ko">색상 박스</name>
-                <name xml:lang="zh-TW">彩色框</name>
-            </options>
         </var>
         <var name="ws_title_image" type="filebox" filter="jpg,jpeg,gif,png">
             <name xml:lang="ko">제목</name>
