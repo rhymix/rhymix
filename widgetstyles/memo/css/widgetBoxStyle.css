@@ -17,7 +17,7 @@
 
 .widgetBoxHgray{ padding-top:50px; padding-bottom:4px;} 
 .widgetBoxHgray .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
-.widgetBoxHgray .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHgray .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxHgray .widgetContainer{ margin-top:-50px;}
 .widgetBoxHgray .widgetMore{ top:-31px; right:50px;}
 .widgetBoxHgray .rcContainer{ position:absolute;}
@@ -33,7 +33,7 @@
 
 .widgetBoxHred{ padding-top:50px; padding-bottom:4px;} 
 .widgetBoxHred .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
-.widgetBoxHred .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHred .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxHred .widgetContainer{ margin-top:-50px;}
 .widgetBoxHred .widgetMore{ top:-31px; right:50px;}
 .widgetBoxHred .rcContainer{ position:absolute;}
@@ -49,7 +49,7 @@
 
 .widgetBoxHgreen{ padding-top:50px; padding-bottom:4px;} 
 .widgetBoxHgreen .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
-.widgetBoxHgreen .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHgreen .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxHgreen .widgetContainer{ margin-top:-50px;}
 .widgetBoxHgreen .widgetMore{ top:-31px; right:50px;}
 .widgetBoxHgreen .rcContainer{ position:absolute;}
@@ -65,7 +65,7 @@
 
 .widgetBoxHblue{ padding-top:50px; padding-bottom:4px;} 
 .widgetBoxHblue .widgetBox{ background:#fff; border-left:1px solid #e9e9e9; border-right:1px solid #e9e9e9; padding-top:10px; padding-bottom:5px;}
-.widgetBoxHblue .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxHblue .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxHblue .widgetContainer{ margin-top:-50px;}
 .widgetBoxHblue .widgetMore{ top:-31px; right:50px;}
 .widgetBoxHblue .rcContainer{ position:absolute;}
@@ -81,7 +81,7 @@
 
 .widgetBoxIyellow{ padding-top:50px;}
 .widgetBoxIyellow .widgetBox{ background:#fdf59b; padding-top:10px; padding-bottom:5px;}
-.widgetBoxIyellow .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIyellow .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxIyellow .widgetContainer{ margin-top:-50px;}
 .widgetBoxIyellow .widgetMore{ top:-31px; right:50px;}
 .widgetBoxIyellow .rcContainer{ position:absolute;}
@@ -94,7 +94,7 @@
 
 .widgetBoxIred{ padding-top:50px;}
 .widgetBoxIred .widgetBox{ background:#fd9bda; padding-top:10px; padding-bottom:5px;}
-.widgetBoxIred .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIred .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxIred .widgetContainer{ margin-top:-50px;}
 .widgetBoxIred .widgetMore{ top:-31px; right:50px;}
 .widgetBoxIred .rcContainer{ position:absolute;}
@@ -107,7 +107,7 @@
 
 .widgetBoxIgreen{ padding-top:50px;}
 .widgetBoxIgreen .widgetBox{ background:#9bfda3; padding-top:10px; padding-bottom:5px;}
-.widgetBoxIgreen .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIgreen .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxIgreen .widgetContainer{ margin-top:-50px;}
 .widgetBoxIgreen .widgetMore{ top:-31px; right:50px;}
 .widgetBoxIgreen .rcContainer{ position:absolute;}
@@ -120,7 +120,7 @@
 
 .widgetBoxIblue{ padding-top:50px;}
 .widgetBoxIblue .widgetBox{ background:#9bf4fd; padding-top:10px; padding-bottom:5px;}
-.widgetBoxIblue .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:60px !important;}
+.widgetBoxIblue .widgetBoxHeader{ position:relative; padding:3px 0; text-indent:15px; margin-top:-50px !important; margin-bottom:50px !important;}
 .widgetBoxIblue .widgetContainer{ margin-top:-50px;}
 .widgetBoxIblue .widgetMore{ top:-31px; right:50px;}
 .widgetBoxIblue .rcContainer{ position:absolute;}
