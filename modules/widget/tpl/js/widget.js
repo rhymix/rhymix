@@ -78,27 +78,22 @@ function removeAllWidget() {
 function getWidgetContent(obj) {
     var html = "";
     if(typeof(obj)=='undefined' || !obj) obj = zonePageObj;
-    var childObj = obj.firstChild;
 
-    while(childObj) {
-        if(childObj.nodeName == "DIV" && childObj.getAttribute("widget"))  {
-            var widget = childObj.getAttribute("widget");
-            if(widget) {
-                switch(widget) {
-                    case 'widgetBox' :
-                            html += getWidgetBoxCode(childObj, widget);
-                        break;
-                    case 'widgetContent' :
-                            html += getContentWidgetCode(childObj, widget);
-                        break;
-                    default :
-                            html += getWidgetCode(childObj, widget);
-                        break;
-                }
+    var widget;
+    jQuery(obj).find('div[widget]').each(function(){
+        widget = jQuery(this).attr('widget');
+            switch(widget) {
+                case 'widgetBox' :
+                        html += getWidgetBoxCode(this, widget);
+                    break;
+                case 'widgetContent' :
+                        html += getContentWidgetCode(this, widget);
+                    break;
+                default :
+                        html += getWidgetCode(this, widget);
+                    break;
             }
-        }
-        childObj = childObj.nextSibling;
-    }
+    });
     return html;
 }
 
@@ -328,9 +323,9 @@ var selectedWidget = null;
 var writedText = null;
 var checkDocumentWrite = false;
 
-// document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수 
+// document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수
 // 아래 함수는 str 내용을 단지 전역 변수에 보관 후 doAddWidgetCode 에서 재사용하기 위해 사용됨.
-window.document.write = window.document.writeln = function(str){ 
+window.document.write = window.document.writeln = function(str){
     if(checkDocumentWrite) {
         writedText = str;
         return;
