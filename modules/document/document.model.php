@@ -59,6 +59,7 @@
         }
 
         function _setExtraVars($oDocument, $vars) {
+            if(!$oDocument || !is_object($oDocument) || !$oDocument->isExists()) return;
             $module_srl = $oDocument->get('module_srl');
             $extra_keys = $this->getExtraKeys($module_srl);
             $document_srl = $oDocument->document_srl;
@@ -69,13 +70,13 @@
             // 확장변수 처리
             if(count($extra_keys)) {
 		    foreach($extra_keys as $idx => $key) {
-			$val = $vars[$idx];
-			if($val[$user_lang_code]) $v = $val[$user_lang_code];
-			else if($val[$document_lang_code]) $v = $val[$document_lang_code];
-			else if($val[0]) $v = $val[0];
-			else $v = null;
-			$extra_keys[$idx]->value = $v;
-		    }
+                    $val = $vars[$idx];
+                    if($val[$user_lang_code]) $v = $val[$user_lang_code];
+                    else if($val[$document_lang_code]) $v = $val[$document_lang_code];
+                    else if($val[0]) $v = $val[0];
+                    else $v = null;
+                    $extra_keys[$idx]->value = $v;
+                }
             }
 
             $extra_vars = new ExtraVar($module_srl);
