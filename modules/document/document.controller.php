@@ -330,11 +330,11 @@
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
             // 글쓴이의 언어변수와 원문의 언어변수가 다르면 확장변수로 처리
-            if($source_obj->lang_code != Context::getLangType()) {
+            if($source_obj->get('lang_code') != Context::getLangType()) {
                 $extra_content->title = $obj->title;
                 $extra_content->content = $obj->content;
-                $obj->title = $source_obj->title;
-                $obj->content = $source_obj->content;
+                $obj->title = $source_obj->get('title');
+                $obj->content = $source_obj->get('content');
             }
 
             // 세션에서 최고 관리자가 아니면 iframe, script 제거
