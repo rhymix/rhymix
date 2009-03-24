@@ -79,8 +79,9 @@ function getWidgetContent(obj) {
     var html = "";
     if(typeof(obj)=='undefined' || !obj) obj = zonePageObj;
 
-    var widget;
+    var widget = null;
     jQuery(obj).find('div[widget]').each(function(){
+	if(jQuery(this).parent().get(0) != obj) return;
         widget = jQuery(this).attr('widget');
             switch(widget) {
                 case 'widgetBox' :
