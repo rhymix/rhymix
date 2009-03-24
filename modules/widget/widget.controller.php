@@ -99,7 +99,9 @@
         function procWidgetGenerateCodeInPage() {
             $widget = Context::get('selected_widget');
             if(!$widget) return new Object(-1,'msg_invalid_request');
-            if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+
+            if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
             // 결과물을 구함
@@ -263,7 +265,7 @@
             $oModuleModel = &getModel('module');
             $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             if(!$page_info->module_srl || $page_info->module != 'page') $err++;
-            
+
             if($err > 1) return new Object(-1,'msg_invalid_request');
 
             // 권한 체크
