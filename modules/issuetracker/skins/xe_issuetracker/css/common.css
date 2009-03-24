@@ -296,3 +296,6 @@ dt span.closed { text-decoration: line-through; }
 .extraVarForm ul { margin:0; padding:0; list-style:none; }
 .extraVarForm .date { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:100px; }
 .extraVarForm .address { border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; padding:3px;  margin-right:10px; width:300px; }
+
+.diff .deleted { background: #FFDDDD none; }
+.diff .added { background: #DDFFDD none; }

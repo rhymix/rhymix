@@ -10,30 +10,38 @@
 <!--@if($comp)-->
     <!--@foreach($comp as $item)-->
 <table>
-<col width="*" />
+<col width="20" />
+<col width="20" />
 <col width="*" />
 <thead>
 <tr>
-    <th colspan="2" class="filename">{$item->filename}</th>
+    <th colspan="3" class="filename">{$item->filename}</th>
 </tr>
 </thead>
-<tbody>
+<tbody class="diff">
 <tr class="revision">    
-    <td class="before">Rev. {$item->before_revision}</td>
-    <td class="after">Rev. {$item->after_revision}</td>
+    <td class="before">{$item->before_revision}</td>
+    <td class="after">{$item->after_revision}</td>
+    <td></td>
 </tr>
-        <!--@foreach($item->changed as $change)-->
-<tr class="line">
-    <td class="before">line {$change->before_line}</td>
-    <td class="after">line {$change->after_line}</td>
-</tr>
-            <!--@for($i=0;$i<count($change->before_code);$i++)-->
-<tr class="code">
-    <td>{nl2br(str_replace('  ','&nbsp;&nbsp;',htmlspecialchars($change->before_code[$i])))}</td>
-    <td>{nl2br(str_replace('  ','&nbsp;&nbsp;',htmlspecialchars($change->after_code[$i])))}</td>
-</tr>
-            <!--@end-->
-        <!--@end-->
+{@ $bStart = true }
+<!--@foreach($item->blocks as $block)-->
+    <!--@if(!$bStart)-->
+    <tr>
+        <td>...</td>
+        <td>...</td>
+        <td></td>
+    </tr>
+    <!--@endif-->
+    <!--@foreach($block->lines as $line)-->
+    <tr>
+        <td>{$line->before_line_number}</td>
+        <td>{$line->after_line_number}</td>
+        <td <!--@if($line->type)-->class="{$line->type}"<!--@endif--> >{nl2br(str_replace("\t","&nbsp;&nbsp;&nbsp;&nbsp;",str_replace(' ','&nbsp;',htmlspecialchars($line->data))))}</td>
+    </tr>
+    <!--@endforeach-->
+    {@ $bStart = false }
+<!--@endforeach-->
 </tbody>
 </table>
     <!--@end-->

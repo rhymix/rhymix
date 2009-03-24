@@ -195,6 +195,75 @@
             return $output;
         }
 
+        function parseComp(&$list)
+        {
+            $cnt = count($list);
+            $output = array();
+            $obj = null;
+            $idx = 0;
+            for($i=0;$i<$cnt;$i++) {
+                $str = $list[$i];
+                if(preg_match('/^Index: (.*)$/', $str, $m)) {
+                    if($blockobj != null) 
+                    {
+                        $obj->blocks[$blockobj->before_line_start] = $blockobj;
+                        ksort($obj->blocks);
+                    }
+                    if($obj!==null) $output[] = $obj;
+                    $obj = null;
+                    $obj->filename = $m[1];
+                    $idx = 0;
+                    $obj->blocks = array();
+                    continue;
+                }
+                if(preg_match('/^(\=+)$/',$str)) continue;
+                if(preg_match('/^--- ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
+                    $obj->before_revision = $m[2];
+                    continue;
+                }
+                if(preg_match('/^\+\+\+ ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
+                    $obj->after_revision = $m[2];
+                    continue;
+                }
+                if(preg_match('/^@@ \-([0-9]+),([0-9]+) \+([0-9]+),([0-9]+) @@$/', $str, $m)) {
+                    if($blockobj != null) $obj->blocks[$blockobj->before_line_start] = $blockobj;
+                    $blockobj = null;
+                    $blockobj->before_line_start = (int) $m[1];
+                    $blockobj->after_line_start = (int) $m[3];
+                    $cur_before_line = $blockobj->before_line_start;
+                    $cur_after_line = $blockobj->after_line_start;
+                    $blockobj->lines = array();
+                    continue;
+                }
+                $line = null; 
+                if(preg_match('/^\-(.*)$/i',$str)) {
+                    $line->data = ' '.substr($str,1);
+                    $line->type = "deleted";
+                    $line->before_line_number = $cur_before_line ++;
+                }
+                else if(preg_match('/^\+(.*)$/i',$str)) {
+                    $line->data = ' '.substr($str,1);
+                    $line->type = "added";
+                    $line->after_line_number = $cur_after_line ++;
+                }
+                else
+                {
+                    $line->data = $str;
+                    $line->before_line_number = $cur_before_line ++;
+                    $line->after_line_number = $cur_after_line ++;
+                }
+                $blockobj->lines[] = $line;
+            }
+            if($obj!==null) 
+            {
+                if($blockobj != null) $obj->blocks[$blockobj->before_line_start] = $blockobj;
+                ksort($obj->blocks);
+                $output[] = $obj;
+            }
+            return $output;
+            
+        }
+
         function getComp($path, $brev, $erev) {
             if(!$brev) {
                 $command = sprintf('%s --non-interactive %s --config-dir %s log --xml --limit 2 %s%s@%d', $this->svn_cmd, $this->_getAuthInfo(), $this->tmp_dir, $this->url, $path, $erev);
@@ -216,52 +285,10 @@
                     $erev
             );
             $output = $this->execCmd($command, $error);
-
+            debugPrint($output);
             $list = explode("\n",$output);
-            $cnt = count($list);
-            $output = array();
-            $obj = null;
-            $idx = 0;
-            for($i=0;$i<$cnt;$i++) {
-                $str = $list[$i];
-                if(preg_match('/^Index: (.*)$/', $str, $m)) {
-                    if($obj!==null) $output[] = $obj;
-                    $obj = null;
-                    $obj->filename = $m[1];
-                    $idx = 0;
-                    $code_idx = -1;
-                    $code_changed = false;
-                    continue;
-                }
-                if(preg_match('/^(\=+)$/',$str)) continue;
-                if(preg_match('/^--- ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
-                    $obj->before_revision = $m[2];
-                    continue;
-                }
-                if(preg_match('/^\+\+\+ ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
-                    $obj->after_revision = $m[2];
-                    continue;
-                }
-                if(preg_match('/^@@ \-([0-9]+),([0-9]+) \+([0-9]+),([0-9]+) @@$/', $str, $m)) {
-                    $obj->changed[$idx]->before_line = sprintf('%d ~ %d', $m[1], $m[2]);
-                    $obj->changed[$idx]->after_line = sprintf('%d ~ %d', $m[3], $m[4]);
-                    continue;
-                }
-                if(preg_match('/^\-(.*)$/i',$str)) {
-                    if(!$code_changed) {
-                        $code_changed = true;
-                        $code_idx++;
-                    }
-                    $obj->changed[$idx]->before_code[$code_idx] .= substr($str,1)."\n";
-                    continue;
-                }
-                if(preg_match('/^\+(.*)$/i',$str)) {
-                    $obj->changed[$idx]->after_code[$code_idx] .= substr($str,1)."\n";
-                    $code_changed = false;
-                    continue;
-                }
-            }
-            if($obj!==null) $output[] = $obj;
+            $output = $this->parseComp($list);
+
             return $output;
         }
 
