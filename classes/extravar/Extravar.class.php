@@ -29,6 +29,7 @@
          * @param module_srl, idx, name, type, default, desc, is_required, search, value
          **/
         function setExtraVarKeys($extra_keys) {
+            if(!is_array($extra_keys) || !count($extra_keys)) return;
             foreach($extra_keys as $key => $val) {
                 $obj = null;
                 $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value,  $val->eid); 

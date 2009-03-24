@@ -67,13 +67,15 @@
             $document_lang_code = $oDocument->get('lang_code');
 
             // 확장변수 처리
-            foreach($extra_keys as $idx => $key) {
-                $val = $vars[$idx];
-                if($val[$user_lang_code]) $v = $val[$user_lang_code];
-                else if($val[$document_lang_code]) $v = $val[$document_lang_code];
-                else if($val[0]) $v = $val[0];
-                else $v = null;
-                $extra_keys[$idx]->value = $v;
+            if(count($extra_keys)) {
+		    foreach($extra_keys as $idx => $key) {
+			$val = $vars[$idx];
+			if($val[$user_lang_code]) $v = $val[$user_lang_code];
+			else if($val[$document_lang_code]) $v = $val[$document_lang_code];
+			else if($val[0]) $v = $val[0];
+			else $v = null;
+			$extra_keys[$idx]->value = $v;
+		    }
             }
 
             $extra_vars = new ExtraVar($module_srl);
