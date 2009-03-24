@@ -24,65 +24,69 @@
          * @brief 확장변수를 매 문서마다 처리하지 않기 위해 매크로성으로 일괄 select 및 적용
          **/
         function setToAllDocumentExtraVars() {
+            static $checked_documents = array();
+
             // XE에서 모든 문서 객체는 XE_DOCUMENT_LIST라는 전역 변수에 세팅을 함
             if(!count($GLOBALS['XE_DOCUMENT_LIST'])) continue;
 
             // 모든 호출된 문서 객체를 찾아서 확장변수가 설정되었는지를 확인
             $document_srls = array();
             foreach($GLOBALS['XE_DOCUMENT_LIST'] as $key => $val) {
-                if(!$val->document_srl || isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl])) continue;
-                $document_srls[$key] = $val->document_srl;
+                if($checked_documents[$val->document_srl]) continue;
+                $checked_documents[$val->document_srl] = true;
+                $document_srls[] = $val->document_srl;
             }
 
             // 검출된 문서 번호가 없으면 return
             if(!count($document_srls)) return;
 
-            $lang_code = Context::getLangType();
-
             // 확장변수 미지정된 문서에 대해서 일단 현재 접속자의 언어코드로 확장변수를 검색
             $obj->document_srl = implode(',',$document_srls);
-            $output = executeQueryArray('document.getDocumentsExtraVars', $obj);
-
+            $output = executeQueryArray('document.getDocumentExtraVars', $obj);
             if($output->toBool() && $output->data) {
-                $setted = array();
-
                 foreach($output->data as $key => $val) {
-                    if(!$val->document_srl) continue;
-
-                    if($val->idx<0 && $val->lang_code == $lang_code) {
-                        if($val->idx == -1) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('title', $val->value);
-                        else if($val->idx == -2) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('content', $val->value);
-                    } elseif($val->idx>0) {
-
-                        if(!isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl])){
-                            $module_srl = $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->get('module_srl');
-                            $oExtraItem = $GLOBALS['XE_EXTRAVARS'][$module_srl];
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl] = $oExtraItem;
-                        }
-
-                        if($lang_code == $val->lang_code) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                        } else if($lang_code == $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->lang_code && !$GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx]->value) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                        } else if(!$GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx]->value) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                        }
-                    }
+                    if(!trim($val->value)) continue;
+                    if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value); 
+                    $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value); 
                 }
             }
 
+            for($i=0,$c=count($document_srls);$i<$c;$i++) {
+                $document_srl = $document_srls[$i];
+                $oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+                $this->_setExtraVars($oDocument, $extra_vars[$document_srl]);
+            }
+        }
 
-            foreach($document_srls as $key => $document_srl) {
-                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])){
-                    $module_srl = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('module_srl');
-                    $oExtraItem = $GLOBALS['XE_EXTRAVARS'][$module_srl];
-                    $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $oExtraItem;
-                }
+        function _setExtraVars($oDocument, $vars) {
+            $module_srl = $oDocument->get('module_srl');
+            $extra_keys = $this->getExtraKeys($module_srl);
+            $document_srl = $oDocument->document_srl;
+
+            $user_lang_code = Context::getLangType();
+            $document_lang_code = $oDocument->get('lang_code');
+
+            // 확장변수 처리
+            foreach($extra_keys as $idx => $key) {
+                $val = $vars[$idx];
+                if($val[$user_lang_code]) $v = $val[$user_lang_code];
+                else if($val[$document_lang_code]) $v = $val[$document_lang_code];
+                else if($val[0]) $v = $val[0];
+                else $v = null;
+                $extra_keys[$idx]->value = $v;
             }
 
+            $extra_vars = new ExtraVar($module_srl);
+            $extra_vars->setExtraVarKeys($extra_keys);
+
+            // 제목 처리
+            if($vars[-1][$user_lang_code]) $oDocument->add('title',$vars[-1][$user_lang_code]);
+
+            // 내용 처리
+            if($vars[-2][$user_lang_code]) $oDocument->add('content',$vars[-2][$user_lang_code]);
+
+            $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $extra_vars->getExtraVars();
+            $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
         }
 
         /**
@@ -122,18 +126,27 @@
 
             $document_count = count($document_list);
             foreach($document_list as $key => $attribute) {
-                if(!$attribute->document_srl) continue;
-                $oDocument = null;
-                $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute, false);
-                if($is_admin) $oDocument->setGrant();
+                $document_srl = $attribute->document_srl;
+                if(!$document_srl) continue;
 
-                $result[$attribute->document_srl] = $oDocument;
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($attribute, false);
+                    if($is_admin) $oDocument->setGrant();
+                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                }
 
-                $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
+                $result[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
             }
             $this->setToAllDocumentExtraVars();
-            return $result;
+
+            $output = null;
+            foreach($result as $document_srl => $val) {
+                $output[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+            }
+
+            return $output;
         }
 
         /**
@@ -360,18 +373,24 @@
             foreach($data as $key => $attribute) {
                 if($except_notice && $attribute->is_notice == 'Y') continue;
                 $document_srl = $attribute->document_srl;
-                $oDocument = null;
-                $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute, false);
-                if($is_admin) $oDocument->setGrant();
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($attribute, false);
+                    if($is_admin) $oDocument->setGrant();
+                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                }
 
-                $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
-
-                $output->data[$virtual_number] = $oDocument;
+                $output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
                 $virtual_number --;
 
             }
             $this->setToAllDocumentExtraVars();
+
+            foreach($output->data as $number => $document) {
+                $output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
+            }
+
             return $output;
         }
 
@@ -395,15 +414,25 @@
             $args->order_type = 'asc';
             $output = executeQueryArray('document.getDocuments', $args);
             if(!$output->toBool()||!$output->data) return;
+
             foreach($output->data as $key => $val) {
-                if(!$val->document_srl) continue;
-                $oDocument = null;
-                $oDocument = new documentItem();
-                $oDocument->setAttribute($val, false);
-                $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl] = $oDocument;
-                $result->data[$val->document_srl] = $oDocument;
+                $document_srl = $val->document_srl;
+                if(!$document_srl) continue;
+
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($val, false);
+                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                }
+                $result->data[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
             }
             $this->setToAllDocumentExtraVars();
+
+            foreach($result->data as $document_srl => $val) {
+                $result->data[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+            }
+
             return $result;
         }
 
@@ -412,15 +441,16 @@
          * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
          **/
         function getExtraKeys($module_srl) {
-            $oExtraVar = &ExtraVar::getInstance($module_srl);
-            if(!$oExtraVar->isSettedExtraVars()) {
+            if(!$GLOBALS['XE_EXTRA_KEYS'][$module_srl]) {
+                $oExtraVar = &ExtraVar::getInstance($module_srl);
                 $obj->module_srl = $module_srl;
                 $obj->sort_index = 'var_idx';
                 $obj->order = 'asc';
                 $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
                 $oExtraVar->setExtraVarKeys($output->data);
+                $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $oExtraVar->getExtraVars();
             }
-            return $oExtraVar->getExtraVars();
+            return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
         }
 
         /**
@@ -428,6 +458,7 @@
          **/
         function getExtraVars($module_srl, $document_srl) {
             if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) {
+                // 확장변수 값을 추출하여 세팅
                 $oDocument = $this->getDocument($document_srl, false);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();

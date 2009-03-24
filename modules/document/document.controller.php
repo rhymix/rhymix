@@ -363,8 +363,8 @@
             }
 
             // 제목/내용의 다국어 확장변수 등록
-            if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title);
-            if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content);
+            if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
+            if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($source_obj->get('category_srl')!=$obj->category_srl) {
