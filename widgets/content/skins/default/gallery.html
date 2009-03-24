@@ -1,7 +1,7 @@
 <ul class="widgetGalleryA" style="width:{$widget_info->cols_list_count*($widget_info->thumbnail_width+28)}px;">
 {@$_idx=0}
     <!--@foreach($widget_info->content_items as $key => $item)-->
-    <li<!--@if($_idx>0 && $_idx % $widget_info->cols_list_count==0)--> class="clearLeft"<!--@end--> style="<!--@if($_idx >= $widget_info->list_count)-->display:none<!--@end-->;width:{$widget_info->thumbnail_width}px;">
+    <li<!--@if($_idx>0 && $_idx % $widget_info->cols_list_count==0)--> class="clearLeft"<!--@end--> style="<!--@if($_idx >= $widget_info->list_count)-->display:none;<!--@end-->width:{$widget_info->thumbnail_width}px;">
         <!--@foreach($widget_info->option_view_arr as $k => $v)-->
             <!--@if($v=='thumbnail')-->
                 <a href="{$item->getLink()}" class="thumb" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px">
@@ -29,7 +29,7 @@
                 <!--@end-->
 
                 <!--@if($widget_info->show_icon=='Y')-->
-                    <span class="icon">{$item->printExtraImages()}<span>
+                    <span class="icon">{$item->printExtraImages()}</span>
                 <!--@end-->
 
         <!--@else if($v=='nickname')-->

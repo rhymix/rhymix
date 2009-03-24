@@ -80,8 +80,8 @@ function getWidgetContent(obj) {
     if(typeof(obj)=='undefined' || !obj) obj = zonePageObj;
 
     var widget = null;
-    jQuery(obj).find('div[widget]').each(function(){
-	if(jQuery(this).parent().get(0) != obj) return;
+    jQuery('div.widgetOutput',obj).each(function(){
+    if(jQuery(this).parent().get(0) != obj) return;
         widget = jQuery(this).attr('widget');
             switch(widget) {
                 case 'widgetBox' :
@@ -169,7 +169,8 @@ function getWidgetCode(childObj, widget) {
     var attrs = "";
     var code = "";
     for(var i=0;i<childObj.attributes.length;i++) {
-        if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
+        if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue || /^jquery[0-9]+/i.test(childObj.attributes[i].nodeName)) continue;
+
         var name = childObj.attributes[i].nodeName.toLowerCase();
         if(name == "contenteditable" || name == "id" || name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
         var value = childObj.attributes[i].nodeValue;
@@ -577,11 +578,7 @@ function doCheckWidgetDrag(e) {
     var evt = new xEvent(e); if(!evt.target) return;
     var obj = evt.target;
 
-    var pObj = obj.parentNode;
-    while(pObj) {
-        if(pObj.id == "pageSizeLayer") return;
-        pObj = pObj.parentNode;
-    }
+    if(jQuery(obj).parents('#pageSizeLayer').size() > 0) return;
 
     doHideWidgetSizeSetup();
 
@@ -845,6 +842,7 @@ function restoreWidgetButtons() {
     var widgetButton = xGetElementById('widgetButton');
     var boxWidgetButton = xGetElementById('widgetBoxButton');
     if(!widgetButton || !boxWidgetButton) return;
+
     widgetButton.style.visibility = 'hidden';
     xGetElementById("zonePageContent").parentNode.appendChild(widgetButton);
     boxWidgetButton.style.visibility = 'hidden';
@@ -875,17 +873,25 @@ function showWidgetButton(name, obj) {
 function widgetSetup(evt) {
     var e = new xEvent(evt);
     var obj = e.target;
-    while(obj) {
-        if(obj.parentNode && typeof(obj.parentNode.className)!='undefined' && obj.parentNode.className == 'widgetButtons') return;
-        if(typeof(obj.className)!='undefined' && obj.className == 'widgetOutput') break;
-        obj = obj.parentNode;
+
+    if(jQuery(obj).is('.widgetButtons') || jQuery(obj).parents('.widgetButtons').size() > 0) return;
+    if(jQuery(obj).is('.buttonBox') || jQuery(obj).parents('.buttonBox').size() > 0) return;
+
+
+    var o = jQuery(obj).parents('.widgetOutput');
+    if(o.size() == 0){
+        restoreWidgetButtons();
+        return;
     }
+    /*
     if(!obj || typeof(obj.className)=='undefined' || obj.className != 'widgetOutput') {
         restoreWidgetButtons();
         return;
     }
+*/
 
-    var widget = obj.getAttribute('widget');
+    obj = o.get(0);
+    var widget = o.attr('widget');
     if(!widget) return;
 
     if(widget == 'widgetBox') {
@@ -1172,6 +1178,8 @@ function widgetDisapearObject(obj, tobj) {
     obj.parentNode.removeChild(obj);
     widgetTmpObject[tobj.id] = null;
     return;
+
+    /*
     var it = 5;
     var ib = 1;
 
@@ -1196,6 +1204,7 @@ function widgetDisapearObject(obj, tobj) {
         xLeft(obj, x);
         xTop(obj, y);
     }, it/ib);
+    */
 }
 
 // 마우스다운 이벤트 발생시 호출됨
@@ -1274,6 +1283,7 @@ function widgetManualEnd() {
     if(!tobj) return;
 
     xRemoveEventListener(document, 'mouseup', widgetMouseUp, false);
+    xAddEventListener(document, 'mousemove', widgetDragMouseMove, false);
 
     var obj = widgetGetTmpObject(tobj);
     widgetDisapear = widgetDisapearObject(obj, tobj);
