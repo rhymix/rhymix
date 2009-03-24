@@ -160,7 +160,7 @@
                     // 일반 위젯일 경우
                     default :
                             $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s">',$args->id,$style);
-                            $widget_content_body = sprintf('<div style="%s">%s</div>', $inner_style,$widget_content);
+                            $widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
                             $widget_content_footer = '</div>';
                         break;
                 }
