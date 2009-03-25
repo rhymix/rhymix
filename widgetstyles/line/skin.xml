@@ -5,7 +5,7 @@
     <title xml:lang="jp">シンプルライト</title>
     <description xml:lang="ko">선 하나만으로 꾸며진 위젯스타일 입니다.</description>
     <description xml:lang="zh-TW">可變換多種線條外框的控件樣式。</description>
-    <description xml:lang="jp">선 하나만으로 꾸며진ウィジェットのスタイルです。</description>
+    <description xml:lang="jp">ウィジェットのスタイルです。</description>
     <version>0.1</version>
     <date>2009-03-10</date>
     <preview>preview.gif</preview>
@@ -27,7 +27,7 @@
                 <value>widgetBoxA</value>
                 <name xml:lang="ko">심플 라이트</name>
                 <name xml:lang="zh-TW">分隔線</name>
-                <name xml:lang="jp">심플 라이트</name>
+                <name xml:lang="jp">シンプルライト</name>
             </options>
         </var>
         <var name="ws_title_image" type="filebox" filter="jpg,jpeg,gif,png">

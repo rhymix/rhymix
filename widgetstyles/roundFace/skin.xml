@@ -2,10 +2,10 @@
 <widgetstyle>
     <title xml:lang="ko">라운드 페이스</title>
     <title xml:lang="zh-TW">圓角外框樣式</title>
-    <title xml:lang="jp">ラウンド페이스</title>
+    <title xml:lang="jp">ラウンドフェイス</title>
     <description xml:lang="ko">둥근 면으로 꾸며진 위젯스타일 입니다.</description>
     <description xml:lang="zh-TW">可變換多種圓角外框的控件樣式。</description>
-    <description xml:lang="jp">둥근 면으로 꾸며진ウィジェットのスタイルです。</description>
+    <description xml:lang="jp">ウィジェットのスタイルです。</description>
     <version>0.1</version>
     <date>2009-03-10</date>
     <preview>preview.gif</preview>
