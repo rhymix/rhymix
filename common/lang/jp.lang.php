@@ -226,6 +226,7 @@
     $lang->success_declared = '通報しました。';
     $lang->success_updated = '修正しました。';
     $lang->success_deleted = '削除しました。';
+    $lang->success_restore = '復元しました。';
     $lang->success_voted = '推薦しました。';
     $lang->success_blamed = '非推薦しました。';
     $lang->success_moved = '移動しました。';
@@ -246,6 +247,7 @@
     $lang->confirm_logout = 'ログアウトしますか？';
     $lang->confirm_vote = '推薦しますか？';
     $lang->confirm_delete = '削除しますか？';
+    $lang->confirm_restore = '復元しますか？';
     $lang->confirm_move = '移動しますか？';
     $lang->confirm_reset = '初期化しますか？';
     $lang->confirm_leave = '退会しますか？';
@@ -258,7 +260,7 @@
     $lang->column_type_list['textarea'] = 'テキストエリア(textarea)';
     $lang->column_type_list['checkbox'] = 'チェックボックス(checkbox)';
     $lang->column_type_list['select'] = '選択(select)';
-    $lang->column_type_list['radio'] = 'radio button (radio)';
+    $lang->column_type_list['radio'] = 'ラジオボタン (radio)';
     $lang->column_type_list['kr_zip'] = '韓国住所(zip)';
     $lang->column_type_list['date'] = '日付(年月日)';
     //$lang->column_type_list['jp_zip'] = '日本住所(zip)';
@@ -267,7 +269,7 @@
     $lang->default_value = 'デフォルト値';
     $lang->is_active = '活性化';
     $lang->is_required = '必須項目';
-    $lang->eid = '확장변수 이름';
+    $lang->eid = '拡張変数名';
 
     // ftp 관련
     $lang->ftp_form_title = 'サーバーのFTP情報の入力';
