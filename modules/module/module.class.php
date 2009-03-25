@@ -183,7 +183,7 @@
                         // 게시글 확장변수 키 등록
                         if(count($document_extra_keys)) {
                             foreach($document_extra_keys as $var_idx => $val) {
-                                $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $val->name, $val->type, $val->is_required, $val->search, $val->default, $val->desc);
+                                $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $val->name, $val->type, $val->is_required, $val->search, $val->default, $val->desc, 'extra_vars'.$var_idx);
                             }
 
                             // 확장변수가 존재하면 확장변수 가져오기
@@ -200,7 +200,7 @@
                                     foreach($document as $key => $var) {
                                         if(strpos($key,'extra_vars')!==0 || !trim($var) || $var== 'N;') continue;
                                         $var_idx = str_replace('extra_vars','',$key);
-                                        $oDocumentController->insertDocumentExtraVar($module_srl, $document->document_srl, $var_idx, $var, $lang_code);
+                                        $oDocumentController->insertDocumentExtraVar($module_srl, $document->document_srl, $var_idx, $var, 'extra_vars'.$var_idx, $lang_code);
                                     }
                                 }
                                 $doc_args->page++;
