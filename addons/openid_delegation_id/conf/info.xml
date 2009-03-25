@@ -29,7 +29,7 @@
         Debe utilizar luego de ingresar los valores relacionado con openid provider a través de la configuracion.
     </description>
     <description xml:lang="jp">
-        保有しているオリジナルドメインをオープンＩＤとして活用することができます。
+        保有しているオリジナルドメインをオープンＩＤとして活用することが出来ます。
         必ず設定で、OpenIDのプロバイダー関連情報を入力してから使用して下さい。
     </description>
     <description xml:lang="ru">

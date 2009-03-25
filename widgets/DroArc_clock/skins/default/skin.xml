@@ -7,7 +7,7 @@
     <title xml:lang="zh-TW">Flash電子時鐘</title>
     <description xml:lang="ko">플래시 디지털 시계를 출력합니다. 자체적인 오른쪽 마우스 메뉴를 사용가능합니다.</description>
     <description xml:lang="zh-CN">显示Flash数字时钟。</description>
-    <description xml:lang="jp">フラッシュのデジタル時計を出力します。右クリックマウスのメニューが使用できます。</description>
+    <description xml:lang="jp">フラッシュのデジタル時計を出力します。右クリックマウスのメニューが使用出来ます。</description>
     <description xml:lang="en">It displays flash digital clock.</description>
     <description xml:lang="zh-TW">顯示Flash電子時鐘。</description>
     <version>0.1</version>

@@ -35,7 +35,7 @@
     $lang->filebox = "ファイルボックス";
 
     $lang->header_script = "ヘッダースクリプト";
-    $lang->about_header_script = "HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどが利用できます";
+    $lang->about_header_script = "HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力出来ます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどが利用出来ます";
 
     $lang->grant_access = "アクセス権限";
     $lang->grant_manager = "管理権限";
@@ -61,30 +61,30 @@
     $lang->msg_category_is_null = '登録されているカテゴリがありません。';
     $lang->msg_grant_is_null = '登録された権限がありません。';
     $lang->msg_no_checked_document = '選択された書き込みがありません。';
-    $lang->msg_move_failed = '移動することができませんでした。';
-    $lang->msg_cannot_delete_for_child = '下位カテゴリのカテゴリは削除することができません。';
+    $lang->msg_move_failed = '移動することが出来ませんでした。';
+    $lang->msg_cannot_delete_for_child = '下位カテゴリのカテゴリは削除することが出来ません。';
     $lang->msg_limit_mid ="モジュール名は「 半角英小文字+[半角英小文字+半角数字+_] 」のみ出来ます。";
     $lang->msg_extra_name_exists = '既に存在する拡張変数名です。他の拡張変数名を入力して下さい。';
 
     $lang->about_browser_title = "ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。";
     $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋[英数,_のみ可]）。";
     $lang->about_default = "チェックすると、サイトに「 mid値」なしで接続した場合、デフォルトで表示します。";
-    $lang->about_module_category = "カテゴリで管理できるようにします。モジュールのカテゴリの管理は、<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ </a>で行うことができます。";
+    $lang->about_module_category = "カテゴリで管理出来るようにします。モジュールのカテゴリの管理は、<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ </a>で行うことが出来ます。";
     $lang->about_description= '管理用に用いられる説明です。';
     $lang->about_default = 'チェックすると、サイトに「mid値」なしで接続した場合、デフォルトで表示します。';
-    $lang->about_header_text = 'モジュールのヘッダーに表示される内容です（HTMLタグが使用できる）。';
-    $lang->about_footer_text = 'モジュールのフッターに表示される内容です。（HTMLタグが使用できる）。';
-    $lang->about_skin = 'モジュールのスキンを選択することができます。';
-    $lang->about_use_category = 'チェックするとカテゴリ機能が使用できます。';
-    $lang->about_list_count = '１ページ当たりに表示される書き込みの数が指定できます（デフォルト20個）。';
+    $lang->about_header_text = 'モジュールのヘッダーに表示される内容です（HTMLタグの使用可能）。';
+    $lang->about_footer_text = 'モジュールのフッターに表示される内容です。（HTMLタグの使用可能）。';
+    $lang->about_skin = 'モジュールのスキンを選択することが出来ます。';
+    $lang->about_use_category = 'チェックするとカテゴリ機能が使用出来ます。';
+    $lang->about_list_count = '１ページ当たりに表示される書き込みの数が指定出来ます（デフォルト20個）。';
     $lang->about_search_list_count = 'お勧めの記事数を設定するにさらされるかのカテゴリ検索機能を使用する場合です。 （デフォルトは20 ）';
-    $lang->about_page_count = 'リストの下段に移動できるページのリンク数が指定できます（デフォルト１０個）。';
-    $lang->about_admin_id = '該当するモジュールに対して最高権限を持つ管理者を指定することができます。';
+    $lang->about_page_count = 'リストの下段に移動出来るページのリンク数が指定出来ます（デフォルト10個）。';
+    $lang->about_admin_id = '該当するモジュールに対して最高権限を持つ管理者を指定することが出来ます。';
     $lang->about_grant = '特定権限の対象をすべて解除するとログインしていない会員ユーザまで権限が与えられます。';
     $lang->about_grant_deatil = '登録ユーザーとはcafeXEなど分譲型バーチャル(Virtual)サイトに登録した、ログインユーザーを意味します。';
-    $lang->about_module = "XEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。";
-    $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。';
-    $lang->about_search_virtual_site = "バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力後、検索して下さい。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は除く）";
+    $lang->about_module = "XEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理出来るようにします。";
+    $lang->about_extra_vars_default_value = '多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することが出来ます。';
+    $lang->about_search_virtual_site = "バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索して下さい。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）";
     $lang->about_extra_vars_eid_value = '拡張変数名を入力して下さい。　（英字+[英字+数字+_]のみ可能（全て半角））';
     $lang->about_langcode = "言語ごとに異なる設定をする場合、言語コード検索を利用して下さい。";
     $lang->about_file_extension= "%s ファイルのみ可能です。";

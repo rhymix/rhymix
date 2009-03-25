@@ -138,7 +138,7 @@
     $lang->edit->icon_align_middle = '中央揃え';
     $lang->edit->icon_align_right = '右揃え';
 
-    $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。';
+    $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定出来るコンポーネントを表示します。';
 
 
     $lang->edit->rich_editor = 'ウイジウイグ編集';

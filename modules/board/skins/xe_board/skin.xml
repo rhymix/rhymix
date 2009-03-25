@@ -113,7 +113,7 @@
                 포럼형 스타일은 정렬대상을 updated로 하셔야 합니다.
             </description>
              <description xml:lang="jp">
-                リスト型、ウェブジン型、ギャラリー型、フォーラム型の基本スタイルを指定することができます。
+                リスト型、ウェブジン型、ギャラリー型、フォーラム型の基本スタイルを指定することが出来ます。
                 フォーラム型のスタイルはソート対象を「updated」にしなければなりません。
             </description>
             <description xml:lang="zh-CN">

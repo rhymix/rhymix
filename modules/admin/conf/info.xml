@@ -11,7 +11,7 @@
     <description xml:lang="en">This module shows a list of features of each module, and enables you to use a quite few of managers by applying layout for administrator.</description>
     <description xml:lang="es">Este módulo muestra una lista de características de cada módulo, en donde puede activar la función de la administracion aplicando el diseño del administrador.</description>
     <description xml:lang="zh-CN">列出各模块的功能并使用管理员布局，可以让其使用管理功能的模块。</description>
-    <description xml:lang="jp">各モジュールの機能を羅列し、管理者用のレイアウトを適用させ、管理機能が使用できるようにするモジュールです。</description>
+    <description xml:lang="jp">各モジュールの機能を羅列し、管理者用のレイアウトを適用させ、管理機能が使用出来るようにするモジュールです。</description>
     <description xml:lang="ru">Этот модуль показывает список возможностей каждого модуля, и позволяет Вам использовать несколько менеджеров, применяя лейаут для администратора.</description>
     <description xml:lang="zh-TW">列出各模組的功能並使用管理員版面，可讓其使用管理功能的模組。</description>
     <version>0.1</version>

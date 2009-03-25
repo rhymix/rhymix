@@ -56,6 +56,6 @@
     $lang->about_ttxml_user_id = 'TTXML移転時に投稿者として指定するユーザIDを入力して下さい（すでに加入されているIDでなければなりません）。';
     $lang->about_type_module = 'データ変換の対象が書き込みデータである場合は選択して下さい。';
     $lang->about_type_syncmember = '会員情報と書き込みデータなどの変換を行った後、会員情報を同期化する必要がある場合は、選択して下さい。';
-    $lang->about_importer = "ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することができます。\n変換するためには、<a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードして下さい。";
+    $lang->about_importer = "ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することが出来ます。\n変換するためには、<a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードして下さい。";
     $lang->about_target_path = "添付ファイルをダウンロードするためには、ゼロボード4がインストールされた場所を入力して下さい。同じサーバ上にある場合は「/home/ID/public_html/bbs」のように入力し、他のサーバにある場合は、「http://ドメイン/bbs」のようにゼロボードがインストールされているURLを入力して下さい。";
 ?>

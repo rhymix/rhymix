@@ -24,7 +24,7 @@
         プラネットを初期ページとして利用する場合は、ホームページパッケージで登録されているドメインと異なるドメインを登録して下さい。";
 
     $lang->planet_mid = "プラネットアクセスアドレス";
-    $lang->about_planet_mid = "プラネットアクセスアドレスは「http://XEアドレス/プラネットアクセスアドレス」のようにダイレクトで接続できるアドレスを指します。";
+    $lang->about_planet_mid = "プラネットアクセスアドレスは「http://XEアドレス/プラネットアクセスアドレス」のようにダイレクトで接続出来るアドレスを指します。";
 
     $lang->planet_default_skin = "プラネット基本スキン";
     $lang->about_planet_default_skin = "プラネットメインページ及び作成されたプラネットの基本スキンに設定されます。";
@@ -33,18 +33,18 @@
     $lang->about_planet_comment = "プラネット簡単紹介はプラネットに接続した時ブラウザのタイトル及びプラネットの簡単紹介欄に表示される内容です。";
 
     $lang->use_signup = "会員登録ボタン表示";
-    $lang->about_use_signup = "会員登録ボタン表示を選択するとプラネットの上段メニュに会員登録ができるボタンが表示されます。";
+    $lang->about_use_signup = "会員登録ボタン表示を選択するとプラネットの上段メニュに会員登録が出来るボタンが表示されます。";
 
 
     $lang->cmd_create_planet = "マイプラネット作成";
     $lang->create_message = "マイプラネット作成案内文";
-    $lang->about_create_message = "プラネット作成時に表示される案内文が入力できます。";
+    $lang->about_create_message = "プラネット作成時に表示される案内文が入力出来ます。";
 
     $lang->cmd_planet_setup = "基本設定";
     $lang->cmd_planet_list = "プラネットリスト";
 
     $lang->msg_not_logged = "ログインしていません。";
-    $lang->msg_planet_exists = "既に作成したプラネットがありますので、新しく作成することができません。";
+    $lang->msg_planet_exists = "既に作成したプラネットがありますので、新しく作成することが出来ません。";
 
     $lang->planet_userinfo = "個人情報";
     $lang->planet_change_userinfo = "個人情報変更";
@@ -89,9 +89,9 @@
     $lang->planet_photo = "写真";
     $lang->planet_myintro = "自己紹介";
 
-    $lang->about_planet_url = "設定後変更できません。";
+    $lang->about_planet_url = "一度設定すると変更が出来ませんので、慎重に決めて下さい。";
     $lang->planet_mytag = "人物タグ";
-    $lang->about_planet_mytag = "自分を表現するタグです。複数のタグは「,」で区別されます。";
+    $lang->about_planet_mytag = "自分を表現するタグです。複数のタグは半角「,（コンマ）」で区切って入力して下さい。";
 
     $lang->about_planet_tag = "複数のタグは「,」で区別されます。";
 
@@ -123,12 +123,12 @@
     $lang->planet_article_preview = "プレビュー";
 
 
-    $lang->planet_notice_title = "%sさん、プラネットにようこそ！<br>%sさんの考え、意見、情報、知識などを自由にたくさんの人々と共有できるプラネットです。簡単な使い方を案内します。";
+    $lang->planet_notice_title = "%sさん、プラネットにようこそ！<br>%sさんの考え、意見、情報、知識などを自由にたくさんの人々と共有出来るプラネットです。簡単な使い方を案内します。";
     $lang->planet_notice_list = array(
         "「新規投稿」の「開く」ボタンを利用してみて下さい。記事を作成するウィンドウが開きます。",
         "作成された記事は %sさんのプラネットに訪問する人々に公開されます。",
-        "「お気に入り追加」と「関心タグ追加」機能はいつでも%sさんの関心記事を見ることができます。",
-        "%sさんの「写真、ネックネーム、タグ」などの情報は現在ページから変更できます。",
+        "「お気に入り追加」と「関心タグ追加」機能はいつでも%sさんの関心記事を見ることが出来ます。",
+        "%sさんの「写真、ネックネーム、タグ」などの情報は現在ページから変更出来ます。",
         "他のプラネットが気になりますか？「リアルタイム人気タグ」または「検索」を利用してみて下さい。",
         "その他、気になる部分は「質問」タグを検索してみて下さい。他の方から答えてもらえます。",
     );
@@ -164,16 +164,16 @@
     $lang->msg_success_set_phone_number = '電話番号を登録しました。';
 
     $lang->planet_tagtab = "基本タグタブ";
-    $lang->about_planet_tagtab = "半角コンマ(,)区切りで複数タグの登録が出来ます。 登録したタグはメインページにタブとして出力されます。";
+    $lang->about_planet_tagtab = "半角コンマ（,）区切りで複数タグの登録が出来ます。 登録したタグはメインページにタブとして出力されます。";
     $lang->planet_tagtab_after = "追加タグタブ";
-    $lang->about_planet_tagtab_after = "基本タグタブの後ろに、複数のタグタブの追加が出来ます。半角コンマ(,)区切りで複数登録出来ます。";
+    $lang->about_planet_tagtab_after = "基本タグタブの後ろに、複数のタグタブの追加が出来ます。半角コンマ（,）区切りで複数登録出来ます。";
     $lang->planet_smstag = "SMS登録タグ";
-    $lang->about_planet_smstag = "半角コンマ(,)区切りで複数のタグ指定が出来ます。SMSで登録されるタグ";
+    $lang->about_planet_smstag = "SMSで登録されるタグです。半角コンマ（,）区切りで複数のタグ指定が出来ます。";
 
     $lang->planet_use_mobile = "SMS連動";
-    $lang->about_use_mobile = "携帯SMSで書き込みが出来ます。（日本国内は未対応）";
+    $lang->about_use_mobile = "携帯SMSにて書き込みが出来ます。（日本国内は未対応）";
     $lang->planet_use_me2day = "mw2day連動";
-    $lang->about_use_me2day = "書き込みがme2dayへ送信されます。";
+    $lang->about_use_me2day = "書き込みの内容がme2dayへ送信されます。";
 
 
     $lang->msg_search_thisplanet = "このプラネットで検索";

@@ -6,7 +6,7 @@
      **/
 
     $lang->ccl_default_title = 'クリエイティブコモンズジャパン著作者表示';
-    $lang->ccl_default_message = 'この著作物は<a rel="license" href="http://creativecommons.org/licenses/by%s%s%s%s" onclick="winopen(this.href);return false;">%s%s%s%s</a>に従って利用することができます。';
+    $lang->ccl_default_message = 'この著作物は<a rel="license" href="http://creativecommons.org/licenses/by%s%s%s%s" onclick="winopen(this.href);return false;">%s%s%s%s</a>に従って利用することが出来ます。';
 
     $lang->ccl_title = 'タイトル';
     $lang->ccl_use_mark = 'マーク使用';
@@ -23,7 +23,7 @@
     );
 
     $lang->about_ccl_title = 'タイトルを表示します。空欄の場合はデフォルトのメッセージが表示されます。';
-    $lang->about_ccl_use_mark = 'マークを表示するかどうかが選択できます（デフォルト：表示）。';
-    $lang->about_ccl_allow_commercial = '営利目的での利用を許可するかどうかが選択できます（デフォルト：禁止）';
-    $lang->about_ccl_allow_modification = '著作権の変更ができるかがどうかが許可できます（デフォルト：同一条件変更）。';
+    $lang->about_ccl_use_mark = 'マークを表示するかどうかが選択出来ます（デフォルト：表示）。';
+    $lang->about_ccl_allow_commercial = '営利目的での利用を許可するかどうかが選択出来ます（デフォルト：禁止）';
+    $lang->about_ccl_allow_modification = '著作権の変更が出来るかがどうかが許可出来ます（デフォルト：同一条件変更）。';
 ?>

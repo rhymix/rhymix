@@ -14,5 +14,5 @@
     $lang->cmd_del_poll = "アンケート削除";
     $lang->cmd_add_item = "項目追加";
 
-    $lang->msg_poll_cannot_modify = 'アンケートは修正できません。削除後、改めて新しく作成して下さい。';
+    $lang->msg_poll_cannot_modify = 'アンケートは修正出来ません。削除後、改めて新しく作成して下さい。';
 ?>

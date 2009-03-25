@@ -50,7 +50,7 @@
             </description>
             <description xml:lang="jp">
                 ある特定のモバイル機器ではutf-8文字コードの認識が出来ない場合があります。
-                文字コードを設定すると、該当文字コードに自動変換して正常に表示できるようになります。
+                文字コードを設定すると、該当文字コードに自動変換して正常に表示出来るようになります。
                 デフォルトはeuc-krです。
             </description>
             <description xml:lang="zh-CN">

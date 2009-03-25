@@ -12,13 +12,13 @@
     $lang->about_act_config = "掲示板、ブログなどのモジュールごとに「書き込み作成・削除/コメント作成・削除」などのアクションがあります。掲示板/ブログ以外のモジュールにポイントシステムを連動させたい場合は、各機能のアクションの「act値」を追加します。連動は半角「,（コンマ）」で区切って追加します。";
 
     $lang->max_level = '最高レベル';
-    $lang->about_max_level = '最高レベルを指定することができます。最高レベルは「1000」がマクシマムなので、レベルアイコンに注意が必要です。';
+    $lang->about_max_level = '最高レベルを指定することが出来ます。最高レベルは「1000」がマクシマムなので、レベルアイコンに注意が必要です。';
 
     $lang->level_icon = 'レベルアイコン';
     $lang->about_level_icon = 'レベルアイコンは、「./modules/point/icons/レベル.gif」で指定されるため、最高レベルとアイコンセットが異なる場合があります。ご注意下さい。';
 
     $lang->point_name = 'ポイント名';
-    $lang->about_point_name = 'ポイントの名前、単位が指定できます。';
+    $lang->about_point_name = 'ポイントの名前、単位が指定出来ます。';
 
     $lang->level_point = 'レベルポイント';
     $lang->about_level_point = '下の各レベルのポイントが増加したり、減少するとレベルが調整されます。';
@@ -37,7 +37,7 @@
     $lang->point_link_group = 'グループ連動';
     $lang->about_point_link_group = 'グループにレベルを指定すると、該当レベルになったらグループが変更されます。 ただし、新しいグループに変更されると以前自動登録されたグループは消去されます。';
 
-    $lang->about_module_point = 'モジュール別にポイントを指定することができますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。';
+    $lang->about_module_point = 'モジュール別にポイントを指定することが出来ますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。';
 
     $lang->point_signup = '加入';
     $lang->point_insert_document = '書き込み作成';
@@ -56,7 +56,7 @@
     $lang->cmd_point_act_config = '機能別アクション設定';
     $lang->cmd_point_member_list = '会員ポイントリスト';
 
-    $lang->msg_cannot_download = 'ポイントが不足しているため、ダウンロードできません。';
+    $lang->msg_cannot_download = 'ポイントが不足しているため、ダウンロード出来ません。';
 
     $lang->point_recal_message = 'ただ今ポイントを適用しています。 (%d / %d)';
     $lang->point_recal_finished = 'ポイント再計算が完了しました。';

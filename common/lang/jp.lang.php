@@ -201,8 +201,8 @@
     );
 
     // 説明関連
-    $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録できます。';
-    $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';
+    $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録出来ます。';
+    $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理出来ます。';
 
     // メッセージ関連
     $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ち下さい。';
@@ -238,10 +238,10 @@
     $lang->fail_to_delete = '削除に失敗しました。';
     $lang->fail_to_move = '移動に失敗しました。';
 
-    $lang->failed_voted = '推薦できません。';
-    $lang->failed_blamed = '非推薦できません。';
-    $lang->failed_declared = '通報できません。';
-    $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません。';
+    $lang->failed_voted = '推薦出来ません。';
+    $lang->failed_blamed = '非推薦出来ません。';
+    $lang->failed_declared = '通報出来ません。';
+    $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除出来ません。';
 
     $lang->confirm_submit = '登録しますか？';
     $lang->confirm_logout = 'ログアウトしますか？';

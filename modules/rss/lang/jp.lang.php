@@ -23,8 +23,8 @@
 
     // 説明文
     $lang->about_rss_disable = "チェックするとRSSの出力を行いません。";
-    $lang->about_rss_type = "出力するRSSタイプを指定することができます。";
-    $lang->about_open_rss = '現在のモジュールに対して「RSS配信」を選択することができます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。';
+    $lang->about_rss_type = "出力するRSSタイプを指定することが出来ます。";
+    $lang->about_open_rss = '現在のモジュールに対して「RSS配信」を選択することが出来ます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。';
     $lang->about_feed_description = '発行するRSSに関する説明を入力します。未入力した場合は該当モジュールで設定された管理用説明が含まれます。';
     $lang->about_feed_copyright = '発行するRSSのコンテンツに対する著作権情報です。';
     $lang->about_part_feed_copyright = '未入力の場合、全体RSS著作権の設定と同様に適用されます。';

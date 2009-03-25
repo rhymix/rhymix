@@ -593,7 +593,7 @@
             <description xml:lang="ko">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.
             (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="zh-TW">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.</description>
-            <description xml:lang="jp">RSS URLはタイプが RSSであるのみ登録できます。
+            <description xml:lang="jp">RSS URLはタイプが RSSであるのみ登録出来ます。
             (サポートする文書形式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
         </var>
         <var id="rss_url1">
