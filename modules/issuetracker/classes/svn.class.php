@@ -285,7 +285,6 @@
                     $erev
             );
             $output = $this->execCmd($command, $error);
-            debugPrint($output);
             $list = explode("\n",$output);
             $output = $this->parseComp($list);
 
