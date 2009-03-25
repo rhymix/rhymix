@@ -15,12 +15,14 @@
     $lang->file_list = '添付ファイルリスト';
     $lang->allow_outlink = '外部からのファイルリンク';
     $lang->allow_outlink_site = '外部からのファイルリンクを許可するサイト';
+    $lang->allow_outlink_format = '外部からのファイルリンクを許可する拡張子';
     $lang->allowed_filesize = 'ファイルサイズ制限';
     $lang->allowed_attach_size = '書き込みへの添付制限';
     $lang->allowed_filetypes = '添付可能な拡張子';
     $lang->enable_download_group = 'ダウンロード可能グループ';
 
     $lang->about_allow_outlink = 'リファラーによって外部からのファイルリンクを制御出来ます。(*.wmv, *.mp3などのメディアファイルは除く)';
+    $lang->about_allow_outlink_format = '外部からのファイルリンク設定に構わず、常に外部からのリンクを許可する拡張子です。複数登録時には、「半角コンマ（,）」区切りで記入して下さい。<br />eg)txt,doc,zip,pdf';
     $lang->about_allow_outlink_site = '外部からのファイルリンク設定に構わず、常に外部からのリンクを許可するURLです。複数登録時には、改行で記入して下さい。<br />ex)http://www.zeroboard.com';
     $lang->about_allowed_filesize = '一つのファイルに対して、アップロードできるファイルの最大サイズを指定します（管理者除外）。';
     $lang->about_allowed_attach_size = '一つの書き込みに対して、添付できる最大サイズを指定します（管理者除外）。';

@@ -102,7 +102,7 @@
             <options value="list">
                 <title xml:lang="ko">목록</title>
                 <title xml:lang="en">list</title>
-                <title xml:lang="jp">リスト</title>
+                <title xml:lang="jp">リスト型</title>
                 <title xml:lang="zh-CN">目录型</title>
                 <title xml:lang="es">list</title>
                 <title xml:lang="zh-TW">列表型</title>
@@ -110,7 +110,7 @@
             <options value="webzine">
                 <title xml:lang="ko">웹진</title>
                 <title xml:lang="en">webzine</title>
-                <title xml:lang="jp">ウェブジン(webzine)</title>
+                <title xml:lang="jp">ウェブジン(webzine)型</title>
                 <title xml:lang="zh-CN">新闻型</title>
                 <title xml:lang="es">webzine</title>
                 <title xml:lang="zh-TW">雜誌型</title>
@@ -118,7 +118,7 @@
             <options value="gallery">
                 <title xml:lang="ko">갤러리</title>
                 <title xml:lang="en">gallery</title>
-                <title xml:lang="jp">ギャラリー</title>
+                <title xml:lang="jp">ギャラリー型</title>
                 <title xml:lang="zh-CN">相册型</title>
                 <title xml:lang="es">gallery</title>
                 <title xml:lang="zh-TW">相簿型</title>
@@ -126,7 +126,7 @@
             <options value="forum">
                 <title xml:lang="ko">포럼</title>
                 <title xml:lang="en">forum</title>
-                <title xml:lang="jp">フォラム</title>
+                <title xml:lang="jp">フォラム型</title>
                 <title xml:lang="zh-CN">论坛型</title>
                 <title xml:lang="es">forum</title>
                 <title xml:lang="zh-TW">論壇型</title>
@@ -134,7 +134,7 @@
             <options value="blog">
                 <title xml:lang="ko">블로그</title>
                 <title xml:lang="en">blog</title>
-                <title xml:lang="jp">ブログ</title>
+                <title xml:lang="jp">ブログ型</title>
                 <title xml:lang="zh-CN">博客型</title>
                 <title xml:lang="es">blog</title>
                 <title xml:lang="zh-TW">部落格型</title>
@@ -211,7 +211,7 @@
             <title xml:lang="en">Subtitle of Board</title>
             <title xml:lang="zh-TW">討論板副標題</title>
             <description xml:lang="ko">게시판 제목 옆에 나타날 부제목을 적어주세요.</description>
-            <description xml:lang="jp">掲示板タイトルの横に表示されるサブタイトルを入力してください。</description>
+            <description xml:lang="jp">掲示板タイトルの隣りに表示されるサブタイトルを入力してください。</description>
             <description xml:lang="zh-CN">请输入版面副标题(留空为不显示)。</description>
             <description xml:lang="en">Please input the subtitle of board which will be displayed beside of board title.</description>
             <description xml:lang="es">Please input the subtitle of board which will be displayed beside of board title.</description>
@@ -421,13 +421,13 @@
         </var>
         <var name="display_sign" type="select">
             <title xml:lang="ko">서명 표시</title>
-            <title xml:lang="jp">서명 표시</title>
+            <title xml:lang="jp">署名表示</title>
             <title xml:lang="zh-CN">显示签名</title>
             <title xml:lang="en">서명 표시</title>
             <title xml:lang="es">서명 표시</title>
             <title xml:lang="zh-TW">顯示簽名檔</title>
             <description xml:lang="ko">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="jp">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
+            <description xml:lang="jp">本文内で会員の署名とプロフィルイメージの表示を設定します。</description>
             <description xml:lang="zh-CN">可以设置主题发布者的个人签名及个性头像显示与否。</description>
             <description xml:lang="en">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
             <description xml:lang="es">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
@@ -492,24 +492,24 @@
         </var>
         <var name="thumbnail_width" type="text" default="100">
             <title xml:lang="ko">썸네일 가로크기</title>
-            <title xml:lang="jp">サムネールの横幅</title>
+            <title xml:lang="jp">サムネールの横サイズ</title>
             <title xml:lang="zh-CN">缩略图宽度</title>
             <title xml:lang="en">Width of Thumbnail</title>
             <title xml:lang="zh-TW">縮圖寬度</title>
             <description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다. (기본 100px)</description>
-            <description xml:lang="jp">サムネールの横幅を指定します(デフォルト 100px)。</description>
+            <description xml:lang="jp">サムネールの横サイズを指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图宽度(默认为 100px)。</description>
             <description xml:lang="en">Set the width of thumbnail. Default is 100px.</description>
             <description xml:lang="zh-TW">可指定縮圖寬度(預設是 100px)。</description>
         </var>
         <var name="thumbnail_height" type="text" default="100">
             <title xml:lang="ko">썸네일 세로크기</title>
-            <title xml:lang="jp">サムネールの縦幅</title>
+            <title xml:lang="jp">サムネールの縦サイズ</title>
             <title xml:lang="zh-CN">缩略图高度</title>
             <title xml:lang="en">Height of Thumbnail</title>
             <title xml:lang="zh-TW">縮圖高度</title>
             <description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다. (기본 100px)</description>
-            <description xml:lang="jp">サムネールの縦幅を指定します(デフォルト 100px)。</description>
+            <description xml:lang="jp">サムネールの縦サイズを指定します(デフォルト 100px)。</description>
             <description xml:lang="zh-CN">可以指定缩略图高度(默认为 100px)。</description>
             <description xml:lang="en">Set the height of thumbnail. Default is 100px.</description>
             <description xml:lang="zh-TW">可指定縮圖高度(預設是 100px)。</description>

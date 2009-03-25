@@ -25,8 +25,9 @@
     $lang->newest_news = "最新ニュース";
 
     $lang->env_setup = "環境設定";
-    $lang->sso_url = "SSO（シングルサインオン） URL";
-    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持できるようにするためには、基本になるサイトでのXEをインストールしたurlを登録してください。 (例: http://ドメイン/xe)";
+    $lang->default_url = '基本URL';
+    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持できるようにするためには、基本になるサイトでのXEをインストールしたurlを登録してください。 (例: http://ドメイン/インストールパス)";
+    
 
     $lang->env_information = "環境情報";
     $lang->current_version = "インストールバージョン";
