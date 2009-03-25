@@ -63,6 +63,8 @@
     $lang->msg_no_checked_document = 'Pas un article est choisi.';
     $lang->msg_move_failed = 'Echoué de bouger';
     $lang->msg_cannot_delete_for_child = 'On ne peut pas supprimer une catégorie qui a des catégories inférieures.';
+    $lang->msg_limit_mid ='모듈이름은 영문+[영문+숫자+_] 만 가능합니다.';
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "C'est la valeur qui se représentera dans le titre de navigateur Web. Ce sera encore utilisé dans RSS/Rétrolien.";
     $lang->about_mid = "Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis)";

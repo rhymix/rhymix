@@ -64,6 +64,7 @@
     $lang->msg_move_failed = '移動失敗！';
     $lang->msg_cannot_delete_for_child = '無法刪除有子分類的分類！';
     $lang->msg_limit_mid ="模組名稱可由英文+[英文+數字+_]等非常多種組合。";
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "顯示在瀏覽器視窗的標題。在RSS/Trackback也可以使用。";
     $lang->about_mid = "模組名稱只允許使用英文，數字和底線。";

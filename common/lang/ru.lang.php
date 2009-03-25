@@ -286,6 +286,7 @@
 
     $lang->is_active = 'Активно';
     $lang->is_required = 'Требуемое поле';
+    $lang->eid = '확장변수 이름';
 
     // Alert-сообщения для Javascript используя XML filter
     $lang->filter->isnull = 'Пожалуйста, введите значение для %s';

@@ -64,6 +64,7 @@
     $lang->msg_move_failed = 'Failed to move';
     $lang->msg_cannot_delete_for_child = 'Cannot delete a category having child categories.';
 	$lang->msg_limit_mid ="Only alphabets+[alphabets+numbers+_] can be used as module name.";
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "It will be shown in the browser title. It will be also used in a RSS/Trackback.";
     $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(only english alphabet + [english alphabet ,numbers, and underscore(_)] are allowed)";

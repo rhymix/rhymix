@@ -64,6 +64,7 @@
     $lang->msg_move_failed = '移动失败！';
     $lang->msg_cannot_delete_for_child = '不能删除有下级分类的分类！';
     $lang->msg_limit_mid ="模块名称只允许英文字母+[英文字母+数字]。";
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "显示在浏览器窗口的标题值。 在RSS/Trackback也可以使用。";
     $lang->about_mid = "模块名称只允许使用英文，数字和下划线。";

@@ -267,6 +267,7 @@
     $lang->default_value = '預設值';
     $lang->is_active = '啟動';
     $lang->is_required = '必填';
+    $lang->eid = '확장변수 이름';
 
     // 關於FTP
     $lang->ftp_form_title = '輸入FTP資訊';

@@ -267,6 +267,7 @@
     $lang->default_value = '缺省值';
     $lang->is_active = '激活';
     $lang->is_required = '必填';
+    $lang->eid = '확장변수 이름';
 
     // ftp 相关
     $lang->ftp_form_title = '设置FTP信息';

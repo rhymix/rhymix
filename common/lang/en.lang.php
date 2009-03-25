@@ -267,6 +267,7 @@
     $lang->default_value = 'Default Value';
     $lang->is_active = 'Active';
     $lang->is_required = 'Required Field';
+    $lang->eid = '확장변수 이름';
 
     // ftp 관련
     $lang->ftp_form_title = 'Input FTP account information';

@@ -273,6 +273,7 @@
     $lang->default_value = 'Valor por defecto';
     $lang->is_active = 'Activado';
     $lang->is_required = 'Requerido';
+    $lang->eid = '확장변수 이름';
 
     // ftp 관련
     $lang->ftp_form_title = 'Datos de conexión para FTP';
