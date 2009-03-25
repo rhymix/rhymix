@@ -150,7 +150,7 @@ FormProp			: "フォーム プロパティ",
 FontFormats			: "標準;書式付き;アドレス;見出し 1;見出し 2;見出し 3;見出し 4;見出し 5;見出し 6;標準 (DIV)",
 
 // Alerts and Messages
-ProcessingXHTML		: "XHTML処理中. しばらくお待ちください...",
+ProcessingXHTML		: "XHTML処理中. しばらくお待ち下さい...",
 Done				: "完了",
 PasteWordConfirm	: "貼り付けを行うテキストは、ワード文章からコピーされようとしています。貼り付ける前にクリーニングを行いますか？",
 NotCompatiblePaste	: "このコマンドはインターネット・エクスプローラーバージョン5.5以上で利用可能です。クリーニングしないで貼り付けを行いますか？",
@@ -158,10 +158,10 @@ UnknownToolbarItem	: "未知のツールバー項目 \"%1\"",
 UnknownCommand		: "未知のコマンド名 \"%1\"",
 NotImplemented		: "コマンドはインプリメントされませんでした。",
 UnknownToolbarSet	: "ツールバー設定 \"%1\" 存在しません。",
-NoActiveX			: "エラー、警告メッセージなどが発生した場合、ブラウザーのセキュリティ設定によりエディタのいくつかの機能が制限されている可能性があります。セキュリティ設定のオプションで\"ActiveXコントロールとプラグインの実行\"を有効にするにしてください。",
-BrowseServerBlocked : "サーバーブラウザーを開くことができませんでした。ポップアップ・ブロック機能が無効になっているか確認してください。",
-DialogBlocked		: "ダイアログウィンドウを開くことができませんでした。ポップアップ・ブロック機能が無効になっているか確認してください。",
-VisitLinkBlocked	: "新しいウィンドウを開くことができませんでした。ポップアップ・ブロック機能が無効になっているか確認してください。",
+NoActiveX			: "エラー、警告メッセージなどが発生した場合、ブラウザーのセキュリティ設定によりエディタのいくつかの機能が制限されている可能性があります。セキュリティ設定のオプションで\"ActiveXコントロールとプラグインの実行\"を有効にするにして下さい。",
+BrowseServerBlocked : "サーバーブラウザーを開くことができませんでした。ポップアップ・ブロック機能が無効になっているか確認して下さい。",
+DialogBlocked		: "ダイアログウィンドウを開くことができませんでした。ポップアップ・ブロック機能が無効になっているか確認して下さい。",
+VisitLinkBlocked	: "新しいウィンドウを開くことができませんでした。ポップアップ・ブロック機能が無効になっているか確認して下さい。",
 
 // Dialogs
 DlgBtnOK			: "OK",
@@ -171,7 +171,7 @@ DlgBtnBrowseServer	: "サーバーブラウザー",
 DlgAdvancedTag		: "高度な設定",
 DlgOpOther			: "<その他>",
 DlgInfoTab			: "情報",
-DlgAlertUrl			: "URLを挿入してください",
+DlgAlertUrl			: "URLを挿入して下さい",
 
 // General Dialogs Labels
 DlgGenNotSet		: "<なし>",
@@ -215,7 +215,7 @@ DlgImgAlignRight	: "右",
 DlgImgAlignTextTop	: "テキスト上部",
 DlgImgAlignTop		: "上",
 DlgImgPreview		: "プレビュー",
-DlgImgAlertUrl		: "イメージのURLを入力してください。",
+DlgImgAlertUrl		: "イメージのURLを入力して下さい。",
 DlgImgLinkTab		: "リンク",
 
 // Flash Dialog
@@ -273,9 +273,9 @@ DlgLnkPopHeight		: "高さ",
 DlgLnkPopLeft		: "左端からの座標で指定",
 DlgLnkPopTop		: "上端からの座標で指定",
 
-DlnLnkMsgNoUrl		: "リンクURLを入力してください。",
-DlnLnkMsgNoEMail	: "メールアドレスを入力してください。",
-DlnLnkMsgNoAnchor	: "アンカーを選択してください。",
+DlnLnkMsgNoUrl		: "リンクURLを入力して下さい。",
+DlnLnkMsgNoEMail	: "メールアドレスを入力して下さい。",
+DlnLnkMsgNoAnchor	: "アンカーを選択して下さい。",
 DlnLnkMsgInvPopName	: "ポップ・アップ名は英字で始まる文字で指定してくだい。ポップ・アップ名にスペースは含めません",
 
 // Color Dialog
@@ -354,13 +354,13 @@ DlgReplaceReplAllBtn	: "すべて置換え",
 DlgReplaceWordChk		: "単語単位で一致",
 
 // Paste Operations / Dialog
-PasteErrorCut	: "ブラウザーのセキュリティ設定によりエディタの切り取り操作が自動で実行することができません。実行するには手動でキーボードの(Ctrl+X)を使用してください。",
-PasteErrorCopy	: "ブラウザーのセキュリティ設定によりエディタのコピー操作が自動で実行することができません。実行するには手動でキーボードの(Ctrl+C)を使用してください。",
+PasteErrorCut	: "ブラウザーのセキュリティ設定によりエディタの切り取り操作が自動で実行することができません。実行するには手動でキーボードの(Ctrl+X)を使用して下さい。",
+PasteErrorCopy	: "ブラウザーのセキュリティ設定によりエディタのコピー操作が自動で実行することができません。実行するには手動でキーボードの(Ctrl+C)を使用して下さい。",
 
 PasteAsText		: "プレーンテキスト貼り付け",
 PasteFromWord	: "ワード文章から貼り付け",
 
-DlgPasteMsg2	: "キーボード(<STRONG>Ctrl+V</STRONG>)を使用して、次の入力エリア内で貼って、<STRONG>OK</STRONG>を押してください。",
+DlgPasteMsg2	: "キーボード(<STRONG>Ctrl+V</STRONG>)を使用して、次の入力エリア内で貼って、<STRONG>OK</STRONG>を押して下さい。",
 DlgPasteSec		: "ブラウザのセキュリティ設定により、エディタはクリップボード・データに直接アクセスすることができません。このウィンドウは貼り付け操作を行う度に表示されます。",
 DlgPasteIgnoreFont		: "FontタグのFace属性を無視します。",
 DlgPasteRemoveStyles	: "スタイル定義を削除します。",
@@ -375,7 +375,7 @@ DocProps		: "文書 プロパティ",
 // Anchor Dialog
 DlgAnchorTitle		: "アンカー プロパティ",
 DlgAnchorName		: "アンカー名",
-DlgAnchorErrorName	: "アンカー名を必ず入力してください。",
+DlgAnchorErrorName	: "アンカー名を必ず入力して下さい。",
 
 // Speller Pages Dialog
 DlgSpellNotInDic		: "辞書にありません",
@@ -506,8 +506,8 @@ DlgDocPreview		: "プレビュー",
 // Templates Dialog
 Templates			: "テンプレート(雛形)",
 DlgTemplatesTitle	: "テンプレート内容",
-DlgTemplatesSelMsg	: "エディターで使用するテンプレートを選択してください。<br>(現在のエディタの内容は失われます):",
-DlgTemplatesLoading	: "テンプレート一覧読み込み中. しばらくお待ちください...",
+DlgTemplatesSelMsg	: "エディターで使用するテンプレートを選択して下さい。<br>(現在のエディタの内容は失われます):",
+DlgTemplatesLoading	: "テンプレート一覧読み込み中. しばらくお待ち下さい...",
 DlgTemplatesNoTpl	: "(テンプレートが定義されていません)",
 DlgTemplatesReplace	: "現在のエディタの内容と置換えをします",
 

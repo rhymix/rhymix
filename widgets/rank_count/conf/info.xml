@@ -38,7 +38,7 @@
             <name xml:lang="ru">Число списка</name>
             <name xml:lang="zh-TW">目錄數</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
-            <description xml:lang="jp">出力されるリストの数を指定することができます（デフォルト５個）</description>
+            <description xml:lang="jp">出力するリストの数を指定します（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要输出的目录数. (默认 5个)</description>
             <description xml:lang="en">You can set the number of list to be displayed.(default is 5)</description>
             <description xml:lang="es">Usted puede definir el número de listas a mostrar.(predefinido: 5)</description>
@@ -55,7 +55,7 @@
             <name xml:lang="zh-CN">排行对象</name>
             <name xml:lang="zh-TW">排列順序</name>
             <description xml:lang="ko">대상을 선택하세요.</description>
-            <description xml:lang="jp">対象を選択してください。</description>
+            <description xml:lang="jp">対象を選択して下さい。</description>
             <description xml:lang="zh-CN">请选择排行对象。</description>
             <description xml:lang="en">Rank by</description>
             <description xml:lang="es">Rank por</description>
@@ -104,7 +104,7 @@
             <options>
                 <value>read</value>
                 <name xml:lang="ko">조회 수</name>
-                <name xml:lang="jp">照合数</name>
+                <name xml:lang="jp">閲覧数</name>
                 <name xml:lang="zh-CN">查看</name>
                 <name xml:lang="en">Reads</name>
                 <name xml:lang="es">Lecturas</name>
@@ -122,7 +122,7 @@
             <name xml:lang="ru">С группой</name>
             <name xml:lang="zh-TW">群組</name>
             <description xml:lang="ko">출력할 회원 그룹명을 입력하세요. 예)준회원,정회원, (선택이 되지 않으면 출력이 되지 않습니다.)</description>
-            <description xml:lang="jp">出力する会員グループ名を入力してください（例：準会員、正会員）。(선택이 되지 않으면 출력이 되지 않습니다.)</description>
+            <description xml:lang="jp">出力する会員グループ名を入力して下さい(選択しないと表示されません)。 例） 準会員、正会員</description>
             <description xml:lang="zh-CN">请选择要显示的用戶组。例)准会员,正会员。</description>
             <description xml:lang="en">Enables group's ranking (선택이 되지 않으면 출력이 되지 않습니다.)</description>
             <description xml:lang="es">Permite grupo de la clasificación (선택이 되지 않으면 출력이 되지 않습니다.)</description>

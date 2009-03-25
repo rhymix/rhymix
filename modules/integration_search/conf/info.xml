@@ -17,7 +17,7 @@
     </description>
     <description xml:lang="jp">
         選択されたモジュールを対象に統合検索を行う機能をサポートします。
-        選択されたモジュールのコンテンツ（書き込み）の中で、非公開コンテンツのみ検索から除外されますので、未公開のモジュールは対象にしないようにしてください。
+        選択されたモジュールのコンテンツ（書き込み）の中で、非公開コンテンツのみ検索から除外されますので、未公開のモジュールは対象にしないようにして下さい。
     </description>
     <description xml:lang="en">
         It supports integration search for chosen modules.

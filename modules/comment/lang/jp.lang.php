@@ -14,7 +14,7 @@
     $lang->comment_count = 'コメント数';
     $lang->about_comment_count = 'コメントを指定した数だけ表示し、それ以上はリスト化します。';
 
-    $lang->msg_cart_is_null = '削除するコメントを選択してください。';
+    $lang->msg_cart_is_null = '削除するコメントを選択して下さい。';
     $lang->msg_checked_comment_is_deleted = '%d個のコメントを削除しました。';
 
     $lang->search_target_list = array(

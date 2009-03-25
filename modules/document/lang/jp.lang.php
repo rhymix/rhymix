@@ -36,7 +36,7 @@
     $lang->cmd_delete_checked_document = '選択項目削除';
     $lang->cmd_document_do = 'この書き込みを..';
 
-    $lang->msg_cart_is_null = '削除する書き込みを選択してください。';
+    $lang->msg_cart_is_null = '削除する書き込みを選択して下さい。';
     $lang->msg_category_not_moved = '移動できません。';
     $lang->msg_is_secret = '非公開設定の書き込みです。';
     $lang->msg_checked_document_is_deleted = '%d個の書き込みが削除されました。';

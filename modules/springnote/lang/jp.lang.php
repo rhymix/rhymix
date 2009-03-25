@@ -22,9 +22,9 @@
     $lang->cmd_view_info = 'スプリングノート情報';
 
     $lang->about_springnote = "スプリングノートは、「openmaru.com」から提供されるウィキサービスです。<br />スプリングノート連動モジュールは、スプリングノートの特定のページを自分のコンテンツの閲覧することができるようにするモジュールです。";
-    $lang->about_springnote_openid = "スプリングノートでページを作成したオープンIDを入力してください。";
-    $lang->about_springnote_userkey = 'スプリングノートと連動させるためのユーザKeyを入力してください。<br />[<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">ユーザーキー受信</a>]をクリックして入力して生成されたキーの値を入力してください。';
-    $lang->about_springnote_pageid = '使用するスプリングノートの特定ページを出力させたい場合、「pageid」の値を入力してください。';
+    $lang->about_springnote_openid = "スプリングノートでページを作成したオープンIDを入力して下さい。";
+    $lang->about_springnote_userkey = 'スプリングノートと連動させるためのユーザKeyを入力して下さい。<br />[<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">ユーザーキー受信</a>]をクリックして入力して生成されたキーの値を入力して下さい。';
+    $lang->about_springnote_pageid = '使用するスプリングノートの特定ページを出力させたい場合、「pageid」の値を入力して下さい。';
     $lang->about_springnote_pageid_setup = 'ページ番号を指定する際に、該当ページのみ表示（リストを含まない）、該当ページから表示（リストを含む）などを指定することができます。';
-    $lang->about_springnote_domain = '自分のスプリングノートではない他のドメインのスプリングノートを入力することができます（ 「http://domain.springnote.com」でドメインの値を入力してください ）。';
+    $lang->about_springnote_domain = '自分のスプリングノートではない他のドメインのスプリングノートを入力することができます（ 「http://domain.springnote.com」でドメインの値を入力して下さい ）。';
 ?>

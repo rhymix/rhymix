@@ -15,7 +15,7 @@
     $lang->about_max_level = '最高レベルを指定することができます。最高レベルは「1000」がマクシマムなので、レベルアイコンに注意が必要です。';
 
     $lang->level_icon = 'レベルアイコン';
-    $lang->about_level_icon = 'レベルアイコンは、「./modules/point/icons/レベル.gif」で指定されるため、最高レベルとアイコンセットが異なる場合がありますので、注意してください。';
+    $lang->about_level_icon = 'レベルアイコンは、「./modules/point/icons/レベル.gif」で指定されるため、最高レベルとアイコンセットが異なる場合がありますので、注意して下さい。';
 
     $lang->point_name = 'ポイント名';
     $lang->about_point_name = 'ポイントの名前、単位が指定できます。';
@@ -27,7 +27,7 @@
     $lang->about_disable_download = 'チェックするとポイントがない場合、ダウンロードを禁止します（イメージファイル除外）。';
 
     $lang->level_point_calc = 'レベル別ポイント計算';
-    $lang->expression = 'レベル変数<b>i</b>を使用してJavaスクリプト数式を入力してください（例: Math.pow(i, 2) * 90）';
+    $lang->expression = 'レベル変数<b>i</b>を使用してJavaスクリプト数式を入力して下さい（例: Math.pow(i, 2) * 90）';
     $lang->cmd_exp_calc = '計算';
     $lang->cmd_exp_reset = '初期化';
 

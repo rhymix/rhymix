@@ -53,7 +53,7 @@
             <description xml:lang="en">Please input the title of board.</description>
             <description xml:lang="es">Introduce el título de la junta.</description>
             <description xml:lang="ru">Введите название борту.</description>
-            <description xml:lang="jp">掲示板のタイトルを記入してください。</description>
+            <description xml:lang="jp">掲示板のタイトルを記入して下さい。</description>
             <description xml:lang="zh-TW">請輸入討論板標題。</description>
         </var>
         <var name="korean_anniversary" type="select">
@@ -73,10 +73,12 @@
             <description xml:lang="zh-TW">是否要顯示韓國紀念日。</description>
             <options value="use">
                 <title xml:lang="ko">사용</title>
+                <title xml:lang="jp">使う</title>
                 <title xml:lang="zh-TW">顯示</title>
             </options>
             <options value="notuse">
                 <title xml:lang="ko">사용 안 함</title>
+                <title xml:lang="jp">使わない</title>
                 <title xml:lang="zh-TW">隱藏</title>
             </options>
         </var>

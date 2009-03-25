@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
     <title xml:lang="ko">블로그 스타일의 최신 엮인글 목록</title>
-    <title xml:lang="jp">ブログスタイルの最新のトラックバックリスト</title>
+    <title xml:lang="jp">ブログスタイルの最新トラックバックリスト</title>
     <title xml:lang="zh-CN">博客式最新引用列表</title>
     <title xml:lang="en">Newest Trackback List of Blog Style</title>
     <title xml:lang="zh-TW">部落格式最新引用列表</title>

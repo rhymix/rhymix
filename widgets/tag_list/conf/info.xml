@@ -39,7 +39,7 @@
 			<name xml:lang="zh-TW">目錄數</name>
 			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 20개)</description>
 			<description xml:lang="zh-CN">可设置要显示的标签数。 (默认为 20个)</description>
-			<description xml:lang="jp">出力されるリストの数を指定することができます。（デフォルト２０個）</description>
+			<description xml:lang="jp">出力するリストの数を指定します（デフォルト20個）。</description>
 			<description xml:lang="en">You can configure the number of tags to show. (Default is 20)</description>
 			<description xml:lang="es">Usted puede definir el número de etiquetas a mostrar. (predefinido: 20)</description>
 			<description xml:lang="ru">Вы можете сконфигурировать число тегов для показа. (стандарт: 20)</description>

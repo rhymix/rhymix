@@ -84,8 +84,7 @@
     $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
     $lang->about_module = "XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.\n모듈관리 모듈은 설치된 모든 모듈을 보여주고 관리를 도와줍니다.";
     $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';
-    $lang->about_search_virtual_site = '가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제
-	외)';
+    $lang->about_search_virtual_site = '가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)';
     $lang->about_extra_vars_eid_value = '확장변수의 이름을 적어주세요. ( 영문+[영문+숫자+_] 만 가능)';
     $lang->about_langcode = '언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요';
     $lang->about_file_extension= "%s 파일만 가능합니다.";

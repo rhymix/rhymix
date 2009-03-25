@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
     <title xml:lang="ko">로그인 사용자 출력 위젯</title>
-    <title xml:lang="jp">ログイン会員出力</title>
+    <title xml:lang="jp">ログイン会員出力ウィジェット</title>
     <title xml:lang="en">Display On-Line Members</title>
     <title xml:lang="es">Mostrar Miembros On-Line</title>
     <title xml:lang="zh-CN">在线会员列表</title>
     <title xml:lang="zh-TW">顯示線上會員</title>
     <description xml:lang="ko">로그인 사용자를 출력하는 위젯입니다.</description>
-    <description xml:lang="jp">ログイン中の会員のリストを出力するウィジェットです。</description>
+    <description xml:lang="jp">ログイン中の会員リストを出力するウィジェットです。</description>
     <description xml:lang="en">This widget displays on-line members.</description>
     <description xml:lang="zh-CN">显示在线会员列表的控件。</description>
     <description xml:lang="es">Este widget muestra en línea de los miembros.</description>

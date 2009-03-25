@@ -8,7 +8,7 @@
 		최근 게시글을 전광판(뉴스티커) 형식으로 한개씩 scroll 되는 방식의 위젯입니다.
 	</description>
 	<description xml:lang="jp">
-		最新コンテンツをニュースティッカー（NewsTicker）スタイルで一つずつスクロールされる方法で表示するウィジェットです。
+		最新コンテンツをニュースティッカー（NewsTicker）スタイルで一つずつスクロール表示するウィジェットです。
 	</description>
 	<description xml:lang="zh-CN">
 		将把最新主题显示为滚动新闻样式的主题列表皮肤。
@@ -30,7 +30,7 @@
 	<colorset>
 		<color name="none">
 			<title xml:lang="ko">내용만 출력</title>
-			<title xml:lang="jp">内容のみ出力</title>
+			<title xml:lang="jp">内容のみ表示</title>
 			<title xml:lang="zh-CN">标题</title>
 			<title xml:lang="zh-TW">標題</title>
 		</color>

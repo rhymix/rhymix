@@ -15,8 +15,8 @@
     $lang->remember_user_id = 'ＩＤ保存';
     $lang->already_logged = '既にログインされています。';
     $lang->denied_user_id = '使用が禁じられているＩＤです。';
-    $lang->null_user_id = 'ユーザＩＤをもう一度入力してください。';
-    $lang->null_password = 'パスワードを入力してください。';
+    $lang->null_user_id = 'ユーザＩＤをもう一度入力して下さい。';
+    $lang->null_password = 'パスワードを入力して下さい。';
     $lang->invalid_authorization = '認証できませんでした。';
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
@@ -63,13 +63,13 @@
             'N' => '全て禁止',
     );
     $lang->about_allow_message = 'メッセージの許可タイプ及び対象を設定します。';
-    $lang->logged_users = 'Logged Users';
+    $lang->logged_users = '現在アクセス中ユーザー';
 
     $lang->webmaster_name = 'ウェブマスターのお名前';
     $lang->webmaster_email = 'ウェブマスターのメールアドレス';
 
-    $lang->about_keep_signed = 'ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトしてください。';
-    $lang->about_webmaster_name = '確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力してください（デフォルト : webmaster）。';
+    $lang->about_keep_signed = 'ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトして下さい。';
+    $lang->about_webmaster_name = '確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力して下さい（デフォルト : webmaster）。';
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力して下さい。';
 
     $lang->search_target_list = array(
@@ -89,12 +89,12 @@
     $lang->cmd_login = 'ログイン';
     $lang->cmd_logout = 'ログアウト';
     $lang->cmd_signup = '会員登録';
-    $lang->cmd_site_signup = 'Join';
+    $lang->cmd_site_signup = '登録';
     $lang->cmd_modify_member_info = '会員情報修正';
     $lang->cmd_modify_member_password = 'パスワード変更';
     $lang->cmd_view_member_info = '会員情報表示';
     $lang->cmd_leave = '退会';
-    $lang->cmd_find_member_account = 'IDとパスワードの検索';
+    $lang->cmd_find_member_account = 'IDとパスワードのリマインダー';
 
     $lang->cmd_member_list = '会員リスト';
     $lang->cmd_module_config = '基本設定';
@@ -103,8 +103,8 @@
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '登録フォーム管理';
     $lang->cmd_view_own_document = '書き込み表示';
-    $lang->cmd_trace_document = 'Trace Written Articles';
-    $lang->cmd_trace_comment = 'Trace Written Comments';
+    $lang->cmd_trace_document = '書き込みの追跡';
+    $lang->cmd_trace_comment = 'コメント追跡';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
     $lang->cmd_view_saved_document = '保存ドキュメント表示';
     $lang->cmd_send_email = 'メール送信';
@@ -171,7 +171,7 @@
 
     $lang->about_column_type = '追加する登録フォームのタイプを指定して下さい。';
     $lang->about_column_name = 'テンプレートで使用できる英文字の名前を入力して下さい（変数名）。';
-    $lang->about_column_title = '登録または情報修正・照合時に表示されるタイトルです。';
+    $lang->about_column_title = '登録または情報修正・閲覧時に表示されるタイトルです。';
     $lang->about_default_value = 'デフォルトで入力される値を指定することができます。';
     $lang->about_active = '活性化（有効化）にチェックを入れないと正常に表示されません。';
     $lang->about_form_description = '説明欄に入力すると登録時に表示されます。';
@@ -191,7 +191,7 @@
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることができます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることができます。';
     $lang->about_profile_image = 'ユーザのプロフィールイメージが使用できるようにします。';
-    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
+    $lang->about_group_image_mark = 'ユーザー名の前にグループマークを表示します。';
     $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
     $lang->about_accept_agreement = '登録規約をすべて読んだ上で同意します。';
 
@@ -203,4 +203,5 @@
 
     $lang->about_member = "会員の作成・修正・削除することができ、グループの管理、登録フォームの管理などが行える会員管理モジュールです。デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、登録フォーム管理では基本情報の他、フォームの入力情報を追加することができます。";
     $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';    
+    $lang->add_openid = 'OpenIDの追加';
 ?>

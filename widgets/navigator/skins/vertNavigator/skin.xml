@@ -3,6 +3,7 @@
     <title xml:lang="ko">세로 메뉴 출력 스킨</title>
     <title xml:lang="zh-TW">縱向選單面板</title>
     <title xml:lang="zh-CN">竖向菜单皮肤</title>
+    <title xml:lang="jp">縦型メニュー表示</title>
     <description xml:lang="ko">
         지정된 메뉴 정보를 세로 출력하는 기본 위젯입니다.
         DHTML기능을 사용으로 하시면 하위메뉴가 마우스 오버시에 레이어로 뜨게 되고 사용으로 하지 않으시면 바로 출력이 됩니다
@@ -14,6 +15,10 @@
     <description xml:lang="zh-CN">
         竖向菜单皮肤。
     </description>
+    <description xml:lang="jp">
+        指定したメニュー情報を横並びに表示するデフォルトウィジェットです。
+        DHTML機能をオンにすると、メニューの上にmouse overによるサブメニューの表示が出来ます。
+    </description>
     <version>0.1</version>
     <date>2009-02-10</date>
     <link>http://www.zeroboard.com</link>
@@ -22,6 +27,7 @@
         <name xml:lang="ko">zero</name>
 		<name xml:lang="zh-CN">zero</name>
         <name xml:lang="zh-TW">zero</name>
+        <name xml:lang="jp">zero</name>
     </author>
 
     <colorset>

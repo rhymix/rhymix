@@ -205,12 +205,12 @@
     $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';
 
     // メッセージ関連
-    $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください。';
+    $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ち下さい。';
     $lang->msg_db_not_setted = 'DBが設定されていません。';
-    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認してください。";
+    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認して下さい。";
     $lang->msg_invalid_queryid = 'クエリIDの値が無効です。';
     $lang->msg_not_permitted = '権限がありません。';
-    $lang->msg_input_password = 'パスワードを入力してください。';
+    $lang->msg_input_password = 'パスワードを入力して下さい。';
     $lang->msg_invalid_document = '無効な書き込み番号です。';
     $lang->msg_invalid_request = '無効なリクエストです。';
     $lang->msg_invalid_password = 'パスワードが正しくありません。';
@@ -287,8 +287,8 @@
     $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。";
     $lang->msg_ftp_not_connected = "localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。";
     $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTP情報を再度ご確認下さい。";
-    $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認ください。";
-    $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認ください。";
+    $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
+    $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
     $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
 
     // xml filterで用いられているjavascript用のアラートメッセージ
@@ -296,7 +296,7 @@
     $lang->filter->outofrange = '%sの文字の長さを合わせて下さい。';
     $lang->filter->equalto = '%sが正しくありません。';
     $lang->filter->invalid_email = '%sのパターンが正しくありません。 (例: zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%sの形式が正しくありません。\\n半角の英数と記号「_」を組み合わせて入力してください。頭字は半角英文字でなければなりません。";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%sの形式が正しくありません。\\n半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。";
     $lang->filter->invalid_homepage = '%sの形式が正しくありません。 (例: http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%sの形式が正しくありません。ハングルのみ入力して下さい。';
     $lang->filter->invalid_korean_number = '%sの形式が正しくありません。ハングルと半角数字で入力して下さい。';

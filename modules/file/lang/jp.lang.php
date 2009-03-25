@@ -33,7 +33,7 @@
     $lang->cmd_download = 'ダウンロード';
 
     $lang->msg_not_permitted_download = 'ダウンロード権限がありません。';
-    $lang->msg_cart_is_null = '削除するファイルを選択してください';
+    $lang->msg_cart_is_null = '削除するファイルを選択して下さい';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルを削除しました';
     $lang->msg_exceeds_limit_size = 'ファイルサイズの制限を超えたため、添付できません。';
 
