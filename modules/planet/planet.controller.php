@@ -73,14 +73,14 @@
             $args->mid = Context::get("planet_mid");
             $args->tag = Context::get("tag");
 
-        if(in_array($args->mid, array('www','naver','hangame','promotion','notice','group','team','center','division','tf','faq','question','uit'))) return new Object(-1,'msg_not_permitted');
+            if(in_array($args->mid, array('www','naver','hangame','promotion','notice','group','team','center','division','tf','faq','question','uit'))) return new Object(-1,'msg_not_permitted');
 
             $output = $this->insertPlanet($args);
             if(!$output->toBool()) return $output;
 
             // planet에서 사용하는 postscript의 경우 확장변수에 추가되기에 확장변수 체크
             $oDocumentController = &getController('document');
-            $oDocumentController->insertDocumentExtraKey($output->get('module_srl'), 20, 'postscript', 'text', 'N', 'N', '', '');
+            $oDocumentController->insertDocumentExtraKey($output->get('module_srl'), 20, 'postscript', 'text', 'N', 'N', '', '', 'ps');
 
             // 축하 게시글 등록
             $logged_info = Context::get('logged_info');
