@@ -177,14 +177,6 @@
             $type = Context::get('type');
             switch($type) {
                 case 'diff' :
-                        $diff = $oSvn->getDiff($path, $brev, $erev);
-                        Context::set('diff', $diff);
-
-                        $path_tree = Svn::explodePath($path, true);
-                        Context::set('path_tree', $path_tree);
-
-                        $this->setTemplateFile('source_diff');
-                    break;
                 case 'compare' :
                         $comp = $oSvn->getComp($path, $brev, $erev);
                         Context::set('comp', $comp);
