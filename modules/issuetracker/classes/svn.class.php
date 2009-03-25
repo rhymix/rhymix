@@ -9,7 +9,6 @@
         var $url = null;
 
         var $svn_cmd = null;
-        var $diff_cmd = null;
 
         var $tmp_dir = '/tmp';
 
@@ -17,13 +16,12 @@
         var $userid = null;
         var $passwd = null;
 
-        function Svn($url, $svn_cmd='/usr/bin/svn', $diff_cmd='/usr/bin/diff', $userid=null, $passwd=null) {
+        function Svn($url, $svn_cmd='/usr/bin/svn', $userid=null, $passwd=null) {
             if(substr($url,-1)!='/') $url .= '/';
             $this->url = $url;
 
             if(strstr($svn_cmd, " ") != FALSE) $this->svn_cmd = '"'.$svn_cmd.'"' ;
             else $this->svn_cmd = $svn_cmd;
-            $this->diff_cmd = $diff_cmd;
 
             $this->tmp_dir = _XE_PATH_.'files/cache/tmp';
             if(!is_dir($this->tmp_dir)) FileHandler::makeDir($this->tmp_dir);
@@ -130,67 +128,6 @@
             $output->date = $log[0]->date;
             $output->msg = $this->linkXE($log[0]->msg);
             $output->content = $content;
-
-            return $output;
-        }
-
-        function getDiff($path, $brev = null, $erev = null) {
-            $eContent = $this->getFileContent($path, $erev);
-            $bContent = $this->getFileContent($path, $brev);
-            if(!$eContent||!$bContent) return;
-
-            $eFile = sprintf('%s/tmp.%s',$this->tmp_dir, md5($eContent->revision."\n".$eContent->content));
-            $bFile = sprintf('%s/tmp.%s',$this->tmp_dir, md5($bContent->revision."\n".$bContent->content));
-
-            $f = fopen($eFile,'w');
-            fwrite($f, $eContent->content);
-            fclose($f);
-
-            $f = fopen($bFile,'w');
-            fwrite($f, $bContent->content);
-            fclose($f);
-
-            $command = sprintf('%s %s %s', $this->diff_cmd, $bFile, $eFile);
-            $output = $this->execCmd($command, $error);
-
-            $list = explode("\n", $output);
-            $cnt = count($list);
-
-            $output = array();
-            $obj = null;
-            for($i=0;$i<$cnt;$i++) {
-                $line = $list[$i];
-                if(preg_match('/^([0-9,]+)(d|c|a)([0-9,]+)$/',$line, $mat)) {
-                    if($obj!==null) $output[] = $obj;
-                    $obj = null;
-                    $before = $mat[1];
-                    switch($mat[2]) {
-                        case 'c' : $type = 'modified'; break;
-                        case 'd' : $type = 'deleted'; break;
-                        case 'a' : $type = 'added'; break;
-                    }
-
-                    $t = explode(',',$after);
-                    $after = $mat[3];
-
-                    $obj->before_line = $before;
-                    $obj->after_line = $after;
-                    $obj->diff_type = $type;
-                    $obj->before_code = '';
-                    $obj->after_code = '';
-                }
-
-                if($obj!==null&&preg_match('/^</',$line)) {
-                    $str = substr($line,1);
-                    $obj->before_code .= $str."\n";
-                }
-
-                if($obj!==null&&preg_match('/^>/',$line)) {
-                    $str = substr($line,1);
-                    $obj->after_code .= $str."\n";
-                }
-            }
-            if($obj!==null) $output[] = $obj;
 
             return $output;
         }
