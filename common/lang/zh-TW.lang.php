@@ -226,6 +226,7 @@
     $lang->success_declared = '檢舉成功！';
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '刪除成功！';
+    $lang->success_restore = '成功還原！';
     $lang->success_voted = '推薦成功！';
     $lang->success_blamed = '反對成功！';
     $lang->success_moved = '移動成功！';
@@ -267,7 +268,7 @@
     $lang->default_value = '預設值';
     $lang->is_active = '啟動';
     $lang->is_required = '必填';
-    $lang->eid = '확장변수 이름';
+    $lang->eid = '延伸變數名稱';
 
     // 關於FTP
     $lang->ftp_form_title = '輸入FTP資訊';
