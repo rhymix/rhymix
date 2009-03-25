@@ -203,6 +203,7 @@
             $idx = 0;
             for($i=0;$i<$cnt;$i++) {
                 $str = $list[$i];
+                $str = rtrim($str);
                 if(preg_match('/^Index: (.*)$/', $str, $m)) {
                     if($blockobj != null) 
                     {
