@@ -10,7 +10,7 @@
         wml, hdml, mhtml를 지원하고 그 이외의 경우에는 동작하지 않습니다.
     </description>
     <description xml:lang="jp">
-        モバイル端末機からアクセス時、ヘッダ情報を分析してメニュー - モジュールの関係を利用してWAPタグに変換して表示するアドオンです。
+        モバイル端末機からアクセス時、ヘッダ情報を分析してメニュー - モジュールの関係を利用してWAPタグに変換表示するアドオンです。
         wml, hdml, mhtmlをサポートし、その以外は働きません。
     </description>
     <description xml:lang="zh-CN">
