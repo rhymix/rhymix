@@ -589,22 +589,6 @@
             return $output;
         }
 
-		/**
-         * @breif documents 테이블의 확장 변수 등록
-         **/
-        function updateDocumentExtraKey($module_srl, $var_idx, $eid) {
-            if(!$module_srl || !$var_idx || !$eid) return new Object(-1,'msg_invalid_request');
-    
-            $obj->module_srl = $module_srl;
-            $obj->var_idx = $var_idx;
-			$obj->eid = $eid;
-
-            $output = executeQuery('document.getDocumentExtraKeys', $obj);
-            if(!$output->data) return executeQuery('document.insertDocumentExtraKey', $obj);
-            $output = executeQuery('document.updateDocumentExtraKey', $obj);
-            return $output;
-        }
-
         /**
          * @brief documents 확장변수 제거
          **/
