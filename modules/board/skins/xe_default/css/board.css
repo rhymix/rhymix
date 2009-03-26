@@ -15,7 +15,7 @@
 .board a:focus{ text-decoration:underline;}
 
 /* Board Header */
-.boardHeader *{ margin:0; padding:0;}
+.boardHeader *{ margin:0 0 20px 0; padding:0;}
 .boardHeader .boardTitle{ font-size:1em; letter-spacing:-.1em; margin-bottom:10px; border-bottom:3px solid; *zoom:1; background-repeat:no-repeat; background-position:left center;}
 .boardHeader .boardTitle:after{ content:""; display:block; clear:both;}
 .boardHeader .boardTitleText{ float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 22px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
