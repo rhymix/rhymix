@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
 	<title xml:lang="ko">플래닛 최근 글 출력</title>
+	<title xml:lang="en">플래닛 최근 글 출력</title>
 	<title xml:lang="zh-CN">微博主题列表</title>
 	<title xml:lang="zh-TW">微型部落格主題輸出</title>
 	<title xml:lang="jp">プラネット最新書き込み表示</title>
 	<description xml:lang="ko">플래닛의 글들만 출력하는 위젯입니다 .</description>
+	<description xml:lang="en">플래닛의 글들만 출력하는 위젯입니다 .</description>
 	<description xml:lang="zh-CN">列出微博主题列表。</description>
 	<description xml:lang="zh-TW">微型部落格主題輸出控件。</description>
 	<description xml:lang="jp">プラネットに登録された書く込みだけ表示するウィジェットです。</description>
@@ -13,6 +15,7 @@
 
 	<author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
 		<name xml:lang="ko">zero</name>
+		<name xml:lang="en">zero</name>
 		<name xml:lang="zh-CN">zero</name>
 		<name xml:lang="zh-TW">zero</name>
 		<name xml:lang="jp">zero</name>
