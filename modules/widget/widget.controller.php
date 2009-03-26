@@ -153,11 +153,17 @@
             // 편집 정보 포함 여부 체크
             $this->include_info = $include_info;
 
-            // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
-            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             // 박스 위젯을 다시 구함
-            $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>!is', array($this,'transWidgetBox'), $content);
+//            $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>!is', array($this,'transWidgetBox'), $content);
+
+            // 박스 위젯을 다시 구함
+
+            $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>((<img.*?>)*)!is', array($this,'transWidgetBox'), $content);
+
+
+            // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
+            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             return $content;
         }
@@ -179,7 +185,6 @@
             // 위젯의 이름을 구함
             $widget = $vars->widget;
             unset($vars->widget);
-
             return WidgetHandler::execute($widget, $vars, $this->include_info);
         }
 
@@ -187,8 +192,7 @@
          * @brief 위젯 박스를 실제 php코드로 변경
          **/
         function transWidgetBox($matches) {
-            $buff = preg_replace('/<div><div>$/i','</div>',$matches[0]);
-
+            $buff = preg_replace('/<div><div>(.*)$/i','</div>',$matches[0]);
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
 
@@ -198,6 +202,7 @@
 
             // 위젯의 이름을 구함
             if(!$widget) return $matches[0];
+            $vars->widgetbox_content = $matches[3];
             return WidgetHandler::execute($widget, $vars, $this->include_info);
         }
 
