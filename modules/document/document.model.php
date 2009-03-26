@@ -145,8 +145,10 @@
             $this->setToAllDocumentExtraVars();
 
             $output = null;
-            foreach($result as $document_srl => $val) {
-                $output[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+            if(count($result)) {
+                foreach($result as $document_srl => $val) {
+                    $output[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+                }
             }
 
             return $output;
@@ -390,8 +392,10 @@
             }
             $this->setToAllDocumentExtraVars();
 
-            foreach($output->data as $number => $document) {
-                $output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
+            if(count($output->data)) {
+                foreach($output->data as $number => $document) {
+                    $output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
+                }
             }
 
             return $output;
