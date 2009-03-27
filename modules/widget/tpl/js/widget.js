@@ -166,11 +166,12 @@ function getWidgetBoxCode(childObj, widget) {
 
     if(jQuery('.widget_inner',childObj).size()>0){
         o = jQuery('.widget_inner',childObj);
+        o = o.get(o.size()-1);
     }else{
-        o = jQuery('.nullWidget',childObj);
+        o = jQuery('.nullWidget',childObj).get(0);
     }
 
-    var body = getWidgetContent(o.get(0));
+    var body = getWidgetContent(o);
     return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
 
 /*
@@ -1156,13 +1157,23 @@ function widgetDrag(tobj, dx, dy) {
                     var ll =  parseInt(l,10) + parseInt(xWidth(target_obj),10);
                     var tt =  parseInt(t,10) + parseInt(xHeight(target_obj),10);
                     if( tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt) {
+
+                        //박스 위젯이다
                         if(target_obj.className == "nullWidget") {
+
                             var wb_ws = jQuery('div.widget_inner',jQuery(target_obj));
 
+                            //박스 위젯에 위젯스타일이 적용 안된경우
                             if(wb_ws.size() == 0){
                                 target_obj.appendChild(tobj);
+
+                            //박스 위젯에 위젯스타일이 적용된경우 또는 박스안에 위젯이 위젯스타일이 적용된겅우
                             }else if(wb_ws.size() > 0){
-                                wb_ws.get(0).appendChild(tobj);
+                                if(jQuery('div.widgetOutput',jQuery(target_obj)).size() > 0) {
+                                    target_obj.appendChild(tobj);
+                                }else{
+                                    wb_ws.get(0).appendChild(tobj);
+                                }
                             }
 
                             // 이동을 멈춤
