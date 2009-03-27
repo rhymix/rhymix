@@ -12,4 +12,5 @@
     $lang->cmd_view_info = 'wiki情報';
     $lang->use_comment = 'コメント機能を使う';
     $lang->about_use_comment = 'コメント機能をオン・オフを設定します。';
+    $lang->contributors = 'Contributors';
 ?>

@@ -12,4 +12,5 @@
     $lang->cmd_view_info = '維基資訊';
     $lang->use_comment = 'Use comment';
     $lang->about_use_comment = 'You may configure to enable comments.';
+    $lang->contributors = 'Contributors';
 ?>

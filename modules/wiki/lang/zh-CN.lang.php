@@ -10,4 +10,7 @@
     $lang->cmd_create = '新建文档';
     $lang->cmd_wiki_list = '目录';
     $lang->cmd_view_info = '维基信息';
+    $lang->use_comment = 'Use comment';
+    $lang->about_use_comment = 'You may configure to enable comments.';
+    $lang->contributors = 'Contributors';
 ?>

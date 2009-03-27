@@ -53,11 +53,17 @@
     </div>
 
 </div>
-
-<!-- 엮인글 -->
-<!--@if($oDocument->allowTrackback())-->
-    <!--#include("./trackback.html")-->
-<!--@end-->
+<div class="replyBox contributors">
+{$lang->contributors} : 
+{@ $bFirst = true}
+<!--@foreach($contributors as $contributor)-->
+<!--@if($contributor->nick_name != "")-->
+<!--@if(!$bFirst)-->, <!--@end-->
+{$contributor->nick_name}
+{@ $bFirst = false}
+<!--@endif-->
+<!--@endforeach-->
+</div>
 
 
 <!--@if($module_info->use_comment != 'N')-->

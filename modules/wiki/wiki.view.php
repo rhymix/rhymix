@@ -27,6 +27,7 @@
 
             $document_config = $oModuleModel->getModulePartConfig('document', $this->module_info->module_srl);
             if(!isset($document_config->use_history)) $document_config->use_history = 'N';
+            $this->use_history = $document_config->use_history;
             Context::set('use_history', $document_config->use_history);
 
             Context::addJsFile($this->module_path.'tpl/js/wiki.js');
@@ -156,11 +157,20 @@
                 // 비밀글일때 컨텐츠를 보여주지 말자.
                 if($oDocument->isSecret() && !$oDocument->isGranted()) $oDocument->add('content',Context::getLang('thisissecret'));
                 $this->setTemplateFile('view_document');
+
+                // set contributors
+                if($this->use_history)
+                {
+                    $oModel = &getModel('wiki');
+                    $contributors = $oModel->getContributors($oDocument->document_srl);
+                    Context::set('contributors', $contributors);
+                }
             }
             else
             {
                 $this->setTemplateFile('create_document');
             }
+
 
             // 스킨에서 사용할 oDocument 변수 세팅
             Context::set('oDocument', $oDocument);
