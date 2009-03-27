@@ -1,5 +1,5 @@
 <?php
-    $lang->new_members = '³Ì·s·|­û';
-    $lang->document_ranking = '¥DÃD±Æ¦æ';
-    $lang->comment_ranking = 'µû½×±Æ¦æ';
+    $lang->new_members = 'æœ€æ–°æœƒå“¡';
+    $lang->document_ranking = 'ä¸»é¡ŒæŽ’è¡Œ';
+    $lang->comment_ranking = 'è©•è«–æŽ’è¡Œ';
 ?>
