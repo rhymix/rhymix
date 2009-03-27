@@ -166,7 +166,7 @@ function getWidgetBoxCode(childObj, widget) {
 
     if(jQuery('.widget_inner',childObj).size()>0){
         o = jQuery('.widget_inner',childObj);
-        o = o.get(o.size()-1);
+        o = o.get(0);
     }else{
         o = jQuery('.nullWidget',childObj).get(0);
     }
@@ -1168,13 +1168,9 @@ function widgetDrag(tobj, dx, dy) {
                                 target_obj.appendChild(tobj);
 
                             //박스 위젯에 위젯스타일이 적용된경우 또는 박스안에 위젯이 위젯스타일이 적용된겅우
-                            }else if(wb_ws.size() > 0){
-                                if(jQuery('div.widgetOutput',jQuery(target_obj)).size() > 0) {
-                                    target_obj.appendChild(tobj);
-                                }else{
-                                    wb_ws.get(0).appendChild(tobj);
-                                }
-                            }
+                            }else{
+                                wb_ws.get(0).appendChild(tobj);
+                             }
 
                             // 이동을 멈춤
                             widgetManualEnd();

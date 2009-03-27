@@ -269,7 +269,7 @@
 
             // 위젯 스타일을 컴파일 한다.
             if($args->widgetstyle){
-                $widget_content_body = WidgetHandler::complieWidgetStyle($args->widgetstyle, $widget_content_body, $args, $include_info);
+                $widget_content_body = WidgetHandler::complieWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $include_info);
             }
 
             $output = $widget_content_header . $widget_content_body . $widget_content_footer;
@@ -311,7 +311,7 @@
         }
 
 
-        function complieWidgetStyle($widgetStyle,$widget_content_body, $args, $include_info){
+        function complieWidgetStyle($widgetStyle,$widget,$widget_content_body, $args, $include_info){
             if(!$widgetStyle) return $widget_content_body;
 
             $oWidgetModel = &getModel('widget');
@@ -328,7 +328,7 @@
             }
             Context::set('widgetstyle_extar_var', $widgetstyle_extar_var);
 
-            if($include_info){
+            if($include_info && $widget=='widgetBox'){
                 Context::set('widget_content', '<div class="widget_inner">'.$widget_content_body.'</div>');
             }else{
                 Context::set('widget_content', $widget_content_body);
