@@ -458,7 +458,6 @@
                 $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $oExtraVar->getExtraVars();
             }
 
-            if(is_array($GLOBALS['XE_EXTRA_KEYS'][$module_srl]) ksort($GLOBALS['XE_EXTRA_KEYS'][$module_srl]);
             return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
         }
 
