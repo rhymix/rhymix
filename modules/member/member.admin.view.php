@@ -200,6 +200,7 @@
             if($member_join_form_srl) {
                 $oMemberModel = &getModel('member');
                 $join_form = $oMemberModel->getJoinForm($member_join_form_srl);
+
                 if(!$join_form) Context::set('member_join_form_srl','',true);
                 else Context::set('join_form', $join_form);
             }

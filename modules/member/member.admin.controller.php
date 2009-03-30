@@ -170,18 +170,21 @@
             $args->required = Context::get('required');
             if(!in_array(strtoupper($args->required), array('Y','N'))) $args->required = 'N';
             $args->description = Context::get('description');
-            $args->list_order = getNextSequence();
 
             // 기본값의 정리
-            if(in_array($args->column_type, array('checkbox','select')) && count($args->default_value) ) {
+            if(in_array($args->column_type, array('checkbox','select','radio')) && count($args->default_value) ) {
                 $args->default_value = serialize($args->default_value);
             } else {
                 $args->default_value = '';
             }
 
             // member_join_form_srl이 있으면 수정, 없으면 추가
-            if(!$args->member_join_form_srl) $output = executeQuery('member.insertJoinForm', $args);
-            else $output = executeQuery('member.updateJoinForm', $args);
+            if(!$args->member_join_form_srl){
+                $args->list_order = getNextSequence();
+                $output = executeQuery('member.insertJoinForm', $args);
+            }else{
+                $output = executeQuery('member.updateJoinForm', $args);
+            }
 
             if(!$output->toBool()) return $output;
 

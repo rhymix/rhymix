@@ -457,6 +457,8 @@
                 $oExtraVar->setExtraVarKeys($output->data);
                 $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $oExtraVar->getExtraVars();
             }
+
+            ksort($GLOBALS['XE_EXTRA_KEYS'][$module_srl]);
             return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
         }
 
@@ -470,6 +472,7 @@
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();
             }
+            ksort($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
             return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
         }
 

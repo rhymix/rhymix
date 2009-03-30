@@ -46,7 +46,7 @@
                 $widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
                 if(count($widgetStyle_info->extra_var)) {
                     foreach($widgetStyle_info->extra_var as $key=>$val) {
-                        if($val->type =='text' || $val->type =='select' || $val->type =='filebox'){
+                        if($val->type =='color' || $val->type =='text' || $val->type =='select' || $val->type =='filebox'){
                             $vars->{$key} = trim($request_vars->{$key});
                         }
                     }
@@ -155,10 +155,6 @@
 
 
             // 박스 위젯을 다시 구함
-//            $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>!is', array($this,'transWidgetBox'), $content);
-
-            // 박스 위젯을 다시 구함
-
             $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>((<img.*?>)*)!is', array($this,'transWidgetBox'), $content);
 
 

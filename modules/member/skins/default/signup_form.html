@@ -125,6 +125,16 @@
                     </ul>
                 <!--@end-->
 
+
+            <!--@elseif($val->column_type == 'radio')-->
+                <!--@if($val->default_value)-->
+                    <ul class="checkbox">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
             <!--// 단일 선택 -->
             <!--@elseif($val->column_type == 'select')-->
                 <select name="{$val->column_name}">

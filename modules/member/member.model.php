@@ -378,7 +378,7 @@
                     $lang->extend_vars[$column_name] = $column_title;
 
                     // checkbox, select등 다수 데이터 형식일 경우 unserialize해줌
-                    if(in_array($column_type, array('checkbox','select'))) {
+                    if(in_array($column_type, array('checkbox','select','radio'))) {
                         $join_form_list[$i]->default_value = unserialize($default_value);
                         if(!$join_form_list[$i]->default_value[0]) $join_form_list[$i]->default_value = '';
                     } else {
@@ -470,7 +470,7 @@
             $column_type = $join_form->column_type;
             $default_value = $join_form->default_value;
 
-            if(in_array($column_type, array('checkbox','select'))) {
+            if(in_array($column_type, array('checkbox','select','radio'))) {
                 $join_form->default_value = unserialize($default_value);
             } else {
                 $join_form->default_value = '';
