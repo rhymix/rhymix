@@ -85,13 +85,16 @@
             // 익명 사용시 글의 글쓴이 정보를 모두 제거 
             if($this->module_info->use_anonymous == 'Y' && Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
-                $oDocument = $oDocumentModel->getDocument($output->get('document_srl'));
-                $obj = $oDocument->getObjectVars();
-                $obj->member_srl = -1*$logged_info->member_srl;
-                $obj->email_address = $obj->homepage = $obj->user_id = '';
-                $obj->user_name = $obj->nick_name = 'anonymous';
-                $output = executeQuery('document.updateDocument', $obj);
-                if(!$output->toBool()) return $output;
+                $document_args->document_srl = $output->get('document_srl');
+                $document = executeQuery('document.getDocument', $document_args);
+                if($document->toBool() && $document->data) {
+                    $obj = $document->data;
+                    $obj->member_srl = -1*$logged_info->member_srl;
+                    $obj->email_address = $obj->homepage = $obj->user_id = '';
+                    $obj->user_name = $obj->nick_name = 'anonymous';
+                    $output = executeQuery('document.updateDocument', $obj);
+                    if(!$output->toBool()) return $output;
+                }
             }
 
             // 결과를 리턴
