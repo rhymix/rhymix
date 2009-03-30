@@ -333,8 +333,11 @@
             if($source_obj->get('lang_code') != Context::getLangType()) {
                 $extra_content->title = $obj->title;
                 $extra_content->content = $obj->content;
-                $obj->title = $source_obj->get('title');
-                $obj->content = $source_obj->get('content');
+
+                $document_args->document_srl = $source_obj->get('document_srl');
+                $document_output = executeQuery('document.getDocument', $document_args);
+                $obj->title = $document_output->data->title;
+                $obj->content = $document_output->data->content;
             }
 
             // 세션에서 최고 관리자가 아니면 iframe, script 제거
