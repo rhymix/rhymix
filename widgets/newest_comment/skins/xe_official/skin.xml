@@ -9,7 +9,7 @@
     <description xml:lang="jp">コメントを表示します。</description>
     <description xml:lang="zh-CN">显示评论列表。</description>
     <description xml:lang="en">댓글을 출력합니다</description>
-    <description xml:lang="zh-TW">댓글을 출력합니다</description>
+    <description xml:lang="zh-TW">顯示評論列表。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://www.zeroboard.com</link>
