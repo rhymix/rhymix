@@ -1,0 +1,10 @@
+<query id="insertLock" action="insert">
+    <tables>
+        <table name="module_locks" />
+    </tables>
+    <columns>
+        <column name="lock_name" var="lock_name" notnull="notnull" />
+        <column name="deadline" var="deadline" notnull="notnull" />
+        <column name="member_srl" var="member_srl" />
+    </columns>
+</query>

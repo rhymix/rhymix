@@ -1,0 +1,9 @@
+<query id="deleteLock" action="delete">
+    <tables>
+        <table name="module_locks" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="lock_name" var="lock_name" notnull="notnull" />
+        <condition operation="equal" column="deadline" var="deadline" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

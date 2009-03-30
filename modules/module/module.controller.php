@@ -646,5 +646,33 @@
             $args->module_filebox_srl = $vars->module_filebox_srl;
             return executeQuery('module.deleteModuleFileBox', $args);
         }
+
+        /**
+         * @brief function of locking (timeout is in seconds)
+         */
+        function lock($lock_name, $timeout, $member_srl = null) {
+            $this->unlockTimeoutPassed();
+            $args->lock_name = $lock_name;
+            if(!$timeout) $timeout = 60;
+            $args->deadline = date("YmdHis", time() + $timeout); 
+            if($member_srl) $args->member_srl = $member_srl;
+            $output = executeQuery('module.insertLock', $args);
+            if($output->toBool()) {
+                $output->add('lock_name', $lock_name);
+                $output->add('deadline', $args->deadline);
+            }
+            return $output;
+        }
+
+        function unlockTimeoutPassed() {
+            executeQuery('module.deleteLocksTimeoutPassed');
+        }
+
+        function unlock($lock_name, $deadline) {
+            $args->lock_name = $lock_name;
+            $args->deadline = $deadline;
+            $output = executeQuery('module.deleteLock', $args);
+            return $output;
+        }
     }
 ?>

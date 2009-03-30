@@ -1,0 +1,8 @@
+<query id="deleteLocksTimeoutPassed" action="delete">
+    <tables>
+        <table name="module_locks" />
+    </tables>
+    <conditions>
+        <condition operation="below" column="deadline" var="deadline" default="curdate()" notnull="notnull" />
+    </conditions>
+</query>

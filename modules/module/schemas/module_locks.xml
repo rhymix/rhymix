@@ -1,0 +1,5 @@
+<table name="module_locks">
+    <column name="lock_name" type="varchar" size="40" notnull="notnull" unique="unique_lock_name" />
+    <column name="deadline" type="date" index="idx_deadline" />
+    <column name="member_srl" type="number" size="11" />
+</table>
