@@ -33,6 +33,7 @@
             'text' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 20',
             'bigtext' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 20',
             'date' => 'VARCHAR(14)',
+            'float' => 'FLOAT',
         );
 
         /**

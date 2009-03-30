@@ -33,6 +33,7 @@
             'text' => 'text',
             'bigtext' => 'longtext',
             'date' => 'varchar(14)',
+            'float' => 'float',
         );
 
         /**
