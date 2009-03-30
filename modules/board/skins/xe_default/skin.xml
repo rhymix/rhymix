@@ -248,6 +248,23 @@
             <description xml:lang="es">You may set length of title. (0 or blank value will not restrict the length)</description>
             <description xml:lang="zh-TW">可指定標題字數(0或留白為不限制)。</description>
         </var>
+		<var id="content_cut_size">
+			<type>text</type>
+			<name xml:lang="ko">내용 글자수</name>
+			<name xml:lang="jp">内容の文字数</name>
+			<name xml:lang="zh-CN">内容字数</name>
+			<name xml:lang="en">Length of Content</name>
+			<name xml:lang="es">Número de letras del Contenidos</name>
+			<name xml:lang="ru">Длина содержания</name>
+			<name xml:lang="zh-TW">內容字數</name>
+			<description xml:lang="ko">내용 글자수를 지정할 수 있습니다. (기본 240)</description>
+			<description xml:lang="jp">内容の文字数を指定します(デフォルト 240)。</description>
+			<description xml:lang="zh-CN">可以指定要显示的内容字数。(默认为240)</description>
+			<description xml:lang="en">Length of Content can be assigned. (default 240)</description>
+			<description xml:lang="es">El largo del Contenidos puede ser asignado. (Predefinido 240)</description>
+			<description xml:lang="ru">Длина содержания может быть присвоена. (стандарт: 240)</description>
+			<description xml:lang="zh-TW">可以指定要顯示的內容字數。(預設是240)</description>
+		</var>
         <var name="display_number" type="select">
             <title xml:lang="ko">번호 표시</title>
             <title xml:lang="jp">番号表示</title>

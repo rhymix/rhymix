@@ -127,7 +127,7 @@
                     <a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle, 'cpage','')}" class="thumb"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" alt="" /></a>
                     <!--@end-->
                     <!--@if($grant->view)-->
-                    <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getSummary(120)}</a>
+                    <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getSummary($module_info->content_cut_size)}</a>
                     <!--@end-->
                     &nbsp;
                 </td>

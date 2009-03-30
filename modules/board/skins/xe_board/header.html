@@ -16,9 +16,8 @@
     <!--@end-->
 
 <!--// 스킨 설정중 새글의 시간 설정 값이 없으면 임의로 지정 -->
-    <!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
-        {@ $module_info->duration_new = 12 }
-    <!--@end-->
+    <!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->{@ $module_info->duration_new = 12 }<!--@end-->
+    <!--@if(!$module_info->content_cut_size = (int)$module_info->content_cut_size)-->{@ $module_info->content_cut_size= 240 }<!--@end-->
 
 <!--// 스킨 설정중 썸네일 관련 항목을 지정 -->
     <!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
