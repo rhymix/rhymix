@@ -44,6 +44,7 @@
             $widget_info->mid = $module_info->mid;
             $widget_info->document_category = $document_category;
             $widget_info->category_list = $category_list;
+            $widget_info->total_title = $args->total_title;
 
             if($module_info->site_srl) {
                 $site_module_info = Context::get('site_module_info');

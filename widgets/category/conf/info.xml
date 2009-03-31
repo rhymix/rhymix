@@ -45,5 +45,10 @@
             <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。只能选一个模块。</description>
             <description xml:lang="zh-TW">將所選擇的模組作為目標。只能選擇一個模組。</description>
         </var>
+        <var id="total_title">
+            <type>text</type>
+            <name xml:lang="ko">category 전체 타이틀</name>
+            <name xml:lang="en">category total text title</name>
+        </var>
     </extra_vars>
 </widget>
