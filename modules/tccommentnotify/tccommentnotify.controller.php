@@ -58,28 +58,10 @@
 
         function procDoNotify()
         {
-            $lockFilePath = $this->cachedir.$this->lockfile;
-            if(file_exists($lockFilePath))
-            {
-                return;
-            }
-
-            $fp = null;
-            if(version_compare(PHP_VERSION, "4.3.2", '<'))
-            {
-                $fp = fopen($lockFilePath, "a");
-            }
-            else
-            {
-                $fp = fopen($lockFilePath, "x");
-                if(!$fp)
-                {
-                    return;
-                }
-            }
-
-            fwrite($fp, "lock");
-            fclose($fp);
+            $oController = &getController('module');
+            $output = $oController->lock('commentnotify', 400);
+            if(!$output->toBool()) return;
+            $deadline = $output->get('deadline');
 
             if( file_exists($this->cachedir.$this->cachefile) )
             {
@@ -101,7 +83,7 @@
                     $this->sendCommentNotify($data->comment_srl);
                 }
             }
-            FileHandler::removeFile($lockFilePath);
+            $oController->unlock('commentnotify', $deadline);
         }
 
         function deleteFromQueue($comment_srl)
