@@ -36,9 +36,9 @@
             <!--@end-->
 
             <!--@if($widget_info->show_icon=='Y')-->
-                <span class="icon">{$item->printExtraImages()}</span></td>
+                <span class="icon">{$item->printExtraImages()}</span>
             <!--@end-->
-
+        </td>
     <!--@else if($v=='nickname')-->
         <td><a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}">{$item->getNickName()}</a></td>
     <!--@else if($v=='regdate')-->
