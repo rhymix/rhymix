@@ -172,5 +172,5 @@
     $lang->planet_use_me2day = "Me2day";
     $lang->about_use_me2day = "發表主題的同時也傳送到Me2day(http://me2day.net)。";
     $lang->msg_search_thisplanet = "搜尋微型部落格";
-    $lang->msg_welcome_planet = 'Congratulations on the Planet to open.';
+    $lang->msg_welcome_planet = '歡迎加入微型部落格^_^';
 ?>

@@ -45,7 +45,7 @@
     $lang->about_menu_open_window = '按選單後，是否要以新視窗開啟。';
     $lang->about_menu_expand = '使用樹型選單(tree_menu.js)時，總是呈現展開狀態。';
     $lang->about_menu_img_btn = '如果登錄圖片按鈕，在版面中會自動替換顯示為圖片按鈕。';
-    $lang->about_menu_group_srls = '如果選擇用戶組，只有所屬組用戶才能看到此選單。(如果可直接連結xml檔案，內容將無法隱藏)';
+    $lang->about_menu_group_srls = '如果選擇群組，只有所屬群組才能看到此選單。(如果可直接連結xml檔案，內容將無法隱藏)';
 
     $lang->about_menu = "選單模組可以透過選單管理器，管理已建立的模組並可和版面相互連結，輕鬆架設一個完整的網站。\n選單模組雖然可連結模組和版面，並透過版面來顯示多種類型的選單，但它不具備管理網站的功能。";
 

@@ -7,7 +7,7 @@
 
     $lang->board = '討論板';
     $lang->except_notice = '公告選項';
-    $lang->use_anonymous = '익명 사용';
+    $lang->use_anonymous = '匿名功能';
     $lang->cmd_manage_menu = '選單管理';
     $lang->list_target_item = '目標項目';
     $lang->list_display_item = '顯示項目';
@@ -36,5 +36,6 @@
     $lang->about_secret = '可用於討論板或回覆時選擇是否使用。';
     $lang->about_admin_mail = '有新的主題或評論時，將自動發電子郵件來通知管理員。<br />多數電子郵件由逗號(,)區隔。';
     $lang->about_list_config = '可以放置想要的項目種類。<br />當所使用的面板支援此功能時才可會正常實現。<br />對目標項目/顯示項目中的物件案兩下可新增或移除。';
+
     $lang->msg_not_enough_point = '你的點數不夠在此討論板發表主題。';
 ?>

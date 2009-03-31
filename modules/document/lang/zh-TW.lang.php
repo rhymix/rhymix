@@ -43,7 +43,7 @@
 
     $lang->move_target_module = '移到';
 
-    // 管理頁面搜尋的目標
+    // 管理者頁面中搜尋的內容
     $lang->search_target_list = array(
         'title' => '標題',
         'content' => '內容',
@@ -66,8 +66,33 @@
         'ipaddress' => 'IP位址',
     );
 
-    $lang->alias = "別名";
+    $lang->alias = "Alias";
     $lang->history = "歷史紀錄";
     $lang->about_use_history = "選擇是否使用歷史記錄功能。選擇使用，將能夠編輯歷史紀錄並還原。";
     $lang->trace_only = "追蹤";
+
+    $lang->cmd_trash = "垃圾桶";
+    $lang->cmd_restore = "還原";
+    $lang->cmd_restore_all = "全部還原";
+
+    $lang->in_trash = "垃圾桶";
+    $lang->trash_nick_name = "暱稱";
+    $lang->trash_date = "刪除日期";
+    $lang->trash_description = "原因";
+
+    // 管理者頁面中垃圾桶的搜尋目標
+    $lang->search_target_trash_list = array(
+        'title' => '標題',
+        'content' => '內容',
+        'user_id' => '帳號',
+        'member_srl' => '會員編號',
+        'user_name' => '姓名',
+        'nick_name' => '暱稱',
+        'trash_member_srl' => '移除會員編號',
+        'trash_user_name' => '移除姓名',
+        'trash_nick_name' => '移除暱稱',
+        'trash_date' => '刪除日期',
+        'trash_ipaddress' => '移除IP位址',
+    );
+
 ?>

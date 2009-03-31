@@ -101,8 +101,8 @@
     );
 
     $lang->cmd_manage_issue = '問題管理';
-    $lang->msg_changes_from = 'View changes from';
-    $lang->duration = 'Duration';
+    $lang->msg_changes_from = '開始日期';
+    $lang->duration = '期間';
     $lang->target_list = array(
         'issue_created' => '建立問題',
         'issue_changed' => '變更問題',
