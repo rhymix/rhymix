@@ -8,7 +8,8 @@
     <td class="title">
 
         <!--@if($widget_info->show_browser_title=='Y' && $item->getBrowserTitle())-->
-            <a href="<!--@if($item->domain)-->{getSiteUrl($item->domain, '', 'mid', $item->get('mid'))}<!--@elseif($item->getContentsLink())-->{$item->getContentsLink()}<!--@end-->"><strong class="board">{$item->getBrowserTitle()}</strong></a>
+	
+            <a href="{getSiteUrl($item->domain, '', 'mid', $item->get('mid'))}"><strong class="board">{$item->getBrowserTitle()}</strong></a>
         <!--@end-->
         <!--@if($widget_info->show_category=='Y' && $item->get('category_srl') )-->
             <a href="{getSiteUrl($item->domain,'','mid',$item->get('mid'),'category',$item->get('category_srl'))}"><strong class="category">{$item->getCategory()}</strong></a>

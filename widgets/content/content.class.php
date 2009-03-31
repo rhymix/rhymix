@@ -259,8 +259,7 @@
                     $content_item->setThumbnail($thumbnail);
                     $content_item->setExtraImages($oDocument->printExtraImages($args->duration_new));
                     $content_item->add('mid', $args->mid_lists[$module_srl]);
-                    if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $key;
-
+                    if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $i;
                     $content_items[] = $content_item;
                 }
 
