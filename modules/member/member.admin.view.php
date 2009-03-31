@@ -77,6 +77,7 @@
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
             if(!$config->editor_skin) $config->editor_skin = "default";
+            if(!$config->group_image_mark) $config->group_image_mark = "N";
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함
