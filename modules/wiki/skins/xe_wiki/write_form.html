@@ -2,7 +2,11 @@
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert)" id="fo_write">
 <input type="hidden" name="mid" value="{$mid}" />
+<!--@if($history)-->
+<input type="hidden" name="content" value="{htmlspecialchars($history->content)}" />
+<!--@else-->
 <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+<!--@end-->
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="title" value="{$entry}" />
 

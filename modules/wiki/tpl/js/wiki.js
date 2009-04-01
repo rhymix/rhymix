@@ -20,7 +20,7 @@ function completeDocumentInserted(ret_obj) {
     }
     else
     {
-        url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+        url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','').setQuery('history_srl','');
     }
     location.href = url;
 }

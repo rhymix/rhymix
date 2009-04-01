@@ -13,4 +13,5 @@
     $lang->use_comment = '使用評論';
     $lang->about_use_comment = '可設定是否使用評論功能。';
     $lang->contributors = 'Contributors';
+    $lang->notice_old_revision = 'This is an old revision';
 ?>

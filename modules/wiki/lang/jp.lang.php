@@ -13,4 +13,5 @@
     $lang->use_comment = 'コメント機能を使う';
     $lang->about_use_comment = 'コメント機能をオン・オフを設定します。';
     $lang->contributors = 'Contributors';
+    $lang->notice_old_revision = 'This is an old revision';
 ?>
