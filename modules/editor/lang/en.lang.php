@@ -143,4 +143,19 @@
     $lang->edit->extension ='Extension Components';
     $lang->edit->help = 'Help';
     $lang->edit->help_command = 'Help Hotkeys';
+    
+    $lang->edit->lineheight = 'Line Height';
+	$lang->edit->fontbgsampletext = 'ABC';
+	
+	$lang->edit->hyperlink = 'Hyperlink';
+	$lang->edit->target_blank = 'New Window';
+	
+	$lang->edit->quotestyle1 = '왼쪽 실선';
+	$lang->edit->quotestyle2 = '인용부호';
+	$lang->edit->quotestyle3 = '실선';
+	$lang->edit->quotestyle4 = '실선 + 배경';
+	$lang->edit->quotestyle5 = '굵은 실선';
+	$lang->edit->quotestyle6 = '점선';
+	$lang->edit->quotestyle7 = '점선 + 배경';
+	$lang->edit->quotestyle8 = '적용 취소';
 ?>

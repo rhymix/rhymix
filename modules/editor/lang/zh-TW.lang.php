@@ -146,4 +146,19 @@
     $lang->edit->extension ='延伸組件';
     $lang->edit->help = '使用說明';
     $lang->edit->help_command = '快速鍵指引';
+    
+    $lang->edit->lineheight = '줄간격';
+	$lang->edit->fontbgsampletext = '가나다';
+	
+	$lang->edit->hyperlink = '하이퍼링크';
+	$lang->edit->target_blank = '새창으로';
+	
+	$lang->edit->quotestyle1 = '왼쪽 실선';
+	$lang->edit->quotestyle2 = '인용 부호';
+	$lang->edit->quotestyle3 = '실선';
+	$lang->edit->quotestyle4 = '실선 + 배경';
+	$lang->edit->quotestyle5 = '굵은 실선';
+	$lang->edit->quotestyle6 = '점선';
+	$lang->edit->quotestyle7 = '점선 + 배경';
+	$lang->edit->quotestyle8 = '적용 취소';
 ?>

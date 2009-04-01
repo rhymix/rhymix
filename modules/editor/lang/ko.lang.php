@@ -140,11 +140,24 @@
 
     $lang->about_dblclick_in_editor = '배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다.';
 
-
     $lang->edit->rich_editor = '스타일 편집기';
     $lang->edit->html_editor = 'HTML 편집기';
     $lang->edit->extension ='확장 컴포넌트';
     $lang->edit->help = '도움말';
     $lang->edit->help_command = '단축키 안내';
-
+    
+	$lang->edit->lineheight = '줄간격';
+	$lang->edit->fontbgsampletext = '가나다';
+	
+	$lang->edit->hyperlink = '하이퍼링크';
+	$lang->edit->target_blank = '새창으로';
+	
+	$lang->edit->quotestyle1 = '왼쪽 실선';
+	$lang->edit->quotestyle2 = '인용 부호';
+	$lang->edit->quotestyle3 = '실선';
+	$lang->edit->quotestyle4 = '실선 + 배경';
+	$lang->edit->quotestyle5 = '굵은 실선';
+	$lang->edit->quotestyle6 = '점선';
+	$lang->edit->quotestyle7 = '점선 + 배경';
+	$lang->edit->quotestyle8 = '적용 취소';
 ?>

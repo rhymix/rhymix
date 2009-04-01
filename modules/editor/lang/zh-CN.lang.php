@@ -145,4 +145,19 @@
     $lang->edit->extension ='扩展组建';
     $lang->edit->help = '帮助';
     $lang->edit->help_command = '快捷键说明';
+    
+    $lang->edit->lineheight = '줄간격';
+	$lang->edit->fontbgsampletext = '가나다';
+	
+	$lang->edit->hyperlink = '하이퍼링크';
+	$lang->edit->target_blank = '새창으로';
+	
+	$lang->edit->quotestyle1 = '왼쪽 실선';
+	$lang->edit->quotestyle2 = '인용 부호';
+	$lang->edit->quotestyle3 = '실선';
+	$lang->edit->quotestyle4 = '실선 + 배경';
+	$lang->edit->quotestyle5 = '굵은 실선';
+	$lang->edit->quotestyle6 = '점선';
+	$lang->edit->quotestyle7 = '점선 + 배경';
+	$lang->edit->quotestyle8 = '적용 취소';
 ?>
