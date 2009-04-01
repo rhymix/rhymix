@@ -83,9 +83,9 @@
     $lang->about_grant = '全部解除特定權限的對象時，沒有登錄的會員也將具有相關權限。';
     $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
     $lang->about_module = "除基本函式庫以外XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
-
     $lang->about_extra_vars_default_value = '當復選或單選的預設值需要很多個時，用逗號(,)區隔。';
-    $lang->about_search_virtual_site = "請輸入想要搜尋的虛擬網站(XE網咖等)的網域名稱。<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 不用輸入)";
+    $lang->about_search_virtual_site = '가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 不用輸入)';
+    $lang->about_extra_vars_eid_value = '확장변수의 이름을 적어주세요. ( 영문+[영문+숫자+_] 만 가능)';
     $lang->about_langcode = "想要實現多國語言功能，請按[語言代碼]按鈕。";
     $lang->about_file_extension= "只允許%s檔案。";
 ?>
