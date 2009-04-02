@@ -102,7 +102,7 @@
                 }
 
                 $date = $item->pubdate;
-                $item->date = date($DATE_FORMAT, strtotime($date));
+                $item->date = $date ? date($DATE_FORMAT, strtotime($date)) : '';
                 $array_date[$key] = strtotime($date);
 
                 $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
