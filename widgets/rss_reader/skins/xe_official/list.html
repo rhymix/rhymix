@@ -11,7 +11,7 @@
     <!--@end-->
     <ul>
         <!--@foreach($widget_info->rss_list as $key => $item)-->
-        <li>
+        <li title="{strip_tags($item->description)}">
           <!--@if($item->date)--><span class="date">{$item->date}</span><!--@end-->
           <span class="title"><a href="{$item->link}" onclick="window.open(this.href);return false">{htmlspecialchars(cut_str($item->title, $widget_info->subject_cut_size))}</a></span>
         </li>
