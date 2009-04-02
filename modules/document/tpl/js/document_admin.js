@@ -142,7 +142,7 @@ function moveVar(type, module_srl, var_idx) {
     params['module_srl'] = module_srl;
     params['var_idx'] = var_idx;
     var response_tags = new Array('error','message');
-    exec_xml('document','procAdminMoveExtraVar', params, function() { location.reload(); });
+    exec_xml('document','procDocumentAdminMoveExtraVar', params, function() { location.reload(); });
 }
 
 function completeRestoreTrash(ret_obj) {

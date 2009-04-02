@@ -1,4 +1,4 @@
-<filter name="move_category" module="document" act="procDocumentAdminMoveCategory" confirm_msg_code="confirm_move">
+<filter name="move_category" module="document" act="procDocumentMoveCategory" confirm_msg_code="confirm_move">
     <form />
     <parameter />
     <response callback_func="completeMoveCategory">

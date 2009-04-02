@@ -1,4 +1,4 @@
-<filter name="delete_category" module="document" act="procDocumentAdminDeleteCategory" confirm_msg_code="confirm_delete">
+<filter name="delete_category" module="document" act="procDocumentDeleteCategory" confirm_msg_code="confirm_delete">
     <form>
         <node target="category_srl" required="true" />
     </form>
