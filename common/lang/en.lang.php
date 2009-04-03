@@ -24,9 +24,9 @@
     $lang->cmd_load = 'Load';
     $lang->cmd_input = 'Input';
     $lang->cmd_search = 'Search';
-    $lang->cmd_find = '찾기';
-    $lang->cmd_replace = '바꾸기';
-    $lang->cmd_confirm = '확인';
+    $lang->cmd_find = 'Find';
+    $lang->cmd_replace = 'Replace';
+    $lang->cmd_confirm = 'Confirm';
     $lang->cmd_cancel = 'Cancel';
     $lang->cmd_back = 'Go Back';
     $lang->cmd_vote = 'Recommend';
@@ -78,7 +78,7 @@
     $lang->secret = 'Secret';
     $lang->category = $lang->category_srl = 'Category';
     $lang->none_category = 'None category';
-    $lang->none_image = '이미지 없음';
+    $lang->none_image = 'Image does not exist';
     $lang->document_srl = 'Doc. No.';
     $lang->user_id = 'User ID';
     $lang->author = 'Developer';
@@ -270,9 +270,9 @@
     $lang->default_value = 'Default Value';
     $lang->is_active = 'Active';
     $lang->is_required = 'Required Field';
-    $lang->eid = '확장변수 이름';
+    $lang->eid = 'Name of extra variable';
 
-    // ftp 관련
+    // ftp-related
     $lang->ftp_form_title = 'Input FTP account information';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
