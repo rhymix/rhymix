@@ -586,9 +586,9 @@
                 $image_mark = $groups_info[$group_srl[0]]->image_mark;
             }
             if($image_mark){
-                list($width, $height, $type, $attrs) = getimagesize($image_mark);
-                $info->width = $width;
-                $info->height = $height;
+//                list($width, $height, $type, $attrs) = getimagesize($image_mark);
+//                $info->width = $width;
+//                $info->height = $height;
                 $info->src = $image_mark;
                 return $info;
 
