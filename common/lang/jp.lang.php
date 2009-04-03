@@ -24,9 +24,9 @@
     $lang->cmd_load = '読み込む';
     $lang->cmd_input = '入力';
     $lang->cmd_search = '検索';
-    $lang->cmd_find = '찾기';
-    $lang->cmd_replace = '바꾸기';
-    $lang->cmd_confirm = '확인';
+    $lang->cmd_find = '検索';
+    $lang->cmd_replace = '置換';
+    $lang->cmd_confirm = '確認';
     $lang->cmd_cancel = '取り消し';
     $lang->cmd_back = '戻る';
     $lang->cmd_vote = '推薦';
