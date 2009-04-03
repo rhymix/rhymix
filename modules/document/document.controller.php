@@ -1257,6 +1257,7 @@
             foreach($list as $category_srl => $node) {
                 $node->mid = $mid;
                 $parent_srl = (int)$node->parent_srl;
+                $node->title = htmlspecialchars($node->title);
                 $tree[$parent_srl][$category_srl] = $node;
             }
 
