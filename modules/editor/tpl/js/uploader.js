@@ -395,14 +395,19 @@ function insertUploadedFile(editorSequence) {
     }
 
 
-    // html 모드
-    if(editorMode[editorSequence]=='html'){
-        if(text.length>0) xGetElementById('editor_textarea_'+editorSequence).value += text.join('');
 
-    // 위지윅 모드
+    if(jQuery.isFunction(editorRelKeys[editorSequence]['pasteHTML'])){
+        editorRelKeys[editorSequence]['pasteHTML'](text.join(''));
     }else{
-        var iframe_obj = editorGetIFrame(editorSequence);
-        if(!iframe_obj) return;
-        if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
+        // html 모드
+        if(editorMode[editorSequence]=='html'){
+            if(text.length>0) xGetElementById('editor_textarea_'+editorSequence).value += text.join('');
+
+        // 위지윅 모드
+        }else{
+            var iframe_obj = editorGetIFrame(editorSequence);
+            if(!iframe_obj) return;
+            if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
+        }
     }
 }

@@ -88,6 +88,10 @@
             // 스킨 설정
             $skin = $option->skin;
             if(!$skin) $skin = 'default';
+
+            // xpresseditor룰 위한 셋팅
+            //if($skin=='default') $skin = 'xpresseditor';
+
             $colorset = $option->colorset;
             Context::set('colorset', $colorset);
             Context::set('skin', $skin);
@@ -187,6 +191,8 @@
              **/
             $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             $tpl_file = 'editor.html';
+
+ 
 
             if(!file_exists($tpl_path.$tpl_file)) {
                 $skin = 'default';
