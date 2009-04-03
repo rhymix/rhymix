@@ -24,6 +24,9 @@
     $lang->cmd_load = 'Charger';
     $lang->cmd_input = 'Entrer';
     $lang->cmd_search = 'Rechercher';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = 'Annuler';
     $lang->cmd_back = 'Retourner';
     $lang->cmd_vote = 'Recommander';

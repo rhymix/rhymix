@@ -24,6 +24,9 @@
     $lang->cmd_load = '불러오기';
     $lang->cmd_input = '입력';
     $lang->cmd_search = '검색';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = '취소';
     $lang->cmd_back = '돌아가기';
     $lang->cmd_vote = '추천';

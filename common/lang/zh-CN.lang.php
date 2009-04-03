@@ -24,6 +24,9 @@
     $lang->cmd_load = '导入';
     $lang->cmd_input = '输入';
     $lang->cmd_search = '搜索';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
