@@ -65,12 +65,12 @@ function _editorAutoSave() {
         editorAutoSaveObj.title = title;
         editorAutoSaveObj.content = content;
 
-        var obj = xGetElementById("editor_autosaved_message_"+editor_sequence);
-        obj.style.display = 'block';
-        var oDate = new Date();
-        html = oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg;
-        xInnerHtml(obj, html);
-        obj.style.display = "block";
+		var obj   = jQuery("#editor_autosaved_message_"+editor_sequence);
+		var oDate = new Date();
+		
+		// 메시지 만들어서 보여줌
+		obj.text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
+		setTimeout(function(){obj.hide(300)}, 2000);
 
         // 현재 자동저장중임을 설정
         editorAutoSaveObj.locked = true;
