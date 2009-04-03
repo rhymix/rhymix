@@ -468,7 +468,6 @@
                 <title xml:lang="zh-TW">隱藏</title>
             </options>
         </var>
->>>>>>> .r5911
         <var name="duration_new" type="text" default="24">
             <title xml:lang="ko">new표시 시간 (hours)</title>
             <title xml:lang="jp">Newの表示時間 (Hours)</title>
