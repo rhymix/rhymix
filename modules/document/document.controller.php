@@ -1257,7 +1257,6 @@
             foreach($list as $category_srl => $node) {
                 $node->mid = $mid;
                 $parent_srl = (int)$node->parent_srl;
-                $node->title = htmlspecialchars($node->title);
                 $tree[$parent_srl][$category_srl] = $node;
             }
 
@@ -1347,7 +1346,7 @@
                 $title = $node->title;
                 $oModuleAdminModel = &getAdminModel('module');
                 $langs = $oModuleAdminModel->getLangCode($site_srl, $title);
-                if(count($langs)) foreach($langs as $key => $val) $xml_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',$val));
+                if(count($langs)) foreach($langs as $key => $val) $xml_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
 
                 $attribute = sprintf(
                         'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" document_count="%d" ',
@@ -1403,7 +1402,7 @@
                 $title = $node->title;
                 $oModuleAdminModel = &getAdminModel('module');
                 $langs = $oModuleAdminModel->getLangCode($site_srl, $title);
-                if(count($langs)) foreach($langs as $key => $val) $php_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',$val));
+                if(count($langs)) foreach($langs as $key => $val) $php_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
 
                 // 속성을 생성한다 ( category_srl_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
                 $attribute = sprintf(
