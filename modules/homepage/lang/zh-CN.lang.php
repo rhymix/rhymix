@@ -61,7 +61,7 @@
     );
     $lang->about_cafe = "站点工具不仅可以迅速建立多个站点，而且非常方便各项设置。";
     $lang->about_cafe_title = "建议使用一个即简洁又直观的名称。此名称不会显示到用户页面当中。";
-    $lang->about_domain = "要创建一个站点必须有一个专用域名。<br/>一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.zeroboard.com/zbxe";
+    $lang->about_domain = "要创建一个站点必须有一个专用域名。<br/>一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/zbxe";
     $lang->about_menu_names = "在此可以指定多国语言菜单。<br/>如只输入一项，其他语言同时只应用此项语言。";
     $lang->about_menu_option = "可以设置点击菜单时是否要在新窗口中打开。<br />展开选项随布局。";
     $lang->about_group_grant = "如选择用户组，只有所属组用户才能看到此菜单。<br/>不选非用户也可以查看。";
