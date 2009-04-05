@@ -17,11 +17,11 @@
     $lang->cmd_layout_edit = 'Editar el diseño';
 
     // Artículos
-    $lang->consultation = '상담 기능';
+    $lang->consultation = 'Funciones de asesoramiento';
     $lang->search_result = 'Resultado de la búsqueda';
-    $lang->secret = '비밀글 기능';
-    $lang->thisissecret = '비밀글입니다.';
-    $lang->admin_mail = '관리자 메일';
+    $lang->secret = 'Características Bimilgeul';
+    $lang->thisissecret = 'Es bimilgeul.';
+    $lang->admin_mail = 'Administrador de Correo';
 
     // Palabras utilizadas en los botones
     $lang->cmd_board_list = 'Lista del tableros';
@@ -36,9 +36,9 @@
     $lang->about_use_anonymous = '글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다';
     $lang->about_board = 'Este módulo es para crear y manejar los tableros.';
     $lang->about_consultation = "No administrador de los miembros que consideran que su propia artocles. \ NNon miembros no serían capaces de escribir artículos al utilizar la consulta.";
-    $lang->about_secret = '게시판 및 댓글의 비밀글 사용할 수 있도록 합니다.';
-    $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다<br /> ,(콤마)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
-    $lang->about_list_config = '게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다.<br />단 스킨에서 지원하지 않는 경우 지원되지 않을 수 있습니다<br />대상항목/ 표시항목의 항목을 더블클릭하면 추가/ 제거가 됩니다.';
+    $lang->about_secret = 'Boletín y los comentarios de bimilgeul utilizar.';
+    $lang->about_admin_mail = 'Comentarios por e-mail registrado geulyina cuando la inscripción se enviará a <br />, (coma) como una conexión, puede enviar a varios e-mail.';
+    $lang->about_list_config = 'Boletín de la lista, utilice el tipo de elemento que desee, puede colocar. <br /> Si no está sólo apoyada por la piel no puede ser apoyada <br /> meta de entrada y mostrar el tema cuando hace doble clic en la entrada en Agregar o quitar es.';
 
     $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

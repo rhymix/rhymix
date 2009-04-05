@@ -61,7 +61,7 @@
     );
     $lang->about_cafe = "CafeXE package provides features to create cafes and to configure them conveniently";
     $lang->about_cafe_title = "The title is only used for management, it would not be displayed.";
-    $lang->about_domain = "In order to create more than one cafe, each of them needs to have own domain name.<br />Sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path installed xe. <br /> ex) www.zeroboard.com/zbxe";
+    $lang->about_domain = "In order to create more than one cafe, each of them needs to have own domain name.<br />Sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path installed xe. <br /> ex) www.xpressengine.com/zbxe";
     $lang->about_menu_names = "You can set the title of the menu for each language displayed in the menus<br />If you input one of the titles, titles for other languages will be set as same.";
     $lang->about_menu_option = "You can assign it to open a page in a new window when the menu clicked.<br />The option for menu expand may work depending on the layout.";
     

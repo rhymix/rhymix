@@ -61,7 +61,7 @@
     );
     $lang->about_cafe = 'Cafe 서비스 관리자는 다수의 Cafe를 만들 수 있고 또 각 Cafe를 편하게 설정할 수 있도록 합니다.';
     $lang->about_cafe_title = 'Cafe 이름은 관리를 위해서만 사용될 뿐 서비스에는 나타나지 않습니다';
-    $lang->about_domain = '1개 이상의 Cafe를 만들기 위해서는 전용 도메인이 있어야 합니다.<br/>독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />ex) www.zeroboard.com/zbxe';
+    $lang->about_domain = '1개 이상의 Cafe를 만들기 위해서는 전용 도메인이 있어야 합니다.<br/>독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />ex) www.xpressengine.com/zbxe';
     $lang->about_menu_names = 'Cafe에 나타날 메뉴 이름을 언어에 따라서 지정할 수 있습니다.<br/>하나만 입력하셔도 모두 같이 적용됩니다';
     $lang->about_menu_option = '메뉴를 선택시 새창으로 열지를 선택할 수 있습니다.<br />펼침 메뉴는 레이아웃에 따라 동작합니다';
     $lang->about_group_grant = '그룹을 선택하면 선택된 그룹만 메뉴가 보입니다.<br/>모두 해제하면 비회원도 볼 수 있습니다';
