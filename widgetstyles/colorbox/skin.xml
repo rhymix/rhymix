@@ -86,10 +86,7 @@
             <name xml:lang="zh-CN">查看更多(链接)</name>
             <name xml:lang="zh-TW">more URL</name>
             <name xml:lang="jp">「もっと見る」URL</name>
-            <description xml:lang="ko">http:// 제외한 URL를 등록합니다.</description>
-            <description xml:lang="zh-CN">请输入除http://以外的URL地址。</description>
-            <description xml:lang="zh-TW">請輸入http://以外的URL網址。</description>
-            <description xml:lang="jp">http:// を除いたURLを登録します。</description>
+            <description xml:lang="ko">URL를 등록합니다.</description>
         </var>
         <var name="ws_more_image" type="filebox" filter="jpg,jpeg,gif,png">
             <name xml:lang="ko">더보기 이미지</name>
