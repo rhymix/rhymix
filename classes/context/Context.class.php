@@ -876,6 +876,9 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
+            // HTTP Request가 아니면 패스
+            if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
+
             static $url = array();
             if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
@@ -905,14 +908,11 @@
             }
 
             $url_info = parse_url('http://'.$target_url);
-            if($use_ssl)
-            {
+            if($use_ssl) {
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
                 }
-            }
-            else
-            {
+            } else {
                 if(Context::get("_http_port") && Context::get("_http_port") != 80) {
                     $url_info['port'] = Context::get("_http_port");
                 }
