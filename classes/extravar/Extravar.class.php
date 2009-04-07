@@ -94,7 +94,7 @@
             if(!isset($value)) return;
             switch($type) {
                 case 'homepage' :
-                        if(!preg_match('/^([a-z]+):\/\//i',$value)) $value = 'http://'.$value;
+                        if($value && !preg_match('/^([a-z]+):\/\//i',$value)) $value = 'http://'.$value;
                         return htmlspecialchars($value);
                     break;
                 case 'tel' :
