@@ -542,8 +542,9 @@
                 }
             }
 
-            $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
-
+            if($source_file){
+                $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+            }
             if($is_tmp_file) FileHandler::removeFile($source_file);
 
             // 썸네일 생성 성공시 경로 return
