@@ -257,7 +257,7 @@
                     $content_item->setContent($oDocument->getSummary($args->content_cut_size));
                     $content_item->setLink( getSiteUrl($domain,'','document_srl',$document_srl) );
                     $content_item->setThumbnail($thumbnail);
-                    $content_item->setExtraImages($oDocument->printExtraImages($args->duration_new));
+                    $content_item->setExtraImages($oDocument->printExtraImages($args->duration_new * 60 * 60));
                     $content_item->add('mid', $args->mid_lists[$module_srl]);
                     if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $i;
                     $content_items[] = $content_item;
