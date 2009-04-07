@@ -70,7 +70,6 @@ function _editorAutoSave() {
 		
 		// 메시지 만들어서 보여줌
 		obj.text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
-		setTimeout(function(){obj.hide(300)}, 2000);
 
         // 현재 자동저장중임을 설정
         editorAutoSaveObj.locked = true;
