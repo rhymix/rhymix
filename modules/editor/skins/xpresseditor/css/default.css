@@ -129,7 +129,7 @@
 .xpress-editor .tool li.character button.hover{ background-position:-450px -21px;}
 .xpress-editor .tool li.find button.hover{ background-position:-471px -21px;}
 .xpress-editor .tool li.extensions span.hover{ background-position:0 -21px;}
-.xpress-editor .tool li.extensions span.hover button,{ background-position:right -21px;}
+.xpress-editor .tool li.extensions span.hover button{ background-position:right -21px;}
 .xpress-editor .tool li.html span.hover{ background-position:0 -21px;}
 .xpress-editor .tool li.html span.hover button{ background-position:right -21px;}
 .xpress-editor .tool li.preview span.hover{ background-position:0 -21px;}
