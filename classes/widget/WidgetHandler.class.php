@@ -273,7 +273,7 @@
             }
 
             $output = $widget_content_header . $widget_content_body . $widget_content_footer;
-//if($widget=='widgetBox')debugPrint($output);
+
             // 위젯 결과물 생성 시간을 debug 정보에 추가
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
             // 결과 return

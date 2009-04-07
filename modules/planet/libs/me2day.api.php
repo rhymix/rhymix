@@ -3,10 +3,8 @@
         var $user_id = null;
         var $user_key = null;
 
+        var $api_url = 'http://me2day.net:80';
         var $application_key = '537a368d9049d9e86b2b169d75a2a4c3';
-
-        var $api_host = 'me2day.net';
-        var $api_port = 80;
 
         function me2api($user_id, $user_key) {
             $this->user_id = $user_id;
@@ -29,9 +27,7 @@
         }
 
         function _getContent($method, $user_id = null, $params = null) {
-            $host = $this->api_host;
-            $path = $this->_getPath($method, $user_id);
-            $port = $this->api_port;
+            $url = $this->api_url.$this->_getPath($method, $user_id);
             $auth = base64_encode($this->user_id.':'.$this->_getAuthKey());
 
             $arr_content = array();
@@ -39,35 +35,16 @@
                 foreach($params as $key => $val) {
                     $arr_content[] = sprintf('%s=%s', $key, urlencode($val)); 
                 }
-                $content = implode('&',$arr_content);
+                $body = implode('&',$arr_content);
             }
-            $header = sprintf(
-                    "POST %s HTTP/1.0\r\n".
-                    "Host: %s\r\n".
-                    "me2_application_key: %s\r\n".
-                    "Content-Type: application/x-www-form-urlencoded\r\n".
-                    "Authorization: Basic %s\r\n".
-                    "Content-Length: %d\r\n\r\n",
-                    $path,
-                    $host,
-                    $this->application_key,
-                    $auth,
-                    strlen($content)
-            );
-            if($content) $header.=$content."\r\n\r\n";
 
-            $fp = fsockopen($host, $port);
-            if(!$fp) return null;
-            fwrite($fp, $header);
-            
-            $started = false;
-            while(!feof($fp)) {
-                $str = fgets($fp, 1024);
-                if(!trim($str)) $started = true;
-                if($started) $buff .= $str;
-            }
-            fclose($fp);
-            return trim($buff);
+            $buff = FileHandler::getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded', 
+                        array(
+                            'me2_application_key'=>$this->application_key,
+                            'Authorization'=>'Basic '.$auth,
+                        )
+                    );
+            return $buff;
         }
 
         function chkNoop() {
