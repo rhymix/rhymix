@@ -63,11 +63,11 @@
     $lang->about_cafe_title = 'Cafe 이름은 관리를 위해서만 사용될 뿐 서비스에는 나타나지 않습니다';
     $lang->about_domain = 'Para crear un dominio privado de la cafetería requiere. <br/> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe';
     $lang->about_menu_names = 'Café en el nombre del idioma que aparezca en el menú para que usted pueda especificar. <br/> Puede entrar en un sólo aplica a todos ustedes ';
-    $lang->about_menu_option = 'selección de menú puede elegir para abrir saechangeuro. <br /> Menús desplegables se comportarán de acuerdo con el diseño;
+    $lang->about_menu_option = 'selección de menú puede elegir para abrir saechangeuro. <br /> Menús desplegables se comportarán de acuerdo con el diseño';
     $lang->about_group_grant = 'Cuando aparezca el menú, seleccionar un grupo de grupos seleccionados. <br/> Miembros no pueden ver cuando se apaga todas las';
     $lang->about_module_type = 'Tablones de anuncios, y el enlace URL de la página para crear un módulo. <br/> Saengseonghu no puede ser modificado';
     $lang->about_browser_title = 'Acceso a un menú de su navegador para que aparezca en el título se';
-    $lang->about_module_id = 'Boletines, jeopsokhalttae jideung dirección de la página se utiliza. <br/> Sí) de dominio http:// Dominio/ [Módulo ID], dominio http:// Dominio/? Media = [Módulo ID];
+    $lang->about_module_id = 'Boletines, jeopsokhalttae jideung dirección de la página se utiliza. <br/> Sí) de dominio http:// Dominio/ [Módulo ID], dominio http:// Dominio/? Media = [Módulo ID]';
     $lang->about_menu_item_url = 'Cuando es la dirección de la URL como vínculo de conexión. <br/> Http:// excepto para las palabras';
     $lang->about_menu_image_button = 'Menyumyeong pueden usar un menú en lugar de la imagen.';
     $lang->about_cafe_delete = 'Todos los módulos están conectados en caso de supresión de Café (Boletín, página jideung) y será suprimido en consecuencia geuldeulyi. <br /> ¿Necesita atención';
