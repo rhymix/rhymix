@@ -124,6 +124,7 @@
     $lang->file = '文件';
 
     $lang->mid = '模块名称';
+    $lang->sid = 'Site Name';
     $lang->layout = '布局';
     $lang->widget = '控件 ';
     $lang->module = '模块';

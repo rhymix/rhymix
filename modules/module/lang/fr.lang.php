@@ -34,6 +34,13 @@
     $lang->lang_code = "언어 코드";
     $lang->filebox = "파일박스";
 
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Doamin 접속';
+    $lang->access_sid = 'Site ID 접속';
+    $lang->about_sid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_sid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = '이미 등록된 도메인입니다. 다른 도메인을 사용해주세요';
+
     $lang->header_script = "Script en-tête";
     $lang->about_header_script = "Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;.<br />Vous pouvez utiliser &lt;script, &lt;style ou &lt;meta tag";
 

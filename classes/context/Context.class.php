@@ -104,6 +104,8 @@
                 $oModuleModel = &getModel('module');
                 $site_module_info = $oModuleModel->getDefaultMid();
                 Context::set('site_module_info', $site_module_info);
+
+                if($site_module_info->site_srl && isSiteID($site_module_info->sid)) Context::set('sid', $site_module_info->sid);
             }
 
             // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
@@ -766,14 +768,24 @@
                 $site_module_info = Context::get('site_module_info');
             }
 
+            // SiteID 요청시 전처리
+            if($domain && isSiteID($domain)) {
+                $sid = $domain;
+                $domain = '';
+            } 
+
+            // SiteID가 요청되지 않았다면 현재 site_module_info에서 SiteID 판별
+            if(!$sid && $site_module_info->domain && isSiteID($site_module_info->domain)) {
+                $sid = $site_module_info->domain;
+            }
+
             if(!$domain) {
-                if($site_module_info->domain) $domain = $site_module_info->domain;
+                if($site_module_info->domain && !isSiteID($site_module_info->domain)) $domain = $site_module_info->domain;
                 else {
                     if($this->db_info->default_url) $domain = $this->db_info->default_url;
                     else if(!$domain) $domain = Context::getRequestUri();
                 }
             }
-
             $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
             if(substr($domain,-1) != '/') $domain .= '/';
 
@@ -796,6 +808,7 @@
                 }
                 $get_vars[$key] = $val;
             }
+            unset($get_vars['sid']);
 
             /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
@@ -808,9 +821,16 @@
             else $path = $this->getRequestUri(RELEASE_SSL, $domain);
 
             $var_count = count($get_vars);
-            if(!$var_count) return $path;
+            if(!$var_count) {
+                if($sid) {
+                    if($this->allow_rewrite) $path .= $sid;
+                    else $path .= '?sid='.$sid;
+                } 
+                return $path;
+            }
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
+            // 2009. 4. 8 mid, document_srl, site id, entry 를 제외하고는 rewrite rule 사용하지 않도록 변경
             if($this->allow_rewrite) {
                 if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value) || $value === '') unset($get_vars[$key]);
 
@@ -818,46 +838,23 @@
                 asort($var_keys);
                 $target = implode('.',$var_keys);
 
+                if($sid) $rpath = $path.$sid .'/';
+                else $rpath = $path;
+
                 switch($target) {
                     case 'mid' :
-                        return $path.$get_vars['mid'];
+                        return $rpath.$get_vars['mid'];
                     case 'document_srl' :
-                        return $path.$get_vars['document_srl'];
-                    case 'act.mid' :
-                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
+                        return $rpath.$get_vars['document_srl'];
                     case 'document_srl.mid' :
-                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
-                    case 'act.document_srl' :
-                        return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
-                    case 'mid.page' :
-                        return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
-                    case 'category.mid' :
-                        return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
-                    case 'act.document_srl.key' :
-                        return sprintf('%s%s/%s/%s',$path,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
-                    case 'document_srl.mid.page' :
-                        return sprintf('%s%s/%s/page/%s',$path,$get_vars['mid'],$get_vars['document_srl'],$get_vars['page']);
-                    case 'category.mid.page' :
-                        return sprintf('%s%s/category/%s/page/%s',$path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
-                    case 'mid.search_keyword.search_target' :
-                            switch($get_vars['search_target']) {
-                                case 'tag' :
-                                    return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
-                                case 'nick_name' :
-                                    return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
-                                case 'regdate' :
-                                    if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
-                                    elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2));
-                            }
-                        break;
-                    case 'act.document_srl.mid' :
-                        return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
+                        return sprintf('%s%s/%s',$rpath,$get_vars['mid'],$get_vars['document_srl']);
                     case 'entry.mid' :
-                        return sprintf('%s%s/entry/%s',$path,$get_vars['mid'],$get_vars['entry']);
+                        return sprintf('%s%s/entry/%s',$rpath,$get_vars['mid'],$get_vars['entry']);
                 }
             }
 
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
+            if($sid) $url = 'sid='.$sid;
             foreach($get_vars as $key => $val) {
                 if(!isset($val)) continue;
                 if(is_array($val) && count($val)) {
@@ -868,7 +865,6 @@
                     $url .= ($url?'&':'').$key.'='.urlencode($val);
                 }
             }
-
             return $path.'?'.htmlspecialchars($url);
         }
 
@@ -1361,13 +1357,9 @@
             // body 내의 <style ..></style>를 header로 이동
             $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
 
-            // <img|br> 코드 변환
-            //$content = preg_replace('/<(img|br)([^>]*)(\/>|>)/i','<$1$2 />', $content);
-            $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
-
             // templateHandler의 이미지 경로로 인하여 생기는 절대경로 이미지등의 경로 중복 처리
             //$content = preg_replace('/<(img|input)([^>]*)src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','<$1$2src=$3http://', $content);
-	    $content = preg_replace('/src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','src=$1http://', $content);
+            $content = preg_replace('/src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','src=$1http://', $content);
 
             return $content;
         }

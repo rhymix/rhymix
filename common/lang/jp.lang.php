@@ -124,6 +124,7 @@
     $lang->file = 'ファイル';
 
     $lang->mid = 'モジュール名';
+    $lang->sid = 'Site Name';
     $lang->layout = 'レイアウト';
     $lang->widget = 'ウィジェット';
     $lang->module = 'モジュール';

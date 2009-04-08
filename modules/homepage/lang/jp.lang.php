@@ -16,6 +16,8 @@
     $lang->cafe_admin = "ホームページ管理者";
     $lang->do_selected_member = "選択した会員を : ";
 
+    $lang->cmd_make_cafe = '카페 생성';
+
     $lang->default_menus = array(
         'home' => 'ホーム',
         'notice' => 'お知らせ',
@@ -61,7 +63,6 @@
     );
     $lang->about_cafe = "ホームページサービス管理者は複数のホームページ作成、および各ホームページを簡単に管理が出来ます。";
     $lang->about_cafe_title = "ホームページ名は管理をするためだけに使われ、実サービスには表示されません。";
-    $lang->about_domain = "複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。<br />また、 XEインストールパスも一緒に記入して下さい。<br />ex) www.xpressengine.com/xe";
     $lang->about_menu_names = "ホームページに使うメニュー名を言語別に指定出来ます。<br/>一個だけ記入した場合、他言語に一括適用されます。";
     $lang->about_menu_option = "メニューを選択するとき新しいウィンドウズに開けるかを選択します。<br />拡張メニューはレイアウトによって動作します。";
     $lang->about_group_grant = "選択グループのみ、メニューが見えます。<br/>全てを解除すると非会員にも見えます。";
@@ -75,5 +76,4 @@
 
     $lang->confirm_change_layout = "レイアウトの変更時、一部のレイアウト情報が失われる可能性があります。 変更しますか?";
     $lang->confirm_delete_menu_item = "メニューの削除時、リンクされている掲示板やページモジュールも一緒に削除されます。削除しますか?";
-    $lang->msg_already_registed_domain = "既に登録されているドメインです。異なるドメインを利用して下さい。";
 ?>

@@ -34,6 +34,14 @@
     $lang->lang_code = "언어 코드";
     $lang->filebox = "파일박스";
 
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Doamin 접속';
+    $lang->access_sid = 'Site ID 접속';
+    $lang->about_domain = 'Para crear un dominio privado de la site requiere. <br/> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe';
+    $lang->about_sid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_sid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = 'Ya es de dominio registrado. Por favor, use un dominio diferente';
+
     $lang->header_script = "헤더 스크립트";
     $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
 

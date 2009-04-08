@@ -76,6 +76,7 @@ function XEUploaderStart(obj) {
         upload_complete_handler : uploadComplete,
         queue_complete_handler :queueComplete
     };
+    if(typeof(xeSid)!='undefined') settings["post_params"]["sid"] = xeSid;
     settings["post_params"][obj["sessionName"]] = xGetCookie(obj["sessionName"]);
     settings["editorSequence"] = obj["editorSequence"];
     settings["uploadTargetSrl"] = editorRelKeys[obj["editorSequence"]]["primary"].value;

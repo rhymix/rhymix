@@ -18,17 +18,15 @@
         <tr>
             <th scope="row"><div>{$lang->cafe_title}</div></th>
             <td>
-                <input type="text" name="homepage_title" value="{$homepage_info->title}" class="inputTypeText w200" />
+                {$homepage_info->title}
                 <a href="{getSiteUrl($homepage_info->domain,'', 'module','homepage','act','dispHomepageManage')}" onclick="window.open(this.href); return false;" class="button"><span>{$lang->cmd_management}</span></a>
-                <p>{$lang->about_cafe_title}</p>
             </td>
         </tr>
         <tr>
             <th scope="row"><div>{$lang->domain}</div></th>
             <td>
-                http://<input type="text" name="domain" value="{$homepage_info->domain}" class="inputTypeText w200" />
+                {getSiteUrl($homepage_info->domain)}
                 <a href="{getSiteUrl($homepage_info->domain, '')}" onclick="window.open(this.href); return false;" class="button"><span>{$lang->cmd_move}</span></a>
-                <p>{$lang->about_domain}</p>
             </td>
         </tr>
         <tr>

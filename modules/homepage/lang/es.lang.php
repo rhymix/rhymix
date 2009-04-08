@@ -16,6 +16,8 @@
     $lang->cafe_admin = 'Gerente de café';
     $lang->do_selected_member = 'Los miembros seleccionados: ';
 
+    $lang->cmd_make_cafe = '카페 생성';
+
     $lang->default_menus = array(
         'home' => 'Inicio',
         'notice' => 'Anuncios',
@@ -61,7 +63,6 @@
     );
     $lang->about_cafe = 'Cafe 서비스 관리자는 다수의 Cafe를 만들 수 있고 또 각 Cafe를 편하게 설정할 수 있도록 합니다.';
     $lang->about_cafe_title = 'Cafe 이름은 관리를 위해서만 사용될 뿐 서비스에는 나타나지 않습니다';
-    $lang->about_domain = 'Para crear un dominio privado de la cafetería requiere. <br/> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe';
     $lang->about_menu_names = 'Café en el nombre del idioma que aparezca en el menú para que usted pueda especificar. <br/> Puede entrar en un sólo aplica a todos ustedes ';
     $lang->about_menu_option = 'selección de menú puede elegir para abrir saechangeuro. <br /> Menús desplegables se comportarán de acuerdo con el diseño';
     $lang->about_group_grant = 'Cuando aparezca el menú, seleccionar un grupo de grupos seleccionados. <br/> Miembros no pueden ver cuando se apaga todas las';
@@ -75,5 +76,4 @@
 
     $lang->confirm_change_layout = 'Si cambia el diseño de algunas de la información relativa al diseño puede desaparecer. ¿Te gustaría cambiar?';
     $lang->confirm_delete_menu_item = 'Eliminación de un elemento de menú o de la página, el módulo está conectado con el boletín se eliminarán. Si desea eliminar?';
-    $lang->msg_already_registed_domain = 'Ya es de dominio registrado. Por favor, use un dominio diferente';
 ?>

@@ -124,6 +124,7 @@
     $lang->file = '파일';
 
     $lang->mid = '모듈이름';
+    $lang->sid = '가상 사이트 이름';
     $lang->layout = '레이아웃';
     $lang->widget = '위젯 ';
     $lang->module = '모듈';

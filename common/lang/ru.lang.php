@@ -122,6 +122,7 @@
     $lang->order_desc = 'спустится';
 
     $lang->mid = 'Имя Модуля';
+    $lang->sid = 'Site Name';
     $lang->layout = 'Лейаут';
     $lang->widget = 'Виджет';
     $lang->module = 'Модуль';

@@ -337,6 +337,12 @@
             if(!$output->toBool() || !$output->data) return $output;
             $site_srl = $output->data->site_srl;
 
+            if($site_srl) {
+                $oModuleModel = &getModel('module');
+                $site_info = $oModuleModel->getSiteInfo($site_srl);
+                $domain = $site_info->domain;
+            }
+
             // DB에서 menu_srl에 해당하는 메뉴 아이템 목록을 listorder순으로 구해옴
             $args->menu_srl = $menu_srl;
             $args->sort_index = 'listorder';
@@ -400,11 +406,11 @@
                 '?>'.
                 '<root>%s</root>',
                 $header_script,
-                $this->getXmlTree($tree[0], $tree, $site_srl)
+                $this->getXmlTree($tree[0], $tree, $site_srl, $domain)
             );
 
             // php 캐시 파일 생성
-            $php_output = $this->getPhpCacheCode($tree[0], $tree, $site_srl);
+            $php_output = $this->getPhpCacheCode($tree[0], $tree, $site_srl, $domain);
             $php_buff = sprintf(
                 '<?php '.
                 'if(!defined("__ZBXE__")) exit(); '.
@@ -428,7 +434,7 @@
          * 메뉴 xml파일은 node라는 tag가 중첩으로 사용되며 이 xml doc으로 관리자 페이지에서 메뉴를 구성해줌\n
          * (tree_menu.js 에서 xml파일을 바로 읽고 tree menu를 구현)
          **/
-        function getXmlTree($source_node, $tree, $site_srl) {
+        function getXmlTree($source_node, $tree, $site_srl, $domain) {
             if(!$source_node) return;
 
             $oMenuAdminModel = &getAdminModel('menu');
@@ -437,7 +443,7 @@
                 $child_buff = "";
 
                 // 자식 노드의 데이터 가져옴
-                if($menu_item_srl&&$tree[$menu_item_srl]) $child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree, $site_srl);
+                if($menu_item_srl&&$tree[$menu_item_srl]) $child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree, $site_srl, $domain);
 
                 // 변수 정리
                 $names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
@@ -448,7 +454,7 @@
 
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
                 if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url)) {
-                    $href = getUrl('','mid',$node->url);
+                    $href = getSiteUrl($domain, '','mid',$node->url);
                     $pos = strpos($href, $_SERVER['HTTP_HOST']);
                     if($pos !== false) $href = substr($href, $pos+strlen($_SERVER['HTTP_HOST']));
                 } else $href = $url;
@@ -511,7 +517,7 @@
          * php로 된 캐시파일을 만들어서 db이용없이 바로 메뉴 정보를 구할 수 있도록 한다
          * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
          **/
-        function getPhpCacheCode($source_node, $tree, $site_srl) {
+        function getPhpCacheCode($source_node, $tree, $site_srl, $domain) {
             $output = array("buff"=>"", "url_list"=>array());
             if(!$source_node) return $output;
 
@@ -519,7 +525,7 @@
 
             foreach($source_node as $menu_item_srl => $node) {
                 // 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴
-                if($menu_item_srl&&$tree[$menu_item_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree, $site_srl);
+                if($menu_item_srl&&$tree[$menu_item_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree, $site_srl, $domain);
                 else $child_output = array("buff"=>"", "url_list"=>array());
 
                 // 변수 정리
@@ -541,7 +547,7 @@
                 $href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
                 $url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
                 if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url)) {
-                    $href = getUrl('','mid',$node->url);
+                    $href = getSiteUrl($domain, '','mid',$node->url);
                     $pos = strpos($href, $_SERVER['HTTP_HOST']);
                     if($pos !== false) $href = substr($href, $pos+strlen($_SERVER['HTTP_HOST']));
                 } else $href = $url;

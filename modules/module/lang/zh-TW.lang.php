@@ -33,6 +33,13 @@
     $lang->bundle_grant_setup = '批次設定-權限管理';
     $lang->lang_code = '語言代碼';
     $lang->filebox = '檔案管理';
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Doamin 접속';
+    $lang->access_sid = 'Site ID 접속';
+    $lang->about_domain = "要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將XE安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe";
+    $lang->about_sid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_sid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = "已註冊的域名。請使用其他的網域。";
 
     $lang->header_script = "Header Script";
     $lang->about_header_script = "可以直接輸入，並插入到HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。";

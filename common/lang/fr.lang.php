@@ -124,6 +124,7 @@
     $lang->file = 'file';
 
     $lang->mid = 'Nom';
+    $lang->sid = 'Site Name';
     $lang->layout = 'Mise en Page';
     $lang->widget = 'Gadget';
     $lang->module = 'Module';

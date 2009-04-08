@@ -123,6 +123,7 @@
     $lang->file = 'file';
 
     $lang->mid = 'ID del Módulo';
+    $lang->sid = 'Site Name';
     $lang->layout = 'Composición';
     $lang->widget = 'Widget';
     $lang->module = 'Módulo';

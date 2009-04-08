@@ -113,20 +113,26 @@
          * @brief virtual site 생성
          **/
         function insertSite($domain, $index_module_srl) {
+            if(isSiteID($domain)) {
+                $oModuleModel = &getModel('module');
+                if($oModuleModel->isIDExists($domain, 0)) return new Object(-1,'msg_already_registed_sid');
+            }
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
             $output = executeQuery('module.insertSite', $args);
-            if(!$output->toBool()) return null;
+            if(!$output->toBool()) return $output;
 
-            return $args->site_srl;
+            $output->add('site_srl', $args->site_srl);
+            return $output;
         }
 
         /**
          * @brief virtual site 수정
          **/
         function updateSite($args) {
-            return executeQuery('module.updateSite', $args);
+            $output = executeQuery('module.updateSite', $args);
+            return $output;
         }
 
         /**
@@ -170,17 +176,14 @@
             $output = $this->arrangeModuleInfo($args, $extra_vars);
             if(!$output->toBool()) return $output;
 
+            // 이미 존재하는 모듈 이름인지 체크
+            if(!$args->site_srl) $args->site_srl = 0;
+            $oModuleModel = &getModel('module');
+            if($oModuleModel->isIDExists($args->mid, $args->site_srl)) return new Object(-1, 'msg_module_name_exists');
+
             // begin transaction
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // 이미 존재하는 모듈 이름인지 체크
-            if(!$args->site_srl) $args->site_srl = 0;
-            $output = executeQuery('module.isExistsModuleName', $args);
-            if(!$output->toBool() || $output->data->count) {
-                $oDB->rollback();
-                return new Object(-1, 'msg_module_name_exists');
-            }
 
             // is_default 의 값에 따라서 처리
             if($args->site_srl!=0) $args->is_default = 'N';
@@ -190,7 +193,6 @@
             }
 
             // 선택된 스킨정보에서 colorset을 구함
-            $oModuleModel = &getModel('module');
             $module_path = ModuleHandler::getModulePath($args->module);
             $skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
             $skin_vars->colorset = $skin_info->colorset[0]->name;
