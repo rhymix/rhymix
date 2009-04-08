@@ -81,10 +81,13 @@
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($args);
             $document_list = $output->data;
+            $oModuleController = &getController('module');
 
             // 피드 제목 및 정보등을 추출 Context::getBrowserTitle 
             if($mid) {
                 $info->title = Context::getBrowserTitle();
+                $oModuleController->replaceDefinedLangCode($info->title);
+
                 $info->title = str_replace('\'', '&apos;',$info->title);
                 if($config->feed_description) {
                     $info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description));
@@ -103,11 +106,14 @@
                     $site_module_info = Context::get('site_module_info');
                     $info->title = $site_module_info->browser_title;
                 }
+
+                $oModuleController->replaceDefinedLangCode($info->title);
                 $info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title));
                 $info->description = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_description));
                 $info->link = Context::getRequestUri();
                 $info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
             }
+
             if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image));
             $info->total_count = $output->total_count;
             $info->total_page = $output->total_page;
