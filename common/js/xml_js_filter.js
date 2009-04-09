@@ -62,7 +62,7 @@ function XmlJsFilter(form_object, module, act, callback_user_func) {
 function XmlJsFilterSetFocus(target_name) {
     var obj = this.fo_obj[target_name];
     if(typeof(obj)=='undefined' || !obj) return;
-    
+
     var length = obj.length;
     try {
         if(typeof(length)!='undefined') {
@@ -167,23 +167,23 @@ function XmlJsFilterExecuteFilter(filter, value) {
                 return regx.test(value);
             break;
         case "homepage" :
-                var regx = /^(http|https|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-\/\~]+)+(:[0-9]{2,4})*$/;       
+                var regx = /^(http|https|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-\/\~]+)+(:[0-9]{2,4})*$/;
                 return regx.test(value);
             break;
         case "korean" :
-                var regx = /^[가-힣]*$/; 
+                var regx = /^[가-힣]*$/;
                 return regx.test(value);
             break;
         case "korean_number" :
-                var regx = /^[가-힣0-9]*$/; 
+                var regx = /^[가-힣0-9]*$/;
                 return regx.test(value);
             break;
         case "alpha" :
-                var regx = /^[a-zA-Z]*$/; 
+                var regx = /^[a-zA-Z]*$/;
                 return regx.test(value);
             break;
         case "alpha_number" :
-                var regx = /^[a-zA-Z][a-zA-Z0-9\_]*$/; 
+                var regx = /^[a-zA-Z][a-zA-Z0-9\_]*$/;
                 return regx.test(value);
             break;
         case "number" :
@@ -256,7 +256,7 @@ function XmlJsFilterCheckFieldItem() {
         }
     }
     return true;
-} 
+}
 
 function XmlJsFilterGetParameterParam() {
     if(!this.fo_obj) return new Array();
@@ -304,33 +304,39 @@ function XmlJsFilterProc(confirm_msg) {
 function procFilter(fo_obj, filter_func) {
     // form문 안에 위지윅 에디터가 세팅되어 있을 경우 에디터의 값과 지정된 content field를 sync
     var editor_sequence = fo_obj.getAttribute('editor_sequence');
-    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') { 
-        var content = editorGetContent(editor_sequence);
 
-        var dummy = xCreateElement("div");
-        xInnerHtml(dummy, content);
+    if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') {
 
-        // IE에서 컨텐츠 전체를 P태그로 감싸는 경우가 있어서 이 의미없는 P태그를 제거
-        if(dummy.firstChild && dummy.firstChild.nodeName == 'P' && dummy.firstChild == dummy.lastChild) {
-            var content = xInnerHtml(dummy.firstChild);
-            xInnerHtml(dummy,content);
-        }
+        if(jQuery.isFunction(editorRelKeys[editor_sequence]['pasteHTML'])){
+            var content = editorGetContent(editor_sequence);
+            editorRelKeys[editor_sequence]['content'].value = content;
+        }else{
+            var content = editorGetContent(editor_sequence);
+            var dummy = xCreateElement("div");
+            xInnerHtml(dummy, content);
 
-        // img/a 태그의 대상에 대해 경로 재설정 (IE브라우저에서 위지윅 에디터내의 경로를 절대 경로로 바꾸는 버그때문ㅇ)
-        var imgTags = xGetElementsByTagName('IMG', dummy);
-        for(var i=0;i<imgTags.length;i++) {
-            if(imgTags[i].src.indexOf(request_uri)!=-1) {
-                imgTags[i].src = imgTags[i].src.replace(/(.*)files\/(.*)/i,'files/$2');
+            // IE에서 컨텐츠 전체를 P태그로 감싸는 경우가 있어서 이 의미없는 P태그를 제거
+            if(dummy.firstChild && dummy.firstChild.nodeName == 'P' && dummy.firstChild == dummy.lastChild) {
+                var content = xInnerHtml(dummy.firstChild);
+                xInnerHtml(dummy,content);
             }
-        }
-        var aTags = xGetElementsByTagName('A', dummy);
-        for(var i=0;i<aTags.length;i++) {
-            if(aTags[i].href.indexOf(request_uri)!=-1) {
-                aTags[i].href = aTags[i].href.replace(/(.*)\?module=file&(.*)/i,'./?module=file&$2');
+
+            // img/a 태그의 대상에 대해 경로 재설정 (IE브라우저에서 위지윅 에디터내의 경로를 절대 경로로 바꾸는 버그때문ㅇ)
+            var imgTags = xGetElementsByTagName('IMG', dummy);
+            for(var i=0;i<imgTags.length;i++) {
+                if(imgTags[i].src.indexOf(request_uri)!=-1) {
+                    imgTags[i].src = imgTags[i].src.replace(/(.*)files\/(.*)/i,'files/$2');
+                }
             }
+            var aTags = xGetElementsByTagName('A', dummy);
+            for(var i=0;i<aTags.length;i++) {
+                if(aTags[i].href.indexOf(request_uri)!=-1) {
+                    aTags[i].href = aTags[i].href.replace(/(.*)\?module=file&(.*)/i,'./?module=file&$2');
+                }
+            }
+            var content = xInnerHtml(dummy);
+            editorRelKeys[editor_sequence]['content'].value = content;
         }
-        var content = xInnerHtml(dummy);
-        editorRelKeys[editor_sequence]['content'].value = content;
     }
 
     filter_func(fo_obj);
