@@ -35,7 +35,7 @@
     $lang->filebox = "파일박스";
 
     $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Doamin 접속';
+    $lang->access_domain = 'Domain 접속';
     $lang->access_vid = 'Site ID 접속';
     $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
     $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
@@ -87,7 +87,7 @@
 	$lang->about_search_list_count = 'Vous pouvez configurer combien d\'articles soient exposés quand vous utilisez la fonction de recherche ou de catégorie. (20 par défaut)';
     $lang->about_page_count = 'Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(10 par défaut)';
     $lang->about_admin_id = 'Vous pouvez désigner un directeur qui aura tous les permissions sur le module.\nVous pouvez entrer plusieurs compte en utilisant.';
-    $lang->about_grant = 'Si vous ne donnez pas la permission à aucune personne, même les membres qui n\'a pas ouvert la connexion auront la permission. '; 
+    $lang->about_grant = 'Si vous ne donnez pas la permission à aucune personne, même les membres qui n\'a pas ouvert la connexion auront la permission. ';
     $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
     $lang->about_module = "XE se compose des modules sauf la bibliothèque fondamental.\nLe module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.";
 

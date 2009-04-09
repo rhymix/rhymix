@@ -35,7 +35,7 @@
     $lang->filebox = "文件管理";
 
     $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Doamin 접속';
+    $lang->access_domain = 'Domain 접속';
     $lang->access_vid = 'Site ID 접속';
     $lang->about_domain = "要创建一个站点必须有一个专用域名。<br/>一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe";
     $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';

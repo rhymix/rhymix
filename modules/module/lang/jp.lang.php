@@ -35,7 +35,7 @@
     $lang->filebox = "ファイルボックス";
 
     $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Doamin 접속';
+    $lang->access_domain = 'Domain 접속';
     $lang->access_vid = 'Site ID 접속';
     $lang->about_domain = "複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。<br />また、 XEインストールパスも一緒に記入して下さい。<br />ex) www.xpressengine.com/xe";
     $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';

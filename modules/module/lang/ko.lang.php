@@ -2,7 +2,7 @@
     /**
      * @file   ko.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  한국어 언어팩 
+     * @brief  한국어 언어팩
      **/
 
     $lang->virtual_site = '가상 사이트';
@@ -35,7 +35,7 @@
     $lang->filebox = '파일박스';
 
     $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Doamin 접속';
+    $lang->access_domain = 'Domain 접속';
     $lang->access_vid = 'Site ID 접속';
     $lang->about_domain = '1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br/>독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />ex) www.xpressengine.com/xe';
     $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
