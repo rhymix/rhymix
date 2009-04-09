@@ -43,7 +43,7 @@
     $lang->msg_already_registed_domain = "既に登録されているドメインです。異なるドメインを利用して下さい。";
 
     $lang->header_script = "ヘッダースクリプト";
-    $lang->about_header_script = "HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力出来ます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどが利用出来ます";
+    $lang->about_header_script = "HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力出来ます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどが利用出来ます。";
 
     $lang->grant_access = "アクセス権限";
     $lang->grant_manager = "管理権限";

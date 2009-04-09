@@ -164,7 +164,7 @@
     $lang->about_blog_url = '運用しているブログがあれば入力して下さい。';
     $lang->about_birthday = '生年月日を入力して下さい。';
     $lang->about_allow_mailing = 'メーリングリストにチェックされていない場合は、全体メールの送信時にメールを受け取りません。';
-    $lang->about_denied = 'チェックするとユーザＩＤを使用できないようにします。';
+    $lang->about_denied = 'チェックするとユーザＩＤを使用出来ないようにします。';
     $lang->about_is_admin = 'チェックすると最高管理者権限が取得出来ます。';
     $lang->about_member_description = '会員に対する管理者のメモ帳です。';
     $lang->about_group = '一つのユーザＩＤは多数のグループに属することが出来ます。';
