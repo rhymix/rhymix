@@ -16,7 +16,7 @@
     $lang->cafe_admin = "網站管理者";
     $lang->do_selected_member = "選擇會員 : ";
 
-    $lang->cmd_make_cafe = '카페 생성';
+    $lang->cmd_make_cafe = '建立網站';
 
     $lang->default_menus = array(
         'home' => '首頁',
