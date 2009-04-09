@@ -111,10 +111,6 @@
             $layout_module_args->module_srls = implode(',',$modules);
             $output = executeQuery('layout.updateModuleLayout', $layout_module_args);
 
-            // 메뉴 XML 파일 생성
-            $oMenuAdminController = &getAdminController('menu');
-            $oMenuAdminController->makeXmlFile($info->menu_srl, $info->site_srl);
-
             // 홈페이지 등록
             $args->site_srl = $info->site_srl;
             $args->title = $info->title;
@@ -179,6 +175,10 @@
             $oEditorController->insertComponent('table_maker',true, $info->site_srl);
             $oEditorController->insertComponent('poll_maker',true, $info->site_srl);
             $oEditorController->insertComponent('image_gallery',true, $info->site_srl);
+
+            // 메뉴 XML 파일 생성
+            $oMenuAdminController = &getAdminController('menu');
+            $oMenuAdminController->makeXmlFile($info->menu_srl, $info->site_srl);
 
             $this->add('site_srl', $info->site_srl);
             $this->add('url', getSiteUrl($info->domain, ''));

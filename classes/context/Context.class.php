@@ -67,14 +67,50 @@
             $this->context->lang = &$GLOBALS['lang'];
             $this->context->_COOKIE = $_COOKIE;
 
-            // 사용자의 쿠키 설정된 언어 타입 추출
-            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+            // Request Method 설정
+            $this->_setRequestMethod();
+
+            // Request Argument 설정
+            $this->_setXmlRpcArgument();
+            $this->_setJSONRequestArgument();
+            $this->_setRequestArgument();
+            $this->_setUploadedArgument();
 
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
+            // 설치가 되어 있다면 가상 사이트 정보를 구함
+            if(Context::isInstalled()) {
+                // site_module_info를 구함
+                $oModuleModel = &getModel('module');
+                $site_module_info = $oModuleModel->getDefaultMid();
+                Context::set('site_module_info', $site_module_info);
+
+                if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
+            }
+
             // 언어 파일 불러오기
             $lang_supported = $this->loadLangSelected();
+
+            // 사용자의 쿠키 설정된 언어 타입 추출
+            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+
+            // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
+            if(!$this->lang_type) {
+                // 가상 사이트라면 가상사이트의 언어타입으로 지정
+                if($site_module_info && $site_module_info->default_language) $this->lang_type = $site_module_info->default_language;
+                else $this->lang_type = $this->db_info->lang_type;
+            }
+
+            // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
+            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
+            if(!$this->lang_type) $this->lang_type = "en";
+
+            Context::set('lang_supported', $lang_supported);
+            $this->setLangType($this->lang_type);
+
+            // module의 언어파일 강제 로드 (언어 type에 맞춰서)
+            $this->loadLang(_XE_PATH_.'modules/module/lang');
 
             // 세션 핸들러 지정
             $oSessionModel = &getModel('session');
@@ -89,39 +125,6 @@
             );
             session_start();
 
-            // Request Method 설정
-            $this->_setRequestMethod();
-
-            // Request Argument 설정
-            $this->_setXmlRpcArgument();
-            $this->_setJSONRequestArgument();
-            $this->_setRequestArgument();
-            $this->_setUploadedArgument();
-
-            // 설치가 되어 있다면 가상 사이트 정보를 구함
-            if(Context::isInstalled()) {
-                // site_module_info를 구함
-                $oModuleModel = &getModel('module');
-                $site_module_info = $oModuleModel->getDefaultMid();
-                Context::set('site_module_info', $site_module_info);
-
-                if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
-            }
-
-            // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
-            if(!$this->lang_type) {
-                // 가상 사이트라면 가상사이트의 언어타입으로 지정
-                if($site_module_info && $site_module_info->default_language) $this->db_info->lang_type = $site_module_info->default_language;
-
-                // 언어 타입 지정
-                $this->lang_type = $this->db_info->lang_type;
-            }
-            // 지정된 언어가 지원 언어에 속하지 않거나 없으면 영문으로 지정
-            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
-            if(!$this->lang_type) $this->lang_type = "en";
-
-            Context::set('lang_supported', $lang_supported);
-            $this->setLangType($this->lang_type);
 
             // 인증 관련 정보를 Context와 세션에 설정
             if(Context::isInstalled()) {
@@ -462,6 +465,7 @@
          **/
         function _loadLang($path) {
             global $lang;
+            if(!$this->lang_type) return;
             if(substr($path,-1)!='/') $path .= '/';
             $filename = sprintf('%s%s.lang.php', $path, $this->lang_type);
             if(!file_exists($filename)) $filename = sprintf('%s%s.lang.php', $path, 'ko');
@@ -469,7 +473,7 @@
             if(!is_array($this->loaded_lang_files)) $this->loaded_lang_files = array();
             if(in_array($filename, $this->loaded_lang_files)) return;
             $this->loaded_lang_files[] = $filename;
-            include($filename);
+            if(file_exists($filename)) @include($filename);
         }
 
         /**
@@ -764,6 +768,9 @@
          **/
         function _getUrl($num_args=0, $args_list=array(), $domain = null) {
             static $site_module_info = null;
+            if($domain) $is_site = true;
+            else $is_site = false;
+
             if(is_null($site_module_info)) {
                 $site_module_info = Context::get('site_module_info');
             }
@@ -822,7 +829,7 @@
 
             $var_count = count($get_vars);
             if(!$var_count) {
-                return $path;
+                if(!$is_site) return $path;
                 if($vid) {
                     if($this->allow_rewrite) $path .= $vid;
                     else $path .= '?vid='.$vid;
