@@ -11,8 +11,8 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     form.setAttribute('editor_sequence', editor_sequence);
 
     var saved_content = '';
-    if(jQuery("#fo_write input[name=content]").size()>0){
-        saved_content=jQuery("#fo_write input[name=content]").val().replace(/src=\"files\/attach/g,'src="'+request_uri+'files/attach');
+    if(jQuery("input[name=content]",form).size()>0){
+        saved_content=jQuery("input[name=content]",form).val().replace(/src=\"files\/attach/g,'src="'+request_uri+'files/attach');
         jQuery("#xpress-editor-"+editor_sequence).val(saved_content);
     }
 
