@@ -75,14 +75,14 @@
     $lang->msg_extra_name_exists = '既に存在する拡張変数名です。他の拡張変数名を入力して下さい。';
 
     $lang->about_browser_title = "ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。";
-    $lang->about_mid = "モジュール名は、http://アドレス/?mid=モジュール名、のように直接呼び出せる値です（英数＋[英数,_のみ可]）。";
+    $lang->about_mid = "モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。<br />頭文字は英数＋[英数,_のみ可] （すべて半角）";
     $lang->about_default = "チェックすると、サイトに「 mid値」なしで接続した場合、デフォルトで表示します。";
-    $lang->about_module_category = "カテゴリで管理出来るようにします。モジュールのカテゴリの管理は、<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ </a>で行うことが出来ます。";
+    $lang->about_module_category = "カテゴリで管理出来るようにします。モジュールのカテゴリの管理は、「<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 > モジュールカテゴリ</a>」にて行うことが出来ます。";
     $lang->about_description= '管理用に用いられる説明です。';
     $lang->about_default = 'チェックすると、サイトに「mid値」なしで接続した場合、デフォルトで表示します。';
-    $lang->about_header_text = 'モジュールのヘッダーに表示される内容です（HTMLタグの使用可能）。';
-    $lang->about_footer_text = 'モジュールのフッターに表示される内容です。（HTMLタグの使用可能）。';
-    $lang->about_skin = 'モジュールのスキンを選択することが出来ます。';
+    $lang->about_header_text = 'モジュールのヘッダーに表示される内容です。（HTMLタグの使用可能）';
+    $lang->about_footer_text = 'モジュールのフッターに表示される内容です。（HTMLタグの使用可能）';
+    $lang->about_skin = 'モジュールのスキンを選択します。';
     $lang->about_use_category = 'チェックするとカテゴリ機能が使用出来ます。';
     $lang->about_list_count = '１ページ当たりに表示される書き込みの数が指定出来ます（デフォルト20個）。';
     $lang->about_search_list_count = 'お勧めの記事数を設定するにさらされるかのカテゴリ検索機能を使用する場合です。 （デフォルトは20 ）';

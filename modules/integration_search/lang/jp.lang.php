@@ -8,8 +8,8 @@
     $lang->integration_search = "統合検索";
 
     $lang->sample_code = "サンプルコード";
-    $lang->about_target_module = "選択されたモジュールのみを検索対象とします。権限設定に注意して下さい。";
-    $lang->about_sample_code = "上のコードをレイアウトなどに追加すると統合検索が可能になります。";
+    $lang->about_target_module = "選択されたモジュールだけを検索対象とします。各モジュールの権限設定にも注意して下さい。";
+    $lang->about_sample_code = "上のコードをレイアウトなどに挿入すると統合検索が可能になります。";
     $lang->msg_no_keyword = "検索語を入力して下さい。";
     $lang->msg_document_more_search  = '継続サーチボタンを選択すると、まだ検索結果として引っかからなかった箇所を引き続き検索を行います。';
 

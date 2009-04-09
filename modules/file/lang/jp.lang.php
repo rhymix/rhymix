@@ -25,8 +25,8 @@
     $lang->about_allow_outlink_format = '外部からのファイルリンク設定に構わず、常に外部からのリンクを許可する拡張子です。複数登録時には、「半角コンマ（,）」区切りで記入して下さい。<br />eg)txt,doc,zip,pdf';
     $lang->about_allow_outlink_site = '外部からのファイルリンク設定に構わず、常に外部からのリンクを許可するURLです。複数登録時には、改行で記入して下さい。<br />ex)http://www.zeroboard.com';
     $lang->about_allowed_filesize = '一つのファイルに対して、アップロード出来るファイルの最大サイズを指定します（管理者除外）。';
-    $lang->about_allowed_attach_size = '一つの書き込みに対して、添付出来る最大サイズを指定します（管理者除外）。';
-    $lang->about_allowed_filetypes = 'アップロード出来るように設定されたファイルのみが添付出来ます。"*.拡張子"で指定し、 ";"で区切って任意の拡張子を追加して指定出来ます（管理者除外）。<br />ex) *.* or *.jpg;*.gif;<br />';
+    $lang->about_allowed_attach_size = '一つの書き込みに対して、管理者以外のユーザーが添付出来る最大サイズを指定します。';
+    $lang->about_allowed_filetypes = 'ここで指定された種類のファイルのみ添付出来ます。"*.拡張子"で指定し、 ";"で区切って任意の拡張子を追加して指定出来ます。 （管理者は制限無し）<br />ex) *.* or *.jpg;*.gif;<br />';
 
     $lang->cmd_delete_checked_file = '選択リスト削除';
     $lang->cmd_move_to_document = '書き込みに移動する';
