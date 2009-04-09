@@ -7,9 +7,6 @@
 <!--@end-->
 
 <div class="latest_comment_{$colorset}">
-    <!--@if($widget_info->title)-->
-    <h2>{$widget_info->title}</h2>
-    <!--@end-->
     <ul>
         <!--@foreach($widget_info->comment_list as $val)-->
         <li>
@@ -22,7 +19,4 @@
         </li>
         <!--@end-->
     </ul>
-    <!--@if($widget_info->title && $widget_info->more_link)-->
-    <a href="{$widget_info->more_link}" class="more">more</a>
-    <!--@end-->
 </div>
