@@ -115,7 +115,7 @@
         function insertSite($domain, $index_module_srl) {
             if(isSiteID($domain)) {
                 $oModuleModel = &getModel('module');
-                if($oModuleModel->isIDExists($domain, 0)) return new Object(-1,'msg_already_registed_sid');
+                if($oModuleModel->isIDExists($domain, 0)) return new Object(-1,'msg_already_registed_vid');
             }
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);

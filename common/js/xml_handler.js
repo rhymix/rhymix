@@ -18,7 +18,7 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
     }
     oXml.addParam("module", module);
     oXml.addParam("act", act);
-    if(typeof(xeSid)!='undefined') oXml.addParam('sid', xeSid);
+    if(typeof(xeVid)!='undefined') oXml.addParam('vid', xeVid);
 
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
 
@@ -430,7 +430,7 @@ $.exec_json = function(action,data,func){
         }
 
         $.extend(data,{module:action[0],act:action[1]});
-        if(typeof(xeSid)!='undefined') $.extend(data,{sid:xeSid});
+        if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
         $.ajax({
             type:"POST"
             ,dataType:"json"

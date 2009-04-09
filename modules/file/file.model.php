@@ -73,7 +73,7 @@
          * @brief 다운로드 경로를 구함
          **/
         function getDownloadUrl($file_srl, $sid) {
-            return preg_replace('/^'.preg_quote(getUrl(),'/').'/','',getUrl('','module','file','act','procFileDownload','file_srl',$file_srl,'sid',$sid));
+            return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s', 'file', 'procFileDownload', $file_srl, $sid);
         }
 
         /**

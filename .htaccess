@@ -36,29 +36,29 @@ RewriteRule ^atom$ ./index.php?module=rss&act=atom [L]
 RewriteRule ^([a-zA-Z0-9_]+)/rss$ ./index.php?mid=$1&act=rss [L]
 RewriteRule ^([a-zA-Z0-9_]+)/atom$ ./index.php?mid=$1&act=atom [L]
 RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?mid=$1&act=api [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/rss$ ./index.php?sid=$1&mid=$2&act=rss [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/atom$ ./index.php?sid=$1&mid=$2&act=atom [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/api$ ./index.php?sid=$1&mid=$2&act=api [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/rss$ ./index.php?vid=$1&mid=$2&act=rss [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/atom$ ./index.php?vid=$1&mid=$2&act=atom [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/api$ ./index.php?vid=$1&mid=$2&act=api [L]
 
 # administrator page
 RewriteRule ^admin/?$ ./index.php?module=admin [L]
 
 # document permanent link
 RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
-# sid + document permanent link
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?sid=$1&document_srl=$2 [L]
+# vid + document permanent link
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?vid=$1&document_srl=$2 [L]
 
 # mid link
 RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
-# sid + mid link
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?sid=$1&mid=$2 [L]
+# vid + mid link
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?vid=$1&mid=$2 [L]
 
 # mid + document link
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
-# sid + mid + document link
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?sid=$1&mid=$2&document_srl=$3 [L]
+# vid + mid + document link
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?vid=$1&mid=$2&document_srl=$3 [L]
 
 # mid + entry title
 RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
-# sid + mid + entry title
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?sid=$1&mid=$2&entry=$3 [L]
+# vid + mid + entry title
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L]

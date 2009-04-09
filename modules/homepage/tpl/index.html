@@ -12,7 +12,7 @@
         <tr>
             <th scope="col"><div>{$lang->no}</div></th>
             <th scope="col" class="half_wide"><div>{$lang->title}</div></th>
-            <th scope="col" class="half_wide"><div>{$lang->domain} / {$lang->sid}</div></th>
+            <th scope="col" class="half_wide"><div>{$lang->domain} / {$lang->vid}</div></th>
             <th scope="col"><div>{$lang->regdate}</div></th>
             <th scope="col" colspan="3"><div>&nbsp;</div></th>
         </tr>
@@ -63,14 +63,14 @@
                 <th scope="row"><div>{$lang->access_type}</div></th>
                 <td>
                     <label for="chkDomain"><input type="radio" id="chkDomain" name="access_type" value="domain" onclick="toggleAccessType('domain');" checked="checked" /> {$lang->access_domain}</label>
-                    <label for="chkSid"><input type="radio" id="chkSid" name="access_type" value="sid" onclick="toggleAccessType('sid');" /> {$lang->access_sid}</label>
+                    <label for="chkVid"><input type="radio" id="chkVid" name="access_type" value="vid" onclick="toggleAccessType('vid');" /> {$lang->access_vid}</label>
                     <div id="accessDomain" style="display:block; margin-top:10px;">
                         http://<input type="text" name="domain" value="" class="inputTypeText w200" />
                         <p>{$lang->about_domain}</p>
                     </div>
-                    <div id="accessSid" style="display:none; margin-top:10px;">
-                        <input type="text" name="sid" value="" class="inputTypeText w200" />
-                        <p>{$lang->about_sid}</p>
+                    <div id="accessVid" style="display:none; margin-top:10px;">
+                        <input type="text" name="vid" value="" class="inputTypeText w200" />
+                        <p>{$lang->about_vid}</p>
                     </div>
                 </td>
             </tr>

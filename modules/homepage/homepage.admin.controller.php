@@ -18,10 +18,10 @@
             $title = Context::get('title');
 
             $domain = preg_replace('/^(http|https):\/\//i','', trim(Context::get('domain')));
-            $sid = trim(Context::get('site_id'));
+            $vid = trim(Context::get('site_id'));
 
-            if($domain && $sid) unset($sid);
-            if(!$domain && $sid) $domain = $sid;
+            if($domain && $vid) unset($vid);
+            if(!$domain && $vid) $domain = $vid;
 
             if(!$title) return new Object(-1, 'msg_invalid_request');
             if(!$domain) return new Object(-1, 'msg_invalid_request');
@@ -93,7 +93,7 @@
             $layout_args = $oLayoutModel->getLayout($info->layout_srl);
             $layout->colorset = 'white';
 
-            // sid 형식일 경우
+            // vid 형식일 경우
             if(isSiteID($domain)) $layout->index_url = getSiteUrl($domain, '');
             else $layout->index_url = 'http://'.$domain; 
             $layout->main_menu = $info->menu_srl;

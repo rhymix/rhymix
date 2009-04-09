@@ -14,7 +14,7 @@
         }
 
         /**
-         * @brief mid, sid 사용할 수 있는지 검사
+         * @brief mid, vid 사용할 수 있는지 검사
          **/
         function isIDExists($id, $site_srl = 0) {
             // directory 및 rss/atom/api 등 예약어 검사
@@ -30,7 +30,7 @@
             $output = executeQuery('module.isExistsModuleName', $args);
             if($output->data->count) return true;
 
-            // sid 검사 (site_srl이 0일때 즉 가상사이트가 아닌 경우 mid != sid임을 체크)
+            // vid 검사 (site_srl이 0일때 즉 가상사이트가 아닌 경우 mid != vid임을 체크)
             if(!$site_srl) {
                 $site_args->domain = $id;
                 $output = executeQuery('module.isExistsSiteDomain', $site_args);
@@ -71,7 +71,7 @@
         function getDefaultMid() {
             $default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
             $request_url = preg_replace('/\/$/','',Context::getRequestUri());
-            $sid = Context::get('sid');
+            $vid = Context::get('vid');
             $mid = Context::get('mid');
 
             // 기본 URL이 설정되어 있고 이 기본 URL과 요청 URL이 다르면 가상 사이트 확인
@@ -82,12 +82,12 @@
                 $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
                 $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
             } else {
-                if(!$sid) $sid = $mid;
-                if($sid) {
-                    $sid_args->domain = $sid;
-                    $output = executeQuery('module.getSiteInfoByDomain', $sid_args);
+                if(!$vid) $vid = $mid;
+                if($vid) {
+                    $vid_args->domain = $vid;
+                    $output = executeQuery('module.getSiteInfoByDomain', $vid_args);
                     if($output->toBool() && $output->data) {
-                        Context::set('sid', $output->data->domain, true);
+                        Context::set('vid', $output->data->domain, true);
                         if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
                     }
                 } 

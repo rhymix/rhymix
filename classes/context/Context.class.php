@@ -105,7 +105,7 @@
                 $site_module_info = $oModuleModel->getDefaultMid();
                 Context::set('site_module_info', $site_module_info);
 
-                if($site_module_info->site_srl && isSiteID($site_module_info->sid)) Context::set('sid', $site_module_info->sid);
+                if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
             }
 
             // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
@@ -770,13 +770,13 @@
 
             // SiteID 요청시 전처리
             if($domain && isSiteID($domain)) {
-                $sid = $domain;
+                $vid = $domain;
                 $domain = '';
             } 
 
             // SiteID가 요청되지 않았다면 현재 site_module_info에서 SiteID 판별
-            if(!$sid && $site_module_info->domain && isSiteID($site_module_info->domain)) {
-                $sid = $site_module_info->domain;
+            if(!$vid && $site_module_info->domain && isSiteID($site_module_info->domain)) {
+                $vid = $site_module_info->domain;
             }
 
             if(!$domain) {
@@ -808,7 +808,7 @@
                 }
                 $get_vars[$key] = $val;
             }
-            unset($get_vars['sid']);
+            unset($get_vars['vid']);
 
             /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
@@ -822,9 +822,10 @@
 
             $var_count = count($get_vars);
             if(!$var_count) {
-                if($sid) {
-                    if($this->allow_rewrite) $path .= $sid;
-                    else $path .= '?sid='.$sid;
+                return $path;
+                if($vid) {
+                    if($this->allow_rewrite) $path .= $vid;
+                    else $path .= '?vid='.$vid;
                 } 
                 return $path;
             }
@@ -838,7 +839,7 @@
                 asort($var_keys);
                 $target = implode('.',$var_keys);
 
-                if($sid) $rpath = $path.$sid .'/';
+                if($vid) $rpath = $path.$vid .'/';
                 else $rpath = $path;
 
                 switch($target) {
@@ -854,7 +855,7 @@
             }
 
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
-            if($sid) $url = 'sid='.$sid;
+            if($vid) $url = 'vid='.$vid;
             foreach($get_vars as $key => $val) {
                 if(!isset($val)) continue;
                 if(is_array($val) && count($val)) {

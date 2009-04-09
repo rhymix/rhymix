@@ -401,12 +401,12 @@ function toggleAccessType(target) {
         case 'domain' :
                 xGetElementById('cafeFo').domain.value = '';
                 xGetElementById('accessDomain').style.display = 'block';
-                xGetElementById('accessSid').style.display = 'none';
+                xGetElementById('accessVid').style.display = 'none';
             break;
-        case 'sid' :
-                xGetElementById('cafeFo').sid.value = '';
+        case 'vid' :
+                xGetElementById('cafeFo').vid.value = '';
                 xGetElementById('accessDomain').style.display = 'none';
-                xGetElementById('accessSid').style.display = 'block';
+                xGetElementById('accessVid').style.display = 'block';
             break;
     }
 }
