@@ -8,18 +8,33 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'"frameborder="0" src="'+editor_path+'/blank.html" scrolling="yes" style="width:100%;height:'+editor_height+'px">');
     var htmlsrc  = jQuery('<textarea rows="10" cols="20" class="input_syntax" style="display:none"></textarea>');
     var form     = textarea.get(0).form;
-
     form.setAttribute('editor_sequence', editor_sequence);
 
-    jQuery("#xpress-editor-"+editor_sequence).val(jQuery("#fo_write input[name=content]").val());
+    var saved_content = '';
+    if(jQuery("#fo_write input[name=content]").size()>0){
+        saved_content=jQuery("#fo_write input[name=content]").val().replace(/src=\"files\/attach/g,'src="'+request_uri+'files/attach');
+        jQuery("#xpress-editor-"+editor_sequence).val(saved_content);
+    }
 
+
+/*
     // remove procFilter
-    form.onsubmit=function(){
-        var content = editorGetContent(editor_sequence);
-        editorRelKeys[editor_sequence]['content'].value = content;
-        insert(form);
-        return false;
-    };
+    if(form.comment_srl){
+        form.onsubmit=function(){
+            var content = editorGetContent(editor_sequence);
+            editorRelKeys[editor_sequence]['content'].value = content;
+            insert_comment(form);
+            return false;
+        };
+    }else{
+        form.onsubmit=function(){
+            var content = editorGetContent(editor_sequence);
+            editorRelKeys[editor_sequence]['content'].value = content;
+            insert(form);
+            return false;
+        };
+    }
+    */
 
     // hide textarea
     textarea.hide().css('width', '99%').before(iframe).after(htmlsrc);
@@ -85,10 +100,10 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     if (!jQuery.browser.msie && !jQuery.browser.opera) {
         oEditor.registerPlugin(new xe.XE_WYSIWYGEnterKey(oWYSIWYGIFrame));
     }
-    
+
     // 자동 저장 사용?
     if (s=form._saved_doc_title) {
-    	oEditor.registerPlugin(new xe.XE_AutoSave(oIRTextarea, elAppContainer));
+        oEditor.registerPlugin(new xe.XE_AutoSave(oIRTextarea, elAppContainer));
     }
 
     // run
@@ -124,32 +139,28 @@ xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
     },
 
     $ON_CHANGE_EDITING_MODE : function(mode) {
-        if(mode =='HTMLSrc'){
-            editorMode[this.editor_sequence]=='html';
-        }else{
-            editorMode[this.editor_sequence]=='wysiwyg';
-        }
+        editorMode[this.editor_sequence] = (mode =='HTMLSrc') ? 'html' : 'wysiwyg';
     }
 });
 
 // 미리보기 확장기능
 xe.XE_Preview = jQuery.Class({
-	name  : "XE_Preview",
-	elPreviewButton : null,
-	
-	$init : function(elAppContainer) {
-		this._assignHTMLObjects(elAppContainer);
-	},
-	
-	_assignHTMLObjects : function(elAppContainer) {
-		this.elPreviewButton = jQuery("BUTTON.xpress_xeditor_preview_button", elAppContainer);
-	},
-	
-	$ON_MSG_APP_READY : function() {
-		this.oApp.registerBrowserEvent(this.elPreviewButton.get(0), "click", "EVENT_PREVIEW", []);
-	},
-	
-	$ON_EVENT_PREVIEW : function() {
-		// TODO : 버튼이 눌렸을 때의 동작 정의
-	}
+    name  : "XE_Preview",
+    elPreviewButton : null,
+
+    $init : function(elAppContainer) {
+        this._assignHTMLObjects(elAppContainer);
+    },
+
+    _assignHTMLObjects : function(elAppContainer) {
+        this.elPreviewButton = jQuery("BUTTON.xpress_xeditor_preview_button", elAppContainer);
+    },
+
+    $ON_MSG_APP_READY : function() {
+        this.oApp.registerBrowserEvent(this.elPreviewButton.get(0), "click", "EVENT_PREVIEW", []);
+    },
+
+    $ON_EVENT_PREVIEW : function() {
+        // TODO : 버튼이 눌렸을 때의 동작 정의
+    }
 });

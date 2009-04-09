@@ -380,13 +380,13 @@ function insertUploadedFile(editorSequence) {
                     obj.src = file.download_url;
                 }
                 temp_code = '';
-                temp_code += "<img editor_component=\"image_link\" src=\""+file.download_url+"\" alt=\""+file.source_filename+"\"";
+                temp_code += "<img editor_component=\"image_link\" src=\""+request_uri+file.download_url+"\" alt=\""+file.source_filename+"\"";
                 if(obj.complete == true) { temp_code += " width=\""+obj.width+"\" height=\""+obj.height+"\""; }
                 temp_code += " />\r\n";
                 text.push(temp_code);
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
-                text.push("<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
+                text.push("<img src=\""+request_uri+"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
             }
 
         // binary파일의 경우 url_link 컴포넌트 연결
@@ -394,7 +394,6 @@ function insertUploadedFile(editorSequence) {
             text.push("<a href=\""+file.download_url+"\">"+file.source_filename+"</a>\n");
         }
     }
-
 
 
     if(jQuery.isFunction(editorRelKeys[editorSequence]['pasteHTML'])){
