@@ -71,7 +71,7 @@
         </var>
         <var name="logo_text" type="text">
             <title xml:lang="ko">로고 글자</title>
-            <title xml:lang="jp">ロゴ文字</title>
+            <title xml:lang="jp">ロゴ用テキスト</title>
             <title xml:lang="zh-CN">网站标题</title>
             <title xml:lang="zh-TW">Logo文字</title>
             <title xml:lang="en">LOGO characters</title>

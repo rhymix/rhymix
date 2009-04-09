@@ -68,7 +68,7 @@
                 <title xml:lang="ko">로고 글자</title>
                 <title xml:lang="zh-CN">站点标题</title>
                 <title xml:lang="zh-TW">Logo文字</title>
-                <title xml:lang="jp">ロゴ文字</title>
+                <title xml:lang="jp">ロゴ用テキスト</title>
                 <description xml:lang="ko">좌측 상단의 로고 부분에 글자를 지정할 수 있습니다. 로고 이미지가 있으면 로고 이미지의 caption으로 표시됩니다.</description>
                 <description xml:lang="zh-CN">将显示在您的站点左侧头部，如你已上传lOGO图片，此标题将变成LOGO图片的caption。</description>
                 <description xml:lang="zh-TW">將顯示在虛擬網站的左上方，如果有上傳過Logo圖片，將會以圖片顯示。</description>
