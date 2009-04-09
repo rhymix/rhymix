@@ -6,7 +6,7 @@
      **/
 
     $lang->communication = 'コミュニケーション';
-    $lang->about_communication = '会員間にメッセージや友達管理などコミュニティ機能を持つモジュールです。';
+    $lang->about_communication = '会員間にメッセージや友達管理などコミュニティ機能を提供するモジュールです。';
 
     $lang->allow_message = 'メッセージの受信';
     $lang->allow_message_type = array(
