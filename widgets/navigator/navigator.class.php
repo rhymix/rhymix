@@ -99,6 +99,8 @@
                 $obj->expand = $val['expand']=='Y'?true:false;
                 $obj->depth = $depth;
                 $obj->selected = $val['selected'];
+                $obj->open_window = $val['open_window'];
+
                 $obj->child_count = 0;
                 $obj->childs = array();
 

@@ -24,6 +24,9 @@
     $lang->cmd_load = 'Carga';
     $lang->cmd_input = 'Ingresar';
     $lang->cmd_search = 'Buscar';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = 'Cancelar';
     $lang->cmd_back = 'Atrás';
     $lang->cmd_vote = 'a Favor';
@@ -120,6 +123,7 @@
     $lang->file = 'file';
 
     $lang->mid = 'ID del Módulo';
+    $lang->sid = 'Site Name';
     $lang->layout = 'Composición';
     $lang->widget = 'Widget';
     $lang->module = 'Módulo';
@@ -273,6 +277,7 @@
     $lang->default_value = 'Valor por defecto';
     $lang->is_active = 'Activado';
     $lang->is_required = 'Requerido';
+    $lang->eid = '확장변수 이름';
 
     // ftp 관련
     $lang->ftp_form_title = 'Datos de conexión para FTP';

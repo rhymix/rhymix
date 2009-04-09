@@ -10,7 +10,7 @@
         wml, hdml, mhtml를 지원하고 그 이외의 경우에는 동작하지 않습니다.
     </description>
     <description xml:lang="jp">
-        モバイル端末機からアクセス時、ヘッダ情報を分析してメニュー - モジュールの関係を利用してWAPタグに変換して表示するアドオンです。
+        モバイル端末機からアクセス時、ヘッダ情報を分析してメニュー - モジュールの関係を利用してWAPタグに変換表示するアドオンです。
         wml, hdml, mhtmlをサポートし、その以外は働きません。
     </description>
     <description xml:lang="zh-CN">
@@ -50,7 +50,7 @@
             </description>
             <description xml:lang="jp">
                 ある特定のモバイル機器ではutf-8文字コードの認識が出来ない場合があります。
-                文字コードを設定すると、該当文字コードに自動変換して正常に表示できるようになります。
+                文字コードを設定すると、該当文字コードに自動変換して正常に表示出来るようになります。
                 デフォルトはeuc-krです。
             </description>
             <description xml:lang="zh-CN">

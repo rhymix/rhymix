@@ -25,8 +25,8 @@
     $lang->newest_news = "Latest News";
     
     $lang->env_setup = "Setting";
-    $lang->default_url = "기본 URL";
-    $lang->about_default_url = "XE 가상 사이트(cafeXE등)의 기능을 사용할때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글/모듈등의 연결이 정상적으로 이루어집니다. (ex: http://도메인/설치경로)";
+    $lang->default_url = "Default URL";
+    $lang->about_default_url = "If you use a virtual site feature (e.g., cafeXE), input default URL (parent-site's address), then SSO would be enabled, thus connection to documents/modules works properly. ";
 
     $lang->env_information = "Environment Information";
     $lang->current_version = "Current Version";

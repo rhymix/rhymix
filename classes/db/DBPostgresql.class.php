@@ -30,9 +30,16 @@ class DBPostgresql extends DB
      * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
      * 각 DBMS에 맞게 replace 해주어야 한다
      **/
-    var $column_type = array('bignumber' => 'bigint', 'number' => 'integer',
-        'varchar' => 'varchar', 'char' => 'char', 'text' => 'text', 'bigtext' => 'text',
-        'date' => 'varchar(14)', );
+    var $column_type = array(
+        'bignumber' => 'bigint', 
+        'number' => 'integer',
+        'varchar' => 'varchar', 
+        'char' => 'char', 
+        'text' => 'text', 
+        'bigtext' => 'text',
+        'date' => 'varchar(14)', 
+        'float' => 'real',
+    );
 
     /**
      * @brief constructor

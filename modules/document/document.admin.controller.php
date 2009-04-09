@@ -337,8 +337,9 @@
             $default = Context::get('default');
             $desc = Context::get('desc');
             $search = Context::get('search');
+			$eid = Context::get('eid');
 
-            if(!$module_srl || !$name) return new Object(-1,'msg_invalid_request');
+            if(!$module_srl || !$name || !$eid) return new Object(-1,'msg_invalid_request');
 
             // idx가 지정되어 있지 않으면 최고 값을 지정
             if(!$var_idx) {
@@ -347,9 +348,18 @@
                 $var_idx = $output->data->var_idx+1;
             }
 
+			// 이미 존재하는 모듈 이름인지 체크
+			$obj->module_srl = $module_srl;
+			$obj->var_idx = $var_idx;
+			$obj->eid = $eid;
+            $output = executeQuery('document.isExistsExtraKey', $obj);
+            if(!$output->toBool() || $output->data->count) {
+                return new Object(-1, 'msg_extra_name_exists');
+            }
+
             // insert or update
             $oDocumentController = &getController('document');
-            $output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc);
+            $output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc, $eid);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
@@ -371,178 +381,9 @@
         }
  
         /**
-         * @brief 카테고리 추가
-         **/
-        function procDocumentAdminInsertCategory($args = null) {
-            // 입력할 변수 정리
-            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color');
-
-            if($args->expand !="Y") $args->expand = "N";
-            $args->group_srls = str_replace('|@|',',',$args->group_srls);
-            $args->parent_srl = (int)$args->parent_srl;
-
-            $oDocumentController = &getController('document');
-            $oDocumentModel = &getModel('document');
-
-            $oDB = &DB::getInstance();
-            $oDB->begin();
-
-            // 이미 존재하는지를 확인
-            if($args->category_srl) {
-                $category_info = $oDocumentModel->getCategory($args->category_srl);
-                if($category_info->category_srl != $args->category_srl) $args->category_srl = null;
-            }
-
-            // 존재하게 되면 update를 해준다
-            if($args->category_srl) {
-                $output = $oDocumentController->updateCategory($args);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-
-            // 존재하지 않으면 insert를 해준다
-            } else {
-                $output = $oDocumentController->insertCategory($args);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-            }
-
-            // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $oDocumentController->makeCategoryFile($args->module_srl);
-
-            $oDB->commit();
-
-            $this->add('xml_file', $xml_file);
-            $this->add('module_srl', $args->module_srl);
-            $this->add('category_srl', $args->category_srl);
-            $this->add('parent_srl', $args->parent_srl);
-        }
-
-
-        /**
-         * @brief 카테고리 삭제
-         **/
-        function procDocumentAdminDeleteCategory() {
-            // 변수 정리
-            $args = Context::gets('module_srl','category_srl');
-
-            $oDB = &DB::getInstance();
-            $oDB->begin();
-
-            $oDocumentModel = &getModel('document');
-
-            // 원정보를 가져옴
-            $category_info = $oDocumentModel->getCategory($args->category_srl);
-            if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
-
-            // 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
-            if($oDocumentModel->getCategoryChlidCount($args->category_srl)) return new Object(-1, 'msg_cannot_delete_for_child');
-
-            // DB에서 삭제
-            $oDocumentController = &getController('document');
-            $output = $oDocumentController->deleteCategory($args->category_srl);
-            if(!$output->toBool()) {
-                $oDB->rollback();
-                return $output;
-            }
-
-            // XML 파일을 갱신하고 위치을 넘겨 받음
-            $xml_file = $oDocumentController->makeCategoryFile($args->module_srl);
-
-            $oDB->commit();
-
-            $this->add('xml_file', $xml_file);
-            $this->add('category_srl', $parent_srl);
-            $this->setMessage('success_deleted');
-        }
-
-        function procDocumentAdminMoveCategory() {
-            $source_category_srl = Context::get('source_srl');
-
-            // parent_srl 이 있으면 첫 자식으로 들어간다
-            $parent_category_srl = Context::get('parent_srl');
-
-            // target_srl 이 있으면 target_srl 아래로 형제로 들어간다
-            $target_category_srl = Context::get('target_srl');
-
-            $oDocumentModel = &getModel('document');
-            $oDocumentController = &getController('document');
-            $source_category = $oDocumentModel->getCategory($source_category_srl);
-
-
-            //parent_category_srl 의 첫 자식으로 넣자
-            if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0)){
-                $parent_category = $oDocumentModel->getCategory($parent_category_srl);
-
-                $args->module_srl = $source_category->module_srl;
-                $args->parent_srl = $parent_category_srl;
-                $output = executeQuery('document.getChildCategoryMinListOrder', $args);
-
-                if(!$output->toBool()) return $output;
-                $args->list_order = (int)$output->data->list_order;
-                if(!$args->list_order) $args->list_order = 0;
-                $args->list_order--;
-
-
-                $source_args->category_srl = $source_category_srl;
-                $source_args->parent_srl = $parent_category_srl;
-                $source_args->list_order = $args->list_order;
-                $output = $oDocumentController->updateCategory($source_args);
-                if(!$output->toBool()) return $output;
-
-
-            // $target_category_srl의 아래동생으로
-            }else if($target_category_srl > 0){
-                $target_category = $oDocumentModel->getCategory($target_category_srl);
-
-                //$target_category의 아래 동생을 모두 내린다
-                $output = $oDocumentController->updateCategoryListOrder($target_category->module_srl, $target_category->list_order+1);
-                if(!$output->toBool()) return $output;
-
-
-                $source_args->category_srl = $source_category_srl;
-                $source_args->parent_srl = $target_category->parent_srl;
-                $source_args->list_order = $target_category->list_order+1;
-                $output = $oDocumentController->updateCategory($source_args);
-                if(!$output->toBool()) return $output;
-
-            }
-
-
-            // xml파일 재생성
-            $xml_file = $oDocumentController->makeCategoryFile($source_category->module_srl);
-
-            // return 변수 설정
-            $this->add('xml_file', $xml_file);
-            $this->add('source_category_srl', $source_category_srl);
-
-        }
-
-        /**
-         * @brief xml 파일을 갱신
-         * 관리자페이지에서 메뉴 구성 후 간혹 xml파일이 재생성 안되는 경우가 있는데\n
-         * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n
-         * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
-         **/
-        function procDocumentAdminMakeXmlFile() {
-            // 입력값을 체크
-            $module_srl = Context::get('module_srl');
-
-            // xml파일 재생성
-            $oDocumentController = &getController('document');
-            $xml_file = $oDocumentController->makeCategoryFile($module_srl);
-
-            // return 값 설정
-            $this->add('xml_file',$xml_file);
-        }
-
-        /**
          * @brief 확장변수 순서 조절
          **/
-        function procAdminMoveExtraVar() {
+        function procDocumentAdminMoveExtraVar() {
             $type = Context::get('type');
             $module_srl = Context::get('module_srl');
             $var_idx = Context::get('var_idx');
@@ -574,7 +415,7 @@
             } else {
                 $args->module_srl = $module_srl;
                 $args->var_idx = $new_idx;
-                $args->new_idx = -1;
+                $args->new_idx = -10000;
                 $output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
                 if(!$output->toBool()) return $output;
                 $output = executeQuery('document.updateDocumentExtraVarIdx', $args);
@@ -587,7 +428,7 @@
                 $output = executeQuery('document.updateDocumentExtraVarIdx', $args);
                 if(!$output->toBool()) return $output;
 
-                $args->var_idx = -1;
+                $args->var_idx = -10000;
                 $args->new_idx = $var_idx;
                 $output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
                 if(!$output->toBool()) return $output;
@@ -620,6 +461,44 @@
             $alias_srl = Context::get('alias_srl');
             $args->alias_srl = $alias_srl;
             $output = executeQuery("document.deleteAlias", $args);
+            if (!$output->toBool())
+            {
+                return $output;
+            }
+        }
+
+        function procDocumentAdminRestoreTrash() {
+            $trash_srl = Context::get('trash_srl');
+
+            $oDB = &DB::getInstance();
+
+            $trash_args->trash_srl = $trash_srl;
+
+            $output = executeQuery('document.getTrash', $trash_args);
+            if (!$output->toBool()) {
+                return $output;
+            }
+
+            $document_args->document_srl = $output->data->document_srl;
+            $document_args->module_srl = $output->data->module_srl;
+
+            // begin transaction
+            $oDB->begin();
+
+            $output = executeQuery('document.updateDocument', $document_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            $output = executeQuery('document.deleteTrash', $trash_args);
+            if (!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // commit
+            $oDB->commit();
         }
 
     }

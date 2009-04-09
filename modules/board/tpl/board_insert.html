@@ -128,6 +128,13 @@
         </td>
     </tr>
     <tr>
+        <th scope="row"><div>{$lang->use_anonymous}</div></th>
+        <td>
+            <input type="checkbox" name="use_anonymous" value="Y" <!--@if($module_info->use_anonymous=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_use_anonymous}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row"><div>{$lang->consultation}</div></th>
         <td>
             <input type="checkbox" name="consultation" value="Y" <!--@if($module_info->consultation=='Y')-->checked="checked"<!--@end--> />

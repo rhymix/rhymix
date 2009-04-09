@@ -4,19 +4,17 @@
      * @author zero (zero@nzeo.com)
      * @brief 게시글, 회원등에서 사용하는 확장변수를 핸들링하는 클래스
      *
-     * php4대비 class static 변수가 안됨으로 $GLOBALS['XE_EXTRAVARS']를 이용해서 같은 효과 냄
      **/
     class ExtraVar {
 
         var $module_srl = null;
+        var $keys = null;
 
         /**
          * @brief constructor
          **/
         function &getInstance($module_srl) {
-            static $oInstance = array();
-            if(!$oInstance[$module_srl]) $oInstance[$module_srl] = new ExtraVar($module_srl);
-            return $oInstance[$module_srl];
+            return new ExtraVar($module_srl);
         }
 
         /**
@@ -27,28 +25,15 @@
         }
 
         /**
-         * @brief 불필요한 등록을 피하기 위해서 특정 module_srl에 확장변수가 등록되었는지 확인
-         **/
-        function isSettedExtraVars() {
-            return isset($GLOBALS['XE_EXTRAVARS'][$this->module_srl]);
-        }
-
-        /**
          * @brief 확장변수 키를 등록
-         * php4를 대비해 class static 멤버변수 대신 $GLOBAL 변수 사용
          * @param module_srl, idx, name, type, default, desc, is_required, search, value
          **/
         function setExtraVarKeys($extra_keys) {
-            if(!$this->isSettedExtraVars()) {
-                if(!$extra_keys || !count($extra_keys)) $GLOBALS['XE_EXTRAVARS'][$this->module_srl] = array();
-                else {
-                    if(!is_array($GLOBALS['XE_EXTRAVARS'][$this->module_srl])) $GLOBALS['XE_EXTRAVARS'][$this->module_srl] = array();
-                    foreach($extra_keys as $key => $val) {
-                        $obj = null;
-                        $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value); 
-                        $GLOBALS['XE_EXTRAVARS'][$this->module_srl][$val->idx] = $obj;
-                    }
-                }
+            if(!is_array($extra_keys) || !count($extra_keys)) return;
+            foreach($extra_keys as $key => $val) {
+                $obj = null;
+                $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value,  $val->eid); 
+                $this->keys[$val->idx] = $obj;
             }
         }
 
@@ -56,8 +41,7 @@
          * @brief 확장변수 객체 배열 return
          **/
         function getExtraVars() {
-            if(!$this->isSettedExtraVars()) return array();
-            return $GLOBALS['XE_EXTRAVARS'][$this->module_srl];
+            return $this->keys;
         }
     }
 
@@ -76,11 +60,12 @@
         var $is_required = 'N';
         var $search = 'N';
         var $value = null;
+        var $eid = '';
 
         /**
          * @brief constructor
          **/
-        function ExtraItem($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null) {
+        function ExtraItem($module_srl, $idx, $name, $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '') {
             if(!$idx) return;
             $this->module_srl = $module_srl;
             $this->idx = $idx;
@@ -91,6 +76,7 @@
             $this->is_required = $is_required;
             $this->search = $search;
             $this->value = $value;
+            $this->eid = $eid;
         }
 
         /**
@@ -108,7 +94,7 @@
             if(!isset($value)) return;
             switch($type) {
                 case 'homepage' :
-                        if(!preg_match('/^([a-z]+):\/\//i',$value)) $value = 'http://'.$value;
+                        if($value && !preg_match('/^([a-z]+):\/\//i',$value)) $value = 'http://'.$value;
                         return htmlspecialchars($value);
                     break;
                 case 'tel' :

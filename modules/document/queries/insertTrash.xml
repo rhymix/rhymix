@@ -1,0 +1,17 @@
+<query id="insertTrash" action="insert">
+    <tables>
+        <table name="document_trash" />
+    </tables>
+    <columns>
+        <column name="trash_srl" var="trash_srl" filter="number" notnull="notnull" />
+        <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="trash_date" var="trash_date" default="curdate()" />
+        <column name="description" var="description" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="user_id" var="user_id" default="" />
+        <column name="user_name" var="user_name" default="" />
+        <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
+        <column name="member_srl" var="member_srl" default="0" filter="number" />
+    </columns>
+</query>

@@ -34,6 +34,13 @@
     $lang->lang_code = "언어 코드";
     $lang->filebox = "파일박스";
 
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Domain 접속';
+    $lang->access_vid = 'Site ID 접속';
+    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = '이미 등록된 도메인입니다. 다른 도메인을 사용해주세요';
+
     $lang->header_script = "Script en-tête";
     $lang->about_header_script = "Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;.<br />Vous pouvez utiliser &lt;script, &lt;style ou &lt;meta tag";
 
@@ -63,6 +70,8 @@
     $lang->msg_no_checked_document = 'Pas un article est choisi.';
     $lang->msg_move_failed = 'Echoué de bouger';
     $lang->msg_cannot_delete_for_child = 'On ne peut pas supprimer une catégorie qui a des catégories inférieures.';
+    $lang->msg_limit_mid ='모듈이름은 영문+[영문+숫자+_] 만 가능합니다.';
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "C'est la valeur qui se représentera dans le titre de navigateur Web. Ce sera encore utilisé dans RSS/Rétrolien.";
     $lang->about_mid = "Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis)";
@@ -78,7 +87,7 @@
 	$lang->about_search_list_count = 'Vous pouvez configurer combien d\'articles soient exposés quand vous utilisez la fonction de recherche ou de catégorie. (20 par défaut)';
     $lang->about_page_count = 'Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(10 par défaut)';
     $lang->about_admin_id = 'Vous pouvez désigner un directeur qui aura tous les permissions sur le module.\nVous pouvez entrer plusieurs compte en utilisant.';
-    $lang->about_grant = 'Si vous ne donnez pas la permission à aucune personne, même les membres qui n\'a pas ouvert la connexion auront la permission. '; 
+    $lang->about_grant = 'Si vous ne donnez pas la permission à aucune personne, même les membres qui n\'a pas ouvert la connexion auront la permission. ';
     $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
     $lang->about_module = "XE se compose des modules sauf la bibliothèque fondamental.\nLe module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.";
 

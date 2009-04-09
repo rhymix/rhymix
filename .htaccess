@@ -1,82 +1,64 @@
 RewriteEngine On
 
-# image...
-RewriteRule ^(.+)/files/attach/images/(.*) ./files/attach/images/$2 [L]
-RewriteRule ^(.+)/files/attach/menu_button/(.*) ./files/attach/menu_button/$2 [L]
-RewriteRule ^(.+)/files/member_extra_info/(.*) ./files/member_extra_info/$2 [L]
-RewriteRule ^(.+)/files/cache/(.*) ./files/cache/$2 [L]
-RewriteRule ^(.+)/modules/(.*) ./modules/$2 [L]
-RewriteRule ^(.+)/common/css/(.*) ./common/css/$2 [L]
-RewriteRule ^(.+)/common/js/(.*) ./common/js/$2 [L]
-RewriteRule ^(.+)/common/tpl/(.*) ./common/tpl/$2 [L]
-RewriteRule ^(.+)/widgets/(.*) ./widgets/$2 [L]
-RewriteRule ^(.+)/layouts/(.*) ./layouts/$2 [L]
-RewriteRule ^(.+)/addons/(.*) ./addons/$2 [L]
+# static files
+RewriteRule ^([a-zA-Z0-9_]+)/files/(.*) ./files/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/modules/(.*) ./modules/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/common/(.*) ./common/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/widgets/(.*) ./widgets/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/widgetstyle/(.*) ./widgetstyle/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/layouts/(.*) ./layouts/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/addons/(.*) ./addons/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/files/(.*) ./files/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/modules/(.*) ./modules/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/common/(.*) ./common/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/widgets/(.*) ./widgets/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/widgetstyle/(.*) ./widgetstyle/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/layouts/(.*) ./layouts/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/addons/(.*) ./addons/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/files/(.*) ./files/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/modules/(.*) ./modules/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/common/(.*) ./common/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/widgets/(.*) ./widgets/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/widgetstyle/(.*) ./widgetstyle/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/layouts/(.*) ./layouts/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/addons/(.*) ./addons/$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/files/(.*) ./files/$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/modules/(.*) ./modules/$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/common/(.*) ./common/$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/widgets/(.*) ./widgets/$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/widgetstyle/(.*) ./widgetstyle/$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/layouts/(.*) ./layouts/$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/addons/(.*) ./addons/$3 [L]
 
-# page 
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)page$ ./index.php?mid=$1&page=$2 [L]
-
-# total rss
-RewriteRule ^rss/([[:digit:]]+){0,14}/([[:digit:]]+){0,14}/([[:digit:]]+)$ ./index.php?module=rss&act=rss&start_date=$1&end_date=$2&page=$3 [L]
-RewriteRule ^rss/([[:digit:]]+)$ ./index.php?module=rss&act=rss&page=$1 [L]
+# rss , blogAPI
 RewriteRule ^rss$ ./index.php?module=rss&act=rss [L]
-RewriteRule ^atom/([[:digit:]]+){0,14}/([[:digit:]]+){0,14}/([[:digit:]]+)$ ./index.php?module=rss&act=atom&start_date=$1&end_date=$2&page=$3 [L]
-RewriteRule ^atom/([[:digit:]]+)$ ./index.php?module=rss&act=atom&page=$1 [L]
 RewriteRule ^atom$ ./index.php?module=rss&act=atom [L]
+RewriteRule ^([a-zA-Z0-9_]+)/rss$ ./index.php?mid=$1&act=rss [L]
+RewriteRule ^([a-zA-Z0-9_]+)/atom$ ./index.php?mid=$1&act=atom [L]
+RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?mid=$1&act=api [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/rss$ ./index.php?vid=$1&mid=$2&act=rss [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/atom$ ./index.php?vid=$1&mid=$2&act=atom [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/api$ ./index.php?vid=$1&mid=$2&act=api [L]
 
 # administrator page
 RewriteRule ^admin/?$ ./index.php?module=admin [L]
 
-# mid + act 
-RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?mid=$1&act=api [L]
-
 # document permanent link
 RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
+# vid + document permanent link
+RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?vid=$1&document_srl=$2 [L]
 
-# document + act link
-RewriteRule ^([[:digit:]]+)/([a-zA-Z0-9_]+)$ ./index.php?document_srl=$1&act=$2 [L]
-
-# document + key + act link
-RewriteRule ^([[:digit:]]+)/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?document_srl=$1&act=$3&key=$2 [L]
+# mid link
+RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
+# vid + mid link
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?vid=$1&mid=$2 [L]
 
 # mid + document link
 RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
-
-# mid + act link
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)$ ./index.php?mid=$1&act=$2 [L]
-
-# mid + page link
-RewriteRule ^([a-zA-Z0-9_]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&page=$2 [L]
+# vid + mid + document link
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?vid=$1&mid=$2&document_srl=$3 [L]
 
 # mid + entry title
 RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
-
-# mid + category link
-RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)$ ./index.php?mid=$1&category=$2 [L]
-
-# mid + act + document_Srl 
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z])([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$4&act=$2$3 [L]
-
-# mid + document_Srl + page
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2&page=$3 [L]
-
-# mid + category + page
-RewriteRule ^([a-zA-Z0-9_]+)/category/([[:digit:]]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&category=$2&page=$3 [L]
-
-# mid + search target regdate (year+month)
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)/([[:digit:]]+)$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3 [L]
-
-# mid + search target regdate (year+month+day)
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)/([[:digit:]]+)/([[:digit:]]+)$ ./index.php?mid=$1&search_target=regdate&search_keyword=$2$3$4 [L]
-
-# mid + search target tag
-RewriteRule ^([a-zA-Z0-9_]+)/tag/(.*)$ ./index.php?mid=$1&search_target=tag&search_keyword=$2 [L]
-
-# mid + search target writer
-RewriteRule ^([a-zA-Z0-9_]+)/writer/(.*)$ ./index.php?mid=$1&search_target=nick_name&search_keyword=$2 [L]
-
-# mid + document_Srl + page + act
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([[:digit:]]+)/page/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$3&page=$4&act=$2 [L]
-
-# module link
-RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
+# vid + mid + entry title
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L]

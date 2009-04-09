@@ -8,6 +8,7 @@
     $lang->board = 'Board';
 
     $lang->except_notice = 'Exclude Notices';
+    $lang->use_anonymous = '익명 사용';
 
     $lang->cmd_manage_menu = 'Manage Menus';
     $lang->list_target_item = 'Target Item';
@@ -30,6 +31,7 @@
     $lang->about_layout_setup = 'You can manually modify board layout code. Insert or manage the widget code anywhere you want';
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
     $lang->about_except_notice = 'Notice articles will not be displayed on normal list.';
+    $lang->about_use_anonymous = '글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다';
     $lang->about_board = 'This module is for creating and managing boards.';
     $lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
     $lang->about_secret = 'Users will be able to write secret articles or comments.';

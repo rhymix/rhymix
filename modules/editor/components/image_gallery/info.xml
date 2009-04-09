@@ -8,7 +8,7 @@
     <title xml:lang="ru">Базовая галлерея изображений</title>
     <title xml:lang="zh-TW">預設圖片相簿</title>
     <description xml:lang="ko">첨부된 이미지파일을 이용하여 슬라이드/목록형 이미지 갤러리를 만들 수 있습니다.</description>
-    <description xml:lang="jp">添付されたイメージファイルを利用して、スライド型・リスト型のイメージギャラリーが作成できます。</description>
+    <description xml:lang="jp">添付されたイメージファイルを利用して、スライド型・リスト型のイメージギャラリーが作成出来ます。</description>
     <description xml:lang="zh-CN">利用上传的图片文件实现幻灯片式或目录型相册图片。</description>
     <description xml:lang="en">It can create image gallery of slide/list style by using attached image file.</description>
     <description xml:lang="es">It can create image gallery of slide/list style by using attached image file.</description>

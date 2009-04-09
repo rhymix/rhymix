@@ -67,14 +67,50 @@
             $this->context->lang = &$GLOBALS['lang'];
             $this->context->_COOKIE = $_COOKIE;
 
-            // 사용자의 쿠키 설정된 언어 타입 추출
-            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+            // Request Method 설정
+            $this->_setRequestMethod();
+
+            // Request Argument 설정
+            $this->_setXmlRpcArgument();
+            $this->_setJSONRequestArgument();
+            $this->_setRequestArgument();
+            $this->_setUploadedArgument();
 
             // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
+            // 설치가 되어 있다면 가상 사이트 정보를 구함
+            if(Context::isInstalled()) {
+                // site_module_info를 구함
+                $oModuleModel = &getModel('module');
+                $site_module_info = $oModuleModel->getDefaultMid();
+                Context::set('site_module_info', $site_module_info);
+
+                if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
+            }
+
             // 언어 파일 불러오기
             $lang_supported = $this->loadLangSelected();
+
+            // 사용자의 쿠키 설정된 언어 타입 추출
+            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+
+            // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
+            if(!$this->lang_type) {
+                // 가상 사이트라면 가상사이트의 언어타입으로 지정
+                if($site_module_info && $site_module_info->default_language) $this->lang_type = $site_module_info->default_language;
+                else $this->lang_type = $this->db_info->lang_type;
+            }
+
+            // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
+            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
+            if(!$this->lang_type) $this->lang_type = "en";
+
+            Context::set('lang_supported', $lang_supported);
+            $this->setLangType($this->lang_type);
+
+            // module의 언어파일 강제 로드 (언어 type에 맞춰서)
+            $this->loadLang(_XE_PATH_.'modules/module/lang');
 
             // 세션 핸들러 지정
             $oSessionModel = &getModel('session');
@@ -89,37 +125,6 @@
             );
             session_start();
 
-            // Request Method 설정
-            $this->_setRequestMethod();
-
-            // Request Argument 설정
-            $this->_setXmlRpcArgument();
-            $this->_setJSONRequestArgument();
-            $this->_setRequestArgument();
-            $this->_setUploadedArgument();
-
-            // 설치가 되어 있다면 가상 사이트 정보를 구함
-            if(Context::isInstalled()) {
-                // site_module_info를 구함
-                $oModuleModel = &getModel('module');
-                $site_module_info = $oModuleModel->getDefaultMid();
-                Context::set('site_module_info', $site_module_info);
-            }
-
-            // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
-            if(!$this->lang_type) {
-                // 가상 사이트라면 가상사이트의 언어타입으로 지정
-                if($site_module_info && $site_module_info->default_language) $this->db_info->lang_type = $site_module_info->default_language;
-
-                // 언어 타입 지정
-                $this->lang_type = $this->db_info->lang_type;
-            }
-            // 지정된 언어가 지원 언어에 속하지 않거나 없으면 영문으로 지정
-            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
-            if(!$this->lang_type) $this->lang_type = "en";
-
-            Context::set('lang_supported', $lang_supported);
-            $this->setLangType($this->lang_type);
 
             // 인증 관련 정보를 Context와 세션에 설정
             if(Context::isInstalled()) {
@@ -460,6 +465,7 @@
          **/
         function _loadLang($path) {
             global $lang;
+            if(!$this->lang_type) return;
             if(substr($path,-1)!='/') $path .= '/';
             $filename = sprintf('%s%s.lang.php', $path, $this->lang_type);
             if(!file_exists($filename)) $filename = sprintf('%s%s.lang.php', $path, 'ko');
@@ -467,7 +473,7 @@
             if(!is_array($this->loaded_lang_files)) $this->loaded_lang_files = array();
             if(in_array($filename, $this->loaded_lang_files)) return;
             $this->loaded_lang_files[] = $filename;
-            include($filename);
+            if(file_exists($filename)) @include($filename);
         }
 
         /**
@@ -762,18 +768,31 @@
          **/
         function _getUrl($num_args=0, $args_list=array(), $domain = null) {
             static $site_module_info = null;
+            if($domain) $is_site = true;
+            else $is_site = false;
+
             if(is_null($site_module_info)) {
                 $site_module_info = Context::get('site_module_info');
             }
 
+            // SiteID 요청시 전처리
+            if($domain && isSiteID($domain)) {
+                $vid = $domain;
+                $domain = '';
+            } 
+
+            // SiteID가 요청되지 않았다면 현재 site_module_info에서 SiteID 판별
+            if(!$vid && $site_module_info->domain && isSiteID($site_module_info->domain)) {
+                $vid = $site_module_info->domain;
+            }
+
             if(!$domain) {
-                if($site_module_info->domain) $domain = $site_module_info->domain;
+                if($site_module_info->domain && !isSiteID($site_module_info->domain)) $domain = $site_module_info->domain;
                 else {
                     if($this->db_info->default_url) $domain = $this->db_info->default_url;
                     else if(!$domain) $domain = Context::getRequestUri();
                 }
             }
-
             $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
             if(substr($domain,-1) != '/') $domain .= '/';
 
@@ -796,6 +815,7 @@
                 }
                 $get_vars[$key] = $val;
             }
+            unset($get_vars['vid']);
 
             /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
@@ -808,9 +828,17 @@
             else $path = $this->getRequestUri(RELEASE_SSL, $domain);
 
             $var_count = count($get_vars);
-            if(!$var_count) return $path;
+            if(!$var_count) {
+                if(!$is_site) return $path;
+                if($vid) {
+                    if($this->allow_rewrite) $path .= $vid;
+                    else $path .= '?vid='.$vid;
+                } 
+                return $path;
+            }
 
             // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
+            // 2009. 4. 8 mid, document_srl, site id, entry 를 제외하고는 rewrite rule 사용하지 않도록 변경
             if($this->allow_rewrite) {
                 if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value) || $value === '') unset($get_vars[$key]);
 
@@ -818,46 +846,23 @@
                 asort($var_keys);
                 $target = implode('.',$var_keys);
 
+                if($vid) $rpath = $path.$vid .'/';
+                else $rpath = $path;
+
                 switch($target) {
                     case 'mid' :
-                        return $path.$get_vars['mid'];
+                        return $rpath.$get_vars['mid'];
                     case 'document_srl' :
-                        return $path.$get_vars['document_srl'];
-                    case 'act.mid' :
-                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['act']);
+                        return $rpath.$get_vars['document_srl'];
                     case 'document_srl.mid' :
-                        return sprintf('%s%s/%s',$path,$get_vars['mid'],$get_vars['document_srl']);
-                    case 'act.document_srl' :
-                        return sprintf('%s%s/%s',$path,$get_vars['document_srl'],$get_vars['act']);
-                    case 'mid.page' :
-                        return sprintf('%s%s/page/%s',$path,$get_vars['mid'],$get_vars['page']);
-                    case 'category.mid' :
-                        return sprintf('%s%s/category/%s',$path,$get_vars['mid'],$get_vars['category']);
-                    case 'act.document_srl.key' :
-                        return sprintf('%s%s/%s/%s',$path,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
-                    case 'document_srl.mid.page' :
-                        return sprintf('%s%s/%s/page/%s',$path,$get_vars['mid'],$get_vars['document_srl'],$get_vars['page']);
-                    case 'category.mid.page' :
-                        return sprintf('%s%s/category/%s/page/%s',$path,$get_vars['mid'],$get_vars['category'],$get_vars['page']);
-                    case 'mid.search_keyword.search_target' :
-                            switch($get_vars['search_target']) {
-                                case 'tag' :
-                                    return sprintf('%s%s/tag/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
-                                case 'nick_name' :
-                                    return sprintf('%s%s/writer/%s',$path,$get_vars['mid'],str_replace(' ','+',$get_vars['search_keyword']));
-                                case 'regdate' :
-                                    if(strlen($get_vars['search_keyword'])==8) return sprintf('%s%s/%04d/%02d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2),substr($get_vars['search_keyword'],6,2));
-                                    elseif(strlen($get_vars['search_keyword'])==6) return sprintf('%s%s/%04d/%02d',$path,$get_vars['mid'],substr($get_vars['search_keyword'],0,4),substr($get_vars['search_keyword'],4,2));
-                            }
-                        break;
-                    case 'act.document_srl.mid' :
-                        return sprintf('%s%s/%s/%s',$path,$get_vars['mid'], $get_vars['act'],$get_vars['document_srl']);
+                        return sprintf('%s%s/%s',$rpath,$get_vars['mid'],$get_vars['document_srl']);
                     case 'entry.mid' :
-                        return sprintf('%s%s/entry/%s',$path,$get_vars['mid'],$get_vars['entry']);
+                        return sprintf('%s%s/entry/%s',$rpath,$get_vars['mid'],$get_vars['entry']);
                 }
             }
 
             // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
+            if($vid) $url = 'vid='.$vid;
             foreach($get_vars as $key => $val) {
                 if(!isset($val)) continue;
                 if(is_array($val) && count($val)) {
@@ -868,7 +873,6 @@
                     $url .= ($url?'&':'').$key.'='.urlencode($val);
                 }
             }
-
             return $path.'?'.htmlspecialchars($url);
         }
 
@@ -876,6 +880,9 @@
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
+            // HTTP Request가 아니면 패스
+            if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
+
             static $url = array();
             if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
@@ -905,14 +912,11 @@
             }
 
             $url_info = parse_url('http://'.$target_url);
-            if($use_ssl)
-            {
+            if($use_ssl) {
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
                 }
-            }
-            else
-            {
+            } else {
                 if(Context::get("_http_port") && Context::get("_http_port") != 80) {
                     $url_info['port'] = Context::get("_http_port");
                 }
@@ -1361,10 +1365,8 @@
             // body 내의 <style ..></style>를 header로 이동
             $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
 
-            // <img|br> 코드 변환
-            $content = preg_replace('/<(img|br)([^>\/]*)(\/>|>)/i','<$1$2 />', $content);
-
             // templateHandler의 이미지 경로로 인하여 생기는 절대경로 이미지등의 경로 중복 처리
+            //$content = preg_replace('/<(img|input)([^>]*)src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','<$1$2src=$3http://', $content);
             $content = preg_replace('/src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','src=$1http://', $content);
 
             return $content;

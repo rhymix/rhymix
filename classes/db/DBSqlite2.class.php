@@ -30,6 +30,7 @@
             'text' => 'TEXT',
             'bigtext' => 'TEXT',
             'date' => 'VARCHAR(14)',
+            'float' => 'FLOAT',
         );
 
         /**

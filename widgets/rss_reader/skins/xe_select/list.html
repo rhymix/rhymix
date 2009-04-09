@@ -23,7 +23,7 @@
     <div id="tab{$tab_id}" class="tabcontentcontainer">
     <!--@foreach($widget_info->rss_list as $key => $item)-->
     <div id="tab{$tab_id.$i}" class="tabcontent_rss" style="height:{$widget_info->rss_height}px;overflow:auto;<!--@if($i==1)-->display:block;<!--@end-->">
-        <div class="date">{$item->date} | {$item->author} <a href="{$item->link}" onclick="window.open(this.href);return false"><img src="./images/forward.png" align="absmiddle" class="iePngFix"></a></div>
+        <div class="date"><!--@if($item->date)-->{$item->date} | <!--@end-->{$item->author} <a href="{$item->link}" onclick="window.open(this.href);return false"><img src="./images/forward.png" align="absmiddle" class="iePngFix"></a></div>
         {$item->description}
     </div>
     {@$i++}

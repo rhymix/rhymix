@@ -1,4 +1,4 @@
-<?php
+<?php 
     /**
      * @file  index.php
      * @author zero <zero@zeroboard.com>
@@ -12,7 +12,7 @@
      * XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
      * - 공식홈페이지        : http://www.xpressengine.com
-     * - SVN Repository      : http://svn.xpressengine.com/trunk
+     * - SVN Repository      : http://svn.xpressengine.com/XpressEngine/trunk
      * \n
      * "XpressEngine (XE)"은 자유 소프트웨어입니다. \n
      * 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 \n
@@ -48,7 +48,6 @@
      * @brief SSO 인증 확인이 불필요할때 모듈 동작
      **/
     if($oContext->checkSSO()) {
-        
         /**
          * @brief ModuleHandler 객체를 생성/ 실행
          *
@@ -63,8 +62,6 @@
             $oModule = &$oModuleHandler->procModule();
             $oModuleHandler->displayContent($oModule);
         }
-
     }
-
     $oContext->close();
 ?>

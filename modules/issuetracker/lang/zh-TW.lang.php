@@ -2,7 +2,7 @@
     /**
      * @file   modules/issuetracker/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  問題追蹤(Issuetracker)模組語言
+     * @brief  問題追蹤(Issuetracker)模組正體中文語言
      **/
 
      $lang->issuetracker = '問題追蹤';
@@ -22,15 +22,15 @@
      $lang->cmd_accept = '接受';
 
      $lang->svn_url = 'SVN位址';
-     $lang->about_svn_url = '請輸入專案的 SVN 位址。';
+     $lang->about_svn_url = '請輸入專案的SVN位址。';
      $lang->svn_cmd = 'SVN應用程式位置';
-     $lang->about_svn_cmd = '請輸入 SVN Client 應用程式位置。(例: /usr/bin/svn)';
+     $lang->about_svn_cmd = '請輸入SVN Client應用程式位置。(例: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFF應用程式位置';
-     $lang->about_diff_cmd = '為了比較 SVN 版本，請輸入 diff 應用程式位置。 (例: /usr/bin/diff)';
+     $lang->about_diff_cmd = '為了比較SVN版本，請輸入diff應用程式位置。(例: /usr/bin/diff)';
      $lang->svn_userid = 'SVN帳號';
-     $lang->about_svn_userid = '必須要驗證時，請輸入帳號來登入 SVN 檔案庫';
+     $lang->about_svn_userid = '必須要驗證時，請輸入帳號來登入SVN檔案庫';
      $lang->svn_passwd = 'SVN密碼';
-     $lang->about_svn_passwd = '必須要驗證時，請輸入密碼來登入 SVN 檔案庫';
+     $lang->about_svn_passwd = '必須要驗證時，請輸入密碼來登入SVN檔案庫';
 
      $lang->issue = '問題';
      $lang->total_issue = '所有問題';
@@ -101,8 +101,8 @@
     );
 
     $lang->cmd_manage_issue = '問題管理';
-    $lang->msg_changes_from = 'View changes from';
-    $lang->duration = 'Duration';
+    $lang->msg_changes_from = '開始日期';
+    $lang->duration = '期間';
     $lang->target_list = array(
         'issue_created' => '建立問題',
         'issue_changed' => '變更問題',

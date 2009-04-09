@@ -24,6 +24,9 @@
     $lang->cmd_load = 'Laden';
     $lang->cmd_input = 'Input';
     $lang->cmd_search = 'Suche';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = 'Abbrechen';
     $lang->cmd_back = 'Zurück';
     $lang->cmd_vote = 'Weiterempfehlen';
@@ -121,6 +124,7 @@
     $lang->file = 'file';
 
     $lang->mid = 'Module Name';
+    $lang->sid = 'Site Name';
     $lang->layout = 'Layout';
     $lang->widget = 'Widget';
     $lang->module = 'Modul';
@@ -267,6 +271,7 @@
     $lang->default_value = 'Standardwert';
     $lang->is_active = 'Aktiv';
     $lang->is_required = 'Pflichtfeld';
+    $lang->eid = '확장변수 이름';
 
     // ftp 관련
     $lang->ftp_form_title = 'FTP 정보 입력';

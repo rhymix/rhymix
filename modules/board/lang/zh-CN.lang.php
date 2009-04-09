@@ -7,6 +7,7 @@
 
     $lang->board = "版面";
     $lang->except_notice = "公告选项";
+    $lang->use_anonymous = '익명 사용';
     $lang->cmd_manage_menu = '菜单管理';
     $lang->list_target_item = '备选项';
     $lang->list_display_item = '显示项';
@@ -29,6 +30,7 @@
     $lang->about_layout_setup = '可直接编辑博客布局代码。可以把控件代码插入到您喜欢的位置。';
     $lang->about_board_category = '可以添加/删除分类项<br />分类有异常情况时，可以尝试重新生成缓冲文件。';
     $lang->about_except_notice = "设置公告目录项不再重复显示到普通目录当中。";
+    $lang->about_use_anonymous = '글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다';
     $lang->about_board = "可生成及管理版面的模块。";
     $lang->about_consultation = "咨询功能是指除有管理权限的会员以外，其他会员只能浏览自己发表的主题。\n使用咨询功能时系统将自动禁止非会员的发表主题权限。";
     $lang->about_secret = '设置主题及评论当中使用密帖与否。';

@@ -52,6 +52,7 @@
 
 <!--@if(count($document_list))-->
 <div id="popFooter">
+    <a href="#" onclick="doManageDocument('trash');return false;" class="button red"><span>{$lang->cmd_trash}</span></a>
     <a href="#" onclick="doManageDocument('delete');return false;" class="button black strong"><span>{$lang->cmd_delete}</span></a>
     <a href="#" onclick="doManageDocument('move');return false;" class="button blue"><span>{$lang->cmd_move}</span></a>
     <a href="#" onclick="doManageDocument('copy');return false;" class="button green"><span>{$lang->cmd_copy}</span></a>

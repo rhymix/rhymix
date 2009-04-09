@@ -2,7 +2,7 @@
     /**
      * @file   ko.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  한국어 언어팩 
+     * @brief  한국어 언어팩
      **/
 
     $lang->virtual_site = '가상 사이트';
@@ -34,6 +34,14 @@
     $lang->lang_code = '언어 코드';
     $lang->filebox = '파일박스';
 
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Domain 접속';
+    $lang->access_vid = 'Site ID 접속';
+    $lang->about_domain = '1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br/>독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />ex) www.xpressengine.com/xe';
+    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = '이미 등록된 도메인입니다. 다른 도메인을 사용해주세요';
+
     $lang->header_script = '헤더 스크립트';
     $lang->about_header_script = 'html의 &lt;head&gt;와 &lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다';
 
@@ -64,6 +72,7 @@
     $lang->msg_move_failed = '이동 실패하였습니다';
     $lang->msg_cannot_delete_for_child = '하부 분류가  있는 분류는 삭제하실 수 없습니다';
     $lang->msg_limit_mid ='모듈이름은 영문+[영문+숫자+_] 만 가능합니다.';
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = '브라우저의 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.';
     $lang->about_mid = '모듈이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. ( 영문+[영문+숫자+_] 만 가능)';
@@ -84,6 +93,7 @@
     $lang->about_module = "XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.\n모듈관리 모듈은 설치된 모든 모듈을 보여주고 관리를 도와줍니다.";
     $lang->about_extra_vars_default_value = '다중/단일 선택등 기본값이 여러개가 필요한 경우 , (콤마)로 연결하시면 됩니다';
     $lang->about_search_virtual_site = '가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)';
+    $lang->about_extra_vars_eid_value = '확장변수의 이름을 적어주세요. ( 영문+[영문+숫자+_] 만 가능)';
     $lang->about_langcode = '언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요';
     $lang->about_file_extension= "%s 파일만 가능합니다.";
 ?>

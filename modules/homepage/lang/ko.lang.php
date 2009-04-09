@@ -16,6 +16,8 @@
     $lang->cafe_admin = 'Cafe 관리자';
     $lang->do_selected_member = '선택된 회원을 : ';
 
+    $lang->cmd_make_cafe = '카페 생성';
+
     $lang->default_menus = array(
         'home' => '홈',
         'notice' => '공지사항',
@@ -61,7 +63,6 @@
     );
     $lang->about_cafe = 'Cafe 서비스 관리자는 다수의 Cafe를 만들 수 있고 또 각 Cafe를 편하게 설정할 수 있도록 합니다.';
     $lang->about_cafe_title = 'Cafe 이름은 관리를 위해서만 사용될 뿐 서비스에는 나타나지 않습니다';
-    $lang->about_domain = '1개 이상의 Cafe를 만들기 위해서는 전용 도메인이 있어야 합니다.<br/>독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />ex) www.zeroboard.com/zbxe';
     $lang->about_menu_names = 'Cafe에 나타날 메뉴 이름을 언어에 따라서 지정할 수 있습니다.<br/>하나만 입력하셔도 모두 같이 적용됩니다';
     $lang->about_menu_option = '메뉴를 선택시 새창으로 열지를 선택할 수 있습니다.<br />펼침 메뉴는 레이아웃에 따라 동작합니다';
     $lang->about_group_grant = '그룹을 선택하면 선택된 그룹만 메뉴가 보입니다.<br/>모두 해제하면 비회원도 볼 수 있습니다';
@@ -75,5 +76,4 @@
 
     $lang->confirm_change_layout = '레이아웃을 변경할 경우 레이아웃 정보들 중 일부가 사라질 수가 있습니다. 변경하시겠습니까?';
     $lang->confirm_delete_menu_item = '메뉴 항목 삭제시 연결되어 있는 게시판이나 페이지 모듈도 같이 삭제가 됩니다. 그래도 삭제하시겠습니까?';
-    $lang->msg_already_registed_domain = '이미 등록된 도메인입니다. 다른 도메인을 사용해주세요';
 ?>

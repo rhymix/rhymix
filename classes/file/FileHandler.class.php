@@ -267,50 +267,59 @@
         }
 
         /**
+         * @brief 원격파일을 다운받아 return
+         **/
+        function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array()) {
+            set_include_path(_XE_PATH_."libs/PEAR");
+            require_once('PEAR.php');
+            require_once('HTTP/Request.php');
+
+            if(__PROXY_SERVER__!==null) {
+                $oRequest = new HTTP_Request(__PROXY_SERVER__);
+                $oRequest->setMethod('POST');
+                $oRequest->_timeout = $timeout;
+                $oRequest->addPostData('arg', serialize(array('Destination'=>$url, 'method'=>$method, 'body'=>$body, 'content_type'=>$content_type, "headers"=>$headers)));
+            } else {
+                $oRequest = new HTTP_Request($url);
+                if(!$content_type) $oRequest->addHeader('Content-Type', 'text/html');
+                else $oRequest->addHeader('Content-Type', $content_type);
+                if(count($headers)) {
+                    foreach($headers as $key => $val) {
+                        $oRequest->addHeader($key, $val);
+                    }
+                }
+                $oRequest->setMethod($method);
+                if($body) $oRequest->setBody($body);
+
+                $oRequest->_timeout = $timeout;
+            }
+
+            $oResponse = $oRequest->sendRequest();
+            if(PEAR::isError($oResponse)) return;
+
+            $code = $oRequest->getResponseCode();
+            $header = $oRequest->getResponseHeader();
+            $body = $oRequest->getResponseBody();
+
+            if($code == 301) {
+                $url = $header['location'];
+                if($url) return FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
+                else return;
+            } 
+
+            if($code != 200) return;
+
+            return $body;
+        }
+
+        /**
          * @brief 원격파일을 다운받아서 특정 위치에 저장
          **/
-        function getRemoteFile($url, $target_filename) {
+        function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array()) {
+            $body = FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
+            if(!$body) return;
             $target_filename = FileHandler::getRealPath($target_filename);
-
-            $url_info = parse_url($url);
-
-            if(!$url_info['port']) $url_info['port'] = 80;
-            if(!$url_info['path']) $url_info['path'] = '/';
-
-            $fp = @fsockopen($url_info['host'], $url_info['port']);
-            if(!$fp) return;
-
-            // 한글 파일이 있으면 한글파일 부분만 urlencode하여 처리 (iconv 필수)
-            /*
-            $path = $url_info['path'];
-            if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
-                $path_list = explode('/',$path);
-                $cnt = count($path_list);
-                $filename = $path_list[$cnt-1];
-                $filename = urlencode(iconv("UTF-8","EUC-KR",$filename));
-                $path_list[$cnt-1] = $filename;
-                $path = implode('/',$path_list);
-                $url_info['path'] = $path;
-            }
-            */
-
-            $header = sprintf("GET %s%s HTTP/1.0\r\nHost: %s\r\nAccept-Charset: utf-8;q=0.7,*;q=0.7\r\nReferer: %s://%s\r\nRequestUrl: %s\r\nConnection: Close\r\n\r\n", $url_info['path'], $url_info['query']?'?'.$url_info['query']:'', $url_info['host'], $url_info['scheme'], $url_info['host'], Context::getRequestUri());
-
-            @fwrite($fp, $header);
-
-            $ft = @fopen($target_filename, 'w');
-            if(!$ft) return;
-
-            $begin = false;
-            while(!feof($fp)) {
-                $str = fgets($fp, 1024);
-                if($begin) @fwrite($ft, $str);
-                if(!trim($str)) $begin = true;
-            }
-            @fclose($ft);
-            @fclose($fp);
-            @chmod($target_filename, 0644);
-
+            FileHandler::writeFile($target_filename, $body);
             return true;
         }
 

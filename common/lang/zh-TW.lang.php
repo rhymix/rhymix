@@ -24,6 +24,9 @@
     $lang->cmd_load = '讀取';
     $lang->cmd_input = '輸入';
     $lang->cmd_search = '搜尋';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推薦';
@@ -121,6 +124,7 @@
     $lang->file = '檔案';
 
     $lang->mid = '模組名稱';
+    $lang->sid = 'Site Name';
     $lang->layout = '版面';
     $lang->widget = '控件 ';
     $lang->module = '模組';
@@ -205,9 +209,9 @@
     $lang->about_layout = '版面設計是佈置網站的外觀模組，在上端版面選單中，可以進行管理';
 
     // 訊息
-    $lang->msg_call_server = '系統正在連結服務器，請稍後。';
+    $lang->msg_call_server = '系統正在連接伺服器，請稍後。';
     $lang->msg_db_not_setted = '還沒有設定資料庫';
-    $lang->msg_dbconnect_failed = "連接資料庫時發生錯誤。\n請重新確認資料庫資訊。";
+    $lang->msg_dbconnect_failed = '連接資料庫時發生錯誤。\n請重新確認資料庫資訊。';
     $lang->msg_invalid_queryid = 'Query ID值指定錯誤';
     $lang->msg_not_permitted = '沒有權限';
     $lang->msg_input_password = '請輸入密碼';
@@ -226,6 +230,7 @@
     $lang->success_declared = '檢舉成功！';
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '刪除成功！';
+    $lang->success_restore = '成功還原！';
     $lang->success_voted = '推薦成功！';
     $lang->success_blamed = '反對成功！';
     $lang->success_moved = '移動成功！';
@@ -267,6 +272,7 @@
     $lang->default_value = '預設值';
     $lang->is_active = '啟動';
     $lang->is_required = '必填';
+    $lang->eid = '延伸變數名稱';
 
     // 關於FTP
     $lang->ftp_form_title = '輸入FTP資訊';
@@ -293,7 +299,7 @@
     $lang->filter->outofrange = '請確認%s字數';
     $lang->filter->equalto = '%s值有誤。';
     $lang->filter->invalid_email = '%s格式有誤。(例：zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只能用英文，數字和 _，第一個字母必須是英文。";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只能用英文，數字和 _，開頭必須是英文。";
     $lang->filter->invalid_homepage = '%s格式有誤。(例： http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%s只能輸入中文';
     $lang->filter->invalid_korean_number = '%s只能輸入中文或數字';

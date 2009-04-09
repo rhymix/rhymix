@@ -12,4 +12,6 @@
     $lang->cmd_view_info = 'Wiki information';
     $lang->use_comment = 'Use comment';
     $lang->about_use_comment = 'You may configure to enable comments.';
+    $lang->contributors = 'Contributors';
+    $lang->notice_old_revision = 'This is an old revision';
 ?>

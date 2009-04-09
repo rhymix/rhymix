@@ -11,9 +11,8 @@
 	<!--%import("css/white.css")-->
 <!--@end-->
 
-<!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->
-    {@ $module_info->duration_new = 12 }
-<!--@end-->
+<!--@if(!$module_info->duration_new = (int)$module_info->duration_new)-->{@ $module_info->duration_new = 12 }<!--@end-->
+<!--@if(!$module_info->content_cut_size = (int)$module_info->content_cut_size)-->{@ $module_info->content_cut_size= 240 }<!--@end-->
 
 <!--@if(!$module_info->thumbnail_type)-->{@ $module_info->thumbnail_type = 'crop'; }<!--@end-->
 <!--@if(!$module_info->thumbnail_width)-->{@ $module_info->thumbnail_width = 100; }<!--@end-->

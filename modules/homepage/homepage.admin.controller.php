@@ -10,9 +10,19 @@
         function init() {
         }
 
+        /**
+         * @brief 접속 방법중 domain 이나 site id나 모두 sites 테이블의 domain 컬럼에 저장이 됨
+         * site id보다 domain이 우선 순위를 가짐
+         **/
         function procHomepageAdminInsertHomepage() {
             $title = Context::get('title');
-            $domain = preg_replace('/^(http|https):\/\//i','',Context::get('domain'));
+
+            $domain = preg_replace('/^(http|https):\/\//i','', trim(Context::get('domain')));
+            $vid = trim(Context::get('site_id'));
+
+            if($domain && $vid) unset($vid);
+            if(!$domain && $vid) $domain = $vid;
+
             if(!$title) return new Object(-1, 'msg_invalid_request');
             if(!$domain) return new Object(-1, 'msg_invalid_request');
 
@@ -41,12 +51,10 @@
             }
             $lang = null;
 
-            // 도메인 검사
-            $domain_info = $oModuleModel->getSiteInfoByDomain($domain);
-            if($domain_info) return new Object(-1,'msg_already_registed_domain');
-
             // virtual site 생성하고 site_srl을 보관
-            $info->site_srl = $oModuleController->insertSite($domain, 0);
+            $output = $oModuleController->insertSite($domain, 0);
+            if(!$output->toBool()) return $output;
+            $info->site_srl = $output->get('site_srl');
 
             // 언어 코드 등록 (홈, 공지사항, 등업신청, 자유게시판, 전체 글 보기, 한줄이야기, 카페앨범, 메뉴등)
             foreach($defined_lang as $lang_code => $v) {
@@ -84,7 +92,10 @@
             $oLayoutModel = &getModel('layout');
             $layout_args = $oLayoutModel->getLayout($info->layout_srl);
             $layout->colorset = 'white';
-            if($domain) $layout->index_url = 'http://'.$domain; else $layout->index_url = Context::getRequestUri();
+
+            // vid 형식일 경우
+            if(isSiteID($domain)) $layout->index_url = getSiteUrl($domain, '');
+            else $layout->index_url = 'http://'.$domain; 
             $layout->main_menu = $info->menu_srl;
             $layout_args->extra_vars = serialize($layout);
 
@@ -99,10 +110,6 @@
             $layout_module_args->layout_srl = $info->layout_srl;
             $layout_module_args->module_srls = implode(',',$modules);
             $output = executeQuery('layout.updateModuleLayout', $layout_module_args);
-
-            // 메뉴 XML 파일 생성
-            $oMenuAdminController = &getAdminController('menu');
-            $oMenuAdminController->makeXmlFile($info->menu_srl, $info->site_srl);
 
             // 홈페이지 등록
             $args->site_srl = $info->site_srl;
@@ -168,6 +175,10 @@
             $oEditorController->insertComponent('table_maker',true, $info->site_srl);
             $oEditorController->insertComponent('poll_maker',true, $info->site_srl);
             $oEditorController->insertComponent('image_gallery',true, $info->site_srl);
+
+            // 메뉴 XML 파일 생성
+            $oMenuAdminController = &getAdminController('menu');
+            $oMenuAdminController->makeXmlFile($info->menu_srl, $info->site_srl);
 
             $this->add('site_srl', $info->site_srl);
             $this->add('url', getSiteUrl($info->domain, ''));
@@ -255,21 +266,15 @@
         }
 
         function procHomepageAdminUpdateHomepage() {
-            $args = Context::gets('site_srl','title','domain','homepage_admin');
+            $args = Context::gets('site_srl','homepage_admin');
             if(!$args->site_srl) return new Object(-1,'msg_invalid_request');
 
             $oHomepageModel = &getModel('homepage');
             $homepage_info = $oHomepageModel->getHomepageInfo($args->site_srl);
             if(!$homepage_info->site_srl) return new Object(-1,'msg_invalid_request');
 
-            $output = executeQuery('homepage.updateHomepageTitle', $args);
-            if(!$output->toBool()) return $output;
-
-            $oModuleController = &getController('module');
-            $output = $oModuleController->updateSite($args);
-            if(!$output->toBool()) return $output;
-
             $admin_list = explode(',',$args->homepage_admin);
+            $oModuleController = &getController('module');
             $output = $oModuleController->insertSiteAdmin($args->site_srl, $admin_list);
             if(!$output->toBool()) return $output;
 

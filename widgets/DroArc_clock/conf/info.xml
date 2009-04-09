@@ -32,14 +32,14 @@
 			<type>text</type>
 			<name xml:lang="ko">가로길이</name>
 			<name xml:lang="zh-CN">宽度</name>
-			<name xml:lang="jp">横幅</name>
+			<name xml:lang="jp">横幅サイズ設定</name>
 			<name xml:lang="en">Width</name>
 			<name xml:lang="es">Ancho</name>
 			<name xml:lang="ru">Ширина</name>
 			<name xml:lang="zh-TW">寬度</name>
 			<description xml:lang="ko">가로길이를 지정하실 수 있습니다. (기본 150px)</description>
 			<description xml:lang="zh-CN">可以设置宽度大小。 (默认为 150px)</description>
-			<description xml:lang="jp">横幅のサイズの指定ができます（デフォルト150px）。</description>
+			<description xml:lang="jp">横幅のサイズを指定します（デフォルト150px）。</description>
 			<description xml:lang="en">It will be able to set the width. (default is 150px)</description>
 			<description xml:lang="es">Se estará en condiciones de establecer el ancho. (Por defecto es 150 px)</description>
 			<description xml:lang="ru">Возможно установить ширину. (стандартное значение 150px)</description>
@@ -49,14 +49,14 @@
 			<type>text</type>
 			<name xml:lang="ko">세로길이</name>
 			<name xml:lang="zh-CN">高度</name>
-			<name xml:lang="jp">縦幅</name>
+			<name xml:lang="jp">縦幅サイズ設定</name>
 			<name xml:lang="ru">Высота</name>
 			<name xml:lang="en">Height</name>
 			<name xml:lang="es">Altura</name>
 			<name xml:lang="zh-TW">高度</name>
 			<description xml:lang="ko">세로길이를 지정하실 수 있습니다. (기본 64px)</description>
 			<description xml:lang="zh-CN">可以设置高度大小。(默认为 64px)</description>
-			<description xml:lang="jp">縦幅のサイズの指定ができます（デフォルト64px）。</description>
+			<description xml:lang="jp">縦幅のサイズを指定します（デフォルト64px）。</description>
 			<description xml:lang="en">It will be able to set the width. (default is 64px)</description>
 			<description xml:lang="es">Se estará en condiciones de establecer el ancho. (Por defecto es 64px)</description>
 			<description xml:lang="ru">Возможно установить высоту. (стандартное значение 64px)</description>

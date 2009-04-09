@@ -67,7 +67,7 @@
 
             if($logged_info->is_admin == 'Y') return true;
 
-            if($this->get('member_srl') && $this->get('member_srl') == $logged_info->member_srl) return true;
+            if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl')*-1 == $logged_info->member_srl)) return true;
 
             return false;
         }
@@ -542,8 +542,9 @@
                 }
             }
 
-            $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
-
+            if($source_file){
+                $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+            }
             if($is_tmp_file) FileHandler::removeFile($source_file);
 
             // 썸네일 생성 성공시 경로 return

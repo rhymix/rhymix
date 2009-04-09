@@ -56,7 +56,9 @@ div.editor { width:700px; }
 ul.midCommand { float:left; margin:0 0 0 10px;; padding:0; *zoom:1; }
 ul.midCommand li { display:block; margin-bottom:5px; list-style:none;}
 
-a.widgetStyle { float:left; margin-right:10px; border:1px solid #CCC; overflow:hidden; *zoom:1; }
-a.widgetStyle:hover { border:1px solid #444; }
-a.widgetStyle.selected { border:1px solid #000; }
+a.widgetStyle { float:left; margin:0 10px 10px 0; border:1px solid #fff; overflow:hidden; *zoom:1;  width:96px; height:96px; position:relative; text-decoration:none;}
+a.widgetStyle:hover { border:1px dashed #ccc; }
+a.widgetStyle:hover span { display:none; }
+a.widgetStyle.selected { border:1px dashed #999; }
 a.widgetStyle img {width:96px; height:96px; margin:1px; }
+a.widgetStyle span { position:absolute; left:0; bottom:0; display:block; width:96px; background-color:#888; color:#fff; padding:4px 3px 3px 3px; opacity:.8; filter:alpha(opacity=80); text-align:center; font-family:tahoma;}

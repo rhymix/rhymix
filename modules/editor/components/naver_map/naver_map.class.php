@@ -106,6 +106,7 @@
             $x = $xml_obj->attrs->x;
             $y = $xml_obj->attrs->y;
             $zoom = $xml_obj->attrs->zoom;
+            if(!is_numeric($zoom)) $zoom = 3;
             $marker = urlencode($xml_obj->attrs->marker);
             $style = $xml_obj->attrs->style;
 
@@ -139,7 +140,7 @@
             settype($y,"int");
 
             $zoom = Context::get('zoom');
-            if(!$zoom) $zoom = 3;
+            if($zoom == '') $zoom = 3;
             settype($zoom,"int");
 
             $marker = Context::get('marker');

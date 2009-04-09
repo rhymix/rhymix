@@ -27,7 +27,7 @@
     
     $lang->env_setup = "Configuración";
     $lang->default_url = "기본 URL";
-    $lang->about_default_url = "XE 가상 사이트(cafeXE등)의 기능을 사용할때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글/모듈등의 연결이 정상적으로 이루어집니다. (ex: http://도메인/설치경로)";
+    $lang->about_default_url = "XE sitio virtual (cafeXE, etc) tiene que introducir la URL base, al utilizar las capacidades de trabajo virtual y el tema de autenticación sayiteugan / módulos y las conexiones se realizan correctamente. (Ej: http:// dominio / ruta de instalación)";
 
     $lang->env_information = "Información Ambiental";
     $lang->current_version = "Versión actual";
@@ -64,16 +64,16 @@
     $lang->yesterday = "Yesterday";
     $lang->today = "Today";
 
-    $lang->cmd_lang_select = "언어선택";
-    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
-    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
-    $lang->use_ssl = "SSL 사용";
+    $lang->cmd_lang_select = "Selección de Idioma";
+    $lang->about_cmd_lang_select = "Seleccione el idioma es sólo el servicio";
+    $lang->about_recompile_cache = "Inválido inútil archivo de caché puede organizar jyeotgeona";
+    $lang->use_ssl = "Usar SSL";
     $lang->ssl_options = array(
-        'none' => "사용안함",
-        'optional' => "선택적으로",
-        'always' => "항상사용"
+        'none' => "Desactivar",
+        'optional' => "Opcionalmente el",
+        'always' => "Utilice siempre el"
     );
-    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
-    $lang->server_ports = "서버포트지정";
-    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
+    $lang->about_use_ssl = "Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán";
+    $lang->server_ports = "Especifique el puerto del servidor";
+    $lang->about_server_ports = "80 de HTTP, HTTPS al puerto 443 si se utiliza otro que se especifique lo contrario, el puerto va a necesitar.";
 ?>

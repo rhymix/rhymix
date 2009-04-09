@@ -1,0 +1,40 @@
+<!--%import("filter/write_content.xml")-->
+<div id="writePost" class="writePost <!--@if($_COOKIE['writePost']=='close')-->close<!--@else-->open<!--@end-->">
+    <!--// class="writePost close" | class="writePost open"-->
+    <div class="writeHeader">
+        <h3>{$lang->cmd_planet_add_article}</h3>
+        <span class="toggle open"><button type="button" onclick="toggleWritePost()">{$lang->cmd_open}</button></span>
+        <span class="toggle close"><button type="button" onclick="toggleWritePost()">{$lang->cmd_close}</button></span>
+    </div>
+    <div id="writeBody" class="writeBody">
+        <form id="writePostForm" action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, write_content)" enctype="multipart/form-data">
+            <input type="hidden" name="mid" value="{$myplanet->getMid()}" />
+
+            <fieldset>
+                <legend>{$lang->cmd_planet_add_article}</legend>
+                <dl>
+                    <dt>{$lang->content}</dt>
+                    <dd>
+                        <textarea id="writePost_content" name="content" rows="" cols="" onkeyup="planetPreview(this);"></textarea>
+                    </dd>
+                    <dt>{$lang->planet_postscript}</dt>
+                    <dd><input type="text" name="about_postscript" value="{$lang->msg_planet_about_postscript}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" /><input name="postscript"  type="text" class="inputText" value="" style="display:none; "/></dd>
+                    <dt>{$lang->tag}</dt>
+                    <dd><input type="text" name="about_tag" value="{$lang->msg_planet_about_tag}" class="inputText" readonly="readonly" onfocus="toggleWriteFormHelp(this)" onclick="toggleWriteFormHelp(this)" /><input name="content_tag"  type="text" class="inputText" value="" style="display:none; "/></dd>
+                    <dd id="preview" class="preview off">
+                    <!--// class="preview" | class="preview off" -->
+                        <p id="preview_text">&nbsp;</p>
+                    </dd>
+                </dl>
+                <div class="writeOptions">
+                    <p><input id="btn_preview" name="" onclick="togglePreview()" type="checkbox" value="" checked="checked" /><label for="btn_preview">{$lang->planet_article_preview}</label></p>
+                    <!--@if($module_info->use_me2day =='Y' && $myplanet->getMe2dayUID())-->
+                    <p><input name="me2day_autopush" type="checkbox" value="Y" <!--@if($myplanet->getMe2dayAuthPush())-->checked="checked"<!--@end--> id="me2day_autopush" /><label for="me2day_autopush">{$lang->cmd_send_me2day}</label></p>
+                    <!--@end-->
+                </div>
+                <button type="submit"><span>{$lang->cmd_planet_post_article}</span></button>
+            </fieldset>
+        </form>
+    </div>
+    <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+</div>

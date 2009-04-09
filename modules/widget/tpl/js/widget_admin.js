@@ -75,25 +75,33 @@ function getWidgetVars() {
     if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
     selected_node = opener.selectedWidget;
 
+    if(!xGetElementById('fo_widget').widgetstyle.value) {
+        xGetElementById('fo_widget').widgetstyle.value = selected_node.getAttribute('widgetstyle');
+    }
+
+    doFillWidgetVars();
+    /*
+    if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
+    selected_node = opener.selectedWidget;
+
     var fo_widget = jQuery('#fo_widget');
     var attrs = selected_node.attributes;
     for (i=0; i< attrs.length ; i++){
         var input = jQuery("[name='"+attrs[i].name+"']" ,'#fo_widget');
-        if( input.size() == 0 && attrs[i].name != 'style'){
-            fo_widget.prepend('<input type="hidden" name="'+attrs[i].name+'" value="'+attrs[i].value+'" />');
+        if( input.size() == 0){
+            jQuery('<input type="hidden" name="'+attrs[i].name+'" />').val(attrs[i].value).prependTo(fo_widget);
         }else{
             if(!input.val() && attrs[i].value ){
                 input.val(attrs[i].value);
             }
         }
     }
+    */
 }
 
 /* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
 function doFillWidgetVars() {
-
     if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
-
     selected_node = opener.selectedWidget;
 
     // 스킨과 컬러셋은 기본
@@ -125,6 +133,7 @@ function doFillWidgetVars() {
     for(var j=0;j<obj_list.length;j++) {
         var node = obj_list[j];
         if(node.name.indexOf('_')==0) continue;
+        if(node.name == 'widgetstyle') continue;
 
         var length = node.length;
         var type = node.type;
@@ -194,7 +203,7 @@ function doFillWidgetVars() {
 
 
     //  컬러셋 설정
-    if(skin && xGetElementById("widget_colorset").options.length<1 && colorset) {
+    if(skin && xGetElementById("widget_colorset") && xGetElementById("widget_colorset").options.length<1 && colorset) {
         doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);
     }
 

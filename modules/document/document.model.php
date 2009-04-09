@@ -21,53 +21,75 @@
         }
 
         /**
-         * @brief 확장변수를 매 문서마다 처리하지 않기 위해 매크로성으로 일괄 select 및 적용 
+         * @brief 확장변수를 매 문서마다 처리하지 않기 위해 매크로성으로 일괄 select 및 적용
          **/
         function setToAllDocumentExtraVars() {
+            static $checked_documents = array();
+
             // XE에서 모든 문서 객체는 XE_DOCUMENT_LIST라는 전역 변수에 세팅을 함
             if(!count($GLOBALS['XE_DOCUMENT_LIST'])) continue;
 
             // 모든 호출된 문서 객체를 찾아서 확장변수가 설정되었는지를 확인
             $document_srls = array();
             foreach($GLOBALS['XE_DOCUMENT_LIST'] as $key => $val) {
-                if(!$val->document_srl || isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl])) continue;
-                $document_srls[$key] = $val->document_srl;
+                if($checked_documents[$val->document_srl]) continue;
+                $checked_documents[$val->document_srl] = true;
+                $document_srls[] = $val->document_srl;
             }
 
             // 검출된 문서 번호가 없으면 return
             if(!count($document_srls)) return;
 
-            $lang_code = Context::getLangType();
-
             // 확장변수 미지정된 문서에 대해서 일단 현재 접속자의 언어코드로 확장변수를 검색
             $obj->document_srl = implode(',',$document_srls);
-            $output = executeQueryArray('document.getDocumentsExtraVars', $obj);
+            $output = executeQueryArray('document.getDocumentExtraVars', $obj);
             if($output->toBool() && $output->data) {
-                $setted = array();
                 foreach($output->data as $key => $val) {
-                    if(!$val->document_srl) continue;
-
-                    if($val->idx<0 && $val->lang_code == $lang_code) {
-                        if($val->idx == -1) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('title', $val->value);
-                        else if($val->idx == -2) $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->add('content', $val->value);
-                    } elseif($val->idx>0) {
-                        if($lang_code == $val->lang_code) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                        } else if($lang_code == $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl]->lang_code && !isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                        } else if(!isset($GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx])) {
-                            $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value);
-                            $GLOBALS['XE_EXTRA_VARS'][$val->document_srl][$val->idx] = $obj;
-                        }
-                    }
+                    if(!trim($val->value)) continue;
+                    if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value); 
+                    $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value); 
                 }
             }
-            foreach($document_srls as $key => $document_srl) {
-                if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) $GLOBALS['XE_EXTRA_VARS'][$document_srl] = array();
+
+            for($i=0,$c=count($document_srls);$i<$c;$i++) {
+                $document_srl = $document_srls[$i];
+                $oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+                $this->_setExtraVars($oDocument, $extra_vars[$document_srl]);
+            }
+        }
+
+        function _setExtraVars($oDocument, $vars) {
+            if(!$oDocument || !is_object($oDocument) || !$oDocument->isExists()) return;
+            $module_srl = $oDocument->get('module_srl');
+            $extra_keys = $this->getExtraKeys($module_srl);
+            $document_srl = $oDocument->document_srl;
+
+            $user_lang_code = Context::getLangType();
+            $document_lang_code = $oDocument->get('lang_code');
+
+            // 확장변수 처리
+            if(count($extra_keys)) {
+		    foreach($extra_keys as $idx => $key) {
+                    $val = $vars[$idx];
+                    if($val[$user_lang_code]) $v = $val[$user_lang_code];
+                    else if($val[$document_lang_code]) $v = $val[$document_lang_code];
+                    else if($val[0]) $v = $val[0];
+                    else $v = null;
+                    $extra_keys[$idx]->value = $v;
+                }
             }
 
+            $extra_vars = new ExtraVar($module_srl);
+            $extra_vars->setExtraVarKeys($extra_keys);
+
+            // 제목 처리
+            if($vars[-1][$user_lang_code]) $oDocument->add('title',$vars[-1][$user_lang_code]);
+
+            // 내용 처리
+            if($vars[-2][$user_lang_code]) $oDocument->add('content',$vars[-2][$user_lang_code]);
+
+            $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $extra_vars->getExtraVars();
+            $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
         }
 
         /**
@@ -80,7 +102,7 @@
                 $oDocument = new documentItem($document_srl, true);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();
-            } 
+            }
             if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
             return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
@@ -107,27 +129,38 @@
 
             $document_count = count($document_list);
             foreach($document_list as $key => $attribute) {
-                if(!$attribute->document_srl) continue;
-                $oDocument = null;
-                $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute, false);
-                if($is_admin) $oDocument->setGrant();
+                $document_srl = $attribute->document_srl;
+                if(!$document_srl) continue;
 
-                $result[$attribute->document_srl] = $oDocument;
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($attribute, false);
+                    if($is_admin) $oDocument->setGrant();
+                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                }
 
-                $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
+                $result[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
             }
             $this->setToAllDocumentExtraVars();
-            return $result;
+
+            $output = null;
+            if(count($result)) {
+                foreach($result as $document_srl => $val) {
+                    $output[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+                }
+            }
+
+            return $output;
         }
 
         /**
          * @brief module_srl값을 가지는 문서의 목록을 가져옴
          **/
         function getDocumentList($obj, $except_notice = false) {
-            // 정렬 대상과 순서 체크 
-            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title'))) $obj->sort_index = 'list_order'; 
-            if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc'; 
+            // 정렬 대상과 순서 체크
+            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title'))) $obj->sort_index = 'list_order';
+            if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
             if($obj->mid) {
@@ -136,7 +169,7 @@
                 unset($obj->mid);
             }
 
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
 
@@ -242,10 +275,10 @@
              * 만약 use_division이 true일 경우 document division을 이용하도록 변경
              **/
             if($use_division) {
-                // 시작 division 
+                // 시작 division
                 $division = (int)Context::get('division');
 
-                // division값이 없다면 제일 상위 
+                // division값이 없다면 제일 상위
                 if(!$division) {
                     $division_args->module_srl = $args->module_srl;
                     $division_args->list_count = 1;
@@ -259,7 +292,7 @@
                     $division_args = null;
                 }
 
-                // 마지막 division 
+                // 마지막 division
                 $last_division = (int)Context::get('last_division');
 
                 // 지정된 division에서부터 5000개 후의 division값을 구함
@@ -329,7 +362,7 @@
             $idx = 0;
             $data = $output->data;
             unset($output->data);
-            
+
             if(!isset($virtual_number))
             {
                 $keys = array_keys($data);
@@ -345,18 +378,26 @@
             foreach($data as $key => $attribute) {
                 if($except_notice && $attribute->is_notice == 'Y') continue;
                 $document_srl = $attribute->document_srl;
-                $oDocument = null;
-                $oDocument = new documentItem();
-                $oDocument->setAttribute($attribute, false);
-                if($is_admin) $oDocument->setGrant();
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($attribute, false);
+                    if($is_admin) $oDocument->setGrant();
+                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                }
 
-                $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $oDocument;
-
-                $output->data[$virtual_number] = $oDocument;
+                $output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
                 $virtual_number --;
-            
+
             }
             $this->setToAllDocumentExtraVars();
+
+            if(count($output->data)) {
+                foreach($output->data as $number => $document) {
+                    $output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
+                }
+            }
+
             return $output;
         }
 
@@ -380,33 +421,44 @@
             $args->order_type = 'asc';
             $output = executeQueryArray('document.getDocuments', $args);
             if(!$output->toBool()||!$output->data) return;
+
             foreach($output->data as $key => $val) {
-                if(!$val->document_srl) continue;
-                $oDocument = null;
-                $oDocument = new documentItem();
-                $oDocument->setAttribute($val, false);
-                $GLOBALS['XE_DOCUMENT_LIST'][$val->document_srl] = $oDocument;
-                $result->data[$val->document_srl] = $oDocument;
+                $document_srl = $val->document_srl;
+                if(!$document_srl) continue;
+
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+                    $oDocument = null;
+                    $oDocument = new documentItem();
+                    $oDocument->setAttribute($val, false);
+                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                }
+                $result->data[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
             }
             $this->setToAllDocumentExtraVars();
+
+            foreach($result->data as $document_srl => $val) {
+                $result->data[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+            }
+
             return $result;
         }
-
 
         /**
          * @brief document의 확장 변수 키값을 가져오는 함수
          * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
          **/
         function getExtraKeys($module_srl) {
-            $oExtraVar = &ExtraVar::getInstance($module_srl);
-            if(!$oExtraVar->isSettedExtraVars()) {
+            if(!$GLOBALS['XE_EXTRA_KEYS'][$module_srl]) {
+                $oExtraVar = &ExtraVar::getInstance($module_srl);
                 $obj->module_srl = $module_srl;
                 $obj->sort_index = 'var_idx';
                 $obj->order = 'asc';
                 $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
                 $oExtraVar->setExtraVarKeys($output->data);
+                $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $oExtraVar->getExtraVars();
             }
-            return $oExtraVar->getExtraVars();
+
+            return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
         }
 
         /**
@@ -414,10 +466,12 @@
          **/
         function getExtraVars($module_srl, $document_srl) {
             if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) {
+                // 확장변수 값을 추출하여 세팅
                 $oDocument = $this->getDocument($document_srl, false);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();
             }
+            if(is_array($GLOBALS['XE_EXTRA_VARS'][$document_srl])) ksort($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
             return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
         }
 
@@ -433,7 +487,7 @@
             $mid = Context::get('cur_mid');
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
-            
+
             // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
             $menu_list = array();
 
@@ -679,7 +733,7 @@
                 $oDocumentController->makeCategoryFile($module_srl);
             }
             return $xml_file;
-        } 
+        }
 
         /**
          * @brief 문서 category정보의 php 캐시 파일을 return
@@ -691,7 +745,7 @@
                 $oDocumentController->makeCategoryFile($module_srl);
             }
             return $php_file;
-        } 
+        }
 
         /**
          * @brief 월별 글 보관현황을 가져옴
@@ -703,7 +757,7 @@
                 unset($obj->mid);
             }
 
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
 
@@ -725,7 +779,7 @@
                 unset($obj->mid);
             }
 
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->regdate = $obj->regdate;
@@ -797,6 +851,68 @@
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'category_list');
         }
+
+        /**
+         * @brief 특정 카테고리의 정보를 이용하여 템플릿을 구한후 return
+         * 관리자 페이지에서 특정 메뉴의 정보를 추가하기 위해 서버에서 tpl을 컴파일 한후 컴파일 된 html을 직접 return
+         **/
+        function getDocumentCategoryTplInfo() {
+            $oModuleModel = &getModel('module');
+            $oMemberModel = &getModel('member');
+
+            // 해당 메뉴의 정보를 가져오기 위한 변수 설정
+            $module_srl = Context::get('module_srl');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+
+            // 권한 체크 
+            $grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+            if(!$grant->manager) return new Object(-1,'msg_not_permitted');
+
+            $category_srl = Context::get('category_srl');
+            $parent_srl = Context::get('parent_srl');
+
+            // 회원 그룹의 목록을 가져옴
+            $group_list = $oMemberModel->getGroups($module_info->site_srl);
+            Context::set('group_list', $group_list);
+
+            // parent_srl이 있고 category_srl 이 없으면 하부 메뉴 추가임
+            if(!$category_srl && $parent_srl) {
+                // 상위 메뉴의 정보를 가져옴
+                $parent_info = $this->getCategory($parent_srl);
+
+                // 추가하려는 메뉴의 기본 변수 설정 
+                $category_info->category_srl = getNextSequence();
+                $category_info->parent_srl = $parent_srl;
+                $category_info->parent_category_title = $parent_info->title;
+
+            // root에 메뉴 추가하거나 기존 메뉴의 수정일 경우
+            } else {
+                // category_srl 이 있으면 해당 메뉴의 정보를 가져온다
+                if($category_srl) $category_info = $this->getCategory($category_srl);
+
+                // 찾아진 값이 없다면 신규 메뉴 추가로 보고 category_srl값만 구해줌
+                if(!$category_info->category_srl) {
+                    $category_info->category_srl = getNextSequence();
+                }
+            }
+
+
+            $category_info->title = htmlspecialchars($category_info->title);
+            Context::set('category_info', $category_info);
+
+            // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile('./modules/document/tpl', 'category_info');
+            $tpl = str_replace("\n",'',$tpl);
+
+            // 사용자 정의 언어 변경
+            $oModuleController = &getController('module');
+            $oModuleController->replaceDefinedLangCode($tpl);
+
+            // return 할 변수 설정
+            $this->add('tpl', $tpl);
+        }
+
 
         function getDocumentSrlByAlias($mid, $alias)
         {

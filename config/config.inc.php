@@ -13,7 +13,7 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.2.0');
+    define('__ZBXE_VERSION__', '1.2.1');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
@@ -31,6 +31,8 @@
      * define('__DEBUG_DB_OUTPUT__', 0);
      * define('__LOG_SLOW_QUERY__', 0);
      * define('__OB_GZHANDLER_ENABLE__', 1);
+     *
+     * define('__PROXY_SERVER__', 'http://domain:port/path');
      * ?>
      */
     if(file_exists(_XE_PATH_.'config/config.user.inc.php')) {
@@ -84,6 +86,12 @@
      * 대부분의 서버에서는 문제가 없는데 특정 서버군에서 압축전송시 IE에서 오동작을 일으키는경우가 있음
      **/
     if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 1);
+
+    /**
+     * @brief __PROXY_SERVER__ 는 대상 서버를 거쳐서 외부 요청을 하도록 하는 서버의 정보를 가지고 있음
+     * FileHandler::getRemoteResource 에서 이 상수를 사용함
+     **/
+    if(!defined('__PROXY_SERVER__')) define('__PROXY_SERVER__', null);
 
     /**
      * @brief Firebug 콘솔 출력 사용시 관련 파일 require

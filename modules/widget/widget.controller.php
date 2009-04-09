@@ -46,7 +46,7 @@
                 $widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
                 if(count($widgetStyle_info->extra_var)) {
                     foreach($widgetStyle_info->extra_var as $key=>$val) {
-                        if($val->type =='text' || $val->type =='select' || $val->type =='filebox'){
+                        if($val->type =='color' || $val->type =='text' || $val->type =='select' || $val->type =='filebox'){
                             $vars->{$key} = trim($request_vars->{$key});
                         }
                     }
@@ -99,7 +99,9 @@
         function procWidgetGenerateCodeInPage() {
             $widget = Context::get('selected_widget');
             if(!$widget) return new Object(-1,'msg_invalid_request');
-//            if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+
+            if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
             // 결과물을 구함
@@ -151,11 +153,13 @@
             // 편집 정보 포함 여부 체크
             $this->include_info = $include_info;
 
-            // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
-            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             // 박스 위젯을 다시 구함
-            $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>!is', array($this,'transWidgetBox'), $content);
+            $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>((<img.*?>)*)!is', array($this,'transWidgetBox'), $content);
+
+
+            // 내용중 위젯을 또다시 구함 (기존 버전에서 페이지 수정해 놓은것과의 호환을 위해서)
+            $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             return $content;
         }
@@ -177,7 +181,6 @@
             // 위젯의 이름을 구함
             $widget = $vars->widget;
             unset($vars->widget);
-
             return WidgetHandler::execute($widget, $vars, $this->include_info);
         }
 
@@ -185,8 +188,7 @@
          * @brief 위젯 박스를 실제 php코드로 변경
          **/
         function transWidgetBox($matches) {
-            $buff = preg_replace('/<div><div>$/i','</div>',$matches[0]);
-
+            $buff = preg_replace('/<div><div>(.*)$/i','</div>',$matches[0]);
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
 
@@ -196,6 +198,7 @@
 
             // 위젯의 이름을 구함
             if(!$widget) return $matches[0];
+            $vars->widgetbox_content = $matches[3];
             return WidgetHandler::execute($widget, $vars, $this->include_info);
         }
 
@@ -263,7 +266,7 @@
             $oModuleModel = &getModel('module');
             $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             if(!$page_info->module_srl || $page_info->module != 'page') $err++;
-            
+
             if($err > 1) return new Object(-1,'msg_invalid_request');
 
             // 권한 체크

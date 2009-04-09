@@ -12,7 +12,7 @@
     $lang->planet_whos_planet = "%s的微博";
     $lang->planet_whos_favorite = "%s的收藏";
     $lang->planet_whos_favorite_list = "'%s'的收藏";
-    $lang->planet_favorite = "的微博";
+    $lang->planet_favorite = "收藏";
 
     $lang->planet_welcome = "欢迎您来到个人微博！";
 
@@ -175,4 +175,5 @@
     $lang->planet_use_me2day = "绑定me2day";
     $lang->about_use_me2day = "发布主题的同时发送到me2day。";
     $lang->msg_search_thisplanet = "在此微博中搜索";
+    $lang->msg_welcome_planet = 'Congratulations on the Planet to open.';
 ?>

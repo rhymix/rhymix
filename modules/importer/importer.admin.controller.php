@@ -568,6 +568,8 @@
                 if(count($files)) {
                     foreach($files as $key => $val) {
                         $obj->content = preg_replace('/(src|href)\=(["\']?)'.preg_quote($key).'(["\']?)/i','$1="'.$val.'"',$obj->content);
+                        $obj->content = preg_replace('/(["\']?).\/files\/(.+)\/'.preg_quote($key).'([^"\']+)(["\']?)/i','"'.$val.'"',$obj->content);
+                        $obj->content = preg_replace('/(["\']?)files\/(.+)\/'.preg_quote($key).'([^"\']+)(["\']?)/i','"'.$val.'"',$obj->content);
                     }
                 }
 

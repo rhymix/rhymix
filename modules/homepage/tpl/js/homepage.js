@@ -395,3 +395,18 @@ function doCompleteRemoveMember(ret_obj) {
     alert(ret_obj['message']); 
     location.reload(); 
 }
+
+function toggleAccessType(target) {
+    switch(target) {
+        case 'domain' :
+                xGetElementById('cafeFo').domain.value = '';
+                xGetElementById('accessDomain').style.display = 'block';
+                xGetElementById('accessVid').style.display = 'none';
+            break;
+        case 'vid' :
+                xGetElementById('cafeFo').vid.value = '';
+                xGetElementById('accessDomain').style.display = 'none';
+                xGetElementById('accessVid').style.display = 'block';
+            break;
+    }
+}

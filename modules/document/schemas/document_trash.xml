@@ -1,0 +1,12 @@
+<table name="document_trash">
+    <column name="trash_srl" type="number" size="11" default="0" notnull="notnull" primary_key="primary_key" />
+    <column name="document_srl" type="number" size="11" default="0" notnull="notnull" index="idx_document_srl" />
+    <column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+    <column name="trash_date" type="date" index="idx_trash_date" />
+    <column name="description" type="text" />
+    <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
+    <column name="user_id" type="varchar" size="80" />
+    <column name="user_name" type="varchar" size="80" notnull="notnull" />
+    <column name="nick_name" type="varchar" size="80" notnull="notnull" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+</table>

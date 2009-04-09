@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/admin/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言 (包含基本內容)
+     * @brief  管理(admin)模組正體中文語言 (包含基本內容)
      **/
 
     $lang->admin_info = '管理員資訊';

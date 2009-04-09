@@ -14,8 +14,8 @@
 	</description>
 	<description xml:lang="jp">
 		特定グループに所属している会員のリストを表示するウィジェットです。
-		まだテスト用のウィジェットです。該当するグループに指定された以上の会員が存在した場合、最近加入順に表示されます。
-		下のグループ名の入力フィールドに、希望するグループ名を「,（コンマ）」で区切って入力します。
+		まだテスト中のウィジェットです。該当グループに指定数以上の会員が存在する場合、最近登録した順に表示されます。
+		下のグループ名の入力フィールドに、表示させたいグループ名を半角「,（コンマ）」で区切って入力します。
 	</description>
 	<description xml:lang="en">
 		This widget displays members in specific group.
@@ -66,7 +66,7 @@
 			<name xml:lang="ru">Число списка</name>
 			<name xml:lang="zh-TW">目錄數</name>
 			<description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
-			<description xml:lang="jp">表示されるリストの数を指定することができます。（デフォルト5個）</description>
+			<description xml:lang="jp">表示するリストの数を指定します。（デフォルト5個）</description>
 			<description xml:lang="en">You may choose number of list. (5 as default)</description>
 			<description xml:lang="es">Usted puede elegir el número de la lista. (predefinido: 5)</description>
 			<description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
@@ -83,7 +83,7 @@
 			<name xml:lang="ru">Группа членов назначения</name>
 			<name xml:lang="zh-TW">目標用戶組</name>
 			<description xml:lang="ko">소속 회원 출력을 원하는 회원 그룹명을 ,(콤마)로 연결하여 입력하세요.</description>
-			<description xml:lang="jp">所属会員を表示したい場合は、会員グループ名を「,（コンマ）」で区切って入力してください。</description>
+			<description xml:lang="jp">所属会員を表示する会員グループ名を半角「,（コンマ）」で区切って入力して下さい。</description>
 			<description xml:lang="en">Please input member group name for display with comma(,).</description>
 			<description xml:lang="es">Ingresar el nombre del grupo de usuario para mostrar con la coma(,).</description>
 			<description xml:lang="zh-CN">要显示的对象用户组名称以，(逗号)来分隔。</description>

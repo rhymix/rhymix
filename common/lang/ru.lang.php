@@ -24,6 +24,9 @@
     $lang->cmd_load = 'Загрузить';
     $lang->cmd_input = 'Ввести';
     $lang->cmd_search = 'Искать';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = 'Отменить';
     $lang->cmd_back = 'Вернуться';
     $lang->cmd_vote = 'Рекомендовать';
@@ -119,6 +122,7 @@
     $lang->order_desc = 'спустится';
 
     $lang->mid = 'Имя Модуля';
+    $lang->sid = 'Site Name';
     $lang->layout = 'Лейаут';
     $lang->widget = 'Виджет';
     $lang->module = 'Модуль';
@@ -286,6 +290,7 @@
 
     $lang->is_active = 'Активно';
     $lang->is_required = 'Требуемое поле';
+    $lang->eid = '확장변수 이름';
 
     // Alert-сообщения для Javascript используя XML filter
     $lang->filter->isnull = 'Пожалуйста, введите значение для %s';

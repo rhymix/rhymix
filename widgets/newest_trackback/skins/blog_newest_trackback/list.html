@@ -16,14 +16,6 @@
 
 <div class="blog_widget_{$colorset}">
   <div class="newest_trackback">
-    <div class="header">
-        <!--@if($widget_info->title)-->
-            <h2>{$widget_info->title}</h2>
-        <!--@else-->
-            <h2>newest trackbacks</h2>
-        <!--@end-->
-    </div>
-
     <ul class="items">
         <!--@foreach($widget_info->trackback_list as $val)-->
         <li><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}">{cut_str($val->title,60,'...')}</a></li>

@@ -16,13 +16,6 @@
 
 <div class="blog_widget_{$colorset}">
   <div class="newest_document">
-    <div class="header">
-      <!--@if($widget_info->title)-->
-      <h2>{$widget_info->title}</h2>
-      <!--@else-->
-      <h2>newest documents</h2>
-      <!--@end-->
-    </div>
     <ul class="items">
       <!--@foreach($widget_info->document_list as $oDocument)-->
       <li>{$oDocument->printExtraImages($widget_info->duration_new)} <a href="{$oDocument->getPermanentUrl()}#{$oDocument->getCommentCount()}">{$oDocument->getTitle($widget_info->subject_cut_size)}</a></li>

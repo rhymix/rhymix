@@ -18,7 +18,7 @@
     <description xml:lang="zh-CN">
         此插件将自动给主题正文及评论中的关键字添加相应的预设链接。
         多个关键字可以用逗号(,)来区分输入。
-        多个关键字的优先级以输入顺序准。
+        多个关键字的优先级以输入顺序为准。
     </description>
     <description xml:lang="zh-TW">
         將文章與評論中和關鍵字相對應的文字自動作連結。
@@ -27,7 +27,7 @@
     </description>
     <description xml:lang="jp">
         本文とコメントの内容中、登録されたキーワードにリンクを貼りつける機能を行います。
-        キーワードは半角コンマ(,)区切りで複数登録が出来ます。
+        キーワードは半角コンマ（,）区切りで複数登録が出来ます。
         先に登録されるキーワードが優先度が高いです。
     </description>
     <version>0.1</version>
@@ -45,7 +45,7 @@
     <extra_vars>
         <var name="cssquery">
             <title xml:lang="ko">cssquery</title>
-	    	<title xml:lang="zh-CN">cssquery</title>
+	    <title xml:lang="zh-CN">cssquery</title>
             <title xml:lang="zh-TW">cssquery</title>
             <title xml:lang="jp">cssquery</title>
             <title xml:lang="en">cssquery</title>
@@ -53,7 +53,7 @@
             xe_board 게시판 스킨이면 공백으로 두면 됩니다.</description>
             <description xml:lang="zh-TW">jQuery cssquery的部份可以置換。
             如果是使用xe_board討論板面板，請留白。</description>
-	    	<description xml:lang="zh-CN">替换部分的jQuery cssquery。
+	    <description xml:lang="zh-CN">替换部分的jQuery cssquery。
             如果正使用的是官方默认皮肤(xe_board），此处留空即可。</description>
             <description xml:lang="jp">置き換える部分のjQuery cssqueryです。
             xe_board掲示板スキンの場合、空白にして下さい。</description>
@@ -63,13 +63,13 @@
 
         <var name="reg_type" type="select">
             <title xml:lang="ko">링크 방법</title>
-	    	<title xml:lang="zh-CN">链接方式</title>
+	    <title xml:lang="zh-CN">链接方式</title>
             <title xml:lang="zh-TW">連結方式</title>
             <title xml:lang="jp">リンクの貼りつけ方</title>
             <title xml:lang="en">The way to make a link</title>
             <description xml:lang="ko"> 키워드가 여러개 있을때 "첫번째 키워드"에만 링크를 걸 것인지 "모든 키워드"에 걸 것인지 선택합니다.
             </description>
-	    	<description xml:lang="zh-CN">有多个预设关键字时，在此可以指定链接方式。
+	    <description xml:lang="zh-CN">有多个预设关键字时，在此可以指定链接方式。
             </description>
             <description xml:lang="zh-TW"> 키워드가 여러개 있을때 "첫번째 키워드"에만 링크를 걸 것인지 "모든 키워드"에 걸 것인지 선택합니다.
             </description>
@@ -78,14 +78,14 @@
             <description xml:lang="en">For the multiple keywords, choose if make a link to the first keyword, or all the keywords</description> 
             <options value="">
                 <title xml:lang="ko">첫번째 키워드</title>
-				<title xml:lang="zh-CN">首个关键字</title>
+		<title xml:lang="zh-CN">首个关键字</title>
                 <title xml:lang="zh-TW">第一關鍵字</title>
                 <title xml:lang="jp">最初のキーワード</title>
                 <title xml:lang="en">First keyword</title>
             </options>
             <options value="g">
                 <title xml:lang="ko">모든 키워드</title>
-				<title xml:lang="zh-CN">所有关键字</title>
+		<title xml:lang="zh-CN">所有关键字</title>
                 <title xml:lang="zh-TW">所有關鍵字</title>
                 <title xml:lang="jp">全てのキーワード</title>
                 <title xml:lang="en">All keywords</title>
@@ -94,70 +94,70 @@
 
         <var name="keyword01">
             <title xml:lang="ko">키워드</title>
-	    	<title xml:lang="zh-CN">关键字</title>
+	    <title xml:lang="zh-CN">关键字</title>
             <title xml:lang="zh-TW">關鍵字</title>
             <title xml:lang="jp">キーワード</title>
             <title xml:lang="en">Keyword</title>
         </var>
         <var name="url01">
             <title xml:lang="ko">링크</title>
-	    	<title xml:lang="zh-CN">链接</title>
+	    <title xml:lang="zh-CN">链接</title>
             <title xml:lang="zh-TW">連結</title>
             <title xml:lang="jp">リンク</title>
             <title xml:lang="en">Link</title>
         </var>
         <var name="keyword02">
             <title xml:lang="ko">키워드</title>
-	    	<title xml:lang="zh-CN">关键字</title>
+	    <title xml:lang="zh-CN">关键字</title>
             <title xml:lang="zh-TW">關鍵字</title>
             <title xml:lang="jp">キーワード</title>
             <title xml:lang="en">Keyword</title>
         </var>
         <var name="url02">
             <title xml:lang="ko">링크</title>
-	    	<title xml:lang="zh-CN">链接</title>
+	    <title xml:lang="zh-CN">链接</title>
             <title xml:lang="zh-TW">連結</title>
             <title xml:lang="jp">リンク</title>
             <title xml:lang="en">Link</title>
         </var>
         <var name="keyword03">
             <title xml:lang="ko">키워드</title>
-	    	<title xml:lang="zh-CN">关键字</title>
+	    <title xml:lang="zh-CN">关键字</title>
             <title xml:lang="zh-TW">關鍵字</title>
             <title xml:lang="jp">キーワード</title>
             <title xml:lang="en">Keyword</title>
         </var>
         <var name="url03">
             <title xml:lang="ko">링크</title>
-	    	<title xml:lang="zh-CN">链接</title>
+	    <title xml:lang="zh-CN">链接</title>
             <title xml:lang="zh-TW">連結</title>
             <title xml:lang="jp">リンク</title>
             <title xml:lang="en">Link</title>
         </var>
         <var name="keyword04">
             <title xml:lang="ko">키워드</title>
-	    	<title xml:lang="zh-CN">关键字</title>
+	    <title xml:lang="zh-CN">关键字</title>
             <title xml:lang="zh-TW">關鍵字</title>
             <title xml:lang="jp">キーワード</title>
             <title xml:lang="en">Keyword</title>
         </var>
         <var name="url04">
             <title xml:lang="ko">링크</title>
-	    	<title xml:lang="zh-CN">链接</title>
+	    <title xml:lang="zh-CN">链接</title>
             <title xml:lang="zh-TW">連結</title>
             <title xml:lang="jp">リンク</title>
             <title xml:lang="en">Link</title>
         </var>
         <var name="keyword05">
             <title xml:lang="ko">키워드</title>
-	    	<title xml:lang="zh-CN">关键字</title>
+	    <title xml:lang="zh-CN">关键字</title>
             <title xml:lang="zh-TW">關鍵字</title>
             <title xml:lang="jp">キーワード</title>
             <title xml:lang="en">Keyword</title>
         </var>
         <var name="url05">
             <title xml:lang="ko">링크</title>
-	    	<title xml:lang="zh-CN">链接</title>
+	    <title xml:lang="zh-CN">链接</title>
             <title xml:lang="zh-TW">連結</title>
             <title xml:lang="jp">リンク</title>
             <title xml:lang="en">Link</title>

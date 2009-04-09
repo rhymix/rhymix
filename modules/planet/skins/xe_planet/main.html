@@ -1,5 +1,9 @@
 <!--#include("header.html")-->
 
+<!--@if($myplanet->isExists())-->
+    <!--#include("write.include.html")-->
+<!--@end-->
+
 <ul class="myTab">
 <!--@if(is_array($module_info->tagtab) && count($module_info->tagtab)>0)-->
     <!--@foreach($tagtab_list as $key => $val)-->

@@ -2,16 +2,18 @@
 <div class="readBody">
 <table>
 <tr>
+<!--@if($page == 1)-->
 <td>
     {$oDocument->getUpdate()}
 </td>
 <td>
-    by {$oDocument->getNickName()}
+    by {$oDocument->getNickName()} (current)
 </td>
 <td>
-    (current revision)
+    <a href="{getUrl('act','',page,'')}">[View]</a>
 </td>
 </tr>
+<!--@endif-->
 <!--@foreach($histories as $val)-->
 <tr>
 <td>
@@ -21,9 +23,24 @@
     by {$val->nick_name}
 </td>
 <td>
+    <!--@if($val->content)-->
+    <a href="{getUrl('act','',page,'',history_srl,$val->history_srl)}">[View]</a>
+    <!--@end-->
 </td>
 </tr>
 <!--@end-->
 </table>
 </div>
+        <div class="pagination a1">
+            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no)}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a>
+        </div>
+
 <!--#include("footer.html")-->

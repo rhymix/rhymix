@@ -2,7 +2,7 @@
     /**
      * @file   modules/rss/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  RSS模組正體中文語言 (包含基本內容)
+     * @brief  RSS模組正體中文語言
      **/
 
     // 一般語言

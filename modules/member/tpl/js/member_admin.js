@@ -118,6 +118,7 @@ function completeInsertJoinForm(ret_obj) {
 function doShowJoinFormValue(sel_obj) {
     var val = sel_obj.options[sel_obj.selectedIndex].value;
     switch(val) {
+        case 'radio' :
         case 'checkbox' :
         case 'select' :
                 xGetElementById('zone_default_value').style.display = 'block';

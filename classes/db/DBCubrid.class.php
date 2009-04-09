@@ -37,6 +37,7 @@
             'text' => 'character varying(1073741823)',
             'bigtext' => 'character varying(1073741823)',
             'date' => 'character varying(14)',
+            'float' => 'float',
         );
 
         /**

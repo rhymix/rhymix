@@ -239,6 +239,13 @@
     }
 
     /**
+     * @brief 가상사이트의 Domain이 url형식인지 site id인지 return
+     **/
+    function isSiteID($domain) {
+        return preg_match('/^([a-z0-9\_]+)$/i', $domain);
+    }
+
+    /**
      * @brief 주어진 문자를 주어진 크기로 자르고 잘라졌을 경우 주어진 꼬리를 담
      * @param string 자를 원 문자열
      * @param cut_size 주어진 원 문자열을 자를 크기
@@ -562,7 +569,7 @@
         $tag = strtolower(trim($matches[1]));
 
         $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
-        $buff = str_replace(array('&amp;','&'),array('&amp;','&amp;'),$buff);
+        $buff = str_replace(array('&','&amp;'),array('&amp;','&amp;'),$buff);
         $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
 
         $oXmlParser = new XmlParser();

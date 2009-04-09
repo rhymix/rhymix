@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
 	<title xml:lang="ko">기본 달력 및 글 현황 표시</title>
-	<title xml:lang="jp">Default カレンダーと書き込みリンク表示</title>
+	<title xml:lang="jp">デフォルトカレンダーと書き込みリンク表示</title>
 	<title xml:lang="zh-CN">模块联动日历默认皮肤</title>
 	<title xml:lang="en">Default Display Calendar and Article Status</title>
 	<title xml:lang="zh-TW">Default 日曆預設面板</title>

@@ -29,8 +29,8 @@
         Debe utilizar luego de ingresar los valores relacionado con openid provider a través de la configuracion.
     </description>
     <description xml:lang="jp">
-        保有するドメインをオープンＩＤとして活用することができます。
-        必ず設定で、OpenIDのプロバイダー関連情報を入力してから使用してください。
+        保有しているオリジナルドメインをオープンＩＤとして活用することが出来ます。
+        必ず設定で、OpenIDのプロバイダー関連情報を入力してから使用して下さい。
     </description>
     <description xml:lang="ru">
         Этот аддон позволяет Вам использовать Вашу доменное имя как OpenID.
@@ -69,7 +69,7 @@
             <description xml:lang="en">Please input your openid.server value.</description>
             <description xml:lang="ge">Bitte geben Sie Ihre openid.server Wert.</description>
             <description xml:lang="es">Ingrese el valor del openid.server.</description>
-            <description xml:lang="jp">openid.server の値を入力してください。</description>
+            <description xml:lang="jp">openid.server の値を入力して下さい。</description>
             <description xml:lang="ru">Пожалуйста, введите Ваше значение openid сервера.</description>
             <description xml:lang="zh-TW">請輸入 openid.server 值。</description>
         </var>
@@ -87,7 +87,7 @@
             <description xml:lang="en">Please input your openid.delegate value.</description>
             <description xml:lang="ge">Bitte geben Sie Ihre openid.delegate Wert.</description>
             <description xml:lang="es">Ingresar el valor del openid.delegate</description>
-            <description xml:lang="jp">openid.delegate の値を入力してください。</description>
+            <description xml:lang="jp">openid.delegate の値を入力して下さい。</description>
             <description xml:lang="ru">Пожалуйста, введите Ваше значение openid делегата.</description>
             <description xml:lang="zh-TW">請輸入 openid.delegate 值。</description>
         </var>
@@ -105,7 +105,7 @@
             <description xml:lang="en">Please input your X-XRDS-Location value.</description>
             <description xml:lang="ge">Bitte geben Sie Ihre X-XRDS-Standort Wert.</description>
             <description xml:lang="es">Ingresar el valor de X-XRDS-Location</description>
-            <description xml:lang="jp">X-XRDS-Location の値を入力してください。</description>
+            <description xml:lang="jp">X-XRDS-Location の値を入力して下さい。</description>
             <description xml:lang="ru">Пожалуйста, введите Ваше значение X-XRDS-Локации.</description>
             <description xml:lang="zh-TW">請輸入 X-XRDS-Location 值。</description>
         </var>

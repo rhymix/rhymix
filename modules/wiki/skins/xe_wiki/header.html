@@ -21,6 +21,9 @@
             <div class="pageHistory">
                 <!--@if($oDocument)-->
                 <div class="userInfo">
+                    <!--@if($history)-->
+                        <div class="author">last edited by {$history->nick_name}</div>
+                    <!--@else-->
                     <!--@if(!$oDocument->getMemberSrl())-->
                         <div class="author">
                     last edited by 
@@ -35,13 +38,22 @@
                     last edited by 
                         <span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
                     <!--@end-->
+                    <!--@endif-->
                 <div class="date" title="{$lang->regdate}">
+                    <!--@if($history)-->
+                    <strong>{zdate($history->regdate, 'Y.m.d')}</strong> {zdate($history->regdate, 'H:i:s')}
+                    <!--@else-->
                     <strong>{$oDocument->getUpdate('Y.m.d')}</strong> {$oDocument->getUpdate('H:i:s')} 
+                    <!--@end-->
                 </div>
+                    <!--@if($history)-->
+                    <div class="oldhistory">[{$lang->notice_old_revision}]
+                    </div>
+                    <!--@endif-->
                 </div>
                 <!--@if($use_history != 'N')-->
                 <div class="history">
-                    <a href="{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl)}">View History</a>
+                    <a href="{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl,'history_srl','')}">View History</a>
                 </div>
                 <!--@end-->
                 <!--@end-->

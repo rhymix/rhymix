@@ -2,7 +2,7 @@
     /**
      * @file   modules/integration_search/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  正體中文語言
+     * @brief  綜合搜尋(integration_search)模組正體中文語言
      **/
 
     $lang->integration_search = "搜尋";

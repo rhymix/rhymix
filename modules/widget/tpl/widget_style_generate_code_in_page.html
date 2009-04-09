@@ -14,22 +14,24 @@
 </div>
 
 <form action="{getUrl('')}" method="post" enctype="multipart/form-data" target="hidden_iframe" onsubmit="return procFilter(this, style_generate_code_in_page);" id="fo_widget">
+<input type="hidden" name="module_srl" value="{$module_srl}" />
+<input type="hidden" name="widget_sequence" value="" />
+<input type="hidden" name="style" value="" />
+<input type="hidden" name="widget_padding_left" value="" />
+<input type="hidden" name="widget_padding_right" value="" />
+<input type="hidden" name="widget_padding_top" value="" />
+<input type="hidden" name="widget_padding_bottom" value="" />
 <input type="hidden" name="module" value="widget" />
 <input type="hidden" name="act" value="" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="widgetstyle" value="{$widgetstyle}" />
-<input type="hidden" name="widget_sequence" value="" />
-<input type="hidden" name="style" value="float:left;width:100%;margin:none;padding:none;" />
 <input type="hidden" name="selected_widget" value="{$selected_widget}" />
-
-
-
 <div id="popBody">
 
     <a href="{getUrl('widgetstyle','none')}" class="widgetStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
+
     <!--@foreach($widgetStyle_list as $key => $widgetStyle)-->
         <!--@if($widgetStyle->preview)-->
-    <a href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /></a>
+            <a href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
         <!--@end-->
     <!--@end-->
     <div class="clear"></div>

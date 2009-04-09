@@ -9,7 +9,6 @@
         var $url = null;
 
         var $svn_cmd = null;
-        var $diff_cmd = null;
 
         var $tmp_dir = '/tmp';
 
@@ -17,13 +16,12 @@
         var $userid = null;
         var $passwd = null;
 
-        function Svn($url, $svn_cmd='/usr/bin/svn', $diff_cmd='/usr/bin/diff', $userid=null, $passwd=null) {
+        function Svn($url, $svn_cmd='/usr/bin/svn', $userid=null, $passwd=null) {
             if(substr($url,-1)!='/') $url .= '/';
             $this->url = $url;
 
             if(strstr($svn_cmd, " ") != FALSE) $this->svn_cmd = '"'.$svn_cmd.'"' ;
             else $this->svn_cmd = $svn_cmd;
-            $this->diff_cmd = $diff_cmd;
 
             $this->tmp_dir = _XE_PATH_.'files/cache/tmp';
             if(!is_dir($this->tmp_dir)) FileHandler::makeDir($this->tmp_dir);
@@ -134,65 +132,74 @@
             return $output;
         }
 
-        function getDiff($path, $brev = null, $erev = null) {
-            $eContent = $this->getFileContent($path, $erev);
-            $bContent = $this->getFileContent($path, $brev);
-            if(!$eContent||!$bContent) return;
-
-            $eFile = sprintf('%s/tmp.%s',$this->tmp_dir, md5($eContent->revision."\n".$eContent->content));
-            $bFile = sprintf('%s/tmp.%s',$this->tmp_dir, md5($bContent->revision."\n".$bContent->content));
-
-            $f = fopen($eFile,'w');
-            fwrite($f, $eContent->content);
-            fclose($f);
-
-            $f = fopen($bFile,'w');
-            fwrite($f, $bContent->content);
-            fclose($f);
-
-            $command = sprintf('%s %s %s', $this->diff_cmd, $bFile, $eFile);
-            $output = $this->execCmd($command, $error);
-
-            $list = explode("\n", $output);
+        function parseComp(&$list)
+        {
             $cnt = count($list);
-
             $output = array();
             $obj = null;
+            $idx = 0;
             for($i=0;$i<$cnt;$i++) {
-                $line = $list[$i];
-                if(preg_match('/^([0-9,]+)(d|c|a)([0-9,]+)$/',$line, $mat)) {
+                $str = $list[$i];
+                $str = rtrim($str);
+                if(preg_match('/^Index: (.*)$/', $str, $m)) {
+                    if($blockobj != null) 
+                    {
+                        $obj->blocks[$blockobj->before_line_start] = $blockobj;
+                        ksort($obj->blocks);
+                    }
                     if($obj!==null) $output[] = $obj;
                     $obj = null;
-                    $before = $mat[1];
-                    switch($mat[2]) {
-                        case 'c' : $type = 'modified'; break;
-                        case 'd' : $type = 'deleted'; break;
-                        case 'a' : $type = 'added'; break;
-                    }
-
-                    $t = explode(',',$after);
-                    $after = $mat[3];
-
-                    $obj->before_line = $before;
-                    $obj->after_line = $after;
-                    $obj->diff_type = $type;
-                    $obj->before_code = '';
-                    $obj->after_code = '';
+                    $obj->filename = $m[1];
+                    $idx = 0;
+                    $obj->blocks = array();
+                    continue;
                 }
-
-                if($obj!==null&&preg_match('/^</',$line)) {
-                    $str = substr($line,1);
-                    $obj->before_code .= $str."\n";
+                if(preg_match('/^(\=+)$/',$str)) continue;
+                if(preg_match('/^--- ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
+                    $obj->before_revision = $m[2];
+                    continue;
                 }
-
-                if($obj!==null&&preg_match('/^>/',$line)) {
-                    $str = substr($line,1);
-                    $obj->after_code .= $str."\n";
+                if(preg_match('/^\+\+\+ ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
+                    $obj->after_revision = $m[2];
+                    continue;
                 }
+                if(preg_match('/^@@ \-([0-9]+),([0-9]+) \+([0-9]+),([0-9]+) @@$/', $str, $m)) {
+                    if($blockobj != null) $obj->blocks[$blockobj->before_line_start] = $blockobj;
+                    $blockobj = null;
+                    $blockobj->before_line_start = (int) $m[1];
+                    $blockobj->after_line_start = (int) $m[3];
+                    $cur_before_line = $blockobj->before_line_start;
+                    $cur_after_line = $blockobj->after_line_start;
+                    $blockobj->lines = array();
+                    continue;
+                }
+                $line = null; 
+                if(preg_match('/^\-(.*)$/i',$str)) {
+                    $line->data = ' '.substr($str,1);
+                    $line->type = "deleted";
+                    $line->before_line_number = $cur_before_line ++;
+                }
+                else if(preg_match('/^\+(.*)$/i',$str)) {
+                    $line->data = ' '.substr($str,1);
+                    $line->type = "added";
+                    $line->after_line_number = $cur_after_line ++;
+                }
+                else
+                {
+                    $line->data = $str;
+                    $line->before_line_number = $cur_before_line ++;
+                    $line->after_line_number = $cur_after_line ++;
+                }
+                $blockobj->lines[] = $line;
             }
-            if($obj!==null) $output[] = $obj;
-
+            if($obj!==null) 
+            {
+                if($blockobj != null) $obj->blocks[$blockobj->before_line_start] = $blockobj;
+                ksort($obj->blocks);
+                $output[] = $obj;
+            }
             return $output;
+            
         }
 
         function getComp($path, $brev, $erev) {
@@ -216,52 +223,9 @@
                     $erev
             );
             $output = $this->execCmd($command, $error);
-
             $list = explode("\n",$output);
-            $cnt = count($list);
-            $output = array();
-            $obj = null;
-            $idx = 0;
-            for($i=0;$i<$cnt;$i++) {
-                $str = $list[$i];
-                if(preg_match('/^Index: (.*)$/', $str, $m)) {
-                    if($obj!==null) $output[] = $obj;
-                    $obj = null;
-                    $obj->filename = $m[1];
-                    $idx = 0;
-                    $code_idx = -1;
-                    $code_changed = false;
-                    continue;
-                }
-                if(preg_match('/^(\=+)$/',$str)) continue;
-                if(preg_match('/^--- ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
-                    $obj->before_revision = $m[2];
-                    continue;
-                }
-                if(preg_match('/^\+\+\+ ([^\(]+)\(revision ([0-9]+)\)$/i',$str,$m)) {
-                    $obj->after_revision = $m[2];
-                    continue;
-                }
-                if(preg_match('/^@@ \-([0-9]+),([0-9]+) \+([0-9]+),([0-9]+) @@$/', $str, $m)) {
-                    $obj->changed[$idx]->before_line = sprintf('%d ~ %d', $m[1], $m[2]);
-                    $obj->changed[$idx]->after_line = sprintf('%d ~ %d', $m[3], $m[4]);
-                    continue;
-                }
-                if(preg_match('/^\-(.*)$/i',$str)) {
-                    if(!$code_changed) {
-                        $code_changed = true;
-                        $code_idx++;
-                    }
-                    $obj->changed[$idx]->before_code[$code_idx] .= substr($str,1)."\n";
-                    continue;
-                }
-                if(preg_match('/^\+(.*)$/i',$str)) {
-                    $obj->changed[$idx]->after_code[$code_idx] .= substr($str,1)."\n";
-                    $code_changed = false;
-                    continue;
-                }
-            }
-            if($obj!==null) $output[] = $obj;
+            $output = $this->parseComp($list);
+
             return $output;
         }
 

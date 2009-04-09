@@ -14,8 +14,8 @@
     <li>[<a href="{getUrl('type','diff','path',urlencode($path),'erev',$erev, 'brev', $brev)}">compare with previous</a>]</li>
     <!--@end-->
 </ol>
-
-<pre>
+<br />
+<pre <!--@if($file_ext)-->class="brush: {$file_ext};"<!--@endif--> >
 <!--@if($file_type == "code")-->
 {htmlspecialchars($content->content)}
 <!--@elseif($file_type == "document")-->

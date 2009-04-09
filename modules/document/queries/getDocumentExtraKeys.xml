@@ -11,6 +11,7 @@
         <column name="var_search" alias="search" />
         <column name="var_default" alias="default" />
         <column name="var_desc" alias="desc" />
+		<column name="eid" alias="eid" />
     </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />

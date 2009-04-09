@@ -16,6 +16,8 @@
     $lang->cafe_admin = "ホームページ管理者";
     $lang->do_selected_member = "選択した会員を : ";
 
+    $lang->cmd_make_cafe = '카페 생성';
+
     $lang->default_menus = array(
         'home' => 'ホーム',
         'notice' => 'お知らせ',
@@ -23,7 +25,7 @@
         'freeboard' => '自由掲示板',
         'view_total' => '全文を表示',
         'view_comment' => '一行の物語',
-        'cafe_album' => 'カフェアルバム',
+        'cafe_album' => 'フォトギャラリー',
         'menu' => 'メニュー',
         'default_group1' => 'スタンバイ会員',
         'default_group2' => '準会員',
@@ -60,8 +62,7 @@
         "dispHomepageMidSetup" => "ホームページの掲示板、ページなどのモジュールを管理します。",
     );
     $lang->about_cafe = "ホームページサービス管理者は複数のホームページ作成、および各ホームページを簡単に管理が出来ます。";
-    $lang->about_cafe_title = "ホームページ名は管理のためのみ使われ、実サービスには表示されません。";
-    $lang->about_domain = "複数のホームページを作成するためには、専用のドメインが必要です。オリジナルドメインやサブ ドメインがあれば結構です。<br />また、 XEインストールパスも一緒に記入してください。<br />ex) www.zeroboard.com/zbxe";
+    $lang->about_cafe_title = "ホームページ名は管理をするためだけに使われ、実サービスには表示されません。";
     $lang->about_menu_names = "ホームページに使うメニュー名を言語別に指定出来ます。<br/>一個だけ記入した場合、他言語に一括適用されます。";
     $lang->about_menu_option = "メニューを選択するとき新しいウィンドウズに開けるかを選択します。<br />拡張メニューはレイアウトによって動作します。";
     $lang->about_group_grant = "選択グループのみ、メニューが見えます。<br/>全てを解除すると非会員にも見えます。";
@@ -70,10 +71,9 @@
     $lang->about_module_id = "掲示板、ページなどにリンクさせるアドレスです。<br/>例) http://ドメイン/[モジュールID], http://ドメイン/?mid=[モジュールID]";
     $lang->about_menu_item_url = "タイプをURLにした場合、リンク先を入れて下さい。<br/>http://は省いて入力して下さい。";
     $lang->about_menu_image_button = "テキストのメニュー名の代わりに、イメージのメニューを使えます。";
-    $lang->about_cafe_delete = "ホームページを削除すると、リンクされている全てのモジュール(掲示板、ページなど)とそれに付随する書き込みが削除されます。<br />ご注意ください。";
-    $lang->about_cafe_admin = "ホームページ管理者の設定が出来ます。<br/>ホームページ管理者は 「 http://ドメイン/?act=dispHomepageManage」 として管理者ページにアクセスが出来ます。<br />存在しない会員は管理者に登録できません。";
+    $lang->about_cafe_delete = "ホームページを削除すると、リンクされている全てのモジュール(掲示板、ページなど)とそれに付随する書き込みが削除されます。<br />ご注意下さい。";
+    $lang->about_cafe_admin = "ホームページ管理者の設定が出来ます。<br/>ホームページ管理者は「http://ドメイン/?act=dispHomepageManage」にて管理者ページにアクセスが出来ます。<br />存在しない会員は管理者として登録出来ません。";
 
     $lang->confirm_change_layout = "レイアウトの変更時、一部のレイアウト情報が失われる可能性があります。 変更しますか?";
-    $lang->confirm_delete_menu_item = "メニュー削除時、リンクされている掲示板やページモジュールも一緒に削除されます。削除しますか?";
-    $lang->msg_already_registed_domain = "既に登録されたドメインです。違うドメインを利用して下さい。";
+    $lang->confirm_delete_menu_item = "メニューの削除時、リンクされている掲示板やページモジュールも一緒に削除されます。削除しますか?";
 ?>

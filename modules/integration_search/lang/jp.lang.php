@@ -8,12 +8,13 @@
     $lang->integration_search = "統合検索";
 
     $lang->sample_code = "サンプルコード";
-    $lang->about_target_module = "選択されたモジュールのみを検索対象とします。権限設定に注意してください。";
+    $lang->about_target_module = "選択されたモジュールのみを検索対象とします。権限設定に注意して下さい。";
     $lang->about_sample_code = "上のコードをレイアウトなどに追加すると統合検索が可能になります。";
-    $lang->msg_no_keyword = "検索語を入力してください。";
+    $lang->msg_no_keyword = "検索語を入力して下さい。";
+    $lang->msg_document_more_search  = '継続サーチボタンを選択すると、まだ検索結果として引っかからなかった箇所を引き続き検索を行います。';
 
     $lang->is_result_text = "<strong>'%s'</strong>に対する検索結果<strong>%d</strong>件";
-    $lang->multimedia = "Images/ Movies";
+    $lang->multimedia = "画像/動画";
 
     $lang->is_search_option = array(
         'document' => array(
@@ -23,10 +24,10 @@
             'tag' => 'タグ',
         ),
         'trackback' => array(
-            'url' => 'URL',
-            'blog_name' => 'サイト（ブログ）名',
+            'url' => '対象URL',
+            'blog_name' => '対象サイト（ブログ）名',
             'title' => 'タイトル',
-            'excerpt' => '要約内容',
+            'excerpt' => '内容',
         ),
     );
 

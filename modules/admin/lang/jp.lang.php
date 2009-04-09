@@ -25,14 +25,15 @@
     $lang->newest_news = "最新ニュース";
 
     $lang->env_setup = "環境設定";
-    $lang->sso_url = "SSO（シングルサインオン） URL";
-    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持できるようにするためには、基本になるサイトでのXEをインストールしたurlを登録してください。 (例: http://ドメイン/xe)";
+    $lang->default_url = '基本URL';
+    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持出来るようにするためには、基本になるサイトでのXEをインストールしたurlを登録して下さい。 (例: http://ドメイン/インストールパス)";
+    
 
     $lang->env_information = "環境情報";
     $lang->current_version = "インストールバージョン";
     $lang->current_path = "インストールパス";
     $lang->released_version = "最新バージョン";
-    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されています。\n｢ダウンロード｣リンクをクリックするとダウンロードできます。";
+    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されています。\n｢ダウンロード｣リンクをクリックするとダウンロード出来ます。";
 
     $lang->item_module = "モジュールリスト";
     $lang->item_addon  = "アドオンリスト";
@@ -48,16 +49,16 @@
 
     $lang->cmd_shortcut_management = "メニュー編集";
 
-    $lang->msg_is_not_administrator = '管理者のみアクセスできます';
-    $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除できません。';
-    $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することができません。';
+    $lang->msg_is_not_administrator = '管理者のみアクセス出来ます';
+    $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除出来ません。';
+    $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することが出来ません。';
 
     $lang->welcome_to_xe = 'XEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。\nクローズベータバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
-    $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックしてください。";
+    $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックして下さい。";
 
     $lang->xe_license = 'XEのライセンスはGPLです。';
-    $lang->about_shortcut = 'よく使用するモジュールに登録されたショートカットは削除できます。';
+    $lang->about_shortcut = 'よく使用するモジュールに登録されたショートカットは削除出来ます。';
 
     $lang->yesterday = "昨日";
     $lang->today = "今日";

@@ -2,7 +2,7 @@
     /**
      * @file   modules/module/lang/en.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  English language pack 
+     * @brief  English language pack
      **/
 
     $lang->virtual_site = "Virtual Site";
@@ -34,6 +34,14 @@
     $lang->lang_code = "언어 코드";
     $lang->filebox = "파일박스";
 
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Domain 접속';
+    $lang->access_vid = 'Site ID 접속';
+    $lang->about_domain = "In order to create more than one virtual site, each of them needs to have own domain name.<br />Sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path installed xe. <br /> ex) www.xpressengine.com/xe";
+    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = "It is already registered domain name. Please use the different one.";
+
     $lang->header_script = "Header Script";
     $lang->about_header_script = "You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tag";
 
@@ -64,6 +72,7 @@
     $lang->msg_move_failed = 'Failed to move';
     $lang->msg_cannot_delete_for_child = 'Cannot delete a category having child categories.';
 	$lang->msg_limit_mid ="Only alphabets+[alphabets+numbers+_] can be used as module name.";
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "It will be shown in the browser title. It will be also used in a RSS/Trackback.";
     $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(only english alphabet + [english alphabet ,numbers, and underscore(_)] are allowed)";
@@ -79,7 +88,7 @@
 	$lang->about_search_list_count = 'You may set the number of articles to be exposed when you use search or category function. (default is 20)';
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.';
-    $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.'; 
+    $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.';
     $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
     $lang->about_module = "XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.";
 

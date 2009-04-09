@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/module/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言
+     * @brief  模組(module)正體中文語言
      **/
 
     $lang->virtual_site = "虛擬網站";
@@ -25,17 +25,24 @@
     $lang->skin_author = '面板作者';
     $lang->skin_license = '版權';
     $lang->skin_history = '更新事項';
-    $lang->module_copy = "複製模組";
-    $lang->module_selector = "模組選擇器";
-    $lang->do_selected = "選擇項目...";
-    $lang->bundle_setup = "整體預設值";
-    $lang->bundle_addition_setup = "新增批次設定";
-    $lang->bundle_grant_setup = "整體權限設定";
-    $lang->lang_code = "語言代碼";
-    $lang->filebox = "Filebox";
+    $lang->module_copy = '複製模組';
+    $lang->module_selector = '模組選擇器';
+    $lang->do_selected = '選擇項目...';
+    $lang->bundle_setup = '批次設定-設置';
+    $lang->bundle_addition_setup = '批次設定-延伸設置';
+    $lang->bundle_grant_setup = '批次設定-權限管理';
+    $lang->lang_code = '語言代碼';
+    $lang->filebox = '檔案管理';
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Domain 접속';
+    $lang->access_vid = 'Site ID 접속';
+    $lang->about_domain = "要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將XE安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe";
+    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = "已註冊的域名。請使用其他的網域。";
 
     $lang->header_script = "Header Script";
-    $lang->about_header_script = "可以直接輸入，並插入到 HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等標籤。";
+    $lang->about_header_script = "可以直接輸入，並插入到HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。";
 
     $lang->grant_access = "訪問";
     $lang->grant_manager = "管理";
@@ -64,6 +71,7 @@
     $lang->msg_move_failed = '移動失敗！';
     $lang->msg_cannot_delete_for_child = '無法刪除有子分類的分類！';
     $lang->msg_limit_mid ="模組名稱可由英文+[英文+數字+_]等非常多種組合。";
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "顯示在瀏覽器視窗的標題。在RSS/Trackback也可以使用。";
     $lang->about_mid = "模組名稱只允許使用英文，數字和底線。";
@@ -82,9 +90,9 @@
     $lang->about_grant = '全部解除特定權限的對象時，沒有登錄的會員也將具有相關權限。';
     $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
     $lang->about_module = "除基本函式庫以外XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
-
     $lang->about_extra_vars_default_value = '當復選或單選的預設值需要很多個時，用逗號(,)區隔。';
-    $lang->about_search_virtual_site = "請輸入想要搜尋的虛擬網站(XE網咖等)的網域名稱。<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 不用輸入)";
-    $lang->about_langcode = "언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요";
+    $lang->about_search_virtual_site = '가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 不用輸入)';
+    $lang->about_extra_vars_eid_value = '확장변수의 이름을 적어주세요. ( 영문+[영문+숫자+_] 만 가능)';
+    $lang->about_langcode = "想要實現多國語言功能，請按[語言代碼]按鈕。";
     $lang->about_file_extension= "只允許%s檔案。";
 ?>

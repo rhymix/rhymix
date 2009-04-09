@@ -70,4 +70,29 @@
     $lang->history = '히스토리';
     $lang->about_use_history = '히스토리 기능의 사용여부를 지정합니다. 히스토리 기능을 사용할 경우 문서 수정시 이전 리비전을 기록하고 복원할 수 있습니다.';
     $lang->trace_only = '흔적만 남김';
+
+    $lang->cmd_trash = "휴지통";
+    $lang->cmd_restore = "복원";
+    $lang->cmd_restore_all = "모두 복원";
+
+    $lang->in_trash = "휴지통";
+    $lang->trash_nick_name = "삭제자 닉네임";
+    $lang->trash_date = "삭제 날짜";
+    $lang->trash_description = "설명";
+
+    // 관리자 페이지에서 휴지통의 검색할 대상
+    $lang->search_target_trash_list = array(
+        'title' => '제목',
+        'content' => '내용',
+        'user_id' => '아이디',
+        'member_srl' => '회원번호',
+        'user_name' => '사용자 이름',
+        'nick_name' => '닉네임',
+        'trash_member_srl' => '삭제자 회원번호',
+        'trash_user_name' => '삭제자 사용자 이름',
+        'trash_nick_name' => '삭제자 닉네임',
+        'trash_date' => '삭제일',
+        'trash_ipaddress' => '삭제자 IP 주소',
+    );
+
 ?>

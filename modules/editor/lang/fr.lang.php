@@ -143,4 +143,58 @@
     $lang->edit->extension ='확장 컴포넌트';
     $lang->edit->help = '도움말';
     $lang->edit->help_command = '단축키 안내';
+    
+    $lang->edit->lineheight = '줄간격';
+	$lang->edit->fontbgsampletext = '가나다';
+	
+	$lang->edit->hyperlink = '하이퍼링크';
+	$lang->edit->target_blank = '새창으로';
+	
+	$lang->edit->quotestyle1 = '왼쪽 실선';
+	$lang->edit->quotestyle2 = '인용 부호';
+	$lang->edit->quotestyle3 = '실선';
+	$lang->edit->quotestyle4 = '실선 + 배경';
+	$lang->edit->quotestyle5 = '굵은 실선';
+	$lang->edit->quotestyle6 = '점선';
+	$lang->edit->quotestyle7 = '점선 + 배경';
+	$lang->edit->quotestyle8 = '적용 취소';
+
+
+    $lang->edit->jumptoedit = '편집 도구모음 건너뛰기';
+    $lang->edit->set_sel = '칸 수 지정';
+    $lang->edit->row = '행';
+    $lang->edit->col = '열';
+    $lang->edit->add_one_row = '1행추가';
+    $lang->edit->del_one_row = '1행삭제';
+    $lang->edit->add_one_col = '1열추가';
+    $lang->edit->del_one_col = '1열삭제';
+
+    $lang->edit->table_config = '표 속성 지정';
+    $lang->edit->border_width = '테두리 굵기';
+    $lang->edit->border_color = '테두리 색';
+    $lang->edit->add = '더하기';
+    $lang->edit->del = '빼기';
+    $lang->edit->search_color = '색상찾기';
+    $lang->edit->table_backgroundcolor = '표 배경색';
+    $lang->edit->special_character = '특수문자';
+    $lang->edit->insert_special_character = '특수문자 삽입';
+    $lang->edit->close_special_character = '특수문자 레이어 닫기';
+    $lang->edit->symbol = '일반기호';
+    $lang->edit->number_unit = '숫자와 단위';
+    $lang->edit->circle_bracket = '원,괄호';
+    $lang->edit->korean = '한글';
+    $lang->edit->greece = '그리스';
+    $lang->edit->Latin  = '라틴어';
+    $lang->edit->japan  = '일본어';
+    $lang->edit->selected_symbol  = '선택한 기호';
+
+    $lang->edit->search_replace  = '찾기/바꾸기';
+    $lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
+    $lang->edit->replace_all  = '모두바꾸기';
+    $lang->edit->search_words  = '찾을단어';
+    $lang->edit->replace_words  = '바꿀단어';
+    $lang->edit->next_search_words  = '다음찾기';
+    $lang->edit->edit_height_control  = '입력창 크기 조절';
+
+
 ?>

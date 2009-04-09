@@ -21,7 +21,7 @@
         <!--@end-->
         <!--@foreach($document_list as $oDocument)-->
         <item>
-            <title>{str_replace('\'', '&apos;',$oDocument->getTitle())}</title>
+            <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title>
             <dc:creator>{str_replace('\'', '&apos;',$oDocument->getNickName())}</dc:creator>
             <link>{$oDocument->getPermanentUrl()}</link>
             <guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>

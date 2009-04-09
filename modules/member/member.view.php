@@ -75,7 +75,6 @@
 
             // 회원가입을 중지시켰을 때는 에러 표시
             if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
-
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
             
             // 템플릿 파일 지정

@@ -15,6 +15,12 @@
         <h4 class="xeAdmin">{$lang->extra_vars} {$selected_var_idx}</h4>
         <table cellspacing="0" class="crossTable ">
         <tr>
+            <th><div>{$lang->eid}</div></th>
+            <td class="wide">
+                <input type="text" name="eid" value="{$selected_var->eid}" class="inputTypeText w200" id="eid" /><p>{$lang->about_extra_vars_eid_value}</p>
+            </td>
+        </tr>
+        <tr>
             <th><div>{$lang->column_name}</div></th>
             <td class="wide">
                 <input type="text" name="name" value="{$selected_var->name}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
@@ -68,6 +74,7 @@
     <thead>
     <tr>
         <th><div>{$lang->no}</div></th>
+        <th><div>{$lang->eid}</div></th>
         <th><div>{$lang->column_name}</div></th>
         <th><div>{$lang->column_type}</div></th>
         <th><div>{$lang->is_required}</div></th>
@@ -79,6 +86,7 @@
     <!--@foreach($extra_keys as $key => $val)-->
     <tr>
         <td rowspan="3">{$val->idx}</td>
+        <td rowspan="3">{$val->eid}</td>
         <td class="nowrap"><b>{$val->name}</b></td>
         <td class="nowrap">{$lang->column_type_list[$val->type]}</td>
         <td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>

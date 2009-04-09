@@ -4,8 +4,14 @@
     <permissions>
         <permission action="dispDocumentManageDocument" target="member" />
         <permission action="getDocumentCategories" target="member" />
+        <permission action="getDocumentCategoryTplInfo" target="member" />
         <permission action="procDocumentAddCart" target="member" />
+
+        <permission action="procDocumentInsertCategory" target="member" />
         <permission action="procDocumentManageCheckedDocument" target="member" />
+        <permission action="procDocumentMoveCategory" target="member" />
+        <permission action="procDocumentDeleteCategory" target="member" />
+        <permission action="procDocumentMakeXmlFile" target="member" />
     </permissions>
     <actions>
         <action name="dispDocumentPrint" type="view" standalone="true" />
@@ -26,16 +32,19 @@
         <action name="dispDocumentAdminConfig" type="view" standalone="true" />
         <action name="dispDocumentAdminAlias" type="view" standalone="true" />
         <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
+        <action name="dispDocumentAdminTrashList" type="view" standalone="true" />
 
-        <action name="getDocumentAdminCategoryTplInfo" type="model" standalone="true"/>
+        <action name="getDocumentCategoryTplInfo" type="model" standalone="true"/>
 
-        <action name="procDocumentAdminInsertCategory" type="controller" standalone="true"/>
-        <action name="procDocumentAdminDeleteCategory" type="controller" standalone="true"/>
-        <action name="procDocumentAdminMoveCategory" type="controller" standalone="true"/>
-        <action name="procDocumentAdminMakeXmlFile" type="controller" standalone="true"/>
+        <action name="procDocumentInsertCategory" type="controller" standalone="true"/>
+        <action name="procDocumentDeleteCategory" type="controller" standalone="true"/>
+        <action name="procDocumentMoveCategory" type="controller" standalone="true"/>
+        <action name="procDocumentMakeXmlFile" type="controller" standalone="true"/>
+
         <action name="procDocumentAdminInsertAlias" type="controller" standalone="true"/>
         <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true"/>
-        <action name="procAdminMoveExtraVar" type="controller" standalone="true"/>
+        <action name="procDocumentAdminRestoreTrash" type="controller" standalone="true"/>
+        <action name="procDocumentAdminMoveExtraVar" type="controller" standalone="true"/>
 
         <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteExtraVar" type="controller" standalone="true" />

@@ -59,7 +59,7 @@
 			<type>text</type>
 			<name xml:lang="ko">가로 크기</name>
 			<name xml:lang="zh-CN">宽度</name>
-			<name xml:lang="jp">横幅</name>
+			<name xml:lang="jp">横幅サイズ設定</name>
 			<name xml:lang="es">Tamaño del ancho</name>
 			<name xml:lang="en">Width</name>
 			<name xml:lang="ru">Ширина</name>
@@ -76,7 +76,7 @@
 			</description>
 			<description xml:lang="jp">
 				グラフイメージの横幅サイズを指定します。
-				指定しない場合は「150px」が指定されます。数字で入力してください。
+				指定しない場合は「150px」が指定されます。数字で入力して下さい。
 				コード生成ページの下端にある横幅サイズとは異なって適用されます。
 			</description>
 			<description xml:lang="es">
@@ -104,7 +104,7 @@
 			<type>text</type>
 			<name xml:lang="ko">세로 크기</name>
 			<name xml:lang="zh-CN">高度</name>
-			<name xml:lang="jp">縦幅</name>
+			<name xml:lang="jp">縦幅サイズ設定</name>
 			<name xml:lang="es">Tamaño de la Altura</name>
 			<name xml:lang="en">Height</name>
 			<name xml:lang="zh-TW">高度</name>
@@ -118,7 +118,7 @@
 			</description>
 			<description xml:lang="jp">
 				グラフイメージの縦幅サイズを指定します。
-				指定しない場合は「100px」が指定されます。数字で入力してください。
+				指定しない場合は「100px」が指定されます。数字で入力して下さい。
 			</description>
 			<description xml:lang="es">
 				Uste puede asignar el tamaño de la altura para el imágen del gráfico.
@@ -155,7 +155,7 @@
 			</description>
 			<description xml:lang="jp">
 				今日から指定した期間だけのデータをグラフで表示します。
-				数字を入力してください（デフォルト：過去7日）。
+				数字を入力して下さい（デフォルト：過去7日）。
 			</description>
 			<description xml:lang="es">
 				Desde el día de hoy hasta el tiempo asignado, se mostrará el gráfico.
@@ -196,7 +196,7 @@
 			<description xml:lang="jp">
 				<![CDATA[指定された色コードで背景イメージを描きます。
 				デフォルト : #FFFFFF
-				#と６桁の色コードを入力してください。]]>
+				#と６桁の色コードを入力して下さい。]]>
 			</description>
 			<description xml:lang="es">
 				<![CDATA[Con el código del color asignado dibujará el color de fondo.
@@ -241,7 +241,7 @@
 			<description xml:lang="jp">
 				<![CDATA[指定した色コードでチェック柄の背景を描きます。
 				デフォルト : <span style="color:#F9F9F9">#F9F9F9</span>
-				#と６桁の色コードを入力してください。]]>
+				#と６桁の色コードを入力して下さい。]]>
 			</description>
 			<description xml:lang="es">
 				<![CDATA[Con el código del color asignado dibujará la textura escocés de fondo.
@@ -286,7 +286,7 @@
 			<description xml:lang="jp">
 				<![CDATA[指定した色コードでXYのグリッドを描きます。
 				デフォルト : <span style="color:#9d9d9d">#9d9d9d</span>
-				#と６桁の色コードを入力してください。]]>
+				#と６桁の色コードを入力して下さい。]]>
 			</description>
 			<description xml:lang="es">
 				<![CDATA[Con el código del color asignado dibujará la grille xy.
@@ -331,7 +331,7 @@
 			<description xml:lang="jp">
 				<![CDATA[指定した色コードでグラフ線を描きます。
 				デフォルト : <span style="color:#BBBBBB">#BBBBBB</span>
-				#と６桁の色コードを入力してください。]]>
+				#と６桁の色コードを入力して下さい。]]>
 			</description>
 			<description xml:lang="es">
 				<![CDATA[Con el código del color asignado dibujará la línea del gráfico.
@@ -376,7 +376,7 @@
 			<description xml:lang="jp">
 				<![CDATA[指定した色コードで訪問者数の文字を描きます。
 				デフォルト : <span style="color:#666666">#666666</span>
-				#と６桁の色コードを入力してください。]]>
+				#と６桁の色コードを入力して下さい。]]>
 			</description>
 			<description xml:lang="es">
 				<![CDATA[Con el código del color asignado mostrará el número de los visitados.
@@ -421,7 +421,7 @@
 			<description xml:lang="ko">
 				<![CDATA[グラフの曲がった部分の点の色を指定します。
 				デフォルト : <span style="color:#ed3027">#ed3027</span>
-				#と６桁の色コードを入力してください。]]>
+				#と６桁の色コードを入力して下さい。]]>
 			</description>
 			<description xml:lang="es">
 				<![CDATA[Con el código del color asignado mostrará el color del punto en donde la línea del gráfico esté doblado.

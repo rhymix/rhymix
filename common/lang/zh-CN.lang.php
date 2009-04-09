@@ -24,6 +24,9 @@
     $lang->cmd_load = '导入';
     $lang->cmd_input = '输入';
     $lang->cmd_search = '搜索';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
@@ -121,6 +124,7 @@
     $lang->file = '文件';
 
     $lang->mid = '模块名称';
+    $lang->sid = 'Site Name';
     $lang->layout = '布局';
     $lang->widget = '控件 ';
     $lang->module = '模块';
@@ -267,9 +271,10 @@
     $lang->default_value = '缺省值';
     $lang->is_active = '激活';
     $lang->is_required = '必填';
+    $lang->eid = '확장변수 이름';
 
     // ftp 相关
-    $lang->ftp_form_title = '输入FTP信息';
+    $lang->ftp_form_title = '设置FTP信息';
     $lang->ftp = 'FTP';
     $lang->ftp_port = 'FTP port';
     $lang->cmd_check_ftp_connect = '测试FTP连接';

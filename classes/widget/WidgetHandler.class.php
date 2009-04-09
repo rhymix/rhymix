@@ -93,7 +93,7 @@
             $object_vars = get_object_vars($args);
             if(count($object_vars)) {
                 foreach($object_vars as $key => $val) {
-                    if(in_array($key, array('body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right','widgetstyle','document_srl'))) continue;
+                    if(in_array($key, array('widgetbox_content','body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right','widgetstyle','document_srl'))) continue;
                     $args->{$key} = utf8RawUrlDecode($val);
                 }
             }
@@ -102,11 +102,15 @@
             /**
              * 위젯이 widgetContent/ widgetBox가 아니라면 내용을 구함
              **/
+            $widget_content = '';
             if($widget != 'widgetContent' && $widget != 'widgetBox') {
                 if(!is_dir(sprintf('./widgets/%s/',$widget))) return;
 
                 // 위젯의 내용을 담을 변수
                 $widget_content = WidgetHandler::getCache($widget, $args);
+            }
+            if($widget == 'widgetBox'){
+                $widgetbox_content = $args->widgetbox_content;
             }
 
             /**
@@ -155,12 +159,14 @@
                     // 위젯 박스일 경우
                     case 'widgetBox' :
                             $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
+                            $widget_content_body = $widgetbox_content;
+
                         break;
 
                     // 일반 위젯일 경우
                     default :
                             $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s">',$args->id,$style);
-                            $widget_content_body = sprintf('<div style="%s">%s</div>', $inner_style,$widget_content);
+                            $widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
                             $widget_content_footer = '</div>';
                         break;
                 }
@@ -212,12 +218,23 @@
                     // 위젯 박스일 경우
                     case 'widgetBox' :
 
+                            // args 정리
+                            $attribute = array();
+                            if($args) {
+                                foreach($args as $key => $val) {
+                                    if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
+                                    if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
+                                    $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
+                                }
+                            }
+
                             $widget_content_header = sprintf(
-                                '<div class="widgetOutput" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s">'.
+                                '<div class="widgetOutput" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
                                     '<div class="widgetBoxResize"></div>'.
                                     '<div class="widgetBoxResizeLeft"></div>'.
-                                    '<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,$inner_style);
+                                    '<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,implode(' ',$attribute),$inner_style);
 
+                            $widget_content_body = $widgetbox_content;
 
                         break;
 
@@ -228,6 +245,7 @@
                             if($args) {
                                 foreach($args as $key => $val) {
                                     if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget'))) continue;
+                                    if(strlen($val)==0) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
                                     $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
                                 }
@@ -251,7 +269,7 @@
 
             // 위젯 스타일을 컴파일 한다.
             if($args->widgetstyle){
-                $widget_content_body = WidgetHandler::complieWidgetStyle($args->widgetstyle, $widget_content_body, $args);
+                $widget_content_body = WidgetHandler::complieWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $include_info);
             }
 
             $output = $widget_content_header . $widget_content_body . $widget_content_footer;
@@ -293,7 +311,7 @@
         }
 
 
-        function complieWidgetStyle($widgetStyle,$widget_content_body, $args){
+        function complieWidgetStyle($widgetStyle,$widget,$widget_content_body, $args, $include_info){
             if(!$widgetStyle) return $widget_content_body;
 
             $oWidgetModel = &getModel('widget');
@@ -309,7 +327,12 @@
                 }
             }
             Context::set('widgetstyle_extar_var', $widgetstyle_extar_var);
-            Context::set('widget_content', $widget_content_body);
+
+            if($include_info && $widget=='widgetBox'){
+                Context::set('widget_content', '<div class="widget_inner">'.$widget_content_body.'</div>');
+            }else{
+                Context::set('widget_content', $widget_content_body);
+            }
 
             // 컴파일
             $widgetstyle_path = $oWidgetModel->getWidgetStylePath($widgetStyle);

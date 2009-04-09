@@ -8,5 +8,6 @@
         <column name="var_idx" var="var_idx" filter="number" notnull="notnull" />
         <column name="value" var="value" notnull="notnull" />
         <column name="lang_code" var="lang_code" />
+        <column name="eid" var="eid" notnull="notnull" />
     </columns>
 </query>

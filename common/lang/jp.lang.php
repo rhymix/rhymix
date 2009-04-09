@@ -24,6 +24,9 @@
     $lang->cmd_load = '読み込む';
     $lang->cmd_input = '入力';
     $lang->cmd_search = '検索';
+    $lang->cmd_find = '検索';
+    $lang->cmd_replace = '置換';
+    $lang->cmd_confirm = '確認';
     $lang->cmd_cancel = '取り消し';
     $lang->cmd_back = '戻る';
     $lang->cmd_vote = '推薦';
@@ -121,6 +124,7 @@
     $lang->file = 'ファイル';
 
     $lang->mid = 'モジュール名';
+    $lang->sid = 'Site Name';
     $lang->layout = 'レイアウト';
     $lang->widget = 'ウィジェット';
     $lang->module = 'モジュール';
@@ -201,16 +205,16 @@
     );
 
     // 説明関連
-    $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録できます。';
-    $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理できます。';
+    $lang->about_tag = 'タグを入力する時、「,」（半角コンマ）を使うと複数登録出来ます。';
+    $lang->about_layout = 'レイアウトでモジュールの枠をデザインします。上段のレイアウトメニューで管理出来ます。';
 
     // メッセージ関連
-    $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ちください。';
+    $lang->msg_call_server = 'サーバへ問合わせ中です。しばらくお待ち下さい。';
     $lang->msg_db_not_setted = 'DBが設定されていません。';
-    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認してください。";
+    $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認して下さい。";
     $lang->msg_invalid_queryid = 'クエリIDの値が無効です。';
     $lang->msg_not_permitted = '権限がありません。';
-    $lang->msg_input_password = 'パスワードを入力してください。';
+    $lang->msg_input_password = 'パスワードを入力して下さい。';
     $lang->msg_invalid_document = '無効な書き込み番号です。';
     $lang->msg_invalid_request = '無効なリクエストです。';
     $lang->msg_invalid_password = 'パスワードが正しくありません。';
@@ -226,6 +230,7 @@
     $lang->success_declared = '通報しました。';
     $lang->success_updated = '修正しました。';
     $lang->success_deleted = '削除しました。';
+    $lang->success_restore = '復元しました。';
     $lang->success_voted = '推薦しました。';
     $lang->success_blamed = '非推薦しました。';
     $lang->success_moved = '移動しました。';
@@ -237,15 +242,16 @@
     $lang->fail_to_delete = '削除に失敗しました。';
     $lang->fail_to_move = '移動に失敗しました。';
 
-    $lang->failed_voted = '推薦できません。';
-    $lang->failed_blamed = '非推薦できません。';
-    $lang->failed_declared = '通報できません。';
-    $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除できません。';
+    $lang->failed_voted = '推薦出来ません。';
+    $lang->failed_blamed = '非推薦出来ません。';
+    $lang->failed_declared = '通報出来ません。';
+    $lang->fail_to_delete_have_children = '返信の書き込みがあり、削除出来ません。';
 
     $lang->confirm_submit = '登録しますか？';
     $lang->confirm_logout = 'ログアウトしますか？';
     $lang->confirm_vote = '推薦しますか？';
     $lang->confirm_delete = '削除しますか？';
+    $lang->confirm_restore = '復元しますか？';
     $lang->confirm_move = '移動しますか？';
     $lang->confirm_reset = '初期化しますか？';
     $lang->confirm_leave = '退会しますか？';
@@ -258,7 +264,7 @@
     $lang->column_type_list['textarea'] = 'テキストエリア(textarea)';
     $lang->column_type_list['checkbox'] = 'チェックボックス(checkbox)';
     $lang->column_type_list['select'] = '選択(select)';
-    $lang->column_type_list['radio'] = 'radio button (radio)';
+    $lang->column_type_list['radio'] = 'ラジオボタン (radio)';
     $lang->column_type_list['kr_zip'] = '韓国住所(zip)';
     $lang->column_type_list['date'] = '日付(年月日)';
     //$lang->column_type_list['jp_zip'] = '日本住所(zip)';
@@ -267,6 +273,7 @@
     $lang->default_value = 'デフォルト値';
     $lang->is_active = '活性化';
     $lang->is_required = '必須項目';
+    $lang->eid = '拡張変数名';
 
     // ftp 관련
     $lang->ftp_form_title = 'サーバーのFTP情報の入力';
@@ -284,8 +291,8 @@
     $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。";
     $lang->msg_ftp_not_connected = "localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。";
     $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTP情報を再度ご確認下さい。";
-    $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認ください。";
-    $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認ください。";
+    $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
+    $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
     $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
 
     // xml filterで用いられているjavascript用のアラートメッセージ
@@ -293,7 +300,7 @@
     $lang->filter->outofrange = '%sの文字の長さを合わせて下さい。';
     $lang->filter->equalto = '%sが正しくありません。';
     $lang->filter->invalid_email = '%sのパターンが正しくありません。 (例: zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%sの形式が正しくありません。\\n半角の英数と記号「_」を組み合わせて入力してください。頭字は半角英文字でなければなりません。";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%sの形式が正しくありません。\\n半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。";
     $lang->filter->invalid_homepage = '%sの形式が正しくありません。 (例: http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%sの形式が正しくありません。ハングルのみ入力して下さい。';
     $lang->filter->invalid_korean_number = '%sの形式が正しくありません。ハングルと半角数字で入力して下さい。';

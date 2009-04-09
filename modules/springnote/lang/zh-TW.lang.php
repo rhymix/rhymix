@@ -1,13 +1,13 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/springnote/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  Springnote模組語言
+     * @brief  Springnote模組正體中文語言
      **/
 
     $lang->springnote = "Springnote";
     $lang->springnote_openid = "Open ID";
-    $lang->springnote_userkey = "用戶 Key";
+    $lang->springnote_userkey = "User Key";
     $lang->springnote_pageid = "頁號";
     $lang->springnote_pageid_setup = '頁號設置';
     $lang->springnote_pageid_option_only = '只顯示指定頁面(不顯示列表)。';

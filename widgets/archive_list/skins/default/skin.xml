@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
 	<title xml:lang="ko">기본 월별 보관 현황 목록 출력</title>
-	<title xml:lang="jp">Default 月別のアーカイブリスト表示</title>
+	<title xml:lang="jp">デフォルト月別のアーカイブリスト表示</title>
 	<title xml:lang="zh-CN">存档列表默认皮肤</title>
 	<title xml:lang="en">Default Monthly Custody Status</title>
 	<title xml:lang="zh-TW">封存預設面板</title>

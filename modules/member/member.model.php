@@ -378,7 +378,7 @@
                     $lang->extend_vars[$column_name] = $column_title;
 
                     // checkbox, select등 다수 데이터 형식일 경우 unserialize해줌
-                    if(in_array($column_type, array('checkbox','select'))) {
+                    if(in_array($column_type, array('checkbox','select','radio'))) {
                         $join_form_list[$i]->default_value = unserialize($default_value);
                         if(!$join_form_list[$i]->default_value[0]) $join_form_list[$i]->default_value = '';
                     } else {
@@ -470,7 +470,7 @@
             $column_type = $join_form->column_type;
             $default_value = $join_form->default_value;
 
-            if(in_array($column_type, array('checkbox','select'))) {
+            if(in_array($column_type, array('checkbox','select','radio'))) {
                 $join_form->default_value = unserialize($default_value);
             } else {
                 $join_form->default_value = '';
@@ -572,22 +572,27 @@
          * @brief group의 이미지마크 정보를 구함
          **/
         function getGroupImageMark($member_srl,$site_srl=0) {
-           $member_group = $this->getMemberGroups($member_srl,$site_srl);
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+            if($config->group_image_mark!='Y'){
+                return null;
+            }
+            $member_group = $this->getMemberGroups($member_srl,$site_srl);
 
-           $groups_info = $this->getGroups($site_srl);
-           $image_mark = null;
-           if(count($member_group) > 0 && is_array($member_group)){
-               $group_srl = array_keys($member_group);
-               $image_mark = $groups_info[$group_srl[0]]->image_mark;
-           }
-           if($image_mark){
-                list($width, $height, $type, $attrs) = getimagesize($image_mark);
-                $info->width = $width;
-                $info->height = $height;
+            $groups_info = $this->getGroups($site_srl);
+            $image_mark = null;
+            if(count($member_group) > 0 && is_array($member_group)){
+                $group_srl = array_keys($member_group);
+                $image_mark = $groups_info[$group_srl[0]]->image_mark;
+            }
+            if($image_mark){
+//                list($width, $height, $type, $attrs) = getimagesize($image_mark);
+//                $info->width = $width;
+//                $info->height = $height;
                 $info->src = $image_mark;
                 return $info;
 
-           }else return false;
+            }else return false;
         }
 
         /**

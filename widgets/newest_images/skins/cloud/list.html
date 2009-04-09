@@ -6,26 +6,10 @@
 <!--@if(count($widget_info->document_list))-->
     {@ shuffle($widget_info->document_list)}
 <!--@end-->
-<!--@if(!$widget_info->thumbnail_width)--> 
-    {@ $width = 40}
-<!--@else-->
     {@ $width = $widget_info->thumbnail_width }
-<!--@end-->
-<!--@if(!$widget_info->thumbnail_height)--> 
-    {@ $height = 40}
-<!--@else-->
     {@ $height = $widget_info->thumbnail_height }
-<!--@end-->
 
 <div class="imgcloudoutline">
-    <!--@if($widget_info->title)-->
-        <h2>{$widget_info->title}</h2>
-    <!--@end-->
-
-    <!--@if($widget_info->module_name)-->
-        <a href="{getUrl('','mid',$widget_info->module_name)}" class="more">more</a>
-    <!--@end-->
-
 	<!--@for($i = 0; $i < $widget_info->rows_list_count; $i++)-->
     <table cellpadding="0" cellspacing="0" border="0">
         <tbody>

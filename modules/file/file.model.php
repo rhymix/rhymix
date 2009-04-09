@@ -73,7 +73,7 @@
          * @brief 다운로드 경로를 구함
          **/
         function getDownloadUrl($file_srl, $sid) {
-            return preg_replace('/^'.preg_quote(getUrl(),'/').'/','',getUrl('','module','file','act','procFileDownload','file_srl',$file_srl,'sid',$sid));
+            return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s', 'file', 'procFileDownload', $file_srl, $sid);
         }
 
         /**
@@ -166,6 +166,11 @@
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $module_srl = Context::get('module_srl');
+                // module_srl이 없으면 현재 모듈
+                if(!$module_srl) {
+                    $current_module_info = Context::get('current_module_info');
+                    $module_srl = $current_module_info->module_srl;
+                }
                 $file_config = $this->getFileConfig($module_srl);
             }
             return $file_config;

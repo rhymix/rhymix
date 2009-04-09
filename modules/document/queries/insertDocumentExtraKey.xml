@@ -11,5 +11,6 @@
         <column name="var_search" var="var_search" default="N" notnull="notnull" />
         <column name="var_default" var="var_default" notnull="notnull" />
         <column name="var_desc" var="var_desc" notnull="notnull" />
+        <column name="eid" var="eid" notnull="notnull" />
     </columns>
 </query>

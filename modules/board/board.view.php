@@ -499,6 +499,7 @@
             // 필요한 정보들 세팅
             Context::set('oSourceComment',$oSourceComment);
             Context::set('oComment',$oComment);
+            Context::set('module_srl',$this->module_info->module_srl);
 
             /** 
              * 사용되는 javascript 필터 추가

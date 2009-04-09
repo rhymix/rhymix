@@ -7,7 +7,7 @@
 	$lang->cmd_toggle_checked_trackback = '選択トラックバック反転';
     $lang->cmd_delete_checked_trackback = '選択トラックバック削除';
 
-    $lang->msg_cart_is_null = '削除する書き込みを選択してください。';
+    $lang->msg_cart_is_null = '削除する書き込みを選択して下さい。';
     $lang->msg_checked_trackback_is_deleted = '%d個のトラックバックが削除されました。';
 
     $lang->send_trackback_url = '送信するURL';

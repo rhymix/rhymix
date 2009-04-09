@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/opage/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  外部頁面(opage)模組語言
+     * @brief  外部頁面(opage)模組正體中文語言
      **/
 
     $lang->opage = "外部頁面";

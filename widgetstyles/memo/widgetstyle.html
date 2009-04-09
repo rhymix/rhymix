@@ -19,12 +19,16 @@
             </h3>
         <!--@end-->
 
-        <div class="widgetContainer">
         {$widget_content}
-        </div>
 
+        {@$widgetstyle_extar_var->ws_more_url=trim($widgetstyle_extar_var->ws_more_url);}
         <!--@if($widgetstyle_extar_var->ws_more_url)-->
-            <a href="http://{$widgetstyle_extar_var->ws_more_url}" class="widgetMore">
+
+            <!--@if(strtolower(substr($widgetstyle_extar_var->ws_more_url,0,4))=='http')-->
+                <a href="{$widgetstyle_extar_var->ws_more_url}" class="widgetMore">
+            <!--@else-->
+                <a href="http://{$widgetstyle_extar_var->ws_more_url}" class="widgetMore">
+            <!--@end-->
             <!--@if($widgetstyle_extar_var->ws_more_image)-->
                 <img src="{$widgetstyle_extar_var->ws_more_image}" />
             <!--@else if($widgetstyle_extar_var->ws_more_text)-->

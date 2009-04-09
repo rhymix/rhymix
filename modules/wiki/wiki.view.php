@@ -27,6 +27,7 @@
 
             $document_config = $oModuleModel->getModulePartConfig('document', $this->module_info->module_srl);
             if(!isset($document_config->use_history)) $document_config->use_history = 'N';
+            $this->use_history = $document_config->use_history;
             Context::set('use_history', $document_config->use_history);
 
             Context::addJsFile($this->module_path.'tpl/js/wiki.js');
@@ -43,14 +44,17 @@
         function dispWikiHistory() {
             $oDocumentModel = &getModel('document');
             $document_srl = Context::get('document_srl');
+            $page = Context::get('page');
             $oDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oDocument->isExists()) return $this->stop('msg_invalid_request');
             $entry = $oDocument->getTitleText();
             Context::set('entry',$entry);
-            $histories = $oDocumentModel->getHistories($document_srl);
+            $histories = $oDocumentModel->getHistories($document_srl, 10, $page);
             if(!$histories) $histories = array();
-            Context::set('histories',$histories);
+            Context::set('histories',$histories->data);
             Context::set('oDocument', $oDocument);
+            Context::set('page_navigation', $histories->page_navigation);
+            Context::set('page', $histories->page);
             $this->setTemplateFile('histories');
         }
 
@@ -64,6 +68,15 @@
             $oDocument->add('module_srl', $this->module_srl);
             Context::set('document_srl',$document_srl);
             Context::set('oDocument', $oDocument);
+            $history_srl = Context::get('history_srl');
+            if($history_srl)
+            {
+                $output = $oDocumentModel->getHistory($history_srl);
+                if($output && $output->content != null)
+                {
+                    Context::set('history', $output);
+                }
+            } 
 
             Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
 
@@ -108,9 +121,6 @@
                 $document_srl = $oDocumentModel->getDocumentSrlByAlias($this->module_info->mid, $entry);
             }
 
-
-            // document model 객체 생성 
-
             /**
              * 요청된 문서 번호가 있다면 문서를 구함
              **/
@@ -129,6 +139,16 @@
                     if(!Context::get('entry')) Context::set('entry', $oDocument->getTitleText());
 
                     // 상담기능이 사용되고 공지사항이 아니고 사용자의 글도 아니면 무시
+
+                    $history_srl = Context::get('history_srl');
+                    if($history_srl)
+                    {
+                        $output = $oDocumentModel->getHistory($history_srl);
+                        if($output && $output->content != null)
+                        {
+                            Context::set('history', $output);
+                        }
+                    } 
 
                 // 요청된 문서번호의 문서가 없으면 document_srl null 처리 및 경고 메세지 출력
                 } else {
@@ -156,11 +176,20 @@
                 // 비밀글일때 컨텐츠를 보여주지 말자.
                 if($oDocument->isSecret() && !$oDocument->isGranted()) $oDocument->add('content',Context::getLang('thisissecret'));
                 $this->setTemplateFile('view_document');
+
+                // set contributors
+                if($this->use_history)
+                {
+                    $oModel = &getModel('wiki');
+                    $contributors = $oModel->getContributors($oDocument->document_srl);
+                    Context::set('contributors', $contributors);
+                }
             }
             else
             {
                 $this->setTemplateFile('create_document');
             }
+
 
             // 스킨에서 사용할 oDocument 변수 세팅
             Context::set('oDocument', $oDocument);

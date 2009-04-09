@@ -50,6 +50,7 @@ WidgetNavigator.prototype.drawMenu = function(parent_srl){
     var h = jQuery('<ul class="widgetNavSub '+hrMenuColorset+'" node_srl="'+parent_srl+'">')
 
             .css({ position:'absolute' })
+            .css({ zIndex:9999 })
 
             .mouseover(function(){
 

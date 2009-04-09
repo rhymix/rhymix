@@ -16,7 +16,8 @@
 		论坛标题及说明参考各对象版面里设置的标题和说明。
 	</description>
 	<description xml:lang="jp">
-		このウィジェットの最新の記事を表示1つまたは複数の委員会からのフォーラムのスタイルです。説明が表示されるターゲットボードのタイトルと説明しています。
+		1つまたは複数の掲示板をフォーラム形式にまとめて表示するウィジェットです。
+		フォーラムに属する掲示板のタイトルと説明を用いて、説明を表示します。
 	</description>
 	<description xml:lang="en">
 		This widget displays newest articles from one or more board in forum style.
@@ -73,7 +74,7 @@
 			<name xml:lang="ru">Длина темы</name>
 			<name xml:lang="zh-TW">標題字數</name>
 			<description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
-			<description xml:lang="jp">タイトルの文字数が指定できます（「0」または空欄の場合は、文字数を制限しません）。</description>
+			<description xml:lang="jp">タイトルの文字数を設定します（「0」または空欄の場合は、文字数を制限しません）。</description>
 			<description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
 			<description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
 			<description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>

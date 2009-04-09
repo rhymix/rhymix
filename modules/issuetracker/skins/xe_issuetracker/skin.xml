@@ -27,7 +27,7 @@
     <colorset>
         <color name="white" src="screenshot/white.gif">
             <title xml:lang="ko">일반</title>
-            <title xml:lang="jp">普通</title>
+            <title xml:lang="jp">一般</title>
 	    <title xml:lang="en">General</title>
 	    <title xml:lang="es">General</title>
             <title xml:lang="zh-CN">普通</title>

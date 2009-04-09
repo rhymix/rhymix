@@ -2,7 +2,7 @@
     /**
      * @file   modules/comment/lang/zh-TW.lang.php
      * @author zero <zero@nzeo.com> 翻譯：royallin
-     * @brief  評論(comment)模組語言
+     * @brief  評論(comment)模組正體中文語言
      **/
 	
     $lang->cmd_comment_do = '將此評論..';

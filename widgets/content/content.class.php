@@ -257,10 +257,9 @@
                     $content_item->setContent($oDocument->getSummary($args->content_cut_size));
                     $content_item->setLink( getSiteUrl($domain,'','document_srl',$document_srl) );
                     $content_item->setThumbnail($thumbnail);
-                    $content_item->setExtraImages($oDocument->printExtraImages($args->duration_new));
+                    $content_item->setExtraImages($oDocument->printExtraImages($args->duration_new * 60 * 60));
                     $content_item->add('mid', $args->mid_lists[$module_srl]);
-                    if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $key;
-
+                    if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $i;
                     $content_items[] = $content_item;
                 }
 
@@ -397,7 +396,7 @@
          * @brief rss 주소로 부터 내용을 받아오는 함수
          * tistory 의 경우 원본 주소가 location 헤더를 뿜는다. (내용은 없음)이를 해결하기 위한 수정 - rss_reader 위젯과 방식 동일
          **/
-        function requestRssContents($rss_url) {
+        function requestFeedContents($rss_url) {
             // request rss
             $rss_url = Context::convertEncodingStr($rss_url);
             $URL_parsed = parse_url($rss_url);
@@ -415,8 +414,18 @@
 
             if ($URL_parsed["query"] != '') $path .= "?".$URL_parsed["query"];
 
+            /*
+            $buff = FileHandler::readFile('./widgets/content/conf/info.xml');
+            $buff = str_replace('<?xml version="1.0" encoding="UTF-8"?>','',$buff);
+
+            $oXmlParser = new XmlParser();
+            $info_xml = $oXmlParser->parse($buff);
+            */
+
             $oReqeust = new HTTP_Request($rss_url);
             $oReqeust->addHeader('Content-Type', 'application/xml');
+            // $oReqeust->addHeader('User-agent', 'Content Widget/'.$info_xml->widget->version->body.' (XpressEngine '.__ZBXE_VERSION__.' ( http://www.xpressengine.com ); PEAR HTTP_Request class ( http://pear.php.net/ );)');
+            $oReqeust->addHeader('User-agent', 'Content Widget (XE '.__ZBXE_VERSION__.' ( http://www.xpressengine.com ); PEAR HTTP_Request class ( http://pear.php.net/ );)');
             $oReqeust->setMethod('GET');
 
             $user = $URL_parsed["user"];
@@ -430,7 +439,7 @@
             }
             $header = $oReqeust->getResponseHeader();
             if($header['location']) {   
-                return $this->requestRssContents(trim($header['location']));
+                return $this->requestFeedContents(trim($header['location']));
             }
             else {
                 return $oReqeust->getResponseBody();
@@ -441,46 +450,185 @@
             // 날짜 형태
             $DATE_FORMAT = $args->date_format ? $args->date_format : "Y-m-d H:i:s";
 
-            $buff = $this->requestRssContents($args->rss_url);
+            $buff = $this->requestFeedContents($args->rss_url);
 
             $encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
-            if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = trim(iconv($matches[1]=="ks_c_5601-1987"?"EUC-KR":$matches[1], "UTF-8", $buff));
+            if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = Context::convertEncodingStr($buff);
 
             $buff = preg_replace("/<\?xml.*\?>/i", "", $buff);
 
             $oXmlParser = new XmlParser();
             $xml_doc = $oXmlParser->parse($buff);
-            $rss->title = $xml_doc->rss->channel->title->body;
-            $rss->link = $xml_doc->rss->channel->link->body;
+            if($xml_doc->rss) {
+                $rss->title = $xml_doc->rss->channel->title->body;
+                $rss->link = $xml_doc->rss->channel->link->body;
 
-            $items = $xml_doc->rss->channel->item;
+                $items = $xml_doc->rss->channel->item;
 
-            if(!$items) return;
-            if($items && !is_array($items)) $items = array($items);
+                if(!$items) return;
+                if($items && !is_array($items)) $items = array($items);
 
-            $content_items = array();
+                $content_items = array();
 
-            foreach ($items as $key => $value) {
-                if($key >= $args->list_count * $args->page_count) break;
-                unset($item);
+                foreach ($items as $key => $value) {
+                    if($key >= $args->list_count * $args->page_count) break;
+                    unset($item);
 
-                foreach($value as $key2 => $value2) {
-                    if(is_array($value2)) $value2 = array_shift($value2);
-                    $item->{$key2} = $this->_getRssBody($value2);
+                    foreach($value as $key2 => $value2) {
+                        if(is_array($value2)) $value2 = array_shift($value2);
+                        $item->{$key2} = $this->_getRssBody($value2);
+                    }
+
+                    $content_item = new contentItem($rss->title);
+                    $content_item->setContentsLink($rss->link);
+                    $content_item->setTitle($item->title);
+                    $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+                    //$content_item->setCategory($item->category);
+                    $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+                    $content_item->setContent($item->description);
+                    $content_item->setLink($item->link);
+                    $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
+                    $content_item->setRegdate($date);
+
+                    $content_items[] = $content_item;
                 }
+/*
+              } elseif($xml_doc->{'rdf:RDF'}) {
+                  // rss1.0 지원 by misol
+                  $rss->title = $xml_doc->{'rdf:RDF'}->channel->title->body;
+                  $rss->link = $xml_doc->{'rdf:RDF'}->channel->link->body;
+  
+                  $items = $xml_doc->{'rdf:RDF'}->item;
+  
+                  if(!$items) return;
+                  if($items && !is_array($items)) $items = array($items);
+  
+                  $content_items = array();
+  
+                  foreach ($items as $key => $value) {
+                      if($key >= $args->list_count * $args->page_count) break;
+                      unset($item);
+  
+                      foreach($value as $key2 => $value2) {
+                          if(is_array($value2)) $value2 = array_shift($value2);
+                          $item->{$key2} = $this->_getRssBody($value2);
+                      }
+  
+                      $content_item = new contentItem($rss->title);
+                      $content_item->setContentsLink($rss->link);
+                      $content_item->setTitle($item->title);
+                      $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+                      //$content_item->setCategory($item->category);
+                      $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+                      $content_item->setContent($item->description);
+                      $content_item->setLink($item->link);
+                      $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
+                      $content_item->setRegdate($date);
+  
+                      $content_items[] = $content_item;
+                  }
+*/
+            } elseif($xml_doc->{'rdf:rdf'}) {
+                // rss1.0 지원 (Xml이 대소문자를 구분해야 하는데 XE의 XML파서가 전부 소문자로 바꾸는 바람에 생긴 case) by misol
+                $rss->title = $xml_doc->{'rdf:rdf'}->channel->title->body;
+                $rss->link = $xml_doc->{'rdf:rdf'}->channel->link->body;
 
-                $content_item = new contentItem($rss->title);
-                $content_item->setContentsLink($rss->link);
-                $content_item->setTitle($item->title);
-                $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
-                //$content_item->setCategory($item->category);
-                $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
-                $content_item->setContent($item->description);
-                $content_item->setLink($item->link);
-                $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
-                $content_item->setRegdate($date);
+                $items = $xml_doc->{'rdf:rdf'}->item;
 
-                $content_items[] = $content_item;
+                if(!$items) return;
+                if($items && !is_array($items)) $items = array($items);
+
+                $content_items = array();
+
+                foreach ($items as $key => $value) {
+                    if($key >= $args->list_count * $args->page_count) break;
+                    unset($item);
+
+                    foreach($value as $key2 => $value2) {
+                        if(is_array($value2)) $value2 = array_shift($value2);
+                        $item->{$key2} = $this->_getRssBody($value2);
+                    }
+
+                    $content_item = new contentItem($rss->title);
+                    $content_item->setContentsLink($rss->link);
+                    $content_item->setTitle($item->title);
+                    $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+                    //$content_item->setCategory($item->category);
+                    $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+                    $content_item->setContent($item->description);
+                    $content_item->setLink($item->link);
+                    $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
+                    $content_item->setRegdate($date);
+
+                    $content_items[] = $content_item;
+                }
+            } elseif($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom') {
+                // Atom 1.0 spec 지원 by misol
+                $rss->title = $xml_doc->feed->title->body;
+                $links = $xml_doc->feed->link;
+                if(is_array($links)) {
+                    foreach ($links as $value) {
+                        if($value->attrs->rel == 'alternate') {
+                            $rss->link = $value->attrs->href;
+                            break;
+                        }
+                    }
+                }
+                elseif($links->attrs->rel == 'alternate') $rss->link = $links->attrs->href;
+
+                $items = $xml_doc->feed->entry;
+
+                if(!$items) return;
+                if($items && !is_array($items)) $items = array($items);
+
+                $content_items = array();
+
+                foreach ($items as $key => $value) {
+                    if($key >= $args->list_count * $args->page_count) break;
+                    unset($item);
+
+                    foreach($value as $key2 => $value2) {
+                        if(is_array($value2)) $value2 = array_shift($value2);
+                        $item->{$key2} = $this->_getRssBody($value2);
+                    }
+
+                    $content_item = new contentItem($rss->title);
+                    $links = $value->link;
+                    if(is_array($links)) {
+                        foreach ($links as $val) {
+                            if($val->attrs->rel == 'alternate') {
+                                $item->link = $val->attrs->href;
+                                break;
+                            }
+                        }
+                    }
+                    elseif($links->attrs->rel == 'alternate') $item->link = $links->attrs->href;
+
+                    $content_item->setContentsLink($rss->link);
+                    if($item->title) {
+                        if(!preg_match("/html/i", $value->title->attrs->type)) $item->title = $value->title->body;
+                    }
+                    $content_item->setTitle($item->title);
+                    $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
+                    $content_item->setAuthorSite($value->author->uri->body);
+                    //$content_item->setCategory($item->category);
+                    $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->content);
+                    if($item->description) {
+                        if(!preg_match("/html/i", $value->content->attrs->type)) $item->description = htmlspecialchars($item->description);
+                    }
+                    if(!$item->description) {
+                        $item->description = $item->summary;
+                        if($item->description) {
+                            if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description);
+                        }
+                    }
+                    $content_item->setContent($item->description);
+                    $content_item->setLink($item->link);
+                    $date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
+                    $content_item->setRegdate($date);
+
+                    $content_items[] = $content_item;
+                }
             }
             return $content_items;
         }
@@ -634,6 +782,11 @@
         function setNickName($nick_name){
             $this->add('nick_name',$nick_name);
         }
+
+        // 글 작성자의 홈페이지 주소를 저장 by misol
+        function setAuthorSite($site_url){
+            $this->add('author_site',$site_url);
+        }
         function setCategory($category){
             $this->add('category',$category);
         }
@@ -670,6 +823,9 @@
         }
         function getNickName(){
             return $this->get('nick_name');
+        }
+        function getAuthorSite(){
+            return $this->get('author_site');
         }
         function getCommentCount(){
             $comment_count = $this->get('comment_count');

@@ -24,6 +24,9 @@
     $lang->cmd_load = '불러오기';
     $lang->cmd_input = '입력';
     $lang->cmd_search = '검색';
+    $lang->cmd_find = '찾기';
+    $lang->cmd_replace = '바꾸기';
+    $lang->cmd_confirm = '확인';
     $lang->cmd_cancel = '취소';
     $lang->cmd_back = '돌아가기';
     $lang->cmd_vote = '추천';
@@ -121,6 +124,7 @@
     $lang->file = '파일';
 
     $lang->mid = '모듈이름';
+    $lang->sid = '가상 사이트 이름';
     $lang->layout = '레이아웃';
     $lang->widget = '위젯 ';
     $lang->module = '모듈';
@@ -226,6 +230,7 @@
     $lang->success_declared = '신고되었습니다';
     $lang->success_updated = '수정되었습니다';
     $lang->success_deleted = '삭제되었습니다';
+    $lang->success_restore = '복원되었습니다';
     $lang->success_voted = '추천되었습니다';
     $lang->success_blamed = '비추천되었습니다';
     $lang->success_moved = '이동되었습니다';
@@ -246,6 +251,7 @@
     $lang->confirm_logout = '로그아웃하시겠습니까?';
     $lang->confirm_vote = '추천하시겠습니까?';
     $lang->confirm_delete = '삭제하시겠습니까?';
+    $lang->confirm_restore = '복원하시겠습니까?';
     $lang->confirm_move = '이동하시겠습니까?';
     $lang->confirm_reset = '초기화 하시겠습니까??';
     $lang->confirm_leave = '탈퇴 하시겠습니까??';
@@ -267,6 +273,7 @@
     $lang->default_value = '기본 값';
     $lang->is_active = '활성';
     $lang->is_required = '필수항목';
+    $lang->eid = '확장변수 이름';
 
     // ftp 관련
     $lang->ftp_form_title = 'FTP 정보 입력';

@@ -4,24 +4,6 @@
  * @brief  위젯 관리용 자바스크립트
  **/
 
-/* document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수 */
-document.write = document.writeln = function(str){
-    if ( str.match(/^<\//) ) return;
-    if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
-    str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
-    var div = null;
-    if(document.createElementNS) div = document.createElementNS("http://www.w3.org/1999/xhtml","div");
-    else div = xCreateElement('div');
-    xInnerHtml(div, str);
-    var pos;
-    pos = document.getElementsByTagName("*");
-    pos = pos[pos.length - 1];
-    var nodes = div.childNodes;
-    while ( nodes.length ) {
-        pos.parentNode.appendChild( nodes[0] );
-    }
-};
-
 /* DOM 속성을 구하기 위한 몇가지 함수들.. */
 // style의 값을 구하는게 IE랑 그외가 다름.
 function getStyle(obj) {
@@ -96,27 +78,24 @@ function removeAllWidget() {
 function getWidgetContent(obj) {
     var html = "";
     if(typeof(obj)=='undefined' || !obj) obj = zonePageObj;
-    var childObj = obj.firstChild;
 
-    while(childObj) {
-        if(childObj.nodeName == "DIV" && childObj.getAttribute("widget"))  {
-            var widget = childObj.getAttribute("widget");
-            if(widget) {
-                switch(widget) {
-                    case 'widgetBox' :
-                            html += getWidgetBoxCode(childObj, widget);
-                        break;
-                    case 'widgetContent' :
-                            html += getContentWidgetCode(childObj, widget);
-                        break;
-                    default :
-                            html += getWidgetCode(childObj, widget);
-                        break;
-                }
+    var widget = null;
+    jQuery('div.widgetOutput',obj).each(function(){
+    if(jQuery(this).parent().get(0) != obj) return;
+        widget = jQuery(this).attr('widget');
+            switch(widget) {
+                case 'widgetBox' :
+                        html += getWidgetBoxCode(this, widget);
+                    break;
+                case 'widgetContent' :
+                        html += getContentWidgetCode(this, widget);
+                    break;
+                default :
+                        html += getWidgetCode(this, widget);
+                    break;
             }
-        }
-        childObj = childObj.nextSibling;
-    }
+    });
+
     return html;
 }
 
@@ -170,6 +149,32 @@ function getContentWidgetCode(childObj, widget) {
 
 // 위젯 박스 코드 구함
 function getWidgetBoxCode(childObj, widget) {
+
+    var attrs = "";
+    for(var i=0;i<childObj.attributes.length;i++) {
+        if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue || /^jquery[0-9]+/i.test(childObj.attributes[i].nodeName)) continue;
+
+        var name = childObj.attributes[i].nodeName.toLowerCase();
+        if(name == "widget_padding_left" || name == "widget_padding_right" || name == "widget_padding_top" || name == "widget_padding_bottom" || name == "contenteditable" || name == "id" || name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
+        var value = childObj.attributes[i].nodeValue;
+        if(!value || value == "Array") continue;
+        attrs += name+'="'+escape(value)+'" ';
+    }
+
+
+    var o;
+
+    if(jQuery('.widget_inner',childObj).size()>0){
+        o = jQuery('.widget_inner',childObj);
+        o = o.get(0);
+    }else{
+        o = jQuery('.nullWidget',childObj).get(0);
+    }
+
+    var body = getWidgetContent(o);
+    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
+
+/*
     var cobj = childObj.firstChild;
     while(cobj) {
         if(cobj.className == "widgetBorder" || cobj.className == "widgetBoxBorder") {
@@ -177,25 +182,30 @@ function getWidgetBoxCode(childObj, widget) {
             while(c2obj) {
                 if(c2obj.className == "nullWidget") {
                     var body = getWidgetContent(c2obj);
-                    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'"><div><div>'+body+'<div class="clear"></div></div></div></div>';
+                    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
                 }
                 c2obj = c2obj.nextSibling;
             }
         }
         cobj = cobj.nextSibling;
     }
+*/
 }
+
+
+
 
 // 일반 위젯 컨텐츠 코드 구함
 function getWidgetCode(childObj, widget) {
     var attrs = "";
     var code = "";
     for(var i=0;i<childObj.attributes.length;i++) {
-        if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
+        if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue || /^jquery[0-9]+/i.test(childObj.attributes[i].nodeName)) continue;
+
         var name = childObj.attributes[i].nodeName.toLowerCase();
         if(name == "contenteditable" || name == "id" || name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
         var value = childObj.attributes[i].nodeValue;
-        if(!value) continue;
+        if(!value || value == "Array" || value == "null") continue;
 
         attrs += name+'="'+escape(value)+'" ';
     }
@@ -267,12 +277,15 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
         attr = contentWidget.get(0).attributes;
     }
 
+    var editor_sequence = params['editor_sequence'];
+    var content = editorGetContent(editor_sequence);
+
     var tpl = ''+
         '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
         '<div class="widgetResize"></div>'+
         '<div class="widgetResizeLeft"></div>'+
         '<div class="widgetBorder">'+
-        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div><div class="clear"></div>'+
+        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+'<div class="clear"></div>'+
         '</div>'+
         '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
         '</div>';
@@ -340,33 +353,111 @@ function doFitBorderSize() {
 }
 
 var selectedWidget = null;
+var writedText = null;
+var checkDocumentWrite = false;
+
+// document.write(ln)의 경우 ajax로 처리시 가로채기 위한 함수
+// 아래 함수는 str 내용을 단지 전역 변수에 보관 후 doAddWidgetCode 에서 재사용하기 위해 사용됨.
+window.document.write = window.document.writeln = function(str){
+    if(checkDocumentWrite) {
+        writedText = str;
+        return;
+    }
+    if ( str.match(/^<\//) ) return;
+    if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
+    str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
+
+    var div = xCreateElement("DIV");
+    xInnerHtml(div, str);
+
+    var pos;
+    pos = document.getElementsByTagName("*");
+    pos = pos[pos.length - 1];
+    var nodes = div.childNodes;
+    while ( nodes.length ) {
+        pos.parentNode.appendChild( nodes[0] );
+    }
+}
 
 // 위젯 추가
 function doAddWidgetCode(widget_code) {
+    restoreWidgetButtons();
+
+    // css 추가
+    var tmp = widget_code;
+    while(tmp.indexOf("<!--Meta:")>-1) {
+        var pos = tmp.indexOf("<!--Meta:");
+        tmp = tmp.substr(pos);
+        var eos = tmp.indexOf("-->");
+        var cssfile = tmp.substr(9,eos-9);
+        if(cssfile.indexOf('.js')>-1) {
+            tmp = tmp.substr(eos);
+            continue;
+        }
+        if(!cssfile) break;
+        tmp = tmp.substr(eos);
+
+        var cssfile = request_uri+'/'+cssfile;
+        if(typeof(document.createStyleSheet)=='undefined') {
+            var css ='<link rel="stylesheet" href="'+cssfile+'" type="text/css" charset="UTF-8" />';
+            var dummy  = xCreateElement("DIV");
+            xInnerHtml(dummy , css);
+            document.body.appendChild(dummy);
+        } else {
+            document.createStyleSheet(cssfile,0);
+        }
+    }
+
+    // widget 코드에서 javascript 부분을 빼서 eval후 결과값을 대체함
+    checkDocumentWrite = true; ///< document.write(ln)등의 함수값을 바로 사용하기 위한 check flag
+
+    // widget_code의 javascript 부분 수정
+    var tmp = widget_code.toLowerCase();
+    while(tmp.indexOf("<script")>-1) {
+
+        var pos = tmp.indexOf("<script");
+
+        tmp = tmp.substr(pos);
+        var length = tmp.indexOf("</script>")+9;
+
+        var script = widget_code.substr(pos,length);
+        script = script.replace(/^<script([^>]*)>/i,'').replace(/<\/script>$/i,'');
+
+        writedText = null;
+        eval(script);
+        widget_code = widget_code.substr(0,pos)+writedText+widget_code.substr(pos+length);
+        tmp = widget_code.toLowerCase();
+    }
+
+
+
+    // html 추가
     var dummy = xCreateElement('div');
     xInnerHtml(dummy, widget_code);
+    var obj = dummy.childNodes[0];
 
-    var nodes = dummy.childNodes;
+    if(selectedWidget && selectedWidget.getAttribute("widget")) {
+        var o = jQuery('div.widget_inner',selectedWidget);
+        var n = jQuery('div.widget_inner',obj);
 
-    var zoneObj = xGetElementById('zonePageContent');
+        if(n.size()==0) n = jQuery('div.nullWidget',obj);
+        if(o.size()==0) o = jQuery('div.nullWidget',selectedWidget);
 
+        n.html(o.html());
+
+
+        selectedWidget.parentNode.insertBefore(obj, selectedWidget);
+        selectedWidget.parentNode.removeChild(selectedWidget);
+    } else {
+        xGetElementById('zonePageContent').appendChild(obj);
+    }
+    checkDocumentWrite = false;
+    selectedWidget = null;
+
+    /*
     //zoneObj.style.visibility = 'hidden';
     zoneObj.style.opacity = 0.2;
     zoneObj.style.filter = "alpha(opacity=20)";
-
-
-    if(selectedWidget  && selectedWidget.getAttribute("widget")) {
-        while ( nodes.length ) {
-            if(nodes[0].className == 'widgetClass') zoneObj.parentNode.insertBefore(nodes[0], zoneObj);
-            else selectedWidget.parentNode.insertBefore(nodes[0], selectedWidget);
-        }
-        selectedWidget.parentNode.removeChild(selectedWidget);
-    } else {
-        while ( nodes.length ) {
-            if(nodes[0].className == 'widgetClass') zoneObj.parentNode.insertBefore(nodes[0], zoneObj);
-            else zoneObj.appendChild(nodes[0]);
-        }
-    }
 
     // 위젯 추가후 페이지 리로딩
     var tpl = getWidgetContent();
@@ -375,6 +466,7 @@ function doAddWidgetCode(widget_code) {
     fo_obj.content.value = tpl;
     fo_obj.mid.value = current_mid;
     fo_obj.submit();
+    */
 }
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리
@@ -526,11 +618,7 @@ function doCheckWidgetDrag(e) {
     var evt = new xEvent(e); if(!evt.target) return;
     var obj = evt.target;
 
-    var pObj = obj.parentNode;
-    while(pObj) {
-        if(pObj.id == "pageSizeLayer") return;
-        pObj = pObj.parentNode;
-    }
+    if(jQuery(obj).parents('#pageSizeLayer').size() > 0) return;
 
     doHideWidgetSizeSetup();
 
@@ -768,10 +856,24 @@ function doApplyWidgetSize(fo_obj) {
             borderObj = borderObj.nextSibling;
         }
 
+        selectedWidget = selectedSizeWidget;
         selectedSizeWidget = null;
-        doFitBorderSize();
-    }
 
+        var widget = selectedWidget.getAttribute("widget");
+        var params = new Array();
+        for(var i=0;i<selectedWidget.attributes.length;i++) {
+            if(!selectedWidget.attributes[i].nodeName || !selectedWidget.attributes[i].nodeValue) continue;
+            var name = selectedWidget.attributes[i].nodeName.toLowerCase();
+            if(name == "contenteditable" || name == "id" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
+            var value = selectedWidget.attributes[i].nodeValue;
+            if(!value || value == "Array") continue;
+            params[name] = value;
+        }
+        params["style"] = getStyle(selectedWidget);
+        params["selected_widget"] = widget;
+        params["module_srl"] = xGetElementById("pageFo").module_srl.vlaue;
+        exec_xml('widget','procWidgetGenerateCodeInPage',params,function(ret_obj) { doAddWidgetCode(ret_obj["widget_code"]);  },new Array('error','message','widget_code','tpl','css_header'));
+    }
     doHideWidgetSizeSetup();
 }
 
@@ -780,6 +882,7 @@ function restoreWidgetButtons() {
     var widgetButton = xGetElementById('widgetButton');
     var boxWidgetButton = xGetElementById('widgetBoxButton');
     if(!widgetButton || !boxWidgetButton) return;
+
     widgetButton.style.visibility = 'hidden';
     xGetElementById("zonePageContent").parentNode.appendChild(widgetButton);
     boxWidgetButton.style.visibility = 'hidden';
@@ -810,17 +913,25 @@ function showWidgetButton(name, obj) {
 function widgetSetup(evt) {
     var e = new xEvent(evt);
     var obj = e.target;
-    while(obj) {
-        if(obj.parentNode && typeof(obj.parentNode.className)!='undefined' && obj.parentNode.className == 'widgetButtons') return;
-        if(typeof(obj.className)!='undefined' && obj.className == 'widgetOutput') break;
-        obj = obj.parentNode;
+
+    if(jQuery(obj).is('.widgetButtons') || jQuery(obj).parents('.widgetButtons').size() > 0) return;
+    if(jQuery(obj).is('.buttonBox') || jQuery(obj).parents('.buttonBox').size() > 0) return;
+
+
+    var o = jQuery(obj).parents('.widgetOutput');
+    if(o.size() == 0){
+        restoreWidgetButtons();
+        return;
     }
+    /*
     if(!obj || typeof(obj.className)=='undefined' || obj.className != 'widgetOutput') {
         restoreWidgetButtons();
         return;
     }
+*/
 
-    var widget = obj.getAttribute('widget');
+    obj = o.get(0);
+    var widget = o.attr('widget');
     if(!widget) return;
 
     if(widget == 'widgetBox') {
@@ -1015,12 +1126,16 @@ function widgetDrag(tobj, dx, dy) {
             widgetList = null;
 
             // 만약 다른 위젯과 자리를 바꾸지 못하였는데 자기 부모창밖에 있는게 확인이 되면 박스 밖으로 내보낸다.
-            var l =  xPageX(tobj.parentNode);
-            var t =  xPageY(tobj.parentNode);
-            var ll =  parseInt(l,10) + parseInt(xWidth(tobj.parentNode),10);
-            var tt =  parseInt(t,10) + parseInt(xHeight(tobj.parentNode),10);
+            var p_tobj = jQuery(tobj).parents('div.nullWidget').get(0);
+            var l =  xPageX(p_tobj);
+            var t =  xPageY(p_tobj);
+            var ll =  parseInt(l,10) + parseInt(xWidth(p_tobj),10);
+            var tt =  parseInt(t,10) + parseInt(xHeight(p_tobj),10);
             if( (tobj.xDPX < l || tobj.xDPX > ll) || (tobj.xDPY < t || tobj.xDPY > tt) ) {
-                zonePageObj.insertBefore(tobj, tobj.parentNode.parentNode.parentNode);
+
+//                zonePageObj.insertBefore(tobj, tobj.parentNode.parentNode.parentNode);
+                zonePageObj.insertBefore(tobj, jQuery(tobj).parents('div.widgetOutput[widget=widgetBox]').get(0));
+
                 doFitBorderSize();
                 return;
             }
@@ -1029,6 +1144,7 @@ function widgetDrag(tobj, dx, dy) {
         } else {
             // 이동하려는 위젯이 박스 위젯이 아니라면 박스 위젯들을 구해서 입력 유무를 검사한다
             if(tobj.getAttribute("widget")!="widgetBox") {
+
                 var boxList = xGetElementsByClassName("nullWidget", zonePageObj);
                 for(var i=0;i<boxList.length;i++) {
                     var target_obj = boxList[i];
@@ -1041,8 +1157,20 @@ function widgetDrag(tobj, dx, dy) {
                     var ll =  parseInt(l,10) + parseInt(xWidth(target_obj),10);
                     var tt =  parseInt(t,10) + parseInt(xHeight(target_obj),10);
                     if( tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt) {
+
+                        //박스 위젯이다
                         if(target_obj.className == "nullWidget") {
-                            target_obj.appendChild(tobj);
+
+                            var wb_ws = jQuery('div.widget_inner',jQuery(target_obj));
+
+                            //박스 위젯에 위젯스타일이 적용 안된경우
+                            if(wb_ws.size() == 0){
+                                target_obj.appendChild(tobj);
+
+                            //박스 위젯에 위젯스타일이 적용된경우 또는 박스안에 위젯이 위젯스타일이 적용된겅우
+                            }else{
+                                wb_ws.get(0).appendChild(tobj);
+                             }
 
                             // 이동을 멈춤
                             widgetManualEnd();
@@ -1107,6 +1235,8 @@ function widgetDisapearObject(obj, tobj) {
     obj.parentNode.removeChild(obj);
     widgetTmpObject[tobj.id] = null;
     return;
+
+    /*
     var it = 5;
     var ib = 1;
 
@@ -1131,6 +1261,7 @@ function widgetDisapearObject(obj, tobj) {
         xLeft(obj, x);
         xTop(obj, y);
     }, it/ib);
+    */
 }
 
 // 마우스다운 이벤트 발생시 호출됨
@@ -1209,6 +1340,7 @@ function widgetManualEnd() {
     if(!tobj) return;
 
     xRemoveEventListener(document, 'mouseup', widgetMouseUp, false);
+    xAddEventListener(document, 'mousemove', widgetDragMouseMove, false);
 
     var obj = widgetGetTmpObject(tobj);
     widgetDisapear = widgetDisapearObject(obj, tobj);

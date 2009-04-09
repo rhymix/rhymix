@@ -18,9 +18,12 @@
              **/
             $oPlanetModel = &getModel('planet');
             $oModuleModel = &getModel('module');
-            Context::set('module_info',$this->module_info = $oPlanetModel->getPlanetConfig());
-	    $current_module_info = Context::get('current_module_info');
-	    $current_module_info->layout_srl = $this->module_info->layout_srl = $this->module_info->layout_srl;
+            $planet_config = $oPlanetModel->getPlanetConfig();
+            foreach($this->module_info as $key => $val) if(!isset($planet_config->{$key})) $planet_config->{$key} = $val;
+
+            Context::set('module_info',$this->module_info = $planet_config);
+            $current_module_info = Context::get('current_module_info');
+            $current_module_info->layout_srl = $this->module_info->layout_srl = $this->module_info->layout_srl;
             Context::set('current_module_info', $current_module_info);
 
 

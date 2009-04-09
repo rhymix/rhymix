@@ -1,0 +1,11 @@
+<query id="getContributors" action="select">
+    <tables>
+        <table name="document_histories" />
+    </tables>
+    <columns>
+        <column name="nick_name" as="nick_name" />
+    </columns>
+    <groups>
+        <group column="nick_name" />
+    </groups>
+</query>

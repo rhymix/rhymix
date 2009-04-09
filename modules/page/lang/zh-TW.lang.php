@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/page/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  頁面(page) 模組基本語言
+     * @brief  頁面(page) 模組正體中文語言
      **/
 
     $lang->page = "頁面";

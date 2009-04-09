@@ -14,11 +14,19 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
-            // 그룹이 선택되지 않으면 출력이 되지 않는다.
-            if(!$args->with_group) return '';
-
             $site_module_info = Context::get('site_module_info');
-            $obj->site_srl = (int)$site_module_info->site_srl;
+            $site_srl = (int)$site_module_info->site_srl;
+
+            // 그룹이 선택되지 않으면 모든 그룹을 추출함
+            if(!$args->with_group) {
+                $oMemberModel = &getModel('member');
+                $groups = $oMemberModel->getGroups($site_srl);
+                if(is_array($groups)) {
+                    $obj->with_group = implode(',',array_keys($groups));
+                } else return;
+            }
+
+            $obj->site_srl = $site_srl;
             $obj->list_count = $args->list_count?$args->list_count:5;
             $obj->selected_group_srl = $args->with_group;
 

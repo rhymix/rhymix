@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+
+.widgetBoxContainer{ position:relative;}
+
+.widgetBox{ position:relative; *zoom:1; }
+.widgetBox:after{content:""; display:block; clear:both; }
+.widgetBox .widgetBoxHeader{ font-size:16px; font-family:Tahoma; margin:0; z-index:10;}
+.widgetBox .widgetContainer{ position:relative; z-index:10;}
+.widgetBox .widgetMore{ position:absolute; display:block; text-decoration:none; font-size:11px !important; white-space:nowrap; font-family:Tahoma; color:#000; text-align:center; z-index:20;}
+.widgetBox .widgetMore img{ border:0;}
+.widgetBox .rcContainer{ display:block; width:100%; font-size:0; line-height:0; z-index:1; *zoom:1;}
+.widgetBox .rc{ position:absolute; display:block; font-size:0; line-height:0; overflow:hidden;}
+.widgetBox .rcTop .tl{ top:0;}
+.widgetBox .rcTop .tr{ top:0;}
+.widgetBox .rcBottom .bl{ top:0;}
+.widgetBox .rcBottom .br{ top:0;}
+
+.widgetBoxFred .widgetBox{ border:1px solid #ffcccc; border-top-width:5px; border-bottom-width:5px;}
+.widgetBoxFred .widgetBoxHeader{ position:relative; padding:4px 0; text-indent:15px; repeat-x 0 center; border-bottom:1px solid #ffcccc; color:#ff3333;}
+.widgetBoxFred .widgetMore{ top:7px; right:15px; color:#888;}
+.widgetBoxFred .rcContainer{ display:none !important;;}
+
+.widgetBoxFgreen .widgetBox{ border:1px solid #d9efb9; border-top-width:5px; border-bottom-width:5px;}
+.widgetBoxFgreen .widgetBoxHeader{ padding:4px 0; text-indent:15px; repeat-x 0 center; border-bottom:1px solid #d9efb9; color:#ff3333;}
+.widgetBoxFgreen .widgetMore{ top:7px; right:15px; color:#888;}
+.widgetBoxFgreen .rcContainer{ display:none !important;;}
+
+.widgetBoxFblue .widgetBox{ border:1px solid #d8e6e7; border-top-width:5px; border-bottom-width:5px;}
+.widgetBoxFblue .widgetBoxHeader{ position:relative; padding:4px 0; text-indent:15px; repeat-x 0 center; border-bottom:1px solid #d8e6e7; color:#55ccdd;}
+.widgetBoxFblue .widgetMore{ top:7px; right:15px; color:#888;}
+.widgetBoxFblue .rcContainer{ display:none !important;}

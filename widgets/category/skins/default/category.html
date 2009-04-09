@@ -4,10 +4,9 @@
 <!--@if($colorset == "black" || $colorset == "white")-->
     <!--%import("./css/widget.css")-->
 <!--@end-->
-
 <div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <div class="widgetTree">
-        <a href="{getSiteUrl($widget_info->domain,'','mid',$widget_info->module_info->mid)}" class="title">{$widget_info->module_info->browser_title}</a> <span>({$widget_info->total_document_count})</span>
+        <a href="{getSiteUrl($widget_info->domain,'','mid',$widget_info->module_info->mid?$widget_info->module_info->mid:$layout_info->target_mid)}" class="title <!--@if(!$category)-->strong<!--@end-->"><!--@if($widget_info->total_title)-->{$widget_info->total_title}<!--@else-->{$widget_info->module_info->browser_title}<!--@end--></a> <span>({$widget_info->total_document_count})</span>
         <ul>
     <!--@foreach($widget_info->category_list as $key => $val)-->
         <!--@if($_pDepth > $val->depth)-->

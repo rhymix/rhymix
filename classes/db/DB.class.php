@@ -160,7 +160,7 @@
 
                 if(__DEBUG_DB_OUTPUT__ == 1)  {
                     $debug_file = _XE_PATH_."files/_debug_db_query.php";
-                    $buff = sprintf("%s\n",print_r($str,true));
+                    $buff = sprintf("%s\n",print_r($log,true));
 
                     if($display_line) $buff = "\n<?php\n/*\n====================================\n".$buff."------------------------------------\n*/\n?>\n";
 

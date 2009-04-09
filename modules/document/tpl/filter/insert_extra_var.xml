@@ -2,6 +2,7 @@
     <form>
         <node target="name" required="true" />
         <node target="module_srl" required="true" />
+        <node target="eid" required="true" filter="alpha_number" />
     </form>
     <parameter />
     <response callback_func="completeInsertExtraVar">

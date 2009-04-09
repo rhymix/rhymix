@@ -138,13 +138,64 @@
     $lang->edit->icon_align_middle = '中央揃え';
     $lang->edit->icon_align_right = '右揃え';
 
-    $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。';
-
+    $lang->about_dblclick_in_editor = '背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定出来るコンポーネントを表示します。';
 
     $lang->edit->rich_editor = 'ウイジウイグ編集';
     $lang->edit->html_editor = 'HTMLタグ編集';
     $lang->edit->extension ='拡張コンポーネント';
     $lang->edit->help = 'ヘルプ';
     $lang->edit->help_command = 'ショートカット‐キーの説明';
+
+    $lang->edit->lineheight = '行間';
+    $lang->edit->fontbgsampletext = 'あいうえお';
+
+    $lang->edit->hyperlink = 'ハイパーリンク';
+    $lang->edit->target_blank = '別のウィンドウズで';
+
+    $lang->edit->quotestyle1 = '左側実線';
+    $lang->edit->quotestyle2 = '引用記号';
+    $lang->edit->quotestyle3 = '実線';
+    $lang->edit->quotestyle4 = '実線 + 背景';
+    $lang->edit->quotestyle5 = '太い実線';
+    $lang->edit->quotestyle6 = '点線';
+    $lang->edit->quotestyle7 = '点線 + 背景';
+    $lang->edit->quotestyle8 = '適用取り消し';
+
+
+    $lang->edit->jumptoedit = '編集ツール省略';
+    $lang->edit->set_sel = 'マス数の指定';
+    $lang->edit->row = '行';
+    $lang->edit->col = '列';
+    $lang->edit->add_one_row = '1行追加';
+    $lang->edit->del_one_row = '1行削除';
+    $lang->edit->add_one_col = '1列追加';
+    $lang->edit->del_one_col = '1列削除';
+
+    $lang->edit->table_config = '표属性の設定';
+    $lang->edit->border_width = '外枠太さ';
+    $lang->edit->border_color = '外枠色';
+    $lang->edit->add = '挿入';
+    $lang->edit->del = '削除';
+    $lang->edit->search_color = 'その他の色';
+    $lang->edit->table_backgroundcolor = '表の背景色';
+    $lang->edit->special_character = '特殊文字';
+    $lang->edit->insert_special_character = '特殊文字挿入';
+    $lang->edit->close_special_character = '特殊文字レイヤーを閉じる';
+    $lang->edit->symbol = '一般記号';
+    $lang->edit->number_unit = '数字と単位';
+    $lang->edit->circle_bracket = '円、括弧';
+    $lang->edit->korean = '韓国語';
+    $lang->edit->greece = 'ギリシャ語';
+    $lang->edit->Latin  = 'ラテン語';
+    $lang->edit->japan  = '日本語';
+    $lang->edit->selected_symbol  = '選択した記号';
+
+    $lang->edit->search_replace  = '検索/置換';
+    $lang->edit->close_search_replace  = '検索/置換レイヤーを閉じる';
+    $lang->edit->replace_all  = 'すべて置換';
+    $lang->edit->search_words  = '検索テキスト';
+    $lang->edit->replace_words  = '置換テキスト';
+    $lang->edit->next_search_words  = '次を検索';
+    $lang->edit->edit_height_control  = '入力サイズ調整';
 
 ?>

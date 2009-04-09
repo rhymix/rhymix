@@ -9,7 +9,7 @@
     <title xml:lang="zh-TW">最新引用</title>
     <description xml:lang="ko">최근 엮인글 (trackback)을 출력하는 위젯입니다.</description>
     <description xml:lang="zh-CN">显示最新引用 (trackback)列表的控件。</description>
-    <description xml:lang="jp">最新のトラックバック（trackback）を表示させるウィジェットです。</description>
+    <description xml:lang="jp">最新のトラックバック（trackback）を表示するウィジェットです。</description>
     <description xml:lang="en">This widget displays newest trackbacks.</description>
     <description xml:lang="es">Este widget muestra los trackbacks recientes.</description>
     <description xml:lang="ru">Этот виджет отображает последние трекбеки.</description>
@@ -39,7 +39,7 @@
             <name xml:lang="zh-TW">目錄數</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
-            <description xml:lang="jp">出力されるリストの数を指定することができます（デフォルト５個）</description>
+            <description xml:lang="jp">出力するリストの数を指定します（デフォルト5個）。</description>
             <description xml:lang="en">You can set the number of list to be displayed.(default is 5)</description>
             <description xml:lang="es">Usted puede definir el número de listas a mostrar.(predefinido: 5)</description>
             <description xml:lang="ru">Вы можете выбрать число списка трекбеков для отображения. (стандарт: 5)</description>

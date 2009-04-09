@@ -15,13 +15,6 @@
 
 <div class="blog_widget_{$colorset}">
   <div class="newest_comment">
-    <div class="header">
-        <!--@if($widget_info->title)-->
-            <h2>{$widget_info->title}</h2>
-        <!--@else-->
-            <h2>newest comments</h2>
-        <!--@end-->
-    </div>
     <ul class="items">
         <!--@foreach($widget_info->comment_list as $val)-->
             <li><a href="{getUrl('','document_srl',$val->get('document_srl'))}#comment_{$val->get('comment_srl')}">{$val->getSummary($widget_info->subject_cut_size)}</a></li>

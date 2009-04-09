@@ -27,22 +27,22 @@
     $lang->widget_margin_bottom = '下 ';
     $lang->widget_margin_left= '左';
     $lang->about_widget_fix_width = 'チェックすると横幅が固定されます。';
-    $lang->about_widget_width = '縦幅サイズを選択してください。';
-    $lang->about_widget_position = '一つのラインに多数のウィジェットを羅列したい場合は、ポジッションを選択してください。';
-    $lang->about_widget_margin = '一つのラインに多数のウィジェットを羅列したい場合は、ポジッションを選択してください。';
-    $lang->about_widget_cache = '指定された時間内にキャッシュされたデータが利用できます。';
+    $lang->about_widget_width = '縦幅サイズを選択して下さい。';
+    $lang->about_widget_position = '一つのラインに多数のウィジェットを羅列したい場合は、ポジッションを選択して下さい。';
+    $lang->about_widget_margin = '一つのラインに多数のウィジェットを羅列したい場合は、ポジッションを選択して下さい。';
+    $lang->about_widget_cache = '指定された時間内にキャッシュされたデータが利用出来ます。';
 
     $lang->generated_code = '生成コード';
-    $lang->widgetstyle= '위젯스타일';
+    $lang->widgetstyle= 'ウィジェットスタイル';
 
     $lang->msg_widget_is_not_exists = '%s ウィジェットが見つかりません。';
-    $lang->msg_widget_object_is_null = '%s ウィジェットのオブジェクトが生成できません。';
-    $lang->msg_widget_proc_is_null = '%s ウィセットの proc() が実行できません。';
-    $lang->msg_widget_skin_is_null = '위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다';
+    $lang->msg_widget_object_is_null = '%s ウィジェットのオブジェクトが生成出来ません。';
+    $lang->msg_widget_proc_is_null = '%s ウィセットの proc() が実行出来ません。';
+    $lang->msg_widget_skin_is_null = 'ウィセットスキンを選択してから正常に動作します。';
 
-    $lang->about_widget_code = '選択されたウィゼットで求められる下の項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。';
+    $lang->about_widget_code = '選択されたウィゼットで求められる下の項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用出来るコードが出力されます。';
     $lang->about_widget_code_in_page = '下に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。';
-    $lang->about_widget = "ウィジェットまたはページモジュールに用いられる小単位の構成要素です。内部モジュールまたは外部の OPEN API と連動でき、設定によって様々な応用が利きます。XEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加できます。";
+    $lang->about_widget = "ウィジェットまたはページモジュールに用いられる単体の構成要素です。内部モジュールまたは外部のOPEN API と連動が出来、設定によって様々な応用が可能です。XEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加出来ます。";
 
     $lang->cmd_content_insert = "内容直接追加";
     $lang->cmd_box_widget_insert = "ボックスウィジェット追加";

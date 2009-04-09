@@ -45,6 +45,7 @@
 
             // mid 목록을 가져옴
             $oModuleModel = &getModel('module');
+            $oModuleAdminModel = &getAdminModel('module');
 
             if($site_module_info->site_srl) $args->site_srl = $site_module_info->site_srl;
             $mid_list = $oModuleModel->getMidList($args);
@@ -55,6 +56,7 @@
                 $module_categories = $oModuleModel->getModuleCategories();
 
                 foreach($mid_list as $module_srl => $module) {
+                    $module->browser_title = $oModuleAdminModel->getLangCode($module->site_srl, $module->browser_title);
                     $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
                 }
             } else {

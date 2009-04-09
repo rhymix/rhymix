@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/addon/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言
+     * @brief  附加元件(addon)模組正體中文語言
      **/
 
     $lang->addon = "附加元件";

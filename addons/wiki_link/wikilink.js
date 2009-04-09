@@ -30,6 +30,7 @@ function setText() {
 function addShortCutForWiki() 
 {
     var iframe_obj = editorGetIFrame(1);
+    jQuery(iframe_obj.contentWindow.document).bind('keydown', "CTRL+SHIFT+SPACE", function(evt) { openWikiLinkDialog(); }); 
     if(jQuery.os.Mac)
     {
         jQuery(iframe_obj.contentWindow.document).bind('keydown', "ALT+SPACE", function(evt) { openWikiLinkDialog(); }); 
@@ -38,7 +39,7 @@ function addShortCutForWiki()
     {
         jQuery(iframe_obj.contentWindow.document).bind('keydown', "CTRL+SPACE", function(evt) { openWikiLinkDialog(); }); 
     }
-    jQuery(document).bind('keydown',"CTRL+ALT+SPACE", function(evt) {} );
+    jQuery(document).bind('keydown',"CTRL+SHIFT+SPACE", function(evt) {} );
 }
 
 xAddEventListener(window, 'load', addShortCutForWiki);

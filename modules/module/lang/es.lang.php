@@ -2,7 +2,7 @@
     /**
      * @archivo   modules/module/lang/es.lang.php
      * @autor zero (zero@nzeo.com)
-     * @sumario  Paquete del idioma español 
+     * @sumario  Paquete del idioma español
      **/
 
     $lang->virtual_site = "Virtual Site";
@@ -34,6 +34,14 @@
     $lang->lang_code = "언어 코드";
     $lang->filebox = "파일박스";
 
+    $lang->access_type = '접속 방법';
+    $lang->access_domain = 'Domain 접속';
+    $lang->access_vid = 'Site ID 접속';
+    $lang->about_domain = 'Para crear un dominio privado de la site requiere. <br/> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe';
+    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
+    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->msg_already_registed_domain = 'Ya es de dominio registrado. Por favor, use un dominio diferente';
+
     $lang->header_script = "헤더 스크립트";
     $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
 
@@ -63,6 +71,8 @@
     $lang->msg_no_checked_document = 'No existe documento seleccionado.';
     $lang->msg_move_failed = 'No pudo moverse';
     $lang->msg_cannot_delete_for_child = 'No puede eliminar la categoría si posee subcategoría.';
+    $lang->msg_limit_mid ='모듈이름은 영문+[영문+숫자+_] 만 가능합니다.';
+    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "Esto es el valor que se mostrará en el título del navegador. También es usado en RSS/Trackback.";
     $lang->about_mid = "El nombre del módulo será usado como http://direccion/?mid=NombreMódulo.\n(sólo alfabeto español+[alfabeto español, números y el gión abajo(_)] son permitidos)";

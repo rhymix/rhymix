@@ -1,8 +1,8 @@
 <?php
     /**
-     * @file   zh-TW.lang.php
+     * @file   modules/homepage/lang/zh-TW.lang.phpzh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯︰royallin
-     * @brief  虛擬網站(homepage)基本模組
+     * @brief  虛擬網站(homepage)模組正體中文語言
      **/
 
     $lang->cafe = "虛擬網站"; 
@@ -15,6 +15,8 @@
     $lang->cafe_info = "網站資訊";
     $lang->cafe_admin = "網站管理者";
     $lang->do_selected_member = "選擇會員 : ";
+
+    $lang->cmd_make_cafe = '카페 생성';
 
     $lang->default_menus = array(
         'home' => '首頁',
@@ -61,7 +63,6 @@
     );
     $lang->about_cafe = "虛擬網站模組可快速建立網站，且容易進行設定。";
     $lang->about_cafe_title = "只有在管理時才看的到此標題。";
-    $lang->about_domain = "要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將XE安裝路徑也一起輸入。<br />例) www.zeroboard.com/zbxe";
     $lang->about_menu_names = "可指定語言。<br/>如果只輸入其中一項，其他語言將會顯示一樣。";
     $lang->about_menu_option = "可設定案選單時，是否要以新視窗開啟。<br />選展開的話，是隨版面。";
 
@@ -76,5 +77,4 @@
 
     $lang->confirm_change_layout = "變換版面可能會使原來的資料無法顯示。確定要變換嗎？";
     $lang->confirm_delete_menu_item = "刪除選單：刪除選單的同時，將會使連結到選單的討論板或頁面一起刪除。確定要刪除嗎？";
-    $lang->msg_already_registed_domain = "已註冊的域名。請使用其他的網域。";
 ?>
