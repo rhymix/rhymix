@@ -3,9 +3,11 @@
     <title xml:lang="ko">XE Face off 레이아웃</title>
     <title xml:lang="zh-CN">XE Face off官方布局</title>
     <title xml:lang="zh-TW">XE Face off 版面</title>
+    <title xml:lang="jp">XE Face offレイアウト</title>
     <description xml:lang="ko">XE FaceOff 레이아웃입니다.</description>
     <description xml:lang="zh-CN">XE Face off官方布局。</description>
     <description xml:lang="zh-TW">XE FaceOff版面</description>
+    <description xml:lang="jp">XE FaceOffレイアウトです。</description>
     <version>0.1</version>
     <date>2009-01-02</date>
     <author email_address="sol@ngleader.com" link="http://ngleader.com">
