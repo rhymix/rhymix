@@ -1,6 +1,10 @@
 RewriteEngine On
 
 # static files
+RewriteRule ^(.+)/files/member_extra_info/(.*) ./files/member_extra_info/$2 [L]
+RewriteRule ^(.+)/files/attach/(.*) ./files/attach/$2 [L]
+RewriteRule ^(.+)/files/cache/(.*) ./files/cache/$2 [L]
+RewriteRule ^(.+)/files/faceOff/(.*) ./files/faceOff/$2 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/files/(.*) ./files/$2 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/modules/(.*) ./modules/$2 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/common/(.*) ./common/$2 [L]
