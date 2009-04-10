@@ -79,7 +79,6 @@
     $lang->about_default = '선택하시면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다';
     $lang->about_module_category = "분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류의 관리는 <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">모듈관리 > 모듈분류 </a>에서 하실 수 있습니다.";
     $lang->about_description= '관리용으로 사용되는 설명입니다';
-    $lang->about_default = '선택하시면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다';
     $lang->about_header_text = '모듈의 상단에 표시되는 내용입니다 (html 태그 사용 가능)';
     $lang->about_footer_text = '모듈의 하단에 표시되는 내용입니다 (html 태그 사용 가능)';
     $lang->about_skin = '모듈의 스킨을 선택하실 수 있습니다';

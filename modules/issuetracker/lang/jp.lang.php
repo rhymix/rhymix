@@ -6,7 +6,7 @@
      **/
 
      $lang->issuetracker = 'イシュートラッカー';
-     $lang->about_issuetracker = 'プロジェクト管理のための計画表、ソースコード閲覧、イシュー管理、リリース管理が出来る無モジュールです。';
+     $lang->about_issuetracker = 'プロジェクト管理のための計画、ソースコードの閲覧、イシュー管理、リリース管理が出来るモジュールです。';
 
      $lang->cmd_project_list = 'プロジェクトリスト';
      $lang->cmd_view_info = 'プロジェクト情報';
@@ -23,20 +23,20 @@
 
      $lang->svn_url = 'SVNリポジトリーのURL';
      $lang->about_svn_url = 'プロジェクトのバージョン管理されるSVNリポジトリーのURLお入力して下さい。';
-     $lang->svn_cmd = 'SVNファイルのロケーション';
-     $lang->about_svn_cmd = 'SVN連動のためのsvn clientファイルのロケーションを入力して下さい。 (ex: /usr/bin/svn)';
-     $lang->diff_cmd = 'DIFFファイルのロケーション';
-     $lang->about_diff_cmd = 'SVN リビジョン（revision）間の比較のためのdiffファイルのロケーションを入力して下さい。(ex: /usr/bin/diff)';
+     $lang->svn_cmd = 'SVNファイルの場所';
+     $lang->about_svn_cmd = 'SVN連動のためのsvn clientファイルがある場所（絶対経路）を入力して下さい。 (ex: /usr/bin/svn)';
+     $lang->diff_cmd = 'DIFFファイルの場所';
+     $lang->about_diff_cmd = 'SVNリビジョン（revision）間の比較のためのdiffファイルがある場所（絶対経路）を入力して下さい。(ex: /usr/bin/diff)';
      $lang->svn_userid = 'SVN ID';
-     $lang->about_svn_userid = 'SVNリポジトリへの認証が必要の場合、IDを入力して下さい。';
-     $lang->svn_passwd = 'SVN パスワード';
-     $lang->about_svn_passwd = 'SVNリポジトリへの認証が必要の場合、パスワードを入力して下さい。';
+     $lang->about_svn_userid = 'SVNリポジトリへのアクセス認証が必要な場合、IDを入力して下さい。';
+     $lang->svn_passwd = 'SVNパスワード';
+     $lang->about_svn_passwd = 'SVNリポジトリへのアクセス認証が必要な場合、パスワードを入力して下さい。';
 
      $lang->issue = 'イシュー';
      $lang->total_issue = 'イシュー全体';
      $lang->milestone = $lang->milestone_srl = 'マイルストーン';
      $lang->priority = $lang->priority_srl = '優先度';
-     $lang->type = $lang->type_srl = 'タイプ(種類)';
+     $lang->type = $lang->type_srl = 'タイプ （種類）';
      $lang->component = $lang->component_srl = 'コンポーネント';
      $lang->assignee = '担当者';
      $lang->status = 'ステータス';

@@ -107,8 +107,7 @@
         <option value="{$editor_skin}" <!--@if($editor_skin==$config->editor_skin)-->selected="selected"<!--@end-->>{$editor_skin}</option>
         <!--@end-->
         </select>
-        <select name="editor_colorset" id="sel_editor_colorset" style="display:none">
-        </select>
+        <select name="editor_colorset" id="sel_editor_colorset" style="display:none"></select>
         <script "text/javascript">//<![CDATA[
             getEditorSkinColorList('{$config->editor_skin}','{$config->editor_colorset}');
         //]]></script>

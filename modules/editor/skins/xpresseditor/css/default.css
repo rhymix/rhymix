@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* Type Selector */
-.xpress-editor *{margin:0; padding:0; font-style:normal; font-size:12px; font-family: 돋움, Dotum, 굴림, Gulim, AppleGothic, Sans-serif;}
+.xpress-editor *{margin:0; padding:0; font-style:normal; font-size:12px; }
 .xpress-editor img, 
 .xpress-editor fieldset,
 .xpress-editor button{ border:0;}
@@ -350,9 +350,11 @@
 
 .xpress-editor .tool li.extensions .layer{ width:auto; white-space:nowrap; padding:5px 10px;}
 .xpress-editor .tool li.extensions .layer li{ margin:2px 0;}
+.xpress-editor .tool li.extensions .layer li a { color:#000; text-decoration:none; }
+.xpress-editor .tool li.extensions .layer li a:hover { text-decoration:underline; }
 
 /* File Uploader */
-.xpress-editor .fileUploader{ clear:both; position:relative; padding-top:5px; *zoom:1; *margin-bottom:5px;}
+.xpress-editor .fileUploader{ clear:both; padding-top:5px; margin-bottom:20px;}
 .xpress-editor .fileUploader:after{ content:""; display:block; clear:both;}
 .xpress-editor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid #ccc;; padding:2px; margin:0 10px 5px 10px;}
 .xpress-editor .fileUploader .preview.black { background-color:#000; border:1px solid #666;}

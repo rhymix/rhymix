@@ -21,7 +21,7 @@
     $lang->cmd_springnote_list = 'スプリングノートリスト';
     $lang->cmd_view_info = 'スプリングノート情報';
 
-    $lang->about_springnote = "スプリングノートは、「openmaru.com」から提供されるウィキサービスです。<br />スプリングノート連動モジュールは、スプリングノートの特定のページを自分のコンテンツの閲覧することが出来るようにするモジュールです。";
+    $lang->about_springnote = "スプリングノート(<a href=\"http://www.springnote.com/ja\" target=\"_blank\">srpingnote</a>)とは、「<a href=\"http://www.openmaru.com/jp/\" target=\"_blank\">Openmaru Studio</a>」が提供しているwikiサービスです。<br />スプリングノート連動モジュールは、スプリングノートの特定のページを自分のコンテンツとして閲覧出来るようにするモジュールです。";
     $lang->about_springnote_openid = "スプリングノートでページを作成したオープンIDを入力して下さい。";
     $lang->about_springnote_userkey = 'スプリングノートと連動させるためのユーザKeyを入力して下さい。<br />[<a href="https://api.openmaru.com/delegate_key/springnote?app_id=www.zeroboard.com&openid=" onclick="window.open(this.href);return false;">ユーザーキー受信</a>]をクリックして入力して生成されたキーの値を入力して下さい。';
     $lang->about_springnote_pageid = '使用するスプリングノートの特定ページを出力させたい場合、「pageid」の値を入力して下さい。';

@@ -2,7 +2,7 @@
     /**
      * @file   modules/document/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
-     * @brief  ドキュメント（document）モジュルの基本言語パッケージ
+     * @brief  ドキュメント（document）モジュールの基本言語パッケージ
      **/
 
     $lang->document_list = 'ドキュメントリスト';

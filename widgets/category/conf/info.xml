@@ -49,7 +49,7 @@
             <type>text</type>
             <name xml:lang="ko">category 전체 타이틀</name>
             <name xml:lang="en">category total text title</name>
-            <name xml:lang="zh-TW">category total text title</name>
+            <name xml:lang="zh-TW">分類 全部 主題</name>
             <name xml:lang="jp">カテゴリー全体タイトル</name>
         </var>
     </extra_vars>

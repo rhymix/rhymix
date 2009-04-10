@@ -1,6 +1,6 @@
 function getEditorSkinColorList(skin_name,selected_colorset,type){
     if(skin_name.length>0){
-        type = type || 'board';
+        type = type || 'document';
         var response_tags = new Array('error','message','colorset');
         exec_xml('editor','dispEditorSkinColorset',{skin:skin_name},resultGetEditorSkinColorList,response_tags,{'selected_colorset':selected_colorset,'type':type});
     }
@@ -9,7 +9,7 @@ function getEditorSkinColorList(skin_name,selected_colorset,type){
 function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
 
     var selectbox = null;
-    if(params.type == 'board'){
+    if(params.type == 'document'){
         selectbox = xGetElementById("sel_editor_colorset");
     }else{
         selectbox = xGetElementById("sel_comment_editor_colorset");

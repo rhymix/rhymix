@@ -28,7 +28,7 @@
     <description xml:lang="jp">
         本文とコメントの内容中、登録されたキーワードにリンクを貼りつける機能を行います。
         キーワードは半角コンマ（,）区切りで複数登録が出来ます。
-        先に登録されるキーワードが優先度が高いです。
+        先に登録されたキーワードが優先度が高いです。
     </description>
     <version>0.1</version>
     <date>2008-12-20</date>
@@ -55,8 +55,8 @@
             如果是使用xe_board討論板面板，請留白。</description>
 	    <description xml:lang="zh-CN">替换部分的jQuery cssquery。
             如果正使用的是官方默认皮肤(xe_board），此处留空即可。</description>
-            <description xml:lang="jp">置き換える部分のjQuery cssqueryです。
-            xe_board掲示板スキンの場合、空白にして下さい。</description>
+            <description xml:lang="jp">置換する部分のjQuery cssqueryです。
+            xe_board掲示板スキンの場合は空白にして下さい。</description>
             <description xml:lang="en">jQuery cssquery for the part to be substituted. 
             You may leave blank for xe_board skin.</description>
         </var>
@@ -73,7 +73,7 @@
             </description>
             <description xml:lang="zh-TW"> 키워드가 여러개 있을때 "첫번째 키워드"에만 링크를 걸 것인지 "모든 키워드"에 걸 것인지 선택합니다.
             </description>
-            <description xml:lang="jp"> 複数のキーワードの場合、"最初のキーワード"のみ、もしくは "全てのキーワード"にリンクを貼りつけるかを選択します。
+            <description xml:lang="jp"> 複数のキーワードの場合、"最初のキーワード"のみ、もしくは "全てのキーワード"にリンクを貼りつけるかを設定します。
             </description>
             <description xml:lang="en">For the multiple keywords, choose if make a link to the first keyword, or all the keywords</description> 
             <options value="">

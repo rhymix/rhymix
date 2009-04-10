@@ -95,7 +95,15 @@
 
             if(!$output->data) {
                 $args->site_srl = 0;
+                // site_srl이 modules에 생성되지 않은 이전 버전 사용자의 경우 관리자 페이지에 접속하지를 못하는 오류 수정
+                // Parker Falcon 님이 알려주심
                 $output = executeQuery('module.getDefaultMidInfo', $args);
+                if(!$output->toBool()) {
+                    $oDB = &DB::getInstance();
+                    $oDB->dropIndex("modules","unique_mid",true);
+                    $oDB->addColumn('modules','site_srl','number',11,0,true);
+                    $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
+                }
             }
 
             $module_info = $output->data;

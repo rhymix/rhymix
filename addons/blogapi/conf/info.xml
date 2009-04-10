@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">BlogAPI 애드온</title>
-    <title xml:lang="jp">BlogAPI アドオン</title>
+    <title xml:lang="jp">BlogAPIアドオン</title>
     <title xml:lang="zh-CN">BlogAPI</title>
     <title xml:lang="en">Addon for BlogAPI</title>
     <title xml:lang="ge">Addon für BlogAPI</title>
@@ -16,9 +16,9 @@
     </description>
     <description xml:lang="jp">
         MetaWeblogをサポートするBlogAPI アドオンです。
-        「使用する」をクリックして設定すると各モジュールごとRSDのアドレスを表示します。
-        API のアドレスは「http://インストールＵＲＬ/モジュール名/api」です。
-        「使用する」に設定しておけば  RSDのアドレスが表示され、 API が動作します。
+        「使用する」にチェックすると各モジュールごとにRSDのアドレスを表示します。
+        APIのアドレスは「http://インストールURL/モジュール名/api」です。
+        「使用する」に設定してから、RSDタグ、およびAPIが作動します。
     </description>
     <description xml:lang="zh-CN">
         支持metaWeblog的 blogApi插件。

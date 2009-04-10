@@ -2,7 +2,7 @@
 /* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) 200812 */
 
 html,
-body{ height:100%;}
+body{ height:100%; }
 
 #xpressInput{ margin:0 10px 0 0;}
 .xpressOutput{ font-size:12px; line-height:1.6; font-family:Dotum, AppleGothic, Sans-serif;}
