@@ -102,6 +102,8 @@
             $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
+
+
             // 템플릿 파일 지정
             $this->setTemplateFile('member_config');
         }

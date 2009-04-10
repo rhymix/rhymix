@@ -90,6 +90,13 @@
             // 에디터 스킨 목록을 구함
             $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
             Context::set('editor_skin_list', $editor_skin_list);
+
+            $oModuleModel = &getModel('module');
+
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
+            Context::set('editor_colorset_list', $skin_info->colorset);
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
+            Context::set('editor_comment_colorset_list', $skin_info->colorset);
             
 
             // 그룹 목록을 구함
