@@ -2,7 +2,7 @@
     /**
      * @class  documentItem
      * @author zero (zero@nzeo.com)
-     * @brief  document 객체 
+     * @brief  document 객체
      **/
 
     class documentItem extends Object {
@@ -93,7 +93,7 @@
                 $oModuleModel = &getModel('module');
                 $trackback_config = $oModuleModel->getModuleConfig('trackback');
                 if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
-                if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false; 
+                if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false;
                 else {
                     $module_srl = $this->get('module_srl');
 
@@ -197,15 +197,15 @@
         function getMemberSrl() {
             return $this->get('member_srl');
         }
-        
+
         function getUserID() {
             return htmlspecialchars($this->get('user_id'));
         }
-        
+
         function getUserName() {
             return htmlspecialchars($this->get('user_name'));
         }
-        
+
         function getNickName() {
             return htmlspecialchars($this->get('nick_name'));
         }
@@ -265,7 +265,7 @@
             if($add_popup_menu) {
                 $content = sprintf(
                         '%s<div class="document_popup_menu"><a href="#popup_menu_area" class="document_%d" onclick="return false">%s</a></div>',
-                        $content, 
+                        $content,
                         $this->document_srl, Context::getLang('cmd_document_do')
                 );
             }
@@ -273,11 +273,11 @@
             // 컨텐츠에 대한 조작이 가능한 추가 정보를 설정하였을 경우
             if($add_content_info) {
                 $content = sprintf(
-                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d xe_content">%s</div><!--AfterDocument(%d,%d)-->', 
-                        $this->document_srl, $this->get('member_srl'), 
-                        $this->document_srl, $this->get('member_srl'), 
-                        $content, 
-                        $this->document_srl, $this->get('member_srl'), 
+                        '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d xe_content">%s</div><!--AfterDocument(%d,%d)-->',
+                        $this->document_srl, $this->get('member_srl'),
+                        $this->document_srl, $this->get('member_srl'),
+                        $content,
+                        $this->document_srl, $this->get('member_srl'),
                         $this->document_srl, $this->get('member_srl')
                 );
             // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
@@ -309,11 +309,17 @@
             // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도 - {20,}으로 길이를 정하면, 20개 이상 문자열 맨 마지막에 스페이스를 추가할 뿐 원하는 의도는 달성되지 못함
             $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$this->getContent(false,false));
 
+			// 줄바꿈이 있을 때, 공백문자 삽입
+			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
+
             // 태그 제거
             $content = preg_replace('!<([^>]*?)>!is','', $content);
 
             // < , > , " 를 치환
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
+
+			// 연속된 공백문자 삭제
+			$content = preg_replace('/([\s]{2,})/is', ' ', $content);
 
             // 문자열을 자름
             $content = trim(cut_str($content, $str_size, '...'));
@@ -451,7 +457,7 @@
 
         function getTrackbacks() {
             if(!$this->document_srl) return;
-            
+
             if(!$this->allowTrackback() || !$this->get('trackback_count')) return;
 
             $oTrackbackModel = &getModel('trackback');
@@ -485,7 +491,7 @@
                 $thumbnail_type = $config->thumbnail_type;
             }
 
-            // 썸네일 정보 정의 
+            // 썸네일 정보 정의
             $thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->document_srl, 3));
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
@@ -601,7 +607,7 @@
 
             return $buffs;
         }
-        
+
         /**
          * @brief getExtraImages로 구한 값을 이미지 태그를 씌워서 리턴
          **/
@@ -696,7 +702,7 @@
 
             // 회원모듈에서 서명 최고 높이 지정되었는지 검사
             if(!isset($GLOBALS['__member_signature_max_height'])) {
-               $oModuleModel = &getModel('module');  
+               $oModuleModel = &getModel('module');
                $member_config = $oModuleModel->getModuleConfig('member');
                $GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
             }
