@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">리퍼러 수집기</title>
-    <title xml:lang="jp">リファラー コレクター</title>
+    <title xml:lang="jp">リファラーコレクター</title>
     <title xml:lang="zh-CN">反向链接统计</title>
     <title xml:lang="en">Referer Collector</title>
     <title xml:lang="ge">Referer Collector</title>
