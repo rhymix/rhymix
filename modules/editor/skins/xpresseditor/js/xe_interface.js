@@ -5,7 +5,7 @@ xe.Editors = [];
 function editorStart_xe(editor_sequence, primary_key, content_key, editor_height) {
 
     var textarea = jQuery("#xpress-editor-"+editor_sequence);
-    var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'"frameborder="0" src="'+editor_path+'/blank.html" scrolling="yes" style="width:100%;height:'+editor_height+'px">');
+    var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'"frameborder="0" src="'+editor_path+'/blank.html" scrolling="yes" style="z-index:1;width:100%;height:'+editor_height+'px">');
     var htmlsrc  = jQuery('<textarea rows="10" cols="20" class="input_syntax" style="display:none"></textarea>');
     var form     = textarea.get(0).form;
     form.setAttribute('editor_sequence', editor_sequence);
