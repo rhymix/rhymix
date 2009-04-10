@@ -3,7 +3,6 @@ if (!window.xe) xe = {};
 xe.Editors = [];
 
 function editorStart_xe(editor_sequence, primary_key, content_key, editor_height) {
-
     var textarea = jQuery("#xpress-editor-"+editor_sequence);
     var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'"frameborder="0" src="'+editor_path+'/blank.html" scrolling="yes" style="z-index:1;width:100%;height:'+editor_height+'px">');
     var htmlsrc  = jQuery('<textarea rows="10" cols="20" class="input_syntax" style="display:none"></textarea>');
@@ -12,10 +11,9 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 
     var saved_content = '';
     if(jQuery("input[name=content]",form).size()>0){
-        saved_content=jQuery("input[name=content]",form).val().replace(/src=\"files\/attach/g,'src="'+request_uri+'files/attach');
+        saved_content=jQuery("input[name=content]",form).val().replace(/src=\"files\/attach/g,'src="'+request_uri+'files/attach'); //'
         jQuery("#xpress-editor-"+editor_sequence).val(saved_content);
     }
-
 
 /*
     // remove procFilter
@@ -65,18 +63,15 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 
     oEditor.registerPlugin(new xe.StringConverterManager());
     oEditor.registerPlugin(new xe.XE_EditingAreaManager("WYSIWYG", oIRTextarea, {nHeight:parseInt(editor_height), nMinHeight:205}, null, elAppContainer));
-    oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
     oEditor.registerPlugin(new xe.XE_EditingArea_HTMLSrc(oHTMLSrcTextarea));
     oEditor.registerPlugin(new xe.XE_EditingAreaVerticalResizer(elAppContainer));
     oEditor.registerPlugin(new xe.Utils());
     oEditor.registerPlugin(new xe.DialogLayerManager());
     oEditor.registerPlugin(new xe.ActiveLayerManager());
-    oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
     oEditor.registerPlugin(new xe.Hotkey());
     oEditor.registerPlugin(new xe.XE_WYSIWYGStyler());
     oEditor.registerPlugin(new xe.XE_WYSIWYGStyleGetter());
     oEditor.registerPlugin(new xe.XE_Toolbar(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
     oEditor.registerPlugin(new xe.XE_ColorPalette(elAppContainer));
     oEditor.registerPlugin(new xe.XE_FontColor(elAppContainer));
     oEditor.registerPlugin(new xe.XE_BGColor(elAppContainer));
@@ -105,9 +100,28 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     if (s=form._saved_doc_title) {
         oEditor.registerPlugin(new xe.XE_AutoSave(oIRTextarea, elAppContainer));
     }
-
-    // run
-    oEditor.run();
+    
+    function load_proc() {
+    	try {
+    		var doc = oWYSIWYGIFrame.contentWindow.document, str;
+    		if (doc.location == 'about:blank') throw 'blank';
+    		
+    		// get innerHTML
+    		str = doc.body.innerHTML;
+    		
+    		// register plugin
+    		oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
+    		oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
+    		oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
+    		
+    		// run
+	    	oEditor.run();
+    	} catch(e) {
+    		setTimeout(load_proc, 0);
+    	}
+    }
+    
+    load_proc();
 
     return oEditor;
 }
@@ -127,7 +141,6 @@ function editorGetIframe(srl) {
 function editorReplaceHTML(iframe_obj, text) {
     var srl = parseInt(iframe_obj.id.replace(/^.*_/,''),10);
     editorRelKeys[srl]["pasteHTML"](text);
-
 }
 
 // WYSIWYG 모드를 저장하는 확장기능
