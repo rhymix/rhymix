@@ -16,7 +16,7 @@
     $lang->cafe_admin = "CafeXE administrator";
     $lang->do_selected_member = "Change the selected members into : ";
 
-    $lang->cmd_make_cafe = '카페 생성';
+    $lang->cmd_make_cafe = 'create Cafe';
 
     $lang->default_menus = array(
         'home' => 'Home',
@@ -37,19 +37,19 @@
         "dispHomepageMemberGroupManage" => "Manage groups",
         "dispHomepageMemberManage" => "Member list",
         "dispHomepageTopMenu" => "Manage default menu",
-        "dispHomepageComponent" => "기능 설정",
-        "dispHomepageCounter" => "접속 통계",
+        "dispHomepageComponent" => "Setting Skill",
+        "dispHomepageCounter" => "connecting status",
         "dispHomepageMidSetup" => "Module configuration",
     );
     $lang->cmd_cafe_registration = "Create a cafe";
     $lang->cmd_cafe_setup = "Configure cafe";
     $lang->cmd_cafe_delete = "Delete ";
-    $lang->cmd_go_home = "Move home";
+    $lang->cmd_go_home = "Move to home";
     $lang->cmd_go_cafe_admin = 'CafeXE package';
     $lang->cmd_change_layout = "Change";
     $lang->cmd_select_index = "Select the index page";
     $lang->cmd_add_new_menu = "Add a new menu";
-    $lang->default_language = "기본 언어";
+    $lang->default_language = "Default Language";
     $lang->about_default_language = "처음 접속하는 사용자의 언어 설정을 지정할 수 있습니다.";
 
     $lang->about_cafe_act = array(
@@ -58,7 +58,7 @@
         "dispHomepageMemberManage" => "You can list up members registered and manage them.",
         "dispHomepageTopMenu" => "You can manage the default menus",
         "dispHomepageComponent" => "에디터 컴포넌트/ 애드온을 활성화 하거나 설정을 변경할 수 있습니다",
-        "dispHomepageCounter" => "Cafe의 접속 현황을 볼 수 있습니다",
+        "dispHomepageCounter" => "You can see the connecting status of Cafe",
         "dispHomepageMidSetup" => "You can configure modules, such as pages and boards, used in the cafe."
     );
     $lang->about_cafe = "CafeXE package provides features to create cafes and to configure them conveniently";
