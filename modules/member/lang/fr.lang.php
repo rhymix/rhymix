@@ -2,7 +2,7 @@
     /**
      * @file   fr.lang.php
      * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent (PierreDuvent@gmail.com)
-     * @brief  Paquet du langage en français pour le module de Membre 
+     * @brief  Paquet du langage en français pour le module de Membre
      **/
 
     $lang->member = 'Membre';
@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = 'Administrer les Comptes Interdits';
     $lang->cmd_manage_form = 'Administrer la Forme d\'Inscription';
     $lang->cmd_view_own_document = 'Voir les Articles écrits';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = 'Tracer les Articles écrits';
     $lang->cmd_trace_comment = 'Tracer les Commentaires écrits';
     $lang->cmd_view_scrapped_document = 'Voir les Coupures';
@@ -149,7 +150,7 @@
     $lang->msg_not_uploaded_image_mark = 'La marque en image n\'a pas pu être enrégistrée';
     $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
-    $lang->msg_accept_agreement = 'Vous devez agréer l\'accord'; 
+    $lang->msg_accept_agreement = 'Vous devez agréer l\'accord';
 
     $lang->msg_user_denied = 'Le compte que vous avez entré est suspendu';
     $lang->msg_user_not_confirmed = 'Vous n\'avez pas encore authentifié. Verifiez votre mél, S.V.P.';
@@ -192,7 +193,7 @@
     $lang->about_image_mark = "Permettre aux utilisateurs d'utiliser une marque devent leurs noms";
     $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = 'Permettre aux utilisateurs d\'utiliser une image de profil';
-    $lang->about_accept_agreement = "J'ai lu l'Accord et je suis d'accord."; 
+    $lang->about_accept_agreement = "J'ai lu l'Accord et je suis d'accord.";
 
     $lang->about_member_default = 'On sera par défaut dans ce groupe après l\'inscription';
 

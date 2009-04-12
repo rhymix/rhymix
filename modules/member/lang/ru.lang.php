@@ -102,6 +102,7 @@
     $lang->cmd_manage_id = 'Управление запрещенными ID';
     $lang->cmd_manage_form = 'Управление формой регистрации';
     $lang->cmd_view_own_document = 'Просмотреть написанные статьи';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = 'Trace Written Articles';
     $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'Черновики';
@@ -148,7 +149,7 @@
     $lang->msg_not_uploaded_image_mark = 'Марка не может быть зарегистрирована';
     $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
-    $lang->msg_accept_agreement = 'Вы должны принять Соглашение'; 
+    $lang->msg_accept_agreement = 'Вы должны принять Соглашение';
 
     $lang->msg_user_denied = 'Введенный ID сейчас запрещен';
     $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
@@ -191,7 +192,7 @@
     $lang->about_image_mark = "Позволить пользователям использовать марку перед их именами";
     $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = 'Позволить пользователям использовать изображения профиля';
-    $lang->about_accept_agreement = "Я прочитал соглашение полностью и согласен"; 
+    $lang->about_accept_agreement = "Я прочитал соглашение полностью и согласен";
 
     $lang->about_member_default = 'Это будет установлено как стандартная группа при регистрации';
 

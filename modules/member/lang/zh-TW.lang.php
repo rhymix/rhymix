@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = '禁止帳號管理';
     $lang->cmd_manage_form = '註冊表單管理';
     $lang->cmd_view_own_document = '檢視發表主題';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = '主題追蹤';
     $lang->cmd_trace_comment = '評論追蹤';
     $lang->cmd_view_scrapped_document = '檢視收藏';
@@ -149,7 +150,7 @@
     $lang->msg_not_uploaded_image_mark = '無法登錄用戶圖示！';
     $lang->msg_not_uploaded_group_image_mark = '無法登錄群組圖示！';
 
-    $lang->msg_accept_agreement = '您必須同意條款。'; 
+    $lang->msg_accept_agreement = '您必須同意條款。';
 
     $lang->msg_user_denied = '您輸入的帳號已禁止使用！';
     $lang->msg_user_not_confirmed = '您的註冊資料還沒有被確認，請確認您的電子郵箱。';
@@ -193,7 +194,7 @@
     $lang->about_group_image_mark = '顯示在用戶群組前的圖示。';
     $lang->about_profile_image = '可以使用個人圖片。';
     $lang->about_signature_max_height = '可以限制簽名檔高度(0或留空為不限制)。';
-    $lang->about_accept_agreement = '已閱讀全部條款並同意。'; 
+    $lang->about_accept_agreement = '已閱讀全部條款並同意。';
 
     $lang->about_member_default = '將成為註冊會員時的預設群組。';
 

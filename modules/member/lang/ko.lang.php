@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = '금지아이디관리';
     $lang->cmd_manage_form = '가입폼관리';
     $lang->cmd_view_own_document = '작성 글 보기';
+    $lang->cmd_manage_member_info = '회원 정보 관리';
     $lang->cmd_trace_document = '작성글 추적';
     $lang->cmd_trace_comment = '작성 댓글 추적';
     $lang->cmd_view_scrapped_document = '스크랩 보기';
@@ -149,7 +150,7 @@
     $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다';
     $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
-    $lang->msg_accept_agreement = '약관에 동의하셔야 합니다'; 
+    $lang->msg_accept_agreement = '약관에 동의하셔야 합니다';
 
     $lang->msg_user_denied = '입력하신 아이디의 사용이 중지되셨습니다';
     $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
@@ -193,7 +194,7 @@
     $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다';
     $lang->about_signature_max_height = '서명란의 높이를 제한 할 수 있습니다. (0 또는 비워두면 제한하지 않습니다)';
-    $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다'; 
+    $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다';
 
     $lang->about_member_default = '회원가입시 기본 그룹으로 설정됩니다';
 

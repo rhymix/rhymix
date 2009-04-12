@@ -104,6 +104,7 @@
     $lang->cmd_manage_id = '禁止用户名';
     $lang->cmd_manage_form = '扩展注册表单';
     $lang->cmd_view_own_document = '我的话题';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = '主题追踪';
     $lang->cmd_trace_comment = '评论追踪';
     $lang->cmd_view_scrapped_document = '我的收藏';
@@ -150,7 +151,7 @@
     $lang->msg_not_uploaded_image_mark = '不能登录用户图标！';
     $lang->msg_not_uploaded_group_image_mark = '可以指定用户组图标。';
 
-    $lang->msg_accept_agreement = '您必须同意条款。'; 
+    $lang->msg_accept_agreement = '您必须同意条款。';
 
     $lang->msg_user_denied = '您输入的用户名已禁止使用！';
     $lang->msg_user_not_confirmed = '您的注册信息还没有被激活，请确认您的电子邮箱。';
@@ -194,7 +195,7 @@
     $lang->about_group_image_mark = '用户名前显示用户组图标。';
     $lang->about_profile_image = '可以使用签名图片。';
     $lang->about_signature_max_height = '可以限制签名栏高度(0或留空为不限制)。';
-    $lang->about_accept_agreement = '已阅读全部条款并同意。'; 
+    $lang->about_accept_agreement = '已阅读全部条款并同意。';
 
     $lang->about_member_default = '将成为注册会员时的默认用户组。';
 

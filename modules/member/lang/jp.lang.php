@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '会員登録フォーム管理';
     $lang->cmd_view_own_document = '書き込み表示';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = '書き込みの追跡';
     $lang->cmd_trace_comment = 'コメント追跡';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
@@ -202,6 +203,6 @@
     $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックして下さい。<br />';
 
     $lang->about_member = "会員の作成・修正・削除することが出来、グループの管理、登録フォームの管理などが行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理が出来るようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することが出来ます。";
-    $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';    
+    $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';
     $lang->add_openid = 'OpenIDの追加';
 ?>

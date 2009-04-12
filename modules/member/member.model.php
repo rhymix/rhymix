@@ -78,7 +78,7 @@
             if($logged_info->is_admin == 'Y') {
                 $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
                 $icon_path = './modules/member/tpl/images/icon_management.gif';
-                $oMemberController->addMemberPopupMenu($url,'cmd_management',$icon_path,'MemberModifyInfo');
+                $oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'MemberModifyInfo');
 
                 $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
                 $icon_path = './modules/member/tpl/images/icon_trace_document.gif';
