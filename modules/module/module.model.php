@@ -90,7 +90,7 @@
                         Context::set('vid', $output->data->domain, true);
                         if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
                     }
-                } 
+                }
             }
 
             if(!$output->data) {
@@ -172,7 +172,7 @@
             if(!is_array($module_info)) $target_module_info = array($module_info);
             else $target_module_info = $module_info;
 
-            // 모듈 번호를 구함 
+            // 모듈 번호를 구함
             $module_srls = array();
             foreach($target_module_info as $key => $val) {
                 $module_srl = $val->module_srl;
@@ -988,7 +988,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 추가 변수를 구함 
+         * @brief 특정 모듈의 추가 변수를 구함
          * modules 테이블의 기본 정보 이외의 것
          **/
         function getModuleExtraVars($module_srl) {
@@ -1075,8 +1075,15 @@
                 // 관리자가 아니면 직접 DB에서 정보를 구해서 권한 설정
                 if(!$grant->manager) {
                     $args = null;
-                    $args->module_srl = $module_srl;
-                    $output = executeQueryArray('module.getModuleGrants', $args);
+
+                    // 플래닛인 경우 planet home의 권한 설정을 가져온다
+                    if ($module_info->module == 'planet') {
+                        $output = executeQueryArray('module.getPlanetGrants', $args);
+                    }
+                    else {
+                        $args->module_srl = $module_srl;
+                        $output = executeQueryArray('module.getModuleGrants', $args);
+                    }
 
                     $grant_exists = $granted = array();
 
