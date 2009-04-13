@@ -87,10 +87,7 @@
 
             // 스킨 설정
             $skin = $option->skin;
-            if(!$skin) $skin = 'xpresseditor';
-
-            // xpresseditor룰 위한 셋팅
-//            if($skin=='default') $skin = 'xpresseditor';
+            if(!$skin) $skin = 'default';
 
             $colorset = $option->colorset;
             Context::set('colorset', $colorset);
