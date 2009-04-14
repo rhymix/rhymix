@@ -46,8 +46,8 @@
             if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
 
-            if(!$editor_config->editor_skin) $editor_config->editor_skin = 'default';
-            if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'default';
+            if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
+            if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
 
             return $editor_config;
         }
@@ -87,7 +87,7 @@
 
             // 스킨 설정
             $skin = $option->skin;
-            if(!$skin) $skin = 'default';
+            if(!$skin) $skin = 'xpresseditor';
 
             $colorset = $option->colorset;
             Context::set('colorset', $colorset);
@@ -189,10 +189,8 @@
             $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             $tpl_file = 'editor.html';
 
- 
-
             if(!file_exists($tpl_path.$tpl_file)) {
-                $skin = 'default';
+                $skin = 'xpresseditor';
                 $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             }
             Context::set('editor_path', $tpl_path);

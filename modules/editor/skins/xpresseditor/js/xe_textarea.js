@@ -38,3 +38,4 @@ function editorGetContentTextarea(editor_sequence) {
     }
     return content;
 }
+
