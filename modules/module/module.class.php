@@ -80,7 +80,7 @@
                         case 'editor' :
                                 $module_config = $config->module_config;
                                 unset($config->module_config);
-                                if(is_array($module_config) && count($module_config)) { 
+                                if(is_array($module_config) && count($module_config)) {
                                     foreach($module_config as $key => $val) {
                                         if(isset($module_config[$key]->module_srl)) unset($module_config[$key]->module_srl);
                                     }
@@ -116,7 +116,7 @@
                 $oDB->addColumn('modules','site_srl','number',11,0,true);
                 $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
             }
-            
+
             // document 확장변수의 확장을 위한 처리
             if(!$oDB->isTableExists('document_extra_vars')) $oDB->createTableByXmlFile('./modules/document/schemas/document_extra_vars.xml');
 
@@ -186,25 +186,36 @@
                                 $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $val->name, $val->type, $val->is_required, $val->search, $val->default, $val->desc, 'extra_vars'.$var_idx);
                             }
 
-                            // 확장변수가 존재하면 확장변수 가져오기
-                            $doc_args = null;
-                            $doc_args->module_srl = $module_srl;
-                            $doc_args->list_count = 100;
-                            $doc_args->sort_index = 'list_order';
-                            $doc_args->order_type = 'asc';
-                            $doc_args->page = 1;
-                            $output = executeQueryArray('document.getDocumentList', $doc_args);
-                            if($output->toBool() && $output->data && count($output->data)) {
-                                foreach($output->data as $document) {
-                                    if(!$document) continue;
-                                    foreach($document as $key => $var) {
-                                        if(strpos($key,'extra_vars')!==0 || !trim($var) || $var== 'N;') continue;
-                                        $var_idx = str_replace('extra_vars','',$key);
-                                        $oDocumentController->insertDocumentExtraVar($module_srl, $document->document_srl, $var_idx, $var, 'extra_vars'.$var_idx, $lang_code);
+                            // 2009-04-14 #17923809 게시물 100개의 확장 변수만 이전되는 문제점 수정
+                            $oDocumentModel = &getModel('document');
+                            $total_count = $oDocumentModel->getDocumentCount($module_srl);
+
+                            if ($total_count > 0) {
+                                $per_page = 100;
+                                $total_pages = (int) (($total_count - 1) / $per_page) + 1;
+
+                                // 확장변수가 존재하면 확장변수 가져오기
+                                $doc_args = null;
+                                $doc_args->module_srl = $module_srl;
+                                $doc_args->list_count = $per_page;
+                                $doc_args->sort_index = 'list_order';
+                                $doc_args->order_type = 'asc';
+
+                                for ($doc_args->page = 1; $doc_args->page <= $total_pages; $doc_args->page++) {
+                                    $output = executeQueryArray('document.getDocumentList', $doc_args);
+
+                                    if ($output->toBool() && $output->data && count($output->data)) {
+                                        foreach ($output->data as $document) {
+                                            if (!$document) continue;
+                                            foreach ($document as $key => $var) {
+                                                if (strpos($key, 'extra_vars') !== 0 || !trim($var) || $var == 'N;') continue;
+                                                $var_idx = str_replace('extra_vars','',$key);
+                                                $oDocumentController->insertDocumentExtraVar($module_srl, $document->document_srl, $var_idx, $var, 'extra_vars'.$var_idx, $lang_code);
+                                            }
+                                        }
                                     }
-                                }
-                                $doc_args->page++;
-                            }
+                                } // for total_pages
+                            } // if count
                         }
 
                         // 해당 모듈들의 추가 변수들 제거
