@@ -31,9 +31,7 @@
     <div style="display:none" id="editorExtension_{$editor_sequence}">
         <ul id="editor_component_{$editor_sequence}" class="editorComponent">
             <!--@foreach($component_list as $component_name => $component)-->
-                <!--@if(!in_array($component_name,array('colorpicker_bg','colorpicker_text','emoticon','image_link','multimedia_link','quotation','table_maker','url_link')))-->
-                    <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}"><img src="../../components/{$component_name}/component_icon.gif" alt="" /> {$component->title}</a></li>
-                <!--@end-->
+                <li><!--@if($component->component_icon)--><img src="../../components/{$component_name}/component_icon.gif" alt="" width="13" height="12"/><!--@end--> <a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}"> {$component->title}</a></li>
             <!--@end-->
         </ul>
     </div>

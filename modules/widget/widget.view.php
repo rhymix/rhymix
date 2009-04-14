@@ -117,7 +117,6 @@
          * @brief 페이지 관리에서 사용될 코드 생성 팝업
          **/
         function dispWidgetGenerateCodeInPage() {
-
             $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list',$widget_list);

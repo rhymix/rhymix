@@ -37,6 +37,9 @@
             // 2007. 10. 23 모듈의 추가 설정에서 에디터 trigger 추가
             $oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
 
+            // 2009. 04. 14 editor component 변환 코드를 trigger로 독립
+            $oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
+
             return new Object();
         }
 
@@ -52,6 +55,9 @@
 
             // 2007. 10. 23 모듈의 추가 설정에서 에디터 trigger 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before')) return true;
+
+            // 2009. 04. 14 editor component 변환 코드를 trigger로 독립
+            if(!$oModuleModel->getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before')) return true;
 
             return false;
         }
@@ -72,6 +78,10 @@
             // 2007. 10. 23 모듈의 추가 설정에서 에디터 trigger 추가
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before')) 
                 $oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
+
+            // 2009. 04. 14 editor component 변환 코드를 trigger로 독립
+            if(!$oModuleModel->getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before')) 
+                $oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
 
             return new Object(0, 'success_updated');
         }

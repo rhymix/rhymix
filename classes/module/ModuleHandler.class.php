@@ -437,7 +437,7 @@
                 if(!$oModule || !method_exists($oModule, $called_method)) continue;
 
                 $output = $oModule->{$called_method}($obj);
-                if(!$output->toBool()) return $output;
+                if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool()) continue;
                 unset($oModule);
             }
 

@@ -300,7 +300,6 @@
             $oContext = &Context::getInstance();
 
             $content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
-            $content = $oContext->transContent($content);
 
             return $content;
         }

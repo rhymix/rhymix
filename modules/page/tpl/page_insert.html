@@ -57,6 +57,13 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
+    <tr>
+        <th scope="row"><div>{$lang->page_caching_interval}</div></th>
+        <td colspan="3">
+            <input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+            <p>{$lang->about_page_caching_interval}</p>
+        </td>
+    </tr>
     <tr class="row2">
         <th colspan="4" class="button">
             <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>

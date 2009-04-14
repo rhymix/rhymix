@@ -27,7 +27,6 @@ function doPreviewLayoutCode(layout_srl) {
     jQuery('input[name=act]','#fo_layout').val("dispLayoutAdminPreview");
     jQuery('#fo_layout').submit();
     jQuery('#fo_layout').removeAttr('target');
-//        .submit().removeAttr('target').find('input[name=act]').val('');
 }
 
 

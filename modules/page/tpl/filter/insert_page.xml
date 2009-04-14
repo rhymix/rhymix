@@ -10,8 +10,7 @@
         <param name="layout_srl" target="layout_srl" />
         <param name="browser_title" target="browser_title" />
         <param name="is_default" target="is_default" />
-        <param name="view" target="view" />
-        <param name="manager" target="manager" />
+        <param name="page_caching_interval" target="page_caching_interval" />
     </parameter>
     <response callback_func="completeInsertPage">
         <tag name="error" />

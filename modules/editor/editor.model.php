@@ -122,7 +122,7 @@
 
                 // SWFUploader에 세팅할 업로드 설정 구함
                 $file_config = $oFileModel->getUploadConfig();
-                $file_config->attached_size = $file_config->allowed_attach_size*1024*1024;
+                $file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
                 $file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
 
                 Context::set('file_config',$file_config);
@@ -404,8 +404,18 @@
             }
 
             if(!file_exists($cache_file)) return;
-
             @include($cache_file);
+
+            if(count($component_list)) {
+                foreach($component_list as $key => $val) {
+                    if(!trim($key)) continue;
+                    if(!is_dir(_XE_PATH_.'modules/editor/components/'.$key)) {
+                        FileHandler::removeFile($cache_file);
+                        return $this->getComponentList($filter_enabled, $site_srl);
+                    }
+                }
+
+            }
             return $component_list;
         }
 

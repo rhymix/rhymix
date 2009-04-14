@@ -134,9 +134,8 @@
         function dispLayoutAdminPreview() {
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
-
+            $code_css = Context::get('code_css');
             if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
-            //$code = str_replace(array('&lt;','&gt;','&quot;'), array('<','>','"'), $code);
 
             // 레이아웃 정보 가져오기
             $oLayoutModel = &getModel('layout');
@@ -144,13 +143,10 @@
             if(!$layout_info) return new Object(-1, 'msg_invalid_request');
 
             // faceoff 레이아웃일 경우 별도 처리
-            if($layout_info && $layout_info->type == 'faceoff') {
-                $oLayoutModel->doActivateFaceOff($layout_info);
-            }
+            if($layout_info && $layout_info->type == 'faceoff') $oLayoutModel->doActivateFaceOff($layout_info);
 
-            // 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
-            $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
-            if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css);
+            // 직접 입력된 CSS 적용
+            Context::addHtmlHeader("<style type=\"text/css\" charset=\"UTF-8\">".$code_css."</style>");
 
             // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
             if($layout_info->extra_var_count) {
@@ -185,7 +181,6 @@
 
             // 위젯등을 변환
             $oContext = &Context::getInstance();
-            $layout_tpl = $oContext->transContent($layout_tpl);
             Context::set('layout_tpl', $layout_tpl);
 
             // 임시 파일 삭제
@@ -215,9 +210,6 @@
          * @brief faceoff의 관리자 layout 수정
          **/
         function dispLayoutAdminLayoutModify(){
-            // widget 을 수정용으로 컴파일
-            Context::setTransWidgetCodeIncludeInfo(true);
-
             //layout_srl 를 가져온다
             $current_module_info = Context::get('current_module_info');
             $layout_srl = $current_module_info->layout_srl;
@@ -256,6 +248,10 @@
 
             $oTemplate = &TemplateHandler::getInstance();
             Context::set('content', $oTemplate->compile($this->module_path.'tpl','about_faceoff'));
+
+            // 위젯 코드를 Javascript 수정모드로 변경
+            $oWidgetController = &getController('widget');
+            $oWidgetController->setWidgetCodeInJavascriptMode();
 
             // 템플릿 파일 지정
             $this->setTemplateFile('faceoff_layout_edit');

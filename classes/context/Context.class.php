@@ -45,8 +45,6 @@
 
         var $is_uploaded = false; ///< @brief 첨부파일이 업로드 된 요청이였는지에 대한 체크 플래그
 
-        var $widget_include_info_flag = false; // 위젯 정보 코드 출력
-
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
          * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
@@ -1331,117 +1329,11 @@
             return file_exists(Context::getConfigFile()) && filesize(Context::getConfigFile());
         }
 
-
-        /**
-         * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경을 위한 flag set
-         **/
-        function setTransWidgetCodeIncludeInfo($flag=false){
-            $oContext = &Context::getInstance();
-            $oContext->widget_include_info_flag = $flag ? true : false;
-        }
-
         /**
          * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경
          **/
         function transContent($content) {
-
-            // 사용자 정의 언어로 변경
-            $oModuleController = &getController('module');
-            $oModuleController->replaceDefinedLangCode($content);
-
-            // 위젯 코드 변경
-            $oWidgetController = &getController('widget');
-            $content = $oWidgetController->transWidgetCode($content,$this->widget_include_info_flag);
-
-            // 메타 파일 변경
-            $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'transMeta'), $content);
-
-            // 에디터 컴포넌트를 찾아서 결과 코드로 변환
-            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
-            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
-
-            // style의 url 경로를 재정의 한다.
-            $content = preg_replace('/url\(http:\/\/([^ ]+)http:\/\//is','url(http://', $content);
-            // body 내의 <style ..></style>를 header로 이동
-            $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
-
-            // templateHandler의 이미지 경로로 인하여 생기는 절대경로 이미지등의 경로 중복 처리
-            //$content = preg_replace('/<(img|input)([^>]*)src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','<$1$2src=$3http://', $content);
-            $content = preg_replace('/src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','src=$1http://', $content);
-
             return $content;
         }
-
-        /**
-         * @brief IE위지윅에디터에서 태그가 대문자로 사용되기에 이를 소문자로 치환
-         **/
-        function transTagToLowerCase($matches) {
-            return sprintf('<%s%s%s>', $matches[1], strtolower($matches[2]), $matches[3]);
-        }
-
-        /**
-         * @brief <!--Meta:파일이름.(css|js)-->를 변경
-         **/
-        function transMeta($matches) {
-            if(substr($matches[1],'-4')=='.css') $this->addCSSFile($matches[1]);
-            elseif(substr($matches[1],'-3')=='.js') $this->addJSFile($matches[1]);
-        }
-
-        /**
-         * @brief <body>내의 <style태그를 header로 이동
-         **/
-        function moveStyleToHeader($matches) {
-            $this->addHtmlHeader($matches[0]);
-            return '';
-        }
-
-        /**
-         * @brief 내용의 에디터 컴포넌트 코드를 변환
-         **/
-        function transEditorComponent($matches) {
-            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
-            $buff = $matches[0];
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
-            $buff = str_replace("&","&amp;",$buff);
-
-            // 에디터 컴포넌트에서 생성된 코드
-            $oXmlParser = new XmlParser();
-            $xml_doc = $oXmlParser->parse($buff);
-            if($xml_doc->div) $xml_doc = $xml_doc->div;
-            else if($xml_doc->img) $xml_doc = $xml_doc->img;
-
-            $xml_doc->body = $matches[3];
-
-            // attribute가 없으면 return
-            $editor_component = $xml_doc->attrs->editor_component;
-            if(!$editor_component) return $matches[0];
-
-            // component::transHTML() 을 이용하여 변환된 코드를 받음
-            $oEditorModel = &getModel('editor');
-            $oComponent = &$oEditorModel->getComponentObject($editor_component, 0);
-            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
-
-            return $oComponent->transHTML($xml_doc);
-        }
-
-        /**
-         * @brief gzip encoding 여부 체크
-         **/
-        function isGzEnabled() {
-            if(
-                (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
-                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false &&
-                function_exists('ob_gzhandler') &&
-                extension_loaded('zlib')
-            ) return true;
-            return false;
-        }
-
-        function getFixUrl($url){
-            if(eregi("(http|https):\/\/",$url)) return $url;
-            if(ereg("^/",$url)) return $url;
-            return dirname($_SERVER['PHP_SELF']) . "/" . $url;
-        }
-
     }
 ?>

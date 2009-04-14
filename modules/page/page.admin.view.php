@@ -73,19 +73,7 @@
             // GET parameter에서 module_srl을 가져옴
             $module_srl = Context::get('module_srl');
 
-            // module model 객체 생성 
-            if($module_srl) {
-                $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if($module_info->module_srl == $module_srl) {
-                    moduleModel::syncModuleToSite($module_info);
-                    Context::set('module_info',$module_info);
-                }
-                else {
-                    unset($module_info);
-                    unset($module_srl);
-                }
-            }
+            $module_info = Context::get('module_info');
 
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!$module_srl) return $this->dispPageAdminContent();

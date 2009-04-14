@@ -16,8 +16,10 @@
             // 권한 체크
             if(!$this->grant->access) return $oMobile->setContent(Context::getLang('msg_not_permitted'));
 
-            // 위젯의 내용을 추출/ 정리해서 보여줌
-            $oMobile->setContent( Context::transContent($this->module_info->content) );
+            // 위젯의 내용을 추출함
+            $oWidgetController = &getController('widget');
+            $content = $oWidgetController->transWidgetCode($this->module_info->content);
+            $oMobile->setContent($content);
         }
 
     }

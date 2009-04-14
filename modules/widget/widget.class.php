@@ -15,6 +15,10 @@
             FileHandler::makeDir('./files/cache/widget');
 			FileHandler::makeDir('./files/cache/widget_cache');
 
+            // widget compile을 위한 display.after 트리거 추가
+            $oModuleController = &getController('module');
+            $oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
+
             return new Object();
         }
 
@@ -22,6 +26,11 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oModuleModel = &getModel('module');
+
+            // widget compile을 위한 display.after 트리거 추가 (2009. 04. 14)
+            if(!$oModuleModel->getTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before')) return true;
+
             return false;
         }
 
@@ -29,7 +38,15 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            return new Object();
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+
+            // widget compile을 위한 display.after 트리거 추가 (2009. 04. 14)
+            if(!$oModuleModel->getTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before')) {
+                $oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
+            }
+
+            return new Object(0, 'success_updated');
         }
 
         /**

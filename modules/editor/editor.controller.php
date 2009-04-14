@@ -28,19 +28,6 @@
             $this->setMessage('msg_auto_saved');
         }
 
-        function doSaveDoc($args) {
-
-            if(Context::get('is_logged')) {
-                $logged_info = Context::get('logged_info');
-                $args->member_srl = $logged_info->member_srl;
-            } else {
-                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
-            }
-
-            // 저장
-            return executeQuery('editor.insertSavedDoc', $args);
-        }
-
         /**
          * @brief 자동저장된 문서 삭제
          **/
@@ -77,30 +64,6 @@
             if(count($vars)) {
                 foreach($vars as $key=>$val) $this->add($key, $val);
             }
-        }
-
-        /**
-         * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
-         **/
-        function triggerDeleteSavedDoc(&$obj) {
-            $this->deleteSavedDoc();
-            return new Object();
-        }
-
-        /**
-         * @brief 자동 저장된 글을 삭제
-         * 현재 접속한 사용자를 기준
-         **/
-        function deleteSavedDoc() {
-            if(Context::get('is_logged')) {
-                $logged_info = Context::get('logged_info');
-                $args->member_srl = $logged_info->member_srl;
-            } else {
-                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
-            }
-
-            // 일단 이전 저장본 삭제
-            return executeQuery('editor.deleteSavedDoc', $args);
         }
 
         /**
@@ -169,6 +132,93 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated');
+        }
+
+        /**
+         * @brief 에디터컴포넌트의 코드를 결과물로 변환
+         **/
+        function triggerEditorComponentCompile(&$content) {
+            $content = $this->transComponent($content);
+        }
+
+        /**
+         * @brief 에디터 컴포넌트코드를 결과물로 변환
+         **/
+        function transComponent($content) {
+            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
+            return $content;
+        }
+
+        /**
+         * @brief 내용의 에디터 컴포넌트 코드를 변환
+         **/
+        function transEditorComponent($matches) {
+            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
+            $buff = $matches[0];
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
+            $buff = str_replace("&","&amp;",$buff);
+
+            // 에디터 컴포넌트에서 생성된 코드
+            $oXmlParser = new XmlParser();
+            $xml_doc = $oXmlParser->parse($buff);
+            if($xml_doc->div) $xml_doc = $xml_doc->div;
+            else if($xml_doc->img) $xml_doc = $xml_doc->img;
+
+            $xml_doc->body = $matches[3];
+
+            // attribute가 없으면 return
+            $editor_component = $xml_doc->attrs->editor_component;
+            if(!$editor_component) return $matches[0];
+
+            // component::transHTML() 을 이용하여 변환된 코드를 받음
+            $oEditorModel = &getModel('editor');
+            $oComponent = &$oEditorModel->getComponentObject($editor_component, 0);
+            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
+
+            return $oComponent->transHTML($xml_doc);
+        }
+
+
+        /**
+         * @brief 자동 저장
+         **/
+        function doSaveDoc($args) {
+
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            // 저장
+            return executeQuery('editor.insertSavedDoc', $args);
+        }
+
+
+        /**
+         * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
+         **/
+        function triggerDeleteSavedDoc(&$obj) {
+            $this->deleteSavedDoc();
+            return new Object();
+        }
+
+        /**
+         * @brief 자동 저장된 글을 삭제
+         * 현재 접속한 사용자를 기준
+         **/
+        function deleteSavedDoc() {
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            // 일단 이전 저장본 삭제
+            return executeQuery('editor.deleteSavedDoc', $args);
         }
 
         /**
@@ -256,6 +306,12 @@
                 }
 
                 $component_list->{$component_name} = $xml_info;
+
+                // 버튼, 아이콘 이미지 구함
+                $icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/icon.gif';
+                $component_icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/component_icon.gif';
+                if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
+                if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
             }
 
             // enabled만 체크하도록 하였으면 그냥 return

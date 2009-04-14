@@ -223,6 +223,7 @@
 
 .xpress-editor .tool li.style .layer{ padding:4px 2px; _overflow:hidden; filter:progid:DXImageTransform.Microsoft.Shadow(color=#dddddd,direction=135,strength=2);}
 .xpress-editor .tool li.style .layer li{ position:relative; background:#fbfbfb;}
+.xpress-editor .tool li.style .layer li img.component { width:13px; height:12px; }
 .xpress-editor .tool li.style .layer li button{ display:block; width:134px; position:relative;}
 .xpress-editor .tool li.style .layer li button span{ display:block; width:130px; text-align:left; letter-spacing:normal;}
 .xpress-editor .tool li.style .layer li.h3 button span{ padding:3px 0 1px 4px; height:15px; _height /**/:19px; font-size:16px; font-weight:bold;}
