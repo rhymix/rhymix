@@ -91,6 +91,7 @@
 
 <form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
 <input type="hidden" name="module" value="homepage" />
+<input type="hidden" name="vid" value="{$vid}" />
 <input type="hidden" name="act" value="procHomepageLayoutUpdate" />
 <input type="hidden" name="layout_srl" value="{$selected_layout->layout_srl}" />
 <input type="hidden" name="title" value="{htmlspecialchars($homepage_info->title)}" />

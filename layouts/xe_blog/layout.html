@@ -93,6 +93,7 @@
                     <fieldset>
                         <legend>{$lang->cmd_search}</legend>
 
+                        <input type="hidden" name="vid" value="{$vid}" />
                         <input type="hidden" name="mid" value="{$layout_info->target_mid}" />
                         <input type="hidden" name="search_target" value="title_content" />
                         <input name="search_keyword" type="text" class="inputTypeText w110" value="<!--@if($search_keyword)-->{htmlspecialchars($search_keyword)}<!--@end-->" />
