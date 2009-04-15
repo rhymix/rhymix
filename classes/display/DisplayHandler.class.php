@@ -50,7 +50,6 @@
                     if(__DEBUG__==3) $start = getMicroTime();
 
                     $layout_path = $oModule->getLayoutPath();
-                    if(!$layout_path) $layout_path = "./common/tpl";
 
                     $layout_file = $oModule->getLayoutFile();
                     $edited_layout_file = $oModule->getEditedLayoutFile();
@@ -75,6 +74,8 @@
 
                         if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
                     }
+                    if(!$layout_path) $layout_path = "./common/tpl";
+                    if(!$layout_file) $layout_file = "default_layout";
 
                     $output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
