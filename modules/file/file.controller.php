@@ -307,6 +307,9 @@
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
             if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|asaf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info['name'])) {
+                // direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
+                $file_info['name'] = preg_replace('/\.(php|phtm|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
+
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_info['name'];
                 $direct_download = 'Y';
