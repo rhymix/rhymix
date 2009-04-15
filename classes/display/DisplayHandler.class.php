@@ -96,17 +96,20 @@
             if(Context::getResponseMethod()=="HTML") {
                 if(__DEBUG__==3) $start = getMicroTime();
 
-                // 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
-                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.]+)-->/is', array($this,'transMeta'), $output);
-
-                // style의 url 경로를 재정의 한다. (잘못 기입된 경우들이 발생함)
-                $output = preg_replace('/url\(http:\/\/([^ ]+)http:\/\//is','url(http://', $output);
-
                 // body 내의 <style ..></style>를 header로 이동
                 $output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $output);
 
-                // templateHandler의 이미지 경로로 인하여 생기는 절대경로 이미지등의 경로 중복 처리
-                $output = preg_replace('/src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','src=$1http://', $output);
+                // 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
+                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.]+)-->/is', array($this,'transMeta'), $output);
+
+                // rewrite module 사용시 생기는 상대경로에 대한 처리를 함
+                if(Context::isAllowRewrite()) {
+                    $url = parse_url(Context::getRequestUri());
+                    $real_path = $url['path'];
+
+                    $pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
+                    $output = preg_replace($pattern, 'src="'.$real_path.'$3/$4.$5"', $output);
+                }
 
                 // 사용자 정의 언어 변환
                 $oModuleController = &getController('module');
@@ -117,7 +120,6 @@
                 // 최종 레이아웃 변환
                 Context::set('content', $output);
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');
-
             }
 
             // header 출력

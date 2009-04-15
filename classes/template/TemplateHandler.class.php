@@ -100,8 +100,8 @@
             // include 변경 <!--#include($filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // 이미지 태그 img의 src의 값이 http:// 나 / 로 시작하지 않으면 root경로부터 시작하도록 변경
-            $buff = preg_replace_callback('/<(img|input)([^>]*)src=[\'"]{1}(?!http)(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
+            // 이미지 태그 img의 src의 값이 ./ 또는 파일이름으로 바로 시작하면 경로 변경
+            $buff = preg_replace_callback('/<(img|input)([^>]*)src=[\'"]{1}(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
 
             // 변수를 변경
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
@@ -124,12 +124,8 @@
             // javascript plugin import
             $buff = preg_replace_callback('!<\!--%load_js_plugin\(\"([^\"]*?)\"\)-->!is', array($this, '_compileLoadJavascriptPlugin'), $buff);
 
-
             // 파일에 쓰기 전에 직접 호출되는 것을 방지
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
-
-            // strip white spaces..
-            // $buff = preg_replace('/ +/', ' ', $buff);
 
             // 컴파일된 코드를 파일에 저장
             if($compiled_tpl_file) FileHandler::writeFile($compiled_tpl_file, $buff);
@@ -149,14 +145,23 @@
          * @brief {$와 } 안의 $... 변수를 Context::get(...) 으로 변경
          **/
         function _compileImgPath($matches) {
+            static $real_path = null;
             $str1 = $matches[0];
-            $str2 = $path = $matches[3];
+            $str2 = $path = trim($matches[3]);
 
-            if(substr($path,0,1)=='/') return $str1;
-
+            if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) return $str1;
             if(substr($path,0,2)=='./') $path = substr($path,2);
-            $path = '<?php echo Context::getRequestUri().$this->tpl_path; ?>'.$path;
-            return str_replace($str2, $path, $str1);
+
+            if(is_null($real_path)) {
+                $url = parse_url(Context::getRequestUri());
+                $real_path = $url['path'];
+            }
+
+            $target = $real_path.$this->tpl_path.$path;
+            while(strpos($target,'/../')!==false) {
+                $target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
+            }
+            return str_replace($str2, $target, $str1);
         }
 
         /**

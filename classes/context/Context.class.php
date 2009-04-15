@@ -13,6 +13,8 @@
 
     class Context {
 
+        var $allow_rewrite = false;  ///< @brief rewrite mod 사용에 대한 변수
+
         var $request_method = 'GET'; ///< @brief GET/POST/XMLRPC 중 어떤 방식으로 요청이 왔는지에 대한 값이 세팅. GET/POST/XML 3가지가 있음
         var $response_method = ''; ///< @brief HTML/XMLRPC 중 어떤 방식으로 결과를 출력할지 결정. (강제 지정전까지는 request_method를 따름)
 
@@ -1334,6 +1336,14 @@
          **/
         function transContent($content) {
             return $content;
+        }
+
+        /**
+         * @brief rewrite mod 사용에 대한 변수 return
+         **/
+        function isAllowRewrite() {
+            $oContext = &Context::getInstance();
+            return $oContext->allow_rewrite;
         }
     }
 ?>
