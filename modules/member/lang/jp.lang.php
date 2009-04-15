@@ -39,7 +39,7 @@
     $lang->group_image_mark = 'Group Image Mark';
     $lang->group_image_mark_max_width = '横幅制限サイズ';
     $lang->group_image_mark_max_height = '縦幅制限サイズ';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
+    $lang->group_image_mark_order = 'グループ用イメージマークの順番';
     $lang->signature_max_height = '署名欄の高さの制限';
     $lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員登録を許可する';
@@ -148,7 +148,7 @@
     $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することが出来ません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することが出来ません。';
     $lang->msg_not_uploaded_image_mark = 'イメージマークを登録することが出来ません。';
-    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_group_image_mark = 'グループ用イメージマークの登録が出来ません。';
 
     $lang->msg_accept_agreement = '規約に同意しなければなりません。';
 

@@ -72,7 +72,7 @@
                 <description xml:lang="ko">좌측 상단의 로고 부분에 글자를 지정할 수 있습니다. 로고 이미지가 있으면 로고 이미지의 caption으로 표시됩니다.</description>
                 <description xml:lang="zh-CN">将显示在您的站点左侧头部，如你已上传lOGO图片，此标题将变成LOGO图片的caption。</description>
                 <description xml:lang="zh-TW">將顯示在虛擬網站的左上方，如果有上傳過Logo圖片，將會以圖片顯示。</description>
-                <description xml:lang="jp">左上段のロゴ部分に文章を指定します。ロゴイメージがある場合は、ロゴイメージのキャプションとして表示します。</description>
+                <description xml:lang="jp">左上段のロゴ部分に表示する文章を指定します。ロゴイメージがある場合は、ロゴイメージのキャプションとして表示します。</description>
             </var>
             <var name="logo_image" type="image">
                 <title xml:lang="ko">로고이미지</title>
@@ -98,18 +98,18 @@
                 <title xml:lang="ko">내용 배경 이미지</title>
                 <title xml:lang="zh-CN">内容区背景图片</title>
                 <title xml:lang="zh-TW">內容背景圖片</title>
-                <title xml:lang="jp">内容の背景イメージ</title>
+                <title xml:lang="jp">コンテンツの背景イメージ</title>
                 <description xml:lang="ko">내용이 있는 영역의 배경 이미지를 사용하시려면 이미지를 등록해주세요.</description>
                 <description xml:lang="zh-CN">上传内容区背景图片。</description>
                 <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>
-                <description xml:lang="jp">内容がある領域の背景イメージを使う場合、イメージを登録して下さい。</description>
+                <description xml:lang="jp">コンテンツがある領域の背景イメージを登録して下さい。</description>
             </var>
         </group>
         <group>
             <title xml:lang="ko">모양 설정</title>
             <title xml:lang="zh-CN">样式设置</title>
             <title xml:lang="zh-TW">外觀設定</title>
-            <title xml:lang="jp">外観設定</title>
+            <title xml:lang="jp">レイアウト設定</title>
             <var name="content_position" type="select">
                 <title xml:lang="ko">본문 위치</title>
                 <title xml:lang="zh-CN">内容区位置</title>
