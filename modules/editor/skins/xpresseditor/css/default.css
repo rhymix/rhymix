@@ -18,7 +18,7 @@
 .xpress-editor li{list-style:none;}
 
 /* Layout Selector */
-.xpress-editor{ position:relative; background:#fff;}
+.xpress-editor{ position:relative; background:transparent;}
 .xpress-editor #smart_content{ position:relative; clear:both; margin:0 0 10px 0; border:1px solid #c2c2c2; *zoom:1;}
 .xpress-editor #smart_footer{ position:relative; text-align:center; padding:10px 0;}
 
@@ -63,6 +63,7 @@
 .xpress-editor .tool ul.extra3 li{ margin-right:4px;}
 .xpress-editor .tool li{ position:relative; float:left;}
 .xpress-editor .tool li button{ width:21px; height:21px; background:url(../img/btn_set.gif) no-repeat 0 0; vertical-align:top;}
+.xpress-editor.black .tool li button{ width:21px; height:21px; background:url(../img/btn_set.black.gif) no-repeat 0 0; vertical-align:top;}
 .xpress-editor .tool li button span{ position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden;}
 
 .xpress-editor .tool li.extensions span.exButton,
@@ -70,7 +71,7 @@
 .xpress-editor .tool li.extensions span.exButton{ margin-right:18px;}
 .xpress-editor .tool li.extensions span.exButton button{ left:18px; height:21px; background-position:right top; padding:0 4px 0 0; font:11px/21px Tahoma, Sans-serif; text-align:left;}
 .xpress-editor.black .tool li.extensions span.exButton,
-.xpress-editor.black .tool li.extensions span.exButton button{ background-image:url(../img/btn_extension.black.gif); }
+.xpress-editor.black .tool li.extensions span.exButton button{ color:#fff; background-image:url(../img/btn_extension.black.gif); }
 
 .xpress-editor .tool li.html span,
 .xpress-editor .tool li.html span button,
@@ -79,7 +80,7 @@
 .xpress-editor.black .tool li.html span,
 .xpress-editor.black .tool li.html span button,
 .xpress-editor.black .tool li.preview span,
-.xpress-editor.black .tool li.preview span button{ background-image:url(../img/btn_set_blank.black.gif); }
+.xpress-editor.black .tool li.preview span button{ color:#fff;background-image:url(../img/btn_set_blank.black.gif); }
 
 .xpress-editor .tool li.html span,
 .xpress-editor .tool li.preview span{ margin-right:2px; background-position:left top;}
@@ -403,5 +404,4 @@
 /* Auto Save */
 .xpress-editor .autosave_message { display:none; background: #f6ffdb; padding:6px 10px; margin:0; line-height:1;}
 .xpress-editor.black .autosave_message { display:none; background:#222; padding:6px 10px; margin:0; line-height:1; color:#fff; }
-
 .xpress-editor .input_syntax.black { background:transparent; color:#fff; }

@@ -32,9 +32,8 @@
 	<input type="hidden" name="_saved_doc_content" value="{htmlspecialchars($saved_doc->content)}" />
 	<input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 	<!--@end-->
-	
 	<!-- 에디터 -->
-	<div class="xpress-editor">
+	<div class="xpress-editor {$colorset}">
 	    <div id="smart_content"> <a href="#xe_iframe" class="skip">&raquo; {$lang->edit->jumptoedit}</a>
 	
 	    <!-- 편집 컴포넌트 -->
@@ -444,7 +443,7 @@
 	                <div class="layer extension2 xpress_xeditor_extension_layer" id="editorExtension_{$editor_sequence}">
 	                    <ul id="editor_component_{$editor_sequence}" class="editorComponent">
 	                        <!--@foreach($component_list as $component_name => $component)-->
-	                            <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
+	                            <li><!--@if($component->component_icon)--><img src="../../components/{$component_name}/component_icon.gif" alt="" width="13" height="12"/> <!--@end--><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
 	                        <!--@end-->
 	                    </ul>
 	                </div>
@@ -515,7 +514,7 @@
 	<script type="text/javascript">//<![CDATA[
 	    var editor_path = "{$editor_path}";
 	    var auto_saved_msg = "{$lang->msg_auto_saved}";
-	    var oEditor = editorStart_xe("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", "{$editor_height}");
+	    var oEditor = editorStart_xe("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", "{$editor_height}", "{$colorset}");
 	//]]></script>
 
 <!--@end-->
