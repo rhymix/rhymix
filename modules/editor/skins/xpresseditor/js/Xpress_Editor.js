@@ -2406,7 +2406,7 @@ xe.DialogLayerManager = jQuery.Class({
 		bModal = jQuery.$(bModal) || false;
 		if(!oLayer) return;
 
-		if(jQuery.inArray(oLayer, this.aOpenedLayers)) return;
+		//if(jQuery.inArray(oLayer, this.aOpenedLayers)) return;
 
 		this.oApp.exec("POSITION_DIALOG_LAYER", [oLayer]);
 
@@ -4819,13 +4819,13 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 		this.oReplaceInput_Replacement = oTmp[1];
 
 		this.oFindNextButton = jQuery("BUTTON.find_next", this.oUILayer).get(0);
-		this.oCancelButton = jQuery("BUTTON.cancel", this.oUILayer).get(0);
+		//this.oCancelButton = jQuery("BUTTON.cancel", this.oUILayer).get(0);
 		
 		this.oReplaceButton = jQuery("BUTTON.replace", this.oUILayer).get(0);
 		this.oReplaceAllButton = jQuery("BUTTON.replace_all", this.oUILayer).get(0);
 		
 		this.aCloseButtons = jQuery("BUTTON.close", this.oUILayer).get();
-		this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
+		//this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
 	},
 
 	$ON_MSG_APP_READY : function(){
