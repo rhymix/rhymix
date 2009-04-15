@@ -84,27 +84,38 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.registerPlugin(new xe.Hotkey());
     oEditor.registerPlugin(new xe.XE_WYSIWYGStyler());
     oEditor.registerPlugin(new xe.XE_WYSIWYGStyleGetter());
-    oEditor.registerPlugin(new xe.XE_Toolbar(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_ColorPalette(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_FontColor(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_BGColor(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_Quote(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_FontNameWithSelectUI(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_FontSizeWithSelectUI(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_LineHeightWithSelectUI(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_UndoRedo());
-    oEditor.registerPlugin(new xe.XE_Table(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_Hyperlink(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_EditingModeToggler(elAppContainer));
     oEditor.registerPlugin(new xe.MessageManager(oMessageMap));
-    oEditor.registerPlugin(new xe.XE_SCharacter(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_FindReplacePlugin(elAppContainer));
-    oEditor.registerPlugin(new xe.XE_XHTMLConverter);
-    oEditor.registerPlugin(new xe.XE_Preview(elAppContainer));
+    oEditor.registerPlugin(new xe.XE_Toolbar(elAppContainer));
+    oEditor.registerPlugin(new xe.XE_XHTMLFormatter);
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_MODE(editor_sequence));
-    oEditor.registerPlugin(new xe.XE_Extension(elAppContainer, editor_sequence));
-    oEditor.registerPlugin(new xe.XE_FormatWithSelectUI(elAppContainer));
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_CONTENT());
+
+    if(jQuery("ul.extra1").length) {
+        oEditor.registerPlugin(new xe.XE_ColorPalette(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_FontColor(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_BGColor(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_Quote(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_FontNameWithSelectUI(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_FontSizeWithSelectUI(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_LineHeightWithSelectUI(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_UndoRedo());
+        oEditor.registerPlugin(new xe.XE_Table(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_Hyperlink(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_FindReplacePlugin(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_FormatWithSelectUI(elAppContainer));
+        oEditor.registerPlugin(new xe.XE_SCharacter(elAppContainer));
+    }
+
+    if(jQuery("ul.extra2").length) {
+        oEditor.registerPlugin(new xe.XE_Extension(elAppContainer, editor_sequence));
+    }
+
+    if(jQuery("ul.extra3").length) {
+        oEditor.registerPlugin(new xe.XE_EditingModeToggler(elAppContainer));
+    }
+
+
+    //oEditor.registerPlugin(new xe.XE_Preview(elAppContainer));
 
     if (!jQuery.browser.msie && !jQuery.browser.opera) {
         oEditor.registerPlugin(new xe.XE_WYSIWYGEnterKey(oWYSIWYGIFrame));
