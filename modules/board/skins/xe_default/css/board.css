@@ -266,7 +266,7 @@
 .board .editorOption dd select{ font-size:12px;}
 .board .editorOption dd .inputCheck{ width:13px; height:13px;}
 .board .boardEditor{ border:1px solid; margin-bottom:20px;}
-.board .boardEditor .commentEditor{ margin:10px 15px;}
+.board .boardEditor .commentEditor{ margin:10px 15px; *zoom:1; position:relative;}
 .board .commentEditor .commentHeader{; border-bottom:1px solid; font-weight:bold; padding-bottom:5px; margin-bottom:10px; font-size:1.5em;}
 
 /* Secret Message */
