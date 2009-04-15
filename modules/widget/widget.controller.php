@@ -368,7 +368,7 @@
                 foreach($lang_list as $lang_type => $val) {
                     $cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $sequence, $lang_type);
                     if(!file_exists($cache_file)) continue;
-                    $oWidget->getCache($widget, $args, $lang_type, true);
+                    $this->getCache($widget, $args, $lang_type, true);
                 }
             }
         }
