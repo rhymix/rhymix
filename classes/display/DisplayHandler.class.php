@@ -109,7 +109,7 @@
                     $real_path = $url['path'];
 
                     $pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
-                    $output = preg_replace($pattern, 'src="'.$real_path.'$3/$4.$5"', $output);
+                    $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
                 }
 
                 // 사용자 정의 언어 변환
