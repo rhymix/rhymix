@@ -198,5 +198,7 @@
     $lang->edit->next_search_words  = '다음찾기';
     $lang->edit->edit_height_control  = '입력창 크기 조절';
 
-
+	$lang->edit->merge_cells = '셀 병합';
+    $lang->edit->split_row = '행 분할';
+    $lang->edit->split_col = '열 분할';
 ?>

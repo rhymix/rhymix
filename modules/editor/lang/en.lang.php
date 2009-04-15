@@ -182,19 +182,21 @@
     $lang->edit->symbol = '일반기호';
     $lang->edit->number_unit = '숫자와 단위';
     $lang->edit->circle_bracket = '원,괄호';
-    $lang->edit->korean = '한글';
-    $lang->edit->greece = '그리스';
-    $lang->edit->Latin  = '라틴어';
-    $lang->edit->japan  = '일본어';
+    $lang->edit->korean = 'Korean';
+    $lang->edit->greece = 'Greek';
+    $lang->edit->Latin  = 'Latin';
+    $lang->edit->japan  = 'Japanese';
     $lang->edit->selected_symbol  = '선택한 기호';
 
-    $lang->edit->search_replace  = '찾기/바꾸기';
+    $lang->edit->search_replace  = 'Find/Replace';
     $lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
-    $lang->edit->replace_all  = '모두바꾸기';
+    $lang->edit->replace_all  = 'Replace All';
     $lang->edit->search_words  = '찾을단어';
     $lang->edit->replace_words  = '바꿀단어';
     $lang->edit->next_search_words  = '다음찾기';
     $lang->edit->edit_height_control  = '입력창 크기 조절';
 
-
+    $lang->edit->merge_cells = 'Merge Table Cells';
+    $lang->edit->split_row = '행 분할';
+    $lang->edit->split_col = '열 분할';
 ?>

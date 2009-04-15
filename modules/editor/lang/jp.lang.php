@@ -198,4 +198,7 @@
     $lang->edit->next_search_words  = '次を検索';
     $lang->edit->edit_height_control  = '入力サイズ調整';
 
+	$lang->edit->merge_cells = '셀 병합';
+    $lang->edit->split_row = '행 분할';
+    $lang->edit->split_col = '열 분할';
 ?>
