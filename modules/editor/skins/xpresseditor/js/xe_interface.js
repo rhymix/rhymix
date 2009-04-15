@@ -50,8 +50,15 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     var oHTMLSrcTextarea = htmlsrc.get(0);
     var elAppContainer   = jQuery('.xpress-editor', form).get(0);
 
-
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
+
+    var content = form[content_key].value;
+    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
+    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+    content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
+    content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+    form[content_key].value = content;
+    jQuery("#xpress-editor-"+editor_sequence).val(content);
 
     // Set standard API
     editorRelKeys[editor_sequence] = new Array();
@@ -97,6 +104,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_MODE(editor_sequence));
     oEditor.registerPlugin(new xe.XE_Extension(elAppContainer, editor_sequence));
     oEditor.registerPlugin(new xe.XE_FormatWithSelectUI(elAppContainer));
+    oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_CONTENT());
 
     if (!jQuery.browser.msie && !jQuery.browser.opera) {
         oEditor.registerPlugin(new xe.XE_WYSIWYGEnterKey(oWYSIWYGIFrame));
@@ -145,6 +153,14 @@ function editorGetIframe(srl) {
 }
 
 function editorReplaceHTML(iframe_obj, text) {
+    // 이미지 경로 재지정 (rewrite mod)
+    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
+    text = text.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
+
+    // href 경로 재지정 (rewrite mod)
+    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+    text = text.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+
     var srl = parseInt(iframe_obj.id.replace(/^.*_/,''),10);
     editorRelKeys[srl]["pasteHTML"](text);
 }
@@ -159,6 +175,23 @@ xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
 
     $ON_CHANGE_EDITING_MODE : function(mode) {
         editorMode[this.editor_sequence] = (mode =='HTMLSrc') ? 'html' : 'wysiwyg';
+    }
+});
+
+// 이미지등의 상대경로를 절대경로로 바꾸는 플러그인 
+xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
+    name : "XE_GET_WYSYWYG_CONTENT",
+
+    $ON_MSG_APP_READY : function() {
+        this.oApp.addConverter("IR_TO_WYSIWYG", this.TO_WYSIWYG_SET);
+    },
+
+    TO_WYSIWYG_SET : function(content) {
+        var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
+        var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+        content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
+        content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+        return content;
     }
 });
 

@@ -306,7 +306,6 @@ function procFilter(fo_obj, filter_func) {
     var editor_sequence = fo_obj.getAttribute('editor_sequence');
 
     if(typeof(editor_sequence)!='undefined' && editor_sequence && typeof(editorRelKeys)!='undefined') {
-
         if(jQuery.isFunction(editorRelKeys[editor_sequence]['pasteHTML'])){
             var content = editorGetContent(editor_sequence);
             editorRelKeys[editor_sequence]['content'].value = content;
@@ -320,23 +319,10 @@ function procFilter(fo_obj, filter_func) {
                 var content = xInnerHtml(dummy.firstChild);
                 xInnerHtml(dummy,content);
             }
-
-            // img/a 태그의 대상에 대해 경로 재설정 (IE브라우저에서 위지윅 에디터내의 경로를 절대 경로로 바꾸는 버그때문ㅇ)
-            var imgTags = xGetElementsByTagName('IMG', dummy);
-            for(var i=0;i<imgTags.length;i++) {
-                if(imgTags[i].src.indexOf(request_uri)!=-1) {
-                    imgTags[i].src = imgTags[i].src.replace(/(.*)files\/(.*)/i,'files/$2');
-                }
-            }
-            var aTags = xGetElementsByTagName('A', dummy);
-            for(var i=0;i<aTags.length;i++) {
-                if(aTags[i].href.indexOf(request_uri)!=-1) {
-                    aTags[i].href = aTags[i].href.replace(/(.*)\?module=file&(.*)/i,'./?module=file&$2');
-                }
-            }
-            var content = xInnerHtml(dummy);
-            editorRelKeys[editor_sequence]['content'].value = content;
         }
+        var regxPath = new RegExp('(src|href)=("|\'){1}'+request_uri.replace(/\//g,'\\/')+'([^"\']+)("|\'){1}','g');
+        content = content.replace(regxPath, '$1="./$3"');
+        editorRelKeys[editor_sequence]['content'].value = content;
     }
 
     filter_func(fo_obj);

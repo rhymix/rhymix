@@ -816,6 +816,8 @@
                 $get_vars[$key] = $val;
             }
             unset($get_vars['vid']);
+            unset($get_vars['rnd']);
+            if(isset($get_vars['page'])&&$get_vars['page']<2) unset($get_vars['page']);
 
             /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';

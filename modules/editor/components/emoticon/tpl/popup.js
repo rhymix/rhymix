@@ -9,7 +9,7 @@ function insertEmoticon(obj) {
     var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
 
     opener.editorReplaceHTML(iframe_obj, text);
-    opener.editorFocus(opener.editorPrevSrl);
+    self.focus();
 }
 
 /* 선택된 이모티콘 목록을 가져옴 */

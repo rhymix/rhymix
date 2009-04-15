@@ -344,6 +344,14 @@ function editorSearchComponent(evt) {
 
 // 에디터 내의 선택된 부분의 html코드를 변경
 function editorReplaceHTML(iframe_obj, html) {
+    // 이미지 경로 재지정 (rewrite mod)
+    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
+    html = html.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
+
+    // href 경로 재지정 (rewrite mod)
+    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+    html = html.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+
     // 에디터가 활성화 되어 있는지 확인 후 비활성화시 활성화
     var editor_sequence = iframe_obj.contentWindow.document.body.getAttribute("editor_sequence");
 
