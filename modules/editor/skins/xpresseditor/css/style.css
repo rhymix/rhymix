@@ -28,3 +28,5 @@ body{ height:100%; background-color:transparent;}
 .xpressOutput sup{ font:10px Tahoma;}
 .xpressOutput sub{ font:10px Tahoma;}
 .xpressOutput table td{ padding:4px;}
+
+.xpressOutput table .xe_selected_cell{ background-color: #d6e9ff}

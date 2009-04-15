@@ -18,7 +18,7 @@
 .xpress-editor li{list-style:none;}
 
 /* Layout Selector */
-.xpress-editor{ position:relative; background-color:transparent;}
+.xpress-editor{ position:relative; background:#fff;}
 .xpress-editor #smart_content{ position:relative; clear:both; margin:0 0 10px 0; border:1px solid #c2c2c2; *zoom:1;}
 .xpress-editor #smart_footer{ position:relative; text-align:center; padding:10px 0;}
 
@@ -51,18 +51,18 @@
 .xpress-editor.black .tool{ background:#111 url(../img/bg_tool.black.gif) repeat-x left bottom; }
 
 .xpress-editor .tool:after{ content:""; display:block; clear:both;}
-.xpress-editor .tool ul{ position:relative; overflow:visible; float:left; margin:0 5px 4px 0; z-index:2;}
+.xpress-editor .tool ul{ position:relative; overflow:visible; float:left; margin:0 5px 2px 0; z-index:2;}
 .xpress-editor .tool ul.action{ width:43px;}
 .xpress-editor .tool ul.type{ width:auto; white-space:nowrap;}
-.xpress-editor .tool ul.style{ width:169px; z-index:5;}
-.xpress-editor .tool ul.paragraph{ width:169px; z-index:4;}
-.xpress-editor .tool ul.extra1{ width:111px; z-index:3;}
+.xpress-editor .tool ul.style{ width:169px; z-index:6;}
+.xpress-editor .tool ul.paragraph{ width:169px; z-index:5;}
+.xpress-editor .tool ul.extra1{ width:90px; z-index:4;}
+.xpress-editor .tool ul.table{ width:85px; z-index:3;}
 .xpress-editor .tool ul.extra2{ width:auto; z-index:2;}
 .xpress-editor .tool ul.extra3{ float:right; width:auto; z-index:1; margin-right:1px;}
 .xpress-editor .tool ul.extra3 li{ margin-right:4px;}
 .xpress-editor .tool li{ position:relative; float:left;}
 .xpress-editor .tool li button{ width:21px; height:21px; background:url(../img/btn_set.gif) no-repeat 0 0; vertical-align:top;}
-.xpress-editor.black .tool li button{ width:21px; height:21px; background:url(../img/btn_set.black.gif) no-repeat 0 0; vertical-align:top;}
 .xpress-editor .tool li button span{ position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden;}
 
 .xpress-editor .tool li.extensions span.exButton,
@@ -111,9 +111,12 @@
 .xpress-editor .tool li.indent button{ background-position:-360px 0;}
 .xpress-editor .tool li.blockquote button{ width:22px; background-position:-381px 0;}
 .xpress-editor .tool li.url button{ width:26px; background-position:-403px 0;}
-.xpress-editor .tool li.table button{ background-position:-429px 0;}
-.xpress-editor .tool li.character button{ background-position:-450px 0;}
-.xpress-editor .tool li.find button{ background-position:-471px 0;}
+.xpress-editor .tool li.character button{ background-position:-429px 0;}
+.xpress-editor .tool li.find button{ background-position:-450px 0;}
+.xpress-editor .tool li.table button{ width:22px; background-position:-471px 0;}
+.xpress-editor .tool li.merge button{ background-position:-493px 0;}
+.xpress-editor .tool li.splitCol button{ background-position:-514px 0;}
+.xpress-editor .tool li.splitRow button{ background-position:-535px 0;}
 .xpress-editor .tool li.extensions span{ background-position:0 0;}
 .xpress-editor .tool li.extensions span button{ background-position:right 0;}
 .xpress-editor .tool li.html span{ background-position:0 0;}
@@ -142,9 +145,12 @@
 .xpress-editor .tool li.indent button.hover{ background-position:-360px -21px;}
 .xpress-editor .tool li.blockquote button.hover{ width:22px; background-position:-381px -21px;}
 .xpress-editor .tool li.url button.hover{ width:26px; background-position:-403px -21px;}
-.xpress-editor .tool li.table button.hover{ background-position:-429px -21px;}
-.xpress-editor .tool li.character button.hover{ background-position:-450px -21px;}
-.xpress-editor .tool li.find button.hover{ background-position:-471px -21px;}
+.xpress-editor .tool li.character button.hover{ background-position:-429px -21px;}
+.xpress-editor .tool li.find button.hover{ background-position:-450px -21px;}
+.xpress-editor .tool li.table button.hover{ width:22px; background-position:-471px -21px;}
+.xpress-editor .tool li.merge button.hover{ background-position:-493px -21px;}
+.xpress-editor .tool li.splitCol button.hover{ background-position:-514px -21px;}
+.xpress-editor .tool li.splitRow button.hover{ background-position:-535px -21px;}
 .xpress-editor .tool li.extensions span.hover{ background-position:0 -21px;}
 .xpress-editor .tool li.extensions span.hover button{ background-position:right -21px;}
 .xpress-editor .tool li.html span.hover{ background-position:0 -21px;}
@@ -173,9 +179,12 @@
 .xpress-editor .tool li.indent button.active{ background-position:-360px -42px;}
 .xpress-editor .tool li.blockquote button.active{ width:22px; background-position:-381px -42px;}
 .xpress-editor .tool li.url button.active{ width:26px; background-position:-403px -42px;}
-.xpress-editor .tool li.table button.active{ background-position:-429px -42px;}
-.xpress-editor .tool li.character button.active{ background-position:-450px -42px;}
-.xpress-editor .tool li.find button.active{ background-position:-471px -42px;}
+.xpress-editor .tool li.character button.active{ background-position:-429px -42px;}
+.xpress-editor .tool li.find button.active{ background-position:-450px -42px;}
+.xpress-editor .tool li.table button.active{ width:22px; background-position:-471px -42px;}
+.xpress-editor .tool li.merge button.active{ background-position:-493px -42px;}
+.xpress-editor .tool li.splitCol button.active{ background-position:-514px -42px;}
+.xpress-editor .tool li.splitRow button.active{ background-position:-535px -42px;}
 .xpress-editor .tool li.extensions span.active{ background-position:0 -42px;}
 .xpress-editor .tool li.extensions span.active button{ background-position:right -42px;}
 .xpress-editor .tool li.html span.active{ background-position:0 -42px;}
@@ -206,9 +215,15 @@
 .xpress-editor .tool.off li.indent button{ background-position:-360px -63px;}
 .xpress-editor .tool.off li.blockquote button{ width:22px; background-position:-381px -63px;}
 .xpress-editor .tool.off li.url button{ width:26px; background-position:-403px -63px;}
-.xpress-editor .tool.off li.table button{ background-position:-429px -63px;}
-.xpress-editor .tool.off li.character button{ background-position:-450px -63px;}
-.xpress-editor .tool.off li.find button{ background-position:-471px -63px;}
+.xpress-editor .tool.off li.character button{ background-position:-429px -63px;}
+.xpress-editor .tool.off li.find button{ background-position:-450px -63px;}
+.xpress-editor .tool.off li.table button{ width:22px; background-position:-471px -63px;}
+.xpress-editor .tool.off li.merge button,
+.xpress-editor .tool li.merge button.off{ background-position:-493px -63px;}
+.xpress-editor .tool.off li.splitCol button,
+.xpress-editor .tool li.splitCol button.off{ background-position:-514px -63px;}
+.xpress-editor .tool.off li.splitRow button,
+.xpress-editor .tool li.splitRow button.off{ background-position:-535px -63px;}
 .xpress-editor .tool.off li.extensions span{ background-position:0 -63px;}
 .xpress-editor .tool.off li.extensions span button{ background-position:right -63px; color:#bcbcbc;}
 .xpress-editor .tool.off li button{ cursor:default;}
@@ -240,7 +255,6 @@
 
 .xpress-editor .tool li.style .layer{ padding:4px 2px; _overflow:hidden; filter:progid:DXImageTransform.Microsoft.Shadow(color=#dddddd,direction=135,strength=2);}
 .xpress-editor .tool li.style .layer li{ position:relative; background:#fbfbfb;}
-.xpress-editor .tool li.style .layer li img.component { width:13px; height:12px; }
 .xpress-editor .tool li.style .layer li button{ display:block; width:134px; position:relative;}
 .xpress-editor .tool li.style .layer li button span{ display:block; width:130px; text-align:left; letter-spacing:normal;}
 .xpress-editor .tool li.style .layer li.h3 button span{ padding:3px 0 1px 4px; height:15px; _height /**/:19px; font-size:16px; font-weight:bold;}
@@ -285,7 +299,7 @@
 .xpress-editor .tool li.table .layer fieldset dd button.del{ top:9px; background-position:0 -8px;}
 .xpress-editor .tool li.table .layer fieldset dd .preview_palette{ display:block; float:left; margin:0 3px 0 0; padding:2px; position:relative; border:1px solid #c8c9c6; width:14px; height:14px; overflow:hidden;}
 .xpress-editor .tool li.table .layer fieldset dd .preview_palette button{ width:14px; height:14px; font-size:500px; line-height:0;}
-.xpress-editor .tool li.table .layer fieldset dd .find_palette{ width:21px; height:20px; background:url(../img/btn_search.gif) no-repeat;}
+.xpress-editor .tool li.table .layer fieldset dd .find_palette{ width:33px; height:20px; background:url(../img/btn_search.gif) no-repeat;}
 
 .xpress-editor .tool li.table .layer fieldset.num{ top:14px;}
 .xpress-editor .tool li.table .layer fieldset.num dl{ top:18px; width:60px;}

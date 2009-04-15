@@ -2406,7 +2406,7 @@ xe.DialogLayerManager = jQuery.Class({
 		bModal = jQuery.$(bModal) || false;
 		if(!oLayer) return;
 
-		//if(jQuery.inArray(oLayer, this.aOpenedLayers)) return;
+		if(jQuery.inArray(oLayer, this.aOpenedLayers)) return;
 
 		this.oApp.exec("POSITION_DIALOG_LAYER", [oLayer]);
 
@@ -4819,13 +4819,13 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 		this.oReplaceInput_Replacement = oTmp[1];
 
 		this.oFindNextButton = jQuery("BUTTON.find_next", this.oUILayer).get(0);
-		//this.oCancelButton = jQuery("BUTTON.cancel", this.oUILayer).get(0);
+		this.oCancelButton = jQuery("BUTTON.cancel", this.oUILayer).get(0);
 		
 		this.oReplaceButton = jQuery("BUTTON.replace", this.oUILayer).get(0);
 		this.oReplaceAllButton = jQuery("BUTTON.replace_all", this.oUILayer).get(0);
 		
 		this.aCloseButtons = jQuery("BUTTON.close", this.oUILayer).get();
-		//this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
+		this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -5424,7 +5424,9 @@ var
 	regex_style = /style\s*=\s*(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))/i,
 	regex_font_weight = /font-weight\s*:\s*([a-z]+);?/i,
 	regex_font_style = /font-style\s*:\s*italic;?/i,
-	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i;
+	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
+	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/g,
+	regex_quote_attr = /([\w-]+)=([\w-]+)/g;
 	
 var
 	allow_tags  = 'a,abbr,acronym,address,area,blockquote,br,caption,center,cite,code,col,colgroup,dd,del,dfn,div,dl,dt,em,embed,h1,h2,h3,h4,h5,h6,hr,img,ins,kbd,li,map,object,ol,p,param,pre,q,samp,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,tt,u,ul,var'.split(','),
@@ -5469,6 +5471,14 @@ xe.XE_XHTMLFormatter = $.Class({
 		
 		// remove all scripts
 		sContent = sContent.replace(regex_script, '');
+		
+		if (jQuery.browser.msie) {
+			// remove jQuery attributes
+			sContent = sContent.replace(regex_jquery, '');
+			
+			// quote all attrs
+			sContent = sContent.replace(regex_quote_attr, '$1="$2"');
+		}
 
 		// remove all useless tag and enclose tags
 		regex = /<(\/)?([:\w\/-]+)(.*?)>/ig;
@@ -5828,7 +5838,7 @@ xe.XE_Table = jQuery.Class({
 		var rowspan  = all_rows.index(end_tr.get(0)) - all_rows.index(start_tr.get(0)) + this._getSpan(cell.eq(cell.length-1), 'row');
 
 		// 첫번째 셀 colspan, rowspan 속성 지정
-		cell.eq(0).attr('colspan', colspan).attr('rowspan', rowspan);
+		cell.eq(0).attr('colSpan', colspan).attr('rowSpan', rowspan);
 		
 		// 첫번째 셀을 제외한 다른 모든 셀 제거
 		cell.slice(1).remove();
@@ -5865,14 +5875,15 @@ xe.XE_Table = jQuery.Class({
 			
 			// rowspan > 1이면 현재 셀의 rowspan을 절반으로 분할한다.
 			if (rowspan > 1) {
+				
 				topspan = Math.ceil(rowspan/2);
 				botspan = rowspan - topspan;
 				
 				queue.push(function(){
-					(topspan > 1)?t.attr('rowspan', topspan):t.removeAttr('rowspan');
+					t.attr('rowSpan', topspan);
 				});
-				
-				(botspan > 1)?clone.attr('rowspan', botspan):clone.removeAttr('rowspan');
+
+				clone.attr('rowSpan', botspan);
 			} else {
 				// rowspan이 없으면 현재 셀과 영역이 겹치는 모든 셀에 rowspan을 추가
 				cell.filter(function(){
@@ -5891,14 +5902,17 @@ xe.XE_Table = jQuery.Class({
 
 					// rowspan 1 추가
 					queue.push(function(){
-						tt.attr('rowspan', sp);
+						tt.attr('rowSpan', sp);
 					});
 				});
-				
+
 				// 새 줄을 추가한다.
-				row.after(row.clone().empty());
-				
-				clone.removeAttr('rowspan');
+				if (jQuery.browser.msie) {
+					// Fix bug for IE
+					row.after(row.clone().empty().get(0).outerHTML);
+				} else {
+					row.after(row.clone().empty());
+				}
 			}
 
 			var rows  = row.nextAll('tr');
@@ -5911,18 +5925,28 @@ xe.XE_Table = jQuery.Class({
 					return ( self._getRect(jQuery(this)).left > rect.left );
 				});
 				
-				next_sib.length?next_sib.eq(0).before(clone):rows.eq(topspan-1).append(clone);
+				if (jQuery.browser.msie) {
+					next_sib.length?
+						next_sib.eq(0).before(clone.get(0).outerHTML):
+						rows.eq(topspan-1).append(clone.get(0).outerHTML);
+				} else {
+					next_sib.length?
+						next_sib.slice(0,1).before(clone):
+						rows.slice(topspan-1,1).append(clone);
+				}
 			}
-			
+
 			// 함수를 바로 실행하면 좌표가 틀어지므로, 큐에 넣은 후 실행
 			jQuery.each(queue, function(){ this(); });
+			
 		});
 	},
 	
 	$ON_CELL_SPLIT_BY_COL : function(many) {
-		var cell  = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
-		var table = cell.parents('table').eq(0);
-		var self = this;
+		var cell   = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
+		var table  = cell.parents('table').slice(0,1);
+		var self   = this;
+		var ie_bug = [], tmpId = (new Date).getTime(), tmpStr = '';
 		
 		// 선택된 셀이 없으면 종료
 		if (!cell.length) return;
@@ -5940,22 +5964,22 @@ xe.XE_Table = jQuery.Class({
 			var rect = self._getRect(jQuery(this));
 			
 			return !(rect.right <= _left || rect.left >= _right);
-		})).filter('.xe_selected_cell').each(function(){
+		})).filter('.xe_selected_cell').each(function(idx){
 			var t       = jQuery(this);
 			var colspan = self._getSpan(t, 'col');
 			var clone   = t.clone().html('<br />');
-			
+
 			// colspan > 1 이면 colspan을 절반으로 분할한다.
 			if (colspan > 1) {
 				var leftspan  = Math.ceil(colspan/2);
 				var rightspan = colspan - leftspan;
 
-				(leftspan  > 1)?t.attr('colspan', leftspan):t.removeAttr('colspan');
-				(rightspan > 1)?clone.attr('colspan', rightspan):clone.removeAttr('colspan');
+				t.attr('colSpan', leftspan);
+				clone.attr('colSpan', rightspan);
 			} else {
 				// colspan이 없으면 현재 셀과 영역이 겹치는 모든 셀에 colspan을 추가
 				var rect = self._getRect(t);
-				
+
 				cell.filter(function(){
 					if (t.get(0) == this) return false;
 					
@@ -5970,13 +5994,18 @@ xe.XE_Table = jQuery.Class({
 					var tt = jQuery(this);
 
 					// colspan 1 추가
-					tt.attr('colspan', self._getSpan(tt, 'col')+1);
+					tt.attr('colSpan', self._getSpan(tt, 'col')+1);
 				});
 				
-				clone.removeAttr('colspan');
+				clone.attr('colSpan', 1);
 			}
 			
-			t.after(clone);
+			if (jQuery.browser.msie) {
+				// Fix for IE bug
+				t.after(clone.get(0).outerHTML);
+			} else {
+				t.after(clone);
+			}
 		});
 	},
 	

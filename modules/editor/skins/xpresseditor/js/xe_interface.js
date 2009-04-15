@@ -21,7 +21,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
         jQuery("#xpress-editor-"+editor_sequence).val(saved_content);
     }
 
-/*
+	/*
     // remove procFilter
     if(form.comment_srl){
         form.onsubmit=function(){
@@ -53,8 +53,8 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
 
     var content = form[content_key].value;
-    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
-    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g; //'
+    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g; //'
     content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
     content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
     form[content_key].value = content;
@@ -86,6 +86,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.registerPlugin(new xe.XE_WYSIWYGStyleGetter());
     oEditor.registerPlugin(new xe.MessageManager(oMessageMap));
     oEditor.registerPlugin(new xe.XE_Toolbar(elAppContainer));
+
     oEditor.registerPlugin(new xe.XE_XHTMLFormatter);
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_MODE(editor_sequence));
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_CONTENT());
@@ -165,11 +166,11 @@ function editorGetIframe(srl) {
 
 function editorReplaceHTML(iframe_obj, text) {
     // 이미지 경로 재지정 (rewrite mod)
-    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
+    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;//'
     text = text.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
 
     // href 경로 재지정 (rewrite mod)
-    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;//'
     text = text.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
 
     var srl = parseInt(iframe_obj.id.replace(/^.*_/,''),10);
@@ -198,8 +199,8 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
     },
 
     TO_WYSIWYG_SET : function(content) {
-        var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;
-        var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;
+        var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;//'
+        var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;//'
         content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
         content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
         return content;
