@@ -514,7 +514,7 @@
                     $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
                 }
 
-                require_once($cache_file);
+                if(file_exists($cache_file)) require_once($cache_file);
             }
             if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
 
