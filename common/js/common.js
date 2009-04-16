@@ -374,6 +374,7 @@ function isDef() {
  **/
 var winopen_list = new Array();
 function winopen(url, target, attribute) {
+    if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
     try {
         if(target != "_blank" && winopen_list[target]) {
             winopen_list[target].close();
@@ -395,6 +396,7 @@ function winopen(url, target, attribute) {
  **/
 function popopen(url, target) {
     if(typeof(target) == "undefined") target = "_blank";
+    if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
     winopen(url, target, "left=10,top=10,width=10,height=10,scrollbars=no,resizable=yes,toolbars=no");
 }
 
