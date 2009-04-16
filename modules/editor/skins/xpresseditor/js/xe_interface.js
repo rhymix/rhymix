@@ -87,7 +87,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.registerPlugin(new xe.MessageManager(oMessageMap));
     oEditor.registerPlugin(new xe.XE_Toolbar(elAppContainer));
 
-    oEditor.registerPlugin(new xe.XE_XHTMLFormatter);
+    //oEditor.registerPlugin(new xe.XE_XHTMLFormatter);
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_MODE(editor_sequence));
     oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_CONTENT());
 
