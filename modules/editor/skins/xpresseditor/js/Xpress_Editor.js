@@ -3294,6 +3294,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	
 	_enableWYSIWYG : function(){
 		if (jQuery.browser.msie){
+			this.getWindow().blur(); // prevent force focusing
 			this.doc.body.contentEditable = true;
 		} else {
 			this.doc.designMode = "on";
