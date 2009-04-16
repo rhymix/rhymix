@@ -5420,7 +5420,8 @@ var oMessageMap = {
 var 
 	regex_meanless_css1 = /<(.*?)\s+style\s*=\s*"(.*?(?:margin|padding)\s*:\s*0(?:px)?.*?|.*?\-(?:moz|ms|webkit|opera).*?)"(.*?)>/ig,
 	regex_meanless_css2 = /(?:(?:margin|padding)\s*:\s*0(?:px)?|\-(?:moz|ms|webkit|opera)\-[\w-]+\s*:\s*.*?|[\w-]+\s*:\s*\-(?:moz|ms|webkit|opera)\-[\w-]+|(?:line-height|font-variant|font-stretch|font-size-adjust|font-size)\s*:\s*[a-z_-]+)\s*;?\s*|font-(?:weight|style)\s*:\s*normal;?/ig,
-	regex_class = /<(.*?)\s+class\s*=(?:\s*".*?"|\s*'.*?'|[^\s>]+)(.*?)>/ig,
+	regex_class  = /<(.*?)\s+class\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))(.*?)>/ig,
+	regex_class2 = /xe_selected_cell/g;
 	regex_handler = /<(.*?)\s+on[a-z]+\s*=(?:\s*".*?"|\s*'.*?'|[^\s>]+)(.*?)>/ig,
 	regex_id = /<(.*?)\s+id\s*=(?:[^\s>]+|\s*".*?"|\s*'.*?')(.*?)>/ig,
 	regex_script = /<script[\s\S]+?<\/script>/ig,
@@ -5466,8 +5467,12 @@ xe.XE_XHTMLFormatter = $.Class({
 			return '<'+m1+(m2?' style="'+m2+'"':'')+m3+'>';
 		});
 
-		// remove all classes
-		sContent = sContent.replace(regex_class, '<$1$2>');
+		// remove all useless classes
+		sContent = sContent.replace(regex_class, function(m0,m1,m2,m3,m4,m5){
+			var cls = jQuery.trim((m2 || m3 || m4 || "").replace(regex_class2, ''));
+			
+			return '<'+(m1||"")+(cls?' class="'+cls+'"':'')+(m5||"")+'>';
+		});
 
 		// remove all event handler
 		sContent = sContent.replace(regex_handler, '<$1$2>');
