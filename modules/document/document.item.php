@@ -414,6 +414,24 @@
 
         }
 
+        function getExtraEidValue($eid) {
+            $extra_vars = $this->getExtraVars();
+            // eid 명칭으로 확장변수 처리
+            foreach($extra_vars as $idx => $key) {
+                $extra_eid[$key->eid] = $key;
+            }
+            return $extra_eid[$eid]->value;
+        }
+
+        function getExtraEidValueHTML($eid) {
+            $extra_vars = $this->getExtraVars();
+            // eid 명칭으로 확장변수 처리
+            foreach($extra_vars as $idx => $key) {
+                $extra_eid[$key->eid] = $key;
+            }
+            return $extra_eid[$eid]->getValueHTML();
+        }
+
         function getExtraVarsValue($key) {
             $extra_vals = unserialize($this->get('extra_vars'));
             $val = $extra_vals->$key;
