@@ -5433,7 +5433,7 @@ var
 	regex_font_style = /font-style\s*:\s*italic;?/i,
 	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
 	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/g,
-	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([\w-]+)/g; //"
+	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([^\s]+)/g; //"
 	
 var
 	allow_tags  = 'a,abbr,acronym,address,area,blockquote,br,caption,center,cite,code,col,colgroup,dd,del,dfn,div,dl,dt,em,embed,h1,h2,h3,h4,h5,h6,hr,img,ins,kbd,li,map,object,ol,p,param,pre,q,samp,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,tt,u,ul,var'.split(','),
@@ -5486,9 +5486,9 @@ xe.XE_XHTMLFormatter = $.Class({
 		if (jQuery.browser.msie) {
 			// remove jQuery attributes
 			sContent = sContent.replace(regex_jquery, '');
-			
+
 			// quote all attrs
-			sContent = sContent.replace(/<(\w+) ([^>]+)>/g, function(m0,m1,m2){				
+			sContent = sContent.replace(/<(\w+) ([^>]+)>/g, function(m0,m1,m2){
 				return '<'+m1+' '+
 					m2.replace(regex_quote_attr, function(s0,s1,s2,s3){
 						if (s1) return s1;
