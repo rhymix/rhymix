@@ -3278,8 +3278,8 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	},
 	
 	focus : function(){
-		this.getWindow().focus();
-		this.oApp.exec("RESTORE_IE_SELECTION", []);
+		//this.getWindow().focus();
+		//this.oApp.exec("RESTORE_IE_SELECTION", []);
 	},
 	
 	_recordUndo : function(oKeyInfo){
@@ -3294,8 +3294,13 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	
 	_enableWYSIWYG : function(){
 		if (jQuery.browser.msie){
-			this.getWindow().blur(); // prevent force focusing
+			var fake = jQuery('<input type="text" style="position:absolute;width:1px;height:1px;left:-9px">');
+			jQuery(document.body).prepend(fake);
+			fake.focus();
+
 			this.doc.body.contentEditable = true;
+
+			setTimeout(function(){fake.remove()}, 100);
 		} else {
 			this.doc.designMode = "on";
 		}
@@ -5427,7 +5432,7 @@ var
 	regex_font_style = /font-style\s*:\s*italic;?/i,
 	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
 	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/g,
-	regex_quote_attr = /([\w-]+)=([\w-]+)/g;
+	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([\w-]+)/g; //"
 	
 var
 	allow_tags  = 'a,abbr,acronym,address,area,blockquote,br,caption,center,cite,code,col,colgroup,dd,del,dfn,div,dl,dt,em,embed,h1,h2,h3,h4,h5,h6,hr,img,ins,kbd,li,map,object,ol,p,param,pre,q,samp,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,tt,u,ul,var'.split(','),
@@ -5478,7 +5483,13 @@ xe.XE_XHTMLFormatter = $.Class({
 			sContent = sContent.replace(regex_jquery, '');
 			
 			// quote all attrs
-			sContent = sContent.replace(regex_quote_attr, '$1="$2"');
+			sContent = sContent.replace(/<(\w+) ([^>]+)>/g, function(m0,m1,m2){				
+				return '<'+m1+' '+
+					m2.replace(regex_quote_attr, function(s0,s1,s2,s3){
+						if (s1) return s1;
+						return s2+'="'+s3+'"';
+					}) + '>';
+			});
 		}
 
 		// remove all useless tag and enclose tags
