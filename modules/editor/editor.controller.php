@@ -139,7 +139,7 @@
          * @brief 에디터컴포넌트의 코드를 결과물로 변환 + 문서서식 style 지정
          **/
         function triggerEditorComponentCompile(&$content) {
-            if(Context::getRequestVars()!='HTML') return new Object();
+            if(Context::getResponseMethod()!='HTML') return new Object();
 
             $module_info = Context::get('module_info');
             $module_srl = $module_info->module_srl;
