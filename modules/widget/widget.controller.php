@@ -273,6 +273,7 @@
          * display::before 에서 호출됨
          **/
         function triggerWidgetCompile(&$content) {
+            if(Context::getResponseMethod()!='HTML') return new Object();
             $content = $this->transWidgetCode($content, $this->layout_javascript_mode);
             return new Object();
         }
