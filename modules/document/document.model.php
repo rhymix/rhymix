@@ -405,21 +405,8 @@
          * @brief module_srl값을 가지는 문서의 공지사항만 가져옴
          **/
         function getNoticeList($obj) {
-            $cache_file = _XE_PATH_.'files/cache/document_notice/'.getNumberingPath($obj->module_srl,4).$obj->module_srl.'.txt';
-            if(!file_exists($cache_file)) {
-                $oDocumentController = &getController('document');
-                $oDocumentController->updateDocumentNoticeCache($obj->module_srl);
-            }
-
-            $document_srls = FileHandler::readFile($cache_file);
-            if(!$document_srls) return;
-
-            $list_count = count(explode(',',$document_srls));
-            $args->document_srls = $document_srls;
-            $args->list_count = $list_count;
-            $args->list_order = 'list_order';
-            $args->order_type = 'asc';
-            $output = executeQueryArray('document.getDocuments', $args);
+            $args->module_srl = $obj->module_srl;
+            $output = executeQueryArray('document.getNoticeList', $args);
             if(!$output->toBool()||!$output->data) return;
 
             foreach($output->data as $key => $val) {
