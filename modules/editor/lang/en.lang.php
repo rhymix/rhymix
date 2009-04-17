@@ -16,6 +16,7 @@
     $lang->component_description = 'Description';
     $lang->component_extra_vars = 'Option Variable';
     $lang->component_grant = 'Permission Setting';
+    $lang->content_style = 'Content Style';
 
     $lang->about_component = 'About component';
     $lang->about_component_grant = 'Selected group(s) will be able to use expanded components of editor.<br />(Leave them blank if you want all groups to have permission)';
@@ -41,6 +42,7 @@
     $lang->editor_height = 'Height of Editor';
 
     $lang->about_editor_skin = 'You may select the skin of editor.';
+    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_upload_file_grant = 'Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have permission)';
     $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)';
     $lang->about_editor_height = 'You may set the height of editor.';

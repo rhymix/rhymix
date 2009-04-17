@@ -498,8 +498,8 @@
          * @brief 주어진 곳의 스킨 목록을 구함
          * 스킨과 skin.xml 파일을 분석 정리한 결과를 return
          **/
-        function getSkins($path) {
-            $skin_path = sprintf("%s/skins/", $path);
+        function getSkins($path, $dir = 'skins') {
+            $skin_path = sprintf("%s/%s/", $path, $dir);
             $list = FileHandler::readDir($skin_path);
             if(!count($list)) return;
 
@@ -517,11 +517,11 @@
         /**
          * @brief 특정 위치의 특정 스킨의 정보를 구해옴
          **/
-        function loadSkinInfo($path, $skin) {
+        function loadSkinInfo($path, $skin, $dir = 'skins') {
 
             // 모듈의 스킨의 정보 xml 파일을 읽음
             if(substr($path,-1)!='/') $path .= '/';
-            $skin_xml_file = sprintf("%sskins/%s/skin.xml", $path, $skin);
+            $skin_xml_file = sprintf("%s%s/%s/skin.xml", $path, $dir, $skin);
             if(!file_exists($skin_xml_file)) return;
 
             // XmlParser 객체 생성

@@ -7,13 +7,15 @@
     <table cellspacing="0" class="crossTable">
     <thead>
     <tr>
+        <th scope="col"><div>&nbsp;</div></th>
         <th scope="col" class="half_wide"><div>{$lang->document}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->comment}</div></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <th colspan="2"><div>{$lang->editor_skin}</div></th>
+        <th rowspan="2"><div>{$lang->editor_skin}</div></th>
+        <td colspan="2"><p>{$lang->about_editor_skin}</p></td>
     </tr>
     <tr>
         <td>
@@ -42,10 +44,40 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2"><p>{$lang->about_editor_skin}</p></td>
+        <th rowspan="2"><div>{$lang->content_style}</div></th>
+        <td colspan="2"><p>{$lang->about_content_style}</p></td>
     </tr>
     <tr>
-        <th colspan="2"><div>{$lang->enable_html_grant}</div></th>
+        <td colspan="2">
+            <select name="content_style">
+            <!--@foreach($content_style_list as $key => $val)-->
+            <option value="{$key}" <!--@if($key==$editor_config->content_style)-->selected="selected"<!--@end-->>{$val->title}</option>
+            <!--@end-->
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th rowspan="2"><div>{$lang->editor_height}</div></th>
+        <td colspan="2"><p>{$lang->about_editor_height}</p></td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="editor_height" value="{$editor_config->editor_height}" class="inputTypeText w80" />px
+        </td>
+        <td>
+            <input type="text" name="comment_editor_height" value="{$editor_config->comment_editor_height}" class="inputTypeText w80" />px
+        </td>
+    </tr>
+    <tr>
+        <th rowspan="2"><div>{$lang->enable_autosave}</div></th>
+        <td colspan="2"><p>{$lang->about_enable_autosave}</p></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
+    </tr>
+    <tr>
+        <th rowspan="2"><div>{$lang->enable_html_grant}</div></th>
+        <td colspan="2"><p>{$lang->about_enable_html_grant}</p></td>
     </tr>
     <tr>
         <td>
@@ -66,10 +98,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2"><p>{$lang->about_enable_html_grant}</p></td>
-    </tr>
-    <tr>
-        <th colspan="2"><div>{$lang->upload_file_grant}</div></th>
+        <th rowspan="2"><div>{$lang->upload_file_grant}</div></th>
+        <td colspan="2"><p>{$lang->about_upload_file_grant}</p></td>
     </tr>
     <tr>
         <td>
@@ -94,10 +124,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2"><p>{$lang->about_upload_file_grant}</p></td>
-    </tr>
-    <tr>
-        <th colspan="2"><div>{$lang->enable_default_component_grant}</div></th>
+        <th rowspan="2"><div>{$lang->enable_default_component_grant}</div></th>
+        <td colspan="2"><p>{$lang->about_default_component_grant}</p></td>
     </tr>
     <tr>
         <td>
@@ -120,10 +148,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2"><p>{$lang->about_default_component_grant}</p></td>
-    </tr>
-    <tr>
-        <th colspan="2"><div>{$lang->enable_component_grant}</div></th>
+        <th rowspan="2"><div>{$lang->enable_component_grant}</div></th>
+        <td colspan="2"><p>{$lang->about_component_grant}</p></td>
     </tr>
     <tr>
         <td>
@@ -148,33 +174,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2"><p>{$lang->about_component_grant}</p></td>
-    </tr>
-    <tr>
-        <th colspan="2"><div>{$lang->editor_height}</div></th>
-    </tr>
-    <tr>
-        <td>
-            <input type="text" name="editor_height" value="{$editor_config->editor_height}" class="inputTypeText w80" />px
-        </td>
-        <td>
-            <input type="text" name="comment_editor_height" value="{$editor_config->comment_editor_height}" class="inputTypeText w80" />px
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2"><p>{$lang->about_editor_height}</p></td>
-    </tr>
-    <tr>
-        <th colspan="2"><div>{$lang->enable_autosave}</div></th>
-    </tr>
-    <tr>
-        <td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
-    </tr>
-    <tr>
-        <td colspan="2"><p>{$lang->about_enable_autosave}</p></td>
-    </tr>
-    <tr>
-        <th class="button" colspan="2">
+        <th class="button" colspan="3">
             <span class="button black strong"><input type="submit" value="{$lang->cmd_save}"/></span>
         </th>
     </tr>

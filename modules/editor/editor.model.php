@@ -48,6 +48,7 @@
 
             if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
             if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
+            if(!$editor_config->content_style) $editor_config->content_style = 'xeStyle';
 
             return $editor_config;
         }
@@ -64,6 +65,9 @@
             // 파일 업로드 유무 옵션 설정
             if(!$option->allow_fileupload) $allow_fileupload = false;
             else $allow_fileupload = true;
+
+            // content_style 세팅
+            Context::set('content_style', $option->content_style);
 
             // 자동 저장 유무 옵션 설정
             if(!$option->enable_autosave) $enable_autosave = false;
@@ -214,6 +218,7 @@
             // type에 따른 설정 정리
             if($type == 'document') {
                 $config->editor_skin = $editor_config->editor_skin;
+                $config->content_style = $editor_config->content_style;
                 $config->sel_editor_colorset = $editor_config->sel_editor_colorset;
                 $config->upload_file_grant = $editor_config->upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -223,6 +228,7 @@
                 $config->enable_autosave = $editor_config->enable_autosave;
             } else {
                 $config->editor_skin = $editor_config->comment_editor_skin;
+                $config->content_style = $editor_config->content_style;
                 $config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
                 $config->upload_file_grant = $editor_config->comment_upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -242,6 +248,7 @@
 
             // 에디터 옵션 변수를 미리 설정
             $option->skin = $config->editor_skin;
+            $option->content_style = $config->content_style;
             $option->colorset = $config->sel_editor_colorset;
 
             // 파일 업로드 권한 체크

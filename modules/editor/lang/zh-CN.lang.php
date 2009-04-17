@@ -16,6 +16,7 @@
     $lang->component_description = '说明';
     $lang->component_extra_vars = '变数设置';
     $lang->component_grant = '权限设置';
+    $lang->content_style = 'Content Style';
 
     $lang->about_component = '组件简介';
     $lang->about_component_grant = '可以设置除默认组件外的扩展组件使用权限<br />(全部解除时任何用户都可以使用)。';
@@ -41,6 +42,7 @@
     $lang->editor_height = '编辑器高度';
 
     $lang->about_editor_skin = '可以选择编辑器皮肤。';
+    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_upload_file_grant = '可以设置上传文件的权限(全部解除为无限制)。';
     $lang->about_default_component_grant = '可以设置编辑器默认组件的使用权限(全部解除为无限制)。';
     $lang->about_editor_height = '可以指定编辑器的默认高度。';

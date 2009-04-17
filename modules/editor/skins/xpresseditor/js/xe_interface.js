@@ -2,11 +2,11 @@ if (!window.xe) xe = {};
 
 xe.Editors = [];
 
-function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset) {
+function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style) {
     if(typeof(colorset)=='undefined') colorset = 'white';
+    if(typeof(content_style)=='undefined') content_style = 'xeStyle';
 
-    var target_src = editor_path+'/blank.html';
-    if(colorset == 'black') target_src = editor_path+'blank_black.html';
+    var target_src = request_uri+'modules/editor/styles/'+content_style+'/editor.html';
 
     var textarea = jQuery("#xpress-editor-"+editor_sequence);
     var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'" allowTransparency="true" frameborder="0" src="'+target_src+'" scrolling="yes" style="width:100%;height:'+editor_height+'px">');
@@ -74,6 +74,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     // register plugins
     oEditor.registerPlugin(new xe.CorePlugin(null));
 
+    oEditor.registerPlugin(new xe.XE_PreservTemplate(jQuery("#xpress-editor-"+editor_sequence).val()));
     oEditor.registerPlugin(new xe.StringConverterManager());
     oEditor.registerPlugin(new xe.XE_EditingAreaManager("WYSIWYG", oIRTextarea, {nHeight:parseInt(editor_height), nMinHeight:205}, null, elAppContainer));
     oEditor.registerPlugin(new xe.XE_EditingArea_HTMLSrc(oHTMLSrcTextarea));
@@ -204,6 +205,19 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
         content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
         content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
         return content;
+    }
+});
+
+// 서식 기본 내용을 보존
+xe.XE_PreservTemplate = jQuery.Class({
+    name : "XE_PreservTemplate",
+    isRun : false,
+
+    $BEFORE_SET_IR : function(content) {
+        if(!this.isRun && !content) {
+            this.isRun = true;
+            return false;
+        }
     }
 });
 

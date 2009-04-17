@@ -16,6 +16,7 @@
     $lang->component_description = 'Description';
     $lang->component_extra_vars = 'Variables d\'Option';
     $lang->component_grant = 'Configuration de la Permission';
+    $lang->content_style = 'Content Style';
 
     $lang->about_component = 'Sur le Composant';
     $lang->about_component_grant = 'Vous pouvez configurer la Permission d\'utiliser des composants additionnels de l\'Editeur.<br /> (Tout le monde aura la Permission si vous ne cochez rien)';
@@ -41,6 +42,7 @@
     $lang->editor_height = 'Hauteur de l\'Editeur';
 
     $lang->about_editor_skin = 'Vous pouvez choisir l\'habillage de l\'Editeur.';
+    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_upload_file_grant = 'Vous pouvez configurer la permission d\'attacher les fichiers. (Tout le monde aura la permission si vous ne cochez rien)';
     $lang->about_default_component_grant = 'Vous pouvez configurer la permission d\'utiliser les Composants Par Défaut de l\'Editeur. (Tout le monde aura la permission si vous ne cochez rien)';
     $lang->about_editor_height = 'Vous pouvez configurer l\'hauteur de l\'Editeur.';

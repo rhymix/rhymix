@@ -80,6 +80,7 @@
 
             $editor_config->editor_skin = Context::get('editor_skin');
             $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
+            $editor_config->content_style = Context::get('content_style');
             $editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
             $editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
 
@@ -135,9 +136,27 @@
         }
 
         /**
-         * @brief 에디터컴포넌트의 코드를 결과물로 변환
+         * @brief 에디터컴포넌트의 코드를 결과물로 변환 + 문서서식 style 지정
          **/
         function triggerEditorComponentCompile(&$content) {
+            $module_info = Context::get('module_info');
+            $module_srl = $module_info->module_srl;
+            if($module_srl) {
+                $oEditorModel = &getModel('editor');
+                $editor_config = $oEditorModel->getEditorConfig($module_srl);
+                $content_style = $editor_config->content_style;
+                $path = _XE_PATH_.'modules/editor/styles/'.$content_style.'/';
+                if(is_dir($path) && file_exists($path.'style.ini')) {
+                    $ini = file($path.'style.ini');
+                    for($i=0,$c=count($ini);$i<$c;$i++) {
+                        $file = trim($ini[$i]);
+                        if(!$file) continue;
+                        if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                        elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                    }
+                }
+            }
+
             $content = $this->transComponent($content);
         }
 

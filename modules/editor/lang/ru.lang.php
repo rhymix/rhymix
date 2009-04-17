@@ -16,6 +16,7 @@
     $lang->component_description = 'Описание';
     $lang->component_extra_vars = 'Экстра перем.';
     $lang->component_grant = 'Настройки прав доступа';
+    $lang->content_style = 'Content Style';
 
     $lang->about_component = 'О компоненте';
     $lang->about_component_grant = 'Только выбранным группам позволено использование.<br /> (Каждый может использовать его, если режим выключен)';
@@ -41,6 +42,7 @@
     $lang->editor_height = '에디터 높이';
 
     $lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
+    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_upload_file_grant = '파일을 첨부할 수 있는 권한을 지정하실 수 있습니다 (모두 해제시 아무나 첨부 가능합니다)';
     $lang->about_default_component_grant = '에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
     $lang->about_editor_height = '에디터의 기본 높이를 지정하실 수 있습니다';
