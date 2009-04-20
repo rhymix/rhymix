@@ -33,26 +33,21 @@
 
             // 기본 모듈을 찾음
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getDefaultMid();
-
-            // 기본 모듈이 없으면 새로 등록
-            if(!$module_info->module_srl) {
+            $site_args->site_srl = 0;
+            $mid_list = $oModuleModel->getMidList($site_args);
+            if(!count($mid_list)) {
                 $args->mid = 'board';
                 $args->module = 'board';
                 $args->browser_title = 'test module';
-                $args->is_default = 'Y';
                 $args->skin = 'xe_default';
                 $args->site_srl = 0;
-
-                // board 라는 이름의 모듈이 있는지 확인
-                $module_info = $oModuleModel->getModuleInfoByMid($args->board_name);
-                if($module_info->module_srl) {
-                    $args->module_srl = $module_info->module_srl;
-                    $oModuleController->updateModule($args);
-                } else {
-                    $args->module_srl = 0;
-                    $oModuleController->insertModule($args);
-                }
+                $output = $oModuleController->insertModule($args);
+                $module_srl = $output->get('module_srl');
+                
+                $site_args->site_srl = 0;
+                $site_args->index_module_srl = $module_srl;
+                $oModuleController = &getController('module');
+                $oModuleController->updateSite($site_args);
             }
 
             return new Object();

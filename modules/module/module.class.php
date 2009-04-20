@@ -48,6 +48,11 @@
                 if($oDB->isColumnExists("documents","extra_vars".$i)) return true;
             }
 
+            // sites 테이블에 기본 사이트 정보 입력
+            $args->site_srl = 0;
+            $output = $oDB->executeQuery('module.getSite', $args);
+            if(!$output->data || !$output->data->index_module_srl) return true;
+
             return false;
         }
 
@@ -243,6 +248,30 @@
             for($i=1;$i<=20;$i++) {
                 if(!$oDB->isColumnExists("documents","extra_vars".$i)) continue;
                 $oDB->dropColumn('documents','extra_vars'.$i);
+            }
+
+            // sites 테이블에 기본 사이트 정보 입력
+            $args->site_srl = 0;
+            $output = $oDB->executeQuery('module.getSite', $args);
+            if(!$output->data || !$output->data->index_module_srl) {
+                // 기본 mid, 언어 구함
+                $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+                $db_info = Context::getDBInfo();
+                $domain = Context::getDefaultUrl();
+                $url_info = parse_url($domain);
+                $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+                $site_args->site_srl = 0;
+                $site_args->index_module_srl  = $mid_output->data->module_srl;
+                $site_args->domain = $domain;
+                $site_args->default_language = $db_info->lang_type;
+
+                if($output->data && !$output->data->index_module_srl) {
+                    $output = executeQuery('module.updateSite', $site_args);
+
+                } else {
+                    $output = executeQuery('module.insertSite', $site_args);
+                    if(!$output->toBool()) return $output;
+                }
             }
 
             return new Object(0, 'success_updated');

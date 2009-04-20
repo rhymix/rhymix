@@ -239,11 +239,14 @@
             $output = executeQuery("admin.getCommentDeclaredCount", $args);
             $status->commentDeclared->total = $output->data->count;
 
+            $site_args->site_srl = 0;
+            $output = executeQuery('module.getSiteInfo', $site_args);
+            Context::set('start_module', $output->data);
+
             Context::set('status', $status);
 
             Context::set('layout','none');
             $this->setTemplateFile('index');
-            //$this->setTemplateFile('a');
         }
 
         /**
@@ -261,6 +264,21 @@
             Context::set('lang_selected', Context::loadLangSelected());
 
             Context::set('ftp_info', Context::getFTPInfo());
+
+            $oModuleModel = &getModel('module');
+            $site_args->site_srl = 0;
+            $list = $oModuleModel->getMidList($site_args);
+            $mid_list = array();
+            if(count($list)) {
+                foreach($list as $key => $val) {
+                    $mid_list[$val->module][$key] = $val;
+                }
+            }
+            Context::set('mid_list', $mid_list);
+
+            $site_args->site_srl = 0;
+            $output = executeQuery('module.getSiteInfo', $site_args);
+            Context::set('start_module', $output->data);
 
             Context::set('layout','none');
             $this->setTemplateFile('config');

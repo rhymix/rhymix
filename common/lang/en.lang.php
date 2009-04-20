@@ -225,7 +225,7 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'You do not have permission to execute requested action';
-    $lang->msg_module_is_not_exists = 'Requested module could not be found';
+    $lang->msg_module_is_not_exists = "Start the module is not enabled.\nSetup the start module on the administrator page.";
     $lang->msg_module_is_not_standalone = 'Requested module cannot be executed independently';
 
     $lang->success_registed = 'Registered successfully';

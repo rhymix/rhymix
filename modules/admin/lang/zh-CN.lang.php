@@ -8,6 +8,8 @@
     $lang->admin_info = '管理员信息';
     $lang->admin_index = '管理首页';
     $lang->control_panel = '控制面板';
+    $lang->start_module = '启动模块';
+    $lang->about_start_module = '您可以指定默认的启动模块。';
 
     $lang->module_category_title = array(
         'service' => '应用管理',
@@ -76,5 +78,5 @@
     $lang->server_ports = "指定服务器端口";
     $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
     $lang->use_db_session = '인증 세션 DB 사용';
-    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
 ?>

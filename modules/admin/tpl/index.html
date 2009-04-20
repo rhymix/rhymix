@@ -167,6 +167,10 @@
             <td>{$installed_path}/</td>
         </tr>
         <tr>
+            <th><div>{$lang->start_module}</div></th>
+            <td><a href="{getSiteUrl('','','mid',$start_module->mid)}" onclick="window.open(this.href);return false;">{cut_str($start_module->browser_title,10)}</a></td>
+        </tr>
+        <tr>
             <th><div>{$lang->time_zone}</div></th>
             <td><!--@foreach($time_zone_list as $key => $val)--><!--@if($time_zone==$key)-->{substr($val,1,10)}<!--@end--><!--@endforeach--></td>
         </tr>

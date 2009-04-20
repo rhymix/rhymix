@@ -225,7 +225,7 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません。';
-    $lang->msg_module_is_not_exists = 'モジュールが見つかりません。';
+    $lang->msg_module_is_not_exists = "モジュールの起動を有効にされていません。\n管理者ページにセットアップを開始するモジュール。";
     $lang->msg_module_is_not_standalone = 'このモジュールはスタンドアローンでは作動しません。';
 
     $lang->success_registed = '登録しました。';

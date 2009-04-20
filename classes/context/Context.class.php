@@ -88,6 +88,8 @@
                 Context::set('site_module_info', $site_module_info);
 
                 if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
+                $this->db_info->lang_type = $site_module_info->default_language;
+                if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
             }
 
             // 언어 파일 불러오기
@@ -97,14 +99,9 @@
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
 
             // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
-            if(!$this->lang_type) {
-                // 가상 사이트라면 가상사이트의 언어타입으로 지정
-                if($site_module_info && $site_module_info->default_language) $this->lang_type = $site_module_info->default_language;
-                else $this->lang_type = $this->db_info->lang_type;
-            }
+            if(!$this->lang_type) $this->lang_type = $this->db_info->lang_type;
 
             // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
-            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
             if(!$this->lang_type) $this->lang_type = "en";
 
             Context::set('lang_supported', $lang_supported);

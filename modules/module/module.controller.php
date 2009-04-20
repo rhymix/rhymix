@@ -185,13 +185,6 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // is_default 의 값에 따라서 처리
-            if($args->site_srl!=0) $args->is_default = 'N';
-            else {
-                if($args->is_default!='Y') $args->is_default = 'N';
-                else $this->clearDefaultModule();
-            }
-
             // 선택된 스킨정보에서 colorset을 구함
             $module_path = ModuleHandler::getModulePath($args->module);
             $skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
@@ -238,13 +231,6 @@
             if(!$output->toBool() || $output->data->count) {
                 $oDB->rollback();
                 return new Object(-1, 'msg_module_name_exists');
-            }
-
-            // is_default 의 값에 따라서 처리
-            if($args->site_srl!=0) $args->is_default = 'N';
-            else {
-                if($args->is_default!='Y') $args->is_default = 'N';
-                else $this->clearDefaultModule();
             }
 
             $output = executeQuery('module.updateModule', $args);

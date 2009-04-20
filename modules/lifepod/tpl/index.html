@@ -49,7 +49,7 @@
         <td><a href="{getUrl('','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->browser_title)}</a></td>
         <td class="date nowrap center">{zdate($val->regdate,"Y-m-d")}</td>
         <td><a href="{getUrl('act','dispLifepodAdminLifepodInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setting}</span></a></td>
-        <td><!--@if($val->is_default!='Y')--><a href="{getUrl('act','dispLifepodAdminDeleteLifepod','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a><!--@else-->-<!--@end--></td>
+        <td><a href="{getUrl('act','dispLifepodAdminDeleteLifepod','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>

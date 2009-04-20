@@ -223,7 +223,7 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'У Вас нет прав для исполнения запрошенного действия';
-    $lang->msg_module_is_not_exists = 'Запрошенный модуль не найден';
+    $lang->msg_module_is_not_exists = "Запустить модуль не включен.\nУстановка запуска модуля администратор странице.";
     $lang->msg_module_is_not_standalone = 'Запрошенный модуль не может быть исполнен независимо';
 
     $lang->success_registed = 'Зарегистрировано успешно';

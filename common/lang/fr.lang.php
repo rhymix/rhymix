@@ -225,7 +225,7 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'Vous n\'êtes pas autorisés à exécuter l\'action que vous avez demandé.';
-    $lang->msg_module_is_not_exists = 'Le module demandé n\'a pas été trouvé.';
+    $lang->msg_module_is_not_exists = "Démarrez le module n'est pas activé.\nLe lancement du module d'installation de l'administrateur sur la page.";
     $lang->msg_module_is_not_standalone = 'Le module demandé ne peut pas être exécuté indépendamment.';
 
     $lang->success_registed = 'Enregistré avec succès';

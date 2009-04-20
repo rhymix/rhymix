@@ -231,7 +231,7 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'No está permitodo para ejecutar esta acción';
-    $lang->msg_module_is_not_exists = 'No existe el Módulo requerido';
+    $lang->msg_module_is_not_exists = "Inicie el módulo no está habilitado.\nEl inicio de instalación del módulo en el administrador de la página.";
     $lang->msg_module_is_not_standalone = 'El Módulo requerido no funciona solo.';
 
     $lang->success_registed = 'Registrado con éxito';

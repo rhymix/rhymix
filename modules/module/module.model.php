@@ -93,16 +93,35 @@
                 }
             }
 
+            // 가상 사이트가 아닐 경우 기본 사이트 정보를 구함
             if(!$output->data) {
                 $args->site_srl = 0;
-                // site_srl이 modules에 생성되지 않은 이전 버전 사용자의 경우 관리자 페이지에 접속하지를 못하는 오류 수정
-                // Parker Falcon 님이 알려주심
-                $output = executeQuery('module.getDefaultMidInfo', $args);
-                if(!$output->toBool()) {
+                $output = executeQuery('module.getSiteInfo', $args);
+                // 기본 사이트 정보가 없으면 관련된 정보를 갱신
+                if(!$output->data) {
+                    // sites 테이블이 없을 경우 생성
                     $oDB = &DB::getInstance();
-                    $oDB->dropIndex("modules","unique_mid",true);
-                    $oDB->addColumn('modules','site_srl','number',11,0,true);
-                    $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
+                    if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+                    if(!$oDB->isTableExists('sites')) return;
+
+                    // 기본 mid, 언어 구함
+                    $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+                    $db_info = Context::getDBInfo();
+                    $domain = Context::getDefaultUrl();
+                    $url_info = parse_url($domain);
+                    $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+                    $site_args->site_srl = 0;
+                    $site_args->index_module_srl  = $mid_output->data->module_srl;
+                    $site_args->domain = $domain;
+                    $site_args->default_language = $db_info->lang_type;
+
+                    if($output->data && !$output->data->index_module_srl) {
+                        $output = executeQuery('module.updateSite', $site_args);
+                    } else {
+                        $output = executeQuery('module.insertSite', $site_args);
+                        if(!$output->toBool()) return $output;
+                    }
+                    $output = executeQuery('module.getSiteInfo', $args);
                 }
             }
 

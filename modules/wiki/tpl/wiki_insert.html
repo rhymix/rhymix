@@ -5,9 +5,6 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_wiki)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-<!--@if($module_info->is_default=='Y')-->
-<input type="hidden" name="is_default" value="Y" />
-<!--@end-->
 
     <table cellspacing="0" class="rowTable">
     <tr>
@@ -17,15 +14,6 @@
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th scope="row"><div>{$lang->is_default}</div></th>
-        <td>
-            <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
-            <label for="fld_for_default">{$lang->about_default}</label>
-        </td>
-    </tr>
-    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->module_category}</div></th>
         <td>

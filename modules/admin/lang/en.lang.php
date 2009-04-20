@@ -8,6 +8,8 @@
     $lang->admin_info = 'Administrator Info';
     $lang->admin_index = 'Index Admin Page';
     $lang->control_panel = 'Control panel';
+    $lang->start_module = 'Start Module';
+    $lang->about_start_module = 'You can specify start module by default.';
 
     $lang->module_category_title = array(
         'service' => 'Service Setting',
@@ -75,5 +77,5 @@
     $lang->server_ports = "Server port";
     $lang->about_server_ports = "If your web-server uses other than 80 for HTTP, 443 for HTTPS, you should specify server ports";
     $lang->use_db_session = '인증 세션 DB 사용';
-    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
 ?>

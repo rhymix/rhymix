@@ -37,7 +37,7 @@
             }
             Context::set('ssl_mode',$ssl_mode);
 
-            Context::set('system_message', $this->getMessage());
+            Context::set('system_message', nl2br($this->getMessage()));
 
             $this->setTemplatePath($template_path);
             $this->setTemplateFile('system_message');
