@@ -6,7 +6,7 @@
     <td>
         <select name="selected_widget" class="fullWidth">
         <!--@foreach($widget_list as $widget)-->
-        <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget_info->version}</option>
+        <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget->version}</option>
         <!--@end-->
         </select>
         <a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_select}</span></a>
