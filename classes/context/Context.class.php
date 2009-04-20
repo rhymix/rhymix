@@ -28,6 +28,7 @@
         var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
 
         var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트코드
+	var $body_class = array(); ///< @brief display시에 사용하게 되는 <body> 안에 출력될 class
         var $body_header = NULL; ///< @brief display시에 사용하게 되는 <body> 바로 다음에 출력될 스크립트 코드
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
@@ -1251,6 +1252,39 @@
         function _getHtmlHeader() {
             return $this->html_header;
         }
+
+        /**
+         * @brief Html Body에 css class 추가
+         **/
+        function addBodyClass($class_name) {
+            $oContext = &Context::getInstance();
+            return $oContext->_addBodyClass($class_name);
+        }
+
+        /**
+         * @brief Html Body에 css class 추가
+         **/
+        function _addBodyClass($class_name) {
+	    $this->body_class[] = $class_name;
+        }
+
+        /**
+         * @brief Html Body에 css class return
+         **/
+        function getBodyClass() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getBodyClass();
+        }
+
+        /**
+         * @brief Html Body에 css class return
+         **/
+        function _getBodyClass() {
+	    $this->body_class = array_unique($this->body_class);
+	    if(count($this->body_class)>0) return sprintf(' class="%s"', join(' ',$this->body_class));
+            else return '';
+        }
+
 
         /**
          * @brief BodyHeader 추가
