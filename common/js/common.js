@@ -504,6 +504,7 @@ function zbxe_folder_close(id) {
  **/
 var _popupHeight = 0;
 function setFixedPopupSize() {
+    var headerObj = jQuery('#popHeader');
     var bodyObj = jQuery('#popBody');
 
     if(bodyObj.length) {
@@ -511,6 +512,8 @@ function setFixedPopupSize() {
             bodyObj.css({ overflowY:'scroll', overflowX:'hidden', height:400 });
         }
     }
+
+    bodyObj.css({paddingRight:30});
 
     var w = jQuery("#popup_content").width();
     w = w< 400 ? 400 : w;
