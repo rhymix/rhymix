@@ -112,18 +112,18 @@
                     $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
                 }
 
-                // 사용자 정의 언어 변환
-                $oModuleController = &getController('module');
-                $oModuleController->replaceDefinedLangCode($output);
-
-                if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
-
                 // 간혹 background-image에 url(none) 때문에 request가 한번 더 일어나는 경우가 생기는 것을 방지
                 $output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
+
+                if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
 
                 // 최종 레이아웃 변환
                 Context::set('content', $output);
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');
+
+                // 사용자 정의 언어 변환
+                $oModuleController = &getController('module');
+                $oModuleController->replaceDefinedLangCode($output);
             }
 
             // header 출력
