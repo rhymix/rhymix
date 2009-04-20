@@ -37,6 +37,10 @@
                 $this->document_srl = null;
                 return;
             }
+            if ($attribute->member_srl < 0) {
+                $attribute->member_srl = 0;
+                $attribute->ipaddress = '0.0.0.0';
+            }
             $this->document_srl = $attribute->document_srl;
             $this->lang_code = $attribute->lang_code;
             $this->adds($attribute);
