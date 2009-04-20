@@ -36,6 +36,7 @@
 
             $oReqeust = new HTTP_Request($rss_url);
             $oReqeust->addHeader('Content-Type', 'application/xml');
+            $oReqeust->addHeader('User-agent', 'RSS Reader Widget (XE '.__ZBXE_VERSION__.' (http://www.xpressengine.com); PEAR HTTP_Request class (http://pear.php.net))');
             $oReqeust->setMethod('GET');
 
             $user = $URL_parsed["user"];
