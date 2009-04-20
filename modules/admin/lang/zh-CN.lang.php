@@ -75,4 +75,6 @@
     $lang->about_use_ssl = "选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。";
     $lang->server_ports = "指定服务器端口";
     $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
+    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다';
 ?>

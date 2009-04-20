@@ -74,4 +74,6 @@
     $lang->about_use_ssl = "If you choose 'optional', SSL will be used for actions such as sign up / changing information. And for 'always', your site will be served only via https.";
     $lang->server_ports = "Server port";
     $lang->about_server_ports = "If your web-server uses other than 80 for HTTP, 443 for HTTPS, you should specify server ports";
+    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다';
 ?>

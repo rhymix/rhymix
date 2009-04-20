@@ -75,4 +75,6 @@
     $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用SSL功能。";
     $lang->server_ports = "主機埠口";
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
+    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다';
 ?>

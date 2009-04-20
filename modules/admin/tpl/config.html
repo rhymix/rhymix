@@ -69,6 +69,13 @@
         </td>
     </tr>
     <tr>
+        <th><div>{$lang->use_db_session}</div></th>
+        <td>
+            <input type="checkbox" name="use_db_session" value="Y"  <!--@if($use_db_session=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_db_session}</p>
+        </td>
+    </tr>
+    <tr>
         <th><div>{$lang->use_ssl}</div></th>
         <td>
             <select name="use_ssl">

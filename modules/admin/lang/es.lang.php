@@ -76,4 +76,6 @@
     $lang->about_use_ssl = "Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán";
     $lang->server_ports = "Especifique el puerto del servidor";
     $lang->about_server_ports = "80 de HTTP, HTTPS al puerto 443 si se utiliza otro que se especifique lo contrario, el puerto va a necesitar.";
+    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다';
 ?>

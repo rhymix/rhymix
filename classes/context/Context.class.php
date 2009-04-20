@@ -113,16 +113,18 @@
             $this->loadLang(_XE_PATH_.'modules/module/lang');
 
             // 세션 핸들러 지정
-            $oSessionModel = &getModel('session');
-            $oSessionController = &getController('session');
-            session_set_save_handler(
-                array(&$oSessionController,"open"),
-                array(&$oSessionController,"close"),
-                array(&$oSessionModel,"read"),
-                array(&$oSessionController,"write"),
-                array(&$oSessionController,"destroy"),
-                array(&$oSessionController,"gc")
-            );
+            if($this->db_info->use_db_session != 'N') {
+                $oSessionModel = &getModel('session');
+                $oSessionController = &getController('session');
+                session_set_save_handler(
+                    array(&$oSessionController,"open"),
+                    array(&$oSessionController,"close"),
+                    array(&$oSessionModel,"read"),
+                    array(&$oSessionController,"write"),
+                    array(&$oSessionController,"destroy"),
+                    array(&$oSessionController,"gc")
+                );
+            }
             session_start();
 
 

@@ -56,8 +56,12 @@
             $qmail_compatibility = Context::get('qmail_compatibility');
             if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
+            $use_db_session = Context::get('use_db_session');
+            if($use_db_session!='Y') $use_db_session = 'N';
+
             $use_ssl = Context::get('use_ssl');
             if(!$use_ssl) $use_ssl = 'none';
+
 
             $http_port = Context::get('http_port');
             $https_port = Context::get('https_port');
@@ -67,6 +71,7 @@
             if($db_info->default_url && !preg_match('/^(http|https):\/\//i', $db_info->default_url)) $db_info->default_url = 'http://'.$db_info->default_url;
             $db_info->time_zone = $time_zone;
             $db_info->qmail_compatibility = $qmail_compatibility;
+            $db_info->use_db_session = $use_db_session;
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_optimizer = $use_optimizer;
             $db_info->lang_type = Context::get('change_lang_type');
