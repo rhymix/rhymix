@@ -70,6 +70,9 @@
             if(!$option->content_style) $option->content_style = 'xeStyle';
             Context::set('content_style', $option->content_style);
 
+            // 기본 글꼴 지정
+            Context::set('content_font', $option->content_font);
+
             // 자동 저장 유무 옵션 설정
             if(!$option->enable_autosave) $enable_autosave = false;
             else $enable_autosave = true;
@@ -220,6 +223,7 @@
             if($type == 'document') {
                 $config->editor_skin = $editor_config->editor_skin;
                 $config->content_style = $editor_config->content_style;
+                $config->content_font = $editor_config->content_font;
                 $config->sel_editor_colorset = $editor_config->sel_editor_colorset;
                 $config->upload_file_grant = $editor_config->upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -230,6 +234,7 @@
             } else {
                 $config->editor_skin = $editor_config->comment_editor_skin;
                 $config->content_style = $editor_config->content_style;
+                $config->content_font = $editor_config->content_font;
                 $config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
                 $config->upload_file_grant = $editor_config->comment_upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -250,6 +255,7 @@
             // 에디터 옵션 변수를 미리 설정
             $option->skin = $config->editor_skin;
             $option->content_style = $config->content_style;
+            $option->content_font = $config->content_font;
             $option->colorset = $config->sel_editor_colorset;
 
             // 파일 업로드 권한 체크

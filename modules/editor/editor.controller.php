@@ -81,6 +81,17 @@
             $editor_config->editor_skin = Context::get('editor_skin');
             $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
             $editor_config->content_style = Context::get('content_style');
+            $editor_config->content_font = Context::get('content_font');
+            if($editor_config->content_font) {
+                $font_list = array();
+                $fonts = explode(',',$editor_config->content_font);
+                for($i=0,$c=count($fonts);$i<$c;$i++) {
+                    $font = trim(str_replace(array('"','\''),'',$fonts[$i]));
+                    if(!$font) continue;
+                    $font_list[] = $font;
+                }
+                if(count($font_list)) $editor_config->content_font = '"'.implode('","',$font_list).'"';
+            }
             $editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
             $editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
 
@@ -157,6 +168,8 @@
                         elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
                     }
                 }
+                $content_font = $editor_config->content_font;
+                if($content_font) Context::addHtmlHeader('<style type="text/css" charset="UTF-8"> .xe_content { font-family:'.$content_font.'; } </style>');
             }
 
             $content = $this->transComponent($content);

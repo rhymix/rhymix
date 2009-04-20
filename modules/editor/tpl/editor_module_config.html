@@ -57,6 +57,15 @@
         </td>
     </tr>
     <tr>
+        <th rowspan="2"><div>{$lang->content_font}</div></th>
+        <td colspan="2"><p>{$lang->about_content_font}</p></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="text" name="content_font" value="{str_replace(array('"','\''),'',$editor_config->content_font)}" class="inputTypeText w400" />
+        </td>
+    </tr>
+    <tr>
         <th rowspan="2"><div>{$lang->editor_height}</div></th>
         <td colspan="2"><p>{$lang->about_editor_height}</p></td>
     </tr>

@@ -17,6 +17,7 @@
     $lang->component_extra_vars = '設定変数';
     $lang->component_grant = '権限設定';
     $lang->content_style = 'Content Style';
+    $lang->content_font = 'Content Font';
 
     $lang->about_component = 'コンポーネント情報';
     $lang->about_component_grant = '基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。<br />(選択なしの場合、誰でも利用可能)';
@@ -43,6 +44,7 @@
 
     $lang->about_editor_skin = 'エディターのスキンの選択が出来ます。';
     $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
+    $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
     $lang->about_upload_file_grant = 'ファイル添付可能な権限の設定が出来ます。(選択なしの場合、誰でも添付が可能)';
     $lang->about_default_component_grant = 'エディターでの基本コンポーネントを使用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
     $lang->about_editor_height = 'エディターの基本高さを設定します。';

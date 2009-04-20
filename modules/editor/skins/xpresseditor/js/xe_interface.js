@@ -2,9 +2,10 @@ if (!window.xe) xe = {};
 
 xe.Editors = [];
 
-function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style) {
+function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style, content_font) {
     if(typeof(colorset)=='undefined') colorset = 'white';
     if(typeof(content_style)=='undefined') content_style = 'xeStyle';
+    if(typeof(content_font)=='undefined') content_font= '';
 
     var target_src = request_uri+'modules/editor/styles/'+content_style+'/editor.html';
 
@@ -140,6 +141,10 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     		oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
     		oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
     		oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
+
+            if(content_font && !doc.body.style.fontFamily) {
+                doc.body.style.fontFamily = content_font;
+            }
     		
     		// run
 	    	oEditor.run();
