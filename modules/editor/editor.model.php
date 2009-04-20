@@ -67,6 +67,7 @@
             else $allow_fileupload = true;
 
             // content_style 세팅
+            if(!$option->content_style) $option->content_style = 'xeStyle';
             Context::set('content_style', $option->content_style);
 
             // 자동 저장 유무 옵션 설정
