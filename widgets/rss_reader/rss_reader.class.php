@@ -45,10 +45,10 @@
 
             $oResponse = $oReqeust->sendRequest();
             if (PEAR::isError($oResponse)) {
-                return new Object(-1, 'msg_fail_to_request_open');
+                return;
             }
             $header = $oReqeust->getResponseHeader();
-            if($header['location']) {   
+            if($header['location']) {
                 return $this->rss_request(trim($header['location']));
             }
             else {
@@ -73,7 +73,7 @@
 
             $buff = $this->rss_request($args->rss_url);
 
-            if(!$buff) return new Object(-1, 'msg_fail_to_request_open');
+            if(!is_string($buff) or !$buff) return Context::getLang('msg_fail_to_request_open');
 
             $encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
             if($encoding && !preg_match("/UTF-8/i", $matches[1])) $buff = trim(iconv($matches[1]=="ks_c_5601-1987"?"EUC-KR":$matches[1], "UTF-8", $buff));
@@ -86,8 +86,8 @@
             $rss->link = $xml_doc->rss->channel->link->body;
 
             $items = $xml_doc->rss->channel->item;
-            
-            if(!$items) return; 
+
+            if(!$items) return Context::getLang('msg_invalid_format');
             if($items && !is_array($items)) $items = array($items);
 
             $rss_list = array();

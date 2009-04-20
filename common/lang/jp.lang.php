@@ -221,6 +221,8 @@
     $lang->msg_error_occured = 'エラーが発生しました。';
     $lang->msg_not_founded = '見つかりません。';
     $lang->msg_no_result = '検索結果がありません。';
+    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません。';
     $lang->msg_module_is_not_exists = 'モジュールが見つかりません。';

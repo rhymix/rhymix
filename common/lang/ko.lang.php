@@ -204,7 +204,7 @@
         'hours' => '%d 시간전',
     );
 
-    // 설명 관련 
+    // 설명 관련
     $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
     $lang->about_layout = '레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다';
 
@@ -221,6 +221,8 @@
     $lang->msg_error_occured = '오류가 발생하였습니다';
     $lang->msg_not_founded = '대상을 찾을 수 없습니다';
     $lang->msg_no_result = '검색 결과가 없습니다';
+    $lang->msg_fail_to_request_open = '요청하신 연결에 실패하였습니다';
+    $lang->msg_invalid_format = '잘못된 형식입니다';
 
     $lang->msg_not_permitted_act = '요청하신 기능을 실행할 수 있는 권한이 없습니다';
     $lang->msg_module_is_not_exists = '요청하신 모듈을 찾을 수 없습니다';

@@ -221,6 +221,8 @@
     $lang->msg_error_occured = '发生错误';
     $lang->msg_not_founded = '没有找到相关内容';
     $lang->msg_no_result = '找不到和您查询的相符结果';
+    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = '没有权限执行 action命令';
     $lang->msg_module_is_not_exists = '找不到您查询的模块';
@@ -237,10 +239,10 @@
     $lang->success_reset = '初始化成功 !';
     $lang->success_leaved = '注销成功！';
     $lang->success_saved = '保存成功！';
-	
+
     $lang->fail_to_delete = '删除成功！';
     $lang->fail_to_move = '移动成功！';
-	
+
     $lang->failed_voted = '您不能推荐！';
     $lang->failed_blamed = '您不能投反对！';
     $lang->failed_declared = '您不具备举报权限！';

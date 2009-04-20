@@ -221,6 +221,8 @@
     $lang->msg_error_occured = 'An error has occured';
     $lang->msg_not_founded = 'Target could not be found';
     $lang->msg_no_result = 'Nothing found';
+    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'You do not have permission to execute requested action';
     $lang->msg_module_is_not_exists = 'Requested module could not be found';
