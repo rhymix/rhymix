@@ -338,6 +338,9 @@
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
                         ibase_blob_close($blob_hndl);
                     }
+					else if($type == "char") {
+						$tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
+					}
                 }
 
                 $return[] = $tmp;
