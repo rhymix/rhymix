@@ -2,6 +2,7 @@
 /* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 /* xe_content */
 .xe_content{ color:#000; font-size:12px;}
+.xe_content.editable{ margin-right:8px; font-family:Tahoma, Sans-serif;}
 
 .xe_content blockquote.q1,
 .xe_content blockquote.q2,
