@@ -74,7 +74,7 @@
     $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "C'est la valeur qui se représentera dans le titre de navigateur Web. Ce sera encore utilisé dans RSS/Rétrolien.";
-    $lang->about_mid = "Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis)";
+    $lang->about_mid = "Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.\n(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis. The maximum length is 40.)";
     $lang->about_default = "Si c'est coché, on verra ce module quand on connecte ce site sans aucune valeur de mid(mid=Nulle Valeur).";
     $lang->about_module_category = "Ça vous permet d'administrer le module par la catégorie.\nOn peut administrer la classification des modules à <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Administration des modules > Catégorie des Modules </a>.";
     $lang->about_description= 'C\'est la description pour la facilité à administrer.';

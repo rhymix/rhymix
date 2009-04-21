@@ -72,10 +72,10 @@
     $lang->msg_move_failed = 'Failed to move';
     $lang->msg_cannot_delete_for_child = 'Cannot delete a category having child categories.';
 	$lang->msg_limit_mid ="Only alphabets+[alphabets+numbers+_] can be used as module name.";
-    $lang->msg_extra_name_exists = 'Already registered extra variable name. Please input another name.'; 
+    $lang->msg_extra_name_exists = 'Already registered extra variable name. Please input another name.';
 
     $lang->about_browser_title = "It will be shown in the browser title. It will be also used in a RSS/Trackback.";
-    $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(only english alphabet + [english alphabet ,numbers, and underscore(_)] are allowed)";
+    $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(Only english alphabet + [english alphabet, numbers, and underscore(_)] are allowed. The maximum length is 40.)";
     $lang->about_default = "If checked, the default will be shown when access to the site without no mid value(mid=NoValue).";
     $lang->about_module_category = "It enables you to manage it through module category.\n The URL for the module manager is <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Manage module > Module category </a>.";
     $lang->about_description= 'It is the description only for a manager.';
@@ -89,7 +89,7 @@
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.';
     $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.';
-    $lang->about_grant_deatil = 'Registered users mean users who signed-up to the virtual sites (e.g., cafeXE).'; 
+    $lang->about_grant_deatil = 'Registered users mean users who signed-up to the virtual sites (e.g., cafeXE).';
     $lang->about_module = "XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.";
 
 	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';

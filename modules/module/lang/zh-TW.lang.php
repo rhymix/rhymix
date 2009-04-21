@@ -74,7 +74,7 @@
     $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "顯示在瀏覽器視窗的標題。在RSS/Trackback也可以使用。";
-    $lang->about_mid = "模組名稱只允許使用英文，數字和底線。";
+    $lang->about_mid = "模組名稱只允許使用英文，數字和底線。 The maximum length is 40.";
     $lang->about_default = "用沒有mid值的網址訪問網站時，將會顯示預設。";
     $lang->about_module_category = "可以分類管理模組。模組分類可以在<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">模組管理 > 模組分類 </a>中進行管理。";
     $lang->about_description= '管理使用說明。';
