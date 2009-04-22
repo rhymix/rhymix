@@ -16,7 +16,16 @@
     $lang->cafe_admin = "管理员";
     $lang->do_selected_member = "把所选用户 : ";
 
+    $lang->default_layout = '기본 레이아웃';
+    $lang->about_default_layout = '카페가 생성될때 설정될 기본 레이아웃을 지정할 수 있습니다';
+    $lang->enable_change_layout = '레이아웃 변경';
+    $lang->about_change_layout = '선택하시면 개별 카페에서 레이아웃 변경을 허용할 수 있습니다';
+    $lang->allow_service = '허용 서비스';
+    $lang->about_allow_service = '개별 카페에서 사용할 기본 서비스를 설정할 수 있습니다';
+
     $lang->cmd_make_cafe = '카페 생성';
+    $lang->cmd_import = 'Import';
+    $lang->cmd_export = 'Export';
 
     $lang->default_menus = array(
         'home' => '首页',
@@ -76,4 +85,7 @@
 
     $lang->confirm_change_layout = "切换布局可能一些原有的信息将无法显示。你确定要切换吗？";
     $lang->confirm_delete_menu_item = "删除菜单：即同时删除链接到此菜单的版面或页面模块。你确定要删除吗？";
+    $lang->msg_module_count_exceed = '허용된 모듈의 개수를 초과하였기에 생성할 수 없습니다';
+    $lang->msg_same_site = '동일한 가상 사이트의 모듈은 이동할 수가 없습니다';
+    $lang->about_move_module = '가상사이트와 기본사이트간의 모듈을 옮길 수 있습니다.<br/>다만 가상사이트끼리 모듈을 이동하거나 같은 이름의 mid가 있을 경우 예기치 않은 오류가 생길 수 있으니 꼭 가상 사이트와 기본 사이트간의 다른 이름을 가지는 모듈만 이동하세요';
 ?>

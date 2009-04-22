@@ -27,6 +27,10 @@
              * $this->module_path는 ./modules/guestbook/의 값을 가지고 있다
              **/
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            if(!is_dir($template_path)||!$this->module_info->skin) {
+                $this->module_info->skin = 'xe_official';
+                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            }
             $this->setTemplatePath($template_path);
         }
 

@@ -9,6 +9,9 @@
     <table cellspacing="0" class="rowTable">
 
     <!--@if(!$module_srls)-->
+        <!--@if($logged_info->is_admin!='Y')-->
+        <input type="hidden" name="mid" value="{$module_info->mid}" />
+        <!--@else-->
         <tr class="row2">
             <th scope="row"><div>{$lang->mid}</div></th>
             <td>
@@ -16,6 +19,7 @@
                 <p>{$lang->about_mid}</p>
             </td>
         </tr>
+        <!--@end-->
     <!--@end-->
     <tr class="row2">
         <th scope="row"><div>{$lang->module_category}</div></th>

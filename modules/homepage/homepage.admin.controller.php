@@ -11,6 +11,24 @@
         }
 
         /**
+         * @brief 카페 설정
+         **/
+        function procHomepageAdminInsertConfig() {
+            $oModuleController = &getController('module');
+
+            $vars = Context::getRequestVars();
+
+            $args->default_layout = $vars->default_layout;
+            $args->enable_change_layout = $vars->enable_change_layout;
+            foreach($vars as $key => $val) {
+                if(strpos($key,'allow_service_')===false) continue;
+                $args->allow_service[substr($key, strlen('allow_service_'))] = $val;
+            }
+            if($vars->site_srl) $oModuleController->insertModulePartConfig('homepage', $vars->site_srl, $args);
+            else $oModuleController->insertModuleConfig('homepage', $args);
+        }
+
+        /**
          * @brief 접속 방법중 domain 이나 site id나 모두 sites 테이블의 domain 컬럼에 저장이 됨
          * site id보다 domain이 우선 순위를 가짐
          **/
@@ -266,17 +284,35 @@
         }
 
         function procHomepageAdminUpdateHomepage() {
-            $args = Context::gets('site_srl','homepage_admin');
+            $oHomepageModel = &getModel('homepage');
+            $oModuleController = &getController('module');
+
+            // 카페이름, 접속방법, 카페관리자 지정
+            $args = Context::gets('site_srl','title','homepage_admin');
             if(!$args->site_srl) return new Object(-1,'msg_invalid_request');
 
-            $oHomepageModel = &getModel('homepage');
+            if(Context::get('access_type')=='domain') $args->domain = Context::get('domain');
+            else $args->domain = Context::get('vid');
+            if(!$args->domain) return new Object(-1,'msg_invalid_request');
+
             $homepage_info = $oHomepageModel->getHomepageInfo($args->site_srl);
             if(!$homepage_info->site_srl) return new Object(-1,'msg_invalid_request');
 
+            // 관리자 지정
             $admin_list = explode(',',$args->homepage_admin);
-            $oModuleController = &getController('module');
             $output = $oModuleController->insertSiteAdmin($args->site_srl, $admin_list);
             if(!$output->toBool()) return $output;
+
+            // 카페이름 변경
+            $output = executeQuery('homepage.updateHomepage', $args);
+            if(!$output->toBool()) return false;
+
+            // 도메인 변경
+            $output = $oModuleController->updateSite($args);
+            if(!$output->toBool()) return false;
+
+            // 기본 레이아웃, 레이아웃 변경, 허용 서비스 변경
+            $this->procHomepageAdminInsertConfig();
 
             $this->setMessage('success_updated');
         }
@@ -337,6 +373,80 @@
             }
 
             $this->setMessage('success_deleted');
+        }
+        
+        /**
+         * @brief 다른 가상 사이트에서 모듈을 이동
+         **/
+        function procHomepageAdminImportModule() {
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+            $oHomepageModel = &getModel('homepage');
+            $oMenuAdminController = &getAdminController('menu');
+
+            $module_srl = Context::get('import_module_srl');
+            $site_srl = Context::get('site_srl');
+            if(!$module_srl || !$site_srl) return new Object(-1,'msg_invalid_request');
+
+            $site_module_info = $oModuleModel->getSiteInfo($site_srl);
+            if(!$site_module_info->site_srl) return new Object(-1,'msg_invalid_request');
+
+            $homepage_info = $oHomepageModel->getHomepageInfo($site_srl);
+
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$module_info->module_srl) return new Object(-1,'msg_invalid_request');
+
+            if($module_info->site_srl == $site_srl) return new Object(-1,'msg_same_site');
+
+            // 대상 모듈의 site_srl을 변경
+            $output = $oModuleController->updateModuleSite($module_srl, $site_srl, $homepage_info->layout_srl);
+            if(!$output->toBool()) return $output;
+
+
+            // 대상 모듈을 최하단 메뉴로 추가
+            $args->menu_srl = $homepage_info->first_menu_srl;
+            $args->menu_item_srl = getNextSequence();
+            $args->parent_srl = 0;
+            $args->name = $module_info->browser_title;
+            $args->url = $module_info->mid;;
+            $args->open_window = 'N';
+            $args->expand = 'N';
+            $args->normal_btn = '';
+            $args->hover_btn = '';
+            $args->active_btn = '';
+            $args->group_srls = '';
+            $args->listorder = -1*$args->menu_item_srl;
+            $output = executeQuery('menu.insertMenuItem', $args);
+            if(!$output->toBool()) return $output;
+
+            // 캐시파일 재생성
+            $xml_file = $oMenuAdminController->makeXmlFile($args->menu_srl);
+        }
+
+        /**
+         * @brief 가상 사이트의 모듈을 기본 사이트로 이동
+         **/
+        function procHomepageAdminExportModule() {
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+            $oHomepageModel = &getModel('homepage');
+            $oMenuAdminController = &getAdminController('menu');
+
+            $module_srl = Context::get('export_module_srl');
+            if(!$module_srl) return new Object(-1,'msg_invalid_request');
+
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$module_info->module_srl || !$module_info->site_srl) return new Object(-1,'msg_invalid_request');
+
+            $site_srl = $module_info->site_srl;
+            $site_module_info = $oModuleModel->getSiteInfo($site_srl);
+            if(!$site_module_info->site_srl) return new Object(-1,'msg_invalid_request');
+
+            $homepage_info = $oHomepageModel->getHomepageInfo($site_srl);
+
+            // 대상 모듈의 site_srl을 변경
+            $output = $oModuleController->updateModuleSite($module_srl, 0, '');
+            if(!$output->toBool()) return $output;
         }
     }
 

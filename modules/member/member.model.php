@@ -286,7 +286,7 @@
         function getMembersGroups($member_srls, $site_srl = 0) {
             $args->member_srls = implode(',',$member_srls);
             $args->site_srl = $site_srl;
-            $output = executeQuery('member.getMembersGroups', $args);
+            $output = executeQueryArray('member.getMembersGroups', $args);
             if(!$output->data) return array();
 
             $result = array();

@@ -16,6 +16,23 @@
             $this->site_srl = $this->site_module_info->site_srl;
         }
 
+        function getConfig($site_srl = 0) {
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('homepage');
+            if(!$config) {
+                $config->default_layout = 'cafeXE';
+                $config->enable_change_layout = 'N';
+                $config->allow_service = array('board'=>10,'page'=>2);
+            }
+            if($site_srl) {
+                $part_config = $oModuleModel->getModulePartConfig('homepage', $site_srl);
+                if(!$part_config) $part_config = $config;
+                else $config = $part_config;
+            }
+
+            return $config;
+        }
+
         function getHomepageInfo($site_srl) {
             $args->site_srl = $site_srl;
             $output = executeQuery('homepage.getHomepageInfo', $args);

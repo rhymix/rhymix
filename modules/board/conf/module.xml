@@ -79,7 +79,7 @@
         <action name="dispBoardAdminBoardInfo" type="view" standalone="true" />
         <action name="dispBoardAdminExtraVars" type="view" standalone="true" />
         <action name="dispBoardAdminBoardAdditionSetup" type="view" standalone="true" />
-        <action name="dispBoardAdminInsertBoard" type="view" standalone="true" />
+        <action name="dispBoardAdminInsertBoard" type="view" standalone="true" setup_index="true" />
         <action name="dispBoardAdminDeleteBoard" type="view" standalone="true" />
         <action name="dispBoardAdminSkinInfo" type="view" standalone="true" />
         <action name="dispBoardAdminGrantInfo" type="view" standalone="true" />

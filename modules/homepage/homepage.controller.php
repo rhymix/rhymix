@@ -14,6 +14,8 @@
 
         function init() {
             $oModuleModel = &getModel('module');
+            $oHomepageModel = &getModel('homepage');
+            $oLayoutModel = &getModel('layout');
 
             $logged_info = Context::get('logged_info');
             if(!$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
@@ -21,29 +23,30 @@
             // site_module_info값으로 홈페이지의 정보를 구함
             $this->site_module_info = Context::get('site_module_info');
             $this->site_srl = $this->site_module_info->site_srl;
-
-            $oHomepageModel = &getModel('homepage');
             $this->homepage_info = $oHomepageModel->getHomepageInfo($this->site_srl);
-
-            $oLayoutModel = &getModel('layout');
             $this->selected_layout = $oLayoutModel->getLayout($this->homepage_info->layout_srl);
-
         }
 
         function procHomepageChangeLanguage() {
+            $oModuleController = &getController('module');
+
             $lang_code = Context::get('language');
             if(!$lang_code) return;
             $args->site_srl = $this->site_module_info->site_srl;
             $args->index_module_srl= $this->site_module_info->index_module_srl;
             $args->domain = $this->site_module_info->domain;
             $args->default_language = $lang_code;
-            $oModuleController = &getController('module');
             return $oModuleController->updateSite($args);
         }
 
         function procHomepageChangeLayout() {
-            $oLayoutAdminController = &getAdminController('layout');
             $oLayoutModel = &getModel('layout');
+            $oLayoutAdminController = &getAdminController('layout');
+            $oHomepageModel = &getModel('homepage');
+
+            // 레이아웃 변경 권한 체크
+            $homepage_config = $oHomepageModel->getConfig($this->site_srl);
+            if($homepage_config->enable_change_layout == 'N') return new Object('msg_not_permitted');
 
             $layout = Context::get('layout');
             if(!$layout || ($layout!='faceoff' && !is_dir(_XE_PATH_.'layouts/'.$layout))) return new Object(-1,'msg_invalid_request');
@@ -79,6 +82,13 @@
         function procHomepageInsertMenuItem() {
             global $lang;
 
+            $oMenuAdminModel = &getAdminModel('menu');
+            $oMenuAdminController = &getAdminController('menu');
+            $oModuleController = &getController('module');
+            $oModuleModel = &getModel('module');
+            $oHomepageAdminController = &getAdminController('homepage');
+            $oHomepageModel = &getModel('homepage');
+
             // 기본 변수 체크
             $source_args = Context::getRequestVars();
             unset($source_args->body);
@@ -93,40 +103,49 @@
             $source_args->parent_srl = (int)$source_args->parent_srl;
 
             $module_type = Context::get('module_type');
-            $browser_title = trim(Context::get('browser_title'));
+            $browser_title = trim(Context::get('menu_name'));
             $url = trim(Context::get('url'));
             $module_id = trim(Context::get('module_id'));
 
-            $oMenuAdminModel = &getAdminModel('menu');
-            $oMenuAdminController = &getAdminController('menu');
-
             $mode = Context::get('mode');
+
+            // homepage config 구함
+            $homepage_config = $oHomepageModel->getConfig($this->site_srl);
+            
 
             // module_type이 url이 아니면 게시판 또는 페이지를 생성한다
             if($module_type != 'url' && $mode == 'insert') {
+                // 해당 모듈의 개수 검사
+                $module_count = $oModuleModel->getModuleCount($this->site_srl, $module_type);
+
+                if($module_count > $homepage_config->allow_service[$module_type]) return new Object(-1,'msg_module_count_exceed');
+
                 if(!$browser_title) return new Object(-1, sprintf($lang->filter->isnull, $lang->browser_title));
-                if(!$module_id) return new Object(-1, sprintf($lang->filter->isnull, $lang->module_id));
 
-                // 모듈이름을 검사
-                $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByMid($module_id, $this->site_srl);
-                if($module_info->mid == $module_id) return new Object(-1,'msg_module_name_exists');
-
-                $oHomepageAdminController = &getAdminController('homepage');
-                
-                if($module_type == 'page') {
-                    $oHomepageAdminController->makePage($this->site_srl, $module_id, $browser_title, '', $this->selected_layout->layout_srl);
-                } else {
-                    $oHomepageAdminController->makeBoard($this->site_srl, $module_id, $browser_title, $this->selected_layout->layout_srl);
+                // 모듈 등록
+                $idx = $module_count+1;
+                $args->site_srl = $this->site_srl;
+                $args->mid = $module_type.'_'.$idx;
+                $args->browser_title = $browser_title;
+                $args->layout_srl = $this->selected_layout->layout_srl;
+                $args->module = $module_type;
+                $args->menu_srl = $source_args->menu_srl;
+                $output = $oModuleController->insertModule($args);
+                while(!$output->toBool()) {
+                    $idx++;
+                    $args->mid = $module_type.'_'.$idx;
+                    $output = $oModuleController->insertModule($args);
                 }
+                if(!$output->toBool()) return $output;
+                $module_id = $args->mid;
 
+                $module_srl = $output->get('module_srl');
             }
 
             // 변수를 다시 정리 (form문의 column과 DB column이 달라서)
             $args->menu_srl = $source_args->menu_srl;
             $args->menu_item_srl = $source_args->menu_item_srl;
             $args->parent_srl = $source_args->parent_srl;
-            $args->menu_srl = $source_args->menu_srl;
             $args->name = $source_args->menu_name;
             if($module_type=='url') $args->url = 'http://'.preg_replace('/^(http|https):\/\//i','',$url);
             else $args->url = $module_id;
@@ -194,9 +213,9 @@
             if(!preg_match('/^http/i',$mid)) {
                 $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByMid($mid, $this->site_srl);
-                if($module_info && $module_info->mid == $mid) {
+                if($module_info->module_srl && $module_info->mid == $mid) {
                     $oModuleController = &getController('module');
-                    $output = $oModuleController->deleteModule($module_info->module_srl, $this->site_srl);
+                    $output = $oModuleController->deleteModule($module_info->module_srl);
                 }
             }
         }

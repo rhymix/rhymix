@@ -393,6 +393,8 @@
             // action 정보를 얻어서 admin_index를 추가
             $action_info = $this->getModuleActionXml($module);
             $module_info->admin_index_act = $action_info->admin_index_act;
+            $module_info->default_index_act = $action_info->default_index_act;
+            $module_info->setup_index_act = $action_info->setup_index_act;
 
             return $module_info;
         }
@@ -477,6 +479,7 @@
 
                         $index = $action->attrs->index;
                         $admin_index = $action->attrs->admin_index;
+                        $setup_index = $action->attrs->setup_index;
 
                         $output->action->{$name}->type = $type;
                         $output->action->{$name}->grant = $grant;
@@ -498,9 +501,13 @@
                             $admin_index_act = $name;
                             $info->admin_index_act = $name;
                         }
+                        if($setup_index=='true') {
+                            $setup_index_act = $name;
+                            $info->setup_index_act = $name;
+                        }
                     }
                 }
-                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
+                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $admin_index_act, $buff);
 
                 FileHandler::writeFile($cache_file, $buff);
 
@@ -777,6 +784,15 @@
             return $skin_info;
         }
 
+        /**
+         * @brief 특정 가상 사이트에 등록된 특정 모듈의 개수를 return
+         **/
+        function getModuleCount($site_srl, $module = null) {
+            $args->site_srl = $site_srl;
+            if(!is_null($module)) $args->module = $module;
+            $output = executeQuery('module.getModuleCount', $args);
+            return $output->data->count;
+        }
 
         /**
          * @brief 특정 모듈의 설정 return

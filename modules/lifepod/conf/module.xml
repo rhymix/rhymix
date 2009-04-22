@@ -6,8 +6,7 @@
         <action name="dispLifepodContent" type="view" index="true" />
 
         <action name="dispLifepodAdminContent" type="view" standalone="true" admin_index="true" />
-        <action name="dispLifepodAdminLifepodInfo" type="view" standalone="true" />
-        <action name="dispLifepodAdminInsertLifepod" type="view" standalone="true" />
+        <action name="dispLifepodAdminInsertLifepod" type="view" standalone="true" setup_index="true" />
         <action name="dispLifepodAdminDeleteLifepod" type="view" standalone="true" />
         <action name="dispLifepodAdminGrantInfo" type="view" standalone="true" />
         <action name="dispLifepodAdminSkinInfo" type="view" standalone="true" />

@@ -14,7 +14,7 @@ function completeInsertLifepod(ret_obj) {
 
     alert(message);
 
-    var url = current_url.setQuery('act','dispLifepodAdminLifepodInfo');
+    var url = current_url.setQuery('act','dispLifepodAdminInsertLifepod');
     if(module_srl) url = url.setQuery('module_srl',module_srl);
     if(page) url.setQuery('page',page);
     location.href = url;

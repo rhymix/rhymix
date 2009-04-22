@@ -49,25 +49,30 @@
          * @brief 홈페이지 기본 관리
          **/
         function dispHomepageManage() {
-            // 다운로드 되어 있는 레이아웃 목록을 구함
+            $oModuleModel = &getModel('module');
+            $oMenuAdminModel = &getAdminModel('menu');
             $oLayoutModel = &getModel('layout');
+            $oHomepageModel = &getModel('homepage');
+
+            $homepage_config = $oHomepageModel->getConfig($this->site_srl);
+            Context::set('homepage_config', $homepage_config);
+            debugPrint($homepage_config);
+
+            // 다운로드 되어 있는 레이아웃 목록을 구함
             $layout_list = $oLayoutModel->getDownloadedLayoutList();
             Context::set('layout_list', $layout_list);
 
             // 레이아웃 정보 가져옴
-            $oLayoutModel = &getModel('layout');
             $this->selected_layout = $oLayoutModel->getLayout($this->homepage_info->layout_srl);
             Context::set('selected_layout', $this->selected_layout);
 
             // 메뉴 목록을 가져옴
-            $oMenuAdminModel = &getAdminModel('menu');
             $menu_list = $oMenuAdminModel->getMenus();
             Context::set('menu_list', $menu_list);
 
             if(!Context::get('act')) Context::set('act', 'dispHomepageManage');
 
             $args->site_srl = $this->site_srl;
-            $oModuleModel = &getModel('module');
             $mid_list = $oModuleModel->getMidList($args);
             Context::set('mid_list', $mid_list);
 
@@ -131,18 +136,32 @@
          * @brief 홈페이지 상단 메뉴 관리
          **/
         function dispHomepageTopMenu() {
+            $oMemberModel = &getModel('member');
+            $oMenuModel = &getAdminModel('menu');
+            $oModuleModel = &getModel('module');
+            $oLayoutModel = &getModel('layout');
+            $oHomepageModel = &getModel('homepage');
+
+            // 홈페이지 정보
+            $homepage_config = $oHomepageModel->getConfig($this->site_srl);
+            if(count($homepage_config->allow_service)) {
+                foreach($homepage_config->allow_service as $k => $v) {
+                    if($v<1) continue;
+                    $c = $oModuleModel->getModuleCount($this->site_srl, $k);
+                    $homepage_config->allow_service[$k] -= $c;
+                }
+            }
+            Context::set('homepage_config', $homepage_config);
+
             // 메뉴 정보 가져오기
             $menu_srl = $this->homepage_info->first_menu_srl;
 
-            $oMenuModel = &getAdminModel('menu');
             $menu_info = $oMenuModel->getMenu($menu_srl);
             Context::set('menu_info', $menu_info);
 
-            $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($this->site_srl);
             Context::set('group_list', $group_list);
 
-            $oLayoutModel = &getModel('layout');
             $selected_layout = $oLayoutModel->getLayout($this->homepage_info->layout_srl);
 
             $_menu_info = get_object_vars($selected_layout->menu);
@@ -160,6 +179,18 @@
             $args->site_srl = $this->site_srl;
             $oModuleModel = &getModel('module');
             $mid_list = $oModuleModel->getMidList($args);
+
+            $installed_module_list = $oModuleModel->getModulesXmlInfo();
+            foreach($installed_module_list as $key => $val) {
+                if($val->category != 'service') continue;
+                $service_modules[$val->module] = $val;
+            }
+
+            if(count($mid_list)) {
+                foreach($mid_list as $key => $val) {
+                    $mid_list[$key]->setup_index_act = $service_modules[$val->module]->setup_index_act;
+                }
+            }
             Context::set('mid_list', $mid_list);
 
             $this->setTemplateFile('mid_list');

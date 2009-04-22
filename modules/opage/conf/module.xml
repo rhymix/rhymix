@@ -7,8 +7,7 @@
         <action name="dispOpageAdminContent" type="view" admin_index="true" standalone="true" />
         <action name="dispOpageAdminGrantInfo" type="view" standalone="true" />
         <action name="dispOpageAdminModuleConfig" type="view" standalone="true" />
-        <action name="dispOpageAdminInfo" type="view" standalone="true" />
-        <action name="dispOpageAdminInsert" type="view" standalone="true" />
+        <action name="dispOpageAdminInsert" type="view" standalone="true" setup_index="true" />
         <action name="dispOpageAdminDelete" type="view" standalone="true" />
         <action name="dispOpageAdminContentModify" type="view" standalone="true" />
         <action name="procOpageAdminRemoveWidgetCache" type="controller" standalone="true" />

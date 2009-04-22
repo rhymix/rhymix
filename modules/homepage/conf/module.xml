@@ -79,5 +79,7 @@
         <action name="procHomepageAdminInsertHomepage" type="controller" />
         <action name="procHomepageAdminUpdateHomepage" type="controller" />
         <action name="procHomepageAdminDeleteHomepage" type="controller" />
+        <action name="procHomepageAdminImportModule" type="controller" />
+        <action name="procHomepageAdminExportModule" type="controller" />
     </actions>
 </module>

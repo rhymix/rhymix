@@ -14,7 +14,7 @@ function completeInsertSpringnote(ret_obj) {
 
     alert(message);
 
-    var url = current_url.setQuery('act','dispSpringnoteAdminSpringnoteInfo');
+    var url = current_url.setQuery('act','dispSpringnoteAdminInsertSpringnote');
     if(module_srl) url = url.setQuery('module_srl',module_srl);
     if(page) url.setQuery('page',page);
     location.href = url;

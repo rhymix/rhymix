@@ -249,11 +249,22 @@
         }
 
         /**
+         * @brief 모듈의 가상사이트 변경
+         **/
+        function updateModuleSite($module_srl, $site_srl, $layout_srl = 0) {
+            $args->module_srl = $module_srl;
+            $args->site_srl = $site_srl;
+            $args->layout_srl = $layout_srl;
+            return executeQuery('module.updateModuleSite', $args);
+        }
+
+        /**
          * @brief 모듈을 삭제
          *
          * 모듈 삭제시는 관련 정보들을 모두 삭제 시도한다.
          **/
         function deleteModule($module_srl) {
+            if(!$module_srl) return new Object(-1,'msg_invalid_request');
 
             // trigger 호출 (before)
             $trigger_obj->module_srl = $module_srl;

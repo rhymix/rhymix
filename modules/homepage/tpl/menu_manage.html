@@ -7,7 +7,9 @@
 <!--%load_js_plugin("ui.tree")-->
 
 <h4 class="xeAdmin">{$lang->cmd_admin_menus[$act]}</h4>
-<span style="float:right"><a href="#" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a></span>
+<span style="float:right">
+    <a href="#" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a>
+</span>
 <p class="summary">{$lang->about_cafe_act[$act]}</p>
 
 <form method="post" action="./" id="menu_item_form">
@@ -36,26 +38,45 @@
     <input type="hidden" name="normal_btn" value="" />
     <input type="hidden" name="hover_btn" value="" />
     <input type="hidden" name="active_btn" value="" />
+    <input type="hidden" name="module_id" value="" />
 
     <h4 class="xeAdmin">{$lang->menu}</h4>
     <button class="xButton" type="button" onclick="closeTreeMenuInfo();return false" ><span>{$lang->cmd_close}</span></button>
 
     <div class="layerBody">
 
-        <table cellspacing="0" class="rowTable" id="itemAttr1">
-        <col width="150" />
+        <table cellspacing="0" class="rowTable">
+        <col width="100" />
         <col width="" />
         <tr>
+            <th scope="row"><div>{$lang->module_type}</div></th>
+            <td colspan="2">
+                <select name="module_type" onchange="changeMenuType(this)">
+                    <!--@foreach($homepage_config->allow_service as $k => $v)-->
+                    <option value="{$k}" <!--@if($v<1)-->disabled="disabled"<!--@end-->>{$k}</option>
+                    <!--@end-->
+                    <option value="url">{$lang->url}</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="urlForm" style="display:none;">
+            <th scope="row"><div>{$lang->url}</div></th>
+            <td colspan="2">
+                http://<input type="text" name="url" value="" class="inputTypeText fullWidth" />
+                <p>{$lang->about_menu_item_url}</p>
+            </td>
+        </tr>
+        <tr>
             <th scope="row"><div>{$lang->menu_name}</div></th>
-            <td>
+            <td colspan="2">
                 <input type="text" name="menu_name" id="menu_name" value="" class="inputTypeText"/>
                 <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','menu_name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-                <p class="clear">{$lang->about_langcode}</p>
+                <p>{$lang->about_langcode}</p>
             </td>
         </tr>
         <tr>
             <th scope="row"><div>{$lang->cmd_option}</div></th>
-            <td>
+            <td colspan="2">
                 <input type="checkbox" id="menu_open_window" name="menu_open_window" value="Y" />
                 <label for="menu_open_window">{$lang->menu_open_window}</label>
                 <input type="checkbox" id="menu_expand" name="menu_expand" value="Y" />
@@ -65,7 +86,7 @@
         </tr>
         <tr>
             <th scope="row"><div>{$lang->item_group_grant}</div></th>
-            <td>
+            <td colspan="2">
                 <!--@foreach($group_list as $key=>$val)-->
                 <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="checked"<!--@end-->/>
                 <label for="group_{$key}">{$val->title}</label>
@@ -73,54 +94,6 @@
                 <p>{$lang->about_group_grant}</p>
             </td>
         </tr>
-        <tr>
-            <th scope="row"><div>{$lang->module_type}</div></th>
-            <td>
-                <select name="module_type" onchange="changeMenuType(this)">
-                    <option value="board">{$lang->board}</option>
-                    <option value="page">{$lang->page}</option>
-                    <option value="url">{$lang->url}</option>
-                </select>
-                <p>{$lang->about_module_type}</p>
-            </td>
-        </tr>
-        </table>
-
-        <table cellspacing="0" class="rowTable" id="itemAttr2">
-        <col width="150" />
-        <col width="" />
-        <tr>
-            <th scope="row"><div>{$lang->browser_title}</div></th>
-            <td>
-                <input type="text" name="browser_title" value="" class="inputTypeText fullWidth" />
-                <p>{$lang->about_browser_title}</p>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><div>{$lang->module_id}</div></th>
-            <td>
-                <input type="text" name="module_id" value="" class="inputTypeText fullWidth" />
-                <p>{$lang->about_module_id}</p>
-            </td>
-        </tr>
-        </table>
-
-        <table cellspacing="0" class="rowTable" id="itemAttr3">
-        <col width="150" />
-        <col width="" />
-        <tr>
-            <th scope="row"><div>{$lang->url}</div></th>
-            <td>
-                http://<input type="text" name="url" value="" class="inputTypeText fullWidth" />
-                <p>{$lang->about_menu_item_url}</p>
-            </td>
-        </tr>
-        </table>
-
-        <table cellspacing="0" class="rowTable" id="itemAttr4">
-        <col width="150" />
-        <col width="150" />
-        <col width="" />
         <tr>
             <th scope="row" rowspan="4"><div>{$lang->menu_img_btn}</div></th>
             <th scope="row"><div>{$lang->menu_normal_btn}</div></th>

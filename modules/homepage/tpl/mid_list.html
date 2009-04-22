@@ -20,15 +20,32 @@
         <td class="nowrap"><a href="{getSiteUrl($site_module_info->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->mid)}</a></td>
         <td class="wide"><a href="{getSiteUrl($site_module_info->domain,'','mid',$val->mid)}" onclick="window.open(this.href); return false;">{$val->browser_title}</a></td>
         <td class="nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-        <!--@if($val->module=='board')-->
-        <td><a href="{getUrl('act','dispHomepageBoardInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
-        <!--@else-->
-        <td><a href="{getUrl('act','dispHomepagePageGrant','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
-        <!--@end-->
+        <td><a href="{getUrl('act',$val->setup_index_act,'mid',$val->mid)}" onclick="winopen(this.href,'cafeXEMidSetup');return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 </form>
+
+<!--@if($logged_info->is_admin == 'Y')-->
+<!--%import("filter/export_module.xml")-->
+<div class="fl">
+    <form method="post" action="./" id="foImport" onsubmit="return procFilter(this,export_module);">
+        <select name="export_module_srl">
+            <!--@foreach($mid_list as $no => $val)-->
+            <option value="{$val->module_srl}">{$val->browser_title}</option>
+            <!--@end-->
+        </select>
+        <span class="button black"><input type="submit" value="{$lang->cmd_export}" /></span>
+    </form>
+</div>
+<div class="fr">
+    <form method="post" action="./" id="foImport">
+        <input type="hidden" name="site_srl" value="{$site_module_info->site_srl}" />
+        <a href="#" onclick="importModule('import_module_srl'); return false;" class="button black"><span>{$lang->cmd_import}</span></a>
+    </form>
+</div>
+<p class="clear summary" style="padding-top:10px;">{$lang->about_move_module}</p>
+<!--@end-->
 
 <!--#include("_footer.html")-->

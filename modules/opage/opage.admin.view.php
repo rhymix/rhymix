@@ -52,47 +52,6 @@
         }
 
         /**
-         * @brief 선택된 외부페이지의 정보 출력
-         **/
-        function dispOpageAdminInfo() {
-            // GET parameter에서 module_srl을 가져옴
-            $module_srl = Context::get('module_srl');
-
-            // module model 객체 생성 
-            if($module_srl) {
-                $oOpageModel = &getModel('opage');
-                $module_info = $oOpageModel->getOpage($module_srl);
-                if(!$module_info) {
-                    unset($module_info);
-                    unset($module_srl);
-                } else {
-                    Context::set('module_info',$module_info);
-                }
-
-            // module_srl 값이 없다면 그냥 index 외부페이지를 보여줌
-            } else {
-                return $this->dispOpageAdminContent();
-            }
-
-            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($module_info->layout_srl) {
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($module_info->layout_srl);
-                $module_info->layout = $layout_info->layout;
-                $module_info->layout_title = $layout_info->layout_title;
-            }
-
-            // 레이아웃 목록을 구해옴
-            $oLayoutMode = &getModel('layout');
-            $layout_list = $oLayoutMode->getLayoutList();
-            Context::set('layout_list', $layout_list);
-
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('opage_info');
-        }
-
-        /**
          * @brief 외부페이지 추가 폼 출력
          **/
         function dispOpageAdminInsert() {
