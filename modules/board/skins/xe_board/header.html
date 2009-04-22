@@ -44,6 +44,10 @@
     <!--@end-->
 <!--@end-->
 
+<!--@if(!$module_info->header_title_format)-->
+    {@ $module_info->header_title_format = 'h3'}
+<!--@end-->
+
 <!--// 상단 텍스트 출력 -->
     {$module_info->header_text}
 
@@ -51,7 +55,7 @@
     <!--@if($module_info->title)-->
     <div class="boardHeader">
         <div class="boardHeaderBorder">
-            <h3>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></h3>
+            <{$module_info->header_title_format}>{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></{$module_info->header_title_format}>
         </div>
     </div>
     <!--@end-->

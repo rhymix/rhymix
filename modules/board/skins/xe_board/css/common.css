@@ -12,7 +12,13 @@ Jeong, Chan Myeong 070601~070630
 /* board Title */
 .boardHeader { border:1px solid #e1e1dd; border-bottom:0; background:#ffffff url(../images/common/bgH3.gif) repeat-x left bottom; overflow:hidden;}
 .boardHeader .boardHeaderBorder { width:100%;}
-.boardHeader h3 { margin:0; float:left; padding:15px 15px 12px 15px; font-size:1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
+.boardHeader h1,
+.boardHeader h2,
+.boardHeader h3,
+.boardHeader h4,
+.boardHeader h5,
+.boardHeader h6
+{ margin:0; float:left; padding:15px 15px 12px 15px; font-size:1.2em; background:#ffffff url(../images/common/lineH3.gif) no-repeat right bottom;}
 
 /* board Description */
 .boardDescription { color:#AEAEAE; border:1px solid #DDDDDD; overflow:hidden; padding:10px; margin: 5px 0; background-color:#FFFFFF;}
@@ -50,9 +56,15 @@ Jeong, Chan Myeong 070601~070630
 .boardRead .titleAndUser { overflow:hidden; border-bottom:1px solid #e0e1db; }
 
 .boardRead .titleAndUser .title { float:left; margin:10px 0 5px 0; }
-.boardRead .titleAndUser h4 { margin:0; font-size:1.5em; margin-left:3px;}
-.boardRead .titleAndUser h4 a { color:#000000; text-decoration:none; }
-.boardRead .titleAndUser h4 a:hover { text-decoration:underline; }
+.boardRead .titleAndUser .title a { color:#000000; text-decoration:none; }
+.boardRead .titleAndUser .title a:hover { text-decoration:underline; }
+.boardRead .titleAndUser h1,
+.boardRead .titleAndUser h2,
+.boardRead .titleAndUser h3,
+.boardRead .titleAndUser h4,
+.boardRead .titleAndUser h5,
+.boardRead .titleAndUser h6
+{ margin:0; font-size:1.5em; margin-left:3px;}
 
 .boardRead .titleAndUser .userInfo { float:right; white-space:nowrap; margin-top:11px; }
 .boardRead .titleAndUser .userInfo .author { color:#3074a5; }

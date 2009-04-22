@@ -3,7 +3,13 @@
 .viewDocument { color:#888; }
 
 /* board Title */
-.boardHeader h3 { margin:0; border-bottom:3px solid #fe3614; }
+.boardHeader h1,
+.boardHeader h2,
+.boardHeader h3,
+.boardHeader h4,
+.boardHeader h5,
+.boardHeader h6
+{ border-bottom:3px solid #fe3614; }
 
 /* board Information */
 .articleNum { float:left; background:url(../images/black/iconArticle.gif) no-repeat left top; }
@@ -43,7 +49,13 @@
 
 /* replace common images */
 .boardHeader { border:1px solid #ABA9B4; border-bottom:0; background:transparent url(../images/black/bgH3.gif) repeat-x left bottom; overflow:hidden;}
-.boardHeader h3 { background:transparent  url(../images/black/lineH3.gif) no-repeat right bottom; color:#AAAAAA; border-bottom:3px solid #ABA9B4;}
+.boardHeader h1,
+.boardHeader h2,
+.boardHeader h3,
+.boardHeader h4,
+.boardHeader h5,
+.boardHeader h6
+{ background:transparent  url(../images/black/lineH3.gif) no-repeat right bottom; color:#AAAAAA; border-bottom:3px solid #ABA9B4;}
 .boardDescription { color:#666666; border:1px solid #666666; overflow:hidden; padding:10px; margin-top:5px; background-color:transparent;}
 .accountNavigation li.setup a { background:url(../images/black/iconSetup.gif) no-repeat left top; padding-left:14px; }
 .accountNavigation li.admin a { background:url(../images/black/iconAdmin.gif) no-repeat left top; padding-left:12px; }

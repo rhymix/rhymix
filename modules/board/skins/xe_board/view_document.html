@@ -1,11 +1,15 @@
 <!-- 글 내용 보여주기 -->
+<!--@if(!$module_info->document_title_format)-->
+    {@ $module_info->document_title_format = 'h4'}
+<!--@end-->
+
 <div class="boardRead">
     <div class="originalContent">
         <div class="readHeader">
             <div class="titleAndUser">
 
                 <div class="title">
-                    <h4><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a></h4>
+                    <{$module_info->document_title_format}><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a></{$module_info->document_title_format}>
                 </div>
 
                 <!--@if($module_info->display_author!='N')-->
