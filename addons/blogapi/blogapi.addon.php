@@ -243,6 +243,7 @@
                         }
 
                     }
+		    debugPrint($obj->content);
 
                     // 문서 번호 설정
                     $document_srl = getNextSequence();
