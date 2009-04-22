@@ -435,14 +435,16 @@
          * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
          **/
         function getExtraKeys($module_srl) {
-            if(!$GLOBALS['XE_EXTRA_KEYS'][$module_srl]) {
+            if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl])) {
                 $oExtraVar = &ExtraVar::getInstance($module_srl);
                 $obj->module_srl = $module_srl;
                 $obj->sort_index = 'var_idx';
                 $obj->order = 'asc';
                 $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
                 $oExtraVar->setExtraVarKeys($output->data);
-                $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $oExtraVar->getExtraVars();
+                $keys = $oExtraVar->getExtraVars();
+                if(!$keys) $keys = array();
+                $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $keys;
             }
 
             return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
