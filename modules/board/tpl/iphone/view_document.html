@@ -1,0 +1,40 @@
+<div id="view_document_{$oDocument->document_srl}" title="글 보기" selected="true" class="panel">
+<h2>{$oDocument->getTitleText()}</h2>
+<div class="content">
+{$oDocument->getContent(false)}
+</div>
+<fieldset>
+    <ul class="content navigation">
+        <li><a href="#view_comment" class="link">댓글 보기 <span class="cnt">({$oDocument->getCommentCount()})</span></a></li> 
+    </ul>
+</fieldset>
+</div>
+
+<ul id="view_comment" title="댓글 보기" selected="false">
+<li class="group">Comment List ({$oDocument->getCommentCount()})</li>
+{@ $_comment_list = $oDocument->getComments() }
+<!--@foreach($_comment_list as $key => $comment)-->
+    <li class="comment_item">
+    {@ $depth = $comment->get('depth') }
+    <!--@if($depth && $depth > 0)-->
+    <span class="re">
+        {@ $str_res = str_repeat("RE: ", $depth) }
+        {$str_res}
+    </span>
+    <!--@end-->
+    <span class="author">
+        {$comment->get('nick_name')}
+    </span>
+    <span class="regdate">
+        {$comment->getRegDate()}
+    </span>
+    <div class="content">
+    <!--@if(!$comment->isAccessible())-->
+        {$lang->msg_is_secret}
+    <!--@else-->
+        {$comment->getContent(false)}
+    <!--@end-->
+    </div>
+    </li>
+<!--@end-->
+</ul>

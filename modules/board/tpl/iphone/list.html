@@ -1,0 +1,24 @@
+<ul id="board_posts_{$page_navigation->cur_page}" selected="true" class="posts">
+    <li class="group">
+        <span class="left">Post List({$page_navigation->total_count})</span>
+    </li>
+<!--@foreach($document_list as $val)-->
+    <li class="post_item">
+        <a href="{getUrl('document_srl',$val->document_srl,'nl','1')}" class="link">
+        <div class="post">
+            <span class="title"> {$val->getTitleText()} </span>
+            <span class="description">{$val->getRegdate()} [{$val->getNickName()}] comments({$val->getCommentCount()})</span>
+        </div>
+        </a>
+    </li>
+<!--@end-->
+    <li class="pagination">
+<!--@if($page_navigation->cur_page > $page_navigation->first_page)-->
+        <a href="{getUrl('page',$page_navigation->cur_page-1,'nl','1')}" class="previous">Page {$page_navigation->cur_page-1}</a>
+<!--@end-->
+<!--@if($page_navigation->cur_page < $page_navigation->last_page)-->
+        <a href="{getUrl('page',$page_navigation->cur_page+1,'nl','1')}" class="next">Page {$page_navigation->cur_page+1}</a>
+<!--@end-->
+        <strong>{$page_navigation->cur_page}</strong>
+    </li>
+</ul>
