@@ -1,11 +1,11 @@
 <?php
-    class iphoneXE {
+    class smartphoneXE {
         var $module_info = null;
         var $content = null;
         var $oModule = null;
         var $menuList = null;
 
-        function isFromIPhone()
+        function isFromSmartPhone()
         {
            $userAgent = $_SERVER['HTTP_USER_AGENT']; 
            $iphoneForce = Context::get('iphone');
@@ -17,7 +17,7 @@
             static $instance = null;
             if($instnace  == null)
             {
-                $instance = new iphoneXE();
+                $instance = new smartphoneXE();
                 return $instance;
             }
         }
@@ -37,14 +37,14 @@
             $this->module_info = $module_info;
         }
 
-        function procIPhone()
+        function procSmartPhone()
         {
             if(!$this->module_info) return;
-            $oModule =& getModule($this->module_info->module, 'iphone');
-            if(!$oModule || !method_exists($oModule, 'procIPhone') ) return;
+            $oModule =& getModule($this->module_info->module, 'smartphone');
+            if(!$oModule || !method_exists($oModule, 'procSmartPhone') ) return;
             $vars = get_object_vars($this->oModule);
             if(count($vars)) foreach($vars as $key => $val) $oModule->{$key}  = $val;
-            return $oModule->procIPhone($this);
+            return $oModule->procSmartPhone($this);
         }
 
         function getAllItems(&$menu_list, $node_srl = 0, $node_text= "Main Menu")
@@ -86,17 +86,17 @@
             $act = Context::get('act');
             if($act)
             {
-                $content = $this->procIPhone();
+                $content = $this->procSmartPhone();
             }
             else
             {
                 Context::set('module_info', $this->module_info);
                 $this->setMenu();
-                $oModule =& getModule($this->module_info->module, 'iphone');
-                if($oModule && method_exists($oModule, 'procIPhone') ) Context::set('bHavePhoneMethod', true); 
+                $oModule =& getModule($this->module_info->module, 'smartphone');
+                if($oModule && method_exists($oModule, 'procSmartPhone') ) Context::set('bHavePhoneMethod', true); 
                 $oTemplate = new TemplateHandler();
                 $oContext = &Context::getInstance();
-                $content = $oTemplate->compile(_XE_PATH_."addons/iphone/tpl", "layout");
+                $content = $oTemplate->compile(_XE_PATH_."addons/smartphone/tpl", "layout");
             }
             print $content;
             
