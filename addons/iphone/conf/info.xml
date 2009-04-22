@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">IPhone XE 애드온</title>
+    <description xml:lang="ko">
+        IPhone (touch) 에서 접속시 IPhone에 최적화된 화면을 보여줍니다.
+    </description>
+    <version>0.1</version>
+    <date>2009-04-20</date>
+    <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
+        <name xml:lang="ko">haneul</name>
+    </author>
+</addon>
