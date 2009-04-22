@@ -5,8 +5,8 @@
      * @brief  board 모듈의 IPhone class
      **/
 
-    class boardIPhone extends board {
-        function procIPhone(&$oIPhone)
+    class boardSPhone extends board {
+        function procSmartPhone(&$oIPhone)
         {
             if(!$this->grant->list || $this->module_info->consultation == 'Y') return $oIPhone->setContent(Context::getLang('msg_not_permitted'));
             $act = Context::get('act');
@@ -35,7 +35,7 @@
                 Context::setBrowserTitle($oDocument->getTitleText());
                 Context::set('oDocument', $oDocument);
                 $oTemplate = new TemplateHandler();
-                $content = $oTemplate->compile($this->module_path.'tpl/iphone', "view_document");
+                $content = $oTemplate->compile($this->module_path.'tpl/smartphone', "view_document");
                 return $content;
             }
             else
@@ -60,7 +60,7 @@
             $page_navigation = $output->page_navigation;
             Context::set('page_navigation',$page_navigation);
             $oTemplate = new TemplateHandler();
-            $content = $oTemplate->compile($this->module_path.'tpl/iphone', "list");
+            $content = $oTemplate->compile($this->module_path.'tpl/smartphone', "list");
             return $content;
         }
     }
