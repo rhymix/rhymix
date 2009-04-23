@@ -401,7 +401,7 @@
 
                 // message에 htmlspecialchars() 적용
                 foreach($output->data as $key => $changeset)
-                    $changeset->message = htmlspecialchars($this->_linkXE($changeset->message));
+                    $changeset->message = $this->_linkXE(htmlspecialchars($changeset->message));
             }
 
             if(in_array('issue_changed', $targets))
