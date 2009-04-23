@@ -56,6 +56,7 @@
                     $module_args->skin = $args->skin;
                     $module_args->browser_title = $args->browser_title;
                     $module_args->module = 'homepage';
+                    $module_args->layout_srl = $vars->layout_srl;
                     $output = $oModuleController->insertModule($module_args);
                     if(!$output->toBool()) return $output;
                 } else {
@@ -65,6 +66,7 @@
                     $module_args->site_srl = 0;
                     $module_args->browser_title = $args->browser_title;
                     $module_args->module_srl = $module_info->module_srl;
+                    $module_args->layout_srl = $vars->layout_srl;
                     $output = $oModuleController->updateModule($module_args);
                     if(!$output->toBool()) return $output;
                 }
@@ -72,6 +74,7 @@
                 $module_info = $oModuleModel->getModuleInfoByMid($mid, 0);
                 $args->module_srl = $module_info->module_srl;
                 $args->creation_group = implode(',',explode('|@|',$vars->creation_group));
+                $args->layout_srl = $vars->layout_srl;
                 $oModuleController->insertModuleConfig('homepage', $args);
             }
         }

@@ -102,6 +102,18 @@
                 </td>
 			</tr>
             <tr>
+                <th colspan="2" scope="row"><div>{$lang->cafe_main_layout}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <select name="layout_srl">
+                        <!--@foreach($main_layout_list as $key => $val)-->
+                        <option value="{$val->layout_srl}" <!--@if($homepage_config->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+                        <!--@end-->
+                    </select>
+                </td>
+			</tr>
+            <tr>
                 <th colspan="2" scope="row"><div>{$lang->skin}</div></th>
             </tr>
             <tr>

@@ -27,6 +27,10 @@
             $layout_list = $oLayoutModel->getDownloadedLayoutList();
             Context::set('layout_list', $layout_list);
 
+            // 카페 메인의 레이아웃을 구함
+            $layout_list = $oLayoutModel->getLayoutList();
+            Context::set('main_layout_list', $layout_list);
+
             // 서비스 모듈을 구함
             $installed_module_list = $oModuleModel->getModulesXmlInfo();
             foreach($installed_module_list as $key => $val) {

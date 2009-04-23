@@ -23,6 +23,7 @@
     $lang->mycafe_list = '가입한 카페';
     $lang->cafe_creation_type = '카페 접속 방법';
     $lang->about_cafe_creation_type = '사용자들이 카페를 생성할때 카페 접속 방법을 정해야 합니다. Site ID는 http://기본주소/ID 로 접속 가능하고 Domain 접속은 입력하신 도메인의 2차 도메인(http://domain.mydomain.net) 으로 카페가 생성됩니다';
+    $lang->cafe_main_layout = '카페 메인 레이아웃';
 
     $lang->default_layout = '기본 레이아웃';
     $lang->about_default_layout = '카페가 생성될때 설정될 기본 레이아웃을 지정할 수 있습니다';
