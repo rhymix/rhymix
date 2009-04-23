@@ -16,7 +16,7 @@
     $lang->component_description = '說明';
     $lang->component_extra_vars = '變數設置';
     $lang->component_grant = '權限設置'; 
-    $lang->content_style = 'Content Style';
+    $lang->content_style = '內容樣式';
     $lang->content_font = 'Content Font';
 
     $lang->about_component = '組件簡介';
@@ -149,61 +149,61 @@
     $lang->edit->html_editor = 'HTML';
     $lang->edit->extension ='延伸組件';
     $lang->edit->help = '使用說明';
-    $lang->edit->help_command = '快速鍵指引';
+    $lang->edit->help_command = '熱鍵指引';
     
-    $lang->edit->lineheight = '줄간격';
-	$lang->edit->fontbgsampletext = '가나다';
+    $lang->edit->lineheight = '行距';
+	$lang->edit->fontbgsampletext = 'ㄅㄆㄇ';
 	
-	$lang->edit->hyperlink = '하이퍼링크';
-	$lang->edit->target_blank = '새창으로';
+	$lang->edit->hyperlink = '超連結';
+	$lang->edit->target_blank = '新視窗';
 	
-	$lang->edit->quotestyle1 = '왼쪽 실선';
-	$lang->edit->quotestyle2 = '인용 부호';
-	$lang->edit->quotestyle3 = '실선';
-	$lang->edit->quotestyle4 = '실선 + 배경';
-	$lang->edit->quotestyle5 = '굵은 실선';
-	$lang->edit->quotestyle6 = '점선';
-	$lang->edit->quotestyle7 = '점선 + 배경';
-	$lang->edit->quotestyle8 = '적용 취소';
+	$lang->edit->quotestyle1 = '左側實線';
+	$lang->edit->quotestyle2 = '引用符號';
+	$lang->edit->quotestyle3 = '實線';
+	$lang->edit->quotestyle4 = '實線 + 背景';
+	$lang->edit->quotestyle5 = '粗框';
+	$lang->edit->quotestyle6 = '虛線';
+	$lang->edit->quotestyle7 = '虛線 + 背景';
+	$lang->edit->quotestyle8 = '取消';
 
 
-    $lang->edit->jumptoedit = '편집 도구모음 건너뛰기';
-    $lang->edit->set_sel = '칸 수 지정';
-    $lang->edit->row = '행';
-    $lang->edit->col = '열';
-    $lang->edit->add_one_row = '1행추가';
-    $lang->edit->del_one_row = '1행삭제';
-    $lang->edit->add_one_col = '1열추가';
-    $lang->edit->del_one_col = '1열삭제';
+    $lang->edit->jumptoedit = '跳過編輯工具列';
+    $lang->edit->set_sel = '表格';
+    $lang->edit->row = '行';
+    $lang->edit->col = '列';
+    $lang->edit->add_one_row = '新增一行';
+    $lang->edit->del_one_row = '刪除一行';
+    $lang->edit->add_one_col = '新增一列';
+    $lang->edit->del_one_col = '刪除一列';
 
-    $lang->edit->table_config = '표 속성 지정';
-    $lang->edit->border_width = '테두리 굵기';
-    $lang->edit->border_color = '테두리 색';
-    $lang->edit->add = '더하기';
-    $lang->edit->del = '빼기';
-    $lang->edit->search_color = '색상찾기';
-    $lang->edit->table_backgroundcolor = '표 배경색';
-    $lang->edit->special_character = '특수문자';
-    $lang->edit->insert_special_character = '특수문자 삽입';
-    $lang->edit->close_special_character = '특수문자 레이어 닫기';
-    $lang->edit->symbol = '일반기호';
-    $lang->edit->number_unit = '숫자와 단위';
-    $lang->edit->circle_bracket = '원,괄호';
-    $lang->edit->korean = '한글';
-    $lang->edit->greece = '그리스';
-    $lang->edit->Latin  = '라틴어';
-    $lang->edit->japan  = '일본어';
-    $lang->edit->selected_symbol  = '선택한 기호';
+    $lang->edit->table_config = '設置';
+    $lang->edit->border_width = '邊框寬度';
+    $lang->edit->border_color = '邊框顏色';
+    $lang->edit->add = '新增';
+    $lang->edit->del = '刪除';
+    $lang->edit->search_color = '其他顏色';
+    $lang->edit->table_backgroundcolor = '背景顏色';
+    $lang->edit->special_character = '特殊符號';
+    $lang->edit->insert_special_character = '插入特殊符號';
+    $lang->edit->close_special_character = '關閉特殊符號圖層';
+    $lang->edit->symbol = '一般符號';
+    $lang->edit->number_unit = '數字、單位';
+    $lang->edit->circle_bracket = '圓、括弧';
+    $lang->edit->korean = '韓國語';
+    $lang->edit->greece = '希臘語';
+    $lang->edit->Latin  = '拉丁語';
+    $lang->edit->japan  = '日本語';
+    $lang->edit->selected_symbol  = '選擇符號';
 
-    $lang->edit->search_replace  = '찾기/바꾸기';
-    $lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
-    $lang->edit->replace_all  = '모두바꾸기';
-    $lang->edit->search_words  = '찾을단어';
-    $lang->edit->replace_words  = '바꿀단어';
-    $lang->edit->next_search_words  = '다음찾기';
-    $lang->edit->edit_height_control  = '입력창 크기 조절';
+    $lang->edit->search_replace  = '搜尋/置換';
+    $lang->edit->close_search_replace  = '關閉搜尋/置換圖層';
+    $lang->edit->replace_all  = '全部置換';
+    $lang->edit->search_words  = '搜尋文字';
+    $lang->edit->replace_words  = '置換文字';
+    $lang->edit->next_search_words  = '搜尋下一個';
+    $lang->edit->edit_height_control  = '設定大小';
 
-	$lang->edit->merge_cells = '셀 병합';
-    $lang->edit->split_row = '행 분할';
-    $lang->edit->split_col = '열 분할';
+	$lang->edit->merge_cells = '分割儲存格';
+    $lang->edit->split_row = '插入行';
+    $lang->edit->split_col = '插入列';
 ?>
