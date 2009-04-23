@@ -23,6 +23,20 @@
                 $config->default_layout = 'cafeXE';
                 $config->enable_change_layout = 'N';
                 $config->allow_service = array('board'=>10,'page'=>2);
+                $config->creation_group = array();
+                $config->cafe_main_mid = 'cafe';
+                $config->skin = 'xe_default';
+                $config->access_type = 'vid';
+                $config->default_domain = '';
+            } else {
+                $config->creation_group = explode(',',$config->creation_group);
+                if(!isset($config->cafe_main_mid)) $config->cafe_main_mid = 'cafe';
+                if(!isset($config->skin)) $config->skin = 'xe_default';
+                if(!isset($config->access_type)) $config->access_type = 'vid';
+                if($config->default_domain) {
+                    if(strpos($config->default_domain,':')===false) $config->default_domain = 'http://'.$config->default_domain;
+                    if(substr($config->default_domain,-1)!='/') $config->default_domain .= '/';
+                }
             }
             if($site_srl) {
                 $part_config = $oModuleModel->getModulePartConfig('homepage', $site_srl);
@@ -33,10 +47,29 @@
             return $config;
         }
 
+        function isCreationGranted($member_info = null) {
+            if(!$member_info) $member_info = Context::get('logged_info');
+            if(!$member_info->member_srl) return false;
+            if($member_info->is_admin == 'Y') return true;
+
+            $config = $this->getConfig(0);
+
+            if(!is_array($member_info->group_list) || !count($member_info->group_list) || !count($config->creation_group)) return;
+
+            $keys = array_keys($member_info->group_list);
+            for($i=0,$c=count($keys);$i<$c;$i++) {
+                if(in_array($keys[$i],$config->creation_group)) return true;
+            }
+            return false;
+        }
+
         function getHomepageInfo($site_srl) {
             $args->site_srl = $site_srl;
             $output = executeQuery('homepage.getHomepageInfo', $args);
             if(!$output->toBool() || !$output->data) return;
+
+            $banner_src = 'files/attach/cafe_banner/'.$site_srl.'.jpg';
+            if(file_exists(_XE_PATH_.$banner_src)) $output->data->cafe_banner = $banner_src.'?rnd='.filemtime(_XE_PATH_.$banner_src);
             return $output->data;
         }
 

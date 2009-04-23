@@ -414,6 +414,17 @@ function toggleAccessType(target) {
     }
 }
 
+function toggleCafeAccessType(target) {
+    switch(target) {
+        case 'domain' :
+                xGetElementById('accessCafeDomain').style.display = 'block';
+            break;
+        case 'vid' :
+                xGetElementById('accessCafeDomain').style.display = 'none';
+            break;
+    }
+}
+
 function importModule(id) {
     popopen( request_uri.setQuery('module','module').setQuery('act','dispModuleSelectList').setQuery('id',id).setQuery('type','single'), 'ModuleSelect');
 }

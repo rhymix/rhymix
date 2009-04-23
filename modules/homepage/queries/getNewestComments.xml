@@ -1,0 +1,23 @@
+<query id="getNewestComments" action="select">
+    <tables>
+        <table name="homepages" />
+        <table name="sites" />
+        <table name="modules" />
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="sites.domain" alias="domain" />
+        <column name="comments.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="homepages.site_srl" default="sites.site_srl" notnull="notnull" />
+        <condition operation="equal" column="homepages.site_srl" default="modules.site_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="comments.module_srl" default="modules.module_srl" notnull="notnull" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="comments.list_order" order="asc" />
+        <list_count var="list_count" default="10" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="title" var="title" notnull="notnull" />
+        <column name="description" var="description" />
         <column name="layout_srl" var="layout_srl" notnull="notnull" />
     </columns>
     <conditions>

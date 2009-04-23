@@ -1,0 +1,149 @@
+<!--%import("./style.css")-->
+
+<!--@if($module_info->title)-->
+<div class="cafeHeader">
+    <div class="cafeTitle">
+        <h2 class="cafeTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+    </div>
+    <!--@end-->
+
+    <!--@if($module_info->comment)-->
+    <p class="cafeDescription">{$module_info->comment}</p>
+</div>
+<!--@end-->
+
+<div class="cafeBox">
+
+    <div class="cafeLeftBox">
+
+        <!--@if($module_info->intro_title)-->
+        <div class="intro">
+            <h3>{$module_info->intro_title}</h3>
+            <img src="{$module_info->intro_image}" alt="" align="left" />
+            {$module_info->intro_description}
+            <span class="url"><a href="{$module_info->intro_url}" onclick="window.open(this.href); return false;">{$module_info->intro_url}</a></span>
+        </div>
+        <!--@end-->
+
+        <div>
+            <ul class="cafeList">
+                <!--@foreach($homepage_list as $key => $val)-->
+                <li>
+                    <p class="titleArea">
+                        <a class="title" href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{($val->cafe_title)}</a>
+                    </p>
+
+                    <p class="text">
+                        <!--@if($val->cafe_banner)-->
+                        <a class="thumb" href="{$val->link}" onclick="window.open(this.href); return false;"><img src="{$val->cafe_banner}" width="100" height="100" align="left"/></a>
+                        <!--@end-->
+
+                        <!--@if($val->cafe_description)-->
+                        {preg_replace('/<([^>]+)>/i','',$val->cafe_description)}
+                        <!--@end-->
+                    </p>
+
+                    <p class="url">
+                        <a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{getSiteUrl($val->domain)}</a>
+                    </p>
+                    <p class="date">
+                        {zdate($val->regdate,"Y/m/d H:i")}
+                    </p>
+                </li>
+                <!--@end-->
+            </ul>
+        </div>
+
+        <div class="pagination a1">
+            <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="prevEnd">{$lang->first_page}</a> 
+            <!--@if($page_navigation)-->
+            <!--@while($page_no = $page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <strong>{$page_no}</strong> 
+                <!--@else-->
+                    <a href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
+                <!--@end-->
+            <!--@end-->
+            <!--@end-->
+            <a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="nextEnd">{$lang->last_page}</a>
+        </div>
+    </div>
+
+    <hr class="cafeHR" />
+
+    <div class="cafeRightBox">
+
+        <!--@if($is_logged)-->
+        <div class="cafeContext">
+            <!--@if($isEnableCreateCafe)-->
+            <h3>{$lang->cmd_make_cafe}</h3>
+            <form action="./" method="post" onsubmit="return procFilter(this, cafe_creation);">
+                <table cellspacing="0" class="cafeTable">
+                <tr>
+                    <th><div>{$lang->cafe_id}</div></th>
+                </tr>
+                <tr>
+                    <td class="wide">
+                        <input type="text" name="cafe_id" class="inputTypeText cafeID" />
+                    </td>
+                </tr>
+                <tr>
+                    <th><div>{$lang->cafe_title}</div></th>
+                </tr>
+                <tr>
+                    <td class="wide"><input type="text" name="cafe_title" class="inputTypeText cafeTitle"/></td>
+                </tr>
+                <tr>
+                    <th><div>{$lang->cafe_description}</div></th>
+                </tr>
+                <tr>
+                    <td><textarea name="cafe_description" class="inputTypeTextArea cafeDescription"></textarea></td>
+                </tr>
+                <tr>
+                    <th class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_make_cafe}" /></span></th>
+                </tr>
+                </table>
+            </form>
+            <!--@end-->
+
+            <!--@if($my_cafes && count($my_cafes))-->
+            <h3>{$lang->mycafe_list} ({count($my_cafes)})</h3>
+            <ul>
+                <!--@foreach($my_cafes as $key => $val)-->
+                <li>
+                    <a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href);return false;">{cut_str($val->cafe_title,30)}</a>
+                </li>
+                <!--@end-->
+            </ul>
+            <!--@end-->
+        </div>
+        <!--@end-->
+
+        <!--@if($newest_documents)-->
+        <div class="cafeContext">
+            <h3>{$lang->cafe_latest_documents}</h3>
+            <ul>
+                <!--@foreach($newest_documents as $key => $val)-->
+                <li>
+                    <span class="member_{$val->member_srl}">{cut_str($val->nick_name,10)}</span> - <a href="{getSiteUrl($val->domain,'document_srl',$val->document_srl)}" onclick="window.open(this.href);return false;">{cut_str($val->title,30)}</a>
+                </li>
+                <!--@end-->
+            </ul>
+        </div>
+        <!--@end-->
+
+        <!--@if($newest_comments)-->
+        <div class="cafeContext">
+            <h3>{$lang->cafe_latest_comments}</h3>
+            <ul>
+                <!--@foreach($newest_comments as $key => $val)-->
+                <li>
+                    <span class="member_{$val->member_srl}">{cut_str($val->nick_name,10)}</span> - <a href="{getSiteUrl($val->domain,'document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;">{cut_str(preg_replace('/<([^>]+)>/i','',$val->content),30)}</a>
+                </li>
+                <!--@end-->
+            </ul>
+        </div>
+        <!--@end-->
+    </div>
+
+</div>

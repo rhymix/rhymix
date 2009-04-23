@@ -4,6 +4,39 @@
 
 <!--#include("_header.html")-->
 
+<h4 class="xeAdmin">{$lang->cafe_info}</h4>
+<form method="post" action="{Context::getRequestUri()}" enctype="multipart/form-data" >
+    <!--@if(isSiteID($site_module_info->domain))-->
+    <input type="hidden" name="vid" value="{$site_module_info->domain}"/>
+    <!--@end-->
+    <input type="hidden" name="site_srl" value="{$homepage_info->site_srl}" />
+    <input type="hidden" name="module" value="homepage" />
+    <input type="hidden" name="act" value="procHomepageInsertCafeBanner" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th><div>{$lang->cafe_title}</div></th>
+        <td class="wide"><input type="text" name="cafe_title" value="{htmlspecialchars($homepage_info->title)}" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->cafe_description}</div></th>
+        <td class="wide"><textarea name="cafe_description" class="inputTypeTextArea" style="width:90%;">{htmlspecialchars($homepage_info->cafe_description)}</textarea></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->cafe_banner}</div></th>
+        <td class="wide">
+            <!--@if($homepage_info->cafe_banner)-->
+            <img src="{$homepage_info->cafe_banner}" alt="cafe banner" style="display:block;margin-bottom:10px;"/>
+            <!--@end-->
+            <input type="file" name="cafe_banner" value="" class="inputTypeText" />
+        </td>
+    </tr>
+    <tr>
+        <th class="button" colspan="2">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
 
 <h4 class="xeAdmin">{$lang->cmd_select_index}</h4>
 <form method="post" action="./" onsubmit="return procFilter(this,update_index_mid)" class="midDefault">

@@ -18,7 +18,7 @@
             $oLayoutModel = &getModel('layout');
 
             $logged_info = Context::get('logged_info');
-            if(!$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
+            if($this->act != 'procHomepageCafeCreation' && !$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
 
             // site_module_info값으로 홈페이지의 정보를 구함
             $this->site_module_info = Context::get('site_module_info');
@@ -37,6 +37,54 @@
             $args->domain = $this->site_module_info->domain;
             $args->default_language = $lang_code;
             return $oModuleController->updateSite($args);
+        }
+
+        function procHomepageCafeCreation() {
+            global $lang; 
+            $oHomepageAdminController = &getAdminController('homepage');
+            $oHomepageModel = &getModel('homepage');
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+            $oMemberModel = &getModel('member');
+            $oMemberController = &getController('member');
+
+            if(!$oHomepageModel->isCreationGranted()) return new Object(-1,'msg_not_permitted');
+
+            $cafe_id = Context::get('cafe_id');
+            if(!$cafe_id || $oModuleModel->isIDExists($cafe_id)) return new Object(-1,'msg_not_enabled_id');
+            $cafe_title = Context::get('cafe_title');
+            if(!$cafe_title) return new Object(-1,sprintf($lang->filter->isnull, $lang->cafe_title));
+            $cafe_description = Context::get('cafe_description');
+            if(!$cafe_description) return new Object(-1,sprintf($lang->filter->isnull, $lang->cafe_description));
+
+            $homepage_config = $oHomepageModel->getConfig();
+            if($homepage_config->access_type == 'vid') $domain = $cafe_id;
+            else $domain = $homepage_config->default_domain.$cafe_id;
+
+            $oHomepageAdminController->insertHomepage($cafe_title, $domain);
+            if(!$oHomepageAdminController->toBool()) return $output;
+
+            $site_srl = $oHomepageAdminController->get('site_srl');
+
+            // 홈페이지 제목/내용 변경
+            $homepage_info = $oHomepageModel->getHomepageInfo($site_srl);
+            $args->title = $cafe_title;
+            $args->description = $cafe_description;
+            $args->layout_srl = $homepage_info->layout_srl;
+            $args->site_srl = $site_srl;
+            $output = executeQuery('homepage.updateHomepage', $args);
+            if(!$output->toBool()) return $output;
+
+            // 현재 사용자 가입 및 관리자 주기
+            $logged_info = Context::get('logged_info');
+
+            $default_group = $oMemberModel->getDefaultGroup($site_srl);
+            $oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_srl);
+
+            $output = $oModuleController->insertSiteAdmin($site_srl, array($logged_info->user_id));
+
+            $this->setRedirectUrl(getSiteUrl($domain));
+
         }
 
         function procHomepageChangeLayout() {
@@ -271,14 +319,6 @@
             $this->add('xml_file', $xml_file);
         }
 
-        function procHomepageInsertBoard() {
-            $oBoardAdminController = &getAdminController('board');
-            $output = $oBoardAdminController->procBoardAdminInsertBoard();
-            if(is_object($output) && !$output->toBool()) return $output;
-            $this->add('module_srl', $oBoardAdminController->get('module_srl'));
-            $this->setMessage($oBoardAdminController->getMessage());
-        }
-
         function procHomepageDeleteGroup() {
             $oMemberAdminController = &getAdminController('member');
             $group_srl = Context::get('group_srl');
@@ -346,29 +386,6 @@
             $this->setMessage('success_registed');
         }
 
-        function procHomepageInsertPage() {
-            $module_srl = Context::get('module_srl');
-
-            // 현 모듈의 권한 목록을 가져옴
-            $oModuleModel = &getModel('module');
-            $xml_info = $oModuleModel->getModuleActionXml('page');
-            $grant_list = $xml_info->grant;
-
-            if(count($grant_list)) {
-                foreach($grant_list as $key => $val) {
-                    $group_srls = Context::get($key);
-                    if($group_srls) $arr_grant[$key] = explode('|@|',$group_srls);
-                }
-                $grants = serialize($arr_grant);
-            }
-
-            $oModuleController = &getController('module');
-            $oModuleController->updateModuleGrant($module_srl, $grants);
-
-            $this->add("module_srl", $args->module_srl);
-            $this->setMessage('success_registed');
-        }
-
         function procHomepageChangeIndex() {
             $index_mid = Context::get('index_mid');
             if(!$index_mid) return new Object(-1,'msg_invalid_request');
@@ -381,6 +398,40 @@
             return $output;
         }
 
+        function procHomepageInsertCafeBanner() {
+            global $lang;
+
+            $oHomepageModel = &getModel('homepage');
+
+            $site_srl = Context::get('site_srl');
+            if(!$site_srl) return new Object(-1,'msg_invalid_request');
+
+            $title = Context::get('cafe_title');
+            if(!$title) return new Object(-1,sprintf($lang->filter->isnull,$lang->cafe_title));
+
+            $description = Context::get('cafe_description');
+            if(!$description) return new Object(-1,sprintf($lang->filter->isnull,$lang->cafe_description));
+
+            // 홈페이지 제목/내용 변경
+            $homepage_info = $oHomepageModel->getHomepageInfo($site_srl);
+            if(!$homepage_info->site_srl) return new Object(-1,'msg_invalid_request');
+            $args->title = $title;
+            $args->description = $description;
+            $args->layout_srl = $homepage_info->layout_srl;
+            $args->site_srl = $homepage_info->site_srl;
+            $output = executeQuery('homepage.updateHomepage', $args);
+            if(!$output->toBool()) return $output;
+
+            $cafe_banner = Context::get('cafe_banner');
+            if($cafe_banner['name']) {
+                $banner_src = 'files/attach/cafe_banner/'.$homepage_info->site_srl.'.jpg';
+                FileHandler::createImageFile($cafe_banner['tmp_name'], $banner_src,100,100,'jpg','crop');
+            }
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('redirect.html');
+        }
+
         function triggerMemberMenu(&$content) {
             $site_module_info = Context::get('site_module_info');
             $logged_info = Context::get('logged_info');
@@ -391,7 +442,6 @@
                 $oMemberController->addMemberMenu('dispHomepageManage','cmd_cafe_setup');
             } 
             return new Object();
-
         }
     }
 ?>

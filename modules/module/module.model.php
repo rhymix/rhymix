@@ -17,6 +17,8 @@
          * @brief mid, vid 사용할 수 있는지 검사
          **/
         function isIDExists($id, $site_srl = 0) {
+            if(!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i',$id)) return true;
+
             // directory 및 rss/atom/api 등 예약어 검사
             $dirs = FileHandler::readDir(_XE_PATH_);
             $dirs[] = 'rss';

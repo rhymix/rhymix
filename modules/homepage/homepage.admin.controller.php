@@ -14,7 +14,11 @@
          * @brief 카페 설정
          **/
         function procHomepageAdminInsertConfig() {
+            global $lang;
+
             $oModuleController = &getController('module');
+            $oModuleModel = &getModel('module');
+            $oHomepageModel = &getModel('homepage');
 
             $vars = Context::getRequestVars();
 
@@ -24,8 +28,52 @@
                 if(strpos($key,'allow_service_')===false) continue;
                 $args->allow_service[substr($key, strlen('allow_service_'))] = $val;
             }
-            if($vars->site_srl) $oModuleController->insertModulePartConfig('homepage', $vars->site_srl, $args);
-            else $oModuleController->insertModuleConfig('homepage', $args);
+            if($vars->site_srl) {
+                unset($vars->creation_group);
+                unset($vars->cafe_main_mid);
+                unset($vars->skin);
+                $oModuleController->insertModulePartConfig('homepage', $vars->site_srl, $args);
+            }else {
+                $args->access_type = $vars->access_type;
+                $args->default_domain = $vars->default_domain;
+                if(strpos($args->default_domain,':')===false) $args->default_domain = 'http://'.$args->default_domain;
+                if(substr($args->default_domain,-1)!='/') $args->default_domain .= '/';
+                if($args->access_type != 'vid' && !$args->default_domain) return new Object(-1,sprintf($lang->filter->isnull, $lang->domain));
+
+                $args->cafe_main_mid = $vars->cafe_main_mid;
+                $args->browser_title = $vars->browser_title;
+                if(!$args->browser_title) $args->browser_title = 'cafeXE';
+                if(!$args->cafe_main_mid) return new Object(-1,sprintf($lang->filter->isnull,$lang->cafe_main_mid));
+                $args->skin = $vars->skin;
+                if(!$args->skin) $args->skin = 'xe_default';
+
+                $homepage_config = $oHomepageModel->getConfig(0);
+                $mid = $homepage_config->cafe_main_mid;
+                $module_info = $oModuleModel->getModuleInfoByMid($mid, 0);
+                if(!$module_info->module_srl) {
+                    $module_args->site_srl = 0;
+                    $module_args->mid = $args->cafe_main_mid;
+                    $module_args->skin = $args->skin;
+                    $module_args->browser_title = $args->browser_title;
+                    $module_args->module = 'homepage';
+                    $output = $oModuleController->insertModule($module_args);
+                    if(!$output->toBool()) return $output;
+                } else {
+                    $module_args->module = 'homepage';
+                    $module_args->mid = $args->cafe_main_mid;
+                    $module_args->skin = $args->skin;
+                    $module_args->site_srl = 0;
+                    $module_args->browser_title = $args->browser_title;
+                    $module_args->module_srl = $module_info->module_srl;
+                    $output = $oModuleController->updateModule($module_args);
+                    if(!$output->toBool()) return $output;
+                }
+
+                $module_info = $oModuleModel->getModuleInfoByMid($mid, 0);
+                $args->module_srl = $module_info->module_srl;
+                $args->creation_group = implode(',',explode('|@|',$vars->creation_group));
+                $oModuleController->insertModuleConfig('homepage', $args);
+            }
         }
 
         /**

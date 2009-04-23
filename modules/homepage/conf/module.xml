@@ -19,6 +19,7 @@
         <permission action="dispHomepageBoardCategoryInfo" target="manager" />
         <permission action="dispHomepageBoardExtraVars" target="manager" />
 
+        <permission action="procHomepageCafeCreation" target="member" />
         <permission action="procHomepageChangeLayout" target="manager" />
         <permission action="procHomepageChangeLanguage" target="manager" />
         <permission action="procHomepageLayoutUpdate" target="manager" />
@@ -31,13 +32,13 @@
         <permission action="procHomepageInsertGroup" target="manager" />
         <permission action="procHomepageUpdateMemberGroup" target="manager" />
         <permission action="procHomepageDeleteMember" target="manager" />
-        <permission action="procHomepageInsertBoard" target="manager" />
-        <permission action="procHomepageInsertPage" target="manager" />
         <permission action="procHomepageUpdateBoardSkin" target="manager" />
         <permission action="procHomepageChangeIndex" target="manager" />
     </permissions>
     <actions>
-        <action name="dispHomepageManage" type="view" standalone="true" index="true" />
+        <action name="dispHomepageIndex" type="view" standalone="true" index="true" />
+
+        <action name="dispHomepageManage" type="view" standalone="true" />
         <action name="dispHomepageMemberGroupManage" type="view" standalone="true" />
         <action name="dispHomepageMemberManage" type="view" standalone="true" />
         <action name="dispHomepageTopMenu" type="view" standalone="true" />
@@ -56,6 +57,7 @@
 
         <action name="getHomepageMenuItem" type="model" standalone="true" />
 
+        <action name="procHomepageCafeCreation" type="controller" standalone="true" />
         <action name="procHomepageChangeLayout" type="controller" standalone="true" />
         <action name="procHomepageChangeLanguage" type="controller" standalone="true" />
         <action name="procHomepageLayoutUpdate" type="controller" standalone="true" />
@@ -68,14 +70,15 @@
         <action name="procHomepageInsertGroup" type="controller" standalone="true" />
         <action name="procHomepageDeleteMember" type="controller" standalone="true" />
         <action name="procHomepageUpdateMemberGroup" type="controller" standalone="true" />
-        <action name="procHomepageInsertBoard" type="controller" standalone="true" />
-        <action name="procHomepageInsertPage" type="controller" standalone="true" />
         <action name="procHomepageChangeIndex" type="controller" standalone="true" />
+        <action name="procHomepageInsertCafeBanner" type="controller" standalone="true" />
 
         <action name="dispHomepageAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispHomepageAdminSetup" type="view" standalone="true" />
+        <action name="dispHomepageAdminSkinSetup" type="view" standalone="true" />
         <action name="dispHomepageAdminDelete" type="view" standalone="true" />
 
+        <action name="procHomepageAdminInsertConfig" type="controller" />
         <action name="procHomepageAdminInsertHomepage" type="controller" />
         <action name="procHomepageAdminUpdateHomepage" type="controller" />
         <action name="procHomepageAdminDeleteHomepage" type="controller" />

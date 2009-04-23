@@ -1,8 +1,9 @@
-<query id="getHomepageList" action="select">
+<query id="getMyCafes" action="select">
     <tables>
         <table name="homepages" />
         <table name="sites" />
         <table name="modules" />
+        <table name="member_group_member" />
     </tables>
     <columns>
         <column name="homepages.site_srl" alias="site_srl" />
@@ -14,11 +15,10 @@
     <conditions>
         <condition operation="equal" column="sites.site_srl" default="homepages.site_srl" filter="number" notnull="notnull" />
         <condition operation="equal" column="modules.module_srl" default="sites.index_module_srl" pipe="and" />
+        <condition operation="equal" column="member_group_member.site_srl" default="modules.site_srl" pipe="and" />
+        <condition operation="equal" column="member_group_member.member_srl" var="member_srl" filter="number" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="homepages.list_order" order="asc" />
-        <list_count var="list_count" default="20" />
-        <page_count var="page_count" default="10" />
-        <page var="page" default="1" />
+        <index var="sort_index" default="member_group_member.regdate" order="desc" />
     </navigation>
 </query>

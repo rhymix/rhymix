@@ -17,6 +17,7 @@
             $oHomepageAdminModel = &getAdminModel('homepage');
             $oHomepageModel = &getModel('homepage');
             $oModuleModel = &getModel('module');
+            $oMemberModel = &getModel('member');
 
             // cafe 전체 설정을 구함
             $homepage_config = $oHomepageModel->getConfig();
@@ -34,9 +35,16 @@
             }
             Context::set('service_modules', $service_modules);
 
+            // 기본 사이트의 그룹 구함
+            $groups = $oMemberModel->getGroups(0);
+            Context::set('groups', $groups);
+
             // 생성된 카페 목록을 구함
             $page = Context::get('page');
             $output = $oHomepageAdminModel->getHomepageList($page);
+
+            // 카페 메인 스킨 설정 
+            Context::set('skins', $oModuleModel->getSkins($this->module_path));
 
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
@@ -91,6 +99,17 @@
             Context::set('admin_list', $admin_list);
 
             $this->setTemplateFile('delete');
+        }
+
+        function dispHomepageAdminSkinSetup() {
+            $oModuleAdminModel = &getAdminModel('module');
+            $oHomepageModel = &getModel('homepage');
+
+            $homepage_config = $oHomepageModel->getConfig(0);
+            $skin_content = $oModuleAdminModel->getModuleSkinHTML($homepage_config->module_srl);
+            Context::set('skin_content', $skin_content);
+
+            $this->setTemplateFile('skin_info');
         }
     }
 

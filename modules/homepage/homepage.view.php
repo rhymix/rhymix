@@ -17,32 +17,88 @@
         function init() {
             $oModuleModel = &getModel('module');
 
-            // 현재 접속 권한 체크하여 사이트 관리자가 아니면 접근 금지
-            $logged_info = Context::get('logged_info');
-            if(!Context::get('is_logged') || !$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
 
-            // site_module_info값으로 홈페이지의 정보를 구함
-            $this->site_module_info = Context::get('site_module_info');
-            $this->site_srl = $this->site_module_info->site_srl;
-            if(!$this->site_srl) return $this->stop('msg_invalid_request');
+            if($this->act != 'dispHomepageIndex') {
+                // 현재 접속 권한 체크하여 사이트 관리자가 아니면 접근 금지
+                $logged_info = Context::get('logged_info');
+                if(!Context::get('is_logged') || !$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
 
-            // 홈페이지 정보를 추출하여 세팅
+                // site_module_info값으로 홈페이지의 정보를 구함
+                $this->site_module_info = Context::get('site_module_info');
+                $this->site_srl = $this->site_module_info->site_srl;
+                if(!$this->site_srl) return $this->stop('msg_invalid_request');
+
+                // 홈페이지 정보를 추출하여 세팅
+                $oHomepageModel = &getModel('homepage');
+                $this->homepage_info = $oHomepageModel->getHomepageInfo($this->site_srl);
+                Context::set('homepage_info', $this->homepage_info);
+
+                // 템플릿 디렉토리를 구함
+                $template_path = sprintf("%stpl",$this->module_path);
+                $this->setTemplatePath($template_path);
+
+                // 모듈 번호가 있으면 해동 모듈의 정보를 구해와서 세팅
+                $module_srl = Context::get('module_srl');
+                if($module_srl) {
+                    $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                    if(!$module_info || $module_info->site_srl != $this->site_srl) return new Object(-1,'msg_invalid_request');
+                    $this->module_info = $module_info;
+                    Context::set('module_info', $module_info);
+                }
+            }
+        }
+
+        /**
+         * @brief 카페 메인 출력
+         **/
+        function dispHomepageIndex() {
+            $oHomepageAdminModel = &getAdminModel('homepage');
             $oHomepageModel = &getModel('homepage');
-            $this->homepage_info = $oHomepageModel->getHomepageInfo($this->site_srl);
-            Context::set('homepage_info', $this->homepage_info);
 
-            // 템플릿 디렉토리를 구함
-            $template_path = sprintf("%stpl",$this->module_path);
+            $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            if(!is_dir($template_path)||!$this->module_info->skin) {
+                $this->module_info->skin = 'xe_default';
+                $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+            }
             $this->setTemplatePath($template_path);
 
-            // 모듈 번호가 있으면 해동 모듈의 정보를 구해와서 세팅
-            $module_srl = Context::get('module_srl');
-            if($module_srl) {
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if(!$module_info || $module_info->site_srl != $this->site_srl) return new Object(-1,'msg_invalid_request');
-                $this->module_info = $module_info;
-                Context::set('module_info', $module_info);
+            // 카페 목록을 구함
+            $page = Context::get('page');
+            $output = $oHomepageAdminModel->getHomepageList($page);
+            if($output->data && count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $banner_src = 'files/attach/cafe_banner/'.$val->site_srl.'.jpg';
+                    if(file_exists(_XE_PATH_.$banner_src)) $output->data[$key]->cafe_banner = $banner_src.'?rnd='.filemtime(_XE_PATH_.$banner_src);
+                }
             }
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('homepage_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+
+            // 카페 생성 권한 세팅
+            if($oHomepageModel->isCreationGranted()) {
+                Context::set('isEnableCreateCafe', true);
+                Context::addJsFilter($this->module_path.'tpl/filter', 'cafe_creation.xml');
+            }
+
+            // 카페의 최신 글 추출
+            $output = executeQueryArray('homepage.getNewestDocuments');
+            Context::set('newest_documents', $output->data);
+            
+            // 카페의 최신 댓글 추출
+            $output = executeQueryArray('homepage.getNewestComments');
+            Context::set('newest_comments', $output->data);
+
+            $logged_info = Context::get('logged_info');
+            if($logged_info->member_srl) {
+                $myargs->member_srl = $logged_info->member_srl;
+                $output = executeQueryArray('homepage.getMyCafes', $myargs);
+                Context::set('my_cafes', $output->data);
+            }
+
+            $this->setTemplateFile('index');
         }
 
         /**
@@ -56,7 +112,6 @@
 
             $homepage_config = $oHomepageModel->getConfig($this->site_srl);
             Context::set('homepage_config', $homepage_config);
-            debugPrint($homepage_config);
 
             // 다운로드 되어 있는 레이아웃 목록을 구함
             $layout_list = $oLayoutModel->getDownloadedLayoutList();
