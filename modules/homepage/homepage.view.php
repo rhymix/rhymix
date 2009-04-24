@@ -18,7 +18,7 @@
             $oModuleModel = &getModel('module');
 
 
-            if($this->act != 'dispHomepageIndex' && strpos($this->act,'Cafe')!==false) {
+            if($this->act != 'dispHomepageIndex' && strpos($this->act,'Homepage')!==false) {
                 // 현재 접속 권한 체크하여 사이트 관리자가 아니면 접근 금지
                 $logged_info = Context::get('logged_info');
                 if(!Context::get('is_logged') || !$oModuleModel->isSiteAdmin($logged_info)) return $this->stop('msg_not_permitted');
