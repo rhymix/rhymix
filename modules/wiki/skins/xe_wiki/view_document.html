@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
 <!-- 글 내용 보여주기 -->
-<div class="boardRead">
+<div class="wikiRead">
     <div class="originalContent">
         <div class="readBody">
             <div class="contentBody">
@@ -76,12 +76,12 @@
 <!--#include("./comment.html")-->
 <!-- 댓글 입력 폼 -->
 <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="wikiEditor" >
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
     <input type="hidden" name="comment_srl" value="" />
     <input type="hidden" name="content" value="" />
-        <div class="boardWrite commentEditor">
+        <div class="wikiWrite commentEditor">
             <div class="userNameAndPw">
                 <!--@if(!$is_logged)-->
                 <label for="userName">{$lang->writer}</label>

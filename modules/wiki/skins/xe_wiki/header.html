@@ -1,7 +1,23 @@
 <!--%import("css/wiki.css")-->
-    <!--@if(!$module_info->colorset)-->
-        {@$module_info->colorset = "white"}
+
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset = "white"}
+<!--@end-->
+
+<!--@if($module_info->title || $module_info->comment)-->
+<div class="wikiHeader">
+    <!--@if($module_info->title)-->
+    <div class="wikiTitle">
+        <h2 class="wikiTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+    </div>
     <!--@end-->
+
+    <!--@if($module_info->comment)-->
+    <p class="wikiDescription">{$module_info->comment}</p>
+    <!--@end-->
+</div>
+<!--@end-->
+
 <div class="wikimain">
 <div class="header">
     <!--@if($oDocument)-->
