@@ -80,7 +80,7 @@
             <form action="./" method="post" onsubmit="return procFilter(this, cafe_creation);">
                 <table cellspacing="0" class="cafeTable">
                 <tr>
-                    <th><div>{$lang->cafe_id}</div></th>
+                    <th><div>{$lang->cafe_id} <span>(4~12)</span></div></th>
                 </tr>
                 <tr>
                     <td class="wide">
@@ -88,13 +88,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <th><div>{$lang->cafe_title}</div></th>
+                    <th><div>{$lang->cafe_title} <span>(4~20)</span></div></th>
                 </tr>
                 <tr>
                     <td class="wide"><input type="text" name="cafe_title" class="inputTypeText cafeTitle"/></td>
                 </tr>
                 <tr>
-                    <th><div>{$lang->cafe_description}</div></th>
+                    <th><div>{$lang->cafe_description} <span>(10~200)</span></div></th>
                 </tr>
                 <tr>
                     <td><textarea name="cafe_description" class="inputTypeTextArea cafeDescription"></textarea></td>

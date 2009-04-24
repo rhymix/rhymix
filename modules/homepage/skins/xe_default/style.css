@@ -115,6 +115,7 @@ div.cafeContext ul li a img { vertical-align:middle; }
 .cafeTable td.alert { color:red !important; }
 .cafeTable td.alert a { text-decoration:none; color:red !important; }
 
-input.cafeID { width:150px; }
+input.cafeID { width:90%; }
 input.cafeTitle { width:90%; }
 textarea.cafeDescription{ width:90%; height:40px;}
+.cafeTable th span { font-size:10px; font-family:tahoma; color:#aaa; font-weight:normal;}
