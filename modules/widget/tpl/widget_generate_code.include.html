@@ -152,7 +152,7 @@
 
         <!--@elseif($var->type == "module_srl_list")-->
             <input type="hidden" name="{$id}" id="{$id}" value="" />
-            <select name="_{$id}" id="_{$id}" size="8" class="w300 fl"></select>
+            <select name="_{$id}" id="_{$id}" size="8" class="w200 fl"></select>
             <ul class="midCommand">
                 <li><a href="{getUrl('','module','module','act','dispModuleSelectList','id',$id)}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a></li>
                 <li><a href="#" onclick="midMoveUp('{$id}');return false;" class="button black"><span>{$lang->cmd_move_up}</span></a></li>
