@@ -139,8 +139,12 @@
             $oModuleAdminController = &getAdminController('module');
             $oModuleAdminController->makeCacheDefinedLangCode($info->site_srl);
 
+            $oHomepageModel = &getModel('homepage');
+            $homepage_config = $oHomepageModel->getConfig(0);
+            if(!$homepage_config->default_layout) $homepage_config->default_layout = 'cafeXE';
+
             // 레이아웃 생성
-            $info->layout_srl = $this->makeLayout($info->site_srl, $title,'cafeXE');
+            $info->layout_srl = $this->makeLayout($info->site_srl, $title,$homepage_config->default_layout);
 
             // 기본 게시판+페이지 생성
             $info->module->home_srl = $this->makePage($info->site_srl, 'home', '$user_lang->home', $info->layout_srl, $this->getHomeContent());
