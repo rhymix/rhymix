@@ -30,7 +30,7 @@
 <!--@if($logged_info->is_admin == 'Y')-->
 <!--%import("filter/export_module.xml")-->
 <div class="fl">
-    <form method="post" action="./" id="foImport" onsubmit="return procFilter(this,export_module);">
+    <form method="post" action="./" id="foExport" onsubmit="return procFilter(this,export_module);">
         <select name="export_module_srl">
             <!--@foreach($mid_list as $no => $val)-->
             <option value="{$val->module_srl}">{$val->browser_title}</option>
