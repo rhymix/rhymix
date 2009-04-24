@@ -120,6 +120,7 @@
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
+            $args->default_language = Context::getLangType();
             $output = executeQuery('module.insertSite', $args);
             if(!$output->toBool()) return $output;
 
