@@ -32,7 +32,7 @@
             <a class="thumb" href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;"><img src="{$val->cafe_banner}" width="100" height="100" align="left"/></a>
             <!--@end-->
             <!--@if($val->cafe_description)-->
-            {preg_replace('/<([^>]+)>/i','',$val->cafe_description)}
+            {nl2br($val->cafe_description)}
             <!--@end-->
             <span class="url"><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{getSiteUrl($val->domain)}</a></span>
         </div>
