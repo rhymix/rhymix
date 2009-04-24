@@ -35,7 +35,7 @@
 
                     <p class="text">
                         <!--@if($val->cafe_banner)-->
-                        <a class="thumb" href="{$val->link}" onclick="window.open(this.href); return false;"><img src="{$val->cafe_banner}" width="100" height="100" align="left"/></a>
+                        <a class="thumb" href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;"><img src="{$val->cafe_banner}" width="100" height="100" align="left"/></a>
                         <!--@end-->
 
                         <!--@if($val->cafe_description)-->
