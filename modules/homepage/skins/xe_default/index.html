@@ -25,34 +25,18 @@
         </div>
         <!--@end-->
 
-        <div>
-            <ul class="cafeList">
-                <!--@foreach($homepage_list as $key => $val)-->
-                <li>
-                    <p class="titleArea">
-                        <a class="title" href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{($val->cafe_title)}</a>
-                    </p>
-
-                    <p class="text">
-                        <!--@if($val->cafe_banner)-->
-                        <a class="thumb" href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;"><img src="{$val->cafe_banner}" width="100" height="100" align="left"/></a>
-                        <!--@end-->
-
-                        <!--@if($val->cafe_description)-->
-                        {preg_replace('/<([^>]+)>/i','',$val->cafe_description)}
-                        <!--@end-->
-                    </p>
-
-                    <p class="url">
-                        <a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{getSiteUrl($val->domain)}</a>
-                    </p>
-                    <p class="date">
-                        {zdate($val->regdate,"Y/m/d H:i")}
-                    </p>
-                </li>
-                <!--@end-->
-            </ul>
+        <!--@foreach($homepage_list as $key => $val)-->
+        <div class="intro list">
+            <h3>{$val->cafe_title}</h3>
+            <!--@if($val->cafe_banner)-->
+            <a class="thumb" href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;"><img src="{$val->cafe_banner}" width="100" height="100" align="left"/></a>
+            <!--@end-->
+            <!--@if($val->cafe_description)-->
+            {preg_replace('/<([^>]+)>/i','',$val->cafe_description)}
+            <!--@end-->
+            <span class="url"><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{getSiteUrl($val->domain)}</a></span>
         </div>
+        <!--@end-->
 
         <div class="pagination a1">
             <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="prevEnd">{$lang->first_page}</a> 
