@@ -134,7 +134,7 @@
 
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';
-    $lang->edit->link_file = '插入圖片';
+    $lang->edit->link_file = '插入檔案';
     $lang->edit->delete_selected = '刪除所選';
 
     $lang->edit->icon_align_article = '段落';
