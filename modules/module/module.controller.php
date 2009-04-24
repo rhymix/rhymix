@@ -516,7 +516,7 @@
             }
             if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
 
-            return $matches[0];
+            return str_replace('$user_lang->','',$matches[0]);
         }
 
 
