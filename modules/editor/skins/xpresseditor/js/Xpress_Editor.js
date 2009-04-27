@@ -5667,19 +5667,19 @@ xe.XE_Extension = jQuery.Class({
 		var doc = this.oApp.getWYSIWYGDocument();
 		var seq = this.seq;
 		var fn  = function(){
-			var img  = jQuery(this);
-			var comp = img.attr('editor_component');
+			var obj  = jQuery(this);
+			var comp = obj.attr('editor_component');
 			
 			if (comp && jQuery.isFunction(openComponent)) {
-				editorPrevNode = img.get(0);
+				editorPrevNode = obj.get(0);
 				openComponent(comp, seq);
 			}
 		};
 		
-		jQuery('img[editor_component]', doc).each(function(){
-			var img = jQuery(this);
-			if (!img.attr('xe_handled')) {
-				img.attr('xe_handled', 'yes').dblclick(fn);
+		jQuery('img[editor_component],div[editor_component]', doc).each(function(){
+			var obj = jQuery(this);
+			if (!obj.attr('xe_handled')) {
+				obj.attr('xe_handled', 'yes').dblclick(fn);
 			}
 		});
 	},
@@ -5695,19 +5695,23 @@ xe.XE_Extension = jQuery.Class({
 	},
 	
 	$ON_CHANGE_EDITING_MODE : function(mode) {
-		this._addEvent();
+		var self = this;
+		setTimeout(function(){ self._addEvent(); }, 100);
 	},
 	
 	$ON_PASTE_HTML : function() {
-		this._addEvent();
+		var self = this;
+		setTimeout(function(){ self._addEvent(); }, 100);
 	},
 	
 	$ON_LOAD_IR_FIELD : function() {
-		this._addEvent();
+		var self = this;
+		setTimeout(function(){ self._addEvent(); }, 100);
 	},
 	
 	$ON_SET_IR : function() {
-		this._addEvent();
+		var self = this;
+		setTimeout(function(){ self._addEvent(); }, 100);
 	}
 });
 /**
