@@ -24,7 +24,7 @@ function setText() {
     var text = target.value;
     text.replace(/&/ig,'&amp;').replace(/</ig,'&lt;').replace(/>/ig,'&gt;');
     var url = request_uri.setQuery('mid',current_mid).setQuery('entry',text); 
-    if(typeof(xeVid)!='undefined') url.setQuery('vid', xeVid);
+    if(typeof(xeVid)!='undefined') url = url.setQuery('vid', xeVid);
     var link = "<a href=\""+url+"\" ";
     link += ">"+text+"</a>";
 
