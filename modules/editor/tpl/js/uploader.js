@@ -57,6 +57,7 @@ function XEUploaderStart(obj) {
         debug: false,
 
         // Button settings
+        button_window_mode: 'transparent',
         button_placeholder_id: dummy.id,
         button_text: null,
         button_image_url: "",
