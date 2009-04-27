@@ -1,4 +1,5 @@
 <!--%import("css/wiki.css")-->
+<!--%import("js/wiki.js")-->
 
 <!--@if(!$module_info->colorset)-->
     {@$module_info->colorset = "white"}
@@ -25,10 +26,9 @@
     <div class="edit"><!--@if($oDocument->isExists())--><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">Edit</a><!--@end--></div>
     <!--@end-->
     <div class="go">
-        <form action="{getUrl()}" method="get">
-            <input type="hidden" name="mid" value="{$module_info->mid}" />
+        <form action="./" method="get" onsubmit="moveHistory(this); return false;">
             <input type="text" class="inputTypeText w100" name="entry" />
-            <span class="button"><input type="submit" value="Go" /></span>
+            <span calss="button"><input type="submit" value="{$lang->cmd_move}" /></span>
         </form>
     </div>
 </div>

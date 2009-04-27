@@ -51,10 +51,8 @@
             Context::set('entry',$entry);
             $histories = $oDocumentModel->getHistories($document_srl, 10, $page);
             if(!$histories) $histories = array();
-            Context::set('histories',$histories->data);
+            Context::set('histories',$histories);
             Context::set('oDocument', $oDocument);
-            Context::set('page_navigation', $histories->page_navigation);
-            Context::set('page', $histories->page);
             $this->setTemplateFile('histories');
         }
 
