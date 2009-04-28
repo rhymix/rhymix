@@ -913,11 +913,13 @@
             else return $output->data->document_srl;
         }
 
-        function getHistories($document_srl)
+        function getHistories($document_srl, $list_count, $page)
         {
+            $args->list_count = $list_count;
+            $args->page = $page;
             $args->document_srl = $document_srl;
             $output = executeQueryArray('document.getHistories', $args);
-            return $output->data;
+            return $output;
         }
 
         function getHistory($history_srl)

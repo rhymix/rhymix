@@ -49,9 +49,18 @@
             if(!$oDocument->isExists()) return $this->stop('msg_invalid_request');
             $entry = $oDocument->getTitleText();
             Context::set('entry',$entry);
-            $histories = $oDocumentModel->getHistories($document_srl, 10, $page);
-            if(!$histories) $histories = array();
-            Context::set('histories',$histories);
+            $output = $oDocumentModel->getHistories($document_srl, 10, $page);
+            debugPrint($output);
+            if(!$output->toBool() || !$output->data) 
+            {
+                Context::set('histories', array());
+            }
+            else {
+                Context::set('histories',$output->data);
+                Context::set('page', $output->page);
+                Context::set('page_navigation', $output->page_navigation);
+            }
+            
             Context::set('oDocument', $oDocument);
             $this->setTemplateFile('histories');
         }

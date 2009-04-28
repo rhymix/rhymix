@@ -14,4 +14,5 @@
     $lang->about_use_comment = '可設定是否使用評論功能。';
     $lang->contributors = '作者';
     $lang->notice_old_revision = '此為舊版本';
+    $lang->restore = 'Restore';
 ?>
