@@ -44,11 +44,18 @@ Jeong, Chan Myeong 070601~070630
 .blogNotice .item .replyAndTrackback { color:#AAAAAA; font-size:.9em; }
 
 /* wikiRead */
+.wikimain a { color:#000; text-decoration:underline !important;}
+.wikimain a:visited { color:#555; }
 .viewDocument { border-bottom:2px solid #AAAAAA; margin-bottom:20px; }
 .wikiRead { }
 
-.wikiRead .titleAndUser { overflow:hidden; border-bottom:1px solid #e0e1db; }
+.readBody .histories { border-top:2px solid #ccc; margin-top:10px; width:100%; padding:0;}
+.readBody .histories li._item { list-style:none; padding:10px; margin-bottom:10px; border-bottom:1px solid #ccc; }
+.readBody .histories li span.date { font-size:11px; color:#555; font-family:tahoma; margin-right:10px; }
+.readBody .histories li a.view { font-size:11px; font-family:tahoma; color:#999; text-decoration:none !important; display:block; width:40px; white-space:nowrap; float:right; text-align:right; margin-top:-19px; }
+.readBody .histories li .historyContent { display:none; clear:both; }
 
+.wikiRead .titleAndUser { overflow:hidden; border-bottom:1px solid #e0e1db; }
 
 .wikiRead .dateAndCount { clear:both; white-space:nowrap; color:#444444; margin:5px 0 0 0; font-size:.9em; font-family:tahoma; line-height:17px; padding-bottom:10px; }
 

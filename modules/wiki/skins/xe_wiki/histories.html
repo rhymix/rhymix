@@ -1,35 +1,15 @@
 <!--#include("header.html")-->
 <div class="readBody">
-<table>
-<tr>
-<!--@if($page == 1)-->
-<td>
-    {$oDocument->getUpdate()}
-</td>
-<td>
-    by {$oDocument->getNickName()} (current)
-</td>
-<td>
-    <a href="{getUrl('act','',page,'')}">[View]</a>
-</td>
-</tr>
-<!--@endif-->
-<!--@foreach($histories as $val)-->
-<tr>
-<td>
-    {zdate($val->regdate, 'Y.m.d H:i:s')}
-</td>
-<td>
-    by {$val->nick_name}
-</td>
-<td>
-    <!--@if($val->content)-->
-    <a href="{getUrl('act','',page,'',history_srl,$val->history_srl)}">[View]</a>
-    <!--@end-->
-</td>
-</tr>
-<!--@end-->
-</table>
+    <ul class="histories">
+        <li class="_item"><span class="date">{$oDocument->getUpdate()}</span> by {$oDocument->getNickName()} (current) <a href="{getUrl('act','',page,'','history_srl','')}" class="view">[view]</a></li>
+        <!--@foreach($histories as $val)-->
+        <li class="_item"><span class="date">{zdate($val->regdate, 'Y.m.d H:i:s')}</span> by <a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a> <!--@if($val->content)--><a href="#" onclick="viewHistory('{$val->history_srl}'); return false;" class="view">[view]</a><!--@end-->
+            <div id="historyContent{$val->history_srl}" class="historyContent">
+                {$val->content}
+            </div>
+        </li>
+        <!--@end-->
+    </ul>
 </div>
 
 <!--#include("footer.html")-->

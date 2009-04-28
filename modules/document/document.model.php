@@ -919,5 +919,12 @@
             $output = executeQueryArray('document.getHistories', $args);
             return $output->data;
         }
+
+        function getHistory($history_srl)
+        {
+            $args->history_srl = $history_srl;
+            $output = executeQuery('document.getHistory', $args);
+            return $output->data;
+        }
     }
 ?>
