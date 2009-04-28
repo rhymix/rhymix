@@ -193,11 +193,12 @@ jQuery(function($) {
         // 서버에 메뉴를 요청
         var params = new Array();
         params["target_srl"] = target_srl;
-        params["cur_mid"] = current_mid;
+        params["mid"] = params["cur_mid"] = current_mid;
         params["cur_act"] = current_url.getQuery('act');
         params["menu_id"] = menu_id;
         params["page_x"] = evt.pageX;
         params["page_y"] = evt.pageY;
+        if(typeof(xeVid)!='undefined') params["vid"] = xeVid;
 
         var response_tags = new Array("error","message","menus");
 

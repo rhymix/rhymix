@@ -45,7 +45,7 @@
     /**
      * 기능 수행 : 사용자 이름을 클릭시 요청되는 팝업메뉴의 메뉴에 쪽지 발송, 친구추가등의 링크 추가
      **/
-    } elseif($called_position == 'before_module_proc' && $this->module == 'member' && $this->act == 'getMemberMenu') {
+    } elseif($called_position == 'before_module_proc' && $this->act == 'getMemberMenu') {
 
         $oMemberController = &getController('member');
         $member_srl = Context::get('target_srl');
@@ -66,7 +66,8 @@
         // 아니라면 쪽지 발송, 친구 등록 추가
         } else {
             // 대상 회원의 정보를 가져옴
-            $target_member_info = $this->getMemberInfoByMemberSrl($member_srl);
+            $oMemberModel = &getModel('member'); 
+            $target_member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             if(!$target_member_info->member_srl) return;
 
             // 로그인된 사용자 정보를 구함
