@@ -324,9 +324,6 @@
         }
 
         function getRssItems($args){
-            set_include_path("./libs/PEAR");
-            require_once('PEAR.php');
-            require_once('HTTP/Request.php');
 
             $content_items = array();
             $args->mid_lists = array();
@@ -397,53 +394,8 @@
          * tistory 의 경우 원본 주소가 location 헤더를 뿜는다. (내용은 없음)이를 해결하기 위한 수정 - rss_reader 위젯과 방식 동일
          **/
         function requestFeedContents($rss_url) {
-            // request rss
-            $rss_url = Context::convertEncodingStr($rss_url);
-            $URL_parsed = parse_url($rss_url);
-            if(strpos($URL_parsed["host"],'naver.com')) $rss_url = iconv('UTF-8', 'euc-kr', $rss_url);
-            $rss_url = str_replace(array('%2F','%3F','%3A','%3D','%3B','%26'),array('/','?',':','=',';','&'),urlencode($rss_url));
-
-            $URL_parsed = parse_url($rss_url);
-
-            $host = $URL_parsed["host"];
-            $port = $URL_parsed["port"];
-
-            if ($port == 0) $port = 80;
-
-            $path = $URL_parsed["path"];
-
-            if ($URL_parsed["query"] != '') $path .= "?".$URL_parsed["query"];
-
-            /*
-            $buff = FileHandler::readFile('./widgets/content/conf/info.xml');
-            $buff = str_replace('<?xml version="1.0" encoding="UTF-8"?>','',$buff);
-
-            $oXmlParser = new XmlParser();
-            $info_xml = $oXmlParser->parse($buff);
-            */
-
-            $oReqeust = new HTTP_Request($rss_url);
-            $oReqeust->addHeader('Content-Type', 'application/xml');
-            // $oReqeust->addHeader('User-agent', 'Content Widget/'.$info_xml->widget->version->body.' (XpressEngine '.__ZBXE_VERSION__.' ( http://www.xpressengine.com ); PEAR HTTP_Request class ( http://pear.php.net/ );)');
-            $oReqeust->addHeader('User-agent', 'Content Widget (XE '.__ZBXE_VERSION__.' ( http://www.xpressengine.com ); PEAR HTTP_Request class ( http://pear.php.net/ );)');
-            $oReqeust->setMethod('GET');
-
-            $user = $URL_parsed["user"];
-            $pass = $URL_parsed["pass"];
-
-            if($user) $oReqeust->setBasicAuth($user, $pass);
-
-            $oResponse = $oReqeust->sendRequest();
-            if (PEAR::isError($oResponse)) {
-                return new Object(-1, 'msg_fail_to_request_open');
-            }
-            $header = $oReqeust->getResponseHeader();
-            if($header['location']) {   
-                return $this->requestFeedContents(trim($header['location']));
-            }
-            else {
-                return $oReqeust->getResponseBody();
-            }
+            $rss_url = str_replace('&amp;','&',Context::convertEncodingStr($rss_url));
+            return FileHandler::getRemoteResource($rss_url, null, 3, 'GET', 'application/xml');
         }
 
         function _getRssItems($args){
@@ -492,42 +444,6 @@
 
                     $content_items[] = $content_item;
                 }
-/*
-              } elseif($xml_doc->{'rdf:RDF'}) {
-                  // rss1.0 지원 by misol
-                  $rss->title = $xml_doc->{'rdf:RDF'}->channel->title->body;
-                  $rss->link = $xml_doc->{'rdf:RDF'}->channel->link->body;
-  
-                  $items = $xml_doc->{'rdf:RDF'}->item;
-  
-                  if(!$items) return;
-                  if($items && !is_array($items)) $items = array($items);
-  
-                  $content_items = array();
-  
-                  foreach ($items as $key => $value) {
-                      if($key >= $args->list_count * $args->page_count) break;
-                      unset($item);
-  
-                      foreach($value as $key2 => $value2) {
-                          if(is_array($value2)) $value2 = array_shift($value2);
-                          $item->{$key2} = $this->_getRssBody($value2);
-                      }
-  
-                      $content_item = new contentItem($rss->title);
-                      $content_item->setContentsLink($rss->link);
-                      $content_item->setTitle($item->title);
-                      $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
-                      //$content_item->setCategory($item->category);
-                      $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
-                      $content_item->setContent($item->description);
-                      $content_item->setLink($item->link);
-                      $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
-                      $content_item->setRegdate($date);
-  
-                      $content_items[] = $content_item;
-                  }
-*/
             } elseif($xml_doc->{'rdf:rdf'}) {
                 // rss1.0 지원 (Xml이 대소문자를 구분해야 하는데 XE의 XML파서가 전부 소문자로 바꾸는 바람에 생긴 case) by misol
                 $rss->title = $xml_doc->{'rdf:rdf'}->channel->title->body;
