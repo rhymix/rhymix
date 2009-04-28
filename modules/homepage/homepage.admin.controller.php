@@ -427,6 +427,16 @@
                 $oModuleController->deleteModule($module_srl);
             }
 
+            // 사용자 정의 언어 제거
+            $lang_args->site_srl = $site_srl;
+            $output = executeQuery('module.deleteLangs', $lang_args);
+            $lang_supported = Context::get('lang_supported');
+            foreach($lang_supported as $key => $val) {
+                $lang_cache_file = _XE_PATH_.'files/cache/lang_defined/'.$site_srl.'.'.$key.'.php';
+                FileHandler::removeFile($lang_cache_file);
+            }
+
+
             $this->setMessage('success_deleted');
         }
         
