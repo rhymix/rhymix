@@ -34,12 +34,16 @@
             $oPlanetModel = &getModel('planet');
             Context::set('planet', $planet = $oPlanetModel->getPlanet());
 
-            foreach($output->data as $key => $val) {
-                $document_srl = $val->document_srl;
-                $oPlanet = null;
-                $oPlanet = new PlanetItem();
-                $oPlanet->setAttribute($val);
-                $planet_list[] = $oPlanet;
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $document_srl = $val->document_srl;
+                    $oPlanet = null;
+                    $oPlanet = new PlanetItem();
+                    $oPlanet->setAttribute($val);
+                    $planet_list[] = $oPlanet;
+                }
+            } else {
+                $planet_list = array();
             }
             Context::set('planet_list', $planet_list);
 
