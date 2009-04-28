@@ -26,7 +26,7 @@
 			<!--@if($module_info->logo_image)-->
                 <h1><a href="{getUrl('','mid',$module_info->mid)}"><img src="{$module_info->logo_image}" alt="{$module_info->logo_title}" /></a></h1>
 			<!--@elseif($module_info->logo_title)-->
-                <h1><a href="{getUrl('','mid',$module_info->mid)}">{htmlspecialchars($module_info->logo_title)}</a></h1>
+                <h1><a href="{getUrl('','mid',$module_info->mid)}">{$module_info->logo_title}</a></h1>
 			<!--@end-->
 
             <!-- GNB -->

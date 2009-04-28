@@ -27,8 +27,8 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 #planetBody{ clear:both; z-index:20;}
 
 /* Heading */
-#planetHeader h1 { white-space:nowrap; margin:0; padding:0;}
-#planetHeader h1 a { font-weight:bold; font-size:26px; color:#000; text-decoration:none !important;}
+#planetHeader h1 { white-space:nowrap; margin:0 0 20px 0; padding:0 0 4px 0; border-bottom:2px solid #666; }
+#planetHeader h1 a { font-weight:bold; font-size:18px; color:#000; text-decoration:none !important;}
 
 .buttonArea{ text-align:center;}
 
