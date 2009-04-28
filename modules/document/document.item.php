@@ -502,7 +502,7 @@
             if(!$height) $height = $width;
 
             // 첨부파일이 없거나 내용중 이미지가 없으면 return false;
-            if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content'))) return;
+            if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content'))) return;
 
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
@@ -531,8 +531,9 @@
             $is_tmp_file = false;
 
             // 첨부된 파일중 이미지 파일이 있으면 찾음
-            if($this->hasUploadedFiles()) {
-                $file_list = $this->getUploadedFiles();
+            if($this->get('uploaded_count')) {
+                $oFileModel = &getModel('file');
+                $file_list = $oFileModel->getFiles($this->document_srl);
                 if(count($file_list)) {
                     foreach($file_list as $file) {
                         if($file->direct_download!='Y') continue;
