@@ -1,9 +1,9 @@
 <!--#include("header.html")-->
 <div class="readBody">
     <ul class="histories">
-        <li class="_item"><span class="date">{$oDocument->getUpdate()}</span> by {$oDocument->getNickName()} (current) <a href="{getUrl('act','',page,'','history_srl','')}" class="view">[view]</a></li>
+        <li class="_item"><div class="info"><span class="date">{$oDocument->getUpdate()}</span> by {$oDocument->getNickName()} (current)</div><a href="{getUrl('act','',page,'','history_srl','')}" class="view">[{$lang->cmd_move}]</a></li>
         <!--@foreach($histories as $val)-->
-        <li class="_item"><span class="date">{zdate($val->regdate, 'Y.m.d H:i:s')}</span> by <a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a> <!--@if($val->content)--><a href="#" onclick="viewHistory('{$val->history_srl}'); return false;" class="view">[view]</a><!--@end-->
+        <li class="_item"><div class="info"><span class="date">{zdate($val->regdate, 'Y.m.d H:i:s')}</span> by <a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a> </div><!--@if($val->content)--><a href="#" onclick="viewHistory('{$val->history_srl}'); return false;" class="view">[{$lang->cmd_view}]</a><!--@end-->
             <div id="historyContent{$val->history_srl}" class="historyContent">
                 {$val->content}
             </div>
