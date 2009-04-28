@@ -32,6 +32,19 @@
             return (int)$total_count;
         }
 
+
+        /**
+         * @brief module_srl 에 해당하는 엮인글의 전체 갯수를 가져옴
+         **/
+        function getTrackbackAllCount($module_srl) {
+            $args->module_srl = $module_srl;
+            $output = executeQuery('trackback.getTrackbackCount', $args);
+            $total_count = $output->data->count;
+
+            return (int)$total_count;
+        }
+
+
         /**
          * @brief 특정 document에 특정 ip로 기록된 트랙백의 갯수
          * spamfilter 에서 사용할 method임

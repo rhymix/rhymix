@@ -576,19 +576,23 @@
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
 
-            $comment_config = null;
-            $comment_config->comment_count = (int)Context::get('comment_count');
-            if(!$comment_config->comment_count) $comment_config->comment_count = 50;
+            $comment_count = (int)Context::get('comment_count');
 
-            $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;
-                $output = $oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
+                $output = $this->setCommentModuleConfig($srl,$comment_count);
             }
 
             $this->setError(-1);
             $this->setMessage('success_updated');
         }
+
+		function setCommentModuleConfig($srl, $comment_count=50){
+			$comment_config->comment_count = $comment_count;
+            $oModuleController = &getController('module');
+			$oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
+            return new Object();
+		}
     }
 ?>

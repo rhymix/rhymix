@@ -146,6 +146,20 @@
             return (int)$total_count;
         }
 
+
+        /**
+         * @brief module_srl 에 해당하는 댓글의 전체 갯수를 가져옴
+         **/
+        function getCommentAllCount($module_srl) {
+            $args->module_srl = $module_srl;
+			$output = executeQuery('comment.getCommentCount', $args);
+			debugPrint($output);
+			$total_count = $output->data->count;
+			
+            return (int)$total_count;
+        }
+
+
         /** 
          * @brief mid 에 해당하는 댓글을 가져옴
          **/
