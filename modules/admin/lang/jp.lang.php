@@ -28,7 +28,7 @@
 
     $lang->env_setup = "環境設定";
     $lang->default_url = '基本URL';
-    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持出来るようにするためには、基本になるサイトでのXEをインストールしたurlを登録して下さい。 (例: http://ドメイン/インストールパス)";
+    $lang->about_sso_url = "複数のバーチャル（Virtual）サイトを運営する場合、どちらからログインしてもバーチャル（Virtual）サイトの間でログイン情報を維持出来るようにするためには、基本になるサイトでのXEをインストールしたurlを登録して下さい。 (例: http://ドメイン/インストールパス)";
     
 
     $lang->env_information = "環境情報";
