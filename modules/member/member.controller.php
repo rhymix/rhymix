@@ -991,7 +991,7 @@
             $output = executeQuery('member.getAuthMail', $args);
             if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_auth_key');
 
-            // 인증 정보가 맞다면 새비밀번호로 비밀번호를 바꾸고 인증 상태로 바꿈
+            // 인증 정보가 맞다면 새비밀번호로 비밀번호를 바꿈
             if ($output->data->is_register == 'Y') {
                 $args->password = $output->data->new_password;
                 $args->denied = 'N';
@@ -1005,20 +1005,6 @@
 
             $output = executeQuery('member.updateMemberPassword', $args);
             if(!$output->toBool()) return $this->stop($output->getMessage());
-
-            // 인증 시킴
-            $oMemberModel = &getModel('member');
-
-            // 회원의 정보를 가져옴
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-
-            // 로그인 성공후 trigger 호출 (after)
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
-            if(!$trigger_output->toBool()) return $trigger_output;
-
-            // 사용자 정보의 최근 로그인 시간을 기록
-            $output = executeQuery('member.updateLastLogin', $args);
-            $this->setSessionInfo($member_info);
 
             // 인증 테이블에서 member_srl에 해당하는 모든 값을 지움
             executeQuery('member.deleteAuthMail',$args);
