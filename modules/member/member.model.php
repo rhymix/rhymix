@@ -353,6 +353,9 @@
         function getJoinFormList($filter_response = false) {
             global $lang;
 
+            // 최고관리자는 무시하도록 설정
+            $logged_info = Context::get('logged_info');
+
             if(!$this->join_form_list) {
                 // list_order 컬럼의 정렬을 위한 인자 세팅
                 $args->sort_index = "list_order";
@@ -399,7 +402,8 @@
                     $obj->type = $val->column_type;
                     $obj->name = $val->column_name;
                     $obj->lang = $val->column_title;
-                    $obj->required = $val->required=='Y'?true:false;
+                    if($logged_info->is_admin != 'Y') $obj->required = $val->required=='Y'?true:false;
+                    else $obj->required = false;
                     $filter_output[] = $obj;
 
                     unset($open_obj);
