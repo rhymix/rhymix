@@ -5783,7 +5783,7 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 		var blockName = this.oApp.getWYSIWYGDocument().queryCommandValue("FormatBlock");
 		
 		if (!blockName) return (this.elFormatSelect.selectedIndex = 0);
-		if (/([0-9])/.test(blockName)) blockName = 'h'+(RegExp.$1);
+		if (jQuery.browser.msie && /([0-9])/.test(blockName)) blockName = 'h'+(RegExp.$1);
 		
 		this.elFormatSelect.value = blockName.toLowerCase();
 		if(this.elFormatSelect.selectedIndex < 0) this.elFormatSelect.selectedIndex = 0;
