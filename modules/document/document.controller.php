@@ -144,12 +144,12 @@
             unset($obj->_saved_doc_content);
             unset($obj->_saved_doc_message);
 
-            // 주어진 문서 번호가 없으면 문서 번호 등록
-            if(!$obj->document_srl) $obj->document_srl = getNextSequence();
-
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
             if(!$output->toBool()) return $output;
+
+            // 주어진 문서 번호가 없으면 문서 번호 등록
+            if(!$obj->document_srl) $obj->document_srl = getNextSequence();
 
             $oDocumentModel = &getModel('document');
 
