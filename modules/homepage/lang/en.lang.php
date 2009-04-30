@@ -30,7 +30,7 @@
     $lang->enable_change_layout = 'Allow change layout';
     $lang->about_change_layout = 'Allow each cafe to change its layout';
     $lang->allow_service = 'Allowed services';
-    $lang->about_allow_service = 'You may select default services used in newly created cafes';
+    $lang->about_allow_service = 'You may configure default setting for the number and the type of services allowed in newly created cafes';
 
     $lang->cmd_make_cafe = 'Cafe creation';
     $lang->cmd_import = 'Import';
