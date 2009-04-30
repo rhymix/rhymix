@@ -6,7 +6,7 @@
      **/
 
     $lang->cafe = "CafeXE"; 
-    $lang->cafe_id = "카페 접속 ID"; 
+    $lang->cafe_id = "Cafe ID"; 
     $lang->cafe_title = "Title of cafe";
     $lang->cafe_description = 'Description of cafe';
     $lang->cafe_banner = 'Banner of Cafe';
@@ -18,27 +18,27 @@
     $lang->cafe_info = "Cafe Infomation";
     $lang->cafe_admin = "CafeXE administrator";
     $lang->do_selected_member = "Change the selected members into : ";
-    $lang->cafe_latest_documents = '카페 최신 글';
-    $lang->cafe_latest_comments = '카페 최신 댓글';
-    $lang->mycafe_list = '가입한 카페';
-    $lang->cafe_creation_type = '카페 접속 방법';
-    $lang->about_cafe_creation_type = '사용자들이 카페를 생성할때 카페 접속 방법을 정해야 합니다. Site ID는 http://기본주소/ID 로 접속 가능하고 Domain 접속은 입력하신 도메인의 2차 도메인(http://domain.mydomain.net) 으로 카페가 생성됩니다';
-    $lang->cafe_main_layout = '카페 메인 레이아웃';
+    $lang->cafe_latest_documents = "Cafe's latest documents";
+    $lang->cafe_latest_comments = "Cafe's latest comments";
+    $lang->mycafe_list = "Joined Cafes";
+    $lang->cafe_creation_type = "Type of Cafe";
+    $lang->about_cafe_creation_type = "Please choose how users access the created cafe. If you choose Site ID, they would access via http://defaultAddr/SiteID, and in the case of Domain name, they would access via sub-domain of registered domain name, http://subdomain.defaultDomain";
+    $lang->cafe_main_layout = "Cafe's main layout";
 
-    $lang->default_layout = '기본 레이아웃';
-    $lang->about_default_layout = '카페가 생성될때 설정될 기본 레이아웃을 지정할 수 있습니다';
-    $lang->enable_change_layout = '레이아웃 변경';
-    $lang->about_change_layout = '선택하시면 개별 카페에서 레이아웃 변경을 허용할 수 있습니다';
-    $lang->allow_service = '허용 서비스';
-    $lang->about_allow_service = '개별 카페에서 사용할 기본 서비스를 설정할 수 있습니다';
+    $lang->default_layout = 'Default layout';
+    $lang->about_default_layout = 'You may set the default layout will be applied to newly created cafes';
+    $lang->enable_change_layout = 'Allow change layout';
+    $lang->about_change_layout = 'Allow each cafe to change its layout';
+    $lang->allow_service = 'Allowed services';
+    $lang->about_allow_service = 'You may select default services used in newly created cafes';
 
     $lang->cmd_make_cafe = 'Cafe creation';
     $lang->cmd_import = 'Import';
     $lang->cmd_export = 'Export';
     $lang->cafe_creation_privilege = 'Cafe creation privilege';
 
-    $lang->cafe_main_mid = '카페 메인 ID';
-    $lang->about_cafe_main_mid = '카페 메인 페이지를 http://주소/ID 값으로 접속하기 위한 ID값을 입력해주세요.';
+    $lang->cafe_main_mid = 'Cafe ID';
+    $lang->about_cafe_main_mid = "Input an ID of cafe's main page address, http://addr/cafeID";
 
     $lang->default_menus = array(
         'home' => 'Home',
@@ -72,14 +72,14 @@
     $lang->cmd_select_index = "Select the index page";
     $lang->cmd_add_new_menu = "Add a new menu";
     $lang->default_language = "Default Language";
-    $lang->about_default_language = "처음 접속하는 사용자의 언어 설정을 지정할 수 있습니다.";
+    $lang->about_default_language = "You may set the default language";
 
     $lang->about_cafe_act = array(
         "dispHomepageManage" => "You can decorate cafe's layout here.",
         "dispHomepageMemberGroupManage" => "You can manage groups used in this cafe.",
         "dispHomepageMemberManage" => "You can list up members registered and manage them.",
         "dispHomepageTopMenu" => "You can manage the default menus",
-        "dispHomepageComponent" => "에디터 컴포넌트/ 애드온을 활성화 하거나 설정을 변경할 수 있습니다",
+        "dispHomepageComponent" => "You can enable editor components / addons and configure them.",
         "dispHomepageCounter" => "You can see the connecting status of Cafe",
         "dispHomepageMidSetup" => "You can configure modules, such as pages and boards, used in the cafe."
     );
@@ -99,8 +99,8 @@
     
     $lang->confirm_change_layout = "If you change the layout, some information of the layout might be reset. Would you like to change it?";
     $lang->confirm_delete_menu_item = "If you delete the menu item, the linked module(board or page) will be removed, too. Would you like to delete it?";
-    $lang->msg_module_count_exceed = '허용된 모듈의 개수를 초과하였기에 생성할 수 없습니다';
-    $lang->msg_not_enabled_id = '사용할 수 없는 아이디입니다';
-    $lang->msg_same_site = '동일한 가상 사이트의 모듈은 이동할 수가 없습니다';
-    $lang->about_move_module = '가상사이트와 기본사이트간의 모듈을 옮길 수 있습니다.<br/>다만 가상사이트끼리 모듈을 이동하거나 같은 이름의 mid가 있을 경우 예기치 않은 오류가 생길 수 있으니 꼭 가상 사이트와 기본 사이트간의 다른 이름을 가지는 모듈만 이동하세요';
+    $lang->msg_module_count_exceed = "The number of modules are limited, you cannot create more modules";
+    $lang->msg_not_enabled_id = 'The ID cannot be used';
+    $lang->msg_same_site = 'Modules cannot be moved between virtual sites.';
+    $lang->about_move_module = "You may move modules between default site and virtual sites.<br />Moving modules among virtual sites is note allowed. Also, if there exists a module with same mid, there can be unexpected errors, thus move only modules which have unique mid.";
 ?>
