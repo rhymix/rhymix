@@ -13,7 +13,7 @@
     $lang->move_target_module = "Target module ";
     $lang->title_bold = 'Bold';
     $lang->title_color = 'Color';
-    $lang->new_document_count = '새글';
+    $lang->new_document_count = 'New documents';
 
     $lang->parent_category_title = 'Parent Category';
     $lang->category_title = 'Category';
