@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widgetstyle>
     <title xml:lang="ko">심플 스트롱</title>
+    <title xml:lang="en">Simple line</title>
     <title xml:lang="zh-CN">简易控件样式</title>
     <title xml:lang="zh-TW">簡單樣式</title>
     <title xml:lang="jp">シンプルストロング</title>
     <description xml:lang="ko">선 하나만으로 꾸며진 위젯스타일 입니다.</description>
+    <description xml:lang="en">A widget style decorated with one simple line.</description>
     <description xml:lang="zh-CN">只有栏目名和查看更多(more)选项的简易控件样式。</description>
     <description xml:lang="zh-TW">只有標題與more按紐的簡單控件樣式。</description>
     <description xml:lang="jp">ウィジェットのスタイルです。</description>
@@ -14,6 +16,7 @@
 
     <author email_address="sol@ngleader.com" link="http://www.ngleader.com">
         <name xml:lang="ko">sol</name>
+        <name xml:lang="en">sol</name>
         <name xml:lang="zh-CN">sol</name>
         <name xml:lang="zh-TW">sol</name>
         <name xml:lang="jp">sol</name>
@@ -22,15 +25,18 @@
     <extra_vars>
         <var name="ws_colorset" type="select">
             <title xml:lang="ko">컬러셋</title>
+            <title xml:lang="en">Colorset</title>
             <title xml:lang="zh-CN">颜色</title>
             <title xml:lang="zh-TW">顏色</title>
             <title xml:lang="jp">컬러셋</title>
             <description xml:lang="ko">컬러셋을 지정해주세요</description>
+            <description xml:lang="en">Choose colorset</description>
             <description xml:lang="zh-CN">请指定适当的颜色。</description>
             <description xml:lang="zh-TW">請選擇顏色。</description>
             <description xml:lang="jp">컬러셋을 지정해주세요</description>
             <options>
                 <name xml:lang="ko">하얀색</name>
+                <name xml:lang="en">White</name>
                 <name xml:lang="zh-CN">白色</name>
                 <name xml:lang="zh-TW">白色</name>
                 <name xml:lang="jp">하얀색</name>
@@ -38,6 +44,7 @@
             </options>
             <options>
                 <name xml:lang="ko">검은색</name>
+                <name xml:lang="en">Black</name>
                 <name xml:lang="zh-CN">黑色</name>
                 <name xml:lang="zh-TW">黑色</name>
                 <name xml:lang="jp">검은색</name>
@@ -46,28 +53,34 @@
         </var>
         <var name="ws_title" type="text">
             <name xml:lang="ko">제목</name>
+            <name xml:lang="en">Title</name>
             <name xml:lang="zh-CN">栏目名</name>
             <name xml:lang="zh-TW">標題</name>
             <name xml:lang="jp">タイトル</name>
             <description xml:lang="ko">제목 텍스트</description>
+            <description xml:lang="en">Title text</description>
             <description xml:lang="zh-CN">请输入栏目名。</description>
             <description xml:lang="zh-TW">請輸入標題。</description>
             <description xml:lang="jp">「タイトル」のテキスト</description>
         </var>
         <var name="ws_more_url" type="text">
             <name xml:lang="ko">더보기 URL</name>
+            <name xml:lang="en">more URL</name>
             <name xml:lang="zh-CN">查看更多(链接)</name>
             <name xml:lang="zh-TW">more URL</name>
             <name xml:lang="jp">「もっと見る」URL</name>
             <description xml:lang="ko">http:// 포함한 URL를 등록합니다.</description>
+            <description xml:lang="en">Destination of a link 'more'. Register an URL including http://</description>
             <description xml:lang="jp">http:// 포함한 URL를 등록합니다.</description>
         </var>
         <var name="ws_more_text" type="text">
             <name xml:lang="ko">더보기 텍스트</name>
+            <name xml:lang="en">more Text</name>
             <name xml:lang="zh-CN">查看更多(文本)</name>
             <name xml:lang="zh-TW">more TEXT</name>
             <name xml:lang="jp">「もっと見る」テキスト</name>
             <description xml:lang="ko">더보기 텍스트</description>
+            <description xml:lang="en">Text for a link 'more'</description>
             <description xml:lang="zh-CN">文本形式的"查看更多"。</description>
             <description xml:lang="zh-TW">純文字格式。</description>
             <description xml:lang="jp">「もっと見る」テキスト</description>
