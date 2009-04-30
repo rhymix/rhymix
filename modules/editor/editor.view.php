@@ -87,17 +87,25 @@
 
             Context::set('editor_config', $editor_config);
 
-            // 에디터 스킨 목록을 구함
-            $editor_skin_list = FileHandler::readDir('./modules/editor/skins');
-            Context::set('editor_skin_list', $editor_skin_list);
-
             $oModuleModel = &getModel('module');
+
+            // 에디터 스킨 목록을 구함
+            $editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
+            Context::set('editor_skin_list', $editor_skin_list);
 
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
             Context::set('editor_colorset_list', $skin_info->colorset);
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
             Context::set('editor_comment_colorset_list', $skin_info->colorset);
-            
+
+            $contents = FileHandler::readDir(_XE_PATH_.'modules/editor/styles');
+            for($i=0,$c=count($contents);$i<$c;$i++) {
+                $style = $contents[$i];
+                $info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
+                $content_style_list[$style]->title = $info->title;
+            }
+            Context::set('content_style_list', $content_style_list);
+
 
             // 그룹 목록을 구함
             $oMemberModel = &getModel('member');

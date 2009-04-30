@@ -234,7 +234,7 @@ EndOfLicense;
         'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
         'cubrid' => 'CUBRID DB를 이용합니다. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'PostgreSql을 이용합니다',
-        'firebird' => 'Firebird를 이용합니다',
+        'firebird' => 'Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );
 
     $lang->form_title = 'DB &amp; 관리자 정보 입력';

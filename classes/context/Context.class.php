@@ -13,6 +13,8 @@
 
     class Context {
 
+        var $allow_rewrite = false;  ///< @brief rewrite mod 사용에 대한 변수
+
         var $request_method = 'GET'; ///< @brief GET/POST/XMLRPC 중 어떤 방식으로 요청이 왔는지에 대한 값이 세팅. GET/POST/XML 3가지가 있음
         var $response_method = ''; ///< @brief HTML/XMLRPC 중 어떤 방식으로 결과를 출력할지 결정. (강제 지정전까지는 request_method를 따름)
 
@@ -26,6 +28,7 @@
         var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
 
         var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트코드
+	var $body_class = array(); ///< @brief display시에 사용하게 되는 <body> 안에 출력될 class
         var $body_header = NULL; ///< @brief display시에 사용하게 되는 <body> 바로 다음에 출력될 스크립트 코드
         var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
 
@@ -44,8 +47,6 @@
         var $get_vars = NULL; ///< @brief form이나 get으로 요청이 들어온 변수만 별도로 관리
 
         var $is_uploaded = false; ///< @brief 첨부파일이 업로드 된 요청이였는지에 대한 체크 플래그
-
-        var $widget_include_info_flag = false; // 위젯 정보 코드 출력
 
         /**
          * @brief 유일한 Context 객체를 반환 (Singleton)
@@ -87,6 +88,8 @@
                 Context::set('site_module_info', $site_module_info);
 
                 if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
+                $this->db_info->lang_type = $site_module_info->default_language;
+                if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
             }
 
             // 언어 파일 불러오기
@@ -96,14 +99,9 @@
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
 
             // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
-            if(!$this->lang_type) {
-                // 가상 사이트라면 가상사이트의 언어타입으로 지정
-                if($site_module_info && $site_module_info->default_language) $this->lang_type = $site_module_info->default_language;
-                else $this->lang_type = $this->db_info->lang_type;
-            }
+            if(!$this->lang_type) $this->lang_type = $this->db_info->lang_type;
 
             // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
-            if(!in_array($this->lang_type, array_keys($lang_supported))) $this->lang_type = $this->db_info->lang_type;
             if(!$this->lang_type) $this->lang_type = "en";
 
             Context::set('lang_supported', $lang_supported);
@@ -113,16 +111,18 @@
             $this->loadLang(_XE_PATH_.'modules/module/lang');
 
             // 세션 핸들러 지정
-            $oSessionModel = &getModel('session');
-            $oSessionController = &getController('session');
-            session_set_save_handler(
-                array(&$oSessionController,"open"),
-                array(&$oSessionController,"close"),
-                array(&$oSessionModel,"read"),
-                array(&$oSessionController,"write"),
-                array(&$oSessionController,"destroy"),
-                array(&$oSessionController,"gc")
-            );
+            if($this->db_info->use_db_session != 'N') {
+                $oSessionModel = &getModel('session');
+                $oSessionController = &getController('session');
+                session_set_save_handler(
+                    array(&$oSessionController,"open"),
+                    array(&$oSessionController,"close"),
+                    array(&$oSessionModel,"read"),
+                    array(&$oSessionController,"write"),
+                    array(&$oSessionController,"destroy"),
+                    array(&$oSessionController,"gc")
+                );
+            }
             session_start();
 
 
@@ -816,6 +816,8 @@
                 $get_vars[$key] = $val;
             }
             unset($get_vars['vid']);
+            unset($get_vars['rnd']);
+            if(isset($get_vars['page'])&&$get_vars['page']<2) unset($get_vars['page']);
 
             /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
             if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
@@ -1249,6 +1251,39 @@
         }
 
         /**
+         * @brief Html Body에 css class 추가
+         **/
+        function addBodyClass($class_name) {
+            $oContext = &Context::getInstance();
+            return $oContext->_addBodyClass($class_name);
+        }
+
+        /**
+         * @brief Html Body에 css class 추가
+         **/
+        function _addBodyClass($class_name) {
+	    $this->body_class[] = $class_name;
+        }
+
+        /**
+         * @brief Html Body에 css class return
+         **/
+        function getBodyClass() {
+            $oContext = &Context::getInstance();
+            return $oContext->_getBodyClass();
+        }
+
+        /**
+         * @brief Html Body에 css class return
+         **/
+        function _getBodyClass() {
+	    $this->body_class = array_unique($this->body_class);
+	    if(count($this->body_class)>0) return sprintf(' class="%s"', join(' ',$this->body_class));
+            else return '';
+        }
+
+
+        /**
          * @brief BodyHeader 추가
          **/
         function addBodyHeader($header) {
@@ -1331,117 +1366,19 @@
             return file_exists(Context::getConfigFile()) && filesize(Context::getConfigFile());
         }
 
-
-        /**
-         * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경을 위한 flag set
-         **/
-        function setTransWidgetCodeIncludeInfo($flag=false){
-            $oContext = &Context::getInstance();
-            $oContext->widget_include_info_flag = $flag ? true : false;
-        }
-
         /**
          * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경
          **/
         function transContent($content) {
-
-            // 사용자 정의 언어로 변경
-            $oModuleController = &getController('module');
-            $oModuleController->replaceDefinedLangCode($content);
-
-            // 위젯 코드 변경
-            $oWidgetController = &getController('widget');
-            $content = $oWidgetController->transWidgetCode($content,$this->widget_include_info_flag);
-
-            // 메타 파일 변경
-            $content = preg_replace_callback('!<\!\-\-Meta:([^\-]*?)\-\->!is', array($this,'transMeta'), $content);
-
-            // 에디터 컴포넌트를 찾아서 결과 코드로 변환
-            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
-            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
-
-            // style의 url 경로를 재정의 한다.
-            $content = preg_replace('/url\(http:\/\/([^ ]+)http:\/\//is','url(http://', $content);
-            // body 내의 <style ..></style>를 header로 이동
-            $content = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $content);
-
-            // templateHandler의 이미지 경로로 인하여 생기는 절대경로 이미지등의 경로 중복 처리
-            //$content = preg_replace('/<(img|input)([^>]*)src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','<$1$2src=$3http://', $content);
-            $content = preg_replace('/src=(["|\']?)http:\/\/([^ ]+)http:\/\//is','src=$1http://', $content);
-
             return $content;
         }
 
         /**
-         * @brief IE위지윅에디터에서 태그가 대문자로 사용되기에 이를 소문자로 치환
+         * @brief rewrite mod 사용에 대한 변수 return
          **/
-        function transTagToLowerCase($matches) {
-            return sprintf('<%s%s%s>', $matches[1], strtolower($matches[2]), $matches[3]);
+        function isAllowRewrite() {
+            $oContext = &Context::getInstance();
+            return $oContext->allow_rewrite;
         }
-
-        /**
-         * @brief <!--Meta:파일이름.(css|js)-->를 변경
-         **/
-        function transMeta($matches) {
-            if(substr($matches[1],'-4')=='.css') $this->addCSSFile($matches[1]);
-            elseif(substr($matches[1],'-3')=='.js') $this->addJSFile($matches[1]);
-        }
-
-        /**
-         * @brief <body>내의 <style태그를 header로 이동
-         **/
-        function moveStyleToHeader($matches) {
-            $this->addHtmlHeader($matches[0]);
-            return '';
-        }
-
-        /**
-         * @brief 내용의 에디터 컴포넌트 코드를 변환
-         **/
-        function transEditorComponent($matches) {
-            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
-            $buff = $matches[0];
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
-            $buff = str_replace("&","&amp;",$buff);
-
-            // 에디터 컴포넌트에서 생성된 코드
-            $oXmlParser = new XmlParser();
-            $xml_doc = $oXmlParser->parse($buff);
-            if($xml_doc->div) $xml_doc = $xml_doc->div;
-            else if($xml_doc->img) $xml_doc = $xml_doc->img;
-
-            $xml_doc->body = $matches[3];
-
-            // attribute가 없으면 return
-            $editor_component = $xml_doc->attrs->editor_component;
-            if(!$editor_component) return $matches[0];
-
-            // component::transHTML() 을 이용하여 변환된 코드를 받음
-            $oEditorModel = &getModel('editor');
-            $oComponent = &$oEditorModel->getComponentObject($editor_component, 0);
-            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
-
-            return $oComponent->transHTML($xml_doc);
-        }
-
-        /**
-         * @brief gzip encoding 여부 체크
-         **/
-        function isGzEnabled() {
-            if(
-                (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
-                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false &&
-                function_exists('ob_gzhandler') &&
-                extension_loaded('zlib')
-            ) return true;
-            return false;
-        }
-
-        function getFixUrl($url){
-            if(eregi("(http|https):\/\/",$url)) return $url;
-            if(ereg("^/",$url)) return $url;
-            return dirname($_SERVER['PHP_SELF']) . "/" . $url;
-        }
-
     }
 ?>

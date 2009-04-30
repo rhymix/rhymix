@@ -335,7 +335,7 @@
             $args->menu_srl = $menu_srl;
             $output = executeQuery('menu.getMenu', $args);
             if(!$output->toBool() || !$output->data) return $output;
-            $site_srl = $output->data->site_srl;
+            $site_srl = (int)$output->data->site_srl;
 
             if($site_srl) {
                 $oModuleModel = &getModel('module');
@@ -380,8 +380,17 @@
                 '$lang_type = Context::getLangType(); '.
                 '$is_logged = Context::get(\'is_logged\'); '.
                 '$logged_info = Context::get(\'logged_info\'); '.
+                '$site_srl = '.$site_srl.';'.
+                '$site_admin = false;'.
+                'if($site_srl) { '.
+                '$oModuleModel = &getModel(\'module\');'.
+                '$site_module_info = $oModuleModel->getSiteInfo($site_srl); '.
+                'Context::set(\'site_module_info\',$site_module_info);'.
+                '$grant = $oModuleModel->getGrant($site_module_info, $logged_info); '.
+                'if($grant->manager ==1) $site_admin = true;'.
+                '}'.
                 'if($is_logged) {'.
-                    'if($logged_info->is_admin=="Y") $is_admin = true; '.
+                    'if($logged_info->is_admin=="Y" || $site_admin) $is_admin = true; '.
                     'else $is_admin = false; '.
                     '$group_srls = array_keys($logged_info->group_list); '.
                 '} else { '.

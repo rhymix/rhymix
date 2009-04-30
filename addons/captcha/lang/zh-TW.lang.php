@@ -2,7 +2,7 @@
     /**
      * @file   addons/captcha/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  captcha正體中文語言
+     * @brief  圖形驗證正體中文語言
      **/
 
     $lang->about_captcha = "用於防止機器人程式之垃圾留言，請選擇一個符合下列詞語的圖像。";

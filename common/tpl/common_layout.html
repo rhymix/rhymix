@@ -64,10 +64,10 @@
     {Context::getHtmlHeader()}
 
 </head>
-<body>
+<body{Context::getBodyClass()}>
     {Context::getBodyHeader()}
 
-    {$zbxe_final_content}
+    {$content}
 
     {Context::getHtmlFooter()}
 

@@ -27,8 +27,8 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 #planetBody{ clear:both; z-index:20;}
 
 /* Heading */
-#planetHeader h1 { white-space:nowrap; margin:0; padding:0;}
-#planetHeader h1 a { font-weight:bold; font-size:26px; color:#000; text-decoration:none !important;}
+#planetHeader h1 { white-space:nowrap; margin:0 0 20px 0; padding:0 0 4px 0; border-bottom:2px solid #666; }
+#planetHeader h1 a { font-weight:bold; font-size:18px; color:#000; text-decoration:none !important;}
 
 .buttonArea{ text-align:center;}
 
@@ -181,7 +181,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentList h3, x:-moz-any-link { display:inline; padding-top:3px;}
 .commentList h3, x:-moz-any-link, x:default { display:inline-block; *display:inline; padding-top:0;}
 .commentList h3 span{ position:relative; left:3px; _top:-1px; display:inline-block; padding:4px 20px 0 17px; height:25px; _height /**/:29px; vertical-align:top; color:#fff; background:url(../images/boxH2Comment.gif) no-repeat right 0; font:bold 14px/18px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; vertical-align:middle; *zoom:1;}
-.commentList h3 span strong{ color:#ff0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; font-size:1em;}
+.commentList h3 span strong{ color:#ff0; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; font-size:12px;}
 .commentList h3 span, x:-moz-any-link{ padding:8px 20px 5px 17px; }
 .commentList h3 span, x:-moz-any-link, x:default{ padding:5px 20px 0 17px}
 
@@ -214,9 +214,9 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentBody .comment .identity em{ position:absolute; width:96px; text-align:center; left:1px; bottom:1px; display:block; padding:5px 0; font-style:normal; background:#000; opacity:.6; filter:alpha(opacity=60); line-height:normal;}
 .commentBody .comment .identity em img { border:0; display:inline; }
 .commentBody .comment .tongue{ position:relative; margin-left:113px; *zoom:1;}
-.commentBody .comment .tongue .post{ margin:0 0 7px 0; font:16px/1.6 NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; word-break:break-all; }
-.commentBody .comment .tongue .post a { font:1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#06C;}
-.commentBody .comment .tongue .post strong{ background:#f7b100; font:normal 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
+.commentBody .comment .tongue .post .xe_content { margin:0 0 7px 0; font:16px/1.6 NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; word-break:break-all; }
+.commentBody .comment .tongue .post a { font:16px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#06C;}
+.commentBody .comment .tongue .post strong{ background:#f7b100; font:normal 16px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#fff;}
 .commentBody .comment .tongue .postScript{ margin:0 0 10px 0; font-size:12px; color:#999;}
 .commentBody .comment .tongue .postScript strong{ font-family:Arial; letter-spacing:-1px; margin-right:5px;}
 .commentBody .comment .tongue .postExtra{ overflow:hidden; padding-top:10px; border-top:1px dotted #ccc; *zoom:1;}
@@ -228,7 +228,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentBody .comment .tongue .postExtra .tag dt{ text-align:center; padding:0 7px; margin-right:5px; display:inline; background:url(../images/bgTag.gif) no-repeat center; font:bold 11px Tahoma; color:#fff;}
 .commentBody .comment .tongue .postExtra .tag dd{ display:inline; position:relative;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead a{ position:relative; margin-right:2px; font:11px AppleGothic, Dotum, Gulim, Sans-serif; color:#999;}
-.commentBody .comment .tongue .postExtra .tag dd.tagRead a strong{ font:normal 1em AppleGothic, Dotum, Gulim, Sans-serif; background:#f7b100; color:#fff;}
+.commentBody .comment .tongue .postExtra .tag dd.tagRead a strong{ font:normal 12px AppleGothic, Dotum, Gulim, Sans-serif; background:#f7b100; color:#fff;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead .delete{ position:relative; top:-7px; left:-8px; display:none; width:12px; height:11px; margin-right:-12px; background:url(../images/buttonX.gif) no-repeat center;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead .delete.hover{ display:inline-block;}
 .commentBody .comment .tongue .postExtra .tag dd.tagRead .modify{ position:relative; width:13px; height:13px; background:url(../images/buttonModify.gif) no-repeat center; vertical-align:middle; *vertical-align:baseline; *top:-1px; *left:5px;}
@@ -265,7 +265,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .commentBody .reply dd{ margin:0 80px 0 113px; font-size:12px; color:#666; line-height:1.4em;}
 .commentBody .reply dd a{ text-decoration:underline; color:#333;}
 .commentBody .reply dd .time{ position:absolute; top:0; right:0;}
-.commentBody .reply dd input{ position:relative; border:1px solid #ccc; padding:4px 5px; width:96%; height:14px; vertical-align:top; font-size:1em; *zoom:1;}
+.commentBody .reply dd input{ position:relative; border:1px solid #ccc; padding:4px 5px; width:96%; height:14px; vertical-align:top; font-size:12px; *zoom:1;}
 .commentBody .reply dd .button{ position:absolute; top:0; right:3px;}
 
 .commentList .tl,
@@ -301,7 +301,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 
 .authorHeader .title{ position:relative; margin-left:120px; height:60px; margin-bottom:10px; _margin-bottom:0; }
 .authorHeader .title h2{ position:relative; margin-bottom:10px; }
-.authorHeader .title h2 a{ font-size:1em; color:#fff; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
+.authorHeader .title h2 a{ font-size:12px; color:#fff; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; text-decoration:none;}
 .authorHeader .title h2 a:hover,
 .authorHeader .title .authorPersonality a:hover,
 .authorHeader .title h2 a:active,
@@ -314,7 +314,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 
 .authorHeader .title h2 .inputText,
 .authorHeader .title .authorPersonality .inputText{ display:none; border:1px solid #ccc; padding:2px 4px; height:13px; width:290px;}
-.authorHeader .title h2 .inputText{ height:30px; *margin-right:5px; font:bold 1em/1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.authorHeader .title h2 .inputText{ height:30px; *margin-right:5px; font:bold 12px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
 .authorHeader .title h2 button,
 .authorHeader .title .authorPersonality button{ display:none; height:19px; font-size:11px; background:#eee; border:1px solid #ccc; margin-left:5px; vertical-align:top;}
 .authorHeader .title h2 button{ height:36px;}
@@ -453,7 +453,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .authorList .authorBody .thumb img{ display:block;}
 .authorList .authorBody .title{ position:relative; margin-left:120px; margin-bottom:10px; *zoom:1;}
 .authorList .authorBody .title h2{ margin-bottom:5px;} 
-.authorList .authorBody .title h2 a{ font:bold 1em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#465f7d;}
+.authorList .authorBody .title h2 a{ font:bold 12px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif; color:#465f7d;}
 .authorList .authorBody .title p{ color:#a2afbe; font-size:12px;}
 .authorList .authorBody .title .planetUri{ position:absolute; right:0; bottom:0; font-size:11px; color:#999;}
 .authorList .authorBody .authorTag{ position:relative; padding-top:10px; margin-left:120px; border-top:1px dotted #ccc; font-size:12px; *zoom:1;}
@@ -475,7 +475,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 /* Write Post */
 .writePost{ position:relative; margin-bottom:15px; padding:10px 0; *zoom:1;}
 .writePost *{ margin:0; padding:0; color:#fff; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
-.writePost h3{ margin-left:15px; line-height:1em; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
+.writePost h3{ margin-left:15px; line-height:12px; font-family:NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serif;}
 .writePost .toggle{ display:none !important; position:absolute; top:5px; right:15px; background:url(../images/arrowTagNavigation.gif) no-repeat;}
 .writePost.close .toggle{ background-position:left -14px;}
 .writePost.open .toggle{ background-position:left 5px;}
@@ -495,7 +495,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .writePost .writeBody dd{ position:relative; clear:right; margin-bottom:10px; width:100%;}
 .writePost .writeBody dd textarea,
 .writePost .writeBody dd .inputText{ position:relative; width:96%; border:1px solid #ccc; color:#333;}
-.writePost .writeBody dd textarea{ position:relative; padding:5px 10px; height:3em; overflow:auto;}
+.writePost .writeBody dd textarea{ position:relative; padding:5px 10px; height:30px; overflow:auto;}
 .writePost .writeBody dd .inputText{ padding:3px 10px;}
 .writePost .writeBody dd.preview{ display:block; clear:both;}
 .writePost .writeBody dd.preview.off{ display:none;}
@@ -505,7 +505,7 @@ button span{ position:absolute; width:0; height:0; font:0/0 Sans-serif; visibili
 .writePost .writeBody .writeOptions p{ white-space:nowrap; margin:0; padding:0;}
 .writePost .writeBody .writeOptions input{ vertical-align:middle; width:13px; height:13px; margin-right:4px;}
 .writePost .writeBody button{ width:90px; height:68px; position:absolute; bottom:5px; right:15px; background-repeat:no-repeat;}
-.writePost .writeBody button span{ position:relative; display:block; *padding-top:20px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 1.2em NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serifl;}
+.writePost .writeBody button span{ position:relative; display:block; *padding-top:20px; visibility:visible; width:auto; height:auto; text-align:center; font:bold 16px NanumGothic,"Malgun Gothic", AppleGothic, Dotum, Gulim, Sans-serifl;}
 .writePost .tl,
 .writePost .tr,
 .writePost .bl,

@@ -37,6 +37,10 @@
                 $this->document_srl = null;
                 return;
             }
+            if ($attribute->member_srl < 0) {
+                $attribute->member_srl = 0;
+                $attribute->ipaddress = '0.0.0.0';
+            }
             $this->document_srl = $attribute->document_srl;
             $this->lang_code = $attribute->lang_code;
             $this->adds($attribute);
@@ -300,17 +304,19 @@
             $oContext = &Context::getInstance();
 
             $content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
-            $content = $oContext->transContent($content);
 
             return $content;
         }
 
-        function getSummary($str_size = 50) {
+        function getSummary($str_size = 50, $tail = '...') {
             // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도 - {20,}으로 길이를 정하면, 20개 이상 문자열 맨 마지막에 스페이스를 추가할 뿐 원하는 의도는 달성되지 못함
             $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$this->getContent(false,false));
 
 			// 줄바꿈이 있을 때, 공백문자 삽입
 			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
+
+            // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
+            $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
 
             // 태그 제거
             $content = preg_replace('!<([^>]*?)>!is','', $content);
@@ -322,7 +328,7 @@
 			$content = preg_replace('/([\s]{2,})/is', ' ', $content);
 
             // 문자열을 자름
-            $content = trim(cut_str($content, $str_size, '...'));
+            $content = trim(cut_str($content, $str_size, $tail));
 
             // >, <, "를 다시 복구
             return str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
@@ -415,6 +421,24 @@
 
         }
 
+        function getExtraEidValue($eid) {
+            $extra_vars = $this->getExtraVars();
+            // eid 명칭으로 확장변수 처리
+            foreach($extra_vars as $idx => $key) {
+                $extra_eid[$key->eid] = $key;
+            }
+            return $extra_eid[$eid]->value;
+        }
+
+        function getExtraEidValueHTML($eid) {
+            $extra_vars = $this->getExtraVars();
+            // eid 명칭으로 확장변수 처리
+            foreach($extra_vars as $idx => $key) {
+                $extra_eid[$key->eid] = $key;
+            }
+            return $extra_eid[$eid]->getValueHTML();
+        }
+
         function getExtraVarsValue($key) {
             $extra_vals = unserialize($this->get('extra_vars'));
             $val = $extra_vals->$key;
@@ -478,7 +502,7 @@
             if(!$height) $height = $width;
 
             // 첨부파일이 없거나 내용중 이미지가 없으면 return false;
-            if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content'))) return;
+            if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content'))) return;
 
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
@@ -507,8 +531,9 @@
             $is_tmp_file = false;
 
             // 첨부된 파일중 이미지 파일이 있으면 찾음
-            if($this->hasUploadedFiles()) {
-                $file_list = $this->getUploadedFiles();
+            if($this->get('uploaded_count')) {
+                $oFileModel = &getModel('file');
+                $file_list = $oFileModel->getFiles($this->document_srl);
                 if(count($file_list)) {
                     foreach($file_list as $file) {
                         if($file->direct_download!='Y') continue;

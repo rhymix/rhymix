@@ -33,7 +33,6 @@
                 $module_info->module_srl = $dummy->module_srl;
                 $module_info->browser_title = $dummy->browser_title;
                 $module_info->layout_srl = $dummy->layout_srl;
-                if($module_info->logo_image) $module_info->logo_image = context::getFixUrl($module_info->logo_image);
 
                 if(count($skin_info)) foreach($skin_info as $key => $val) $module_info->{$key} = $val;
 

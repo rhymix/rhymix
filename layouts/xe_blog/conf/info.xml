@@ -74,7 +74,7 @@
             <title xml:lang="ru">Colorset</title>
             <title xml:lang="zh-TW">顏色設定</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
-            <description xml:lang="jp">希望するカラーセットを選択して下さい。</description>
+            <description xml:lang="jp">カラーセットを選択して下さい。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="en">Please select a colorset you want.</description>
             <description xml:lang="ge">Bitte wählen Sie ein colorset Sie wollen.</description>
@@ -83,7 +83,7 @@
             <description xml:lang="zh-TW">請選擇顏色。</description>
             <options value="blue">
                 <title xml:lang="ko">파란색 (기본)</title>
-                <title xml:lang="jp">青 (default)</title>
+                <title xml:lang="jp">青 (デフォールト)</title>
                 <title xml:lang="zh-CN">蓝色 (default)</title>
                 <title xml:lang="en">Blue (default)</title>
                 <title xml:lang="ge">Blue (Standard)</title>
@@ -93,7 +93,7 @@
             </options>
             <options value="gray">
                 <title xml:lang="ko">회색</title>
-                <title xml:lang="jp">灰色背景</title>
+                <title xml:lang="jp">灰色</title>
                 <title xml:lang="zh-CN">灰色背景</title>
                 <title xml:lang="en">Gray</title>
                 <title xml:lang="ge">Gray</title>
@@ -103,7 +103,7 @@
             </options>
             <options value="orange">
                 <title xml:lang="ko">오렌지</title>
-                <title xml:lang="jp">Orange</title>
+                <title xml:lang="jp">オレンジ</title>
                 <title xml:lang="zh-CN">Orange</title>
                 <title xml:lang="en">Orange</title>
                 <title xml:lang="ge">Orange</title>
@@ -113,7 +113,7 @@
             </options>
             <options value="violet">
                 <title xml:lang="ko">보라색</title>
-                <title xml:lang="jp">Violet</title>
+                <title xml:lang="jp">紫</title>
                 <title xml:lang="zh-CN">Violet</title>
                 <title xml:lang="en">Violet</title>
                 <title xml:lang="ge">Violett</title>

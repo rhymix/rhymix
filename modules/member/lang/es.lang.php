@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = 'Manejo de ID prohibidos';
     $lang->cmd_manage_form = 'Manejo de forma del registro';
     $lang->cmd_view_own_document = 'Ver documentos escritos';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = 'Trace Written Articles';
     $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'Ver Scraps';
@@ -148,7 +149,7 @@
     $lang->msg_not_uploaded_image_mark = 'Imagen de marca no puede ser resistrado';
     $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
 
-    $lang->msg_accept_agreement = 'Usted primero debe aceptar el acuerdo'; 
+    $lang->msg_accept_agreement = 'Usted primero debe aceptar el acuerdo';
 
     $lang->msg_user_denied = 'ID ingresado ha sido prohibido para su uso';
     $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
@@ -191,7 +192,7 @@
     $lang->about_image_mark = "Permitir a los usuarios el uso de imagen de marca delante de sus nombres";
     $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
     $lang->about_profile_image = 'Permitir a los usuarios a utilizar nombre de la imagen en lugar de texto nombre';
-    $lang->about_accept_agreement = "Yo he leído todo el acuerdo y acepto"; 
+    $lang->about_accept_agreement = "Yo he leído todo el acuerdo y acepto";
 
     $lang->about_member_default = 'Al registrar se configura como grupo predefinido';
 

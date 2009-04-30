@@ -405,21 +405,8 @@
          * @brief module_srl값을 가지는 문서의 공지사항만 가져옴
          **/
         function getNoticeList($obj) {
-            $cache_file = _XE_PATH_.'files/cache/document_notice/'.getNumberingPath($obj->module_srl,4).$obj->module_srl.'.txt';
-            if(!file_exists($cache_file)) {
-                $oDocumentController = &getController('document');
-                $oDocumentController->updateDocumentNoticeCache($obj->module_srl);
-            }
-
-            $document_srls = FileHandler::readFile($cache_file);
-            if(!$document_srls) return;
-
-            $list_count = count(explode(',',$document_srls));
-            $args->document_srls = $document_srls;
-            $args->list_count = $list_count;
-            $args->list_order = 'list_order';
-            $args->order_type = 'asc';
-            $output = executeQueryArray('document.getDocuments', $args);
+            $args->module_srl = $obj->module_srl;
+            $output = executeQueryArray('document.getNoticeList', $args);
             if(!$output->toBool()||!$output->data) return;
 
             foreach($output->data as $key => $val) {
@@ -448,14 +435,16 @@
          * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
          **/
         function getExtraKeys($module_srl) {
-            if(!$GLOBALS['XE_EXTRA_KEYS'][$module_srl]) {
+            if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl])) {
                 $oExtraVar = &ExtraVar::getInstance($module_srl);
                 $obj->module_srl = $module_srl;
                 $obj->sort_index = 'var_idx';
                 $obj->order = 'asc';
                 $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
                 $oExtraVar->setExtraVarKeys($output->data);
-                $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $oExtraVar->getExtraVars();
+                $keys = $oExtraVar->getExtraVars();
+                if(!$keys) $keys = array();
+                $GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $keys;
             }
 
             return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
@@ -924,10 +913,19 @@
             else return $output->data->document_srl;
         }
 
-        function getHistories($document_srl)
+        function getHistories($document_srl, $list_count, $page)
         {
+            $args->list_count = $list_count;
+            $args->page = $page;
             $args->document_srl = $document_srl;
             $output = executeQueryArray('document.getHistories', $args);
+            return $output;
+        }
+
+        function getHistory($history_srl)
+        {
+            $args->history_srl = $history_srl;
+            $output = executeQuery('document.getHistory', $args);
             return $output->data;
         }
     }

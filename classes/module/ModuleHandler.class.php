@@ -368,6 +368,10 @@
                             $instance_name = sprintf("%s%s",$module,"WAP");
                             $class_file = sprintf('%s%s%s.wap.php', _XE_PATH_, $class_path, $module);
                         break;
+                    case 'smartphone' :
+                            $instance_name = sprintf("%s%s",$module,"SPhone");
+                            $class_file = sprintf('%s%s%s.smartphone.php', _XE_PATH_, $class_path, $module);
+                        break;
                     case 'class' :
                             $instance_name = $module;
                             $class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
@@ -437,7 +441,7 @@
                 if(!$oModule || !method_exists($oModule, $called_method)) continue;
 
                 $output = $oModule->{$called_method}($obj);
-                if(!$output->toBool()) return $output;
+                if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool()) return $output;
                 unset($oModule);
             }
 

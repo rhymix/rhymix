@@ -74,6 +74,7 @@
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
             Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
+            Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
             Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
             if($db_info->http_port) Context::set('http_port', $db_info->http_port);
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
@@ -238,11 +239,14 @@
             $output = executeQuery("admin.getCommentDeclaredCount", $args);
             $status->commentDeclared->total = $output->data->count;
 
+            $site_args->site_srl = 0;
+            $output = executeQuery('module.getSiteInfo', $site_args);
+            Context::set('start_module', $output->data);
+
             Context::set('status', $status);
 
             Context::set('layout','none');
             $this->setTemplateFile('index');
-            //$this->setTemplateFile('a');
         }
 
         /**
@@ -260,6 +264,21 @@
             Context::set('lang_selected', Context::loadLangSelected());
 
             Context::set('ftp_info', Context::getFTPInfo());
+
+            $oModuleModel = &getModel('module');
+            $site_args->site_srl = 0;
+            $list = $oModuleModel->getMidList($site_args);
+            $mid_list = array();
+            if(count($list)) {
+                foreach($list as $key => $val) {
+                    $mid_list[$val->module][$key] = $val;
+                }
+            }
+            Context::set('mid_list', $mid_list);
+
+            $site_args->site_srl = 0;
+            $output = executeQuery('module.getSiteInfo', $site_args);
+            Context::set('start_module', $output->data);
 
             Context::set('layout','none');
             $this->setTemplateFile('config');

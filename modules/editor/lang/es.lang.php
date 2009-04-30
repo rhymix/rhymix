@@ -16,6 +16,8 @@
     $lang->component_description = 'Descripción';
     $lang->component_extra_vars = 'Varibles Extras';
     $lang->component_grant = 'Ajuste de las atribuciones';
+    $lang->content_style = 'Content Style';
+    $lang->content_font = 'Content Font';
 
     $lang->about_component = 'Presentación del componente';
     $lang->about_component_grant = 'Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor.<br /> (Todo el mundo tendría permiso si no comprobado)';
@@ -41,6 +43,8 @@
     $lang->editor_height = 'Altura de Editor';
 
     $lang->about_editor_skin = 'Usted puede seleccionar la piel del editor.';
+    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
+    $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
     $lang->about_upload_file_grant = 'Usted puede configurar el permiso de archivo adjunto. (Todo el mundo tendría permiso si no comprobado)';
     $lang->about_default_component_grant = 'Usted puede configurar el permiso de uso de los componentes de editor por defecto. (Todo el mundo tendría permiso si no comprobado)';
     $lang->about_editor_height = 'Usted puede configurar la altura del editor.';
@@ -192,5 +196,7 @@
     $lang->edit->next_search_words  = '다음찾기';
     $lang->edit->edit_height_control  = '입력창 크기 조절';
 
-
+	$lang->edit->merge_cells = '셀 병합';
+    $lang->edit->split_row = '행 분할';
+    $lang->edit->split_col = '열 분할';
 ?>

@@ -21,14 +21,14 @@
 <!--@end-->
 
 <!-- 글쓰기 폼 -->
-<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="wikiEditor" >
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
 <input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
 <input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
 <input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
 
-<div class="boardWrite commentEditor">
+<div class="wikiWrite commentEditor">
 
     <div class="userNameAndPw">
         <!--@if(!$is_logged)-->

@@ -28,19 +28,6 @@
             $this->setMessage('msg_auto_saved');
         }
 
-        function doSaveDoc($args) {
-
-            if(Context::get('is_logged')) {
-                $logged_info = Context::get('logged_info');
-                $args->member_srl = $logged_info->member_srl;
-            } else {
-                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
-            }
-
-            // 저장
-            return executeQuery('editor.insertSavedDoc', $args);
-        }
-
         /**
          * @brief 자동저장된 문서 삭제
          **/
@@ -80,30 +67,6 @@
         }
 
         /**
-         * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
-         **/
-        function triggerDeleteSavedDoc(&$obj) {
-            $this->deleteSavedDoc();
-            return new Object();
-        }
-
-        /**
-         * @brief 자동 저장된 글을 삭제
-         * 현재 접속한 사용자를 기준
-         **/
-        function deleteSavedDoc() {
-            if(Context::get('is_logged')) {
-                $logged_info = Context::get('logged_info');
-                $args->member_srl = $logged_info->member_srl;
-            } else {
-                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
-            }
-
-            // 일단 이전 저장본 삭제
-            return executeQuery('editor.deleteSavedDoc', $args);
-        }
-
-        /**
          * @brief 에디터의 모듈별 추가 확장 폼을 저장
          **/
         function procEditorInsertModuleConfig() {
@@ -117,6 +80,18 @@
 
             $editor_config->editor_skin = Context::get('editor_skin');
             $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
+            $editor_config->content_style = Context::get('content_style');
+            $editor_config->content_font = Context::get('content_font');
+            if($editor_config->content_font) {
+                $font_list = array();
+                $fonts = explode(',',$editor_config->content_font);
+                for($i=0,$c=count($fonts);$i<$c;$i++) {
+                    $font = trim(str_replace(array('"','\''),'',$fonts[$i]));
+                    if(!$font) continue;
+                    $font_list[] = $font;
+                }
+                if(count($font_list)) $editor_config->content_font = '"'.implode('","',$font_list).'"';
+            }
             $editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
             $editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
 
@@ -169,6 +144,115 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated');
+        }
+
+        /**
+         * @brief 에디터컴포넌트의 코드를 결과물로 변환 + 문서서식 style 지정
+         **/
+        function triggerEditorComponentCompile(&$content) {
+            if(Context::getResponseMethod()!='HTML') return new Object();
+
+            $module_info = Context::get('module_info');
+            $module_srl = $module_info->module_srl;
+            if($module_srl) {
+                $oEditorModel = &getModel('editor');
+                $editor_config = $oEditorModel->getEditorConfig($module_srl);
+                $content_style = $editor_config->content_style;
+                $path = _XE_PATH_.'modules/editor/styles/'.$content_style.'/';
+                if(is_dir($path) && file_exists($path.'style.ini')) {
+                    $ini = file($path.'style.ini');
+                    for($i=0,$c=count($ini);$i<$c;$i++) {
+                        $file = trim($ini[$i]);
+                        if(!$file) continue;
+                        if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                        elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                    }
+                }
+                $content_font = $editor_config->content_font;
+                if($content_font) Context::addHtmlHeader('<style type="text/css" charset="UTF-8"> .xe_content { font-family:'.$content_font.'; } </style>');
+            }
+
+            $content = $this->transComponent($content);
+        }
+
+        /**
+         * @brief 에디터 컴포넌트코드를 결과물로 변환
+         **/
+        function transComponent($content) {
+            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
+            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
+            return $content;
+        }
+
+        /**
+         * @brief 내용의 에디터 컴포넌트 코드를 변환
+         **/
+        function transEditorComponent($matches) {
+            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
+            $buff = $matches[0];
+            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
+            $buff = str_replace("&","&amp;",$buff);
+
+            // 에디터 컴포넌트에서 생성된 코드
+            $oXmlParser = new XmlParser();
+            $xml_doc = $oXmlParser->parse($buff);
+            if($xml_doc->div) $xml_doc = $xml_doc->div;
+            else if($xml_doc->img) $xml_doc = $xml_doc->img;
+
+            $xml_doc->body = $matches[3];
+
+            // attribute가 없으면 return
+            $editor_component = $xml_doc->attrs->editor_component;
+            if(!$editor_component) return $matches[0];
+
+            // component::transHTML() 을 이용하여 변환된 코드를 받음
+            $oEditorModel = &getModel('editor');
+            $oComponent = &$oEditorModel->getComponentObject($editor_component, 0);
+            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
+
+            return $oComponent->transHTML($xml_doc);
+        }
+
+
+        /**
+         * @brief 자동 저장
+         **/
+        function doSaveDoc($args) {
+
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            // 저장
+            return executeQuery('editor.insertSavedDoc', $args);
+        }
+
+
+        /**
+         * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
+         **/
+        function triggerDeleteSavedDoc(&$obj) {
+            $this->deleteSavedDoc();
+            return new Object();
+        }
+
+        /**
+         * @brief 자동 저장된 글을 삭제
+         * 현재 접속한 사용자를 기준
+         **/
+        function deleteSavedDoc() {
+            if(Context::get('is_logged')) {
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+            } else {
+                $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            // 일단 이전 저장본 삭제
+            return executeQuery('editor.deleteSavedDoc', $args);
         }
 
         /**
@@ -256,6 +340,12 @@
                 }
 
                 $component_list->{$component_name} = $xml_info;
+
+                // 버튼, 아이콘 이미지 구함
+                $icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/icon.gif';
+                $component_icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/component_icon.gif';
+                if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
+                if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
             }
 
             // enabled만 체크하도록 하였으면 그냥 return

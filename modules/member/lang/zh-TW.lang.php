@@ -98,11 +98,12 @@
 
     $lang->cmd_member_list = '會員列表';
     $lang->cmd_module_config = '基本設置';
-    $lang->cmd_member_group = '用戶組管理';
+    $lang->cmd_member_group = '群組管理';
     $lang->cmd_send_mail = '發送郵件';
     $lang->cmd_manage_id = '禁止帳號管理';
     $lang->cmd_manage_form = '註冊表單管理';
     $lang->cmd_view_own_document = '檢視發表主題';
+    $lang->cmd_manage_member_info = '管理會員資料';
     $lang->cmd_trace_document = '主題追蹤';
     $lang->cmd_trace_comment = '評論追蹤';
     $lang->cmd_view_scrapped_document = '檢視收藏';
@@ -118,14 +119,14 @@
 
     $lang->msg_find_account_title = '註冊資料。';
     $lang->msg_find_account_info = '您要尋找的註冊資料如下。';
-    $lang->msg_find_account_comment = '按底下的連結，您的註冊密碼將更新為上述系統自動建立的密碼。<br />請重新登入，將密碼改為您想要的密碼。';
+    $lang->msg_find_account_comment = '按底下的連結，您的註冊密碼將更新為上述系統自動建立的密碼。<br />請重新登入，將密碼更改為您想要的密碼。';
     $lang->msg_confirm_account_title = '會員註冊';
     $lang->msg_confirm_account_info = '您的註冊資料如下:';
     $lang->msg_confirm_account_comment = '請按下面連結完成會員認證。';
     $lang->msg_auth_mail_sent = '已向%s發送了認證郵件。請確認！！';
     $lang->msg_confirm_mail_sent = '已向%s發送了認證郵件。請確認！！';
     $lang->msg_invalid_auth_key = '錯誤的註冊資料請求。<br />請重新尋找帳號及密碼，或聯繫管理員。';
-    $lang->msg_success_authed = '新的註冊資料已得到認證。請用郵件中的新密碼修改您要想使用的密碼。';
+    $lang->msg_success_authed = '新註冊的資料已得到認證。請用郵件中的新密碼修改成您要想使用的密碼。';
     $lang->msg_success_confirmed = '註冊資料已成功確認！';
 
     $lang->msg_new_member = '會員註冊';
@@ -149,13 +150,13 @@
     $lang->msg_not_uploaded_image_mark = '無法登錄用戶圖示！';
     $lang->msg_not_uploaded_group_image_mark = '無法登錄群組圖示！';
 
-    $lang->msg_accept_agreement = '您必須同意條款。'; 
+    $lang->msg_accept_agreement = '您必須同意條款。';
 
     $lang->msg_user_denied = '您輸入的帳號已禁止使用！';
     $lang->msg_user_not_confirmed = '您的註冊資料還沒有被確認，請確認您的電子郵箱。';
     $lang->msg_user_limited = '您輸入的帳號%s以後才可以開始使用。';
 
-    $lang->about_user_id = '帳號必須由 3~20 字以內的英文+數字組成，第一個字必須是英文。';
+    $lang->about_user_id = '帳號必須由 3~20 字以內的英文+數字組成，開頭必須是英文。';
     $lang->about_password = '密碼必須在 6~20 字以內。';
     $lang->about_user_name = '姓名必須是 2~20 字以內。';
     $lang->about_nick_name = '暱稱必須是 2~20 字以內。';
@@ -186,14 +187,14 @@
     $lang->about_after_login_url = '可以指定登入後的頁面轉向網址(留空為目前頁面)。';
     $lang->about_after_logout_url = '可以指定登出後的頁面轉向網址(留空為目前頁面)。';
     $lang->about_redirect_url = '請輸入會員註冊後的頁面轉向網址。(留空為返回前頁)';
-    $lang->about_agreement = '沒有會員條款時不顯示。';
+    $lang->about_agreement = '沒有會員條款時不會顯示。';
 
     $lang->about_image_name = '用戶暱稱可以用圖片替代。';
     $lang->about_image_mark = '顯示在用戶暱稱前的圖示。';
     $lang->about_group_image_mark = '顯示在用戶群組前的圖示。';
     $lang->about_profile_image = '可以使用個人圖片。';
     $lang->about_signature_max_height = '可以限制簽名檔高度(0或留空為不限制)。';
-    $lang->about_accept_agreement = '已閱讀全部條款並同意。'; 
+    $lang->about_accept_agreement = '已閱讀全部條款並同意。';
 
     $lang->about_member_default = '將成為註冊會員時的預設群組。';
 

@@ -18,7 +18,7 @@
 
     $lang->planet_reply_content = "微型部落格的回覆內容";
 
-    $lang->about_planet = 
+    $lang->about_planet =
         "XE微型部落格模組，可讓會員建立自己的微型部落格。
          虛擬網站模組所使用的網域名稱無法用於微型部落格模組。
          如果想將微型部落格當作首頁，請先在網站模組中設定其他的網域名稱。";
@@ -44,6 +44,7 @@
 
     $lang->msg_not_logged = "請先登入。";
     $lang->msg_planet_exists = "已建立微型部落格，無法再新增。";
+    $lang->msg_denied_planet_title = 'Denied planet title';
 
     $lang->planet_userinfo = "個人資料";
     $lang->planet_change_userinfo = "修改個人資料";

@@ -588,13 +588,16 @@
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
             // 전체 개수를 구함
-            $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
-            $total_count = $this->getCountCache($output->tables, $condition);
+            $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
+            $total_count = $this->getCountCache($output->tables, $count_condition);
             if($total_count === false) {
+                $count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
+                if (count($output->groups))
+                    $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
                 $result = $this->_query($count_query);
                 $count_output = $this->_fetch($result);
                 $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $condition, $total_count);
+                $this->putCountCache($output->tables, $count_condition, $total_count);
             }
 
             $list_count = $output->list_count['value'];

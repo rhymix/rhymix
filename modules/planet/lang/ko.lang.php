@@ -18,7 +18,7 @@
 
     $lang->planet_reply_content = '플래닛 댓글 내용';
 
-    $lang->about_planet = 
+    $lang->about_planet =
         "microBlog의 XE 모듈입니다. 회원별로 플래닛을 생성하여 운영할 수 있습니다
         홈페이지 패키지에서 사용되는 도메인으로는 플래닛이 접속이 안될 수도 있습니다.
         플래닛을 초기페이지로 사용하고 싶으시면 접속을 원하시는 도메인을 홈페이지 패키지등에서 사용하지 않으셔야 합니다";
@@ -45,6 +45,7 @@
 
     $lang->msg_not_logged = '로그인 되어 있지 않습니다';
     $lang->msg_planet_exists = '이미 생성하신 플래닛이 있어서 새로 만드실 수 없습니다';
+    $lang->msg_denied_planet_title = '금지된 플래닛 제목입니다!';
 
     $lang->planet_userinfo = '개인정보';
     $lang->planet_change_userinfo = '개인정보변경';
@@ -177,6 +178,6 @@
 
 
     $lang->msg_search_thisplanet = '이 플래닛에서 검색';
-    
+
     $lang->msg_welcome_planet = '플래닛 개설을 축하드립니다';
 ?>

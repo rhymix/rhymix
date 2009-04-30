@@ -12,6 +12,7 @@
          **/
         function moduleInstall() {
             $oModuleController = &getController('module');
+
             $oModuleController->insertTrigger('display', 'homepage', 'controller', 'triggerMemberMenu', 'before');
 
             return new Object();
@@ -23,9 +24,14 @@
         function checkUpdate() {
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
+            $oDB = &DB::getInstance();
 
             // 2009. 02. 11 가상 사이트의 로그인 정보 영역에 관리 기능이 추가되어 표시되도록 트리거 등록
             if(!$oModuleModel->getTrigger('display', 'homepage', 'controller', 'triggerMemberMenu', 'before')) return true;
+
+            // 2009. 04. 23 카페의 설명
+            if(!$oDB->isColumnExists("homepages","description")) return true;
+
             return false;
         }
 
@@ -35,10 +41,16 @@
         function moduleUpdate() {
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
+            $oDB = &DB::getInstance();
 
             // 2009. 02. 11 가상 사이트의 로그인 정보 영역에 관리 기능이 추가되어 표시되도록 트리거 등록
             if(!$oModuleModel->getTrigger('display', 'homepage', 'controller', 'triggerMemberMenu', 'before')) 
                 $oModuleController->insertTrigger('display', 'homepage', 'controller', 'triggerMemberMenu', 'before');
+
+            // 2009. 04. 23 카페의 설명
+            if(!$oDB->isColumnExists("homepages","description")) 
+                $oDB->addColumn("homepages","description","text");
+
 
             return new Object(0, 'success_updated');
         }

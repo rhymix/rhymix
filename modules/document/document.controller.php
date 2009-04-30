@@ -144,12 +144,12 @@
             unset($obj->_saved_doc_content);
             unset($obj->_saved_doc_message);
 
-            // 주어진 문서 번호가 없으면 문서 번호 등록
-            if(!$obj->document_srl) $obj->document_srl = getNextSequence();
-
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
             if(!$output->toBool()) return $output;
+
+            // 주어진 문서 번호가 없으면 문서 번호 등록
+            if(!$obj->document_srl) $obj->document_srl = getNextSequence();
 
             $oDocumentModel = &getModel('document');
 
@@ -215,9 +215,6 @@
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
             if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
-
-            // 공지사항 글이면 공지사항 캐시 업데이트
-            if($obj->is_notice == 'Y') $this->updateDocumentNoticeCache($obj->module_srl);
 
             // trigger 호출 (after)
             if($output->toBool()) {
@@ -375,9 +372,6 @@
                 if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
             }
 
-            // 공지사항 글이면 공지사항 캐시 업데이트
-            if($source_obj->get('is_notice') == 'Y' || $obj->is_notice == 'Y') $this->updateDocumentNoticeCache($obj->module_srl);
-
             // trigger 호출 (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
@@ -440,9 +434,6 @@
 
             // 확장 변수 삭제
             $this->deleteDocumentExtraVars($oDocument->get('module_srl'), $oDocument->document_srl);
-
-            // 공지사항 글이면 공지사항 캐시 업데이트
-            if($oDocument->get('is_notice') == 'Y') $this->updateDocumentNoticeCache($oDocument->get('module_srl'));
 
             // trigger 호출 (after)
             if($output->toBool()) {
@@ -514,22 +505,6 @@
             $oDB->commit();
 
             return $output;
-        }
-
-        /**
-         * @brief 특정 모듈의 공지사항 글에 대해 캐시
-         **/
-        function updateDocumentNoticeCache($module_srl) {
-            $cache_file = _XE_PATH_.'files/cache/document_notice/'.getNumberingPath($module_srl,4).$module_srl.'.txt';
-            FileHandler::removeFile($cache_file);
-            $args->module_srl = $module_srl;
-            $output = executeQueryArray('document.getNoticeList', $args);
-            if(!$output->toBool()|| !$output->data) return;
-
-            foreach($output->data as $key => $val) {
-                $document_srls[] = $val->document_srl;
-            }
-            FileHandler::writeFile($cache_file, implode(',',$document_srls));
         }
 
         /**

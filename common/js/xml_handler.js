@@ -6,7 +6,6 @@
 
 // xml handler을 이용하는 user function
 var show_waiting_message = true;
-var _isXmlRequested = false;
 function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
     var oXml = new xml_handler();
     oXml.reset();
@@ -30,7 +29,6 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 function xml_response_filter(oXml, callback_func, response_tags, callback_func_arg, fo_obj) {
     var text = oXml.getResponseText();
     if(oXml.objXmlHttp.readyState!=4) return;
-    _isXmlRequested = false;
     if(text && !/^<response>/i.test(text)) {
         var waiting_obj = xGetElementById("waitingforserverresponse");
         if(waiting_obj) waiting_obj.style.visibility = "hidden";
@@ -96,8 +94,6 @@ function zGetXmlHttp() {
 }
 
 function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj) {
-    if(_isXmlRequested) return;
-    _isXmlRequested = true;
     var rd = "";
     rd += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
     +  "<methodCall>\n"
@@ -134,7 +130,6 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
         this.objXmlHttp.open("POST", this.xml_path, true);
     } catch(e) {
         alert(e);
-        _isXmlRequested = false;
         return;
     }
 

@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = 'Manage Prohibited IDs';
     $lang->cmd_manage_form = 'Manage Join Form';
     $lang->cmd_view_own_document = 'Written Articles';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = 'Trace Written Articles';
     $lang->cmd_trace_comment = 'Trace Written Comments';
     $lang->cmd_view_scrapped_document = 'Scraps';
@@ -147,9 +148,9 @@
     $lang->msg_not_uploaded_profile_image = 'Profile image could not be registered';
     $lang->msg_not_uploaded_image_name = 'Image name could not be registered';
     $lang->msg_not_uploaded_image_mark = 'Image mark could not be registered';
-    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_group_image_mark = 'Group image mark could not be registered';
 
-    $lang->msg_accept_agreement = 'You have to agree the agreement'; 
+    $lang->msg_accept_agreement = 'You have to agree the agreement';
 
     $lang->msg_user_denied = 'You have entered a prohibited ID';
     $lang->msg_user_not_confirmed = 'You are not authenticated yet. Please check your email.';
@@ -190,9 +191,9 @@
 
     $lang->about_image_name = "Allow users to use image name instead of text name";
     $lang->about_image_mark = "Allow users to use mark in front of their names";
-    $lang->about_group_image_mark = '사용자의 이름앞에 그룹 마크를 달 수 있습니다';
+    $lang->about_group_image_mark = "You may use group marks shown before their names";
     $lang->about_profile_image = 'Allow users to use profile images';
-    $lang->about_accept_agreement = "I have read the agreement and agree"; 
+    $lang->about_accept_agreement = "I have read the agreement and agree";
 
     $lang->about_member_default = 'It will be set as default group on sign up';
 

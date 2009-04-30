@@ -4,6 +4,39 @@
 
 <!--#include("_header.html")-->
 
+<h4 class="xeAdmin">{$lang->cafe_info}</h4>
+<form method="post" action="{Context::getRequestUri()}" enctype="multipart/form-data" >
+    <!--@if(isSiteID($site_module_info->domain))-->
+    <input type="hidden" name="vid" value="{$site_module_info->domain}"/>
+    <!--@end-->
+    <input type="hidden" name="site_srl" value="{$homepage_info->site_srl}" />
+    <input type="hidden" name="module" value="homepage" />
+    <input type="hidden" name="act" value="procHomepageInsertCafeBanner" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th><div>{$lang->cafe_title}</div></th>
+        <td class="wide"><input type="text" name="cafe_title" value="{htmlspecialchars($homepage_info->title)}" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->cafe_description}</div></th>
+        <td class="wide"><textarea name="cafe_description" class="inputTypeTextArea" style="width:90%;">{htmlspecialchars($homepage_info->cafe_description)}</textarea></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->cafe_banner}</div></th>
+        <td class="wide">
+            <!--@if($homepage_info->cafe_banner)-->
+            <img src="{$homepage_info->cafe_banner}" alt="cafe banner" style="display:block;margin-bottom:10px;"/>
+            <!--@end-->
+            <input type="file" name="cafe_banner" value="" class="inputTypeText" />
+        </td>
+    </tr>
+    <tr>
+        <th class="button" colspan="2">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
 
 <h4 class="xeAdmin">{$lang->cmd_select_index}</h4>
 <form method="post" action="./" onsubmit="return procFilter(this,update_index_mid)" class="midDefault">
@@ -50,6 +83,7 @@
 <form action="./" method="post" onsubmit="return procFilter(this, change_layout);" class="gap1">
     <h4 class="xeAdmin">{$lang->layout}</h4>
     <table cellspacing="0" class="rowTable">
+    <!--@if($homepage_config->enable_change_layout == 'Y')-->
     <tr>
         <th><div>{$lang->layout}</div></th>
         <td colspan="2">
@@ -66,6 +100,7 @@
             <span class="button black"><input type="submit" value="{$lang->cmd_change_layout}" /></span>
         </td>
     </tr>
+    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->path}</div></th>
         <td colspan="2">{$selected_layout->path}</td>
@@ -91,10 +126,15 @@
 
 <form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
 <input type="hidden" name="module" value="homepage" />
+<input type="hidden" name="vid" value="{$vid}" />
 <input type="hidden" name="act" value="procHomepageLayoutUpdate" />
 <input type="hidden" name="layout_srl" value="{$selected_layout->layout_srl}" />
 <input type="hidden" name="title" value="{htmlspecialchars($homepage_info->title)}" />
 <input type="hidden" name="apply_layout" value="Y" />
+
+<!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
+<input type="hidden" name="{$menu_name}" value="{$menu_info->menu_srl}" />
+<!--@end-->
 
     <tr class="row2">
         <th scope="row"><div>{$lang->header_script}</div></th>
@@ -154,19 +194,6 @@
     <!--@end-->
 
     <!--@if($var->group)-->
-    <!--@end-->
-
-    <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
-    <tr class="row{$cycle_idx}">
-        <th scope="row"><div>{$menu_info->title}<br />({$menu_name})</div></th>
-        <td class="left tahoma">
-            <select name="{$menu_name}">
-                <!--@foreach($menu_list as $key => $val)-->
-                <option value="{$val->menu_srl}" <!--@if($val->menu_srl == $menu_info->menu_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-        </td>
-    </tr>
     <!--@end-->
 
     <tr class="row2">

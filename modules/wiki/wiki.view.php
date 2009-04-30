@@ -17,7 +17,7 @@
              * 스킨이 존재하지 않는다면 xe_wiki로 변경
              **/
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
-            if(!is_dir($template_path)) {
+            if(!is_dir($template_path) || !$this->module_info->skin) {
                 $this->module_info->skin = 'xe_wiki';
                 $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             }
@@ -49,12 +49,19 @@
             if(!$oDocument->isExists()) return $this->stop('msg_invalid_request');
             $entry = $oDocument->getTitleText();
             Context::set('entry',$entry);
-            $histories = $oDocumentModel->getHistories($document_srl, 10, $page);
-            if(!$histories) $histories = array();
-            Context::set('histories',$histories->data);
+            $output = $oDocumentModel->getHistories($document_srl, 10, $page);
+            debugPrint($output);
+            if(!$output->toBool() || !$output->data) 
+            {
+                Context::set('histories', array());
+            }
+            else {
+                Context::set('histories',$output->data);
+                Context::set('page', $output->page);
+                Context::set('page_navigation', $output->page_navigation);
+            }
+            
             Context::set('oDocument', $oDocument);
-            Context::set('page_navigation', $histories->page_navigation);
-            Context::set('page', $histories->page);
             $this->setTemplateFile('histories');
         }
 
@@ -184,12 +191,14 @@
                     $contributors = $oModel->getContributors($oDocument->document_srl);
                     Context::set('contributors', $contributors);
                 }
+
+                // 댓글 허용일 경우 문서에 강제 지정
+                if($this->module_info->use_comment) $oDocument->add('allow_comment','Y');
             }
             else
             {
                 $this->setTemplateFile('create_document');
             }
-
 
             // 스킨에서 사용할 oDocument 변수 세팅
             Context::set('oDocument', $oDocument);

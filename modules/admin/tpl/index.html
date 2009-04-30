@@ -158,13 +158,21 @@
         <tbody>
         <tr>
             <th><div>{$lang->current_version}</div></th>
-            <td>
+            <td class="wide">
                 <strong>{$current_version}</strong><!--@if($current_version == $released_version)--> [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_view}</a>]<!--@end-->
             </td>
         </tr>
         <tr>
-            <th><div>{$lang->current_path}</div></th>
-            <td>{$installed_path}/</td>
+            <th colspan="2"><div>{$lang->current_path}</div></th>
+        </tr>
+        <tr>
+            <td colspan="2">{$installed_path}/</td>
+        </tr>
+        <tr>
+            <th colspan="2"><div>{$lang->start_module}</div></th>
+        </tr>
+        <Tr>
+            <td colspan="2"><a href="{getSiteUrl('','','mid',$start_module->mid)}" onclick="window.open(this.href);return false;">{$start_module->browser_title}</a></td>
         </tr>
         <tr>
             <th><div>{$lang->time_zone}</div></th>
@@ -185,6 +193,10 @@
         <tr>
             <th><div>{$lang->qmail_compatibility}</div></th>
             <td><!--@if($qmail_compatibility=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+        </tr>
+        <tr>
+            <th><div>{$lang->use_db_session}</div></th>
+            <td><!--@if($use_db_session =='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
         </tr>
         </tbody>
         </table>

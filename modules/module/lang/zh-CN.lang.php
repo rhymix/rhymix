@@ -75,7 +75,7 @@
     $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
 
     $lang->about_browser_title = "显示在浏览器窗口的标题值。 在RSS/Trackback也可以使用。";
-    $lang->about_mid = "模块名称只允许使用英文，数字和下划线。";
+    $lang->about_mid = "模块名称只允许使用英文，数字和下划线。 The maximum length is 40.";
     $lang->about_default = "用没有mid值的网址访问网站时，将会显示默认。";
     $lang->about_module_category = "可以分类管理模块。 模块分类可以在 <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">模块管理 > 模块分类 </a>中进行管理。";
     $lang->about_description= '管理用使用说明。';

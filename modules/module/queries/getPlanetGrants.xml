@@ -1,0 +1,17 @@
+<query id="getPlanetGrants" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="module_grants" alias="module_grants" />
+    </tables>
+    <columns>
+        <column name="module_grants.*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module" default="planet" notnull="notnull" />
+        <condition operation="notnull" column="modules.skin" default="notnull" pipe="and" />
+        <condition operation="equal" column="modules.module_srl" default="module_grants.module_srl" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="module_grants.group_srl" order="asc" />
+    </navigation>
+</query>

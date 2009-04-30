@@ -4,24 +4,15 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
-<!--@if($module_info->is_default=='Y')-->
-<input type="hidden" name="is_default" value="Y" />
-<!--@end-->
-
     <table cellspacing="0" class="rowTable topGap">
+    <!--@if($logged_info->is_admin!='Y')-->
+    <input type="hidden" name="mid" value="{$module_info->mid}" />
+    <!--@else-->
     <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
-        </td>
-    </tr>
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th scope="row"><div>{$lang->is_default}</div></th>
-        <td colspan="3">
-            <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
-            <label for="fld_for_default">{$lang->about_default}</label>
         </td>
     </tr>
     <!--@end-->
@@ -55,6 +46,13 @@
             <!--@end-->
             </select>
             <p>{$lang->about_layout}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->page_caching_interval}</div></th>
+        <td colspan="3">
+            <input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+            <p>{$lang->about_page_caching_interval}</p>
         </td>
     </tr>
     <tr class="row2">

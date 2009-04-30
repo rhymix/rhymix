@@ -28,19 +28,19 @@
     $lang->module_copy = "Duplicate Module";
     $lang->module_selector = "Module Selector";
     $lang->do_selected = "선택된 것들을...";
-    $lang->bundle_setup = "일괄 기본 설정";
-    $lang->bundle_addition_setup = "일괄 추가 설정";
-    $lang->bundle_grant_setup = "일괄 권한 설정";
-    $lang->lang_code = "언어 코드";
-    $lang->filebox = "파일박스";
+    $lang->bundle_setup = "Bundle Setup";
+    $lang->bundle_addition_setup = "Bundle Additional Setup";
+    $lang->bundle_grant_setup = "Bundle Permission Setup";
+    $lang->lang_code = "Language Code";
+    $lang->filebox = "FileBox";
 
-    $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Domain 접속';
-    $lang->access_vid = 'Site ID 접속';
+    $lang->access_type = 'Access Type';
+    $lang->access_domain = 'With Domain Name';
+    $lang->access_vid = 'With Site ID';
     $lang->about_domain = "In order to create more than one virtual site, each of them needs to have own domain name.<br />Sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path installed xe. <br /> ex) www.xpressengine.com/xe";
-    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
-    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
-    $lang->msg_already_registed_domain = "It is already registered domain name. Please use the different one.";
+    $lang->about_vid = 'Users can access via http://XEaddress/ID. You cannot use same site id with existing module name(mid).<br />Site id should start with an alphabet character and only alphabet characters, numbers and _ can be used for the site id.';
+    $lang->msg_already_registed_vid = 'Already registered site id. Please input another ID.';
+    $lang->msg_already_registed_domain = "Already registered domain name. Please input another domain name.";
 
     $lang->header_script = "Header Script";
     $lang->about_header_script = "You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tag";
@@ -50,7 +50,7 @@
 
     $lang->grant_to_all = "All users";
     $lang->grant_to_login_user = "Logged users";
-    $lang->grant_to_site_user = "Joined users";
+    $lang->grant_to_site_user = "Registered users";
     $lang->grant_to_group = "Specification group users";
 
     $lang->cmd_add_shortcut = "Add Shortcut";
@@ -60,7 +60,7 @@
     $lang->cmd_manage_grant = 'Manage Permission';
     $lang->cmd_manage_skin = 'Manage Skins';
     $lang->cmd_manage_document = 'Manage Articles';
-    $lang->cmd_find_module = '모듈 찾기';
+    $lang->cmd_find_module = 'Find Module';
     $lang->cmd_find_langcode = 'Find lang code';
 
     $lang->msg_new_module = "Create new module";
@@ -72,10 +72,10 @@
     $lang->msg_move_failed = 'Failed to move';
     $lang->msg_cannot_delete_for_child = 'Cannot delete a category having child categories.';
 	$lang->msg_limit_mid ="Only alphabets+[alphabets+numbers+_] can be used as module name.";
-    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
+    $lang->msg_extra_name_exists = 'Already registered extra variable name. Please input another name.';
 
     $lang->about_browser_title = "It will be shown in the browser title. It will be also used in a RSS/Trackback.";
-    $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(only english alphabet + [english alphabet ,numbers, and underscore(_)] are allowed)";
+    $lang->about_mid = "The module name will be used like http://address/?mid=ModuleName.\n(Only english alphabet + [english alphabet, numbers, and underscore(_)] are allowed. The maximum length is 40.)";
     $lang->about_default = "If checked, the default will be shown when access to the site without no mid value(mid=NoValue).";
     $lang->about_module_category = "It enables you to manage it through module category.\n The URL for the module manager is <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Manage module > Module category </a>.";
     $lang->about_description= 'It is the description only for a manager.';
@@ -89,11 +89,11 @@
     $lang->about_page_count = 'You can set the number of page link to move pages in a bottom of page.(default is 10)';
     $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.';
     $lang->about_grant = 'If you disable all permissions for a specific object, members who has not logged in would get permission.';
-    $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
+    $lang->about_grant_deatil = 'Registered users mean users who signed-up to the virtual sites (e.g., cafeXE).';
     $lang->about_module = "XE consists of modules except basic library.\n [Module Manage] module will show all installed modules and help you to manage them.";
 
 	$lang->about_extra_vars_default_value = 'If multiple default values are needed,	 you can link them with comma(,).';
-    $lang->about_search_virtual_site = "가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)";
-    $lang->about_langcode = "언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요";
-    $lang->about_file_extension= "%s 파일만 가능합니다.";
+    $lang->about_search_virtual_site = "Input domain of virtual sites.<br />To search modules of non-virtual site, search with blank";
+    $lang->about_langcode = "If you want to configure seperately, use 'find language code'";
+    $lang->about_file_extension= "Only %s extension(s) is available.";
 ?>

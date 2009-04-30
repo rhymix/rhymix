@@ -102,6 +102,23 @@
 				<name xml:lang="zh-TW">升冪</name>
 			</options>
 		</var>
+        <var id="list_count">
+            <type>text</type>
+            <name xml:lang="ko">목록수</name>
+            <name xml:lang="zh-CN">目录数</name>
+            <name xml:lang="jp">リスト数</name>
+            <name xml:lang="en">The Number of List</name>
+            <name xml:lang="es">Número de la lista</name>
+            <name xml:lang="ru">Число списка</name>
+            <name xml:lang="zh-TW">目錄數</name>
+            <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
+            <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
+            <description xml:lang="jp">表示するリストの数を指定します（デフォルト5個）。</description>
+            <description xml:lang="en">You can set the number of list(default is 5).</description>
+            <description xml:lang="es">Usted puede definir el número de la lista(predefinido: 5).</description>
+            <description xml:lang="ru">Вы можете выбрать число списка. (стандарт: 5)</description>
+            <description xml:lang="zh-TW">可設置要顯示的目錄數。(預設是5個)</description>
+        </var>
 		<var id="duration_new">
 			<type>text</type>
 			<name xml:lang="ko">new 표시 시간 (hours)</name>

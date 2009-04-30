@@ -3,21 +3,21 @@
      * @class  springnoteAdminView
      * @author zero (zero@nzeo.com)
      * @brief  springnote 모듈의 admin view class
-     * 방명록 관리자 기능은 생성된 모듈 목록, 신규 등록 및 수정, 권한의 설정으로 이루어진다.
+     * 스프링노트 관리자 기능은 생성된 모듈 목록, 신규 등록 및 수정, 권한의 설정으로 이루어진다.
      **/
 
     class springnoteAdminView extends springnote {
 
         /**
          * @brief 초기화
-         * 손쉬운 사용을 위해서 module_srl이 넘어올 경우 해당 방명록의 모듈 정보를 미리 구해서 세팅해 놓도록 한다.
+         * 손쉬운 사용을 위해서 module_srl이 넘어올 경우 해당 스프링노트의 모듈 정보를 미리 구해서 세팅해 놓도록 한다.
          * 각 method에서 하거나 별도의 method를 만들어서 호출하면 되지만 코드의 양을 줄이고 직관성을 높이기 위해서 설정한 코드이다.
          **/
         function init() {
             // module_srl값을 구해온다.
             $module_srl = Context::get('module_srl');
 
-            // 요청된 module_srl값이 없는데 현재 모듈의 module_srl값이 있다는 것은 방명록의 서비스 부분에서 설정링크를 통해서 바로 설정을 하는 경우이다.
+            // 요청된 module_srl값이 없는데 현재 모듈의 module_srl값이 있다는 것은 스프링노트의 서비스 부분에서 설정링크를 통해서 바로 설정을 하는 경우이다.
             if(!$module_srl && $this->module_srl) {
                 $module_srl = $this->module_srl;
                 Context::set('module_srl', $module_srl);
@@ -48,7 +48,7 @@
         }
 
         /**
-         * @brief 생성된 방명록들의 목록을 보여줌
+         * @brief 생성된 스프링노트들의 목록을 보여줌
          * springnote이라는 module명으로 등록된 모듈을 구하기 위해서 몇가지 설정을 한 후에 쿼리를 수행한다.
          * 쿼리수행은 executeQuery(모듈명.쿼리아이디, 인자변수) 로 하게 되며 이 쿼리아이디에 해당하는 xml파일은 모듈의 queries디렉토리에 지정이 되어 있다.
          *
@@ -77,34 +77,9 @@
             $this->setTemplateFile('index');
         }
 
-        /**
-         * @brief 선택된 방명록의 정보 출력
-         **/
-        function dispSpringnoteAdminSpringnoteInfo() {
-            // module_srl 값이 없다면 그냥 index 페이지를 보여줌
-            if(!Context::get('module_srl')) return $this->dispSpringnoteAdminContent();
-
-            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($this->module_info->layout_srl) {
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($this->module_info->layout_srl);
-                $this->module_info->layout = $layout_info->layout;
-                $this->module_info->layout_title = $layout_info->layout_title;
-            }
-
-            // 정해진 스킨이 있으면 해당 스킨의 정보를 구함
-            if($this->module_info->skin) {
-                $oModuleModel = &getModel('module');
-                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->module_info->skin);
-                $this->module_info->skin_title = $skin_info->title;
-            }
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('springnote_info');
-        }
 
         /**
-         * @brief 방명록 설정 폼 출력
+         * @brief 스프링노트 설정 폼 출력
          **/
         function dispSpringnoteAdminInsertSpringnote() {
             // 스킨 목록을 구해옴
@@ -122,7 +97,7 @@
         }
 
         /**
-         * @brief 방명록 삭제 화면 출력
+         * @brief 스프링노트 삭제 화면 출력
          **/
         function dispSpringnoteAdminDeleteSpringnote() {
             if(!Context::get('module_srl')) return $this->dispSpringnoteAdminContent();

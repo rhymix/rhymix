@@ -92,8 +92,8 @@
                     $obj->member_srl = -1*$logged_info->member_srl;
                     $obj->email_address = $obj->homepage = $obj->user_id = '';
                     $obj->user_name = $obj->nick_name = 'anonymous';
-                    $output = executeQuery('document.updateDocument', $obj);
-                    if(!$output->toBool()) return $output;
+                    $anonymous_output = executeQuery('document.updateDocument', $obj);
+                    if(!$anonymous_output->toBool()) return $output;
                 }
             }
 

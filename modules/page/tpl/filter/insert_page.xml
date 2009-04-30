@@ -1,6 +1,6 @@
 <filter name="insert_page" module="page" act="procPageAdminInsert" confirm_msg_code="confirm_submit">
     <form>
-        <node target="mid" required="true" filter="alpha_number" />
+        <node target="mid" required="true" maxlength="40" filter="alpha_number" />
         <node target="browser_title" required="true" maxlength="250" />
     </form>
     <parameter>
@@ -10,8 +10,7 @@
         <param name="layout_srl" target="layout_srl" />
         <param name="browser_title" target="browser_title" />
         <param name="is_default" target="is_default" />
-        <param name="view" target="view" />
-        <param name="manager" target="manager" />
+        <param name="page_caching_interval" target="page_caching_interval" />
     </parameter>
     <response callback_func="completeInsertPage">
         <tag name="error" />

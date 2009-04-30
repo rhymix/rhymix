@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE 기본 서식 (하얀 배경)</title>
+    <description xml:lang="ko">
+        XE 기본 문서 서식입니다.
+        문서 수정중에는 각 요소들이 구분되어 보입니다.
+    </description>
+    <version>0.0.1</version>
+    <date>2009-04-17</date>
+    <author email_address="webmaster@naradesign.net" link="http://naradesign.net">
+        <name xml:lang="ko">정찬명</name>
+    </author>
+</skin>

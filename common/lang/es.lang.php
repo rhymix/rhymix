@@ -80,7 +80,7 @@
     $lang->none_image = '이미지 없음';
     $lang->document_srl = 'Número del documento';
     $lang->user_id = 'ID de Usuario';
-    $lang->author = 'Autor'; 
+    $lang->author = 'Autor';
     $lang->password = 'Contraseña';
     $lang->password1 = 'Contraseña';
     $lang->password2 = 'Otra vez la contraseña';
@@ -127,7 +127,7 @@
     $lang->layout = 'Composición';
     $lang->widget = 'Widget';
     $lang->module = 'Módulo';
-    $lang->skin = 'Tema'; //máscara, 
+    $lang->skin = 'Tema'; //máscara,
     $lang->colorset = 'Conjunto de Colores';
     $lang->extra_vars = 'Variables Extra';
 
@@ -210,7 +210,7 @@
         'hours' => '%d días',
     );
 
-    // Relacionado a la Descripción 
+    // Relacionado a la Descripción
     $lang->about_tag = 'Puede agregar o añadir diversas etiquetas separándolas con la coma(,)'; // revisado hasta aquí (081007: Juan Lee)
     $lang->about_layout = 'Puede modificar la apariencia(Layout/Diseño) de los módulos. Puede administrarla con el menú Layout.';
 
@@ -227,9 +227,11 @@
     $lang->msg_error_occured = 'Error';
     $lang->msg_not_founded = 'No se ha encontrado';
     $lang->msg_no_result = 'Sin resultado';
+    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'No está permitodo para ejecutar esta acción';
-    $lang->msg_module_is_not_exists = 'No existe el Módulo requerido';
+    $lang->msg_module_is_not_exists = "Inicie el módulo no está habilitado.\nEl inicio de instalación del módulo en el administrador de la página.";
     $lang->msg_module_is_not_standalone = 'El Módulo requerido no funciona solo.';
 
     $lang->success_registed = 'Registrado con éxito';

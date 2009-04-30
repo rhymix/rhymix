@@ -8,6 +8,8 @@
     $lang->admin_info = '管理者情報';
     $lang->admin_index = '管理者トップページ';
     $lang->control_panel = 'コントロールパネル';
+    $lang->start_module = 'モジュールを起動します';
+    $lang->about_start_module = 'デフォルトで起動するモジュールを指定することができます。';
 
     $lang->module_category_title = array(
         'service' => 'サービス管理',
@@ -26,7 +28,7 @@
 
     $lang->env_setup = "環境設定";
     $lang->default_url = '基本URL';
-    $lang->about_sso_url = "複数のvirtual siteを運営する場合、どちらからログインしてもvirtual siteの間でログイン情報を維持出来るようにするためには、基本になるサイトでのXEをインストールしたurlを登録して下さい。 (例: http://ドメイン/インストールパス)";
+    $lang->about_sso_url = "複数のバーチャル（Virtual）サイトを運営する場合、どちらからログインしてもバーチャル（Virtual）サイトの間でログイン情報を維持出来るようにするためには、基本になるサイトでのXEをインストールしたurlを登録して下さい。 (例: http://ドメイン/インストールパス)";
     
 
     $lang->env_information = "環境情報";
@@ -75,4 +77,6 @@
     $lang->about_use_ssl = "「部分的に使う場合」は「会員登録/会員情報変更」など特定のactionでSSLを利用する場合、「常に使う」は全てのサービスがSSLを使う場合に選択します。";
     $lang->server_ports = "サーバーポート指定";
     $lang->about_server_ports = "一般的に使われているHTTPの80、HTTPSの443以外の他のポートを使うために、ポートを指定して下さい。";
+    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
 ?>

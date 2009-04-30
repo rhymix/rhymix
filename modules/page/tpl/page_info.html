@@ -5,9 +5,6 @@
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="content" value="{htmlspecialchars($module_info->content)}" />
-<!--@if($module_info->is_default=='Y')-->
-<input type="hidden" name="is_default" value="Y" />
-<!--@end-->
 
     <table cellspacing="0" class="rowTable">
     <tr>
@@ -17,15 +14,6 @@
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th scope="row"><div>{$lang->is_default}</div></th>
-        <td colspan="3">
-            <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
-            <label for="fld_for_default">{$lang->about_default}</label>
-        </td>
-    </tr>
-    <!--@end-->
     <tr>
         <th scope="row"><div>{$lang->module_category}</div></th>
         <td colspan="3">
@@ -56,6 +44,13 @@
             <!--@end-->
             </select>
             <p>{$lang->about_layout}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->page_caching_interval}</div></th>
+        <td colspan="3">
+            <input type="text" name="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+            <p>{$lang->about_page_caching_interval}</p>
         </td>
     </tr>
     <tr>

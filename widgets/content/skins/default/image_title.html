@@ -27,7 +27,7 @@
 
             <a href="{$item->getLink()}">{$item->getTitle($widget_info->subject_cut_size)}</a>
 
-            <!--@if($widget_info->show_trackback_count=='Y' && $item->getCommentCount())-->
+            <!--@if($widget_info->show_comment_count=='Y' && $item->getCommentCount())-->
                 <sup class="replyNum"><a href="{$item->getLink()}#comment">{$item->getCommentCount()}</a></sup>
             <!--@end-->
 

@@ -8,7 +8,7 @@
     $lang->board = 'Board';
 
     $lang->except_notice = 'Exclude Notices';
-    $lang->use_anonymous = '익명 사용';
+    $lang->use_anonymous = 'Use Anonymous';
 
     $lang->cmd_manage_menu = 'Manage Menus';
     $lang->list_target_item = 'Target Item';
@@ -18,7 +18,7 @@
     $lang->search_result = 'Search Result';
     $lang->consultation = 'Consultation';
     $lang->secret = 'Secret';
-    $lang->thisissecret = '비밀글입니다.';
+    $lang->thisissecret = 'This is a secret article.';
     $lang->admin_mail = "Administrator's Mail";
 
     // words used in button
@@ -31,12 +31,12 @@
     $lang->about_layout_setup = 'You can manually modify board layout code. Insert or manage the widget code anywhere you want';
     $lang->about_board_category = 'You can make board categories.<br />When board category is broken, try rebuilding the cache file manually.';
     $lang->about_except_notice = 'Notice articles will not be displayed on normal list.';
-    $lang->about_use_anonymous = '글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓰인 정보등을 보이지 않도록 하시면 더욱 유용합니다';
+    $lang->about_use_anonymous = 'Make a board into anonymous board by hiding the author\'s information.';
     $lang->about_board = 'This module is for creating and managing boards.';
     $lang->about_consultation = "Non-administrator members would see their own articles.\nNon-members would not be able to write articles when using consultation.";
     $lang->about_secret = 'Users will be able to write secret articles or comments.';
     $lang->about_admin_mail = 'A mail will be sent when an article or comment is submitted.<br />Multiple mails can be sent with commas(,).';
-    $lang->about_list_config = '게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다.<br />단 스킨에서 지원하지 않는 경우 지원되지 않을 수 있습니다<br />대상항목/ 표시항목의 항목을 더블클릭하면 추가/ 제거가 됩니다.';
+    $lang->about_list_config = 'If using list-style skin, you may arrange items to display.<br />However, this feature might not be availble for non-official skins.<br />If you double-click target items and display items, then you can add / remove them';
 
     $lang->msg_not_enough_point = 'Your point is not enough to write an article in this board.';
 ?>

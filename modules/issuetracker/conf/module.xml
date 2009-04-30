@@ -63,7 +63,7 @@
         <action name="dispIssuetrackerAdminExtraVars" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminGrantInfo" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminSkinInfo" type="view" standalone="true" />
-        <action name="dispIssuetrackerAdminProjectInfo" type="view" standalone="true" />
+        <action name="dispIssuetrackerAdminProjectInfo" type="view" standalone="true" setup_index="true" />
         <action name="dispIssuetrackerAdminInsertProject" type="view" standalone="true" />
         <action name="dispIssuetrackerAdminDeleteIssuetracker" type="view" standalone="true" />
 

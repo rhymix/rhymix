@@ -56,7 +56,6 @@
                 $module_categories = $oModuleModel->getModuleCategories();
 
                 foreach($mid_list as $module_srl => $module) {
-                    $module->browser_title = $oModuleAdminModel->getLangCode($module->site_srl, $module->browser_title);
                     $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
                 }
             } else {

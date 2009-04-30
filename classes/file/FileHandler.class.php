@@ -295,13 +295,12 @@
             }
 
             $oResponse = $oRequest->sendRequest();
-            if(PEAR::isError($oResponse)) return;
 
             $code = $oRequest->getResponseCode();
             $header = $oRequest->getResponseHeader();
             $body = $oRequest->getResponseBody();
 
-            if($code == 301) {
+            if($code == 301 || $code == 302) {
                 $url = $header['location'];
                 if($url) return FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
                 else return;

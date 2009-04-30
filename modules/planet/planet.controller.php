@@ -73,8 +73,14 @@
             $args->mid = Context::get("planet_mid");
             $args->tag = Context::get("tag");
 
-            if(in_array($args->mid, array('www','naver','hangame','promotion','notice','group','team','center','division','tf','faq','question','uit'))) return new Object(-1,'msg_not_permitted');
+            if(in_array($args->mid, array('www','naver','hangame','promotion','notice','group','team','center','division','tf','faq','question','uit'))) return new Object(-1,'msg_denied_planet_title');
 
+            // 신청한 플래닛 이름이 기본 모듈 이름 등과 겹치지 않도록 금지 아이디 목록에 있는지 검사
+            // 금지 아이디 목록 - 기본 모듈과 사용자 지정 금지 아이디
+            $oMemberModel = &getModel('member');
+            if($oMemberModel->isDeniedID($args->mid)) return new Object(-1,'msg_denied_planet_title');
+
+            // 플래닛 생성
             $output = $this->insertPlanet($args);
             if(!$output->toBool()) return $output;
 
@@ -739,7 +745,7 @@
                 $args->nick_name = $output->nick_name;
                 $args->email_address = $output->email_address;
                 $args->homepage = $output->homepage;
-               
+
                 $module_info = $oPlanetModel->getPlanetConfig();
                 $args->tags = join(',',$module_info->smstag);
 

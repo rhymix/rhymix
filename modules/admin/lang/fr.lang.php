@@ -8,6 +8,8 @@
     $lang->admin_info = 'Informations d\'Administrateur';
     $lang->admin_index = 'Page de l\'indice pour l\'Administrateur';
     $lang->control_panel = 'Control panel';
+    $lang->start_module = 'Start Module';
+    $lang->about_start_module = 'Vous pouvez spécifier début module par défaut.';
 
     $lang->module_category_title = array(
         'service' => 'Service Setting',
@@ -75,4 +77,6 @@
     $lang->about_use_ssl = "Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services.";
     $lang->server_ports = "déclarer le port de serveur";
     $lang->about_server_ports = "Si l'on ne veut pas utiliser le port 80 pour HTTP mais un autre port, ou bien, si l'on ne veut pas utiliser le port 443 pour HTTPS mais un autre port, on doit déclarer les ports.";
+    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
 ?>

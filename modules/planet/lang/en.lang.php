@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   en.lang.php
-     * @author sol (sol@ngleader.com) 
-     * @brief  English language pack for the Planet module 
+     * @author sol (sol@ngleader.com)
+     * @brief  English language pack for the Planet module
      **/
 
     $lang->planet = "Planet";
@@ -18,7 +18,7 @@
 
     $lang->planet_reply_content = "Planet reply content";
 
-    $lang->about_planet = 
+    $lang->about_planet =
         "XE microblog module. Each member can create the own planet.
          Planet may not be accessible with the domain name used in the homepage package.
          If you want to use planet as the index page, use different domain from domain name used in the homepage package.";
@@ -30,7 +30,7 @@
     $lang->about_planet_default_skin = "It will be set for main planet page and created planets.";
 
     $lang->planet_comment = "Introduction";
-    $lang->about_planet_comment = "This message is displayed at the title of the browser and your planet."; 
+    $lang->about_planet_comment = "This message is displayed at the title of the browser and your planet.";
 
     $lang->use_signup = "Display the link to sign up";
     $lang->about_use_signup = "If set, the link to sign up will be displayed at the top of the planet";
@@ -44,6 +44,7 @@
 
     $lang->msg_not_logged = "You are not signed in";
     $lang->msg_planet_exists = "You already have a planet, thus you cannot create more!";
+    $lang->msg_denied_planet_title = 'Denied planet title';
 
     $lang->planet_userinfo = "User Info";
     $lang->planet_change_userinfo = "Change user info";
@@ -113,7 +114,7 @@
     $lang->planet_recent_acticle = "Recent Articles";
 
 
-    $lang->cmd_planet_add_tag = "Add"; 
+    $lang->cmd_planet_add_tag = "Add";
     $lang->cmd_planet_add_article = "Write a message";
     $lang->cmd_planet_post_article = "Submit";
     $lang->planet_postscript = "P.S.";

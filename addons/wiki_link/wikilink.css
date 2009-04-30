@@ -1,4 +1,5 @@
-#link { display: none; }
-#link .linkForm { margin-left: 10px; margin-top: 10px; }
-.ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 5px; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
-
+.ui-dialog { background-color:#fff; z-index:999; padding:10px;}
+.ui-dialog-title { font-weight:bold; margin-bottom:3px; }
+.ui-dialog-titlebar-close { display:none; }
+.ui-dialog-buttonpane { text-align:right; bottom:5px !important; }
+.ui-dialog-buttonpane button { font-size:11px; font-family:tahoma; }

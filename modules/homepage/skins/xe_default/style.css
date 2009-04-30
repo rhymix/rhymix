@@ -1,0 +1,116 @@
+@charset "utf-8";
+
+/* header */
+.cafeHeader *{ margin:0 0 30px 0; padding:0;}
+.cafeHeader .cafeTitle{ font-size:1em; letter-spacing:-.1em; margin-bottom:10px; border-bottom:3px solid; *zoom:1; background-repeat:no-repeat; background-position:left center;}
+.cafeHeader .cafeTitle:after{ content:""; display:block; clear:both;}
+.cafeHeader .cafeTitleText{ float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 5px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
+.cafeHeader .cafeTitleText a{ text-decoration:none;}
+.cafeHeader .cafeTitleText em{ font-style:normal; font-weight:normal;}
+.cafeHeader .cafeDescription{ padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; position:relative;}
+.cafeHeader .cafeTitle{ border-color:#aaa; }
+.cafeHeader .cafeTitleText{ border-color:#666; background-image:url(./img/lineVr11.gif);}
+.cafeHeader .cafeTitleText a{ color:#000;}
+.cafeHeader .cafeTitleText em{ color:#666;}
+.cafeHeader .cafeDescription{ background:#efefef; border:1px solid #ccc;}
+
+/* layout */
+div.cafeBox { position:relative; padding:0 250px 0 0; *zoom:1; }
+div.cafeBox:after{ content:""; display:block; clear:both;}
+div.cafeBox a { text-decoration:none; }
+div.cafeBox a:hover { text-decoration:underline; position:relative; }
+
+div.cafeLeftBox { position:relative; margin-bottom:20px; text-align:justify; float:left; width:100%;}
+div.cafeRightBox { position:relative; width:230px; float:right; clear:right; margin-left:-230px; right:-250px; }
+
+hr.cafeHR { display:none; position:absolute;}
+
+/* intro */
+div.intro { border:4px solid #777; margin-bottom:20px; padding:10px; *zoom:1; overflow:hidden;}
+div.intro.list { border-color:#ddd; }
+div.intro h3 { width:100%; padding:0 0 5px 0; border-bottom:2px solid #aaa; margin:0 0 10px 0; }
+div.intro img { padding:0; margin:0 10px 10px 0; }
+div.intro .url { text-align:right; display:block; } 
+div.intro .url a { color:#5B96C2; }
+
+/* cafe list */
+.cafeList div.tabContent { display:none; }
+.cafeList{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.5; *zoom:1;}
+.cafeList:after{ content:""; display:block; clear:both;}
+.cafeList li { list-style:none; clear:both; margin-bottom:10px; padding-bottom:10px; *zoom:1; overflow:hidden; border-bottom:1px dotted #ddd;}
+.cafeList li p{ margin:0; padding:0;}
+.cafeList li p.thumbArea{ position:relative; float:left; overflow:hidden; margin-right:10px; }
+.cafeList li p.titleArea{ margin-bottom:4px; overflow:hidden; white-space:nowrap; padding-right:2px; font-size:16px; }
+.cafeList li p.titleArea .board{ padding-right:5px;}
+.cafeList li p.text{ margin-bottom:4px; clear:both; padding-left:10px;}
+.cafeList li p.url { color:#5B96C2; float:left; clear:left; }
+.cafeList li p.url a { color:#5B96C2!important; }
+.cafeList li p.date { float:right; color:#999; font-weight:normal;}
+.cafeList li .thumb{ text-decoration:none; overflow:hidden; width:100px; height:100px; }
+.cafeList li .thumb img { margin:0 5px 5px 0; padding:1px; border:1px solid #eee; }
+.cafeList li .title{ font-weight:bold;}
+.cafeList li .replyNum a{ font:10px Tahoma; margin:0 -1px;}
+.cafeList li .trackbackNum a{ font:10px Tahoma; margin:0 -1px;}
+.cafeList li .author{ margin-right:10px;}
+.cafeList li .date{ font:11px Tahoma; }
+.cafeList li .hour{ font:11px Tahoma;}
+.cafeList li .board{ color:#333; background:url(./img/lineTextDiv.gif) no-repeat right center;}
+.cafeList li .title{ color:#666;}
+.cafeList li .replyNum a{ color:#ff1a1a;}
+.cafeList li .trackbackNum a{ color:#66c;}
+.cafeList li .author{ color:#333;}
+.cafeList li .category{ color:#333; background:url(./img/lineTextDiv.gif) no-repeat right center;}
+.cafeList li .date{ font-weight:bold; }
+.cafeList li .hour{ color:#888;}
+.cafeList li .text{ color:#888;}
+
+/* Pagination Reset */
+.pagination{ padding:15px 0; margin:0; text-align:center;}
+.pagination *{ margin:0; padding:0;}
+.pagination img{ border:0;}
+.pagination a,
+.pagination strong{ position:relative; display:inline-block; text-decoration:none; line-height:normal; color:#333; font-family:Tahoma, Sans-serif; vertical-align:middle;}
+.pagination a:hover,
+.pagination a:active,
+.pagination a:focus{ background-color:#f4f4f4 !important; }
+.pagination strong{ color:#ff6600 !important;}
+.pagination a.prev,
+.pagination a.prevEnd,
+.pagination a.next,
+.pagination a.nextEnd{ font-weight:normal !important; border:none !important; margin:0 !important; white-space:nowrap; }
+
+/* Pagination A1 */
+.pagination.a1 a,
+.pagination.a1 strong{ margin:0 -4px; padding:1px 10px 1px 8px; border:none; border-left:1px solid #ccc; border-right:1px solid #ddd; font-weight:bold; font-size:12px; background:#fff;}
+.pagination.a1 a.prev{ padding-left:10px; background:#fff url(./img/arrowPrevA1.gif) no-repeat left center; }
+.pagination.a1 a.prevEnd{ padding-left:15px; background:#fff url(./img/arrowPrevEndA1.gif) no-repeat left center; }
+.pagination.a1 a.next{ padding-right:10px; background:#fff url(./img/arrowNextA1.gif) no-repeat right center; }
+.pagination.a1 a.nextEnd{ padding-right:15px; background:#fff url(./img/arrowNextEndA1.gif) no-repeat right center; }
+
+/* cafe context */
+div.cafeContext { margin-bottom:20px; }
+div.cafeContext h3 { font-size:12px; color:#444; border-bottom:2px solid #aaa; padding:3px; margin:0 0 10px 0;}
+div.cafeContext ul { list-style:none; margin:10px 5px; padding:0; }
+div.cafeContext ul li { margin:0 0 3px 0; padding:0; color:#aaa; white-space:nowrap; overflow:hidden; height:20px; }
+div.cafeContext ul li span { color:#5B96C2; cursor:pointer;}
+div.cafeContext ul li a { color:#666 !important; }
+div.cafeContext ul li a img { vertical-align:middle; }
+
+.cafeTable{ width:100%; border:0; margin:0 0 20px 0; padding:0;}
+.cafeTable th div { white-space:nowrap; }
+.cafeTable th,
+.cafeTable td{ border:0; padding:5px 10px; vertical-align:top;}
+.cafeTable th{ background:#f4f4f4;}
+.cafeTable thead th{ border-top:2px solid #cfcfcf; border-bottom:1px solid #e5e5e5; background-image:url(../img/lineVrText.gif); background-repeat:no-repeat; background-position:left center;}
+.cafeTable thead th:first-child{ background-image:none;}
+.cafeTable tbody th{ border-bottom:1px solid #e5e5e5; text-align:left;}
+.cafeTable td{ border-bottom:1px solid #f0f0f0;}
+
+.cafeTable th.button { text-align:right; }
+.cafeTable td.alert { color:red !important; }
+.cafeTable td.alert a { text-decoration:none; color:red !important; }
+
+input.cafeID { width:90%; }
+input.cafeTitle { width:90%; }
+textarea.cafeDescription{ width:90%; height:40px;}
+.cafeTable th span { font-size:10px; font-family:tahoma; color:#aaa; font-weight:normal;}

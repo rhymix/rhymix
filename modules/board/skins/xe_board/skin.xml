@@ -278,22 +278,136 @@
             <description xml:lang="es">You may set length of title. (0 or blank value will not restrict the length)</description>
             <description xml:lang="zh-TW">可指定標題字數(0或留白為不限制)。</description>
         </var>
-		<var name="content_cut_size" type="text">
-			<title xml:lang="ko">내용 글자수</title>
-			<title xml:lang="jp">内容の文字数</title>
-			<title xml:lang="zh-CN">内容字数</title>
-			<title xml:lang="en">Length of Content</title>
-			<title xml:lang="es">Número de letras del Contenidos</title>
-			<title xml:lang="ru">Длина содержания</title>
-			<title xml:lang="zh-TW">內容字數</title>
-			<description xml:lang="ko">내용 글자수를 지정할 수 있습니다. (기본 240)</description>
-			<description xml:lang="jp">内容の文字数を指定します(デフォルト 240)。</description>
-			<description xml:lang="zh-CN">可以指定要显示的内容字数。(默认为240)</description>
-			<description xml:lang="en">Length of Content can be assigned. (default 240)</description>
-			<description xml:lang="es">El largo del Contenidos puede ser asignado. (Predefinido 240)</description>
-			<description xml:lang="ru">Длина содержания может быть присвоена. (стандарт: 240)</description>
-			<description xml:lang="zh-TW">可以指定要顯示的內容字數。(預設是240)</description>
-		</var>
+        <var name="content_cut_size" type="text">
+            <title xml:lang="ko">내용 글자수</title>
+            <title xml:lang="jp">内容の文字数</title>
+            <title xml:lang="zh-CN">内容字数</title>
+            <title xml:lang="en">Length of Content</title>
+            <title xml:lang="es">Número de letras del Contenidos</title>
+            <title xml:lang="ru">Длина содержания</title>
+            <title xml:lang="zh-TW">內容字數</title>
+            <description xml:lang="ko">내용 글자수를 지정할 수 있습니다. (기본 240)</description>
+            <description xml:lang="jp">内容の文字数を指定します(デフォルト 240)。</description>
+            <description xml:lang="zh-CN">可以指定要显示的内容字数。(默认为240)</description>
+            <description xml:lang="en">Length of Content can be assigned. (default 240)</description>
+            <description xml:lang="es">El largo del Contenidos puede ser asignado. (Predefinido 240)</description>
+            <description xml:lang="ru">Длина содержания может быть присвоена. (стандарт: 240)</description>
+            <description xml:lang="zh-TW">可以指定要顯示的內容字數。(預設是240)</description>
+        </var>
+        <var name="header_title_format" type="select">
+            <title xml:lang="ko">게시판 제목 형식</title>
+            <title xml:lang="jp">게시판 제목 형식</title>
+            <title xml:lang="zh-CN">게시판 제목 형식</title>
+            <title xml:lang="en">게시판 제목 형식</title>
+            <title xml:lang="es">게시판 제목 형식</title>
+            <title xml:lang="zh-TW">게시판 제목 형식</title>
+            <options value="h1">
+                <title xml:lang="ko">H1</title>
+                <title xml:lang="en">H1</title>
+                <title xml:lang="jp">H1</title>
+                <title xml:lang="zh-CN">H1</title>
+                <title xml:lang="es">H1</title>
+                <title xml:lang="zh-TW">H1</title>
+            </options>
+            <options value="h2">
+                <title xml:lang="ko">H2</title>
+                <title xml:lang="en">H2</title>
+                <title xml:lang="jp">H2</title>
+                <title xml:lang="zh-CN">H2</title>
+                <title xml:lang="es">H2</title>
+                <title xml:lang="zh-TW">H2</title>
+            </options>
+            <options value="h3">
+                <title xml:lang="ko">H3</title>
+                <title xml:lang="en">H3</title>
+                <title xml:lang="jp">H3</title>
+                <title xml:lang="zh-CN">H3</title>
+                <title xml:lang="es">H3</title>
+                <title xml:lang="zh-TW">H3</title>
+            </options>
+            <options value="h4">
+                <title xml:lang="ko">H4</title>
+                <title xml:lang="en">H4</title>
+                <title xml:lang="jp">H4</title>
+                <title xml:lang="zh-CN">H4</title>
+                <title xml:lang="es">H4</title>
+                <title xml:lang="zh-TW">H4</title>
+            </options>
+            <options value="h5">
+                <title xml:lang="ko">H5</title>
+                <title xml:lang="en">H5</title>
+                <title xml:lang="jp">H5</title>
+                <title xml:lang="zh-CN">H5</title>
+                <title xml:lang="es">H5</title>
+                <title xml:lang="zh-TW">H5</title>
+            </options>
+            <options value="h6">
+                <title xml:lang="ko">H6</title>
+                <title xml:lang="en">H6</title>
+                <title xml:lang="jp">H6</title>
+                <title xml:lang="zh-CN">H6</title>
+                <title xml:lang="es">H6</title>
+                <title xml:lang="zh-TW">H6</title>
+            </options>
+            <description />
+        </var>
+        <var name="document_title_format" type="select">
+            <title xml:lang="ko">글 제목 형식</title>
+            <title xml:lang="jp">글 제목 형식</title>
+            <title xml:lang="zh-CN">글 제목 형식</title>
+            <title xml:lang="en">글 제목 형식</title>
+            <title xml:lang="es">글 제목 형식</title>
+            <title xml:lang="zh-TW">글 제목 형식</title>
+            <options value="h1">
+                <title xml:lang="ko">H1</title>
+                <title xml:lang="en">H1</title>
+                <title xml:lang="jp">H1</title>
+                <title xml:lang="zh-CN">H1</title>
+                <title xml:lang="es">H1</title>
+                <title xml:lang="zh-TW">H1</title>
+            </options>
+            <options value="h2">
+                <title xml:lang="ko">H2</title>
+                <title xml:lang="en">H2</title>
+                <title xml:lang="jp">H2</title>
+                <title xml:lang="zh-CN">H2</title>
+                <title xml:lang="es">H2</title>
+                <title xml:lang="zh-TW">H2</title>
+            </options>
+            <options value="h3">
+                <title xml:lang="ko">H3</title>
+                <title xml:lang="en">H3</title>
+                <title xml:lang="jp">H3</title>
+                <title xml:lang="zh-CN">H3</title>
+                <title xml:lang="es">H3</title>
+                <title xml:lang="zh-TW">H3</title>
+            </options>
+            <options value="h4">
+                <title xml:lang="ko">H4</title>
+                <title xml:lang="en">H4</title>
+                <title xml:lang="jp">H4</title>
+                <title xml:lang="zh-CN">H4</title>
+                <title xml:lang="es">H4</title>
+                <title xml:lang="zh-TW">H4</title>
+            </options>
+            <options value="h5">
+                <title xml:lang="ko">H5</title>
+                <title xml:lang="en">H5</title>
+                <title xml:lang="jp">H5</title>
+                <title xml:lang="zh-CN">H5</title>
+                <title xml:lang="es">H5</title>
+                <title xml:lang="zh-TW">H5</title>
+            </options>
+            <options value="h6">
+                <title xml:lang="ko">H6</title>
+                <title xml:lang="en">H6</title>
+                <title xml:lang="jp">H6</title>
+                <title xml:lang="zh-CN">H6</title>
+                <title xml:lang="es">H6</title>
+                <title xml:lang="zh-TW">H6</title>
+            </options>
+            <description />
+        </var>
         <var name="display_number" type="select">
             <title xml:lang="ko">번호 표시</title>
             <title xml:lang="jp">番号表示</title>

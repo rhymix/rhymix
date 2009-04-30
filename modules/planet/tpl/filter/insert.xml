@@ -1,6 +1,6 @@
 <filter name="insert" module="planet" act="procPlanetAdminInsert" confirm_msg_code="confirm_submit">
     <form>
-        <node target="planet_mid" required="true" filter="alpha_number" />
+        <node target="planet_mid" required="true" maxlength="40" filter="alpha_number" />
         <node target="planet_comment" required="true" maxlength="250" />
     </form>
     <parameter>

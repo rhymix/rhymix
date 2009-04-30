@@ -451,6 +451,10 @@
                 case 'minus' :
                         $args = abs($args);
                         $val = sprintf('"%s-%d"', $name, $args);
+					break;
+				case 'multiply' :
+						$args = intval($args);
+                        $val = sprintf('"%s*%d"', $name, $args);
                     break;
             }
 

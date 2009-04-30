@@ -1,0 +1,11 @@
+<query id="getHistories" action="select">
+    <tables>
+        <table name="document_histories" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="history_srl" var="history_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

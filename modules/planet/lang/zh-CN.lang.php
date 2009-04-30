@@ -45,6 +45,7 @@
 
     $lang->msg_not_logged = "请登录。";
     $lang->msg_planet_exists = "您已有生成的微博，不能另行创建微博。";
+    $lang->msg_denied_planet_title = 'Denied planet title';
 
     $lang->planet_userinfo = "个人资料";
     $lang->planet_change_userinfo = "修改个人资料";

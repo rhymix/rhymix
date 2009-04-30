@@ -1,7 +1,24 @@
 <!--%import("css/wiki.css")-->
-    <!--@if(!$module_info->colorset)-->
-        {@$module_info->colorset = "white"}
+<!--%import("js/wiki.js")-->
+
+<!--@if(!$module_info->colorset)-->
+    {@$module_info->colorset = "white"}
+<!--@end-->
+
+<!--@if($module_info->title || $module_info->comment)-->
+<div class="wikiHeader">
+    <!--@if($module_info->title)-->
+    <div class="wikiTitle">
+        <h2 class="wikiTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+    </div>
     <!--@end-->
+
+    <!--@if($module_info->comment)-->
+    <p class="wikiDescription">{$module_info->comment}</p>
+    <!--@end-->
+</div>
+<!--@end-->
+
 <div class="wikimain">
 <div class="header">
     <!--@if($oDocument)-->
@@ -9,10 +26,9 @@
     <div class="edit"><!--@if($oDocument->isExists())--><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">Edit</a><!--@end--></div>
     <!--@end-->
     <div class="go">
-        <form action="{getUrl()}" method="get">
-            <input type="hidden" name="mid" value="{$module_info->mid}" />
+        <form action="./" method="get" onsubmit="moveHistory(this); return false;">
             <input type="text" class="inputTypeText w100" name="entry" />
-            <span class="button"><input type="submit" value="Go" /></span>
+            <span calss="button"><input type="submit" value="{$lang->cmd_move}" /></span>
         </form>
     </div>
 </div>
@@ -58,7 +74,7 @@
                 <!--@end-->
                 <!--@end-->
                 <div class="links">
-                <a href="{getUrl('act','dispWikiContent','entry','')}">Front Page</a> 
+                <a href="{getUrl('act','dispWikiContent','entry','','document_srl','')}">Front Page</a> 
                 <a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">Title Index</a>
                 </div>
 

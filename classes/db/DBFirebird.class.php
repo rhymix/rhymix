@@ -338,6 +338,9 @@
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
                         ibase_blob_close($blob_hndl);
                     }
+					else if($type == "char") {
+						$tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
+					}
                 }
 
                 $return[] = $tmp;
@@ -875,6 +878,30 @@
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
+            $query_groupby = '';
+            if ($output->groups) {
+                foreach ($output->groups as $key => $val)
+                    $group_list[] = $this->autoQuotes($val);
+                if (count($group_list)) $query_groupby = sprintf(" GROUP BY %s", implode(", ", $group_list));
+            }
+
+            /*
+            // group by 절이 포함된 SELECT 쿼리의 전체 갯수를 구하기 위한 수정
+            // 정상적인 동작이 확인되면 주석으로 막아둔 부분으로 대체합니다.
+            //
+            $count_condition = strlen($query_groupby) ? sprintf('%s group by %s', $condition, $query_groupby) : $condition;
+            $total_count = $this->getCountCache($output->tables, $count_condition);
+            if($total_count === false) {
+                $count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
+                if (count($output->groups))
+                    $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+                $result = $this->_query($count_query);
+                $count_output = $this->_fetch($result);
+                $total_count = (int)$count_output->count;
+                $this->putCountCache($output->tables, $count_condition, $total_count);
+            }
+            */
+
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
@@ -918,12 +945,7 @@
             $limit = sprintf('FIRST %d SKIP %d ', $list_count, $start_count);
             $query = sprintf('SELECT %s %s FROM %s %s %s', $limit, $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
-            if($output->groups) {
-                foreach($output->groups as $key => $val) {
-                    $group_list[] = $this->autoQuotes($val);
-                }
-                if(count($group_list)) $query .= sprintf(" GROUP BY %s", implode(",",$group_list));
-            }
+            if (strlen($query_groupby)) $query .= $query_groupby;
 
             if($output->order) {
                 foreach($output->order as $key => $val) {

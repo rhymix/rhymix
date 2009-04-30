@@ -193,11 +193,12 @@ jQuery(function($) {
         // 서버에 메뉴를 요청
         var params = new Array();
         params["target_srl"] = target_srl;
-        params["cur_mid"] = current_mid;
+        params["mid"] = params["cur_mid"] = current_mid;
         params["cur_act"] = current_url.getQuery('act');
         params["menu_id"] = menu_id;
         params["page_x"] = evt.pageX;
         params["page_y"] = evt.pageY;
+        if(typeof(xeVid)!='undefined') params["vid"] = xeVid;
 
         var response_tags = new Array("error","message","menus");
 
@@ -374,6 +375,7 @@ function isDef() {
  **/
 var winopen_list = new Array();
 function winopen(url, target, attribute) {
+    if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
     try {
         if(target != "_blank" && winopen_list[target]) {
             winopen_list[target].close();
@@ -395,6 +397,7 @@ function winopen(url, target, attribute) {
  **/
 function popopen(url, target) {
     if(typeof(target) == "undefined") target = "_blank";
+    if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
     winopen(url, target, "left=10,top=10,width=10,height=10,scrollbars=no,resizable=yes,toolbars=no");
 }
 
@@ -502,6 +505,7 @@ function zbxe_folder_close(id) {
  **/
 var _popupHeight = 0;
 function setFixedPopupSize() {
+    var headerObj = jQuery('#popHeader');
     var bodyObj = jQuery('#popBody');
 
     if(bodyObj.length) {
@@ -509,6 +513,8 @@ function setFixedPopupSize() {
             bodyObj.css({ overflowY:'scroll', overflowX:'hidden', height:400 });
         }
     }
+
+    bodyObj.css({paddingRight:30});
 
     var w = jQuery("#popup_content").width();
     w = w< 400 ? 400 : w;

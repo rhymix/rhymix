@@ -157,7 +157,7 @@
             return $output;
         }
 
-        function getList($module_srl, $listname) 
+        function getList($module_srl, $listname)
         {
             if(!$module_srl) return array();
 
@@ -201,7 +201,7 @@
             return $histories;
         }
 
-        function getPackageList($module_srl, $package_srl=0, $each_releases_count = 0) 
+        function getPackageList($module_srl, $package_srl=0, $each_releases_count = 0)
         {
             if(!$module_srl) return array();
 
@@ -396,18 +396,12 @@
             if(in_array('commit', $targets))
             {
                 $output = executeQueryArray("issuetracker.getChangesets", $args);
-                if(!$output->toBool())
-                {
-                    return array();
-                }
-            }
-            if(!$output->data)
-            {
-                $output->data = array();
-            }
-            foreach($output->data as $key => $changeset)
-            {
-                $changeset->message = $this->_linkXE($changeset->message);
+                if(!$output->toBool()) return array();
+                if(!$output->data) $output->data = array();
+
+                // message에 htmlspecialchars() 적용
+                foreach($output->data as $key => $changeset)
+                    $changeset->message = $this->_linkXE(htmlspecialchars($changeset->message));
             }
 
             if(in_array('issue_changed', $targets))

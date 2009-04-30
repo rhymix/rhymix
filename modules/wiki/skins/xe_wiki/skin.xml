@@ -29,6 +29,23 @@
     <license>GPL</license>
 
     <extra_vars>
+        <var name="title" type="text">
+            <title xml:lang="ko">제목</title>
+            <description xml:lang="ko">제목을 적어주세요.</description>
+            <description xml:lang="en">Plase input the title.</description>
+        </var>
+        <var name="sub_title" type="text">
+            <title xml:lang="ko">부제목</title>
+            <title xml:lang="en">Subtitle</title>
+            <description xml:lang="ko">제목 옆에 나타날 부제목을 적어주세요.</description>
+            <description xml:lang="en">Please input the subtitle which will be displayed beside title.</description>
+        </var>
+        <var name="comment" type="textarea">
+            <title xml:lang="ko">상세 설명</title>
+            <title xml:lang="en">Description</title>
+            <description xml:lang="ko">게시판 제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
+            <description xml:lang="en">You may input description which will be displayed under the title.</description>
+        </var>
     </extra_vars>
 </skin>
 

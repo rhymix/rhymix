@@ -243,6 +243,7 @@
                         }
 
                     }
+		    debugPrint($obj->content);
 
                     // 문서 번호 설정
                     $document_srl = getNextSequence();
@@ -409,8 +410,7 @@
                         $content = getXmlRpcFailure(1, 'post not founded');
                         printContent($content);
                     } else {
-                        $oContext = &Context::getInstance();
-
+                        $oEditorController = &getController('editor');
 
                         $posts = array();
                         foreach($output->data as $key => $oDocument) {
@@ -419,7 +419,7 @@
                             $post->userid = $oDocument->get('user_id');
                             $post->mt_allow_pings = 0;
                             $post->mt_allow_comments = $oDocument->allowComment()=='Y'?1:0;
-                            $post->description = htmlspecialchars($oContext->transContent($oDocument->get('content')));
+                            $post->description = htmlspecialchars($oEditorController->transComponent($oDocument->get('content')));
                             $post->postid = $oDocument->document_srl;
                             $post->title = htmlspecialchars($oDocument->get('title'));
 

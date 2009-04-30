@@ -144,7 +144,7 @@
 
 .boardReadBody{ padding-bottom:15px; border-bottom:1px solid; line-height:1.5em; overflow:hidden; *zoom:1;}
 .boardReadBody .document_popup_menu{ margin-top:20px; text-align:right;}
-.boardReadBody .document_popup_menu a{ text-decoration:underline;}
+.boardReadBody .document_popup_menu a{ text-decoration:underline; color:#555 !important;}
 .boardReadBody .xe_content{ margin-bottom:15px; overflow:hidden; }
 .boardReadBody .xe_content a { text-decoration:underline; }
 .boardReadBody .memberSignature { border:1px dotted; padding:10px; overflow:hidden; *zoom:1;}
@@ -266,7 +266,7 @@
 .board .editorOption dd select{ font-size:12px;}
 .board .editorOption dd .inputCheck{ width:13px; height:13px;}
 .board .boardEditor{ border:1px solid; margin-bottom:20px;}
-.board .boardEditor .commentEditor{ margin:10px 15px;}
+.board .boardEditor .commentEditor{ margin:10px 15px; *zoom:1; position:relative;}
 .board .commentEditor .commentHeader{; border-bottom:1px solid; font-weight:bold; padding-bottom:5px; margin-bottom:10px; font-size:1.5em;}
 
 /* Secret Message */

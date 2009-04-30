@@ -39,7 +39,7 @@
     $lang->group_image_mark = 'Group Image Mark';
     $lang->group_image_mark_max_width = '横幅制限サイズ';
     $lang->group_image_mark_max_height = '縦幅制限サイズ';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
+    $lang->group_image_mark_order = 'グループ用イメージマークの順番';
     $lang->signature_max_height = '署名欄の高さの制限';
     $lang->enable_openid = 'OpenID使用';
     $lang->enable_join = '会員登録を許可する';
@@ -103,6 +103,7 @@
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '会員登録フォーム管理';
     $lang->cmd_view_own_document = '書き込み表示';
+    $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = '書き込みの追跡';
     $lang->cmd_trace_comment = 'コメント追跡';
     $lang->cmd_view_scrapped_document = 'スクラップ表示';
@@ -147,7 +148,7 @@
     $lang->msg_not_uploaded_profile_image = 'プロフィールイメージを登録することが出来ません。';
     $lang->msg_not_uploaded_image_name = 'イメージ名を登録することが出来ません。';
     $lang->msg_not_uploaded_image_mark = 'イメージマークを登録することが出来ません。';
-    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다';
+    $lang->msg_not_uploaded_group_image_mark = 'グループ用イメージマークの登録が出来ません。';
 
     $lang->msg_accept_agreement = '規約に同意しなければなりません。';
 
@@ -202,6 +203,6 @@
     $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックして下さい。<br />';
 
     $lang->about_member = "会員の作成・修正・削除することが出来、グループの管理、登録フォームの管理などが行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理が出来るようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することが出来ます。";
-    $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';    
+    $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';
     $lang->add_openid = 'OpenIDの追加';
 ?>

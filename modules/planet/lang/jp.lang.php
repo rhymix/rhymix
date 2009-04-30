@@ -18,7 +18,7 @@
 
     $lang->planet_reply_content = "プラネットのコメント内容";
 
-    $lang->about_planet = 
+    $lang->about_planet =
        "microBlogのXEモジュールです。会員別のプラネットを作成して運営することが出来ます。
         ホームページパッケージで登録されているドメインからプラネットへアクセス出来ない場合もあります。
         プラネットを初期ページとして利用する場合は、ホームページパッケージで登録されているドメインと異なるドメインを登録して下さい。";
@@ -45,6 +45,7 @@
 
     $lang->msg_not_logged = "ログインしていません。";
     $lang->msg_planet_exists = "既に作成したプラネットがありますので、新しく作成することが出来ません。";
+    $lang->msg_denied_planet_title = 'Denied planet title';
 
     $lang->planet_userinfo = "個人情報";
     $lang->planet_change_userinfo = "個人情報変更";
@@ -178,5 +179,5 @@
 
     $lang->msg_search_thisplanet = "このプラネットで検索";
 
-    $lang->msg_welcome_planet = 'Congratulations on the Planet to open.';
+    $lang->msg_welcome_planet = 'プラネットの開設、有難う御座います。これから宜しくお願します';
 ?>

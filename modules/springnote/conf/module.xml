@@ -15,8 +15,7 @@
         <action name="dispSpringnoteContent" type="view" index="true" />
 
         <action name="dispSpringnoteAdminContent" type="view" standalone="true" admin_index="true" />
-        <action name="dispSpringnoteAdminSpringnoteInfo" type="view" standalone="true" />
-        <action name="dispSpringnoteAdminInsertSpringnote" type="view" standalone="true" />
+        <action name="dispSpringnoteAdminInsertSpringnote" type="view" standalone="true" setup_index="true"/>
         <action name="dispSpringnoteAdminDeleteSpringnote" type="view" standalone="true" />
         <action name="dispSpringnoteAdminGrantInfo" type="view" standalone="true" />
         <action name="dispSpringnoteAdminSkinInfo" type="view" standalone="true" />

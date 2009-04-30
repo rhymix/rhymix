@@ -1,6 +1,6 @@
 <filter name="insert_board" module="board" act="procBoardAdminInsertBoard" confirm_msg_code="confirm_submit">
     <form>
-        <node target="mid" required="true" filter="alpha_number" />
+        <node target="mid" required="true" maxlength="40" filter="alpha_number" />
         <node target="browser_title" required="true" maxlength="250" />
         <node target="list_count" required="true" filter="number" />
         <node target="search_list_count" required="true" filter="number" />

@@ -26,8 +26,27 @@
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
 
+            // 캐시 파일 지정
+            $cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
+            $interval = (int)($this->module_info->page_caching_interval);
+            if($interval>0) {
+                if(!file_exists($cache_file)) $mtime = 0;
+                else $mtime = filemtime($cache_file);
+
+                if($mtime + $interval*60 > time()) {
+                    $page_content = FileHandler::readFile($cache_file); 
+                } else {
+                    $oWidgetController = &getController('widget');
+                    $page_content = $oWidgetController->transWidgetCode($this->module_info->content);
+                    FileHandler::writeFile($cache_file, $page_content);
+                }
+            } else {
+                if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+                $page_content = $this->module_info->content;
+            }
+            
             Context::set('module_info', $this->module_info);
-            Context::set('page_content', $this->module_info->content);
+            Context::set('page_content', $page_content);
 
             $this->setTemplateFile('content');
         }

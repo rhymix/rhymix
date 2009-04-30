@@ -156,6 +156,9 @@
 
             $content = $module_info->content;
 
+            $cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $module_info->module_srl, Context::getLangType());
+            if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+
             // widget controller 의 캐시파일 재생성 실행
             $oWidgetController = &getController('widget');
             $oWidgetController->recompileWidget($content);

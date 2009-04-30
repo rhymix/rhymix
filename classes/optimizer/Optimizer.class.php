@@ -71,8 +71,19 @@
             $files = $this->_getOptimizedRemoved($files);
             if(!count($files)) return $files;
 
+            $url_info = parse_url(Context::getRequestUri());
+            $abpath = $url_info['path'];
+
             foreach($files as $key => $val) {
-                if(substr($val['file'],0,2)=='./') $files[$key]['file'] = Context::getRequestUri().substr($val['file'],2);
+                $file = $val['file'];
+
+                if(substr($file,0,1)=='/' || strpos($file,'://')!==false) continue;
+                if(substr($file,0,2)=='./') $file = substr($file,2);
+                $file = $abpath.$file;
+                while(strpos($file,'/../')!==false) {
+                    $file = preg_replace('/\/([^\/]+)\/\.\.\//','/',$file);
+                }
+                $files[$key]['file'] = $file;
             }
             return $files;
         }
@@ -222,9 +233,14 @@ if(!$cached) {
                 $abpath = $url_info['path'];
             }
             $path = str_replace(array('"',"'"),'',$matches[1]);
-            if(preg_match('/^http|^\//i', $path) || preg_match('/\.htc$/i',$path) ) return $matches[0];
+            if(substr($path,0,1)=='/' || strpos($path,'://')!==false || strpos($path,'.htc')!==false) return 'url("'.$path.'")';
+            if(substr($path,0,2)=='./') $path = substr($path,2);
+            $target = $abpath.$this->tmp_css_path.$path;
+            while(strpos($target,'/../')!==false) {
+                $target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
+            }
 
-            return 'url("'.$abpath.$this->tmp_css_path.$path.'")';
+            return 'url("'.$target.'")';
         }
 
     }

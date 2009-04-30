@@ -98,7 +98,7 @@
 
             if(!$args->skin) $args->skin = "default";
             if(!$args->colorset) $args->colorset = "white";
-            if(!$args->editor_skin) $args->editor_skin= "default";
+            if(!$args->editor_skin) $args->editor_skin= "xpresseditor";
             if(!$args->editor_colorset) $args->editor_colorset = "white";
             if($args->enable_join!='Y') $args->enable_join = 'N';
             if($args->enable_openid!='Y') $args->enable_openid= 'N';

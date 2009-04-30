@@ -14,4 +14,5 @@
     $lang->about_use_comment = '댓글을 활성화하거나 비활성화할 수 있습니다';
     $lang->contributors = '공헌자';
     $lang->notice_old_revision = '옛날 버전을 보고 계십니다';
+    $lang->restore = '복원';
 ?>

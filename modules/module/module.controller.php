@@ -120,6 +120,7 @@
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
+            $args->default_language = Context::getLangType();
             $output = executeQuery('module.insertSite', $args);
             if(!$output->toBool()) return $output;
 
@@ -185,13 +186,6 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            // is_default 의 값에 따라서 처리
-            if($args->site_srl!=0) $args->is_default = 'N';
-            else {
-                if($args->is_default!='Y') $args->is_default = 'N';
-                else $this->clearDefaultModule();
-            }
-
             // 선택된 스킨정보에서 colorset을 구함
             $module_path = ModuleHandler::getModulePath($args->module);
             $skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
@@ -240,13 +234,6 @@
                 return new Object(-1, 'msg_module_name_exists');
             }
 
-            // is_default 의 값에 따라서 처리
-            if($args->site_srl!=0) $args->is_default = 'N';
-            else {
-                if($args->is_default!='Y') $args->is_default = 'N';
-                else $this->clearDefaultModule();
-            }
-
             $output = executeQuery('module.updateModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -263,11 +250,22 @@
         }
 
         /**
+         * @brief 모듈의 가상사이트 변경
+         **/
+        function updateModuleSite($module_srl, $site_srl, $layout_srl = 0) {
+            $args->module_srl = $module_srl;
+            $args->site_srl = $site_srl;
+            $args->layout_srl = $layout_srl;
+            return executeQuery('module.updateModuleSite', $args);
+        }
+
+        /**
          * @brief 모듈을 삭제
          *
          * 모듈 삭제시는 관련 정보들을 모두 삭제 시도한다.
          **/
         function deleteModule($module_srl) {
+            if(!$module_srl) return new Object(-1,'msg_invalid_request');
 
             // trigger 호출 (before)
             $trigger_obj->module_srl = $module_srl;
@@ -422,6 +420,12 @@
 
             $args->module_srl = $module_srl;
             foreach($obj as $key => $val) {
+                // #17927989 예전 블로그 모듈을 사용하던 게시판의 경우
+                // 스킨 정보 필드에 메뉴 항목(stdClass)을 저장해놓은 경우가 있어
+                // 1.2.0 이상 버전으로 업그레이드한 후 모듈 업데이트할 때
+                // 오류가 발생하는 문제 수정
+                if (is_array($val) || is_object($val)) continue;
+
                 $args->name = trim($key);
                 $args->value = trim($val);
                 if(!$args->name || !$args->value) continue;
@@ -508,11 +512,11 @@
                     $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
                 }
 
-                require_once($cache_file);
+                if(file_exists($cache_file)) require_once($cache_file);
             }
             if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
 
-            return $matches[0];
+            return str_replace('$user_lang->','',$matches[0]);
         }
 
 
@@ -656,7 +660,7 @@
             $this->unlockTimeoutPassed();
             $args->lock_name = $lock_name;
             if(!$timeout) $timeout = 60;
-            $args->deadline = date("YmdHis", time() + $timeout); 
+            $args->deadline = date("YmdHis", time() + $timeout);
             if($member_srl) $args->member_srl = $member_srl;
             $output = executeQuery('module.insertLock', $args);
             if($output->toBool()) {

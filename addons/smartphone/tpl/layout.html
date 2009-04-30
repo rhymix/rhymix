@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Generator" content="XpressEngine {__ZBXE_VERSION__}" />
+    <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+
+    <title>{Context::getBrowserTitle()}</title>
+    <link rel="stylesheet" type="text/css" href="/addons/smartphone/iui/iui.css" />
+    <script type="application/x-javascript" src="/addons/smartphone/iui/iuix.js"></script>
+
+    <script type="text/javascript">//<![CDATA[
+        var current_url = "{$current_url}";
+        var request_uri = "{$request_uri}";
+        <!--@if($vid)-->var xeVid = "{$vid}";<!--@end-->
+        var current_mid = "{$mid}";
+        var waiting_message = "{$lang->msg_call_server}";
+    //]]></script>
+</head>
+<body>
+<!--@if(!$dtb)-->
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="#"></a>
+        <a class="button" href="#searchForm">Search</a>
+    </div>
+<!--@end-->
+    <ul id="home" title="{$module_info->browser_title}" selected="true">
+        <li class="siteinfo">
+            <span class="description">{$module_info->description}</span>
+            <span class="xe">Powered by Xpress Engine</span>
+        </li>
+        <!--@if($bHavePhoneMethod)-->
+        <li><a href="{getUrl('act','default')}">View</a>
+        <!--@else-->
+        <li>이 모듈은 smartphoneView를 지원하지 않습니다.</li>
+        <!--@end-->
+        <li><a href="#menu0">Menu</a></li>
+    </ul>
+<!--@foreach($menus as $node_srl=>$menu)-->
+    <ul id="menu{$node_srl}" title="{$menu->text}" selected="false">
+        <!--@foreach($menu->list as $item_srl => $item)-->
+            <!--@if($menus[$item_srl])-->
+                <li><a href="#menu{$item_srl}">{$item->text}</a></li>
+            <!--@else-->
+            <!--@if($item->text && $item->url)-->
+                <li><a href="{getUrl('mid',$item->url,'act','')}" target="_self">{$item->text}</a></li>
+            <!--@end-->
+            <!--@end-->
+        <!--@end-->
+    </ul>
+<!--@end-->
+</body>
+</html>
+

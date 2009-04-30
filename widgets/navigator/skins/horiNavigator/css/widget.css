@@ -13,7 +13,7 @@
 .widgetNavC li a{ position:relative; float:left; padding:12px 22px 0 25px; height:23px; color:#fff !important; text-decoration:none !important;}
 .widgetNavC li.first a{ background-repeat:no-repeat; background-position:left -40px;}
 .widgetNavC li.active{ margin-left:-2px; background-repeat:no-repeat; background-position:right -80px;}
-.widgetNavC li.active a{ font-weight:bold; color:#ff0 !important; background-repeat:no-repeat; background-position:left -80px;}
+.widgetNavC li.active a{ font-weight:bold; letter-spacing:-1px; color:#ff0 !important; background-repeat:no-repeat; background-position:left -80px;}
 .widgetNavC li.active li{ padding:2px 15px; float:none; background:none !important;}
 .widgetNavC li.active li.active{ margin:0;}
 .widgetNavC li.active li.first{ margin-top:-4px; padding-top:14px; background-repeat:no-repeat; background-position:30px top;}

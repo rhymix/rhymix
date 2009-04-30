@@ -8,7 +8,7 @@
     $lang->addon = 'アドオン';
 
     $lang->addon_info = 'アドオン情報';
-    $lang->addon_maker = 'アドオン作者';
+    $lang->addon_maker = 'アドオン制作者';
     $lang->addon_license = 'ライセンス';
     $lang->addon_history = '変更内容';
 

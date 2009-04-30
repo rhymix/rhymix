@@ -480,7 +480,6 @@
             $oContext = &Context::getInstance();
 
             $content = $oTemplate->compile($this->oModule->getTemplatePath(), $this->oModule->getTemplateFile());
-            $content = $oContext->transContent($content);
             $this->setContent($content);
 
             // 출력

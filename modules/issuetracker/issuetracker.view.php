@@ -29,7 +29,7 @@
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 
             // 만약 스킨 경로가 없다면 xe_issuetracker로 변경
-            if(!is_dir($template_path)) {
+            if(!$this->module_info->skin || !is_dir($template_path)) {
                 $this->module_info->skin = 'xe_issuetracker';
                 $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             }

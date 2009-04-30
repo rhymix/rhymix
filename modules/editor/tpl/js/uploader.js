@@ -6,6 +6,7 @@
 var uploadedFiles = new Array();
 var uploaderSettings = new Array();
 var loaded_images = new Array();
+var swfUploadObjs = new Array();
 
 /**
  * 업로드를 하기 위한 준비 시작
@@ -15,7 +16,7 @@ var loaded_images = new Array();
 function editorUploadInit(obj) {
     if(typeof(obj["editorSequence"])=="undefined") return;
     if(typeof(obj["sessionName"])=="undefined") obj["sessionName"]= "PHPSESSID";
-    if(typeof(obj["allowedFileSize"])=="undefined") obj["allowdFileSize"]= "2MB";
+    if(typeof(obj["allowedFileSize"])=="undefined") obj["allowedFileSize"]= 2*1024*1024;
     if(typeof(obj["allowedFileTypes"])=="undefined") obj["allowedFileTypes"]= "*.*";
     if(typeof(obj["allowedFileTypesDescription"])=="undefined") obj["allowedFileTypesDescription"]= "All Files";
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
@@ -44,11 +45,11 @@ function XEUploaderStart(obj) {
             "act" : "procFileUpload",
             "editor_sequence" : obj["editorSequence"]
         },
-        file_size_limit : obj["allowedFileSize"],
+        file_size_limit : parseInt(parseInt(obj["allowedFileSize"],10)/1024,10),
+        file_queue_limit : 0,
+        file_upload_limit : 0,
         file_types : obj["allowedFileTypes"],
         file_types_description : obj["allowedFileTypesDescription"],
-        file_upload_limit : 0,
-        file_queue_limit : 0,
         custom_settings : {
             progressTarget : null,
             cancelButtonId : null
@@ -56,6 +57,7 @@ function XEUploaderStart(obj) {
         debug: false,
 
         // Button settings
+        button_window_mode: 'transparent',
         button_placeholder_id: dummy.id,
         button_text: null,
         button_image_url: "",
@@ -88,6 +90,7 @@ function XEUploaderStart(obj) {
 
     var swfu = new SWFUpload(settings);
     var swfObj = xGetElementById(swfu.movieName);
+    swfUploadObjs[obj["editorSequence"]] = swfu.movieName;
     if(!swfObj) return;
 
     swfObj.style.display = "block";
@@ -224,7 +227,7 @@ function reloadFileList(settings) {
     params["file_list_area_id"] = settings["fileListAreaID"];
     params["editor_sequence"] = settings["editorSequence"];
     params["mid"] = current_mid;
-    var response_tags = new Array("error","message","files","upload_status","upload_target_srl","editor_sequence");
+    var response_tags = new Array("error","message","files","upload_status","upload_target_srl","editor_sequence","left_size");
     exec_xml("file","getFileList", params, completeReloadFileList, response_tags, settings);
 }
 
@@ -235,6 +238,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
     var files = ret_obj['files'];
     var file_list_area_id = settings["fileListAreaID"];
     var listObj = xGetElementById(file_list_area_id);
+    var left_size = parseInt(parseInt(ret_obj["left_size"],10)/1024,10);
     while(listObj.options.length) {
         listObj.remove(0);
     }
@@ -269,7 +273,9 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
             previewFiles('', item[item.length-1].file_srl);
         }
     }
-    //listObj.selectedIndex = listObj.options.length-1;
+
+    var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
+
     xAddEventListener(listObj,'click',previewFiles);
 }
 
@@ -380,13 +386,13 @@ function insertUploadedFile(editorSequence) {
                     obj.src = file.download_url;
                 }
                 temp_code = '';
-                temp_code += "<img editor_component=\"image_link\" src=\""+request_uri+file.download_url+"\" alt=\""+file.source_filename+"\"";
+                temp_code += "<img src=\""+file.download_url+"\" alt=\""+file.source_filename+"\"";
                 if(obj.complete == true) { temp_code += " width=\""+obj.width+"\" height=\""+obj.height+"\""; }
                 temp_code += " />\r\n";
                 text.push(temp_code);
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
-                text.push("<img src=\""+request_uri+"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
+                text.push("<img src=\"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
             }
 
         // binary파일의 경우 url_link 컴포넌트 연결
@@ -395,19 +401,14 @@ function insertUploadedFile(editorSequence) {
         }
     }
 
+    // html 모드
+    if(editorMode[editorSequence]=='html'){
+        if(text.length>0) xGetElementById('editor_textarea_'+editorSequence).value += text.join('');
 
-    if(jQuery.isFunction(editorRelKeys[editorSequence]['pasteHTML'])){
-        editorRelKeys[editorSequence]['pasteHTML'](text.join(''));
+    // 위지윅 모드
     }else{
-        // html 모드
-        if(editorMode[editorSequence]=='html'){
-            if(text.length>0) xGetElementById('editor_textarea_'+editorSequence).value += text.join('');
-
-        // 위지윅 모드
-        }else{
-            var iframe_obj = editorGetIFrame(editorSequence);
-            if(!iframe_obj) return;
-            if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
-        }
+        var iframe_obj = editorGetIFrame(editorSequence);
+        if(!iframe_obj) return;
+        if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
     }
 }

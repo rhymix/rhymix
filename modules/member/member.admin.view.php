@@ -76,7 +76,7 @@
             if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
             if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
             if(!$config->skin) $config->skin = "default";
-            if(!$config->editor_skin) $config->editor_skin = "default";
+            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
             if(!$config->group_image_mark) $config->group_image_mark = "N";
             Context::set('config',$config);
 

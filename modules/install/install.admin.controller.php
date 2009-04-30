@@ -42,7 +42,7 @@
         }
 
         /**
-         * @brief time zone변경
+         * @brief 설정 변경
          **/
         function procInstallAdminSaveTimeZone() {
             $use_rewrite = Context::get('use_rewrite');
@@ -56,6 +56,9 @@
             $qmail_compatibility = Context::get('qmail_compatibility');
             if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
+            $use_db_session = Context::get('use_db_session');
+            if($use_db_session!='Y') $use_db_session = 'N';
+
             $use_ssl = Context::get('use_ssl');
             if(!$use_ssl) $use_ssl = 'none';
 
@@ -67,9 +70,9 @@
             if($db_info->default_url && !preg_match('/^(http|https):\/\//i', $db_info->default_url)) $db_info->default_url = 'http://'.$db_info->default_url;
             $db_info->time_zone = $time_zone;
             $db_info->qmail_compatibility = $qmail_compatibility;
+            $db_info->use_db_session = $use_db_session;
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_optimizer = $use_optimizer;
-            $db_info->lang_type = Context::get('change_lang_type');
             $db_info->use_ssl = $use_ssl;
             if($http_port) $db_info->http_port = (int) $http_port;
             else if($db_info->http_port) unset($db_info->http_port);
@@ -77,10 +80,17 @@
             if($https_port) $db_info->https_port = (int) $https_port;
             else if($db_info->https_port) unset($db_info->https_port);
 
+            unset($db_info->lang_type);
             Context::setDBInfo($db_info);
 
             $oInstallController = &getController('install');
             $oInstallController->makeConfigFile();
+
+            $site_args->site_srl = 0;
+            $site_args->index_module_srl = Context::get('index_module_srl');
+            $site_args->default_language = Context::get('change_lang_type');
+            $oModuleController = &getController('module');
+            $oModuleController->updateSite($site_args);
 
             $this->setMessage('success_updated');
         }

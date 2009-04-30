@@ -33,6 +33,20 @@
         </td>
     </tr>
     <tr>
+        <th><div>{$lang->start_module}</div></th>
+        <td>
+            <select name="index_module_srl" class="w200">
+                <!--@foreach($mid_list as $key => $val)-->
+                    <option value="" disabled="disabled">{$key}</option>
+                    <!--@foreach($val as $k => $v)-->
+                        <option value="{$v->module_srl}" <!--@if($start_module->index_module_srl==$v->module_srl)-->selected="selected"<!--@end-->>&nbsp; &nbsp;{$v->mid} ({$v->browser_title})</option>
+                    <!--@end-->
+                <!--@endforeach-->
+            </select>
+            <p>{$lang->about_start_module}</p>
+        </td>
+    </tr>
+    <tr>
         <th><div>{$lang->use_optimizer}</div></th>
         <td>
             <input type="checkbox" name="use_optimizer" value="Y"  <!--@if($use_optimizer!='N')-->checked="checked"<!--@end--> />
@@ -66,6 +80,13 @@
         <td>
             <input type="checkbox" name="qmail_compatibility" value="Y"  <!--@if($qmail_compatibility=='Y')-->checked="checked"<!--@end--> />
             <p>{$lang->about_qmail_compatibility}</p>
+        </td>
+    </tr>
+    <tr>
+        <th><div>{$lang->use_db_session}</div></th>
+        <td>
+            <input type="checkbox" name="use_db_session" value="Y"  <!--@if($use_db_session=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_db_session}</p>
         </td>
     </tr>
     <tr>

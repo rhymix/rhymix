@@ -1,5 +1,6 @@
 <!--%import("./js/homepage.js",optimized=false)-->
 <!--%import("./filter/insert_homepage.xml")-->
+<!--%import("./filter/insert_config.xml")-->
 
 <h3 class="xeAdmin">{$lang->cafe} <span class="gray">{$lang->cmd_management}</span></h3>
 
@@ -12,7 +13,7 @@
         <tr>
             <th scope="col"><div>{$lang->no}</div></th>
             <th scope="col" class="half_wide"><div>{$lang->title}</div></th>
-            <th scope="col" class="half_wide"><div>{$lang->domain} / {$lang->vid}</div></th>
+            <th scope="col" class="half_wide"><div>{$lang->domain} / Site ID</div></th>
             <th scope="col"><div>{$lang->regdate}</div></th>
             <th scope="col" colspan="3"><div>&nbsp;</div></th>
         </tr>
@@ -21,7 +22,7 @@
         <!--@foreach($homepage_list as $no => $val)-->
         <tr class="row{$cycle_idx}">
             <td>{$no}</td>
-            <td><a href="{getSiteUrl($val->domain,'module','homepage','act','dispHomepageManage','site_srl',$val->site_srl)}">{htmlspecialchars($val->homepage_title)}</a></td>
+            <td><a href="{getSiteUrl($val->domain,'module','homepage','act','dispHomepageManage','site_srl',$val->site_srl)}">{htmlspecialchars($val->cafe_title)}</a></td>
             <td><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href);return false;">{$val->domain}</a></td>
             <td>{zdate($val->regdate,"Y-m-d")}</td>
             <td><a href="{getUrl('act','dispHomepageAdminSetup','site_srl',$val->site_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
@@ -30,7 +31,6 @@
         <!--@end-->
     </tbody>
     </table>
-    </form>
 
     <!-- 페이지 네비게이션 -->
     <div class="pagination a1">
@@ -49,8 +49,7 @@
 <div class="adminRightExtra">
     <form action="./" method="post" onsubmit="return procFilter(this, insert_homepage)" id="cafeFo">
         <h3 class="xeAdmin">{$lang->cmd_make_cafe}</h3>
-        <table cellspacing="0" class="rowTable">
-        <caption>&nbsp;</caption>
+        <table cellspacing="0" class="crossTable">
         <tbody>
             <tr>
                 <th scope="row"><div>{$lang->cafe_title}</div></th>
@@ -76,6 +75,129 @@
             </tr>
             <tr class="row2">
                 <td colspan="2" class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_cafe_registration}" accesskey="s" /></span></div></td>
+            </tr>
+        </tbody>
+        </table>
+    </form>
+
+    <form action="./" method="post" onsubmit="return procFilter(this, insert_config)" id="cafeSetup">
+        <h3 class="xeAdmin">{$lang->cmd_setup}</h3>
+        <table cellspacing="0" class="rowTable">
+        <tbody>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->cafe_main_mid}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="input" name="cafe_main_mid" value="{$homepage_config->cafe_main_mid}" class="inputTypeText" />
+                    <p>{$lang->about_cafe_main_mid}</p>
+                </td>
+			</tr>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->browser_title}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="input" name="browser_title" value="{$homepage_config->browser_title}" class="inputTypeText" />
+                </td>
+			</tr>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->cafe_main_layout}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <select name="layout_srl">
+                        <!--@foreach($main_layout_list as $key => $val)-->
+                        <option value="{$val->layout_srl}" <!--@if($homepage_config->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+                        <!--@end-->
+                    </select>
+                </td>
+			</tr>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->skin}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <select name="skin">
+                        <!--@foreach($skins as $key => $val)-->
+                        <option value="{$key}" <!--@if($homepage_config->skin== $key)-->selected="selected"<!--@end-->>{$val->title}</option>
+                        <!--@end-->
+                    </select>
+                    <!--@if($homepage_config->module_srl)-->
+                    <a href="{getUrl('act','dispHomepageAdminSkinSetup','module_srl',$homepage_config->module_srl)}" class="button"><span>{$lang->cmd_setup}</span></a>
+                    <!--@end-->
+                </td>
+			</tr>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->cafe_creation_type}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="chkCafeVid"><input type="radio" id="chkCafeVid" name="access_type" value="vid" onclick="toggleCafeAccessType('vid');" <!--@if($homepage_config->access_type=='vid')-->checked="checked"<!--@end--> /> {$lang->access_vid}</label>
+                    <label for="chkCafeDomain"><input type="radio" id="chkCafeDomain" name="access_type" value="domain" onclick="toggleCafeAccessType('domain');" <!--@if($homepage_config->access_type!='vid')-->checked="checked"<!--@end--> /> {$lang->access_domain}</label>
+                    <div id="accessCafeDomain" style="display:<!--@if($homepage_config->access_type=='vid')-->none<!--@end-->; margin-top:10px;">
+                        URL : <input type="text" name="default_domain" value="{$homepage_config->default_domain}" class="inputTypeText w200" />
+                    </div>
+                    <p>{$lang->about_cafe_creation_type}</p>
+                </td>
+			</tr>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->cafe_creation_privilege}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <!--@foreach($groups as $key => $val)-->
+                    <input type="checkbox" name="creation_group" <!--@if(in_array($val->group_srl, $homepage_config->creation_group))-->checked="checked"<!--@end--> value="{$val->group_srl}" id="creation_group_{$key}"/><label for="creation_group_{$key}">{$val->title}</label>
+                    <!--@end-->
+                </td>
+			</tr>
+            <tr>
+                <th colspan="2" scope="row"><div>{$lang->default_layout}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <select name="default_layout">
+                        <option value="faceoff" <!--@if($homepage_config->default_layout=='faceoff')-->selected="selected"<!--@end--> >faceoff</option>
+                        <optgroup label="{$lang->downloaded_list}">
+                        <!--@foreach($layout_list as $key => $val)-->
+                        <option value="{$val->layout}" <!--@if($homepage_config->default_layout== $val->layout)-->selected="selected"<!--@end-->> <!--@if($val->title)-->{$val->title} ({$val->layout})<!--@else-->{$val->layout}<!--@end--></option>
+                    <!--@end-->
+                        </optgroup>
+                    </select>
+                    <p>{$lang->about_default_layout}</p>
+                </td>
+			</tr>
+            <tr>
+                <th scope="row" colspan="2"><div>{$lang->enable_change_layout}</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="checkbox" name="enable_change_layout" value="Y" <!--@if($homepage_config->enable_change_layout=='Y')-->checked="checked"<!--@end-->/>
+                    <p>{$lang->about_change_layout}</p>
+                </td>
+			</tr>
+            <tr>
+                <th scope="row" colspan="2"><div>{$lang->allow_service}</div></th>
+            </tr>
+            <!--@foreach($service_modules as $k => $v)-->
+                <!--@if($v->category == 'service' && $v->default_index_act)-->
+            <tr>
+                <td class="nowrap">{$v->title}</td>
+                <td class="wide">
+                    <select name="allow_service_{$v->module}">
+                        <!--@for($i=0;$i<20;$i++)--><option value="{$i}" <!--@if($homepage_config->allow_service[$v->module]==$i)-->selected="selected"<!--@end-->>{$i}</option><!--@end-->
+                    </select>
+                </td>
+            </tr>
+                <!--@end-->
+            <!--@end-->
+            <tr>
+                <td colspan="2">
+                    <p>{$lang->about_allow_service}</p>
+                </td>
+            </tr>
+            <tr class="row2" colspan="2">
+                <td class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span></div></td>
             </tr>
         </tbody>
         </table>

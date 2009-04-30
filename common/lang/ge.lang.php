@@ -221,9 +221,11 @@
     $lang->msg_error_occured = 'Ein Fehler ist aufgetreten ';
     $lang->msg_not_founded = 'Target konnte nicht gefunden werden';
     $lang->msg_no_result = 'Nichts gefunden';
+    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'Sie haben keine Berechtigung zur Ausführung angeforderte Aktion';
-    $lang->msg_module_is_not_exists = 'Gewünschte Modul konnte nicht gefunden werden';
+    $lang->msg_module_is_not_exists ="Starten Sie das Modul nicht aktiviert ist.\nEinstellen der Start-Modul auf der Seite Administrator.";
     $lang->msg_module_is_not_standalone = 'Gewünschte Modul kann nicht ausgeführt werden unabhängig';
 
     $lang->success_registed = 'Anmeldungsdatum';

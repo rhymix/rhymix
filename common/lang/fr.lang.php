@@ -2,10 +2,10 @@
     /**
      * @file   common/lang/fr.lang.php
      * @author zero (zero@nzeo.com)   Traduit par Pierre Duvent(PierreDuvent@gamil.com)
-     * @brief  Paquet du langage en français 
+     * @brief  Paquet du langage en français
      **/
 
-    // 	verbes et mots fondamentaux qui décrivent des actions 
+    // 	verbes et mots fondamentaux qui décrivent des actions
     $lang->cmd_write = 'Ecrire';
     $lang->cmd_reply = 'Répondre';
     $lang->cmd_delete = 'Supprimer';
@@ -44,8 +44,8 @@
     $lang->cmd_make = 'Créer';
     $lang->cmd_select = 'Choisir';
     $lang->cmd_select_all = 'Choisir Tout';
-    $lang->cmd_unselect_all = 'Annuler Tout'; 
-    $lang->cmd_reverse_all = 'Renverser la Sélection';    
+    $lang->cmd_unselect_all = 'Annuler Tout';
+    $lang->cmd_reverse_all = 'Renverser la Sélection';
     $lang->cmd_close_all = 'Fermer Tout';
     $lang->cmd_open_all = 'Ouvrir Tout';
     $lang->cmd_reload = 'Recharger';
@@ -221,9 +221,11 @@
     $lang->msg_error_occured = 'Une erreur a lieu';
     $lang->msg_not_founded = 'L\'objet n\'est pas trouvé.';
     $lang->msg_no_result = 'Nul Résultat';
+    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'Vous n\'êtes pas autorisés à exécuter l\'action que vous avez demandé.';
-    $lang->msg_module_is_not_exists = 'Le module demandé n\'a pas été trouvé.';
+    $lang->msg_module_is_not_exists = "Démarrez le module n'est pas activé.\nLe lancement du module d'installation de l'administrateur sur la page.";
     $lang->msg_module_is_not_standalone = 'Le module demandé ne peut pas être exécuté indépendamment.';
 
     $lang->success_registed = 'Enregistré avec succès';

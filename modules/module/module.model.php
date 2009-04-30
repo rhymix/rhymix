@@ -17,6 +17,8 @@
          * @brief mid, vid 사용할 수 있는지 검사
          **/
         function isIDExists($id, $site_srl = 0) {
+            if(!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i',$id)) return true;
+
             // directory 및 rss/atom/api 등 예약어 검사
             $dirs = FileHandler::readDir(_XE_PATH_);
             $dirs[] = 'rss';
@@ -90,19 +92,38 @@
                         Context::set('vid', $output->data->domain, true);
                         if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
                     }
-                } 
+                }
             }
 
+            // 가상 사이트가 아닐 경우 기본 사이트 정보를 구함
             if(!$output->data) {
                 $args->site_srl = 0;
-                // site_srl이 modules에 생성되지 않은 이전 버전 사용자의 경우 관리자 페이지에 접속하지를 못하는 오류 수정
-                // Parker Falcon 님이 알려주심
-                $output = executeQuery('module.getDefaultMidInfo', $args);
-                if(!$output->toBool()) {
+                $output = executeQuery('module.getSiteInfo', $args);
+                // 기본 사이트 정보가 없으면 관련된 정보를 갱신
+                if(!$output->data) {
+                    // sites 테이블이 없을 경우 생성
                     $oDB = &DB::getInstance();
-                    $oDB->dropIndex("modules","unique_mid",true);
-                    $oDB->addColumn('modules','site_srl','number',11,0,true);
-                    $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
+                    if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+                    if(!$oDB->isTableExists('sites')) return;
+
+                    // 기본 mid, 언어 구함
+                    $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+                    $db_info = Context::getDBInfo();
+                    $domain = Context::getDefaultUrl();
+                    $url_info = parse_url($domain);
+                    $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+                    $site_args->site_srl = 0;
+                    $site_args->index_module_srl  = $mid_output->data->module_srl;
+                    $site_args->domain = $domain;
+                    $site_args->default_language = $db_info->lang_type;
+
+                    if($output->data && !$output->data->index_module_srl) {
+                        $output = executeQuery('module.updateSite', $site_args);
+                    } else {
+                        $output = executeQuery('module.insertSite', $site_args);
+                        if(!$output->toBool()) return $output;
+                    }
+                    $output = executeQuery('module.getSiteInfo', $args);
                 }
             }
 
@@ -172,7 +193,7 @@
             if(!is_array($module_info)) $target_module_info = array($module_info);
             else $target_module_info = $module_info;
 
-            // 모듈 번호를 구함 
+            // 모듈 번호를 구함
             $module_srls = array();
             foreach($target_module_info as $key => $val) {
                 $module_srl = $val->module_srl;
@@ -374,6 +395,8 @@
             // action 정보를 얻어서 admin_index를 추가
             $action_info = $this->getModuleActionXml($module);
             $module_info->admin_index_act = $action_info->admin_index_act;
+            $module_info->default_index_act = $action_info->default_index_act;
+            $module_info->setup_index_act = $action_info->setup_index_act;
 
             return $module_info;
         }
@@ -458,6 +481,7 @@
 
                         $index = $action->attrs->index;
                         $admin_index = $action->attrs->admin_index;
+                        $setup_index = $action->attrs->setup_index;
 
                         $output->action->{$name}->type = $type;
                         $output->action->{$name}->grant = $grant;
@@ -479,9 +503,13 @@
                             $admin_index_act = $name;
                             $info->admin_index_act = $name;
                         }
+                        if($setup_index=='true') {
+                            $setup_index_act = $name;
+                            $info->setup_index_act = $name;
+                        }
                     }
                 }
-                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $admin_index_act, $buff);
+                $buff = sprintf('<?php if(!defined("__ZBXE__")) exit();$info->default_index_act = \'%s\';$info->setup_index_act=\'%s\';$info->admin_index_act = \'%s\';%s?>', $default_index_act, $setup_index_act, $admin_index_act, $buff);
 
                 FileHandler::writeFile($cache_file, $buff);
 
@@ -498,8 +526,8 @@
          * @brief 주어진 곳의 스킨 목록을 구함
          * 스킨과 skin.xml 파일을 분석 정리한 결과를 return
          **/
-        function getSkins($path) {
-            $skin_path = sprintf("%s/skins/", $path);
+        function getSkins($path, $dir = 'skins') {
+            $skin_path = sprintf("%s/%s/", $path, $dir);
             $list = FileHandler::readDir($skin_path);
             if(!count($list)) return;
 
@@ -517,11 +545,11 @@
         /**
          * @brief 특정 위치의 특정 스킨의 정보를 구해옴
          **/
-        function loadSkinInfo($path, $skin) {
+        function loadSkinInfo($path, $skin, $dir = 'skins') {
 
             // 모듈의 스킨의 정보 xml 파일을 읽음
             if(substr($path,-1)!='/') $path .= '/';
-            $skin_xml_file = sprintf("%sskins/%s/skin.xml", $path, $skin);
+            $skin_xml_file = sprintf("%s%s/%s/skin.xml", $path, $dir, $skin);
             if(!file_exists($skin_xml_file)) return;
 
             // XmlParser 객체 생성
@@ -758,6 +786,15 @@
             return $skin_info;
         }
 
+        /**
+         * @brief 특정 가상 사이트에 등록된 특정 모듈의 개수를 return
+         **/
+        function getModuleCount($site_srl, $module = null) {
+            $args->site_srl = $site_srl;
+            if(!is_null($module)) $args->module = $module;
+            $output = executeQuery('module.getModuleCount', $args);
+            return $output->data->count;
+        }
 
         /**
          * @brief 특정 모듈의 설정 return
@@ -988,7 +1025,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 추가 변수를 구함 
+         * @brief 특정 모듈의 추가 변수를 구함
          * modules 테이블의 기본 정보 이외의 것
          **/
         function getModuleExtraVars($module_srl) {
@@ -1075,8 +1112,15 @@
                 // 관리자가 아니면 직접 DB에서 정보를 구해서 권한 설정
                 if(!$grant->manager) {
                     $args = null;
-                    $args->module_srl = $module_srl;
-                    $output = executeQueryArray('module.getModuleGrants', $args);
+
+                    // 플래닛인 경우 planet home의 권한 설정을 가져온다
+                    if ($module_info->module == 'planet') {
+                        $output = executeQueryArray('module.getPlanetGrants', $args);
+                    }
+                    else {
+                        $args->module_srl = $module_srl;
+                        $output = executeQueryArray('module.getModuleGrants', $args);
+                    }
 
                     $grant_exists = $granted = array();
 

@@ -53,11 +53,16 @@
             // 업로드 상태 표시 작성
             $upload_status = $this->getUploadStatus($attached_size);
 
+            // 남은 용량 체크
+            $file_config = $this->getUploadConfig();
+            $left_size = $file_config->allowed_attach_size*1024*1024 - $attached_size;
+
             // 필요한 정보들 세팅
             $this->add("files",$files);
             $this->add("editor_sequence",$editor_sequence);
             $this->add("upload_target_srl",$upload_target_srl);
             $this->add("upload_status",$upload_status);
+            $this->add("left_size",$left_size);
         }
 
         /**

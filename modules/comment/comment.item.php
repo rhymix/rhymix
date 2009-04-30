@@ -2,7 +2,7 @@
     /**
      * @class  commentItem
      * @author zero (zero@nzeo.com)
-     * @brief  comment 객체 
+     * @brief  comment 객체
      **/
 
     class commentItem extends Object {
@@ -32,6 +32,10 @@
             if(!$attribute->comment_srl) {
                 $this->comment_srl = null;
                 return;
+            }
+            if ($attribute->member_srl < 0) {
+                $attribute->member_srl = 0;
+                $attribute->ipaddress = '0.0.0.0';
             }
             $this->comment_srl = $attribute->comment_srl;
             $this->adds($attribute);
@@ -147,19 +151,19 @@
         function getMemberSrl() {
             return $this->get('member_srl');
         }
-        
+
         function getUserID() {
             return htmlspecialchars($this->get('user_id'));
         }
-        
+
         function getUserName() {
             return htmlspecialchars($this->get('user_name'));
         }
-        
+
         function getNickName() {
             return htmlspecialchars($this->get('nick_name'));
         }
-        
+
         function getContentText($strlen = 0) {
             if($this->isSecret() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
@@ -179,7 +183,7 @@
             if($add_popup_menu && Context::get('is_logged') ) {
                 $content = sprintf(
                         '%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>',
-                        $content, 
+                        $content,
                         $this->comment_srl, Context::getLang('cmd_comment_do')
                 );
             }
@@ -187,10 +191,10 @@
             // 컨텐츠에 대한 조작이 가능한 추가 정보를 설정하였을 경우
             if($add_content_info) {
                 $content = sprintf(
-                        '<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->', 
-                        $this->comment_srl, $this->get('member_srl'), 
-                        $this->comment_srl, $this->get('member_srl'), 
-                        $content, 
+                        '<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->',
+                        $this->comment_srl, $this->get('member_srl'),
+                        $this->comment_srl, $this->get('member_srl'),
+                        $content,
                         $this->comment_srl, $this->get('member_srl')
                 );
             // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
@@ -306,7 +310,7 @@
 
             // 회원모듈에서 서명 최고 높이 지정되었는지 검사
             if(!isset($GLOBALS['__member_signature_max_height'])) {
-               $oModuleModel = &getModel('module');  
+               $oModuleModel = &getModel('module');
                $member_config = $oModuleModel->getModuleConfig('member');
                $GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
             }
@@ -335,7 +339,7 @@
             // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
             if(!in_array($thumbnail_type, array('crop','ratio'))) $thumbnail_type = 'crop';
 
-            // 썸네일 정보 정의 
+            // 썸네일 정보 정의
             $thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->comment_srl, 3));
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;

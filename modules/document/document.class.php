@@ -186,7 +186,7 @@
             if(!$oDB->isColumnExists("document_extra_vars","lang_code")) $oDB->addColumn('document_extra_vars',"lang_code","varchar",10);
 
             // 2009. 01. 29 Added a trigger for additional setup
-            if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before')) 
+            if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before'))
                 $oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
 
             // 2009. 03. 09 documents에 lang_code 컬럼 추가
@@ -208,34 +208,35 @@
 
             /**
              * 2009. 03. 19 : 확장변수 값 테이블에 eid 없을 경우 추가
+             * 2009. 04. 12 : eid를 등록할 때 다른 필드 값이 변경되는 문제 수정 #17922959
              **/
             if(!$oDB->isColumnExists("document_extra_keys","eid")) {
-				$oDB->addColumn("document_extra_keys","eid","varchar",40);
+                $oDB->addColumn("document_extra_keys","eid","varchar",40);
 
-				$output = executeQuery('document.getGroupsExtraKeys', $obj);
-				if($output->toBool() && $output->data && count($output->data)) {
-					foreach($output->data as $extra_keys) {
-						$args = $extra_keys;
-						$args->var_idx = $extra_keys->idx;
-						$args->eid = "extra_vars".$extra_keys->idx;
-						$output = executeQuery('document.updateDocumentExtraKey', $args);
-					}
-				}
-			}
+                $output = executeQuery('document.getGroupsExtraKeys', $obj);
+                if($output->toBool() && $output->data && count($output->data)) {
+                    foreach($output->data as $extra_keys) {
+                        $args->module_srl = $extra_keys->module_srl;
+                        $args->var_idx = $extra_keys->idx;
+                        $args->new_eid = "extra_vars".$extra_keys->idx;
+                        $output = executeQuery('document.updateDocumentExtraKeyEid', $args);
+                    }
+                }
+            }
 
             if(!$oDB->isColumnExists("document_extra_vars","eid")) {
-				$oDB->addColumn("document_extra_vars","eid","varchar",40);
-				$obj->var_idx = '-1,-2';
-				$output = executeQuery('document.getGroupsExtraVars', $obj);
-				if($output->toBool() && $output->data && count($output->data)) {
-					foreach($output->data as $extra_vars) {
-						$args = $extra_vars;
-						$args->var_idx = $extra_vars->idx;
-						$args->eid = "extra_vars".$extra_vars->idx;
-						$output = executeQuery('document.updateDocumentExtraVar', $args);
-					}
-				}
-			}
+                $oDB->addColumn("document_extra_vars","eid","varchar",40);
+                $obj->var_idx = '-1,-2';
+                $output = executeQuery('document.getGroupsExtraVars', $obj);
+                if($output->toBool() && $output->data && count($output->data)) {
+                    foreach($output->data as $extra_vars) {
+                        $args->module_srl = $extra_vars->module_srl;
+                        $args->var_idx = $extra_vars->idx;
+                        $args->new_eid = "extra_vars".$extra_vars->idx;
+                        $output = executeQuery('document.updateDocumentExtraVarEid', $args);
+                    }
+                }
+            }
 
             return new Object(0,'success_updated');
 

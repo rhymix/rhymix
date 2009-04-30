@@ -46,8 +46,9 @@
             if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
 
-            if(!$editor_config->editor_skin) $editor_config->editor_skin = 'default';
-            if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'default';
+            if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
+            if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
+            if(!$editor_config->content_style) $editor_config->content_style = 'xeStyle';
 
             return $editor_config;
         }
@@ -64,6 +65,13 @@
             // 파일 업로드 유무 옵션 설정
             if(!$option->allow_fileupload) $allow_fileupload = false;
             else $allow_fileupload = true;
+
+            // content_style 세팅
+            if(!$option->content_style) $option->content_style = 'xeStyle';
+            Context::set('content_style', $option->content_style);
+
+            // 기본 글꼴 지정
+            Context::set('content_font', $option->content_font);
 
             // 자동 저장 유무 옵션 설정
             if(!$option->enable_autosave) $enable_autosave = false;
@@ -88,9 +96,6 @@
             // 스킨 설정
             $skin = $option->skin;
             if(!$skin) $skin = 'xpresseditor';
-
-            // xpresseditor룰 위한 셋팅
-//            if($skin=='default') $skin = 'xpresseditor';
 
             $colorset = $option->colorset;
             Context::set('colorset', $colorset);
@@ -125,7 +130,7 @@
 
                 // SWFUploader에 세팅할 업로드 설정 구함
                 $file_config = $oFileModel->getUploadConfig();
-                $file_config->attached_size = $file_config->allowed_attach_size*1024*1024;
+                $file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
                 $file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
 
                 Context::set('file_config',$file_config);
@@ -192,10 +197,8 @@
             $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             $tpl_file = 'editor.html';
 
- 
-
             if(!file_exists($tpl_path.$tpl_file)) {
-                $skin = 'default';
+                $skin = 'xpresseditor';
                 $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             }
             Context::set('editor_path', $tpl_path);
@@ -219,6 +222,8 @@
             // type에 따른 설정 정리
             if($type == 'document') {
                 $config->editor_skin = $editor_config->editor_skin;
+                $config->content_style = $editor_config->content_style;
+                $config->content_font = $editor_config->content_font;
                 $config->sel_editor_colorset = $editor_config->sel_editor_colorset;
                 $config->upload_file_grant = $editor_config->upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -228,6 +233,8 @@
                 $config->enable_autosave = $editor_config->enable_autosave;
             } else {
                 $config->editor_skin = $editor_config->comment_editor_skin;
+                $config->content_style = $editor_config->content_style;
+                $config->content_font = $editor_config->content_font;
                 $config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
                 $config->upload_file_grant = $editor_config->comment_upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -247,6 +254,8 @@
 
             // 에디터 옵션 변수를 미리 설정
             $option->skin = $config->editor_skin;
+            $option->content_style = $config->content_style;
+            $option->content_font = $config->content_font;
             $option->colorset = $config->sel_editor_colorset;
 
             // 파일 업로드 권한 체크
@@ -407,8 +416,18 @@
             }
 
             if(!file_exists($cache_file)) return;
-
             @include($cache_file);
+
+            if(count($component_list)) {
+                foreach($component_list as $key => $val) {
+                    if(!trim($key)) continue;
+                    if(!is_dir(_XE_PATH_.'modules/editor/components/'.$key)) {
+                        FileHandler::removeFile($cache_file);
+                        return $this->getComponentList($filter_enabled, $site_srl);
+                    }
+                }
+
+            }
             return $component_list;
         }
 

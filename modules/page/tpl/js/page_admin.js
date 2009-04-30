@@ -19,7 +19,7 @@ function completeInsertPage(ret_obj) {
         url = current_url.setQuery('module_srl',module_srl).setQuery('act','dispPageAdminInfo');
         if(page) url = url.setQuery('page',page);
     } else {
-        url = current_url.setQuery('act','').setQuery('module_srl','');
+        url = current_url;
     }
 
     location.href = url;

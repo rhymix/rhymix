@@ -4,24 +4,16 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_opage)" enctype="multipart/form-data">
 <input type="hidden" name="opage" value="{$opage}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
-<!--@if($module_info->is_default=='Y')-->
-<input type="hidden" name="is_default" value="Y" />
-<!--@end-->
 
     <table cellspacing="0" class="rowTable">
+    <!--@if($logged_info->is_admin!='Y')-->
+    <input type="hidden" name="mid" value="{$module_info->mid}" />
+    <!--@else-->
     <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
             <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
-        </td>
-    </tr>
-    <!--@if($module_info->is_default!='Y')-->
-    <tr>
-        <th scope="row"><div>{$lang->is_default}</div></th>
-        <td colspan="3">
-            <input type="checkbox" name="is_default" value="Y" <!--@if($module_info->is_default=='Y')-->checked="checked"<!--@end--> id="fld_for_default"  class="checkbox" />
-            <p><label for="fld_for_default">{$lang->about_default}</label></p>
         </td>
     </tr>
     <!--@end-->

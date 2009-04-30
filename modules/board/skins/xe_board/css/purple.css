@@ -1,7 +1,13 @@
 @charset "utf-8";
 
 /* board Title */
-.boardHeader h3 { margin:0; border-bottom:3px solid #ac19a9; }
+.boardHeader h1,
+.boardHeader h2,
+.boardHeader h3,
+.boardHeader h4,
+.boardHeader h5,
+.boardHeader h6
+{ border-bottom:3px solid #ac19a9; }
 
 /* board Information */
 .articleNum { float:left; background:url(../images/purple/iconArticle.gif) no-repeat left top; }

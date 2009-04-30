@@ -7,7 +7,6 @@
     * Response Method에 따라서 html or xml 출력방법을 결정한다
     * xml : oModule의 variables를 simple xml 로 출력
     * html : oModule의 template/variables로 html을 만들고 contents_html로 처리
-    *        widget이나 layout의 html과 연동하여 출력
     **/
 
     class DisplayHandler extends Handler {
@@ -22,84 +21,71 @@
         function printContent(&$oModule) {
 
             // gzip encoding 지원 여부 체크
-            $this->gz_enabled = Context::isGzEnabled();
+            if(
+                (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
+                strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false &&
+                function_exists('ob_gzhandler') &&
+                extension_loaded('zlib')
+            ) $this->gz_enabled = true;
 
-            // header 출력
-            $this->_printHeader();
-            // request method에 따른 처리
-            if(Context::getRequestMethod() == 'XMLRPC') $content = $this->_toXmlDoc($oModule);
-            else if(Context::getRequestMethod() == 'JSON') $content = $this->_toJSON($oModule);
-            else $content = $this->_toHTMLDoc($oModule);
+            // request method에 따른 컨텐츠 결과물 추출 
+            if(Context::getRequestMethod() == 'XMLRPC') $output = $this->_toXmlDoc($oModule);
+            else if(Context::getRequestMethod() == 'JSON') $output = $this->_toJSON($oModule);
+            else $output = $this->_toHTMLDoc($oModule);
 
-            // 요청방식에 따라 출력을 별도로
+            // HTML 출력 요청일 경우 레이아웃 컴파일과 더블어 완성된 코드를 제공
             if(Context::getResponseMethod()=="HTML") {
 
                 // 관리자 모드일 경우 #xeAdmin id를 가지는 div 추가
-                if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $content = '<div id="xeAdmin">'.$content.'</div>';
+                if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div id="xeAdmin">'.$output.'</div>';
 
-                // 내용을 content라는 변수로 설정 (layout에서 {$content}에서 대체됨) 
-                Context::set('content', $content);
+                // 내용을 content라는 변수로 설정 (layout에서 {$output}에서 대체됨) 
+                Context::set('content', $output);
 
                 // 레이아웃을 컴파일
-                if(__DEBUG__==3) $start = getMicroTime();
                 $oTemplate = &TemplateHandler::getInstance();
 
                 // layout이라는 변수가 none으로 설정되면 기본 레이아웃으로 변경
                 if(Context::get('layout') != 'none') {
+                    if(__DEBUG__==3) $start = getMicroTime();
+
                     $layout_path = $oModule->getLayoutPath();
+
                     $layout_file = $oModule->getLayoutFile();
                     $edited_layout_file = $oModule->getEditedLayoutFile();
-                }
-                if(!$layout_path) $layout_path = './common/tpl/';
-                if(!$layout_file) $layout_file = 'default_layout.html';
 
-                // 현재 요청된 레이아웃 정보를 구함
-                $oLayoutModel = &getModel('layout');
-                $current_module_info = Context::get('current_module_info');
-                $layout_srl = $current_module_info->layout_srl;
+                    // 현재 요청된 레이아웃 정보를 구함
+                    $oLayoutModel = &getModel('layout');
+                    $current_module_info = Context::get('current_module_info');
+                    $layout_srl = $current_module_info->layout_srl;
 
-                // 생성된 레이아웃과 연결되어 있으면 처리
-                if($layout_srl > 0){
-                    $layout_info = Context::get('layout_info');
+                    // 레이아웃과 연결되어 있으면 레이아웃 컴파일
+                    if($layout_srl > 0){
+                        $layout_info = Context::get('layout_info');
 
-                    // faceoff 레이아웃일 경우 별도 처리
-                    if($layout_info && $layout_info->type == 'faceoff') {
-                        $oLayoutModel->doActivateFaceOff($layout_info);
+                        // faceoff 레이아웃일 경우 별도 처리
+                        if($layout_info && $layout_info->type == 'faceoff') {
+                            $oLayoutModel->doActivateFaceOff($layout_info);
+                            Context::set('layout_info', $layout_info);
+                        }
+
+                        // 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
+                        $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+
+                        if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
                     }
+                    if(!$layout_path) $layout_path = "./common/tpl";
+                    if(!$layout_file) $layout_file = "default_layout";
 
-                    // 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
-                    $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+                    $output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
-
-                    if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
+                    if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
                 }
-                Context::set('layout_info', $layout_info);
 
-                $zbxe_final_content = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
-                if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
-
-
-                // 각 위젯, 에디터 컴포넌트의 코드 변경
-                if(__DEBUG__==3) $start = getMicroTime();
-
-                $oContext = &Context::getInstance();
-                $zbxe_final_content= $oContext->transContent($zbxe_final_content);
-
-                if(__DEBUG__==3) $GLOBALS['__trans_widget_editor_elapsed__'] = getMicroTime()-$start;
-
-                // 최종 결과를 common_layout에 넣어버림
-                Context::set('zbxe_final_content', $zbxe_final_content);
-
-                $output = $oTemplate->compile('./common/tpl', 'common_layout');
-
-                // 사용자 정의 언어 변경
-                $oModuleController = &getController('module');
-                $oModuleController->replaceDefinedLangCode($output);
-
-
-            } else {
-                $output = $content;
             }
+
+            // 출력하기 전에 trigger 호출 (before)
+            ModuleHandler::triggerCall('display', 'before', $output);
 
             // 애드온 실행
             $called_position = 'before_display_content';
@@ -107,23 +93,70 @@
             $addon_file = $oAddonController->getCacheFilePath();
             if(file_exists($addon_file)) @include($addon_file);
 
-            $this->content_size = strlen($output);
+            // HTML 출력일 경우 최종적으로 common layout을 씌워서 출력
+            if(Context::getResponseMethod()=="HTML") {
+                if(__DEBUG__==3) $start = getMicroTime();
 
-            // 컨텐츠 출력
-            $this->display($output);
+                // body 내의 <style ..></style>를 header로 이동
+                $output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $output);
+
+                // 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
+                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.]+)-->/is', array($this,'transMeta'), $output);
+
+                // rewrite module 사용시 생기는 상대경로에 대한 처리를 함
+                if(Context::isAllowRewrite()) {
+                    $url = parse_url(Context::getRequestUri());
+                    $real_path = $url['path'];
+
+                    $pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
+                    $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
+                }
+
+                // 간혹 background-image에 url(none) 때문에 request가 한번 더 일어나는 경우가 생기는 것을 방지
+                $output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
+
+                if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
+
+                // 최종 레이아웃 변환
+                Context::set('content', $output);
+                $output = $oTemplate->compile('./common/tpl', 'common_layout');
+
+                // 사용자 정의 언어 변환
+                $oModuleController = &getController('module');
+                $oModuleController->replaceDefinedLangCode($output);
+            }
+
+            // header 출력
+            if($this->gz_enabled) header("Content-Encoding: gzip");
+            if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
+            else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
+            else $this->_printHTMLHeader();
+
+            // debugOutput 출력
+            $this->content_size = strlen($output);
+            $output .= $this->_debugOutput();
+
+            // 결과물 직접 출력
+            if($this->gz_enabled) print ob_gzhandler($output, 5);
+            else print $output;
+
+            // 출력 후 trigger 호출 (after)
+            ModuleHandler::triggerCall('display', 'after', $content);
         }
 
         /**
-         * @brief 최종 결과물의 출력
+         * @brief <!--Meta:파일이름.(css|js)-->를 변경
          **/
-        function display($content) {
-            $content .= $this->_debugOutput();
+        function transMeta($matches) {
+            if(substr($matches[1],'-4')=='.css') Context::addCSSFile($matches[1]);
+            elseif(substr($matches[1],'-3')=='.js') Context::addJSFile($matches[1]);
+        }
 
-            // 출력하기 전에 trigger 호출 (after)
-            ModuleHandler::triggerCall('display', 'after', $content);
-
-            if($this->gz_enabled) print ob_gzhandler($content, 5);
-            else print $content;
+        /**
+         * @brief <body>내의 <style태그를 header로 이동
+         **/
+        function moveStyleToHeader($matches) {
+            Context::addHtmlHeader($matches[0]);
         }
 
         /**
@@ -187,13 +220,6 @@
         }
 
         /**
-         * @brief content size return
-         **/
-        function getContentSize() {
-            return $this->content_size;
-        }
-
-        /**
          * @brief 디버그 모드일 경우 디버깅 메시지 출력
          *
          * __DEBUG__ 값이 1 이상이면 __DEBUG_OUTPUT__ 값에 따라 메시지 출력.
@@ -225,7 +251,7 @@
                                     sprintf("%s:%s%s%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING']?'?':'', $_SERVER['QUERY_STRING']),
                                     $_SERVER['REQUEST_METHOD'],
                                     Context::getResponseMethod(),
-                                    $this->getContentSize().' byte'
+                                    $this->content_size.' byte'
                                 )
                             )
                         ),
@@ -233,7 +259,7 @@
                     );
                     $firephp->fb(
                         array('Elapsed time >>> Total : '.sprintf('%0.5f sec', $end - __StartTime__),
-                            array(array('DB queries', 'class file load', 'Template compile', 'XmlParse compile', 'PHP', 'Widgets', 'Trans widget&editor'),
+                            array(array('DB queries', 'class file load', 'Template compile', 'XmlParse compile', 'PHP', 'Widgets', 'Trans Content'),
                                 array(
                                     sprintf('%0.5f sec', $GLOBALS['__db_elapsed_time__']),
                                     sprintf('%0.5f sec', $GLOBALS['__elapsed_class_load__']),
@@ -241,7 +267,7 @@
                                     sprintf('%0.5f sec', $GLOBALS['__xmlparse_elapsed__']),
                                     sprintf('%0.5f sec', $end-__StartTime__-$GLOBALS['__template_elapsed__']-$GLOBALS['__xmlparse_elapsed__']-$GLOBALS['__db_elapsed_time__']-$GLOBALS['__elapsed_class_load__']),
                                     sprintf('%0.5f sec', $GLOBALS['__widget_excute_elapsed__']),
-                                    sprintf('%0.5f sec', $GLOBALS['__trans_widget_editor_elapsed__'])
+                                    sprintf('%0.5f sec', $GLOBALS['__trans_content_elapsed__'])
                                 )
                             )
                         ),
@@ -275,7 +301,7 @@
                     $buff .= sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s\n", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING']?'?':'', $_SERVER['QUERY_STRING']);
                     $buff .= sprintf("\tRequest method \t\t\t: %s\n", $_SERVER['REQUEST_METHOD']);
                     $buff .= sprintf("\tResponse method \t\t: %s\n", Context::getResponseMethod());
-                    $buff .= sprintf("\tResponse contents size\t\t: %d byte\n", $this->getContentSize());
+                    $buff .= sprintf("\tResponse contents size\t\t: %d byte\n", $this->content_size);
 
                     // 전체 실행 시간
                     $buff .= sprintf("\n- Total elapsed time : %0.5f sec\n", $end-__StartTime__);
@@ -292,7 +318,7 @@
                     $buff .= sprintf("\n\tLayout compile elapsed time \t: %0.5f sec", $GLOBALS['__layout_compile_elapsed__']);
 
                     // 위젯, 에디터 컴포넌트 치환 시간
-                    $buff .= sprintf("\n\tTrans widget&editor elapsed time: %0.5f sec\n", $GLOBALS['__trans_widget_editor_elapsed__']);
+                    $buff .= sprintf("\n\tTrans Content \t\t\t: %0.5f sec\n", $GLOBALS['__trans_content_elapsed__']);
                 }
 
                 // DB 로그 작성
@@ -336,17 +362,6 @@
                     fclose($fp);
                 }
             }
-        }
-
-
-        /**
-         * @brief RequestMethod에 맞춰 헤더 출력
-         ***/
-        function _printHeader() {
-            if($this->gz_enabled) header("Content-Encoding: gzip");
-            if(Context::getResponseMethod() == 'JSON') return $this->_printJSONHeader();
-            else if(Context::getResponseMethod() != 'HTML') return $this->_printXMLHeader();
-            else return $this->_printHTMLHeader();
         }
 
         /**

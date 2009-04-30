@@ -1,0 +1,8 @@
+<query id="deleteLangs" action="delete">
+    <tables>
+        <table name="lang" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" filter="number" />
+    </conditions>
+</query>

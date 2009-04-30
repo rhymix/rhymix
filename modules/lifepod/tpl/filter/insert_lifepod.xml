@@ -1,6 +1,6 @@
 <filter name="insert_lifepod" module="lifepod" act="procLifepodAdminInsertLifepod" confirm_msg_code="confirm_submit">
     <form>
-        <node target="mid" required="true" filter="alpha_number" />
+        <node target="mid" required="true" maxlength="40" filter="alpha_number" />
         <node target="calendar_address" required="true" maxlength="250" />
     </form>
     <parameter>

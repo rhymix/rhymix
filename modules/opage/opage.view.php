@@ -32,8 +32,10 @@
             $cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
 
             // http 인지 내부 파일인지 점검
-            if(preg_match("/^([a-z]+):\/\//i",$path)) $content = $this->getHtmlPage($path, $caching_interval, $cache_file);
-            else $content = $this->executeFile($path, $caching_interval, $cache_file);
+            if($path) {
+                if(preg_match("/^([a-z]+):\/\//i",$path)) $content = $this->getHtmlPage($path, $caching_interval, $cache_file);
+                else $content = $this->executeFile($path, $caching_interval, $cache_file);
+            }
 
             Context::set('opage_content', $content);
 
