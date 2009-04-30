@@ -90,7 +90,7 @@
             <name xml:lang="zh-TW">標題圖示</name>
             <name xml:lang="jp">アイコンイメージ</name>
             <description xml:lang="ko">제목 앞 아이콘 이미지를 등록합니다.</description>
-            <description xml:lang="ko">Register an icon image shown before title.</description>
+            <description xml:lang="en">Register an icon image shown before title.</description>
             <description xml:lang="zh-CN">可以给栏目名指定个性图标。</description>
             <description xml:lang="zh-TW">可指定標題前方的圖示。</description>
             <description xml:lang="jp">タイトル前のアイコンイメージを登録します。</description>
@@ -103,7 +103,7 @@
             <name xml:lang="zh-TW">more URL</name>
             <name xml:lang="jp">「もっと見る」URL</name>
             <description xml:lang="ko">URL를 등록합니다.</description>
-            <description xml:lang="en">Reigster an URL.</description>
+            <description xml:lang="en">Register an URL.</description>
         </var>
         <var name="ws_more_image" type="filebox" filter="jpg,jpeg,gif,png">
             <name xml:lang="ko">더보기 이미지</name>
