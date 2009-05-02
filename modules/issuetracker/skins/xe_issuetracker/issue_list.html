@@ -8,6 +8,7 @@
         <li>
             <select name="milestone_srl">
                 <option value="">{$lang->milestone}</option> 
+                <option value="0" <!--@if(isset($milestone_srl) && $milestone_srl == 0)-->selected="selected"<!--@endif--> >{$lang->not_assigned}</option> 
                 <!--@foreach($project->milestones as $key => $val)-->
                 <option value="{$val->milestone_srl}" <!--@if($val->milestone_srl==$milestone_srl)-->selected="selected"<!--@end-->>{$val->title}</option> 
                 <!--@end-->
