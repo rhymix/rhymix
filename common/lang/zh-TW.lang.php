@@ -222,10 +222,10 @@
     $lang->msg_not_founded = '找不到相關內容';
     $lang->msg_no_result = '找不到與您查詢的相符結果';
     $lang->msg_fail_to_request_open = 'Fail to open your request';
-    $lang->msg_invalid_format = 'Invalid Format';
+    $lang->msg_invalid_format = '格式錯誤';
 
     $lang->msg_not_permitted_act = '沒有權限執行';
-    $lang->msg_module_is_not_exists = "Start the module is not enabled.\nSetup the start module on the administrator page.";
+    $lang->msg_module_is_not_exists = "還沒有啟用模組。\n請在管理員頁面中啟用模組。";
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
 
     $lang->success_registed = '成功送出！';
