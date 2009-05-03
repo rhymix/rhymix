@@ -225,7 +225,7 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = '沒有權限執行';
-    $lang->msg_module_is_not_exists = "啟動模塊沒有啟用。\n安裝啟動模塊的管理員網頁。";
+    $lang->msg_module_is_not_exists = "Start the module is not enabled.\nSetup the start module on the administrator page.";
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
 
     $lang->success_registed = '成功送出！';
