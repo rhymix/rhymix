@@ -860,6 +860,10 @@
                         return sprintf('%s%s/%s',$rpath,$get_vars['mid'],$get_vars['document_srl']);
                     case 'entry.mid' :
                         return sprintf('%s%s/entry/%s',$rpath,$get_vars['mid'],$get_vars['entry']);
+                    case 'act.document_srl.key' :
+                            if($get_vars['act']=='trackback') return sprintf('%s%s/%s/%s', $rpath,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
+                        break;
+                        
                 }
             }
 
