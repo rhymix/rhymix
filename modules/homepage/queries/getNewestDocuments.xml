@@ -13,6 +13,7 @@
         <condition operation="equal" column="homepages.site_srl" default="sites.site_srl" notnull="notnull" />
         <condition operation="equal" column="homepages.site_srl" default="modules.site_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="documents.module_srl" default="modules.module_srl" notnull="notnull" pipe="and" />
+        <condition operation="notequal" column="modules.module" default="page" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="documents.list_order" order="asc" />
