@@ -7,7 +7,7 @@
 
     $lang->cafe = "CafeXE"; 
     $lang->cafe_id = "カフェへのアクセスID"; 
-    $lang->cafe_title = "ホームページ名";
+    $lang->cafe_title = "カフェ名";
     $lang->cafe_description = 'カフェの説明';
     $lang->cafe_banner = 'カフェのバナーイメージ';
     $lang->module_type = "タイプ";
@@ -22,7 +22,7 @@
     $lang->cafe_latest_comments = 'カフェの新規コメント';
     $lang->mycafe_list = '登録したカフェ';
     $lang->cafe_creation_type = 'カフェアクセス方法';
-    $lang->about_cafe_creation_type = '作成するカフェへのユーザーからのアクセス方法を定めてください。Site IDとは http://ドメイン/<b>ID</b>へアクセスが可能になり、ドメインアクセスとは登録したサブドメイン（http://domain.mydomain.net)にカフェが作成されます。';
+    $lang->about_cafe_creation_type = '作成するカフェへのユーザーからのアクセス方法を定めてください。Site IDとは「http://ドメイン/<b>ID</b>」へアクセスが可能になり、ドメインアクセスとは登録したサブドメイン（ http://domain.mydomain.net )にカフェが作成されます。';
     $lang->cafe_main_layout = 'カフェトップページのレイアウト';
 
     $lang->default_layout = 'デフォルトレイアウト';

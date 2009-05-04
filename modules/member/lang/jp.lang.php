@@ -20,7 +20,7 @@
     $lang->invalid_authorization = '認証出来ませんでした。';
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
-    $lang->allow_mailing = 'メーリングリスト';
+    $lang->allow_mailing = 'メーリングリストに登録';
     $lang->denied = '使用中止';
     $lang->is_admin = '最高管理権限';
     $lang->group = '所属グループ';
@@ -36,7 +36,7 @@
     $lang->image_mark = 'イメージマーク';
     $lang->image_mark_max_width = '横幅制限サイズ';
     $lang->image_mark_max_height = '縦幅制限サイズ';
-    $lang->group_image_mark = 'Group Image Mark';
+    $lang->group_image_mark = 'グループ用イメージマーク';
     $lang->group_image_mark_max_width = '横幅制限サイズ';
     $lang->group_image_mark_max_height = '縦幅制限サイズ';
     $lang->group_image_mark_order = 'グループ用イメージマークの順番';
@@ -48,9 +48,9 @@
     $lang->security_sign_in = 'セキュア（SSL）';
     $lang->limit_day = '臨時制限日';
     $lang->limit_date = '制限日';
-    $lang->after_login_url = 'ログイン後表示するページのURL';
-    $lang->after_logout_url = 'ログアウト後表示するページのURL';
-    $lang->redirect_url = '登録後表示するページ';
+    $lang->after_login_url = 'ログイン後、表示するページのURL';
+    $lang->after_logout_url = 'ログアウト後、表示するページのURL';
+    $lang->redirect_url = '登録後、表示するページ';
     $lang->agreement = '会員登録規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->member_info = '会員情報';
