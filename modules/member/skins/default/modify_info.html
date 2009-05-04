@@ -25,8 +25,7 @@
 
     <h3>{$lang->msg_update_member}</h3>
 
-    <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
-    <input type="hidden" name="mid" value="{$mid}" />
+    <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end--> target="tmp_upload_iframe">
     <input type="hidden" name="act" value="" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
@@ -270,5 +269,7 @@
     });
 })(jQuery);
 </script>
+
+<iframe id="tmp_upload_iframe" name="tmp_upload_iframe" style="display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px"></iframe>
 
 <!--#include("./common_footer.html")-->
