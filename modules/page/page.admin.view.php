@@ -97,6 +97,22 @@
         }
 
         /**
+         * @brief 페이지 추가 설정 보여줌
+         * 추가설정은 서비스형 모듈들에서 다른 모듈과의 연계를 위해서 설정하는 페이지임
+         **/
+        function dispPageAdminPageAdditionSetup() {
+            // content는 다른 모듈에서 call by reference로 받아오기에 미리 변수 선언만 해 놓음
+            $content = '';
+
+            $oEditorView = &getView('editor');
+            $oEditorView->triggerDispEditorAdditionSetup($content);
+            Context::set('setup_content', $content);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('addition_setup');
+        }
+
+        /**
          * @brief 페이지 추가 폼 출력
          **/
         function dispPageAdminInsert() {
