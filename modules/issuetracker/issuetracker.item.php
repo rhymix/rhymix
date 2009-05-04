@@ -144,5 +144,11 @@
         function isClosed() {
             return in_array($this->status, $this->closed_status);
         }
+
+        function isAccessible() {
+            $grant = Context::get('grant');
+            if($grant->commiter) return true;
+            else return parent::isAccessible() || $this->isGranted();
+        }
     }
 ?>
