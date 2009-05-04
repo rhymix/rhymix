@@ -5459,6 +5459,10 @@ xe.XE_XHTMLFormatter = $.Class({
 	
 	TO_IR : function(sContent) {
 		var stack = [];
+
+        // remove xeHandled attrs
+        sContent = sContent.replace(/xeHandled="YES"/ig,'');
+
 		
 		// remove all useless styles
 		sContent = sContent.replace(regex_meanless_css1, function(m0,m1,m2,m3){
@@ -5665,25 +5669,22 @@ xe.XE_Extension = jQuery.Class({
 		
 		var doc = this.oApp.getWYSIWYGDocument();
 		var seq = this.seq;
-        var prevComponent = null;
 		var fn  = function(){
 			var obj  = jQuery(this);
 			var comp = obj.attr('editor_component');
-            if(prevComponent == comp) return false;
-            prevComponent = comp;
-			
 			if (comp && jQuery.isFunction(openComponent)) {
 				editorPrevNode = obj.get(0);
 				openComponent(comp, seq);
 			}
-
-            setTimeout(500, function() { prevComponent = null; });
 		};
 		
 		jQuery('img,div[editor_component]', doc).each(function(){
 			var obj = jQuery(this);
             if(this.nodeName == 'IMG' && !obj.attr('editor_component')) obj.attr('editor_component','image_link')
-            obj.dblclick(fn);
+            if(!obj.attr('xeHandled')) {
+                obj.attr('xeHandled','YES');
+                obj.dblclick(fn);
+            }
 		});
 	},
 	
