@@ -58,7 +58,7 @@
 
             // 엮인글 발송 링크 추가
             $oDocumentController = &getController('document');
-            $url = getUrl('module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
+            $url = getUrl('','module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
             $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','./modules/document/tpl/icons/send_trackback.gif','popup');
 
             return new Object();
@@ -143,8 +143,7 @@
                 $obj->module_srl = $oDocument->get('module_srl');
             }
 
-
-            // 엮인글를 입력
+            // 엮인글을 입력
             $obj->trackback_srl = getNextSequence();
             $obj->list_order = $obj->trackback_srl*-1;
             $output = executeQuery('trackback.insertTrackback', $obj);
@@ -227,9 +226,12 @@
          * 발송 후 결과처리는 하지 않는 구조임
          **/
         function sendTrackback($oDocument, $trackback_url, $charset) {
+            $oModuleController = &getController('module');
+
             // 발송할 정보를 정리
             $http = parse_url($trackback_url);
             $obj->blog_name = str_replace(array('&lt;','&gt;','&amp;','&quot;'), array('<','>','&','"'), Context::getBrowserTitle());
+            $oModuleController->replaceDefinedLangCode($obj->blog_name);
             $obj->title = $oDocument->getTitleText();
             $obj->excerpt = $oDocument->getSummary(200);
             $obj->url = getUrl('','document_srl',$oDocument->document_srl);
