@@ -239,7 +239,7 @@
         function getContentText($strlen = 0) {
             if(!$this->document_srl) return;
 
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
@@ -253,7 +253,7 @@
         function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             if(!$this->document_srl) return;
 
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
