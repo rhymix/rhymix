@@ -1,0 +1,12 @@
+<query id="getDocumentSrlByTag" action="select">
+    <tables>
+        <table name="tags" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="tag" var="tag" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -34,5 +34,51 @@
 
             return $output;
         }
+
+
+        /**
+         * @brief tag로 document_srl를 가져오기
+         **/
+		function getDocumentSrlByTag($obj){
+			if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
+            else $args->module_srl = $obj->module_srl;
+
+			$args->tag = $obj->tag;
+			$output = executeQueryArray('tag.getDocumentSrlByTag', $args);
+            if(!$output->toBool()) return $output;
+
+            return $output;
+		}
+
+        /**
+         * @brief document 에서 사용된 tag 가져오기
+         **/
+		function getDocumentsTagList($obj){
+			if(is_array($obj->document_srl)) $args->document_srl = implode(',', $obj->document_srl);
+            else $args->document_srl = $obj->document_srl;
+
+            $output = executeQueryArray('tag.getDocumentsTagList', $args);
+            if(!$output->toBool()) return $output;
+
+            return $output;
+		}
+
+		/**
+		 * @brief 특정tag과 함께 사용된 tag목록
+		 **/
+		function getTagWithUsedList($obj){
+			if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
+			else $args->module_srl = $obj->module_srl;
+
+			$args->tag = $obj->tag;
+			$output = $this->getDocumentSrlByTag($args);
+			$document_srl = array();
+
+			foreach($output->data as $k => $v) $document_srl[] = $v->document_srl;
+			unset($args);
+			$args->document_srl = $document_srl;
+			$output = $this->getDocumentsTagList($args);
+			return $output;
+		}
     }
 ?>

@@ -1,0 +1,18 @@
+<query id="getTagWithUsedList" action="select">
+    <tables>
+        <table name="tags" />
+    </tables>
+    <columns>
+        <column name="tag" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl" />
+    </conditions>
+    <navigation>
+        <index var="count" default="count" order="desc" />
+    </navigation>
+    <groups>
+        <group column="tag" />
+    </groups>
+</query>
