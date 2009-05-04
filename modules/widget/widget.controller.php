@@ -501,6 +501,10 @@
                                 $body = base64_decode($args->body);
                             }
 
+                            // 에디터컴포넌트 변경
+                            $oEditorController = &getController('editor');
+                            $body = $oEditorController->transComponent($body);
+
                             $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s"><div style="%s">', $args->id, $style,  $inner_style);
                             $widget_content_body = $body;
                             $widget_content_footer = '</div></div>';
