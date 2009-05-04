@@ -11,11 +11,11 @@ jQuery(function($) {
             if(!pObj) continue;
 
             var pN = pObj.nodeName.toLowerCase();
-            if($.inArray(pN, ['a', 'pre', 'xml', 'textarea', 'input', 'option', 'code']) != -1) continue;
+            if($.inArray(pN, ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style']) != -1) continue;
 
             if(obj.nodeType == 3 && obj.length >= 10) {
                 var content = obj.nodeValue;
-                if(!url_regx.test(content)) continue;
+                if(!/(http|https|ftp|news|telnet|irc):\/\//i.test(content)) continue;
 
                 content = content.replace(/</g, '&lt;');
                 content = content.replace(/>/g, '&gt;');
@@ -31,6 +31,6 @@ jQuery(function($) {
     }
 
     $('.xe_content').each(function() {
-        if(url_regx.test($(this).text())) replaceHrefLink(this);
+        replaceHrefLink(this);
     });
 });
