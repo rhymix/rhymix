@@ -37,6 +37,7 @@
                 else $content = $this->executeFile($path, $caching_interval, $cache_file);
             }
 
+
             Context::set('opage_content', $content);
 
             // 결과 출력 템플릿 지정
@@ -107,6 +108,11 @@
                 @include($path);
                 $content = ob_get_clean();
 
+                // 상대경로를 절대경로로 변경
+                $path_info = pathinfo($path);
+                $this->path = realpath($path_info['dirname']).'/';
+                $content = preg_replace_callback('/(src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
+
                 FileHandler::writeFile($cache_file, $content);
 
                 // include후 결과를 return
@@ -128,6 +134,15 @@
             $content = ob_get_clean();
 
             return $content;
+        }
+
+        function _replacePath($matches) {
+            $val = trim($matches[3]);
+            if(preg_match('/^(http|\/|\.\.)/i',$val)) return $matches[0];
+            if(substr($val,0,2)=='./') $val = substr($val,2);
+
+            $p = str_replace(_XE_PATH_,'',$this->path);
+            return sprintf("%s%s%s%s",$matches[1],$matches[2],getUrl('').$val,$matches[4]);
         }
 
     }
