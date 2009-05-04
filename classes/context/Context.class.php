@@ -922,9 +922,17 @@
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
                 }
+                else
+                {
+                    unset($url_info['port']);
+                }
             } else {
                 if(Context::get("_http_port") && Context::get("_http_port") != 80) {
                     $url_info['port'] = Context::get("_http_port");
+                }
+                else
+                {
+                    unset($url_info['port']);
                 }
             }
 
