@@ -54,10 +54,15 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
 
     var content = form[content_key].value;
-    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g; //'
-    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g; //'
-    content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
-    content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+
+    // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
+    content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
+        if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
+        var val = jQuery.trim(m3).replace(/^\.\//,'');
+        if(/^(http|https|ftp|telnet|\/|\.\.)/i.test(val)) return m0;
+        return m1+m2+request_uri+val+m4+m5;
+    });
+
     form[content_key].value = content;
     jQuery("#xpress-editor-"+editor_sequence).val(content);
 
@@ -124,11 +129,11 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
         oEditor.registerPlugin(new xe.XE_WYSIWYGEnterKey(oWYSIWYGIFrame));
     }
 
-    // 자동 저장 사용?
+    // 자동 저장 사용
     if (s=form._saved_doc_title) {
         oEditor.registerPlugin(new xe.XE_AutoSave(oIRTextarea, elAppContainer));
     }
-    
+
     function load_proc() {
     	try {
     		var doc = oWYSIWYGIFrame.contentWindow.document, str;
@@ -170,17 +175,17 @@ function editorGetIframe(srl) {
     return jQuery('iframe#editor_iframe_'+srl).get(0);
 }
 
-function editorReplaceHTML(iframe_obj, text) {
-    // 이미지 경로 재지정 (rewrite mod)
-    var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;//'
-    text = text.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
-
-    // href 경로 재지정 (rewrite mod)
-    var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;//'
-    text = text.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+function editorReplaceHTML(iframe_obj, content) {
+    // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
+    content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
+        if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
+        var val = jQuery.trim(m3).replace(/^\.\//,'');
+        if(/^(http|https|ftp|telnet|\/|\.\.)/i.test(val)) return m0;
+        return m1+m2+request_uri+val+m4+m5;
+    });
 
     var srl = parseInt(iframe_obj.id.replace(/^.*_/,''),10);
-    editorRelKeys[srl]["pasteHTML"](text);
+    editorRelKeys[srl]["pasteHTML"](content);
 }
 
 // WYSIWYG 모드를 저장하는 확장기능
@@ -202,14 +207,33 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 
     $ON_MSG_APP_READY : function() {
         this.oApp.addConverter("IR_TO_WYSIWYG", this.TO_WYSIWYG_SET);
+        this.oApp.addConverter("IR_TO_HTMLSrc", this.IR_TO_HTMLSrc);
     },
 
     TO_WYSIWYG_SET : function(content) {
-        var srcPathRegx = /src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/g;//'
-        var hrefPathRegx = /href=("|\'){1}(\.\/)?\?([^"\']+)("|\'){1}/g;//'
-        content = content.replace(srcPathRegx, 'src="'+request_uri+'$3/$4.$5"');
-        content = content.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
+        // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
+        content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
+            if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
+            var val = jQuery.trim(m3).replace(/^\.\//,'');
+            if(/^(http|https|ftp|telnet|\/|\.\.)/i.test(val)) return m0;
+            return m1+m2+request_uri+val+m4+m5;
+        });
+
         return content;
+    },
+
+    IR_TO_HTMLSrc : function(content) {
+        // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
+        content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
+            var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig');
+            if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
+            var val = jQuery.trim(m3);
+            if(uriReg.test(val)) val = val.replace(uriReg,'');
+            else val = m3;
+            return m1+m2+val+m4+m5;
+        });
+        return content;
+
     }
 });
 

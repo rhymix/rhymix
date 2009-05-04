@@ -5031,43 +5031,43 @@ xe.XE_Hyperlink = jQuery.Class({
 		this.oApp.exec("FOCUS", []);
 		this.oSelection = this.oApp.getSelection();
 
-		if(this._validateURL(sURL)){
-			var sTarget = "";
-			if(this.oCbNewWin.checked)
-				sTarget = "_blank";
-			else
-				sTarget = "_self";
+		//if(this._validateURL(sURL)){
+        var sTarget = "";
+        if(this.oCbNewWin.checked)
+            sTarget = "_blank";
+        else
+            sTarget = "_self";
 
-			if(this.oSelection.collapsed){
-				var str = "<a href='" + sURL + "' target="+sTarget+">" + sURL + "</a>";
-				this.oSelection.pasteHTML(str);
-			}else{
-				var nSession = Math.ceil(Math.random()*10000);
-				var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, this.sATagMarker+nSession+sURL] );
-				this.oApp.exec("EXECCOMMAND", arg);
+        if(this.oSelection.collapsed){
+            var str = "<a href='" + sURL + "' target="+sTarget+">" + sURL + "</a>";
+            this.oSelection.pasteHTML(str);
+        }else{
+            var nSession = Math.ceil(Math.random()*10000);
+            var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, this.sATagMarker+nSession+sURL] );
+            this.oApp.exec("EXECCOMMAND", arg);
 
-				this.oSelection.setFromSelection();
+            this.oSelection.setFromSelection();
 
-				var oDoc = this.oApp.getWYSIWYGDocument();
-				var aATags = oDoc.body.getElementsByTagName("A");
-				var nLen = aATags.length;
-				var rxMarker = new RegExp(this.sRXATagMarker+nSession, "i");
-				var elATag;
-				for(var i=0; i<nLen; i++){
-					elATag = aATags[i];
-					if(elATag.href && elATag.href.match(rxMarker)){
-						elATag.href = elATag.href.replace(rxMarker, "");
-						elATag.target = sTarget;
-					}
-				}
-			}
-			this.oApp.exec("HIDE_ACTIVE_LAYER");
-			
-			setTimeout(jQuery.fnBind(function(){this.oSelection.select()}, this), 0);
-		}else{
-			alert(this.oApp.$MSG("XE_Hyperlink.invalidURL"));
-			this.oLinkInput.focus();
-		}
+            var oDoc = this.oApp.getWYSIWYGDocument();
+            var aATags = oDoc.body.getElementsByTagName("A");
+            var nLen = aATags.length;
+            var rxMarker = new RegExp(this.sRXATagMarker+nSession, "i");
+            var elATag;
+            for(var i=0; i<nLen; i++){
+                elATag = aATags[i];
+                if(elATag.href && elATag.href.match(rxMarker)){
+                    elATag.href = elATag.href.replace(rxMarker, "");
+                    elATag.target = sTarget;
+                }
+            }
+        }
+        this.oApp.exec("HIDE_ACTIVE_LAYER");
+        
+        setTimeout(jQuery.fnBind(function(){this.oSelection.select()}, this), 0);
+		//}else{
+			//alert(this.oApp.$MSG("XE_Hyperlink.invalidURL"));
+			//this.oLinkInput.focus();
+		//}
 	},
 	
 	_validateURL : function(sURL){
@@ -5432,7 +5432,7 @@ var
 	regex_font_weight = /font-weight\s*:\s*([a-z]+);?/i,
 	regex_font_style = /font-style\s*:\s*italic;?/i,
 	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
-	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/g,
+	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/ig,
 	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([^\s]+)/g; //"
 	
 var
@@ -5492,6 +5492,7 @@ xe.XE_XHTMLFormatter = $.Class({
 				return '<'+m1+' '+
 					m2.replace(regex_quote_attr, function(s0,s1,s2,s3){
 						if (s1) return s1;
+                        if(/^"/.test(s3)||/"$/.test(s3)) return s2+'='+s3;
 						return s2+'="'+s3+'"';
 					}) + '>';
 			});
@@ -5656,8 +5657,6 @@ xe.XE_Extension = jQuery.Class({
 	},
 	
 	_removeAttrs : function(sContent) {
-		sContent = sContent.replace(/<img([^>]*?) xe_handled\s*=\s*".+?"([^>]*?)>/i, '<img$1 $2>');
-		
 		return sContent;
 	},
 	
@@ -5666,28 +5665,30 @@ xe.XE_Extension = jQuery.Class({
 		
 		var doc = this.oApp.getWYSIWYGDocument();
 		var seq = this.seq;
+        var prevComponent = null;
 		var fn  = function(){
 			var obj  = jQuery(this);
 			var comp = obj.attr('editor_component');
+            if(prevComponent == comp) return false;
+            prevComponent = comp;
 			
 			if (comp && jQuery.isFunction(openComponent)) {
 				editorPrevNode = obj.get(0);
 				openComponent(comp, seq);
 			}
+
+            setTimeout(500, function() { prevComponent = null; });
 		};
 		
-		jQuery('img[editor_component],div[editor_component]', doc).each(function(){
+		jQuery('img,div[editor_component]', doc).each(function(){
 			var obj = jQuery(this);
-			if (!obj.attr('xe_handled')) {
-				obj.attr('xe_handled', 'yes').dblclick(fn);
-			}
+            if(this.nodeName == 'IMG' && !obj.attr('editor_component')) obj.attr('editor_component','image_link')
+            obj.dblclick(fn);
 		});
 	},
 	
 	$ON_MSG_APP_READY : function() {
 		this.oApp.exec('REGISTER_UI_EVENT', ['extension', 'click', 'TOGGLE_EXTENSION_LAYER']);
-		
-		this.oApp.addConverter("WYSIWYG_TO_IR", this._removeAttrs);
 	},
 	
 	$ON_TOGGLE_EXTENSION_LAYER : function() {
