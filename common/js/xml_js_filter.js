@@ -28,7 +28,7 @@ function filterAlertMessage(ret_obj) {
     if(typeof(act)!="undefined" && act) url = current_url.setQuery("act", act);
     else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
 
-    if(url == location.href) url = url.replace(/#(.+)$/,'');
+    if(url == location.href) url = url.replace(/#(.*)$/,'');
 
     location.href = url;
 }
