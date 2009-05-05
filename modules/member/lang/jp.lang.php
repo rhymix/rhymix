@@ -92,7 +92,7 @@
     $lang->cmd_site_signup = '登録';
     $lang->cmd_modify_member_info = '会員情報修正';
     $lang->cmd_modify_member_password = 'パスワード変更';
-    $lang->cmd_view_member_info = '会員情報表示';
+    $lang->cmd_view_member_info = '会員情報確認';
     $lang->cmd_leave = '退会';
     $lang->cmd_find_member_account = 'IDとパスワードのリマインダー';
 
@@ -102,12 +102,12 @@
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '会員登録フォーム管理';
-    $lang->cmd_view_own_document = '書き込み表示';
-    $lang->cmd_manage_member_info = 'Manage Member Info';
+    $lang->cmd_view_own_document = '書き込み記録';
+    $lang->cmd_manage_member_info = '会員情報管理';
     $lang->cmd_trace_document = '書き込みの追跡';
     $lang->cmd_trace_comment = 'コメント追跡';
-    $lang->cmd_view_scrapped_document = 'スクラップ表示';
-    $lang->cmd_view_saved_document = '保存ドキュメント表示';
+    $lang->cmd_view_scrapped_document = 'スクラップ';
+    $lang->cmd_view_saved_document = '保存ドキュメント';
     $lang->cmd_send_email = 'メール送信';
 
     $lang->msg_email_not_exists = "メールアドレスがありません。";

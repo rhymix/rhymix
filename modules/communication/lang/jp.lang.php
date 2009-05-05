@@ -16,9 +16,9 @@
         );
 
     $lang->message_box = array(
-        'R' => 'メッセージ受信ボックス',
-        'S' => 'メッセージ送信ボックス',
-        'T' => '保存ボックス',
+        'R' => 'メッセージ受信箱',
+        'S' => 'メッセージ送信箱',
+        'T' => '保存箱',
     );
 
     $lang->readed_date = "開封時間"; 
@@ -30,9 +30,9 @@
 
     $lang->cmd_send_message = 'メッセージ送信';
     $lang->cmd_reply_message = 'メッセージ返信';
-    $lang->cmd_view_friend = '友達表示';
+    $lang->cmd_view_friend = '友達リスト';
     $lang->cmd_add_friend = '友達登録';
-    $lang->cmd_view_message_box = 'メッセージ表示';
+    $lang->cmd_view_message_box = 'メッセージ';
     $lang->cmd_store = "保存";
     $lang->cmd_add_friend_group = '友達グループ追加';
     $lang->cmd_rename_friend_group = '友達グループ名変更';

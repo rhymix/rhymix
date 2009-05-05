@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
     <title xml:lang="ko">Cafe 기본 Skin</title>
+    <title xml:lang="jp">Cafe用デフォルトスキン</title>
     <description xml:lang="ko">
         Cafe 기본 스킨입니다.
+    </description>
+    <description xml:lang="jp">
+        Cafe用のデフォルトスキンです。
     </description>
     <version>0.1</version>
     <date>2009-04-03</date>
 
     <author email_address="zero@xpressengine.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="jp">zero</name>
     </author>
 
     <license>GPL</license>
@@ -16,37 +21,52 @@
     <colorset>
         <color name="default">
             <title xml:lang="ko">기본</title>
+            <title xml:lang="jp">デフォルト</title>
         </color>
     </colorset>
 
     <extra_vars>
         <var name="title" type="text">
             <title xml:lang="ko">제목</title>
+            <title xml:lang="jp">タイトル</title>
             <description xml:lang="ko">제목을 적어주세요.</description>
+            <description xml:lang="jp">タイトルを入力して下さい。</description>
         </var>
         <var name="sub_title" type="text">
             <title xml:lang="ko">부제목</title>
+            <title xml:lang="jp">サブタイトル</title>
             <description xml:lang="ko">제목 옆에 나타날 부제목을 적어주세요.</description>
+            <description xml:lang="jp">タイトルの隣りに表示されるサブタイトルを入力して下さい。</description>
         </var>
         <var name="comment" type="textarea">
             <title xml:lang="ko">상세 설명</title>
+            <title xml:lang="jp">詳細説明</title>
             <description xml:lang="ko">제목 아래 표시될 설명을 입력하실 수 있습니다.</description>
+            <description xml:lang="jp">タイトルの下に表示される説明文を入力して下さい。</description>
         </var>
         <var name="intro_title" type="text">
             <title xml:lang="ko">카페 소개 제목</title>
+            <title xml:lang="jp">カフェの紹介キャッチ</title>
             <description xml:lang="ko">소개할 카페의 제목을 입력해주세요. (메인 노출)</description>
+            <description xml:lang="jp">紹介するカフェのキャッチを入力して下さい。 (メインへ公開)</description>
         </var>
         <var name="intro_description" type="textarea">
             <title xml:lang="ko">카페 소개 내용</title>
+            <title xml:lang="jp">カフェの紹介詳細</title>
             <description xml:lang="ko">소개할 카페의 내용을 입력해주세요. (메인 노출)</description>
+            <description xml:lang="jp">紹介するカフェの詳細説明を入力して下さい。 (メインへ公開)</description>
         </var>
         <var name="intro_image" type="image">
             <title xml:lang="ko">카페 소개 이미지</title>
+            <title xml:lang="jp">カフェの紹介イメージ</title>
             <description xml:lang="ko">소개할 카페의 내용에 포함되는 이미지를 등록해주세요. (메인 노출)</description>
+            <description xml:lang="jp">紹介するカフェの内容に表示するイメージを登録して下さい。 (メインへ公開)</description>
         </var>
         <var name="intro_url" type="text">
             <title xml:lang="ko">카페 소개 링크 </title>
+            <title xml:lang="jp">カフェの紹介URL</title>
             <description xml:lang="ko">소개할 카페의 링크를 입력해주세요. (http:// 모두 포함)</description>
+            <description xml:lang="jp">紹介するカフェのURLを入力して下さい。 (http:// を含む)</description>
         </var>
     </extra_vars>
 </skin>

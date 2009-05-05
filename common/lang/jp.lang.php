@@ -151,7 +151,7 @@
     $lang->regdate = '登録日';
     $lang->last_update = '最近修正日';
     $lang->last_post = '最近登録';
-    $lang->signup_date = '加入日';
+    $lang->signup_date = '登録日';
     $lang->last_login = '最近ログイン';
     $lang->first_page = '最初のページ';
     $lang->last_page = '最後のページ';
