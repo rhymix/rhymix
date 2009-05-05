@@ -53,7 +53,7 @@
             <title xml:lang="ko">청록색</title>
             <title xml:lang="zh-TW">青色</title>
             <title xml:lang="zh-CN">青绿色</title>
-            <title xml:lang="zh-TW">青綠</title>
+            <title xml:lang="jp">青緑</title>
         </color>
         <color name="orange">
             <title xml:lang="ko">오렌지색</title>
@@ -64,7 +64,7 @@
         <color name="red">
             <title xml:lang="ko">빨간색</title>
             <title xml:lang="zh-TW">紅色</title>
-			<title xml:lang="zh-CN">红色</title>
+            <title xml:lang="zh-CN">红色</title>
             <title xml:lang="jp">赤</title>
         </color>
     </colorset>

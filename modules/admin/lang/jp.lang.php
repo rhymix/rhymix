@@ -8,7 +8,7 @@
     $lang->admin_info = '管理者情報';
     $lang->admin_index = '管理者トップページ';
     $lang->control_panel = 'コントロールパネル';
-    $lang->start_module = 'モジュールを起動します';
+    $lang->start_module = '初期起動モジュール';
     $lang->about_start_module = 'デフォルトで起動するモジュールを指定することができます。';
 
     $lang->module_category_title = array(
@@ -57,7 +57,7 @@
 
     $lang->welcome_to_xe = 'XEの管理者ページです。';
     $lang->about_admin_page = "管理者ページはまだ未完成です。\nクローズベータバージョンの期間に、多くの方々からご意見をいただきながら、必ず必要なコンテンツを埋めていきたいと思います。";
-    $lang->about_lang_env = "上で設定された言語を、初めてサイトに訪問したユーザに同じく適用させるためには、希望する言語に変更してから「保存」ボタンをクリックして下さい。";
+    $lang->about_lang_env = "初めてサイトに訪問したユーザーに対し、上記の選択した言語でサイトを表示させるためには、必ず下記の「保存」ボタンをクリックして適用して下さい。";
 
     $lang->xe_license = 'XEのライセンスはGPLです。';
     $lang->about_shortcut = 'よく使用するモジュールに登録されたショートカットは削除出来ます。';
@@ -66,8 +66,8 @@
     $lang->today = "今日";
 
     $lang->cmd_lang_select = "言語選択";
-    $lang->about_cmd_lang_select = "選択された言語のみでサービスを行います。";
-    $lang->about_recompile_cache = "要らないｄか誤ったキャッシューファイルを整理します。";
+    $lang->about_cmd_lang_select = "選択された言語だけでサービスを行います。";
+    $lang->about_recompile_cache = "要らないかごみのキャッシューファイルを整理します。";
     $lang->use_ssl = "SSL環境設定";
     $lang->ssl_options = array(
         'none' => "使わない",
@@ -77,6 +77,6 @@
     $lang->about_use_ssl = "「部分的に使う場合」は「会員登録/会員情報変更」など特定のactionでSSLを利用する場合、「常に使う」は全てのサービスがSSLを使う場合に選択します。";
     $lang->server_ports = "サーバーポート指定";
     $lang->about_server_ports = "一般的に使われているHTTPの80、HTTPSの443以外の他のポートを使うために、ポートを指定して下さい。";
-    $lang->use_db_session = '인증 세션 DB 사용';
-    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
+    $lang->use_db_session = 'DBで認証セッション管理';
+    $lang->about_db_session = '認証の時に使われるPHPセッションをDBで使う機能です。<br />ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。<br />また、この機能をオンにすると、「現在ログイン中の会員」の機能が不可になります。';
 ?>
