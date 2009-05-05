@@ -5,7 +5,7 @@
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
-    $lang->new_members = '新規会員のお知らせ';
+    $lang->new_members = '新規会員紹介';
     $lang->document_ranking = '書き込みランキング';
     $lang->comment_ranking = 'コメント数ランキング';
 ?>
