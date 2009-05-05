@@ -205,15 +205,24 @@
             return $content;
         }
 
-        function getSummary($str_size = 50) {
+        function getSummary($str_size = 50, $tail = '...') {
+			// 줄바꿈이 있을 때, 공백문자 삽입
+			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $this->getContent(false,false));
+
+            // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
+            $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
+
             // 먼저 태그들을 제거함
-            $content = preg_replace('!<([^>]*?)>!is','', $this->getContent(false,false));
+            $content = preg_replace('!<([^>]*?)>!is', '', $content);
 
             // < , > , " 를 치환
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
+			// 연속된 공백문자 삭제
+			$content = preg_replace('/([\s]{2,})/is', ' ', $content);
+
             // 문자열을 자름
-            $content = trim(cut_str($content, $str_size, '...'));
+            $content = trim(cut_str($content, $str_size, $tail));
 
             // >, <, "를 다시 복구
             return str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
