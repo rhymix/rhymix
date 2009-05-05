@@ -51,7 +51,7 @@
 
             // 썸네일 세로 크기
             if(!$args->thumbnail_height) $args->thumbnail_height = 75;
-            
+
             // 보기 옵션
             $args->option_view_arr = explode(',',$args->option_view);
 
@@ -252,6 +252,7 @@
 
                     $content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
                     $content_item->adds($oDocument->getObjectVars());
+                    $content_item->setTitle($oDocument->getTitle());
                     $content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
                     $content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
                     $content_item->setContent($oDocument->getSummary($args->content_cut_size));
@@ -302,7 +303,6 @@
                 $browser_title = $args->module_srls_info[$attribute->module_srl]->browser_title;
                 $domain = $args->module_srls_info[$attribute->module_srl]->domain;
                 $category = $category_lists[$attribute->module_srl]->text;
-                $attribute = $oDocument->getObjectVars();
                 $content = $oDocument->getSummary($args->content_cut_size);
                 $url = sprintf("%s#%s",$oDocument->getPermanentUrl() ,$oDocument->getCommentCount());
                 $thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
