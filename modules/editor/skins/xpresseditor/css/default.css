@@ -387,9 +387,9 @@
 .xpress-editor .tool li.extensions .layer li a:hover { text-decoration:underline; }
 
 /* File Uploader */
-.xpress-editor .fileUploader{ clear:both; padding-top:5px; margin-bottom:20px;}
+.xpress-editor .fileUploader{ clear:both; padding-top:5px; margin-bottom:10px;}
 .xpress-editor .fileUploader:after{ content:""; display:block; clear:both;}
-.xpress-editor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid #ccc;; padding:2px; margin:0 10px 5px 10px;}
+.xpress-editor .fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid #ccc;; padding:2px; margin:0 10px 5px 0;}
 .xpress-editor .fileUploader .preview.black { background-color:#000; border:1px solid #666;}
 .xpress-editor .fileUploader .preview img{ display:block; width:64px; height:64px;}
 .xpress-editor .fileUploader .fileListArea{ float:left; width:260px; margin:0 10px 5px 0;}
