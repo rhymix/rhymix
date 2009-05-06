@@ -59,6 +59,10 @@
             $widget_info->thumbnail_width = $args->thumbnail_width;
             $widget_info->thumbnail_height = $args->thumbnail_height;
             $widget_info->domain = Context::getDefaultUrl();
+            if(!$args->show_number_of_comments) $args->show_number_of_comments = "N";
+            if(!$args->show_author_name) $args->show_author_name = "N";
+            $widget_info->show_number_of_comments = $args->show_number_of_comments;
+            $widget_info->show_author_name = $args->show_author_name;
             Context::set('widget_info', $widget_info);
 
             // 템플릿 컴파일

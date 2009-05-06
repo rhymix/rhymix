@@ -15,13 +15,14 @@
 .widgetUlistB li .author{ float:left; margin-right:-42px;}
 .widgetUlistB li .author img{ border:1px solid;}
 .widgetUlistB li .title{ position:relative; margin:0 0 0 60px; border:2px solid; padding:10px 15px; *zoom:1;}
-.widgetUlistB li .title div { display:inline; }
-.widgetUlistB li .title a{ text-decoration:underline;}
+.widgetUlistB li .title div { display:block; }
+.widgetUlistB li .title a{ text-decoration:none;}
 .widgetUlistB li .title .arrow{ position:absolute; top:16px; left:-6px; display:block; overflow:hidden; width:6px; height:7px; font-size:0; line-height:0;}
 .widgetUlistB li .title .deco{ position:absolute; display:block; overflow:hidden; width:1px; height:1px; font-size:0; line-height:0;}
 .widgetUlistB li .title .deco .topLeft{}
 .widgetUlistB li .title .date{ font-size:11px; font-family:Tahoma;}
 .widgetUlistB li .title .hour{ font-size:11px; font-family:Tahoma;}
+.widgetUlistB li .title .cnt{ font-size:11px; font-family:Tahoma; color:#888;}
 
 .widgetUlistB li .author img{ border-color:#ccc;}
 .widgetUlistB li .title{ border-color:#eee; color:#333; background:#fff;}
