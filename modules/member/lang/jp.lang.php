@@ -102,7 +102,7 @@
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '会員登録フォーム管理';
-    $lang->cmd_view_own_document = '書き込み記録';
+    $lang->cmd_view_own_document = '書き込み履歴';
     $lang->cmd_manage_member_info = '会員情報管理';
     $lang->cmd_trace_document = '書き込みの追跡';
     $lang->cmd_trace_comment = 'コメント追跡';
