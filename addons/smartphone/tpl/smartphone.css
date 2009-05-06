@@ -16,7 +16,6 @@ body {
     height: 43px;
     overflow:hidden;
     background:#485567 url(./images/titlebar.png) repeat-x left top;
-    margin-bottom:20px; 
 
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -26,29 +25,26 @@ body {
 .smartPhoneTitleBar h1 {
     white-space:nowrap;
     overflow: hidden;
-
     color: #FFFFFF;
     font-size: 20px;
     font-weight: bold;
     padding:8px 10px;
     margin:0;
-
     text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
     text-overflow: ellipsis;
 }
 
+.smartPhoneTitleBar h1 a {
+    text-decoration:none;
+    color:#fff;
+}
+
 .smartPhoneContent {
-    position:absolute;
-    top:55px;
-    bottom:55px;
-    left:10px;
-    right:10px;
     z-index:450;
-    overflow-x:hidden;
-    overflow-y:auto;
     border: 1px solid #999999;
     padding: 20px;
     background-color:#fff;
+    margin:10px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -webkit-border-radius: 8px;
@@ -62,11 +58,7 @@ body {
     height: 43px;
     overflow:hidden;
     background:#485567 url(./images/titlebar.png) repeat-x left top;
-    position:absolute;
-    bottom:0;
     white-space:nowrap;
-    text-align:center;
-
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -79,16 +71,40 @@ body {
     border:0;
 }
 
+.smartPhoneContent div.info {
+    font-size:13px;
+    padding-bottom:10px;
+    border-bottom:1px solid #444;
+    overflow:hidden;
+    *zoom:1;
+}
+
+.smartPhoneContent div.info .author {
+    font-weight:bold;
+    float:left; 
+}
+
+.smartPhoneContent div.info .date {
+    font-size:11px;
+    float:right; 
+}
+
+.smartPhoneContent div.link {
+    margin-top:10px;
+    border-top:1px solid #444;
+}
+
+.smartPhoneContent div.link a {
+    display:block;
+    padding:5px 0;
+    font-size:13px;
+    text-decoration:none;
+    color:#000;
+}
+
 .smartPhoneList {
-    position:absolute;
-    overflow-x:hidden;
-    overflow-y:auto;
     background-color:#fff;
     z-index:500;
-    left:0;
-    right:0;
-    top:43px;
-    bottom:43px;
     padding:0;
     margin:0;
 }
@@ -99,14 +115,13 @@ body {
     left:0;
     right:0;
     top:43px;
-    bottom:43px;
 }
 
 .smartPhoneList li {
     list-style:none;
     font-size:18px;
     font-weight:bold;
-    padding:10px;
+    padding:10px 20px 10px 10px;
     border-bottom:1px solid #ccc;
 }
 
@@ -141,39 +156,10 @@ body {
     color:#fff;
 }
 
-.smartPhoneContent div.info {
-    font-size:13px;
-    padding-bottom:10px;
-    border-bottom:1px solid #444;
-    overflow:hidden;
-    *zoom:1;
-}
-
-.smartPhoneContent div.info .author {
-    font-weight:bold;
-    float:left; 
-}
-
-.smartPhoneContent div.info .date {
-    font-size:11px;
-    float:right; 
-}
-
-.smartPhoneContent div.link {
-    margin-top:10px;
-    border-top:1px solid #444;
-}
-
-.smartPhoneContent div.link a {
-    display:block;
-    padding:5px 0;
-    font-size:13px;
-    text-decoration:none;
-    color:#000;
-}
 
 .smartPhoneList li a {
     background:transparent url(./images/listArrow.png) no-repeat scroll right center;
+    padding-right:30px;
 }
 
 .smartPhoneList li.noArrow a {

@@ -19,6 +19,7 @@
         }
 
         function smartphoneXE($oModule, $module_info, $output) {
+
             $this->oModule = $oModule;
             $this->module_info = $module_info;
 
@@ -74,6 +75,12 @@
         }
 
         function procSmartPhone() {
+            if(preg_match('/(iPopd|iPhone)/',$_SERVER['HTTP_USER_AGENT'])) {
+                Context::addHtmlHeader('<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
+            } else if(preg_match('/PPC/',$_SERVER['HTTP_USER_AGENT'])) {
+                Context::addHtmlHeader('<meta name="viewport" content="width=240; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
+            }
+
             if(is_a($this->output, 'Object') || is_subclass_of($this->output, 'Object')) {
                 $this->setContent($this->output->getMessage());
                 return;

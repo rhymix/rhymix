@@ -2,10 +2,12 @@
 <!--%import("./smartphone.js")-->
 
 <div class="smartPhoneTitleBar">
-    <h1>{Context::getBrowserTitle()}</h1>
+    <h1><a href="#" onclick="showXEMenu(); return false;">{Context::getBrowserTitle()}</a></h1>
 </div>
 
-{$smart_content}
+<div class="smartPhoneContentArea">
+    {$smart_content}
+</div>
 
 <div class="smartPhoneToolBar">
     <!--@if($parent_url)-->
@@ -15,5 +17,5 @@
     <!--@if($prev_url)--><a href="{$prev_url}"><img src="./images/btnPrev.png" class="smartPhoneBtn" alt="Prev" /></a><!--@end-->
     <!--@if($next_url)--><a href="{$next_url}"><img src="./images/btnNext.png" class="smartPhoneBtn" alt="Next" /></a><!--@end-->
 
-    <a href="#" onclick="showXEMenu();return false;"><img src="./images/btnMenu.png" class="smartPhoneBtn" alt="Menu" /></a>
+    <a href="#" onclick="showXEMenu();"><img src="./images/btnMenu.png" class="smartPhoneBtn" alt="Menu" /></a>
 </div>
