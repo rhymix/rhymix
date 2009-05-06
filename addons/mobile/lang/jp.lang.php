@@ -5,7 +5,7 @@
      * @brief  日本語言語パッケージ
      **/
 
-    $lang->cmd_go_upper = '上位';
+    $lang->cmd_go_upper = '上位メニュー';
     $lang->cmd_go_home = 'トップへ';
     $lang->cmd_view_sitemap = 'サイトマップ';
 ?>

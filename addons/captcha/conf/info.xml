@@ -37,7 +37,7 @@
 			<title xml:lang="zh-TW">選擇目標</title>
             <description xml:lang="ko">글/댓글 등록시 captcha가 동작할 대상을 정할 수 있습니다. 관리자는 무조건 제외됩니다</description>
 			<description xml:lang="zh-CN">可以指定验证码应用对象(管理员除外)。</description>
-			<description xml:lang="jp">管理者を除き、書き込み・コメントを入力する際captchaイメージを見せる対象を設定します。</description>
+			<description xml:lang="jp">管理者を除き、書き込み・コメントを入力する際にcaptchaイメージを見せる対象を設定します。</description>
 			<description xml:lang="zh-TW">除了管理員，在發表主題或評論時，設定圖形驗證應用的對象。</description>
             <options value="">
                 <title xml:lang="ko">로그인하지 않은 사용자</title>
@@ -59,7 +59,7 @@
 			<title xml:lang="zh-TW">行為模式</title>
             <description xml:lang="ko">"1번만 동작"을 선택하시면 1번만 동작후 상태를 저장해서 다음부터 물어보지 않고 그렇지 않으면 매번 물어보게 됩니다</description>
 			<description xml:lang="zh-CN">"一次"就是每个IP只出现一次验证。</description>
-			<description xml:lang="jp">"1回だけ表示"を選択すると、1回だけ動作した後、その情報を保存して次回からはCaptchaを見せないようにします。また、もう一つのオプションは毎回Captchaを表示します。</description>
+			<description xml:lang="jp">「1回だけ表示」を選択すると、最初だけ動作した後、その情報を記憶して次回からはCaptchaを見せないようにします。また、もう一つのオプションは毎回Captchaを表示します。</description>
 			<description xml:lang="zh-TW">選擇"單次"，產生第一次動作後，下次不會再顯示；選擇"每次"則會一直顯示。</description>
             <options value="onetime">
                 <title xml:lang="ko">1번만 동작</title>

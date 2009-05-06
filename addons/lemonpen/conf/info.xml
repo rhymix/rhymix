@@ -14,7 +14,7 @@
     <description xml:lang="en">You can insert LemonPen to the site when you enable this.</description>
     <description xml:lang="es">Puede insertar LemonPen al sitio cuando este se activa.</description>
     <description xml:lang="ru">Вы можете вставить LemonPen к месту, когда вы позволили это.</description>
-    <description xml:lang="jp">機能をオンにすると、サイト上でレモンペンを使うことが出来ます。 (LemonPen：Openmaru社のサービス)</description>
+    <description xml:lang="jp">機能をオンにすると、サイト上でレモンペンを使います。 (LemonPen：Openmaru社のサービス)</description>
     <description xml:lang="zh-TW">想要在網站使用LemonPen，請將其啟用。</description>
     <version>0.1</version>
     <date>2007-12-10</date>
@@ -46,7 +46,7 @@
             <description xml:lang="ge">Bitte geben Sie Ihre SID-Wert ein, die Sie nach Registrierung auf der Website LemonPen.</description>
             <description xml:lang="es">Por favor, de entrada sid valor que había que hacer después de registrarse en el sitio web LemonPen.</description>
             <description xml:lang="ru">Введите замороженный ценности, которые вы получили после регистрации на сайте LemonPen.</description>
-            <description xml:lang="jp">レモンペンのサイトから発行されたsidを入力して下さい。 (LemonPen：Openmaru社のサービス)</description>
+            <description xml:lang="jp">レモンペンのサイトから発行されたsid値を入力して下さい。 (LemonPen：Openmaru社のサービス)</description>
             <description xml:lang="zh-TW">請輸入在LemonPen網站註冊時，所給予的sid值。</description>
         </var>
     </extra_vars>

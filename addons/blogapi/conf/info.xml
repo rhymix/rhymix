@@ -15,7 +15,7 @@
         사용으로 하셔야 RSD태그 및 api가 동작을 합니다.
     </description>
     <description xml:lang="jp">
-        MetaWeblogをサポートするBlogAPI アドオンです。
+        MetaWeblogをサポートするBlog APIアドオンです。
         「使用する」にチェックすると各モジュールごとにRSDのアドレスを表示します。
         APIのアドレスは「http://インストールURL/モジュール名/api」です。
         「使用する」に設定してから、RSDタグ、およびAPIが作動します。
