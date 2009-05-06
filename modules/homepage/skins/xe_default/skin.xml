@@ -46,27 +46,27 @@
         </var>
         <var name="intro_title" type="text">
             <title xml:lang="ko">카페 소개 제목</title>
-            <title xml:lang="jp">カフェの紹介キャッチ</title>
+            <title xml:lang="jp">Cafeの紹介キャッチ</title>
             <description xml:lang="ko">소개할 카페의 제목을 입력해주세요. (메인 노출)</description>
-            <description xml:lang="jp">紹介するカフェのキャッチを入力して下さい。 (メインへ公開)</description>
+            <description xml:lang="jp">紹介するCafeのキャッチを入力して下さい。 (メインへ公開)</description>
         </var>
         <var name="intro_description" type="textarea">
             <title xml:lang="ko">카페 소개 내용</title>
-            <title xml:lang="jp">カフェの紹介詳細</title>
+            <title xml:lang="jp">Cafeの紹介詳細</title>
             <description xml:lang="ko">소개할 카페의 내용을 입력해주세요. (메인 노출)</description>
-            <description xml:lang="jp">紹介するカフェの詳細説明を入力して下さい。 (メインへ公開)</description>
+            <description xml:lang="jp">紹介するCafeの詳細説明を入力して下さい。 (メインへ公開)</description>
         </var>
         <var name="intro_image" type="image">
             <title xml:lang="ko">카페 소개 이미지</title>
-            <title xml:lang="jp">カフェの紹介イメージ</title>
+            <title xml:lang="jp">Cafeの紹介イメージ</title>
             <description xml:lang="ko">소개할 카페의 내용에 포함되는 이미지를 등록해주세요. (메인 노출)</description>
-            <description xml:lang="jp">紹介するカフェの内容に表示するイメージを登録して下さい。 (メインへ公開)</description>
+            <description xml:lang="jp">紹介するCafeの内容に表示するイメージを登録して下さい。 (メインへ公開)</description>
         </var>
         <var name="intro_url" type="text">
             <title xml:lang="ko">카페 소개 링크 </title>
-            <title xml:lang="jp">カフェの紹介URL</title>
+            <title xml:lang="jp">Cafeの紹介URL</title>
             <description xml:lang="ko">소개할 카페의 링크를 입력해주세요. (http:// 모두 포함)</description>
-            <description xml:lang="jp">紹介するカフェのURLを入力して下さい。 (http:// を含む)</description>
+            <description xml:lang="jp">紹介するCafeのURLを入力して下さい。 (http:// を含む)</description>
         </var>
     </extra_vars>
 </skin>

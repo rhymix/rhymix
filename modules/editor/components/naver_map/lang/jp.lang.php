@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/naver_map/lang/jp.lang.php
+     * @file   modules/editor/components/naver_map/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor） > マルチメディアリンク（naver_map）コンポネント言語パッケージ
      **/

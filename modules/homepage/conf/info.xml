@@ -11,7 +11,7 @@
     <description xml:lang="es">XE 내에서 Cafe를 분양하고 관리할 수 있는 기능을 제공합니다</description>
     <description xml:lang="zh-CN">提供一种在XE内迅速建立子站点的功能。</description>
     <description xml:lang="zh-TW">提供XE運作及管理虛擬網站的功能。</description>
-    <description xml:lang="jp">Cafeを運営・管理する機能を提供します。</description>
+    <description xml:lang="jp">XEソリューションでCafeを運営・管理する機能を提供します。</description>
     <version>0.2</version>
     <date>2009-02-11</date>
     <category>package</category>

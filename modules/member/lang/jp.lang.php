@@ -191,8 +191,8 @@
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることが出来ます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることが出来ます。';
-    $lang->about_profile_image = 'ユーザのプロフィールイメージが使用出来るようにします。';
     $lang->about_group_image_mark = 'ユーザー名の前にグループマークを表示します。';
+    $lang->about_profile_image = 'ユーザのプロフィールイメージが使用出来るようにします。';
     $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
     $lang->about_accept_agreement = '登録規約をすべて読んだ上で同意します。';
 

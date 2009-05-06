@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   modules/wiki/lang/ko.lang.php
      * @author haneul (haneul0318@gmail.com)
      * @brief  위키(wiki) 모듈의 기본 언어팩
      **/

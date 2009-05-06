@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/install/lang/jp.lang.php
      * @author zero (zero@nzeo.com) 翻訳：RisaPapa(risapapa@gmail.com)、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
@@ -201,7 +201,7 @@ EndOfLicense;
             'xml' => 'XMLライブラリ',
             'iconv' => 'ICONVライブラリ',
             'gd' => 'GDライブラリ',
-            'session' => 'Session.auto_start の設定',
+            'session' => 'Session.auto_startの設定',
         );
 
     $lang->install_checklist_desc = array(

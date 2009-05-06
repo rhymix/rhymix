@@ -1,6 +1,7 @@
 <?php
 /**
- * @author ミニミ
+ * @file   modules/editor/components/code_highlighter/lang/jp.lang.php
+ * @author BNU <bnufactory@gmail.com> 翻訳：ミニミ
  **/
 $lang->code_type = '言語種類';
 

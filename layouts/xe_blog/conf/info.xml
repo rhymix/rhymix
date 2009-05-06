@@ -208,7 +208,7 @@
     <menus>
         <menu name="top_menu" maxdepth="1" default="true">
             <title xml:lang="ko">상단 메뉴</title>
-            <title xml:lang="jp">上段メニュー</title>
+            <title xml:lang="jp">上段用メニュー</title>
             <title xml:lang="zh-CN">菜单</title>
             <title xml:lang="en">Top Menu</title>
             <title xml:lang="ge">Top-Menü</title>

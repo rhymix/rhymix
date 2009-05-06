@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/admin/lang/jp.lang.php
      * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ // 細かい修正：liahona
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
@@ -45,13 +45,13 @@
     $lang->module_name = "モジュール名";
     $lang->addon_name = "アドオン名";
     $lang->version = "バージョン";
-    $lang->author = "作者";
+    $lang->author = "制作者";
     $lang->table_count = "テーブル数";
     $lang->installed_path = "インストールパス";
 
-    $lang->cmd_shortcut_management = "メニュー編集";
+    $lang->cmd_shortcut_management = "メニューの編集";
 
-    $lang->msg_is_not_administrator = '管理者のみアクセス出来ます';
+    $lang->msg_is_not_administrator = '管理者だけアクセス出来ます';
     $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除出来ません。';
     $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することが出来ません。';
 

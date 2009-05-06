@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/issuetracker/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：ミニミ
+     * @author zero (zero@nzeo.com) 翻訳：ミニミ
      * @brief  イシュートラッカー(Issuetracker)モジュールの日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -27,9 +27,9 @@
      $lang->about_svn_cmd = 'SVN連動のためのsvn clientファイルがある場所（絶対経路）を入力して下さい。 (ex: /usr/bin/svn)';
      $lang->diff_cmd = 'DIFFファイルの場所';
      $lang->about_diff_cmd = 'SVNリビジョン（revision）間の比較のためのdiffファイルがある場所（絶対経路）を入力して下さい。(ex: /usr/bin/diff)';
-     $lang->svn_userid = 'SVN ID';
+     $lang->svn_userid = 'SVNアクセス用ID';
      $lang->about_svn_userid = 'SVNリポジトリへのアクセス認証が必要な場合、IDを入力して下さい。';
-     $lang->svn_passwd = 'SVNパスワード';
+     $lang->svn_passwd = 'SVNアクセス用パスワード';
      $lang->about_svn_passwd = 'SVNリポジトリへのアクセス認証が必要な場合、パスワードを入力して下さい。';
 
      $lang->issue = 'イシュー';

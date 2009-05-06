@@ -69,12 +69,12 @@
                 <title xml:lang="en">Homepage's URL</title>
                 <title xml:lang="zh-CN">站点地址</title>
                 <title xml:lang="zh-TW">主頁網址</title>
-                <title xml:lang="jp">ホームページのURL</title>
+                <title xml:lang="jp">cafeXEのURL</title>
                 <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
                 <description xml:lang="en">Input a destination URL when users click the logo.</description>
                 <description xml:lang="zh-CN">点击LOGO时要移动的页面地址。</description>
                 <description xml:lang="zh-TW">請輸入當用戶按了網站Logo後，要前往的頁面網址。</description>
-                <description xml:lang="jp">ロゴをクリックする際、移動するホームページURLを入力して下さい。</description>
+                <description xml:lang="jp">ロゴをクリックする際、移動するcafeXEのURLを入力して下さい。</description>
             </var>
             <var name="logo_text" type="text">
                 <title xml:lang="ko">로고 글자</title>
@@ -136,7 +136,7 @@
                 <title xml:lang="en">Content position</title>
                 <title xml:lang="zh-CN">内容区位置</title>
                 <title xml:lang="zh-TW">選擇位置</title>
-                <title xml:lang="jp">本文位置</title>
+                <title xml:lang="jp">本文配置</title>
                 <description xml:lang="ko">본문의 위치를 좌/우중 선택할 수 있습니다.</description>
                 <description xml:lang="en">You can choose the position of content between left and right.</description>
                 <description xml:lang="zh-CN">可以设置内容区的位置(左侧/右侧)。</description>

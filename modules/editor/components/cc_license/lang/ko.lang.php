@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/cc_license/lang/ko.lang.php
+     * @file   modules/editor/components/cc_license/lang/ko.lang.php
      * @author zero <zero@zeroboard.com>
      * @brief  위지윅에디터(editor) 모듈 >  CCL 출력 에디터 컴포넌트
      **/

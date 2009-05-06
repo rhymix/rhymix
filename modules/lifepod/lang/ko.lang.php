@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   modules/lifepod/lang/ko.lang.php
      * @author haneul (haneul0318@gmail.com)
      * @brief  라이프팟(lifepod) 모듈의 기본 언어팩
      **/

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/board/lang/jp.lang.php
      * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ // 細かい修正：liahona
      * @brief  掲示板(board)モジュールの基本言語パッケージ
      **/
@@ -16,8 +16,8 @@
     // 項目
     $lang->search_result = '検索結果';
     $lang->consultation = '相談機能';
-    $lang->secret = '秘密文機能';
-    $lang->thisissecret = '秘密文です。';
+    $lang->secret = '非公開文機能';
+    $lang->thisissecret = '非公開文です。';
     $lang->admin_mail = '管理者メールアドレス';
 
     // ボタンに使用する用語
@@ -33,7 +33,7 @@
     $lang->about_use_anonymous = '匿名掲示板として活用出来ます。スキン設定で登録者の情報を表示しないに設定をお勧めします。';
     $lang->about_board = '掲示板の生成、および管理するモジュールです。';
     $lang->about_consultation = "相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。\n但し、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。";
-    $lang->about_secret = '掲示板およびコメントの秘密文を登録出来るようにします。';
+    $lang->about_secret = '掲示板およびコメントの非公開文を登録出来るようにします。';
     $lang->about_admin_mail = '書き込みやコメントが掲載される時、登録メールアドレス宛にメールが送信されます。<br /> 複数のメールアドレスへ送信する場合は「,」(半額コンマ)区切りで登録して下さい。';
     $lang->about_list_config = '掲示板スタイルが「リスト型」の場合、好きな列の項目配置が出来ます。<br />ただし、スキンによってこの機能をサポートしない場合もあります。<br />ターゲットアイテム／表示アイテムをダブルクリックすると追加・削除が出来ます。';
 

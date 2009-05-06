@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file   modules/editor/components/code_highlighter/lang/ko.lang.php
  * @author BNU <bnufactory@gmail.com>
  **/
 $lang->code_type = '언어 종류';
