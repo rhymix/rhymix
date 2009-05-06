@@ -1101,6 +1101,18 @@
         }
 
         /**
+         * @brief 모든 JS File을 제거
+         **/
+        function unloadAllJsFiles() {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadAllJsFiles();
+        }
+
+        function _unloadAllJsFiles() {
+            $this->js_files = array();
+        }
+
+        /**
          * @brief javascript filter 추가
          **/
         function addJsFilter($path, $filename) {
@@ -1182,6 +1194,18 @@
                     return;
                 }
             }
+        }
+
+        /**
+         * @brief 모든 CSS File을 제거
+         **/
+        function unloadAllCSSFiles() {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadAllCSSFiles();
+        }
+
+        function _unloadAllCSSFiles() {
+            $this->css_files = array();
         }
 
         /**
