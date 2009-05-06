@@ -5423,7 +5423,7 @@ var
 	regex_class  = /<(.*?)\s+class\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))(.*?)>/ig,
 	regex_class2 = /xe_selected_cell/g;
 	regex_handler = /<(.*?)\s+on[a-z]+\s*=(?:\s*".*?"|\s*'.*?'|[^\s>]+)(.*?)>/ig,
-	regex_id = /<(.*?)\s+id\s*=(?:[^\s>]+|\s*".*?"|\s*'.*?')(.*?)>/ig,
+	//regex_id = /<(.*?)\s+id\s*=(?:[^\s>]+|\s*".*?"|\s*'.*?')(.*?)>/ig,
 	regex_script = /<script[\s\S]+?<\/script>/ig,
 	regex_font_color = /color\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))/i,
 	regex_font_face  = /face\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))/i,
@@ -5482,7 +5482,7 @@ xe.XE_XHTMLFormatter = $.Class({
 		sContent = sContent.replace(regex_handler, '<$1$2>');
 		
 		// remove all id
-		sContent = sContent.replace(regex_id, '<$1$2>');
+		//sContent = sContent.replace(regex_id, '<$1$2>');
 		
 		// remove all scripts
 		sContent = sContent.replace(regex_script, '');
