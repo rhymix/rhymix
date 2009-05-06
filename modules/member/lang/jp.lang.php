@@ -110,7 +110,7 @@
     $lang->cmd_view_saved_document = '保存ドキュメント';
     $lang->cmd_send_email = 'メール送信';
 
-    $lang->msg_email_not_exists = "メールアドレスがありません。";
+    $lang->msg_email_not_exists = "登録されたメールアドレスがありません。";
 
     $lang->msg_alreay_scrapped = '既にスクラップされたコンテンツです。';
 
@@ -139,7 +139,7 @@
     $lang->msg_exists_user_id = '既に存在するユーザＩＤです。他のＩＤを入力して下さい。';
     $lang->msg_exists_email_address = '既に存在するメールアドレスです。他のメールアドレスを入力して下さい。';
     $lang->msg_exists_nick_name = '既に存在するニックネームです。他のニックネームを入力して下さい。';
-    $lang->msg_signup_disabled = '会員に登録することが出来ません。';
+    $lang->msg_signup_disabled = '会員登録が制限されています。<br />サイト管理者にお問合せ下さい。';
     $lang->msg_already_logged = '既に会員に登録されています。';
     $lang->msg_not_logged = 'ログインしていません。';
     $lang->msg_insert_group_name = 'グループ名を入力して下さい。';
@@ -200,7 +200,7 @@
 
     $lang->about_openid = 'OpenIDで登録する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
     $lang->about_openid_leave = 'OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく登録することになり、書き込んだコンテンツに対する権限を維持することが出来ません。';
-    $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックして下さい。<br />';
+    $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックして下さい。<br />';
 
     $lang->about_member = "会員の作成・修正・削除することが出来、グループの管理、登録フォームの管理などが行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理が出来るようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することが出来ます。";
     $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';
