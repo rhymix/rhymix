@@ -139,7 +139,7 @@
         function _compileVarToContext($matches) {
             $str = trim(substr($matches[0],1,strlen($matches[0])-2));
             if(!$str) return $matches[0];
-            if(!in_array(substr($str,0,1),array('(','$'))) {
+            if(!in_array(substr($str,0,1),array('(','$','\'','"'))) {
                 if(preg_match('/^([^\( \.]+)(\(| \.)/i',$str,$m)) {
                     $func = trim($m[1]);
                     if(strpos($func,'::')===false) {
