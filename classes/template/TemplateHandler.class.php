@@ -138,11 +138,29 @@
          **/
         function _compileVarToContext($matches) {
             $str = trim(substr($matches[0],1,strlen($matches[0])-2));
-            return '<?php print('.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', $str).');?>';
+            if(!$str) return $matches[0];
+            if(!in_array(substr($str,0,1),array('(','$'))) {
+                if(preg_match('/^([^\( \.]+)(\(| \.)/i',$str,$m)) {
+                    $func = trim(strtolower($m[1]));
+                    if(strpos($func,'::')===false) {
+                        if(!function_exists($func)) {
+                            return $matches[0];
+                        }
+                    } else {
+                        list($class, $method) = explode('::',$func);
+                        if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
+                            return $matches[0];
+                        }
+                    }
+                } else {
+                    if(!defined($str)) return $matches[0];
+                }
+            }
+            return '<?php @print('.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', $str).');?>';
         }
 
         /**
-         * @brief {$와 } 안의 $... 변수를 Context::get(...) 으로 변경
+         * @brief 이미지의 경로를 변경
          **/
         function _compileImgPath($matches) {
             static $real_path = null;
