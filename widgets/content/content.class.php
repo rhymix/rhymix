@@ -727,8 +727,16 @@
             return $this->get('module_srl');
         }
         function getTitle($cut_size = 0, $tail='...'){
-            if($cut_size) $title = cut_str($this->get('title'), $cut_size, $tail);
-            else $title = $this->get('title');
+            $title = strip_tags($this->get('title'));
+
+            if($cut_size) $title = cut_str($title, $cut_size, $tail);
+
+            $attrs = array();
+            if($this->get('title_bold') == 'Y') $attrs[] = 'font-weight:bold';
+            if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = 'color:#'.$this->get('title_color');
+
+            if(count($attrs)) $title = sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), htmlspecialchars($title));
+
             return $title;
         }
         function getContent(){
