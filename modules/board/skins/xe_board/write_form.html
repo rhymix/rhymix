@@ -1,5 +1,6 @@
 <!--#include("header.html")-->
 
+<!-- 게시물 작성 폼 -->
 <form action="./" method="post" onsubmit="return procFilter(this, insert)" id="fo_write">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="content" value="{$oDocument->getContentText()}" />
