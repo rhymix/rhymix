@@ -188,29 +188,22 @@
          * @brief 내용의 에디터 컴포넌트 코드를 변환
          **/
         function transEditorComponent($matches) {
-            // IE에서는 태그의 특성중에서 " 를 빼어 버리는 경우가 있기에 정규표현식으로 추가해줌
-            $buff = $matches[0];
-            $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
-            $buff = str_replace("&","&amp;",$buff);
+            $script = sprintf(' %s editor_component=%s', $matches[1], $matches[2]);
+            $script = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*) /i', fixQuotation, $script);
+            preg_match_all('/([a-z0-9\-\_]+)\=\"([^\"]+)\"/is', $script, $m);
+            for($i=0,$c=count($m[0]);$i<$c;$i++) {
+                $xml_obj->attrs->{$m[1][$i]} = $m[2][$i];
+            }
+            $xml_obj->body = $matches[3];
 
-            // 에디터 컴포넌트에서 생성된 코드
-            $oXmlParser = new XmlParser();
-            $xml_doc = $oXmlParser->parse($buff);
-            if($xml_doc->div) $xml_doc = $xml_doc->div;
-            else if($xml_doc->img) $xml_doc = $xml_doc->img;
-
-            $xml_doc->body = $matches[3];
-
-            // attribute가 없으면 return
-            $editor_component = $xml_doc->attrs->editor_component;
-            if(!$editor_component) return $matches[0];
+            if(!$xml_obj->attrs->editor_component) return $matches[0];
 
             // component::transHTML() 을 이용하여 변환된 코드를 받음
             $oEditorModel = &getModel('editor');
-            $oComponent = &$oEditorModel->getComponentObject($editor_component, 0);
+            $oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
             if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
 
-            return $oComponent->transHTML($xml_doc);
+            return $oComponent->transHTML($xml_obj);
         }
 
 
