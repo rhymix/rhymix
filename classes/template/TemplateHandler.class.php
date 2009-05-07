@@ -141,7 +141,7 @@
             if(!$str) return $matches[0];
             if(!in_array(substr($str,0,1),array('(','$'))) {
                 if(preg_match('/^([^\( \.]+)(\(| \.)/i',$str,$m)) {
-                    $func = trim(strtolower($m[1]));
+                    $func = trim($m[1]);
                     if(strpos($func,'::')===false) {
                         if(!function_exists($func)) {
                             return $matches[0];
@@ -149,7 +149,11 @@
                     } else {
                         list($class, $method) = explode('::',$func);
                         if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
-                            return $matches[0];
+                            // 서버 환경에 따라서 class, method가 대소문자 구별을 할때와 하지 않을때가 있음
+                            list($class, $method) = explode('::',strtolower($func));
+                            if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
+                                return $matches[0];
+                            }
                         }
                     }
                 } else {
