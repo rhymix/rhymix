@@ -871,6 +871,17 @@
             return new Object();
         }
 
+        /**
+         * @brief 개별 플래닛에서 forward action이 실행될때 레이아웃 정보를 메인 플래닛과 맞춰주는 trigger
+         **/
+        function triggerSetLayout(&$module_info) {
+            if($module_info->module!='planet') return new Object();
+            $oPlanetModel = &getModel('planet');
+            $planet_config = $oPlanetModel->getPlanetConfig();
+            $module_info->layout_srl = $planet_config->layout_srl;
+            return new Object();
+        }
+
     }
 
 ?>

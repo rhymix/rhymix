@@ -46,6 +46,9 @@
 
             // 2009. 01. 29 아이디 클릭시 나타나는 팝업메뉴에 플래닛 보기 기능 추가
             $oModuleController->insertTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after');
+
+            // 2009. 05. 07 개별 플래닛에서 메인 플래닛의 레이아웃을 승계하기 위한 트리거 추가 
+            $oModuleController->insertTrigger('moduleHandler.init', 'planet', 'controller', 'triggerSetLayout', 'after');
         }
 
         /**
@@ -56,6 +59,9 @@
 
             // 2009. 01. 29 아이디 클릭시 나타나는 팝업메뉴에 플래닛 보기 기능 추가
             if(!$oModuleModel->getTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after')) return true;
+
+            // 2009. 05. 07 개별 플래닛에서 메인 플래닛의 레이아웃을 승계하기 위한 트리거 추가 
+            if(!$oModuleModel->getTrigger('moduleHandler.init', 'planet', 'controller', 'triggerSetLayout', 'after')) return true;
 
             return false;
         }
@@ -70,6 +76,10 @@
             // 2009. 01. 29 아이디 클릭시 나타나는 팝업메뉴에 플래닛 보기 기능 추가
             if(!$oModuleModel->getTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after')) 
                 $oModuleController->insertTrigger('member.getMemberMenu', 'planet', 'controller', 'triggerMemberMenu', 'after');
+
+            // 2009. 05. 07 개별 플래닛에서 메인 플래닛의 레이아웃을 승계하기 위한 트리거 추가 
+            if(!$oModuleModel->getTrigger('moduleHandler.init', 'planet', 'controller', 'triggerSetLayout', 'after'))
+                $oModuleController->insertTrigger('moduleHandler.init','planet','controller','triggerSetLayout', 'after');
 
             return new Object(0, 'success_updated');
         }

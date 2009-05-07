@@ -155,16 +155,16 @@
 
             // mid값이 있을 경우 mid값을 세팅
             if($this->mid) Context::set('mid', $this->mid, true);
-
-            // 현재 모듈의 정보를 세팅
-            Context::set('current_module_info', $module_info);
                 
             // 실제 동작을 하기 전에 trigger 호출
-            $output = ModuleHandler::triggerCall('display', 'before', $content);
+            $output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
             if(!$output->toBool()) {
                 $this->error = $output->getMessage();
                 return false;
             }
+
+            // 현재 모듈의 정보를 세팅
+            Context::set('current_module_info', $this->module_info);
 
             return true;
         }
