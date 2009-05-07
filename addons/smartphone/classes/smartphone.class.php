@@ -86,14 +86,33 @@
                 return;
             }
 
-            if($this->haveSmartphoneModule($this->module_info->module)) {
-                $oSmartPhoneModule =& getModule($this->module_info->module, 'smartphone');
-                $vars = get_object_vars($this->oModule);
-                if(count($vars)) foreach($vars as $key => $val) $oSmartPhoneModule->{$key}  = $val;
-                $oSmartPhoneModule->procSmartPhone($this);
-            } else {
-                $this->setContent('요청하신 모듈은 스마트폰을 지원하지 않습니다');
-            }
+            if($_GET['mid']) {
+                if($this->haveSmartphoneModule($this->module_info->module)) {
+                    $oSmartPhoneModule =& getModule($this->module_info->module, 'smartphone');
+                    $vars = get_object_vars($this->oModule);
+                    if(count($vars)) foreach($vars as $key => $val) $oSmartPhoneModule->{$key}  = $val;
+                    $oSmartPhoneModule->procSmartPhone($this);
+                } else {
+                    switch(Context::getLangType()) {
+                        case 'ko' :
+                                $msg = '스마트폰을 지원하지 않는 모듈입니다';
+                            break;
+                        case 'jp' :
+                                $msg = 'このモジュールをサポートしていません。';
+                            break;
+                        case 'zh-TW' :
+                                $msg = '該模塊不支持。';
+                            break;
+                        case 'zh-CN' :
+                                $msg = '该模块不支持。';
+                            break;
+                        default :
+                                $msg = 'This module is not supported.';
+                            break;
+                    }
+                    $this->setContent($msg);
+                }
+            } 
         }
 
         function setContent($content) {

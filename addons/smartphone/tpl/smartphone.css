@@ -42,7 +42,7 @@ body {
 .smartPhoneContent {
     z-index:450;
     border: 1px solid #999999;
-    padding: 20px;
+    padding:10px;
     background-color:#fff;
     margin:10px;
     box-sizing: border-box;
@@ -96,9 +96,10 @@ body {
 
 .smartPhoneContent div.link a {
     display:block;
-    padding:5px 0;
-    font-size:13px;
-    text-decoration:none;
+    padding:10px 0;
+    font-size:15px;
+    text-decoration:underline;
+    font-weight:bold;
     color:#000;
 }
 
@@ -140,9 +141,9 @@ body {
     margin-bottom: -2px;
     border-top: 1px solid #7d7d7d;
     border-bottom: 1px solid #999999;
-    padding: 1px 10px;
+    padding: 5px 10px;
     background: url(./images/listGroup.png) repeat-x;
-    font-size: 17px;
+    font-size: 12px;
     font-weight: bold;
     text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
     color: #FFFFFF;

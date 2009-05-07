@@ -42,7 +42,7 @@ function showXEMenu() {
     if(xeSmartMenu.css('display')=='none' && typeof(xeMenus)!='undefined') {
         var menu = findSmartNode(xeMenus);
         if(!menu) menu = xeMenus;
-        var html = '<ul><li><a href="'+request_uri.setQuery('smartphone','true')+'">goto homepage</a></li>';
+        var html = '<ul>';
         for(var text in menu) {
             if(!text) continue;
             var url = menu[text].url;
@@ -57,9 +57,7 @@ function showXEMenu() {
                 if(href.indexOf('?')>-1) href += '&vid='+xeVid;
                 else href += '?vid='+xeVid;
             }
-            if(current_mid == url) html += '<li class="selected">';
-            else html += '<li>';
-            html += '<a href="'+href+'">'+text+'</a></li>';
+            html += '<li><a href="'+href+'">'+text+'</a></li>';
         }
         html += '</ul>';
 
@@ -73,7 +71,7 @@ function showXEMenu() {
             padding:0
         });
         xeSmartMenu.slideIn(0);
-    } else {
+    } else if(location.href.getQuery('mid')) {
         xeSmartMenu.slideOut(0);
     }
 }
@@ -94,3 +92,5 @@ function findSmartNode(nodes) {
     }
     return null;
 }
+
+if(!location.href.getQuery('mid')) jQuery(document).ready(showXEMenu);
