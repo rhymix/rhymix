@@ -31,11 +31,24 @@
             $output = $oFileModel->getFileList($args);
 
             // 목록의 loop를 돌면서 document를 구하기
-            if($file_count) {
+            if($output->total_count) {
                 $document_srl_list = array();
+                $module_srls= array();
 
                 foreach($output->data as $val) {
                     if(!in_array($val->upload_target_srl, $document_srl_list)) $document_srl_list[] = $val->upload_target_srl;
+                    if(!in_array($val->module_srl, $module_srls)) $module_srls[] = $val->module_srl;
+                }
+
+                if(count($module_srls)) {
+                    $module_args->module_srls = implode(',', $module_srls);
+                    $module_output = executeQueryArray('module.getModulesInfo', $module_args);
+
+                    if($module_output->data) {
+                        foreach($module_output->data as $module) {
+                            $module_list[$module->module_srl] = $module;
+                        }
+                    }
                 }
 
                 // comment의 첨부파일이면 document_srl을 추가로 구함
@@ -59,6 +72,8 @@
                     }
 
                     $args->document_srls = implode(',', $document_srl_list);
+                    $args->list_order = 'document_srl';
+                    $args->order_type = 'desc';
                     $document_output = executeQueryArray('document.getDocuments', $args);
 
                     if($document_output->data) {
@@ -76,6 +91,7 @@
             Context::set('file_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
             Context::set('document_list', $document_list);
+            Context::set('module_list', $module_list);
 
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
