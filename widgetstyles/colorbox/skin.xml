@@ -9,7 +9,7 @@
     <description xml:lang="en">Baisc squared widget style</description>
 	<description xml:lang="es">각진 면으로 꾸며진 위젯스타일 입니다.</description>
     <description xml:lang="zh-TW">可變換多種色彩外框的控件樣式。</description>
-    <description xml:lang="jp">ウィジェットのスタイルです。</description>
+    <description xml:lang="jp">面のウィジェットスタイルです。</description>
     <version>0.1</version>
     <date>2009-03-10</date>
     <preview>preview.gif</preview>
@@ -118,6 +118,7 @@
 			<name xml:lang="es">Más información URL</name>
             <description xml:lang="ko">URL를 등록합니다.</description>
             <description xml:lang="en">Register an URL.</description>
+            <description xml:lang="jp">URLを登録します。</description>
 			<description xml:lang="es">URL para registrarse.</description>
         </var>
         <var name="ws_more_image" type="filebox" filter="jpg,jpeg,gif,png">

@@ -5,7 +5,7 @@
     <title xml:lang="jp">ラウンドワイヤー</title>
     <description xml:lang="ko">둥근 선으로 꾸며진 위젯스타일 입니다.</description>
     <description xml:lang="zh-TW">可變換多種圓角外框的控件樣式。</description>
-    <description xml:lang="jp">ウィジェットのスタイルです。</description>
+    <description xml:lang="jp">ラウンドな線のウィジェットスタイルです。</description>
     <version>0.1</version>
     <date>2009-03-10</date>
     <preview>preview.gif</preview>
@@ -85,6 +85,7 @@
             <name xml:lang="zh-TW">more URL</name>
             <name xml:lang="jp">「もっと見る」URL</name>
             <description xml:lang="ko">URL를 등록합니다.</description>
+            <description xml:lang="jp">URLを登録します。</description>
         </var>
         <var name="ws_more_image" type="filebox" filter="jpg,jpeg,gif,png">
             <name xml:lang="ko">더보기 이미지</name>
