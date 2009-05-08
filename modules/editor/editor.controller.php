@@ -189,7 +189,7 @@
          **/
         function transEditorComponent($matches) {
             $script = sprintf(' %s editor_component=%s', $matches[1], $matches[2]);
-            $script = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*) /i', fixQuotation, $script);
+            $script = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $script);
             preg_match_all('/([a-z0-9\-\_]+)\=\"([^\"]+)\"/is', $script, $m);
             for($i=0,$c=count($m[0]);$i<$c;$i++) {
                 $xml_obj->attrs->{$m[1][$i]} = $m[2][$i];
