@@ -71,7 +71,7 @@ function showXEMenu() {
             padding:0
         });
         xeSmartMenu.slideIn(0);
-    } else if(location.href.getQuery('mid')) {
+    } else if(location.href.getQuery('mid')||location.href.getQuery('document_srl')) {
         xeSmartMenu.slideOut(0);
     }
 }
@@ -79,7 +79,7 @@ function showXEMenu() {
 function findSmartNode(nodes) {
     if(typeof(current_mid)=='undefined') return;
     var mid = current_mid;
-    if(location.href.indexOf(mid)<0) mid = null;
+    if(location.href.indexOf(mid)<0&&location.href.indexOf('document_srl')<0) mid = null;
     for(var text in nodes) {
         if(!text) continue;
         if(nodes[text].url == mid) {
@@ -93,4 +93,4 @@ function findSmartNode(nodes) {
     return null;
 }
 
-if(!location.href.getQuery('mid')) jQuery(document).ready(showXEMenu);
+if(!location.href.getQuery('mid')&&!location.href.getQuery('document_srl')) jQuery(document).ready(showXEMenu);

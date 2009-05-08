@@ -3,11 +3,12 @@
 
 <!--@foreach($content_list as $no => $item)-->
     <li class="item noArrow">
-        <a href="{getUrl('','mid',$item->getPlanetMid(),'smartphone','true')}"><img src="{$item->getPlanetPhotoSrc(40,40)}" width="40" height="40" alt="" align="left" class="thumbnail"/></a>
-
         <span class="title">
-            {$item->getContent(false)}
-            ps. {htmlspecialchars($item->getPostScript())}</p>
+            <a href="{getUrl('','mid',$item->getPlanetMid(),'smartphone','true')}">
+                <img src="{$item->getPlanetPhotoSrc(40,40)}" width="40" height="40" alt="" align="left" class="thumbnail"/>
+                {preg_replace('/<([^>]+)>/is','',$item->getContent(false,false,false,false))}
+                <!--@if($item->getPostScript())--><br/>ps. {htmlspecialchars($item->getPostScript())}</p><!--@end-->
+            </a>
         </span>
         <span class="info">
             {$item->get('regdate')}

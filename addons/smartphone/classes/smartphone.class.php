@@ -86,7 +86,7 @@
                 return;
             }
 
-            if($_GET['mid']) {
+            if($_GET['mid'] || $_GET['document_srl']) {
                 if($this->haveSmartphoneModule($this->module_info->module)) {
                     $oSmartPhoneModule =& getModule($this->module_info->module, 'smartphone');
                     $vars = get_object_vars($this->oModule);
