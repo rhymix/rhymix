@@ -73,7 +73,7 @@
             <!--@else-->
                 <!--@if($val->upload_target_type == 'com')-->[{$lang->comment}] <!--@end-->
                 <!--@if($val->upload_target_type == 'mod')-->[{$lang->module}] <!--@end-->
-                <!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[임시저장] <!--@end-->
+                <!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[{$lang->cmd_temp_save}] <!--@end-->
                 <a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" onclick="window.open(this.href);return false;">{$module_list[$val->module_srl]->browser_title}</a>
                 <!--@if($val->upload_target_type == 'doc' || $val->upload_target_type == 'com')-->
                  - <!--@if($document_list[$document_srl]->get('module_srl') != $document_list[$document_srl]->get('member_srl'))--><a href="{$move_uri}" onclick="window.open(this.href);return false;">{$document_list[$document_srl]->getTitle()}</a><!--@else-->{$document_list[$document_srl]->getTitle()}<!--@end-->
