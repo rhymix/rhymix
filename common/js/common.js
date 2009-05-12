@@ -517,7 +517,7 @@ function setFixedPopupSize() {
     bodyObj.css({paddingRight:30});
 
     var w = jQuery("#popup_content").width();
-    w = w< 400 ? 400 : w;
+    w = w< 600 ? 600 : w;
     var h = jQuery("#popup_content").height();
 
     if(h != _popupHeight)  {
