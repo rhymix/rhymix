@@ -264,6 +264,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
                 uploadedFiles[file_srl] = item[i];
                 var opt = new Option(item[i].source_filename+" ("+item[i].disp_file_size+")", file_srl, true, true);
                 listObj.options[listObj.options.length] = opt;
+                item[i].download_url = encodeURI(item[i].download_url);
                 if(/\.(jpg|jpeg|png|gif)$/i.test(item[i].download_url)) {
                     var loadingImage = new Image();
                     loadingImage.src = item[i].download_url;
