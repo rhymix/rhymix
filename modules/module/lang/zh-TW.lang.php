@@ -34,7 +34,7 @@
     $lang->lang_code = '語言代碼';
     $lang->filebox = '檔案管理';
     $lang->access_type = '訪問類型';
-    $lang->access_domain = '域名';
+    $lang->access_domain = 'Domain';
     $lang->access_vid = 'Site ID';
     $lang->about_domain = "要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將XE安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe";
     $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
