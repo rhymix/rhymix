@@ -14,7 +14,7 @@
     $lang->msg_document_more_search  = "계속 검색 버튼을 선택하시면 아직 검색하지 않은 부분까지 계속 검색 하실 수 있습니다";
 
     $lang->is_result_text = "符合<strong>'%s'</strong>的搜尋結果，約有<strong>%d</strong>項";
-    $lang->multimedia = "Images/ Movies";
+    $lang->multimedia = "圖片/影片";
 
     $lang->is_search_option = array(
         'document' => array(

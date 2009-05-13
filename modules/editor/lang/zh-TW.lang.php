@@ -12,12 +12,12 @@
     $lang->component_link = '連結';
     $lang->component_date = '編寫日期';
     $lang->component_license = '版權';
-    $lang->component_history = '紀錄';
+    $lang->component_history = '更新紀錄';
     $lang->component_description = '說明';
     $lang->component_extra_vars = '變數設置';
     $lang->component_grant = '權限設置'; 
     $lang->content_style = '內容樣式';
-    $lang->content_font = 'Content Font';
+    $lang->content_font = '內容字體';
 
     $lang->about_component = '組件簡介';
     $lang->about_component_grant = '除預設組件外，可設置延伸組件的使用權限<br />(全部解除時，任何用戶都可使用)。';
@@ -185,7 +185,7 @@
     $lang->edit->table_backgroundcolor = '背景顏色';
     $lang->edit->special_character = '特殊符號';
     $lang->edit->insert_special_character = '插入特殊符號';
-    $lang->edit->close_special_character = '關閉特殊符號圖層';
+    $lang->edit->close_special_character = '關閉';
     $lang->edit->symbol = '一般符號';
     $lang->edit->number_unit = '數字、單位';
     $lang->edit->circle_bracket = '圓、括弧';
