@@ -5424,7 +5424,7 @@ var
 	regex_class2 = /xe_selected_cell/g;
 	regex_handler = /<(.*?)\s+on[a-z]+\s*=(?:\s*".*?"|\s*'.*?'|[^\s>]+)(.*?)>/ig,
 	//regex_id = /<(.*?)\s+id\s*=(?:[^\s>]+|\s*".*?"|\s*'.*?')(.*?)>/ig,
-	regex_script = /<script[\s\S]+?<\/script>/ig,
+	//regex_script = /<script[\s\S]+?<\/script>/ig,
 	regex_font_color = /color\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))/i,
 	regex_font_face  = /face\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))/i,
 	regex_font_size  = /size\s*=(?:\s*"(\d+)"|\s*'(\d+)'|(\d+))/i,
@@ -5485,7 +5485,7 @@ xe.XE_XHTMLFormatter = $.Class({
 		//sContent = sContent.replace(regex_id, '<$1$2>');
 		
 		// remove all scripts
-		sContent = sContent.replace(regex_script, '');
+		//sContent = sContent.replace(regex_script, '');
 		
 		if (jQuery.browser.msie) {
 			// remove jQuery attributes
