@@ -109,9 +109,8 @@
             if(!trim(strip_tags($args->agreement))) $args->agreement = null;
             $args->limit_day = (int)$args->limit_day;
 
-            // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('member',$args);
+            $oMemberController = &getController('member');
+            $output = $oMemberController->setMemberConfig($args);
             return $output;
         }
 
@@ -409,7 +408,7 @@
             $oModuleControll = getController('module');
 
             $config = $oModuleModel->getModuleConfig('member');
-//            $config->group_image_mark_order = Context::get('group_image_mark_order');
+            // $config->group_image_mark_order = Context::get('group_image_mark_order');
 
             $oModuleControll->insertModuleConfig('member', $config);
         }

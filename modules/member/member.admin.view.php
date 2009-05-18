@@ -67,17 +67,8 @@
         function dispMemberAdminConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
-            if(!$config->image_name_max_width) $config->image_name_max_width = 90;
-            if(!$config->image_name_max_height) $config->image_name_max_height = 20;
-            if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
-            if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
-            if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
-            if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
-            if(!$config->skin) $config->skin = "default";
-            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
-            if(!$config->group_image_mark) $config->group_image_mark = "N";
+            $oMemberModel = &getModel('member');
+            $config = $oMemberModel->getMemberConfig();
             Context::set('config',$config);
 
             // 회원 관리 모듈의 스킨 목록을 구함
