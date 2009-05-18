@@ -101,7 +101,7 @@
                 $output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $output);
 
                 // 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
-                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.]+)-->/is', array($this,'transMeta'), $output);
+                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'transMeta'), $output);
 
                 // rewrite module 사용시 생기는 상대경로에 대한 처리를 함
                 if(Context::isAllowRewrite()) {
