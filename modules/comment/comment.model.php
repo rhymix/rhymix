@@ -153,7 +153,6 @@
         function getCommentAllCount($module_srl) {
             $args->module_srl = $module_srl;
 			$output = executeQuery('comment.getCommentCount', $args);
-			debugPrint($output);
 			$total_count = $output->data->count;
 			
             return (int)$total_count;

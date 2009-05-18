@@ -1,0 +1,11 @@
+<query id="getAllComments" action="select">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="comment_srl" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl" notnull="notnull" />
+    </conditions>
+</query>

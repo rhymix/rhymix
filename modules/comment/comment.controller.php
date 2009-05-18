@@ -398,10 +398,26 @@
         function deleteComments($document_srl) {
             // document model객체 생성
             $oDocumentModel = &getModel('document');
+            $oCommentModel = &getModel('comment');
 
             // 권한이 있는지 확인
             $oDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oDocument->isExists() || !$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
+
+            // 댓글 목록을 가져와서 일단 trigger만 실행 (일괄 삭제를 해야 하기에 최대한 처리 비용을 줄이기 위한 방법)
+            $args->document_srl = $document_srl;
+            $comments = executeQueryArray('comment.getAllComments',$args);
+            if($comments->data) {
+                foreach($comments->data as $key => $comment) {
+                    // trigger 호출 (before)
+                    $output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
+                    if(!$output->toBool()) continue;
+
+                    // trigger 호출 (after)
+                    $output = ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
+                    if(!$output->toBool()) continue;
+                }
+            }
 
             // 댓글 본문 삭제
             $args->document_srl = $document_srl;
