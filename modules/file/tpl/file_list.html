@@ -73,9 +73,10 @@
             <!--@else-->
                 <!--@if($val->upload_target_type == 'com')-->[{$lang->comment}] <!--@end-->
                 <!--@if($val->upload_target_type == 'mod')-->[{$lang->module}] <!--@end-->
-                <!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[{$lang->cmd_temp_save}] <!--@end-->
+
+                <!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[{$lang->cmd_temp_save}] <!--@end-->
                 <a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" onclick="window.open(this.href);return false;">{$module_list[$val->module_srl]->browser_title}</a>
-                <!--@if($val->upload_target_type == 'doc' || $val->upload_target_type == 'com')-->
+                <!--@if($document_list[$document_srl] && ($val->upload_target_type == 'doc' || $val->upload_target_type == 'com'))-->
                  - <!--@if($document_list[$document_srl]->get('module_srl') != $document_list[$document_srl]->get('member_srl'))--><a href="{$move_uri}" onclick="window.open(this.href);return false;">{$document_list[$document_srl]->getTitle()}</a><!--@else-->{$document_list[$document_srl]->getTitle()}<!--@end-->
                 <!--@end-->
             <!--@end-->
@@ -99,9 +100,9 @@
         <td class="date tCenter nowrap" title="{zdate($val->regdate,"Y-m-d H:i:s")}">{zdate($val->regdate,"Y-m-d")}</td>
         <td class="number tCenter nowrap"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
         <td class="nowrap">
-        <!--@if($val->upload_target_type == 'doc')-->
+        <!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl])-->
             <span class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</span>
-        <!--@elseif($val->upload_target_type == 'com')-->
+        <!--@elseif($val->upload_target_type == 'com' && $comment_list[$val->upload_target_srl])-->
             <span class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</span>
         <!--@end-->
         </td>

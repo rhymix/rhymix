@@ -74,7 +74,6 @@
                                 if($comment->isExists()) {
                                     $file->upload_target_type = 'com';
                                     $file->target_document_srl = $comment->document_srl;
-                                    debugPrint($comment->document_srl);
                                     $file_update_args->upload_target_type = $file->upload_target_type;
                                     $comment_list[$target_srl] = $comment;
                                     $doc_srls[] = $comment->document_srl;
