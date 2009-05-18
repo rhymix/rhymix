@@ -33,7 +33,17 @@ var calledArgs = null;
                 body.append(captchaXE);
                 
                 captchaXE.exec = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
-                    if(act == 'procBoardInsertDocument' || act == 'procBoardInsertComment' || act == 'procIssuetrackerInsertIssue' || act == 'procIssuetrackerInsertHistory') {
+                    var doCheck = false;
+                    if(typeof(captchaTargetAct)!='undefined') {
+                        for(var i in captchaTargetAct) {
+                            if(captchaTargetAct[i]==act) {
+                                doCheck = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(doCheck) {
                         calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj};
                         oldExecXml('captcha','setCaptchaSession',new Array(),captchaXE.show,new Array('error','message','about','keyword'));
                     } else {
