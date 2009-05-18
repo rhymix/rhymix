@@ -1,0 +1,15 @@
+@charset "utf-8";
+.xeEditor p.editor_autosaved_message { display:none; margin:0; padding:5px 2px; text-align:right; color:#666; font-size:10px; }
+.fileUploader{ clear:both; padding-top:5px; margin-bottom:10px;}
+.fileUploader:after{ content:""; display:block; clear:both;}
+.fileUploader .preview{ float:left; width:64px; height:64px; border:1px solid #ccc;; padding:2px; margin:0 10px 5px 0;}
+.fileUploader .preview.black { background-color:#000; border:1px solid #666;}
+.fileUploader .preview img{ display:block; width:64px; height:64px;}
+.fileUploader .fileListArea{ float:left; width:260px; margin:0 10px 5px 0;}
+.fileUploader .fileListArea select{ width:100%; height:70px; overflow:auto;}
+.fileUploader .fileListArea select option{ font-size:11px;}
+.fileUploader .fileListArea.black select { background-color:#000; border:1px solid #666;}
+.fileUploader .fileListArea.black select option { color:#aaa; }
+.fileUploader .fileUploadControl{ clear:right;}
+.fileUploader .fileUploadControl .button{ margin-bottom:5px;}
+.fileUploader .file_attach_info{ clear:right; margin:5px 0;}
