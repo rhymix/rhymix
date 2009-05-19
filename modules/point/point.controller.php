@@ -439,6 +439,17 @@
             // 원글을 적은 이와 동일하면 조회수 올리지 않고 pass
             if($target_member_srl == $member_srl) return new Object();
 
+            // 모듈별 point 정보 가져옴
+            $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $obj->get('module_srl'));
+
+            // 조회 포인트를 구해옴
+            $point = $module_config['read_document'];
+            if(!isset($point)) $point = $config->read_document;
+
+            // 조회 포인트가 없으면 pass
+            if(!$point) return new Object();
+
             // 회원일 경우 읽은 적이 있으면 그냥 pass 하고 그렇지 않으면 현재 포인트 구함
             if($member_srl) {
                 $args->member_srl = $member_srl;
@@ -452,14 +463,6 @@
 
             // 포인트 모듈 기본 설정 가져옴
             $config = $oModuleModel->getModuleConfig('point');
-
-            // 모듈별 point 정보 가져옴
-            $config = $oModuleModel->getModuleConfig('point');
-            $module_config = $oModuleModel->getModulePartConfig('point', $obj->get('module_srl'));
-
-            // 조회 포인트를 구해옴
-            $point = $module_config['read_document'];
-            if(!isset($point)) $point = $config->read_document;
 
             // 조회 포인트가 -(마이너스)일때 현재 포인트와 비교
             if($config->disable_read_document == 'Y' && $point < 0 && abs($point)>$cur_point) {
