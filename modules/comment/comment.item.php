@@ -33,10 +33,6 @@
                 $this->comment_srl = null;
                 return;
             }
-            if ($attribute->member_srl < 0) {
-                $attribute->member_srl = 0;
-                $attribute->ipaddress = '0.0.0.0';
-            }
             $this->comment_srl = $attribute->comment_srl;
             $this->adds($attribute);
 

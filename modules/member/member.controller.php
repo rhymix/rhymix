@@ -505,8 +505,8 @@
          * @brief 회원 가입
          **/
         function procMemberInsert() {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
+            $oMemberModel = &getModel('member');
+            $config = $oMemberModel->getMemberConfig();
 
             // 관리자가 회원가입을 허락하였는지 검사
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');

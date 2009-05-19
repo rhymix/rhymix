@@ -78,6 +78,9 @@
             $member_srl = $obj->member_srl;
             if(!$module_srl || !$member_srl) return new Object();
 
+            // 임시저장일 경우 포인트를 지급하지 않도록 수정
+            if($module_srl == $member_srl) return new Object();
+
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
@@ -100,6 +103,48 @@
             $this->setPoint($member_srl,$cur_point);
 
             return new Object();
+        }
+
+        /**
+         * @brief 임시저장된 글을 정상 등록시 포인트 적용하는 trigger
+         * 1.2.3 에서 임시저장시에 포인트 지급되지 않도록 변경됨
+         **/
+        function triggerUpdateDocument(&$obj) {
+            $oDocumentModel = &getModel('document');
+            $oModuleModel = &getModel('module');
+
+            $document_srl = $obj->document_srl;
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+            $module_srl = $oDocument->get('module_srl');
+            $member_srl = $oDocument->get('member_srl');
+            if(!$module_srl || !$member_srl) return new Object();
+            
+            // 임시저장된 것이 아니면 return
+            if($module_srl != $member_srl) return new Object();
+
+            // point 모듈 정보 가져옴
+            $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point',$obj->module_srl);
+
+            // 대상 회원의 포인트를 구함
+            $oPointModel = &getModel('point');
+            $cur_point = $oPointModel->getPoint($member_srl, true);
+
+            $point = $module_config['insert_document'];
+            if(!isset($point)) $point = $config->insert_document;
+            $cur_point += $point;
+
+            // 첨부파일 등록에 대한 포인트 추가
+            $point = $module_config['upload_file'];
+            if(!isset($point)) $point = $config->upload_file;
+            if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
+
+            // 포인트 증감
+            $this->setPoint($member_srl,$cur_point);
+
+            return new Object();
+
         }
 
         /**
@@ -137,11 +182,11 @@
             $cnt = count($output->data);
             for($i=0;$i<$cnt;$i++) {
                 if($output->data[$i]->member_srl<1) continue;
-                $member_srls[$output->data[$i]->member_srl] = $output->data[$i]->count;
+                $member_srls[abs($output->data[$i]->member_srl)] = $output->data[$i]->count;
             }
 
             // 원글 작성 회원의 번호는 제거
-            if($member_srl) unset($member_srls[$member_srl]);
+            if($member_srl) unset($member_srls[abs($member_srl)]);
             if(!count($member_srls)) return new Object();
 
             // 각 회원들을 모두 돌면서 포인트 감소
@@ -211,7 +256,7 @@
             $document_srl = $obj->document_srl;
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
-            if(!$oDocument->isExists() || $oDocument->get('member_srl')==$member_srl) return new Object();
+            if(!$oDocument->isExists() || abs($oDocument->get('member_srl'))==abs($member_srl)) return new Object();
 
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
@@ -236,17 +281,25 @@
          * @brief 댓글 삭제 포인트 적용 trigger
          **/
         function triggerDeleteComment(&$obj) {
+            $oModuleModel = &getModel('module');
+            $oPointModel = &getModel('point');
+            $oDocumentModel = &getModel('document');
+
             $module_srl = $obj->module_srl;
-            $member_srl = $obj->member_srl;
+            $member_srl = abs($obj->member_srl);
+            $document_srl = $obj->document_srl;
             if(!$module_srl || !$member_srl) return new Object();
 
+            // 원글을 가져옴 (원글이 없거나 원글이 자신의 글이라면 포인트 적용 하지 않음)
+            $oDocument = $oDocumentModel->getDocument($document_srl);
+            if(!$oDocument->isExists()) return new Object();
+            if($oDocument->get('member_srl')==$member_srl) return new Object();
+
             // point 모듈 정보 가져옴
-            $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
             $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 대상 회원의 포인트를 구함
-            $oPointModel = &getModel('point');
             $cur_point = $oPointModel->getPoint($member_srl, true);
 
             $point = $module_config['insert_comment'];
@@ -311,7 +364,7 @@
             if(!$module_srl) return new Object();
 
             // 자신의 올린 파일이면 패스
-            if($obj->member_srl == $member_srl) return new Object();
+            if(abs($obj->member_srl) == abs($member_srl)) return new Object();
 
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
@@ -346,7 +399,7 @@
             if(!$module_srl) return new Object();
 
             // 자신의 올린 파일이면 패스
-            if($obj->member_srl == $member_srl) return new Object();
+            if(abs($obj->member_srl) == abs($member_srl)) return new Object();
 
             // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
@@ -370,38 +423,55 @@
 
         /**
          * @brief 조회수 증가시 포인트 적용
+         * 포인트가 없을때 조회를 하지 못하는 기능의 적용도 실행
          **/
         function triggerUpdateReadedCount(&$obj) {
-            // 로그인 상태일때만 실행
-            $logged_info = Context::get('logged_info');
-            if(!$logged_info->member_srl) return new Object();
-            $member_srl = $logged_info->member_srl;
-            $module_srl = $obj->get('module_srl');
-
-            // 자신의 글이면 패스
-            if($obj->get('member_srl') == $member_srl) return new Object();
-
-            // point 모듈 정보 가져옴
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('point');
-            $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
-
-            // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
-            $cur_point = $oPointModel->getPoint($member_srl, true);
 
-            // 포인트를 구해옴
+            // 접속자의 정보 구함
+            $logged_info = Context::get('logged_info');
+            $member_srl = $logged_info->member_srl;
+
+            // 원글의 회원 번호 구함
+            $target_member_srl = abs($obj->get('member_srl'));
+
+            // 원글을 적은 이와 동일하면 조회수 올리지 않고 pass
+            if($target_member_srl == $member_srl) return new Object();
+
+            // 회원일 경우 읽은 적이 있으면 그냥 pass 하고 그렇지 않으면 현재 포인트 구함
+            if($member_srl) {
+                $args->member_srl = $member_srl;
+                $args->document_srl = $obj->document_srl;
+                $output = executeQuery('document.getDocumentReadedLogInfo', $args);
+                if($output->data->count) return new Object();
+                $cur_point = $oPointModel->getPoint($member_srl, true);
+            } else {
+                $cur_point = 0;
+            }
+
+            // 포인트 모듈 기본 설정 가져옴
+            $config = $oModuleModel->getModuleConfig('point');
+
+            // 모듈별 point 정보 가져옴
+            $config = $oModuleModel->getModuleConfig('point');
+            $module_config = $oModuleModel->getModulePartConfig('point', $obj->get('module_srl'));
+
+            // 조회 포인트를 구해옴
             $point = $module_config['read_document'];
             if(!isset($point)) $point = $config->read_document;
 
+            // 조회 포인트가 -(마이너스)일때 현재 포인트와 비교
+            if($config->disable_read_document == 'Y' && $point < 0 && abs($point)>$cur_point) {
+                $obj->add('content', sprintf(Context::getLang('msg_disallow_by_point'), abs($point), $cur_point));
+                return new Object();
+            }
+
+            // 로그인 사용자가 아니라면 pass
+            if(!$logged_info->member_srl) return new Object();
+
             // 조회 포인트가 없으면 패스
             if(!$point) return new Object();
-
-            // 읽은 기록이 있는지 확인
-            $args->member_srl = $member_srl;
-            $args->document_srl = $obj->document_srl;
-            $output = executeQuery('document.getDocumentReadedLogInfo', $args);
-            if($output->data->count) return new Object();
 
             // 읽은 기록이 없으면 기록 남김
             $output = executeQuery('document.insertDocumentReadedLog', $args);
@@ -450,6 +520,7 @@
          * @brief 포인트 설정
          **/
         function setPoint($member_srl, $point, $mode = null) {
+            $member_srl = abs($member_srl);
             $mode_arr = array('add', 'minus', 'update', 'signup');
             if(!$mode || !in_array($mode,$mode_arr)) $mode = 'update';
 
@@ -467,26 +538,28 @@
             $args->member_srl = $member_srl;
             $args->point = $prev_point;
 
-            if($mode == 'add') {
-                $args->point += $point;
-            } elseif($mode == 'minus') {
-                $args->point -= $point;
-                if($args->point < 0) $args->point = 0;
-            } elseif($mode == 'update') {
-                $args->point = $point;
-                if($args->point < 0) $args->point = 0;
+            switch($mode) {
+
+                case 'add' : 
+                        $args->point += $point;
+                    break;
+                case 'minus' :
+                        $args->point -= $point;
+                    break;
+                case 'update' :
+                        $args->point = $point;
+                    break;
+                case 'signup' :
+                        $args->point = $point;
+                    break;
             }
+            if($args->point < 0) $args->point = 0;
             $point = $args->point;
 
-
-            // 포인트가 있는지 체크
+            // 포인트가 있으면 update, 없으면 insert
             $oPointModel = &getModel('point');
-            if($oPointModel->isExistsPoint($member_srl)) {
-                executeQuery("point.updatePoint", $args);
-            } else {
-                if($mode != 'signup') $args->point += (int)$config->signup_point;
-                executeQuery("point.insertPoint", $args);
-            }
+            if($oPointModel->isExistsPoint($member_srl)) executeQuery("point.updatePoint", $args);
+            else executeQuery("point.insertPoint", $args);
 
             // 새로운 레벨을 구함
             $level = $oPointModel->getLevel($point, $config->level_step);

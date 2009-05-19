@@ -117,6 +117,9 @@
 
                 if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
 
+                // 불필요한 정보 제거
+                $output = preg_replace('/member\_\-([0-9]+)/s','member_0',$output);
+
                 // 최종 레이아웃 변환
                 Context::set('content', $output);
                 $output = $oTemplate->compile('./common/tpl', 'common_layout');

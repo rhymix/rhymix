@@ -17,6 +17,7 @@
          * @brief 포인트 정보가 있는지 체크
          **/
         function isExistsPoint($member_srl) {
+            $member_srl = abs($member_srl);
             $args->member_srl = $member_srl;
             $output = executeQuery('point.getPoint', $args);
             if($output->data->member_srl == $member_srl) return true;
@@ -27,6 +28,7 @@
          * @brief 포인트를 구해옴
          **/
         function getPoint($member_srl, $from_db = false) {
+            $member_srl = abs($member_srl);
             $path = sprintf('./files/member_extra_info/point/%s',getNumberingPath($member_srl));
             if(!is_dir($path)) FileHandler::makeDir($path);
             $cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
