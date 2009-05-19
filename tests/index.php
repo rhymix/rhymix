@@ -1,6 +1,9 @@
 <?php
     define('__ZBXE__', true);
     require_once('../config/config.inc.php');
+
+    if(__ENABLE_PHPUNIT_TEST__!=1) exit();
+
     require_once('simpletest/autorun.php');
 
     class AllTests extends TestSuite {

@@ -31,7 +31,7 @@
      * define('__DEBUG_DB_OUTPUT__', 0);
      * define('__LOG_SLOW_QUERY__', 0);
      * define('__OB_GZHANDLER_ENABLE__', 1);
-     *
+     * define('__ENABLE_PHPUNIT_TEST__', 0);
      * define('__PROXY_SERVER__', 'http://domain:port/path');
      * ?>
      */
@@ -86,6 +86,13 @@
      * 대부분의 서버에서는 문제가 없는데 특정 서버군에서 압축전송시 IE에서 오동작을 일으키는경우가 있음
      **/
     if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 1);
+
+    /**
+     * @brief php unit test (경로/tests/index.php) 의 실행 유무 지정
+     * 0 : 사용하지 않음
+     * 1 : 사용함
+     **/
+    if(!defined('__ENABLE_PHPUNIT_TEST__')) define('__ENABLE_PHPUNIT_TEST__', 0);
 
     /**
      * @brief __PROXY_SERVER__ 는 대상 서버를 거쳐서 외부 요청을 하도록 하는 서버의 정보를 가지고 있음
