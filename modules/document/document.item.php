@@ -50,7 +50,7 @@
             }
 
             $oDocumentModel = &getModel('document');
-            $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+            $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = &$this;
             if($load_extra_vars) $oDocumentModel->setToAllDocumentExtraVars();
         }
 
