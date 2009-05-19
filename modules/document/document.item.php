@@ -305,8 +305,7 @@
         }
 
         function getSummary($str_size = 50, $tail = '...') {
-            // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도 - {20,}으로 길이를 정하면, 20개 이상 문자열 맨 마지막에 스페이스를 추가할 뿐 원하는 의도는 달성되지 못함
-            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$this->getContent(false,false));
+            $content = $this->getContent(false,false);
 
 			// 줄바꿈이 있을 때, 공백문자 삽입
 			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
@@ -321,13 +320,18 @@
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
 			// 연속된 공백문자 삭제
-			$content = preg_replace('/([\s]{2,})/is', ' ', $content);
+			$content = preg_replace('/ ( +)/is', ' ', $content);
 
             // 문자열을 자름
             $content = trim(cut_str($content, $str_size, $tail));
 
             // >, <, "를 다시 복구
-            return str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+            $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+
+            // 영문이 연결될 경우 개행이 안 되는 문제를 해결
+            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
+
+            return $content;
         }
 
         function getRegdate($format = 'Y.m.d H:i:s') {
