@@ -100,6 +100,9 @@
             // 추천 / 비추천에 대한 트리거 추가 2008.05.13 haneul
             $oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
 
+            // 임시저장글을 정상 저장시 포인트 지급하도록 트리거 추가 2009. 05. 19 zero
+            $oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
+
             return new Object();
         }
 
@@ -127,6 +130,9 @@
 
             // 추천 / 비추천에 대한 트리거 추가 2008.05.13 haneul
             if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
+
+            // 임시저장글을 정상 저장시 포인트 지급하도록 트리거 추가 2009. 05. 19 zero
+            if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) return true;
 
             return false;
         }
@@ -170,6 +176,10 @@
             // 추천 / 비추천에 대한 트리거 추가 2008.05.13 haneul
             if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after'))
                 $oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
+
+            // 임시저장글을 정상 저장시 포인트 지급하도록 트리거 추가 2009. 05. 19 zero
+            if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) 
+                $oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
 
             return new Object(0, 'success_updated');
         }

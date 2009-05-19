@@ -92,6 +92,16 @@
     </tr>
     </table>
 
+    <h4 class="xeAdmin">{$lang->disable_read_document}</h4>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <td colspan="2">
+            <input type="checkbox" name="disable_read_document" value="Y" <!--@if($config->disable_read_document=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_disable_read_document}</p>
+        </td>
+    </tr>
+    </table>
+
     <table cellspacing="0" class="rowTable">
     <tr>
         <th colspan="2" class="button">

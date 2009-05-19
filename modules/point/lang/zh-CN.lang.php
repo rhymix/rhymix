@@ -25,6 +25,8 @@
 
     $lang->disable_download = '禁止下载';
     $lang->about_disable_download = '没有积分时，将禁止下载。 (图片除外)';
+    $lang->disable_read_document = '글 열람 금지';
+    $lang->about_disable_read_document = '포인트가 없을 경우 글 열람을 금지하게 됩니다';
 
     $lang->level_point_calc = '计算级别积分';
     $lang->expression = '使用级别变数<b>"i"</b>输入JS数学函数。例: Math.pow(i, 2) * 90';
@@ -57,6 +59,7 @@
     $lang->cmd_point_member_list = '会员积分目录';
 
     $lang->msg_cannot_download = '积分不足无法下载！';
+    $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)";
 
     $lang->point_recal_message = '计算并应用中(%d / %d)。';
     $lang->point_recal_finished = '积分重新计算并应用完毕。';

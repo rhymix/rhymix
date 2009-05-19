@@ -25,6 +25,8 @@
 
     $lang->disable_download = 'Prohibit Downloads';
     $lang->about_disable_download = "This will prohibit downloads when there are not enough points. (Exclude image files)"; 
+    $lang->disable_read_document = '글 열람 금지';
+    $lang->about_disable_read_document = '포인트가 없을 경우 글 열람을 금지하게 됩니다';
 
     $lang->level_point_calc = 'Point Calculation per Point';
     $lang->expression = 'Please input Javascript formula by using level variable <b>i</b>. ex) Math.pow(i, 2) * 90';
@@ -58,6 +60,7 @@
     $lang->cmd_point_member_list = 'Member Point List';
 
     $lang->msg_cannot_download = "You don't have enough point to download";
+    $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)";
 
     $lang->point_recal_message = 'Adjusting Point. (%d / %d)';
     $lang->point_recal_finished = 'Point recalculation is finished.';

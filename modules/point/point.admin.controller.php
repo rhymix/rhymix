@@ -51,6 +51,10 @@
             if($args->disable_download == 'Y') $config->disable_download = 'Y';
             else $config->disable_download = 'N';
 
+            // 포인트 미달시 글 열람 금지 여부 체크
+            if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
+            else $config->disable_read_document = 'N';
+
             // 레벨별 그룹 설정
             foreach($args as $key => $val) {
                 if(substr($key, 0, strlen('point_group_')) != 'point_group_') continue;

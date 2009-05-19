@@ -248,7 +248,7 @@
             $oDB->begin();
 
             $oModuleModel = &getModel('module');
-            $module_srl = $source_obj->get('module_srl');
+            $module_srl = $obj->module_srl;
             $document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
             if(!isset($document_config->use_history)) $document_config->use_history = 'N';
             $bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
@@ -348,7 +348,7 @@
             }
 
             // 모든 확장 변수 삭제
-            $this->deleteDocumentExtraVars($obj->module_srl, $obj->document_srl, null, Context::getLangType());
+            $this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
 
             // 등록 성공시 확장 변수 등록
             $extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
@@ -510,7 +510,7 @@
         /**
          * @brief 해당 document의 조회수 증가
          **/
-        function updateReadedCount($oDocument) {
+        function updateReadedCount(&$oDocument) {
             $document_srl = $oDocument->document_srl;
             $member_srl = $oDocument->get('member_srl');
             $logged_info = Context::get('logged_info');

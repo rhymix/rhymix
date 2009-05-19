@@ -25,6 +25,8 @@
 
     $lang->disable_download = '다운로드 금지';
     $lang->about_disable_download = '포인트가 없을 경우 다운로드를 금지하게 합니다. (이미지파일은 제외입니다)';
+    $lang->disable_read_document = '글 열람 금지';
+    $lang->about_disable_read_document = '포인트가 없을 경우 글 열람을 금지하게 됩니다';
 
     $lang->level_point_calc = '레벨별 포인트 계산';
     $lang->expression = '레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90';
@@ -57,6 +59,7 @@
     $lang->cmd_point_member_list = '회원 포인트 목록';
 
     $lang->msg_cannot_download = '포인트가 부족하여 다운로드를 하실 수 없습니다';
+    $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)";
 
     $lang->point_recal_message = '포인트 적용중입니다. (%d / %d)';
     $lang->point_recal_finished = '포인트 재계산이 모두 완료되었습니다';
