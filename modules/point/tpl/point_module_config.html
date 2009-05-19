@@ -1,4 +1,5 @@
 <!--%import("filter/insert_point_module_config.xml")-->
+<!--%import("js/point_admin.js")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point">
 <input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
@@ -26,7 +27,10 @@
     <td><input type="text" name="read_document" value="{$module_config['read_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
 </tr>
 <tr>
-    <th colspan="2" class="button"><span class="button strong black"><input type="submit" value="{$lang->cmd_save}" /></span></th>
+    <th colspan="2" class="button">
+        <span class="button strong black"><input type="submit" value="{$lang->cmd_save}" /></span>
+        <span class="button"><input type="button" value="{$lang->cmd_reset}" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}'); return false"/></span>
+    </th>
 </tr>
 </table>
 

@@ -275,6 +275,31 @@
         }
 
         /**
+         * @brief 개별 모듈의 포인트 리셋
+         **/
+        function procPointAdminReset() {
+            $module_srl = Context::get('module_srls');
+            if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
+            // 설정 저장
+            $oModuleController = &getController('module');
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                unset($args);
+                $args->module = 'point';
+                $args->module_srl = $srl;
+                executeQuery('module.deleteModulePartConfig', $args);
+            }
+
+            $this->setMessage('success_updated');
+        }
+
+        /**
          * @brief 캐시파일 저장
          **/
         function cacheActList() {
