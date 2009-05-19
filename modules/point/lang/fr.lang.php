@@ -37,7 +37,9 @@
 	$lang->about_cmd_point_recal = 'Tous les points seront recalculés basé seulement sur les points des articles/commentaires/annexes/inscription.<br />Après la restauration, Les membres gagneront le point d\'inscription seulement quand il fait de l\'activité dans le site Web.<br />Utilisez cette fonction seulement quand l\'initialisation complète est necessaire comme le cas de transfert des données etc.';
 
     $lang->point_link_group = 'Changement du Groupe lié à celui du Niveau';
-    $lang->about_point_link_group = 'Si vous designez un niveau à un groupe particulier, les utilisateur s sont assignés dans le groupe quand ils s\'avancent au groupe en gagnant des points. Quand un nouveau groupe est assigné, l\'utilisateur est supprimé du groupe assigné dernierement.';
+    $lang->point_group_reset_and_add = '설정된 그룹 초기화 후 새 그룹 부여';
+    $lang->point_group_add_only = '새 그룹만 부여';
+    $lang->about_point_link_group = 'Si vous designez un niveau à un groupe particulier, les utilisateur s sont assignés dans le groupe quand ils s\'avancent au groupe en gagnant des points.';
 
     $lang->about_module_point = "Vous pouvez configurer les points pour chaque module. Le module qui n'a pas de valeurs utilisera les points par défaut.<br />Tous les points seront restaurés quand on fait de l'action inverse.";
 

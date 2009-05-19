@@ -50,7 +50,7 @@
             $member_srl = $obj->member_srl;
             if(!$member_srl) return new Object();
 
-            // 바로 이전 로그인이 오늘이 아니어야 포인트를 줌 
+            // 바로 이전 로그인이 오늘이 아니어야 포인트를 줌
             if(substr($obj->last_login,0,8)==date("Ymd")) return new Object();
 
             // point 모듈 정보 가져옴
@@ -119,7 +119,7 @@
             $module_srl = $oDocument->get('module_srl');
             $member_srl = $oDocument->get('member_srl');
             if(!$module_srl || !$member_srl) return new Object();
-            
+
             // 임시저장된 것이 아니면 return
             if($module_srl != $member_srl) return new Object();
 
@@ -478,7 +478,7 @@
 
             // 읽은 기록이 없으면 기록 남김
             $output = executeQuery('document.insertDocumentReadedLog', $args);
-            
+
             // 포인트 증감
             $cur_point += $point;
             $this->setPoint($member_srl,$cur_point);
@@ -519,7 +519,7 @@
             return new Object();
         }
 
-		/**
+        /**
          * @brief 포인트 설정
          **/
         function setPoint($member_srl, $point, $mode = null) {
@@ -543,7 +543,7 @@
 
             switch($mode) {
 
-                case 'add' : 
+                case 'add' :
                         $args->point += $point;
                     break;
                 case 'minus' :
@@ -574,37 +574,38 @@
                 $point_group = $config->point_group;
 
                 // 포인트 그룹 정보가 있을때 시행
-                if($point_group && is_array($point_group) && count($point_group) ) { 
+                if($point_group && is_array($point_group) && count($point_group) ) {
 
                     // 기본 그룹을 구함
                     $default_group = $oMemberModel->getDefaultGroup();
 
-                    // 포인트 그룹에 속한 그룹과 새로 부여 받을 그룹을 구함
-                    $point_group_list = array();
-                    $current_group_srl = 0;
+                    // 제거될 그룹과 새로 부여 받을 그룹을 구함
+                    $del_group_list = array();
+                    $new_group_srl = 0;
 
                     asort($point_group);
 
                     // 포인트 그룹 설정을 돌면서 현재 레벨까지 체크
                     foreach($point_group as $group_srl => $target_level) {
-                        $point_group_list[] = $group_srl;
+                        if($config->group_reset != 'N') $del_group_list[] = $group_srl;
                         if($target_level <= $level) {
-                            $current_group_srl = $group_srl;
+                            $new_group_srl = $group_srl;
                         }
                     }
-                    $point_group_list[] = $default_group->group_srl;
 
                     // 만약 새로운 그룹이 없다면 기본 그룹을 부여 받음
-                    if(!$current_group_srl) $current_group_srl = $default_group->group_srl;
+                    if(!$new_group_srl) $new_group_srl = $default_group->group_srl;
 
-                    // 일단 기존의 그룹을 모두 삭제
-                    $del_group_args->member_srl = $member_srl;
-                    $del_group_args->group_srl = implode(',',$point_group_list);
-                    $del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
+                    // 연동 그룹 제거
+                    if($config->group_reset != 'N' && $del_group_list && count($del_group_list)) {
+                        $del_group_args->member_srl = $member_srl;
+                        $del_group_args->group_srl = implode(',', $del_group_list);
+                        $del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
+                    }
 
                     // 새로운 그룹을 부여
                     $new_group_args->member_srl = $member_srl;
-                    $new_group_args->group_srl = $current_group_srl;
+                    $new_group_args->group_srl = $new_group_srl;
                     $new_group_output = executeQuery('member.addMemberToGroup', $new_group_args);
                 }
             }

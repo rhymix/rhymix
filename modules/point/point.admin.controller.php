@@ -63,6 +63,7 @@
                 if(!$level) unset($config->point_group[$group_srl]);
                 else $config->point_group[$group_srl] = $level;
             }
+            $config->group_reset = $args->group_reset;
 
             // 레벨별 포인트 설정
             unset($config->level_step);
@@ -146,7 +147,7 @@
         function procPointAdminUpdatePoint() {
             $action = Context::get('action');
             $member_srl = Context::get('member_srl');
-            $point = Context::get('point');		
+            $point = Context::get('point');
 
             $oPointController = &getController('point');
             return $oPointController->setPoint($member_srl, (int)$point, $action);
@@ -166,7 +167,7 @@
 
             // 회원의 포인트 저장을 위한 변수
             $member = array();
-            
+
             // 게시글 정보를 가져옴
             $output = executeQueryArray('point.getDocumentPoint');
             if(!$output->toBool()) return $output;

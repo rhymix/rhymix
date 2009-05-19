@@ -37,7 +37,9 @@
 	$lang->about_cmd_point_recal = 'All point will be initialized only with articles/comments/attachments/join points.<br />Only members who do website activities will get signup points after reset.<br />Please use this function when complete initialization is required in case of data transferring or other situations.';
 
     $lang->point_link_group = 'Group Change by Level';
-    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points. When new group is assigned, the user is removed from the former assigned group.';
+    $lang->point_group_reset_and_add = '설정된 그룹 초기화 후 새 그룹 부여';
+    $lang->point_group_add_only = '새 그룹만 부여';
+    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points.';
 
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
