@@ -75,7 +75,9 @@
 			$output = $this->getDocumentSrlByTag($args);
 			$document_srl = array();
 
-			foreach($output->data as $k => $v) $document_srl[] = $v->document_srl;
+			if($output->data){
+				foreach($output->data as $k => $v) $document_srl[] = $v->document_srl;
+			}
 			unset($args);
 			$args->document_srl = $document_srl;
 			$output = $this->getDocumentsTagList($args);
