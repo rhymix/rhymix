@@ -176,6 +176,16 @@
                     </ul>
                 <!--@end-->
 
+            <!--// 라디오 버튼 -->
+            <!--@elseif($val->column_type == 'radio')-->
+                <!--@if($val->default_value)-->
+                    <ul class="radio">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
             <!--// 단일 선택 -->
             <!--@elseif($val->column_type == 'select')-->
                 <select name="{$val->column_name}">
@@ -234,15 +244,15 @@
     <!--@if($member_config->enable_openid=="Y")-->
     <tr><th class="title" colspan="2"><div>{$lang->openid}</div></th></tr>
     <tr>
-        <td colspan="2" class="openids"> 
+        <td colspan="2" class="openids">
             <!--@foreach($openids as $openid)-->
             <div><a href="{$openid->bookmarklet}">{$openid->openid}</a> <a onclick="doDeleteOpenIDFromMember('{$openid->openid}')" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></div>
             <!--@end-->
 
             <div class="insertOpenID">
-                <input name="openid" type="text" class="openid_user_id" />  
+                <input name="openid" type="text" class="openid_user_id" />
                 <input name="openid_to_delete" type="hidden" />
-                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a> 
+                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a>
             </div>
         </td>
     </tr>
