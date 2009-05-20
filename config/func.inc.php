@@ -524,7 +524,7 @@
      **/
     function removeHackTag($content) {
         // 특정 태그들을 일반 문자로 변경
-        $content = preg_replace('/<(\/?)(iframe|script|meta|style)/is', '&lt;$1$2', $content);
+        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet)/is', '&lt;$1$2', $content);
 
         // XSS 사용을 위한 이벤트 제거
         $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
