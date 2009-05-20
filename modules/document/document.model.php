@@ -51,45 +51,42 @@
                 }
             }
 
+            $user_lang_code = Context::getLangType();
             for($i=0,$c=count($document_srls);$i<$c;$i++) {
                 $document_srl = $document_srls[$i];
-                $oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-                $this->_setExtraVars($oDocument, $extra_vars[$document_srl]);
-            }
-        }
+                unset($vars);
 
-        function _setExtraVars($oDocument, $vars) {
-            if(!$oDocument || !is_object($oDocument) || !$oDocument->isExists()) return;
-            $module_srl = $oDocument->get('module_srl');
-            $extra_keys = $this->getExtraKeys($module_srl);
-            $document_srl = $oDocument->document_srl;
+                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] || !is_object($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) || !$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->isExists()) continue;
 
-            $user_lang_code = Context::getLangType();
-            $document_lang_code = $oDocument->get('lang_code');
+                $module_srl = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('module_srl');
+                $extra_keys = $this->getExtraKeys($module_srl);
+                $vars = $extra_vars[$document_srl];
+                $document_lang_code = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('lang_code');
 
-            // 확장변수 처리
-            if(count($extra_keys)) {
-		    foreach($extra_keys as $idx => $key) {
-                    $val = $vars[$idx];
-                    if($val[$user_lang_code]) $v = $val[$user_lang_code];
-                    else if($val[$document_lang_code]) $v = $val[$document_lang_code];
-                    else if($val[0]) $v = $val[0];
-                    else $v = null;
-                    $extra_keys[$idx]->value = $v;
+                // 확장변수 처리
+                if(count($extra_keys)) {
+                foreach($extra_keys as $idx => $key) {
+                        $val = $vars[$idx];
+                        if($val[$user_lang_code]) $v = $val[$user_lang_code];
+                        else if($val[$document_lang_code]) $v = $val[$document_lang_code];
+                        else if($val[0]) $v = $val[0];
+                        else $v = null;
+                        $extra_keys[$idx]->value = $v;
+                    }
                 }
+
+                unset($extra_vars);
+                $extra_vars = new ExtraVar($module_srl);
+                $extra_vars->setExtraVarKeys($extra_keys);
+
+                // 제목 처리
+                if($vars[-1][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('title',$vars[-1][$user_lang_code]);
+
+                // 내용 처리
+                if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
+
+                $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $extra_vars->getExtraVars();
             }
-
-            $extra_vars = new ExtraVar($module_srl);
-            $extra_vars->setExtraVarKeys($extra_keys);
-
-            // 제목 처리
-            if($vars[-1][$user_lang_code]) $oDocument->add('title',$vars[-1][$user_lang_code]);
-
-            // 내용 처리
-            if($vars[-2][$user_lang_code]) $oDocument->add('content',$vars[-2][$user_lang_code]);
-
-            $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $extra_vars->getExtraVars();
-            $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
         }
 
         /**
