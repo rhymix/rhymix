@@ -75,9 +75,9 @@
                     }
                 }
 
-                unset($extra_vars);
-                $extra_vars = new ExtraVar($module_srl);
-                $extra_vars->setExtraVarKeys($extra_keys);
+                unset($evars);
+                $evars = new ExtraVar($module_srl);
+                $evars->setExtraVarKeys($extra_keys);
 
                 // 제목 처리
                 if($vars[-1][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('title',$vars[-1][$user_lang_code]);
@@ -85,7 +85,7 @@
                 // 내용 처리
                 if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
 
-                $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $extra_vars->getExtraVars();
+                $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $evars->getExtraVars();
             }
         }
 
