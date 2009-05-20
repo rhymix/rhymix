@@ -36,6 +36,7 @@
     $lang->msg_cart_is_null = 'Please select file(s) to delete';
     $lang->msg_checked_file_is_deleted = '%d attachment(s) was(were) deleted';
     $lang->msg_exceeds_limit_size = 'File size of attachment is bigger than allowed size.';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
 
     $lang->file_search_target_list = array(

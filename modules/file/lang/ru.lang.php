@@ -34,6 +34,7 @@
     $lang->msg_cart_is_null = 'Выберите файл, который Вы хотите удалить';
     $lang->msg_checked_file_is_deleted = 'Всего %d вложений было удалено';
     $lang->msg_exceeds_limit_size = 'Вложение провалено: превышен лимит размера файлов';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(
         'filename' => 'Имя файла',
