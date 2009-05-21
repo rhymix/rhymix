@@ -116,7 +116,7 @@
 			<description xml:lang="en">You may set the duration for indication of new item for newest article. (unit is hour)</description>
 			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
 			<description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
-			<description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
+			<description xml:lang="zh-TW">可設置最後更新主題的new圖案顯示時間。</description>
 		</var>
 		<var id="subject_cut_size">
 			<type>text</type>

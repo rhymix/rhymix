@@ -11,7 +11,7 @@
     <description xml:lang="zh-CN">RSS阅读器控件。</description>
     <description xml:lang="en">This widget displays data retrieved from RSS feed.</description>
     <description xml:lang="ru">Этот виджет отображает данные, полученные посредством RSS.</description>
-    <description xml:lang="zh-TW">RSS閱讀器控件。</description>
+    <description xml:lang="zh-TW">RSS閱讀器widget。</description>
     <version>#7</version>
     <date>2007-10-26</date>
 

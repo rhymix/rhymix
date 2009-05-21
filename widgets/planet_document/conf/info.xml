@@ -8,7 +8,7 @@
 	<description xml:lang="ko">플래닛의 글들만 출력하는 위젯입니다 .</description>
 	<description xml:lang="en">This widget displays recent documents in PlanetXE.</description>
 	<description xml:lang="zh-CN">列出微博主题列表。</description>
-	<description xml:lang="zh-TW">微型部落格主題輸出控件。</description>
+	<description xml:lang="zh-TW">微型部落格主題輸出widget。</description>
 	<description xml:lang="jp">プラネットに登録された書く込みだけ表示するウィジェットです。</description>
 	<version>0.1</version>
 	<date>2008-12-24</date>

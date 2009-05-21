@@ -13,7 +13,7 @@
     <description xml:lang="es">Este widget muestra de artículos y comentarios ranking.</description>
     <description xml:lang="zh-CN">按发表主题/评论/附件/推荐/查看数显示会员排行的控件。</description>
     <description xml:lang="ru">Этот виджет отображает рейтинг статей и комментариев.</description>
-    <description xml:lang="zh-TW">顯示會員發表主題/評論/附檔/推薦/點閱排行的控件。</description>
+    <description xml:lang="zh-TW">顯示會員發表主題/評論/附檔/推薦/點閱排行的widget。</description>
     <version>1.5</version>
     <date>2009-02-23</date>
 

@@ -8,7 +8,7 @@
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="en">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
-    <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的控件。</description>
+    <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的組件。</description>
     <description xml:lang="jp">掲示板の書き込み、コメント、添付ファイルなどコンテンツを出力するウィジェットです。</description>
     <version>0.1</version>
     <date>2009-03-16</date>
@@ -539,7 +539,7 @@
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
             <description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
-            <description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
+            <description xml:lang="zh-TW">可設置最後更新主題的new圖案顯示時間。</description>
         </var>
         <var id="subject_cut_size">
             <type>text</type>

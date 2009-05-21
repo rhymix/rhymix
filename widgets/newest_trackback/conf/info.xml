@@ -13,7 +13,7 @@
     <description xml:lang="en">This widget displays newest trackbacks.</description>
     <description xml:lang="es">Este widget muestra los trackbacks recientes.</description>
     <description xml:lang="ru">Этот виджет отображает последние трекбеки.</description>
-    <description xml:lang="zh-TW">顯示最新引用的控件。</description>
+    <description xml:lang="zh-TW">顯示最新引用的widget。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
 

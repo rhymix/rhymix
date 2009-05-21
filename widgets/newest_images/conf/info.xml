@@ -13,7 +13,7 @@
 	<description xml:lang="en">This widget displays images on articles.</description>
 	<description xml:lang="es">Este widget muestra las imágenes incluidas en el documento.</description>
 	<description xml:lang="ru">Этот виджет отображает изображения в статьях.</description>
-	<description xml:lang="zh-TW">顯示主題中含有圖片的控件。</description>
+	<description xml:lang="zh-TW">顯示主題中含有圖片的widget。</description>
 	<version>0.1</version>
 	<date>2007-07-25</date>
 

@@ -30,7 +30,7 @@
 		Этот виджет отображает новейшие изделия из одной или нескольких борту в стиле форума. Описание будет отображаться с целевыми борту название и описание.
 	</description>
 	<description xml:lang="zh-TW">
-		把一個或多個討論板顯示成論壇介面的控件。
+		把一個或多個討論板顯示成論壇介面的widget。
 		論壇標題及說明，請參考各討論板裡的標題設置與說明。
 	</description>
 	<version>0.1</version>
@@ -62,7 +62,7 @@
 			<description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
 			<description xml:lang="es">Usted puede configurar la duración de la indicación de un nuevo tema. (Unidad es hora)</description>
 			<description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
-			<description xml:lang="zh-TW">可設置最新修改主題的new圖案顯示時。</description>
+			<description xml:lang="zh-TW">可設置最後修改主題的new圖案顯示時間。</description>
 		</var>
 		<var id="subject_cut_size">
 			<type>text</type>

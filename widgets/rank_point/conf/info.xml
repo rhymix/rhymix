@@ -13,7 +13,7 @@
     <description xml:lang="es">Este widget muestra de los miembros del punto de la clasificación.</description>
     <description xml:lang="zh-CN">显示会员积分排行的控件。</description>
     <description xml:lang="ru">Этот виджет отображает рейтинг поитов пользователей.</description>
-    <description xml:lang="zh-TW">顯示會員點數排行的控件。</description>
+    <description xml:lang="zh-TW">顯示會員點數排行的widget。</description>
     <version>1.0</version>
     <date>2007-08-29</date>
 
@@ -36,7 +36,7 @@
             <name xml:lang="es">N º de la lista</name>
             <name xml:lang="ru">Количество Список</name>
             <name xml:lang="zh-CN">目录数</name>
-            <name xml:lang="zh-TW">目錄數</name>
+            <name xml:lang="zh-TW">列表數</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="jp">出力するリストの数を指定します（デフォルト5個）。</description>
             <description xml:lang="en">You may set number of list that will be displayed. (default 5)</description>
