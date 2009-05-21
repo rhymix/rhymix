@@ -27,7 +27,7 @@
             static $checked_documents = array();
 
             // XE에서 모든 문서 객체는 XE_DOCUMENT_LIST라는 전역 변수에 세팅을 함
-            if(!count($GLOBALS['XE_DOCUMENT_LIST'])) continue;
+            if(!count($GLOBALS['XE_DOCUMENT_LIST'])) return;
 
             // 모든 호출된 문서 객체를 찾아서 확장변수가 설정되었는지를 확인
             $document_srls = array();
