@@ -181,7 +181,7 @@
                 <!--@if($val->default_value)-->
                     <ul class="radio">
                     <!--@foreach($val->default_value as $v)-->
-                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>{$v}</li>
+                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if($val->value == $v)-->checked="checked"<!--@end-->/>{$v}</li>
                     <!--@end-->
                     </ul>
                 <!--@end-->
