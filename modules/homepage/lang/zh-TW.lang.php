@@ -6,10 +6,10 @@
      **/
 
     $lang->cafe = "虛擬網站"; 
-    $lang->cafe_id = "카페 접속 ID"; 
+    $lang->cafe_id = "網站 ID"; 
     $lang->cafe_title = "網站名稱";
-    $lang->cafe_description = 'Description of cafe';
-    $lang->cafe_banner = 'Banner of Cafe';
+    $lang->cafe_description = '網站說明';
+    $lang->cafe_banner = '網站廣告';
     $lang->module_type = "目標";
     $lang->board = "討論板";
     $lang->page = "頁面";
@@ -18,35 +18,35 @@
     $lang->cafe_info = "網站資訊";
     $lang->cafe_admin = "網站管理者";
     $lang->do_selected_member = "選擇會員 : ";
-    $lang->cafe_latest_documents = '카페 최신 글';
-    $lang->cafe_latest_comments = '카페 최신 댓글';
-    $lang->mycafe_list = '가입한 카페';
-    $lang->cafe_creation_type = '카페 접속 방법';
-    $lang->about_cafe_creation_type = '사용자들이 카페를 생성할때 카페 접속 방법을 정해야 합니다. Site ID는 http://기본주소/ID 로 접속 가능하고 Domain 접속은 입력하신 도메인의 2차 도메인(http://domain.mydomain.net) 으로 카페가 생성됩니다';
-    $lang->cafe_main_layout = '카페 메인 레이아웃';
+    $lang->cafe_latest_documents = '最新主題';
+    $lang->cafe_latest_comments = '最新評論';
+    $lang->mycafe_list = '加入的網站';
+    $lang->cafe_creation_type = '網站類型';
+    $lang->about_cafe_creation_type = "Please choose how users access the created cafe. If you choose Site ID, they would access via http://defaultAddr/SiteID, and in the case of Domain name, they would access via sub-domain of registered domain name, http://subdomain.defaultDomain";
+    $lang->cafe_main_layout = '主要版面';
 
-    $lang->default_layout = '기본 레이아웃';
-    $lang->about_default_layout = '카페가 생성될때 설정될 기본 레이아웃을 지정할 수 있습니다';
-    $lang->enable_change_layout = '레이아웃 변경';
-    $lang->about_change_layout = '선택하시면 개별 카페에서 레이아웃 변경을 허용할 수 있습니다';
-    $lang->allow_service = '허용 서비스';
-    $lang->about_allow_service = '개별 카페에서 사용할 기본 서비스를 설정할 수 있습니다';
+    $lang->default_layout = '預設版面';
+    $lang->about_default_layout = '可指定建立網站時預設的版面。';
+    $lang->enable_change_layout = '變更版面';
+    $lang->about_change_layout = '允許所有網站都能夠變更版面。';
+    $lang->allow_service = '允許服務';
+    $lang->about_allow_service = 'You may configure default setting for the number and the type of services allowed in newly created cafes';
 
     $lang->cmd_make_cafe = '建立網站';
-    $lang->cmd_import = 'Import';
-    $lang->cmd_export = 'Export';
-    $lang->cafe_creation_privilege = '咖啡廳建立特權';
+    $lang->cmd_import = '匯入';
+    $lang->cmd_export = '匯出';
+    $lang->cafe_creation_privilege = '網站建立權限';
 
-    $lang->cafe_main_mid = '카페 메인 ID';
-    $lang->about_cafe_main_mid = '카페 메인 페이지를 http://주소/ID 값으로 접속하기 위한 ID값을 입력해주세요.';
+    $lang->cafe_main_mid = '網站 ID';
+    $lang->about_cafe_main_mid = '虛擬網站的網址為「http://網址/<b>ID</b>」，請輸入想要的ID值。';
 
     $lang->default_menus = array(
         'home' => '首頁',
         'notice' => '公告事項',
         'levelup' => '等級審核',
         'freeboard' => '自由討論',
-        'view_total' => '檢視全部',
-        'view_comment' => '故事線',
+        'view_total' => '所有主題',
+        'view_comment' => '所有評論',
         'cafe_album' => '網站相簿',
         'menu' => '選單',
         'default_group1' => '待審會員',
@@ -86,7 +86,7 @@
     $lang->about_cafe = "虛擬網站模組可快速建立網站，且容易進行設定。";
     $lang->about_cafe_title = "只有在管理時才看的到此標題。";
     $lang->about_menu_names = "可指定語言。<br/>如果只輸入其中一項，其他語言將會顯示一樣。";
-    $lang->about_menu_option = "可設定案選單時，是否要以新視窗開啟。<br />選展開的話，是隨版面。";
+    $lang->about_menu_option = "可設定按選單時，是否要以新視窗開啟。<br />選展開的話，是隨版面。";
 
     $lang->about_group_grant = "有選擇用戶群組的話，只有被選擇的用戶群組才看的到。<br/>沒有選擇的話，非會員也能觀看。";
     $lang->about_module_type = "討論板，頁面可直接建立該模組和連結網址。<br/>注意：建立後無法再修改";
@@ -99,8 +99,8 @@
 
     $lang->confirm_change_layout = "變換版面可能會使原來的資料無法顯示。確定要變換嗎？";
     $lang->confirm_delete_menu_item = "刪除選單：刪除選單的同時，將會使連結到選單的討論板或頁面一起刪除。確定要刪除嗎？";
-    $lang->msg_module_count_exceed = '허용된 모듈의 개수를 초과하였기에 생성할 수 없습니다';
-    $lang->msg_not_enabled_id = '사용할 수 없는 아이디입니다';
-    $lang->msg_same_site = '동일한 가상 사이트의 모듈은 이동할 수가 없습니다';
-    $lang->about_move_module = '가상사이트와 기본사이트간의 모듈을 옮길 수 있습니다.<br/>다만 가상사이트끼리 모듈을 이동하거나 같은 이름의 mid가 있을 경우 예기치 않은 오류가 생길 수 있으니 꼭 가상 사이트와 기본 사이트간의 다른 이름을 가지는 모듈만 이동하세요';
+    $lang->msg_module_count_exceed = '模組數量已達到上限，無法再新建模組。';
+    $lang->msg_not_enabled_id = '無法使用的帳號';
+    $lang->msg_same_site = '無法在虛擬網站間移動模組。';
+    $lang->about_move_module = '可在預設網站與虛擬網站間移動模組。<br/>Moving modules among virtual sites is note allowed. Also, if there exists a module with same mid, there can be unexpected errors, thus move only modules which have unique mid.';
 ?>

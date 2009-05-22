@@ -14,7 +14,7 @@
     $lang->module_action = "動作";
     $lang->module_maker = "模組作者";
     $lang->module_license = '版權';
-    $lang->module_history = "更新事項";
+    $lang->module_history = "更新紀錄";
     $lang->category_title = "分類名稱";
     $lang->header_text = '頂端內容';
     $lang->footer_text = '底端內容';

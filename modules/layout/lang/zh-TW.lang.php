@@ -58,10 +58,10 @@
         17 => '靠右對齊',
         18 => '整體',
         19 => '版面',
-        20 => '新增控件',
+        20 => '新增Widget',
         21 => '新增內容',
         22 => '屬性',
-        23 => '控件樣式',
+        23 => 'Widget樣式',
         24 => '修改',
         25 => '刪除',
         26 => '對齊',
@@ -106,8 +106,8 @@
         'description' => 'FaceOff Layout版面管理者，可於線上修改與設計版面。<br/>下圖為版面架構示意圖和功能簡介，瞭解後發揮創意製作出自己想要的版面吧!',
         'layout' => 'FaceOff及HTML的架構是相同。<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)와 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.',
         'setting' => '左上方的選單說明：<br/><ul><li>儲存 : 儲存設定內容</li><li>取消 : 不儲存設定內容並返回上一頁</li><li>重置 : 重新設置回到最原始的版面設定</li><li>模式 : 可設定版面模式為固定/ 變動/ 固定+變動(內容)</li><li>樣式 : 可設置兩個Extension區域和Content區域</li><li>對齊 : 可選擇版面的對齊方式</li></ul>',
-        'hotkey' => '除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取控件時，選擇順序是： Header, Footer, Body；當有選取控件時，將會選擇下一個控件。</li><li>Shift + tab鍵 : 功能和tab鍵相反</li><li>Esc鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇控件時，將會選則此控件所屬的區域。</li><li>方向鍵 : 當有選擇控件時，可利用方向鍵作移動。</li></ul>',
-        'attribute' => '除了控件以外的各個區域都可以指定背景顏色/圖片及文字顏色(包含a標籤)。',
+        'hotkey' => '除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取Widget時，選擇順序是： Header, Footer, Body；當有選取Widget時，將會選擇下一個Widget。</li><li>Shift + tab鍵 : 功能和tab鍵相反</li><li>Esc鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇Widget時，將會選則此Widget所屬的區域。</li><li>方向鍵 : 當有選擇Widget時，可利用方向鍵作移動。</li></ul>',
+        'attribute' => '除了Widget以外的各個區域都可以指定背景顏色/圖片及文字顏色(包含a標籤)。',
 
     );
 ?>
