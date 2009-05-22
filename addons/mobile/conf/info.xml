@@ -46,26 +46,26 @@
             <description xml:lang="ko">
                 모바일 기기의 경우 utf-8 문자셋을 인식하지 못할 수 있습니다.
                 문자셋에 원하시는 문자셋을 입력하면 자동으로 변환하여 출력하여 모바일에서 이상없이 출력하도록 합니다.
-                기본값은 euc-kr입니다.
+                기본값은 UTF-8입니다.
             </description>
             <description xml:lang="jp">
                 ある特定のモバイル機器ではutf-8文字コードの認識が出来ない場合があります。
                 文字コードを設定すると、（日本語だけの場合）該当文字コードに自動変換して正常に表示出来るようになります。
-                本アドオンのデフォルト値はeuc-krで、日本の携帯はshift-jisが一般的です。
+                本アドオンのデフォルト値はUTF-8で、日本の携帯はshift-jisが一般的です。
             </description>
             <description xml:lang="zh-CN">
                 手机有时无法识别utf-8编码，这时输入相应的编码值即可自动转换。
-                默认编码为euc-kr。
+                默认编码为UTF-8。
             </description>
             <description xml:lang="en">
                 utf-8 cannot be read for mobile tools.
                 Mobile tools will display correct charset when you input charset you want.
-                Default charset is euc-kr.
+                Default charset is UTF-8.
             </description>
             <description xml:lang="zh-TW">
                 行動工具無法讀取utf-8編碼。
                 當您輸入所想要的編碼時，行動工具將會正確的顯示。
-                預設編碼是euc-kr.
+                預設編碼是UTF-8.
             </description>
         </var>
     </extra_vars>
