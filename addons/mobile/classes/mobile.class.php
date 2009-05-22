@@ -237,7 +237,7 @@
          * HTML 컨텐츠에서 텍스트와 링크만 추출하는 기능
          **/
         function setContent($content) {
-
+            $oModuleController = &getController('module');
             $allow_tag_array = array('<a>','<br>','<p>','<b>','<i>','<u>','<em>','<small>','<strong>','<big>','<table>','<tr>','<td>');
 
 
@@ -302,6 +302,7 @@
             }
 
             $this->content = $contents[$this->mobilePage-1];
+            $oModuleController->replaceDefinedLangCode($this->content);
         }
 
         /**
