@@ -237,8 +237,12 @@
          * HTML 컨텐츠에서 텍스트와 링크만 추출하는 기능
          **/
         function setContent($content) {
+
+            $allow_tag_array = array('<a>','<br>','<p>','<b>','<i>','<u>','<em>','<small>','<strong>','<big>','<table>','<tr>','<td>');
+
+
             // 링크/ 줄바꿈, 강조만 제외하고 모든 태그 제거
-            $content = strip_tags($content, '<a><br><b><i><u><em><small><strong><big><table><tr><td>');
+            $content = strip_tags($content, implode($allow_tag_array));
 
             // 탭 여백 제거
             $content = str_replace("\t", "", $content);
@@ -253,7 +257,7 @@
                 $content = str_replace('<br/><br/>','<br/>',$content);
             }
 
-            $content = str_replace(array('$','\'','_'), array('$$','&apos;','&shy;'), $content);
+            $content = str_replace(array('$','\''), array('$$','&apos;'), $content);
 
             // 모바일의 경우 한 덱에 필요한 사이즈가 적어서 내용을 모두 페이지로 나눔
             $contents = array();
@@ -264,11 +268,15 @@
 
                 //$content = str_replace(array('&','<','>','"','&amp;nbsp;'), array('&amp;','&lt;','&gt;','&quot;',' '), $content);
 
-                $tag_open_pos = strpos($content, '<a');
-                $tag_close_pos = strpos($content, '</a>');
-                if($tag_open_pos!==false && $tag_close_pos || $tag_close_pos < $tag_open_pos) {
-                    $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos+4);
-                    $content = substr($content, $tag_close_pos+4);
+                foreach($allow_tag_array as $tag) {
+                    if($tag == '<br>') continue;
+                    $tag_open_pos = strpos($content, str_replace('>','',$tag));
+                    $tag_close_pos = strpos($content, str_replace('<','</',$tag));
+
+                    if($tag_open_pos!==false && $tag_close_pos || $tag_close_pos < $tag_open_pos) {
+                       $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos + strlen($tag) + 1);
+                       $content = substr($content, $tag_close_pos + strlen($tag) + 1);
+                    }
                 }
             }
 
