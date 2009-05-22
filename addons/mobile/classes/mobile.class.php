@@ -272,11 +272,17 @@
                     if($tag == '<br>') continue;
                     $tag_open_pos = strpos($content, str_replace('>','',$tag));
                     $tag_close_pos = strpos($content, str_replace('<','</',$tag));
-
                     if($tag_open_pos!==false && $tag_close_pos || $tag_close_pos < $tag_open_pos) {
                        $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos + strlen($tag) + 1);
                        $content = substr($content, $tag_close_pos + strlen($tag) + 1);
                     }
+                }
+
+                $tag_open_pos = strpos($content, '&');
+                $tag_close_pos = strpos($content, ';');
+                if($tag_open_pos!==false && $tag_close_pos || $tag_close_pos < $tag_open_pos) {
+                   $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos + 1);
+                   $content = substr($content, $tag_close_pos + 1);
                 }
             }
 
