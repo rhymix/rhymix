@@ -18,8 +18,10 @@
         function printHeader() {
             header("Content-Type: text/vnd.wap.wml");
             header("charset: ".$this->charset);
+            if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
             print("<?xml version=\"1.0\" encoding=\"".$this->charset."\"?><!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">\n");
-            print("<wml>\n<card>\n<p>\n");
+            // 카드제목
+            printf("<wml>\n<card title=\"%s%s\">\n<p>\n",htmlspecialchars($this->title),htmlspecialchars($titlePageStr));
         }
 
         /**
@@ -27,7 +29,8 @@
          **/
         function printTitle() {
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
-            printf('&lt;%s%s&gt;<br/>%s', $this->title,$titlePageStr,"\n");
+            $this->title = str_replace(array('$','\'','_'), array('$$','&apos;','&shy;'), $this->title);
+            printf('&lt;%s%s&gt;<br/>%s', htmlspecialchars($this->title),htmlspecialchars($titlePageStr),"\n");
         }
 
         /**

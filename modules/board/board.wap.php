@@ -41,7 +41,7 @@
                                 $oComment->setAttribute($val);
                                 if(!$oComment->isAccessible()) continue;
                                 $content .= "<b>".$oComment->getNickName()."</b> (".$oComment->getRegdate("Y-m-d").")<br>\r\n".$oComment->getContent(false,false)."<br>\r\n";
-                            } 
+                            }
                         }
 
                         // 내용 설정

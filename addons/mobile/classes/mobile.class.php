@@ -220,7 +220,9 @@
          * @brief title 지정
          **/
         function setTitle($title) {
+            $oModuleController = &getController('module');
             $this->title = $title;
+            $oModuleController->replaceDefinedLangCode($this->title);
         }
 
         /**
@@ -235,11 +237,8 @@
          * HTML 컨텐츠에서 텍스트와 링크만 추출하는 기능
          **/
         function setContent($content) {
-            // 링크/줄바꿈을 임의의 문자열로 변경하고 태그 모두 제거
-            $content = strip_tags(preg_replace('/<(\/?)(a|br)/i','[$1$2', $content));
-
-            // 링크/줄바꿈을 다시 원위치
-            $content = preg_replace('/\[(\/?)(a|br)/i','<$1$2', $content);
+            // 링크/ 줄바꿈, 강조만 제외하고 모든 태그 제거
+            $content = strip_tags($content, '<a><br><b>');
 
             // 탭 여백 제거
             $content = str_replace("\t", "", $content);
@@ -247,10 +246,14 @@
             // 2번 이상 반복되는 공백과 줄나눔을 제거
             $content = preg_replace('/( ){2,}/s', '', $content);
             $content = preg_replace("/([\r\n]+)/s", "\r\n", $content);
-            $content = str_replace(array("<A","<BR","<Br","<br>","<BR>","<br />"), array("<a","<br","<br","<br/>","<br/>","<br/>"), $content);
+            $content = preg_replace(array("/<a/i","/<\/a/i","/<b/i","/<\/b/i","/<br/i"),array('<a','</a','<b','</b','<br'),$content);
+            $content = str_replace(array("<br>","<br />"), array("<br/>","<br/>"), $content);
+
             while(strpos($content, '<br/><br/>')) {
                 $content = str_replace('<br/><br/>','<br/>',$content);
             }
+
+            $content = str_replace(array('$','\'','_'), array('$$','&apos;','&shy;'), $content);
 
             // 모바일의 경우 한 덱에 필요한 사이즈가 적어서 내용을 모두 페이지로 나눔
             $contents = array();
@@ -368,7 +371,7 @@
 
             // 변환 후 출력
             if(strtolower($this->charset) == 'utf-8') print $content;
-            else print iconv('UTF-8',$this->charset, $content);
+            else print iconv('UTF-8',$this->charset."//TRANSLIT", $content);
 
             exit();
         }

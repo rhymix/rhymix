@@ -16,13 +16,16 @@
          * @brief hdml 헤더 출력
          **/
         function printHeader() {
-            print("<html>\n");
+            print("<html><head>\n");
+            if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
+            printf("<title>%s%s</title></head><body>\n", htmlspecialchars($this->title),htmlspecialchars($titlePageStr));
         }
 
         // 제목을 출력
         function printTitle() {
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
-            printf('&lt;%s%s&gt;<br>%s', $this->title,$titlePageStr,"\n");
+            $this->title = str_replace(array('$','\'','_'), array('$$','&apos;','&shy;'), $this->title);
+            printf('&lt;%s%s&gt;<br>%s', htmlspecialchars($this->title),htmlspecialchars($titlePageStr),"\n");
         }
 
         /**
@@ -64,7 +67,7 @@
 
         // 푸터 정보를 출력
         function printFooter() {
-            print("</html>\n");
+            print("</body></html>\n");
         }
     }
 ?>
