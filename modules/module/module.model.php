@@ -828,8 +828,9 @@
         /**
          * @brief mid별 모듈 설정 정보 전체를 구함
          **/
-        function getModulePartConfigs($module) {
+        function getModulePartConfigs($module, $site_srl = 0) {
             $args->module = $module;
+            if($site_srl) $args->site_srl = $site_srl;
             $output = executeQueryArray('module.getModulePartConfigs', $args);
             if(!$output->toBool() || !$output->data) return array();
 

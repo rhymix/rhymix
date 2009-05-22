@@ -1,12 +1,15 @@
 <query id="getModulePartConfigs" action="select">
     <tables>
         <table name="module_part_config" />
+        <table name="modules" />
     </tables>
     <columns>
-        <column name="module_srl" />
-        <column name="config" />
+        <column name="module_part_config.module_srl" alais="module_srl" />
+        <column name="module_part_config.config" alias="config" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module" var="module" notnull="notnull" />
+        <condition operation="equal" column="module_part_config.module" var="module" notnull="notnull" />
+        <condition operation="equal" column="modules.module_srl" default="module_part_config.module_srl" pipe="and" />
+        <condition operation="equal" column="modules.site_srl" var="site_srl" pipe="and" />
     </conditions>
 </query>
