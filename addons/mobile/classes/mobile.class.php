@@ -157,6 +157,9 @@
             if(!$charset) $charset = 'UTF-8';
 
             //SKT는 euc-kr만 지원
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            $browserAccept = $_SERVER['HTTP_ACCEPT'];
+            $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
             if(eregi("SKT11", $userAgent)) $charset = 'euc-kr';
             elseif(eregi("skt", $browserAccept)) $charset = 'euc-kr';
 
