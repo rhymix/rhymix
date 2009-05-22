@@ -238,7 +238,7 @@
          **/
         function setContent($content) {
             // 링크/ 줄바꿈, 강조만 제외하고 모든 태그 제거
-            $content = strip_tags($content, '<a><br><b>');
+            $content = strip_tags($content, '<a><br><b><i><u><em><small><strong><big><table><tr><td>');
 
             // 탭 여백 제거
             $content = str_replace("\t", "", $content);
