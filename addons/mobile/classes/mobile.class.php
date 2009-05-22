@@ -153,8 +153,13 @@
         /**
          * @brief charset 지정
          **/
-        function setCharSet($charset = 'euc-kr') {
-            if(!$charset) $charset = 'euc-kr';
+        function setCharSet($charset = 'UTF-8') {
+            if(!$charset) $charset = 'UTF-8';
+
+            //SKT는 euc-kr만 지원
+            if(eregi("SKT11", $userAgent)) $charset = 'euc-kr';
+            elseif(eregi("skt", $browserAccept)) $charset = 'euc-kr';
+
             $this->charset = $charset;
         }
 
