@@ -158,14 +158,16 @@
                 $oEditorModel = &getModel('editor');
                 $editor_config = $oEditorModel->getEditorConfig($module_srl);
                 $content_style = $editor_config->content_style;
-                $path = _XE_PATH_.'modules/editor/styles/'.$content_style.'/';
-                if(is_dir($path) && file_exists($path.'style.ini')) {
-                    $ini = file($path.'style.ini');
-                    for($i=0,$c=count($ini);$i<$c;$i++) {
-                        $file = trim($ini[$i]);
-                        if(!$file) continue;
-                        if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-                        elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                if($content_style) {
+                    $path = _XE_PATH_.'modules/editor/styles/'.$content_style.'/';
+                    if(is_dir($path) && file_exists($path.'style.ini')) {
+                        $ini = file($path.'style.ini');
+                        for($i=0,$c=count($ini);$i<$c;$i++) {
+                            $file = trim($ini[$i]);
+                            if(!$file) continue;
+                            if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                            elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                        }
                     }
                 }
                 $content_font = $editor_config->content_font;
