@@ -157,48 +157,50 @@ function slideshow(event) {
 	xScreen.xeShow();
 }
 
-$(window).load(function(){
+$(document).ready(function(){
 	var regx_skip   = /(?:modules|addons|classes|common|layouts|libs|widgets)/i;
 	var regx_parent = /(?:document|comment)_[0-9]+_[0-9]+/i;
 
-    var xe_content = $(".xe_content");
-    var overflow = xe_content.css("overflow");
-    var width = xe_content.css("width");
-    xe_content.css("overflow","hidden");
-    xe_content.css("width","100%");
-    var offsetWidth = xe_content.attr("offsetWidth");
-    xe_content.css("overflow",overflow);
-    xe_content.css("width",width);
+    $(".xe_content").each(function() {
+        $(this).find("img").each(function(){
+            var img = $(this);
+            var width = img.attr("width");
+            if(!width) width = img.width();
+            img.attr("orig_width",width);
+            img.attr("width",1);
+        });
+        var offsetWidth = $(this).width();
 
-	// 이미지 목록을 가져와서 리사이즈
-	$(".xe_content img").each(function(){
-		var img = $(this);
-		var src = img.attr("src");
-		var width  = img.attr("width");
-		var height = img.attr("height");
-		
-		// XE 내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
-		if ( regx_skip.test(src) ) return;
-		
-		// 커스텀 속성 추가
-		img.attr("rel", "xe_gallery");
-
-        // 크기를 계산한다
-        if(width>offsetWidth) {
-            img.attr("width",offsetWidth-1);
-            img.attr("height",parseInt(offsetWidth/width*height,10));
-        }
-
-        // 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
-        if ( !img.parent("a").size() && !img.attr("onclick") )  {
-            // 스타일 설정
-            img.css("cursor", "pointer");
+        $(this).find("img").each(function(){
+            var img = $(this);
+            var src = img.attr("src");
+            img.attr("width",img.attr("orig_width"));
+            img.removeAttr("orig_width",'');
+            var width  = img.attr("width");
+            var height = img.attr("height");
             
-            // 클릭하면 슬라이드쇼 시작
-            img.click(slideshow);
-        }
+            // XE 내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
+            if ( !regx_skip.test(src) ) {
+                // 커스텀 속성 추가
+                img.attr("rel", "xe_gallery");
 
-	});
+                // 크기를 계산한다
+                if(width>offsetWidth) {
+                    img.attr("width",offsetWidth-10);
+                    img.attr("height",parseInt(offsetWidth/width*height,10));
+                }
+
+                // 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
+                if ( !img.parent("a").size() && !img.attr("onclick") )  {
+                    // 스타일 설정
+                    img.css("cursor", "pointer");
+                    
+                    // 클릭하면 슬라이드쇼 시작
+                    img.click(slideshow);
+                }
+            }
+        });
+    });
 });
 
 })(jQuery);
