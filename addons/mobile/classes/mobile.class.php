@@ -60,7 +60,7 @@
                 require_once($class_file);
 
                 // 모바일 언어설정 로드(쿠키가 안되어 생각해낸 방법...-캐시파일 재생성을 클릭하면 초기화된다..)
-                $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_COOKIE']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+                $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
                 if($this->lang) {
                     $this->lang = str_replace(array('<?php /**','**/ ?>'),array('',''),$this->lang);
                     Context::setLangType($this->lang);
@@ -117,10 +117,10 @@
          * 쿠키가 안되기 때문에 휴대전화마다 고유한 파일로 언어설정을 저장하는 파일 생성
          **/
         function setLangType() {
-            $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_COOKIE']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
-            if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_COOKIE']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+            $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+            if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
             $langbuff = '<?php /**'.$this->lang.'**/ ?>';
-            FileHandler::writeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_COOKIE']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php',$langbuff);
+            FileHandler::writeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php',$langbuff);
         }
 
         /**
@@ -519,7 +519,7 @@
         function displayLangSelect() {
             $childs = array();
 
-            $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_COOKIE']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+            $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
             if($this->lang) {
                 $this->lang = str_replace(array('<?php /**','**/ ?>'),array('',''),$this->lang);
                 Context::setLangType($this->lang);
