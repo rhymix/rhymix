@@ -48,6 +48,7 @@
 .xpress-editor.black .input_control span{ border-top:1px solid #333;  color:#000;}
 
 .xpress-editor .tool{ position:relative; overflow:visible; padding:5px 10px 6px 10px; *padding:5px 10px 8px 10px; z-index:40; clear:both; background:#f8f8f8 url(../img/bg_tool.gif) repeat-x left bottom; border:0; *zoom:1;}
+.xpress-editor .tool.disable { display:none; }
 .xpress-editor.black .tool{ background:#111 url(../img/bg_tool.black.gif) repeat-x left bottom; }
 
 .xpress-editor .tool:after{ content:""; display:block; clear:both;}

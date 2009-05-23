@@ -36,6 +36,7 @@
 	<div class="xpress-editor {$colorset}">
 	    <div id="smart_content"> <a href="#xe-editor-container-{$editor_sequence}" class="skip">&raquo; {$lang->edit->jumptoedit}</a>
 	
+        <!--@if($enable_default_component||$enable_component||$html_mode)-->
 	    <!-- 편집 컴포넌트 -->
 	    <div class="tool off">
 	        <!--@if($enable_default_component)-->
@@ -460,6 +461,9 @@
 	        <!--@end-->
 	
 	    </div>
+        <!--@else-->
+            <div class="tool off disable"></div>
+        <!--@end-->
 	
 	    <!-- 에디터 출력 -->
 	    <div id="xe-editor-container-{$editor_sequence}" class="input_area xpress_xeditor_editing_area_container">
