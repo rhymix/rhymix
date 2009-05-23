@@ -37,10 +37,10 @@
                     if(!$val['link']) continue;
                     printf('<a href="%s" accesskey="%s">%s</a><br>%s', $val['href'], $this->getNo(), $val['text'], "\n");
                 }
-                print "<hr><br>";
             } else {
-                print $this->getContent()."<hr><br>\n";
-            } 
+                print $this->getContent()."\n";
+            }
+            print "<hr><br>";
         }
 
         /**
