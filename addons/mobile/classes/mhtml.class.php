@@ -64,7 +64,7 @@
                 printf('<a btn="%s" href="%s">%s</a><br>%s', $url->text, $url->url, $url->text, "\n");
             }
             // 언어선택
-            $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
+            $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
             printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.Context::getLang('select_lang'), "\n");
         }
 

@@ -117,10 +117,12 @@
          * 쿠키가 안되기 때문에 휴대전화마다 고유한 파일로 언어설정을 저장하는 파일 생성
          **/
         function setLangType() {
-            $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
-            if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
-            $langbuff = '<?php /**'.$this->lang.'**/ ?>';
-            FileHandler::writeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php',$langbuff);
+            if($this->lang) {
+                $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+                if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+                $langbuff = '<?php /**'.$this->lang.'**/ ?>';
+                FileHandler::writeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php',$langbuff);
+            }
         }
 
         /**
@@ -180,8 +182,10 @@
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
-            if(eregi("SKT11", $userAgent)) return "wml";
-            elseif(eregi("skt", $browserAccept)) return "wml";
+            if(eregi("SKT11", $userAgent) || eregi("skt", $browserAccept)) {
+                Context::set('mobile_skt',1);
+                return "wml";
+            }
             elseif(eregi("hdml", $browserAccept)) return "hdml";
             elseif(eregi("CellPhone", $userAgent)) return  "mhtml";
             return null;
@@ -194,11 +198,7 @@
             if(!$charset) $charset = 'UTF-8';
 
             //SKT는 euc-kr만 지원
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            $browserAccept = $_SERVER['HTTP_ACCEPT'];
-            $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
-            if(eregi("SKT11", $userAgent)) $charset = 'euc-kr';
-            elseif(eregi("skt", $browserAccept)) $charset = 'euc-kr';
+            if(Context::get('mobile_skt')==1) $charset = 'euc-kr';
 
             $this->charset = $charset;
         }
@@ -539,6 +539,12 @@
                     $childs[] = $obj;
                 }
             }
+
+            $obj = null;
+            $obj['link'] = $obj['text'] = Context::getLang('lang_return');
+            $obj['href'] = Context::get('return_uri');
+            $childs[] = $obj;
+
             $this->setChilds($childs);
 
             $this->display();

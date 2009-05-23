@@ -68,7 +68,7 @@
                 $url = $this->upperUrl;
                 printf('<do type="vnd.up" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
-            $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
+            $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
             printf('<do type="vnd.lang" label="%s"><go href="%s"/></do>%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
         }
 
@@ -79,7 +79,12 @@
 
         // 목록등에서 일련 번호를 리턴한다
         function getNo() {
-            return "vnd.skmn".parent::getNo();
+            if(Context::get('mobile_skt')==1) {
+                return "vnd.skmn".parent::getNo();
+            }
+            else {
+                return parent::getNo();
+            }
             return $str;
         }
     }
