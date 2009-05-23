@@ -44,7 +44,7 @@
         }
 
         /**
-         * @brief 버튼을 출력함 
+         * @brief 버튼을 출력함
          **/
         function printBtn() {
             if($this->nextUrl) {
@@ -55,6 +55,14 @@
                 $url = $this->prevUrl;
                 printf('<a href="%s">%s</a><br>%s', $url->url, $url->text, "\n");
             }
+            // 언어선택
+            if(!parent::isLangChange()){
+                $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
+                printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.Context::getLang('select_lang'), "\n");
+            }
+            else {
+                printf('<a href="%s">%s</a><br>%s', Context::get('return_uri'), Context::getLang('lang_return'), "\n");
+            }
             if($this->upperUrl) {
                 $url = $this->upperUrl;
                 printf('<btn href="%s" name="%s">%s', $url->url, $url->text, "\n");
@@ -63,9 +71,6 @@
                 $url = $this->homeUrl;
                 printf('<a btn="%s" href="%s">%s</a><br>%s', $url->text, $url->url, $url->text, "\n");
             }
-            // 언어선택
-            $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
-            printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.Context::getLang('select_lang'), "\n");
         }
 
         // 푸터 정보를 출력

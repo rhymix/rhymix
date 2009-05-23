@@ -49,7 +49,7 @@
         }
 
         /**
-         * @brief 버튼을 출력함 
+         * @brief 버튼을 출력함
          **/
         function printBtn() {
             if($this->nextUrl) {
@@ -60,6 +60,14 @@
                 $url = $this->prevUrl;
                 printf('<do type="vnd.prev" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
+            // 언어선택
+            if(!parent::isLangChange()){
+                $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
+                printf('<do type="vnd.lang" label="%s"><go href="%s"/></do>%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
+            }
+            else {
+                printf('<do type="vnd.lang" label="%s"><go href="%s"/></do>%s', Context::getLang('lang_return'), Context::get('return_uri'), "\n");
+            }
             if($this->homeUrl) {
                 $url = $this->homeUrl;
                 printf('<do type="access" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
@@ -68,8 +76,6 @@
                 $url = $this->upperUrl;
                 printf('<do type="vnd.up" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
-            $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
-            printf('<do type="vnd.lang" label="%s"><go href="%s"/></do>%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
         }
 
         // 푸터 정보를 출력

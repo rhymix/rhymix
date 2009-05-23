@@ -177,6 +177,7 @@
          * 모바일 브라우저가 아닐 경우 null return
          **/
         function getBrowserType() {
+            if(Context::get('smartphone')) return null;
             // 브라우저 타입을 판별
             $browserAccept = $_SERVER['HTTP_ACCEPT'];
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -539,11 +540,6 @@
                     $childs[] = $obj;
                 }
             }
-
-            $obj = null;
-            $obj['link'] = $obj['text'] = Context::getLang('lang_return');
-            $obj['href'] = Context::get('return_uri');
-            $childs[] = $obj;
 
             $this->setChilds($childs);
 
