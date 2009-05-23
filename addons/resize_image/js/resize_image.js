@@ -170,6 +170,7 @@ $(document).ready(function(){
             img.attr("width",1);
         });
         var offsetWidth = $(this).width();
+        alert(offsetWidth);
 
         $(this).find("img").each(function(){
             var img = $(this);
