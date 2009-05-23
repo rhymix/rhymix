@@ -50,7 +50,6 @@
     <tr>
         <td colspan="2">
             <select name="content_style">
-            <option value=""></option>
             <!--@foreach($content_style_list as $key => $val)-->
             <option value="{$key}" <!--@if($key==$editor_config->content_style)-->selected="selected"<!--@end-->>{$val->title}</option>
             <!--@end-->
