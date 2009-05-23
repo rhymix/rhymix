@@ -44,7 +44,8 @@
                 }
             } else {
                 printf('%s<br/>%s', str_replace("<br>","<br/>",$this->getContent()),"\n");
-            } 
+            }
+            print('<br/>');
         }
 
         /**
@@ -53,11 +54,11 @@
         function printBtn() {
             if($this->nextUrl) {
                 $url = $this->nextUrl;
-                printf('<do type="%s" label="%s"><go href="%s"/></do>%s', $this->getNo(), $url->text, $url->url, "\n");
+                printf('<do type="vnd.next" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
             if($this->prevUrl) {
                 $url = $this->prevUrl;
-                printf('<do type="%s" label="%s"><go href="%s"/></do>%s', $this->getNo(), $url->text, $url->url, "\n");
+                printf('<do type="vnd.prev" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
             if($this->homeUrl) {
                 $url = $this->homeUrl;
@@ -67,10 +68,8 @@
                 $url = $this->upperUrl;
                 printf('<do type="vnd.up" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
-            else {
-                $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
-                printf('<do type="vnd.up" label="%s"><go href="%s"/></do>%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
-            }
+            $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
+            printf('<do type="vnd.lang" label="%s"><go href="%s"/></do>%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
         }
 
         // 푸터 정보를 출력

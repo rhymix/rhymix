@@ -37,8 +37,9 @@
                     if(!$val['link']) continue;
                     printf('<a href="%s" accesskey="%s">%s</a><br>%s', $val['href'], $this->getNo(), $val['text'], "\n");
                 }
+                print "<hr><br>";
             } else {
-                print $this->getContent()."\n";
+                print $this->getContent()."<hr><br>\n";
             } 
         }
 
@@ -58,14 +59,13 @@
                 $url = $this->upperUrl;
                 printf('<btn href="%s" name="%s">%s', $url->url, $url->text, "\n");
             }
-            else {
-                $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
-                printf('<btn name="%s" href="%s">%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
-            }
             if($this->homeUrl) {
                 $url = $this->homeUrl;
-                printf('<a btn="%s" href="%s">%s</a>%s', $url->text, $url->url, $url->text, "\n");
+                printf('<a btn="%s" href="%s">%s</a><br>%s', $url->text, $url->url, $url->text, "\n");
             }
+            // 언어선택
+            $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
+            printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.Context::getLang('select_lang'), "\n");
         }
 
         // 푸터 정보를 출력
