@@ -42,6 +42,11 @@
     // 네비게이트 모드이거나 WAP class가 있을 경우 미리 컨텐츠를 추출하여 출력/ 종료
     if($called_position == 'before_module_proc') {
 
+        if($oMobile->isLangChange()) {
+            $oMobile->setLangType();
+            $oMobile->displayLangSelect();
+        }
+
         // 네비게이트 모드이면 네비게이션 컨텐츠 출력
         if($oMobile->isNavigationMode()) $oMobile->displayNavigationContent();
 

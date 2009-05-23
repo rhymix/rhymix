@@ -1,7 +1,7 @@
 <?php
     /**
      * mhtml Library ver 0.1
-     * @author zero <zero@zeroboard.com>
+     * @author zero <zero@zeroboard.com> / lang_select : misol
      **/
     class wap extends mobileXE {
 
@@ -24,7 +24,6 @@
         // 제목을 출력
         function printTitle() {
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
-            $this->title = str_replace(array('$','\'','_'), array('$$','&apos;','&shy;'), $this->title);
             printf('&lt;%s%s&gt;<br>%s', htmlspecialchars($this->title),htmlspecialchars($titlePageStr),"\n");
         }
 
@@ -58,6 +57,10 @@
             if($this->upperUrl) {
                 $url = $this->upperUrl;
                 printf('<btn href="%s" name="%s">%s', $url->url, $url->text, "\n");
+            }
+            else {
+                $url = getUrl('','lcm','1','sel_lang',Context::getLangType());
+                printf('<btn name="%s" href="%s">%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
             }
             if($this->homeUrl) {
                 $url = $this->homeUrl;
