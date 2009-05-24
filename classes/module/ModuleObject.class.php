@@ -239,8 +239,7 @@
             $addon_file = $oAddonController->getCacheFilePath();
             if(file_exists($addon_file)) @include($addon_file);
 
-            // action 실행
-            if(method_exists($this, $this->act)) {
+            if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
 
                 // 권한 체크
                 if(!$this->grant->access) return $this->stop("msg_not_permitted_act");
