@@ -274,7 +274,7 @@
                 if(!$forward) $forward = $oModuleModel->getActionForward($this->act);
 
                 // 찾아진 forward 모듈이 있으면 실행
-                if($forward->module && $forward->type && $forward->act) {
+                if($forward->module && $forward->type && $forward->act && $forward->act == $this->act) {
 
                     $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
 
@@ -287,7 +287,7 @@
 
                     $oModule->setModuleInfo($this->module_info, $xml_info);
 
-                    if(method_exists($oModule, $forward->act)) {
+                    if(isset($xml_info->action->{$forward->act}) && method_exists($oModule, $forward->act)) {
                         $output = $oModule->{$forward->act}();
                     } else {
                         return $this->stop("msg_module_is_not_exists");
@@ -303,6 +303,7 @@
 
                 // forward 모듈을 찾지 못했다면 원 모듈의 default index action을 실행
                 } else if($this->xml_info->default_index_act && method_exists($this, $this->xml_info->default_index_act)) {
+                    Context::set('act',$this->act = $this->xml_info->default_index_act);
                     $output = $this->{$this->xml_info->default_index_act}();
                 } else {
                     return false;
