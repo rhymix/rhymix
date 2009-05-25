@@ -1,0 +1,12 @@
+<query id="getDocumentTags" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+        <column name="tags" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srls" notnull="notnull" />
+    </conditions>
+</query>

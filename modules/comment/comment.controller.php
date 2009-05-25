@@ -292,6 +292,9 @@
                 $obj->homepage = $source_obj->get('homepage');
             }
 
+
+			if(!$obj->content) $obj->content = $source_obj->get('content');
+
             // 내용에서 XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 

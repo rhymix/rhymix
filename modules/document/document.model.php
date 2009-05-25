@@ -156,7 +156,7 @@
          **/
         function getDocumentList($obj, $except_notice = false) {
             // 정렬 대상과 순서 체크
-            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title'))) $obj->sort_index = 'list_order';
+            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) $obj->sort_index = 'list_order';
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
@@ -831,8 +831,8 @@
             $category_xml_file = $this->getCategoryXmlFile($module_srl);
 
             Context::set('category_xml_file', $category_xml_file);
-            Context::addJsFile('./common/js/tree_menu.js');
 
+			Context::loadJavascriptPlugin('ui.tree');
             // grant 정보를 추출
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'category_list');
@@ -910,6 +910,15 @@
             else return $output->data->document_srl;
         }
 
+		function getAlias($document_srl){
+			if(!$document_srl) return null;
+			$args->document_srl = $document_srl;
+			$output = executeQueryArray('document.getAliases', $args);
+
+            if(!$output->data) return null;
+			else return $output->data[0]->alias_title;
+		}
+
         function getHistories($document_srl, $list_count, $page)
         {
             $args->list_count = $list_count;
@@ -925,5 +934,84 @@
             $output = executeQuery('document.getHistory', $args);
             return $output->data;
         }
+
+        /**
+         * @brief module_srl값을 가지는 문서의 목록을 가져옴
+         **/
+        function getTrashList($obj) {
+
+            // 변수 체크
+            $args->category_srl = $obj->category_srl?$obj->category_srl:null;
+            $args->sort_index = $obj->sort_index;
+            $args->order_type = $obj->order_type?$obj->order_type:'desc';
+            $args->page = $obj->page?$obj->page:1;
+            $args->list_count = $obj->list_count?$obj->list_count:20;
+            $args->page_count = $obj->page_count?$obj->page_count:10;
+
+
+            // 검색 옵션 정리
+            $search_target = $obj->search_target;
+            $search_keyword = $obj->search_keyword;
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'title' :
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                            $use_division = true;
+                        break;
+                    case 'title_content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title = $search_keyword;
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $args->sort_index = 'documents.'.$args->sort_index;
+                        break;
+                    case 'user_name' :
+                    case 'nick_name' :
+                    case 'email_address' :
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'is_notice' :
+                    case 'is_secret' :
+                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
+                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            else $args->{"s_".$search_target} = '';
+                        break;
+                    case 'member_srl' :
+                    case 'readed_count' :
+                    case 'voted_count' :
+                    case 'comment_count' :
+                    case 'trackback_count' :
+                    case 'uploaded_count' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
+                        break;
+                    case 'regdate' :
+                    case 'last_update' :
+                    case 'ipaddress' :
+                    case 'tag' :
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                }
+            }
+
+
+			$output = executeQueryArray('document.getTrashList', $args);
+			if($output->data){
+            foreach($output->data as $key => &$attribute) {
+				$oDocument = null;
+				$oDocument = new documentItem();
+				$oDocument->setAttribute($attribute, false);
+				$attribute = $oDocument;
+			}
+			}
+            return $output;
+        }
+
     }
 ?>

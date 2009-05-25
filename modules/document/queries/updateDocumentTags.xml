@@ -1,0 +1,11 @@
+<query id="updateDocumentTags" action="update">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="tags" var="tags" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>
