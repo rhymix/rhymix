@@ -205,4 +205,18 @@
 	$lang->edit->merge_cells = '셀 병합';
     $lang->edit->split_row = '행 분할';
     $lang->edit->split_col = '열 분할';
+    
+    $lang->edit->toggle_list   = '목록 접기/펼치기';
+    $lang->edit->minimize_list = '최소화';
+    
+    $lang->edit->move = '이동';
+    $lang->edit->materials = '글감보관함';
+    $lang->edit->temporary_savings = '임시저장목록';
+    
+    $lang->edit->drag_here = '글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+
+	$lang->edit->paging_prev = '이전';
+	$lang->edit->paging_next = '다음';
+	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
+	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
 ?>
