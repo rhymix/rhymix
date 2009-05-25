@@ -633,5 +633,38 @@
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
+        <var id="markup_type">
+            <type>select</type>
+            <name xml:lang="ko">HTML 출력 방식</name>
+            <name xml:lang="jp">HTML 출력 방식</name>
+            <name xml:lang="zh-CN">HTML 출력 방식</name>
+            <name xml:lang="en">HTML 출력 방식</name>
+            <name xml:lang="ru">HTML 출력 방식</name>
+            <name xml:lang="zh-TW">HTML 출력 방식</name>
+            <description xml:lang="ko">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="jp">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="zh-CN">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="en">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="ru">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="zh-TW">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <options>
+                <value>table</value>
+                <name xml:lang="ko">Table</name>
+                <name xml:lang="jp">Table</name>
+                <name xml:lang="zh-CN">Table</name>
+                <name xml:lang="en">Table</name>
+                <name xml:lang="ru">Table</name>
+                <name xml:lang="zh-TW">Table</name>
+            </options>
+            <options>
+                <value>list</value>
+                <name xml:lang="ko">UL (list)</name>
+                <name xml:lang="jp">UL (list)</name>
+                <name xml:lang="zh-CN">UL (list)</name>
+                <name xml:lang="en">UL (list)</name>
+                <name xml:lang="ru">UL (list)</name>
+                <name xml:lang="zh-TW">UL (list)</name>
+            </options>
+        </var>
     </extra_vars>
 </widget>

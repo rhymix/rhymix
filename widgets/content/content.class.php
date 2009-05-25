@@ -55,6 +55,9 @@
             // 보기 옵션
             $args->option_view_arr = explode(',',$args->option_view);
 
+            // markup 옵션
+            if(!$args->markup_type) $args->markup_type = 'table';
+
             // 내부적으로 쓰이는 변수 설정
             $oModuleModel = &getModel('module');
             $module_srls = $args->modules_info = $args->module_srls_info = $args->mid_lists = array();
@@ -618,6 +621,8 @@
 
             $widget_info->list_type = $args->list_type;
             $widget_info->tab_type = $args->tab_type;
+
+            $widget_info->markup_type = $args->markup_type;
 
             // 탭형태일경우 탭에 대한 정보를 정리하고 module_srl로 되어 있는 key값을 index로 변경
             if($args->tab_type != 'none' && $args->tab_type) {

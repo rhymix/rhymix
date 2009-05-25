@@ -22,6 +22,8 @@
 .widgetTabA li a{ position:relative; left:2px; float:left; height:20px; padding:8px 15px 0 15px; text-decoration:none; font-size:12px; background-repeat:no-repeat; background-position:right 0;}
 .widgetTabA li.active a{ background-position:right -30px; font-weight:bold; letter-spacing:-1px;}
 
+ul.widgetA { margin:0; padding:0; list-style:none; }
+ul.widgetA li { margin:0; padding:0; list-style:none; }
 .widgetTableA { width:100%; font-size:12px; position:relative; border:0;}
 .widgetTableA td{ border:0; line-height:1.5; white-space:nowrap; vertical-align:top; padding:1px 5px 1px 5px;}
 .widgetTableA td.title{ width:100%; white-space:normal;}
@@ -106,6 +108,15 @@ dl.widgetDivider dd{ display:none; margin:0;}
 .widgetTabA li,
 .widgetTabA li a{ background-image:url(../img/white/buttonWidgetTab.gif);}
 .widgetTabA li a{ color:#333;}
+
+.widgetA a.board { color:#333; padding-right:5px; background:url(../img/white/lineTextDiv.gif) no-repeat right center;}
+.widgetA .notice{ color:#ff1a1a; background:url(../img/white/lineTextDiv.gif) no-repeat right center;}
+.widgetA .category{ color:#333; background:url(../img/white/lineTextDiv.gif) no-repeat right center;}
+.widgetA .replyNum a{ color:#ff1a1a;}
+.widgetA .trackbackNum a{ color:#66c;}
+.widgetA .author { color:#333;}
+.widgetA .date{ color:#333;}
+.widgetA .hour{ color:#888;}
 
 .widgetTableA td.title a{ color:#333;}
 .widgetTableA td .board{ color:#333; background:url(../img/white/lineTextDiv.gif) no-repeat right center;}
