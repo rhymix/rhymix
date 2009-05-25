@@ -82,7 +82,7 @@ class planetWAP extends planet {
             foreach($output->data as $no => $item) {
                 $obj = null;
                 $obj['href'] = getUrl('mid',$_GET['mid'],'document_srl',$item->get('document_srl'), 'act', 'dispPlanetContentCommentList');
-                $obj['link'] = $item->get('document_srl').'['.htmlspecialchars($item->getNickName()).'] '."\n";
+                $obj['link'] = '['.htmlspecialchars($item->getNickName()).'] '."\n";
                 $obj['link'] .= htmlspecialchars(strip_tags($item->getContent()));
                 if($item->getPostScript()) $obj['extra'] = Context::getLang('planet_postscript').htmlspecialchars($item->getPostScript());
                 if(is_array($item->getArrTags())) {
