@@ -2,15 +2,15 @@
 /**
   * @class  planetWAP
   * @author misol (misol@korea.ac.kr)
-  * @brief  planet ¸ðµâÀÇ WAP class
-  * WML, mHTML µî ¸ð¹ÙÀÏ ÆäÀÌÁö »ý¼ºÀ» ´ã´ç(½º¸¶Æ®Æù Á¦¿Ü^^)
+  * @brief  planet ëª¨ë“ˆì˜ WAP class
+  * WML, mHTML ë“± ëª¨ë°”ì¼ íŽ˜ì´ì§€ ìƒì„±ì„ ë‹´ë‹¹(ìŠ¤ë§ˆíŠ¸í° ì œì™¸^^)
   **/
 
 class planetWAP extends planet {
     function procWAP(&$oMobile) {
         $content = '';
 
-        // ÇÃ·¡´ÖÀÇ ±âº» ´ÜÀ§ÀÎ ³¯Â¥¸¦ ¹Ì¸® °è»ê ¸ðµâ¿¡ ÀÖ´Â µ¿ÀÛÀÎµ¥... ¾Öµå¿ÂÀÌ ¸ðµâº¸´Ù ÀÏÂï ½ÇÇàµÈ´Ù;
+        // í”Œëž˜ë‹›ì˜ ê¸°ë³¸ ë‹¨ìœ„ì¸ ë‚ ì§œë¥¼ ë¯¸ë¦¬ ê³„ì‚° ëª¨ë“ˆì— ìžˆëŠ” ë™ìž‘ì¸ë°... ì• ë“œì˜¨ì´ ëª¨ë“ˆë³´ë‹¤ ì¼ì° ì‹¤í–‰ëœë‹¤;
         $last_date = $this->planet->getContentLastDay();
         $date = Context::get('date');
         if(!$date || $date > $last_date) $date = $last_date;
@@ -48,7 +48,7 @@ class planetWAP extends planet {
                  zdate($date,'m').Context::getLang('unit_month').
                  zdate($date,'d').Context::getLang('unit_day').']';
 
-        // ´ñ±Û º¸±â ÀÏ °æ¿ì
+        // ëŒ“ê¸€ ë³´ê¸° ì¼ ê²½ìš°
         if($this->act == 'dispPlanetContentCommentList') {
             $page = Context::get('page');
             $document_srl = Context::get('document_srl');
@@ -64,13 +64,13 @@ class planetWAP extends planet {
                 }
             }
 
-            // »óÀ§ ÆäÀÌÁö¸¦ ¸ñ·ÏÀ¸·Î µ¹¾Æ°¡±â·Î ÁöÁ¤
+            // ìƒìœ„ íŽ˜ì´ì§€ë¥¼ ëª©ë¡ìœ¼ë¡œ ëŒì•„ê°€ê¸°ë¡œ ì§€ì •
             $oMobile->setUpperUrl( getUrl('act',''), Context::getLang('cmd_go_upper') );
 
         } else {
             if($output->page_navigation->total_page>1) {
                 if($output->page_navigation->cur_page < $output->page_navigation->last_page) {
-                    // next/prevUrl ÁöÁ¤
+                    // next/prevUrl ì§€ì •
                     $oMobile->setPrevUrl(getUrl('page',$output->page_navigation->cur_page+1), sprintf('%s (%d/%d)', Context::getLang('cmd_prev'), $output->page_navigation->cur_page+1, $output->page_navigation->total_page));
                 }
                 if($output->page_navigation->cur_page > 1) $oMobile->setNextUrl(getUrl('page',$output->page_navigation->cur_page-1), sprintf('%s (%d/%d)', Context::getLang('cmd_next'), $output->page_navigation->cur_page-1, $output->page_navigation->total_page));
