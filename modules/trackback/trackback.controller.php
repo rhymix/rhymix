@@ -170,6 +170,9 @@
             // 원본글에 알림(notify_message)가 설정되어 있으면 메세지 보냄
             if(!$manual_inserted) $oDocument->notify(Context::getLang('trackback'), $obj->excerpt);
 
+            // trigger 호출 (after)
+            $output = ModuleHandler::triggerCall('trackback.insertTrackback', 'after', $obj);
+            if(!$output->toBool()) return $output;
 
             return new Object();
         }
@@ -185,6 +188,10 @@
             $trackback = $oTrackbackModel->getTrackback($trackback_srl);
             if($trackback->data->trackback_srl != $trackback_srl) return new Object(-1, 'msg_invalid_request');
             $document_srl = $trackback->data->document_srl;
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('trackback.deleteTrackback', 'before', $trackback);
+            if(!$output->toBool()) return $output;
 
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
@@ -205,6 +212,10 @@
             // 해당글의 엮인글 수를 업데이트
             $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
             $output->add('document_srl', $document_srl);
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('trackback.deleteTrackback', 'after', $trackback);
+            if(!$output->toBool()) return $output;
 
             return $output;
         }
