@@ -94,7 +94,7 @@
                     if($val->getCommentCount()) $title .= ' ['.$val->getCommentCount().']';
                     $obj['link'] = $obj['text'] = '['.$val->getNickName().'] '.$title;
                     $childs[] = $obj;
-                } 
+                }
                 $oMobile->setChilds($childs); 
             }
 

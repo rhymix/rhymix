@@ -36,6 +36,7 @@
                 foreach($this->getChilds() as $key => $val) {
                     if(!$val['link']) continue;
                     printf('<a href="%s" accesskey="%s">%s</a><br>%s', $val['href'], $this->getNo(), $val['text'], "\n");
+                    if($val['extra']) printf("<br>%s\n",str_replace('<br/>','<br>',$val['extra']));
                 }
             } else {
                 print(str_replace('<br/>','<br>',$this->getContent())."\n");
