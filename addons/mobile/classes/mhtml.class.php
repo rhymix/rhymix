@@ -38,7 +38,7 @@
                     printf('<a href="%s" accesskey="%s">%s</a><br>%s', $val['href'], $this->getNo(), $val['text'], "\n");
                 }
             } else {
-                print $this->getContent()."\n";
+                print(str_replace('<br/>','<br>',$this->getContent())."\n");
             }
             print "<hr><br>";
         }

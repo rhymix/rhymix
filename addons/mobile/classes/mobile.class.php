@@ -12,6 +12,7 @@
         var $upperUrl = NULL;
         var $nextUrl = NULL;
         var $prevUrl = NULL;
+        var $etcBtn = NULL;
 
         // 메뉴 네비게이션을 위한 변수
         var $childs = null;
@@ -62,8 +63,9 @@
                 // 모바일 언어설정 로드(쿠키가 안되어 생각해낸 방법...-캐시파일 재생성을 클릭하면 초기화된다..)
                 $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
                 if($this->lang) {
+                    $lang_supported = Context::get('lang_supported');
                     $this->lang = str_replace(array('<?php /**','**/ ?>'),array('',''),$this->lang);
-                    Context::setLangType($this->lang);
+                    if(isset($lang_supported[$this->lang])) Context::setLangType($this->lang);
                 }
                 Context::loadLang(_XE_PATH_.'addons/mobile/lang');
 
@@ -117,7 +119,9 @@
          * 쿠키가 안되기 때문에 휴대전화마다 고유한 파일로 언어설정을 저장하는 파일 생성
          **/
         function setLangType() {
-            if($this->lang) {
+            $lang_supported = Context::get('lang_supported');
+            // 언어 변수가 있는지 확인하고 변수가 유효한지 확인
+            if($this->lang && isset($lang_supported[$this->lang])) {
                 $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
                 if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
                 $langbuff = '<?php /**'.$this->lang.'**/ ?>';
@@ -401,6 +405,16 @@
         }
 
         /**
+         * @brief 다음, 이전, 상위 이외에 기타 버튼 지정
+         **/
+        function setEtcBtn($url, $text) {
+            if(!$url) $url = '#';
+            $etc['url'] = $url;
+            $etc['text'] = htmlspecialchars($text);
+            $this->etcBtn[] = $etc;
+        }
+
+        /**
          * @brief display
          **/
         function display() {
@@ -408,7 +422,7 @@
             $this->setHomeUrl(getUrl(), Context::getLang('cmd_go_home'));
 
             // 제목 지정
-            $this->setTitle(Context::getBrowserTitle());
+            if(!$this->title) $this->setTitle(Context::getBrowserTitle());
 
             ob_start();
 

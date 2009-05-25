@@ -40,7 +40,7 @@
             if($this->hasChilds()) {
                 foreach($this->getChilds() as $key => $val) {
                     if(!$val['link']) continue;
-                    printf('<do type="%s" label="%s"><go href="%s" /></do>%s', $this->getNo(), $val['text'], $val['href'], "\n");
+                    printf('<do type="%s" label="%s"><go href="%s" /></do>%s', $this->getNo(), htmlspecialchars($val['text']), $val['href'], "\n");
                 }
             } else {
                 printf('%s<br/>%s', str_replace("<br>","<br/>",$this->getContent()),"\n");
@@ -59,6 +59,14 @@
             if($this->prevUrl) {
                 $url = $this->prevUrl;
                 printf('<do type="vnd.prev" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
+            }
+            // 기타 해당사항 없는 버튼 출력 담당 (array로 전달) type??
+            if($this->etcBtn) {
+                if(is_array($this->etcBtn)) {
+                    foreach($this->etcBtn as $key=>$val) {
+                        printf('<do type="vnd.btn%s" label="%s"><go href="%s"/></do>%s', $key, $val['text'], $val['url'], "\n");
+                    }
+                }
             }
             // 언어선택
             if(!parent::isLangChange()){
