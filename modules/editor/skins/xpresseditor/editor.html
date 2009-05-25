@@ -13,7 +13,7 @@
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
-        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="10" rows="10"></textarea>
+        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="5" rows="50" class="inputTextarea"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
