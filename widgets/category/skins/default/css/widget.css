@@ -2,7 +2,7 @@
 
 /* Widget Tree */
 .widgetTree { margin-top:10px;}
-.widgetTree a.title { background:url(../img/white/folder.gif) no-repeat left top; padding-left:20px;}
+.widgetTree a.all { background:url(../img/white/folder.gif) no-repeat left top; padding-left:20px;}
 .widgetTree a.strong { font-weight:bold; }
 .widgetTree span { font-size:9px; font-family:tahoma; padding:0; margin:0; color:#999;}
 .widgetTree ul span { margin-left:15px; }
@@ -36,7 +36,7 @@
 .widgetTree ul li.nav_tree_last{ background:url(../img/white/lineTreeLastHr.gif) no-repeat 0 5px !important;}
 
 .widgetContainer.black .widgetTree { margin-top:10px;}
-.widgetContainer.black .widgetTree a.title { background:url(../img/black/folder.gif) no-repeat left top; padding-left:20px;}
+.widgetContainer.black .widgetTree a.all { background:url(../img/black/folder.gif) no-repeat left top; padding-left:20px;}
 .widgetContainer.black .widgetTree span { font-size:9px; font-family:tahoma; padding:0; margin:0; color:#333;}
 .widgetContainer.black .widgetTree ul span { margin-left:15px; }
 .widgetContainer.black .widgetTree *{ margin:0; padding:0; font-size:12px;}
