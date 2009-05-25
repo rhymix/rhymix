@@ -1003,7 +1003,7 @@
 
 			$output = executeQueryArray('document.getTrashList', $args);
 			if($output->data){
-            foreach($output->data as $key => &$attribute) {
+            foreach($output->data as $key => $attribute) {
 				$oDocument = null;
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
