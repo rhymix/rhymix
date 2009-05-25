@@ -30,8 +30,6 @@
          * @brief 내용 직접 입력 위젯 팝업창 내용을 꾸힘
          **/
         function dispWidgetAdminAddContent() {
-            $this->setLayoutFile("popup_layout");
-
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return $this->stop("msg_invalid_request");
 
@@ -49,7 +47,9 @@
             $editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
             Context::set('editor', $editor);
 
+            $this->setLayoutFile("popup_layout");
             $this->setTemplateFile('add_content_widget');
+
         }
 
     }

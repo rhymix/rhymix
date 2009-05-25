@@ -298,6 +298,7 @@
 
                     $this->setTemplatePath($oModule->getTemplatePath());
                     $this->setTemplateFile($oModule->getTemplateFile());
+                    if($oModule->getLayoutFile()) $this->setLayoutFile($oModule->getLayoutFile());
 
                     $this->adds($oModule->getVariables());
 
