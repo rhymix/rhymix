@@ -1,0 +1,13 @@
+<query id="updateDocumentsAllowCommentTrackback" action="update">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="allow_comment" var="allow_comment" default="Y" />
+        <column name="allow_trackback" var="allow_trackback" default="Y" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>
