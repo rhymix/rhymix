@@ -241,6 +241,10 @@
                 $this->error = 'msg_dbconnect_failed';
             }
 
+            // 모듈 동작을 마친 후 trigger call
+            $output = ModuleHandler::triggerCall('moduleHandler.proc', 'after', $oModule);
+            if(!$output->toBool()) $this->error = $output->getMessage();
+
             // HTML call 이면 message view 객체 이용하도록
             if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
                 // 에러가 발생하였을시 처리
@@ -296,8 +300,6 @@
 
                         // 레이아웃이 수정되었을 경우 수정본을 지정
                         $edited_layout = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
-//                        $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_info->layout_srl);
-//                        Context::addCSSFile($edited_layout_css);
                         if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                     }
                 }
