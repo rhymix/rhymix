@@ -89,7 +89,7 @@
             /**
              * 최근 뉴스를 가져와서 세팅
              **/
-            $newest_news_url = sprintf("http://news.zeroboard.com/%s/news.php", Context::getLangType());
+            $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php", Context::getLangType());
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_,Context::getLangType());
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 FileHandler::getRemoteFile($newest_news_url, $cache_file);
