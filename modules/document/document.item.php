@@ -556,7 +556,8 @@
                 preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
                 $cnt = count($matches);
                 for($i=0;$i<$cnt;$i++) {
-                    $target_src = $matches[$i][2];
+                    $target_src = trim($matches[$i][2]);
+		     if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$target_src)) continue;
                     if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
                     else {
                         if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;
