@@ -31,12 +31,12 @@ function editorFocus(editor_sequence) {
 /**
  * 자동 저장 기능
  **/
-// 자동 저장 활성화 시키는 함수 (10초마다 자동저장)
+// 자동 저장 활성화 시키는 함수 (50초마다 자동저장)
 function editorEnableAutoSave(fo_obj, editor_sequence) {
     var title = fo_obj.title.value;
     var content = editorRelKeys[editor_sequence]['content'].value;
     editorAutoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
-    setTimeout(_editorAutoSave, 10000);
+    setTimeout(_editorAutoSave, 50000);
 }
 
 // ajax를 이용하여 editor.procEditorSaveDoc 호출하여 자동 저장시킴
@@ -80,8 +80,8 @@ function _editorAutoSave() {
         show_waiting_message = true;
     }
 
-    // 10초마다 동기화를 시킴
-    setTimeout(_editorAutoSave, 10000);
+    // 50초마다 동기화를 시킴
+    setTimeout(_editorAutoSave, 50000);
 }
 
 // 자동저장된 모든 메세지를 삭제하는 루틴
