@@ -39,6 +39,39 @@
             return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
 
+
+        /**
+         * @brief iframe 첨부파일 업로드 
+         **/
+        function procFileIframeUpload() {
+            // 기본적으로 필요한 변수 설정
+            $editor_sequence = Context::get('editor_sequence');
+            $callback = Context::get('callback');
+            $module_srl = $this->module_srl;
+
+            // 업로드 권한이 없거나 정보가 없을시 종료
+            if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
+
+            // upload_target_srl 구함
+            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) {
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+            }
+
+            $file_info = Context::get('Filedata');
+            // 정상적으로 업로드된 파일이 아니면 오류 출력
+            if(is_uploaded_file($file_info['tmp_name'])){
+				$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+				Context::set('uploaded_fileinfo',$output);
+			}
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('iframe');
+
+        }
+
+
+
         /**
          * @brief 첨부파일 다운로드
          * 직접 요청을 받음
