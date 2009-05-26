@@ -11,8 +11,7 @@
     <!--@foreach($widget_info->category_list as $key => $val)-->
         <!--@if($_pDepth > $val->depth)-->
             <!--@for($i=$val->depth; $i<$_pDepth; $i++)-->
-            </li>
-        </ul>
+            </ul>
             <!--@end-->
             {@ $_pDepth = $val->depth}
         <!--@end-->
@@ -32,10 +31,10 @@
                 {@$_pDepth++}
                 <ul>
             <!--@else-->
-            </li>
+                </li>
             <!--@end-->
     <!--@end-->
     <!--@for($i=0;$i<$_pDepth;$i++)--></ul></li><!--@end-->
-        </ul>
+    </ul>
     </div>
 </div>
