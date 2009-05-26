@@ -1,4 +1,5 @@
 var xeSmartMenu = null;
+var xeSmartUpperMenu = null;
 function showXEMenu() {
     if(!xeSmartMenu) {
 
@@ -40,9 +41,12 @@ function showXEMenu() {
     }
 
     if(xeSmartMenu.css('display')=='none' && typeof(xeMenus)!='undefined') {
+        xeSmartUpperMenu = null;
         var menu = findSmartNode(xeMenus);
         if(!menu) menu = xeMenus;
         var html = '<ul>';
+        if(location.href.getQuery('mid')) html += '<li><a href="'+current_url.setQuery('mid','')+'">&lt; go Home &gt;</a></li>';
+        if(xeSmartUpperMenu) html += '<li><a href="'+current_url.setQuery('mid',xeSmartUpperMenu.url)+'">&lt; go Upper &gt;</a></li>';
         for(var text in menu) {
             if(!text) continue;
             var url = menu[text].url;
@@ -77,20 +81,21 @@ function showXEMenu() {
 }
 
 function findSmartNode(nodes) {
-    if(typeof(current_mid)=='undefined') return;
-    var mid = current_mid;
-    if(location.href.indexOf(mid)<0&&location.href.indexOf('document_srl')<0) mid = null;
+    var mid = current_url.getQuery('mid');
+    if(typeof(mid)=='undefined'||!mid) return nodes;
     for(var text in nodes) {
         if(!text) continue;
-        if(nodes[text].url == mid) {
-            if(nodes[text].childs) return nodes[text].childs;    
-        }
-        if(nodes[text].childs && nodes[text].childs.length) {
+        if(nodes[text].childs) {
             var n = findSmartNode(nodes[text].childs);
-            if(n) return n;
+            if(n) {
+                xeSmartUpperMenu = nodes[text];
+                return n;
+            }
+        }
+        if(nodes[text].url == mid) {
+            if(nodes[text].childs) return nodes[text].childs;
+            return nodes;
         }
     }
     return null;
 }
-
-if(!location.href.getQuery('mid')&&!location.href.getQuery('document_srl')) jQuery(document).ready(showXEMenu);

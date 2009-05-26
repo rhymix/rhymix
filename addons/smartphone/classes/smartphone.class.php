@@ -74,45 +74,44 @@
             return $output;
         }
 
-        function procSmartPhone() {
+        function procSmartPhone($msg = null) {
             if(preg_match('/(iPopd|iPhone)/',$_SERVER['HTTP_USER_AGENT'])) {
                 Context::addHtmlHeader('<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
             } else if(preg_match('/PPC/',$_SERVER['HTTP_USER_AGENT'])) {
                 Context::addHtmlHeader('<meta name="viewport" content="width=240; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
             }
 
-            if(is_a($this->output, 'Object') || is_subclass_of($this->output, 'Object')) {
-                $this->setContent($this->output->getMessage());
+            if(is_a($this->output, 'Object') || is_subclass_of($this->output, 'Object') || $msg) {
+                if($msg) $this->setContent(Context::getLang($msg));
+                else $this->setContent($this->output->getMessage());
                 return;
             }
 
-            if($_GET['mid'] || $_GET['document_srl']) {
-                if($this->haveSmartphoneModule($this->module_info->module)) {
-                    $oSmartPhoneModule =& getModule($this->module_info->module, 'smartphone');
-                    $vars = get_object_vars($this->oModule);
-                    if(count($vars)) foreach($vars as $key => $val) $oSmartPhoneModule->{$key}  = $val;
-                    $oSmartPhoneModule->procSmartPhone($this);
-                } else {
-                    switch(Context::getLangType()) {
-                        case 'ko' :
-                                $msg = '스마트폰을 지원하지 않는 모듈입니다';
-                            break;
-                        case 'jp' :
-                                $msg = 'このモジュールをサポートしていません。';
-                            break;
-                        case 'zh-TW' :
-                                $msg = '該模塊不支持。';
-                            break;
-                        case 'zh-CN' :
-                                $msg = '该模块不支持。';
-                            break;
-                        default :
-                                $msg = 'This module is not supported.';
-                            break;
-                    }
-                    $this->setContent($msg);
+            if($this->haveSmartphoneModule($this->module_info->module)) {
+                $oSmartPhoneModule =& getModule($this->module_info->module, 'smartphone');
+                $vars = get_object_vars($this->oModule);
+                if(count($vars)) foreach($vars as $key => $val) $oSmartPhoneModule->{$key}  = $val;
+                $oSmartPhoneModule->procSmartPhone($this);
+            } else {
+                switch(Context::getLangType()) {
+                    case 'ko' :
+                            $msg = '스마트폰을 지원하지 않는 모듈입니다';
+                        break;
+                    case 'jp' :
+                            $msg = 'このモジュールをサポートしていません。';
+                        break;
+                    case 'zh-TW' :
+                            $msg = '該模塊不支持。';
+                        break;
+                    case 'zh-CN' :
+                            $msg = '该模块不支持。';
+                        break;
+                    default :
+                            $msg = 'This module is not supported.';
+                        break;
                 }
-            } 
+                $this->setContent($msg);
+            }
         }
 
         function setContent($content) {
