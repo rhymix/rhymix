@@ -611,6 +611,7 @@
 
             FileHandler::writeFile($cache_file, $buff, "w");
 
+	    unset($xml_info);
             include($cache_file);
             return $xml_info;
         }
