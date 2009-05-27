@@ -39,7 +39,7 @@
     $lang->group_image_mark = 'Group Image Mark';
     $lang->group_image_mark_max_width = 'Max Width';
     $lang->group_image_mark_max_height = 'Max Height';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
+    $lang->group_image_mark_order = 'Group Image Mark Order';
     $lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
@@ -78,11 +78,11 @@
         'nick_name' => 'Nickname',
         'email_address' => 'Email Address',
         'regdate' => 'Join Date',
-        'regdate_more' => '가입일시(이상)',
-        'regdate_less' => '가입일시(이하)',
+        'regdate_more' => 'Join Date (more)',
+        'regdate_less' => 'Join Date (less)',
         'last_login' => 'Last Login Date',
-        'last_login_more' => '최근로그인일시(이상)',
-        'last_login_less' => '최근로그인일시(이하)',
+        'last_login_more' => 'Last Login Date (more)',
+        'last_login_less' => 'Last Login Date (less)',
         'extra_vars' => 'Extra Vars',
     );
 
