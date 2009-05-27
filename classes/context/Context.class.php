@@ -360,7 +360,7 @@
                 // SSO 결과를 받는 경우 session_name() 세팅
                 if(Context::get('SSOID')) {
                     setcookie(session_name(), Context::get('SSOID'), 0, '/');
-                    header("location:".getUrl('SSOID',''));
+                    header("location:".str_replace('&amp;','&',getUrl('SSOID','')));
                     return false;
                 // SSO 결과를 요청
                 } else if($_COOKIE['sso']!=md5(Context::getRequestUri()) && !Context::get('SSOID')) {
