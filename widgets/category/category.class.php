@@ -23,7 +23,12 @@
                 $args->mid = $tmp_mid[0];
             } 
 
-            if($args->mid) $args->srl = $oModuleModel->getModuleSrlByMid($args->mid);
+            if($args->mid) {
+                $args->srl = $oModuleModel->getModuleSrlByMid($args->mid);
+                if(is_array($args->srl)) {
+                    $args->srl = $args->srl[0];
+                } 
+            }
 
             $obj->module_srl = $args->srl;
 

@@ -153,7 +153,6 @@
         function getCommentAllCount($module_srl) {
             $args->module_srl = $module_srl;
 			$output = executeQuery('comment.getCommentCount', $args);
-			debugPrint($output);
 			$total_count = $output->data->count;
 			
             return (int)$total_count;
@@ -393,10 +392,16 @@
             }
 
             // comment.getTotalCommentList 쿼리 실행
-            $output = executeQuery($query_id, $args);
+            $output = executeQueryArray($query_id, $args);
 
             // 결과가 없거나 오류 발생시 그냥 return
             if(!$output->toBool()||!count($output->data)) return $output;
+            foreach($output->data as $key => $val) {
+                unset($_oComment);
+                $_oComment = new CommentItem(0);
+                $_oComment->setAttribute($val);
+                $output->data[$key] = $_oComment;
+            }
 
             return $output;
         }

@@ -41,7 +41,7 @@
                                 $oComment->setAttribute($val);
                                 if(!$oComment->isAccessible()) continue;
                                 $content .= "<b>".$oComment->getNickName()."</b> (".$oComment->getRegdate("Y-m-d").")<br>\r\n".$oComment->getContent(false,false)."<br>\r\n";
-                            } 
+                            }
                         }
 
                         // 내용 설정
@@ -54,12 +54,12 @@
                     } else {
 
                         // 내용 지정 (태그를 모두 제거한 내용을 설정)
-                        $content = strip_tags($oDocument->getContent(false,false,false));
+                        $content = strip_tags(str_replace('<p>','<br>&nbsp;&nbsp;&nbsp;',$oDocument->getContent(false,false,false)),'<br><b><i><u><em><small><strong><big>');
 
 
                         // 내용 상단에 정보 출력 (댓글 보기 링크 포함)
                         $content = Context::getLang('replies').' : <a href="'.getUrl('act','dispBoardContentCommentList').'">'.$oDocument->getCommentCount().'</a><br>'."\r\n".$content;
-                        $content = '<b>'.$oDocument->getNickName()."</b> (".$oDocument->getRegdate("Y-m-d").")<br>\r\n".$content;
+                        $content = '<b>'.$oDocument->getNickName().'</b> ('.$oDocument->getRegdate("Y-m-d").")<br>\r\n".$content;
                         
                         // 내용 설정
                         $oMobile->setContent( $content );
@@ -90,11 +90,11 @@
                     $obj = null;
                     $obj['href'] = $val->getPermanentUrl();
 
-                    $title = $val->getTitleText();
+                    $title = htmlspecialchars($val->getTitleText());
                     if($val->getCommentCount()) $title .= ' ['.$val->getCommentCount().']';
                     $obj['link'] = $obj['text'] = '['.$val->getNickName().'] '.$title;
                     $childs[] = $obj;
-                } 
+                }
                 $oMobile->setChilds($childs); 
             }
 

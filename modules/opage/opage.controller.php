@@ -68,41 +68,31 @@
          * @brief 내용에 포함된 src, href의 값을 변경
          **/
         function replaceSrc($content, $path) {
-            if(substr($path,-1)!='/') $path.='/';
-            $this->target_path = $path;
-
-            // element의 속성중 value에 " 로 안 묶여 있는 것을 검사하여 묶어줌 - 에러날 수 있음 ex) window.open('*','*','width=320, height=240 ,left=100,top=100')
-            //$content = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $content);
-
-            // img, input, a, link등의 href, src값 변경
-            $content = preg_replace_callback('!<(script|link|a|img|input|iframe)([^>]*)(href|src)=[\'"](.*?)[\'"]!is', array($this, '_replaceSrc'), $content);
-
-            // background:url의 값 변경
-            $content = preg_replace_callback('!url\((.*?)\)!is', array($this, '_replaceBackgroundUrl'), $content);
+            $url_info = parse_url($path);
+            $host = sprintf("%s://%s%s",$url_info['scheme'],$url_info['host'],$url_info['port']?':'.$url_info['port']:'');
+            $path = $url_info['path'];
+            if(substr($path,-1)=='/') $path = substr($path,-1);
+            $t = explode('/',$path);
+            $_t = array();
+            for($i=0,$c=count($t)-1;$i<$c;$i++) {
+                $v = trim($t[$i]);
+                if(!$v) continue;
+                $_t[] = $v;
+            }
+            $path = $host.implode('/',$_t);
+            if(substr($path,-1)!='/') $path .= '/';
+            $this->path = $path;
+            $content = preg_replace_callback('/(src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
 
             return $content;
         }
 
-        function _replaceSrc($matches) {
-            $href = $matches[4];
-            if(preg_match("/^http/i", $href) || $href == '#' || preg_match("/javascript:/i",$href)) return $matches[0];
-
-            if(substr($href,0,1)=='/') $href = substr($href,1);
-            $href = $this->target_path.$href;
-
-            $buff = sprintf('<%s%s%s="%s"', $matches[1], $matches[2], $matches[3], $href);
-            return $buff;
+        function _replacePath($matches) {
+            $val = trim($matches[3]);
+            if(preg_match('/^(http|\/|\.\.)/i',$val)) return $matches[0];
+            if(substr($val,0,2)=='./') $val = substr($val,2);
+            return sprintf("%s%s%s%s",$matches[1],$matches[2],$this->path.$val,$matches[4]);
         }
 
-        function _replaceBackgroundUrl($matches) {
-            $href = $matches[1];
-            if(preg_match("/^http/i",$href) || $href == '#' || preg_match("/javascript:/i",$href)) return $matches[0];
-
-            if(substr($href,0,1)=='/') $href = substr($href,1);
-            $href = $this->target_path.$href;
-
-            $buff = sprintf('url(%s)', $href);
-            return $buff;
-        }
     }
 ?>

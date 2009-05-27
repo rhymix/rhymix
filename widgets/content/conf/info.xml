@@ -8,7 +8,7 @@
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="en">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
-    <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的控件。</description>
+    <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的組件。</description>
     <description xml:lang="jp">掲示板の書き込み、コメント、添付ファイルなどコンテンツを出力するウィジェットです。</description>
     <version>0.1</version>
     <date>2009-03-16</date>
@@ -65,11 +65,11 @@
             </options>
             <options>
                 <value>rss</value>
-                <name xml:lang="ko">RSS</name>
-                <name xml:lang="en">RSS</name>
-                <name xml:lang="zh-CN">RSS</name>
-				<name xml:lang="zh-TW">RSS</name>
-                <name xml:lang="jp">RSS</name>
+                <name xml:lang="ko">피드 (RSS/ATOM)</name>
+                <name xml:lang="en">Feed (RSS/ATOM)</name>
+                <name xml:lang="zh-CN">Feed (RSS/ATOM)</name>
+				<name xml:lang="zh-TW">Feed (RSS/ATOM)</name>
+                <name xml:lang="jp">Feed (RSS/ATOM)</name>
             </options>
         </var>
         <var id="list_type">
@@ -539,7 +539,7 @@
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
             <description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
-            <description xml:lang="zh-TW">可設置最新更新主題的new圖案顯示時間。</description>
+            <description xml:lang="zh-TW">可設置最後更新主題的new圖案顯示時間。</description>
         </var>
         <var id="subject_cut_size">
             <type>text</type>
@@ -584,53 +584,87 @@
         </var>
         <var id="rss_url0">
             <type>text</type>
-            <name xml:lang="ko">RSS URL</name>
-            <name xml:lang="jp">RSS URL</name>
-            <name xml:lang="zh-CN">RSS URL</name>
-            <name xml:lang="en">RSS URL</name>
-            <name xml:lang="ru">RSS URL</name>
-            <name xml:lang="zh-TW">RSS URL</name>
-            <description xml:lang="ko">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.
+            <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
+            <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+            <description xml:lang="ko">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
             (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
-            <description xml:lang="zh-TW">RSS URL은 타입이 RSS일 경우 등록되어야 합니다.</description>
+            <description xml:lang="zh-TW">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
+            (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="jp">RSS URLはタイプが RSSの時だけ登録出来ます。
             (サポートする文書形式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
         </var>
         <var id="rss_url1">
             <type>text</type>
-            <name xml:lang="ko">RSS URL</name>
-            <name xml:lang="jp">RSS URL</name>
-            <name xml:lang="zh-CN">RSS URL</name>
-            <name xml:lang="en">RSS URL</name>
-            <name xml:lang="ru">RSS URL</name>
-            <name xml:lang="zh-TW">RSS URL</name>
+            <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
+            <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
         <var id="rss_url2">
             <type>text</type>
-            <name xml:lang="ko">RSS URL</name>
-            <name xml:lang="jp">RSS URL</name>
-            <name xml:lang="zh-CN">RSS URL</name>
-            <name xml:lang="en">RSS URL</name>
-            <name xml:lang="ru">RSS URL</name>
-            <name xml:lang="zh-TW">RSS URL</name>
+            <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
+            <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
         <var id="rss_url3">
             <type>text</type>
-            <name xml:lang="ko">RSS URL</name>
-            <name xml:lang="jp">RSS URL</name>
-            <name xml:lang="zh-CN">RSS URL</name>
-            <name xml:lang="en">RSS URL</name>
-            <name xml:lang="ru">RSS URL</name>
-            <name xml:lang="zh-TW">RSS URL</name>
+            <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
+            <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
         <var id="rss_url4">
             <type>text</type>
-            <name xml:lang="ko">RSS URL</name>
-            <name xml:lang="jp">RSS URL</name>
-            <name xml:lang="zh-CN">RSS URL</name>
-            <name xml:lang="en">RSS URL</name>
-            <name xml:lang="ru">RSS URL</name>
-            <name xml:lang="zh-TW">RSS URL</name>
+            <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
+            <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+        </var>
+        <var id="markup_type">
+            <type>select</type>
+            <name xml:lang="ko">HTML 출력 방식</name>
+            <name xml:lang="jp">HTML 출력 방식</name>
+            <name xml:lang="zh-CN">HTML 출력 방식</name>
+            <name xml:lang="en">HTML 출력 방식</name>
+            <name xml:lang="ru">HTML 출력 방식</name>
+            <name xml:lang="zh-TW">HTML 출력 방식</name>
+            <description xml:lang="ko">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="jp">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="zh-CN">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="en">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="ru">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="zh-TW">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <options>
+                <value>table</value>
+                <name xml:lang="ko">Table</name>
+                <name xml:lang="jp">Table</name>
+                <name xml:lang="zh-CN">Table</name>
+                <name xml:lang="en">Table</name>
+                <name xml:lang="ru">Table</name>
+                <name xml:lang="zh-TW">Table</name>
+            </options>
+            <options>
+                <value>list</value>
+                <name xml:lang="ko">UL (list)</name>
+                <name xml:lang="jp">UL (list)</name>
+                <name xml:lang="zh-CN">UL (list)</name>
+                <name xml:lang="en">UL (list)</name>
+                <name xml:lang="ru">UL (list)</name>
+                <name xml:lang="zh-TW">UL (list)</name>
+            </options>
         </var>
     </extra_vars>
 </widget>

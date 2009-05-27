@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">기본 카운터 애드온</title>
-    <title xml:lang="jp">接続カウンターアドオン</title>
+    <title xml:lang="jp">アクセスカウンターアドオン</title>
     <title xml:lang="zh-CN">网站访问统计</title>
     <title xml:lang="en">Counter Addon</title>
     <title xml:lang="ge">Counter Addon</title>
@@ -13,7 +13,7 @@
         이 애드온을 켜셔야 접속 정보 수집이 됩니다.
     </description>
     <description xml:lang="jp">
-        XEの接続カウンターモジュールで接続（アクセス）情報を記録します。
+        XEのアクセスカウンターモジュールで接続（アクセス）情報を記録します。
         このアドオンを「使用」に設定してから、接続（アクセス）情報が記録されます。
     </description>
     <description xml:lang="zh-CN">

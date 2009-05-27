@@ -36,6 +36,7 @@
     $lang->msg_cart_is_null = '삭제할 파일을 선택해주세요';
     $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
     $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(
         'filename' => '파일이름',

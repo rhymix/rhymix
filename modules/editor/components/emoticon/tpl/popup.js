@@ -35,3 +35,5 @@ function completeGetEmoticons(ret_obj) {
     setFixedPopupSize();
     setTimeout(setFixedPopupSize,1000);
 }
+
+jQuery(window).load(function() { getEmoticons('msn'); });

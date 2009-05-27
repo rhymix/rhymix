@@ -14,15 +14,15 @@
     $lang->ldap_basedn = 'ベース(base)DN';
 
     $lang->ldap_email_entry = '会員メールアカウントカラム';
-    $lang->ldap_nickname_entry = '会員名カラム';
-    $lang->ldap_username_entry = '会員のニックネームカラム';
+    $lang->ldap_nickname_entry = '会員のニックネームカラム';
+    $lang->ldap_username_entry = '会員名カラム';
     $lang->ldap_group_entry = '会員のグループカラム';
 
     $lang->about_use_ldap = 'LDAP認証連動のためには、下記のサーバー情報とともに上にチェックして下さい。';
     $lang->about_ldap_server = 'LDAPサーバー情報を入力して下さい。'; 
     $lang->about_ldap_port = 'LDAPサーバーのポート（port）番号情報を入力して下さい。';
-    $lang->about_ldap_userdn_prefix = '認証のためのユーザーDNプレフィックス(prefix)を入力して下さい。 (例： cn=)';
-    $lang->about_ldap_userdn_suffix = '認証のためのユーザーDNサフィックス(suffix)を入力して下さい。 (例: @abc.com)';
+    $lang->about_ldap_userdn_prefix = '認証のためのユーザーDNプレフィックス(prefix)を入力して下さい。 (例： 「cn=」、もしくは、「uid=」など)';
+    $lang->about_ldap_userdn_suffix = '認証のためのユーザーDNサフィックス(suffix)を入力して下さい。 (例: 「@abc.com」、もしくは、「,ou=People,dc=abc,dc=com」など)';
     $lang->about_ldap_basedn = 'ディレクトリのベースDNをログインして下さい。 (例: dc=abc,dc=com)';
 
     $lang->about_ldap_email_entry = 'LDAP情報中、会員のメールアカウント情報として使うカラム名を入力して下さい。 (重複不可)';

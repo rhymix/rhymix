@@ -39,6 +39,38 @@
             return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
 
+
+        /**
+         * @brief iframe 첨부파일 업로드 
+         **/
+        function procFileIframeUpload() {
+            // 기본적으로 필요한 변수 설정
+            $editor_sequence = Context::get('editor_sequence');
+            $callback = Context::get('callback');
+            $module_srl = $this->module_srl;
+            // 업로드 권한이 없거나 정보가 없을시 종료
+            //if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
+
+            // upload_target_srl 구함
+            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) {
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+            }
+
+            $file_info = Context::get('Filedata');
+            // 정상적으로 업로드된 파일이 아니면 오류 출력
+            if(is_uploaded_file($file_info['tmp_name'])){
+				$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+				Context::set('uploaded_fileinfo',$output);
+			}
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('iframe');
+
+        }
+
+
+
         /**
          * @brief 첨부파일 다운로드
          * 직접 요청을 받음
@@ -46,18 +78,25 @@
          * sid : db에 저장된 비교 값, 틀리면 다운로드 하지 않음
          **/
         function procFileDownload() {
+            $oFileModel = &getModel('file');
+
             $file_srl = Context::get('file_srl');
             $sid = Context::get('sid');
+            $logged_info = Context::get('logged_info');
 
             // 파일의 정보를 DB에서 받아옴
-            $oFileModel = &getModel('file');
             $file_obj = $oFileModel->getFile($file_srl);
-            if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid || $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
+
+            // 요청된 파일 정보가 잘못되었다면 파일을 찾을 수 없다는 오류 출력
+            if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid) return $this->stop('msg_file_not_found');
+
+            // 대기 상태일 경우 파일 다운로드 권한이 없음을 알림 (최고관리자는 다운 로드 허용)
+            if($logged_info->is_admin != 'Y' && $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
 
             // 파일 이름
             $filename = $file_obj->source_filename;
-
             $file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
+
             // 파일 외부링크 차단
             if($file_module_config->allow_outlink == 'N') {
                 //외부링크 허용 확장자 처리
@@ -96,6 +135,7 @@
                 }
                 if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
             }
+
             // 파일 다운로드 권한이 있는지 확인
             if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
                 if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
@@ -124,10 +164,10 @@
             }
 
             $uploaded_filename = $file_obj->uploaded_filename;
-            if(!file_exists($uploaded_filename)) return $this->stop('msg_not_permitted_download');
+            if(!file_exists($uploaded_filename)) return $this->stop('msg_file_not_found');
 
             $fp = fopen($uploaded_filename, 'rb');
-            if(!$fp) return $this->stop('msg_not_permitted_download');
+            if(!$fp) return $this->stop('msg_file_not_found');
 			
             header("Cache-Control: "); 
             header("Pragma: "); 

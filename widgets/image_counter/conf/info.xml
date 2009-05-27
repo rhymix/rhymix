@@ -38,9 +38,9 @@
 		Чтобы отображать график, GD библиотека должна быть установлена.
 	</description>
 	<description xml:lang="zh-TW">
-		能新增到部落格或網站的圖形統計控件。
-		不設置控件大小、背景顏色時，將使用預設。
-		因程式需要自動繪出圖形，所以主機必須要安裝 GD。
+		可新增到部落格或網站的圖形統計 Widget。
+		不設定尺寸大小、背景顏色時，將使用預設。
+		輸出圖形時，主機必須要安裝 GD library。
 	</description>
 	<version>0.1</version>
 	<date>2007-08-27</date>
@@ -97,7 +97,7 @@
 			<description xml:lang="zh-TW">
 				指定圖片寬度。
 				預設是150px。只需輸入數字即可。
-				此寬度與代碼建立頁面的寬度是不同的。
+				此寬度與原始碼建立頁面的寬度是不同的。
 			</description>
 		</var>
 		<var id="graph_height">

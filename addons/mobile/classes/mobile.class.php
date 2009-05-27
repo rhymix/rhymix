@@ -1,7 +1,7 @@
 <?php
     /**
      * Mobile XE Library Class ver 0.1
-     * @author zero <zero@zeroboard.com>
+     * @author zero <zero@zeroboard.com> / lang_select : misol
      * @brief WAP 태그 출력을 위한 XE 라이브러리
      **/
 
@@ -12,6 +12,7 @@
         var $upperUrl = NULL;
         var $nextUrl = NULL;
         var $prevUrl = NULL;
+        var $etcBtn = NULL;
 
         // 메뉴 네비게이션을 위한 변수
         var $childs = null;
@@ -21,7 +22,7 @@
         var $content = NULL;
         var $mobilePage = 0;
         var $totalPage = 1;
-        var $charset = 'euc-kr';
+        var $charset = 'UTF-8';
         var $no = 0;
 
         // 네비게이션 관련 변수
@@ -42,6 +43,9 @@
         // Deck size
         var $deckSize = 1024;
 
+        // 언어 설정 변경
+        var $languageMode = 0;
+        var $lang = null;
         /**
          * @brief getInstance
          **/
@@ -56,6 +60,13 @@
                 $class_file = sprintf('%saddons/mobile/classes/%s.class.php', _XE_PATH_, $browserType);
                 require_once($class_file);
 
+                // 모바일 언어설정 로드(쿠키가 안되어 생각해낸 방법...-캐시파일 재생성을 클릭하면 초기화된다..)
+                $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+                if($this->lang) {
+                    $lang_supported = Context::get('lang_supported');
+                    $this->lang = str_replace(array('<?php /**','**/ ?>'),array('',''),$this->lang);
+                    if(isset($lang_supported[$this->lang])) Context::setLangType($this->lang);
+                }
                 Context::loadLang(_XE_PATH_.'addons/mobile/lang');
 
                 $instance = new wap();
@@ -64,6 +75,7 @@
                 if(!$mobilePage) $mobilePage = 1;
 
                 $instance->setMobilePage($mobilePage);
+
             }
 
             return $instance;
@@ -74,8 +86,15 @@
          **/
         function mobileXE() {
             // navigation mode 체크
-            if(Context::get('nm')) $this->navigationMode = 1;
-            $this->cmid = (int)Context::get('cmid');
+            if(Context::get('nm')) {
+                $this->navigationMode = 1;
+                $this->cmid = (int)Context::get('cmid');
+            }
+
+            if(Context::get('lcm')) {
+                $this->languageMode = 1;
+                $this->lang = Context::get('sel_lang');
+            }
         }
 
         /**
@@ -84,6 +103,30 @@
          **/
         function isNavigationMode() {
             return ($this->navigationMode && $this->module_info->menu_srl)?true:false;
+        }
+
+        /**
+         * @brief langchange mode 체크
+         * languageMode 세팅 있어야 true return
+         **/
+        function isLangChange() {
+            if($this->languageMode) return true;
+            else return false;
+        }
+
+        /**
+         * @brief 언어 설정
+         * 쿠키가 안되기 때문에 휴대전화마다 고유한 파일로 언어설정을 저장하는 파일 생성
+         **/
+        function setLangType() {
+            $lang_supported = Context::get('lang_supported');
+            // 언어 변수가 있는지 확인하고 변수가 유효한지 확인
+            if($this->lang && isset($lang_supported[$this->lang])) {
+                $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+                if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+                $langbuff = '<?php /**'.$this->lang.'**/ ?>';
+                FileHandler::writeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php',$langbuff);
+            }
         }
 
         /**
@@ -108,7 +151,7 @@
             if(!file_exists($menu_cache_file)) return;
 
             include $menu_cache_file;
-                
+
             // 정리된 menu들을 1차원으로 변경
             $this->getListedItems($menu->list, $listed_items, $node_list);
 
@@ -138,13 +181,16 @@
          * 모바일 브라우저가 아닐 경우 null return
          **/
         function getBrowserType() {
+            if(Context::get('smartphone')) return null;
             // 브라우저 타입을 판별
             $browserAccept = $_SERVER['HTTP_ACCEPT'];
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
-            if(eregi("SKT11", $userAgent)) return "wml";
-            elseif(eregi("skt", $browserAccept)) return "wml";
+            if(eregi("SKT11", $userAgent) || eregi("skt", $browserAccept)) {
+                Context::set('mobile_skt',1);
+                return "wml";
+            }
             elseif(eregi("hdml", $browserAccept)) return "hdml";
             elseif(eregi("CellPhone", $userAgent)) return  "mhtml";
             return null;
@@ -153,8 +199,12 @@
         /**
          * @brief charset 지정
          **/
-        function setCharSet($charset = 'euc-kr') {
-            if(!$charset) $charset = 'euc-kr';
+        function setCharSet($charset = 'UTF-8') {
+            if(!$charset) $charset = 'UTF-8';
+
+            //SKT는 euc-kr만 지원
+            if(Context::get('mobile_skt')==1) $charset = 'euc-kr';
+
             $this->charset = $charset;
         }
 
@@ -220,7 +270,9 @@
          * @brief title 지정
          **/
         function setTitle($title) {
+            $oModuleController = &getController('module');
             $this->title = $title;
+            $oModuleController->replaceDefinedLangCode($this->title);
         }
 
         /**
@@ -235,11 +287,12 @@
          * HTML 컨텐츠에서 텍스트와 링크만 추출하는 기능
          **/
         function setContent($content) {
-            // 링크/줄바꿈을 임의의 문자열로 변경하고 태그 모두 제거
-            $content = strip_tags(preg_replace('/<(\/?)(a|br)/i','[$1$2', $content));
+            $oModuleController = &getController('module');
+            $allow_tag_array = array('<a>','<br>','<p>','<b>','<i>','<u>','<em>','<small>','<strong>','<big>','<table>','<tr>','<td>');
 
-            // 링크/줄바꿈을 다시 원위치
-            $content = preg_replace('/\[(\/?)(a|br)/i','<$1$2', $content);
+
+            // 링크/ 줄바꿈, 강조만 제외하고 모든 태그 제거
+            $content = strip_tags($content, implode($allow_tag_array));
 
             // 탭 여백 제거
             $content = str_replace("\t", "", $content);
@@ -247,7 +300,9 @@
             // 2번 이상 반복되는 공백과 줄나눔을 제거
             $content = preg_replace('/( ){2,}/s', '', $content);
             $content = preg_replace("/([\r\n]+)/s", "\r\n", $content);
-            $content = str_replace(array("<A","<BR","<Br","<br>","<BR>","<br />"), array("<a","<br","<br","<br/>","<br/>","<br/>"), $content);
+            $content = preg_replace(array("/<a/i","/<\/a/i","/<b/i","/<\/b/i","/<br/i"),array('<a','</a','<b','</b','<br'),$content);
+            $content = str_replace(array("<br>","<br />"), array("<br/>","<br/>"), $content);
+
             while(strpos($content, '<br/><br/>')) {
                 $content = str_replace('<br/><br/>','<br/>',$content);
             }
@@ -261,11 +316,21 @@
 
                 //$content = str_replace(array('&','<','>','"','&amp;nbsp;'), array('&amp;','&lt;','&gt;','&quot;',' '), $content);
 
-                $tag_open_pos = strpos($content, '<a');
-                $tag_close_pos = strpos($content, '</a>');
+                foreach($allow_tag_array as $tag) {
+                    if($tag == '<br>') continue;
+                    $tag_open_pos = strpos($content, str_replace('>','',$tag));
+                    $tag_close_pos = strpos($content, str_replace('<','</',$tag));
+                    if($tag_open_pos!==false && $tag_close_pos || $tag_close_pos < $tag_open_pos) {
+                       $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos + strlen($tag) + 1);
+                       $content = substr($content, $tag_close_pos + strlen($tag) + 1);
+                    }
+                }
+
+                $tag_open_pos = strpos($content, '&');
+                $tag_close_pos = strpos($content, ';');
                 if($tag_open_pos!==false && $tag_close_pos || $tag_close_pos < $tag_open_pos) {
-                    $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos+4);
-                    $content = substr($content, $tag_close_pos+4);
+                   $contents[count($contents)-1] .= substr($content, 0, $tag_close_pos + 1);
+                   $content = substr($content, $tag_close_pos + 1);
                 }
             }
 
@@ -285,6 +350,8 @@
             }
 
             $this->content = $contents[$this->mobilePage-1];
+            $oModuleController->replaceDefinedLangCode($this->content);
+            $content = str_replace(array('$','\''), array('$$','&apos;'), $content);
         }
 
         /**
@@ -338,6 +405,16 @@
         }
 
         /**
+         * @brief 다음, 이전, 상위 이외에 기타 버튼 지정
+         **/
+        function setEtcBtn($url, $text) {
+            if(!$url) $url = '#';
+            $etc['url'] = $url;
+            $etc['text'] = htmlspecialchars($text);
+            $this->etcBtn[] = $etc;
+        }
+
+        /**
          * @brief display
          **/
         function display() {
@@ -345,7 +422,7 @@
             $this->setHomeUrl(getUrl(), Context::getLang('cmd_go_home'));
 
             // 제목 지정
-            $this->setTitle(Context::getBrowserTitle());
+            if(!$this->title) $this->setTitle(Context::getBrowserTitle());
 
             ob_start();
 
@@ -368,7 +445,7 @@
 
             // 변환 후 출력
             if(strtolower($this->charset) == 'utf-8') print $content;
-            else print iconv('UTF-8',$this->charset, $content);
+            else print iconv('UTF-8',$this->charset."//TRANSLIT", $content);
 
             exit();
         }
@@ -448,6 +525,38 @@
             }
 
             // 출력
+            $this->display();
+        }
+
+        /**
+         * @brief 언어설정 메뉴 출력
+         **/
+        function displayLangSelect() {
+            $childs = array();
+
+            $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
+            if($this->lang) {
+                $this->lang = str_replace(array('<?php /**','**/ ?>'),array('',''),$this->lang);
+                Context::setLangType($this->lang);
+            }
+            $lang_supported = Context::get('lang_supported');
+            $lang_type = Context::getLangType();
+            $obj = null;
+            $obj['link'] = $obj['text'] = Context::getLang('president_lang').' : '.$lang_supported[$lang_type];
+            $obj['href'] = getUrl('sel_lang',$lang_type);
+            $childs[] = $obj;
+
+            if(is_array($lang_supported)) {
+                foreach($lang_supported as $key => $val) {
+                    $obj = null;
+                    $obj['link'] = $obj['text'] = $val;
+                    $obj['href'] = getUrl('sel_lang',$key);
+                    $childs[] = $obj;
+                }
+            }
+
+            $this->setChilds($childs);
+
             $this->display();
         }
 

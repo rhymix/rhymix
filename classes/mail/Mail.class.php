@@ -45,7 +45,12 @@
         }
 
         function setContent($content) {
+            $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
             $this->content = $content;
+        }
+
+        function replaceResourceRealPath($matches) {
+            return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
 
         function getPlainContent() {

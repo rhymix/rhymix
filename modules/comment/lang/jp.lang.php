@@ -5,7 +5,7 @@
      * @brief  コメント(comment) モジュールの基本言語パッケージ
      **/
 	
-    $lang->cmd_comment_do = 'このコメントを..';
+    $lang->cmd_comment_do = 'このコメントを…';
 
     $lang->comment_list = 'コメントリスト';
 	$lang->cmd_toggle_checked_comment = '選択項目の反転';

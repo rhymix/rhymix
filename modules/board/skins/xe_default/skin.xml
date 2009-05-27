@@ -450,7 +450,7 @@
             <description xml:lang="zh-CN">可以设置主题发布者的个人签名及个性头像显示与否。</description>
             <description xml:lang="en">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
             <description xml:lang="es">글내용 사용자의 서명과 프로필 이미지를 표시하거나 숨길 수 있습니다.</description>
-            <description xml:lang="zh-TW">可選擇是否在文章中顯示個人圖片和簽名檔</description>
+            <description xml:lang="zh-TW">可選擇是否在文章中顯示個人圖片和簽名檔。</description>
             <options value="Y">
                 <title xml:lang="ko">출력</title>
                 <title xml:lang="en">display</title>

@@ -34,6 +34,7 @@
     $lang->msg_cart_is_null = 'Seleccione el archivo a eliminar';
     $lang->msg_checked_file_is_deleted = 'Total de %d archivos eliminados';
     $lang->msg_exceeds_limit_size = 'Ha excedido el límite del tamaño total de los archivos adjuntos';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(
         'filename' => 'Nombre del archivo',

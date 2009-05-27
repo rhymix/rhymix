@@ -296,7 +296,7 @@
         </var>
         <var name="header_title_format" type="select">
             <title xml:lang="ko">게시판 제목 형식</title>
-            <title xml:lang="jp">게시판 제목 형식</title>
+            <title xml:lang="jp">掲示板タイトルフォーマット</title>
             <title xml:lang="zh-CN">게시판 제목 형식</title>
             <title xml:lang="en">게시판 제목 형식</title>
             <title xml:lang="es">게시판 제목 형식</title>
@@ -353,7 +353,7 @@
         </var>
         <var name="document_title_format" type="select">
             <title xml:lang="ko">글 제목 형식</title>
-            <title xml:lang="jp">글 제목 형식</title>
+            <title xml:lang="jp">書き込みタイトルフォーマット</title>
             <title xml:lang="zh-CN">글 제목 형식</title>
             <title xml:lang="en">글 제목 형식</title>
             <title xml:lang="es">글 제목 형식</title>

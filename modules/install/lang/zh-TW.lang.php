@@ -226,7 +226,7 @@ EndOfLicense;
         'sqlite3_pdo' => '用 PHP的 PDO支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。',
         'cubrid' => '使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => '使用 PostgreSql DB。',
-        'firebird' => '使用 Firebird DB。',
+        'firebird' => '使用 Firebird DB。<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );
 
     $lang->form_title = '輸入資料庫及管理員資訊';
@@ -234,7 +234,7 @@ EndOfLicense;
     $lang->db_type = '資料庫類型';
     $lang->select_db_type = '請選擇要使用的資料庫。';
     $lang->db_hostname = '主機名稱';
-    $lang->db_port = 'PORT';
+    $lang->db_port = '埠口';
     $lang->db_userid = '使用者名稱';
     $lang->db_password = '密碼';
     $lang->db_database = '資料庫名稱';
@@ -246,7 +246,7 @@ EndOfLicense;
     $lang->env_title = '環境設置';
     $lang->use_optimizer = 'Optimizer';
     $lang->about_optimizer = '使用Optimizer可以對大部分的『CSS/JS』檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用Optimizer。';
-    $lang->use_rewrite = 'Rewrite模組';
+    $lang->use_rewrite = 'Rewrite';
     $lang->about_rewrite = '如主機支援rewrite模組並選擇此項，可以簡化複雜的網址。<br />例如，『http://域名/?document_srl=123』可簡化成『http://域名/123』。';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';

@@ -505,8 +505,8 @@
          * @brief 회원 가입
          **/
         function procMemberInsert() {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
+            $oMemberModel = &getModel('member');
+            $config = $oMemberModel->getMemberConfig();
 
             // 관리자가 회원가입을 허락하였는지 검사
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
@@ -1108,6 +1108,36 @@
             $output = executeQuery('member.deleteMembersGroup', $args);
             if(!$output->toBool()) return $output;
             $this->setMessage('success_deleted');
+        }
+
+        /**
+         * @brief 회원 설정 정보를 저장
+         **/
+        function setMemberConfig($args) {
+            if(!$args->skin) $args->skin = "default";
+            if(!$args->colorset) $args->colorset = "white";
+            if(!$args->editor_skin) $args->editor_skin= "xpresseditor";
+            if(!$args->editor_colorset) $args->editor_colorset = "white";
+            if($args->enable_join!='Y') $args->enable_join = 'N';
+            if($args->enable_openid!='Y') $args->enable_openid= 'N';
+            if($args->profile_image !='Y') $args->profile_image = 'N';
+            if($args->image_name!='Y') $args->image_name = 'N';
+            if($args->image_mark!='Y') $args->image_mark = 'N';
+            if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
+            if(!trim(strip_tags($args->agreement))) $args->agreement = null;
+            $args->limit_day = (int)$args->limit_day;
+
+            $agreement = trim($args->agreement);
+            unset($args->agreement);
+
+            $oModuleController = &getController('module');
+            $output = $oModuleController->insertModuleConfig('member',$args);
+            if(!$output->toBool()) return $output;
+
+            $agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+            FileHandler::writeFile($agreement_file, $agreement);
+
+            return new Object();
         }
 
         /**

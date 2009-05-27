@@ -12,12 +12,12 @@
     $lang->component_link = '連結';
     $lang->component_date = '編寫日期';
     $lang->component_license = '版權';
-    $lang->component_history = '紀錄';
+    $lang->component_history = '更新紀錄';
     $lang->component_description = '說明';
     $lang->component_extra_vars = '變數設置';
     $lang->component_grant = '權限設置'; 
     $lang->content_style = '內容樣式';
-    $lang->content_font = 'Content Font';
+    $lang->content_font = '內容字體';
 
     $lang->about_component = '組件簡介';
     $lang->about_component_grant = '除預設組件外，可設置延伸組件的使用權限<br />(全部解除時，任何用戶都可使用)。';
@@ -185,7 +185,7 @@
     $lang->edit->table_backgroundcolor = '背景顏色';
     $lang->edit->special_character = '特殊符號';
     $lang->edit->insert_special_character = '插入特殊符號';
-    $lang->edit->close_special_character = '關閉特殊符號圖層';
+    $lang->edit->close_special_character = '關閉';
     $lang->edit->symbol = '一般符號';
     $lang->edit->number_unit = '數字、單位';
     $lang->edit->circle_bracket = '圓、括弧';
@@ -206,4 +206,18 @@
 	$lang->edit->merge_cells = '分割儲存格';
     $lang->edit->split_row = '插入行';
     $lang->edit->split_col = '插入列';
+    
+    $lang->edit->toggle_list   = '목록 접기/펼치기';
+    $lang->edit->minimize_list = '최소화';
+    
+    $lang->edit->move = '이동';
+    $lang->edit->materials = '글감보관함';
+    $lang->edit->temporary_savings = '임시저장목록';
+    
+    $lang->edit->drag_here = '글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+
+	$lang->edit->paging_prev = '이전';
+	$lang->edit->paging_next = '다음';
+	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
+	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
 ?>

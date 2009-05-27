@@ -25,6 +25,8 @@
 
     $lang->disable_download = 'ダウンロード禁止';
     $lang->about_disable_download = 'チェックするとポイントがない場合、ダウンロードを禁止します（イメージファイル除外）。';
+    $lang->disable_read_document = '글 열람 금지';
+    $lang->about_disable_read_document = '포인트가 없을 경우 글 열람을 금지하게 됩니다';
 
     $lang->level_point_calc = 'レベル別ポイント計算';
     $lang->expression = 'レベル変数<b>i</b>を使用してJavaスクリプト数式を入力して下さい（例: Math.pow(i, 2) * 90）。';
@@ -35,7 +37,9 @@
     $lang->about_cmd_point_recal = '書き込み/コメント/添付ファイル/会員登録のポイントのみ取り、全ての他のポイントを初期化します。<br />但し、会員登録ポイントは初期化後、該当会員の活動がスタートしたら付与されます。<br />データ移管などによるポイントを完全に初期化する必要がある場合など、利用は慎重に行なって下さい。';
 
     $lang->point_link_group = 'グループ連動';
-    $lang->about_point_link_group = 'グループにレベルを指定すると、該当レベルになったらグループが変更されます。 ただし、新しいグループに変更されると以前自動登録されたグループは消去されます。';
+    $lang->point_group_reset_and_add = '설정된 그룹 초기화 후 새 그룹 부여';
+    $lang->point_group_add_only = '새 그룹만 부여';
+    $lang->about_point_link_group = 'グループにレベルを指定すると、該当レベルになったらグループが変更されます。';
 
     $lang->about_module_point = 'モジュール別にポイントを指定することが出来ますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。';
 
@@ -57,6 +61,7 @@
     $lang->cmd_point_member_list = '会員ポイントリスト';
 
     $lang->msg_cannot_download = 'ポイントが不足しているため、ダウンロード出来ません。';
+    $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)";
 
     $lang->point_recal_message = 'ただ今ポイントを適用しています。 (%d / %d)';
     $lang->point_recal_finished = 'ポイント再計算が完了しました。';

@@ -25,8 +25,7 @@
 
     <h3>{$lang->msg_update_member}</h3>
 
-    <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
-    <input type="hidden" name="mid" value="{$mid}" />
+    <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end--> target="tmp_upload_iframe">
     <input type="hidden" name="act" value="" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
@@ -177,6 +176,16 @@
                     </ul>
                 <!--@end-->
 
+            <!--// 라디오 버튼 -->
+            <!--@elseif($val->column_type == 'radio')-->
+                <!--@if($val->default_value)-->
+                    <ul class="radio">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if($val->value == $v)-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
             <!--// 단일 선택 -->
             <!--@elseif($val->column_type == 'select')-->
                 <select name="{$val->column_name}">
@@ -235,15 +244,15 @@
     <!--@if($member_config->enable_openid=="Y")-->
     <tr><th class="title" colspan="2"><div>{$lang->openid}</div></th></tr>
     <tr>
-        <td colspan="2" class="openids"> 
+        <td colspan="2" class="openids">
             <!--@foreach($openids as $openid)-->
             <div><a href="{$openid->bookmarklet}">{$openid->openid}</a> <a onclick="doDeleteOpenIDFromMember('{$openid->openid}')" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></div>
             <!--@end-->
 
             <div class="insertOpenID">
-                <input name="openid" type="text" class="openid_user_id" />  
+                <input name="openid" type="text" class="openid_user_id" />
                 <input name="openid_to_delete" type="hidden" />
-                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a> 
+                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a>
             </div>
         </td>
     </tr>
@@ -270,5 +279,7 @@
     });
 })(jQuery);
 </script>
+
+<iframe id="tmp_upload_iframe" name="tmp_upload_iframe" style="display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px"></iframe>
 
 <!--#include("./common_footer.html")-->

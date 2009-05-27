@@ -60,3 +60,11 @@ function updatePoint(member_srl, action)
     procFilter(hF, update_point);
 }
 
+
+function doPointReset(module_srls) {
+    var params = new Array();
+    var response_tags = new Array('error','message');
+    params['module_srls'] = module_srls;
+
+    exec_xml('point','procPointAdminReset',params,function(ret_obj) {alert(ret_obj['message']);}, response_tags);
+}

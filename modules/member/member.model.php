@@ -19,6 +19,32 @@
         }
 
         /**
+         * @brief 회원 설정 정보를 return
+         **/
+        function getMemberConfig() {
+            // DB에 저장되는 회원 설정 정보 구함
+            $oModuleModel = &getModel('module');
+            $config = $oModuleModel->getModuleConfig('member');
+
+            // 회원가입 약관 구함
+            $agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+            if(file_exists($agreement_file)) $config->agreement = FileHandler::readFile($agreement_file);
+
+            if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
+            if(!$config->image_name_max_width) $config->image_name_max_width = 90;
+            if(!$config->image_name_max_height) $config->image_name_max_height = 20;
+            if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
+            if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
+            if(!$config->profile_image_max_width) $config->profile_image_max_width = 80;
+            if(!$config->profile_image_max_height) $config->profile_image_max_height = 80;
+            if(!$config->skin) $config->skin = "default";
+            if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
+            if(!$config->group_image_mark) $config->group_image_mark = "N";
+
+            return $config;
+        }
+
+        /**
          * @brief 선택된 회원의 간단한 메뉴를 표시
          **/
         function getMemberMenu() {

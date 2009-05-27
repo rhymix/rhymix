@@ -138,11 +138,33 @@
          **/
         function _compileVarToContext($matches) {
             $str = trim(substr($matches[0],1,strlen($matches[0])-2));
-            return '<?php print('.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', $str).');?>';
+            if(!$str) return $matches[0];
+            if(!in_array(substr($str,0,1),array('(','$','\'','"'))) {
+                if(preg_match('/^([^\( \.]+)(\(| \.)/i',$str,$m)) {
+                    $func = trim($m[1]);
+                    if(strpos($func,'::')===false) {
+                        if(!function_exists($func)) {
+                            return $matches[0];
+                        }
+                    } else {
+                        list($class, $method) = explode('::',$func);
+                        if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
+                            // 서버 환경에 따라서 class, method가 대소문자 구별을 할때와 하지 않을때가 있음
+                            list($class, $method) = explode('::',strtolower($func));
+                            if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
+                                return $matches[0];
+                            }
+                        }
+                    }
+                } else {
+                    if(!defined($str)) return $matches[0];
+                }
+            }
+            return '<?php @print('.preg_replace('/\$([a-zA-Z0-9\_\-\>]+)/i','$__Context->\\1', $str).');?>';
         }
 
         /**
-         * @brief {$와 } 안의 $... 변수를 Context::get(...) 으로 변경
+         * @brief 이미지의 경로를 변경
          **/
         function _compileImgPath($matches) {
             static $real_path = null;
@@ -290,18 +312,14 @@
          **/
         function _compileImportCode($matches) {
             // 현재 tpl 파일의 위치를 구해서 $base_path에 저장하여 적용하려는 xml file을 찾음
-            //$base_path = dirname($this->tpl_file).'/';
             $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
-            if(isset($matches[3]))
-                $optimized = strtolower(trim($matches[3]));
+            if(isset($matches[3])) $optimized = strtolower(trim($matches[3]));
             if(!$optimized) $optimized = 'true';
-            if(isset($matches[5]))
-                $media = trim($matches[5]);
+            if(isset($matches[5])) $media = trim($matches[5]);
             if(!$media) $media = 'all';
-            if(isset($matches[7]))
-                $targetie = trim($matches[7]);
+            if(isset($matches[7])) $targetie = trim($matches[7]);
             if(!$targetie) $targetie = '';
             else $optimized = 'false';
 
@@ -313,10 +331,11 @@
 
             // load lang이 아니라면 xml, css, js파일을 읽도록 시도
             } else {
-                $filename = sprintf("%s%s",$base_path, $given_file);
+                if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
+                else $source_filename = $given_file;
 
                 // path와 파일이름을 구함
-                $tmp_arr = explode("/",$filename);
+                $tmp_arr = explode("/",$source_filename);
                 $filename = array_pop($tmp_arr);
 
                 $base_path = implode("/",$tmp_arr)."/";
@@ -347,18 +366,26 @@
                         break;
                     // css file
                     case 'css' :
-                            $meta_file = sprintf('%s%s', $base_path, $filename);
-                            $output = sprintf('<?php Context::addCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
+                            if(preg_match('/^(http|\/)/i',$source_filename)) {
+                                $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s"); ?>', $source_filename, 'false', $media, $targetie);
+                            } else {
+                                $meta_file = sprintf('%s%s', $base_path, $filename);
+                                $output = sprintf('<?php Context::addCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
+                            }
                         break;
                     // js file
                     case 'js' :
-                            $meta_file = sprintf('%s%s', $base_path, $filename);
-                            $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                            if(preg_match('/^(http|\/)/i',$source_filename)) {
+                                $output = sprintf('<?php Context::addJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie);
+                            } else {
+                                $meta_file = sprintf('%s%s', $base_path, $filename);
+                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                            }
                         break;
                 }
             }
 
-            $output = '<!--Meta:'.$meta_file.'-->'.$output;
+            if($meta_file) $output = '<!--Meta:'.$meta_file.'-->'.$output;
             return $output;
         }
 
@@ -377,25 +404,22 @@
          **/
         function _compileUnloadCode($matches) {
             // 현재 tpl 파일의 위치를 구해서 $base_path에 저장하여 적용하려는 xml file을 찾음
-            //$base_path = dirname($this->tpl_file).'/';
             $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
-            if(isset($matches[3]))
-                $optimized = strtolower(trim($matches[3]));
+            if(isset($matches[3])) $optimized = strtolower(trim($matches[3]));
             if(!$optimized) $optimized = 'true';
-            if(isset($matches[5]))
-                $media = trim($matches[5]);
+            if(isset($matches[5])) $media = trim($matches[5]);
             if(!$media) $media = 'all';
-            if(isset($matches[7]))
-                $targetie = trim($matches[7]);
+            if(isset($matches[7])) $targetie = trim($matches[7]);
             if(!$targetie) $targetie = '';
             else $optimized = 'false';
 
-            $filename = sprintf("%s%s",$base_path, $given_file);
+            if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
+            else $source_filename = $given_file;
 
             // path와 파일이름을 구함
-            $tmp_arr = explode("/",$filename);
+            $tmp_arr = explode("/",$source_filename);
             $filename = array_pop($tmp_arr);
 
             $base_path = implode("/",$tmp_arr)."/";
@@ -408,13 +432,21 @@
             switch($ext) {
                 // css file
                 case 'css' :
-                        $meta_file = sprintf('%s%s', $base_path, $filename);
-                        $output = sprintf('<?php Context::unloadCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
+                        if(preg_match('/^(http|\/)/i',$source_filename)) {
+                            $output = sprintf('<?php Context::unloadCSSFile("%s", %s, "%s", "%s"); ?>', $source_filename, 'false', $media, $targetie);
+                        } else {
+                            $meta_file = sprintf('%s%s', $base_path, $filename);
+                            $output = sprintf('<?php Context::unloadCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
+                        }
                     break;
                 // js file
                 case 'js' :
-                        $meta_file = sprintf('%s%s', $base_path, $filename);
-                        $output = sprintf('<?php Context::unloadJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                        if(preg_match('/^(http|\/)/i',$source_filename)) {
+                            $output = sprintf('<?php Context::unloadJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie);
+                        } else {
+                            $meta_file = sprintf('%s%s', $base_path, $filename);
+                            $output = sprintf('<?php Context::unloadJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                        }
                     break;
             }
 

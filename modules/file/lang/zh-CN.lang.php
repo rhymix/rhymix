@@ -34,6 +34,7 @@
     $lang->msg_cart_is_null = ' 请选择要删除的文件。';
     $lang->msg_checked_file_is_deleted = '已删除%d个文件！';
     $lang->msg_exceeds_limit_size = '已超过系统指定的上传文件大小！';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(
         'filename' => '文件名',

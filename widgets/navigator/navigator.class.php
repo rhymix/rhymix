@@ -101,6 +101,10 @@
                 $obj->selected = $val['selected'];
                 $obj->open_window = $val['open_window'];
 
+				$obj->normal_btn = $val['normal_btn'];
+				$obj->hover_btn = $val['hover_btn'];
+				$obj->active_btn = $val['active_btn'];
+
                 $obj->child_count = 0;
                 $obj->childs = array();
 

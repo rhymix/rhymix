@@ -18,6 +18,12 @@
         if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) return;
         if($addon_info->target != 'all' && Context::get('is_logged')) return;
 
+        $target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory');
+        if($addon_info->apply_find_account=='apply') $target_acts[] = 'procMemberFindAccount';
+
+        Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
+
+
         // 캡챠 인증이 되지 않은 세션이면 실행 시작
         if(!$_SESSION['captcha_authed']) {
 
@@ -100,7 +106,7 @@
             Context::addJsFile('./addons/captcha/captcha.js',false);
 
             // 게시판/ 이슈트래커의 글쓰기/댓글쓰기 액션 호출시 세션 비교
-            if(in_array(Context::get('act'), array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory'))) {
+            if(in_array(Context::get('act'), $target_acts)) {
                 $this->error = "msg_not_permitted";
             }
         }

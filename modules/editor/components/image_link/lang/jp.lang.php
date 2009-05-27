@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/image_link/lang/jp.lang.php
+     * @file   modules/editor/components/image_link/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor）モジュール > イメージリンク（image_link）コンポネント言語パッケージ
      **/

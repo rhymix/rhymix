@@ -53,9 +53,9 @@
             return $this->getExtraValue(20);
         }
         
-		function getContent() {
+		function getContent($add_popup_menu = false, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             if(!$this->document_srl) return;
-            return parent::getContent(false,true);
+            return parent::getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
         }
         
         function getArrTags() {

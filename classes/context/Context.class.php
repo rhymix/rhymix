@@ -860,6 +860,10 @@
                         return sprintf('%s%s/%s',$rpath,$get_vars['mid'],$get_vars['document_srl']);
                     case 'entry.mid' :
                         return sprintf('%s%s/entry/%s',$rpath,$get_vars['mid'],$get_vars['entry']);
+                    case 'act.document_srl.key' :
+                            if($get_vars['act']=='trackback') return sprintf('%s%s/%s/%s', $rpath,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
+                        break;
+                        
                 }
             }
 
@@ -918,9 +922,17 @@
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
                 }
+                else
+                {
+                    unset($url_info['port']);
+                }
             } else {
                 if(Context::get("_http_port") && Context::get("_http_port") != 80) {
                     $url_info['port'] = Context::get("_http_port");
+                }
+                else
+                {
+                    unset($url_info['port']);
                 }
             }
 
@@ -1089,6 +1101,18 @@
         }
 
         /**
+         * @brief 모든 JS File을 제거
+         **/
+        function unloadAllJsFiles() {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadAllJsFiles();
+        }
+
+        function _unloadAllJsFiles() {
+            $this->js_files = array();
+        }
+
+        /**
          * @brief javascript filter 추가
          **/
         function addJsFilter($path, $filename) {
@@ -1170,6 +1194,18 @@
                     return;
                 }
             }
+        }
+
+        /**
+         * @brief 모든 CSS File을 제거
+         **/
+        function unloadAllCSSFiles() {
+            $oContext = &Context::getInstance();
+            return $oContext->_unloadAllCSSFiles();
+        }
+
+        function _unloadAllCSSFiles() {
+            $this->css_files = array();
         }
 
         /**

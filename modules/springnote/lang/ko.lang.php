@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   modules/springnote/lang/ko.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  스프링노트(springnote) 모듈의 기본 언어팩
      **/

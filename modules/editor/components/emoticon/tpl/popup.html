@@ -10,14 +10,10 @@
 <div class="emoticonList">
     <select name="list" onchange="getEmoticons(this.options[this.selectedIndex].value); return false;">
     <!--@foreach($emoticon_list as $key => $val)-->
-        <option value="{$val}">{$val}</option>
+        <option <!--@if($val=='msn')-->selected="select"<!--@end--> value="{$val}">{$val}</option>
     <!--@end-->
     </select>
 </div>
 
 <div id="popBody">
-    <!--@foreach($emoticons as $src)-->
-    <img src="images/{$src}" alt="{$src}" onclick="insertEmoticon(this); return false;" class="emoticon" />
-    <!--@end-->
-
 </div>

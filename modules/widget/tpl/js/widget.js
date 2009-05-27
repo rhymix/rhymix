@@ -244,7 +244,7 @@ function doSyncPageContent() {
         }
     }
 
-    editorStart(1, "module_srl", "content", false, 400 );
+    if(typeof(editorStart)!='undefined') editorStart(1, "module_srl", "content", false, 400 );
     //editor_upload_start(1);
 
     setFixedPopupSize();

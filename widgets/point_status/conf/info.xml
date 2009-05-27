@@ -22,7 +22,7 @@
         Cache must be 0.
     </description>
     <description xml:lang="zh-TW">
-        顯示會員積分狀況的控件。
+        顯示會員積分狀況的widget。
         暫存要設為 0。
     </description>
     <version>0.1</version>

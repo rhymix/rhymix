@@ -1,0 +1,31 @@
+<ul class="smartPhoneList">
+    <li class="title">{zdate($date,'Y-m-d')}, {$page_navigation->total_count} planets, {$page_navigation->cur_page}/{$page_navigation->last_page} pages</li>
+
+<!--@foreach($content_list as $no => $item)-->
+    <li class="item noArrow">
+        <span class="title">
+            <a href="{getUrl('','mid',$item->getPlanetMid(),'smartphone','true')}">
+                <img src="{$item->getPlanetPhotoSrc(40,40)}" width="40" height="40" alt="" align="left" class="thumbnail"/>
+                {preg_replace('/<([^>]+)>/is','',$item->getContent(false,false,false,false))}
+                <!--@if($item->getPostScript())--><br/>ps. {htmlspecialchars($item->getPostScript())}</p><!--@end-->
+            </a>
+        </span>
+        <span class="info">
+            {$item->get('regdate')}
+            [{$item->getNickName()}]
+        </span>
+    </li>
+<!--@end-->
+<!--@if($page_navigation->total_page>1)-->
+    <!--@if($page_navigation->cur_page<$page_navigation->last_page)-->
+    <li class="item">
+        <a href="{getUrl('page',$page_navigation->cur_page+1)}">{$lang->cmd_prev} ({$page_navigation->cur_page+1} page)</a>
+    </li>
+    <!--@end-->
+    <!--@if($page_navigation->cur_page>1)-->
+    <li class="item">
+        <a href="{getUrl('page',$page_navigation->cur_page-1)}">{$lang->cmd_next} ({$page_navigation->cur_page-1} page)</a>
+    <!--@end-->
+    </li>
+<!--@end-->
+</ul>

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   modules/page/lang/ko.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  페이지(page) 모듈의 기본 언어팩
      **/

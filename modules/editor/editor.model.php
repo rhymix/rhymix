@@ -48,7 +48,7 @@
 
             if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
             if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
-            if(!$editor_config->content_style) $editor_config->content_style = 'xeStyle';
+            //if(!$editor_config->content_style) $editor_config->content_style = 'xeStyle';
 
             return $editor_config;
         }
@@ -611,6 +611,7 @@
 
             FileHandler::writeFile($cache_file, $buff, "w");
 
+	    unset($xml_info);
             include($cache_file);
             return $xml_info;
         }

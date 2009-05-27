@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/multimedia_link/lang/jp.lang.php
+     * @file   modules/editor/components/multimedia_link/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa
      * @brief  ウィジウィグエディター（editor）モジュール > マルチメディアリンク（(multimedia_link）コンポネント言語パッケージ
      **/

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/install/lang/jp.lang.php
      * @author zero (zero@nzeo.com) 翻訳：RisaPapa(risapapa@gmail.com)、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
@@ -201,7 +201,7 @@ EndOfLicense;
             'xml' => 'XMLライブラリ',
             'iconv' => 'ICONVライブラリ',
             'gd' => 'GDライブラリ',
-            'session' => 'Session.auto_start の設定',
+            'session' => 'Session.auto_startの設定',
         );
 
     $lang->install_checklist_desc = array(
@@ -252,14 +252,14 @@ EndOfLicense;
     $lang->admin_title = '管理者情報';
 
     $lang->env_title = '環境設定';
-    $lang->use_optimizer = 'オプティマイザ使用';
-    $lang->about_optimizer = 'オプティマイザを使用すると多数の「CSS/JS」ファイルを、統合・圧縮して転送するのでレスポンスが早くなります。<br />但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
+    $lang->use_optimizer = 'オプティマイザー使用';
+    $lang->about_optimizer = 'オプティマイザーを使用すると多数の「CSS/JS」ファイルを、統合・圧縮して転送するのでレスポンスが早くなります。<br />但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
     $lang->use_rewrite = 'リライト・モジュールを使用';
     $lang->about_rewrite = 'Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを動的だけど「http://アドレス/123」のように静的なページに見せることが出来ます。';
     $lang->time_zone = 'タイムゾーン';
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることが出来ます。';
     $lang->qmail_compatibility = 'Qmail 互換';
-    $lang->about_qmail_compatibility = 'Qmail等、CRLFを改行コードで認識出来ないMTAでメールが送信出来るようにします。';
+    $lang->about_qmail_compatibility = 'Qmail等、CRLFを改行コードとして認識出来ないMTA（Message Transfer Agent）で、メールの送信が出来るようにします。';
 
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセス出来ない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定して下さい。</span>';
 

@@ -57,6 +57,7 @@
             }
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
+            $src = str_replace('&amp;amp;', '&amp;', $src);
             if(!$alt) $alt = $src;
 
             $attr_output = array();

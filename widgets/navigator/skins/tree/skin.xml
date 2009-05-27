@@ -3,11 +3,11 @@
     <title xml:lang="ko">메뉴 트리 출력 스킨</title>
     <title xml:lang="zh-CN">树形菜单皮肤</title>
     <title xml:lang="zh-TW">樹狀選單面板</title>
-    <title xml:lang="jp">메뉴 트리 출력 스킨</title>
+    <title xml:lang="jp">ツリー型メニュー用スキン</title>
     <description xml:lang="ko">메뉴를 트리구조로 출력합니다.</description>
     <description xml:lang="zh-CN">树形菜单皮肤</description>
     <description xml:lang="zh-TW">以樹狀結構顯示選單。</description>
-    <description xml:lang="jp">메뉴를 트리구조로 출력합니다.</description>
+    <description xml:lang="jp">メニューをツリー型に表示します。</description>
     <version>0.1</version>
     <date>2009-02-10</date>
     <link>http://www.zeroboard.com</link>

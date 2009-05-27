@@ -126,7 +126,7 @@
     $lang->mid = '模組名稱';
     $lang->sid = '網站名稱';
     $lang->layout = '版面';
-    $lang->widget = '控件 ';
+    $lang->widget = 'Widget ';
     $lang->module = '模組';
     $lang->skin = '面板';
     $lang->colorset = '顏色設定';
@@ -186,7 +186,7 @@
         'Wednesday' => '星期三',
         'Thursday' => '星期四',
         'Friday' => '星期五',
-        'Saturday' => '禮拜六',
+        'Saturday' => '星期六',
         'Sunday' => '星期日',
     );
 
@@ -220,12 +220,12 @@
     $lang->msg_invalid_password = '密碼錯誤';
     $lang->msg_error_occured = '發生錯誤';
     $lang->msg_not_founded = '找不到相關內容';
-    $lang->msg_no_result = '找不到與您查詢的相符結果';
+    $lang->msg_no_result = '搜尋不到結果';
     $lang->msg_fail_to_request_open = 'Fail to open your request';
-    $lang->msg_invalid_format = 'Invalid Format';
+    $lang->msg_invalid_format = '格式錯誤';
 
     $lang->msg_not_permitted_act = '沒有權限執行';
-    $lang->msg_module_is_not_exists = "啟動模塊沒有啟用。\n安裝啟動模塊的管理員網頁。";
+    $lang->msg_module_is_not_exists = "還沒有啟用模組。\n請在管理員頁面中啟用模組。";
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
 
     $lang->success_registed = '成功送出！';
@@ -244,9 +244,9 @@
     $lang->fail_to_delete = '刪除成功！';
     $lang->fail_to_move = '移動成功！';
 
-    $lang->failed_voted = '您不能推薦！';
-    $lang->failed_blamed = '您不能反對！';
-    $lang->failed_declared = '您沒有檢舉權限！';
+    $lang->failed_voted = '無法推薦！'; 
+    $lang->failed_blamed = '無法反對！'; 
+    $lang->failed_declared = '無法檢舉！';
     $lang->fail_to_delete_have_children = '不能刪除有回覆的評論！';
 
     $lang->confirm_submit = '確定要送出嗎?';

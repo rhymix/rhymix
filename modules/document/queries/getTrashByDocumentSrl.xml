@@ -1,0 +1,11 @@
+<query id="getTrashByDocumentSrl" action="select">
+    <tables>
+        <table name="document_trash" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

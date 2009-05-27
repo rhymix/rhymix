@@ -89,6 +89,7 @@
             $site_args->site_srl = 0;
             $site_args->index_module_srl = Context::get('index_module_srl');
             $site_args->default_language = Context::get('change_lang_type');
+            $site_args->domain = $db_info->default_url;
             $oModuleController = &getController('module');
             $oModuleController->updateSite($site_args);
 

@@ -186,6 +186,16 @@
                     <!--@end-->
                 <!--@end-->
 
+            <!--@elseif($val->column_type == 'radio')-->
+                <!--@if($val->default_value)-->
+                    <ul class="radio">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if($val->value == $v)-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
+
             <!--// 단일 선택 -->
             <!--@elseif($val->column_type == 'select')-->
                 <select name="{$val->column_name}">

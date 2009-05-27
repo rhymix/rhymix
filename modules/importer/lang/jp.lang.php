@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/importer/lang/jp.lang.php
      * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
      * @brief  Importer(importer) モジュールの基本言語パッケージ
      **/
@@ -11,7 +11,7 @@
     $lang->preprocessing = 'データ移転のため、準備中です。';
 
     // 項目
-    $lang->importer = 'ZBデータ変換';
+    $lang->importer = 'XEデータ変換';
     $lang->source_type = 'データ変換の対象';
     $lang->type_member = '会員情報';
     $lang->type_message = 'メッセージ情報';

@@ -50,7 +50,6 @@
             $entry = $oDocument->getTitleText();
             Context::set('entry',$entry);
             $output = $oDocumentModel->getHistories($document_srl, 10, $page);
-            debugPrint($output);
             if(!$output->toBool() || !$output->data) 
             {
                 Context::set('histories', array());

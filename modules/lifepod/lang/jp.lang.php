@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/lifepod/lang/jp.lang.php
      * @author haneul (haneul0318@gmail.com) 翻訳：ミニミ
      * @brief  ライフポッド(lifepod) モジュールの日本語言語パッケージ
      **/

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/planet/lang/jp.lang.php
      * @author sol (sol@ngleader.com) 翻訳：nmind(nmindplus@gmail.com)、ミニミ
      * @brief  プラネット(planet)モジュールの日本語パック
      **/

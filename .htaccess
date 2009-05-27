@@ -44,6 +44,10 @@ RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/rss$ ./index.php?vid=$1&mid=$2&act=
 RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/atom$ ./index.php?vid=$1&mid=$2&act=atom [L]
 RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/api$ ./index.php?vid=$1&mid=$2&act=api [L]
 
+# trackback
+RewriteRule ^([0-9]+)/(.+)/trackback$ ./index.php?document_srl=$1&key=$2&act=trackback [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?vid=$1&document_srl=$2&key=$3&act=trackback [L]
+
 # administrator page
 RewriteRule ^admin/?$ ./index.php?module=admin [L]
 

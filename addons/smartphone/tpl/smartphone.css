@@ -1,0 +1,189 @@
+body {
+    margin: 0;
+    padding:0;
+    font-family: Helvetica;
+    background: #E6E6E6 url(./images/pinstripes.png);
+    color: #000000;
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
+    width:100%;
+}
+
+.smartPhoneTitleBar {
+    border-bottom: 1px solid #2d3642;
+    border-top: 1px solid #6d84a2;
+    height: 43px;
+    overflow:hidden;
+    background:#485567 url(./images/titlebar.png) repeat-x left top;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.smartPhoneTitleBar h1 {
+    white-space:nowrap;
+    overflow: hidden;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+    padding:8px 10px;
+    margin:0;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+    text-overflow: ellipsis;
+}
+
+.smartPhoneTitleBar h1 a {
+    text-decoration:none;
+    color:#fff;
+}
+
+.smartPhoneContent {
+    z-index:450;
+    border: 1px solid #999999;
+    padding:10px;
+    background-color:#fff;
+    margin:10px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-border-radius: 8px;
+}
+
+.smartPhoneToolBar {
+    z-index:9999;
+    width:100%;
+    border-bottom: 1px solid #2d3642;
+    border-top: 1px solid #6d84a2;
+    height: 43px;
+    overflow:hidden;
+    background:#485567 url(./images/titlebar.png) repeat-x left top;
+    white-space:nowrap;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.smartPhoneBtn {
+    width:43px;
+    height:43px;
+    margin-left:8px;  
+    border:0;
+}
+
+.smartPhoneContent div.info {
+    font-size:13px;
+    padding-bottom:10px;
+    border-bottom:1px solid #444;
+    overflow:hidden;
+    *zoom:1;
+}
+
+.smartPhoneContent div.info .author {
+    font-weight:bold;
+    float:left; 
+}
+
+.smartPhoneContent div.info .date {
+    font-size:11px;
+    float:right; 
+}
+
+.smartPhoneContent div.link {
+    margin-top:10px;
+    border-top:1px solid #444;
+}
+
+.smartPhoneContent div.link a {
+    display:block;
+    padding:10px 0;
+    font-size:15px;
+    text-decoration:underline;
+    font-weight:bold;
+    color:#000;
+}
+
+.smartPhoneList {
+    background-color:#fff;
+    z-index:500;
+    padding:0;
+    margin:0;
+}
+
+.smartPhoneList ul { 
+    padding:0; 
+    margin:0; 
+    left:0;
+    right:0;
+    top:43px;
+}
+
+.smartPhoneList li {
+    list-style:none;
+    font-size:18px;
+    font-weight:bold;
+    padding:10px 20px 10px 10px;
+    border-bottom:1px solid #ccc;
+}
+
+.smartPhoneList li a {
+    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+    text-overflow: ellipsis;
+    color:#000;
+    text-decoration:none;
+    display:block;
+    width:100%;
+}
+
+.smartPhoneList li.title {
+    position: relative;
+    top: -1px;
+    margin-bottom: -2px;
+    border-top: 1px solid #7d7d7d;
+    border-bottom: 1px solid #999999;
+    padding: 5px 10px;
+    background: url(./images/listGroup.png) repeat-x;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
+    color: #FFFFFF;
+}
+
+.smartPhoneList li.selected {
+    background-color:#ddd;
+}
+
+.smartPhoneList li.selected * {
+    color:#fff;
+}
+
+
+.smartPhoneList li a {
+    background:transparent url(./images/listArrow.png) no-repeat scroll right center;
+    padding-right:30px;
+}
+
+.smartPhoneList li.noArrow a {
+    background:none !important; 
+}
+
+.smartPhoneList li.item img.thumbnail {
+    margin:0 10px 0 0;
+    padding:0;
+}
+
+.smartPhoneList li.item span.title, .smartPhoneList li.item span.title div {
+    font-size:15px;
+    font-weight:normal;
+    display:block;
+}
+
+.smartPhoneList li.item span.info {
+    font-size:10px;
+    font-weight:normal;
+    color:#bbb;
+    display:block;
+    margin-top:2px;
+    letter-spacing:0px;
+}
+

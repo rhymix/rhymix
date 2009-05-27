@@ -4,7 +4,7 @@
 
 
         <!--@if($widgetstyle_extar_var->ws_title_image || $widgetstyle_extar_var->ws_title)-->
-            <h3 class="widgetBoxHeader" <!--@if($widgetstyle_extar_var->ws_title_color)-->style="color:{$widgetstyle_extar_var->ws_title_color};"<!--@end-->>
+            <h3 class="widgetBoxHeader" <!--@if($widgetstyle_extar_var->ws_title_color&&$widgetstyle_extar_var->ws_title_color!='transparent')-->style="color:{$widgetstyle_extar_var->ws_title_color};"<!--@end-->>
             <!--@if($widgetstyle_extar_var->ws_title_icon)-->
                 <img src="{$widgetstyle_extar_var->ws_title_icon}" />
             <!--@end-->

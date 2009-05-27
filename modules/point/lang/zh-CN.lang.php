@@ -25,6 +25,8 @@
 
     $lang->disable_download = '禁止下载';
     $lang->about_disable_download = '没有积分时，将禁止下载。 (图片除外)';
+    $lang->disable_read_document = '글 열람 금지';
+    $lang->about_disable_read_document = '포인트가 없을 경우 글 열람을 금지하게 됩니다';
 
     $lang->level_point_calc = '计算级别积分';
     $lang->expression = '使用级别变数<b>"i"</b>输入JS数学函数。例: Math.pow(i, 2) * 90';
@@ -35,7 +37,9 @@
     $lang->about_cmd_point_recal = '积分初始化。即只保留文章/评论/附件/新会员注册的相关积分项。<br />其中，初始化后的新会员注册积分项，将在会员有相关动作(发表主题/评论等)时，才付与其相应的积分。<br />此项功能请务必慎用！此项功能只能在数据转移或真的需要初始化所有积分时才可以使用。';
 
     $lang->point_link_group = '用户组绑定';
-    $lang->about_point_link_group = '即级别绑定用户组。当级别达到指定级别时，会员所属用户组将自动更新为与其相对应的用户组。只是更新为新的用户组时，之前的默认用户组将自动被删除。';
+    $lang->point_group_reset_and_add = '설정된 그룹 초기화 후 새 그룹 부여';
+    $lang->point_group_add_only = '새 그룹만 부여';
+    $lang->about_point_link_group = '即级别绑定用户组。当级别达到指定级别时，会员所属用户组将自动更新为与其相对应的用户组。';
 
     $lang->about_module_point = '可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。';
 
@@ -57,6 +61,7 @@
     $lang->cmd_point_member_list = '会员积分目录';
 
     $lang->msg_cannot_download = '积分不足无法下载！';
+    $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)";
 
     $lang->point_recal_message = '计算并应用中(%d / %d)。';
     $lang->point_recal_finished = '积分重新计算并应用完毕。';

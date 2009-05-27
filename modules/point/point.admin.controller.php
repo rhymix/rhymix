@@ -51,6 +51,10 @@
             if($args->disable_download == 'Y') $config->disable_download = 'Y';
             else $config->disable_download = 'N';
 
+            // 포인트 미달시 글 열람 금지 여부 체크
+            if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
+            else $config->disable_read_document = 'N';
+
             // 레벨별 그룹 설정
             foreach($args as $key => $val) {
                 if(substr($key, 0, strlen('point_group_')) != 'point_group_') continue;
@@ -59,6 +63,7 @@
                 if(!$level) unset($config->point_group[$group_srl]);
                 else $config->point_group[$group_srl] = $level;
             }
+            $config->group_reset = $args->group_reset;
 
             // 레벨별 포인트 설정
             unset($config->level_step);
@@ -142,7 +147,7 @@
         function procPointAdminUpdatePoint() {
             $action = Context::get('action');
             $member_srl = Context::get('member_srl');
-            $point = Context::get('point');		
+            $point = Context::get('point');
 
             $oPointController = &getController('point');
             return $oPointController->setPoint($member_srl, (int)$point, $action);
@@ -162,7 +167,7 @@
 
             // 회원의 포인트 저장을 위한 변수
             $member = array();
-            
+
             // 게시글 정보를 가져옴
             $output = executeQueryArray('point.getDocumentPoint');
             if(!$output->toBool()) return $output;
@@ -268,6 +273,31 @@
             $this->add('position', $idx);
             $this->setMessage(sprintf(Context::getLang('point_recal_message'), $idx, $total));
 
+        }
+
+        /**
+         * @brief 개별 모듈의 포인트 리셋
+         **/
+        function procPointAdminReset() {
+            $module_srl = Context::get('module_srls');
+            if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+            // 여러개의 모듈 일괄 설정일 경우
+            if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
+            else $module_srl = array($module_srl);
+
+            // 설정 저장
+            $oModuleController = &getController('module');
+            for($i=0;$i<count($module_srl);$i++) {
+                $srl = trim($module_srl[$i]);
+                if(!$srl) continue;
+                unset($args);
+                $args->module = 'point';
+                $args->module_srl = $srl;
+                executeQuery('module.deleteModulePartConfig', $args);
+            }
+
+            $this->setMessage('success_updated');
         }
 
         /**

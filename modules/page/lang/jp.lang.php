@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   jp.lang.php
+     * @file   modules/page/lang/jp.lang.php
      * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ
      * @brief  ページ（page）モジュールの基本言語パッケージ
      **/

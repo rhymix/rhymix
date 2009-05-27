@@ -58,7 +58,7 @@
 
             // 엮인글 발송 링크 추가
             $oDocumentController = &getController('document');
-            $url = getUrl('module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
+            $url = getUrl('','module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
             $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','./modules/document/tpl/icons/send_trackback.gif','popup');
 
             return new Object();
@@ -143,8 +143,7 @@
                 $obj->module_srl = $oDocument->get('module_srl');
             }
 
-
-            // 엮인글를 입력
+            // 엮인글을 입력
             $obj->trackback_srl = getNextSequence();
             $obj->list_order = $obj->trackback_srl*-1;
             $output = executeQuery('trackback.insertTrackback', $obj);
@@ -171,6 +170,9 @@
             // 원본글에 알림(notify_message)가 설정되어 있으면 메세지 보냄
             if(!$manual_inserted) $oDocument->notify(Context::getLang('trackback'), $obj->excerpt);
 
+            // trigger 호출 (after)
+            $output = ModuleHandler::triggerCall('trackback.insertTrackback', 'after', $obj);
+            if(!$output->toBool()) return $output;
 
             return new Object();
         }
@@ -186,6 +188,10 @@
             $trackback = $oTrackbackModel->getTrackback($trackback_srl);
             if($trackback->data->trackback_srl != $trackback_srl) return new Object(-1, 'msg_invalid_request');
             $document_srl = $trackback->data->document_srl;
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('trackback.deleteTrackback', 'before', $trackback);
+            if(!$output->toBool()) return $output;
 
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
@@ -207,6 +213,10 @@
             $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
             $output->add('document_srl', $document_srl);
 
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('trackback.deleteTrackback', 'after', $trackback);
+            if(!$output->toBool()) return $output;
+
             return $output;
         }
 
@@ -227,9 +237,12 @@
          * 발송 후 결과처리는 하지 않는 구조임
          **/
         function sendTrackback($oDocument, $trackback_url, $charset) {
+            $oModuleController = &getController('module');
+
             // 발송할 정보를 정리
             $http = parse_url($trackback_url);
             $obj->blog_name = str_replace(array('&lt;','&gt;','&amp;','&quot;'), array('<','>','&','"'), Context::getBrowserTitle());
+            $oModuleController->replaceDefinedLangCode($obj->blog_name);
             $obj->title = $oDocument->getTitleText();
             $obj->excerpt = $oDocument->getSummary(200);
             $obj->url = getUrl('','document_srl',$oDocument->document_srl);

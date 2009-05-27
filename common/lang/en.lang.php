@@ -233,7 +233,7 @@
     $lang->success_updated = 'Updated successfully';
     $lang->success_deleted = 'Deleted successfully';
     $lang->success_voted = 'Recommended successfully';
-    $lang->success_blamed = 'Blamed success_blamed';
+    $lang->success_blamed = 'Blamed successfully';
     $lang->success_moved = 'Moved successfully';
     $lang->success_sended = 'Sent successfully';
     $lang->success_reset = 'Reset successfully';

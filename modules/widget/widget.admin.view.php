@@ -30,8 +30,6 @@
          * @brief 내용 직접 입력 위젯 팝업창 내용을 꾸힘
          **/
         function dispWidgetAdminAddContent() {
-            $this->setLayoutFile("popup_layout");
-
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return $this->stop("msg_invalid_request");
 
@@ -46,20 +44,12 @@
 
             // 에디터 모듈의 getEditor를 호출하여 세팅
             $oEditorModel = &getModel('editor');
-            $option->primary_key_name = 'module_srl';
-            $option->content_key_name = 'content';
-            $option->allow_fileupload = true;
-            $option->enable_autosave = false;
-            $option->enable_default_component = true;
-            $option->enable_component = true;
-            $option->resizable = false;
-            $option->height = 200;
-            $editor = $oEditorModel->getEditor($module_srl, $option);
+            $editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
             Context::set('editor', $editor);
 
-
-
+            $this->setLayoutFile("popup_layout");
             $this->setTemplateFile('add_content_widget');
+
         }
 
     }

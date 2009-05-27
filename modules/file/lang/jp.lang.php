@@ -36,6 +36,7 @@
     $lang->msg_cart_is_null = '削除するファイルを選択して下さい';
     $lang->msg_checked_file_is_deleted = '%d個の添付ファイルを削除しました';
     $lang->msg_exceeds_limit_size = 'ファイルサイズの制限を超えたため、添付出来ません。';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(
         'filename' => 'ファイル名',

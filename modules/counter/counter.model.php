@@ -105,6 +105,34 @@
                             $sum += $count;
                         }
                     break;
+                case 'week' :
+                        $time = strtotime($selected_date);
+                        $w = date("D");
+                        while(date("D",$time) != "Sun") {
+                            $time += 60*60*24;
+                        }
+                        $time -= 60*60*24;
+                        while(date("D",$time)!="Sun") {
+                            $thisWeek[] = date("Ymd",$time);
+                            $time -= 60*60*24;
+                        }
+                        $thisWeek[] = date("Ymd",$time);
+                        asort($thisWeek);
+                        foreach($thisWeek as $day) {
+                            unset($args);
+                            $args->start_date = $day;
+                            $args->end_date = $day;
+                            if($site_srl) {
+                                $args->site_srl = $site_srl;
+                                $output = executeQuery('counter.getSiteCounterStatus', $args);
+                            } else { 
+                                $output = executeQuery('counter.getCounterStatus', $args);
+                            }
+                            $count = (int)$output->data->unique_visitor;
+                            $status->list[$day] = (int)$count;
+                            if($count>$max) $max = $count;
+                            $sum += $count;
+                        }
                     break;
                 case 'month' :
                         $year = substr($selected_date, 0, 4);

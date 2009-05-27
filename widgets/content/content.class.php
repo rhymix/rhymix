@@ -51,9 +51,12 @@
 
             // 썸네일 세로 크기
             if(!$args->thumbnail_height) $args->thumbnail_height = 75;
-            
+
             // 보기 옵션
             $args->option_view_arr = explode(',',$args->option_view);
+
+            // markup 옵션
+            if(!$args->markup_type) $args->markup_type = 'table';
 
             // 내부적으로 쓰이는 변수 설정
             $oModuleModel = &getModel('module');
@@ -252,6 +255,7 @@
 
                     $content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
                     $content_item->adds($oDocument->getObjectVars());
+                    $content_item->setTitle($oDocument->getTitle());
                     $content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
                     $content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
                     $content_item->setContent($oDocument->getSummary($args->content_cut_size));
@@ -302,7 +306,6 @@
                 $browser_title = $args->module_srls_info[$attribute->module_srl]->browser_title;
                 $domain = $args->module_srls_info[$attribute->module_srl]->domain;
                 $category = $category_lists[$attribute->module_srl]->text;
-                $attribute = $oDocument->getObjectVars();
                 $content = $oDocument->getSummary($args->content_cut_size);
                 $url = sprintf("%s#%s",$oDocument->getPermanentUrl() ,$oDocument->getCommentCount());
                 $thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
@@ -619,6 +622,8 @@
             $widget_info->list_type = $args->list_type;
             $widget_info->tab_type = $args->tab_type;
 
+            $widget_info->markup_type = $args->markup_type;
+
             // 탭형태일경우 탭에 대한 정보를 정리하고 module_srl로 되어 있는 key값을 index로 변경
             if($args->tab_type != 'none' && $args->tab_type) {
                 $tab = array();
@@ -727,8 +732,16 @@
             return $this->get('module_srl');
         }
         function getTitle($cut_size = 0, $tail='...'){
-            if($cut_size) $title = cut_str($this->get('title'), $cut_size, $tail);
-            else $title = $this->get('title');
+            $title = strip_tags($this->get('title'));
+
+            if($cut_size) $title = cut_str($title, $cut_size, $tail);
+
+            $attrs = array();
+            if($this->get('title_bold') == 'Y') $attrs[] = 'font-weight:bold';
+            if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = 'color:#'.$this->get('title_color');
+
+            if(count($attrs)) $title = sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), htmlspecialchars($title));
+
             return $title;
         }
         function getContent(){

@@ -8,8 +8,8 @@
     $lang->admin_info = '管理員資訊';
     $lang->admin_index = '管理頁面';
     $lang->control_panel = '控制介面';
-    $lang->start_module = '啟動模塊';
-    $lang->about_start_module = '您可以指定默認的啟動模塊。';
+    $lang->start_module = '啟用模組';
+    $lang->about_start_module = '可以將所選擇的模組作為預設首頁。';
 
     $lang->module_category_title = array(
         'service' => '服務設定',
@@ -35,11 +35,11 @@
     $lang->current_version = "安裝版本";
     $lang->current_path = "安裝路徑";
     $lang->released_version = "最新版本";
-    $lang->about_download_link = "官方網站已發佈新版本。\n請按[download]下載最新版本。";
+    $lang->about_download_link = "官方網站已發佈新版本。\n請按[下載]下載最新版本。";
 
     $lang->item_module = "模組列表";
     $lang->item_addon  = "元件列表";
-    $lang->item_widget = "控件列表";
+    $lang->item_widget = "Widget列表";
     $lang->item_layout = "版面列表";
 
     $lang->module_name = "模組名稱";
@@ -52,7 +52,7 @@
     $lang->cmd_shortcut_management = "編輯選單";
 
     $lang->msg_is_not_administrator = '只有管理員才可以檢視';
-    $lang->msg_manage_module_cannot_delete = '模組，附加元件，版面設計，控件模組的快捷選單是無法刪除的。';
+    $lang->msg_manage_module_cannot_delete = '模組，附加元件，版面設計，Widget的快捷選單是無法刪除的。';
     $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快捷選單的。';
 
     $lang->welcome_to_xe = 'XE管理頁面';
@@ -77,6 +77,6 @@
     $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用SSL功能。";
     $lang->server_ports = "主機埠口";
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
-    $lang->use_db_session = '인증 세션 DB 사용';
+    $lang->use_db_session = 'DB session認證';
     $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
 ?>

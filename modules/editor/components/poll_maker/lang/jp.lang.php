@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   /modules/editor/components/urllink/lang/jp.lang.php
+     * @file   modules/editor/components/urllink/lang/jp.lang.php
      * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor）モジュール > アンケート調査言語パッケージ
      **/

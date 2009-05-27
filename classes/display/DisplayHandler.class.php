@@ -101,7 +101,7 @@
                 $output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $output);
 
                 // 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
-                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.]+)-->/is', array($this,'transMeta'), $output);
+                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'transMeta'), $output);
 
                 // rewrite module 사용시 생기는 상대경로에 대한 처리를 함
                 if(Context::isAllowRewrite()) {
@@ -116,6 +116,9 @@
                 $output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
 
                 if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
+
+                // 불필요한 정보 제거
+                $output = preg_replace('/member\_\-([0-9]+)/s','member_0',$output);
 
                 // 최종 레이아웃 변환
                 Context::set('content', $output);
@@ -166,9 +169,7 @@
             $variables = $oModule->getVariables();
             $variables['error'] = $oModule->getError();
             $variables['message'] = $oModule->getMessage();
-            //if(function_exists('json_encode')) return json_encode($variables);
-            //else return json_encode2($variables);
-            $json = str_replace("\r\n",'\n',json_encode2($variables));
+            $json = preg_replace("(\r\n|\n)",'\n',json_encode2($variables));
             return $json;
         }
 

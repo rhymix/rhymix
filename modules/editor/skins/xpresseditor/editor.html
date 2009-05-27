@@ -13,7 +13,7 @@
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
-        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="10" rows="10"></textarea>
+        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="5" rows="50" class="inputTextarea"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
@@ -34,10 +34,11 @@
 	<!--@end-->
 	<!-- 에디터 -->
 	<div class="xpress-editor {$colorset}">
-	    <div id="smart_content"> <a href="#xe_iframe" class="skip">&raquo; {$lang->edit->jumptoedit}</a>
+	    <div id="smart_content"> <a href="#xe-editor-container-{$editor_sequence}" class="skip">&raquo; {$lang->edit->jumptoedit}</a>
 	
+        <!--@if($enable_default_component||$enable_component||$html_mode)-->
 	    <!-- 편집 컴포넌트 -->
-	    <div class="tool">
+	    <div class="tool off">
 	        <!--@if($enable_default_component)-->
 	        <!-- 기본 컴포넌트 출력 -->
 	        <ul class="do item">
@@ -46,7 +47,7 @@
 	        </ul>
 	        <ul class="type">
 	            <li class="xpress_xeditor_ui_format">
-	                <select class="xpress_xeditor_ui_format_select">
+	                <select class="xpress_xeditor_ui_format_select" disabled="true">
 	                    <option value="">{$lang->edit->header}</option>
 	                    <!--@foreach($lang->edit->header_list as $key=>$obj)-->
 	                    <option value="{$key}">{$obj}</option>
@@ -54,7 +55,7 @@
 	                </select>
 	            </li>
 	            <li class="xpress_xeditor_ui_fontName">
-	                <select class="xpress_xeditor_ui_fontName_select">
+	                <select class="xpress_xeditor_ui_fontName_select" disabled="true">
 	                    <option value="">{$lang->edit->fontname}</option>
 	                    <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
 	                    <option value="{$key}" style="font-family:{$key}">{$obj}</option>
@@ -62,7 +63,7 @@
 	                </select>
 	            </li>
 	            <li class="xpress_xeditor_ui_fontSize">
-	                <select class="xpress_xeditor_ui_fontSize_select">
+	                <select class="xpress_xeditor_ui_fontSize_select" disabled="true">
 	                    <option value="">{$lang->edit->fontsize}</option>
 	                    <option value="9px" style="font-size:9px">9px</option>
 	                    <option value="10px" style="font-size:10px">10px</option>
@@ -77,7 +78,7 @@
 	                </select>
 	            </li>
 	            <li class="xpress_xeditor_ui_lineHeight">
-	                <select class="xpress_xeditor_ui_lineHeight_select">
+	                <select class="xpress_xeditor_ui_lineHeight_select" disabled="true">
 	                    <option value="">{$lang->edit->lineheight}</option>
 	                    <option value="1">100%</option>
 	                    <option value="1.2">120%</option>
@@ -460,10 +461,13 @@
 	        <!--@end-->
 	
 	    </div>
+        <!--@else-->
+            <div class="tool off disable"></div>
+        <!--@end-->
 	
 	    <!-- 에디터 출력 -->
-	    <div class="input_area xpress_xeditor_editing_area_container">
-	        <textarea id="xpress-editor-{$editor_sequence}" cols="10" rows="10"></textarea>
+	    <div id="xe-editor-container-{$editor_sequence}" class="input_area xpress_xeditor_editing_area_container">
+	    	<textarea id="xpress-editor-{$editor_sequence}" cols="10" rows="10"></textarea>
 	    </div>
 	
 	    <!--@if($enable_autosave)-->

@@ -112,7 +112,7 @@
 
             // 모듈을 여전히(;;) 못 찾고 모듈번호(module_srl)가 있으면 해당 모듈을 구함
             // module_srl로 대상 모듈을 찾는 것을 주석 처리함.
-            if(!$this->module && !$module_info && $this->module_srl) {
+            if((!$this->module || $this->module != 'admin') && !$module_info && $this->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl);
                 //if($this->module && $module_info->module != $this->module) unset($module_info);
             }
@@ -155,16 +155,16 @@
 
             // mid값이 있을 경우 mid값을 세팅
             if($this->mid) Context::set('mid', $this->mid, true);
-
-            // 현재 모듈의 정보를 세팅
-            Context::set('current_module_info', $module_info);
                 
             // 실제 동작을 하기 전에 trigger 호출
-            $output = ModuleHandler::triggerCall('display', 'before', $content);
+            $output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
             if(!$output->toBool()) {
                 $this->error = $output->getMessage();
                 return false;
             }
+
+            // 현재 모듈의 정보를 세팅
+            Context::set('current_module_info', $this->module_info);
 
             return true;
         }
@@ -241,6 +241,10 @@
                 $this->error = 'msg_dbconnect_failed';
             }
 
+            // 모듈 동작을 마친 후 trigger call
+            $output = ModuleHandler::triggerCall('moduleHandler.proc', 'after', $oModule);
+            if(!$output->toBool()) $this->error = $output->getMessage();
+
             // HTML call 이면 message view 객체 이용하도록
             if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
                 // 에러가 발생하였을시 처리
@@ -296,8 +300,6 @@
 
                         // 레이아웃이 수정되었을 경우 수정본을 지정
                         $edited_layout = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
-//                        $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_info->layout_srl);
-//                        Context::addCSSFile($edited_layout_css);
                         if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                     }
                 }

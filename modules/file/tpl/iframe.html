@@ -1,0 +1,22 @@
+<script type="text/javascript">//<<![CDATA[
+
+	var uploaded_fileinfo = {};
+	<!--@if($uploaded_fileinfo)-->
+	uploaded_fileinfo.file_srl = {$uploaded_fileinfo->get('file_srl')};
+	uploaded_fileinfo.file_size = {$uploaded_fileinfo->get('file_size')};
+	uploaded_fileinfo.sid = '{$uploaded_fileinfo->get('sid')}';
+	uploaded_fileinfo.direct_download = '{$uploaded_fileinfo->get('direct_download')}';
+	uploaded_fileinfo.source_filename = '{$uploaded_fileinfo->get('source_filename')}';
+	uploaded_fileinfo.upload_target_srl = '{$uploaded_fileinfo->get('upload_taget_srl')}';
+	uploaded_fileinfo.uploaded_filename = '{$uploaded_fileinfo->get('uploaded_filename')}';
+	<!--@end-->
+	<!--@if($callback)-->
+		try{
+			parent[{$callback}](uploaded_fileinfo);
+		}catch(e){
+		
+		}
+	<!--@end-->
+
+//]]>>
+</script>

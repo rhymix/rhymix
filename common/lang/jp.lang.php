@@ -151,7 +151,7 @@
     $lang->regdate = '登録日';
     $lang->last_update = '最近修正日';
     $lang->last_post = '最近登録';
-    $lang->signup_date = '加入日';
+    $lang->signup_date = '登録日';
     $lang->last_login = '最近ログイン';
     $lang->first_page = '最初のページ';
     $lang->last_page = '最後のページ';
@@ -221,8 +221,8 @@
     $lang->msg_error_occured = 'エラーが発生しました。';
     $lang->msg_not_founded = '見つかりません。';
     $lang->msg_no_result = '検索結果がありません。';
-    $lang->msg_fail_to_request_open = 'Fail to open your request';
-    $lang->msg_invalid_format = 'Invalid Format';
+    $lang->msg_fail_to_request_open = 'リクエストのアクセスに失敗しました。';
+    $lang->msg_invalid_format = '正しくないフォーマットです。';
 
     $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません。';
     $lang->msg_module_is_not_exists = "モジュールの起動を有効にされていません。\n管理者ページにセットアップを開始するモジュール。";
@@ -277,22 +277,23 @@
     $lang->is_required = '必須項目';
     $lang->eid = '拡張変数名';
 
-    // ftp 관련
+    // ftp関連
     $lang->ftp_form_title = 'サーバーのFTP情報の入力';
     $lang->ftp = 'FTP';
-    $lang->ftp_port = 'FTP port';
+    $lang->ftp_port = 'FTPポート番号（port）';
     $lang->cmd_check_ftp_connect = 'FTP接続をテストする';
     $lang->about_ftp_info = "
-        FTP情報は次の場合、利用されます。<br/>
-        1. PHPのsafe_mode=Onになった際、FTP情報を用いてXEが正常に動きます。<br/>
-        2. FTP経由でXEの自動アップデート等に使われます。<br/>
-        FTP情報は files/config/ftp.config.php の中に保存されます。<br/>
+        FTP情報は次の場合、利用されます。<br />
+        1. サーバー側のPHPの設定中、「safe_mode=On」になった際、FTP情報を用いてXEが正常に働くようにします。
+<br/>
+        2. FTP経由でXEの自動アップデート等に使われます。<br />
+        FTP情報は「files/config/ftp.config.php」の中に保存されます。<br/>
         また、XEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。（省略可能） <br />
     ";
 
     $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。";
     $lang->msg_ftp_not_connected = "localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。";
-    $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTP情報を再度ご確認下さい。";
+    $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTPアクセス情報を再度ご確認下さい。";
     $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
     $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
     $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
@@ -301,9 +302,9 @@
     $lang->filter->isnull = '%sを入力して下さい。';
     $lang->filter->outofrange = '%sの文字の長さを合わせて下さい。';
     $lang->filter->equalto = '%sが正しくありません。';
-    $lang->filter->invalid_email = '%sのパターンが正しくありません。 (例: zbxe@zeroboard.com)';
+    $lang->filter->invalid_email = '%sのパターンが正しくありません。 (例: zbxe@xepressengine.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%sの形式が正しくありません。\\n半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。";
-    $lang->filter->invalid_homepage = '%sの形式が正しくありません。 (例: http://www.zeroboard.com)';
+    $lang->filter->invalid_homepage = '%sの形式が正しくありません。 (例: http://www.xepressengine.com)';
     $lang->filter->invalid_korean = '%sの形式が正しくありません。ハングルのみ入力して下さい。';
     $lang->filter->invalid_korean_number = '%sの形式が正しくありません。ハングルと半角数字で入力して下さい。';
     $lang->filter->invalid_alpha = '%sの形式が正しくありません。半角英文字のみ入力して下さい。';

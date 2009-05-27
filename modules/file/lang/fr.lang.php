@@ -34,6 +34,7 @@
     $lang->msg_cart_is_null = 'Choisissez un(des) fichier(s) a supprimer';
     $lang->msg_checked_file_is_deleted = '%d Annexe(s) est(sont) supprime(s)';
     $lang->msg_exceeds_limit_size = 'La mesure de l\'(des) Annexe(s) est plus grande que celle consentie.';
+    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(
         'filename' => 'Nom de Fichier',

@@ -23,6 +23,8 @@
             /**
              * 피드 출력을 위한 변수 설정
              **/
+            $site_module_info = Context::get('site_module_info');
+            $site_srl = $site_module_info->site_srl;
             $mid = Context::get('mid'); ///< 대상 모듈 id, 없으면 전체로
             $start_date = (int)Context::get('start_date');
             $end_date = (int)Context::get('end_date');
@@ -46,7 +48,7 @@
             // mid 가 선택되어 있지 않으면 전체
             } else {
                 if($total_config->use_total_feed != 'N') {
-                    $rss_config = $oModuleModel->getModulePartConfigs('rss');
+                    $rss_config = $oModuleModel->getModulePartConfigs('rss', $site_srl);
                     if($rss_config) {
                         foreach($rss_config as $module_srl => $config) {
                             if($config && $config->open_rss != 'N' && $config->open_total_feed != 'T_N') {

@@ -44,8 +44,8 @@ Jeong, Chan Myeong 070601~070630
 .blogNotice .item .replyAndTrackback { color:#AAAAAA; font-size:.9em; }
 
 /* wikiRead */
-.wikimain a { color:#000; text-decoration:underline !important;}
-.wikimain a:visited { color:#555; }
+.wikimain a { color:#66c; text-decoration:underline !important;}
+.wikimain a:visited { color:#66c; }
 .viewDocument { border-bottom:2px solid #AAAAAA; margin-bottom:20px; }
 .wikiRead { }
 

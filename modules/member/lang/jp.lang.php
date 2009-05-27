@@ -11,46 +11,46 @@
     $lang->default_group_1 = "準会員";
     $lang->default_group_2 = "正会員";
     $lang->admin_group = "管理グループ";
-    $lang->keep_signed = '次回からIDの入力を省略';
-    $lang->remember_user_id = 'ＩＤ保存';
+    $lang->keep_signed = '次回からID入力を省略';
+    $lang->remember_user_id = 'ID保存';
     $lang->already_logged = '既にログインされています。';
     $lang->denied_user_id = '使用が禁じられているＩＤです。';
-    $lang->null_user_id = 'ユーザＩＤをもう一度入力して下さい。';
+    $lang->null_user_id = 'ユーザーＩＤをもう一度入力して下さい。';
     $lang->null_password = 'パスワードを入力して下さい。';
     $lang->invalid_authorization = '認証出来ませんでした。';
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
-    $lang->allow_mailing = 'メーリングリスト';
+    $lang->allow_mailing = 'メーリングリストに登録';
     $lang->denied = '使用中止';
     $lang->is_admin = '最高管理権限';
     $lang->group = '所属グループ';
-    $lang->group_title = 'グループタイトル';
+    $lang->group_title = 'グループ名';
     $lang->group_srl = 'グループ番号';
     $lang->signature = '署名';
     $lang->profile_image = 'プロフィール写真';
-    $lang->profile_image_max_width = '横幅サイズ制限';
-    $lang->profile_image_max_height = '縦幅サイズ制限';
+    $lang->profile_image_max_width = '制限横幅サイズ';
+    $lang->profile_image_max_height = '制限縦幅サイズ';
     $lang->image_name = 'イメージ名';
-    $lang->image_name_max_width = '横幅制限サイズ';
-    $lang->image_name_max_height = '縦幅制限サイズ';
+    $lang->image_name_max_width = '制限横幅サイズ';
+    $lang->image_name_max_height = '制限縦幅サイズ';
     $lang->image_mark = 'イメージマーク';
-    $lang->image_mark_max_width = '横幅制限サイズ';
-    $lang->image_mark_max_height = '縦幅制限サイズ';
-    $lang->group_image_mark = 'Group Image Mark';
-    $lang->group_image_mark_max_width = '横幅制限サイズ';
-    $lang->group_image_mark_max_height = '縦幅制限サイズ';
+    $lang->image_mark_max_width = '制限横幅サイズ';
+    $lang->image_mark_max_height = '制限縦幅サイズ';
+    $lang->group_image_mark = 'グループ用イメージマーク';
+    $lang->group_image_mark_max_width = '制限横幅サイズ';
+    $lang->group_image_mark_max_height = '制限縦幅サイズ';
     $lang->group_image_mark_order = 'グループ用イメージマークの順番';
-    $lang->signature_max_height = '署名欄の高さの制限';
-    $lang->enable_openid = 'OpenID使用';
+    $lang->signature_max_height = '制限署名欄の高さ';
+    $lang->enable_openid = 'OpenIDサポート';
     $lang->enable_join = '会員登録を許可する';
-    $lang->enable_confirm = 'メール認証を使用';
+    $lang->enable_confirm = 'メール認証機能を使用';
     $lang->enable_ssl = 'SSL使用';
     $lang->security_sign_in = 'セキュア（SSL）';
-    $lang->limit_day = '臨時制限日';
+    $lang->limit_day = '臨時制限期間（日）';
     $lang->limit_date = '制限日';
-    $lang->after_login_url = 'ログイン後表示するページのURL';
-    $lang->after_logout_url = 'ログアウト後表示するページのURL';
-    $lang->redirect_url = '登録後表示するページ';
+    $lang->after_login_url = 'ログイン後、表示するページのURL';
+    $lang->after_logout_url = 'ログアウト後、表示するページのURL';
+    $lang->redirect_url = '会員登録後、表示するページ';
     $lang->agreement = '会員登録規約';
     $lang->accept_agreement = '規約に同意する';
     $lang->member_info = '会員情報';
@@ -63,7 +63,7 @@
             'N' => '全て禁止',
     );
     $lang->about_allow_message = 'メッセージの許可タイプ及び対象を設定します。';
-    $lang->logged_users = '現在アクセス中ユーザー';
+    $lang->logged_users = '現在ログイン中の会員';
 
     $lang->webmaster_name = 'ウェブマスターのお名前';
     $lang->webmaster_email = 'ウェブマスターのメールアドレス';
@@ -73,7 +73,7 @@
     $lang->about_webmaster_email = 'ウェブマスターのメールアドレスを入力して下さい。';
 
     $lang->search_target_list = array(
-        'user_id' => 'ユーザＩＤ',
+        'user_id' => 'ユーザーＩＤ',
         'user_name' => 'お名前',
         'nick_name' => 'ニックネーム',
         'email_address' => 'メールアドレス',
@@ -92,7 +92,7 @@
     $lang->cmd_site_signup = '登録';
     $lang->cmd_modify_member_info = '会員情報修正';
     $lang->cmd_modify_member_password = 'パスワード変更';
-    $lang->cmd_view_member_info = '会員情報表示';
+    $lang->cmd_view_member_info = '会員情報確認';
     $lang->cmd_leave = '退会';
     $lang->cmd_find_member_account = 'IDとパスワードのリマインダー';
 
@@ -102,15 +102,15 @@
     $lang->cmd_send_mail = 'メール送信';
     $lang->cmd_manage_id = '禁止ＩＤ管理';
     $lang->cmd_manage_form = '会員登録フォーム管理';
-    $lang->cmd_view_own_document = '書き込み表示';
-    $lang->cmd_manage_member_info = 'Manage Member Info';
+    $lang->cmd_view_own_document = '書き込み履歴';
+    $lang->cmd_manage_member_info = '会員情報管理';
     $lang->cmd_trace_document = '書き込みの追跡';
     $lang->cmd_trace_comment = 'コメント追跡';
-    $lang->cmd_view_scrapped_document = 'スクラップ表示';
-    $lang->cmd_view_saved_document = '保存ドキュメント表示';
+    $lang->cmd_view_scrapped_document = 'スクラップ';
+    $lang->cmd_view_saved_document = '保存ドキュメント';
     $lang->cmd_send_email = 'メール送信';
 
-    $lang->msg_email_not_exists = "メールアドレスがありません。";
+    $lang->msg_email_not_exists = "登録されたメールアドレスがありません。";
 
     $lang->msg_alreay_scrapped = '既にスクラップされたコンテンツです。';
 
@@ -139,7 +139,7 @@
     $lang->msg_exists_user_id = '既に存在するユーザＩＤです。他のＩＤを入力して下さい。';
     $lang->msg_exists_email_address = '既に存在するメールアドレスです。他のメールアドレスを入力して下さい。';
     $lang->msg_exists_nick_name = '既に存在するニックネームです。他のニックネームを入力して下さい。';
-    $lang->msg_signup_disabled = '会員に登録することが出来ません。';
+    $lang->msg_signup_disabled = '会員登録が制限されています。<br />サイト管理者にお問合せ下さい。';
     $lang->msg_already_logged = '既に会員に登録されています。';
     $lang->msg_not_logged = 'ログインしていません。';
     $lang->msg_insert_group_name = 'グループ名を入力して下さい。';
@@ -191,8 +191,8 @@
 
     $lang->about_image_name = 'ユーザの名前を文字の代わりにイメージで表示させることが出来ます。';
     $lang->about_image_mark = '使用者の名前の前にマークを付けることが出来ます。';
-    $lang->about_profile_image = 'ユーザのプロフィールイメージが使用出来るようにします。';
     $lang->about_group_image_mark = 'ユーザー名の前にグループマークを表示します。';
+    $lang->about_profile_image = 'ユーザのプロフィールイメージが使用出来るようにします。';
     $lang->about_signature_max_height = '署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)';
     $lang->about_accept_agreement = '登録規約をすべて読んだ上で同意します。';
 
@@ -200,7 +200,7 @@
 
     $lang->about_openid = 'OpenIDで登録する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。';
     $lang->about_openid_leave = 'OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく登録することになり、書き込んだコンテンツに対する権限を維持することが出来ません。';
-    $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードの検索」ボタンをクリックして下さい。<br />';
+    $lang->about_find_member_account = 'ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックして下さい。<br />';
 
     $lang->about_member = "会員の作成・修正・削除することが出来、グループの管理、登録フォームの管理などが行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理が出来るようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することが出来ます。";
     $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';

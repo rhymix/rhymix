@@ -33,12 +33,12 @@
     </p>
     <!--@end-->
     <p class="save">
-        <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
+        <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />
         <label for="keepid">{$lang->keep_signed}</label>
 
         <!--@if($member_config->enable_openid=='Y')-->
         <br />
-        <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;"/>
+        <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" />
         <label for="use_open_id">Open ID</label>
         <!--@end-->
     </p>

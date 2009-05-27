@@ -1,67 +1,44 @@
 <?php
     /**
-     * @class  boardWAP
+     * @class  boardSmartphone
      * @author haneul0318 (haneul0318@gmail.com)
-     * @brief  board 모듈의 IPhone class
+     * @brief  board 모듈의 SmartPhone IPhone class
      **/
 
     class boardSPhone extends board {
-        function procSmartPhone(&$oIPhone)
-        {
-            if(!$this->grant->list || $this->module_info->consultation == 'Y') return $oIPhone->setContent(Context::getLang('msg_not_permitted'));
-            $act = Context::get('act');
-            if(method_exists($this, $act))
-            {
-                $this->{$act}();
-            }
-            else
-            {
-                $document_srl = Context::get('document_srl');
-                if($document_srl)
-                    return $this->dispContent($document_srl);
-                else
-                    return $this->dispList();
-            }
-        }
 
-        function dispContent($document_srl)
-        {
+        function procSmartPhone(&$oSmartPhone) {
             $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl);
+
+            if(!$this->grant->list || $this->module_info->consultation == 'Y') return $oSmartPhone->setContent(Context::getLang('msg_not_permitted'));
+
+            $oDocument = Context::get('oDocument');
             if($oDocument->isExists()) {
-                // 권한 확인
-                if(!$this->grant->view) return Context::getLang('msg_not_permitted');
-
-                Context::setBrowserTitle($oDocument->getTitleText());
-                Context::set('oDocument', $oDocument);
-                $oTemplate = new TemplateHandler();
-                $content = $oTemplate->compile($this->module_path.'tpl/smartphone', "view_document");
-                return $content;
+                if(Context::get('comment') == 'true' && $oDocument->getCommentCount()) {
+                    Context::set('comment_list', $oDocument->getComments());
+                    $comment_page_navigation = $oDocument->comment_page_navigation;
+                    if($comment_page_navigation) {
+                        if($comment_page_navigation->cur_page > $comment_page_navigation->first_page) $oSmartPhone->setPrevUrl(getUrl('cpage',$comment_page_navigation->cur_page-1));
+                        if($comment_page_navigation->cur_page < $comment_page_navigation->last_page) $oSmartPhone->setNextUrl(getUrl('cpage',$comment_page_navigation->cur_page+1));
+                    }
+                    $oSmartPhone->setParentUrl(getUrl('comment',''));
+                    $tpl_file = 'comment_list';
+                } else {
+                    $oSmartPhone->setParentUrl(getUrl('document_srl',''));
+                    $tpl_file = 'view_document';
+                }
+            } else {
+                $page_navigation = Context::get('page_navigation');
+                if($page_navigation) {
+                    if($page_navigation->cur_page > $page_navigation->first_page) $oSmartPhone->setPrevUrl(getUrl('page',$page_navigation->cur_page-1));
+                    if($page_navigation->cur_page < $page_navigation->last_page) $oSmartPhone->setNextUrl(getUrl('page',$page_navigation->cur_page+1));
+                }
+                $tpl_file = 'list';
             }
-            else
-            {
-                return $this->dispList();
-            }
 
-        }
-
-        function dispList()
-        {
-            if(!$this->grant->list || $this->module_info->consultation == 'Y') return Context::getLang('msg_not_permitted');
-            $oDocumentModel = &getModel('document');
-            $args->module_srl = $this->module_srl; 
-            $args->page = Context::get('page');; 
-            $args->list_count = 8;
-            $args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
-            $args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
-            $output = $oDocumentModel->getDocumentList($args, $this->except_notice);
-            $document_list = $output->data;
-            Context::set('document_list', $document_list);
-            $page_navigation = $output->page_navigation;
-            Context::set('page_navigation',$page_navigation);
             $oTemplate = new TemplateHandler();
-            $content = $oTemplate->compile($this->module_path.'tpl/smartphone', "list");
-            return $content;
+            $content = $oTemplate->compile($this->module_path.'tpl/smartphone', $tpl_file);
+            $oSmartPhone->setContent($content);
         }
     }
 ?>

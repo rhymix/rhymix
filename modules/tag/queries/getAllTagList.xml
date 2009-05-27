@@ -1,0 +1,12 @@
+<query id="getDocumentsTagList" action="select">
+    <tables>
+        <table name="tags" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+        <column name="tag" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl" filter="number" />
+    </conditions>
+</query>

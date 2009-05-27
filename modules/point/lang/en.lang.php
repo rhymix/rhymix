@@ -25,6 +25,8 @@
 
     $lang->disable_download = 'Prohibit Downloads';
     $lang->about_disable_download = "This will prohibit downloads when there are not enough points. (Exclude image files)"; 
+    $lang->disable_read_document = '글 열람 금지';
+    $lang->about_disable_read_document = '포인트가 없을 경우 글 열람을 금지하게 됩니다';
 
     $lang->level_point_calc = 'Point Calculation per Point';
     $lang->expression = 'Please input Javascript formula by using level variable <b>i</b>. ex) Math.pow(i, 2) * 90';
@@ -35,7 +37,9 @@
 	$lang->about_cmd_point_recal = 'All point will be initialized only with articles/comments/attachments/join points.<br />Only members who do website activities will get signup points after reset.<br />Please use this function when complete initialization is required in case of data transferring or other situations.';
 
     $lang->point_link_group = 'Group Change by Level';
-    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points. When new group is assigned, the user is removed from the former assigned group.';
+    $lang->point_group_reset_and_add = '설정된 그룹 초기화 후 새 그룹 부여';
+    $lang->point_group_add_only = '새 그룹만 부여';
+    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points.';
 
     $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
 
@@ -58,6 +62,7 @@
     $lang->cmd_point_member_list = 'Member Point List';
 
     $lang->msg_cannot_download = "You don't have enough point to download";
+    $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)";
 
     $lang->point_recal_message = 'Adjusting Point. (%d / %d)';
     $lang->point_recal_finished = 'Point recalculation is finished.';

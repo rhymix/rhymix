@@ -469,7 +469,10 @@
 
         function procDocumentAdminRestoreTrash() {
             $trash_srl = Context::get('trash_srl');
+			$this->restoreTrash($trash_srl);
+        }
 
+		function restoreTrash($trash_srl){
             $oDB = &DB::getInstance();
 
             $trash_args->trash_srl = $trash_srl;
@@ -499,7 +502,8 @@
 
             // commit
             $oDB->commit();
-        }
+			return $output;
+		}
 
     }
 ?>

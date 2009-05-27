@@ -37,10 +37,6 @@
                 $this->document_srl = null;
                 return;
             }
-            if ($attribute->member_srl < 0) {
-                $attribute->member_srl = 0;
-                $attribute->ipaddress = '0.0.0.0';
-            }
             $this->document_srl = $attribute->document_srl;
             $this->lang_code = $attribute->lang_code;
             $this->adds($attribute);
@@ -55,7 +51,11 @@
 
             $oDocumentModel = &getModel('document');
             $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
-            if($load_extra_vars) $oDocumentModel->setToAllDocumentExtraVars();
+            if($load_extra_vars) {
+                $oDocumentModel->setToAllDocumentExtraVars();
+                $this->add('title', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('title'));
+                $this->add('content', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('content'));
+            }
         }
 
         function isExists() {
@@ -239,7 +239,7 @@
         function getContentText($strlen = 0) {
             if(!$this->document_srl) return;
 
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
@@ -253,7 +253,7 @@
         function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             if(!$this->document_srl) return;
 
-            if($this->isSecret() && !$this->isGranted()) return Context::getLang('msg_is_secret');
+            if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
             $_SESSION['accessible'][$this->document_srl] = true;
 
@@ -309,8 +309,7 @@
         }
 
         function getSummary($str_size = 50, $tail = '...') {
-            // 영문이나 숫자가 연결되어서 20개 이상으로 연결시에 강제 띄움 시도 - {20,}으로 길이를 정하면, 20개 이상 문자열 맨 마지막에 스페이스를 추가할 뿐 원하는 의도는 달성되지 못함
-            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$this->getContent(false,false));
+            $content = $this->getContent(false,false);
 
 			// 줄바꿈이 있을 때, 공백문자 삽입
 			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
@@ -325,13 +324,18 @@
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
 			// 연속된 공백문자 삭제
-			$content = preg_replace('/([\s]{2,})/is', ' ', $content);
+			$content = preg_replace('/ ( +)/is', ' ', $content);
 
             // 문자열을 자름
             $content = trim(cut_str($content, $str_size, $tail));
 
             // >, <, "를 다시 복구
-            return str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+            $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+
+            // 영문이 연결될 경우 개행이 안 되는 문제를 해결
+            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
+
+            return $content;
         }
 
         function getRegdate($format = 'Y.m.d H:i:s') {
@@ -387,8 +391,7 @@
             $oDocumentController = &getController('document');
             if($oDocumentController->updateReadedCount($this)) {
                 $readed_count = $this->get('readed_count');
-                $readed_count++;
-                $this->add('readed_count', $readed_count);
+                $this->add('readed_count', $readed_count+1);
             }
         }
 
@@ -553,7 +556,8 @@
                 preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
                 $cnt = count($matches);
                 for($i=0;$i<$cnt;$i++) {
-                    $target_src = $matches[$i][2];
+                    $target_src = trim($matches[$i][2]);
+		     if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$target_src)) continue;
                     if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
                     else {
                         if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;

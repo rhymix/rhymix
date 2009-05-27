@@ -49,14 +49,6 @@
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getTotalCommentList($args);
             if(!$output->toBool()|| !$output->data) return $output;
-
-            $list = array();
-            foreach($output->data as $key => $val) {
-                $oComment = new commentItem(0);
-                $oComment->setAttribute($val);
-                $list[$key] = $oComment;
-            }
-            $output->data = $list;
             return $output;
         }
 
