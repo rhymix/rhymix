@@ -166,6 +166,7 @@ $(document).ready(function(){
             var img = $(this);
             var width = img.attr("width");
             if(!width) width = img.width();
+            if(!width) return;
             img.attr("orig_width",width);
             img.attr("width",1);
         });
@@ -173,6 +174,7 @@ $(document).ready(function(){
 
         $(this).find("img").each(function(){
             var img = $(this);
+            if(!img.attr("orig_width")) return;
             var src = img.attr("src");
             img.attr("width",img.attr("orig_width"));
             img.removeAttr("orig_width",'');
