@@ -22,11 +22,11 @@
     $lang->enable_download_group = '允許下載的群組';
 
     $lang->about_allow_outlink = '是否允許連結外部檔案。(*.wmv, *.mp3等影音檔案除外)';
-    $lang->about_allow_outlink_format = '파일 외부 링크 설정에 관계 없이 허용하는 파일 확장자입니다. 여러개 입력시에 쉼표(,)을 이용해서 구분해주세요.<br />例)hwp,doc,zip,pdf';
+    $lang->about_allow_outlink_format = '設定允許外部連結的檔案格式。可以用(,)來區隔多個副檔名。<br />例)hwp,doc,zip,pdf';
     $lang->about_allow_outlink_site = '可設置允許外部檔案連結的網站名單。當數量太多時，可換行輸入。<br />例)http://www.zeroboard.com';
 	$lang->about_allowed_filesize = '最大單一上傳檔案大小(管理員不受此限制)。';
     $lang->about_allowed_attach_size = '每個主題最大上傳檔案大小(管理員不受此限制)。';
-    $lang->about_allowed_filetypes = '設定允許上傳的檔案類型。可以用"*.副檔名"來指定或用";"來區隔多個副檔名<br />例) *.* or *.jpg;*.gif;<br />(管理員不受此限制)';
+    $lang->about_allowed_filetypes = '設定允許上傳的檔案類型。可以用"*.副檔名"來指定或用";"來區隔多個副檔名。<br />例) *.* or *.jpg;*.gif;<br />(管理員不受此限制)';
 
     $lang->cmd_delete_checked_file = '刪除所選項目';
     $lang->cmd_move_to_document = '檢視原始主題';
@@ -36,7 +36,7 @@
     $lang->msg_cart_is_null = ' 請選擇要刪除的檔案。';
     $lang->msg_checked_file_is_deleted = '已刪除%d個檔案！';
     $lang->msg_exceeds_limit_size = '已超過系統指定的檔案大小！';
-    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
+    $lang->msg_file_not_found = '找不到檔案。';
 
     $lang->file_search_target_list = array(
         'filename' => '檔案名稱',
