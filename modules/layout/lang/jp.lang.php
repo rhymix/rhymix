@@ -9,23 +9,23 @@
     $lang->cmd_layout_edit = 'レイアウト編集';
 
     $lang->layout_name = 'レイアウト名';
-    $lang->layout_maker = "レイアウト作者";
+    $lang->layout_maker = 'レイアウト作者';
     $lang->layout_license = 'ライセンス';
-    $lang->layout_history = "変更内容 ";
-    $lang->layout_info = "レイアウト情報";
+    $lang->layout_history = '変更内容 ';
+    $lang->layout_info = 'レイアウト情報';
     $lang->layout_list = 'レイアウトリスト';
     $lang->menu_count = 'メニュー数';
     $lang->downloaded_list = 'ダウンロードリスト';
     $lang->layout_preview_content = '内容が出力される部分です。';
     $lang->not_apply_menu = 'レイアウトの一括適用';
 
-    $lang->cmd_move_to_installed_list = "作成されたリスト表示";
+    $lang->cmd_move_to_installed_list = '作成されたリスト表示';
 
-    $lang->about_downloaded_layouts = "ダウンロードのレイアウトリスト";
+    $lang->about_downloaded_layouts = 'ダウンロードのレイアウトリスト';
     $lang->about_title = 'モジュールとの連動をわかりやすく区分するためのタイトルを入力して下さい。';
     $lang->about_not_apply_menu = 'チェックを入れると連動するすべてのメニューのモジュールのレイアウトを一括変更します。';
 
-    $lang->about_layout = "レイアウトのモジュールはサイトのレイアウトを分かりやすく作成出来るようにします。<br />レイアウトの設定とメニューのリンクで様々なモジュールで完成されたサイト構築が出来ます。<br />※ ブログまたは他のモジュールのレイアウトなどの削除・修正が出来ないレイアウトは、該当モジュールにて設定を行って下さい。";
+    $lang->about_layout = 'レイアウトのモジュールはサイトのレイアウトを分かりやすく作成出来るようにします。<br />レイアウトの設定とメニューのリンクで様々なモジュールで完成されたサイト構築が出来ます。<br />※ ブログまたは他のモジュールのレイアウトなどの削除・修正が出来ないレイアウトは、該当モジュールにて設定を行って下さい。';
     $lang->about_layout_code = 
         "下のレイアウトコードを修正し、保存するとサービスに反映されます。
         必ずプレビューで確認してから保存して下さい。

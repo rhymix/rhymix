@@ -8,9 +8,9 @@
     $lang->member = '会員';
     $lang->member_default_info = '基本情報';
     $lang->member_extend_info = '追加情報';
-    $lang->default_group_1 = "準会員";
-    $lang->default_group_2 = "正会員";
-    $lang->admin_group = "管理グループ";
+    $lang->default_group_1 = '準会員';
+    $lang->default_group_2 = '正会員';
+    $lang->admin_group = '管理グループ';
     $lang->keep_signed = '次回からID入力を省略';
     $lang->remember_user_id = 'ID保存';
     $lang->already_logged = '既にログインされています。';
@@ -110,24 +110,24 @@
     $lang->cmd_view_saved_document = '保存ドキュメント';
     $lang->cmd_send_email = 'メール送信';
 
-    $lang->msg_email_not_exists = "登録されたメールアドレスがありません。";
+    $lang->msg_email_not_exists = '登録されたメールアドレスがありません。';
 
     $lang->msg_alreay_scrapped = '既にスクラップされたコンテンツです。';
 
     $lang->msg_cart_is_null = '対象を選択して下さい。';
-    $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';
+    $lang->msg_checked_file_is_deleted = "%d個の添付ファイルが削除されました。";
 
     $lang->msg_find_account_title = '会員IDどパスワードの情報';
     $lang->msg_find_account_info = '登録された会員情報は下記の通りです。';
     $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更して下さい。';
     $lang->msg_confirm_account_title = '確認メールです。';
     $lang->msg_confirm_account_info = '作成した会員の情報';
-    $lang->msg_confirm_account_comment = '下記のURLをクリックして会員登録を完了して下さい。';
-    $lang->msg_auth_mail_sent = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認して下さい。';
-    $lang->msg_confirm_mail_sent = '%s 宛に確認メールを送信しました。メールをご確認下さい。';
+    $lang->msg_confirm_account_comment = '下記のURLをクリックして会員登録手続きを完了して下さい。';
+    $lang->msg_auth_mail_sent = "%s 宛に認証情報内容が送信されました。メールを確認して下さい。";
+    $lang->msg_confirm_mail_sent = "%s 宛に確認メールを送信しました。メールをご確認下さい。";
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせ下さい。';
-    $lang->msg_success_authed = '認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更して下さい。.';
-    $lang->msg_success_confirmed = '会員登録いただきましてありがとうございます。';
+    $lang->msg_success_authed = '認証が正常に行われ、ログイン出来ました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更して下さい。.';
+    $lang->msg_success_confirmed = '会員登録、有難うございます。';
 
     $lang->msg_new_member = '会員追加';
     $lang->msg_update_member = '会員情報修正';

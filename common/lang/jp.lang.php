@@ -45,7 +45,7 @@
     $lang->cmd_select = '選択';
     $lang->cmd_select_all = 'すべて選択';
     $lang->cmd_unselect_all = 'すべて解除';
-    $lang->cmd_reverse_all = "選択の反転";
+    $lang->cmd_reverse_all = '選択の反転';
 	$lang->cmd_close_all = 'すべて閉じる';
     $lang->cmd_open_all = 'すべて開く';
     $lang->cmd_reload = 'リロード';
@@ -61,8 +61,8 @@
     $lang->cmd_scrap = 'スクラップ';
     $lang->cmd_preview = 'プレビュー';
     $lang->cmd_reset = '初期化';
-    $lang->cmd_remake_cache = "キャッシュファイル再生成";
-    $lang->cmd_publish = "発行";
+    $lang->cmd_remake_cache = 'キャッシュファイル再生成';
+    $lang->cmd_publish = '発行';
     $lang->cmd_layout_setup = 'レイアウト設定';
     $lang->cmd_layout_edit = 'レイアウト編集';
     $lang->cmd_search_by_ipaddress = 'IPアドレスで検索';
@@ -132,8 +132,8 @@
     $lang->colorset = 'カラーセット';
     $lang->extra_vars = '拡張変数';
 
-    $lang->domain = "ドメイン";
-    $lang->url = "URL";
+    $lang->domain = 'ドメイン';
+    $lang->url = 'URL';
     $lang->document_url = '書き込みＵＲＬ';
     $lang->trackback_url = 'トラックバックＵＲＬ';
     $lang->blog_name = 'ブログ名';
@@ -291,12 +291,12 @@
         また、XEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。（省略可能） <br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。";
-    $lang->msg_ftp_not_connected = "localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。";
-    $lang->msg_ftp_invalid_auth_info = "ログインが失敗しました。 FTPアクセス情報を再度ご確認下さい。";
-    $lang->msg_ftp_mkdir_fail = "FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
-    $lang->msg_ftp_chmod_fail = "FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。";
-    $lang->msg_ftp_connect_success = "FTP接続に成功しました。";
+    $lang->msg_safe_mode_ftp_needed = 'PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。';
+    $lang->msg_ftp_not_connected = 'localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかをご確認下さい。';
+    $lang->msg_ftp_invalid_auth_info = 'ログインが失敗しました。 FTPアクセス情報を再度ご確認下さい。';
+    $lang->msg_ftp_mkdir_fail = 'FTPを用いたディレクトリ生成に失敗しました。FTPサーバーの設定を再度ご確認下さい。';
+    $lang->msg_ftp_chmod_fail = 'FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。';
+    $lang->msg_ftp_connect_success = 'FTP接続に成功しました。';
 
     // xml filterで用いられているjavascript用のアラートメッセージ
     $lang->filter->isnull = '%sを入力して下さい。';

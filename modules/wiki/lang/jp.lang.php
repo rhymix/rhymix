@@ -14,5 +14,5 @@
     $lang->about_use_comment = 'コメント機能をオン・オフを設定します。';
     $lang->contributors = '投稿者';
     $lang->notice_old_revision = '過去のバージョンです。';
-    $lang->restore = '復元';
+    $lang->restore = '差し戻し';
 ?>

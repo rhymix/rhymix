@@ -228,13 +228,13 @@ EndOfLicense;
     $lang->cmd_ignore = 'FTP設定を省略する';
 
     $lang->db_desc = array(
-        'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理は出来ません。',
+        'mysql' => 'MySQL DBでPHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理は出来ません。',
         'mysql_innodb' => 'MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。',
         'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセス出来ない場所に作成して下さい。<br />（安定化までのテストは行われていません）',
         'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセス出来ない場所に作成して下さい。',
         'cubrid' => 'CUBRID DBを利用します。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'PostgreSql DBを利用します。',
-        'firebird' => 'Firebird DBを利用します。',
+        'firebird' => 'Firebird DBを利用します。<br />DB生成方法 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );
 
     $lang->form_title = 'データベース &amp; 管理者情報入力';

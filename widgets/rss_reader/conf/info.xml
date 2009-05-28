@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
     <title xml:lang="ko">RSS 리더</title>
-    <title xml:lang="jp">RSS リーダー</title>
+    <title xml:lang="jp">RSSリーダー</title>
     <title xml:lang="zh-CN">RSS阅读器</title>
     <title xml:lang="en">RSS Reader</title>
     <title xml:lang="ru">RSS-ридер</title>
     <title xml:lang="zh-TW">RSS閱讀器</title>
     <description xml:lang="ko">RSS 리더입니다.</description>
-    <description xml:lang="jp">RSS リーダーです。</description>
+    <description xml:lang="jp">RSSリーダーです。</description>
     <description xml:lang="zh-CN">RSS阅读器控件。</description>
     <description xml:lang="en">This widget displays data retrieved from RSS feed.</description>
     <description xml:lang="ru">Этот виджет отображает данные, полученные посредством RSS.</description>
@@ -96,7 +96,7 @@
             <name xml:lang="ru">Ширина</name>
             <name xml:lang="zh-TW">高度</name>
             <description xml:lang="ko">select 스킨에서 본문 높이 (기본값 200px)</description>
-            <description xml:lang="jp">select スキンから本文の高さ（デフォルト値 200px）</description>
+            <description xml:lang="jp">selectスキンから本文の高さ（デフォルト値 200px）</description>
             <description xml:lang="zh-CN">选择select皮肤时的文本高度。(默认为200px)</description>
             <description xml:lang="en">Height of select skin (default: 200px)</description>
             <description xml:lang="ru">Ширина скина (стандарт: 200px)</description>
