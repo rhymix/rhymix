@@ -220,4 +220,6 @@
 	$lang->edit->paging_next = '다음';
 	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
 	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+
+	$lang->edit->toc = '목차';
 ?>
