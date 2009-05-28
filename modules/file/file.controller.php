@@ -60,9 +60,9 @@
             $file_info = Context::get('Filedata');
             // 정상적으로 업로드된 파일이 아니면 오류 출력
             if(is_uploaded_file($file_info['tmp_name'])){
-				$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
-				Context::set('uploaded_fileinfo',$output);
-			}
+                $output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+                Context::set('uploaded_fileinfo',$output);
+            }
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('iframe');
@@ -350,7 +350,7 @@
                 // direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
                 $file_info['name'] = preg_replace('/\.(php|phtm|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
 
-                $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
+                $path = sprintf("./files/attach/images/%s/%s%s/", $module_srl,getNumberingPath($upload_target_srl,3),md5(crypt(rand(1000000,900000), rand(0,100))));
                 $filename = $path.$file_info['name'];
                 $direct_download = 'Y';
             } else {
