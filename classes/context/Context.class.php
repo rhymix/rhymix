@@ -338,7 +338,7 @@
          **/
         function checkSSO() {
             // GET 접속이 아니거나 설치가 안되어 있으면 패스
-            if(Context::getRequestMethod()!='GET' || !Context::isInstalled()) return true;
+            if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || in_array(Context::get('act'),array('rss','atom'))) return true;
 
             // DB info에 설정된 Default URL이 없다면 무조건 무사통과
             $default_url = trim($this->db_info->default_url);
