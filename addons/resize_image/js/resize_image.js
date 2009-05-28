@@ -158,6 +158,11 @@ function slideshow(event) {
 }
 
 $(document).ready(function(){
+    if (jQuery.browser.safari && document.readyState != "complete"){
+        setTimeout( arguments.callee, 100 );
+        return;
+    } 
+
 	var regx_skip   = /(?:modules|addons|classes|common|layouts|libs|widgets)/i;
 	var regx_parent = /(?:document|comment)_[0-9]+_[0-9]+/i;
 
