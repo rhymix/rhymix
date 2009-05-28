@@ -148,7 +148,7 @@
         <var id="option_view">
             <type>select-multi-order</type>
             <name xml:lang="ko">표시항목 및 순서</name>
-            <name xml:lang="en">Display Target & Order</name>
+            <name xml:lang="en">Display Target &amp; Order</name>
             <name xml:lang="zh-CN">显示项及顺序</name>
             <name xml:lang="zh-TW">顯示項目順序</name>
             <name xml:lang="jp">表示項目、および順番</name>
