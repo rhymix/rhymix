@@ -97,7 +97,9 @@ WidgetNavigator.prototype.drawMenu = function(parent_srl){
                 if(/^http\:\/\//.test(t.attr('url'))){
                     u = t.attr('url');
                 }else{
-                    u = request_uri.setQuery('mid',t.attr('url'));
+                    u = request_uri;
+                    if(typeof(xeVid)!='undefined') u = u.setQuery('vid',xeVid);
+                    u = u.setQuery('mid',t.attr('url'));
                 }
             }
             m = '<a href="' + u + '"'+(t.attr('open_window')=='Y'?' target="blank"':'')+'>'+m+'</a>';
