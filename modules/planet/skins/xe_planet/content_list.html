@@ -48,7 +48,7 @@
             <!--// Original Text -->
             <div class="comment">
                 <!--@if($planet->getMid() != $item->getPlanetMid())-->
-                <h3 class="identity"> <a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($item->nick_name)}" /></a><em><a href="#" class="member_{$item->getMemberSrl()}">{$item->getNickName()}</a></em> </h3>
+                <h3 class="identity"> <a href="{getUrl('','mid',$item->getPlanetMid())}"><img src="{$item->getPlanetPhotoSrc()}" width="96" height="96" alt="{htmlspecialchars($item->nick_name)}" /></a><em><a href="#" class="member_{$item->getMemberSrl()}" onclick="return false;">{$item->getNickName()}</a></em> </h3>
                 <!--@end-->
                 <div class="tongue">
                     <div class="post">
