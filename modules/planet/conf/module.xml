@@ -35,6 +35,8 @@
         <action name="dispPlanetLogin" type="view" />
         <action name="dispPlanetCreate" type="view" />
 
+        <action name="rss" type="view" />
+
         <action name="dispPlanetHome" type="view" />
         <action name="dispPlanet" type="view" index="true" />
         <action name="dispPlanetInfo" type="view" />

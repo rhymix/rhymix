@@ -17,7 +17,6 @@
         function init() {
             $oModuleModel = &getModel('module');
 
-
             if($this->act != 'dispHomepageIndex' && strpos($this->act,'Homepage')!==false) {
                 // 현재 접속 권한 체크하여 사이트 관리자가 아니면 접근 금지
                 $logged_info = Context::get('logged_info');
@@ -54,6 +53,7 @@
         function dispHomepageIndex() {
             $oHomepageAdminModel = &getAdminModel('homepage');
             $oHomepageModel = &getModel('homepage');
+            $oModuleModel = &getModel('module');
 
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             if(!is_dir($template_path)||!$this->module_info->skin) {
@@ -97,6 +97,9 @@
                 $output = executeQueryArray('homepage.getMyCafes', $myargs);
                 Context::set('my_cafes', $output->data);
             }
+
+            $homepage_info = $oModuleModel->getModuleConfig('homepage');
+            if($homepage_info->use_rss == 'Y') Context::set('rss_url',getUrl('','mid',$this->module_info->mid,'act','rss'));
 
             $this->setTemplateFile('index');
         }
@@ -280,8 +283,6 @@
             $this->setTemplateFile('category_list');
         }
 
-
-
         /**
          * @brief 홈페이지 게시판 추가 설정
          **/
@@ -402,6 +403,32 @@
 
             // 표시
             $this->setTemplateFile('components');
+        }
+
+        /**
+         * @brief rss
+         **/
+        function rss() {
+            $oRss = &getView('rss');
+            $oDocumentModel = &getModel('document');
+            $oModuleModel = &getModel('module');
+
+            $homepage_info = $oModuleModel->getModuleConfig('homepage');
+            if($homepage_info->use_rss != 'Y') return new Object(-1,'msg_rss_is_disabled');
+
+            $output = executeQueryArray('homepage.getRssList', $args);
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    unset($obj);
+                    $obj = new DocumentItem(0);
+                    $obj->setAttribute($val);
+                    $document_list[] = $obj;
+                }
+            }
+
+            $oRss->rss($document_list, $homepage_info->browser_title);
+            $this->setTemplatePath($oRss->getTemplatePath());
+            $this->setTemplateFile($oRss->getTemplateFile());
         }
     }
 ?>

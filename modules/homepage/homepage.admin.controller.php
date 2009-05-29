@@ -24,6 +24,7 @@
 
             $args->default_layout = $vars->default_layout;
             $args->enable_change_layout = $vars->enable_change_layout;
+            $args->use_rss = $vars->use_rss;
             foreach($vars as $key => $val) {
                 if(strpos($key,'allow_service_')===false) continue;
                 $args->allow_service[substr($key, strlen('allow_service_'))] = $val;

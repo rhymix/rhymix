@@ -54,6 +54,7 @@
             $module_info->planet_default_skin = Context::get('planet_default_skin');
             $module_info->use_mobile = Context::get('use_mobile');
             $module_info->use_me2day = Context::get('use_me2day');
+            $module_info->use_rss = Context::get('use_rss');
 
             $tagtab = explode(',',Context::get('planet_tagtab'));
             for($i=0,$c=count($tagtab);$i<$c;$i++){
