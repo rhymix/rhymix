@@ -43,8 +43,8 @@
     $lang->editor_height = 'Height of Editor';
 
     $lang->about_editor_skin = 'You may select the skin of editor.';
-    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
-    $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
+    $lang->about_content_style = 'You may select style for editting article or displaying content';
+    $lang->about_content_font = 'You may select font for editting article or displaying content.<br/>Default font is your own font<br/> Please use comma(,) for multiple input.';
     $lang->about_upload_file_grant = 'Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have permission)';
     $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)';
     $lang->about_editor_height = 'You may set the height of editor.';
@@ -154,69 +154,69 @@
 	$lang->edit->hyperlink = 'Hyperlink';
 	$lang->edit->target_blank = 'New Window';
 	
-	$lang->edit->quotestyle1 = '왼쪽 실선';
-	$lang->edit->quotestyle2 = '인용부호';
-	$lang->edit->quotestyle3 = '실선';
-	$lang->edit->quotestyle4 = '실선 + 배경';
-	$lang->edit->quotestyle5 = '굵은 실선';
-	$lang->edit->quotestyle6 = '점선';
-	$lang->edit->quotestyle7 = '점선 + 배경';
-	$lang->edit->quotestyle8 = '적용 취소';
+	$lang->edit->quotestyle1 = 'Left Solid';
+	$lang->edit->quotestyle2 = 'Quote';
+	$lang->edit->quotestyle3 = 'Solid';
+	$lang->edit->quotestyle4 = 'Solid + Background';
+	$lang->edit->quotestyle5 = 'Bold Solid';
+	$lang->edit->quotestyle6 = 'Dotted';
+	$lang->edit->quotestyle7 = 'Dotted + Background';
+	$lang->edit->quotestyle8 = 'Cancel';
 
 
-    $lang->edit->jumptoedit = '편집 도구모음 건너뛰기';
-    $lang->edit->set_sel = '칸 수 지정';
-    $lang->edit->row = '행';
-    $lang->edit->col = '열';
-    $lang->edit->add_one_row = '1행추가';
-    $lang->edit->del_one_row = '1행삭제';
-    $lang->edit->add_one_col = '1열추가';
-    $lang->edit->del_one_col = '1열삭제';
+    $lang->edit->jumptoedit = 'Skip Edit Toolbox';
+    $lang->edit->set_sel = 'Set Cell Count';
+    $lang->edit->row = 'Row';
+    $lang->edit->col = 'Column';
+    $lang->edit->add_one_row = 'Add 1 Row';
+    $lang->edit->del_one_row = 'Remove 1 Row';
+    $lang->edit->add_one_col = 'Add 1 Column';
+    $lang->edit->del_one_col = 'Remove 1 Column';
 
-    $lang->edit->table_config = '표 속성 지정';
-    $lang->edit->border_width = '테두리 굵기';
-    $lang->edit->border_color = '테두리 색';
-    $lang->edit->add = '더하기';
-    $lang->edit->del = '빼기';
-    $lang->edit->search_color = '색상찾기';
-    $lang->edit->table_backgroundcolor = '표 배경색';
-    $lang->edit->special_character = '특수문자';
-    $lang->edit->insert_special_character = '특수문자 삽입';
-    $lang->edit->close_special_character = '특수문자 레이어 닫기';
-    $lang->edit->symbol = '일반기호';
-    $lang->edit->number_unit = '숫자와 단위';
-    $lang->edit->circle_bracket = '원,괄호';
+    $lang->edit->table_config = 'Table Config';
+    $lang->edit->border_width = 'Border Width';
+    $lang->edit->border_color = 'Border Color';
+    $lang->edit->add = 'Add';
+    $lang->edit->del = 'Sub';
+    $lang->edit->search_color = 'Search Colors';
+    $lang->edit->table_backgroundcolor = 'Table Background Color';
+    $lang->edit->special_character = 'Special Characters';
+    $lang->edit->insert_special_character = 'Insert Special Characters';
+    $lang->edit->close_special_character = 'Close Special Characters Layer';
+    $lang->edit->symbol = 'Symbols';
+    $lang->edit->number_unit = 'Numbers and Units';
+    $lang->edit->circle_bracket = 'Circles, Brackets';
     $lang->edit->korean = 'Korean';
     $lang->edit->greece = 'Greek';
     $lang->edit->Latin  = 'Latin';
     $lang->edit->japan  = 'Japanese';
-    $lang->edit->selected_symbol  = '선택한 기호';
+    $lang->edit->selected_symbol  = 'Selected Symbols';
 
     $lang->edit->search_replace  = 'Find/Replace';
-    $lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
+    $lang->edit->close_search_replace  = 'Close Find/Replace Layer';
     $lang->edit->replace_all  = 'Replace All';
-    $lang->edit->search_words  = '찾을단어';
-    $lang->edit->replace_words  = '바꿀단어';
-    $lang->edit->next_search_words  = '다음찾기';
-    $lang->edit->edit_height_control  = '입력창 크기 조절';
+    $lang->edit->search_words  = 'Words to Find';
+    $lang->edit->replace_words  = 'Words to Replace';
+    $lang->edit->next_search_words  = 'Find Next';
+    $lang->edit->edit_height_control  = 'Set Edit Form Size';
 
     $lang->edit->merge_cells = 'Merge Table Cells';
-    $lang->edit->split_row = '행 분할';
-    $lang->edit->split_col = '열 분할';
+    $lang->edit->split_row = 'Split Row';
+    $lang->edit->split_col = 'Split Column';
     
-    $lang->edit->toggle_list   = '목록 접기/펼치기';
-    $lang->edit->minimize_list = '최소화';
+    $lang->edit->toggle_list   = 'Fold/Unfold';
+    $lang->edit->minimize_list = 'Minimize';
     
-    $lang->edit->move = '이동';
-    $lang->edit->materials = '글감보관함';
-    $lang->edit->temporary_savings = '임시저장목록';
+    $lang->edit->move = 'Move';
+    $lang->edit->materials = 'Materials';
+    $lang->edit->temporary_savings = 'Temporary Saved List';
     
-    $lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+    $lang->edit->drag_here = 'You can start writting with a selected paragraph from paragraph toolbar below.<br />If there is an article in temporary saved list, you can drag it to edit form.';
 
-	$lang->edit->paging_prev = '이전';
-	$lang->edit->paging_next = '다음';
-	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
-	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+	$lang->edit->paging_prev = 'Prev';
+	$lang->edit->paging_next = 'Next';
+	$lang->edit->paging_prev_help = 'Move to previous page.';
+	$lang->edit->paging_next_help = 'Move to next page.';
 
 	$lang->edit->toc = 'Table of Contents';
 ?>

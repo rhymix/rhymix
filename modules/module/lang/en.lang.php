@@ -27,7 +27,7 @@
     $lang->skin_history = 'Update history';
     $lang->module_copy = "Duplicate Module";
     $lang->module_selector = "Module Selector";
-    $lang->do_selected = "선택된 것들을...";
+    $lang->do_selected = "You would...";
     $lang->bundle_setup = "Bundle Setup";
     $lang->bundle_addition_setup = "Bundle Additional Setup";
     $lang->bundle_grant_setup = "Bundle Permission Setup";
