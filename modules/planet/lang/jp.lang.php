@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/planet/lang/ko.lang.php
+     * @file   modules/planet/lang/jp.lang.php
      * @author sol (sol@ngleader.com) 翻訳：nmind(nmindplus@gmail.com)、ミニミ
      * @brief  プラネット(planet)モジュールの日本語パック
      **/
@@ -23,7 +23,7 @@
         ホームページパッケージで登録されているドメインからプラネットへアクセス出来ない場合もあります。
         プラネットを初期ページとして利用する場合は、ホームページパッケージで登録されているドメインと異なるドメインを登録して下さい。";
 
-    $lang->planet_mid = 'プラネットアクセスアドレス";
+    $lang->planet_mid = 'プラネットアクセスアドレス';
     $lang->about_planet_mid = 'プラネットアクセスアドレスは「http://XEアドレス/プラネットアクセスアドレス」のようにダイレクトで接続出来るアドレスを指します。';
 
     $lang->planet_default_skin = 'プラネット基本スキン';
@@ -58,7 +58,7 @@
     $lang->cmd_planet_addfavorite = 'お気に入り追加';
 
     $lang->planet_hot_tag = 'リアルタイム人気タグ';
-    $lang->planet_home = 'Planet TOP';
+    $lang->planet_home = 'プラネットトップ';
     $lang->cmd_planet_more_tag = 'タグをもっと見る';
 
     $lang->planet_memo = 'メモ';
@@ -100,7 +100,7 @@
     $lang->cmd_planet_ok_move_myplanet = '確認 : マイプラネットに移動します。';
 
 
-    $lang->about_planet_login = 'IDとPasswordを入力してログインボタンをクリックして下さい。';
+    $lang->about_planet_login = 'IDとパスワードを入力してログインボタンをクリックして下さい。';
 
     $lang->cmd_planet_login = 'ログイン';
 
@@ -120,7 +120,7 @@
     $lang->cmd_planet_add_tag = '関心タグ追加';
     $lang->cmd_planet_add_article = '新規投稿';
     $lang->cmd_planet_post_article = '登録';
-    $lang->planet_postscript = 'P.S.';
+    $lang->planet_postscript = '追記';
     $lang->planet_article_preview = 'プレビュー';
 
 

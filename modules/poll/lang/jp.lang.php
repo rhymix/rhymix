@@ -5,10 +5,10 @@
      * @brief  アンケート（poll）モジュールの基本言語パッケージ
      **/
 
-    $lang->poll = "アンケート調査"; 
-    $lang->poll_stop_date = "アンケート調査の終了日";
-    $lang->poll_join_count = "参加者";
-    $lang->poll_checkcount = "必須選択項目数";
+    $lang->poll = 'アンケート調査'; 
+    $lang->poll_stop_date = 'アンケート調査の終了日';
+    $lang->poll_join_count = '参加者';
+    $lang->poll_checkcount = '必須選択項目数';
 
     $lang->cmd_poll_list = 'アンケートのリスト表示';
     $lang->cmd_delete_checked_poll = '選択項目削除';
@@ -28,7 +28,7 @@
 
     $lang->cmd_null_item = "アンケート調査に登録する項目がありません。\nもう一度設定して下さい。";
 
-    $lang->confirm_poll_submit = "アンケート調査にご応募しますか？";
+    $lang->confirm_poll_submit = 'アンケート調査にご応募しますか？';
 
     $lang->search_target_list = array(
         'title' => 'タイトル',

@@ -23,6 +23,6 @@
         'ipaddress' => 'IPアドレス',
     );
 
-    $lang->enable_trackback = "トラックバックを可能にする";
-    $lang->about_enable_trackback = "チェックを外すと、すべてのコンテンツに対し、トラックバックの受信を中止します。";
+    $lang->enable_trackback = 'トラックバックを可能にする';
+    $lang->about_enable_trackback = 'チェックを外すと、すべてのコンテンツに対し、トラックバックの受信を中止します。';
 ?>

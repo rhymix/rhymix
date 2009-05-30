@@ -124,7 +124,7 @@
     $lang->file = 'ファイル';
 
     $lang->mid = 'モジュール名';
-    $lang->sid = 'Site Name';
+    $lang->sid = 'バーチャル（Virtual）サイト名';
     $lang->layout = 'レイアウト';
     $lang->widget = 'ウィジェット';
     $lang->module = 'モジュール';

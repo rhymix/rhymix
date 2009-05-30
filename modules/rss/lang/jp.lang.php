@@ -22,8 +22,8 @@
     $lang->open_feed_to_total = '統合RSSに含む';
 
     // 説明文
-    $lang->about_rss_disable = "チェックするとRSSの出力を行いません。";
-    $lang->about_rss_type = "出力するRSSタイプを指定することが出来ます。";
+    $lang->about_rss_disable = 'チェックするとRSSの出力を行いません。';
+    $lang->about_rss_type = '出力するRSSタイプを指定することが出来ます。';
     $lang->about_open_rss = '現在のモジュールに対して「RSS配信」を選択することが出来ます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。';
     $lang->about_feed_description = '発行するRSSに関する説明を入力します。未入力した場合は該当モジュールで設定された管理用説明が含まれます。';
     $lang->about_feed_copyright = '発行するRSSのコンテンツに対する著作権情報です。';
@@ -31,6 +31,6 @@
     $lang->about_feed_document_count = 'RSSに配信するコンテンツの数 (デフォルト : 15)';
 
     // エラーメッセージ
-    $lang->msg_rss_is_disabled = "RSS機能がロックされています。";
+    $lang->msg_rss_is_disabled = 'RSS機能がロックされています。';
     $lang->msg_rss_invalid_image_format = 'サポートしないイメージファイルです。\nJPEG, GIF, PNGファイルのみサポートします。';
 ?>

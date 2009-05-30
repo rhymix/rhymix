@@ -14,7 +14,7 @@
     $lang->module_action = '動作';
     $lang->module_maker = 'モジュール作者';
     $lang->module_license = 'ライセンス';
-    $lang->module_history = '変更内容 ';
+    $lang->module_history = '変更履歴 ';
     $lang->category_title = 'カテゴリ名';
     $lang->header_text = 'ヘッダー内容';
     $lang->footer_text = 'フッター内容';
