@@ -35,7 +35,7 @@
     $lang->current_version = 'インストールバージョン';
     $lang->current_path = 'インストールパス';
     $lang->released_version = '最新バージョン';
-    $lang->about_download_link = 'インストールされたバージョンより新しいバージョンが配布されています。\n｢ダウンロード｣リンクをクリックするとダウンロード出来ます。';
+    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されています。\n｢ダウンロード｣リンクをクリックするとダウンロード出来ます。";
 
     $lang->item_module = 'モジュールリスト';
     $lang->item_addon  = 'アドオンリスト';

@@ -126,7 +126,7 @@
     $lang->msg_auth_mail_sent = "%s 宛に認証情報内容が送信されました。メールを確認して下さい。";
     $lang->msg_confirm_mail_sent = "%s 宛に確認メールを送信しました。メールをご確認下さい。";
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせ下さい。';
-    $lang->msg_success_authed = '認証が正常に行われ、ログイン出来ました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更して下さい。.';
+    $lang->msg_success_authed = '認証が正常に行われ、ログイン出来ました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更して下さい。';
     $lang->msg_success_confirmed = '会員登録、有難うございます。';
 
     $lang->msg_new_member = '会員追加';

@@ -75,9 +75,9 @@
     $lang->msg_extra_name_exists = '既に存在する拡張変数名です。他の拡張変数名を入力して下さい。';
 
     $lang->about_browser_title = 'ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。';
-    $lang->about_mid = 'モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。<br />※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角） The maximum length is 40.';
+    $lang->about_mid = 'モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。<br />※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角、最大40文字） ';
     $lang->about_default = 'チェックすると、サイトに「mid値」なしでアクセスした場合、デフォルトで表示します。';
-    $lang->about_module_category = 'カテゴリで管理出来るようにします。モジュールのカテゴリの管理は、「<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 &gt; モジュールカテゴリ</a>」にて行います。";
+    $lang->about_module_category = "カテゴリで管理出来るようにします。モジュールのカテゴリの管理は、「<a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">モジュール管理 &gt; モジュールカテゴリ</a>」にて行います。";
     $lang->about_description= '管理用として用いられる説明です。';
     $lang->about_header_text = 'モジュールのヘッダーに表示される内容です。（HTMLタグの使用可能）';
     $lang->about_footer_text = 'モジュールのフッターに表示される内容です。（HTMLタグの使用可能）';

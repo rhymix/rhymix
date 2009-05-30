@@ -53,9 +53,9 @@
     $lang->cmd_open = '開く';
     $lang->cmd_setup = '設定';
     $lang->cmd_addition_setup = '追加設定';
-	$lang->cmd_option = 'オプション';
+    $lang->cmd_option = 'オプション';
     $lang->cmd_apply = '適用';
-	$lang->cmd_open_calendar = 'カレンダーを開く';
+    $lang->cmd_open_calendar = 'カレンダーを開く';
     $lang->cmd_send = '送信';
     $lang->cmd_print = '印刷';
     $lang->cmd_scrap = 'スクラップ';
@@ -284,10 +284,9 @@
     $lang->cmd_check_ftp_connect = 'FTP接続をテストする';
     $lang->about_ftp_info = "
         FTP情報は次の場合、利用されます。<br />
-        1. サーバー側のPHPの設定中、「safe_mode=On」になった際、FTP情報を用いてXEが正常に働くようにします。
-<br/>
+        1. サーバー側のPHPの設定中、「safe_mode=On」になった際、FTP情報を用いてXEが正常に働くようにします。<br />
         2. FTP経由でXEの自動アップデート等に使われます。<br />
-        FTP情報は「files/config/ftp.config.php」の中に保存されます。<br/>
+        FTP情報は「files/config/ftp.config.php」の中に保存されます。<br />
         また、XEのインストールの後、管理者画面からFTP情報の変更・削除が可能です。（省略可能） <br />
     ";
 

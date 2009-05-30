@@ -56,18 +56,18 @@
 	$lang->edit->fontsize = 'フォントサイズ';
 	$lang->edit->use_paragraph = '段落機能';
 	$lang->edit->fontlist = array(
-	'MS PGothic'=>'ＭＳ Ｐゴシック',
-	'MS PMincho'=>'ＭＳ Ｐ明朝',
-	'MS UI Gothic'=>'MS UI Gothic',
-	'Arial'=>'Arial',
-	'Arial Black'=>'Arial Black',
-	'Tahoma'=>'Tahoma',
-	'Verdana'=>'Verdana',
-	'Sans-serif'=>'Sans-serif',
-	'Serif'=>'Serif',
-	'Monospace'=>'Monospace',
-	'Cursive'=>'Cursive',
-	'Fantasy'=>'Fantasy',
+	'MS PGothic' => 'ＭＳ Ｐゴシック',
+	'MS PMincho' => 'ＭＳ Ｐ明朝',
+	'MS UI Gothic' => 'MS UI Gothic',
+	'Arial' => 'Arial',
+	'Arial Black' => 'Arial Black',
+	'Tahoma' => 'Tahoma',
+	'Verdana' => 'Verdana',
+	'Sans-serif' => 'Sans-serif',
+	'Serif' => 'Serif',
+	'Monospace' => 'Monospace',
+	'Cursive' => 'Cursive',
+	'Fantasy' => 'Fantasy',
 	);
 
 	$lang->edit->header = '見出し';
@@ -83,7 +83,7 @@
 	$lang->edit->submit = '送信';
 
 	$lang->edit->fontcolor = 'テキストの色';
-	$lang->edit->fontbgcolor = 'ハイライト カラー';
+	$lang->edit->fontbgcolor = 'テキストの背景色';
 	$lang->edit->bold = '太字';
 	$lang->edit->italic = '斜体';
 	$lang->edit->underline = '下線';
@@ -175,7 +175,7 @@
 	$lang->edit->add_one_col = '1列追加';
 	$lang->edit->del_one_col = '1列削除';
 
-	$lang->edit->table_config = '표属性の設定';
+	$lang->edit->table_config = 'テーブル属性の設定';
 	$lang->edit->border_width = '外枠太さ';
 	$lang->edit->border_color = '外枠色';
 	$lang->edit->add = '挿入';

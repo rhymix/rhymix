@@ -1,6 +1,6 @@
 <?php
     /**
-     * @file   modules/planet/lang/jp.lang.php
+     * @file   modules/planet/lang/ko.lang.php
      * @author sol (sol@ngleader.com) 翻訳：nmind(nmindplus@gmail.com)、ミニミ
      * @brief  プラネット(planet)モジュールの日本語パック
      **/
@@ -9,9 +9,9 @@
     $lang->planet_title = 'プラネットタイトル';
     $lang->planet_url = 'プラネットURL';
     $lang->planet_myplanet = 'マイプラネット';
-    $lang->planet_whos_planet = '%s さんのプラネット';
-    $lang->planet_whos_favorite = '%s さんのお気に入り';
-    $lang->planet_whos_favorite_list = ''%s'さんがよく訪れるプラネット';
+    $lang->planet_whos_planet = "%s さんのプラネット";
+    $lang->planet_whos_favorite = "%s さんのお気に入り";
+    $lang->planet_whos_favorite_list = "'%s'さんがよく訪れるプラネット";
     $lang->planet_favorite = 'お気に入り';
 
     $lang->planet_welcome = 'ようこそ！';
@@ -24,7 +24,7 @@
         プラネットを初期ページとして利用する場合は、ホームページパッケージで登録されているドメインと異なるドメインを登録して下さい。";
 
     $lang->planet_mid = 'プラネットアクセスアドレス";
-    $lang->about_planet_mid = "プラネットアクセスアドレスは「http://XEアドレス/プラネットアクセスアドレス」のようにダイレクトで接続出来るアドレスを指します。';
+    $lang->about_planet_mid = 'プラネットアクセスアドレスは「http://XEアドレス/プラネットアクセスアドレス」のようにダイレクトで接続出来るアドレスを指します。';
 
     $lang->planet_default_skin = 'プラネット基本スキン';
     $lang->about_planet_default_skin = 'プラネットメインページ及び作成されたプラネットの基本スキンに設定されます。';
@@ -108,8 +108,8 @@
     $lang->planet_nowhot_tag = 'プラネット人気タグ';
     $lang->cmd_planet_close_nowhot_tag = '人気タグを閉じる';
 
-    $lang->about_planet_whats_textSearch_in_planet = '<strong>%s</strong>さんのプラネットから検索した<strong>'%s'</strong>の検索結果です。';
-    $lang->about_planet_whats_textSearch = '<strong>'%s'</strong>の全体検索結果です。';
+    $lang->about_planet_whats_textSearch_in_planet = "<strong>%s</strong>さんのプラネットから検索した<strong>'%s'</strong>の検索結果です。";
+    $lang->about_planet_whats_textSearch = "<strong>'%s'</strong>の全体検索結果です。";
 
     $lang->planet_acticle = '記事';
     $lang->planet_persontag = '人物タグ';
