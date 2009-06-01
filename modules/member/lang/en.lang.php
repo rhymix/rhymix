@@ -69,7 +69,7 @@
     $lang->webmaster_email = "Webmaster's Email";
 
     $lang->about_keep_signed = 'You might be kept signed on even when the browser is closed,\n\nIf you use this feature at a shared computer, your personal information might be accessed by others, thus do not use this feature at a shared computer. ';
-	$lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
+	$lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
@@ -123,7 +123,7 @@
     $lang->msg_confirm_account_title = 'Authentication confirmation mail';
     $lang->msg_confirm_account_info = 'This is the registered account information:';
     $lang->msg_confirm_account_comment = 'Click the following confirmation link to complete your sign up.';
-    $lang->msg_auth_mail_sent = 'The certification mail has been sent to %s. Please check your mail.';
+    $lang->msg_auth_mail_sent = 'The verification mail has been sent to %s. Please check your mail.';
     $lang->msg_confirm_mail_sent = 'We just sent you a confirmation email to %s. Click on the confirmation link in the email to complete your sign up.';
     $lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
     $lang->msg_success_authed = 'Your account has been successfully certificated and logged on.\n Please modify the password to your own one with the password in the mail.';
