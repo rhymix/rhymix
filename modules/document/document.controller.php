@@ -998,8 +998,14 @@
          **/
         function procDocumentInsertCategory($args = null) {
             // 입력할 변수 정리
-            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color');
-
+            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color','mid');
+			
+			if(!$args->module_srl && $args->mid){
+				$mid = $args->mid;
+				unset($args->mid);
+				$args->module_srl = $this->module_srl;
+			}
+			
             // 권한 체크 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
