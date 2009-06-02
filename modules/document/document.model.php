@@ -703,9 +703,11 @@
         /**
          * @brief 카테고리에 속한 문서의 갯수를 구함
          **/
-        function getCategoryDocumentCount($category_srl) {
+        function getCategoryDocumentCount($module_srl, $category_srl) {
+            $args->module_srl = $module_srl;
             $args->category_srl = $category_srl;
             $output = executeQuery('document.getCategoryDocumentCount', $args);
+			debugPrint($output);
             return (int)$output->data->count;
         }
 

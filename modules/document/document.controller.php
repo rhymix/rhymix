@@ -824,7 +824,7 @@
         function updateCategoryCount($module_srl, $category_srl, $document_count = 0) {
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
-            if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($category_srl);
+            if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($module_srl,$category_srl);
 
             $args->category_srl = $category_srl;
             $args->document_count = $document_count;
