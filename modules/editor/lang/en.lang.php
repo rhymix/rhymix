@@ -46,7 +46,7 @@
     $lang->about_editor_skin = 'You may select the skin of editor.';
     $lang->about_content_style = 'You may select style for editting article or displaying content';
     $lang->about_content_font = 'You may select font for editting article or displaying content.<br/>Default font is your own font<br/> Please use comma(,) for multiple input.';
-	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
+	$lang->about_content_font_size = 'You may select font size for editting article or displaying content.<br/>Please input units such as px or em.';
     $lang->about_upload_file_grant = 'Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have permission)';
     $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)';
     $lang->about_editor_height = 'You may set the height of editor.';
