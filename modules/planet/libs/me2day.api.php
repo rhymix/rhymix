@@ -38,7 +38,7 @@
                 $body = implode('&',$arr_content);
             }
 
-            $buff = FileHandler::getRemoteResource($url, $body, 3, 'POST', 'application/x-www-form-urlencoded', 
+            $buff = FileHandler::getRemoteResource($url, $body, 3, 'GET', 'application/x-www-form-urlencoded', 
                         array(
                             'me2_application_key'=>$this->application_key,
                             'Authorization'=>'Basic '.$auth,
