@@ -707,7 +707,6 @@
             $args->module_srl = $module_srl;
             $args->category_srl = $category_srl;
             $output = executeQuery('document.getCategoryDocumentCount', $args);
-			debugPrint($output);
             return (int)$output->data->count;
         }
 
