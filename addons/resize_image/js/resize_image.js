@@ -157,7 +157,7 @@ function slideshow(event) {
 	xScreen.xeShow();
 }
 
-$(window).load(function(){
+$(document).ready(function(){
     //if (jQuery.browser.safari && document.readyState != "complete"){
         //setTimeout( arguments.callee, 100 );
         //return;
