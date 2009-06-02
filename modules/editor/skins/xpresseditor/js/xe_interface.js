@@ -2,10 +2,11 @@ if (!window.xe) xe = {};
 
 xe.Editors = [];
 
-function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style, content_font) {
+function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style, content_font, content_font_size) {
     if(typeof(colorset)=='undefined') colorset = 'white';
     if(typeof(content_style)=='undefined') content_style = 'xeStyle';
     if(typeof(content_font)=='undefined') content_font= '';
+    if(typeof(content_font_size)=='undefined') content_font_size= '';
 
     var target_src = request_uri+'modules/editor/styles/'+content_style+'/editor.html';
 
@@ -149,6 +150,9 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 
             if(content_font && !doc.body.style.fontFamily) {
                 doc.body.style.fontFamily = content_font;
+            }
+            if(content_font_size && !doc.body.style.fontSize) {
+                doc.body.style.fontSize = content_font_size;
             }
     		
     		// run

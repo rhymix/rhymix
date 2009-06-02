@@ -18,6 +18,7 @@
     $lang->component_grant = 'Ajuste de las atribuciones';
     $lang->content_style = 'Content Style';
     $lang->content_font = 'Content Font';
+	$lang->content_font_size = '문서 폰트 크기';
 
     $lang->about_component = 'Presentación del componente';
     $lang->about_component_grant = 'Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor.<br /> (Todo el mundo tendría permiso si no comprobado)';
@@ -45,6 +46,7 @@
     $lang->about_editor_skin = 'Usted puede seleccionar la piel del editor.';
     $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
+	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
     $lang->about_upload_file_grant = 'Usted puede configurar el permiso de archivo adjunto. (Todo el mundo tendría permiso si no comprobado)';
     $lang->about_default_component_grant = 'Usted puede configurar el permiso de uso de los componentes de editor por defecto. (Todo el mundo tendría permiso si no comprobado)';
     $lang->about_editor_height = 'Usted puede configurar la altura del editor.';

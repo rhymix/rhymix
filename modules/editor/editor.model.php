@@ -72,6 +72,7 @@
 
             // 기본 글꼴 지정
             Context::set('content_font', $option->content_font);
+            Context::set('content_font_size', $option->content_font_size);
 
             // 자동 저장 유무 옵션 설정
             if(!$option->enable_autosave) $enable_autosave = false;
@@ -224,6 +225,7 @@
                 $config->editor_skin = $editor_config->editor_skin;
                 $config->content_style = $editor_config->content_style;
                 $config->content_font = $editor_config->content_font;
+                $config->content_font_size = $editor_config->content_font_size;
                 $config->sel_editor_colorset = $editor_config->sel_editor_colorset;
                 $config->upload_file_grant = $editor_config->upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -235,6 +237,7 @@
                 $config->editor_skin = $editor_config->comment_editor_skin;
                 $config->content_style = $editor_config->content_style;
                 $config->content_font = $editor_config->content_font;
+                $config->content_font_size = $editor_config->content_font_size;
                 $config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
                 $config->upload_file_grant = $editor_config->comment_upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -256,6 +259,7 @@
             $option->skin = $config->editor_skin;
             $option->content_style = $config->content_style;
             $option->content_font = $config->content_font;
+            $option->content_font_size = $config->content_font_size;
             $option->colorset = $config->sel_editor_colorset;
 
             // 파일 업로드 권한 체크
