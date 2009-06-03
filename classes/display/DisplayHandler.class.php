@@ -110,6 +110,11 @@
 
                     $pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
                     $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
+
+                    if(Context::get('vid')) {
+                        $pattern = '/\/'.Context::get('vid').'\?(.+)/is';
+                        $output = preg_replace($pattern, '/?$1', $output);
+                    }
                 }
 
                 // 간혹 background-image에 url(none) 때문에 request가 한번 더 일어나는 경우가 생기는 것을 방지
