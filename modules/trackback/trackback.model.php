@@ -132,7 +132,9 @@
          * trackback url에 key값을 추가함.
          **/
         function getTrackbackUrl($document_srl) {
-            return getUrl('','document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
+            $url = getUrl('','document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
+            if(substr($url,0,1)=='/') $url = substr(Context::getRequestUri(),0,-1).$url;
+            return $url;
         }
 
         /**

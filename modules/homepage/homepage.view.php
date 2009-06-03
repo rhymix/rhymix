@@ -69,6 +69,10 @@
                 foreach($output->data as $key => $val) {
                     $banner_src = 'files/attach/cafe_banner/'.$val->site_srl.'.jpg';
                     if(file_exists(_XE_PATH_.$banner_src)) $output->data[$key]->cafe_banner = $banner_src.'?rnd='.filemtime(_XE_PATH_.$banner_src);
+
+                    $url = getSiteUrl($val->domain,'');
+                    if(substr($url,0,1)=='/') $url = substr(Context::getRequestUri(),0,-1).$url;
+                    $output->data[$key]->url = $url;
                 }
             }
             Context::set('total_count', $output->total_count);

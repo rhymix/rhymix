@@ -255,7 +255,9 @@
         }
 
         function getPermanentUrl() {
-            return getUrl('','document_srl',$this->get('document_srl')).'#comment_'.$this->get('comment_srl');
+            $url = getUrl('','document_srl',$this->get('document_srl')).'#comment_'.$this->get('comment_srl');
+            if(substr($url,0,1)=='/') $url = substr(Context::getRequestUri(),0,-1).$url;
+            return $url;
         }
 
 
