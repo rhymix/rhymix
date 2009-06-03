@@ -540,9 +540,20 @@
             $output = $this->insertMember($args);
             if(!$output->toBool()) return $output;
 
+            // 가상사이트일 경우 사이트 가입
+            $site_module_info = Context::get('site_module_info');
+            if($site_module_info->site_srl > 0) {
+                $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl);
+                if($default_group->group_srl) {
+                    $this->addMemberToGroup($args->member_srl, $default_group->group_srl, $site_module_info->site_srl);
+                }
+
+            }
+
             // 로그인 시킴
             if ($config->enable_confirm != 'Y') $this->doLogin($args->user_id);
 
+            // 결과 정리
             $this->add('member_srl', $args->member_srl);
             if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
             if ($config->enable_confirm == 'Y') {
