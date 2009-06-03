@@ -862,7 +862,7 @@
                         case 'document_srl.vid' : $query = $get_vars['vid'].'/'.$get_vars['document_srl']; break;
                         case 'document_srl.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['document_srl']; break;
                         case 'entry.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['entry']; break;
-                        case 'act.document_srl.key.vid' : $query = $get_vars['vid'].'/'.$get_vars['act']=='trackback'?$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
+                        case 'act.document_srl.key.vid' : $query = $get_vars['act']=='trackback'?$get_vars['vid'].'/'.$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
                     }
                 }
 
@@ -880,7 +880,6 @@
             }
             
             // XE가 설치된 절대 경로를 구해서 query를 완성
-            $query = getScriptPath().$query;
 
             // 항상 SSL을 이용하고 현재 SSL이 아닌 경우 https에 대한 prefix를 붙임
             if(Context::get('_use_ssl')=='always') {
@@ -891,6 +890,7 @@
                 if($_SERVER['HTTPS']=='on') $query = substr($this->getRequestUri(ENFORCE_SSL, $domain),0,-1).$query;
                 // SSL 상태가 아니면 domain값에 따라 query 완성
                 else if($domain) $query = substr($this->getRequestUri(FOLLOW_REQUEST_SSL, $domain),0,-1).$query;
+                else $query = getScriptPath().$query;
             }
             return htmlspecialchars($query);
         }
