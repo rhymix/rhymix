@@ -90,7 +90,14 @@
             //if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_admin = 'Y';
 
             // XE에서 access, manager (== is_admin) 는 고정된 권한명이며 이와 관련된 권한 설정
-            $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+            if(!$module_info->mid && Context::get('module_srl')) {
+                $request_module = $oModuleModel->getModuleInfoByModuleSrl(Context::get('module_srl'));
+                if($request_module->module_srl == Context::get('module_srl')) {
+                    $grant = $oModuleModel->getGrant($request_module, $logged_info);
+                }
+            } else {
+                $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+            }
 
             // 현재 모듈의 access 권한이 없으면 권한 없음 표시
             //if(!$grant->access) return $this->stop("msg_not_permitted");
