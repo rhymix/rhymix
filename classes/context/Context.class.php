@@ -771,128 +771,138 @@
          **/
         function _getUrl($num_args=0, $args_list=array(), $domain = null) {
             static $site_module_info = null;
-            if($domain) $is_site = true;
-            else $is_site = false;
 
-            if(is_null($site_module_info)) {
-                $site_module_info = Context::get('site_module_info');
-            }
+            // 가상 사이트 정보를 구함
+            if(is_null($site_module_info)) $site_module_info = Context::get('site_module_info');
 
-            // SiteID 요청시 전처리
+            // SiteID 요청시 전처리 ($domain이 vid 형식일 경우 $domain값을 없애고 vid로 처리하도록 함)
             if($domain && isSiteID($domain)) {
                 $vid = $domain;
                 $domain = '';
             } 
 
-            // SiteID가 요청되지 않았다면 현재 site_module_info에서 SiteID 판별
-            if(!$vid && $site_module_info->domain && isSiteID($site_module_info->domain)) {
-                $vid = $site_module_info->domain;
+            // $domain, $vid값이 없을 경우(= 현재 사이트 정보를 이용함)
+            if(!$domain && !$vid) {
+                if($site_module_info->domain && isSiteID($site_module_info->domain)) $vid = $site_module_info->domain;
+                else $domain = $site_module_info->domain;
             }
 
-            if(!$domain) {
-                if($site_module_info->domain && !isSiteID($site_module_info->domain)) $domain = $site_module_info->domain;
+            // $domain값이 있을 경우 현재 요청된 도메인과 비교해서 동일할 경우 제거 그렇지 않으면 http 프로토콜을 제거하고 제일 뒤에 / 를 붙임
+            if($domain) {
+                $domain_info = parse_url($domain);
+                $current_info = parse_url($_SERVER['HTTP_HOST'].getScriptPath());
+                if($domain_info['host'].$domain_info['path']==$current_info['host'].$current_info['path']) unset($domain);
                 else {
-                    if($this->db_info->default_url) $domain = $this->db_info->default_url;
-                    else if(!$domain) $domain = Context::getRequestUri();
+                    $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
+                    if(substr($domain,-1) != '/') $domain .= '/';
                 }
             }
-            $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
-            if(substr($domain,-1) != '/') $domain .= '/';
 
+            // 변수 정리
+            $get_vars = null;
+
+            // GET 변수가 없거나 변수 초기화 지정이 되었을 경우
             if(!$this->get_vars || $args_list[0]=='') {
-                $get_vars = null;
-                if(is_array($args_list) && $args_list[0]=='') {
-                    array_shift($args_list);
-                    $num_args = count($args_list);
-                }
+                // 요청받은 변수가 있고 첫번째 인자가 '' 라서 초기화를 해야 할 경우 요청받은 변수를 정리
+                if(is_array($args_list) && $args_list[0]=='') array_shift($args_list);
+            // 초기화를 원하지 않을 경우 GET 변수를 배열로 처리
             } else {
                 $get_vars = get_object_vars($this->get_vars);
             }
 
-            for($i=0;$i<$num_args;$i=$i+2) {
+            // 새로 꾸미기를 원하는 변수를 정리
+            for($i=0,$c=count($args_list);$i<$c;$i=$i+2) {
                 $key = $args_list[$i];
                 $val = trim($args_list[$i+1]);
+
+                // 값이 없으면 GET변수에서 해당 키를 제거
                 if(!isset($val)) {
                   unset($get_vars[$key]);
                   continue;
                 }
+                // 새로운 변수를 정리
                 $get_vars[$key] = $val;
             }
-            unset($get_vars['vid']);
+
+            // 변수중 vid, rnd값 제거
             unset($get_vars['rnd']);
-            if(isset($get_vars['page'])&&$get_vars['page']<2) unset($get_vars['page']);
+            if($vid) $get_vars['vid'] = $vid;
+            else unset($get_vars['vid']);
 
-            /* member module중의 쪽지함/친구 관리 기능이 communication 모듈로 이전하여 하위 호환성을 위한 act값 변경 */
-            if($get_vars['act'] == 'dispMemberFriend') $get_vars['act'] = 'dispCommunicationFriend';
-            elseif($get_vars['act'] == 'dispMemberMessages') $get_vars['act'] = 'dispCommunicationMessages';
-            /* 기존의 action의 값이 바뀌어서 이를 강제 변경 */
-            elseif($get_vars['act'] == 'dispDocumentAdminManageDocument') $get_vars['act'] = 'dispDocumentManageDocument';
-            elseif($get_vars['act'] == 'dispModuleAdminSelectList') $get_vars['act'] = 'dispModuleSelectList';
-
-            if($get_vars['act'] && $this->isExistsSSLAction($get_vars['act'])) $path = $this->getRequestUri(ENFORCE_SSL, $domain);
-            else $path = $this->getRequestUri(RELEASE_SSL, $domain);
-
-            $var_count = count($get_vars);
-            if(!$var_count) {
-                if(!$is_site) return $path;
-                if($vid) {
-                    if($this->allow_rewrite) $path .= $vid;
-                    else $path .= '?vid='.$vid;
-                } 
-                return $path;
-            }
-
-            // rewrite모듈을 사용할때 getUrl()을 이용한 url 생성
-            // 2009. 4. 8 mid, document_srl, site id, entry 를 제외하고는 rewrite rule 사용하지 않도록 변경
-            if($this->allow_rewrite) {
-                if(count($get_vars)) foreach($get_vars as $key => $value) if(!isset($value) || $value === '') unset($get_vars[$key]);
-
-                $var_keys = array_keys($get_vars);
-                asort($var_keys);
-                $target = implode('.',$var_keys);
-
-                if($vid) $rpath = $path.$vid .'/';
-                else $rpath = $path;
-
-                switch($target) {
-                    case 'mid' :
-                        return $rpath.$get_vars['mid'];
-                    case 'document_srl' :
-                        return $rpath.$get_vars['document_srl'];
-                    case 'document_srl.mid' :
-                        return sprintf('%s%s/%s',$rpath,$get_vars['mid'],$get_vars['document_srl']);
-                    case 'entry.mid' :
-                        return sprintf('%s%s/entry/%s',$rpath,$get_vars['mid'],$get_vars['entry']);
-                    case 'act.document_srl.key' :
-                            if($get_vars['act']=='trackback') return sprintf('%s%s/%s/%s', $rpath,$get_vars['document_srl'],$get_vars['key'],$get_vars['act']);
-                        break;
-                        
+            if(count($get_vars)) {
+                foreach($get_vars as $key => $val) {
+                    if(!trim($val)) unset($get_vars[$key]);
                 }
             }
 
-            // rewrite 모듈을 사용하지 않고 인자의 값이 2개 이상이거나 rewrite모듈을 위한 인자로 적당하지 않을 경우
-            if($vid) $url = 'vid='.$vid;
-            foreach($get_vars as $key => $val) {
-                if(!isset($val)) continue;
-                if(is_array($val) && count($val)) {
-                    foreach($val as $k => $v) {
-                        $url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
+            // action명이 변경되었던 것에 대해 호환성을 유지하기 위한 강제 값 변경
+            switch($get_vars['act']) {
+                case 'dispMemberFriend' : $get_vars['act'] = 'dispCommunicationFriend'; break;
+                case 'dispMemberMessages' : $get_vars['act'] = 'dispCommunicationMessages'; break;
+                case 'dispDocumentAdminManageDocument' : $get_vars['act'] = 'dispDocumentManageDocument'; break;
+                case 'dispModuleAdminSelectList' : $get_vars['act'] = 'dispModuleSelectList'; break;
+            }
+
+            // URL 구성
+            $query = null;
+            if($var_count = count($get_vars)) {
+                // rewrite mod 사용시
+                if($this->allow_rewrite) {
+                    $var_keys = array_keys($get_vars);
+                    asort($var_keys);
+                    $target = implode('.',$var_keys);
+                    switch($target) {
+                        case 'mid' : $query = $get_vars['mid']; break;
+                        case 'document_srl' : $query = $get_vars['document_srl']; break;
+                        case 'document_srl.mid' : $query = $get_vars['mid'].'/'.$get_vars['document_srl']; break;
+                        case 'entry.mid' : $query = $get_vars['mid'].'/'.$get_vars['entry']; break;
+                        case 'act.document_srl.key' : $query = $get_vars['act']=='trackback'?$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
+                        case 'mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid']; break;
+                        case 'document_srl.vid' : $query = $get_vars['vid'].'/'.$get_vars['document_srl']; break;
+                        case 'document_srl.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['document_srl']; break;
+                        case 'entry.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['entry']; break;
+                        case 'act.document_srl.key.vid' : $query = $get_vars['vid'].'/'.$get_vars['act']=='trackback'?$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
                     }
-                } else {
-                    $url .= ($url?'&':'').$key.'='.urlencode($val);
+                }
+
+                // rewrite mod 미사용 또는 query값이 생성되지 않았을 경우 get argument로 생성
+                if(!$query) {
+                    foreach($get_vars as $key => $val) {
+                        if(is_array($val) && count($val)) {
+                            foreach($val as $k => $v) $query .= ($query?'&':'').$key.'['.$k.']='.urlencode($v);
+                        } else {
+                            $query .= ($query?'&':'').$key.'='.urlencode($val);
+                        }
+                    }
+                    if($query) $query = '?'.$query;
                 }
             }
-            return $path.'?'.htmlspecialchars($url);
+            
+            // XE가 설치된 절대 경로를 구해서 query를 완성
+            $query = getScriptPath().$query;
+
+            // 항상 SSL을 이용하고 현재 SSL이 아닌 경우 https에 대한 prefix를 붙임
+            if(Context::get('_use_ssl')=='always') {
+                if($_SERVER['HTTPS']!='on') $query = substr($this->getRequestUri(ENFORCE_SSL, $domain),0,-1).$query;
+            // 상황에 따라 혹은 지정된 대상만 SSL 취급될 경우
+            } else {
+                // SSL상태인데 대상이 SSL이 아닌 경우
+                if($_SERVER['HTTPS']=='on') $query = substr($this->getRequestUri(ENFORCE_SSL, $domain),0,-1).$query;
+                // SSL 상태가 아니면 domain값에 따라 query 완성
+                else if($domain) $query = substr($this->getRequestUri(FOLLOW_REQUEST_SSL, $domain),0,-1).$query;
+            }
+            return htmlspecialchars($query);
         }
 
         /**
          * @brief 요청이 들어온 URL에서 argument를 제거하여 return
          **/
         function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
+            static $url = array();
+
             // HTTP Request가 아니면 패스
             if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
 
-            static $url = array();
             if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
             if($domain) $domain_key = md5($domain);
@@ -933,7 +943,7 @@
                 if(Context::get("_http_port") && Context::get("_http_port") != 80) {
                     $url_info['port'] = Context::get("_http_port");
                 }
-                else
+                elseif($url_info['port']==80) 
                 {
                     unset($url_info['port']);
                 }

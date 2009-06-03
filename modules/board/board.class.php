@@ -23,27 +23,22 @@
         function moduleInstall() {
             // action forward에 등록 (관리자 모드에서 사용하기 위함)
             $oModuleController = &getController('module');
+            $oModuleModel = &getModel('module');
 
             // 2007. 10. 17 아이디 클릭시 나타나는 팝업메뉴에 작성글 보기 기능 추가
             $oModuleController->insertTrigger('member.getMemberMenu', 'board', 'controller', 'triggerMemberMenu', 'after');
 
             // 기본 게시판 생성
-            $output = executeQuery('module.getDefaultMidInfo');
-            if($output->data) return new Object();
-
-            // 기본 모듈을 찾음
-            $oModuleModel = &getModel('module');
-            $site_args->site_srl = 0;
-            $mid_list = $oModuleModel->getMidList($site_args);
-            if(!count($mid_list)) {
+            $args->site_srl = 0;
+            $output = executeQuery('module.getSite', $args);
+            if(!$output->data->index_module_srl) {
                 $args->mid = 'board';
                 $args->module = 'board';
-                $args->browser_title = 'test module';
+                $args->browser_title = 'XpressEngine';
                 $args->skin = 'xe_default';
                 $args->site_srl = 0;
                 $output = $oModuleController->insertModule($args);
                 $module_srl = $output->get('module_srl');
-                
                 $site_args->site_srl = 0;
                 $site_args->index_module_srl = $module_srl;
                 $oModuleController = &getController('module');
