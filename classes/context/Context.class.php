@@ -852,6 +852,7 @@
                     asort($var_keys);
                     $target = implode('.',$var_keys);
                     switch($target) {
+                        case 'vid' : $query = $get_vars['mid']; break;
                         case 'mid' : $query = $get_vars['mid']; break;
                         case 'document_srl' : $query = $get_vars['document_srl']; break;
                         case 'document_srl.mid' : $query = $get_vars['mid'].'/'.$get_vars['document_srl']; break;
