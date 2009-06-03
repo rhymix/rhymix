@@ -65,7 +65,7 @@
             $widget_info->arranged_menu = $arranged_list;
 
             // men XML 파일
-            $widget_info->xml_file = sprintf('%sfiles/cache/menu/%d.xml.php',getUrl(''), $args->menu_srl);
+            $widget_info->xml_file = sprintf('%sfiles/cache/menu/%d.xml.php',Context::getRequestUri(), $args->menu_srl);
             $widget_info->menu_srl = $args->menu_srl;
 
             if($this->selected_node_srl) $widget_info->selected_node_srl = $this->selected_node_srl;
