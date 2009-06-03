@@ -883,13 +883,13 @@
 
             // 항상 SSL을 이용하고 현재 SSL이 아닌 경우 https에 대한 prefix를 붙임
             if(Context::get('_use_ssl')=='always') {
-                if($_SERVER['HTTPS']!='on') $query = substr($this->getRequestUri(ENFORCE_SSL, $domain),0,-1).$query;
+                if($_SERVER['HTTPS']!='on') $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
             // 상황에 따라 혹은 지정된 대상만 SSL 취급될 경우
             } else {
                 // SSL상태인데 대상이 SSL이 아닌 경우
-                if($_SERVER['HTTPS']=='on') $query = substr($this->getRequestUri(ENFORCE_SSL, $domain),0,-1).$query;
+                if($_SERVER['HTTPS']=='on') $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
                 // SSL 상태가 아니면 domain값에 따라 query 완성
-                else if($domain) $query = substr($this->getRequestUri(FOLLOW_REQUEST_SSL, $domain),0,-1).$query;
+                else if($domain) $query = $this->getRequestUri(FOLLOW_REQUEST_SSL, $domain).$query;
                 else $query = getScriptPath().$query;
             }
             return htmlspecialchars($query);
