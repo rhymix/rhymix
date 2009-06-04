@@ -43,7 +43,8 @@ function XEUploaderStart(obj) {
         post_params: {
             "mid" : current_mid,
             "act" : "procFileUpload",
-            "editor_sequence" : obj["editorSequence"]
+            "editor_sequence" : obj["editorSequence"],
+            "uploadTargetSrl" : editorRelKeys[obj["editorSequence"]]["primary"].value
         },
         file_size_limit : parseInt(parseInt(obj["allowedFileSize"],10)/1024,10),
         file_queue_limit : 0,
@@ -313,15 +314,15 @@ function previewFiles(evt, given_file_srl) {
 
     // 플래쉬 동영상의 경우
     if(/\.flv$/i.test(uploaded_filename)) {
-        html = "<EMBED src=\"./common/tpl/images/flvplayer.swf?autoStart=false&file="+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></EMBED>";
+        html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart=false&file="+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></embed>";
 
     // 플래쉬 파일의 경우
     } else if(/\.swf$/i.test(uploaded_filename)) {
-        html = "<EMBED src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></EMBED>";
+        html = "<embed src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></embed>";
 
     // wmv, avi, mpg, mpeg등의 동영상 파일의 경우
     } else if(/\.(wmv|avi|mpg|mpeg|asx|asf|mp3)$/i.test(uploaded_filename)) {
-        html = "<EMBED src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" autostart=\"true\" Showcontrols=\"0\"></EMBED>";
+        html = "<embed src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" autostart=\"true\" Showcontrols=\"0\"></embed>";
 
     // 이미지 파일의 경우
     } else if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {

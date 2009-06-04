@@ -28,6 +28,9 @@
             // upload_target_srl 구함
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) {
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+            }
+            if(!$upload_target_srl) {
                 $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
             }
 
@@ -53,6 +56,9 @@
 
             // upload_target_srl 구함
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$upload_target_srl) {
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+            }
             if(!$upload_target_srl) {
                 $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
             }
