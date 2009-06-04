@@ -965,9 +965,13 @@
             
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+
+            Context::set('find_url',substr(Context::getRequestUri(),0,-1).getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key));
+
             
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
+            debugPrint($content);
 
             // 사이트 웹마스터 정보를 구함
             $oModuleModel = &getModel('module');
@@ -983,7 +987,7 @@
 
             // 메세지 return
             $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
-            $this->setMessage($msg);
+            return new Object(0,$msg);
         }
 
         /**
