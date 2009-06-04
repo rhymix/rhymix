@@ -271,6 +271,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
                     loadingImage.src = item[i].download_url;
                     loaded_images[file_srl] = loadingImage;
                 }
+                item[i].download_url = item[i].download_url.replace(/&/g, "&amp;");
             }
             previewFiles('', item[item.length-1].file_srl);
         }
