@@ -971,7 +971,6 @@
             
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
-            debugPrint($content);
 
             // 사이트 웹마스터 정보를 구함
             $oModuleModel = &getModel('module');
