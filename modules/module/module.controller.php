@@ -132,6 +132,13 @@
          * @brief virtual site 수정
          **/
         function updateSite($args) {
+            $oModuleModel = &getModel('module');
+            $site_info = $oModuleModel->getSiteInfo($args->site_srl);
+            if($site_info->domain != $args->domain) {
+                $info = $oModuleModel->getSiteInfoByDomain($args->domain);
+                if($info->site_srl && $info->site_srl != $args->site_srl) return new Object(-1,'msg_already_registed_domain');
+                if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
+            }
             $output = executeQuery('module.updateSite', $args);
             return $output;
         }
