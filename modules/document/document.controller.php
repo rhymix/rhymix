@@ -501,6 +501,9 @@
                 return $output;
             }
 
+			// update category
+            if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
+
             // commit
             $oDB->commit();
 
