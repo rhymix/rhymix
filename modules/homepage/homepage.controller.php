@@ -438,8 +438,10 @@
             if(!$site_module_info->site_srl || !$logged_info->member_srl) return new Object();
 
             if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) {
+                $oHomepageModel = &getModel('homepage');
                 $oMemberController = &getController('member');
-                $oMemberController->addMemberMenu('dispHomepageManage','cmd_cafe_setup');
+                $homepage_info = $oHomepageModel->getHomepageInfo($site_module_info->site_srl);
+                if($homepage_info->site_srl) $oMemberController->addMemberMenu('dispHomepageManage','cmd_cafe_setup');
             } 
             return new Object();
         }
