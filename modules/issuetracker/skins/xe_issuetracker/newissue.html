@@ -1,6 +1,7 @@
 <!--#include("header.html")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, window.insert)" id="fo_write">
+<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, window.insert)" id="fo_write">
+<input type="hidden" name="vid" value="{$vid}" />
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="content" value="{$oIssue->getContentText()}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -197,7 +198,8 @@
 </form>
 
 
-<form action="./" method="get" class="close">
+<form action="{Context::getRequestUri()}" method="get" class="close">
+<input type="hidden" name="vid" value="{$vid}" />
 <!--@foreach($project->packages as $key => $val)-->
 <select id="release_{$val->package_srl}">
     <option value="">{$lang->release}</option> 

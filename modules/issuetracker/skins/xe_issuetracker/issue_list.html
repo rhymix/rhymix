@@ -1,6 +1,7 @@
 <!--#include('header.html')-->
 
 <form action="{Context::getRequestUri()}" method="get" class="issueSearch">
+<input type="hidden" name="vid" value="{$vid}" />
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="{$act}" />
 <input type="hidden" name="d" value="1" />
@@ -95,6 +96,7 @@
 </form>
 
 <form action="./" method="get" class="close">
+<input type="hidden" name="vid" value="{$vid}" />
 <!--@foreach($project->packages as $key => $val)-->
 <select id="release_{$val->package_srl}">
     <option value="">{$lang->release}</option> 

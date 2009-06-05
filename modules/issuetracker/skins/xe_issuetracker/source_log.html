@@ -17,7 +17,8 @@
     <!--@end-->
 <!--@end-->
 
-<form action="./index.php" id="logForm" method="get">
+<form action="{Context::getRequestUri()}" id="logForm" method="get">
+<input type="hidden" name="vid" value="{$vid}" />
 <input type="hidden" name="path" value="{htmlspecialchars($path)}" />
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="{$act}" />
