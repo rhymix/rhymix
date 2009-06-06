@@ -21,7 +21,7 @@
             $oModuleController->insertTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before');
 
             // 2007. 10. 19 출력하기 전에 rss url을 세팅하는 트리거 호출
-            $oModuleController->insertTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before');
+            $oModuleController->insertTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after');
 
             return new Object();
         }
@@ -39,7 +39,9 @@
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before')) return true;
 
             // 2007. 10. 19 출력하기 전에 rss url을 세팅하는 트리거 호출
-            if(!$oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before')) return true;
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after')) return true;
+
+            if($oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before')) return true;
 
             return false;
         }
@@ -60,8 +62,10 @@
                 $oModuleController->insertTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before');
 
             // 2007. 10. 19 출력하기 전에 rss url을 세팅하는 트리거 호출
-            if(!$oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before')) 
-                $oModuleController->insertTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before');
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after')) 
+                $oModuleController->insertTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after');
+            if($oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before'))
+                $oModuleController->deleteTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before');
 
             return new Object(0, 'success_updated');
         }

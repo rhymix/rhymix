@@ -21,6 +21,7 @@
          **/
         function triggerRssUrlInsert() {
             $current_module_srl = Context::get('module_srl');
+            $site_module_info = Context::get('site_module_info');
 
             if(!$current_module_srl) {
                 $current_module_info = Context::get('current_module_info');
@@ -33,8 +34,35 @@
             $oRssModel = &getModel('rss');
             $rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 
-            if($rss_config->open_rss != 'N') Context::set('rss_url', getUrl('','mid',Context::get('mid'),'act','rss'));
-            if($rss_config->open_rss != 'N') Context::set('atom_url', getUrl('','mid',Context::get('mid'),'act','atom'));
+            if($rss_config->open_rss != 'N') {
+                if(Context::isAllowRewrite()) {
+                    $request_uri = Context::getRequestUri();
+                    if(Context::get('vid')) {
+                        Context::set('rss_url', Context::getRequestUri().Context::get('vid').'/'.Context::get('mid').'/rss');
+                        Context::set('atom_url', Context::getRequestUri().Context::get('vid').'/'.Context::get('mid').'/atom');
+                    }
+                    else {
+                        Context::set('rss_url', $request_uri.Context::get('mid').'/rss');
+                        Context::set('atom_url', $request_uri.Context::get('mid').'/atom');
+                    }
+                }
+                else {
+                    Context::set('rss_url', getUrl('','mid',Context::get('mid'),'act','rss'));
+                    Context::set('atom_url', getUrl('','mid',Context::get('mid'),'act','atom'));
+                }
+            }
+
+            if(Context::isInstalled() && $site_module_info->mid == Context::get('mid')) {
+                if(Context::isAllowRewrite() && !Context::get('vid')) {
+                    $request_uri = Context::getRequestUri();
+                    Context::set('rss_url', $request_uri.'rss');
+                    Context::set('atom_url', $request_uri.'atom');
+                }
+                else {
+                    Context::set('rss_url', getUrl('','module','rss','act','rss'));
+                    Context::set('atom_url', getUrl('','module','rss','act','atom'));
+                }
+            }
 
             return new Object();
         }
