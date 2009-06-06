@@ -1,4 +1,4 @@
-<query id="insertTrigger" action="delete">
+<query id="deleteTrigger" action="delete">
     <tables>
         <table name="module_trigger" />
     </tables>
