@@ -301,9 +301,10 @@
          * 에디터 코드가 변환된 내용 반환
          **/
         function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
-            $oContext = &Context::getInstance();
+            $oEditorController = &getController('editor');
 
             $content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
+            $content = $oEditorController->transComponent($content);
 
             return $content;
         }
