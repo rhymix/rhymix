@@ -395,7 +395,7 @@ function insertUploadedFile(editorSequence) {
                 text.push(temp_code);
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
-                text.push("<img src=\"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
+                text.push("<img src=\"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" wmode=\"transparent\" alt=\"\" />");
             }
 
         // binary파일의 경우 url_link 컴포넌트 연결

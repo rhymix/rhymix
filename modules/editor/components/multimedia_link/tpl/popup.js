@@ -14,6 +14,9 @@ function getMultimedia() {
     var width = xWidth(node);
     var height = xHeight(node);
     var auto_start = node.getAttribute("auto_start");
+    var wmode = node.getAttribute("wmode");
+
+    var fo_obj = xGetElementById('fo');
 
     xGetElementById("multimedia_url").value = url;
     xGetElementById("multimedia_caption").value = caption;
@@ -21,6 +24,9 @@ function getMultimedia() {
     xGetElementById("multimedia_height").value = height-4;
     if(auto_start=="true") xGetElementById("multimedia_auto_start").checked = true;
 
+    if(wmode == 'window') fo_obj.multimedia_wmode.selectedIndex = 0; 
+    else if(wmode == 'opaque') fo_obj.multimedia_wmode.selectedIndex = 1;
+    else fo_obj.multimedia_wmode.selectedIndex = 2;
 }
 
 function insertMultimedia(obj) {
@@ -29,6 +35,9 @@ function insertMultimedia(obj) {
     var url = xGetElementById("multimedia_url").value;
     url = url.replace(request_uri,'');
 //	url = encodeURI(url);
+    var fo_obj = xGetElementById('fo');
+
+    var wmode = fo_obj.multimedia_wmode.options[fo_obj.multimedia_wmode.selectedIndex].value;
 
     var caption = xGetElementById("multimedia_caption").value;
 
@@ -46,7 +55,7 @@ function insertMultimedia(obj) {
       return;
     }
 
-    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" style=\"display:block;width:"+width+"px;height:"+height+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\""+auto_start+"\" alt=\""+caption+"\" />";
+    var text = "<img src=\"./common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+url+"\" width=\""+width+"\" height=\""+height+"\" wmode=\""+wmode+"\" style=\"display:block;width:"+width+"px;height:"+height+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\""+auto_start+"\" alt=\""+caption+"\" />";
 
     opener.editorFocus(opener.editorPrevSrl);
 
