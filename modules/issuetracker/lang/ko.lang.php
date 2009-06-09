@@ -36,7 +36,7 @@
      $lang->total_issue = '전체 문제';
      $lang->milestone = $lang->milestone_srl = '계획';
      $lang->priority = $lang->priority_srl = '우선순위';
-     $lang->type = $lang->type_srl = '종류';
+     $lang->type = $lang->type_srl = '타입';
      $lang->component = $lang->component_srl = '구성요소';
      $lang->assignee = '소유자';
      $lang->status = '상태';
@@ -75,7 +75,7 @@
 
      $lang->about_milestone = '개발계획을 설정합니다';
      $lang->about_priority = '우선순위를 설정합니다.';
-     $lang->about_type = '문제의 종류를 설정합니다 (ex. 문제, 개선사항)';
+     $lang->about_type = '문제의 타입를 설정합니다 (ex. 문제, 개선사항)';
      $lang->about_component = '문제의 대상 구성요소를 설정합니다';
 
      $lang->project_menus = array(
