@@ -263,12 +263,18 @@
          * @brief 자동 저장된 글을 삭제
          * 현재 접속한 사용자를 기준
          **/
-        function deleteSavedDoc() {
+        function deleteSavedDoc($mode = false) {
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
                 $args->member_srl = $logged_info->member_srl;
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+
+            if(!$mode) {
+                $output = executeQuery('editor.getSavedDocument', $args);
+                $trigger_obj = $output->data;
+                $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $trigger_obj);
             }
 
             // 일단 이전 저장본 삭제
