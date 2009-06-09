@@ -966,7 +966,9 @@
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-            Context::set('find_url',substr(Context::getRequestUri(),0,-1).getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key));
+            $find_url = getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
+            if(!preg_match('/^http/i',$find_url)) $find_url = substr(Context::getRequestUri(),0,-1).$find_url;
+            Context::set('find_url',$find_url);
 
             
             $oTemplate = &TemplateHandler::getInstance();
