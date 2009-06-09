@@ -24,6 +24,7 @@
         <th colspan="4" class="button">
             <form action="{Context::getRequestUri()}" method="get">
             <input type="hidden" name="module" value="{$module}"/>
+            <input type="hidden" name="vid" value="{$vid}"/>
             <input type="hidden" name="mid" value="{$mid}"/>
             <input type="hidden" name="module_srl" value="{$module_srl}"/>
             <input type="hidden" name="act" value="dispIssuetrackerAdminModifyPackage" />
@@ -47,6 +48,7 @@
                 <form action="{Context::getRequestUri()}" method="get">
                 <input type="hidden" name="module" value="{$module}"/>
                 <input type="hidden" name="mid" value="{$mid}"/>
+                <input type="hidden" name="vid" value="{$vid}"/>
                 <input type="hidden" name="module_srl" value="{$module_srl}"/>
                 <input type="hidden" name="package_srl" value="{$package_srl}"/>
                 <input type="hidden" name="act" value="dispIssuetrackerAdminModifyRelease" />
@@ -107,6 +109,7 @@
                 <form action="{Context::getRequestUri()}" method="get">
                 <input type="hidden" name="module" value="{$module}"/>
                 <input type="hidden" name="mid" value="{$mid}"/>
+                <input type="hidden" name="vid" value="{$vid}"/>
                 <input type="hidden" name="module_srl" value="{$module_srl}"/>
                 <input type="hidden" name="package_srl" value="{$package_srl}"/>
                 <input type="hidden" name="act" value="dispIssuetrackerAdminModifyRelease" />
