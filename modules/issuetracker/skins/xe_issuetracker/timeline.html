@@ -6,6 +6,7 @@
     <br />
     <input type="hidden" name="act" value="dispIssuetrackerTimeline" />
     <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="vid" value="{$vid}" />
     {$lang->msg_changes_from}:
     <input type="hidden" name="enddate" id="enddate" class="inputTypeText" value="{$enddate}" />
     <input type="text" class="inputDate" value="<!--@if($enddate)-->{zdate($enddate,'Y-m-d')}<!--@end-->" readonly="readonly" />
