@@ -78,9 +78,6 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     }
     xe.Editors[editor_sequence] = oEditor;
 
-    var response_tags = new Array("error","message","title","content","document_srl");
-    exec_xml('editor',"loadSaveDoc", null, function (a,b,c) { editorRelKeys[editor_sequence]["primary"].value = a['document_srl']; }, response_tags, null);
-
     // register plugins
     oEditor.registerPlugin(new xe.CorePlugin(null));
 

@@ -18,7 +18,7 @@
          **/
         function procEditorSaveDoc() {
 
-            $this->deleteSavedDoc();
+            $this->deleteSavedDoc(true);
 
             $args->document_srl = Context::get('document_srl');
             $args->content = Context::get('content');
@@ -255,7 +255,7 @@
          * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
          **/
         function triggerDeleteSavedDoc(&$obj) {
-            $this->deleteSavedDoc();
+            $this->deleteSavedDoc(true);
             return new Object();
         }
 
