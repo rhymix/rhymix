@@ -148,6 +148,13 @@ div.editor table { width:95%; }
 .viewIssue div.button ul li { list-style:none; color:#AAAAAA; float:left; margin-left:10px; }
 .viewIssue div.button ul li a { text-decoration:none; color:#666666; font-weight:bold; }
 
+.viewIssue .fileAttached {overflow:hidden;}
+.viewIssue .fileAttached h5 { font-weight:normal; color:#999999; font-size:1em; line-height:22px; }
+.viewIssue .fileAttached ul { padding:0; margin:0; }
+.viewIssue .fileAttached li { padding-left:15px; display:block; float:left; white-space:nowrap; list-style:none; margin:0 10px 5px 0; }
+.viewIssue .fileAttached li a { text-decoration:none; font-size:.9em; white-space:nowrap; color:#444444; }
+.viewIssue .fileAttached li a:visited { color:#777777;}
+
 fieldset.history { border:1px solid #CCCCCC; margin-top:10px; }
 fieldset.history legend { padding:0 10px; }
 fieldset.history legend span.date { font-size:8pt; font-family:tahoma; color:#AAAAAA; margin-right:10px; }
