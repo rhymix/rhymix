@@ -904,8 +904,10 @@
         function getDocumentSrlByAlias($mid, $alias)
         {
             if(!$mid || !$alias) return null;
+            $site_module_info = Context::get('site_module_info');
             $args->mid = $mid;
             $args->alias_title = $alias;
+            $args->site_srl = $site_module_info->site_srl;
             $output = executeQuery('document.getDocumentSrlByAlias', $args);
             if(!$output->data) return null;
             else return $output->data->document_srl;
