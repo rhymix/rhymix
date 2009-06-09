@@ -348,12 +348,12 @@
 
             // 자동저장 데이터에 문서번호가 있고 이 번호에 파일이 있다면 파일을 모두 이동하고
             // 해당 문서 번호를 editor_sequence로 세팅함
-            if($saved_doc->document_srl) {
+            if($saved_doc->document_srl && $upload_target_srl) {
                 $module_srl = Context::get('module_srl');
                 $oFileController = &getController('file');
                 $oFileController->moveFile($saved_doc->document_srl, $module_srl, $upload_target_srl);
             }
-            $saved_doc->document_srl = $upload_target_srl;
+            else if($upload_target_srl) $saved_doc->document_srl = $upload_target_srl;
 
             // 자동 저장 데이터 변경
             $oEditorController = &getController('editor');

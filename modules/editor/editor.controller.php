@@ -222,6 +222,7 @@
          **/
         function doSaveDoc($args) {
 
+            if(!$args->document_srl) $args->document_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
                 $args->member_srl = $logged_info->member_srl;
@@ -231,6 +232,22 @@
 
             // 저장
             return executeQuery('editor.insertSavedDoc', $args);
+        }
+
+
+        /**
+         * @brief 자동 저장글 로드
+         **/
+        function loadSaveDoc() {
+            $editor_sequence = Context::get('editor_sequence');
+
+            $oEditorModel = &getModel('editor');
+            $saved_doc = $oEditorModel->getSavedDoc(null);
+            $vars = $this->getVariables();
+            $this->add("title", $saved_doc->title);
+            $this->add("content", $saved_doc->content);
+            $this->add("document_srl", $saved_doc->document_srl);
+
         }
 
 

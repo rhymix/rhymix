@@ -13,7 +13,7 @@ var swfUploadObjs = new Array();
  * 이 함수는 editor.html 에서 파일 업로드 가능할 경우 호출됨
  **/
 // window.load 이벤트일 경우 && 문서 번호가 가상의 번호가 아니면 기존에 저장되어 있을지도 모르는 파일 목록을 가져옴
-function editorUploadInit(obj) {
+function editorUploadInit(obj, exe) {
     if(typeof(obj["editorSequence"])=="undefined") return;
     if(typeof(obj["sessionName"])=="undefined") obj["sessionName"]= "PHPSESSID";
     if(typeof(obj["allowedFileSize"])=="undefined") obj["allowedFileSize"]= 2*1024*1024;
@@ -22,6 +22,7 @@ function editorUploadInit(obj) {
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
     if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
     xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
+	if(exe) XEUploaderStart(obj);
 }
 
 // 파일 업로드를 위한 기본 준비를 함
@@ -87,7 +88,7 @@ function XEUploaderStart(obj) {
     settings["previewAreaID"] = obj["previewAreaID"];
     settings["uploaderStatusID"] = obj["uploaderStatusID"];
 
-    uploaderSettings[obj["editorSequence"]] = settings;
+	uploaderSettings[obj["editorSequence"]] = settings;
 
     var swfu = new SWFUpload(settings);
     var swfObj = xGetElementById(swfu.movieName);
@@ -102,7 +103,7 @@ function XEUploaderStart(obj) {
     swfObj.style.width = btnWidth+"px";
     swfObj.style.height = btnHeight+"px";
 
-    if(obj["insertedFiles"]>0) reloadFileList(settings);
+    if(obj["insertedFiles"]>0 || editorRelKeys[obj["editorSequence"]]["primary"].value > 0) reloadFileList(settings);
 }
 
 function fileQueued(file) {
@@ -224,7 +225,7 @@ function queueComplete(numFilesUploaded) {
 }
 
 function reloadFileList(settings) {
-    var params = new Array();
+	var params = new Array();
     params["file_list_area_id"] = settings["fileListAreaID"];
     params["editor_sequence"] = settings["editorSequence"];
     params["mid"] = current_mid;

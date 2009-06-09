@@ -5737,15 +5737,20 @@ xe.XE_AutoSave = jQuery.Class({
 	},
 	
 	$ON_MSG_APP_READY : function() {
+		var elSrl     = jQuery(this.form._saved_doc_srl);
 		var elTitle   = jQuery(this.form._saved_doc_title);
 		var elContent = jQuery(this.form._saved_doc_content);
+		
+		var doc_srl     = jQuery.trim(elSrl.val());
 		var title   = jQuery.trim(elTitle.val());
 		var content = jQuery.trim(elContent.val());
 
 		if (title || content) {
 			if (confirm(this.form._saved_doc_message.value)) {
 				jQuery(this.form.title).val(title);
+				jQuery(this.form.document_srl).val(doc_srl);
 				this.oApp.setIR(content);
+				editorUploadInit(uploadSettingObj, true);
 			} else {
 				editorRemoveSavedDoc();
 			}
