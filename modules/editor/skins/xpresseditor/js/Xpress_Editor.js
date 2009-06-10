@@ -3186,10 +3186,39 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	$ON_DISABLE_WYSIWYG : function(){
 		this._disableWYSIWYG();
 	},
+
+	$ON_EVENT_EDITING_AREA_KEYDOWN : function(oEvent) {
+        // ctrl-left/right add/remove indent
+        if(!oEvent.ctrlKey) return;
+
+        switch(oEvent.keyCode) {
+            // outdent
+            case 37 :
+                    this.oApp.exec("EXECCOMMAND",  ["outdent", false, false]);
+                break;
+            // indent
+            case 39 :
+                    this.oApp.exec("EXECCOMMAND",  ["indent", false, false]);
+                break;
+            // h1 ~ h6, normal
+            case 49 :
+            case 50 :
+            case 51 :
+            case 52 :
+            case 53 :
+            case 54 :
+                    this.oApp.exec("EXECCOMMAND", ["FormatBlock", false, '<h'+(oEvent.keyCode-48)+'>']);
+                break;
+            default :
+                return;
+        }
+        oEvent.preventDefault(); oEvent.stopPropagation();
+
+    },
 	
 	$ON_EVENT_EDITING_AREA_KEYUP : function(oEvent){
 		// 33, 34: page up/down, 35,36: end/home, 37,38,39,40: left, up, right, down
-		if(oEvent.keyCode == 229 || oEvent.keyCode == 13 || oEvent.altKey || oEvent.ctrlKey || (oEvent.keyCode >= 33 && oEvent.keyCode <= 40) || oEvent.keyCode == 16) return;
+        if(oEvent.keyCode == 229 || oEvent.keyCode == 13 || oEvent.altKey || oEvent.ctrlKey || (oEvent.keyCode >= 33 && oEvent.keyCode <= 40) || oEvent.keyCode == 16) return;
 		this._recordUndo(oEvent);
 	},
 	
@@ -5465,21 +5494,25 @@ xe.XE_XHTMLFormatter = $.Class({
 
 		
 		// remove all useless styles
+        /*
 		sContent = sContent.replace(regex_meanless_css1, function(m0,m1,m2,m3){
 			m2 = m2.replace(regex_meanless_css2, '');
 			
 			return '<'+m1+(m2?' style="'+m2+'"':'')+m3+'>';
 		});
+        */
 
 		// remove all useless classes
+        /*
 		sContent = sContent.replace(regex_class, function(m0,m1,m2,m3,m4,m5){
 			var cls = jQuery.trim((m2 || m3 || m4 || "").replace(regex_class2, ''));
 			
 			return '<'+(m1||"")+(cls?' class="'+cls+'"':'')+(m5||"")+'>';
 		});
+        */
 
 		// remove all event handler
-		sContent = sContent.replace(regex_handler, '<$1$2>');
+		//sContent = sContent.replace(regex_handler, '<$1$2>');
 		
 		// remove all id
 		//sContent = sContent.replace(regex_id, '<$1$2>');
@@ -5521,6 +5554,7 @@ xe.XE_XHTMLFormatter = $.Class({
 					return '<'+m2+' '+m3+'>';
 				}
 				
+                /*
 				if (replace_tags[m2]) {
 					stack.push({tag:m2, state:'deleted'});
 					
@@ -5602,6 +5636,7 @@ xe.XE_XHTMLFormatter = $.Class({
 					state = (jQuery.inArray(m2,allow_tags) < 0)?'deleted':'';
 					if (state == 'deleted') return '';
 				} 
+                */
 
 				stack.push({tag:m2, state:state});
 			} else {

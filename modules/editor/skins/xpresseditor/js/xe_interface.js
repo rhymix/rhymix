@@ -55,6 +55,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
 
     var content = form[content_key].value;
+    if(!content) content = "<p></p>";
 
     // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
     content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
