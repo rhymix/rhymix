@@ -223,6 +223,7 @@
                         $id = $var->attrs->id?$var->attrs->id:$var->attrs->name;
                         $name = $var->name->body?$var->name->body:$var->title->body;
                         $type = $var->attrs->type?$var->attrs->type:$var->type->body;
+                        if($type =='filebox') $buff .= sprintf('$widget_info->extra_var->%s->filter = "%s";', $id, $var->type->attrs->filter);
 
                         $buff .= sprintf('$widget_info->extra_var->%s->group = "%s";', $id, $group->title->body);
                         $buff .= sprintf('$widget_info->extra_var->%s->name = "%s";', $id, $name);

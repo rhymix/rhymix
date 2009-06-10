@@ -541,6 +541,7 @@
             $ext = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));
             $vars->ext = $ext;
             if($vars->filter) $filter = explode(',',$vars->filter);
+            else $filter = array('jpg','jpeg','gif','png');
             if(!in_array($ext,$filter)) return new Object(-1, 'msg_error_occured');
 
             $vars->member_srl = $logged_info->member_srl;
