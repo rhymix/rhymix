@@ -97,7 +97,10 @@
             }
 
             $oModuleModel = &getModel('module');
-            $document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+            if($current_module_srl)
+            {
+                $document_config = $oModuleModel->getModulePartConfig('document', $current_module_srl);
+            }
             if(!isset($document_config->use_history)) $document_config->use_history = 'N';
             Context::set('document_config', $document_config);
 
