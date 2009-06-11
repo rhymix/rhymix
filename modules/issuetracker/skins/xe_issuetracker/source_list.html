@@ -24,7 +24,7 @@
     <td class="{$item->type}"><a href="{getUrl('type',$type, path, urlencode($item->path), 'revs', $revs)}">{$item->name}</a></td>
     <td class="log"><a href="{getUrl('type','log','path',urlencode($item->path),'erev',$revs?$revs:'')}">{$item->revision}</a></td>
     <td class="age">{$item->gap}</td>
-    <td class="summaryText"><div class="close"><span class="author">{$item->author}</span> {$item->msg?': '.$item->msg:''}</div></td>
+    <td class="summaryText"><div class="close"><span class="author">{$item->author}</span> {htmlspecialchars($item->msg?': '.$item->msg:'')}</div></td>
 </tr>
     <!--@end-->
 </tbody>
