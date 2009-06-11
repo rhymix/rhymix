@@ -23,6 +23,10 @@
 .widgetTree ul li.nav_tree_on ul li{ display:block;}
 .widgetTree ul li.nav_tree_off ul{ display:none;}
 .widgetTree ul li.nav_tree_off ul li{ display:none;}
+.widgetTree ul li.active,
+.widgetTree ul li.active a{ font-weight:bold;}
+.widgetTree ul li.active li,
+.widgetTree ul li.active li a{ font-weight:normal;}
 .widgetTree .icon{ position:relative; left:16px;}
 
 /* widgetTree */
