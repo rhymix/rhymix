@@ -68,24 +68,25 @@
 
     <!--@if(!$oIssue->isExists())-->
     <!--@if($grant->commiter)-->
-    <th><label for="inputMilestone">{$lang->milestone} :</label></th>
-        <td>
-            <select name="milestone_srl" id="inputMilestone">
-                <option value="0">{$lang->milestone}</option> 
-            <!--@foreach($project->milestones as $val)-->
-                <option value="{$val->milestone_srl}" <!--@if($oIssue->get('milestone_srl')==$val->milestone_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-            </select>
-        </td>
-        <th><label for="inputPriority">{$lang->priority} :</label></th>
-        <td>
-            <select name="priority_srl" id="inputPriority">
-                <option value="">{$lang->priority}</option> 
-                <!--@foreach($project->priorities as $key => $val)-->
-                <option value="{$val->priority_srl}" <!--@if($val->priority_srl==$oIssue->get('priority_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
-                <!--@end-->
-            </select>
-        </td>
+	<tr>
+	    <th><label for="inputMilestone">{$lang->milestone} :</label></th>
+		<td>
+			<select name="milestone_srl" id="inputMilestone">
+				<option value="0">{$lang->milestone}</option> 
+			<!--@foreach($project->milestones as $val)-->
+				<option value="{$val->milestone_srl}" <!--@if($oIssue->get('milestone_srl')==$val->milestone_srl)-->selected="selected"<!--@end-->>{$val->title}</option>
+			<!--@end-->
+			</select>
+		</td>
+		<th><label for="inputPriority">{$lang->priority} :</label></th>
+		<td>
+			<select name="priority_srl" id="inputPriority">
+				<option value="">{$lang->priority}</option> 
+				<!--@foreach($project->priorities as $key => $val)-->
+				<option value="{$val->priority_srl}" <!--@if($val->priority_srl==$oIssue->get('priority_srl'))-->selected="selected"<!--@end-->>{$val->title}</option> 
+				<!--@end-->
+			</select>
+		</td>
     </tr>
     <!--@end-->
     <tr>
