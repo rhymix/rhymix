@@ -27,11 +27,17 @@
                             if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
                             $args->s_filename = $search_keyword;
                         break;
-                    case 'filesize' :
-                            $args->s_filesize = (int)$search_keyword;
+                    case 'filesize_more' :
+                            $args->s_filesize_more = (int)$search_keyword;
                         break;
-                    case 'filesize_mega' :
-                            $args->s_filesize = (int)$search_keyword * 1024 * 1024;
+                    case 'filesize_mega_more' :
+                            $args->s_filesize_more = (int)$search_keyword * 1024 * 1024;
+                        break;
+					case 'filesize_less' :
+                            $args->s_filesize_less = (int)$search_keyword;
+                        break;
+					case 'filesize_mega_less' :
+                            $args->s_filesize_less = (int)$search_keyword * 1024 * 1024;
                         break;
                     case 'download_count' :
                             $args->s_download_count = (int)$search_keyword;
