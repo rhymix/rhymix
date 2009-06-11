@@ -41,9 +41,11 @@
 
     $lang->file_search_target_list = array(
         'filename' => 'File Name',
-        'filesize' => 'File Size (byte, over)',
-        'filesize_mega' => 'File Size (mbyte, over)',
-        'download_count' => 'Downloads (over)',
+        'filesize_more' => 'File Size (byte, more)',
+        'filesize_mega_more' => 'File Size (mbyte, more)',
+		'filesize_less' => 'File Size (byte, less)',
+		'filesize_mega_less' => 'File Size (Mb, less)',
+        'download_count' => 'Downloads (more)',
         'regdate' => 'Registered Date',
         'user_id' => 'User UD',
         'user_name' => 'User Name',

@@ -38,8 +38,10 @@
 
     $lang->file_search_target_list = array(
         'filename' => 'Nom de Fichier',
-        'filesize' => 'Mesure de Fichier (octet, surplus)',
-        'filesize_mega' => '파일크기 (Mb, 이상)',
+        'filesize_more' => 'Mesure de Fichier (octet, surplus)',
+        'filesize_mega_more' => '파일크기 (Mb, 이상)',
+		'filesize_less' => '파일크기 (byte, 이하)',
+		'filesize_mega_less' => '파일크기 (Mb, 이하)',
         'download_count' => 'Telecharges (surplus)',
         'user_id' => '아이디',
         'user_name' => '이름',
