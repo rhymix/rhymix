@@ -9,7 +9,7 @@
         <th colspan="3" class="title"><a href="{getUrl('','document_srl',$oIssue->document_srl)}">{$oIssue->getTitle()}</a><span>- {$oIssue->getStatus()}</span></th>
         <td><SPAn class="member_{$oIssue->getMemberSrl()}">{$oIssue->getNickName()}</span></td>
     </tr>
-    <!--@if(!$oIssue->isSecret() || $oIssue->isAccessible())-->
+<!--@if(!$oIssue->isSecret() || $oIssue->isAccessible())-->
     <tr>
         <th>{$lang->milestone} :</th>
         <td>{$oIssue->getMilestoneTitle()}</td>
@@ -66,9 +66,9 @@
     <tr>
         <td colspan="4" class="description">{$oIssue->getContent(false, true)}</td>
     </tr>
+	<!--@if($oIssue->hasUploadedFiles())-->
     <tr>
         <td colspan="4">
-            <!--@if($oIssue->hasUploadedFiles())-->
             <div class="fileAttached">
                 {@ $uploaded_list = $oIssue->getUploadedFiles() }
                 <ul>
@@ -78,10 +78,10 @@
                 </ul>
                 <div class="clear"></div>
             </div>
-            <!--@end-->
         </td>
     </tr>
-    <!--@else-->
+	<!--@endif-->
+<!--@else-->
     <tr>
         <td colspan="4" class="inputPassword">
             <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
@@ -95,7 +95,7 @@
             </form>
         </td>
     </tr>
-    <!--@end-->
+<!--@end-->
     </table>
 
     <div class="button">
@@ -162,6 +162,8 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_history)">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="target_srl" value="{$oIssue->get('target_srl')}" />
+<input type="hidden" name="history_srl" value="" />
+<input type="hidden" name="content" value="" />
     <table cellspacing="0">
     <col width="140" />
     <col width="*" />
@@ -266,7 +268,7 @@
     <!--@end-->
     <tr>
         <td colspan="4">
-            <textarea name="content" id="inputContent" class="inputTypeTextArea wide"></textarea>
+            <div class="editor">{$oIssue->getCommentEditor()}</div>
         </td>
     </tr>
     <tr>

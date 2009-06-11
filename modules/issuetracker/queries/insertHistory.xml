@@ -12,5 +12,6 @@
         <column name="nick_name" var="nick_name" notnull="notnull"/>
         <column name="password" var="password" />
         <column name="regdate" default="curdate()" />
+        <column name="uploaded_count" var="uploaded_count" default="0" />
     </columns>
 </query>
