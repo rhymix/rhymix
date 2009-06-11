@@ -1,5 +1,9 @@
 <!--#include("header.html")-->
-<!--%import("filter/insert.xml")-->
+<!--@if($member_info->member_srl)-->
+    <!--%import("filter/update_member.xml")-->
+<!--@else-->
+    <!--%import("filter/insert.xml")-->
+<!--@endif-->
 <!--%import("css/member_admin.css")-->
 
 <!--// datepicker javascript plugin load -->
@@ -157,7 +161,7 @@
         </div></th>
         <td class="wide">
             <!--// 일반 text -->
-            <!--@if($val->column_type == 'text')--> 
+            <!--@if($val->column_type == 'text')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
 
             <!--// 홈페이지 주소 -->
@@ -233,7 +237,7 @@
             <!--// 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-				<input type="text" class="inputDate" value="{zdate($val->value,"Y-m-d")}" />
+                <input type="text" class="inputDate" value="{zdate($val->value,"Y-m-d")}" />
 
 
             <!--@end-->
