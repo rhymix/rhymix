@@ -22,7 +22,7 @@ function editorUploadInit(obj, exe) {
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
     if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
     xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
-	if(exe) XEUploaderStart(obj);
+    if(exe) XEUploaderStart(obj);
 }
 
 // 파일 업로드를 위한 기본 준비를 함
@@ -68,6 +68,7 @@ function XEUploaderStart(obj) {
         button_text_style: null,
         button_text_left_padding: 0,
         button_text_top_padding: 0,
+        button_cursor:-2,
 
         // The event handler functions are defined in handlers.js
         file_queued_handler : fileQueued,
@@ -88,7 +89,7 @@ function XEUploaderStart(obj) {
     settings["previewAreaID"] = obj["previewAreaID"];
     settings["uploaderStatusID"] = obj["uploaderStatusID"];
 
-	uploaderSettings[obj["editorSequence"]] = settings;
+    uploaderSettings[obj["editorSequence"]] = settings;
 
     var swfu = new SWFUpload(settings);
     var swfObj = xGetElementById(swfu.movieName);
@@ -225,7 +226,7 @@ function queueComplete(numFilesUploaded) {
 }
 
 function reloadFileList(settings) {
-	var params = new Array();
+    var params = new Array();
     params["file_list_area_id"] = settings["fileListAreaID"];
     params["editor_sequence"] = settings["editorSequence"];
     params["mid"] = current_mid;
@@ -271,7 +272,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
                     var loadingImage = new Image();
                     loadingImage.src = item[i].download_url;
                     loaded_images[file_srl] = loadingImage;
-					item[i].download_url = item[i].download_url.replace(/&/g, "&amp;");
+                    item[i].download_url = item[i].download_url.replace(/&/g, "&amp;");
                 }
             }
             previewFiles('', item[item.length-1].file_srl);
