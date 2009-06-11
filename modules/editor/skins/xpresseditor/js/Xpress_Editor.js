@@ -10,7 +10,7 @@ $.extend({
 		c.prototype = def;
 		c.constructor = c;
 		c.extend = Class_extend;
-		
+
 		return c;
 	},
 	$ : function(id) {
@@ -24,7 +24,7 @@ $.extend({
 	fnBind : function(fn, th/* , args... */) {
 		var args = $.makeArray(arguments);
 		args.shift(); args.shift();
-		
+
 		return function() {
 			var a = args.concat($.makeArray(arguments));
 
@@ -39,7 +39,7 @@ function Class_extend(superDef) {
 	var Super = superDef.prototype;
 
 	this.prototype.$super = {};
-	
+
 	function bind(fn) {
 		return function() {
 			return fn.apply(this.$this, arguments);
@@ -52,7 +52,7 @@ function Class_extend(superDef) {
 		if (typeof this.prototype[x] == 'undefined') this.prototype[x] = Super[x];
 		this.prototype.$super[x] = $.isFunction(Super[x])?bind(Super[x]):Super[x];
 	}
-	
+
 	return this;
 }
 
@@ -86,7 +86,7 @@ xe.XpressCore = jQuery.Class({
 		this.aPlugins = [];
 
 		this.appStatus = xe.APP_STATUS["NOT_READY"];
-		
+
 		// Register the core as a plugin so it can receive messages
 		this.registerPlugin(this);
 	},
@@ -106,7 +106,7 @@ xe.XpressCore = jQuery.Class({
 		var fExec = jQuery.fnBind(this.exec, this, msg, args, oEvent);
 		setTimeout(fExec, nDelay);
 	},
-	
+
 	_exec : function(msg, args, oEvent){return (this._exec = this.oDebugger?this._execWithDebugger:this._execWithoutDebugger).call(this, msg, args, oEvent);},
 	_execWithDebugger : function(msg, args, oEvent){this.oDebugger.log_MessageStart(msg, args);var bResult = this._doExec(msg, args, oEvent);this.oDebugger.log_MessageEnd(msg, args);return bResult;	},
 	_execWithoutDebugger : function(msg, args, oEvent){return this._doExec(msg, args, oEvent);},
@@ -175,7 +175,7 @@ xe.XpressCore = jQuery.Class({
 		var nLen = this.aPlugins.length;
 		for(var i=0; i<nLen; i++) this._doAddToCommandMap(sMsgHandler, this.aPlugins[i]);
 	},
-	
+
 	addToCommandMap : function(sMsgHandler, oPlugin){
 		// cannot "ADD" unless the map is already created.
 		// the message will be added automatically to the mapping when it is first passed anyways, so do not add now
@@ -201,7 +201,7 @@ xe.XpressCore = jQuery.Class({
 
 		var aPlugins = this.oCommandMap[sMsgHandler];
 		var iNumOfPlugins = aPlugins.length;
-		
+
 		if(iNumOfPlugins == 0) return true;
 
 		var tmpStatus, bResult = true;
@@ -225,14 +225,14 @@ xe.XpressCore = jQuery.Class({
 				}
 			}
 		}
-		
+
 		return bResult;
 	},
-	
+
 	_execHandler : function(oPlugin, sHandler, args){return	(this._execHandler = this.oDebugger?this._execHandlerWithDebugger:this._execHandlerWithoutDebugger).call(this, oPlugin, sHandler, args);},
 	_execHandlerWithDebugger : function(oPlugin, sHandler, args){this.oDebugger.log_CallHandlerStart(oPlugin, sHandler, args);var bResult = oPlugin[sHandler].apply(oPlugin, args);this.oDebugger.log_CallHandlerEnd(oPlugin, sHandler, args);return bResult;},
 	_execHandlerWithoutDebugger : function(oPlugin, sHandler, args){return oPlugin[sHandler].apply(oPlugin, args);},
-	
+
 	_doAddToCommandMap : function(sMsgHandler, oPlugin){
 		if(typeof oPlugin[sMsgHandler] != "function") return;
 		this.oCommandMap[sMsgHandler][this.oCommandMap[sMsgHandler].length] = oPlugin;
@@ -305,7 +305,7 @@ xe.W3CDOMRange = jQuery.Class({
 			}
 		}
 
-		oClonedContainers = this._splitTextEndNodes({oStartContainer: oClonedContainers.oStartContainer, iStartOffset: this.startOffset, 
+		oClonedContainers = this._splitTextEndNodes({oStartContainer: oClonedContainers.oStartContainer, iStartOffset: this.startOffset,
 													oEndContainer: oClonedContainers.oEndContainer, iEndOffset: this.endOffset});
 
 		if(oClonedContainers.oStartContainer && oClonedContainers.oStartContainer.previousSibling)
@@ -363,7 +363,7 @@ xe.W3CDOMRange = jQuery.Class({
 		oClonedRange.startContainer = this.startContainer;
 		oClonedRange.startOffset = this.startOffset;
 		oClonedRange._document = this._document;
-		
+
 		return oClonedRange;
 	},
 
@@ -438,15 +438,15 @@ xe.W3CDOMRange = jQuery.Class({
 		var oNodeA = oContainerA;
 		if(oNodeA != oCommonAncestor){
 			while((oTmpNode = xe.DOMFix.parentNode(oNodeA)) != oCommonAncestor){oNodeA = oTmpNode;}
-			
+
 			iIdxA = this._getPosIdx(oNodeA)+0.5;
 		}else iIdxA = iOffsetA;
-		
+
 		// container node B in common ancestor container
 		var oNodeB = oContainerB;
 		if(oNodeB != oCommonAncestor){
 			while((oTmpNode = xe.DOMFix.parentNode(oNodeB)) != oCommonAncestor){oNodeB = oTmpNode;}
-			
+
 			iIdxB = this._getPosIdx(oNodeB)+0.5;
 		}else iIdxB = iOffsetB;
 
@@ -479,7 +479,7 @@ xe.W3CDOMRange = jQuery.Class({
 
 		var oPrevNode = aNodes[0].previousSibling;
 		while(oPrevNode && this._isBlankTextNode(oPrevNode)) oPrevNode = oPrevNode.previousSibling;
-		
+
 		var oNewStartContainer, iNewOffset;
 		if(!oPrevNode){
 			oNewStartContainer = xe.DOMFix.parentNode(aNodes[0]);
@@ -559,7 +559,7 @@ xe.W3CDOMRange = jQuery.Class({
 
 		return iOffset;
 	},
-	
+
 
 	setEnd : function(refNode, offset){
 		offset = this._endsNodeValidation(refNode, offset);
@@ -640,7 +640,7 @@ xe.W3CDOMRange = jQuery.Class({
 		if(oNode.nodeType == 3 && oNode.nodeValue == "") return true;
 		return false;
 	},
-	
+
 	_getPosIdx : function(refNode){
 		var idx = 0;
 		for(var node = refNode.previousSibling; node; node = node.previousSibling) idx++;
@@ -653,12 +653,12 @@ xe.W3CDOMRange = jQuery.Class({
 			this.init(this._document);
 			return;
 		}
-		
+
 		this.collapsed = this._isCollapsed(this.startContainer, this.startOffset, this.endContainer, this.endOffset);
 
 		this.commonAncestorContainer = this._getCommonAncestorContainer(this.startContainer, this.endContainer);
 	},
-	
+
 	_isCollapsed : function(oStartContainer, iStartOffset, oEndContainer, iEndOffset){
 		var bCollapsed = false;
 
@@ -688,17 +688,17 @@ xe.W3CDOMRange = jQuery.Class({
 			oActualStartNode = this._getNextNode(this._getPrevNode(oActualStartNode));
 			oActualEndNode = this._getPrevNode(this._getNextNode(oActualEndNode));
 
-			if(oActualStartNode && oActualEndNode && oActualEndNode.tagName != "BODY" && 
+			if(oActualStartNode && oActualEndNode && oActualEndNode.tagName != "BODY" &&
 				(this._getNextNode(oActualEndNode) == oActualStartNode || (oActualEndNode == oActualStartNode && this._isBlankTextNode(oActualEndNode)))
 			)
 				bCollapsed = true;
 		}
-		
+
 		return bCollapsed;
 	},
 
 	_splitTextEndNodesOfTheRange : function(){
-		var oEndPoints = this._splitTextEndNodes({oStartContainer: this.startContainer, iStartOffset: this.startOffset, 
+		var oEndPoints = this._splitTextEndNodes({oStartContainer: this.startContainer, iStartOffset: this.startOffset,
 													oEndContainer: this.endContainer, iEndOffset: this.endOffset});
 
 		this.startContainer = oEndPoints.oStartContainer;
@@ -757,7 +757,7 @@ xe.W3CDOMRange = jQuery.Class({
 
 		return {oStartContainer: oStartContainer, iStartOffset: iStartOffset, oEndContainer: oEndContainer, iEndOffset: iEndOffset};
 	},
-	
+
 	_getNodesInRange : function(){
 		if(this.collapsed) return [];
 
@@ -808,7 +808,7 @@ xe.W3CDOMRange = jQuery.Class({
 		if(!oNode || oNode.tagName == "BODY") return this._document.body;
 
 		if(oNode.nextSibling) return oNode.nextSibling;
-		
+
 		return this._getNextNode(xe.DOMFix.parentNode(oNode));
 	},
 
@@ -816,7 +816,7 @@ xe.W3CDOMRange = jQuery.Class({
 		if(!oNode || oNode.tagName == "BODY") return this._document.body;
 
 		if(oNode.previousSibling) return oNode.previousSibling;
-		
+
 		return this._getPrevNode(xe.DOMFix.parentNode(oNode));
 	},
 
@@ -837,7 +837,7 @@ xe.W3CDOMRange = jQuery.Class({
 		if(!this._recurGetChildNodesUntil(oNode, oEndNode, aNodesBetween)) return false;
 
 		var oNextToChk = oNode.nextSibling;
-		
+
 		while(!oNextToChk){
 			if(!xe.DOMFix.parentNode(oNode)) return false;
 			oNode = xe.DOMFix.parentNode(oNode);
@@ -908,7 +908,7 @@ xe.XpressRange = jQuery.Class({
 
 		this.oSimpleSelection = new xe.SimpleSelection(this._window);
 		this.selectionLoaded = this.oSimpleSelection.selectionLoaded;
-		
+
 		this.$super.$init(this._document);
 	},
 
@@ -929,7 +929,7 @@ xe.XpressRange = jQuery.Class({
 		this.setEndAfter(oENode);
 		this.setStartBefore(oSNode);
 	},
-	
+
 	splitTextAtBothEnds : function(){
 		this._splitTextEndNodesOfTheRange();
 	},
@@ -943,7 +943,7 @@ xe.XpressRange = jQuery.Class({
 			}
 			return null;
 		}
-		
+
 		if(this.startContainer.nodeType == 3){
 			if(this.startOffset >= this.startContainer.nodeValue.length) return this._getNextNode(this.startContainer);
 			return this.startContainer;
@@ -952,10 +952,10 @@ xe.XpressRange = jQuery.Class({
 			return xe.DOMFix.childNodes(this.startContainer)[this.startOffset];
 		}
 	},
-	
+
 	getEndNode : function(){
 		if(this.collapsed) return this.getStartNode();
-		
+
 		if(this.endContainer.nodeType == 3){
 			if(this.endOffset == 0) return this._getPrevNode(this.endContainer);
 			return this.endContainer;
@@ -994,15 +994,15 @@ xe.XpressRange = jQuery.Class({
 
 	_getXPath : function(elNode){
 		var sXPath = "";
-		
+
 		while(elNode && elNode.nodeType == 1){
 			sXPath = "/" + elNode.tagName+"["+this._getPosIdx4XPath(elNode)+"]" + sXPath;
 			elNode = xe.DOMFix.parentNode(elNode);
 		}
-		
+
 		return sXPath;
 	},
-	
+
 	_getPosIdx4XPath : function(refNode){
 		var idx = 0;
 		for(var node = refNode.previousSibling; node; node = node.previousSibling)
@@ -1010,7 +1010,7 @@ xe.XpressRange = jQuery.Class({
 
 		return idx;
 	},
-	
+
 	// this was written specifically for XPath Bookmark and it may not perform correctly for general purposes
 	_evaluateXPath : function(sXPath, oDoc){
 		sXPath = sXPath.substring(1, sXPath.length-1);
@@ -1049,15 +1049,15 @@ xe.XpressRange = jQuery.Class({
 		if(nTextNodeIdx > -1 && elContainer){
 			var aChildNodes = xe.DOMFix.childNodes(elContainer);
 			var elNode = null;
-			
+
 			var nIdx = nTextNodeIdx;
 			var nOffsetLeft = nOffset;
-			
+
 			while((elNode = aChildNodes[nIdx]) && elNode.nodeType == 3 && elNode.nodeValue.length < nOffsetLeft){
 				nOffsetLeft -= elNode.nodeValue.length;
 				nIdx++;
 			}
-			
+
 			elContainer = xe.DOMFix.childNodes(elContainer)[nIdx];
 			nOffset = nOffsetLeft;
 		}
@@ -1068,7 +1068,7 @@ xe.XpressRange = jQuery.Class({
 		}
 		return {elContainer: elContainer, nOffset: nOffset};
 	},
-	
+
 	// this was written specifically for XPath Bookmark and it may not perform correctly for general purposes
 	getXPathBookmark : function(){
 		var nTextNodeIdx1 = -1;
@@ -1081,7 +1081,7 @@ xe.XpressRange = jQuery.Class({
 		}
 		var sXPathNode1 = this._getXPath(elNode1);
 		var oBookmark1 = {sXPath:sXPathNode1, nTextNodeIdx:nTextNodeIdx1, nOffset: htEndPt1.nOffset};
-		
+
 		var nTextNodeIdx2 = -1;
 		var htEndPt2 = {elContainer: this.endContainer, nOffset: this.endOffset};
 		var elNode2 = this.endContainer;
@@ -1095,7 +1095,7 @@ xe.XpressRange = jQuery.Class({
 
 		return [oBookmark1, oBookmark2];
 	},
-	
+
 	moveToXPathBookmark : function(aBookmark){
 		if(!aBookmark) return;
 
@@ -1110,24 +1110,24 @@ xe.XpressRange = jQuery.Class({
 		this.endContainer = oBookmarkInfo2["elContainer"];
 		this.endOffset = oBookmarkInfo2["nOffset"];
 	},
-	
+
 	_getFixedTextContainer : function(elNode, nOffset){
 		while(elNode && elNode.nodeType == 3 && elNode.previousSibling && elNode.previousSibling.nodeType == 3){
 			nOffset += elNode.previousSibling.nodeValue.length;
 			elNode = elNode.previousSibling;
 		}
-		
+
 		return {elContainer:elNode, nOffset:nOffset};
 	},
-	
+
 	_getFixedStartTextNode : function(){
 		return this._getFixedTextContainer(this.startContainer, this.startOffset);
 	},
-	
+
 	_getFixedEndTextNode : function(){
 		return this._getFixedTextContainer(this.endContainer, this.endOffset);
 	},
-	
+
 	placeStringBookmark : function(){
 		var sTmpId = (new Date()).getTime();
 
@@ -1180,7 +1180,7 @@ xe.XpressRange = jQuery.Class({
 	collapseToStart : function(){
 		this.collapse(true);
 	},
-	
+
 	collapseToEnd : function(){
 		this.collapse(false);
 	},
@@ -1250,14 +1250,14 @@ xe.XpressRange = jQuery.Class({
 		}
 
 		return isRangeInRange(oTmpRange, bIncludePartlySelected);
-	},		
+	},
 
 	pasteHTML : function(sHTML){
 		if(sHTML == ""){
 			this.deleteContents();
 			return;
 		}
-		
+
 		var oTmpDiv = this._document.createElement("DIV");
 		oTmpDiv.innerHTML = sHTML;
 
@@ -1277,12 +1277,12 @@ xe.XpressRange = jQuery.Class({
 		clone.deleteContents();
 		clone.removeStringBookmark(sBM);
 	},
-	
+
 	toString : function(){
 		this.toString = xe.W3CDOMRange.prototype.toString;
 		return this.toString();
 	},
-	
+
 	toHTMLString : function(){
 		var oTmpContainer = this._document.createElement("DIV");
 		oTmpContainer.appendChild(this.cloneContents());
@@ -1293,7 +1293,7 @@ xe.XpressRange = jQuery.Class({
 	findAncestorByTagName : function(sTagName){
 		var oNode = this.commonAncestorContainer;
 		while(oNode && oNode.tagName != sTagName) oNode = xe.DOMFix.parentNode(oNode);
-		
+
 		return oNode;
 	},
 
@@ -1307,7 +1307,7 @@ xe.XpressRange = jQuery.Class({
 			this.setStart(oFirstNode, 0);
 		else
 			this.setStartBefore(oFirstNode);
-		
+
 		if(oLastNode.nodeType == 3)
 			this.setEnd(oLastNode, oLastNode.nodeValue.length);
 		else
@@ -1337,7 +1337,7 @@ xe.XpressRange = jQuery.Class({
 				sValue = oAttribute[sName];
 
 				if(typeof sValue != "string") continue;
-				
+
 				if(sName == "class"){
 					jQuery(aStyleParents[i]).addClass(sValue);
 				}else{
@@ -1384,7 +1384,7 @@ xe.XpressRange = jQuery.Class({
 			oSpan.appendChild(oNode);
 			aResult[aResult.length] = oSpan;
 			aAllNodes[aAllNodes.length] = oSpan;
-			
+
 			if(sNewSpanMarker) oSpan.setAttribute(sNewSpanMarker, "true");
 		}
 
@@ -1393,7 +1393,7 @@ xe.XpressRange = jQuery.Class({
 
 		return aResult;
 	},
-	
+
 	_getVeryFirstChild : function(oNode){
 		if(oNode.firstChild) return this._getVeryFirstChild(oNode.firstChild);
 		return oNode;
@@ -1410,14 +1410,14 @@ xe.XpressRange = jQuery.Class({
 
 		return oFirstNode;
 	},
-	
+
 	_getLastRealChild : function(oNode){
 		var oLastNode = oNode.lastChild;
 		while(oLastNode && oLastNode.nodeType == 3 && oLastNode.nodeValue == "") oLastNode = oLastNode.previousSibling;
 
 		return oLastNode;
 	},
-	
+
 	_getVeryFirstRealChild : function(oNode){
 		var oFirstNode = this._getFirstRealChild(oNode);
 		if(oFirstNode) return this._getVeryFirstRealChild(oFirstNode);
@@ -1459,7 +1459,7 @@ xe.XpressRange = jQuery.Class({
 			getLineStart(xe.DOMFix.parentNode(node));
 		}
 
-		// horizontal(sibling) search			
+		// horizontal(sibling) search
 		function getFrontEnd(node){
 			if(!node) return;
 			if(frontEndFinal) return;
@@ -1476,20 +1476,20 @@ xe.XpressRange = jQuery.Class({
 				var curNode = node.lastChild;
 				while(curNode && !frontEndFinal){
 					getFrontEnd(curNode);
-					
+
 					curNode = curNode.previousSibling;
 				}
 			}else{
 				frontEnd = node;
 			}
-			
+
 			if(!frontEndFinal){
 				getFrontEnd(node.previousSibling);
 			}
 		}
-	
+
 		getLineStart(node);
-	
+
 		return {oNode: frontEndFinal, oLineBreaker: lineBreaker, bParentBreak: bParentBreak};
 	},
 
@@ -1505,7 +1505,7 @@ xe.XpressRange = jQuery.Class({
 		function getLineEnd(node){
 			if(!node) return;
 			if(backEndFinal) return;
-			
+
 			if(rxLineBreaker.test(node.tagName)){
 				lineBreaker = node;
 				backEndFinal = backEnd;
@@ -1516,24 +1516,24 @@ xe.XpressRange = jQuery.Class({
 			}else{
 				backEnd = node;
 			}
-	
+
 			getBackEnd(node.nextSibling);
 			if(backEndFinal) return;
-	
+
 			getLineEnd(xe.DOMFix.parentNode(node));
 		}
-		
+
 		// horizontal(sibling) search
 		function getBackEnd(node){
 			if(!node) return;
 			if(backEndFinal) return;
-			
+
 			if(rxLineBreaker.test(node.tagName)){
 				lineBreaker = node;
 				backEndFinal = backEnd;
 
 				bParentBreak = false;
-				
+
 				return;
 			}
 
@@ -1541,20 +1541,20 @@ xe.XpressRange = jQuery.Class({
 				var curNode = node.firstChild;
 				while(curNode && !backEndFinal){
 					getBackEnd(curNode);
-					
+
 					curNode = curNode.nextSibling;
 				}
 			}else{
 				backEnd = node;
 			}
-	
+
 			if(!backEndFinal){
 				getBackEnd(node.nextSibling);
 			}
 		}
-	
+
 		getLineEnd(node);
-	
+
 		return {oNode: backEndFinal, oLineBreaker: lineBreaker, bParentBreak: bParentBreak};
 	},
 
@@ -1601,7 +1601,7 @@ xe.SimpleSelection = function(win){
 		xe.SimpleSelectionImpl_IE.apply(this);
 	else
 		xe.SimpleSelectionImpl_FF.apply(this);
-	
+
 	this.selectRange = function(oRng){
 		this.selectNone();
 		this.addRange(oRng);
@@ -1623,7 +1623,7 @@ xe.SimpleSelectionImpl_FF = function(){
 
 		return this._FFRange2W3CRange(oFFRange);
 	};
-			
+
 	this.addRange = function(oW3CRange){
 		var oFFRange = this._W3CRange2FFRange(oW3CRange);
 		this._oSelection.addRange(oFFRange);
@@ -1829,7 +1829,7 @@ xe.SimpleSelectionImpl_IE = function(){
 
 			// this will enforce IE to re-reference oCurTextNode
 			var oTmp = oCurTextNode.nodeValue;
-			
+
 			if(bStartPt && oCurTextNode.nextSibling && oCurTextNode.nextSibling.nodeType == 3 && textCount == oCurTextNode.nodeValue.length){
 				textCount -= oCurTextNode.nodeValue.length;
 				oCurTextNode = oCurTextNode.nextSibling;
@@ -1860,7 +1860,7 @@ xe.DOMFix = new (jQuery.Class({
 	_parentNode_Native : function(elNode){
 		return elNode.parentNode;
 	},
-	
+
 	_parentNode_Fix : function(elNode){
 		if(!elNode) return elNode;
 
@@ -1868,11 +1868,11 @@ xe.DOMFix = new (jQuery.Class({
 
 		return elNode.parentNode;
 	},
-	
+
 	_childNodes_Native : function(elNode){
 		return elNode.childNodes;
 	},
-	
+
 	_childNodes_Fix : function(elNode){
 		var aResult = null;
 		var nCount = 0;
@@ -1885,7 +1885,7 @@ xe.DOMFix = new (jQuery.Class({
 				elNode=elNode.nextSibling;
 			}
 		}
-		
+
 		return aResult;
 	}
 }))();
@@ -1901,7 +1901,7 @@ xe.FindReplace = jQuery.Class({
 
 	// true if End Of Contents is reached during last execution of find
 	bEOC : false,
-	
+
 	$init : function(win){
 		this.window = win;
 		this.document = this.window.document;
@@ -1916,7 +1916,7 @@ xe.FindReplace = jQuery.Class({
 
 		this.bBrowserSupported = true;
 	},
-	
+
 	// 0: found
 	// 1: not found
 	// 2: keyword required
@@ -1938,15 +1938,15 @@ xe.FindReplace = jQuery.Class({
 		bSearchResult = this.findNew(sKeyword, bCaseMatch, bBackwards, bWholeWord);
 
 		if(bSearchResult) return 0;
-		
+
 		return 1;
 	},
-	
+
 	findNew : function (sKeyword, bCaseMatch, bBackwards, bWholeWord){
 		this.findReset();
 		return this.findNext(sKeyword, bCaseMatch, bBackwards, bWholeWord);
 	},
-	
+
 	findNext : function(sKeyword, bCaseMatch, bBackwards, bWholeWord){
 		var bSearchResult;
 		bCaseMatch = bCaseMatch || false;
@@ -1957,14 +1957,14 @@ xe.FindReplace = jQuery.Class({
 			var bWrapAround = false;
 			return this.window.find(sKeyword, bCaseMatch, bBackwards, bWrapAround, bWholeWord);
 		}
-		
+
 		// IE solution
 		if(this.document.body.createTextRange){
 			var iOption = 0;
 			if(bBackwards) iOption += 1;
 			if(bWholeWord) iOption += 2;
 			if(bCaseMatch) iOption += 4;
-			
+
 			this.window.focus();
 			this._range = this.document.selection.createRangeCollection().item(0);
 			this._range.collapse(false);
@@ -1973,10 +1973,10 @@ xe.FindReplace = jQuery.Class({
 			this._range.select();
 			return bSearchResult;
 		}
-		
+
 		return false;
 	},
-	
+
 	findReset : function() {
 		if (this.window.find){
 			this.window.getSelection().removeAllRanges();
@@ -1990,7 +1990,7 @@ xe.FindReplace = jQuery.Class({
 			this._range.select();
 		}
 	},
-	
+
 	// 0: replaced & next word found
 	// 1: replaced & next word not found
 	// 2: not replaced & next word found
@@ -2008,12 +2008,12 @@ xe.FindReplace = jQuery.Class({
 			bMatch = (selectedText == sOriginalWord);
 		else
 			bMatch = (selectedText.toLowerCase() == sOriginalWord.toLowerCase());
-		
+
 		if(!bMatch)
 			return this.find(sOriginalWord, bCaseMatch, bBackwards, bWholeWord)+2;
 
 		if(typeof Replacement == "function"){
-			// the returned oSelection must contain the replacement 
+			// the returned oSelection must contain the replacement
 			oSelection = Replacement(oSelection);
 		}else{
 			oSelection.pasteHTML(Replacement);
@@ -2029,7 +2029,7 @@ xe.FindReplace = jQuery.Class({
 	// -1 : if original word is not given
 	replaceAll : function(sOriginalWord, Replacement, bCaseMatch, bWholeWord){
 		if(!sOriginalWord) return -1;
-		
+
 		var bBackwards = false;
 
 		var iReplaceResult;
@@ -2087,7 +2087,7 @@ xe.DraggableLayer = jQuery.Class({
 		}, oOptions);
 
 		this.oHandle = this.oOptions.oHandle;
-		
+
 		oLayer.style.display = "block";
 		oLayer.style.position = "absolute";
 		oLayer.style.zIndex = "9999";
@@ -2121,7 +2121,7 @@ xe.DraggableLayer = jQuery.Class({
 
 		if(iTop<this.oOptions.iMinY) iTop = this.oOptions.iMinY;
 		if(iTop>this.oOptions.iMaxY) iTop = this.oOptions.iMaxY;
-		
+
 		if(iLeft<this.oOptions.iMinX) iLeft = this.oOptions.iMinX;
 		if(iLeft>this.oOptions.iMaxX) iLeft = this.oOptions.iMaxX;
 
@@ -2133,21 +2133,21 @@ xe.DraggableLayer = jQuery.Class({
 		jQuery(oLayer).unbind("mousemove", this.$FnMouseMove);
 		jQuery(oLayer).unbind("mouseup", this.$FnMouseUp);
 	},
-	
+
 	toInt : function(num){
 		var result = parseInt(num);
 		return result || 0;
 	},
-	
+
 	findNonStatic : function(oEl){
 		if(!oEl) return null;
 		if(oEl.tagName == "BODY") return oEl;
-		
+
 		if(jQuery(oEl).css("position").match(/absolute|relative/i)) return oEl;
 
 		return this.findNonStatic(oEl.offsetParent);
 	},
-	
+
 	getBaseOffset : function(oEl){
 		var oBase = this.findNonStatic(oEl.offsetParent);
 		var tmp = jQuery(oBase).offset();
@@ -2166,7 +2166,7 @@ xe.CorePlugin = jQuery.Class({
 	$init : function(funcOnReady){
 		this.funcOnReady = funcOnReady;
 	},
-	
+
 	$AFTER_MSG_APP_READY : function(){
 		this.oApp.exec("EXEC_ON_READY_FUNCTION", []);
 	},
@@ -2178,7 +2178,7 @@ xe.CorePlugin = jQuery.Class({
 	$ON_REGISTER_BROWSER_EVENT : function(obj, sEvent, sCMD, aParams, nDelay){
 		this.oApp.registerBrowserEvent(obj, sEvent, sCMD, aParams, nDelay);
 	},
-	
+
 	$ON_DISABLE_COMMAND : function(sCommand){
 		this.oApp.disableCommand(sCommand, true);
 	},
@@ -2207,12 +2207,12 @@ xe.CorePlugin = jQuery.Class({
 			}catch(e){}
 		}
 	},
-	
+
 	$ON_ATTACH_HOVER_EVENTS : function(aElms, sHoverClass){
 		sHoverClass = sHoverClass || "hover";
-		
+
 		if(!aElms) return;
-		
+
 		jQuery(aElms).hover(
 			function(){jQuery(this).addClass(sHoverClass)},
 			function(){jQuery(this).removeClass(sHoverClass)}
@@ -2268,13 +2268,13 @@ xe.XpressRangeManager = jQuery.Class({
 //}
 xe.Hotkey = jQuery.Class({
 	name : "Hotkey",
-	
+
 	storage : {},
 	keyhash : {},
 
 	$init : function(){
 		this.storage = {};
-		
+
 		this.keyhash = {
 			backspace : 8,
 			tab		  : 9,
@@ -2300,30 +2300,30 @@ xe.Hotkey = jQuery.Class({
 			hyphen    : 109,
 			equal     : 61
 		};
-		
+
 		if (jQuery.browser.msie || jQuery.browser.safari) {
 			this.keyhash.hyphen = 189; // (-)
 			this.keyhash.equal = 187;  // (=)
 			this.keyhash.meta  = 91;   // meta
 		}
-		
-		
+
+
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		jQuery(this.oApp.getWYSIWYGDocument() || document).keydown(jQuery.fnBind(this.keydown, this));
 	},
-	
+
 	$ON_REGISTER_HOTKEY : function(sHotkey, sCMD, sArgs){
 		if(!sArgs) sArgs = [];
 		var func = jQuery.fnBind(this.oApp.exec, this.oApp, sCMD, sArgs);
 
 		sHotkey = this.normalize(sHotkey);
 		if (!sHotkey) return false;
-		
+
 		this.add(sHotkey, func);
 	},
-	
+
 	add : function(sHotkey, func) {
 		if (typeof this.storage[sHotkey] == 'undefined') {
 			this.storage[sHotkey] = [func];
@@ -2331,19 +2331,19 @@ xe.Hotkey = jQuery.Class({
 			this.storage[sHotkey].push(func);
 		}
 	},
-	
+
 	keydown : function(event) {
 		var key  = [], kh = this.keyhash;
 
 		if (jQuery.inArray(event.keyCode, [kh.shift, kh.ctrl, kh.alt, kh.meta]) >= 0) return;
-		
+
 		if (event.shiftKey) key.push('shift');
 		if (event.altKey)   key.push('alt');
 		if (event.ctrlKey)  key.push('ctrl');
 		if (event.metaKey)  key.push('meta');
 		if (!key.length) return;
 		if (key.length == 1 && event.metaKey) key = ['ctrl', 'meta'];
-		
+
 		key.push(event.keyCode);
 
 		key = key.join('+');
@@ -2351,15 +2351,15 @@ xe.Hotkey = jQuery.Class({
 		if (!this.storage[key]) return;
 
 		jQuery.each(this.storage[key], function(){ this(); });
-		
+
 		return false;
 	},
-	
+
 	normalize : function(sHotkey) {
 		var shift, ctrl, alt, meta, key, keys = (sHotkey||"").toLowerCase().split('+');
-		
+
 		shift = ctrl = alt = meta = key = false;
-		
+
 		jQuery.each(keys, function(){
 			var s = ""+this;
 			switch(s) {
@@ -2371,17 +2371,17 @@ xe.Hotkey = jQuery.Class({
 					key = s;
 			}
 		});
-		
+
 		if (!key) return '';
-		
+
 		keys = [];
 		if (shift) keys.push('shift');
 		if (alt) keys.push('alt');
 		if (ctrl) keys.push('ctrl');
 		if (meta || (ctrl && !shift && !alt)) keys.push('meta');
-		
+
 		keys.push(this.keyhash[key] || key.toUpperCase().charCodeAt(0));
-		
+
 		return keys.join('+');
 	}
 });
@@ -2400,7 +2400,7 @@ xe.DialogLayerManager = jQuery.Class({
 		this.aMadeDraggable = [];
 		this.aOpenedLayers = [];
 	},
-	
+
 	$ON_SHOW_DIALOG_LAYER : function(oLayer, bModal){
 		oLayer = jQuery.$(oLayer);
 		bModal = jQuery.$(bModal) || false;
@@ -2411,7 +2411,7 @@ xe.DialogLayerManager = jQuery.Class({
 		this.oApp.exec("POSITION_DIALOG_LAYER", [oLayer]);
 
 		this.aOpenedLayers[this.aOpenedLayers.length] = oLayer;
-		
+
 		if(!jQuery.inArray(oLayer, this.aMadeDraggable)){
 			new xe.DraggableLayer(oLayer, {bModal: bModal, iMinY: 0});
 			this.aMadeDraggable[this.aMadeDraggable.length] = oLayer;
@@ -2459,7 +2459,7 @@ xe.ActiveLayerManager = jQuery.Class({
 			if(sOnOpenCmd) this.oApp.exec(sOnOpenCmd, aOnOpenParam);
 		}
 	},
-	
+
 	$ON_SHOW_ACTIVE_LAYER : function(oLayer, sOnCloseCmd, aOnCloseParam){
 		oLayer = jQuery.$(oLayer);
 		this.sOnCloseCmd = sOnCloseCmd;
@@ -2513,7 +2513,7 @@ xe.StringConverterManager = jQuery.Class({
 	$init : function(){
 		this.oConverters = {};
 	},
-	
+
 	$BEFORE_MSG_APP_READY : function(){
 		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", jQuery.fnBind(this.applyConverter, this)]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", jQuery.fnBind(this.addConverter, this)]);
@@ -2556,7 +2556,7 @@ xe.MessageManager = jQuery.Class({
 
 	getMessage : function(sMsg){
 		if(this.oMessageMap[sMsg]) return unescape(this.oMessageMap[sMsg]);
-		
+
 		return sMsg;
 	}
 });
@@ -2571,7 +2571,7 @@ xe.XE_Toolbar = jQuery.Class({
 	toolbarArea : null,
 	toolbarButton : null,
 	uiNameTag : "uiName",
-	
+
 	sUIClassPrefix : "xpress_xeditor_ui_",
 
 	aUICmdMap : null,
@@ -2589,7 +2589,7 @@ xe.XE_Toolbar = jQuery.Class({
 		this.welToolbarArea = jQuery(this.toolbarArea);
 
 		this.aAllButtons = jQuery("BUTTON", this.toolbarArea).get();
-		
+
 		var aAllLi = this.toolbarArea.getElementsByTagName("LI");
 		var nCount = aAllLi.length;
 		var rxUI = new RegExp(this.sUIClassPrefix+"([^ ]+)");
@@ -2602,7 +2602,7 @@ xe.XE_Toolbar = jQuery.Class({
 			}
 		}
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.registerBrowserEvent(this.toolbarArea, "mouseover", "EVENT_TOOLBAR_MOUSEOVER", []);
 		this.oApp.registerBrowserEvent(this.toolbarArea, "mouseout", "EVENT_TOOLBAR_MOUSEOUT", []);
@@ -2617,7 +2617,7 @@ xe.XE_Toolbar = jQuery.Class({
 	$ON_EVENT_TOOLBAR_MOUSEOUT : function(weEvent){
 		if(weEvent.target.tagName == "BUTTON") jQuery(weEvent.target).removeClass("hover").parent("span").removeClass("hover");
 	},
-	
+
 	$ON_TOGGLE_TOOLBAR_ACTIVE_LAYER : function(oLayer, oBtn, sOpenCmd, aOpenArgs, sCloseCmd, aCloseArgs){
 		this.oApp.exec("TOGGLE_ACTIVE_LAYER", [oLayer, "MSG_TOOLBAR_LAYER_SHOWN", [oLayer, oBtn, sOpenCmd, aOpenArgs], sCloseCmd, aCloseArgs]);
 	},
@@ -2626,7 +2626,7 @@ xe.XE_Toolbar = jQuery.Class({
 		this.oApp.exec("POSITION_TOOLBAR_LAYER", [oLayer, oBtn]);
 		if(aOpenCmd) this.oApp.exec(aOpenCmd, aOpenArgs);
 	},
-	
+
 	$ON_SHOW_TOOLBAR_ACTIVE_LAYER : function(oLayer, sCmd, aArgs, oBtn){
 		this.oApp.exec("SHOW_ACTIVE_LAYER", [oLayer, sCmd, aArgs]);
 		this.oApp.exec("POSITION_TOOLBAR_LAYER", [oLayer, oBtn]);
@@ -2695,14 +2695,14 @@ xe.XE_Toolbar = jQuery.Class({
 		jQuery(this.toolbarArea).addClass("off");
 		this.oApp.exec("HIDE_ACTIVE_LAYER",[]);
 	},
-	
+
 	$ON_MSG_STYLE_CHANGED : function(sAttributeName, attributeValue){
 		if(attributeValue == 1)
 			this.oApp.exec("SELECT_UI", [sAttributeName]);
 		else
 			this.oApp.exec("DESELECT_UI", [sAttributeName]);
 	},
-	
+
 	$ON_REGISTER_UI_EVENT : function(sUIName, sEvent, sCmd, aParams){
 		// map cmd & ui
 		if(!this.aUICmdMap[sUIName]){this.aUICmdMap[sUIName] = [];}
@@ -2718,19 +2718,19 @@ xe.XE_Toolbar = jQuery.Class({
 
 		if(!oLayer) return;
 		if(oBtn && oBtn.tagName && oBtn.tagName == "BUTTON") oBtn.parentNode.appendChild(oLayer);
-		
+
 		oLayer.style.left = "0";
-		
+
 		var welLayer = jQuery(oLayer);
 		var nLayerLeft = welLayer.offset().left;
 		nLayerLeft += oLayer.offsetWidth;
-		
+
 		var nToolbarLeft = this.welToolbarArea.offset().left;
 		nToolbarLeft += this.toolbarArea.offsetWidth;
 
 		if(nLayerLeft > nToolbarLeft) oLayer.style.left = (nToolbarLeft-nLayerLeft-5)+"px";
 	},
-	
+
 	getToolbarButtonByUIName : function(sUIName){
 		return this.htUIList[sUIName];
 	}
@@ -2743,24 +2743,24 @@ xe.XE_Toolbar = jQuery.Class({
  */
 xe.XE_EditingAreaManager = jQuery.Class({
 	name : "XE_EditingAreaManager",
-	
+
 	// Currently active plugin instance(XE_EditingArea_???)
 	oActivePlugin : null,
-	
+
 	// Intermediate Representation of the content being edited.
 	// This should be a textarea element.
 	oIRField : null,
-	
+
 	bIsDirty : false,
-	
+
 	$init : function(sInitialMode, oIRField, oDimension, fOnBeforeUnload, oAppContainer){
 		this.sInitialMode = sInitialMode;
 		this.oIRField = jQuery.$(oIRField);
 		this._assignHTMLObjects(oAppContainer);
 		this.fOnBeforeUnload = fOnBeforeUnload;
-		
+
 		this.oEditingMode = {};
-		
+
 		this.elEditingAreaContainer.style.height = parseInt(oDimension.nHeight || this.elEditingAreaContainer.offsetHeight)+"px";
 
 		this.nMinHeight = oDimension.nMinHeight || 10;
@@ -2783,26 +2783,26 @@ xe.XE_EditingAreaManager = jQuery.Class({
 	$ON_MSG_APP_READY : function(){
 		this.oApp.exec("CHANGE_EDITING_MODE", [this.sInitialMode, true]);
 		this.oApp.exec("LOAD_IR_FIELD", [false]);
-		
+
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "focus", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "blur", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 
 		var fOnBeforeUnload = this.fOnBeforeUnload||function(){if(this.getIR() != this.oIRField.value || this.bIsDirty) return this.oApp.$MSG("XE_EditingAreaManager.onExit")};
 		jQuery(window).bind("beforeunload", jQuery.fnBind(fOnBeforeUnload, this));
 	},
-	
+
 	$AFTER_MSG_APP_READY : function(){
 		this.oApp.exec("UPDATE_IR_FIELD", []);
 	},
-	
+
 	$ON_LOAD_IR_FIELD : function(bDontAddUndo){
 		this.oApp.setIR(this.oIRField.value, bDontAddUndo);
 	},
-	
+
 	$ON_UPDATE_IR_FIELD : function(){
 		this.oIRField.value = this.oApp.getIR();
 	},
-	
+
 	$BEFORE_CHANGE_EDITING_MODE : function(sMode){
 		this._oPrevActivePlugin = this.oActivePlugin;
 		this.oActivePlugin = this.oEditingMode[sMode];
@@ -2814,7 +2814,7 @@ xe.XE_EditingAreaManager = jQuery.Class({
 			this.oApp.exec("SET_IR", [sIR]);
 
 			this.oApp.exec("ENABLE_UI", [this._oPrevActivePlugin.sMode]);
-			
+
 			this._setEditingAreaDimension();
 		}
 		this.oApp.exec("DISABLE_UI", [this.oActivePlugin.sMode]);
@@ -2857,17 +2857,17 @@ xe.XE_EditingAreaManager = jQuery.Class({
 
 	$ON_MSG_EDITING_AREA_RESIZE_STARTED : function(){
 		this.oActivePlugin.elEditingArea.style.display = "none";
-		
+
 		this.iStartingHeight = parseInt(this.elEditingAreaContainer.style.height);
 	},
-	
+
 	$ON_RESIZE_EDITING_AREA: function(ipNewWidth, ipNewHeight){
 		var iNewWidth = parseInt(ipNewWidth);
 		var iNewHeight = parseInt(ipNewHeight);
 
 		if(iNewWidth < this.niMinWidth) iNewWidth = this.niMinWidth;
 		if(iNewHeight < this.nMinHeight) iNewHeight = this.nMinHeight;
-	
+
 		if(ipNewWidth) this.elEditingAreaContainer.style.width = iNewWidth + "px";
 		if(ipNewHeight) this.elEditingAreaContainer.style.height = iNewHeight + "px";
 	},
@@ -2881,7 +2881,7 @@ xe.XE_EditingAreaManager = jQuery.Class({
 
 		this.oApp.exec("RESIZE_EDITING_AREA", [iWidth, iHeight]);
 	},
-	
+
 	$ON_MSG_EDITING_AREA_RESIZE_ENDED : function(FnMouseDown, FnMouseMove, FnMouseUp){
 		this.oActivePlugin.elEditingArea.style.display = "block";
 		this._setEditingAreaDimension();
@@ -2891,7 +2891,7 @@ xe.XE_EditingAreaManager = jQuery.Class({
 		this.oActivePlugin.elEditingArea.style.height = this.elEditingAreaContainer.style.height;
 		this.oActivePlugin.elEditingArea.style.width = this.elEditingAreaContainer.style.width;
 	},
-	
+
 	attachDocumentEvents : function(doc){
 		this.oApp.registerBrowserEvent(doc, "click", "EVENT_EDITING_AREA_CLICK");
 		this.oApp.registerBrowserEvent(doc, "mousedown", "EVENT_EDITING_AREA_MOUSEDOWN");
@@ -2909,7 +2909,7 @@ xe.XE_EditingAreaManager = jQuery.Class({
 	setIR : function(sIR, bDontAddUndo){
 		this.oApp.exec("SET_IR", [sIR, bDontAddUndo]);
 	},
-	
+
 	getEditingMode : function(){
 		return this.oActivePlugin.sMode;
 	}
@@ -2945,7 +2945,7 @@ xe.XE_EditingArea_HTMLSrc = jQuery.Class({
 			this.textarea.style.display = "none";
 		}
 	},
-	
+
 	$ON_PASTE_HTML : function(sHTML, oPSelection){
 		if(this.oApp.getEditingMode() != this.sMode) return;
 
@@ -2976,7 +2976,7 @@ xe.XE_EditingArea_HTMLSrc = jQuery.Class({
 
 		this.textarea.value = sContent;
 	},
-	
+
 	focus : function(){
 		this.textarea.focus();
 	}
@@ -3097,14 +3097,14 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 
 	iLastUndoRecorded : 0,
 	iMinUndoInterval : 3000,
-	
+
 	_nIFrameReadyCount : 50,
-	
+
 	$init : function(iframe){
 		this.iframe = jQuery.$(iframe);
 
 		this.initIframe();
-		
+
 		this.elEditingArea = iframe;
 	},
 
@@ -3156,7 +3156,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 			, this));
 		}
 	},
-	
+
 	$ON_CHANGE_EDITING_MODE : function(sMode, bNoFocus){
 		if(sMode == this.sMode){
 			this.iframe.style.display = "block";
@@ -3178,7 +3178,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 		this._disableWYSIWYG();
 		this._enableWYSIWYG();
 	},
-	
+
 	$ON_ENABLE_WYSIWYG : function(){
 		this._enableWYSIWYG();
 	},
@@ -3215,19 +3215,19 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
         oEvent.preventDefault(); oEvent.stopPropagation();
 
     },
-	
+
 	$ON_EVENT_EDITING_AREA_KEYUP : function(oEvent){
 		// 33, 34: page up/down, 35,36: end/home, 37,38,39,40: left, up, right, down
         if(oEvent.keyCode == 229 || oEvent.keyCode == 13 || oEvent.altKey || oEvent.ctrlKey || (oEvent.keyCode >= 33 && oEvent.keyCode <= 40) || oEvent.keyCode == 16) return;
 		this._recordUndo(oEvent);
 	},
-	
+
 	$ON_PASTE_HTML : function(sHTML, oPSelection){
 		if(this.oApp.getEditingMode() != this.sMode) return;
 
 		var oSelection = oPSelection || this.oApp.getSelection();
 		oSelection.pasteHTML(sHTML);
-		
+
 		// every browser except for IE may modify the innerHTML when it is inserted
 		if(!jQuery.browser.msie){
 			var sTmpBookmark = oSelection.placeStringBookmark();
@@ -3240,7 +3240,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 
 		this.oApp.exec("RECORD_UNDO_ACTION", ["INSERT HTML"]);
 	},
-	
+
 	$AFTER_MSG_EDITING_AREA_RESIZE_ENDED : function(FnMouseDown, FnMouseMove, FnMouseUp){
 		this.oApp.exec("REFRESH_WYSIWYG", []);
 	},
@@ -3252,7 +3252,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 			this._oIERange = null;
 		}
 	},
-	
+
 	initIframe : function(){
 		try {
 			this.doc = this.iframe.contentWindow.document;
@@ -3292,7 +3292,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 			sContent = sIR;
 
 		this.doc.body.innerHTML = sContent;
-		
+
 		if(jQuery.browser.mozilla){
 			if(this.doc.body.innerHTML == "") this.doc.body.innerHTML = "<br>";
 		}
@@ -3305,12 +3305,12 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	getDocument : function(){
 		return this.iframe.contentWindow.document;
 	},
-	
+
 	focus : function(){
 		//this.getWindow().focus();
 		//this.oApp.exec("RESTORE_IE_SELECTION", []);
 	},
-	
+
 	_recordUndo : function(oKeyInfo){
 		var curTime = new Date();
 		if(curTime-this.iLastUndoRecorded < this.iMinUndoInterval) return;
@@ -3320,21 +3320,17 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 
 		this.prevKeyCode = oKeyInfo.keyCode;
 	},
-	
+
 	_enableWYSIWYG : function(){
 		if (jQuery.browser.msie){
-			var fake = jQuery('<input type="text" style="position:absolute;width:1px;height:1px;left:-9px">');
-			jQuery(document.body).prepend(fake);
-			fake.focus();
-
+			this.doc.body.disabled = true;
 			this.doc.body.contentEditable = true;
-
-			setTimeout(function(){fake.remove()}, 100);
+			this.doc.body.removeAttribute('disabled');
 		} else {
 			this.doc.designMode = "on";
 		}
 	},
-	
+
 	_disableWYSIWYG : function(){
 		if (jQuery.browser.msie){
 			this.doc.body.contentEditable = false;
@@ -3374,7 +3370,7 @@ xe.XE_EditingAreaVerticalResizer = jQuery.Class({
 
 		jQuery(document).bind("mousemove", this.$FnMouseMove);
 		jQuery(document).bind("mouseup", this.$FnMouseUp);
-		
+
 		this.oApp.exec("MSG_EDITING_AREA_RESIZE_STARTED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
 	},
 
@@ -3435,9 +3431,9 @@ xe.XE_ExecCommand = jQuery.Class({
 
 	$BEFORE_EXECCOMMAND : function(sCommand, bUserInterface, vValue){
 		this._bOnlyCursorChanged = false;
-		
+
 		this.oApp.exec("FOCUS", []);
-		
+
 		if(sCommand.match(/^bold|underline|italic|strikethrough|superscript|subscript$/i)){
 			var oSelection = this.oApp.getSelection();
 			if(oSelection.collapsed) this._bOnlyCursorChanged = true;
@@ -3488,9 +3484,9 @@ xe.XE_WYSIWYGEnterKey = jQuery.Class({
 
 	$ON_EVENT_EDITING_AREA_KEYDOWN : function(oEvent){
 		if(this.oApp.getEditingMode() != "WYSIWYG") return;
-		
+
 		if(oEvent.shiftKey) return;
-		
+
 		if(oEvent.keyCode == 13){
 			var oSelection = this.oApp.getSelection();
 			var sBM = oSelection.placeStringBookmark();
@@ -3522,7 +3518,7 @@ xe.XE_WYSIWYGEnterKey = jQuery.Class({
 
 				if(oSWrapper.innerHTML == "") oSWrapper.innerHTML = "<br>";
 				if(oEWrapper.innerHTML == "") oEWrapper.innerHTML = "<br>";
-				
+
 				if(oEWrapper.nextSibling && oEWrapper.nextSibling.tagName == "BR") oEWrapper.parentNode.removeChild(oEWrapper.nextSibling);
 
 				oSelection.selectNodeContents(oEWrapper);
@@ -3549,10 +3545,10 @@ xe.XE_WYSIWYGStyler = jQuery.Class({
 	$PRECONDITION : function(sFullCommand, aArgs){
 		return (this.oApp.getEditingMode() == "WYSIWYG");
 	},
-	
+
 	$ON_SET_WYSIWYG_STYLE : function(oStyles){
 		var oSelection = this.oApp.getSelection();
-		
+
 		// style cursor
 		if(oSelection.collapsed){
 			var oSpan = this.oApp.getWYSIWYGDocument().createElement("SPAN");
@@ -3601,7 +3597,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 	name : "XE_WYSIWYGStyleGetter",
 
 	hKeyUp : null,
-	
+
 	getStyleInterval : 200,
 
 	oStyleMap : {
@@ -3669,12 +3665,12 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 
 		return true;
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oDocument = this.oApp.getWYSIWYGDocument();
 		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", jQuery.fnBind(this.getCurrentStyle, this)]);
 	},
-	
+
 	$ON_EVENT_EDITING_AREA_MOUSEUP : function(oEvnet){
 		if(this.hKeyUp) clearTimeout(this.hKeyUp);
 		this.oApp.exec("CHECK_STYLE_CHANGE", []);
@@ -3700,21 +3696,21 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 
 		this.hKeyUp = setTimeout(jQuery.fnBind(this.oApp.exec, this.oApp, "CHECK_STYLE_CHANGE", []), this.getStyleInterval);
 	},
-	
+
 	$ON_CHECK_STYLE_CHANGE : function(){
 		this._getStyle();
 	},
-	
+
 	$ON_RESET_STYLE_STATUS : function(){
 		var oBlankStyle = this._getBlankStyle();
 		for(var sAttributeName in oBlankStyle)
 			this.oApp.exec("SET_STYLE_STATUS", [sAttributeName, oBlankStyle[sAttributeName]]);
 	},
-	
+
 	getCurrentStyle : function(){
 		return this.oStyle;
 	},
-	
+
 	_check_style_change : function(){
 		this.oApp.exec("CHECK_STYLE_CHANGE", []);
 	},
@@ -3727,7 +3723,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 			else
 				oBlankStyle[attributeName] = 0;
 		}
-		
+
 		return oBlankStyle;
 	},
 
@@ -3754,7 +3750,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 			if(this.oStyleMap[attributeName].converter){
 				oStyle[attributeName] = this.oStyleMap[attributeName].converter(oStyle[attributeName], oStyle);
 			}
-		
+
 			if(this.oStyle[attributeName] != oStyle[attributeName])
 				this.oApp.exec("MSG_STYLE_CHANGED", [attributeName, oStyle[attributeName]]);
 		}
@@ -3782,7 +3778,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 					if(styleName == "fontFamily"){
 						sValue = sValue.split(/,/)[0];
 					}
-					
+
 					oStyle[styleName] = sValue;
 				}else{
 					if(attribute.command){
@@ -3822,7 +3818,7 @@ xe.XE_FontSizeWithSelectUI = jQuery.Class({
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.elFontSizeSelect = jQuery("SELECT.xpress_xeditor_ui_fontSize_select", elAppContainer).get(0);
 	},
@@ -3831,7 +3827,7 @@ xe.XE_FontSizeWithSelectUI = jQuery.Class({
 		this.oApp.registerBrowserEvent(this.elFontSizeSelect, "change", "SET_FONTSIZE_FROM_SELECT_UI");
 		this.elFontSizeSelect.selectedIndex = 0;
 	},
-	
+
 	$ON_MSG_STYLE_CHANGED : function(sAttributeName, sAttributeValue){
 		if(sAttributeName == "fontSize"){
 			this.elFontSizeSelect.value = sAttributeValue;
@@ -3859,27 +3855,27 @@ xe.XE_FontNameWithSelectUI = jQuery.Class({
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.elFontNameSelect = jQuery("SELECT.xpress_xeditor_ui_fontName_select", elAppContainer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.registerBrowserEvent(this.elFontNameSelect, "change", "SET_FONTNAME_FROM_SELECT_UI");
 		this.elFontNameSelect.selectedIndex = 0;
 	},
-	
+
 	$ON_MSG_STYLE_CHANGED : function(sAttributeName, sAttributeValue){
 		if(sAttributeName == "fontFamily"){
 			this.elFontNameSelect.value = sAttributeValue.toLowerCase();
 			if(this.elFontNameSelect.selectedIndex < 0) this.elFontNameSelect.selectedIndex = 0;
 		}
 	},
-	
+
 	$ON_SET_FONTNAME_FROM_SELECT_UI : function(){
 		var sFontName = this.elFontNameSelect.value;
 		if(!sFontName) return;
-		
+
 		this.oApp.exec("SET_WYSIWYG_STYLE", [{"fontFamily":sFontName}]);
 		this.oApp.exec("CHECK_STYLE_CHANGE", []);
 	}
@@ -3896,14 +3892,14 @@ xe.XE_LineHeight = jQuery.Class({
 	$init : function(oAppContainer){
 		this._assignHTMLObjects(oAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(oAppContainer){
 	},
-	
+
 	$ON_SET_LINEHEIGHT : function(nLineHeight){
 		this.setLineHeight(nLineHeight);
 	},
-	
+
 	getLineHeight : function(){
 		var nodes = this._getSelectedNodes(false);
 
@@ -3911,9 +3907,9 @@ xe.XE_LineHeight = jQuery.Class({
 		var iCurHeight, iHeight;
 
 		if(nodes.length == 0) return -1;
-		
+
 		var iLength = nodes.length;
-		
+
 		if(iLength == 0){
 			iHeight = -1;
 		}else{
@@ -3927,21 +3923,21 @@ xe.XE_LineHeight = jQuery.Class({
 			for(var i=1; i<iLength; i++){
 				if(this._isChildOf(nodes[i], curWrapper)) continue;
 				if(!nodes[i]) continue;
-				
+
 				curWrapper = this._getLineWrapper(nodes[i]);
 				if(curWrapper == prevWrapper) continue;
-	
+
 				curHeight = this._getWrapperLineheight(curWrapper);
-				
+
 				if(curHeight != iHeight){
 					iHeight = -1;
 					break;
 				}
-	
+
 				prevWrapper = curWrapper;
 			}
 		}
-		
+
 		curWrapper = this._getLineWrapper(nodes[iLength-1]);
 
 		var lastNode = this.oSelection.getEndNode();
@@ -3950,7 +3946,7 @@ xe.XE_LineHeight = jQuery.Class({
 			this.oSelection.setEndNodes(firstNode, lastNode);
 			this.oSelection.select();
 		}, this, firstNode, lastNode);
-		
+
 		setTimeout(selectText, 100);
 
 		return iHeight;
@@ -3959,7 +3955,7 @@ xe.XE_LineHeight = jQuery.Class({
 	// height in percentage. For example pass 1 to set the line height to 100% and 1.5 to set it to 150%
 	setLineHeight : function(height) {
 		thisRef = this;
-		
+
 		function _setLineheight(div, height){
 			if(!div){
 				// try to wrap with P first
@@ -3975,7 +3971,7 @@ xe.XE_LineHeight = jQuery.Class({
 
 			return div;
 		}
-		
+
 		function isInBody(node){
 			while(node && node.tagName != "BODY"){
 				node = xe.DOMFix.parentNode(node);
@@ -3994,7 +3990,7 @@ xe.XE_LineHeight = jQuery.Class({
 		var iLength = nodes.length;
 
 		this.oApp.exec("RECORD_UNDO_BEFORE_ACTION", ["LINEHEIGHT"]);
-		
+
 		prevWrapper = this._getLineWrapper(nodes[0]);
 		prevWrapper = _setLineheight(prevWrapper, height);
 
@@ -4031,7 +4027,7 @@ xe.XE_LineHeight = jQuery.Class({
 			this.oSelection = this.oApp.getSelection();
 
 		if(this.oSelection.collapsed) this.oSelection.selectNode(this.oSelection.commonAncestorContainer);
-			
+
 		var nodes = this.oSelection.getTextNodes();
 
 		if(nodes.length == 0){
@@ -4081,7 +4077,7 @@ xe.XE_LineHeight = jQuery.Class({
 		var a, b;
 		var breakerA, breakerB;
 		var div = null;
-	
+
 		a = oStart.oNode;
 		breakerA = oStart.oLineBreaker;
 		b = oEnd.oNode;
@@ -4096,7 +4092,7 @@ xe.XE_LineHeight = jQuery.Class({
 				this.oSelection.setEndNodes(breakerA.firstChild, breakerA.lastChild);
 			}
 		}
-		
+
 		return div;
  	}
  });
@@ -4112,12 +4108,12 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
 	_assignHTMLObjects : function(elAppContainer){
 		this.elLineHeightSelect = jQuery("SELECT.xpress_xeditor_ui_lineHeight_select", elAppContainer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.registerBrowserEvent(this.elLineHeightSelect, "change", "SET_LINEHEIGHT_FROM_SELECT_UI");
 		this.elLineHeightSelect.selectedIndex = 0;
 	},
-	
+
 	$ON_MSG_STYLE_CHANGED : function(sAttributeName, sAttributeValue){
 		if(sAttributeName == "lineHeight"){
 			this.elLineHeightSelect.value = sAttributeValue;
@@ -4147,15 +4143,15 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
 	$init : function(oAppContainer){
 		this._assignHTMLObjects(oAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(oAppContainer){
 		this.elColorPaletteLayer = jQuery("UL.xpress_xeditor_color_palette", oAppContainer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.registerBrowserEvent(this.elColorPaletteLayer, "click", "EVENT_MOUSEUP_COLOR_PALETTE");
 	},
-	
+
 	$ON_SHOW_COLOR_PALETTE : function(sCallbackCmd, oLayerContainer){
 		this.sCallbackCmd = sCallbackCmd;
 		this.oLayerContainer = oLayerContainer;
@@ -4168,7 +4164,7 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
 	$ON_HIDE_COLOR_PALETTE : function(){
 		this.elColorPaletteLayer.style.display = "none";
 	},
-	
+
 	$ON_COLOR_PALETTE_APPLY_COLOR : function(sColorCode){
 		if(this.rxRGBColorPattern.test(sColorCode)){
 
@@ -4185,7 +4181,7 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
 		}
 		this.oApp.exec(this.sCallbackCmd, [sColorCode]);
 	},
-	
+
 	$ON_EVENT_MOUSEUP_COLOR_PALETTE : function(oEvent){
 		var elButton = oEvent.target;
 		if(! elButton.style.backgroundColor) return;
@@ -4206,7 +4202,7 @@ xe.XE_FontColor = jQuery.Class({
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_fontcolor_layer", elAppContainer).get(0);
 	},
@@ -4214,19 +4210,19 @@ xe.XE_FontColor = jQuery.Class({
 	$ON_MSG_APP_READY : function(){
 		this.oApp.exec("REGISTER_UI_EVENT", ["fontColor", "click", "TOGGLE_FONTCOLOR_LAYER"]);
 	},
-	
+
 	$ON_TOGGLE_FONTCOLOR_LAYER : function(){
 		this.oApp.exec("TOGGLE_TOOLBAR_ACTIVE_LAYER", [this.elDropdownLayer, null, "SHOW_COLOR_PALETTE", ["APPLY_FONTCOLOR", this.elDropdownLayer]]);
 	},
-	
+
 	$ON_APPLY_FONTCOLOR : function(sFontColor){
 		if(!this.rxColorPattern.test(sFontColor)){
 			alert(this.oApp.$MSG("XE_FontColor.invalidColorCode"));
 			return;
 		}
-		
+
 		this.oApp.exec("SET_WYSIWYG_STYLE", [{"color":sFontColor}]);
-		
+
 		this.oApp.exec("HIDE_ACTIVE_LAYER");
 	}
 });
@@ -4239,21 +4235,21 @@ xe.XE_FontColor = jQuery.Class({
 xe.XE_BGColor = jQuery.Class({
 	name : "XE_BGColor",
 	rxColorPattern : /^#?[0-9a-fA-F]{6}$|^rgb\(\d+, ?\d+, ?\d+\)$/i,
-	
+
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_bgcolor_layer", elAppContainer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.exec("REGISTER_UI_EVENT", ["bgColor", "click", "TOGGLE_BGCOLOR_LAYER"]);
 
 		this.oApp.registerBrowserEvent(this.elDropdownLayer, "click", "EVENT_APPLY_BGCOLOR", []);
 	},
-	
+
 	$ON_TOGGLE_BGCOLOR_LAYER : function(){
 		this.oApp.exec("TOGGLE_TOOLBAR_ACTIVE_LAYER", [this.elDropdownLayer, null, "SHOW_COLOR_PALETTE", ["APPLY_BGCOLOR", this.elDropdownLayer]]);
 	},
@@ -4278,12 +4274,12 @@ xe.XE_BGColor = jQuery.Class({
 			alert(this.oApp.$MSG("XE_BGColor.invalidColorCode"));
 			return;
 		}
-		
+
 		var oStyle = {"backgroundColor": sBGColor}
 		if(sFontColor) oStyle.color = sFontColor;
-		
+
 		this.oApp.exec("SET_WYSIWYG_STYLE", [oStyle]);
-		
+
 		this.oApp.exec("HIDE_ACTIVE_LAYER");
 	}
 });
@@ -4300,11 +4296,11 @@ xe.XE_Quote = jQuery.Class({
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_blockquote_layer", elAppContainer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY: function(){
 		this.oApp.exec("REGISTER_UI_EVENT", ["quote", "click", "TOGGLE_BLOCKQUOTE_LAYER"]);
 
@@ -4318,17 +4314,17 @@ xe.XE_Quote = jQuery.Class({
 	$ON_EVENT_APPLY_SEDITOR_BLOCKQUOTE : function(weEvent){
 		var elButton = weEvent.target;
 		if(elButton.tagName != "BUTTON") return;
-		
+
 		var sClass = elButton.parentNode.className;
 
 		if(sClass != "q8")
 			this._wrapBlock("BLOCKQUOTE", sClass);
 		else
 			this._unwrapBlock("BLOCKQUOTE");
-			
+
 		this.oApp.exec("HIDE_ACTIVE_LAYER", []);
 	},
-	
+
 	_unwrapBlock : function(tag){
 		var oSelection = this.oApp.getSelection();
 		var oC = oSelection.commonAncestorContainer;
@@ -4337,16 +4333,16 @@ xe.XE_Quote = jQuery.Class({
 		if(!oC) return;
 
 		while(oC.firstChild) oC.parentNode.insertBefore(oC.firstChild, oC);
-		
+
 		oC.parentNode.removeChild(oC);
 	},
-	
+
 	_wrapBlock : function(tag, className){
 		var oSelection = this.oApp.getSelection();
 		var oLineInfo = oSelection.getLineInfo();
 		var oStart = oLineInfo.oStart;
 		var oEnd = oLineInfo.oEnd;
-		
+
 		var rxDontUseAsWhole = /BODY|TD|LI/i;
 
 		var oStartNode, oEndNode;
@@ -4386,12 +4382,12 @@ xe.XE_Quote = jQuery.Class({
 		}else{
 			oC.insertBefore(oFormattingNode, oNode);
 		}
-		
+
 		oSelection.setStartAfter(oFormattingNode);
 
 		oSelection.setEndAfter(oEndNode);
 		oSelection.surroundContents(oFormattingNode);
-		
+
 		var aNodes = oFormattingNode.childNodes;
 		var oInsertionPoint;
 		for(var i=aNodes.length-1; i>=0; i--){
@@ -4413,10 +4409,10 @@ xe.XE_Quote = jQuery.Class({
 		}
 
 		this.oApp.exec("RECORD_UNDO_ACTION", ["Block Quote"]);
-		
+
 		return oFormattingNode;
 	},
-	
+
 	_expandToTableStart : function(oSelection, oNode){
 		var oC = oSelection.commonAncestorContainer;
 		var oResultNode = null;
@@ -4431,13 +4427,13 @@ xe.XE_Quote = jQuery.Class({
 			}
 			oNode = oNode.parentNode;
 		}
-		
+
 		return oResultNode;
 	},
-	
+
 	_getTableRoot : function(oNode){
 		while(oNode && oNode.tagName != "TABLE") oNode = oNode.parentNode;
-		
+
 		return oNode;
 	}
 });
@@ -4464,7 +4460,7 @@ xe.XE_SCharacter = jQuery.Class({
 		this.charSet[4] = unescape('0391 0392 0393 0394 0395 0396 0397 0398 0399 039A 039B 039C 039D 039E 039F 03A0 03A1 03A3 03A4 03A5 03A6 03A7 03A8 03A9 03B1 03B2 03B3 03B4 03B5 03B6 03B7 03B8 03B9 03BA 03BB 03BC 03BD 03BE 03BF 03C0 03C1 03C3 03C4 03C5 03C6 03C7 03C8 03C9 %C6 %D0 0126 0132 013F 0141 %D8 0152 %DE 0166 014A %E6 0111 %F0 0127 I 0133 0138 0140 0142 0142 0153 %DF %FE 0167 014B 0149 0411 0413 0414 0401 0416 0417 0418 0419 041B 041F 0426 0427 0428 0429 042A 042B 042C 042D 042E 042F 0431 0432 0433 0434 0451 0436 0437 0438 0439 043B 043F 0444 0446 0447 0448 0449 044A 044B 044C 044D 044E 044F').replace(/(\S{4})/g, function(a){return "%u"+a}).split(' ');
 		this.charSet[5] = unescape('3041 3042 3043 3044 3045 3046 3047 3048 3049 304A 304B 304C 304D 304E 304F 3050 3051 3052 3053 3054 3055 3056 3057 3058 3059 305A 305B 305C 305D 305E 305F 3060 3061 3062 3063 3064 3065 3066 3067 3068 3069 306A 306B 306C 306D 306E 306F 3070 3071 3072 3073 3074 3075 3076 3077 3078 3079 307A 307B 307C 307D 307E 307F 3080 3081 3082 3083 3084 3085 3086 3087 3088 3089 308A 308B 308C 308D 308E 308F 3090 3091 3092 3093 30A1 30A2 30A3 30A4 30A5 30A6 30A7 30A8 30A9 30AA 30AB 30AC 30AD 30AE 30AF 30B0 30B1 30B2 30B3 30B4 30B5 30B6 30B7 30B8 30B9 30BA 30BB 30BC 30BD 30BE 30BF 30C0 30C1 30C2 30C3 30C4 30C5 30C6 30C7 30C8 30C9 30CA 30CB 30CC 30CD 30CE 30CF 30D0 30D1 30D2 30D3 30D4 30D5 30D6 30D7 30D8 30D9 30DA 30DB 30DC 30DD 30DE 30DF 30E0 30E1 30E2 30E3 30E4 30E5 30E6 30E7 30E8 30E9 30EA 30EB 30EC 30ED 30EE 30EF 30F0 30F1 30F2 30F3 30F4 30F5 30F6').replace(/(\S{4})/g, function(a){return "%u"+a}).split(' ');
 	},
-	
+
 	_assignHTMLObjects : function(oAppContainer){
 		oAppContainer = jQuery.$(oAppContainer) || document;
 
@@ -4477,29 +4473,29 @@ xe.XE_SCharacter = jQuery.Class({
 		var oLabelUL = jQuery(">UL", this.elDropdownLayer).get(0);
 		this.aLabelA = jQuery("A", oLabelUL).get();
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		var funcInsert = jQuery.fnBind(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
 		jQuery(this.oInsertButton).click(funcInsert, this);
 
 		this.oApp.exec("SET_SCHARACTER_LIST", [this.charSet]);
-		
+
 		for(var i=0; i<this.aLabelA.length; i++){
 			var func = jQuery.fnBind(this.oApp.exec, this.oApp, "CHANGE_SCHARACTER_SET", [i]);
 			jQuery(this.aLabelA[i]).mousedown(func);
-			
+
 			this._stopBrowserEvent(this.aLabelA[i], "click");
 		}
 
 		for(var i=0; i<this.aCloseButton.length; i++){
 			this.oApp.registerBrowserEvent(this.aCloseButton[i], "click", "HIDE_ACTIVE_LAYER", []);
 		}
-		
+
 		this.oApp.registerBrowserEvent(this.elDropdownLayer, "click", "EVENT_SCHARACTER_CLICKED", []);
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["sCharacter", "click", "TOGGLE_SCHARACTER_LAYER"]);
 	},
-	
+
 	$ON_TOGGLE_SCHARACTER_LAYER : function(){
 		this.oTextField.value = "";
 		this.oSelection = this.oApp.getSelection();
@@ -4511,7 +4507,7 @@ xe.XE_SCharacter = jQuery.Class({
 		var elButton = weEvent.target;
 		if(elButton.tagName != "BUTTON") return;
 		if(elButton.parentNode.tagName != "LI") return;
-		
+
 		var sChar = elButton.firstChild.innerHTML;
 
 		this.oApp.exec("SELECT_SCHARACTER", [sChar]);
@@ -4531,7 +4527,7 @@ xe.XE_SCharacter = jQuery.Class({
 			}
 		}
 	},
-	
+
 	$ON_INSERT_SCHARACTERS : function(){
 		this.oSelection.pasteHTML(this.oTextField.value);
 		this.oApp.exec("HIDE_ACTIVE_LAYER", []);
@@ -4541,23 +4537,23 @@ xe.XE_SCharacter = jQuery.Class({
 		for(var i=0; i<this.aSCharList.length; i++){
 			if(this.aSCharList[i].style.display == "block"){
 				if(i == nSCharSet) return;
-				
+
 				jQuery(this.aLabelA[i]).removeClass("on");
 				this.aSCharList[i].style.display = "none";
 			}
 		}
-		
+
 		this._drawSCharList(nSCharSet);
 		jQuery(this.aLabelA[nSCharSet]).addClass("on");
 		this.aSCharList[nSCharSet].style.display = "block";
 	},
-	
+
 	$ON_SET_SCHARACTER_LIST : function(charSet){
 		this.charSet = charSet;
 		this.bSCharSetDrawn = new Array(this.charSet.length);
 		this._drawSCharList(0);
 	},
-	
+
 	_drawSCharList : function(i){
 		if(this.bSCharSetDrawn[i]) return;
 		this.bSCharSetDrawn[i] = true;
@@ -4621,10 +4617,10 @@ xe.XE_UndoRedo = jQuery.Class({
 		}catch(e){
 			return false;
 		}
-		
+
 		return true;
 	},
-	
+
 	$BEFORE_MSG_APP_READY : function(){
 		this.oApp.exec("DO_RECORD_UNDO_HISTORY_AT", [this.oCurStateIdx, "", "", null]);
 	},
@@ -4637,11 +4633,11 @@ xe.XE_UndoRedo = jQuery.Class({
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["undo", "click", "UNDO"]);
 		this.oApp.exec("REGISTER_UI_EVENT", ["redo", "click", "REDO"]);
-		
+
 		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+z", "UNDO"]);
 		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+y", "REDO"]);
 	},
-	
+
 	$ON_UNDO : function(){
 		var oTmpStateIdx = {};
 		this.oApp.exec("DO_RECORD_UNDO_HISTORY", ["KEYPRESS", false, false, 1]);
@@ -4673,7 +4669,7 @@ xe.XE_UndoRedo = jQuery.Class({
 
 		var oCurHistory = this.aUndoHistory[this.oCurStateIdx.nIdx];
 		if(this.oCurStateIdx.nIdx == this.aUndoHistory.length-1 && this.oCurStateIdx.nStep >= oCurHistory.nTotalSteps-1) return;
-		
+
 		if(this.oCurStateIdx.nStep < oCurHistory.nTotalSteps-1){
 			this.oCurStateIdx.nStep++;
 		}else{
@@ -4715,7 +4711,7 @@ xe.XE_UndoRedo = jQuery.Class({
 			sCurContent = "";
 		}
 		oCurHistory.sContent[this.oCurStateIdx.nStep] = sCurContent;
-		
+
 		var oSelection = this.oApp.getEmptySelection();
 		if(oSelection.selectionLoaded){
 			if(oBookmark){
@@ -4723,7 +4719,7 @@ xe.XE_UndoRedo = jQuery.Class({
 			}else{
 				oSelection = this.oApp.getEmptySelection();
 			}
-			
+
 			oSelection.select();
 		}
 	},
@@ -4732,7 +4728,7 @@ xe.XE_UndoRedo = jQuery.Class({
 		bTwoStepAction = bTwoStepAction || false;
 		bBeforeAction = bBeforeAction || false;
 		nForceAddUnlessEqual = nForceAddUnlessEqual || 0;
-		
+
 		// if we're in the middle of some action history, remove everything after current idx if any "little" change is made
 		if(!(this.oCurStateIdx.nIdx == this.aUndoHistory.length-1)) nForceAddUnlessEqual = 1;
 
@@ -4751,11 +4747,11 @@ xe.XE_UndoRedo = jQuery.Class({
 				case 0:
 					if(Math.abs(sHistoryContent.length - sCurContent.length)<this.iMinimumSizeChange) return;
 					break;
-				
+
 				case 1:
 					if(sHistoryContent == sCurContent) return;
 					break;
-				
+
 				// write at all times
 				case 2:
 					break;
@@ -4763,12 +4759,12 @@ xe.XE_UndoRedo = jQuery.Class({
 		}
 
 		var oSelection = this.oApp.getSelection();
-		
+
 		var oBookmark=null;
 		if(oSelection.selectionLoaded){
 			oBookmark = oSelection.getXPathBookmark();
 		}
-		
+
 		var oInsertionIdx = {nIdx:this.oCurStateIdx.nIdx, nStep:this.oCurStateIdx.nStep};
 		if(bTwoStepAction){
 			if(bBeforeAction){
@@ -4838,27 +4834,27 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 		this.oUILayer = jQuery("DIV.xpress_xeditor_findAndReplace_layer", oAppContainer).get(0);
 
 		var oTmp = jQuery("LI", this.oUILayer).get();
-		
+
 		this.oFindTab = oTmp[0];
 		this.oReplaceTab = oTmp[1];
 
 		oTmp = jQuery(".container > .bx", this.oUILayer).get();
-		
+
 		this.oFindInputSet = oTmp[0];
 		this.oReplaceInputSet = oTmp[1];
-		
+
 		this.oFindInput_Keyword = jQuery("INPUT", this.oFindInputSet).get(0);
-		
+
 		oTmp = jQuery("INPUT", this.oReplaceInputSet).get();
 		this.oReplaceInput_Original = oTmp[0];
 		this.oReplaceInput_Replacement = oTmp[1];
 
 		this.oFindNextButton = jQuery("BUTTON.find_next", this.oUILayer).get(0);
 		this.oCancelButton = jQuery("BUTTON.cancel", this.oUILayer).get(0);
-		
+
 		this.oReplaceButton = jQuery("BUTTON.replace", this.oUILayer).get(0);
 		this.oReplaceAllButton = jQuery("BUTTON.replace_all", this.oUILayer).get(0);
-		
+
 		this.aCloseButtons = jQuery("BUTTON.close", this.oUILayer).get();
 		this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
 	},
@@ -4878,63 +4874,63 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 			var func = jQuery.fnBind(this.oApp.exec, this.oApp, "HIDE_DIALOG_LAYER", [this.oUILayer]);
 			jQuery(this.aCloseButtons[i]).bind("click", func);
 		}
-		
+
 		jQuery(this.oFindTab).bind("mousedown", jQuery.fnBind(this.oApp.exec, this.oApp, "SHOW_FIND", []));
 		jQuery(this.oReplaceTab).bind("mousedown", jQuery.fnBind(this.oApp.exec, this.oApp, "SHOW_REPLACE", []));
-		
+
 		jQuery(this.oFindNextButton).bind("click", jQuery.fnBind(this.oApp.exec, this.oApp, "FIND", []));
 		jQuery(this.oReplaceButton).bind("click", jQuery.fnBind(this.oApp.exec, this.oApp, "REPLACE", []));
 		jQuery(this.oReplaceAllButton).bind("click", jQuery.fnBind(this.oApp.exec, this.oApp, "REPLACE_ALL", []));
-		
+
 		this.oApp.exec("REGISTER_UI_EVENT", ["findAndReplace", "click", "SHOW_FIND_REPLACE_LAYER"]);
 	},
-	
+
 	$ON_SHOW_ACTIVE_LAYER : function(){
 		this.oApp.exec( "HIDE_DIALOG_LAYER", [this.oUILayer]);
 	},
-	
+
 	$ON_SHOW_FIND_REPLACE_LAYER : function(){
 		this.oApp.exec("SHOW_DIALOG_LAYER", [this.oUILayer]);
 		this.oApp.exec("POSITION_TOOLBAR_LAYER", [this.oUILayer]);
 		this.oApp.exec("HIDE_CURRENT_ACTIVE_LAYER", []);
 	},
-	
+
 	$ON_SHOW_FIND : function(){
 		this.bFindMode = true;
-		
+
 		jQuery(this.oFindTab).addClass("on");
 		jQuery(this.oReplaceTab).removeClass("on");
-		
+
 		jQuery(this.oFindNextButton).removeClass("normal");
 		jQuery(this.oFindNextButton).addClass("strong");
 
 		this.oFindInputSet.style.display = "block";
 		this.oReplaceInputSet.style.display = "none";
-		
+
 		this.oReplaceButton.style.display = "none";
 		this.oReplaceAllButton.style.display = "none";
-		
+
 		jQuery(this.oUILayer).removeClass("replace");
 		jQuery(this.oUILayer).addClass("find");
 
 		this.oFindInput_Keyword.value = this.oReplaceInput_Original.value;
 	},
-	
+
 	$ON_SHOW_REPLACE : function(){
 		this.bFindMode = false;
 
 		jQuery(this.oFindTab).removeClass("on");
 		jQuery(this.oReplaceTab).addClass("on");
-		
+
 		jQuery(this.oFindNextButton).removeClass("strong");
 		jQuery(this.oFindNextButton).addClass("normal");
-		
+
 		this.oFindInputSet.style.display = "none";
 		this.oReplaceInputSet.style.display = "block";
-		
+
 		this.oReplaceButton.style.display = "inline";
 		this.oReplaceAllButton.style.display = "inline";
-		
+
 		jQuery(this.oUILayer).removeClass("find");
 		jQuery(this.oUILayer).addClass("replace");
 
@@ -4947,7 +4943,7 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 			sKeyword = this.oFindInput_Keyword.value;
 		else
 			sKeyword = this.oReplaceInput_Original.value;
-			
+
 		switch(this.oFindReplace.find(sKeyword, false)){
 			case 1:
 				alert(this.oApp.$MSG("XE_FindReplace.keywordNotFound"));
@@ -4957,7 +4953,7 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 				break;
 		}
 	},
-	
+
 	$ON_REPLACE : function(){
 		var sOriginal = this.oReplaceInput_Original.value;
 		var sReplacement = this.oReplaceInput_Replacement.value;
@@ -4976,7 +4972,7 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 				break;
 		}
 	},
-	
+
 	$ON_REPLACE_ALL : function(){
 		var sOriginal = this.oReplaceInput_Original.value;
 		var sReplacement = this.oReplaceInput_Replacement.value;
@@ -5001,38 +4997,38 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 xe.XE_Hyperlink = jQuery.Class({
 	name : "XE_Hyperlink",
 	sATagMarker : "HTTP://HUSKY_TMP.MARKER/",
-	
+
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 		this.sRXATagMarker = this.sATagMarker.replace(/\//g, "\\/").replace(/\./g, "\\.");
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.oHyperlinkLayer = jQuery("DIV.xpress_xeditor_hyperlink_layer", elAppContainer).get(0);
 		this.oLinkInput = jQuery("INPUT[type=text]", this.oHyperlinkLayer).get(0);
-		
+
 		this.oBtnConfirm = jQuery("BUTTON.confirm", this.oHyperlinkLayer).get(0);
 		this.oBtnCancel = jQuery("BUTTON.cancel", this.oHyperlinkLayer).get(0);
-		
+
 		this.oCbNewWin = jQuery("INPUT[type=checkbox]", this.oHyperlinkLayer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
 		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+k", "XE_TOGGLE_HYPERLINK_LAYER", []]);
-		
+
 		this.oApp.registerBrowserEvent(this.oBtnConfirm, "mousedown", "XE_APPLY_HYPERLINK");
 		this.oApp.registerBrowserEvent(this.oBtnCancel, "mousedown", "HIDE_ACTIVE_LAYER");
 
 		this.oApp.registerBrowserEvent(this.oLinkInput, "keydown", "EVENT_XE_HYPERLINK_KEYDOWN");
-		
+
 		this.oApp.exec("REGISTER_UI_EVENT", ["hyperlink", "click", "XE_TOGGLE_HYPERLINK_LAYER"]);
 	},
-	
+
 	$ON_XE_TOGGLE_HYPERLINK_LAYER : function(){
 		// hotkey may close the layer right away so delay here
 		this.oApp.delayedExec("TOGGLE_TOOLBAR_ACTIVE_LAYER", [this.oHyperlinkLayer, null, "XE_RESET_HYPERLINK_LAYER", []], 0);
 	},
-	
+
 	$ON_XE_RESET_HYPERLINK_LAYER : function(){
 		this.oApp.exec("FOCUS", []);
 		this.oSelection = this.oApp.getSelection();
@@ -5041,7 +5037,7 @@ xe.XE_Hyperlink = jQuery.Class({
 		if(oAnchor){
 			this.oSelection.selectNode(oAnchor);
 			this.oSelection.select();
-			
+
 			var sTarget = oAnchor.target;
 			if(sTarget && sTarget == "_blank") this.oCbNewWin.checked = true;
 
@@ -5053,7 +5049,7 @@ xe.XE_Hyperlink = jQuery.Class({
 		this.oLinkInput.focus();
 		this.oLinkInput.value = this.oLinkInput.value;
 	},
-	
+
 	$ON_XE_APPLY_HYPERLINK : function(){
 		var sURL = this.oLinkInput.value;
 
@@ -5091,14 +5087,14 @@ xe.XE_Hyperlink = jQuery.Class({
             }
         }
         this.oApp.exec("HIDE_ACTIVE_LAYER");
-        
+
         setTimeout(jQuery.fnBind(function(){this.oSelection.select()}, this), 0);
 		//}else{
 			//alert(this.oApp.$MSG("XE_Hyperlink.invalidURL"));
 			//this.oLinkInput.focus();
 		//}
 	},
-	
+
 	_validateURL : function(sURL){
 		return /^(http|https|ftp|mailto):(?:\/\/)?((\w|-)+(?:[\.:@](\w|-))+)(?:\/|@)?([^"\?]*?)(?:\?([^\?"]*?))?$/.test(sURL);
 	},
@@ -5120,10 +5116,10 @@ xe.XE_Table = jQuery.Class({
 	name : "XE_Table",
 	iMinRows : 1,
 	iMaxRows : 20,
-	
+
 	iMinColumns : 1,
 	iMaxColumns : 10,
-	
+
 	iMinBorderWidth : 1,
 	iMaxBorderWidth : 10,
 
@@ -5132,7 +5128,7 @@ xe.XE_Table = jQuery.Class({
 	$init : function(oAppContainer){
 		this._assignHTMLObjects(oAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(oAppContainer){
 		var tmp = null;
 
@@ -5162,14 +5158,14 @@ xe.XE_Table = jQuery.Class({
 
 		this.oSampleTable = jQuery("TABLE", this.elDropdownLayer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.exec("REGISTER_UI_EVENT", ["table", "click", "ST_TOGGLE_TOOLBAR_LAYER"]);
 
 		this.oApp.registerBrowserEvent(this.oRowInput, "change", "ST_SET_ROW_NUM", [null, 0]);
 		this.oApp.registerBrowserEvent(this.oColumnInput, "change", "ST_SET_COLUMN_NUM", [null, 0]);
 		this.oApp.registerBrowserEvent(this.oBorderWidthInput, "change", "ST_SET_BORDER_WIDTH", [null, 0]);
-		
+
 		this.oApp.registerBrowserEvent(this.oButton_AddRow, "click", "ST_ADD_ROW");
 		this.oApp.registerBrowserEvent(this.oButton_RemoveRow, "click", "ST_REMOVE_ROW");
 		this.oApp.registerBrowserEvent(this.oButton_AddColumn, "click", "ST_ADD_COLUMN");
@@ -5186,43 +5182,43 @@ xe.XE_Table = jQuery.Class({
 
 		this.oApp.registerBrowserEvent(this.oButton_Insert, "click", "ST_INSERT_TABLE");
 		this.oApp.registerBrowserEvent(this.oButton_Cancel, "click", "ST_CLOSE");
-		
+
 		this.oApp.exec("ST_SET_BORDER_COLOR", ["#CCCCCC"]);
 		this.oApp.exec("ST_SET_BGCOLOR", ["#FFFFFF"]);
 	},
-	
+
 	$ON_ST_TOGGLE_TOOLBAR_LAYER : function(){
 		this.oApp.exec("RECORD_UNDO_ACTION_FORCED", ["KEYPRESS"]);
 
 		this._showNewTable();
 		this.oApp.exec("TOGGLE_TOOLBAR_ACTIVE_LAYER", [this.elDropdownLayer]);
 	},
-	
+
 	$ON_ST_ADD_ROW : function(){
 		this.oApp.exec("ST_SET_ROW_NUM", [null, 1]);
 	},
-	
+
 	$ON_ST_REMOVE_ROW : function(){
 		this.oApp.exec("ST_SET_ROW_NUM", [null, -1]);
 	},
-	
+
 	$ON_ST_ADD_COLUMN : function(){
 		this.oApp.exec("ST_SET_COLUMN_NUM", [null, 1]);
 	},
-	
+
 	$ON_ST_REMOVE_COLUMN : function(){
 		this.oApp.exec("ST_SET_COLUMN_NUM", [null, -1]);
 	},
-	
+
 	$ON_ST_SET_ROW_NUM : function(iRows, iRowDiff){
 		iRows = iRows || parseInt(this.oRowInput.value);
 		iRowDiff = iRowDiff || 0;
-		
+
 		iRows += iRowDiff;
 
 		if(iRows < this.iMinRows) iRows = this.iMinRows;
 		if(iRows > this.iMaxRows) iRows = this.iMaxRows;
-		
+
 		this.oRowInput.value = iRows;
 		this._showNewTable();
 	},
@@ -5230,12 +5226,12 @@ xe.XE_Table = jQuery.Class({
 	$ON_ST_SET_COLUMN_NUM : function(iColumns, iColumnDiff){
 		iColumns = iColumns || parseInt(this.oColumnInput.value);
 		iColumnDiff = iColumnDiff || 0;
-		
+
 		iColumns += iColumnDiff;
-		
+
 		if(iColumns < this.iMinColumns) iColumns = this.iMinColumns;
 		if(iColumns > this.iMaxColumns) iColumns = this.iMaxColumns;
-		
+
 		this.oColumnInput.value = iColumns;
 		this._showNewTable();
 	},
@@ -5251,16 +5247,16 @@ xe.XE_Table = jQuery.Class({
 	$ON_ST_CLOSE : function(){
 		this.oApp.exec("HIDE_ACTIVE_LAYER", []);
 	},
-	
+
 	$ON_ST_SET_BORDER_WIDTH : function(iBorderWidth, iBorderWidthDiff){
 		iBorderWidth = iBorderWidth || parseInt(this.oBorderWidthInput.value);
 		iBorderWidthDiff = iBorderWidthDiff || 0;
 
 		iBorderWidth += iBorderWidthDiff;
-		
+
 		if(iBorderWidth < this.iMinBorderWidth) iBorderWidth = this.iMinBorderWidth;
 		if(iBorderWidth > this.iMaxBorderWidth) iBorderWidth = this.iMaxBorderWidth;
-		
+
 		this.oBorderWidthInput.value = iBorderWidth;
 		this._showNewTable();
 	},
@@ -5283,13 +5279,13 @@ xe.XE_Table = jQuery.Class({
 	$ON_ST_SHOW_BORDER_COLOR_LAYER : function(){
 		this.welDropdownLayer.addClass("p1");
 		this.welDropdownLayer.removeClass("p2");
-		
+
 		this.oApp.exec("SHOW_COLOR_PALETTE", ["ST_SET_BORDER_COLOR_FROM_PALETTE", this.elDropdownLayer]);
 	},
 
 	$ON_ST_HIDE_BORDER_COLOR_LAYER : function(){
 		this.welDropdownLayer.removeClass("p1");
-		
+
 		this.oApp.exec("HIDE_COLOR_PALETTE", []);
 	},
 
@@ -5309,7 +5305,7 @@ xe.XE_Table = jQuery.Class({
 
 	$ON_ST_HIDE_BGCOLOR_LAYER : function(){
 		this.welDropdownLayer.removeClass("p2");
-		
+
 		this.oApp.exec("HIDE_COLOR_PALETTE", []);
 	},
 
@@ -5321,7 +5317,7 @@ xe.XE_Table = jQuery.Class({
 	$ON_ST_SET_BORDER_COLOR : function(sColorCode){
 		this.oBorderColorInput.value = sColorCode;
 		this.oButton_BorderColorPreview.style.backgroundColor = sColorCode;
-		
+
 		this._showNewTable();
 	},
 
@@ -5329,7 +5325,7 @@ xe.XE_Table = jQuery.Class({
 		this.oApp.exec("ST_SET_BGCOLOR", [sColorCode]);
 		this.oApp.exec("ST_HIDE_BGCOLOR_LAYER", []);
 	},
-	
+
 	$ON_ST_SET_BGCOLOR : function(sColorCode){
 		this.oBGColorInput.value = sColorCode;
 		this.oButton_BGColorPreview.style.backgroundColor = sColorCode;
@@ -5361,7 +5357,7 @@ xe.XE_Table = jQuery.Class({
 				sTD = "<td><p>&nbsp;</p></td>";
 			}
 		}
-		
+
 		var sTable = '<table style="background:'+sBorderColorCode+'" cellspacing="'+iBorderWidth+'">';
 		var sRow = '<tr style="background:'+sBGColorCode+'">';
 		var iColumns = this.oColumnInput.value;
@@ -5369,7 +5365,7 @@ xe.XE_Table = jQuery.Class({
 			sRow += sTD;
 		}
 		sRow += "</tr>\n";
-		
+
 		var iRows = this.oRowInput.value;
 
 		sTable += "<tbody>";
@@ -5391,7 +5387,7 @@ xe.XE_Table = jQuery.Class({
  */
 xe.XE_EditingModeToggler = jQuery.Class({
 	name : "XE_EditingModeToggler",
-	
+
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
@@ -5402,18 +5398,18 @@ xe.XE_EditingModeToggler = jQuery.Class({
 		this.elModeToggleButton = jQuery("BUTTON.xpress_xeditor_mode_toggle_button", elAppContainer).get(0);
 		this.welModeToggleButton = jQuery(this.elModeToggleButton);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.registerBrowserEvent(this.elModeToggleButton, "click", "EVENT_TOGGLE_EDITING_MODE", []);
 	},
-	
+
 	$ON_EVENT_TOGGLE_EDITING_MODE : function(){
 		if(this.oApp.getEditingMode() == "WYSIWYG")
 			this.oApp.exec("CHANGE_EDITING_MODE", ["HTMLSrc"]);
 		else
 			this.oApp.exec("CHANGE_EDITING_MODE", ["WYSIWYG"]);
 	},
-	
+
 	$ON_CHANGE_EDITING_MODE : function(sMode){
 		if(sMode == "HTMLSrc"){
 			this.welModeToggleButton.addClass("active").parent("span").addClass("active");
@@ -5445,8 +5441,8 @@ var oMessageMap = {
  * @author gony
  */
 (function($){
-	
-var 
+
+var
 	regex_meanless_css1 = /<(.*?)\s+style\s*=\s*"(.*?(?:margin|padding)\s*:\s*0(?:px)?.*?|.*?\-(?:moz|ms|webkit|opera).*?)"(.*?)>/ig,
 	regex_meanless_css2 = /(?:(?:margin|padding)\s*:\s*0(?:px)?|\-(?:moz|ms|webkit|opera)\-[\w-]+\s*:\s*.*?|[\w-]+\s*:\s*\-(?:moz|ms|webkit|opera)\-[\w-]+|(?:line-height|font-variant|font-stretch|font-size-adjust|font-size)\s*:\s*[a-z_-]+)\s*;?\s*|font-(?:weight|style)\s*:\s*normal;?/ig,
 	regex_class  = /<(.*?)\s+class\s*=(?:\s*"(.*?)"|\s*'(.*?)'|([^\s>]+))(.*?)>/ig,
@@ -5463,12 +5459,12 @@ var
 	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
 	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/ig,
 	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([^\s]+)/g; //"
-	
+
 var
 	allow_tags  = 'a,abbr,acronym,address,area,blockquote,br,caption,center,cite,code,col,colgroup,dd,del,dfn,div,dl,dt,em,embed,h1,h2,h3,h4,h5,h6,hr,img,ins,kbd,li,map,object,ol,p,param,pre,q,samp,span,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,tt,u,ul,var,iframe,object,param,style'.split(','),
 	lonely_tags = 'area,br,col,embed,hr,img,input,param'.split(',');
 
-var 
+var
 	replace_tags = {
 		'b' : 'strong',
 		'i' : 'em',
@@ -5478,26 +5474,26 @@ var
 
 xe.XE_XHTMLFormatter = $.Class({
 	name : "XE_XHTMLFormatter",
-	
+
 	$ON_MSG_APP_READY : function() {
 		this.oApp.addConverter("WYSIWYG_TO_IR", this.TO_IR);
 		this.oApp.addConverter("HTMLSrc_TO_IR", this.TO_IR);
 		this.oApp.addConverter("IR_TO_HTMLSrc", this.IR_TO);
 		this.oApp.addConverter("IR_TO_WYSIWYG", this.IR_TO);
 	},
-	
+
 	TO_IR : function(sContent) {
 		var stack = [];
 
         // remove xeHandled attrs
         sContent = sContent.replace(/xeHandled="YES"/ig,'');
 
-		
+
 		// remove all useless styles
         /*
 		sContent = sContent.replace(regex_meanless_css1, function(m0,m1,m2,m3){
 			m2 = m2.replace(regex_meanless_css2, '');
-			
+
 			return '<'+m1+(m2?' style="'+m2+'"':'')+m3+'>';
 		});
         */
@@ -5506,20 +5502,20 @@ xe.XE_XHTMLFormatter = $.Class({
         /*
 		sContent = sContent.replace(regex_class, function(m0,m1,m2,m3,m4,m5){
 			var cls = jQuery.trim((m2 || m3 || m4 || "").replace(regex_class2, ''));
-			
+
 			return '<'+(m1||"")+(cls?' class="'+cls+'"':'')+(m5||"")+'>';
 		});
         */
 
 		// remove all event handler
 		//sContent = sContent.replace(regex_handler, '<$1$2>');
-		
+
 		// remove all id
 		//sContent = sContent.replace(regex_id, '<$1$2>');
-		
+
 		// remove all scripts
 		//sContent = sContent.replace(regex_script, '');
-		
+
 		if (jQuery.browser.msie) {
 			// remove jQuery attributes
 			sContent = sContent.replace(regex_jquery, '');
@@ -5540,12 +5536,12 @@ xe.XE_XHTMLFormatter = $.Class({
 		sContent = sContent.replace(regex, function(m0,m1,m2,m3){
 			var m3s = [];
 			var state = '';
-			
+
 			m1 = m1 || '';
 			m2 = m2.toLowerCase();
 			m3 = $.trim(m3 || '');
 
-			if (!m1) {				
+			if (!m1) {
 				if ($.inArray(m2,lonely_tags) >= 0) {
 					var len = m3.length;
 					if (m2 == 'br') m3 = '';
@@ -5553,11 +5549,11 @@ xe.XE_XHTMLFormatter = $.Class({
 
 					return '<'+m2+' '+m3+'>';
 				}
-				
+
                 /*
 				if (replace_tags[m2]) {
 					stack.push({tag:m2, state:'deleted'});
-					
+
 					m2 = replace_tags[m2];
 					state = 'inserted';
 				} else if (m2 == 'font') {
@@ -5567,15 +5563,15 @@ xe.XE_XHTMLFormatter = $.Class({
 					m3s = [];
 					if (regex_font_color.test(m3)) m3s.push('color:'+(RegExp.$1||RegExp.$2||RegExp.$3)+';');
 					if (regex_font_face.test(m3)) m3s.push('font-family:'+(RegExp.$1||RegExp.$2||RegExp.$3)+';');
-					
+
 					m3 = m3s.length?'style="'+m3s.join('')+'"':'';
 					state = 'inserted';
 				} else if (m2 == 'center') {
 					stack.push({tag:m2, state:'deleted'});
-					
+
 					m2 = 'div'
 					m3 = 'style="text-align:center"';
-					
+
 					state = 'inserted';
 				} else if (m2 == 'span') {
 					var style = '';
@@ -5588,10 +5584,10 @@ xe.XE_XHTMLFormatter = $.Class({
 					if (regex_style.test(m3)) {
 						var tmpstack = [];
 						var tmptag   = '';
-						
+
 						style = RegExp.$1||RegExp.$2||RegExp.$3;
 						m3 = m3.replace(regex_style, '');
-						
+
 						if (regex_font_weight.test(style)) {
 							if (RegExp.$1 == 'bold' || RegExp.$1 == 'bolder') {
 								style = style.replace(regex_font_weight, '');
@@ -5599,68 +5595,68 @@ xe.XE_XHTMLFormatter = $.Class({
 								tmptag += '<strong>';
 							}
 						}
-						
+
 						if (regex_font_style.test(style)) {
 							style = style.replace(regex_font_style, '');
 							tmpstack.push({tag:'em', state:'inserted'});
 							tmptag += '<em>';
 						}
-						
+
 						if (regex_font_decoration.test(style)) {
 							var deco_css = ' '+RegExp.$1.toLowerCase()+' ';
-							
+
 							if (deco_css.indexOf('underline ') > 0) {
 								deco_css = deco_css.replace('underline ', '');
 								tmpstack.push({tag:'u', state:'inserted'});
 								tmptag += '<u>';
 							}
-							
+
 							if (deco_css.indexOf('line-through ') > 0) {
 								deco_css = deco_css.replace('line-through ', '');
 								tmpstack.push({tag:'del', state:'inserted'});
 								tmptag += '<del>';
 							}
-							
+
 							deco_css = $.trim(deco_css);
 							style = style.replace(regex_font_decoration, (deco_css?'text-decoration:'+deco_css+';':''));
 						}
-						
+
 						style = $.trim(style);
-						
+
 						stack.push({tag:m2, state:(!m3&&!style?'deleted':'')});
 						stack = stack.concat(tmpstack);
-						
+
 						return (!m3&&!style?'':'<span '+m3+' style="'+style+'">')+tmptag;
 					}
 				} else {
 					state = (jQuery.inArray(m2,allow_tags) < 0)?'deleted':'';
 					if (state == 'deleted') return '';
-				} 
+				}
                 */
 
 				stack.push({tag:m2, state:state});
 			} else {
 				var tags = [], t = '';
-				
+
 				if (!stack.length) return '';
 
 				do {
 					t = stack.pop();
-					if (t.state != 'inserted' && t.tag != m2) { 
+					if (t.state != 'inserted' && t.tag != m2) {
 						stack.push(t);
 						return tags.join('');
 					}
 					if (t.state != 'deleted') tags.push('</'+t.tag+'>');
 				} while(stack.length && t.tag != m2);
-				
+
 				return tags.join('');
 			}
-			
+
 			return '<'+m1+m2+(m3?' '+m3:'')+'>';
 		});
 		if (stack.length) {
 			var t = '';
-			
+
 			do {
 				t = stack.pop();
 				if (t.state != 'deleted') sContent += '</'+t.tag+'>';
@@ -5669,7 +5665,7 @@ xe.XE_XHTMLFormatter = $.Class({
 
 		return sContent;
 	},
-	
+
 	IR_TO : function(sContent) {
 		return sContent;
 	}
@@ -5685,23 +5681,23 @@ xe.XE_XHTMLFormatter = $.Class({
 xe.XE_Extension = jQuery.Class({
 	name  : "XE_Extension",
 	seq   : '',
-	
+
 	$init : function(elAppContainer, editor_sequence) {
 		this.seq = editor_sequence;
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer) {
 		this.elDropdownLayer = jQuery('DIV.xpress_xeditor_extension_layer', elAppContainer).get(0);
 	},
-	
+
 	_removeAttrs : function(sContent) {
 		return sContent;
 	},
-	
+
 	_addEvent : function() {
 		if (this.oApp.getEditingMode() != 'WYSIWYG') return;
-		
+
 		var doc = this.oApp.getWYSIWYGDocument();
 		var seq = this.seq;
 		var fn  = function(){
@@ -5712,7 +5708,7 @@ xe.XE_Extension = jQuery.Class({
 				openComponent(comp, seq);
 			}
 		};
-		
+
 		jQuery('img,div[editor_component]', doc).each(function(){
 			var obj = jQuery(this);
             if(this.nodeName == 'IMG' && !obj.attr('editor_component')) obj.attr('editor_component','image_link')
@@ -5722,30 +5718,30 @@ xe.XE_Extension = jQuery.Class({
             }
 		});
 	},
-	
+
 	$ON_MSG_APP_READY : function() {
 		this.oApp.exec('REGISTER_UI_EVENT', ['extension', 'click', 'TOGGLE_EXTENSION_LAYER']);
 	},
-	
+
 	$ON_TOGGLE_EXTENSION_LAYER : function() {
 		this.oApp.exec('TOGGLE_TOOLBAR_ACTIVE_LAYER', [this.elDropdownLayer]);
 	},
-	
+
 	$ON_CHANGE_EDITING_MODE : function(mode) {
 		var self = this;
 		setTimeout(function(){ self._addEvent(); }, 100);
 	},
-	
+
 	$ON_PASTE_HTML : function() {
 		var self = this;
 		setTimeout(function(){ self._addEvent(); }, 100);
 	},
-	
+
 	$ON_LOAD_IR_FIELD : function() {
 		var self = this;
 		setTimeout(function(){ self._addEvent(); }, 100);
 	},
-	
+
 	$ON_SET_IR : function() {
 		var self = this;
 		setTimeout(function(){ self._addEvent(); }, 100);
@@ -5759,23 +5755,23 @@ xe.XE_AutoSave = jQuery.Class({
 	name : "XE_AutoSave",
 	form : null,
 	textarea : null,
-	
+
 	$init : function(oIRTextarea, elAppContainer) {
 		this.form = oIRTextarea.form;
 		this.textarea = oIRTextarea;
-		
+
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer) {
 		this.welMessageBox = jQuery('autosave_message');
 	},
-	
+
 	$ON_MSG_APP_READY : function() {
 		var elSrl     = jQuery(this.form._saved_doc_srl);
 		var elTitle   = jQuery(this.form._saved_doc_title);
 		var elContent = jQuery(this.form._saved_doc_content);
-		
+
 		var doc_srl     = jQuery.trim(elSrl.val());
 		var title   = jQuery.trim(elTitle.val());
 		var content = jQuery.trim(elContent.val());
@@ -5790,13 +5786,13 @@ xe.XE_AutoSave = jQuery.Class({
 				editorRemoveSavedDoc();
 			}
 		}
-		
+
 		editorEnableAutoSave(this.form, jQuery(this.form).attr("editor_sequence"));
-		
+
 		// register hotkey
 		this.oApp.exec('REGISTER_HOTKEY', ['ctrl+shift+s','AUTO_SAVE']);
 	},
-	
+
 	$ON_AUTO_SAVE : function() {
 		_editorAutoSave();
 	}
@@ -5811,26 +5807,26 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 	$init : function(elAppContainer){
 		this._assignHTMLObjects(elAppContainer);
 	},
-	
+
 	_assignHTMLObjects : function(elAppContainer){
 		this.elFormatSelect = jQuery("SELECT.xpress_xeditor_ui_format_select", elAppContainer).get(0);
 	},
-	
+
 	$ON_MSG_APP_READY : function(){
 		this.oApp.registerBrowserEvent(this.elFormatSelect, "change", "SET_FORMAT_FROM_SELECT_UI");
 		this.elFormatSelect.selectedIndex = 0;
 	},
-	
+
 	$ON_MSG_STYLE_CHANGED : function(sAttributeName, sAttributeValue){
 		var blockName = this.oApp.getWYSIWYGDocument().queryCommandValue("FormatBlock");
-		
+
 		if (!blockName) return (this.elFormatSelect.selectedIndex = 0);
 		if (jQuery.browser.msie && /([0-9])/.test(blockName)) blockName = 'h'+(RegExp.$1);
-		
+
 		this.elFormatSelect.value = blockName.toLowerCase();
 		if(this.elFormatSelect.selectedIndex < 0) this.elFormatSelect.selectedIndex = 0;
 	},
-	
+
 	$ON_SET_FORMAT_FROM_SELECT_UI : function(){
 		var sFormat = this.elFormatSelect.value;
 		if(!sFormat) return;
@@ -5849,52 +5845,52 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 xe.XE_Table = jQuery.Class({
 	_startSel : null,
 	_endSel   : null,
-	
+
 	$ON_MSG_APP_READY : function() {
 		this._doc = jQuery(this.oApp.getWYSIWYGDocument());
-		
+
 		this.$FnMouseDown = jQuery.fnBind(this._mousedown, this);
 		this.$FnMouseUp   = jQuery.fnBind(this._mouseup, this);
 		this.$FnMouseMove = jQuery.fnBind(this._mousemove, this);
-				
+
 		this._doc.mousedown(this.$FnMouseDown);
-		
+
 		// initialize
 		this._startSel = null;
 		this._endSel   = null;
-		
+
 		// register buttons
 		this.oApp.exec('REGISTER_UI_EVENT', ['merge_cells', 'click', 'MERGE_CELLS']);
 		this.oApp.exec('REGISTER_UI_EVENT', ['split_col', 'click', 'CELL_SPLIT_BY_COL']);
 		this.oApp.exec('REGISTER_UI_EVENT', ['split_row', 'click', 'CELL_SPLIT_BY_ROW']);
-		
+
 		// register hotkeys
 		this.oApp.exec('REGISTER_HOTKEY', ['ctrl+alt+m', 'MERGE_CELLS']);
-		
+
 		// perform default ready action
 		this.$super.$ON_MSG_APP_READY();
 	},
-	
+
 	$ON_MERGE_CELLS : function() {
 		var html = "";
 		var cell = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
 		var self = this;
-		
+
 		// 선택된 셀이 없으면 종료
 		if (!cell.length) return;
-		
+
 		// UNDO 지점 기록
 		this.oApp.exec("RECORD_UNDO_ACTION", ["Cell:Merge"]);
-		
+
 		// 선택한 모든 셀의 데이터를 첫번째 셀로 복사
 		cell.each(function(){ html += jQuery(this).html() }).eq(0).html(html);
-		
+
 		// 첫번째 셀 가로 확장
 		var colspan = 0;
 		cell.eq(0).nextAll('td,th').andSelf().filter('.xe_selected_cell').each(function(idx){
 			colspan += self._getSpan(this, 'col');
 		});
-		
+
 		// 마지막 셀까지 줄의 갯수 계산
 		var rect = this._getRect(cell.eq(0));
 		var start_tr = cell.eq(0).parent('tr');
@@ -5904,22 +5900,22 @@ xe.XE_Table = jQuery.Class({
 
 		// 첫번째 셀 colspan, rowspan 속성 지정
 		cell.eq(0).attr('colSpan', colspan).attr('rowSpan', rowspan);
-		
+
 		// 첫번째 셀을 제외한 다른 모든 셀 제거
 		cell.slice(1).remove();
 	},
-	
+
 	$ON_CELL_SPLIT_BY_ROW : function(many) {
 		var cell  = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
 		var table = cell.parents('table').eq(0);
 		var self  = this;
-		
+
 		// 선택된 셀이 없으면 종료
 		if (!cell.length) return;
-		
+
 		// UNDO 지점 기록
 		this.oApp.exec("RECORD_UNDO_ACTION", ["Cell:Split By Row"]);
-		
+
 		// 선택 영역의 상하 좌표 구함
 		var _top    = this._getRect(cell.eq(0)).top;
 		var _bottom = this._getRect(cell.eq(cell.length-1)).bottom;
@@ -5927,7 +5923,7 @@ xe.XE_Table = jQuery.Class({
 		// 테이블의 모든 셀에서 선택영역에 해당하는 셀을 구한다(상하 기준).
 		(cell = table.find('td,th').filter(function(){
 			var rect = self._getRect(jQuery(this));
-			
+
 			return !(rect.bottom <= _top || rect.top >= _bottom);
 		})).filter('.xe_selected_cell').each(function(){
 			var t       = jQuery(this);
@@ -5937,13 +5933,13 @@ xe.XE_Table = jQuery.Class({
 			var queue   = [];
 			var clone   = t.clone().html('<br />');
 			var topspan = 1, botspan = 1;
-			
+
 			// rowspan > 1이면 현재 셀의 rowspan을 절반으로 분할한다.
 			if (rowspan > 1) {
-				
+
 				topspan = Math.ceil(rowspan/2);
 				botspan = rowspan - topspan;
-				
+
 				queue.push(function(){
 					t.attr('rowSpan', topspan);
 				});
@@ -5953,10 +5949,10 @@ xe.XE_Table = jQuery.Class({
 				// rowspan이 없으면 현재 셀과 영역이 겹치는 모든 셀에 rowspan을 추가
 				cell.filter(function(){
 					if (t.get(0) == this) return false;
-					
+
 					var tt = jQuery(this);
 					var rc = self._getRect(tt);
-					
+
 					// 범위를 넘은 부분은 제외
 					if (rc.bottom <= rect.top || rc.top >= rect.bottom) return false;
 
@@ -5989,7 +5985,7 @@ xe.XE_Table = jQuery.Class({
 				var next_sib  = rows.eq(topspan - 1).children('td,th').filter(function(){
 					return ( self._getRect(jQuery(this)).left > rect.left );
 				});
-				
+
 				if (jQuery.browser.msie) {
 					next_sib.length?
 						next_sib.eq(0).before(clone.get(0).outerHTML):
@@ -6003,31 +5999,31 @@ xe.XE_Table = jQuery.Class({
 
 			// 함수를 바로 실행하면 좌표가 틀어지므로, 큐에 넣은 후 실행
 			jQuery.each(queue, function(){ this(); });
-			
+
 		});
 	},
-	
+
 	$ON_CELL_SPLIT_BY_COL : function(many) {
 		var cell   = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
 		var table  = cell.parents('table').slice(0,1);
 		var self   = this;
 		var ie_bug = [], tmpId = (new Date).getTime(), tmpStr = '';
-		
+
 		// 선택된 셀이 없으면 종료
 		if (!cell.length) return;
-		
+
 		// UNDO 지점 기록
 		this.oApp.exec("RECORD_UNDO_ACTION", ["Cell:Split By Column"]);
-		
+
 		// 선택 영역의 좌우 좌표 구함
 		var first_row = cell.eq(0).parent('tr');
 		var _left = this._getRect(first_row.find('.xe_selected_cell:first')).left;
 		var _right = this._getRect(first_row.find('.xe_selected_cell:last')).right;
-		
+
 		// 테이블의 모든 셀에서 선택영역에 해당하는 셀을 구한다(좌우 기준).
 		(cell = table.find('td,th').filter(function(){
 			var rect = self._getRect(jQuery(this));
-			
+
 			return !(rect.right <= _left || rect.left >= _right);
 		})).filter('.xe_selected_cell').each(function(idx){
 			var t       = jQuery(this);
@@ -6047,13 +6043,13 @@ xe.XE_Table = jQuery.Class({
 
 				cell.filter(function(){
 					if (t.get(0) == this) return false;
-					
+
 					var tt = jQuery(this);
 					var rc = self._getRect(tt);
-					
+
 					// 범위를 넘은 부분은 제외
 					if (rc.right <= rect.left || rc.left >= rect.right) return false;
-					
+
 					return true;
 				}).each(function(){
 					var tt = jQuery(this);
@@ -6061,10 +6057,10 @@ xe.XE_Table = jQuery.Class({
 					// colspan 1 추가
 					tt.attr('colSpan', self._getSpan(tt, 'col')+1);
 				});
-				
+
 				clone.attr('colSpan', 1);
 			}
-			
+
 			if (jQuery.browser.msie) {
 				// Fix for IE bug
 				t.after(clone.get(0).outerHTML);
@@ -6073,7 +6069,7 @@ xe.XE_Table = jQuery.Class({
 			}
 		});
 	},
-	
+
 	$ON_CHECK_STYLE_CHANGE : function(){
 		var ui  = ['merge_cells', 'split_col', 'split_row'];
 		var app = this.oApp;
@@ -6081,26 +6077,26 @@ xe.XE_Table = jQuery.Class({
 
 		jQuery.each(ui, function(){ app.exec(command, [this]); });
 	},
-	
+
 	_mousedown : function(event) {
 		var cur = jQuery(event.target);
 		var sel = cur.parents().andSelf().filter('td,th,table');
 		var app = this.oApp;
 		var self = this;
-		
+
 		// 모든 선택영역 해제
 		jQuery('td.xe_selected_cell', this.oApp.getWYSIWYGDocument()).removeClass('xe_selected_cell');
-		
+
 		this._startSel = null;
 		this._endSel   = null;
-		
+
 		if (!sel.length || !this._isLeftClicked(event.button)) return;
-		
+
 		function delayed(){
 			sel = app.getSelection().cloneRange();
 			sel.collapseToStart();
 			sel = jQuery(sel.startContainer).parents().andSelf().filter('td,th').eq(0);
-	
+
 			if (!sel.length) return self._removeAllListener()||true;
 
 			// 좌표를 구한다
@@ -6110,19 +6106,19 @@ xe.XE_Table = jQuery.Class({
 			self._doc.bind('mousemove', self.$FnMouseMove);
 			self._doc.bind('mouseup', self.$FnMouseUp);
 		}
-		
+
 		// mousedown이 일어난 후에 선택 영역이 설정되므로 실행을 지연시킨다.
 		setTimeout(delayed, 0);
 	},
-	
+
 	_mouseup : function(event) {
 		// 선택된 셀 확인
 		this._removeAllListener();
-		
+
 		// 시작셀과 종료셀 제거
 		this._startSel = this._endSel = null;
 	},
-	
+
 	_mousemove : function(event) {
 		var cur  = jQuery(event.target);
 		var cell = cur.parents().andSelf().filter('td,th').eq(0);
@@ -6135,7 +6131,7 @@ xe.XE_Table = jQuery.Class({
 
 		// 종료셀 && 종료셀의 좌표
 		this._getRect(this._endSel = cell);
-		
+
 		// 선택 범위를 구한다
 		var _top    = Math.min(this._startSel.rect.top,  this._endSel.rect.top);
 		var _left   = Math.min(this._startSel.rect.left, this._endSel.rect.left);
@@ -6145,45 +6141,45 @@ xe.XE_Table = jQuery.Class({
 		var table = cell.parents('table');
 		var cells = table.find('td,th').removeClass('xe_selected_cell');
 		var i = 0;
-		
+
 		// 복잡한 모양의 테이블을 위한 반복 처리
 		var selected = jQuery();
 		do {
 			// 선택한 셀로 최대 영역 재계산
 			selected.each(function(){
 				var rect = self._getRect(jQuery(this));
-				
+
 				// 영역 재계산
 				if (rect.right  > _right)  _right  = rect.right;
 				if (rect.left   < _left)   _left   = rect.left;
 				if (rect.top    < _top)    _top    = rect.top;
 				if (rect.bottom > _bottom) _bottom = rect.bottom;
 			});
-			
+
 			// 좌표 범위 안에 있는 선택할 셀을 추린다.
 			cells = cells.filter(':not(.xe_selected_cell)');
 			selected = cells.filter(function(){
 				var rect = self._getRect(jQuery(this));
-				
+
 				if (rect.right <= _left || rect.left >= _right || rect.bottom <= _top || rect.top >= _bottom) return false;
 
 				return true;
 			}).addClass('xe_selected_cell');
 		} while(selected.length);
-		
+
 		// 브라우저의 기본 선택영역 해제 : FF 제외 - 기본 기능이 충분히 좋아서 + 이 부분을 실행하면 오류가 발생해서
 		if (!jQuery.browser.mozilla) {
 			function delayed() {
 				var sel = self.oApp.getSelection();
-				
+
 				if (!self._startSel) return;
 				if (!self._startSel.get(0).firstChild) self._startSel.text(" ");
-				
+
 				sel.selectNode(self._startSel.get(0).firstChild);
 				sel.collapseToStart();
 				sel.select();
 			}
-			
+
 			setTimeout(delayed, 0);
 		}
 
@@ -6195,26 +6191,26 @@ xe.XE_Table = jQuery.Class({
 		this._doc.unbind("mousemove", this.$FnMouseMove);
 		this._doc.unbind("mouseup", this.$FnMouseUp);
 	},
-	
-	_isLeftClicked : function(value) {	
+
+	_isLeftClicked : function(value) {
 		return jQuery.browser.msie?!!(value & 1):(value == 0);
 	},
-	
+
 	_getRect : function(obj) {
 		var el = obj.get(0);
-		
+
 		obj.rect = {};
 		obj.rect.top    = el.offsetTop;
 		obj.rect.left   = el.offsetLeft;
 		obj.rect.bottom = obj.rect.top  + el.offsetHeight;
 		obj.rect.right  = obj.rect.left + el.offsetWidth;
-		
+
 		return obj.rect;
 	},
-	
+
 	_getSpan : function(obj, type) {
 		var span = parseInt(jQuery(obj).attr(type+'span'));
-		
+
 		return isNaN(span)?1:span;
 	}
 }).extend(xe.XE_Table);
