@@ -110,7 +110,7 @@
 
                 // 아무런 모듈도 검색되지 않았다면 종료
                 if(!count($args->modules_info)) return Context::get('msg_not_founded');
-                $args->module_srl = implode(',',$module_srls);
+                $args->module_srls = implode(',', $module_srls);
             }
 
             /**
