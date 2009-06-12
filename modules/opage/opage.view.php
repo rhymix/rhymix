@@ -43,7 +43,7 @@
             // 결과 출력 템플릿 지정
             $this->setTemplateFile('content');
         }
-        
+
         /**
          * @brief 외부 http로 요청되는 파일일 경우 파일을 받아와서 저장 후 return
          **/
@@ -60,7 +60,7 @@
                 $content = FileHandler::readFile($cache_file);
 
             }
-            
+
             // opage controller 생성
             $oOpageController = &getController('opage');
 
@@ -92,7 +92,7 @@
          **/
         function executeFile($path, $caching_interval, $cache_file) {
             // 파일이 없으면 취소
-            if(!file_exists($path)) return;            
+            if(!file_exists($path)) return;
 
             // 경로와 파일이름을 구함
             $tmp_path = explode('/',$cache_file);
@@ -140,8 +140,8 @@
         function _replacePath($matches) {
             $val = trim($matches[3]);
 
-            // http 또는 / 로 시작하는 경로라면 그냥 pass
-            if(preg_match('/^(http|\/)/i',$val)) return $matches[0];
+            // 외부링크 또는 / 로 시작하는 경로라면 그냥 pass
+            if(preg_match('/^(http|https|ftp|telnet|mms|\/)/i',$val)) return $matches[0];
 
             // .. 와 같은 경우 대상 경로를 구함
             elseif(preg_match('/^(\.\.)/i',$val)) {
