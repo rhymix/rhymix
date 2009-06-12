@@ -23,7 +23,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
         jQuery("#xpress-editor-"+editor_sequence).val(saved_content);
     }
 
-	/*
+    /*
     // remove procFilter
     if(form.comment_srl){
         form.onsubmit=function(){
@@ -137,17 +137,17 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     }
 
     function load_proc() {
-    	try {
-    		var doc = oWYSIWYGIFrame.contentWindow.document, str;
-    		if (doc.location == 'about:blank') throw 'blank';
-    		
-    		// get innerHTML
-    		str = doc.body.innerHTML;
-    		
-    		// register plugin
-    		oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
-    		oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
-    		oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
+        try {
+            var doc = oWYSIWYGIFrame.contentWindow.document, str;
+            if (doc.location == 'about:blank') throw 'blank';
+
+            // get innerHTML
+            str = doc.body.innerHTML;
+
+            // register plugin
+            oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
+            oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
+            oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
 
             if(content_font && !doc.body.style.fontFamily) {
                 doc.body.style.fontFamily = content_font;
@@ -155,14 +155,14 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
             if(content_font_size && !doc.body.style.fontSize) {
                 doc.body.style.fontSize = content_font_size;
             }
-    		
-    		// run
-	    	oEditor.run();
-    	} catch(e) {
-    		setTimeout(load_proc, 0);
-    	}
+
+            // run
+            oEditor.run();
+        } catch(e) {
+            setTimeout(load_proc, 0);
+        }
     }
-    
+
     load_proc();
 
     return oEditor;
@@ -173,7 +173,10 @@ function editorGetContentTextarea_xe(editor_sequence) {
 
     if (!oEditor) return '';
 
-    return oEditor.getIR();
+    var str = oEditor.getIR();
+    if(!jQuery.trim(str.replace(/(&nbsp;|<\/?(p|br|span|div)([^>]+)?>)/ig, ''))) return '';
+
+    return str;
 }
 
 function editorGetIframe(srl) {
@@ -206,7 +209,7 @@ xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
     }
 });
 
-// 이미지등의 상대경로를 절대경로로 바꾸는 플러그인 
+// 이미지등의 상대경로를 절대경로로 바꾸는 플러그인
 xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
     name : "XE_GET_WYSYWYG_CONTENT",
 
