@@ -204,8 +204,8 @@
         function getSummary($str_size = 50, $tail = '...') {
             $content = $this->getContent(false, false);
 
-			// 줄바꿈이 있을 때, 공백문자 삽입
-			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
+            // 줄바꿈이 있을 때, 공백문자 삽입
+            $content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
 
             // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
             $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
@@ -216,8 +216,8 @@
             // < , > , " 를 치환
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
-			// 연속된 공백문자 삭제
-			$content = preg_replace('/ ( +)/is', ' ', $content);
+            // 연속된 공백문자 삭제
+            $content = preg_replace('/ ( +)/is', ' ', $content);
 
             // 문자열을 자름
             $content = trim(cut_str($content, $str_size, $tail));
@@ -276,12 +276,12 @@
         }
 
         function hasUploadedFiles() {
-            if($this->isSecret() && !$this->isGranted()) return false;
+            if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted()) return false;
             return $this->get('uploaded_count')? true : false;
         }
 
         function getUploadedFiles() {
-            if($this->isSecret() && !$this->isGranted()) return;
+            if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted()) return;
             if(!$this->get('uploaded_count')) return;
 
             $oFileModel = &getModel('file');
