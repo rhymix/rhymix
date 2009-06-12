@@ -140,8 +140,8 @@
         function _replacePath($matches) {
             $val = trim($matches[3]);
 
-            // 외부링크 또는 / 로 시작하는 경로라면 그냥 pass
-            if(preg_match('/^(http|https|ftp|telnet|mms|\/)/i',$val)) return $matches[0];
+            // 외부 또는 / 로 시작하는 경로라면 그냥 pass
+            if(preg_match('/^(http|https|ftp|telnet|mms|mailto|\/)/i',$val)) return $matches[0];
 
             // .. 와 같은 경우 대상 경로를 구함
             elseif(preg_match('/^(\.\.)/i',$val)) {
