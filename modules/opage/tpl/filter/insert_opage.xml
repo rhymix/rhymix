@@ -10,10 +10,8 @@
         <param name="module_category_srl" target="module_category_srl" />
         <param name="layout_srl" target="layout_srl" />
         <param name="browser_title" target="browser_title" />
-        <param name="is_default" target="is_default" />
         <param name="caching_interval" target="opage_caching_interval" />
         <param name="path" target="opage_path" />
-        <param name="view" target="view" />
     </parameter>
     <response callback_func="completeInsertOpage">
         <tag name="error" />

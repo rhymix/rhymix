@@ -35,6 +35,7 @@
 
             // module_srl의 값에 따라 insert/update
             if(!$args->module_srl) {
+                $args->module_srl = getNextSequence();
                 $output = $oModuleController->insertModule($args);
                 $msg_code = 'success_registed';
             } else {

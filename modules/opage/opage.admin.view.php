@@ -78,10 +78,6 @@
                 }
             }
 
-            // module_srl이 없으면 sequence값으로 미리 구해 놓음
-            if(!$module_srl) $module_srl = getNextSequence();
-            Context::set('module_srl',$module_srl);
-
             // 레이아웃 목록을 구해옴
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
