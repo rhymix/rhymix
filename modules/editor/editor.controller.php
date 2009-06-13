@@ -236,18 +236,12 @@
 
 
         /**
-         * @brief 자동 저장글 로드
+          * @brief 자동 저장글 Srl 로드 (자기글인지 확인)
          **/
-        function loadSaveDoc() {
-            $editor_sequence = Context::get('editor_sequence');
-
+        function triggerSrlSetting(&$obj) {
             $oEditorModel = &getModel('editor');
             $saved_doc = $oEditorModel->getSavedDoc(null);
-            $vars = $this->getVariables();
-            $this->add("title", $saved_doc->title);
-            $this->add("content", $saved_doc->content);
-            $this->add("document_srl", $saved_doc->document_srl);
-
+            if($obj->uploadTargetSrl == $saved_doc->document_srl) Context::set("getIsPermitted",$saved_doc->document_srl);            return $output;
         }
 
 

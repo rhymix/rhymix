@@ -22,7 +22,5 @@
         <action name="procEditorAdminDisableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminMoveListOrder" type="controller" standalone="true" />
         <action name="procEditorAdminSetupComponent" type="controller" standalone="true" />
-
-        <action name="loadSaveDoc" type="controller" standalone="true" />
     </actions>
 </module>

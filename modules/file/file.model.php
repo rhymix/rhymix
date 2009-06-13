@@ -26,7 +26,8 @@
             $editor_sequence = Context::get("editor_sequence");
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+                if($this->getIsPermitted(Context::get('upload_target_srl'))) 
+                    $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('upload_target_srl');
             }
             if($upload_target_srl) {
                 $tmp_files = $this->getFiles($upload_target_srl);
@@ -203,12 +204,22 @@
                 );
             return $upload_status;
         }
-        
+
         /**
          * @brief 특정 모듈의 file 설정을 return
          **/
         function getFileModuleConfig($module_srl) {
             return $this->getFileConfig($module_srl);
+        }
+
+        /**
+         * @brief 사용자가 해당 SRL에 첨부된 파일 수정 권한이 있는지 확인 - 트리거를 통해 반환되는 정보를 이용.
+         **/
+        function getIsPermitted($checking_target) {
+            Context::set("getIsPermitted", '');
+            $obj->uploadTargetSrl = $checking_target;
+            $output = ModuleHandler::triggerCall('file.getIsPermitted', 'before', $obj);
+            return Context::get("getIsPermitted");
         }
     }
 ?>

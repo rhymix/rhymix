@@ -229,6 +229,7 @@ function reloadFileList(settings) {
     var params = new Array();
     params["file_list_area_id"] = settings["fileListAreaID"];
     params["editor_sequence"] = settings["editorSequence"];
+    params["upload_target_srl"] = settings["uploadTargetSrl"];
     params["mid"] = current_mid;
     var response_tags = new Array("error","message","files","upload_status","upload_target_srl","editor_sequence","left_size");
     exec_xml("file","getFileList", params, completeReloadFileList, response_tags, settings);
