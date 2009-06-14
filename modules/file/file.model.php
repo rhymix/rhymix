@@ -217,6 +217,28 @@
          **/
         function getIsPermitted($checking_target) {
             Context::set("getIsPermitted", '');
+
+            // 문서가 있는지 확인
+            $oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($checking_target);
+            if($oDocument->isExists() && $oDocument->document_srl == $document_srl) {
+                if($oDocument->isGranted()) {
+                    Context::set("getIsPermitted", $checking_target);
+                    return $checking_target;
+                }
+            }
+
+            // 댓글이 있는지 확인
+            $oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($checking_target);
+            if($comment->comment_srl == $comment_srl) {
+                if($oComment->isGranted()) {
+                    Context::set("getIsPermitted", $checking_target);
+                    return $checking_target;
+                }
+            }
+
+            // 그 외 모듈에 있는지 확인 (eg. 자동저장 문서)
             $obj->uploadTargetSrl = $checking_target;
             $output = ModuleHandler::triggerCall('file.getIsPermitted', 'before', $obj);
             return Context::get("getIsPermitted");

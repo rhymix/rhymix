@@ -28,7 +28,10 @@
             // upload_target_srl 구함
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+                $oFileModel = &getModel('file');
+                if($oFileModel->getIsPermitted(Context::get('uploadTargetSrl'))) {
+                    $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+                }
             }
             if(!$upload_target_srl) {
                 $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
@@ -57,7 +60,10 @@
             // upload_target_srl 구함
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+                $oFileModel = &getModel('file');
+                if($oFileModel->getIsPermitted(Context::get('uploadTargetSrl'))) {
+                    $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+                }
             }
             if(!$upload_target_srl) {
                 $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
@@ -174,7 +180,7 @@
 
             $fp = fopen($uploaded_filename, 'rb');
             if(!$fp) return $this->stop('msg_file_not_found');
-			
+
             header("Cache-Control: "); 
             header("Pragma: "); 
             header("Content-Type: application/octet-stream"); 
