@@ -22,7 +22,7 @@
             $this->assertEqual($expected_result, $result);
 
             $content = 'src="../images/foo.jpg"';
-            $expected_result = 'src="http://domain.com/images/foo.jpg"';
+            $expected_result = 'src="http://domain.com/test_path/../images/foo.jpg"';
             $result = $oController->replaceSrc($content, $path);
             $this->assertEqual($expected_result, $result);
 
@@ -31,8 +31,10 @@
             $result = $oController->replaceSrc($content, $path);
             $this->assertEqual($expected_result, $result);
 
-            // 프로토콜
-            // http, https, ftp, telnet, mailto, mms
+            /*
+             * 프로토콜
+             * http, https, ftp, telnet, mailto, mms
+             */
             $content = 'href="https://domail.com/"';
             $expected_result = $content;
             $result = $oController->replaceSrc($content, $path);
@@ -50,8 +52,9 @@
 
             // + 포트번호
             $path = 'http://domain.com:123/test_path/opage.php';
-            $content = './images/foo.jpg';
-            $expected_result = 'http://domain.com:123/test_path/images/foo.jpg';
+
+            $content = 'src="./images/foo.jpg"';
+            $expected_result = 'src="http://domain.com:123/test_path/images/foo.jpg"';
             $result = $oController->replaceSrc($content, $path);
             $this->assertEqual($expected_result, $result);
 
