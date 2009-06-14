@@ -39,8 +39,8 @@ function editorEnableAutoSave(fo_obj, editor_sequence) {
     setTimeout(_editorAutoSave, 50000);
 }
 
-// ajax를 이용하여 editor.procEditorSaveDoc 호출하여 자동 저장시킴
-function _editorAutoSave() {
+// ajax를 이용하여 editor.procEditorSaveDoc 호출하여 자동 저장시킴 exe는 강제 코드
+function _editorAutoSave(exe) {
     var fo_obj = editorAutoSaveObj.fo_obj;
     var editor_sequence = editorAutoSaveObj.editor_sequence;
 
@@ -54,22 +54,23 @@ function _editorAutoSave() {
     var title = fo_obj.title.value;
     var content = editorGetContent(editor_sequence);
 
-    // 내용이 이전에 저장하였던 것과 다르면 자동 저장을 함
-    if(title != editorAutoSaveObj.title || content != editorAutoSaveObj.content ) {
+    // 내용이 이전에 저장하였던 것과 다르면 자동 저장을 함 또는 강제 저장 설정시 자동 저장
+    if(title != editorAutoSaveObj.title || content != editorAutoSaveObj.content || exe) {
         var params = new Array();
 
         params["title"] = title;
         params["content"] = content;
+        params["mid"] = current_mid;
         params["document_srl"] = editorRelKeys[editor_sequence]['primary'].value;
 
         editorAutoSaveObj.title = title;
         editorAutoSaveObj.content = content;
 
-		var obj   = jQuery("#editor_autosaved_message_"+editor_sequence);
-		var oDate = new Date();
-		
-		// 메시지 만들어서 보여줌
-		obj.text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
+        var obj   = jQuery("#editor_autosaved_message_"+editor_sequence);
+        var oDate = new Date();
+
+        // 메시지 만들어서 보여줌
+        obj.text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
 
         // 현재 자동저장중임을 설정
         editorAutoSaveObj.locked = true;

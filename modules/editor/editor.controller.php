@@ -229,6 +229,14 @@
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
+            // module_srl이 없으면 현재 모듈
+            if(!$args->module_srl) {
+                $args->module_srl = Context::get('module_srl');
+            }
+            if(!$args->module_srl) {
+                $current_module_info = Context::get('current_module_info');
+                $args->module_srl = $current_module_info->module_srl;
+            }
 
             // 저장
             return executeQuery('editor.insertSavedDoc', $args);
@@ -241,7 +249,8 @@
         function triggerSrlSetting(&$obj) {
             $oEditorModel = &getModel('editor');
             $saved_doc = $oEditorModel->getSavedDoc(null);
-            if($obj->uploadTargetSrl == $saved_doc->document_srl) Context::set("getIsPermitted",$saved_doc->document_srl);            return $output;
+            if($obj->uploadTargetSrl == $saved_doc->document_srl) Context::set("getIsPermitted",$saved_doc->document_srl);
+            return $output;
         }
 
 

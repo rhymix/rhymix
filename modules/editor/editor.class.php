@@ -52,6 +52,15 @@
         function checkUpdate() {
             $oModuleModel = &getModel('module');
 
+            $oDB = &DB::getInstance();
+
+            // 2009. 06. 15 자동저장시 module_srl 을 저장
+            if(!$oDB->isColumnExists("editor_autosave","module_srl")) return true;
+
+            // 2009. 06. 15 module_srl을 인덱스로
+            if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) return true;
+
+
             // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
             if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
@@ -74,6 +83,17 @@
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
+
+            $oDB = &DB::getInstance();
+
+            // 자동저장시 module_srl 을 저장 2009.6.15
+            if(!$oDB->isColumnExists("editor_autosave","module_srl")) 
+                $oDB->addColumn("editor_autosave","module_srl","number",11);
+
+            // module_srl을 인덱스로
+            if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) 
+                $oDB->addIndex("editor_autosave","idx_module_srl", "module_srl");
+
 
             // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
             if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 
