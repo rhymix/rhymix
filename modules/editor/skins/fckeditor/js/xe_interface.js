@@ -51,12 +51,15 @@ function editorStart_fck(editor, element, editor_sequence, content_key, editor_h
     if(typeof(fo_obj._saved_doc_title)!="undefined" ) { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음
         var saved_title = fo_obj._saved_doc_title.value;
         var saved_content = fo_obj._saved_doc_content.value;
+        var saved_srl = fo_obj._saved_doc_srl.value;
         if(saved_title || saved_content) {
             // 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
             if(confirm(fo_obj._saved_doc_message.value)) {
                 if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
                 setTimeout(function(){
+                            editorRelKeys[editor_sequence]['primary'].value = saved_srl;
                             setContent(editor_sequence,saved_content);
+                            editorUploadInit(uploadSettingObj, true);
                         }, 100);
             } else {
                 editorRemoveSavedDoc();

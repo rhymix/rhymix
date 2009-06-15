@@ -485,7 +485,8 @@
             <!--%import("../../tpl/js/uploader.js",optimized=false)-->
             <!--%import("../../tpl/js/swfupload.js",optimized=false)-->
             <script type="text/javascript">//<![CDATA[
-            var uploadSettingObj = {
+            editorUploadInit(
+                {
                     "editorSequence" : {$editor_sequence},
                     "sessionName" : "{session_name()}",
                     "allowedFileSize" : "{$file_config->allowed_filesize}",
@@ -496,9 +497,7 @@
                     "fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
                     "previewAreaID" : "preview_uploaded_{$editor_sequence}",
                     "uploaderStatusID" : "uploader_status_{$editor_sequence}"
-                };
-            editorUploadInit(
-                uploadSettingObj
+                }
             );
         //]]></script>
         <!-- 파일 업로드 영역 -->

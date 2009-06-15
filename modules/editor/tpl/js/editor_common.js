@@ -81,8 +81,8 @@ function _editorAutoSave(exe) {
         show_waiting_message = true;
     }
 
-    // 50초마다 동기화를 시킴
-    setTimeout(_editorAutoSave, 50000);
+    // 50초마다 동기화를 시킴 강제 실행은 제외
+    if(!exe) setTimeout(_editorAutoSave, 50000);
 }
 
 // 자동저장된 모든 메세지를 삭제하는 루틴

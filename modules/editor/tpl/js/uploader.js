@@ -7,6 +7,7 @@ var uploadedFiles = new Array();
 var uploaderSettings = new Array();
 var loaded_images = new Array();
 var swfUploadObjs = new Array();
+var uploadSettingObj = new Object();
 
 /**
  * 업로드를 하기 위한 준비 시작
@@ -21,6 +22,7 @@ function editorUploadInit(obj, exe) {
     if(typeof(obj["allowedFileTypesDescription"])=="undefined") obj["allowedFileTypesDescription"]= "All Files";
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
     if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
+    uploadSettingObj = obj;
     xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
     if(exe) XEUploaderStart(obj);
 }
@@ -280,7 +282,7 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
         }
     }
 
-    var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
+    // var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
 
     // 문서 강제 자동저장
     _editorAutoSave(true);
