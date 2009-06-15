@@ -11,6 +11,9 @@
     $lang->cmd_manage_menu = '選單管理';
     $lang->list_target_item = '目標項目';
     $lang->list_display_item = '顯示項目';
+    $lang->summary = '요약';
+    $lang->thumbnail = '썸네일';
+    $lang->last_post = '최종 글';
 
 
     // 項目

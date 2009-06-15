@@ -11,6 +11,9 @@
     $lang->cmd_manage_menu = '菜单管理';
     $lang->list_target_item = '备选项';
     $lang->list_display_item = '显示项';
+    $lang->summary = '요약';
+    $lang->thumbnail = '썸네일';
+    $lang->last_post = '최종 글';
 
 
     // 项目

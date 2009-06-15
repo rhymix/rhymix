@@ -13,6 +13,9 @@
     $lang->cmd_manage_menu = 'Administration de Menu';
     $lang->list_target_item = 'Target Item';
     $lang->list_display_item = 'Display Item';
+    $lang->summary = '요약';
+    $lang->thumbnail = '썸네일';
+    $lang->last_post = '최종 글';
     // Item
     $lang->search_result = 'Résultat de la Recherche';
     $lang->consultation = 'Consultation';

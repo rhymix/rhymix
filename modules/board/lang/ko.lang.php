@@ -11,7 +11,9 @@
     $lang->cmd_manage_menu = '메뉴관리';
     $lang->list_target_item = '대상 항목';
     $lang->list_display_item = '표시 항목';
-
+    $lang->summary = '요약';
+    $lang->thumbnail = '썸네일';
+    $lang->last_post = '최종 글';
 
     // 항목
     $lang->search_result = '검색결과';

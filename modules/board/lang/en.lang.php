@@ -13,6 +13,9 @@
     $lang->cmd_manage_menu = 'Manage Menus';
     $lang->list_target_item = 'Target Item';
     $lang->list_display_item = 'Display Item';
+    $lang->summary = 'Summary';
+    $lang->thumbnail = 'Thumbnail';
+    $lang->last_post = 'Last post';
 
     // Item
     $lang->search_result = 'Search Result';

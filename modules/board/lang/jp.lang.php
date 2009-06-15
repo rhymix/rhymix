@@ -11,6 +11,9 @@
     $lang->cmd_manage_menu = 'メニュー管理';
     $lang->list_target_item = 'ターゲットアイテム';
     $lang->list_display_item = '表示アイテム';
+    $lang->summary = '요약';
+    $lang->thumbnail = '썸네일';
+    $lang->last_post = '최종 글';
 
 
     // 項目
