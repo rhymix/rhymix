@@ -23,9 +23,11 @@
     <actions>
         <action name="dispWikiContent" type="view" index="true" />
         <action name="dispWikiEditPage" type="view" />
+        <action name="dispWikiHistory" type="view" />
         <action name="dispWikiTitleIndex" type="view" />
         <action name="dispWikiReplyComment" type="view" />
         <action name="dispWikiModifyComment" type="view" />
+        <action name="dispWikiDeleteComment" type="view" />
         <action name="dispWikiAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispWikiAdminInsertWiki" type="view" standalone="true" setup_index="true" />
         <action name="dispWikiAdminGrantInfo" type="view" standalone="true" />

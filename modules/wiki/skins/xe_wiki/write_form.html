@@ -10,29 +10,19 @@
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="title" value="{$entry}" />
 
-<div class="wikiWrite">
+<div class="boardWriteHeader">
 
     <div class="editor">{$oDocument->getEditor()}</div>
-
+	
     <div class="tag">
-        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputTypeText" />
-        <p class="info">{$lang->about_tag}</p>
+        {$lang->tag} : <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputText" title="Tag" /> ({$lang->about_tag})
+        <p />
+    </div>
+
+	<div class="boardNavigation">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
     </div>
 </div>
 
-        <div class="fl gap1">
-            <!--@if($is_logged)-->
-            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_temp_save}"  onclick="doDocumentSave(this); return false;" /></span>
-            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_load}"  onclick="doDocumentLoad(this); return false;" /></span>
-            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_back}" onclick="location.href='{getUrl('act','')}'" /></span>
-            <!--@end-->
-        </div>
-
-        <div class="fr gap1">
-            <span class="button {$btn_class}"><input type="button" value="{$lang->cmd_preview}" onclick="doDocumentPreview(this); return false;" /></span>
-            <span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </div>
-
-        <div class="clear"></div>
-    </form>
+</form>
 <!--#include("footer.html")-->

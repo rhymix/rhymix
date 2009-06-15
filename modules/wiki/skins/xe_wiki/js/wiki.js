@@ -1,7 +1,8 @@
 function moveHistory(fo_obj) {
     if(!fo_obj.entry.value) return;
-    var url = current_url.setQuery('entry',fo_obj.entry.value);
+    var url = request_uri;
     if(typeof(xeVid)!='undefined') url = url.setQuery('vid',xeVid);
+    url = url.setQuery('mid',current_mid).setQuery('entry',fo_obj.entry.value);
     location.href=url;
 }
 
