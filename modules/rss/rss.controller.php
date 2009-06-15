@@ -37,7 +37,8 @@
             if($rss_config->open_rss != 'N') {
                 if(Context::isAllowRewrite()) {
                     $request_uri = Context::getRequestUri();
-                    if(Context::get('vid')) {
+                    // 가상 사이트 변수가 있고 이 변수가 mid와 다를때. (vid와 mid는 같을 수 없다고 함)
+                    if(Context::get('vid') && Context::get('vid') != Context::get('mid')) {
                         Context::set('rss_url', Context::getRequestUri().Context::get('vid').'/'.Context::get('mid').'/rss');
                         Context::set('atom_url', Context::getRequestUri().Context::get('vid').'/'.Context::get('mid').'/atom');
                     }
