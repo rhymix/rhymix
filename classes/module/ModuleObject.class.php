@@ -89,8 +89,8 @@
             // XE에서 access, manager (== is_admin) 는 고정된 권한명이며 이와 관련된 권한 설정
             $module_srl = (int)Context::get('module_srl');
             if(!$module_info->mid && $module_srl) {
-                $request_module = $oModuleModel->getModuleInfoByModuleSrl(Context::get('module_srl'));
-                if($request_module->module_srl == Context::get('module_srl')) {
+                $request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if($request_module->module_srl == $module_srl) {
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
                 }
             } else {
