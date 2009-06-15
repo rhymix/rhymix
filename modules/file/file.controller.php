@@ -57,6 +57,11 @@
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
+            $file_srl = Context::get('file_srl');
+			if($file_srl){
+				$this->deleteFile($file_srl);
+			}
+	
             // upload_target_srl 구함
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(!$upload_target_srl) {
@@ -79,6 +84,33 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('iframe');
 
+        }
+
+        /**
+         * @brief image resize
+         **/
+        function procFileImageResize() {
+            $source_src = Context::get('source_src');
+			$width = Context::get('width');
+			$height = Context::get('height');
+			$type = Context::get('type');
+            $output_src = Context::get('output_src');
+
+			if(!$source_src || !$width) return new Object(-1,'msg_invalid_request');
+            if(!$output_src){
+				$output_src = $source_src . '.resized' . strrchr($source_src,'.');
+			}
+			if(!$type) $type = 'ratio';
+			if(!$height) $height = $width-1;
+
+			if(FileHandler::createImageFile($source_src,$output_src,$width,$height,'','ratio')){
+				$output->info = getimagesize($output_src);	
+				$output->src = $output_src;
+			}else{
+				return new Object(-1,'msg_invalid_request');
+			}
+			
+			$this->add('resized_info',$output);		
         }
 
 
