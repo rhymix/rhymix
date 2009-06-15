@@ -856,12 +856,12 @@
                         case 'mid' : $query = $get_vars['mid']; break;
                         case 'document_srl' : $query = $get_vars['document_srl']; break;
                         case 'document_srl.mid' : $query = $get_vars['mid'].'/'.$get_vars['document_srl']; break;
-                        case 'entry.mid' : $query = $get_vars['mid'].'/'.$get_vars['entry']; break;
+                        case 'entry.mid' : $query = $get_vars['mid'].'/entry/'.$get_vars['entry']; break;
                         case 'act.document_srl.key' : $query = $get_vars['act']=='trackback'?$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
                         case 'mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid']; break;
                         case 'document_srl.vid' : $query = $get_vars['vid'].'/'.$get_vars['document_srl']; break;
                         case 'document_srl.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['document_srl']; break;
-                        case 'entry.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['entry']; break;
+                        case 'entry.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/entry/'.$get_vars['entry']; break;
                         case 'act.document_srl.key.vid' : $query = $get_vars['act']=='trackback'?$get_vars['vid'].'/'.$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
                     }
                 }
