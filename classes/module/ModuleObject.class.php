@@ -86,11 +86,9 @@
             // module model 객체 생성
             $oModuleModel = &getModel('module');
 
-            // 사이트 관리자이면 로그인 정보의 is_admin 에 'Y'로 세팅
-            //if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_admin = 'Y';
-
             // XE에서 access, manager (== is_admin) 는 고정된 권한명이며 이와 관련된 권한 설정
-            if(!$module_info->mid && Context::get('module_srl')) {
+            $module_srl = (int)Context::get('module_srl');
+            if(!$module_info->mid && $module_srl) {
                 $request_module = $oModuleModel->getModuleInfoByModuleSrl(Context::get('module_srl'));
                 if($request_module->module_srl == Context::get('module_srl')) {
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
