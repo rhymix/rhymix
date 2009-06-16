@@ -1,32 +1,27 @@
-<!--// 컬러셋 체크 -->
-    <!--@if(!$module_info->colorset)-->
-        {@$module_info->colorset = "white"}
-    <!--@end-->
+<!--%import("css/issuetracker.css")-->
+<!--%import("css/button.css")-->
+<!--%import("css/pagination.css")-->
+<!--%import("css/white.css")-->
 
-<!--// CSS 파일 로드 (컬러셋에 따라서) -->
-    <!--%import("css/common.css")-->
+{$module_info->header_text}
 
-    <!--@if($module_info->colorset == "white")--> <!--%import("css/white.css")--> <!--@end-->
-    
-<!--@if($module_info->projectTitle)-->
-<div class="skinTitle">
-    {$module_info->projectTitle}
-    <!--@if($module_info->projectDescription)-->
-    <blockquote>{nl2br($module_info->projectDescription)}</blockquote>
-    <!--@end-->
-</div>
-<!--@end-->
+<div class="issuetracker">
+    <div class="issuetrackerHeader">
+		<!--@if($module_info->projectTitle)-->
+		<div class="issuetrackerTitle">
+			<h2 class="issuetrackerTitleText"><a href="{getUrl('','mid',$mid)}">{$module_info->projectTitle}</a></h2>
+		</div>
+		<!--@end-->
 
+		<!--@if($module_info->projectDescription)-->
+		<p class="issuetrackerDescription">{$module_info->projectDescription}</p>
+		<!--@end-->
+    </div>
 
-<!--@if($lang->project_menus)-->
-<div class="issueNav">
+    <!--@if($lang->project_menus)-->
     <ul class="issueNav">
-
     <!--@foreach($lang->project_menus as $key => $value)-->
-        <li class="<!--@if($act==$key)-->selected<!--@else-->unselected<!--@end-->"><a href="{getUrl('','mid',$mid,'act',$key)}">{$value}</a></li>
+        <li class="<!--@if($act==$key)-->on<!--@end-->"><a href="{getUrl('','mid',$mid,'act',$key)}">{$value}</a></li>
     <!--@end-->
-
     </ul>
-    <div class="bottomLine"></div>
-</div>
-<!--@end-->
+    <!--@end-->
