@@ -30,8 +30,8 @@
             'number' => 'INTEGER',
             'varchar' => 'VARCHAR',
             'char' => 'CHAR',
-            'text' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 20',
-            'bigtext' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 20',
+            'text' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 32',
+            'bigtext' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 32',
             'date' => 'VARCHAR(14)',
             'float' => 'FLOAT',
         );
@@ -176,16 +176,16 @@
                 $as = $this->addDoubleQuotes($as);
             }
 
-			// 함수 사용시
-			$tmpFunc1 = null;
-			$tmpFunc2 = null;
+            // 함수 사용시
+            $tmpFunc1 = null;
+            $tmpFunc2 = null;
             if(($no1 = strpos($string,'('))!==false && ($no2 = strpos($string, ')'))!==false) {
                 $tmpFunc1 = substr($string, 0, $no1+1);
-				$tmpFunc2 = substr($string, $no2, strlen($string)-$no2+1);
+                $tmpFunc2 = substr($string, $no2, strlen($string)-$no2+1);
                 $string = trim(substr($string, $no1+1, $no2-$no1-1));
             }
 
-			// 테이블.필드
+            // 테이블.필드
             if(($no1 = strpos($string,'.'))!==false) {
                 $tmpString1 = substr($string, 0, $no1); // table
                 $tmpString2 = substr($string, $no1+1, strlen($string)-$no1+1); // field
@@ -202,8 +202,8 @@
                 $string = $this->addDoubleQuotes($string);
             }
 
-			if($tmpFunc1 != null) $string = $tmpFunc1.$string;
-			if($tmpFunc2 != null) $string = $string.$tmpFunc2;
+            if($tmpFunc1 != null) $string = $tmpFunc1.$string;
+            if($tmpFunc2 != null) $string = $string.$tmpFunc2;
 
             if($as !== false) $string = $string." as ".$as;
             return $string;
@@ -227,7 +227,7 @@
                     $isTable = false;
                     foreach($tables as $key => $val) {
                         if($key == $tmpString1) $isTable = true;
-						if($val == $tmpString1) $isTable = true;
+                        if($val == $tmpString1) $isTable = true;
                     }
 
                     if($isTable) {
@@ -322,25 +322,25 @@
 
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val) {
-					$type = $output->column_type[$key];
+                    $type = $output->column_type[$key];
 
-					if($type == null) {
-						foreach($output->columns as $cols) {
-							if($cols['alias'] == $key) {
-								$type = $output->column_type[$cols['name']];
-							}
-						}
-					}
+                    if($type == null) {
+                        foreach($output->columns as $cols) {
+                            if($cols['alias'] == $key) {
+                                $type = $output->column_type[$cols['name']];
+                            }
+                        }
+                    }
 
                     if($type == "text" || $type == "bigtext") {
-						$blob_data = ibase_blob_info($tmp->{$key});
+                        $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
                         ibase_blob_close($blob_hndl);
                     }
-					else if($type == "char") {
-						$tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
-					}
+                    else if($type == "char") {
+                        $tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
+                    }
                 }
 
                 $return[] = $tmp;
@@ -723,28 +723,18 @@
                         ibase_blob_add($blh, $value);
                         $value = ibase_blob_close($blh);
                     }
-                    else if($output->column_type[$name]!='number') {
-                        //$value = "'".$value."'";
-                    }
-                    elseif(!$value || is_numeric($value)) {
-                        $value = (int)$value;
-                    }
+                    else if($output->column_type[$name]=='number') {
+                        // 연산식이 들어갔을 경우 컬럼명이 있는 지 체크해 더블쿼터를 넣어줌
+                        preg_match("/(?i)[a-z][a-z0-9_-]+/", $value, $matches);
 
-                    if(strlen($value) != 0) {
-						$pos = strpos($value, '+');
-						if($pos == 0) $pos = strpos($value, '-');
-						if($pos == 0) $pos = strpos($value, '*');
-						if($pos == 0) {
-							$pos = strpos($value, '/');
-							if(substr_count($value, ".") > 1) $pos = 0;	// value에 url주소가 들어가는경우
-						}
+                        foreach($matches as $key => $val) {
+                            $value = str_replace($val, "\"".$val."\"", $value);
+                        }
 
-						if($pos != 0) {
-							$substr = substr($value, 0, $pos);
-							$value = '"'.$substr.'"'.substr($value, $pos, strlen($value));
-							$column_list[] = sprintf("\"%s\" = %s", $name, $value);
-							continue;
-						}
+                        if($matches != null) {
+                            $column_list[] = sprintf("\"%s\" = %s", $name, $value);
+                            continue;
+                        }
                     }
 
                     $values[] = $value;
@@ -973,13 +963,13 @@
                 foreach($tmp as $key => $val){
                     $type = $output->column_type[$key];
 
-					if($type == null) {
-						foreach($output->columns as $cols) {
-							if($cols['alias'] == $key) {
-								$type = $output->column_type[$cols['name']];
-							}
-						}
-					}
+                    if($type == null) {
+                        foreach($output->columns as $cols) {
+                            if($cols['alias'] == $key) {
+                                $type = $output->column_type[$cols['name']];
+                            }
+                        }
+                    }
 
                     if($type == "text" || $type == "bigtext") {
                         $blob_data = ibase_blob_info($tmp->{$key});
