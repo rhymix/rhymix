@@ -65,18 +65,6 @@
 </tbody>
 </table>
 
-<!--@if($page_navigation->total_page>1)-->
-<div class="pagination a1">
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <span><a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a></span>
-        <!--@end-->
-    <!--@end-->
-</div>
-<!--@end-->
-
 <div class="issuetrackerNavigation">
 
     <div class="buttonLeft">

@@ -156,9 +156,10 @@
 .issuetrackerSearchForm .inputText{ width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
 .issuetrackerSearchForm ul.searchOption { list-style:none; margin:0 auto; padding:0; margin:0; }
 .issuetrackerSearchForm ul.searchOption li { display:inline; position:relative;}
-.issuetrackerSearchForm ul.searchOption ul { list-style:none; padding:3px; margin:0; position:absolute; left:0; top:25px; border:1px solid #aaa; background-color:#fff; z-index:5; }
+.issuetrackerSearchForm ul.searchOption ul { list-style:none; padding:3px; margin:0; position:absolute;bottom:24px; border:1px solid #aaa; background-color:#fff; z-index:5; }
 .issuetrackerSearchForm ul.searchOption ul.hide { display:none;}
 .issuetrackerSearchForm ul.searchOption ul li { display:block; white-space:nowrap; text-align:left; margin:5px; }
+.issuetrackerSearchForm ul.searchOption ul li select { width:100px; }
 
 /* Board Read */
 .issuetrackerReadHeader{ *zoom:1;}
