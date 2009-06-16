@@ -16,7 +16,7 @@
 
 .sourceBrowser table { width:100%; clear:both; border-spacing:0; table-layout:fixed; border:1px solid #aaa; border-left:none; border-right:none; margin-bottom:10px; }
 .sourceBrowser table thead tr th { height:30px; color:#000; font-family:tahoma; font-size:8pt; font-weight:bold; border-bottom:1px solid #aaa;}
-.sourceBrowser table tr th.filename {color:#ffffff; padding:4px; font-size:9pt; font-family:tahoma; text-align:left;}
+.sourceBrowser table tr th.filename {color:#000; padding:4px; font-size:9pt; font-family:tahoma; text-align:left;}
 .sourceBrowser table tr.revision td { text-align:center; font-weight:bold; font-size:8pt; font-family:tahoma;}
 .sourceBrowser table tr.line td { font-size:8pt; font-family:tahoma;}
 .sourceBrowser table tr.line td.deleted { color:red; }
