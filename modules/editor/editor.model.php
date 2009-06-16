@@ -106,7 +106,7 @@
              **/
             if($enable_autosave) {
                 // 자동 저장된 데이터를 추출
-                $saved_doc = $this->getSavedDoc($upload_target_srl);
+                if(!Context::get($option->primary_key_name)) $saved_doc = $this->getSavedDoc($upload_target_srl);
 
                 // 자동 저장 데이터를 context setting
                 Context::set('saved_doc', $saved_doc);

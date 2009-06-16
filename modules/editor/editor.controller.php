@@ -295,10 +295,15 @@
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
 
-            if($mode) {
-                $output = executeQuery('editor.getSavedDocument', $args);
-                $trigger_obj = $output->data;
-                $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $trigger_obj);
+            // 자동저장된 값이 혹시 이미 등록된 글인지 확인
+            $oDocumentModel = &getModel('document');
+            $oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
+            if(!$oSaved->isExists()) {
+                if($mode) {
+                    $output = executeQuery('editor.getSavedDocument', $args);
+                    $trigger_obj = $output->data;
+                    $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $trigger_obj);
+                }
             }
 
             // 일단 이전 저장본 삭제
