@@ -74,8 +74,9 @@
             Context::set('content_font', $option->content_font);
             Context::set('content_font_size', $option->content_font_size);
 
-            // 자동 저장 유무 옵션 설정
+            // 자동 저장 유무 옵션 설정 글 수정시는 사용 안함
             if(!$option->enable_autosave) $enable_autosave = false;
+            elseif(Context::get($option->primary_key_name)) $enable_autosave = false;
             else $enable_autosave = true;
 
             // 기본 에디터 컴포넌트 사용 설정
@@ -106,7 +107,7 @@
              **/
             if($enable_autosave) {
                 // 자동 저장된 데이터를 추출
-                if(!Context::get($option->primary_key_name)) $saved_doc = $this->getSavedDoc($upload_target_srl);
+                $saved_doc = $this->getSavedDoc($upload_target_srl);
 
                 // 자동 저장 데이터를 context setting
                 Context::set('saved_doc', $saved_doc);
