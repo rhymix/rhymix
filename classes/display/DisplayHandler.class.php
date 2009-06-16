@@ -112,8 +112,8 @@
                     $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
 
                     if(Context::get('vid')) {
-                        $pattern = '/\/'.Context::get('vid').'\?(.+)/is';
-                        $output = preg_replace($pattern, '/?$1', $output);
+                        $pattern = '/\/'.Context::get('vid').'\?([^=]+)=/is';
+                        $output = preg_replace($pattern, '/?$1=', $output);
                     }
                 }
 
