@@ -97,15 +97,20 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
 
         var saved_title = fo_obj._saved_doc_title.value;
         var saved_content = fo_obj._saved_doc_content.value;
-        var saved_srl = fo_obj._saved_doc_srl.value;
 
         if(saved_title || saved_content) {
             // 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
             if(confirm(fo_obj._saved_doc_message.value)) {
                 if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
                 editorRelKeys[editor_sequence]['content'].value = saved_content;
-                editorRelKeys[editor_sequence]['primary'].value = saved_srl;
+
+                var param = new Array();
+                param['editor_sequence'] = editor_sequence;
+                param['primary_key'] = primary_key;
+                var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
+                exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
                 editorUploadInit(uploadSettingObj, true);
+
             } else {
                 editorRemoveSavedDoc();
             }
@@ -561,4 +566,12 @@ function setPreviewHeight(editor_sequence){
     var h = xGetElementById('editor_preview_'+editor_sequence).contentWindow.document.body.scrollHeight;
     if(h < 400) h=400;
     xHeight('editor_preview_'+editor_sequence,h+20);
+}
+function getAutoSavedSrl(ret_obj, response_tags, c) {
+    var editor_sequence = ret_obj['editor_sequence'];
+    var primary_key = ret_obj['key'];
+    var fo_obj = editorGetForm(editor_sequence);
+
+    fo_obj[primary_key].value = ret_obj['document_srl'];
+    editorUploadInit(uploadSettingObj, true);
 }

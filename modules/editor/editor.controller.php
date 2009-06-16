@@ -255,6 +255,27 @@
 
 
         /**
+          * @brief 자동 저장글 Srl 로드 - XE 이전 버전 사용자를 위함.
+         **/
+        function procEditorLoadSavedDocument() {
+            $editor_sequence = Context::get('editor_sequence');
+            $primary_key = Context::get('primary_key');
+            $oEditorModel = &getModel('editor');
+            $oFileController = &getController('file');
+
+            $saved_doc = $oEditorModel->getSavedDoc(null);
+
+            $oFileController->setUploadInfo($editor_sequence, $saved_doc->document_srl);
+            $vars = $this->getVariables();
+            $this->add("editor_sequence", $editor_sequence);
+            $this->add("key", $primary_key);
+            $this->add("title", $saved_doc->title);
+            $this->add("content", $saved_doc->content);
+            $this->add("document_srl", $saved_doc->document_srl);
+        }
+
+
+        /**
          * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
          **/
         function triggerDeleteSavedDoc(&$obj) {
