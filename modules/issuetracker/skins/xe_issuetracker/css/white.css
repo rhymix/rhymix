@@ -164,3 +164,7 @@ dl.changeset dd span.source { color:#4F86B0; }
 dl.changeset dd span.target { color:#4F86B0; font-weight:bold; }
 dl.changeset dd span.key { color:#888888; font-weight:bold; }
 div.search { float:right; }
+
+.diff .deleted { background: #FFDDDD none; }
+.diff .added { background: #DDFFDD none; }
+
