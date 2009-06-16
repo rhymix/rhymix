@@ -1,7 +1,7 @@
 <!--#include("header.html")-->
 
-<div class="boardRead">
-	<div class="boardReadBody">
+<div class="wikiRead">
+	<div class="wikiReadBody">
 		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
 			<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretMessage">
 			<input type="hidden" name="mid" value="{$mid}" />
@@ -23,7 +23,7 @@
             <!--@endif-->
 		<!--@end-->
 	</div>
-	<div class="boardReadFooter">
+	<div class="wikiReadFooter">
 	
 		{@ $tag_list = $oDocument->get('tag_list') }
 		<!--@if(count($tag_list))-->
@@ -75,12 +75,12 @@
     <!--#include("./comment.html")-->
 
     <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
-        <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="boardEditor" >
+        <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="wikiEditor" >
         <input type="hidden" name="mid" value="{$mid}" />
         <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
         <input type="hidden" name="comment_srl" value="" />
         <input type="hidden" name="content" value="" />
-            <div class="boardWrite commentEditor">
+            <div class="wikiWrite commentEditor">
                 <div class="editor">{$oDocument->getCommentEditor()}</div>
 
                 <div class="editorOption">
@@ -99,7 +99,7 @@
 					<label for="is_secret">{$lang->secret}</label>
                 </div>
         
-                <div class="boardNavigation">
+                <div class="wikiNavigation">
                     <span class="buttonOfficial"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
                 </div>
 

@@ -7,20 +7,20 @@
 
 {$module_info->header_text}
 
-<div class="board">
-    <div class="boardHeader">
+<div class="wiki">
+    <div class="wikiHeader">
 		<!--@if($module_info->title)-->
-		<div class="boardTitle">
-			<h2 class="boardTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+		<div class="wikiTitle">
+			<h2 class="wikiTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
 		</div>
 		<!--@end-->
 
 		<!--@if($module_info->comment)-->
-		<p class="boardDescription">{$module_info->comment}</p>
+		<p class="wikiDescription">{$module_info->comment}</p>
 		<!--@end-->
     </div>
 
-    <div class="boardInformation">
+    <div class="wikiInformation">
         <div class="infoView">
             <span class="buttonOfficial"><button type="button" onclick="location.href='{getUrl('act','dispWikiContent','entry','','document_srl','')}';return false;">Front Page</button></span>
             <span class="buttonOfficial"><button type="button" onclick="location.href='{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}';return false;">Title Index</button></span>
@@ -29,15 +29,15 @@
             <!--@end-->
         </div>
 
-        <form action="./" method="get" onsubmit="moveHistory(this); return false;" class="boardSearchForm">
+        <form action="./" method="get" onsubmit="moveHistory(this); return false;" class="wikiSearchForm">
             <input type="text" class="inputTypeText w100" name="entry" />
             <span class="buttonOfficial"><button type="submit">{$lang->cmd_move}</button></span>
         </form>
     </div>
 
     <!--@if($oDocument && $oDocument->isExists())-->
-    <div class="boardRead">
-        <div class="boardReadHeader">
+    <div class="wikiRead">
+        <div class="wikiReadHeader">
             <div class="titleArea">
                 <h3 class="title"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a></h3>
                 <span class="sum">
@@ -91,8 +91,8 @@
         </div>
     </div>
     <!--@elseif($entry)-->
-    <div class="boardRead">
-        <div class="boardReadHeader">
+    <div class="wikiRead">
+        <div class="wikiReadHeader">
             <div class="titleArea">
                 <h3 class="title">{$entry}</h3>
             </div>

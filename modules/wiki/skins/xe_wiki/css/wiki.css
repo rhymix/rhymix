@@ -2,236 +2,236 @@
 /* NHN > UIT Center > Open UI Tech. Team > Jeong Chan Myeong(dece24@nhncorp.com) */
 
 /* Board Reset */
-.board{ font-family:Tahoma, Sans-serif; line-height:normal; font-size:12px;}
-.board .inputText,
-.board textarea,
-.board select{ border:1px solid;}
-.board label{ cursor:pointer;}
-.board img{ border:0;}
-.board .document_popup_menu,
-.board .comment_popup_menu{ text-align:right; font-size:11px;}
-.board .document_popup_menu{ margin:1em 0;}
-.board .comment_popup_menu{ margin:1em 0;}
-.board .document_popup_menu a,
-.board .comment_popup_menu a{ text-decoration:underline;}
-.board .hr{ display:none;}
-.board{ background:#fff; color:#333;}
-.board .inputText,
-.board textarea,
-.board select{ background:#fff; color:#333; border-top-color:#a6a6a6; border-left-color:#a6a6a6; border-right-color:#d8d8d8; border-bottom-color:#d8d8d8;}
-.board .document_popup_menu a,
-.board .comment_popup_menu a{ color:#8b8b8b;}
-.board .boardNavigation{ border-color:#bababa;}
+.wiki{ font-family:Tahoma, Sans-serif; line-height:normal; font-size:12px;}
+.wiki .inputText,
+.wiki textarea,
+.wiki select{ border:1px solid;}
+.wiki label{ cursor:pointer;}
+.wiki img{ border:0;}
+.wiki .document_popup_menu,
+.wiki .comment_popup_menu{ text-align:right; font-size:11px;}
+.wiki .document_popup_menu{ margin:1em 0;}
+.wiki .comment_popup_menu{ margin:1em 0;}
+.wiki .document_popup_menu a,
+.wiki .comment_popup_menu a{ text-decoration:underline;}
+.wiki .hr{ display:none;}
+.wiki{ background:#fff; color:#333;}
+.wiki .inputText,
+.wiki textarea,
+.wiki select{ background:#fff; color:#333; border-top-color:#a6a6a6; border-left-color:#a6a6a6; border-right-color:#d8d8d8; border-bottom-color:#d8d8d8;}
+.wiki .document_popup_menu a,
+.wiki .comment_popup_menu a{ color:#8b8b8b;}
+.wiki .wikiNavigation{ border-color:#bababa;}
 
 /* Board Header */
-.boardHeader *{ margin:0 0 20px 0; padding:0;}
-.boardHeader a{ text-decoration:none;}
-.boardHeader a:hover,
-.boardHeader a:active,
-.boardHeader a:focus{ text-decoration:underline;} 
-.boardHeader .boardTitle{ letter-spacing:-.1em; margin-bottom:10px; border-bottom:3px solid; *zoom:1; background-repeat:no-repeat; background-position:left 8px;}
-.boardHeader .boardTitle:after{ content:""; display:block; clear:both;}
-.boardHeader .boardTitleText{ font-size:18px; float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 5px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
-.boardHeader .boardTitleText a{ text-decoration:none;}
-.boardHeader .boardTitleText em{ font-style:normal; font-weight:normal;}
-.boardHeader .boardDescription{ padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; position:relative;}
-.boardHeader a{ color:#4d4d4d;}
-.boardHeader .boardTitle{ border-color:#ddd; }
-.boardHeader .boardTitleText{ border-color:#666; background-image:url(../img/white/lineVr11.gif);}
-.boardHeader .boardTitleText a{ color:#000;}
-.boardHeader .boardTitleText em{ color:#666;}
-.boardHeader .boardDescription{ background:#f8f8f8; }
+.wikiHeader *{ margin:0 0 20px 0; padding:0;}
+.wikiHeader a{ text-decoration:none;}
+.wikiHeader a:hover,
+.wikiHeader a:active,
+.wikiHeader a:focus{ text-decoration:underline;} 
+.wikiHeader .wikiTitle{ letter-spacing:-.1em; margin-bottom:10px; border-bottom:3px solid; *zoom:1; background-repeat:no-repeat; background-position:left 8px;}
+.wikiHeader .wikiTitle:after{ content:""; display:block; clear:both;}
+.wikiHeader .wikiTitleText{ font-size:18px; float:left; clear:both; margin-bottom:-3px; padding:5px 15px 5px 5px; border-bottom:3px solid; background-repeat:no-repeat; background-position:right bottom;}
+.wikiHeader .wikiTitleText a{ text-decoration:none;}
+.wikiHeader .wikiTitleText em{ font-style:normal; font-weight:normal;}
+.wikiHeader .wikiDescription{ padding:7px 15px; -moz-border-radius:3px; -webkit-border-radius:3px; position:relative;}
+.wikiHeader a{ color:#4d4d4d;}
+.wikiHeader .wikiTitle{ border-color:#ddd; }
+.wikiHeader .wikiTitleText{ border-color:#666; background-image:url(../img/white/lineVr11.gif);}
+.wikiHeader .wikiTitleText a{ color:#000;}
+.wikiHeader .wikiTitleText em{ color:#666;}
+.wikiHeader .wikiDescription{ background:#f8f8f8; }
 
 /* Board Information */
-.boardInformation{width:100%; padding:15px 0; font-size:1em; line-height:normal; *zoom:1;}
-.boardInformation *{ margin:0; padding:0;}
-.boardInformation a{ text-decoration:none;}
-.boardInformation a:hover,
-.boardInformation a:active,
-.boardInformation a:focus{ text-decoration:underline;} 
-.boardInformation:after{ content:""; display:block; float:none; clear:both;}
-.boardInformation ul{ overflow:hidden;}
-.boardInformation .infoSum{ float:left; font-size:16px; font-weight:bold;}
-.boardInformation .infoView{ float:right;}
-.boardInformation .infoView li{ position:relative; float:left; margin-left:3px; display:inline;}
-.boardInformation .infoView li.icon a{ display:block; float:left; width:23px; height:23px; overflow:hidden; background-repeat:no-repeat;}
-.boardInformation .infoView li.icon a span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
-.boardInformation .infoView li.listTypeClassic a{ background-position:0 0;}
-.boardInformation .infoView li.listTypeClassic.active a{ background-position:0 -23px;}
-.boardInformation .infoView li.listTypeZine a{ background-position:-23px 0;}
-.boardInformation .infoView li.listTypeZine.active a{ background-position:-23px -23px;}
-.boardInformation .infoView li.listTypeGallery a{ background-position:-46px 0;}
-.boardInformation .infoView li.listTypeGallery.active a{ background-position:-46px -23px;}
-.boardInformation .infoView li.setup{ margin:0 7px;}
-.boardInformation .infoView li.setup a{ display:block; float:left; width:43px; height:23px; background-repeat:no-repeat;}
-.boardInformation .infoView li.setup a span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
-.boardInformation em,
-.boardInformation strong{ color:#ff6600;}
-.boardInformation .infoView li.icon a{ background-image:url(../img/common/icons.gif);}
-.boardInformation .infoView li.setup a{ background-image:url(../img/common/buttonSetup.gif);}
+.wikiInformation{width:100%; padding:15px 0; font-size:1em; line-height:normal; *zoom:1;}
+.wikiInformation *{ margin:0; padding:0;}
+.wikiInformation a{ text-decoration:none;}
+.wikiInformation a:hover,
+.wikiInformation a:active,
+.wikiInformation a:focus{ text-decoration:underline;} 
+.wikiInformation:after{ content:""; display:block; float:none; clear:both;}
+.wikiInformation ul{ overflow:hidden;}
+.wikiInformation .infoSum{ float:left; font-size:16px; font-weight:bold;}
+.wikiInformation .infoView{ float:right;}
+.wikiInformation .infoView li{ position:relative; float:left; margin-left:3px; display:inline;}
+.wikiInformation .infoView li.icon a{ display:block; float:left; width:23px; height:23px; overflow:hidden; background-repeat:no-repeat;}
+.wikiInformation .infoView li.icon a span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
+.wikiInformation .infoView li.listTypeClassic a{ background-position:0 0;}
+.wikiInformation .infoView li.listTypeClassic.active a{ background-position:0 -23px;}
+.wikiInformation .infoView li.listTypeZine a{ background-position:-23px 0;}
+.wikiInformation .infoView li.listTypeZine.active a{ background-position:-23px -23px;}
+.wikiInformation .infoView li.listTypeGallery a{ background-position:-46px 0;}
+.wikiInformation .infoView li.listTypeGallery.active a{ background-position:-46px -23px;}
+.wikiInformation .infoView li.setup{ margin:0 7px;}
+.wikiInformation .infoView li.setup a{ display:block; float:left; width:43px; height:23px; background-repeat:no-repeat;}
+.wikiInformation .infoView li.setup a span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
+.wikiInformation em,
+.wikiInformation strong{ color:#ff6600;}
+.wikiInformation .infoView li.icon a{ background-image:url(../img/common/icons.gif);}
+.wikiInformation .infoView li.setup a{ background-image:url(../img/common/buttonSetup.gif);}
 
 /* Board List Form */
-.boardListForm{ margin:0; line-height:normal;}
-.boardListForm *{ margin:0; padding:0;}
-.boardListForm fieldset{ border:0; clear:both;}
-.boardListForm fieldset:after{ content:""; display:block; float:none; clear:both;}
-.boardListForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
-.boardListForm em,
-.boardListForm strong{ font-style:normal;}
-.boardListForm strong.trackback { color:#423CC4; }
-.boardListForm em,
-.boardListForm strong{color:#ff3636;}
+.wikiListForm{ margin:0; line-height:normal;}
+.wikiListForm *{ margin:0; padding:0;}
+.wikiListForm fieldset{ border:0; clear:both;}
+.wikiListForm fieldset:after{ content:""; display:block; float:none; clear:both;}
+.wikiListForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+.wikiListForm em,
+.wikiListForm strong{ font-style:normal;}
+.wikiListForm strong.trackback { color:#423CC4; }
+.wikiListForm em,
+.wikiListForm strong{color:#ff3636;}
 
 /* Board List */
-.boardList{ border:0; border-top:1px solid; width:100%;}
-.boardList a{ text-decoration:none;}
-.boardList a:hover,
-.boardList a:active,
-.boardList a:focus{ text-decoration:underline;} 
-.boardList .inputCheck{ width:13px; height:13px;}
-.boardList .jumpTo{ float:left;}
-.boardList .jumpTo *{ vertical-align:middle; *vertical-align:top;}
-.boardList .jumpTo select{ height:20px; font-size:12px; *margin-right:5px;}
-.boardList .jumpTo button{ width:22px; height:20px; line-height:18px; _line-height:normal; border:1px solid; -moz-border-radius:3px; -webkit-border-radius:3px; margin:0; padding:0; text-align:center; background-repeat:no-repeat; font-size:11px; cursor:pointer; overflow:visible;}
-.boardList .meta{ position:relative; overflow:hidden; margin:0 0 5px 0; padding:0; list-style:none; white-space:nowrap;}
-.boardList .meta li{ position:relative; left:-10px; display:inline; padding:0 5px 0 10px; background-repeat:no-repeat; background-position:left center; font-size:11px;}
-.boardList .meta li.author{ font-size:11px;}
-.boardList .meta li.date{ font:9px Tahoma;}
-.boardList .meta li em{ font-size:9px;}
-.boardList .replyNum,
-.boardList .trackbackNum{ font:9px Verdana;}
+.wikiList{ border:0; border-top:1px solid; width:100%;}
+.wikiList a{ text-decoration:none;}
+.wikiList a:hover,
+.wikiList a:active,
+.wikiList a:focus{ text-decoration:underline;} 
+.wikiList .inputCheck{ width:13px; height:13px;}
+.wikiList .jumpTo{ float:left;}
+.wikiList .jumpTo *{ vertical-align:middle; *vertical-align:top;}
+.wikiList .jumpTo select{ height:20px; font-size:12px; *margin-right:5px;}
+.wikiList .jumpTo button{ width:22px; height:20px; line-height:18px; _line-height:normal; border:1px solid; -moz-border-radius:3px; -webkit-border-radius:3px; margin:0; padding:0; text-align:center; background-repeat:no-repeat; font-size:11px; cursor:pointer; overflow:visible;}
+.wikiList .meta{ position:relative; overflow:hidden; margin:0 0 5px 0; padding:0; list-style:none; white-space:nowrap;}
+.wikiList .meta li{ position:relative; left:-10px; display:inline; padding:0 5px 0 10px; background-repeat:no-repeat; background-position:left center; font-size:11px;}
+.wikiList .meta li.author{ font-size:11px;}
+.wikiList .meta li.date{ font:9px Tahoma;}
+.wikiList .meta li em{ font-size:9px;}
+.wikiList .replyNum,
+.wikiList .trackbackNum{ font:9px Verdana;}
 
-.boardList th{ border:0; border-bottom:1px solid; padding:8px 6px 7px 6px; *padding:8px 6px 6px 6px; white-space:nowrap; text-align:center; line-height:normal; font-weight:normal;}
-.boardList th.title{ width:100%;}
-.boardList th a .sort{ vertical-align:middle; margin:0 5px;}
-.boardList td{ border:0; border-bottom:1px solid; padding:8px 6px 7px 6px; *padding:8px 6px 6px 6px; white-space:nowrap; text-align:center; line-height:normal; vertical-align:top;}
-.boardList td.notice{ font-size:11px; font-weight:bold;}
-.boardList td.num{ font:9px Tahoma;}
-.boardList td.check{ font:11px Tahoma;}
-.boardList td.title { width:100%; white-space:normal; text-align:left;}
-.boardList td.title img{ vertical-align:middle; margin:0 1px;}
-.boardList td.title .author{ font-size:11px;}
-.boardList td.author{ font-size:11px; text-align:left;}
-.boardList td.replies{ font:9px Tahoma;}
-.boardList td.reading{ font:9px Tahoma;}
-.boardList td.recommend{ font:bold 9px Tahoma;}
-.boardList td.date{ font:9px Tahoma;}
-.boardList td.summary { text-align:left; border-top-style:dotted; white-space:normal;}
-.boardList td.summary .thumb{ display:block; float:left; padding:2px; border:1px solid; margin-right:10px;}
-.boardList td.summary .thumb img{ display:block;}
-.boardList td.lastReply{ text-align:left; font-size:11px;}
+.wikiList th{ border:0; border-bottom:1px solid; padding:8px 6px 7px 6px; *padding:8px 6px 6px 6px; white-space:nowrap; text-align:center; line-height:normal; font-weight:normal;}
+.wikiList th.title{ width:100%;}
+.wikiList th a .sort{ vertical-align:middle; margin:0 5px;}
+.wikiList td{ border:0; border-bottom:1px solid; padding:8px 6px 7px 6px; *padding:8px 6px 6px 6px; white-space:nowrap; text-align:center; line-height:normal; vertical-align:top;}
+.wikiList td.notice{ font-size:11px; font-weight:bold;}
+.wikiList td.num{ font:9px Tahoma;}
+.wikiList td.check{ font:11px Tahoma;}
+.wikiList td.title { width:100%; white-space:normal; text-align:left;}
+.wikiList td.title img{ vertical-align:middle; margin:0 1px;}
+.wikiList td.title .author{ font-size:11px;}
+.wikiList td.author{ font-size:11px; text-align:left;}
+.wikiList td.replies{ font:9px Tahoma;}
+.wikiList td.reading{ font:9px Tahoma;}
+.wikiList td.recommend{ font:bold 9px Tahoma;}
+.wikiList td.date{ font:9px Tahoma;}
+.wikiList td.summary { text-align:left; border-top-style:dotted; white-space:normal;}
+.wikiList td.summary .thumb{ display:block; float:left; padding:2px; border:1px solid; margin-right:10px;}
+.wikiList td.summary .thumb img{ display:block;}
+.wikiList td.lastReply{ text-align:left; font-size:11px;}
 
-.boardList td .notice{ font-size:11px; padding-right:7px; margin-right:2px; background-repeat:no-repeat; background-position:right center;}
-.boardList td .category{ font-weight:normal; font-size:11px; padding-right:7px; margin-right:2px; background-repeat:no-repeat; background-position:right center;}
-.boardList td .replyAnchor{ position:relative; font-size:9px;}
-.boardList td .by{ font:9px Tahoma;}
-.boardList{ border-color:#bababa;}
-.boardList a{ color:#4d4d4d;}
-.boardList .jumpTo button{ background-color:#eee; border-color:#ccc; color:#000;}
-.boardList .meta li{ background-image:url(../img/white/lineVr9.gif);}
-.boardList .replyNum{ color:#ff3636;}
-.boardList .trackbackNum{ color:#66c;}
-.boardList .replyAnchor{ color:#06C;}
-.boardList th{ border-color:#dcdcdc; color:#4d4d4d;}
-.boardList th a{ color:#66c;}
-.boardList td{ border-color:#eee; color:#4d4d4d;}
-.boardList td.title a.forum:link,
-.boardList td.recommend{ color:#ff3636;}
-.boardList td.summary .thumb{ border-color:#ddd; background:#fff;}
-.boardList td .notice{ background-image:url(../img/white/lineVr9.gif);}
-.boardList td .category{ color:#888; background-image:url(../img/white/lineVr9.gif);}
-.boardList td .by{ color:#ccc;}
+.wikiList td .notice{ font-size:11px; padding-right:7px; margin-right:2px; background-repeat:no-repeat; background-position:right center;}
+.wikiList td .category{ font-weight:normal; font-size:11px; padding-right:7px; margin-right:2px; background-repeat:no-repeat; background-position:right center;}
+.wikiList td .replyAnchor{ position:relative; font-size:9px;}
+.wikiList td .by{ font:9px Tahoma;}
+.wikiList{ border-color:#bababa;}
+.wikiList a{ color:#4d4d4d;}
+.wikiList .jumpTo button{ background-color:#eee; border-color:#ccc; color:#000;}
+.wikiList .meta li{ background-image:url(../img/white/lineVr9.gif);}
+.wikiList .replyNum{ color:#ff3636;}
+.wikiList .trackbackNum{ color:#66c;}
+.wikiList .replyAnchor{ color:#06C;}
+.wikiList th{ border-color:#dcdcdc; color:#4d4d4d;}
+.wikiList th a{ color:#66c;}
+.wikiList td{ border-color:#eee; color:#4d4d4d;}
+.wikiList td.title a.forum:link,
+.wikiList td.recommend{ color:#ff3636;}
+.wikiList td.summary .thumb{ border-color:#ddd; background:#fff;}
+.wikiList td .notice{ background-image:url(../img/white/lineVr9.gif);}
+.wikiList td .category{ color:#888; background-image:url(../img/white/lineVr9.gif);}
+.wikiList td .by{ color:#ccc;}
 
 /* Board Navigation */
-.board .boardNavigation{ padding:30px 0; margin:-1px 0 0 0; text-align:center; border-top:1px solid; *zoom:1; _zoom:0;}
-.board .boardNavigation:after{ content:""; display:block; float:none; clear:both;}
-.board .boardNavigation .pagination{ padding:5px 0;}
-.board .boardNavigation .buttonLeft{ float:left; text-align:left;}
-.board .boardNavigation .buttonRight{ float:right; text-align:right;}
+.wiki .wikiNavigation{ padding:30px 0; margin:-1px 0 0 0; text-align:center; border-top:1px solid; *zoom:1; _zoom:0;}
+.wiki .wikiNavigation:after{ content:""; display:block; float:none; clear:both;}
+.wiki .wikiNavigation .pagination{ padding:5px 0;}
+.wiki .wikiNavigation .buttonLeft{ float:left; text-align:left;}
+.wiki .wikiNavigation .buttonRight{ float:right; text-align:right;}
 
 /* Search Form */
-.boardSearchForm{ position:relative; margin:0; padding:1px 0; line-height:normal;}
-.boardSearchForm *{ margin:0; padding:0;}
-.boardSearchForm fieldset{ border:0; clear:both; text-align:center;}
-.boardSearchForm fieldset:after{ content:""; display:block; float:none; clear:both;}
-.boardSearchForm fieldset *{ vertical-align:top;}
-.boardSearchForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
-.boardSearchForm select{ font-size:12px; height:23px; border:1px solid;}
-.boardSearchForm .inputText{ width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
+.wikiSearchForm{ position:relative; margin:0; padding:1px 0; line-height:normal;}
+.wikiSearchForm *{ margin:0; padding:0;}
+.wikiSearchForm fieldset{ border:0; clear:both; text-align:center;}
+.wikiSearchForm fieldset:after{ content:""; display:block; float:none; clear:both;}
+.wikiSearchForm fieldset *{ vertical-align:top;}
+.wikiSearchForm legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+.wikiSearchForm select{ font-size:12px; height:23px; border:1px solid;}
+.wikiSearchForm .inputText{ width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
 
-.boardSearchForm .infoEtc{ position:absolute; top:7px; right:0;}
-.boardSearchForm .infoEtc li{ display:inline;}
-.boardSearchForm .infoEtc li a{ display:inline-block; height:11px; background-repeat:no-repeat; overflow:hidden;}
-.boardSearchForm .infoEtc li a span{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0; visibility:hidden;}
-.boardSearchForm .infoEtc li.contributors a{ width:12px; background-position:0 0;}
-.boardSearchForm .infoEtc li.tag a{ width:42px; background-position:-11px 0;}
-.boardSearchForm .infoEtc li a{ background-image:url(../img/common/buttonContributorsTaglist.gif);}
+.wikiSearchForm .infoEtc{ position:absolute; top:7px; right:0;}
+.wikiSearchForm .infoEtc li{ display:inline;}
+.wikiSearchForm .infoEtc li a{ display:inline-block; height:11px; background-repeat:no-repeat; overflow:hidden;}
+.wikiSearchForm .infoEtc li a span{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0; visibility:hidden;}
+.wikiSearchForm .infoEtc li.contributors a{ width:12px; background-position:0 0;}
+.wikiSearchForm .infoEtc li.tag a{ width:42px; background-position:-11px 0;}
+.wikiSearchForm .infoEtc li a{ background-image:url(../img/common/buttonContributorsTaglist.gif);}
 
 /* Board Read */
-.boardReadHeader{ *zoom:1;}
-.boardReadHeader a{ text-decoration:none;}
-.boardReadHeader a:hover,
-.boardReadHeader a:active,
-.boardReadHeader a:focus{ text-decoration:underline;}
-.boardReadHeader:after{ content:""; display:block; float:none; clear:both;}
-.boardReadHeader *{ margin:0; padding:0;}
-.boardReadHeader .titleArea{ *zoom:1; padding:7px 0; border-top:1px solid; border-bottom:1px solid;}
-.boardReadHeader .titleArea:after{ content:""; display:block; clear:both;}
-.boardReadHeader .titleArea .title{ float:left; font-size:16px; margin-right:10px;}
-.boardReadHeader .titleArea .category{ float:left; padding-left:10px; margin-top:4px; font-size:12px; background-repeat:no-repeat; background-position:left center;}
-.boardReadHeader .titleArea .sum{ float:right; white-space:nowrap; margin-top:2px;}
-.boardReadHeader .titleArea .sum .read,
-.boardReadHeader .titleArea .sum .vote{ font-size:11px; margin-right:5px;}
-.boardReadHeader .titleArea .sum .num{ font-size:9px;}
-.boardReadHeader .titleArea .sum .date{ padding-left:10px; font-size:9px; background-repeat:no-repeat; background-position:left center;}
-.boardReadHeader .authorArea{ *zoom:1; padding:10px 0;}
-.boardReadHeader .authorArea:after{ content:""; display:block; clear:both;}
-.boardReadHeader .authorArea .author{ float:left; margin-right:10px;}
-.boardReadHeader .authorArea .ipAddress{ float:left; font-size:9px; margin-top:3px;}
-.boardReadHeader .authorArea .permaLink{ float:right; font-size:9px; margin-top:3px;}
-.boardReadHeader a{ color:#262626;}
-.boardReadHeader .titleArea{ border-top-color:#bababa; border-bottom-color:#dcdcdc;}
-.boardReadHeader .titleArea .category{ color:#4d4d4d; background-image:url(../img/white/lineVr9.gif);}
-.boardReadHeader .titleArea .num{ color:#adadad;}
-.boardReadHeader .titleArea .date{ color:#adadad; background-image:url(../img/white/lineVr9.gif);}
-.boardReadHeader .authorArea .ipAddress{ color:#adadad;}
-.boardReadHeader .authorArea .permaLink{ color:#adadad;}
+.wikiReadHeader{ *zoom:1;}
+.wikiReadHeader a{ text-decoration:none;}
+.wikiReadHeader a:hover,
+.wikiReadHeader a:active,
+.wikiReadHeader a:focus{ text-decoration:underline;}
+.wikiReadHeader:after{ content:""; display:block; float:none; clear:both;}
+.wikiReadHeader *{ margin:0; padding:0;}
+.wikiReadHeader .titleArea{ *zoom:1; padding:7px 0; border-top:1px solid; border-bottom:1px solid;}
+.wikiReadHeader .titleArea:after{ content:""; display:block; clear:both;}
+.wikiReadHeader .titleArea .title{ float:left; font-size:16px; margin-right:10px;}
+.wikiReadHeader .titleArea .category{ float:left; padding-left:10px; margin-top:4px; font-size:12px; background-repeat:no-repeat; background-position:left center;}
+.wikiReadHeader .titleArea .sum{ float:right; white-space:nowrap; margin-top:2px;}
+.wikiReadHeader .titleArea .sum .read,
+.wikiReadHeader .titleArea .sum .vote{ font-size:11px; margin-right:5px;}
+.wikiReadHeader .titleArea .sum .num{ font-size:9px;}
+.wikiReadHeader .titleArea .sum .date{ padding-left:10px; font-size:9px; background-repeat:no-repeat; background-position:left center;}
+.wikiReadHeader .authorArea{ *zoom:1; padding:10px 0;}
+.wikiReadHeader .authorArea:after{ content:""; display:block; clear:both;}
+.wikiReadHeader .authorArea .author{ float:left; margin-right:10px;}
+.wikiReadHeader .authorArea .ipAddress{ float:left; font-size:9px; margin-top:3px;}
+.wikiReadHeader .authorArea .permaLink{ float:right; font-size:9px; margin-top:3px;}
+.wikiReadHeader a{ color:#262626;}
+.wikiReadHeader .titleArea{ border-top-color:#bababa; border-bottom-color:#dcdcdc;}
+.wikiReadHeader .titleArea .category{ color:#4d4d4d; background-image:url(../img/white/lineVr9.gif);}
+.wikiReadHeader .titleArea .num{ color:#adadad;}
+.wikiReadHeader .titleArea .date{ color:#adadad; background-image:url(../img/white/lineVr9.gif);}
+.wikiReadHeader .authorArea .ipAddress{ color:#adadad;}
+.wikiReadHeader .authorArea .permaLink{ color:#adadad;}
 
-.boardReadBody{ overflow:hidden; *zoom:1;}
-.boardReadBody .xe_content{ overflow:hidden; }
-.boardReadBody .xe_content a { text-decoration:underline; }
+.wikiReadBody{ overflow:hidden; *zoom:1;}
+.wikiReadBody .xe_content{ overflow:hidden; }
+.wikiReadBody .xe_content a { text-decoration:underline; }
 
-.boardReadFooter .memberSignature { border:1px solid; padding:10px; margin:1em 0; overflow:hidden; *zoom:1; clear:both; -moz-border-radius:5px; -webkit-border-radius:5px;}
-.boardReadFooter .memberSignature img.profile { margin:0 1em 0 0; border:1px solid;}
-.boardReadFooter .tag{ margin:1em 0; clear:both;}
-.boardReadFooter .tag *{ display:inline; margin:0; padding:0; font-size:12px; vertical-align:middle;}
-.boardReadFooter .tag dt{ margin-right:10px;}
-.boardReadFooter .tag dd{ margin-right:5px;}
-.boardReadFooter .trackbackURL{ margin:1em 0; clear:both;}
-.boardReadFooter .trackbackURL *{ display:inline; margin:0; padding:0;}
-.boardReadFooter .trackbackURL dt{ margin-right:5px; font-size:12px;}
-.boardReadFooter .trackbackURL dd{ font-size:11px; text-decoration:none;}
-.boardReadFooter .trackbackURL a{ text-decoration:none;}
-.boardReadFooter .trackbackURL a:hover,
-.boardReadFooter .trackbackURL a:active,
-.boardReadFooter .trackbackURL a:focus{ text-decoration:underline;}
-.boardReadFooter .trackbackURL dt{ color:#4d4d4d;}
-.boardReadFooter .trackbackURL dd a{ color:#adadad;}
-.boardReadFooter .contributors { margin:1em 0; clear:both;}
-.boardReadFooter .contributors *{ display:inline; margin:0; padding:0;}
-.boardReadFooter .contributors dt{ margin-right:5px; font-size:12px;}
-.boardReadFooter .contributors dd{ font-size:12px; text-decoration:none;}
-.boardReadFooter .contributors a{ text-decoration:none;}
-.boardReadFooter .contributors a:hover,
-.boardReadFooter .contributors a:active,
-.boardReadFooter .contributors a:focus{ text-decoration:underline;}
-.boardReadFooter .contributors dt{ color:#4d4d4d;}
-.boardReadFooter .contributors dd a{ color:#4d4d4d; margin-right:5px; }
-.boardReadFooter .memberSignature{ border-color:#f0f0f0; background-color:#fdfdfd;}
-.boardReadFooter .memberSignature img.profile { border-color:#eee;} 
-.boardReadFooter .tag dd a{ color:#4d4d4d;}
-.boardRead .boardNavigation{ border-top:1px solid;}
-.boardRead .command { float:right; }
+.wikiReadFooter .memberSignature { border:1px solid; padding:10px; margin:1em 0; overflow:hidden; *zoom:1; clear:both; -moz-border-radius:5px; -webkit-border-radius:5px;}
+.wikiReadFooter .memberSignature img.profile { margin:0 1em 0 0; border:1px solid;}
+.wikiReadFooter .tag{ margin:1em 0; clear:both;}
+.wikiReadFooter .tag *{ display:inline; margin:0; padding:0; font-size:12px; vertical-align:middle;}
+.wikiReadFooter .tag dt{ margin-right:10px;}
+.wikiReadFooter .tag dd{ margin-right:5px;}
+.wikiReadFooter .trackbackURL{ margin:1em 0; clear:both;}
+.wikiReadFooter .trackbackURL *{ display:inline; margin:0; padding:0;}
+.wikiReadFooter .trackbackURL dt{ margin-right:5px; font-size:12px;}
+.wikiReadFooter .trackbackURL dd{ font-size:11px; text-decoration:none;}
+.wikiReadFooter .trackbackURL a{ text-decoration:none;}
+.wikiReadFooter .trackbackURL a:hover,
+.wikiReadFooter .trackbackURL a:active,
+.wikiReadFooter .trackbackURL a:focus{ text-decoration:underline;}
+.wikiReadFooter .trackbackURL dt{ color:#4d4d4d;}
+.wikiReadFooter .trackbackURL dd a{ color:#adadad;}
+.wikiReadFooter .contributors { margin:1em 0; clear:both;}
+.wikiReadFooter .contributors *{ display:inline; margin:0; padding:0;}
+.wikiReadFooter .contributors dt{ margin-right:5px; font-size:12px;}
+.wikiReadFooter .contributors dd{ font-size:12px; text-decoration:none;}
+.wikiReadFooter .contributors a{ text-decoration:none;}
+.wikiReadFooter .contributors a:hover,
+.wikiReadFooter .contributors a:active,
+.wikiReadFooter .contributors a:focus{ text-decoration:underline;}
+.wikiReadFooter .contributors dt{ color:#4d4d4d;}
+.wikiReadFooter .contributors dd a{ color:#4d4d4d; margin-right:5px; }
+.wikiReadFooter .memberSignature{ border-color:#f0f0f0; background-color:#fdfdfd;}
+.wikiReadFooter .memberSignature img.profile { border-color:#eee;} 
+.wikiReadFooter .tag dd a{ color:#4d4d4d;}
+.wikiRead .wikiNavigation{ border-top:1px solid;}
+.wikiRead .command { float:right; }
 
 /* Feedback List */
 .feedbackList{ overflow:hidden; padding-top:15px; margin-bottom:10px; border-top:1px solid;}
@@ -335,42 +335,42 @@
 .attachedFile ul.files a .bubble{ border:1px solid #ddd; background-color:#fff; color:#4d4d4d;}
 
 /* Board Write */
-.boardWrite *{ margin:0; padding:0;}
-.boardWrite li{ list-style:none;}
-.boardWrite fieldset{ border:0;}
-.boardWrite legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
-.boardWrite .boardWriteHeader{ margin:0 0 1em 0;}
-.boardWrite .boardWriteHeader *{ vertical-align:middle;}
-.boardWrite .boardWriteHeader select{ font-size:12px; vertical-align:top; height:23px;}
-.boardWrite .boardWriteHeader .inputText{ width:400px; padding:3px 4px; height:15px; font-size:12px; *margin-top:-1px;}
-.boardWrite .boardWriteHeader dl.title dd{ white-space:nowrap;}
-.boardWrite .boardWriteHeader dl.title dd .inputText{ width:60%;}
-.boardWrite .tag{ clear:both; margin-bottom:10px; *zoom:1;}
-.boardWrite .tag:after{ content:""; display:block; float:none; clear:both;}
-.boardWrite .tag .inputText{ float:left; width:330px; padding:4px 4px 2px 4px; margin-right:10px; font-size:12px;}
-.boardWrite .tag p{ float:left;}
+.wikiWrite *{ margin:0; padding:0;}
+.wikiWrite li{ list-style:none;}
+.wikiWrite fieldset{ border:0;}
+.wikiWrite legend{ position:absolute; width:0; height:0; overflow:hidden; font:0/0 Sans-serif; visibility:hidden;}
+.wikiWrite .wikiWriteHeader{ margin:0 0 1em 0;}
+.wikiWrite .wikiWriteHeader *{ vertical-align:middle;}
+.wikiWrite .wikiWriteHeader select{ font-size:12px; vertical-align:top; height:23px;}
+.wikiWrite .wikiWriteHeader .inputText{ width:400px; padding:3px 4px; height:15px; font-size:12px; *margin-top:-1px;}
+.wikiWrite .wikiWriteHeader dl.title dd{ white-space:nowrap;}
+.wikiWrite .wikiWriteHeader dl.title dd .inputText{ width:60%;}
+.wikiWrite .tag{ clear:both; margin-bottom:10px; *zoom:1;}
+.wikiWrite .tag:after{ content:""; display:block; float:none; clear:both;}
+.wikiWrite .tag .inputText{ float:left; width:330px; padding:4px 4px 2px 4px; margin-right:10px; font-size:12px;}
+.wikiWrite .tag p{ float:left;}
 
 /* Editor */
-.board .boardEditor{ border:1px solid; margin-bottom:20px; -moz-border-radius:5px; -webkit-border-radius:5px; }
-.board .boardEditor .commentEditor{ margin:15px; *zoom:1; position:relative;}
-.board .boardEditor{ border-color:#ddd; background:#f8f8f8;}
+.wiki .wikiEditor{ border:1px solid; margin-bottom:20px; -moz-border-radius:5px; -webkit-border-radius:5px; }
+.wiki .wikiEditor .commentEditor{ margin:15px; *zoom:1; position:relative;}
+.wiki .wikiEditor{ border-color:#ddd; background:#f8f8f8;}
 
 /* Editor Option */
-.board .editorOption{ margin:1em 0; text-align:left;}
-.board .editorOption *{ vertical-align:middle;}
-.board .editorOption select{ margin-right:10px; font-size:12px;}
-.board .editorOption label{ margin-right:10px;}
-.board .editorOption .inputText{ padding:3px 4px; height:15px; margin:0 10px 5px 0; font-size:12px; vertical-align:middle;}
-.board .editorOption .inputText.userName{ width:100px;}
-.board .editorOption .inputText.userPw{ width:50px; font:11px Tahoma;}
-.board .editorOption .inputText.emailAddress{ width:140px; font:11px Tahoma;}
-.board .editorOption .inputText.homePage{ width:140px; font:11px Tahoma;}
+.wiki .editorOption{ margin:1em 0; text-align:left;}
+.wiki .editorOption *{ vertical-align:middle;}
+.wiki .editorOption select{ margin-right:10px; font-size:12px;}
+.wiki .editorOption label{ margin-right:10px;}
+.wiki .editorOption .inputText{ padding:3px 4px; height:15px; margin:0 10px 5px 0; font-size:12px; vertical-align:middle;}
+.wiki .editorOption .inputText.userName{ width:100px;}
+.wiki .editorOption .inputText.userPw{ width:50px; font:11px Tahoma;}
+.wiki .editorOption .inputText.emailAddress{ width:140px; font:11px Tahoma;}
+.wiki .editorOption .inputText.homePage{ width:140px; font:11px Tahoma;}
 
 /* Require Password */
-.board .requirePassword{ text-align:center;}
-.board .requirePassword fieldset{ border:0; padding:3em 0 4em 0;}
-.board .requirePassword h3{ font-size:16px;}
-.board .requirePassword .inputText{ height:15px; width:150px; padding:3px 4px;}
+.wiki .requirePassword{ text-align:center;}
+.wiki .requirePassword fieldset{ border:0; padding:3em 0 4em 0;}
+.wiki .requirePassword h3{ font-size:16px;}
+.wiki .requirePassword .inputText{ height:15px; width:150px; padding:3px 4px;}
 
 /* Tag Cloud */
 .tagCloud{ padding:3em 0; border-top:1px solid; border-bottom:1px solid;}
