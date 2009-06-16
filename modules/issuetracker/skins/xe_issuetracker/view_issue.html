@@ -32,29 +32,29 @@
     <!--@foreach($oIssue->getExtraVars() as $key => $val)-->
     <tr>
         <th>{$val->name}</th>
-        <td>{$val->getValueHTML()}</td>
+        <td>{$val->getValueHTML()}&nbsp;</td>
     </tr>
     <!--@end-->
     <!--@if(!$oIssue->isSecret() || $oIssue->isAccessible())-->
     <tr>
         <th>{$lang->milestone}</th>
-        <td>{$oIssue->getMilestoneTitle()}</td>
+        <td>{$oIssue->getMilestoneTitle()}&nbsp;</td>
     </tr>
     <tr>
         <th>{$lang->priority}</th>
-        <td>{$oIssue->getPriorityTitle()}</td>
+        <td>{$oIssue->getPriorityTitle()}&nbsp;</td>
     </tr>
     <tr>
         <th>{$lang->type}</th>
-        <td>{$oIssue->getTypeTitle()}</td>
+        <td>{$oIssue->getTypeTitle()}&nbsp;</td>
     </tr>
     <tr>
         <th>{$lang->component}</th>
-        <td>{$oIssue->getComponentTitle()}</td>
+        <td>{$oIssue->getComponentTitle()}&nbsp;</td>
     </tr>
     <tr>
         <th>{$lang->status}</th>
-        <td>{$oIssue->getStatus()}</td>
+        <td>{$oIssue->getStatus()}&nbsp;</td>
     </tr>
     <tr>
         <th>{$lang->assignee}</th>
@@ -69,11 +69,11 @@
     <!--@if(count($project->packages))-->
     <tr>
         <th>{$lang->package}</th>
-        <td>{$oIssue->getPackageTitle()}</td>
+        <td>{$oIssue->getPackageTitle()}&nbsp;</td>
     </tr>
     <tr>
         <th>{$lang->occured_version}</th>
-        <td>{$oIssue->getReleaseTitle()}</td>
+        <td>{$oIssue->getReleaseTitle()}&nbsp;</td>
     </tr>
     <!--@end-->
     <!--@end-->

@@ -175,11 +175,9 @@
                 <a href="#" onclick="jQuery('.listSetup').toggleClass('hide');jQuery('.searchSetup').addClass('hide'); return false;"><img src="./img/common/iconListSetup.gif" alt="{$lang->cmd_setup}" width="23" height="23" /></a>
                 <ul class="listSetup hide">
                     <li class="displayOpt">
-                        <ol>
-                            <!--@foreach($display_option as $key => $val)-->
-                            <li><input type="checkbox" name="d_{$key}" value="1" id="display_{$key}" <!--@if($val->checked)-->checked="checked"<!--@end--> <!--@if($key=='title')-->disabled="disabled"<!--@end--> /><label for="display_{$key}">{$val->title}</label></li>
-                            <!--@end-->
-                        </ol>
+                        <!--@foreach($display_option as $key => $val)-->
+                        <input type="checkbox" name="d_{$key}" value="1" id="display_{$key}" <!--@if($val->checked)-->checked="checked"<!--@end--> <!--@if($key=='title')-->disabled="disabled"<!--@end--> /><label for="display_{$key}">{$val->title}</label>
+                        <!--@end-->
                     </li>
                 </ul>
             </li>

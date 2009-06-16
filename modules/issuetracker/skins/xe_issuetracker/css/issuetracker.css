@@ -156,7 +156,7 @@
 .issuetrackerSearchForm .inputText{ width:140px; height:15px; padding:4px 4px 2px 4px; font-size:12px; *margin:-1px 0;}
 .issuetrackerSearchForm ul.searchOption { list-style:none; margin:0 auto; padding:0; margin:0; }
 .issuetrackerSearchForm ul.searchOption li { display:inline; position:relative;}
-.issuetrackerSearchForm ul.searchOption ul { list-style:none; padding:3px; margin:0; position:absolute; left:0; top:23px; border:1px solid #aaa; background-color:#fff; z-index:5; }
+.issuetrackerSearchForm ul.searchOption ul { list-style:none; padding:3px; margin:0; position:absolute; left:0; top:25px; border:1px solid #aaa; background-color:#fff; z-index:5; }
 .issuetrackerSearchForm ul.searchOption ul.hide { display:none;}
 .issuetrackerSearchForm ul.searchOption ul li { display:block; white-space:nowrap; text-align:left; margin:5px; }
 
@@ -282,7 +282,7 @@
 .feedbackList .item .secretMessage dd .inputText{ padding:3px 4px; height:15px; vertical-align:middle; margin-right:5px;}
 
 /* Attached File */
-.attachedFile { position:relative; margin:1em 0 !important; float:left;}
+.attachedFile { position:relative; margin:1em 0 !important; float:left; width:100%;}
 .feedbackList .item .itemContent .attachedFile{ float:left; margin-top:0; *margin-top:1em; _margin-top:0;}
 .attachedFile *{ margin:0; padding:0; font-size:11px; vertical-align:middle;}
 .attachedFile dt img{ margin-right:10px;}
@@ -294,18 +294,12 @@
 .attachedFile ul.files li{ position:relative; margin:0 10px 0 0;}
 .attachedFile ul.files a{ position:relative; background-repeat:no-repeat; background-position:left center; *zoom:1; text-decoration:none !important;}
 .attachedFile ul.files a .bubble{ display:none; position:absolute; top:-20px; left:0; padding:2px 5px; z-index:100; white-space:nowrap;}
-.attachedFile ul.files a:hover .bubble,
-.attachedFile ul.files a:active .bubble,
-.attachedFile ul.files a:focus .bubble{ display:block;}
 
 ul.files { position:relative; margin:0 0 1em 0; padding:0; clear:both; list-style:none;}
 ul.files *{ display:inline-block; *display:inline; padding:0; margin:0; font-size:11px;}
 ul.files li{ position:relative; margin:0 10px 0 0;}
 ul.files a{ position:relative; background-repeat:no-repeat; background-position:left center; *zoom:1; text-decoration:none !important;}
 ul.files a .bubble{ display:none; position:absolute; top:-20px; left:0; padding:2px 5px; z-index:100; white-space:nowrap; background-color:#fff; border:1px solid #ccc;}
-ul.files a:hover .bubble,
-ul.files a:active .bubble,
-ul.files a:focus .bubble{ display:block;}
 
 /* Board Write */
 .issuetrackerWrite *{ margin:0; padding:0;}

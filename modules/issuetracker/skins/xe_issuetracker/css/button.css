@@ -10,7 +10,7 @@
 .buttonOfficial{ background-position:left top; margin-right:4px;}
 .buttonOfficial span,
 .buttonOfficial input,
-.buttonOfficial button{ left:4px; background-position:right top; padding:0 8px 0 4px;}
+.buttonOfficial button{ left:4px; background-position:right top; padding:0 8px 0 4px; white-space:nowrap;}
 
 a.buttonOfficial{ _margin-top:-1px;}
 a.buttonOfficial span{ _vertical-align:top;}
