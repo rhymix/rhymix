@@ -363,7 +363,7 @@
 
             // 자동 저장 데이터 변경
             $oEditorController = &getController('editor');
-            $oEditorController->deleteSavedDoc(true);
+            $oEditorController->deleteSavedDoc(false);
             $oEditorController->doSaveDoc($saved_doc);
 
             return $saved_doc;

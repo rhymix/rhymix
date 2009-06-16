@@ -18,7 +18,7 @@
          **/
         function procEditorSaveDoc() {
 
-            $this->deleteSavedDoc(true);
+            $this->deleteSavedDoc(false);
 
             $args->document_srl = Context::get('document_srl');
             $args->content = Context::get('content');
@@ -33,7 +33,7 @@
          **/
         function procEditorRemoveSavedDoc() {
             $oEditorController = &getController('editor');
-            $oEditorController->deleteSavedDoc();
+            $oEditorController->deleteSavedDoc(true);
         }
 
         /**
@@ -279,7 +279,7 @@
          * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
          **/
         function triggerDeleteSavedDoc(&$obj) {
-            $this->deleteSavedDoc(true);
+            $this->deleteSavedDoc(false);
             return new Object();
         }
 
@@ -295,7 +295,7 @@
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
 
-            if(!$mode) {
+            if($mode) {
                 $output = executeQuery('editor.getSavedDocument', $args);
                 $trigger_obj = $output->data;
                 $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $trigger_obj);
