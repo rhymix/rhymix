@@ -78,7 +78,7 @@
                 <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" size="5" class="fileList"></select>
             </div>
             <div class="fileUploadControl">
-                <span id="swfUploadButton{$editor_sequence}"><span class="button"><button type="button">{$lang->edit->upload_file}</button></span></span>
+                <span id="swfUploadButton{$editor_sequence}" style="display : block; float:left;"><span class="button"><button type="button">{$lang->edit->upload_file}</button></span></span>
                 <a href="#" onclick="removeUploadedFile('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->delete_selected}</span></a>
                 <a href="#" onclick="insertUploadedFile('{$editor_sequence}');return false;" class="button"><span>{$lang->edit->link_file}</span></a>
             </div>
