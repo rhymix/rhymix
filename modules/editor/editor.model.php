@@ -67,7 +67,7 @@
             else $allow_fileupload = true;
 
             // content_style 세팅
-            if(!$option->content_style) $option->content_style = 'xeStyle';
+            if(!$option->content_style) $option->content_style = 'default';
             Context::set('content_style', $option->content_style);
 
             // 기본 글꼴 지정
