@@ -439,6 +439,11 @@
         function syncChangeset($module_info)
         {
             if(!$module_info->svn_url || !$module_info->svn_cmd) return;
+
+            $lock_file = sprintf('%sfiles/cache/svn/%d.lock', _XE_PATH_,$module_info->module_srl);
+            if(file_exists($lock_file) && filemtime($lock_file)>time()-60*10) return;
+            FileHandler::writeFile($lock_file,' ');
+
             require_once($this->module_path.'classes/svn.class.php');
             $oSvn = new Svn($module_info->svn_url, $module_info->svn_cmd, $module_info->svn_userid, $module_info->svn_passwd);
             $oModel = &getModel('issuetracker');
@@ -452,6 +457,7 @@
                 $gap = $status->revision-$latestRevision;
                 if($gap > 500) $gap = 500;
                 $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $gap, false);
+                if(!$logs || !count($logs)) return;
                 if(count($lost)) {
                     foreach($logs as $log)
                     {
@@ -466,6 +472,7 @@
                 }
                 $latestRevision = $oModel->getLatestRevision($module_info->module_srl);
             }
+            FileHandler::removeFile($lock_file);
         }
 
         /**
