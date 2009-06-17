@@ -12,5 +12,6 @@
     </conditions>
     <navigation>
         <index var="sort_index" default="revision" order="desc" />
+        <list_count var="list_count" default="9999999" />
     </navigation>
 </query>

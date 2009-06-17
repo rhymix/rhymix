@@ -384,7 +384,7 @@
         }
 
 
-        function getChangesets($module_srl, $enddate = null, $limit = 10, $targets)
+        function getChangesets($module_srl, $enddate = null, $limit = 10, $targets, $list_count = 0)
         {
             if(!$enddate)
             {
@@ -393,6 +393,7 @@
             $args->enddate = date("Ymd", ztime($enddate)+24*60*60);
             $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
             $args->module_srl = $module_srl;
+            if($list_count) $args->list_count = $list_count;
             if(in_array('commit', $targets))
             {
                 $output = executeQueryArray("issuetracker.getChangesets", $args);
