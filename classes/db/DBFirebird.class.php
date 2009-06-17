@@ -18,6 +18,7 @@
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
+        var $idx_no = 0; // 인덱스 생성시 사용할 카운터
 
         /**
          * @brief firebird에서 사용될 column type
@@ -563,24 +564,15 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    // index name = prefix  + table name + index_list
-                    // index name 크기가 31byte로 제한되어 있어 중복되지 않을만큼 테이블명을 줄임
-                    // prefix name을 2byte 보다 크게 할 경우 31byte를 넘는 index name이 생김
-                    // 더 좋은 방법을 찾아봐야겠음.
-                    $tok = strtok($table_name, "_");
+                    // index_name = prefix + 'idx_' + no
+                    // index name 크기가 31byte로 제한되어 있어 일련번호로 대체
+                    $this->idx_no++;
                     $index_name = $this->prefix;
-                    $tok = strtok("_");
-                    $index_name .= substr($tok, 0, 2);
-                    $index_name .= substr($tok, -1, 1);
-                    $tok = strtok("_");
-                    while($tok !== false) {
-                        $index_name .= substr($tok, 0, 1);
-                        $tok = strtok("_");
-                    }
+                    $index_name .= "idx_";
+                    $index_name .= sprintf("%04d", $this->idx_no);
 
-
-                    $schema = sprintf("CREATE INDEX \"%s_%s\" ON \"%s\" (\"%s\");",
-                            $index_name, $key, $table_name, implode($val, "\",\""));
+                    $schema = sprintf("CREATE INDEX \"%s\" ON \"%s\" (\"%s\");",
+                            $index_name, $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
                     //commit();
                     @ibase_commit($this->fd);
