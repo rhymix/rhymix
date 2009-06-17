@@ -458,7 +458,7 @@
                 if($gap > 500) $gap = 500;
                 $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $gap, false);
                 if(!$logs || !count($logs)) return;
-                if(count($lost)) {
+                if(count($logs)) {
                     foreach($logs as $log)
                     {
                         $obj = null;
