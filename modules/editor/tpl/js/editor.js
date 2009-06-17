@@ -107,6 +107,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
                 var param = new Array();
                 param['editor_sequence'] = editor_sequence;
                 param['primary_key'] = primary_key;
+                paran['mid'] = current_mid;
                 var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
                 exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
                 if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);

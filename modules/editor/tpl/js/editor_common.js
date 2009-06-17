@@ -87,7 +87,9 @@ function _editorAutoSave(exe) {
 
 // 자동저장된 모든 메세지를 삭제하는 루틴
 function editorRemoveSavedDoc() {
-    exec_xml("editor","procEditorRemoveSavedDoc");
+    var param = new Array();
+    param['mid'] = current_mid;
+    exec_xml("editor","procEditorRemoveSavedDoc", param);
 }
 
 /**

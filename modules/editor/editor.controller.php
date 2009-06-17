@@ -294,15 +294,24 @@
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
+            $args->module_srl = Context::get('module_srl');
+            // module_srl이 없으면 현재 모듈
+            if(!$args->module_srl) {
+                $current_module_info = Context::get('current_module_info');
+                $args->module_srl = $current_module_info->module_srl;
+            }
 
             // 자동저장된 값이 혹시 이미 등록된 글인지 확인
+            $output = executeQuery('editor.getSavedDocument', $args);
+            $saved_doc = $output->data;
+            if(!$saved_doc) return;
+
             $oDocumentModel = &getModel('document');
             $oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
             if(!$oSaved->isExists()) {
                 if($mode) {
                     $output = executeQuery('editor.getSavedDocument', $args);
-                    $trigger_obj = $output->data;
-                    $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $trigger_obj);
+                    $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
                 }
             }
 
