@@ -125,7 +125,7 @@
     $lang->msg_confirm_account_comment = 'Click the following confirmation link to complete your sign up.';
     $lang->msg_auth_mail_sent = 'The verification mail has been sent to %s. Please check your mail.';
     $lang->msg_confirm_mail_sent = 'We just sent you a confirmation email to %s. Click on the confirmation link in the email to complete your sign up.';
-    $lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
+    $lang->msg_invalid_auth_key = 'This is an invalid request of verification.<br />Please retry finding account info or contact to administrator.';
     $lang->msg_success_authed = 'Your account has been successfully certificated and logged on.\n Please modify the password to your own one with the password in the mail.';
     $lang->msg_success_confirmed = 'The autentication completed successfully.';
 
@@ -160,7 +160,7 @@
     $lang->about_password = 'Password should be 6~20 letters long';
     $lang->about_user_name = 'Name should be 2~20 letters long';
     $lang->about_nick_name = 'Nickname should be 2~20 letters long';
-    $lang->about_email_address = 'Email address will be used to modify/find password after email certification';
+    $lang->about_email_address = 'Email address will be used to modify/find password after email verification';
     $lang->about_homepage = 'Please input if you have your websites';
     $lang->about_blog_url = 'Please input if you have your blogs';
     $lang->about_birthday = 'Please input your birth date';
@@ -182,7 +182,7 @@
     $lang->about_enable_join = 'Allow users to sign up';
     $lang->about_enable_confirm = 'Send confirmation email to complete signup.';
     $lang->about_enable_ssl = 'Personal information from Join/Modify Member Info/Login can be sent as SSL(https) mode if server provides SSL service.';
-    $lang->about_limit_day = 'You can limit certification date after sign up';
+    $lang->about_limit_day = 'You can limit verification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
     $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';
     $lang->about_after_logout_url = 'You can set URL after logout. Blank means current page.';
@@ -197,7 +197,7 @@
 
     $lang->about_member_default = 'It will be set as default group on sign up';
 
-    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and certification management will be done on current OpenID offering service';
+    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and verification management will be done on current OpenID offering service';
     $lang->about_openid_leave = 'The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
     $lang->about_member = "This is a module for creating/modifying/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
