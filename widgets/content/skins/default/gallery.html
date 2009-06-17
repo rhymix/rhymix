@@ -21,11 +21,11 @@
             <!--@else if($v=='title')-->
                 <a href="{$item->getLink()}" class="title">{$item->getTitle($widget_info->subject_cut_size)}</a>
                 <!--@if($widget_info->show_comment_count=='Y' && $item->getCommentCount())-->
-                    <sup class="replyNum"><a href="{$item->getLink()}#comment">{$item->getCommentCount()}</a></sup>
+                    <sup class="replyNum" title="Replies"><a href="{$item->getLink()}#comment">{$item->getCommentCount()}</a></sup>
                 <!--@end-->
 
                 <!--@if($widget_info->show_trackback_count=='Y' && $item->getTrackbackCount())-->
-                    <sup class="trackbackNum"><a href="{$item->getLink()}#trackback">{$item->getTrackbackCount()}</a></sup>
+                    <sup class="trackbackNum" title="Trackbacks"><a href="{$item->getLink()}#trackback">{$item->getTrackbackCount()}</a></sup>
                 <!--@end-->
 
                 <!--@if($widget_info->show_icon=='Y')-->
