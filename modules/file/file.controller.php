@@ -80,7 +80,7 @@
                 $output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
                 Context::set('uploaded_fileinfo',$output);
             }
-
+			Context::set('layout','none');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('iframe');
 
