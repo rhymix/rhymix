@@ -452,15 +452,17 @@
                 $gap = $status->revision-$latestRevision;
                 if($gap > 500) $gap = 500;
                 $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $gap, false);
-                foreach($logs as $log)
-                {
-                    $obj = null;
-                    $obj->revision = $log->revision;
-                    $obj->author = $log->author;
-                    $obj->date = date("YmdHis", strtotime($log->date));
-                    $obj->message = trim($log->msg);
-                    $obj->module_srl = $module_info->module_srl;
-                    executeQuery("issuetracker.insertChangeset", $obj);
+                if(count($lost)) {
+                    foreach($logs as $log)
+                    {
+                        $obj = null;
+                        $obj->revision = $log->revision;
+                        $obj->author = $log->author;
+                        $obj->date = date("YmdHis", strtotime($log->date));
+                        $obj->message = trim($log->msg);
+                        $obj->module_srl = $module_info->module_srl;
+                        executeQuery("issuetracker.insertChangeset", $obj);
+                    }
                 }
                 $latestRevision = $oModel->getLatestRevision($module_info->module_srl);
             }
