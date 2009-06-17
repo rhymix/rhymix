@@ -54,7 +54,7 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
                 if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
                 editorRelKeys[editor_sequence]['content'].value = saved_content;
                 editorRelKeys[editor_sequence]['primary'].value = saved_srl;
-                editorUploadInit(uploadSettingObj, true);
+                if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
             } else {
                 editorRemoveSavedDoc();
             }

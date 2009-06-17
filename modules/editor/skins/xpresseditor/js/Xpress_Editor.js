@@ -5781,7 +5781,7 @@ xe.XE_AutoSave = jQuery.Class({
 				jQuery(this.form.title).val(title);
 				jQuery(this.form.document_srl).val(doc_srl);
 				this.oApp.setIR(content);
-				editorUploadInit(uploadSettingObj, true);
+				if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
 			} else {
 				editorRemoveSavedDoc();
 			}

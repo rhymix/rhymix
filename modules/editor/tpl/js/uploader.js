@@ -282,10 +282,10 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
         }
     }
 
-    // var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
+    var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
 
     // 문서 강제 자동저장
-    _editorAutoSave(true);
+    if(typeof(_editorAutoSave) == 'function') _editorAutoSave(true);
 
     xAddEventListener(listObj,'click',previewFiles);
 }

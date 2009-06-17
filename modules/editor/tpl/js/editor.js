@@ -109,7 +109,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
                 param['primary_key'] = primary_key;
                 var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
                 exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
-                editorUploadInit(uploadSettingObj, true);
+                if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
 
             } else {
                 editorRemoveSavedDoc();

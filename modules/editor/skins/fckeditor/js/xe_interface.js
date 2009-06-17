@@ -59,7 +59,7 @@ function editorStart_fck(editor, element, editor_sequence, content_key, editor_h
                 setTimeout(function(){
                             editorRelKeys[editor_sequence]['primary'].value = saved_srl;
                             setContent(editor_sequence,saved_content);
-                            editorUploadInit(uploadSettingObj, true);
+                            if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
                         }, 100);
             } else {
                 editorRemoveSavedDoc();
