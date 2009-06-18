@@ -66,7 +66,7 @@
                 <title xml:lang="zh-TW">說明</title>
                 <description xml:lang="ko">입력하시면 이슈트래커의 메인에 설명이 노출됩니다.</description>
                 <description xml:lang="jp">登録するとイシュートラッカー（IssueTracker）のメインに説明が表示されます。</description>
-                <description xml:lang="en">It will be displayed on main of the issue tracker if you input the description.</description>
+                <description xml:lang="en">It will be displayed on main of the IssueTracker if there is description.</description>
                 <description xml:lang="es">Que se mostrará en el tema principal de seguimiento de si la descripción de entrada.</description>
                 <description xml:lang="zh-CN">将在IssueTracker页面中显示。</description>
                 <description xml:lang="zh-TW">會顯示在問題追蹤頁面中。</description>
