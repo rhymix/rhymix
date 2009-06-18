@@ -56,7 +56,7 @@
 
             $referer_url = Context::get('referer_url');
             if (!$referer_url) $referer_url = $_SERVER['HTTP_REFERER'];
-            if (!$referer_url) 
+            if (!$referer_url)
                 $referer_url = htmlspecialchars_decode(getRequestUri(RELEASE_SSL));
 
             $openid = new SimpleOpenID();
@@ -72,7 +72,7 @@
                 $this->setError(-1);
                 $this->setMessage($error['description']);
 
-                if (Context::getRequestMethod() == 'POST') 
+                if (Context::getRequestMethod() == 'POST')
                     header("location:" . $referer_url);
             } else {
                 $goto = urlencode($referer_url);
@@ -80,7 +80,7 @@
                 $openid->SetApprovedURL($ApprovedURL);
                 $url = $openid->GetRedirectURL();
                 $this->add('redirect_url', $url);
-                if (Context::getRequestMethod() == 'POST') 
+                if (Context::getRequestMethod() == 'POST')
                     header("location:" . $url);
             }
             ob_clean();
@@ -110,12 +110,12 @@
             if ($query === null) $query = '';
             if ($fragment === null) $fragment = '';
 
-            if ($scheme == 'http' or $scheme == '') 
+            if ($scheme == 'http' or $scheme == '')
                 $scheme_part = '';
             else
                 $scheme_part = $scheme."://";
 
- 
+
             if ($path == '' || $path == '/') {
                 $result[] = $scheme_part.$authority.''.$query.$fragment;
                 $result[] = $scheme_part.$authority.'/'.$query.$fragment;
@@ -148,7 +148,7 @@
             return $openid_ctx;
         }
 
-        /** 
+        /**
          * @brief openid 인증 체크
          **/
         function procMemberOpenIDValidate() {
@@ -227,11 +227,11 @@
                 // 페이지 이동
                 if(Context::get('goto')) {
                     $goto = Context::get('goto');
-                    header("location:" . $goto);	
+                    header("location:" . $goto);
                 } else {
-                    header("location:./");	
+                    header("location:./");
                 }
-                
+
                 exit();
 
             // 인증 실패
@@ -274,9 +274,9 @@
 
                 if(Context::get('goto')){
                     $goto = Context::get('goto');
-                    header("location:" . $goto);	
+                    header("location:" . $goto);
                 }else{
-                    header("location:./");	
+                    header("location:./");
                 }
                 exit();
             } else if($openid->IsError() == true) {
@@ -491,7 +491,7 @@
                         // 중복 검사
                         $member_srl = $oMemberModel->getMemberSrlByNickName($value);
                         if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
-                        
+
                     break;
                 case 'email_address' :
                         // 중복 검사
@@ -511,7 +511,7 @@
             // 관리자가 회원가입을 허락하였는지 검사
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 
-            // 약관에 동의하였는지 검사 (약관이 있을 경우만) 
+            // 약관에 동의하였는지 검사 (약관이 있을 경우만)
             if($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // 필수 정보들을 미리 추출
@@ -706,7 +706,7 @@
         }
 
         /**
-         * @brief 프로필 이미지 추가 
+         * @brief 프로필 이미지 추가
          **/
         function procMemberInsertProfileImage() {
             // 정상적으로 업로드 된 파일인지 검사
@@ -759,7 +759,7 @@
         }
 
         /**
-         * @brief 이미지 이름을 추가 
+         * @brief 이미지 이름을 추가
          **/
         function procMemberInsertImageName() {
             // 정상적으로 업로드 된 파일인지 검사
@@ -807,7 +807,7 @@
             if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
             else @copy($target_file, $target_filename);
         }
-        
+
         /**
          * @brief 프로필 이미지를 삭제
          **/
@@ -827,7 +827,7 @@
                 $oMemberModel = &getModel('member');
                 $profile_image = $oMemberModel->getProfileImage($member_srl);
                 FileHandler::removeFile($profile_image->file);
-            } 
+            }
             return new Object(0,'success');
         }
 
@@ -850,12 +850,12 @@
                 $oMemberModel = &getModel('member');
                 $image_name = $oMemberModel->getImageName($member_srl);
                 FileHandler::removeFile($image_name->file);
-            } 
+            }
             return new Object(0,'success');
         }
 
         /**
-         * @brief 이미지 마크를 추가 
+         * @brief 이미지 마크를 추가
          **/
         function procMemberInsertImageMark() {
             // 정상적으로 업로드 된 파일인지 검사
@@ -889,7 +889,7 @@
             if(!$max_width) $max_width = "20";
             $max_height = $config->image_mark_max_height;
             if(!$max_height) $max_height = "20";
-            
+
             $target_path = sprintf('files/member_extra_info/image_mark/%s/', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
 
@@ -915,7 +915,7 @@
                 $oMemberModel = &getModel('member');
                 $image_mark = $oMemberModel->getImageMark($member_srl);
                 FileHandler::removeFile($image_mark->file);
-            } 
+            }
             return new Object(0,'success');
         }
 
@@ -956,13 +956,13 @@
             // 메일 내용을 구함
             Context::set('auth_args', $args);
             Context::set('member_info', $member_info);
-            
+
             $member_config = $oModuleModel->getModuleConfig('member');
             if(!$member_config->skin) $this->member_config->skin = "default";
             if(!$member_config->colorset) $this->member_config->colorset = "white";
 
             Context::set('member_config', $member_config);
-            
+
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
@@ -970,7 +970,7 @@
             if(!preg_match('/^http/i',$find_url)) $find_url = substr(Context::getRequestUri(),0,-1).$find_url;
             Context::set('find_url',$find_url);
 
-            
+
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
 
@@ -1030,7 +1030,7 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('msg_success_authed');
         }
-        
+
         /**
          * @brief 아이디/비밀번호 찾기 기능 실행
          * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
@@ -1040,18 +1040,18 @@
         	if(!$member_srl) return new Object(-1, 'msg_invalid_request');
 
             $oMemberModel = &getModel('member');
-        	
+
             // 회원의 정보를 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-            
+
             // 인증메일 재발송 요청이 가능한 상태의 회원인지 검사
-            if ($member_info->denied != 'Y') 
+            if ($member_info->denied != 'Y')
                 return new Object(-1, 'msg_invalid_request');
-            
+
             $chk_args->member_srl = $member_srl;
             $output = executeQuery('member.chkAuthMail', $chk_args);
             if ($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
-            
+
             // 인증 DB에 데이터를 넣음
             $auth_args->member_srl = $member_srl;
             $auth_args->auth_key = md5(rand(0, 999999));
@@ -1065,20 +1065,20 @@
             // 메일 내용을 구함
             Context::set('auth_args', $auth_args);
             Context::set('member_info', $member_info);
-            
+
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             if(!$member_config->skin) $this->member_config->skin = "default";
             if(!$member_config->colorset) $this->member_config->colorset = "white";
 
             Context::set('member_config', $member_config);
-            
+
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-            
+
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-            
+
             // 사이트 웹마스터 정보를 구함
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
@@ -1090,10 +1090,72 @@
             $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
             $oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
             $oMail->send();
-            
+
             // 메세지 return
             $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
             return new Object(-1, $msg);
+        }
+
+        /**
+         * @brief 인증 메일 재발송
+         **/
+        function procMemberResendAuthMail() {
+            // email_address 검사
+            $email_address = Context::get('email_address');
+            if(!$email_address) return $this->stop('msg_invalid_request');
+
+            // email_address로 비밀번호 찾기 로그 검사
+            $oMemberModel = &getModel('member');
+
+            $args->email_address = $email_address;
+            $member_info = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+            if(!$member_info) return $this->stop('msg_not_exists_member');
+
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_info);
+
+			// 이전에 인증 메일을 보냈는지 확인
+            $chk_args->member_srl = $member_info->member_srl;
+            $output = executeQuery('member.chkAuthMail', $chk_args);
+            if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
+
+            // 인증 메일 재발송
+            $auth_args->email_address = $auth_info->email_address = $args->email_address;
+
+            $output = executeQuery('member.getAuthMail', $auth_args);
+
+			$auth_info->auth_key = $output->data->auth_key;
+
+            // 메일 내용을 구함
+            Context::set('auth_args', $auth_info);
+            Context::set('member_info', $member_info);
+
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+            if(!$member_config->skin) $this->member_config->skin = "default";
+            if(!$member_config->colorset) $this->member_config->colorset = "white";
+
+            Context::set('member_config', $member_config);
+
+            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+
+	        $oTemplate = &TemplateHandler::getInstance();
+            $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+
+            // 사이트 웹마스터 정보를 구함
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+
+            // 메일 발송
+            $oMail = new Mail();
+            $oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+            $oMail->setContent($content);
+            $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
+            $oMail->setReceiptor( $args->user_name, $args->email_address );
+            $oMail->send();
+
+            $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
+            $this->setMessage($msg);
         }
 
         /**
@@ -1269,7 +1331,7 @@
             $trigger_obj->password = $password;
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
             if(!$trigger_output->toBool()) return $trigger_output;
-            
+
             // member model 객체 생성
             $oMemberModel = &getModel('member');
 
@@ -1364,7 +1426,7 @@
                 if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = 'Y';
             }
             */
-            
+
             // 세션에 로그인 사용자 정보 저장
             $_SESSION['logged_info'] = $member_info;
             Context::set('is_logged', true);
@@ -1515,16 +1577,16 @@
                 // 메일 내용을 구함
                 Context::set('auth_args', $auth_args);
                 Context::set('member_info', $args);
-                
+
 	            $member_config = $oModuleModel->getModuleConfig('member');
 	            if(!$member_config->skin) $this->member_config->skin = "default";
 	            if(!$member_config->colorset) $this->member_config->colorset = "white";
-	
+
 	            Context::set('member_config', $member_config);
-	            
+
 	            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 	            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-	            
+
 	            $oTemplate = &TemplateHandler::getInstance();
                 $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 

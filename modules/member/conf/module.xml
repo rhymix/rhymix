@@ -15,6 +15,7 @@
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
         <action name="dispMemberSavedDocument" type="view" standalone="true" />
         <action name="dispMemberFindAccount" type="view" standalone="true" />
+		<action name="dispMemberResendAuthMail" type="view" standalone="true" />
         <action name="dispSavedDocumentList" type="view" standalone="true" />
 
         <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" />
@@ -62,6 +63,7 @@
         <action name="procMemberFindAccount" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
+		<action name="procMemberResendAuthMail" type="controller" standalone="true" />
 
         <action name="procMemberAdminInsert" type="controller" standalone="true" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />

@@ -95,6 +95,7 @@
     $lang->cmd_view_member_info = 'Voir Mon Information';
     $lang->cmd_leave = 'Quitter';
     $lang->cmd_find_member_account = 'J\'ai perdu le compte / le mot de passe';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = 'Liste de Membres';
     $lang->cmd_module_config = 'Configuration par Défaut';
@@ -203,4 +204,6 @@
     $lang->about_find_member_account = 'L\information de votre compte sera annoncé par le mél sur l\'inscription. <br />Entrez l\'adresse mél que vous avez entré sur l\'inscription et appuyez le bouton "Recherce l\'Information du Compte".<br />';
 
 	$lang->about_member = "C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.\nVous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.";
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

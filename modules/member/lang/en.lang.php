@@ -95,6 +95,7 @@
     $lang->cmd_view_member_info = 'Member Info';
     $lang->cmd_leave = 'Leave';
     $lang->cmd_find_member_account = 'Find Account Info';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = 'Member List';
     $lang->cmd_module_config = 'Default Setting';
@@ -202,5 +203,8 @@
 
     $lang->about_member = "This is a module for creating/modifying/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
+	$lang->about_ssl_port = '기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요';
     $lang->add_openid = 'Add OpenID';
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

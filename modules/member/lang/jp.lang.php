@@ -95,6 +95,7 @@
     $lang->cmd_view_member_info = '会員情報確認';
     $lang->cmd_leave = '退会';
     $lang->cmd_find_member_account = 'IDとパスワードのリマインダー';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = '会員リスト';
     $lang->cmd_module_config = '基本設定';
@@ -205,4 +206,6 @@
     $lang->about_member = "会員の作成・修正・削除することが出来、グループの管理、登録フォームの管理などが行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理が出来るようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することが出来ます。";
     $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';
     $lang->add_openid = 'OpenIDの追加';
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

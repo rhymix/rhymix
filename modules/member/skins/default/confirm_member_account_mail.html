@@ -9,4 +9,4 @@
 </ul>
 <hr noshade="noshade" />
 {$lang->msg_confirm_account_comment}<br />
-<a href="{getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key)}" target="_blank">{getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl,'auth_key',$auth_args->auth_key)}</a>
+<a href="{Context::getRequestUri()}{getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key)}" target="_blank">{Context::getRequestUri()}{getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl,'auth_key',$auth_args->auth_key)}</a>
