@@ -19,6 +19,7 @@
          **/
         function procFileUpload() {
             // 기본적으로 필요한 변수 설정
+            $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
             $module_srl = $this->module_srl;
 
@@ -26,13 +27,26 @@
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
             // upload_target_srl 구함
-            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) {
-                $oFileModel = &getModel('file');
+            $tmp_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+            if(!$tmp_target_srl) {
                 if($oFileModel->getIsPermitted(Context::get('uploadTargetSrl'))) {
-                    $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
+                    $tmp_target_srl = Context::get('uploadTargetSrl');
                 }
             }
+
+            $tmp_files = $oFileModel->getFiles($tmp_target_srl);
+            if(is_array($tmp_files)) $tmp_file = $tmp_files[0];
+
+            // 첨부될 target_srl이 이전에 쓰인 target_srl인지 확인, 쓰였다면 이 모듈에서 쓰인게 맞는지 확인
+            if(!$tmp_file || !$tmp_file->file_srl || $tmp_file->module_srl == $module_srl) {
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = $tmp_target_srl;
+            }
+            else {
+                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = '';
+            }
+            unset($tmp_files);
+            unset($tmp_file);
+
             if(!$upload_target_srl) {
                 $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
             }
