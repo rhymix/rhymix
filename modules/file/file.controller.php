@@ -394,8 +394,13 @@
                 // direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
                 $file_info['name'] = preg_replace('/\.(php|phtm|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
 
-                $path = sprintf("./files/attach/images/%s/%s%s/", $module_srl,getNumberingPath($upload_target_srl,3),md5(crypt(rand(1000000,900000), rand(0,100))));
+                $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_info['name'];
+                $idx = 1;
+                while(file_exists($filename)) {
+                    $filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1',$file_info['name']);
+                    $idx++;
+                }
                 $direct_download = 'Y';
             } else {
                 $path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
