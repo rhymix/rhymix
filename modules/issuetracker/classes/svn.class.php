@@ -346,7 +346,8 @@
         }
 
         function getDateStr($format, $str) {
-            return date($format, strtotime($str));
+            $t = str_replace(array('-','T',':','.'),'',$str);
+            return zdate($t, $format);
         }
 
         function getTimeGap($str, $dayStr = 'day', $hourStr = 'hour', $minStr = 'minute') {
