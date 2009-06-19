@@ -10,6 +10,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="modules.site_srl" var="site_srl" />
+		<condition operation="not_in" column="documents.module_srl" default="0" pipe="and" />
         <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="modules.module_srl" default="documents.module_srl" filter="number" pipe="and" />
     </conditions>
