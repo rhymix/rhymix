@@ -51,6 +51,7 @@
 <form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="fo_search" class="boardSearchForm">
     <fieldset>
         <legend>Board Search</legend>
+        <input type="hidden" name="vid" value="{$vid}" />
         <input type="hidden" name="mid" value="{$mid}" />
         <input type="hidden" name="category" value="{$category}" />
 
