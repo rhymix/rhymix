@@ -388,3 +388,9 @@ ul.files a .bubble{ display:none; position:absolute; top:-20px; left:0; padding:
 .issueNav li a{ float:left; padding:7px 15px 0 15px; height:18px; border:1px solid #ddd; border-bottom:none; background:url(../img/common/bgTab.gif) repeat-x; color:#000; text-decoration:none;}
 .issueNav li.on { margin-bottom:-1px;}
 .issueNav li.on a{ height:19px; background:none;}
+
+/* source list */
+table td.summaryText div { line-height:20px; padding-left:20px; cursor:pointer;}
+table td.summaryText div.open { background:url("../img/common/opener.gif") no-repeat left 4px; overflow:visible; }
+table td.summaryText div.close { background:url("../img/common/closer.gif") no-repeat left 4px; height:20px; overflow:hidden; }
+

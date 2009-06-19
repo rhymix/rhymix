@@ -46,7 +46,7 @@
                     <td>
                         <ul class="files">
                             <!--@foreach($v->files as $file)-->
-                            <li><a href="{$file->download_url}" onmouseover="jQuery(this).find('.bubble').css('display','block');" onmouseout="jQuery(this).find('.bubble').css('display','none');">{$file->source_filename} <span class="bubble">[File Size:{FileHandler::filesize($file->file_size)}/Download:{number_format($file->download_count)}]</span></a></li>
+                            <li><a href="{$file->download_url}" onmouseover="jQuery(this).find('.bubble').css('display','block');" onmouseout="jQuery(this).find('.bubble').css('display','none');">{$file->source_filename} <span class="bubble">[File Size:{FileHandler::filesize($file->file_size)}/Download:{number_format($file->download_count)}]<!--@if($file->comment)--><br/>{htmlspecialchars($file->comment)}<!--@end--></span></a></li>
                             <!--@end-->
                         </ul>
                     </td>
