@@ -48,7 +48,7 @@
 
             if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
             if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
-            //if(!$editor_config->content_style) $editor_config->content_style = 'xeStyle';
+            if(!$editor_config->content_style) $editor_config->content_style = 'default';
 
             return $editor_config;
         }
