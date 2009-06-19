@@ -205,6 +205,9 @@
             }
             Context::set('editor_path', $tpl_path);
 
+			// load editor skin lang
+			Context::loadLang($tpl_path.'lang');
+
             // tpl 파일을 compile한 결과를 return
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
