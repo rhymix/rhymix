@@ -211,7 +211,7 @@
         }
 
         /**
-         * @brief 댓글의 답글 화면 출력
+         * @brief 댓글의 댓글 화면 출력
          **/
         function dispWikiReplyComment() {
             // 권한 체크
