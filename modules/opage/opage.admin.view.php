@@ -104,5 +104,34 @@
             $this->setTemplateFile('opage_delete');
         }
 
+        /**
+         * @brief 권한 목록 출력
+         **/
+        function dispOpageAdminGrantInfo() {
+			
+
+            // GET parameter에서 module_srl을 가져옴
+            $module_srl = Context::get('module_srl');
+
+            // module_srl이 있으면 해당 모듈의 정보를 구해서 세팅
+            if($module_srl) {
+                $oModuleModel = &getModel('module');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
+                else {
+                    unset($module_info);
+                    unset($module_srl);
+                }
+            }
+
+			$this->module_info = $module_info;
+
+            // 공통 모듈 권한 설정 페이지 호출
+            $oModuleAdminModel = &getAdminModel('module');
+            $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
+            Context::set('grant_content', $grant_content);
+
+            $this->setTemplateFile('grant_list');
+        }
     }
 ?>
