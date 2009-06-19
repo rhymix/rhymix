@@ -16,45 +16,30 @@
 
         /**
          * @brief 에디터에서 첨부파일 업로드 
+         * editor_sequence, uploadTargetSrl 변수값을 받아서 이를 바탕으로 첨부 대상 srl을 결정함.
+         * 만약 uploadTargetSrl이 없다면 새로 생성하고 return 하여 UI에서 이에 대한 값을 재설정하도록 하여
+         * sync이상없도록 함
          **/
         function procFileUpload() {
             // 기본적으로 필요한 변수 설정
             $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
+            $upload_target_srl = Context::get('uploadTargetSrl');
             $module_srl = $this->module_srl;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
-            // upload_target_srl 구함
-            $tmp_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$tmp_target_srl) {
-                if($oFileModel->getIsPermitted(Context::get('uploadTargetSrl'))) {
-                    $tmp_target_srl = Context::get('uploadTargetSrl');
-                }
-            }
+            // upload_target_srl 값이 명시되지 않았을 경우 세션정보에서 추출
+            if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
 
-            $tmp_files = $oFileModel->getFiles($tmp_target_srl);
-            if(is_array($tmp_files)) $tmp_file = $tmp_files[0];
-
-            // 첨부될 target_srl이 이전에 쓰인 target_srl인지 확인, 쓰였다면 이 모듈에서 쓰인게 맞는지 확인
-            if(!$tmp_file || !$tmp_file->file_srl || $tmp_file->module_srl == $module_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = $tmp_target_srl;
-            }
-            else {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = '';
-            }
-            unset($tmp_files);
-            unset($tmp_file);
-
-            if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
-            }
+            // 세션정보에도 정의되지 않았다면 새로 생성
+            if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
             $file_info = Context::get('Filedata');
 
             // 정상적으로 업로드된 파일이 아니면 오류 출력
-            if(!is_uploaded_file($file_info['tmp_name'])) return false;
+            if(!is_uploaded_file($file_info['tmp_name'])) exit();
 
             return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
@@ -68,33 +53,31 @@
             $editor_sequence = Context::get('editor_sequence');
             $callback = Context::get('callback');
             $module_srl = $this->module_srl;
+            $upload_target_srl = Context::get('uploadTargetSrl');
+
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
-            $file_srl = Context::get('file_srl');
-			if($file_srl){
-				$this->deleteFile($file_srl);
-			}
-	
-            // upload_target_srl 구함
-            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) {
-                $oFileModel = &getModel('file');
-                if($oFileModel->getIsPermitted(Context::get('uploadTargetSrl'))) {
-                    $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('uploadTargetSrl');
-                }
-            }
-            if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
-            }
+            // upload_target_srl 값이 명시되지 않았을 경우 세션정보에서 추출
+            if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
 
+            // 세션정보에도 정의되지 않았다면 새로 생성
+            if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+
+            // file_srl이 요청되었을 경우 삭제 후 재업로드 시도
+            $file_srl = Context::get('file_srl');
+			if($file_srl) $this->deleteFile($file_srl);
+	
             $file_info = Context::get('Filedata');
+
             // 정상적으로 업로드된 파일이 아니면 오류 출력
-            if(is_uploaded_file($file_info['tmp_name'])){
+            if(is_uploaded_file($file_info['tmp_name'])) {
                 $output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
                 Context::set('uploaded_fileinfo',$output);
             }
+
 			Context::set('layout','none');
+
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('iframe');
 

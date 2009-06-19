@@ -242,18 +242,6 @@
             return executeQuery('editor.insertSavedDoc', $args);
         }
 
-
-        /**
-          * @brief 자동 저장글 Srl 로드 (자기글인지 확인)
-         **/
-        function triggerSrlSetting(&$obj) {
-            $oEditorModel = &getModel('editor');
-            $saved_doc = $oEditorModel->getSavedDoc(null);
-            if($obj->uploadTargetSrl == $saved_doc->document_srl) Context::set("getIsPermitted",$saved_doc->document_srl);
-            return $output;
-        }
-
-
         /**
           * @brief 자동 저장글 Srl 로드 - XE 이전 버전 사용자를 위함.
          **/

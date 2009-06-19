@@ -15,20 +15,17 @@
 
         /**
          * @brief 특정 문서에 속한 첨부파일 목록을 return
+         * 문서 생성/ 수정시 ajax로 특정 upload_target_srl에 대해서 파일 목록을 요청받을 때 사용됨.
+         * upload_target_srl이 정해지지 않은 경우 서버측 session의 값으로 대체 시도
          **/
         function getFileList() {
-
-            $mid = Context::get("mid");
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleInfoByMid($mid);
-            Context::set("module_srl",$config->module_srl);
 
-            $editor_sequence = Context::get("editor_sequence");
-            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) {
-                if($this->getIsPermitted(Context::get('upload_target_srl'))) 
-                    $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = Context::get('upload_target_srl');
-            }
+            $mid = Context::get('mid');
+            $editor_sequence = Context::get('editor_sequence');
+            $upload_target_srl = Context::get('upload_target_srl');
+            if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+
             if($upload_target_srl) {
                 $tmp_files = $this->getFiles($upload_target_srl);
                 $file_count = count($tmp_files);
@@ -58,6 +55,7 @@
             $upload_status = $this->getUploadStatus($attached_size);
 
             // 남은 용량 체크
+            $config = $oModuleModel->getModuleInfoByMid($mid);
             $file_config = $this->getUploadConfig();
             $left_size = $file_config->allowed_attach_size*1024*1024 - $attached_size;
 
@@ -210,38 +208,6 @@
          **/
         function getFileModuleConfig($module_srl) {
             return $this->getFileConfig($module_srl);
-        }
-
-        /**
-         * @brief 사용자가 해당 SRL에 첨부된 파일 수정 권한이 있는지 확인 - 트리거를 통해 반환되는 정보를 이용.
-         **/
-        function getIsPermitted($checking_target) {
-            Context::set("getIsPermitted", '');
-
-            // 문서가 있는지 확인
-            $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($checking_target);
-            if($oDocument->isExists() && $oDocument->document_srl == $document_srl) {
-                if($oDocument->isGranted()) {
-                    Context::set("getIsPermitted", $checking_target);
-                    return $checking_target;
-                }
-            }
-
-            // 댓글이 있는지 확인
-            $oCommentModel = &getModel('comment');
-            $oComment = $oCommentModel->getComment($checking_target);
-            if($comment->comment_srl == $comment_srl) {
-                if($oComment->isGranted()) {
-                    Context::set("getIsPermitted", $checking_target);
-                    return $checking_target;
-                }
-            }
-
-            // 그 외 모듈에 있는지 확인 (eg. 자동저장 문서)
-            $obj->uploadTargetSrl = $checking_target;
-            $output = ModuleHandler::triggerCall('file.getIsPermitted', 'before', $obj);
-            return Context::get("getIsPermitted");
         }
     }
 ?>

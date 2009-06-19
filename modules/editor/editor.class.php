@@ -40,9 +40,6 @@
             // 2009. 04. 14 editor component 변환 코드를 trigger로 독립
             $oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
 
-            // 2009. 06. 13 자동 저장된 SRL 체크
-            $oModuleController->insertTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before');
-
             return new Object();
         }
 
@@ -71,8 +68,8 @@
             // 2009. 04. 14 editor component 변환 코드를 trigger로 독립
             if(!$oModuleModel->getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before')) return true;
 
-            // 2009. 06. 13 자동 저장된 SRL 체크
-            if(!$oModuleModel->getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) return true;
+            // 2009. 06. 19 사용하지 않는 트리거 제거
+            if($oModuleModel->getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) return true;
 
             return false;
         }
@@ -109,9 +106,9 @@
             if(!$oModuleModel->getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before')) 
                 $oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
 
-            // 2009. 06. 13 자동 저장된 SRL 체크
-            if(!$oModuleModel->getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) 
-                $oModuleController->insertTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before');
+            // 2009. 06. 19 사용하지 않는 트리거 제거
+            if($oModuleModel->getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) 
+                $oModuleController->deleteTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before');
 
             return new Object(0, 'success_updated');
         }
