@@ -166,7 +166,7 @@
                         for($i=0,$c=count($ini);$i<$c;$i++) {
                             $file = trim($ini[$i]);
                             if(!$file) continue;
-                            if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
+                            if(preg_match('/\.css$/i',$file)) Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, true,'all','',-1);
                             elseif(preg_match('/\.js/i',$file)) Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
                         }
                     }
