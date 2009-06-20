@@ -16,7 +16,6 @@
          * @brief module.xml 형식의 데이터 import
          **/
         function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id) {
-            DebugPrint('Import start...');
             // 필요한 객체 미리 생성
             $this->oXmlParser = new XmlParser();
 
@@ -30,7 +29,6 @@
             // 먼저 카테고리 정보를 입력함
             $category_file = preg_replace('/index$/i', 'category.xml', $index_file);
             if(file_exists($category_file)) {
-                DebugPrint('Category importing...');
                 // xmlParser객체 생성
                 $xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
 
@@ -56,7 +54,6 @@
                     $oDocumentController->makeCategoryFile($module_srl);
                 }
                 FileHandler::removeFile($category_file);
-                DebugPrint('Category imported.');
             }
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
@@ -69,13 +66,11 @@
             // 방명록 정보를 입력함
             $guestbook_file = preg_replace('/index$/i', 'guestbook.xml', $index_file);
             if (file_exists($guestbook_file)) {
-                DebugPrint('Guestbook importing...');
                 // xmlParser객체 생성
                 $xmlDoc = $this->oXmlParser->loadXmlFile($guestbook_file);
 
                 // 방명록 정보를 처리
                 if($guestbook_module_srl && $xmlDoc->guestbook->comment) {
-                    DebugPrint('Started.');
                     $comment = $xmlDoc->guestbook->comment;
                     if(!is_array($comment)) $comment = array($comment);
                     foreach($comment as $key => $val) {
@@ -87,7 +82,6 @@
                         $obj->is_secret = $val->secret->body=='1'?'Y':'N';
                         $obj->content = nl2br($val->content->body);
 
-                        DebugPrint($obj->content);
 
                         // 본문에서 제목 추출
                         $obj->title = cut_str(strip_tags($obj->content),20,'...');

@@ -36,7 +36,6 @@
          * @brief XML파일을 미리 분석하여 개발 단위로 캐싱
          **/
         function procImporterAdminPreProcessing() {
-            DebugPrint('procImporterAdminPreProcessing...');
             // 이전할 대상 xml파일을 구함
             $xml_file = Context::get('xml_file');
 
@@ -56,7 +55,6 @@
                         if($output->toBool()) $oExtract->saveItems();
                     break;
                 case 'ttxml' :
-                        DebugPrint('preprocessing ttxml started.');
                         // 카테고리 정보를 구함
                         $output = $oExtract->set($xml_file, '', '', '', '');
                         if ($output->toBool()) {
@@ -74,7 +72,6 @@
                             $category_filename = sprintf('%s/%s', $oExtract->cache_path, 'category.xml');
                             FileHandler::writeFile($category_filename, $buff);
 
-                            DebugPrint('category finished.');
                             
                             // 방명록 정보를 구함
                             $output = $oExtract->set($xml_file, '', '', '', '');
@@ -97,13 +94,11 @@
                                 $guestbook_filename = sprintf('%s/%s', $oExtract->cache_path, 'guestbook.xml');
                                 FileHandler::writeFile($guestbook_filename, $buff);
 
-                                DebugPrint('guestbook finished.');
 
                                 // 개별 아이템 구함
                                 $output = $oExtract->set($xml_file,'<blog', '</blog>', '<post ', '</post>');
                                 if($output->toBool()) $oExtract->saveItems();
 
-                                DebugPrint('data finished.');
                             }
                         }
                     break;
@@ -471,6 +466,12 @@
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
             if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
+
+            $ek_args->module_srl = $module_srl;
+            $output = executeQueryArray('document.getDocumentExtraKeys', $ek_args);
+            if($output->data) {
+                foreach($output->data as $key => $val) $extra_keys[$val->eid] = true;
+            }
            
             if(!$cur) $cur = 0;
 
@@ -498,6 +499,7 @@
                 $obj->document_srl = getNextSequence();
 
                 $files = array();
+                $extra_vars = array();
 
                 $started = false;
                 $buff = null;
@@ -527,7 +529,7 @@
 
                     // 추가 변수 시작 일 경우 
                     } elseif(trim($str) == '<extra_vars>') {
-                        $this->importExtraVars($fp, $obj);
+                        $extra_vars = $this->importExtraVars($fp);
                         continue;
                     }
 
@@ -589,6 +591,37 @@
                         $output = executeQuery('tag.insertTag', $args);
                     }
                     
+                }
+
+                // 확장변수 추가
+                if(count($extra_vars)) {
+                    foreach($extra_vars as $key => $val) {
+                        if(!$val->value) continue;
+                        unset($e_args);
+                        $e_args->module_srl = $module_srl;
+                        $e_args->document_srl = $obj->document_srl;
+                        $e_args->var_idx = $val->var_idx;
+                        $e_args->value = $val->value;
+                        $e_args->lang_code = $val->lang_code;
+                        $e_args->eid = $val->eid;
+
+                        // 등록된 확장변수 키가 없으면 생성(제목/내용 언어별 변수는 제외)
+                        if(!preg_match('/^(title|content)_(.+)$/i',$e_args->eid) && !$extra_keys[$e_args->eid]) {
+                            unset($ek_args);
+                            $ek_args->module_srl = $module_srl;
+                            $ek_args->var_idx = $val->var_idx;
+                            $ek_args->var_name = $val->eid;
+                            $ek_args->var_type = 'text';
+                            $ek_args->var_is_required = 'N';
+                            $ek_args->var_default = '';
+                            $ek_args->eid = $val->eid;
+                            $output = executeQuery('document.insertDocumentExtraKey', $ek_args);
+                            debugPrint($output);
+                            $extra_keys[$ek_args->eid] = true;
+                        }
+
+                        $output = executeQuery('document.insertDocumentExtraVar', $e_args);
+                    }
                 }
 
                 fclose($fp);
@@ -893,22 +926,38 @@
         /**
          * @brief 게시글 추가 변수 설정
          **/
-        function importExtraVars($fp, &$obj) {
-            $index = 1;
+        function importExtraVars($fp) {
+            $buff = null;
             while(!feof($fp)) {
-                $str = trim(fgets($fp, 1024));
+                $buff .= $str = trim(fgets($fp, 1024));
                 if(trim($str) == '</extra_vars>') break;
-
-                $buff .= $str;
-                $pos = strpos($buff, '>');
-                $key = substr($buff, 1, $pos-1);
-                if(substr($buff, -1 * ( strlen($key)+3)) == '</'.$key.'>') {
-                    $val = base64_decode(substr($buff, $pos, strlen($buff)-$pos*2-2));
-                    $obj->{"extra_vars".$index} = $val;
-                    $buff = null;
-                    $index++;
-                }
             }
+            if(!$buff) return array();
+
+            $buff = '<extra_vars>'.$buff;
+            $oXmlParser = new XmlParser();
+            $xmlDoc = $this->oXmlParser->parse($buff);
+            if(!count($xmlDoc->extra_vars->key)) return array();
+
+            $index = 1;
+            foreach($xmlDoc->extra_vars->key as $k => $v) {
+                unset($vobj);
+                if($v->var_idx) {
+                    $vobj->var_idx = base64_decode($v->var_idx->body);
+                    $vobj->lang_code = base64_decode($v->lang_code->body);
+                    $vobj->value = base64_decode($v->value->body);
+                    $vobj->eid = base64_decode($v->eid->body);
+
+                } else if($v->body) {
+                    $vobj->var_idx = $index;
+                    $vobj->lang_code = Context::getLangType();
+                    $vobj->value = base64_decode($v->body);
+                    $vobj->eid = 'extra_vars'.$index;
+                }
+                $extra_vars["extra_vars".$index] = $vobj;
+                $index++;
+            }
+            return $extra_vars;
         }
     }
 ?>
