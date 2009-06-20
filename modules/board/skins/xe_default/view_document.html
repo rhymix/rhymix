@@ -124,9 +124,9 @@
 	</div>
 
     <div class="boardNavigation">
-		<!--@if($module_info->default_style != 'blog')-->
+		<!--@if($module_info->default_style != 'blog' || ($module_info->default_style == 'blog' && Context::get('document_srl')))-->
         <div class="buttonLeft">
-			<a href="{getUrl('document_srl','')}" class="button"><span>{$lang->cmd_list}</span></a>
+			<a href="{getUrl('document_srl','')}" class="button"><span><!--@if($module_info->default_style != 'blog')-->{$lang->cmd_list}<!--@else-->{$lang->cmd_view_all}<!--@end--></span></a>
 		</div>
         <!--@end-->
 		
