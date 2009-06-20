@@ -350,7 +350,7 @@
                 $t = str_replace(array('-','T',':','.',' '),'',trim($str));
                 return zdate($t, $format);
             } else {
-                date($format, strtotime(trim($str)));
+                return date($format, strtotime(trim($str)));
             }
         }
 
