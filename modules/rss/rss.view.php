@@ -132,6 +132,8 @@
                     $info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
                     break;
             }
+            $temp_link = explode('/', $info->link);
+            if($temp_link[0]=='' && $info->link) $info->link = Context::getRequestUri().substr($info->link, 1);
             $info->language = Context::getLangType();
 
             // RSS 출력물에서 사용될 변수 세팅

@@ -58,6 +58,10 @@
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
             $src = str_replace('&amp;amp;', '&amp;', $src);
+            // 이미지 주소를 request uri가 포함된 주소로 변환 (rss출력, 등등을 위함)
+            $temp_src = explode('/', $src);
+            if($temp_src[0]=='.') $src = Context::getRequestUri().substr($src, 2);
+            elseif($temp_src[0]=='' && $src) $src = Context::getRequestUri().substr($src, 1);
             if(!$alt) $alt = $src;
 
             $attr_output = array();
