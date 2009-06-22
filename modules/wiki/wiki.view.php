@@ -104,6 +104,7 @@
             $page = Context::get('page');
             $oDocumentModel = &getModel('document');
             $obj->module_srl = $this->module_info->module_srl;
+            $obj->sort_index = 'update_order';
             $obj->page = $page;
             $obj->list_count = 50;
 
