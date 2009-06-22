@@ -20,7 +20,7 @@
          * @brief 피드 출력
          * 직접 RSS를 출력하려고 할때에는 $oRssView->rss($document_list)를 통해서 결과값을 직접 지정 가능
          **/
-        function rss($document_list = null, $rss_title = null) {
+        function rss($document_list = null, $rss_title = null, $add_description = null) {
             $oDocumentModel = &getModel('document');
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
@@ -62,43 +62,45 @@
                     }
                 }
 
-                if(!count($module_srls)) return $this->dispError();
+                if(!count($module_srls) && !$add_description) return $this->dispError();
 
-                $args->module_srl = implode(',',$module_srls);
-                $module_list = $oModuleModel->getMidList($args);
+                if($module_srls) {
+                    $args->module_srl = implode(',',$module_srls);
+                    $module_list = $oModuleModel->getMidList($args);
 
-                $args->search_target = 'is_secret';
-                $args->search_keyword = 'N';
-                $args->page = (int)Context::get('page');
-                $args->list_count = 15;
-                if($total_config->feed_document_count) $args->list_count = $total_config->feed_document_count;
-                if(!$args->page || $args->page < 1) $args->page = 1;
-                if($start_date || $start_date != 0) $args->start_date = $start_date;
-                if($end_date || $end_date != 0) $args->end_date = $end_date;
-                if($start_date == 0) unset($start_date);
-                if($end_date == 0) unset($end_date);
+                    $args->search_target = 'is_secret';
+                    $args->search_keyword = 'N';
+                    $args->page = (int)Context::get('page');
+                    $args->list_count = 15;
+                    if($total_config->feed_document_count) $args->list_count = $total_config->feed_document_count;
+                    if(!$args->page || $args->page < 1) $args->page = 1;
+                    if($start_date || $start_date != 0) $args->start_date = $start_date;
+                    if($end_date || $end_date != 0) $args->end_date = $end_date;
+                    if($start_date == 0) unset($start_date);
+                    if($end_date == 0) unset($end_date);
 
-                $args->sort_index = 'list_order'; 
-                $args->order_type = 'asc';
-                $output = $oDocumentModel->getDocumentList($args);
-                $document_list = $output->data;
+                    $args->sort_index = 'list_order'; 
+                    $args->order_type = 'asc';
+                    $output = $oDocumentModel->getDocumentList($args);
+                    $document_list = $output->data;
 
-                // 피드 제목 및 정보등을 추출 Context::getBrowserTitle 
-                if($mid) {
-                    $info->title = Context::getBrowserTitle();
-                    $oModuleController->replaceDefinedLangCode($info->title);
+                    // 피드 제목 및 정보등을 추출 Context::getBrowserTitle 
+                    if($mid) {
+                        $info->title = Context::getBrowserTitle();
+                        $oModuleController->replaceDefinedLangCode($info->title);
 
-                    $info->title = str_replace('\'', '&apos;',$info->title);
-                    if($config->feed_description) {
-                        $info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description));
-                    }
-                    else {
-                        $info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description));
-                    }
-                    $info->link = getUrl('','mid',$mid);
-                    $info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright));
-                    if(!$info->feed_copyright) {
-                        $info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
+                        $info->title = str_replace('\'', '&apos;',$info->title);
+                        if($config->feed_description) {
+                            $info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description));
+                        }
+                        else {
+                            $info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description));
+                        }
+                        $info->link = getUrl('','mid',$mid);
+                        $info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright));
+                        if(!$info->feed_copyright) {
+                            $info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
+                        }
                     }
                 }
             }
@@ -117,6 +119,7 @@
                 $info->link = Context::getRequestUri();
                 $info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright));
             }
+            if($add_description) $info->description .= "\r\n".$add_description;
 
             if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image));
             switch (Context::get('format')) {
@@ -132,8 +135,20 @@
                     $info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
                     break;
             }
+
+            if($_SERVER['HTTPS']=='on') $proctcl = 'https://';
+            else $proctcl = 'http://';
+
             $temp_link = explode('/', $info->link);
-            if($temp_link[0]=='' && $info->link) $info->link = Context::getRequestUri().substr($info->link, 1);
+            if($temp_link[0]=='' && $info->link) {
+                $info->link = $proctcl.$_SERVER['HTTP_HOST'].$info->link;
+            }
+
+            $temp_id = explode('/', $info->id);
+            if($temp_id[0]=='' && $info->id) {
+                $info->id = $proctcl.$_SERVER['HTTP_HOST'].$info->id;
+            }
+
             $info->language = Context::getLangType();
 
             // RSS 출력물에서 사용될 변수 세팅
@@ -189,12 +204,7 @@
             Context::setResponseMethod("XMLRPC");
 
             // 출력 메세지 작성
-            Context::set('error', -1);
-            Context::set('message', Context::getLang('msg_rss_is_disabled') );
-
-            // 템플릿 파일 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile("error");
+            $this->rss(null, null, Context::getLang('msg_rss_is_disabled') );
         }
 
         /**

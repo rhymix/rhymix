@@ -20,6 +20,8 @@
          * @brief RSS 사용 유무를 체크하여 rss url 추가
          **/
         function triggerRssUrlInsert() {
+            $oModuleModel = &getModel('module');
+            $total_config = $oModuleModel->getModuleConfig('rss');
             $current_module_srl = Context::get('module_srl');
             $site_module_info = Context::get('site_module_info');
 
@@ -53,15 +55,15 @@
                 }
             }
 
-            if(Context::isInstalled() && $site_module_info->mid == Context::get('mid')) {
+            if(Context::isInstalled() && $site_module_info->mid == Context::get('mid') && $total_config->use_total_feed != 'N') {
                 if(Context::isAllowRewrite() && !Context::get('vid')) {
                     $request_uri = Context::getRequestUri();
-                    Context::set('rss_url', $request_uri.'rss');
-                    Context::set('atom_url', $request_uri.'atom');
+                    Context::set('general_rss_url', $request_uri.'rss');
+                    Context::set('general_atom_url', $request_uri.'atom');
                 }
                 else {
-                    Context::set('rss_url', getUrl('','module','rss','act','rss'));
-                    Context::set('atom_url', getUrl('','module','rss','act','atom'));
+                    Context::set('general_rss_url', getUrl('','module','rss','act','rss'));
+                    Context::set('general_atom_url', getUrl('','module','rss','act','atom'));
                 }
             }
 
