@@ -199,10 +199,6 @@
          * @brief 에러 출력
          **/
         function dispError() {
-
-            // 결과 출력을 XMLRPC로 강제 지정
-            Context::setResponseMethod("XMLRPC");
-
             // 출력 메세지 작성
             $this->rss(null, null, Context::getLang('msg_rss_is_disabled') );
         }
