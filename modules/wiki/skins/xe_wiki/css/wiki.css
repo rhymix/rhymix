@@ -426,3 +426,4 @@ a.buttonOfficial a{ _vertical-align:top;}
 
 /* tree */
 #tree ul.simpleTree li.noIcon { background:none; }
+#tree ul.simpleTree li ul li span { padding-left:5px; }
