@@ -1,0 +1,13 @@
+<query id="getTreeMinListorder" action="select">
+    <tables>
+        <table name="documents" alias="doc"/>
+        <table name="document_categories" alias="category" />
+    </tables>
+    <columns>
+        <column name="min(doc.list_order)" alias="list_order" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="category.parent_srl" var="parent_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="doc.document_srl" default="category.category_srl" pipe="and" />
+    </conditions>
+</query>

@@ -11,6 +11,8 @@
     $lang->cmd_wiki_list = 'List';
     $lang->cmd_view_info = 'Wiki Information';
     $lang->use_comment = 'Use Comments';
+    $lang->cmd_view_document_list = '문서 목록';
+    $lang->cmd_view_document_tree = '계층 보기';
     $lang->about_use_comment = 'You may configure to enable comments.';
     $lang->contributors = 'Contributors';
     $lang->notice_old_revision = 'This is an old revision';

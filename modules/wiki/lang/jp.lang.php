@@ -11,6 +11,8 @@
     $lang->cmd_wiki_list = 'リスト';
     $lang->cmd_view_info = 'wiki情報';
     $lang->use_comment = 'コメント機能を使う';
+    $lang->cmd_view_document_list = '문서 목록';
+    $lang->cmd_view_document_tree = '계층 보기';
     $lang->about_use_comment = 'コメント機能をオン・オフを設定します。';
     $lang->contributors = '投稿者';
     $lang->notice_old_revision = '過去のバージョンです。';

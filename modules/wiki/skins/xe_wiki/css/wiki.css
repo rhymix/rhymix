@@ -151,6 +151,7 @@
 
 /* Search Form */
 .wikiSearchForm{ position:relative; float:right; margin:0; padding:1px 0; line-height:normal;}
+.wikiSearchForm.footer { clear:both; float:none; margin:20px 0; text-align:center; }
 .wikiSearchForm *{ margin:0; padding:0;}
 .wikiSearchForm fieldset{ border:0; clear:both; text-align:center;}
 .wikiSearchForm fieldset:after{ content:""; display:block; float:none; clear:both;}
@@ -422,3 +423,6 @@ a.buttonOfficial{ _margin-top:-1px;}
 a.buttonOfficial a{ _vertical-align:top;}
 
 .hide { display:none; }
+
+/* tree */
+#tree ul.simpleTree li.noIcon { background:none; }

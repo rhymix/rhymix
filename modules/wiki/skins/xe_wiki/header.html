@@ -23,15 +23,16 @@
     <div class="wikiInformation">
         <div class="infoView">
             <span class="buttonOfficial"><a href="{getUrl('act','dispWikiContent','entry','','document_srl','')}">Front Page</a></span>
-            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">Title Index</a></span>
-            <!--@if($grant->manager)-->
-            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiAdminInsertWiki')}">{$lang->cmd_setup}</a></span>
-            <!--@end-->
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">{$lang->cmd_view_document_list}</a></span>
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiTreeIndex','entry','','document_srl','')}">{$lang->cmd_view_document_tree}</a></span>
         </div>
 
         <form action="./" method="get" onsubmit="moveHistory(this); return false;" class="wikiSearchForm">
             <input type="text" class="inputText" name="entry" />
             <span class="buttonOfficial"><input type="submit" value="{$lang->cmd_move}" /></span>
+            <!--@if($grant->manager)-->
+            <span class="buttonOfficial"><input type="button" onclick="location.href='{getUrl('act','dispWikiAdminInsertWiki')}';return false;" value="{$lang->cmd_setup}" /></span>
+            <!--@end-->
         </form>
     </div>
 

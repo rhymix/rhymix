@@ -21,6 +21,28 @@
     </tbody>
 </table>
 
+<form action="{getUrl()}" method="get" class="wikiSearchForm footer">
+    <fieldset>
+        <legend>Wiki Search</legend>
+        <input type="hidden" name="vid" value="{$vid}" />
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="act" value="{$act}" />
+        <input type="hidden" name="category" value="{$category}" />
+        <input type="hidden" name="search_target" value="title_content" />
+        <select name="search_target">
+            <!--@foreach($search_option as $key => $val)-->
+            <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+            <!--@end-->
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputText" accesskey="S" title="{$lang->cmd_search}" />
+        <!--@if($last_division)-->
+            <a href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
+        <!--@end-->
+        <span class="buttonOfficial"><button type="submit">{$lang->cmd_search}</button></span>
+    </fieldset>
+</form>
+
+
 <div class="pagination a1">
     <a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division,'entry','')}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
