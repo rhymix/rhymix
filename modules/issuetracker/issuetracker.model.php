@@ -10,9 +10,15 @@
     function _compare($a, $b)
     {
         if(!$a->date || !$b->date) return 0;
-        return strcmp($a->date, $b->date) * -1;
+        $res = strcmp($a->date, $b->date) * -1;
+        if($res == 0)
+        {
+            if(!$a->revision || !$b->revision) return 0;
+            else if($a->revision == $b->revision) return 0;
+            else return ($a->revision > $b->revision)?-1:1;
+        }
+        return $res; 
     }
-
 
     class issuetrackerModel extends issuetracker {
         var $oSvn = null;
