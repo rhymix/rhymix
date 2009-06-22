@@ -26,7 +26,8 @@
             header("Pragma: no-cache");
 
             $cache_file = sprintf('%sfiles/cache/wiki/%d.xml', _XE_PATH_,$this->module_srl);
-            if(!file_exists($cache_file)) FileHandler::writeFile($cache_file, $this->loadWikiTreeList($this->module_srl));
+            //if(!file_exists($cache_file)) FileHandler::writeFile($cache_file, $this->loadWikiTreeList($this->module_srl));
+            FileHandler::writeFile($cache_file, $this->loadWikiTreeList($this->module_srl));
 
             print FileHandler::readFile($cache_file);
             Context::close();
@@ -45,6 +46,7 @@
             if($output->data) {
                 // 데이트를 이용하여 XML 문서로 생성
                 foreach($output->data as $node) {
+                    if(!trim($node->title)) $node->title = 'Front Page';
                     $tree[(int)$node->parent_srl][$node->document_srl] = $node;
                 }
 
