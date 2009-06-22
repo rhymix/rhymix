@@ -60,10 +60,6 @@
                     $request_uri = Context::getRequestUri();
                     Context::set('general_rss_url', $request_uri.'rss');
                     Context::set('general_atom_url', $request_uri.'atom');
-                } elseif(Context::get('vid') && Context::get('vid') != Context::get('mid')) {
-                    $request_uri = Context::getRequestUri();
-                    Context::set('general_rss_url', $request_uri.Context::get('vid').'/rss');
-                    Context::set('general_atom_url', $request_uri.Context::get('vid').'/atom');
                 } else {
                     Context::set('general_rss_url', getUrl('','module','rss','act','rss'));
                     Context::set('general_atom_url', getUrl('','module','rss','act','atom'));
