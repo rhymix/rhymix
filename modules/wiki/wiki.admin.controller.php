@@ -46,7 +46,6 @@
         function procWikiAdminDeleteWiki() {
             $module_srl = Context::get('module_srl');
 
-            // 원본을 구해온다
             $oModuleController = &getController('module');
             $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
@@ -54,6 +53,27 @@
             $this->add('module','wiki');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
+        }
+
+        function procWikiAdminArrangeList() {
+            $oModuleModel = &getModel('module');
+            $oDocumentController = &getController('document');
+
+            // 대상 위키 검증
+            $module_srl = Context::get('module_srl');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!$module_info->module_srl || $module_info->module != 'wiki') return new Object(-1,'msg_invalid_request');
+
+            // 대상 위키의 entry값이 없는 글을 추출
+            $args->module_srl = $module_srl;
+            $output = executeQueryArray('wiki.getDocumentWithoutAlias', $args);
+            if(!$output->toBool() || !$output->data) return new Object();
+
+            foreach($output->data as $key => $val) {
+                if($val->alias_srl) continue;
+                $result = $oDocumentController->insertAlias($module_srl, $val->document_srl, $val->alias_title);
+                if(!$result->toBool()) $oDocumentController->insertAlias($module_srl, $val->document_srl, $val->alias_title.'_'.$val->document_srl);
+            }
         }
 
     }

@@ -15,4 +15,6 @@
     $lang->contributors = '作者';
     $lang->notice_old_revision = '此為舊版本';
     $lang->restore = 'Restore';
+    $lang->arrange_list = '목록 갱신';
+    $lang->about_arrange_list = '데이터 이전하였거나 의도하지 않은 경우에 의해 제목 Alias가 설정되지 않아서 위키 글을 찾아갈 수 없는 문서들을 일괄적으로 제목 Alias를 설정해줍니다.';
 ?>

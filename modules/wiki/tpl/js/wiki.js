@@ -115,3 +115,4 @@ function doScrap(document_srl) {
     params["document_srl"] = document_srl;
     exec_xml("member","procMemberScrapDocument", params, null);
 }
+

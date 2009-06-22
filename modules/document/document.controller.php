@@ -30,7 +30,7 @@
             $args->alias_srl = getNextSequence();
             $args->module_srl = $module_srl;
             $args->document_srl = $document_srl;
-            $args->alias_title = $alias_title;
+            $args->alias_title = urldecode($alias_title);
             $query = "document.insertAlias";
             $output = executeQuery($query, $args);
             return $output;
