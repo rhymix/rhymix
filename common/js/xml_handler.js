@@ -49,7 +49,7 @@ function xml_response_filter(oXml, callback_func, response_tags, callback_func_a
     }
 
     if(ret_obj["redirect_url"]) {
-        location.href=ret_obj["redirect_url"];
+        location.href=ret_obj["redirect_url"].replace(/&amp;/g,'&');
         return null;
     }
 
