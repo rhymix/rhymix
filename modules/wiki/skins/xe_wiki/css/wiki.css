@@ -52,7 +52,7 @@
 .wikiInformation:after{ content:""; display:block; float:none; clear:both;}
 .wikiInformation ul{ overflow:hidden;}
 .wikiInformation .infoSum{ float:left; font-size:16px; font-weight:bold;}
-.wikiInformation .infoView{ float:right;}
+.wikiInformation .infoView{ float:left;}
 .wikiInformation .infoView li{ position:relative; float:left; margin-left:3px; display:inline;}
 .wikiInformation .infoView li.icon a{ display:block; float:left; width:23px; height:23px; overflow:hidden; background-repeat:no-repeat;}
 .wikiInformation .infoView li.icon a span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;}
@@ -150,7 +150,7 @@
 .wiki .wikiNavigation .buttonRight{ float:right; text-align:right;}
 
 /* Search Form */
-.wikiSearchForm{ position:relative; margin:0; padding:1px 0; line-height:normal;}
+.wikiSearchForm{ position:relative; float:right; margin:0; padding:1px 0; line-height:normal;}
 .wikiSearchForm *{ margin:0; padding:0;}
 .wikiSearchForm fieldset{ border:0; clear:both; text-align:center;}
 .wikiSearchForm fieldset:after{ content:""; display:block; float:none; clear:both;}
@@ -256,7 +256,7 @@
 .feedbackList .item .header a:active,
 .feedbackList .item .header a:focus{ text-decoration:underline;}
 
-.feedbackList .item .itemContent { position:relative; padding:1em 0 1em 160px; *zoom:1; z-index:1;}
+.feedbackList .item .itemContent { position:relative; padding:1em 0 1em 120px; *zoom:1; z-index:1;}
 .feedbackList .item .itemContent:after{ content:""; display:block; clear:both;}
 .feedbackList .item .itemContent *{ margin-top:0;}
 .feedbackList .item .itemContent .xe_content{ width:auto !important;}
@@ -272,7 +272,7 @@
 .feedbackList .item .itemContent .delete span{ position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden;}
 .feedbackList .item.itemOnly{ border-top:0;}
 
-.feedbackList .item .itemAside{ position:relative; float:left; width:140px; margin-right:-140px; padding:1em 0 0 0; *zoom:1; text-align:left; z-index:2;}
+.feedbackList .item .itemAside{ position:relative; float:left; width:100px; margin-right:-100px; padding:1em 0 0 0; *zoom:1; text-align:left; z-index:2;}
 .feedbackList .item .itemAside a{ text-decoration:none;}
 .feedbackList .item .itemAside a:hover,
 .feedbackList .item .itemAside a:active,
@@ -315,8 +315,7 @@
 .time dt{ background:#fff;}
 
 /* Attached File */
-.attachedFile { position:relative; margin:1em 0 !important; float:left;}
-.feedbackList .item .itemContent .attachedFile{ float:left; margin-top:0; *margin-top:1em; _margin-top:0;}
+.attachedFile { position:relative; margin:1em -100% 1em 0; float:left; width:100%;}
 .attachedFile *{ margin:0; padding:0; font-size:11px; vertical-align:middle;}
 .attachedFile dt img{ margin-right:10px;}
 .attachedFile dt .fileToggle{ border:0; padding:0; overflow:visible; cursor:pointer; font-size:11px; background:none;}
@@ -410,16 +409,16 @@
 
 /* Button */
 .buttonOfficial,
-.buttonOfficial span,
+.buttonOfficial a,
 .buttonOfficial input,
 .buttonOfficial button{ position:relative; vertical-align:middle; display:inline-block; height:25px; font-size:12px; line-height:25px; color:#4d4d4d; cursor:pointer; background-image:url(../img/white/buttonOfficial.gif); background-repeat:no-repeat; text-decoration:none !important; overflow:visible; border:0; padding:0; background-color:transparent;}
 
 .buttonOfficial{ background-position:left top; margin-right:4px;}
-.buttonOfficial span,
+.buttonOfficial a,
 .buttonOfficial input,
 .buttonOfficial button{ left:4px; background-position:right top; padding:0 8px 0 4px;}
 
 a.buttonOfficial{ _margin-top:-1px;}
-a.buttonOfficial span{ _vertical-align:top;}
+a.buttonOfficial a{ _vertical-align:top;}
 
 .hide { display:none; }

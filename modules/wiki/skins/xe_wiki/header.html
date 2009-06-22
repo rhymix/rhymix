@@ -22,16 +22,16 @@
 
     <div class="wikiInformation">
         <div class="infoView">
-            <span class="buttonOfficial"><button type="button" onclick="location.href='{getUrl('act','dispWikiContent','entry','','document_srl','')}';return false;">Front Page</button></span>
-            <span class="buttonOfficial"><button type="button" onclick="location.href='{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}';return false;">Title Index</button></span>
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiContent','entry','','document_srl','')}">Front Page</a></span>
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">Title Index</a></span>
             <!--@if($grant->manager)-->
-            <span class="buttonOfficial"><button type="button" onclick="location.href='{getUrl('act','dispWikiAdminInsertWiki')}';return false;">{$lang->cmd_setup}</button></span>
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiAdminInsertWiki')}">{$lang->cmd_setup}</a></span>
             <!--@end-->
         </div>
 
         <form action="./" method="get" onsubmit="moveHistory(this); return false;" class="wikiSearchForm">
-            <input type="text" class="inputTypeText w100" name="entry" />
-            <span class="buttonOfficial"><button type="submit">{$lang->cmd_move}</button></span>
+            <input type="text" class="inputText" name="entry" />
+            <span class="buttonOfficial"><input type="submit" value="{$lang->cmd_move}" /></span>
         </form>
     </div>
 
@@ -72,11 +72,11 @@
 
                 <!--@if(!$history && ($oDocument->isExists()||$use_history != 'N'))-->
                 <div class="command">
-                    <!--@if($oDocument->isExists())-->
-                        <span class="buttonOfficial"><button type="submit" onclick="location.href='{getUrl('act','dispWikiEditPage','entry',$entry)}';return false;">{$lang->cmd_edit}</button></span>
+                    <!--@if($oDocument->isExists()&&$act!='dispWikiEditPage')-->
+                        <span class="buttonOfficial"><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">{$lang->cmd_edit}</a></span>
                     <!--@end-->
                     <!--@if($use_history != 'N')-->
-                        <span class="buttonOfficial"><button type="submit" onclick="location.href='{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl,'history_srl','')}';return false;">Histories</button></span>
+                        <span class="buttonOfficial"><a href="{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl,'history_srl','')}">Histories</a></span>
                     <!--@end-->
                 </div>
                 <!--@else-->
@@ -84,7 +84,7 @@
                     <!--@if($history)-->
                         {$lang->notice_old_revision}
                     <!--@end-->
-                    <span class="buttonOfficial"><button type="submit" onclick="location.href='{getUrl('act','','history_srl','')}';return false;">{$lang->cmd_back}</button></span>
+                    <span class="buttonOfficial"><a href="{getUrl('act','','history_srl','')}">{$lang->cmd_back}</a></span>
                 </div>
                 <!--@end-->
             </div>

@@ -1,11 +1,10 @@
 <!--#include("header.html")-->
-
     <div class="wikiRead">
         <div class="wikiReadHeader">
             <div class="authorArea">
                 {$lang->not_exist}
                 <div class="command">
-                    <span class="buttonOfficial"><button type="submit" onclick="location.href='{getUrl('act','dispWikiEditPage','entry',$entry)}';return false;">{$lang->cmd_create}</button></span>
+                    <span class="buttonOfficial"><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">{$lang->cmd_create}</a></span>
                 </div>
             </div>
         </div>
