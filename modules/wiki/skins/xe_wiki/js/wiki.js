@@ -20,7 +20,7 @@ function viewHistory(history_srl) {
 var simpleTreeCollection;
 function Tree(){
     var url = request_uri.setQuery('mid',current_mid).setQuery('act','getWikiTreeList');
-    if(typeof(xeVid)!='undefined') url.setQuery('vid',xeVid);
+    if(typeof(xeVid)!='undefined') url = url.setQuery('vid',xeVid);
 
     // clear tree;
     jQuery('#tree > ul > li > ul').remove();

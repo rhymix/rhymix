@@ -25,6 +25,10 @@
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");
 
+            $oModuleModel = &getModel('module');
+
+            $mid = Context::get('mid');
+
             $cache_file = sprintf('%sfiles/cache/wiki/%d.xml', _XE_PATH_,$this->module_srl);
             if(!file_exists($cache_file)) FileHandler::writeFile($cache_file, $this->loadWikiTreeList($this->module_srl));
 
@@ -45,7 +49,6 @@
             if($output->data) {
                 // 데이트를 이용하여 XML 문서로 생성
                 foreach($output->data as $node) {
-                    if(!trim($node->title)) $node->title = 'Front Page';
                     $tree[(int)$node->parent_srl][$node->document_srl] = $node;
                 }
 
