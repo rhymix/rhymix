@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# reserve XE Layout Template Source File (*.html)
+RewriteRule ^layouts/(.+)/(.+).html$ ./index.php [L]
+
 # static files
 RewriteRule ^(.+)/files/member_extra_info/(.*) ./files/member_extra_info/$2 [L]
 RewriteRule ^(.+)/files/attach/(.*) ./files/attach/$2 [L]
