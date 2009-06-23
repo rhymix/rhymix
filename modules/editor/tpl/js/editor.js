@@ -110,7 +110,6 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
                 param['mid'] = current_mid;
                 var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
                 exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
-                if(typeof(uploadSettingObj[param['editor_sequence']]) == 'object') editorUploadInit(uploadSettingObj[param['editor_sequence']], true);
             } else {
                 editorRemoveSavedDoc();
             }
@@ -574,4 +573,5 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
     var fo_obj = editorGetForm(editor_sequence);
 
     fo_obj[primary_key].value = ret_obj['document_srl'];
+    if(uploadSettingObj[editor_sequence]) editorUploadInit(uploadSettingObj[editor_sequence], true);
 }
