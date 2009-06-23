@@ -283,24 +283,11 @@
 .feedbackList .item .secretMessage dd .inputText{ padding:3px 4px; height:15px; vertical-align:middle; margin-right:5px;}
 
 /* Attached File */
-.attachedFile { position:relative; margin:1em 0 !important; float:left; width:100%;}
-.feedbackList .item .itemContent .attachedFile{ float:left; margin-top:0; *margin-top:1em; _margin-top:0;}
-.attachedFile *{ margin:0; padding:0; font-size:11px; vertical-align:middle;}
-.attachedFile dt img{ margin-right:10px;}
-.attachedFile dt .fileToggle{ border:0; padding:0; overflow:visible; cursor:pointer; font-size:11px; background:none;}
-.attachedFile dd{ position:relative; margin-right:5px; display:none; margin-top:5px; padding-left:40px;}
-.attachedFile.open dd{ display:block;}
-.attachedFile ul.files { position:relative; margin:0 0 1em 0; padding:0; clear:both; list-style:none;}
+.attachedFile ul.files { position:relative; margin:0; padding:0; clear:both; list-style:none;}
 .attachedFile ul.files *{ display:inline-block; *display:inline; padding:0; margin:0; font-size:11px;}
 .attachedFile ul.files li{ position:relative; margin:0 10px 0 0;}
 .attachedFile ul.files a{ position:relative; background-repeat:no-repeat; background-position:left center; *zoom:1; text-decoration:none !important;}
-.attachedFile ul.files a .bubble{ display:none; position:absolute; top:-20px; left:0; padding:2px 5px; z-index:100; white-space:nowrap;}
-
-ul.files { position:relative; margin:0 0 1em 0; padding:0; clear:both; list-style:none;}
-ul.files *{ display:inline-block; *display:inline; padding:0; margin:0; font-size:11px;}
-ul.files li{ position:relative; margin:0 10px 0 0;}
-ul.files a{ position:relative; background-repeat:no-repeat; background-position:left center; *zoom:1; text-decoration:none !important;}
-ul.files a .bubble{ display:none; position:absolute; top:-20px; left:0; padding:2px 5px; z-index:100; white-space:nowrap; background-color:#fff; border:1px solid #ccc;}
+.attachedFile ul.files a .bubble{ display:none; position:absolute; top:15px; left:0; padding:2px 5px; z-index:100; white-space:nowrap;}
 
 /* Board Write */
 .issuetrackerWrite *{ margin:0; padding:0;}
