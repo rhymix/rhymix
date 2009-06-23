@@ -5779,7 +5779,6 @@ xe.XE_AutoSave = jQuery.Class({
 		if (title || content) {
 			if (confirm(this.form._saved_doc_message.value)) {
 				jQuery(this.form.title).val(title);
-				jQuery(this.form.document_srl).val(doc_srl);
 				this.oApp.setIR(content);
 				if(typeof(editorGetAutoSavedDoc) == 'function') editorGetAutoSavedDoc(this.form);
 			} else {

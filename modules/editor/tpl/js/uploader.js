@@ -8,6 +8,7 @@ var uploaderSettings = new Array();
 var loaded_images = new Array();
 var swfUploadObjs = new Array();
 var uploadSettingObj = new Array();
+var uploadAutosaveChecker = false;
 
 /**
  * 업로드를 하기 위한 준비 시작
@@ -284,8 +285,11 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
 
     // var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
 
-    // 문서 강제 자동저장
-    if(typeof(_editorAutoSave) == 'function') _editorAutoSave(true);
+    // 문서 강제 자동저장 1번만 사용 ( 첨부파일 target_srl로 자동 저장문서를 저장하기 위한 용도일 뿐 )
+    if(typeof(_editorAutoSave) == 'function' && uploadAutosaveChecker == false) {
+        uploadAutosaveChecker = true;
+        _editorAutoSave(true);
+    }
 
     xAddEventListener(listObj,'click',previewFiles);
 }
