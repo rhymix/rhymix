@@ -22,9 +22,13 @@ function editorUploadInit(obj, exe) {
     if(typeof(obj["allowedFileTypesDescription"])=="undefined") obj["allowedFileTypesDescription"]= "All Files";
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
     if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
+    if(exe && uploadSettingObj != obj) XEUploaderStart(obj);
+    if(typeof(uploaderSettings[obj["editorSequence"]]) != "undefined") {
+        uploaderSettings[obj["editorSequence"]]["uploadTargetSrl"] = uploaderSettings[obj["editorSequence"]].post_params.uploadTargetSrl = editorRelKeys[obj["editorSequence"]]["primary"].value;
+        reloadFileList(uploaderSettings[obj["editorSequence"]]);
+    }
     uploadSettingObj = obj;
     xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
-    if(exe) XEUploaderStart(obj);
 }
 
 // 파일 업로드를 위한 기본 준비를 함
@@ -106,7 +110,7 @@ function XEUploaderStart(obj) {
     swfObj.style.width = btnWidth+"px";
     swfObj.style.height = btnHeight+"px";
 
-    if(obj["insertedFiles"]>0 || editorRelKeys[obj["editorSequence"]]["primary"].value > 0) reloadFileList(settings);
+    if(obj["insertedFiles"]>0) reloadFileList(settings);
 }
 
 function fileQueued(file) {
