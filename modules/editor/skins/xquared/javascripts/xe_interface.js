@@ -78,6 +78,7 @@ function setEditMode(editor, editor_height, editor_sequence) {
     editor.getFrame().style.width = "100%";
     editor.setWidth("100%");
     editor.setHeight(editor_height);
+    editor.getBody().setAttribute('editor_sequence', editor_sequence);
     editor.addAutocompletions(getAdditionalAutocompletions());
 
     // 위젯 감시를 위한 더블클릭 이벤트 걸기 
