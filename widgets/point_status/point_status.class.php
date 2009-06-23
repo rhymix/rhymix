@@ -36,7 +36,8 @@
             // 최고 레벨이 아니면 다음 레벨로 가기 위한 per을 구함
             if($widget_info->level < $config->max_level) {
                 $next_point = $config->level_step[$widget_info->level+1];
-                if($next_point > 0) $per = (int)($widget_info->point / $next_point*100);
+				$present_point = $config->level_step[$widget_info->level];
+                if($next_point > 0) $per = (int)(($widget_info->point - $present_point) / ($next_point - $present_point)*100);
             }
             $widget_info->per = $per;
             $widget_info->next_point = $next_point;
