@@ -201,7 +201,6 @@ function editorGetAutoSavedDoc(form) {
     param['mid'] = current_mid;
     param['editor_sequence'] = form.getAttribute('editor_sequence')
     setTimeout(function() {
-      alert(editorRelKeys[param['editor_sequence']]['primary'].value);
       var response_tags = new Array("error","message","editor_sequence","title","content","document_srl");
       exec_xml('editor',"procEditorLoadSavedDocument", param, function(a,b,c) { editorRelKeys[param['editor_sequence']]['primary'].value = a['document_srl']; }, response_tags);
       if(typeof(reloadFileList) == 'function') reloadFileList(uploaderSettings[param['editor_sequence']]);
