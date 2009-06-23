@@ -107,11 +107,10 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
                 var param = new Array();
                 param['editor_sequence'] = editor_sequence;
                 param['primary_key'] = primary_key;
-                paran['mid'] = current_mid;
+                param['mid'] = current_mid;
                 var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
                 exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
-                if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
-
+                if(typeof(uploadSettingObj[param['editor_sequence']]) == 'object') editorUploadInit(uploadSettingObj[param['editor_sequence']], true);
             } else {
                 editorRemoveSavedDoc();
             }
@@ -568,11 +567,11 @@ function setPreviewHeight(editor_sequence){
     if(h < 400) h=400;
     xHeight('editor_preview_'+editor_sequence,h+20);
 }
+
 function getAutoSavedSrl(ret_obj, response_tags, c) {
     var editor_sequence = ret_obj['editor_sequence'];
     var primary_key = ret_obj['key'];
     var fo_obj = editorGetForm(editor_sequence);
 
     fo_obj[primary_key].value = ret_obj['document_srl'];
-    editorUploadInit(uploadSettingObj, true);
 }

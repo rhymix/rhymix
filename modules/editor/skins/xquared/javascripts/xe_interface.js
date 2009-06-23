@@ -54,7 +54,13 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
                 if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
                 editorRelKeys[editor_sequence]['content'].value = saved_content;
                 editorRelKeys[editor_sequence]['primary'].value = saved_srl;
-                if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
+                xAddEventListener(window,"load",function() { var param = new Array();
+                    param['editor_sequence'] = editor_sequence;
+                    param['primary_key'] = primary_key;
+                    param['mid'] = current_mid;
+                    var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
+                    exec_xml('editor',"procEditorLoadSavedDocument", param, null, response_tags);
+                });
             } else {
                 editorRemoveSavedDoc();
             }
@@ -72,7 +78,6 @@ function setEditMode(editor, editor_height, editor_sequence) {
     editor.getFrame().style.width = "100%";
     editor.setWidth("100%");
     editor.setHeight(editor_height);
-    editor.getBody().setAttribute('editor_sequence', editor_sequence);
     editor.addAutocompletions(getAdditionalAutocompletions());
 
     // 위젯 감시를 위한 더블클릭 이벤트 걸기 

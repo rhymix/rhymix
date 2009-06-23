@@ -196,6 +196,17 @@ function editorReplaceHTML(iframe_obj, content) {
     editorRelKeys[srl]["pasteHTML"](content);
 }
 
+function editorGetAutoSavedDoc(form) {
+    var param = new Array();
+    param['mid'] = current_mid;
+    param['editor_sequence'] = form.getAttribute('editor_sequence')
+    setTimeout(function() { 
+      exec_xml('editor',"procEditorLoadSavedDocument", param);
+      if(typeof(reloadFileList) == 'function') reloadFileList(uploaderSettings[param['editor_sequence']]);
+    }, 0);
+    
+}
+
 // WYSIWYG 모드를 저장하는 확장기능
 xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
     name : "XE_GET_WYSYWYG_MODE",

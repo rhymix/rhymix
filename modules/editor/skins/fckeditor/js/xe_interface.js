@@ -59,8 +59,14 @@ function editorStart_fck(editor, element, editor_sequence, content_key, editor_h
                 setTimeout(function(){
                             editorRelKeys[editor_sequence]['primary'].value = saved_srl;
                             setContent(editor_sequence,saved_content);
-                            if(typeof(editorUploadInit) == 'function') editorUploadInit(uploadSettingObj, true);
                         }, 100);
+                xAddEventListener(window,"load",function() { var param = new Array();
+                    param['editor_sequence'] = editor_sequence;
+                    param['primary_key'] = primary_key;
+                    param['mid'] = current_mid;
+                    var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
+                    exec_xml('editor',"procEditorLoadSavedDocument", param, null, response_tags);
+                });
             } else {
                 editorRemoveSavedDoc();
             }

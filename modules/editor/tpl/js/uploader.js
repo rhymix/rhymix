@@ -7,7 +7,7 @@ var uploadedFiles = new Array();
 var uploaderSettings = new Array();
 var loaded_images = new Array();
 var swfUploadObjs = new Array();
-var uploadSettingObj = new Object();
+var uploadSettingObj = new Array();
 
 /**
  * 업로드를 하기 위한 준비 시작
@@ -22,9 +22,9 @@ function editorUploadInit(obj, exe) {
     if(typeof(obj["allowedFileTypesDescription"])=="undefined") obj["allowedFileTypesDescription"]= "All Files";
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
     if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
-    uploadSettingObj = obj;
-    xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
     if(exe) XEUploaderStart(obj);
+    if(!exe) xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
+    uploadSettingObj[obj["editorSequence"]] = obj;
 }
 
 // 파일 업로드를 위한 기본 준비를 함
