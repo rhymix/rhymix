@@ -167,6 +167,38 @@ $(function() {
 	 **/
 	var dummy = $('<div style="height:1; overflow:hidden; opacity:0; display:block; clear:both;"></div>');
 
+	/**
+	 * 리사이즈 실행 함수
+	 **/
+	function doResize(contentWidth, count) {
+		// 재시도 회수 제한
+		if(!count) count = 0;
+		if(count >= 10) return;
+
+		var $img = this;
+		var beforSize = {'width':$img.width(), 'height':$img.height()};
+
+		// 이미지 사이즈를 구하지 못했을 때 재시도
+		if(!beforSize.width || !beforSize.height) {
+			setTimeout(function() {
+				doResize.call($img, contentWidth, ++count)
+			}, 200);
+			return;
+		}
+
+		// 리사이즈 필요 없으면 리턴
+		if(beforSize.width <= contentWidth) return;
+
+		var resize_ratio = contentWidth / beforSize.width;
+
+		$img
+			.removeAttr('width').removeAttr('height')
+			.css({
+				'width':contentWidth,
+				'height':parseInt(beforSize.height * resize_ratio, 10)
+			});
+	}
+
 	$('div.xe_content').each(function() {
 		dummy.appendTo(this);
 		var contentWidth = dummy.width();
@@ -180,16 +212,7 @@ $(function() {
 
 			$img.attr('rel', 'xe_gallery');
 
-			var beforSize = {'width':$img.width(), 'height':$img.height()};
-			if(beforSize.width && beforSize.width < contentWidth) return;
-			var resize_ratio = contentWidth / beforSize.width;
-
-			$img
-				.removeAttr('width').removeAttr('height')
-				.css({
-					'width':contentWidth,
-					'height':parseInt(beforSize.height * resize_ratio, 10)
-				});
+			doResize.call($img, contentWidth);
 		});
 
 		/* live 이벤트로 적용 (image_gallery 컴포넌트와의 호환 위함) */
