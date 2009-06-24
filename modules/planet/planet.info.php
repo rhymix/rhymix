@@ -164,9 +164,9 @@
         }
 
         function getTags() {
-            static $tags = null;
+            //static $tags = null;
             if(!$this->isExists()) return;
-            if(!is_null($tags)) return $tags;
+            //if(!is_null($tags)) return $tags;
 
             $args->module_srl = $this->planet_srl;
             $output = executeQueryArray('planet.getPlanetTag', $args);
