@@ -2,14 +2,14 @@
  * @brief 화면내에서 상위 영역보다 이미지가 크면 리사이즈를 하고 클릭시 원본을 보여줄수 있도록 변경
  **/
 (function($){
-	
+
 var xScreen = null;
 
 // 슬라이드를 위한 블랙 스크린을 만들거나 반환하는 함수
 function getScreen() {
 	var body    = $(document.body);
 	var controls, imgframe, closebtn, prevbtn, nextbtn;
-	
+
 	// 스크린이 없으면 스크린을 만든다.
 	if (!xScreen) {
 		// 검은 스크린
@@ -22,7 +22,7 @@ function getScreen() {
 				zIndex:500,
 				opacity:0.5
 			});
-			
+
 		// 이미지를 보여주고 컨트롤 버튼을 다룰 레이어
 		controls = $("<div>")
 			.attr("id","xe_gallery_controls")
@@ -32,7 +32,7 @@ function getScreen() {
 				overflow:"hidden",
 				zIndex:510
 			});
-			
+
 		// 닫기 버튼
 		closebtn = $("<img>")
 			.attr("id", "xe_gallery_closebtn")
@@ -42,7 +42,7 @@ function getScreen() {
 			})
 			.click(function(){xScreen.xeHide()})
 			.appendTo(controls);
-			
+
 		// 이전 버튼
 		prevbtn = $("<img>")
 			.attr("id", "xe_gallery_prevbtn")
@@ -50,7 +50,7 @@ function getScreen() {
 			.css("left","10px")
 			.click(function(){xScreen.xePrev()})
 			.appendTo(controls);
-		
+
 		// 다음 버튼
 		nextbtn = $("<img>")
 			.attr("id", "xe_gallery_nextbtn")
@@ -58,7 +58,7 @@ function getScreen() {
 			.css("right","10px")
 			.click(function(){xScreen.xeNext()})
 			.appendTo(controls);
-			
+
 		// 버튼 공통 속성
 		controls.find("img")
 			.attr({
@@ -73,7 +73,7 @@ function getScreen() {
 				zIndex : 530,
 				cursor : "pointer"
 			});
-			
+
 		// 이미지 홀더
 		imgframe = $("<img>")
 			.attr("id", "xe_gallery_holder")
@@ -82,12 +82,12 @@ function getScreen() {
 			.appendTo(controls).draggable();
 
 		body.append(xScreen).append(controls);
-		
+
 		// xScreen 객체를 확장한다.
 		xScreen.xeShow = function() {
 			var clientWidth  = $(window).width();
 			var clientHeight = $(window).height();
-			
+
 			$("#xe_gallery_controls,#xe_gallery_screen").css({
 				display:"block",
 				width  : clientWidth + "px",
@@ -115,19 +115,19 @@ function getScreen() {
 		xScreen.xeMove = function(val) {
 			var clientWidth  = $(window).width();
 			var clientHeight = $(window).height();
-			
+
 			this.index += val;
 
 			prevbtn.css("visibility", (this.index>0)?"visible":"hidden");
 			nextbtn.css("visibility", (this.index<this.list.size()-1)?"visible":"hidden");
-			
+
 			imgframe.attr("src", this.list.eq(this.index).attr("src"))
 				.css({
 					left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
 					top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
 				});
 		};
-		
+
 		// 스크린을 닫는 상황
 		$(document).scroll(xScreen.xeHide);
 		$(document).keydown(xScreen.xeHide);
@@ -140,7 +140,7 @@ function getScreen() {
 		prevbtn  = $("#xe_gallery_prevbtn");
 		nextbtn  = $("#xe_gallery_nextbtn");
 	}
-	
+
 	return xScreen;
 }
 
@@ -150,64 +150,56 @@ function slideshow(event) {
 	var imglist    = container.find("img[rel=xe_gallery]");
 	var currentIdx = $.inArray($(this).get(0), imglist.get());
 	var xScreen    = getScreen();
-	
+
 	// 스크린을 보여주고
 	xScreen.list  = imglist;
 	xScreen.index = currentIdx;
 	xScreen.xeShow();
 }
 
-$(document).ready(function(){
-    //if (jQuery.browser.safari && document.readyState != "complete"){
-        //setTimeout( arguments.callee, 100 );
-        //return;
-    //} 
+/* DOM READY */
+$(function() {
+	var regx_skip = /(?:(modules|addons|classes|common|layouts|libs|widgets|widgetstyles)\/)/i;
+	var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
+	/**
+	 * 본문 폭 구하기 위한 개체
+	 * IE6에서 본문폭을 넘는 이미지가 있으면 그 크기로 구해지는 문제 우회용
+	 **/
+	var dummy = $('<div style="height:1; overflow:hidden; opacity:0; display:block; clear:both;"></div>');
 
-	var regx_skip   = /(?:modules|addons|classes|common|layouts|libs|widgets)/i;
-	var regx_parent = /(?:document|comment)_[0-9]+_[0-9]+/i;
+	$('div.xe_content').each(function() {
+		dummy.appendTo(this);
+		var contentWidth = dummy.width();
+		dummy.remove();
+		if(!contentWidth) return;
 
-    $(".xe_content").each(function() {
-        $(this).find("img").each(function(){
-            var img = $(this);
-            var width = img.attr("width");
-            if(!width) width = img.width();
-            if(!width) return;
-            img.attr("orig_width",width);
-            img.attr("width",1);
-        });
-        var offsetWidth = $(this).width();
+		$('img', this).each(function() {
+			var $img = $(this);
+			var imgSrc = $img.attr('src');
+			if(regx_skip.test(imgSrc) && !regx_allow_i6pngfix.test(imgSrc)) return;
 
-        $(this).find("img").each(function(){
-            var img = $(this);
-            if(!img.attr("orig_width")) return;
-            var src = img.attr("src");
-            img.attr("width",img.attr("orig_width"));
-            img.removeAttr("orig_width",'');
-            var width  = img.attr("width");
-            var height = img.attr("height");
-            
-            // XE 내부 프로그램 또는 스킨의 이미지라면 이미지 리사이즈를 하지 않음
-            if ( !regx_skip.test(src) ) {
-                // 커스텀 속성 추가
-                img.attr("rel", "xe_gallery");
+			$img.attr('rel', 'xe_gallery');
 
-                // 크기를 계산한다
-                if(width>offsetWidth) {
-                    img.attr("width",offsetWidth-10);
-                    img.attr("height",parseInt(offsetWidth/width*height,10));
-                }
+			var beforSize = {'width':$img.width(), 'height':$img.height()};
+			if(beforSize.width && beforSize.width < contentWidth) return;
+			var resize_ratio = contentWidth / beforSize.width;
 
-                // 링크가 설정되어 있거나 onclick 이벤트가 부여되어 있으면 원본 보기를 하지 않음
-                if ( !img.parent("a").size() && !img.attr("onclick") )  {
-                    // 스타일 설정
-                    img.css("cursor", "pointer");
-                    
-                    // 클릭하면 슬라이드쇼 시작
-                    img.click(slideshow);
-                }
-            }
-        });
-    });
+			$img
+				.removeAttr('width').removeAttr('height')
+				.css({
+					'width':contentWidth,
+					'height':parseInt(beforSize.height * resize_ratio, 10)
+				});
+		});
+
+		/* live 이벤트로 적용 (image_gallery 컴포넌트와의 호환 위함) */
+		$('img[rel=xe_gallery]', this).live('mouseover', function() {
+			var $img = $(this);
+			if(!$img.parent('a').length && !$img.attr('onclick')) {
+				$img.css('cursor', 'pointer').click(slideshow);
+			}
+		});
+	});
 });
 
 })(jQuery);

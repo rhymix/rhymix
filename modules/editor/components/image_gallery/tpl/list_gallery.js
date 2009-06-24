@@ -72,11 +72,8 @@ function start_list_gallery() {
         obj.image.style.marginBottom = "10px";
         obj.image.style.display = "block";
 
-        // resize_scale이 1이 아니면, 즉 리사이즈 되었다면 해당 이미지 클릭시 원본을 새창으로 띄워줌
-        if(resize_scale!=1 && typeof(showOriginalImage)=='function') {
-            obj.image.style.cursor = 'pointer';
-            xAddEventListener(obj.image, 'click', showOriginalImage);
-        }
+        // 리사이즈 되었다면 resize_image 애드온의 slideshow() 기능 사용
+        if(resize_scale != 1) obj.image.rel = 'xe_gallery';
 
         zone.appendChild(obj.image);
       }
