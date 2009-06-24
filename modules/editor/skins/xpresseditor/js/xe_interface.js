@@ -202,8 +202,8 @@ function editorGetAutoSavedDoc(form) {
     param['editor_sequence'] = form.getAttribute('editor_sequence')
     setTimeout(function() {
       var response_tags = new Array("error","message","editor_sequence","title","content","document_srl");
-      exec_xml('editor',"procEditorLoadSavedDocument", param, function(a,b,c) { editorRelKeys[param['editor_sequence']]['primary'].value = a['document_srl']; }, response_tags);
-      if(typeof(reloadFileList) == 'function') reloadFileList(uploaderSettings[param['editor_sequence']]);
+      exec_xml('editor',"procEditorLoadSavedDocument", param, function(a,b,c) { editorRelKeys[param['editor_sequence']]['primary'].value = a['document_srl']; if(typeof(uploadSettingObj[param['editor_sequence']]) == 'object') editorUploadInit(uploadSettingObj[param['editor_sequence']], true); }, response_tags);
+      
     }, 0);
     
 }
