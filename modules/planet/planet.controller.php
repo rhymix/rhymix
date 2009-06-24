@@ -224,6 +224,7 @@
             $oDocument = $oDocumentModel->getDocument($req->document_srl);
             $oDocument->add('tags',$req->planet_content_tag);
             $obj = $oDocument->getObjectVars();
+            $obj->postscript = $oDocument->getExtraValue(20);
 
             $output = $oDocumentController->updateDocument($oDocument, $obj);
             $this->setMessage('success_updated');
