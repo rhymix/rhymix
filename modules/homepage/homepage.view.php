@@ -169,7 +169,7 @@
             // member model 객체 생성후 목록을 구해옴
             $oMemberAdminModel = &getAdminModel('member');
             $oMemberModel = &getModel('member');
-            $output = $oMemberAdminModel->getSiteMemberList($this->site_srl);
+            $output = $oMemberAdminModel->getSiteMemberList($this->site_srl,Context::get('page'));
 
             $members = array();
             if(count($output->data)) {
