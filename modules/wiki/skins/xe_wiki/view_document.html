@@ -1,117 +1,113 @@
 <!--#include("header.html")-->
-<!-- 글 내용 보여주기 -->
+
 <div class="wikiRead">
-    <div class="originalContent">
-        <div class="readBody">
-            <div class="contentBody">
+	<div class="wikiReadBody">
+		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+			<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretMessage">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
 
-                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
-                    <div class="secretContent">
-                        <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
-                        <input type="hidden" name="mid" value="{$mid}" />
-                        <input type="hidden" name="page" value="{$page}" />
-                        <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+				<p>&quot;{$lang->msg_is_secret}&quot;</p>
+				<dl>
+					<dt><label for="cpw">{$lang->password}</label> :</dt>
+					<dd><input type="password" name="password" id="cpw" class="inputText" /><span class="buttonOfficial"><input type="submit" value="{$lang->cmd_input}" /></span></dd>
+				</dl>
 
-                            <div class="title">{$lang->msg_is_secret}</div>
-                            <div class="content"><input type="password" name="password" id="cpw" class="inputTypeText" /><span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_input}" accesskey="s" /></span></div>
-
-                        </form>
-                    </div>
-                <!--@else-->
-                    <!--@if($history)-->
-                        {$history->content}
-                    <!--@else-->
-                        {$oDocument->getContent(false)}
-                    <!--@endif-->
-                <!--@end-->
-            </div>
-        </div>
-
-        {@ $tag_list = $oDocument->get('tag_list') }
-        <!--@if(count($tag_list))-->
-        <div class="tag">
-            <ul>
-                <!--@for($i=0;$i<count($tag_list);$i++)-->
-                    {@ $tag = $tag_list[$i]; }
-                    <li><a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a><!--@if($i<count($tag_list)-1)-->,&nbsp;<!--@end--></li>
-                <!--@end-->
-            </ul>
-        </div>
+			</form>
+		<!--@else-->
+            <!--@if($history)-->
+                {$history->content}
+            <!--@else-->
+                {$oDocument->getContent(false)}
+            <!--@endif-->
+		<!--@end-->
+	</div>
+	<div class="wikiReadFooter">
+	
+		{@ $tag_list = $oDocument->get('tag_list') }
+		<!--@if(count($tag_list))-->
+		<dl class="tag">
+			<dt><img src="./img/common/iconTag.gif" width="27" height="11" alt="{$lang->tag}" /></dt>
+			<!--@for($i=0;$i<count($tag_list);$i++)-->
+				{@ $tag = $tag_list[$i]; }
+				<dd><a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" rel="tag">{htmlspecialchars($tag)}</a></dd>
+			<!--@end-->
+		</dl>
+		<!--@end-->
+		
+		<!--@if($oDocument->hasUploadedFiles())-->
+        <dl class="attachedFile">
+            <dt><img src="./img/common/iconFiles.gif" width="27" height="11" alt="{$lang->uploaded_file}" /> <button type="button" class="fileToggle" onclick="jQuery(this).parents('dl.attachedFile').toggleClass('open');return false;">{$lang->uploaded_file} ({$oDocument->get('uploaded_count')})</button></dt>
+            <dd>
+                <ul class="files">
+                    {@ $uploaded_list = $oDocument->getUploadedFiles() }
+                    <!--@foreach($uploaded_list as $key => $file)-->
+                    <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="bubble">[File Size:{FileHandler::filesize($file->file_size)}/Download:{number_format($file->download_count)}]</span></a></li>
+                    <!--@end-->
+                </ul>
+            </dd>
+        </dl>
+		<!--@end-->
+        
+        <!--@if(!$oDocument->getTrackbackCount())-->
+		<dl class="trackbackURL">
+			<dt>{$lang->trackback} : </dt>
+			<dd><a href="{$oDocument->getTrackbackUrl()}" onclick="return false;">{$oDocument->getTrackbackUrl()}</a></dd>
+		</dl>
         <!--@end-->
-
-        <!--@if($oDocument->hasUploadedFiles())-->
-        <div class="fileAttached">
-            {@ $uploaded_list = $oDocument->getUploadedFiles() }
-            <ul>
-                <!--@foreach($uploaded_list as $key => $file)-->
-                <li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} ({FileHandler::filesize($file->file_size)})({number_format($file->download_count)})</a></li>
-                <!--@end-->
-            </ul>
-            <div class="clear"></div>
-        </div>
+		
+        <!--@if($contributors)-->
+		<dl class="contributors">
+			<dt>{$lang->contributors} : </dt>
+			<dd><!--@foreach($contributors as $key => $val)--><a href="#" class="member_{$val->member_srl}" onclick="return false;">{$val->nick_name}</a><!--@if($key<count($contributors)-1)-->, <!--@end--><!--@end--></dd>
+		</dl>
         <!--@end-->
-    </div>
-
-    <!-- 목록, 수정/삭제 버튼 -->
-    <div class="contentButton">
-    </div>
+	</div>
 
 </div>
-<div class="replyBox contributors">
-{$lang->contributors} : 
-{@ $bFirst = true}
-<!--@foreach($contributors as $contributor)-->
-    <!--@if($contributor->nick_name != "")-->
-        <!--@if(!$bFirst)-->, <!--@end-->
-            <a href="#" class="member_{$contributor->member_srl}" onclick="return false;">{$contributor->nick_name}</a>
-            {@ $bFirst = false}
-        <!--@endif-->
-<!--@endforeach-->
-</div>
 
+<!--@if($oDocument->allowTrackback())-->
+    <!--#include("./trackback.html")-->
+<!--@end-->
+<!--@if($oDocument->allowComment())-->
+    <a name="comment"></a>
+    <!--#include("./comment.html")-->
 
-<!--@if($module_info->use_comment != 'N')-->
-<!-- 댓글 -->
-<a name="comment"></a>
-<!--#include("./comment.html")-->
-<!-- 댓글 입력 폼 -->
-<!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="wikiEditor" >
-    <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
-    <input type="hidden" name="comment_srl" value="" />
-    <input type="hidden" name="content" value="" />
-        <div class="wikiWrite commentEditor">
-            <div class="userNameAndPw">
+    <!--@if($grant->write_comment && $oDocument->isEnableComment() )-->
+        <form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="wikiEditor" >
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+        <input type="hidden" name="comment_srl" value="" />
+        <input type="hidden" name="content" value="" />
+            <div class="wikiWrite commentEditor">
+                <div class="editor">{$oDocument->getCommentEditor()}</div>
+
+                <div class="editorOption">
                 <!--@if(!$is_logged)-->
-                <label for="userName">{$lang->writer}</label>
-                <input type="text" name="nick_name" value="" class="userName inputTypeText" id="userName"/>
-
-                <label for="userPw">{$lang->password}</label>
-                <input type="password" name="password" value="" id="userPw" class="userPw inputTypeText" />
-
-                <label for="emailAddress">{$lang->email_address}</label>
-                <input type="text" name="email_address" value="" id="emailAddress" class="emailAddress inputTypeText"/>
-
-                <label for="homePage">{$lang->homepage}</label>
-                <input type="text" name="homepage" value="" id="homePage" class="homePage inputTypeText"/>
-                <!--@else-->
-                <input type="checkbox" name="notify_message" value="Y" id="notify_message" />
-                <label for="notify_message">{$lang->notify}</label>
+                   <input type="text" name="nick_name" class="inputText userName" value="{$lang->writer}" onfocus="this.value=''" />
+				   <input type="password" name="password" class="inputText userPw" value="{$lang->password}" onfocus="this.value=''" />
+				   <input type="text" name="email_address" class="inputText emailAddress" value="{$lang->email_address}" onfocus="this.value=''" />
+				   <input type="text" name="homepage" class="inputText homePage" value="{$lang->homepage}" onfocus="this.value=''" />
                 <!--@end-->
-                <!--@if($module_info->secret=="Y")-->
-                <input type="checkbox" name="is_secret" value="Y" id="is_secret" />
-                <label for="is_secret">{$lang->secret}</label>
-                <!--@end-->
+
+				<!--@if($is_logged)-->
+					<input type="checkbox" name="notify_message" value="Y" id="notify_message" class="inputCheck" />
+					<label for="notify_message">{$lang->notify}</label>
+				<!--@end-->
+					<input type="checkbox" name="is_secret" value="Y" id="is_secret" class="inputCheck" />
+					<label for="is_secret">{$lang->secret}</label>
+                </div>
+        
+                <div class="wikiNavigation">
+                    <span class="buttonOfficial"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
+                </div>
+
             </div>
 
-            <div class="editor">{$oDocument->getCommentEditor()}</div>
-        </div>
+        </form>
+    <!--@end-->
+<!--@end-->
 
-        <div class="commentButton tRight">
-            <span class="button {$btn_class}"><input type="submit" value="{$lang->cmd_comment_registration}" accesskey="s" /></span>
-        </div>
-    </form>
-<!--@end-->
-<!--@end-->
+
 <!--#include("footer.html")-->

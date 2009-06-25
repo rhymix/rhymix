@@ -95,6 +95,7 @@
     $lang->cmd_view_member_info = '회원 정보 보기';
     $lang->cmd_leave = '탈퇴';
     $lang->cmd_find_member_account = '아이디/비밀번호 찾기';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = '회원 목록';
     $lang->cmd_module_config = '기본 설정';
@@ -205,4 +206,6 @@
     $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입폼 관리등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입폼관리를 통한 기본 정보외의 추가 정보를 요구받을 수도 있습니다.";
     $lang->about_ssl_port = '기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요';
     $lang->add_openid = '오픈아이디 추가';
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

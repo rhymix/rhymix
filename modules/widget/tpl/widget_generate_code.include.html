@@ -1,4 +1,6 @@
 <!--%load_js_plugin("ui.colorpicker")-->
+<!--%load_js_plugin("filebox")-->
+<!--%import("./js/widget.js")-->
 <p class="summary">{nl2br($_caption)}</p>
 <table cellspacing="0" class="rowTable">
 <tr>
@@ -64,13 +66,15 @@
     </th>
     <td>
         <!--@if($var->type == "text")-->
-        <input type="text" name="{$id}" value="" class="inputTypeText fullWidth" />
+        <input type="text" name="{$id}" value="" class="inputTypeText fullWidth" id="lang_{$id}"/>
+        <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','lang_'.$id)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 
         <!--@elseif($var->type == "color")-->
         <input type="text" name="{$id}" value="" class="inputTypeText color-indicator" />
 
         <!--@elseif($var->type == "textarea")-->
-        <textarea name="{$id}" class="inputTypeTextArea fullWidth"></textarea>
+        <textarea name="{$id}" class="inputTypeTextArea fullWidth" id="lang_{$id}"></textarea>
+        <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','lang_'.$id)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 
         <!--@elseif($var->type == "select")-->
         <select name="{$id}">
@@ -172,6 +176,16 @@
                     doAddWindowLoadEventLoader( function() { getModuleSrl('{$id}'); });
                 }
             </script>
+        <!--@elseif($var->type == "filebox")-->
+            <div id="filebox_preview_{$id}" style="width:100px;height:100px;display:none" ></div>
+            <input type="hidden" name="{$id}" value="" />
+            <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name={$id}]', '#fo_widget').get(0), '{$var->filter}')">{$lang->cmd_select}</button></span>
+            <span id="filebox_cancel_{$id}" class="button red" style="display:none" ><button type="button" onclick="XE.filebox.cancel('{$id}')">{$lang->cmd_delete}</button></span>
+            <script type="text/javascript">//<![CDATA[
+                XE.filebox.init('{$id}');
+            //]]></script>
+
+
         <!--@elseif($var->type == "menu")-->
             <select name="{$id}" class="w300 fl">
                 <option value="">-</option>

@@ -82,8 +82,6 @@
             <label for="fld_for_signup">{$lang->about_use_signup}</label>
         </td>
     </tr>
-
-
     <tr>
         <th scope="row"><div>{$lang->planet_use_mobile}</div></th>
         <td colspan="3">
@@ -91,12 +89,17 @@
             <label for="fld_for_use_mobile">{$lang->about_use_mobile}</label>
         </td>
     </tr>
-
     <tr class="row2">
         <th scope="row"><div>{$lang->planet_use_me2day}</div></th>
         <td colspan="3">
             <input type="checkbox" name="use_me2day" value="Y" <!--@if($module_info->use_me2day=='Y')-->checked="checked"<!--@end--> id="fld_for_use_me2day"  class="checkbox" />
             <label for="fld_for_use_me2day">{$lang->about_use_me2day}</label>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>RSS</div></th>
+        <td colspan="3">
+            <input type="checkbox" name="use_rss" value="Y"  <!--@if($module_info->use_rss=='Y')-->checked="checked"<!--@end--> />
         </td>
     </tr>
     <tr>

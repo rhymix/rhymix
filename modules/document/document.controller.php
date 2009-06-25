@@ -30,7 +30,7 @@
             $args->alias_srl = getNextSequence();
             $args->module_srl = $module_srl;
             $args->document_srl = $document_srl;
-            $args->alias_title = $alias_title;
+            $args->alias_title = urldecode($alias_title);
             $query = "document.insertAlias";
             $output = executeQuery($query, $args);
             return $output;
@@ -218,7 +218,7 @@
 
             // trigger 호출 (after)
             if($output->toBool()) {
-	            $trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
+                $trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
                 if(!$trigger_output->toBool()) {
                     $oDB->rollback();
                     return $trigger_output;
@@ -501,6 +501,9 @@
                 return $output;
             }
 
+            // update category
+            if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
+
             // commit
             $oDB->commit();
 
@@ -546,7 +549,7 @@
          **/
         function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid) {
             if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new Object(-1,'msg_invalid_request');
-    
+
             $obj->module_srl = $module_srl;
             $obj->var_idx = $var_idx;
             $obj->var_name = $var_name;
@@ -555,14 +558,14 @@
             $obj->var_search = $var_search=='Y'?'Y':'N';
             $obj->var_default = $var_default;
             $obj->var_desc = $var_desc;
-			$obj->eid = $eid;
+            $obj->eid = $eid;
 
             $output = executeQuery('document.getDocumentExtraKeys', $obj);
             if(!$output->data) return executeQuery('document.insertDocumentExtraKey', $obj);
             $output = executeQuery('document.updateDocumentExtraKey', $obj);
-			
-			// extra_vars에서 확장 변수 eid를 일괄 업데이트
-			$output = executeQuery('document.updateDocumentExtraVar', $obj);
+
+            // extra_vars에서 확장 변수 eid를 일괄 업데이트
+            $output = executeQuery('document.updateDocumentExtraVar', $obj);
 
             return $output;
         }
@@ -586,13 +589,13 @@
         function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '') {
             if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new Object(-1,'msg_invalid_request');
             if(!$lang_code) $lang_code = Context::getLangType();
-    
+
             $obj->module_srl = $module_srl;
             $obj->document_srl = $document_srl;
             $obj->var_idx = $var_idx;
             $obj->value = $value;
             $obj->lang_code = $lang_code;
-			$obj->eid = $eid;
+            $obj->eid = $eid;
 
             executeQuery('document.insertDocumentExtraVar', $obj);
         }
@@ -609,7 +612,7 @@
             $output = executeQuery('document.deleteDocumentExtraVars', $obj);
             return $output;
         }
-        
+
 
         /**
          * @brief 해당 document의 추천수 증가
@@ -824,7 +827,7 @@
         function updateCategoryCount($module_srl, $category_srl, $document_count = 0) {
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
-            if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($category_srl);
+            if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($module_srl,$category_srl);
 
             $args->category_srl = $category_srl;
             $args->document_count = $document_count;
@@ -998,7 +1001,13 @@
          **/
         function procDocumentInsertCategory($args = null) {
             // 입력할 변수 정리
-            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color');
+            if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color','mid');
+
+            if(!$args->module_srl && $args->mid){
+                $mid = $args->mid;
+                unset($args->mid);
+                $args->module_srl = $this->module_srl;
+            }
 
             // 권한 체크 
             $oModuleModel = &getModel('module');
@@ -1587,6 +1596,5 @@
             $this->setError(-1);
             $this->setMessage('success_updated');
         }
-
     }
 ?>

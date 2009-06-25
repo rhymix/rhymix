@@ -142,8 +142,8 @@
 
     <!-- 목록, 수정/삭제 버튼 -->
     <div class="contentButton">
-        <!--@if($module_info->default_style != 'blog')-->
-        <a href="{getUrl('document_srl','')}" class="button {$btn_class}"><span>{$lang->cmd_list}</span></a>
+        <!--@if($module_info->default_style != 'blog' || ($module_info->default_style == 'blog' && Context::get('document_srl')))-->
+        <a href="{getUrl('document_srl','')}" class="button {$btn_class}"><span><!--@if($module_info->default_style != 'blog')-->{$lang->cmd_list}<!--@else-->{$lang->cmd_view_all}<!--@end--></span></a>
         <!--@end-->
         <!--@if($oDocument->isEditable())-->
         <a href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" class="button {$btn_class}"><span>{$lang->cmd_modify}</span></a>

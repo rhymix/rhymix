@@ -41,11 +41,12 @@
 <!--@end-->
 <!--@end-->
 <!--@if($rss_url)-->
-    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{$rss_url}" />
-    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{$atom_url}" />
-<!--@elseif(Context::isInstalled() && $site_module_info->mid == $mid)-->
-    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{getUrl('','module','rss','act','rss')}" />
-    <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="{getUrl('','module','rss','act','atom')}" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />
+<!--@end-->
+<!--@if($general_rss_url)-->
+    <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
+    <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
 <!--@end-->
 
 {@ $ssl_actions = Context::getSSLActions() }

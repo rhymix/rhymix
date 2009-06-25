@@ -6,6 +6,7 @@
      **/
 
     class wikiView extends wiki {
+        var $search_option = array('title','content','title_content','comment','user_name','nick_name','user_id','tag');
 
         /**
          * @brief 초기화
@@ -103,9 +104,12 @@
             $page = Context::get('page');
             $oDocumentModel = &getModel('document');
             $obj->module_srl = $this->module_info->module_srl;
-            $obj->sort_index = "title";
+            $obj->sort_index = 'update_order';
             $obj->page = $page;
             $obj->list_count = 50;
+
+            $obj->search_keyword = Context::get('search_keyword');
+            $obj->search_target = Context::get('search_target');
             $output = $oDocumentModel->getDocumentList($obj);
 
             Context::set('document_list', $output->data);
@@ -113,7 +117,17 @@
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('page_navigation', $output->page_navigation);
+
+            // 검색 옵션 세팅
+            foreach($this->search_option as $opt) $search_option[$opt] = Context::getLang($opt);
+            Context::set('search_option', $search_option);
+
             $this->setTemplateFile('title_index');
+        }
+
+        function dispWikiTreeIndex() {
+            Context::set('isManageGranted', $this->grant->write_document?'true':'false');
+            $this->setTemplateFile('tree_list');
         }
 
         function dispWikiContentView() {
@@ -211,7 +225,7 @@
         }
 
         /**
-         * @brief 댓글의 답글 화면 출력
+         * @brief 댓글의 댓글 화면 출력
          **/
         function dispWikiReplyComment() {
             // 권한 체크

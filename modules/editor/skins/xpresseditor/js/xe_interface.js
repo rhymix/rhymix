@@ -2,10 +2,11 @@ if (!window.xe) xe = {};
 
 xe.Editors = [];
 
-function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style, content_font) {
+function editorStart_xe(editor_sequence, primary_key, content_key, editor_height, colorset, content_style, content_font, content_font_size) {
     if(typeof(colorset)=='undefined') colorset = 'white';
     if(typeof(content_style)=='undefined') content_style = 'xeStyle';
     if(typeof(content_font)=='undefined') content_font= '';
+    if(typeof(content_font_size)=='undefined') content_font_size= '';
 
     var target_src = request_uri+'modules/editor/styles/'+content_style+'/editor.html';
 
@@ -22,7 +23,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
         jQuery("#xpress-editor-"+editor_sequence).val(saved_content);
     }
 
-	/*
+    /*
     // remove procFilter
     if(form.comment_srl){
         form.onsubmit=function(){
@@ -54,6 +55,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
 
     var content = form[content_key].value;
+    if(xFF && !content) content = '<p>&nbsp;</p>';
 
     // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
     content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
@@ -135,29 +137,32 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     }
 
     function load_proc() {
-    	try {
-    		var doc = oWYSIWYGIFrame.contentWindow.document, str;
-    		if (doc.location == 'about:blank') throw 'blank';
-    		
-    		// get innerHTML
-    		str = doc.body.innerHTML;
-    		
-    		// register plugin
-    		oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
-    		oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
-    		oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
+        try {
+            var doc = oWYSIWYGIFrame.contentWindow.document, str;
+            if (doc.location == 'about:blank') throw 'blank';
+
+            // get innerHTML
+            str = doc.body.innerHTML;
+
+            // register plugin
+            oEditor.registerPlugin(new xe.XE_EditingArea_WYSIWYG(oWYSIWYGIFrame));
+            oEditor.registerPlugin(new xe.XpressRangeManager(oWYSIWYGIFrame));
+            oEditor.registerPlugin(new xe.XE_ExecCommand(oWYSIWYGIFrame));
 
             if(content_font && !doc.body.style.fontFamily) {
                 doc.body.style.fontFamily = content_font;
             }
-    		
-    		// run
-	    	oEditor.run();
-    	} catch(e) {
-    		setTimeout(load_proc, 0);
-    	}
+            if(content_font_size && !doc.body.style.fontSize) {
+                doc.body.style.fontSize = content_font_size;
+            }
+
+            // run
+            oEditor.run();
+        } catch(e) {
+            setTimeout(load_proc, 0);
+        }
     }
-    
+
     load_proc();
 
     return oEditor;
@@ -168,7 +173,10 @@ function editorGetContentTextarea_xe(editor_sequence) {
 
     if (!oEditor) return '';
 
-    return oEditor.getIR();
+    var str = oEditor.getIR();
+    if(!jQuery.trim(str.replace(/(&nbsp;|<\/?(p|br|span|div)([^>]+)?>)/ig, ''))) return '';
+
+    return str;
 }
 
 function editorGetIframe(srl) {
@@ -188,6 +196,18 @@ function editorReplaceHTML(iframe_obj, content) {
     editorRelKeys[srl]["pasteHTML"](content);
 }
 
+function editorGetAutoSavedDoc(form) {
+    var param = new Array();
+    param['mid'] = current_mid;
+    param['editor_sequence'] = form.getAttribute('editor_sequence')
+    setTimeout(function() {
+      var response_tags = new Array("error","message","editor_sequence","title","content","document_srl");
+      exec_xml('editor',"procEditorLoadSavedDocument", param, function(a,b,c) { editorRelKeys[param['editor_sequence']]['primary'].value = a['document_srl']; if(typeof(uploadSettingObj[param['editor_sequence']]) == 'object') editorUploadInit(uploadSettingObj[param['editor_sequence']], true); }, response_tags);
+      
+    }, 0);
+    
+}
+
 // WYSIWYG 모드를 저장하는 확장기능
 xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
     name : "XE_GET_WYSYWYG_MODE",
@@ -201,7 +221,7 @@ xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
     }
 });
 
-// 이미지등의 상대경로를 절대경로로 바꾸는 플러그인 
+// 이미지등의 상대경로를 절대경로로 바꾸는 플러그인
 xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
     name : "XE_GET_WYSYWYG_CONTENT",
 

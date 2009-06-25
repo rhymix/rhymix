@@ -5,6 +5,6 @@
      * @brief 日本語言語パッケージ　翻訳：RisaPapa
      */
 
-    $lang->referer = "レファラー";
-    $lang->ranking = "順位";
+    $lang->referer = 'レファラー';
+    $lang->ranking = '順位';
 ?>

@@ -150,5 +150,17 @@
             if($grant->commiter) return true;
             else return parent::isAccessible() || $this->isGranted();
         }
+
+        /**
+         * @brief 댓글 에디터 html을 구해서 return
+         **/
+        function getCommentEditor() {
+            if(!$this->isEnableComment()) return;
+
+            $oEditorModel = &getModel('editor');
+            return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), null, 'history_srl', 'content');
+        }
+
+
     }
 ?>

@@ -7,7 +7,7 @@
 
 /* Type Selector */
 .xpress-editor *{margin:0; padding:0; font-style:normal; font-size:12px; }
-.xpress-editor img, 
+.xpress-editor img,
 .xpress-editor fieldset,
 .xpress-editor button{ border:0;}
 .xpress-editor button{ background:none; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand;}
@@ -20,6 +20,7 @@
 /* Layout Selector */
 .xpress-editor{ position:relative; background:transparent;}
 .xpress-editor #smart_content{ position:relative; clear:both; margin:0 0 10px 0; border:1px solid #c2c2c2; *zoom:1; z-index:5; background:#fff;}
+.xpress-editor.black #smart_content {background:transparent;}
 .xpress-editor #smart_footer{ position:relative; text-align:center; padding:10px 0;}
 
 /* Footer */

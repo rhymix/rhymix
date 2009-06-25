@@ -8,9 +8,9 @@
     $lang->member = '会員';
     $lang->member_default_info = '基本情報';
     $lang->member_extend_info = '追加情報';
-    $lang->default_group_1 = "準会員";
-    $lang->default_group_2 = "正会員";
-    $lang->admin_group = "管理グループ";
+    $lang->default_group_1 = '準会員';
+    $lang->default_group_2 = '正会員';
+    $lang->admin_group = '管理グループ';
     $lang->keep_signed = '次回からID入力を省略';
     $lang->remember_user_id = 'ID保存';
     $lang->already_logged = '既にログインされています。';
@@ -95,6 +95,7 @@
     $lang->cmd_view_member_info = '会員情報確認';
     $lang->cmd_leave = '退会';
     $lang->cmd_find_member_account = 'IDとパスワードのリマインダー';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = '会員リスト';
     $lang->cmd_module_config = '基本設定';
@@ -110,24 +111,24 @@
     $lang->cmd_view_saved_document = '保存ドキュメント';
     $lang->cmd_send_email = 'メール送信';
 
-    $lang->msg_email_not_exists = "登録されたメールアドレスがありません。";
+    $lang->msg_email_not_exists = '登録されたメールアドレスがありません。';
 
     $lang->msg_alreay_scrapped = '既にスクラップされたコンテンツです。';
 
     $lang->msg_cart_is_null = '対象を選択して下さい。';
-    $lang->msg_checked_file_is_deleted = '%d個の添付ファイルが削除されました。';
+    $lang->msg_checked_file_is_deleted = "%d個の添付ファイルが削除されました。";
 
     $lang->msg_find_account_title = '会員IDどパスワードの情報';
     $lang->msg_find_account_info = '登録された会員情報は下記の通りです。';
     $lang->msg_find_account_comment = '下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更して下さい。';
     $lang->msg_confirm_account_title = '確認メールです。';
     $lang->msg_confirm_account_info = '作成した会員の情報';
-    $lang->msg_confirm_account_comment = '下記のURLをクリックして会員登録を完了して下さい。';
-    $lang->msg_auth_mail_sent = '%s メールでは認証情報を含んだ内容が送信されました。 メールを確認して下さい。';
-    $lang->msg_confirm_mail_sent = '%s 宛に確認メールを送信しました。メールをご確認下さい。';
+    $lang->msg_confirm_account_comment = '下記のURLをクリックして会員登録手続きを完了して下さい。';
+    $lang->msg_auth_mail_sent = "%s 宛に認証情報内容が送信されました。メールを確認して下さい。";
+    $lang->msg_confirm_mail_sent = "%s 宛に確認メールを送信しました。メールをご確認下さい。";
     $lang->msg_invalid_auth_key = '正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせ下さい。';
-    $lang->msg_success_authed = '認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更して下さい。.';
-    $lang->msg_success_confirmed = '会員登録いただきましてありがとうございます。';
+    $lang->msg_success_authed = '認証が正常に行われ、ログイン出来ました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更して下さい。';
+    $lang->msg_success_confirmed = '会員登録、有難うございます。';
 
     $lang->msg_new_member = '会員追加';
     $lang->msg_update_member = '会員情報修正';
@@ -205,4 +206,6 @@
     $lang->about_member = "会員の作成・修正・削除することが出来、グループの管理、登録フォームの管理などが行える会員管理モジュールです。\nデフォルトで作成されたグループにグループを追加作成して会員管理が出来るようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することが出来ます。";
     $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';
     $lang->add_openid = 'OpenIDの追加';
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

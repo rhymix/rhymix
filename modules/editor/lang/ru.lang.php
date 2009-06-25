@@ -18,6 +18,7 @@
     $lang->component_grant = 'Настройки прав доступа';
     $lang->content_style = 'Content Style';
     $lang->content_font = 'Content Font';
+	$lang->content_font_size = '문서 폰트 크기';
 
     $lang->about_component = 'О компоненте';
     $lang->about_component_grant = 'Только выбранным группам позволено использование.<br /> (Каждый может использовать его, если режим выключен)';
@@ -45,6 +46,7 @@
     $lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
     $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
+	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
     $lang->about_upload_file_grant = '파일을 첨부할 수 있는 권한을 지정하실 수 있습니다 (모두 해제시 아무나 첨부 가능합니다)';
     $lang->about_default_component_grant = '에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
     $lang->about_editor_height = '에디터의 기본 높이를 지정하실 수 있습니다';
@@ -207,10 +209,12 @@
     $lang->edit->materials = '글감보관함';
     $lang->edit->temporary_savings = '임시저장목록';
     
-    $lang->edit->drag_here = '글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+    $lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
 
 	$lang->edit->paging_prev = '이전';
 	$lang->edit->paging_next = '다음';
 	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
 	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+
+	$lang->edit->toc = '목차';
 ?>

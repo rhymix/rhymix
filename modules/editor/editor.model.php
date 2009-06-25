@@ -48,7 +48,7 @@
 
             if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
             if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
-            //if(!$editor_config->content_style) $editor_config->content_style = 'xeStyle';
+            if(!$editor_config->content_style) $editor_config->content_style = 'default';
 
             return $editor_config;
         }
@@ -67,14 +67,16 @@
             else $allow_fileupload = true;
 
             // content_style 세팅
-            if(!$option->content_style) $option->content_style = 'xeStyle';
+            if(!$option->content_style) $option->content_style = 'default';
             Context::set('content_style', $option->content_style);
 
             // 기본 글꼴 지정
             Context::set('content_font', $option->content_font);
+            Context::set('content_font_size', $option->content_font_size);
 
-            // 자동 저장 유무 옵션 설정
+            // 자동 저장 유무 옵션 설정 글 수정시는 사용 안함
             if(!$option->enable_autosave) $enable_autosave = false;
+            elseif(Context::get($option->primary_key_name)) $enable_autosave = false;
             else $enable_autosave = true;
 
             // 기본 에디터 컴포넌트 사용 설정
@@ -203,6 +205,9 @@
             }
             Context::set('editor_path', $tpl_path);
 
+			// load editor skin lang
+			Context::loadLang($tpl_path.'lang');
+
             // tpl 파일을 compile한 결과를 return
             $oTemplate = new TemplateHandler();
             return $oTemplate->compile($tpl_path, $tpl_file);
@@ -224,6 +229,7 @@
                 $config->editor_skin = $editor_config->editor_skin;
                 $config->content_style = $editor_config->content_style;
                 $config->content_font = $editor_config->content_font;
+                $config->content_font_size = $editor_config->content_font_size;
                 $config->sel_editor_colorset = $editor_config->sel_editor_colorset;
                 $config->upload_file_grant = $editor_config->upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -235,6 +241,7 @@
                 $config->editor_skin = $editor_config->comment_editor_skin;
                 $config->content_style = $editor_config->content_style;
                 $config->content_font = $editor_config->content_font;
+                $config->content_font_size = $editor_config->content_font_size;
                 $config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
                 $config->upload_file_grant = $editor_config->comment_upload_file_grant;
                 $config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -256,6 +263,7 @@
             $option->skin = $config->editor_skin;
             $option->content_style = $config->content_style;
             $option->content_font = $config->content_font;
+            $option->content_font_size = $config->content_font_size;
             $option->colorset = $config->sel_editor_colorset;
 
             // 파일 업로드 권한 체크
@@ -329,6 +337,12 @@
             } else {
                 $auto_save_args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
+            $auto_save_args->module_srl = Context::get('module_srl');
+            // module_srl이 없으면 현재 모듈
+            if(!$auto_save_args->module_srl) {
+                $current_module_info = Context::get('current_module_info');
+                $auto_save_args->module_srl = $current_module_info->module_srl;
+            }
 
             // DB에서 자동저장 데이터 추출
             $output = executeQuery('editor.getSavedDocument', $auto_save_args);
@@ -344,16 +358,16 @@
 
             // 자동저장 데이터에 문서번호가 있고 이 번호에 파일이 있다면 파일을 모두 이동하고
             // 해당 문서 번호를 editor_sequence로 세팅함
-            if($saved_doc->document_srl) {
-                $module_srl = Context::get('module_srl');
+            if($saved_doc->document_srl && $upload_target_srl && !Context::get('document_srl')) {
+                $saved_doc->module_srl = $auto_save_args->module_srl;
                 $oFileController = &getController('file');
-                $oFileController->moveFile($saved_doc->document_srl, $module_srl, $upload_target_srl);
+                $oFileController->moveFile($saved_doc->document_srl, $saved_doc->module_srl, $upload_target_srl);
             }
-            $saved_doc->document_srl = $upload_target_srl;
+            else if($upload_target_srl) $saved_doc->document_srl = $upload_target_srl;
 
             // 자동 저장 데이터 변경
             $oEditorController = &getController('editor');
-            $oEditorController->deleteSavedDoc();
+            $oEditorController->deleteSavedDoc(false);
             $oEditorController->doSaveDoc($saved_doc);
 
             return $saved_doc;

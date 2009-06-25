@@ -21,7 +21,7 @@
     $lang->gallery_bg_color = "背景色"; 
     $lang->about_image_list = "イメージギャラリーに追加するファイルを選択して下さい。選択した後、ドラッグまたは「Shift+クリック（範囲選択）、Ctrl+クリック（個別選択）」が出来ます。";
 
-	$lang->cmd_gallery_prev = "前のイメージ表示";
+    $lang->cmd_gallery_prev = "前のイメージ表示";
     $lang->cmd_gallery_next = "次のイメージ表示";
     $lang->cmd_gallery_thumbnail = "サムネール表示";
 ?>

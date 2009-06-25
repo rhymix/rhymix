@@ -1,0 +1,36 @@
+<!--@if($oIssue->getTrackbackCount())-->
+<hr class="hr" />
+<div class="feedbackList" id="trackback">
+
+	<h3 class="feedbackHeader">
+		<!--@if($oIssue->allowTrackback() && $oIssue->getTrackbackCount() )-->
+			{$lang->trackback} <em>'{$oIssue->getTrackbackCount()}'</em>
+		<!--@end-->
+	</h3>
+    <p class="trackbackURL"><a href="{$oIssue->getTrackbackUrl()}" onclick="return false;">{$oIssue->getTrackbackUrl()}</a></p>
+
+	<div class="trackbackList">
+	
+		<!--@if($oIssue->getTrackbackCount())-->
+			<!--@foreach($oIssue->getTrackbacks() as $key => $val)-->
+			<div class="item" id="trackback_{$val->trackback_srl}">
+				<div class="itemAside">
+					<p class="meta">
+						{zdate($val->regdate, "Y.m.d H:i")}
+						<!--@if($grant->manager)-->
+						<br />{$val->ipaddress}
+						<!--@end-->
+					</p>
+				</div>
+				<div class="itemContent">
+					<h4 class="header"><a href="{$val->url}" onclick="winopen(this.href);return false;">{htmlspecialchars($val->title)} - {htmlspecialchars($val->blog_name)}</a></h4>
+					<p>{$val->excerpt} <!--@if($grant->manager)--><a href="{getUrl('act','dispIssuetrackerDeleteTrackback','trackback_srl',$val->trackback_srl)}" class="delete"><span>{$lang->cmd_delete}</span></a><!--@end--></p>
+				</div>
+			</div>
+			<!--@end-->
+		<!--@end-->
+	
+	</div>
+	
+</div>
+<!--@end-->

@@ -5,10 +5,10 @@
     <div class="cafeTitle">
         <h2 class="cafeTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
     </div>
-    <!--@end-->
 
     <!--@if($module_info->comment)-->
     <p class="cafeDescription">{$module_info->comment}</p>
+    <!--@end-->
 </div>
 <!--@end-->
 
@@ -34,7 +34,7 @@
             <!--@if($val->cafe_description)-->
                 {preg_replace('/<([^>]+)>/i','',$val->cafe_description)}
             <!--@end-->
-            <span class="url"><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{getSiteUrl($val->domain)}</a></span>
+            <span class="url"><a href="{getSiteUrl($val->domain)}" onclick="window.open(this.href); return false;">{$val->url}</a></span>
         </div>
         <!--@end-->
 

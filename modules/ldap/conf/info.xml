@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module version="0.2">
     <title xml:lang="ko">LDAP 인증 연동 모듈</title>
+	<title xml:lang="en">LDAP Authentication</title>
     <title xml:lang="es">Módulo de autenticación LDAP obras</title>
     <title xml:lang="zh-CN">LDAP认证</title>
     <title xml:lang="zh-TW">LDAP認證模組</title>
     <title xml:lang="jp">LDAP認証連動モジュール</title>
     <name xml:lang="ko">zero</name>
+	<name xml:lang="en">zero</name>
     <name xml:lang="es">zero</name>
     <name xml:lang="zh-CN">zero</name>
     <name xml:lang="zh-TW">zero</name>
@@ -13,6 +15,10 @@
     <description xml:lang="ko">
         LDAP 인증 연동하는 모듈입니다.
         적수님(http://ggang.net)님이 매우 큰 도움 주셨습니다.
+    </description>
+	<description xml:lang="en">
+        This module provide LDAP Authentication service.
+        Jeok Su(http://ggang.net) helped a lot.
     </description>
 	<description xml:lang="es">
         Autenticación LDAP módulo es el trabajo.
@@ -35,6 +41,7 @@
     <category>interlock</category>
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+		<name xml:lang="en">zero</name>
 		<name xml:lang="es">zero</name>
 		<name xml:lang="zh-CN">zero</name>
         <name xml:lang="zh-TW">zero</name>

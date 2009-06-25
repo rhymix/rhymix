@@ -129,10 +129,12 @@
         <th><div>{$lang->allow_mailing}</div></th>
         <td><input type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
     </tr>
+    <!--@if($member_config->signature != 'N')-->
     <tr>
         <th><div>{$lang->signature}</div></th>
         <td>{$editor}</td>
     </tr>
+    <!--@end-->
 
     <!--@if($extend_form_list)-->
     <tr><th colspan="2" class="title"><div>{$lang->member_extend_info}</div></th></tr>

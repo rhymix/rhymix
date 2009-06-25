@@ -3,6 +3,7 @@
         <table name="editor_autosave" />
     </tables>
     <columns>
+        <column name="module_srl" var="module_srl" />
         <column name="member_srl" var="member_srl" />
         <column name="ipaddress" var="ipaddress" />
         <column name="document_srl" var="document_srl" />

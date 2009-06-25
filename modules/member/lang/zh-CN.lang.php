@@ -96,6 +96,7 @@
     $lang->cmd_view_member_info = '个人资料';
     $lang->cmd_leave = '注销';
     $lang->cmd_find_member_account = '查找用户名/密码';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = '会员目录';
     $lang->cmd_module_config = '常规选项';
@@ -204,4 +205,6 @@
     $lang->about_find_member_account = '用户名/密码将发送到您注册时所输入的电子邮件当中。<br />输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />';
 
     $lang->about_member = "可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。\n此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。";
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

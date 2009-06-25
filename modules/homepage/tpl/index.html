@@ -196,6 +196,14 @@
                     <p>{$lang->about_allow_service}</p>
                 </td>
             </tr>
+            <tr>
+                <th scope="row" colspan="2"><div>RSS</div></th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="checkbox" name="use_rss" value="Y" <!--@if($homepage_config->use_rss=='Y')-->checked="checked"<!--@end-->/>
+                </td>
+			</tr>
             <tr class="row2" colspan="2">
                 <td class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span></div></td>
             </tr>

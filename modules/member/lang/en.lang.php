@@ -39,7 +39,7 @@
     $lang->group_image_mark = 'Group Image Mark';
     $lang->group_image_mark_max_width = 'Max Width';
     $lang->group_image_mark_max_height = 'Max Height';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
+    $lang->group_image_mark_order = 'Group Image Mark Order';
     $lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
     $lang->enable_join = 'Allow Member Join';
@@ -68,8 +68,8 @@
     $lang->webmaster_name = "Webmaster's Name";
     $lang->webmaster_email = "Webmaster's Email";
 
-    $lang->about_keep_signed = 'Though the browser is closed, you might be kept signed.\n\nIf you use this feature at the shared computer, your personal information might be accessed by others, thus do not use this feature at the shared computer. ';
-	$lang->about_webmaster_name = "Please input webmaster's name which will be used for certification mails or other site administration. (default : webmaster)";
+    $lang->about_keep_signed = 'You might be kept signed on even when the browser is closed,\n\nIf you use this feature at a shared computer, your personal information might be accessed by others, thus do not use this feature at a shared computer. ';
+	$lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
@@ -78,11 +78,11 @@
         'nick_name' => 'Nickname',
         'email_address' => 'Email Address',
         'regdate' => 'Join Date',
-        'regdate_more' => '가입일시(이상)',
-        'regdate_less' => '가입일시(이하)',
+        'regdate_more' => 'Join Date (more)',
+        'regdate_less' => 'Join Date (less)',
         'last_login' => 'Last Login Date',
-        'last_login_more' => '최근로그인일시(이상)',
-        'last_login_less' => '최근로그인일시(이하)',
+        'last_login_more' => 'Last Login Date (more)',
+        'last_login_less' => 'Last Login Date (less)',
         'extra_vars' => 'Extra Vars',
     );
 
@@ -95,6 +95,7 @@
     $lang->cmd_view_member_info = 'Member Info';
     $lang->cmd_leave = 'Leave';
     $lang->cmd_find_member_account = 'Find Account Info';
+	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = 'Member List';
     $lang->cmd_module_config = 'Default Setting';
@@ -123,9 +124,9 @@
     $lang->msg_confirm_account_title = 'Authentication confirmation mail';
     $lang->msg_confirm_account_info = 'This is the registered account information:';
     $lang->msg_confirm_account_comment = 'Click the following confirmation link to complete your sign up.';
-    $lang->msg_auth_mail_sent = 'The certification mail has been sent to %s. Please check your mail.';
+    $lang->msg_auth_mail_sent = 'The verification mail has been sent to %s. Please check your mail.';
     $lang->msg_confirm_mail_sent = 'We just sent you a confirmation email to %s. Click on the confirmation link in the email to complete your sign up.';
-    $lang->msg_invalid_auth_key = 'This is an invalid request of certification.<br />Please retry finding account info or contact to administrator.';
+    $lang->msg_invalid_auth_key = 'This is an invalid request of verification.<br />Please retry finding account info or contact to administrator.';
     $lang->msg_success_authed = 'Your account has been successfully certificated and logged on.\n Please modify the password to your own one with the password in the mail.';
     $lang->msg_success_confirmed = 'The autentication completed successfully.';
 
@@ -160,7 +161,7 @@
     $lang->about_password = 'Password should be 6~20 letters long';
     $lang->about_user_name = 'Name should be 2~20 letters long';
     $lang->about_nick_name = 'Nickname should be 2~20 letters long';
-    $lang->about_email_address = 'Email address will be used to modify/find password after email certification';
+    $lang->about_email_address = 'Email address will be used to modify/find password after email verification';
     $lang->about_homepage = 'Please input if you have your websites';
     $lang->about_blog_url = 'Please input if you have your blogs';
     $lang->about_birthday = 'Please input your birth date';
@@ -182,7 +183,7 @@
     $lang->about_enable_join = 'Allow users to sign up';
     $lang->about_enable_confirm = 'Send confirmation email to complete signup.';
     $lang->about_enable_ssl = 'Personal information from Join/Modify Member Info/Login can be sent as SSL(https) mode if server provides SSL service.';
-    $lang->about_limit_day = 'You can limit certification date after sign up';
+    $lang->about_limit_day = 'You can limit verification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
     $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';
     $lang->about_after_logout_url = 'You can set URL after logout. Blank means current page.';
@@ -197,10 +198,13 @@
 
     $lang->about_member_default = 'It will be set as default group on sign up';
 
-    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and certification management will be done on current OpenID offering service';
+    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and verification management will be done on current OpenID offering service';
     $lang->about_openid_leave = 'The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
     $lang->about_member = "This is a module for creating/modifying/deleting members and managing group or join form.\nYou can manage members by creating new groups, and get additional information by managing join form";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
+	$lang->about_ssl_port = '기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요';
     $lang->add_openid = 'Add OpenID';
+
+	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
 ?>

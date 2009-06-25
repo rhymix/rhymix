@@ -21,7 +21,7 @@
             Context::addCssFile($this->module_path."tpl/css/editor.css");
 
             // 변수 정리
-            $editor_sequence = Context::get('editor_sequence ');
+            $editor_sequence = Context::get('editor_sequence');
             $component = Context::get('component');
 
             $site_module_info = Context::get('site_module_info');

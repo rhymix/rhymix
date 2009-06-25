@@ -88,7 +88,7 @@
             $obj->order_type = $widget_info->order_type=="desc"?"asc":"desc";
             $obj->list_count = $widget_info->rows_list_count * $widget_info->cols_list_count;
 
-            $output = executeQueryArray('widgets.newest_document.getNewestDocuments', $obj);
+            $output = executeQueryArray('widgets.webzine.getNewestDocuments', $obj);
 
             // document 모듈의 model 객체를 받아서 결과를 객체화 시킴
             $oDocumentModel = &getModel('document');

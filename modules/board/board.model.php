@@ -38,7 +38,7 @@
          **/
         function getDefaultListConfig($module_srl) {
             // 가상번호, 제목, 등록일, 수정일, 닉네임, 아이디, 이름, 조회수, 추천수 추가
-            $virtual_vars = array( 'no', 'title', 'regdate', 'last_update', 'nick_name', 'user_id', 'user_name', 'readed_count', 'voted_count' );
+            $virtual_vars = array( 'no', 'title', 'regdate', 'last_update', 'last_post', 'nick_name', 'user_id', 'user_name', 'readed_count', 'voted_count','thumbnail','summary');
             foreach($virtual_vars as $key) {
                 $extra_vars[$key] = new ExtraItem($module_srl, -1, Context::getLang($key), $key, 'N', 'N', 'N', null);
             }

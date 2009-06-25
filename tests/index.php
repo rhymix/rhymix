@@ -10,10 +10,13 @@
         function AllTests() {
             $oContext = &Context::getInstance();
             $oContext->init();
-            
-            $this->TestSuite('XpressEngine Test');
+
+            $this->TestSuite('Classes Test');
             $this->addFile(dirname(__FILE__).'/classes/context/Context.test.php');
+
+            $this->TestSuite('Module Test');
             $this->addFile(dirname(__FILE__).'/modules/module/module.test.php');
+            $this->addFile(dirname(__FILE__).'/modules/module/opage.test.php');
         }
     }
 

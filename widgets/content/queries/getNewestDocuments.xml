@@ -6,7 +6,8 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" notnull="notnull" />
+		<condition operation="not_in" column="documents.module_srl" default="0" pipe="and" />
+        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="documents.list_order" order="order_type" />

@@ -132,6 +132,13 @@
          * @brief virtual site 수정
          **/
         function updateSite($args) {
+            $oModuleModel = &getModel('module');
+            $site_info = $oModuleModel->getSiteInfo($args->site_srl);
+            if($site_info->domain != $args->domain) {
+                $info = $oModuleModel->getSiteInfoByDomain($args->domain);
+                if($info->site_srl && $info->site_srl != $args->site_srl) return new Object(-1,'msg_already_registed_domain');
+                if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
+            }
             $output = executeQuery('module.updateSite', $args);
             return $output;
         }
@@ -534,6 +541,7 @@
             $ext = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));
             $vars->ext = $ext;
             if($vars->filter) $filter = explode(',',$vars->filter);
+            else $filter = array('jpg','jpeg','gif','png');
             if(!in_array($ext,$filter)) return new Object(-1, 'msg_error_occured');
 
             $vars->member_srl = $logged_info->member_srl;

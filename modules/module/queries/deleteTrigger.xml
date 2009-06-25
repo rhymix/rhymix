@@ -1,0 +1,12 @@
+<query id="deleteTrigger" action="delete">
+    <tables>
+        <table name="module_trigger" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="trigger_name" var="trigger_name" notnull="notnull" />
+        <condition operation="equal" column="module" var="module" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="type" var="type" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="called_method" var="called_method" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="called_position" var="called_position" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

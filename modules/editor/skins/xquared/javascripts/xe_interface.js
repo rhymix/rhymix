@@ -46,12 +46,21 @@ function editorStart_xq(editor, element, editor_sequence, content_key, editor_he
 
         var saved_title = fo_obj._saved_doc_title.value;
         var saved_content = fo_obj._saved_doc_content.value;
+        var saved_srl = fo_obj._saved_doc_srl.value;
 
         if(saved_title || saved_content) {
             // 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
             if(confirm(fo_obj._saved_doc_message.value)) {
                 if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
                 editorRelKeys[editor_sequence]['content'].value = saved_content;
+                editorRelKeys[editor_sequence]['primary'].value = saved_srl;
+                xAddEventListener(window,"load",function() { var param = new Array();
+                    param['editor_sequence'] = editor_sequence;
+                    param['primary_key'] = primary_key;
+                    param['mid'] = current_mid;
+                    var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
+                    exec_xml('editor',"procEditorLoadSavedDocument", param, null, response_tags);
+                });
             } else {
                 editorRemoveSavedDoc();
             }

@@ -1,0 +1,18 @@
+<query id="getDocumentWithoutAlias" action="select">
+    <tables>
+        <table name="documents" alias="doc" />
+        <table name="document_aliases" alias="al" type="left join">
+            <conditions>
+                <condition operation="equal" column="al.document_srl" default="doc.document_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="doc.document_srl" alias="document_srl" />
+        <column name="doc.title" alias="alias_title" />
+        <column name="al.alias_srl" alias="alias_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="doc.module_srl" var="module_srl" notnull="notnull" />
+    </conditions>
+</query>

@@ -5,7 +5,7 @@
      * @brief  English Language Pack 
      **/
 
-    $lang->about_captcha = "Choose an image whose name is listed below";
+    $lang->about_captcha = "Please choose an image whose name is listed below";
     $lang->target_captcha = array(
         "airplane" => "airplane",
         "apple" => "apple",

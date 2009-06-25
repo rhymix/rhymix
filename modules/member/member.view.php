@@ -79,7 +79,7 @@
 
             $member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $member_config);
-            
+
             // 템플릿 파일 지정
             $this->setTemplateFile('signup_form');
         }
@@ -101,7 +101,7 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             $member_info->signature = $oMemberModel->getSignature($member_srl);
             Context::set('member_info',$member_info);
-            
+
             // 추가 가입폼 목록을 받음
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
@@ -317,5 +317,13 @@
             $this->setTemplateFile('find_member_account');
         }
 
+        /**
+         * @brief  인증 메일 재발송 페이지
+         **/
+        function dispMemberResendAuthMail() {
+            if(Context::get('is_logged')) return $this->stop('already_logged');
+
+            $this->setTemplateFile('resend_auth_mail');
+        }
     }
 ?>

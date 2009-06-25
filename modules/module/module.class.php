@@ -15,12 +15,28 @@
             $oModuleController = &getController('module');
 
             $oDB = &DB::getInstance();
-
             $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
             FileHandler::makeDir('./files/cache/triggers');
+
+            // sites 테이블에 기본 사이트 정보 입력
+            $args->site_srl = 0;
+            $output = $oDB->executeQuery('module.getSite', $args);
+            if(!$output->data || !$output->data->index_module_srl) {
+                $db_info = Context::getDBInfo();
+                $domain = Context::getDefaultUrl();
+                $url_info = parse_url($domain);
+                $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+                $site_args->site_srl = 0;
+                $site_args->index_module_srl  = 0;
+                $site_args->domain = $domain;
+                $site_args->default_language = $db_info->lang_type;
+
+                $output = executeQuery('module.insertSite', $site_args);
+                if(!$output->toBool()) return $output;
+            }
 
             return new Object();
         }

@@ -27,7 +27,7 @@
     $lang->skin_history = 'Update history';
     $lang->module_copy = "Duplicate Module";
     $lang->module_selector = "Module Selector";
-    $lang->do_selected = "선택된 것들을...";
+    $lang->do_selected = "You would...";
     $lang->bundle_setup = "Bundle Setup";
     $lang->bundle_addition_setup = "Bundle Additional Setup";
     $lang->bundle_grant_setup = "Bundle Permission Setup";
@@ -37,10 +37,10 @@
     $lang->access_type = 'Access Type';
     $lang->access_domain = 'With Domain Name';
     $lang->access_vid = 'With Site ID';
-    $lang->about_domain = "In order to create more than one virtual site, each of them needs to have own domain name.<br />Sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path installed xe. <br /> ex) www.xpressengine.com/xe";
-    $lang->about_vid = 'Users can access via http://XEaddress/ID. You cannot use same site id with existing module name(mid).<br />Site id should start with an alphabet character and only alphabet characters, numbers and _ can be used for the site id.';
+    $lang->about_domain = "In order to create more than one virtual site, every club needs to have its own domain name.<br />Sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed. <br /> ex) www.xpressengine.com/xe";
+    $lang->about_vid = 'Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid).<br />Site id should start with an alphabet character . Alphabet characters, numbers and _ can be used for the site id.';
     $lang->msg_already_registed_vid = 'Already registered site id. Please input another ID.';
-    $lang->msg_already_registed_domain = "Already registered domain name. Please input another domain name.";
+    $lang->msg_already_registed_domain = "Domain name has already been used. Please input another domain name.";
 
     $lang->header_script = "Header Script";
     $lang->about_header_script = "You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tag";

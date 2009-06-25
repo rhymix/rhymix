@@ -2,8 +2,10 @@
     <tables>
         <table name="editor_autosave" />
     </tables>
+    <columns />
     <conditions>
-        <condition operation="equal" column="member_srl" var="member_srl" />
-        <condition operation="equal" column="ipaddress" var="ipaddress"  />
+        <condition operation="equal" column="module_srl" var="module_srl" />
+        <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
+        <condition operation="equal" column="ipaddress" var="ipaddress" pipe="and" />
     </conditions>
 </query>

@@ -703,7 +703,8 @@
         /**
          * @brief 카테고리에 속한 문서의 갯수를 구함
          **/
-        function getCategoryDocumentCount($category_srl) {
+        function getCategoryDocumentCount($module_srl, $category_srl) {
+            $args->module_srl = $module_srl;
             $args->category_srl = $category_srl;
             $output = executeQuery('document.getCategoryDocumentCount', $args);
             return (int)$output->data->count;
@@ -903,8 +904,10 @@
         function getDocumentSrlByAlias($mid, $alias)
         {
             if(!$mid || !$alias) return null;
+            $site_module_info = Context::get('site_module_info');
             $args->mid = $mid;
             $args->alias_title = $alias;
+            $args->site_srl = $site_module_info->site_srl;
             $output = executeQuery('document.getDocumentSrlByAlias', $args);
             if(!$output->data) return null;
             else return $output->data->document_srl;

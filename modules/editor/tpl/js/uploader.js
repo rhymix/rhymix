@@ -7,13 +7,15 @@ var uploadedFiles = new Array();
 var uploaderSettings = new Array();
 var loaded_images = new Array();
 var swfUploadObjs = new Array();
+var uploadSettingObj = new Array();
+var uploadAutosaveChecker = false;
 
 /**
  * 업로드를 하기 위한 준비 시작
  * 이 함수는 editor.html 에서 파일 업로드 가능할 경우 호출됨
  **/
 // window.load 이벤트일 경우 && 문서 번호가 가상의 번호가 아니면 기존에 저장되어 있을지도 모르는 파일 목록을 가져옴
-function editorUploadInit(obj) {
+function editorUploadInit(obj, exe) {
     if(typeof(obj["editorSequence"])=="undefined") return;
     if(typeof(obj["sessionName"])=="undefined") obj["sessionName"]= "PHPSESSID";
     if(typeof(obj["allowedFileSize"])=="undefined") obj["allowedFileSize"]= 2*1024*1024;
@@ -21,7 +23,9 @@ function editorUploadInit(obj) {
     if(typeof(obj["allowedFileTypesDescription"])=="undefined") obj["allowedFileTypesDescription"]= "All Files";
     if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
     if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
-    xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
+    if(exe) XEUploaderStart(obj);
+    if(!exe) xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
+    uploadSettingObj[obj["editorSequence"]] = obj;
 }
 
 // 파일 업로드를 위한 기본 준비를 함
@@ -43,7 +47,8 @@ function XEUploaderStart(obj) {
         post_params: {
             "mid" : current_mid,
             "act" : "procFileUpload",
-            "editor_sequence" : obj["editorSequence"]
+            "editor_sequence" : obj["editorSequence"],
+            "uploadTargetSrl" : editorRelKeys[obj["editorSequence"]]["primary"].value
         },
         file_size_limit : parseInt(parseInt(obj["allowedFileSize"],10)/1024,10),
         file_queue_limit : 0,
@@ -66,6 +71,7 @@ function XEUploaderStart(obj) {
         button_text_style: null,
         button_text_left_padding: 0,
         button_text_top_padding: 0,
+        button_cursor:-2,
 
         // The event handler functions are defined in handlers.js
         file_queued_handler : fileQueued,
@@ -101,7 +107,7 @@ function XEUploaderStart(obj) {
     swfObj.style.width = btnWidth+"px";
     swfObj.style.height = btnHeight+"px";
 
-    if(obj["insertedFiles"]>0) reloadFileList(settings);
+    if(obj["insertedFiles"]>0 || editorRelKeys[obj["editorSequence"]]["primary"].value > 0) reloadFileList(settings);
 }
 
 function fileQueued(file) {
@@ -226,6 +232,7 @@ function reloadFileList(settings) {
     var params = new Array();
     params["file_list_area_id"] = settings["fileListAreaID"];
     params["editor_sequence"] = settings["editorSequence"];
+    params["upload_target_srl"] = settings["uploadTargetSrl"];
     params["mid"] = current_mid;
     var response_tags = new Array("error","message","files","upload_status","upload_target_srl","editor_sequence","left_size");
     exec_xml("file","getFileList", params, completeReloadFileList, response_tags, settings);
@@ -269,13 +276,20 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
                     var loadingImage = new Image();
                     loadingImage.src = item[i].download_url;
                     loaded_images[file_srl] = loadingImage;
+                    item[i].download_url = item[i].download_url.replace(/&/g, "&amp;");
                 }
             }
             previewFiles('', item[item.length-1].file_srl);
         }
     }
 
-    var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
+    // var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
+
+    // 문서 강제 자동저장 1번만 사용 ( 첨부파일 target_srl로 자동 저장문서를 저장하기 위한 용도일 뿐 )
+    if(typeof(_editorAutoSave) == 'function' && uploadAutosaveChecker == false) {
+        uploadAutosaveChecker = true;
+        _editorAutoSave(true);
+    }
 
     xAddEventListener(listObj,'click',previewFiles);
 }
@@ -313,15 +327,15 @@ function previewFiles(evt, given_file_srl) {
 
     // 플래쉬 동영상의 경우
     if(/\.flv$/i.test(uploaded_filename)) {
-        html = "<EMBED src=\"./common/tpl/images/flvplayer.swf?autoStart=false&file="+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></EMBED>";
+        html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart=false&file="+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></embed>";
 
     // 플래쉬 파일의 경우
     } else if(/\.swf$/i.test(uploaded_filename)) {
-        html = "<EMBED src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></EMBED>";
+        html = "<embed src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></embed>";
 
     // wmv, avi, mpg, mpeg등의 동영상 파일의 경우
     } else if(/\.(wmv|avi|mpg|mpeg|asx|asf|mp3)$/i.test(uploaded_filename)) {
-        html = "<EMBED src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" autostart=\"true\" Showcontrols=\"0\"></EMBED>";
+        html = "<embed src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" autostart=\"true\" Showcontrols=\"0\"></embed>";
 
     // 이미지 파일의 경우
     } else if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {

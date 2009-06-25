@@ -46,7 +46,9 @@
         </ul>
 
         <form action="{getUrl()}" method="post" id="isSearch">
+            <!--@if($vid)-->
             <input type="hidden" name="vid" value="{$vid}" />
+            <!--@end-->
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="act" value="IS" />
             <input type="hidden" name="search_target" value="title_content" />

@@ -7,7 +7,7 @@
      * Request Argument에서 mid, act로 module 객체를 찾아서 생성하고 \n
      * 모듈 정보를 세팅함
      *
-     * @mainpage 첫페이지
+     * @mainpage XpressEngine 
      * @section intro 소개
      * XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
@@ -25,6 +25,7 @@
      * GNU 일반 공중 사용 허가서는 이 프로그램과 함께 제공됩니다. 만약, 이 문서가 누락되어 있다면 자유 소프트웨어\n
      * 재단으로 문의하시기 바랍니다. \n
      * (자유 소프트웨어 재단: Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA) 
+     *
      **/
 
     /**
@@ -45,18 +46,9 @@
     $oContext->init();
 
     /**
-     * @brief SSO 인증 확인이 불필요할때 모듈 동작
+     * @brief default_url 이 설정되어 있고 현재 url이 default_url과 다르면 SSO인증을 위한 rediret 시도 후 모듈 동작
      **/
     if($oContext->checkSSO()) {
-        /**
-         * @brief ModuleHandler 객체를 생성/ 실행
-         *
-         * 모듈 핸들러는 Request Argument를 바탕으로 모듈을 찾아서\n
-         * 객체를 생성하고 기본 정보를 setting 해준다.\n
-         * ModuleHandler는 이 외에도 설치가 되어 있는지에 대한 체크를\n
-         * 하여 미설치시 Install 모듈을 실행하도록 한다\n
-         * 그리고 해당 모듈을 실행후 컨텐츠를 출력한다\n
-         **/
         $oModuleHandler = new ModuleHandler();
         if($oModuleHandler->init()) {
             $oModule = &$oModuleHandler->procModule();

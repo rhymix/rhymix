@@ -18,6 +18,7 @@
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
+        var $idx_no = 0; // 인덱스 생성시 사용할 카운터
 
         /**
          * @brief firebird에서 사용될 column type
@@ -30,8 +31,8 @@
             'number' => 'INTEGER',
             'varchar' => 'VARCHAR',
             'char' => 'CHAR',
-            'text' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 20',
-            'bigtext' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 20',
+            'text' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 32',
+            'bigtext' => 'BLOB SUB_TYPE TEXT SEGMENT SIZE 32',
             'date' => 'VARCHAR(14)',
             'float' => 'FLOAT',
         );
@@ -176,16 +177,16 @@
                 $as = $this->addDoubleQuotes($as);
             }
 
-			// 함수 사용시
-			$tmpFunc1 = null;
-			$tmpFunc2 = null;
+            // 함수 사용시
+            $tmpFunc1 = null;
+            $tmpFunc2 = null;
             if(($no1 = strpos($string,'('))!==false && ($no2 = strpos($string, ')'))!==false) {
                 $tmpFunc1 = substr($string, 0, $no1+1);
-				$tmpFunc2 = substr($string, $no2, strlen($string)-$no2+1);
+                $tmpFunc2 = substr($string, $no2, strlen($string)-$no2+1);
                 $string = trim(substr($string, $no1+1, $no2-$no1-1));
             }
 
-			// 테이블.필드
+            // 테이블.필드
             if(($no1 = strpos($string,'.'))!==false) {
                 $tmpString1 = substr($string, 0, $no1); // table
                 $tmpString2 = substr($string, $no1+1, strlen($string)-$no1+1); // field
@@ -202,8 +203,8 @@
                 $string = $this->addDoubleQuotes($string);
             }
 
-			if($tmpFunc1 != null) $string = $tmpFunc1.$string;
-			if($tmpFunc2 != null) $string = $string.$tmpFunc2;
+            if($tmpFunc1 != null) $string = $tmpFunc1.$string;
+            if($tmpFunc2 != null) $string = $string.$tmpFunc2;
 
             if($as !== false) $string = $string." as ".$as;
             return $string;
@@ -227,7 +228,7 @@
                     $isTable = false;
                     foreach($tables as $key => $val) {
                         if($key == $tmpString1) $isTable = true;
-						if($val == $tmpString1) $isTable = true;
+                        if($val == $tmpString1) $isTable = true;
                     }
 
                     if($isTable) {
@@ -322,25 +323,25 @@
 
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val) {
-					$type = $output->column_type[$key];
+                    $type = $output->column_type[$key];
 
-					if($type == null) {
-						foreach($output->columns as $cols) {
-							if($cols['alias'] == $key) {
-								$type = $output->column_type[$cols['name']];
-							}
-						}
-					}
+                    if($type == null) {
+                        foreach($output->columns as $cols) {
+                            if($cols['alias'] == $key) {
+                                $type = $output->column_type[$cols['name']];
+                            }
+                        }
+                    }
 
                     if($type == "text" || $type == "bigtext") {
-						$blob_data = ibase_blob_info($tmp->{$key});
+                        $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
                         ibase_blob_close($blob_hndl);
                     }
-					else if($type == "char") {
-						$tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
-					}
+                    else if($type == "char") {
+                        $tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
+                    }
                 }
 
                 $return[] = $tmp;
@@ -563,24 +564,15 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    // index name = prefix  + table name + index_list
-                    // index name 크기가 31byte로 제한되어 있어 중복되지 않을만큼 테이블명을 줄임
-                    // prefix name을 2byte 보다 크게 할 경우 31byte를 넘는 index name이 생김
-                    // 더 좋은 방법을 찾아봐야겠음.
-                    $tok = strtok($table_name, "_");
+                    // index_name = prefix + 'idx_' + no
+                    // index name 크기가 31byte로 제한되어 있어 일련번호로 대체
+                    $this->idx_no++;
                     $index_name = $this->prefix;
-                    $tok = strtok("_");
-                    $index_name .= substr($tok, 0, 2);
-                    $index_name .= substr($tok, -1, 1);
-                    $tok = strtok("_");
-                    while($tok !== false) {
-                        $index_name .= substr($tok, 0, 1);
-                        $tok = strtok("_");
-                    }
+                    $index_name .= "idx_";
+                    $index_name .= sprintf("%04d", $this->idx_no);
 
-
-                    $schema = sprintf("CREATE INDEX \"%s_%s\" ON \"%s\" (\"%s\");",
-                            $index_name, $key, $table_name, implode($val, "\",\""));
+                    $schema = sprintf("CREATE INDEX \"%s\" ON \"%s\" (\"%s\");",
+                            $index_name, $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
                     //commit();
                     @ibase_commit($this->fd);
@@ -723,28 +715,18 @@
                         ibase_blob_add($blh, $value);
                         $value = ibase_blob_close($blh);
                     }
-                    else if($output->column_type[$name]!='number') {
-                        //$value = "'".$value."'";
-                    }
-                    elseif(!$value || is_numeric($value)) {
-                        $value = (int)$value;
-                    }
+                    else if($output->column_type[$name]=='number') {
+                        // 연산식이 들어갔을 경우 컬럼명이 있는 지 체크해 더블쿼터를 넣어줌
+                        preg_match("/(?i)[a-z][a-z0-9_-]+/", $value, $matches);
 
-                    if(strlen($value) != 0) {
-						$pos = strpos($value, '+');
-						if($pos == 0) $pos = strpos($value, '-');
-						if($pos == 0) $pos = strpos($value, '*');
-						if($pos == 0) {
-							$pos = strpos($value, '/');
-							if(substr_count($value, ".") > 1) $pos = 0;	// value에 url주소가 들어가는경우
-						}
+                        foreach($matches as $key => $val) {
+                            $value = str_replace($val, "\"".$val."\"", $value);
+                        }
 
-						if($pos != 0) {
-							$substr = substr($value, 0, $pos);
-							$value = '"'.$substr.'"'.substr($value, $pos, strlen($value));
-							$column_list[] = sprintf("\"%s\" = %s", $name, $value);
-							continue;
-						}
+                        if($matches != null) {
+                            $column_list[] = sprintf("\"%s\" = %s", $name, $value);
+                            continue;
+                        }
                     }
 
                     $values[] = $value;
@@ -973,13 +955,13 @@
                 foreach($tmp as $key => $val){
                     $type = $output->column_type[$key];
 
-					if($type == null) {
-						foreach($output->columns as $cols) {
-							if($cols['alias'] == $key) {
-								$type = $output->column_type[$cols['name']];
-							}
-						}
-					}
+                    if($type == null) {
+                        foreach($output->columns as $cols) {
+                            if($cols['alias'] == $key) {
+                                $type = $output->column_type[$cols['name']];
+                            }
+                        }
+                    }
 
                     if($type == "text" || $type == "bigtext") {
                         $blob_data = ibase_blob_info($tmp->{$key});

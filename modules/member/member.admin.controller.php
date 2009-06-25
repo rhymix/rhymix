@@ -93,7 +93,7 @@
                 'image_name', 'image_name_max_width', 'image_name_max_height',
                 'image_mark', 'image_mark_max_width', 'image_mark_max_height',
                 'group_image_mark', 'group_image_mark_max_width', 'group_image_mark_max_height',
-                'signature_max_height'
+                'signature','signature_max_height'
             );
 
             if(!$args->skin) $args->skin = "default";
@@ -106,6 +106,7 @@
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
             if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
+			if($args->signature!='Y') $args->signature = 'N';
             if(!trim(strip_tags($args->agreement))) $args->agreement = null;
             $args->limit_day = (int)$args->limit_day;
 

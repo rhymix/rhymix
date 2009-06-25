@@ -11,7 +11,7 @@
          * @brief 초기화
          **/
         function init() {
-            if(!preg_match('/planet/i', $this->act) && !in_array($this->act, array('favorite','countContentTagSearch','dispReplyList'))) return;
+            if(!preg_match('/planet/i', $this->act) && !in_array($this->act, array('favorite','countContentTagSearch','dispReplyList','rss'))) return;
 
             /**
              * @brief 플래닛 모듈의 기본 설정은 view에서는 언제든지 사용하도록 load하여 Context setting
@@ -44,12 +44,11 @@
             Context::set('planet', $this->planet = $oPlanetModel->getPlanet($this->module_srl));
 
             // 메인 페이지 일 경우 특정 액션이 아니라면 무조건 메인 화면 뿌려줌
-            if($this->planet->isHome() && !in_array($this->act, array('dispPlanetCreate','dispPlanetLogin','dispPlanetTagSearch','dispPlanetContentSearch','dispPlanetContentTagSearch')) ) {
+            if($this->planet->isHome() && !in_array($this->act, array('dispPlanetCreate','dispPlanetLogin','dispPlanetTagSearch','dispPlanetContentSearch','dispPlanetContentTagSearch','rss')) ) {
                 Context::set('act',$this->act = 'dispPlanetHome');
             }
 
             // 플래닛은 별도 레이아웃 동작하지 않도록 변경
-            //Context::set('layout', 'none');
             if(!Context::get('mid')) Context::set('mid', $this->module_info->mid, true);
         }
 
@@ -168,6 +167,9 @@
                 }
                 Context::set('tagtab_after_list', $tagtab_after_list);
             }
+
+            // RSS 링크
+            if($this->module_info->use_rss=='Y') Context::set('rss_url', getUrl('','mid',$this->module_info->mid,'act','rss'));
 
             // 템플릿 지정
             $this->setTemplateFile('main');
@@ -383,6 +385,36 @@
             $this->setTemplateFile('message');
         }
 
-    }
+        /**
+         * @brief rss
+         **/
+        function rss() {
+            $oRss = &getView('rss');
+            $oRssModel = &getModel('rss');
+            $oDocumentModel = &getModel('document');
 
+            if($this->planet->isHome()) {
+                if($this->module_info->use_rss!='Y') return new Object(-1,'msg_rss_is_disabled');
+            }  else {
+                $rss_config = $oRssModel->getRssModuleConfig($this->module_srl);
+                if($rss_config->open_rss != 'Y') return new Object(-1,'msg_rss_is_disabled');
+                $args->module_srl = $this->module_srl;
+            }
+
+            $output = executeQueryArray('planet.getRssList', $args);
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    unset($obj);
+                    $obj = new DocumentItem(0);
+                    $obj->setAttribute($val);
+                    $document_list[] = $obj;
+                }
+            }
+
+            $oRss->rss($document_list, $this->planet->getBrowserTitle());
+            $this->setTemplatePath($oRss->getTemplatePath());
+            $this->setTemplateFile($oRss->getTemplateFile());
+        }
+
+    }
 ?>

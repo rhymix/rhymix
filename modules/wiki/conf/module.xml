@@ -23,9 +23,13 @@
     <actions>
         <action name="dispWikiContent" type="view" index="true" />
         <action name="dispWikiEditPage" type="view" />
+        <action name="dispWikiHistory" type="view" />
         <action name="dispWikiTitleIndex" type="view" />
+        <action name="dispWikiTreeIndex" type="view" />
         <action name="dispWikiReplyComment" type="view" />
         <action name="dispWikiModifyComment" type="view" />
+        <action name="dispWikiDeleteComment" type="view" />
+        <action name="getWikiTreeList" type="model" />
         <action name="dispWikiAdminContent" type="view" standalone="true" admin_index="true" />
         <action name="dispWikiAdminInsertWiki" type="view" standalone="true" setup_index="true" />
         <action name="dispWikiAdminGrantInfo" type="view" standalone="true" />
@@ -33,9 +37,12 @@
         <action name="dispWikiAdminWikiAdditionSetup" type="view" standalone="true" />
         <action name="procWikiAdminInsertWiki" type="controller" standalone="true" />
         <action name="dispWikiAdminDeleteWiki" type="view" standalone="true" />
+        <action name="dispWikiAdminArrange" type="view" standalone="true" />
         <action name="procWikiAdminDeleteWiki" type="controller" standalone="true" />
+        <action name="procWikiAdminArrangeList" type="controller" standalone="true" />
         <action name="procWikiInsertDocument" type="controller" standalone="true" />
         <action name="procWikiInsertComment" type="controller" standalone="true" />
         <action name="procWikiDeleteComment" type="controller" standalone="true" />
+        <action name="procWikiMoveTree" type="controller" standalone="true" />
     </actions>
 </module>

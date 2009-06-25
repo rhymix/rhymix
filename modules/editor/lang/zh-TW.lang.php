@@ -18,6 +18,7 @@
     $lang->component_grant = '權限設置'; 
     $lang->content_style = '內容樣式';
     $lang->content_font = '內容字體';
+	$lang->content_font_size = '문서 폰트 크기';
 
     $lang->about_component = '組件簡介';
     $lang->about_component_grant = '除預設組件外，可設置延伸組件的使用權限<br />(全部解除時，任何用戶都可使用)。';
@@ -45,6 +46,7 @@
     $lang->about_editor_skin = '選擇編輯器面板。';
     $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
     $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
+	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
     $lang->about_upload_file_grant = '設置上傳檔案的權限(全部解除為無限制)。';
     $lang->about_default_component_grant = '設置編輯器預設組件的使用權限(全部解除為無限制)。';
     $lang->about_editor_height = '指定編輯器的預設高度。';
@@ -214,10 +216,12 @@
     $lang->edit->materials = '글감보관함';
     $lang->edit->temporary_savings = '임시저장목록';
     
-    $lang->edit->drag_here = '글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+    $lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
 
 	$lang->edit->paging_prev = '이전';
 	$lang->edit->paging_next = '다음';
 	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
 	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+
+	$lang->edit->toc = '목차';
 ?>

@@ -18,7 +18,7 @@
          **/
         function procEditorSaveDoc() {
 
-            $this->deleteSavedDoc();
+            $this->deleteSavedDoc(false);
 
             $args->document_srl = Context::get('document_srl');
             $args->content = Context::get('content');
@@ -33,7 +33,7 @@
          **/
         function procEditorRemoveSavedDoc() {
             $oEditorController = &getController('editor');
-            $oEditorController->deleteSavedDoc();
+            $oEditorController->deleteSavedDoc(true);
         }
 
         /**
@@ -92,6 +92,7 @@
                 }
                 if(count($font_list)) $editor_config->content_font = '"'.implode('","',$font_list).'"';
             }
+            $editor_config->content_font_size = Context::get('content_font_size');
             $editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
             $editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
 
@@ -171,7 +172,14 @@
                     }
                 }
                 $content_font = $editor_config->content_font;
-                if($content_font) Context::addHtmlHeader('<style type="text/css" charset="UTF-8"> .xe_content { font-family:'.$content_font.'; } </style>');
+                $content_font_size = $editor_config->content_font_size;
+                if($content_font || $content_font_size) {
+                    $buff = '<style type="text/css" charset="UTF-8"> .xe_content { ';
+                    if($content_font) $buff .= 'font-family:'.$content_font.';';
+                    if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
+                    $buff .= ' }; </style>';
+                    Context::addHtmlHeader($buff);
+                }
             }
 
             $content = $this->transComponent($content);
@@ -214,15 +222,44 @@
          **/
         function doSaveDoc($args) {
 
+            if(!$args->document_srl) $args->document_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
                 $args->member_srl = $logged_info->member_srl;
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
+            // module_srl이 없으면 현재 모듈
+            if(!$args->module_srl) {
+                $args->module_srl = Context::get('module_srl');
+            }
+            if(!$args->module_srl) {
+                $current_module_info = Context::get('current_module_info');
+                $args->module_srl = $current_module_info->module_srl;
+            }
 
             // 저장
             return executeQuery('editor.insertSavedDoc', $args);
+        }
+
+        /**
+          * @brief 자동 저장글 Srl 로드 - XE 이전 버전 사용자를 위함.
+         **/
+        function procEditorLoadSavedDocument() {
+            $editor_sequence = Context::get('editor_sequence');
+            $primary_key = Context::get('primary_key');
+            $oEditorModel = &getModel('editor');
+            $oFileController = &getController('file');
+
+            $saved_doc = $oEditorModel->getSavedDoc(null);
+
+            $oFileController->setUploadInfo($editor_sequence, $saved_doc->document_srl);
+            $vars = $this->getVariables();
+            $this->add("editor_sequence", $editor_sequence);
+            $this->add("key", $primary_key);
+            $this->add("title", $saved_doc->title);
+            $this->add("content", $saved_doc->content);
+            $this->add("document_srl", $saved_doc->document_srl);
         }
 
 
@@ -230,7 +267,7 @@
          * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
          **/
         function triggerDeleteSavedDoc(&$obj) {
-            $this->deleteSavedDoc();
+            $this->deleteSavedDoc(false);
             return new Object();
         }
 
@@ -238,12 +275,32 @@
          * @brief 자동 저장된 글을 삭제
          * 현재 접속한 사용자를 기준
          **/
-        function deleteSavedDoc() {
+        function deleteSavedDoc($mode = false) {
             if(Context::get('is_logged')) {
                 $logged_info = Context::get('logged_info');
                 $args->member_srl = $logged_info->member_srl;
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
+            }
+            $args->module_srl = Context::get('module_srl');
+            // module_srl이 없으면 현재 모듈
+            if(!$args->module_srl) {
+                $current_module_info = Context::get('current_module_info');
+                $args->module_srl = $current_module_info->module_srl;
+            }
+
+            // 자동저장된 값이 혹시 이미 등록된 글인지 확인
+            $output = executeQuery('editor.getSavedDocument', $args);
+            $saved_doc = $output->data;
+            if(!$saved_doc) return;
+
+            $oDocumentModel = &getModel('document');
+            $oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
+            if(!$oSaved->isExists()) {
+                if($mode) {
+                    $output = executeQuery('editor.getSavedDocument', $args);
+                    $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
+                }
             }
 
             // 일단 이전 저장본 삭제

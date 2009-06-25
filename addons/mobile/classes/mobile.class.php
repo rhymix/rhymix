@@ -445,7 +445,7 @@
 
             // 변환 후 출력
             if(strtolower($this->charset) == 'utf-8') print $content;
-            else print iconv('UTF-8',$this->charset."//TRANSLIT", $content);
+            else print iconv('UTF-8',$this->charset."//TRANSLIT//IGNORE", $content);
 
             exit();
         }

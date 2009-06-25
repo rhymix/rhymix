@@ -5,84 +5,98 @@
     {@$module_info->colorset = "white"}
 <!--@end-->
 
-<!--@if($module_info->title || $module_info->comment)-->
-<div class="wikiHeader">
-    <!--@if($module_info->title)-->
-    <div class="wikiTitle">
-        <h2 class="wikiTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+{$module_info->header_text}
+
+<div class="wiki">
+    <div class="wikiHeader">
+		<!--@if($module_info->title)-->
+		<div class="wikiTitle">
+			<h2 class="wikiTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}">{$module_info->title}<!--@if($module_info->sub_title)--> : <em>{$module_info->sub_title}</em><!--@end--></a></h2>
+		</div>
+		<!--@end-->
+
+		<!--@if($module_info->comment)-->
+		<p class="wikiDescription">{$module_info->comment}</p>
+		<!--@end-->
     </div>
-    <!--@end-->
 
-    <!--@if($module_info->comment)-->
-    <p class="wikiDescription">{$module_info->comment}</p>
-    <!--@end-->
-</div>
-<!--@end-->
+    <div class="wikiInformation">
+        <div class="infoView">
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiContent','entry','','document_srl','')}">Front Page</a></span>
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">{$lang->cmd_view_document_list}</a></span>
+            <span class="buttonOfficial"><a href="{getUrl('act','dispWikiTreeIndex','entry','','document_srl','')}">{$lang->cmd_view_document_tree}</a></span>
+        </div>
 
-<div class="wikimain">
-<div class="header">
-    <!--@if($oDocument)-->
-    <div class="title"><H1 class="pageTitle">{$entry}</H1></div> 
-    <div class="edit"><!--@if($oDocument->isExists())--><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">Edit</a><!--@end--></div>
-    <!--@end-->
-    <div class="go">
-        <form action="./" method="get" onsubmit="moveHistory(this); return false;">
-            <input type="text" class="inputTypeText w100" name="entry" />
-            <span calss="button"><input type="submit" value="{$lang->cmd_move}" /></span>
+        <form action="./" method="get" onsubmit="moveHistory(this); return false;" class="wikiSearchForm">
+            <input type="text" class="inputText" name="entry" />
+            <span class="buttonOfficial"><input type="submit" value="{$lang->cmd_move}" /></span>
+            <!--@if($grant->manager)-->
+            <span class="buttonOfficial"><input type="button" onclick="location.href='{getUrl('act','dispWikiAdminInsertWiki')}';return false;" value="{$lang->cmd_setup}" /></span>
+            <!--@end-->
         </form>
     </div>
-</div>
-<div class="clear"></div>
-        <div class="readHeader">
-            <div class="pageHistory">
-                <!--@if($oDocument)-->
-                <div class="userInfo">
-                    <!--@if($history)-->
-                        <div class="author">last edited by {$history->nick_name}</div>
-                    <!--@else-->
+
+    <!--@if($oDocument && $oDocument->isExists())-->
+    <div class="wikiRead">
+        <div class="wikiReadHeader">
+            <div class="titleArea">
+                <h3 class="title"><a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a></h3>
+                <span class="sum">
+                    <span class="read">{$lang->readed_count} <span class="num">{$oDocument->get('readed_count')}</span></span>
+                    <span class="vote">{$lang->voted_count} <span class="num">{$oDocument->get('voted_count')}</span></span>
+                    <span class="date">
+                        <!--@if($history)-->
+                        <strong>{zdate($history->regdate, 'Y.m.d')}</strong> {zdate($history->regdate, 'H:i:s')}
+                        <!--@else-->
+                        <strong>{$oDocument->getUpdate('Y.m.d')}</strong> {$oDocument->getUpdate('H:i:s')} 
+                        <!--@end-->
+                    </span>
+                </span>
+            </div>
+
+            <div class="authorArea">
+                <!--@if($history)-->
+                    <a href="#" class="author member_{$history->member_srl}" onclick="return false;">{$history->nick_name}</a>
+                <!--@else-->
                     <!--@if(!$oDocument->getMemberSrl())-->
-                        <div class="author">
-                    last edited by 
                         <!--@if($oDocument->isExistsHomepage())-->
-                            <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;">{$oDocument->getNickName()}</a>
+                            <a href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;" class="author">{$oDocument->getNickName()}</a>
                         <!--@else-->
                             {$oDocument->getNickName()}
                         <!--@end-->
-                        </div>
                     <!--@else-->
-                        <div class="author">
-                    last edited by 
-                        <span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></div>
+                        <a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
                     <!--@end-->
-                    <!--@endif-->
-                <div class="date" title="{$lang->regdate}">
-                    <!--@if($history)-->
-                    <strong>{zdate($history->regdate, 'Y.m.d')}</strong> {zdate($history->regdate, 'H:i:s')}
-                    <!--@else-->
-                    <strong>{$oDocument->getUpdate('Y.m.d')}</strong> {$oDocument->getUpdate('H:i:s')} 
-                    <!--@end-->
-                </div>
-                    <!--@if($history)-->
-                    <div class="oldhistory">[{$lang->notice_old_revision}]
-                    </div>
-                    <!--@endif-->
-                </div>
-                <!--@if($use_history != 'N')-->
-                <div class="history">
-                    <a href="{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl,'history_srl','')}">View History</a>
-                </div>
                 <!--@end-->
-                <!--@end-->
-                <div class="links">
-                <a href="{getUrl('act','dispWikiContent','entry','','document_srl','')}">Front Page</a> 
-                <a href="{getUrl('act','dispWikiTitleIndex','entry','','document_srl','')}">Title Index</a>
-                </div>
 
-                <div class="clear"></div>
+                <span class="ipAddress"><!--@if($grant->manager || $module_info->display_ip_address!='N')-->{$oDocument->getIpaddress()}<!--@end--></span>
+
+                <!--@if(!$history && ($oDocument->isExists()||$use_history != 'N'))-->
+                <div class="command">
+                    <!--@if($oDocument->isExists()&&$act!='dispWikiEditPage')-->
+                        <span class="buttonOfficial"><a href="{getUrl('act','dispWikiEditPage','entry',$entry)}">{$lang->cmd_edit}</a></span>
+                    <!--@end-->
+                    <!--@if($use_history != 'N')-->
+                        <span class="buttonOfficial"><a href="{getUrl('act','dispWikiHistory','document_srl',$oDocument->document_srl,'history_srl','')}">Histories</a></span>
+                    <!--@end-->
+                </div>
+                <!--@else-->
+                <div class="command">
+                    <!--@if($history)-->
+                        {$lang->notice_old_revision}
+                    <!--@end-->
+                    <span class="buttonOfficial"><a href="{getUrl('act','','history_srl','')}">{$lang->cmd_back}</a></span>
+                </div>
+                <!--@end-->
             </div>
-
-            <div class="clear"></div>
         </div>
-        <div class="clear"></div>
-
-
+    </div>
+    <!--@elseif($entry)-->
+    <div class="wikiRead">
+        <div class="wikiReadHeader">
+            <div class="titleArea">
+                <h3 class="title">{$entry}</h3>
+            </div>
+        </div>
+    </div>
+    <!--@end-->

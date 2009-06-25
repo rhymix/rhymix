@@ -10,9 +10,15 @@
     function _compare($a, $b)
     {
         if(!$a->date || !$b->date) return 0;
-        return strcmp($a->date, $b->date) * -1;
+        $res = strcmp($a->date, $b->date) * -1;
+        if($res == 0)
+        {
+            if(!$a->revision || !$b->revision) return 0;
+            else if($a->revision == $b->revision) return 0;
+            else return ($a->revision > $b->revision)?-1:1;
+        }
+        return $res; 
     }
-
 
     class issuetrackerModel extends issuetracker {
         var $oSvn = null;
@@ -384,7 +390,7 @@
         }
 
 
-        function getChangesets($module_srl, $enddate = null, $limit = 10, $targets)
+        function getChangesets($module_srl, $enddate = null, $limit = 10, $targets, $list_count = 0)
         {
             if(!$enddate)
             {
@@ -393,6 +399,7 @@
             $args->enddate = date("Ymd", ztime($enddate)+24*60*60);
             $args->startdate = date("Ymd", ztime($enddate)-24*60*60*$limit);
             $args->module_srl = $module_srl;
+            if($list_count) $args->list_count = $list_count;
             if(in_array('commit', $targets))
             {
                 $output = executeQueryArray("issuetracker.getChangesets", $args);

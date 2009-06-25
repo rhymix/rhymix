@@ -138,9 +138,9 @@ You may charge a fee for the physical act of transferring a copy, and you may at
 
 2. You may modify your copy or copies of the Program or any portion of it, thus forming a work based on the Program, and copy and distribute such modifications or work under the terms of Section 1 above, provided that you also meet all of these conditions:
 
-a) You must cause the modified files to carry prominent notices stating that you changed the files and the date of any change.
-b) You must cause any work that you distribute or publish, that in whole or in part contains or is derived from the Program or any part thereof, to be licensed as a whole at no charge to all third parties under the terms of this License.
-c) If the modified program normally reads commands interactively when run, you must cause it, when started running for such interactive use in the most ordinary way, to print or display an announcement including an appropriate copyright notice and a notice that there is no warranty (or else, saying that you provide a warranty) and that users may redistribute the program under these conditions, and telling the user how to view a copy of this License. (Exception: if the Program itself is interactive but does not normally print such an announcement, your work based on the Program is not required to print an announcement.)
+a) You must cause the modified files to carry prominent notices stating that you changed the files and the date of any change. 
+b) You must cause any work that you distribute or publish, that in whole or in part contains or is derived from the Program or any part thereof, to be licensed as a whole at no charge to all third parties under the terms of this License. 
+c) If the modified program normally reads commands interactively when run, you must cause it, when started running for such interactive use in the most ordinary way, to print or display an announcement including an appropriate copyright notice and a notice that there is no warranty (or else, saying that you provide a warranty) and that users may redistribute the program under these conditions, and telling the user how to view a copy of this License. (Exception: if the Program itself is interactive but does not normally print such an announcement, your work based on the Program is not required to print an announcement.) 
 
 These requirements apply to the modified work as a whole. If identifiable sections of that work are not derived from the Program, and can be reasonably considered independent and separate works in themselves, then this License, and its terms, do not apply to those sections when you distribute them as separate works. But when you distribute the same sections as part of a whole which is a work based on the Program, the distribution of the whole must be on the terms of this License, whose permissions for other licensees extend to the entire whole, and thus to each and every part regardless of who wrote it.
 
@@ -150,9 +150,9 @@ In addition, mere aggregation of another work not based on the Program with the 
 
 3. You may copy and distribute the Program (or a work based on it, under Section 2) in object code or executable form under the terms of Sections 1 and 2 above provided that you also do one of the following:
 
-a) Accompany it with the complete corresponding machine-readable source code, which must be distributed under the terms of Sections 1 and 2 above on a medium customarily used for software interchange; or,
-b) Accompany it with a written offer, valid for at least three years, to give any third party, for a charge no more than your cost of physically performing source distribution, a complete machine-readable copy of the corresponding source code, to be distributed under the terms of Sections 1 and 2 above on a medium customarily used for software interchange; or,
-c) Accompany it with the information you received as to the offer to distribute corresponding source code. (This alternative is allowed only for noncommercial distribution and only if you received the program in object code or executable form with such an offer, in accord with Subsection b above.)
+a) Accompany it with the complete corresponding machine-readable source code, which must be distributed under the terms of Sections 1 and 2 above on a medium customarily used for software interchange; or, 
+b) Accompany it with a written offer, valid for at least three years, to give any third party, for a charge no more than your cost of physically performing source distribution, a complete machine-readable copy of the corresponding source code, to be distributed under the terms of Sections 1 and 2 above on a medium customarily used for software interchange; or, 
+c) Accompany it with the information you received as to the offer to distribute corresponding source code. (This alternative is allowed only for noncommercial distribution and only if you received the program in object code or executable form with such an offer, in accord with Subsection b above.) 
 
 The source code for a work means the preferred form of the work for making modifications to it. For an executable work, complete source code means all the source code for all modules it contains, plus any associated interface definition files, plus the scripts used to control compilation and installation of the executable. However, as a special exception, the source code distributed need not include anything that is normally distributed (in either source or binary form) with the major components (compiler, kernel, and so on) of the operating system on which the executable runs, unless that component itself accompanies the executable.
 
@@ -228,13 +228,13 @@ EndOfLicense;
     $lang->cmd_ignore = 'FTP設定を省略する';
 
     $lang->db_desc = array(
-        'mysql' => 'MySQL DBで PHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理は出来ません。',
+        'mysql' => 'MySQL DBでPHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理は出来ません。',
         'mysql_innodb' => 'MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。',
         'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセス出来ない場所に作成して下さい。<br />（安定化までのテストは行われていません）',
         'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセス出来ない場所に作成して下さい。',
         'cubrid' => 'CUBRID DBを利用します。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'postgresql' => 'PostgreSql DBを利用します。',
-        'firebird' => 'Firebird DBを利用します。',
+        'firebird' => 'Firebird DBを利用します。<br />DB生成方法 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );
 
     $lang->form_title = 'データベース &amp; 管理者情報入力';
@@ -271,5 +271,5 @@ EndOfLicense;
     $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認して下さい。";
     $lang->msg_table_is_exists = "既にデータベースにデーブルが作成されています。\nconfigファイルを再作成しました。";
     $lang->msg_install_completed = "インストールが完了しました。\nありがとうございます。";
-    $lang->msg_install_failed = "インストールファイルを作成する際にエラーが発生しました。";
+    $lang->msg_install_failed = 'インストールファイルを作成する際にエラーが発生しました。';
 ?>

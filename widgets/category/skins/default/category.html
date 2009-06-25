@@ -22,7 +22,7 @@
 		<!--@end-->
 		{@ $_pDepth = $val->depth}
 		<!--@end-->
-		<li class="<!--@if($val->last)-->nav_tree_last<!--@end--> <!--@if($val->expand)-->nav_tree_on<!--@else-->nav_tree_off<!--@end-->" id="category_parent_{$val->category_srl}">
+		<li class="<!--@if($val->last)-->nav_tree_last<!--@end--> <!--@if($val->expand)-->nav_tree_on<!--@else-->nav_tree_off<!--@end--> <!--@if($category==$val->category_srl)-->active<!--@end-->" id="category_parent_{$val->category_srl}">
 		<!--@if($val->child_count)-->
 		<!--@if($val->expand)-->
 		<button type="button" class="category_{$val->category_srl}">+</button>
@@ -44,6 +44,7 @@
 			<!--@for($i=0;$i<$_pDepth;$i++)-->
 		</ul>
 		<!--@end-->
+		</li>
 		</ul>
 	</div>
 </div>

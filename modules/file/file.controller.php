@@ -16,25 +16,30 @@
 
         /**
          * @brief 에디터에서 첨부파일 업로드 
+         * editor_sequence, uploadTargetSrl 변수값을 받아서 이를 바탕으로 첨부 대상 srl을 결정함.
+         * 만약 uploadTargetSrl이 없다면 새로 생성하고 return 하여 UI에서 이에 대한 값을 재설정하도록 하여
+         * sync이상없도록 함
          **/
         function procFileUpload() {
             // 기본적으로 필요한 변수 설정
+            $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
+            $upload_target_srl = Context::get('uploadTargetSrl');
             $module_srl = $this->module_srl;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
-            // upload_target_srl 구함
-            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
-            }
+            // upload_target_srl 값이 명시되지 않았을 경우 세션정보에서 추출
+            if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+
+            // 세션정보에도 정의되지 않았다면 새로 생성
+            if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
             $file_info = Context::get('Filedata');
 
             // 정상적으로 업로드된 파일이 아니면 오류 출력
-            if(!is_uploaded_file($file_info['tmp_name'])) return false;
+            if(!is_uploaded_file($file_info['tmp_name'])) exit();
 
             return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
@@ -48,25 +53,61 @@
             $editor_sequence = Context::get('editor_sequence');
             $callback = Context::get('callback');
             $module_srl = $this->module_srl;
-            // 업로드 권한이 없거나 정보가 없을시 종료
-            //if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
+            $upload_target_srl = Context::get('uploadTargetSrl');
 
-            // upload_target_srl 구함
-            $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if(!$upload_target_srl) {
-                $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+            // 업로드 권한이 없거나 정보가 없을시 종료
+            if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
+
+            // upload_target_srl 값이 명시되지 않았을 경우 세션정보에서 추출
+            if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+
+            // 세션정보에도 정의되지 않았다면 새로 생성
+            if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+
+            // file_srl이 요청되었을 경우 삭제 후 재업로드 시도
+            $file_srl = Context::get('file_srl');
+			if($file_srl) $this->deleteFile($file_srl);
+	
+            $file_info = Context::get('Filedata');
+
+            // 정상적으로 업로드된 파일이 아니면 오류 출력
+            if(is_uploaded_file($file_info['tmp_name'])) {
+                $output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+                Context::set('uploaded_fileinfo',$output);
             }
 
-            $file_info = Context::get('Filedata');
-            // 정상적으로 업로드된 파일이 아니면 오류 출력
-            if(is_uploaded_file($file_info['tmp_name'])){
-				$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
-				Context::set('uploaded_fileinfo',$output);
-			}
+			Context::set('layout','none');
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('iframe');
 
+        }
+
+        /**
+         * @brief image resize
+         **/
+        function procFileImageResize() {
+            $source_src = Context::get('source_src');
+			$width = Context::get('width');
+			$height = Context::get('height');
+			$type = Context::get('type');
+            $output_src = Context::get('output_src');
+
+			if(!$source_src || !$width) return new Object(-1,'msg_invalid_request');
+            if(!$output_src){
+				$output_src = $source_src . '.resized' . strrchr($source_src,'.');
+			}
+			if(!$type) $type = 'ratio';
+			if(!$height) $height = $width-1;
+
+			if(FileHandler::createImageFile($source_src,$output_src,$width,$height,'','ratio')){
+				$output->info = getimagesize($output_src);	
+				$output->src = $output_src;
+			}else{
+				return new Object(-1,'msg_invalid_request');
+			}
+			
+			$this->add('resized_info',$output);		
         }
 
 
@@ -168,7 +209,7 @@
 
             $fp = fopen($uploaded_filename, 'rb');
             if(!$fp) return $this->stop('msg_file_not_found');
-			
+
             header("Cache-Control: "); 
             header("Pragma: "); 
             header("Content-Type: application/octet-stream"); 
@@ -352,6 +393,11 @@
 
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_info['name'];
+                $idx = 1;
+                while(file_exists($filename)) {
+                    $filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1',$file_info['name']);
+                    $idx++;
+                }
                 $direct_download = 'Y';
             } else {
                 $path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));

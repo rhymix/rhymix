@@ -69,7 +69,11 @@
     <tr class="row{$cycle_idx} bg1">
         <th colspan="9">
             <!--@if(!$val->upload_target_type)-->
-                {$lang->is_stand_by}
+                <!--@if($val->isvalid=='Y')-->
+                    {$lang->is_valid}
+                <!--@else-->
+                    {$lang->is_stand_by}
+                <!--@end-->
             <!--@else-->
                 <!--@if($val->upload_target_type == 'com')-->[{$lang->comment}] <!--@end-->
                 <!--@if($val->upload_target_type == 'mod')-->[{$lang->module}] <!--@end-->

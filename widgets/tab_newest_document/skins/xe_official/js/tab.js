@@ -5,7 +5,10 @@ function overTab(obj) {
     while(cObj) {
         if(cObj.nodeName == "DIV" && cObj.id) {
             var cTabID= cObj.id;
-            if(cTabID.indexOf('tab')<0) continue;
+            if(cTabID.indexOf('tab')<0) {
+                cObj = cObj.nextSibling;
+                continue;
+            }
             var cContentID = cTabID.replace(/^tab/,'content');
 
             if(tab_id == cTabID) {

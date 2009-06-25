@@ -25,7 +25,7 @@ function completeModify(ret_obj, response_tags, args, fo_obj) {
     location.href = current_url.setQuery('act','dispMemberInfo');
 }
 
-/* 회원 탈퇴 */ 
+/* 회원 탈퇴 */
 function completeLeave(ret_obj, response_tags, args, fo_obj) {
     var error = ret_obj['error'];
     var message = ret_obj['message'];
@@ -93,6 +93,14 @@ function completeOpenIDLogin(ret_obj, response_tags) {
     location.href = redirect_url;
 }
 
+/* 인증 메일 재발송 후 */
+function completeResendAuthMail(ret_obj, response_tags) {
+	var error = ret_obj['error'];
+    var message =  ret_obj['message'];
+
+    if(message) alert(message);
+	if(error != 0) alert(error);
+}
 
 /* 프로필 이미지/이미지 이름, 마크 삭제 */
 function doDeleteProfileImage(member_srl) {

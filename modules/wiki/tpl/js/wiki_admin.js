@@ -47,3 +47,6 @@ function doCartSetup(url) {
     popopen(url,'modulesSetup');
 }
 
+function doArrangeWikiList(module_srl) {
+    exec_xml('wiki','procWikiAdminArrangeList',{module_srl:module_srl},function() {location.reload();});
+}

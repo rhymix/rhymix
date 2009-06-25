@@ -70,6 +70,7 @@
         function replaceSrc($content, $path) {
             $url_info = parse_url($path);
             $host = sprintf("%s://%s%s",$url_info['scheme'],$url_info['host'],$url_info['port']?':'.$url_info['port']:'');
+            $this->host = $host.'/';
             $path = $url_info['path'];
             if(substr($path,-1)=='/') $path = substr($path,-1);
             $t = explode('/',$path);
@@ -79,7 +80,7 @@
                 if(!$v) continue;
                 $_t[] = $v;
             }
-            $path = $host.implode('/',$_t);
+            $path = $host.'/'.implode('/',$_t);
             if(substr($path,-1)!='/') $path .= '/';
             $this->path = $path;
             $content = preg_replace_callback('/(src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
@@ -89,9 +90,15 @@
 
         function _replacePath($matches) {
             $val = trim($matches[3]);
-            if(preg_match('/^(http|\/|\.\.)/i',$val)) return $matches[0];
-            if(substr($val,0,2)=='./') $val = substr($val,2);
-            return sprintf("%s%s%s%s",$matches[1],$matches[2],$this->path.$val,$matches[4]);
+            if(preg_match('/^(http|https|ftp|telnet|mms|mailto)/i',$val)) return $matches[0];
+            if(substr($val,0,2)=='./') {
+                $path = $this->path.substr($val,2);
+            } elseif(substr($val,0,1)=='/') {
+                $path = $this->host.substr($val,1);
+            } else {
+                $path = $this->path.$val;
+            }
+            return sprintf("%s%s%s%s", $matches[1], $matches[2], $path, $matches[4]);
         }
 
     }

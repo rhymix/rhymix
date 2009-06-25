@@ -346,7 +346,16 @@
         }
 
         function getDateStr($format, $str) {
-            return date($format, strtotime($str));
+            if(strtotime($str)===-1 || strtotime($str)===false) {
+                $type = substr($GLOBALS['_time_zone'],0,1);
+                $hour = substr($GLOBALS['_time_zone'],1,2);
+                $min = substr($GLOBALS['_time_zone'],3,2);
+                $g = $hour*60*60 + $min * 60;
+                $t = ztime(str_replace(array('-','T',':','.',' '),'',trim($str)))+$g;
+                return date($format, $t);
+            } else {
+                return date($format, strtotime(trim($str)));
+            }
         }
 
         function getTimeGap($str, $dayStr = 'day', $hourStr = 'hour', $minStr = 'minute') {

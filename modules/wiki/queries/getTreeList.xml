@@ -1,0 +1,22 @@
+<query id="getTreeList" action="select">
+    <tables>
+        <table name="documents" alias="doc"/>
+        <table name="document_categories" alias="category" type="left join">
+            <conditions>
+                <condition operation="equal" column="category.module_srl" var="module_srl" filter="number" notnull="notnull" />
+                <condition operation="equal" column="category.category_srl" default="doc.document_srl" filter="number" pipe="and" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="doc.title" alias="title" />
+        <column name="doc.document_srl" alias="document_srl" />
+        <column name="category.parent_srl" alias="parent_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="doc.module_srl" var="module_srl" filter="number" notnull="notnull" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="doc.list_order" order="asc" />
+    </navigation>
+</query>

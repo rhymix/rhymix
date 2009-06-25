@@ -233,7 +233,7 @@
 			<name xml:lang="ru">Число изображений (колонка)</name>
 			<name xml:lang="zh-TW">橫向圖片數</name>
 			<description xml:lang="ko">출력될 가로 이미지의 수를 정하실 수 있습니다. (기본 1개)</description>
-			<description xml:lang="jp">表示する横並びびのイメージ数を指定します（デフォルト1個）。</description>
+			<description xml:lang="jp">表示する横並びのイメージ数を指定します（デフォルト1個）。</description>
 			<description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为1个)</description>
 			<description xml:lang="en">You can set the number of images to display. (1 as default)</description>
 			<description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 1)</description>

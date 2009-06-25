@@ -7,7 +7,7 @@
 
     // 기본적으로 사용되는 action 언어
     $lang->cmd_write = '쓰기';
-    $lang->cmd_reply = '답글';
+    $lang->cmd_reply = '댓글';
     $lang->cmd_delete = '삭제';
     $lang->cmd_modify = '수정';
     $lang->cmd_edit = '편집';
@@ -247,7 +247,7 @@
     $lang->failed_voted = '추천하실 수 없습니다';
     $lang->failed_blamed = '비추천하실 수 없습니다';
     $lang->failed_declared = '신고를 하실 수 없습니다';
-    $lang->fail_to_delete_have_children = '답글이 있어서 삭제할 수 없습니다';
+    $lang->fail_to_delete_have_children = '댓글이 있어서 삭제할 수 없습니다';
 
     $lang->confirm_submit = '등록하시겠습니까?';
     $lang->confirm_logout = '로그아웃하시겠습니까?';

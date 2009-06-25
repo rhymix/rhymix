@@ -10,4 +10,9 @@
     $lang->multimedia_width = "가로크기";
     $lang->multimedia_height = "세로크기";
     $lang->multimedia_auto_start = "자동시작";
+    $lang->multimedia_wmode = '위치';
+
+    $lang->multimedia_wmode_window = '항상 위';
+    $lang->multimedia_wmode_opaque = '배경 불투명';
+    $lang->multimedia_wmode_transparent = '배경 투명';
 ?>

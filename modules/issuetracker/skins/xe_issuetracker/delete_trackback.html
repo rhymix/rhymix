@@ -10,11 +10,10 @@
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="trackback_srl" value="{$trackback_srl}" />
 
-    <ul class="button">
-        <li><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></li>
-        <li><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'; return false;" /></li>
-    </ul>
+    <span class="button"><input type="submit" value="{$lang->cmd_delete}" accesskey="s" /></span>
+    <span class="button"><input type="button" value="{$lang->cmd_cancel}" onclick="location.href='{getUrl('act','dispIssuetrackerViewIssue')}'; return false;" /></span>
 
     </form>
 </div>
 
+<!--#include("footer.html")-->

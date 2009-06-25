@@ -45,7 +45,7 @@
          **/
         function dispLifepodContent() {
             $oLifepodModel = &getModel('lifepod');
-            if($caladdresses) {
+            if($this->module_info->calendar_address) {
                 $caladdresses = split(", ", $this->module_info->calendar_address);
                 $cYear = Context::get('year');
                 $cMonth = Context::get('month');

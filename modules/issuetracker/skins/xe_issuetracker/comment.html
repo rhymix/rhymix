@@ -1,0 +1,57 @@
+{@ $histories = $oIssue->get('histories') }
+<!--@if($histories)-->
+<hr class="hr" />
+<div class="feedbackList" id="reply">
+	
+	<div class="replyList">
+        <!--@foreach($histories as $history)-->
+        <div class="item" id="comment_{$history->history_srl}">
+            <div class="indent">
+                <div class="itemAside">
+                    <h4 class="header">
+                        <a href="#popup_menu_area" class="member_{$history->member_srl}" onclick="return false">{$history->nick_name}</a>
+                    </h4>
+
+                    <p class="meta">
+                        {zdate($history->regdate,'Y.m.d')}
+                        {zdate($history->regdate,'H:i:s')}
+                    </p>
+                </div>
+
+                <div class="itemContent">
+                    <ul>
+                        <!--@if($history->history && count($history->history))-->
+                        <li>
+                            <ol>
+                            <!--@foreach($history->history as $key => $val)-->
+                                <li>{$val}</li>
+                            <!--@end-->
+                            </ol>
+                        </li>
+                        <!--@end-->
+                        <!--@if($history->content)-->
+                        <li class="content">{nl2br($history->content)}</li>
+                        <!--@end-->
+                    </ul>
+                </div>
+            </div>
+		</div>
+		<!--@end-->
+    </div>
+
+    <!--@if($oIssue->comment_page_navigation)-->
+    <div class="pagination">
+        <a href="{getUrl('cpage',1)}#comment" class="prevEnd">{$lang->first_page}</a> 
+        <!--@while($page_no = $oIssue->comment_page_navigation->getNextPage())-->
+            <!--@if($cpage == $page_no)-->
+                <strong>{$page_no}</strong> 
+            <!--@else-->
+                <a href="{getUrl('cpage',$page_no)}#comment">{$page_no}</a>
+            <!--@end-->
+        <!--@end-->
+        <a href="{getUrl('cpage',$oIssue->comment_page_navigation->last_page)}#comment" class="nextEnd">{$lang->last_page}</a>
+    </div>
+    <!--@end-->
+
+</div>
+<!--@end-->

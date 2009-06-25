@@ -53,12 +53,19 @@
             if($auto_start!="true") $auto_start = "false";
             else $auto_start = "true";
 
+            $wmode = $xml_obj->attrs->wmode;
+            if($wmode == 'window') $wmode = 'window';
+            elseif($wmode == 'opaque') $wmode = 'opaque';
+            else $wmode = 'transparent';
+            
+
             $caption = $xml_obj->body;
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
             $src = str_replace('&amp;amp;', '&amp;', $src);
 
-            return sprintf("<div><script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\", { autostart : %s });</script></div>", $src, $width, $height, $auto_start);
+            if(Context::getResponseMethod() != "XMLRPC") return sprintf("<script type=\"text/javascript\">displayMultimedia(\"%s\", \"%s\",\"%s\", { \"autostart\" : %s, \"wmode\" : \"%s\" });</script>", $src, $width, $height, $auto_start, $wmode);
+            else return sprintf("<div style=\"width: %dpx; height: %dpx;\"><span style=\"position:relative; top:%dpx;left:%d\"><img src=\"%s\" /><br />Attached Multimedia</span></div>", $width, $height, ($height/2-16), ($width/2-31), Context::getRequestUri().'./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif');
         }
     }
 ?>

@@ -122,5 +122,10 @@
 
             $this->setTemplateFile('skin_info');
         }
+
+        function dispWikiAdminArrange() {
+
+            $this->setTemplateFile('arrange_list');
+        }
     }
 ?>

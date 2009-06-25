@@ -12,6 +12,9 @@
     $lang->cmd_manage_menu = 'Manejo del menú';
     $lang->list_target_item = 'Target Item';
     $lang->list_display_item = 'Display Item';
+    $lang->summary = '요약';
+    $lang->thumbnail = '썸네일';
+    $lang->last_post = '최종 글';
     $lang->cmd_remake_cache = 'Rehacer archivo caché';
     $lang->cmd_layout_setup = 'Configuración del diseño';
     $lang->cmd_layout_edit = 'Editar el diseño';

@@ -17,7 +17,6 @@
         function init() {
             $oModuleModel = &getModel('module');
 
-
             if($this->act != 'dispHomepageIndex' && strpos($this->act,'Homepage')!==false) {
                 // 현재 접속 권한 체크하여 사이트 관리자가 아니면 접근 금지
                 $logged_info = Context::get('logged_info');
@@ -54,6 +53,7 @@
         function dispHomepageIndex() {
             $oHomepageAdminModel = &getAdminModel('homepage');
             $oHomepageModel = &getModel('homepage');
+            $oModuleModel = &getModel('module');
 
             $template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
             if(!is_dir($template_path)||!$this->module_info->skin) {
@@ -69,6 +69,10 @@
                 foreach($output->data as $key => $val) {
                     $banner_src = 'files/attach/cafe_banner/'.$val->site_srl.'.jpg';
                     if(file_exists(_XE_PATH_.$banner_src)) $output->data[$key]->cafe_banner = $banner_src.'?rnd='.filemtime(_XE_PATH_.$banner_src);
+
+                    $url = getSiteUrl($val->domain,'');
+                    if(substr($url,0,1)=='/') $url = substr(Context::getRequestUri(),0,-1).$url;
+                    $output->data[$key]->url = $url;
                 }
             }
             Context::set('total_count', $output->total_count);
@@ -97,6 +101,9 @@
                 $output = executeQueryArray('homepage.getMyCafes', $myargs);
                 Context::set('my_cafes', $output->data);
             }
+
+            $homepage_info = $oModuleModel->getModuleConfig('homepage');
+            if($homepage_info->use_rss == 'Y') Context::set('rss_url',getUrl('','mid',$this->module_info->mid,'act','rss'));
 
             $this->setTemplateFile('index');
         }
@@ -162,7 +169,7 @@
             // member model 객체 생성후 목록을 구해옴
             $oMemberAdminModel = &getAdminModel('member');
             $oMemberModel = &getModel('member');
-            $output = $oMemberAdminModel->getSiteMemberList($this->site_srl);
+            $output = $oMemberAdminModel->getSiteMemberList($this->site_srl,Context::get('page'));
 
             $members = array();
             if(count($output->data)) {
@@ -279,8 +286,6 @@
             Context::set('module_info', $this->module_info);
             $this->setTemplateFile('category_list');
         }
-
-
 
         /**
          * @brief 홈페이지 게시판 추가 설정
@@ -402,6 +407,32 @@
 
             // 표시
             $this->setTemplateFile('components');
+        }
+
+        /**
+         * @brief rss
+         **/
+        function rss() {
+            $oRss = &getView('rss');
+            $oDocumentModel = &getModel('document');
+            $oModuleModel = &getModel('module');
+
+            $homepage_info = $oModuleModel->getModuleConfig('homepage');
+            if($homepage_info->use_rss != 'Y') return new Object(-1,'msg_rss_is_disabled');
+
+            $output = executeQueryArray('homepage.getRssList', $args);
+            if($output->data) {
+                foreach($output->data as $key => $val) {
+                    unset($obj);
+                    $obj = new DocumentItem(0);
+                    $obj->setAttribute($val);
+                    $document_list[] = $obj;
+                }
+            }
+
+            $oRss->rss($document_list, $homepage_info->browser_title);
+            $this->setTemplatePath($oRss->getTemplatePath());
+            $this->setTemplateFile($oRss->getTemplateFile());
         }
     }
 ?>

@@ -35,7 +35,7 @@
     $lang->layout_btn_export = '내 레이아웃 다운로드';
     $lang->about_layout_export = '현재 수정된 레이아웃을 내보내기를 합니다.';
     $lang->layout_import = '가져오기';
-    $lang->about_layout_import = '가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.';
+    $lang->about_layout_import = '가져오기를 할 경우 기존 수정된 레이아웃은 삭제됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.';
 
     $lang->layout_manager = array(
         0  => '레이아웃 매니저',
@@ -99,7 +99,7 @@
     $lang->about_layout_image_repository = '선택된 레이아웃에 사용될 이미지/플래시파일등을 올릴 수 있습니다. 내보내기에 같이 포함이 됩니다';
     $lang->msg_layout_image_target = 'gif, png, jpg, swf, flv파일만 가능합니다';
     $lang->layout_migration = '레이아웃 내보내기/ 들이기';
-    $lang->about_layout_migration = '수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다'."\n".'(아직은 faceOff레이아웃만 내보내기/들이기가 됩니다';
+    $lang->about_layout_migration = '수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다'."\n".'(아직은 faceOff레이아웃만 내보내기/들이기가 됩니다.)';
 
     $lang->about_faceoff = array(
         'title' => 'XpressEngine FaceOff Layout 관리자',

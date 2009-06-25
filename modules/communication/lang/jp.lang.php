@@ -21,7 +21,7 @@
         'T' => '保存箱',
     );
 
-    $lang->readed_date = "開封時間"; 
+    $lang->readed_date = '開封時間'; 
 
     $lang->sender = '送信者';
     $lang->receiver = '受信者';

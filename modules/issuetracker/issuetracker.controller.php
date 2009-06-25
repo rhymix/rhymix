@@ -64,11 +64,11 @@
 
             // 그렇지 않으면 신규 등록
             } else {
-            	// assignee name
-            	$oMemberModel = &getModel('member');
+                // assignee name
+                $oMemberModel = &getModel('member');
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->assignee_srl);
                 $obj->assignee_name = $member_info->nick_name;
-                
+
                 // transaction start
                 $oDB = &DB::getInstance();
                 $oDB->begin();
@@ -148,7 +148,7 @@
             if(!$output->toBool()) return $output;
 
             $output = executeQuery('issuetracker.deleteHistories', $args);
-            return $output; 
+            return $output;
         }
 
         function insertHistory($target_srl, $objs, $module_srl, $grant)
@@ -156,12 +156,19 @@
             $oIssuetrackerModel = &getModel('issuetracker');
             $oIssue = $oIssuetrackerModel->getIssue($target_srl);
             if(!$oIssue->isExists()) return new Object(-1,'msg_not_founded');
+            $objs->comment_srl = Context::get('history_srl');
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('issuetracker.insertHistory', 'before', $objs);
+            if(!$output->toBool()) return $output;
 
             $logged_info = Context::get('logged_info');
 
             $args = null;
 
             // 글작성시 필요한 변수를 세팅
+            $args->history_srl = $args->comment_srl = $objs->comment_srl;
+            $args->uploaded_count = $objs->uploaded_count;
             $args->target_srl = $target_srl;
             $args->content = Context::get('content');
             if($logged_info->member_srl) {
@@ -348,8 +355,13 @@
                     $args->history = serialize($history);
                 }
             }
-            $args->issues_history_srl = getNextSequence();
+            $args->issues_history_srl = ($args->history_srl) ? $args->history_srl : getNextSequence();
             $args->module_srl = $module_srl;
+
+
+            // trigger 호출 (before)
+            $output = ModuleHandler::triggerCall('issuetracker.insertHistory', 'after', $args);
+            if(!$output->toBool()) return $output;
 
             $output = executeQueryArray('issuetracker.insertHistory', $args);
             if(!$output->toBool()) return $output;
@@ -358,6 +370,7 @@
             $cnt = $oIssuetrackerModel->getHistoryCount($target_srl);
             $oDocumentController = &getController('document');
             $oDocumentController->updateCommentCount($target_srl, $cnt, $logged_info->member_srl);
+
             return new Object();
         }
 
@@ -367,7 +380,7 @@
 
             // 원 이슈를 가져옴
             $target_srl = Context::get('target_srl');
-            $args = Context::gets('milestone_srl', 'priority_srl', 'type_srl', 'component_srl', 'package_srl', 'occured_version_srl', 'action', 'status', 'assignee_srl'); 
+            $args = Context::gets('milestone_srl', 'priority_srl', 'type_srl', 'component_srl', 'package_srl', 'occured_version_srl', 'action', 'status', 'assignee_srl');
             $output = $this->insertHistory($target_srl, $args, $this->module_srl, $this->grant->commiter);
             if(!$output->toBool())
             {
@@ -426,6 +439,11 @@
         function syncChangeset($module_info)
         {
             if(!$module_info->svn_url || !$module_info->svn_cmd) return;
+
+            $lock_file = sprintf('%sfiles/cache/svn/%d.lock', _XE_PATH_,$module_info->module_srl);
+            if(file_exists($lock_file) && filemtime($lock_file)>time()-60*10) return;
+            FileHandler::writeFile($lock_file,' ');
+
             require_once($this->module_path.'classes/svn.class.php');
             $oSvn = new Svn($module_info->svn_url, $module_info->svn_cmd, $module_info->svn_userid, $module_info->svn_passwd);
             $oModel = &getModel('issuetracker');
@@ -436,21 +454,25 @@
             $oController = &getController('issuetracker');
             while($latestRevision < $status->revision)
             {
-                $gap = $status->revision-$latestRevision; 
+                $gap = $status->revision-$latestRevision;
                 if($gap > 500) $gap = 500;
                 $logs = $oSvn->getLog("/", $latestRevision+1, $status->revision, false, $gap, false);
-                foreach($logs as $log)
-                {
-                    $obj = null;
-                    $obj->revision = $log->revision;
-                    $obj->author = $log->author;
-                    $obj->date = date("YmdHis", strtotime($log->date)); 
-                    $obj->message = trim($log->msg);
-                    $obj->module_srl = $module_info->module_srl;
-                    executeQuery("issuetracker.insertChangeset", $obj);
+                if(!$logs || !count($logs)) return;
+                if(count($logs)) {
+                    foreach($logs as $log)
+                    {
+                        $obj = null;
+                        $obj->revision = $log->revision;
+                        $obj->author = $log->author;
+                        $obj->date = date("YmdHis", strtotime($log->date));
+                        $obj->message = trim($log->msg);
+                        $obj->module_srl = $module_info->module_srl;
+                        executeQuery("issuetracker.insertChangeset", $obj);
+                    }
                 }
                 $latestRevision = $oModel->getLatestRevision($module_info->module_srl);
             }
+            FileHandler::removeFile($lock_file);
         }
 
         /**

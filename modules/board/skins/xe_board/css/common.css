@@ -123,7 +123,7 @@ Jeong, Chan Myeong 070601~070630
 
 .replyBox { padding:10px; color:#666666; border:1px solid #e0e1db; margin-top:.5em;}
 .replyBox .replyItem { background-color:#FFFFFF; padding:.6em .8em .6em .6em; line-height:1.25em; clear:both; border-bottom:1px dotted #EEEEEE; list-style:none;}
-.replyBox p { display:inline; margin-bottom:1em;}
+.replyBox p { display:inline; }
 .replyBox .author { float:left; padding:0 .3em 0 0; color:#3074a5; margin:0 .3em .5em 0;}
 .replyBox .author a { color:#3074a5; margin-right:.3em; text-decoration:none; }
 .replyBox .voted { float:left; font-size:.9em; color:#AAAAAA; margin:0 .3em .5em 1em;}

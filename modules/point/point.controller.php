@@ -581,7 +581,7 @@
 
                     // 제거될 그룹과 새로 부여 받을 그룹을 구함
                     $del_group_list = array();
-                    $new_group_srl = 0;
+                    $new_group_srls = array();
 
                     asort($point_group);
 
@@ -589,12 +589,12 @@
                     foreach($point_group as $group_srl => $target_level) {
                         if($config->group_reset != 'N') $del_group_list[] = $group_srl;
                         if($target_level <= $level) {
-                            $new_group_srl = $group_srl;
+                            $new_group_srls[] = $group_srl;
                         }
                     }
 
                     // 만약 새로운 그룹이 없다면 기본 그룹을 부여 받음
-                    if(!$new_group_srl) $new_group_srl = $default_group->group_srl;
+                    if(!$new_group_srls[0]) $new_group_srls[0] = $default_group->group_srl;
 
                     // 연동 그룹 제거
                     if($config->group_reset != 'N' && $del_group_list && count($del_group_list)) {
@@ -604,9 +604,11 @@
                     }
 
                     // 새로운 그룹을 부여
-                    $new_group_args->member_srl = $member_srl;
-                    $new_group_args->group_srl = $new_group_srl;
-                    $new_group_output = executeQuery('member.addMemberToGroup', $new_group_args);
+                    foreach($new_group_srls as $group_srl) {
+                        $new_group_args->member_srl = $member_srl;
+                        $new_group_args->group_srl = $group_srl;
+                        executeQuery('member.addMemberToGroup', $new_group_args);
+                    }
                 }
             }
 

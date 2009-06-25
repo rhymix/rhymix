@@ -36,6 +36,9 @@
             $oModuleController->insertTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after');
             $oModuleController->insertTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after');
 
+            // 2009. 6. 9 자동저장문서 삭제시 첨부 파일도 같이 삭제
+            $oModuleController->insertTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after');
+
             // 2007. 10. 17 모듈이 삭제될때 등록된 첨부파일도 모두 삭제하는 트리거 추가
             $oModuleController->insertTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after');
 
@@ -63,6 +66,9 @@
             if(!$oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before')) return true;
             if(!$oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after')) return true;
             if(!$oModuleModel->getTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after')) return true;
+
+            // 2009. 6. 9 자동저장문서 삭제시 첨부 파일도 같이 삭제
+            if(!$oModuleModel->getTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after')) return true;
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 첨부파일도 모두 삭제하는 트리거 추가
             if(!$oModuleModel->getTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after')) return true;
@@ -114,6 +120,10 @@
 
             if(!$oModuleModel->getTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after'))
                 $oModuleController->insertTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after');
+
+            // 2009. 6. 9 자동저장문서 삭제시 첨부 파일도 같이 삭제
+            if(!$oModuleModel->getTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after'))
+                $oModuleController->insertTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after');
 
             // 2007. 10. 17 모듈이 삭제될때 등록된 첨부파일도 모두 삭제하는 트리거 추가
             if(!$oModuleModel->getTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after'))

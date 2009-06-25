@@ -2,6 +2,7 @@
 
 <!--%import("../../install/lang")-->
 <!--%import("../../module/tpl/js/module_admin.js",optimized=false)-->
+<!--%import("../../session/tpl/js/session.js",optimized=false)-->
 <!--%import("../../addon/tpl/js/addon.js",optimized=false)-->
 <!--%import("../../addon/tpl/filter/toggle_activate_addon.xml")-->
 
@@ -201,6 +202,19 @@
         </tbody>
         </table>
 
+        <h4 class="xeAdmin">{$lang->cmd_remake_cache}</h4>
+        <table cellspacing="0" class="rowTable">
+        <tbody>
+        <tr>
+            <td>
+                <span class="button black strong"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
+            </td>
+            <td>
+                <span class="button black strong"><input type="button" value="{$lang->cmd_clear_session}" onclick="doClearSession(); return false; "/></span>
+            </td>
+        </tr>
+        </tbody>
+        </table>
 
         <!--@if($news)-->
         <h4 class="xeAdmin">{$lang->newest_news}</h4>

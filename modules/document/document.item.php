@@ -301,9 +301,10 @@
          * 에디터 코드가 변환된 내용 반환
          **/
         function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
-            $oContext = &Context::getInstance();
+            $oEditorController = &getController('editor');
 
             $content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
+            $content = $oEditorController->transComponent($content);
 
             return $content;
         }
@@ -311,8 +312,8 @@
         function getSummary($str_size = 50, $tail = '...') {
             $content = $this->getContent(false,false);
 
-			// 줄바꿈이 있을 때, 공백문자 삽입
-			$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
+            // 줄바꿈이 있을 때, 공백문자 삽입
+            $content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
 
             // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
             $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
@@ -323,8 +324,8 @@
             // < , > , " 를 치환
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
-			// 연속된 공백문자 삭제
-			$content = preg_replace('/ ( +)/is', ' ', $content);
+            // 연속된 공백문자 삭제
+            $content = preg_replace('/ ( +)/is', ' ', $content);
 
             // 문자열을 자름
             $content = trim(cut_str($content, $str_size, $tail));
@@ -376,7 +377,13 @@
         }
 
         function getPermanentUrl() {
-            return getUrl('','document_srl',$this->document_srl);
+            $url = getUrl('','document_srl',$this->get('document_srl'));
+            if(substr($url,0,1)=='/') {
+                if($_SERVER['HTTPS']=='on') $http_url = 'https://';
+                else $http_url = 'http://';
+                $url = $http_url.$_SERVER['HTTP_HOST'].$url;
+            }
+            return $url;
         }
 
         function getTrackbackUrl() {
@@ -465,9 +472,19 @@
             if(!$output->toBool() || !count($output->data)) return;
 
             // 구해온 목록을 commentItem 객체로 만듬
+            // 계층구조에 따라 부모글에 관리권한이 있으면 자식글에는 보기 권한을 줌
+            $accessible = array();
             foreach($output->data as $key => $val) {
                 $oCommentItem = new commentItem();
                 $oCommentItem->setAttribute($val);
+
+                // 권한이 있는 글에 대해 임시로 권한이 있음을 설정
+                if($oCommentItem->isGranted()) $accessible[$val->comment_srl] = true;
+
+                // 현재 댓글이 비밀글이고 부모글이 있는 답글이고 부모글에 대해 관리 권한이 있으면 보기 가능하도록 수정
+                if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true) {
+                    $oCommentItem->setAccessible();
+                }
                 $comment_list[$val->comment_srl] = $oCommentItem;
             }
 
@@ -557,7 +574,7 @@
                 $cnt = count($matches);
                 for($i=0;$i<$cnt;$i++) {
                     $target_src = trim($matches[$i][2]);
-		     if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$target_src)) continue;
+                    if(!preg_match("/\.(jpg|png|jpeg|gif|bmp)$/i",$target_src)) continue;
                     if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src)) continue;
                     else {
                         if(!preg_match('/^(http|https):\/\//i',$target_src)) $target_src = Context::getRequestUri().$target_src;

@@ -16,6 +16,7 @@
                 <input type="hidden" name="act" value="{$act}" />
                 <select name="module_category_srl">
                     <option value="">{$lang->module_category}</option>
+                    <option value="0" <!--@if($module_category_srl==="0")-->selected="selected"<!--@end-->>{$lang->not_exists}</option>
                     <!--@foreach($module_category as $key => $val)-->
                     <option value="{$key}" <!--@if($module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
                     <!--@end-->

@@ -21,7 +21,7 @@
     $lang->category_group_srls = 'グループ制限';
 
     $lang->cmd_make_child = '下位カテゴリ追加';
-    $lang->cmd_enable_move_category = "カテゴリ位置変更（選択後上のメニューをドラッグして下さい）";
+    $lang->cmd_enable_move_category = 'カテゴリ位置変更（選択後上のメニューをドラッグして下さい）';
 
     $lang->about_category_title = 'カテゴリ名を入力して下さい。';
     $lang->about_expand = 'チェックすると常に展開された状態になります。';
@@ -41,7 +41,7 @@
     $lang->msg_is_secret = '非公開設定の書き込みです。';
     $lang->msg_checked_document_is_deleted = '%d個の書き込みが削除されました。';
 
-    $lang->move_target_module = "移動対象モジュール";
+    $lang->move_target_module = '移動対象モジュール';
 
     // 管理者ページで検索する内容
     $lang->search_target_list = array(
@@ -66,14 +66,14 @@
         'ipaddress' => 'IPアドレス',
     );
 
-    $lang->alias = "アリアス（Alias）";
-    $lang->history = "履歴";
-    $lang->about_use_history = "履歴機能を使用するかを設定します。履歴機能を使用すると文書修正のバージョンを管理し、過去のバージョンから復元することも可能です。";
-    $lang->trace_only = "記録だけ残す";
+    $lang->alias = 'アリアス（Alias）';
+    $lang->history = '履歴';
+    $lang->about_use_history = '履歴機能を使用するかを設定します。履歴機能を使用すると文書修正のバージョンを管理し、過去のバージョンから復元することも可能です。';
+    $lang->trace_only = '記録だけ残す';
 
     $lang->cmd_trash = "ごみ箱";
-    $lang->cmd_restore = "復元";
-    $lang->cmd_restore_all = "すべて復元";
+    $lang->cmd_restore = "差し戻し";
+    $lang->cmd_restore_all = "すべて差し戻し";
 
     $lang->in_trash = "ごみ箱";
     $lang->trash_nick_name = "削除者のニックネーム";

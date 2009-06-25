@@ -6,8 +6,8 @@
 .widgetTree a strong{ letter-spacing:-1px; cursor:pointer; _cursor /**/:hand;}
 .widgetTree ul{ position:relative; display:block; padding:3px 0 0 0 !important; zoom:1;}
 .widgetTree ul li{ list-style:none; position:relative; padding:3px 0 2px 8px; white-space:nowrap;}
-.widgetTree ul li a,
-.widgetTree ul li span.nav_tree_label{ position:relative; left:16px; _left /**/:0; top:0;}
+.widgetTree ul li .nav_tree_label,
+.widgetTree ul li .sum{ position:relative; left:16px; _left /**/:0; top:0; font-style:normal;}
 .widgetTree ul li a {text-decoration:none; }
 .widgetTree ul li a.selected {font-weight:bold;}
 .widgetTree ul li button{ display:inline-block; position:relative; _left /**/:-16px; *top:-2px; width:13px; height:13px; *width:17px; *height:17px; margin:0 -13px 0 0; *margin:0 -17px -2px -2px; text-indent:-10000px; *text-indent:0; *font:0/0 Sans-serif; border:none; cursor:pointer; _cursor /**/:hand;}
@@ -37,8 +37,8 @@
 .widgetContainer.black .widgetTree a strong{ letter-spacing:-1px; cursor:pointer; _cursor /**/:hand;}
 .widgetContainer.black .widgetTree ul{ position:relative; display:block; padding:3px 0 0 0 !important; zoom:1;}
 .widgetContainer.black .widgetTree ul li{ list-style:none; position:relative; padding:3px 0 2px 8px; white-space:nowrap;}
-.widgetContainer.black .widgetTree ul li a,
-.widgetContainer.black .widgetTree ul li span.nav_tree_label{ position:relative; left:16px; _left /**/:0; top:0;}
+.widgetContainer.black .widgetTree ul li .nav_tree_label,
+.widgetContainer.black .widgetTree ul li .sum{ position:relative; left:16px; _left /**/:0; top:0; font-style:normal;}
 .widgetContainer.black .widgetTree ul li a {text-decoration:none; }
 .widgetContainer.black .widgetTree ul li a.selected {font-weight:bold;}
 .widgetContainer.black .widgetTree ul li button{ display:inline-block; position:relative; _left /**/:-16px; *top:-2px; width:13px; height:13px; *width:17px; *height:17px; margin:0 -13px 0 0; *margin:0 -17px -2px -2px; text-indent:-10000px; *text-indent:0; *font:0/0 Sans-serif; border:none; cursor:pointer; _cursor /**/:hand;}

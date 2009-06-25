@@ -1,0 +1,21 @@
+<query id="getTreeNode" action="select">
+    <tables>
+        <table name="documents" alias="doc"/>
+        <table name="document_categories" alias="category" type="left join">
+            <conditions>
+                <condition operation="equal" column="category.category_srl" default="doc.document_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="category.parent_srl" alias="parent_srl" />
+        <column name="category.category_srl" alias="is_exists" />
+        <column name="doc.module_srl" alias="module_srl" />
+        <column name="doc.title" alias="title" />
+        <column name="doc.document_srl" alias="document_srl" />
+        <column name="doc.list_order" alias="list_order" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="doc.document_srl" var="source_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

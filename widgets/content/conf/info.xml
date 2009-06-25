@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
     <title xml:lang="ko">Content 위젯</title>
-    <title xml:lang="en">Content widget</title>
+    <title xml:lang="en">Content</title>
     <title xml:lang="zh-CN">全局内容控件</title>
     <title xml:lang="zh-TW">內容組件</title>
     <title xml:lang="jp">コンテンツウィジェット</title>
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
-    <description xml:lang="en">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
+    <description xml:lang="en">This widget displays Content such as articles, comments, or attached files.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
     <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的組件。</description>
     <description xml:lang="jp">掲示板の書き込み、コメント、添付ファイルなどコンテンツを出力するウィジェットです。</description>
@@ -27,14 +27,14 @@
         <var id="content_type">
             <type>select</type>
                 <name xml:lang="ko">추출대상</name>
-                <name xml:lang="en">추출대상</name>
+                <name xml:lang="en">Target</name>
                 <name xml:lang="zh-CN">对象</name>
                 <name xml:lang="zh-tw">目標</name>
                 <name xml:lang="jp">抽出対象</name>
             <options>
                 <value>document</value>
                 <name xml:lang="ko">게시물</name>
-                <name xml:lang="en">게시물</name>
+                <name xml:lang="en">Article</name>
                 <name xml:lang="zh-CN">主题</name>
 				<name xml:lang="zh-TW">主題</name>
                 <name xml:lang="jp">書き込み</name>
@@ -42,7 +42,7 @@
             <options>
                 <value>comment</value>
                 <name xml:lang="ko">댓글</name>
-                <name xml:lang="en">댓글</name>
+                <name xml:lang="en">Comment</name>
                 <name xml:lang="zh-CN">评论</name>
 				<name xml:lang="zh-TW">評論</name>
                 <name xml:lang="jp">コメント</name>
@@ -50,7 +50,7 @@
             <options>
                 <value>image</value>
                 <name xml:lang="ko">첨부이미지</name>
-                <name xml:lang="en">첨부이미지</name>
+                <name xml:lang="en">Attached Image</name>
                 <name xml:lang="zh-CN">图片</name>
 				<name xml:lang="zh-TW">圖片</name>
                 <name xml:lang="jp">添付イメージ</name>
@@ -58,7 +58,7 @@
             <options>
                 <value>trackback</value>
                 <name xml:lang="ko">트랙백</name>
-                <name xml:lang="en">트랙백</name>
+                <name xml:lang="en">Trackback</name>
                 <name xml:lang="zh-CN">引用</name>
 				<name xml:lang="zh-TW">引用</name>
                 <name xml:lang="jp">トラックバック</name>
@@ -75,14 +75,14 @@
         <var id="list_type">
             <type>select</type>
             <name xml:lang="ko">내용형태</name>
-            <name xml:lang="en">내용형태</name>
+            <name xml:lang="en">Content Type</name>
             <name xml:lang="zh-CN">内容样式</name>
             <name xml:lang="zh-TW">內容樣式</name>
             <name xml:lang="jp">内容のタイプ</name>
             <options>
                 <value>normal</value>
                 <name xml:lang="ko">제목</name>
-                <name xml:lang="en">제목</name>
+                <name xml:lang="en">Title</name>
                 <name xml:lang="zh-CN">标题</name>
                 <name xml:lang="zh-TW">標題</name>
                 <name xml:lang="jp">タイトル</name>
@@ -90,7 +90,7 @@
             <options>
                 <value>image_title</value>
                 <name xml:lang="ko">이미지+제목</name>
-                <name xml:lang="enko">이미지+제목</name>
+                <name xml:lang="enko">Image+Title</name>
                 <name xml:lang="zh-CN">图片+标题</name>
                 <name xml:lang="zh-TW">圖片+標題</name>
                 <name xml:lang="jp">画像+タイトル</name>
@@ -98,7 +98,7 @@
             <options>
                 <value>gallery</value>
                 <name xml:lang="ko">겔러리</name>
-                <name xml:lang="en">겔러리</name>
+                <name xml:lang="en">Gallery</name>
                 <name xml:lang="zh-CN">相册</name>
                 <name xml:lang="zh-TW">相簿</name>
                 <name xml:lang="jp">ギャラリー</name>
@@ -106,7 +106,7 @@
             <options>
                 <value>image_title_content</value>
                 <name xml:lang="ko">이미지+제목+내용</name>
-                <name xml:lang="en">이미지+제목+내용</name>
+                <name xml:lang="en">Image+Title+Content</name>
                 <name xml:lang="zh-CN">图片+标题+内容</name>
                 <name xml:lang="zh-TW">圖片+標題+內容</name>
                 <name xml:lang="jp">画像+タイトル+内容</name>
@@ -115,14 +115,14 @@
         <var id="tab_type">
             <type>select</type>
             <name xml:lang="ko">탭형태</name>
-            <name xml:lang="en">탭형태</name>
+            <name xml:lang="en">Tab Type</name>
             <name xml:lang="zh-CN">选项卡样式</name>
             <name xml:lang="zh-tw">分頁樣式</name>
             <name xml:lang="jp">タブのスタイル</name>
             <options>
                 <value>none</value>
                 <name xml:lang="ko">없음</name>
-                <name xml:lang="en">없음</name>
+                <name xml:lang="en">None</name>
                 <name xml:lang="zh-CN">无</name>
                 <name xml:lang="zh-TW">無</name>
                 <name xml:lang="jp">なし</name>
@@ -130,7 +130,7 @@
             <options>
                 <value>tab_top</value>
                 <name xml:lang="ko">상단 탭형</name>
-                <name xml:lang="en">상단 탭형</name>
+                <name xml:lang="en">Upper Tab Type</name>
                 <name xml:lang="zh-CN">顶端选项卡</name>
                 <name xml:lang="zh-TW">頂端分頁</name>
                 <name xml:lang="jp">上段配置型タブ</name>
@@ -138,7 +138,7 @@
             <options>
                 <value>tab_left</value>
                 <name xml:lang="ko">왼쪽 탭형</name>
-                <name xml:lang="en">왼쪽 탭형</name>
+                <name xml:lang="en">Left Tab Type</name>
                 <name xml:lang="zh-CN">左侧选项卡</name>
                 <name xml:lang="zh-TW">左側分頁</name>
                 <name xml:lang="jp">左側の配置型タブ</name>
@@ -148,14 +148,14 @@
         <var id="option_view">
             <type>select-multi-order</type>
             <name xml:lang="ko">표시항목 및 순서</name>
-            <name xml:lang="en">표시항목 및 순서</name>
+            <name xml:lang="en">Display Target &amp; Order</name>
             <name xml:lang="zh-CN">显示项及顺序</name>
             <name xml:lang="zh-TW">顯示項目順序</name>
             <name xml:lang="jp">表示項目、および順番</name>
             <options default="false" init="true">
                 <value>title</value>
                 <name xml:lang="ko">제목</name>
-                <name xml:lang="en">제목</name>
+                <name xml:lang="en">Title</name>
                 <name xml:lang="zh-CN">标题</name>
                 <name xml:lang="zh-TW">標題</name>
                 <name xml:lang="jp">タイトル</name>
@@ -163,7 +163,7 @@
             <options>
                 <value>thumbnail</value>
                 <name xml:lang="ko">섬네일</name>
-                <name xml:lang="en">섬네일</name>
+                <name xml:lang="en">Thumbnail</name>
                 <name xml:lang="zh-CN">缩略图</name>
                 <name xml:lang="zh-TW">縮圖</name>
                 <name xml:lang="jp">サムネール</name>
@@ -171,7 +171,7 @@
             <options init="true">
                 <value>regdate</value>
                 <name xml:lang="ko">등록일</name>
-                <name xml:lang="en">등록일</name>
+                <name xml:lang="en">Regdate</name>
                 <name xml:lang="zh-CN">发布日期</name>
                 <name xml:lang="zh-TW">發表日期</name>
                 <name xml:lang="jp">登録日</name>
@@ -179,7 +179,7 @@
             <options init="true">
                 <value>nickname</value>
                 <name xml:lang="ko">글쓴이</name>
-                <name xml:lang="en">글쓴이</name>
+                <name xml:lang="en">Author</name>
                 <name xml:lang="zh-CN">发布者</name>
                 <name xml:lang="zh-TW">作者</name>
                 <name xml:lang="jp">登録者</name>
@@ -187,7 +187,7 @@
             <options>
                 <value>content</value>
                 <name xml:lang="ko">내용</name>
-                <name xml:lang="en">내용</name>
+                <name xml:lang="en">Content</name>
                 <name xml:lang="zh-CN">内容</name>
                 <name xml:lang="zh-TW">內容</name>
                 <name xml:lang="jp">内容</name>
@@ -197,14 +197,14 @@
         <var id="show_browser_title">
             <type>select</type>
             <name xml:lang="ko">게시판 이름 표시</name>
-            <name xml:lang="en">게시판 이름 표시</name>
+            <name xml:lang="en">Display Article Name</name>
             <name xml:lang="zh-CN">显示版面名称</name>
             <name xml:lang="zh-TW">討論板名稱</name>
             <name xml:lang="jp">掲示板名の表示</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-                <name xml:lang="en">출력</name>
+                <name xml:lang="en">Dispaly</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -212,7 +212,7 @@
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="en">No Display</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -222,14 +222,14 @@
         <var id="show_comment_count">
             <type>select</type>
             <name xml:lang="ko">댓글수 표시</name>
-            <name xml:lang="en">댓글수 표시</name>
+            <name xml:lang="en">Comment Count</name>
             <name xml:lang="zh-CN">显示评论数</name>
             <name xml:lang="zh-TW">評論數</name>
             <name xml:lang="jp">コメント数</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-                <name xml:lang="en">출력</name>
+                <name xml:lang="en">Display</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -237,7 +237,7 @@
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="en">No Display</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -247,14 +247,14 @@
         <var id="show_trackback_count">
             <type>select</type>
             <name xml:lang="ko">엮인글수 표시</name>
-            <name xml:lang="en">엮인글수 표시</name>
+            <name xml:lang="en">Trackback</name>
             <name xml:lang="zh-CN">显示引用数</name>
             <name xml:lang="zh-TW">引用數</name>
             <name xml:lang="jp">トラックバック数の表示</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-                <name xml:lang="en">출력</name>
+                <name xml:lang="en">Display</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -262,7 +262,7 @@
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="en">No Display</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -271,14 +271,14 @@
         <var id="show_category">
             <type>select</type>
             <name xml:lang="ko">분류 표시</name>
-            <name xml:lang="en">분류 표시</name>
+            <name xml:lang="en">Category</name>
             <name xml:lang="zh-CN">显示分类</name>
             <name xml:lang="zh-TW">分類</name>
             <name xml:lang="jp">カテゴリ表示</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-                <name xml:lang="en">출력</name>
+                <name xml:lang="en">Display</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -286,7 +286,7 @@
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="en">No Display</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -295,14 +295,14 @@
         <var id="show_icon">
             <type>select</type>
             <name xml:lang="ko">아이콘 표시</name>
-            <name xml:lang="en">아이콘 표시</name>
+            <name xml:lang="en">Icon</name>
             <name xml:lang="zh-CN">显示图标</name>
             <name xml:lang="zh-TW">圖示</name>
             <name xml:lang="jp">アイコン表示</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-                <name xml:lang="en">출력</name>
+                <name xml:lang="en">Display</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -310,7 +310,7 @@
             <options>
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
-                <name xml:lang="en">출력하지 않음</name>
+                <name xml:lang="en">No Display</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -497,12 +497,14 @@
         <var id="page_count">
             <type>select</type>
             <name xml:lang="ko">페이지수</name>
+			<name xml:lang="en">Page</name>
 			<name xml:lang="zh-CN">分页</name>
 			<name xml:lang="zh-TW">頁數</name>
             <name xml:lang="jp">ページ数</name>
             <options>
                 <value>1</value>
                 <name xml:lang="ko">1</name>
+				<name xml:lang="en">1</name>
 				<name xml:lang="zh-CN">1</name>
 				<name xml:lang="zh-TW">1</name>
                 <name xml:lang="jp">1</name>
@@ -510,6 +512,7 @@
             <options>
                 <value>2</value>
                 <name xml:lang="ko">2</name>
+				<name xml:lang="en">2</name>
 				<name xml:lang="zh-CN">2</name>
 				<name xml:lang="zh-TW">2</name>
                 <name xml:lang="jp">2</name>
@@ -517,11 +520,13 @@
             <options>
                 <value>3</value>
                 <name xml:lang="ko">3</name>
+				<name xml:lang="en">3</name>
 				<name xml:lang="zh-CN">3</name>
 				<name xml:lang="zh-TW">3</name>
                 <name xml:lang="jp">3</name>
             </options>
             <description xml:lang="ko">페이지수 2이상일 경우 이전/다음 버튼이 나타납니다.</description>
+			<description xml:lang="en">Prev/Next buttons will appear when there are more than 2 pages.</description>
 			<description xml:lang="zh-CN">分页数在2以上时，将会出现上一页/下一页按钮。</description>
 			<description xml:lang="zh-TW">頁數在2以上時，會出現上一頁/下一頁按鈕。</description>
             <description xml:lang="jp">ページ数が2枚以上の場合、前へ/次へのボタンが現れます。</description>
@@ -561,6 +566,7 @@
         <var id="content_cut_size">
             <type>text</type>
             <name xml:lang="ko">내용 글자수</name>
+			<name xml:lang="en">Content Length</name>
             <name xml:lang="jp">内容の文字数</name>
 			<name xml:lang="zh-CN">内容摘要字数</name>
 			<name xml:lang="zh-TW">內容字數</name>
@@ -569,14 +575,14 @@
             <type>module_srl_list</type>
             <name xml:lang="ko">대상 모듈</name>
             <name xml:lang="zh-CN">对象模块</name>
-            <name xml:lang="jp">ターゲットモジュール</name>
+            <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
             <name xml:lang="es">Módulo Objetivo</name>
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
-            <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
+            <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
             <description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
             <description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
             <description xml:lang="ru">Статьи назначения для сортировки будут теми, что были размещены в выбранном модуле.</description>
@@ -592,10 +598,10 @@
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
             <description xml:lang="ko">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
             (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
-            <description xml:lang="zh-TW">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
-            (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="jp">RSS URLはタイプが RSSの時だけ登録出来ます。
             (サポートする文書形式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
+            <description xml:lang="zh-TW">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
+            (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
         </var>
         <var id="rss_url1">
             <type>text</type>
@@ -636,15 +642,15 @@
         <var id="markup_type">
             <type>select</type>
             <name xml:lang="ko">HTML 출력 방식</name>
-            <name xml:lang="jp">HTML 출력 방식</name>
+            <name xml:lang="jp">HTML表示タイプ</name>
             <name xml:lang="zh-CN">HTML 출력 방식</name>
-            <name xml:lang="en">HTML 출력 방식</name>
+            <name xml:lang="en">HTML Display Type</name>
             <name xml:lang="ru">HTML 출력 방식</name>
             <name xml:lang="zh-TW">HTML 출력 방식</name>
             <description xml:lang="ko">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
-            <description xml:lang="jp">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="jp">TABLE(表)タグとUL(リスト型)タグを選択して表示します。(デフォールトはTABLE)</description>
             <description xml:lang="zh-CN">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
-            <description xml:lang="en">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="en">You can choose TABLE tag or UL tag to display. (default is TABLE)</description>
             <description xml:lang="ru">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <description xml:lang="zh-TW">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <options>

@@ -40,8 +40,10 @@
 
     $lang->file_search_target_list = array(
         'filename' => 'ファイル名',
-        'filesize' => 'ファイルサイズ（(Byte以上）',
-        'filesize_mega' => 'ファイルサイズ (Mb、以上)',
+        'filesize_more' => 'ファイルサイズ（(Byte以上）',
+        'filesize_mega_more' => 'ファイルサイズ (Mb、以上)',
+		'filesize_less' => '파일크기 (byte, 이하)',
+		'filesize_mega_less' => '파일크기 (Mb, 이하)',
         'download_count' => 'ダウンロード数（以上）',
         'user_id' => 'ユーザーＩＤ',
         'user_name' => '名前',
