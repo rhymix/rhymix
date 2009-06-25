@@ -616,7 +616,6 @@
                             $ek_args->var_default = '';
                             $ek_args->eid = $val->eid;
                             $output = executeQuery('document.insertDocumentExtraKey', $ek_args);
-                            debugPrint($output);
                             $extra_keys[$ek_args->eid] = true;
                         }
 

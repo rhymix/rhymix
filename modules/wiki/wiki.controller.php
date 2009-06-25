@@ -159,7 +159,6 @@
 
             // request argument 추출
             $args = Context::gets('parent_srl','target_srl','source_srl');
-            debugPrint($args);
 
             // 노드 정보 구함
             $output = executeQuery('wiki.getTreeNode', $args);
