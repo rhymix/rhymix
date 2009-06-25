@@ -472,9 +472,19 @@
             if(!$output->toBool() || !count($output->data)) return;
 
             // 구해온 목록을 commentItem 객체로 만듬
+            // 계층구조에 따라 부모글에 관리권한이 있으면 자식글에는 보기 권한을 줌
+            $accessible = array();
             foreach($output->data as $key => $val) {
                 $oCommentItem = new commentItem();
                 $oCommentItem->setAttribute($val);
+
+                // 권한이 있는 글에 대해 임시로 권한이 있음을 설정
+                if($oCommentItem->isGranted()) $accessible[$val->comment_srl] = true;
+
+                // 현재 댓글이 비밀글이고 부모글이 있는 답글이고 부모글에 대해 관리 권한이 있으면 보기 가능하도록 수정
+                if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true) {
+                    $oCommentItem->setAccessible();
+                }
                 $comment_list[$val->comment_srl] = $oCommentItem;
             }
 
