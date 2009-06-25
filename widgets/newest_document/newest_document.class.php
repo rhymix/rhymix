@@ -15,6 +15,7 @@
          * 결과를 만든후 print가 아니라 return 해주어야 한다
          **/
         function proc($args) {
+return;
             // 대상 모듈 (mid_list는 기존 위젯의 호환을 위해서 처리하는 루틴을 유지. module_srls로 위젯에서 변경)
             $oModuleModel = &getModel('module');
             if($args->mid_list) {
