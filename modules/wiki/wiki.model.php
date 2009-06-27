@@ -28,9 +28,8 @@
             $oModuleModel = &getModel('module');
 
             $mid = Context::get('mid');
-
             $cache_file = sprintf('%sfiles/cache/wiki/%d.xml', _XE_PATH_,$this->module_srl);
-            if(!file_exists($cache_file)) FileHandler::writeFile($cache_file, $this->loadWikiTreeList($this->module_srl));
+            FileHandler::writeFile($cache_file, $this->loadWikiTreeList($this->module_srl));
 
             print FileHandler::readFile($cache_file);
             Context::close();
