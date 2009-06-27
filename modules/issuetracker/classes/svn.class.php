@@ -207,7 +207,7 @@
                 $command = sprintf('%s --non-interactive %s --config-dir %s log --xml --limit 2 %s%s@%d', $this->svn_cmd, $this->_getAuthInfo(), $this->tmp_dir, $this->url, $path, $erev);
                 $buff = $this->execCmd($command, $error);
                 $xmlDoc = $this->oXml->parse($buff);
-                $brev = $xmlDoc->log->logentry[1]->attrs->revision;
+                if(is_array($xmlDoc->log->logentry)) $brev = $xmlDoc->log->logentry[1]->attrs->revision;
                 if(!$brev) return;
             }
 
