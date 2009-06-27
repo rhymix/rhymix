@@ -19,6 +19,7 @@
              **/
             // 템플릿에서 사용할 변수를 Context::set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
+            if(!$this->module_info->svn_cmd) $this->module_info->svn_cmd = '/usr/bin/svn';
 
             // 현재 호출된 게시판의 모듈 정보를 module_info 라는 이름으로 context setting
             Context::set('module_info',$this->module_info);
