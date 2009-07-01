@@ -283,6 +283,12 @@
 .feedbackList .item .secretMessage dd .inputText{ padding:3px 4px; height:15px; vertical-align:middle; margin-right:5px;}
 
 /* Attached File */
+.attachedFile { position:relative; float:left; width:100%;}
+.attachedFile *{ margin:0; padding:0; font-size:11px; vertical-align:middle;}
+.attachedFile dt img{ margin-right:10px;}
+.attachedFile dt .fileToggle{ border:0; padding:0; overflow:visible; cursor:pointer; font-size:11px; background:none; vertical-align:middle;}
+.attachedFile dd{ position:relative; margin-right:5px; display:none; margin-top:5px; padding-left:40px;}
+.attachedFile.open dd{ display:block;}
 .attachedFile ul.files { position:relative; margin:0; padding:0; clear:both; list-style:none;}
 .attachedFile ul.files *{ display:inline-block; *display:inline; padding:0; margin:0; font-size:11px;}
 .attachedFile ul.files li{ position:relative; margin:0 10px 0 0;}
