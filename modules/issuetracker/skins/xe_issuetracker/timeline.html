@@ -21,15 +21,14 @@
 <div class="clear"></div>
 
 
-{@ $curDate = null }
+{@ $curDate = null}
 <!--@foreach($changesets as $changeset)-->
-<!--@if($curdate || strcmp(zdate($changeset->date, "Ymd"),  $curDate))-->
-<h4>{zdate($changeset->date, "Y-m-d")}</h4>
-<!--@if($curDate)-->
-</dl>
-<!--@end-->
+
+<!--@if(!$curDate || $curDate != zdate($changeset->date, "Y-m-d"))-->
+{@ $curDate = zdate($changeset->date, "Y-m-d")}
+<!--@if($curDate)--></dl><!--@end-->
+<h4>{$curDate}</h4>
 <dl class="changeset">
-{@ $curDate = zdate($changeset->date, "Ymd") }
 <!--@end-->
 <dt>
     <span class="time">{zdate($changeset->date,"H:i")}</span>
