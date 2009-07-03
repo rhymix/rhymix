@@ -34,11 +34,11 @@
                 <!--@if($release)-->
                 <tr>
                     <th>{$lang->release_note}</th>
-                    <td><div class="xe_cotnent">{str_replace('  ','&nbsp;&nbsp;',nl2br($release->release_note))}</div></td>
+                    <td><div class="xe_content">{str_replace('  ','&nbsp;&nbsp;',nl2br($release->release_note))}&nbsp;</div></td>
                 </tr>
                 <tr>
                     <th>{$lang->release_changes}</th>
-                    <td><div class="xe_cotnent">{str_replace('  ','&nbsp;&nbsp;',nl2br($release->release_changes))}</div></td>
+                    <td><div class="xe_content">{str_replace('  ','&nbsp;&nbsp;',nl2br($release->release_changes))}&nbsp;</div></td>
                 </tr>
                 <!--@end-->
                 <tr>
