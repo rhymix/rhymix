@@ -316,7 +316,7 @@
 .time dt{ background:#fff;}
 
 /* Attached File */
-.attachedFile { position:relative; margin:1em -100% 1em 0; float:left; width:100%;}
+.attachedFile { position:relative; margin:1em 0 1em 0; float:left; width:100%;}
 .attachedFile *{ margin:0; padding:0; font-size:11px; vertical-align:middle;}
 .attachedFile dt img{ margin-right:10px;}
 .attachedFile dt .fileToggle{ border:0; padding:0; overflow:visible; cursor:pointer; font-size:11px; background:none;}
