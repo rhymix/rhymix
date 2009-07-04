@@ -10,7 +10,7 @@
     <!--@if($oIssue->getTitleText())-->
     <input type="text" name="title" id="postTitle" class="inputText" value="{htmlspecialchars($oIssue->getTitleText())}" />
     <!--@else-->
-    <input type="text" name="title" id="postTitle" class="inputText" value="{$lang->title}" onfocus="this.value=''" />
+    <input type="text" name="title" id="postTitle" class="inputText" value="{$lang->title}" title="{$lang->title}" onfocus="if(this.title == this.value) this.value='';" />
     <!--@end-->
 
     <table border="1" cellspacing="0" summary="Extra Form" class="extraVarsList">
