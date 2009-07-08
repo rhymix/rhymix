@@ -48,7 +48,7 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            $triggerObj->document_srl_list = $document_srl_list;
+            $triggerObj->document_srls = implode(',',$document_srl_list);
             $triggerObj->module_srl = $module_srl;
             $triggerObj->category_srl = $category_srl;
 
