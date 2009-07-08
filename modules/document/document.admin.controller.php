@@ -48,6 +48,17 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
+            $triggerObj->document_srl_list = $document_srl_list;
+            $triggerObj->module_srl = $module_srl;
+            $triggerObj->category_srl = $category_srl;
+
+            // Call trigger (before)
+            $output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $triggerObj);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
             for($i=count($document_srl_list)-1;$i>=0;$i--) {
                 $document_srl = $document_srl_list[$i];
                 $oDocument = $oDocumentModel->getDocument($document_srl);
@@ -137,6 +148,13 @@
 
             // 태그
             $output = executeQuery('tag.updateTagModule', $args);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+            // Call trigger (before)
+            $output = ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $triggerObj);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
