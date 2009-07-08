@@ -151,6 +151,20 @@
             return $output;
         }
 
+        function triggerMoveDocumentModule(&$obj)
+        {
+            $args->module_srl = $obj->module_srl;
+            $args->document_srls = $obj->document_srls;
+            $args->milestone_srl = 0;
+            $args->type_srl = 0;
+            $args->priority_srl = 0;
+            $args->component_srl = 0;
+            $args->resolution_srl = 0;
+
+            $output = executeQuery('issuetracker.updateIssueModule', $args);
+            return $output;
+        }
+
         function insertHistory($target_srl, $objs, $module_srl, $grant)
         {
             $oIssuetrackerModel = &getModel('issuetracker');

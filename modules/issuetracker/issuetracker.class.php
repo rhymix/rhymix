@@ -29,6 +29,9 @@
             // 히스토리(=댓글) 첨부파일 활성화 트리거
             $oModuleController->insertTrigger('issuetracker.insertHistory', 'file', 'controller', 'triggerCommentCheckAttached', 'before');
             $oModuleController->insertTrigger('issuetracker.insertHistory', 'file', 'controller', 'triggerCommentAttachFiles', 'after');
+
+            // movemodule trigger
+            $oModuleController->insertTrigger('document.moveDocumentModule', 'issuetracker', 'controller', 'triggerMoveDocumentModule', 'after');
         }
 
         function checkUpdate()
@@ -44,6 +47,8 @@
             if(!$oModuleModel->getTrigger('issuetracker.insertHistory', 'file', 'controller', 'triggerCommentCheckAttached', 'before')) return true;
             if(!$oModuleModel->getTrigger('issuetracker.insertHistory', 'file', 'controller', 'triggerCommentAttachFiles', 'after')) return true;
             if(!$oDB->isColumnExists('issues_history', 'uploaded_count')) return true;
+
+            if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'issuetracker', 'controller', 'triggerMoveDocumentModule', 'after')) return true;
 
             return false;
         }
@@ -70,6 +75,10 @@
             }
             if(!$oDB->isColumnExists('issues_history', 'uploaded_count')) {
                 $oDB->addColumn('issues_history', 'uploaded_count', 'number', 11, 0);
+            }
+
+            if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'issuetracker', 'controller', 'triggerMoveDocumentModule', 'after')) {
+                $oModuleController->insertTrigger('document.moveDocumentModule', 'issuetracker', 'controller', 'triggerMoveDocumentModule', 'after');
             }
 
             return new Object(0, 'success_updated');
