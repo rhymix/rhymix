@@ -3,7 +3,7 @@
         <table name="issues" />
     </tables>
     <columns>
-        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
         <column name="milestone_srl" var="milestone_srl" filter="number" default="0" />
         <column name="type_srl" var="type_srl" filter="number" default="0" />
         <column name="priority_srl" var="priority_srl" filter="number" default="0" />

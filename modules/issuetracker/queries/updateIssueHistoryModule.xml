@@ -3,7 +3,7 @@
         <table name="issues_history" />
     </tables>
     <columns>
-        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
     </columns>
     <conditions>
         <condition operation="in" column="target_srl" var="document_srls" notnull="notnull" />
