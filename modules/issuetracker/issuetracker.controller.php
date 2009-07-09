@@ -160,8 +160,13 @@
             $args->priority_srl = 0;
             $args->component_srl = 0;
             $args->resolution_srl = 0;
-
             $output = executeQuery('issuetracker.updateIssueModule', $args);
+            if(!$output->toBool()) return $output;
+
+            $args = null;
+            $args->module_srl = $obj->module_srl;
+            $args->document_srls = $obj->document_srls;
+            $output = executeQuery('issuetracker.updateIssueHistoryModule', $args);
             return $output;
         }
 
