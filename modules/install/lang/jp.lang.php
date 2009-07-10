@@ -233,6 +233,7 @@ EndOfLicense;
         'sqlite2' => 'ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセス出来ない場所に作成して下さい。<br />（安定化までのテストは行われていません）',
         'sqlite3_pdo' => 'PHPのPDOを経由うして「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセス出来ない場所に作成して下さい。',
         'cubrid' => 'CUBRID DBを利用します。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
+        'mssql' => 'MSSQL DBを利用します。',
         'postgresql' => 'PostgreSql DBを利用します。',
         'firebird' => 'Firebird DBを利用します。<br />DB生成方法 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );

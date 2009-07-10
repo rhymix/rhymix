@@ -141,6 +141,7 @@ EndOfLicense;
         'sqlite2' => 'Supporting sqlite2 which saves the data into the file.<br />When installing, DB file should be created at unreachable place from web.<br />(Never got tested on stabilization)',
         'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',
         'cubrid' => 'Use CUBRID DB.  <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
+        'mssql' => 'Use MSSQL DB',
         'postgresql' => 'Use PostgreSql DB.',
         'firebird' => 'Use firebird DB.',
     );

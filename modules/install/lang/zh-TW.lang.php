@@ -225,6 +225,7 @@ EndOfLicense;
         'sqlite2' => '支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。<br />(尚未通過安全測試)',
         'sqlite3_pdo' => '用 PHP的 PDO支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。',
         'cubrid' => '使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
+        'mssql' => '使用 MSSQL DB。',
         'postgresql' => '使用 PostgreSql DB。',
         'firebird' => '使用 Firebird DB。<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );
