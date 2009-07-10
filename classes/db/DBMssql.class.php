@@ -150,11 +150,11 @@
             $this->actStart($query);
 
             // 쿼리 문 실행
-			try {
-				@$this->rs->open($query,$this->conn,0,1,1);
-			} catch(Exception $e) {
+			//try {
+				//@$this->rs->open($query,$this->conn,0,1,1);
+			//} catch(Exception $e) {
 				//$this->setError('MSSQL Error in '.$query);
-			}
+			//}
 			
 
             // 쿼리 실행 종료를 알림
