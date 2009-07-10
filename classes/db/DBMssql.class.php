@@ -168,17 +168,17 @@
 			if(!$this->isConnected() || $this->isError() || !$this->rs) return;
 			
 			$output = array();
-			
+			$k = (int)$this->rs->Fields->Count;
 			for($i=0;!$this->rs->EOF;$this->rs->MoveNext(),$i++){ 
 				unset($row);
-				for($j=0;$j<$this->rs->Fields->Count;$j++){ 
+				for($j=0;$j<$k;$j++){ 
 					$row->{$this->rs[$j]->name} = $this->rs[$j]->value;
 				} 
 				$output[$i]=$row; 
 			} 
 			$this->rs->close();
 			$this->rs = null;
-						
+					
 			if(count($output)==1) return $output[0];
             return $output;
         }
@@ -536,10 +536,9 @@
             }
 
             $condition = $this->getCondition($output);
-			
+
 
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
-
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
             if($output->order) {
@@ -558,7 +557,7 @@
 
             if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
 
-            if($output->order) {
+            if($output->order && !preg_match('/count\(\*\)/i',$columns) ) {
                 foreach($output->order as $key => $val) {
 					if(preg_match('/^substr\(/i',$val[0])) $name = preg_replace('/^substr\(/i','substring(',$val[0]);
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
@@ -569,6 +568,7 @@
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('select top %d %s', $output->list_count['value'], $query);
 			else $query = "select ".$query;
+			
             $this->_query($query);
             if($this->isError()) return;
             $data = $this->_fetch();
@@ -647,6 +647,7 @@
 
             if($start_count<1) {
                 $query = sprintf('select top %d %s from %s %s %s %s %s', $list_count, $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $group, $order);
+
             } else {
                 foreach($order_targets as $k => $v) {
 					$first_columns[] = sprintf('%s(%s) as %s', $v=='asc'?'max':'min', $k, $k);
@@ -687,7 +688,7 @@
 			for($i=0;!$this->rs->EOF;$this->rs->MoveNext(),$i++){ 
 				unset($row);
 				for($j=0;$j<$this->rs->Fields->Count;$j++){ 
-					$row->{$this->rs[$j]->key} = $this->rs[$j]->value;
+					$row->{$this->rs[$j]->name} = $this->rs[$j]->value;
 				} 
 				$data[$virtual_no--] = $row; 
 			} 
