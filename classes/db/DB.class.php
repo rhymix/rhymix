@@ -547,6 +547,7 @@
             if(function_exists('ibase_connect')) $result[] = 'FireBird';
             if(function_exists('pg_connect')) $result[] = 'Postgre';
             if(function_exists('sqlite_open')) $result[] = 'sqlite2';
+            if(function_exists('mssql_connect')) $result[] = 'MSSQL';
             if(function_exists('PDO')) $result[] = 'sqlite3(PDO)';
             return $result;
         }
