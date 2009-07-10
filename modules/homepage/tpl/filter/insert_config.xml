@@ -1,5 +1,0 @@
-<filter name="insert_config" module="homepage" act="procHomepageAdminInsertConfig" confirm_msg_code="confirm_submit">
-    <form />
-    <parameter />
-    <response />
-</filter>

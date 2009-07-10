@@ -224,6 +224,7 @@ EndOfLicense;
         'sqlite2' => '支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)',
         'sqlite3_pdo' => '用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。',
         'cubrid' => '使用CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
+        'mssql' => '使用MSSQL DB。',
         'postgresql' => '使用PostgreSql DB。',
         'firebird' => '使用Firebird DB。',
     );

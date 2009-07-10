@@ -1,9 +1,0 @@
-jQuery(function(){
-    jQuery('ul.widgetMenuA.dhtml').find('li')
-        .hover(function(){
-                jQuery('>ul',this).show();
-            }
-            ,function(){
-                jQuery('>ul',this).hide();
-            });
-});

@@ -1,4 +1,0 @@
-<filter name="export_module" module="homepage" act="procHomepageAdminExportModule">
-    <form />
-    <response />
-</filter>

@@ -29,7 +29,7 @@
             // 목록 구함
             $oFileModel = &getAdminModel('file');
             $output = $oFileModel->getFileList($args);
-debugPrint($output);
+
             // 목록의 loop를 돌면서 document를 구하기
             if($output->data) {
                 $oCommentModel = &getModel('comment');

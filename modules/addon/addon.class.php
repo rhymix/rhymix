@@ -24,7 +24,6 @@
             $oAddonController->doInsert('referer');
             $oAddonController->doInsert('resize_image');
             $oAddonController->doInsert('openid_delegation_id');
-            $oAddonController->doInsert('rainbow_link');
             $oAddonController->doInsert('point_level_icon');
 
             // 몇가지 애드온을 기본 활성화 상태로 변경
