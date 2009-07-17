@@ -190,18 +190,11 @@
                 $string = trim(substr($string, $no1+1, $no2-$no1-1));
             }
 
-            // 테이블.필드
-            if(($no1 = strpos($string,'.'))!==false) {
-                $tmpString1 = substr($string, 0, $no1); // table
-                $tmpString2 = substr($string, $no1+1, strlen($string)-$no1+1); // field
+            // (테이블.컬럼) 구조 일때 처리
+            preg_match("/((?i)[a-z0-9_-]+)[.]((?i)[a-z0-9_\-\*]+)/", $string, $matches);
 
-                $tmpString1 = trim($tmpString1);
-                $tmpString2 = trim($tmpString2);
-
-                $tmpString1 = $this->addDoubleQuotes($tmpString1);
-                if($tmpString2 != "*") $tmpString2 = $this->addDoubleQuotes($tmpString2);
-
-                $string = $tmpString1.".".$tmpString2;
+            if($matches) {
+                $string = $this->addDoubleQuotes($matches[1]).".".$this->addDoubleQuotes($matches[2]);
             }
             else {
                 $string = $this->addDoubleQuotes($string);
@@ -221,37 +214,32 @@
                 $tok = strtok(",");
             }
 
-            foreach($values as $val) {
-                if(($no1 = strpos($val,'.'))!==false) {
-                    $tmpString1 = substr($val, 0, $no1); // table
-                    $tmpString2 = substr($val, $no1+1, strlen($val)-$no1+1); // field
-
-                    $tmpString1 = trim($tmpString1);
-                    $tmpString2 = trim($tmpString2);
-
+            foreach($values as $val1) {
+                // (테이블.컬럼) 구조 일때 처리
+                preg_match("/((?i)[a-z0-9_-]+)[.]((?i)[a-z0-9_\-\*]+)/", $val1, $matches);
+                if($matches) {
                     $isTable = false;
-                    foreach($tables as $key => $val) {
-                        if($key == $tmpString1) $isTable = true;
-                        if($val == $tmpString1) $isTable = true;
+
+                    foreach($tables as $key2 => $val2) {
+                        if($key2 == $matches[1]) $isTable = true;
+                        if($val2 == $matches[1]) $isTable = true;
                     }
 
                     if($isTable) {
-                        $tmpString1 = $this->addDoubleQuotes($tmpString1);
-                        if($tmpString2 != "*") $tmpString2 = $this->addDoubleQuotes($tmpString2);
-                        $return[] = $tmpString1.".".$tmpString2;
+                        $return[] = $this->addDoubleQuotes($matches[1]).".".$this->addDoubleQuotes($matches[2]);
                     }
                     else {
-                        $return[] = $tmpString1.".".$tmpString2;
+                        $return[] = $val1;
                     }
                 }
-                else if(!is_numeric($val)) {
-                    if(strpos($val, "'") !== 0)
-                        $return[] = "'".$val."'";
+                else if(!is_numeric($val1)) {
+                    if(strpos($val1, "'") !== 0)
+                        $return[] = "'".$val1."'";
                     else
-                        $return[] = $val;
+                        $return[] = $val1;
                 }
                 else {
-                    $return[] = $val;
+                    $return[] = $val1;
                 }
             }
 
