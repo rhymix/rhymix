@@ -689,6 +689,7 @@
                 $value = str_replace("'", "`", $value);
 
                 if($output->column_type[$name]=="text" || $output->column_type[$name]=="bigtext"){
+                    if(!isset($val['value'])) continue;
                     $blh = ibase_blob_create($this->fd);
                     ibase_blob_add($blh, $value);
                     $value = ibase_blob_close($blh);
