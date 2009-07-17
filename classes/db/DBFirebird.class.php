@@ -547,6 +547,8 @@
                 $auto_increment = $column->attrs->auto_increment;
 
                 if($this->column_type[$type]=='INTEGER') $size = null;
+                else if($this->column_type[$type]=='BIGINT') $size = null;
+                else if($this->column_type[$type]=='BLOB SUB_TYPE TEXT SEGMENT SIZE 32') $size = null;
                 else if($this->column_type[$type]=='VARCHAR' && !$size) $size = 256;
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
