@@ -352,7 +352,7 @@
                         break;
                 }
 
-                if($default && !is_numeric($default)) $default = "'".$default."'";
+                if($default && (!is_numeric($default) || $default[0] == "+")) $default = "'".$default."'";
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
@@ -488,8 +488,9 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = "\"".$this->prefix.$val."\" as ".$key;
+                $table_list[] = "\"".$this->prefix.$val."\" as \"".$key."\"";
             }
+
 
             // 컬럼 정리
             foreach($output->columns as $key => $val) {
