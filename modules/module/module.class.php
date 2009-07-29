@@ -67,7 +67,7 @@
             // sites 테이블에 기본 사이트 정보 입력
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
-            if(!$output->data || !$output->data->index_module_srl) return true;
+            if(!$output->data) return true;
 
             return false;
         }
@@ -269,7 +269,7 @@
             // sites 테이블에 기본 사이트 정보 입력
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
-            if(!$output->data || !$output->data->index_module_srl) {
+            if(!$output->data) {
                 // 기본 mid, 언어 구함
                 $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
                 $db_info = Context::getDBInfo();
@@ -281,14 +281,9 @@
                 $site_args->domain = $domain;
                 $site_args->default_language = $db_info->lang_type;
 
-                if($output->data && !$output->data->index_module_srl) {
-                    $output = executeQuery('module.updateSite', $site_args);
-
-                } else {
-                    $output = executeQuery('module.insertSite', $site_args);
-                    if(!$output->toBool()) return $output;
-                }
-            }
+				$output = executeQuery('module.insertSite', $site_args);
+				if(!$output->toBool()) return $output;
+			}
 
             return new Object(0, 'success_updated');
         }
