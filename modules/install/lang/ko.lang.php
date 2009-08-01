@@ -193,7 +193,7 @@ END OF TERMS AND CONDITIONS
 
 EndOfLicense;
 
-    $lang->install_condition_title = "필수 설치조건을 확인하세요.";
+    $lang->install_condition_title = '필수 설치조건을 확인하세요.';
 
     $lang->install_checklist_title = array(
             'php_version' => 'PHP Version',
@@ -205,37 +205,37 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-            'php_version' => '[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다',
-            'permission' => '[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다',
-            'xml' => '[필수] XML통신을 위하여 XML 라이브러리가 필요합니다',
-            'session' => '[필수] XE에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다',
-            'iconv' => 'UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다',
-            'gd' => '이미지변환 기능을 사용하기 위해 GD라이브러리가 설치되어 있어야 합니다',
+            'php_version' => '[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다.',
+            'permission' => '[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.',
+            'xml' => '[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.',
+            'session' => '[필수] XE에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다.',
+            'iconv' => 'UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다.',
+            'gd' => '이미지변환 기능을 사용하기 위해 GD라이브러리가 설치되어 있어야 합니다.',
         );
 
     $lang->install_checklist_xml = 'XML라이브러리 설치';
-    $lang->install_without_xml = 'xml 라이브러리가 설치되어 있지 않습니다';
+    $lang->install_without_xml = 'xml 라이브러리가 설치되어 있지 않습니다.';
     $lang->install_checklist_gd = 'GD라이브러리 설치';
-    $lang->install_without_gd  = '이미지 변환을 위한 gd 라이브러리가 설치되어 있지 않습니다';
+    $lang->install_without_gd  = '이미지 변환을 위한 GD 라이브러리가 설치되어 있지 않습니다.';
     $lang->install_checklist_gd = 'GD라이브러리 설치';
-    $lang->install_without_iconv = '문자열을 처리하기 위한 iconv 라이브러리가 설치되어 있지 않습니다';
-    $lang->install_session_auto_start = 'php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다';
-    $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다';
+    $lang->install_without_iconv = '문자열을 처리하기 위한 iconv 라이브러리가 설치되어 있지 않습니다.';
+    $lang->install_session_auto_start = 'php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다.';
+    $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다.';
 
-    $lang->cmd_agree_license = '라이선스에 동의합니다';
+    $lang->cmd_agree_license = '라이선스에 동의합니다.';
     $lang->cmd_install_fix_checklist = '필수 설치조건을 설정하였습니다.';
-    $lang->cmd_install_next = '설치를 진행합니다';
+    $lang->cmd_install_next = '설치를 진행합니다.';
     $lang->cmd_ignore = '무시';
 
     $lang->db_desc = array(
         'mysql' => 'mysql DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',
-        'mysql_innodb' => 'mysql DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다',
-        'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다)',
-        'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
+        'mysql_innodb' => 'mysql DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.',
+        'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)',
+        'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
         'cubrid' => 'CUBRID DB를 이용합니다. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'mssql' => 'MSSQL DB를 이용합니다.',
-        'postgresql' => 'PostgreSql을 이용합니다',
-        'firebird' => 'Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
+        'postgresql' => 'PostgreSql을 이용합니다.',
+        'firebird' => 'Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)',
     );
 
     $lang->form_title = 'DB &amp; 관리자 정보 입력';
@@ -248,29 +248,29 @@ EndOfLicense;
     $lang->db_password = 'DB 비밀번호';
     $lang->db_database = 'DB 데이터베이스';
     $lang->db_database_file = 'DB 데이터베이스 파일';
-    $lang->db_table_prefix = '테이블 머릿말';
+    $lang->db_table_prefix = '테이블 머리말';
 
-    $lang->admin_title = '관리자정보';
+    $lang->admin_title = '관리자 정보';
 
     $lang->env_title = '환경 설정';
     $lang->use_optimizer = 'Optimizer 사용';
-    $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/ JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다';
+    $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다.';
     $lang->use_rewrite = 'rewrite mod 사용';
     $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
-    $lang->time_zone = 'time zone';
-    $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 time zone을 지정하시면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다';
+    $lang->time_zone = '표준 시간대';
+    $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하시면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.';
     $lang->qmail_compatibility = 'Qmail 호환';
     $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
 
-    $lang->about_database_file = 'Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>';
+    $lang->about_database_file = 'Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다.<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>';
 
-    $lang->success_installed = '설치가 되었습니다';
-    $lang->success_updated = '업데이트가 되었습니다';
+    $lang->success_installed = '설치가 되었습니다.';
+    $lang->success_updated = '업데이트가 되었습니다.';
 
-    $lang->msg_cannot_proc = '설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다';
-    $lang->msg_already_installed = '이미 설치가 되어 있습니다';
-    $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요";
-    $lang->msg_table_is_exists = "이미 DB에 테이블이 생성되어 있습니다.\nconfig파일을 재생성하였습니다";
-    $lang->msg_install_completed = "설치가 완료되었습니다.\n감사합니다";
-    $lang->msg_install_failed = '설치 파일 생성시에 오류가 발생하였습니다.';
+    $lang->msg_cannot_proc = '설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다.';
+    $lang->msg_already_installed = '이미 설치가 되어 있습니다.';
+    $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요.";
+    $lang->msg_table_is_exists = "이미 DB에 테이블이 생성되어 있습니다.\nconfig파일을 재생성하였습니다.";
+    $lang->msg_install_completed = "설치가 완료되었습니다.\n감사합니다.";
+    $lang->msg_install_failed = '설치 파일 생성 시에 오류가 발생하였습니다.';
 ?>

@@ -1,12 +1,12 @@
 <?php
     /**
-     * @file   ko.lang.php
+     * @file   modules/communication/lang/ko.lang.php
      * @author zero (zero@nzeo.com)
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
     $lang->communication = '커뮤니케이션';
-    $lang->about_communication = '회원간의 쪽지나 친구 관리등 커뮤니케이션 기능을 수행하는 모듈입니다';
+    $lang->about_communication = '회원 간의 쪽지나 친구 관리 등 커뮤니케이션 기능을 수행하는 모듈입니다.';
 
     $lang->allow_message = '쪽지 수신 허용';
     $lang->allow_message_type = array(
@@ -37,12 +37,12 @@
     $lang->cmd_add_friend_group = '친구 그룹 추가';
     $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
 
-    $lang->msg_no_message = '쪽지가 없습니다';
-    $lang->message_received = '쪽지가 왔습니다';
+    $lang->msg_no_message = '쪽지가 없습니다.';
+    $lang->message_received = '쪽지가 왔습니다.';
 
-    $lang->msg_title_is_null = '쪽지 제목을 입력해주세요';
-    $lang->msg_content_is_null = '내용을 입력해주세요';
-    $lang->msg_allow_message_to_friend = '친구에게만 쪽지 수신을 허용한 사용자라서 쪽지 발송을 하지 못했습니다';
-    $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다';
-    $lang->about_allow_message = '쪽지 수신 여부를 결정할 수 있습니다';
+    $lang->msg_title_is_null = '쪽지 제목을 입력해주세요.';
+    $lang->msg_content_is_null = '내용을 입력해주세요.';
+    $lang->msg_allow_message_to_friend = '친구에게만 쪽지 발송을 허용한 사용자라서 쪽지 발송을 하지 못했습니다.';
+    $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다.';
+    $lang->about_allow_message = '쪽지 수신 여부를 결정할 수 있습니다.';
 ?>

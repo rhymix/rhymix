@@ -22,20 +22,20 @@
     $lang->enable_download_group = '다운로드 가능 그룹';
 
     $lang->about_allow_outlink = '리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다.(*.wmv, *.mp3등 미디어 파일 제외)';
-    $lang->about_allow_outlink_format = '파일 외부 링크 설정에 관계 없이 허용하는 파일 확장자입니다. 여러개 입력시에 쉼표(,)을 이용해서 구분해주세요.<br />eg)hwp,doc,zip,pdf';
-    $lang->about_allow_outlink_site = '파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요.<br />eg)http://www.zeroboard.com';
+    $lang->about_allow_outlink_format = '파일 외부 링크 설정에 상관없이 허용하는 파일 확장자입니다. 여러 개 입력 시에 쉼표(,)을 이용해서 구분해주세요.<br />eg)hwp,doc,zip,pdf';
+    $lang->about_allow_outlink_site = '파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다. 여러 개 입력 시에 줄을 바꿔서 구분해주세요.<br />eg)http://www.zeroboard.com';
     $lang->about_allowed_filesize = '하나의 파일에 대해 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
     $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최고 용량을 지정할 수 있습니다. (관리자는 제외)';
-    $lang->about_allowed_filetypes = '허용한 확장자만 첨부할 수 있습니다. "*.확장자"로 지정할 수 있고 ";" 으로 여러개 지정이 가능합니다.<br />ex) *.* or *.jpg;*.gif;<br />(관리자는 제외)';
+    $lang->about_allowed_filetypes = '허용한 확장자만 첨부할 수 있습니다. "*.확장자"로 지정할 수 있고 ";" 으로 여러 개 지정이 가능합니다.<br />ex) *.* or *.jpg;*.gif;<br />(관리자는 제외)';
 
     $lang->cmd_delete_checked_file = '선택항목 삭제';
     $lang->cmd_move_to_document = '문서로 이동';
     $lang->cmd_download = '다운로드';
 
-    $lang->msg_not_permitted_download = '다운로드 할 수 있는 권한이 없습니다';
-    $lang->msg_cart_is_null = '삭제할 파일을 선택해주세요';
-    $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다';
-    $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다';
+    $lang->msg_not_permitted_download = '다운로드 할 수 있는 권한이 없습니다.';
+    $lang->msg_cart_is_null = '삭제할 파일을 선택해주세요.';
+    $lang->msg_checked_file_is_deleted = '%d개의 첨부파일이 삭제되었습니다.';
+    $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다.';
     $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
 
     $lang->file_search_target_list = array(

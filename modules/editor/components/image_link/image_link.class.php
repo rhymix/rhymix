@@ -58,15 +58,17 @@
 
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
             $src = str_replace('&amp;amp;', '&amp;', $src);
+
+            if(!$alt) $alt = $src;
             // 이미지 주소를 request uri가 포함된 주소로 변환 (rss출력, 등등을 위함)
             $temp_src = explode('/', $src);
             if($temp_src[0]=='.') $src = Context::getRequestUri().substr($src, 2);
-            elseif($temp_src[0]=='' && $src) {
+            elseif(substr($src , 0 , 1)=='/') {
                 if($_SERVER['HTTPS']=='on') $http_src = 'https://';
                 else $http_src = 'http://';
                 $src = $http_src.$_SERVER['HTTP_HOST'].$src;
             }
-            if(!$alt) $alt = $src;
+            elseif(!strpos($temp_src[0],':') && $src) $src = Context::getRequestUri().$src;
 
             $attr_output = array();
             $attr_output = array("src=\"".$src."\"");
