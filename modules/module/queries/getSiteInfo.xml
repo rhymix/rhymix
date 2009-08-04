@@ -4,11 +4,26 @@
         <table name="modules" />
     </tables>
     <columns>
+        <column name="modules.site_srl" alias="module_site_srl" />
+        <column name="modules.module_srl" alias="module_srl" />
+        <column name="modules.module" alias="module" />
+        <column name="modules.module_category_srl" alias="module_category_srl" />
+        <column name="modules.layout_srl" alias="layout_srl" />
+        <column name="modules.menu_srl" alias="menu_srl" />
+        <column name="modules.mid" alias="mid" />
+        <column name="modules.skin" alias="skin" />
+        <column name="modules.browser_title" alias="browser_title" />
+        <column name="modules.description" alias="description" />
+        <column name="modules.is_default" alias="is_default" />
+        <column name="modules.content" alias="content" />
+        <column name="modules.open_rss" alias="open_rss" />
+        <column name="modules.header_text" alias="header_text" />
+        <column name="modules.footer_text" alias="footer_text" />
+        <column name="modules.regdate" alias="regdate" />
         <column name="sites.site_srl" alias="site_srl" />
         <column name="sites.domain" alias="domain" />
         <column name="sites.index_module_srl" alias="index_module_srl" />
         <column name="sites.default_language" alias="default_language" />
-        <column name="modules.*" />
     </columns>
     <conditions>
         <condition operation="equal" column="sites.site_srl" var="site_srl" notnull="notnull" />
