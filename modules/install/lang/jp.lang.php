@@ -241,7 +241,7 @@ EndOfLicense;
     $lang->form_title = 'データベース &amp; 管理者情報入力';
     $lang->db_title = 'データベース情報入力';
     $lang->db_type = 'データベースの種類';
-    $lang->select_db_type = '使用するデータベースを選択して下さい。';
+    $lang->select_db_type = '使用するデータベース種類を選択して下さい。';
     $lang->db_hostname = 'ホスト名';
     $lang->db_port = 'ポート番号';
     $lang->db_userid = 'ユーザＩＤ';
