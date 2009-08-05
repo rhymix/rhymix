@@ -95,7 +95,7 @@
                 // 네트웍 상태로 데이터를 가져오지 못할 상황을 고려해 일단 filemtime을 변경하여 관리자 페이지 refresh시에 다시 읽ㅇ 오지 않도록 함
                 // 뉴스를 보지는 못하지만 관리자 페이지 접속은 이상없도록 함
                 FileHandler::writeFile($cache_file,'');
-                FileHandler::getRemoteFile($newest_news_url, $cache_file);
+                FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
             }
 
             if(file_exists($cache_file)) {
