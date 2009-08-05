@@ -121,6 +121,9 @@
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
             $args->default_language = Context::getLangType();
+            $output = executeQuery('module.getSiteInfoByDomain', $args);
+            if($output->data) return new Object(-1,'msg_already_registed_vid');
+
             $output = executeQuery('module.insertSite', $args);
             if(!$output->toBool()) return $output;
 
