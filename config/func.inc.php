@@ -220,6 +220,21 @@
     }
 
     /**
+     * @brief getUrl()의 값에 request uri를 추가하여 reutrn
+     * full url을 얻기 위함
+     **/
+    function getFullUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+        if(!$num_args) return Context::getRequestUri();
+
+        $url = Context::getUrl($num_args, $args_list);
+        if(!preg_match('/^http/i',$url)) return substr(Context::getRequestUri(),0,-1).$url;
+        return $url;
+    }
+
+    /**
      * @brief Context::getUrl()를 쓰기 쉽게 함수로 선언
      * @return string
      *

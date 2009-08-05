@@ -966,8 +966,7 @@
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-            $find_url = getUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$args->auth_key);
-            if(!preg_match('/^http/i',$find_url)) $find_url = substr(Context::getRequestUri(),0,-1).$find_url;
+            $find_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$args->auth_key);
             Context::set('find_url',$find_url);
 
 
@@ -1076,6 +1075,9 @@
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
+            $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
+            Context::set('auth_url', $auth_url);
+
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 
@@ -1118,17 +1120,13 @@
             $output = executeQuery('member.chkAuthMail', $chk_args);
             if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
 
-            // 인증 메일 재발송
-            $auth_args->email_address = $auth_info->email_address = $args->email_address;
-
-            $output = executeQuery('member.getAuthMail', $auth_args);
-
-			$auth_info->auth_key = $output->data->auth_key;
+            $auth_args->member_srl = $member_info->member_srl;
+            $output = executeQueryArray('member.getAuthMailInfo', $auth_args);
+            if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
+            $auth_info = $output->data[0];
 
             // 메일 내용을 구함
-            Context::set('auth_args', $auth_info);
             Context::set('member_info', $member_info);
-
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             if(!$member_config->skin) $this->member_config->skin = "default";
@@ -1138,6 +1136,9 @@
 
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+
+            $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
+            Context::set('auth_url', $auth_url);
 
 	        $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
@@ -1586,6 +1587,9 @@
 
 	            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 	            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+
+                $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$args->member_srl, 'auth_key',$auth_args->auth_key);
+                Context::set('auth_url', $auth_url);
 
 	            $oTemplate = &TemplateHandler::getInstance();
                 $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
