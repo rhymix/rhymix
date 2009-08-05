@@ -269,7 +269,7 @@
         /**
          * @brief 원격파일을 다운받아 return
          **/
-        function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array()) {
+        function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
             set_include_path(_XE_PATH_."libs/PEAR");
             require_once('PEAR.php');
             require_once('HTTP/Request.php');
@@ -278,16 +278,26 @@
                 $oRequest = new HTTP_Request(__PROXY_SERVER__);
                 $oRequest->setMethod('POST');
                 $oRequest->_timeout = $timeout;
-                $oRequest->addPostData('arg', serialize(array('Destination'=>$url, 'method'=>$method, 'body'=>$body, 'content_type'=>$content_type, "headers"=>$headers)));
+                $oRequest->addPostData('arg', serialize(array('Destination'=>$url, 'method'=>$method, 'body'=>$body, 'content_type'=>$content_type, "headers"=>$headers, "post_data"=>$post_data)));
             } else {
                 $oRequest = new HTTP_Request($url);
-                if(!$content_type) $oRequest->addHeader('Content-Type', 'text/html');
-                else $oRequest->addHeader('Content-Type', $content_type);
                 if(count($headers)) {
                     foreach($headers as $key => $val) {
                         $oRequest->addHeader($key, $val);
                     }
                 }
+                if($cookies[$host]) {
+                    foreach($cookies[$host] as $key => $val) {
+                        $oRequest->addCookie($key, $val);
+                    }
+                }
+                if(count($post_data)) {
+                    foreach($post_data as $key => $val) {
+                        $oRequest->addPostData($key, $val);
+                    }
+                }
+                if(!$content_type) $oRequest->addHeader('Content-Type', 'text/html');
+                else $oRequest->addHeader('Content-Type', $content_type);
                 $oRequest->setMethod($method);
                 if($body) $oRequest->setBody($body);
 
@@ -298,17 +308,20 @@
 
             $code = $oRequest->getResponseCode();
             $header = $oRequest->getResponseHeader();
-            $body = $oRequest->getResponseBody();
+            $response = $oRequest->getResponseBody();
+            if($c = $oRequest->getResponseCookies()) {
+                foreach($c as $k => $v) {
+                    $cookies[$host][$v['name']] = $v['value'];
+                }
+            }
 
-            if($code == 301 || $code == 302) {
-                $url = $header['location'];
-                if($url) return FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
-                else return;
+            if($code > 300 && $code < 399 && $header['location']) {
+                return FileHandler::getRemoteResource($header['location'], $body, $timeout, $method, $content_type, $headers, $cookies, $post_data);
             } 
 
             if($code != 200) return;
 
-            return $body;
+            return $response;
         }
 
         /**

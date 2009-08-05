@@ -110,11 +110,17 @@
                 //if($this->module && $module_info->module != $this->module) unset($module_info);
             }
 
-            // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
-            if(!$module_info && !$this->module) {
-                $module_info = clone($site_module_info);
-                $module_info->site_srl = $module_info->module_site_srl;
+            // module_site_srl과 site_srl 값이 다르면 redirect 시도
+            if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0) {
+                $site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
+                header("location:".getSiteUrl($site_info->domain,'mid',$site_module_info->mid));
+                return false;
             }
+
+            // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
+            if(!$module_info && !$this->module) $module_info = $site_module_info;
+
+            if(!$module_info && !$this->module && $site_module_info->module_site_srl) $module_info = $site_module_info;
 
             // 모듈정보와 사이트 모듈정보가 다르면(다른 사이트이면) 페이지 리다이렉트
             if($module_info && $module_info->site_srl != $site_module_info->site_srl) {
