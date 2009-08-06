@@ -7,9 +7,14 @@
         XE 기본 문서 서식입니다.
         있는 그대로 표시가 될 뿐 편집/ 출력시 아무런 영향을 끼치지 않습니다.
     </description>
+    <description xml:lang="jp">
+        XEの基本ドキュメント書式です。
+        そのまま表示されるだけで、編集・出力には影響しません。
+    </description>
     <version>0.0.1</version>
     <date>2009-05-23</date>
     <author email_address="webmaster@naradesign.net" link="http://naradesign.net">
         <name xml:lang="ko">정찬명</name>
+        <name xml:lang="jp">Chan-Myung Jeong</name>
     </author>
 </skin>
