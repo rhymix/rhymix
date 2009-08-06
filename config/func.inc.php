@@ -226,11 +226,15 @@
     function getFullUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
-
-        if(!$num_args) return Context::getRequestUri();
+		$request_uri = Context::getRequestUri();
+        if(!$num_args) return $request_uri;
 
         $url = Context::getUrl($num_args, $args_list);
-        if(!preg_match('/^http/i',$url)) return substr(Context::getRequestUri(),0,-1).$url;
+        if(!preg_match('/^http/i',$url)){
+			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+			$url = Context::getUrl($num_args, $args_list);
+			return substr($match[0],0,-1).$url;
+		}
         return $url;
     }
 
@@ -251,6 +255,29 @@
         $num_args = count($args_list);
 
         return Context::getUrl($num_args, $args_list, $domain);
+    }
+
+    /**
+     * @brief getSiteUrl()의 값에 request uri를 추가하여 reutrn
+     * full url을 얻기 위함
+     **/
+    function getFullSiteUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+		$request_uri = Context::getRequestUri();
+        if(!$num_args) return $request_uri;
+
+        $domain = array_shift($args_list);
+        $num_args = count($args_list);
+
+        $url = Context::getUrl($num_args, $args_list, $domain);
+        if(!preg_match('/^http/i',$url)){
+			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+			$url = Context::getUrl($num_args, $args_list);
+			return substr($match[0],0,-1).$url;
+		}
+        return $url;
     }
 
     /**
