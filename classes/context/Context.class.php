@@ -763,7 +763,7 @@
          **/
         function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             $oContext = &Context::getInstance();
-            return $oContext->_getUrl($num_args, $args_list, $domain);
+            return $oContext->_getUrl($num_args, $args_list, $domain, $encode);
         }
 
         /**
