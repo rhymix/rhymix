@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">SMS 위젯</title>
+    <version>0.1.dev</version>
+    <date>2009-08-07</date>
+
+    <author email_address="bnu@perbiz.co.kr" link="http://perbiz.co.kr">
+        <name xml:lang="ko">Perbiz</name>
+    </author>
+
+    <extra_vars>
+        <var id="re_cpcs">
+            <type>text</type>
+            <name xml:lang="ko">회신번호</name>
+        </var>
+    </extra_vars>
+</widget>

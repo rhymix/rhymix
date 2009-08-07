@@ -1,0 +1,53 @@
+<!--%import("css/common.css")-->
+<!--%import("js/sms_widget.js")-->
+<!--%import("../../../../modules/sms/tpl/js/sms.lib.js")-->
+<!--%import("filter/sms_send.xml")-->
+
+
+<div class="widgets smsxe">
+	<fieldset class="container">
+
+		<div class="bth_addressbook">
+			<a href="{getUrl('act', 'dispSmsGroupMember')}"><span class="d">&lt;</span> 주소록 보기</a>
+		</div>
+
+		<div class="search_area">
+			<form action="./" method="post" id="fo_sms_widget_search">
+				<input type="text" name="search" class="input_box" title="아이디/닉네임 검색" /><input type="submit" value="검색" class="btn_search" />
+			</form>
+		</div>
+
+		<form action="./" method="post" id="fo_sms_widget" onsubmit="return procFilter(this, sms_send);">
+		<input type="hidden" name="add_pcs_total" value="10" />
+			<textarea name="send_content" class="content"></textarea>
+
+			<div class="status">
+				<span class="status_byte">0</span> / <span class="limit_byte">80</span>Byte&nbsp;&nbsp;<span class="status_count">1</span>건
+			</div>
+
+			<div class="send_pcs_list">
+				<ul>
+					<li><span>0</span>1<input type="text" name="add_pcs_1" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>2<input type="text" name="add_pcs_2" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>3<input type="text" name="add_pcs_3" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>4<input type="text" name="add_pcs_4" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>5<input type="text" name="add_pcs_5" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>6<input type="text" name="add_pcs_6" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>7<input type="text" name="add_pcs_7" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>8<input type="text" name="add_pcs_8" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li><span>0</span>9<input type="text" name="add_pcs_9" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+					<li>10<input type="text" name="add_pcs_10" value="" maxlength="16" /><img src="./images/btn_delete.gif" class="btn_delete" alt="삭제" /></li>
+				</ul>
+			</div>
+
+			<div class="return_pcs">
+				<span>보내는 사람</span><input type="text" name="rec_pcs" value="{$sms_info->rec_pcs}" />
+			</div>
+
+			<div class="submit_area">
+				<input type="button" class="btn_appoint" value="예약발송" /><input type="submit" value="보내기" class="btn_submit" />
+			</div>
+		</form>
+
+	</fieldset>
+</div>
