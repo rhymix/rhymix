@@ -219,6 +219,15 @@
         return Context::getUrl($num_args, $args_list);
     }
 
+    function getNoEncodeUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+        if(!$num_args) return Context::getRequestUri();
+
+        return Context::getUrl($num_args, $args_list, null, false);
+    }
+
     /**
      * @brief getUrl()의 값에 request uri를 추가하여 reutrn
      * full url을 얻기 위함
@@ -233,6 +242,21 @@
         if(!preg_match('/^http/i',$url)){
 			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
 			$url = Context::getUrl($num_args, $args_list);
+			return substr($match[0],0,-1).$url;
+		}
+        return $url;
+    }
+
+    function getNoEncodeFullUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+		$request_uri = Context::getRequestUri();
+        if(!$num_args) return $request_uri;
+
+        $url = Context::getUrl($num_args, $args_list);
+        if(!preg_match('/^http/i',$url)){
+			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+			$url = Context::getUrl($num_args, $args_list, null, false);
 			return substr($match[0],0,-1).$url;
 		}
         return $url;
@@ -255,6 +279,18 @@
         $num_args = count($args_list);
 
         return Context::getUrl($num_args, $args_list, $domain);
+    }
+
+    function getNoEncodedSiteUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+        if(!$num_args) return Context::getRequestUri();
+
+        $domain = array_shift($args_list);
+        $num_args = count($args_list);
+
+        return Context::getUrl($num_args, $args_list, $domain, false);
     }
 
     /**

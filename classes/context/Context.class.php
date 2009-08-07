@@ -761,7 +761,7 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function getUrl($num_args=0, $args_list=array(), $domain = null) {
+        function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             $oContext = &Context::getInstance();
             return $oContext->_getUrl($num_args, $args_list, $domain);
         }
@@ -769,7 +769,7 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function _getUrl($num_args=0, $args_list=array(), $domain = null) {
+        function _getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             static $site_module_info = null;
 
             // 가상 사이트 정보를 구함
@@ -892,7 +892,9 @@
                 else if($domain) $query = $this->getRequestUri(FOLLOW_REQUEST_SSL, $domain).$query;
                 else $query = getScriptPath().$query;
             }
-            return htmlspecialchars($query);
+
+            if($encode) return htmlspecialchars($query);
+            return $query;
         }
 
         /**
