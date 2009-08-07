@@ -213,7 +213,7 @@
 	
 	$lang->edit->move = '移動';
 	$lang->edit->refresh = '再読み込み';
-	$lang->edit->materials = '文財保存箱';
+	$lang->edit->materials = 'ネタ保存箱';
 	$lang->edit->temporary_savings = '下書きリスト';
 
 	$lang->edit->drag_here = '下の段落追加ツールバーから、好きなタイプの段落を追加してから書き込みを始めて下さい。<br />文面テンプレート保存箱の中からここにドラッグ・アンド・ドロップ出来ます。';
