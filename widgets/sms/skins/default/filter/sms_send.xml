@@ -1,9 +1,0 @@
-<filter name="sms_send" module="sms" act="sendSmsDirectPerbizSend" confirm_msg_code="confirm_submit">
-	<form>
-		<node name="send_pcs" target="send_pcs" filter="phone" />
-	</form>
-	<response callback_func="completeSendSms">
-		<tag name="error" />
-		<tag name="message" />
-	</response>
-</filter>
