@@ -219,7 +219,7 @@
         return Context::getUrl($num_args, $args_list);
     }
 
-    function getNoEncodeUrl() {
+    function getNotEncodeUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 
@@ -247,7 +247,7 @@
         return $url;
     }
 
-    function getNoEncodeFullUrl() {
+    function getNotEncodeFullUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 		$request_uri = Context::getRequestUri();
@@ -281,7 +281,7 @@
         return Context::getUrl($num_args, $args_list, $domain);
     }
 
-    function getNoEncodedSiteUrl() {
+    function getNotEncodedSiteUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 
