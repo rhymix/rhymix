@@ -7,8 +7,8 @@
 
     $lang->multimedia_url = '멀티미디어 경로';
     $lang->multimedia_caption = '설명 입력';
-    $lang->multimedia_width = '가로 크기';
-    $lang->multimedia_height = '세로 크기';
+    $lang->multimedia_width = '너비';
+    $lang->multimedia_height = '높이';
     $lang->multimedia_auto_start = '자동 시작';
     $lang->multimedia_wmode = '위치';
 

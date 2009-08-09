@@ -6,8 +6,8 @@
      **/
 
     $lang->image_gallery = '이미지 갤러리 제작';
-    $lang->width = '가로 크기';
-    $lang->height = '세로 크기';
+    $lang->width = '너비';
+    $lang->height = '높이';
     $lang->image_list = '이미지 목록';
     $lang->gallery_style = '갤러리 형식 ';
     $lang->gallery_slide_style = '슬라이드 형식';

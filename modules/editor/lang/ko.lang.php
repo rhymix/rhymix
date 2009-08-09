@@ -172,10 +172,10 @@
 	$lang->edit->set_sel = '칸 수 지정';
 	$lang->edit->row = '행';
 	$lang->edit->col = '열';
-	$lang->edit->add_one_row = '1행추가';
-	$lang->edit->del_one_row = '1행삭제';
-	$lang->edit->add_one_col = '1열추가';
-	$lang->edit->del_one_col = '1열삭제';
+	$lang->edit->add_one_row = '1행 추가';
+	$lang->edit->del_one_row = '1행 삭제';
+	$lang->edit->add_one_col = '1열 추가';
+	$lang->edit->del_one_col = '1열 삭제';
 
 	$lang->edit->table_config = '표 속성 지정';
 	$lang->edit->border_width = '테두리 굵기';
