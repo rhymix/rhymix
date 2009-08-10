@@ -214,7 +214,7 @@
     $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요.";
     $lang->msg_invalid_queryid = 'Query ID값이 잘못 지정되었습니다.';
     $lang->msg_not_permitted = '권한이 없습니다.';
-    $lang->msg_input_password = '비밀번호를 입력하여 주세요.';
+    $lang->msg_input_password = '비밀번호를 입력하세요.';
     $lang->msg_invalid_document = '잘못된 문서번호입니다.';
     $lang->msg_invalid_request = '잘못된 요청입니다.';
     $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다.';
@@ -226,7 +226,7 @@
 
     $lang->msg_not_permitted_act = '요청하신 기능을 실행할 수 있는 권한이 없습니다.';
     $lang->msg_module_is_not_exists = "시작 모듈이 설정되어 있지 않습니다.\n관리자 페이지에서 시작 모듈을 설정해주세요.";
-    $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수가 없습니다.';
+    $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수 없습니다.';
 
     $lang->success_registed = '등록 되었습니다.';
     $lang->success_declared = '신고 되었습니다.';
@@ -283,30 +283,30 @@
     $lang->ftp_port = 'FTP port';
     $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
     $lang->about_ftp_info = "
-        FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
-        1. PHP의 safe_mode=On일 경우에 FTP 정보를 이용해서 XE를 정상적으로 동작할 수 있게 합니다.<br/>
-        2. 자동 업데이트 등에서 FTP 정보를 이용할 수 있습니다.<br/>
-        이 FTP정보는 files/config/ftp.config.php 파일 내에 정보가 저장됩니다.<br/>
-        그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
+        FTP 정보는 다음 경우에 이용될 수 있습니다.<br />
+        1. PHP의 safe_mode=On일 경우, FTP 정보를 이용해서 XE가 정상적으로 동작할 수 있게 합니다.<br />
+        2. 자동 업데이트 등에서 FTP 정보를 이용할 수 있습니다.<br />
+        이 FTP정보는 files/config/ftp.config.php 파일 내에 정보가 저장됩니다.<br />
+        설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = 'PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다.';
+    $lang->msg_safe_mode_ftp_needed = 'PHP의 safe_mode가 On일 경우, FTP 정보를 입력하셔야 XE 설치 및 사용이 가능합니다.';
     $lang->msg_ftp_not_connected = 'localhost로의 FTP 접속 오류가 발생하였습니다. FTP 포트 번호를 확인해주시거나 FTP 서비스가 가능한지 확인해주세요.';
     $lang->msg_ftp_invalid_auth_info = '입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.';
-    $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
-    $lang->msg_ftp_chmod_fail = 'FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
+    $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
+    $lang->msg_ftp_chmod_fail = 'FTP를 이용한 디렉토리의 속성 변경에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
     $lang->msg_ftp_connect_success = 'FTP 접속 및 인증 성공하였습니다.';
 
     // xml filter에서 사용되는 javascript용 alert msg
     $lang->filter->isnull = '%s의 값을 입력해주세요.';
-    $lang->filter->outofrange = '%s의 글자 길이를 맞추어 주세요.';
+    $lang->filter->outofrange = '%s의 글자 수를 맞추어 주세요.';
     $lang->filter->equalto = '%s의 값이 잘못 되었습니다.';
     $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: xe@xpressengine.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문, 숫자와 _로 만드실 수 있으며, 첫 글자는 영문이어야 합니다.";
     $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)';
-    $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력해주셔야 합니다.';
-    $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력해주셔야 합니다.';
-    $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력해주셔야 합니다.';
-    $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력해주셔야 합니다.';
-    $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력해주셔야 합니다.';
+    $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력하셔야 합니다.';
+    $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력하셔야 합니다.';
+    $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력하셔야 합니다.';
+    $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력하셔야 합니다.';
+    $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.';
 ?>

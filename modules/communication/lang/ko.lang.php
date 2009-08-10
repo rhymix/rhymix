@@ -21,7 +21,7 @@
         'T' => '보관함',
     );
 
-    $lang->readed_date = '읽은 시간'; 
+    $lang->readed_date = '읽은 시간';
 
     $lang->sender = '보낸이';
     $lang->receiver = '받는이';

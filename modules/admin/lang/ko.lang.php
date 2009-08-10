@@ -28,7 +28,7 @@
 
     $lang->env_setup = '환경 설정';
     $lang->default_url = '기본 URL';
-    $lang->about_default_url = 'XE 가상 사이트(cafeXE등)의 기능을 사용할 때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글, 모듈 등의 연결이 정상적으로 이루어집니다. (예: http://도메인/설치경로)';
+    $lang->about_default_url = 'XE 가상 사이트(cafeXE 등)의 기능을 사용할 때 기본 URL을 입력하셔야 가상 사이트간 인증 연동이 되고 게시글, 모듈 등의 연결이 정상적으로 이루어집니다. (예: http://도메인/설치경로)';
 
 
     $lang->env_information = '환경 정보';
@@ -53,7 +53,7 @@
 
     $lang->msg_is_not_administrator = '관리자만 접속이 가능합니다.';
     $lang->msg_manage_module_cannot_delete = '모듈, 애드온, 레이아웃, 위젯 모듈의 바로가기는 삭제 불가능합니다.';
-    $lang->msg_default_act_is_null = '기본 관리자 Action이 지정되어 있지 않아 바로가기 등록을 할 수가 없습니다.';
+    $lang->msg_default_act_is_null = '기본 관리자 Action이 지정되어 있지 않아 바로가기 등록을 할 수 없습니다.';
 
     $lang->welcome_to_xe = 'XE 관리자';
     $lang->about_lang_env = '처음 방문하는 사용자들의 언어 설정을 동일하게 하려면, 원하는 언어로 변경 후 아래 [저장] 버튼을 클릭하시면 됩니다.';
@@ -66,7 +66,7 @@
 
     $lang->cmd_lang_select = '언어선택';
     $lang->about_cmd_lang_select = '선택된 언어들만 서비스 됩니다.';
-    $lang->about_recompile_cache = '쓸모 없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다.';
+    $lang->about_recompile_cache = '쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다.';
     $lang->use_ssl = 'SSL 사용';
     $lang->ssl_options = array(
         'none' => '사용 안함',

@@ -19,5 +19,5 @@
     $lang->urllink_open_window = '새 창 열기';
     $lang->about_url_link_open_window = '선택하시면 링크 선택 시 새 창으로 열립니다.';
 
-    $lang->cmd_get_scale = '크기 구하기';
+    $lang->cmd_get_scale = '가로세로 구하기';
 ?>
