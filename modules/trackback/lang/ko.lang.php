@@ -12,7 +12,7 @@
 
     $lang->send_trackback_url = '발송할 주소';
     $lang->msg_trackback_url_is_invalid = '발송할 대상 url이 올바르지 않습니다.';
-    $lang->msg_trackback_send_success = '엮인글 발송을 성공하였습니다.';
+    $lang->msg_trackback_send_success = '엮인글 발송에 성공하였습니다.';
 
     $lang->search_target_list = array(
         'url' => '대상 URL',

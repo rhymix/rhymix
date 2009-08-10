@@ -28,17 +28,17 @@
     $lang->group_srl = '그룹번호';
     $lang->signature = '서명';
     $lang->profile_image = '프로필 사진';
-    $lang->profile_image_max_width = '가로 제한 크기';
-    $lang->profile_image_max_height = '세로 제한 크기';
+    $lang->profile_image_max_width = '가로 제한 길이';
+    $lang->profile_image_max_height = '세로 제한 길이';
     $lang->image_name = '이미지 이름';
-    $lang->image_name_max_width = '가로 제한 크기';
-    $lang->image_name_max_height = '세로 제한 크기';
+    $lang->image_name_max_width = '가로 제한 길이';
+    $lang->image_name_max_height = '세로 제한 길이';
     $lang->image_mark = '이미지 마크';
-    $lang->image_mark_max_width = '가로 제한 크기';
-    $lang->image_mark_max_height = '세로 제한 크기';
+    $lang->image_mark_max_width = '가로 제한 길이';
+    $lang->image_mark_max_height = '세로 제한 길이';
     $lang->group_image_mark = '그룹 이미지 마크';
-    $lang->group_image_mark_max_width = '가로 제한 크기';
-    $lang->group_image_mark_max_height = '세로 제한 크기';
+    $lang->group_image_mark_max_width = '가로 제한 길이';
+    $lang->group_image_mark_max_height = '세로 제한 길이';
     $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->signature_max_height = '서명 높이 제한';
     $lang->enable_openid = 'OpenID 지원';
@@ -76,13 +76,13 @@
         'user_id' => '아이디',
         'user_name' => '이름',
         'nick_name' => '닉네임',
-        'email_address' => '메일주소',
+        'email_address' => '메일 주소',
         'regdate' => '가입일시',
         'regdate_more' => '가입일시(이상)',
         'regdate_less' => '가입일시(이하)',
-        'last_login' => '최근로그인일시',
-        'last_login_more' => '최근로그인일시(이상)',
-        'last_login_less' => '최근로그인일시(이하)',
+        'last_login' => '최근 로그인 일시',
+        'last_login_more' => '최근 로그인 일시(이상)',
+        'last_login_less' => '최근 로그인 일시(이하)',
         'extra_vars' => '확장변수',
     );
 
@@ -116,7 +116,7 @@
     $lang->msg_alreay_scrapped = '이미 스크랩된 게시물입니다.';
 
     $lang->msg_cart_is_null = '대상을 선택해주세요.';
-    $lang->msg_checked_file_is_deleted = "%d개의 첨부파일이 삭제되었습니다.";
+    $lang->msg_checked_file_is_deleted = "%d개의 첨부 파일이 삭제되었습니다.";
 
     $lang->msg_find_account_title = '아이디/비밀번호 정보입니다.';
     $lang->msg_find_account_info = '요청하신 계정 정보는 아래와 같습니다.';
@@ -138,7 +138,7 @@
     $lang->msg_not_exists_member = '존재하지 않는 사용자입니다.';
     $lang->msg_cannot_delete_admin = '관리자 아이디는 삭제할 수 없습니다. 관리자 해제 후 다시 삭제시도해주세요.';
     $lang->msg_exists_user_id = '이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.';
-    $lang->msg_exists_email_address = '이미 존재하는 메일주소입니다. 다른 메일주소를 입력해주세요.';
+    $lang->msg_exists_email_address = '이미 존재하는 메일 주소입니다. 다른 메일 주소를 입력해주세요.';
     $lang->msg_exists_nick_name = '이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요.';
     $lang->msg_signup_disabled = '회원 가입을 하실 수 없습니다.';
     $lang->msg_already_logged = '이미 회원 가입을 하신 상태입니다.';
@@ -146,10 +146,10 @@
     $lang->msg_insert_group_name = '그룹명을 입력해 주세요.';
     $lang->msg_check_group = '그룹을 선택해 주세요.';
 
-    $lang->msg_not_uploaded_profile_image = '프로필 이미지를 등록할 수가 없습니다.';
-    $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수가 없습니다.';
-    $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수가 없습니다.';
-    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수가 없습니다.';
+    $lang->msg_not_uploaded_profile_image = '프로필 이미지를 등록할 수 없습니다.';
+    $lang->msg_not_uploaded_image_name = '이미지 이름을 등록할 수 없습니다.';
+    $lang->msg_not_uploaded_image_mark = '이미지 마크를 등록할 수 없습니다.';
+    $lang->msg_not_uploaded_group_image_mark = '그룹 이미지 마크를 등록할 수 없습니다.';
 
     $lang->msg_accept_agreement = '약관에 동의하셔야 합니다.';
 
@@ -188,22 +188,22 @@
     $lang->about_after_login_url = '로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_after_logout_url = '로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.';
     $lang->about_redirect_url = '회원 가입 후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다.';
-    $lang->about_agreement = '회원가입약관이 없을 경우 표시되지 않습니다.';
+    $lang->about_agreement = '회원 가입 약관이 없을 경우 표시되지 않습니다.';
 
     $lang->about_image_name = '사용자의 이름을 글자 대신 이미지로 사용할 수 있게 합니다.';
     $lang->about_image_mark = '사용자의 이름 앞에 마크를 달 수 있습니다.';
     $lang->about_group_image_mark = '사용자의 이름 앞에 그룹 마크를 달 수 있습니다.';
     $lang->about_profile_image = '사용자의 프로필 이미지를 사용할 수 있게 합니다.';
-    $lang->about_signature_max_height = '서명란의 높이를 제한 할 수 있습니다. (0 또는 비워두면 제한하지 않습니다)';
+    $lang->about_signature_max_height = '서명란의 높이를 제한 할 수 있습니다. (0 또는 비워두면 제한하지 않습니다.)';
     $lang->about_accept_agreement = '약관을 모두 읽었으며 동의합니다.';
 
     $lang->about_member_default = '회원가입시 기본 그룹으로 설정됩니다.';
 
-    $lang->about_openid = '오픈아이디로 가입시 아이디와 메일 등의 기본 정보는 이 사이트에 저장이 되지만 비밀번호와 인증을 위한 처리는 해당 오픈아이디 제공서비스에서 이루어집니다.';
+    $lang->about_openid = '오픈아이디로 가입시 아이디와 메일 등의 기본 정보는 이 사이트에 저장 되지만 비밀번호와 인증을 위한 처리는 해당 오픈아이디 제공서비스에서 이루어집니다.';
     $lang->about_openid_leave = '오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다.';
     $lang->about_find_member_account = '아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다.<br />가입할 때 등록하신 메일 주소를 입력하시고 "아이디/비밀번호 찾기" 버튼을 클릭해주세요.<br />';
 
-    $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입 폼 관리 등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입 폼 관리를 통한 기본 정보외의 추가 정보를 요구받을 수도 있습니다.";
+    $lang->about_member = "회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입 폼 관리 등을 할 수 있는 회원 관리 모듈입니다.\n기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입 폼 관리를 통한 기본 정보외의 추가 정보를 요구할 수도 있습니다.";
     $lang->about_ssl_port = '기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요.';
     $lang->add_openid = '오픈아이디 추가';
 

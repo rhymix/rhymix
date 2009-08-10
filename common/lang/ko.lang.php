@@ -295,7 +295,7 @@
     $lang->msg_ftp_invalid_auth_info = '입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.';
     $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
     $lang->msg_ftp_chmod_fail = 'FTP를 이용한 디렉토리의 속성 변경에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
-    $lang->msg_ftp_connect_success = 'FTP 접속 및 인증 성공하였습니다.';
+    $lang->msg_ftp_connect_success = 'FTP 접속 및 인증에 성공하였습니다.';
 
     // xml filter에서 사용되는 javascript용 alert msg
     $lang->filter->isnull = '%s의 값을 입력해주세요.';

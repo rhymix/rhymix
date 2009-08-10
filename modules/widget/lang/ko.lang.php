@@ -16,7 +16,7 @@
     $lang->widget_cache = '캐시';
 
     $lang->widget_fix_width = '크기 고정';
-    $lang->widget_width = '가로 크기';
+    $lang->widget_width = '가로 길이';
     $lang->widget_position = '위치';
     $lang->widget_position_none = '줄 바꿈';
     $lang->widget_position_left = '왼쪽';
@@ -26,8 +26,8 @@
     $lang->widget_margin_right = '오른쪽';
     $lang->widget_margin_bottom = '아래 ';
     $lang->widget_margin_left= '왼쪽';
-    $lang->about_widget_fix_width = '선택하시면 가로 크기가 고정됩니다.';
-    $lang->about_widget_width = '가로 크기를 입력해주세요.';
+    $lang->about_widget_fix_width = '선택하시면 가로 길이가 고정됩니다.';
+    $lang->about_widget_width = '가로 길이를 입력해주세요.';
     $lang->about_widget_position = '한 줄에 여러 개의 위젯을 나열하고 싶을 때는 위치를 선택해주세요.';
     $lang->about_widget_margin = '지정된 위젯의 상하좌우 여백을 지정할 수 있습니다.';
     $lang->about_widget_cache = '지정된 시간동안 캐시된 데이터를 이용할 수 있습니다.';

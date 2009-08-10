@@ -66,7 +66,7 @@
 
     $lang->cmd_lang_select = '언어선택';
     $lang->about_cmd_lang_select = '선택된 언어들만 서비스 됩니다.';
-    $lang->about_recompile_cache = '쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다.';
+    $lang->about_recompile_cache = '쓸모 없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다.';
     $lang->use_ssl = 'SSL 사용';
     $lang->ssl_options = array(
         'none' => '사용 안함',
