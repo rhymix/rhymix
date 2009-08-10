@@ -232,7 +232,7 @@ EndOfLicense;
         'mysql_innodb' => 'mysql DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.',
         'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)',
         'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',
-        'cubrid' => 'CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/?mid=wiki&entry=Cubrid+Database%EC%97%90+XE+%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0" onclick="window.open(this.href);return false;" class="manual">manual</a>',
+        'cubrid' => 'CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'mssql' => 'MSSQL DB를 이용합니다.',
         'postgresql' => 'PostgreSql을 이용합니다.',
         'firebird' => 'Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)',
