@@ -88,7 +88,7 @@ function Tree(url){
                     parent_srl = 0;
                 }
 
-                jQuery.exec_json("board.procDocumentMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
+                jQuery.exec_json("document.procDocumentMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
                 function(data){
                     jQuery('#category_info').html('');
                    if(data.error > 0) Tree(xml_url);
