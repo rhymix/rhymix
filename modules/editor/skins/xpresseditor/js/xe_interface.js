@@ -53,7 +53,10 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     var elAppContainer   = jQuery('.xpress-editor', form).get(0);
 
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
-
+	oEditor.getContent = function(){
+		editorGetContentTextarea_xe(editor_sequence);
+	}
+	
     var content = form[content_key].value;
     if(xFF && !content) content = '<p>&nbsp;</p>';
 
