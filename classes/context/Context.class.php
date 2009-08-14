@@ -450,6 +450,8 @@
          * @brief 사이트 title return
          **/
         function _getBrowserTitle() {
+            $oModuleController = &getController('module');
+            $oModuleController->replaceDefinedLangCode($this->site_title);
             return $this->site_title;
         }
 
