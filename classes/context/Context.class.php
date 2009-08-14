@@ -443,7 +443,7 @@
          **/
         function getBrowserTitle() {
             $oContext = &Context::getInstance();
-            return $oContext->_getBrowserTitle();
+            return htmlspecialchars($oContext->_getBrowserTitle());
         }
 
         /**
