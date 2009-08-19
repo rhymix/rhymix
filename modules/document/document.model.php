@@ -170,6 +170,10 @@
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
 
+            // 제외 module_srl에 대한 검사
+            if(is_array($obj->exclude_module_srl)) $args->exclude_module_srl = implode(',', $obj->exclude_module_srl);
+            else $args->exclude_module_srl = $obj->exclude_module_srl;
+
             // 변수 체크
             $args->category_srl = $obj->category_srl?$obj->category_srl:null;
             $args->sort_index = $obj->sort_index;
@@ -278,6 +282,7 @@
                 // division값이 없다면 제일 상위
                 if(!$division) {
                     $division_args->module_srl = $args->module_srl;
+                    $division_args->exclude_module_srl = $args->exclude_module_srl;
                     $division_args->list_count = 1;
                     $division_args->sort_index = $args->sort_index;
                     $division_args->order_type = $args->order_type;
@@ -295,6 +300,7 @@
                 // 지정된 division에서부터 5000개 후의 division값을 구함
                 if(!$last_division) {
                     $last_division_args->module_srl = $args->module_srl;
+                    $last_division_args->exclude_module_srl = $args->exclude_module_srl;
                     $last_division_args->list_count = 1;
                     $last_division_args->sort_index = $args->sort_index;
                     $last_division_args->order_type = $args->order_type;
@@ -312,6 +318,7 @@
                 if($last_division) {
                     $last_division_args = null;
                     $last_division_args->module_srl = $args->module_srl;
+                    $last_division_args->exclude_module_srl = $args->exclude_module_srl;
                     $last_division_args->list_order = $last_division;
                     $output = executeQuery("document.getDocumentDivisionCount", $last_division_args);
                     if($output->data->count<1) $last_division = null;

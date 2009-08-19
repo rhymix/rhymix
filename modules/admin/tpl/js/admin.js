@@ -50,9 +50,3 @@ function doAdminLogout() {
     exec_xml('admin','procAdminLogout',new Array(), function() { location.reload(); });
 }
 
-function insertSelectedModule(id, module_srl, mid, browser_title) {
-    var obj= xGetElementById('_'+id);
-    var sObj = xGetElementById(id);
-    sObj.value = module_srl;
-    obj.value = browser_title+' ('+mid+')';
-}

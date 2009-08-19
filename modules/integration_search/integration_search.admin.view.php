@@ -19,7 +19,6 @@
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $this->config = $oModuleModel->getModuleConfig('integration_search');
-            if(!$this->config->target_mid) $this->config->target_mid = array();
             Context::set('config',$this->config);
 
             $this->setTemplatePath($this->module_path."/tpl/");

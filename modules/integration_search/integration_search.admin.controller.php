@@ -23,7 +23,9 @@
             $config = $oModuleModel->getModuleConfig('integration_search');
 
             $args->skin = Context::get('skin');
-            $args->target_mid = explode('|@|',Context::get('target_mid'));
+            $args->target = Context::get('target');
+            $args->target_module_srl = Context::get('target_module_srl');
+            if(!$args->target_module_srl) $args->target_module_srl = '';
             $args->skin_vars = $config->skin_vars;
 
             $oModuleController = &getController('module');
@@ -39,7 +41,7 @@
             $config = $oModuleModel->getModuleConfig('integration_search');
 
             $args->skin = $config->skin;
-            $args->target_mid = $config->target_mid;
+            $args->target_module_srl = $config->target_module_srl;
 
             // 스킨의 정보를 구해옴 (extra_vars를 체크하기 위해서)
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $config->skin);

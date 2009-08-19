@@ -15,6 +15,9 @@
 
     $lang->is_result_text = "<strong>'%s'</strong>に対する検索結果<strong>%d</strong>件";
     $lang->multimedia = '画像/動画';
+    
+    $lang->include_search_target = '選択された対象のみ';
+    $lang->exclude_search_target = '選択した対象を検索から除外';
 
     $lang->is_search_option = array(
         'document' => array(

@@ -15,6 +15,9 @@
 
     $lang->is_result_text = "<strong>'%s'</strong> 에 대한 검색결과 <strong>%d</strong>건";
     $lang->multimedia = '이미지/동영상';
+    
+    $lang->include_search_target = '선택된 대상만 검색';
+    $lang->exclude_search_target = '선택된 대상을 검색에서 제외';
 
     $lang->is_search_option = array(
         'document' => array(

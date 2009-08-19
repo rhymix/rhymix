@@ -15,9 +15,12 @@
         /**
          * @brief 게시글 검색
          **/
-        function getDocuments($module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20) {
-            if(is_array($module_srls_list)) $args->module_srl = implode(',',$module_srls_list);
-            else $args->module_srl = $module_srls_list;
+        function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20) {
+            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
+            else $module_srls = $module_srls_list;
+            if($target == 'exclude') $args->exclude_module_srl = $module_srls;
+            else $args->module_srl = $module_srls;
+
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
@@ -34,9 +37,11 @@
         /**
          * @brief 댓글 검색
          **/
-        function getComments($module_srls_list, $search_keyword, $page=1, $list_count = 20) {
-            if(is_array($module_srls_list)) $args->module_srl = implode(',',$module_srls_list);
-            else $args->module_srl = $module_srls_list;
+        function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
+            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
+            else $module_srls = $module_srls_list;
+            if($target == 'exclude') $args->exclude_module_srl = $module_srls;
+            else $args->module_srl = $module_srls;
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
@@ -55,9 +60,11 @@
         /**
          * @brief 엮인글 검색
          **/
-        function getTrackbacks($module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20) {
-            if(is_array($module_srls_list)) $args->module_srl = implode(',',$module_srls_list);
-            else $args->module_srl = $module_srls_list;
+        function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20) {
+            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
+            else $module_srls = $module_srls_list;
+            if($target == 'exclude') $args->exclude_module_srl = $module_srls;
+            else $args->module_srl = $module_srls;
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
@@ -76,9 +83,11 @@
         /**
          * @brief 파일 검색
          **/
-        function _getFiles($module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y') {
-            if(is_array($module_srls_list)) $args->module_srl = implode(',',$module_srls_list);
-            else $args->module_srl = $module_srls_list;
+        function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y') {
+            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
+            else $module_srls = $module_srls_list;
+            if($target == 'exclude') $args->exclude_module_srl = $module_srls;
+            else $args->module_srl = $module_srls;
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
@@ -161,15 +170,15 @@
         /**
          * @brief 멀티미디어 검색
          **/
-        function getImages($module_srls_list, $search_keyword, $page=1, $list_count = 20) {
-            return $this->_getFiles($module_srls_list, $search_keyword, $page, $list_count);
+        function getImages($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
+            return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count);
         }
 
         /**
          * @brief 첨부파일 검색
          **/
-        function getFiles($module_srls_list, $search_keyword, $page=1, $list_count = 20) {
-            return $this->_getFiles($module_srls_list, $search_keyword, $page, $list_count, 'N');
+        function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
+            return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, 'N');
         }
 
     }

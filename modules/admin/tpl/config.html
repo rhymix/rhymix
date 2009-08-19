@@ -6,6 +6,15 @@
 <!--%import("../../install/lang")-->
 <!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
 
+<script type="text/javascript">
+    function insertSelectedModule(id, module_srl, mid, browser_title) {
+        var obj= xGetElementById('_'+id);
+        var sObj = xGetElementById(id);
+        sObj.value = module_srl;
+        obj.value = browser_title+' ('+mid+')';
+    }
+</script>
+
 <div class="content">
     <!--@if($logged_info->is_admin == 'Y')-->
         <p class="path">
