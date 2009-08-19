@@ -378,7 +378,10 @@
          **/
         function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
             $type = $this->column_type[$type];
-            if(strtoupper($type)=='INTEGER') $size = '';
+            if(strtoupper($type)=='INTEGER') $size = null;
+            else if(strtoupper($type)=='BIGINT') $size = null;
+            else if(strtoupper($type)=='BLOB SUB_TYPE TEXT SEGMENT SIZE 32') $size = null;
+            else if(strtoupper($type)=='VARCHAR' && !$size) $size = 256;
 
             $query = sprintf("ALTER TABLE \"%s%s\" ADD \"%s\" ", $this->prefix, $table_name, $column_name);
             if($size) $query .= sprintf(" %s(%s) ", $type, $size);
