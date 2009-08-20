@@ -16,7 +16,7 @@
     $lang->multimedia = "Images/ Movies";
     
     $lang->include_search_target = 'Search for selected modules';
-    $lang->exclude_search_target = 'Exclude selected modules for search';
+    $lang->exclude_search_target = 'Exclude selected modules from search';
 
     $lang->is_search_option = array(
         'document' => array(
