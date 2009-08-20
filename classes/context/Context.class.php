@@ -103,6 +103,7 @@
 
             // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
             if(!$this->lang_type) $this->lang_type = "en";
+            if(is_array($lang_supported)&&!isset($lang_supported[$this->lang_type])) $this->lang_type = 'en';
 
             Context::set('lang_supported', $lang_supported);
             $this->setLangType($this->lang_type);
