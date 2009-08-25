@@ -29,7 +29,8 @@
             ) $this->gz_enabled = true;
 
             // request method에 따른 컨텐츠 결과물 추출 
-            if(Context::getRequestMethod() == 'XMLRPC') $output = $this->_toXmlDoc($oModule);
+            if(Context::get('xeVirtualRequestMethod')=='xml') $output = $this->_toVirtualXmlDoc($oModule);
+            else if(Context::getRequestMethod() == 'XMLRPC') $output = $this->_toXmlDoc($oModule);
             else if(Context::getRequestMethod() == 'JSON') $output = $this->_toJSON($oModule);
             else $output = $this->_toHTMLDoc($oModule);
 
@@ -178,6 +179,32 @@
             return $json;
         }
 
+        /**
+         * @brief RequestMethod가 virtualXML이면 성공, 실패, redirect에 대해 컨텐츠 생성
+         **/
+        function _toVirtualXmlDoc(&$oModule) {
+            $error = $oModule->getError();
+            $message = $oModule->getMessage();
+            $redirect_url = $oModule->get('redirect_url');
+            $request_uri = Context::get('xeRequestURI');
+
+            if($error === 0) {
+                if($message != 'success') $output->message = $message;
+                if($redirect_url) $output->url = $redirect_url;
+                else $output->url = $request_uri;
+            } else {
+                if($message != 'fail') $output->message = $message;
+            }
+
+            $html = '<script type="text/javascript">'."\n";
+            if($output->message) $html .= 'alert("'.$output->message.'");'."\n";
+            if($output->url) {
+                $output->url = preg_replace('/#(.+)$/i','',$output->url);
+                $html .= 'top.location.href = "'.$output->url.'";'."\n";
+            }
+            $html .= '</script>'."\n";
+            return $html;
+        }
 
         /**
          * @brief RequestMethod가 XML이면 XML 데이터로 컨텐츠 생성

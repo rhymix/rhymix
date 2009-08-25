@@ -774,6 +774,7 @@
          **/
         function _getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             static $site_module_info = null;
+            static $current_info = null;
 
             // 가상 사이트 정보를 구함
             if(is_null($site_module_info)) $site_module_info = Context::get('site_module_info');
@@ -793,9 +794,10 @@
             // $domain값이 있을 경우 현재 요청된 도메인과 비교해서 동일할 경우 제거 그렇지 않으면 http 프로토콜을 제거하고 제일 뒤에 / 를 붙임
             if($domain) {
                 $domain_info = parse_url($domain);
-                $current_info = parse_url($_SERVER['HTTP_HOST'].getScriptPath());
-                if($domain_info['host'].$domain_info['path']==$current_info['host'].$current_info['path']) unset($domain);
-                else {
+                if(is_null($current_info)) $current_info = parse_url(($_SERVER['HTTPS']=='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].getScriptPath());
+                if($domain_info['host'].$domain_info['path']==$current_info['host'].$current_info['path']) {
+                    unset($domain); 
+                } else {
                     $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
                     if(substr($domain,-1) != '/') $domain .= '/';
                 }
@@ -882,17 +884,23 @@
                 }
             }
             
-            // XE가 설치된 절대 경로를 구해서 query를 완성
-
             // 항상 SSL을 이용하고 현재 SSL이 아닌 경우 https에 대한 prefix를 붙임
             if(Context::get('_use_ssl')=='always') {
-                if($_SERVER['HTTPS']!='on') $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
+                $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
             // 상황에 따라 혹은 지정된 대상만 SSL 취급될 경우
+            } elseif(Context::get('_use_ssl')=='optional') {
+                $ssl_mode = RELEASE_SSL;
+                if($get_vars['act'] && $this->_isExistsSSLAction($get_vars['act'])) $ssl_mode = ENFORCE_SSL;
+                $query = $this->getRequestUri($ssl_mode, $domain).$query;
+            // SSL 을 사용하지 않을 경우
             } else {
                 // SSL상태인데 대상이 SSL이 아닌 경우
-                if($_SERVER['HTTPS']=='on') $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
-                // SSL 상태가 아니면 domain값에 따라 query 완성
+                if($_SERVER['HTTPS']=='on' ) $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
+
+                // $domain 값이 있을 경우
                 else if($domain) $query = $this->getRequestUri(FOLLOW_REQUEST_SSL, $domain).$query;
+
+                // $domain 값이 없을 경우
                 else $query = getScriptPath().$query;
             }
 
@@ -908,7 +916,6 @@
 
             // HTTP Request가 아니면 패스
             if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
-
             if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
             if($domain) $domain_key = md5($domain);

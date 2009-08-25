@@ -43,7 +43,7 @@ function XEUploaderStart(obj) {
 
     var settings = {
         flash_url : request_uri+"modules/editor/tpl/images/SWFUpload.swf",
-        upload_url: request_uri,
+        upload_url: request_uri.replace(/^https/i,'http'),
         post_params: {
             "mid" : current_mid,
             "act" : "procFileUpload",

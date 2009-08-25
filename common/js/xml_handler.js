@@ -94,6 +94,71 @@ function zGetXmlHttp() {
 }
 
 function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj) {
+    // ssl action
+    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && typeof(this.params['act'])!='undefined') {
+        var action = this.params['act'];
+        for(i=0;i<ssl_actions.length;i++) {
+            if(ssl_actions[i]==action) {
+                this.xml_path = this.xml_path.replace(/^http:\/\//i,'https://');
+                break;
+            }
+        }
+    }
+
+    var _u1 = xCreateElement('a');
+    _u1.href = location.href;
+    var _u2 = xCreateElement('a');
+    _u2.href = this.xml_path;
+
+    // 현 url과 ajax call 대상 url의 schema 또는 port가 다르면 직접 form 전송
+    if(_u1.protocol != _u2.protocol || _u1.port != _u2.port) {
+        var fr = xGetElementById('xeTmpIframe');
+        if(!fr) {
+            fr = xCreateElement('iframe');
+            fr.style.position = 'absolute';
+            fr.style.left = '-1px';
+            fr.style.top = '1px';
+            fr.style.width = '1px';
+            fr.style.height = '1px';
+            fr.name = fr.id = 'xeTmpIframe';
+            document.body.appendChild(fr);
+        }
+
+        var fo = xGetElementById('xeVirtualForm');
+        if(fo) document.body.removeChild(fo);
+
+        fo = xCreateElement('form');
+        fo.id = 'xeVirtualForm';
+        fo.action = this.xml_path;
+        fo.method = 'post';
+        fo.target = 'xeTmpIframe';
+
+        var i = xCreateElement('input');
+        i.type = 'hidden';
+        i.name = 'xeVirtualRequestMethod';
+        i.value = 'xml';
+        fo.appendChild(i);
+
+        var j = xCreateElement('input');
+        j.type = 'hidden';
+        j.name = 'xeRequestURI';
+        j.value = location.href;
+        fo.appendChild(j);
+
+        for (var key in this.params) {
+            if(!this.params.hasOwnProperty(key)) continue;
+            var i = xCreateElement('input');
+            i.type = 'hidden';
+            i.name = key;
+            i.value = this.params[key];
+            fo.appendChild(i);
+        }
+        document.body.appendChild(fo);
+        fo.submit();
+
+        return;
+    }
+
     var rd = "";
     rd += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
     +  "<methodCall>\n"
@@ -108,16 +173,6 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
     rd += "</params>\n"
     +  "</methodCall>\n";
 
-    // ssl action
-    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && typeof(this.params['act'])!='undefined' && /^https:\/\//i.test(location.href) ) {
-        var action = this.params['act'];
-        for(i=0;i<ssl_actions.length;i++) {
-            if(ssl_actions[i]==action) {
-                this.xml_path = this.xml_path.replace(/^http:\/\//i,'https://');
-                break;
-            }
-        }
-    }
 
     if(this.objXmlHttp.readyState!=0) {
         this.objXmlHttp.abort();
