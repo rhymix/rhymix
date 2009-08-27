@@ -175,7 +175,7 @@
 			}
 
 			// 오류 체크
-			if(!$result) $this->setError(print_r(sqlsrv_errors()));
+			if(!$result) $this->setError(print_r(sqlsrv_errors(),true));
 						
             // 쿼리 실행 종료를 알림
             $this->actFinish();
