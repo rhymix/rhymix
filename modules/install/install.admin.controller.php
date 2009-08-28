@@ -110,7 +110,7 @@
                 $buff .= sprintf("%s,%s\n", $langs[$i], $lang_supported[$langs[$i]]);
 
             }
-            FileHandler::writeFile(_XE_PATH_.'files/cache/lang_selected.info', trim($buff));
+            FileHandler::writeFile(_XE_PATH_.'files/config/lang_selected.info', trim($buff));
 
             $this->setMessage('success_updated');
         }

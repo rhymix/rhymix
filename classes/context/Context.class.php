@@ -317,7 +317,15 @@
             static $lang_selected = null;
             if(is_null($lang_selected)) {
                 $orig_lang_file = _XE_PATH_.'common/lang/lang.info';
-                $selected_lang_file = _XE_PATH_.'files/cache/lang_selected.info';
+                $selected_lang_file = _XE_PATH_.'files/config/lang_selected.info';
+                if(!file_exists($selected_lang_file) || !filesize($selected_lang_file)) {
+                    $old_selected_lang_file = _XE_PATH_.'files/cache/lang_selected.info';
+                    if(file_exists($old_selected_lang_file)) {
+                        FileHandler::copyFile($old_selected_lang_file, $selected_lang_file);
+                        FileHandler::removeFile($old_selected_lang_file);
+                    }
+                }
+
                 if(!file_exists($selected_lang_file) || !filesize($selected_lang_file)) {
                     $buff = FileHandler::readFile($orig_lang_file);
                     FileHandler::writeFile($selected_lang_file, $buff);
