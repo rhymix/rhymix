@@ -424,6 +424,7 @@
          * @brief column, condition등의 key에 default 값을 세팅
          **/
         function getDefault($name, $value) {
+            $db_info = Context::getDBInfo ();
             if(!$value) return;
             $str_pos = strpos($value, '(');
             if($str_pos===false) return '"'.$value.'"';
@@ -446,15 +447,30 @@
                     break;
                 case 'plus' :
                         $args = abs($args);
-                        $val = sprintf('"%s+%d"', $name, $args);
+                        if ($db_info->db_type == 'cubrid') {
+                            $val = sprintf ('"\\"%s\\"+%d"', $name, $args);
+                        }
+                        else {
+                            $val = sprintf('"%s+%d"', $name, $args);
+                        }
                     break;
                 case 'minus' :
                         $args = abs($args);
-                        $val = sprintf('"%s-%d"', $name, $args);
-					break;
-				case 'multiply' :
-						$args = intval($args);
-                        $val = sprintf('"%s*%d"', $name, $args);
+                        if ($db_info->db_type == 'cubrid') {
+                            $val = sprintf ('"\\"%s\\"-%d"', $name, $args);
+                        }
+                        else {
+                            $val = sprintf('"%s-%d"', $name, $args);
+                        }
+                        break;
+                case 'multiply' :
+			$args = intval($args);
+                        if ($db_info->db_type == 'cubrid') {
+                            $val = sprintf ('"\\"%s\\"*%d"', $name, $args);
+                        }
+                        else {
+                            $val = sprintf('"%s*%d"', $name, $args);
+                        }
                     break;
             }
 

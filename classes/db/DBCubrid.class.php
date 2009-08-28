@@ -322,16 +322,16 @@
 
             $table_name = $this->prefix.$table_name;
 
-            $query = sprintf('create class %s;', $table_name);
+            $query = sprintf('create class "%s";', $table_name);
             $this->_query($query);
 
-            $query = sprintf("call change_owner('%s','%s') on class db_root;", $table_name, $this->userid);
-            $this->_query($query);
+            /*$query = sprintf("call change_owner('%s','%s') on class db_root;", $table_name, $this->userid);
+            $this->_query($query); */
 
             if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
             else $columns = $xml_obj->table->column;
 
-            $query = sprintf("alter class %s add attribute ", $table_name);
+            $query = sprintf("alter class \"%s\" add attribute ", $table_name);
 
             foreach($columns as $column) {
                 $name = $column->attrs->name;
@@ -384,7 +384,7 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    $query = sprintf("create index %s_%s on %s (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
+                    $query = sprintf("create index \"%s_%s\" on %s (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
                     $this->_query($query);
                 }
             }
@@ -488,19 +488,18 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = "\"".$this->prefix.$val."\" as \"".$key."\"";
+                $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
-
 
             // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
-                                for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
-                                    if ($output->columns[$i]['name'] == $name) break;
-                                }
-                                if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
+                for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
+                    if ($output->columns[$i]['name'] == $name) break;
+                }
+                if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') {
@@ -571,7 +570,7 @@
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
                 if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as "'.$key  . '" on (' . $condition . ')';
+                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" "'.$key  . '" on (' . $condition . ')';
                 }
             }
 
@@ -618,6 +617,18 @@
 
                 if ($output->order) {
                   foreach($output->order as $key => $val) {
+                      if ($val[0] != 'count') {
+                        if (strpos ($val[0], '.')) {
+                          $tmpval = explode ('.', $val[0]);
+                          $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                          $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                          $val[0] = implode ('.', $tmpval);
+                        }
+                        elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                        else {
+                          $val[0] = sprintf ('"%s"', $val[0]);
+                        }
+                      }
                       $index_list[] = sprintf('%s %s', $val[0]=='count'?'count(*)':$val[0], $val[1]);
                   }
                   if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
@@ -638,6 +649,18 @@
 
                 if($output->order) {
                     foreach($output->order as $key => $val) {
+                        if ($val[0] != 'count') {
+                          if (strpos ($val[0], '.')) {
+                            $tmpval = explode ('.', $val[0]);
+                            $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                            $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                            $val[0] = implode ('.', $tmpval);
+                          }
+                          elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                          else {
+                            $val[0] = sprintf ('"%s"', $val[0]);
+                          }
+                        }
                         $index_list[] = sprintf('%s %s', $val[0]=='count'?'count(*)':$val[0], $val[1]);
                     }
                     if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
@@ -762,6 +785,18 @@
 
             if ($output->order) {
               foreach($output->order as $key => $val) {
+                if ($val[0] != 'count') {
+                  if (strpos ($val[0], '.')) {
+                    $tmpval = explode ('.', $val[0]);
+                    $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                    $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                    $val[0] = implode ('.', $tmpval);
+                  }
+                  elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                  else {
+                    $val[0] = sprintf ('"%s"', $val[0]);
+                  }
+                }
                 $index_list[] = sprintf('%s %s', $val[0], $val[1]);
               }
               if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
