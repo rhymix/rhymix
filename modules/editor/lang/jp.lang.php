@@ -225,4 +225,6 @@
 	$lang->edit->paging_next_help = '次のページへ移動します。';
 
 	$lang->edit->toc = 'リスト';
+
+	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
 ?>
