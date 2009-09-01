@@ -99,8 +99,20 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
         var action = this.params['act'];
         for(i=0;i<ssl_actions.length;i++) {
             if(ssl_actions[i]==action) {
-                this.xml_path = this.xml_path.replace(/^http:\/\//i,'https://');
-                break;
+                var url = request_uri;
+                if(typeof(default_url)!='undefined' && default_url) url = default_url;
+                var port = 443;
+                if(typeof(https_port)!='undefined' && https_port != 443) port = https_port;
+                var _u1 = xCreateElement('a');
+                _u1.href = url;
+                var targetUrl = '';
+                if(port == 443) targetUrl = 'https://';
+                else targetUrl = 'http://';
+                targetUrl += _u1.hostname;
+                if(port != 443) targetUrl += ':'+port;
+                targetUrl += _u1.pathname;
+                targetUrl = targetUrl.replace(/\/$/,'');
+                this.xml_path = targetUrl + '/index.php';
             }
         }
     }
@@ -142,8 +154,14 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
         var j = xCreateElement('input');
         j.type = 'hidden';
         j.name = 'xeRequestURI';
-        j.value = location.href;
+        j.value = location.href.replace(/#(.*)$/i,'');
         fo.appendChild(j);
+
+        var k = xCreateElement('input');
+        k.type = 'hidden';
+        k.name = 'xeVirtualRequestUrl';
+        k.value = request_uri;
+        fo.appendChild(k);
 
         for (var key in this.params) {
             if(!this.params.hasOwnProperty(key)) continue;

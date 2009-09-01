@@ -187,6 +187,8 @@
             $message = $oModule->getMessage();
             $redirect_url = $oModule->get('redirect_url');
             $request_uri = Context::get('xeRequestURI');
+            $request_url = Context::get('xeVirtualRequestUrl');
+            if(substr($request_url,-1)!='/') $request_url .= '/';
 
             if($error === 0) {
                 if($message != 'success') $output->message = $message;
@@ -199,8 +201,8 @@
             $html = '<script type="text/javascript">'."\n";
             if($output->message) $html .= 'alert("'.$output->message.'");'."\n";
             if($output->url) {
-                $output->url = preg_replace('/#(.+)$/i','',$output->url);
-                $html .= 'top.location.href = "'.$output->url.'";'."\n";
+                $url = preg_replace('/#(.+)$/i','',$output->url);
+                $html .= 'location.href = "'.$request_url.'common/tpl/redirect.html?redirect_url='.urlencode($url).'";'."\n";
             }
             $html .= '</script>'."\n";
             return $html;
