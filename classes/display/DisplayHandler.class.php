@@ -202,7 +202,7 @@
             if($output->message) $html .= 'alert("'.$output->message.'");'."\n";
             if($output->url) {
                 $url = preg_replace('/#(.+)$/i','',$output->url);
-                $html .= 'location.href = "'.$request_url.'common/tpl/redirect.html?redirect_url='.urlencode($url).'";'."\n";
+                $html .= 'self.location.href = "'.$request_url.'common/tpl/redirect.html?redirect_url='.urlencode($url).'";'."\n";
             }
             $html .= '</script>'."\n";
             return $html;

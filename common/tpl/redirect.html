@@ -12,10 +12,15 @@
             var args = {};
             query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
-            url = args['redirect_url'];
-            if(typeof(q)=="undefined" || !q) url = top.location.href.replace(/#(.*)$/i,'');
+            url = unescape(args['redirect_url']);
+            if(typeof(q)=="undefined" || !q) url = "../../";
         }
-        top.location.href = url;
+        if(typeof(opener)!='undefined' && opener) {
+            opener.location.href = url;
+            window.close();
+        } else {
+            top.location.href = url;
+        }
     </script>
 </body>
 </html>
