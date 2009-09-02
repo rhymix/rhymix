@@ -85,6 +85,11 @@
                 // site_module_info를 구함
                 $oModuleModel = &getModel('module');
                 $site_module_info = $oModuleModel->getDefaultMid();
+                // site_module_info의 site_srl = 0 일 경우 db_config의 default_url과 비교
+                if($site_module_info->site_srl == 0 && $site_module_info->domain != $this->db_info->default_url) {
+                    $site_module_info->domain = $this->db_info->default_url;
+                }
+
                 Context::set('site_module_info', $site_module_info);
 
                 if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
