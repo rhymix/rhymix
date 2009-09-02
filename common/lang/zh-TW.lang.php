@@ -225,8 +225,9 @@
     $lang->msg_invalid_format = '格式錯誤';
 
     $lang->msg_not_permitted_act = '沒有權限執行';
-    $lang->msg_module_is_not_exists = "還沒有啟用模組。\n請在管理員頁面中啟用模組。";
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
     $lang->success_registed = '成功送出！';
     $lang->success_declared = '檢舉成功！';
@@ -244,8 +245,8 @@
     $lang->fail_to_delete = '刪除成功！';
     $lang->fail_to_move = '移動成功！';
 
-    $lang->failed_voted = '無法推薦！'; 
-    $lang->failed_blamed = '無法反對！'; 
+    $lang->failed_voted = '無法推薦！';
+    $lang->failed_blamed = '無法反對！';
     $lang->failed_declared = '無法檢舉！';
     $lang->fail_to_delete_have_children = '不能刪除有回覆的評論！';
 

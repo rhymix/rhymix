@@ -131,7 +131,7 @@
                 // 가상 사이트 모듈이 아닌데 가상 사이트에서 호출되었을 경우
                 } else {
                     $db_info = Context::getDBInfo();
-                    if(!$db_info->default_url) return die("기본 URL이 정해지지 않아서 동작을 중지합니다");
+                    if(!$db_info->default_url) return Context::getLang('msg_default_url_is_not_defined');
                     else $redirect_url = getNotEncodedSiteUrl($db_info->default_url, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
                 }
                 header("location:".$redirect_url);

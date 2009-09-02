@@ -225,8 +225,9 @@
     $lang->msg_invalid_format = '잘못된 형식입니다.';
 
     $lang->msg_not_permitted_act = '요청하신 기능을 실행할 수 있는 권한이 없습니다.';
-    $lang->msg_module_is_not_exists = "시작 모듈이 설정되어 있지 않습니다.\n관리자 페이지에서 시작 모듈을 설정해주세요.";
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
     $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수 없습니다.';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
     $lang->success_registed = '등록 되었습니다.';
     $lang->success_declared = '신고 되었습니다.';

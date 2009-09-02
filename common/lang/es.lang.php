@@ -231,8 +231,9 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'No está permitodo para ejecutar esta acción';
-    $lang->msg_module_is_not_exists = "Inicie el módulo no está habilitado.\nEl inicio de instalación del módulo en el administrador de la página.";
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
     $lang->msg_module_is_not_standalone = 'El Módulo requerido no funciona solo.';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
     $lang->success_registed = 'Registrado con éxito';
     $lang->success_declared = 'Denuncia registrada con éxito';
