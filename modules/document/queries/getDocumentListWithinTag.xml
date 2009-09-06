@@ -20,8 +20,4 @@
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />
     </navigation>
-    <groups>
-        <group column="documents.document_srl" />
-        <group column="documents.list_order" />
-    </groups>
 </query>
