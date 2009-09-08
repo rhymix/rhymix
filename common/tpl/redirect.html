@@ -6,7 +6,7 @@
 <body>
     <script type="text/javascript">
         var idx = location.href.indexOf('?');
-        var url = top.location.href;
+        var url = parent.location.href;
         if(idx > -1 ) {
             var query_string = location.href.substr(idx+1, location.href.length);
             var args = {};
@@ -17,9 +17,9 @@
         }
         if(typeof(opener)!='undefined' && opener) {
             opener.location.href = url;
-            window.close();
+            self.close();
         } else {
-            top.location.href = url;
+            parent.location.href = url;
         }
     </script>
 </body>
