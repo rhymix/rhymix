@@ -13,7 +13,7 @@
             query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
             url = unescape(args['redirect_url']);
-            if(typeof(q)=="undefined" || !q) url = "../../";
+            if(typeof(url)=="undefined" || !url) url = "../../";
         }
         if(typeof(opener)!='undefined' && opener) {
             opener.location.href = url;
