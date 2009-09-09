@@ -540,7 +540,7 @@
                 // 변수 정리
                 $names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
                 foreach($names as $key => $val) {
-                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace('\\','\\\\',htmlspecialchars($val)));
+                    $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace(array('\\','"'),array('\\\\','&quot;'),$val));
                 }
                 $name_str = sprintf('$_menu_names[%d] = array(%s); %s', $node->menu_item_srl, $name_arr_str, $child_output['name']);
 
