@@ -377,13 +377,7 @@
         }
 
         function getPermanentUrl() {
-            $url = getUrl('','document_srl',$this->get('document_srl'));
-            if(substr($url,0,1)=='/') {
-                if($_SERVER['HTTPS']=='on') $http_url = 'https://';
-                else $http_url = 'http://';
-                $url = $http_url.$_SERVER['HTTP_HOST'].$url;
-            }
-            return $url;
+            return getUrl('','document_srl',$this->get('document_srl'));
         }
 
         function getTrackbackUrl() {
