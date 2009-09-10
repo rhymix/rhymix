@@ -422,11 +422,13 @@
 
                     $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
 					if(!$value) {
-						$value = $v['value'];
-						if(strpos($value, ".") == false) $valuetmp = $value;
-						else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
+                                                $value = $v['value'];
+						if (strpos ($value, '(')) $valuetmp = $value;
+                                                elseif (strpos ($value, ".") === false) $valuetmp = $value;
+                                                else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
 					} else $valuetmp = $value;
-					if(strpos($name, ".") == false) $nametmp = '"'.$name.'"';
+                                        if (strpos ($name, '(')) $nametmp = $name;
+					elseif (strpos ($name, ".") === false) $nametmp = '"'.$name.'"';
 					else $nametmp = '"'.str_replace('.', '"."', $name).'"';
                     $str = $this->getConditionPart($nametmp, $valuetmp, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
@@ -565,7 +567,7 @@
 
             $left_join = array();
             // why???
-            $left_tables= (array)$output->left_tables;
+            $left_tables = (array)$output->left_tables;
 
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
