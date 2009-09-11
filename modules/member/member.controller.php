@@ -508,6 +508,10 @@
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
 
+            // before 트리거 호출
+            $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'before', $config);
+            if(!$trigger_output->toBool()) return $trigger_output;
+
             // 관리자가 회원가입을 허락하였는지 검사
             if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
 

@@ -73,6 +73,10 @@
             // 로그인한 회원일 경우 해당 회원의 정보를 받음
             if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
 
+            // before 트리거 호출
+            $trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $this->member_config);
+            if(!$trigger_output->toBool()) return $trigger_output;
+
             // 회원가입을 중지시켰을 때는 에러 표시
             if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
