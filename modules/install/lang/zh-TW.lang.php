@@ -227,7 +227,7 @@ EndOfLicense;
         'cubrid' => '使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'mssql' => '使用 MSSQL DB。',
         'postgresql' => '使用 PostgreSql DB。',
-        'firebird' => '使用 Firebird DB。<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
+        'firebird' => '使用 Firebird DB。<br />DB 建立方式 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)',
     );
 
     $lang->form_title = '輸入資料庫及管理員資訊';
