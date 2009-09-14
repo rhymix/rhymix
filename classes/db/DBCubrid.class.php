@@ -619,19 +619,15 @@
 
                 if ($output->order) {
                   foreach($output->order as $key => $val) {
-                      if ($val[0] != 'count') {
-                        if (strpos ($val[0], '.')) {
-                          $tmpval = explode ('.', $val[0]);
-                          $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                          $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                          $val[0] = implode ('.', $tmpval);
-                        }
-                        elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                        else {
-                          $val[0] = sprintf ('"%s"', $val[0]);
-                        }
-                      }
-                      $index_list[] = sprintf('%s %s', $val[0]=='count'?'"count"':$val[0], $val[1]);
+                    if (strpos ($val[0], '.')) {
+                      $tmpval = explode ('.', $val[0]);
+                      $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                      $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                      $val[0] = implode ('.', $tmpval);
+                    }
+                    elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                    else $val[0] = sprintf ('"%s"', $val[0]);
+                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                   }
                   if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                   $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
@@ -651,19 +647,15 @@
 
                 if($output->order) {
                     foreach($output->order as $key => $val) {
-                        if ($val[0] != 'count') {
-                          if (strpos ($val[0], '.')) {
-                            $tmpval = explode ('.', $val[0]);
-                            $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                            $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                            $val[0] = implode ('.', $tmpval);
-                          }
-                          elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                          else {
-                            $val[0] = sprintf ('"%s"', $val[0]);
-                          }
-                        }
-                        $index_list[] = sprintf('%s %s', $val[0]=='count'?'"count"':$val[0], $val[1]);
+                      if (strpos ($val[0], '.')) {
+                        $tmpval = explode ('.', $val[0]);
+                        $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                        $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                        $val[0] = implode ('.', $tmpval);
+                      }
+                      elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                      else $val[0] = sprintf ('"%s"', $val[0]);
+                      $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                     }
                     if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                 }
@@ -794,9 +786,7 @@
                   $val[0] = implode ('.', $tmpval);
                 }
                 elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                else {
-                  $val[0] = sprintf ('"%s"', $val[0]);
-                }
+                else $val[0] = sprintf ('"%s"', $val[0]);
                 $index_list[] = sprintf('%s %s', $val[0], $val[1]);
               }
               if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
