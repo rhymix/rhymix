@@ -565,6 +565,10 @@
                 $this->setMessage($msg);
             }
             else $this->setMessage('success_registed');
+
+            // after 트리거 호출
+            $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
+            if(!$trigger_output->toBool()) return $trigger_output;
         }
 
         /**
