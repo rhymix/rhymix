@@ -219,7 +219,7 @@
         return Context::getUrl($num_args, $args_list);
     }
 
-    function getNotEncodeUrl() {
+    function getNotEncodedUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 
@@ -247,7 +247,7 @@
         return $url;
     }
 
-    function getNotEncodeFullUrl() {
+    function getNotEncodedFullUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 		$request_uri = Context::getRequestUri();
