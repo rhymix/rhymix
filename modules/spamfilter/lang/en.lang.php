@@ -16,8 +16,8 @@
     $lang->limit_count = "No. of posting limitation";
     $lang->check_trackback = "Check trackbacks";
     $lang->word = "Word";
-    $lang->hit = '히트';
-    $lang->latest_hit = '최근 히트';
+    $lang->hit = 'Hit';
+    $lang->latest_hit = 'Latest Hits';
 
     // for description word
     $lang->about_interval = "All articles attempted for posting within the assigned time will be blocked.";

@@ -222,5 +222,5 @@
 
 	$lang->edit->toc = 'Table of Contents';
 
-	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
+	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
 ?>
