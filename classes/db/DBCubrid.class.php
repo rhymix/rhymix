@@ -609,7 +609,19 @@
 
             $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if (count ($output->groups)) {
+                foreach ($output->groups as &$value) {
+                    if (strpos ($value, '.')) {
+                        $tmp = explode ('.', $value);
+                        $tmp[0] = sprintf ('"%s"', $tmp[0]);
+                        $tmp[1] = sprintf ('"%s"', $tmp[1]);
+                        $value = implode ('.', $tmp);
+                    }
+                    elseif (strpos ($value, '(')) $value = $value;
+                    else $value = sprintf ('"%s"', $value);
+                }
+                $query .= sprintf(' group by %s', implode(',',$output->groups));
+            }
 
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) {
@@ -619,15 +631,16 @@
 
                 if ($output->order) {
                   foreach($output->order as $key => $val) {
-                    if (strpos ($val[0], '.')) {
-                      $tmpval = explode ('.', $val[0]);
-                      $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                      $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                      $val[0] = implode ('.', $tmpval);
-                    }
-                    elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                    else $val[0] = sprintf ('"%s"', $val[0]);
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                      if (strpos ($val[0], '.')) {
+                        $tmpval = explode ('.', $val[0]);
+                        $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                        $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                        $val[0] = implode ('.', $tmpval);
+                      }
+                      elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                      elseif ($val[0] == 'count') $val[0] = 'count (*)';
+                      else $val[0] = sprintf ('"%s"', $val[0]);
+                      $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                   }
                   if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                   $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
@@ -647,15 +660,16 @@
 
                 if($output->order) {
                     foreach($output->order as $key => $val) {
-                      if (strpos ($val[0], '.')) {
-                        $tmpval = explode ('.', $val[0]);
-                        $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                        $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                        $val[0] = implode ('.', $tmpval);
-                      }
-                      elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                      else $val[0] = sprintf ('"%s"', $val[0]);
-                      $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+                        if (strpos ($val[0], '.')) {
+                          $tmpval = explode ('.', $val[0]);
+                          $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                          $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                          $val[0] = implode ('.', $tmpval);
+                        }
+                        elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                        elseif ($val[0] == 'count') $val[0] = 'count (*)';
+                        else $val[0] = sprintf ('"%s"', $val[0]);
+                        $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                     }
                     if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                 }
@@ -775,7 +789,19 @@
 
             $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if (count ($output->groups)) {
+                foreach ($output->groups as &$value) {
+                    if (strpos ($value, '.')) {
+                        $tmp = explode ('.', $value);
+                        $tmp[0] = sprintf ('"%s"', $tmp[0]);
+                        $tmp[1] = sprintf ('"%s"', $tmp[1]);
+                        $value = implode ('.', $tmp);
+                    }
+                    elseif (strpos ($value, '(')) $value = $value;
+                    else $value = sprintf ('"%s"', $value);
+                }
+                $query .= sprintf(' group by %s', implode(',',$output->groups));
+            }
 
             if ($output->order) {
               foreach($output->order as $key => $val) {
@@ -786,6 +812,7 @@
                   $val[0] = implode ('.', $tmpval);
                 }
                 elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                elseif ($val[0] == 'count') $val[0] = 'count (*)';
                 else $val[0] = sprintf ('"%s"', $val[0]);
                 $index_list[] = sprintf('%s %s', $val[0], $val[1]);
               }
