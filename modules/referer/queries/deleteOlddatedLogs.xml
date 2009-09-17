@@ -1,0 +1,8 @@
+<query id="deleteOlddatedLogs" action="delete">
+    <tables>
+	<table name="referer_log" />
+    </tables>
+    <conditions>
+	<condition operation="less" column="regdate" var="regdate" notnull="notnull" />
+    </conditions>
+</query>
