@@ -229,8 +229,9 @@
             $title = $this->getTitleText($cut_size, $tail);
 
             $attrs = array();
+            $this->add('title_color', trim($this->get('title_color')));
             if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
-            if($this->get('title_color')&&$this->get('title_color')!='N') $attrs[] = "color:#".$this->get('title_color');
+            if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = "color:#".$this->get('title_color');
 
             if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
             else return htmlspecialchars($title);
