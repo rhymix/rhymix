@@ -103,7 +103,7 @@
     /**
      * @brief Firebug 콘솔 출력 사용시 관련 파일 require
      **/
-    if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '5.2.0', '>=')) {
+    if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1) {
         require _XE_PATH_.'libs/FirePHPCore/FirePHP.class.php';
     }
 
