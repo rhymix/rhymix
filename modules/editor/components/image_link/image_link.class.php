@@ -62,7 +62,7 @@
             if(!$alt) $alt = $src;
             // 이미지 주소를 request uri가 포함된 주소로 변환 (rss출력, 등등을 위함)
             $temp_src = explode('/', $src);
-            if(substr($src, 0,1)=='.') $src = Context::getRequestUri().substr($src, 2);
+            if(substr($src, 0,2)=='./') $src = Context::getRequestUri().substr($src, 2);
             elseif(substr($src , 0, 1)=='/') {
                 if($_SERVER['HTTPS']=='on') $http_src = 'https://';
                 else $http_src = 'http://';
