@@ -454,13 +454,12 @@
             </ul>
             <!--@end-->
 
-           <!--@if($html_mode)-->
-            <ul class="extra3">
-                <!-- HTML 모드 사용 -->
+            <ul class="extra3"<!--@if(!$html_mode)--> style="display:none"<!--@end-->>
+                <!--// HTML 모드 사용 -->
                 <li class="html"><span><button class="xpress_xeditor_mode_toggle_button" type="button" title="{$lang->edit->html_editor}">{$lang->edit->html_editor}</button></span></li>
-                <!--li class="preview"><span><button type="button" class="xpress_xeditor_preview_button" title="{$lang->cmd_preview}">{$lang->cmd_preview}</button></span></li-->
+                <!--// li class="preview"><span><button type="button" class="xpress_xeditor_preview_button" title="{$lang->cmd_preview}">{$lang->cmd_preview}</button></span></li-->
             </ul>
-            <!--@end-->
+            
 
         </div>
         <!--@else-->
