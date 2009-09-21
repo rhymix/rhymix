@@ -12,6 +12,8 @@
 .ui-calendar caption .navi span{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0; z-index:-1; visibility:hidden;}
 .ui-calendar caption .navi.prev{ left:20px; background-position:left top;}
 .ui-calendar caption .navi.next{ right:20px; background-position:right top;}
+.ui-calendar caption .navi.prev_year,
+.ui-calendar caption .navi.next_year{ width:22px; background-image:url(./img/buttonPaginateDuble.gif); }
 .ui-calendar caption .navi.prev_year{ left:0; background-position:left top;}
 .ui-calendar caption .navi.next_year{ right:0; background-position:right top;}
 .ui-calendar th,
