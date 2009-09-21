@@ -962,3 +962,14 @@ function replaceOuterHTML(obj, html) {
 function getOuterHTML(obj) {
     return jQuery(obj).html().trim();
 }
+
+jQuery(function(){
+    jQuery(".lang_code").each(
+    function() 
+    {
+        var objText = jQuery(this);
+        var targetName = objText.attr("name");
+        objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
+    }
+    );
+});
