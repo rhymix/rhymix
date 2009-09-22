@@ -99,6 +99,7 @@
             if(!$output->data) {
                 $args->site_srl = 0;
                 $output = executeQuery('module.getSiteInfo', $args);
+
                 // 기본 사이트 정보가 없으면 관련된 정보를 갱신
                 if(!$output->data) {
                     // sites 테이블이 없을 경우 생성
@@ -128,7 +129,7 @@
             }
 
             $module_info = $output->data;
-            if(!$module_info->module_srl) return;
+            if(!$module_info->module_srl) return $module_info;
             if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
             return $this->addModuleExtraVars($module_info);
         }
