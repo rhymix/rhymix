@@ -241,7 +241,6 @@
         $url = Context::getUrl($num_args, $args_list);
         if(!preg_match('/^http/i',$url)){
 			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
-			$url = Context::getUrl($num_args, $args_list);
 			return substr($match[0],0,-1).$url;
 		}
         return $url;
@@ -310,7 +309,6 @@
         $url = Context::getUrl($num_args, $args_list, $domain);
         if(!preg_match('/^http/i',$url)){
 			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
-			$url = Context::getUrl($num_args, $args_list);
 			return substr($match[0],0,-1).$url;
 		}
         return $url;
