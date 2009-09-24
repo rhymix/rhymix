@@ -12,7 +12,7 @@
      * XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
      * 자세한 내용은 아래 링크를 참조하세요.
      * - 공식홈페이지        : http://www.xpressengine.com
-     * - SVN Repository      : http://svn.xpressengine.com/XpressEngine/trunk
+     * - SVN Repository      : http://svn.xpressengine.net/xe
      * \n
      * "XpressEngine (XE)"은 자유 소프트웨어입니다. \n
      * 소프트웨어의 피양도자는 자유 소프트웨어 재단이 공표한 GNU 일반 공중 사용 허가서 2판 또는 \n
