@@ -54,7 +54,7 @@
          **/
         function insertLog($site_srl=0) {
             $args->regdate = date("YmdHis");
-            $args->user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $args->user_agent = substr ($_SERVER['HTTP_USER_AGENT'], 0, 250);
             $args->site_srl = $site_srl;
             return executeQuery('counter.insertCounterLog', $args);
         }
