@@ -105,7 +105,7 @@
                 // 현재 요청된 action의 퍼미션 type(guest, member, manager, root)를 구함
                 $permission_target = $xml_info->permission->{$this->act};
 
-                // module.xml에 명시된 퍼미션이 없을때 ation명에 Admin이 있으면 manager로 체크
+                // module.xml에 명시된 퍼미션이 없을때 action명에 Admin이 있으면 manager로 체크
                 if(!$permission_target && substr_count($this->act, 'Admin')) $permission_target = 'manager';
 
                 // 권한 체크
