@@ -11,7 +11,7 @@
         var $content = null;
 
         function isFromSmartPhone() {
-           return Context::get('smartphone') || preg_match('/(iPopd|iPhone|PPC)/',$_SERVER['HTTP_USER_AGENT']);
+           return Context::get('smartphone') || preg_match('/(iPod|iPhone|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
         }
 
         function haveSmartphoneModule($module) {
@@ -75,9 +75,9 @@
         }
 
         function procSmartPhone($msg = null) {
-            if(preg_match('/(iPopd|iPhone)/',$_SERVER['HTTP_USER_AGENT'])) {
+            if(preg_match('/(iPod|iPhone)/',$_SERVER['HTTP_USER_AGENT'])) {
                 Context::addHtmlHeader('<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
-            } else if(preg_match('/PPC/',$_SERVER['HTTP_USER_AGENT'])) {
+            } else if(preg_match('/SCH\-M[0-9]+/',$_SERVER['HTTP_USER_AGENT'])) {
                 Context::addHtmlHeader('<meta name="viewport" content="width=240; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
             }
 
