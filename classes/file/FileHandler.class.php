@@ -296,7 +296,6 @@
                 }
             }
             $directory->close();
-            @rmdir($path); //should be checked
         }
 
         /**
