@@ -32,7 +32,7 @@
             // 모든 호출된 문서 객체를 찾아서 확장변수가 설정되었는지를 확인
             $document_srls = array();
             foreach($GLOBALS['XE_DOCUMENT_LIST'] as $key => $val) {
-                if($checked_documents[$val->document_srl]) continue;
+                if(!$val->document_srl || $checked_documents[$val->document_srl]) continue;
                 $checked_documents[$val->document_srl] = true;
                 $document_srls[] = $val->document_srl;
             }
