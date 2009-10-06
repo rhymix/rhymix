@@ -2,15 +2,15 @@
     /**
     * @class FileHandler
     * @author zero (zero@nzeo.com)
-    * @brief 파일시스템을 쉽게 사용하기 위한 method를 모은 클래스
-    *
-    * 굳이 class로 만들필요는 없는데.. 소스 코드의 관리를 위하여..
+    * @brief contains methods for accessing file system
     **/
 
     class FileHandler extends Handler {
 
         /**
-         * @brief 대상 파일, 디렉토리의 절대경로를 반환
+         * @brief changes path of target file, directory into absolute path
+         * @param[in] $source path
+         * @return absolute path 
          **/
         function getRealPath($source) {
             $temp = explode('/', $source);
@@ -19,7 +19,13 @@
         }
 
         /**
-         * @brief 특정 디렉토리를 복사
+         * @brief copy a directory to target 
+         * @param[in] $source_dir path of source directory
+         * @param[in] $target_dir path of target dir
+         * @param[in] $filter
+         * @param[in] $type
+         * @remarks if target directory does not exist, this function creates it 
+         * @return none
          **/
         function copyDir($source_dir, $target_dir, $filter=null,$type=null){
             $source_dir = FileHandler::getRealPath($source_dir);
@@ -48,6 +54,13 @@
             }
         }
 
+        /**
+         * @brief copy a file to target 
+         * @param[in] $source path of source file
+         * @param[in] $target path of target file
+         * @param[in] $force Y: overwrite
+         * @return none
+         **/
         function copyFile($source, $target, $force='Y'){
             $source = FileHandler::getRealPath($source);
             $target_dir = FileHandler::getRealPath(dirname($target));
@@ -58,7 +71,9 @@
         }
 
         /**
-         * @brief 파일의 내용을 읽어서 return
+         * @brief returns the content of the file 
+         * @param[in] $file_name path of target file
+         * @return the content of the file. if target file does not exist, this function returns nothing.
          **/
         function readFile($file_name) {
             $file_name = FileHandler::getRealPath($file_name);
@@ -82,7 +97,11 @@
         }
 
         /**
-         * @brief $buff의 내용을 파일에 쓰기
+         * @brief write $buff into the specified file
+         * @param[in] $file_name path of target file
+         * @param[in] $buff content to be writeen
+         * @param[in] $mode a(append) / w(write)
+         * @return none
          **/
         function writeFile($file_name, $buff, $mode = "w") {
             $file_name = FileHandler::getRealPath($file_name);
@@ -100,7 +119,9 @@
         }
 
         /**
-         * @brief 파일 삭제
+         * @brief remove a file
+         * @param[in] $file_name path of target file
+         * @return none
          **/
         function removeFile($file_name) {
             $file_name = FileHandler::getRealPath($file_name);
@@ -108,7 +129,11 @@
         }
 
         /**
-         * @brief 파일이름이나 디렉토리명이나 위치 변경
+         * @brief rename a file
+         * @param[in] $source path of source file
+         * @param[in] $target path of target file
+         * @remarks In order to move a file, use this function.
+         * @return none
          **/
         function rename($source, $target) {
             $source = FileHandler::getRealPath($source);
@@ -117,14 +142,24 @@
         }
 
         /**
-         * @brief 특정 디렉토리를 이동
+         * @brief move a directory 
+         * @param[in] $source_dir path of source directory
+         * @param[in] $target_dir path of target directory
+         * @remarks this function just wraps rename function.
+         * @return none
          **/
         function moveDir($source_dir, $target_dir) {
             FileHandler::rename($source_dir, $target_dir);
         }
 
         /**
-         * @brief $path내의 파일들을 return ('.', '..', '.로 시작하는' 파일들은 제외)
+         * @brief return list of the files in the path
+         * @param[in] $path path of target directory
+         * @param[in] $filter if specified, return only files matching with the filter
+         * @param[in] $to_lower if true, file names will be changed into lower case.
+         * @param[in] $concat_prefix if true, return file name as absolute path
+         * @remarks the array does not contain files, such as '.', '..', and files starting with '.'
+         * @return array of the filenames in the path 
          **/
         function readDir($path, $filter = '', $to_lower = false, $concat_prefix = false) {
             $path = FileHandler::getRealPath($path);
@@ -155,14 +190,15 @@
         }
 
         /**
-         * @brief 디렉토리 생성
-         *
-         * 주어진 경로를 단계별로 접근하여 recursive하게 디렉토리 생성
+         * @brief creates a directory
+         * @param[in] $path_string path of target directory
+         * @return true if success. it might return nothing when ftp is used and connection to the ftp address failed.
+         * @remarks This function creates directories recursively, which means that if ancestors of the target directory does not exist, they will be created too.
          **/
         function makeDir($path_string) {
             static $oFtp = null;
 
-            // safe_mode 일 경우 ftp 정보를 이용해서 디렉토리 생성
+            // if safe_mode is on, use FTP 
             if(ini_get('safe_mode') && $oFtp == null) {
                 if(!Context::isFTPRegisted()) return;
 
@@ -198,7 +234,9 @@
         }
 
         /**
-         * @brief 지정된 디렉토리 이하 모두 파일을 삭제
+         * @brief remove all files under the path
+         * @param[in] $path path of the target directory
+         * @return none
          **/
         function removeDir($path) {
             $path = FileHandler::getRealPath($path);
@@ -218,7 +256,9 @@
         }
 
         /**
-         * @brief 지정된 디렉토리에 내용이 없으면 삭제
+         * @brief remove a directory only if it is empty 
+         * @param[in] $path path of the target directory
+         * @return none
          **/
         function removeBlankDir($path) {
             $item_cnt = 0;
@@ -237,7 +277,10 @@
 
 
         /**
-         * @biref 지정된 디렉토리를 제외한 모든 파일을 삭제
+         * @biref remove files in the target directory.  
+         * @param[in] $path path of the target directory
+         * @remarks This function keeps the directory structure. 
+         * @return none
          **/
         function removeFilesInDir($path) {
             $path = FileHandler::getRealPath($path);
@@ -253,11 +296,13 @@
                 }
             }
             $directory->close();
-            @rmdir($path);
+            @rmdir($path); //should be checked
         }
 
         /**
-         * @brief byte단위의 파일크기를 적절하게 변환해서 return
+         * @brief makes file size byte into KB, MB according to the size
+         * @param[in] $size number of the size
+         * @return file size string
          **/
         function filesize($size) {
             if(!$size) return "0Byte";
@@ -267,7 +312,17 @@
         }
 
         /**
-         * @brief 원격파일을 다운받아 return
+         * @brief return remote file's content via HTTP
+         * @param[in] $url the address of the target file 
+         * @param[in] $body HTTP request body
+         * @param[in] $timeout connection timeout
+         * @param[in] $method GET/POST
+         * @param[in] $content_type content type header of HTTP request
+         * @param[in] $headers headers key vaule array.
+         * @param[in] $cookies cookies key value array.
+         * @param[in] $post_data request arguments array for POST method
+         * @return if success, the content of the target file. otherwise: none
+         * @remarks if the target is moved (when return code is 300~399), this function follows the location specified response header.
          **/
         function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
             set_include_path(_XE_PATH_."libs/PEAR");
@@ -325,18 +380,33 @@
         }
 
         /**
-         * @brief 원격파일을 다운받아서 특정 위치에 저장
+         * @brief retrieves remote file, then stores it into target path.
+         * @param[in] $url the address of the target file
+         * @param[in] $target_file the location to store
+         * @param[in] $body HTTP request body
+         * @param[in] $timeout connection timeout
+         * @param[in] $method GET/POST
+         * @param[in] $content_type content type header of HTTP request
+         * @param[in] $headers headers key vaule array.
+         * @return true: success, false: failed 
          **/
         function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array()) {
             $body = FileHandler::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers);
-            if(!$body) return;
+            if(!$body) return false;
             $target_filename = FileHandler::getRealPath($target_filename);
             FileHandler::writeFile($target_filename, $body);
             return true;
         }
 
         /**
-         * @brief 특정 이미지 파일을 특정 위치로 옮김 (옮길때 이미지의 크기를 리사이징할 수 있음..)
+         * @brief moves an image file (resizing is possible)
+         * @param[in] $source_file path of the source file
+         * @param[in] $target_file path of the target file
+         * @param[in] $resize_width width to resize 
+         * @param[in] $resize_height height to resize
+         * @param[in] $target_type if $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
+         * @param[in] $thumbnail_type thumbnail type(crop, ratio)
+         * @return true: success, false: failed 
          **/
         function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
             $source_file = FileHandler::getRealPath($source_file);
@@ -346,7 +416,7 @@
             if(!$resize_width) $resize_width = 100;
             if(!$resize_height) $resize_height = $resize_width;
 
-            // 이미지 정보를 구함
+            // retrieve source image's information
             list($width, $height, $type, $attrs) = @getimagesize($source_file);
             if($width<1 || $height<1) return;
 
@@ -368,7 +438,7 @@
                     break;
             }
 
-            // 이미지 정보가 정해진 크기보다 크면 크기를 바꿈 (%를 구해서 처리)
+            // if original image is larger than specified size to resize, calculate the ratio 
             if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
             else $width_per = 1;
 
@@ -387,18 +457,18 @@
 
             if(!$per) $per = 1;
 
-            // 타겟 파일의 type을 구함
+            // get type of target file
             if(!$target_type) $target_type = $type;
             $target_type = strtolower($target_type);
 
-            // 리사이즈를 원하는 크기의 임시 이미지를 만듬
+            // create temporary image with target size
             if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($resize_width, $resize_height);
             else $thumb = @imagecreate($resize_width, $resize_height);
 
             $white = @imagecolorallocate($thumb, 255,255,255);
             @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
-            // 원본 이미지의 타입으로 임시 이미지 생성
+            // create temporary image having original type
             switch($type) {
                 case 'gif' :
                         $source = @imagecreatefromgif($source_file);
@@ -421,7 +491,7 @@
                     return;
             }
 
-            // 원본 이미지의 크기를 조절해서 임시 이미지에 넣음
+            // resize original image and put it into temporary image
             $new_width = (int)($width * $per);
             $new_height = (int)($height * $per);
 
@@ -438,11 +508,11 @@
                 else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
             } else return false;
 
-            // 디렉토리 생성
+            // create directory 
             $path = dirname($target_file);
             if(!is_dir($path)) FileHandler::makeDir($path);
 
-            // 파일을 쓰고 끝냄
+            // write into the file
             switch($target_type) {
                 case 'gif' :
                         $output = @imagegif($thumb, $target_file);
@@ -471,7 +541,9 @@
 
 
         /**
-         * @brief ini 파일을 읽는다
+         * @brief reads ini file, and puts result into array
+         * @param[in] $filename path of the ini file
+         * @return ini array (if the target file does not exist, it returns false)
          **/
         function readIniFile($filename){
             $filename = FileHandler::getRealPath($filename);
@@ -483,11 +555,14 @@
 
 
         /**
-         * @brief array를 ini 파일로 저장한다.
+         * @brief write array into ini file
+         * @param[in] $filename target ini file name
+         * @param[in] $arr array
+         * return if array contains nothing it returns false, otherwise true
          **/
-        function writeIniFile($filename,$arr){
+        function writeIniFile($filename, $arr){
             if(count($arr)==0) return false;
-            FileHandler::writeFile($filename,FileHandler::_makeIniBuff($arr));
+            FileHandler::writeFile($filename, FileHandler::_makeIniBuff($arr));
             return true;
         }
 
