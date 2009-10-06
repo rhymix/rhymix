@@ -139,7 +139,7 @@ $.extend(Calendar.prototype, {
 			v['weeks'] = [];
 
 			var d = new Date(cal.date.getTime()), w = [];
-			var last = (v.m!=2)? (v.m%2?31:30) : ((new Date(v.yyyy,v.m-1,29)).getMonth()==v.m?29:28); // 마지막 날
+			var last = (v.m!=2)? ((v.m+(v.m>7?1:0))%2?31:30) : ((new Date(v.yyyy,v.m-1,29)).getMonth()==v.m?29:28); // 마지막 날
 
 			d.setDate(1); // 1일로 설정 후 1일의 요일을 가져온다.
 			var start = d.getDay(), end = last+start;
