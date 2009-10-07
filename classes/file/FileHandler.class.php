@@ -557,7 +557,7 @@
          * @brief write array into ini file
          * @param[in] $filename target ini file name
          * @param[in] $arr array
-         * return if array contains nothing it returns false, otherwise true
+         * @return if array contains nothing it returns false, otherwise true
          **/
         function writeIniFile($filename, $arr){
             if(count($arr)==0) return false;
@@ -580,6 +580,24 @@
                 }
             }
             return $return;
+        }
+
+        /**
+         * @brief return file object 
+         * @param[in] $file_name target file name
+         * @param[in] $mode file mode for fopen
+         * @remarks if the directory of the file does not exist, create it.
+         * @return file object 
+         **/
+        function openFile($file_name, $mode)
+        {
+            $pathinfo = pathinfo($file_name);
+            $path = $pathinfo['dirname'];
+            if(!is_dir($path)) FileHandler::makeDir($path);
+
+            require_once("FileObject.class.php");
+            $file_object = new FileObject($file_name, $mode);
+            return $file_object;
         }
     }
 ?>
