@@ -444,6 +444,11 @@
                         elseif($format == 'Y-m-d H:i:s') $format = 'M d, Y H:i:s';
                         elseif($format == 'Y-m-d H:i') $format = 'M d, Y H:i';
                     break;
+                case 'vi' :
+                        if($format == 'Y-m-d') $format = 'd-m-Y';
+                        elseif($format == 'Y-m-d H:i:s') $format = 'H:i:s d-m-Y';
+                        elseif($format == 'Y-m-d H:i') $format = 'H:i d-m-Y';
+                    break;
 
             }
         }

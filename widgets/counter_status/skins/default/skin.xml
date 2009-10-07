@@ -4,11 +4,13 @@
     <title xml:lang="jp">接続統計表示のデフォルトスキン</title>
     <title xml:lang="zh-CN">计数器默认皮肤</title>
     <title xml:lang="en">Default Counter Skin </title>
+    <title xml:lang="vi">Skin Counter mặc định</title>
     <title xml:lang="zh-TW">計數器預設面板</title>
     <description xml:lang="ko">counter_status 의 기본 스킨</description>
     <description xml:lang="jp">接続統計（counter_status）のデフォルトスキン</description>
     <description xml:lang="zh-CN">计数器默认皮肤。</description>
     <description xml:lang="en">Default skin of counter_status</description>
+    <description xml:lang="vi">Skin mặc định hiển thị trạng thái của Counter.</description>
     <description xml:lang="zh-TW">計數器預設面板。</description>
     <version>0.1</version>
     <date>2007-02-28</date>
@@ -17,6 +19,7 @@
     <author email_address="zero@zeroboard.com" link="http://www.zeroboard.com">
         <name xml:lang="ko">제로</name>
         <name xml:lang="jp">Zero</name>
+        <name xml:lang="vi">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="zh-TW">zero</name>
@@ -28,6 +31,7 @@
             <title xml:lang="jp">レイアウトに合わせる</title>
             <title xml:lang="zh-CN">随布局</title>
             <title xml:lang="en">레이아웃에 맞춤</title>
+            <title xml:lang="vi">Tùy chỉnh giao diện</title>
             <title xml:lang="zh-TW">隨版面</title>
         </color>
         <color name="white">
@@ -35,12 +39,14 @@
             <title xml:lang="jp">白（デフォルト）</title>
             <title xml:lang="zh-CN">白色（默认）</title>
             <title xml:lang="en">White (default)</title>
+            <title xml:lang="vi">White (Mặc định)</title>
             <title xml:lang="zh-TW">白色(預設)</title>
         </color>
         <color name="black">
             <title xml:lang="ko">검은색</title>
             <title xml:lang="jp">黒</title>
             <title xml:lang="en">Black</title>
+            <title xml:lang="vi">Black</title>
             <title xml:lang="zh-CN">黑色</title>
             <title xml:lang="zh-TW">黑色</title>
         </color>

@@ -2,11 +2,13 @@
 <widget version="0.2">
     <title xml:lang="ko">Content 위젯</title>
     <title xml:lang="en">Content</title>
+    <title xml:lang="vi">Nội dung</title>
     <title xml:lang="zh-CN">全局内容控件</title>
     <title xml:lang="zh-TW">內容組件</title>
     <title xml:lang="jp">コンテンツウィジェット</title>
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="en">This widget displays Content such as articles, comments, or attached files.</description>
+	<description xml:lang="vi">Widget này sẽ hiển thị những bài viết, bình luận, File đính kèm.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
     <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的組件。</description>
     <description xml:lang="jp">掲示板の書き込み、コメント、添付ファイルなどコンテンツを出力するウィジェットです。</description>
@@ -18,6 +20,7 @@
         <name xml:lang="zh-CN">sol</name>
         <name xml:lang="jp">sol</name>
         <name xml:lang="en">sol</name>
+        <name xml:lang="vi">sol</name>
         <name xml:lang="es">sol</name>
         <name xml:lang="ru">sol</name>
         <name xml:lang="zh-TW">sol</name>
@@ -28,6 +31,7 @@
             <type>select</type>
                 <name xml:lang="ko">추출대상</name>
                 <name xml:lang="en">Target</name>
+                <name xml:lang="vi">Khu vực</name>
                 <name xml:lang="zh-CN">对象</name>
                 <name xml:lang="zh-tw">目標</name>
                 <name xml:lang="jp">抽出対象</name>
@@ -35,6 +39,7 @@
                 <value>document</value>
                 <name xml:lang="ko">게시물</name>
                 <name xml:lang="en">Article</name>
+                <name xml:lang="vi">Bài viết</name>
                 <name xml:lang="zh-CN">主题</name>
 				<name xml:lang="zh-TW">主題</name>
                 <name xml:lang="jp">書き込み</name>
@@ -43,6 +48,7 @@
                 <value>comment</value>
                 <name xml:lang="ko">댓글</name>
                 <name xml:lang="en">Comment</name>
+                <name xml:lang="vi">Bình luận</name>
                 <name xml:lang="zh-CN">评论</name>
 				<name xml:lang="zh-TW">評論</name>
                 <name xml:lang="jp">コメント</name>
@@ -51,6 +57,7 @@
                 <value>image</value>
                 <name xml:lang="ko">첨부이미지</name>
                 <name xml:lang="en">Attached Image</name>
+                <name xml:lang="vi">Hình đính kèm</name>
                 <name xml:lang="zh-CN">图片</name>
 				<name xml:lang="zh-TW">圖片</name>
                 <name xml:lang="jp">添付イメージ</name>
@@ -59,6 +66,7 @@
                 <value>trackback</value>
                 <name xml:lang="ko">트랙백</name>
                 <name xml:lang="en">Trackback</name>
+                <name xml:lang="vi">Liên kết Web</name>
                 <name xml:lang="zh-CN">引用</name>
 				<name xml:lang="zh-TW">引用</name>
                 <name xml:lang="jp">トラックバック</name>
@@ -67,6 +75,7 @@
                 <value>rss</value>
                 <name xml:lang="ko">피드 (RSS/ATOM)</name>
                 <name xml:lang="en">Feed (RSS/ATOM)</name>
+                <name xml:lang="vi">Feed (RSS/ATOM)</name>
                 <name xml:lang="zh-CN">Feed (RSS/ATOM)</name>
 				<name xml:lang="zh-TW">Feed (RSS/ATOM)</name>
                 <name xml:lang="jp">Feed (RSS/ATOM)</name>
@@ -76,6 +85,7 @@
             <type>select</type>
             <name xml:lang="ko">내용형태</name>
             <name xml:lang="en">Content Type</name>
+            <name xml:lang="vi">Kiểu hiển thị</name>
             <name xml:lang="zh-CN">内容样式</name>
             <name xml:lang="zh-TW">內容樣式</name>
             <name xml:lang="jp">内容のタイプ</name>
@@ -83,6 +93,7 @@
                 <value>normal</value>
                 <name xml:lang="ko">제목</name>
                 <name xml:lang="en">Title</name>
+                <name xml:lang="vi">Tiêu đề</name>
                 <name xml:lang="zh-CN">标题</name>
                 <name xml:lang="zh-TW">標題</name>
                 <name xml:lang="jp">タイトル</name>
@@ -91,6 +102,7 @@
                 <value>image_title</value>
                 <name xml:lang="ko">이미지+제목</name>
                 <name xml:lang="enko">Image+Title</name>
+                <name xml:lang="vi">Hình ảnh+Tiêu đề</name>
                 <name xml:lang="zh-CN">图片+标题</name>
                 <name xml:lang="zh-TW">圖片+標題</name>
                 <name xml:lang="jp">画像+タイトル</name>
@@ -99,6 +111,7 @@
                 <value>gallery</value>
                 <name xml:lang="ko">겔러리</name>
                 <name xml:lang="en">Gallery</name>
+                <name xml:lang="vi">Slide Show</name>
                 <name xml:lang="zh-CN">相册</name>
                 <name xml:lang="zh-TW">相簿</name>
                 <name xml:lang="jp">ギャラリー</name>
@@ -107,6 +120,7 @@
                 <value>image_title_content</value>
                 <name xml:lang="ko">이미지+제목+내용</name>
                 <name xml:lang="en">Image+Title+Content</name>
+                <name xml:lang="vi">Hình ảnh+Tiêu đề+Nội dung</name>
                 <name xml:lang="zh-CN">图片+标题+内容</name>
                 <name xml:lang="zh-TW">圖片+標題+內容</name>
                 <name xml:lang="jp">画像+タイトル+内容</name>
@@ -116,6 +130,7 @@
             <type>select</type>
             <name xml:lang="ko">탭형태</name>
             <name xml:lang="en">Tab Type</name>
+            <name xml:lang="vi">Kiểu Tab</name>
             <name xml:lang="zh-CN">选项卡样式</name>
             <name xml:lang="zh-tw">分頁樣式</name>
             <name xml:lang="jp">タブのスタイル</name>
@@ -123,6 +138,7 @@
                 <value>none</value>
                 <name xml:lang="ko">없음</name>
                 <name xml:lang="en">None</name>
+                <name xml:lang="vi">Không</name>
                 <name xml:lang="zh-CN">无</name>
                 <name xml:lang="zh-TW">無</name>
                 <name xml:lang="jp">なし</name>
@@ -131,6 +147,7 @@
                 <value>tab_top</value>
                 <name xml:lang="ko">상단 탭형</name>
                 <name xml:lang="en">Upper Tab Type</name>
+                <name xml:lang="vi">Kiểu Tab trên</name>
                 <name xml:lang="zh-CN">顶端选项卡</name>
                 <name xml:lang="zh-TW">頂端分頁</name>
                 <name xml:lang="jp">上段配置型タブ</name>
@@ -139,6 +156,7 @@
                 <value>tab_left</value>
                 <name xml:lang="ko">왼쪽 탭형</name>
                 <name xml:lang="en">Left Tab Type</name>
+                <name xml:lang="vi">Kiểu Tab trái</name>
                 <name xml:lang="zh-CN">左侧选项卡</name>
                 <name xml:lang="zh-TW">左側分頁</name>
                 <name xml:lang="jp">左側の配置型タブ</name>
@@ -149,6 +167,7 @@
             <type>select-multi-order</type>
             <name xml:lang="ko">표시항목 및 순서</name>
             <name xml:lang="en">Display Target &amp; Order</name>
+            <name xml:lang="vi">Hiển thị khu vực và thứ tự</name>
             <name xml:lang="zh-CN">显示项及顺序</name>
             <name xml:lang="zh-TW">顯示項目順序</name>
             <name xml:lang="jp">表示項目、および順番</name>
@@ -156,6 +175,7 @@
                 <value>title</value>
                 <name xml:lang="ko">제목</name>
                 <name xml:lang="en">Title</name>
+                <name xml:lang="vi">Tiêu đề</name>
                 <name xml:lang="zh-CN">标题</name>
                 <name xml:lang="zh-TW">標題</name>
                 <name xml:lang="jp">タイトル</name>
@@ -164,6 +184,7 @@
                 <value>thumbnail</value>
                 <name xml:lang="ko">섬네일</name>
                 <name xml:lang="en">Thumbnail</name>
+                <name xml:lang="vi">Hình nhỏ</name>
                 <name xml:lang="zh-CN">缩略图</name>
                 <name xml:lang="zh-TW">縮圖</name>
                 <name xml:lang="jp">サムネール</name>
@@ -172,6 +193,7 @@
                 <value>regdate</value>
                 <name xml:lang="ko">등록일</name>
                 <name xml:lang="en">Regdate</name>
+                <name xml:lang="vi">Ngày gửi</name>
                 <name xml:lang="zh-CN">发布日期</name>
                 <name xml:lang="zh-TW">發表日期</name>
                 <name xml:lang="jp">登録日</name>
@@ -180,6 +202,7 @@
                 <value>nickname</value>
                 <name xml:lang="ko">글쓴이</name>
                 <name xml:lang="en">Author</name>
+                <name xml:lang="vi">Người gửi</name>
                 <name xml:lang="zh-CN">发布者</name>
                 <name xml:lang="zh-TW">作者</name>
                 <name xml:lang="jp">登録者</name>
@@ -188,6 +211,7 @@
                 <value>content</value>
                 <name xml:lang="ko">내용</name>
                 <name xml:lang="en">Content</name>
+                <name xml:lang="vi">Nội dung</name>
                 <name xml:lang="zh-CN">内容</name>
                 <name xml:lang="zh-TW">內容</name>
                 <name xml:lang="jp">内容</name>
@@ -198,13 +222,15 @@
             <type>select</type>
             <name xml:lang="ko">게시판 이름 표시</name>
             <name xml:lang="en">Display Article Name</name>
+            <name xml:lang="vi">Tên bài viết</name>
             <name xml:lang="zh-CN">显示版面名称</name>
             <name xml:lang="zh-TW">討論板名稱</name>
             <name xml:lang="jp">掲示板名の表示</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
-                <name xml:lang="en">Dispaly</name>
+                <name xml:lang="en">Display</name>
+                <name xml:lang="vi">Hiển thị</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -213,6 +239,7 @@
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
                 <name xml:lang="en">No Display</name>
+                <name xml:lang="vi">Không hiển thị</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -223,6 +250,7 @@
             <type>select</type>
             <name xml:lang="ko">댓글수 표시</name>
             <name xml:lang="en">Comment Count</name>
+            <name xml:lang="vi">Số bình luận</name>
             <name xml:lang="zh-CN">显示评论数</name>
             <name xml:lang="zh-TW">評論數</name>
             <name xml:lang="jp">コメント数</name>
@@ -230,6 +258,7 @@
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
                 <name xml:lang="en">Display</name>
+                <name xml:lang="vi">Hiển thị</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -238,6 +267,7 @@
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
                 <name xml:lang="en">No Display</name>
+                <name xml:lang="vi">Không hiển thị</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -248,6 +278,7 @@
             <type>select</type>
             <name xml:lang="ko">엮인글수 표시</name>
             <name xml:lang="en">Trackback</name>
+            <name xml:lang="vi">Liên kết Web</name>
             <name xml:lang="zh-CN">显示引用数</name>
             <name xml:lang="zh-TW">引用數</name>
             <name xml:lang="jp">トラックバック数の表示</name>
@@ -255,6 +286,7 @@
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
                 <name xml:lang="en">Display</name>
+                <name xml:lang="vi">Hiển thị</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -263,6 +295,7 @@
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
                 <name xml:lang="en">No Display</name>
+                <name xml:lang="vi">Không hiển thị</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -272,6 +305,7 @@
             <type>select</type>
             <name xml:lang="ko">분류 표시</name>
             <name xml:lang="en">Category</name>
+            <name xml:lang="vi">Thể loại</name>
             <name xml:lang="zh-CN">显示分类</name>
             <name xml:lang="zh-TW">分類</name>
             <name xml:lang="jp">カテゴリ表示</name>
@@ -279,6 +313,7 @@
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
                 <name xml:lang="en">Display</name>
+                <name xml:lang="vi">Hiển thị</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -287,6 +322,7 @@
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
                 <name xml:lang="en">No Display</name>
+                <name xml:lang="vi">Không hiển thị</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -296,6 +332,7 @@
             <type>select</type>
             <name xml:lang="ko">아이콘 표시</name>
             <name xml:lang="en">Icon</name>
+            <name xml:lang="vi">Icon</name>
             <name xml:lang="zh-CN">显示图标</name>
             <name xml:lang="zh-TW">圖示</name>
             <name xml:lang="jp">アイコン表示</name>
@@ -303,6 +340,7 @@
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
                 <name xml:lang="en">Display</name>
+                <name xml:lang="vi">Hiển thị</name>
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
@@ -311,6 +349,7 @@
                 <value>N</value>
                 <name xml:lang="ko">출력하지 않음</name>
                 <name xml:lang="en">No Display</name>
+                <name xml:lang="vi">Không hiển thị</name>
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
@@ -325,6 +364,7 @@
             <name xml:lang="zh-CN">排序对象</name>
             <name xml:lang="jp">ソート対象</name>
             <name xml:lang="en">Target to be sorted</name>
+            <name xml:lang="vi">Phân loại</name>
             <name xml:lang="es">Objetivo para ser ordenados</name>
             <name xml:lang="ru">Назначение для сортировки</name>
             <name xml:lang="zh-TW">排列順序</name>
@@ -332,6 +372,7 @@
             <description xml:lang="zh-CN">可以按照指定的顺序进行排序。</description>
             <description xml:lang="jp">登録順、または変更順にソートします。</description>
             <description xml:lang="en">The list of newewst articles may be sorted by submitted order or modified order.</description>
+            <description xml:lang="vi">Danh sách bài viết mới nhất có thể được được phân loại bởi danh sách đã gửi hay đã sửa.</description>
             <description xml:lang="es">La lista de los documentos recientes pueden ser ordenados en el orden del agregado o en el de modificados.</description>
             <description xml:lang="ru">Список последних статей может быть отсортирован по дате размещения или изменения.</description>
             <description xml:lang="zh-TW">按照指定的順序進行排列。</description>
@@ -341,6 +382,7 @@
                 <name xml:lang="zh-CN">最新发表顺</name>
                 <name xml:lang="jp">最新登録順</name>
                 <name xml:lang="en">Newest Submitted Order</name>
+                <name xml:lang="vi">Bài mới gửi</name>
                 <name xml:lang="es">Orden de agregados recientemente</name>
                 <name xml:lang="ru">Порядок размещенных статей</name>
                 <name xml:lang="zh-TW">最新發表</name>
@@ -351,6 +393,7 @@
                 <name xml:lang="zh-CN">最新修改顺</name>
                 <name xml:lang="jp">最新変更順</name>
                 <name xml:lang="en">Newest Modified Order</name>
+                <name xml:lang="vi">Bài mới sửa</name>
                 <name xml:lang="es">Orden de modificados recientemente</name>
                 <name xml:lang="ru">Порядок измененных статей</name>
                 <name xml:lang="zh-TW">最新修改</name>
@@ -362,6 +405,7 @@
             <name xml:lang="zh-CN">排序方式</name>
             <name xml:lang="jp">ソートタイプ</name>
             <name xml:lang="en">Sorting Type</name>
+            <name xml:lang="vi">Kiểu sắp xếp</name>
             <name xml:lang="es">Tipo de ordenamiento</name>
             <name xml:lang="ru">Тип сортировки</name>
             <name xml:lang="zh-TW">排列方式</name>
@@ -369,6 +413,7 @@
             <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
             <description xml:lang="jp">ソートタイプを、降順、または昇順に設定します。</description>
             <description xml:lang="en">You can sort target articles by asending or desending order.</description>
+            <description xml:lang="vi">Bạn có thể phân loại bài viết theo kiểu tăng hay giảm.</description>
             <description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
             <description xml:lang="ru">Вы можете сортировать статьи в порядке возрастания или убывания.</description>
             <description xml:lang="zh-TW">可選擇升冪/降冪的方式對所選目標進行排列。</description>
@@ -378,6 +423,7 @@
                 <name xml:lang="zh-CN">降序</name>
                 <name xml:lang="jp">降順</name>
                 <name xml:lang="en">Desending order</name>
+                <name xml:lang="vi">Giảm dần</name>
                 <name xml:lang="es">Orden Descendente</name>
                 <name xml:lang="ru">По убыванию</name>
                 <name xml:lang="zh-TW">降冪</name>
@@ -388,6 +434,7 @@
                 <name xml:lang="zh-CN">升序</name>
                 <name xml:lang="jp">昇順</name>
                 <name xml:lang="en">Asending order</name>
+                <name xml:lang="vi">Tăng dần</name>
                 <name xml:lang="es">Orden Acendente</name>
                 <name xml:lang="ru">По возрастанию</name>
                 <name xml:lang="zh-TW">升冪</name>
@@ -400,12 +447,14 @@
             <name xml:lang="jp">サムネール生成方法</name>
             <name xml:lang="zh-CN">缩略图生成方式</name>
             <name xml:lang="en">Thumbnail Type</name>
+            <name xml:lang="vi">Hình nhỏ</name>
             <name xml:lang="ru">Тип миниатюры</name>
             <name xml:lang="zh-TW">縮圖建立方式</name>
             <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
             <description xml:lang="jp">サムネールの生成方法を選択します(Crop : 刈り込み, Ratio : 比率)。</description>
             <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
             <description xml:lang="en">Thumbnail Type may be set here.</description>
+            <description xml:lang="vi">Có thể đặt kiểu hình nhỏ tại đây.</description>
             <description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
             <description xml:lang="zh-TW">可選擇縮圖建立方式。(crop : 裁減, ratio : 比例)</description>
             <options>
@@ -414,6 +463,7 @@
                 <name xml:lang="jp">Crop (刈り込み)</name>
                 <name xml:lang="zh-CN">Crop (裁减)</name>
                 <name xml:lang="en">Crop</name>
+                <name xml:lang="vi">Hình cắt</name>
                 <name xml:lang="ru">Crop (Обрезание)</name>
                 <name xml:lang="zh-TW">Crop (裁減)</name>
             </options>
@@ -423,6 +473,7 @@
                 <name xml:lang="jp">Ratio (比率)</name>
                 <name xml:lang="zh-CN">Ratio (比例)</name>
                 <name xml:lang="en">Ratio</name>
+                <name xml:lang="vi">Tỉ lệ</name>
                 <name xml:lang="ru">Ratio (Отношение)</name>
                 <name xml:lang="zh-TW">Ratio (比例)</name>
             </options>
@@ -433,6 +484,7 @@
             <name xml:lang="jp">イメージ横幅サイズ</name>
             <name xml:lang="zh-CN">宽度</name>
             <name xml:lang="en">Width of Image</name>
+            <name xml:lang="vi">Độ rộng</name>
             <name xml:lang="es">Ancho de la imagen</name>
             <name xml:lang="ru">Ширина изображения</name>
             <name xml:lang="zh-TW">圖片寬度</name>
@@ -440,6 +492,7 @@
             <description xml:lang="jp">表示するイメージの横幅サイズを指定します（デフォルト100）。</description>
             <description xml:lang="zh-CN">可以指定要显示的图片宽度。(默认为100)</description>
             <description xml:lang="en">You can set the width of image. (100 as default)</description>
+            <description xml:lang="vi">Bạn có thể đặt độ rộng của hình. (Mặc định là 100px)</description>
             <description xml:lang="es">Usted puede definir el ancho de la imagen. (predefinido:100px)</description>
             <description xml:lang="ru">Вы можете установить ширину изображения. (стандарт: 100px)</description>
             <description xml:lang="zh-TW">指定顯示的圖片寬度。(預設是100)</description>
@@ -450,12 +503,14 @@
             <name xml:lang="jp">イメージ縦幅サイズ</name>
             <name xml:lang="zh-CN">高度</name>
             <name xml:lang="en">Height of Image</name>
+            <name xml:lang="vi">Độ cao</name>
             <name xml:lang="ru">Высота изображения</name>
             <name xml:lang="zh-TW">圖片高度</name>
             <description xml:lang="ko">이미지의 세로 크기를 지정할 수 있습니다. (기본 75)</description>
             <description xml:lang="jp">イメージの縦幅サイズを指定します（デフォルト 75px）</description>
             <description xml:lang="zh-CN">可以指定图片高度。(默认为75px)</description>
             <description xml:lang="en">You can set the height of image. (75 as default)</description>
+            <description xml:lang="vi">Bạn có thể đặt độ cao của hình. (Mặc định là 75px)</description>
             <description xml:lang="ru">Вы можете установить вытсоту изображения. (стандарт: 75px)</description>
             <description xml:lang="zh-TW">指定圖片高度。(預設是75px)</description>
         </var>
@@ -465,6 +520,7 @@
             <name xml:lang="jp">横並びイメージ数</name>
             <name xml:lang="zh-CN">横向图片数</name>
             <name xml:lang="en">Number of Images</name>
+            <name xml:lang="vi">Số hình</name>
             <name xml:lang="es">Número de imágenes</name>
             <name xml:lang="ru">Число изображений (колонка)</name>
             <name xml:lang="zh-TW">橫向圖片數</name>
@@ -472,6 +528,7 @@
             <description xml:lang="jp">表示する横並びのイメージ数を指定します（デフォルト5個）。</description>
             <description xml:lang="zh-CN">可以指定要显示的横向图片个数。(默认为5个)</description>
             <description xml:lang="en">You can set the number of images to display. (5 as default)</description>
+            <description xml:lang="vi">Bạnc ó thể đặt số hình ảnh sẽ hiển thị. (Mặc định là 5 hình)</description>
             <description xml:lang="es">Usted puede definir el múmero de imágenes a mostrar. (predefinido: 5)</description>
             <description xml:lang="ru">Вы можете установить число изображений для показа. (стандарт: 5)</description>
             <description xml:lang="zh-TW">指定要顯示的橫向圖片數。(預設是5個)</description>
@@ -483,6 +540,7 @@
             <name xml:lang="zh-CN">目录数</name>
             <name xml:lang="jp">リスト数</name>
             <name xml:lang="en">The number of list</name>
+            <name xml:lang="vi">Số bài hiển thị</name>
             <name xml:lang="es">Número de la lista</name>
             <name xml:lang="ru">Число списка</name>
             <name xml:lang="zh-TW">目錄數</name>
@@ -490,6 +548,7 @@
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
             <description xml:lang="jp">出力するリスト数を指定します（デフォルト5個）。</description>
             <description xml:lang="en">You can set the number of articles to be displayed. (default is 5)</description>
+            <description xml:lang="vi">Bạn có thể đặt số bài hiển thị. (Mặc định là 5)</description>
             <description xml:lang="es">Usted puede definir el número de los documentos a mostrar. (predefinido: 5)</description>
             <description xml:lang="ru">Вы можете выбрать число списка статей для отображения. (стандарт: 5)</description>
             <description xml:lang="zh-TW">設置要顯示的目錄數。(預設是5個)</description>
@@ -498,6 +557,7 @@
             <type>select</type>
             <name xml:lang="ko">페이지수</name>
 			<name xml:lang="en">Page</name>
+            <name xml:lang="vi">Trang</name>
 			<name xml:lang="zh-CN">分页</name>
 			<name xml:lang="zh-TW">頁數</name>
             <name xml:lang="jp">ページ数</name>
@@ -505,6 +565,7 @@
                 <value>1</value>
                 <name xml:lang="ko">1</name>
 				<name xml:lang="en">1</name>
+                <name xml:lang="vi">1</name>
 				<name xml:lang="zh-CN">1</name>
 				<name xml:lang="zh-TW">1</name>
                 <name xml:lang="jp">1</name>
@@ -513,6 +574,7 @@
                 <value>2</value>
                 <name xml:lang="ko">2</name>
 				<name xml:lang="en">2</name>
+                <name xml:lang="vi">2</name>
 				<name xml:lang="zh-CN">2</name>
 				<name xml:lang="zh-TW">2</name>
                 <name xml:lang="jp">2</name>
@@ -521,12 +583,14 @@
                 <value>3</value>
                 <name xml:lang="ko">3</name>
 				<name xml:lang="en">3</name>
+                <name xml:lang="vi">3</name>
 				<name xml:lang="zh-CN">3</name>
 				<name xml:lang="zh-TW">3</name>
                 <name xml:lang="jp">3</name>
             </options>
             <description xml:lang="ko">페이지수 2이상일 경우 이전/다음 버튼이 나타납니다.</description>
 			<description xml:lang="en">Prev/Next buttons will appear when there are more than 2 pages.</description>
+            <description xml:lang="vi">Nút bấm "Trang trước/Trang sau" sẽ xuất hiện khi có từ 2 trang trở lên.</description>
 			<description xml:lang="zh-CN">分页数在2以上时，将会出现上一页/下一页按钮。</description>
 			<description xml:lang="zh-TW">頁數在2以上時，會出現上一頁/下一頁按鈕。</description>
             <description xml:lang="jp">ページ数が2枚以上の場合、前へ/次へのボタンが現れます。</description>
@@ -537,12 +601,14 @@
             <name xml:lang="zh-CN">new图标显示时间(hours)</name>
             <name xml:lang="jp">Newの表示時間 (Hours)</name>
             <name xml:lang="en">Duration of indication for new item</name>
+            <name xml:lang="vi">Chỉ định thời gian</name>
             <name xml:lang="ru">Длительность индикации для новых объектов</name>
             <name xml:lang="zh-TW">new圖案顯示時間(hours)</name>
             <description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (시간 단위)</description>
             <description xml:lang="zh-CN">可以设置最新更新主题的new图标显示时间。</description>
             <description xml:lang="jp">新しく登録された書き込みに対して「New」の表示時間を指定します（時間単位）。</description>
             <description xml:lang="en">You may set the duration of indication for fresh item. (unit is hour)</description>
+            <description xml:lang="vi">Bạn có thể chỉ định thời gian cho làm mới. (Đơn vị tính bằng giờ)</description>
             <description xml:lang="ru">Вы можете установить длительность индикации для нового объекта. (единица - час)</description>
             <description xml:lang="zh-TW">可設置最後更新主題的new圖案顯示時間。</description>
         </var>
@@ -552,6 +618,7 @@
             <name xml:lang="jp">タイトルの文字数</name>
             <name xml:lang="zh-CN">标题字数</name>
             <name xml:lang="en">Length of Subject</name>
+            <name xml:lang="vi">Độ dài tiêu đề</name>
             <name xml:lang="es">Número de letras del título</name>
             <name xml:lang="ru">Длина темы</name>
             <name xml:lang="zh-TW">標題字數</name>
@@ -559,6 +626,7 @@
             <description xml:lang="jp">タイトルの文字数を設定します（「0」または空欄の場合は、文字数を制限しません）。</description>
             <description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
             <description xml:lang="en">Length of Subject can be assigned. (0 or blank value will not restrict the length)</description>
+            <description xml:lang="vi">Có thể tăng thêm chiều dài của tiêu đề. (Đặt là 0 hoặc để trống nếu không giới hạn tiêu đề).</description>
             <description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
             <description xml:lang="ru">Длина темы может быть присвоена. (0 или пустое значение не будут ограничивать длину)</description>
             <description xml:lang="zh-TW">可設置標題的字數。(0或留白為不限制)</description>
@@ -567,6 +635,7 @@
             <type>text</type>
             <name xml:lang="ko">내용 글자수</name>
 			<name xml:lang="en">Content Length</name>
+            <name xml:lang="vi">Độ dài nội dung</name>
             <name xml:lang="jp">内容の文字数</name>
 			<name xml:lang="zh-CN">内容摘要字数</name>
 			<name xml:lang="zh-TW">內容字數</name>
@@ -577,6 +646,7 @@
             <name xml:lang="zh-CN">对象模块</name>
             <name xml:lang="jp">モジュール</name>
             <name xml:lang="en">Target Module</name>
+            <name xml:lang="vi">Chèn Module</name>
             <name xml:lang="es">Módulo Objetivo</name>
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
@@ -584,6 +654,7 @@
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
             <description xml:lang="en">The target articles to be sorted will be the ones submitted in the selected module.</description>
+            <description xml:lang="vi">Những bài viết sẽ được phân loại và hiển thị khi có bài mới gửi trong những Module đã chọn.</description>
             <description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
             <description xml:lang="ru">Статьи назначения для сортировки будут теми, что были размещены в выбранном модуле.</description>
             <description xml:lang="zh-TW">把所選擇的模組作為目標。</description>
@@ -594,10 +665,12 @@
             <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
             <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
             <description xml:lang="ko">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
             (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
+            <description xml:lang="vi">Chỉ hỗ trợ những định dạng được dăng kí. (RSS 2.0 RSS 1.0 ATOM 1.0).</description>
             <description xml:lang="jp">RSS URLはタイプが RSSの時だけ登録出来ます。
             (サポートする文書形式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="zh-TW">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
@@ -609,6 +682,7 @@
             <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
             <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
@@ -618,6 +692,7 @@
             <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
             <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
@@ -627,6 +702,7 @@
             <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
             <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
@@ -636,6 +712,7 @@
             <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
             <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
         </var>
@@ -645,12 +722,14 @@
             <name xml:lang="jp">HTML表示タイプ</name>
             <name xml:lang="zh-CN">HTML 출력 방식</name>
             <name xml:lang="en">HTML Display Type</name>
+            <name xml:lang="vi">Hiển thị kiểu HTML</name>
             <name xml:lang="ru">HTML 출력 방식</name>
             <name xml:lang="zh-TW">HTML 출력 방식</name>
             <description xml:lang="ko">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <description xml:lang="jp">TABLE(表)タグとUL(リスト型)タグを選択して表示します。(デフォールトはTABLE)</description>
             <description xml:lang="zh-CN">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <description xml:lang="en">You can choose TABLE tag or UL tag to display. (default is TABLE)</description>
+            <description xml:lang="vi">Bạn có thể chọn Table Tag hay UL Tag để hiển thị. (Mặc định là Table)</description>
             <description xml:lang="ru">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <description xml:lang="zh-TW">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <options>
@@ -659,6 +738,7 @@
                 <name xml:lang="jp">Table</name>
                 <name xml:lang="zh-CN">Table</name>
                 <name xml:lang="en">Table</name>
+                <name xml:lang="vi">Table</name>
                 <name xml:lang="ru">Table</name>
                 <name xml:lang="zh-TW">Table</name>
             </options>
@@ -668,6 +748,7 @@
                 <name xml:lang="jp">UL (list)</name>
                 <name xml:lang="zh-CN">UL (list)</name>
                 <name xml:lang="en">UL (list)</name>
+                <name xml:lang="vi">UL (Danh sách)</name>
                 <name xml:lang="ru">UL (list)</name>
                 <name xml:lang="zh-TW">UL (list)</name>
             </options>

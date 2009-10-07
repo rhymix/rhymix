@@ -2,6 +2,7 @@
 <module version="0.2">
     <title xml:lang="ko">한국 우편번호</title>
     <title xml:lang="en">Korean Zip Code</title>
+    <title xml:lang="vi">Korean Zip Code</title>
     <title xml:lang="es">Código postal de Corea</title>
     <title xml:lang="zh-CN">韩国邮编 </title>
     <title xml:lang="jp">韓国郵便番号</title>
@@ -14,6 +15,10 @@
     <description xml:lang="en">
         Searching the zip code via zip code server operated by XE.
         You can change the zip code server by setting.
+    </description>
+    <description xml:lang="vi">
+        Tìm kiếm địa chỉ với Zip Code Server được cung cấp bởi XE.
+        Bạn có thể thay đổi Zip Code Server bằng việc thiết lập Zip Code.
     </description>
     <description xml:lang="es">
         Busca el código postal a través del servidor operado por XE.
@@ -41,6 +46,7 @@
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="vi">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>

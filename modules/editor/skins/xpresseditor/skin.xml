@@ -3,6 +3,7 @@
     <title xml:lang="ko">XpressEditor Skin</title>
 	<title xml:lang="es">XpressEditor Skin</title>
 	<title xml:lang="en">XpressEditor Skin</title>
+    <title xml:lang="vi">XpressEditor Skin</title>
     <title xml:lang="jp">XpressEditorスキン</title>
     <title xml:lang="zh-CN">XpressEditor皮肤</title>
     <title xml:lang="zh-TW">XpressEditor面板</title> 
@@ -11,6 +12,9 @@
     </description>
 	<description xml:lang="en">
         XpressEditor based on SmartEditor Basic by gony
+    </description>
+    <description xml:lang="vi">
+        XpressEditor dựa trên SmartEditor cơ bản, được tạo bởi gony
     </description>
 	<description xml:lang="es">
         XpressEditor based on SmartEditor Basic by gony
@@ -30,6 +34,7 @@
         <name xml:lang="ko">행복한고니</name>
 		<name xml:lang="es">gony</name>
 		<name xml:lang="en">gony</name>
+        <name xml:lang="vi">gony</name>
         <name xml:lang="jp">gony</name>
 		<name xml:lang="zh-CN">gony</name>
         <name xml:lang="zh-TW">gony</name>
@@ -40,6 +45,7 @@
             <title xml:lang="jp">白（デフォルト）</title>
             <title xml:lang="zh-CN">白色（基本）</title>
             <title xml:lang="en">White (default)</title>
+            <title xml:lang="vi">White (Mặc định)</title>
             <title xml:lang="es">Blanco (por defecto)</title>
             <title xml:lang="zh-TW">白色(預設)</title>
         </color>
@@ -47,6 +53,7 @@
             <title xml:lang="ko">검은색</title>
             <title xml:lang="jp">黒</title>
             <title xml:lang="en">Black</title>
+            <title xml:lang="vi">Black</title>
             <title xml:lang="ru">Черного</title>
             <title xml:lang="es">Negro</title>
             <title xml:lang="zh-CN">黑色</title>
@@ -56,6 +63,7 @@
             <title xml:lang="ko">하얀색 텍스트편집기(자동 줄 바꿈)</title>
             <title xml:lang="jp">白色テキストエディター(自動に改行を入れる)</title>
             <title xml:lang="en">White Text Editor(Auto Line Break)</title>
+            <title xml:lang="vi">White Text Editor(Dòng tự động mở)</title>
             <title xml:lang="ru">White Text Editor(Auto Line Break)</title>
             <title xml:lang="es">Editor de texto en blanco (Auto de línea)</title>
             <title xml:lang="zh-CN">白色文本编辑器(自动换行)</title>
@@ -65,6 +73,7 @@
             <title xml:lang="ko">검은색 텍스트편집기(자동 줄 바꿈)</title>
             <title xml:lang="jp">黒色テキストエディター(自動に改行を入れる)</title>
             <title xml:lang="en">Black Text Editor(Auto Line Break)</title>
+            <title xml:lang="vi">Black Text Editor(Dòng tự động mở)</title>
             <title xml:lang="ru">Black Text Editor(Auto Line Break)</title>
             <title xml:lang="es">Editor de texto negro (salto de línea automático)</title>
             <title xml:lang="zh-CN">黑色文本编辑器(自动换行)</title>
@@ -74,6 +83,7 @@
             <title xml:lang="ko">하얀색 텍스트편집기(HTML 사용)</title>
             <title xml:lang="jp">白色テキストエディター(HTMLタグを使う)</title>
             <title xml:lang="en">White Text Editor(Use HTML)</title>
+            <title xml:lang="vi">White Text Editor(Sử dụng HTML)</title>
             <title xml:lang="ru">White Text Editor(Use HTML)</title>
             <title xml:lang="es">Editor de texto en blanco (Uso de HTML)</title>
             <title xml:lang="zh-CN">白色文本编辑器(使用HTML)</title>
@@ -83,6 +93,7 @@
             <title xml:lang="ko">검은색 텍스트편집기(HTML 사용)</title>
             <title xml:lang="jp">黒色テキストエディター(HTMLタグを使う)</title>
             <title xml:lang="en">Black Text Editor(Use HTML)</title>
+            <title xml:lang="vi">Black Text Editor(Sử dụng HTML)</title>
             <title xml:lang="ru">Black Text Editor(Use HTML)</title>
             <title xml:lang="es">Editor de texto negro (Uso de HTML)</title>
             <title xml:lang="zh-CN">黑色文本编辑器(使用HTML)</title>
@@ -92,6 +103,7 @@
             <title xml:lang="ko">하얀색 텍스트편집기(HTML 사용 안함)</title>
             <title xml:lang="jp">白色テキストエディター(HTMLタグを使わない)</title>
             <title xml:lang="en">White Text Editor(No HTML)</title>
+            <title xml:lang="vi">White Text Editor(Không có HTML)</title>
             <title xml:lang="ru">White Text Editor(No HTML)</title>
             <title xml:lang="es">Editor de texto en blanco (no HTML)</title>
             <title xml:lang="zh-CN">白色文本编辑器(不使用HTML)</title>
@@ -101,6 +113,7 @@
             <title xml:lang="ko">검은색 텍스트편집기(HTML 사용 안함)</title>
             <title xml:lang="jp">黒色テキストエディター(HTMLタグを使わない)</title>
             <title xml:lang="en">Black Text Editor(No HTML)</title>
+            <title xml:lang="vi">Black Text Editor(Không có HTML)</title>
             <title xml:lang="ru">Black Text Editor(No HTML)</title>
             <title xml:lang="es">Editor de texto negro (no HTML)</title>
             <title xml:lang="zh-CN">黑色文本编辑器(不使用HTML)</title>

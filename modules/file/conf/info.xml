@@ -3,6 +3,7 @@
     <title xml:lang="ko">첨부파일</title>
     <title xml:lang="zh-CN">附件管理</title>
     <title xml:lang="en">Attachment</title>
+    <title xml:lang="vi">Đính kèm</title>
     <title xml:lang="es">Adjuntar archivos</title>
     <title xml:lang="jp">添付ファイル</title>
     <title xml:lang="ru">Вложения</title>
@@ -10,6 +11,7 @@
     <description xml:lang="ko">첨부 파일 관리하는 모듈입니다.</description>
     <description xml:lang="zh-CN">管理附件的模块。</description>
     <description xml:lang="en">Module for managing attachments.</description>
+    <description xml:lang="vi">Module quản lý File đính kèm.</description>
     <description xml:lang="es">Módulo para manejar los archivos adjuntos.</description>
     <description xml:lang="jp">添付ファイルを管理するモジュールです。</description>
     <description xml:lang="ru">Модуль для управления вложениями.</description>
@@ -20,6 +22,7 @@
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="vi">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="es">zero</name>

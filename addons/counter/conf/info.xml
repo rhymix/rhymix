@@ -4,6 +4,7 @@
     <title xml:lang="jp">アクセスカウンターアドオン</title>
     <title xml:lang="zh-CN">网站访问统计</title>
     <title xml:lang="en">Counter Addon</title>
+    <title xml:lang="vi">Counter Addon</title>
     <title xml:lang="ge">Counter Addon</title>
     <title xml:lang="es">Addon contador básico</title>
     <title xml:lang="ru">Аддон для базового счетчика</title>
@@ -23,6 +24,10 @@
     <description xml:lang="en">
         This addon logs access information based on the basic counter module within  XE.
         The access information will be collected only if you turn on this addon.
+    </description>
+    <description xml:lang="vi">
+        Addon này sẽ tổng hợp tất cả những lượt truy cập vào Website qua Module Counter có sẵn bên trong XE.
+        Thông tin truy nhập chỉ được tập hợp khi bạn bật Addon này..
     </description>
     <description xml:lang="ge">
         Dieses Addon-Logs Zugriff auf Informationen basiert auf den grundlegenden Zähler-Modul innerhalb  XE.
@@ -45,6 +50,7 @@
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="vi">zero</name>
         <name xml:lang="jp">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
