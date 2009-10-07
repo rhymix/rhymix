@@ -480,9 +480,9 @@
     }
 
     /**
-     * @brief 간단한 console debugging 함수
-     * @param buff 출력하고자 하는 object
-     * @param display_line 구분자를 출력할 것인지에 대한 플래그 (기본:true)
+     * @brief prints debug messages 
+     * @param debug_output target object to be printed
+     * @param display_line boolean flag whether to print seperator (default:true)
      * @return none
      *
      * ./files/_debug_message.php 파일에 $buff 내용을 출력한다.
@@ -514,7 +514,14 @@
 
         } else {
             $debug_file = _XE_PATH_.'files/_debug_message.php';
-            $debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, true));
+            if(version_compare(PHP_VERSION, "4.3.2", ">="))
+            {
+                $debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, true));
+            }
+            else
+            {
+                $debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, true));
+            }
 
             if($display_option === true) $debug_output = str_repeat('=', 40)."\n".$debug_output.str_repeat('-', 40);
             $debug_output = "\n<?php\n/*".$debug_output."*/\n?>\n";
