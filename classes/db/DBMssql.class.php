@@ -645,6 +645,8 @@
                     $name = $val['name'];
 					if(preg_match('/^substr\(/i',$name)) $name = preg_replace('/^substr\(/i','substring(',$name);
                     $alias = $val['alias'];
+                    if($val['click_count']) $click_count[] = $val['name'];
+
                     if(substr($name,-1) == '*') {
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
@@ -701,6 +703,14 @@
 
             $result = $this->_query($query);
             if($this->isError()) return;
+
+            if(count($click_count)>0 && count($output->conditions)>0){
+                $_query = '';
+                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
+                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
+                $this->_query($_query);
+            }
+
             $data = $this->_fetch($result);
 
             $buff = new Object();

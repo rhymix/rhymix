@@ -804,6 +804,7 @@
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
                     $alias = $val['alias'];
+                    if($val['click_count']) $click_count[] = $val['name'];
 
                     if($alias == "")
                         $column_list[] = $this->autoQuotes($name);
@@ -860,6 +861,13 @@
 
             $data = $this->_fetch($result, $output);
             if(!$this->transaction_started) @ibase_commit($this->fd);
+
+            if(count($click_count)>0 && count($output->conditions)>0){
+                $_query = '';
+                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
+                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
+                $this->_query($_query);
+            }
 
             $buff = new Object();
             $buff->data = $data;
