@@ -499,7 +499,14 @@
 
         if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '5.2.0', '>=')) {
             if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
-            $label = sprintf('[%s:%d] ', $file_name, $line_num);
+            if(version_compare(PHP_VERSION, "4.3.2", ">="))
+            {
+                $label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
+            }
+            else
+            {
+                $label = sprintf('[%s:%d] ', $file_name, $line_num);
+            }
 
             // FirePHP 옵션 체크
             if($display_option === 'TABLE') $label = $display_option;
