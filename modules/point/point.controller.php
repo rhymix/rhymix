@@ -585,19 +585,52 @@
 
                     asort($point_group);
 
-                    // 포인트 그룹 설정을 돌면서 현재 레벨까지 체크
-                    foreach($point_group as $group_srl => $target_level) {
-                        if($config->group_reset != 'N') $del_group_list[] = $group_srl;
-                        if($target_level <= $level) {
-                            $new_group_srls[] = $group_srl;
-                        }
-                    }
+					//그룹 초기화 후 재설정
+					if($config->group_reset != 'N') {
+						//새로운 레벨에 맞는 그룹이 있다면
+						if(in_array($level, $point_group)) {
+							//현재 레벨의 그룹을 제외한 나머지는 모두 삭제
+							foreach($point_group as $group_srl => $target_level) {
+								$del_group_list[] = $group_srl;
+								if($target_level == $level) $new_group_srls[] = $group_srl;
+							}
+						}
+						//그렇지 않고 레벨 감소인 경우 바로 이전 그룹을 추가
+						else {
+							$i = $level;
+							while($i > 0) {
+								if(in_array($i, $point_group)) {
+									foreach($point_group as $group_srl => $target_level) {
+										if ($target_level == $i) {
+											$new_group_srls[] = $group_srl;
+										}
+									}
+									$i = 0;
+								}
+								
+								$i--;
+							}
+						}
+
+						//현재 레벨보다 높은 레벨의 그룹은 삭제
+						foreach($point_group as $group_srl => $target_level) {
+							if($target_level	 > $level) $del_group_list[] = $group_srl;
+						}
+					}
+					//새 그룹만 부여
+					else {			
+						// 포인트 그룹 설정을 돌면서 현재 레벨까지 체크
+						foreach($point_group as $group_srl => $target_level) {
+							$del_group_list[] = $group_srl;
+							if($target_level <= $level) $new_group_srls[] = $group_srl;
+						}
+					}
 
                     // 만약 새로운 그룹이 없다면 기본 그룹을 부여 받음
                     if(!$new_group_srls[0]) $new_group_srls[0] = $default_group->group_srl;
 
                     // 연동 그룹 제거
-                    if($config->group_reset != 'N' && $del_group_list && count($del_group_list)) {
+                    if($del_group_list && count($del_group_list)) {
                         $del_group_args->member_srl = $member_srl;
                         $del_group_args->group_srl = implode(',', $del_group_list);
                         $del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
