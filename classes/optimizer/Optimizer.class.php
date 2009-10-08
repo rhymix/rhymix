@@ -35,6 +35,7 @@
          **/
         function getOptimizedFiles($source_files, $type = "js") {
             if(!is_array($source_files) || !count($source_files)) return;
+            debugPrint("here");
 
             // $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
             foreach($source_files as $key => $file){
@@ -136,6 +137,11 @@
              * 실제 css나 js의 내용을 합친 것을 구함
              **/
             // 대상 파일의 내용을 구해오고 css 파일일 경우 url()내의 경로를 변경
+
+            $content_filename = substr($filename, 0, -4);
+            $file_object = FileHandler::openFile($path."/".$content_filename, "w");
+
+            if($type == 'css') $file_object->write('@charset "UTF-8";'."\n");
             foreach($targets as $file) {
                 $str = FileHandler::readFile($file['file']);
 
@@ -146,13 +152,12 @@
                     $str = $this->replaceCssPath($file['file'], $str);
                     if($file['media'] != 'all') $str = '@media '.$file['media'].' {'."\n".$str."\n".'}';
                 }
-
-                $content_buff .= $str."\n";
+                $file_object->write($str);
+                $file_object->write("\n");
+                unset($str);
             }
-            if($type == 'css') $content_buff = '@charset "UTF-8";'."\n".$content_buff;
 
-            $content_filename = substr($filename, 0, -4);
-            FileHandler::writeFile($path.'/'.$content_filename, $content_buff);
+            $file_object->close();
 
             /**
              * 캐시 타임을 제대로 이용하기 위한 헤더 파일 구함
