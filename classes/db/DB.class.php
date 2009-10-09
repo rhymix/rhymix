@@ -218,7 +218,7 @@
 		 * @return true: error, false: no error
          **/
         function isError() {
-            return $this->errno===0 ? false : true;
+            return $this->errno === 0 ? false : true;
         }
 
         /**
