@@ -239,6 +239,8 @@
          * @brief 문서 수정
          **/
         function updateDocument($source_obj, $obj) {
+            if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
+
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
             if(!$output->toBool()) return $output;
