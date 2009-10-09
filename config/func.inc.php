@@ -497,7 +497,7 @@
         $file_name = array_pop(explode(DIRECTORY_SEPARATOR, $first['file']));
         $line_num = $first['line'];
 
-        if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '5.2.0', '>=')) {
+        if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1) {
             if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
             if(version_compare(PHP_VERSION, "4.3.2", ">="))
             {

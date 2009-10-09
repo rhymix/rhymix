@@ -52,7 +52,7 @@
      * @brief 디버그 메세지의 출력 장소
      * 0 : files/_debug_message.php 에 연결하여 출력
      * 1 : HTML 최하단에 주석으로 출력 (Response Method가 HTML 일 때)
-     * 2 : Firebug 콘솔에 출력 (PHP >= 5.2.0. Firebug/FirePHP 플러그인 필요)
+     * 2 : Firebug 콘솔에 출력 (PHP 4 & 5. Firebug/FirePHP 플러그인 필요)
      **/
     if(!defined('__DEBUG_OUTPUT__')) define('__DEBUG_OUTPUT__', 0);
 
