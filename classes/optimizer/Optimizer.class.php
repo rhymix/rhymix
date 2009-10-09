@@ -35,7 +35,6 @@
          **/
         function getOptimizedFiles($source_files, $type = "js") {
             if(!is_array($source_files) || !count($source_files)) return;
-            debugPrint("here");
 
             // $source_files의 역슬래쉬 경로를 슬래쉬로 변경 (윈도우즈 대비)
             foreach($source_files as $key => $file){
