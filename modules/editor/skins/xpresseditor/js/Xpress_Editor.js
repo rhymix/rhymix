@@ -5486,7 +5486,9 @@ xe.XE_XHTMLFormatter = $.Class({
 		var stack = [];
 
         // remove xeHandled attrs
+        /*
         sContent = sContent.replace(/xeHandled="YES"/ig,'');
+        */
 
 
 		// remove all useless styles
