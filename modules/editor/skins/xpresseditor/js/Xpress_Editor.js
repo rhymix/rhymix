@@ -4886,7 +4886,7 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 	},
 
 	$ON_SHOW_ACTIVE_LAYER : function(){
-		this.oApp.exec( "HIDE_DIALOG_LAYER", [this.oUILayer]);
+		this.oApp.exec("HIDE_DIALOG_LAYER", [this.oUILayer]);
 	},
 
 	$ON_SHOW_FIND_REPLACE_LAYER : function(){
@@ -5681,6 +5681,7 @@ xe.XE_XHTMLFormatter = $.Class({
 xe.XE_Extension = jQuery.Class({
 	name  : "XE_Extension",
 	seq   : '',
+	last_doc : '',
 
 	$init : function(elAppContainer, editor_sequence) {
 		this.seq = editor_sequence;
@@ -5711,10 +5712,12 @@ xe.XE_Extension = jQuery.Class({
 
 		jQuery('img,div[editor_component]', doc).each(function(){
 			var obj = jQuery(this);
-            if(this.nodeName == 'IMG' && !obj.attr('editor_component')) obj.attr('editor_component','image_link')
-            if(!obj.attr('xeHandled')) {
-                obj.attr('xeHandled','YES');
+            if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
+              obj.attr('editor_component','image_link');
+            }
+            if(this.last_doc != doc) {
                 obj.dblclick(fn);
+                this.last_doc = doc;
             }
 		});
 	},
@@ -5768,11 +5771,9 @@ xe.XE_AutoSave = jQuery.Class({
 	},
 
 	$ON_MSG_APP_READY : function() {
-		var elSrl     = jQuery(this.form._saved_doc_srl);
 		var elTitle   = jQuery(this.form._saved_doc_title);
 		var elContent = jQuery(this.form._saved_doc_content);
 
-		var doc_srl     = jQuery.trim(elSrl.val());
 		var title   = jQuery.trim(elTitle.val());
 		var content = jQuery.trim(elContent.val());
 

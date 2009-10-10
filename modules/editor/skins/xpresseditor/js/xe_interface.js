@@ -206,7 +206,6 @@ function editorGetAutoSavedDoc(form) {
     setTimeout(function() {
       var response_tags = new Array("error","message","editor_sequence","title","content","document_srl");
       exec_xml('editor',"procEditorLoadSavedDocument", param, function(a,b,c) { editorRelKeys[param['editor_sequence']]['primary'].value = a['document_srl']; if(typeof(uploadSettingObj[param['editor_sequence']]) == 'object') editorUploadInit(uploadSettingObj[param['editor_sequence']], true); }, response_tags);
-      
     }, 0);
     
 }
