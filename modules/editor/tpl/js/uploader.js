@@ -251,6 +251,13 @@ function completeReloadFileList(ret_obj, response_tags, settings) {
     }
 
     if(upload_target_srl && upload_target_srl != 0) {
+        // 자동 저장된 문서와 target_srl이 다르게 될 경우 다시 자동 저장.
+        if(editorRelKeys[editor_sequence]["primary"].value != upload_target_srl) {
+            editorRelKeys[editor_sequence]["primary"].value = upload_target_srl;
+            uploadAutosaveChecker = true;
+            _editorAutoSave(true);
+        }
+
         editorRelKeys[editor_sequence]["primary"].value = upload_target_srl;
         settings["uploadTargetSrl"] = upload_target_srl;
     }
