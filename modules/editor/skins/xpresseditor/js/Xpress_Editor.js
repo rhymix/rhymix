@@ -5714,18 +5714,29 @@ xe.XE_Extension = jQuery.Class({
 
 		jQuery('img,div[editor_component]', doc).each(function(){
 			var obj = jQuery(this);
-            if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
-              obj.attr('editor_component','image_link');
-            }
-            if(this.last_doc != doc) {
-                obj.dblclick(fn);
-                this.last_doc = doc;
-            }
+			if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
+				obj.attr('editor_component','image_link');
+			}
+			if(this.last_doc != doc) {
+				obj.dblclick(fn);
+				this.last_doc = doc;
+			}
 		});
 	},
 
 	$ON_MSG_APP_READY : function() {
-		this.oApp.exec('REGISTER_UI_EVENT', ['extension', 'click', 'TOGGLE_EXTENSION_LAYER']);
+	  var oApp = this.oApp;
+		oApp.exec('REGISTER_UI_EVENT', ['extension', 'click', 'TOGGLE_EXTENSION_LAYER']);
+		var functn  = function(){
+			oApp.exec("HIDE_ACTIVE_LAYER", []);
+		};
+		jQuery('a', this.elDropdownLayer).each(function(){
+			var obj = jQuery(this);
+			if(!obj.attr('component_onclick_event_added')) {
+				obj.click(functn);
+				obj.attr('component_onclick_event_added','Y');
+			}
+		});
 	},
 
 	$ON_TOGGLE_EXTENSION_LAYER : function() {
