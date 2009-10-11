@@ -24,7 +24,7 @@
             // 기본적으로 필요한 변수 설정
             $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
-            $upload_target_srl = Context::get('uploadTargetSrl');
+            $upload_target_srl = intval(Context::get('uploadTargetSrl'));
             $module_srl = $this->module_srl;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
@@ -53,7 +53,7 @@
             $editor_sequence = Context::get('editor_sequence');
             $callback = Context::get('callback');
             $module_srl = $this->module_srl;
-            $upload_target_srl = Context::get('uploadTargetSrl');
+            $upload_target_srl = intval(Context::get('uploadTargetSrl'));
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
