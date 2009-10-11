@@ -5725,7 +5725,7 @@ xe.XE_Extension = jQuery.Class({
 	},
 
 	$ON_MSG_APP_READY : function() {
-	  var oApp = this.oApp;
+		var oApp = this.oApp;
 		oApp.exec('REGISTER_UI_EVENT', ['extension', 'click', 'TOGGLE_EXTENSION_LAYER']);
 		var functn  = function(){
 			oApp.exec("HIDE_ACTIVE_LAYER", []);
