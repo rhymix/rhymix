@@ -17,7 +17,6 @@
 		<column name="homepage" var="homepage" filter="homepage" maxlength="250" />
 		<column name="uploaded_count" var="uploaded_count" default="0" />
 		<column name="last_update" var="last_update" default="curdate()" />
-		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 	</columns>
 	<conditions>
 		<condition operation="equal" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
