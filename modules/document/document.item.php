@@ -378,9 +378,7 @@
         }
 
         function getPermanentUrl() {
-            $url = getUrl('','document_srl',$this->get('document_srl'));
-            if(substr($url,0,1)=='/') return substr(Context::getRequestUri(),0,-1).$url;
-            return $url;
+            return getFullUrl('','document_srl',$this->get('document_srl'));
         }
 
         function getTrackbackUrl() {
