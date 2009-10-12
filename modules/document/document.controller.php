@@ -266,6 +266,10 @@
                 $args->ipaddress = $source_obj->get('ipaddress');
                 $output = executeQuery("document.insertHistory", $args);
             }
+            else
+            {
+                $obj->ipaddress = $source_obj->get('ipaddress');
+            }
 
             // 기본 변수들 정리
             if($obj->is_secret!='Y') $obj->is_secret = 'N';
