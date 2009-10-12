@@ -105,12 +105,11 @@ function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, 
                 if(typeof(https_port)!='undefined' && https_port != 443) port = https_port;
                 var _u1 = xCreateElement('a');
                 _u1.href = url;
-                var targetUrl = '';
-                if(port == 443) targetUrl = 'https://';
-                else targetUrl = 'http://';
-                targetUrl += _u1.hostname;
+                var targetUrl = 'https://';
+                targetUrl += _u1.hostname.replace(/:([0-9]+)$/,'');
                 if(port != 443) targetUrl += ':'+port;
-                targetUrl += _u1.pathname;
+                if(_u1.pathname[0] != "/") targetUrl += "/";
+                targetUrl += _u1.pathname;  
                 targetUrl = targetUrl.replace(/\/$/,'');
                 this.xml_path = targetUrl + '/index.php';
             }
