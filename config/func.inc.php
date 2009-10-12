@@ -499,7 +499,7 @@
 
         if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1) {
             if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
-            if(version_compare(PHP_VERSION, "4.3.2", ">="))
+            if(function_exists("memory_get_usage"))
             {
                 $label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
             }
@@ -521,7 +521,7 @@
 
         } else {
             $debug_file = _XE_PATH_.'files/_debug_message.php';
-            if(version_compare(PHP_VERSION, "4.3.2", ">="))
+            if(function_exists("memory_get_usage"))
             {
                 $debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, true));
             }
