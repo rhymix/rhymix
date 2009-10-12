@@ -1112,6 +1112,10 @@
          * @brief js file을 추가
          **/
         function _addJsFile($file, $optimized, $targetie,$index) {
+            if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
+            $file = str_replace(array('/./','//'),'/',$file);
+            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
+
             if(in_array($file, $this->js_files)) return;
 
             if(is_null($index)) $index=count($this->js_files);
@@ -1206,6 +1210,10 @@
          * @brief CSS file 추가
          **/
         function _addCSSFile($file, $optimized, $media, $targetie, $index) {
+            if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
+            $file = str_replace(array('/./','//'),'/',$file);
+            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
+            
             if(in_array($file, $this->css_files)) return;
 
             if(is_null($index)) $index=count($this->css_files);
