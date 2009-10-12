@@ -20,7 +20,7 @@ function Tree(url){
 
             // node
             var node = '';
-            if(color){
+            if(color && color !='transparent'){
                 node = jQuery('<li id="tree_'+node_srl+'"><span style="color:'+color+';">'+text+'</span></li>');
             }else{
                 node = jQuery('<li id="tree_'+node_srl+'"><span>'+text+'</span></li>');
