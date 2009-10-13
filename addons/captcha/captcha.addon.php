@@ -24,7 +24,6 @@
 
         Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
 
-
         // 캡챠 인증이 되지 않은 세션이면 실행 시작
         if(!$_SESSION['captcha_authed']) {
 
@@ -32,7 +31,7 @@
             Context::loadLang(_XE_PATH_.'addons/captcha/lang');
 
             // 캡챠 세션 세팅
-            if(Context::get('act')=='setCaptchaSession') {
+            if(Context::get('captcha_action')=='setCaptchaSession') {
                 $f = FileHandler::readDir('./addons/captcha/icon');
                 shuffle($f);
                 $key = rand(0,count($f)-1);
@@ -50,7 +49,7 @@
                 exit();
 
             // 캡챠 이미지 출력
-            } else if(Context::get('act')=='captchaImage') {
+            } else if(Context::get('captcha_action')=='captchaImage') {
                 $f = FileHandler::readDir('./addons/captcha/icon');
                 shuffle($f);
                 $keyword = $_SESSION['captcha_keyword'];
@@ -82,7 +81,7 @@
                 exit();
 
             // 캡챠 이미지 점검
-            } else if(Context::get('act')=='captchaCompare') {
+            } else if(Context::get('captcha_action')=='captchaCompare') {
                 $x = Context::get('mx');
                 $y = Context::get('my');
                 $sx = $_SESSION['captcha_x'];

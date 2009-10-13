@@ -210,6 +210,13 @@
          * @brief 로그인 폼 출력
          **/
         function dispMemberLoginForm() {
+            if(Context::get('is_logged')) {
+                Context::set('redirect_url', getUrl('act',''));
+                $this->setTemplatePath($this->module_path.'tpl');
+                $this->setTemplateFile('redirect.html');
+                return;
+            }
+
             // 템플릿 파일 지정
             Context::set('referer_url', $_SERVER['HTTP_REFERER']);
             $this->setTemplateFile('login_form');

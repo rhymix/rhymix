@@ -45,7 +45,10 @@ var calledArgs = null;
 
                     if(doCheck) {
                         calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj};
-                        oldExecXml('captcha','setCaptchaSession',new Array(),captchaXE.show,new Array('error','message','about','keyword'));
+                        var params = new Array();
+                        params['captcha_action'] = 'setCaptchaSession';
+                        params['mid'] = current_mid;
+                        oldExecXml(module, act, params, captchaXE.show,new Array('error','message','about','keyword'));
                     } else {
                         oldExecXml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj);
                     }
@@ -77,7 +80,7 @@ var calledArgs = null;
                             margin:"0 0 10px 0",
                             cursor:"pointer"
                         })
-                        .attr("src", request_uri.setQuery('act','captchaImage').setQuery('rnd',Math.round(Math.random() * 6)))
+                        .attr("src", current_url.setQuery('captcha_action','captchaImage').setQuery('rnd',Math.round(Math.random() * 6)))
                         .click (captchaXE.compare)
                         .focus( function() { this.blur(); } );
 
@@ -99,9 +102,11 @@ var calledArgs = null;
                     var x = e.pageX - posX - 20;
                     var y = e.pageY - posY - 20;
                     var params = new Array();
-                    params["mx"] = x;
-                    params["my"] = y;
-                    oldExecXml('captcha','captchaCompare',params, function() {
+                    params['mx'] = x;
+                    params['my'] = y;
+                    params['captcha_action'] = 'captchaCompare';
+                    params['mid'] = current_mid;
+                    oldExecXml(calledArgs.module,calledArgs.act,params, function() {
                         $("#captcha_screen").css({ display:"none" });
                         oldExecXml(calledArgs.module, calledArgs.act, calledArgs.params, calledArgs.callback_func, calledArgs.response_tags, calledArgs.callback_func_arg, calledArgs.fo_obj);
                     } );
