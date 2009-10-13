@@ -223,4 +223,7 @@
 	$lang->edit->paging_next_help = 'Chuyển tới trang tiếp.';
 
 	$lang->edit->toc = 'Board của nội dung';
+	$lang->edit->close_help = '도움말 닫기';
+
+$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
 ?>
