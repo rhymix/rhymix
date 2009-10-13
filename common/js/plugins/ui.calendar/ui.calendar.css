@@ -10,8 +10,12 @@
 .ui-calendar caption .today span{text-decoration:underline;}
 .ui-calendar caption .navi{ position:absolute; top:10px; border:0; padding:0; width:17px; height:18px; background-color:transparent; background-image:url(./img/buttonPaginate.gif); background-repeat:no-repeat; cursor:pointer;}
 .ui-calendar caption .navi span{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0; z-index:-1; visibility:hidden;}
-.ui-calendar caption .navi.prev{ left:0; background-position:left top;}
-.ui-calendar caption .navi.next{ right:0; background-position:right top;}
+.ui-calendar caption .navi.prev{ left:20px; background-position:left top;}
+.ui-calendar caption .navi.next{ right:20px; background-position:right top;}
+.ui-calendar caption .navi.prev_year,
+.ui-calendar caption .navi.next_year{ width:22px; background-image:url(./img/buttonPaginateDuble.gif); }
+.ui-calendar caption .navi.prev_year{ left:0; background-position:left top;}
+.ui-calendar caption .navi.next_year{ right:0; background-position:right top;}
 .ui-calendar th,
 .ui-calendar td{ border:0; text-align:center;}
 .ui-calendar th{ color:#666; background:#f2f2f2; padding:3px 8px;}

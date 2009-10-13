@@ -285,8 +285,17 @@
             // 글 수정
             case 'metaWeblog.editPost' :
                     $tmp_val = $params[0]->value->string->body;
+                    if(!$tmp_val) $tmp_val = $params[0]->value->i4->body;
+                    if(!$tmp_val) {
+                        $content = getXmlRpcFailure(1, 'no permission');
+                        break;
+                    }
                     $tmp_arr = explode('/', $tmp_val);
                     $document_srl = array_pop($tmp_arr);
+                    if(!$document_srl) {
+                        $content = getXmlRpcFailure(1, 'no permission');
+                        break;
+                    }
 
                     $oDocumentModel = &getModel('document');
                     $oDocument = $oDocumentModel->getDocument($document_srl);

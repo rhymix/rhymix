@@ -44,7 +44,7 @@
     <tr>
         <th class="button">
             <!--@if($message->message_type != "S" && $message->member_srl != $logged_info->member_srl)-->
-            <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button black strong"><span>{$lang->cmd_reply}</span></a>
+            <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button black strong"><span>{$lang->cmd_reply_message}</span></a>
             <!--@end-->
             <!--@if($message->message_type == "R")-->
             <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button green"><span>{$lang->cmd_store}</span></a>

@@ -3,6 +3,7 @@
     <title xml:lang="ko">세션 관리자</title>
     <title xml:lang="jp">セッション管理</title>
     <title xml:lang="en">Session</title>
+    <title xml:lang="vi">Session</title>
     <title xml:lang="zh-CN">会话管理</title>
     <title xml:lang="zh-TW">SESSION管理</title>
     <description xml:lang="ko">
@@ -16,6 +17,9 @@
     <description xml:lang="en">
         This module manages session data.
         You will get not only session setting or using but also session-level data such as visitors by using session data.
+    </description>
+    <description xml:lang="vi">Module này quản lý dữ liệu Session.
+        Bạn không phải chỉ duy nhất thiết lập Session hay sử dụng, Cấp độ của Session phụ thuộc vào lượng người truy cập trên Website của bạn.
     </description>
     <description xml:lang="zh-CN">
         管理在线会员会话(session)功能的模块。
@@ -31,6 +35,7 @@
 
     <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
         <name xml:lang="ko">zero</name>
+        <name xml:lang="vi">zero</name>
         <name xml:lang="jp">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="zh-CN">zero</name>

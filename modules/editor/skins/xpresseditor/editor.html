@@ -29,7 +29,6 @@
     <!-- 자동저장용 폼 -->
 
     <!--@if($enable_autosave)-->
-    <input type="hidden" name="_saved_doc_srl" value="{$saved_doc->document_srl}" />
     <input type="hidden" name="_saved_doc_title" value="{htmlspecialchars($saved_doc->title)}" />
     <input type="hidden" name="_saved_doc_content" value="{htmlspecialchars($saved_doc->content)}" />
     <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
@@ -454,13 +453,12 @@
             </ul>
             <!--@end-->
 
-           <!--@if($html_mode)-->
-            <ul class="extra3">
-                <!-- HTML 모드 사용 -->
+            <ul class="extra3"<!--@if(!$html_mode)--> style="display:none"<!--@end-->>
+                <!--// HTML 모드 사용 -->
                 <li class="html"><span><button class="xpress_xeditor_mode_toggle_button" type="button" title="{$lang->edit->html_editor}">{$lang->edit->html_editor}</button></span></li>
-                <!--li class="preview"><span><button type="button" class="xpress_xeditor_preview_button" title="{$lang->cmd_preview}">{$lang->cmd_preview}</button></span></li-->
+                <!--// li class="preview"><span><button type="button" class="xpress_xeditor_preview_button" title="{$lang->cmd_preview}">{$lang->cmd_preview}</button></span></li-->
             </ul>
-            <!--@end-->
+            
 
         </div>
         <!--@else-->

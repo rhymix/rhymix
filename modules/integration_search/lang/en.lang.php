@@ -14,6 +14,9 @@
 
     $lang->is_result_text = "There are <strong>%d</strong> result(s) for <strong>'%s'</strong>";
     $lang->multimedia = "Images/ Movies";
+    
+    $lang->include_search_target = 'Search for selected modules';
+    $lang->exclude_search_target = 'Exclude selected modules from search';
 
     $lang->is_search_option = array(
         'document' => array(

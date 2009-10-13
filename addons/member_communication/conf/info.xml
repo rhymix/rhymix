@@ -4,6 +4,7 @@
     <title xml:lang="jp">コミュニケーション</title>
     <title xml:lang="zh-CN">会员交流</title>
     <title xml:lang="en">Communication</title>
+    <title xml:lang="vi">Truyền thông</title>
     <title xml:lang="ge">커뮤니케이션</title>
     <title xml:lang="es">커뮤니케이션</title>
     <title xml:lang="ru">커뮤니케이션</title>
@@ -21,6 +22,10 @@
     <description xml:lang="en">
         This addon enables communication module in order to use message or friend function.
         Please enable this addon in case you want to use those functions.
+    </description>
+    <description xml:lang="vi">
+        Addon này cho phép sử dụng Module truyền thông để sử dụng tin nhắn hay chức năng bạn bè.
+        Hãy kích hoạt nếu bạn muốn sử dụng chức năng này.
     </description>
     <description xml:lang="ge">
         커뮤니케이션 모듈의 기능을 활성화 시켜 쪽지나 친구기능을 사용할 수 있도록 해줍니다.
@@ -45,6 +50,7 @@
         <name xml:lang="jp">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
+        <name xml:lang="vi">zero</name>
         <name xml:lang="ge">zero</name>
         <name xml:lang="es">zero</name>
         <name xml:lang="ru">zero</name>

@@ -95,7 +95,7 @@
     $lang->cmd_view_member_info = '会員情報確認';
     $lang->cmd_leave = '退会';
     $lang->cmd_find_member_account = 'IDとパスワードのリマインダー';
-	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
+	$lang->cmd_resend_auth_mail = '認証メール再申請';
 
     $lang->cmd_member_list = '会員リスト';
     $lang->cmd_module_config = '基本設定';
@@ -207,5 +207,5 @@
     $lang->about_ssl_port = '基本ポート以外のSSLポートを利用する場合、入力して下さい。';
     $lang->add_openid = 'OpenIDの追加';
 
-	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+	$lang->about_resend_auth_mail = '認証メールが届いてなかった場合、再送信の申請が可能です。<br />※申請の前に、当サイトからメールの受信が出来るように設定して下さい。';
 ?>

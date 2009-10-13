@@ -21,14 +21,14 @@
 	$lang->content_font_size = '문서 폰트 크기';
 
 	$lang->about_component = '컴포넌트 소개';
-	$lang->about_component_grant = '기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.<br /> (모두 해제시 아무나 사용 가능합니다)';
+	$lang->about_component_grant = '기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.<br /> (모두 해제 시 아무나 사용 가능합니다)';
 	$lang->about_component_mid = '에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제 시 모든 대상에서 사용 가능합니다)';
 
 	$lang->msg_component_is_not_founded = '%s 에디터 컴포넌트를 찾을 수 없습니다.';
 	$lang->msg_component_is_inserted = '선택하신 컴포넌트는 이미 입력되어 있습니다.';
-	$lang->msg_component_is_first_order = '선택하신 컴포넌트는 첫번째에 위치하고 있습니다.';
+	$lang->msg_component_is_first_order = '선택하신 컴포넌트는 첫 번째에 위치하고 있습니다.';
 	$lang->msg_component_is_last_order = '선택하신 컴포넌트는 마지막에 위치하고 있습니다.';
-	$lang->msg_load_saved_doc = "자동 저장된 글이 있습니다. 복구하시겠습니까?\n글을 다 쓰신 후 저장하시면 자동 저장본은 사라집니다.";
+	$lang->msg_load_saved_doc = "자동 저장된 글이 있습니다. 복구하시겠습니까?\n글을 다 쓰신 후 저장하시면 자동 저장 본은 사라집니다.";
 	$lang->msg_auto_saved = '자동 저장되었습니다.';
 
 	$lang->cmd_disable = '비활성';
@@ -44,15 +44,15 @@
 	$lang->editor_height = '에디터 높이';
 
 	$lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
-	$lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
-	$lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
-	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
+	$lang->about_content_style = '문서 편집 및 내용 출력 시 원하는 서식을 지정할 수 있습니다';
+	$lang->about_content_font = '문서 편집 및 내용 출력 시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
+	$lang->about_content_font_size = '문서 편집 및 내용 출력 시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
 	$lang->about_upload_file_grant = '파일을 첨부할 수 있는 권한을 지정하실 수 있습니다. (모두 해제 시 아무나 첨부 가능합니다)';
 	$lang->about_default_component_grant = '에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제 시 아무나 사용 가능합니다)';
 	$lang->about_editor_height = '에디터의 기본 높이를 지정하실 수 있습니다.';
 	$lang->about_editor_height_resizable = '에디터의 높이를 직접 변경할 수 있도록 허용합니다.';
 	$lang->about_enable_html_grant = 'HTML편집 권한을 부여할 수 있습니다.';
-	$lang->about_enable_autosave = '글 작성시 자동 저장 기능을 활성화 시킬 수 있습니다.';
+	$lang->about_enable_autosave = '글 작성 시 자동 저장 기능을 활성화 시킬 수 있습니다.';
 
 	$lang->edit->fontname = '글꼴';
 	$lang->edit->fontsize = '크기';
@@ -152,11 +152,11 @@
 	$lang->edit->help = '도움말';
 	$lang->edit->help_command = '단축키 안내';
 
-	$lang->edit->lineheight = '줄간격';
+	$lang->edit->lineheight = '줄 간격';
 	$lang->edit->fontbgsampletext = '가나다';
 
 	$lang->edit->hyperlink = '하이퍼링크';
-	$lang->edit->target_blank = '새창으로';
+	$lang->edit->target_blank = '새 창으로';
 
 	$lang->edit->quotestyle1 = '왼쪽 실선';
 	$lang->edit->quotestyle2 = '인용 부호';
@@ -172,24 +172,24 @@
 	$lang->edit->set_sel = '칸 수 지정';
 	$lang->edit->row = '행';
 	$lang->edit->col = '열';
-	$lang->edit->add_one_row = '1행추가';
-	$lang->edit->del_one_row = '1행삭제';
-	$lang->edit->add_one_col = '1열추가';
-	$lang->edit->del_one_col = '1열삭제';
+	$lang->edit->add_one_row = '1행 추가';
+	$lang->edit->del_one_row = '1행 삭제';
+	$lang->edit->add_one_col = '1열 추가';
+	$lang->edit->del_one_col = '1열 삭제';
 
 	$lang->edit->table_config = '표 속성 지정';
 	$lang->edit->border_width = '테두리 굵기';
 	$lang->edit->border_color = '테두리 색';
 	$lang->edit->add = '더하기';
 	$lang->edit->del = '빼기';
-	$lang->edit->search_color = '색상찾기';
+	$lang->edit->search_color = '색상 찾기';
 	$lang->edit->table_backgroundcolor = '표 배경색';
 	$lang->edit->special_character = '특수문자';
 	$lang->edit->insert_special_character = '특수문자 삽입';
 	$lang->edit->close_special_character = '특수문자 레이어 닫기';
 	$lang->edit->symbol = '일반기호';
 	$lang->edit->number_unit = '숫자와 단위';
-	$lang->edit->circle_bracket = '원,괄호';
+	$lang->edit->circle_bracket = '원, 괄호';
 	$lang->edit->korean = '한글';
 	$lang->edit->greece = '그리스';
 	$lang->edit->Latin  = '라틴어';
@@ -198,10 +198,10 @@
 
 	$lang->edit->search_replace  = '찾기/바꾸기';
 	$lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
-	$lang->edit->replace_all  = '모두바꾸기';
-	$lang->edit->search_words  = '찾을단어';
-	$lang->edit->replace_words  = '바꿀단어';
-	$lang->edit->next_search_words  = '다음찾기';
+	$lang->edit->replace_all  = '모두 바꾸기';
+	$lang->edit->search_words  = '찾을 단어';
+	$lang->edit->replace_words  = '바꿀 단어';
+	$lang->edit->next_search_words  = '다음 찾기';
 	$lang->edit->edit_height_control  = '입력창 크기 조절';
 	
 	$lang->edit->merge_cells = '셀 병합';
@@ -212,9 +212,9 @@
 	$lang->edit->minimize_list = '최소화';
 	
 	$lang->edit->move = '이동';
-	$lang->edit->refresh = '새로고침';
-	$lang->edit->materials = '글감보관함';
-	$lang->edit->temporary_savings = '임시저장목록';
+	$lang->edit->refresh = '새로 고침';
+	$lang->edit->materials = '글감 보관함';
+	$lang->edit->temporary_savings = '임시 저장 목록';
 
 	$lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
 
@@ -224,4 +224,7 @@
 	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
 
 	$lang->edit->toc = '목차';
+	$lang->edit->close_help = '도움말 닫기';
+
+	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
 ?>

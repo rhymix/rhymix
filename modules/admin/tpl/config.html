@@ -6,6 +6,15 @@
 <!--%import("../../install/lang")-->
 <!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
 
+<script type="text/javascript">
+    function insertSelectedModule(id, module_srl, mid, browser_title) {
+        var obj= xGetElementById('_'+id);
+        var sObj = xGetElementById(id);
+        sObj.value = module_srl;
+        obj.value = browser_title+' ('+mid+')';
+    }
+</script>
+
 <div class="content">
     <!--@if($logged_info->is_admin == 'Y')-->
         <p class="path">
@@ -33,19 +42,13 @@
         </td>
     </tr>
     <tr>
-        <th><div>{$lang->start_module}</div></th>
+        <th scope="row"><div>{$lang->start_module}</div></th>
         <td>
-            <select name="index_module_srl" class="w200">
-                <!--@foreach($mid_list as $key => $val)-->
-                    <option value="" disabled="disabled">{$key}</option>
-                    <!--@foreach($val as $k => $v)-->
-                        <option value="{$v->module_srl}" <!--@if($start_module->index_module_srl==$v->module_srl)-->selected="selected"<!--@end-->>&nbsp; &nbsp;{$v->mid} ({$v->browser_title})</option>
-                    <!--@end-->
-                <!--@endforeach-->
-            </select>
-            <p>{$lang->about_start_module}</p>
+            <input type="hidden" name="index_module_srl" id="target_module" value="{$start_module->index_module_srl}" />
+            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({$start_module->browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
         </td>
     </tr>
+
     <tr>
         <th><div>{$lang->use_optimizer}</div></th>
         <td>

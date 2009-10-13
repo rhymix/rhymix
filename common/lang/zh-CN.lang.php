@@ -225,8 +225,9 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = '没有权限执行 action命令';
-    $lang->msg_module_is_not_exists = "启动模块没有启用。\n安装启动模块的管理员网页。";
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
     $lang->msg_module_is_not_standalone = '您请求的模块不能单独执行';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
     $lang->success_registed = '提交成功！';
     $lang->success_declared = '举报成功！';

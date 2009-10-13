@@ -24,7 +24,7 @@
             // 기본적으로 필요한 변수 설정
             $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
-            $upload_target_srl = Context::get('uploadTargetSrl');
+            $upload_target_srl = intval(Context::get('uploadTargetSrl'));
             $module_srl = $this->module_srl;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
@@ -53,7 +53,7 @@
             $editor_sequence = Context::get('editor_sequence');
             $callback = Context::get('callback');
             $module_srl = $this->module_srl;
-            $upload_target_srl = Context::get('uploadTargetSrl');
+            $upload_target_srl = intval(Context::get('uploadTargetSrl'));
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
@@ -66,8 +66,8 @@
 
             // file_srl이 요청되었을 경우 삭제 후 재업로드 시도
             $file_srl = Context::get('file_srl');
-			if($file_srl) $this->deleteFile($file_srl);
-	
+            if($file_srl) $this->deleteFile($file_srl);
+
             $file_info = Context::get('Filedata');
 
             // 정상적으로 업로드된 파일이 아니면 오류 출력
@@ -76,7 +76,7 @@
                 Context::set('uploaded_fileinfo',$output);
             }
 
-			Context::set('layout','none');
+            Context::set('layout','none');
 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('iframe');
@@ -88,26 +88,26 @@
          **/
         function procFileImageResize() {
             $source_src = Context::get('source_src');
-			$width = Context::get('width');
-			$height = Context::get('height');
-			$type = Context::get('type');
+            $width = Context::get('width');
+            $height = Context::get('height');
+            $type = Context::get('type');
             $output_src = Context::get('output_src');
 
-			if(!$source_src || !$width) return new Object(-1,'msg_invalid_request');
+            if(!$source_src || !$width) return new Object(-1,'msg_invalid_request');
             if(!$output_src){
-				$output_src = $source_src . '.resized' . strrchr($source_src,'.');
-			}
-			if(!$type) $type = 'ratio';
-			if(!$height) $height = $width-1;
+                $output_src = $source_src . '.resized' . strrchr($source_src,'.');
+            }
+            if(!$type) $type = 'ratio';
+            if(!$height) $height = $width-1;
 
-			if(FileHandler::createImageFile($source_src,$output_src,$width,$height,'','ratio')){
-				$output->info = getimagesize($output_src);	
-				$output->src = $output_src;
-			}else{
-				return new Object(-1,'msg_invalid_request');
-			}
-			
-			$this->add('resized_info',$output);		
+            if(FileHandler::createImageFile($source_src,$output_src,$width,$height,'','ratio')){
+                $output->info = getimagesize($output_src);	
+                $output->src = $output_src;
+            }else{
+                return new Object(-1,'msg_invalid_request');
+            }
+
+            $this->add('resized_info',$output);		
         }
 
 
@@ -389,7 +389,8 @@
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
             if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|asaf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info['name'])) {
                 // direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
-                $file_info['name'] = preg_replace('/\.(php|phtm|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
+                $file_info['name'] = preg_replace('/\.(php|phtm|html|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
+                $file_info['name'] = str_replace(array('<','>'),array('%3C','%3E'),$file_info['name']);
 
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_info['name'];

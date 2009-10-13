@@ -53,7 +53,10 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
     var elAppContainer   = jQuery('.xpress-editor', form).get(0);
 
     oEditor.getFrame = function(){ return oWYSIWYGIFrame;}
-
+	oEditor.getContent = function(){
+		editorGetContentTextarea_xe(editor_sequence);
+	}
+	
     var content = form[content_key].value;
     if(xFF && !content) content = '<p>&nbsp;</p>';
 
@@ -203,7 +206,6 @@ function editorGetAutoSavedDoc(form) {
     setTimeout(function() {
       var response_tags = new Array("error","message","editor_sequence","title","content","document_srl");
       exec_xml('editor',"procEditorLoadSavedDocument", param, function(a,b,c) { editorRelKeys[param['editor_sequence']]['primary'].value = a['document_srl']; if(typeof(uploadSettingObj[param['editor_sequence']]) == 'object') editorUploadInit(uploadSettingObj[param['editor_sequence']], true); }, response_tags);
-      
     }, 0);
     
 }

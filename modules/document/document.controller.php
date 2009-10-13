@@ -239,6 +239,8 @@
          * @brief 문서 수정
          **/
         function updateDocument($source_obj, $obj) {
+            if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
+
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
             if(!$output->toBool()) return $output;
@@ -263,6 +265,10 @@
                 $args->regdate = $source_obj->get('last_update');
                 $args->ipaddress = $source_obj->get('ipaddress');
                 $output = executeQuery("document.insertHistory", $args);
+            }
+            else
+            {
+                $obj->ipaddress = $source_obj->get('ipaddress');
             }
 
             // 기본 변수들 정리
@@ -328,13 +334,20 @@
 
             // 글쓴이의 언어변수와 원문의 언어변수가 다르면 확장변수로 처리
             if($source_obj->get('lang_code') != Context::getLangType()) {
-                $extra_content->title = $obj->title;
-                $extra_content->content = $obj->content;
+                // 원문의 언어변수가 없을경우 확장변수가 아닌 원문의 언어변수를 변경
+                if(!$source_obj->get('lang_code')) {
+                    $lang_code_args->document_srl = $source_obj->get('document_srl');
+                    $lang_code_args->lang_code = Context::getLangType();
+                    $output = executeQuery('document.updateDocumentsLangCode', $lang_code_args);
+                } else {
+                    $extra_content->title = $obj->title;
+                    $extra_content->content = $obj->content;
 
-                $document_args->document_srl = $source_obj->get('document_srl');
-                $document_output = executeQuery('document.getDocument', $document_args);
-                $obj->title = $document_output->data->title;
-                $obj->content = $document_output->data->content;
+                    $document_args->document_srl = $source_obj->get('document_srl');
+                    $document_output = executeQuery('document.getDocument', $document_args);
+                    $obj->title = $document_output->data->title;
+                    $obj->content = $document_output->data->content;
+                }
             }
 
             // 세션에서 최고 관리자가 아니면 iframe, script 제거

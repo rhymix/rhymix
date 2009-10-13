@@ -46,12 +46,13 @@
             $output = $oDB->getError();
             if(!$oDB->isConnected()) return $oDB->getError();
 
-            $oDB->begin();
+            // firebird는 설치시에 트랜젝션을 사용하지 않음
+            if($db_info->db_type != "firebird") $oDB->begin();
 
             // 모든 모듈의 설치
             $this->installDownloadedModule();
 
-            $oDB->commit();
+            if($db_info->db_type != "firebird") $oDB->commit();
 
             // config 파일 생성
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');

@@ -8,7 +8,7 @@
     $lang->point = "Punto"; 
     $lang->level = "Nivel"; 
 
-    $lang->about_point_module = "Usted puede entregar puntos a las acciones de escribir/agregar comentarios/subir/descargar.<br />Pero sólo se puede configurar en módulo de puntos, y los puntos sólo seran acumulados luego de haber activado addon de puntos";
+    $lang->about_point_module = "Usted puede entregar puntos a las acciones de escribir/agregar comentarios/subir/descargar.";
     $lang->about_act_config = "Cada módulo ya sea el tablero o blog tiene sus propias actiones como escribir/eliminar/agregar comentarios/eliminar comentarios/etc. <br />Usted puede añadir valores de actos para enlazar con sistema de módulo de puntos excepto el tablero y blog.<br />El enlace debe hacerse con una coma(,).";
 
     $lang->max_level = 'Nivel Máximo';

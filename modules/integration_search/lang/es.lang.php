@@ -14,6 +14,9 @@
 
     $lang->is_result_text = "<strong>%d</strong> Resultados con la palabra <strong>'%s'</strong> ";
     $lang->multimedia = "Images/ Movies";
+    
+    $lang->include_search_target = 'Sólo en determinados ';
+    $lang->exclude_search_target = 'Búsqueda para el destino de';
 
     $lang->is_search_option = array(
         'document' => array(

@@ -18,7 +18,7 @@
 	$lang->component_grant = '権限設定';
 	$lang->content_style = 'コンテンツスタイル';
 	$lang->content_font = 'コンテンツフォント';
-	$lang->content_font_size = '문서 폰트 크기';
+	$lang->content_font_size = 'コンテンツフォントサイズ';
 
 	$lang->about_component = 'コンポーネント情報';
 	$lang->about_component_grant = '基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。<br />(選択なしの場合、誰でも利用可能)';
@@ -46,7 +46,7 @@
 	$lang->about_editor_skin = 'エディターのスキンの選択が出来ます。';
 	$lang->about_content_style = 'コンテンツの編集、および内容表示の際のスタイルを指定します。';
 	$lang->about_content_font = 'コンテンツの編集、および内容表示の際のフォントを指定します。<br/>指定してない場合、ユーザーの設定を従います。<br/> 半角コンマ（,）区切りで複数フォントの登録が出来ます。';
-	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
+	$lang->about_content_font_size = 'コンテンツの編集、および内容表示の際のフォントサイズを指定します。<br/>12px、1emなどサイズ単位まで入力して下さい。';
 	$lang->about_upload_file_grant = 'ファイル添付可能な権限の設定が出来ます。(選択なしの場合、誰でも添付が可能)';
 	$lang->about_default_component_grant = 'エディターでの基本コンポーネントを使用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)';
 	$lang->about_editor_height = 'エディターの基本高さを設定します。';
@@ -212,10 +212,12 @@
 	$lang->edit->minimize_list = '最小化';
 	
 	$lang->edit->move = '移動';
-	$lang->edit->materials = '文面テンプレート保存箱';
+	$lang->edit->refresh = '再読み込み';
+	$lang->edit->materials = '資料箱'; 
 	$lang->edit->temporary_savings = '下書きリスト';
 
-	$lang->edit->drag_here = '下の段落追加ツールバーから、好きなタイプの段落を追加してから書き込みを始めて下さい。<br />文面テンプレート保存箱の中からここにドラッグ・アンド・ドロップ出来ます。';
+	$lang->edit->drag_here = '下のツールリストから段落のタイプを選んで追加できます。<br/>マウスでドラッグをすると、右の資料箱からこの枠に文書を追加できます。';
+
 
 	$lang->edit->paging_prev = '前へ';
 	$lang->edit->paging_next = '次へ';
@@ -223,4 +225,7 @@
 	$lang->edit->paging_next_help = '次のページへ移動します。';
 
 	$lang->edit->toc = 'リスト';
+	$lang->edit->close_help = '도움말 닫기';
+
+	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
 ?>

@@ -128,8 +128,8 @@
     <tr class="row{$cycle_idx}">
         <td colspan="2">
             <select name="group_reset">
-                <option value="Y"<!--@if($config->group_reset == 'point_group')--> selected="selected"<!--@end-->>{$lang->point_group_reset_and_add}</option>
-                <option value="N"<!--@if($config->group_reset == 'all')--> selected="selected"<!--@end-->>{$lang->point_group_add_only}</option>
+                <option value="Y"<!--@if($config->group_reset != 'N')--> selected="selected"<!--@end-->>{$lang->point_group_reset_and_add}</option>
+                <option value="N"<!--@if($config->group_reset == 'N')--> selected="selected"<!--@end-->>{$lang->point_group_add_only}</option>
             </select>
         </td>
     </tr>

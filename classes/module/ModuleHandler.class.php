@@ -110,20 +110,29 @@
                 //if($this->module && $module_info->module != $this->module) unset($module_info);
             }
 
+            // module_site_srl과 site_srl 값이 다르면 redirect 시도
+            if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0) {
+                $site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
+                header("location:".getNotEncodedSiteUrl($site_info->domain,'mid',$site_module_info->mid));
+                return false;
+            }
+
             // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
             if(!$module_info && !$this->module) $module_info = $site_module_info;
+
+            if(!$module_info && !$this->module && $site_module_info->module_site_srl) $module_info = $site_module_info;
 
             // 모듈정보와 사이트 모듈정보가 다르면(다른 사이트이면) 페이지 리다이렉트
             if($module_info && $module_info->site_srl != $site_module_info->site_srl) {
                 // 현재 요청된 모듈이 가상 사이트 모듈일 경우
                 if($module_info->site_srl) {
                     $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
-                    $redirect_url = getSiteUrl($site_info->domain, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
+                    $redirect_url = getNotEncodedSiteUrl($site_info->domain, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
                 // 가상 사이트 모듈이 아닌데 가상 사이트에서 호출되었을 경우
                 } else {
                     $db_info = Context::getDBInfo();
-                    if(!$db_info->default_url) return die("기본 URL이 정해지지 않아서 동작을 중지합니다");
-                    else $redirect_url = getSiteUrl($db_info->default_url, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
+                    if(!$db_info->default_url) return Context::getLang('msg_default_url_is_not_defined');
+                    else $redirect_url = getNotEncodedSiteUrl($db_info->default_url, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
                 }
                 header("location:".$redirect_url);
                 return false;

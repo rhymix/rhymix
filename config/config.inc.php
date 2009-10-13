@@ -13,7 +13,7 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.2.4');
+    define('__ZBXE_VERSION__', '1.2.6');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
@@ -52,7 +52,7 @@
      * @brief 디버그 메세지의 출력 장소
      * 0 : files/_debug_message.php 에 연결하여 출력
      * 1 : HTML 최하단에 주석으로 출력 (Response Method가 HTML 일 때)
-     * 2 : Firebug 콘솔에 출력 (PHP >= 5.2.0. Firebug/FirePHP 플러그인 필요)
+     * 2 : Firebug 콘솔에 출력 (PHP 4 & 5. Firebug/FirePHP 플러그인 필요)
      **/
     if(!defined('__DEBUG_OUTPUT__')) define('__DEBUG_OUTPUT__', 0);
 
@@ -103,7 +103,7 @@
     /**
      * @brief Firebug 콘솔 출력 사용시 관련 파일 require
      **/
-    if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '5.2.0', '>=')) {
+    if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1) {
         require _XE_PATH_.'libs/FirePHPCore/FirePHP.class.php';
     }
 

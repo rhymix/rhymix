@@ -61,6 +61,8 @@ $.extend(Calendar.prototype, {
 			today : 'Today',
 			prevmonth : 'Prev Month',
 			nextmonth : 'Next Month',
+			prevyear  : 'Prev Year',
+			nextyear  : 'Next Year',
 			close : 'Close'
 		}, options.lang||{});
 		
@@ -137,7 +139,7 @@ $.extend(Calendar.prototype, {
 			v['weeks'] = [];
 
 			var d = new Date(cal.date.getTime()), w = [];
-			var last = (v.m!=2)? (v.m%2?31:30) : ((new Date(v.yyyy,v.m-1,29)).getMonth()==v.m?29:28); // 마지막 날
+			var last = (v.m!=2)? ((v.m+(v.m>7?1:0))%2?31:30) : ((new Date(v.yyyy,v.m-1,29)).getMonth()==v.m?29:28); // 마지막 날
 
 			d.setDate(1); // 1일로 설정 후 1일의 요일을 가져온다.
 			var start = d.getDay(), end = last+start;
@@ -173,6 +175,8 @@ $.extend(Calendar.prototype, {
 		} else {
 			obj.find('button.prev').click(function(){ $.calendar._prevMonth(obj) });
 			obj.find('button.next').click(function(){ $.calendar._nextMonth(obj) });
+			obj.find('button.prev_year').click(function(){ $.calendar._prevYear(obj) });
+			obj.find('button.next_year').click(function(){ $.calendar._nextYear(obj) });
 		}
 		obj.find('td>button').click(function(){ $.calendar._selectDate(obj, $(this)) });
 	},
@@ -244,10 +248,14 @@ $.extend(Calendar.prototype, {
 		this._draw(obj);
 	},
 	_prevYear : function(obj) {
-		this._draw(obj);
+		var cal = calendars[this._getuid(obj)];
+
 		cal.date.setFullYear(cal.date.getFullYear()-1);
+		this._draw(obj);
 	},
 	_nextYear : function(obj) {
+		var cal = calendars[this._getuid(obj)];
+
 		cal.date.setFullYear(cal.date.getFullYear()+1);
 		this._draw(obj);
 	}
@@ -294,6 +302,8 @@ template.calendar = '<button type="button" class="close"><span>{lang.close_layer
 		<button type="button" class="today">{lang.today}</button>\
 		<button type="button" class="navi prev"><span>{lang.prevmonth}</span></button>\
 		<button type="button" class="navi next"><span>{lang.nextmonth}</span></button>\
+		<button type="button" class="navi prev_year"><span>{lang.prevyear}</span></button>\
+		<button type="button" class="navi next_year"><span>{lang.nextyear}</span></button>\
 	</span>\
 </caption>\
 <thead>\

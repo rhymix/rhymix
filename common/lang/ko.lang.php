@@ -16,7 +16,7 @@
     $lang->cmd_list = '목록';
     $lang->cmd_prev = '이전';
     $lang->cmd_next = '다음';
-    $lang->cmd_send_trackback = '엮인글발송';
+    $lang->cmd_send_trackback = '엮인글 발송';
     $lang->cmd_registration = $lang->cmd_submit = '등록';
     $lang->cmd_comment_registration = '댓글 등록';
     $lang->cmd_insert = '추가';
@@ -43,12 +43,12 @@
     $lang->cmd_management = '관리';
     $lang->cmd_make = '생성';
     $lang->cmd_select = '선택';
-    $lang->cmd_select_all = '모두선택';
-    $lang->cmd_unselect_all = '모두해제';
-    $lang->cmd_reverse_all = '선택반전';
-    $lang->cmd_close_all = '모두닫기';
-    $lang->cmd_open_all = '모두열기';
-    $lang->cmd_reload = '다시읽기';
+    $lang->cmd_select_all = '모두 선택';
+    $lang->cmd_unselect_all = '모두 해제';
+    $lang->cmd_reverse_all = '선택 반전';
+    $lang->cmd_close_all = '모두 닫기';
+    $lang->cmd_open_all = '모두 열기';
+    $lang->cmd_reload = '다시 읽기';
     $lang->cmd_close = '닫기';
     $lang->cmd_open = '열기';
     $lang->cmd_setup = '설정';
@@ -104,9 +104,9 @@
     $lang->description = '설명';
     $lang->trackback = '엮인글';
     $lang->tag = '태그';
-    $lang->allow_comment = '댓글허용';
-    $lang->lock_comment = '댓글잠금';
-    $lang->allow_trackback = '엮인글허용';
+    $lang->allow_comment = '댓글 허용';
+    $lang->lock_comment = '댓글 잠금';
+    $lang->allow_trackback = '엮인글 허용';
     $lang->uploaded_file = '첨부';
     $lang->grant = '권한';
     $lang->target = '대상';
@@ -119,11 +119,11 @@
     $lang->notify = '알림';
     $lang->order_target = '정렬대상';
     $lang->order_type = '정렬방법';
-    $lang->order_asc = '올림차순';
+    $lang->order_asc = '오름차순';
     $lang->order_desc = '내림차순';
     $lang->file = '파일';
 
-    $lang->mid = '모듈이름';
+    $lang->mid = '모듈 이름';
     $lang->sid = '가상 사이트 이름';
     $lang->layout = '레이아웃';
     $lang->widget = '위젯 ';
@@ -136,30 +136,30 @@
     $lang->url = 'URL';
     $lang->document_url = '게시글 주소';
     $lang->trackback_url = '엮인글 주소';
-    $lang->blog_name = '블로그이름';
+    $lang->blog_name = '블로그 이름';
     $lang->excerpt = '발췌';
 
-    $lang->document_count = '글수';
-    $lang->page_count = '페이지수';
+    $lang->document_count = '글 수';
+    $lang->page_count = '페이지 수';
     $lang->list_count = '목록 수';
     $lang->search_list_count = '검색 목록 수';
-    $lang->readed_count = '조회수';
-    $lang->voted_count = '추천수';
-    $lang->comment_count = '댓글수';
-    $lang->member_count = '회원수';
+    $lang->readed_count = '조회 수';
+    $lang->voted_count = '추천 수';
+    $lang->comment_count = '댓글 수';
+    $lang->member_count = '회원 수';
     $lang->date = '날짜';
     $lang->regdate = '등록일';
     $lang->last_update = '최근 수정일';
     $lang->last_post = '마지막 댓글';
     $lang->signup_date = '가입일';
-    $lang->last_login = '최근로그인';
-    $lang->first_page = '첫페이지';
-    $lang->last_page = '끝페이지';
+    $lang->last_login = '최근 로그인';
+    $lang->first_page = '첫 페이지';
+    $lang->last_page = '끝 페이지';
     $lang->search_target = '검색대상';
     $lang->search_keyword = '검색어';
     $lang->is_default = '기본';
 
-    $lang->no_documents = '등록된 글이 없습니다';
+    $lang->no_documents = '등록된 글이 없습니다.';
 
     $lang->board_manager = '게시판 관리';
     $lang->member_manager = '회원 관리';
@@ -198,56 +198,57 @@
     );
 
     $lang->time_gap = array(
-        'min' => '%d 분전',
-        'mins' => '%d 분전',
-        'hour' => '%d 시간전',
-        'hours' => '%d 시간전',
+        'min' => '%d 분 전',
+        'mins' => '%d 분 전',
+        'hour' => '%d 시간 전',
+        'hours' => '%d 시간 전',
     );
 
     // 설명 관련
-    $lang->about_tag = '태그 입력시 , (쉼표)를 이용하시면 복수 등록이 가능합니다';
-    $lang->about_layout = '레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다';
+    $lang->about_tag = '태그 입력 시 , (쉼표)를 이용하시면 복수 등록이 가능합니다.';
+    $lang->about_layout = '레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다.';
 
-    // 메세지 관련
+    // 메시지 관련
     $lang->msg_call_server = '서버에 요청중입니다. 잠시만 기다려주세요.';
-    $lang->msg_db_not_setted = 'DB설정이 되어 있지 않습니다';
+    $lang->msg_db_not_setted = 'DB설정이 되어 있지 않습니다.';
     $lang->msg_dbconnect_failed = "DB접속 오류가 발생하였습니다.\nDB정보를 다시 확인해주세요.";
-    $lang->msg_invalid_queryid = 'Query ID값이 잘못 지정되었습니다';
-    $lang->msg_not_permitted = '권한이 없습니다';
-    $lang->msg_input_password = '비밀번호를 입력하여 주세요';
-    $lang->msg_invalid_document = '잘못된 문서번호입니다';
-    $lang->msg_invalid_request = '잘못된 요청입니다';
-    $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다';
-    $lang->msg_error_occured = '오류가 발생하였습니다';
-    $lang->msg_not_founded = '대상을 찾을 수 없습니다';
-    $lang->msg_no_result = '검색 결과가 없습니다';
-    $lang->msg_fail_to_request_open = '요청하신 연결에 실패하였습니다';
-    $lang->msg_invalid_format = '잘못된 형식입니다';
+    $lang->msg_invalid_queryid = 'Query ID값이 잘못 지정되었습니다.';
+    $lang->msg_not_permitted = '권한이 없습니다.';
+    $lang->msg_input_password = '비밀번호를 입력하세요.';
+    $lang->msg_invalid_document = '잘못된 문서번호입니다.';
+    $lang->msg_invalid_request = '잘못된 요청입니다.';
+    $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다.';
+    $lang->msg_error_occured = '오류가 발생하였습니다.';
+    $lang->msg_not_founded = '대상을 찾을 수 없습니다.';
+    $lang->msg_no_result = '검색 결과가 없습니다.';
+    $lang->msg_fail_to_request_open = '요청하신 연결에 실패하였습니다.';
+    $lang->msg_invalid_format = '잘못된 형식입니다.';
 
-    $lang->msg_not_permitted_act = '요청하신 기능을 실행할 수 있는 권한이 없습니다';
-    $lang->msg_module_is_not_exists = "시작 모듈이 설정되어 있지 않습니다.\n관리자 페이지에서 시작 모듈을 설정해주세요";
-    $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수가 없습니다';
+    $lang->msg_not_permitted_act = '요청하신 기능을 실행할 수 있는 권한이 없습니다.';
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
+    $lang->msg_module_is_not_standalone = '요청하신 모듈은 독립적으로 동작할 수 없습니다.';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
-    $lang->success_registed = '등록되었습니다';
-    $lang->success_declared = '신고되었습니다';
-    $lang->success_updated = '수정되었습니다';
-    $lang->success_deleted = '삭제되었습니다';
-    $lang->success_restore = '복원되었습니다';
-    $lang->success_voted = '추천되었습니다';
-    $lang->success_blamed = '비추천되었습니다';
-    $lang->success_moved = '이동되었습니다';
-    $lang->success_sended = '발송되었습니다';
-    $lang->success_reset = '초기화되었습니다';
-    $lang->success_leaved = '탈퇴되었습니다';
-    $lang->success_saved = '저장되었습니다';
+    $lang->success_registed = '등록 되었습니다.';
+    $lang->success_declared = '신고 되었습니다.';
+    $lang->success_updated = '수정 되었습니다.';
+    $lang->success_deleted = '삭제되었습니다.';
+    $lang->success_restore = '복원 되었습니다.';
+    $lang->success_voted = '추천 되었습니다.';
+    $lang->success_blamed = '비추천 되었습니다.';
+    $lang->success_moved = '이동 되었습니다.';
+    $lang->success_sended = '발송 되었습니다.';
+    $lang->success_reset = '초기화 되었습니다.';
+    $lang->success_leaved = '탈퇴 되었습니다.';
+    $lang->success_saved = '저장 되었습니다.';
 
-    $lang->fail_to_delete = '삭제 실패하였습니다';
-    $lang->fail_to_move = '이동 실패하였습니다';
+    $lang->fail_to_delete = '삭제 실패하였습니다.';
+    $lang->fail_to_move = '이동 실패하였습니다.';
 
-    $lang->failed_voted = '추천하실 수 없습니다';
-    $lang->failed_blamed = '비추천하실 수 없습니다';
-    $lang->failed_declared = '신고를 하실 수 없습니다';
-    $lang->fail_to_delete_have_children = '댓글이 있어서 삭제할 수 없습니다';
+    $lang->failed_voted = '추천 하실 수 없습니다.';
+    $lang->failed_blamed = '비추천 하실 수 없습니다.';
+    $lang->failed_declared = '신고 하실 수 없습니다.';
+    $lang->fail_to_delete_have_children = '댓글이 있어서 삭제할 수 없습니다.';
 
     $lang->confirm_submit = '등록하시겠습니까?';
     $lang->confirm_logout = '로그아웃하시겠습니까?';
@@ -263,12 +264,12 @@
     $lang->column_type_list['homepage'] = 'URL 형식';
     $lang->column_type_list['email_address'] = '이메일 형식 (email)';
     $lang->column_type_list['tel'] = '전화번호 형식 (phone)';
-    $lang->column_type_list['textarea'] = '여러줄 입력칸 (textarea)';
+    $lang->column_type_list['textarea'] = '여러 줄 입력칸 (textarea)';
     $lang->column_type_list['checkbox'] = '다중 선택 (checkbox)';
     $lang->column_type_list['select'] = '단일 선택 (select)';
     $lang->column_type_list['radio'] = '라디오 버튼 (radio)';
     $lang->column_type_list['kr_zip'] = '한국주소 (zip)';
-    $lang->column_type_list['date'] = '일자 (년월일)';
+    $lang->column_type_list['date'] = '일자 (연월일)';
     //$lang->column_type_list['jp_zip'] = '일본주소 (zip)';
     $lang->column_name = '입력항목 이름';
     $lang->column_title = '입력항목 제목';
@@ -283,30 +284,30 @@
     $lang->ftp_port = 'FTP port';
     $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
     $lang->about_ftp_info = "
-        FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
-        1. PHP의 safe_mode=On일 경우에 FTP 정보를 이용해서 XE를 정상적으로 동작할 수 있게 합니다.<br/>
-        2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
-        이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
-        그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
+        FTP 정보는 다음 경우에 이용될 수 있습니다.<br />
+        1. PHP의 safe_mode=On일 경우, FTP 정보를 이용해서 XE가 정상적으로 동작할 수 있게 합니다.<br />
+        2. 자동 업데이트 등에서 FTP 정보를 이용할 수 있습니다.<br />
+        이 FTP정보는 files/config/ftp.config.php 파일 내에 정보가 저장됩니다.<br />
+        설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = 'PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다';
-    $lang->msg_ftp_not_connected = 'localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요';
-    $lang->msg_ftp_invalid_auth_info = '입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요';
-    $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요';
-    $lang->msg_ftp_chmod_fail = 'FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요';
-    $lang->msg_ftp_connect_success = 'FTP 접속 및 인증 성공하였습니다';
+    $lang->msg_safe_mode_ftp_needed = 'PHP의 safe_mode가 On일 경우, FTP 정보를 입력하셔야 XE 설치 및 사용이 가능합니다.';
+    $lang->msg_ftp_not_connected = 'localhost로의 FTP 접속 오류가 발생하였습니다. FTP 포트 번호를 확인해주시거나 FTP 서비스가 가능한지 확인해주세요.';
+    $lang->msg_ftp_invalid_auth_info = '입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.';
+    $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
+    $lang->msg_ftp_chmod_fail = 'FTP를 이용한 디렉토리의 속성 변경에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';
+    $lang->msg_ftp_connect_success = 'FTP 접속 및 인증에 성공하였습니다.';
 
     // xml filter에서 사용되는 javascript용 alert msg
-    $lang->filter->isnull = '%s의 값을 입력해주세요';
-    $lang->filter->outofrange = '%s의 글자 길이를 맞추어 주세요.';
-    $lang->filter->equalto = '%s의 값이 잘못 되었습니다.';
-    $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문,숫자와 _로 만드실 수 있으며 제일 앞은 영문이어야 합니다";
-    $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.zeroboard.com)';
-    $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력해주셔야 합니다';
-    $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력해주셔야 합니다';
-    $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력해주셔야 합니다';
-    $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력해주셔야 합니다';
-    $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력해주셔야 합니다';
+    $lang->filter->isnull = '%s을 입력해주세요.';
+    $lang->filter->outofrange = '%s의 글자 수를 맞추어 주세요.';
+    $lang->filter->equalto = '%s이 잘못되었습니다.';
+    $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: xe@xpressengine.com)';
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문, 숫자와 _로 만드실 수 있으며, 첫 글자는 영문이어야 합니다.";
+    $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)';
+    $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력하셔야 합니다.';
+    $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력하셔야 합니다.';
+    $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력하셔야 합니다.';
+    $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력하셔야 합니다.';
+    $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.';
 ?>

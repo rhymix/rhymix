@@ -8,7 +8,7 @@
     // 按鈕語言
     $lang->cmd_sync_member = '同步';
     $lang->cmd_continue = '繼續進行';
-    $lang->preprocessing = '準備匯入資料...';
+    $lang->preprocessing = '匯入資料中...';
 
     // 項目
     $lang->importer = '匯入';
@@ -51,7 +51,7 @@
 
     // 其他
     $lang->about_type_member = '資料匯入目標為會員資料時，請選擇此項。';
-    $lang->about_type_message = '資料匯入目標為短信息(MemoBox)時，請選擇此項。';
+    $lang->about_type_message = '資料匯入目標為短訊息(MemoBox)時，請選擇此項。';
     $lang->about_type_ttxml = '資料匯入目標為TTXML(textcube系列)時，請選擇此項。';
     $lang->about_ttxml_user_id = '請輸入匯入TTXML資料時，指定為主題發表者的ID(必須是已註冊會員)。';
     $lang->about_type_module = '資料匯入目標為討論板主題時，請選擇此項。';

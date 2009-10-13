@@ -14,6 +14,9 @@
 
     $lang->is_result_text = "<strong>%d</strong> результатов для <strong>'%s'</strong>";
     $lang->multimedia = "Images/ Movies";
+    
+    $lang->include_search_target = 'Лишь в отдельных целевых';
+    $lang->exclude_search_target = 'Поиск на выбранный пункт назначения из';
 
     $lang->is_search_option = array(
         'document' => array(

@@ -245,7 +245,7 @@
             $oModuleController->replaceDefinedLangCode($obj->blog_name);
             $obj->title = $oDocument->getTitleText();
             $obj->excerpt = $oDocument->getSummary(200);
-            $obj->url = getUrl('','document_srl',$oDocument->document_srl);
+            $obj->url = getFullUrl('','document_srl',$oDocument->document_srl);
 
             // blog_name, title, excerpt, url의 문자열을 요청된 charset으로 변경
             if($charset && function_exists('iconv')) {

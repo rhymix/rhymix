@@ -85,6 +85,11 @@
                 // site_module_info를 구함
                 $oModuleModel = &getModel('module');
                 $site_module_info = $oModuleModel->getDefaultMid();
+                // site_module_info의 site_srl = 0 일 경우 db_config의 default_url과 비교
+                if($site_module_info->site_srl == 0 && $site_module_info->domain != $this->db_info->default_url) {
+                    $site_module_info->domain = $this->db_info->default_url;
+                }
+
                 Context::set('site_module_info', $site_module_info);
 
                 if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
@@ -103,6 +108,7 @@
 
             // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
             if(!$this->lang_type) $this->lang_type = "en";
+            if(is_array($lang_supported)&&!isset($lang_supported[$this->lang_type])) $this->lang_type = 'en';
 
             Context::set('lang_supported', $lang_supported);
             $this->setLangType($this->lang_type);
@@ -316,7 +322,15 @@
             static $lang_selected = null;
             if(is_null($lang_selected)) {
                 $orig_lang_file = _XE_PATH_.'common/lang/lang.info';
-                $selected_lang_file = _XE_PATH_.'files/cache/lang_selected.info';
+                $selected_lang_file = _XE_PATH_.'files/config/lang_selected.info';
+                if(!file_exists($selected_lang_file) || !filesize($selected_lang_file)) {
+                    $old_selected_lang_file = _XE_PATH_.'files/cache/lang_selected.info';
+                    if(file_exists($old_selected_lang_file)) {
+                        FileHandler::copyFile($old_selected_lang_file, $selected_lang_file);
+                        FileHandler::removeFile($old_selected_lang_file);
+                    }
+                }
+
                 if(!file_exists($selected_lang_file) || !filesize($selected_lang_file)) {
                     $buff = FileHandler::readFile($orig_lang_file);
                     FileHandler::writeFile($selected_lang_file, $buff);
@@ -443,13 +457,15 @@
          **/
         function getBrowserTitle() {
             $oContext = &Context::getInstance();
-            return $oContext->_getBrowserTitle();
+            return htmlspecialchars($oContext->_getBrowserTitle());
         }
 
         /**
          * @brief 사이트 title return
          **/
         function _getBrowserTitle() {
+            $oModuleController = &getController('module');
+            $oModuleController->replaceDefinedLangCode($this->site_title);
             return $this->site_title;
         }
 
@@ -761,16 +777,17 @@
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function getUrl($num_args=0, $args_list=array(), $domain = null) {
+        function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             $oContext = &Context::getInstance();
-            return $oContext->_getUrl($num_args, $args_list, $domain);
+            return $oContext->_getUrl($num_args, $args_list, $domain, $encode);
         }
 
         /**
          * @brief 요청받은 url에 args_list를 적용하여 return
          **/
-        function _getUrl($num_args=0, $args_list=array(), $domain = null) {
+        function _getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             static $site_module_info = null;
+            static $current_info = null;
 
             // 가상 사이트 정보를 구함
             if(is_null($site_module_info)) $site_module_info = Context::get('site_module_info');
@@ -790,9 +807,10 @@
             // $domain값이 있을 경우 현재 요청된 도메인과 비교해서 동일할 경우 제거 그렇지 않으면 http 프로토콜을 제거하고 제일 뒤에 / 를 붙임
             if($domain) {
                 $domain_info = parse_url($domain);
-                $current_info = parse_url($_SERVER['HTTP_HOST'].getScriptPath());
-                if($domain_info['host'].$domain_info['path']==$current_info['host'].$current_info['path']) unset($domain);
-                else {
+                if(is_null($current_info)) $current_info = parse_url(($_SERVER['HTTPS']=='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].getScriptPath());
+                if($domain_info['host'].$domain_info['path']==$current_info['host'].$current_info['path']) {
+                    unset($domain); 
+                } else {
                     $domain = preg_replace('/^(http|https):\/\//i','', trim($domain));
                     if(substr($domain,-1) != '/') $domain .= '/';
                 }
@@ -879,20 +897,28 @@
                 }
             }
             
-            // XE가 설치된 절대 경로를 구해서 query를 완성
-
             // 항상 SSL을 이용하고 현재 SSL이 아닌 경우 https에 대한 prefix를 붙임
             if(Context::get('_use_ssl')=='always') {
-                if($_SERVER['HTTPS']!='on') $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
+                $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
             // 상황에 따라 혹은 지정된 대상만 SSL 취급될 경우
+            } elseif(Context::get('_use_ssl')=='optional') {
+                $ssl_mode = RELEASE_SSL;
+                if($get_vars['act'] && $this->_isExistsSSLAction($get_vars['act'])) $ssl_mode = ENFORCE_SSL;
+                $query = $this->getRequestUri($ssl_mode, $domain).$query;
+            // SSL 을 사용하지 않을 경우
             } else {
                 // SSL상태인데 대상이 SSL이 아닌 경우
-                if($_SERVER['HTTPS']=='on') $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
-                // SSL 상태가 아니면 domain값에 따라 query 완성
+                if($_SERVER['HTTPS']=='on' ) $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
+
+                // $domain 값이 있을 경우
                 else if($domain) $query = $this->getRequestUri(FOLLOW_REQUEST_SSL, $domain).$query;
+
+                // $domain 값이 없을 경우
                 else $query = getScriptPath().$query;
             }
-            return htmlspecialchars($query);
+
+            if($encode) return htmlspecialchars($query);
+            return $query;
         }
 
         /**
@@ -903,7 +929,6 @@
 
             // HTTP Request가 아니면 패스
             if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
-
             if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
 
             if($domain) $domain_key = md5($domain);
@@ -1087,6 +1112,10 @@
          * @brief js file을 추가
          **/
         function _addJsFile($file, $optimized, $targetie,$index) {
+            if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
+            $file = str_replace(array('/./','//'),'/',$file);
+            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
+
             if(in_array($file, $this->js_files)) return;
 
             if(is_null($index)) $index=count($this->js_files);
@@ -1181,6 +1210,10 @@
          * @brief CSS file 추가
          **/
         function _addCSSFile($file, $optimized, $media, $targetie, $index) {
+            if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
+            $file = str_replace(array('/./','//'),'/',$file);
+            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
+            
             if(in_array($file, $this->css_files)) return;
 
             if(is_null($index)) $index=count($this->css_files);

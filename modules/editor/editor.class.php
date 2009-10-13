@@ -47,6 +47,7 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $db_info = Context::getDBInfo ();
             $oModuleModel = &getModel('module');
 
             $oDB = &DB::getInstance();
@@ -55,7 +56,12 @@
             if(!$oDB->isColumnExists("editor_autosave","module_srl")) return true;
 
             // 2009. 06. 15 module_srl을 인덱스로
-            if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) return true;
+            if ($db_info->db_type == 'cubrid') {
+              if(!$oDB->isIndexExists("editor_autosave",$oDB->prefix."editor_autosave_idx_module_srl")) return true;
+            }
+            else {
+              if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) return true;
+            }
 
 
             // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
@@ -78,6 +84,7 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $db_info = Context::getDBInfo ();
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
 
@@ -88,9 +95,14 @@
                 $oDB->addColumn("editor_autosave","module_srl","number",11);
 
             // module_srl을 인덱스로
-            if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) 
-                $oDB->addIndex("editor_autosave","idx_module_srl", "module_srl");
-
+            if ($db_info->db_type == 'cubrid') {
+              if(!$oDB->isIndexExists("editor_autosave",$oDB->prefix."editor_autosave_idx_module_srl")) 
+                  $oDB->addIndex("editor_autosave",$oDB->prefix."editor_autosave_idx_module_srl", "module_srl");
+            }
+            else {
+              if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) 
+                  $oDB->addIndex("editor_autosave","idx_module_srl", "module_srl");
+            }
 
             // 2007. 10. 17 글의 입력(신규 or 수정)이 일어날때마다 자동 저장된 문서를 삭제하는 trigger 추가
             if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 

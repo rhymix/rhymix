@@ -459,9 +459,13 @@ function _displayMultimedia(src, width, height, options) {
 
     if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
         html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
-    } else if(/\.swf$/i.test(src)) {
+    } else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
+        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
+    } else if(/\.swf/i.test(src)) {
         clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
-        codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0";
+
+        if(typeof(enforce_ssl)=='undefined'){ codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0"; }
+        else { codebase = "https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0"; }
         html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
         html += '<param name="movie" value="'+src+'" />';
         for(var name in params) {
@@ -472,8 +476,6 @@ function _displayMultimedia(src, width, height, options) {
         html += ''
             + '<embed src="'+src+'" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>'
             + '</object>';
-    } else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
-        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
     }  else {
         html = '<embed src="'+src+'" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
         if(params.wmode == 'transparent') {
@@ -962,3 +964,14 @@ function replaceOuterHTML(obj, html) {
 function getOuterHTML(obj) {
     return jQuery(obj).html().trim();
 }
+
+jQuery(function(){
+    jQuery(".lang_code").each(
+    function() 
+    {
+        var objText = jQuery(this);
+        var targetName = objText.attr("name");
+        objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
+    }
+    );
+});

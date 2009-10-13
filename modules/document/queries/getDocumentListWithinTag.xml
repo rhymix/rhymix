@@ -9,6 +9,7 @@
     </columns>
     <conditions>
         <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
+        <condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.document_srl" default="tags.document_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
         <condition operation="like" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
@@ -19,8 +20,4 @@
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />
     </navigation>
-    <groups>
-        <group column="documents.document_srl" />
-        <group column="documents.list_order" />
-    </groups>
 </query>

@@ -322,16 +322,16 @@
 
             $table_name = $this->prefix.$table_name;
 
-            $query = sprintf('create class %s;', $table_name);
+            $query = sprintf('create class "%s";', $table_name);
             $this->_query($query);
 
-            $query = sprintf("call change_owner('%s','%s') on class db_root;", $table_name, $this->userid);
-            $this->_query($query);
+            /*$query = sprintf("call change_owner('%s','%s') on class db_root;", $table_name, $this->userid);
+            $this->_query($query); */
 
             if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
             else $columns = $xml_obj->table->column;
 
-            $query = sprintf("alter class %s add attribute ", $table_name);
+            $query = sprintf("alter class \"%s\" add attribute ", $table_name);
 
             foreach($columns as $column) {
                 $name = $column->attrs->name;
@@ -352,7 +352,7 @@
                         break;
                 }
 
-                if($default && !is_numeric($default)) $default = "'".$default."'";
+                if($default && (!is_numeric($default) || $default[0] == "+")) $default = "'".$default."'";
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
@@ -384,7 +384,7 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    $query = sprintf("create index %s_%s on %s (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
+                    $query = sprintf("create index \"%s_%s\" on %s (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
                     $this->_query($query);
                 }
             }
@@ -422,11 +422,13 @@
 
                     $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
 					if(!$value) {
-						$value = $v['value'];
-						if(strpos($value, ".") == false) $valuetmp = $value;
-						else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
+                                                $value = $v['value'];
+						if (strpos ($value, '(')) $valuetmp = $value;
+                                                elseif (strpos ($value, ".") === false) $valuetmp = $value;
+                                                else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
 					} else $valuetmp = $value;
-					if(strpos($name, ".") == false) $nametmp = '"'.$name.'"';
+                                        if (strpos ($name, '(')) $nametmp = $name;
+					elseif (strpos ($name, ".") === false) $nametmp = '"'.$name.'"';
 					else $nametmp = '"'.str_replace('.', '"."', $name).'"';
                     $str = $this->getConditionPart($nametmp, $valuetmp, $operation);
                     if($sub_condition) $sub_condition .= ' '.$pipe.' ';
@@ -488,7 +490,7 @@
         function _executeUpdateAct($output) {
             // 테이블 정리
             foreach($output->tables as $key => $val) {
-                $table_list[] = "\"".$this->prefix.$val."\" as ".$key;
+                $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
 
             // 컬럼 정리
@@ -496,10 +498,10 @@
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
-                                for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
-                                    if ($output->columns[$i]['name'] == $name) break;
-                                }
-                                if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
+                for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
+                    if ($output->columns[$i]['name'] == $name) break;
+                }
+                if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') {
@@ -565,12 +567,12 @@
 
             $left_join = array();
             // why???
-            $left_tables= (array)$output->left_tables;
+            $left_tables = (array)$output->left_tables;
 
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
                 if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as "'.$key  . '" on (' . $condition . ')';
+                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" "'.$key  . '" on (' . $condition . ')';
                 }
             }
 
@@ -580,21 +582,29 @@
                 $column_list = array();
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
-                    $alias = $val['alias'];
+
+					$click_count = '%s';
+					if($val['click_count'] && count($output->conditions)>0){
+						$click_count = 'incr(%s)';
+					}
+					
+                    $alias = $val['alias'] ? sprintf('"%s"',$val['alias']) : null;
                     if(substr($name,-1) == '*') {
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
-                        if($alias) $column_list[] = sprintf('"%s" as "%s"', $name, $alias);
-                        else $column_list[] = sprintf('"%s"',$name);
+						$name = sprintf($click_count,$name);
+                        if($alias) $column_list[] = sprintf('%s as %s', $name, $alias);
+                        else $column_list[] = sprintf('%s',$name);
                     } else {
                         if(strpos($name,'.')!=false) {
                             list($prefix, $name) = explode('.',$name);
-                            $deli=($name == '*') ? "" : "\"";
-                            if($alias) $column_list[] = sprintf("%s.$deli%s$deli as \"%s\"", $prefix, $name, $alias);
-                            else $column_list[] = sprintf("%s.$deli%s$deli",$prefix,$name);
+                            $prefix = sprintf('"%s"',$prefix);
+                            $name = ($name == '*') ? $name : sprintf('"%s"',$name);
+							
+							$column_list[] = sprintf($click_count,sprintf('%s.%s', $prefix, $name)) . ($alias ? sprintf(' as %s',$alias) : '');
+							
                         } else {
-                            if($alias) $column_list[] = sprintf('%s as "%s"', $name, $alias);
-                            else $column_list[] = sprintf('%s',$name);
+							$column_list[] = sprintf($click_count,$name) . ($alias ? sprintf(' as %s',$alias) : '');
                         }
                     }
                 }
@@ -607,7 +617,19 @@
 
             $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if (count ($output->groups)) {
+                foreach ($output->groups as &$value) {
+                    if (strpos ($value, '.')) {
+                        $tmp = explode ('.', $value);
+                        $tmp[0] = sprintf ('"%s"', $tmp[0]);
+                        $tmp[1] = sprintf ('"%s"', $tmp[1]);
+                        $value = implode ('.', $tmp);
+                    }
+                    elseif (strpos ($value, '(')) $value = $value;
+                    else $value = sprintf ('"%s"', $value);
+                }
+                $query .= sprintf(' group by %s', implode(',',$output->groups));
+            }
 
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) {
@@ -617,7 +639,16 @@
 
                 if ($output->order) {
                   foreach($output->order as $key => $val) {
-                      $index_list[] = sprintf('%s %s', $val[0]=='count'?'count(*)':$val[0], $val[1]);
+                      if (strpos ($val[0], '.')) {
+                        $tmpval = explode ('.', $val[0]);
+                        $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                        $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                        $val[0] = implode ('.', $tmpval);
+                      }
+                      elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                      elseif ($val[0] == 'count') $val[0] = 'count (*)';
+                      else $val[0] = sprintf ('"%s"', $val[0]);
+                      $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                   }
                   if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                   $query = sprintf('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
@@ -637,7 +668,16 @@
 
                 if($output->order) {
                     foreach($output->order as $key => $val) {
-                        $index_list[] = sprintf('%s %s', $val[0]=='count'?'count(*)':$val[0], $val[1]);
+                        if (strpos ($val[0], '.')) {
+                          $tmpval = explode ('.', $val[0]);
+                          $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                          $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                          $val[0] = implode ('.', $tmpval);
+                        }
+                        elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                        elseif ($val[0] == 'count') $val[0] = 'count (*)';
+                        else $val[0] = sprintf ('"%s"', $val[0]);
+                        $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                     }
                     if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
                 }
@@ -757,10 +797,31 @@
 
             $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if (count ($output->groups)) {
+                foreach ($output->groups as &$value) {
+                    if (strpos ($value, '.')) {
+                        $tmp = explode ('.', $value);
+                        $tmp[0] = sprintf ('"%s"', $tmp[0]);
+                        $tmp[1] = sprintf ('"%s"', $tmp[1]);
+                        $value = implode ('.', $tmp);
+                    }
+                    elseif (strpos ($value, '(')) $value = $value;
+                    else $value = sprintf ('"%s"', $value);
+                }
+                $query .= sprintf(' group by %s', implode(',',$output->groups));
+            }
 
             if ($output->order) {
               foreach($output->order as $key => $val) {
+                if (strpos ($val[0], '.')) {
+                  $tmpval = explode ('.', $val[0]);
+                  $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                  $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                  $val[0] = implode ('.', $tmpval);
+                }
+                elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                elseif ($val[0] == 'count') $val[0] = 'count (*)';
+                else $val[0] = sprintf ('"%s"', $val[0]);
                 $index_list[] = sprintf('%s %s', $val[0], $val[1]);
               }
               if(count($index_list)) $query .= ' order by '.implode(',',$index_list);

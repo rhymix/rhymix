@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <script type="text/javascript">
+        var idx = location.href.indexOf('?');
+        var url = parent.location.href;
+        if(idx > -1 ) {
+            var query_string = location.href.substr(idx+1, location.href.length);
+            var args = {};
+            query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+
+            url = unescape(args['redirect_url']);
+            if(typeof(url)=="undefined" || !url) url = "../../";
+        }
+        if(typeof(opener)!='undefined' && opener) {
+            opener.location.href = url;
+            self.close();
+        } else {
+            parent.location.href = url;
+        }
+    </script>
+</body>
+</html>

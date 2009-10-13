@@ -2,21 +2,22 @@
     /**
      * @class TemplateHandler
      * @author zero (zero@nzeo.com)
-     * @brief 템플릿 컴파일러
+     * @brief template compiler 
      * @version 0.1
-     *
-     * 정규표현식을 이용하여 템플릿 파일을 컴파일하여 php코드로 변경하고 이 파일을 caching하여 사용할 수 있도록 하는 템플릿 컴파일러
+     * @remarks It compiles template file by using regular expression into php 
+     *          code, and XE caches compiled code for further uses 
      **/
 
     class TemplateHandler extends Handler {
 
-        var $compiled_path = './files/cache/template_compiled/'; ///< 컴파일된 캐쉬 파일이 놓일 위치
+        var $compiled_path = './files/cache/template_compiled/'; ///< path of compiled caches files
 
-        var $tpl_path = ''; ///< 컴파일 대상 경로
-        var $tpl_file = ''; ///< 컴파일 대상 파일
+        var $tpl_path = ''; ///< target directory 
+        var $tpl_file = ''; ///< target filename
 
         /**
-         * @brief TemplateHandler의 기생성된 객체를 return
+         * @brief returns TemplateHandler's singleton object
+         * @return TemplateHandler instance
          **/
         function &getInstance() {
             if(__DEBUG__==3 ) {
@@ -31,32 +32,36 @@
         }
 
         /**
-         * @brief 주어진 tpl파일의 컴파일
-         **/
+         * @brief compiles specified tpl file
+         * @param[in] $tpl_path path of the directory containing target template file
+         * @param[in] $tpl_filename target template file's name
+         * @param[in] $tpl_file if specified use it as template file's full path 
+         * @return compiled result 
+         */
         function compile($tpl_path, $tpl_filename, $tpl_file = '') {
-            // 디버그를 위한 컴파일 시작 시간 저장
+            // store the starting time for debug information
             if(__DEBUG__==3 ) $start = getMicroTime();
 
-            // 변수 체크
+            // verify arguments 
             if(substr($tpl_path,-1)!='/') $tpl_path .= '/';
             if(substr($tpl_filename,-5)!='.html') $tpl_filename .= '.html';
 
-            // tpl_file 변수 생성
+            // create tpl_file variable 
             if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
 
-            // tpl_file이 비어 있거나 해당 파일이 없으면 return
+            // if target file does not exist return 
             if(!$tpl_file || !file_exists(FileHandler::getRealPath($tpl_file))) return;
 
             $this->tpl_path = preg_replace('/^\.\//','',$tpl_path);
             $this->tpl_file = $tpl_file;
 
-            // compiled된(or 될) 파일이름을 구함
+            // get cached compiled file name
             $compiled_tpl_file = FileHandler::getRealPath($this->_getCompiledFileName($tpl_file));
 
-            // 일단 컴파일
+            // compile 
             $buff = $this->_compile($tpl_file, $compiled_tpl_file);
 
-            // Context와 compiled_tpl_file로 컨텐츠 생성
+            // make a result, combining Context and compiled_tpl_file
             $output = $this->_fetch($compiled_tpl_file, $buff, $tpl_path);
 
             if(__DEBUG__==3 ) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
@@ -65,7 +70,10 @@
         }
 
         /**
-         * @brief 주어진 파일을 컴파일 후 바로 return
+         * @brief compile specified file and immediately return
+         * @param[in] $tpl_path path of the directory containing target template file
+         * @param[in] $tpl_filename target template file's name
+         * @return
          **/
         function compileDirect($tpl_path, $tpl_filename) {
             $this->tpl_path = $tpl_path;
@@ -78,7 +86,10 @@
         }
 
         /**
-         * @brief tpl_file이 컴파일이 되어 있는 것이 있는지 체크
+         * @brief compile if necessary 
+         * @param[in] $tpl_path path of the directory containing target template file
+         * @param[in] $tpl_filename target template file's name
+         * @return if compiled file exists and it is newer than template file return nothing, otherwise compiled result
          **/
         function _compile($tpl_file, $compiled_tpl_file) {
             if(!file_exists($compiled_tpl_file)) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
@@ -89,52 +100,57 @@
         }
 
         /**
-         * @brief tpl_file을 compile
+         * @brief compile tpl_file file
+         * @param[in] $tpl_file path of tpl file
+         * @param[in] $compiled_tpl_file if specified, write compiled result into the file
+         * @return compiled result 
          **/
         function _compileTplFile($tpl_file, $compiled_tpl_file = '') {
 
-            // tpl 파일을 읽음
+            // read tpl file 
             $buff = FileHandler::readFile($tpl_file);
             if(!$buff) return;
 
-            // include 변경 <!--#include($filename)-->
+            // replace include <!--#include($filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // 이미지 태그 img의 src의 값이 ./ 또는 파일이름으로 바로 시작하면 경로 변경
+            // if value of src in img/input tag starts with ./ or with filename replace the path
             $buff = preg_replace_callback('/<(img|input)([^>]*)src=[\'"]{1}(.*?)[\'"]{1}/is', array($this, '_compileImgPath'), $buff);
 
-            // 변수를 변경
+            // replace variables
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
 
-            // 결과를 출력하지 않는 구문 변경
+            // replace parts not displaying results
             $buff = preg_replace_callback('/\{\@([^\{\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
 
-            // <!--@, --> 의 변경
+            // replace <!--@, --> 
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
 
-            // <!--// ~ --> 주석문 제거
+            // remove comments <!--// ~ --> 
             $buff = preg_replace('!(\n?)( *?)<\!--//(.*?)-->!is', '', $buff);
 
-            // import xml filter/ css/ js/ 언어파일 <!--%import("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media는 css에만 적용)
+            // import xml filter/ css/ js/ files <!--%import("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media is applied to only css)
             $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileImportCode'), $buff);
 
-            // unload css/ js <!--%unload("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media는 css에만 적용)
+            // unload css/ js <!--%unload("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media is applied to only css)
             $buff = preg_replace_callback('!<\!--%unload\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileUnloadCode'), $buff);
 
             // javascript plugin import
             $buff = preg_replace_callback('!<\!--%load_js_plugin\(\"([^\"]*?)\"\)-->!is', array($this, '_compileLoadJavascriptPlugin'), $buff);
 
-            // 파일에 쓰기 전에 직접 호출되는 것을 방지
+            // prevent from calling directly before writing into file
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
 
-            // 컴파일된 코드를 파일에 저장
+            // write compiled code into file
             if($compiled_tpl_file) FileHandler::writeFile($compiled_tpl_file, $buff);
 
             return $buff;
         }
 
         /**
-         * @brief {$와 } 안의 $... 변수를 Context::get(...) 으로 변경
+         * @brief replace $... variables in { } into Context::get(...) 
+         * @param[in] $matches match 
+         * @return replaced result
          **/
         function _compileVarToContext($matches) {
             $str = trim(substr($matches[0],1,strlen($matches[0])-2));
@@ -149,7 +165,7 @@
                     } else {
                         list($class, $method) = explode('::',$func);
                         if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
-                            // 서버 환경에 따라서 class, method가 대소문자 구별을 할때와 하지 않을때가 있음
+                            // within some environment, name of classes and methods may be case-sensitive
                             list($class, $method) = explode('::',strtolower($func));
                             if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
                                 return $matches[0];
@@ -164,7 +180,9 @@
         }
 
         /**
-         * @brief 이미지의 경로를 변경
+         * @brief change image path
+         * @param[in] $matches match
+         * @return changed result
          **/
         function _compileImgPath($matches) {
             static $real_path = null;
@@ -187,7 +205,9 @@
         }
 
         /**
-         * @brief {@와 } 안의 @... 함수를 print func(..)로 변경
+         * @brief replace @... function in { } into print func(..)
+         * @param[in] $matches match
+         * @return replaced result
          **/
         function _compileVarToSilenceExecute($matches) {
             if(strtolower(trim(str_replace(array(';',' '),'', $matches[1])))=='return') return '<?php return; ?>';
@@ -195,7 +215,9 @@
         }
 
         /**
-         * @brief <!--@, --> 사이의 구문을 php코드로 변경
+         * @brief changed content in <!--@, --> into php code
+         * @param[in] $matches match
+         * @return changed result
          **/
         function _compileFuncToCode($matches) {
             static $idx = 0;
@@ -253,10 +275,12 @@
         }
 
         /**
-         * @brief <!--#include $path-->를 변환
+         * @brief replace <!--#include $path-->
+         * @param[in] $matches match
+         * @return replaced result
          **/
         function _compileIncludeToCode($matches) {
-            // include하려는 대상문자열에 변수가 있으면 변수 처리
+            // if target string to include contains variables handle them
             $arg = str_replace(array('"','\''), '', $matches[1]);
             if(!$arg) return;
 
@@ -276,19 +300,19 @@
             $arg = implode("/",$tmp_arr);
             if(substr($arg,0,2)=='./') $arg = substr($arg,2);
 
-            // 1단계로 해당 tpl 내의 파일을 체크
+            // step1: check files in the template directory
             $source_filename = sprintf("%s/%s", dirname($this->tpl_file), $arg);
 
-            // 2단계로 root로부터 경로를 체크
+            // step2: check path from root2단계로 root로부터 경로를 체크
             if(!file_exists($source_filename)) $source_filename = './'.$arg;
             if(!file_exists($source_filename)) return;
 
-            // path, filename으로 분리
+            // split into path and filename
             $tmp_arr = explode('/', $source_filename);
             $filename = array_pop($tmp_arr);
             $path = implode('/', $tmp_arr).'/';
 
-            // include 시도
+            // try to include 
             $output = sprintf(
                 '<?php%s'.
                 '$oTemplate = &TemplateHandler::getInstance();%s'.
@@ -308,10 +332,12 @@
         }
 
         /**
-         * @brief <!--%filename-->의 확장자를 봐서 js filter/ css/ js 파일을 include하도록 수정
+         * @brief modify to include js filter/ css/ js according to extension of <!--%filename-->
+         * @param[in] $matches match
+         * @return modified result
          **/
         function _compileImportCode($matches) {
-            // 현재 tpl 파일의 위치를 구해서 $base_path에 저장하여 적용하려는 xml file을 찾음
+            // find xml file
             $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
@@ -323,32 +349,32 @@
             if(!$targetie) $targetie = '';
             else $optimized = 'false';
 
-            // given_file이 lang으로 끝나게 되면 언어팩을 읽도록 함
+            // if given_file ends with lang, load language pack
             if(substr($given_file, -4)=='lang') {
                 if(substr($given_file,0,2)=='./') $given_file = substr($given_file, 2);
                 $lang_dir = sprintf('%s%s', $this->tpl_path, $given_file);
                 if(is_dir($lang_dir)) $output = sprintf('<?php Context::loadLang("%s"); ?>', $lang_dir);
 
-            // load lang이 아니라면 xml, css, js파일을 읽도록 시도
+            // otherwise try to load xml, css, js file
             } else {
                 if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
                 else $source_filename = $given_file;
 
-                // path와 파일이름을 구함
+                // get filename and path
                 $tmp_arr = explode("/",$source_filename);
                 $filename = array_pop($tmp_arr);
 
                 $base_path = implode("/",$tmp_arr)."/";
 
-                // 확장자를 구함
+                // get the ext
                 $tmp_arr = explode(".",$filename);
                 $ext = strtolower(array_pop($tmp_arr));
 
-                // 확장자에 따라서 파일 import를 별도로
+                // according to ext., import the file
                 switch($ext) {
                     // xml js filter
                     case 'xml' :
-                            // XmlJSFilter 클래스의 객체 생성후 js파일을 만들고 Context::addJsFile처리
+                            // create an instance of XmlJSFilter class, then create js and handle Context::addJsFile
                             $output = sprintf(
                                 '<?php%s'.
                                 'require_once("./classes/xml/XmlJsFilter.class.php");%s'.
@@ -390,8 +416,10 @@
         }
 
         /**
-         * @brief javascript 플러그인 import 
-         * javascript 플러그인의 경우 optimized = false로 동작하도록 고정시킴
+         * @brief import javascript plugin 
+         * @param[in] $matches match
+         * @return result loading the plugin
+         * @remarks javascript plugin works as optimized = false
          **/
         function _compileLoadJavascriptPlugin($matches) {
             $base_path = $this->tpl_path;
@@ -400,10 +428,12 @@
         }
 
         /**
-         * @brief <!--%filename-->의 확장자를 봐서 css/ js 파일을 제거하도록 수정
+         * @brief remove loading part of css/ js file 
+         * @param[in] $matches match
+         * @return removed result
          **/
         function _compileUnloadCode($matches) {
-            // 현재 tpl 파일의 위치를 구해서 $base_path에 저장하여 적용하려는 xml file을 찾음
+            // find xml file 
             $base_path = $this->tpl_path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
@@ -418,17 +448,16 @@
             if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
             else $source_filename = $given_file;
 
-            // path와 파일이름을 구함
+            // get path and file name
             $tmp_arr = explode("/",$source_filename);
             $filename = array_pop($tmp_arr);
 
             $base_path = implode("/",$tmp_arr)."/";
 
-            // 확장자를 구함
+            // get an ext.
             $tmp_arr = explode(".",$filename);
             $ext = strtolower(array_pop($tmp_arr));
 
-            // 확장자에 따라서 파일 import를 별도로
             switch($ext) {
                 // css file
                 case 'css' :
@@ -454,14 +483,20 @@
         }
 
         /**
-         * @brief $tpl_file로 compiled_tpl_file이름을 return
+         * @brief return compiled_tpl_file's name accroding to template file name
+         * @param[in] $tpl_file template file name
+         * @return compiled template file's name
          **/
         function _getCompiledFileName($tpl_file) {
             return sprintf('%s%s.compiled.php',$this->compiled_path, md5($tpl_file));
         }
 
         /**
-         * @brief ob_* 함수를 이용하여 fetch...
+         * @brief fetch using ob_* function 
+         * @param[in] $compiled_tpl_file path of compiled template file
+         * @param[in] $buff if buff is not null, eval it instead of including compiled template file
+         * @param[in] $tpl_path set context's tpl path
+         * @return result string
          **/
         function _fetch($compiled_tpl_file, $buff = NULL, $tpl_path = '') {
             $__Context = &$GLOBALS['__Context__'];
@@ -469,10 +504,8 @@
 
             if($_SESSION['is_logged']) $__Context->logged_info = $_SESSION['logged_info'];
 
-            // ob_start를 시킨후 컴파일된 tpl파일을 include하고 결과를 return
             ob_start();
 
-            // tpl파일을 compile하지 못할 경우 $buff로 넘어온 값을 eval시킴 (미설치시에나..)
             if($buff) {
                 $eval_str = "?>".$buff;
                 eval($eval_str);

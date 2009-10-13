@@ -4,7 +4,7 @@
         <table name="member" alias="member" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="comments.*" />
     </columns>
     <conditions>
         <condition operation="like" column="member.user_id" var="s_user_id" notnull="notnull" />

@@ -83,7 +83,7 @@
             $this->fd = @ibase_connect($host, $this->userid, $this->password);
             if(ibase_errmsg()) {
                 $this->setError(ibase_errcode(), ibase_errmsg());
-                return;
+                return $this->is_connected = false;
             }
 
             // Firebird 버전 확인후 2.0 이하면 오류 표시
@@ -94,7 +94,8 @@
             }
             else {
                 $this->setError(ibase_errcode(), ibase_errmsg());
-                return;
+                @ibase_close($this->fd);
+                return $this->is_connected = false;
             }
 
             $pos = strpos($server_info, "Firebird");
@@ -105,7 +106,8 @@
 
             if($ver < "2.0") {
                 $this->setError(-1, "XE cannot be installed under the version of firebird 2.0. Current firebird version is ".$ver);
-                return;
+                @ibase_close($this->fd);
+                return $this->is_connected = false;
             }
 
             // 접속체크
@@ -117,7 +119,9 @@
          **/
         function close() {
             if(!$this->isConnected()) return;
-            ibase_close($this->fd);
+            @ibase_commit($this->fd);
+            @ibase_close($this->fd);
+            $this->transaction_started = false;
         }
 
         /**
@@ -186,18 +190,11 @@
                 $string = trim(substr($string, $no1+1, $no2-$no1-1));
             }
 
-            // 테이블.필드
-            if(($no1 = strpos($string,'.'))!==false) {
-                $tmpString1 = substr($string, 0, $no1); // table
-                $tmpString2 = substr($string, $no1+1, strlen($string)-$no1+1); // field
+            // (테이블.컬럼) 구조 일때 처리
+            preg_match("/((?i)[a-z0-9_-]+)[.]((?i)[a-z0-9_\-\*]+)/", $string, $matches);
 
-                $tmpString1 = trim($tmpString1);
-                $tmpString2 = trim($tmpString2);
-
-                $tmpString1 = $this->addDoubleQuotes($tmpString1);
-                if($tmpString2 != "*") $tmpString2 = $this->addDoubleQuotes($tmpString2);
-
-                $string = $tmpString1.".".$tmpString2;
+            if($matches) {
+                $string = $this->addDoubleQuotes($matches[1]).".".$this->addDoubleQuotes($matches[2]);
             }
             else {
                 $string = $this->addDoubleQuotes($string);
@@ -217,37 +214,32 @@
                 $tok = strtok(",");
             }
 
-            foreach($values as $val) {
-                if(($no1 = strpos($val,'.'))!==false) {
-                    $tmpString1 = substr($val, 0, $no1); // table
-                    $tmpString2 = substr($val, $no1+1, strlen($val)-$no1+1); // field
-
-                    $tmpString1 = trim($tmpString1);
-                    $tmpString2 = trim($tmpString2);
-
+            foreach($values as $val1) {
+                // (테이블.컬럼) 구조 일때 처리
+                preg_match("/((?i)[a-z0-9_-]+)[.]((?i)[a-z0-9_\-\*]+)/", $val1, $matches);
+                if($matches) {
                     $isTable = false;
-                    foreach($tables as $key => $val) {
-                        if($key == $tmpString1) $isTable = true;
-                        if($val == $tmpString1) $isTable = true;
+
+                    foreach($tables as $key2 => $val2) {
+                        if($key2 == $matches[1]) $isTable = true;
+                        if($val2 == $matches[1]) $isTable = true;
                     }
 
                     if($isTable) {
-                        $tmpString1 = $this->addDoubleQuotes($tmpString1);
-                        if($tmpString2 != "*") $tmpString2 = $this->addDoubleQuotes($tmpString2);
-                        $return[] = $tmpString1.".".$tmpString2;
+                        $return[] = $this->addDoubleQuotes($matches[1]).".".$this->addDoubleQuotes($matches[2]);
                     }
                     else {
-                        $return[] = $tmpString1.".".$tmpString2;
+                        $return[] = $val1;
                     }
                 }
-                else if(!is_numeric($val)) {
-                    if(strpos($val, "'") !== 0)
-                        $return[] = "'".$val."'";
+                else if(!is_numeric($val1)) {
+                    if(strpos($val1, "'") !== 0)
+                        $return[] = "'".$val1."'";
                     else
-                        $return[] = $val;
+                        $return[] = $val1;
                 }
                 else {
-                    $return[] = $val;
+                    $return[] = $val1;
                 }
             }
 
@@ -258,20 +250,26 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
+            if(!$this->isConnected() || $this->transaction_started) return;
+            $this->transaction_started = true;
         }
 
         /**
          * @brief 롤백
          **/
         function rollback() {
-            //@ibase_rollback($this->fd);
+            if(!$this->isConnected() || !$this->transaction_started) return;
+            @ibase_rollback($this->fd);
+            $this->transaction_started = false;
         }
 
         /**
          * @brief 커밋
          **/
         function commit() {
-            //@ibase_commit($this->fd);
+            if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
+            @ibase_commit($this->fd);
+            $this->transaction_started = false;
         }
 
         /**
@@ -367,13 +365,11 @@
             $query = sprintf("select rdb\$relation_name from rdb\$relations where rdb\$system_flag=0 and rdb\$relation_name = '%s%s';", $this->prefix, $target_name);
             $result = $this->_query($query);
             $tmp = $this->_fetch($result);
-            if(!$tmp)
-            {
-                @ibase_rollback($this->fd);
+            if(!$tmp) {
+                if(!$this->transaction_started) @ibase_rollback($this->fd);
                 return false;
             }
-            //commit();
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
             return true;
         }
 
@@ -382,7 +378,10 @@
          **/
         function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
             $type = $this->column_type[$type];
-            if(strtoupper($type)=='INTEGER') $size = '';
+            if(strtoupper($type)=='INTEGER') $size = null;
+            else if(strtoupper($type)=='BIGINT') $size = null;
+            else if(strtoupper($type)=='BLOB SUB_TYPE TEXT SEGMENT SIZE 32') $size = null;
+            else if(strtoupper($type)=='VARCHAR' && !$size) $size = 256;
 
             $query = sprintf("ALTER TABLE \"%s%s\" ADD \"%s\" ", $this->prefix, $table_name, $column_name);
             if($size) $query .= sprintf(" %s(%s) ", $type, $size);
@@ -391,8 +390,7 @@
             if($notnull) $query .= " NOT NULL ";
 
             $this->_query($query);
-            //commit();
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
         }
 
         /**
@@ -401,6 +399,7 @@
         function dropColumn($table_name, $column_name) {
             $query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
         }
 
 
@@ -410,10 +409,13 @@
         function isColumnExists($table_name, $column_name) {
             $query = sprintf("SELECT RDB\$FIELD_NAME as \"FIELD\" FROM RDB\$RELATION_FIELDS WHERE RDB\$RELATION_NAME = '%s%s'", $this->prefix, $table_name);
             $result = $this->_query($query);
-            if($this->isError()) return;
+            if($this->isError()) {
+                if(!$this->transaction_started) @ibase_rollback($this->fd);
+                return false;
+            }
+
             $output = $this->_fetch($result);
-            //commit();
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
 
             if($output) {
                 $column_name = strtolower($column_name);
@@ -435,8 +437,8 @@
 
             $query = sprintf('CREATE %s INDEX "%s" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $index_name, $this->prefix, $table_name, implode('", "',$target_columns));
             $this->_query($query);
-            //commit();
-            @ibase_commit($this->fd);
+
+            if(!$this->transaction_started) @ibase_commit($this->fd);
         }
 
         /**
@@ -445,6 +447,8 @@
         function dropIndex($table_name, $index_name, $is_unique = false) {
             $query = sprintf('DROP INDEX "%s" ON "%s%s"', $index_name, $this->prefix, $table_name);
             $this->_query($query);
+
+            if(!$this->transaction_started) @ibase_commit($this->fd);
         }
 
 
@@ -469,9 +473,14 @@
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
-            //commit();
-            @ibase_commit($this->fd);
-            if(!$output) return;
+
+            if(!$output) {
+                if(!$this->transaction_started) @ibase_rollback($this->fd);
+                return false;
+            }
+
+            if(!$this->transaction_started) @ibase_commit($this->fd);
+
             if(!is_array($output)) $output = array($output);
             for($i=0;$i<count($output);$i++) {
                 if(trim($output[$i]->KEY_NAME) == $index_name) return true;
@@ -529,6 +538,8 @@
                 $auto_increment = $column->attrs->auto_increment;
 
                 if($this->column_type[$type]=='INTEGER') $size = null;
+                else if($this->column_type[$type]=='BIGINT') $size = null;
+                else if($this->column_type[$type]=='BLOB SUB_TYPE TEXT SEGMENT SIZE 32') $size = null;
                 else if($this->column_type[$type]=='VARCHAR' && !$size) $size = 256;
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
@@ -558,8 +569,7 @@
             $schema = sprintf("CREATE TABLE \"%s\" (%s%s); \n", $table_name, "\n", implode($column_schema, ",\n"));
 
             $output = $this->_query($schema);
-            //commit();
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
             if(!$output) return false;
 
             if(count($index_list)) {
@@ -574,8 +584,7 @@
                     $schema = sprintf("CREATE INDEX \"%s\" ON \"%s\" (\"%s\");",
                             $index_name, $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
-                    //commit();
-                    @ibase_commit($this->fd);
+                    if(!$this->transaction_started) @ibase_commit($this->fd);
                     if(!$output) return false;
                 }
             }
@@ -583,7 +592,7 @@
             foreach($auto_increment_list as $increment) {
                 $schema = sprintf('CREATE GENERATOR GEN_%s_ID;', $table_name);
                 $output = $this->_query($schema);
-                @ibase_commit($this->fd);
+                if(!$this->transaction_started) @ibase_commit($this->fd);
                 if(!$output) return false;
 
                 // Firebird에서 auto increment는 generator를 만들어 insert 발생시 트리거를 실행시켜
@@ -610,7 +619,7 @@
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
-            $condition = $this->_getCondition($output->conditions,$output->column_type,$output->tables);
+            $condition = $this->_getCondition($output->conditions,$output->column_type,$output->_tables);
             if($condition) $condition = ' where '.$condition;
             return $condition;
         }
@@ -671,6 +680,7 @@
                 $value = str_replace("'", "`", $value);
 
                 if($output->column_type[$name]=="text" || $output->column_type[$name]=="bigtext"){
+                    if(!isset($val['value'])) continue;
                     $blh = ibase_blob_create($this->fd);
                     ibase_blob_add($blh, $value);
                     $value = ibase_blob_close($blh);
@@ -687,7 +697,7 @@
             $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $questions));
 
             $result = $this->_query($query, $value_list);
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
             return $result;
         }
 
@@ -739,7 +749,7 @@
 
             $query = sprintf("update %s set %s %s;", implode(',',$table_list), implode(',',$column_list), $condition);
             $result = $this->_query($query, $values);
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
             return $result;
         }
 
@@ -758,7 +768,7 @@
             $query = sprintf("delete from %s %s;", implode(',',$table_list), $condition);
 
             $result = $this->_query($query);
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
             return $result;
         }
 
@@ -780,7 +790,7 @@
             $left_tables= (array)$output->left_tables;
 
             foreach($left_tables as $key => $val) {
-                $condition = $this->getLeftCondition($output->left_conditions[$key],$output->column_type,$output->tables);
+                $condition = $this->getLeftCondition($output->left_conditions[$key],$output->column_type,$output->_tables);
                 if($condition){
                     $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as "'.$key.'" on (' . $condition . ')';
                 }
@@ -794,6 +804,7 @@
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
                     $alias = $val['alias'];
+                    if($val['click_count']) $click_count[] = $val['name'];
 
                     if($alias == "")
                         $column_list[] = $this->autoQuotes($name);
@@ -843,9 +854,20 @@
             $query .= ";";
 
             $result = $this->_query($query);
-            if($this->isError()) return;
+            if($this->isError()) {
+                if(!$this->transaction_started) @ibase_rollback($this->fd);
+                return;
+            }
+
             $data = $this->_fetch($result, $output);
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
+
+            if(count($click_count)>0 && count($output->conditions)>0){
+                $_query = '';
+                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
+                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
+                $this->_query($_query);
+            }
 
             $buff = new Object();
             $buff->data = $data;
@@ -890,7 +912,7 @@
             if($total_count === false) {
                 $result = $this->_query($count_query);
                 $count_output = $this->_fetch($result);
-                @ibase_commit($this->fd);
+                if(!$this->transaction_started) @ibase_commit($this->fd);
 
                 $total_count = (int)$count_output->count;
                 $this->putCountCache($output->tables, $condition, $total_count);
@@ -940,6 +962,8 @@
 
             $result = $this->_query($query);
             if($this->isError()) {
+                if(!$this->transaction_started) @ibase_rollback($this->fd);
+
                 $buff = new Object();
                 $buff->total_count = 0;
                 $buff->total_page = 0;
@@ -974,7 +998,7 @@
                 $data[$virtual_no--] = $tmp;
             }
 
-            @ibase_commit($this->fd);
+            if(!$this->transaction_started) @ibase_commit($this->fd);
 
             $buff = new Object();
             $buff->total_count = $total_count;

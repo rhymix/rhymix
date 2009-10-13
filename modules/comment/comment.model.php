@@ -344,6 +344,7 @@
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->s_module_srl = $obj->module_srl;
+            $args->exclude_module_srl = $obj->exclude_module_srl;
 
             // 검색 옵션 정리
             $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));

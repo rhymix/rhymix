@@ -11,7 +11,7 @@
         'hour' => '시간대별',
         'day' => '일별',
         'month' => '월별',
-        'year' => '년도별',
+        'year' => '연도별',
     );
 
     $lang->total_counter = '전체현황';

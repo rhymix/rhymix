@@ -219,6 +219,48 @@
         return Context::getUrl($num_args, $args_list);
     }
 
+    function getNotEncodedUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+        if(!$num_args) return Context::getRequestUri();
+
+        return Context::getUrl($num_args, $args_list, null, false);
+    }
+
+    /**
+     * @brief getUrl()의 값에 request uri를 추가하여 reutrn
+     * full url을 얻기 위함
+     **/
+    function getFullUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+		$request_uri = Context::getRequestUri();
+        if(!$num_args) return $request_uri;
+
+        $url = Context::getUrl($num_args, $args_list);
+        if(!preg_match('/^http/i',$url)){
+			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+			return substr($match[0],0,-1).$url;
+		}
+        return $url;
+    }
+
+    function getNotEncodedFullUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+		$request_uri = Context::getRequestUri();
+        if(!$num_args) return $request_uri;
+
+        $url = Context::getUrl($num_args, $args_list);
+        if(!preg_match('/^http/i',$url)){
+			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+			$url = Context::getUrl($num_args, $args_list, null, false);
+			return substr($match[0],0,-1).$url;
+		}
+        return $url;
+    }
+
     /**
      * @brief Context::getUrl()를 쓰기 쉽게 함수로 선언
      * @return string
@@ -236,6 +278,40 @@
         $num_args = count($args_list);
 
         return Context::getUrl($num_args, $args_list, $domain);
+    }
+
+    function getNotEncodedSiteUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+        if(!$num_args) return Context::getRequestUri();
+
+        $domain = array_shift($args_list);
+        $num_args = count($args_list);
+
+        return Context::getUrl($num_args, $args_list, $domain, false);
+    }
+
+    /**
+     * @brief getSiteUrl()의 값에 request uri를 추가하여 reutrn
+     * full url을 얻기 위함
+     **/
+    function getFullSiteUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+		$request_uri = Context::getRequestUri();
+        if(!$num_args) return $request_uri;
+
+        $domain = array_shift($args_list);
+        $num_args = count($args_list);
+
+        $url = Context::getUrl($num_args, $args_list, $domain);
+        if(!preg_match('/^http/i',$url)){
+			preg_match('/^(http|https):\/\/([^\/]+)\//',$request_uri,$match);
+			return substr($match[0],0,-1).$url;
+		}
+        return $url;
     }
 
     /**
@@ -368,6 +444,11 @@
                         elseif($format == 'Y-m-d H:i:s') $format = 'M d, Y H:i:s';
                         elseif($format == 'Y-m-d H:i') $format = 'M d, Y H:i';
                     break;
+                case 'vi' :
+                        if($format == 'Y-m-d') $format = 'd-m-Y';
+                        elseif($format == 'Y-m-d H:i:s') $format = 'H:i:s d-m-Y';
+                        elseif($format == 'Y-m-d H:i') $format = 'H:i d-m-Y';
+                    break;
 
             }
         }
@@ -399,9 +480,9 @@
     }
 
     /**
-     * @brief 간단한 console debugging 함수
-     * @param buff 출력하고자 하는 object
-     * @param display_line 구분자를 출력할 것인지에 대한 플래그 (기본:true)
+     * @brief prints debug messages 
+     * @param debug_output target object to be printed
+     * @param display_line boolean flag whether to print seperator (default:true)
      * @return none
      *
      * ./files/_debug_message.php 파일에 $buff 내용을 출력한다.
@@ -416,9 +497,16 @@
         $file_name = array_pop(explode(DIRECTORY_SEPARATOR, $first['file']));
         $line_num = $first['line'];
 
-        if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '5.2.0', '>=')) {
+        if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1) {
             if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
-            $label = sprintf('[%s:%d] ', $file_name, $line_num);
+            if(function_exists("memory_get_usage"))
+            {
+                $label = sprintf('[%s:%d] (m:%s)', $file_name, $line_num, FileHandler::filesize(memory_get_usage()));
+            }
+            else
+            {
+                $label = sprintf('[%s:%d] ', $file_name, $line_num);
+            }
 
             // FirePHP 옵션 체크
             if($display_option === 'TABLE') $label = $display_option;
@@ -433,7 +521,14 @@
 
         } else {
             $debug_file = _XE_PATH_.'files/_debug_message.php';
-            $debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, true));
+            if(function_exists("memory_get_usage"))
+            {
+                $debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, true));
+            }
+            else
+            {
+                $debug_output = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($debug_output, true));
+            }
 
             if($display_option === true) $debug_output = str_repeat('=', 40)."\n".$debug_output.str_repeat('-', 40);
             $debug_output = "\n<?php\n/*".$debug_output."*/\n?>\n";

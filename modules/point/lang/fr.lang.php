@@ -8,7 +8,7 @@
     $lang->point = "Point"; 
     $lang->level = "Niveau"; 
 
-    $lang->about_point_module = "Vous pouvez donnez des poins sur l'action d'écrire/d'ajouter commentaire/de télécharger vers le serveur/de télécharger vers le PC etc.<br />Mais le Module de Point fait seulement de la configuration, et le point sera accumulé quand le Gadget de point est activé.";
+    $lang->about_point_module = "Vous pouvez donnez des poins sur l'action d'écrire/d'ajouter commentaire/de télécharger vers le serveur/de télécharger vers le PC etc.";
     $lang->about_act_config = "Chaque module comme celui de panneau ou de blogue a les actions propres comme \"écrire/supprimer/ajouter un commentaire/supprimer un commentaire\".<br />Vous pouvez ajouter seulement les valeurs des actions pour appliquer le Système de Point au module excepté celui de panneau ou de blogue.<br />Vous pouvez délimiter chaque valeur avec virgule(,)."; 
 
     $lang->max_level = 'Niveau le plus haut';

@@ -49,3 +49,4 @@ jQuery(function(){
 function doAdminLogout() {
     exec_xml('admin','procAdminLogout',new Array(), function() { location.reload(); });
 }
+

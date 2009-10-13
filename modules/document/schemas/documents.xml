@@ -7,7 +7,7 @@
     <column name="is_secret" type="char" size="1" default="N" notnull="notnull" index="idx_is_secret" />
     <column name="title" type="varchar" size="250" />
     <column name="title_bold" type="char" size="1" default="N" notnull="notnull" />
-    <column name="title_color" type="char" size="7" />
+    <column name="title_color" type="varchar" size="7" />
     <column name="content" type="bigtext" notnull="notnull" />
     <column name="readed_count" type="number" size="11" default="0" notnull="notnull" index="idx_readed_count" />
     <column name="voted_count" type="number" size="11" default="0" notnull="notnull" index="idx_voted_count" />

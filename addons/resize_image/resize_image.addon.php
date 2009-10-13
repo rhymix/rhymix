@@ -2,7 +2,7 @@
     if(!defined("__ZBXE__")) exit();
 
     /**
-     * @file reaize_image.addon.php
+     * @file resize_image.addon.php
      * @author zero (zero@nzeo.com)
      * @brief 본문내 이미지 조절 애드온
      **/

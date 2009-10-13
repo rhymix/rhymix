@@ -223,8 +223,9 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'У Вас нет прав для исполнения запрошенного действия';
-    $lang->msg_module_is_not_exists = "Запустить модуль не включен.\nУстановка запуска модуля администратор странице.";
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
     $lang->msg_module_is_not_standalone = 'Запрошенный модуль не может быть исполнен независимо';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
     $lang->success_registed = 'Зарегистрировано успешно';
     $lang->success_declared = 'Обвинение успешно';

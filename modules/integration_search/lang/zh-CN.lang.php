@@ -13,6 +13,9 @@
 
     $lang->is_result_text = "符合<strong>'%s'</strong>的搜索结果约有<strong>%d</strong>项";
     $lang->multimedia = "图片/视频";
+    
+    $lang->include_search_target = '只有在选定的目标';
+    $lang->exclude_search_target = '搜索选定目的地从';
 
     $lang->is_search_option = array(
         'document' => array(

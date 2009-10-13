@@ -165,7 +165,7 @@
             // 변수 정리
             if($type) $title = "[".$type."] ";
             $title .= cut_str(strip_tags($content), 10, '...');
-            $content = sprintf('%s<br /><br />from : <a href="%s" onclick="window.open(this.href);return false;">%s</a>',$content, $this->getPermanentUrl(), $this->getPermanentUrl());
+            $content = sprintf('%s<br /><br />from : <a href="%s" onclick="window.open(this.href);return false;">%s</a>',$content, getFullUrl('','document_srl',$this->document_srl), getFullUrl('','document_srl',$this->document_srl));
             $receiver_srl = $this->get('member_srl');
             $sender_member_srl = $logged_info->member_srl;
 
@@ -229,8 +229,9 @@
             $title = $this->getTitleText($cut_size, $tail);
 
             $attrs = array();
+            $this->add('title_color', trim($this->get('title_color')));
             if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
-            if($this->get('title_color')&&$this->get('title_color')!='N') $attrs[] = "color:#".$this->get('title_color');
+            if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = "color:#".$this->get('title_color');
 
             if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title));
             else return htmlspecialchars($title);
@@ -377,13 +378,7 @@
         }
 
         function getPermanentUrl() {
-            $url = getUrl('','document_srl',$this->get('document_srl'));
-            if(substr($url,0,1)=='/') {
-                if($_SERVER['HTTPS']=='on') $http_url = 'https://';
-                else $http_url = 'http://';
-                $url = $http_url.$_SERVER['HTTP_HOST'].$url;
-            }
-            return $url;
+            return getFullUrl('','document_srl',$this->get('document_srl'));
         }
 
         function getTrackbackUrl() {

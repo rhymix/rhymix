@@ -587,6 +587,8 @@
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
                     $alias = $val['alias'];
+                    if($val['click_count']) $click_count[] = $val['name'];
+
                     if(substr($name,-1) == '*') {
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
@@ -634,6 +636,13 @@
             $this->_prepare($query);
             $data = $this->_execute();
             if($this->isError()) return;
+
+            if(count($click_count)>0 && count($output->conditions)>0){
+                $_query = '';
+                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
+                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
+                $this->_query($_query);
+            }
 
             $buff = new Object();
             $buff->data = $data;

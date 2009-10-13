@@ -216,7 +216,7 @@
                 // 스킨의 정보를 구해옴 (extra_vars를 체크하기 위해서)
                 $module_path = './modules/'.$module_info->module;
                 $skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
-
+                $skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
                 // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)
                 $obj = Context::getRequestVars();
                 unset($obj->act);
@@ -236,7 +236,7 @@
                         $del_var = $obj->{"del_".$vars->name};
                         unset($obj->{"del_".$vars->name});
                         if($del_var == 'Y') {
-                            FileHandler::removeFile($module_info->{$vars->name});
+                            FileHandler::removeFile($skin_vars[$vars->name]->value);
                             continue;
                         }
 
@@ -272,15 +272,15 @@
                             continue;
                         }
 
+                        // 정상 파일 업로드 
+                        FileHandler::removeFile($skin_vars[$vars->name]->value);
                         // 변수를 바꿈
                         unset($obj->{$vars->name});
                         $obj->{$vars->name} = $filename;
                     }
                 }
-
                 // 해당 모듈의 전체 스킨 불러와서 이미지는 제거
-                $skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
-
+                /*
                 if($skin_info->extra_vars) {
                     foreach($skin_info->extra_vars as $vars) {
                         if($vars->type!='image') continue;
@@ -288,6 +288,7 @@
                         if(file_exists($value)) @unlink($value);
                     }
                 }
+                */
                 $oModuleController = &getController('module');
                 $oModuleController->deleteModuleSkinVars($module_srl);
 

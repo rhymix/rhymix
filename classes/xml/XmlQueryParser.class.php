@@ -113,7 +113,6 @@
             $output->page_count = $out->page_count;
             $output->page = $out->page;
 
-
             $column_count = count($output->columns);
             $condition_count = count($output->conditions);
 
@@ -125,15 +124,12 @@
             }
             $buff .= ' );'."\n";
 
-
             // php script 생성
             $buff .= '$output->_tables = array( ';
             foreach($output->tables as $key => $val) {
                 $buff .= sprintf('"%s"=>"%s",', $key, $val);
             }
             $buff .= ' );'."\n";
-
-
 
             if(count($output->left_tables)){
                 $buff .= '$output->left_tables = array( ';
@@ -142,7 +138,6 @@
                 }
                 $buff .= ' );'."\n";
             }
-
 
             // column 정리
             if($column_count) {
@@ -168,8 +163,6 @@
                 }
                 $buff .= ' );'."\n";
             }
-
-
 
             // order 정리
             if($output->order) {
@@ -247,11 +240,7 @@
             FileHandler::writeFile($cache_file, $buff);
         }
 
-
-
-
         function _setColumn($columns){
-
             if(!$columns) {
                 $output->column[] = array("*" => "*");
             } else {
@@ -274,12 +263,12 @@
                         "minlength" => $val->attrs->minlength,
                         "maxlength" => $val->attrs->maxlength,
                         "alias" => $val->attrs->alias,
+                        "click_count" => $val->attrs->click_count,
                     );
                 }
             }
             return $output;
         }
-
 
         function _setConditions($conditions){
             // 조건절 정리
@@ -359,34 +348,49 @@
             return $output;
         }
 
-
-
-
-
         function _getColumn($columns){
             $buff = '';
+			$str = '';
+			$print_vars = array();
+
             foreach($columns as $key => $val) {
+				$str = 'array("name"=>"%s","alias"=>"%s"';
+				$print_vars = array();
+				$print_vars[] = $val['name'];
+				$print_vars[] = $val['alias'];
+
                 $val['default'] = $this->getDefault($val['name'], $val['default']);
                 if($val['var'] && strpos($val['var'],'.')===false) {
 
-                    if($val['default']) $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>$args->%s?$args->%s:%s),%s', $val['name'], $val['alias'], $val['var'], $val['var'], $val['default'] ,"\n");
-                    else $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>$args->%s),%s', $val['name'], $val['alias'], $val['var'], "\n");
+                    if($val['default']){
+						$str .= ',"value"=>$args->%s?$args->%s:%s'; 
+						$print_vars[] = $val['var'];
+						$print_vars[] = $val['var'];
+						$print_vars[] = $val['default'];
+					}else{
+						$str .= ',"value"=>$args->%s'; 
+						$print_vars[] = $val['var'];
+					}
 
-                    if($val['default']) $default_list[$val['var']] = $val['default'];
-                    if($val['notnull']) $notnull_list[] = $val['var'];
-                    if($val['minlength']) $minlength_list[$val['var']] = $val['minlength'];
-                    if($val['maxlength']) $maxlength_list[$val['var']] = $val['maxlength'];
                 } else {
-                    if($val['default']) $buff .= sprintf('array("name"=>"%s", "alias"=>"%s", "value"=>%s),%s', $val['name'], $val['alias'], $val['default'] ,"\n");
-                    else $buff .= sprintf('array("name"=>"%s", "alias"=>"%s",),%s', $val['name'], $val['alias'], "\n");
+                    if($val['default']){
+						$str .= ',"value"=>%s'; 
+						$print_vars[] = $val['default'];
+					}
                 }
+
+				if($val['click_count']){
+					$str .= ',"click_count"=>$args->%s';
+					$print_vars[] = $val['click_count'];
+				}
+
+				$str .= '),%s';
+				$print_vars[] = "\n";
+
+				$buff .= vsprintf($str, $print_vars);
             }
             return $buff;
         }
-
-
-
-
 
         function _getConditions($conditions){
             $buff = '';
@@ -414,16 +418,11 @@
             return $buff;
         }
 
-
-
-
-
-
-
         /**
          * @brief column, condition등의 key에 default 값을 세팅
          **/
         function getDefault($name, $value) {
+            $db_info = Context::getDBInfo ();
             if(!$value) return;
             $str_pos = strpos($value, '(');
             if($str_pos===false) return '"'.$value.'"';
@@ -446,20 +445,31 @@
                     break;
                 case 'plus' :
                         $args = abs($args);
-                        $val = sprintf('"%s+%d"', $name, $args);
+                        if ($db_info->db_type == 'cubrid') {
+                            $val = sprintf ('"\\"%s\\"+%d"', $name, $args);
+                        } else {
+                            $val = sprintf('"%s+%d"', $name, $args);
+                        }
                     break;
                 case 'minus' :
                         $args = abs($args);
-                        $val = sprintf('"%s-%d"', $name, $args);
-					break;
-				case 'multiply' :
+                        if ($db_info->db_type == 'cubrid') {
+                            $val = sprintf ('"\\"%s\\"-%d"', $name, $args);
+                        } else {
+                            $val = sprintf('"%s-%d"', $name, $args);
+                        }
+                        break;
+                case 'multiply' :
 						$args = intval($args);
-                        $val = sprintf('"%s*%d"', $name, $args);
+                        if ($db_info->db_type == 'cubrid') {
+                            $val = sprintf ('"\\"%s\\"*%d"', $name, $args);
+                        } else {
+                            $val = sprintf('"%s*%d"', $name, $args);
+                        }
                     break;
             }
 
             return $val;
         }
-
     }
 ?>

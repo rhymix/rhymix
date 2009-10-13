@@ -225,8 +225,9 @@
     $lang->msg_invalid_format = 'Invalid Format';
 
     $lang->msg_not_permitted_act = 'Vous n\'êtes pas autorisés à exécuter l\'action que vous avez demandé.';
-    $lang->msg_module_is_not_exists = "Démarrez le module n'est pas activé.\nLe lancement du module d'installation de l'administrateur sur la page.";
+    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
     $lang->msg_module_is_not_standalone = 'Le module demandé ne peut pas être exécuté indépendamment.';
+    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 
     $lang->success_registed = 'Enregistré avec succès';
     $lang->success_declared = 'Accusé avec succès';

@@ -20,7 +20,7 @@
         /**
          * @brief constructor
          **/
-        function ExtraVar($module_srl) { 
+        function ExtraVar($module_srl) {
             $this->module_srl = $module_srl;
         }
 
@@ -32,7 +32,7 @@
             if(!is_array($extra_keys) || !count($extra_keys)) return;
             foreach($extra_keys as $key => $val) {
                 $obj = null;
-                $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value,  $val->eid); 
+                $obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value,  $val->eid);
                 $this->keys[$val->idx] = $obj;
             }
         }
@@ -197,7 +197,7 @@
 
                 // 전화번호
                 case 'tel' :
-                        $buff .= 
+                        $buff .=
                             '<input type="text" name="'.$column_name.'" value="'.$value[0].'" size="4" class="tel" />'.
                             '<input type="text" name="'.$column_name.'" value="'.$value[1].'" size="4" class="tel" />'.
                             '<input type="text" name="'.$column_name.'" value="'.$value[2].'" size="4" class="tel" />';
@@ -230,7 +230,7 @@
                         $buff .= '</select>';
                     break;
 
-                // radio 
+                // radio
                 case 'radio' :
                         $buff .= '<ul>';
                         foreach($default as $v) {
@@ -246,13 +246,13 @@
                         // datepicker javascript plugin load
                         Context::loadJavascriptPlugin('ui.datepicker');
 
-                        $buff .= 
+                        $buff .=
                             '<input type="hidden" name="'.$column_name.'" value="'.$value.'" />'.
                             '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" readonly="readonly" class="date" />'."\n".
                             '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
-                            '        var option = { gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".
+                            '        var option = { changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".
                             '            $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}'."\n".
                             '        };'."\n".
                             '        $.extend(option,$.datepicker.regional[\''.Context::getLangType().'\']);'."\n".

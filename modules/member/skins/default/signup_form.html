@@ -199,7 +199,7 @@
 <script type="text/javascript">
 (function($){
     $(function(){
-        var option = { gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
 
             $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
         };

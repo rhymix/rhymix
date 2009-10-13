@@ -49,6 +49,7 @@ function getSlideShow() {
         for(var i=0;i<parent_list_obj.length;i++) {
             var opt = parent_list_obj.options[i];
             var file_srl = opt.value;
+            if(!file_srl) return;
             var file_obj = opener.uploadedFiles[file_srl];
             var filename = file_obj.download_url.replace(request_uri,'');
             if((/(jpg|jpeg|gif|png)$/i).test(filename)) {

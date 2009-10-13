@@ -5,4 +5,7 @@
     <columns>
         <column name="lang_code" var="lang_code" notnull="notnull" />
     </columns>
+    <conditions>
+        <condition operation="equal" column="document_srl" var="document_srl" filter="number" />
+    </conditions>
 </query>

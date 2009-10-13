@@ -199,7 +199,7 @@
             if(!$GLOBALS['__member_info__'][$member_srl]) {
                 $args->member_srl = $member_srl;
                 $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
-                if(!$output) return $output;
+                if(!$output->data) return;
 
                 $this->arrangeMemberInfo($output->data, $site_srl);
             }
