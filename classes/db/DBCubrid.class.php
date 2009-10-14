@@ -618,7 +618,7 @@
             $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
             if (count ($output->groups)) {
-                foreach ($output->groups as &$value) {
+                foreach ($output->groups as $key => $value) {
                     if (strpos ($value, '.')) {
                         $tmp = explode ('.', $value);
                         $tmp[0] = sprintf ('"%s"', $tmp[0]);
@@ -627,6 +627,7 @@
                     }
                     elseif (strpos ($value, '(')) $value = $value;
                     else $value = sprintf ('"%s"', $value);
+                    $output->groups[$key] = $value;
                 }
                 $query .= sprintf(' group by %s', implode(',',$output->groups));
             }
@@ -798,7 +799,7 @@
             $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
             if (count ($output->groups)) {
-                foreach ($output->groups as &$value) {
+                foreach ($output->groups as $key => $value) {
                     if (strpos ($value, '.')) {
                         $tmp = explode ('.', $value);
                         $tmp[0] = sprintf ('"%s"', $tmp[0]);
@@ -807,6 +808,7 @@
                     }
                     elseif (strpos ($value, '(')) $value = $value;
                     else $value = sprintf ('"%s"', $value);
+                    $output->groups[$key] = $value;
                 }
                 $query .= sprintf(' group by %s', implode(',',$output->groups));
             }
