@@ -98,6 +98,9 @@ _xe_base = {
 		for(var i=0; i < this._apps.length; i++) {
 			this._apps[i].cast(oSender, msg, params);
 		}
+
+		// cast to child plugins
+		this.cast(oSender, msg, params);
 	}
 }
 
