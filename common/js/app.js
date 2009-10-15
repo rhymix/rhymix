@@ -95,7 +95,7 @@ _xe_base = {
 	 * @brief overrides broadcast method
 	 */
 	broadcast : function(oSender, msg, params) {
-		for(var i=0; i < this._apps.length; i++) {
+		for(var i=0; i < _apps.length; i++) {
 			this._apps[i].cast(oSender, msg, params);
 		}
 
@@ -210,10 +210,12 @@ _app_base = {
 		this._fn_level++;
 
 		// BEFORE hooker
-		var bContinue = this.cast(sender, 'BEFORE_'+msg, params);
-		if (!bContinue) {
-			this._fn_level--;
-			return;
+		if (typeof aMsg['BEFORE_'+msg] != 'undefined') {
+			var bContinue = this.cast(sender, 'BEFORE_'+msg, params);
+			if (!bContinue) {
+				this._fn_level--;
+				return;
+			}
 		}
 
 		// main api function
@@ -228,12 +230,14 @@ _app_base = {
 		}
 
 		// AFTER hooker
-		this.cast(sender, 'AFTER_'+msg, params);
+		if (typeof aMsg['AFTER_'+msg] != 'undefined') {
+			this.cast(sender, 'AFTER_'+msg, params);
+		}
 
 		// decrease function level
 		this._fn_level--;
 
-		if (_fn_level < 0) { // top level function
+		if (this._fn_level < 0) { // top level function
 			return vRet;
 		} else {
 			if (typeof vRet == 'undefined') vRet = true;
