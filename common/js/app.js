@@ -4,10 +4,10 @@
  */
 (function($){
 
-var _app_base, _plugin_base;
+var _xe_base, _app_base, _plugin_base;
 var _apps = [];
 
-var _xe_base = {
+_xe_base = {
 	/**
 	 * @brief return the name of Core module
 	 */
@@ -99,20 +99,6 @@ var _xe_base = {
 			this._apps[i].cast(oSender, msg, params);
 		}
 	}
-}
-
-function getTypeBase() {
-	var _base = function() {
-		if ($.isArray(this._plugins))   this._plugins   = [];
-		if ($.isArray(this._messages))  this._messages  = [];
-		if ($.isArray(this._binded_fn)) this._binded_fn = [];
-
-		if ($.isFunction(this.$init)) {
-			this.$init.apply(this, arguments);
-		}
-	};
-
-	return _base;
 }
 
 _app_base = {
@@ -278,6 +264,20 @@ _plugin_base = {
 	 * Event handler prototype
 	 */
 };
+
+function getTypeBase() {
+	var _base = function() {
+		if ($.isArray(this._plugins))   this._plugins   = [];
+		if ($.isArray(this._messages))  this._messages  = [];
+		if ($.isArray(this._binded_fn)) this._binded_fn = [];
+
+		if ($.isFunction(this.$init)) {
+			this.$init.apply(this, arguments);
+		}
+	};
+
+	return _base;
+}
 
 window.xe = $.extend(_app_base, _xe_base);
 
