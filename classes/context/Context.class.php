@@ -834,7 +834,7 @@
                 $val = trim($args_list[$i+1]);
 
                 // 값이 없으면 GET변수에서 해당 키를 제거
-                if(!isset($val)) {
+                if(!isset($val) || strlen($val)<1) {
                   unset($get_vars[$key]);
                   continue;
                 }
@@ -846,12 +846,6 @@
             unset($get_vars['rnd']);
             if($vid) $get_vars['vid'] = $vid;
             else unset($get_vars['vid']);
-
-            if(count($get_vars)) {
-                foreach($get_vars as $key => $val) {
-                    if(!trim($val)) unset($get_vars[$key]);
-                }
-            }
 
             // action명이 변경되었던 것에 대해 호환성을 유지하기 위한 강제 값 변경
             switch($get_vars['act']) {
