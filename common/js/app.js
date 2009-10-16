@@ -19,28 +19,30 @@ _xe_base = {
 	 * @brief Create an application class
 	 */
 	createApp : function(sName, oDef) {
-		var _base  = getTypeBase();
-		var newApp = $.extend(_base.prototype, _app_base, oDef);
+		var _base = getTypeBase();
 
-		newApp.prototype.getName = function() {
+		$.extend(_base.prototype, _app_base, oDef);
+
+		_base.prototype.getName = function() {
 			return sName;
 		};
 
-		return newApp;
+		return _base;
 	},
 
 	/**
 	 * @brief Create a plugin class
 	 */
 	createPlugin : function(sName, oDef) {
-		var _base     = getTypeBase();
-		var newPlugin = $.extend(_base.prototype, _plugin_base, oDef);
+		var _base = getTypeBase();
 
-		newPlugin.prototype.getName = function() {
+		$.extend(_base.prototype, _plugin_base, oDef);
+
+		_base.prototype.getName = function() {
 			return sName;
 		};
 
-		return newPlugin;
+		return _base;
 	},
 
 	/**
@@ -65,7 +67,7 @@ _xe_base = {
 	 * @brief Register an application instance
 	 */
 	registerApp : function(oApp) {
-		var sName = oPlugin.getName().toLowerCase();
+		var sName = oApp.getName().toLowerCase();
 
 		_apps.push(oApp);
 		if (!$.isArray(_apps[sName])) {
@@ -96,7 +98,7 @@ _xe_base = {
 	 */
 	broadcast : function(oSender, msg, params) {
 		for(var i=0; i < _apps.length; i++) {
-			this._apps[i].cast(oSender, msg, params);
+			_apps[i].cast(oSender, msg, params);
 		}
 
 		// cast to child plugins
@@ -140,9 +142,7 @@ _app_base = {
 				if ($.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
 				msgs[RegExp.$1].push(fn);
 			} else { // register only one main function
-				if ($.isFunction(msgs[RegExp.$1])) {
-					msgs[RegExp.$1] = fn;
-				}
+				msgs[RegExp.$1] = fn;
 			}
 		});
 
@@ -192,7 +192,7 @@ _app_base = {
 				if (msgs[RegExp.$1]._fn == val) {
 					delete msgs[RegExp.$1];
 				}
-				
+
 			}
 		});
 
@@ -244,7 +244,7 @@ _app_base = {
 			return $.isArray(vRet)?$.inArray(false, vRet):!!vRet;
 		}
 	},
-	
+
 	broadcast : function(sender, msg, params) {
 		if (this.parent && this.parent.broadcast) {
 			this.parent.broadcast(sender, msg, params);
