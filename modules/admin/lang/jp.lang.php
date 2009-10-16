@@ -32,10 +32,10 @@
 
 
     $lang->env_information = '環境情報';
-    $lang->current_version = 'インストールバージョン';
+    $lang->current_version = 'インストール済みバージョン';
     $lang->current_path = 'インストールパス';
     $lang->released_version = '最新バージョン';
-    $lang->about_download_link = "インストールされたバージョンより新しいバージョンが配布されています。\n｢ダウンロード｣リンクをクリックするとダウンロード出来ます。";
+    $lang->about_download_link = "新しいバージョンが配布されています。\n｢ダウンロード｣リンクをクリックするとダウンロード出来ます。";
 
     $lang->item_module = 'モジュールリスト';
     $lang->item_addon  = 'アドオンリスト';
@@ -51,12 +51,11 @@
 
     $lang->cmd_shortcut_management = 'メニューの編集';
 
-    $lang->msg_is_not_administrator = '管理者だけアクセス出来ます';
+    $lang->msg_is_not_administrator = '管理者のみアクセス出来ます';
     $lang->msg_manage_module_cannot_delete = 'モジュール、アドオン、ウィジェットのショットカットは削除出来ません。';
     $lang->msg_default_act_is_null = 'デフォルトの管理者のアクションが指定されていないため、ショットカットを登録することが出来ません。';
 
     $lang->welcome_to_xe = 'XEの管理者ページです。';
-    $lang->about_admin_page = "管理者ページはまだ未完成です。\nクローズベータバージョンの期間に、多くの方々からご意見をいただきながら、必ず完成したいと思います。";
     $lang->about_lang_env = '初めてサイトに訪問したユーザーに対し、上記の選択した言語でサイトを表示させるためには、必ず下記の「保存」ボタンをクリックして適用して下さい。';
 
     $lang->xe_license = 'XEのライセンスはGPLです。';
@@ -66,7 +65,7 @@
     $lang->today = '今日';
 
     $lang->cmd_lang_select = '言語選択';
-    $lang->about_cmd_lang_select = '選択された言語だけでサービスを行います。';
+    $lang->about_cmd_lang_select = '選択した言語だけでサービスを行います。';
     $lang->about_recompile_cache = '要らないかごみのキャッシューファイルを整理します。';
     $lang->use_ssl = 'SSL環境設定';
     $lang->ssl_options = array(

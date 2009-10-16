@@ -29,7 +29,7 @@
     $lang->about_layout_code = 
         "下のレイアウトコードを修正し、保存するとサービスに反映されます。
         必ずプレビューで確認してから保存して下さい。
-        XEのテンプレート文法は<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XEテンプレート</a>を参考して下さい。";
+        XEのテンプレート文法は<a href=\"#\" onclick=\"winopen('http://xe.xpressengine.net/18180861');return false;\">XEテンプレート</a>を参考して下さい。";
 
     $lang->layout_export = 'エクスポート';
     $lang->layout_btn_export = 'マイレイアウトをダウンロードする';
