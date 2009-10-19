@@ -210,6 +210,7 @@
     $lang->edit->minimize_list = '최소화';
     
     $lang->edit->move = '이동';
+	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = '글감보관함';
     $lang->edit->temporary_savings = '임시저장목록';
     

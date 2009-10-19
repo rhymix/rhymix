@@ -212,6 +212,7 @@
     $lang->edit->minimize_list = 'Thu nhỏ';
     
     $lang->edit->move = 'Di chuyển';
+	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = 'Vật liệu';
     $lang->edit->temporary_savings = 'Danh sách lưu tạm thời';
     

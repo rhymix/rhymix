@@ -210,6 +210,7 @@
     $lang->edit->minimize_list = 'Minimize';
     
     $lang->edit->move = 'Move';
+	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = 'Materials';
     $lang->edit->temporary_savings = 'Temporary Saved List';
     
