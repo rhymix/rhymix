@@ -222,7 +222,7 @@
 	$lang->edit->paging_next_help = 'Move to next page.';
 
 	$lang->edit->toc = 'Table of Contents';
-	$lang->edit->close_help = '도움말 닫기';
+	$lang->edit->close_help = 'Close Help';
 	
 	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
 ?>
