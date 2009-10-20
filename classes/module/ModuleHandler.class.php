@@ -334,7 +334,6 @@
 
             // if there is no instance of the module in global variable, create a new one 
             if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
-
                 // Get base class name and load the file contains it 
                 if(!class_exists($module)) {
                     $high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_,$class_path, $module);
@@ -395,6 +394,7 @@
 
                 // Create an instance with eval function
                 require_once($class_file);
+                if(!class_exists($instance_name)) return NULL;
                 $eval_str = sprintf('$oModule = new %s();', $instance_name);
                 @eval($eval_str);
                 if(!is_object($oModule)) return NULL;
@@ -430,7 +430,7 @@
          * @return Object
          **/
         function triggerCall($trigger_name, $called_position, &$obj) {
-            // 설치가 안되어 있다면 trigger call을 하지 않고 바로 return
+            // skip if not installed 
             if(!Context::isInstalled()) return new Object();
 
             $oModuleModel = &getModel('module');

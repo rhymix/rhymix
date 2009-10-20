@@ -949,7 +949,13 @@
                 // 각 모듈의 module.class.php로 upgrade 유무 체크
                 $oDummy = null;
                 $oDummy = &getModule($module_name, 'class');
-                if($oDummy) $info->need_update = $oDummy->checkUpdate();
+                if($oDummy && method_exists($oDummy, "checkUpdate")) {
+                    $info->need_update = $oDummy->checkUpdate();
+                }
+                else
+                {
+                    continue;
+                }
 
                 $list[] = $info;
             }
