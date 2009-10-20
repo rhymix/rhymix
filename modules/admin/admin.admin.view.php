@@ -2,30 +2,28 @@
     /**
      * @class  adminAdminView
      * @author zero (zero@nzeo.com)
-     * @brief  admin 모듈의 admin view class
+     * @brief  admin view class of admin module
      **/
 
     class adminAdminView extends admin {
 
         /**
-         * @brief 초기화
+         * @brief Initilization
+         * @return none
          **/
         function init() {
-            // template path 지정
             $this->setTemplatePath($this->module_path.'tpl');
 
-            // 접속 사용자에 대한 체크
+            // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');
             $logged_info = $oMemberModel->getLoggedInfo();
-
-            // 관리자가 아니면 금지
             if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
 
-            // 관리자용 레이아웃으로 변경
+            // change into administration layout 
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
-            // 설치된 모듈 목록 가져와서 적절히 분리
+            // Retrieve the list of installed modules 
             $oModuleModel = &getModel('module');
             $installed_module_list = $oModuleModel->getModulesXmlInfo();
 
@@ -33,7 +31,7 @@
             $package_idx = 0;
             foreach($installed_module_list as $key => $val) {
                 if($val->module == 'admin' || !$val->admin_index_act) continue;
-                // action 정보 구함
+                // get action information 
                 $action_spec = $oModuleModel->getModuleActionXml($val->module);
                 $actions = array();
                 if($action_spec->default_index_act) $actions[] = $action_spec->default_index_act;
@@ -47,14 +45,14 @@
                 $obj->index_act = $val->admin_index_act;
                 if(in_array(Context::get('act'), $actions)) $obj->selected = true;
 
-                // 패키지 모듈
+                // Packages 
                 if($val->category == 'package') {
                     if($package_idx == 0) $obj->position = "first";
                     else $obj->position = "mid";
                     $package_modules[] = $obj;
                     $package_idx ++;
                     if($obj->selected) Context::set('package_selected',true);
-                // 일반 모듈
+                // Modules 
                 } else {
                     $installed_modules[] = $obj;
                 }
@@ -83,17 +81,16 @@
         }
 
         /**
-         * @brief 관리자 메인 페이지 출력
+         * @brief Display main administration page
+         * @return none
          **/
         function dispAdminIndex() {
-            /**
-             * 최근 뉴스를 가져와서 세팅
-             **/
+            //Retrieve recent news and set them into context
             $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php", Context::getLangType());
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_,Context::getLangType());
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
-                // 네트웍 상태로 데이터를 가져오지 못할 상황을 고려해 일단 filemtime을 변경하여 관리자 페이지 refresh시에 다시 읽ㅇ 오지 않도록 함
-                // 뉴스를 보지는 못하지만 관리자 페이지 접속은 이상없도록 함
+                // Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
+                // Ensure to access the administration page even though news cannot be displayed
                 FileHandler::writeFile($cache_file,'');
                 FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
             }
@@ -120,31 +117,29 @@
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
-            // DB 정보를 세팅
+            // DB Information 
             $db_info = Context::getDBInfo();
             Context::set('selected_lang', $db_info->lang_type);
 
-            // 현재 버젼과 설치 경로 세팅
+            // Current Version and Installed Path
             Context::set('current_version', __ZBXE_VERSION__);
             Context::set('installed_path', realpath('./'));
 
-            // 모듈 목록을 가져옴
+            // Get list of modules
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
             Context::set('module_list', $module_list);
 
-            // 애드온 목록을 가져옴
+            // Get list of addons
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getAddonList();
             Context::set('addon_list', $addon_list);
 
-            /**
-             * 각종 통계를 추출
-             **/
+            // Get statistics
             $args->date = date("Ymd000000", time()-60*60*24);
             $today = date("Ymd");
 
-            // 회원현황
+            // Member Status
             $output = executeQueryArray("admin.getMemberStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -158,7 +153,7 @@
             $output = executeQuery("admin.getMemberCount", $args);
             $status->member->total = $output->data->count;
 
-            // 문서현황
+            // Document Status
             $output = executeQueryArray("admin.getDocumentStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -172,7 +167,7 @@
             $output = executeQuery("admin.getDocumentCount", $args);
             $status->document->total = $output->data->count;
 
-            // 댓글현황
+            // Comment Status 
             $output = executeQueryArray("admin.getCommentStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -186,7 +181,7 @@
             $output = executeQuery("admin.getCommentCount", $args);
             $status->comment->total = $output->data->count;
 
-            // 엮인글현황
+            // Trackback Status 
             $output = executeQueryArray("admin.getTrackbackStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -200,7 +195,7 @@
             $output = executeQuery("admin.getTrackbackCount", $args);
             $status->trackback->total = $output->data->count;
 
-            // 첨부파일현황
+            // Attached files Status 
             $output = executeQueryArray("admin.getFileStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -214,7 +209,7 @@
             $output = executeQuery("admin.getFileCount", $args);
             $status->file->total = $output->data->count;
 
-            // 게시물 신고현황
+            // Reported documents Status
             $output = executeQueryArray("admin.getDocumentDeclaredStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -228,7 +223,7 @@
             $output = executeQuery("admin.getDocumentDeclaredCount", $args);
             $status->documentDeclared->total = $output->data->count;
 
-            // 댓글 신고현황
+            // Reported comments Status
             $output = executeQueryArray("admin.getCommentDeclaredStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -253,7 +248,8 @@
         }
 
         /**
-         * @brief 관리자 설정
+         * @brief Display Configuration(settings) page
+         * @return none
          **/
         function dispAdminConfig() {
             $db_info = Context::getDBInfo();

@@ -2,50 +2,53 @@
     /**
      * @class  admin
      * @author zero (zero@nzeo.com)
-     * @brief  admin 모듈의 high class
+     * @brief  base class of admin module 
      **/
 
     class admin extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief install admin module 
+         * @return new Object
          **/
         function moduleInstall() {
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief if update is necessary it returns true
          **/
         function checkUpdate() {
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief update module 
+         * @return new Object
          **/
         function moduleUpdate() {
             return new Object();
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief regenerate cache file
+         * @return none
          **/
         function recompileCache() {
 
-            // 템플릿 컴파일 파일 삭제
+            // remove compiled templates
             FileHandler::removeFilesInDir("./files/cache/template_compiled");
 
-            // optimized 파일 삭제
+            // remove optimized files 
             FileHandler::removeFilesInDir("./files/cache/optimized");
 
-            // js_filter_compiled 파일 삭제
+            // remove js_filter_compiled files 
             FileHandler::removeFilesInDir("./files/cache/js_filter_compiled");
 
-            // queries 파일 삭제
+            // remove cached queries 
             FileHandler::removeFilesInDir("./files/cache/queries");
 
-            // ./files/cache/news* 파일 삭제
+            // remove ./files/cache/news* files 
             $directory = dir(_XE_PATH_."files/cache/");
             while($entry = $directory->read()) {
                 if(substr($entry,0,11)=='newest_news') FileHandler::removeFile("./files/cache/".$entry);
