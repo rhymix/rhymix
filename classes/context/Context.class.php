@@ -955,7 +955,7 @@
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
                 }
-                else
+                elseif($url_info['port']==443)
                 {
                     unset($url_info['port']);
                 }
