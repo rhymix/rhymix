@@ -930,9 +930,11 @@
 
             if(isset($url[$ssl_mode][$domain_key])) return $url[$ssl_mode][$domain_key];
 
+            $current_use_ssl = $_SERVER['HTTPS']=='on' ? true : false;
+
             switch($ssl_mode) {
                 case FOLLOW_REQUEST_SSL :
-                        if($_SERVER['HTTPS']=='on') $use_ssl = true;
+                        if($current_use_ssl) $use_ssl = true;
                         else $use_ssl = false;
                     break;
                 case ENFORCE_SSL :
@@ -951,6 +953,12 @@
             }
 
             $url_info = parse_url('http://'.$target_url);
+
+            if($current_use_ssl != $use_ssl)
+            {
+                unset($url_info['port']);
+            }
+
             if($use_ssl) {
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
