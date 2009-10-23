@@ -278,7 +278,7 @@ function getTypeBase() {
 		if ($.isArray(this._messages))  this._messages  = [];
 		if ($.isArray(this._binded_fn)) this._binded_fn = [];
 
-		if ($.isFunction(this.$init)) {
+		if ($.isFunction(this.init)) {
 			this.$init.apply(this, arguments);
 		}
 	};
