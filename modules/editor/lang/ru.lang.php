@@ -114,6 +114,7 @@
     $lang->edit->help_align_left = 'Выровнять по левому краю';
     $lang->edit->help_align_center = 'Выровнять по центру';
     $lang->edit->help_align_right = 'Выровнять по правому краю';
+	$lang->edit->help_align_justity = 'Align justity';
     $lang->edit->help_add_indent = 'Добавить отступ';
     $lang->edit->help_remove_indent = 'Удалить отступ';
     $lang->edit->help_list_number = 'Применить числовой список';

@@ -120,6 +120,7 @@
     $lang->edit->help_align_left = 'Căn trái';
     $lang->edit->help_align_center = 'Căn giữa';
     $lang->edit->help_align_right = 'Căn phải';
+	$lang->edit->help_align_justity = 'Align justity';
     $lang->edit->help_add_indent = 'Thụt vào';
     $lang->edit->help_remove_indent = 'Giãn ra';
     $lang->edit->help_list_number = 'Thứ tự số';

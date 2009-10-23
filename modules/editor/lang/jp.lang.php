@@ -121,6 +121,7 @@
 	$lang->edit->help_align_left = 'テキストを左揃えで表示します。';
 	$lang->edit->help_align_center = 'テキストを中央揃えで表示します。';
 	$lang->edit->help_align_right = 'テキストを右揃えで表示します。';
+	$lang->edit->help_align_justity = 'Align justity';
 	$lang->edit->help_add_indent = 'インデントを増やします。';
 	$lang->edit->help_remove_indent = 'インデントを減らします。';
 	$lang->edit->help_list_number = '番号付リスト';

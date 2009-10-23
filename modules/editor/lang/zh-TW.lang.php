@@ -121,6 +121,7 @@
     $lang->edit->help_align_left = '靠左對齊';
     $lang->edit->help_align_center = '置中對齊';
     $lang->edit->help_align_right = '靠右對齊';
+	$lang->edit->help_align_justity = 'Align justity';
     $lang->edit->help_add_indent = '縮排';
     $lang->edit->help_remove_indent = '凸排';
     $lang->edit->help_list_number = '編號';
