@@ -120,7 +120,7 @@
     $lang->edit->help_align_left = '左对齐';
     $lang->edit->help_align_center = '居中对齐';
     $lang->edit->help_align_right = '右对齐';
-	$lang->edit->help_align_justity = 'Align justity';
+	$lang->edit->help_align_justify = 'Align justity';
     $lang->edit->help_add_indent = '增加缩进';
     $lang->edit->help_remove_indent = '减少缩进';
     $lang->edit->help_list_number = '有序列表';

@@ -121,7 +121,7 @@
 	$lang->edit->help_align_left = '왼쪽 정렬을 합니다.';
 	$lang->edit->help_align_center = '가운데 정렬을 합니다.';
 	$lang->edit->help_align_right = '오른쪽 정렬을 합니다.';
-	$lang->edit->help_align_justity = '양쪽 정렬을 합니다.';
+	$lang->edit->help_align_justify = '양쪽 정렬을 합니다.';
 	$lang->edit->help_add_indent = '단락의 들여쓰기 수준을 높입니다.';
 	$lang->edit->help_remove_indent = '단락의 들여쓰기 수준을 낮춥니다.';
 	$lang->edit->help_list_number = '숫자로된 목록을 적용합니다.';

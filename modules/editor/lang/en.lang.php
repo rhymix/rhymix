@@ -118,7 +118,7 @@
     $lang->edit->help_align_left = 'Align left';
     $lang->edit->help_align_center = 'Align center';
     $lang->edit->help_align_right = 'Align right';
-	$lang->edit->help_align_justity = 'Align justity';
+	$lang->edit->help_align_justify = 'Align justity';
     $lang->edit->help_add_indent = 'Add indent';
     $lang->edit->help_remove_indent = 'Remove indent';
     $lang->edit->help_list_number = 'Apply number list';

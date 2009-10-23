@@ -114,7 +114,7 @@
     $lang->edit->help_align_left = 'Margen izquierdo';
     $lang->edit->help_align_center = 'Margen central';
     $lang->edit->help_align_right = 'Margen derecho';
-	$lang->edit->help_align_justity = 'Align justity';
+	$lang->edit->help_align_justify = 'Align justity';
     $lang->edit->help_add_indent = 'Anadir tabulación';
     $lang->edit->help_remove_indent = 'Quitar tabulación';
     $lang->edit->help_list_number = 'Aplicar la lista con números';
