@@ -139,7 +139,7 @@ _app_base = {
 			fn._fn = val;
 
 			if (RegExp.$2) { // is hooker?
-				if ($.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
+				if (!$.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
 				msgs[RegExp.$1].push(fn);
 			} else { // register only one main function
 				msgs[RegExp.$1] = fn;
