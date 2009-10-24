@@ -10,4 +10,8 @@
     $lang->multimedia_width = "寬度";
     $lang->multimedia_height = "高度";
     $lang->multimedia_auto_start = "自動播放";
+
+    $lang->multimedia_wmode_window = '總是在上';
+    $lang->multimedia_wmode_opaque = '背景不透明';
+    $lang->multimedia_wmode_transparent = '透明背景';
 ?>
