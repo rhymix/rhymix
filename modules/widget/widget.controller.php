@@ -624,7 +624,7 @@
 
 
             // 위젯 스타일을 컴파일 한다.
-            if($args->widgetstyle) $widget_content_body = $this->complieWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $javascript_mode);
+            if($args->widgetstyle) $widget_content_body = $this->compileWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $javascript_mode);
 
             $output = $widget_content_header . $widget_content_body . $widget_content_footer;
 
@@ -666,7 +666,7 @@
         }
 
 
-        function complieWidgetStyle($widgetStyle,$widget,$widget_content_body, $args, $javascript_mode){
+        function compileWidgetStyle($widgetStyle,$widget,$widget_content_body, $args, $javascript_mode){
             if(!$widgetStyle) return $widget_content_body;
 
             $oWidgetModel = &getModel('widget');
