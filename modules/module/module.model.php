@@ -82,7 +82,7 @@
                 $hostname = $url_info['host'];
                 $path = preg_replace('/\/$/','',$url_info['path']);
                 $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
-                $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
+                $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
             } else {
                 if(!$vid) $vid = $mid;
                 if($vid) {
