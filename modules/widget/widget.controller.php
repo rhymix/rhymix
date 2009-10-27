@@ -69,7 +69,7 @@
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
             // 결과물을 구함
-            $widget_code = $this->execute($widget, $vars, true);
+            $widget_code = $this->execute($widget, $vars, true, false);
 
             $this->add('widget_code', $widget_code);
         }
@@ -437,7 +437,7 @@
          *
          * $javascript_mode가 true일 경우 페이지 수정시 위젯 핸들링을 위한 코드까지 포함함
          **/
-        function execute($widget, $args, $javascript_mode = false) {
+        function execute($widget, $args, $javascript_mode = false, $escaped = true) {
             // 디버그를 위한 위젯 실행 시간 저장
             if(__DEBUG__==3) $start = getMicroTime();
 
@@ -446,7 +446,7 @@
             if(count($object_vars)) {
                 foreach($object_vars as $key => $val) {
                     if(in_array($key, array('widgetbox_content','body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right','widgetstyle','document_srl'))) continue;
-                    $args->{$key} = utf8RawUrlDecode($val);
+                    if($escaped) $args->{$key} = utf8RawUrlDecode($val);
                 }
             }
 
