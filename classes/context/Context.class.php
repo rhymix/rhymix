@@ -163,6 +163,7 @@
             $this->addJsFile("./common/js/jquery.js");
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
+			$this->addJsFile("./common/js/js_app.js");
             $this->addJsFile("./common/js/xml_handler.js");
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");

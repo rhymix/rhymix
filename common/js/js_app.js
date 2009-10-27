@@ -279,7 +279,7 @@ function getTypeBase() {
 		if ($.isArray(this._binded_fn)) this._binded_fn = [];
 
 		if ($.isFunction(this.init)) {
-			this.$init.apply(this, arguments);
+			this.init.apply(this, arguments);
 		}
 	};
 
