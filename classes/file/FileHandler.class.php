@@ -470,20 +470,24 @@
             // create temporary image having original type
             switch($type) {
                 case 'gif' :
+                        if(!function_exists('imagecreatefromgif')) return false;
                         $source = @imagecreatefromgif($source_file);
                     break;
                 // jpg
                 case 'jpeg' :
                 case 'jpg' :
+                        if(!function_exists('imagecreatefromjpeg')) return false;
                         $source = @imagecreatefromjpeg($source_file);
                     break;
                 // png
                 case 'png' :
+                        if(!function_exists('imagecreatefrompng')) return false;
                         $source = @imagecreatefrompng($source_file);
                     break;
                 // bmp
                 case 'wbmp' :
                 case 'bmp' :
+                        if(!function_exists('imagecreatefromwbmp')) return false;
                         $source = @imagecreatefromwbmp($source_file);
                     break;
                 default :
@@ -514,17 +518,21 @@
             // write into the file
             switch($target_type) {
                 case 'gif' :
+                        if(!function_exists('imagegif')) return false;
                         $output = @imagegif($thumb, $target_file);
                     break;
                 case 'jpeg' :
                 case 'jpg' :
+                        if(!function_exists('imagejpeg')) return false;
                         $output = @imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
+                        if(!function_exists('imagepng')) return false;
                         $output = @imagepng($thumb, $target_file, 9);
                     break;
                 case 'wbmp' :
                 case 'bmp' :
+                        if(!function_exists('imagewbmp')) return false;
                         $output = @imagewbmp($thumb, $target_file, 100);
                     break;
             }
