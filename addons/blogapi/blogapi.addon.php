@@ -162,7 +162,6 @@
                     if(!$document_srl) {
                         printContent( getXmlRpcFailure(1, 'no permission') );
                     } else {
-
                         $oDocumentModel = &getModel('document');
                         $oDocument = $oDocumentModel->getDocument($document_srl);
                         if(!$oDocument->isExists() || !$oDocument->isGranted()) {
@@ -198,8 +197,8 @@
                                     '</methodResponse>',
                                     $category,
                                     date("Ymd", $oDocument->getRegdateTime()).'T'.date("H:i:s", $oDocument->getRegdateTime()),
-                                    $oDocument->getContent(false),
-                                    $oDocument->getPermanentUrl(),
+                                    $oDocument->getContent(false, false, true,false),
+                                    getFullUrl('','document_srl', $oDocument->document_srl),
                                     $oDocument->document_srl,
                                     $oDocument->getTitleText()
                                 );
@@ -275,9 +274,10 @@
                         $content = getXmlRpcFailure(1, $output->getMessage());
                     } else {
                         //$content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
-                        $content = getXmlRpcResponse(''.$document_srl);
+                        $content = getXmlRpcResponse($document_srl);
                     }
                     FileHandler::removeDir($tmp_uploaded_path);
+                    debugPrint($content);
 
                     printContent($content);
                 break;
@@ -372,7 +372,7 @@
                     if(!$output->toBool()) {
                         $content = getXmlRpcFailure(1, $output->getMessage());
                     } else {
-                        $content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
+                        $content = getXmlRpcResponse(getFullUrl('','document_srl',$document_srl));
                         FileHandler::removeDir($tmp_uploaded_path);
                     }
 
@@ -389,16 +389,22 @@
                     $oDocumentModel = &getModel('document');
                     $oDocument = $oDocumentModel->getDocument($document_srl);
 
+                    // 글 존재
+                    if(!$oDocument->isExists()) {
+                        $content = getXmlRpcFailure(1, 'not exists');
+
                     // 글 삭제 권한 체크
-                    if(!$oDocument->isGranted()) {
+                    } elseif(!$oDocument->isGranted()) {
                         $content = getXmlRpcFailure(1, 'no permission');
                         break;
-                    }
 
-                    $oDocumentController = &getController('document');
-                    $output = $oDocumentController->deleteDocument($document_srl);
-                    if(!$output->toBool()) $content = getXmlRpcFailure(1, $output->getMessage());
-                    else $content = getXmlRpcResponse(true);
+                    // 삭제
+                    } else {
+                        $oDocumentController = &getController('document');
+                        $output = $oDocumentController->deleteDocument($document_srl);
+                        if(!$output->toBool()) $content = getXmlRpcFailure(1, $output->getMessage());
+                        else $content = getXmlRpcResponse(true);
+                    }
 
                     printContent($content);
                 break;
@@ -423,22 +429,16 @@
                         $posts = array();
                         foreach($output->data as $key => $oDocument) {
                             $post = null;
-                            $post->link = $post->permaLink = getUrl('','mid',$this->mid,'document_srl',$oDocument->document_srl);
+                            $post->categories = array();
+                            $post->dateCreated = date("Ymd", $oDocument->getRegdateTime()).'T'.date("H:i:s", $oDocument->getRegdateTime());
+                            $post->description = htmlspecialchars($oEditorController->transComponent($oDocument->getContent(false,false,true,false)));
+                            $post->link = $post->permaLink = getFullUrl('','document_srl',$oDocument->document_srl);
+                            $post->postid = $oDocument->document_srl;
+                            $post->title = htmlspecialchars($oDocument->get('title'));
+                            $post->publish = 1;
                             $post->userid = $oDocument->get('user_id');
                             $post->mt_allow_pings = 0;
                             $post->mt_allow_comments = $oDocument->allowComment()=='Y'?1:0;
-                            $post->description = htmlspecialchars($oEditorController->transComponent($oDocument->get('content')));
-                            $post->postid = $oDocument->document_srl;
-                            $post->title = htmlspecialchars($oDocument->get('title'));
-
-                            $year = substr($oDocument->get('regdate'),0,4);
-                            $month = substr($oDocument->get('regdate'),4,2);
-                            $day = substr($oDocument->get('regdate'),6,2);
-                            $hour = substr($oDocument->get('regdate'),8,2);
-                            $min = substr($oDocument->get('regdate'),10,2);
-                            $sec = substr($oDocument->get('regdate'),12,2);
-                            $time = mktime($hour,$min,$sec,$month,$day,$year);
-                            $post->dateCreated = gmdate("D, d M Y H:i:s", $time);
                             $posts[] = $post;
                         }
                         $content = getXmlRpcResponse($posts);
@@ -456,7 +456,7 @@
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >
 <service>
     <engineName>XpressEngine</engineName>
-    <engineLink>http://www.zeroboard.com/ </engineLink>
+    <engineLink>http://www.xpressengine.com/ </engineLink>
     <homePageLink>{$homepagelink}</homePageLink>
     <apis>
         <api name="MetaWeblog" preferred="true" apiLink="{$api_url}" blogID="" />
