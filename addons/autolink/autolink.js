@@ -13,18 +13,21 @@
 			this.extractTargets($('.xe_content'));
 
 			$(this.targets).each(function(){
-				if (!url_regex.test(this.nodeValue)) return true;
 				thisPlugin.cast('AUTOLINK', [this]);
 			});
 		},
 		API_AUTOLINK : function(oSender, params) {
 			var textNode = params[0];
 			var content  = textNode.nodeValue;
+			var dummy    = $('<span>');
 
 			content = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 			content = content.replace(url_regex, '<a href="$1" target="_blank">$1</a>');
 
-			$(textNode).replaceWith(params[0] = $(content));
+			$(textNode).before(dummy);
+			$(textNode).replaceWith(content);
+			params[0] = dummy.next('a');
+			dummy.remove();
 		},
 		extractTargets : function(obj) {
 			var thisPlugin = this;
@@ -33,7 +36,7 @@
 			.contents()
 			.each(function(){
 				if (!$(this).is('a,pre,xml,code,script,style,:input')) {
-					if (this.nodeType == 3) { // text node
+					if (this.nodeType == 3 && url_regex.test(this.nodeValue)) { // text node
 						thisPlugin.targets.push(this);
 					} else {
 						thisPlugin.extractTargets(this);
