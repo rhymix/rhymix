@@ -265,7 +265,6 @@ EndOfLicense;
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセス出来ない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定して下さい。</span>';
 
     $lang->success_installed = '正常にインストールされました。';
-    $lang->success_updated = '正常にアップデートされました。';
 
     $lang->msg_cannot_proc = 'インストール出来る環境が整っていないため、リクエストを実行出来ませんでした。';
     $lang->msg_already_installed = '既にインストールされています。';
