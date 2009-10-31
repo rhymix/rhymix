@@ -226,6 +226,7 @@
 		 * @return object of error
          **/
         function getError() {
+            $this->errstr = Context::convertEncodingStr($this->errstr);
             return new Object($this->errno, $this->errstr);
         }
 
@@ -326,7 +327,7 @@
                     break;
             }
 
-            if($this->errno != 0 ) $output = new Object($this->errno, $this->errstr);
+            if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
             $output->add('_elapsed_time', sprintf("%0.5f", $this->elapsed_time));
