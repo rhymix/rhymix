@@ -450,8 +450,14 @@ function _displayMultimedia(src, width, height, options) {
     };
 
     var params = jQuery.extend(defaults, options || {});
-    var autostart = (params.autostart && params.autostart != 'false') ? 'true' : 'false';
-    delete(params.autostart);
+	var autostart;
+	if (jQuery.browser.mozilla || jQuery.browser.opera) {
+		// firefox and opera uses 0 or 1 for autostart parameter.
+		autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
+	} else {
+		autostart = (params.autostart && params.autostart != 'false') ? 'true' : 'false';
+	}
+	delete(params.autostart);
 
     var clsid = "";
     var codebase = "";
