@@ -1,3 +1,8 @@
+/**
+ * @file autolink.js
+ * @brief javascript code for autolink addon
+ * @author taggon (gonom9@gmail.com)
+ */
 (function($){
 	var protocol_re = '(https?|ftp|news|telnet|irc)://';
 	var domain_re   = '(?:[\\w\\-]+\\.)+(?:[a-z]+)';
@@ -43,7 +48,7 @@
 			$(obj)
 			.contents()
 			.each(function(){
-				// FIXED: When this meanless code wasn't executed, url_regex do not run correctly. why?
+				// FIX ME : When this meanless code wasn't executed, url_regex do not run correctly. why?
 				url_regex.exec('');
 
 				if (!$(this).is('a,pre,xml,code,script,style,:input')) {
