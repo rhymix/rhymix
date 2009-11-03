@@ -272,7 +272,7 @@
             $end = getMicroTime();
 
             // Firebug 콘솔 출력
-            if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '5.2.0', '>=')) {
+            if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1) {
                 static $firephp;
                 if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
 
