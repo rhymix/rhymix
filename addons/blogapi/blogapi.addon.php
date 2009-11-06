@@ -22,16 +22,6 @@
     // act가 api가 아니면 그냥 리턴~
     if($_REQUEST['act']!='api') return;
 
-    /**
-     * blogapi의 경우 GET argument와 XML Content가 같이 오기에 XE의 경우 XML Content가 오면 이것만 처리하기에 
-     * GET argument중에 mid값을 강제 설정해야 모듈을 정상적으로 찾는다 
-     **/
-    if($called_position == 'before_module_init') {
-        $mid = $_REQUEST['mid'];
-        Context::set('mid', $mid, true);
-        $this->mid = $mid;
-    }
-
     // 관련 func 파일 읽음
     require_once('./addons/blogapi/blogapi.func.php');
 
@@ -88,7 +78,7 @@
         switch($method_name) {
             // 블로그 정보
             case 'blogger.getUsersBlogs' :
-                    $obj->url = Context::getRequestUri().$this->mid;
+                    $obj->url = getFullSiteUrl('');
                     $obj->blogid = $this->mid;
                     $obj->blogName = $this->module_info->browser_title;
                     $blog_list = array($obj);
@@ -277,7 +267,6 @@
                         $content = getXmlRpcResponse($document_srl);
                     }
                     FileHandler::removeDir($tmp_uploaded_path);
-                    debugPrint($content);
 
                     printContent($content);
                 break;

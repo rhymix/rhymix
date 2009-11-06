@@ -647,11 +647,10 @@
          * @brief GET/POST방식일 경우 처리
          **/
         function _setRequestArgument() {
-            if($this->_getRequestMethod() == 'XMLRPC' || $this->_getRequestMethod() == 'JSON') return;
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
-                if($val === "") continue;
+                if($val === "" || Context::get($key)) continue;
                 $val = $this->_filterRequestVar($key, $val);
                 if($this->_getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&isset($_POST[$key])) $set_to_vars = true;
