@@ -253,7 +253,7 @@
                         }
                     }
 
-                    $obj->content = str_replace($uploaded_target_path,sprintf('./files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
+                    $obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
                     $obj->allow_comment = 'Y';
@@ -353,7 +353,8 @@
                             $obj->uploaded_count += $file_count;
                         }
                     }
-                    $obj->content = str_replace($uploaded_target_path,sprintf('./files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
+
+                    $obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
                     $output = $oDocumentController->updateDocument($oDocument,$obj);
