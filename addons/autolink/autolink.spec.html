@@ -56,6 +56,10 @@ describe('AutoLink functionality', {
 		value_of( $('#test6 a').eq(2).parent().is('b') ).should_be_true();
 		value_of( $('#test6 > textarea > a').length ).should_be(0);
 		value_of( $('#test6 > div > a').attr("target") ).should_be("_self");
+	},
+	"#test9 - don't include parenthesis" : function() {
+		value_of( $('#test9 a').length ).should_be(1);
+		value_of( $('#test9 a').attr('href') ).should_be('http://www.naver.com');
 	}
 });
 
@@ -93,6 +97,7 @@ describe('Autolink trigger', {
 	</div>
 	<div id="test7">http://mygony.com</div>
 	<div id="test8">Go to http://mygony.com</div>
+	<div id="test9">Naver(http://www.naver.com)</div>
 </div>
 </body>
 </html>
