@@ -1,0 +1,11 @@
+<query id="getInstalledPackages" action="select">
+    <tables>
+        <table name="autoinstall_installed_packages" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="package_srl" var="package_list" notnull="notnull" />
+    </conditions>
+</query>

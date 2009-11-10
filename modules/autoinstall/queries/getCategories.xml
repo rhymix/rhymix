@@ -1,0 +1,8 @@
+<query id="getCategories" action="select">
+    <tables>
+        <table name="autoinstall_remote_categories" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+</query>

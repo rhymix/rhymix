@@ -1,0 +1,7 @@
+<query id="deleteCategory" action="delete">
+    <tables>
+        <table name="autoinstall_remote_categories" />
+    </tables>
+    <conditions>
+    </conditions>
+</query>

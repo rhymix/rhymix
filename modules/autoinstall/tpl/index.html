@@ -1,0 +1,22 @@
+<!--#include("header.html")-->
+<!--%import("css/autoinstall.css")-->
+<!--%import("js/autoinstall.js")-->
+<div>
+<!--@if($show_ftp_note)-->
+{$lang->description_ftp_note} 
+<!--@end-->
+<!--@if($need_update)-->
+<p>
+{$lang->need_update}</p>
+<!--@else-->
+<p>{$lang->description_update}</p>
+<!--@end-->
+<a href="#" onclick="doUpdate(); return false;" title="update">Update</a>
+</div>
+<div class="clear" ></div>
+
+<!--#include("leftBox.html")-->
+<!--@if($item_list)-->
+    <!--#include("list.html")-->
+<!--@end-->
+

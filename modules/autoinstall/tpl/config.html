@@ -1,0 +1,37 @@
+<!--%import("filter/insert_config.xml")-->
+<!--#include("header.html")-->
+
+<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<table cellspacing="0" class="rowTable">
+<tr>
+    <th scope="col"><div>설치된 XE의 절대경로</div></th>
+    <td>{_XE_PATH_}
+    </td>
+</tr>
+<tr>
+    <th scope="col" rowspan="2"><div>설치된 XE의 FTP 절대경로 설정</div></th>
+    <td>
+        <input type="text" name="ftp_root_path" value="<!--@if($pwd && $pwd!='/')-->{$pwd}<!--@else-->{$config->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
+    </td>
+</tr>
+<tr>
+    <td>
+    <!--@if($list)-->
+            <ul>
+    <!--@foreach($list as $k => $v)-->
+        <!--@if($v)-->
+            <li> <a href="{getUrl('pwd',$pwd.$v)}">{$v}</a></li>
+        <!--@end-->
+    <!--@end-->
+            </ul>
+    <!--@end-->
+    </td>
+</tr>
+
+<tr class="row2">
+    <th colspan="2" class="button" style="text-align:center">
+        <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+    </th>
+</tr>
+</table>
+</form>
