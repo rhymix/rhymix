@@ -7,7 +7,7 @@
 
     class ModuleInstaller {
         var $package = null;
-		var $base_url = 'http://resource.xpressengine.com/';
+		var $base_url = 'http://download.xpressengine.com/';
 		var $temp_dir = './files/cache/autoinstall/';
         var $target_path;
         var $download_file;

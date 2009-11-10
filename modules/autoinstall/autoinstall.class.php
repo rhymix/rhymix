@@ -31,7 +31,7 @@
     }
 
     class autoinstall extends ModuleObject {
-        var $uri = "http://resource.xpressengine.com/";
+        var $uri = "http://download.xpressengine.com/";
         var $original_site = "http://www.xpressengine.com/";
 		var $tmp_dir = './files/cache/autoinstall/';
 
