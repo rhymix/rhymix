@@ -1,4 +1,4 @@
-<div class="resourceContent">
+<div class="content">
     <ul class="listOrder {$order_type}">
         <!--@if($order_target=='newest')-->
             <!--@if($order_type == 'desc')-->{@$_order_type = 'asc'}<!--@else-->{@$_order_type = 'desc'}<!--@end-->
@@ -20,67 +20,52 @@
         <li <!--@if($order_target=='popular')-->class="arrow"<!--@end-->><a href="{getUrl('order_target','popular','order_type',$_order_type)}">{$lang->order_popular}</a></li>
     </ul>
 
+    <table class="updateList" border="1" cellspacing="0">
+    <col width="120" /><col />
     <!--@foreach($item_list as $key => $val)-->
-    <table class="packageList">
-    <colgroup>
-    <col width="120" /><col width="*"/>
-    </colgroup>
     <tr>    
         {@ $target_url = $original_site."?mid=download&package_srl=".$val->package_srl; }
-        <td rowspan="4" class="thumbnail"><a href="{$target_url}"><img src="{str_replace('./', $uri, $val->item_screenshot_url)}" width="100" height="100" alt="" /></a></td>
-        <td class="title">
-            <h3>
-                <a href="{$target_url}">{htmlspecialchars($val->title)} ver. {htmlspecialchars($val->item_version)}</a>
-            </h3>
+        <th><a href="{$target_url}"><img src="{str_replace('./', $uri, $val->item_screenshot_url)}" width="100" height="100" alt="" /></a></th>
+        <td>
+			<div class="title">
+				<h3>
+					<!--@if($val->category_srl)-->
+					[{$categories[$val->category_srl]->title}]
+					<!--@end-->
+					<a href="{$target_url}">{htmlspecialchars($val->title)} ver. {htmlspecialchars($val->item_version)}</a>
+				</h3>
+					<!--@if($val->current_version)-->
+					현재 설치 버전 : {$val->current_version}
+						<!--@if($val->need_update == 'Y')-->
+						<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>업데이트</span></a>
+						<!--@end-->
+					<!--@else-->
+					<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>인스톨</span></a>
+					<!--@end-->
+			</div>
+			<div class="info">
+				<p class="desc">{cut_str(htmlspecialchars($val->package_description),200)}</p>
+				<p class="meta">
+					<span class="reputation">
+						<!--@for($i=0;$i<5;$i++)-->
+							<!--@if($i<$val->package_star)-->
+							<img src="./img/starOn.gif" alt="" />
+							<!--@else-->
+							<img src="./img/starOff.gif" alt="" />
+							<!--@end-->
+						<!--@end-->
+						<span>{sprintf("%0.1f",$val->package_voted/$val->package_voter*2)}/{number_format($val->package_voter)}</span>
+					</span>
+					<span class="lastUpdate">{$lang->package_update} {zdate($val->item_regdate, "Y-m-d H:i")}</span>
+					<span class="download">{$lang->package_downloaded_count} : {number_format($val->package_downloaded)}</span>
+				</p>
+			</div>
         </td>
     </tr>
-    <tr>
-    <tr>
-        <td class="info">
-            <ul>
-                <!--@if($val->category_srl)--><li class="category"><a href="{getUrl('category_srl', $val->category_srl)}">{$categories[$val->category_srl]->title}</a></li><!--@end-->
-                <li class="voted">
-                    <!--@for($i=0;$i<5;$i++)--><!--@if($i<$val->package_star)--><img src="./img/starOn.gif" alt="" /><!--@else--><img src="./img/starOff.gif" alt="" /><!--@end--><!--@end-->
-                    {sprintf("%0.1f",$val->package_voted/$val->package_voter*2)} /{number_format($val->package_voter)}
-                </li>
-            </li>
-        </td>
-    </tr>
-    <tr>
-        <td class="description">{cut_str(htmlspecialchars($val->package_description),200)}</td>
-    </tr>
-    <tr>
-        <td class="info">
-            <ul>
-                <li class="info">
-                    {$lang->package_update} {zdate($val->item_regdate, "Y-m-d H:i")}
-                    / {$lang->package_downloaded_count} : {number_format($val->package_downloaded)}
-
-
-                </li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td class="info">
-            <ul>
-                <li class="info">
-                    <!--@if($val->current_version)-->
-                    현재 설치 버전 : {$val->current_version}
-                        <!--@if($val->need_update == 'Y')-->
-                        <a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}">업데이트</a>
-                        <!--@end-->
-                    <!--@else-->
-                    <a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}">인스톨</a>
-                    <!--@end-->
-                </li>
-            </ul>
-        </td>
-    </tr>
-    </table>
     <!--@end-->
+    </table>
 
-    <div class="pagination">
+    <div class="pagination a1">
         <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
         <!--@while($page_no = $page_navigation->getNextPage())-->
             <!--@if($page == $page_no)-->

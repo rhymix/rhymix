@@ -1,35 +1,18 @@
 <!--#include("header.html")-->
 <!--%import("css/autoinstall.css")-->
 <!--%import("js/autoinstall.js")-->
-<div class="resourceContent">
-    <table class="packageList">
-    <colgroup>
-    <col width="150" /><col width="*" />
-    </colgroup>
-    <tr>
-        <td class="title" colspan="2">
-            <h3>
-                {$package->title} ver. {$package->version} ( <!--@if($package->installed)-->현재버전: {$package->cur_version} <!--@if($package->need_update)--> (업데이트가 필요합니다.)<!--@end--> <!--@else-->인스톨이 필요합니다. <!--@end--> )
-            </h3>
-        </td>
-    </tr>
-    <!--@if($package->depends)-->
-    <tr>
-        <td>의존하고 있는 프로그램</td>
-        <td>
-            <!--@foreach($package->depends as $dep)-->
-                {$dep->title} ver. {$dep->version} - 
-                <!--@if($dep->installed)-->현재버전: {$dep->cur_version} <!--@if($dep->need_update)--> (업데이트가 필요합니다.)<!--@end--> <!--@else-->인스톨이 필요합니다. <!--@end-->
-                <br />
-            <!--@end-->
-        </td>
-    </tr> 
-    <!--@end-->
-    <tr>
-        <td colspan="2">
-            설치를 진행하면 의존성이 있는 모든 프로그램을 함께 설치합니다. <!--@if(!$package->installed || $package->need_update)--><a href="#" onclick="doInstallPackage('{$package->package_srl}')">설치하기</a><!--@end-->
-        </td>
-    </tr>
-    </table>
+<div class="infoText">
+	<p><strong>{$package->title}</strong> ver. <strong>{$package->version}</strong> ( <!--@if($package->installed)-->현재버전: {$package->cur_version} <!--@if($package->need_update)--> (업데이트가 필요합니다.)<!--@end--> <!--@else-->인스톨이 필요합니다. <!--@end--> )</p>
+	<!--@foreach($package->depends as $dep)-->
+	<dl>
+    <dt><strong>의존하고 있는 프로그램 :</strong></dt>
+		<dd>sdfgsdfg
+			{$dep->title} ver. {$dep->version} - 
+			<!--@if($dep->installed)-->현재버전: {$dep->cur_version} <!--@if($dep->need_update)--> (업데이트가 필요합니다.)<!--@end--> <!--@else-->인스톨이 필요합니다. <!--@end-->
+		</dd>
+	</dl>
+	<!--@end-->
+	<p>설치를 진행하면 의존성이 있는 모든 프로그램을 함께 설치합니다. </p>
+	<p><!--@if(!$package->installed || $package->need_update)--><a href="#" onclick="doInstallPackage('{$package->package_srl}')" class="button large green strong"><span>설치하기</span></a><!--@end--></p>
 
 </div>
