@@ -30,7 +30,7 @@
 			<div class="title">
 				<h3>
 					<!--@if($val->category_srl)-->
-					[{$categories[$val->category_srl]->title}]
+					<a href="{getUrl('category_srl',$val->category_srl)}">[{$categories[$val->category_srl]->title}]</a>
 					<!--@end-->
 					<a href="{$target_url}">{htmlspecialchars($val->title)} ver. {htmlspecialchars($val->item_version)}</a>
 				</h3>

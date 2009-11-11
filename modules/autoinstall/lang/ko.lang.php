@@ -5,7 +5,7 @@
      * @brief  Autoinstall(autoinstall) 모듈의 기본 언어팩
      **/
 
-    $lang->autoinstall = 'Easy-install';
+    $lang->autoinstall = '쉬운 설치';
     $lang->about_autoinstall = 'XpressEngine의 여러 프로그램을 쉽게 설치/업그레이드할 수 있도록 도와주는 모듈입니다.';
     $lang->package_update = '최근 업데이트';
     $lang->package_downloaded_count = '전체 다운로드';
