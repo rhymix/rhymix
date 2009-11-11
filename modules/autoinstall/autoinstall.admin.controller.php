@@ -51,6 +51,7 @@
             $file_list = $this->_unPack();
             $this->_copyDir($file_list);
 
+            FileHandler::removeDir($this->temp_dir);
             return;
         }
 
