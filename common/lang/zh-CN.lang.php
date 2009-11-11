@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/zh-CN.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  简体中文语言包 (只收录基本内容)
+     * @brief  简体中文语言包
      **/
 
     // 基本使用的 action 语言
@@ -24,16 +24,16 @@
     $lang->cmd_load = '导入';
     $lang->cmd_input = '输入';
     $lang->cmd_search = '搜索';
-    $lang->cmd_find = '찾기';
-    $lang->cmd_replace = '바꾸기';
-    $lang->cmd_confirm = '확인';
+    $lang->cmd_find = '查找';
+    $lang->cmd_replace = '替换';
+    $lang->cmd_confirm = '确认';
     $lang->cmd_cancel = '取消';
     $lang->cmd_back = '返回';
     $lang->cmd_vote = '推荐';
     $lang->cmd_vote_down = '反对';
     $lang->cmd_declare = '举报';
     $lang->cmd_cancel_declare = '取消举报';
-    $lang->cmd_declared_list = '举报目录';
+    $lang->cmd_declared_list = '举报列表';
     $lang->cmd_copy = '复制';
     $lang->cmd_move = '移动';
     $lang->cmd_move_up = '向上';
@@ -124,7 +124,7 @@
     $lang->file = '文件';
 
     $lang->mid = '模块名称';
-    $lang->sid = 'Site Name';
+    $lang->sid = '站点名称';
     $lang->layout = '布局';
     $lang->widget = '控件 ';
     $lang->module = '模块';
@@ -209,7 +209,7 @@
     $lang->about_layout = '布局是布置模块的外观，在上端布局菜里单可以进行管理';
 
     // 信息
-    $lang->msg_call_server = '系统正在链接服务器，请稍后。';
+    $lang->msg_call_server = '系统正在连接服务器，请稍后…';
     $lang->msg_db_not_setted = '还没有设定 DB';
     $lang->msg_dbconnect_failed = "连接DB时发生错误。\n请重新确认DB信息。";
     $lang->msg_invalid_queryid = 'Query ID值指定错误';
@@ -221,18 +221,19 @@
     $lang->msg_error_occured = '发生错误';
     $lang->msg_not_founded = '没有找到相关内容';
     $lang->msg_no_result = '找不到和您查询的相符结果';
-    $lang->msg_fail_to_request_open = 'Fail to open your request';
-    $lang->msg_invalid_format = 'Invalid Format';
+    $lang->msg_fail_to_request_open = '连接失败！';
+    $lang->msg_invalid_format = '错误的格式！';
 
     $lang->msg_not_permitted_act = '没有权限执行 action命令';
-    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
+    $lang->msg_module_is_not_exists = "没有找到该模块！\n请联系网站管理员进行模块维护。";
     $lang->msg_module_is_not_standalone = '您请求的模块不能单独执行';
-    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
+    $lang->msg_default_url_is_not_defined = '请设置XE通行证！';
 
     $lang->success_registed = '提交成功！';
     $lang->success_declared = '举报成功！';
     $lang->success_updated = '修改成功！';
     $lang->success_deleted = '删除成功！';
+    $lang->success_restore = '复原成功！';
     $lang->success_voted = '推荐成功！';
     $lang->success_blamed = '反对成功！';
     $lang->success_moved = '移动成功！';
@@ -253,28 +254,29 @@
     $lang->confirm_logout = '确定要退出吗?';
     $lang->confirm_vote = '确定要推荐吗?';
     $lang->confirm_delete = '确定要删除吗?';
+    $lang->confirm_restore = '确定要复原吗?';
     $lang->confirm_move = '确定要移动吗?';
     $lang->confirm_reset = '确定要初始化吗?';
     $lang->confirm_leave = '确定要注销吗?';
 
     $lang->column_type = '格式';
     $lang->column_type_list['text'] = '单行文本输入区(text)';
-    $lang->column_type_list['homepage'] = '网址格式 (url)';
-    $lang->column_type_list['email_address'] = '邮件格式 (email)';
-    $lang->column_type_list['tel'] = '电话号码格式 (phone)';
-    $lang->column_type_list['textarea'] = '多行文本框 (textarea)';
-    $lang->column_type_list['checkbox'] = '复选框 (checkbox)';
-    $lang->column_type_list['select'] = '下拉列表框 (select)';
-    $lang->column_type_list['radio'] = '单选框 (radio)';
+    $lang->column_type_list['homepage'] = '网址格式(url)';
+    $lang->column_type_list['email_address'] = '邮件格式(email)';
+    $lang->column_type_list['tel'] = '电话号码格式(phone)';
+    $lang->column_type_list['textarea'] = '多行文本框(textarea)';
+    $lang->column_type_list['checkbox'] = '复选框(checkbox)';
+    $lang->column_type_list['select'] = '下拉列表框(select)';
+    $lang->column_type_list['radio'] = '单选框(radio)';
     $lang->column_type_list['kr_zip'] = '韩国邮编(zip)';
-    $lang->column_type_list['date'] = '日期 (年月日)';
-    //$lang->column_type_list['jp_zip'] = '日本地址 (zip)';
+    $lang->column_type_list['date'] = '日期(年月日)';
+    //$lang->column_type_list['jp_zip'] = '日本地址(zip)';
     $lang->column_name = '项目名';
     $lang->column_title = '项目标题';
     $lang->default_value = '缺省值';
     $lang->is_active = '激活';
     $lang->is_required = '必填';
-    $lang->eid = '확장변수 이름';
+    $lang->eid = '扩展变量名';
 
     // ftp 相关
     $lang->ftp_form_title = '设置FTP信息';
@@ -295,7 +297,6 @@
     $lang->msg_ftp_mkdir_fail = "新建文件夹失败。请确认 FTP服务器设置。";
     $lang->msg_ftp_chmod_fail = "修改文件夹属性失败。请确认 FTP服务器设置。";
     $lang->msg_ftp_connect_success = "FTP连接成功。";
-
 
     // 在xml filter使用的 javascript用 alert msg
     $lang->filter->isnull = '请输入%s';

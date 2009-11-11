@@ -7,7 +7,7 @@
 	
     $lang->cmd_comment_do = '将把此评论..';
     
-    $lang->comment_list = '评论目录';
+    $lang->comment_list = '评论列表';
     $lang->cmd_toggle_checked_comment = '反选';
     $lang->cmd_delete_checked_comment = '删除所选';
 

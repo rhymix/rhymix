@@ -96,7 +96,7 @@
     $lang->cmd_view_member_info = '个人资料';
     $lang->cmd_leave = '注销';
     $lang->cmd_find_member_account = '查找用户名/密码';
-	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
+	$lang->cmd_resend_auth_mail = '重新发送认证邮件';
 
     $lang->cmd_member_list = '会员目录';
     $lang->cmd_module_config = '常规选项';
@@ -104,8 +104,8 @@
     $lang->cmd_send_mail = '发送邮件';
     $lang->cmd_manage_id = '禁止用户名';
     $lang->cmd_manage_form = '扩展注册表单';
-    $lang->cmd_view_own_document = '我的话题';
-    $lang->cmd_manage_member_info = 'Manage Member Info';
+    $lang->cmd_view_own_document = '会员话题';
+    $lang->cmd_manage_member_info = '管理会员信息';
     $lang->cmd_trace_document = '主题追踪';
     $lang->cmd_trace_comment = '评论追踪';
     $lang->cmd_view_scrapped_document = '我的收藏';
@@ -206,5 +206,5 @@
 
     $lang->about_member = "可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。\n此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。";
 
-	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+    $lang->about_resend_auth_mail = '没有收到认证邮件时，可以在此重新发送认证邮件。';
 ?>

@@ -12,7 +12,7 @@
     $lang->status = '状态';
     $lang->is_valid = '有效';
     $lang->is_stand_by = '等待';
-    $lang->file_list = '附件目录';
+    $lang->file_list = '附件列表';
     $lang->allow_outlink = '防盗链';
     $lang->allow_outlink_site = '允许外链站点';
     $lang->allowed_filesize = '文件大小限制';
@@ -34,14 +34,14 @@
     $lang->msg_cart_is_null = ' 请选择要删除的文件。';
     $lang->msg_checked_file_is_deleted = '已删除%d个文件！';
     $lang->msg_exceeds_limit_size = '已超过系统指定的上传文件大小！';
-    $lang->msg_file_not_found = '요청하신 파일을 찾을 수 없습니다.';
+    $lang->msg_file_not_found = '无法找到该文件。';
 
     $lang->file_search_target_list = array(
         'filename' => '文件名',
         'filesize_more' => '文件大小 (byte, 以上)',
         'filesize_mega_more' => '文件大小 (Mb, 以上)',
-		'filesize_less' => '파일크기 (byte, 이하)',
-		'filesize_mega_less' => '파일크기 (Mb, 이하)',
+	'filesize_less' => '文件大小 (byte, 以下)',
+	'filesize_mega_less' => '文件大小 (Mb, 以下)',
         'download_count' => '下载次数 (以上)',
         'user_id' => '用户名',
         'user_name' => '姓名',

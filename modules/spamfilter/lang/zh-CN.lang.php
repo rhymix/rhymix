@@ -6,8 +6,8 @@
      **/
 
     // action 相关
-    $lang->cmd_denied_ip = "禁止IP目录";
-    $lang->cmd_denied_word = "敏感词目录";
+    $lang->cmd_denied_ip = "禁止IP列表";
+    $lang->cmd_denied_word = "敏感词列表";
 
     // 一般用语
     $lang->spamfilter = "垃圾过滤";

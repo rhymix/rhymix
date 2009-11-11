@@ -13,7 +13,7 @@
     $lang->layout_license = '版权';
     $lang->layout_history = "更新记录 ";
     $lang->layout_info = "布局信息";
-    $lang->layout_list = '布局目录';
+    $lang->layout_list = '布局列表';
     $lang->menu_count = '菜单数';
     $lang->downloaded_list = '下载目录';
     $lang->layout_preview_content = '显示内容的部分。';

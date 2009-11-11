@@ -10,7 +10,7 @@
     $lang->poll_join_count = "投票者";
     $lang->poll_checkcount = "必选项目数";
 
-    $lang->cmd_poll_list = '查看目录';
+    $lang->cmd_poll_list = '投票列表';
     $lang->cmd_delete_checked_poll = '删除所选项目';
     $lang->cmd_apply_poll = '参与投票';
     $lang->cmd_view_result = '查看结果';
