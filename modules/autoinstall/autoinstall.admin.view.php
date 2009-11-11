@@ -56,6 +56,8 @@
         function dispAutoinstallAdminInstall() {
             $package_srl = Context::get('package_srl');
             if(!$package_srl) return $this->dispAutoinstallAdminIndex();
+            $ftp_info =  Context::getFTPInfo();
+            if(!$ftp_info->ftp_root_path) Context::set('show_ftp_note', true);
 
             $params["act"] = "getResourceapiInstallInfo";
             $params["package_srl"] = $package_srl;
@@ -70,6 +72,7 @@
                 $package->title = $xmlPackage->title->body;
                 $package->package_description = $xmlPackage->package_description->body;
                 $package->version = $xmlPackage->version->body;
+                $package->path = $xmlPackage->path->body;
                 if($xmlPackage->depends)
                 {
                     if(!is_array($xmlPackage->depends->item)) $xmlPackage->depends->item = array($xmlPackage->depends->item);
@@ -80,6 +83,7 @@
                         $dep_item->package_srl = $item->package_srl->body;
                         $dep_item->title = $item->title->body;
                         $dep_item->version = $item->version->body;
+                        $dep_item->path = $item->path->body;
                         $package->depends[] = $dep_item;
                         $targetpackages[$dep_item->package_srl] = 1;
                     }
@@ -121,7 +125,8 @@
         function dispAutoinstallAdminIndex() {
             $oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('autoinstall');
-            if(!$config || !$config->ftp_root_path) Context::set('show_ftp_note', true);
+            $ftp_info =  Context::getFTPInfo();
+            if(!$ftp_info->ftp_root_path) Context::set('show_ftp_note', true);
 
             $this->setTemplateFile('index');
 

@@ -20,5 +20,11 @@
     $lang->description_update = "新安装(更新)模块的版本信息，点击Update按钮后才能正常显示。";
     $lang->install = "Install";
     $lang->update = "Update";
+    $lang->depending_programs = "This program depends on ";
+    $lang->require_update = "Update is required.";
+    $lang->require_installation = "Installation is required.";
+    $lang->description_install = "Installation process also install/update programs which this program depends on";
     $lang->current_version = "Installed version";
+    $lang->description_download = "When FTP is disabled, you should download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)";
+    $lang->path = "Path";
 ?>
