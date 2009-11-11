@@ -156,7 +156,7 @@
             unset($args->page);
 
             // mid값 검사
-            if(!ereg("^[a-zA-Z][a-zA-Z0-9_]+", $args->mid)) return new Object(-1, 'msg_limit_mid');
+            if(!preg_match("/^[a-z][a-z0-9_]+$/i", $args->mid)) return new Object(-1, 'msg_limit_mid');
 
             // 변수를 검사 (modules의 기본 변수와 그렇지 않은 변수로 분리)
             $extra_vars = clone($args);

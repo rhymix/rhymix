@@ -33,7 +33,8 @@
         </thead>
         <tbody>
         <!--@foreach($module_list as $key => $val)-->
-            <tr class="bg{$cycle_idx-1}">
+            <!--@if($val->need_install || $val->need_update)-->
+            <tr>
                 <td><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</td>
                 <td>{$val->version}</td>
                 <td>
@@ -44,18 +45,36 @@
                 <td <!--@if($val->created_table_count != $val->table_count)-->class="alert"<!--@end-->>
                     {$val->created_table_count}/{$val->table_count}
                 </td>
-                <td <!--@if($val->need_install || $val->need_update)-->class="alert"<!--@end-->>
+                <td class="alert">
                     <!--@if($val->need_install)-->
                         <a href="#" onclick="doInstallModule('{$val->module}');return false;" title="{htmlspecialchars($lang->cmd_install)}">{$lang->cmd_install}</a>
                     <!--@elseif($val->need_update)-->
                         <a href="#" onclick="doUpdateModule('{$val->module}'); return false;" title="{htmlspecialchars($lang->cmd_update)}">{$lang->cmd_update}</a>
-                    <!--@else-->
-                        -
                     <!--@end-->
                 </td>
                 <td><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false" title="{htmlspecialchars($lang->module_info)}" class="buttonSet buttonInfo"><span>{$lang->module_info}</span></a></td>
             </tr>
             <!--@end-->
+        <!--@end-->
+
+        <!--@foreach($module_list as $key => $val)-->
+            <!--@if(!$val->need_install && !$val->need_update)-->
+            <tr>
+                <td><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</td>
+                <td>{$val->version}</td>
+                <td>
+                    <!--@foreach($val->author as $author)-->
+                    <!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;"><!--@end-->{$author->name}<!--@if($author->homepage)--></a><!--@end-->
+                    <!--@endforeach-->
+                </td>
+                <td <!--@if($val->created_table_count != $val->table_count)-->class="alert"<!--@end-->>
+                    {$val->created_table_count}/{$val->table_count}
+                </td>
+                <td> - </td>
+                <td><a href="{getUrl('','module','module','act','dispModuleAdminInfo','selected_module',$val->module)}" onclick="popopen(this.href,'module_info');return false" title="{htmlspecialchars($lang->module_info)}" class="buttonSet buttonInfo"><span>{$lang->module_info}</span></a></td>
+            </tr>
+            <!--@end-->
+        <!--@end-->
         </tbody>
         </table>
     </div>

@@ -32,7 +32,7 @@
             $config = $oModuleModel->getModuleConfig('integration_search');
             if(!$config->skin) $config->skin = 'default';
             Context::set('module_info', unserialize($config->skin_vars));
-            $this->setTemplatePath($this->module_path."/skins/".$this->skin."/");
+            $this->setTemplatePath($this->module_path."/skins/".$config->skin."/");
 
             $target = $config->target;
             if(!$target) $target = 'include';

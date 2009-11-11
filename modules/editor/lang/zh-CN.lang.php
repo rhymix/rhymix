@@ -16,9 +16,9 @@
     $lang->component_description = '说明';
     $lang->component_extra_vars = '变数设置';
     $lang->component_grant = '权限设置';
-    $lang->content_style = 'Content Style';
-    $lang->content_font = 'Content Font';
-	$lang->content_font_size = '문서 폰트 크기';
+    $lang->content_style = '文档样式';
+    $lang->content_font = '文档字体';
+    $lang->content_font_size = '字体大小';
 
     $lang->about_component = '组件简介';
     $lang->about_component_grant = '可以设置除默认组件外的扩展组件使用权限<br />(全部解除时任何用户都可以使用)。';
@@ -44,9 +44,9 @@
     $lang->editor_height = '编辑器高度';
 
     $lang->about_editor_skin = '可以选择编辑器皮肤。';
-    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
-    $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
-	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
+    $lang->about_content_style = '可以指定编辑或打印文档时的文档样式。';
+    $lang->about_content_font = '可以指定编辑或打印文档时的文档字体，不指定随用户设置。<br/>多个字体可以用逗号(，)区分输入。';
+    $lang->about_content_font_size = '可以指定编辑或打印文档时的文档字体大小。<br/>指定时请包含字体单位(如12px, 1em)。';
     $lang->about_upload_file_grant = '可以设置上传文件的权限(全部解除为无限制)。';
     $lang->about_default_component_grant = '可以设置编辑器默认组件的使用权限(全部解除为无限制)。';
     $lang->about_editor_height = '可以指定编辑器的默认高度。';
@@ -61,9 +61,6 @@
     '宋体'=>'宋体',
     '黑体'=>'黑体',
     '楷体_GB2312'=>'楷体',
-    '仿宋_GB2312'=>'仿宋',
-    '隶书'=>'隶书',
-    '幼圆'=>'幼圆',
     'Arial'=>'Arial',
     'Arial Black'=>'Arial Black',
     'Tahoma'=>'Tahoma',
@@ -107,8 +104,12 @@
     $lang->edit->list_bullet = '无序列表';
     $lang->edit->remove_format = '删除文字格式';
 
-    $lang->edit->help_fontcolor = '文本颜色';
-    $lang->edit->help_fontbgcolor = '背景颜色';
+    $lang->edit->help_remove_format = '清除格式。';
+    $lang->edit->help_strike_through = '取消线。';
+    $lang->edit->help_align_full = '两端对齐。';
+
+    $lang->edit->help_fontcolor = '文本颜色。';
+    $lang->edit->help_fontbgcolor = '背景颜色。';
     $lang->edit->help_bold = '粗体';
     $lang->edit->help_italic = '斜体';
     $lang->edit->help_underline = '下划线';
@@ -120,14 +121,15 @@
     $lang->edit->help_align_left = '左对齐';
     $lang->edit->help_align_center = '居中对齐';
     $lang->edit->help_align_right = '右对齐';
+    $lang->edit->help_align_justify = '两端对齐';
     $lang->edit->help_add_indent = '增加缩进';
     $lang->edit->help_remove_indent = '减少缩进';
     $lang->edit->help_list_number = '有序列表';
     $lang->edit->help_list_bullet = '无序列表';
-    $lang->edit->help_use_paragraph = '分段请按 ctrl＋回车． (发表主题快捷键：alt＋S)';
+    $lang->edit->help_use_paragraph = '分段请按 Ctrl＋回车． (发表主题快捷键：Alt＋S)';
 
-    $lang->edit->url = '插入链接';
-    $lang->edit->blockquote = '插入注释框';
+    $lang->edit->url = '链接';
+    $lang->edit->blockquote = '注释框';
     $lang->edit->table = '表格';
     $lang->edit->image = '图片';
     $lang->edit->multimedia = '视频';
@@ -145,85 +147,85 @@
 
     $lang->about_dblclick_in_editor = '双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。';
 
-
-    $lang->edit->rich_editor = '所见即所得编辑器';
-    $lang->edit->html_editor = 'HTML 编辑器';
-    $lang->edit->extension ='扩展组建';
+    $lang->edit->rich_editor = '常规';
+    $lang->edit->html_editor = 'HTML';
+    $lang->edit->extension ='扩展组件';
     $lang->edit->help = '帮助';
     $lang->edit->help_command = '快捷键说明';
     
-    $lang->edit->lineheight = '줄간격';
-	$lang->edit->fontbgsampletext = '가나다';
+    $lang->edit->lineheight = '行间距';
+    $lang->edit->fontbgsampletext = '我爱中华！';
 	
-	$lang->edit->hyperlink = '하이퍼링크';
-	$lang->edit->target_blank = '새창으로';
+    $lang->edit->hyperlink = '链接';
+    $lang->edit->target_blank = '新窗口';
 	
-	$lang->edit->quotestyle1 = '왼쪽 실선';
-	$lang->edit->quotestyle2 = '인용 부호';
-	$lang->edit->quotestyle3 = '실선';
-	$lang->edit->quotestyle4 = '실선 + 배경';
-	$lang->edit->quotestyle5 = '굵은 실선';
-	$lang->edit->quotestyle6 = '점선';
-	$lang->edit->quotestyle7 = '점선 + 배경';
-	$lang->edit->quotestyle8 = '적용 취소';
+    $lang->edit->quotestyle1 = '左侧实线';
+    $lang->edit->quotestyle2 = '引用符号';
+    $lang->edit->quotestyle3 = '实线';
+    $lang->edit->quotestyle4 = '实线 + 背景';
+    $lang->edit->quotestyle5 = '粗实线';
+    $lang->edit->quotestyle6 = '虚线';
+    $lang->edit->quotestyle7 = '虚线 + 背景';
+    $lang->edit->quotestyle8 = '取消应用';
 
 
-    $lang->edit->jumptoedit = '편집 도구모음 건너뛰기';
-    $lang->edit->set_sel = '칸 수 지정';
-    $lang->edit->row = '행';
-    $lang->edit->col = '열';
-    $lang->edit->add_one_row = '1행추가';
-    $lang->edit->del_one_row = '1행삭제';
-    $lang->edit->add_one_col = '1열추가';
-    $lang->edit->del_one_col = '1열삭제';
+    $lang->edit->jumptoedit = '跳转';
+    $lang->edit->set_sel = '表格大小';
+    $lang->edit->row = '行';
+    $lang->edit->col = '列';
+    $lang->edit->add_one_row = '添加1行';
+    $lang->edit->del_one_row = '删除1行';
+    $lang->edit->add_one_col = '添加1列';
+    $lang->edit->del_one_col = '删除1列';
 
-    $lang->edit->table_config = '표 속성 지정';
-    $lang->edit->border_width = '테두리 굵기';
-    $lang->edit->border_color = '테두리 색';
-    $lang->edit->add = '더하기';
-    $lang->edit->del = '빼기';
-    $lang->edit->search_color = '색상찾기';
-    $lang->edit->table_backgroundcolor = '표 배경색';
-    $lang->edit->special_character = '특수문자';
-    $lang->edit->insert_special_character = '특수문자 삽입';
-    $lang->edit->close_special_character = '특수문자 레이어 닫기';
-    $lang->edit->symbol = '일반기호';
-    $lang->edit->number_unit = '숫자와 단위';
-    $lang->edit->circle_bracket = '원,괄호';
-    $lang->edit->korean = '한글';
-    $lang->edit->greece = '그리스';
-    $lang->edit->Latin  = '라틴어';
-    $lang->edit->japan  = '일본어';
-    $lang->edit->selected_symbol  = '선택한 기호';
+    $lang->edit->table_config = '表格属性';
+    $lang->edit->border_width = '表格边框';
+    $lang->edit->border_color = '边框颜色';
+    $lang->edit->add = '加';
+    $lang->edit->del = '减';
+    $lang->edit->search_color = '修改颜色';
+    $lang->edit->table_backgroundcolor = '背景颜色';
+    $lang->edit->special_character = '特殊字符';
+    $lang->edit->insert_special_character = '插入特殊字符';
+    $lang->edit->close_special_character = '关闭';
+    $lang->edit->symbol = '基本符号';
+    $lang->edit->number_unit = '数字/单位';
+    $lang->edit->circle_bracket = '数字序号';
+    $lang->edit->korean = '韩文';
+    $lang->edit->greece = '希腊';
+    $lang->edit->Latin  = '拉丁';
+    $lang->edit->japan  = '日文';
+    $lang->edit->selected_symbol  = '被选字符';
 
-    $lang->edit->search_replace  = '찾기/바꾸기';
-    $lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
-    $lang->edit->replace_all  = '모두바꾸기';
-    $lang->edit->search_words  = '찾을단어';
-    $lang->edit->replace_words  = '바꿀단어';
-    $lang->edit->next_search_words  = '다음찾기';
-    $lang->edit->edit_height_control  = '입력창 크기 조절';
+    $lang->edit->search_replace  = '查找/替换';
+    $lang->edit->close_search_replace  = '关闭';
+    $lang->edit->replace_all  = '全部替换';
+    $lang->edit->search_words  = '查找内容';
+    $lang->edit->replace_words  = '替换为';
+    $lang->edit->next_search_words  = '查找下一个';
+    $lang->edit->edit_height_control  = '调整输入框大小';
 
-	$lang->edit->merge_cells = '셀 병합';
-    $lang->edit->split_row = '행 분할';
-    $lang->edit->split_col = '열 분할';
+    $lang->edit->merge_cells = '合并单元格';
+    $lang->edit->split_row = '跨行';
+    $lang->edit->split_col = '跨列';
     
-    $lang->edit->toggle_list   = '목록 접기/펼치기';
-    $lang->edit->minimize_list = '최소화';
+    $lang->edit->toggle_list   = '展开/折叠列表';
+    $lang->edit->minimize_list = '最小化';
     
-    $lang->edit->move = '이동';
-    $lang->edit->materials = '글감보관함';
-    $lang->edit->temporary_savings = '임시저장목록';
+    $lang->edit->move = '移动';
+    $lang->edit->refresh = '刷新';
+    $lang->edit->materials = '素材库';
+    $lang->edit->temporary_savings = '临时保存列表';
     
-    $lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+    $lang->edit->drag_here = '请点击编辑器工具栏中的相应按钮开始撰写日志。<br />素材库中的素材可以直接拖放到编辑区。';
 
-	$lang->edit->paging_prev = '이전';
-	$lang->edit->paging_next = '다음';
-	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
-	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+    $lang->edit->paging_prev = '上一个';
+    $lang->edit->paging_next = '下一个';
+    $lang->edit->paging_prev_help = '上一页。';
+    $lang->edit->paging_next_help = '下一页。';
 
-	$lang->edit->toc = '목차';
-	$lang->edit->close_help = '도움말 닫기';
+    $lang->edit->toc = '列表';
+    $lang->edit->close_help = '关闭帮助';
 
-	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
+    $lang->edit->confirm_submit_without_saving = '尚有未保存的段落。\\n确定要提交吗？';
 ?>

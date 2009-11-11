@@ -272,7 +272,7 @@
             $end = getMicroTime();
 
             // Firebug 콘솔 출력
-            if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '5.2.0', '>=')) {
+            if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1) {
                 static $firephp;
                 if(!isset($firephp)) $firephp = FirePHP::getInstance(true);
 
@@ -379,7 +379,7 @@
                 }
 
                 // HTML 주석으로 출력
-                if(__DEBUG_OUTPUT__ == 1 && Context::getResponseMethod() == 'HTML') {
+                if($buff && __DEBUG_OUTPUT__ == 1 && Context::getResponseMethod() == 'HTML') {
                     $buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
 
                     if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
@@ -390,7 +390,7 @@
                 }
 
                 // 파일에 출력
-                if(__DEBUG_OUTPUT__ == 0) {
+                if($buff && __DEBUG_OUTPUT__ == 0) {
                     $debug_file = _XE_PATH_.'files/_debug_message.php';
                     $buff = sprintf("[%s %s:%d]\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
 

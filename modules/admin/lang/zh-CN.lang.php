@@ -8,8 +8,8 @@
     $lang->admin_info = '管理员信息';
     $lang->admin_index = '管理首页';
     $lang->control_panel = '控制面板';
-    $lang->start_module = '启动模块';
-    $lang->about_start_module = '您可以指定默认的启动模块。';
+    $lang->start_module = '首页模块';
+    $lang->about_start_module = '可指定用户访问网站时的默认首页模块。';
 
     $lang->module_category_title = array(
         'service' => '应用管理',
@@ -30,11 +30,12 @@
     $lang->default_url = "XE通行证";
     $lang->about_default_url = "请输入默认站点的XE安装地址(ex: http://域名/xe)。 <br /><strong>说明：</strong>简单的说，就是绑定帐号系统。只需要登录一次，就可以在用站点模块生成的多个子站点中随意漫游。";
 
+
     $lang->env_information = "系统信息";
     $lang->current_version = "安装版本";
     $lang->current_path = "安装路径";
     $lang->released_version = "最新版本";
-    $lang->about_download_link = "官方网站已发布新版本。\n请点击download链接下载最新版本。";
+    $lang->about_download_link = "官方网站已发布最新版本XE。\n请点击[下载]链接下载最新版本。";
 
     $lang->item_module = "模块目录";
     $lang->item_addon  = "插件目录";
@@ -55,9 +56,7 @@
     $lang->msg_default_act_is_null = '没有指定默认管理员的动作，是不能添加到快捷菜单的。';
 
     $lang->welcome_to_xe = 'XE 管理页面';
-    $lang->about_admin_page = "后台管理页面未完成";
     $lang->about_lang_env = "可以设置显示给首次访问者的同一语言环境。修改语言环境后请点击 [保存] 按钮进行保存。";
-
 
     $lang->xe_license = 'XE遵循 GPL协议';
     $lang->about_shortcut = '可以删除添加到常用模块中的快捷菜单。';
@@ -77,6 +76,6 @@
     $lang->about_use_ssl = "选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。";
     $lang->server_ports = "指定服务器端口";
     $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
-    $lang->use_db_session = '使用DB session认证';
-    $lang->about_db_session = '使用DBsession认证时系统会把PHPsession保存到数据库。<br/>不使用这个功能会提高服务器应答速度，但读取不了在线人数。';
+    $lang->use_db_session = 'DB储存认证会话';
+    $lang->about_db_session = '用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。';
 ?>

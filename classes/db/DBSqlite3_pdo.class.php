@@ -84,6 +84,7 @@
 
             // 접속체크
             $this->is_connected = true;
+			$this->password = md5($this->password);
         }
 
         /**

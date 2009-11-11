@@ -97,6 +97,7 @@
 
             // 접속체크
             $this->is_connected = true;
+			$this->password = md5($this->password);
 
             // mysql의 경우 utf8임을 지정
             $this->_query("set names 'utf8'");

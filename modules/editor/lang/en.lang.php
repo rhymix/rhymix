@@ -118,6 +118,7 @@
     $lang->edit->help_align_left = 'Align left';
     $lang->edit->help_align_center = 'Align center';
     $lang->edit->help_align_right = 'Align right';
+	$lang->edit->help_align_justify = 'Align justity';
     $lang->edit->help_add_indent = 'Add indent';
     $lang->edit->help_remove_indent = 'Remove indent';
     $lang->edit->help_list_number = 'Apply number list';
@@ -210,6 +211,7 @@
     $lang->edit->minimize_list = 'Minimize';
     
     $lang->edit->move = 'Move';
+	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = 'Materials';
     $lang->edit->temporary_savings = 'Temporary Saved List';
     
@@ -221,7 +223,7 @@
 	$lang->edit->paging_next_help = 'Move to next page.';
 
 	$lang->edit->toc = 'Table of Contents';
-	$lang->edit->close_help = '도움말 닫기';
+	$lang->edit->close_help = 'Close Help';
 	
 	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
 ?>

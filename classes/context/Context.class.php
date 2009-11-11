@@ -163,6 +163,7 @@
             $this->addJsFile("./common/js/jquery.js");
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
+			$this->addJsFile("./common/js/js_app.js");
             $this->addJsFile("./common/js/xml_handler.js");
             $this->addJsFile("./common/js/xml_js_filter.js");
             $this->addCSSFile("./common/css/default.css");
@@ -646,11 +647,10 @@
          * @brief GET/POST방식일 경우 처리
          **/
         function _setRequestArgument() {
-            if($this->_getRequestMethod() == 'XMLRPC' || $this->_getRequestMethod() == 'JSON') return;
             if(!count($_REQUEST)) return;
 
             foreach($_REQUEST as $key => $val) {
-                if($val === "") continue;
+                if($val === "" || Context::get($key)) continue;
                 $val = $this->_filterRequestVar($key, $val);
                 if($this->_getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
                 elseif($this->_getRequestMethod()=='POST'&&isset($_POST[$key])) $set_to_vars = true;
@@ -834,7 +834,7 @@
                 $val = trim($args_list[$i+1]);
 
                 // 값이 없으면 GET변수에서 해당 키를 제거
-                if(!isset($val)) {
+                if(!isset($val) || strlen($val)<1) {
                   unset($get_vars[$key]);
                   continue;
                 }
@@ -846,12 +846,6 @@
             unset($get_vars['rnd']);
             if($vid) $get_vars['vid'] = $vid;
             else unset($get_vars['vid']);
-
-            if(count($get_vars)) {
-                foreach($get_vars as $key => $val) {
-                    if(!trim($val)) unset($get_vars[$key]);
-                }
-            }
 
             // action명이 변경되었던 것에 대해 호환성을 유지하기 위한 강제 값 변경
             switch($get_vars['act']) {
@@ -936,9 +930,11 @@
 
             if(isset($url[$ssl_mode][$domain_key])) return $url[$ssl_mode][$domain_key];
 
+            $current_use_ssl = $_SERVER['HTTPS']=='on' ? true : false;
+
             switch($ssl_mode) {
                 case FOLLOW_REQUEST_SSL :
-                        if($_SERVER['HTTPS']=='on') $use_ssl = true;
+                        if($current_use_ssl) $use_ssl = true;
                         else $use_ssl = false;
                     break;
                 case ENFORCE_SSL :
@@ -957,11 +953,17 @@
             }
 
             $url_info = parse_url('http://'.$target_url);
+
+            if($current_use_ssl != $use_ssl)
+            {
+                unset($url_info['port']);
+            }
+
             if($use_ssl) {
                 if(Context::get("_https_port") && Context::get("_https_port") != 443) {
                     $url_info['port'] = Context::get("_https_port");
                 }
-                else
+                elseif($url_info['port']==443)
                 {
                     unset($url_info['port']);
                 }

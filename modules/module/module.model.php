@@ -82,7 +82,7 @@
                 $hostname = $url_info['host'];
                 $path = preg_replace('/\/$/','',$url_info['path']);
                 $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
-                $output = executeQuery('module.getSiteDefaultInfo', $sites_args);
+                $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
             } else {
                 if(!$vid) $vid = $mid;
                 if($vid) {
@@ -949,7 +949,13 @@
                 // 각 모듈의 module.class.php로 upgrade 유무 체크
                 $oDummy = null;
                 $oDummy = &getModule($module_name, 'class');
-                if($oDummy) $info->need_update = $oDummy->checkUpdate();
+                if($oDummy && method_exists($oDummy, "checkUpdate")) {
+                    $info->need_update = $oDummy->checkUpdate();
+                }
+                else
+                {
+                    continue;
+                }
 
                 $list[] = $info;
             }

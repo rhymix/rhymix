@@ -119,7 +119,7 @@
          * @brief FTP 정보 등록
          **/
         function procInstallAdminSaveFTPInfo() {
-            $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port');
+            $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port','ftp_root_path');
             $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
             if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";

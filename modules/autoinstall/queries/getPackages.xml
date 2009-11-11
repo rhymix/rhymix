@@ -1,0 +1,8 @@
+<query id="getPackages" action="select">
+    <tables>
+        <table name="autoinstall_packages" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+</query>

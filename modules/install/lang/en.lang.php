@@ -173,7 +173,6 @@ EndOfLicense;
     $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
 
     $lang->success_installed = 'Installation has been completed';
-    $lang->success_updated = 'Update has been completed';
 
     $lang->msg_cannot_proc = 'Installation environment is not proper to proceed.';
     $lang->msg_already_installed = 'XE is already installed';

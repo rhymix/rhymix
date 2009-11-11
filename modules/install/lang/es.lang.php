@@ -269,7 +269,6 @@ EndOfLicense;
     $lang->about_database_file = 'Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 707.</span>';
 
     $lang->success_installed = 'Instalación finalizada';
-    $lang->success_updated = 'Actualización finalizada';
 
     $lang->msg_cannot_proc = 'No puede ser ejecutado lo requerido por no disponer del ambiente de instalación.';
     $lang->msg_already_installed = 'Instalación de XE ya existe.';

@@ -1,0 +1,21 @@
+<!--#include("header.html")-->
+<!--%import("css/autoinstall.css")-->
+<!--%import("js/autoinstall.js")-->
+<div class="infoText">
+	<!--@if($show_ftp_note)-->
+	<p class="warning">{$lang->description_ftp_note} <a href="{getUrl('','module','admin','act','dispAdminConfig')}#ftpSetup">FTP Setup</a> </p>
+	<!--@end-->
+	<!--@if($need_update)-->
+	<p class="update">{$lang->need_update}</p>
+	<!--@else-->
+	<p class="update">{$lang->description_update}</p>
+	<!--@end-->
+	<p><span class="button xLarge strong green"><button type="button" onclick="doUpdate()" title="update">Update</button></span></p>
+</div>
+
+<div class="install">
+<!--#include("leftBox.html")-->
+<!--@if($item_list)-->
+    <!--#include("list.html")-->
+<!--@end-->
+</div>

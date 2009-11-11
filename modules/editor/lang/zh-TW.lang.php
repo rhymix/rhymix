@@ -18,7 +18,7 @@
     $lang->component_grant = '權限設置'; 
     $lang->content_style = '內容樣式';
     $lang->content_font = '內容字體';
-	$lang->content_font_size = '문서 폰트 크기';
+	$lang->content_font_size = '字體大小';
 
     $lang->about_component = '組件簡介';
     $lang->about_component_grant = '除預設組件外，可設置延伸組件的使用權限<br />(全部解除時，任何用戶都可使用)。';
@@ -44,9 +44,9 @@
     $lang->editor_height = '編輯器高度';
 
     $lang->about_editor_skin = '選擇編輯器面板。';
-    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
-    $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
-	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
+    $lang->about_content_style = '修改內容時，可指定要顯示的內容樣式';
+    $lang->about_content_font = '修改內容時，可指定要顯示的內容字體。<br/>如果沒有指定的話，以系統預設為主。<br/> 以，(逗號)區分多個字體。';
+	$lang->about_content_font_size = '修改內容時，可指定要顯示的內容字體大小。<br/>請輸入單位，像是12px, 1em等。';
     $lang->about_upload_file_grant = '設置上傳檔案的權限(全部解除為無限制)。';
     $lang->about_default_component_grant = '設置編輯器預設組件的使用權限(全部解除為無限制)。';
     $lang->about_editor_height = '指定編輯器的預設高度。';
@@ -58,18 +58,18 @@
     $lang->edit->fontsize = '大小';
     $lang->edit->use_paragraph = '段落功能';
     $lang->edit->fontlist = array(
-    '新細明體'=>'新細明體',
-    '標楷體'=>'標楷體',
-    '細明體'=>'細明體',
-    'Arial'=>'Arial',
-    'Arial Black'=>'Arial Black',
-    'Tahoma'=>'Tahoma',
-    'Verdana'=>'Verdana',
-    'Sans-serif'=>'Sans-serif',
-    'Serif'=>'Serif',
-    'Monospace'=>'Monospace',
-    'Cursive'=>'Cursive',
-    'Fantasy'=>'Fantasy',
+    '新細明體' => '新細明體',
+    '標楷體' => '標楷體',
+    '細明體' => '細明體',
+    'Arial' => 'Arial',
+    'Arial Black' => 'Arial Black',
+    'Tahoma' => 'Tahoma',
+    'Verdana' => 'Verdana',
+    'Sans-serif' => 'Sans-serif',
+    'Serif' => 'Serif',
+    'Monospace' => 'Monospace',
+    'Cursive' => 'Cursive',
+    'Fantasy' => 'Fantasy',
     );
 
     $lang->edit->header = '樣式';
@@ -121,6 +121,7 @@
     $lang->edit->help_align_left = '靠左對齊';
     $lang->edit->help_align_center = '置中對齊';
     $lang->edit->help_align_right = '靠右對齊';
+	$lang->edit->help_align_justify = '左右對齊';
     $lang->edit->help_add_indent = '縮排';
     $lang->edit->help_remove_indent = '凸排';
     $lang->edit->help_list_number = '編號';
@@ -205,26 +206,27 @@
     $lang->edit->next_search_words  = '搜尋下一個';
     $lang->edit->edit_height_control  = '設定大小';
 
-	$lang->edit->merge_cells = '分割儲存格';
-    $lang->edit->split_row = '插入行';
-    $lang->edit->split_col = '插入列';
+	$lang->edit->merge_cells = '合併儲存格';
+    $lang->edit->split_row = '分割行';
+    $lang->edit->split_col = '分割列';
     
-    $lang->edit->toggle_list   = '목록 접기/펼치기';
-    $lang->edit->minimize_list = '최소화';
+    $lang->edit->toggle_list   = '摺疊/展開';
+    $lang->edit->minimize_list = '最小化';
     
-    $lang->edit->move = '이동';
+    $lang->edit->move = '搬移';
+	$lang->edit->refresh = '重整';
     $lang->edit->materials = '글감보관함';
-    $lang->edit->temporary_savings = '임시저장목록';
+    $lang->edit->temporary_savings = '暫存檔列表';
     
     $lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
 
-	$lang->edit->paging_prev = '이전';
-	$lang->edit->paging_next = '다음';
-	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
-	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+	$lang->edit->paging_prev = '前頁';
+	$lang->edit->paging_next = '次頁';
+	$lang->edit->paging_prev_help = '往上一頁';
+	$lang->edit->paging_next_help = '往下一頁';
 
-	$lang->edit->toc = '목차';
-	$lang->edit->close_help = '도움말 닫기';
+	$lang->edit->toc = '目錄';
+	$lang->edit->close_help = '關閉使用手冊';
 
-	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
+	$lang->edit->confirm_submit_without_saving = '有內容尚未儲存。\\n是否要繼續進行?';
 ?>

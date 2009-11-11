@@ -121,6 +121,7 @@
 	$lang->edit->help_align_left = 'テキストを左揃えで表示します。';
 	$lang->edit->help_align_center = 'テキストを中央揃えで表示します。';
 	$lang->edit->help_align_right = 'テキストを右揃えで表示します。';
+	$lang->edit->help_align_justify = 'Align justity';
 	$lang->edit->help_add_indent = 'インデントを増やします。';
 	$lang->edit->help_remove_indent = 'インデントを減らします。';
 	$lang->edit->help_list_number = '番号付リスト';
@@ -213,11 +214,10 @@
 	
 	$lang->edit->move = '移動';
 	$lang->edit->refresh = '再読み込み';
-	$lang->edit->materials = '資料箱'; 
+	$lang->edit->materials = '資料箱';
 	$lang->edit->temporary_savings = '下書きリスト';
 
 	$lang->edit->drag_here = '下のツールリストから段落のタイプを選んで追加できます。<br/>マウスでドラッグをすると、右の資料箱からこの枠に文書を追加できます。';
-
 
 	$lang->edit->paging_prev = '前へ';
 	$lang->edit->paging_next = '次へ';
@@ -225,7 +225,7 @@
 	$lang->edit->paging_next_help = '次のページへ移動します。';
 
 	$lang->edit->toc = 'リスト';
-	$lang->edit->close_help = '도움말 닫기';
+	$lang->edit->close_help = 'ヘルプを閉じる';
 
-	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
+	$lang->edit->confirm_submit_without_saving = 'まだ保存してない内容があります。\\nそのまま転送して宜しいでしょうか？';
 ?>

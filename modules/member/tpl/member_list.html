@@ -40,13 +40,13 @@
     <caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
     <thead>
         <tr>
-            <th scope="col"><div>{$lang->no}</div></th>
+            <th scope="col"><div><a href="{getUrl('sort_index','','sort_order',$sort_index!='last_login'&&$sort_order=='desc'?'asc':'')}">{$lang->no}</a></div></th>
             <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;"/></div></th>
             <th scope="col" class="quarter_wide"><div>{$lang->user_id}</div></th>
             <th scope="col" class="quarter_wide"><div>{$lang->user_name}</div></th>
             <th scope="col" class="quarter_wide"><div>{$lang->nick_name}</div></th>
-            <th scope="col" class="quarter_wide"><div>{$lang->signup_date}</div></th>
-            <th scope="col"><div>{$lang->last_login}</div></th>
+            <th scope="col" class="quarter_wide"><div><a href="{getUrl('sort_index','','sort_order',$sort_index!='last_login'&&$sort_order=='desc'?'asc':'')}">{$lang->signup_date}</a></div></th>
+            <th scope="col"><div><a href="{getUrl('sort_index','last_login','sort_order',$sort_index=='last_login'&&$sort_order=='desc'?'asc':'')}">{$lang->last_login}</a></div></th>
             <th scope="col" colspan="2"><div>&nbsp;</div></th>
         </tr>
     </thead>

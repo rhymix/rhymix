@@ -1,36 +1,67 @@
+/**
+ * @file autolink.js
+ * @brief javascript code for autolink addon
+ * @author taggon (gonom9@gmail.com)
+ */
+(function($){
+	var protocol_re = '(https?|ftp|news|telnet|irc)://';
+	var domain_re   = '(?:[\\w\\-]+\\.)+(?:[a-z]+)';
+	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5])';
+	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
+	var port_re     = '(?::([0-9]+))?';
+	var path_re     = '((?:/[\\w!"$-/:-@]+)*)';
+	var hash_re     = '(?:#([\\w!-@]+))?';
 
-jQuery(function($) {
-    var url_regx = /((http|https|ftp|news|telnet|irc):\/\/(([0-9a-z\-._~!$&'\(\)*+,;=:]|(%[0-9a-f]{2}))*\@)?((\[(((([0-9a-f]{1,4}:){6}([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|(::([0-9a-f]{1,4}:){5}([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|(([0-9a-f]{1,4})?::([0-9a-f]{1,4}:){4}([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|((([0-9a-f]{1,4}:)?[0-9a-f]{1,4})?::([0-9a-f]{1,4}:){3}([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|((([0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::([0-9a-f]{1,4}:){2}([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|((([0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|((([0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::([0-9a-f]{1,4}:[0-9a-f]{1,4})|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])))|((([0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4})|((([0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::))|(v[0-9a-f]+.[0-9a-z\-._~!$&'\(\)*+,;=:]+))\])|(([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5])){3}[0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))|(([0-9a-z\-._~!$&'\(\)*+,;=]|(%[0-9a-f]{2}))+))(:[0-9]*)?(\/([0-9a-z\-._~!$&'\(\)*+,;=:@]|(%[0-9a-f]{2}))*)*(\?([0-9a-z\-._~!$&'\(\)*+,;=:@\/\?]|(%[0-9a-f]{2}))*)?(#([0-9a-z\-._~!$&'\(\)*+,;=:@\/\?]|(%[0-9a-f]{2}))*)?)/i;
+	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+')'+port_re+path_re+hash_re+')', 'ig');
 
-    function replaceHrefLink(obj) {
-        var obj_list = obj.childNodes;
+	var AutoLink = xe.createPlugin("autolink", {
+		targets : [],
+		init : function() {
+			this.targets = [];
+		},
+		API_ONREADY : function() {
+			var thisPlugin = this;
 
-        for(var i = 0; i < obj_list.length; ++i) {
-            var obj = obj_list[i];
-            var pObj = obj.parentNode;
-            if(!pObj) continue;
+			// extract target text nodes
+			this.extractTargets($('.xe_content'));
 
-            var pN = pObj.nodeName.toLowerCase();
-            if($.inArray(pN, ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style']) != -1) continue;
+			$(this.targets).each(function(){
+				thisPlugin.cast('AUTOLINK', [this]);
+			});
+		},
+		API_AUTOLINK : function(oSender, params) {
+			var textNode = params[0];
+			var content  = textNode.nodeValue;
+			var dummy    = $('<span>');
 
-            if(obj.nodeType == 3 && obj.length >= 10) {
-                var content = obj.nodeValue;
-                if(!/(http|https|ftp|news|telnet|irc):\/\//i.test(content)) continue;
+			content = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			content = content.replace(url_regex, '<a href="$1" target="_blank">$1</a>');
 
-                content = content.replace(/</g, '&lt;');
-                content = content.replace(/>/g, '&gt;');
-                content = content.replace(url_regx, '<a href="$1" onclick="window.open(this.href); return false;">$1</a>');
+			$(textNode).before(dummy);
+			$(textNode).replaceWith(content);
+			params[0] = dummy.next('a');
+			dummy.remove();
+		},
+		extractTargets : function(obj) {
+			var thisPlugin = this;
 
-                $(obj).replaceWith(content);
-                delete(content);
+			$(obj)
+			.contents()
+			.each(function(){
+				// FIX ME : When this meanless code wasn't executed, url_regex do not run correctly. why?
+				url_regex.exec('');
 
-            } else if(obj.nodeType == 1 && obj.childNodes.length) {
-                replaceHrefLink(obj);
-            }
-        }
-    }
+				if (!$(this).is('a,pre,xml,code,script,style,:input')) {
+					if (this.nodeType == 3 && url_regex.test(this.nodeValue)) { // text node
+						thisPlugin.targets.push(this);
+					} else {
+						
+						thisPlugin.extractTargets(this);
+					}
+				}
+			});
+		}
+	});
 
-    $('.xe_content').each(function() {
-        replaceHrefLink(this);
-    });
-});
+	xe.registerPlugin(new AutoLink());
+})(jQuery);

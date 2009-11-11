@@ -2,25 +2,29 @@
     /**
      * @class PageHandler
      * @author zero (zero@nzeo.com)
-     * @brief 페이지 네비게이션 담당
+     * @brief handles page navigation
      * @version 0.1
      *
-     * 전체갯수, 전체페이지, 현재페이지, 페이지당 목록의 수를 넘겨주면 \n
-     * 페이지 네비게이션에 필요한 variables와 method를 구현\n
+     * @remarks Getting total counts, number of pages, current page number, number of items per page, 
+     *          this class implements methods and contains variables for page navigation
      **/
 
     class PageHandler extends Handler {
 
-        var $total_count = 0; ///< 전체 item의 갯수
-        var $total_page = 0; ///< 전체 페이지 수
-        var $cur_page = 0; ///< 현 페이지
-        var $page_count = 10; ///< 한번에 보일 페이지의 수
-        var $first_page = 1; ///< 첫 페이지
-        var $last_page = 1; ///< 마지막 페이지
-        var $point = 0; ///< getNextPage() 호출시 증가하는 값
+        var $total_count = 0; ///< number of total items
+        var $total_page = 0; ///< number of total pages
+        var $cur_page = 0; ///< current page number
+        var $page_count = 10; ///< number of page links displayed at one time
+        var $first_page = 1; ///< first page number
+        var $last_page = 1; ///< last page number
+        var $point = 0; ///< increments per getNextPage() 
 
         /**
          * @brief constructor
+         * @param[in] $total_count number of total items
+         * @param[in] $total_page number of total pages
+         * @param[in] $cur_page current page number
+         * @param[in] $page_count number of page links displayed at one time 
          **/
         function PageHandler($total_count, $total_page, $cur_page, $page_count = 10) {
             $this->total_count = $total_count;
@@ -41,7 +45,8 @@
         }
 
         /**
-         * @brief 다음 페이지 요청
+         * @brief request next page
+         * @return next page number
          **/
         function getNextPage() {
             $page = $this->first_page+$this->point++;

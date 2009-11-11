@@ -58,7 +58,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	}
 	
     var content = form[content_key].value;
-    if(xFF && !content) content = '<p>&nbsp;</p>';
+    if(xFF && !content) content = '<br />';
 
     // src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
     content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
@@ -177,7 +177,24 @@ function editorGetContentTextarea_xe(editor_sequence) {
     if (!oEditor) return '';
 
     var str = oEditor.getIR();
+
     if(!jQuery.trim(str.replace(/(&nbsp;|<\/?(p|br|span|div)([^>]+)?>)/ig, ''))) return '';
+
+	// 속도 문제가 있으므로 1024 문자 미만일 때만 첫 노드가 텍스트 노드인지 테스트
+	// 그 이상이면 P 노드가 정상적으로 생성되었다고 가정한다.
+	if (str.length < 1024) {
+		var div   = jQuery('<div>'+str+'</div>').eq(0);
+		var nodes = div.contents();
+		jQuery.each(nodes, function() {
+			if (this.nodeType == 3) {
+				jQuery(this).wrap('<p></p>');
+			}
+		});
+		str = div.html();
+	}
+
+	// 파이어폭스의 경우 의미없는 <br>이 컨텐트 마지막에 추가될 수 있다.
+	str = str.replace(/<br ?\/?>$/i, '');
 
     return str;
 }

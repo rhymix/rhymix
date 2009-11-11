@@ -51,34 +51,36 @@
             </td>
         </tr>
 
-        <tr>
-            <th scope="row"><div>
-                {$lang->module}
-                <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list'); return false;" />
-            </div></th>
-            <td>
-                <p>{$lang->about_component_mid}</p>
-                <!--@foreach($mid_list as $module_category_srl => $modules)-->
-                    <div class="module_category_title">
-                        <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrap:'section_{$module_category_srl}' }); return false;" />
-                    <!--@if($modules->title)-->
-                        {$modules->title}
-                    <!--@else-->
-                        {$lang->none_category}
-                    <!--@end-->
-                    </div>
+        <!--@if($mid_list)-->
+            <tr>
+                <th scope="row"><div>
+                    {$lang->module}
+                    <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list'); return false;" />
+                </div></th>
+                <td>
+                    <p>{$lang->about_component_mid}</p>
+                    <!--@foreach($mid_list as $module_category_srl => $modules)-->
+                        <div class="module_category_title">
+                            <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrap:'section_{$module_category_srl}' }); return false;" />
+                        <!--@if($modules->title)-->
+                            {$modules->title}
+                        <!--@else-->
+                            {$lang->none_category}
+                        <!--@end-->
+                        </div>
 
-                    <div id="section_{$module_category_srl}">
-                    <!--@foreach($modules->list as $key => $val)-->
-                        <div class="module_list">
-                            <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $component->mid_list))-->checked="checked"<!--@end--> /> 
-                            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                        <div id="section_{$module_category_srl}">
+                        <!--@foreach($modules->list as $key => $val)-->
+                            <div class="module_list">
+                                <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $component->mid_list))-->checked="checked"<!--@end--> /> 
+                                <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+                            </div>
+                        <!--@end-->
                         </div>
                     <!--@end-->
-                    </div>
-                <!--@end-->
-            </td>
-        </tr>
+                </td>
+            </tr>
+        <!--@end-->
 
         </table>
     </div>

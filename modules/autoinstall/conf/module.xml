@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+        <action name="dispAutoinstallAdminInstall" type="view" standalone="true" />
+        <action name="dispAutoinstallAdminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="procAutoinstallAdminUpdateinfo" type="controller" standalone="true" />
+        <action name="procAutoinstallAdminPackageinstall" type="controller" standalone="true" />
+    </actions>
+</module>

@@ -32,18 +32,18 @@
     <date>2009-03-22</date>
     <author email_address="gonom9@gmail.com" link="http://mygony.com">
         <name xml:lang="ko">행복한고니</name>
-		<name xml:lang="es">gony</name>
-		<name xml:lang="en">gony</name>
+	<name xml:lang="es">gony</name>
+	<name xml:lang="en">gony</name>
         <name xml:lang="vi">gony</name>
         <name xml:lang="jp">gony</name>
-		<name xml:lang="zh-CN">gony</name>
+	<name xml:lang="zh-CN">gony</name>
         <name xml:lang="zh-TW">gony</name>
     </author>
     <colorset>
         <color name="white">
             <title xml:lang="ko">하얀색(기본)</title>
             <title xml:lang="jp">白（デフォルト）</title>
-            <title xml:lang="zh-CN">白色（基本）</title>
+            <title xml:lang="zh-CN">白色（默认）</title>
             <title xml:lang="en">White (default)</title>
             <title xml:lang="vi">White (Mặc định)</title>
             <title xml:lang="es">Blanco (por defecto)</title>
@@ -66,7 +66,7 @@
             <title xml:lang="vi">White Text Editor(Dòng tự động mở)</title>
             <title xml:lang="ru">White Text Editor(Auto Line Break)</title>
             <title xml:lang="es">Editor de texto en blanco (Auto de línea)</title>
-            <title xml:lang="zh-CN">白色文本编辑器(自动换行)</title>
+            <title xml:lang="zh-CN">白色文本编辑器(使用HTML，自动换行)</title>
             <title xml:lang="zh-TW">白色文字編輯器(Auto Line Break)</title>
         </color>
         <color name="black_texteditor">
@@ -76,7 +76,7 @@
             <title xml:lang="vi">Black Text Editor(Dòng tự động mở)</title>
             <title xml:lang="ru">Black Text Editor(Auto Line Break)</title>
             <title xml:lang="es">Editor de texto negro (salto de línea automático)</title>
-            <title xml:lang="zh-CN">黑色文本编辑器(自动换行)</title>
+            <title xml:lang="zh-CN">黑色文本编辑器(使用HTML，自动换行)</title>
             <title xml:lang="zh-TW">黑色文字編輯器(Auto Line Break)</title>
         </color>
         <color name="white_text_usehtml">
@@ -86,7 +86,7 @@
             <title xml:lang="vi">White Text Editor(Sử dụng HTML)</title>
             <title xml:lang="ru">White Text Editor(Use HTML)</title>
             <title xml:lang="es">Editor de texto en blanco (Uso de HTML)</title>
-            <title xml:lang="zh-CN">白色文本编辑器(使用HTML)</title>
+            <title xml:lang="zh-CN">白色文本编辑器(使用HTML，不自动换行)</title>
             <title xml:lang="zh-TW">白色文字編輯器(Use HTML)</title>
         </color>
         <color name="black_text_usehtml">
@@ -96,7 +96,7 @@
             <title xml:lang="vi">Black Text Editor(Sử dụng HTML)</title>
             <title xml:lang="ru">Black Text Editor(Use HTML)</title>
             <title xml:lang="es">Editor de texto negro (Uso de HTML)</title>
-            <title xml:lang="zh-CN">黑色文本编辑器(使用HTML)</title>
+            <title xml:lang="zh-CN">黑色文本编辑器(使用HTML，不自动换行)</title>
             <title xml:lang="zh-TW">黑色文字編輯器(Use HTML)</title>
         </color>
         <color name="white_text_nohtml">
@@ -106,7 +106,7 @@
             <title xml:lang="vi">White Text Editor(Không có HTML)</title>
             <title xml:lang="ru">White Text Editor(No HTML)</title>
             <title xml:lang="es">Editor de texto en blanco (no HTML)</title>
-            <title xml:lang="zh-CN">白色文本编辑器(不使用HTML)</title>
+            <title xml:lang="zh-CN">白色文本编辑器(不使用HTML，自动换行)</title>
             <title xml:lang="zh-TW">白色文字編輯器(No HTML)</title>
         </color>
         <color name="black_text_nohtml">
@@ -116,7 +116,7 @@
             <title xml:lang="vi">Black Text Editor(Không có HTML)</title>
             <title xml:lang="ru">Black Text Editor(No HTML)</title>
             <title xml:lang="es">Editor de texto negro (no HTML)</title>
-            <title xml:lang="zh-CN">黑色文本编辑器(不使用HTML)</title>
+            <title xml:lang="zh-CN">黑色文本编辑器(不使用HTML，自动换行)</title>
             <title xml:lang="zh-TW">黑色文字編輯器(No HTML)</title>
         </color>
     </colorset>

@@ -29,6 +29,7 @@
     // 인코딩 처리 
     function _getEncodedVal($val, $is_sub_set = false) {
         if(is_int($val)) $buff = sprintf("<value><i4>%d</i4></value>", $val);
+        elseif(is_string($val)&&preg_match('/^([0-9]+)T([0-9\:]+)$/', $val)) $buff = sprintf("<value><dateTime.iso8601>%s</dateTime.iso8601></value>\n", $val);
         elseif(is_double($val)) $buff = sprintf("<value><double>%f</double></value>", $val);
         elseif(is_bool($val)) $buff = sprintf("<value><boolean>%d</boolean></value>", $val?1:0);
         elseif(is_object($val)) {

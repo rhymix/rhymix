@@ -1,0 +1,11 @@
+<query id="getPackage" action="select">
+    <tables>
+        <table name="autoinstall_packages" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="package_srl" var="package_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

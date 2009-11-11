@@ -7,7 +7,7 @@
 
     $lang->virtual_site = "站点";
     $lang->module_list = "模块目录";
-    $lang->module_index = "模块目录";
+    $lang->module_index = "模块列表";
     $lang->module_category = "模块分类";
     $lang->module_info = "模块信息";
     $lang->add_shortcut = "添加到快捷菜单";
@@ -34,12 +34,12 @@
     $lang->lang_code = "语言变量";
     $lang->filebox = "文件管理";
 
-    $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Domain 접속';
-    $lang->access_vid = 'Site ID 접속';
+    $lang->access_type = '访问方式';
+    $lang->access_domain = '域名';
+    $lang->access_vid = '站点ID';
     $lang->about_domain = "要创建一个站点必须有一个专用域名。<br/>一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe";
-    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
-    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->about_vid = '直接以http://XE安装地址/ID的方式访问。<br/>模块名(mid)不能重复。<br/>模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。';
+    $lang->msg_already_registed_vid = '重复的站点ID，请重新输入(注：站点ID不能重复，而且也不能与版面mid重复)。';
     $lang->msg_already_registed_domain = "对不起！已有相同的域名。请重新输入。";
 
     $lang->header_script = "文件头部脚本";
@@ -72,10 +72,10 @@
     $lang->msg_move_failed = '移动失败！';
     $lang->msg_cannot_delete_for_child = '不能删除有下级分类的分类！';
     $lang->msg_limit_mid ="模块名称只允许英文字母+[英文字母+数字]。";
-    $lang->msg_extra_name_exists = '이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.';
+    $lang->msg_extra_name_exists = '已有的扩展变量名称，请重新输入！';
 
     $lang->about_browser_title = "显示在浏览器窗口的标题值。 在RSS/Trackback也可以使用。";
-    $lang->about_mid = "模块名称只允许使用英文，数字和下划线。 The maximum length is 40.";
+    $lang->about_mid = "模块名称只允许使用英文，数字和下划线(最多不能超过40字节)。";
     $lang->about_default = "用没有mid值的网址访问网站时，将会显示默认。";
     $lang->about_module_category = "可以分类管理模块。 模块分类可以在 <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">模块管理 > 模块分类 </a>中进行管理。";
     $lang->about_description= '管理用使用说明。';
@@ -93,6 +93,7 @@
     $lang->about_module = "除基本library以外XE全部由模块组成。\n模块管理中列出所有已安装的模块，因此易于管理。";
     $lang->about_extra_vars_default_value = '复选/单选缺省值需要多个时,用,(逗号)来分隔。';
     $lang->about_search_virtual_site = "请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。";
+    $lang->about_extra_vars_eid_value = '请输入扩展变量名称(只允许英文字母+[英文字母+数字+_])。';
     $lang->about_langcode = "要想实现多国语言切换请点击[选择语言变量]按钮。";
     $lang->about_file_extension= "只允许%s文件。";
 ?>

@@ -357,7 +357,6 @@ EndOfLicense;
     $lang->about_database_file = 'Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 707.</span>';
 
     $lang->success_installed = 'Установка завершена';
-    $lang->success_updated = 'Обновление завершено';
 
     $lang->msg_cannot_proc = 'Невозможно исполнить запрос, поскольку окружение установки не указано';
     $lang->msg_already_installed = 'XE уже установлена';

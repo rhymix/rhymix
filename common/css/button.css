@@ -3,9 +3,9 @@
 
 /* Anchor Button */
 a.button,
-a.button span { position:relative; display:inline-block; text-decoration:none !important; background:url(../tpl/images/buttonWhite.gif) no-repeat; cursor:pointer; white-space:nowrap; vertical-align:middle; *vertical-align:top;}
+a.button span { position:relative; display:inline-block; text-decoration:none !important; background:url(../tpl/images/buttonWhite.gif) no-repeat; cursor:pointer; white-space:nowrap; vertical-align:middle;}
 a.button { padding:0; background-position:left top; overflow:visible;}
-a.button span { left:2px; padding:6px 10px 5px 8px; color:#000; font:12px/12px Sans-serif; background-position:right top;}
+a.button span { left:2px; padding:6px 10px 5px 8px; color:#000; font:12px/12px Sans-serif; background-position:right top; *vertical-align:top;}
 /* Large Size */
 a.button.large { background-position:left -30px; }
 a.button.large span { padding:7px 10px 6px 8px; font:16px/16px Sans-serif; background-position:right -30px;}
@@ -22,11 +22,11 @@ span.button button,
 span.button input { position:relative; margin:0; display:inline-block; border:0; font:12px Sans-serif; white-space:nowrap; background:url(../tpl/images/buttonWhite.gif) no-repeat; vertical-align:middle;}
 span.button { padding:0; background-position:left top;}
 span.button button,
-span.button input { height:23px; left:2px; *top:-1px; _top:0; padding:0 10px 0 8px; line-height:24px; background-position:right top; cursor:pointer; *overflow:visible;}
+span.button input { height:23px; left:2px; *vertical-align:top; padding:0 10px 0 8px; line-height:24px; background-position:right top; cursor:pointer; *overflow:visible;}
 /* Large Size */
 span.button.large { background-position:left -30px;}
 span.button.large button,
-span.button.large input { height:30px; *top:0; _top:-1px; padding:0 10px 0 8px; font:16px/30px Sans-serif; background-position:right -30px;}
+span.button.large input { height:30px; padding:0 10px 0 8px; font:16px/30px Sans-serif; background-position:right -30px;}
 /* xLarge Size */
 span.button.xLarge { background-position:left -65px;}
 span.button.xLarge button,
@@ -34,7 +34,7 @@ span.button.xLarge input { height:35px; padding:0 10px 0 8px; font:20px/36px San
 /* Small Size */
 span.button.small { background-position:left -107px;}
 span.button.small button,
-span.button.small input { height:18px; *top:0; _top:-1px; padding:0 6px 0 4px; font:11px/18px Sans-serif; background-position:right -107px;}
+span.button.small input { height:18px; padding:0 6px 0 4px; font:11px/18px Sans-serif; background-position:right -107px;}
 
 /* Strong Button */
 a.button.strong *,

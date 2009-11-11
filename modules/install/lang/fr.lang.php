@@ -227,7 +227,6 @@ EndOfLicense;
     $lang->about_database_file = 'Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l\'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>';
 
     $lang->success_installed = 'Installation s\'est complété';
-    $lang->success_updated = 'Mise à Jour  s\'est complété';
 
     $lang->msg_cannot_proc = 'Environnement d\'Installation n\'est pas équipé à procéder.';
     $lang->msg_already_installed = 'XE est déjà installé';

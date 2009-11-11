@@ -5,12 +5,11 @@
      * @brief  文章(document)模块语言包
      **/
 
-    $lang->document_list = '主题目录';
+    $lang->document_list = '主题列表';
     $lang->thumbnail_type = '缩略图生成方式';
-    $lang->thumbnail_crop = '裁减';
-    $lang->thumbnail_ratio = '比例';
+    $lang->thumbnail_crop = '裁减(按指定大小裁剪图片)';
+    $lang->thumbnail_ratio = '比例(按原图比例缩略处理)';
     $lang->cmd_delete_all_thumbnail = '删除全部缩略图';
-    $lang->move_target_module = "移动目标模块";
     $lang->title_bold = '粗标题';
     $lang->title_color = '标题颜色';
     $lang->new_document_count = '新帖';
@@ -20,8 +19,10 @@
     $lang->category_color = '分类颜色';
     $lang->expand = '展开';
     $lang->category_group_srls = '用户组';
+    
     $lang->cmd_make_child = '添加下级分类';
     $lang->cmd_enable_move_category = "分类顺序(勾选后用鼠标拖动分类项)";
+    
     $lang->about_category_title = '请输入分类名。';
     $lang->about_expand = '选择此项将维持展开状态。';
     $lang->about_category_group_srls = '所选用户组才可以查看此分类。';
@@ -39,6 +40,8 @@
     $lang->msg_category_not_moved = '不能移动！';
     $lang->msg_is_secret = '这是密帖！';
     $lang->msg_checked_document_is_deleted = '删除了%d个文章。';
+
+    $lang->move_target_module = '目标模块';
 
     // 管理页面查找的对象
     $lang->search_target_list = array(
@@ -62,8 +65,34 @@
         'last_update' => '最近更新日期',
         'ipaddress' => 'IP 地址',
     );
+
     $lang->alias = "Alias";
     $lang->history = "编辑记录";
     $lang->about_use_history = "设置启用编辑记录与否。启用将记录修改主题版本，并可以复原。";
     $lang->trace_only = "只留痕迹";
+
+    $lang->cmd_trash = "回收箱";
+    $lang->cmd_restore = "复原";
+    $lang->cmd_restore_all = "全部复原";
+
+    $lang->in_trash = "回收箱";
+    $lang->trash_nick_name = "操作人昵称";
+    $lang->trash_date = "删除日期";
+    $lang->trash_description = "说明";
+
+    // 管理页面回收箱搜索对象
+    $lang->search_target_trash_list = array(
+        'title' => '标题',
+        'content' => '内容',
+        'user_id' => '用户名',
+        'member_srl' => '会员编号',
+        'user_name' => '姓名',
+        'nick_name' => '昵称',
+        'trash_member_srl' => '操作人会员编号',
+        'trash_user_name' => '操作人用户名',
+        'trash_nick_name' => '操作人昵称',
+        'trash_date' => '删除日期',
+        'trash_ipaddress' => '操作人IP地址',
+    );
+
 ?>

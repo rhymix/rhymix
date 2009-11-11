@@ -398,6 +398,40 @@
         }
 
         /**
+         * @brief convert size in string into numeric value 
+         * @param[in] $val size in string (ex., 10, 10K, 10M, 10G )
+         * @return converted size
+         */
+        function returnBytes($val)
+        {
+            $val = trim($val);
+            $last = strtolower(substr($val, -1));
+            if($last == 'g') $val *= 1024*1024*1024;
+            else if($last == 'm') $val *= 1024*1024;
+            else if($last == 'k') $val *= 1024;
+
+            return $val;
+        }
+
+        /**
+         * @brief check available memory to load image file 
+         * @param[in] $imageInfo image info retrieved by getimagesize function 
+         * @return true: it's ok, false: otherwise 
+         */
+        function checkMemoryLoadImage(&$imageInfo)
+        {
+            if(!function_exists('memory_get_usage')) return true;
+            $K64 = 65536;
+            $TWEAKFACTOR = 1.5;
+            $channels = $imageInfo['channels'];
+            if(!$channels) $channels = 6; //for png
+            $memoryNeeded = round( ($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR );
+            $availableMemory = FileHandler::returnBytes(ini_get('memory_limit')) - memory_get_usage();
+            if($availableMemory < $memoryNeeded) return false;
+            return true;
+        }
+
+        /**
          * @brief moves an image file (resizing is possible)
          * @param[in] $source_file path of the source file
          * @param[in] $target_file path of the target file
@@ -416,7 +450,10 @@
             if(!$resize_height) $resize_height = $resize_width;
 
             // retrieve source image's information
-            list($width, $height, $type, $attrs) = @getimagesize($source_file);
+            $imageInfo = getimagesize($source_file);
+            if(!FileHandler::checkMemoryLoadImage($imageInfo)) return false;
+            list($width, $height, $type, $attrs) = $imageInfo;
+
             if($width<1 || $height<1) return;
 
             switch($type) {
@@ -470,20 +507,24 @@
             // create temporary image having original type
             switch($type) {
                 case 'gif' :
+                        if(!function_exists('imagecreatefromgif')) return false;
                         $source = @imagecreatefromgif($source_file);
                     break;
                 // jpg
                 case 'jpeg' :
                 case 'jpg' :
+                        if(!function_exists('imagecreatefromjpeg')) return false;
                         $source = @imagecreatefromjpeg($source_file);
                     break;
                 // png
                 case 'png' :
+                        if(!function_exists('imagecreatefrompng')) return false;
                         $source = @imagecreatefrompng($source_file);
                     break;
                 // bmp
                 case 'wbmp' :
                 case 'bmp' :
+                        if(!function_exists('imagecreatefromwbmp')) return false;
                         $source = @imagecreatefromwbmp($source_file);
                     break;
                 default :
@@ -514,17 +555,21 @@
             // write into the file
             switch($target_type) {
                 case 'gif' :
+                        if(!function_exists('imagegif')) return false;
                         $output = @imagegif($thumb, $target_file);
                     break;
                 case 'jpeg' :
                 case 'jpg' :
+                        if(!function_exists('imagejpeg')) return false;
                         $output = @imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
+                        if(!function_exists('imagepng')) return false;
                         $output = @imagepng($thumb, $target_file, 9);
                     break;
                 case 'wbmp' :
                 case 'bmp' :
+                        if(!function_exists('imagewbmp')) return false;
                         $output = @imagewbmp($thumb, $target_file, 100);
                     break;
             }

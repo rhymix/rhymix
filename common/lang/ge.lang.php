@@ -296,6 +296,10 @@
     $lang->msg_ftp_chmod_fail = "FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
     $lang->msg_ftp_connect_success = "FTP 접속 및 인증 성공하였습니다";
 
+    $lang->ftp_path_title = 'FTP 경로 정보 입력';
+    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+
 
     // Alert Nachrichten für JavaScript unter Verwendung von XML-Filter
     $lang->filter->isnull = 'Bitte geben Sie einen Wert für% s';

@@ -104,7 +104,7 @@ class DBPostgresql extends DB
 
         // 접속체크
         $this->is_connected = true;
-
+		$this->password = md5($this->password);
         // utf8임을 지정
         //$this ->_query('set client_encoding to uhc');
     }

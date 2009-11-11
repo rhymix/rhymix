@@ -2,45 +2,40 @@
     /**
     * @class ModuleHandler
     * @author zero (zero@nzeo.com)
-    * @brief 모듈 핸들링을 위한 Handler
+    * @brief Handling modules
     *
-    * 모듈을 실행시키기 위한 클래스.
-    * constructor에 아무 인자 없이 객체를 생성하면 현재 요청받은 
-    * 상태를 바탕으로 적절한 모듈을 찾게 되고,
-    * 별도의 인자 값을 줄 경우 그에 맞는 모듈을 찾아서 실행한다.
-    * 만약 찾아진 모듈의 요청된 act 가 없으면 action_foward를 참조하여 다른 모듈의 act를 실행한다.
+    * @remarks This class is to excute actions of modules.
+    *          Constructing an instance without any parameterconstructor, it finds the target module based on Context.
+    *          If there is no act on the found module, excute an action referencing action_forward.
     **/
 
     class ModuleHandler extends Handler {
 
-        var $oModule = NULL; ///< 모듈 객체
+        var $oModule = NULL; ///< Module Instance
 
-        var $module = NULL; ///< 모듈
+        var $module = NULL; ///< Module
         var $act = NULL; ///< action
-        var $mid = NULL; ///< 모듈의 객체명
-        var $document_srl = NULL; ///< 문서 번호
-        var $module_srl = NULL; ///< 모듈의 번호
+        var $mid = NULL; ///< Module ID
+        var $document_srl = NULL; ///< Document Number
+        var $module_srl = NULL; ///< Module Number
 
-        var $module_info = NULL; ///< 모듈의 정보
+        var $module_info = NULL; ///< Module Info. Object
 
-        var $error = NULL; ///< 진행 도중 에러 발생시 에러 코드를 정의, message 모듈을 호출시 사용
+        var $error = NULL; ///< an error code.
 
         /**
          * @brief constructor
-         *
-         * ModuleHandler에서 사용할 변수를 미리 세팅
-         * 인자를 넘겨주지 않으면 현 페이지 요청받은 Request Arguments를 이용하여
-         * 변수를 세팅한다.
+         * @remarks it prepares variables to use in moduleHandler
          **/
         function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '') {
-            // 설치가 안되어 있다면 install module을 지정
+            // If XE has not installed yet, set module as install
             if(!Context::isInstalled()) {
                 $this->module = 'install';
                 $this->act = Context::get('act');
                 return;
             }
 
-            // Request Argument중 모듈을 찾을 수 있는 변수를 구함
+            // Set variables from request arguments
             if(!$module) $this->module = Context::get('module');
             else $this->module = $module;
 
@@ -58,12 +53,12 @@
 
             $this->entry = Context::get('entry');
 
-            // 기본 변수들의 검사 (XSS방지를 위한 기초적 검사)
+            // Validate variables to prevent XSS
             if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));
             if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->mid)) die(Context::getLang("msg_invalid_request"));
             if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->act)) die(Context::getLang("msg_invalid_request"));
 
-            // 애드온 실행 (모듈 실행 전)
+            // execute addon (before module initialization)
             $called_position = 'before_module_init';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath();
@@ -71,10 +66,10 @@
         }
 
         /**
-         * @brief module, mid, document_srl을 이용하여 모듈을 찾고 act를 실행하기 위한 준비를 함
+         * @brief Initialization. It finds the target module based on module, mid, document_srl, and prepares to execute an action
+         * @return true: OK, false: redirected 
          **/
         function init() {
-            // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
             $site_module_info = Context::get('site_module_info');
@@ -85,50 +80,50 @@
                 if($this->document_srl) Context::set('document_srl', $this->document_srl);
             }
 
-            // 문서번호(document_srl)가 있을 경우 모듈 정보를 구해옴
+            // Get module's information based on document_srl, if it's specified
             if($this->document_srl && !$this->module) {
                 $module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
 
-                // 문서가 존재하지 않으면 문서 정보를 제거
+                // If the document does not exist, remove document_srl
                 if(!$module_info) {
                     unset($this->document_srl);
-                // 문서가 존재할 경우 모듈 정보를 바탕으로 virtual site 및 mid 비교
                 } else {
-                    // mid 값이 다르면 문서의 mid로 설정
+                    // If it exists, compare mid based on the module information
+                    // if mids are not matching, set it as the document's mid
                     if($this->mid != $module_info->mid) {
                         $this->mid = $module_info->mid;
                         Context::set('mid', $module_info->mid, true);
                     }
                 }
-                // 요청된 모듈과 문서 번호가 다르면 문서 번호에 의한 모듈 정보를 제거
+                // if requested module is different from one of the document, remove the module information retrieved based on the document number
                 if($this->module && $module_info->module != $this->module) unset($module_info);
             }
 
-            // 모듈정보를 구하지 못했고 mid 요청이 있으면 mid에 해당하는 모듈 정보를 구함
+            // If module_info is not set yet, and there exists mid information, get module information based on the mid
             if(!$module_info && $this->mid) {
                 $module_info = $oModuleModel->getModuleInfoByMid($this->mid, $site_module_info->site_srl);
                 //if($this->module && $module_info->module != $this->module) unset($module_info);
             }
 
-            // module_site_srl과 site_srl 값이 다르면 redirect 시도
+            // redirect, if module_site_srl and site_srl are different
             if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0) {
                 $site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
                 header("location:".getNotEncodedSiteUrl($site_info->domain,'mid',$site_module_info->mid));
                 return false;
             }
 
-            // 역시 모듈을 못 찾았고 $module이 없다면 기본 모듈을 찾아봄
+            // If module_info is not set still, and $module does not exist, find the default module
             if(!$module_info && !$this->module) $module_info = $site_module_info;
 
             if(!$module_info && !$this->module && $site_module_info->module_site_srl) $module_info = $site_module_info;
 
-            // 모듈정보와 사이트 모듈정보가 다르면(다른 사이트이면) 페이지 리다이렉트
+            // redirect, if site_srl of module_info is different from one of site's module_info
             if($module_info && $module_info->site_srl != $site_module_info->site_srl) {
-                // 현재 요청된 모듈이 가상 사이트 모듈일 경우
+                // If the module is of virtual site
                 if($module_info->site_srl) {
                     $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
                     $redirect_url = getNotEncodedSiteUrl($site_info->domain, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
-                // 가상 사이트 모듈이 아닌데 가상 사이트에서 호출되었을 경우
+                // If it's called from a virtual site, though it's not a module of the virtual site
                 } else {
                     $db_info = Context::getDBInfo();
                     if(!$db_info->default_url) return Context::getLang('msg_default_url_is_not_defined');
@@ -138,7 +133,7 @@
                 return false;
             }
 
-            // 모듈 정보가 찾아졌을 경우 모듈 정보에서 기본 변수들을 구함, 모듈 정보에서 module 이름을 구해움
+            // If module info was set, retrieve variables from the module information
             if($module_info) {
                 $this->module = $module_info->module;
                 $this->mid = $module_info->mid;
@@ -148,34 +143,35 @@
                 Context::addHtmlHeader($part_config->header_script);
             }
 
-            // 모듈정보에 module과 mid를 강제로 지정
+            // Set module and mid into module_info
             $this->module_info->module = $this->module;
             $this->module_info->mid = $this->mid;
 
-            // 여기까지도 모듈 정보를 찾지 못했다면 깔끔하게 시스템 오류 표시
+            // Still no module? it's an error
             if(!$this->module) $this->error = 'msg_module_is_not_exists';
 
-            // mid값이 있을 경우 mid값을 세팅
+            // If mid exists, set mid into context
             if($this->mid) Context::set('mid', $this->mid, true);
                 
-            // 실제 동작을 하기 전에 trigger 호출
+            // Call a trigger after moduleHandler init
             $output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
             if(!$output->toBool()) {
                 $this->error = $output->getMessage();
                 return false;
             }
 
-            // 현재 모듈의 정보를 세팅
+            // Set current module info into context 
             Context::set('current_module_info', $this->module_info);
 
             return true;
         }
 
         /**
-         * @brief 모듈과 관련된 정보를 이용하여 객체를 구하고 act 실행까지 진행시킴
+         * @brief get a module instance and execute an action
+         * @return executed module instance
          **/
         function procModule() {
-            // 에러가 있으면 메세지 객체를 만들어서 return
+            // If error occurred while preparation, return a message instance
             if($this->error) {
                 $oMessageView = &getView('message');
                 $oMessageView->setError(-1);
@@ -184,99 +180,98 @@
                 return $oMessageView;
             }
 
-            // ModuleModel 객체 생성
             $oModuleModel = &getModel('module');
 
-            // 해당 모듈의 conf/action.xml 을 분석하여 action 정보를 얻어옴
+            // Get action information with conf/action.xml 
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
 
-            // 미설치시에는 act값을 강제로 변경
+            // If not installed yet, modify act 
             if($this->module=="install") {
                 if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
             } 
 
-            // 현재 요청된 act가 있으면 $xml_info에서 type을 찾음, 없다면 기본 action을 이용
+            // if act exists, find type of the action, if not use default index act
             if(!$this->act) $this->act = $xml_info->default_index_act;
 
-            // act값이 지정이 안되어 있으면 오류 표시
+            // still no act means error
             if(!$this->act) {
                 $this->error = 'msg_module_is_not_exists';
                 return;
             }
 
-            // type, kind 값 구함
+            // get type, kind
             $type = $xml_info->action->{$this->act}->type;
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 
-            // 모듈 객체 생성
+            // create a module instance
             $oModule = &$this->getModuleInstance($this->module, $type, $kind);
             if(!is_object($oModule)) {
                 $this->error = 'msg_module_is_not_exists';
                 return;
             }
 
-            // 모듈에 act값을 세팅
             $oModule->setAct($this->act);
 
-            // 모듈 정보 세팅
             $this->module_info->module_type = $type;
             $oModule->setModuleInfo($this->module_info, $xml_info);
 
-            // 모듈을 수행하고 결과가 false이면 message 모듈 호출 지정
+            // execute the action, and if failed, set error
             if(!$oModule->proc()) $this->error = $oModule->getMessage();
 
             return $oModule;
         }
 
         /**
-         * @ 실행된 모듈의 컨텐츠를 출력
+         * @brief display contents from executed module
+         * @param[in] $oModule module instance
+         * @return none
          **/
         function displayContent($oModule = NULL) {
-            // 설정된 모듈이 정상이지 않을 경우 message 모듈 객체 생성
+            // If the module is not set or not an object, set error
             if(!$oModule || !is_object($oModule)) {
                 $this->error = 'msg_module_is_not_exists';
             }
 
-            // install 모듈이 아닐 때 DB 접속에 문제가 있으면 오류
+            // If connection to DB has a problem even though it's not install module, set error
             if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->is_connected == false) {
                 $this->error = 'msg_dbconnect_failed';
             }
 
-            // 모듈 동작을 마친 후 trigger call
+            // Call trigger after moduleHandler proc
             $output = ModuleHandler::triggerCall('moduleHandler.proc', 'after', $oModule);
             if(!$output->toBool()) $this->error = $output->getMessage();
 
-            // HTML call 이면 message view 객체 이용하도록
+            // Use message view object, if HTML call
             if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                // 에러가 발생하였을시 처리
+                // If error occurred, handle it
                 if($this->error) {
-                    // message 모듈 객체를 생성해서 컨텐츠 생성
+                    // display content with message module instance 
                     $oMessageView = &getView('message');
                     $oMessageView->setError(-1);
                     $oMessageView->setMessage($this->error);
                     $oMessageView->dispMessage();
 
-                    // 정상적으로 호출된 객체가 있을 경우 해당 객체의 template를 변경
+                    // If module was called normally, change the templates of the module into ones of the message view module
                     if($oModule) {
                         $oModule->setTemplatePath($oMessageView->getTemplatePath());
                         $oModule->setTemplateFile($oMessageView->getTemplateFile());
 
-                    // 그렇지 않으면 message 객체를 호출된 객체로 지정
+                    // Otherwise, set message instance as the target module
                     } else {
                         $oModule = $oMessageView;
                     }
                 }
 
-                // 해당 모듈에 layout_srl이 있는지 확인
+                // Check if layout_srl exists for the module
                 if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
 
-                    // layout_srl이 있으면 해당 레이아웃 정보를 가져와 layout_path/ layout_file 위치 변경
+                    // If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file 
                     $oLayoutModel = &getModel('layout');
                     $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
                     if($layout_info) {
 
-                        // 레이아웃 정보중 extra_vars의 이름과 값을 $layout_info에 입력
+                        // Input extra_vars into $layout_info
                         if($layout_info->extra_var_count) {
 
                             foreach($layout_info->extra_var as $var_id => $val) {
@@ -286,7 +281,7 @@
                                 $layout_info->{$var_id} = $val->value;
                             }
                         }
-                        // 레이아웃 정보중 menu를 Context::set
+                        // Set menus into context
                         if($layout_info->menu_count) {
                             foreach($layout_info->menu as $menu_id => $menu) {
                                 if(file_exists($menu->php_file)) @include($menu->php_file);
@@ -294,33 +289,40 @@
                             }
                         }
 
-                        // 레이아웃 정보를 Context::set
+                        // Set layout information into context 
                         Context::set('layout_info', $layout_info);
 
                         $oModule->setLayoutPath($layout_info->path);
                         $oModule->setLayoutFile('layout');
 
-                        // 레이아웃이 수정되었을 경우 수정본을 지정
+                        // If layout was modified, use the modified version
                         $edited_layout = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
                         if(file_exists($edited_layout)) $oModule->setEditedLayoutFile($edited_layout);
                     }
                 }
             }
 
-            // 컨텐츠 출력
+            // Display contents 
             $oDisplayHandler = new DisplayHandler();
             $oDisplayHandler->printContent($oModule);
         }
 
         /**
-         * @brief module의 위치를 찾아서 return
+         * @brief returns module's path
+         * @param[in] $module module name
+         * @return path of the module
          **/
         function getModulePath($module) {
             return sprintf('./modules/%s/', $module);
         }
 
         /**
-         * @brief 모듈 객체를 생성함
+         * @brief It creates a module instance
+         * @param[in] $module module name
+         * @param[in] $type instance type, (e.g., view, controller, model)
+         * @param[in] $kind admin or svc
+         * @return module instance (if failed it returns null)
+         * @remarks if there exists a module instance created before, returns it.
          **/
         function &getModuleInstance($module, $type = 'view', $kind = '') {
             $class_path = ModuleHandler::getModulePath($module);
@@ -330,21 +332,16 @@
 
             if($kind != 'admin') $kind = 'svc';
 
-            // global 변수에 미리 생성해 둔 객체가 없으면 새로 생성
+            // if there is no instance of the module in global variable, create a new one 
             if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
-
-                /**
-                 * 모듈의 위치를 파악
-                 **/
-
-                // 상위 클래스명 구함
+                // Get base class name and load the file contains it 
                 if(!class_exists($module)) {
                     $high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_,$class_path, $module);
                     if(!file_exists($high_class_file)) return NULL;
                     require_once($high_class_file);
                 }
 
-                // 객체의 이름을 구함
+                // Get the object's name
                 switch($type) {
                     case 'controller' :
                             if($kind == 'admin') {
@@ -392,43 +389,48 @@
                         break;
                 }
 
-                // 클래스 파일의 이름을 구함
+                // Get the name of the class file
                 if(!file_exists($class_file)) return NULL;
 
-                // eval로 객체 생성
+                // Create an instance with eval function
                 require_once($class_file);
+                if(!class_exists($instance_name)) return NULL;
                 $eval_str = sprintf('$oModule = new %s();', $instance_name);
                 @eval($eval_str);
                 if(!is_object($oModule)) return NULL;
 
-                // 해당 위치에 속한 lang 파일을 읽음
+                // Load language files for the class
                 Context::loadLang($class_path.'lang');
 
-                // 생성된 객체에 자신이 호출된 위치를 세팅해줌
+                // Set variables to the instance
                 $oModule->setModule($module);
                 $oModule->setModulePath($class_path);
 
-                // 요청된 module에 constructor가 있으면 실행
+                // If the module has a constructor, run it.
                 if(!isset($GLOBALS['_called_constructor'][$instance_name])) {
                     $GLOBALS['_called_constructor'][$instance_name] = true;
                     if(@method_exists($oModule, $instance_name)) $oModule->{$instance_name}();
                 }
 
-                // GLOBALS 변수에 생성된 객체 저장
+                // Store the created instance into GLOBALS variable 
                 $GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
             }
 
             if(__DEBUG__==3) $GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
 
-            // 객체 리턴
+            // return the instance 
             return $GLOBALS['_loaded_module'][$module][$type][$kind];
         }
 
         /**
-         * @brief trigger_name, called_position을 주고 trigger 호출
+         * @brief call a trigger
+         * @param[in] $trigger_name trigger's name to call
+         * @param[in] $called_position called position
+         * @param[in] $obj an object as a parameter to trigger
+         * @return Object
          **/
         function triggerCall($trigger_name, $called_position, &$obj) {
-            // 설치가 안되어 있다면 trigger call을 하지 않고 바로 return
+            // skip if not installed 
             if(!Context::isInstalled()) return new Object();
 
             $oModuleModel = &getModel('module');

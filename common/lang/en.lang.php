@@ -296,6 +296,10 @@
     $lang->msg_ftp_chmod_fail = "Chmod failed. Please check the permission and configuration of FTP server.";
     $lang->msg_ftp_connect_success = "Connection and authentication to the FTP server succeeded.";
 
+    $lang->ftp_path_title = 'FTP 경로 정보 입력';
+    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+
 
     // Alert messages for Javascript using by XML filter
     $lang->filter->isnull = 'Please input a value for %s';

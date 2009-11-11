@@ -172,7 +172,6 @@ EndOfLicense;
     $lang->about_database_file = 'Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>';
 
     $lang->success_installed = 'Bạn đã cài đặt XE thành công!';
-    $lang->success_updated = 'Đã cập nhật thành công!';
 
     $lang->msg_cannot_proc = 'Môi trường cài đặt không thích hợp.';
     $lang->msg_already_installed = 'Một phiên bản nào đó của XE đã được cài đặt từ trước.<br />Xin hãy kiểm tra lại!';

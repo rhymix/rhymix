@@ -1,0 +1,13 @@
+<query id="insertPackage" action="insert">
+    <tables>
+        <table name="autoinstall_packages" />
+    </tables>
+    <columns>
+        <column name="package_srl" var="package_srl" filter="number" notnull="notnull" />
+        <column name="category_srl" var="category_srl" filter="number" />
+        <column name="path" var="path" notnull="notnull" />
+        <column name="updatedate" var="updatedate" notnull="notnull" />
+        <column name="latest_item_srl" var="latest_item_srl" notnull="notnull" />
+        <column name="version" var="version" notnull="notnull" />
+    </columns>
+</query>

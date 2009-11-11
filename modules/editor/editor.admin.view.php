@@ -61,8 +61,9 @@
                 // 모듈 카테고리 목록을 구함
                 $module_categories = $oModuleModel->getModuleCategories();
 
+                if(!is_array($mid_list)) $mid_list = array($mid_list);
                 foreach($mid_list as $module_srl => $module) {
-                    $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+                    if($module) $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
                 }
             } else {
                 $module_categories[0]->list = $mid_list;

@@ -114,6 +114,7 @@
     $lang->edit->help_align_left = 'Выровнять по левому краю';
     $lang->edit->help_align_center = 'Выровнять по центру';
     $lang->edit->help_align_right = 'Выровнять по правому краю';
+	$lang->edit->help_align_justify = 'Align justity';
     $lang->edit->help_add_indent = 'Добавить отступ';
     $lang->edit->help_remove_indent = 'Удалить отступ';
     $lang->edit->help_list_number = 'Применить числовой список';
@@ -206,6 +207,7 @@
     $lang->edit->minimize_list = '최소화';
     
     $lang->edit->move = '이동';
+	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = '글감보관함';
     $lang->edit->temporary_savings = '임시저장목록';
     

@@ -12,7 +12,7 @@
     $lang->feed_copyright = '版权';
     $lang->feed_document_count = '每页主题数';
     $lang->feed_image = 'RSS图片';
-    $lang->rss_type = "将显示的RSS形式";
+    $lang->rss_type = "RSS Feed显示样式";
     $lang->open_rss = 'RSS公开';
     $lang->open_rss_types = array(
         'Y' => '公开全文',

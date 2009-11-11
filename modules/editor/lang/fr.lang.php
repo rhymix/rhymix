@@ -118,6 +118,7 @@
     $lang->edit->help_align_left = 'Aligner à gauche';
     $lang->edit->help_align_center = 'Aligner centr';
     $lang->edit->help_align_right = 'Aligner  droite';
+	$lang->edit->help_align_justify = 'Align justity';
     $lang->edit->help_add_indent = 'Ajouter un Rentré';
     $lang->edit->help_remove_indent = 'Enlever un Rentré';
     $lang->edit->help_list_number = 'Appliquer la liste numroté';
@@ -210,6 +211,7 @@
     $lang->edit->minimize_list = '최소화';
     
     $lang->edit->move = '이동';
+	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = '글감보관함';
     $lang->edit->temporary_savings = '임시저장목록';
     

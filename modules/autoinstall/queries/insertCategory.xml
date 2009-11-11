@@ -1,0 +1,10 @@
+<query id="insertCategory" action="insert">
+    <tables>
+        <table name="autoinstall_remote_categories" />
+    </tables>
+    <columns>
+        <column name="category_srl" var="category_srl" filter="number" notnull="notnull" />
+        <column name="parent_srl" var="parent_srl" filter="number" notnull="notnull" />
+        <column name="title" var="title" minlength="1" maxlength="250" />
+    </columns>
+</query>

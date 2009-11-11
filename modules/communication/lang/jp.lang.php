@@ -33,7 +33,7 @@
     $lang->cmd_view_friend = '友達リスト';
     $lang->cmd_add_friend = '友達登録';
     $lang->cmd_view_message_box = 'メッセージ';
-    $lang->cmd_store = "保存";
+    $lang->cmd_store = '保存';
     $lang->cmd_add_friend_group = '友達グループ追加';
     $lang->cmd_rename_friend_group = '友達グループ名変更';
 

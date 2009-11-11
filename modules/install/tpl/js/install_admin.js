@@ -31,3 +31,7 @@ function doCheckFTPInfo() {
 function completeInstallCheckFtpInfo(ret_obj) {
     alert(ret_obj['message']);
 }
+
+function completeFtpPath(ret_obj){
+   location.reload(); 
+}
