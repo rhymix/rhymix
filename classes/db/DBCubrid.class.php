@@ -87,6 +87,7 @@
             }
 
             $this->is_connected = true;
+			$this->password = md5($this->password);
         }
 
         /**

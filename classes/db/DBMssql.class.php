@@ -83,6 +83,7 @@
 			// 접속체크
 		    if($this->conn){
 				$this->is_connected = true;
+				$this->password = md5($this->password);
 			}else{
 				$this->is_connected = false;
 			}
