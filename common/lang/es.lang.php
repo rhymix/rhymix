@@ -302,6 +302,11 @@
     $lang->msg_ftp_chmod_fail = "Ha fallado el comando de FTP para la modificación de atributos de directorio. Verifique la configuración del servicio FTP en el servidor.";
     $lang->msg_ftp_connect_success = "conexión con éxito al FTP";
 
+    $lang->ftp_path_title = 'FTP 경로 정보 입력';
+    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+
+
 
     // Mensajes de alerta para Javascript usando el filtro XML
     $lang->filter->isnull = 'Introduzca valor en el %s';

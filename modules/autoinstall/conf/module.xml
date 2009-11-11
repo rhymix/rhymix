@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <actions>
-        <action name="dispAutoinstallTest" type="view" index="true" />
         <action name="dispAutoinstallAdminInstall" type="view" standalone="true" />
-        <action name="dispAutoinstallAdminConfig" type="view" standalone="true" />
         <action name="dispAutoinstallAdminIndex" type="view" standalone="true" admin_index="true" />
-        <action name="procAutoinstallAdminInsertConfig" type="controller" standalone="true" />
         <action name="procAutoinstallAdminUpdateinfo" type="controller" standalone="true" />
         <action name="procAutoinstallAdminPackageinstall" type="controller" standalone="true" />
     </actions>

@@ -298,6 +298,11 @@
     $lang->msg_ftp_chmod_fail = 'FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。';
     $lang->msg_ftp_connect_success = 'FTP接続に成功しました。';
 
+    $lang->ftp_path_title = 'FTP 경로 정보 입력';
+    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+
+
     // xml filterで用いられているjavascript用のアラートメッセージ
     $lang->filter->isnull = '%sを入力して下さい。';
     $lang->filter->outofrange = '%sの文字の長さを合わせて下さい。';

@@ -286,6 +286,10 @@
     $lang->msg_ftp_chmod_fail = "CHMOD không thành công. Xin vui lòng kiểm tra lại.";
     $lang->msg_ftp_connect_success = "Đã xác nhận và kết nối thành công tới máy chủ bằng FTP.";
 
+    $lang->ftp_path_title = 'FTP 경로 정보 입력';
+    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+
 
     // Alert messages for Javascript using by XML filter
     $lang->filter->isnull = 'Xin vui lòng nhập giá trị cho %s';

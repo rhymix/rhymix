@@ -48,7 +48,7 @@
         /* Constractor */
         function ftp()
         {
-            $this->debug = FALSE;
+            $this->debug = false;
             $this->umask = 0022;
             $this->timeout = 30;
 

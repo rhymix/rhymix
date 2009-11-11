@@ -83,7 +83,7 @@
                 return new Object(-1,'msg_ftp_invalid_auth_info');
             }
 
-            $_list = $oFtp->ftp_rawlist($config->ftp_root_path);
+            $_list = $oFtp->ftp_rawlist($ftp_config->ftp_root_path);
             if(count($_list) == 0 || !$_list[0]) {
                 $oFtp->ftp_quit();
                 $oFtp = new ftp();
@@ -94,10 +94,8 @@
                 }
             }
 
-            $oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('autoinstall');
-
-            $target_dir = $config->ftp_root_path.$this->target_path;
+            $ftp_config = Context::getFTPInfo();
+            $target_dir = $ftp_config->ftp_root_path.$this->target_path;
 
             foreach($file_list as $k => $file){
                 $org_file = $file;
@@ -109,7 +107,7 @@
                 $path_list = explode('/', dirname($this->target_path."/".$file));
 
                 $real_path = "./";
-                $ftp_path = $config->ftp_root_path;
+                $ftp_path = $ftp_config->ftp_root_path;
 
                 for($i=0;$i<count($path_list);$i++)
                 {
@@ -138,15 +136,6 @@
          **/
         function init() {
         }
-
-        function procAutoinstallAdminInsertConfig(){
-            $oModuleController = &getController('module');
-
-            $config->ftp_root_path = Context::get('ftp_root_path');
-            $output = $oModuleController->insertModuleConfig('autoinstall',$config);
-            return $output;
-        }
-
 
         function checkFileCheckSum($file, $checksum){
             $local_checksum = md5_file(FileHandler::getRealPath($file));

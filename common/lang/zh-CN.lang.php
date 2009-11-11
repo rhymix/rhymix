@@ -298,6 +298,10 @@
     $lang->msg_ftp_chmod_fail = "修改文件夹属性失败。请确认 FTP服务器设置。";
     $lang->msg_ftp_connect_success = "FTP连接成功。";
 
+    $lang->ftp_path_title = 'FTP 경로 정보 입력';
+    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+
     // 在xml filter使用的 javascript用 alert msg
     $lang->filter->isnull = '请输入%s';
     $lang->filter->outofrange = '请确认%s字数';
