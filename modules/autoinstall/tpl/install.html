@@ -8,7 +8,7 @@
     <dt><strong>{$lang->depending_programs} :</strong></dt>
 		<dd> {$dep->title} ver. {$dep->version} - 
 			<!--@if($dep->installed)-->{$lang->current_version}: {$dep->cur_version} <!--@if($dep->need_update)--> ({$lang->require_update})<!--@end--> <!--@else-->{$lang->require_installation}<!--@end-->
-            <!--@if($dep->need_update || !$dep->installed)--><a href="http://download.xpressengine.com/?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->download}</a> ({$lang->path} : {$dep->path})<!--@end-->
+            <!--@if($show_ftp_note && ($dep->need_update || !$dep->installed))--><a href="http://download.xpressengine.com/?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->download}</a> ({$lang->path} : {$dep->path})<!--@end-->
 		</dd>
 	</dl>
 	<!--@end-->
