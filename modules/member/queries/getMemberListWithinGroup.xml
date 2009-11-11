@@ -26,7 +26,7 @@
         </group>
     </conditions>
     <navigation>
-        <index var="sort_index" default="member.member_srl" order="desc" />
+        <index var="sort_index" default="member.member_srl" order="sort_order" />
         <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

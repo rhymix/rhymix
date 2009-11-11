@@ -75,13 +75,19 @@
             }
 
             // selected_group_srl이 있으면 query id를 변경 (table join때문에)
+            $sort_index = Context::get('sort_index');
+            if($sort_index != 'last_login') $sort_index = "member_srl";
             if($args->selected_group_srl) {
                 $query_id = 'member.getMemberListWithinGroup';
-                $args->sort_index = "member.member_srl";
+                $args->sort_index = "member.".$sort_index;
             } else {
                 $query_id = 'member.getMemberList';
-                $args->sort_index = "member_srl";
+                $args->sort_index = $sort_index; 
             }
+            $sort_order = Context::get('sort_order');
+            if($sort_order != "asc") $sort_order = "desc";
+            $args->sort_order = $sort_order;
+            Context::set('sort_order', $sort_order);
 
             // 기타 변수들 정리
             $args->page = Context::get('page');
