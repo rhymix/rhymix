@@ -80,7 +80,7 @@
 
         function setDepth(&$item, $depth, &$list, &$resultList)
         {
-            $resultList[] =& $item;
+            $resultList[$item->category_srl] =& $item;
             $item->depth = $depth;
             $siblingList = $item->category_srl;
             foreach($item->children as $child)

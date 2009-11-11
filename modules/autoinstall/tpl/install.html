@@ -2,17 +2,17 @@
 <!--%import("css/autoinstall.css")-->
 <!--%import("js/autoinstall.js")-->
 <div class="infoText">
-	<p><strong>{$package->title}</strong> ver. <strong>{$package->version}</strong> ( <!--@if($package->installed)-->현재버전: {$package->cur_version} <!--@if($package->need_update)--> (업데이트가 필요합니다.)<!--@end--> <!--@else-->인스톨이 필요합니다. <!--@end--> )</p>
+	<p><strong>{$package->title}</strong> ver. <strong>{$package->version}</strong> ( <!--@if($package->installed)-->{$lang->current_version}: {$package->cur_version} <!--@if($package->need_update)--> ({$lang->require_update})<!--@end--> <!--@else-->{$lang->require_installation}<!--@end--> )</p>
 	<!--@foreach($package->depends as $dep)-->
 	<dl>
-    <dt><strong>의존하고 있는 프로그램 :</strong></dt>
+    <dt><strong>{$lang->depending_programs} :</strong></dt>
 		<dd>sdfgsdfg
 			{$dep->title} ver. {$dep->version} - 
-			<!--@if($dep->installed)-->현재버전: {$dep->cur_version} <!--@if($dep->need_update)--> (업데이트가 필요합니다.)<!--@end--> <!--@else-->인스톨이 필요합니다. <!--@end-->
+			<!--@if($dep->installed)-->{$lang->current_version}: {$dep->cur_version} <!--@if($dep->need_update)--> ({$lang->require_update})<!--@end--> <!--@else-->{$lang->require_installation}<!--@end-->
 		</dd>
 	</dl>
 	<!--@end-->
-	<p>설치를 진행하면 의존성이 있는 모든 프로그램을 함께 설치합니다. </p>
-	<p><!--@if(!$package->installed || $package->need_update)--><a href="#" onclick="doInstallPackage('{$package->package_srl}')" class="button large green strong"><span>설치하기</span></a><!--@end--></p>
+	<p>{$lang->description_install}. </p>
+	<p><!--@if(!$package->installed || $package->need_update)--><a href="#" onclick="doInstallPackage('{$package->package_srl}')" class="button large green strong"><span>{$lang->install}</span></a><!--@end--></p>
 
 </div>

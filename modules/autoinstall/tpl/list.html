@@ -35,12 +35,12 @@
 					<a href="{$target_url}">{htmlspecialchars($val->title)} ver. {htmlspecialchars($val->item_version)}</a>
 				</h3>
 					<!--@if($val->current_version)-->
-					현재 설치 버전 : {$val->current_version}
+					{$lang->current_version} : {$val->current_version}
 						<!--@if($val->need_update == 'Y')-->
-						<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>업데이트</span></a>
+						<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>{$lang->update}</span></a>
 						<!--@end-->
 					<!--@else-->
-					<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>인스톨</span></a>
+					<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>{$lang->install}</span></a>
 					<!--@end-->
 			</div>
 			<div class="info">

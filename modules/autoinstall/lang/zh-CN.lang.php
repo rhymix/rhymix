@@ -18,4 +18,7 @@
     $lang->view_all_package = "查看全部";
     $lang->description_ftp_note = "请务必完成FTP设置，否则将无法在线安装(更新)相关模块。";
     $lang->description_update = "新安装(更新)模块的版本信息，点击Update按钮后才能正常显示。";
+    $lang->install = "Install";
+    $lang->update = "Update";
+    $lang->current_version = "Installed version";
 ?>
