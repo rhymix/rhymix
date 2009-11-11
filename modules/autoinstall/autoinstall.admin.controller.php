@@ -83,6 +83,17 @@
                 return new Object(-1,'msg_ftp_invalid_auth_info');
             }
 
+            $_list = $oFtp->ftp_rawlist($config->ftp_root_path);
+            if(count($_list) == 0 || !$_list[0]) {
+                $oFtp->ftp_quit();
+                $oFtp = new ftp();
+                if(!$oFtp->ftp_connect($_SERVER['SERVER_NAME'], $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
+                if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+                    $oFtp->ftp_quit();
+                    return new Object(-1,'msg_ftp_invalid_auth_info');
+                }
+            }
+
             $oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('autoinstall');
 
