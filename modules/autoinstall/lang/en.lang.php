@@ -17,7 +17,7 @@
     $lang->success_installed = "Installations succeeded.";
     $lang->view_all_package = "View All";
     $lang->description_ftp_note = "If FTP configuration is not set, installation would not work. Please configure FTP information";
-    $lang->description_update = "If you recently upgrade or install programs without easy installation module, pressing update will update the information of the programs.";
+    $lang->description_update = "If you recently upgrade or install programs without easy installation module, please press update button to keep information of the programs updated.";
     $lang->install = "Install";
     $lang->update = "Update";
     $lang->current_version = "Installed version";
