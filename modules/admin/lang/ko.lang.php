@@ -78,4 +78,5 @@
     $lang->about_server_ports = 'HTTP는 80, HTTPS는 443 이 아닌, 다른 포트를 사용할 경우에 포트를 지정해 주어야 합니다.';
     $lang->use_db_session = '인증 세션 DB 사용';
     $lang->about_db_session = '인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
+    $lang->sftp = 'SFTP 사용'; 
 ?>

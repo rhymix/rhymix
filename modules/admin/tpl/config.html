@@ -130,19 +130,27 @@
     <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_form_title}</h4>
     <p class="summary">{$lang->about_ftp_info}</p>
     <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
+    {@ $nCols = 3; }
     <table cellspacing="0" class="rowTable">
     <tr>
         <th><div><label for="textfield21">{$lang->user_id}</label></div></th>
         <th><div><label for="textfield22">{$lang->password}</label></div></th>
         <th><div><label for="textfield24">{$lang->ftp_port}</label></div></th>
+        <!--@if($sftp_support)-->
+        {@ $nCols += 1; }
+        <th><div><label for="checkbox25">{$lang->sftp}</label></div></th>
+        <!--@end-->
     </tr>
     <tr>
         <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" /></td>
         <td><input id="textfield22" type="password" name="ftp_password" value="{$ftp_info->ftp_password}" class="inputTypeText" /></td>
         <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
+        <!--@if($sftp_support)-->
+        <td><input type="checkbox" id="checkbox25" name="sftp" value="Y" /></td>
+        <!--@end-->
     </tr>
     <tr>
-        <th colspan="3" class="button">
+        <th colspan="{$nCols}" class="button">
             <span class="button blue"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
             <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </th>

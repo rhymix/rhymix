@@ -78,4 +78,5 @@
     $lang->about_server_ports = "If your web-server uses other than 80 for HTTP, 443 for HTTPS, you should specify server ports";
     $lang->use_db_session = 'Use Session DB';
     $lang->about_db_session = 'It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions.';
+    $lang->sftp = "Use SFTP";
 ?>

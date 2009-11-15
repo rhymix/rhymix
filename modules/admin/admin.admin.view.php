@@ -254,6 +254,8 @@
         function dispAdminConfig() {
             $db_info = Context::getDBInfo();
 
+            Context::set('sftp_support', function_exists(ftp_ssl_connect));
+
             Context::set('selected_lang', $db_info->lang_type);
 
             Context::set('default_url', $db_info->default_url);

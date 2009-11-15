@@ -78,4 +78,5 @@
     $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
     $lang->use_db_session = 'DB储存认证会话';
     $lang->about_db_session = '用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。';
+    $lang->sftp = "Use SFTP";
 ?>
