@@ -200,4 +200,4 @@
 
 .adminLeftContent { float:left; width:60%; margin-right:2%; _margin-right:1.9%;}
 .adminRightExtra { float:left; width:38%; }
-
+.serverresponse { background: #FFFFFF url(../../../../common/tpl/images/loading.gif) no-repeat scroll 5px 5px; height:30px; padding-left:25px; padding-top:5px;  }

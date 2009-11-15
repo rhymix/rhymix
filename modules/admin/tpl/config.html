@@ -6,6 +6,7 @@
 <!--%import("./filter/install_ftp_path.xml")-->
 <!--%import("../../install/lang")-->
 <!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
+<!--%import("./js/config.js")-->
 
 <script type="text/javascript">
     function insertSelectedModule(id, module_srl, mid, browser_title) {
@@ -14,6 +15,12 @@
         sObj.value = module_srl;
         obj.value = browser_title+' ('+mid+')';
     }
+<!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
+    var pwd = '{$pwd}';
+    params = new Array();
+    params['pwd'] = pwd; 
+    exec_xml('admin','getAdminFTPList', params, completeGetFtpInfo, new Array('list','error','message'));
+<!--@end-->
 </script>
 
 <div class="content">
@@ -120,7 +127,7 @@
     </table>
     </form>
 
-    <h4 class="xeAdmin">{$lang->ftp_form_title}</h4>
+    <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_form_title}</h4>
     <p class="summary">{$lang->about_ftp_info}</p>
     <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
     <table cellspacing="0" class="rowTable">
@@ -143,7 +150,7 @@
     </table>
     </form>
 <!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
-    <h4 class="xeAdmin" id="ftp_setup">{$lang->ftp_path_title}</h4>
+    <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_path_title}</h4>
     <form action="./" method="get" onsubmit="return procFilter(this, install_ftp_path)">
     <input type="hidden" name="ftp_user" value="{$ftp_info->ftp_user}" />
     <input type="hidden" name="ftp_password" value="{$ftp_info->ftp_password}" />
@@ -161,17 +168,11 @@
             <input type="text" name="ftp_root_path" value="<!--@if($pwd && $pwd!='/')-->{$pwd}<!--@else-->{$ftp_info->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
         </td>
     </tr>
-    <tr>
+    <tr id="ftplist">
         <td>
-        <!--@if($list)-->
-                <ul>
-        <!--@foreach($list as $k => $v)-->
-            <!--@if($v)-->
-                    <li> <a href="{getUrl('pwd',$pwd.$v)}#ftp_setup">{$v}</a></li>
-            <!--@end-->
-        <!--@end-->
-                </ul>
-        <!--@end-->
+            <div class="serverresponse">
+            Waiting to load information
+            </div>
         </td>
     </tr>
     <tr class="row2">
