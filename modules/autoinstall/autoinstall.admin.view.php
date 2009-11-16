@@ -109,7 +109,6 @@
                             }
                         }
                     }
-                    debugPrint($package);
                 }
                 $installedPackage = $oModel->getInstalledPackage($package_srl);
                 if($installedPackage) {

@@ -254,7 +254,7 @@
         function dispAdminConfig() {
             $db_info = Context::getDBInfo();
 
-            Context::set('sftp_support', function_exists(ftp_ssl_connect));
+            Context::set('sftp_support', function_exists(ssh2_sftp));
 
             Context::set('selected_lang', $db_info->lang_type);
 
@@ -263,15 +263,25 @@
             Context::set('langs', Context::loadLangSupported());
 
             Context::set('lang_selected', Context::loadLangSelected());
-
-            Context::set('ftp_info', Context::getFTPInfo());
+            
+            $ftp_info = Context::getFTPInfo();
+            Context::set('ftp_info', $ftp_info);
 
             $site_args->site_srl = 0;
             $output = executeQuery('module.getSiteInfo', $site_args);
             Context::set('start_module', $output->data);
 
             $pwd = Context::get('pwd');
-            if(!$pwd) $pwd = '/';
+            if(!$pwd) {
+                if($ftp_info->sftp == 'Y')
+                {
+                    $pwd = _XE_PATH_;
+                }
+                else
+                {
+                    $pwd = '/';
+                }
+            }
             Context::set('pwd',$pwd);
             Context::set('layout','none');
             $this->setTemplateFile('config');

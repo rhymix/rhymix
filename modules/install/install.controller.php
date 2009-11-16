@@ -117,22 +117,34 @@
         }
 
         function procInstallCheckFtp() {
-            $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port');
+            $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port','sftp');
             $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
             if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
+            if(!$ftp_info->sftp) $ftp_info->sftp = 'N';
 
             if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_safe_mode_ftp_needed');
 
-            require_once(_XE_PATH_.'libs/ftp.class.php');
-            $oFtp = new ftp();
-            if(!$oFtp->ftp_connect('localhost', $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
-
-            if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-                $oFtp->ftp_quit();
-                return new Object(-1,'msg_ftp_invalid_auth_info');
+            if($ftp_info->sftp == 'Y')
+            {
+                $connection = ssh2_connect('localhost', $ftp_info->ftp_port);
+                if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
+                {
+                    return new Object(-1,'msg_ftp_invalid_auth_info');
+                }
             }
+            else
+            {
+                require_once(_XE_PATH_.'libs/ftp.class.php');
+                $oFtp = new ftp();
+                if(!$oFtp->ftp_connect('localhost', $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
 
-            $oFtp->ftp_quit();
+                if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+                    $oFtp->ftp_quit();
+                    return new Object(-1,'msg_ftp_invalid_auth_info');
+                }
+
+                $oFtp->ftp_quit();
+            }
 
             $this->setMessage('msg_ftp_connect_success');
         }

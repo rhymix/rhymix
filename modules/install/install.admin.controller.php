@@ -120,7 +120,6 @@
          **/
         function procInstallAdminSaveFTPInfo() {
             $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port','ftp_root_path','sftp');
-            debugPrint($ftp_info);
             $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
             if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
             if(!$ftp_info->sftp) $ftp_info->sftp = 'N';
