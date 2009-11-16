@@ -83,7 +83,7 @@
                 return new Object(-1,'msg_ftp_invalid_auth_info');
             }
 
-            $_list = $oFtp->ftp_rawlist($ftp_config->ftp_root_path);
+            $_list = $oFtp->ftp_rawlist($ftp_info->ftp_root_path);
             if(count($_list) == 0 || !$_list[0]) {
                 $oFtp->ftp_quit();
                 $oFtp = new ftp();
@@ -94,8 +94,7 @@
                 }
             }
 
-            $ftp_config = Context::getFTPInfo();
-            $target_dir = $ftp_config->ftp_root_path.$this->target_path;
+            $target_dir = $ftp_info->ftp_root_path.$this->target_path;
 
             foreach($file_list as $k => $file){
                 $org_file = $file;
@@ -107,7 +106,7 @@
                 $path_list = explode('/', dirname($this->target_path."/".$file));
 
                 $real_path = "./";
-                $ftp_path = $ftp_config->ftp_root_path;
+                $ftp_path = $ftp_info->ftp_root_path;
 
                 for($i=0;$i<count($path_list);$i++)
                 {
