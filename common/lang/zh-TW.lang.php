@@ -297,9 +297,9 @@
     $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認FTP主機設置。';
     $lang->msg_ftp_connect_success = 'FTP連線成功。';
 
-    $lang->ftp_path_title = 'FTP 경로 정보 입력';
-    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+    $lang->ftp_path_title = '請輸入FTP路經';
+    $lang->msg_ftp_installed_realpath = '請輸入安裝XE時的絕對路經';
+    $lang->msg_ftp_installed_ftp_realpath = '請輸入安裝XE時的FTP絕對路經';
 
 
     // 在xml filter中所使用的JavaScript警告訊息

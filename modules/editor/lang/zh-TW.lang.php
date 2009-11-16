@@ -218,7 +218,7 @@
     $lang->edit->materials = '글감보관함';
     $lang->edit->temporary_savings = '暫存檔列表';
     
-    $lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
+    $lang->edit->drag_here = 'You can start writting with a selected paragraph from paragraph toolbar below.<br />如果有暫存文章，可直接拖曳進行編輯。';
 
 	$lang->edit->paging_prev = '前頁';
 	$lang->edit->paging_next = '次頁';
