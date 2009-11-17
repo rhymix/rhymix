@@ -584,28 +584,28 @@
                 foreach($output->columns as $key => $val) {
                     $name = $val['name'];
 
-					$click_count = '%s';
-					if($val['click_count'] && count($output->conditions)>0){
-						$click_count = 'incr(%s)';
-					}
+                    $click_count = '%s';
+                    if($val['click_count'] && count($output->conditions)>0) {
+                        $click_count = 'incr(%s)';
+                    }
 					
                     $alias = $val['alias'] ? sprintf('"%s"',$val['alias']) : null;
                     if(substr($name,-1) == '*') {
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
-						$name = sprintf($click_count,$name);
-                        if($alias) $column_list[] = sprintf('%s as %s', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
+                        $name = sprintf($click_count,$name);
+                        if($alias) $column_list[] = sprintf('"%s" as %s', $name, $alias);
+                        else $column_list[] = sprintf('"%s"',$name);
                     } else {
                         if(strpos($name,'.')!=false) {
                             list($prefix, $name) = explode('.',$name);
                             $prefix = sprintf('"%s"',$prefix);
                             $name = ($name == '*') ? $name : sprintf('"%s"',$name);
 							
-							$column_list[] = sprintf($click_count,sprintf('%s.%s', $prefix, $name)) . ($alias ? sprintf(' as %s',$alias) : '');
+                            $column_list[] = sprintf($click_count,sprintf('%s.%s', $prefix, $name)) . ($alias ? sprintf(' as %s',$alias) : '');
 							
                         } else {
-							$column_list[] = sprintf($click_count,$name) . ($alias ? sprintf(' as %s',$alias) : '');
+                            $column_list[] = sprintf($click_count,$name) . ($alias ? sprintf(' as %s',$alias) : '');
                         }
                     }
                 }
