@@ -1692,6 +1692,7 @@
             // 그룹 정보가 있으면 그룹 정보를 변경
             if($args->group_srl_list) {
                 $group_srl_list = explode('|@|', $args->group_srl_list);
+                $args->site_srl = 0;
 
                 // 일단 해당 회원의 모든 그룹 정보를 삭제
                 $output = executeQuery('member.deleteMemberGroupMember', $args);
