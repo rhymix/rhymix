@@ -110,7 +110,7 @@
     /**
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
      **/
-    require_once(_XE_PATH_.'config/func.inc.php');
+    require(_XE_PATH_.'config/func.inc.php');
 
 
     if(__DEBUG__) define('__StartTime__', getMicroTime());
@@ -120,21 +120,21 @@
      * @TODO : PHP5 기반으로 바꾸게 되면 _autoload()를 이용할 수 있기에 제거 대상
      **/
     if(__DEBUG__) define('__ClassLoadStartTime__', getMicroTime());
-    require_once(_XE_PATH_.'classes/object/Object.class.php');
-    require_once(_XE_PATH_.'classes/extravar/Extravar.class.php');
-    require_once(_XE_PATH_.'classes/handler/Handler.class.php');
-    require_once(_XE_PATH_.'classes/xml/XmlParser.class.php');
-    require_once(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
-    require_once(_XE_PATH_.'classes/context/Context.class.php');
-    require_once(_XE_PATH_.'classes/db/DB.class.php');
-    require_once(_XE_PATH_.'classes/file/FileHandler.class.php');
-    require_once(_XE_PATH_.'classes/widget/WidgetHandler.class.php');
-    require_once(_XE_PATH_.'classes/editor/EditorHandler.class.php');
-    require_once(_XE_PATH_.'classes/module/ModuleObject.class.php');
-    require_once(_XE_PATH_.'classes/module/ModuleHandler.class.php');
-    require_once(_XE_PATH_.'classes/display/DisplayHandler.class.php');
-    require_once(_XE_PATH_.'classes/template/TemplateHandler.class.php');
-    require_once(_XE_PATH_.'classes/mail/Mail.class.php');
-    require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
+    require(_XE_PATH_.'classes/object/Object.class.php');
+    require(_XE_PATH_.'classes/extravar/Extravar.class.php');
+    require(_XE_PATH_.'classes/handler/Handler.class.php');
+    require(_XE_PATH_.'classes/xml/XmlParser.class.php');
+    require(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
+    require(_XE_PATH_.'classes/context/Context.class.php');
+    require(_XE_PATH_.'classes/db/DB.class.php');
+    require(_XE_PATH_.'classes/file/FileHandler.class.php');
+    require(_XE_PATH_.'classes/widget/WidgetHandler.class.php');
+    require(_XE_PATH_.'classes/editor/EditorHandler.class.php');
+    require(_XE_PATH_.'classes/module/ModuleObject.class.php');
+    require(_XE_PATH_.'classes/module/ModuleHandler.class.php');
+    require(_XE_PATH_.'classes/display/DisplayHandler.class.php');
+    require(_XE_PATH_.'classes/template/TemplateHandler.class.php');
+    require(_XE_PATH_.'classes/mail/Mail.class.php');
+    require(_XE_PATH_.'classes/page/PageHandler.class.php');
     if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 ?>
