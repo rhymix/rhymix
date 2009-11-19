@@ -73,7 +73,7 @@
             // db 정보가 없으면 무시
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
 
-            // 접속시도  
+            // 접속시도
 			if($this->port){
 	            $this->fd = mysqli_connect($this->hostname, $this->userid, $this->password, $this->database, $this->port);
 			}else{
@@ -421,22 +421,20 @@
                 $table_list[] = '`'.$this->prefix.$val.'`';
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
 
-				$value_list = array();
                 if($output->column_type[$name]!='number') {
                     $value = "'".$this->addQuotes($value)."'";
                     if(!$value) $value = 'null';
                 } elseif(!$value || is_numeric($value)) $value = (int)$value;
-
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
             }
 
-            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
+            $query = sprintf("insert into %s (%s) values (%s)", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
 
             return $this->_query($query);
         }
@@ -450,7 +448,7 @@
                 $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
             }
 
-            // 컬럼 정리 
+            // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
