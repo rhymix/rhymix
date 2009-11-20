@@ -2,16 +2,16 @@
     /**
      * @file   zh-TW.lang.php
      * @author sol (sol@ngleader.com) 翻譯：royallin
-     * @brief  自動安裝(autoinstall)模組正體中文語言
+     * @brief  自動安裝(autoinstall)模組正體中文語言 
      **/
 
     $lang->autoinstall = '自動安裝';
     $lang->about_autoinstall = '可幫助您安裝/更新XE程式及面板。';
-    $lang->package_update = '最近更新日';
-    $lang->package_downloaded_count = '全部下載';
+    $lang->package_update = '最近更新';
+    $lang->package_downloaded_count = '下載次數';
     $lang->need_update = "需要更新。";
 
-    $lang->order_newest = "最新";
+    $lang->order_newest = "最新發表";
     $lang->order_popular = "熱門";
     $lang->order_download = "下載";
     $lang->success_installed = "安裝成功";
