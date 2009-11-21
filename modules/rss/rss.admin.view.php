@@ -22,11 +22,16 @@
             $oModuleModel = &getModel('module');
             $rss_config = $oModuleModel->getModulePartConfigs('rss');
             $total_config = $oModuleModel->getModuleConfig('rss');
+            $oRssModel = &getModel('rss');
 
             if($rss_config) {
                 foreach($rss_config as $module_srl => $config) {
                     if($config) {
                         $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                        $site = $oModuleModel->getSiteInfo($module_info->site_srl);
+                        if(!strpos($site->domain, '.')) $vid = $site->domain;
+                        else $site = null;
+                        if($site) $feed_config[$module_srl]['url'] = $oRssModel->getModuleFeedUrl($vid, $module_info->mid, 'rss');
                         $feed_config[$module_srl]['mid'] = $module_info->mid;
                         $feed_config[$module_srl]['open_feed'] = $config->open_rss;
                         $feed_config[$module_srl]['open_total_feed'] = $config->open_total_feed;

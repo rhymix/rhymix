@@ -72,7 +72,7 @@
 	  <tbody>
 	  <!--@foreach($feed_config as $module_srl => $config)-->
 	      <tr>
-		        <th>{$config['mid']}</th>
+		        <th><!--@if($config['url'])--><a href="{$config['url']}"><!--@endif-->{$config['mid']}<!--@if($config['url'])--></a><!--@endif--></th>
 		        <td>{$lang->open_rss_types[$config['open_feed']]}</td>
 		        <td><a id="dotogglerss_{$module_srl}" onclick="doToggleRss('{$module_srl}')" <!--@if($config['open_total_feed'] == 'T_N')-->class="buttonSet buttonDisable"><span>{$lang->notuse}<!--@else-->class="buttonSet buttonActive"><span>{$lang->use}<!--@end--></span></a></td>
 	      </tr>
