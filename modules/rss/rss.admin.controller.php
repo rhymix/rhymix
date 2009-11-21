@@ -115,6 +115,30 @@
 
 
         /**
+         * @brief Feed 전체 포함/미포함 체인지
+         **/
+        function procRssAdminToggleActivate() {
+            $oRssModel = &getModel('rss');
+
+            // mid값을 받아옴
+            $module_srl = Context::get('module_srl');
+            if($module_srl) {
+                $config = $oRssModel->getRssModuleConfig($module_srl);
+                if($config->open_total_feed == 'T_N') {
+                    $this->setRssModuleConfig($module_srl, $config->open_rss, 'T_Y', $config->feed_description, $config->feed_copyright);
+                    $this->add("open_total_feed", 'T_Y');
+                }
+                else {
+                    $this->setRssModuleConfig($module_srl, $config->open_rss, 'T_N', $config->feed_description, $config->feed_copyright);
+                    $this->add("open_total_feed", 'T_N');
+                }
+            }
+
+            $this->add("module_srl", $module_srl);
+        }
+
+
+        /**
          * @brief RSS모듈의 전체 Feed 설정용 함수
          **/
         function setFeedConfig($config) {

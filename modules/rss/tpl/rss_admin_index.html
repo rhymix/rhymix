@@ -1,3 +1,4 @@
+<!--%import("js/rss.js")-->
 <h3 class="xeAdmin">{$lang->total_feed} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <!--%import("filter/insert_rss_config.xml")-->
@@ -69,11 +70,11 @@
 	      </tr>
 	  </thead>
 	  <tbody>
-	  <!--@foreach($feed_config as $config)-->
+	  <!--@foreach($feed_config as $module_srl => $config)-->
 	      <tr>
 		        <th>{$config['mid']}</th>
 		        <td>{$lang->open_rss_types[$config['open_feed']]}</td>
-		        <td><!--@if($config['open_total_feed'] == 'T_N')-->{$lang->notuse}<!--@else-->{$lang->use}<!--@end--></td>
+		        <td><a id="dotogglerss_{$module_srl}" onclick="doToggleRss('{$module_srl}')" <!--@if($config['open_total_feed'] == 'T_N')-->class="buttonSet buttonDisable"><span>{$lang->notuse}<!--@else-->class="buttonSet buttonActive"><span>{$lang->use}<!--@end--></span></a></td>
 	      </tr>
     <!--@end-->
     </tbody>

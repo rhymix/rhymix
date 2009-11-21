@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module>
     <grants />
     <permissions />
@@ -6,6 +6,7 @@
         <action name="dispRssAdminIndex" type="view" index="true" standalone="true" admin_index="true" />
         <action name="rss" type="view" standalone="true" />
         <action name="atom" type="view" standalone="true" />
+        <action name="procRssAdminToggleActivate" type="controller" standalone="true" />
         <action name="procRssAdminInsertConfig" type="controller" standalone="true" />
         <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" />
     </actions>
