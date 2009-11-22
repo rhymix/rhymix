@@ -1,22 +1,22 @@
 <?php
     /**
      * @class  rssAdminView
-     * @author misol (misol221@paran.com)
-     * @brief  rss ¸ğµâÀÇ admin view class
+     * @author misol (misol@korea.ac.kr)
+     * @brief  rss ëª¨ë“ˆì˜ admin view class
      **/
 
     class rssAdminView extends rss {
         /**
-         * @brief ÃÊ±âÈ­
+         * @brief ì´ˆê¸°í™”
          **/
         function init() {
-            // ÅÛÇÃ¸´ °æ·Î ÁöÁ¤ 
+            // í…œí”Œë¦¿ ê²½ë¡œ ì§€ì • 
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
 
         /**
-         * @brief °ü¸®ÀÚ ÆäÀÌÁö ÃÊ±âÈ­¸é
+         * @brief ê´€ë¦¬ì í˜ì´ì§€ ì´ˆê¸°í™”ë©´
          **/
         function dispRssAdminIndex() {
             $oModuleModel = &getModel('module');
