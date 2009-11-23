@@ -10,6 +10,7 @@
 </div>
 
 <div class="smartPhoneToolBar">
+    <div class="buttons">
     <!--@if($parent_url)-->
     <a href="{$parent_url}"><img src="./images/btnTop.png" class="smartPhoneBtn" alt="Top" /></a>
     <!--@end-->
@@ -18,4 +19,8 @@
     <!--@if($next_url)--><a href="{$next_url}"><img src="./images/btnNext.png" class="smartPhoneBtn" alt="Next" /></a><!--@end-->
 
     <a href="#" onclick="showXEMenu();"><img src="./images/btnMenu.png" class="smartPhoneBtn" alt="Menu" /></a>
+    </div>
+    <div class="rightbuttons">
+    <a href="#" onclick="setFullBrowse();" class="button blue"><span>Full</span></a>
+    </div>
 </div>
