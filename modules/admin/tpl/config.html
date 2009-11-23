@@ -174,7 +174,7 @@
     <tr>
         <th scope="col" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}</div></th>
         <td>
-            <input type="text" name="ftp_root_path" value="<!--@if($pwd && $pwd!='/')-->{$pwd}<!--@else-->{$ftp_info->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
+            <input type="text" name="ftp_root_path" value="<!--@if($pwd)-->{$pwd}<!--@else-->{$ftp_info->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
         </td>
     </tr>
     <tr id="ftplist">
