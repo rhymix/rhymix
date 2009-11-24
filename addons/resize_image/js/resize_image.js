@@ -121,11 +121,14 @@ function getScreen() {
 			prevbtn.css("visibility", (this.index>0)?"visible":"hidden");
 			nextbtn.css("visibility", (this.index<this.list.size()-1)?"visible":"hidden");
 
-			imgframe.attr("src", this.list.eq(this.index).attr("src"))
-				.css({
-					left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
-					top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
-				});
+            //textyle 이미지 리사이즈 처리
+            var src = this.list.eq(this.index).attr("rawsrc");
+            if(!src) src = this.list.eq(this.index).attr("src");
+
+			imgframe.attr("src", src).css({
+    					left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
+    					top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
+    				});
 		};
 
 		// 스크린을 닫는 상황
