@@ -13,7 +13,7 @@
         var obj= xGetElementById('_'+id);
         var sObj = xGetElementById(id);
         sObj.value = module_srl;
-        obj.value = browser_title+' ('+mid+')';
+        obj.value = decodeURIComponent(browser_title.replace(/\+/g," "))+' ('+mid+')';
     }
 <!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
     var pwd = '{$pwd}';
@@ -53,7 +53,7 @@
         <th scope="row"><div>{$lang->start_module}</div></th>
         <td>
             <input type="hidden" name="index_module_srl" id="target_module" value="{$start_module->index_module_srl}" />
-            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({$start_module->browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({htmlspecialchars($start_module->browser_title)})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
         </td>
     </tr>
 
