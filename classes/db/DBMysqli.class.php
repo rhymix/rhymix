@@ -75,13 +75,13 @@
 
             // 접속시도
 			if($this->port){
-	            $this->fd = mysqli_connect($this->hostname, $this->userid, $this->password, $this->database, $this->port);
+	            $this->fd = @mysqli_connect($this->hostname, $this->userid, $this->password, $this->database, $this->port);
 			}else{
-	            $this->fd = mysqli_connect($this->hostname, $this->userid, $this->password, $this->database);
+	            $this->fd = @mysqli_connect($this->hostname, $this->userid, $this->password, $this->database);
 			}
 			$error = mysqli_connect_errno();
             if($error) {
-                $this->setError($error);
+                $this->setError($error,mysqli_connect_error());
                 return;
             }
 			mysqli_set_charset($this->fd,'utf8');

@@ -220,6 +220,7 @@ EndOfLicense;
 
     $lang->db_desc = array(
         'mysql' => '利用php的 mysql*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。',
+        'mysqli' => '利用php的 mysqli*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。',
         'mysql_innodb' => '利用innodb使用mysql DB。<br />innodb可以使用transaction。',
         'sqlite2' => '支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)',
         'sqlite3_pdo' => '用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。',

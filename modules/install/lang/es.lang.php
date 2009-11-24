@@ -233,6 +233,7 @@ EndOfLicense;
 
     $lang->db_desc = array(
         'mysql' => 'Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.',
+        'mysqli' => 'Utilizando las funciones mysqli*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.',
         'mysql_innodb' => 'Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb',
         'sqlite2' => 'Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)',
         'sqlite3_pdo' => 'A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.',
