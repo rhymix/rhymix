@@ -27,4 +27,5 @@
     $lang->current_version = "安裝版本";
     $lang->description_download = "When FTP is disabled, you should download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)";
     $lang->path = "路徑";
+    $lang->cmd_download = "Download";
 ?>

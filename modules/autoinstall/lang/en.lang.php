@@ -27,4 +27,5 @@
     $lang->description_install = "Installation process also install/update programs which this program depends on";
     $lang->description_download = "When FTP is disabled, you should download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)";
     $lang->path = "Path";
+    $lang->cmd_download = "Download";
 ?>
