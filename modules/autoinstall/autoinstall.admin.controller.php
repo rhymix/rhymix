@@ -40,11 +40,37 @@
             FileHandler::writeFile($this->download_file, $buff);
         }
 
+        function installModule()
+        {
+            $path_array = explode("/", $this->package->path);
+            $target_name = array_pop($path_array);
+            $type = substr(array_pop($path_array), 0, -1);
+            if($type == "module")
+            {
+                $oModuleModel = &getModel('module');
+                $oInstallController = &getController('install');
+                $module_path = ModuleHandler::getModulePath($target_name);
+                if($oModuleModel->checkNeedInstall($target_name))
+                {
+                    $oInstallController->installModule($target_name, $module_path);
+                }
+                if($oModuleModel->checkNeedUpdate($target_name))
+                {
+                    $oModule = &getModule($target_name, 'class');
+                    if(method_exists($oModule, 'moduleUpdate'))
+                    {
+                        $oModule->moduleUpdate();
+                    }
+                }
+            }
+        }
+
         function install()
         {
             $this->_download();
             $file_list = $this->_unPack();
             $this->_copyDir($file_list);
+            $this->installModule();
 
             FileHandler::removeDir($this->temp_dir);
             return;
