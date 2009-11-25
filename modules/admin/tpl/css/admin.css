@@ -202,29 +202,13 @@
 .adminRightExtra { float:left; width:38%; }
 .serverresponse { background: #FFFFFF url(../../../../common/tpl/images/loading.gif) no-repeat scroll 5px 5px; height:30px; padding-left:25px; padding-top:5px;  }
 
-/* TODO : */
-#search_nav {
-	width:154px;
-	border:3px solid #ccc;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-}
-
-#search_nav input {
-	border:0;
-	height:17px;
-	width:134px;
-}
-
-#search_nav button {
-	margin:1px 0;
-	padding:0;
-	border:0;
-	height:15px;
-	width:15px;
-	background:transparent url(../img/buttonSearch.gif) no-repeat;
-}
-
-#search_nav button.close {
-	background-image:url(../img/buttonClose.gif);
-}
+#search_nav { border:3px solid #ccc; margin:0 0 5px 0;}
+#search_nav input { border:0; height:17px; width:128px; padding:3px 0 0 4px; vertical-align:middle;}
+#search_nav button { padding:0; border:0; height:17px; width:17px; background:transparent url(../img/buttonSearch.gif) no-repeat center; vertical-align:middle;}
+#search_nav button.close {background:transparent url(../img/buttonClose.gif) no-repeat center;}
+.e1 .section ._result{ list-style:none; margin:10px 0 0 0; padding:0;}
+.e1 .section ._result li{ margin:0;}
+.e1 .section ._result a{ display:block; color:#767676; padding:4px 5px 4px 10px;}
+.e1 .section ._result a:hover,
+.e1 .section ._result a:active,
+.e1 .section ._result a:focus{ background:#f8f8f8;}
