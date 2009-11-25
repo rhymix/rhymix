@@ -467,8 +467,6 @@
                     $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
-                    $matches = null;
-                    preg_match('/<img[^>]+src="([^"]+)[^>]+>/', $item->description, $matches);
                     $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
