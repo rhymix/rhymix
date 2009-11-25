@@ -552,7 +552,7 @@
                 $obj->sequence = $idx;
                 $obj->parent = $parent;
 
-                $category[$priority] = $obj;
+                $category[$idx] = $obj;
 
                 $this->arrangeCategory($val, $category, $idx, $idx);
             }
