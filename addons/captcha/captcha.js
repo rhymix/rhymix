@@ -25,7 +25,7 @@ var calledArgs = null;
                     });
 
                 $('<div id="captchaBox" style="display:none;*zoom:1;overflow:hidden;height:200px;">'+
-                  '<img src="" id="captcha_image" />'+
+                  '<img src="about:blank" id="captcha_image" />'+
                   '<p style="color:#666;width:250px;padding:0;margin:10px 0 20px 0; " id="captchaAbout">&nbsp;</p>'+
                   '<p style="color:#DDD;width:250px;font-size:15px;padding:0; margin:0 0 10px; font-weight:bold; text-align:center;" id="captchaText">&nbsp;</p>'+
                   '</div>').appendTo(captchaXE);
