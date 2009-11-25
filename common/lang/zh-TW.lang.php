@@ -126,7 +126,7 @@
     $lang->mid = '模組名稱';
     $lang->sid = '網站名稱';
     $lang->layout = '版面';
-    $lang->widget = 'Widget ';
+    $lang->widget = 'Widget';
     $lang->module = '模組';
     $lang->skin = '面板';
     $lang->colorset = '顏色設定';
@@ -298,7 +298,7 @@
     $lang->msg_ftp_connect_success = 'FTP連線成功。';
 
     $lang->ftp_path_title = '請輸入FTP路經';
-    $lang->msg_ftp_installed_realpath = '請輸入安裝XE時的絕對路經';
+    $lang->msg_ftp_installed_realpath = '安裝XE時的絕對路經';
     $lang->msg_ftp_installed_ftp_realpath = '請輸入安裝XE時的FTP絕對路經';
 
 
