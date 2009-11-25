@@ -124,9 +124,12 @@ jQuery(function($){
 				nav.find('li li > a').each(function(){
 					var text = $(this).text();
 
-					if (regex.test(text)) {
+					if (regex.exec(text) != null) {
 						$(this).parent().clone().appendTo(result);
 					}
+
+					// fix regular expression bug
+					regex.exec('');
 				});
 
 				nav.hide();
@@ -147,6 +150,7 @@ jQuery(function($){
 
 		return false;
 	});
+
 });
 
 // logout
