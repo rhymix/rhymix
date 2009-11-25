@@ -63,7 +63,10 @@
                             $buff = '';
                             while (!feof($oExtract->fd)) {
                                 $str = fgets($oExtract->fd, 1024);
-                                if(substr($str,0,strlen('<category>'))=='<category>') $started = true;
+                                if(strstr($str, '<category>')) {
+                                     $started = true;
+                                     $str = strstr($str, '<category>');
+                                }
                                 if(substr($str,0,strlen('<post ')) == '<post ') break;
                                 if ($started) $buff .= $str;
                             }
@@ -80,7 +83,10 @@
                                 $buff = '';
                                 while (!feof($oExtract->fd)) {
                                     $str = fgets($oExtract->fd, 1024);
-                                    if(substr($str,0,strlen('<guestbook>'))=='<guestbook>') $started = true;
+                                    if(strstr($str, '<guestbook>')) {
+                                         $started = true;
+                                         $str = strstr($str, '<category>');
+                                    }
                                     if ($started) {
                                         $pos = strpos($str, '</guestbook>');
                                         if ($pos !== false) {
