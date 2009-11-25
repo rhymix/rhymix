@@ -1,5 +1,9 @@
 var xeSmartMenu = null;
 var xeSmartUpperMenu = null;
+function setFullBrowse() {
+    location.href = current_url.setQuery('full_browse',1);
+}
+
 function showXEMenu() {
     if(!xeSmartMenu) {
 

@@ -36,7 +36,7 @@
     /**
      * @brief 필요한 설정 파일들을 include
      **/
-    require_once('./config/config.inc.php');
+    require('./config/config.inc.php');
 
     /**
      * @brief Context 객체를 생성하여 초기화

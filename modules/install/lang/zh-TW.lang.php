@@ -221,6 +221,7 @@ EndOfLicense;
 
     $lang->db_desc = array(
         'mysql' => '利用PHP的『mysql*()』函數使用MySQL資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。',
+        'mysqli' => '利用PHP的『mysqli*()』函數使用MySQL資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。',
         'mysql_innodb' => '利用『innodb』使用 mysql 資料庫。<br />innodb可以使用 transaction。',
         'sqlite2' => '支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。<br />(尚未通過安全測試)',
         'sqlite3_pdo' => '用 PHP的 PDO支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。',

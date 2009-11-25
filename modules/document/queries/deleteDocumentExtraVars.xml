@@ -7,5 +7,6 @@
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" pipe="and" />
         <condition operation="equal" column="var_idx" var="var_idx" filter="number" pipe="and" />
         <condition operation="equal" column="lang_code" var="lang_code" pipe="and" />
+        <condition operation="equal" column="eid" var="eid" pipe="and" />
     </conditions>
 </query>

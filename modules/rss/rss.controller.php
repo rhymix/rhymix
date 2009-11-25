@@ -37,22 +37,8 @@
             $rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 
             if($rss_config->open_rss != 'N') {
-                if(Context::isAllowRewrite()) {
-                    $request_uri = Context::getRequestUri();
-                    // 가상 사이트 변수가 있고 이 변수가 mid와 다를때. (vid와 mid는 같을 수 없다고 함)
-                    if(Context::get('vid') && Context::get('vid') != Context::get('mid')) {
-                        Context::set('rss_url', Context::getRequestUri().Context::get('vid').'/'.Context::get('mid').'/rss');
-                        Context::set('atom_url', Context::getRequestUri().Context::get('vid').'/'.Context::get('mid').'/atom');
-                    }
-                    else {
-                        Context::set('rss_url', $request_uri.Context::get('mid').'/rss');
-                        Context::set('atom_url', $request_uri.Context::get('mid').'/atom');
-                    }
-                }
-                else {
-                    Context::set('rss_url', getUrl('','mid',Context::get('mid'),'act','rss'));
-                    Context::set('atom_url', getUrl('','mid',Context::get('mid'),'act','atom'));
-                }
+                Context::set('rss_url', $oRssModel->getModuleFeedUrl(Context::get('vid'), Context::get('mid'), 'rss'));
+                Context::set('atom_url', $oRssModel->getModuleFeedUrl(Context::get('vid'), Context::get('mid'), 'atom'));
             }
 
             if(Context::isInstalled() && $site_module_info->mid == Context::get('mid') && $total_config->use_total_feed != 'N') {

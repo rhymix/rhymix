@@ -62,6 +62,7 @@
          * @return none
          **/
         function copyFile($source, $target, $force='Y'){
+            setlocale(LC_CTYPE, 'en_US.UTF8', 'ko_KR.UTF8'); 
             $source = FileHandler::getRealPath($source);
             $target_dir = FileHandler::getRealPath(dirname($target));
             $target = basename($target);

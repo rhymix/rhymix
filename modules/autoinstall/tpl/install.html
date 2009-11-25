@@ -8,14 +8,14 @@
     <dt><strong>{$lang->depending_programs} :</strong></dt>
 		<dd> {$dep->title} ver. {$dep->version} - 
 			<!--@if($dep->installed)-->{$lang->current_version}: {$dep->cur_version} <!--@if($dep->need_update)--> ({$lang->require_update})<!--@end--> <!--@else-->{$lang->require_installation}<!--@end-->
-            <!--@if($dep->need_update || !$dep->installed)--><a href="http://download.xpressengine.com/?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->download}</a> ({$lang->path} : {$dep->path})<!--@end-->
+            <!--@if($show_ftp_note && ($dep->need_update || !$dep->installed))--><a href="http://download.xpressengine.com/?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path} : {$dep->path})<!--@end-->
 		</dd>
 	</dl>
 	<!--@end-->
     <!--@if($show_ftp_note)-->
     <p class="warning">{$lang->description_download}. (<a href="{getUrl('','module','admin','act','dispAdminConfig')}#ftpSetup">FTP Setup</a>) </p>
     <p>{$lang->path} : {$package->path}</p>
-    <p><a href="http://download.xpressengine.com/?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}" class="button large green strong"><span>{$lang->download}</span></a></p>
+    <p><a href="http://download.xpressengine.com/?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}" class="button large green strong"><span>{$lang->cmd_download}</span></a></p>
     <!--@else-->
 	<p>{$lang->description_install}. </p>
 	<p><!--@if(!$package->installed || $package->need_update)--><a href="#" onclick="doInstallPackage('{$package->package_srl}')" class="button large green strong"><span>{$lang->install}</span></a><!--@end--></p>

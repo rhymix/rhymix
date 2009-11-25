@@ -63,7 +63,10 @@
                             $buff = '';
                             while (!feof($oExtract->fd)) {
                                 $str = fgets($oExtract->fd, 1024);
-                                if(substr($str,0,strlen('<category>'))=='<category>') $started = true;
+                                if(strstr($str, '<category>')) {
+                                     $started = true;
+                                     $str = strstr($str, '<category>');
+                                }
                                 if(substr($str,0,strlen('<post ')) == '<post ') break;
                                 if ($started) $buff .= $str;
                             }
@@ -80,7 +83,10 @@
                                 $buff = '';
                                 while (!feof($oExtract->fd)) {
                                     $str = fgets($oExtract->fd, 1024);
-                                    if(substr($str,0,strlen('<guestbook>'))=='<guestbook>') $started = true;
+                                    if(strstr($str, '<guestbook>')) {
+                                         $started = true;
+                                         $str = strstr($str, '<guestbook>');
+                                    }
                                     if ($started) {
                                         $pos = strpos($str, '</guestbook>');
                                         if ($pos !== false) {
@@ -93,7 +99,6 @@
                                 $oExtract->closeFile();
                                 $guestbook_filename = sprintf('%s/%s', $oExtract->cache_path, 'guestbook.xml');
                                 FileHandler::writeFile($guestbook_filename, $buff);
-
 
                                 // 개별 아이템 구함
                                 $output = $oExtract->set($xml_file,'<blog', '</blog>', '<post ', '</post>');
@@ -145,7 +150,8 @@
             $target_module = Context::get('target_module');
             $guestbook_target_module = Context::get('guestbook_target_module');
             $this->unit_count = Context::get('unit_count');
-            
+
+
             // index파일이 있는지 확인
             $index_file = './files/cache/importer/'.$key.'/index';
             if(!file_exists($index_file)) return new Object(-1, 'msg_invalid_xml_file');
@@ -154,9 +160,12 @@
                 case 'ttxml' :
                         if(!$target_module) return new Object(-1,'msg_invalid_request');
 
+						$oModuleModel = &getModel('module');
+						$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module);
+
                         require_once('./modules/importer/ttimport.class.php');
                         $oTT = new ttimport();
-                        $cur = $oTT->importModule($key, $cur, $index_file, $this->unit_count, $target_module, $guestbook_target_module, $user_id);
+                        $cur = $oTT->importModule($key, $cur, $index_file, $this->unit_count, $target_module, $guestbook_target_module, $user_id, $target_module_info->module);
                     break;
                 case 'message' :
                         $cur = $this->importMessage($key, $cur, $index_file);

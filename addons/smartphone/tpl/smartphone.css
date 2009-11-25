@@ -22,6 +22,16 @@ body {
     -webkit-box-sizing: border-box;
 }
 
+.smartPhoneToolBar .buttons
+{
+    float: left;
+}
+
+.smartPhoneToolBar .rightbuttons
+{
+    float: right; margin-right:5px; margin-top:5px;
+}
+
 .smartPhoneTitleBar h1 {
     white-space:nowrap;
     overflow: hidden;
@@ -186,4 +196,5 @@ body {
     margin-top:2px;
     letter-spacing:0px;
 }
+
 

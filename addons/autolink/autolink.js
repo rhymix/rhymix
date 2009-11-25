@@ -31,6 +31,7 @@
 		},
 		API_AUTOLINK : function(oSender, params) {
 			var textNode = params[0];
+			if(!$(textNode).parent().length || $(textNode).parent().get(0).nodeName.toLowerCase() == 'a') return;
 			var content  = textNode.nodeValue;
 			var dummy    = $('<span>');
 
@@ -44,20 +45,31 @@
 		},
 		extractTargets : function(obj) {
 			var thisPlugin = this;
+			var wrap = $('.xe_content', obj);
+			if(wrap.length) {
+				this.extractTargets(wrap);
+				return;
+			}
 
 			$(obj)
 			.contents()
 			.each(function(){
+				var node_name = this.nodeName.toLowerCase();
+				if($.inArray(node_name, ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style', 'iframe', 'button', 'img', 'embed', 'object', 'ins']) != -1) return;
+
 				// FIX ME : When this meanless code wasn't executed, url_regex do not run correctly. why?
 				url_regex.exec('');
 
-				if (!$(this).is('a,pre,xml,code,script,style,:input')) {
-					if (this.nodeType == 3 && url_regex.test(this.nodeValue)) { // text node
-						thisPlugin.targets.push(this);
-					} else {
-						
-						thisPlugin.extractTargets(this);
-					}
+				if(this.nodeType == 3) { // text node
+					var content = this.nodeValue;
+
+					if(content.length < 5) return;
+
+					if(!/(http|https|ftp|news|telnet|irc):\/\//i.test(content)) return;
+
+					thisPlugin.targets.push(this);
+				} else {
+					thisPlugin.extractTargets(this);
 				}
 			});
 		}

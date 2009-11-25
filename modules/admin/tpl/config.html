@@ -6,14 +6,21 @@
 <!--%import("./filter/install_ftp_path.xml")-->
 <!--%import("../../install/lang")-->
 <!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
+<!--%import("./js/config.js")-->
 
 <script type="text/javascript">
     function insertSelectedModule(id, module_srl, mid, browser_title) {
         var obj= xGetElementById('_'+id);
         var sObj = xGetElementById(id);
         sObj.value = module_srl;
-        obj.value = browser_title+' ('+mid+')';
+        obj.value = decodeURIComponent(browser_title.replace(/\+/g," "))+' ('+mid+')';
     }
+<!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
+    var pwd = '{$pwd}';
+    params = new Array();
+    params['pwd'] = pwd; 
+    exec_xml('admin','getAdminFTPList', params, completeGetFtpInfo, new Array('list','error','message'));
+<!--@end-->
 </script>
 
 <div class="content">
@@ -46,7 +53,7 @@
         <th scope="row"><div>{$lang->start_module}</div></th>
         <td>
             <input type="hidden" name="index_module_srl" id="target_module" value="{$start_module->index_module_srl}" />
-            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({$start_module->browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({htmlspecialchars($start_module->browser_title)})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
         </td>
     </tr>
 
@@ -120,22 +127,30 @@
     </table>
     </form>
 
-    <h4 class="xeAdmin">{$lang->ftp_form_title}</h4>
+    <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_form_title}</h4>
     <p class="summary">{$lang->about_ftp_info}</p>
     <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
+    {@ $nCols = 3; }
     <table cellspacing="0" class="rowTable">
     <tr>
         <th><div><label for="textfield21">{$lang->user_id}</label></div></th>
         <th><div><label for="textfield22">{$lang->password}</label></div></th>
         <th><div><label for="textfield24">{$lang->ftp_port}</label></div></th>
+        <!--@if($sftp_support)-->
+        {@ $nCols += 1; }
+        <th><div><label for="checkbox25">{$lang->sftp}</label></div></th>
+        <!--@end-->
     </tr>
     <tr>
         <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" /></td>
         <td><input id="textfield22" type="password" name="ftp_password" value="{$ftp_info->ftp_password}" class="inputTypeText" /></td>
         <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
+        <!--@if($sftp_support)-->
+        <td><input type="checkbox" id="checkbox25" name="sftp" value="Y" <!--@if($ftp_info->sftp=="Y")-->checked="checked"<!--@end--> /></td>
+        <!--@end-->
     </tr>
     <tr>
-        <th colspan="3" class="button">
+        <th colspan="{$nCols}" class="button">
             <span class="button blue"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
             <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </th>
@@ -143,11 +158,12 @@
     </table>
     </form>
 <!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
-    <h4 class="xeAdmin" id="ftp_setup">{$lang->ftp_path_title}</h4>
+    <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_path_title}</h4>
     <form action="./" method="get" onsubmit="return procFilter(this, install_ftp_path)">
     <input type="hidden" name="ftp_user" value="{$ftp_info->ftp_user}" />
     <input type="hidden" name="ftp_password" value="{$ftp_info->ftp_password}" />
     <input type="hidden" name="ftp_port" value="{$ftp_info->ftp_port}" />
+    <input type="hidden" name="sftp" value="{$ftp_info->sftp}" />
 
     <table cellspacing="0" class="rowTable">
     <tr>
@@ -158,20 +174,14 @@
     <tr>
         <th scope="col" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}</div></th>
         <td>
-            <input type="text" name="ftp_root_path" value="<!--@if($pwd && $pwd!='/')-->{$pwd}<!--@else-->{$ftp_info->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
+            <input type="text" name="ftp_root_path" value="<!--@if($pwd)-->{$pwd}<!--@else-->{$ftp_info->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
         </td>
     </tr>
-    <tr>
+    <tr id="ftplist">
         <td>
-        <!--@if($list)-->
-                <ul>
-        <!--@foreach($list as $k => $v)-->
-            <!--@if($v)-->
-                    <li> <a href="{getUrl('pwd',$pwd.$v)}#ftp_setup">{$v}</a></li>
-            <!--@end-->
-        <!--@end-->
-                </ul>
-        <!--@end-->
+            <div class="serverresponse">
+            Waiting to load information
+            </div>
         </td>
     </tr>
     <tr class="row2">

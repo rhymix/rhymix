@@ -196,6 +196,11 @@ function editorGetContentTextarea_xe(editor_sequence) {
 	// 파이어폭스의 경우 의미없는 <br>이 컨텐트 마지막에 추가될 수 있다.
 	str = str.replace(/<br ?\/?>$/i, '');
 
+	// 이미지 경로를 수정한다. - 20091125
+	str = str.replace(/src\s?=\s?(["']?)(?:\.\.\/)+(files\/attach\/)/ig, function(m0,m1,m2){
+		return 'src='+(m1||'')+m2;
+	});
+
     return str;
 }
 

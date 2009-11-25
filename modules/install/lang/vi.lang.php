@@ -137,6 +137,7 @@ EndOfLicense;
 
     $lang->db_desc = array(
         'mysql' => 'Dùng chức năng <b>mysql*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.',
+        'mysqli' => 'Dùng chức năng <b>mysqli*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.',
         'mysql_innodb' => 'Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb',
         'sqlite2' => 'Hỗ trợ <b>sqlite2</b> khi lưu Database thành File.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.<br />(Không khẳng định sẽ hoạt động ổn định)',
         'sqlite3_pdo' => 'Hỗ trợ <b>sqlite3</b> bởi PDO của PHP.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.',

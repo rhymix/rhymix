@@ -5,5 +5,6 @@
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
         <condition operation="equal" column="group_srl" var="group_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="site_srl" var="site_srl" filter="number" pipe="and" />
     </conditions>
 </query>

@@ -391,6 +391,33 @@
             return $body;
         }
 
+        function _getSummary($content, $str_size = 50)
+        {
+            $content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
+
+            // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
+            $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
+
+            // 태그 제거
+            $content = preg_replace('!<([^>]*?)>!is','', $content);
+
+            // < , > , " 를 치환
+            $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
+
+            // 연속된 공백문자 삭제
+            $content = preg_replace('/ ( +)/is', ' ', $content);
+
+            // 문자열을 자름
+            $content = trim(cut_str($content, $str_size, $tail));
+
+            // >, <, "를 다시 복구
+            $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
+
+            // 영문이 연결될 경우 개행이 안 되는 문제를 해결
+            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
+            return $content; 
+        }
+
 
        /**
          * @brief rss 주소로 부터 내용을 받아오는 함수
@@ -440,7 +467,7 @@
                     $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
-                    $content_item->setContent($item->description);
+                    $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -474,7 +501,7 @@
                     $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
                     //$content_item->setCategory($item->category);
                     $item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
-                    $content_item->setContent($item->description);
+                    $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->pubdate,$item->pubDate,$item->{'dc:date'})));
                     $content_item->setRegdate($date);
@@ -541,7 +568,7 @@
                             if(!preg_match("/html/i", $value->summary->attrs->type)) $item->description = htmlspecialchars($item->description);
                         }
                     }
-                    $content_item->setContent($item->description);
+                    $content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
                     $content_item->setLink($item->link);
                     $date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
                     $content_item->setRegdate($date);

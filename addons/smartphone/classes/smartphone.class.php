@@ -11,7 +11,12 @@
         var $content = null;
 
         function isFromSmartPhone() {
-           return Context::get('smartphone') || preg_match('/(iPod|iPhone|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
+            if(Context::get('full_browse') || $_COOKIE["FullBrowse"])
+            {
+                return false;
+            }
+            
+            return Context::get('smartphone') || preg_match('/(iPod|iPhone|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
         }
 
         function haveSmartphoneModule($module) {

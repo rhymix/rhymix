@@ -51,7 +51,7 @@
             if(!$module_srl) $this->module_srl = (int)Context::get('module_srl');
             else $this->module_srl = (int)$module_srl;
 
-            $this->entry = Context::get('entry');
+            $this->entry = Context::convertEncodingStr(Context::get('entry'));
 
             // Validate variables to prevent XSS
             if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));

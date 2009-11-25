@@ -80,4 +80,5 @@
     $lang->about_server_ports = "Nếu Host của bạn sử dụng cổng khác cổng mặc định 80 cho HTTP, 443 cho HTTPS, bạn nên xác định và nhập chính xác cổng kết nối.";
     $lang->use_db_session = 'Xác nhận Database';
     $lang->about_db_session = 'PHP sẽ xác nhận với Database. Có thể cải thiện được tốc độ của Website.';
+    $lang->sftp = "Use SFTP";
 ?>

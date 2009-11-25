@@ -9,6 +9,25 @@
      **/
 
     class rssModel extends rss {
+        /**
+         * @brief Feed url 생성.
+         **/
+        function getModuleFeedUrl($vid = null, $mid, $format) {
+            if(Context::isAllowRewrite()) {
+                $request_uri = Context::getRequestUri();
+                // 가상 사이트 변수가 있고 이 변수가 mid와 다를때. (vid와 mid는 같을 수 없다고 함)
+                if($vid && $vid != $mid) {
+                    return $request_uri.$vid.'/'.$mid.'/'.$format;
+                }
+                else {
+                    return $request_uri.$mid.'/'.$format;
+                }
+            }
+            else {
+                return getUrl('','mid',$mid,'act',$format);
+            }
+        }
+
 
         /**
          * @brief 특정 모듈의 rss 설정을 return

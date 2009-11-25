@@ -14,11 +14,6 @@
         var $url;
         var $download_path;
 
-        function ModuleInstaller(&$package)
-        {
-            $this->package =& $package;
-        }
-
         function _download()
         {
             if($this->package->path == ".")
@@ -45,11 +40,37 @@
             FileHandler::writeFile($this->download_file, $buff);
         }
 
+        function installModule()
+        {
+            $path_array = explode("/", $this->package->path);
+            $target_name = array_pop($path_array);
+            $type = substr(array_pop($path_array), 0, -1);
+            if($type == "module")
+            {
+                $oModuleModel = &getModel('module');
+                $oInstallController = &getController('install');
+                $module_path = ModuleHandler::getModulePath($target_name);
+                if($oModuleModel->checkNeedInstall($target_name))
+                {
+                    $oInstallController->installModule($target_name, $module_path);
+                }
+                if($oModuleModel->checkNeedUpdate($target_name))
+                {
+                    $oModule = &getModule($target_name, 'class');
+                    if(method_exists($oModule, 'moduleUpdate'))
+                    {
+                        $oModule->moduleUpdate();
+                    }
+                }
+            }
+        }
+
         function install()
         {
             $this->_download();
             $file_list = $this->_unPack();
             $this->_copyDir($file_list);
+            $this->installModule();
 
             FileHandler::removeDir($this->temp_dir);
             return;
@@ -70,6 +91,53 @@
             return $file_list;
 		}
 
+    }
+
+    class SFTPModuleInstaller extends ModuleInstaller {
+        function SFTPModuleInstaller(&$package)
+        {
+            $this->package =& $package;
+        }
+
+        function _copyDir(&$file_list){
+            $ftp_info =  Context::getFTPInfo();
+            if(!$ftp_info->ftp_user || !$ftp_info->ftp_password || !$ftp_info->sftp || $ftp_info->sftp != 'Y') return new Object(-1,'msg_ftp_invalid_auth_info');
+
+            $connection = ssh2_connect('localhost', $ftp_info->ftp_port);
+            if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
+            {
+                return new Object(-1,'msg_ftp_invalid_auth_info');
+            }
+
+            $sftp = ssh2_sftp($connection);
+
+            $target_dir = $ftp_info->ftp_root_path.$this->target_path;
+
+            foreach($file_list as $k => $file){
+                $org_file = $file;
+                if($this->package->path == ".") 
+                {
+                    $file = substr($file,3);
+                }
+                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
+                $pathname = dirname($target_dir."/".$file);
+
+                if(!file_exists(FileHandler::getRealPath($real_path)))
+                {
+                    ssh2_sftp_mkdir($sftp, $pathname, 0755, true);
+                }
+
+                ssh2_scp_send($connection, FileHandler::getRealPath($this->download_path."/".$org_file), $target_dir."/".$file);
+            } 
+        }
+    }
+
+    class FTPModuleInstaller extends ModuleInstaller {
+        function FTPModuleInstaller(&$package)
+        {
+            $this->package =& $package;
+        }
+
 		function _copyDir(&$file_list){
             $ftp_info =  Context::getFTPInfo();
             if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_ftp_invalid_auth_info');
@@ -83,7 +151,7 @@
                 return new Object(-1,'msg_ftp_invalid_auth_info');
             }
 
-            $_list = $oFtp->ftp_rawlist($ftp_config->ftp_root_path);
+            $_list = $oFtp->ftp_rawlist($ftp_info->ftp_root_path);
             if(count($_list) == 0 || !$_list[0]) {
                 $oFtp->ftp_quit();
                 $oFtp = new ftp();
@@ -94,8 +162,7 @@
                 }
             }
 
-            $ftp_config = Context::getFTPInfo();
-            $target_dir = $ftp_config->ftp_root_path.$this->target_path;
+            $target_dir = $ftp_info->ftp_root_path.$this->target_path;
 
             foreach($file_list as $k => $file){
                 $org_file = $file;
@@ -107,7 +174,7 @@
                 $path_list = explode('/', dirname($this->target_path."/".$file));
 
                 $real_path = "./";
-                $ftp_path = $ftp_config->ftp_root_path;
+                $ftp_path = $ftp_info->ftp_root_path;
 
                 for($i=0;$i<count($path_list);$i++)
                 {
@@ -126,7 +193,6 @@
 
             return new Object();
 		}
-
     }
 
     class autoinstallAdminController extends autoinstall {
@@ -236,10 +302,18 @@
             $package_srls = Context::get('package_srl');
             $oModel =& getModel('autoinstall');
             $packages = explode(',', $package_srls);
+            $ftp_info =  Context::getFTPInfo();
             foreach($packages as $package_srl)
             {
                 $package = $oModel->getPackage($package_srl);
-                $oModuleInstaller = new ModuleInstaller($package);
+                if($ftp_info->sftp && $ftp_info->sftp == 'Y')
+                {
+                    $oModuleInstaller = new SFTPModuleInstaller($package);
+                }
+                else
+                {
+                    $oModuleInstaller = new FTPModuleInstaller($package);
+                }
                 $oModuleInstaller->install();
             }
             $this->setMessage('success_installed');

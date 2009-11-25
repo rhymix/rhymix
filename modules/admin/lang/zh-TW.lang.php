@@ -35,7 +35,7 @@
     $lang->current_version = "安裝版本";
     $lang->current_path = "安裝路徑";
     $lang->released_version = "最新版本";
-    $lang->about_download_link = "官方網站已發佈新版本。\n請按[下載]下載最新版本。";
+    $lang->about_download_link = "官方網站已發佈最新版本。\n請按[下載]下載最新版本。";
 
     $lang->item_module = "模組列表";
     $lang->item_addon  = "元件列表";
@@ -79,4 +79,5 @@
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
     $lang->use_db_session = 'DB session認證';
     $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
+    $lang->sftp = "使用 SFTP";
 ?>

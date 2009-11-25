@@ -26,6 +26,10 @@
 	<div class="body">
 		<div class="extension e1">
 			<div class="section">
+				<div id="search_nav">
+					<input type="text" size="12" />
+					<button type="button"></button>
+				</div>
 				<ul class="navigation">
                     <!--@foreach($lang->module_category_title as $key => $val)-->
 					<li id="module_{$key}" class="<!--@if($selected_module_category == $key)-->open<!--@end-->"><a href="#"  onclick="toggleModuleMenu('{$key}'); return false;">{$val}</a>

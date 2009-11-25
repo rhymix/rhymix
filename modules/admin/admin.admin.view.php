@@ -78,6 +78,10 @@
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
             Context::setBrowserTitle("XE Admin Page");
+
+			// add javascript tooltip plugin - gony
+			Context::loadJavascriptPlugin('qtip');
+			Context::loadJavascriptPlugin('watchinput');
         }
 
         /**
@@ -254,6 +258,8 @@
         function dispAdminConfig() {
             $db_info = Context::getDBInfo();
 
+            Context::set('sftp_support', function_exists(ssh2_sftp));
+
             Context::set('selected_lang', $db_info->lang_type);
 
             Context::set('default_url', $db_info->default_url);
@@ -261,43 +267,26 @@
             Context::set('langs', Context::loadLangSupported());
 
             Context::set('lang_selected', Context::loadLangSelected());
-
-            Context::set('ftp_info', Context::getFTPInfo());
+            
+            $ftp_info = Context::getFTPInfo();
+            Context::set('ftp_info', $ftp_info);
 
             $site_args->site_srl = 0;
             $output = executeQuery('module.getSiteInfo', $site_args);
             Context::set('start_module', $output->data);
 
             $pwd = Context::get('pwd');
-            if(!$pwd) $pwd = '/';
-            Context::set('pwd',$pwd);
-            require_once(_XE_PATH_.'libs/ftp.class.php');
-
-            $ftp_info =  Context::getFTPInfo();
-            $oFtp = new ftp();
-            if($oFtp->ftp_connect('localhost', $ftp_info->ftp_port)){
-				if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-					$_list = $oFtp->ftp_rawlist($pwd);
-					$oFtp->ftp_quit();
-				}
-			}
-            $list = array();
-            if(count($_list) == 0 || !$_list[0]) {
-                $oFtp = new ftp();
-                if($oFtp->ftp_connect($_SERVER['SERVER_NAME'], $ftp_info->ftp_port)){
-					if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-						$_list = $oFtp->ftp_rawlist($pwd);
-						$oFtp->ftp_quit();
-					}
-				}
-            }
-			if($_list){
-                foreach($_list as $k => $v){
-                    if(strpos($v,'d') === 0) $list[] = substr(strrchr($v,' '),1) . '/';
+            if(!$pwd) {
+                if($ftp_info->sftp == 'Y')
+                {
+                    $pwd = _XE_PATH_;
+                }
+                else
+                {
+                    $pwd = '/';
                 }
             }
-
-            Context::set('list',$list);
+            Context::set('pwd',$pwd);
             Context::set('layout','none');
             $this->setTemplateFile('config');
         }

@@ -14,6 +14,10 @@
         XE默认样式。
         主题显示及编辑不会受到任何影响，即原样输出。
     </description>
+    <description xml:lang="zh-TW">
+        XE預設樣式。
+        主題顯示和編輯不會受到影響。
+    </description>
     <description xml:lang="jp">
         XEの基本ドキュメント書式です。
         そのまま表示されるだけで、編集・出力には影響しません。
@@ -29,7 +33,8 @@
     <date>2009-05-23</date>
     <author email_address="webmaster@naradesign.net" link="http://naradesign.net">
         <name xml:lang="ko">정찬명</name>
-	<name xml:lang="zh-CN">Chan-Myung Jeong</name>
+		<name xml:lang="zh-CN">Chan-Myung Jeong</name>
+		<name xml:lang="zh-TW">Chan-Myung Jeong</name>
         <name xml:lang="jp">Chan-Myung Jeong</name>
         <name xml:lang="en">Chan-Myung Jeong</name>
         <name xml:lang="vi">Chan-Myung Jeong</name>

@@ -27,4 +27,5 @@
     $lang->description_install = "Quá trình Cài đặt / Cập nhật này phụ thuộc vào ";
     $lang->description_download = "Khi FTP không được mở, bạn nên tải về và giả nén, sau đó Upload theo đường dẫn. (Nếu đường dẫn là ./modules/board, thì giải nén vào ./modules)";
     $lang->path = "Đường dẫn";
+    $lang->cmd_download = "Download";
 ?>

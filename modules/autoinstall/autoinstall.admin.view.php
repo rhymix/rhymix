@@ -97,10 +97,10 @@
                         }
                         else {
                             $package->depends[$key]->installed = true;
-                            $package->depends[$key]->cur_version = $packages[$dep->package_srl]->version;
-                            if(version_compare($dep->version, $packages[$dep->package_srl]->version, ">"))
+                            $package->depends[$key]->cur_version = $packages[$dep->package_srl]->current_version;
+                            if(version_compare($dep->version, $packages[$dep->package_srl]->current_version, ">"))
                             {
-                                $package->need_update = true;
+                                $package->depends[$key]->need_update = true;
                                 $package->package_srl .= ",". $dep->package_srl;
                             }
                             else
