@@ -621,7 +621,7 @@
             if(!is_null($document_srl)) $obj->document_srl = $document_srl;
             if(!is_null($var_idx)) $obj->var_idx = $var_idx;
             if(!is_null($lang_code)) $obj->lang_code = $lang_code;
-            if(!is_null($eid)) $obj->lang_code = $eid;
+            if(!is_null($eid)) $obj->eid = $eid;
             $output = executeQuery('document.deleteDocumentExtraVars', $obj);
             return $output;
         }
