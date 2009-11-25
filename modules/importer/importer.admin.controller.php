@@ -85,7 +85,7 @@
                                     $str = fgets($oExtract->fd, 1024);
                                     if(strstr($str, '<guestbook>')) {
                                          $started = true;
-                                         $str = strstr($str, '<category>');
+                                         $str = strstr($str, '<guestbook>');
                                     }
                                     if ($started) {
                                         $pos = strpos($str, '</guestbook>');
