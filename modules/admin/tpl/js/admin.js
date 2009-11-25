@@ -31,7 +31,7 @@ function toggleModuleAddon(target) {
     }
 }
 
-// 언어 목록 toggle
+// toggle language list
 function toggleAdminLang() {
     var obj = xGetElementById("adminLang");
     if(!obj) return;
@@ -39,14 +39,117 @@ function toggleAdminLang() {
     else obj.style.display = 'block';
 }
 
+// string to regex(초성검색용)
+function str2regex(str) {
+	// control chars
+	str = str.replace(/([\[\]\{\}\(\)\*\-\+\!\?\^\|\\])/g, '\\$1');
 
-jQuery(function(){
+	// find consonants and replace it
+	str = str.replace(/[ㄱ-ㅎ]/g, function(c){
+		var c_order = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'.indexOf(c);
+		var ch_first = String.fromCharCode(0xAC00 + c_order*21*28 + 0 + 0);
+		var ch_last  = String.fromCharCode(0xAC00 + c_order*21*28 + 20*28 + 27);
+
+		return '['+ch_first+'-'+ch_last+']';
+	});
+
+	return new RegExp(str, 'ig');
+}
+
+jQuery(function($){
+	// paint table rows
     jQuery("table.rowTable tr").attr('class','').filter(":nth-child(even)").attr('class','bg1');
+
+	// set menu tooltip - taggon
+	$('ul.navigation:first > li').each(function(){
+		var texts = [];
+		$(this).find('li').each(function(){
+			texts.push($(this).text());
+		});
+
+		if (!texts.length) return true;
+
+		$(this).find('>a').qtip({
+			content : texts.join(', '),
+			position : {
+				corner : {
+					target:'rightMiddle',
+					tooltip:'leftMiddle'
+				},
+				adjust : {
+					x : -30
+				}
+			},
+			style : {
+				name : 'cream',
+				tip : true,
+				textAlign : 'center',
+				padding : 5,
+				border : {
+					radius : 2
+				}
+			}
+		});
+	});
+
+	// menu search
+	var nav = $('#search_nav + ul.navigation');
+	var inp = $('#search_nav input[type=text]:first');
+	var btn = $('#search_nav button:first');
+	var result = $('<ul class="_result" />');
+
+	nav.after( result.hide() );
+
+	inp.keydown(function(event){
+			if (event.keyCode == 27) { // ESC
+				$(this).val('');
+				if ($.browser.msie) $(this).keypress();
+			}
+		})
+		.watch_input({
+			oninput : function() {
+				var str = $.trim( $(this).val() );
+
+				if (str.length == 0) {
+					nav.show();
+					result.hide();
+					btn.removeClass('close');
+					return false;
+				}
+
+				// remove all sub nodes
+				result.empty();
+
+				var regex = str2regex(str);
+				nav.find('li li > a').each(function(){
+					var text = $(this).text();
+
+					if (regex.test(text)) {
+						$(this).parent().clone().appendTo(result);
+					}
+				});
+
+				nav.hide();
+				result.show();
+				btn.addClass('close');
+			}
+		});
+
+	// cancel search
+	btn.click(function(){
+		if ($(this).hasClass('close')) {
+			$(this).removeClass('close');
+
+			inp.focus();
+			inp.val('');
+			inp.keydown();
+		} 
+
+		return false;
+	});
 });
 
-
-// 로그아웃
+// logout
 function doAdminLogout() {
     exec_xml('admin','procAdminLogout',new Array(), function() { location.reload(); });
 }
-
