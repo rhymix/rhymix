@@ -78,6 +78,10 @@
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
             Context::setBrowserTitle("XE Admin Page");
+
+			// add javascript tooltip plugin - gony
+			Context::loadJavascriptPlugin('qtip');
+			Context::loadJavascriptPlugin('watchinput');
         }
 
         /**
