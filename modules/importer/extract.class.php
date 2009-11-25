@@ -153,6 +153,7 @@
                 $startPos = strpos($this->buff, $this->itemStartTag);
                 if($startPos !== false) {
                     $this->buff = substr($this->buff, $startPos);
+					$this->buff = preg_replace("/\>/",">\r\n",$this->buff,1);
                     break;
                 } elseif($this->endTag) {
                     $endPos = strpos($this->buff, $this->endTag);

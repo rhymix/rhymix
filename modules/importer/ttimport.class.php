@@ -15,7 +15,7 @@
         /**
          * @brief module.xml 형식의 데이터 import
          **/
-        function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id) {
+        function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id, $module_name=null) {
             // 필요한 객체 미리 생성
             $this->oXmlParser = new XmlParser();
 
@@ -62,77 +62,8 @@
             // 관리자 정보를 구함
             $oMemberModel = &getModel('member');
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
-
-            // 방명록 정보를 입력함
-            $guestbook_file = preg_replace('/index$/i', 'guestbook.xml', $index_file);
-            if (file_exists($guestbook_file)) {
-                // xmlParser객체 생성
-                $xmlDoc = $this->oXmlParser->loadXmlFile($guestbook_file);
-
-                // 방명록 정보를 처리
-                if($guestbook_module_srl && $xmlDoc->guestbook->comment) {
-                    $comment = $xmlDoc->guestbook->comment;
-                    if(!is_array($comment)) $comment = array($comment);
-                    foreach($comment as $key => $val) {
-                        $obj = null;
-                        $obj->module_srl = $guestbook_module_srl;
-                        $obj->document_srl = getNextSequence();
-                        $obj->uploaded_count = 0;
-                        $obj->is_notice = 'N';
-                        $obj->is_secret = $val->secret->body=='1'?'Y':'N';
-                        $obj->content = nl2br($val->content->body);
-
-
-                        // 본문에서 제목 추출
-                        $obj->title = cut_str(strip_tags($obj->content),20,'...');
-                        if ($obj->title == '') $obj->title = 'Untitled';
-
-                        $obj->allow_comment = 'Y';
-                        $obj->allow_trackback = 'N';
-                        $obj->regdate = date("YmdHis",$val->written->body);
-                        $obj->last_update = date("YmdHis", $val->written->body);
-                        if(!$obj->last_update) $obj->last_update = $obj->regdate;
-                        $obj->tags = '';
-                        $obj->readed_count = 0;
-                        $obj->voted_count = 0;
-                        if ($val->commenter->attrs->id) {
-                            $obj->password = '';
-                            $obj->nick_name = $member_info->nick_name;
-                            $obj->user_name = $member_info->user_name;
-                            $obj->user_id = $member_info->user_id;
-                            $obj->member_srl = $member_info->member_srl;
-                            $obj->email_address = $member_info->email_address;
-                            $obj->homepage = $member_info->homepage;
-                        }
-                        else {
-                            $obj->password = $val->password->body;
-                            $obj->nick_name = $val->commenter->name->body;
-                            $obj->member_srl = 0;
-                            $homepage = $val->commenter->homepage->body;
-                        }
-                        $obj->ipaddress = $val->commenter->ip->body;
-                        $obj->list_order = $obj->update_order = $obj->document_srl*-1;
-                        $obj->lock_comment = 'N';
-                        $obj->notify_message = 'N';
-                        $obj->trackback_count = 0;
-
-                        $obj->comment_count = 0;
-                        if($val->comment) {
-                            $child_comment = $val->comment;
-                            if(!is_array($child_comment)) $child_comment = array($child_comment);
-                            foreach($child_comment as $k => $v) {
-                                $result = $this->insertComment($v, $module_srl, $obj->document_srl, $member_info, 0);
-                                if($result !== false) $obj->comment_count++;
-                            }
-                        }
-                        
-                        // 문서 입력
-                        $output = executeQuery('document.insertDocument', $obj);
-                    }
-                }
-                FileHandler::removeFile($guestbook_file);
-            }
-           
+			$author_xml_id = 0;
+          
             if(!$cur) $cur = 0;
 
             // index파일을 염
@@ -183,7 +114,9 @@
                 }
 
                 $xmlDoc = $this->oXmlParser->parse('<post>'.$buff);
-                
+               
+				$author_xml_id = $xmlDoc->post->author->body;
+
                 if($xmlDoc->post->category->body) {
                     $tmp_arr = explode('/',$xmlDoc->post->category->body);
                     $category = trim($tmp_arr[count($tmp_arr)-1]);
@@ -270,7 +203,7 @@
                     $comment = $xmlDoc->post->comment;
                     if(!is_array($comment)) $comment = array($comment);
                     foreach($comment as $key => $val) {
-                        $parent_srl = $this->insertComment($val, $module_srl, $obj->document_srl, $member_info, 0);
+                        $parent_srl = $this->insertComment($val, $module_srl, $obj->document_srl, $member_info, 0, $author_xml_id);
                         if($parent_srl === false) continue;
 
                         $obj->comment_count++;
@@ -278,7 +211,7 @@
                             $child_comment = $val->comment;
                             if(!is_array($child_comment)) $child_comment = array($child_comment);
                             foreach($child_comment as $k => $v) {
-                                $result = $this->insertComment($v, $module_srl, $obj->document_srl, $member_info, $parent_srl);
+                                $result = $this->insertComment($v, $module_srl, $obj->document_srl, $member_info, $parent_srl, $author_xml_id);
                                 if($result !== false) $obj->comment_count++;
                             }
                         }
@@ -314,8 +247,137 @@
 
             if(count($category_list)) foreach($category_list as $key => $val) $oDocumentController->updateCategoryCount($module_srl, $val->category_srl);
 
+
+            // 방명록 정보를 입력함
+            $guestbook_file = preg_replace('/index$/i', 'guestbook.xml', $index_file);
+            if (file_exists($guestbook_file)) {
+                // xmlParser객체 생성
+                $xmlDoc = $this->oXmlParser->loadXmlFile($guestbook_file);
+
+                // 방명록 정보를 처리
+                if($guestbook_module_srl && $xmlDoc->guestbook->comment) {
+                    $comment = $xmlDoc->guestbook->comment;
+                    if(!is_array($comment)) $comment = array($comment);
+					
+					if($module_name =='textyle'){
+						foreach($comment as $key => $val) {
+							$textyle_guestbook_srl  = getNextSequence();
+
+							if($val->comment) {
+								$child_comment = $val->comment;
+								if(!is_array($child_comment)) $child_comment = array($child_comment);
+								foreach($child_comment as $k => $v) {
+									$result = $this->insertTextyleGuestbookItem($v, $module_srl, $member_info,0,$textyle_guestbook_srl,$author_xml_id);
+								}
+							}
+
+							$result = $this->insertTextyleGuestbookItem($val, $module_srl, $member_info,$textyle_guestbook_srl,0,$author_xml_id);
+						}
+					}else{
+						foreach($comment as $key => $val) {
+							$obj = null;
+							$obj->module_srl = $guestbook_module_srl;
+							$obj->document_srl = getNextSequence();
+							$obj->uploaded_count = 0;
+							$obj->is_notice = 'N';
+							$obj->is_secret = $val->secret->body=='1'?'Y':'N';
+							$obj->content = nl2br($val->content->body);
+
+							// 본문에서 제목 추출
+							$obj->title = cut_str(strip_tags($obj->content),20,'...');
+							if ($obj->title == '') $obj->title = 'Untitled';
+
+							$obj->allow_comment = 'Y';
+							$obj->allow_trackback = 'N';
+							$obj->regdate = date("YmdHis",$val->written->body);
+							$obj->last_update = date("YmdHis", $val->written->body);
+							if(!$obj->last_update) $obj->last_update = $obj->regdate;
+							$obj->tags = '';
+							$obj->readed_count = 0;
+							$obj->voted_count = 0;
+							if ($author_xml_id && $val->commenter->attrs->id == $author_xml_id) {
+								$obj->password = '';
+								$obj->nick_name = $member_info->nick_name;
+								$obj->user_name = $member_info->user_name;
+								$obj->user_id = $member_info->user_id;
+								$obj->member_srl = $member_info->member_srl;
+								$obj->email_address = $member_info->email_address;
+								$obj->homepage = $member_info->homepage;
+							}
+							else {
+								$obj->password = $val->password->body;
+								$obj->nick_name = $val->commenter->name->body;
+								$obj->member_srl = 0;
+								$homepage = $val->commenter->homepage->body;
+							}
+							$obj->ipaddress = $val->commenter->ip->body;
+							$obj->list_order = $obj->update_order = $obj->document_srl*-1;
+							$obj->lock_comment = 'N';
+							$obj->notify_message = 'N';
+							$obj->trackback_count = 0;
+
+							$obj->comment_count = 0;
+							if($val->comment) {
+								$child_comment = $val->comment;
+								if(!is_array($child_comment)) $child_comment = array($child_comment);
+								foreach($child_comment as $k => $v) {
+									$result = $this->insertComment($v, $module_srl, $obj->document_srl, $member_info, 0,$author_xml_id);
+									if($result !== false) $obj->comment_count++;
+								}
+							}
+
+							// 문서 입력
+							$output = executeQuery('document.insertDocument', $obj);
+						}
+					}
+                }
+                FileHandler::removeFile($guestbook_file);
+            }
+ 
             return $idx-1;
         }
+
+
+		function insertTextyleGuestbookItem($val, $module_srl, $member_info, $textyle_guestbook_srl,$parent_srl = 0, $author_xml_id=null) {
+            $tobj = null;
+            if($textyle_guestbook_srl>0){
+	            $tobj->textyle_guestbook_srl = $textyle_guestbook_srl;
+			}else{
+	            $tobj->textyle_guestbook_srl = getNextSequence();
+			}
+            $tobj->module_srl = $module_srl;
+            $tobj->is_secret = $val->secret->body=='1'?1:-1;
+            $tobj->content = nl2br($val->content->body);
+            if($author_xml_id && $val->commenter->attrs->id == $author_xml_id) {
+                $tobj->password = '';
+                $tobj->nick_name = $member_info->nick_name;
+                $tobj->user_name = $member_info->user_name;
+                $tobj->user_id = $member_info->user_id;
+                $tobj->member_srl = $member_info->member_srl;
+                $tobj->homepage = $member_info->homepage;
+                $tobj->email_address = $member_info->email_address;
+            } else {
+                $tobj->password = $val->password->body;
+                $tobj->nick_name = $val->commenter->name->body;
+                $tobj->homepage = $val->commenter->homepage->body;
+                $tobj->member_srl = 0;
+            }
+            $tobj->last_update = $tobj->regdate = date("YmdHis",$val->written->body);
+            $tobj->ipaddress = $val->commenter->ip->body;
+
+            if($parent_srl>0){
+				$tobj->parent_srl = $parent_srl;
+				$tobj->list_order = $tobj->parent_srl * -1;
+			}else{
+				$tobj->list_order = $tobj->textyle_guestbook_srl*-1;
+			}
+
+			$output = executeQuery('textyle.insertTextyleGuestbook', $tobj);
+
+			if($output->toBool()) return $tobj->textyle_guestbook_srl;
+            return false;
+		}
+
 
         /**
          * @brief 첨부파일 정리
@@ -468,7 +530,7 @@
         /**
          * @brief 댓글 입력 
          **/
-        function insertComment($val, $module_srl, $document_srl, $member_info, $parent_srl = 0) {
+        function insertComment($val, $module_srl, $document_srl, $member_info, $parent_srl = 0, $author_xml_id) {
             $tobj = null;
             $tobj->comment_srl = getNextSequence();
             $tobj->module_srl = $module_srl;
@@ -477,7 +539,7 @@
             $tobj->notify_message = 'N';
             $tobj->content = nl2br($val->content->body);
             $tobj->voted_count = 0;
-            if ($val->commenter->attrs->id) {
+            if ($author_xml_id && $val->commenter->attrs->id == $author_xml_id) {
                 $tobj->password = '';
                 $tobj->nick_name = $member_info->nick_name;
                 $tobj->user_name = $member_info->user_name;
