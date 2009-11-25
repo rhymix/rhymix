@@ -18,7 +18,7 @@
         if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) return;
         if($addon_info->target != 'all' && Context::get('is_logged')) return;
 
-        $target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory');
+        $target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory','procTextyleInsertComment');
         if($addon_info->apply_find_account=='apply') $target_acts[] = 'procMemberFindAccount';
 		if($addon_info->apply_resend_auth_mail=='apply') $target_acts[] = 'procMemberResendAuthMail';
 
@@ -102,7 +102,6 @@
 
                 exit();
             }
-
             Context::addJsFile('./addons/captcha/captcha.js',false);
 
             // 게시판/ 이슈트래커의 글쓰기/댓글쓰기 액션 호출시 세션 비교
