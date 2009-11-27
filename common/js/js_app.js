@@ -1,6 +1,9 @@
 /**
- * @brief XE Application Framework
+ * @file js_app.js
+ * @author zero (zero@nzeo.com)
+ * @brief XE JavaScript Application Framework (JAF)
  * @namespace xe
+ * @update 20091120
  */
 (function($){
 
@@ -96,13 +99,13 @@ _xe_base = {
 	/**
 	 * @brief overrides broadcast method
 	 */
-	broadcast : function(oSender, msg, params) {
+	broadcast : function(sender, msg, params) {
 		for(var i=0; i < _apps.length; i++) {
-			_apps[i].cast(oSender, msg, params);
+			_apps[i]._cast(sender, msg, params);
 		}
 
 		// cast to child plugins
-		this.cast(oSender, msg, params);
+		this._cast(sender, msg, params);
 	}
 }
 
@@ -200,7 +203,17 @@ _app_base = {
 		oPlugin.oApp = null;
 	},
 
-	cast : function(sender, msg, params) {
+	cast : function(msg, params) {
+		return this._cast(this, msg, params || []);
+	},
+
+	broadcast : function(sender, msg, params) {
+		if (this.parent && this.parent.broadcast) {
+			this.parent.broadcast(sender, msg, params);
+		}
+	},
+
+	_cast : function(sender, msg, params) {
 		var i, len;
 		var aMsg = this._messages;
 
@@ -210,8 +223,8 @@ _app_base = {
 		this._fn_level++;
 
 		// BEFORE hooker
-		if (typeof aMsg['BEFORE_'+msg] != 'undefined') {
-			var bContinue = this.cast(sender, 'BEFORE_'+msg, params);
+		if (aMsg['BEFORE_'+msg] || this['BEFORE_'+msg]) {
+			var bContinue = this._cast(sender, 'BEFORE_'+msg, params);
 			if (!bContinue) {
 				this._fn_level--;
 				return;
@@ -219,19 +232,19 @@ _app_base = {
 		}
 
 		// main api function
-		var vRet;
-		if ($.isFunction(aMsg[msg])) {
-			vRet = aMsg[msg](sender, params);
-		} else if ($.isArray(aMsg[msg])) {
-			vRet = [];
+		var vRet = [], sFn = 'API_'+msg;
+		if ($.isFunction(this[sFn])) vRet.push( this[sFn](sender, params) );
+		if ($.isFunction(aMsg[msg])) vRet.push( aMsg[msg](sender, params) );
+		else if ($.isArray(aMsg[msg])) {
 			for(i=0; i < aMsg[msg].length; i++) {
 				vRet.push( aMsg[msg][i](sender, params) );
 			}
 		}
+		if (vRet.length < 2) vRet = vRet[0];
 
 		// AFTER hooker
-		if (typeof aMsg['AFTER_'+msg] != 'undefined') {
-			this.cast(sender, 'AFTER_'+msg, params);
+		if (aMsg['AFTER_'+msg] || this['AFTER_'+msg]) {
+			this._cast(sender, 'AFTER_'+msg, params);
 		}
 
 		// decrease function level
@@ -243,12 +256,6 @@ _app_base = {
 			if (typeof vRet == 'undefined') vRet = true;
 			return $.isArray(vRet)?$.inArray(false, vRet):!!vRet;
 		}
-	},
-
-	broadcast : function(sender, msg, params) {
-		if (this.parent && this.parent.broadcast) {
-			this.parent.broadcast(sender, msg, params);
-		}
 	}
 };
 
@@ -257,8 +264,8 @@ _plugin_base = {
 	_binded_fn : [],
 
 	_cast : function(msg, params) {
-		if (this.oApp && this.oApp.cast) {
-			this.oApp.cast(this, msg, params || []);
+		if (this.oApp && this.oApp._cast) {
+			this.oApp._cast(this, msg, params || []);
 		}
 	},
 	_broadcast : function(msg, params) {
@@ -269,6 +276,8 @@ _plugin_base = {
 
 	/**
 	 * Event handler prototype
+	 *
+	 * function (oSender, params)
 	 */
 };
 
