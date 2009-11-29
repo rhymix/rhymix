@@ -122,6 +122,7 @@
     $lang->order_asc = '오름차순';
     $lang->order_desc = '내림차순';
     $lang->file = '파일';
+    $lang->success = '성공';
 
     $lang->mid = '모듈 이름';
     $lang->sid = '가상 사이트 이름';
