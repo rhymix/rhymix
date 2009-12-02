@@ -42,8 +42,8 @@
     $lang->group_image_mark_order = 'Group Image Mark Order';
     $lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Enable OpenID';
-    $lang->enable_join = 'Allow Member Join';
-    $lang->enable_confirm = 'Enable email authentication';
+    $lang->enable_join = 'Accept New Members';
+    $lang->enable_confirm = 'Email Authentication';
     $lang->enable_ssl = 'Enable SSL';
     $lang->security_sign_in = 'Sign in using enhanced security';
     $lang->limit_day = 'Temporary Limit Date';
@@ -51,7 +51,7 @@
     $lang->after_login_url = 'URL after Login';
     $lang->after_logout_url = 'URL after Logout';
     $lang->redirect_url = 'URL after Join';
-    $lang->agreement = 'Member Join Agreement';
+    $lang->agreement = 'Join Agreement';
     $lang->accept_agreement = 'Agree';
     $lang->member_info = 'Member Info';
     $lang->current_password = 'Current Password';
@@ -65,8 +65,8 @@
     $lang->about_allow_message = 'You may allow or reject messages.';
     $lang->logged_users = 'Logged Users';
 
-    $lang->webmaster_name = "Webmaster's Name";
-    $lang->webmaster_email = "Webmaster's Email";
+    $lang->webmaster_name = "Webmaster Name";
+    $lang->webmaster_email = "Webmaster Email";
 
     $lang->about_keep_signed = 'You might be kept signed on even when the browser is closed,\n\nIf you use this feature at a shared computer, your personal information might be accessed by others, thus do not use this feature at a shared computer. ';
 	$lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
@@ -99,10 +99,10 @@
 
     $lang->cmd_member_list = 'Member List';
     $lang->cmd_module_config = 'Default Setting';
-    $lang->cmd_member_group = 'Manage Groups';
+    $lang->cmd_member_group = 'Member Groups';
     $lang->cmd_send_mail = 'Send Mail';
-    $lang->cmd_manage_id = 'Manage Prohibited IDs';
-    $lang->cmd_manage_form = 'Manage Join Form';
+    $lang->cmd_manage_id = 'Prohibited IDs';
+    $lang->cmd_manage_form = 'Join Form';
     $lang->cmd_view_own_document = 'Written Articles';
     $lang->cmd_manage_member_info = 'Manage Member Info';
     $lang->cmd_trace_document = 'Trace Written Articles';
@@ -171,30 +171,30 @@
     $lang->about_member_description = "Administrator's memo about members";
     $lang->about_group = 'An ID can belong to many groups';
 
-    $lang->about_column_type = 'Please set the format of additional sign up form';
+    $lang->about_column_type = 'Please set the format of additional join form';
     $lang->about_column_name = 'Please input English name that can be used in template (name as variable)';
     $lang->about_column_title = 'This will be displayed on sign up or modifying/viewing member info form';
     $lang->about_default_value = 'You can set default values';
     $lang->about_active = 'You have to check on active items to show on sign up form';
-    $lang->about_form_description = 'If you input in description form, it will be displayed on sign up form';
+    $lang->about_form_description = 'If you input in description form, it will be displayed on join form';
     $lang->about_required = 'If you check, it will be essential item for sign up';
 
-    $lang->about_enable_openid = 'Allow users to sign up as OpenID';
-    $lang->about_enable_join = 'Allow users to sign up';
-    $lang->about_enable_confirm = 'Send confirmation email to complete signup.';
+    $lang->about_enable_openid = 'Please check if you want to provide OpenID service';
+    $lang->about_enable_join = 'Please check if you want to allow new members to join your site';
+    $lang->about_enable_confirm = 'Please check if you want confirm new members\' join with their email.';
     $lang->about_enable_ssl = 'Personal information from Join/Modify Member Info/Login can be sent as SSL(https) mode if server provides SSL service.';
     $lang->about_limit_day = 'You can limit verification date after sign up';
     $lang->about_limit_date = 'User cannot login until assigned date';
     $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';
     $lang->about_after_logout_url = 'You can set URL after logout. Blank means current page.';
     $lang->about_redirect_url = 'Please input URL where users will go after sign up. When this is empty, it will be set as the previous page of sign up page.';
-    $lang->about_agreement = "Sign up agreement will only be displayed when it's not empty";
+    $lang->about_agreement = "Join Agreement will be displayed if it's not empty";
 
-    $lang->about_image_name = "Allow users to use image name instead of text name";
-    $lang->about_image_mark = "Allow users to use mark in front of their names";
+    $lang->about_image_name = "Members will be able to use image name instead of text";
+    $lang->about_image_mark = "Members will be able to use image mark in front of their names";
     $lang->about_group_image_mark = "You may use group marks shown before their names";
-    $lang->about_profile_image = 'Allow users to use profile images';
-    $lang->about_accept_agreement = "I have read the agreement and agree";
+    $lang->about_profile_image = 'Members will be able to use profile images';
+    $lang->about_accept_agreement = "I have read the agreement and agree with it";
 
     $lang->about_member_default = 'It will be set as default group on sign up';
 

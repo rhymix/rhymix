@@ -6,7 +6,7 @@
      **/
 
     $lang->communication = 'Communication';
-    $lang->about_communication = 'This module performs communication functions such as messages or friends';
+    $lang->about_communication = 'Communication module is for communications between members with messages or friends.';
 
     $lang->allow_message = 'Receive Messages';
     $lang->allow_message_type = array(
