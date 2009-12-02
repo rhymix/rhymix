@@ -2,9 +2,9 @@
     /**
     * @class Context
     * @author zero (zero@nzeo.com)
-    * @brief  Request Argument/환경변수등의 모든 Context를 관리
-    * Context 클래스는 Context::methodname() 처럼 쉽게 사용하기 위해 만들어진 객체를 받아서
-    * 호출하는 구조를 위해 이중 method 구조를 가지고 있다.
+    * @brief  Manages Context such as request arguments/environment variables
+    * @remarks It has dual method structure, easy-to use methods which can be called as Context::methodname(), 
+    *          and methods called with static object. 
     **/
 
     define('FOLLOW_REQUEST_SSL',0);
@@ -13,44 +13,42 @@
 
     class Context {
 
-        var $allow_rewrite = false;  ///< @brief rewrite mod 사용에 대한 변수
+        var $allow_rewrite = false; ///< true: using rewrite mod, false: otherwise
 
-        var $request_method = 'GET'; ///< @brief GET/POST/XMLRPC 중 어떤 방식으로 요청이 왔는지에 대한 값이 세팅. GET/POST/XML 3가지가 있음
-        var $response_method = ''; ///< @brief HTML/XMLRPC 중 어떤 방식으로 결과를 출력할지 결정. (강제 지정전까지는 request_method를 따름)
+        var $request_method = 'GET';///< request method(GET/POST/XMLRPC)
+        var $response_method = '';  ///< response method(HTML/XMLRPC). If it's not set, it follows request method.
 
-        var $context = NULL; ///< @brief request parameter 및 각종 환경 변수등을 정리하여 담을 변수
+        var $context = NULL;        ///< conatins request parameters and environment variables
 
-        var $db_info = NULL; ///< @brief DB 정보
-        var $ftp_info = NULL; ///< @brief FTP 정보
+        var $db_info = NULL;        ///< DB info. 
+        var $ftp_info = NULL;       ///< FTP info. 
 
-        var $ssl_actions = array(); ///< @brief ssl로 전송해야 할 action등록 (common/js/xml_handler.js에서 ajax통신시 활용)
-        var $js_files = array(); ///< @brief display시에 사용하게 되는 js files의 목록
-        var $css_files = array(); ///< @brief display시에 사용하게 되는 css files의 목록
+        var $ssl_actions = array(); ///< list of actions to be sent via ssl (it is used by javascript xml handler for ajax)
+        var $js_files = array();    ///< list of javascript files used for display
+        var $css_files = array();   ///< list of css files used for display
 
-        var $html_header = NULL; ///< @brief display시에 사용하게 되는 <head>..</head>내의 스크립트코드
-	var $body_class = array(); ///< @brief display시에 사용하게 되는 <body> 안에 출력될 class
-        var $body_header = NULL; ///< @brief display시에 사용하게 되는 <body> 바로 다음에 출력될 스크립트 코드
-        var $html_footer = NULL; ///< @brief display시에 사용하게 되는 </body> 바로 앞에 추가될 코드
+        var $html_header = NULL;    ///< script codes in <head>..</head>
+        var $body_class = array();  ///< classnames of <body> 
+        var $body_header = NULL;    ///< codes after <body> 
+        var $html_footer = NULL;    ///< codes before </body> 
 
-        var $path = ''; ///< zbxe의 경로
+        var $path = '';             ///< path of Xpress Engine 
 
-        /**
-         * @brief 언어 정보
-         * 기본으로 ko. HTTP_USER_AGENT나 사용자의 직접 세팅(쿠키이용)등을 통해 변경됨
-         **/
-        var $lang_type = ''; ///< 언어 종류
-        var $lang = NULL; ///< 언어 데이터를 담고 있는 변수
-        var $loaded_lang_files = array(); ///< 로딩된 언어파일의 목록 (재로딩을 피하기 위함)
+        // language information - it is changed by HTTP_USER_AGENT or user's cookie
+        var $lang_type = '';        ///< language type 
+        var $lang = NULL;           ///< contains language-specific data
+        var $loaded_lang_files = array(); ///< list of loaded languages (to avoid re-loading them)
 
-        var $site_title = ''; ///< @brief 현 사이트의 browser title. Context::setBrowserTitle() 로 변경 가능
+        var $site_title = '';       ///< site's browser title
 
-        var $get_vars = NULL; ///< @brief form이나 get으로 요청이 들어온 변수만 별도로 관리
+        var $get_vars = NULL;       ///< variables from GET or form submit
 
-        var $is_uploaded = false; ///< @brief 첨부파일이 업로드 된 요청이였는지에 대한 체크 플래그
+        var $is_uploaded = false;   ///< true if attached file exists 
 
         /**
-         * @brief 유일한 Context 객체를 반환 (Singleton)
-         * Context는 어디서든 객체 선언없이 사용하기 위해서 static 하게 사용
+         * @brief return static context object (Singleton)
+         * @return object
+         * @remarks it's to use Context without declaration of an object
          **/
         function &getInstance() {
             static $theInstance;
@@ -59,33 +57,30 @@
         }
 
         /**
-         * @brief DB정보, Request Argument등을 세팅
-         * Context::init()은 단 한번만 호출되어야 하며 init()시에 Request Argument, DB/언어/세션정보등의 모든 정보를 세팅한다
+         * @brief initialization, it sets DB information, request arguments and so on.
+         * @return none
+         * @remarks this function should be called only once
          **/
         function init() {
-            // context 변수를 $GLOBALS의 변수로 지정
+            // set context variables in $GLOBALS (to use in display handler)
             $this->context = &$GLOBALS['__Context__'];
             $this->context->lang = &$GLOBALS['lang'];
             $this->context->_COOKIE = $_COOKIE;
 
-            // Request Method 설정
             $this->_setRequestMethod();
 
-            // Request Argument 설정
             $this->_setXmlRpcArgument();
             $this->_setJSONRequestArgument();
             $this->_setRequestArgument();
             $this->_setUploadedArgument();
 
-            // 기본적인 DB정보 세팅
             $this->_loadDBInfo();
 
-            // 설치가 되어 있다면 가상 사이트 정보를 구함
+            // If XE is installed, get virtual site information 
             if(Context::isInstalled()) {
-                // site_module_info를 구함
                 $oModuleModel = &getModel('module');
                 $site_module_info = $oModuleModel->getDefaultMid();
-                // site_module_info의 site_srl = 0 일 경우 db_config의 default_url과 비교
+                // if site_srl of site_module_info is 0 (default site), compare the domain to default_url of db_config
                 if($site_module_info->site_srl == 0 && $site_module_info->domain != $this->db_info->default_url) {
                     $site_module_info->domain = $this->db_info->default_url;
                 }
@@ -97,26 +92,26 @@
                 if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
             }
 
-            // 언어 파일 불러오기
+            // Load Language File 
             $lang_supported = $this->loadLangSelected();
 
-            // 사용자의 쿠키 설정된 언어 타입 추출
+            // Retrieve language type set in user's cookie 
             if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
 
-            // 사용자 설정 언어 타입이 없으면 기본 언어타입으로 지정
+            // If it's not exists, follow default language type set in db_info 
             if(!$this->lang_type) $this->lang_type = $this->db_info->lang_type;
 
-            // 관리자 설정 언어값에 등록된 것이 아니라면 기본 언어로 변경
+            // if still lang_type has not been set or has not-supported type , set as English. 
             if(!$this->lang_type) $this->lang_type = "en";
             if(is_array($lang_supported)&&!isset($lang_supported[$this->lang_type])) $this->lang_type = 'en';
 
             Context::set('lang_supported', $lang_supported);
             $this->setLangType($this->lang_type);
 
-            // module의 언어파일 강제 로드 (언어 type에 맞춰서)
+            // load module module's language file according to language setting 
             $this->loadLang(_XE_PATH_.'modules/module/lang');
 
-            // 세션 핸들러 지정
+            // set session handler 
             if($this->db_info->use_db_session != 'N') {
                 $oSessionModel = &getModel('session');
                 $oSessionController = &getController('session');
@@ -132,18 +127,16 @@
             session_start();
 
 
-            // 인증 관련 정보를 Context와 세션에 설정
+            // set authentication information in Context and session  
             if(Context::isInstalled()) {
-                // 인증관련 데이터를 Context에 설정
                 $oMemberModel = &getModel('member');
                 $oMemberController = &getController('member');
 
-                // 인증이 되어 있을 경우 유효성 체크
+                // if signed in, validate it.
                 if($oMemberModel->isLogged()) {
                     $oMemberController->setSessionInfo();
-
-                // 인증이 되어 있지 않을 경우 자동 로그인 확인
-                } elseif($_COOKIE['xeak']) {
+                } 
+                elseif($_COOKIE['xeak']) { // check auto sign-in
                     $oMemberController->doAutologin();
                 }
 
@@ -151,15 +144,15 @@
                 $this->_set('logged_info', $oMemberModel->getLoggedInfo() );
             }
 
-            // 기본 언어파일 로드
+            // load common language file 
             $this->lang = &$GLOBALS['lang'];
             $this->_loadLang(_XE_PATH_."common/lang/");
 
-            // rewrite 모듈사용 상태 체크
+            // check if using rewrite module  
             if(file_exists(_XE_PATH_.'.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
             else $this->allow_rewrite = false;
 
-            // 기본 JS/CSS 등록
+            // add common JS/CSS files
             $this->addJsFile("./common/js/jquery.js");
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
@@ -169,10 +162,10 @@
             $this->addCSSFile("./common/css/default.css");
             $this->addCSSFile("./common/css/button.css");
 
-            // 관리자 페이지일 경우 관리자 공용 CSS 추가
+            // for admin page, add admin css
             if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
 
-            // rewrite module때문에 javascript에서 location.href 문제 해결을 위해 직접 실제 경로 설정
+            // set locations for javascript use
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
                 if($this->get_vars) {
                     foreach($this->get_vars as $key => $val) {
@@ -196,7 +189,8 @@
         }
 
         /**
-         * @brief DB및 기타 자원들의 close
+         * @brief finalize using resources, such as DB connection 
+         * @return none
          **/
         function close() {
             // Session Close
@@ -208,7 +202,8 @@
         }
 
         /**
-         * @brief DB의 및 기타 정보 load
+         * @brief load DB information 
+         * @return none
          **/
         function loadDBInfo() {
             $oContext = &Context::getInstance();
@@ -216,12 +211,12 @@
         }
 
         /**
-         * @brief DB 정보를 설정하고 DB Type과 DB 정보를 return
+         * @brief load DB information 
+         * @return none
          **/
         function _loadDBInfo() {
             if(!$this->isInstalled()) return;
 
-            // db 정보 설정
             $db_config_file = $this->getConfigFile();
             if(file_exists($db_config_file)) @include($db_config_file);
 
@@ -248,7 +243,8 @@
         }
 
         /**
-         * @brief DB의 db_type을 return
+         * @brief get DB's db_type
+         * @return DB's db_type string
          **/
         function getDBType() {
             $oContext = &Context::getInstance();
@@ -256,14 +252,17 @@
         }
 
         /**
-         * @brief DB의 db_type을 return
+         * @brief get DB's db_type
+         * @return DB's db_type string
          **/
         function _getDBType() {
             return $this->db_info->db_type;
         }
 
         /**
-         * @brief DB 정보가 담긴 object를 return
+         * @brief set DB information 
+         * @param[in] DB information object
+         * @return none
          **/
         function setDBInfo($db_info) {
             $oContext = &Context::getInstance();
@@ -271,14 +270,17 @@
         }
 
         /**
-         * @brief DB 정보가 담긴 object를 return
+         * @brief set DB information 
+         * @param[in] DB information object
+         * @return none
          **/
         function _setDBInfo($db_info) {
             $this->db_info = $db_info;
         }
 
         /**
-         * @brief DB 정보가 담긴 object를 return
+         * @brief get DB information 
+         * @return DB information object
          **/
         function getDBInfo() {
             $oContext = &Context::getInstance();
@@ -286,14 +288,16 @@
         }
 
         /**
-         * @brief DB 정보가 담긴 object를 return
+         * @brief get DB information 
+         * @return DB information object
          **/
         function _getDBInfo() {
             return $this->db_info;
         }
 
         /**
-         * @brief 기본 URL을 return
+         * @brief return default URL
+         * @return default URL string
          **/
         function getDefaultUrl() {
             $db_info = Context::getDBInfo();
@@ -301,7 +305,8 @@
         }
 
         /**
-         * @brief 지원되는 언어 파일 찾기
+         * @brief find supported languages
+         * @return array of supported languages
          **/
         function loadLangSupported() {
             static $lang_supported = null;
@@ -317,7 +322,8 @@
         }
 
         /**
-         * @brief 설정한 언어 파일 찾기
+         * @brief find selected languages to serve in the site
+         * @return array of selected languages 
          **/
         function loadLangSelected() {
             static $lang_selected = null;
@@ -349,18 +355,19 @@
         }
 
         /**
-         * @brief SSO URL이 설정되어 있고 아직 SSO URL검사를 하지 않았다면 return true
+         * @brief Single Sign On (SSO) 
+         * @return true if module handleing is necessary in the control path of current request
          **/
         function checkSSO() {
-            // GET 접속이 아니거나 설치가 안되어 있으면 패스
+            // pass if it's not GET request or XE is not yet installed
             if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || in_array(Context::get('act'),array('rss','atom'))) return true;
 
-            // DB info에 설정된 Default URL이 없다면 무조건 무사통과
+            // pass if default URL is not set 
             $default_url = trim($this->db_info->default_url);
             if(!$default_url) return true;
             if(substr($default_url,-1)!='/') $default_url .= '/';
 
-            // SSO 검증을 요청 받는 사이트
+            // for sites recieving SSO valdiation
             if($default_url == Context::getRequestUri()) {
                 if(Context::get('default_url')) {
                     $url = base64_decode(Context::get('default_url'));
@@ -370,9 +377,9 @@
                     header("location:".$redirect_url);
                     return false;
                 }
-            // SSO 검증을 요청하는 사이트
+            // for sites requesting SSO validation 
             } else {
-                // SSO 결과를 받는 경우 session_name() 세팅
+                // result handling : set session_name() 
                 if(Context::get('SSOID')) {
                     $session_name = Context::get('SSOID');
                     setcookie(session_name(), $session_name);
@@ -380,7 +387,7 @@
                     $url = preg_replace('/([\?\&])$/','',str_replace('SSOID='.$session_name,'',Context::getRequestUrl()));
                     header("location:".$url);
                     return false;
-                // SSO 결과를 요청
+                // send SSO request 
                 } else if($_COOKIE['sso']!=md5(Context::getRequestUri()) && !Context::get('SSOID')) {
                     setcookie('sso',md5(Context::getRequestUri()),0,'/');
                     $url = sprintf("%s?default_url=%s", $default_url, base64_encode(Context::getRequestUrl()));
@@ -393,7 +400,8 @@
         }
 
         /**
-         * @biref FTP 정보가 등록되었는지 확인
+         * @biref check if FTP info is registered 
+         * @return true: FTP information is registered, false: otherwise
          **/
         function isFTPRegisted() {
             $ftp_config_file = Context::getFTPConfigFile();
@@ -402,7 +410,8 @@
         }
 
         /**
-         * @brief FTP 정보가 담긴 object를 return
+         * @brief get FTP information object
+         * @return FTP information object
          **/
         function getFTPInfo() {
             $oContext = &Context::getInstance();
@@ -410,7 +419,8 @@
         }
 
         /**
-         * @brief FTP 정보가 담긴 object를 return
+         * @brief get FTP information object
+         * @return FTP information object
          **/
         function _getFTPInfo() {
             if(!$this->isFTPRegisted()) return null;
@@ -421,7 +431,9 @@
         }
 
         /**
-         * @brief 사이트 title adding
+         * @brief add string to browser title 
+         * @param[in] $site_title string to be added
+         * @return none
          **/
         function addBrowserTitle($site_title) {
             if(!$site_title) return;
@@ -430,7 +442,9 @@
         }
 
         /**
-         * @brief 사이트 title adding
+         * @brief add string to browser title 
+         * @param[in] $site_title string to be added
+         * @return none
          **/
         function _addBrowserTitle($site_title) {
             if($this->site_title) $this->site_title .= ' - '.$site_title;
@@ -438,7 +452,9 @@
         }
 
         /**
-         * @brief 사이트 title setting
+         * @brief set string to browser title 
+         * @param[in] $site_title string to be set 
+         * @return none
          **/
         function setBrowserTitle($site_title) {
             if(!$site_title) return;
@@ -447,14 +463,17 @@
         }
 
         /**
-         * @brief 사이트 title setting
+         * @brief set string to browser title 
+         * @param[in] $site_title string to be set 
+         * @return none
          **/
         function _setBrowserTitle($site_title) {
             $this->site_title = $site_title;
         }
 
         /**
-         * @brief 사이트 title return
+         * @brief get browser title
+         * @return browser title string (htmlspecialchars applied) 
          **/
         function getBrowserTitle() {
             $oContext = &Context::getInstance();
@@ -462,7 +481,8 @@
         }
 
         /**
-         * @brief 사이트 title return
+         * @brief get browser title
+         * @return browser title string 
          **/
         function _getBrowserTitle() {
             $oModuleController = &getController('module');
@@ -471,7 +491,9 @@
         }
 
         /**
-         * @brief 지정된 언어파일 로드
+         * @brief load language file according to language type 
+         * @param[in] $path path of the language file
+         * @return none 
          **/
         function loadLang($path) {
             $oContext = &Context::getInstance();
@@ -479,9 +501,10 @@
         }
 
         /**
-         * @brief 지정된 언어파일 로드
-         *
-         * loaded_lang_files 변수를 이용하여 한번 로드된 파일을 다시 로드하지 않음
+         * @brief load language file according to language type 
+         * @param[in] $path path of the language file
+         * @return none 
+         * @remarks using $loaded_lang_files it does not load once-loaded files
          **/
         function _loadLang($path) {
             global $lang;
@@ -497,7 +520,8 @@
         }
 
         /**
-         * @brief lang_type을 세팅 (기본 ko)
+         * @brief set lang_type
+         * @return none
          **/
         function setLangType($lang_type = 'ko') {
             $oContext = &Context::getInstance();
@@ -506,7 +530,8 @@
         }
 
         /**
-         * @brief lang_type을 세팅 (기본 ko)
+         * @brief set lang_type
+         * @return none
          **/
         function _setLangType($lang_type = 'ko') {
             $this->lang_type = $lang_type;
@@ -514,7 +539,8 @@
         }
 
         /**
-         * @brief lang_type을 return
+         * @brief get lang_type
+         * @return lang_type string
          **/
         function getLangType() {
             $oContext = &Context::getInstance();
@@ -522,16 +548,17 @@
         }
 
         /**
-         * @brief lang_type을 return
+         * @brief get lang_type
+         * @return lang_type string
          **/
         function _getLangType() {
             return $this->lang_type;
         }
 
         /**
-         * @brief code에 해당하는 문자열을 return
-         *
-         * 만약 code에 해당하는 문자열이 없다면 code를 그대로 리턴
+         * @brief return string accoring to the inputed code
+         * @param[in] $code language variable name 
+         * @return if string for the code exists returns it, otherwise returns original code
          **/
         function getLang($code) {
             if(!$code) return;
@@ -540,14 +567,17 @@
         }
 
         /**
-         * @brief 직접 lang 변수에 데이터를 추가
+         * @brief set data to lang variable
+         * @return none
          **/
         function setLang($code, $val) {
             $GLOBALS['lang']->{$code} = $val;
         }
 
         /**
-         * @brief object내의 variables의 문자열을 utf8로 변경
+         * @brief convert strings of variables in $source_object into UTF-8
+         * @param[in] $source_obj object conatins strings to convert
+         * @return converted object 
          **/
         function convertEncoding($source_obj) {
             $charset_list = array(
@@ -580,7 +610,9 @@
         }
 
         /**
-         * @brief 특정 문자열만 utf-8로 변경
+         * @brief convert strings into UTF-8
+         * @param[in] $str string to convert
+         * @return converted string 
          **/
         function convertEncodingStr($str) {
             $obj->str = $str;
@@ -589,30 +621,37 @@
         }
 
         /**
-         * @brief response method를 강제로 지정 (기본으로는 request method를 이용함)
-         *
-         * method의 종류에는 HTML/ TEXT/ XMLRPC/ JSON가 있음
+         * @brief force to set response method
+         * @param[in] $method response method (HTML/XMLRPC/JSON)
+         * @return none
          **/
         function setResponseMethod($method = "HTML") {
             $oContext = &Context::getInstance();
             return $oContext->_setResponseMethod($method);
         }
 
+        /**
+         * @brief force to set response method
+         * @param[in] $method response method (HTML/XMLRPC/JSON)
+         * @return none
+         **/
         function _setResponseMethod($method = "HTML") {
             $this->response_method = $method;
         }
 
-        /**
-         * @brief response method 값을 return
-         *
-         * method의 종류에는 HTML/ TEXT/ XMLRPC가 있음
-         * 별도로 response method를 지정하지 않았다면 request method로 판단하여 결과 return
-         **/
+        /*
+         * @brief get reponse method
+         * @return response method string (if it's not set, returns request method)
+         */
         function getResponseMethod() {
             $oContext = &Context::getInstance();
             return $oContext->_getResponseMethod();
         }
 
+        /*
+         * @brief get reponse method
+         * @return response method string (if it's not set, returns request method)
+         */
         function _getResponseMethod() {
             if($this->response_method) return $this->response_method;
 
@@ -623,7 +662,9 @@
         }
 
         /**
-         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC/JSON)
+         * @brief determine request method (GET/POST/XMLRPC/JSON)
+         * @param[in] $type request method
+         * @return none
          **/
         function setRequestMethod($type) {
             $oContext = &Context::getInstance();
@@ -632,7 +673,9 @@
 
 
         /**
-         * @brief request method가 어떤것인지 판단하여 저장 (GET/POST/XMLRPC/JSON)
+         * @brief deteremine request method (GET/POST/XMLRPC/JSON)
+         * @param[in] $type request method
+         * @return none
          **/
         function _setRequestMethod($type = '') {
             if($type) return $this->request_method = $type;
@@ -644,7 +687,8 @@
         }
 
         /**
-         * @brief GET/POST방식일 경우 처리
+         * @brief handle request areguments for GET/POST
+         * @return none
          **/
         function _setRequestArgument() {
             if(!count($_REQUEST)) return;
@@ -660,11 +704,11 @@
         }
 
         /**
-         * @brief JSON 방식일 경우 처리
+         * @brief handle request arguments for JSON 
+         * @return none
          **/
         function _setJSONRequestArgument() {
             if($this->_getRequestMethod() != 'JSON') return;
-//            if(!$GLOBALS['HTTP_RAW_POST_DATA']) return;
 
             $params = array();
             parse_str($GLOBALS['HTTP_RAW_POST_DATA'],$params);
@@ -676,7 +720,8 @@
         }
 
         /**
-         * @brief XML RPC일때
+         * @brief handle request arguments for XML RPC
+         * @return none
          **/
         function _setXmlRpcArgument() {
             if($this->_getRequestMethod() != 'XMLRPC') return;
@@ -695,8 +740,12 @@
         }
 
         /**
-         * @brief 변수명에 따라서 필터링 처리
-         * _srl, page, cpage등의 변수는 integer로 형변환
+         * @brief Filter request variable
+         * @param[in] $key variable key
+         * @param[in] $val variable value
+         * @param[in] $do_stripslashes whether to strip slashes
+         * @remarks cast variables, such as _srl, page, and cpage, into interger
+         * @return filtered value
          **/
         function _filterRequestVar($key, $val, $do_stripslashes = 1) {
             if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
@@ -714,7 +763,8 @@
         }
 
         /**
-         * @brief 업로드 되었을 경우 return true
+         * @brief Check if there exists uploaded file
+         * @return true: exists, false: otherwise
          **/
         function isUploaded() {
             $oContext = &Context::getInstance();
@@ -722,14 +772,16 @@
         }
 
         /**
-         * @brief 업로드 되었을 경우 return true
+         * @brief Check if there exists uploaded file
+         * @return true: exists, false: otherwise
          **/
         function _isUploaded() {
             return $this->is_uploaded;
         }
 
         /**
-         * @brief 업로드된 파일이 있을 경우도 역시 context에 통합 처리 (단 정상적인 업로드인지 체크)
+         * @brief handle uploaded file
+         * @return none
          **/
         function _setUploadedArgument() {
             if($this->_getRequestMethod() != 'POST') return;
@@ -745,7 +797,8 @@
         }
 
         /**
-         * @brief Request Method값을 return (GET/POST/XMLRPC/JSON);
+         * @brief return request method (GET/POST/XMLRPC/JSON);
+         * @return request method type
          **/
         function getRequestMethod() {
             $oContext = &Context::getInstance();
@@ -753,14 +806,16 @@
         }
 
         /**
-         * @brief Request Method값을 return (GET/POST/XMLRPC/JSON);
+         * @brief return request method (GET/POST/XMLRPC/JSON);
+         * @return request method type
          **/
         function _getRequestMethod() {
             return $this->request_method;
         }
 
         /**
-         * @brief 현재 요청된 full url을 return
+         * @brief return request URL 
+         * @return request URL
          **/
         function getRequestUrl() {
             static $url = null;
@@ -775,7 +830,8 @@
         }
 
         /**
-         * @brief 요청받은 url에 args_list를 적용하여 return
+         * @brief make URL with args_list upon request URL
+         * @return result URL
          **/
         function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             $oContext = &Context::getInstance();
@@ -783,28 +839,29 @@
         }
 
         /**
-         * @brief 요청받은 url에 args_list를 적용하여 return
+         * @brief make URL with args_list upon request URL
+         * @return result URL
          **/
         function _getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
             static $site_module_info = null;
             static $current_info = null;
 
-            // 가상 사이트 정보를 구함
+            // retrieve virtual site information
             if(is_null($site_module_info)) $site_module_info = Context::get('site_module_info');
 
-            // SiteID 요청시 전처리 ($domain이 vid 형식일 경우 $domain값을 없애고 vid로 처리하도록 함)
+            // If $domain is set, handle it (if $domain is vid type, remove $domain and handle with $vid)
             if($domain && isSiteID($domain)) {
                 $vid = $domain;
                 $domain = '';
             } 
 
-            // $domain, $vid값이 없을 경우(= 현재 사이트 정보를 이용함)
+            // If $domain, $vid are not set, use current site information
             if(!$domain && !$vid) {
                 if($site_module_info->domain && isSiteID($site_module_info->domain)) $vid = $site_module_info->domain;
                 else $domain = $site_module_info->domain;
             }
 
-            // $domain값이 있을 경우 현재 요청된 도메인과 비교해서 동일할 경우 제거 그렇지 않으면 http 프로토콜을 제거하고 제일 뒤에 / 를 붙임
+            // if $domain is set, compare current URL. If they are same, remove the domain, otherwise link to the domain.
             if($domain) {
                 $domain_info = parse_url($domain);
                 if(is_null($current_info)) $current_info = parse_url(($_SERVER['HTTPS']=='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].getScriptPath());
@@ -816,38 +873,37 @@
                 }
             }
 
-            // 변수 정리
             $get_vars = null;
 
-            // GET 변수가 없거나 변수 초기화 지정이 되었을 경우
+            // If there is no GET variables or first argument is '' to reset variables
             if(!$this->get_vars || $args_list[0]=='') {
-                // 요청받은 변수가 있고 첫번째 인자가 '' 라서 초기화를 해야 할 경우 요청받은 변수를 정리
+                // rearrange args_list
                 if(is_array($args_list) && $args_list[0]=='') array_shift($args_list);
-            // 초기화를 원하지 않을 경우 GET 변수를 배열로 처리
             } else {
+                // Otherwise, make GET variables into array
                 $get_vars = get_object_vars($this->get_vars);
             }
 
-            // 새로 꾸미기를 원하는 변수를 정리
+            // arrange args_list
             for($i=0,$c=count($args_list);$i<$c;$i=$i+2) {
                 $key = $args_list[$i];
                 $val = trim($args_list[$i+1]);
 
-                // 값이 없으면 GET변수에서 해당 키를 제거
+                // If value is not set, remove the key
                 if(!isset($val) || strlen($val)<1) {
                   unset($get_vars[$key]);
                   continue;
                 }
-                // 새로운 변수를 정리
+                // set new variables
                 $get_vars[$key] = $val;
             }
 
-            // 변수중 vid, rnd값 제거
+            // remove vid, rnd 
             unset($get_vars['rnd']);
             if($vid) $get_vars['vid'] = $vid;
             else unset($get_vars['vid']);
 
-            // action명이 변경되었던 것에 대해 호환성을 유지하기 위한 강제 값 변경
+            // for compatibility to lower versions
             switch($get_vars['act']) {
                 case 'dispMemberFriend' : $get_vars['act'] = 'dispCommunicationFriend'; break;
                 case 'dispMemberMessages' : $get_vars['act'] = 'dispCommunicationMessages'; break;
@@ -855,10 +911,10 @@
                 case 'dispModuleAdminSelectList' : $get_vars['act'] = 'dispModuleSelectList'; break;
             }
 
-            // URL 구성
+            // organize URL
             $query = null;
             if($var_count = count($get_vars)) {
-                // rewrite mod 사용시
+                // If using rewrite mod 
                 if($this->allow_rewrite) {
                     $var_keys = array_keys($get_vars);
                     asort($var_keys);
@@ -878,7 +934,6 @@
                     }
                 }
 
-                // rewrite mod 미사용 또는 query값이 생성되지 않았을 경우 get argument로 생성
                 if(!$query) {
                     foreach($get_vars as $key => $val) {
                         if(is_array($val) && count($val)) {
@@ -891,23 +946,22 @@
                 }
             }
             
-            // 항상 SSL을 이용하고 현재 SSL이 아닌 경우 https에 대한 prefix를 붙임
+            // If using SSL always
             if(Context::get('_use_ssl')=='always') {
                 $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
-            // 상황에 따라 혹은 지정된 대상만 SSL 취급될 경우
+            // optional SSL use 
             } elseif(Context::get('_use_ssl')=='optional') {
                 $ssl_mode = RELEASE_SSL;
                 if($get_vars['act'] && $this->_isExistsSSLAction($get_vars['act'])) $ssl_mode = ENFORCE_SSL;
                 $query = $this->getRequestUri($ssl_mode, $domain).$query;
-            // SSL 을 사용하지 않을 경우
+            // no SSL 
             } else {
-                // SSL상태인데 대상이 SSL이 아닌 경우
+                // currently on SSL but target is not based on SSL
                 if($_SERVER['HTTPS']=='on' ) $query = $this->getRequestUri(ENFORCE_SSL, $domain).$query;
 
-                // $domain 값이 있을 경우
+                // if $domain is set 
                 else if($domain) $query = $this->getRequestUri(FOLLOW_REQUEST_SSL, $domain).$query;
 
-                // $domain 값이 없을 경우
                 else $query = getScriptPath().$query;
             }
 
