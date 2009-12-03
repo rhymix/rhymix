@@ -276,6 +276,11 @@
             Context::set('start_module', $output->data);
 
             $pwd = Context::get('pwd');
+            if(!$pwd && $ftp_info->ftp_root_path)
+            {
+                $pwd = $ftp_info->ftp_root_path;
+            }
+
             if(!$pwd) {
                 if($ftp_info->sftp == 'Y')
                 {
