@@ -50,6 +50,10 @@
 					$_list = $oFtp->ftp_rawlist($this->pwd);
 					$oFtp->ftp_quit();
 				}
+                else
+                {
+                    return new Object(-1,'msg_ftp_invalid_auth_info');
+                }
 			}
             $list = array();
             if(count($_list) == 0 || !$_list[0]) {
@@ -59,6 +63,10 @@
 						$_list = $oFtp->ftp_rawlist($this->pwd);
 						$oFtp->ftp_quit();
 					}
+                    else
+                    {
+                        return new Object(-1,'msg_ftp_invalid_auth_info');
+                    }
 				}
             }
 
