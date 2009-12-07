@@ -29,7 +29,7 @@
 			<li class="first"><a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a></li>
 			<li><a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a></li>
 			<!--@if($member_config->enable_openid=='Y')-->
-			<li><a href="#oLogin" onclick="jQuery('#loginAccess').removeClass('gLogin'); jQuery('#loginAccess').addClass('oLogin');">Open ID</a></li>
+			<li><a href="#oLogin" onclick="jQuery('#loginAccess').removeClass('gLogin'); jQuery('#loginAccess').addClass('oLogin'); return false;">Open ID</a></li>
 			<!--@end-->
 		</ul>
 	</div>
@@ -47,7 +47,7 @@
 				</div>
 			</fieldset>
 		</form>
-		<div class="help"><a href="#gLogin" onclick="jQuery('#loginAccess').removeClass('oLogin'); jQuery('#loginAccess').addClass('gLogin');">{$lang->cmd_common_id}</a></div>
+		<div class="help"><a href="#gLogin" onclick="jQuery('#loginAccess').removeClass('oLogin'); jQuery('#loginAccess').addClass('gLogin'); return false;">{$lang->cmd_common_id}</a></div>
 	</div>
 	<!--@end-->
 	<!--@end-->
