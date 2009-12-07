@@ -69,6 +69,7 @@
     $lang->webmaster_email = "Webmaster Email";
 
     $lang->about_keep_signed = 'You might be kept signed on even when the browser is closed,\n\nIf you use this feature at a shared computer, your personal information might be accessed by others, thus do not use this feature at a shared computer. ';
+    $lang->about_keep_warning = 'You might be kept signed on even when the browser is closed, If you use this feature at a shared computer, your personal information might be accessed by others, thus do not use this feature at a shared computer.';
 	$lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 

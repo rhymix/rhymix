@@ -69,6 +69,7 @@
     $lang->webmaster_email = "Mél de Webmestre";
 
     $lang->about_keep_signed = 'Malgré que le navigateur est fermé, votre session peut rester ouverte. \n\nSi vous utilisez cette fonction sur l\'ordinateur publique, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l\'ordinateur publique.';
+    $lang->about_keep_warning = 'Malgré que le navigateur est fermé, votre session peut rester ouverte. Si vous utilisez cette fonction sur l\'ordinateur publique, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l\'ordinateur publique.';
     $lang->about_webmaster_name = "Entrez le nom de webmestre qui va être utilisé pour le mél de certification ou l\'autre administration du site. (défaut : webmestre)";
     $lang->about_webmaster_email = "Entrez l\'adresse du mél de webmestre, S.V.P.";
 
