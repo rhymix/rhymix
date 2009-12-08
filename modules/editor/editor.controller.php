@@ -81,6 +81,7 @@
             $editor_config->editor_skin = Context::get('editor_skin');
             $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
             $editor_config->content_style = Context::get('content_style');
+            $editor_config->comment_content_style = Context::get('comment_content_style');
             $editor_config->content_font = Context::get('content_font');
             if($editor_config->content_font) {
                 $font_list = array();

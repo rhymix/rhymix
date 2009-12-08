@@ -24,6 +24,7 @@
             <option value="{$editor}" <!--@if($editor==$editor_config->editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
             <!--@end-->
             </select>
+            <br/>
             <select name="sel_editor_colorset" id="sel_editor_colorset"<!--@if(!count($editor_colorset_list))--> style="display:none"<!--@end-->>
                 <!--@foreach($editor_colorset_list as $key => $val)-->
                     <option value="{$val->name}" <!--@if($editor_config->sel_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -36,6 +37,7 @@
             <option value="{$editor}" <!--@if($editor==$editor_config->comment_editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
             <!--@end-->
             </select>
+            <br/>
             <select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset"<!--@if(!count($editor_comment_colorset_list))--> style="display:none"<!--@end-->>
                 <!--@foreach($editor_comment_colorset_list as $key => $val)-->
                     <option value="{$val->name}" <!--@if($editor_config->sel_comment_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -48,10 +50,17 @@
         <td colspan="2"><p>{$lang->about_content_style}</p></td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             <select name="content_style">
             <!--@foreach($content_style_list as $key => $val)-->
             <option value="{$key}" <!--@if($key==$editor_config->content_style)-->selected="selected"<!--@end-->>{$val->title}</option>
+            <!--@end-->
+            </select>
+        </td>
+        <td>
+            <select name="comment_content_style">
+            <!--@foreach($content_style_list as $key => $val)-->
+            <option value="{$key}" <!--@if($key==$editor_config->comment_content_style)-->selected="selected"<!--@end-->>{$val->title}</option>
             <!--@end-->
             </select>
         </td>

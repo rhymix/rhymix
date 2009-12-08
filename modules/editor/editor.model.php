@@ -239,7 +239,7 @@
                 $config->enable_autosave = $editor_config->enable_autosave;
             } else {
                 $config->editor_skin = $editor_config->comment_editor_skin;
-                $config->content_style = $editor_config->content_style;
+                $config->content_style = $editor_config->comment_content_style;
                 $config->content_font = $editor_config->content_font;
                 $config->content_font_size = $editor_config->content_font_size;
                 $config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
