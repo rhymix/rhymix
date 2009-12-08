@@ -50,7 +50,7 @@
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
 
             // ftp 정보 입력
-            if(!Context::isFTPRegisted()) {
+            if(ini_get('safe_mode') && !Context::isFTPRegisted()) {
                 $this->setTemplateFile('ftp');
             } else {
                 $this->setTemplateFile('select_db');
