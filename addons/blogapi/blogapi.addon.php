@@ -263,8 +263,7 @@
                     if(!$output->toBool()) {
                         $content = getXmlRpcFailure(1, $output->getMessage());
                     } else {
-                        //$content = getXmlRpcResponse(Context::getRequestUri().$this->mid.'/'.$document_srl);
-                        $content = getXmlRpcResponse($document_srl);
+                        $content = getXmlRpcResponse(strval($document_srl));
                     }
                     FileHandler::removeDir($tmp_uploaded_path);
 
@@ -362,7 +361,7 @@
                     if(!$output->toBool()) {
                         $content = getXmlRpcFailure(1, $output->getMessage());
                     } else {
-                        $content = getXmlRpcResponse(getFullUrl('','document_srl',$document_srl));
+                        $content = getXmlRpcResponse(true);
                         FileHandler::removeDir($tmp_uploaded_path);
                     }
 
