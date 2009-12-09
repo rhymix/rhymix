@@ -4,9 +4,9 @@
  * @author taggon (gonom9@gmail.com)
  */
 (function($){
-	var protocol_re = '(https?|ftp|news|telnet|irc)://';
+	var protocol_re = '(https?|ftp|news|telnet|irc|mms)://';
 	var domain_re   = '(?:[\\w\\-]+\\.)+(?:[a-z]+)';
-	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5])';
+	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9][0-9]?)';
 	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
 	var port_re     = '(?::([0-9]+))?';
 	var path_re     = '((?:/[\\w!"$-/:-@]+)*)';
