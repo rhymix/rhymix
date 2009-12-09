@@ -51,7 +51,7 @@ describe('AutoLink functionality', {
 		value_of( $('#test5').contents().length ).should_be(3);
 	},
 	"#test6 - complex example" : function() {
-		value_of( $('#test6 a').length ).should_be(6);
+		value_of( $('#test6 a').length ).should_be(7);
 		value_of( $('#test6 a').eq(0).attr('href') ).should_be($('#test6 a').eq(0).text());
 		value_of( $('#test6 a').eq(2).parent().is('b') ).should_be_true();
 		value_of( $('#test6 > textarea > a').length ).should_be(0);
@@ -95,6 +95,7 @@ describe('Autolink trigger', {
 			Sayonara~
 		</div>
 		IP Test http://119.205.243.46 and MMS Link mms://xpressengine.com/a.wmv
+		http://localhost/some/path/file.ext
 		Is it OK?
 	</div>
 	<div id="test7">http://mygony.com</div>
