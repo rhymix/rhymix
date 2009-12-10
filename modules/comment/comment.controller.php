@@ -96,6 +96,8 @@
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
 
+            // even for manual_inserted if password exists, md5 it.
+            if($obj->password) $obj->password = md5($obj->password);
             // 원본글을 가져옴
             if(!$manual_inserted) {
                 $oDocument = $oDocumentModel->getDocument($document_srl);
@@ -103,7 +105,6 @@
                 if($document_srl != $oDocument->document_srl) return new Object(-1,'msg_invalid_document');
                 if($oDocument->isLocked()) return new Object(-1,'msg_invalid_request');
 
-                if($obj->password) $obj->password = md5($obj->password);
                 if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
                 // 로그인 된 회원일 경우 회원의 정보를 입력
