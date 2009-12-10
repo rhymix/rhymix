@@ -8,6 +8,8 @@
 
         <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
         <action name="procAdminLogout" type="controller" standalone="true" />
+        <action name="procSaveFTPPathInfo" type="controller" standalone="true" />
+        <action name="procDeleteFTPConfig" type="controller" standalone="true" />
         <action name="getAdminFTPList" type="model" standalone="true" />
     </actions>
 </module>

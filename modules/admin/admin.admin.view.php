@@ -257,6 +257,7 @@
          **/
         function dispAdminConfig() {
             $db_info = Context::getDBInfo();
+            $oInstallController = &getController('install');
 
             Context::set('sftp_support', function_exists(ssh2_sftp));
 
@@ -267,8 +268,17 @@
             Context::set('langs', Context::loadLangSupported());
 
             Context::set('lang_selected', Context::loadLangSelected());
-            
+
             $ftp_info = Context::getFTPInfo();
+            // Check if FTP Info is valid.
+            Context::set('ftp_user', $ftp_info->ftp_user);
+            Context::set('ftp_password', $ftp_info->ftp_password);
+            Context::set('ftp_port', $ftp_info->ftp_port);
+            Context::set('sftp', $ftp_info->sftp);
+            !$oInstallController->procInstallCheckFtp()?$ftp_info->is_valid=true:$ftp_info->is_valid=false;
+            Context::set('ftp_user', null);
+            Context::set('ftp_password', null);
+            // Set FTP Info.
             Context::set('ftp_info', $ftp_info);
 
             $site_args->site_srl = 0;

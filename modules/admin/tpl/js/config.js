@@ -38,3 +38,7 @@ function completeGetFtpInfo(ret_obj)
     e.append(jQuery(list));
 }
 
+function doDeleteFTPConfig() {
+  exec_xml('admin','procDeleteFTPConfig');
+  setTimeout(function() { location.reload(); }, 300);
+}
