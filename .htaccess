@@ -1,75 +1,40 @@
 RewriteEngine On
 
 # reserve XE Layout Template Source File (*.html)
-RewriteRule ^layouts/(.+)/(.+).html$ ./index.php [L]
+RewriteRule ^layouts/(.+)/(.+)\.html$ ./index.php [L]
 
 # static files
-RewriteRule ^(.+)/files/member_extra_info/(.*) ./files/member_extra_info/$2 [L]
-RewriteRule ^(.+)/files/attach/(.*) ./files/attach/$2 [L]
-RewriteRule ^(.+)/files/cache/(.*) ./files/cache/$2 [L]
-RewriteRule ^(.+)/files/faceOff/(.*) ./files/faceOff/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/files/(.*) ./files/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/modules/(.*) ./modules/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/common/(.*) ./common/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/widgets/(.*) ./widgets/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/widgetstyle/(.*) ./widgetstyle/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/layouts/(.*) ./layouts/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/addons/(.*) ./addons/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/files/(.*) ./files/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/modules/(.*) ./modules/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/common/(.*) ./common/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/widgets/(.*) ./widgets/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/widgetstyle/(.*) ./widgetstyle/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/layouts/(.*) ./layouts/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/entry/addons/(.*) ./addons/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/files/(.*) ./files/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/modules/(.*) ./modules/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/common/(.*) ./common/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/widgets/(.*) ./widgets/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/widgetstyle/(.*) ./widgetstyle/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/layouts/(.*) ./layouts/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/addons/(.*) ./addons/$2 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/files/(.*) ./files/$3 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/modules/(.*) ./modules/$3 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/common/(.*) ./common/$3 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/widgets/(.*) ./widgets/$3 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/widgetstyle/(.*) ./widgetstyle/$3 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/layouts/(.*) ./layouts/$3 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/addons/(.*) ./addons/$3 [L]
+RewriteRule ^(?:.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) ./files/$1/$2 [L]
+RewriteRule ^(?:\w+)(?:/\w+(?:/entry)?)?/(files|modules|common|widgets|widgetStyle|layouts|addons)/(.*) ./$1/$2 [L]
 
 # rss , blogAPI
-RewriteRule ^rss$ ./index.php?module=rss&act=rss [L]
-RewriteRule ^atom$ ./index.php?module=rss&act=atom [L]
-RewriteRule ^([a-zA-Z0-9_]+)/rss$ ./index.php?mid=$1&act=rss [L]
-RewriteRule ^([a-zA-Z0-9_]+)/atom$ ./index.php?mid=$1&act=atom [L]
-RewriteRule ^([a-zA-Z0-9_]+)/api$ ./index.php?mid=$1&act=api [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/rss$ ./index.php?vid=$1&mid=$2&act=rss [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/atom$ ./index.php?vid=$1&mid=$2&act=atom [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/api$ ./index.php?vid=$1&mid=$2&act=api [L]
+RewriteRule ^(rss|atom)$ ./index.php?module=rss&act=$1 [L]
+RewriteRule ^(\w+)/(rss|atom|api)$ ./index.php?mid=$1&act=$2 [L]
+RewriteRule ^(\w+)/(\w+)/(rss|atom|api)$ ./index.php?vid=$1&mid=$2&act=$3 [L]
 
 # trackback
-RewriteRule ^([0-9]+)/(.+)/trackback$ ./index.php?document_srl=$1&key=$2&act=trackback [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?vid=$1&document_srl=$2&key=$3&act=trackback [L]
+RewriteRule ^(\d+)/(.+)/trackback$ ./index.php?document_srl=$1&key=$2&act=trackback [L]
+RewriteRule ^(\w+)/(\d+)/(.+)/trackback$ ./index.php?vid=$1&document_srl=$2&key=$3&act=trackback [L]
 
 # administrator page
 RewriteRule ^admin/?$ ./index.php?module=admin [L]
 
 # document permanent link
-RewriteRule ^([[:digit:]]+)$ ./index.php?document_srl=$1 [L]
+RewriteRule ^(\d+)$ ./index.php?document_srl=$1 [L]
 # vid + document permanent link
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?vid=$1&document_srl=$2 [L]
+RewriteRule ^(\w+)/(\d+)$ ./index.php?vid=$1&document_srl=$2 [L]
 
 # mid link
-RewriteRule ^([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?mid=$1 [L]
+RewriteRule ^(\w+)/?$ ./index.php?mid=$1 [L]
 # vid + mid link
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)(/){0,1}$ ./index.php?vid=$1&mid=$2 [L]
+RewriteRule ^(\w+)/(\w+)/?$ ./index.php?vid=$1&mid=$2 [L]
 
 # mid + document link
-RewriteRule ^([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?mid=$1&document_srl=$2 [L]
+RewriteRule ^(\w+)/(\d+)$ ./index.php?mid=$1&document_srl=$2 [L]
 # vid + mid + document link
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([[:digit:]]+)$ ./index.php?vid=$1&mid=$2&document_srl=$3 [L]
+RewriteRule ^(\w+)/(\w+)/(\d+)$ ./index.php?vid=$1&mid=$2&document_srl=$3 [L]
 
 # mid + entry title
-RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
+RewriteRule ^(\w+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
 # vid + mid + entry title
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L]
+RewriteRule ^(\w+)/(\w+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L]
