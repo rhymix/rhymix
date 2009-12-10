@@ -380,8 +380,8 @@
             if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
-            if($source_obj->get('category_srl')!=$obj->category_srl) {
-                if($source_obj->get('category_srl')) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
+            if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl) {
+                if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
                 if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
             }
 
