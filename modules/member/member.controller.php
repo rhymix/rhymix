@@ -1348,7 +1348,7 @@
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 
             // return 값이 없으면 존재하지 않는 사용자로 지정
-            if(!$user_id || $member_info->user_id != $user_id) return new Object(-1, 'invalid_user_id');
+            if(!$user_id || strtolower($member_info->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
 
             // 비밀번호 검사
             if($password && !$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
@@ -1375,7 +1375,7 @@
             // 자동 로그인 사용시 정보 처리
             if($keep_signed) {
                 // 자동 로그인 키 생성
-                $autologin_args->autologin_key = md5($user_id.$member_info->password.$_SERVER['REMOTE_ADDR']);
+                $autologin_args->autologin_key = md5(strtolower($user_id).$member_info->password.$_SERVER['REMOTE_ADDR']);
                 $autologin_args->member_srl = $member_info->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
