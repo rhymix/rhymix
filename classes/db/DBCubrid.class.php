@@ -422,18 +422,18 @@
                     $pipe = $v['pipe'];
 
                     $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
-					if(!$value) {
-                                                $value = $v['value'];
-						if (strpos ($value, '(')) $valuetmp = $value;
-                                                elseif (strpos ($value, ".") === false) $valuetmp = $value;
-                                                else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
-					} else $valuetmp = $value;
-                                        if (strpos ($name, '(')) $nametmp = $name;
-					elseif (strpos ($name, ".") === false) $nametmp = '"'.$name.'"';
-					else $nametmp = '"'.str_replace('.', '"."', $name).'"';
+                    if (!$value) {
+                        $value = $v['value'];
+                        if (strpos ($value, '(')) $valuetmp = $value;
+                        elseif (strpos ($value, ".") === false) $valuetmp = $value;
+                        else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
+                    } else $valuetmp = $value;
+                    if (strpos ($name, '(') > 0) $nametmp = $name;
+                    elseif (strpos ($name, ".") === false) $nametmp = '"'.$name.'"';
+                    else $nametmp = '"'.str_replace('.', '"."', $name).'"';
                     $str = $this->getConditionPart($nametmp, $valuetmp, $operation);
-                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
-                    $sub_condition .=  $str;
+                    if ($sub_condition) $sub_condition .= ' '.$pipe.' ';
+                    $sub_condition .= $str;
                 }
                 if($sub_condition) {
                     if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
@@ -617,8 +617,8 @@
 
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
-                if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" "'.$key  . '" on (' . $condition . ')';
+                if($condition) {
+                    $left_join[] = $val.' "'.$this->prefix.$output->_tables[$key].'" "'.$key.'" on ('.$condition.')';
                 }
             }
 
