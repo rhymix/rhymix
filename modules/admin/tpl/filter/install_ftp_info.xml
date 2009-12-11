@@ -2,7 +2,7 @@
     <form>
         <node target="ftp_user" required="true" />
         <node target="ftp_password" required="true" />
-        <node target="ftp_port" />
+        <node target="ftp_port" required="true" />
         <node target="sftp" />
     </form>
     <response callback_func="completeMessage">

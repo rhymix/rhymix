@@ -48,29 +48,5 @@
             $oMemberController = &getController('member');
             $oMemberController->procMemberLogout();
         }
-
-        /**
-         * @brief Save FTP PATH Info
-         * @return none
-         **/
-        function procSaveFTPPathInfo() {
-            $oInstallAdminController = &getAdminController('install');
-            $ftp_info = Context::getFTPInfo();
-            Context::set('ftp_user', $ftp_info->ftp_user);
-            Context::set('ftp_password', $ftp_info->ftp_password);
-            Context::set('ftp_port', $ftp_info->ftp_port);
-            Context::set('sftp', $ftp_info->sftp);
-            $oInstallAdminController->procInstallAdminSaveFTPInfo();
-        }
-
-        /**
-         * @brief Delete FTP Config Info
-         * @return delete success message
-         **/
-        function procDeleteFTPConfig() {
-            $ftp_config = Context::getFTPConfigFile();
-            FileHandler::removeFile($ftp_config);
-            return new Object(-1, 'success_deleted');
-        }
     }
 ?>

@@ -15,16 +15,11 @@
         sObj.value = module_srl;
         obj.value = decodeURIComponent(browser_title.replace(/\+/g," "))+' ('+mid+')';
     }
-<!--@if($ftp_info && $ftp_info->is_valid)-->
+<!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
     var pwd = '{$pwd}';
     params = new Array();
     params['pwd'] = pwd; 
     exec_xml('admin','getAdminFTPList', params, completeGetFtpInfo, new Array('list','error','message'));
-<!--@elseif($ftp_info && !$ftp_info->is_valid && $ftp_info->ftp_user && $ftp_info->ftp_password)-->
-    // if FTP Info is not valid, alert error message.
-    jQuery(function($) {
-        doCheckFTPInfo();
-    });
 <!--@end-->
 </script>
 
@@ -134,7 +129,6 @@
 
     <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_form_title}</h4>
     <p class="summary">{$lang->about_ftp_info}</p>
-<!--@if(!$ftp_info || !$ftp_info->is_valid)-->
     <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
     {@ $nCols = 3; }
     <table cellspacing="0" class="rowTable">
@@ -163,14 +157,13 @@
     </tr>
     </table>
     </form>
-<!--@elseif($ftp_info && $ftp_info->is_valid)-->
-    <p class="summary">{$lang->msg_ftp_connect_success}</p>
-    <p class="summary">{$lang->about_ftp_info_delete}</p>
-    <span class="button black strong"><button type="button" onclick="doDeleteFTPConfig(); return false;">{$lang->cmd_delete}</button></span>
-<!--@endif-->
-<!--@if($ftp_info && $ftp_info->is_valid)-->
+<!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
     <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_path_title}</h4>
     <form action="./" method="get" onsubmit="return procFilter(this, install_ftp_path)">
+    <input type="hidden" name="ftp_user" value="{$ftp_info->ftp_user}" />
+    <input type="hidden" name="ftp_password" value="{$ftp_info->ftp_password}" />
+    <input type="hidden" name="ftp_port" value="{$ftp_info->ftp_port}" />
+    <input type="hidden" name="sftp" value="{$ftp_info->sftp}" />
 
     <table cellspacing="0" class="rowTable">
     <tr>
