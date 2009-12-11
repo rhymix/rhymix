@@ -6,7 +6,9 @@
 .aside { width:180px; float:left; margin-right:30px; padding-bottom:30px; }
 
 .aside .categoryBox { background-color:#F8F8F8; padding:10px; width:160px; overflow:hidden; }
-.aside .categoryBox h3 { padding:0 0 10px 0; margin:0 0 10px 0; white-space:nowrap; overflow:hidden; color:#48494E; font-size:11px; font-weight:normal; background:transparent url(../img/hrE1.gif) repeat-x scroll left bottom;}
+.aside .categoryBox h3 { padding:0 0 10px 0; margin:0 0 10px 0; white-space:nowrap; overflow:hidden; color:#48494E; font-size:11px; font-weight:normal;}
+.aside .categoryBox .bottomLine {background:transparent url(../img/hrE1.gif) repeat-x scroll left bottom;}
+.aside .categoryBox .topLine {background:transparent url(../img/hrE1.gif) repeat-x scroll left top;}
 .aside .categoryBox h3 a { color:#48494E; font-size:12px; font-weight:bold; text-decoration:none; }
 .aside .categoryBox ul.category { margin:10px 0 0 0; padding:0; list-style:none; }
 .aside .categoryBox ul.category li { margin:0 0 10px 10px; }
@@ -19,7 +21,7 @@
 .aside .categoryBox ul.resourceManage li a { text-decoration:none; color:#747474; }
 .aside .categoryBox ul.resourceManage li a.selected { font-weight:bold; }
 
-.aside .searchBox { padding:10px 0; text-align:center; background:transparent url(../img/hrE1.gif) repeat-x scroll left top;}
+.aside .searchBox { padding:10px 0; text-align:center; } 
 .aside .searchBox input.input { border:1px solid #ddd; width:120px; height:16px;}
 .aside .searchBox input.submit { vertical-align:middle; }
 

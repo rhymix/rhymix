@@ -1,6 +1,6 @@
 <div class="aside">
     <div class="categoryBox">
-        <h3><a href="{getUrl('category_srl','')}">{$lang->view_all_package}</a> <span>({$tCount})</span></h3>
+        <h3 class="bottomLine"><a href="{getUrl('act','dispAutoinstallAdminIndex','category_srl','')}">{$lang->view_all_package}</a> <span>({$tCount})</span></h3>
         {@ $_pDepth = 0;}
 
         <ul class="category">
@@ -14,9 +14,9 @@
             <!--@end-->
             <li>
                 <!--@if(count($val->children))-->
-                <a href="{getUrl('category_srl',$val->category_srl,'childrenList',$val->childrenList)}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
+                <a href="{getUrl('act','dispAutoinstallAdminIndex','category_srl',$val->category_srl,'childrenList',$val->childrenList)}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
                 <!--@else-->
-                <a href="{getUrl('category_srl',$val->category_srl,'childrenList','')}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
+                <a href="{getUrl('act','dispAutoinstallAdminIndex','category_srl',$val->category_srl,'childrenList','')}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
                 <!--@end-->
                 <!--@if($val->nPackages)-->
                 <span>({$val->nPackages})</span>
@@ -33,7 +33,7 @@
         <!--@end-->
         </li>
         </ul>
-        <div class="searchBox">
+        <div class="searchBox bottomLine">
             <form action="{getUrl()}" method="get">
                 <input type="hidden" name="category_srl" value="{$category_srl}" />
                 <input type="hidden" name="module" value="admin" />
@@ -42,6 +42,9 @@
                 <input type="image" src="./img/btn_search.gif" class="submit" />
             </form>
         </div>
+        <br />
+        <h3><a href="{getUrl('','module','admin','act','dispAutoinstallAdminInstalledPackages')}">{$lang->view_installed_packages}</a> <span>({$iCount})</span></h3>
+
     </div>
 
 </div>

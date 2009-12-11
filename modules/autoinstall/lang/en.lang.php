@@ -1,12 +1,12 @@
 <?php
     /**
      * @file   en.lang.php
-     * @author sol (sol@ngleader.com)
-     * @brief  Autoinstall(autoinstall) 모듈의 기본 언어팩
+     * @author haneul (haneul0318@gmail.com)
+     * @brief  Autoinstall(autoinstall) language pack (English)
      **/
 
-    $lang->autoinstall = 'One Click Installer';
-    $lang->about_autoinstall = 'One Click Installer will help you install/upgrade programs(skins) for XE.';
+    $lang->autoinstall = 'EasyInstall';
+    $lang->about_autoinstall = 'EasyInstall module will help you install/upgrade programs(skins) for XE.';
     $lang->package_update = 'Recent Update';
     $lang->package_downloaded_count = 'Download Count';
     $lang->need_update = "Please update package list first.";
@@ -17,15 +17,16 @@
     $lang->success_installed = "Successfully Installed";
     $lang->view_all_package = "View All";
     $lang->description_ftp_note = "If FTP configuration is not set, installation would not work. Please configure FTP information";
-    $lang->description_update = "If you have upgraded or installed programs without One Click Installer, please press update button to renew new information.";
+    $lang->description_update = "If you have upgraded or installed programs without EasyInstall module, please press update button to renew new information.";
     $lang->install = "Install";
     $lang->update = "Update";
     $lang->current_version = "Version";
     $lang->depending_programs = "This program is depending on ";
     $lang->require_update = "Update is required.";
     $lang->require_installation = "Installation is required.";
-    $lang->description_install = "One Click Installer will also install/update all other programs which this program is depending on";
+    $lang->description_install = "EasyInstall will also install/update all other programs which this program is depending on";
     $lang->description_download = "If FTP is unavailable, you should manually download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)";
     $lang->path = "Path";
     $lang->cmd_download = "Download";
+    $lang->view_installed_packages = "Installed Packages";
 ?>

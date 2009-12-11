@@ -28,4 +28,5 @@
     $lang->description_download = "Khi FTP không được mở, bạn nên tải về và giả nén, sau đó Upload theo đường dẫn. (Nếu đường dẫn là ./modules/board, thì giải nén vào ./modules)";
     $lang->path = "Đường dẫn";
     $lang->cmd_download = "Download";
+    $lang->view_installed_packages = "Installed Packages";
 ?>

@@ -1,4 +1,5 @@
 <div class="content">
+    <!--@if($act == "dispAutoinstallAdminIndex")-->
     <ul class="listOrder {$order_type}">
         <!--@if($order_target=='newest')-->
             <!--@if($order_type == 'desc')-->{@$_order_type = 'asc'}<!--@else-->{@$_order_type = 'desc'}<!--@end-->
@@ -19,6 +20,7 @@
         <!--@end-->
         <li <!--@if($order_target=='popular')-->class="arrow"<!--@end-->><a href="{getUrl('order_target','popular','order_type',$_order_type)}">{$lang->order_popular}</a></li>
     </ul>
+    <!--@end-->
 
     <table class="updateList" border="1" cellspacing="0">
     <col width="120" /><col />

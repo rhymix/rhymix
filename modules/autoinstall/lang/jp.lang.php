@@ -28,4 +28,5 @@
     $lang->description_download = "FTPの利用が出来ない場合は、直接ダウンロードし、サーバー上の該当パスにてインストールして下さい。 (一つ上階層にて解凍します。　./modules/board　の場合 ./modulesにて tarを解凍して下さい。)";
     $lang->path = "インストールパス";
     $lang->cmd_download = "ダウンロード";
+    $lang->view_installed_packages = "Installed Packages";
 ?>

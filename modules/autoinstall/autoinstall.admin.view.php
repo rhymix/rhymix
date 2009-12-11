@@ -14,6 +14,14 @@
             Context::set('original_site', $this->original_site);
             Context::set('uri', $this->uri);
 		    $this->setTemplatePath($template_path);
+
+            $ftp_info =  Context::getFTPInfo();
+            if(!$ftp_info->ftp_root_path) Context::set('show_ftp_note', true);
+
+            $this->dispCategory();
+            $oModel = &getModel('autoinstall');
+            Context::set('tCount', $oModel->getPackageCount(null));
+            Context::set('iCount', $oModel->getInstalledPackageCount());
 	    }
 
         function rearrange(&$item, &$targets)
@@ -26,7 +34,7 @@
             return $ret;
         }
 
-        function rearranges($items)
+        function rearranges($items, $packages = null)
         {
             if(!is_array($items)) $items = array($items);
             $item_list = array();
@@ -37,7 +45,8 @@
                 $targetpackages[$item->package_srl->body] = 0;
             }
             $oModel = &getModel('autoinstall');
-            $packages = $oModel->getInstalledPackages(array_keys($targetpackages));
+            if($package == null)
+                $packages = $oModel->getInstalledPackages(array_keys($targetpackages));
 
             foreach($items as $item)
             {
@@ -53,11 +62,39 @@
             return $item_list;
         }
 
+        function dispAutoinstallAdminInstalledPackages()
+        {
+            $page = Context::get('page');
+            if(!$page) $page = 1; 
+            Context::set('page', $page);
+            $oModel = &getModel('autoinstall');
+            $output = $oModel->getInstalledPackageList($page);
+            $package_list = $output->data;
+
+            $params["act"] = "getResourceapiPackages";
+            $params["package_srls"] = implode(",", array_keys($package_list)); 
+            $body = XmlGenerater::generate($params);
+            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $xml_lUpdate = new XmlParser();
+            $xmlDoc = $xml_lUpdate->parse($buff);
+            if($xmlDoc && $xmlDoc->response->packagelist->item)
+            {
+                $item_list = $this->rearranges($xmlDoc->response->packagelist->item, $package_list);
+                $res = array();
+                foreach($package_list as $package_srl => $package)
+                {
+                    $res[] = $item_list[$package_srl];
+                }
+                Context::set('item_list', $res); 
+            }
+            Context::set('page_navigation', $output->page_navigation);
+
+            $this->setTemplateFile('index'); 
+        }
+
         function dispAutoinstallAdminInstall() {
             $package_srl = Context::get('package_srl');
             if(!$package_srl) return $this->dispAutoinstallAdminIndex();
-            $ftp_info =  Context::getFTPInfo();
-            if(!$ftp_info->ftp_root_path) Context::set('show_ftp_note', true);
 
             $params["act"] = "getResourceapiInstallInfo";
             $params["package_srl"] = $package_srl;
@@ -185,10 +222,13 @@
                 Context::set('page_navigation', $page_navigation);
             }
 
+        }
+
+        function dispCategory()
+        {
             $oModel = &getModel('autoinstall');
             $categories = &$oModel->getCategoryList();
             Context::set('categories', $categories);
-            Context::set('tCount', $oModel->getPackageCount(null));
         }
     }
 ?>
