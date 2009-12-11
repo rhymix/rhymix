@@ -151,8 +151,8 @@
     $lang->regdate = 'Registered Date';
     $lang->last_update = 'Last Update';
     $lang->last_post = 'Last Post';
-    $lang->signup_date = 'Join Date';
-    $lang->last_login = 'Last Login';
+    $lang->signup_date = 'Sign up Date';
+    $lang->last_login = 'Last Sign in';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
     $lang->search_target = 'Target for Search';
