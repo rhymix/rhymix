@@ -46,7 +46,7 @@
      * 2 : 소요시간, Request/Response info 출력
      * 4 : DB 쿼리 내역 출력
      **/
-    if(!defined('__DEBUG__')) define('__DEBUG__', 1);
+    if(!defined('__DEBUG__')) define('__DEBUG__', 0);
 
     /**
      * @brief 디버그 메세지의 출력 장소
