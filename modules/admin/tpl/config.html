@@ -159,11 +159,7 @@
     </form>
 <!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
     <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_path_title}</h4>
-    <form action="./" method="get" onsubmit="return procFilter(this, install_ftp_path)">
-    <input type="hidden" name="ftp_user" value="{$ftp_info->ftp_user}" />
-    <input type="hidden" name="ftp_password" value="{$ftp_info->ftp_password}" />
-    <input type="hidden" name="ftp_port" value="{$ftp_info->ftp_port}" />
-    <input type="hidden" name="sftp" value="{$ftp_info->sftp}" />
+    <form action="./" method="POST" onsubmit="return procFilter(this, install_ftp_path)">
 
     <table cellspacing="0" class="rowTable">
     <tr>
