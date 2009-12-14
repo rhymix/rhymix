@@ -138,7 +138,6 @@ _app_base = {
 		$.each(oPlugin, function(key, val){
 			if (!$.isFunction(val)) return true;
 			if (!/^API_((BEFORE_|AFTER_)?[A-Z0-9_]+)$/.test(key)) return true;
-
 			var fn = function(s,p){ return oPlugin[key](s,p) };
 			fn._fn = val;
 
@@ -220,7 +219,7 @@ _app_base = {
 		this._fn_level++;
 
 		// BEFORE hooker
-		if (aMsg['BEFORE_'+msg] || this['BEFORE_'+msg]) {
+		if (aMsg['BEFORE_'+msg] || this['API_BEFORE_'+msg]) {
 			var bContinue = this._cast(sender, 'BEFORE_'+msg, params);
 			if (!bContinue) {
 				this._fn_level--;
@@ -240,7 +239,7 @@ _app_base = {
 		if (vRet.length < 2) vRet = vRet[0];
 
 		// AFTER hooker
-		if (aMsg['AFTER_'+msg] || this['AFTER_'+msg]) {
+		if (aMsg['AFTER_'+msg] || this['API_AFTER_'+msg]) {
 			this._cast(sender, 'AFTER_'+msg, params);
 		}
 
