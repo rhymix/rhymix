@@ -59,6 +59,7 @@ _xe_base = {
 	 * @brief Get one application
 	 */
 	getApp : function(indexOrName) {
+		indexOrName = (indexOrName||'').toLowerCase();
 		if (typeof _apps[indexOrName] != 'undefined') {
 			return _apps[indexOrName];
 		} else {
@@ -141,12 +142,8 @@ _app_base = {
 			var fn = function(s,p){ return oPlugin[key](s,p) };
 			fn._fn = val;
 
-			if (RegExp.$2) { // is hooker?
-				if (!$.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
-				msgs[RegExp.$1].push(fn);
-			} else { // register only one main function
-				msgs[RegExp.$1] = fn;
-			}
+			if (!$.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
+			msgs[RegExp.$1].push(fn);
 		});
 
 		// set the application
@@ -296,6 +293,7 @@ function getTypeBase() {
 }
 
 window.xe = $.extend(_app_base, _xe_base);
+window.xe.lang = {}; // language repository
 
 // domready event
 $(function(){ xe.broadcast(xe, 'ONREADY'); });
