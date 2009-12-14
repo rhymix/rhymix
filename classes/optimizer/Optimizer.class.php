@@ -136,26 +136,30 @@
              * 실제 css나 js의 내용을 합친 것을 구함
              **/
             // 대상 파일의 내용을 구해오고 css 파일일 경우 url()내의 경로를 변경
-
             $content_filename = substr($filename, 0, -4);
             $file_object = FileHandler::openFile($path."/".$content_filename, "w");
 
-            if($type == 'css') $file_object->write('@charset "UTF-8";'."\n");
+            $str_to_write = '';
+            if($type == 'css') $str_to_write .= '@charset "UTF-8";'."\n";
+
             foreach($targets as $file) {
                 $str = FileHandler::readFile($file['file']);
 
-                $str = Context::convertEncodingStr($str);
+                $str = trim(Context::convertEncodingStr($str));
 
                 // css 일경우 background:url() 변경 / media 적용
                 if($type == 'css') {
                     $str = $this->replaceCssPath($file['file'], $str);
                     if($file['media'] != 'all') $str = '@media '.$file['media'].' {'."\n".$str."\n".'}';
                 }
-                $file_object->write($str);
-                $file_object->write("\n");
+                $str_to_write .= $str;
+                $str_to_write .= "\n";
                 unset($str);
             }
 
+            $str_to_write = $this->doCompressCode($str_to_write);
+
+            $file_object->write($str_to_write);
             $file_object->close();
 
             /**
@@ -245,6 +249,17 @@ if(!$cached) {
             }
 
             return 'url("'.$target.'")';
+        }
+
+        function doCompressCode($str_code) {
+            $str_code = str_replace("\r", "\n", $str_code);
+            $str_code = preg_replace("!^([ \t]+)!m", '', $str_code);
+            $str_code = preg_replace("!([ \t]+)$!m", '', $str_code);
+            $str_code = preg_replace("!^\/\*(\X*?)\*\/$!m", '', $str_code);
+            $str_code = preg_replace('!^\/\/([^\n]*)!m', '', $str_code);
+            $str_code = preg_replace("!(\n{2,})!m", "\n", $str_code);
+
+            return trim($str_code);
         }
 
     }
