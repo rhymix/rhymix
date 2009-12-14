@@ -20,13 +20,13 @@
     $lang->description_update = "如果您最近不是用自動安裝模組更新或安裝，請點擊更新按鈕更新。";
     $lang->install = "安裝";
     $lang->update = "更新";
+    $lang->current_version = "版本";
     $lang->depending_programs = "This program depends on ";
     $lang->require_update = "需要更新";
     $lang->require_installation = "需要安裝";
-    $lang->description_install = "Installation process also install/update programs which this program depends on";
-    $lang->current_version = "安裝版本";
-    $lang->description_download = "When FTP is disabled, you should download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)";
+    $lang->description_install = "One Click Installer will also install/update all other programs which this program is depending on";
+    $lang->description_download = "如果FTP無法使用的話，必須要手動下載並解壓縮到目標路徑。(假設目標路徑為 ./modules/board的話，將檔案解壓縮到 ./modules就可以了)";
     $lang->path = "路徑";
-    $lang->cmd_download = "Download";
-    $lang->view_installed_packages = "Installed Packages";
+    $lang->cmd_download = "下載";
+    $lang->view_installed_packages = "已安裝套裝軟體";
 ?>
