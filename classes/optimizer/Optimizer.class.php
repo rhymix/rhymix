@@ -255,8 +255,8 @@ if(!$cached) {
             $str_code = str_replace("\r", "\n", $str_code);
             $str_code = preg_replace("!^([ \t]+)!m", '', $str_code);
             $str_code = preg_replace("!([ \t]+)$!m", '', $str_code);
-            $str_code = preg_replace("!^\/\*(\X*?)\*\/$!m", '', $str_code);
-            $str_code = preg_replace('!^\/\/([^\n]*)!m', '', $str_code);
+            $str_code = preg_replace("!^\/\*(.+?)\*\/$!sm", '', $str_code);
+            $str_code = preg_replace("!^\/\/([^\n]*)$!m", '', $str_code);
             $str_code = preg_replace("!(\n{2,})!m", "\n", $str_code);
 
             return trim($str_code);
