@@ -835,4 +835,26 @@
         }
     }
 
+
+    function isCrawler($agent = null) {
+        if(!$agent) $agent = $_SERVER['HTTP_USER_AGENT'];
+        $check_agent = array('bot', 'google', 'yahoo', 'daum', 'fish', 'hanrss');
+        $check_ip = array(
+            '211.245.21.11*' /* mixsh */
+        );
+
+        foreach($check_agent as $str) {
+            if(stristr($agent, $str) != FALSE) return true;
+        }
+
+        $check_ip = '/^('.implode($check_ip, '|').')/';
+        $check_ip = str_replace('.', '\.', $check_ip);
+        $check_ip = str_replace('*', '.+', $check_ip);
+        $check_ip = str_replace('?', '.?', $check_ip);
+
+        if(preg_match($check_ip, $_SERVER['REMOTE_ADDR'], $matches)) return true;
+
+        return false;
+    }
+
 ?>

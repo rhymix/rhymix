@@ -360,7 +360,7 @@
          **/
         function checkSSO() {
             // pass if it's not GET request or XE is not yet installed
-            if(stristr($_SERVER["HTTP_USER_AGENT"], "bot") != FALSE) return true;
+            if(isCrawler()) return true;
             if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || in_array(Context::get('act'),array('rss','atom'))) return true;
 
             // pass if default URL is not set 
