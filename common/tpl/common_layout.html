@@ -19,17 +19,6 @@
 <!--@end-->
     <meta http-equiv="imagetoolbar" content="no" />
     <title>{Context::getBrowserTitle()}</title>
-{@ $js_files = Context::getJsFile() }
-<!--@foreach($js_files as $key => $js_file)-->
-<!--@if($js_file['targetie'])-->
-    <!--[if {$js_file['targetie']}]>
-<!--@end-->
-    <script type="text/javascript" src="{$js_file['file']}"></script>
-<!--@if($js_file['targetie'])-->
-    <![endif]-->
-<!--@end-->
-<!--@end-->
-
 {@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
 <!--@if($css_file['targetie'])-->
@@ -37,6 +26,16 @@
 <!--@end-->
     <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
 <!--@if($css_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
+{@ $js_files = Context::getJsFile() }
+<!--@foreach($js_files as $key => $js_file)-->
+<!--@if($js_file['targetie'])-->
+    <!--[if {$js_file['targetie']}]>
+<!--@end-->
+    <script type="text/javascript" src="{$js_file['file']}"></script>
+<!--@if($js_file['targetie'])-->
     <![endif]-->
 <!--@end-->
 <!--@end-->
