@@ -102,7 +102,7 @@
 
                 exit();
             }
-            Context::addJsFile('./addons/captcha/captcha.js',false);
+            Context::addJsFile('./addons/captcha/captcha.min.js',false);
 
             // 게시판/ 이슈트래커의 글쓰기/댓글쓰기 액션 호출시 세션 비교
             if(in_array(Context::get('act'), $target_acts)) {
