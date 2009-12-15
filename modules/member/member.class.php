@@ -118,6 +118,7 @@
             FileHandler::makeDir('./files/member_extra_info/profile_image');
             FileHandler::makeDir('./files/member_extra_info/signature');
 
+            $oDB->addIndex("member_openid_association","idx_assoc", array("server_url(255)","handle"), false);
             return new Object();
         }
 
@@ -192,6 +193,10 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
+            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
+            require_once('Auth/OpenID/XEStore.php');
+            $store = new Auth_OpenID_XEStore();
+            $store->reset();
         }
     }
 ?>

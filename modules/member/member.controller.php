@@ -47,43 +47,34 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
 
-            ob_start();
-            require('./modules/member/openid_lib/class.openid.php');
-            require_once('./modules/member/openid_lib/libcurlemu.inc.php');
+            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
+            require_once('Auth/OpenID.php');
+            require_once('Auth/OpenID/Consumer.php');
+            require_once('Auth/OpenID/XEStore.php');
+            $store = new Auth_OpenID_XEStore();
+            $consumer = new Auth_OpenID_Consumer($store);
 
             $user_id = Context::get('user_id');
             if (!$user_id) $user_id = Context::get('openid');
+            $auth_request = $consumer->begin($user_id); 
+            $auth_request->addExtensionArg('sreg', 'required', 'email');
+            $auth_request->addExtensionArg('sreg', 'optional', 'dob');
+            if(!$auth_request)
+            {
+                return new Object(-1, "association failed");
+            }
 
+            $trust_root = 'http://'.$_SERVER["HTTP_HOST"];
             $referer_url = Context::get('referer_url');
             if (!$referer_url) $referer_url = $_SERVER['HTTP_REFERER'];
             if (!$referer_url)
                 $referer_url = htmlspecialchars_decode(getRequestUri(RELEASE_SSL));
-
-            $openid = new SimpleOpenID();
-
-            $openid->SetIdentity($user_id);
-            $openid->SetTrustRoot('http://' . $_SERVER["HTTP_HOST"]);
-
-            $openid->SetRequiredFields(array('email'));
-            $openid->SetOptionalFields(array('dob'));
-
-            if (!$openid->GetOpenIDServer()) {
-                $error = $openid->GetError();
-                $this->setError(-1);
-                $this->setMessage($error['description']);
-
-                if (Context::getRequestMethod() == 'POST')
-                    header("location:" . $referer_url);
-            } else {
-                $goto = urlencode($referer_url);
-                $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
-                $openid->SetApprovedURL($ApprovedURL);
-                $url = $openid->GetRedirectURL();
-                $this->add('redirect_url', $url);
-                if (Context::getRequestMethod() == 'POST')
-                    header("location:" . $url);
-            }
-            ob_clean();
+            $goto = urlencode($referer_url);
+            $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
+            $redirect_url = $auth_request->redirectURL($trust_root, $ApprovedURL);
+            $this->add("redirect_url", $redirect_url);
+            if (Context::getRequestMethod() == 'POST')
+                header("location:" . $redirect_url);
         }
 
         function getLegacyUserIDsFromOpenID($openid_identity) {
@@ -127,120 +118,109 @@
             return $result;
         }
 
-        function doOpenIDValidate($openid) {
-            // use the JanRain php-openid library
-            require_once($this->module_path.'php-openid-1.2.3/Auth/OpenID/URINorm.php');
-
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
-
-            ob_start();
-            require($this->module_path.'openid_lib/class.openid.php');
-            require_once($this->module_path.'openid_lib/libcurlemu.inc.php');
-
-            $openid_ctx = new SimpleOpenID;
-
-            $openid_ctx->SetIdentity(Auth_OpenID_urinorm($openid));
-            $openid_ctx->validation_result = $openid_ctx->ValidateWithServer();
-            ob_clean();
-
-            return $openid_ctx;
-        }
-
         /**
          * @brief openid 인증 체크
          **/
         function procMemberOpenIDValidate() {
-            $openid = $this->doOpenIDValidate($_GET['openid_identity']);
-            $openid_identity = $openid->GetIdentity();
-            $openid_validation_result = $openid->validation_result;
+            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
+            require_once('Auth/OpenID.php');
+            require_once('Auth/OpenID/Consumer.php');
+            require_once('Auth/OpenID/XEStore.php');
+            require_once('Auth/OpenID/URINorm.php');
 
-            // 인증 성공
-            if ($openid_validation_result == true) {
-                $oMemberModel = &getModel('member');
-
-                //  이 오픈아이디와 연결된 (또는 연결되어 있을 가능성이 있는) 제로보드 아이디들을 받아온다.
-                $login_success = false;
-                $assoc_member_info = null;
-
-                $args->openid = $openid_identity;
-                $output = executeQuery('member.getMemberSrlByOpenID', $args);
-
-                if ($output->toBool() && !is_array($output->data)) {
-                    $member_srl = $output->data->member_srl;
-                    $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-                    if ($member_info) {
-                        $assoc_member_info = $member_info;
-                    }
-                }
-
-                $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
-                $default_user_id = $user_id_candidates[0];
-
-                if ($assoc_member_info != null) {
-                    $user_id_candidates = array_merge(array($assoc_member_info->user_id), $user_id_candidates);
-                }
-
-                foreach($user_id_candidates as $user_id) {
-                    $args->user_id = $args->nick_name = $user_id;
-                    // 기본 정보들을 받음
-                    $args->email_address = Context::get('openid_sreg_email');
-                    $args->user_name = Context::get('openid_sreg_fullname');
-                    if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
-                    $args->birthday = str_replace('-','',Context::get('openid_sreg_dob'));
-
-                    // 자체 인증 시도
-                    $output = $this->doLogin($args->user_id);
-
-
-                    if ($output->toBool()) {
-                        if ($assoc_member_info == null) {
-                            $logged_info = Context::get('logged_info');
-                            $args->member_srl = $logged_info->member_srl;
-                            $args->openid = $openid_identity;
-                            executeQuery('member.addOpenIDToMember', $args);
-                        }
-                        $login_success = true;
-                        break;
-                    }
-                }
-
-                // 자체 인증 실패시 회원 가입시킴
-                if(!$login_success) {
-                    $args->user_id = $args->nick_name = $default_user_id;
-                    $args->password = md5(getmicrotime());
-
-                    $output = $this->insertMember($args);
-                    if(!$output->toBool()) return $this->stop($output->getMessage());
-                    $output = $this->doLogin($args->user_id);
-                    if(!$output->toBool()) return $this->stop($output->getMessage());
-
-                    $logged_info = Context::get('logged_info');
-                    $args->member_srl = $logged_info->member_srl;
-                    $args->openid = $openid_identity;
-                    executeQuery('member.addOpenIDToMember', $args);
-                }
-
-                Context::close();
-
-                // 페이지 이동
-                if(Context::get('goto')) {
-                    $goto = Context::get('goto');
-                    header("location:" . $goto);
-                } else {
-                    header("location:./");
-                }
-
-                exit();
-
-            // 인증 실패
-            } else if($openid->IsError() == true) {
-                $error = $openid->GetError();
-                return $this->stop($error['description']);
-            } else {
+            $store = new Auth_OpenID_XEStore();
+            $consumer = new Auth_OpenID_Consumer($store);
+            $response = $consumer->complete($_GET);
+            switch($response->status) {
+                case Auth_OpenID_CANCEL :
+                // 사용자가 인증을 취소했을 때의 처리
+                return $this->stop('authorization_canceled');
+            case Auth_OpenID_FAILURE :
+                // 무언가의 문제로 인해 인증이 실패했을 때의 처리(인증을 요구한 openid가 없다든가..)
+                return $this->stop('invalid_authorization');
+            case Auth_OpenID_SUCCESS :
+                // 인증성공!!
+                break;
+            default:
                 return $this->stop('invalid_authorization');
             }
+
+            // 인증 성공
+            $oMemberModel = &getModel('member');
+
+            //  이 오픈아이디와 연결된 (또는 연결되어 있을 가능성이 있는) 제로보드 아이디들을 받아온다.
+            $login_success = false;
+            $assoc_member_info = null;
+            $openid_identity = $response->signed_args["openid.identity"];
+            $args->openid = $openid_identity;
+            $output = executeQuery('member.getMemberSrlByOpenID', $args);
+
+            if ($output->toBool() && $output->data && !is_array($output->data)) {
+                $member_srl = $output->data->member_srl;
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+                if ($member_info) {
+                    $assoc_member_info = $member_info;
+                }
+            }
+            
+            $user_id_candidates = $this->getLegacyUserIDsFromOpenID($openid_identity);
+            $default_user_id = $user_id_candidates[0];
+
+            if ($assoc_member_info != null) {
+                $user_id_candidates = array_merge(array($assoc_member_info->user_id), $user_id_candidates);
+            }
+            $sreg = $response->extensionResponse('sreg');
+
+            foreach($user_id_candidates as $user_id) {
+                $args->user_id = $args->nick_name = $user_id;
+                // 기본 정보들을 받음
+                $args->email_address = $sreg['email']; 
+                $args->user_name = $sreg['fullname'];
+                if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
+                $args->birthday = str_replace('-','',$sreg['dob']);
+
+                // 자체 인증 시도
+                $output = $this->doLogin($args->user_id);
+
+                if ($output->toBool()) {
+                    if ($assoc_member_info == null) {
+                        $logged_info = Context::get('logged_info');
+                        $args->member_srl = $logged_info->member_srl;
+                        $args->openid = $openid_identity;
+                        executeQuery('member.addOpenIDToMember', $args);
+                    }
+                    $login_success = true;
+                    break;
+                }
+            }
+
+            // 자체 인증 실패시 회원 가입시킴
+            if(!$login_success) {
+                $args->user_id = $args->nick_name = $default_user_id;
+                $args->password = md5(getmicrotime());
+
+                $output = $this->insertMember($args);
+                if(!$output->toBool()) return $this->stop($output->getMessage());
+                $output = $this->doLogin($args->user_id);
+                if(!$output->toBool()) return $this->stop($output->getMessage());
+
+                $logged_info = Context::get('logged_info');
+                $args->member_srl = $logged_info->member_srl;
+                $args->openid = $openid_identity;
+                executeQuery('member.addOpenIDToMember', $args);
+            }
+
+            Context::close();
+
+            // 페이지 이동
+            if(Context::get('goto')) {
+                $goto = Context::get('goto');
+                header("location:" . $goto);
+            } else {
+                header("location:./");
+            }
+
+            exit();
         }
 
         /**
@@ -1516,7 +1496,6 @@
 
             // 모델 객체 생성
             $oMemberModel = &getModel('member');
-
             // 금지 아이디인지 체크
             if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
 
