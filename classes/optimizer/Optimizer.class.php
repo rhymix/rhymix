@@ -253,9 +253,11 @@ if(!$cached) {
 
         function doCompressCode($str_code) {
             $str_code = str_replace("\r", "\n", $str_code);
+            $str_code = preg_replace("!\/\*([^\"']*?)\*\/!sm", '', $str_code);
             $str_code = preg_replace("!^([ \t]+)!m", '', $str_code);
             $str_code = preg_replace("!([ \t]+)$!m", '', $str_code);
-            $str_code = preg_replace("!^\/\*(.+?)\*\/$!sm", '', $str_code);
+            $str_code = preg_replace("!^\/\*([^/]*?)\*\/$!sm", '', $str_code);
+            $str_code = preg_replace("!^\/\*([^*]*?)\*\/$!sm", '', $str_code);
             $str_code = preg_replace("!^\/\/([^\n]*)$!m", '', $str_code);
             $str_code = preg_replace("!(\n{2,})!m", "\n", $str_code);
 
