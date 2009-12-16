@@ -111,7 +111,7 @@ class Auth_OpenID_XEStore extends Auth_OpenID_OpenIDStore {
         return $r;
     }
 
-    function _get_assoc($server_url, $handle)
+    function _get_assoc($server_url, $handle, $getOrig = false)
     {
         $args->server_url = $server_url;
         $args->handle = $handle;
@@ -121,6 +121,7 @@ class Auth_OpenID_XEStore extends Auth_OpenID_OpenIDStore {
         if(count($output->data) == 1) {
             $assoc = array_shift($output->data);
             $assoc->secret = $this->hex2bin($assoc->secret);
+            if($getOrig) return $assoc;
             return $this->_check_expire($assoc);
         }
         
@@ -154,7 +155,7 @@ class Auth_OpenID_XEStore extends Auth_OpenID_OpenIDStore {
 
     function removeAssociation($server_url, $handle)
     {
-        if ($this->_get_assoc($server_url, $handle) == null) {
+        if ($this->_get_assoc($server_url, $handle, true) == null) {
             return false;
         }
 
