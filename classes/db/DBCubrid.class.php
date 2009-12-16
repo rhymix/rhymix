@@ -571,14 +571,13 @@
 				foreach($output->columns as $k => $v) $incr_columns[]= 'incr("'.$v['name'].'")';
 				
 				$query = sprintf('select %s from %s %s',join(',',$incr_columns), implode(',',$table_list), $condition);
-				if(!$this->transaction_started) @cubrid_commit($this->fd);
-				
-				return $result;
 			}else{
 				$query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
-
-				return $this->_query($query);
 			}
+
+			$result = $this->_query($query);
+			if($result && !$this->transaction_started) @cubrid_commit($this->fd);
+			return $result;
 		}
 
         /**
@@ -594,8 +593,9 @@
             $condition = $this->getCondition($output);
 
             $query = sprintf("delete from %s %s", implode(',',$table_list), $condition);
-
-            return $this->_query($query);
+			$result = $this->_query($query);
+			if($result && !$this->transaction_started) @cubrid_commit($this->fd);
+			return $result;
         }
 
         /**
