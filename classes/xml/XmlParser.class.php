@@ -39,6 +39,7 @@
             $this->lang = Context::getLangType();
 
             $this->input = $input?$input:$GLOBALS['HTTP_RAW_POST_DATA'];
+			$this->input = str_replace(array('',''),array('',''),$this->input);
 
             // 지원언어 종류를 뽑음
             preg_match_all("/xml:lang=\"([^\"].+)\"/i", $this->input, $matches);
