@@ -4,7 +4,9 @@ RewriteEngine On
 RewriteRule ^layouts/(.+)/(.+)\.html$ ./index.php [L]
 
 # static files
+RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) ./files/$2/$3 [L]
+RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(\w+)(/\w+(/entry)?)?/(files|modules|common|widgets|widgetStyle|layouts|addons)/(.*) ./$4/$5 [L]
 
 # rss , blogAPI
@@ -25,8 +27,10 @@ RewriteRule ^(\d+)$ ./index.php?document_srl=$1 [L]
 RewriteRule ^(\w+)/(\d+)$ ./index.php?vid=$1&document_srl=$2 [L]
 
 # mid link
+RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(\w+)/?$ ./index.php?mid=$1 [L]
 # vid + mid link
+RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(\w+)/(\w+)/?$ ./index.php?vid=$1&mid=$2 [L]
 
 # mid + document link
