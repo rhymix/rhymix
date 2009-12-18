@@ -4,8 +4,8 @@ RewriteEngine On
 RewriteRule ^layouts/(.+)/(.+)\.html$ ./index.php [L]
 
 # static files
-RewriteRule ^(?:.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) ./files/$1/$2 [L]
-RewriteRule ^(?:\w+)(?:/\w+(?:/entry)?)?/(files|modules|common|widgets|widgetStyle|layouts|addons)/(.*) ./$1/$2 [L]
+RewriteRule ^(.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) ./files/$2/$3 [L]
+RewriteRule ^(\w+)(/\w+(/entry)?)?/(files|modules|common|widgets|widgetStyle|layouts|addons)/(.*) ./$4/$5 [L]
 
 # rss , blogAPI
 RewriteRule ^(rss|atom)$ ./index.php?module=rss&act=$1 [L]
