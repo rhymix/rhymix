@@ -21,6 +21,9 @@
             // 목록 구현에 필요한 변수들을 가져온다
             $document_srl = Context::get('document_srl');
 
+            $oModuleModel = &getModel('module');
+            $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+
             // document 객체를 생성. 기본 데이터 구조의 경우 document모듈만 쓰면 만사 해결.. -_-;
             $oDocumentModel = &getModel('document');
 
@@ -30,6 +33,9 @@
 
             // 권한 체크
             if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
+
+            // 모듈 정보 세팅
+            Context::set('module_info', $module_info);
 
             // 브라우저 타이틀 설정
             Context::setBrowserTitle($oDocument->getTitleText());
