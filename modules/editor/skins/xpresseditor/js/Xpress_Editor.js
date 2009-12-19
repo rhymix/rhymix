@@ -5838,6 +5838,7 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 
 		this.elFormatSelect.value = blockName.toLowerCase();
 		if(this.elFormatSelect.selectedIndex < 0) this.elFormatSelect.selectedIndex = 0;
+		if(this.elFormatSelect.value != blockName.toLowerCase()) this.elFormatSelect.selectedIndex = 0;
 	},
 
 	$ON_SET_FORMAT_FROM_SELECT_UI : function(){
