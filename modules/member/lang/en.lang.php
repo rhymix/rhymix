@@ -207,5 +207,5 @@
 	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
     $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+	$lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
 ?>
