@@ -157,7 +157,7 @@
                 unset($str);
             }
 
-            $str_to_write = $this->doCompressCode($str_to_write);
+            $str_to_write = $this->doCompressCode($str_to_write, $type);
 
             $file_object->write($str_to_write);
             $file_object->close();
@@ -251,14 +251,10 @@ if(!$cached) {
             return 'url("'.$target.'")';
         }
 
-        function doCompressCode($str_code) {
+        function doCompressCode($str_code, $type) {
             $str_code = str_replace("\r", "\n", $str_code);
-            $str_code = preg_replace("!\/\*([^\"']*?)\*\/!sm", '', $str_code);
             $str_code = preg_replace("!^([ \t]+)!m", '', $str_code);
             $str_code = preg_replace("!([ \t]+)$!m", '', $str_code);
-            $str_code = preg_replace("!^\/\*([^/]*?)\*\/$!sm", '', $str_code);
-            $str_code = preg_replace("!^\/\*([^*]*?)\*\/$!sm", '', $str_code);
-            $str_code = preg_replace("!^\/\/([^\n'\"]*)$!m", '', $str_code);
             $str_code = preg_replace("!(\n{2,})!m", "\n", $str_code);
 
             return trim($str_code);
