@@ -9,6 +9,6 @@
 
     if($called_position == 'after_module_proc' && Context::getResponseMethod()=="HTML") {
         Context::loadJavascriptPlugin('ui');
-        Context::addJsFile('./addons/resize_image/js/resize_image.js',false);
+        Context::addJsFile('./addons/resize_image/js/resize_image.min.js',false);
     }
 ?>
