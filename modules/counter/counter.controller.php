@@ -92,9 +92,15 @@
             $args->regdate = 0;
             if($site_srl) {
                 $args->site_srl = $site_srl;
-                executeQuery('counter.insertSiteTodayStatus', $args);
+				$output = executeQuery('counter.getSiteTodayStatus',$args);
+				if($output->toBool() && $output->data->count == 0){
+					executeQuery('counter.insertSiteTodayStatus', $args);
+				}
             } else {
-                executeQuery('counter.insertTodayStatus', $args);
+				$output = executeQuery('counter.getTodayStatus',$args);
+				if($output->toBool() && $output->data->count == 0){
+	                executeQuery('counter.insertTodayStatus', $args);
+				}
             }
         }
 
@@ -111,8 +117,12 @@
                 $u_args->site_srl = $site_srl; ///< 일별 row입력시 전체 row (regdate=0)도 같이 입력 시도
                 executeQuery($query_id, $u_args);
             } else {
-                $query_id = 'counter.insertTodayStatus';
-                executeQuery($query_id); ///< 일별 row입력시 전체 row (regdate=0)도 같이 입력 시도
+                ///< 일별 row입력시 전체 row (regdate=0)도 같이 입력 시도
+				$u_args->regdate=0;
+				$output = executeQuery('counter.getTodayStatus',$u_args);
+				if($output->toBool() && $output->data->count == 0){
+	                executeQuery('counter.insertTodayStatus');
+				}
             }
             $output = executeQuery($query_id, $args);
 
