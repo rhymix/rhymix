@@ -320,4 +320,6 @@
     $lang->filter->invalid_alpha = 'Sólo puede introducir los alfabetos en el %s';
     $lang->filter->invalid_alpha_number = 'Sólo puede introducir los alfanuméricos en el %s es inválido';
     $lang->filter->invalid_number = 'Sólo puede introducir los dígitos numéricos en el %s';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

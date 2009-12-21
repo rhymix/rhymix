@@ -303,4 +303,6 @@
     $lang->filter->invalid_alpha = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z";
     $lang->filter->invalid_alpha_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z và các chữ số";
     $lang->filter->invalid_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số";
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

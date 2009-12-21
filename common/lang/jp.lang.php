@@ -315,4 +315,6 @@
     $lang->filter->invalid_alpha = '%sの形式が正しくありません。半角英文字のみ入力して下さい。';
     $lang->filter->invalid_alpha_number = '%sの形式が正しくありません。半角英数で入力して下さい。';
     $lang->filter->invalid_number = '%sの形式が正しくありません。半角数字で入力して下さい。';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

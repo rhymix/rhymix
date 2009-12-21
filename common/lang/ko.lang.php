@@ -314,4 +314,6 @@
     $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력하셔야 합니다.';
     $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력하셔야 합니다.';
     $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.';
+
+    $lang->security_warning_embed = "보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하시려면 다른 아이디로 접속하세요";
 ?>

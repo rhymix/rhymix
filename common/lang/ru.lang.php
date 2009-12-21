@@ -313,4 +313,6 @@
     $lang->filter->invalid_alpha = "Формат %s неверен. Пожалуйста, вводите только алфавитные символы";
     $lang->filter->invalid_alpha_number = "Формат %s неверен. Пожалуйста, вводите алфавитные символы или цифры";
     $lang->filter->invalid_number = "Формат %s неверен.  Пожалуйста, вводите только цифры";
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

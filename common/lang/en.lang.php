@@ -313,4 +313,6 @@
     $lang->filter->invalid_alpha = "The format of %s is invalid. Please input alphabets only";
     $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input alphabets or numbers";
     $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

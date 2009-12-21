@@ -314,4 +314,6 @@
     $lang->filter->invalid_alpha = '%s只能輸入英文字母';
     $lang->filter->invalid_alpha_number = '%s只能輸入英文或數字';
     $lang->filter->invalid_number = '%s只能輸入數字';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

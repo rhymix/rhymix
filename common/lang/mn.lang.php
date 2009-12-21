@@ -310,4 +310,6 @@
     $lang->filter->invalid_alpha = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсгээр оруулах ёстой';
     $lang->filter->invalid_alpha_number = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсэг болон тоогоор л оруулах ёстой.';
     $lang->filter->invalid_number = '%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>
