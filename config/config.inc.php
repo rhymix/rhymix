@@ -13,7 +13,7 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.3.1.1');
+    define('__ZBXE_VERSION__', '1.3.1.2');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
@@ -46,7 +46,7 @@
      * 2 : 소요시간, Request/Response info 출력
      * 4 : DB 쿼리 내역 출력
      **/
-    if(!defined('__DEBUG__')) define('__DEBUG__', 0);
+    if(!defined('__DEBUG__')) define('__DEBUG__', 1);
 
     /**
      * @brief 디버그 메세지의 출력 장소
