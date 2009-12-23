@@ -2,11 +2,10 @@
     if(!defined("__ZBXE__")) exit();
 
     if(Context::get('module')=='admin') return;
+    require_once(_XE_PATH_.'addons/smartphone/classes/smartphone.class.php');
 
     if($called_position == "before_module_init")
     {
-        require(_XE_PATH_.'addons/smartphone/classes/smartphone.class.php');
-
         if(Context::get('full_browse'))
         {
             setcookie("FullBrowse", 1);
