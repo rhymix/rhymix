@@ -63,11 +63,16 @@
          * @brief unique visitor 등록
          **/
         function insertUniqueVisitor($site_srl=0) {
-            $args->regdate = '0,'.date("Ymd");
             if($site_srl) {
+				$args->regdate = '0';
                 $args->site_srl = $site_srl;
                 $output = executeQuery('counter.updateSiteCounterUnique', $args);
+				$args->regdate = date('Ymd');
+                $output = executeQuery('counter.updateSiteCounterUnique', $args);
             } else {
+				$args->regdate = '0';
+                $output = executeQuery('counter.updateCounterUnique', $args);
+				$args->regdate = date('Ymd');
                 $output = executeQuery('counter.updateCounterUnique', $args);
             }
         }
@@ -76,11 +81,16 @@
          * @brief pageview 등록
          **/
         function insertPageView($site_srl=0) {
-            $args->regdate = '0, '.date('Ymd');
             if($site_srl) { 
+				$args->regdate = '0';
                 $args->site_srl = $site_srl;
                 executeQuery('counter.updateSiteCounterPageview', $args);
+				$args->regdate = date('Ymd');
+                executeQuery('counter.updateSiteCounterPageview', $args);
             } else {
+				$args->regdate = '0';
+                executeQuery('counter.updateCounterPageview', $args);
+				$args->regdate = date('Ymd');
                 executeQuery('counter.updateCounterPageview', $args);
             }
         }
