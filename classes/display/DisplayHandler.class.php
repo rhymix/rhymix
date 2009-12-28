@@ -219,7 +219,7 @@
         function _toXmlDoc(&$oModule) {
             $variables = $oModule->getVariables();
 
-            $xmlDoc  = "<response>\n";
+            $xmlDoc  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<response>\n";
             $xmlDoc .= sprintf("<error>%s</error>\n",$oModule->getError());
             $xmlDoc .= sprintf("<message>%s</message>\n",str_replace(array('<','>','&'),array('&lt;','&gt;','&amp;'),$oModule->getMessage()));
 

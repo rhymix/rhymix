@@ -29,7 +29,7 @@ function exec_xml(module, act, params, callback_func, response_tags, callback_fu
 function xml_response_filter(oXml, callback_func, response_tags, callback_func_arg, fo_obj) {
     var text = oXml.getResponseText();
     if(oXml.objXmlHttp.readyState!=4) return;
-    if(text && !/^<response>/i.test(text)) {
+    if(text && !/<\/response>$/i.test(text)) {
         var waiting_obj = xGetElementById("waitingforserverresponse");
         if(waiting_obj) waiting_obj.style.visibility = "hidden";
         alert(text);
