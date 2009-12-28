@@ -221,13 +221,13 @@
     $lang->msg_error_occured = '發生錯誤';
     $lang->msg_not_founded = '找不到相關內容';
     $lang->msg_no_result = '搜尋不到結果';
-    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_fail_to_request_open = '連結失敗';
     $lang->msg_invalid_format = '格式錯誤';
 
     $lang->msg_not_permitted_act = '沒有權限執行';
-    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
+    $lang->msg_module_is_not_exists = "找不到模組。\n請聯絡管理員";
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
-    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
+    $lang->msg_default_url_is_not_defined = '尚未設定預設網址';
 
     $lang->success_registed = '成功送出！';
     $lang->success_declared = '檢舉成功！';
@@ -261,15 +261,15 @@
     $lang->column_type = '格式';
     $lang->column_type_list['text'] = '文字輸入(text)';
     $lang->column_type_list['homepage'] = '網址格式';
-    $lang->column_type_list['email_address'] = '郵件格式 (email)';
-    $lang->column_type_list['tel'] = '電話號碼格式 (phone)';
-    $lang->column_type_list['textarea'] = '文字區域 (textarea)';
-    $lang->column_type_list['checkbox'] = '核取方塊 (checkbox)';
-    $lang->column_type_list['select'] = '下拉式選單 (select)';
-    $lang->column_type_list['radio'] = '選項按紐 (radio)';
+    $lang->column_type_list['email_address'] = '郵件格式(email)';
+    $lang->column_type_list['tel'] = '電話號碼格式(phone)';
+    $lang->column_type_list['textarea'] = '文字區域(textarea)';
+    $lang->column_type_list['checkbox'] = '核取方塊(checkbox)';
+    $lang->column_type_list['select'] = '下拉式選單(select)';
+    $lang->column_type_list['radio'] = '選項按紐(radio)';
     $lang->column_type_list['kr_zip'] = '韓國郵編(zip)';
-    $lang->column_type_list['date'] = '日期 (年月日)';
-    //$lang->column_type_list['jp_zip'] = '日本郵編 (zip)';
+    $lang->column_type_list['date'] = '日期(年月日)';
+    //$lang->column_type_list['jp_zip'] = '日本郵編(zip)';
     $lang->column_name = '項目名稱';
     $lang->column_title = '項目標題';
     $lang->default_value = '預設值';
@@ -298,8 +298,8 @@
     $lang->msg_ftp_connect_success = 'FTP連線成功。';
 
     $lang->ftp_path_title = '請輸入FTP路經';
-    $lang->msg_ftp_installed_realpath = '安裝XE時的絕對路經';
-    $lang->msg_ftp_installed_ftp_realpath = '請輸入安裝XE時的FTP絕對路經';
+    $lang->msg_ftp_installed_realpath = 'XE絕對路經';
+    $lang->msg_ftp_installed_ftp_realpath = 'XE的FTP絕對路經';
 
 
     // 在xml filter中所使用的JavaScript警告訊息

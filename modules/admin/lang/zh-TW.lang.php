@@ -56,7 +56,6 @@
     $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快捷選單的。';
 
     $lang->welcome_to_xe = 'XE管理頁面';
-    $lang->about_admin_page = "後台管理頁面未完成";
     $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後，請按[儲存]按鈕進行儲存。";
 
     $lang->xe_license = 'XE遵循GPL協議';
@@ -78,6 +77,6 @@
     $lang->server_ports = "主機埠口";
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
     $lang->use_db_session = 'DB session認證';
-    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
+    $lang->about_db_session = '인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
     $lang->sftp = "使用 SFTP";
 ?>
