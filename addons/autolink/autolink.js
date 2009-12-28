@@ -65,7 +65,7 @@
 
 					if(content.length < 5) return;
 
-					if(!/(http|https|ftp|news|telnet|irc):\/\//i.test(content)) return;
+					if(!/(http|https|ftp|news|telnet|irc|mms):\/\//i.test(content)) return;
 
 					thisPlugin.targets.push(this);
 				} else {
