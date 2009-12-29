@@ -482,7 +482,10 @@
             }
 
             $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
-            return $this->_query($query);
+			$result = $this->_query($query);
+			if($result && !$this->transaction_started) @cubrid_commit($this->fd);
+			return $result;
+
         }
 
         /**
