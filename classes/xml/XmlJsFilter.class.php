@@ -198,7 +198,12 @@
 			// javascript callback function
 			$js_doc[] = "\tvalidator.cast('ADD_CALLBACK', ['{$filter_name}', function(form){";
 			$js_doc[] = "\t\tvar params={}, responses=[], elms=form.elements, data=jQuery(form).serializeArray();";
-			$js_doc[] = "\t\tjQuery.each(data, function(i, field){ if(field.value) params[field.name] = field.value; });";
+			$js_doc[] = "\t\tjQuery.each(data, function(i, field){";
+			$js_doc[] = "\t\t\tvar val = jQuery.trim(field.value);";
+			$js_doc[] = "\t\t\tif(!val) return true;";
+			$js_doc[] = "\t\t\tif(params[field.name] && jQuery(elms[field.name]).is(':checkbox')) params[field.name] += '|@|'+val;";
+			$js_doc[] = "\t\t\telse params[field.name] = field.value;";
+			$js_doc[] = "\t\t});";
 
 			// 데이터를 만들기 위한 parameter script 생성
 			$parameter_count = count($parameter_param);
