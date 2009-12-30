@@ -234,35 +234,50 @@
          * @brief 오픈아이디 연결 요청 마무리
          **/
         function procMemberValidateAddOpenIDToMember() {
-            $openid = $this->doOpenIDValidate($_GET['openid_identity']);
-            $openid_identity = $openid->GetIdentity();
-            $openid_validation_result = $openid->validation_result;
+            set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
+            require_once('Auth/OpenID.php');
+            require_once('Auth/OpenID/Consumer.php');
+            require_once('Auth/OpenID/XEStore.php');
+            require_once('Auth/OpenID/URINorm.php');
 
-            if ($openid_validation_result == true) {
-                $logged_info = Context::get('logged_info');
-                if (!Context::get('is_logged')) return $this->stop('msg_not_logged');
+            $store = new Auth_OpenID_XEStore();
+            $consumer = new Auth_OpenID_Consumer($store);
+            $response = $consumer->complete($_GET);
 
-                $member_srl = $logged_info->member_srl;
+            switch($response->status) {
+                case Auth_OpenID_CANCEL :
+                // 사용자가 인증을 취소했을 때의 처리
+                return $this->stop('authorization_canceled');
+            case Auth_OpenID_FAILURE :
+                // 무언가의 문제로 인해 인증이 실패했을 때의 처리(인증을 요구한 openid가 없다든가..)
+                return $this->stop('invalid_authorization');
+            case Auth_OpenID_SUCCESS :
+                {
+                    $logged_info = Context::get('logged_info');
+                    if (!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
-                $args->member_srl = $member_srl;
-                $args->openid = $openid_identity;
+                    $member_srl = $logged_info->member_srl;
 
-                $output = executeQuery('member.addOpenIDToMember', $args);
-                if (!$output->toBool()) return $output;
+                    $args->member_srl = $member_srl;
+                    $openid_identity = $response->signed_args["openid.identity"];
+                    $args->openid = $openid_identity;
 
-                Context::close();
+                    $output = executeQuery('member.addOpenIDToMember', $args);
+                    if (!$output->toBool()) return $output;
 
-                if(Context::get('goto')){
-                    $goto = Context::get('goto');
-                    header("location:" . $goto);
-                }else{
-                    header("location:./");
+                    Context::close();
+
+                    if(Context::get('goto')){
+                        $goto = Context::get('goto');
+                        header("location:" . $goto);
+                    }else{
+                        header("location:./");
+                    }
+                    exit();
                 }
-                exit();
-            } else if($openid->IsError() == true) {
-                $error = $openid->GetError();
-                return $this->stop($error['description']);
-            } else {
+                // 인증성공!!
+                break;
+            default:
                 return $this->stop('invalid_authorization');
             }
         }
