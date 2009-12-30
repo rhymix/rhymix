@@ -114,7 +114,7 @@ _app_base = {
 	_plugins  : [],
 	_messages : [],
 
-	_fn_level : -1,
+	_fn_level : [],
 
 	/**
 	 * @brief register a plugin instance
@@ -150,7 +150,7 @@ _app_base = {
 
 		// binding
 		oPlugin.cast = function(msg, params) {
-			oPlugin._cast(msg, params);
+			return oPlugin._cast(msg, params);
 		};
 
 		oPlugin.broadcast = function(msg, params) {
@@ -215,14 +215,12 @@ _app_base = {
 
 		msg = msg.toUpperCase();
 
-		// increase function level
-		this._fn_level++;
-
 		// BEFORE hooker
 		if (aMsg['BEFORE_'+msg] || this['API_BEFORE_'+msg]) {
 			var bContinue = this._cast(sender, 'BEFORE_'+msg, params);
 			if (!bContinue) {
 				this._fn_level--;
+				console.log('-', msg, this._fn_level);
 				return;
 			}
 		}
@@ -243,10 +241,7 @@ _app_base = {
 			this._cast(sender, 'AFTER_'+msg, params);
 		}
 
-		// decrease function level
-		this._fn_level--;
-
-		if (this._fn_level < 0) { // top level function
+		if (!/^(?:AFTER_|BEFORE_)/.test(msg)) { // top level function
 			return vRet;
 		} else {
 			if (typeof vRet == 'undefined') vRet = true;
@@ -261,7 +256,7 @@ _plugin_base = {
 
 	_cast : function(msg, params) {
 		if (this.oApp && this.oApp._cast) {
-			this.oApp._cast(this, msg, params || []);
+			return this.oApp._cast(this, msg, params || []);
 		}
 	},
 	_broadcast : function(msg, params) {
