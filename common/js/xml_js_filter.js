@@ -101,13 +101,16 @@ var Validator = xe.createApp('Validator', {
 			if ((minlen && maxlen) && (val.length < minlen || val.length > maxlen)) return (result = (!!self.cast('ALERT', [form, name, 'outofrange', minlen, maxlen]) && false));
 			
 			if (this.equalto) {
-				var eq_val = get_value(form.elements[this.equalto]);
+				var eq_val = get_value($(form.elements[this.equalto]));
 				if (eq_val != val) return (result = (!!self.cast('ALERT', [form, name, 'equalto']) && false));
 			}
 
 			$.each(rule, function() {
 				var ret = self.cast('APPLY_RULE', [this, val]);
-				if (!ret) return (result = false);
+				if (!ret) {
+					self.cast('ALERT', [form, name, 'invalid_'+this]);
+					return (result = false);
+				}
 			});
 
 			if (!result) return false;
