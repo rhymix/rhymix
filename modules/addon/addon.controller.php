@@ -22,11 +22,14 @@
             $site_srl = $site_module_info->site_srl;
 
             $addon_path = _XE_PATH_.'files/cache/addons/';
-            if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
 
             if($site_srl) $addon_file = $addon_path.$site_srl.'.acivated_addons.cache.php';
             else $addon_file = $addon_path.'acivated_addons.cache.php';
 
+            if($this->addon_file_called) return $addon_file;
+            $this->addon_file_called = true;
+
+            if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
             if(!file_exists($addon_file)) $this->makeCacheFile($site_srl);
             return $addon_file;
         }

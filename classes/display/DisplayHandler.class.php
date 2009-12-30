@@ -97,7 +97,7 @@
             $called_position = 'before_display_content';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath();
-            if(file_exists($addon_file)) @include($addon_file);
+            @include($addon_file);
 
             // HTML 출력일 경우 최종적으로 common layout을 씌워서 출력
             if(Context::getResponseMethod()=="HTML") {

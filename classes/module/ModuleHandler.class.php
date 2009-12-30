@@ -62,7 +62,7 @@
             $called_position = 'before_module_init';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath();
-            if(file_exists($addon_file)) @include($addon_file);
+            @include($addon_file);
         }
 
         /**

@@ -242,7 +242,7 @@
             $called_position = 'before_module_proc';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath();
-            if(file_exists($addon_file)) @include($addon_file);
+            @include($addon_file);
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
 
@@ -323,7 +323,7 @@
             $called_position = 'after_module_proc';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath();
-            if(file_exists($addon_file)) @include($addon_file);
+            @include($addon_file);
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());
