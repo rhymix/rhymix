@@ -823,7 +823,7 @@
             if(is_null($url)) {
                 $url = Context::getRequestUri();
                 if(count($_GET)) {
-                    foreach($_GET as $key => $val) $vars[] = $key.'='.$val;
+                    foreach($_GET as $key => $val) $vars[] = $key.'='.urlencode(Context::convertEncodingStr($val));
                     $url .= '?'.implode('&',$vars);
                 }
             }
