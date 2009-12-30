@@ -92,12 +92,13 @@ var Validator = xe.createApp('Validator', {
 
 			if (!_el) return true;
 
-			var el = $(_el), val = get_value(el);
+			var el = $(_el), val = $.trim(get_value(el));
 			var minlen = parseInt(this.minlen) || 0;
 			var maxlen = parseInt(this.maxlen) || 0;
 			var rule   = (this.rule || '').split(',');
 
-			if (this.required && !val) (result = (!!self.cast('ALERT', [form, name, 'isnull']) && false));
+			if (this.required && !val) return (result = (!!self.cast('ALERT', [form, name, 'isnull']) && false));
+			if (!this.required && !val) return (result = true);
 			if ((minlen && maxlen) && (val.length < minlen || val.length > maxlen)) return (result = (!!self.cast('ALERT', [form, name, 'outofrange', minlen, maxlen]) && false));
 			
 			if (this.equalto) {
