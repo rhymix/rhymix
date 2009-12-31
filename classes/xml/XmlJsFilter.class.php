@@ -3,7 +3,7 @@
 	 * @class XmlJsFilter
 	 * @author zero (zero@nzeo.com)
 	 * @brief filter xml문서를 해석하여 js파일로 만듬
-	 * @version 0.1
+	 * @version 0.2
 	 *
 	 * xml filter 파일은 js script로 컴파일 되어 캐싱됨
 	 *
@@ -39,6 +39,7 @@
 	 **/
 
 	class XmlJsFilter extends XmlParser {
+        var $version = '0.2';
 		var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
 		var $xml_file = NULL; ///< 대상 xml 파일
 		var $js_file = NULL; ///< 컴파일된 js 파일
@@ -286,7 +287,7 @@
 		 * @brief $xml_file로 compiled_xml_file이름을 return
 		 **/
 		function _getCompiledFileName($xml_file) {
-			return sprintf('%s%s.%s.compiled.js',$this->compiled_path, md5($xml_file),Context::getLangType());
+			return sprintf('%s%s.%s.compiled.js',$this->compiled_path, md5($this->version.$xml_file),Context::getLangType());
 		}
 	}
 ?>
