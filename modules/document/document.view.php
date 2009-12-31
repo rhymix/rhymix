@@ -56,7 +56,7 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('preview_page');
         }
-        
+
         /**
          * @brief 관리자가 선택한 문서에 대한 관리
          **/

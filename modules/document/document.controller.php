@@ -475,11 +475,14 @@
             if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
             else $trash_args->trash_srl = $obj->trash_srl;
 
-            // 해당 document가 속해 잇는 module_srl을 구한다
+            // 해당 document가 속해 있는 module_srl을 구한다
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
             $trash_args->module_srl = $oDocument->get('module_srl');
+
+            // 휴지통 문서를 두번 휴지통에 버릴 수 없음.
+            if($trash_args->module_srl == 0) return false;
 
             // 데이터 설정
             $trash_args->document_srl = $obj->document_srl;
@@ -516,6 +519,16 @@
 
             // update category
             if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
+
+            // remove thumbnails
+            FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+
+            // 등록된 첨부파일의 상태를 무효로 지정
+            if($oDocument->hasUploadedFiles()) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'N';
+                executeQuery('file.updateFileValid', $args);
+            }
 
             // commit
             $oDB->commit();
@@ -1469,20 +1482,23 @@
             }
             if(!$document_srls || !count($document_srls)) return new Object();
 
-            // 각 문서들의 모듈 관리자 여부 확인
+            // 각 문서들의 모듈 관리자 여부 확인, 최고 관리자는 모든 모듈의 문서에 수정 권한 가짐. (임시저장이나 휴지통 문서 포함.)
             $oModuleModel = &getModel('module');
             $module_srls = array_keys($document_srls);
             for($i=0;$i<count($module_srls);$i++) {
                 $module_srl = $module_srls[$i];
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if(!$module_info) {
-                    unset($document_srls[$module_srl]);
-                    continue;
-                }
-                $grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
-                if(!$grant->manager) {
-                    unset($document_srls[$module_srl]);
-                    continue;
+                $logged_info = Context::get('logged_info');
+                if($logged_info->is_admin != 'Y') {
+                    if(!$module_info) {
+                        unset($document_srls[$module_srl]);
+                        continue;
+                    }
+                    $grant = $oModuleModel->getGrant($module_info, $logged_info);
+                    if(!$grant->manager) {
+                        unset($document_srls[$module_srl]);
+                        continue;
+                    }
                 }
 
             }
@@ -1580,7 +1596,7 @@
                 for($i=0;$i<$document_srl_count;$i++) {
                     $args->document_srl = $document_srl_list[$i];
                     $output = $this->moveDocumentToTrash($args);
-                    if(!$output->toBool()) return new Object(-1, 'fail_to_trash');
+                    if(!$output || !$output->toBool()) return new Object(-1, 'fail_to_trash');
                 }
                 $oDB->commit();
                 $msg_code = 'success_trashed';

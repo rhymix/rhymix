@@ -492,6 +492,7 @@
 
 		function restoreTrash($trash_srl){
             $oDB = &DB::getInstance();
+            $oDocumentModel = &getModel('document');
 
             $trash_args->trash_srl = $trash_srl;
 
@@ -502,6 +503,7 @@
 
             $document_args->document_srl = $output->data->document_srl;
             $document_args->module_srl = $output->data->module_srl;
+            $oDocument = $oDocumentModel->getDocument($document_args->document_srl);
 
             // begin transaction
             $oDB->begin();
@@ -516,6 +518,13 @@
             if (!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
+            }
+
+            // 임시 저장되었던 글이 아닌 경우, 등록된 첨부파일의 상태를 유효로 지정
+            if($oDocument->hasUploadedFiles() && $output->data->module_srl != $output->data->member_srl) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'Y';
+                executeQuery('file.updateFileValid', $args);
             }
 
             // commit
