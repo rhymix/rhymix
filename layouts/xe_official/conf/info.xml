@@ -76,7 +76,7 @@
         <name xml:lang="es">zero</name>
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="zh-TW">zero</name>
-	<name xml:lang="vi">zero</name>
+		<name xml:lang="vi">zero</name>
     </author>
 
     <extra_vars>
@@ -151,7 +151,7 @@
             <description xml:lang="ge">Bitte geben Sie ein Logo das Bild wird auf dem oberen Layout. (Transparent Bild mit einer Höhe von 23px wird empfohlen).</description>
             <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
             <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
-	    <description xml:lang="vi">Hãy chọn Logo hiển thị phía trên cùng của giao diện. (Đề nghị: Hình ảnh có nền trong suốt và kích thước 23px.)</description>
+	    	<description xml:lang="vi">Hãy chọn Logo hiển thị phía trên cùng của giao diện. (Đề nghị: Hình ảnh có nền trong suốt và kích thước 23px.)</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
