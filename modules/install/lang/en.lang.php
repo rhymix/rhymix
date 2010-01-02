@@ -164,7 +164,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Enable Optimizer';
     $lang->about_optimizer = 'If optimizer is enabled, users can quickly access to this site, since multiple CSS / JS files are put together and compressed before transmission. <br /> Nevertheless, this optimization might be problematic according to CSS or JS. If you disable it, it would work properly though it would work slower.';
     $lang->use_spaceremover = 'Remove Spaces at optimized file';
-    $lang->about_spaceremover = 'Making a file, optimizer removes spaces before lines or after lines and overlapped line breakers. It might makes a optimized file smaller than a normal optimized file that is not processed.<br />'During dawn' option will apply this process between 1 a.m. and 5 a.m.';
+    $lang->about_spaceremover = 'Making a file, optimizer removes spaces before lines or after lines and overlapped line breakers. It might makes a optimized file smaller than a normal optimized file that is not processed.<br />\'During dawn\' option will apply this process between 1 a.m. and 5 a.m.';
     $lang->use_spaceremover_condition = array(
         'Y' => 'Always',
         'P' => 'During dawn',
