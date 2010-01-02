@@ -96,7 +96,7 @@
 
             $source_ftime = filemtime(FileHandler::getRealPath($tpl_file));
             $target_ftime = filemtime($compiled_tpl_file);
-            if($source_ftime>$target_ftime || $target_ftime < filemtime(_XE_PATH_.'classes/template/TemplateHandler.class.php') ) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
+            if($source_ftime>$target_ftime) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
         }
 
         /**
