@@ -158,7 +158,7 @@
             }
 
             $db_info = Context::getDBInfo();
-            if($db_info->use_spaceremover != N) $str_to_write = $this->doCompressCode($str_to_write, $db_info->use_spaceremover);
+            if($db_info->use_spaceremover != 'N') $str_to_write = $this->doCompressCode($str_to_write, $db_info->use_spaceremover);
 
             $file_object->write($str_to_write);
             $file_object->close();
