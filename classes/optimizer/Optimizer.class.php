@@ -98,12 +98,12 @@
 
         /**
          * @brief optimize는 대상 파일을 \n로 연결후 md5 hashing하여 파일이름의 중복을 피함
-         * 개별 파일과 optimizer 클래스 파일의 변경을 적용하기 위해 각 파일들과 Optimizer.class.php의 filemtime을 비교, 파일이름에 반영
+         * 개별 파일의 변경을 적용하기 위해 각 파일들의 filemtime을 비교, 파일이름에 반영
          **/
         function getOptimizedInfo($files) {
-            // 개별 요소들 또는 Optimizer.class.php파일이 갱신되었으면 새로 옵티마이징
+            // 개별 요소 파일이 갱신되었으면 새로 옵티마이징
             $count = count($files);
-            $last_modified = filemtime(_XE_PATH_.'classes/optimizer/Optimizer.class.php');
+            $last_modified = 0;
             for($i=0;$i<$count;$i++) {
                 $mtime = filemtime($files[$i]['file']);
                 if($last_modified < $mtime) $last_modified = $mtime;
