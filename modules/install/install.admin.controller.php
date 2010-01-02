@@ -51,8 +51,12 @@
             $use_optimizer = Context::get('use_optimizer');
             if($use_optimizer!='Y') $use_optimizer = 'N';
 
+            $use_spaceremover = Context::get('use_spaceremover');
+            if(!$use_spaceremover && $use_optimizer!='Y') $use_spaceremover = 'N';
+            elseif($use_spaceremover != 'P' && $use_spaceremover != 'Y') $use_spaceremover = 'N';
+
             $time_zone = Context::get('time_zone');
-            
+
             $qmail_compatibility = Context::get('qmail_compatibility');
             if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
@@ -73,6 +77,7 @@
             $db_info->use_db_session = $use_db_session;
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_optimizer = $use_optimizer;
+            $db_info->use_spaceremover = $use_spaceremover;
             $db_info->use_ssl = $use_ssl;
             if($http_port) $db_info->http_port = (int) $http_port;
             else if($db_info->http_port) unset($db_info->http_port);

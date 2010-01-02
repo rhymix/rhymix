@@ -71,6 +71,7 @@
             Context::set('time_zone', $GLOBALS['_time_zone']);
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
             Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
+            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
             Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
             Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");

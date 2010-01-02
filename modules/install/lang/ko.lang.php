@@ -256,6 +256,12 @@ EndOfLicense;
     $lang->env_title = '환경 설정';
     $lang->use_optimizer = 'Optimizer 사용';
     $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다.';
+    $lang->use_spaceremover = '통합된 파일 공백 제거';
+    $lang->about_spaceremover = 'Optimizer로 파일을 통합할 때, 공백과 중복된 줄 바꿈을 제거합니다. 스크립트 파일 크기를 줄일 수 있습니다.<br />새벽 시간대에만 적용 옵션은 오전 1시 - 오전 5시 사이에 생성되는 파일에만 공백 제거 옵션을 적용합니다.';
+    $lang->use_spaceremover_condition = array(
+        'Y' => '항상 사용',
+        'P' => '새벽 시간대에만 적용',
+        'N' => '사용 안함');
     $lang->use_rewrite = 'rewrite mod 사용';
     $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
     $lang->time_zone = '표준 시간대';

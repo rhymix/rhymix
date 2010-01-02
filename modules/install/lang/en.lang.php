@@ -163,6 +163,12 @@ EndOfLicense;
     $lang->env_title = 'Configuration';
     $lang->use_optimizer = 'Enable Optimizer';
     $lang->about_optimizer = 'If optimizer is enabled, users can quickly access to this site, since multiple CSS / JS files are put together and compressed before transmission. <br /> Nevertheless, this optimization might be problematic according to CSS or JS. If you disable it, it would work properly though it would work slower.';
+    $lang->use_spaceremover = '통합된 파일 공백 제거';
+    $lang->about_spaceremover = 'Optimizer로 파일을 통합할 때, 공백과 중복된 줄 바꿈을 제거합니다. 스크립트 파일 크기를 줄일 수 있습니다.<br />새벽 시간대에만 적용 옵션은 오전 1시 - 오전 5시 사이에 생성되는 파일에만 공백 제거 옵션을 적용합니다.';
+    $lang->use_spaceremover_condition = array(
+        'Y' => '항상 사용',
+        'P' => '새벽 시간대에만 적용',
+        'N' => '사용 안함');
     $lang->use_rewrite = 'Rewrite Mod';
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
     $lang->time_zone = 'Time Zone';

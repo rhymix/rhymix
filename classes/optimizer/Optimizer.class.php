@@ -14,7 +14,7 @@
         var $cache_path = "./files/cache/optimized/";
 
         /**
-         * @brief optimizer에서 캐싱파일을 저장할 곳을 찾아서 없으면 만듬
+         * @brief optimizer에서 캐싱파일을 저장할 곳을 찾아서 없으면 만듦
         **/
         function Optimizer() {
             if(!is_dir($this->cache_path)) {
@@ -103,7 +103,7 @@
         function getOptimizedInfo($files) {
             // 개별 요소들 또는 Optimizer.class.php파일이 갱신되었으면 새로 옵티마이징
             $count = count($files);
-            $last_modified = 0;
+            $last_modified = filemtime(_XE_PATH_.'classes/optimizer/Optimizer.class.php');
             for($i=0;$i<$count;$i++) {
                 $mtime = filemtime($files[$i]['file']);
                 if($last_modified < $mtime) $last_modified = $mtime;
@@ -157,7 +157,8 @@
                 unset($str);
             }
 
-            $str_to_write = $this->doCompressCode($str_to_write, $type);
+            $db_info = Context::getDBInfo();
+            if($db_info->use_spaceremover != N) $str_to_write = $this->doCompressCode($str_to_write, $db_info->use_spaceremover);
 
             $file_object->write($str_to_write);
             $file_object->close();
@@ -251,7 +252,11 @@ if(!$cached) {
             return 'url("'.$target.'")';
         }
 
-        function doCompressCode($str_code, $type) {
+        function doCompressCode($str_code, $condition = 'Y') {
+            if($condition == 'N' || ($condition != 'P' && $condition != 'Y')) return $str_code;
+
+            if($condition == 'P' && ((int)date('H') < 1 || 5 < (int)date('H'))) return $str_code;
+
             $str_code = str_replace("\r", "\n", $str_code);
             $str_code = preg_replace("!^([ \t]+)!m", '', $str_code);
             $str_code = preg_replace("!([ \t]+)$!m", '', $str_code);
