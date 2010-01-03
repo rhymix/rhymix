@@ -520,6 +520,9 @@
             $firephp->fb($debug_output, $label);
 
         } else {
+            if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
+                return;
+            }
             $debug_file = _XE_PATH_.'files/_debug_message.php';
             if(function_exists("memory_get_usage"))
             {
