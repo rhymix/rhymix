@@ -336,6 +336,10 @@
 
                 // 전체 실행 시간 출력, Request/Response info 출력
                 if(__DEBUG__ & 2) {
+                    if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
+                        return;
+                    }
+
                     // Request/Response 정보 작성
                     $buff .= "\n- Request/ Response info\n";
                     $buff .= sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s\n", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING']?'?':'', $_SERVER['QUERY_STRING']);
@@ -363,6 +367,10 @@
 
                 // DB 로그 작성
                 if(__DEBUG__ & 4) {
+                    if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
+                        return;
+                    }
+
                     if($GLOBALS['__db_queries__']) {
                         $buff .= sprintf("\n- DB Queries : %d Queries. %0.5f sec\n", count($GLOBALS['__db_queries__']), $GLOBALS['__db_elapsed_time__']);
                         $num = 0;
