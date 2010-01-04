@@ -33,7 +33,7 @@ var Validator = xe.createApp('Validator', {
 
 		// korean
 		var regKor = /^[가-힣]*$/;
-		this.cast('ADD_RULE', ['koeran', regKor]);
+		this.cast('ADD_RULE', ['korean', regKor]);
 
 		// korean_number
 		var regKorNum = /^[가-힣0-9]*$/;
@@ -47,7 +47,7 @@ var Validator = xe.createApp('Validator', {
 		var regAlphaNum = /^[a-z][a-z0-9_]*$/i;
 		this.cast('ADD_RULE', ['alpha_number', regAlphaNum]);
 
-		// numver
+		// number
 		var regNum = /^[0-9]*$/i;
 		this.cast('ADD_RULE', ['number', regNum]);
 		// }}} add filters
