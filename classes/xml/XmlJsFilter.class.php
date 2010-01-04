@@ -267,7 +267,8 @@
 			// 에러 메세지를 기록
 			foreach($lang->filter as $key => $val) {
 				if(!$val) $val = $key;
-				$jsdoc[] = sprintf("\tvalidator.cast('ADD_MESSAGE', ['%s', '%s']);", $key, str_replace('\'', '\\\'', $val));
+				$jsdoc[] = sprintf("\tvalidator.cast('ADD_MESSAGE', ['%s', '%s']);", $key, $val); 
+				//$jsdoc[] = sprintf("\tvalidator.cast('ADD_MESSAGE', ['%s', '%s']);", $key, str_replace('\'', '\\\'', $val));
 			}
 
 			$jsdoc[] = '})(jQuery);';
