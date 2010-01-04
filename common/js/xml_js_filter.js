@@ -66,20 +66,17 @@ var Validator = xe.createApp('Validator', {
 		// hook form submit event
 		$('form')
 			.each(function(){
-				if (this.onsubmit && !this.xe_js_filter_controlled) {
-					this.xe_js_filter_controlled = true;
-					if(!$.isFunction(this.onsubmit)) {
-						this['xe:onsubmit'] = this.onsubmit;
-						this.onsubmit = null;
-					}
+				if (this.onsubmit) {
+					this['xe:onsubmit'] = this.onsubmit;
+					this.onsubmit = null;
 				}
 			})
 			.submit(function(){
 				var legacyFn = this['xe:onsubmit'];
 				var hasLegacyFn = $.isFunction(legacyFn);
-				var bResult = hasLegacyFn?false:self.run(this);
+				var bResult = hasLegacyFn?legacyFn.apply(this):self.run(this);
 
-				return bResult;
+				return false;
 			});
 	},
 	API_VALIDATE : function(sender, params) {
