@@ -31,7 +31,20 @@
          * @brief license 메세지 노출
          **/
         function dispInstallIntroduce() {
-            $this->setTemplateFile('introduce');
+			$install_config_file = FileHandler::getRealPath('./config/install.config.php');
+			if(file_exists($install_config_file)){
+				include $install_config_file;
+				if(is_array($install_config)){
+					foreach($install_config as $k => $v) Context::set($k,$v,true);
+					unset($GLOBALS['__DB__']);
+					$oInstallController = &getController('install');
+					$oInstallController->procInstall();
+					header("location: ./");
+					exit;
+				}
+			}
+
+			$this->setTemplateFile('introduce');
         }
 
         /**
@@ -50,7 +63,7 @@
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
 
             // ftp 정보 입력
-            if(!Context::isFTPRegisted()) {
+            if(ini_get('safe_mode') && !Context::isFTPRegisted()) {
                 $this->setTemplateFile('ftp');
             } else {
                 $this->setTemplateFile('select_db');
