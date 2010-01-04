@@ -181,7 +181,7 @@
 
 				// extend filter item의 type으로 filter를 구함
 				$types = array('homepage'=>'homepage', 'email_address'=>'email');
-				$fitler = $types[$type]?$types[$type]:'';
+				$filter = $types[$type]?$types[$type]:'';
 
 				$field = array();
 				if($filter_item->required == 'true') $field[] = 'required:true';
