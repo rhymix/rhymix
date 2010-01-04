@@ -119,11 +119,27 @@
 
             $this->setMessage('success_updated');
         }
+        function procInstallAdminSaveFTPInfo() {
+            $ftp_info = Context::getFTPInfo();
+            $ftp_info->ftp_user = Context::get('ftp_user');
+            $ftp_info->ftp_password = Context::get('ftp_password');
+            $ftp_info->ftp_port = Context::get('ftp_port');
+            $ftp_info->sftp = Context::get('sftp');
+            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+            foreach($ftp_info as $key => $val) {
+                if(!$val) continue;
+                $buff .= sprintf("\$ftp_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
+            }
+            $buff .= "?>";
+            $config_file = Context::getFTPConfigFile();
+            FileHandler::WriteFile($config_file, $buff);
+            $this->setMessage('success_updated');
+        }
 
         /**
          * @brief FTP 정보 등록
          **/
-        function procInstallAdminSaveFTPInfo() {
+        function procInstallAdminSaveFTPPath() {
             $ftp_info = Context::getFTPInfo();
             $ftp_info->ftp_root_path = Context::get('ftp_root_path');
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
