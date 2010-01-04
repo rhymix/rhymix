@@ -73,6 +73,7 @@ var Validator = xe.createApp('Validator', {
 			})
 			.submit(function(){
 				var legacyFn = this['xe:onsubmit'];
+				if(typeof(legacyFn)=="undefined"||!legacyFn) return;
 				var hasLegacyFn = $.isFunction(legacyFn);
 				var bResult = hasLegacyFn?legacyFn.apply(this):self.run(this);
 
