@@ -4565,17 +4565,7 @@ xe.XE_SCharacter = $.Class({
 		for(var ii=0; ii<len; ii++){
 			aLI[ii] = document.createElement("LI");
 
-			if(this.bIE){
-				button = document.createElement("<BUTTON type='button'>");
-			}else{
-				button = document.createElement("BUTTON");
-				button.type = "button";
-			}
-			span = document.createElement("SPAN");
-			span.innerHTML = unescape(this.charSet[i][ii]);
-			button.appendChild(span);
-
-			aLI[ii].appendChild(button);
+			aLI[ii].innerHTML = '<button type="button"><span>'+unescape(this.charSet[i][ii])+'</span></button>';
 			this.aSCharList[i].appendChild(aLI[ii]);
 		}
 
