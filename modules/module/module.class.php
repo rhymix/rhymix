@@ -71,7 +71,8 @@
             if(!$output->data) return true;
 
 			// sites 테이블에서 도메인이 인덱스로 걸린경우
-            if($oDB->isColumnExists('sites', 'idx_domain')) return true;
+            if($oDB->isIndexExists('sites', 'idx_domain')) return true;
+			if(!$oDB->isIndexExists('sites','unique_domain')) return true;
 
             return false;
         }
