@@ -84,9 +84,10 @@
 <!--@end-->
 
 
-<form id="fo_layout" action="./" method="post" onsubmit="return procFilter(this, update_layout_code);">
+<form id="fo_layout" action="./" method="post">
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
-<input type="hidden" name="act" value="" />
+<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
+<input type="hidden" name="_filter" value="update_layout_code" />
 
 <table cellspacing="0" class="rowTable">
 <tbody>
@@ -107,9 +108,9 @@
     </tr>
     <tr>
         <th class="button">
-            <span class="button black strong"><button type="submit">{$lang->cmd_save}</button></span>
-            <a href="#" onclick="doPreviewLayoutCode();return false"  class="button"><span>{$lang->cmd_preview}</span></a>
-            <a href="#" onclick="doResetLayoutCode('{$layout_srl}');return false"  class="button red"><span>{$lang->cmd_reset}</span></a>
+			<span class="button black strong"><button type="submit">{$lang->cmd_save}</button></span>
+			<span class="button"><button type="button" onclick="doPreviewLayoutCode();">{$lang->cmd_preview}</button></span>
+			<span class="button red"><button type="reset" onclick="doResetLayoutCode('{$layout_srl}')">{$lang->cmd_reset}</button></span>
         </th>
     </tr>
 </tbody>
