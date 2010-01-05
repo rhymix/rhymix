@@ -139,9 +139,7 @@
             $content_filename = substr($filename, 0, -4);
             $file_object = FileHandler::openFile($path."/".$content_filename, "w");
 
-            $str_to_write = '';
-            if($type == 'css') $str_to_write .= '@charset "UTF-8";'."\n";
-
+            if($type == 'css') $file_object->write('@charset "UTF-8";'."\n");
             foreach($targets as $file) {
                 $str = FileHandler::readFile($file['file']);
 
@@ -152,15 +150,11 @@
                     $str = $this->replaceCssPath($file['file'], $str);
                     if($file['media'] != 'all') $str = '@media '.$file['media'].' {'."\n".$str."\n".'}';
                 }
-                $str_to_write .= $str;
-                $str_to_write .= "\n";
+                $file_object->write($str);
+                $file_object->write("\n");
                 unset($str);
             }
 
-            $db_info = Context::getDBInfo();
-            if($db_info->use_spaceremover != 'N') $str_to_write = $this->doCompressCode($str_to_write, $db_info->use_spaceremover);
-
-            $file_object->write($str_to_write);
             $file_object->close();
 
             /**
@@ -251,19 +245,5 @@ if(!$cached) {
 
             return 'url("'.$target.'")';
         }
-
-        function doCompressCode($str_code, $condition = 'Y') {
-            if($condition == 'N' || ($condition != 'P' && $condition != 'Y')) return $str_code;
-
-            if($condition == 'P' && ((int)date('H') < 1 || 5 < (int)date('H'))) return $str_code;
-
-            $str_code = str_replace("\r", "\n", $str_code);
-            $str_code = preg_replace("!^([ \t]+)!m", '', $str_code);
-            $str_code = preg_replace("!([ \t]+)$!m", '', $str_code);
-            $str_code = preg_replace("!(\n{2,})!m", "\n", $str_code);
-
-            return trim($str_code);
-        }
-
     }
 ?>
