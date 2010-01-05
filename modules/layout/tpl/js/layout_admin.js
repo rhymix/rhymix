@@ -65,4 +65,13 @@ function doResetLayoutCode(layout_srl) {
 }
 window.doResetLayoutCode = doResetLayoutCode;
 
+var validator = xe.getApp('validator')[0];
+validator.cast('ADD_CALLBACK', ['update_layout_code', function(form) {
+	var params={},data=$(form).serializeArray();
+	$.each(data, function(i,field){ params[field.name] = field.value });
+
+	exec_xml('layout', 'procLayoutAdminCodeUpdate', params, filterAlertMessage, ['error','message'], params, form);
+	return false;
+}]);
+
 })(jQuery);

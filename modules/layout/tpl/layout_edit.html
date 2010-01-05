@@ -84,10 +84,11 @@
 <!--@end-->
 
 
-<form id="fo_layout" action="./" method="post">
+<form id="fo_layout" action="{getUrl('','module','admin')}" method="post">
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
 <input type="hidden" name="_filter" value="update_layout_code" />
+<input type="hidden" name="_return_url" value="{htmlspecialchars($current_url)}" />
 
 <table cellspacing="0" class="rowTable">
 <tbody>
