@@ -362,10 +362,18 @@
             $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
 
             // 영문이 연결될 경우 개행이 안 되는 문제를 해결
-            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
+            $content = preg_replace_callback('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20,}/is',array(&$this,'_summaryReplace'),$content);
 
             return $content;
         }
+
+		function _summaryReplace($matches){
+			if(preg_match('/http(s?):\/\//is',$matches[0])){
+				return $matches[0];
+			}else{
+				return preg_replace('/(.){20}/is',"$0-",$matches[0]);
+			}
+		}
 
         function getRegdate($format = 'Y.m.d H:i:s') {
             return zdate($this->get('regdate'), $format);
