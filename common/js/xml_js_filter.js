@@ -76,7 +76,7 @@ var Validator = xe.createApp('Validator', {
 				var hasLegacyFn = $.isFunction(legacyFn);
 				var bResult = hasLegacyFn?legacyFn.apply(this):self.run(this);
 
-				return false;
+				return bResult;
 			});
 	},
 	API_VALIDATE : function(sender, params) {
@@ -225,7 +225,9 @@ var EditorStub = xe.createPlugin('editor_stub', {
 		var seq  = form.getAttribute('editor_sequence');
 
 		if (seq) {
-			form.content.value = editorGetContentTextarea_xe(seq) || '';
+			try {
+				editorRelKeys[seq].content.value = editorGetContentTextarea_xe(seq) || '';
+			} catch(e) { }
 		}
 	}
 });
