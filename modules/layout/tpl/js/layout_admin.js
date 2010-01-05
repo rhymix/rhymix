@@ -67,6 +67,8 @@ window.doResetLayoutCode = doResetLayoutCode;
 
 var validator = xe.getApp('validator')[0];
 validator.cast('ADD_CALLBACK', ['update_layout_code', function(form) {
+	if (form.act.value != 'procLayoutAdminCodeUpdate') return false;
+
 	var params={},data=$(form).serializeArray();
 	$.each(data, function(i,field){ params[field.name] = field.value });
 
