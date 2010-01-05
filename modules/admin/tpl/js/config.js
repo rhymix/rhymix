@@ -37,4 +37,3 @@ function completeGetFtpInfo(ret_obj)
     list = "<td><ul>"+list+"</ul></td>";
     e.append(jQuery(list));
 }
-

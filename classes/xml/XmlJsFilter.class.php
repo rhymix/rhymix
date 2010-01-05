@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * @class XmlJsFilter
-	 * @author zero (zero@nzeo.com)
+	 * @author taggon (gonom9@gmail.com)
 	 * @brief filter xml문서를 해석하여 js파일로 만듬
 	 * @version 0.2
 	 *
@@ -39,7 +39,7 @@
 	 **/
 
 	class XmlJsFilter extends XmlParser {
-        var $version = '0.2';
+        var $version = '0.2.1';
 		var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
 		var $xml_file = NULL; ///< 대상 xml 파일
 		var $js_file = NULL; ///< 컴파일된 js 파일
@@ -202,7 +202,8 @@
 			$js_doc[] = "\t\tjQuery.each(data, function(i, field){";
 			$js_doc[] = "\t\t\tvar val = jQuery.trim(field.value);";
 			$js_doc[] = "\t\t\tif(!val) return true;";
-			$js_doc[] = "\t\t\tif(params[field.name] && jQuery(elms[field.name]).is(':checkbox')) params[field.name] += '|@|'+val;";
+			$js_doc[] = "\t\t\tif(/\[\]$/.test(field.name)) field.name = field.name.replace(/\[\]$/, '');";
+			$js_doc[] = "\t\t\tif(params[field.name]) params[field.name] += '|@|'+val;";
 			$js_doc[] = "\t\t\telse params[field.name] = field.value;";
 			$js_doc[] = "\t\t});";
 

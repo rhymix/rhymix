@@ -202,7 +202,14 @@
         <!--@foreach($langs as $key => $val)-->
         <tr>
             <td>
-                <input id="lang_{$key}" type="checkbox" name="selected_lang" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked"<!--@end--> <!--@if($key==$selected_lang)-->disabled="disabled"<!--@end--> /> <label for="lang_{$key}">{$val}</label>
+				<!--@if($key==$selected_lang)-->
+					<input type="hidden" name="selected_lang[]" value="{$key}" />
+					<input type="checkbox" checked="checked" disabled="disabled" />
+					<label>{$val}</label>
+				<!--@else-->
+					<input id="lang_{$key}" type="checkbox" name="selected_lang[]" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked"<!--@end--> />
+					<label for="lang_{$key}">{$val}</label>
+				<!--@end-->
             </td>
         </tr>
         <!--@endforeach-->
