@@ -11,32 +11,22 @@ function doRecompileCacheFile() {
 
 // 모듈 목록 오픈
 function toggleModuleMenu(category) {
-    var obj = xGetElementById('module_'+category);
-    if(obj.className == 'open') obj.className = '';
-    else obj.className = 'open';
+	jQuery('#module_'+category).toggleClass('open');
 }
 
 // 메인 모듈/ 애드온 토글
 function toggleModuleAddon(target) {
-    if(target == 'module') {
-        xGetElementById('moduleOn').className = 'on';
-        xGetElementById('xeModules').style.display = 'block';
-        xGetElementById('addonOn').className = '';
-        xGetElementById('xeAddons').style.display = 'none';
-    } else {
-        xGetElementById('addonOn').className = 'on';
-        xGetElementById('xeAddons').style.display = 'block';
-        xGetElementById('moduleOn').className = '';
-        xGetElementById('xeModules').style.display = 'none';
-    }
+	var b = (target == 'module');
+
+	jQuery('#moduleOn').attr('class', b?'on':'');
+	jQuery('#addonOn').attr('class', b?'':'on');
+	jQuery('#xeModules')[b?'show':'hide']();
+	jQuery('#xeAddons')[b?'hide':'show']();
 }
 
 // toggle language list
 function toggleAdminLang() {
-    var obj = xGetElementById("adminLang");
-    if(!obj) return;
-    if(obj.style.display == 'block') obj.style.display = 'none';
-    else obj.style.display = 'block';
+	jQuery('#adminLang').toggleClass('open');
 }
 
 // string to regex(초성검색용)
@@ -152,8 +142,3 @@ jQuery(function($){
 	});
 
 });
-
-// logout
-function doAdminLogout() {
-    exec_xml('admin','procAdminLogout',new Array(), function() { location.reload(); });
-}
