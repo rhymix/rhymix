@@ -12,6 +12,7 @@ var messages  = [];
 var rules     = [];
 var filters   = [];
 var callbacks = [];
+var extras    = {};
 
 var Validator = xe.createApp('Validator', {
 	init : function() {
@@ -48,7 +49,7 @@ var Validator = xe.createApp('Validator', {
 		this.cast('ADD_RULE', ['alpha_number', regAlphaNum]);
 
 		// number
-		var regNum = /^[0-9]*$/i;
+		var regNum = /^[0-9]*$/;
 		this.cast('ADD_RULE', ['number', regNum]);
 		// }}} add filters
 	},
@@ -72,7 +73,7 @@ var Validator = xe.createApp('Validator', {
 				}
 			})
 			.submit(function(){
-				var legacyFn = this['xe:onsubmit'];
+				var legacyFn = this['xe:onsubmit'];		
 				var hasLegacyFn = $.isFunction(legacyFn);
 				var bResult = hasLegacyFn?legacyFn.apply(this):self.run(this);
 
@@ -85,7 +86,7 @@ var Validator = xe.createApp('Validator', {
 		if (form.elements['_filter']) filter = form.elements['_filter'].value;
 		if (!filter) return true;
 		if ($.isFunction(callbacks[filter])) callback = callbacks[filter];
-		filter = filters[filter.toLowerCase()] || null;
+		filter = $.extend({}, filters[filter.toLowerCase()] || {}, extras);
 
 		$.each(filter, function(name) {
 			var _el = form.elements[name];
@@ -157,6 +158,20 @@ var Validator = xe.createApp('Validator', {
 		} else {
 			return null;
 		}
+	},
+	API_ADD_EXTRA_FIELD : function(sender, params) {
+		var name = params[0].toLowerCase();
+		var prop = params[1];
+
+		extras[name] = prop;
+	},
+	API_GET_EXTRA_FIELD : function(sender, params) {
+		var name = params[0].toLowerCase();
+		return extras[name];
+	},
+	API_DEL_EXTRA_FIELD : function(sender, params) {
+		var name = params[0].toLowerCase();
+		delete extras[name];
 	},
 	API_APPLY_RULE : function(sender, params) {
 		var name  = params[0].toLowerCase();
@@ -235,10 +250,10 @@ oValidator.registerPlugin(new EditorStub);
 
 // functions
 function get_value(elem) {
+	var vals = [];
 	if (elem.is(':radio')){
 		return elem.filter(':checked').val();
 	} else if (elem.is(':checkbox')) {
-		var vals = [];
 		elem.filter(':checked').each(function(){
 			vals.push(this.value);
 		});
@@ -255,20 +270,20 @@ function get_value(elem) {
  * @brief ajax로 서버에 요청후 결과를 처리할 callback_function을 지정하지 않았을 시 호출되는 기본 함수
  **/
 function filterAlertMessage(ret_obj) {
-    var error = ret_obj["error"];
-    var message = ret_obj["message"];
-    var act = ret_obj["act"];
-    var redirect_url = ret_obj["redirect_url"];
-    var url = location.href;
+	var error = ret_obj["error"];
+	var message = ret_obj["message"];
+	var act = ret_obj["act"];
+	var redirect_url = ret_obj["redirect_url"];
+	var url = location.href;
 
-    if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
+	if(typeof(message)!="undefined"&&message&&message!="success") alert(message);
 
-    if(typeof(act)!="undefined" && act) url = current_url.setQuery("act", act);
-    else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
+	if(typeof(act)!="undefined" && act) url = current_url.setQuery("act", act);
+	else if(typeof(redirect_url)!="undefined" && redirect_url) url = redirect_url;
 
-    if(url == location.href) url = url.replace(/#(.*)$/,'');
+	if(url == location.href) url = url.replace(/#(.*)$/,'');
 
-    location.href = url;
+	location.href = url;
 }
 
 /**

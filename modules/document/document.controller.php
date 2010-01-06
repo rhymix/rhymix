@@ -1002,25 +1002,30 @@
         /**
          * @brief 특정 module_srl에 해당하는 document_extra_keys type, required등의 값을 체크하여 header에 javascript 코드 추가
          **/
-        function addXmlJsFilter($module_srl) {
-            $oDocumentModel = &getModel('document');
-            $extra_keys = $oDocumentModel->getExtraKeys($module_srl);
-            if(!count($extra_keys)) return;
+		function addXmlJsFilter($module_srl) {
+			$oDocumentModel = &getModel('document');
+			$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
+			if(!count($extra_keys)) return;
 
-            $js_code = "";
+			$js_code = array();
+			$js_code[] = '<script type="text/javascript">//<![CDATA[';
+			$js_code[] = '(function($){';
+			$js_code[] = 'var validator = xe.getApp("validator")[0];';
+			$js_code[] = 'if(!validator) return false;';
 
-            $logged_info = Context::get('logged_info');
+			$logged_info = Context::get('logged_info');
 
-            foreach($extra_keys as $idx => $val) {
-                $js_code .= sprintf('alertMsg["extra_vars%s"] = "%s";', $val->idx, $val->name);
-                $js_code .= sprintf('target_type_list["extra_vars%s"] = "%s";', $val->idx, $val->type);
-                $js_code .= sprintf('extra_vars[extra_vars.length] = "extra_vars%s";', $val->idx);
-                if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code .= sprintf('notnull_list[notnull_list.length] = "extra_vars%s";',$val->idx);
-            }
+			foreach($extra_keys as $idx => $val) {
+				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
+				if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
+			}
 
-            $js_code = "<script type=\"text/javascript\">//<![CDATA[\n".$js_code."\n//]]></script>";
-            Context::addHtmlHeader($js_code);
-        }
+			$js_code[] = '})(jQuery);';
+			$js_code[] = '//]]></script>';
+			$js_code   = implode("\n", $js_code);
+
+			Context::addHtmlHeader($js_code);
+		}
 
         /**
          * @brief 카테고리 추가
