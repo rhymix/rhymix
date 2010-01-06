@@ -53,9 +53,11 @@ function deleteFile(layout_srl,filename){
 
 /* preview layout */
 function doPreviewLayoutCode(layout_srl) {
-	var act = $('input[name=act]','#fo_layout').val();
-	$('#fo_layout').attr('target', "_LayoutPreview").find('input[name=act]').val('dispLayoutAdminPreview');
-	$('#fo_layout').submit().removeAttr('target').find('input[name=act]').val(act);
+	var fo  = $('#fo_layout');
+	var act = fo.find('input[name=act]:first').val();
+	fo.attr('target', '_LayoutPreview').find('input[name=act]').val('dispLayoutAdminPreview');
+	fo.submit();
+	//.removeAttr('target').find('input[name=act]').val(act);
 }
 window.doPreviewLayoutCode = doPreviewLayoutCode;
 
@@ -67,7 +69,7 @@ window.doResetLayoutCode = doResetLayoutCode;
 
 var validator = xe.getApp('validator')[0];
 validator.cast('ADD_CALLBACK', ['update_layout_code', function(form) {
-	if (form.act.value != 'procLayoutAdminCodeUpdate') return false;
+	if (form.act.value != 'procLayoutAdminCodeUpdate') return true;
 
 	var params={},data=$(form).serializeArray();
 	$.each(data, function(i,field){ params[field.name] = field.value });
