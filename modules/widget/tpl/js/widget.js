@@ -39,19 +39,13 @@ function doStartPageModify(zoneID, module_srl) {
     zoneModuleSrl = module_srl;
 
     // 위젯 크기/여백 조절 레이어를 가장 밖으로 뺌
-    var obj = xGetElementById("tmpPageSizeLayer");
-    var dummy = xCreateElement("div");
-    xInnerHtml(dummy, xInnerHtml(obj));
-    dummy.id="pageSizeLayer";
-    dummy.className=obj.className;
-    dummy.style.visibility = "hidden";
-    dummy.style.display = "block";
-    dummy.style.position = "absolute";
-    dummy.style.left = 0;
-    dummy.style.top = 0;
-    document.body.appendChild(dummy);
-    obj.parentNode.removeChild(obj);
-
+	jQuery('#tmpPageSizeLayer')
+		.attr('id', 'pageSizeLayer')
+		.css({position:'absolute',left:0,top:0})
+		.hide()
+		.appendTo('body')
+		.find('>form')
+		.submit(function(){ doApplyWidgetSize(this); return false; });
 
     // 모든 위젯들의 크기를 정해진 크기로 맞춤
     doFitBorderSize();
@@ -644,84 +638,85 @@ function _getInt(val) {
 // 위젯 크기 조절 레이어를 보여줌
 var selectedSizeWidget = null;
 function doShowWidgetSizeSetup(px, py, obj) {
-    var layer = xGetElementById("pageSizeLayer");
-    var formObj = layer.firstChild;
-    while(formObj && formObj.nodeName != "FORM") formObj = formObj.nextSibling;
-    if(!formObj || formObj.nodeName != "FORM") return;
+    var layer = jQuery('#pageSizeLayer');
+    var form  = layer.find('>form:first');
+	var obj   = jQuery(obj);
 
-    selectedSizeWidget = obj;
+	if (!form.length) return;
 
-    layer.style.display = "block";
+	selectedSizeWidget = obj[0];
 
-    formObj.width.value = obj.style.width;
-    formObj.height.value = obj.style.height;
-    formObj.padding_left.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_left'));
-    formObj.padding_right.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_right'));
-    formObj.padding_top.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_top'));
-    formObj.padding_bottom.value = _getInt(selectedSizeWidget.getAttribute('widget_padding_bottom'));
-    formObj.margin_left.value = _getInt(selectedSizeWidget.style.marginLeft);
-    formObj.margin_right.value = _getInt(selectedSizeWidget.style.marginRight);
-    formObj.margin_top.value = _getInt(selectedSizeWidget.style.marginTop);
-    formObj.margin_bottom.value = _getInt(selectedSizeWidget.style.marginBottom);
+	var opts = {
+		widget_align : obj.css('float'),
 
-    var widget_align = getFloat(selectedSizeWidget);
-    if(widget_align == "left") formObj.widget_align.selectedIndex = 0;
-    else formObj.widget_align.selectedIndex = 1;
+		width  : obj[0].style.width,
+		height : obj[0].style.height,
+		
+		padding_left   : _getInt(obj.attr('widget_padding_left')),
+		padding_right  : _getInt(obj.attr('widget_padding_right')),
+		padding_top    : _getInt(obj.attr('widget_padding_top')),
+		padding_bottom : _getInt(obj.attr('widget_padding_bottom')),
+		
+		margin_left    : _getInt(obj[0].style.marginLeft),
+		margin_right   : _getInt(obj[0].style.marginRight),
+		margin_top     : _getInt(obj[0].style.marginTop),
+		margin_bottom  : _getInt(obj[0].style.marginBottom),
+		
+		border_top_color : transRGB2Hex(obj[0].style.borderTopColor),
+		border_top_thick : obj[0].style.borderTopWidth.replace(/px$/i, ''),
+		border_top_type  : obj[0].style.borderTopStyle,
+		
+		border_bottom_color : transRGB2Hex(obj[0].style.borderBottomColor),
+		border_bottom_thick : obj[0].style.borderBottomWidth.replace(/px$/i, ''),
+		border_bottom_type  : obj[0].style.borderBottomStyle,
 
-    formObj.border_top_color.value = transRGB2Hex(selectedSizeWidget.style.borderTopColor);
-    formObj.border_top_thick.value = selectedSizeWidget.style.borderTopWidth.replace(/px$/i,'');
-    formObj.border_top_type.selectedIndex = selectedSizeWidget.style.borderTopStyle=='dotted'?1:0;
+		border_right_color : transRGB2Hex(obj[0].style.borderRightColor),
+		border_right_thick : obj[0].style.borderRightWidth.replace(/px$/i, ''),
+		border_right_type  : obj[0].style.borderRightStyle,
 
-    formObj.border_bottom_color.value = transRGB2Hex(selectedSizeWidget.style.borderBottomColor);
-    formObj.border_bottom_thick.value = selectedSizeWidget.style.borderBottomWidth.replace(/px$/i,'');
-    formObj.border_bottom_type.selectedIndex = selectedSizeWidget.style.borderBottomStyle=='dotted'?1:0;
+		border_left_color : transRGB2Hex(obj[0].style.borderLeftColor),
+		border_left_thick : obj[0].style.borderLeftWidth.replace(/px$/i, ''),
+		border_left_type  : obj[0].style.borderLeftStyle,
 
-    formObj.border_right_color.value = transRGB2Hex(selectedSizeWidget.style.borderRightColor);
-    formObj.border_right_thick.value = selectedSizeWidget.style.borderRightWidth.replace(/px$/i,'');
-    formObj.border_right_type.selectedIndex = selectedSizeWidget.style.borderRightStyle=='dotted'?1:0;
+		background_color     : transRGB2Hex(obj[0].style.backgroundColor),
+		background_image_url : obj[0].style.backgroundImage.replace(/^url\(/i,'').replace(/\)$/i,''),
 
-    formObj.border_left_color.value = transRGB2Hex(selectedSizeWidget.style.borderLeftColor);
-    formObj.border_left_thick.value = selectedSizeWidget.style.borderLeftWidth.replace(/px$/i,'');
-    formObj.border_left_type.selectedIndex = selectedSizeWidget.style.borderLeftStyle=='dotted'?1:0;
+		background_x : 0,
+		background_y : 0,
 
-    formObj.background_color.value = transRGB2Hex(selectedSizeWidget.style.backgroundColor);
+		background_repeat : obj[0].style.backgroundRepeat
+	};
 
-    formObj.background_image_url.value = selectedSizeWidget.style.backgroundImage.replace(/^url\(/i,'').replace(/\)$/i,'');
+	// background position
+	var pos = obj[0].style.backgroundPosition;
+	if(pos) {
+		pos = pos.split(' ');
+		if(pos.length == 2) {
+			opts.background_x = pos[0];
+			opts.background_y = pos[1];
+		}
+	}
 
-    switch(selectedSizeWidget.style.backgroundRepeat) {
-        case 'no-repeat' : formObj.background_repeat.selectedIndex = 1; break;
-        case 'repeat-x' : formObj.background_repeat.selectedIndex = 2; break;
-        case 'repeat-y' : formObj.background_repeat.selectedIndex = 3; break;
-        default : formObj.background_repeat.selectedIndex = 0; break;
-    }
+	layer.css('top', py+'px').show();
+	var _zonePageObj   = jQuery(zonePageObj)
+	var zoneOffsetLeft = _zonePageObj.offset().left;
+	var zoneWidth      = _zonePageObj.width();
+	if (px + layer.width() > zoneOffsetLeft + zoneWidth) px = zoneOffsetLeft + zoneWidth - layer.width() - 5;
+	layer.css('left', px+'px');
 
-    formObj.background_x.value = 0;
-    formObj.background_y.value = 0;
-    var pos = selectedSizeWidget.style.backgroundPosition;
-    if(pos) {
-        pos = pos.split(' ');
-        if(pos.length==2) {
-            formObj.background_x.value = pos[0];
-            formObj.background_y.value = pos[1];
-        }
-    }
+	jQuery.each(opts, function(key, val){
+		var el = form[0].elements[key];
+		if (el) el.value = val;
+	});
 
-    if(px+xWidth(layer)>xPageX(zonePageObj)+xWidth(zonePageObj)) px = xPageX(zonePageObj)+xWidth(zonePageObj)-xWidth(layer)-5;
-    xLeft(layer, px);
-    xTop(layer, py);
-    layer.style.visibility = "visible";
-
-    try {
-        formObj.width.focus();
-    } catch(e) {
-    }
-
+	try { form[0].elements[0].focus() } catch(e) {};
 }
 
 function doHideWidgetSizeSetup() {
-    var layer = xGetElementById("pageSizeLayer");
-    layer.style.visibility = "hidden";
-    layer.style.display = "none";
+	jQuery('#pageSizeLayer').hide();
+	//var layer = xGetElementById("pageSizeLayer");
+    //layer.style.visibility = "hidden";
+    //layer.style.display = "none";
 }
 
 function _getSize(value) {
@@ -789,7 +784,7 @@ function doApplyWidgetSize(fo_obj) {
         else selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color.value);
 
         var image_url = fo_obj.background_image_url.value;
-        if(image_url) selectedSizeWidget.style.backgroundImage = "url("+image_url+")";
+        if(image_url && image_url != 'none') selectedSizeWidget.style.backgroundImage = "url("+image_url+")";
         else selectedSizeWidget.style.backgroundImage = 'none';
 
         switch(fo_obj.background_repeat.selectedIndex) {
@@ -798,7 +793,6 @@ function doApplyWidgetSize(fo_obj) {
             case 3 : selectedSizeWidget.style.backgroundRepeat = 'repeat-y'; break;
             default : selectedSizeWidget.style.backgroundRepeat = 'repeat'; break;
         }
-
 
         selectedSizeWidget.style.backgroundPosition = fo_obj.background_x.value+' '+fo_obj.background_y.value;
 
@@ -870,8 +864,9 @@ function doApplyWidgetSize(fo_obj) {
             params[name] = value;
         }
         params["style"] = getStyle(selectedWidget);
-        params["selected_widget"] = widget;
-        params["module_srl"] = xGetElementById("pageFo").module_srl.vlaue;
+		params["selected_widget"] = widget;
+        params["module_srl"] = xGetElementById("pageFo").module_srl.value;
+
         exec_xml('widget','procWidgetGenerateCodeInPage',params,function(ret_obj) { doAddWidgetCode(ret_obj["widget_code"]);  },new Array('error','message','widget_code','tpl','css_header'));
     }
     doHideWidgetSizeSetup();
@@ -962,6 +957,7 @@ var widgetDisappear = 0;
 
 function widgetCreateTmpObject(obj) {
     var id = obj.getAttribute('id');
+
     tmpObj = xCreateElement('DIV');
     tmpObj.id = id + '_tmp';
     tmpObj.className = obj.className;
