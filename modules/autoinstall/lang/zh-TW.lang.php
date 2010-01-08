@@ -21,7 +21,7 @@
     $lang->install = "安裝";
     $lang->update = "更新";
     $lang->current_version = "版本";
-    $lang->depending_programs = "This program depends on ";
+    $lang->depending_programs = "此程式需要安裝";
     $lang->require_update = "需要更新";
     $lang->require_installation = "需要安裝";
     $lang->description_install = "One Click Installer will also install/update all other programs which this program is depending on";
