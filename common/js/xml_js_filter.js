@@ -241,7 +241,7 @@ var EditorStub = xe.createPlugin('editor_stub', {
 
 		if (seq) {
 			try {
-				editorRelKeys[seq].content.value = editorGetContentTextarea_xe(seq) || '';
+				editorRelKeys[seq].content.value = editorRelKeys[seq].func() || '';
 			} catch(e) { }
 		}
 	}
