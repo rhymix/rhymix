@@ -42,12 +42,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	if(xFF && !content) content = '<br />';
 
 	// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-	content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
-		if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
-		var val = jQuery.trim(m3).replace(/^\.\//,'');
-		if(/^(http|https|ftp|telnet|mms|\/|\.\.)/i.test(val)) return m0;
-		return m1+m2+request_uri+val+m4+m5;
-	});
+	content = editorReplacePath(content);
 
 	form[content_key].value = content;
 	jQuery("#xpress-editor-"+editor_sequence).val(content);
@@ -191,15 +186,21 @@ function editorGetIframe(srl) {
 
 function editorReplaceHTML(iframe_obj, content) {
 	// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-	content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
-		if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
-		var val = jQuery.trim(m3).replace(/^\.\//,'');
-		if(/^(http|https|ftp|telnet|mms|\/|\.\.)/i.test(val)) return m0;
-		return m1+m2+request_uri+val+m4+m5;
-	});
+	content = editorReplacePath(content);
 
 	var srl = parseInt(iframe_obj.id.replace(/^.*_/,''),10);
 	editorRelKeys[srl]["pasteHTML"](content);
+}
+
+function editorReplacePath(content) {
+	// 태그 내 src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
+	content = content.replace(/\<([^\>\<]*?)(src=|href=|url\()("|\')*?([^"\'\)]+)("|\'|\))*?(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5,m6) {
+		if(m2=="url(") { m3=''; m5=')'; } else { if(typeof(m3)=='undefined') m3 = '"'; if(typeof(m5)=='undefined') m5 = '"'; if(typeof(m6)=='undefined') m6 = ''; }
+		var val = jQuery.trim(m4).replace(/^\.\//,'');
+		if(/^(http|https|ftp|telnet|mms|\/|\.\.|\#)/i.test(val)) return m0;
+		return '<'+m1+m2+m3+request_uri+val+m5+m6;
+	});
+	return content;
 }
 
 function editorGetAutoSavedDoc(form) {
@@ -237,26 +238,14 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 
 	TO_WYSIWYG_SET : function(content) {
 		// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-		content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5) {
-			if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
-			var val = jQuery.trim(m3).replace(/^\.\//,'');
-			if(/^(http|https|ftp|telnet|mms|\/|\.\.)/i.test(val)) return m0;
-			return m1+m2+request_uri+val+m4+m5;
-		});
+		content = editorReplacePath(content);
 
 		return content;
 	},
 
 	IR_TO_HTMLSrc : function(content) {
 		// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-		content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
-			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig');
-			if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
-			var val = jQuery.trim(m3);
-			if(uriReg.test(val)) val = val.replace(uriReg,'');
-			else val = m3;
-			return m1+m2+val+m4+m5;
-		});
+		content = editorReplacePath(content);
 		return content;
 
 	}
