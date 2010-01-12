@@ -156,26 +156,41 @@ function editorGetContentTextarea_xe(editor_sequence) {
 
 	if(!jQuery.trim(str.replace(/(&nbsp;|<\/?(p|br|span|div)([^>]+)?>)/ig, ''))) return '';
 
+	// 파이어폭스의 경우 의미없는 <br>이 컨텐트 마지막에 추가될 수 있다.
+	str = str.replace(/<br ?\/?>$/i, '');
+
 	// 속도 문제가 있으므로 1024 문자 미만일 때만 첫 노드가 텍스트 노드인지 테스트
 	// 그 이상이면 P 노드가 정상적으로 생성되었다고 가정한다.
 	if (str.length < 1024) {
+		var inline_elements = Array('#text','A','BR','IMG','EM','STRONG','SPAN','BIG','CITE','CODE','DD','DFN','HR','INS','KBD','LINK','Q','SAMP','SMALL','SUB','SUP','TT');
+		var is_inline_contents = true;
 		var div   = jQuery('<div>'+str+'</div>').eq(0);
 		var nodes = div.contents();
 		jQuery.each(nodes, function() {
-			if (this.nodeType == 3) {
-				jQuery(this).wrap('<p></p>');
+			if (this.nodeType != 3) {
+				if(jQuery.inArray(this.nodeName, inline_elements ) == -1) {
+					is_inline_contents = false;
+				}
 			}
 		});
-		str = div.html();
+		if(is_inline_contents) str = '<p>'+str+'</p>';
 	}
-
-	// 파이어폭스의 경우 의미없는 <br>이 컨텐트 마지막에 추가될 수 있다.
-	str = str.replace(/<br ?\/?>$/i, '');
 
 	// 이미지 경로를 수정한다. - 20091125
 	str = str.replace(/src\s?=\s?(["']?)(?:\.\.\/)+(files\/attach\/)/ig, function(m0,m1,m2){
 		return 'src='+(m1||'')+m2;
 	});
+
+	str = str.replace(/\<(\/)?([A-Z]+)([^>]*)\>/ig, function(m0,m1,m2,m3) {
+		m3 = m3.replace(/ ([A-Z]+?)\=/g, function(n0,n1) {
+			n1 = n1.toLowerCase();
+			return ' '+n1+'=';
+		});
+		m2 = m2.toLowerCase();
+		if(!m1) m1='';
+		return '<'+m1+m2+m3+'>';
+	});
+	str = str.replace('<br>','<br />');
 
 	return str;
 }
