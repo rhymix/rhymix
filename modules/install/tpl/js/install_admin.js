@@ -9,11 +9,11 @@ function completeInstalled(ret_obj) {
 /**
  * @brief FTP 정보 입력
  **/
-function doInstallFTPInfo(fo_obj) {
-    var oFilter = new XmlJsFilter(fo_obj, "install", "procInstallFTP", completeInstallFTPInfo);
-    oFilter.addResponseItem("error");
-    oFilter.addResponseItem("message");
-    return oFilter.proc();
+function doInstallFTPInfo(form) {
+    var params={}, data=jQuery(form).serializeArray();
+    jQuery.each(data, function(i, field){ params[field.name] = field.value });
+    exec_xml('install', 'procInstallFTP', params, completeInstallFTPInfo, ['error', 'message'], params, form);
+    return false;
 }
 
 function completeInstallFTPInfo(ret_obj) {
@@ -21,11 +21,12 @@ function completeInstallFTPInfo(ret_obj) {
 }
 
 function doCheckFTPInfo() {
-    var fo_obj = jQuery("#ftp_form").get(0);
-    var oFilter = new XmlJsFilter(fo_obj, "install", "procInstallCheckFTP", completeInstallCheckFtpInfo);
-    oFilter.addResponseItem("error");
-    oFilter.addResponseItem("message");
-    return oFilter.proc();
+    var form = jQuery("#ftp_form").get(0);
+    var params={}, data=jQuery(form).serializeArray();
+    jQuery.each(data, function(i, field){ params[field.name] = field.value });
+
+    exec_xml('install', 'procInstallCheckFTP', params, completeInstallCheckFtpInfo, ['error', 'message'], params, form);
+    return false;
 }
 
 function completeInstallCheckFtpInfo(ret_obj) {
