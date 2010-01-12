@@ -2,39 +2,41 @@
     /**
     * @class ModuleObject
     * @author zero (zero@nzeo.com)
-    * @brief module의 상위 클래스
+    * @brief base class of ModuleHandler
     **/
 
     class ModuleObject extends Object {
 
-        var $mid = NULL; ///< module로 생성한 instance(관리상)의 값 
-        var $module = NULL; ///< mid로 찾아서 생성한 모듈 class 이름
-        var $module_srl = NULL; ///< 모듈 객체의 고유값인 module_srl 
-        var $module_info = NULL; ///< 모듈의 설정 정보 
-        var $xml_info = NULL; ///< 모듈 자체 정보
+        var $mid = NULL; ///< string to represent run-time instance of Module (XE Module)
+        var $module = NULL; ///< Class name of Xe Module that is identified by mid
+        var $module_srl = NULL; ///< integer value to represent a run-time instance of Module (XE Module)
+        var $module_info = NULL; ///< an object containing the module information 
+        var $xml_info = NULL; ///< an object containing the module description extracted from XML file
 
-        var $module_path = NULL; ///< 모듈 class file의 실행 위치
+        var $module_path = NULL; ///< a path to directory where module source code resides
 
-        var $act = NULL; ///< act 값
+        var $act = NULL; ///< a string value to contain the action name
 
-        var $template_path = NULL; ///< template 경로
-        var $template_file = NULL; ///< template 파일
+        var $template_path = NULL; ///< a path of directory where template files reside
+        var $template_file = NULL; ///< name of template file
 
-        var $layout_path = ''; ///< 레이아웃 경로
-        var $layout_file = ''; ///< 레이아웃 파일
-        var $edited_layout_file = ''; ///< 관리자 모드에서 수정된 레이아웃 파일
+        var $layout_path = ''; ///< a path of directory where layout files reside
+        var $layout_file = ''; ///< name of layout file
+        var $edited_layout_file = ''; ///< name of temporary layout files that is modified in an admin mode
 
-        var $stop_proc = false; ///< action 수행중 stop()를 호출하면 ModuleObject::proc()를 수행하지 않음
+        var $stop_proc = false; ///< a flag to indicating whether to stop the execution of code.
 
         /**
-         * @brief 현재 모듈의 이름을 지정
+         * @brief setter to set the name of module
+         * @param name of module
          **/
         function setModule($module) {
             $this->module = $module;
         }
 
         /**
-         * @brief 현재 모듈의 path를 지정
+         * @brief setter to set the name of module path
+         * @param the directory path to a module directory
          **/
         function setModulePath($path) {
             if(substr($path,-1)!='/') $path.='/';
@@ -42,17 +44,17 @@
         }
 
         /**
-         * @brief redirect_url을 정함 
-         *
-         * redirect_url의 경우 ajax로 request를 받았을 경우에 사용하면 됨...
+         * @brief setter to set an url for redirection
+         * @param $url url for redirection
+         * @remark redirect_url is used only for ajax requests
          **/
         function setRedirectUrl($url='./') {
             $this->add('redirect_url', $url);
         }
 
         /**
-         * @brief 현재 페이지를 refresh시킴
-         *
+         * @brief sett to set the template path for refresh.html
+         * @remark refresh.html is executed as a result of method execution
          * 공통 tpl중 refresh.html을 실행할 뿐..
          **/
         function setRefreshPage() {
@@ -62,15 +64,17 @@
 
 
         /**
-         * @brief act값 지정
+         * @brief sett to set the action name
          **/
         function setAct($act) {
             $this->act = $act;
         }
 
         /**
-         * @brief 모듈의 정보 세팅
-         **/
+         * @brief sett to set module information
+         * @param[in] $module_info object containing module information
+         * @param[in] $xml_info object containing module description
+        **/
         function setModuleInfo($module_info, $xml_info) {
             // 기본 변수 설정
             $this->mid = $module_info->mid;
@@ -130,7 +134,8 @@
         }
 
         /**
-         * @brief 메세지 출력
+         * @brief set the stop_proc and approprate message for msg_code
+         * @param $msg_code an error code 
          **/
         function stop($msg_code) {
             // proc 수행을 중지 시키기 위한 플래그 세팅
@@ -153,7 +158,7 @@
         }
 
         /**
-         * @brief template 파일 지정
+         * @brief set the file name of the template file
          **/
         function setTemplateFile($filename) {
             if(substr($filename,-5)!='.html') $filename .= '.html';
@@ -161,14 +166,14 @@
         }
 
         /**
-         * @brief template 파일 return
+         * @brief retrieve the directory path of the template directory
          **/
         function getTemplateFile() {
             return $this->template_file;
         }
 
         /**
-         * @brief template 경로 지정
+         * @brief set the directory path of the template directory
          **/
         function setTemplatePath($path) {
             if(substr($path,0,1)!='/' && substr($path,0,2)!='./') $path = './'.$path;
@@ -177,14 +182,15 @@
         }
 
         /**
-         * @brief template 경로 return
+
+         * @brief retrieve the directory path of the template directory
          **/
         function getTemplatePath() {
             return $this->template_path;
         }
 
         /**
-         * @brief edited layout 파일 지정
+         * @brief set the file name of the temporarily modified by admin
          **/
         function setEditedLayoutFile($filename) {
             if(substr($filename,-5)!='.html') $filename .= '.html';
@@ -192,14 +198,14 @@
         }
 
         /**
-         * @brief layout 파일 return
+         * @brief retreived the file name of edited_layout_file
          **/
         function getEditedLayoutFile() {
             return $this->edited_layout_file;
         }
 
         /**
-         * @brief layout 파일 지정
+         * @brief set the file name of the layout file
          **/
         function setLayoutFile($filename) {
             if(substr($filename,-5)!='.html') $filename .= '.html';
@@ -207,14 +213,14 @@
         }
 
         /**
-         * @brief layout 파일 return
+         * @brief get the file name of the layout file
          **/
         function getLayoutFile() {
             return $this->layout_file;
         }
 
         /**
-         * @brief layout 경로 지정
+         * @brief set the directory path of the layout directory
          **/
         function setLayoutPath($path) {
             if(substr($path,0,1)!='/' && substr($path,0,2)!='./') $path = './'.$path;
@@ -223,16 +229,15 @@
         }
 
         /**
-         * @brief layout 경로 return
+         * @brief set the directory path of the layout directory
          **/
         function getLayoutPath() {
             return $this->layout_path;
         }
 
         /**
-         * @brief 모듈의 action에 해당하는 method를 실행
+         * @brief excute the member method specified by $act variable 
          *
-         * $act값에 의해서 $action_list에 선언된 것들을 실행한다
          **/
         function proc() {
             // stop_proc==true이면 그냥 패스
