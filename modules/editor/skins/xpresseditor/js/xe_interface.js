@@ -211,7 +211,7 @@ function editorReplaceHTML(iframe_obj, content) {
 
 function editorReplacePath(content) {
 	// 태그 내 src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-	content = content.replace(/\<([^\>\<]*)(src=|href=|url\()("|\')*?([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5,m6) {
+	content = content.replace(/\<([^\>\<]*)(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>)*/ig, function(m0,m1,m2,m3,m4,m5,m6) {
 		if(m2=="url(") { m3=''; m5=')'; } else { if(typeof(m3)=='undefined') m3 = '"'; if(typeof(m5)=='undefined') m5 = '"'; if(typeof(m6)=='undefined') m6 = ''; }
 		var val = jQuery.trim(m4).replace(/^\.\//,'');
 		if(/^(http\:|https\:|ftp\:|telnet\:|mms\:|mailto\:|\/|\.\.|\#)/i.test(val)) return m0;
