@@ -1,5 +1,6 @@
 <form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe">
 <input type="hidden" name="module" value="module" />
+<input type="hidden" name="vid" value="{$vid}" />
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="act" value="procModuleAdminUpdateSkinInfo" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
