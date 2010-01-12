@@ -182,10 +182,12 @@ function editorGetContentTextarea_xe(editor_sequence) {
 	});
 
 	str = str.replace(/\<(\/)?([A-Z]+)([^>]*)\>/ig, function(m0,m1,m2,m3) {
-		m3 = m3.replace(/ ([A-Z]+?)\=/g, function(n0,n1) {
-			n1 = n1.toLowerCase();
-			return ' '+n1+'=';
-		});
+		if(m3) {
+			m3 = m3.replace(/ ([A-Z]+?)\=/ig, function(n0,n1) {
+				n1 = n1.toLowerCase();
+				return ' '+n1+'=';
+			});
+		} else { m3 = ''; }
 		m2 = m2.toLowerCase();
 		if(!m1) m1='';
 		return '<'+m1+m2+m3+'>';
