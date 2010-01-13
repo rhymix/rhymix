@@ -2,11 +2,10 @@
     /**
     * @class DisplayHandler
     * @author zero (zero@nzeo.com)
-    * @brief 데이터 출력을 위한 class (XML/HTML 데이터를 구분하여 출력)
-    *
-    * Response Method에 따라서 html or xml 출력방법을 결정한다
-    * xml : oModule의 variables를 simple xml 로 출력
-    * html : oModule의 template/variables로 html을 만들고 contents_html로 처리
+    * @brief DisplayHandler is responsible for displaying the execution result. \n 
+    *  Depending on the request type, it can display either HTML or XML content.\n
+    *  Xml content is simple xml presentation of variables in oModule while html content
+    *   is the combination of the variables of oModue and template files/.
     **/
 
     class DisplayHandler extends Handler {
@@ -16,8 +15,11 @@
         var $gz_enabled = false; ///< gzip 압축하여 컨텐츠 호출할 것인지에 대한 flag변수
 
         /**
-         * @brief 모듈객체를 받아서 content 출력
-         **/
+         * @brief print either html or xml content given oModule object 
+         * @remark addon execution and the trigger execution are included within this method, which
+         * might create inflexibility for the fine grained caching
+        * @param $oModule the module object
+        **/
         function printContent(&$oModule) {
 
             // gzip encoding 지원 여부 체크
@@ -159,23 +161,27 @@
         }
 
         /**
-         * @brief <!--Meta:파일이름.(css|js)-->를 변경
-         **/
+        * @brief add given .css or .js file names in widget code to Context       
+        * @param $oModule the module object
+        **/
         function transMeta($matches) {
             if(substr($matches[1],'-4')=='.css') Context::addCSSFile($matches[1]);
             elseif(substr($matches[1],'-3')=='.js') Context::addJSFile($matches[1]);
         }
 
         /**
-         * @brief <body>내의 <style태그를 header로 이동
-         **/
+        * @brief add html style code extracted from html body to Context, which will be
+        * printed inside <header></header> later.
+        * @param $oModule the module object
+        **/
         function moveStyleToHeader($matches) {
             Context::addHtmlHeader($matches[0]);
         }
 
-        /**
-         * @brief RequestMethod가 JSON이면 JSON 데이터로 컨텐츠 생성
-         **/
+       /**
+        * @brief produce JSON compliant cotent given a module object.
+        * @param $oModule the module object
+        **/
         function _toJSON(&$oModule) {
             $variables = $oModule->getVariables();
             $variables['error'] = $oModule->getError();
@@ -185,8 +191,9 @@
         }
 
         /**
-         * @brief RequestMethod가 virtualXML이면 성공, 실패, redirect에 대해 컨텐츠 생성
-         **/
+        * @brief Produce virtualXML compliant content given a module object.\n
+        * @param $oModule the module object
+        **/
         function _toVirtualXmlDoc(&$oModule) {
             $error = $oModule->getError();
             $message = $oModule->getMessage();
@@ -214,8 +221,9 @@
         }
 
         /**
-         * @brief RequestMethod가 XML이면 XML 데이터로 컨텐츠 생성
-         **/
+        * @brief Produce XML compliant content given a module object.\n
+        * @param $oModule the module object
+        **/
         function _toXmlDoc(&$oModule) {
             $variables = $oModule->getVariables();
 
@@ -230,6 +238,10 @@
             return $xmlDoc;
         }
 
+       /**
+        * @brief produce XML code given variable object\n
+        * @param $oModule the module object
+        **/
         function _makeXmlDoc($obj) {
             if(!count($obj)) return;
 
@@ -247,8 +259,9 @@
         }
 
         /**
-         * @brief RequestMethod가 XML이 아니면 html 컨텐츠 생성
-         **/
+        * @brief Produce HTML compliant content given a module object.\n
+        * @param $oModule the module object
+        **/
         function _toHTMLDoc(&$oModule) {
             // template handler 객체 생성
             $oTemplate = &TemplateHandler::getInstance();
@@ -260,11 +273,9 @@
         }
 
         /**
-         * @brief 디버그 모드일 경우 디버깅 메시지 출력
-         *
-         * __DEBUG__ 값이 1 이상이면 __DEBUG_OUTPUT__ 값에 따라 메시지 출력.
-         * __DEBUG__를 세팅하고, __DEBUG_OUTPUT__ == 0 이면
-         * tail -f ./files/_debug_message.php로 하여 console로 확인하면 편리함
+         * @brief Print debugging message to designated output source depending on the value set to __DEBUG_OUTPUT_. \n
+         *  This method only functions when __DEBUG__ variable is set to 1.
+         *  __DEBUG_OUTPUT__ == 0, messages are written in ./files/_debug_message.php
          **/
         function _debugOutput() {
             if(!__DEBUG__) return;
@@ -413,7 +424,7 @@
         }
 
         /**
-         * @brief xml header 출력 (utf8 고정)
+         * @brief print a HTTP HEADER for XML, which is encoded in UTF-8
          **/
         function _printXMLHeader() {
             header("Content-Type: text/xml; charset=UTF-8");
@@ -424,8 +435,9 @@
             header("Pragma: no-cache");
         }
 
+
         /**
-         * @brief html header 출력 (utf8 고정)
+         * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
          **/
         function _printHTMLHeader() {
             header("Content-Type: text/html; charset=UTF-8");
@@ -436,8 +448,9 @@
             header("Pragma: no-cache");
         }
 
+
         /**
-         * @brief JSON header 출력 (utf8 고정)
+         * @brief print a HTTP HEADER for JSON, which is encoded in UTF-8
          **/
         function _printJSONHeader() {
             header("Content-Type: text/html; charset=UTF-8");
