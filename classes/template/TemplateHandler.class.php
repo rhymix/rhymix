@@ -32,11 +32,11 @@
         }
 
         /**
-         * @brief compiles specified tpl file
+         * @brief compiles specified tpl file and execution result in Context into resultant content 
          * @param[in] $tpl_path path of the directory containing target template file
          * @param[in] $tpl_filename target template file's name
          * @param[in] $tpl_file if specified use it as template file's full path 
-         * @return compiled result 
+         * @return Returns compiled result in case of success, NULL otherwise 
          */
         function compile($tpl_path, $tpl_filename, $tpl_file = '') {
             // store the starting time for debug information
@@ -73,7 +73,7 @@
          * @brief compile specified file and immediately return
          * @param[in] $tpl_path path of the directory containing target template file
          * @param[in] $tpl_filename target template file's name
-         * @return
+         * @return Returns compiled content in case of success or NULL in case of failure
          **/
         function compileDirect($tpl_path, $tpl_filename) {
             $this->tpl_path = $tpl_path;
@@ -86,10 +86,10 @@
         }
 
         /**
-         * @brief compile if necessary 
-         * @param[in] $tpl_path path of the directory containing target template file
-         * @param[in] $tpl_filename target template file's name
-         * @return if compiled file exists and it is newer than template file return nothing, otherwise compiled result
+         * @brief compile a template file only if a cached template file does not exist or it is outdated. 
+         * @param[in] $tpl_path a file path of the target template file
+         * @param[in] $compiled_tpl_file a file path of cached template file
+         * @return Returns compiled template file if cached one does not exists or it is outdated, NULL otherwise
          **/
         function _compile($tpl_file, $compiled_tpl_file) {
             if(!file_exists($compiled_tpl_file)) return $this->_compileTplFile($tpl_file, $compiled_tpl_file);
@@ -100,10 +100,11 @@
         }
 
         /**
-         * @brief compile tpl_file file
+         * @brief compile a template file specified in $tpl_file and 
+         * @pre files specified by $tpl_file exists.
          * @param[in] $tpl_file path of tpl file
          * @param[in] $compiled_tpl_file if specified, write compiled result into the file
-         * @return compiled result 
+         * @return compiled result in case of success or NULL in case of error 
          **/
         function _compileTplFile($tpl_file, $compiled_tpl_file = '') {
 
@@ -141,16 +142,16 @@
             // prevent from calling directly before writing into file
             $buff = sprintf('%s%s%s','<?php if(!defined("__ZBXE__")) exit();?>',"\n",$buff);
 
-            // write compiled code into file
+            // write compiled code into file only if $compiled_tpl_file is not NULL
             if($compiled_tpl_file) FileHandler::writeFile($compiled_tpl_file, $buff);
 
             return $buff;
         }
 
         /**
-         * @brief replace $... variables in { } into Context::get(...) 
+         * @brief replace $... variables in { } with Context::get(...) 
          * @param[in] $matches match 
-         * @return replaced result
+         * @return replaced result in case of success or NULL in case of error
          **/
         function _compileVarToContext($matches) {
             $str = trim(substr($matches[0],1,strlen($matches[0])-2));
@@ -164,8 +165,10 @@
                         }
                     } else {
                         list($class, $method) = explode('::',$func);
+                        // FIXME regardless of whether class/func name is case-sensitive, it is safe
+                        // to assume names are case sensitive. We don't have compare twice.
                         if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
-                            // within some environment, name of classes and methods may be case-sensitive
+                            // In some environment, the name of classes and methods may be case-sensitive
                             list($class, $method) = explode('::',strtolower($func));
                             if(!class_exists($class)  || !in_array($method, get_class_methods($class))) {
                                 return $matches[0];
@@ -181,6 +184,7 @@
 
         /**
          * @brief change image path
+         * @pre $matches is an array containg three elements
          * @param[in] $matches match
          * @return changed result
          **/
@@ -215,7 +219,7 @@
         }
 
         /**
-         * @brief changed content in <!--@, --> into php code
+         * @brief replace code in <!--@, --> with php code
          * @param[in] $matches match
          * @return changed result
          **/
@@ -275,7 +279,7 @@
         }
 
         /**
-         * @brief replace <!--#include $path-->
+         * @brief replace <!--#include $path--> with php code
          * @param[in] $matches match
          * @return replaced result
          **/
@@ -303,7 +307,7 @@
             // step1: check files in the template directory
             $source_filename = sprintf("%s/%s", dirname($this->tpl_file), $arg);
 
-            // step2: check path from root2단계로 root로부터 경로를 체크
+            // step2: check path from root
             if(!file_exists($source_filename)) $source_filename = './'.$arg;
             if(!file_exists($source_filename)) return;
 
@@ -332,9 +336,9 @@
         }
 
         /**
-         * @brief modify to include js filter/ css/ js according to extension of <!--%filename-->
+         * @brief replace xe specific code, "<!--%filename-->" with appropriate php code 
          * @param[in] $matches match
-         * @return modified result
+         * @return Returns modified result or NULL in case of error
          **/
         function _compileImportCode($matches) {
             // find xml file
@@ -448,7 +452,7 @@
             if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
             else $source_filename = $given_file;
 
-            // get path and file name
+            // get path and file nam
             $tmp_arr = explode("/",$source_filename);
             $filename = array_pop($tmp_arr);
 
