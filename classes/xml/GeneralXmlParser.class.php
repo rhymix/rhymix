@@ -2,12 +2,17 @@
     /**
      * @class GeneralXmlParser
      * @author haneul (haneul0318@gmail.com)
-     * @brief XE에서 쓰는 XmlParser보다 좀더 범용으로 쓸 수 있는 Parser 
+     * @brief Generic XML parser for XE
      * @version 0.1
      */
     class GeneralXmlParser {
 	var $output = array();
 
+    /**
+    * @brief parse a given input to product a object containing parse values.
+    * @param[in] $input data to be parsed
+    * @return Returns an object containing parsed values or NULL in case of failure
+    */
 	function parse($input = '') {
 	    $oParser = xml_parser_create('UTF-8');
 	    xml_set_object($oParser, $this);
@@ -23,9 +28,13 @@
 	    return $this->output;
 	}
 
-        /**
-         * @brief 태그 오픈
-         **/
+    /**
+    * @brief set a "tag open" attribute to an object.
+    * @param[in] $parse an instance of parser
+    * @param[in] $node_name a name of node
+    * @param[in] $attrs attributes to be set
+    * @remark the first parameter, $parser ought to be remove since it is not used.
+    */
 	function _tagOpen($parser, $node_name, $attrs) {
 	    $obj->node_name = strtolower($node_name);
 	    $obj->attrs = $attrs;
@@ -34,11 +43,25 @@
 	    array_push($this->output, $obj);
 	}
 
+    /**
+    * @brief method to concatenate a given content in $body with the data in a "body"
+    *  variable in the last element of this->output
+    * @param[in] $parse an instance of parser
+    * @param[in] $body a data to be added
+    * @remark the first parameter, $parser ought to be remove since it is not used.
+    */
 	function _tagBody($parser, $body) {
 	    //if(!trim($body)) return;
 	    $this->output[count($this->output)-1]->body .= $body;
 	}
 
+
+    /**
+    * @brief close xml tag for a gvien node name
+    * @param[in] $parse an instance of parser
+    * @param[in] $node_name name of xml node
+    * @remark the first parameter, $parser ought to be remove since it is not used.
+    */
 	/**
 	 * @brief 태그 닫음
 	 **/
@@ -47,17 +70,18 @@
 	    $cur_obj = array_pop($this->output);
 	    $parent_obj = &$this->output[count($this->output)-1];
 
-	    if($parent_obj->childNodes[$node_name]) {
-		$tmp_obj = $parent_obj->childNodes[$node_name];
-		if(is_array($tmp_obj)) {
-		    array_push($parent_obj->childNodes[$node_name], $cur_obj);
-		} else {
-		    $parent_obj->childNodes[$node_name] = array();
-		    array_push($parent_obj->childNodes[$node_name], $tmp_obj);
-		    array_push($parent_obj->childNodes[$node_name], $cur_obj);
-		}
-	    } else {
-		$parent_obj->childNodes[$node_name] = $cur_obj;
+	    if($parent_obj->childNodes[$node_name]) 
+        {
+    		$tmp_obj = $parent_obj->childNodes[$node_name];
+    		if(is_array($tmp_obj)) {
+    		    array_push($parent_obj->childNodes[$node_name], $cur_obj);
+    		} else {
+    		    $parent_obj->childNodes[$node_name] = array();
+    		    array_push($parent_obj->childNodes[$node_name], $tmp_obj);
+    		    array_push($parent_obj->childNodes[$node_name], $cur_obj);
+    		}
+   	    } else {
+    		$parent_obj->childNodes[$node_name] = $cur_obj;
 	    }
 	}
 
