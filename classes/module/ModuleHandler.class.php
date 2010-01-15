@@ -108,8 +108,7 @@
             // redirect, if module_site_srl and site_srl are different
             if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0) {
                 $site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
-                header("HTTP/1.1 301 Moved Permanently");
-                header("Location:".getNotEncodedSiteUrl($site_info->domain,'mid',$site_module_info->mid));
+                header("location:".getNotEncodedSiteUrl($site_info->domain,'mid',$site_module_info->mid));
                 return false;
             }
 
@@ -119,7 +118,7 @@
             if(!$module_info && !$this->module && $site_module_info->module_site_srl) $module_info = $site_module_info;
 
             // redirect, if site_srl of module_info is different from one of site's module_info
-            if($module_info && $module_info->site_srl != $site_module_info->site_srl) {
+            if($module_info && $module_info->site_srl != $site_module_info->site_srl && !isCrawler()) {
                 // If the module is of virtual site
                 if($module_info->site_srl) {
                     $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
@@ -130,8 +129,7 @@
                     if(!$db_info->default_url) return Context::getLang('msg_default_url_is_not_defined');
                     else $redirect_url = getNotEncodedSiteUrl($db_info->default_url, 'mid',Context::get('mid'),'document_srl',Context::get('document_srl'),'module_srl',Context::get('module_srl'),'entry',Context::get('entry'));
                 }
-                header("HTTP/1.1 301 Moved Permanently");
-                header("Location:".$redirect_url);
+                header("location:".$redirect_url);
                 return false;
             }
 
