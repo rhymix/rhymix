@@ -2,13 +2,14 @@
 	/**
 	 * @class XmlJsFilter
 	 * @author taggon (gonom9@gmail.com)
-	 * @brief filter xml문서를 해석하여 js파일로 만듬
-	 * @version 0.2
+	 * @brief filter class traslate xml content into javascript code
+     * @version 0.2
 	 *
-	 * xml filter 파일은 js script로 컴파일 되어 캐싱됨
-	 *
-	 * <filter name="js function 이름" act="서버에 요청할 action 이름" confirm_msg_code="submit시에 prompt로 물어볼 메세지의 코드" >
-	 *  <form> <-- 폼 항목의 체크
+	 * it convert xml code into js file and save the result as a cache file
+     * @code 
+     * {   
+	 * <filter name="name of javascript funcion" act="action name" confirm_msg_code="message string to be prompted when submitting the form" >
+	 *  <form> <-- code to validate data in the form
 	 *    <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />
 	 *  </form>
 	 *  <parameter> <-- 폼 항목을 조합하여 key=val 의 js array로 return, act는 필수
@@ -18,26 +19,29 @@
 	 *    <tag name="error" /> <-- error이름의 결과값을 받겠다는 것
 	 *  </response>
 	 * </filter>
-	 *
-	 * - form - node
-	 *  target = 폼 element의 이름
-	 *  required = true/ false 꼭 있어야 하는지에 대한 체크
-	 *  minlength, maxlength = 최소/최대 길이
-	 *  filter = javascript로 체크하기 위한 체크 필터
-	 *  email : email의 형식 ( aaa.aaa@aaa.com)
-	 *  userid : 영문+숫자+_, 첫 글자는 영문, 소문자
-	 *  alpha : 영문값만 허용
-	 *  number : 숫자만 허용
-	 *  equalto = target , 현재 폼과 지정 target의 값이 동일해야 함
+     * }
+     *
+	 * @detail {
+     * - syntax description of <form> node
+	 *  target = name of for element
+	 *  required = flag indicating whether a field is mandatory or not
+	 *  minlength, maxlength = mininum, maxinum length of string allowed for the field
+	 *  filter = name of filter to be used for javascript validation. Following is the description of filter available
+	 *      1) email : validate the confirmance of the value against an email format
+	 *      2) userid : validate the confirmance of the value against the format of user id. (combination of number[0-9],alphabet(lower case) and '_', underscore starting with an alphatic character)
+	 *      3) alpha : check if the value is consists of alphabatic characters.
+	 *      4) number : check if the value is consists of numerical digits
+	 *      5) equalto = target : indicate that values in the form should be equal to those in target
 	 *
 	 * - parameter - param
-	 *  name = key : key를 이름으로 가지고 value의 값을 가지는 array 값 생성
+	 *  name = key : indicate that a new array, 'key' will be created and a value will be assigned to it
 	 *  target = target_name : target form element의 값을 가져옴
 	 *
 	 * - response
-	 *  tag = key : return받을 결과값의 변수명
+	 *  tag = key : name of variable that will contain the result of the execution
+     *  }
 	 **/
-
+                
 	class XmlJsFilter extends XmlParser {
         var $version = '0.2.1';
 		var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
@@ -54,8 +58,9 @@
 		}
 
 		/**
-		 * @brief 원 xml파일과 compiled된js파일의 시간 비교 및 유무 비교등을 처리
-		 **/
+		 * @brief compile a xml_file only when a corresponding js file does not exists or is outdated
+         * @return Returns NULL regardless of the success of failure of the operation
+         **/
 		function compile() {
 			if(!file_exists($this->xml_file)) return;
 			if(!file_exists($this->js_file)) $this->_compile();
@@ -64,7 +69,7 @@
 		}
 
 		/**
-		 * @brief 실제 xml_file을 컴파일하여 js_file을 생성
+		 * @brief compile a xml_file into js_file
 		 **/
 		function _compile() {
 			global $lang;
@@ -286,7 +291,7 @@
 		}
 
 		/**
-		 * @brief $xml_file로 compiled_xml_file이름을 return
+		 * @brief return a file name of js file corresponding to the xml file
 		 **/
 		function _getCompiledFileName($xml_file) {
 			return sprintf('%s%s.%s.compiled.js',$this->compiled_path, md5($this->version.$xml_file),Context::getLangType());
