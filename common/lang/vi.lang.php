@@ -270,7 +270,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'Thông tin FTP';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'Cổng kết nối:';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'Kiểm tra kết nối bằng FTP';
     $lang->about_ftp_info = "
         Thông tin tài khoản FTP có thể được sử dụng trong các trường hợp sau: <br />

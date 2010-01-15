@@ -285,7 +285,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'Datos de conexión para FTP';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'conexión de FTP confirmada';
     $lang->about_ftp_info = "
         Los datos de conexión para FTP pueden ser utilizados en los siguientes casos.<br/>

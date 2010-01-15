@@ -279,9 +279,11 @@
     $lang->eid = 'eгeдлийн нэр';
 
     // ftp 관련
- $lang->ftp_form_title = 'FTP мэдээлэл оруулах';
+    $lang->ftp_form_title = 'FTP мэдээлэл оруулах';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP холболт шалгах';
     $lang->about_ftp_info = "
         FTP мэдээлэл нь дараах тохиолдолд хэрэглэгдэх боломжтой.<br />

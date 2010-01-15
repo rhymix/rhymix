@@ -281,7 +281,9 @@
     // ftp 相关
     $lang->ftp_form_title = '设置FTP信息';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = '测试FTP连接';
     $lang->about_ftp_info = "
         相关FTP信息，应用于如下几种状况:<br/>

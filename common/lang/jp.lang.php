@@ -281,7 +281,9 @@
     // ftp関連
     $lang->ftp_form_title = 'サーバーのFTP情報の入力';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTPポート番号（port）';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP接続をテストする';
     $lang->about_ftp_info = "
         FTP情報は次の場合、利用されます。<br />

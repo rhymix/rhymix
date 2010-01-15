@@ -280,7 +280,9 @@
     // 關於FTP
     $lang->ftp_form_title = '輸入FTP資訊';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP埠口';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = '檢查FTP連線';
     $lang->about_ftp_info = "
         FTP資訊可應用至以下情形<br/>

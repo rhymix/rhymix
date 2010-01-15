@@ -279,7 +279,9 @@
     // ftp-related
     $lang->ftp_form_title = 'FTP Account Information';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'Check FTP Connection';
     $lang->about_ftp_info = "
         FTP account information can be used in following cases. <br />

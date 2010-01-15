@@ -279,7 +279,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'FTP 정보 입력';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
     $lang->about_ftp_info = "
         FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
