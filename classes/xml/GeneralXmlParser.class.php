@@ -29,11 +29,10 @@
 	}
 
     /**
-    * @brief set a "tag open" attribute to an object.
+    * @brief start element handler
     * @param[in] $parse an instance of parser
     * @param[in] $node_name a name of node
     * @param[in] $attrs attributes to be set
-    * @remark the first parameter, $parser ought to be remove since it is not used.
     */
 	function _tagOpen($parser, $node_name, $attrs) {
 	    $obj->node_name = strtolower($node_name);
@@ -44,11 +43,10 @@
 	}
 
     /**
-    * @brief method to concatenate a given content in $body with the data in a "body"
+    * @brief character data handler
     *  variable in the last element of this->output
     * @param[in] $parse an instance of parser
     * @param[in] $body a data to be added
-    * @remark the first parameter, $parser ought to be remove since it is not used.
     */
 	function _tagBody($parser, $body) {
 	    //if(!trim($body)) return;
@@ -57,14 +55,10 @@
 
 
     /**
-    * @brief close xml tag for a gvien node name
+    * @brief end element handler
     * @param[in] $parse an instance of parser
     * @param[in] $node_name name of xml node
-    * @remark the first parameter, $parser ought to be remove since it is not used.
     */
-	/**
-	 * @brief 태그 닫음
-	 **/
 	function _tagClosed($parser, $node_name) {
 	    $node_name = strtolower($node_name);
 	    $cur_obj = array_pop($this->output);

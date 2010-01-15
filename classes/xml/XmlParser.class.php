@@ -2,11 +2,14 @@
     /**
      * @class XmlParser 
      * @author zero (zero@nzeo.com)
-     * @brief xmlrpc를 해석하여 object로 return 하는 simple xml parser
+     * @brief class parsing a given xmlrpc request and creating a data object
      * @version 0.1
      *
-     * xml 데이터의 attribute중에 xml:lang="ko,en,ch,jp,..." 이 있을 경우 지정된 lang 값에 해당하는 것만 남기는 트릭이 적용됨.
-     * 무슨 문제를 일으킬지는 현재 모르나 잘 동작하고 있음
+     * @remarks { 
+     * This class may drops unsupported xml lanuage attributes when multiple language attributes are given.
+     * For example, if 'xml:lang='ko, en, ch, jp..' is given in a xml file, only ko will be left ignoring all other language
+     * attributes when kor is only supported language. It seems to work fine now but we did not scrutinze any potential side effects,
+     * }
      **/
 
     class XmlParser {
@@ -19,7 +22,9 @@
         var $lang = "en"; ///< 기본 언어타입
 
         /**
-         * @brief xml 파일을 로딩하여 parsing 처리 후 return
+         * @brief load a xml file specified by a filename and parse it to return the resultant data object
+         * @param[in] $filename a file path of file
+         * @return Returns a data object containing data extracted from a xml file or NULL if a specified file does not exist
          **/
         function loadXmlFile($filename) {
             if(!file_exists($filename)) return;
@@ -30,7 +35,9 @@
         }
 
         /**
-         * @brief xml 파싱
+         * @brief parse xml data to extract values from it and construct data object
+         * @param[in] a data buffer containing xml data
+         * @return Returns a resultant data object or NULL in case of error
          **/
         function parse($input = '') {
             // 디버그를 위한 컴파일 시작 시간 저장
@@ -78,9 +85,13 @@
             return $output;
         }
 
-        /**
-         * @brief 태그 오픈
-         **/
+
+       /**
+        * @brief start element handler.
+        * @param[in] $parse an instance of parser
+        * @param[in] $node_name a name of node
+        * @param[in] $attrs attributes to be set
+        */
         function _tagOpen($parser, $node_name, $attrs) {
             $obj->node_name = strtolower($node_name);
             $obj->attrs = $this->_arrToObj($attrs);
@@ -88,17 +99,24 @@
             array_push($this->output, $obj);
         }
 
-        /**
-         * @brief body 내용
-         **/
+
+       /**
+        * @brief character data handler
+        *  variable in the last element of this->output
+        * @param[in] $parse an instance of parser
+        * @param[in] $body a data to be added
+        * @remark the first parameter, $parser ought to be remove since it is not used.
+        */
         function _tagBody($parser, $body) {
             //if(!trim($body)) return;
             $this->output[count($this->output)-1]->body .= $body;
         }
 
-        /**
-         * @brief 태그 닫음
-         **/
+       /**
+        * @brief end element handler
+        * @param[in] $parse an instance of parser
+        * @param[in] $node_name name of xml node
+        */
         function _tagClosed($parser, $node_name) {
             $node_name = strtolower($node_name);
             $cur_obj = array_pop($this->output);
@@ -121,8 +139,9 @@
         }
 
         /**
-         * @brief 파싱한 결과를 object vars에 담기 위한 method
-         **/
+        * @brief method to transfer values in an array to a data object       
+        * @param[in] $arr data array 
+        **/
         function _arrToObj($arr) {
             if(!count($arr)) return;
             foreach($arr as $key => $val) {
