@@ -79,4 +79,6 @@
     $lang->use_db_session = 'DB储存认证会话';
     $lang->about_db_session = '用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。';
     $lang->sftp = "Use SFTP";
+    $lang->ftp_get_list = "Get List";
+    $lang->ftp_remove_info = 'Remove FTP Info.';
 ?>

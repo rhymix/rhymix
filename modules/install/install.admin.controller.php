@@ -114,12 +114,24 @@
 
             $this->setMessage('success_updated');
         }
+
+        function procInstallAdminRemoveFTPInfo() {
+            $ftp_config_file = Context::getFTPConfigFile(); 
+            if(file_exists($ftp_config_file)) unlink($ftp_config_file);
+            if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
+            $this->setMessage('success_deleted');
+        }
+
         function procInstallAdminSaveFTPInfo() {
             $ftp_info = Context::getFTPInfo();
             $ftp_info->ftp_user = Context::get('ftp_user');
-            $ftp_info->ftp_password = Context::get('ftp_password');
             $ftp_info->ftp_port = Context::get('ftp_port');
             $ftp_info->sftp = Context::get('sftp');
+            $ftp_info->ftp_root_path = Context::get('ftp_root_path');
+            if(ini_get('safe_mode')) {
+                $ftp_info->ftp_password = Context::get('ftp_password');
+            }
+            
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
             foreach($ftp_info as $key => $val) {
                 if(!$val) continue;
@@ -131,20 +143,5 @@
             $this->setMessage('success_updated');
         }
 
-        /**
-         * @brief FTP 정보 등록
-         **/
-        function procInstallAdminSaveFTPPath() {
-            $ftp_info = Context::getFTPInfo();
-            $ftp_info->ftp_root_path = Context::get('ftp_root_path');
-            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
-            foreach($ftp_info as $key => $val) {
-                $buff .= sprintf("\$ftp_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
-            }
-            $buff .= "?>";
-            $config_file = Context::getFTPConfigFile();
-            FileHandler::WriteFile($config_file, $buff);
-            $this->setMessage('success_updated');
-        }
     }
 ?>

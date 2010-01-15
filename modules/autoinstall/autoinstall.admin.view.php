@@ -156,6 +156,10 @@
 
                 Context::set("package", $package);
             }
+            if(!$_SESSION['ftp_password'])
+            {
+                Context::set('need_password', true);
+            }
             $this->setTemplateFile('install');
         }
 

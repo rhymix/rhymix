@@ -29,4 +29,5 @@
     $lang->path = "Path";
     $lang->cmd_download = "Download";
     $lang->view_installed_packages = "Installed Packages";
+    $lang->msg_ftp_password_input = "Please input FTP password.";
 ?>

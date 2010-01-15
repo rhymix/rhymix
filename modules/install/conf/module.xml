@@ -16,6 +16,6 @@
         <action name="procInstallAdminSaveTimeZone" type="controller" standalone="true" />
         <action name="procInstallAdminSaveLangSelected" type="controller" standalone="true" />
         <action name="procInstallAdminSaveFTPInfo" type="controller" standalone="true" />
-        <action name="procInstallAdminSaveFTPPath" type="controller" standalone="true" />
+        <action name="procInstallAdminRemoveFTPInfo" type="controller" standalone="true" />
     </actions>
 </module>

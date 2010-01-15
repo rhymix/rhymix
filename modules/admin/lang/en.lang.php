@@ -79,4 +79,6 @@
     $lang->use_db_session = 'Use Session DB';
     $lang->about_db_session = 'It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions.';
     $lang->sftp = "Use SFTP";
+    $lang->ftp_get_list = "Get List";
+    $lang->ftp_remove_info = 'Remove FTP Info.';
 ?>

@@ -5,195 +5,7 @@
      * @brief  autoinstall 모듈의 admin controller class
      **/
 
-    class ModuleInstaller {
-        var $package = null;
-		var $base_url = 'http://download.xpressengine.com/';
-		var $temp_dir = './files/cache/autoinstall/';
-        var $target_path;
-        var $download_file;
-        var $url;
-        var $download_path;
-
-        function _download()
-        {
-            if($this->package->path == ".")
-            {
-                $this->download_file = $this->temp_dir."xe.tar";
-                $this->target_path = ""; 
-                $this->download_path = $this->temp_dir;
-            }
-            else
-            {
-                $subpath = substr($this->package->path,2);
-                $this->download_file = $this->temp_dir.$subpath.".tar";
-                $subpatharr = explode("/", $subpath);
-                array_pop($subpatharr);
-                $this->download_path = $this->temp_dir.implode("/", $subpatharr);
-                $this->target_path = implode("/", $subpatharr);
-            }
-
-            $postdata = array();
-            $postdata["path"] = $this->package->path;
-            $postdata["module"] = "resourceapi";
-            $postdata["act"] = "procResourceapiDownload";
-            $buff = FileHandler::getRemoteResource($this->base_url, null, 3, "POST", "application/x-www-form-urlencoded; charset=utf-8", array(), array(), $postdata);
-            FileHandler::writeFile($this->download_file, $buff);
-        }
-
-        function installModule()
-        {
-            $path_array = explode("/", $this->package->path);
-            $target_name = array_pop($path_array);
-            $type = substr(array_pop($path_array), 0, -1);
-            if($type == "module")
-            {
-                $oModuleModel = &getModel('module');
-                $oInstallController = &getController('install');
-                $module_path = ModuleHandler::getModulePath($target_name);
-                if($oModuleModel->checkNeedInstall($target_name))
-                {
-                    $oInstallController->installModule($target_name, $module_path);
-                }
-                if($oModuleModel->checkNeedUpdate($target_name))
-                {
-                    $oModule = &getModule($target_name, 'class');
-                    if(method_exists($oModule, 'moduleUpdate'))
-                    {
-                        $oModule->moduleUpdate();
-                    }
-                }
-            }
-        }
-
-        function install()
-        {
-            $this->_download();
-            $file_list = $this->_unPack();
-            $this->_copyDir($file_list);
-            $this->installModule();
-
-            FileHandler::removeDir($this->temp_dir);
-            return;
-        }
-
-		function _unPack(){
-            require_once(_XE_PATH_.'libs/tar.class.php');
-
-            $oTar = new tar();
-            $oTar->openTAR($this->download_file);
-
-			$_files = $oTar->files;
-            $file_list = array();
-            foreach($_files as $key => $info) {
-                FileHandler::writeFile($this->download_path."/".$info['name'], $info['file']);
-                $file_list[] = $info['name'];
-            }
-            return $file_list;
-		}
-
-    }
-
-    class SFTPModuleInstaller extends ModuleInstaller {
-        function SFTPModuleInstaller(&$package)
-        {
-            $this->package =& $package;
-        }
-
-        function _copyDir(&$file_list){
-            $ftp_info =  Context::getFTPInfo();
-            if(!$ftp_info->ftp_user || !$ftp_info->ftp_password || !$ftp_info->sftp || $ftp_info->sftp != 'Y') return new Object(-1,'msg_ftp_invalid_auth_info');
-
-            $connection = ssh2_connect('localhost', $ftp_info->ftp_port);
-            if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
-            {
-                return new Object(-1,'msg_ftp_invalid_auth_info');
-            }
-
-            $sftp = ssh2_sftp($connection);
-
-            $target_dir = $ftp_info->ftp_root_path.$this->target_path;
-
-            foreach($file_list as $k => $file){
-                $org_file = $file;
-                if($this->package->path == ".") 
-                {
-                    $file = substr($file,3);
-                }
-                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
-                $pathname = dirname($target_dir."/".$file);
-
-                if(!file_exists(FileHandler::getRealPath($real_path)))
-                {
-                    ssh2_sftp_mkdir($sftp, $pathname, 0755, true);
-                }
-
-                ssh2_scp_send($connection, FileHandler::getRealPath($this->download_path."/".$org_file), $target_dir."/".$file);
-            } 
-        }
-    }
-
-    class FTPModuleInstaller extends ModuleInstaller {
-        function FTPModuleInstaller(&$package)
-        {
-            $this->package =& $package;
-        }
-
-		function _copyDir(&$file_list){
-            $ftp_info =  Context::getFTPInfo();
-            if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_ftp_invalid_auth_info');
-
-            require_once(_XE_PATH_.'libs/ftp.class.php');
-
-            $oFtp = new ftp();
-            if(!$oFtp->ftp_connect('localhost', $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
-            if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-                $oFtp->ftp_quit();
-                return new Object(-1,'msg_ftp_invalid_auth_info');
-            }
-
-            $_list = $oFtp->ftp_rawlist($ftp_info->ftp_root_path);
-            if(count($_list) == 0 || !$_list[0]) {
-                $oFtp->ftp_quit();
-                $oFtp = new ftp();
-                if(!$oFtp->ftp_connect($_SERVER['SERVER_NAME'], $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
-                if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-                    $oFtp->ftp_quit();
-                    return new Object(-1,'msg_ftp_invalid_auth_info');
-                }
-            }
-
-            $target_dir = $ftp_info->ftp_root_path.$this->target_path;
-
-            foreach($file_list as $k => $file){
-                $org_file = $file;
-                if($this->package->path == ".") 
-                {
-                    $file = substr($file,3);
-                }
-                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
-                $path_list = explode('/', dirname($this->target_path."/".$file));
-
-                $real_path = "./";
-                $ftp_path = $ftp_info->ftp_root_path;
-
-                for($i=0;$i<count($path_list);$i++)
-                {
-                    if($path_list=="") continue;
-                    $real_path .= $path_list[$i]."/";
-                    $ftp_path .= $path_list[$i]."/";
-                    if(!file_exists(FileHandler::getRealPath($real_path)))
-                    {
-                        $oFtp->ftp_mkdir($ftp_path);
-                        $oFtp->ftp_site("CHMOD 755 ".$path);
-                    }
-                }
-                $oFtp->ftp_put($target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file));
-            } 
-            $oFtp->ftp_quit();
-
-            return new Object();
-		}
-    }
+    require_once(_XE_PATH_.'modules/autoinstall/autoinstall.lib.php');
 
     class autoinstallAdminController extends autoinstall {
 
@@ -303,18 +115,31 @@
             $oModel =& getModel('autoinstall');
             $packages = explode(',', $package_srls);
             $ftp_info =  Context::getFTPInfo();
+            if(!$_SESSION['ftp_password'])
+            {
+                $ftp_password = Context::get('ftp_password');
+                if($ftp_password) $_SESSION['ftp_password'] = $ftp_password;
+            }
+            else
+            {
+                $ftp_password = $_SESSION['ftp_password'];
+            }
+
             foreach($packages as $package_srl)
             {
                 $package = $oModel->getPackage($package_srl);
                 if($ftp_info->sftp && $ftp_info->sftp == 'Y')
                 {
                     $oModuleInstaller = new SFTPModuleInstaller($package);
+                    $oModuleInstaller->setPassword($ftp_password);
                 }
                 else
                 {
                     $oModuleInstaller = new FTPModuleInstaller($package);
+                    $oModuleInstaller->setPassword($ftp_password);
                 }
-                $oModuleInstaller->install();
+                $output = $oModuleInstaller->install();
+                if(!$output->toBool()) return $output;
             }
             $this->setMessage('success_installed');
         }

@@ -29,4 +29,5 @@
     $lang->path = "설치경로";
     $lang->cmd_download = "다운로드";
     $lang->view_installed_packages = "설치된 패키지";
+    $lang->msg_ftp_password_input = "FTP 비밀번호를 입력해주세요";
 ?>

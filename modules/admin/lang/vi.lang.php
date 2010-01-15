@@ -81,4 +81,6 @@
     $lang->use_db_session = 'Xác nhận Database';
     $lang->about_db_session = 'PHP sẽ xác nhận với Database. Có thể cải thiện được tốc độ của Website.';
     $lang->sftp = "Use SFTP";
+    $lang->ftp_get_list = "Get List";
+    $lang->ftp_remove_info = 'Remove FTP Info.';
 ?>

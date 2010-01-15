@@ -15,12 +15,7 @@
         sObj.value = module_srl;
         obj.value = decodeURIComponent(browser_title.replace(/\+/g," "))+' ('+mid+')';
     }
-<!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
-    var pwd = '{$pwd}';
-    params = new Array();
-    params['pwd'] = pwd; 
-    exec_xml('admin','getAdminFTPList', params, completeGetFtpInfo, new Array('list','error','message'));
-<!--@end-->
+    var xe_root = "{_XE_PATH_}";
 </script>
 
 <div class="content">
@@ -127,67 +122,55 @@
     </table>
     </form>
 
+
     <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_form_title}</h4>
     <p class="summary">{$lang->about_ftp_info}</p>
     <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
-    {@ $nCols = 3; }
     <table cellspacing="0" class="rowTable">
-    <tr>
-        <th><div><label for="textfield21">{$lang->user_id}</label></div></th>
-        <th><div><label for="textfield22">{$lang->password}</label></div></th>
-        <th><div><label for="textfield24">{$lang->ftp_port}</label></div></th>
-        <!--@if($sftp_support)-->
-        {@ $nCols += 1; }
-        <th><div><label for="checkbox25">{$lang->sftp}</label></div></th>
-        <!--@end-->
-    </tr>
-    <tr>
-        <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" /></td>
-        <td><input id="textfield22" type="password" name="ftp_password" value="" class="inputTypeText" /></td>
-        <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
-        <!--@if($sftp_support)-->
-        <td><input type="checkbox" id="checkbox25" name="sftp" value="Y" <!--@if($ftp_info->sftp=="Y")-->checked="checked"<!--@end--> /></td>
-        <!--@end-->
-    </tr>
-    <tr>
-        <th colspan="{$nCols}" class="button">
-            <span class="button blue"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
-        </th>
-    </tr>
-    </table>
-    </form>
-<!--@if($ftp_info && $ftp_info->ftp_password && $ftp_info->ftp_user)-->
-    <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_path_title}</h4>
-    <form action="./" method="POST" onsubmit="return procFilter(this, install_ftp_path)">
 
-    <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="col"><div>{$lang->msg_ftp_installed_realpath}</div></th>
-        <td>{_XE_PATH_}
-        </td>
+        <th scope="col"><div><label for="textfield21">{$lang->user_id}</label></div></th>
+        <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" />
     </tr>
     <tr>
-        <th scope="col" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}</div></th>
+        <th scope="col"><div><label for="textfield22">{$lang->password} ({$lang->about_ftp_password})</label></div></th>
+        <td><input id="textfield22" type="password" name="ftp_password" value="" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th scope="col"><div><label for="textfield23">{$lang->ftp_host} (default: 127.0.0.1)</label></div></th>
+        <td><input id="textfield23" type="text" name="ftp_host" value="{$ftp_info->ftp_host}" class="inputTypeText" /></td> 
+    </tr>
+    <tr>
+        <th scope="col"><div><label for="textfield24">{$lang->ftp_port} (default: 21) </label></div></th>
+        <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
+    </tr>
+    <!--@if($sftp_support)-->
+    <tr>
+        <th scope="col"><div><label for="checkbox25">{$lang->sftp}</label></div></th>
+        <td><input type="checkbox" id="checkbox25" name="sftp" value="Y" <!--@if($ftp_info->sftp=="Y")-->checked="checked"<!--@end--> /></td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th scope="col" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}<br /><br/>{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</div></th>
         <td>
-            <input type="text" name="ftp_root_path" value="<!--@if($pwd)-->{$pwd}<!--@else-->{$ftp_info->ftp_root_path}<!--@end-->" class="inputTypeText w400" /> 
+            <input type="text" name="ftp_root_path" value="{$ftp_info->ftp_root_path}" class="inputTypeText w400" /> 
         </td>
     </tr>
     <tr id="ftplist">
         <td>
-            <div class="serverresponse">
-            Waiting to load information
+            <div>
+					<span class="button blue strong"><input type="button" onclick="getFTPList(); return false;" value="{$lang->ftp_get_list}"></span>
             </div>
         </td>
     </tr>
-    <tr class="row2">
+    <tr>
         <th colspan="2" class="button">
+            <span class="button blue strong"><input type="button" onclick="removeFTPInfo(); return false;" value="{$lang->ftp_remove_info}"></span>
             <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </th>
     </tr>
     </table>
     </form>
-<!--@end-->
 </div>
 
 <hr />
