@@ -209,4 +209,5 @@
     $lang->add_openid = '오픈아이디 추가';
 
 	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+    $lang->no_article = '글이 없습니다.';
 ?>

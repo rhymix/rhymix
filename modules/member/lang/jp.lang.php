@@ -209,4 +209,5 @@
     $lang->add_openid = 'OpenIDの追加';
 
 	$lang->about_resend_auth_mail = '認証メールが届いてなかった場合、再送信の申請が可能です。<br />※申請の前に、当サイトからメールの受信が出来るように設定して下さい。';
+    $lang->no_article = 'There exists no article';
 ?>

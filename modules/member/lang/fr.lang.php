@@ -205,6 +205,10 @@
     $lang->about_find_member_account = 'L\information de votre compte sera annoncé par le mél sur l\'inscription. <br />Entrez l\'adresse mél que vous avez entré sur l\'inscription et appuyez le bouton "Recherce l\'Information du Compte".<br />';
 
 	$lang->about_member = "C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.\nVous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.";
+    $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
+	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+    $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+    $lang->no_article = 'There exists no article';
 ?>

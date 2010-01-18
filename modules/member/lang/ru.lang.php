@@ -203,6 +203,9 @@
 
     $lang->about_member = "Этот модуль служит для создания/изменения/удаления пользователей, управления их группами и формой регистрации.\nВы можете управлять пользователями посредством создания новых групп, и получить дополнительную информацию, управляя формой регистрации";
     $lang->about_find_member_account = 'Ваша информация аккаунта будет направлена на зарегистрированный email.<br />Пожалуйста, введите email адрес, который Вы ввели при регистрации и нажмите кнопку "Найти Информацию Аккаунта".<br />';
+	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+    $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+    $lang->no_article = 'There exists no article';
 ?>

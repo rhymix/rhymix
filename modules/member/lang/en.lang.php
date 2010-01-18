@@ -204,8 +204,9 @@
 
     $lang->about_member = "Member module will help you create, modify and remove members and manage groups or sign up form.\nYou can add a custom group to manage members, and also get additional information by modifying sign up form.";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
-	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+	$lang->about_ssl_port = 'Please input if you are using non-default SSL port';
     $lang->add_openid = 'Add OpenID';
 
 	$lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
+    $lang->no_article = 'There exists no article';
 ?>
