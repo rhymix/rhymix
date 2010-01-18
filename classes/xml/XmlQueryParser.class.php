@@ -10,6 +10,10 @@
 
     class XmlQueryParser extends XmlParser {
 
+        var $default_list = array();
+        var $notnull_list = array();
+        var $filter_list = array();
+
         /**
          * @brief parse a xml query file and save the result as a new file specified by cache_file
          * @param[in] $query_id name of query
@@ -199,15 +203,15 @@
             }
 
             // default check
-            if(count($default_list)) {
-                foreach($default_list as $key => $val) {
+            if(count($this->default_list)) {
+                foreach($this->default_list as $key => $val) {
                     $pre_buff .= 'if(!isset($args->'.$key.')) $args->'.$key.' = '.$val.';'."\n";
                 }
             }
 
             // not null check
-            if(count($notnull_list)) {
-                foreach($notnull_list as $key => $val) {
+            if(count($this->notnull_list)) {
+                foreach($this->notnull_list as $key => $val) {
                     $pre_buff .= 'if(!isset($args->'.$val.')) return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
                 }
             }
@@ -227,9 +231,9 @@
             }
 
             // filter check
-            if(count($filter_list)) {
-                foreach($filter_list as $key => $val) {
-                    if(!$notnull_list[$key]) continue;
+            if(count($this->filter_list)) {
+                foreach($this->filter_list as $key => $val) {
+                    if(!$this->notnull_list[$key]) continue;
                     $pre_buff .= sprintf('unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output;%s',$val->var,$val->var,$val->filter,"\n");
                 }
             }
@@ -438,9 +442,9 @@
                     $v->default = $this->getDefault($v->column, $v->default);
                     if($v->var) {
                         if(strpos($v->var,".")===false) {
-                            if($v->default) $default_list[$v->var] = $v->default;
-                            if($v->filter) $filter_list[] = $v;
-                            if($v->notnull) $notnull_list[] = $v->var;
+                            if($v->default) $this->default_list[$v->var] = $v->default;
+                            if($v->filter) $this->filter_list[] = $v;
+                            if($v->notnull) $this->notnull_list[] = $v->var;
                             if($v->default) $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
                             else $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                         } else {
