@@ -8,8 +8,8 @@
     $lang->admin_info = '管理員資訊';
     $lang->admin_index = '管理頁面';
     $lang->control_panel = '控制介面';
-    $lang->start_module = '啟用模組';
-    $lang->about_start_module = '可以將所選擇的模組作為預設首頁。';
+    $lang->start_module = '預設首頁';
+    $lang->about_start_module = '可將所選擇的模組作為預設首頁。';
 
     $lang->module_category_title = array(
         'service' => '服務設定',
@@ -77,8 +77,8 @@
     $lang->server_ports = "主機埠口";
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
     $lang->use_db_session = 'DB session認證';
-    $lang->about_db_session = '인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
+    $lang->about_db_session = '使用 PHP session 進行 DB 認證。<br/>關閉此功能對於負荷較低的網站可提高效率。<br/>使用此功能會無法統計線上人數。';
     $lang->sftp = "使用 SFTP";
-    $lang->ftp_get_list = "Get List";
-    $lang->ftp_remove_info = 'Remove FTP Info.';
+    $lang->ftp_get_list = "取得列表";
+    $lang->ftp_remove_info = '移除 FTP 資料';
 ?>
