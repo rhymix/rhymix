@@ -469,7 +469,7 @@
         */
         function getDefault($name, $value) {
             $db_info = Context::getDBInfo ();
-            if(!$value) return;
+            if(!isset($value)) return;
             $str_pos = strpos($value, '(');
             if($str_pos===false) return '"'.$value.'"';
 
