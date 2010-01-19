@@ -40,8 +40,8 @@
         /**
          * @brief 등록된 모든 메뉴를 return
          **/
-        function getMenus($site_srl = 0) {
-            if(!$site_srl) {
+        function getMenus($site_srl = null) {
+            if(!isset($site_srl)) {
                 $site_module_info = Context::get('site_module_info');
                 $site_srl = (int)$site_module_info->site_srl;
             }
