@@ -233,8 +233,7 @@
             // filter check
             if(count($this->filter_list)) {
                 foreach($this->filter_list as $key => $val) {
-                    if(!$this->notnull_list[$key]) continue;
-                    $pre_buff .= sprintf('unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output;%s',$val->var,$val->var,$val->filter,"\n");
+                    $pre_buff .= sprintf('if(isset($args->%s)) { unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output; } %s',$val->var, $val->var,$val->var,$val->filter,"\n");
                 }
             }
 
