@@ -24,8 +24,10 @@ function editorGetContent(editor_sequence) {
 
 // 에디터에 포커스를 줌
 function editorFocus(editor_sequence) {
-    var iframe_obj = editorGetIFrame(editor_sequence);
-    iframe_obj.contentWindow.focus();
+	try {
+		var iframe_obj = editorGetIFrame(editor_sequence);
+		iframe_obj.contentWindow.focus();
+	} catch(e){}
 }
 
 /**

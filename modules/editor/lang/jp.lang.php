@@ -228,4 +228,7 @@
 	$lang->edit->close_help = 'ヘルプを閉じる';
 
 	$lang->edit->confirm_submit_without_saving = 'まだ保存してない内容があります。\\nそのまま転送して宜しいでしょうか？';
+
+	$lang->edit->image_align = '이미지 정렬';
+	$lang->edit->attached_files = '첨부 파일';
 ?>

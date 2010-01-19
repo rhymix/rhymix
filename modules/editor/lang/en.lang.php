@@ -226,4 +226,7 @@
 	$lang->edit->close_help = 'Close Help';
 	
 	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
+
+	$lang->edit->image_align = '이미지 정렬';
+	$lang->edit->attached_files = '첨부 파일';
 ?>

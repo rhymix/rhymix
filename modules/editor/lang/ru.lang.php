@@ -222,4 +222,7 @@
 	$lang->edit->close_help = '도움말 닫기';
 
 	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
+
+	$lang->edit->image_align = '이미지 정렬';
+	$lang->edit->attached_files = '첨부 파일';
 ?>
