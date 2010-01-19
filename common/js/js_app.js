@@ -218,11 +218,7 @@ _app_base = {
 		// BEFORE hooker
 		if (aMsg['BEFORE_'+msg] || this['API_BEFORE_'+msg]) {
 			var bContinue = this._cast(sender, 'BEFORE_'+msg, params);
-			if (!bContinue) {
-				this._fn_level--;
-				console.log('-', msg, this._fn_level);
-				return;
-			}
+			if (!bContinue) return;
 		}
 
 		// main api function
