@@ -8,6 +8,10 @@
 // style의 값을 구하는게 IE랑 그외가 다름.
 function getStyle(obj) {
     var style = obj.getAttribute("style");
+    if(!style)
+    {
+        style = obj.style;
+    }
     if(typeof(style)=="object") style = style["cssText"];
     return style;
 }
@@ -526,7 +530,7 @@ function doCheckWidget(e) {
                 dummy.setAttribute(name, value);
             }
 
-            if(xIE4Up) dummy.style["cssText"] = p_obj.getAttribute("style")["cssText"];
+            if(xIE4Up) dummy.style["cssText"] = p_obj.style["cssText"];
             p_obj.parentNode.insertBefore(dummy, p_obj);
         }
         return;
