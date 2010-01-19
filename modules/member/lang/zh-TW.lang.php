@@ -59,7 +59,7 @@
     $lang->allow_message = '接收短訊息';
     $lang->allow_message_type = array(
             'Y' => '全部允許',
-            'F' => '只允許好友',
+            'F' => '允許好友',
             'N' => '全部禁止',
     );
     $lang->about_allow_message = '可選擇是否接收短訊息。';
@@ -209,4 +209,5 @@
     $lang->add_openid = '新增OpenID';
 
 	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
+    $lang->no_article = '主題不存在';
 ?>

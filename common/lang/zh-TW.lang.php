@@ -65,8 +65,8 @@
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '版面設置';
     $lang->cmd_layout_edit = '版面編輯';
-    $lang->cmd_search_by_ipaddress = '以IP位址搜尋';
-    $lang->cmd_add_ip_to_spamfilter = '封鎖此IP位址';
+    $lang->cmd_search_by_ipaddress = '以 IP 位址搜尋';
+    $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP 位址';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
@@ -278,25 +278,25 @@
     $lang->eid = '延伸變數名稱';
 
     // 關於FTP
-    $lang->ftp_form_title = '輸入FTP資訊';
+    $lang->ftp_form_title = '輸入 FTP 資訊';
     $lang->ftp = 'FTP';
-    $lang->ftp_host = 'FTP hostname';
-    $lang->ftp_port = 'FTP埠口';
-    $lang->about_ftp_password = 'FTP password will not be stored';
-    $lang->cmd_check_ftp_connect = '檢查FTP連線';
+    $lang->ftp_host = 'FTP 主機名稱';
+    $lang->ftp_port = 'FTP 埠口';
+    $lang->about_ftp_password = 'FTP 密碼將不會被儲存';
+    $lang->cmd_check_ftp_connect = '檢查 FTP 連線';
     $lang->about_ftp_info = "
         FTP資訊可應用至以下情形<br/>
         1. 當PHP的安全模式(safe_mode)開啟時，可使程式正常運作。<br/>
         2. 可用於自動更新。<br/>
         此FTP資訊會儲存在檔案『files/config/ftp.config.php』裡面。<br/>
-        安裝程式後，可以在管理頁面中針對FTP資訊進行修改或刪除。<br />
+        安裝程式後，可以在管理頁面中針對 FTP 資訊進行修改或刪除。<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = '當PHP的安全模式(safe_mode)開啟時，請輸入相關FTP資訊，否則無法正常安裝或使用程式。';
-    $lang->msg_ftp_not_connected = '本地(localhost)FTP連線錯誤。請檢查FTP埠口並確認是否支援FTP功能。';
-    $lang->msg_ftp_invalid_auth_info = 'FTP登入失敗。請確認輸入的FTP資訊。';
-    $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認FTP主機設置。';
-    $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認FTP主機設置。';
+    $lang->msg_safe_mode_ftp_needed = '當PHP的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。';
+    $lang->msg_ftp_not_connected = '本地(localhost) FTP 連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。';
+    $lang->msg_ftp_invalid_auth_info = 'FTP登入失敗。請確認輸入的 FTP 資訊。';
+    $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認 FTP 主機設置。';
+    $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認 FTP 主機設置。';
     $lang->msg_ftp_connect_success = 'FTP連線成功。';
 
     $lang->ftp_path_title = '請輸入FTP路經';
@@ -317,5 +317,5 @@
     $lang->filter->invalid_alpha_number = '%s只能輸入英文或數字';
     $lang->filter->invalid_number = '%s只能輸入數字';
 
-    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
+    $lang->security_warning_embed = "由於安全的關係，管理員無法檢視嵌入的物件。<BR /> 請使用其他非管理員帳號檢視。";
 ?>
