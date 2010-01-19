@@ -311,6 +311,8 @@
                     if($oModule->getLayoutFile()) $this->setLayoutFile($oModule->getLayoutFile());
 
                     $this->adds($oModule->getVariables());
+                    $this->setMessage($oModule->getMessage());
+                    $this->setError($oModule->getError());
 
                 // forward 모듈을 찾지 못했다면 원 모듈의 default index action을 실행
                 } else if($this->xml_info->default_index_act && method_exists($this, $this->xml_info->default_index_act)) {
