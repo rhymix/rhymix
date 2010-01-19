@@ -1169,8 +1169,8 @@
          * @brief js file을 추가
          **/
         function _addJsFile($file, $optimized, $targetie,$index) {
-            if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
-            $file = str_replace(array('/./','//'),'/',$file);
+            if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
+			$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
 
             if(in_array($file, $this->js_files)) return;
