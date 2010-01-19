@@ -43,7 +43,7 @@
 	 **/
                 
 	class XmlJsFilter extends XmlParser {
-        var $version = '0.2.1';
+        var $version = '0.2.2';
 		var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
 		var $xml_file = NULL; ///< 대상 xml 파일
 		var $js_file = NULL; ///< 컴파일된 js 파일
@@ -141,7 +141,6 @@
 			$js_doc[] = "\tif(!validator) return false;";
 			$js_doc[] = "\tif(!fo_obj.elements['_filter']) jQuery(fo_obj).prepend('<input type=\"hidden\" name=\"_filter\" value=\"\" />');";
 			$js_doc[] = "\tfo_obj.elements['_filter'].value = '{$filter_name}';";
-			$js_doc[] = "\tjQuery(fo_obj).attr('action', request_uri+'index.php?module={$module}&act={$act}'+(typeof(xeVid)=='string'?'&vid='+xeVid:''));";
 
 			$jsdoc = array();
 			$jsdoc[] = '(function($){';
