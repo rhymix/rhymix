@@ -244,9 +244,7 @@
 			}
 			$js_doc[] = "\t\tresponses = [".implode(',', $responses)."];";
 
-			//if($confirm_msg_code) $js_doc .= sprintf("\treturn oFilter.proc(\"%s\");\n",str_replace('"','\"',$lang->{$confirm_msg_code}));
-			//else $js_doc .= sprintf("\treturn oFilter.proc();\n");
-			//$js_doc .= "}\n";
+			if ($confirm_msg_code) $js_doc[] = sprintf("\t\tif(!confirm('%s')) return false;", $lang->{$confirm_msg_code});
 
 			$js_doc[] = "\t\texec_xml('{$module}','{$act}', params, {$callback_func}, responses, params, form);";
 			$js_doc[] = "\t}]);";
