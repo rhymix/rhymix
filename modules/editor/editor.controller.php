@@ -175,7 +175,7 @@
                 $content_font = $editor_config->content_font;
                 $content_font_size = $editor_config->content_font_size;
                 if($content_font || $content_font_size) {
-                    $buff = '<style type="text/css" charset="UTF-8"> .xe_content { ';
+                    $buff = '<style type="text/css"> .xe_content { ';
                     if($content_font) $buff .= 'font-family:'.$content_font.';';
                     if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
                     $buff .= ' }; </style>';
