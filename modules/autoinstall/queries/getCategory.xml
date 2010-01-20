@@ -1,6 +1,6 @@
 <query id="getCategory" action="select">
     <tables>
-        <table name="autoinstall_remote_categories" />
+        <table name="ai_remote_categories" />
     </tables>
     <columns>
         <column name="*" />

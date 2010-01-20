@@ -1,6 +1,6 @@
 <query id="insertInstalledPackage" action="insert">
     <tables>
-        <table name="autoinstall_installed_packages" />
+        <table name="ai_installed_packages" />
     </tables>
     <columns>
         <column name="package_srl" var="package_srl" filter="number" notnull="notnull" />

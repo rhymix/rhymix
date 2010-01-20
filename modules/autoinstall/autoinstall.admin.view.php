@@ -8,6 +8,7 @@
 
     class autoinstallAdminView extends autoinstall {
 
+        var $categories;
 
 	    function init() {
 		    $template_path = sprintf("%stpl/",$this->module_path);
@@ -181,7 +182,7 @@
 
             $oModel = &getModel('autoinstall');
             $item = $oModel->getLatestPackage();
-            if(!$item || $item->updatedate < $updateDate )
+            if(!$item || $item->updatedate < $updateDate || count($this->categories) < 1)
             {
                 Context::set('need_update', true); 
                 return;
@@ -231,8 +232,8 @@
         function dispCategory()
         {
             $oModel = &getModel('autoinstall');
-            $categories = &$oModel->getCategoryList();
-            Context::set('categories', $categories);
+            $this->categories = &$oModel->getCategoryList();
+            Context::set('categories', $this->categories);
         }
     }
 ?>

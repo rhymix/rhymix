@@ -1,6 +1,6 @@
 <query id="getInstalledPackageCount" action="select">
     <tables>
-        <table name="autoinstall_installed_packages" />
+        <table name="ai_installed_packages" />
     </tables>
     <columns>
         <column name="count(*)" alias="count" />

@@ -1,6 +1,6 @@
 <query id="insertCategory" action="insert">
     <tables>
-        <table name="autoinstall_remote_categories" />
+        <table name="ai_remote_categories" />
     </tables>
     <columns>
         <column name="category_srl" var="category_srl" filter="number" notnull="notnull" />
