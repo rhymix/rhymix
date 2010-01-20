@@ -53,6 +53,132 @@
             return $editor_config;
         }
 
+		function loadDrComponents(){
+			$drComponentPath = './modules/editor/skins/dreditor/drcomponents/';
+            $drComponentList = FileHandler::readDir($drComponentPath);
+
+			$oTemplate = &TemplateHandler::getInstance();
+
+			$drComponentInfo = array();
+			if($drComponentList){
+				foreach($drComponentList as $i => $drComponent){
+					unset($obj);
+					$obj = $this->getDrComponentXmlInfo($drComponent);
+					$obj->html = $oTemplate->compile(sprintf('%s%s/tpl/',$drComponentPath,$drComponent),$drComponent);
+					$drComponentInfo[$drComponent] = $obj;
+				}
+			}
+			Context::set('drComponentList',$drComponentInfo);
+		}
+
+		function getDrComponentXmlInfo($drComponentName){
+			$lang_type = Context::getLangType();
+
+            // 요청된 컴포넌트의 xml파일 위치를 구함
+            $component_path = sprintf('%s/skins/dreditor/drcomponents/%s/', $this->module_path, $drComponentName);
+
+            $xml_file = sprintf('%sinfo.xml', $component_path);
+            $cache_file = sprintf('./files/cache/editor/dr_%s.%s.php', $drComponentName, $lang_type);
+
+            // 캐시된 xml파일이 있으면 include 후 정보 return
+            if(file_exists($cache_file) && file_exists($xml_file) && filemtime($cache_file) > filemtime($xml_file)) {
+                include($cache_file);
+                return $xml_info;
+            }
+
+            // 캐시된 파일이 없으면 파싱후 캐싱 후 return
+            $oParser = new XmlParser();
+            $xml_doc = $oParser->loadXmlFile($xml_file);
+
+			$component_info->drcomponent_name = $drComponentName;
+			$component_info->title = $xml_doc->drcomponent->title->body;
+			$component_info->description = str_replace('\n', "\n", $xml_doc->drcomponent->description->body);
+			$component_info->version = $xml_doc->drcomponent->version->body;
+			$component_info->date = $xml_doc->drcomponent->date->body;
+			$component_info->homepage = $xml_doc->drcomponent->link->body;
+			$component_info->license = $xml_doc->drcomponent->license->body;
+			$component_info->license_link = $xml_doc->drcomponent->license->attrs->link;
+
+			$buff = '<?php if(!defined("__ZBXE__")) exit(); ';
+			$buff .= sprintf('$xml_info->drcomponent_name = "%s";', $component_info->drcomponent_name);
+			$buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
+			$buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
+			$buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
+			$buff .= sprintf('$xml_info->date = "%s";', $component_info->date);
+			$buff .= sprintf('$xml_info->homepage = "%s";', $component_info->homepage);
+			$buff .= sprintf('$xml_info->license = "%s";', $component_info->license);
+			$buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
+
+			// 작성자 정보
+			if(!is_array($xml_doc->drcomponent->author)) $author_list[] = $xml_doc->drcomponent->author;
+			else $author_list = $xml_doc->drcomponent->author;
+
+			for($i=0; $i < count($author_list); $i++) {
+				$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
+				$buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
+				$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
+			}
+
+			// history
+			if($xml_doc->drcomponent->history) {
+				if(!is_array($xml_doc->drcomponent->history)) $history_list[] = $xml_doc->drcomponent->history;
+				else $history_list = $xml_doc->drcomponent->history;
+
+				for($i=0; $i < count($history_list); $i++) {
+					unset($obj);
+					sscanf($history_list[$i]->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+					$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+					$buff .= sprintf('$xml_info->history['.$i.']->description = "%s";', $history_list[$i]->description->body);
+					$buff .= sprintf('$xml_info->history['.$i.']->version = "%s";', $history_list[$i]->attrs->version);
+					$buff .= sprintf('$xml_info->history['.$i.']->date = "%s";', $date);
+
+					if($history_list[$i]->author) {
+						(!is_array($history_list[$i]->author)) ? $obj->author_list[] = $history_list[$i]->author : $obj->author_list = $history_list[$i]->author;
+
+						for($j=0; $j < count($obj->author_list); $j++) {
+							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->name = "%s";', $obj->author_list[$j]->name->body);
+							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->email_address = "%s";', $obj->author_list[$j]->attrs->email_address);
+							$buff .= sprintf('$xml_info->history['.$i.']->author['.$j.']->homepage = "%s";', $obj->author_list[$j]->attrs->link);
+						}
+					}
+
+					if($history_list[$i]->log) {
+						(!is_array($history_list[$i]->log)) ? $obj->log_list[] = $history_list[$i]->log : $obj->log_list = $history_list[$i]->log;
+
+						for($j=0; $j < count($obj->log_list); $j++) {
+							$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->text = "%s";', $obj->log_list[$j]->body);
+							$buff .= sprintf('$xml_info->history['.$i.']->logs['.$j.']->link = "%s";', $obj->log_list[$j]->attrs->link);
+						}
+					}
+				}
+			}
+
+           // 추가 변수 정리 (에디터 컴포넌트에서는 text형만 가능)
+            $extra_vars = $xml_doc->drcomponent->extra_vars->var;
+            if($extra_vars) {
+                if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
+                foreach($extra_vars as $key => $val) {
+                    unset($obj);
+                    $key = $val->attrs->name;
+                    $title = $val->title->body;
+                    $description = $val->description->body;
+                    $xml_info->extra_vars->{$key}->title = $title;
+                    $xml_info->extra_vars->{$key}->description = $description;
+
+                    $buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'title', $title);
+                    $buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'description', $description);
+                }
+            }
+
+            $buff .= ' ?>';
+
+            FileHandler::writeFile($cache_file, $buff, "w");
+
+			unset($xml_info);
+            include($cache_file);
+            return $xml_info;
+		}
+
         /**
          * @brief 에디터 template을 return
          * upload_target_srl은 글의 수정시 호출하면 됨.
@@ -102,6 +228,11 @@
             $colorset = $option->colorset;
             Context::set('colorset', $colorset);
             Context::set('skin', $skin);
+
+			if($skin=='dreditor'){
+				$this->loadDrComponents();	
+			}
+
             /**
              * 자동백업 기능 체크 (글 수정일 경우는 사용하지 않음)
              **/
@@ -195,7 +326,7 @@
 
             /**
              * 템플릿을 미리 컴파일해서 컴파일된 소스를 하기 위해 스킨의 경로를 설정
-             **/
+             ?**/
             $tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
             $tpl_file = 'editor.html';
 
@@ -625,7 +756,7 @@
 
             FileHandler::writeFile($cache_file, $buff, "w");
 
-	    unset($xml_info);
+			unset($xml_info);
             include($cache_file);
             return $xml_info;
         }
