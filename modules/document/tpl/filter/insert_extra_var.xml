@@ -1,4 +1,4 @@
-<filter name="insert_extra_var" module="document" act="procDocumentAdminInsertExtraVar" confirm_msg_code="confirm_insert">
+<filter name="insert_extra_var" module="document" act="procDocumentAdminInsertExtraVar" confirm_msg_code="confirm_submit">
     <form>
         <node target="name" required="true" />
         <node target="module_srl" required="true" />
