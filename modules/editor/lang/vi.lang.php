@@ -216,8 +216,6 @@
 	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = 'Vật liệu';
     $lang->edit->temporary_savings = 'Danh sách lưu tạm thời';
-    
-    $lang->edit->drag_here = 'Bạn có thể bắt đầu viết đoạn đã chọn từ đoạn thanh công cụ phía dưới.<br />Nếu nó là bài viết đã lưu trong bản nháp, bạn có thể kéo ra và sửa.';
 
 	$lang->edit->paging_prev = 'Trước';
 	$lang->edit->paging_next = 'Tiếp';
@@ -231,4 +229,5 @@
 
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.';
 ?>

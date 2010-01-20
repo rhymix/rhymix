@@ -217,8 +217,6 @@
 	$lang->edit->materials = '글감 보관함';
 	$lang->edit->temporary_savings = '임시 저장 목록';
 
-	$lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.<br />글감 보관함에 글이 있으면 이곳으로 끌어 넣기 할 수 있습니다.';
-
 	$lang->edit->paging_prev = '이전';
 	$lang->edit->paging_next = '다음';
 	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
@@ -231,4 +229,5 @@
 
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.';
 ?>

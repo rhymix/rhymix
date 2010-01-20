@@ -216,8 +216,6 @@
     $lang->edit->refresh = '刷新';
     $lang->edit->materials = '素材库';
     $lang->edit->temporary_savings = '临时保存列表';
-    
-    $lang->edit->drag_here = '请点击编辑器工具栏中的相应按钮开始撰写日志。<br />素材库中的素材可以直接拖放到编辑区。';
 
     $lang->edit->paging_prev = '上一个';
     $lang->edit->paging_next = '下一个';
@@ -231,4 +229,5 @@
 
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
-?>
+	$lang->edit->drag_here = '请点击编辑器工具栏中的相应按钮开始撰写日志。';
+?>
