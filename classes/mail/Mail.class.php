@@ -22,6 +22,7 @@
         var $body = '';
         var $header = '';
         var $eol = '';
+        var $references = '';
 
 
         function Mail() { }
@@ -71,6 +72,10 @@
 
         function setMessageID($messageId) {
             $this->messageId = $messageId;
+        }
+
+        function setReferences($references) {
+            $this->references = $references;
         }
 
         function setReplyTo($replyTo)
@@ -207,11 +212,13 @@
                 "%s".
                 "%s".
                 "%s".
+                "%s".
                 "MIME-Version: 1.0".$this->eol."",
                 $this->getSender(),
                 $this->messageId?("Message-ID: <".$this->messageId.">".$this->eol):"",
                 $this->replyTo?("Reply-To: <".$this->replyTo.">".$this->eol):"",
-                $this->bcc?("Bcc: ".$this->bcc.$this->eol):""
+                $this->bcc?("Bcc: ".$this->bcc.$this->eol):"",
+                $this->references?("References: <".$this->references.">".$this->eol."In-Reply-To: <".$this->references.">".$this->eol):""
             );
             $headers .= $this->header;
 
