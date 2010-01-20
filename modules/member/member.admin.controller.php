@@ -24,6 +24,7 @@
             $all_args = Context::getRequestVars();
             unset($all_args->module);
             unset($all_args->act);
+            if(!isset($args->limit_date)) $args->limit_date = "";
 
             // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
             $extra_vars = delObjectVars($all_args, $args);
