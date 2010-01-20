@@ -68,6 +68,7 @@
     $lang->webmaster_email = "Email веб-мастера";
 
     $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';    $lang->about_webmaster_name = "Пожалуйста, введите имя веб-мастера, которое будет использоваться для аутентификационных писем или другого адиминистрирования сайта. (по умолчанию : webmaster)";
+    $lang->about_keep_warning = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다. 로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다. 단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';    $lang->about_webmaster_name = "Пожалуйста, введите имя веб-мастера, которое будет использоваться для аутентификационных писем или другого адиминистрирования сайта. (по умолчанию : webmaster)";
     $lang->about_webmaster_email = "Пожалуйста, введите email адрес веб-мастера.";
 
     $lang->search_target_list = array(
@@ -202,6 +203,9 @@
 
     $lang->about_member = "Этот модуль служит для создания/изменения/удаления пользователей, управления их группами и формой регистрации.\nВы можете управлять пользователями посредством создания новых групп, и получить дополнительную информацию, управляя формой регистрации";
     $lang->about_find_member_account = 'Ваша информация аккаунта будет направлена на зарегистрированный email.<br />Пожалуйста, введите email адрес, который Вы ввели при регистрации и нажмите кнопку "Найти Информацию Аккаунта".<br />';
+	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+    $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+    $lang->no_article = 'There exists no article';
 ?>

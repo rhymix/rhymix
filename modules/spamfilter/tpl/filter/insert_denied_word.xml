@@ -3,7 +3,7 @@
     <node target="word" required="true" minlength="1" maxlength="250" />
   </form>
   <parameter>
-    <param param="word" target="word" />
+    <param name="word" target="word" />
   </parameter>
   <response>
     <tag name="error" />

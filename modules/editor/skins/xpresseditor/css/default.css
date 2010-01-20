@@ -235,7 +235,8 @@
 /* Content > Tool > Layer */
 .xpress-editor .tool .layer{ display:none; position:absolute; left:0; top:20px; background-color:#fbfbfb; border:1px solid #c5c5c5; border-right:1px solid #9f9f9f; border-bottom:1px solid #9f9f9f;}
 .xpress-editor .tool .layer li{ float:none; left:0;}
-.xpress-editor .tool .layer button{ margin:0 !important; width:auto; height:auto; background:none;}
+.xpress-editor .tool .layer button,
+.xpress-editor.black .tool .layer button{ margin:0 !important; width:auto; height:auto; background:none;}
 .xpress-editor .tool .layer button span{ position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden;}
 .xpress-editor .tool .btn_area{ position:relative; clear:both; text-align:center !important; padding:7px 0 12px 0; width:100%; white-space:nowrap; *zoom:1;}
 .xpress-editor .tool .btn_area *{ vertical-align:top;}

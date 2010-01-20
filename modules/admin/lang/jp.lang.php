@@ -79,4 +79,6 @@
     $lang->use_db_session = 'DBで認証セッション管理';
     $lang->about_db_session = '認証の時に使われるPHPセッションをDBで使う機能です。<br />ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。<br />また、この機能をオンにすると、「現在ログイン中の会員」の機能が不可になります。';
     $lang->sftp = "Use SFTP";
+    $lang->ftp_get_list = "Get List";
+    $lang->ftp_remove_info = 'Remove FTP Info.';
 ?>

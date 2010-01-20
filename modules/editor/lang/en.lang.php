@@ -214,8 +214,6 @@
 	$lang->edit->refresh = 'Refresh';
     $lang->edit->materials = 'Materials';
     $lang->edit->temporary_savings = 'Temporary Saved List';
-    
-    $lang->edit->drag_here = 'You can start writting with a selected paragraph from paragraph toolbar below.<br />If there is an article in temporary saved list, you can drag it to edit form.';
 
 	$lang->edit->paging_prev = 'Prev';
 	$lang->edit->paging_next = 'Next';
@@ -226,4 +224,8 @@
 	$lang->edit->close_help = 'Close Help';
 	
 	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
+
+	$lang->edit->image_align = '이미지 정렬';
+	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->drag_here = 'You can start writting with a selected paragraph from paragraph toolbar below.';
 ?>

@@ -21,6 +21,7 @@
     <description xml:lang="jp">
         XEの基本ドキュメント書式です。
         そのまま表示されるだけで、編集・出力には影響しません。
+    </description>
     <description xml:lang="en">
         XE default document style.
         It displays as it is, and affect nothing to editing / printing.

@@ -4,15 +4,15 @@
  * @author taggon (gonom9@gmail.com)
  */
 (function($){
-	var protocol_re = '(https?|ftp|news|telnet|irc)://';
+	var protocol_re = '(https?|ftp|news|telnet|irc|mms)://';
 	var domain_re   = '(?:[\\w\\-]+\\.)+(?:[a-z]+)';
-	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5])';
+	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9]?[0-9])';
 	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
 	var port_re     = '(?::([0-9]+))?';
 	var path_re     = '((?:/[\\w!"$-/:-@]+)*)';
 	var hash_re     = '(?:#([\\w!-@]+))?';
 
-	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+')'+port_re+path_re+hash_re+')', 'ig');
+	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+'|localhost'+')'+port_re+path_re+hash_re+')', 'ig');
 
 	var AutoLink = xe.createPlugin("autolink", {
 		targets : [],
@@ -65,7 +65,7 @@
 
 					if(content.length < 5) return;
 
-					if(!/(http|https|ftp|news|telnet|irc):\/\//i.test(content)) return;
+					if(!/(http|https|ftp|news|telnet|irc|mms):\/\//i.test(content)) return;
 
 					thisPlugin.targets.push(this);
 				} else {

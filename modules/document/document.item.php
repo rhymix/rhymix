@@ -251,6 +251,32 @@
             return htmlspecialchars($content);
         }
 
+        function stripEmbedTagForAdmin(&$content)
+        {
+            if(!Context::get('is_logged')) return;
+            $oModuleModel = &getModel('module');
+            $logged_info = Context::get('logged_info');
+            $writer_member_srl = $this->get('member_srl');
+
+            if($writer_member_srl != $logged_info->member_srl && ($logged_info->is_admin == "Y" || $oModuleModel->isSiteAdmin($logged_info)) )
+            {   
+                if($writer_member_srl)
+                {
+                    $oMemberModel =& getModel('member');
+                    $member_info = $oMemberModel->getMemberInfoByMemberSrl($writer_member_srl);
+                    if($member_info->is_admin == "Y")
+                    {
+                        return;
+                    }
+                }
+                $security_msg = "<div style='border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;'><p style='margin: 1em;'>".Context::getLang('security_warning_embed')."</p></div>";
+                $content = preg_replace('/<embed[^>]+>(\s*<\/embed>)?/is', $security_msg, $content);
+                $content = preg_replace('/<img[^>]+editor_component="multimedia_link"[^>]*>(\s*<\/img>)?/is', $security_msg, $content);
+            }
+
+            return;
+        }
+
         function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             if(!$this->document_srl) return;
 
@@ -259,6 +285,7 @@
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
+            $this->stripEmbedTagForAdmin($content);
 
             // rewrite모듈을 사용하면 링크 재정의
             $oContext = &Context::getInstance();
@@ -333,9 +360,6 @@
 
             // >, <, "를 다시 복구
             $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
-
-            // 영문이 연결될 경우 개행이 안 되는 문제를 해결
-            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
 
             return $content;
         }

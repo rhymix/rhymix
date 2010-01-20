@@ -151,8 +151,8 @@
     $lang->regdate = 'Registered Date';
     $lang->last_update = 'Last Update';
     $lang->last_post = 'Last Post';
-    $lang->signup_date = 'Join Date';
-    $lang->last_login = 'Last Login';
+    $lang->signup_date = 'Sign up Date';
+    $lang->last_login = 'Last Sign in';
     $lang->first_page = 'First Page';
     $lang->last_page = 'Last Page';
     $lang->search_target = 'Target for Search';
@@ -277,10 +277,12 @@
     $lang->eid = 'Name of extra variable';
 
     // ftp-related
-    $lang->ftp_form_title = 'Input FTP account information';
+    $lang->ftp_form_title = 'FTP Account Information';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
-    $lang->cmd_check_ftp_connect = 'Check connection via FTP';
+    $lang->about_ftp_password = 'FTP password will not be stored';
+    $lang->cmd_check_ftp_connect = 'Check FTP Connection';
     $lang->about_ftp_info = "
         FTP account information can be used in following cases. <br />
         1. If safe_mode setting of PHP is on, XE will be installed using FTP.  <br />
@@ -296,9 +298,9 @@
     $lang->msg_ftp_chmod_fail = "Chmod failed. Please check the permission and configuration of FTP server.";
     $lang->msg_ftp_connect_success = "Connection and authentication to the FTP server succeeded.";
 
-    $lang->ftp_path_title = 'FTP 경로 정보 입력';
-    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+    $lang->ftp_path_title = 'FTP Path Information';
+    $lang->msg_ftp_installed_realpath = 'Absolute Path of XE';
+    $lang->msg_ftp_installed_ftp_realpath = 'Absolute FTP Path of XE';
 
 
     // Alert messages for Javascript using by XML filter
@@ -313,4 +315,6 @@
     $lang->filter->invalid_alpha = "The format of %s is invalid. Please input alphabets only";
     $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input alphabets or numbers";
     $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

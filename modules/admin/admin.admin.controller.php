@@ -47,6 +47,8 @@
         function procAdminLogout() {
             $oMemberController = &getController('member');
             $oMemberController->procMemberLogout();
+
+			header('Location: '.getUrl('module','admin','act',''));
         }
     }
 ?>

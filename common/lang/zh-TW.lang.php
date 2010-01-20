@@ -65,8 +65,8 @@
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '版面設置';
     $lang->cmd_layout_edit = '版面編輯';
-    $lang->cmd_search_by_ipaddress = '以IP位址搜尋';
-    $lang->cmd_add_ip_to_spamfilter = '封鎖此IP位址';
+    $lang->cmd_search_by_ipaddress = '以 IP 位址搜尋';
+    $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP 位址';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
@@ -221,13 +221,13 @@
     $lang->msg_error_occured = '發生錯誤';
     $lang->msg_not_founded = '找不到相關內容';
     $lang->msg_no_result = '搜尋不到結果';
-    $lang->msg_fail_to_request_open = 'Fail to open your request';
+    $lang->msg_fail_to_request_open = '連結失敗';
     $lang->msg_invalid_format = '格式錯誤';
 
     $lang->msg_not_permitted_act = '沒有權限執行';
-    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
+    $lang->msg_module_is_not_exists = "找不到模組。\n請聯絡管理員";
     $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
-    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
+    $lang->msg_default_url_is_not_defined = '尚未設定預設網址';
 
     $lang->success_registed = '成功送出！';
     $lang->success_declared = '檢舉成功！';
@@ -261,15 +261,15 @@
     $lang->column_type = '格式';
     $lang->column_type_list['text'] = '文字輸入(text)';
     $lang->column_type_list['homepage'] = '網址格式';
-    $lang->column_type_list['email_address'] = '郵件格式 (email)';
-    $lang->column_type_list['tel'] = '電話號碼格式 (phone)';
-    $lang->column_type_list['textarea'] = '文字區域 (textarea)';
-    $lang->column_type_list['checkbox'] = '核取方塊 (checkbox)';
-    $lang->column_type_list['select'] = '下拉式選單 (select)';
-    $lang->column_type_list['radio'] = '選項按紐 (radio)';
+    $lang->column_type_list['email_address'] = '郵件格式(email)';
+    $lang->column_type_list['tel'] = '電話號碼格式(phone)';
+    $lang->column_type_list['textarea'] = '文字區域(textarea)';
+    $lang->column_type_list['checkbox'] = '核取方塊(checkbox)';
+    $lang->column_type_list['select'] = '下拉式選單(select)';
+    $lang->column_type_list['radio'] = '選項按紐(radio)';
     $lang->column_type_list['kr_zip'] = '韓國郵編(zip)';
-    $lang->column_type_list['date'] = '日期 (年月日)';
-    //$lang->column_type_list['jp_zip'] = '日本郵編 (zip)';
+    $lang->column_type_list['date'] = '日期(年月日)';
+    //$lang->column_type_list['jp_zip'] = '日本郵編(zip)';
     $lang->column_name = '項目名稱';
     $lang->column_title = '項目標題';
     $lang->default_value = '預設值';
@@ -278,28 +278,30 @@
     $lang->eid = '延伸變數名稱';
 
     // 關於FTP
-    $lang->ftp_form_title = '輸入FTP資訊';
+    $lang->ftp_form_title = '輸入 FTP 資訊';
     $lang->ftp = 'FTP';
-    $lang->ftp_port = 'FTP埠口';
-    $lang->cmd_check_ftp_connect = '檢查FTP連線';
+    $lang->ftp_host = 'FTP 主機名稱';
+    $lang->ftp_port = 'FTP 埠口';
+    $lang->about_ftp_password = 'FTP 密碼將不會被儲存';
+    $lang->cmd_check_ftp_connect = '檢查 FTP 連線';
     $lang->about_ftp_info = "
         FTP資訊可應用至以下情形<br/>
         1. 當PHP的安全模式(safe_mode)開啟時，可使程式正常運作。<br/>
         2. 可用於自動更新。<br/>
         此FTP資訊會儲存在檔案『files/config/ftp.config.php』裡面。<br/>
-        安裝程式後，可以在管理頁面中針對FTP資訊進行修改或刪除。<br />
+        安裝程式後，可以在管理頁面中針對 FTP 資訊進行修改或刪除。<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = '當PHP的安全模式(safe_mode)開啟時，請輸入相關FTP資訊，否則無法正常安裝或使用程式。';
-    $lang->msg_ftp_not_connected = '本地(localhost)FTP連線錯誤。請檢查FTP埠口並確認是否支援FTP功能。';
-    $lang->msg_ftp_invalid_auth_info = 'FTP登入失敗。請確認輸入的FTP資訊。';
-    $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認FTP主機設置。';
-    $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認FTP主機設置。';
+    $lang->msg_safe_mode_ftp_needed = '當PHP的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。';
+    $lang->msg_ftp_not_connected = '本地(localhost) FTP 連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。';
+    $lang->msg_ftp_invalid_auth_info = 'FTP登入失敗。請確認輸入的 FTP 資訊。';
+    $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認 FTP 主機設置。';
+    $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認 FTP 主機設置。';
     $lang->msg_ftp_connect_success = 'FTP連線成功。';
 
     $lang->ftp_path_title = '請輸入FTP路經';
-    $lang->msg_ftp_installed_realpath = '安裝XE時的絕對路經';
-    $lang->msg_ftp_installed_ftp_realpath = '請輸入安裝XE時的FTP絕對路經';
+    $lang->msg_ftp_installed_realpath = 'XE絕對路經';
+    $lang->msg_ftp_installed_ftp_realpath = 'XE的FTP絕對路經';
 
 
     // 在xml filter中所使用的JavaScript警告訊息
@@ -314,4 +316,6 @@
     $lang->filter->invalid_alpha = '%s只能輸入英文字母';
     $lang->filter->invalid_alpha_number = '%s只能輸入英文或數字';
     $lang->filter->invalid_number = '%s只能輸入數字';
+
+    $lang->security_warning_embed = "由於安全的關係，管理員無法檢視嵌入的物件。<BR /> 請使用其他非管理員帳號檢視。";
 ?>

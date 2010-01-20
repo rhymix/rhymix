@@ -59,7 +59,7 @@
     $lang->allow_message = '接收短訊息';
     $lang->allow_message_type = array(
             'Y' => '全部允許',
-            'F' => '只允許好友',
+            'F' => '允許好友',
             'N' => '全部禁止',
     );
     $lang->about_allow_message = '可選擇是否接收短訊息。';
@@ -69,6 +69,7 @@
     $lang->webmaster_email = '管理員電子郵件';
 
     $lang->about_keep_signed = '關閉瀏覽器後也將維持登入狀態。\n\n使用自動登入功能，可解決每次訪問都要輸入帳號及密碼的麻煩。\n\n為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。';
+    $lang->about_keep_warning = '關閉瀏覽器後也將維持登入狀態。\n\n使用自動登入功能，可解決每次訪問都要輸入帳號及密碼的麻煩。 為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。';
     $lang->about_webmaster_name = '請輸入認證所需的電子郵件地址或管理其他網站時要使用的網站管理員名稱。(預設 : webmaster)';
     $lang->about_webmaster_email = '請輸入網站管理員的電子郵件地址。';
 
@@ -208,4 +209,5 @@
     $lang->add_openid = '新增OpenID';
 
 	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
+    $lang->no_article = '主題不存在';
 ?>

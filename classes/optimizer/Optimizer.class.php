@@ -2,11 +2,8 @@
     /**
     * @class Optimizer 
     * @author zero (zero@nzeo.com)
-    * @brief  JS/CSS파일등을 특정한 규칙에 맞게 하나의 파일로 만들어서 client에서 가져갈 수 있도록 성능향상을 지원하는 클래스
+    * @brief  class designed to be used to merge mutiple JS/CSS files into one file to shorten time taken for transmission.
     *
-    * 일단 내부적인 코드가 아무리 튜닝이 되어도 모듈/애드온/위젯/에디터컴포넌트등 각 요소들의 JS/CSs파일들을 잘라서 호출하는 구조이기에
-    * 사용자의 브라우저에서는 최소 10이상의 파일을 별도로 서버에 요청을 하게 된다.
-    * 이를 방지하기 위해서 서버내의 로컬 파일일 경우 하나로 묶어서 클라이언트에서 가져갈 수 있도록 하여 그 효과를 증대시킴.
     **/
 
     class Optimizer {
@@ -14,8 +11,8 @@
         var $cache_path = "./files/cache/optimized/";
 
         /**
-         * @brief optimizer에서 캐싱파일을 저장할 곳을 찾아서 없으면 만듬
-        **/
+         * @brief Constructor which check if a directory, 'optimized' exists in designated path. If not create a new one
+         **/
         function Optimizer() {
             if(!is_dir($this->cache_path)) {
                 FileHandler::makeDir($this->cache_path);
@@ -23,7 +20,8 @@
         }
 
         /**
-         * @brief 파일 목록 배열에서 optimized 첨자를 제거한 후 return
+         * @brief file that removes 'optimized' in a given array
+         * @param[in] $files an array to be modified
         **/
         function _getOptimizedRemoved($files) {
             foreach($files as $key => $val) unset($files[$key]['optimized']);
@@ -31,7 +29,10 @@
         }
 
         /**
-         * @brief optimize 대상 파일을 받아서 처리 후 optimize 된 파일이름을 return
+         * @brief method that optimizes a given file and returns a resultant file
+         * @param[in] source_files an array of source files to be optimized
+         * @param[in] type a type of source file, either js or css.
+         * @return Returns a optimized file
          **/
         function getOptimizedFiles($source_files, $type = "js") {
             if(!is_array($source_files) || !count($source_files)) return;
@@ -89,7 +90,8 @@
         }
 
         /**
-         * @brief 파일 목록 배열에서 file을 제외한 나머지 첨자를 제거하여 return
+         * @brief retrive a list of files from a given parameter
+         * @param[in] files a list containing files
         **/
         function _getOnlyFileList($files) {
             foreach($files as $key => $val) $files[$key] = $val['file'];
@@ -97,11 +99,11 @@
         }
 
         /**
-         * @brief optimize는 대상 파일을 \n로 연결후 md5 hashing하여 파일이름의 중복을 피함
-         * 개별 파일과 optimizer 클래스 파일의 변경을 적용하기 위해 각 파일들과 Optimizer.class.php의 filemtime을 비교, 파일이름에 반영
+         * @brief method to generate a unique key from list of files along with a last modified date
+         * @param[in] files an array containing file names
          **/
         function getOptimizedInfo($files) {
-            // 개별 요소들 또는 Optimizer.class.php파일이 갱신되었으면 새로 옵티마이징
+            // 개별 요소 파일이 갱신되었으면 새로 옵티마이징
             $count = count($files);
             $last_modified = 0;
             for($i=0;$i<$count;$i++) {
@@ -115,7 +117,11 @@
         }
 
         /**
-         * @brief 이미 저장된 캐시 파일과의 시간등을 검사하여 새로 캐싱해야 할지를 체크
+         * @brief method that check if a valid cache file exits for a given filename. If not create new one.   
+         * @param[in] path directory path of the cache files
+         * @param[in] filename a filename for cache files
+         * @param[in] targets 
+         * @param[in] type a type of cache file
          **/
         function doOptimizedFile($path, $filename, $targets, $type) {
             // 대상 파일이 있으면 그냥 패스~
@@ -129,14 +135,18 @@
         }
 
         /**
-         * @brief css나 js파일을 묶어서 하나의 파일로 만들고 gzip 압축이나 헤더등을 통제하기 위해서 php파일을 별도로 만들어서 진행함
+         * @brief method produce a php code to merge css/js files, compress the resultant files and modified the HTML header accordingly.
+         * @param[in] path
+         * @param[in] filename a name of a resultant file
+         * @param[in] targets list of files to be used for the operation
+         * @param[in] type a type of file such as css or js
+         * @return NONE    
          **/
         function makeOptimizedFile($path, $filename, $targets, $type) {
             /**
              * 실제 css나 js의 내용을 합친 것을 구함
              **/
             // 대상 파일의 내용을 구해오고 css 파일일 경우 url()내의 경로를 변경
-
             $content_filename = substr($filename, 0, -4);
             $file_object = FileHandler::openFile($path."/".$content_filename, "w");
 
@@ -144,7 +154,7 @@
             foreach($targets as $file) {
                 $str = FileHandler::readFile($file['file']);
 
-                $str = Context::convertEncodingStr($str);
+                $str = trim(Context::convertEncodingStr($str));
 
                 // css 일경우 background:url() 변경 / media 적용
                 if($type == 'css') {
@@ -215,7 +225,10 @@ if(!$cached) {
         }
 
         /**
-         * @brief css의 경우 import/ background 등의 속성에서 사용되는 url내의 경로를 변경시켜줌
+         * @brief method that modify a path for import or background element in a given css file
+         * @param[in] file a file to be modified
+         * @param[in] str a buffer to store resultant content
+         * @return Returns resultant content
          **/
         function replaceCssPath($file, $str) {
             // css 파일의 위치를 구함
@@ -230,6 +243,12 @@ if(!$cached) {
             return $str;
         }
 
+        
+        /**
+         * @brief callback method that is responsible for replacing strings in css file with predefined ones.
+         * @param[in] matches a list of strings to be examined and modified if necessary
+         * @return Returns resultant content
+         **/
         function _replaceCssPath($matches) {
             static $abpath = null;
             if(is_null($abpath)) {
@@ -246,6 +265,5 @@ if(!$cached) {
 
             return 'url("'.$target.'")';
         }
-
     }
 ?>

@@ -1,0 +1,12 @@
+<query id="getOpenIdAssociation" action="select">
+    <tables>
+        <table name="member_openid_association" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="server_url" var="server_url" notnull="notnull" />
+        <condition operation="equal" column="handle" var="handle" pipe="and" />
+    </conditions>
+</query>

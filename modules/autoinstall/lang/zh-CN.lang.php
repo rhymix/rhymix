@@ -28,4 +28,6 @@
     $lang->description_download = "When FTP is disabled, you should download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)";
     $lang->path = "Path";
     $lang->cmd_download = "Download";
+    $lang->view_installed_packages = "Installed Packages";
+    $lang->msg_ftp_password_input = "Please input FTP password.";
 ?>

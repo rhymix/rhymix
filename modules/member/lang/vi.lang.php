@@ -71,6 +71,7 @@
     $lang->webmaster_email = " Email Webmaster";
 
     $lang->about_keep_signed = 'Mặc dù tắt trình duyệt nhưng thông tin đăng nhập của bạn vẫn được lưu lại trên máy tính này.\n\nNếu bạn sử dụng máy tính dùng chung, người khác cũng có thể đăng nhập dưới tên truy cập của bạn. Vì vậy chức năng này không nên sử dụng nếu máy tính này không phải của riêng bạn!';
+    $lang->about_keep_warning = 'Mặc dù tắt trình duyệt nhưng thông tin đăng nhập của bạn vẫn được lưu lại trên máy tính này. Nếu bạn sử dụng máy tính dùng chung, người khác cũng có thể đăng nhập dưới tên truy cập của bạn. Vì vậy chức năng này không nên sử dụng nếu máy tính này không phải của riêng bạn!';
 	$lang->about_webmaster_name = "Xin hãy nhập tên của Webmaster để nhận Email và quản lý. (Mặc định: webmaster)";
     $lang->about_webmaster_email = "Xin hãy nhập Email của Webmaster.";
 

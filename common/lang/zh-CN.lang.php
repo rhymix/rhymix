@@ -281,7 +281,9 @@
     // ftp 相关
     $lang->ftp_form_title = '设置FTP信息';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = '测试FTP连接';
     $lang->about_ftp_info = "
         相关FTP信息，应用于如下几种状况:<br/>
@@ -314,4 +316,6 @@
     $lang->filter->invalid_alpha = '%s只能输入英文字母';
     $lang->filter->invalid_alpha_number = '%s只能输入英文或数字';
     $lang->filter->invalid_number = '%s只能输入数字';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

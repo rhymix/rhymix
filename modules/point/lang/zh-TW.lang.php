@@ -37,8 +37,8 @@
     $lang->about_cmd_point_recal = '重置點數。即只保留文章/評論/附加檔案/新會員註冊的相關點數項目。<br />其中，重置後的新會員註冊點數，將在會員有相關動作(例如:發表主題/評論等)時，才付與其相對應的點數。<br />此項功能請務必慎用！此項功能只能在資料轉移或真的需要重置所有點數時才可以使用。';
 
     $lang->point_link_group = '自動升級';
-    $lang->point_group_reset_and_add = '설정된 그룹 초기화 후 새 그룹 부여';
-    $lang->point_group_add_only = '새 그룹만 부여';
+    $lang->point_group_reset_and_add = '重新調整與新增群組';
+    $lang->point_group_add_only = '只限新群組';
     $lang->about_point_link_group = '即群組隨等級變化。當等級達到指定等級時，會員所屬群組將自動更新成相對應的群組。';
 
     $lang->about_module_point = '可以分別對各模組進行點數設置，沒有設置的模組將使用預設值。<br />所有動作在反向操作下將恢復原始值。即：發表主題後再刪除得到的點數為零。';
@@ -58,7 +58,7 @@
 
     $lang->cmd_point_config = '基本設置';
     $lang->cmd_point_module_config = '目標模組設置';
-    $lang->cmd_point_act_config = '功能act設置';
+    $lang->cmd_point_act_config = 'Act設置';
     $lang->cmd_point_member_list = '會員點數列表';
 
     $lang->msg_cannot_download = '點數不足無法下載！';

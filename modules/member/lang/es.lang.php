@@ -68,6 +68,7 @@
     $lang->webmaster_email = 'Correo electrónico Webmaster';
 
     $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';
+    $lang->about_keep_warning = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다. 로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다. 단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.';
 	$lang->about_webmaster_name = 'Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)';
     $lang->about_webmaster_email = 'Introduzca la dirección de correo electrónico webmaster.';
 
@@ -201,8 +202,9 @@
 
     $lang->about_member = "Esto es un módulo para crear/modificar/eliminar usuarios y manejar grupos o el formato del registro.\n Usted puede manejar usuarios creando nuevos grupos, y obtener información adicional manejando el formato del registro";
     $lang->about_find_member_account = 'Su información de la cuenta será observado por dirección de correo electrónico registrada. <br /> Introduce la dirección de correo electrónico que usted tiene de entrada en el registro, y pulse "Buscar" Información de la cuenta ". <br />';
-    $lang->about_ssl_port = '기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요';
-    $lang->add_openid = '오픈아이디 추가';
+	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+    $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
+	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+    $lang->no_article = 'There exists no article';
 ?>

@@ -285,7 +285,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'Datos de conexión para FTP';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'conexión de FTP confirmada';
     $lang->about_ftp_info = "
         Los datos de conexión para FTP pueden ser utilizados en los siguientes casos.<br/>
@@ -320,4 +322,6 @@
     $lang->filter->invalid_alpha = 'Sólo puede introducir los alfabetos en el %s';
     $lang->filter->invalid_alpha_number = 'Sólo puede introducir los alfanuméricos en el %s es inválido';
     $lang->filter->invalid_number = 'Sólo puede introducir los dígitos numéricos en el %s';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

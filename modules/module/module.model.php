@@ -900,6 +900,41 @@
             return $list;
         }
 
+        function checkNeedInstall($module_name)
+        {
+            $oDB = &DB::getInstance();
+            $info = null;
+
+            $moduledir = ModuleHandler::getModulePath($module_name);
+            if(file_exists(FileHandler::getRealPath($moduledir."schemas")))
+            {
+                $tmp_files = FileHandler::readDir($moduledir."schemas", '/(\.xml)$/');
+                $table_count = count($tmp_files);
+
+                // 테이블이 설치되어 있는지 체크
+                $created_table_count = 0;
+                for($j=0;$j<count($tmp_files);$j++) {
+                    list($table_name) = explode(".",$tmp_files[$j]);
+                    if($oDB->isTableExists($table_name)) $created_table_count ++;
+                }
+
+                // 설치 유무 체크 (설치는 DB의 설치만 관리)
+                if($table_count > $created_table_count) return true; 
+                else return false; 
+            }
+            return false;
+        }
+
+        function checkNeedUpdate($module_name)
+        {
+            // 각 모듈의 module.class.php로 upgrade 유무 체크
+            $oDummy = &getModule($module_name, 'class');
+            if($oDummy && method_exists($oDummy, "checkUpdate")) {
+                return $oDummy->checkUpdate();
+            }
+            return false;
+        }
+
         /**
          * @brief 모듈의 종류와 정보를 구함
          **/

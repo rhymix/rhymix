@@ -281,7 +281,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'FTP 계정 정보 입력';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP 서버 주소';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP Password는 저장되지 않습니다.';
     $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
     $lang->about_ftp_info = "
         FTP 정보는 다음 경우에 이용될 수 있습니다.<br />
@@ -300,7 +302,7 @@
 
     $lang->ftp_path_title = 'FTP 경로 정보 입력';
     $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 경로 설정';
 
     // xml filter에서 사용되는 javascript용 alert msg
     $lang->filter->isnull = '%s을 입력해주세요.';
@@ -314,4 +316,6 @@
     $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력하셔야 합니다.';
     $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력하셔야 합니다.';
     $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.';
+
+    $lang->security_warning_embed = "보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하시려면 다른 아이디로 접속하세요";
 ?>

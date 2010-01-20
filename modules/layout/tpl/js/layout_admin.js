@@ -13,26 +13,9 @@ function doDeleteLayout(layout_srl) {
     procFilter(fo_obj, delete_layout);
 }
 
-/* 수정된 레이아웃을 원본으로 돌림 */
-function doResetLayoutCode(layout_srl) {
-    var fo_obj = jQuery('#fo_layout').get(0);
-    procFilter(fo_obj, reset_layout_code);
-    return false;
-}
-
-/* 수정중인 레이아웃 미리보기 */
-function doPreviewLayoutCode(layout_srl) {
-
-    jQuery('#fo_layout').attr('target', "_LayoutPreview");
-    jQuery('input[name=act]','#fo_layout').val("dispLayoutAdminPreview");
-    jQuery('#fo_layout').submit();
-    jQuery('#fo_layout').removeAttr('target');
-}
-
-
 /* 메뉴 관리로 이동 */
 function doMenuManagement(menu_id) {
-    var menu_srl = jQuery('#fo_layout select[name='+menu_id+'] option:selected').val();
+    var menu_srl = jQuery('#fo_layout select[name='+menu_id+']').val();
     var url = '';
     // 선택된 메뉴가 없으면
     if(menu_srl == 0){
@@ -65,3 +48,34 @@ function deleteFile(layout_srl,filename){
         document.location.reload();
     });
 }
+
+(function($){
+
+/* preview layout */
+function doPreviewLayoutCode(layout_srl) {
+	var fo  = $('#fo_layout');
+	var act = fo.find('input[name=act]:first').val();
+	fo.attr('target', '_LayoutPreview').find('input[name=act]').val('dispLayoutAdminPreview');
+	fo.submit();
+	//.removeAttr('target').find('input[name=act]').val(act);
+}
+window.doPreviewLayoutCode = doPreviewLayoutCode;
+
+/* restore layout code */
+function doResetLayoutCode(layout_srl) {
+    procFilter($('#fo_layout')[0], reset_layout_code);
+}
+window.doResetLayoutCode = doResetLayoutCode;
+
+var validator = xe.getApp('validator')[0];
+validator.cast('ADD_CALLBACK', ['update_layout_code', function(form) {
+	if (form.act.value != 'procLayoutAdminCodeUpdate') return true;
+
+	var params={},data=$(form).serializeArray();
+	$.each(data, function(i,field){ params[field.name] = field.value });
+
+	exec_xml('layout', 'procLayoutAdminCodeUpdate', params, filterAlertMessage, ['error','message'], params, form);
+	return false;
+}]);
+
+})(jQuery);

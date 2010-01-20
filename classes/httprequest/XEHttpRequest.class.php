@@ -3,10 +3,9 @@
      * @class HttpRequest
      * @author haneul (haneul@gmail.com)
      * @version 0.1
-     * @brief 다른 서버에 HTTP Request를 전송하고 result를 받아오는 클래스
-     * @remarks  Connection: keep-alive 는 지원하지 않음
+     * @brief a class that is designed to be used for sending out HTTP request to an external server and retrieving response
+     * @remarks  Connection: keep-alive is not supported
      */
-
     class XEHttpRequest {
 
 	/// target host
@@ -27,7 +26,9 @@
 	}
 
 	/**
-	 * @brief Add (key, value) pair to the HTTP request header
+	 * @brief mether to add key/value pair to the HTTP request header
+     * @param[in] key HTTP header element
+     * @param[in] value value string for HTTP header element
 	 */
 	function AddToHeader($key, $value)
 	{
@@ -36,7 +37,10 @@
 
 	/**
 	 * @brief send HTTP message to the host
-	 * @return (result code, response body) 
+     * @param[in] target ip or url of the external server
+     * @param[in] method HTTP method such as GET and POST
+     * @param[in] timeout time out value for HTTP request expiration
+	 * @return Returns an object containing HTTP Response body and HTTP response code 
 	 */
 	function Send($target, $method="GET", $timeout = 3)
 	{

@@ -28,4 +28,6 @@
     $lang->description_download = "FTP를 이용할 수 없는 경우, 직접 다운로드 하여 해당 path에 설치하셔야 합니다. (한칸 상위에서 압축을 푸시면 됩니다. ./modules/board의 경우 ./modules에서 tar를 푸세요)";
     $lang->path = "설치경로";
     $lang->cmd_download = "다운로드";
+    $lang->view_installed_packages = "설치된 패키지";
+    $lang->msg_ftp_password_input = "FTP 비밀번호를 입력해주세요";
 ?>

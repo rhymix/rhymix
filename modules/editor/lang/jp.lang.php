@@ -217,8 +217,6 @@
 	$lang->edit->materials = '資料箱';
 	$lang->edit->temporary_savings = '下書きリスト';
 
-	$lang->edit->drag_here = '下のツールリストから段落のタイプを選んで追加できます。<br/>マウスでドラッグをすると、右の資料箱からこの枠に文書を追加できます。';
-
 	$lang->edit->paging_prev = '前へ';
 	$lang->edit->paging_next = '次へ';
 	$lang->edit->paging_prev_help = '前のページへ移動します。';
@@ -228,4 +226,8 @@
 	$lang->edit->close_help = 'ヘルプを閉じる';
 
 	$lang->edit->confirm_submit_without_saving = 'まだ保存してない内容があります。\\nそのまま転送して宜しいでしょうか？';
+
+	$lang->edit->image_align = '이미지 정렬';
+	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->drag_here = '下のツールリストから段落のタイプを選んで追加できます。';
 ?>

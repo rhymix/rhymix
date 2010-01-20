@@ -16,6 +16,7 @@
 
             $oDB = &DB::getInstance();
             $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
+			$oDB->addIndex('sites','unique_domain',array('domain'),true);
 
             // module 모듈에서 사용할 디렉토리 생성
             FileHandler::makeDir('./files/cache/module_info');
@@ -68,6 +69,10 @@
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
             if(!$output->data) return true;
+
+			// sites 테이블에서 도메인이 인덱스로 걸린경우
+            if($oDB->isIndexExists('sites', 'idx_domain')) return true;
+			if(!$oDB->isIndexExists('sites','unique_domain')) return true;
 
             return false;
         }
@@ -283,6 +288,14 @@
 
 				$output = executeQuery('module.insertSite', $site_args);
 				if(!$output->toBool()) return $output;
+			}
+
+
+			if($oDB->isIndexExists('sites','idx_domain')){
+				$oDB->dropIndex('sites','idx_domain');
+			}
+			if(!$oDB->isIndexExists('sites','unique_domain')){
+				$oDB->addIndex('sites','unique_domain',array('domain'),true);
 			}
 
             return new Object(0, 'success_updated');

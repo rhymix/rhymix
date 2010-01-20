@@ -45,6 +45,16 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
+            $oDB =& DB::getInstance();
+            if($oDB->isTableExists("autoinstall_installed_packages"))
+            {
+                return true;
+            }
+            if($oDB->isTableExists("autoinstall_remote_categories"))
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -52,6 +62,15 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $oDB =& DB::getInstance();
+            if($oDB->isTableExists("autoinstall_installed_packages"))
+            {
+                $oDB->dropTable("autoinstall_installed_packages");
+            }
+            if($oDB->isTableExists("autoinstall_remote_categories"))
+            {
+                $oDB->dropTable("autoinstall_remote_categories");
+            }
             return new Object(0, 'success_updated');
         }
 

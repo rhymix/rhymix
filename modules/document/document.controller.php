@@ -380,8 +380,8 @@
             if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 
             // 성공하였을 경우 category_srl이 있으면 카테고리 update
-            if($source_obj->get('category_srl')!=$obj->category_srl) {
-                if($source_obj->get('category_srl')) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
+            if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl) {
+                if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
                 if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
             }
 
@@ -475,11 +475,14 @@
             if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
             else $trash_args->trash_srl = $obj->trash_srl;
 
-            // 해당 document가 속해 잇는 module_srl을 구한다
+            // 해당 document가 속해 있는 module_srl을 구한다
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
             $trash_args->module_srl = $oDocument->get('module_srl');
+
+            // 휴지통 문서를 두번 휴지통에 버릴 수 없음.
+            if($trash_args->module_srl == 0) return false;
 
             // 데이터 설정
             $trash_args->document_srl = $obj->document_srl;
@@ -516,6 +519,16 @@
 
             // update category
             if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
+
+            // remove thumbnails
+            FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+
+            // 등록된 첨부파일의 상태를 무효로 지정
+            if($oDocument->hasUploadedFiles()) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'N';
+                executeQuery('file.updateFileValid', $args);
+            }
 
             // commit
             $oDB->commit();
@@ -989,25 +1002,30 @@
         /**
          * @brief 특정 module_srl에 해당하는 document_extra_keys type, required등의 값을 체크하여 header에 javascript 코드 추가
          **/
-        function addXmlJsFilter($module_srl) {
-            $oDocumentModel = &getModel('document');
-            $extra_keys = $oDocumentModel->getExtraKeys($module_srl);
-            if(!count($extra_keys)) return;
+		function addXmlJsFilter($module_srl) {
+			$oDocumentModel = &getModel('document');
+			$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
+			if(!count($extra_keys)) return;
 
-            $js_code = "";
+			$js_code = array();
+			$js_code[] = '<script type="text/javascript">//<![CDATA[';
+			$js_code[] = '(function($){';
+			$js_code[] = 'var validator = xe.getApp("validator")[0];';
+			$js_code[] = 'if(!validator) return false;';
 
-            $logged_info = Context::get('logged_info');
+			$logged_info = Context::get('logged_info');
 
-            foreach($extra_keys as $idx => $val) {
-                $js_code .= sprintf('alertMsg["extra_vars%s"] = "%s";', $val->idx, $val->name);
-                $js_code .= sprintf('target_type_list["extra_vars%s"] = "%s";', $val->idx, $val->type);
-                $js_code .= sprintf('extra_vars[extra_vars.length] = "extra_vars%s";', $val->idx);
-                if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code .= sprintf('notnull_list[notnull_list.length] = "extra_vars%s";',$val->idx);
-            }
+			foreach($extra_keys as $idx => $val) {
+				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
+				if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
+			}
 
-            $js_code = "<script type=\"text/javascript\">//<![CDATA[\n".$js_code."\n//]]></script>";
-            Context::addHtmlHeader($js_code);
-        }
+			$js_code[] = '})(jQuery);';
+			$js_code[] = '//]]></script>';
+			$js_code   = implode("\n", $js_code);
+
+			Context::addHtmlHeader($js_code);
+		}
 
         /**
          * @brief 카테고리 추가
@@ -1469,20 +1487,23 @@
             }
             if(!$document_srls || !count($document_srls)) return new Object();
 
-            // 각 문서들의 모듈 관리자 여부 확인
+            // 각 문서들의 모듈 관리자 여부 확인, 최고 관리자는 모든 모듈의 문서에 수정 권한 가짐. (임시저장이나 휴지통 문서 포함.)
             $oModuleModel = &getModel('module');
             $module_srls = array_keys($document_srls);
             for($i=0;$i<count($module_srls);$i++) {
                 $module_srl = $module_srls[$i];
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                if(!$module_info) {
-                    unset($document_srls[$module_srl]);
-                    continue;
-                }
-                $grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
-                if(!$grant->manager) {
-                    unset($document_srls[$module_srl]);
-                    continue;
+                $logged_info = Context::get('logged_info');
+                if($logged_info->is_admin != 'Y') {
+                    if(!$module_info) {
+                        unset($document_srls[$module_srl]);
+                        continue;
+                    }
+                    $grant = $oModuleModel->getGrant($module_info, $logged_info);
+                    if(!$grant->manager) {
+                        unset($document_srls[$module_srl]);
+                        continue;
+                    }
                 }
 
             }
@@ -1580,7 +1601,7 @@
                 for($i=0;$i<$document_srl_count;$i++) {
                     $args->document_srl = $document_srl_list[$i];
                     $output = $this->moveDocumentToTrash($args);
-                    if(!$output->toBool()) return new Object(-1, 'fail_to_trash');
+                    if(!$output || !$output->toBool()) return new Object(-1, 'fail_to_trash');
                 }
                 $oDB->commit();
                 $msg_code = 'success_trashed';

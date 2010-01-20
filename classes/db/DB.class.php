@@ -326,7 +326,6 @@
                         $output = $this->_executeSelectAct($output);
                     break;
             }
-
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
@@ -360,7 +359,7 @@
                     break;
                 case 'number' :
                 case 'numbers' :
-                        if(!preg_match('/^(-?)[0-9,]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
+                        if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
                     break;
                 case 'alpha' :
                         if(!preg_match('/^[a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
@@ -613,5 +612,10 @@
             return $result;
         }
 
+        function dropTable($table_name){
+            if(!$table_name) return;
+            $query = sprintf("drop table %s%s", $this->prefix, $table_name);
+            $this->_query($query);
+        }
     }
 ?>

@@ -422,18 +422,18 @@
                     $pipe = $v['pipe'];
 
                     $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
-					if(!$value) {
-                                                $value = $v['value'];
-						if (strpos ($value, '(')) $valuetmp = $value;
-                                                elseif (strpos ($value, ".") === false) $valuetmp = $value;
-                                                else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
-					} else $valuetmp = $value;
-                                        if (strpos ($name, '(')) $nametmp = $name;
-					elseif (strpos ($name, ".") === false) $nametmp = '"'.$name.'"';
-					else $nametmp = '"'.str_replace('.', '"."', $name).'"';
+                    if (!$value) {
+                        $value = $v['value'];
+                        if (strpos ($value, '(')) $valuetmp = $value;
+                        elseif (strpos ($value, ".") === false) $valuetmp = $value;
+                        else $valuetmp = '"'.str_replace('.', '"."', $value).'"';
+                    } else $valuetmp = $value;
+                    if (strpos ($name, '(') > 0) $nametmp = $name;
+                    elseif (strpos ($name, ".") === false) $nametmp = '"'.$name.'"';
+                    else $nametmp = '"'.str_replace('.', '"."', $name).'"';
                     $str = $this->getConditionPart($nametmp, $valuetmp, $operation);
-                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
-                    $sub_condition .=  $str;
+                    if ($sub_condition) $sub_condition .= ' '.$pipe.' ';
+                    $sub_condition .= $str;
                 }
                 if($sub_condition) {
                     if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
@@ -482,30 +482,41 @@
             }
 
             $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
-            return $this->_query($query);
+			$result = $this->_query($query);
+			if($result && !$this->transaction_started) @cubrid_commit($this->fd);
+			return $result;
+
         }
 
         /**
          * @brief updateAct 처리
          **/
         function _executeUpdateAct($output) {
+
             // 테이블 정리
             foreach($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
+
+			$check_click_count = true;
 
             // 컬럼 정리
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
+		
+				if(substr($value,-2)!='+1') $check_click_count = false;
+
                 for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
                     if ($output->columns[$i]['name'] == $name) break;
                 }
                 if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
+
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') {
+					  $check_column = false;
                       $clen=strlen($value);
                       if ($clen <= $this->cutlen)
                         $value = "'".$this->addQuotes($value)."'";
@@ -531,10 +542,46 @@
             // 조건절 정리
             $condition = $this->getCondition($output);
 
-            $query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
+			$check_click_count_condition = false;	
+			if($check_click_count){
+				foreach($output->conditions as $val){
+					if($val['pipe']=='or'){
+						$check_click_count_condition = false;
+						break;
+					}
+					foreach($val['condition'] as $v){
+						if($v['operation']=='equal') $check_click_count_condition = true;
+						else{
+							if($v['operation']=='in' && !strpos($v['value'],',') ) $check_click_count_condition = true;
+							else $check_click_count_condition=false;
+						}
 
-            return $this->_query($query);
-        }
+						if($v['pipe']=='or'){
+							$check_click_count_condition= false;
+							break;
+						}
+					}
+				}
+			}
+
+			if($check_click_count
+				&& $check_click_count_condition
+				&& count($output->tables)==1 
+				&& count($output->conditions)>0 
+				&& count($output->groups)==0
+				&& count($output->order)==0){
+
+				foreach($output->columns as $k => $v) $incr_columns[]= 'incr("'.$v['name'].'")';
+				
+				$query = sprintf('select %s from %s %s',join(',',$incr_columns), implode(',',$table_list), $condition);
+			}else{
+				$query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
+			}
+
+			$result = $this->_query($query);
+			if($result && !$this->transaction_started) @cubrid_commit($this->fd);
+			return $result;
+		}
 
         /**
          * @brief deleteAct 처리
@@ -549,8 +596,9 @@
             $condition = $this->getCondition($output);
 
             $query = sprintf("delete from %s %s", implode(',',$table_list), $condition);
-
-            return $this->_query($query);
+			$result = $this->_query($query);
+			if($result && !$this->transaction_started) @cubrid_commit($this->fd);
+			return $result;
         }
 
         /**
@@ -572,8 +620,8 @@
 
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
-                if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" "'.$key  . '" on (' . $condition . ')';
+                if($condition) {
+                    $left_join[] = $val.' "'.$this->prefix.$output->_tables[$key].'" "'.$key.'" on ('.$condition.')';
                 }
             }
 

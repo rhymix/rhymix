@@ -37,8 +37,8 @@
     $lang->access_domain = 'Domain';
     $lang->access_vid = 'Site ID';
     $lang->about_domain = "要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將XE安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe";
-    $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
-    $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
+    $lang->about_vid = '直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。<br/>必須要以英文字母開頭，只允許使用 _、英文及數字。';
+    $lang->msg_already_registed_vid = '已註冊的 Site ID。不可與討論板的 mid 相同。請輸入其他 ID 名稱。';
     $lang->msg_already_registed_domain = "已註冊的域名。請使用其他的網域。";
 
     $lang->header_script = "Header Script";
@@ -88,11 +88,11 @@
     $lang->about_page_count = '可以指定顯示在清單下方的頁面數(預設為10個)。 ';
     $lang->about_admin_id = '可以對該模組指定最高管理權限。';
     $lang->about_grant = '全部解除特定權限的對象時，沒有登錄的會員也將具有相關權限。';
-    $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
+    $lang->about_grant_deatil = '已註冊的用戶是指在虛擬網站註冊的用戶';
     $lang->about_module = "除基本函式庫以外XE全部由模組組成。\n模組管理中列出所有已安裝的模組，因此易於管理。";
     $lang->about_extra_vars_default_value = '當復選或單選的預設值需要很多個時，用逗號(,)區隔。';
     $lang->about_search_virtual_site = "請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。";
-    $lang->about_extra_vars_eid_value = '확장변수의 이름을 적어주세요. ( 영문+[영문+숫자+_] 만 가능)';
+    $lang->about_extra_vars_eid_value = '請輸入延伸變數名稱。( 只允許使用英文+[英文+數字+_] )';
     $lang->about_langcode = "想要實現多國語言功能，請按[語言代碼]按鈕。";
     $lang->about_file_extension= "只允許%s檔案。";
 ?>

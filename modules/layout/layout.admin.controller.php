@@ -208,7 +208,9 @@
         function procLayoutAdminCodeUpdate() {
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
-            $code_css = Context::get('code_css');
+            $code_css   = Context::get('code_css');
+			$return_url = Context::get('_return_url');
+			$is_post    = (Context::getRequestMethod() == 'POST');
             if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
 
             $oLayoutModel = &getModel('layout');
@@ -217,7 +219,13 @@
 
             $layout_css_file = $oLayoutModel->getUserLayoutCss($layout_srl);
             FileHandler::writeFile($layout_css_file, $code_css);
-            $this->setMessage('success_updated');
+
+			if($is_post) {
+				if(!$return_url) $return_url = getUrl('module','admin','act','dispLayoutAdminEdit', 'layout_srl', $layout_srl);
+				header('Location: '.$return_url);
+			} else {
+				$this->setMessage('success_updated');
+			}
         }
 
         /**

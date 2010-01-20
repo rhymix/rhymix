@@ -4,6 +4,6 @@
     </tables>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" filter="number" />
-        <condition operation="equal" column="name" var="name" notnull="notnull" filter="number" pipe="and" />
+        <condition operation="equal" column="name" var="name" notnull="notnull" pipe="and" />
     </conditions>
 </query>

@@ -2,16 +2,25 @@
     /**
      * @class XmlQueryParser
      * @author zero (zero@nzeo.com)
-     * @brief query xml을 파싱하여 캐싱을 한 후 결과를 return
+     * @brief case to parse XE xml query 
      * @version 0.1
      *
-     * @todo subquery나 union등의 확장 쿼리에 대한 지원이 필요
+     * @todo need to support extend query such as subquery, union
      **/
 
     class XmlQueryParser extends XmlParser {
 
+        var $default_list = array();
+        var $notnull_list = array();
+        var $filter_list = array();
+
         /**
-         * @brief 쿼리 파일을 찾아서 파싱하고 캐싱한다
+         * @brief parse a xml query file and save the result as a new file specified by cache_file
+         * @param[in] $query_id name of query
+         * @param[in] $xml_file file path of a xml query file to be loaded
+         * @param[in] $cache_file file path of a cache file to store resultant php code after parsing xml query
+         * @return Nothing is requred.
+         * @remarks {there should be a way to report an error}
          **/
         function parse($query_id, $xml_file, $cache_file) {
             // query xml 파일을 찾아서 파싱, 결과가 없으면 return
@@ -194,15 +203,15 @@
             }
 
             // default check
-            if(count($default_list)) {
-                foreach($default_list as $key => $val) {
+            if(count($this->default_list)) {
+                foreach($this->default_list as $key => $val) {
                     $pre_buff .= 'if(!isset($args->'.$key.')) $args->'.$key.' = '.$val.';'."\n";
                 }
             }
 
             // not null check
-            if(count($notnull_list)) {
-                foreach($notnull_list as $key => $val) {
+            if(count($this->notnull_list)) {
+                foreach($this->notnull_list as $key => $val) {
                     $pre_buff .= 'if(!isset($args->'.$val.')) return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
                 }
             }
@@ -222,10 +231,9 @@
             }
 
             // filter check
-            if(count($filter_list)) {
-                foreach($filter_list as $key => $val) {
-                    if(!$notnull_list[$key]) continue;
-                    $pre_buff .= sprintf('unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output;%s',$val->var,$val->var,$val->filter,"\n");
+            if(count($this->filter_list)) {
+                foreach($this->filter_list as $key => $val) {
+                    $pre_buff .= sprintf('if(isset($args->%s)) { unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output; } %s',$val->var, $val->var,$val->var,$val->filter,"\n");
                 }
             }
 
@@ -239,6 +247,12 @@
             // 저장
             FileHandler::writeFile($cache_file, $buff);
         }
+
+        /**
+        * @brief transfer given column information to object->columns
+        * @param[in] column information
+        * @result Returns $object 
+        */
 
         function _setColumn($columns){
             if(!$columns) {
@@ -270,6 +284,11 @@
             return $output;
         }
 
+        /**
+        * @brief transfer condition information to $object->conditions
+        * @param[in] SQL condition information
+        * @result Returns $output
+        */
         function _setConditions($conditions){
             // 조건절 정리
 
@@ -308,6 +327,11 @@
             return $output;
         }
 
+        /**
+        * @brief transfer condition information to $object->groups
+        * @param[in] SQL group information
+        * @result Returns $output
+        */
         function _setGroup($group_list){
             // group 정리
 
@@ -325,6 +349,11 @@
         }
 
 
+        /**
+        * @brief transfer pagnation information to $output
+        * @param[in] $xml_obj xml object containing Navigation information
+        * @result Returns $output
+        */
         function _setNavigation($xml_obj){
             $navigation = $xml_obj->query->navigation;
             if($navigation) {
@@ -348,6 +377,12 @@
             return $output;
         }
 
+        /**
+        * @brief retrieve column information from $output->colums to generate corresponding php code 
+        * @param[in] $column 
+        * @remarks the name of this method is misleading.
+        * @result Returns string buffer containing php code
+        */
         function _getColumn($columns){
             $buff = '';
 			$str = '';
@@ -392,6 +427,12 @@
             return $buff;
         }
 
+        /**
+        * @brief retrieve condition information from $output->condition to generate corresponding php code 
+        * @param[in] $conditions array containing Query conditions
+        * @remarks the name of this method is misleading.
+        * @return Returns string buffer containing php code
+        */
         function _getConditions($conditions){
             $buff = '';
             foreach($conditions as $key => $val) {
@@ -400,9 +441,9 @@
                     $v->default = $this->getDefault($v->column, $v->default);
                     if($v->var) {
                         if(strpos($v->var,".")===false) {
-                            if($v->default) $default_list[$v->var] = $v->default;
-                            if($v->filter) $filter_list[] = $v;
-                            if($v->notnull) $notnull_list[] = $v->var;
+                            if($v->default) $this->default_list[$v->var] = $v->default;
+                            if($v->filter) $this->filter_list[] = $v;
+                            if($v->notnull) $this->notnull_list[] = $v->var;
                             if($v->default) $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
                             else $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                         } else {
@@ -418,12 +459,16 @@
             return $buff;
         }
 
+
         /**
-         * @brief column, condition등의 key에 default 값을 세팅
-         **/
+        * @brief returns predefined default values correspoding to given parameters 
+        * @param[in] $name 
+        * @param[in] $value
+        * @return Returns a default value for specified field
+        */
         function getDefault($name, $value) {
             $db_info = Context::getDBInfo ();
-            if(!$value) return;
+            if(!isset($value)) return;
             $str_pos = strpos($value, '(');
             if($str_pos===false) return '"'.$value.'"';
 

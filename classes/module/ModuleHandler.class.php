@@ -62,7 +62,7 @@
             $called_position = 'before_module_init';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath();
-            if(file_exists($addon_file)) @include($addon_file);
+            @include($addon_file);
         }
 
         /**
@@ -118,7 +118,7 @@
             if(!$module_info && !$this->module && $site_module_info->module_site_srl) $module_info = $site_module_info;
 
             // redirect, if site_srl of module_info is different from one of site's module_info
-            if($module_info && $module_info->site_srl != $site_module_info->site_srl) {
+            if($module_info && $module_info->site_srl != $site_module_info->site_srl && !isCrawler()) {
                 // If the module is of virtual site
                 if($module_info->site_srl) {
                     $site_info = $oModuleModel->getSiteInfo($module_info->site_srl);

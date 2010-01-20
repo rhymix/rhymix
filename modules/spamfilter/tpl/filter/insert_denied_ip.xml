@@ -3,7 +3,7 @@
         <node target="ipaddress" required="true" minlength="4" maxlength="250" />
     </form>
     <parameter>
-        <param param="ipaddress" target="ipaddress" />
+        <param name="ipaddress" target="ipaddress" />
     </parameter>
     <response>
         <tag name="error" />

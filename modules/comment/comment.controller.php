@@ -96,6 +96,8 @@
             // document model 객체 생성
             $oDocumentModel = &getModel('document');
 
+            // even for manual_inserted if password exists, md5 it.
+            if($obj->password) $obj->password = md5($obj->password);
             // 원본글을 가져옴
             if(!$manual_inserted) {
                 $oDocument = $oDocumentModel->getDocument($document_srl);
@@ -103,7 +105,6 @@
                 if($document_srl != $oDocument->document_srl) return new Object(-1,'msg_invalid_document');
                 if($oDocument->isLocked()) return new Object(-1,'msg_invalid_request');
 
-                if($obj->password) $obj->password = md5($obj->password);
                 if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 
                 // 로그인 된 회원일 경우 회원의 정보를 입력
@@ -196,23 +197,20 @@
                 return $output;
             }
 
-            // 입력에 이상이 없으면 해당 글의 댓글 수를 올림
-            if(!$manual_inserted) {
-                // comment model객체 생성
-                $oCommentModel = &getModel('comment');
+            // comment model객체 생성
+            $oCommentModel = &getModel('comment');
 
-                // 해당 글의 전체 댓글 수를 구해옴
-                $comment_count = $oCommentModel->getCommentCount($document_srl);
+            // 해당 글의 전체 댓글 수를 구해옴
+            $comment_count = $oCommentModel->getCommentCount($document_srl);
 
-                // document의 controller 객체 생성
-                $oDocumentController = &getController('document');
+            // document의 controller 객체 생성
+            $oDocumentController = &getController('document');
 
-                // 해당글의 댓글 수를 업데이트
-                $output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, true);
+            // 해당글의 댓글 수를 업데이트
+            $output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, true);
 
-                // 댓글의 권한을 부여
-                $this->addGrant($obj->comment_srl);
-            }
+            // 댓글의 권한을 부여
+            $this->addGrant($obj->comment_srl);
 
 
             // trigger 호출 (after)

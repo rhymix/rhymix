@@ -69,4 +69,15 @@
     $lang->history = "History";
     $lang->about_use_history = "Determine whether to enable history feature, if it is enabled, update history would be stored and possible to restore old revisions.";
     $lang->trace_only = "Trace only";
+
+    $lang->cmd_trash = 'Trashcan';
+    $lang->cmd_restore = 'Restore';
+    $lang->cmd_restore_all = 'Restore All';
+
+    $lang->in_trash = 'Trashcan';
+    $lang->trash_nick_name = 'Person who deleted';
+    $lang->trash_date = 'Deleted date';
+    $lang->trash_description = 'Description';
+
+    $lang->success_trashed = "Successfully moved to trashcan";
 ?>

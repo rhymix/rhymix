@@ -1,65 +1,59 @@
 <!--%import("message.css")-->
 
-<div class="messageLayer">
-	<div class="messageLayerBody">
-		<h4> {$system_message} </h4>
-		<!--@if(!$is_logged)-->
-		<!--%import("./filter/login.xml")-->
-		<!--%import("./filter/openid_login.xml")-->
-		<!--%import("./message.js")-->
-		<script type="text/javascript">
-        var keep_signed_msg = "{$lang->about_keep_signed}";
-        xAddEventListener(window, "load", function(){ xGetElementById("messageLoginForm").user_id.focus(); });
-    </script>
-		<div class="messageLogin" id="messageLogin">
-			<form action="./" method="post" onsubmit="return procFilter(this, message_login)" id="messageLoginForm">
-				<fieldset class="login">
-					<dl>
-						<dt>
-							<label for="uid">{$lang->user_id}</label>
-						</dt>
-						<dd>
-							<input type="text" name="user_id" id="uid" value="" class="inputText" />
-						</dd>
-						<dt>
-							<label for="upw">{$lang->password}</label>
-						</dt>
-						<dd>
-							<input type="password" name="password" id="upw" value="" class="inputText" />
-						</dd>
-					</dl>
-					<p class="keep">
-						<input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />
+<div id="loginAccess" class="gLogin">
+	<h1>{$system_message}</h1>
+	<!--@if(!$is_logged)-->
+	<!--%import("./filter/login.xml")-->
+	<!--%import("./filter/openid_login.xml")-->
+	<!--%import("./message.js")-->
+	<div class="mLogin" id="gLogin">
+		<form action="./" method="post" onsubmit="return doLogin(this, message_login)" id="gForm">
+			<fieldset>
+				<ul class="idpw">
+					<li><input type="text" name="user_id" id="uid" value="" class="inputText" title="{$lang->user_id}" /></li>
+					<li><input type="password" name="password" id="upw" value="" class="inputText" title="{$lang->password}" /></li>
+				</ul>
+				<div class="buttonArea">
+					<p class="keeping">
+						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />						
 						<label for="keepid">{$lang->keep_signed}</label>
-						<!--@if($member_config->enable_openid=='Y')-->
-						<input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" />
-						<label for="use_open_id">Open ID</label>
-						<!--@end-->
 					</p>
-					<div class="buttonArea"> <span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span> </div>
-				</fieldset>
-			</form>
-			<div class="help"> <a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a> | <a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a> </div>
-		</div>
-		<!-- OpenID -->
-		<!--@if($member_config->enable_openid=='Y')-->
-		<div class="messageLogin openid_login" id="messageOpenidLogin">
-			<form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" id="messageOpenIDForm">
-				<div class="openIDTitle"> OpenID
-					<input type="text" name="openid" class="inputTypeText" />
-					<input name="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" checked="checked" />
-					<span class="button black strong">
-					<input type="submit" value="{$lang->cmd_login}" />
-				</span> </div>
-			</form>
-		</div>
-		<!--@end-->
-		<!--@end-->
+					<div id="warning" class="">
+						<p>{$lang->about_keep_warning}</p>
+					</div>
+					<span class="buttonAccount"><input type="submit" value="{$lang->cmd_login}" /></span>
+				</div>
+			</fieldset>
+		</form>
+		<ul class="help">
+			<li class="first"><a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a></li>
+			<li><a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a></li>
+			<!--@if($member_config->enable_openid=='Y')-->
+			<li><a href="#oLogin" onclick="jQuery('#loginAccess').removeClass('gLogin'); jQuery('#loginAccess').addClass('oLogin'); return false;">Open ID</a></li>
+			<!--@end-->
+		</ul>
 	</div>
-</div>
-<div class="buttonArea">
-	<a href="#" onclick="history.back(); return false;" class="button black"><span>{$lang->cmd_back}</span></a>
+	
+	<!-- OpenID -->
+	<!--@if($member_config->enable_openid=='Y')-->
+	<div class="mLogin" id="oLogin">
+		<form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return doLogin(this, openid_login)" id="oForm">
+			<fieldset>
+					<div class="oid">
+						<input type="text" name="openid" class="inputText" title="Open ID" value="" />
+					</div>
+					<div class="buttonArea">
+					<span class="buttonAccount"><input type="submit" value="{$lang->cmd_login}" /></span>
+				</div>
+			</fieldset>
+		</form>
+		<div class="help"><a href="#gLogin" onclick="jQuery('#loginAccess').removeClass('oLogin'); jQuery('#loginAccess').addClass('gLogin'); return false;">{$lang->cmd_common_id}</a></div>
+	</div>
+	<!--@end-->
+	<!--@end-->
 	<!--@if($is_logged)-->
-	<a href="{getUrl('act','dispMemberLogout')}" class="button red"><span>{$lang->cmd_logout}</span></a>
+	<div class="logOut">
+		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
+	</div>
 	<!--@end-->
 </div>

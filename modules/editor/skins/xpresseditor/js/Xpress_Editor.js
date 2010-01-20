@@ -1,6 +1,6 @@
-// extends jQuery object
 (function($){
 
+// extends jQuery object
 $.extend({
 	Class : function(def) {
 		function c(){
@@ -56,8 +56,6 @@ function Class_extend(superDef) {
 	return this;
 }
 
-})(jQuery);
-
 if (typeof window.xe == 'undefined') window.xe = {};
 
 //{
@@ -65,11 +63,11 @@ if (typeof window.xe == 'undefined') window.xe = {};
  * @fileOverview This file contains Xpress framework core
  * @name XpressCore.js
  */
-xe.XpressCore = jQuery.Class({
+xe.XpressCore = $.Class({
 	name : "XpressCore",
 
 	$init : function(htOptions){
-		htOptions = !htOptions?{}:jQuery.Class({}).extend({
+		htOptions = !htOptions?{}:$.Class({}).extend({
 			oDebugger : null
 		}).extend(htOptions);
 		if(htOptions.oDebugger){
@@ -103,7 +101,7 @@ xe.XpressCore = jQuery.Class({
 	},
 
 	delayedExec : function(msg, args, nDelay, oEvent){
-		var fExec = jQuery.fnBind(this.exec, this, msg, args, oEvent);
+		var fExec = $.fnBind(this.exec, this, msg, args, oEvent);
 		setTimeout(fExec, nDelay);
 	},
 
@@ -150,8 +148,8 @@ xe.XpressCore = jQuery.Class({
 	registerBrowserEvent : function(obj, sEvent, sCMD, aParams, nDelay){
 		if(!obj) return;
 		aParams = aParams || [];
-		var func = (nDelay)?jQuery.fnBind(this.delayedExec, this, sCMD, aParams, nDelay):jQuery.fnBind(this.exec, this, sCMD, aParams);
-		jQuery(obj).bind(sEvent, func);
+		var func = (nDelay)?$.fnBind(this.delayedExec, this, sCMD, aParams, nDelay):$.fnBind(this.exec, this, sCMD, aParams);
+		$(obj).bind(sEvent, func);
 	},
 
 	run : function(){
@@ -249,7 +247,7 @@ xe.XpressCore = jQuery.Class({
 		if(bAllReady){
 			this._changeAppStatus(xe.APP_STATUS["READY"]);
 		}else{
-			setTimeout(jQuery.fnBind(this._waitForPluginReady, this), 100);
+			setTimeout($.fnBind(this._waitForPluginReady, this), 100);
 		}
 	}
 });
@@ -269,7 +267,7 @@ xe.PLUGIN_STATUS = {
  * @fileOverview This file contains a cross-browser implementation of W3C's DOM Range
  * @name W3CDOMRange.js
  */
-xe.W3CDOMRange = jQuery.Class({
+xe.W3CDOMRange = $.Class({
 	$init : function(doc){
 		this._document = doc || document;
 
@@ -887,7 +885,7 @@ xe.W3CDOMRange.END_TO_START = 3;
  * @fileOverview This file contains a cross-browser function that implements all of the W3C's DOM Range specification and some more
  * @name XpressRange.js
  */
-xe.XpressRange = jQuery.Class({
+xe.XpressRange = $.Class({
 	setWindow : function(win){
 		this._window = win;
 		this._document = win.document;
@@ -1339,7 +1337,7 @@ xe.XpressRange = jQuery.Class({
 				if(typeof sValue != "string") continue;
 
 				if(sName == "class"){
-					jQuery(aStyleParents[i]).addClass(sValue);
+					$(aStyleParents[i]).addClass(sValue);
 				}else{
 					aStyleParents[i].setAttribute(sName, sValue);
 				}
@@ -1370,8 +1368,8 @@ xe.XpressRange = jQuery.Class({
 
 			if(xe.DOMFix.parentNode(oNode).tagName == "SPAN"){
 				// check if the SPAN element is fully contained
-				iSIdx = jQuery.inArray(this._getVeryFirstRealChild(xe.DOMFix.parentNode(oNode.parentNode)), aAllNodes);
-				iEIdx = jQuery.inArray(this._getVeryLastRealChild(xe.DOMFix.parentNode(oNode)), aAllNodes);
+				iSIdx = $.inArray(this._getVeryFirstRealChild(xe.DOMFix.parentNode(oNode.parentNode)), aAllNodes);
+				iEIdx = $.inArray(this._getVeryLastRealChild(xe.DOMFix.parentNode(oNode)), aAllNodes);
 
 				if(iSIdx != -1 && iEIdx != -1){
 					aResult[aResult.length] = xe.DOMFix.parentNode(oNode);
@@ -1597,7 +1595,7 @@ xe.SimpleSelection = function(win){
 
 	this.init(win);
 
-	if(jQuery.browser.msie)
+	if($.browser.msie)
 		xe.SimpleSelectionImpl_IE.apply(this);
 	else
 		xe.SimpleSelectionImpl_FF.apply(this);
@@ -1846,9 +1844,9 @@ xe.SimpleSelectionImpl_IE = function(){
 	};
 }
 
-xe.DOMFix = new (jQuery.Class({
+xe.DOMFix = new ($.Class({
 	$init : function(){
-		if(jQuery.browser.msie || jQuery.browser.opera){
+		if($.browser.msie || $.browser.opera){
 			this.childNodes = this._childNodes_Fix;
 			this.parentNode = this._parentNode_Fix;
 		}else{
@@ -1893,7 +1891,7 @@ xe.DOMFix = new (jQuery.Class({
  * @fileOverview This file contains a function that takes care of various operations related to find and replace
  * @name N_FindReplace.js
  */
-xe.FindReplace = jQuery.Class({
+xe.FindReplace = $.Class({
 	sKeyword : "",
 	window : null,
 	document : null,
@@ -1907,7 +1905,7 @@ xe.FindReplace = jQuery.Class({
 		this.document = this.window.document;
 
 		if(this.document.domain != this.document.location.hostname){
-			if(jQuery.browser.mozilla && jQuery.browser.nVersion < 3){
+			if($.browser.mozilla && $.browser.nVersion < 3){
 				this.bBrowserSupported = false;
 				this.find = function(){return 3};
 				return;
@@ -2075,9 +2073,9 @@ xe.FindReplace = jQuery.Class({
  * @fileOverview This file contains a function that takes care of the draggable layers
  * @name N_DraggableLayer.js
  */
-xe.DraggableLayer = jQuery.Class({
+xe.DraggableLayer = $.Class({
 	$init : function(oLayer, oOptions){
-		this.oOptions = jQuery.extend({
+		this.oOptions = $.extend({
 			bModal : "false",
 			oHandle : oLayer,
 			iMinX : -999999,
@@ -2095,14 +2093,14 @@ xe.DraggableLayer = jQuery.Class({
 		this.aBasePosition = this.getBaseOffset(oLayer);
 
 		// "number-ize" the position and set it as inline style. (the position could've been set as "auto" or set  by css, not inline style)
-		oLayer.style.top = (this.toInt(jQuery(oLayer).offset().top) - this.aBasePosition.top)+"px";
-		oLayer.style.left = (this.toInt(jQuery(oLayer).offset().left) - this.aBasePosition.left)+"px";
+		oLayer.style.top = (this.toInt($(oLayer).offset().top) - this.aBasePosition.top)+"px";
+		oLayer.style.left = (this.toInt($(oLayer).offset().left) - this.aBasePosition.left)+"px";
 
-		this.$FnMouseDown = jQuery.fnBind(this._mousedown, this, oLayer);
-		this.$FnMouseMove = jQuery.fnBind(this._mousemove, this, oLayer);
-		this.$FnMouseUp = jQuery.fnBind(this._mouseup, this, oLayer);
+		this.$FnMouseDown = $.fnBind(this._mousedown, this, oLayer);
+		this.$FnMouseMove = $.fnBind(this._mousemove, this, oLayer);
+		this.$FnMouseUp = $.fnBind(this._mouseup, this, oLayer);
 
-		jQuery(this.oHandle).bind("mousedown", this.$FnMouseDown);
+		$(this.oHandle).bind("mousedown", this.$FnMouseDown);
 	},
 
 	_mousedown : function(oLayer, oEvent){
@@ -2111,8 +2109,8 @@ xe.DraggableLayer = jQuery.Class({
 		this.MouseOffsetY = (oEvent.pageY-this.toInt(oLayer.style.top)-this.aBasePosition['top']);
 		this.MouseOffsetX = (oEvent.pageX-this.toInt(oLayer.style.left)-this.aBasePosition['left']);
 
-		jQuery(oLayer).bind("mousemove", this.$FnMouseMove);
-		jQuery(oLayer).bind("mouseup", this.$FnMouseUp);
+		$(oLayer).bind("mousemove", this.$FnMouseMove);
+		$(oLayer).bind("mouseup", this.$FnMouseUp);
 	},
 
 	_mousemove : function(oLayer, oEvent){
@@ -2130,8 +2128,8 @@ xe.DraggableLayer = jQuery.Class({
 	},
 
 	_mouseup : function(oLayer, oEvent){
-		jQuery(oLayer).unbind("mousemove", this.$FnMouseMove);
-		jQuery(oLayer).unbind("mouseup", this.$FnMouseUp);
+		$(oLayer).unbind("mousemove", this.$FnMouseMove);
+		$(oLayer).unbind("mouseup", this.$FnMouseUp);
 	},
 
 	toInt : function(num){
@@ -2143,14 +2141,14 @@ xe.DraggableLayer = jQuery.Class({
 		if(!oEl) return null;
 		if(oEl.tagName == "BODY") return oEl;
 
-		if(jQuery(oEl).css("position").match(/absolute|relative/i)) return oEl;
+		if($(oEl).css("position").match(/absolute|relative/i)) return oEl;
 
 		return this.findNonStatic(oEl.offsetParent);
 	},
 
 	getBaseOffset : function(oEl){
 		var oBase = this.findNonStatic(oEl.offsetParent);
-		var tmp = jQuery(oBase).offset();
+		var tmp = $(oBase).offset();
 
 		return {top: tmp.top, left: tmp.left};
 	}
@@ -2160,7 +2158,7 @@ xe.DraggableLayer = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the messages related to core operations
  * @name hp_CorePlugin.js
  */
-xe.CorePlugin = jQuery.Class({
+xe.CorePlugin = $.Class({
 	name : "CorePlugin",
 
 	$init : function(funcOnReady){
@@ -2197,11 +2195,11 @@ xe.CorePlugin = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that helps various operations.
  * @name hp_Utils.js
  */
- xe.Utils = jQuery.Class({
+ xe.Utils = $.Class({
 	name : "Utils",
 
 	$init : function(){
-		if(jQuery.browser.msie && jQuery.browser.nVersion == 6){
+		if($.browser.msie && $.browser.nVersion == 6){
 			try{
 				document.execCommand('BackgroundImageCache', false, true);
 			}catch(e){}
@@ -2213,9 +2211,9 @@ xe.CorePlugin = jQuery.Class({
 
 		if(!aElms) return;
 
-		jQuery(aElms).hover(
-			function(){jQuery(this).addClass(sHoverClass)},
-			function(){jQuery(this).removeClass(sHoverClass)}
+		$(aElms).hover(
+			function(){$(this).addClass(sHoverClass)},
+			function(){$(this).removeClass(sHoverClass)}
 		);
 	}
 });
@@ -2226,7 +2224,7 @@ xe.CorePlugin = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that bridges the XpressRange function
  * @name hp_XpressRangeManager.js
  */
-xe.XpressRangeManager = jQuery.Class({
+xe.XpressRangeManager = $.Class({
 	name : "XpressRangeManager",
 
 	oWindow : null,
@@ -2239,8 +2237,8 @@ xe.XpressRangeManager = jQuery.Class({
 		if(this.oWindow && this.oWindow.tagName == "IFRAME")
 			this.oWindow = this.oWindow.contentWindow;
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["getSelection", jQuery.fnBind(this.getSelection, this)]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEmptySelection", jQuery.fnBind(this.getEmptySelection, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getSelection", $.fnBind(this.getSelection, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEmptySelection", $.fnBind(this.getEmptySelection, this)]);
 	},
 
 	$ON_SET_EDITING_WINDOW : function(oWindow){
@@ -2266,7 +2264,7 @@ xe.XpressRangeManager = jQuery.Class({
 	}
 });
 //}
-xe.Hotkey = jQuery.Class({
+xe.Hotkey = $.Class({
 	name : "Hotkey",
 
 	storage : {},
@@ -2279,10 +2277,10 @@ xe.Hotkey = jQuery.Class({
 			backspace : 8,
 			tab		  : 9,
 			enter	  : 13,
-			shift     : 16,
-			ctrl      : 17,
-			alt       : 18,
-			meta      : 224,
+			shift	 : 16,
+			ctrl	  : 17,
+			alt	   : 18,
+			meta	  : 224,
 			esc		  : 27,
 			space	  : 32,
 			pageup	  : 33,
@@ -2297,11 +2295,11 @@ xe.Hotkey = jQuery.Class({
 			comma	  : 188,//(,)
 			period	  : 190,//(.)
 			slash	  : 191,//(/)
-			hyphen    : 109,
-			equal     : 61
+			hyphen	: 109,
+			equal	 : 61
 		};
 
-		if (jQuery.browser.msie || jQuery.browser.safari) {
+		if ($.browser.msie || $.browser.safari) {
 			this.keyhash.hyphen = 189; // (-)
 			this.keyhash.equal = 187;  // (=)
 			this.keyhash.meta  = 91;   // meta
@@ -2311,12 +2309,12 @@ xe.Hotkey = jQuery.Class({
 	},
 
 	$ON_MSG_APP_READY : function(){
-		jQuery(this.oApp.getWYSIWYGDocument() || document).keydown(jQuery.fnBind(this.keydown, this));
+		$(this.oApp.getWYSIWYGDocument() || document).keydown($.fnBind(this.keydown, this));
 	},
 
 	$ON_REGISTER_HOTKEY : function(sHotkey, sCMD, sArgs){
 		if(!sArgs) sArgs = [];
-		var func = jQuery.fnBind(this.oApp.exec, this.oApp, sCMD, sArgs);
+		var func = $.fnBind(this.oApp.exec, this.oApp, sCMD, sArgs);
 
 		sHotkey = this.normalize(sHotkey);
 		if (!sHotkey) return false;
@@ -2335,7 +2333,7 @@ xe.Hotkey = jQuery.Class({
 	keydown : function(event) {
 		var key  = [], kh = this.keyhash;
 
-		if (jQuery.inArray(event.keyCode, [kh.shift, kh.ctrl, kh.alt, kh.meta]) >= 0) return;
+		if ($.inArray(event.keyCode, [kh.shift, kh.ctrl, kh.alt, kh.meta]) >= 0) return;
 
 		if (event.shiftKey) key.push('shift');
 		if (event.altKey)   key.push('alt');
@@ -2350,7 +2348,7 @@ xe.Hotkey = jQuery.Class({
 
 		if (!this.storage[key]) return;
 
-		jQuery.each(this.storage[key], function(){ this(); });
+		$.each(this.storage[key], function(){ this(); });
 
 		return false;
 	},
@@ -2360,7 +2358,7 @@ xe.Hotkey = jQuery.Class({
 
 		shift = ctrl = alt = meta = key = false;
 
-		jQuery.each(keys, function(){
+		$.each(keys, function(){
 			var s = ""+this;
 			switch(s) {
 				case 'shift': shift = true;
@@ -2391,7 +2389,7 @@ xe.Hotkey = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the draggable layers
  * @name hp_DialogLayerManager.js
  */
-xe.DialogLayerManager = jQuery.Class({
+xe.DialogLayerManager = $.Class({
 	name : "DialogLayerManager",
 	aMadeDraggable : null,
 	aOpenedLayers : null,
@@ -2402,17 +2400,17 @@ xe.DialogLayerManager = jQuery.Class({
 	},
 
 	$ON_SHOW_DIALOG_LAYER : function(oLayer, bModal){
-		oLayer = jQuery.$(oLayer);
-		bModal = jQuery.$(bModal) || false;
+		oLayer = $.$(oLayer);
+		bModal = $.$(bModal) || false;
 		if(!oLayer) return;
 
-		if(jQuery.inArray(oLayer, this.aOpenedLayers)) return;
+		if($.inArray(oLayer, this.aOpenedLayers)) return;
 
 		this.oApp.exec("POSITION_DIALOG_LAYER", [oLayer]);
 
 		this.aOpenedLayers[this.aOpenedLayers.length] = oLayer;
 
-		if(!jQuery.inArray(oLayer, this.aMadeDraggable)){
+		if(!$.inArray(oLayer, this.aMadeDraggable)){
 			new xe.DraggableLayer(oLayer, {bModal: bModal, iMinY: 0});
 			this.aMadeDraggable[this.aMadeDraggable.length] = oLayer;
 		}else{
@@ -2430,10 +2428,10 @@ xe.DialogLayerManager = jQuery.Class({
 	},
 
 	$ON_HIDE_DIALOG_LAYER : function(oLayer){
-		oLayer = jQuery.$(oLayer);
+		oLayer = $.$(oLayer);
 
 		if(oLayer) oLayer.style.display = "none";
-		this.aOpenedLayers = jQuery.grep(this.aOpenedLayers, function(a){return a!=oLayer});
+		this.aOpenedLayers = $.grep(this.aOpenedLayers, function(a){return a!=oLayer});
 	},
 
 	$ON_SET_DIALOG_LAYER_POSITION : function(oLayer, iTop, iLeft){
@@ -2447,7 +2445,7 @@ xe.DialogLayerManager = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the layers that should disappear when the focus is lost
  * @name hp_ActiveLayerManager.js
  */
-xe.ActiveLayerManager = jQuery.Class({
+xe.ActiveLayerManager = $.Class({
 	name : "ActiveLayerManager",
 	oCurrentLayer : null,
 
@@ -2461,7 +2459,7 @@ xe.ActiveLayerManager = jQuery.Class({
 	},
 
 	$ON_SHOW_ACTIVE_LAYER : function(oLayer, sOnCloseCmd, aOnCloseParam){
-		oLayer = jQuery.$(oLayer);
+		oLayer = $.$(oLayer);
 		this.sOnCloseCmd = sOnCloseCmd;
 		this.aOnCloseParam = aOnCloseParam;
 
@@ -2505,7 +2503,7 @@ xe.ActiveLayerManager = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to string conversion. Ususally used to convert the IR value.
  * @name hp_StringConverterManager.js
  */
-xe.StringConverterManager = jQuery.Class({
+xe.StringConverterManager = $.Class({
 	name : "StringConverterManager",
 
 	oConverters : null,
@@ -2515,8 +2513,8 @@ xe.StringConverterManager = jQuery.Class({
 	},
 
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", jQuery.fnBind(this.applyConverter, this)]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", jQuery.fnBind(this.addConverter, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", $.fnBind(this.applyConverter, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", $.fnBind(this.addConverter, this)]);
 	},
 
 	applyConverter : function(sRuleName, sContent){
@@ -2541,7 +2539,7 @@ xe.StringConverterManager = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that maps a message code to the actual message
  * @name hp_MessageManager.js
  */
-xe.MessageManager = jQuery.Class({
+xe.MessageManager = $.Class({
 	name : "MessageManager",
 
 	oMessageMap : null,
@@ -2551,7 +2549,7 @@ xe.MessageManager = jQuery.Class({
 	},
 
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["$MSG", jQuery.fnBind(this.getMessage, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["$MSG", $.fnBind(this.getMessage, this)]);
 	},
 
 	getMessage : function(sMsg){
@@ -2566,7 +2564,7 @@ xe.MessageManager = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to the tool bar UI
  * @name hp_XE_Toolbar.js
  */
-xe.XE_Toolbar = jQuery.Class({
+xe.XE_Toolbar = $.Class({
 	name : "XE_Toolbar",
 	toolbarArea : null,
 	toolbarButton : null,
@@ -2584,11 +2582,11 @@ xe.XE_Toolbar = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jQuery.$(oAppContainer) || document;
-		this.toolbarArea = jQuery(".tool", oAppContainer).get(0);
-		this.welToolbarArea = jQuery(this.toolbarArea);
+		oAppContainer = $.$(oAppContainer) || document;
+		this.toolbarArea = $(".tool", oAppContainer).get(0);
+		this.welToolbarArea = $(this.toolbarArea);
 
-		this.aAllButtons = jQuery("BUTTON", this.toolbarArea).get();
+		this.aAllButtons = $("BUTTON", this.toolbarArea).get();
 
 		var aAllLi = this.toolbarArea.getElementsByTagName("LI");
 		var nCount = aAllLi.length;
@@ -2598,7 +2596,7 @@ xe.XE_Toolbar = jQuery.Class({
 				var sUIName = RegExp.$1;
 				if(this.htUIList[sUIName] != null) continue;
 
-				this.htUIList[sUIName] = jQuery(">*:first-child", aAllLi[i]).get(0);
+				this.htUIList[sUIName] = $(">*:first-child", aAllLi[i]).get(0);
 			}
 		}
 	},
@@ -2607,15 +2605,15 @@ xe.XE_Toolbar = jQuery.Class({
 		this.oApp.registerBrowserEvent(this.toolbarArea, "mouseover", "EVENT_TOOLBAR_MOUSEOVER", []);
 		this.oApp.registerBrowserEvent(this.toolbarArea, "mouseout", "EVENT_TOOLBAR_MOUSEOUT", []);
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["getToolbarButtonByUIName", jQuery.fnBind(this.getToolbarButtonByUIName, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getToolbarButtonByUIName", $.fnBind(this.getToolbarButtonByUIName, this)]);
 	},
 
 	$ON_EVENT_TOOLBAR_MOUSEOVER : function(weEvent){
-		if(weEvent.target.tagName == "BUTTON") jQuery(weEvent.target).addClass("hover").parent("span").addClass("hover");
+		if(weEvent.target.tagName == "BUTTON") $(weEvent.target).addClass("hover").parent("span").addClass("hover");
 	},
 
 	$ON_EVENT_TOOLBAR_MOUSEOUT : function(weEvent){
-		if(weEvent.target.tagName == "BUTTON") jQuery(weEvent.target).removeClass("hover").parent("span").removeClass("hover");
+		if(weEvent.target.tagName == "BUTTON") $(weEvent.target).removeClass("hover").parent("span").removeClass("hover");
 	},
 
 	$ON_TOGGLE_TOOLBAR_ACTIVE_LAYER : function(oLayer, oBtn, sOpenCmd, aOpenArgs, sCloseCmd, aCloseArgs){
@@ -2635,7 +2633,7 @@ xe.XE_Toolbar = jQuery.Class({
 	$ON_ENABLE_UI : function(sUIName){
 		var elUI = this.htUIList[sUIName];
 		if(!elUI) return;
-		jQuery(elUI).removeClass("off");
+		$(elUI).removeClass("off");
 		elUI.disabled = false;
 
 		// enable related commands
@@ -2651,8 +2649,8 @@ xe.XE_Toolbar = jQuery.Class({
 	$ON_DISABLE_UI : function(sUIName){
 		var elUI = this.htUIList[sUIName];
 		if(!elUI) return;
-		jQuery(elUI).addClass("off");
-		jQuery(elUI).removeClass("hover").parent("span").removeClass("hover");
+		$(elUI).addClass("off");
+		$(elUI).removeClass("hover").parent("span").removeClass("hover");
 		elUI.disabled = true;
 
 		// disable related commands
@@ -2668,13 +2666,13 @@ xe.XE_Toolbar = jQuery.Class({
 	$ON_SELECT_UI : function(sUIName){
 		var elUI = this.htUIList[sUIName];
 		if(!elUI) return;
-		jQuery(elUI).addClass("active");
+		$(elUI).addClass("active");
 	},
 
 	$ON_DESELECT_UI : function(sUIName){
 		var elUI = this.htUIList[sUIName];
 		if(!elUI) return;
-		jQuery(elUI).removeClass("active");
+		$(elUI).removeClass("active");
 	},
 
 	$ON_ENABLE_ALL_UI : function(){
@@ -2683,7 +2681,7 @@ xe.XE_Toolbar = jQuery.Class({
 		for(var sUIName in this.htUIList){
 			if(sUIName) this.oApp.exec("ENABLE_UI", [sUIName]);
 		}
-		jQuery(this.toolbarArea).removeClass("off");
+		$(this.toolbarArea).removeClass("off");
 	},
 
 	$ON_DISABLE_ALL_UI : function(){
@@ -2692,7 +2690,7 @@ xe.XE_Toolbar = jQuery.Class({
 		for(var sUIName in this.htUIList){
 			if(sUIName) this.oApp.exec("DISABLE_UI", [sUIName]);
 		}
-		jQuery(this.toolbarArea).addClass("off");
+		$(this.toolbarArea).addClass("off");
 		this.oApp.exec("HIDE_ACTIVE_LAYER",[]);
 	},
 
@@ -2713,15 +2711,15 @@ xe.XE_Toolbar = jQuery.Class({
 	},
 
 	$ON_POSITION_TOOLBAR_LAYER : function(oLayer, oBtn){
-		oLayer = jQuery.$(oLayer);
-		oBtn = jQuery.$(oBtn);
+		oLayer = $.$(oLayer);
+		oBtn = $.$(oBtn);
 
 		if(!oLayer) return;
 		if(oBtn && oBtn.tagName && oBtn.tagName == "BUTTON") oBtn.parentNode.appendChild(oLayer);
 
 		oLayer.style.left = "0";
 
-		var welLayer = jQuery(oLayer);
+		var welLayer = $(oLayer);
 		var nLayerLeft = welLayer.offset().left;
 		nLayerLeft += oLayer.offsetWidth;
 
@@ -2741,7 +2739,7 @@ xe.XE_Toolbar = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that manages multiple number editing area plugins and the IR value
  * @name hp_XE_EditingAreaManager.js
  */
-xe.XE_EditingAreaManager = jQuery.Class({
+xe.XE_EditingAreaManager = $.Class({
 	name : "XE_EditingAreaManager",
 
 	// Currently active plugin instance(XE_EditingArea_???)
@@ -2755,7 +2753,7 @@ xe.XE_EditingAreaManager = jQuery.Class({
 
 	$init : function(sInitialMode, oIRField, oDimension, fOnBeforeUnload, oAppContainer){
 		this.sInitialMode = sInitialMode;
-		this.oIRField = jQuery.$(oIRField);
+		this.oIRField = $.$(oIRField);
 		this._assignHTMLObjects(oAppContainer);
 		this.fOnBeforeUnload = fOnBeforeUnload;
 
@@ -2768,16 +2766,16 @@ xe.XE_EditingAreaManager = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jQuery.$(oAppContainer) || document;
-		this.elEditingAreaContainer = jQuery("DIV.xpress_xeditor_editing_area_container", oAppContainer).get(0);
-		this.elEditingAreaSkipUI = jQuery("A.skip", oAppContainer).get(0);
+		oAppContainer = $.$(oAppContainer) || document;
+		this.elEditingAreaContainer = $("DIV.xpress_xeditor_editing_area_container", oAppContainer).get(0);
+		this.elEditingAreaSkipUI = $("A.skip", oAppContainer).get(0);
 	},
 
 	$BEFORE_MSG_APP_READY : function(msg){
 		this.oApp.exec("ADD_APP_PROPERTY", ["elEditingAreaContainer", this.elEditingAreaContainer]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getIR", jQuery.fnBind(this.getIR, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getIR", $.fnBind(this.getIR, this)]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["setIR", this.setIR]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingMode", jQuery.fnBind(this.getEditingMode, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingMode", $.fnBind(this.getEditingMode, this)]);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -2788,7 +2786,7 @@ xe.XE_EditingAreaManager = jQuery.Class({
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "blur", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 
 		var fOnBeforeUnload = this.fOnBeforeUnload||function(){if(this.getIR() != this.oIRField.value || this.bIsDirty) return this.oApp.$MSG("XE_EditingAreaManager.onExit")};
-		jQuery(window).bind("beforeunload", jQuery.fnBind(fOnBeforeUnload, this));
+		$(window).bind("beforeunload", $.fnBind(fOnBeforeUnload, this));
 	},
 
 	$AFTER_MSG_APP_READY : function(){
@@ -2922,14 +2920,14 @@ xe.XE_EditingAreaManager = jQuery.Class({
  * @name hp_XE_EditingArea_HTMLSrc.js
  * @required XE_EditingAreaManager
  */
-xe.XE_EditingArea_HTMLSrc = jQuery.Class({
+xe.XE_EditingArea_HTMLSrc = $.Class({
 	name : "XE_EditingArea_HTMLSrc",
 
 	sMode : "HTMLSrc",
 	textarea : null,
 
 	$init : function(textarea){
-		this.textarea = jQuery.$(textarea);
+		this.textarea = $.$(textarea);
 		this.elEditingArea = this.textarea;
 	},
 
@@ -3087,7 +3085,7 @@ TextRange.prototype.cut = function() {
  * @fileOverview This file contains Xpress plugin that takes care of the operations directly related to WYSIWYG iframe
  * @name hp_XE_EditingArea_WYSIWYG.js
  */
-xe.XE_EditingArea_WYSIWYG = jQuery.Class({
+xe.XE_EditingArea_WYSIWYG = $.Class({
 	name : "XE_EditingArea_WYSIWYG",
 	status : xe.PLUGIN_STATUS["NOT_READY"],
 
@@ -3101,7 +3099,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	_nIFrameReadyCount : 50,
 
 	$init : function(iframe){
-		this.iframe = jQuery.$(iframe);
+		this.iframe = $.$(iframe);
 
 		this.initIframe();
 
@@ -3111,16 +3109,16 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	$BEFORE_MSG_APP_READY : function(){
 		this.oEditingArea = this.doc;
 		this.oApp.exec("REGISTER_EDITING_AREA", [this]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGWindow", jQuery.fnBind(this.getWindow, this)]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGDocument", jQuery.fnBind(this.getDocument, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGWindow", $.fnBind(this.getWindow, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGDocument", $.fnBind(this.getDocument, this)]);
 	},
 
 	$ON_MSG_APP_READY : function(){
 		// uncomment this line if you wish to use the IE-style cursor in FF
 		// this.getDocument().body.style.cursor = "text";
 
-		if(jQuery.browser.msie){
-			jQuery(this.doc).bind('keydown', jQuery.fnBind(
+		if($.browser.msie){
+			$(this.doc).bind('keydown', $.fnBind(
 				function(weEvent){
 					if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
 						this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
@@ -3128,13 +3126,13 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 					}
 				}
 			, this));
-			jQuery(this.doc.body).bind('mousedown', jQuery.fnBind(
+			$(this.doc.body).bind('mousedown', $.fnBind(
 				function(weEvent){
 					this._oIERange = null;
 					this._bIERangeReset = true;
 				}
 			, this));
-			jQuery(this.doc.body).bind('beforedeactivate', jQuery.fnBind(
+			$(this.doc.body).bind('beforedeactivate', $.fnBind(
 				function(weEvent){
 					// without this, cursor won't make it inside a table.
 					// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
@@ -3149,7 +3147,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 					}
 				}
 			, this));
-			jQuery(this.doc.body).bind('mouseup', jQuery.fnBind(
+			$(this.doc.body).bind('mouseup', $.fnBind(
 				function(weEvent){
 					this._bIERangeReset = false;
 				}
@@ -3173,7 +3171,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	},
 
 	$ON_REFRESH_WYSIWYG : function(){
-		if(!jQuery.browser.mozilla) return;
+		if(!$.browser.mozilla) return;
 
 		this._disableWYSIWYG();
 		this._enableWYSIWYG();
@@ -3188,37 +3186,37 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	},
 
 	$ON_EVENT_EDITING_AREA_KEYDOWN : function(oEvent) {
-        // ctrl-left/right add/remove indent
-        if(!oEvent.ctrlKey) return;
+		// ctrl-left/right add/remove indent
+		if(!oEvent.ctrlKey) return;
 
-        switch(oEvent.keyCode) {
-            // outdent
-            case 37 :
-                    this.oApp.exec("EXECCOMMAND",  ["outdent", false, false]);
-                break;
-            // indent
-            case 39 :
-                    this.oApp.exec("EXECCOMMAND",  ["indent", false, false]);
-                break;
-            // h1 ~ h6, normal
-            case 49 :
-            case 50 :
-            case 51 :
-            case 52 :
-            case 53 :
-            case 54 :
-                    this.oApp.exec("EXECCOMMAND", ["FormatBlock", false, '<h'+(oEvent.keyCode-48)+'>']);
-                break;
-            default :
-                return;
-        }
-        oEvent.preventDefault(); oEvent.stopPropagation();
+		switch(oEvent.keyCode) {
+			// outdent
+			case 37 :
+					this.oApp.exec("EXECCOMMAND",  ["outdent", false, false]);
+				break;
+			// indent
+			case 39 :
+					this.oApp.exec("EXECCOMMAND",  ["indent", false, false]);
+				break;
+			// h1 ~ h6, normal
+			case 49 :
+			case 50 :
+			case 51 :
+			case 52 :
+			case 53 :
+			case 54 :
+					this.oApp.exec("EXECCOMMAND", ["FormatBlock", false, '<h'+(oEvent.keyCode-48)+'>']);
+				break;
+			default :
+				return;
+		}
+		oEvent.preventDefault(); oEvent.stopPropagation();
 
-    },
+	},
 
 	$ON_EVENT_EDITING_AREA_KEYUP : function(oEvent){
 		// 33, 34: page up/down, 35,36: end/home, 37,38,39,40: left, up, right, down
-        if(oEvent.keyCode == 229 || oEvent.keyCode == 13 || oEvent.altKey || oEvent.ctrlKey || (oEvent.keyCode >= 33 && oEvent.keyCode <= 40) || oEvent.keyCode == 16) return;
+		if(oEvent.keyCode == 229 || oEvent.keyCode == 13 || oEvent.altKey || oEvent.ctrlKey || (oEvent.keyCode >= 33 && oEvent.keyCode <= 40) || oEvent.keyCode == 16) return;
 		this._recordUndo(oEvent);
 	},
 
@@ -3229,7 +3227,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 		oSelection.pasteHTML(sHTML);
 
 		// every browser except for IE may modify the innerHTML when it is inserted
-		if(!jQuery.browser.msie){
+		if(!$.browser.msie){
 			var sTmpBookmark = oSelection.placeStringBookmark();
 			this.oApp.getWYSIWYGDocument().body.innerHTML = this.oApp.getWYSIWYGDocument().body.innerHTML;
 			oSelection.moveToBookmark(sTmpBookmark);
@@ -3265,7 +3263,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 			this.status = xe.PLUGIN_STATUS["READY"];
 		} catch(e) {
 			if(this._nIFrameReadyCount-- > 0){
-				setTimeout(jQuery.fnBind(this.initIframe, this), 100);
+				setTimeout($.fnBind(this.initIframe, this), 100);
 			}else{
 				throw("iframe for WYSIWYG editing mode can't be initialized. Please check if the iframe document exists and is also accessable(cross-domain issues). ");
 			}
@@ -3293,7 +3291,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 
 		this.doc.body.innerHTML = sContent;
 
-		if(jQuery.browser.mozilla){
+		if($.browser.mozilla){
 			if(this.doc.body.innerHTML == "") this.doc.body.innerHTML = "<br>";
 		}
 	},
@@ -3322,7 +3320,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	},
 
 	_enableWYSIWYG : function(){
-		if (jQuery.browser.msie){
+		if ($.browser.msie){
 			this.doc.body.disabled = true;
 			this.doc.body.contentEditable = true;
 			this.doc.body.removeAttribute('disabled');
@@ -3332,7 +3330,7 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 	},
 
 	_disableWYSIWYG : function(){
-		if (jQuery.browser.msie){
+		if ($.browser.msie){
 			this.doc.body.contentEditable = false;
 		} else {
 			this.doc.designMode = "off";
@@ -3345,31 +3343,31 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to resizing the editing area vertically
  * @name hp_XE_EditingAreaVerticalResizer.js
  */
-xe.XE_EditingAreaVerticalResizer = jQuery.Class({
+xe.XE_EditingAreaVerticalResizer = $.Class({
 	name : "XE_EditingAreaVerticalResizer",
 	oResizeGrip : null,
 
 	$init : function(oAppContainer){
 		this._assignHTMLObjects(oAppContainer);
 
-		this.$FnMouseDown = jQuery.fnBind(this._mousedown, this);
-		this.$FnMouseMove = jQuery.fnBind(this._mousemove, this);
-		this.$FnMouseUp = jQuery.fnBind(this._mouseup, this);
+		this.$FnMouseDown = $.fnBind(this._mousedown, this);
+		this.$FnMouseMove = $.fnBind(this._mousemove, this);
+		this.$FnMouseUp = $.fnBind(this._mouseup, this);
 
-		jQuery(this.oResizeGrip).bind("mousedown", this.$FnMouseDown);
+		$(this.oResizeGrip).bind("mousedown", this.$FnMouseDown);
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jQuery.$(oAppContainer) || document;
+		oAppContainer = $.$(oAppContainer) || document;
 
-		this.oResizeGrip = jQuery(".xpress_xeditor_editingArea_verticalResizer", oAppContainer).get(0);
+		this.oResizeGrip = $(".xpress_xeditor_editingArea_verticalResizer", oAppContainer).get(0);
 	},
 
 	_mousedown : function(oEvent){
 		this.iStartHeight = oEvent.clientY;
 
-		jQuery(document).bind("mousemove", this.$FnMouseMove);
-		jQuery(document).bind("mouseup", this.$FnMouseUp);
+		$(document).bind("mousemove", this.$FnMouseMove);
+		$(document).bind("mouseup", this.$FnMouseUp);
 
 		this.oApp.exec("MSG_EDITING_AREA_RESIZE_STARTED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
 	},
@@ -3381,8 +3379,8 @@ xe.XE_EditingAreaVerticalResizer = jQuery.Class({
 	},
 
 	_mouseup : function(oEvent){
-		jQuery(document).unbind("mousemove", this.$FnMouseMove);
-		jQuery(document).unbind("mouseup", this.$FnMouseUp);
+		$(document).unbind("mousemove", this.$FnMouseMove);
+		$(document).unbind("mouseup", this.$FnMouseUp);
 
 		this.oApp.exec("MSG_EDITING_AREA_RESIZE_ENDED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
 	}
@@ -3393,7 +3391,7 @@ xe.XE_EditingAreaVerticalResizer = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the basic editor commands
  * @name hp_XE_ExecCommand.js
  */
-xe.XE_ExecCommand = jQuery.Class({
+xe.XE_ExecCommand = $.Class({
 	name : "XE_ExecCommand",
 	oEditingArea : null,
 
@@ -3466,7 +3464,7 @@ xe.XE_ExecCommand = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to wrapping the sentence around with a <P> tag when enter key is pressed
  * @name hp_XE_WYSIWYGEnterKey.js
  */
-xe.XE_WYSIWYGEnterKey = jQuery.Class({
+xe.XE_WYSIWYGEnterKey = $.Class({
 	name : "XE_WYSIWYGEnterKey",
 	// IE/Opera do not need this
 	unsupportedBrowser : ['ie', 'opera'],
@@ -3539,7 +3537,7 @@ xe.XE_WYSIWYGEnterKey = jQuery.Class({
  * @name hp_XE_WYSIWYGStyler.js
  * @required XE_EditingArea_WYSIWYG, XpressRangeManager
  */
-xe.XE_WYSIWYGStyler = jQuery.Class({
+xe.XE_WYSIWYGStyler = $.Class({
 	name : "XE_WYSIWYGStyler",
 
 	$PRECONDITION : function(sFullCommand, aArgs){
@@ -3571,7 +3569,7 @@ xe.XE_WYSIWYGStyler = jQuery.Class({
 			oSelection.select();
 
 			// FF3 will actually display %uFEFF when it is followed by a number AND certain font-family is used(like Gulim), so remove the chcaracter for FF3
-			if(jQuery.browser.mozilla && jQuery.browser.nVersion == 3)
+			if($.browser.mozilla && $.browser.nVersion == 3)
 				oSpan.innerHTML = "";
 
 			return;
@@ -3593,7 +3591,7 @@ xe.XE_WYSIWYGStyler = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to detecting the style change
  * @name hp_XE_WYSIWYGStyleGetter.js
  */
-xe.XE_WYSIWYGStyleGetter = jQuery.Class({
+xe.XE_WYSIWYGStyleGetter = $.Class({
 	name : "XE_WYSIWYGStyleGetter",
 
 	hKeyUp : null,
@@ -3668,7 +3666,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 
 	$ON_MSG_APP_READY : function(){
 		this.oDocument = this.oApp.getWYSIWYGDocument();
-		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", jQuery.fnBind(this.getCurrentStyle, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", $.fnBind(this.getCurrentStyle, this)]);
 	},
 
 	$ON_EVENT_EDITING_AREA_MOUSEUP : function(oEvnet){
@@ -3694,7 +3692,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 
 		if(this.hKeyUp) clearTimeout(this.hKeyUp);
 
-		this.hKeyUp = setTimeout(jQuery.fnBind(this.oApp.exec, this.oApp, "CHECK_STYLE_CHANGE", []), this.getStyleInterval);
+		this.hKeyUp = setTimeout($.fnBind(this.oApp.exec, this.oApp, "CHECK_STYLE_CHANGE", []), this.getStyleInterval);
 	},
 
 	$ON_CHECK_STYLE_CHANGE : function(){
@@ -3766,7 +3764,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
 
 		if(oNode.nodeType == 3) oNode = oNode.parentNode;
 
-		var welNode = jQuery(oNode);
+		var welNode = $(oNode);
 		var attribute, cssName;
 		for(var styleName in this.oStyle){
 			attribute = this.oStyleMap[styleName];
@@ -3812,7 +3810,7 @@ xe.XE_WYSIWYGStyleGetter = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to changing the font size using Select element
  * @name hp_XE_FontSizeWithSelectUI.js
  */
-xe.XE_FontSizeWithSelectUI = jQuery.Class({
+xe.XE_FontSizeWithSelectUI = $.Class({
 	name : "XE_FontSizeWithSelectUI",
 
 	$init : function(elAppContainer){
@@ -3820,7 +3818,7 @@ xe.XE_FontSizeWithSelectUI = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elFontSizeSelect = jQuery("SELECT.xpress_xeditor_ui_fontSize_select", elAppContainer).get(0);
+		this.elFontSizeSelect = $("SELECT.xpress_xeditor_ui_fontSize_select", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -3849,7 +3847,7 @@ xe.XE_FontSizeWithSelectUI = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to changing the font name using Select element
  * @name hp_XE_FontNameWithSelectUI.js
  */
-xe.XE_FontNameWithSelectUI = jQuery.Class({
+xe.XE_FontNameWithSelectUI = $.Class({
 	name : "XE_FontNameWithSelectUI",
 
 	$init : function(elAppContainer){
@@ -3857,7 +3855,7 @@ xe.XE_FontNameWithSelectUI = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elFontNameSelect = jQuery("SELECT.xpress_xeditor_ui_fontName_select", elAppContainer).get(0);
+		this.elFontNameSelect = $("SELECT.xpress_xeditor_ui_fontName_select", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -3886,7 +3884,7 @@ xe.XE_FontNameWithSelectUI = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to setting/changing the lineheight
  * @name hp_XE_LineHeight.js
  */
-xe.XE_LineHeight = jQuery.Class({
+xe.XE_LineHeight = $.Class({
 	name : "XE_LineHeight",
 
 	$init : function(oAppContainer){
@@ -3942,7 +3940,7 @@ xe.XE_LineHeight = jQuery.Class({
 
 		var lastNode = this.oSelection.getEndNode();
 
-		selectText = jQuery.fnBind(function(firstNode, lastNode){
+		selectText = $.fnBind(function(firstNode, lastNode){
 			this.oSelection.setEndNodes(firstNode, lastNode);
 			this.oSelection.select();
 		}, this, firstNode, lastNode);
@@ -4016,7 +4014,7 @@ xe.XE_LineHeight = jQuery.Class({
 
 		endNode = curWrapper || startNode;
 
-		setTimeout(jQuery.fnBind(function(startNode, endNode){
+		setTimeout($.fnBind(function(startNode, endNode){
 			this.oSelection.setEndNodes(startNode, endNode);
 			this.oSelection.select();
 			this.oApp.exec("RECORD_UNDO_AFTER_ACTION", ["LINEHEIGHT"]);
@@ -4102,11 +4100,11 @@ xe.XE_LineHeight = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to changing the lineheight using Select element
  * @name hp_XE_LineHeightWithSelectUI.js
  */
-xe.XE_LineHeightWithSelectUI = jQuery.Class({
+xe.XE_LineHeightWithSelectUI = $.Class({
 	name : "XE_LineHeightWithSelectUI",
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elLineHeightSelect = jQuery("SELECT.xpress_xeditor_ui_lineHeight_select", elAppContainer).get(0);
+		this.elLineHeightSelect = $("SELECT.xpress_xeditor_ui_lineHeight_select", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -4136,7 +4134,7 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations directly related to the color palette
  * @name hp_XE_ColorPalette.js
  */
- xe.XE_ColorPalette = jQuery.Class({
+ xe.XE_ColorPalette = $.Class({
 	name : "XE_ColorPalette",
 	rxRGBColorPattern : /rgb\((\d+), ?(\d+), ?(\d+)\)/i,
 
@@ -4145,7 +4143,7 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		this.elColorPaletteLayer = jQuery("UL.xpress_xeditor_color_palette", oAppContainer).get(0);
+		this.elColorPaletteLayer = $("UL.xpress_xeditor_color_palette", oAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -4195,7 +4193,7 @@ xe.XE_LineHeightWithSelectUI = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to changing the font color
  * @name hp_XE_FontColor.js
  */
-xe.XE_FontColor = jQuery.Class({
+xe.XE_FontColor = $.Class({
 	name : "XE_FontColor",
 	rxColorPattern : /^#?[0-9a-fA-F]{6}$|^rgb\(\d+, ?\d+, ?\d+\)$/i,
 
@@ -4204,7 +4202,7 @@ xe.XE_FontColor = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_fontcolor_layer", elAppContainer).get(0);
+		this.elDropdownLayer = $("DIV.xpress_xeditor_fontcolor_layer", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -4232,7 +4230,7 @@ xe.XE_FontColor = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of changing the background color
  * @name hp_XE_BGColor.js
  */
-xe.XE_BGColor = jQuery.Class({
+xe.XE_BGColor = $.Class({
 	name : "XE_BGColor",
 	rxColorPattern : /^#?[0-9a-fA-F]{6}$|^rgb\(\d+, ?\d+, ?\d+\)$/i,
 
@@ -4241,7 +4239,7 @@ xe.XE_BGColor = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_bgcolor_layer", elAppContainer).get(0);
+		this.elDropdownLayer = $("DIV.xpress_xeditor_bgcolor_layer", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -4290,7 +4288,7 @@ xe.XE_BGColor = jQuery.Class({
  * @name hp_XE_Quote.js
  * @required XE_EditingArea_WYSIWYG
  */
-xe.XE_Quote = jQuery.Class({
+xe.XE_Quote = $.Class({
 	name : "XE_Quote",
 
 	$init : function(elAppContainer){
@@ -4298,7 +4296,7 @@ xe.XE_Quote = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_blockquote_layer", elAppContainer).get(0);
+		this.elDropdownLayer = $("DIV.xpress_xeditor_blockquote_layer", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY: function(){
@@ -4444,11 +4442,11 @@ xe.XE_Quote = jQuery.Class({
  * @name hp_XE_SCharacter.js
  * @required XpressRangeManager
  */
-xe.XE_SCharacter = jQuery.Class({
+xe.XE_SCharacter = $.Class({
 	name : "XE_SCharacter",
 
 	$init : function(oAppContainer){
-		this.bIE = jQuery.browser.msie;
+		this.bIE = $.browser.msie;
 
 		this._assignHTMLObjects(oAppContainer);
 
@@ -4462,27 +4460,27 @@ xe.XE_SCharacter = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jQuery.$(oAppContainer) || document;
+		oAppContainer = $.$(oAppContainer) || document;
 
-		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_sCharacter_layer", oAppContainer).get(0);
+		this.elDropdownLayer = $("DIV.xpress_xeditor_sCharacter_layer", oAppContainer).get(0);
 
-		this.oTextField = jQuery("INPUT", this.elDropdownLayer).get(0);
-		this.oInsertButton = jQuery("+ BUTTON", this.oTextField).get(0);
-		this.aCloseButton = jQuery("BUTTON.close", this.elDropdownLayer).get();
-		this.aSCharList = jQuery(".list", this.elDropdownLayer).get();
-		var oLabelUL = jQuery(">UL", this.elDropdownLayer).get(0);
-		this.aLabelA = jQuery("A", oLabelUL).get();
+		this.oTextField = $("INPUT", this.elDropdownLayer).get(0);
+		this.oInsertButton = $("+ BUTTON", this.oTextField).get(0);
+		this.aCloseButton = $("BUTTON.close", this.elDropdownLayer).get();
+		this.aSCharList = $(".list", this.elDropdownLayer).get();
+		var oLabelUL = $(">UL", this.elDropdownLayer).get(0);
+		this.aLabelA = $("A", oLabelUL).get();
 	},
 
 	$ON_MSG_APP_READY : function(){
-		var funcInsert = jQuery.fnBind(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
-		jQuery(this.oInsertButton).click(funcInsert, this);
+		var funcInsert = $.fnBind(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
+		$(this.oInsertButton).click(funcInsert, this);
 
 		this.oApp.exec("SET_SCHARACTER_LIST", [this.charSet]);
 
 		for(var i=0; i<this.aLabelA.length; i++){
-			var func = jQuery.fnBind(this.oApp.exec, this.oApp, "CHANGE_SCHARACTER_SET", [i]);
-			jQuery(this.aLabelA[i]).mousedown(func);
+			var func = $.fnBind(this.oApp.exec, this.oApp, "CHANGE_SCHARACTER_SET", [i]);
+			$(this.aLabelA[i]).mousedown(func);
 
 			this._stopBrowserEvent(this.aLabelA[i], "click");
 		}
@@ -4538,13 +4536,13 @@ xe.XE_SCharacter = jQuery.Class({
 			if(this.aSCharList[i].style.display == "block"){
 				if(i == nSCharSet) return;
 
-				jQuery(this.aLabelA[i]).removeClass("on");
+				$(this.aLabelA[i]).removeClass("on");
 				this.aSCharList[i].style.display = "none";
 			}
 		}
 
 		this._drawSCharList(nSCharSet);
-		jQuery(this.aLabelA[nSCharSet]).addClass("on");
+		$(this.aLabelA[nSCharSet]).addClass("on");
 		this.aSCharList[nSCharSet].style.display = "block";
 	},
 
@@ -4567,26 +4565,16 @@ xe.XE_SCharacter = jQuery.Class({
 		for(var ii=0; ii<len; ii++){
 			aLI[ii] = document.createElement("LI");
 
-			if(this.bIE){
-				button = document.createElement("<BUTTON type='button'>");
-			}else{
-				button = document.createElement("BUTTON");
-				button.type = "button";
-			}
-			span = document.createElement("SPAN");
-			span.innerHTML = unescape(this.charSet[i][ii]);
-			button.appendChild(span);
-
-			aLI[ii].appendChild(button);
+			aLI[ii].innerHTML = '<button type="button"><span>'+unescape(this.charSet[i][ii])+'</span></button>';
 			this.aSCharList[i].appendChild(aLI[ii]);
 		}
 
 		// enable this after Jindo framework is updated
-//		this.oApp.exec("ATTACH_HOVER_EVENTS", [jQuery(">LI>BUTTON", this.aSCharList[i])]).get();
+//		this.oApp.exec("ATTACH_HOVER_EVENTS", [$(">LI>BUTTON", this.aSCharList[i])]).get();
 	},
 
 	_stopBrowserEvent : function(obj, sEvent){
-		jQuery(obj).bind(sEvent, function(e){e.stopPropagation();e.preventDefault();} )
+		$(obj).bind(sEvent, function(e){e.stopPropagation();e.preventDefault();} )
 	}
 });
 //}
@@ -4596,7 +4584,7 @@ xe.XE_SCharacter = jQuery.Class({
  * @name hp_XE_UndoRedo.js
  * @required XE_EditingAreaManager, XpressRangeManager
  */
-xe.XE_UndoRedo = jQuery.Class({
+xe.XE_UndoRedo = $.Class({
 	name : "XE_UndoRedo",
 	actionHistory : null,
 	// this may also be called, lastAdded/lastRestored
@@ -4626,10 +4614,10 @@ xe.XE_UndoRedo = jQuery.Class({
 	},
 
 	$ON_MSG_APP_READY : function(){
-		this.bFF = jQuery.browser.mozilla;
+		this.bFF = $.browser.mozilla;
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoHistory", jQuery.fnBind(this.getUndoHistory, this)]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoStateIdx", jQuery.fnBind(this.getUndoStateIdx, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoHistory", $.fnBind(this.getUndoHistory, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoStateIdx", $.fnBind(this.getUndoStateIdx, this)]);
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["undo", "click", "UNDO"]);
 		this.oApp.exec("REGISTER_UI_EVENT", ["redo", "click", "REDO"]);
@@ -4816,7 +4804,7 @@ xe.XE_UndoRedo = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to Find/Replace
  * @name hp_XE_FindReplacePlugin.js
  */
-xe.XE_FindReplacePlugin = jQuery.Class({
+xe.XE_FindReplacePlugin = $.Class({
 	name : "XE_FindReplacePlugin",
 	oEditingWindow : null,
 	oFindReplace :  null,
@@ -4828,34 +4816,34 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jQuery.$(oAppContainer) || document;
+		oAppContainer = $.$(oAppContainer) || document;
 
-		this.oEditingWindow = jQuery("IFRAME", oAppContainer).get(0);
-		this.oUILayer = jQuery("DIV.xpress_xeditor_findAndReplace_layer", oAppContainer).get(0);
+		this.oEditingWindow = $("IFRAME", oAppContainer).get(0);
+		this.oUILayer = $("DIV.xpress_xeditor_findAndReplace_layer", oAppContainer).get(0);
 
-		var oTmp = jQuery("LI", this.oUILayer).get();
+		var oTmp = $("LI", this.oUILayer).get();
 
 		this.oFindTab = oTmp[0];
 		this.oReplaceTab = oTmp[1];
 
-		oTmp = jQuery(".container > .bx", this.oUILayer).get();
+		oTmp = $(".container > .bx", this.oUILayer).get();
 
 		this.oFindInputSet = oTmp[0];
 		this.oReplaceInputSet = oTmp[1];
 
-		this.oFindInput_Keyword = jQuery("INPUT", this.oFindInputSet).get(0);
+		this.oFindInput_Keyword = $("INPUT", this.oFindInputSet).get(0);
 
-		oTmp = jQuery("INPUT", this.oReplaceInputSet).get();
+		oTmp = $("INPUT", this.oReplaceInputSet).get();
 		this.oReplaceInput_Original = oTmp[0];
 		this.oReplaceInput_Replacement = oTmp[1];
 
-		this.oFindNextButton = jQuery("BUTTON.find_next", this.oUILayer).get(0);
-		this.oCancelButton = jQuery("BUTTON.cancel", this.oUILayer).get(0);
+		this.oFindNextButton = $("BUTTON.find_next", this.oUILayer).get(0);
+		this.oCancelButton = $("BUTTON.cancel", this.oUILayer).get(0);
 
-		this.oReplaceButton = jQuery("BUTTON.replace", this.oUILayer).get(0);
-		this.oReplaceAllButton = jQuery("BUTTON.replace_all", this.oUILayer).get(0);
+		this.oReplaceButton = $("BUTTON.replace", this.oUILayer).get(0);
+		this.oReplaceAllButton = $("BUTTON.replace_all", this.oUILayer).get(0);
 
-		this.aCloseButtons = jQuery("BUTTON.close", this.oUILayer).get();
+		this.aCloseButtons = $("BUTTON.close", this.oUILayer).get();
 		this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
 	},
 
@@ -4871,16 +4859,16 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 		}
 
 		for(var i=0; i<this.aCloseButtons.length; i++){
-			var func = jQuery.fnBind(this.oApp.exec, this.oApp, "HIDE_DIALOG_LAYER", [this.oUILayer]);
-			jQuery(this.aCloseButtons[i]).bind("click", func);
+			var func = $.fnBind(this.oApp.exec, this.oApp, "HIDE_DIALOG_LAYER", [this.oUILayer]);
+			$(this.aCloseButtons[i]).bind("click", func);
 		}
 
-		jQuery(this.oFindTab).bind("mousedown", jQuery.fnBind(this.oApp.exec, this.oApp, "SHOW_FIND", []));
-		jQuery(this.oReplaceTab).bind("mousedown", jQuery.fnBind(this.oApp.exec, this.oApp, "SHOW_REPLACE", []));
+		$(this.oFindTab).bind("mousedown", $.fnBind(this.oApp.exec, this.oApp, "SHOW_FIND", []));
+		$(this.oReplaceTab).bind("mousedown", $.fnBind(this.oApp.exec, this.oApp, "SHOW_REPLACE", []));
 
-		jQuery(this.oFindNextButton).bind("click", jQuery.fnBind(this.oApp.exec, this.oApp, "FIND", []));
-		jQuery(this.oReplaceButton).bind("click", jQuery.fnBind(this.oApp.exec, this.oApp, "REPLACE", []));
-		jQuery(this.oReplaceAllButton).bind("click", jQuery.fnBind(this.oApp.exec, this.oApp, "REPLACE_ALL", []));
+		$(this.oFindNextButton).bind("click", $.fnBind(this.oApp.exec, this.oApp, "FIND", []));
+		$(this.oReplaceButton).bind("click", $.fnBind(this.oApp.exec, this.oApp, "REPLACE", []));
+		$(this.oReplaceAllButton).bind("click", $.fnBind(this.oApp.exec, this.oApp, "REPLACE_ALL", []));
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["findAndReplace", "click", "SHOW_FIND_REPLACE_LAYER"]);
 	},
@@ -4898,11 +4886,11 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 	$ON_SHOW_FIND : function(){
 		this.bFindMode = true;
 
-		jQuery(this.oFindTab).addClass("on");
-		jQuery(this.oReplaceTab).removeClass("on");
+		$(this.oFindTab).addClass("on");
+		$(this.oReplaceTab).removeClass("on");
 
-		jQuery(this.oFindNextButton).removeClass("normal");
-		jQuery(this.oFindNextButton).addClass("strong");
+		$(this.oFindNextButton).removeClass("normal");
+		$(this.oFindNextButton).addClass("strong");
 
 		this.oFindInputSet.style.display = "block";
 		this.oReplaceInputSet.style.display = "none";
@@ -4910,8 +4898,8 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 		this.oReplaceButton.style.display = "none";
 		this.oReplaceAllButton.style.display = "none";
 
-		jQuery(this.oUILayer).removeClass("replace");
-		jQuery(this.oUILayer).addClass("find");
+		$(this.oUILayer).removeClass("replace");
+		$(this.oUILayer).addClass("find");
 
 		this.oFindInput_Keyword.value = this.oReplaceInput_Original.value;
 	},
@@ -4919,11 +4907,11 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 	$ON_SHOW_REPLACE : function(){
 		this.bFindMode = false;
 
-		jQuery(this.oFindTab).removeClass("on");
-		jQuery(this.oReplaceTab).addClass("on");
+		$(this.oFindTab).removeClass("on");
+		$(this.oReplaceTab).addClass("on");
 
-		jQuery(this.oFindNextButton).removeClass("strong");
-		jQuery(this.oFindNextButton).addClass("normal");
+		$(this.oFindNextButton).removeClass("strong");
+		$(this.oFindNextButton).addClass("normal");
 
 		this.oFindInputSet.style.display = "none";
 		this.oReplaceInputSet.style.display = "block";
@@ -4931,8 +4919,8 @@ xe.XE_FindReplacePlugin = jQuery.Class({
 		this.oReplaceButton.style.display = "inline";
 		this.oReplaceAllButton.style.display = "inline";
 
-		jQuery(this.oUILayer).removeClass("find");
-		jQuery(this.oUILayer).addClass("replace");
+		$(this.oUILayer).removeClass("find");
+		$(this.oUILayer).addClass("replace");
 
 		this.oReplaceInput_Original.value = this.oFindInput_Keyword.value;
 	},
@@ -4994,7 +4982,7 @@ xe.XE_FindReplacePlugin = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to hyperlink
  * @name hp_XE_Hyperlink.js
  */
-xe.XE_Hyperlink = jQuery.Class({
+xe.XE_Hyperlink = $.Class({
 	name : "XE_Hyperlink",
 	sATagMarker : "HTTP://HUSKY_TMP.MARKER/",
 
@@ -5004,13 +4992,11 @@ xe.XE_Hyperlink = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.oHyperlinkLayer = jQuery("DIV.xpress_xeditor_hyperlink_layer", elAppContainer).get(0);
-		this.oLinkInput = jQuery("INPUT[type=text]", this.oHyperlinkLayer).get(0);
-
-		this.oBtnConfirm = jQuery("BUTTON.confirm", this.oHyperlinkLayer).get(0);
-		this.oBtnCancel = jQuery("BUTTON.cancel", this.oHyperlinkLayer).get(0);
-
-		this.oCbNewWin = jQuery("INPUT[type=checkbox]", this.oHyperlinkLayer).get(0);
+		this.oHyperlinkLayer = $("DIV.xpress_xeditor_hyperlink_layer", elAppContainer).get(0);
+		this.oLinkInput  = $("INPUT[type=text]", this.oHyperlinkLayer).get(0);
+		this.oBtnConfirm = $("BUTTON.confirm", this.oHyperlinkLayer).get(0);
+		this.oBtnCancel  = $("BUTTON.cancel", this.oHyperlinkLayer).get(0);
+		this.oCbNewWin   = $("INPUT[type=checkbox]", this.oHyperlinkLayer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -5018,8 +5004,8 @@ xe.XE_Hyperlink = jQuery.Class({
 
 		this.oApp.registerBrowserEvent(this.oBtnConfirm, "mousedown", "XE_APPLY_HYPERLINK");
 		this.oApp.registerBrowserEvent(this.oBtnCancel, "mousedown", "HIDE_ACTIVE_LAYER");
-
 		this.oApp.registerBrowserEvent(this.oLinkInput, "keydown", "EVENT_XE_HYPERLINK_KEYDOWN");
+		//this.oApp.registerBrowserEvent(this.oLinkInput
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["hyperlink", "click", "XE_TOGGLE_HYPERLINK_LAYER"]);
 	},
@@ -5057,38 +5043,38 @@ xe.XE_Hyperlink = jQuery.Class({
 		this.oSelection = this.oApp.getSelection();
 
 		//if(this._validateURL(sURL)){
-        var sTarget = "";
-        if(this.oCbNewWin.checked)
-            sTarget = "_blank";
-        else
-            sTarget = "_self";
+		var sTarget = "";
+		if(this.oCbNewWin.checked)
+			sTarget = "_blank";
+		else
+			sTarget = "_self";
 
-        if(this.oSelection.collapsed){
-            var str = "<a href='" + sURL + "' target="+sTarget+">" + sURL + "</a>";
-            this.oSelection.pasteHTML(str);
-        }else{
-            var nSession = Math.ceil(Math.random()*10000);
-            var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, this.sATagMarker+nSession+sURL] );
-            this.oApp.exec("EXECCOMMAND", arg);
+		if(this.oSelection.collapsed){
+			var str = "<a href='" + sURL + "' target="+sTarget+">" + sURL + "</a>";
+			this.oSelection.pasteHTML(str);
+		}else{
+			var nSession = Math.ceil(Math.random()*10000);
+			var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, this.sATagMarker+nSession+sURL] );
+			this.oApp.exec("EXECCOMMAND", arg);
 
-            this.oSelection.setFromSelection();
+			this.oSelection.setFromSelection();
 
-            var oDoc = this.oApp.getWYSIWYGDocument();
-            var aATags = oDoc.body.getElementsByTagName("A");
-            var nLen = aATags.length;
-            var rxMarker = new RegExp(this.sRXATagMarker+nSession, "i");
-            var elATag;
-            for(var i=0; i<nLen; i++){
-                elATag = aATags[i];
-                if(elATag.href && elATag.href.match(rxMarker)){
-                    elATag.href = elATag.href.replace(rxMarker, "");
-                    elATag.target = sTarget;
-                }
-            }
-        }
-        this.oApp.exec("HIDE_ACTIVE_LAYER");
+			var oDoc = this.oApp.getWYSIWYGDocument();
+			var aATags = oDoc.body.getElementsByTagName("A");
+			var nLen = aATags.length;
+			var rxMarker = new RegExp(this.sRXATagMarker+nSession, "i");
+			var elATag;
+			for(var i=0; i<nLen; i++){
+				elATag = aATags[i];
+				if(elATag.href && elATag.href.match(rxMarker)){
+					elATag.href = elATag.href.replace(rxMarker, "");
+					elATag.target = sTarget;
+				}
+			}
+		}
+		this.oApp.exec("HIDE_ACTIVE_LAYER");
 
-        setTimeout(jQuery.fnBind(function(){this.oSelection.select()}, this), 0);
+		setTimeout($.fnBind(function(){this.oSelection.select()}, this), 0);
 		//}else{
 			//alert(this.oApp.$MSG("XE_Hyperlink.invalidURL"));
 			//this.oLinkInput.focus();
@@ -5112,7 +5098,7 @@ xe.XE_Hyperlink = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to table creation
  * @name hp_XE_Table.js
  */
-xe.XE_Table = jQuery.Class({
+xe.XE_Table = $.Class({
 	name : "XE_Table",
 	iMinRows : 1,
 	iMaxRows : 20,
@@ -5132,17 +5118,17 @@ xe.XE_Table = jQuery.Class({
 	_assignHTMLObjects : function(oAppContainer){
 		var tmp = null;
 
-		this.elDropdownLayer = jQuery("DIV.xpress_xeditor_table_layer", oAppContainer).get(0);
-		this.welDropdownLayer = jQuery(this.elDropdownLayer);
+		this.elDropdownLayer = $("DIV.xpress_xeditor_table_layer", oAppContainer).get(0);
+		this.welDropdownLayer = $(this.elDropdownLayer);
 
-		tmp = jQuery("INPUT", this.elDropdownLayer).get();
+		tmp = $("INPUT", this.elDropdownLayer).get();
 		this.oRowInput = tmp[0];
 		this.oColumnInput = tmp[1];
 		this.oBorderWidthInput = tmp[2];
 		this.oBorderColorInput = tmp[3];
 		this.oBGColorInput = tmp[4];
 
-		tmp = jQuery("BUTTON", this.elDropdownLayer).get();
+		tmp = $("BUTTON", this.elDropdownLayer).get();
 		this.oButton_AddRow = tmp[0];
 		this.oButton_RemoveRow = tmp[1];
 		this.oButton_AddColumn = tmp[2];
@@ -5156,7 +5142,7 @@ xe.XE_Table = jQuery.Class({
 		this.oButton_Insert = tmp[10];
 		this.oButton_Cancel = tmp[11];
 
-		this.oSampleTable = jQuery("TABLE", this.elDropdownLayer).get(0);
+		this.oSampleTable = $("TABLE", this.elDropdownLayer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -5348,10 +5334,10 @@ xe.XE_Table = jQuery.Class({
 		var sBGColorCode = this.oBGColorInput.value;
 		var iBorderWidth = this.oBorderWidthInput.value;
 		var sTD = "";
-		if(jQuery.browser.msie){
+		if($.browser.msie){
 			sTD = "<td><p></p></td>";
 		}else{
-			if(jQuery.browser.firefox){
+			if($.browser.firefox){
 				sTD = "<td><p><br/></p></td>";
 			}else{
 				sTD = "<td><p>&nbsp;</p></td>";
@@ -5385,7 +5371,7 @@ xe.XE_Table = jQuery.Class({
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to changing the editing mode using a Button element
  * @name hp_XE_EditingModeToggler.js
  */
-xe.XE_EditingModeToggler = jQuery.Class({
+xe.XE_EditingModeToggler = $.Class({
 	name : "XE_EditingModeToggler",
 
 	$init : function(elAppContainer){
@@ -5393,10 +5379,10 @@ xe.XE_EditingModeToggler = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		elAppContainer = jQuery.$(elAppContainer) || document;
+		elAppContainer = $.$(elAppContainer) || document;
 
-		this.elModeToggleButton = jQuery("BUTTON.xpress_xeditor_mode_toggle_button", elAppContainer).get(0);
-		this.welModeToggleButton = jQuery(this.elModeToggleButton);
+		this.elModeToggleButton = $("BUTTON.xpress_xeditor_mode_toggle_button", elAppContainer).get(0);
+		this.welModeToggleButton = $(this.elModeToggleButton);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -5436,12 +5422,11 @@ var oMessageMap = {
 	'XE_FindReplace.replaceAllResultP2' : '%uAC74%20%uBC14%uB00C%uC5C8%uC2B5%uB2C8%uB2E4.',
 	'XE_FindReplace.notSupportedBrowser' : '%uD604%uC7AC%20%uC0AC%uC6A9%uD558%uACE0%20%uACC4%uC2E0%20%uBE0C%uB77C%uC6B0%uC800%uC5D0%uC11C%uB294%20%uC0AC%uC6A9%uD558%uC2E4%uC218%20%uC5C6%uB294%20%uAE30%uB2A5%uC785%uB2C8%uB2E4.%5Cn%uC774%uC6A9%uC5D0%20%uBD88%uD3B8%uC744%20%uB4DC%uB824%20%uC8C4%uC1A1%uD569%uB2C8%uB2E4.'
 };
+xe.XpressCore.oMessageMap = oMessageMap;
 /**
  * XHTML Formatter
  * @author gony
  */
-(function($){
-
 var
 	regex_meanless_css1 = /<(.*?)\s+style\s*=\s*"(.*?(?:margin|padding)\s*:\s*0(?:px)?.*?|.*?\-(?:moz|ms|webkit|opera).*?)"(.*?)>/ig,
 	regex_meanless_css2 = /(?:(?:margin|padding)\s*:\s*0(?:px)?|\-(?:moz|ms|webkit|opera)\-[\w-]+\s*:\s*.*?|[\w-]+\s*:\s*\-(?:moz|ms|webkit|opera)\-[\w-]+|(?:line-height|font-variant|font-stretch|font-size-adjust|font-size)\s*:\s*[a-z_-]+)\s*;?\s*|font-(?:weight|style)\s*:\s*normal;?/ig,
@@ -5457,7 +5442,7 @@ var
 	regex_font_weight = /font-weight\s*:\s*([a-z]+);?/i,
 	regex_font_style = /font-style\s*:\s*italic;?/i,
 	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
-	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/ig,
+	regex_$ = /$\d+\s*=(\s*"\d+"|\d+)/ig,
 	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([^\s]+)/g; //"
 
 var
@@ -5485,29 +5470,29 @@ xe.XE_XHTMLFormatter = $.Class({
 	TO_IR : function(sContent) {
 		var stack = [];
 
-        // remove xeHandled attrs
-        /*
-        sContent = sContent.replace(/xeHandled="YES"/ig,'');
-        */
+		// remove xeHandled attrs
+		/*
+		sContent = sContent.replace(/xeHandled="YES"/ig,'');
+		*/
 
 
 		// remove all useless styles
-        /*
+		/*
 		sContent = sContent.replace(regex_meanless_css1, function(m0,m1,m2,m3){
 			m2 = m2.replace(regex_meanless_css2, '');
 
 			return '<'+m1+(m2?' style="'+m2+'"':'')+m3+'>';
 		});
-        */
+		*/
 
 		// remove all useless classes
-        /*
+		/*
 		sContent = sContent.replace(regex_class, function(m0,m1,m2,m3,m4,m5){
-			var cls = jQuery.trim((m2 || m3 || m4 || "").replace(regex_class2, ''));
+			var cls = $.trim((m2 || m3 || m4 || "").replace(regex_class2, ''));
 
 			return '<'+(m1||"")+(cls?' class="'+cls+'"':'')+(m5||"")+'>';
 		});
-        */
+		*/
 
 		// remove all event handler
 		//sContent = sContent.replace(regex_handler, '<$1$2>');
@@ -5518,16 +5503,16 @@ xe.XE_XHTMLFormatter = $.Class({
 		// remove all scripts
 		//sContent = sContent.replace(regex_script, '');
 
-		if (jQuery.browser.msie) {
-			// remove jQuery attributes
-			sContent = sContent.replace(regex_jquery, '');
+		if ($.browser.msie) {
+			// remove $ attributes
+			sContent = sContent.replace(regex_$, '');
 
 			// quote all attrs
 			sContent = sContent.replace(/<(\w+) ([^>]+)>/g, function(m0,m1,m2){
 				return '<'+m1+' '+
 					m2.replace(regex_quote_attr, function(s0,s1,s2,s3){
 						if (s1) return s1;
-                        if(/^"/.test(s3)||/"$/.test(s3)) return s2+'='+s3;
+						if(/^"/.test(s3)||/"$/.test(s3)) return s2+'='+s3;
 						return s2+'="'+s3+'"';
 					}) + '>';
 			});
@@ -5552,7 +5537,7 @@ xe.XE_XHTMLFormatter = $.Class({
 					return '<'+m2+' '+m3+'>';
 				}
 
-                /*
+				/*
 				if (replace_tags[m2]) {
 					stack.push({tag:m2, state:'deleted'});
 
@@ -5631,10 +5616,10 @@ xe.XE_XHTMLFormatter = $.Class({
 						return (!m3&&!style?'':'<span '+m3+' style="'+style+'">')+tmptag;
 					}
 				} else {
-					state = (jQuery.inArray(m2,allow_tags) < 0)?'deleted':'';
+					state = ($.inArray(m2,allow_tags) < 0)?'deleted':'';
 					if (state == 'deleted') return '';
 				}
-                */
+				*/
 
 				stack.push({tag:m2, state:state});
 			} else {
@@ -5672,15 +5657,13 @@ xe.XE_XHTMLFormatter = $.Class({
 		return sContent;
 	}
 });
-
 // center, font, b, i, s, strike
 
-})(jQuery);
 /**
  * Support XE extensions
  * @author gony
  */
-xe.XE_Extension = jQuery.Class({
+xe.XE_Extension = $.Class({
 	name  : "XE_Extension",
 	seq   : '',
 	last_doc : '',
@@ -5691,7 +5674,7 @@ xe.XE_Extension = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer) {
-		this.elDropdownLayer = jQuery('DIV.xpress_xeditor_extension_layer', elAppContainer).get(0);
+		this.elDropdownLayer = $('DIV.xpress_xeditor_extension_layer', elAppContainer).get(0);
 	},
 
 	_removeAttrs : function(sContent) {
@@ -5704,16 +5687,16 @@ xe.XE_Extension = jQuery.Class({
 		var doc = this.oApp.getWYSIWYGDocument();
 		var seq = this.seq;
 		var fn  = function(){
-			var obj  = jQuery(this);
+			var obj  = $(this);
 			var comp = obj.attr('editor_component');
-			if (comp && jQuery.isFunction(openComponent)) {
+			if (comp && $.isFunction(openComponent)) {
 				editorPrevNode = obj.get(0);
 				openComponent(comp, seq);
 			}
 		};
 
-		jQuery('img,div[editor_component]', doc).each(function(){
-			var obj = jQuery(this);
+		$('img,div[editor_component]', doc).each(function(){
+			var obj = $(this);
 			if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
 				obj.attr('editor_component','image_link');
 			}
@@ -5730,8 +5713,8 @@ xe.XE_Extension = jQuery.Class({
 		var functn  = function(){
 			oApp.exec("HIDE_ACTIVE_LAYER", []);
 		};
-		jQuery('a', this.elDropdownLayer).each(function(){
-			var obj = jQuery(this);
+		$('a', this.elDropdownLayer).each(function(){
+			var obj = $(this);
 			if(!obj.attr('component_onclick_event_added')) {
 				obj.click(functn);
 				obj.attr('component_onclick_event_added','Y');
@@ -5767,7 +5750,7 @@ xe.XE_Extension = jQuery.Class({
  * Auto saving
  * @author gony
  */
-xe.XE_AutoSave = jQuery.Class({
+xe.XE_AutoSave = $.Class({
 	name : "XE_AutoSave",
 	form : null,
 	textarea : null,
@@ -5780,19 +5763,19 @@ xe.XE_AutoSave = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer) {
-		this.welMessageBox = jQuery('autosave_message');
+		this.welMessageBox = $('autosave_message');
 	},
 
 	$ON_MSG_APP_READY : function() {
-		var elTitle   = jQuery(this.form._saved_doc_title);
-		var elContent = jQuery(this.form._saved_doc_content);
+		var elTitle   = $(this.form._saved_doc_title);
+		var elContent = $(this.form._saved_doc_content);
 
-		var title   = jQuery.trim(elTitle.val());
-		var content = jQuery.trim(elContent.val());
+		var title   = $.trim(elTitle.val());
+		var content = $.trim(elContent.val());
 
 		if (title || content) {
 			if (confirm(this.form._saved_doc_message.value)) {
-				jQuery(this.form.title).val(title);
+				$(this.form.title).val(title);
 				this.oApp.setIR(content);
 				if(typeof(editorGetAutoSavedDoc) == 'function') editorGetAutoSavedDoc(this.form);
 			} else {
@@ -5800,7 +5783,7 @@ xe.XE_AutoSave = jQuery.Class({
 			}
 		}
 
-		editorEnableAutoSave(this.form, jQuery(this.form).attr("editor_sequence"));
+		editorEnableAutoSave(this.form, $(this.form).attr("editor_sequence"));
 
 		// register hotkey
 		this.oApp.exec('REGISTER_HOTKEY', ['ctrl+shift+s','AUTO_SAVE']);
@@ -5814,7 +5797,7 @@ xe.XE_AutoSave = jQuery.Class({
  * Format Block plugin
  * @author gony
  */
-xe.XE_FormatWithSelectUI = jQuery.Class({
+xe.XE_FormatWithSelectUI = $.Class({
 	name : "XE_FormatWithSelectUI",
 
 	$init : function(elAppContainer){
@@ -5822,7 +5805,7 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 	},
 
 	_assignHTMLObjects : function(elAppContainer){
-		this.elFormatSelect = jQuery("SELECT.xpress_xeditor_ui_format_select", elAppContainer).get(0);
+		this.elFormatSelect = $("SELECT.xpress_xeditor_ui_format_select", elAppContainer).get(0);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -5834,16 +5817,17 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
 		var blockName = this.oApp.getWYSIWYGDocument().queryCommandValue("FormatBlock");
 
 		if (!blockName) return (this.elFormatSelect.selectedIndex = 0);
-		if (jQuery.browser.msie && /([0-9])/.test(blockName)) blockName = 'h'+(RegExp.$1);
+		if ($.browser.msie && /([0-9])/.test(blockName)) blockName = 'h'+(RegExp.$1);
 
 		this.elFormatSelect.value = blockName.toLowerCase();
 		if(this.elFormatSelect.selectedIndex < 0) this.elFormatSelect.selectedIndex = 0;
+		if(this.elFormatSelect.value != blockName.toLowerCase()) this.elFormatSelect.selectedIndex = 0;
 	},
 
 	$ON_SET_FORMAT_FROM_SELECT_UI : function(){
 		var sFormat = this.elFormatSelect.value;
 		if(!sFormat) return;
-		if(jQuery.browser.msie) sFormat = '<'+sFormat+'>';
+		if($.browser.msie) sFormat = '<'+sFormat+'>';
 
 		this.oApp.exec("EXECCOMMAND", ["FormatBlock", false, sFormat]);
 		this.oApp.exec("CHECK_STYLE_CHANGE", []);
@@ -5855,16 +5839,16 @@ xe.XE_FormatWithSelectUI = jQuery.Class({
  */
 
 // 표 편집 확장 기능
-xe.XE_Table = jQuery.Class({
+xe.XE_Table = $.Class({
 	_startSel : null,
 	_endSel   : null,
 
 	$ON_MSG_APP_READY : function() {
-		this._doc = jQuery(this.oApp.getWYSIWYGDocument());
+		this._doc = $(this.oApp.getWYSIWYGDocument());
 
-		this.$FnMouseDown = jQuery.fnBind(this._mousedown, this);
-		this.$FnMouseUp   = jQuery.fnBind(this._mouseup, this);
-		this.$FnMouseMove = jQuery.fnBind(this._mousemove, this);
+		this.$FnMouseDown = $.fnBind(this._mousedown, this);
+		this.$FnMouseUp   = $.fnBind(this._mouseup, this);
+		this.$FnMouseMove = $.fnBind(this._mousemove, this);
 
 		this._doc.mousedown(this.$FnMouseDown);
 
@@ -5886,7 +5870,7 @@ xe.XE_Table = jQuery.Class({
 
 	$ON_MERGE_CELLS : function() {
 		var html = "";
-		var cell = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
+		var cell = $('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
 		var self = this;
 
 		// 선택된 셀이 없으면 종료
@@ -5896,7 +5880,7 @@ xe.XE_Table = jQuery.Class({
 		this.oApp.exec("RECORD_UNDO_ACTION", ["Cell:Merge"]);
 
 		// 선택한 모든 셀의 데이터를 첫번째 셀로 복사
-		cell.each(function(){ html += jQuery(this).html() }).eq(0).html(html);
+		cell.each(function(){ html += $(this).html() }).eq(0).html(html);
 
 		// 첫번째 셀 가로 확장
 		var colspan = 0;
@@ -5919,7 +5903,7 @@ xe.XE_Table = jQuery.Class({
 	},
 
 	$ON_CELL_SPLIT_BY_ROW : function(many) {
-		var cell  = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
+		var cell  = $('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
 		var table = cell.parents('table').eq(0);
 		var self  = this;
 
@@ -5930,19 +5914,19 @@ xe.XE_Table = jQuery.Class({
 		this.oApp.exec("RECORD_UNDO_ACTION", ["Cell:Split By Row"]);
 
 		// 선택 영역의 상하 좌표 구함
-		var _top    = this._getRect(cell.eq(0)).top;
+		var _top	= this._getRect(cell.eq(0)).top;
 		var _bottom = this._getRect(cell.eq(cell.length-1)).bottom;
 
 		// 테이블의 모든 셀에서 선택영역에 해당하는 셀을 구한다(상하 기준).
 		(cell = table.find('td,th').filter(function(){
-			var rect = self._getRect(jQuery(this));
+			var rect = self._getRect($(this));
 
 			return !(rect.bottom <= _top || rect.top >= _bottom);
 		})).filter('.xe_selected_cell').each(function(){
-			var t       = jQuery(this);
-			var row     = t.parent('tr');
+			var t	   = $(this);
+			var row	 = t.parent('tr');
 			var rowspan = self._getSpan(t, 'row');
-			var rect    = self._getRect(t);
+			var rect	= self._getRect(t);
 			var queue   = [];
 			var clone   = t.clone().html('<br />');
 			var topspan = 1, botspan = 1;
@@ -5963,7 +5947,7 @@ xe.XE_Table = jQuery.Class({
 				cell.filter(function(){
 					if (t.get(0) == this) return false;
 
-					var tt = jQuery(this);
+					var tt = $(this);
 					var rc = self._getRect(tt);
 
 					// 범위를 넘은 부분은 제외
@@ -5971,7 +5955,7 @@ xe.XE_Table = jQuery.Class({
 
 					return true;
 				}).each(function(){
-					var tt = jQuery(this);
+					var tt = $(this);
 					var sp = self._getSpan(tt, 'row')+1;
 
 					// rowspan 1 추가
@@ -5981,7 +5965,7 @@ xe.XE_Table = jQuery.Class({
 				});
 
 				// 새 줄을 추가한다.
-				if (jQuery.browser.msie) {
+				if ($.browser.msie) {
 					// Fix bug for IE
 					row.after(row.clone().empty().get(0).outerHTML);
 				} else {
@@ -5996,10 +5980,10 @@ xe.XE_Table = jQuery.Class({
 				row.after(row.clone().empty().append(clone));
 			} else {
 				var next_sib  = rows.eq(topspan - 1).children('td,th').filter(function(){
-					return ( self._getRect(jQuery(this)).left > rect.left );
+					return ( self._getRect($(this)).left > rect.left );
 				});
 
-				if (jQuery.browser.msie) {
+				if ($.browser.msie) {
 					next_sib.length?
 						next_sib.eq(0).before(clone.get(0).outerHTML):
 						rows.eq(topspan-1).append(clone.get(0).outerHTML);
@@ -6011,13 +5995,13 @@ xe.XE_Table = jQuery.Class({
 			}
 
 			// 함수를 바로 실행하면 좌표가 틀어지므로, 큐에 넣은 후 실행
-			jQuery.each(queue, function(){ this(); });
+			$.each(queue, function(){ this(); });
 
 		});
 	},
 
 	$ON_CELL_SPLIT_BY_COL : function(many) {
-		var cell   = jQuery('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
+		var cell   = $('.xe_selected_cell', this.oApp.getWYSIWYGDocument()).filter('td,th');
 		var table  = cell.parents('table').slice(0,1);
 		var self   = this;
 		var ie_bug = [], tmpId = (new Date).getTime(), tmpStr = '';
@@ -6035,11 +6019,11 @@ xe.XE_Table = jQuery.Class({
 
 		// 테이블의 모든 셀에서 선택영역에 해당하는 셀을 구한다(좌우 기준).
 		(cell = table.find('td,th').filter(function(){
-			var rect = self._getRect(jQuery(this));
+			var rect = self._getRect($(this));
 
 			return !(rect.right <= _left || rect.left >= _right);
 		})).filter('.xe_selected_cell').each(function(idx){
-			var t       = jQuery(this);
+			var t	   = $(this);
 			var colspan = self._getSpan(t, 'col');
 			var clone   = t.clone().html('<br />');
 
@@ -6057,7 +6041,7 @@ xe.XE_Table = jQuery.Class({
 				cell.filter(function(){
 					if (t.get(0) == this) return false;
 
-					var tt = jQuery(this);
+					var tt = $(this);
 					var rc = self._getRect(tt);
 
 					// 범위를 넘은 부분은 제외
@@ -6065,7 +6049,7 @@ xe.XE_Table = jQuery.Class({
 
 					return true;
 				}).each(function(){
-					var tt = jQuery(this);
+					var tt = $(this);
 
 					// colspan 1 추가
 					tt.attr('colSpan', self._getSpan(tt, 'col')+1);
@@ -6074,7 +6058,7 @@ xe.XE_Table = jQuery.Class({
 				clone.attr('colSpan', 1);
 			}
 
-			if (jQuery.browser.msie) {
+			if ($.browser.msie) {
 				// Fix for IE bug
 				t.after(clone.get(0).outerHTML);
 			} else {
@@ -6088,17 +6072,17 @@ xe.XE_Table = jQuery.Class({
 		var app = this.oApp;
 		var command = (this._startSel && this._startSel.is('.xe_selected_cell'))?'ENABLE_UI':'DISABLE_UI';
 
-		jQuery.each(ui, function(){ app.exec(command, [this]); });
+		$.each(ui, function(){ app.exec(command, [this]); });
 	},
 
 	_mousedown : function(event) {
-		var cur = jQuery(event.target);
+		var cur = $(event.target);
 		var sel = cur.parents().andSelf().filter('td,th,table');
 		var app = this.oApp;
 		var self = this;
 
 		// 모든 선택영역 해제
-		jQuery('td.xe_selected_cell', this.oApp.getWYSIWYGDocument()).removeClass('xe_selected_cell');
+		$('td.xe_selected_cell', this.oApp.getWYSIWYGDocument()).removeClass('xe_selected_cell');
 
 		this._startSel = null;
 		this._endSel   = null;
@@ -6108,7 +6092,7 @@ xe.XE_Table = jQuery.Class({
 		function delayed(){
 			sel = app.getSelection().cloneRange();
 			sel.collapseToStart();
-			sel = jQuery(sel.startContainer).parents().andSelf().filter('td,th').eq(0);
+			sel = $(sel.startContainer).parents().andSelf().filter('td,th').eq(0);
 
 			if (!sel.length) return self._removeAllListener()||true;
 
@@ -6133,7 +6117,7 @@ xe.XE_Table = jQuery.Class({
 	},
 
 	_mousemove : function(event) {
-		var cur  = jQuery(event.target);
+		var cur  = $(event.target);
 		var cell = cur.parents().andSelf().filter('td,th').eq(0);
 		var self = this;
 
@@ -6146,7 +6130,7 @@ xe.XE_Table = jQuery.Class({
 		this._getRect(this._endSel = cell);
 
 		// 선택 범위를 구한다
-		var _top    = Math.min(this._startSel.rect.top,  this._endSel.rect.top);
+		var _top	= Math.min(this._startSel.rect.top,  this._endSel.rect.top);
 		var _left   = Math.min(this._startSel.rect.left, this._endSel.rect.left);
 		var _bottom = Math.max(this._startSel.rect.bottom, this._endSel.rect.bottom);
 		var _right  = Math.max(this._startSel.rect.right,  this._endSel.rect.right);
@@ -6156,23 +6140,23 @@ xe.XE_Table = jQuery.Class({
 		var i = 0;
 
 		// 복잡한 모양의 테이블을 위한 반복 처리
-		var selected = jQuery();
+		var selected = $();
 		do {
 			// 선택한 셀로 최대 영역 재계산
 			selected.each(function(){
-				var rect = self._getRect(jQuery(this));
+				var rect = self._getRect($(this));
 
 				// 영역 재계산
 				if (rect.right  > _right)  _right  = rect.right;
 				if (rect.left   < _left)   _left   = rect.left;
-				if (rect.top    < _top)    _top    = rect.top;
+				if (rect.top	< _top)	_top	= rect.top;
 				if (rect.bottom > _bottom) _bottom = rect.bottom;
 			});
 
 			// 좌표 범위 안에 있는 선택할 셀을 추린다.
 			cells = cells.filter(':not(.xe_selected_cell)');
 			selected = cells.filter(function(){
-				var rect = self._getRect(jQuery(this));
+				var rect = self._getRect($(this));
 
 				if (rect.right <= _left || rect.left >= _right || rect.bottom <= _top || rect.top >= _bottom) return false;
 
@@ -6181,7 +6165,7 @@ xe.XE_Table = jQuery.Class({
 		} while(selected.length);
 
 		// 브라우저의 기본 선택영역 해제 : FF 제외 - 기본 기능이 충분히 좋아서 + 이 부분을 실행하면 오류가 발생해서
-		if (!jQuery.browser.mozilla) {
+		if (!$.browser.mozilla) {
 			function delayed() {
 				var sel = self.oApp.getSelection();
 
@@ -6206,14 +6190,14 @@ xe.XE_Table = jQuery.Class({
 	},
 
 	_isLeftClicked : function(value) {
-		return jQuery.browser.msie?!!(value & 1):(value == 0);
+		return $.browser.msie?!!(value & 1):(value == 0);
 	},
 
 	_getRect : function(obj) {
 		var el = obj.get(0);
 
 		obj.rect = {};
-		obj.rect.top    = el.offsetTop;
+		obj.rect.top	= el.offsetTop;
 		obj.rect.left   = el.offsetLeft;
 		obj.rect.bottom = obj.rect.top  + el.offsetHeight;
 		obj.rect.right  = obj.rect.left + el.offsetWidth;
@@ -6222,8 +6206,10 @@ xe.XE_Table = jQuery.Class({
 	},
 
 	_getSpan : function(obj, type) {
-		var span = parseInt(jQuery(obj).attr(type+'span'));
+		var span = parseInt($(obj).attr(type+'span'));
 
 		return isNaN(span)?1:span;
 	}
 }).extend(xe.XE_Table);
+
+})(jQuery);

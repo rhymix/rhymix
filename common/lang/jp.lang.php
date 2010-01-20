@@ -281,7 +281,9 @@
     // ftp関連
     $lang->ftp_form_title = 'サーバーのFTP情報の入力';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTPポート番号（port）';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP接続をテストする';
     $lang->about_ftp_info = "
         FTP情報は次の場合、利用されます。<br />
@@ -315,4 +317,6 @@
     $lang->filter->invalid_alpha = '%sの形式が正しくありません。半角英文字のみ入力して下さい。';
     $lang->filter->invalid_alpha_number = '%sの形式が正しくありません。半角英数で入力して下さい。';
     $lang->filter->invalid_number = '%sの形式が正しくありません。半角数字で入力して下さい。';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

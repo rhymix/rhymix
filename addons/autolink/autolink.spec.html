@@ -51,7 +51,7 @@ describe('AutoLink functionality', {
 		value_of( $('#test5').contents().length ).should_be(3);
 	},
 	"#test6 - complex example" : function() {
-		value_of( $('#test6 a').length ).should_be(4);
+		value_of( $('#test6 a').length ).should_be(8);
 		value_of( $('#test6 a').eq(0).attr('href') ).should_be($('#test6 a').eq(0).text());
 		value_of( $('#test6 a').eq(2).parent().is('b') ).should_be_true();
 		value_of( $('#test6 > textarea > a').length ).should_be(0);
@@ -85,7 +85,7 @@ describe('Autolink trigger', {
 	<div id="test4">http://www.abc.com/some_program?hello=world&encoded=%ED%C2%C1</div>
 	<div id="test5">Before text. http://www.abc.com/some_program?hello=world&encoded=%ED%C2%C1 After Text</div>
 	<div id="test6">
-		This is text. http://www.abc.com/some_program?hello=world&encoded=%ED%C2%C1 Text Text.
+		<p>This is text. http://www.abc.com/some_program?hello=world&encoded=%ED%C2%C1 Text Text.
 		Another URL : http://www.decccccf12312.co.uk/path/to/program?mymy=lovelove. XE!
 		<b>Bold text and http://mail.abc.com/path/to/one_cgi.cgi?hello=world#hash_text Bold text end</b>
 		<textarea>this text should be ignored http://mygony.com ignored?</textarea>
@@ -94,6 +94,10 @@ describe('Autolink trigger', {
 			<a href="http://mygony.com" target="_self">http://mygony.com</a>
 			Sayonara~
 		</div>
+		IP Test http://119.205.243.46 and MMS Link mms://xpressengine.com/a.wmv
+		http://localhost/some/path/file.ext
+		Is it OK?</p>
+		<p>mms://xpressengine.com/a.wmv</p>
 	</div>
 	<div id="test7">http://mygony.com</div>
 	<div id="test8">Go to http://mygony.com</div>

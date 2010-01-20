@@ -1,0 +1,8 @@
+<query id="getInstalledPackageCount" action="select">
+    <tables>
+        <table name="ai_installed_packages" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+</query>

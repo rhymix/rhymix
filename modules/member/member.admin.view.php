@@ -2,22 +2,21 @@
     /**
      * @class  memberAdminView
      * @author zero (zero@nzeo.com)
-     * @brief  member module의 admin view class
+     * @brief  member module's admin view class
      **/
 
     class memberAdminView extends member {
 
-        var $group_list = NULL; ///< 그룹 목록 정보
-        var $member_info = NULL; ///< 선택된 사용자의 정보
+        var $group_list = NULL; ///< group list 
+        var $member_info = NULL; ///< selected member info 
 
         /**
-         * @brief 초기화
+         * @brief initialization 
          **/
         function init() {
-            // 멤버모델 객체 생성
             $oMemberModel = &getModel('member');
 
-            // member_srl이 있으면 미리 체크하여 member_info 세팅
+            // if member_srl exists, set member_info
             $member_srl = Context::get('member_srl');
             if($member_srl) {
                 $this->member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
@@ -25,63 +24,57 @@
                 else Context::set('member_info',$this->member_info);
             }
 
-            // group 목록 가져오기
+            // retrieve group list 
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
 
-            // template path 지정
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 회원 목록 출력
+         * @brief display member list 
          **/
         function dispMemberAdminList() {
 
-            // member model 객체 생성후 목록을 구해옴
             $oMemberAdminModel = &getAdminModel('member');
             $oMemberModel = &getModel('member');
             $output = $oMemberAdminModel->getMemberList();
 
-            // 개인별로 그룹목록을 가져 옴
+            // retrieve list of groups for each member
             if($output->data) {
                 foreach($output->data as $key => $member) {
                     $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
 
-            // 템플릿에 쓰기 위해서 context::set
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('member_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
-            // 템플릿 파일 지정
             $this->setTemplateFile('member_list');
         }
 
         /**
-         * @brief 회원 관리에 필요한 기본 설정들
+         * @brief default configuration for member management
          **/
         function dispMemberAdminConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // retrieve configuration via module model instance
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
             Context::set('config',$config);
 
-            // 회원 관리 모듈의 스킨 목록을 구함
+            // list of skins for member module
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
-            // 에디터 모델 객체 생성
+            // retrieve skins of editor
             $oEditorModel = &getModel('editor');
-
-            // 에디터 스킨 목록을 구함
             Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
-            // 에디터를 받음
+            // get an editor
             $option->primary_key_name = 'temp_srl';
             $option->content_key_name = 'agreement';
             $option->allow_fileupload = false;
@@ -93,17 +86,13 @@
             $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
-
-
-            // 템플릿 파일 지정
             $this->setTemplateFile('member_config');
         }
 
         /**
-         * @brief 회원 정보 출력
+         * @brief display member information
          **/
         function dispMemberAdminInfo() {
-            // 추가 가입폼 목록을 받음
             $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
@@ -113,10 +102,10 @@
         }
 
         /**
-         * @brief 회원 정보 입력 화면 출력
+         * @brief display member insert form
          **/
         function dispMemberAdminInsert() {
-            // 추가 가입폼 목록을 받음
+            // retrieve extend form
             $oMemberModel = &getModel('member');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
 
@@ -124,7 +113,7 @@
             $member_info->signature = $oMemberModel->getSignature($this->member_info->member_srl);
             Context::set('member_info', $member_info);
 
-            // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+            // get an editor for the signature
             if($this->member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
                 $option->primary_key_name = 'member_srl';
@@ -139,12 +128,11 @@
                 Context::set('editor', $editor);
             }
 
-            // 템플릿 파일 지정
             $this->setTemplateFile('insert_member');
         }
 
         /**
-         * @brief 회원 삭제 화면 출력
+         * @brief display member delete form
          **/
         function dispMemberAdminDeleteForm() {
             if(!Context::get('member_srl')) return $this->dispMemberAdminList();
@@ -152,7 +140,7 @@
         }
 
         /**
-         * @brief 그룹 목록 출력
+         * @brief display group list
          **/
         function dispMemberAdminGroupList() {
             $oModuleModel = &getModel('module');

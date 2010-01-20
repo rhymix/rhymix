@@ -10,18 +10,29 @@ function completeMessageOpenIDLogin(ret_obj, response_tags) {
     location.href = redirect_url;
 }
 
-
-/* 오픈 아이디 폼 변환 */
-function toggleLoginForm(obj) {
-    if(xGetElementById('messageLogin').style.display != "none") {
-        xGetElementById('messageLogin').style.display = "none";
-        xGetElementById('messageOpenidLogin').style.display = "block";
-        xGetElementById('messageOpenIDForm').use_open_id_2.checked = true;
-        xGetElementById('messageOpenIDForm').openid.focus();
-    } else {
-        xGetElementById('messageLogin').style.display = "block";
-        xGetElementById('messageOpenidLogin').style.display = "none";
-        xGetElementById('messageLoginForm').use_open_id.checked = false;
-        xGetElementById('messageLoginForm').user_id.focus();
-    }
+function doLogin(o,filter){
+	jQuery('input.inputText',o).each(function(){
+		var t = jQuery(this);
+		if(t.attr('title').length>0 && t.attr('title') == t.val()) t.val('');
+	});
+	procFilter(o,filter);
+	initLoginTitleMsg();
+	return false;
 }
+
+
+function initLoginTitleMsg(){
+	jQuery('.gLogin, .mLogin').find('input.inputText').focus(function(){
+		var t = jQuery(this);
+		if(t.attr('title').length>0 && t.attr('title')==t.val()) t.val('');
+	}).blur(function(){
+		var t = jQuery(this);
+		if(t.attr('title').length>0 && t.val()=='') t.val(t.attr('title'));
+	}).focus().blur();
+}
+
+jQuery(function(){
+	initLoginTitleMsg();
+});
+
+

@@ -75,7 +75,7 @@
             }
             Context::set('selected_group', $selected_group);
             Context::set('default_grant', $default_grant);
-
+            Context::set('module_srl', $module_srl);
             // 현재 모듈에 설정된 관리자 아이디를 추출
             $admin_member = $oModuleModel->getAdminId($module_srl);
             Context::set('admin_member', $admin_member);

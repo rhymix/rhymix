@@ -78,6 +78,13 @@
             return $output->data->count;
         }
 
+        function getInstalledPackageCount()
+        {
+            $output = executeQuery("autoinstall.getInstalledPackageCount", $args);
+            if(!$output->data) return 0;
+            return $output->data->count;
+        }
+
         function setDepth(&$item, $depth, &$list, &$resultList)
         {
             $resultList[$item->category_srl] =& $item;
@@ -111,6 +118,19 @@
                 $result[$value->package_srl] = $value;
             }
             return $result;
+        }
+
+        function getInstalledPackageList($page)
+        {
+            $args->page = $page;
+            $output = executeQueryArray("autoinstall.getInstalledPackageList", $args);
+            $res = array();
+            foreach($output->data as $val)
+            {
+                $res[$val->package_srl] = $val;
+            }
+            $output->data = $res;
+            return $output;
         }
 
    }

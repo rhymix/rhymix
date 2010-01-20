@@ -279,9 +279,11 @@
     $lang->eid = 'eгeдлийн нэр';
 
     // ftp 관련
- $lang->ftp_form_title = 'FTP мэдээлэл оруулах';
+    $lang->ftp_form_title = 'FTP мэдээлэл оруулах';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP холболт шалгах';
     $lang->about_ftp_info = "
         FTP мэдээлэл нь дараах тохиолдолд хэрэглэгдэх боломжтой.<br />
@@ -303,11 +305,13 @@
     $lang->filter->outofrange = '%s-ийн үсгийн тоог тааруулна уу.';
     $lang->filter->equalto = '%s-ыг буруу оруулсан байна.';
     $lang->filter->invalid_email = '%s-ын хэлбэрийг буруу оруулсан байна. (Жнь: zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s-ын хэлбэр буруу байна. .\\n Латин vсэг, тоо болон  '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s-ын хэлбэр буруу байна. .\\n Латин vсэг, тоо болон  \'_\'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ";
     $lang->filter->invalid_homepage = '%s-ын хэлбэр буруу байна.. (Жнь: http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%s-ын хэлбэр буруу байна. Солонгосоор оруулах ёстой';
     $lang->filter->invalid_korean_number = '%s-ын хэлбэр буруу байна. Солонгос үсэг болон тоогоор оруулах хэрэгтэй.';
     $lang->filter->invalid_alpha = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсгээр оруулах ёстой';
     $lang->filter->invalid_alpha_number = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсэг болон тоогоор л оруулах ёстой.';
     $lang->filter->invalid_number = '%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.';
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

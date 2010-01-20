@@ -14,7 +14,7 @@
         }
 
         /**
-         * @brief 특정 모두의 첨부파일 모두 삭제
+         * @brief 특정 모듈의 첨부파일 모두 삭제
          **/
         function deleteModuleFiles($module_srl) {
             // 전체 첨부파일 목록을 구함

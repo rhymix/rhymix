@@ -2,9 +2,9 @@
     /**
      * @class Object
      * @author zero (zero@nzeo.com)
-     * @brief 모듈간의 데이터를 주고 받기 위한 클래스
+     * @brief Base class design to pass the Object instance between XE Modules 
      *
-     * 모든 모듈은 Object를 상속하며 Object의 error, message, variables 를 이용하여 통신을 하게 된다
+     * @remark Every modules inherits from Object class. It includes error, message, and other variables for communicatin purpose
      **/
 
     class Object {
@@ -23,21 +23,25 @@
         }
 
         /**
-         * @brief error 코드를 지정
+         * @brief Setter to set error code
+         * @param[in] $error error code
          **/
         function setError($error = 0) {
             $this->error = $error;
         }
 
         /**
-         * @brief error 코드를 return
+         * @brief Getter to retrieve error code
          **/
         function getError() {
             return $this->error;
         }
 
         /**
-         * @brief 에러 메세지 지정
+         * @brief Setter to set set the error message
+         * @param[in] $message a messge string
+         * @return return True
+         * @remark this method always returns True. We'd better remove it
          **/
         function setMessage($message = 'success') {
             if(Context::getLang($message)) $message = Context::getLang($message);
@@ -46,21 +50,24 @@
         }
 
         /**
-         * @brief 에러 메세지 return
+         * @brief getter to retrieve an error message
          **/
         function getMessage() {
             return $this->message;
         }
 
         /**
-         * @brief 추가 변수
+         * @brief setter to set a key/value pair as an additional variable
+         * @param[in] $key a variable name
+         * @param[in] $val a value for the variable
          **/
         function add($key, $val) {
             $this->variables[$key] = $val;
         }
 
         /**
-         * @brief 추가된 변수의 key, value들을 추가
+         * @brief method to set multiple key/value pairs as an additional variables
+         * @param[in] $object either object or array containg key/value pairs to be added
          **/
         function adds($object) {
             if(is_object($object)) {
@@ -72,15 +79,17 @@
         }
 
         /**
-         * @brief 추가된 변수의 key에 해당하는 값을 return
+         * @brief method to retrieve a corresponding value to a given key
          **/
         function get($key) {
             return $this->variables[$key];
         }
 
+
         /**
-         * @brief 추가된 변수의 key들에 해당하는 값을 return
-         **/
+         * @brief method to retrieve an object containing a key/value paris 
+         * @return Returns an object containing key/value pairs    
+        **/
         function gets() {
             $num_args = func_num_args();
             $args_list = func_get_args();
@@ -92,26 +101,34 @@
         }
 
         /**
-         * @brief 추가변수 전체 return
+         * @brief method to retrieve an array of key/value pairs
+         * @return Return a list of key/value pairs
          **/
         function getVariables() {
             return $this->variables;
         }
 
+        /**
+         * @brief method to retrieve an object of key/value pairs
+         * @return Return an object of key/value pairs
+         **/
         function getObjectVars() {
             foreach($this->variables as $key => $val) $output->{$key} = $val;
             return $output;
         }
 
         /**
-         * @brief error값이 0이 아니면 오류
+         * @brief method to return either true or false depnding on the value in a 'error' variable
+         * @remark this method is misleading in that it returns true if error is 0, which should be true in
+         * boolean representation.
          **/
         function toBool() {
             return $this->error==0?true:false;
         }
 
+
         /**
-         * @brief error값이 0이 아니면 오류 (Object::toBool()의 aliasing)
+         * @brief method to return either true or false depnding on the value in a 'error' variable
          **/
         function toBoolean() {
         return $this->toBool();

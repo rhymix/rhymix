@@ -52,7 +52,7 @@
             if($use_optimizer!='Y') $use_optimizer = 'N';
 
             $time_zone = Context::get('time_zone');
-            
+
             $qmail_compatibility = Context::get('qmail_compatibility');
             if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
@@ -115,16 +115,26 @@
             $this->setMessage('success_updated');
         }
 
-        /**
-         * @brief FTP 정보 등록
-         **/
+        function procInstallAdminRemoveFTPInfo() {
+            $ftp_config_file = Context::getFTPConfigFile(); 
+            if(file_exists($ftp_config_file)) unlink($ftp_config_file);
+            if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
+            $this->setMessage('success_deleted');
+        }
+
         function procInstallAdminSaveFTPInfo() {
-            $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port','ftp_root_path','sftp');
-            $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
-            if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
-            if(!$ftp_info->sftp) $ftp_info->sftp = 'N';
+            $ftp_info = Context::getFTPInfo();
+            $ftp_info->ftp_user = Context::get('ftp_user');
+            $ftp_info->ftp_port = Context::get('ftp_port');
+            $ftp_info->sftp = Context::get('sftp');
+            $ftp_info->ftp_root_path = Context::get('ftp_root_path');
+            if(ini_get('safe_mode')) {
+                $ftp_info->ftp_password = Context::get('ftp_password');
+            }
+            
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
             foreach($ftp_info as $key => $val) {
+                if(!$val) continue;
                 $buff .= sprintf("\$ftp_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
             }
             $buff .= "?>";
@@ -132,5 +142,6 @@
             FileHandler::WriteFile($config_file, $buff);
             $this->setMessage('success_updated');
         }
+
     }
 ?>

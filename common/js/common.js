@@ -643,11 +643,16 @@ function doDocumentSave(obj) {
         editorRelKeys[editor_sequence]['content'].value = content;
     }
 
-    var oFilter = new XmlJsFilter(obj.form, "member", "procMemberSaveDocument", completeDocumentSave);
-    oFilter.addResponseItem("error");
-    oFilter.addResponseItem("message");
-    oFilter.addResponseItem("document_srl");
-    oFilter.proc();
+	var params={}, responses=['error','message','document_srl'], elms=obj.form.elements, data=jQuery(obj.form).serializeArray();;
+	jQuery.each(data, function(i, field){
+		var val = jQuery.trim(field.value);
+		if(!val) return true;
+		if(/\[\]$/.test(field.name)) field.name = field.name.replace(/\[\]$/, '');
+		if(params[field.name]) params[field.name] += '|@|'+val;
+		else params[field.name] = field.value;
+	});
+
+	exec_xml('member','procMemberSaveDocument', params, completeDocumentSave, responses, params, obj.form);
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
     return false;

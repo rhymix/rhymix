@@ -95,4 +95,5 @@
         'trash_ipaddress' => '削除者のIPアドレス',
     );
 
+    $lang->success_trashed = "Successfully moved to trashcan";
 ?>

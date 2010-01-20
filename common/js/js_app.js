@@ -1,6 +1,9 @@
 /**
- * @brief XE Application Framework
+ * @file js_app.js
+ * @author zero (zero@nzeo.com)
+ * @brief XE JavaScript Application Framework (JAF)
  * @namespace xe
+ * @update 20091120
  */
 (function($){
 
@@ -56,6 +59,7 @@ _xe_base = {
 	 * @brief Get one application
 	 */
 	getApp : function(indexOrName) {
+		indexOrName = (indexOrName||'').toLowerCase();
 		if (typeof _apps[indexOrName] != 'undefined') {
 			return _apps[indexOrName];
 		} else {
@@ -96,13 +100,13 @@ _xe_base = {
 	/**
 	 * @brief overrides broadcast method
 	 */
-	broadcast : function(oSender, msg, params) {
+	broadcast : function(sender, msg, params) {
 		for(var i=0; i < _apps.length; i++) {
-			_apps[i].cast(oSender, msg, params);
+			_apps[i]._cast(sender, msg, params);
 		}
 
 		// cast to child plugins
-		this.cast(oSender, msg, params);
+		this._cast(sender, msg, params);
 	}
 }
 
@@ -110,7 +114,7 @@ _app_base = {
 	_plugins  : [],
 	_messages : [],
 
-	_fn_level : -1,
+	_fn_level : [],
 
 	/**
 	 * @brief register a plugin instance
@@ -134,16 +138,11 @@ _app_base = {
 		$.each(oPlugin, function(key, val){
 			if (!$.isFunction(val)) return true;
 			if (!/^API_((BEFORE_|AFTER_)?[A-Z0-9_]+)$/.test(key)) return true;
-
 			var fn = function(s,p){ return oPlugin[key](s,p) };
 			fn._fn = val;
 
-			if (RegExp.$2) { // is hooker?
-				if (!$.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
-				msgs[RegExp.$1].push(fn);
-			} else { // register only one main function
-				msgs[RegExp.$1] = fn;
-			}
+			if (!$.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
+			msgs[RegExp.$1].push(fn);
 		});
 
 		// set the application
@@ -151,7 +150,7 @@ _app_base = {
 
 		// binding
 		oPlugin.cast = function(msg, params) {
-			oPlugin._cast(msg, params);
+			return oPlugin._cast(msg, params);
 		};
 
 		oPlugin.broadcast = function(msg, params) {
@@ -200,54 +199,49 @@ _app_base = {
 		oPlugin.oApp = null;
 	},
 
-	cast : function(sender, msg, params) {
-		var i, len;
-		var aMsg = this._messages;
-
-		msg = msg.toUpperCase();
-
-		// increase function level
-		this._fn_level++;
-
-		// BEFORE hooker
-		if (typeof aMsg['BEFORE_'+msg] != 'undefined') {
-			var bContinue = this.cast(sender, 'BEFORE_'+msg, params);
-			if (!bContinue) {
-				this._fn_level--;
-				return;
-			}
-		}
-
-		// main api function
-		var vRet;
-		if ($.isFunction(aMsg[msg])) {
-			vRet = aMsg[msg](sender, params);
-		} else if ($.isArray(aMsg[msg])) {
-			vRet = [];
-			for(i=0; i < aMsg[msg].length; i++) {
-				vRet.push( aMsg[msg][i](sender, params) );
-			}
-		}
-
-		// AFTER hooker
-		if (typeof aMsg['AFTER_'+msg] != 'undefined') {
-			this.cast(sender, 'AFTER_'+msg, params);
-		}
-
-		// decrease function level
-		this._fn_level--;
-
-		if (this._fn_level < 0) { // top level function
-			return vRet;
-		} else {
-			if (typeof vRet == 'undefined') vRet = true;
-			return $.isArray(vRet)?$.inArray(false, vRet):!!vRet;
-		}
+	cast : function(msg, params) {
+		return this._cast(this, msg, params || []);
 	},
 
 	broadcast : function(sender, msg, params) {
 		if (this.parent && this.parent.broadcast) {
 			this.parent.broadcast(sender, msg, params);
+		}
+	},
+
+	_cast : function(sender, msg, params) {
+		var i, len;
+		var aMsg = this._messages;
+
+		msg = msg.toUpperCase();
+
+		// BEFORE hooker
+		if (aMsg['BEFORE_'+msg] || this['API_BEFORE_'+msg]) {
+			var bContinue = this._cast(sender, 'BEFORE_'+msg, params);
+			if (!bContinue) return;
+		}
+
+		// main api function
+		var vRet = [], sFn = 'API_'+msg;
+		if ($.isFunction(this[sFn])) vRet.push( this[sFn](sender, params) );
+		if ($.isFunction(aMsg[msg])) vRet.push( aMsg[msg](sender, params) );
+		else if ($.isArray(aMsg[msg])) {
+			for(i=0; i < aMsg[msg].length; i++) {
+				vRet.push( aMsg[msg][i](sender, params) );
+			}
+		}
+		if (vRet.length < 2) vRet = vRet[0];
+
+		// AFTER hooker
+		if (aMsg['AFTER_'+msg] || this['API_AFTER_'+msg]) {
+			this._cast(sender, 'AFTER_'+msg, params);
+		}
+
+		if (!/^(?:AFTER_|BEFORE_)/.test(msg)) { // top level function
+			return vRet;
+		} else {
+			if (typeof vRet == 'undefined') vRet = true;
+			return $.isArray(vRet)?$.inArray(false, vRet):!!vRet;
 		}
 	}
 };
@@ -257,8 +251,8 @@ _plugin_base = {
 	_binded_fn : [],
 
 	_cast : function(msg, params) {
-		if (this.oApp && this.oApp.cast) {
-			this.oApp.cast(this, msg, params || []);
+		if (this.oApp && this.oApp._cast) {
+			return this.oApp._cast(this, msg, params || []);
 		}
 	},
 	_broadcast : function(msg, params) {
@@ -269,6 +263,8 @@ _plugin_base = {
 
 	/**
 	 * Event handler prototype
+	 *
+	 * function (oSender, params)
 	 */
 };
 
@@ -287,6 +283,7 @@ function getTypeBase() {
 }
 
 window.xe = $.extend(_app_base, _xe_base);
+window.xe.lang = {}; // language repository
 
 // domready event
 $(function(){ xe.broadcast(xe, 'ONREADY'); });

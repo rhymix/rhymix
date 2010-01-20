@@ -51,7 +51,7 @@ function completeDeletePage(ret_obj) {
     var page = ret_obj['page'];
     alert(message);
 
-    var url = current_url.setQuery('act','dispPageAdminContent');
+    var url = current_url.setQuery('act','dispPageAdminContent').setQuery('module_srl','');
     if(page) url = url.setQuery('page',page);
 
     location.href = url;

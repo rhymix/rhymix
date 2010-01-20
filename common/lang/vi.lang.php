@@ -270,7 +270,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'Thông tin FTP';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'Cổng kết nối:';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'Kiểm tra kết nối bằng FTP';
     $lang->about_ftp_info = "
         Thông tin tài khoản FTP có thể được sử dụng trong các trường hợp sau: <br />
@@ -303,4 +305,6 @@
     $lang->filter->invalid_alpha = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z";
     $lang->filter->invalid_alpha_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z và các chữ số";
     $lang->filter->invalid_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số";
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

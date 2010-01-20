@@ -81,6 +81,7 @@
             $editor_config->editor_skin = Context::get('editor_skin');
             $editor_config->comment_editor_skin = Context::get('comment_editor_skin');
             $editor_config->content_style = Context::get('content_style');
+            $editor_config->comment_content_style = Context::get('comment_content_style');
             $editor_config->content_font = Context::get('content_font');
             if($editor_config->content_font) {
                 $font_list = array();
@@ -174,7 +175,7 @@
                 $content_font = $editor_config->content_font;
                 $content_font_size = $editor_config->content_font_size;
                 if($content_font || $content_font_size) {
-                    $buff = '<style type="text/css" charset="UTF-8"> .xe_content { ';
+                    $buff = '<style type="text/css"> .xe_content { ';
                     if($content_font) $buff .= 'font-family:'.$content_font.';';
                     if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
                     $buff .= ' }; </style>';

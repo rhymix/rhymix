@@ -92,13 +92,13 @@
         /**
          * @brief 문서 가져오기
          **/
-        function getDocument($document_srl=0, $is_admin = false) {
+        function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true) {
             if(!$document_srl) return new documentItem();
 
             if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
                 $oDocument = new documentItem($document_srl, true);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
-                $this->setToAllDocumentExtraVars();
+                if($load_extra_vars) $this->setToAllDocumentExtraVars();
             }
             if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
@@ -108,7 +108,7 @@
         /**
          * @brief 여러개의 문서들을 가져옴 (페이징 아님)
          **/
-        function getDocuments($document_srls, $is_admin = false) {
+        function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true) {
             if(is_array($document_srls)) {
                 $list_count = count($document_srls);
                 $document_srls = implode(',',$document_srls);
@@ -139,7 +139,8 @@
 
                 $result[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
             }
-            $this->setToAllDocumentExtraVars();
+
+			if($load_extra_vars) $this->setToAllDocumentExtraVars();
 
             $output = null;
             if(count($result)) {
@@ -154,7 +155,7 @@
         /**
          * @brief module_srl값을 가지는 문서의 목록을 가져옴
          **/
-        function getDocumentList($obj, $except_notice = false) {
+        function getDocumentList($obj, $except_notice = false, $load_extra_vars=true) {
             // 정렬 대상과 순서 체크
             if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) $obj->sort_index = 'list_order';
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
@@ -394,7 +395,8 @@
                 $virtual_number --;
 
             }
-            $this->setToAllDocumentExtraVars();
+            
+			if($load_extra_vars) $this->setToAllDocumentExtraVars();
 
             if(count($output->data)) {
                 foreach($output->data as $number => $document) {

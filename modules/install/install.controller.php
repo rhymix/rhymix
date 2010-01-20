@@ -7,7 +7,6 @@
 
     class installController extends install {
 
-
         /**
          * @brief 초기화
          **/
@@ -56,6 +55,15 @@
 
             // config 파일 생성
             if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
+
+			// load script
+            $scripts = FileHandler::readDir('./modules/install/script','/(\.php)$/');
+			if(count($scripts)>0){
+				sort($scripts);
+				foreach($scripts as $script){
+					$output = include(FileHandler::getRealPath('./modules/install/script/'.$script));
+				}
+			}
 
             // 설치 완료 메세지 출력
             $this->setMessage('msg_install_completed');
@@ -314,5 +322,37 @@
             if(@file_exists($config_file)) return true;
             return false;
         }
+
+		function installByConfig($install_config_file){
+			include $install_config_file;
+			if(!is_array($auto_config)) return false;
+
+			$auto_config['module'] = 'install';
+			$auto_config['act'] = 'procInstall';
+
+			$fstr = "<%s><![CDATA[%s]]></%s>\r\n";
+			$fheader = "POST %s HTTP/1.1\r\nHost: %s\r\nContent-Type: application/xml\r\nContent-Length: %s\r\n\r\n%s\r\n";
+			$body = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<methodCall>\r\n<params>\r\n";
+			foreach($auto_config as $k => $v){
+				if(!in_array($k,array('host','port','path'))) $body .= sprintf($fstr,$k,$v,$k);
+			}
+			$body .= "</params>\r\n</methodCall>";
+
+			$header = sprintf($fheader,$auto_config['path'],$auto_config['host'],strlen($body),$body);
+			$fp = @fsockopen($auto_config['host'], $auto_config['port'], $errno, $errstr, 5); 
+			if($fp){
+				fputs($fp, $header);
+				while(!feof($fp)) {
+					$line = trim(fgets($fp, 4096));
+					if(preg_match("/^<error>/i",$line)){
+						fclose($fp);
+						return false;
+					}
+				}   
+				fclose($fp);
+			}
+			return true;
+
+		}
     }
 ?>

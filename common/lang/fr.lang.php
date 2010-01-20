@@ -279,7 +279,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'FTP 정보 입력';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
     $lang->about_ftp_info = "
         FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
@@ -306,11 +308,11 @@
     $lang->filter->outofrange = 'Aligner la longueur du texte de %s';
     $lang->filter->equalto = "La valeur de %s est invalide.";
     $lang->filter->invalid_email = "Le format de %s est invalide. ex) zbxe@zeroboard.com";
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "La format de %s n\'est pas convenable.\\nToutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "La format de %s n\'est pas convenable.\\nToutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l\'alphabet.";
     $lang->filter->invalid_homepage = "La format de %s n\'est pas convenable. ex) http://www.zeroboard.com";
     $lang->filter->invalid_korean = "La format de %s n\'est pas convenable. Entrez seulement en coréen, S.V.P.";
-    $lang->filter->invalid_korean_number = "La format de %s n\'est pas convenable. Entrez seulement des lettres d'alphabet coréen ou des chiffres, S.V.P.";
+    $lang->filter->invalid_korean_number = "La format de %s n\'est pas convenable. Entrez seulement des lettres d\'alphabet coréen ou des chiffres, S.V.P.";
     $lang->filter->invalid_alpha = "La format de %s n\'est pas convenable. Entrez seulement en alphabet, S.V.P.";
-    $lang->filter->invalid_alpha_number = "La format de %s n\'est pas convenable. Entrez seulement des lettres d'alphabet ou des chiffres.";
+    $lang->filter->invalid_alpha_number = "La format de %s n\'est pas convenable. Entrez seulement des lettres d\'alphabet ou des chiffres.";
     $lang->filter->invalid_number = "La format de %s n\'est pas convenable. Entrez seulement des chiffres.";
 ?>

@@ -274,7 +274,9 @@
     // ftp 관련
     $lang->ftp_form_title = 'FTP 정보 입력';
     $lang->ftp = 'FTP';
+    $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
+    $lang->about_ftp_password = 'FTP password will not be stored';
     $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
     $lang->about_ftp_info = "
         FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
@@ -313,4 +315,6 @@
     $lang->filter->invalid_alpha = "Формат %s неверен. Пожалуйста, вводите только алфавитные символы";
     $lang->filter->invalid_alpha_number = "Формат %s неверен. Пожалуйста, вводите алфавитные символы или цифры";
     $lang->filter->invalid_number = "Формат %s неверен.  Пожалуйста, вводите только цифры";
+
+    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>
