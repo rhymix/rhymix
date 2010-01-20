@@ -23,8 +23,6 @@ RewriteRule ^admin/?$ ./index.php?module=admin [L]
 
 # document permanent link
 RewriteRule ^([0-9]+)$ ./index.php?document_srl=$1 [L]
-# vid + document permanent link
-RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?vid=$1&document_srl=$2 [L]
 
 # mid link
 RewriteCond %{SCRIPT_FILENAME} !-d
@@ -42,3 +40,4 @@ RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?vid=$1&mid=$2
 RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
 # vid + mid + entry title
 RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L]
+
