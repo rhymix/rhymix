@@ -95,4 +95,6 @@
         'trash_date' => 'Ngày xóa',
         'trash_ipaddress' => 'IP Người xóa',
 	);
+
+    $lang->success_trashed = "Successfully moved to trashcan";
 ?>

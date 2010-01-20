@@ -95,4 +95,6 @@
         'trash_ipaddress' => '삭제자 IP 주소',
     );
 
+    $lang->success_trashed = '휴지통으로 이동되었습니다.';
+
 ?>
