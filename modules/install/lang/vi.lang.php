@@ -9,94 +9,465 @@
 
     $lang->introduce_title = 'Cài đặt XE';
     $lang->license = <<<EndOfLicense
-<center>XE là một mã nguồn mở, được phân phối kèm theo giấy phép GPL (General Public License). Nhưng những thành phần khác như Giao diện, Addon, Widget có thể được sử dụng những giấy phép và luật bản quyền riêng do người thiết kế đặt ra.
+ <b>GNU LESSER GENERAL PUBLIC LICENSE</b>
+		       Version 2.1, February 1999
 
-<b>*** GNU GENERAL PUBLIC LICENSE ***</b>
-Phiên bản 2, Tháng 6 năm 1991
+ Copyright (C) 1991, 1999 Free Software Foundation, Inc.
+ 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
 
-Copyright (C) 1989, 1991 Free Software Foundation, Inc.  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-Người dùng được phép sử dụng, sao chép và phân phối miễn phí chương trình này theo luật cấp phép, nhưng không được phép thay đổi nội dung của nó.
+[This is the first released version of the Lesser GPL.  It also counts
+ as the successor of the GNU Library Public License, version 2, hence
+ the version number 2.1.]
 
-<b>LỜI NÓI ĐẦU</b></center>
-Các giấy phép cho hầu hết các chương trình được thiết kế để lấy đi sự tự do của bạn để chia sẻ và thay đổi nó. Ngược lại, <b>GNU General Public License</b> là nhằm bảo đảm quyền tự do của bạn để chia sẻ và thay đổi chương trình miễn phí - để đảm bảo chương trình là miễn phí cho tất cả người dùng của nó. <b>General Public License</b> này áp dụng cho hầu hết các chương trình tự do và bất kỳ chương trình khác mà tác giả cam kết sử dụng nó. (Một số chương trình khác Software Foundation là bao gồm <b>Lesser GNU General Public License</b> thay thế).
-Bạn cũng có thể sử dụng nó cho những chương trình riêng của bạn.
+			    Preamble
 
-Khi chúng tôi nói về chương trình miễn phí, chúng tôi đề cập đến sự tự do, không phải giá cả. <b>General Public License</b> của chúng tôi được thiết kế để đảm bảo rằng bạn có quyền tự do phát hành bản sao của chương trình miễn phí (và thu tiền dịch vụ này nếu muốn), mà bạn nhận được mã nguồn hoặc có thể lấy nó nếu bạn muốn, bạn có thể thay đổi chương trình hoặc sử dụng một phần của nó trong chương trình mới miễn phí, nếu bạn biết bạn có thể làm những việc này.
+  The licenses for most software are designed to take away your
+freedom to share and change it.  By contrast, the GNU General Public
+Licenses are intended to guarantee your freedom to share and change
+free software--to make sure the software is free for all its users.
 
-Để bảo vệ quyền lợi của bạn, chúng tôi cần phải hạn chế để cấm bất cứ ai phủ nhận bạn có những quyền lợi này hay đòi hỏi bạn từ bỏ quyền. Những hạn chế đến một số trách nhiệm cho bạn nếu bạn phát hành bản sao của chương trình, hoặc nếu bạn sửa đổi nó.
+  This license, the Lesser General Public License, applies to some
+specially designated software packages--typically libraries--of the
+Free Software Foundation and other authors who decide to use it.  You
+can use it too, but we suggest you first think carefully about whether
+this license or the ordinary General Public License is the better
+strategy to use in any particular case, based on the explanations below.
 
-Ví dụ, nếu bạn phát hành bản sao của chương trình như vậy, cho dù miễn phí hoặc với lệ phí, bạn phải trao cho người nhận tất cả các quyền mà bạn có. Bạn phải chắc chắn là họ cũng nhận được hay có thể lấy mã nguồn. Và bạn phải cho họ những điều khoản này để họ biết quyền lợi của mình.
+  When we speak of free software, we are referring to freedom of use,
+not price.  Our General Public Licenses are designed to make sure that
+you have the freedom to distribute copies of free software (and charge
+for this service if you wish); that you receive source code or can get
+it if you want it; that you can change the software and use pieces of
+it in new free programs; and that you are informed that you can do
+these things.
 
-Chúng tôi bảo vệ quyền của bạn qua hai bước: <b>(1)</b> Bản quyền chương trình, và <b>(2)</b> Cung cấp cho bạn giấy phép này cho phép bạn có quyền hợp pháp để sao chép, phân phối hoặc sửa đổi. 
+  To protect your rights, we need to make restrictions that forbid
+distributors to deny you these rights or to ask you to surrender these
+rights.  These restrictions translate to certain responsibilities for
+you if you distribute copies of the library or if you modify it.
 
-Hơn nữa, để bảo vệ quyền tác giả, chúng tôi muốn chắc chắn là mọi người hiểu rằng không có bảo hành cho chương trình này miễn phí. Nếu chương trình bị sửa đổi bởi người khác và thông qua, chúng tôi muốn người dùng biết rằng những gì họ có không phải là bản gốc, do đó bất kỳ vấn đề do người khác sẽ không phản ánhđùnganh tiếng các tác giả của bản gốc. 
+  For example, if you distribute copies of the library, whether gratis
+or for a fee, you must give the recipients all the rights that we gave
+you.  You must make sure that they, too, receive or can get the source
+code.  If you link other code with the library, you must provide
+complete object files to the recipients, so that they can relink them
+with the library after making changes to the library and recompiling
+it.  And you must show them these terms so they know their rights.
 
-Cuối cùng, bất kỳ chương trình miễn phí luôn bị đe dọa bởi bằng sáng chế chương trình. Chúng tôi muốn tránh nguy cơ là phát hành lại một chương trình tự do sẽ giành bằng sáng chế, trong sở hữu chương trình. Để ngăn chặn điều này, chúng tôi đã làm rõ rằng bằng sáng chế phải được cấp giấy phép cho tất cả mọi người sử dụng miễn phí, hoặc không cấp tất cả. 
+  We protect your rights with a two-step method: (1) we copyright the
+library, and (2) we offer you this license, which gives you legal
+permission to copy, distribute and/or modify the library.
 
-<center>Các thuật ngữ chính xác và điều kiện đi kèm cho việc sao chép, phân phối và sửa đổi.
-<b>ĐIỀU KHOẢN VÀ ĐIỀU KIỆN CHO BẢN QUYỀN, PHÂN PHỐI, SỬA ĐỔI</b></center>
+  To protect each distributor, we want to make it very clear that
+there is no warranty for the free library.  Also, if the library is
+modified by someone else and passed on, the recipients should know
+that what they have is not the original version, so that the original
+author's reputation will not be affected by problems that might be
+introduced by others.
+
+  Finally, software patents pose a constant threat to the existence of
+any free program.  We wish to make sure that a company cannot
+effectively restrict the users of a free program by obtaining a
+restrictive license from a patent holder.  Therefore, we insist that
+any patent license obtained for a version of the library must be
+consistent with the full freedom of use specified in this license.
 
-<b>1.</b> Giấy phép này áp dụng cho bất kỳ chương trình hay công việc khác có chứa một thông báo được đặt bởi người giữ bản quyền nói rằng nó có thể được phân phối theo các điều khoản của <b>General Public License</b> này. "Program", bên dưới, nghĩa là bất kỳ chương trình hoặc công việc, và công việc một "work based on the Program" có nghĩa là Chương trình hay công việc bất kỳ làm dưới luật bản quyền: đó là để nói một tác phẩm chứa Chương trình đó hay một phần của nó, hoặc đúng nguyên văn hoặc với sự sửa đổi hoặc được dịch sang ngôn ngữ khác. (việc dịch thuật được bao gồm nhưng không giới hạn trong thuật ngữ "modification") được cấp Giấy phép được gọi là "You".
+  Most GNU software, including some libraries, is covered by the
+ordinary GNU General Public License.  This license, the GNU Lesser
+General Public License, applies to certain designated libraries, and
+is quite different from the ordinary General Public License.  We use
+this license for certain libraries in order to permit linking those
+libraries into non-free programs.
 
-Các hoạt động khác ngoài việc sao chép, phân phối và sửa đổi không được bảo vệ bởi Giấy phép này, họ ở ngoài phạm vi của nó. Các hành động chạy Chương trình không bị giới hạn, và dữ liệu xuất từ Chương trình chỉ được bao gồm nếu nội dung của nó tạo thành một tác phẩm dựa vào Chương trình (đã được thực hiện bằng cách chạy chương trình). Đó đúng hay không phụ thuộc vào những gì Chương trình tạo ra.
+  When a program is linked with a library, whether statically or using
+a shared library, the combination of the two is legally speaking a
+combined work, a derivative of the original library.  The ordinary
+General Public License therefore permits such linking only if the
+entire combination fits its criteria of freedom.  The Lesser General
+Public License permits more lax criteria for linking other code with
+the library.
 
-<b>2.</b>. Bạn có thể sao chép và phát hành bản sao đúng nguyên văn của mã nguồn như bạn nhận được nó trên bất kì hình thức nào, miễn là bạn công khai và bảo đảm trên mỗi bản sao một thông báo bản quyền thích hợp: giữ nguyên vẹn tất cả các thông báo rằng tham khảo Giấy phép này và cho đến khi không có bảo hành; và cung cấp cho những người nhận Chương trình khác một bản sao của Giấy phép cùng với Chương trình. 
+  We call this license the "Lesser" General Public License because it
+does Less to protect the user's freedom than the ordinary General
+Public License.  It also provides other free software developers Less
+of an advantage over competing non-free programs.  These disadvantages
+are the reason we use the ordinary General Public License for many
+libraries.  However, the Lesser license provides advantages in certain
+special circumstances.
 
- Bạn có thể thu phí cho việc phân phối một bản sao, và bạn có thể bảo vệ lựa chọn của bạn cung cấp bảo hành để đổi lấy một khoản phí. 
+  For example, on rare occasions, there may be a special need to
+encourage the widest possible use of a certain library, so that it becomes
+a de-facto standard.  To achieve this, non-free programs must be
+allowed to use the library.  A more frequent case is that a free
+library does the same job as widely used non-free libraries.  In this
+case, there is little to gain by limiting the free library to free
+software only, so we use the Lesser General Public License.
 
-<b>3.</b> Bạn có thể sửa đổi bản sao của bạn hoặc bản sao của Chương trình hoặc bất kỳ phần nào của nó, để tạo thành một tác phẩm dựa vào Chương trình, và sao chép và phân phối các sửa đổi hoặc làm việc theo các điều khoản của mục 1 ở trên, miễn là bạn cũng đáp ứng tất cả các điều kiện sau: 
+  In other cases, permission to use a particular library in non-free
+programs enables a greater number of people to use a large body of
+free software.  For example, permission to use the GNU C Library in
+non-free programs enables many more people to use the whole GNU
+operating system, as well as its variant, the GNU/Linux operating
+system.
 
- <b>a)</b> Bạn phải làm những tập tin đã sửa đổi chứa thông báo dễ thấy nói rằng bạn đã thay đổi tập tin và ngày tháng của sự thay đổi. 
- <b>b)</b> Bạn phải làm bất cứ công việc mà bạn phát hành hay xuất bản, mà toàn bộ hoặc một phần có chứa hay bắt nguồn từ Chương trình hay bất kỳ phần nào đó, để được cấp toàn bộ miễn phí cho tất cả các bên thứ ba theo các điều khoản của Giấy phép này . 
- <b>c)</b> Nếu chương trình sửa đổi có đọc các lệnh khi chạy, bạn phải làm nó, khi được chạy tương tác như vậy theo cách thông thường nhất, để in hoặc hiển thị một lời loan báo gồm có thông báo bản quyền thích hợp và thông báo có bảo hành không (hoặc không, nói rằng bạn cung cấp việc bảo hành) và người dùng có thể phân phối lại chương trình đó với những điều kiện này, và cho người dùng biết cách xem một bản sao của Giấy phép này. (Ngoại lệ: nếu Chương trình chính nó là tương tác nhưng không in loan báo như vậy, công việc của bạn dựa vào Chương trình không cần phải in ra thông báo.) 
+  Although the Lesser General Public License is Less protective of the
+users' freedom, it does ensure that the user of a program that is
+linked with the Library has the freedom and the wherewithal to run
+that program using a modified version of the Library.
 
- Những yêu cầu áp dụng cho các công việc sửa đổi. Nếu nhận ra phần riêng của sản phẩm đó không bắt nguồn từ Chương trình, có thể được coi là hợp lý độc lập và là sản phẩm của riêng mình, thì Giấy phép này, và các điều khoản của nó, không áp dụng cho các phần đó khi bạn phát hành chúng như là công trình riêng biệt. Nhưng khi bạn phát hành có phần giống hoặc toàn bộ tác phẩm dựa vào Chương trình, các phân phối này phải tuân theo những điều khoản của Giấy phép này, mọi người đều có quyền được cấp phép cho mỗi sản phẩm do mình viết ra. 
+  The precise terms and conditions for copying, distribution and
+modification follow.  Pay close attention to the difference between a
+"work based on the library" and a "work that uses the library".  The
+former contains code derived from the library, whereas the latter must
+be combined with the library in order to run.
+
+		  GNU LESSER GENERAL PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
- Do đó, nó không phải là mục đích yêu cầu quyền hay cạnh tranh các quyền mà mục đích là để thực hiện quyền kiểm soát việc phân phối các sản phẩm xuất phát từ Chương trình này. 
+  0. This License Agreement applies to any software library or other
+program which contains a notice placed by the copyright holder or
+other authorized party saying it may be distributed under the terms of
+this Lesser General Public License (also called "this License").
+Each licensee is addressed as "you".
 
- Ngoài ra, các sản phẩm khác không dựa vào Chương trình không thuộc phạm vi của Giấy phép này. 
+  A "library" means a collection of software functions and/or data
+prepared so as to be conveniently linked with application programs
+(which use some of those functions and data) to form executables.
 
-<b>4.</b> Bạn có thể sao chép và phát hành Chương trình (hay một sản phẩm dựa vào nó, theo mục 2) trong mã đối tượng hoặc hình thức thực thi với điều kiện của Phần 1 và 2 bên trên, miễn là bạn tuân thủ những điều sau: 
+  The "Library", below, refers to any such software library or work
+which has been distributed under these terms.  A "work based on the
+Library" means either the Library or any derivative work under
+copyright law: that is to say, a work containing the Library or a
+portion of it, either verbatim or with modifications and/or translated
+straightforwardly into another language.  (Hereinafter, translation is
+included without limitation in the term "modification".)
 
- a) Kèm theo máy tương ứng có thể đọc được mã nguồn, phải được phát hành với điều kiện của Phần 1 và 2 bên trên, hoặc trên phạm vi lưu trữ thường dùng để trao đổi chương trình.
- b) Kèm theo lời mời bằng văn bản, hợp lệ ít nhất là ba năm, để cung cấp cho bên thứ ba, với giá không nhiều hơn chi phí cần thiết để phân phối nguồn, một máy có thể đọc bản sao của mã nguồn tương ứng, để được phân phối theo điều kiện của Phần 1 và 2 bên trên, trên phạm vi lưu trữ thường dùng để trao đổi chương trình.
- c) Kèm theo thông tin mà bạn đã nhận về lời mời phát hành mã nguồn tương ứng. (Tùy chọn này chỉ được phép khi phân phối thương mại, và chỉ khi bạn nhận được chương trình trong mã đối tượng hoặc hình thức thực thi với lời mời như vậy, tùy theo Phần phụ b ở trên.) 
+  "Source code" for a work means the preferred form of the work for
+making modifications to it.  For a library, complete source code means
+all the source code for all modules it contains, plus any associated
+interface definition files, plus the scripts used to control compilation
+and installation of the library.
 
- Mã nguồn cho việc bạn muốn sửa đổi nó. Đối với một công việc thực thi, mã nguồn được sử dụng cho tất cả các Module, bất kỳ tập tin giao diện liên quan, cộng với tập lệnh được dùng để kiểm soát biên dịch và cài đặt chạy được. Tuy nhiên, ngoại lệ là mã nguồn được phát hành không cần phải bao gồm những gì là bình thường (trong dạng thức hoặc nguồn hoặc nhị phân) với các thành phần chính (bộ biên dịch, hạt nhân, ...) của hệ điều hành mà trên đó các tập tin chạy, trừ khi thành phần kèm theo chạy được. 
+  Activities other than copying, distribution and modification are not
+covered by this License; they are outside its scope.  The act of
+running a program using the Library is not restricted, and output from
+such a program is covered only if its contents constitute a work based
+on the Library (independent of the use of the Library in a tool for
+writing it).  Whether that is true depends on what the Library does
+and what the program that uses the Library does.
 
- Nếu việc phát hành mã nguồn tới đối tượng bằng cách cung cấp truy cập từ một nơi được chỉ định, sau đó cung cấp tương đương để sao chép mã nguồn từ cùng một vị trí thì cũng như việc phân phối mã nguồn, mặc dù người khác không bắt buộc phải sao chép mã nguồn cùng với đối tượng. 
+  1. You may copy and distribute verbatim copies of the Library's
+complete source code as you receive it, in any medium, provided that
+you conspicuously and appropriately publish on each copy an
+appropriate copyright notice and disclaimer of warranty; keep intact
+all the notices that refer to this License and to the absence of any
+warranty; and distribute a copy of this License along with the
+Library.
 
-<b>5.</b> Bạn không thể sao chép, sửa đổi, cấp giấy phép con, hay phát hành Chương trình trừ khi được cấp Giấy phép này. Bất kỳ cố gắng nào để sao chép, sửa đổi, cấp giấy phép con hay phát hành Chương trình sẽ bị loại bỏ, và sẽ tự động chấm dứt quyền của bạn dưới Giấy phép này. Tuy nhiên, người đã nhận được bản sao hay quyền từ bạn dưới Giấy phép này sẽ không có giấy phép của họ bị ảnh hưởng miễn là các bên đó vẫn tuân thủ đầy đủ.
+  You may charge a fee for the physical act of transferring a copy,
+and you may at your option offer warranty protection in exchange for a
+fee.
+
+  2. You may modify your copy or copies of the Library or any portion
+of it, thus forming a work based on the Library, and copy and
+distribute such modifications or work under the terms of Section 1
+above, provided that you also meet all of these conditions:
 
-<b>6.</b> Bạn không được yêu cầu chấp nhận Giấy phép này khi bạn chưa có được nó. Tuy nhiên, không cho phép bạn sửa đổi hoặc phát hành Chương trình hay sản phẩm khác phát sinh từ nó. Các hành động này bị pháp luật cấm nếu bạn không tuân theo Giấy phép này. Do đó, bằng cách sửa đổi hay phát hành Chương trình (hay sản phẩm dựa vào Chương trình), bạn phải chấp nhận Giấy phép này để làm điều đó, và mọi điều kiện sao chép, phát hành hay sửa đổi Chương trình hay sản phẩm dựa trên nó. 
+    a) The modified work must itself be a software library.
 
-<b>7.</b> Mỗi khi bạn phát hành lại Chương trình (hay sản phẩm dựa vào Chương trình), người nhận sẽ tự động nhận được một giấy phép từ người cấp gốc để sao chép, phân phối hoặc sửa đổi Chương trình với các điều khoản và điều kiện. Bạn có thể không hạn chế thêm các quyền được cấp ở đây. Bạn không có trách nhiệm thi hành tuân theo điều kiện của Giấy phép này. 
+    b) You must cause the files modified to carry prominent notices
+    stating that you changed the files and the date of any change.
 
-<b>8.</b> Nếu, như là một hệ quả của quyết định của tòa án hoặc cáo buộc vi phạm bằng sáng chế hoặc vì lý do nào khác (không giới hạn trong các vấn đề bằng sáng chế), điều kiện được áp đặt vào bạn (cho dù là của toà án, thoả thuận hoặc cách khác) mà mâu thuẫn điều kiện của Giấy phép này, họ không tha cho bạn từ những điều kiện của Giấy phép này. Nếu bạn không thể phân phối để đáp ứng đồng thời nghĩa vụ của bạn dưới Giấy phép này và bất kỳ nghĩa vụ cần thiết khác, thì kết quả là bạn có thể không phát hành Chương trình nào cả. Ví dụ, nếu một giấy phép bằng sáng chế sẽ không trả tiền bản quyền cho phép tái phân phối miễn phí của Chương trình bằng tất cả những người nhận được bản sao trực tiếp hoặc gián tiếp thông qua các bạn, sau đó là cách duy nhất bạn có thể thỏa cả nó và Giấy phép này là hoàn toàn không phân phối của Chương trình. 
+    c) You must cause the whole of the work to be licensed at no
+    charge to all third parties under the terms of this License.
 
- Nếu bất kỳ nội dung nào của phần này là không hợp lệ hoặc không thể thực thi được thì sẽ áp dụng trong trường hợp khác. 
+    d) If a facility in the modified Library refers to a function or a
+    table of data to be supplied by an application program that uses
+    the facility, other than as an argument passed when the facility
+    is invoked, then you must make a good faith effort to ensure that,
+    in the event an application does not supply such function or
+    table, the facility still operates, and performs whatever part of
+    its purpose remains meaningful.
 
- Nó không phải là mục đích của phần này để khiến bạn vi phạm bất kỳ bằng sáng chế hoặc yêu cầu quyền tài sản khác hoặc để thi hiệu lực của bất kỳ khiếu nại đó; phần này có mục đích duy nhất là bảo vệ tính toàn vẹn của hệ thống phân phối chương trình miễn phí, được thực hiện bởi giấy phép công khai. Nhiều người đã đóng góp dựa vào các ứng dụng phù hợp của hệ thống đó, đó là các nhà tài trợ để quyết định nếu họ muốn phát hành chương trình thông qua bất kỳ hệ thống khác và một giấy phép không thể ép buộc. 
+    (For example, a function in a library to compute square roots has
+    a purpose that is entirely well-defined independent of the
+    application.  Therefore, Subsection 2d requires that any
+    application-supplied function or table used by this function must
+    be optional: if the application does not supply it, the square
+    root function must still compute square roots.)
 
- Phần này dự định để thực hiện triệt để rõ ràng những gì được coi là có một hệ quả của phần còn lại của Giấy phép này. 
+These requirements apply to the modified work as a whole.  If
+identifiable sections of that work are not derived from the Library,
+and can be reasonably considered independent and separate works in
+themselves, then this License, and its terms, do not apply to those
+sections when you distribute them as separate works.  But when you
+distribute the same sections as part of a whole which is a work based
+on the Library, the distribution of the whole must be on the terms of
+this License, whose permissions for other licensees extend to the
+entire whole, and thus to each and every part regardless of who wrote
+it.
 
-<b>9.</b> Nếu việc phân phối hoặc sử dụng Chương trình bị hạn chế trong một số quốc gia, hoặc bởi bằng sáng chế, bởi giao diện bản quyền, là do người giữ bản quyền gốc đã đặt Chương trình dưới Giấy phép này có thể hạn chế phát hành trên một số quốc gia. Trong trường hợp như vậy, Giấy phép này kết hợp các giới hạn, nếu như được ghi trong nội dung của Giấy phép này.
+Thus, it is not the intent of this section to claim rights or contest
+your rights to work written entirely by you; rather, the intent is to
+exercise the right to control the distribution of derivative or
+collective works based on the Library.
 
-<b>10.</b> The Free Software Foundation có thể xuất bản sửa đổi hoặc phiên bản mới của <b>General Public License</b> theo thời gian. Phiên bản mới sẽ có nội dung tương tự với phiên bản hiện tại, nhưng có thể khác một số chi tiết để giải quyết vấn đề mới. 
+In addition, mere aggregation of another work not based on the Library
+with the Library (or with a work based on the Library) on a volume of
+a storage or distribution medium does not bring the other work under
+the scope of this License.
 
-Mọi phiên bản được đưa đều khác nhau. Nếu Chương trình xác định một số phiên bản của Giấy phép này áp dụng cho nó và "phiên bản bất kỳ sau này", bạn có tùy chọn theo các điều khoản và điều kiện hoặc của phiên bản đó, hoặc của bất kỳ phiên bản sau này được xuất bản bởi các chương trình Tự do. Nếu Chương trình không chỉ định một số phiên bản của Giấy phép này, bạn có thể chọn bất kỳ phiên bản đã được xuất bản bởi các chương trình Tự do.
+  3. You may opt to apply the terms of the ordinary GNU General Public
+License instead of this License to a given copy of the Library.  To do
+this, you must alter all the notices that refer to this License, so
+that they refer to the ordinary GNU General Public License, version 2,
+instead of to this License.  (If a newer version than version 2 of the
+ordinary GNU General Public License has appeared, then you can specify
+that version instead if you wish.)  Do not make any other change in
+these notices.
+
+  Once this change is made in a given copy, it is irreversible for
+that copy, so the ordinary GNU General Public License applies to all
+subsequent copies and derivative works made from that copy.
 
-<b>11.</b> Nếu bạn muốn hợp nhất các bộ phận của Chương trình vào các chương trình miễn phí khác, hãy gửi thư cho tác giả để xin phép. Đối với chương trình có bản quyền của các chương trình Tự do, hãy gửi thư cho người sáng lập (đây là trường hợp ngoại lệ). Quyết định của chúng tôi sẽ hướng dẫn mục đích của bảo tồn trạng thái miễn phí của tất cả các dẫn xuất của chương trình miễn phí và của việc thúc đẩy sự chia sẻ và tái sử dụng chương trình nói chung. 
+  This option is useful when you wish to copy part of the code of
+the Library into a program that is not a library.
 
-<center><b>*** KHÔNG BẢO ĐẢM ***</b></CENTER>
+  4. You may copy and distribute the Library (or a portion or
+derivative of it, under Section 2) in object code or executable form
+under the terms of Sections 1 and 2 above provided that you accompany
+it with the complete corresponding machine-readable source code, which
+must be distributed under the terms of Sections 1 and 2 above on a
+medium customarily used for software interchange.
 
-<b>12.</b> VÌ CHƯƠNG TRÌNH ĐÃ ĐƯỢC CẤP PHÉP MIỄN PHÍ, NÊN KHÔNG CÓ BẢO HÀNH ĐỐI VỚI CHƯƠNG TRÌNH NÀY VỚI MỨC CHO PHÉP CỦA LUẬT PHÁP ÁP DỤNG. TRỪ KHI CÁC BÊN CUNG CẤP CHƯƠNG TRÌNH GIỮ NGUYÊN BẢN QUYỀN CỤ THỂ . RỦI RO VỀ CHẤT LƯỢNG VÀ HIỆU SUẤT CỦA CHƯƠNG TRÌNH NÀY HOẶC CHƯƠNG TRÌNH GÂY RA HƯ HỎNG, BẠN HÃY CHẤP NHẬN MỌI CHI PHÍ DỊCH VỤ HAY SỬA CHỮA.
+  If distribution of object code is made by offering access to copy
+from a designated place, then offering equivalent access to copy the
+source code from the same place satisfies the requirement to
+distribute the source code, even though third parties are not
+compelled to copy the source along with the object code.
 
-<b>13.</b> CHÚNG TÔI KHÔNG CHỊU TRÁCH NHIỆM TRONG TRƯỜNG HỢP PHÁP LUẬT YÊU CẦU NGƯỜI NẮM GIỮ BẢN QUYỀN, HOẶC BẤT CỨ AI SỬA ĐỔI HAY PHÁT HÀNH CHƯƠNG TRÌNH KHÔNG TUÂN THỦ NHỮNG QUY ĐỊNH Ở TRÊN HAY THIỆT HẠI DO HẬU QUẢ CỦA VIỆC SỬ DỤNG CHƯƠNG TRÌNH (BAO GỒM NHƯNG KHÔNG GIỚI HẠN MẤT DỮ LIỆU HAY DỮ LIỆU BỊ MẤT MÁT HOẶC KHÔNG CHÍNH XÁC HAY CHƯƠNG TRÌNH HOẠT ĐỘNG KHÁC VỚI MỌI CHƯƠNG TRÌNH).
+  5. A program that contains no derivative of any portion of the
+Library, but is designed to work with the Library by being compiled or
+linked with it, is called a "work that uses the Library".  Such a
+work, in isolation, is not a derivative work of the Library, and
+therefore falls outside the scope of this License.
 
+  However, linking a "work that uses the Library" with the Library
+creates an executable that is a derivative of the Library (because it
+contains portions of the Library), rather than a "work that uses the
+library".  The executable is therefore covered by this License.
+Section 6 states terms for distribution of such executables.
 
-<center><b>Cảm ơn bạn đã đọc và tuân theo những quy định này. Chúc bạn cài đặt thành công!
-------------------------------******************************------------------------------</b></center>
+  When a "work that uses the Library" uses material from a header file
+that is part of the Library, the object code for the work may be a
+derivative work of the Library even though the source code is not.
+Whether this is true is especially significant if the work can be
+linked without the Library, or if the work is itself a library.  The
+threshold for this to be true is not precisely defined by law.
+
+  If such an object file uses only numerical parameters, data
+structure layouts and accessors, and small macros and small inline
+functions (ten lines or less in length), then the use of the object
+file is unrestricted, regardless of whether it is legally a derivative
+work.  (Executables containing this object code plus portions of the
+Library will still fall under Section 6.)
+
+  Otherwise, if the work is a derivative of the Library, you may
+distribute the object code for the work under the terms of Section 6.
+Any executables containing that work also fall under Section 6,
+whether or not they are linked directly with the Library itself.
+
+  6. As an exception to the Sections above, you may also combine or
+link a "work that uses the Library" with the Library to produce a
+work containing portions of the Library, and distribute that work
+under terms of your choice, provided that the terms permit
+modification of the work for the customer's own use and reverse
+engineering for debugging such modifications.
+
+  You must give prominent notice with each copy of the work that the
+Library is used in it and that the Library and its use are covered by
+this License.  You must supply a copy of this License.  If the work
+during execution displays copyright notices, you must include the
+copyright notice for the Library among them, as well as a reference
+directing the user to the copy of this License.  Also, you must do one
+of these things:
+
+    a) Accompany the work with the complete corresponding
+    machine-readable source code for the Library including whatever
+    changes were used in the work (which must be distributed under
+    Sections 1 and 2 above); and, if the work is an executable linked
+    with the Library, with the complete machine-readable "work that
+    uses the Library", as object code and/or source code, so that the
+    user can modify the Library and then relink to produce a modified
+    executable containing the modified Library.  (It is understood
+    that the user who changes the contents of definitions files in the
+    Library will not necessarily be able to recompile the application
+    to use the modified definitions.)
+
+    b) Use a suitable shared library mechanism for linking with the
+    Library.  A suitable mechanism is one that (1) uses at run time a
+    copy of the library already present on the user's computer system,
+    rather than copying library functions into the executable, and (2)
+    will operate properly with a modified version of the library, if
+    the user installs one, as long as the modified version is
+    interface-compatible with the version that the work was made with.
+
+    c) Accompany the work with a written offer, valid for at
+    least three years, to give the same user the materials
+    specified in Subsection 6a, above, for a charge no more
+    than the cost of performing this distribution.
+
+    d) If distribution of the work is made by offering access to copy
+    from a designated place, offer equivalent access to copy the above
+    specified materials from the same place.
+
+    e) Verify that the user has already received a copy of these
+    materials or that you have already sent this user a copy.
+
+  For an executable, the required form of the "work that uses the
+Library" must include any data and utility programs needed for
+reproducing the executable from it.  However, as a special exception,
+the materials to be distributed need not include anything that is
+normally distributed (in either source or binary form) with the major
+components (compiler, kernel, and so on) of the operating system on
+which the executable runs, unless that component itself accompanies
+the executable.
+
+  It may happen that this requirement contradicts the license
+restrictions of other proprietary libraries that do not normally
+accompany the operating system.  Such a contradiction means you cannot
+use both them and the Library together in an executable that you
+distribute.
+
+  7. You may place library facilities that are a work based on the
+Library side-by-side in a single library together with other library
+facilities not covered by this License, and distribute such a combined
+library, provided that the separate distribution of the work based on
+the Library and of the other library facilities is otherwise
+permitted, and provided that you do these two things:
+
+    a) Accompany the combined library with a copy of the same work
+    based on the Library, uncombined with any other library
+    facilities.  This must be distributed under the terms of the
+    Sections above.
+
+    b) Give prominent notice with the combined library of the fact
+    that part of it is a work based on the Library, and explaining
+    where to find the accompanying uncombined form of the same work.
+
+  8. You may not copy, modify, sublicense, link with, or distribute
+the Library except as expressly provided under this License.  Any
+attempt otherwise to copy, modify, sublicense, link with, or
+distribute the Library is void, and will automatically terminate your
+rights under this License.  However, parties who have received copies,
+or rights, from you under this License will not have their licenses
+terminated so long as such parties remain in full compliance.
+
+  9. You are not required to accept this License, since you have not
+signed it.  However, nothing else grants you permission to modify or
+distribute the Library or its derivative works.  These actions are
+prohibited by law if you do not accept this License.  Therefore, by
+modifying or distributing the Library (or any work based on the
+Library), you indicate your acceptance of this License to do so, and
+all its terms and conditions for copying, distributing or modifying
+the Library or works based on it.
+
+  10. Each time you redistribute the Library (or any work based on the
+Library), the recipient automatically receives a license from the
+original licensor to copy, distribute, link with or modify the Library
+subject to these terms and conditions.  You may not impose any further
+restrictions on the recipients' exercise of the rights granted herein.
+You are not responsible for enforcing compliance by third parties with
+this License.
+
+  11. If, as a consequence of a court judgment or allegation of patent
+infringement or for any other reason (not limited to patent issues),
+conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot
+distribute so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you
+may not distribute the Library at all.  For example, if a patent
+license would not permit royalty-free redistribution of the Library by
+all those who receive copies directly or indirectly through you, then
+the only way you could satisfy both it and this License would be to
+refrain entirely from distribution of the Library.
+
+If any portion of this section is held invalid or unenforceable under any
+particular circumstance, the balance of the section is intended to apply,
+and the section as a whole is intended to apply in other circumstances.
+
+It is not the purpose of this section to induce you to infringe any
+patents or other property right claims or to contest validity of any
+such claims; this section has the sole purpose of protecting the
+integrity of the free software distribution system which is
+implemented by public license practices.  Many people have made
+generous contributions to the wide range of software distributed
+through that system in reliance on consistent application of that
+system; it is up to the author/donor to decide if he or she is willing
+to distribute software through any other system and a licensee cannot
+impose that choice.
+
+This section is intended to make thoroughly clear what is believed to
+be a consequence of the rest of this License.
+
+  12. If the distribution and/or use of the Library is restricted in
+certain countries either by patents or by copyrighted interfaces, the
+original copyright holder who places the Library under this License may add
+an explicit geographical distribution limitation excluding those countries,
+so that distribution is permitted only in or among countries not thus
+excluded.  In such case, this License incorporates the limitation as if
+written in the body of this License.
+
+  13. The Free Software Foundation may publish revised and/or new
+versions of the Lesser General Public License from time to time.
+Such new versions will be similar in spirit to the present version,
+but may differ in detail to address new problems or concerns.
+
+Each version is given a distinguishing version number.  If the Library
+specifies a version number of this License which applies to it and
+"any later version", you have the option of following the terms and
+conditions either of that version or of any later version published by
+the Free Software Foundation.  If the Library does not specify a
+license version number, you may choose any version ever published by
+the Free Software Foundation.
+
+  14. If you wish to incorporate parts of the Library into other free
+programs whose distribution conditions are incompatible with these,
+write to the author to ask for permission.  For software which is
+copyrighted by the Free Software Foundation, write to the Free
+Software Foundation; we sometimes make exceptions for this.  Our
+decision will be guided by the two goals of preserving the free status
+of all derivatives of our free software and of promoting the sharing
+and reuse of software generally.
+
+			    NO WARRANTY
+
+  15. BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
+WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
+EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR
+OTHER PARTIES PROVIDE THE LIBRARY "AS IS" WITHOUT WARRANTY OF ANY
+KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE
+LIBRARY IS WITH YOU.  SHOULD THE LIBRARY PROVE DEFECTIVE, YOU ASSUME
+THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+  16. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY
+AND/OR REDISTRIBUTE THE LIBRARY AS PERMITTED ABOVE, BE LIABLE TO YOU
+FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+LIBRARY (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE LIBRARY TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGES.
+
+		     END OF TERMS AND CONDITIONS
+
 
 
 EndOfLicense;
