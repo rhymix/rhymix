@@ -326,7 +326,6 @@
                         $output = $this->_executeSelectAct($output);
                     break;
             }
-
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
@@ -613,5 +612,10 @@
             return $result;
         }
 
+        function dropTable($table_name){
+            if(!$table_name) return;
+            $query = sprintf("drop table %s%s", $this->prefix, $table_name);
+            $this->_query($query);
+        }
     }
 ?>
