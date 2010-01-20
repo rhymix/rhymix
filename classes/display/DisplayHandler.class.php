@@ -18,7 +18,7 @@
          * @brief print either html or xml content given oModule object 
          * @remark addon execution and the trigger execution are included within this method, which
          * might create inflexibility for the fine grained caching
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function printContent(&$oModule) {
 
@@ -162,7 +162,7 @@
 
         /**
         * @brief add given .css or .js file names in widget code to Context       
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function transMeta($matches) {
             if(substr($matches[1],'-4')=='.css') Context::addCSSFile($matches[1]);
@@ -172,7 +172,7 @@
         /**
         * @brief add html style code extracted from html body to Context, which will be
         * printed inside <header></header> later.
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function moveStyleToHeader($matches) {
             Context::addHtmlHeader($matches[0]);
@@ -180,7 +180,7 @@
 
        /**
         * @brief produce JSON compliant cotent given a module object.
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function _toJSON(&$oModule) {
             $variables = $oModule->getVariables();
@@ -192,7 +192,7 @@
 
         /**
         * @brief Produce virtualXML compliant content given a module object.\n
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function _toVirtualXmlDoc(&$oModule) {
             $error = $oModule->getError();
@@ -222,7 +222,7 @@
 
         /**
         * @brief Produce XML compliant content given a module object.\n
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function _toXmlDoc(&$oModule) {
             $variables = $oModule->getVariables();
@@ -240,7 +240,7 @@
 
        /**
         * @brief produce XML code given variable object\n
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function _makeXmlDoc($obj) {
             if(!count($obj)) return;
@@ -260,7 +260,7 @@
 
         /**
         * @brief Produce HTML compliant content given a module object.\n
-        * @param $oModule the module object
+        * @param[in] $oModule the module object
         **/
         function _toHTMLDoc(&$oModule) {
             // template handler 객체 생성
