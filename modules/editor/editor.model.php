@@ -64,7 +64,9 @@
 				foreach($drComponentList as $i => $drComponent){
 					unset($obj);
 					$obj = $this->getDrComponentXmlInfo($drComponent);
-					$obj->html = $oTemplate->compile(sprintf('%s%s/tpl/',$drComponentPath,$drComponent),$drComponent);
+					$path = sprintf('%s%s/tpl/',$drComponentPath,$drComponent);
+					$obj->html = $oTemplate->compile($path,$drComponent);
+					Context::loadLang($path.'lang/');
 					$drComponentInfo[$drComponent] = $obj;
 				}
 			}
