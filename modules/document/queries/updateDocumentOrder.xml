@@ -3,7 +3,7 @@
         <table name="documents" />
     </tables>
     <columns>
-        <column name="module_srl" var="module_srl" filter="number" default="0" />
+        <column name="module_srl" var="module_srl" filter="number" />
         <column name="regdate" var="regdate" default="curdate()" />
         <column name="last_update" var="last_update" default="curdate()" />
         <column name="list_order" var="list_order" />
