@@ -118,7 +118,6 @@
             if(!$_SESSION['ftp_password'])
             {
                 $ftp_password = Context::get('ftp_password');
-                if($ftp_password) $_SESSION['ftp_password'] = $ftp_password;
             }
             else
             {
