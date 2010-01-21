@@ -46,11 +46,13 @@
          **/
         function checkUpdate() {
             $oDB =& DB::getInstance();
-            if($oDB->isTableExists("autoinstall_installed_packages"))
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))  
+                && $oDB->isTableExists("autoinstall_installed_packages"))
             {
                 return true;
             }
-            if($oDB->isTableExists("autoinstall_remote_categories"))
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))  
+                && $oDB->isTableExists("autoinstall_remote_categories"))
             {
                 return true;
             }
@@ -63,11 +65,13 @@
          **/
         function moduleUpdate() {
             $oDB =& DB::getInstance();
-            if($oDB->isTableExists("autoinstall_installed_packages"))
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))  
+                && $oDB->isTableExists("autoinstall_installed_packages"))
             {
                 $oDB->dropTable("autoinstall_installed_packages");
             }
-            if($oDB->isTableExists("autoinstall_remote_categories"))
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))  
+                && $oDB->isTableExists("autoinstall_remote_categories"))
             {
                 $oDB->dropTable("autoinstall_remote_categories");
             }
