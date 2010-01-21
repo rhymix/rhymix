@@ -92,17 +92,17 @@
             $oParser = new XmlParser();
             $xml_doc = $oParser->loadXmlFile($xml_file);
 
-			$component_info->drcomponent_name = $drComponentName;
-			$component_info->title = $xml_doc->drcomponent->title->body;
-			$component_info->description = str_replace('\n', "\n", $xml_doc->drcomponent->description->body);
-			$component_info->version = $xml_doc->drcomponent->version->body;
-			$component_info->date = $xml_doc->drcomponent->date->body;
-			$component_info->homepage = $xml_doc->drcomponent->link->body;
-			$component_info->license = $xml_doc->drcomponent->license->body;
-			$component_info->license_link = $xml_doc->drcomponent->license->attrs->link;
+			$component_info->component_name = $drComponentName;
+			$component_info->title = $xml_doc->component->title->body;
+			$component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
+			$component_info->version = $xml_doc->component->version->body;
+			$component_info->date = $xml_doc->component->date->body;
+			$component_info->homepage = $xml_doc->component->link->body;
+			$component_info->license = $xml_doc->component->license->body;
+			$component_info->license_link = $xml_doc->component->license->attrs->link;
 
 			$buff = '<?php if(!defined("__ZBXE__")) exit(); ';
-			$buff .= sprintf('$xml_info->drcomponent_name = "%s";', $component_info->drcomponent_name);
+			$buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
 			$buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
 			$buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
 			$buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
@@ -112,8 +112,8 @@
 			$buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
 
 			// 작성자 정보
-			if(!is_array($xml_doc->drcomponent->author)) $author_list[] = $xml_doc->drcomponent->author;
-			else $author_list = $xml_doc->drcomponent->author;
+			if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
+			else $author_list = $xml_doc->component->author;
 
 			for($i=0; $i < count($author_list); $i++) {
 				$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
@@ -122,9 +122,9 @@
 			}
 
 			// history
-			if($xml_doc->drcomponent->history) {
-				if(!is_array($xml_doc->drcomponent->history)) $history_list[] = $xml_doc->drcomponent->history;
-				else $history_list = $xml_doc->drcomponent->history;
+			if($xml_doc->component->history) {
+				if(!is_array($xml_doc->component->history)) $history_list[] = $xml_doc->component->history;
+				else $history_list = $xml_doc->component->history;
 
 				for($i=0; $i < count($history_list); $i++) {
 					unset($obj);
@@ -156,7 +156,7 @@
 			}
 
            // 추가 변수 정리 (에디터 컴포넌트에서는 text형만 가능)
-            $extra_vars = $xml_doc->drcomponent->extra_vars->var;
+            $extra_vars = $xml_doc->component->extra_vars->var;
             if($extra_vars) {
                 if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
                 foreach($extra_vars as $key => $val) {
