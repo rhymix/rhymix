@@ -229,5 +229,4 @@
 
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
-	$lang->edit->drag_here = '请点击编辑器工具栏中的相应按钮开始撰写日志。';
-?>
+?>

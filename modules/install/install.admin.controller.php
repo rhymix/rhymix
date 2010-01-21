@@ -140,6 +140,7 @@
             $buff .= "?>";
             $config_file = Context::getFTPConfigFile();
             FileHandler::WriteFile($config_file, $buff);
+            if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
             $this->setMessage('success_updated');
         }
 

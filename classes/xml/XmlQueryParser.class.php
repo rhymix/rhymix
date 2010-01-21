@@ -202,20 +202,6 @@
                 $buff .= sprintf('$output->groups = array("%s");%s', implode('","',$output->groups),"\n");
             }
 
-            // default check
-            if(count($this->default_list)) {
-                foreach($this->default_list as $key => $val) {
-                    $pre_buff .= 'if(!isset($args->'.$key.')) $args->'.$key.' = '.$val.';'."\n";
-                }
-            }
-
-            // not null check
-            if(count($this->notnull_list)) {
-                foreach($this->notnull_list as $key => $val) {
-                    $pre_buff .= 'if(!isset($args->'.$val.')) return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
-                }
-            }
-
             // minlength check
             if(count($minlength_list)) {
                 foreach($minlength_list as $key => $val) {
@@ -234,6 +220,20 @@
             if(count($this->filter_list)) {
                 foreach($this->filter_list as $key => $val) {
                     $pre_buff .= sprintf('if(isset($args->%s)) { unset($_output); $_output = $this->checkFilter("%s",$args->%s,"%s"); if(!$_output->toBool()) return $_output; } %s',$val->var, $val->var,$val->var,$val->filter,"\n");
+                }
+            }
+
+            // default check
+            if(count($this->default_list)) {
+                foreach($this->default_list as $key => $val) {
+                    $pre_buff .= 'if(!isset($args->'.$key.')) $args->'.$key.' = '.$val.';'."\n";
+                }
+            }
+
+            // not null check
+            if(count($this->notnull_list)) {
+                foreach($this->notnull_list as $key => $val) {
+                    $pre_buff .= 'if(!isset($args->'.$val.')) return new Object(-1, sprintf($lang->filter->isnull, $lang->'.$val.'?$lang->'.$val.':\''.$val.'\'));'."\n";
                 }
             }
 

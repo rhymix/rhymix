@@ -711,6 +711,12 @@ function doShowWidgetSizeSetup(px, py, obj) {
 	jQuery.each(opts, function(key, val){
 		var el = form[0].elements[key];
 		if (el) el.value = val;
+        if (el.tagName.toLowerCase() == "select")
+        { 
+            if(el.selectedIndex == -1) {
+                el.selectedIndex = 0;
+            }
+        }
 	});
 
 	try { form[0].elements[0].focus() } catch(e) {};

@@ -227,5 +227,4 @@
 
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
-	$lang->edit->drag_here = 'You can start writting with a selected paragraph from paragraph toolbar below.';
 ?>

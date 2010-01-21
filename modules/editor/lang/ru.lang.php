@@ -223,5 +223,4 @@
 
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
-	$lang->edit->drag_here = '아래의 단락추가 툴바에서 원하는 유형의 단락을 추가해 글 쓰기를 시작하세요.';
 ?>
