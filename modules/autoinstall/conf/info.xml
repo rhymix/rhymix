@@ -12,7 +12,7 @@
 	<description xml:lang="zh-TW">With this module, you can install and upgrade your programs including modules, skins, layouts, etc., from www.xpressengine.com by one-click.</description>
     <description xml:lang="zh-CN">很方便的在管理页面一键安装XE相关模块(模块/皮肤/布局/控件/控件样式等)。</description>
 	<description xml:lang="jp">管理者モードにてクリックだけで、モジュール/スキン/レイアウト/ウィジェット/ウィジェットスタイルのインストールを可能にするモジュールです。</description>
-    <version>0.1</version>
+    <version>0.2</version>
     <date>2009-11-11</date>
     <category>system</category>
     <author email_address="haneul0318@gmail.com" link="http://www.seungyeop.kr">
