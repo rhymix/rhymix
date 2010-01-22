@@ -256,6 +256,7 @@
     $lang->confirm_move = 'Vous voulez sûrement bouger?';
     $lang->confirm_reset = 'Vous voulez sûrement restaurer?';
     $lang->confirm_leave = 'Vous voulez sûrement supprimer votre compte?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Types de la colonne';
     $lang->column_type_list['text'] = 'Texte en une seul ligne';

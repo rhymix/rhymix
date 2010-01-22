@@ -257,6 +257,7 @@
     $lang->confirm_move = 'Шилжих үү?';
     $lang->confirm_reset = 'Reset хийх үү?';
     $lang->confirm_leave = 'Гишүүнээс гарах уу?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Хэлбэр';
     $lang->column_type_list['text'] = 'Нэг мөрөөр оруулах (text)';

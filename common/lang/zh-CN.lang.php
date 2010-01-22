@@ -258,6 +258,7 @@
     $lang->confirm_move = '确定要移动吗?';
     $lang->confirm_reset = '确定要初始化吗?';
     $lang->confirm_leave = '确定要注销吗?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = '格式';
     $lang->column_type_list['text'] = '单行文本输入区(text)';

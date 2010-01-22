@@ -249,6 +249,7 @@
     $lang->confirm_move = 'Bạn chắc chắn muốn chuyển?';
     $lang->confirm_reset = 'Bạn chắc chắn muốn thiết lập lại?';
     $lang->confirm_leave = 'Bạn chắc chắn muốn từ bỏ?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Định dạng cột';
     $lang->column_type_list['text'] = 'Ô nhập liệu';

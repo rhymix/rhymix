@@ -262,6 +262,7 @@
     $lang->confirm_move = '¿Está seguro que desea mover?';
     $lang->confirm_reset = '¿Está seguro que desea rehacer?';
     $lang->confirm_leave = '¿Está seguro que desea abandonar?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Tipos de Columnas';
     $lang->column_type_list['text'] = 'Texto sin cambio de línea';
