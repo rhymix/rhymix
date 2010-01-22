@@ -88,6 +88,8 @@ jQuery(function($){
 	var btn = $('#search_nav button:first');
 	var result = $('<ul class="_result" />');
 
+    if(inp.length == 0) return;
+
 	nav.after( result.hide() );
 
 	inp.keydown(function(event){
