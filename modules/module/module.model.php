@@ -1033,13 +1033,21 @@
         /**
          * @brief site_module_info의 관리자 인지 체크
          **/
-        function isSiteAdmin($member_info) {
+        function isSiteAdmin($member_info, $site_srl = null) {
             if(!$member_info->member_srl) return false;
             if($member_info->is_admin == 'Y') return true;
 
-            $site_module_info = Context::get('site_module_info');
-            if(!$site_module_info) return;
-            $args->site_srl = $site_module_info->site_srl;
+            if(!isset($site_srl))
+            {
+                $site_module_info = Context::get('site_module_info');
+                if(!$site_module_info) return;
+                $args->site_srl = $site_module_info->site_srl;
+            }
+            else
+            {
+                $args->site_srl = $site_srl;
+            }
+
             $args->member_srl = $member_info->member_srl;
             $output = executeQuery('module.isSiteAdmin', $args);
             if($output->data->member_srl == $args->member_srl) return true;
