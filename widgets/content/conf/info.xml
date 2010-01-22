@@ -4,13 +4,13 @@
     <title xml:lang="en">Content</title>
     <title xml:lang="vi">Nội dung</title>
     <title xml:lang="zh-CN">全局内容控件</title>
-    <title xml:lang="zh-TW">內容組件</title>
+    <title xml:lang="zh-TW">內容</title>
     <title xml:lang="jp">コンテンツウィジェット</title>
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="en">This widget displays Content such as articles, comments, or attached files.</description>
 	<description xml:lang="vi">Widget này sẽ hiển thị những bài viết, bình luận, File đính kèm.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
-    <description xml:lang="zh-TW">是種可輸出討論板、評論，附加檔案等內容的組件。</description>
+    <description xml:lang="zh-TW">這個 Widget 可輸出討論板、評論，附加檔案等內容。</description>
     <description xml:lang="jp">掲示板の書き込み、コメント、添付ファイルなどコンテンツを出力するウィジェットです。</description>
     <version>0.1</version>
     <date>2009-03-16</date>
@@ -675,13 +675,13 @@
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
             <description xml:lang="ko">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
             (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
-	    <description xml:lang="zh-CN">请输入RSS格式地址。
+	    	<description xml:lang="zh-CN">请输入RSS格式地址。
             (支持文档格式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="vi">Chỉ hỗ trợ những định dạng được dăng kí. (RSS 2.0 RSS 1.0 ATOM 1.0).</description>
             <description xml:lang="jp">RSS URLはタイプが RSSの時だけ登録出来ます。
             (サポートする文書形式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
-            <description xml:lang="zh-TW">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
-            (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
+            <description xml:lang="zh-TW">請輸入 RSS 位址。
+            (支援檔案格式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
         </var>
         <var id="rss_url1">
             <type>text</type>
@@ -731,14 +731,14 @@
             <name xml:lang="en">HTML Display Type</name>
             <name xml:lang="vi">Hiển thị kiểu HTML</name>
             <name xml:lang="ru">HTML 출력 방식</name>
-            <name xml:lang="zh-TW">HTML 출력 방식</name>
+            <name xml:lang="zh-TW">HTML 樣式選擇</name>
             <description xml:lang="ko">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <description xml:lang="jp">TABLE(表)タグとUL(リスト型)タグを選択して表示します。(デフォールトはTABLE)</description>
             <description xml:lang="zh-CN">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
             <description xml:lang="en">You can choose TABLE tag or UL tag to display. (default is TABLE)</description>
             <description xml:lang="vi">Bạn có thể chọn Table Tag hay UL Tag để hiển thị. (Mặc định là Table)</description>
             <description xml:lang="ru">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
-            <description xml:lang="zh-TW">TABLE(표)태그와 UL(목록형) 태그를 선택하여 출력하게 할 수 있습니다. (기본은 TABLE입니다)</description>
+            <description xml:lang="zh-TW">可選擇 TABLE(表格) 或 UL(列表) 樣式。(預設是 TABLE 樣式)</description>
             <options>
                 <value>table</value>
                 <name xml:lang="ko">Table</name>

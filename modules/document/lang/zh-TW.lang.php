@@ -95,5 +95,5 @@
         'trash_ipaddress' => '移除IP位址',
     );
 
-    $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->success_trashed = "成功地移到垃圾桶";
 ?>
