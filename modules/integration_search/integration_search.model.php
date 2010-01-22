@@ -28,6 +28,7 @@
             $args->search_keyword = $search_keyword;
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
+            if(!$args->module_srl) unset($args->module_srl);
 
             // 대상 문서들을 가져옴
             $oDocumentModel = &getModel('document');
