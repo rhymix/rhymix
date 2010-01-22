@@ -257,6 +257,7 @@
     $lang->confirm_move = '確定要移動嗎?';
     $lang->confirm_reset = '確定要重置嗎?';
     $lang->confirm_leave = '確定要退出嗎?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = '格式';
     $lang->column_type_list['text'] = '文字輸入(text)';

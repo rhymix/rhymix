@@ -60,6 +60,7 @@
             // 페이지의 원 정보를 구해옴
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            if(!isset($content)) $content ='';
             $module_info->content = $content;
 
             // module 모듈의 controller 객체 생성

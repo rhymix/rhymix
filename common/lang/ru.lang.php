@@ -254,6 +254,7 @@
     $lang->confirm_move = 'Вы подтверждаете перемещение?';
     $lang->confirm_reset = 'Вы подтверждаете сброс?';
     $lang->confirm_leave = 'Вы подтверждаете уход?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Тип колонки';
     $lang->column_type_list['text'] = 'одна строка текста';

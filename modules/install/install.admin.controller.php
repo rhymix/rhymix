@@ -126,6 +126,7 @@
             $ftp_info = Context::getFTPInfo();
             $ftp_info->ftp_user = Context::get('ftp_user');
             $ftp_info->ftp_port = Context::get('ftp_port');
+            $ftp_info->ftp_host = Context::Get('ftp_host');
             $ftp_info->sftp = Context::get('sftp');
             $ftp_info->ftp_root_path = Context::get('ftp_root_path');
             if(ini_get('safe_mode')) {

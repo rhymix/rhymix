@@ -258,6 +258,7 @@
     $lang->confirm_move = '移動しますか？';
     $lang->confirm_reset = '初期化しますか？';
     $lang->confirm_leave = '退会しますか？';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'タイプ';
     $lang->column_type_list['text'] = '入力フィールド(text)';

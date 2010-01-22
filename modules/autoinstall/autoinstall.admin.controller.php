@@ -111,6 +111,7 @@
 
         function procAutoinstallAdminPackageinstall()
         {
+            set_time_limit(0);
             $package_srls = Context::get('package_srl');
             $oModel =& getModel('autoinstall');
             $packages = explode(',', $package_srls);

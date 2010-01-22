@@ -256,6 +256,7 @@
     $lang->confirm_move = 'Are you sure to move?';
     $lang->confirm_reset = 'Are you sure to reset?';
     $lang->confirm_leave = 'Are you sure to leave?';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Column Type';
     $lang->column_type_list['text'] = 'one-line text';

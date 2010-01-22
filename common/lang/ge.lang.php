@@ -256,6 +256,7 @@
     $lang->confirm_move = 'Sind Sie sicher, dass zu bewegen? ';
     $lang->confirm_reset = 'Sind Sie sicher, dass zurücksetzen? ';
     $lang->confirm_leave = 'Sind Sie sicher, dass zu verlassen? ';
+    $lang->confirm_update = 'Are you sure to update?';
 
     $lang->column_type = 'Spaltenart';
     $lang->column_type_list['text'] = 'ein Online-Text';

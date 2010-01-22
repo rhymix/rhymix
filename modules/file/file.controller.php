@@ -182,15 +182,25 @@
                 if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
                 $logged_info = Context::get('logged_info');
                 if($logged_info->is_admin != 'Y') {
-                    $is_permitted = false;
-                    for($i=0;$i<count($file_module_config->download_grant);$i++) {
-                        $group_srl = $file_module_config->download_grant[$i];
-                        if($logged_info->group_list[$group_srl]) {
-                            $is_permitted = true;
-                            break;
+
+                    $oModuleModel =& getModel('module');
+                    $module_info = $oModuleModel->getModuleInfoByModuleSrl($file_obj->module_srl);
+
+                    if(!$oModuleModel->isSiteAdmin($logged_info, $module_info->site_srl))
+                    {
+                        $oMemberModel =& getModel('member');
+                        $member_groups = $oMemberModel->getMemberGroups($logged_info->member_srl, $module_info->site_srl);
+
+                        $is_permitted = false;
+                        for($i=0;$i<count($file_module_config->download_grant);$i++) {
+                            $group_srl = $file_module_config->download_grant[$i];
+                            if($member_groups[$group_srl]) {
+                                $is_permitted = true;
+                                break;
+                            }
                         }
+                        if(!$is_permitted) return $this->stop('msg_not_permitted_download');
                     }
-                    if(!$is_permitted) return $this->stop('msg_not_permitted_download');
                 }
             }
 
