@@ -250,6 +250,7 @@
             $oDB->begin();
 
             $oModuleModel = &getModel('module');
+			if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
             $module_srl = $obj->module_srl;
             $document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
             if(!isset($document_config->use_history)) $document_config->use_history = 'N';
