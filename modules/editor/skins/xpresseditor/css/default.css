@@ -44,7 +44,7 @@
 .xpress-editor .input_area textarea{ *margin:0 -10px; _margin-bottom:-2px;}
 .xpress-editor .input_area textarea.blind{ display:none;}
 .xpress-editor .input_control{ position:relative; display:block; width:100%; clear:both; text-align:center; background:#fbfbfb url(../img/btn_expand.gif) no-repeat center center; cursor:n-resize;}
-.xpress-editor .input_control span{ display:block; height:10px; border-top:1px solid #dfdfdf; visibility:visible; font-size:0; line-height:200%; white-space:nowrap; color:#fff;}
+.xpress-editor .input_control span{ display:block; height:10px; visibility:hidden; overflow:visible; font-size:0; line-height:200%; white-space:nowrap; color:#fff;}
 .xpress-editor.black .input_control { background:#111 url(../img/btn_expand.black.gif) no-repeat center center;}
 .xpress-editor.black .input_control span{ border-top:1px solid #333;  color:#000;}
 
