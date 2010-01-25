@@ -38,7 +38,7 @@ function editorEnableAutoSave(fo_obj, editor_sequence) {
     var title = fo_obj.title.value;
     var content = editorRelKeys[editor_sequence]['content'].value;
     editorAutoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
-    setTimeout('_editorAutoSave()', 3000);
+    setTimeout('_editorAutoSave()', 50000);
 }
 
 // ajax를 이용하여 editor.procEditorSaveDoc 호출하여 자동 저장시킴 exe는 강제 코드
