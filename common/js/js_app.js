@@ -240,8 +240,7 @@ _app_base = {
 		if (!/^(?:AFTER_|BEFORE_)/.test(msg)) { // top level function
 			return vRet;
 		} else {
-			if (typeof vRet == 'undefined') vRet = true;
-			return $.isArray(vRet)?$.inArray(false, vRet):!!vRet;
+			return $.isArray(vRet)?($.inArray(false, vRet)<0):((typeof vRet=='undefined')?true:!!vRet);
 		}
 	}
 };
