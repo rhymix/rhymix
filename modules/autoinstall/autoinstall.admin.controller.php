@@ -82,6 +82,10 @@
                             case "widgetstyle":
                             $config_file = "/skin.xml";
                         break;
+                        case "drcomponent":
+                            $config_file = "/info.xml";
+                            $type = "component";
+                        break;
 
                         default:
                         continue;
