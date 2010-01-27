@@ -26,9 +26,9 @@ function doPoll(fo_obj) {
     var poll_srl_indexes = "";
     for(var poll_srl_index in checkcount) {
 	if(!checkcount.hasOwnProperty(poll_srl_index)) continue;
-        var count = parseInt(checkcount[poll_srl_index]);
+        var count = checkcount[poll_srl_index];
         var items = item[poll_srl_index];
-        if(items.length < 1 || count > items.length) {
+        if(items.length < 1 || count < items.length) {
             alert(poll_alert_lang);
             return false;
         }
