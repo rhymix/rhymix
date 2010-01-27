@@ -61,9 +61,6 @@
                 </select>
             </td>
         </tr>
-        <tr>
-            <th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
-            <td><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></td>
         </table>
 
         <div id="poll_source" class="clear" style="display:none">
@@ -72,6 +69,10 @@
             <table cellspacing="0" class="rowTable gap1">
             <col width="100" />
             <col />
+            <tr>
+            <th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
+            <td><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></td>
+            </tr>
             <tr>
                 <th scope="row"><div>{$lang->poll_title}</div></th>
                 <td><input type="text" name="title_tidx" class="inputTypeText w400" /></td>
