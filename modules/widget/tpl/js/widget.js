@@ -235,9 +235,16 @@ function doSyncPageContent() {
         var obj = sel_obj.firstChild;
         while(obj && obj.className != "widgetContent") obj = obj.nextSibling;
         if(obj && obj.className == "widgetContent") {
-            if(!fo_obj.content.value) {
-                var content = Base64.decode(xInnerHtml(obj));
-                xGetElementById("content_fo").content.value = content;
+            if(!fo_obj.document_srl || fo_obj.document_srl.value == 0) {
+                try {
+                    var content = Base64.decode(xInnerHtml(obj));
+                    content = editorReplacePath(content);
+                    xGetElementById("content_fo").content.value = content;
+                    xe.Editors["1"].exec("SET_IR", [content]);
+                }
+                catch(e)
+                {
+                }
             }
         }
     }
