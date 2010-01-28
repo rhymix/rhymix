@@ -9,10 +9,11 @@
 	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9]?[0-9])';
 	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
 	var port_re     = '(?::([0-9]+))?';
+	var user_re     = '(?:/~[\\w-]+)?';
 	var path_re     = '((?:/[\\w!"$-/:-@]+)*)';
 	var hash_re     = '(?:#([\\w!-@]+))?';
 
-	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+'|localhost'+')'+port_re+path_re+hash_re+')', 'ig');
+	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+'|localhost'+')'+port_re+user_re+path_re+hash_re+')', 'ig');
 
 	var AutoLink = xe.createPlugin("autolink", {
 		targets : [],

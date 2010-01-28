@@ -59,7 +59,11 @@ var Validator = xe.createApp('Validator', {
 
 		if (oForm._filter) filter = oForm._filter.value;
 
-		return this.cast('VALIDATE', [oForm, filter]);
+		var params = [oForm, filter];
+		var result = this.cast('VALIDATE', params);
+		if (typeof result == 'undefined') result = false;
+
+		return result;
 	},
 	API_ONREADY : function() {
 		var self = this;

@@ -633,7 +633,7 @@
             $widget_info->subject_cut_size = $args->subject_cut_size;
             $widget_info->content_cut_size = $args->content_cut_size;
 
-            $widget_info->duration_new = $duration_new * 60*60;
+            $widget_info->duration_new = $args->duration_new * 60*60;
             $widget_info->thumbnail_type = $args->thumbnail_type;
             $widget_info->thumbnail_width = $args->thumbnail_width;
             $widget_info->thumbnail_height = $args->thumbnail_height;

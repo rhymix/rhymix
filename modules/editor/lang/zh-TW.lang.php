@@ -228,6 +228,6 @@
 
 	$lang->edit->confirm_submit_without_saving = '有內容尚未儲存。\\n是否要繼續進行?';
 
-	$lang->edit->image_align = '이미지 정렬';
-	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->image_align = '圖片對齊';
+	$lang->edit->attached_files = '附加檔案';
 ?>

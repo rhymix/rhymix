@@ -87,7 +87,7 @@
 
                 Context::set('site_module_info', $site_module_info);
 
-                if($site_module_info->site_srl && isSiteID($site_module_info->vid)) Context::set('vid', $site_module_info->vid);
+                if($site_module_info->site_srl && isSiteID($site_module_info->domain)) Context::set('vid', $site_module_info->domain);
                 $this->db_info->lang_type = $site_module_info->default_language;
                 if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
             }
@@ -1171,7 +1171,7 @@
         function _addJsFile($file, $optimized, $targetie,$index) {
             if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
 			$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
-            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
+            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
 
             if(in_array($file, $this->js_files)) return;
 
@@ -1269,7 +1269,7 @@
         function _addCSSFile($file, $optimized, $media, $targetie, $index) {
             if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
             $file = str_replace(array('/./','//'),'/',$file);
-            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file);
+            while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
             
             if(in_array($file, $this->css_files)) return;
 

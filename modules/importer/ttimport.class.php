@@ -117,6 +117,7 @@
                
 				$author_xml_id = $xmlDoc->post->author->body;
 
+
                 if($xmlDoc->post->category->body) {
                     $tmp_arr = explode('/',$xmlDoc->post->category->body);
                     $category = trim($tmp_arr[count($tmp_arr)-1]);
@@ -217,6 +218,13 @@
                         }
                     }
                 }
+
+				if($module_name =='textyle'){
+					// 발행이 아닌 것들은 저장상태로 
+					if($xmlDoc->post->visibility->body != 'syndicated'){
+						$obj->module_srl = $member_info->member_srl; 
+					}
+				}
 
                 // 문서 입력
                 $output = executeQuery('document.insertDocument', $obj);

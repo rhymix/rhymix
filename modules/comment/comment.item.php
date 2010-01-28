@@ -252,9 +252,6 @@
             // >, <, "를 다시 복구
             $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
 
-            // 영문이 연결될 경우 개행이 안 되는 문제를 해결
-            $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
-
             return $content;
         }
 

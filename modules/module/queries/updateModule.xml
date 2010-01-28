@@ -10,12 +10,12 @@
         <column name="menu_srl" var="menu_srl" filter="number" />
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40"/>
         <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
-        <column name="description" var="description" />
+        <column name="description" var="description" default="" />
         <column name="is_default" var="is_default" default="N" notnull="notnull" />
         <column name="content" var="content" />
         <column name="open_rss" var="open_rss" default="Y" notnull="notnull" />
-        <column name="header_text" var="header_text" />
-        <column name="footer_text" var="footer_text" />
+        <column name="header_text" var="header_text" default="" />
+        <column name="footer_text" var="footer_text" default="" />
     </columns>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" default="0" filter="number" notnull="notnull" />
