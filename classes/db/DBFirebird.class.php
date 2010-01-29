@@ -727,7 +727,9 @@
                         ibase_blob_add($blh, $value);
                         $value = ibase_blob_close($blh);
                     }
-                    else if($output->column_type[$name]=='number') {
+                    else if($output->column_type[$name]=='number' ||
+                            $output->column_type[$name]=='bignumber' ||
+                            $output->column_type[$name]=='float') {
                         // 연산식이 들어갔을 경우 컬럼명이 있는 지 체크해 더블쿼터를 넣어줌
                         preg_match("/(?i)[a-z][a-z0-9_]+/", $value, $matches);
 
