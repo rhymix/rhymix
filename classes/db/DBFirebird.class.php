@@ -434,9 +434,13 @@
          * $is_unique? unique : none
          **/
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            // index name 크기가 31byte로 제한으로 index name을 넣지 않음
+            // Firebird에서는 index name을 넣지 않으면 "RDB$10"처럼 자동으로 이름을 부여함
+            // table을 삭제 할 경우 인덱스도 자동으로 삭제 됨
+
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
-            $query = sprintf('CREATE %s INDEX "%s" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $index_name, $this->prefix, $table_name, implode('", "',$target_columns));
+            $query = sprintf('CREATE %s INDEX "" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $this->prefix, $table_name, implode('", "',$target_columns));
             $this->_query($query);
 
             if(!$this->transaction_started) @ibase_commit($this->fd);
@@ -575,15 +579,12 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    // index_name = prefix + 'idx_' + no
-                    // index name 크기가 31byte로 제한되어 있어 일련번호로 대체
-                    $this->idx_no++;
-                    $index_name = $this->prefix;
-                    $index_name .= "idx_";
-                    $index_name .= sprintf("%04d", $this->idx_no);
+                    // index name 크기가 31byte로 제한으로 index name을 넣지 않음
+                    // Firebird에서는 index name을 넣지 않으면 "RDB$10"처럼 자동으로 이름을 부여함
+                    // table을 삭제 할 경우 인덱스도 자동으로 삭제 됨
 
-                    $schema = sprintf("CREATE INDEX \"%s\" ON \"%s\" (\"%s\");",
-                            $index_name, $table_name, implode($val, "\",\""));
+                    $schema = sprintf("CREATE INDEX \"\" ON \"%s\" (\"%s\");",
+                            $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
                     if(!$this->transaction_started) @ibase_commit($this->fd);
                     if(!$output) return false;
