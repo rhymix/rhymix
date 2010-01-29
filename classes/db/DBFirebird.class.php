@@ -729,7 +729,7 @@
                     }
                     else if($output->column_type[$name]=='number') {
                         // 연산식이 들어갔을 경우 컬럼명이 있는 지 체크해 더블쿼터를 넣어줌
-                        preg_match("/(?i)[a-z][a-z0-9_-]+/", $value, $matches);
+                        preg_match("/(?i)[a-z][a-z0-9_]+/", $value, $matches);
 
                         foreach($matches as $key => $val) {
                             $value = str_replace($val, "\"".$val."\"", $value);
