@@ -469,7 +469,7 @@ DAMAGES.
 
 EndOfLicense;
 
-    $lang->install_condition_title = "確認安裝時必須要具備的條件";
+    $lang->install_condition_title = '確認安裝時必須要具備的條件';
 
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP版本',
