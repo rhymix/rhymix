@@ -387,7 +387,7 @@
             $query = sprintf("ALTER TABLE \"%s%s\" ADD \"%s\" ", $this->prefix, $table_name, $column_name);
             if($size) $query .= sprintf(" %s(%s) ", $type, $size);
             else $query .= sprintf(" %s ", $type);
-            if($default) $query .= sprintf(" DEFAULT '%s' ", $default);
+            if(!is_null($default)) $query .= sprintf(" DEFAULT '%s' ", $default);
             if($notnull) $query .= " NOT NULL ";
 
             $this->_query($query);
@@ -551,7 +551,7 @@
                     $name,
                     $this->column_type[$type],
                     $size?'('.$size.')':'',
-                    $default?"DEFAULT '".$default."'":"",
+                    is_null($default)?"":"DEFAULT '".$default."'",
                     $notnull?'NOT NULL':'');
 
                 if($auto_increment) $auto_increment_list[] = $name;
