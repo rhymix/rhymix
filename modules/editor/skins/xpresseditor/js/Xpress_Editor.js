@@ -5442,7 +5442,7 @@ var
 	regex_font_weight = /font-weight\s*:\s*([a-z]+);?/i,
 	regex_font_style = /font-style\s*:\s*italic;?/i,
 	regex_font_decoration = /text-decoration\s*:\s*([a-z -]+);?/i,
-	regex_$ = /$\d+\s*=(\s*"\d+"|\d+)/ig,
+	regex_jquery = /jQuery\d+\s*=(\s*"\d+"|\d+)/ig,
 	regex_quote_attr = /([\w-]+\s*=(?:\s*"[^"]+"|\s*'[^']+'))|([\w-]+)=([^\s]+)/g; //"
 
 var
@@ -5505,7 +5505,7 @@ xe.XE_XHTMLFormatter = $.Class({
 
 		if ($.browser.msie) {
 			// remove $ attributes
-			sContent = sContent.replace(regex_$, '');
+			sContent = sContent.replace(regex_jquery, '');
 
 			// quote all attrs
 			sContent = sContent.replace(/<(\w+) ([^>]+)>/g, function(m0,m1,m2){
