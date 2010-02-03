@@ -46,6 +46,9 @@ function _editorAutoSave(exe) {
     var fo_obj = editorAutoSaveObj.fo_obj;
     var editor_sequence = editorAutoSaveObj.editor_sequence;
 
+    // 50초마다 동기화를 시킴 강제 실행은 제외
+    if(!exe) setTimeout('_editorAutoSave()', 50000);
+
     // 현재 자동저장중이면 중지
     if(editorAutoSaveObj.locked == true) return;
 
@@ -54,7 +57,11 @@ function _editorAutoSave(exe) {
 
     // 자동저장을 위한 준비
     var title = fo_obj.title.value;
-    var content = editorGetContent(editor_sequence);
+	var content = '';
+	try{
+	   content = editorGetContent(editor_sequence);
+	}catch(e){
+	}
 
     // 내용이 이전에 저장하였던 것과 다르면 자동 저장을 함 또는 강제 저장 설정시 자동 저장
     if(title != editorAutoSaveObj.title || content != editorAutoSaveObj.content || exe) {
@@ -82,9 +89,6 @@ function _editorAutoSave(exe) {
         exec_xml("editor","procEditorSaveDoc", params, function() { editorAutoSaveObj.locked = false; } );
         show_waiting_message = true;
     }
-
-    // 50초마다 동기화를 시킴 강제 실행은 제외
-    if(!exe) setTimeout('_editorAutoSave()', 50000);
 }
 
 // 자동저장된 모든 메세지를 삭제하는 루틴
