@@ -324,10 +324,18 @@
                 foreach($tmp as $key => $val) {
                     $type = $output->column_type[$key];
 
+                    // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
                     if($type == null) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
-                                $type = $output->column_type[$cols['name']];
+                                // table.column 형식인지 정규식으로 검사 함
+                                preg_match("/\w+[.](\w+)/", $cols['name'], $matches);
+                                if($matches) {
+                                    $type = $output->column_type[$matches[1]];
+                                }
+                                else {
+                                    $type = $output->column_type[$cols['name']];
+                                }
                             }
                         }
                     }
