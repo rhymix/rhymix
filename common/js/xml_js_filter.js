@@ -23,7 +23,7 @@ var Validator = xe.createApp('Validator', {
 		this.cast('ADD_RULE', ['email_address', regEmail]);
 
 		// userid
-		var regUserid = /^[a-z]+[\w-]*[a-z0-9]+$/i;
+		var regUserid = /^[a-z]+[\w-]*[a-z0-9_]+$/i;
 		this.cast('ADD_RULE', ['userid', regUserid]);
 		this.cast('ADD_RULE', ['user_id', regUserid]);
 
