@@ -317,7 +317,7 @@
         /**
          * @brief 결과를 fetch
          **/
-        function _fetch($result, $output) {
+        function _fetch($result, $output = null) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
 
             while($tmp = ibase_fetch_object($result)) {
@@ -340,7 +340,7 @@
                         }
                     }
 
-                    if($type == "text" || $type == "bigtext") {
+                    if(($type == "text" || $type == "bigtext") && $tmp->{$key}) {
                         $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
@@ -1007,7 +1007,7 @@
                         }
                     }
 
-                    if($type == "text" || $type == "bigtext") {
+                    if(($type == "text" || $type == "bigtext") && $tmp->{$key}) {
                         $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
