@@ -1,0 +1,12 @@
+<query id="getNonuniqueDomains" action="select">
+    <tables>
+        <table name="sites" />
+    </tables>
+    <columns>
+        <column name="domain" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <groups>
+        <group column="domain" />
+    </groups>
+</query>

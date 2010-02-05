@@ -317,22 +317,30 @@
         /**
          * @brief 결과를 fetch
          **/
-        function _fetch($result, $output) {
+        function _fetch($result, $output = null) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
 
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val) {
                     $type = $output->column_type[$key];
 
+                    // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
                     if($type == null) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
-                                $type = $output->column_type[$cols['name']];
+                                // table.column 형식인지 정규식으로 검사 함
+                                preg_match("/\w+[.](\w+)/", $cols['name'], $matches);
+                                if($matches) {
+                                    $type = $output->column_type[$matches[1]];
+                                }
+                                else {
+                                    $type = $output->column_type[$cols['name']];
+                                }
                             }
                         }
                     }
 
-                    if($type == "text" || $type == "bigtext") {
+                    if(($type == "text" || $type == "bigtext") && $tmp->{$key}) {
                         $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
@@ -387,7 +395,7 @@
             $query = sprintf("ALTER TABLE \"%s%s\" ADD \"%s\" ", $this->prefix, $table_name, $column_name);
             if($size) $query .= sprintf(" %s(%s) ", $type, $size);
             else $query .= sprintf(" %s ", $type);
-            if($default) $query .= sprintf(" DEFAULT '%s' ", $default);
+            if(!is_null($default)) $query .= sprintf(" DEFAULT '%s' ", $default);
             if($notnull) $query .= " NOT NULL ";
 
             $this->_query($query);
@@ -434,9 +442,13 @@
          * $is_unique? unique : none
          **/
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
+            // index name 크기가 31byte로 제한으로 index name을 넣지 않음
+            // Firebird에서는 index name을 넣지 않으면 "RDB$10"처럼 자동으로 이름을 부여함
+            // table을 삭제 할 경우 인덱스도 자동으로 삭제 됨
+
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
-            $query = sprintf('CREATE %s INDEX "%s" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $index_name, $this->prefix, $table_name, implode('", "',$target_columns));
+            $query = sprintf('CREATE %s INDEX "" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $this->prefix, $table_name, implode('", "',$target_columns));
             $this->_query($query);
 
             if(!$this->transaction_started) @ibase_commit($this->fd);
@@ -547,7 +559,7 @@
                     $name,
                     $this->column_type[$type],
                     $size?'('.$size.')':'',
-                    $default?"DEFAULT '".$default."'":"",
+                    is_null($default)?"":"DEFAULT '".$default."'",
                     $notnull?'NOT NULL':'');
 
                 if($auto_increment) $auto_increment_list[] = $name;
@@ -575,15 +587,12 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    // index_name = prefix + 'idx_' + no
-                    // index name 크기가 31byte로 제한되어 있어 일련번호로 대체
-                    $this->idx_no++;
-                    $index_name = $this->prefix;
-                    $index_name .= "idx_";
-                    $index_name .= sprintf("%04d", $this->idx_no);
+                    // index name 크기가 31byte로 제한으로 index name을 넣지 않음
+                    // Firebird에서는 index name을 넣지 않으면 "RDB$10"처럼 자동으로 이름을 부여함
+                    // table을 삭제 할 경우 인덱스도 자동으로 삭제 됨
 
-                    $schema = sprintf("CREATE INDEX \"%s\" ON \"%s\" (\"%s\");",
-                            $index_name, $table_name, implode($val, "\",\""));
+                    $schema = sprintf("CREATE INDEX \"\" ON \"%s\" (\"%s\");",
+                            $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
                     if(!$this->transaction_started) @ibase_commit($this->fd);
                     if(!$output) return false;
@@ -726,9 +735,11 @@
                         ibase_blob_add($blh, $value);
                         $value = ibase_blob_close($blh);
                     }
-                    else if($output->column_type[$name]=='number') {
+                    else if($output->column_type[$name]=='number' ||
+                            $output->column_type[$name]=='bignumber' ||
+                            $output->column_type[$name]=='float') {
                         // 연산식이 들어갔을 경우 컬럼명이 있는 지 체크해 더블쿼터를 넣어줌
-                        preg_match("/(?i)[a-z][a-z0-9_-]+/", $value, $matches);
+                        preg_match("/(?i)[a-z][a-z0-9_]+/", $value, $matches);
 
                         foreach($matches as $key => $val) {
                             $value = str_replace($val, "\"".$val."\"", $value);
@@ -980,15 +991,23 @@
                 foreach($tmp as $key => $val){
                     $type = $output->column_type[$key];
 
+                    // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
                     if($type == null) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
-                                $type = $output->column_type[$cols['name']];
+                                // table.column 형식인지 정규식으로 검사 함
+                                preg_match("/\w+[.](\w+)/", $cols['name'], $matches);
+                                if($matches) {
+                                    $type = $output->column_type[$matches[1]];
+                                }
+                                else {
+                                    $type = $output->column_type[$cols['name']];
+                                }
                             }
                         }
                     }
 
-                    if($type == "text" || $type == "bigtext") {
+                    if(($type == "text" || $type == "bigtext") && $tmp->{$key}) {
                         $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
                         $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);

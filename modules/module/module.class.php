@@ -290,15 +290,43 @@
 				if(!$output->toBool()) return $output;
 			}
 
-
-			if($oDB->isIndexExists('sites','idx_domain')){
-				$oDB->dropIndex('sites','idx_domain');
-			}
-			if(!$oDB->isIndexExists('sites','unique_domain')){
-				$oDB->addIndex('sites','unique_domain',array('domain'),true);
-			}
+            if($oDB->isIndexExists('sites','idx_domain')){
+                $oDB->dropIndex('sites','idx_domain');
+            }
+            if(!$oDB->isIndexExists('sites','unique_domain')){
+                $this->updateForUniqueSiteDomain();
+                $oDB->addIndex('sites','unique_domain',array('domain'),true);
+            }
 
             return new Object(0, 'success_updated');
+        }
+
+        function updateForUniqueSiteDomain()
+        {
+            $output = executeQueryArray("module.getNonuniqueDomains");
+            if(!$output->data) return;
+            foreach($output->data as $data)
+            {
+                if($data->count == 1) continue;
+                $domain = $data->domain;
+                $args = null;
+                $args->domain = $domain;
+                $output2 = executeQueryArray("module.getSiteByDomain", $args);
+                $bFirst = true;
+                foreach($output2->data as $site)
+                {
+                    if($bFirst) 
+                    {
+                        $bFirst = false;
+                        continue;
+                    }
+                    $domain .= "_";
+                    $args = null;
+                    $args->domain = $domain;
+                    $args->site_srl = $site->site_srl;
+                    $output3 = executeQuery("module.updateSite", $args);
+                }
+            }
         }
 
         /**
