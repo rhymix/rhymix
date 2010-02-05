@@ -150,6 +150,87 @@
         }
     }
 
+
+    class PHPFTPModuleInstaller extends ModuleInstaller {
+        function PHPFTPModuleInstaller(&$package)
+        {
+            $this->package =& $package;
+        }
+
+        function _copyDir(&$file_list) {
+            if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
+
+            $ftp_info =  Context::getFTPInfo();
+            if($ftp_info->ftp_host)
+            {
+                $ftp_host = $ftp_info->ftp_host;
+            }
+            else
+            {
+                $ftp_host = "127.0.0.1";
+            }
+
+            $connection = ftp_connect($ftp_host, $ftp_info->ftp_port);
+            if(!$connection) return new Object(-1, 'msg_ftp_not_connected');
+
+            $login_result = ftp_login($connection, $ftp_info->ftp_user, $this->ftp_password); 
+            if(!$login_result)
+            {
+                return new Object(-1,'msg_ftp_invalid_auth_info');
+            }
+            $_SESSION['ftp_password'] = $this->ftp_password;
+
+            $target_dir = $ftp_info->ftp_root_path.$this->target_path;
+
+            foreach($file_list as $k => $file){
+                $org_file = $file;
+                if($this->package->path == ".") 
+                {
+                    $file = substr($file,3);
+                }
+                $path = FileHandler::getRealPath("./".$this->target_path."/".$file);
+                $path_list = explode('/', dirname($this->target_path."/".$file));
+
+                $real_path = "./";
+                $ftp_path = $ftp_info->ftp_root_path;
+
+                for($i=0;$i<count($path_list);$i++)
+                {
+                    if($path_list=="") continue;
+                    $real_path .= $path_list[$i]."/";
+                    $ftp_path .= $path_list[$i]."/";
+                    if(!file_exists(FileHandler::getRealPath($real_path)))
+                    {
+                        if(!ftp_mkdir($connection, $ftp_path))
+                        {
+                            return new Object(-1, "msg_make_directory_failed");  
+                        }
+                        if (function_exists('ftp_chmod')) {
+                            if(!ftp_chmod($connection, 0755, $ftp_path))
+                            {
+                                return new Object(-1, "msg_permission_adjust_failed");
+                            }
+                        }
+                        else
+                        {
+                            if(!ftp_site("CHMOD 755 ".$ftp_path))
+                            {
+                                return new Object(-1, "msg_permission_adjust_failed");
+                            }
+                        }
+                    }
+                }
+                if(!ftp_put($connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
+                {
+                    return new Object(-1, "msg_ftp_upload_failed");
+                }
+            } 
+
+            ftp_close($connection);
+            return new Object();
+        }
+    }
+
     class FTPModuleInstaller extends ModuleInstaller {
         function FTPModuleInstaller(&$package)
         {
@@ -203,7 +284,7 @@
                     if(!file_exists(FileHandler::getRealPath($real_path)))
                     {
                         $oFtp->ftp_mkdir($ftp_path);
-                        $oFtp->ftp_site("CHMOD 755 ".$path);
+                        $oFtp->ftp_site("CHMOD 755 ".$ftp_path);
                     }
                 }
                 $oFtp->ftp_put($target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file));

@@ -135,13 +135,17 @@
                 if($ftp_info->sftp && $ftp_info->sftp == 'Y')
                 {
                     $oModuleInstaller = new SFTPModuleInstaller($package);
-                    $oModuleInstaller->setPassword($ftp_password);
+                }
+                else if(function_exists(ftp_connect))
+                {
+                    $oModuleInstaller = new PHPFTPModuleInstaller($package);
                 }
                 else
                 {
                     $oModuleInstaller = new FTPModuleInstaller($package);
-                    $oModuleInstaller->setPassword($ftp_password);
                 }
+
+                $oModuleInstaller->setPassword($ftp_password);
                 $output = $oModuleInstaller->install();
                 if(!$output->toBool()) return $output;
             }
