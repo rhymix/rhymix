@@ -213,7 +213,7 @@
                         }
                         else
                         {
-                            if(!ftp_site("CHMOD 755 ".$ftp_path))
+                            if(!ftp_site($connection, "CHMOD 755 ".$ftp_path))
                             {
                                 return new Object(-1, "msg_permission_adjust_failed");
                             }
