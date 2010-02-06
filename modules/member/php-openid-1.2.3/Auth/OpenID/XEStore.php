@@ -149,6 +149,7 @@ class Auth_OpenID_XEStore extends Auth_OpenID_OpenIDStore {
     function getAssociation($server_url, $handle = null)
     {
         $assoc = $this->_get_assoc($server_url, $handle);
+        if(!$assoc) return null;
         $assoc_o = new Auth_OpenID_Association($assoc->handle, $assoc->secret, $assoc->issued, $assoc->lifetime, $assoc->assoc_type);
         return $assoc_o;
     }
