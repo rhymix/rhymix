@@ -60,6 +60,7 @@
             if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)){
 				if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
 					$_list = $oFtp->ftp_rawlist($this->pwd);
+                    debugPrint($_list);
 					$oFtp->ftp_quit();
 				}
                 else
@@ -71,7 +72,7 @@
 
 			if($_list){
                 foreach($_list as $k => $v){
-                    if(strpos($v,'d') === 0) $list[] = substr(strrchr($v,' '),1) . '/';
+                    if(strpos($v,'d') === 0 || strpos($v, '<DIR>')) $list[] = substr(strrchr($v,' '),1) . '/';
                 }
             }
             $this->add('list', $list);
