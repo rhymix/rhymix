@@ -205,17 +205,21 @@
                         {
                             return new Object(-1, "msg_make_directory_failed");  
                         }
-                        if (function_exists('ftp_chmod')) {
-                            if(!ftp_chmod($connection, 0755, $ftp_path))
-                            {
-                                return new Object(-1, "msg_permission_adjust_failed");
-                            }
-                        }
-                        else
+
+                        if(!stristr(PHP_OS, 'win'))
                         {
-                            if(!ftp_site($connection, "CHMOD 755 ".$ftp_path))
+                            if (function_exists('ftp_chmod')) {
+                                if(!ftp_chmod($connection, 0755, $ftp_path))
+                                {
+                                    return new Object(-1, "msg_permission_adjust_failed");
+                                }
+                            }
+                            else
                             {
-                                return new Object(-1, "msg_permission_adjust_failed");
+                                if(!ftp_site($connection, "CHMOD 755 ".$ftp_path))
+                                {
+                                    return new Object(-1, "msg_permission_adjust_failed");
+                                }
                             }
                         }
                     }
