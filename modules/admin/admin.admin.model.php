@@ -60,7 +60,6 @@
             if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)){
 				if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
 					$_list = $oFtp->ftp_rawlist($this->pwd);
-                    debugPrint($_list);
 					$oFtp->ftp_quit();
 				}
                 else
