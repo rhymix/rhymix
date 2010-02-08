@@ -71,7 +71,7 @@
 
 			if($_list){
                 foreach($_list as $k => $v){
-                    if(strpos($v,'d') === 0) $list[] = substr(strrchr($v,' '),1) . '/';
+                    if(strpos($v,'d') === 0 || strpos($v, '<DIR>')) $list[] = substr(strrchr($v,' '),1) . '/';
                 }
             }
             $this->add('list', $list);

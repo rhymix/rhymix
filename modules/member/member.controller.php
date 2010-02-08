@@ -47,6 +47,11 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->enable_openid != 'Y') $this->stop('msg_invalid_request');
 
+            if(!defined('Auth_OpenID_RAND_SOURCE') && !file_exists("/dev/urandom"))
+            {
+                define('Auth_OpenID_RAND_SOURCE', null);
+            }
+
             set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
             require_once('Auth/OpenID.php');
             require_once('Auth/OpenID/Consumer.php');
