@@ -261,10 +261,16 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 	},
 
 	IR_TO_HTMLSrc : function(content) {
-		// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-		content = editorReplacePath(content);
+		// src, href, url에서 http로 시작하는 full path를 XE 상대경로로 변경
+		content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
+			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig');
+			if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
+			var val = jQuery.trim(m3);
+			if(uriReg.test(val)) val = val.replace(uriReg,'');
+			else val = m3;
+			return m1+m2+val+m4+m5;
+		});
 		return content;
-
 	}
 });
 
