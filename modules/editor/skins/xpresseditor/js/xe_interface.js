@@ -249,18 +249,18 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 	name : "XE_GET_WYSYWYG_CONTENT",
 
 	$ON_MSG_APP_READY : function() {
-		this.oApp.addConverter("IR_TO_WYSIWYG", this.TO_WYSIWYG_SET);
-		this.oApp.addConverter("IR_TO_HTMLSrc", this.IR_TO_HTMLSrc);
+		this.oApp.addConverter("IR_TO_WYSIWYG", this.replaceXE2HTTP);
+		this.oApp.addConverter("WYSIWYG_TO_IR", this.replaceHTTP2XE);
 	},
 
-	TO_WYSIWYG_SET : function(content) {
+	replaceXE2HTTP : function(content) {
 		// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
 		content = editorReplacePath(content);
 
 		return content;
 	},
 
-	IR_TO_HTMLSrc : function(content) {
+	replaceHTTP2XE : function(content) {
 		// src, href, url에서 http로 시작하는 full path를 XE 상대경로로 변경
 		content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
 			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig');
