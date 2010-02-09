@@ -325,7 +325,7 @@
                     $type = $output->column_type[$key];
 
                     // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
-                    if($type == null) {
+                    if($type == null && $output->columns && count($output->columns)) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
                                 // table.column 형식인지 정규식으로 검사 함
@@ -992,7 +992,7 @@
                     $type = $output->column_type[$key];
 
                     // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
-                    if($type == null) {
+                    if($type == null && $output->columns && count($output->columns)) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
                                 // table.column 형식인지 정규식으로 검사 함
