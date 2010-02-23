@@ -642,13 +642,25 @@
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
                         $name = sprintf($click_count,$name);
-                        if($alias) $column_list[] = sprintf('"%s" as %s', $name, $alias);
+                        if ($alias) $column_list[] = sprintf('"%s" as %s', $name, $alias);
                         else $column_list[] = sprintf('"%s"',$name);
                     } else {
                         if(strpos($name,'.')!=false) {
                             list($prefix, $name) = explode('.',$name);
-                            $prefix = sprintf('"%s"',$prefix);
-                            $name = ($name == '*') ? $name : sprintf('"%s"',$name);
+                            if (strpos ($prefix, "(")) {
+                                $tmpval = explode ("(", $prefix);
+                                $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                                $prefix = implode ("(", $tmpval);
+                                $flag_of_function = true;
+                            }
+                            else $prefix = sprintf('"%s"',$prefix);
+                            if ($flag_of_function === true) {
+                                $tmpval = explode (")", $name);
+                                $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                                $name = implode (")", $tmpval);
+                                $flag_of_function = false;
+                            }
+                            else $name = ($name == '*') ? $name : sprintf('"%s"',$name);
 							
                             $column_list[] = sprintf($click_count,sprintf('%s.%s', $prefix, $name)) . ($alias ? sprintf(' as %s',$alias) : '');
 							

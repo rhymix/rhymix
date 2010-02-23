@@ -43,7 +43,10 @@
             // message_srl이 있으면 내용 추출
             if($message_srl) {
                 $message = $oCommunicationModel->getSelectedMessage($message_srl);
-                if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl) ) Context::set('message', $message);
+                if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl) ) {
+					stripEmbedTagForAdmin($message->content, $message->sender_srl);
+					Context::set('message', $message);
+				}
             }
 
             // 목록 추출
@@ -73,7 +76,10 @@
 
             // 새 쪽지를 가져옴
             $message = $oCommunicationModel->getNewMessage();
-            if($message) Context::set('message', $message);
+            if($message) {
+				stripEmbedTagForAdmin($message->content, $message->sender_srl);
+				Context::set('message', $message);
+			}
             
             // 플래그 삭제
             $flag_path = './files/communication_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
