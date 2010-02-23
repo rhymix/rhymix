@@ -688,6 +688,7 @@
         if($src) {
             $url_info = parse_url($src);
             $query = $url_info['query'];
+			$query = str_replace("&amp;","&",$query);
             $queries = explode('&', $query);
             $cnt = count($queries);
             for($i=0;$i<$cnt;$i++) {
@@ -859,5 +860,30 @@
 
         return false;
     }
+
+	function stripEmbedTagForAdmin(&$content, $writer_member_srl)
+	{
+		if(!Context::get('is_logged')) return;
+		$oModuleModel = &getModel('module');
+		$logged_info = Context::get('logged_info');
+
+		if($writer_member_srl != $logged_info->member_srl && ($logged_info->is_admin == "Y" || $oModuleModel->isSiteAdmin($logged_info)) )
+		{   
+			if($writer_member_srl)
+			{
+				$oMemberModel =& getModel('member');
+				$member_info = $oMemberModel->getMemberInfoByMemberSrl($writer_member_srl);
+				if($member_info->is_admin == "Y")
+				{
+					return;
+				}
+			}
+			$security_msg = "<div style='border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;'><p style='margin: 1em;'>".Context::getLang('security_warning_embed')."</p></div>";
+			$content = preg_replace('/<embed[^>]+>(\s*<\/embed>)?/is', $security_msg, $content);
+			$content = preg_replace('/<img[^>]+editor_component="multimedia_link"[^>]*>(\s*<\/img>)?/is', $security_msg, $content);
+		}
+
+		return;
+	}
 
 ?>
