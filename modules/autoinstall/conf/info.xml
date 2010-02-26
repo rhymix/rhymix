@@ -9,7 +9,7 @@
     <description xml:lang="ko">관리자 모드에서 클릭으로 모듈/스킨/레이아웃/위젯/위젯스타일 등을 설치하는 모듈입니다.</description>
     <description xml:lang="en">With this module, you can install and upgrade your programs including modules, skins, layouts, etc., from www.xpressengine.com by one-click.</description>
 	<description xml:lang="vi">Với Module này, bạn có thể cập nhật và cài đặt các phiên bản một cách tự động. Bao gồm Module, Layout, Widget, Addon, ... từ trang chủ XE bằng một bấm chuột.</description>
-	<description xml:lang="zh-TW">With this module, you can install and upgrade your programs including modules, skins, layouts, etc., from www.xpressengine.com by one-click.</description>
+	<description xml:lang="zh-TW">可以藉由此模組安裝、更新程式包括模組、面板、版面等。</description>
     <description xml:lang="zh-CN">很方便的在管理页面一键安装XE相关模块(模块/皮肤/布局/控件/控件样式等)。</description>
 	<description xml:lang="jp">管理者モードにてクリックだけで、モジュール/スキン/レイアウト/ウィジェット/ウィジェットスタイルのインストールを可能にするモジュールです。</description>
     <version>0.2</version>
