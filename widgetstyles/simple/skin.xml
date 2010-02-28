@@ -10,7 +10,7 @@
     <description xml:lang="zh-CN">简易细线控件样式。</description>
     <description xml:lang="en">A widget style decorated with one simple line.</description>
     <description xml:lang="vi">Widget được trang trí với một dòng đơn giản.</description>
-    <description xml:lang="zh-TW">只有標題與more按紐的簡單控件樣式。</description>
+    <description xml:lang="zh-TW">簡單的 Widget 線條樣式。</description>
     <description xml:lang="jp">線一つだけのウィジェットスタイルです。</description>
     <version>0.1</version>
     <date>2009-02-03</date>
