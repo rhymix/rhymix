@@ -42,7 +42,7 @@
     $lang->msg_already_registed_domain = "已註冊的域名。請使用其他的網域。";
 
     $lang->header_script = "Header Script";
-    $lang->about_header_script = "可以直接輸入，並插入到HTML的&lt;head&gt;之間。<br />可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。";
+    $lang->about_header_script = "可以直接輸入，並插入到 HTML 的&lt;head&gt;之間。<br />可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。";
 
     $lang->grant_access = "訪問";
     $lang->grant_manager = "管理";

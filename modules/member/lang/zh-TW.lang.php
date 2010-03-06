@@ -44,7 +44,7 @@
     $lang->enable_openid = '支援OpenID';
     $lang->enable_join = '允許會員註冊';
     $lang->enable_confirm = '使用郵件認證';
-    $lang->enable_ssl = '使用SSL功能';
+    $lang->enable_ssl = '使用 SSL 功能';
     $lang->security_sign_in = '使用安全登入';
     $lang->limit_day = '認證限制';
     $lang->limit_date = '限制日期';
@@ -180,10 +180,10 @@
     $lang->about_form_description = '說明欄裡輸入的內容，在註冊時會顯示。';
     $lang->about_required = '註冊時成為必填項目。';
 
-    $lang->about_enable_openid = '想要網站支援OpenID時，請勾選此項。';
+    $lang->about_enable_openid = '想要網站支援 OpenID 時，請勾選此項。';
     $lang->about_enable_join = '選擇此項後，用戶才可以註冊。';
     $lang->about_enable_confirm = '為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。';
-    $lang->about_enable_ssl = '如主機提供SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用SSL(https)認證。';
+    $lang->about_enable_ssl = '如主機提供 SSL 認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https) 認證。';
     $lang->about_limit_day = '註冊會員後的認證有效期限。';
     $lang->about_limit_date = '直到指定日期，否則該帳號都無法登入。';
     $lang->about_after_login_url = '可以指定登入後的頁面轉向網址(留空為目前頁面)。';
@@ -200,13 +200,13 @@
 
     $lang->about_member_default = '將成為註冊會員時的預設群組。';
 
-    $lang->about_openid = '用OpenID註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供OpenID服務的網站中得到解決。';
-    $lang->about_openid_leave = '刪除OpenID就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。';
+    $lang->about_openid = '用 OpenID 註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供 OpenID 服務的網站中得到解決。';
+    $lang->about_openid_leave = '刪除 OpenID 就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。';
     $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 
     $lang->about_member = "可以新增/修改/刪除會員及管理群組或註冊表單的會員管理模組。\n此模組不僅可以建立預設群組以外的其他群組來管理會員，並且通過註冊表單的管理獲得會員基本資料以外的延伸資料。";
-    $lang->about_ssl_port = '請輸入想要使用預設SSL埠口以外的埠口。';
-    $lang->add_openid = '新增OpenID';
+    $lang->about_ssl_port = '請輸入想要使用預設 SSL 埠口以外的埠口。';
+    $lang->add_openid = '新增 OpenID';
 
 	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
     $lang->no_article = '主題不存在';

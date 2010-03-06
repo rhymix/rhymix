@@ -58,7 +58,7 @@
     $lang->welcome_to_xe = 'XE管理頁面';
     $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後，請按[儲存]按鈕進行儲存。";
 
-    $lang->xe_license = 'XE遵循GPL協議';
+    $lang->xe_license = 'XE遵循 GPL 協議';
     $lang->about_shortcut = '可以刪除新增到常用模組中的快捷選單。';
 
     $lang->yesterday = "昨天";
@@ -73,7 +73,7 @@
         'optional' => "選擇使用",
         'always' => "總是使用"
     );
-    $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用SSL功能。";
+    $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用 SSL 功能。";
     $lang->server_ports = "主機埠口";
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
     $lang->use_db_session = 'DB session認證';

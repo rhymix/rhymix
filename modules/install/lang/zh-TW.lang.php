@@ -481,11 +481,11 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-	        'php_version' => '[必須] 由於PHP 5.2.2版本的問題，無法安裝XE程式。',
+	        'php_version' => '[必須] 由於 PHP 5.2.2 版本的問題，無法安裝 XE 程式。',
             'permission' => '[必須] XE的資料夾或『./files』資料夾權限必須是『707』。',
-            'xml' => '[必須] 必須要安裝『XML Library』，才能夠使用XML通訊。',
+            'xml' => '[必須] 必須要安裝『XML Library』，才能夠使用 XML 通訊。',
             'session' => '[必須] 在『php.ini』中必須要設定『session.auto_start=0』，才能使用暫存功能',
-            'iconv' => '安裝『iconv』，才能使UTF-8和其他語言文字作互相轉換。',
+            'iconv' => '安裝『iconv』，才能使 UTF-8 和其他語言文字作互相轉換。',
             'gd' => '安裝『GD Library』才可以使用圖片轉換功能。',
         );
 
@@ -495,7 +495,7 @@ EndOfLicense;
     $lang->install_without_gd  = '尚未安裝負責轉換圖片功能的 GD Library！';
     $lang->install_checklist_gd = '安裝 GD Library';
     $lang->install_without_iconv = '尚未安裝負責處理字串的『iconv』！';
-    $lang->install_session_auto_start = 'PHP設置中設置成『session.auto_start==1』，可能在處理session時會發生錯誤。';
+    $lang->install_session_auto_start = 'PHP設置中設置成『session.auto_start==1』，可能在處理 session 時會發生錯誤。';
     $lang->install_permission_denied = '安裝目錄權限不是『707』！';
 
     $lang->cmd_agree_license = '同意使用條款';
@@ -504,11 +504,11 @@ EndOfLicense;
     $lang->cmd_ignore = '忽略';
 
     $lang->db_desc = array(
-        'mysql' => '利用PHP的『mysql*()』函數使用MySQL資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。',
-        'mysqli' => '利用PHP的『mysqli*()』函數使用MySQL資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。',
-        'mysql_innodb' => '利用『innodb』使用 mysql 資料庫。<br />innodb可以使用 transaction。',
-        'sqlite2' => '支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web無法訪問的地方。<br />(尚未通過安全測試)',
-        'sqlite3_pdo' => '用 PHP的 PDO支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。',
+        'mysql' => '利用 PHP 的『mysql*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。',
+        'mysqli' => '利用 PHP 的『mysqli*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。',
+        'mysql_innodb' => '利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。',
+        'sqlite2' => '支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web 無法訪問的地方。<br />(尚未通過安全測試)',
+        'sqlite3_pdo' => '用 PHP 的 PDO 支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。',
         'cubrid' => '使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
         'mssql' => '使用 MSSQL DB。',
         'postgresql' => '使用 PostgreSql DB。',
@@ -531,22 +531,22 @@ EndOfLicense;
 
     $lang->env_title = '環境設置';
     $lang->use_optimizer = 'Optimizer';
-    $lang->about_optimizer = '使用Optimizer可以對大部分的『CSS/JS』檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用Optimizer。';
+    $lang->about_optimizer = '使用Optimizer可以對大部分的『CSS/JS』檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用 Optimizer。';
     $lang->use_rewrite = 'Rewrite';
-    $lang->about_rewrite = '如主機支援rewrite模組並選擇此項，可以簡化複雜的網址。<br />例如，『http://域名/?document_srl=123』可簡化成『http://域名/123』。';
+    $lang->about_rewrite = '如主機支援 rewrite 模組並選擇此項，可以簡化複雜的網址。<br />例如，『http://域名/?document_srl=123』可簡化成『http://域名/123』。';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';
     $lang->qmail_compatibility = 'Qmail互換';
-    $lang->about_qmail_compatibility = '支援無法識別CRLF為換行符的Qmail等MTA，也能發送電子郵件。';
+    $lang->about_qmail_compatibility = '支援無法識別 CRLF 為換行符的 Qmail 等MTA，也能發送電子郵件。';
 
-    $lang->about_database_file = 'Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在web不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有707權限的位置。</span>';
+    $lang->about_database_file = 'Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在 web 不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有 707 權限的位置。</span>';
 
     $lang->success_installed = '已完成安裝。';
 
     $lang->msg_cannot_proc = '不具備安裝所需環境，無法繼續安裝。';
     $lang->msg_already_installed = '已安裝';
     $lang->msg_dbconnect_failed = "連接資料庫時發生錯誤。\n請重新確認資料庫資訊。";
-    $lang->msg_table_is_exists = "已建立資料表。\n重新建立config檔案。";
+    $lang->msg_table_is_exists = "已建立資料表。\n重新建立 config 檔案。";
     $lang->msg_install_completed = "安裝完成。\n非常感謝。";
     $lang->msg_install_failed = "建立安裝檔案時，發生錯誤。";
 ?>
