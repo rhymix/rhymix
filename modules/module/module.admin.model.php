@@ -35,6 +35,17 @@
             $this->add('module_list', $module_list);
         }
 
+        function getModuleMidList($args){
+            $args->list_count = 20;
+            $args->page_count = 10;
+            $output = executeQueryArray('module.getModuleMidList', $args);
+            if(!$output->toBool()) return $output;
+
+            ModuleModel::syncModuleToSite($output->data);
+
+            return $output;
+        }
+
         /**
          * @brief 공통 :: 모듈의 모듈 권한 출력 페이지
          * 모듈의 모듈 권한 출력은 모든 모듈에서 module instance를 이용할때 사용할 수 있음

@@ -79,7 +79,6 @@
                     }
                     if(!$layout_path) $layout_path = "./common/tpl";
                     if(!$layout_file) $layout_file = "default_layout";
-
                     $output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
                     if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
@@ -118,6 +117,9 @@
 
                     $pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
                     $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
+
+					$pattern = '/href=("|\'){1}(\?[^"\']+)/s';
+					$output = preg_replace($pattern, 'href=$1'.$real_path.'$2', $output);
 
                     if(Context::get('vid')) {
                         $pattern = '/\/'.Context::get('vid').'\?([^=]+)=/is';

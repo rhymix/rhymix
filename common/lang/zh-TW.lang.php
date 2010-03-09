@@ -5,7 +5,7 @@
      * @brief  正體中文語言(包含基本內容)
      **/
 
-    // 基本使用的語言
+    // 基本用語
     $lang->cmd_write = '發表';
     $lang->cmd_reply = '回覆';
     $lang->cmd_delete = '刪除';
@@ -287,30 +287,30 @@
     $lang->cmd_check_ftp_connect = '檢查 FTP 連線';
     $lang->about_ftp_info = "
         FTP資訊可應用至以下情形<br/>
-        1. 當PHP的安全模式(safe_mode)開啟時，可使程式正常運作。<br/>
+        1. 當 PHP 的安全模式(safe_mode)開啟時，可使程式正常運作。<br/>
         2. 可用於自動更新。<br/>
-        此FTP資訊會儲存在檔案『files/config/ftp.config.php』裡面。<br/>
+        此 FTP 資訊會儲存在檔案『files/config/ftp.config.php』裡面。<br/>
         安裝程式後，可以在管理頁面中針對 FTP 資訊進行修改或刪除。<br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = '當PHP的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。';
+    $lang->msg_safe_mode_ftp_needed = '當 PHP 的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。';
     $lang->msg_ftp_not_connected = '本地(localhost) FTP 連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。';
     $lang->msg_ftp_invalid_auth_info = 'FTP登入失敗。請確認輸入的 FTP 資訊。';
     $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認 FTP 主機設置。';
     $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認 FTP 主機設置。';
     $lang->msg_ftp_connect_success = 'FTP連線成功。';
 
-    $lang->ftp_path_title = '請輸入FTP路經';
+    $lang->ftp_path_title = '請輸入 FTP 路經';
     $lang->msg_ftp_installed_realpath = 'XE絕對路經';
-    $lang->msg_ftp_installed_ftp_realpath = 'XE的FTP絕對路經';
+    $lang->msg_ftp_installed_ftp_realpath = 'XE的 FTP 絕對路經';
 
 
-    // 在xml filter中所使用的JavaScript警告訊息
+    // 在 xml filter 中所使用的 JavaScript 警告訊息
     $lang->filter->isnull = '請輸入%s';
     $lang->filter->outofrange = '請確認%s字數';
     $lang->filter->equalto = '%s值有誤。';
     $lang->filter->invalid_email = '%s格式有誤。(例：zbxe@zeroboard.com)';
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只能用英文，數字和 _，開頭必須是英文。";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只允許使用英文，數字和底線，開頭必須是英文。";
     $lang->filter->invalid_homepage = '%s格式有誤。(例： http://www.zeroboard.com)';
     $lang->filter->invalid_korean = '%s只能輸入中文';
     $lang->filter->invalid_korean_number = '%s只能輸入中文或數字';

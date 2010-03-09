@@ -179,6 +179,10 @@
                 return new Object(-1,'msg_ftp_invalid_auth_info');
             }
             $_SESSION['ftp_password'] = $this->ftp_password;
+			if($ftp_info->ftp_pasv != "N") 
+			{
+				ftp_pasv($connection, true);
+			}
 
             $target_dir = $ftp_info->ftp_root_path.$this->target_path;
 

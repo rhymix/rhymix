@@ -144,6 +144,10 @@
         <th scope="col"><div><label for="textfield24">{$lang->ftp_port} (default: 21) </label></div></th>
         <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
     </tr>
+	<tr>
+		<th scope="col"><div><label for="checkboxpasv">FTP Passive mode</label></div></th>
+		<td><input type="checkbox" id="checkboxpasv" name="ftp_pasv" value="Y" <!--@if($ftp_info->ftp_pasv!="N")-->checked="checked"<!--@end--> /></td>
+	</tr>
     <!--@if($sftp_support)-->
     <tr>
         <th scope="col"><div><label for="checkbox25">{$lang->sftp}</label></div></th>
