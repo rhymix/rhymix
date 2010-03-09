@@ -58,13 +58,13 @@ describe('Validator', {
     },
 	'validate with length' : function() {
 		v.cast('ADD_FILTER', ['minlen', {
-			'text'  : {required:true, minlen:5}
+			'text'  : {required:true, maxlength:5}
 		}]);
 		v.cast('ADD_FILTER', ['maxlen', {
-			'text'  : {required:true, maxlen:10}
+			'text'  : {required:true, maxlength:10}
 		}]);
 		v.cast('ADD_FILTER', ['minmaxlen', {
-			'text'  : {required:true, minlen:5, maxlen:10}
+			'text'  : {required:true, maxlength:5, maxlength:10,rule:'userid'}
 		}]);
 
 		set_filter('minlen');
@@ -88,13 +88,13 @@ describe('Validator', {
 		set_value('1');
 		value_of(validate()).should_be_false();
 
-		set_value('12345678901');
+		set_value('a12345678901');
 		value_of(validate()).should_be_false();
 
-		set_value('12345');
+		set_value('a12345');
 		value_of(validate()).should_be_true();
 
-		set_value('1234567');
+		set_value('a1234567');
 		value_of(validate()).should_be_true();
 	}
 })

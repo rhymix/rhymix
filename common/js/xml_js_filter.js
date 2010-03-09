@@ -98,8 +98,8 @@ var Validator = xe.createApp('Validator', {
 			if (!_el) return true;
 
 			var el = $(_el), val = $.trim(get_value(el));
-			var minlen = parseInt(this.minlen) || 0;
-			var maxlen = parseInt(this.maxlen) || 0;
+			var minlen = parseInt(this.minlength) || 0;
+			var maxlen = parseInt(this.maxlength) || 0;
 			var rule   = (this.rule || '').split(',');
 
 			if (this.required && !val) return (result = (!!self.cast('ALERT', [form, name, 'isnull']) && false));
