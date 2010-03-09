@@ -104,7 +104,7 @@ var Validator = xe.createApp('Validator', {
 
 			if (this.required && !val) return (result = (!!self.cast('ALERT', [form, name, 'isnull']) && false));
 			if (!this.required && !val) return (result = true);
-			if ((minlen && maxlen) && (val.length < minlen || val.length > maxlen)) return (result = (!!self.cast('ALERT', [form, name, 'outofrange', minlen, maxlen]) && false));
+			if ((minlen && val.length < minlen) || (maxlen && val.length > maxlen)) return (result = (!!self.cast('ALERT', [form, name, 'outofrange', minlen, maxlen]) && false));
 			
 			if (this.equalto) {
 				var eq_val = get_value($(form.elements[this.equalto]));
@@ -198,7 +198,7 @@ var Validator = xe.createApp('Validator', {
 		var msg = this.cast('GET_MESSAGE', [msg_code]);
 
 		if (msg != msg_code) msg = (msg.indexOf('%s')<0)?(field_msg+msg):(msg.replace('%s',field_msg));
-		if (typeof(minlen)!='undefined' && typeof(maxlen)!='undefined') msg += '('+minlen+'~'+maxlen+')';
+		if (minlen||maxlen) msg +=  '('+(minlen||'')+'~'+(maxlen||'')+')';
 
 		this.cast('SHOW_ALERT', [msg]);
 
