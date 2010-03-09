@@ -57,17 +57,17 @@ describe('Validator', {
 		value_of(validate()).should_be_true();
     },
 	'validate with length' : function() {
-		v.cast('ADD_FILTER', ['minlen', {
-			'text'  : {required:true, minlen:5}
+		v.cast('ADD_FILTER', ['minlength', {
+			'text'  : {required:true, minlength:5}
 		}]);
-		v.cast('ADD_FILTER', ['maxlen', {
-			'text'  : {required:true, maxlen:10}
+		v.cast('ADD_FILTER', ['maxlength', {
+			'text'  : {required:true, maxlength:10}
 		}]);
-		v.cast('ADD_FILTER', ['minmaxlen', {
-			'text'  : {required:true, minlen:5, maxlen:10}
+		v.cast('ADD_FILTER', ['minmaxlength', {
+			'text'  : {required:true, minlength:5, maxlength:10}
 		}]);
 
-		set_filter('minlen');
+		set_filter('minlength');
 
 		set_value('1');
 		value_of(validate()).should_be_false();
@@ -75,7 +75,7 @@ describe('Validator', {
 		set_value('12345');
 		value_of(validate()).should_be_true();
 
-		set_filter('maxlen');
+		set_filter('maxlength');
 
 		set_value('12345678901');
 		value_of(validate()).should_be_false();
@@ -83,7 +83,7 @@ describe('Validator', {
 		set_value('1');
 		value_of(validate()).should_be_true();
 
-		set_filter('minmaxlen');
+		set_filter('minmaxlength');
 
 		set_value('1');
 		value_of(validate()).should_be_false();
