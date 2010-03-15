@@ -174,28 +174,6 @@ function xml2json(xml, tab, ignoreAttrib) {
    }
 }
 
-function toJson(o, name, ind) {
-         var json = name ? ("\""+name+"\"") : "";
-         if (o instanceof Array) {
-            for (var i=0,n=o.length; i<n; i++)
-               o[i] = toJson(o[i], "", ind+"\t");
-            json += (name?":[":"[") + (o.length > 1 ? ("\n"+ind+"\t"+o.join(",\n"+ind+"\t")+"\n"+ind) : o.join("")) + "]";
-         }
-         else if (o == null)
-            json += (name&&":") + "null";
-         else if (typeof(o) == "object") {
-            var arr = [];
-            for (var m in o)
-               arr[arr.length] = toJson(o[m], m, ind+"\t");
-            json += (name?":{":"{") + (arr.length > 1 ? ("\n"+ind+"\t"+arr.join(",\n"+ind+"\t")+"\n"+ind) : arr.join("")) + "}";
-         }
-         else if (typeof(o) == "string")
-            json += (name&&":") + "\"" + o.toString() + "\"";
-         else
-            json += (name&&":") + o.toString();
-         return json;
-}
-
 (function($){
 /**
  * @brief exec_xml
