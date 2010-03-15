@@ -50,7 +50,7 @@
         <td>{htmlspecialchars($val->mid)}</td>
         <td><a href="{getUrl('','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$val->browser_title}</a></td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td><a href="{getUrl('act','dispOpageAdminInsert','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</a></span></td>
+        <td><a href="{getUrl('act','dispOpageAdminInsert','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
         <td><a href="./?module=module&act=dispModuleAdminCopyModule&module_srl={$val->module_srl}" onclick="popopen(this.href);return false;" class="buttonSet buttonCopy"><span>{$lang->cmd_copy}</span></a></td>
         <td><a href="{getUrl('act','dispOpageAdminDelete','module_srl', $val->module_srl)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
