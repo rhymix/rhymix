@@ -33,11 +33,11 @@
 
             <select name="_target_module_srl" id="_target_module_srl" size="8" class="w200" style="display:block;margin:10px 0;"></select>
 
-            <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module_srl')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a></li>
-            <a href="#" onclick="midRemove('target_module_srl');return false;" class="button red"><span>{$lang->cmd_delete}</span></a></li>
+            <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module_srl')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a>
+            <a href="#" onclick="midRemove('target_module_srl');return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
 
             <script type="text/javascript">
-                doAddWindowLoadEventLoader( function() { getModuleSrlList('target_module_srl'); } );
+                jQuery( function() { getModuleSrlList('target_module_srl'); } );
             </script>
         </td>
     </tr>
