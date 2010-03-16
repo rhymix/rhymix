@@ -46,7 +46,7 @@ function doDisplaySkinColorset(sel, colorset) {
 
 /* 서버에서 받아온 컬러셋을 표시 */
 function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
-    var sel = xGetElementById("fo_widget").widget_colorset;
+    var sel = jQuery("#fo_widget")[0].widget_colorset;
     var length = sel.options.length;
     var selected_colorset = params["colorset"];
     for(var i=0;i<length;i++) sel.remove(0);
@@ -64,7 +64,7 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
 
     sel.selectedIndex = selected_index;
 
-    xGetElementById("colorset_area").style.display = "block";
+    jQuery("#colorset_area").show();
     setFixedPopupSize();
 }
 
@@ -267,8 +267,8 @@ function midRemove(id) {
 }
 
 function syncMid(id) {
-    var sel_obj = jQuery('#_'+id);
-    var valueArray = new Array();
+    var sel_obj = jQuery('#_'+id)[0];
+    var valueArray = [];
     for(var i=0;i<sel_obj.options.length;i++) valueArray[valueArray.length] = sel_obj.options[i].value;
     jQuery('#'+id).val( valueArray.join(',') );
 }
