@@ -183,6 +183,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	var xml_path = request_uri+"index.php"
 
 	// {{{ set parameters
+	if($.isArray(params)) params = arr2obj(params);
 	params['module'] = module;
 	params['act']    = act;
 
@@ -216,7 +217,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	xml[i++] = '<methodCall>';
 	xml[i++] = '<params>';
 
-	$.each(params, function(key, val) { 
+	$.each(params, function(key, val) {
 		xml[i++] = '<'+key+'><![CDATA['+val+']]></'+key+'>';
 	});
 
@@ -322,6 +323,13 @@ function send_by_form(url, params) {
 	});
 
 	form.appendTo(document.body).submit();
+}
+function arr2obj(arr) {
+	var ret = {};
+	for(var key in arr) {
+		if(!arr.hasOwnProperty(key)) ret[key] = arr[key];
+	}
+	return ret;
 }
 
 /**
