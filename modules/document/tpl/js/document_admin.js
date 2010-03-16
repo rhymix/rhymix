@@ -46,6 +46,9 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
     var categories = ret_obj['categories'];
     if(!categories) return;
 
+	var depth_str = '-';
+	for(var i=0; i < 5; i++) depth_str += depth_str;
+
     var category_list = categories.split("\n");
     for(var i=0;i<category_list.length;i++) {
         var item = category_list[i];
@@ -60,8 +63,8 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
         var category_title = item.substr(pos+1,item.length);
         if(!category_srl || !category_title) continue;
 
+		if (depth > 0) category_title = depth_str.substr(0, depth) + ' ' + category_title;
         var opt = new Option(category_title, category_srl, false, false);
-        if(depth>0) opt.style.paddingLeft = (depth*15)+'px';
         obj.options[obj.options.length] = opt;
     }
 }
