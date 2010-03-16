@@ -327,7 +327,7 @@ function send_by_form(url, params) {
 function arr2obj(arr) {
 	var ret = {};
 	for(var key in arr) {
-		if(!arr.hasOwnProperty(key)) ret[key] = arr[key];
+		if(arr.hasOwnProperty(key)) ret[key] = arr[key];		
 	}
 	return ret;
 }
