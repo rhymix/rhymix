@@ -172,7 +172,6 @@
     $lang->unit_min = 'Phút';
     $lang->unit_hour = 'Giờ';
     $lang->unit_day = 'Ngày';
-    $lang->unit_week = 'Tuần';
     $lang->unit_month = 'Tháng';
     $lang->unit_year = 'Năm';
 

@@ -174,7 +174,6 @@
     $lang->unit_min = 'мин.';
     $lang->unit_hour = 'ч.';
     $lang->unit_day = 'д.';
-    $lang->unit_week = 'нед.';
     $lang->unit_month = 'мес.';
     $lang->unit_year = 'г.';
 
