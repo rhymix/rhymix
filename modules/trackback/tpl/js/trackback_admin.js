@@ -1,9 +1,11 @@
 function doCheckAll(bToggle) {
-    var fo_obj = xGetElementById('fo_list');
+    var fo_obj = jQuery('#fo_list')[0], el = null;
 	if(typeof(bToggle) == "undefined") bToggle = false;
-    for(var i=0;i<fo_obj.length;i++) {
-        if(fo_obj[i].name == 'cart'){
-			if( !fo_obj[i].checked || !bToggle) fo_obj[i].checked = true; else fo_obj[i].checked = false;
+    for(var i=0; i<fo_obj.elements.length; i++) {
+		el = fo_obj.elements[i];
+        if(el.name == 'cart'){
+			if(!el.checked || !bToggle) el.checked = true;
+			else el.checked = false;
 		}
     }
 }
