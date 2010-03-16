@@ -2,7 +2,7 @@
 
 /* 메뉴 삭제 */
 function doDeleteMenu(menu_srl) {
-      var fo_obj = xGetElementById("fo_menu");
+      var fo_obj = jQuery("#fo_menu")[0];
       if(!fo_obj) return;
       fo_obj.menu_srl.value = menu_srl;
       procFilter(fo_obj, delete_menu);
@@ -26,7 +26,7 @@ function doInsertMenuItem(parent_srl) {
 /* 메뉴 클릭시 적용할 함수 */
 function doGetMenuItemInfo(menu_id, obj) {
     // menu, menu_id, node_srl을 추출
-    var fo_obj = xGetElementById("fo_menu");
+    var fo_obj = jQuery("#fo_menu")[0];
     var node_srl = 0;
     var parent_srl = 0;
 
@@ -39,9 +39,7 @@ function doGetMenuItemInfo(menu_id, obj) {
         }
     }
 
-    var params = new Array();
-    params["menu_item_srl"] = node_srl;
-    params["parent_srl"] = parent_srl;
+    var params = {menu_item_srl:node_srl, parent_srl:parent_srl};
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
     var response_tags = new Array('error','message','tpl');
@@ -49,62 +47,35 @@ function doGetMenuItemInfo(menu_id, obj) {
 }
 
 /* 서버로부터 받아온 메뉴 정보를 출력 */
-/*
-xAddEventListener(document,'mousedown',checkMousePosition);
-var _xPos = 0;
-var _yPos = 0;
-function checkMousePosition(e) {
-    var evt = new xEvent(e);
-    _xPos = evt.pageX;
-    _yPos = evt.pageY;
-}   
-*/
-
 function hideCategoryInfo() {
 	jQuery("#menu_zone_info").html("");
 }
 
 function completeGetMenuItemTplInfo(ret_obj, response_tags) {
-    var obj = xGetElementById('menu_zone_info');
+    var obj = jQuery('#menu_zone_info');
+	var sc_top = jQuery(document).scrollTop();
 
-    if(xScrollTop()>200) {
-        obj.style.marginTop = ( xScrollTop() - 210 )+'px';
+    if(sc_top > 200) {
+		obj.css('margin-top', (sc_top-210)+'px');
     } else {
-        obj.style.marginTop = '0px';
+		obj.css('margin-top', 0);
     }
 
     var tpl = ret_obj['tpl'];
-    xInnerHtml(obj, tpl);
-    obj.style.display = 'block';
-
-    var fo_obj = xGetElementById("fo_menu");
-
-    /*
-    var x = _xPos + 50;
-    var y = _yPos - xHeight(obj)/2 + 80 + xScrollTop();
-    xLeft(obj, x);
-    xTop(obj, y);
-    xRemoveEventListener(document,'mousedown',checkMousePosition);
-
-    if(xGetElementById('cBody') && xHeight('cBody')< y+xHeight(obj)+50) {
-        xHeight('cBody', y + xHeight(obj) + 50);
-    }
-
-    if(typeof('fixAdminLayoutFooter')=="function") fixAdminLayoutFooter();
-    */
+	obj.html(tpl).show();
 }
 
 /* 메뉴를 드래그하여 이동한 후 실행할 함수 , 이동하는 item_srl과 대상 item_srl을 받음 */
 function doMoveTree(menu_id, source_item, target_item) {
-    var fo_obj = xGetElementById("fo_move_menu");
+    var fo_obj = jQuery("#fo_move_menu")[0];
     fo_obj.menu_id.value = menu_id;
     fo_obj.source_item.value = source_item;
     fo_obj.target_item.value = target_item;
 
     // 이동 취소를 선택하였을 경우 다시 그림;;
     if(!procFilter(fo_obj, move_menu_item)) {
-        var params = new Array();
-        params["xml_file"] = xGetElementById('fo_menu').xml_file.value;
+        var params = [];
+        params["xml_file"] = jQuery('#fo_menu')[0].xml_file.value;
         params["source_item"] = source_item;
         completeMoveMenuItem(params);
     }
@@ -114,7 +85,7 @@ function completeMoveMenuItem(ret_obj) {
     var source_item_srl = ret_obj['source_item_srl'];
     var xml_file = ret_obj['xml_file'];
 
-    var fo_menu = xGetElementById("fo_menu");
+    var fo_menu = jQuery("#fo_menu")[0];
     if(!fo_menu) return;
 
     var title = fo_menu.title.value;
@@ -133,7 +104,7 @@ function doReloadTreeMenu(menu_srl) {
 
 /* 메뉴 삭제 */
 function doDeleteMenuItem(menu_item_srl) {
-      var fo_obj = xGetElementById("fo_menu");
+      var fo_obj = jQuery("#fo_menu")[0];
       if(!fo_obj) return;
 
       procFilter(fo_obj, delete_menu_item);
@@ -148,7 +119,7 @@ function completeDeleteMenuItem(ret_obj) {
     alert(ret_obj['message']);
 
     loadTreeMenu(xml_file, 'menu', 'menu_zone_menu', menu_title, '', doGetMenuItemInfo, menu_item_srl, doMoveTree);
-    xInnerHtml("menu_zone_info", "");
+	jQuery('#menu_zone_info').html('');
 } 
 
 
@@ -159,7 +130,7 @@ function doInsertMid(mid, menu_id) {
         return;
     }
 
-    var fo_obj = opener.xGetElementById("fo_menu");
+    var fo_obj = opener.document.getElementById("fo_menu");
     if(!fo_obj) {
         window.close();
         return;
@@ -174,7 +145,7 @@ function doMenuUploadButton(obj) {
     // 이미지인지 체크
     if(!/\.(gif|jpg|jpeg|png)$/i.test(obj.value)) return alert(alertImageOnly);
 
-    var fo_obj = xGetElementById("fo_menu");
+    var fo_obj = jQuery("#fo_menu")[0];
     fo_obj.act.value = "procMenuAdminUploadButton";
     fo_obj.target.value = obj.name;
     fo_obj.submit();
@@ -185,21 +156,21 @@ function doMenuUploadButton(obj) {
 /* 메뉴 이미지 업로드 후처리 */
 function completeMenuUploadButton(target, filename) {
     var column_name = target.replace(/^menu_/,'');
-    var fo_obj = xGetElementById("fo_menu");
-    var zone_obj = xGetElementById(target+'_zone');
-    var img_obj = xGetElementById(target+'_img');
+    var fo_obj = jQuery('#fo_menu')[0];
+    var zone_obj = jQuery('#'+target+'_zone');
+    var img_obj = jQuery('#'+target+'_img');
 
     fo_obj[column_name].value = filename;
 
     var img = new Image();
     img.src = filename;
-    img_obj.src = img.src;
-    zone_obj.style.display = "block";
+    img_obj.attr('src', img.src);
+	zone_obj.show();
 }
 
 /* 업로드된 메뉴 이미지 삭제 */
 function doDeleteButton(target) {
-    var fo_obj = xGetElementById("fo_menu");
+    var fo_obj = jQuery("#fo_menu")[0];
 
     var col_name = target.replace(/^menu_/,'');
 
@@ -216,22 +187,15 @@ function doDeleteButton(target) {
 
 function completeDeleteButton(ret_obj, response_tags) {
     var target = ret_obj['target'];
-
     var column_name = target.replace(/^menu_/,'');
-    var fo_obj = xGetElementById("fo_menu");
-    var zone_obj = xGetElementById(target+'_zone');
-    var img_obj = xGetElementById(target+'_img');
-    fo_obj[column_name].value = "";
 
-    img_obj.src = "";
-    zone_obj.style.display = "none";
+	jQuery('#fo_menu')[0][column_name].value = '';
+    jQuery('#'+target+'_img').attr('src', '');
+	jQuery('#'+target+'_zone').hide();
 }
 /* 메뉴 입력후 */ 
 function completeInsertMenu(ret_obj) {
     var menu_srl = ret_obj['menu_srl'];
     alert(ret_obj['message']);
     location.href = current_url.setQuery('act','dispMenuAdminContent');
-
-    //var url = current_url.setQuery('act','dispMenuAdminManagement').setQuery('menu_srl',menu_srl);
-    //window.open(url);
 } 

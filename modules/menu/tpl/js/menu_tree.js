@@ -169,5 +169,6 @@ function completeInsertMenuItem(ret_obj) {
 }
 
 function doMoveMenuInfo() {
-    xAddEventListener(window,'load', function() { window.document.body.appendChild(xGetElementById('fo_menu')); xGetElementById('menu_zone_info').style.width = '550px'; } );
+	var $ = jQuery;
+	$(function(){ $('#fo_menu').appendTo(document.body); $('#menu_zone_info').css('width', '550px'); });
 }
