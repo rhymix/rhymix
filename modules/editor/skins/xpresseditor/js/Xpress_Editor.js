@@ -5532,7 +5532,7 @@ xe.XE_XHTMLFormatter = $.Class({
 				if ($.inArray(m2,lonely_tags) >= 0) {
 					var len = m3.length;
 					if (m2 == 'br') m3 = '';
-					if (!m3 || m3.substring(len-1,len) != '/') m3 += ' /';
+					if (!m3 || m3.substring(len-1,len) != '/') m3 += '/';
 
 					return '<'+m2+' '+m3+'>';
 				}
