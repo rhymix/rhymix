@@ -189,6 +189,9 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 
     if(typeof(xeVid)!='undefined') params['vid'] = xeVid;
     if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = ['error','message'];
+	else {
+		response_tags.push('error', 'message');
+	}
 	// }}} set parameters
 
 	// use ssl?
