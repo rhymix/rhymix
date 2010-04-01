@@ -1261,7 +1261,10 @@
             if($site_srl) $args->site_srl = $site_srl;
 
             // 추가
-            return  executeQuery('member.addMemberToGroup',$args);
+            $output = executeQuery('member.addMemberToGroup',$args);
+            $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
+
+			return $output;
         }
 
         /**
