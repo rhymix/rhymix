@@ -5,5 +5,5 @@
      * @brief  Russian basic language pack
      **/
 	 
-    $lang->alert_new_message_arrived = 'У Вас есть новые сообщения. Хотите проверить сейчас?';
+    $lang->alert_new_message_arrived = 'У Вас новые сообщения. Проверите сейчас?';
 ?>

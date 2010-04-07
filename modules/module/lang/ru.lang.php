@@ -13,7 +13,7 @@
     $lang->add_shortcut = "Добавить ярлыки";
     $lang->module_action = "Действия";
     $lang->module_maker = "Разработчик модуля";
-    $lang->module_license = 'License';
+    $lang->module_license = 'Лицензия';
     $lang->module_history = "История обновлений";
     $lang->category_title = "Название категории";
     $lang->header_text = 'Верхний колонтитул';
@@ -26,23 +26,23 @@
     $lang->skin_license = 'License';
     $lang->skin_history = 'История обновлений';
     $lang->module_selector = "Module Selector";
-    $lang->do_selected = "선택된 것들을...";
+    $lang->do_selected = "Выбранные...";
     $lang->bundle_setup = "일괄 기본 설정";
     $lang->bundle_addition_setup = "일괄 추가 설정";
     $lang->bundle_grant_setup = "일괄 권한 설정";
-    $lang->lang_code = "언어 코드";
-    $lang->filebox = "파일박스";
+    $lang->lang_code = "Код языка";
+    $lang->filebox = "Файлбокс";
 
-    $lang->access_type = '접속 방법';
-    $lang->access_domain = 'Domain 접속';
-    $lang->access_vid = 'Site ID 접속';
+    $lang->access_type = 'Способ соединения';
+    $lang->access_domain = 'Domain соединения';
+    $lang->access_vid = 'Site ID соединение';
     $lang->about_vid = '별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
     $lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
     $lang->msg_already_registed_domain = '이미 등록된 도메인입니다. 다른 도메인을 사용해주세요';
 
     $lang->module_copy = "Копировать модуль";
 
-    $lang->header_script = "헤더 스크립트";
+    $lang->header_script = "Скрипт Header";
     $lang->about_header_script = "html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다";
 
     $lang->grant_access = "Access";
@@ -60,12 +60,12 @@
     $lang->cmd_manage_grant = 'Управление правами доступа';
     $lang->cmd_manage_skin = 'Управление скинами';
     $lang->cmd_manage_document = 'Управление статьями';
-    $lang->cmd_find_module = '모듈 찾기';
+    $lang->cmd_find_module = 'Искать модуль';
     $lang->cmd_find_langcode = 'Find lang code';
 
     $lang->msg_new_module = "Создать новый модуль";
     $lang->msg_update_module = "Изменить модуль";
-    $lang->msg_module_name_exists = "Имя уже существует. Пожалуйста, попробуйте другое.";
+    $lang->msg_module_name_exists = "Имя уже существует. Пожалуйста, попробуйте другое";
     $lang->msg_category_is_null = 'Зарегистрированной категории не существует.';
     $lang->msg_grant_is_null = 'Списка для управления правами доступа не существует.';
     $lang->msg_no_checked_document = 'Нет выбранных статей.'; // translator's note: выше...

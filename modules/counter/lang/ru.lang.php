@@ -5,7 +5,7 @@
      * @brief  Russian basic language pack
      **/
 
-    $lang->counter = "Счетчик";
+    $lang->counter = "Счетчик посетителей";
     $lang->cmd_select_date = 'Выберите дату';
     $lang->cmd_select_counter_type = array(
         'hour' => 'По часам',
@@ -20,6 +20,6 @@
     $lang->unique_visitor = 'Посетителей';
     $lang->pageview = 'Просмотров страниц';
 
-    $lang->today = 'today';
-    $lang->yesterday = 'yesterday';
+    $lang->today = 'Сегодня';
+    $lang->yesterday = 'Вчера';
 ?>

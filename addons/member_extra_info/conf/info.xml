@@ -7,7 +7,7 @@
     <title xml:lang="vi">Bổ xung thông tin thành viên</title>
     <title xml:lang="ge">회원 확장 정보 출력</title>
     <title xml:lang="es">회원 확장 정보 출력</title>
-    <title xml:lang="ru">회원 확장 정보 출력</title>
+    <title xml:lang="ru">Экстраинформация о пользователях</title>
     <title xml:lang="zh-TW">用戶延伸資料</title>
     <description xml:lang="ko">
         회원이 등록한 이미지이름, 이미지마크를 사용하기 위해서는 이 애드온을 활성화 시키세요.
@@ -31,7 +31,7 @@
         This addon displays a member's image name, image mark.
     </description>
     <description xml:lang="ru">
-        This addon displays a member's image name, image mark.
+        Аддон изображает имя, марку картинки пользователя.
     </description>
     <description xml:lang="zh-TW">
         可將用戶資料中的暱稱圖片、用戶圖示、簽名檔等資料顯示到頁面當中。

@@ -5,46 +5,45 @@
      * @brief  Russian basic language pack
      **/
 
-    $lang->communication = 'Communication';
-    $lang->about_communication = '회원간의 쪽지나 친구 관리등 커뮤니케이션 기능을 수행하는 모듈입니다';
+    $lang->communication = 'Общение';
+    $lang->about_communication = 'Модуль для общения между пользователями';
 
-    $lang->allow_message = 'Разрешить прием сообщений';
+    $lang->allow_message = 'Получать сообщения';
     $lang->allow_message_type = array(
              'Y' => 'Принимать все',
-                         'N' => 'Отклонять все',
-                                     'F' => 'Только друзья',
+             'N' => 'Отклонять все',
+             'F' => 'Принимать только от друзей',
                 );
 
 
     $lang->message_box = array(
-        'R' => 'Принятые',
+        'R' => 'Полученные',
         'S' => 'Отправленные',
         'T' => 'Почтовый ящик',
     );
 
-    $lang->readed_date = "Дата прочтения"; 
+    $lang->readed_date = "Дата прочтения сообщения"; 
 
     $lang->sender = 'Отправитель';
     $lang->receiver = 'Получатель';
-    $lang->friend_group = 'Группа друзей';
-    $lang->default_friend_group = 'Неприсвоенная группа';
+    $lang->friend_group = 'Группа Друзья';
+    $lang->default_friend_group = 'Незарегистрированная группа';
 
     $lang->cmd_send_message = 'Отправить сообщение';
     $lang->cmd_reply_message = 'Ответить';
     $lang->cmd_view_friend = 'Дзузья';
-    $lang->cmd_add_friend = 'Сделать другом';
-    $lang->cmd_view_message_box = 'Ящик сообщений';
+    $lang->cmd_add_friend = 'Добавить в друзья';
+    $lang->cmd_view_message_box = 'Личные сообщений';
     $lang->cmd_store = "Сохранить";
-    $lang->cmd_add_friend_group = 'Добавить группу друзей';
+    $lang->cmd_add_friend_group = 'Добавить в группу друзей';
     $lang->cmd_rename_friend_group = 'Изменить имя группы друзей';
 
-    $lang->msg_no_message = 'Нет сообщений';
-    $lang->message_received = 'Новое сообщение';
+    $lang->msg_no_message = 'Сообщений нет';
+    $lang->message_received = 'У Вас новое сообщение';
 
     $lang->msg_title_is_null = 'Пожалуйста, введите тему сообщения';
     $lang->msg_content_is_null = 'Пожалуйста, введите содержание';
-    $lang->msg_allow_message_to_friend = "Отправка провалена, поскольку получатель принимает сообщения только от друзей";
-    $lang->msg_disallow_message = 'Отправка провалена, поскольку получатель отклоняет прием сообщений';
-
-    $lang->about_allow_message = 'Вы можете определить политику принятия сообщений';
+    $lang->msg_allow_message_to_friend = "Сообщение не отправлено, поскольку являетесь пользователем, имеющим право посылать сообщения только друзьям";
+    $lang->msg_disallow_message = 'Сообщение не отправлено, поскольку получатель запретил прием сообщений';
+    $lang->about_allow_message = 'Вы можете установить режим принятия сообщений';
 ?>

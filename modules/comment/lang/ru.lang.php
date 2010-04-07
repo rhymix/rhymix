@@ -5,27 +5,28 @@
      * @brief  Russian basic language pack
      **/
 	
-    $lang->cmd_comment_do = 'Действия';
+    $lang->cmd_comment_do = 'Эту запись...';
     
-    $lang->comment_list = 'Список комментариев';
-    $lang->cmd_delete_checked_comment = 'Удалить выбранный объект';
+    $lang->comment_list = 'Список записей';
+	$lang->cmd_toggle_checked_comment = 'Изменить выбранное';
+    $lang->cmd_delete_checked_comment = 'Удалить выбранное';
 
-    $lang->comment_count = '댓글 수';
-    $lang->about_comment_count = '댓글을 정해진 수 만큼만 표시하고 그 이상일 경우 목록으로 이동할 수 있게 합니다.';
+    $lang->comment_count = 'Количество ответов';
+    $lang->about_comment_count = 'Отображается указанное количество ответов, после превышения этого количества производится переход к списку.';
 
-    $lang->msg_cart_is_null = 'Пожалуйста, выберите статью для удаления.';
-    $lang->msg_checked_comment_is_deleted = '%d комментарий(-ия) успешно удален(о).'; 
+    $lang->msg_cart_is_null = 'Пожалуйста, выберите записи для удаления.';
+    $lang->msg_checked_comment_is_deleted = '%d записьуспешно удалена'; 
 
     $lang->search_target_list = array(
         'content' => 'Содержание',
         'user_id' => 'ID',
         'user_name' => 'Имя',
         'nick_name' => 'Ник',
-        'member_srl' => 'Member Serial',
-        'email_address' => 'Email',
+        'member_srl' => 'Номер пользователя',
+        'email_address' => 'Email адрес',
         'homepage' => 'Домашняя страница',
-        'regdate' => 'Дата',
-        'last_update' => 'Последнее обновление',
-        'ipaddress' => 'IP-адрес',
-    );
+        'regdate' => 'Дата регистрации',
+        'last_update' => 'Дата последнего обновления',
+        'ipaddress' => 'IP-адрес',	
+	);
 ?>
