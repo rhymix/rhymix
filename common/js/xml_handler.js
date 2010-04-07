@@ -181,6 +181,7 @@ function xml2json(xml, tab, ignoreAttrib) {
  **/
 $.exec_xml = window.exec_xml = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
 	var xml_path = request_uri+"index.php"
+    if(!params) params = {};
 
 	// {{{ set parameters
 	if($.isArray(params)) params = arr2obj(params);
