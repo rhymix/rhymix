@@ -1260,6 +1260,10 @@
             $args->group_srl = $group_srl;
             if($site_srl) $args->site_srl = $site_srl;
 
+			$oModel =& getModel('member');
+			$groups = $oModel->getMemberGroups($member_srl, $site_srl);
+			if($groups[$group_srl]) return new Object();
+
             // 추가
             $output = executeQuery('member.addMemberToGroup',$args);
             $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
