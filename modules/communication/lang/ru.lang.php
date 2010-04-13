@@ -31,7 +31,7 @@
 
     $lang->cmd_send_message = 'Отправить сообщение';
     $lang->cmd_reply_message = 'Ответить';
-    $lang->cmd_view_friend = 'Дзузья';
+    $lang->cmd_view_friend = 'Друзья';
     $lang->cmd_add_friend = 'Добавить в друзья';
     $lang->cmd_view_message_box = 'Личные сообщений';
     $lang->cmd_store = "Сохранить";
