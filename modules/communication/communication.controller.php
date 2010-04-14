@@ -85,7 +85,8 @@
         }
 
         function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true) {
-            $content = removeHackTag($content);
+            $content = removeHackTag($content); 
+			$title = htmlspecialchars($title);
 
             // 보내는 사용자의 쪽지함에 넣을 쪽지
             $sender_args->sender_srl = $sender_srl;
@@ -346,7 +347,8 @@
             // 변수 정리
             $args->friend_group_srl = trim(Context::get('friend_group_srl'));
             $args->member_srl = $logged_info->member_srl;
-            $args->title = Context::get('title');
+            $args->title = Context::get('title'); 
+			$args->title = htmlspecialchars($args->title);
             if(!$args->title) return new Object(-1, 'msg_invalid_request');
 
             // friend_group_srl이 있으면 수정
@@ -376,7 +378,8 @@
             // 변수 정리
             $args->friend_group_srl= Context::get('friend_group_srl');
             $args->member_srl = $logged_info->member_srl;
-            $args->title = Context::get('title');
+            $args->title = Context::get('title'); 
+			$args->title = htmlspecialchars($args->title);
             if(!$args->title) return new Object(-1, 'msg_invalid_request');
 
             $output = executeQuery('communication.renameFriendGroup', $args);
