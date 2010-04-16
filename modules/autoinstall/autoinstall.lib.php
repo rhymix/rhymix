@@ -172,8 +172,7 @@
 
             $connection = ftp_connect($ftp_host, $ftp_info->ftp_port);
             if(!$connection) return new Object(-1, 'msg_ftp_not_connected');
-
-            $login_result = ftp_login($connection, $ftp_info->ftp_user, $this->ftp_password); 
+            $login_result = @ftp_login($connection, $ftp_info->ftp_user, $this->ftp_password); 
             if(!$login_result)
             {
                 return new Object(-1,'msg_ftp_invalid_auth_info');
