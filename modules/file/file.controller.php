@@ -397,7 +397,7 @@
             }
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
-            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info['name'])) {
+            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info['name'])) {
                 // direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
                 $file_info['name'] = preg_replace('/\.(php|phtm|html|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
                 $file_info['name'] = str_replace(array('<','>'),array('%3C','%3E'),$file_info['name']);
@@ -566,7 +566,7 @@
                 $old_file = $file_info->uploaded_filename;
 
                 // 이미지인지 기타 파일인지 체크하여 이동할 위치 정함
-                if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|asaf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info->source_filename)) {
+                if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info->source_filename)) {
                     $path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
                     $new_file = $path.$file_info->source_filename;
                 } else {
