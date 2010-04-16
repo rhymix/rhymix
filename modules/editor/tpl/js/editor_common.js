@@ -6,13 +6,6 @@ var editorAutoSaveObj = {fo_obj:null, editor_sequence:0, title:'', content:'', l
 var editorRelKeys = new Array(); ///< 에디터와 각 모듈과의 연동을 위한 key 값을 보관하는 변수
 var editorDragObj = {isDrag:false, y:0, obj:null, id:'', det:0, source_height:0}
 
-/**
- * 에디터 사용시 사용되는 이벤트 연결 함수 호출
- **/
-xAddEventListener(document, 'click', editorEventCheck);
-xAddEventListener(document, 'mousedown', editorDragStart);
-xAddEventListener(document, 'mouseup', editorDragStop);
-
 function editorGetContent(editor_sequence) {
     // 입력된 내용을 받아옴
     var content = editorRelKeys[editor_sequence]["func"](editor_sequence);
@@ -105,83 +98,11 @@ function editorRemoveSavedDoc() {
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
     if(editorRelKeys != undefined && editorRelKeys[editor_sequence] != undefined && editorRelKeys[editor_sequence]['editor'] != undefined)
-    return editorRelKeys[editor_sequence]['editor'].getFrame();
-    return xGetElementById( 'editor_iframe_'+ editor_sequence );
+		return editorRelKeys[editor_sequence]['editor'].getFrame();
+    return document.getElementById( 'editor_iframe_'+ editor_sequence );
 }
 function editorGetTextarea(editor_sequence) {
-    return xGetElementById( 'editor_textarea_'+ editor_sequence );
-}
-/**
- * iframe 세로 크기 조절 드래그 관련
- **/
-function editorDragStart(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    if(typeof(obj.id)=='undefined'||!obj.id) return;
-
-    var id = obj.id;
-    if(id.indexOf('editor_drag_bar_')!=0) return;
-
-    editorDragObj.isDrag = true;
-    editorDragObj.y = e.pageY;
-    editorDragObj.obj = e.target;
-    editorDragObj.id = id.substr('editor_drag_bar_'.length);
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    var textarea_obj = editorGetTextarea(editorDragObj.id);
-    var preview_obj = xGetElementById('editor_preview_'+editorDragObj.id);
-    editorDragObj.source_height = xHeight(iframe_obj) || xHeight(preview_obj);
-    xGetElementById('xeEditorMask_' + editorDragObj.id).style.display='block';
-
-    xAddEventListener(document, 'mousemove', editorDragMove, true);
-//    xAddEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
-}
-
-function editorDragMove(evt) {
-
-    if(!editorDragObj.isDrag){
-        if(editorDragObj.id) xGetElementById('xeEditorMask_' + editorDragObj.id).style.display='none';
-        return;
-    }
-
-    var e = new xEvent(evt);
-    var h = e.pageY - editorDragObj.y;
-
-    editorDragObj.isDrag = true;
-    editorDragObj.y = e.pageY;
-    editorDragObj.obj = e.target;
-
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    var textarea_obj = editorGetTextarea(editorDragObj.id);
-    var preview_obj = xGetElementById('editor_preview_'+editorDragObj.id);
-    var height = xHeight(iframe_obj) || xHeight(textarea_obj) || xHeight(preview_obj);
-    height += h;
-    xHeight(iframe_obj, height);
-    xHeight(textarea_obj, height);
-    xHeight(preview_obj, height);
-//    xHeight(iframe_obj.parentNode, height+200);
-}
-
-function editorDragStop(evt) {
-    if(editorDragObj.id) xGetElementById('xeEditorMask_'+editorDragObj.id).style.display='none';
-    if(!editorDragObj.isDrag){
-        return;
-    }
-
-
-    xRemoveEventListener(document, 'mousemove', editorDragMove, false);
-//    xRemoveEventListener(editorDragObj.obj, 'mousemove', editorDragMove, false);
-
-    var iframe_obj = editorGetIFrame(editorDragObj.id);
-    var textarea_obj = editorGetTextarea(editorDragObj.id);
-    if(typeof(fixAdminLayoutFooter)=='function') fixAdminLayoutFooter(xHeight(iframe_obj)-editorDragObj.source_height);
-
-
-    editorDragObj.isDrag = false;
-    editorDragObj.y = 0;
-    editorDragObj.obj = null;
-    editorDragObj.id = '';
+    return document.getElementById( 'editor_textarea_'+ editor_sequence );
 }
 
 // Editor Option Button
@@ -204,11 +125,10 @@ function eOptionClick(obj) {
 
 // 에디터 상단의 컴포넌트 버튼 클릭시 action 처리 (마우스다운 이벤트 발생시마다 요청이 됨)
 var editorPrevSrl = null;
-function editorEventCheck(evt) {
+function editorEventCheck(e) {
     editorPrevNode = null;
 
     // 이벤트가 발생한 object의 ID를 구함
-    var e = new xEvent(evt);
     var target_id = e.target.id;
     if(!target_id) return;
 
@@ -257,6 +177,7 @@ function editorEventCheck(evt) {
 
     return;
 }
+jQuery(document).click(editorEventCheck);
 
 // 컴포넌트 팝업 열기
 function openComponent(component_name, editor_sequence, manual_url) {
@@ -400,3 +321,93 @@ function editorGetSelectedHtml(editor_sequence) {
         return html;
     }
 }
+
+
+// {{{ iframe 세로 크기 조절
+(function($){
+
+var dragging  = false;
+var startY    = 0;
+var startH    = 0;
+var editorId  = '';
+var eventObj  = null; // event target object
+var targetObj = null; // elements to be resized
+
+function editorDragStart(e) {
+    var obj = $(e.target);
+	var id = obj.attr('id');
+
+    if(!id || !/^editor_drag_bar_(.+)$/.test(id)) return;
+
+    dragging  = true;
+    startY    = e.pageY;
+    eventObj  = obj;
+	editorId  = RegExp.$1;
+
+    var iframe_obj   = $( editorGetIFrame(editorId) );
+    var textarea_obj = $( editorGetTextarea(editorId) );
+    var preview_obj  = $('#editor_preview_'+editorId);
+	var visible_obj  = iframe_obj.is(':visible')?iframe_obj:textarea_obj;
+
+	startH = parseInt(visible_obj.css('height'));
+
+	targetObj = $([ iframe_obj[0], textarea_obj[0] ]);
+	if (preview_obj.length) targetObj.add(preview_obj[0]);
+
+	if (!isNaN(startH) || !startH) {
+		var oh_before = visible_obj[0].offsetHeight;
+		visible_obj.css('height', oh_before+'px');
+		var oh_after = visible_obj[0].offsetHeight;
+
+		startH = oh_before*2 - oh_after;
+		targetObj.css('height', startH+'px');
+	}
+
+	$('#xeEditorMask_' + editorId).show();
+	$(document).mousemove(editorDragMove);
+
+	return false;
+}
+
+function editorDragMove(e) {
+    if(!dragging) {
+        $('#xeEditorMask_' + editorId).hide();
+        return;
+    }
+
+    var diff = e.pageY - startY;
+	targetObj.css('height', (startH + diff)+'px');
+
+	return false;
+}
+
+function editorDragStop(e) {
+	$('#xeEditorMask_' + editorId).hide();
+    if(!dragging) return;
+
+	$(document).unbind('mousemove', editorDragMove);
+
+	if($.isFunction(window.fixAdminLayoutFooter)) {
+		var diff = parseInt(targetObj.eq(0).css('height')) - startH;
+
+		fixAdminLayoutFooter( diff );
+	}
+
+    dragging  = false;
+    startY    = 0;
+    eventObj  = null;
+	targetObj = null;
+	editorId  = '';
+
+	return false;
+}
+
+/*
+$(document).bind({
+	mousedown : editorDragStart,
+	mouseup   : editorDragStop
+});
+*/
+
+})(jQuery);
+// }}} iframe 세로 크기 조절
