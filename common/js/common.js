@@ -248,6 +248,19 @@ jQuery(function($) {
 
         });
     }
+
+    /* 단락에디터 fold 컴포넌트 펼치기/접기 */
+    var drEditorFold = $('.xe_content .fold_button');
+    if(drEditorFold.size()) {
+        var fold_container = $('div.fold_container', drEditorFold);
+        $('button.more', drEditorFold).click(function() {
+            $(this).hide().next('button').show().parent().next(fold_container).show();
+        });
+        $('button.less', drEditorFold).click(function() {
+            $(this).hide().prev('button').show().parent().next(fold_container).hide();
+        });
+    }
+
 });
 
 
