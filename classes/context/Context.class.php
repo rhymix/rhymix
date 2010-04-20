@@ -509,6 +509,7 @@
          **/
         function _loadLang($path) {
             global $lang;
+			if(!is_object($lang)) $lang = new stdClass;
             if(!$this->lang_type) return;
             if(substr($path,-1)!='/') $path .= '/';
             $filename = sprintf('%s%s.lang.php', $path, $this->lang_type);
