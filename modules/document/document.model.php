@@ -45,7 +45,7 @@
             $output = executeQueryArray('document.getDocumentExtraVars', $obj);
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
-                    if(!trim($val->value)) continue;
+                    if(!isset($val->value)) continue;
                     if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value); 
                     $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value); 
                 }
@@ -67,9 +67,9 @@
                 if(count($extra_keys)) {
                 foreach($extra_keys as $idx => $key) {
                         $val = $vars[$idx];
-                        if($val[$user_lang_code]) $v = $val[$user_lang_code];
-                        else if($val[$document_lang_code]) $v = $val[$document_lang_code];
-                        else if($val[0]) $v = $val[0];
+                        if(isset($val[$user_lang_code])) $v = $val[$user_lang_code];
+                        else if(isset($val[$document_lang_code])) $v = $val[$document_lang_code];
+                        else if(isset($val[0])) $v = $val[0];
                         else $v = null;
                         $extra_keys[$idx]->value = $v;
                     }
