@@ -307,11 +307,11 @@ function send_by_form(url, params) {
 	var form_id  = 'xeVirtualForm';
 
 	if (!$('#'+frame_id).length) {
-		$('<iframe name="%id%" id="%id%" style="position:absolute;left:-1px;top:1px;width:1px;height:1px">'.replace(/%id%/g, frame_id)).appendTo(document.body);
+		$('<iframe name="%id%" id="%id%" style="position:absolute;left:-1px;top:1px;width:1px;height:1px"></iframe>'.replace(/%id%/g, frame_id)).appendTo(document.body);
 	}
 
 	$('#'+form_id).remove();
-	var form = $('<form id="%id%">'.replace(/%id%/g, form_id)).attr({
+	var form = $('<form id="%id%"></form>'.replace(/%id%/g, form_id)).attr({
 		'id'     : form_id,
 		'method' : 'post',
 		'action' : url,
