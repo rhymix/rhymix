@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
     <title xml:lang="ko">XE 기본 서식</title>
+    <title xml:lang="en">XE Default Form</title>
     <title xml:lang="zh-CN">XE默认样式</title>
-    <title xml:lang="en">XE 기본 서식</title>
     <title xml:lang="vi">XE Mặc định</title>
     <title xml:lang="jp">XEデフォルトスタイル</title>
     <title xml:lang="zh-TW">XE預設樣式</title>
     <description xml:lang="ko">
         XE 기본 문서 서식입니다.
         있는 그대로 표시가 될 뿐 편집/ 출력시 아무런 영향을 끼치지 않습니다.
+    </description>
+    <description xml:lang="en">
+		XE Default Form
     </description>
     <description xml:lang="zh-CN">
         XE默认样式。
