@@ -199,14 +199,14 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	if ($.isArray(ssl_actions) && params['act'] && $.inArray(params['act'], ssl_actions) >= 0)
 	{
 		var url    = default_url || request_uri;
-		var port   = https_port || 443;
+		var port   = window.https_port || 443;
 		var _ul    = $('<a>').attr('href', url)[0];
 		var target = 'https://' + _ul.hostname.replace(/:\d+$/, '');
 
 		if(port != 443) target += ':'+port;
 		if(_ul.pathname[0] != '/') target += '/';
 		
-		target += ul.pathname;
+		target += _ul.pathname;
 		xml_path = target.replace(/\/$/, '')+'/index.php';
 	}
 
