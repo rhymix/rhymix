@@ -256,6 +256,8 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 		}
 
 		$.each(response_tags, function(key, val){ tags[val] = true; });
+        tags["redirect_url"] = true;
+        tags["act"] = true;
 		$.each(resp_obj, function(key, val){ if(tags[key]) ret[key] = val; });
 
 		if(ret['error'] != 0) {
