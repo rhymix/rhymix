@@ -2785,8 +2785,8 @@ xe.XE_EditingAreaManager = $.Class({
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "focus", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "blur", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 
-		var fOnBeforeUnload = this.fOnBeforeUnload||function(){if(this.getIR() != this.oIRField.value || this.bIsDirty) return this.oApp.$MSG("XE_EditingAreaManager.onExit")};
-		$(window).bind("beforeunload", $.fnBind(fOnBeforeUnload, this));
+//		var fOnBeforeUnload = this.fOnBeforeUnload||function(){if(this.getIR() != this.oIRField.value || this.bIsDirty) return this.oApp.$MSG("XE_EditingAreaManager.onExit")};
+//		$(window).bind("beforeunload", $.fnBind(fOnBeforeUnload, this));
 	},
 
 	$AFTER_MSG_APP_READY : function(){
