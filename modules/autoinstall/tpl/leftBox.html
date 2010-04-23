@@ -14,9 +14,9 @@
             <!--@end-->
             <li>
                 <!--@if(count($val->children))-->
-                <a href="{getUrl('act','dispAutoinstallAdminIndex','category_srl',$val->category_srl,'childrenList',$val->childrenList)}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
+                <a href="{getUrl('','module','admin','act','dispAutoinstallAdminIndex','category_srl',$val->category_srl,'childrenList',$val->childrenList)}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
                 <!--@else-->
-                <a href="{getUrl('act','dispAutoinstallAdminIndex','category_srl',$val->category_srl,'childrenList','')}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
+                <a href="{getUrl('','module','admin','act','dispAutoinstallAdminIndex','category_srl',$val->category_srl,'childrenList','')}"<!--@if($val->category_srl == $category_srl)--> class="selected"<!--@end-->>{$val->title}</a>
                 <!--@end-->
                 <!--@if($val->nPackages)-->
                 <span>({$val->nPackages})</span>
