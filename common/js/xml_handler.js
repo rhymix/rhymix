@@ -263,10 +263,10 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 		if(ret['error'] != 0) {
 			if ($.isFunction($.exec_xml.onerror)) {
 				return $.exec_xml.onerror(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj);
-			} else {
-				alert(ret['message'] || 'error!');
-				return null;
 			}
+
+			alert(ret['message'] || 'error!');
+			return null;
 		}
 
 		if(ret['redirect_url']) {
