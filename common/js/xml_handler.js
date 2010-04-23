@@ -261,8 +261,12 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 		$.each(resp_obj, function(key, val){ if(tags[key]) ret[key] = val; });
 
 		if(ret['error'] != 0) {
-			alert(ret['message'] || 'error!');
-			return null;
+			if ($.isFunction($.exec_xml.onerror)) {
+				return $.exec_xml.onerror(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj);
+			} else {
+				alert(ret['message'] || 'error!');
+				return null;
+			}
 		}
 
 		if(ret['redirect_url']) {
