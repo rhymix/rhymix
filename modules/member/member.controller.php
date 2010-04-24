@@ -1261,7 +1261,7 @@
             if($site_srl) $args->site_srl = $site_srl;
 
 			$oModel =& getModel('member');
-			$groups = $oModel->getMemberGroups($member_srl, $site_srl);
+			$groups = $oModel->getMemberGroups($member_srl, $site_srl, true);
 			if($groups[$group_srl]) return new Object();
 
             // 추가
