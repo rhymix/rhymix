@@ -34,17 +34,17 @@
     <description xml:lang="zh-TW">
         此元件可防止機器人程式的垃圾留言，非註冊用戶在討論板/問題追蹤發表主題或評論時，必須要先選對畫面中所顯示的圖案才能發表。
     </description>
-    <version>0.1</version>
+    <version>0.2</version>
     <date>2009-02-20</date>
 
-    <author email_address="zero@zeroboard.com" link="http://blog.nzeo.com">
-        <name xml:lang="ko">zero</name>
-		<name xml:lang="zh-CN">zero</name>
-		<name xml:lang="jp">zero</name>
-        <name xml:lang="zh-TW">zero</name>
-		<name xml:lang="en">zero</name>
-		<name xml:lang="ru">zero</name>
-        <name xml:lang="vi">zero</name>
+    <author email_address="developers@xpressengine.com" link="http://www.xpressengine.com">
+        <name xml:lang="ko">XE</name>
+		<name xml:lang="zh-CN">XE</name>
+		<name xml:lang="jp">XE</name>
+        <name xml:lang="zh-TW">XE</name>
+		<name xml:lang="en">XE</name>
+		<name xml:lang="ru">XE</name>
+        <name xml:lang="vi">XE</name>
     </author>
 
     <extra_vars>
@@ -165,6 +165,40 @@
             <description xml:lang="en">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
 			<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
             <description xml:lang="vi">Nếu áp dụng, khi thành viên cần lấy lại mã kích hoạt thành viên, Capcha sẽ hiện thị để xác nhận việc này.</description>
+            <options value="">
+                <title xml:lang="ko">적용하지 않음</title>
+                <title xml:lang="zh-CN">不启用</title>
+                <title xml:lang="jp">적용하지 않음</title>
+                <title xml:lang="zh-TW">적용하지 않음</title>
+                <title xml:lang="en">Not apply</title>
+				<title xml:lang="ru">Not apply</title>
+                <title xml:lang="vi">Không áp dụng</title>
+            </options>
+            <options value="apply">
+                <title xml:lang="ko">적용</title>
+                <title xml:lang="zh-CN">启用</title>
+                <title xml:lang="jp">적용</title>
+                <title xml:lang="zh-TW">적용</title>
+                <title xml:lang="en">Apply</title>
+				<title xml:lang="ru">Apply</title>
+                <title xml:lang="vi">Áp dụng</title>
+            </options>
+        </var>
+        <var name="apply_signup" type="select">
+            <title xml:lang="ko">회원 가입 적용</title>
+            <title xml:lang="zh-CN">Apply to member signup</title>
+            <title xml:lang="jp">인증 메일 재발송 적용</title>
+            <title xml:lang="zh-TW">인증 메일 재발송 적용</title>
+            <title xml:lang="en">Apply to member signup</title>
+			<title xml:lang="ru">Apply to member signup</title>
+            <title xml:lang="vi">Apply to member signup</title>
+            <description xml:lang="ko">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+            <description xml:lang="zh-CN">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+            <description xml:lang="jp">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+            <description xml:lang="zh-TW">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
+            <description xml:lang="en">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
+            <description xml:lang="ru">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
+            <description xml:lang="vi">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
             <options value="">
                 <title xml:lang="ko">적용하지 않음</title>
                 <title xml:lang="zh-CN">不启用</title>

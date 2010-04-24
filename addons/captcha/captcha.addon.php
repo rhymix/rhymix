@@ -21,6 +21,7 @@
         $target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory','procTextyleInsertComment');
         if($addon_info->apply_find_account=='apply') $target_acts[] = 'procMemberFindAccount';
 		if($addon_info->apply_resend_auth_mail=='apply') $target_acts[] = 'procMemberResendAuthMail';
+		if($addon_info->apply_signup=='apply') $target_acts[] = 'procMemberInsert';
 
         Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
 
