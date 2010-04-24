@@ -16,7 +16,7 @@
                 return false;
             }
             
-            return Context::get('smartphone') || preg_match('/(iPod|iPhone|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
+            return Context::get('smartphone') || preg_match('/(iPod|iPhone|Android|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
         }
 
         function haveSmartphoneModule($module) {
@@ -80,7 +80,7 @@
         }
 
         function procSmartPhone($msg = null) {
-            if(preg_match('/(iPod|iPhone)/',$_SERVER['HTTP_USER_AGENT'])) {
+            if(preg_match('/(iPod|iPhone|Android)/',$_SERVER['HTTP_USER_AGENT'])) {
                 Context::addHtmlHeader('<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
             } else if(preg_match('/SCH\-M[0-9]+/',$_SERVER['HTTP_USER_AGENT'])) {
                 Context::addHtmlHeader('<meta name="viewport" content="width=240; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>');
