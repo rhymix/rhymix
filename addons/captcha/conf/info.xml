@@ -120,7 +120,7 @@
                 <title xml:lang="ko">비밀번호 찾기 적용</title>
                 <title xml:lang="zh-CN">应用到查找密码功能</title>
                 <title xml:lang="jp">비밀번호 찾기 적용</title>
-                <title xml:lang="zh-TW">비밀번호 찾기 적용</title>
+                <title xml:lang="zh-TW">忘記密碼</title>
                 <title xml:lang="en">applying to an action finding account</title>
 				<title xml:lang="ru">applying to an action finding account</title>
                 <title xml:lang="vi">Khi lấy lại mật khẩu</title>
@@ -135,7 +135,7 @@
                 <title xml:lang="ko">적용하지 않음</title>
                 <title xml:lang="zh-CN">不启用</title>
                 <title xml:lang="jp">적용하지 않음</title>
-                <title xml:lang="zh-TW">적용하지 않음</title>
+                <title xml:lang="zh-TW">關閉</title>
                 <title xml:lang="en">Not apply</title>
 				<title xml:lang="ru">Not apply</title>
                 <title xml:lang="vi">Không áp dụng</title>
@@ -144,7 +144,7 @@
                 <title xml:lang="ko">적용</title>
                 <title xml:lang="zh-CN">启用</title>
                 <title xml:lang="jp">적용</title>
-                <title xml:lang="zh-TW">적용</title>
+                <title xml:lang="zh-TW">開啟</title>
                 <title xml:lang="en">Apply</title>
 				<title xml:lang="ru">Apply</title>
                 <title xml:lang="vi">Áp dụng</title>
@@ -154,7 +154,7 @@
             <title xml:lang="ko">인증 메일 재발송 적용</title>
             <title xml:lang="zh-CN">应用到认证邮件重新发送功能</title>
             <title xml:lang="jp">인증 메일 재발송 적용</title>
-            <title xml:lang="zh-TW">인증 메일 재발송 적용</title>
+            <title xml:lang="zh-TW">重寄認證信</title>
             <title xml:lang="en">apply to an action resending authmail</title>
 			<title xml:lang="ru">apply to an action resending authmail</title>
             <title xml:lang="vi">Khi lấy lại mã kích hoạt</title>
@@ -169,7 +169,7 @@
                 <title xml:lang="ko">적용하지 않음</title>
                 <title xml:lang="zh-CN">不启用</title>
                 <title xml:lang="jp">적용하지 않음</title>
-                <title xml:lang="zh-TW">적용하지 않음</title>
+                <title xml:lang="zh-TW">關閉</title>
                 <title xml:lang="en">Not apply</title>
 				<title xml:lang="ru">Not apply</title>
                 <title xml:lang="vi">Không áp dụng</title>
@@ -178,7 +178,7 @@
                 <title xml:lang="ko">적용</title>
                 <title xml:lang="zh-CN">启用</title>
                 <title xml:lang="jp">적용</title>
-                <title xml:lang="zh-TW">적용</title>
+                <title xml:lang="zh-TW">開啟</title>
                 <title xml:lang="en">Apply</title>
 				<title xml:lang="ru">Apply</title>
                 <title xml:lang="vi">Áp dụng</title>
