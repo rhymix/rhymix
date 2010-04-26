@@ -210,7 +210,7 @@
 
             // 파일 출력
             if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
-                $filename = urlencode($filename);
+                $filename = rawurlencode($filename);
                 $filename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
             }
 
