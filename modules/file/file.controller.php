@@ -174,7 +174,7 @@
                     }
                     else $file_module_config->allow_outlink = 'Y';
                 }
-                if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_permitted_download');
+                if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_allowed_outlink');
             }
 
             // 파일 다운로드 권한이 있는지 확인
@@ -206,7 +206,7 @@
 
             // trigger 호출 (before)
             $output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
-            if(!$output->toBool()) return $this->stop('msg_not_permitted_download');
+            if(!$output->toBool()) return $this->stop(($output->message)?$output->message:'msg_not_permitted_download');
 
             // 파일 출력
             if(strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
