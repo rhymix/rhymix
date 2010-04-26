@@ -506,7 +506,7 @@
                 $name = $val['name'];
                 $value = $val['value'];
 		
-				if(substr($value,-2)!='+1') $check_click_count = false;
+				if(substr($value,-2)!='+1' || $output->column_type[$name]!='number') $check_click_count = false;
 
                 for ($i = 0; $i < $key; $i++) { // 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음
                     if ($output->columns[$i]['name'] == $name) break;
