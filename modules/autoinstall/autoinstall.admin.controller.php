@@ -132,7 +132,7 @@
                 {
                     $oModuleInstaller = new SFTPModuleInstaller($package);
                 }
-                else if(false && function_exists(ftp_connect))
+                else if(function_exists(ftp_connect))
                 {
                     $oModuleInstaller = new PHPFTPModuleInstaller($package);
                 }
