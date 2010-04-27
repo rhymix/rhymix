@@ -81,4 +81,5 @@
     $lang->sftp = 'SFTP 사용'; 
     $lang->ftp_get_list = '목록 가져오기';
     $lang->ftp_remove_info = 'FTP 정보 삭제';
+	$lang->msg_ftp_invalid_path = 'FTP Path를 읽을 수 없습니다.';
 ?>
