@@ -31,3 +31,11 @@ function completeInstall(ret_obj) {
     exec_xml('autoinstall', 'procAutoinstallAdminUpdateinfo', params, completeUpdateNoMsg);
 }
 
+function completeUninstall(ret_obj) {
+    alert(ret_obj['message']);
+    if(ret_obj['error'] != 0) return;
+    var params = new Array();
+    exec_xml('autoinstall', 'procAutoinstallAdminUpdateinfo', params, completeUpdateNoMsg);
+}
+
+

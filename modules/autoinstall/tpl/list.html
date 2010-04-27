@@ -37,12 +37,27 @@
 					<a href="{$target_url}">{htmlspecialchars($val->title)} ver. {htmlspecialchars($val->item_version)}</a>
 				</h3>
 					<!--@if($val->current_version)-->
-					{$lang->current_version} : {$val->current_version}
+					<p>{$lang->current_version} : {$val->current_version} 
+						<!--@if($val->deps)-->
+					<br />	
+						{$lang->dependant_list}	:
+						<!--@foreach($val->deps as $package_srl)-->
+						{$installed[$package_srl]->title}. 
+						<!--@endforeach-->
+						<!--@end-->
+					</p>
+						<div class="buttons">
+						<!--@if($val->avail_remove)-->
+						<a href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$val->package_srl)}" class="button red strong"><span>{$lang->cmd_delete}</span></a>
+						<!--@end-->
 						<!--@if($val->need_update == 'Y')-->
 						<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>{$lang->update}</span></a>
 						<!--@end-->
+						</div>
 					<!--@else-->
+					<div class="buttons">
 					<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>{$lang->install}</span></a>
+					</div>
 					<!--@end-->
 			</div>
 			<div class="info">

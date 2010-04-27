@@ -108,8 +108,8 @@
             return array_shift($output->data);
         }
 
-        function getInstalledPackages(&$package_list) {
-            $args->package_list = &$package_list;
+        function getInstalledPackages($package_list) {
+            $args->package_list = $package_list;
             $output = executeQueryArray("autoinstall.getInstalledPackages", $args);
             $result = array();
             if(!$output->data) return $result;
@@ -132,6 +132,51 @@
             $output->data = $res;
             return $output;
         }
+
+		function getTypeFromPath($path)
+		{
+			if(!$path) return null;
+			if($path == ".") return "core";
+			$path_array = explode("/", $path);
+            $target_name = array_pop($path_array);
+            $type = substr(array_pop($path_array), 0, -1);
+			return $type;
+		}
+
+		function getConfigFilePath($type)
+		{
+			$config_file = null;
+			switch($type)
+			{
+				case "module":
+					case "addon":
+					case "layout":
+					case "widget":
+					$config_file = "/conf/info.xml";
+				break;
+				case "component":
+					$config_file = "/info.xml";
+				break;
+				case "skin":    
+					case "widgetstyle":
+					$config_file = "/skin.xml";
+				break;
+				case "drcomponent":
+					$config_file = "/info.xml";
+				break;
+			}
+			return $config_file;
+		}
+
+		function checkRemovable($path)
+		{
+			$path_array = explode("/", $path);
+            $target_name = array_pop($path_array);
+			$oModule =& getModule($target_name, "class");
+			if(!$oModule) return false;	
+			if(method_exists($oModule, "moduleUninstall")) return true;
+			else return false;
+		}
 
    }
 ?>

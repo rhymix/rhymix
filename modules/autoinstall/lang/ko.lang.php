@@ -30,4 +30,6 @@
     $lang->cmd_download = "다운로드";
     $lang->view_installed_packages = "설치된 패키지";
     $lang->msg_ftp_password_input = "FTP 비밀번호를 입력해주세요";
+	$lang->dependant_list = "이 패키지에 의존하는 패키지 목록";
+	$lang->description_uninstall = "패키지를 삭제합니다. 모듈의 경우 모든 데이터가 사라집니다.";
 ?>
