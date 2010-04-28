@@ -27,6 +27,14 @@
     <td><input type="text" name="read_document" value="{$module_config['read_document']}" class="inputTypeText w80" /> {$module_config['point_name']}</td>
 </tr>
 <tr>
+	<th><div>{$lang->point_voted}</div></th>
+	<td><input type="text" name="voted" value="{$module_config['voted']}" class="inputTypeText w80" /> {$config->point_name}</td>
+</tr>
+<tr>
+	<th><div>{$lang->point_blamed}</div></th>
+	<td><input type="text" name="blamed" value="{$module_config['blamed']}" class="inputTypeText w80" /> {$config->point_name}</td>
+</tr>
+<tr>
     <th colspan="2" class="button">
         <span class="button strong black"><input type="submit" value="{$lang->cmd_save}" /></span>
         <span class="button"><input type="button" value="{$lang->cmd_reset}" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}'); return false"/></span>
