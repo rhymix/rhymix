@@ -83,7 +83,9 @@
                 $path = preg_replace('/\/$/','',$url_info['path']);
                 $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
                 $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
-            } else {
+            }
+            if(!$output || !$output->data)
+            {
                 if(!$vid) $vid = $mid;
                 if($vid) {
                     $vid_args->domain = $vid;
@@ -127,7 +129,6 @@
                     $output = executeQuery('module.getSiteInfo', $args);
                 }
             }
-
             $module_info = $output->data;
             if(!$module_info->module_srl) return $module_info;
             if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
