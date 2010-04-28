@@ -4,6 +4,9 @@
     </tables>
     <columns>
         <column name="comment_srl" />
+        <column name="module_srl" />
+		<column name="member_srl" />
+		<column name="document_srl" />
     </columns>
     <conditions>
         <condition operation="in" column="document_srl" var="document_srl" notnull="notnull" />
