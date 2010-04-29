@@ -2404,13 +2404,13 @@ xe.DialogLayerManager = $.Class({
 		bModal = $.$(bModal) || false;
 		if(!oLayer) return;
 
-		if($.inArray(oLayer, this.aOpenedLayers)) return;
+		if($.inArray(oLayer, this.aOpenedLayers) != -1) return;
 
 		this.oApp.exec("POSITION_DIALOG_LAYER", [oLayer]);
 
 		this.aOpenedLayers[this.aOpenedLayers.length] = oLayer;
 
-		if(!$.inArray(oLayer, this.aMadeDraggable)){
+		if($.inArray(oLayer, this.aMadeDraggable) == -1){
 			new xe.DraggableLayer(oLayer, {bModal: bModal, iMinY: 0});
 			this.aMadeDraggable[this.aMadeDraggable.length] = oLayer;
 		}else{
