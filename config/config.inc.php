@@ -112,6 +112,14 @@
      **/
     require(_XE_PATH_.'config/func.inc.php');
 
+	/**
+	 * @brief Set Timezone as server time 
+	 **/
+	if(version_compare(PHP_VERSION, '5.3.0') >= 0)
+	{
+		date_default_timezone_set(@date_default_timezone_get());		
+	}
+
 
     if(__DEBUG__) define('__StartTime__', getMicroTime());
 
