@@ -38,7 +38,7 @@
 .updateList  td .title{ position:relative;}
 .updateList  td .title h3 { padding:0; margin:0 0 5px 0; font-size:12px;}
 .updateList  td .title a {text-decoration:none; color:#333 !important; }
-.updateList  td .title .button{ position:absolute; top:0; right:0;}
+.updateList  td .title .buttons{ position:absolute; top:0; right:0;}
 .updateList  td .info p{ margin:0 0 5px 0; line-height:1.5;}
 .updateList  td .info p.desc{ margin:0 100px 10px 0;}
 .updateList  td .info p.meta{ font-size:11px;}

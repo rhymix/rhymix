@@ -46,7 +46,7 @@ function doDisplaySkinColorset(sel, colorset) {
 
 /* 서버에서 받아온 컬러셋을 표시 */
 function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
-    var sel = xGetElementById("fo_widget").widget_colorset;
+    var sel = jQuery("#fo_widget")[0].widget_colorset;
     var length = sel.options.length;
     var selected_colorset = params["colorset"];
     for(var i=0;i<length;i++) sel.remove(0);
@@ -64,7 +64,7 @@ function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
 
     sel.selectedIndex = selected_index;
 
-    xGetElementById("colorset_area").style.display = "block";
+    jQuery("#colorset_area").show();
     setFixedPopupSize();
 }
 
@@ -80,23 +80,6 @@ function getWidgetVars() {
     }
 
     doFillWidgetVars();
-    /*
-    if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
-    selected_node = opener.selectedWidget;
-
-    var fo_widget = jQuery('#fo_widget');
-    var attrs = selected_node.attributes;
-    for (i=0; i< attrs.length ; i++){
-        var input = jQuery("[name='"+attrs[i].name+"']" ,'#fo_widget');
-        if( input.size() == 0){
-            jQuery('<input type="hidden" name="'+attrs[i].name+'" />').val(attrs[i].value).prependTo(fo_widget);
-        }else{
-            if(!input.val() && attrs[i].value ){
-                input.val(attrs[i].value);
-            }
-        }
-    }
-    */
 }
 
 /* 페이지 모듈에서 내용의 위젯을 더블클릭하여 수정하려고 할 경우 */
@@ -183,15 +166,6 @@ function doFillWidgetVars() {
 
     }
 
-/*
-    var marginLeft = 0;
-    if(selected_node.style.marginLeft) marginLeft = parseInt(selected_node.style.marginLeft.replace(/px$/,''),10);
-    var marginRight = 0;
-    if(selected_node.style.marginRight) marginRight = parseInt(selected_node.style.marginRight.replace(/px$/,''),10);
-    var border = 0;
-    if(selected_node.style.border) border= parseInt(selected_node.style.boarder.replace(/px$/,''),10);
-*/
-
     var style = selected_node.getAttribute("style");
     if(typeof(style)=="object") style = style["cssText"];
     fo_obj.style.value = style;
@@ -231,7 +205,7 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 
 // 위젯의 대상 모듈 입력기 (다중 선택)
 function insertSelectedModules(id, module_srl, mid, browser_title) {
-    var sel_obj = xGetElementById('_'+id);
+    var sel_obj = jQuery('#_'+id)[0];
     for(var i=0;i<sel_obj.options.length;i++) if(sel_obj.options[i].value==module_srl) return;
     var opt = new Option(browser_title+' ('+mid+')', module_srl, false, false);
     sel_obj.options[sel_obj.options.length] = opt;
@@ -293,40 +267,40 @@ function midRemove(id) {
 }
 
 function syncMid(id) {
-    var sel_obj = xGetElementById('_'+id);
-    var valueArray = new Array();
+    var sel_obj = jQuery('#_'+id)[0];
+    var valueArray = [];
     for(var i=0;i<sel_obj.options.length;i++) valueArray[valueArray.length] = sel_obj.options[i].value;
-    xGetElementById(id).value = valueArray.join(',');
+    jQuery('#'+id).val( valueArray.join(',') );
 }
 
 function getModuleSrlList(id) {
-    var obj = xGetElementById(id);
-    if(!obj.value) return;
-    var value = obj.value;
-    var params = new Array();
-    params["module_srls"] = obj.value;
+    var obj = jQuery('#'+id);
+    if(!obj[0] || !obj.val()) return;
+
+	var params = [];
+    params["module_srls"] = obj.val();
     params["id"] = id;
 
-    var response_tags = new Array("error","message","module_list","id");
+    var response_tags = ["error","message","module_list","id"];
     exec_xml("module", "getModuleAdminModuleList", params, completeGetModuleSrlList, response_tags, params);
 }
 
 function completeGetModuleSrlList(ret_obj, response_tags) {
     var id = ret_obj['id'];
-    var sel_obj = xGetElementById('_'+id);
-    if(!sel_obj) return;
+    var sel_obj = jQuery('#_'+id);
+    if(!sel_obj[0]) return;
 
     var module_list = ret_obj['module_list'];
     if(!module_list) return;
     var item = module_list['item'];
-    if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
+    if(typeof(item.length)=='undefined' || item.length<1) item = [item];
 
     for(var i=0;i<item.length;i++) {
         var module_srl = item[i].module_srl;
         var mid = item[i].mid;
         var browser_title = item[i].browser_title;
         var opt = new Option(browser_title+' ('+mid+')', module_srl);
-        sel_obj.options.add(opt);
+        sel_obj[0].options.add(opt);
     }
 }
 
@@ -366,7 +340,8 @@ function excuteWindowLoadEvent() {
         windowLoadEventLoader[i]();
     }
 }
-xAddEventListener(window,'load',excuteWindowLoadEvent);
+
+jQuery(window).load(excuteWindowLoadEvent);
 
 
 function selectWidget(val){
@@ -378,9 +353,6 @@ function widgetstyle_extra_image_upload(f){
     f.act.value='procWidgetStyleExtraImageUpload';
     f.submit();
 }
-
-
-
 
 function MultiOrderSet(id){
     var selectedObj = jQuery("[name='selected_"+id+"']").get(0);

@@ -504,6 +504,7 @@ EndOfLicense;
 
     $lang->db_desc = array(
         'mysql' => 'Using mysql*() function to use mysql DB.<br />Transaction is disabled because DB file is created by myisam.',
+        'mysqli' => 'Using mysqli*() function to use mysql DB.',
         'mysql_innodb' => 'Using innodb to use mysql DB.<br />Transaction is enabled for innodb',
         'sqlite2' => 'Supporting sqlite2 which saves the data into the file.<br />When installing, DB file should be created at unreachable place from web.<br />(Never got tested on stabilization)',
         'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',

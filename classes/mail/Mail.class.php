@@ -43,7 +43,7 @@
         }
 
         function getSender() {
-            if($this->sender_name) return sprintf("%s <%s>", '=?utf-8?b?'.base64_encode($this->sender_name).'?=', $this->sender_email);
+            if(!stristr(PHP_OS, 'win') && $this->sender_name) return sprintf("%s <%s>", '=?utf-8?b?'.base64_encode($this->sender_name).'?=', $this->sender_email);
             return $this->sender_email;
         }
 
@@ -53,7 +53,7 @@
         }
 
         function getReceiptor() {
-            if($this->receiptor_name && $this->receiptor_name != $this->receiptor_email) return sprintf("%s <%s>", '=?utf-8?b?'.base64_encode($this->receiptor_name).'?=', $this->receiptor_email);
+            if(!stristr(PHP_OS, 'win') && $this->receiptor_name && $this->receiptor_name != $this->receiptor_email) return sprintf("%s <%s>", '=?utf-8?b?'.base64_encode($this->receiptor_name).'?=', $this->receiptor_email);
             return $this->receiptor_email;
         }
 

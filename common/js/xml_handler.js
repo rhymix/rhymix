@@ -1,331 +1,10 @@
 /**
  * @file   common/js/xml_handler.js
- * @author zero <zero@nzeo.com>
- * @brief  zbxe내에서 ajax기능을 이용함에 있어 module, act를 잘 사용하기 위한 자바스크립트
+ * @brief  XE에서 ajax기능을 이용함에 있어 module, act를 잘 사용하기 위한 자바스크립트
  **/
 
 // xml handler을 이용하는 user function
 var show_waiting_message = true;
-function exec_xml(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
-    var oXml = new xml_handler();
-    oXml.reset();
-    if(typeof(params)!='undefined') {
-        for(var key in params) {
-            if(!params.hasOwnProperty(key)) continue;
-            var val = params[key];
-            oXml.addParam(key, val);
-        }
-    }
-    oXml.addParam("module", module);
-    oXml.addParam("act", act);
-    if(typeof(xeVid)!='undefined') oXml.addParam('vid', xeVid);
-
-    if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = new Array('error','message');
-
-    oXml.request(xml_response_filter, oXml, callback_func, response_tags, callback_func_arg, fo_obj);
-}
-
-// 결과 처리 후 callback_func에 넘겨줌
-function xml_response_filter(oXml, callback_func, response_tags, callback_func_arg, fo_obj) {
-    var text = oXml.getResponseText();
-    if(oXml.objXmlHttp.readyState!=4) return;
-    if(text && !/<\/response>$/i.test(text)) {
-        var waiting_obj = xGetElementById("waitingforserverresponse");
-        if(waiting_obj) waiting_obj.style.visibility = "hidden";
-        alert(text);
-        return null;
-    }
-
-    var xmlDoc = oXml.getResponseXml();
-    if(!xmlDoc) return null;
-
-    var waiting_obj = xGetElementById("waitingforserverresponse");
-    if(waiting_obj) waiting_obj.style.visibility = "hidden";
-
-    var ret_obj = oXml.toZMsgObject(xmlDoc, response_tags);
-    if(ret_obj["error"]!=0) {
-        alert(ret_obj["message"]);
-        return null;
-    }
-
-    if(ret_obj["redirect_url"]) {
-        location.href=ret_obj["redirect_url"].replace(/&amp;/g,'&');
-        return null;
-    }
-
-    if(!callback_func) return null;
-
-    callback_func(ret_obj, response_tags, callback_func_arg, fo_obj);
-
-    return null;
-}
-
-// xml handler
-function xml_handler() {
-    this.objXmlHttp = null;
-    this.method_name = null;
-    this.xml_path = request_uri+"index.php";
-
-    this.params = new Array();
-
-    this.reset = xml_handlerReset;
-    this.getXmlHttp = zGetXmlHttp;
-    this.request = xml_handlerRequest;
-    this.setPath = xml_handlerSetPath;
-    this.addParam = xml_handlerAddParam;
-    this.getResponseXml = xml_handlerGetResponseXML;
-    this.getResponseText = xml_handlerGetResponseText;
-    this.toZMsgObject = xml_handlerToZMsgObject;
-    this.parseXMLDoc = xml_parseXmlDoc;
-
-    this.objXmlHttp = this.getXmlHttp();
-}
-
-function zGetXmlHttp() {
-    if (window.XMLHttpRequest) return new XMLHttpRequest();
-    else if (window.ActiveXObject) {
-        try {
-            return new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e) {
-            return new ActiveXObject("Microsoft.XMLHTTP");
-        }
-    }
-    return null;
-}
-
-function xml_handlerRequest(callBackFunc, xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj) {
-    // ssl action
-    if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && typeof(this.params['act'])!='undefined') {
-        var action = this.params['act'];
-        for(i=0;i<ssl_actions.length;i++) {
-            if(ssl_actions[i]==action) {
-                var url = request_uri;
-                if(typeof(default_url)!='undefined' && default_url) url = default_url;
-                var port = 443;
-                if(typeof(https_port)!='undefined' && https_port != 443) port = https_port;
-                var _u1 = xCreateElement('a');
-                _u1.href = url;
-                var targetUrl = 'https://';
-                targetUrl += _u1.hostname.replace(/:([0-9]+)$/,'');
-                if(port != 443) targetUrl += ':'+port;
-                if(_u1.pathname[0] != "/") targetUrl += "/";
-                targetUrl += _u1.pathname;  
-                targetUrl = targetUrl.replace(/\/$/,'');
-                this.xml_path = targetUrl + '/index.php';
-            }
-        }
-    }
-
-    var _u1 = xCreateElement('a');
-    _u1.href = location.href;
-    var _u2 = xCreateElement('a');
-    _u2.href = this.xml_path;
-
-    // 현 url과 ajax call 대상 url의 schema 또는 port가 다르면 직접 form 전송
-    if(_u1.protocol != _u2.protocol || _u1.port != _u2.port) {
-        var fr = xGetElementById('xeTmpIframe');
-        if(!fr) {
-            fr = xCreateElement('iframe');
-            fr.style.position = 'absolute';
-            fr.style.left = '-1px';
-            fr.style.top = '1px';
-            fr.style.width = '1px';
-            fr.style.height = '1px';
-            fr.name = fr.id = 'xeTmpIframe';
-            document.body.appendChild(fr);
-        }
-
-        var fo = xGetElementById('xeVirtualForm');
-        if(fo) document.body.removeChild(fo);
-
-        fo = xCreateElement('form');
-        fo.id = 'xeVirtualForm';
-        fo.action = this.xml_path;
-        fo.method = 'post';
-        fo.target = 'xeTmpIframe';
-
-        var i = xCreateElement('input');
-        i.type = 'hidden';
-        i.name = 'xeVirtualRequestMethod';
-        i.value = 'xml';
-        fo.appendChild(i);
-
-        var j = xCreateElement('input');
-        j.type = 'hidden';
-        j.name = 'xeRequestURI';
-        j.value = location.href.replace(/#(.*)$/i,'');
-        fo.appendChild(j);
-
-        var k = xCreateElement('input');
-        k.type = 'hidden';
-        k.name = 'xeVirtualRequestUrl';
-        k.value = request_uri;
-        fo.appendChild(k);
-
-        for (var key in this.params) {
-            if(!this.params.hasOwnProperty(key)) continue;
-            var i = xCreateElement('input');
-            i.type = 'hidden';
-            i.name = key;
-            i.value = this.params[key];
-            fo.appendChild(i);
-        }
-        document.body.appendChild(fo);
-        fo.submit();
-
-        return;
-    }
-
-    var rd = "";
-    rd += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
-    +  "<methodCall>\n"
-    +  "<params>\n"
-
-    for (var key in this.params) {
-        if(!this.params.hasOwnProperty(key)) continue;
-        var val = this.params[key];
-        rd += "<"+key+"><![CDATA["+val+"]]></"+key+">\n";
-    }
-
-    rd += "</params>\n"
-    +  "</methodCall>\n";
-
-
-    if(this.objXmlHttp.readyState!=0) {
-        this.objXmlHttp.abort();
-        this.objXmlHttp = this.getXmlHttp();
-    }
-    this.objXmlHttp.onreadystatechange = function () {callBackFunc(xmlObj, callBackFunc2, response_tags, callback_func_arg, fo_obj)};
-
-    // 모든 xml데이터는 POST방식으로 전송. try-catch문으로 오류 발생시 대처
-    try {
-        this.objXmlHttp.open("POST", this.xml_path, true);
-    } catch(e) {
-        alert(e);
-        return;
-    }
-
-    // ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
-    var waiting_obj = xGetElementById("waitingforserverresponse");
-    if(show_waiting_message && waiting_obj) {
-        xInnerHtml(waiting_obj, waiting_message);
-
-        xTop(waiting_obj, xScrollTop()+20);
-        xLeft(waiting_obj, xScrollLeft()+20);
-        waiting_obj.style.visibility = "visible";
-    }
-
-    this.objXmlHttp.send(rd);
-}
-
-function xml_handlerSetPath(path) {
-    this.xml_path = "./"+path;
-}
-
-
-function xml_handlerReset() {
-    this.objXmlHttp = this.getXmlHttp();
-    this.params = new Array();
-}
-
-function xml_handlerAddParam(key, val) {
-    this.params[key] = val;
-}
-
-function xml_handlerGetResponseXML() {
-    if(this.objXmlHttp && this.objXmlHttp.readyState == 4 && isDef(this.objXmlHttp.responseXML)) {
-        var xmlDoc = this.objXmlHttp.responseXML;
-        this.reset();
-        return xmlDoc;
-    }
-    return null;
-}
-
-function xml_handlerGetResponseText() {
-    if(this.objXmlHttp && this.objXmlHttp.readyState == 4 && isDef(this.objXmlHttp.responseText)) {
-        return this.objXmlHttp.responseText;
-    }
-    return null;
-}
-
-
-function xml_parseXmlDoc(dom) {
-
-    if(!dom) return;
-
-    var jsonStr = xml2json(dom,false,false);
-    var jsonObj = eval("("+ jsonStr +");");
-    return jsonObj.response;
-/*
-
-    var ret_obj = new Array();
-
-    var obj = dom.firstChild;
-    var preObj;
-    if(!obj) return;
-
-    while(obj) {
-        if(obj.nodeType == 1) {
-
-            var name = obj.nodeName;
-            var value = null;
-
-            if(obj.childNodes.length==1 && obj.firstChild.nodeType != 1) {
-
-                value = obj.firstChild.nodeValue;
-            } else {
-                value = this.parseXMLDoc(obj);
-            }
-            if(typeof(ret_obj[name])=='undefined') {
-                ret_obj[name] = value;
-            } else {
-                if(ret_obj[name].length>0) {
-                    ret_obj[name][ret_obj[name].length] = value;
-                } else {
-                    var tmp_value = ret_obj[name];
-                    ret_obj[name] = new Array();
-                    ret_obj[name][ret_obj[name].length] = tmp_value;
-                    ret_obj[name][ret_obj[name].length] = value;
-                }
-            }
-
-        }
-        obj = obj.nextSibling;
-
-    }
-    return ret_obj;
-*/
-}
-
-function xml_handlerToZMsgObject(xmlDoc, tags) {
-    if(!xmlDoc) return null;
-    if(!tags) tags = new Array("error","message");
-    tags[tags.length] = "redirect_url";
-    tags[tags.length] = "act";
-
-    var parsed_array = this.parseXMLDoc(xmlDoc.getElementsByTagName('response')[0]);
-
-    if(typeof(parsed_array)=='undefined') {
-        var ret = new Array();
-        ret['error'] = -1;
-        ret['message'] = "Unexpected error occured.";
-        try{
-            if(typeof(xmlDoc.childNodes[0].firstChild.data)!='undefined') ret['message']+="\r\n"+xmlDoc.childNodes[0].firstChild.data;
-        } catch(e) {
-        }
-        return ret;
-    }
-
-    var obj_ret = new Array();
-    for(var i=0; i<tags.length; i++) {
-        var key = tags[i];
-        if(parsed_array[key]) obj_ret[key] = parsed_array[key];
-        else obj_ret[key] = null;
-    }
-    return obj_ret;
-}
-
-
 
 /*  This work is licensed under Creative Commons GNU LGPL License.
 
@@ -482,15 +161,190 @@ function xml2json(xml, tab, ignoreAttrib) {
    };
    if (xml.nodeType == 9) // document node
       xml = xml.documentElement;
-   var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "");
-   return "{" + (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) + "}";
+
+   var json_obj = X.toObj(X.removeWhite(xml)), json_str;
+   
+   if (typeof(JSON)=='object' && jQuery.isFunction(JSON.stringify) && false) {
+	   var obj = {}; obj[xml.nodeName] = json_obj;
+	   json_str = JSON.stringify(obj);
+	   return json_str;
+   } else {
+	   json_str = X.toJson(json_obj, xml.nodeName, "");
+	   return "{" + (tab ? json_str.replace(/\t/g, tab) : json_str.replace(/\t|\n/g, "")) + "}";
+   }
 }
 
+(function($){
+/**
+ * @brief exec_xml
+ * @author taggon <gonom9@gmail.com>
+ **/
+$.exec_xml = window.exec_xml = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
+	var xml_path = request_uri+"index.php"
+    if(!params) params = {};
+
+	// {{{ set parameters
+	if($.isArray(params)) params = arr2obj(params);
+	params['module'] = module;
+	params['act']    = act;
+
+    if(typeof(xeVid)!='undefined') params['vid'] = xeVid;
+    if(typeof(response_tags)=="undefined" || response_tags.length<1) response_tags = ['error','message'];
+	else {
+		response_tags.push('error', 'message');
+	}
+	// }}} set parameters
+
+	// use ssl?
+	if ($.isArray(ssl_actions) && params['act'] && $.inArray(params['act'], ssl_actions) >= 0)
+	{
+		var url    = default_url || request_uri;
+		var port   = window.https_port || 443;
+		var _ul    = $('<a>').attr('href', url)[0];
+		var target = 'https://' + _ul.hostname.replace(/:\d+$/, '');
+
+		if(port != 443) target += ':'+port;
+		if(_ul.pathname[0] != '/') target += '/';
+		
+		target += _ul.pathname;
+		xml_path = target.replace(/\/$/, '')+'/index.php';
+	}
+
+	var _u1 = $('<a>').attr('href', location.href)[0];
+	var _u2 = $('<a>').attr('href', xml_path)[0];
+
+	// 현 url과 ajax call 대상 url의 schema 또는 port가 다르면 직접 form 전송
+	if(_u1.protocol != _u2.protocol || _u1.port != _u2.port) return send_by_form(xml_path, params);
+
+	var xml = [], i = 0;
+	xml[i++] = '<?xml version="1.0" encoding="utf-8" ?>';
+	xml[i++] = '<methodCall>';
+	xml[i++] = '<params>';
+
+	$.each(params, function(key, val) {
+		xml[i++] = '<'+key+'><![CDATA['+val+']]></'+key+'>';
+	});
+
+	xml[i++] = '</params>';
+	xml[i++] = '</methodCall>';
+
+	var _xhr = null;
+	if (_xhr && _xhr.readyState != 0) _xhr.abort();
+
+	// 전송 성공시
+	function onsuccess(data, textStatus, xhr) {
+		var resp_xml = $(data).find('response')[0], resp_obj, txt='', ret=[], tags={}, json_str='';
+
+		waiting_obj.css('visibility', 'hidden');
+
+		if(!resp_xml) {
+			alert(_xhr.responseText);
+			return null;
+		}
+
+		json_str = xml2json(resp_xml, false, false);
+		resp_obj = (typeof(JSON)=='object' && $.isFunction(JSON.parse))?JSON.parse(json_str):eval('('+json_str+')');
+		resp_obj = resp_obj.response;
+
+		if (typeof(resp_obj)=='undefined') {
+			ret['error'] = -1;
+			ret['message'] = 'Unexpected error occured.';
+			try {
+				if(typeof(txt=resp_xml.childNodes[0].firstChild.data)!='undefined') ret['message'] += '\r\n'+txt;
+			} catch(e){};
+			return ret;
+		}
+
+		$.each(response_tags, function(key, val){ tags[val] = true; });
+        tags["redirect_url"] = true;
+        tags["act"] = true;
+		$.each(resp_obj, function(key, val){ if(tags[key]) ret[key] = val; });
+
+		if(ret['error'] != 0) {
+			if ($.isFunction($.exec_xml.onerror)) {
+				return $.exec_xml.onerror(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj);
+			}
+
+			alert(ret['message'] || 'error!');
+			return null;
+		}
+
+		if(ret['redirect_url']) {
+			location.href = ret['redirect_url'].replace(/&amp;/g, '&');
+			return null;
+		}
+
+		if($.isFunction(callback_func)) callback_func(ret, response_tags, callback_func_arg, fo_obj);
+	}
+
+	// 모든 xml데이터는 POST방식으로 전송. try-catch문으로 오류 발생시 대처
+	try {
+		$.ajax({
+			url         : xml_path,
+			type        : 'POST',
+			dataType    : 'xml',
+			data        : xml.join('\n'),
+			contentType : 'text/plain',
+			beforeSend  : function(xhr){ _xhr = xhr; },
+			success     : onsuccess,
+			error       : function(xhr, textStatus) {
+				waiting_obj.css('visibility', 'hidden');
+				alert(textStatus);
+			}
+		});
+	} catch(e) {
+		alert(e);
+		return;
+	}
+
+	// ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
+	var waiting_obj = $('#waitingforserverresponse');
+	if(show_waiting_message && waiting_obj.length) {
+		var d = $(document);
+		waiting_obj.html(waiting_message).css({
+			'top'  : (d.scrollTop()+20)+'px',
+			'left' : (d.scrollLeft()+20)+'px',
+			'visibility' : 'visible'
+		});
+	}
+}
+function send_by_form(url, params) {
+	var frame_id = 'xeTmpIframe';
+	var form_id  = 'xeVirtualForm';
+
+	if (!$('#'+frame_id).length) {
+		$('<iframe name="%id%" id="%id%" style="position:absolute;left:-1px;top:1px;width:1px;height:1px"></iframe>'.replace(/%id%/g, frame_id)).appendTo(document.body);
+	}
+
+	$('#'+form_id).remove();
+	var form = $('<form id="%id%"></form>'.replace(/%id%/g, form_id)).attr({
+		'id'     : form_id,
+		'method' : 'post',
+		'action' : url,
+		'target' : frame_id
+	});
+
+	params['xeVirtualRequestMethod'] = 'xml';
+	params['xeRequestURI']           = location.href.replace(/#(.*)$/i,'');
+	params['xeVirtualRequestUrl']    = request_uri;
+
+	$.each(params, function(key, value){
+		$('<input type="hidden">').attr('name', key).attr('value', value).appendTo(form);
+	});
+
+	form.appendTo(document.body).submit();
+}
+function arr2obj(arr) {
+	var ret = {};
+	for(var key in arr) {
+		if(arr.hasOwnProperty(key)) ret[key] = arr[key];		
+	}
+	return ret;
+}
 
 /**
  * @brief exec_json (exec_xml와 같은 용도)
  **/
-(function($){
 $.exec_json = function(action,data,func){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");

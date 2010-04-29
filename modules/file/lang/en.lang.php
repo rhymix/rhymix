@@ -52,4 +52,5 @@
         'nick_name' => 'Nickname',
         'ipaddress' => 'IP Address',
     );
+	$lang->msg_not_allowed_outlink = 'It is not allowed to download files not from this site.'; 
 ?>

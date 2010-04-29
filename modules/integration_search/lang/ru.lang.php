@@ -5,31 +5,32 @@
      * @brief  Russian basic language pack
      **/
 
-    $lang->integration_search = "Интеграция поиска";
+    $lang->integration_search = "Общий поиск";
 
-    $lang->sample_code = "Код примера";
-    $lang->about_target_module = "Только выбранные модули являются назначением. Пожалуйста, будте осторожны, устанавливая контроль";
-    $lang->about_sample_code = "Вы можете добавить интеграцию поиска на лейаут посредством добавления выше указанного кода";
-    $lang->msg_no_keyword = "Введите ключевое слово для поиска";
+    $lang->sample_code = 'Образец кода';
+    $lang->about_target_module = 'Поиск только выбранных модулей. Пожалуйста, будьте осторожны, устанавливая контроль';
+    $lang->about_sample_code = 'Для общего поиска добавьте этот код в лейаут, скин';
+    $lang->msg_no_keyword = 'Введите ключевое слово для поиска';
+    $lang->msg_document_more_search  = '\'Искать дальше\' Если выберете эту кнопку, то продолжится поиск';
 
-    $lang->is_result_text = "<strong>%d</strong> результатов для <strong>'%s'</strong>";
-    $lang->multimedia = "Images/ Movies";
-    
-    $lang->include_search_target = 'Лишь в отдельных целевых';
-    $lang->exclude_search_target = 'Поиск на выбранный пункт назначения из';
+    $lang->is_result_text = '<strong>%d</strong> результатов для <strong>%s</strong>';
+    $lang->multimedia = 'Картинки/Видео';
+
+    $lang->include_search_target = 'Поиск только для выбранных модулей';
+    $lang->exclude_search_target = 'Исключить выбранные модули из поиска';
 
     $lang->is_search_option = array(
         'document' => array(
-            'title_content' => 'Тема+Содержание',
+            'title_content' => 'Заголовок+Содержание',
             'title' => 'Тема',
             'content' => 'Содержание',
             'tag' => 'Теги',
         ),
         'trackback' => array(
-            'url' => 'URL назначения',
+            'url' => 'URL',
             'blog_name' => 'Имя сайта',
             'title' => 'Заголовок',
-            'excerpt' => 'Выдержка',
+            'excerpt' => 'Содержание',
         ),
     );
 

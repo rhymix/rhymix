@@ -1,0 +1,14 @@
+<!--#include("header.html")-->
+<!--%import("css/autoinstall.css")-->
+<!--%import("js/autoinstall.js")-->
+<div class="infoText">
+	<p><strong>{$package->title}</strong> [{$package->type}] - {$package->path}</p>
+	<p>{$lang->description_uninstall}</p>
+	<form action="./" method="POST" onsubmit="return procFilter(this, uninstall_package);">
+	<input type="hidden" name="package_srl" value="{$package_srl}" />
+    <!--@if($need_password)-->
+    <p><label for="ftp_password">FTP {$lang->password} ({$lang->about_ftp_password}):</label><input type="password" name="ftp_password" id="ftp_password" class="inputTypeText" /></p>
+    <!--@end-->
+	<span class="button strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
+	</form>
+</div>

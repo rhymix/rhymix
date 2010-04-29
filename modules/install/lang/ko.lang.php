@@ -506,7 +506,7 @@ EndOfLicense;
 
     $lang->db_desc = array(
         'mysql' => 'MySQL DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',
-        'mysqli' => 'MySQLi DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',
+        'mysqli' => 'MySQL DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.',
         'mysql_innodb' => 'MySQL DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.',
         'sqlite2' => '파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)',
         'sqlite3_pdo' => 'PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.',

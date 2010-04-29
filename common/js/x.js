@@ -3,6 +3,12 @@
  * Distributed by GNU LGPL. For copyrights, license, documentation and more visit Cross-Browser.com 
  * Copyright 2001-2005 Michael Foster (Cross-Browser.com)
  **/
+function xDeprecate(funcName) {
+	var msg = 'DEPRECATED : '+funcName+'() is deprecated function.';
+	if (typeof console == 'object' && typeof console.log == 'function') {
+		console.log(msg);
+	}
+}
 
 var xOp7Up,xOp6Dn,xIE4Up,xIE4,xIE5,xIE6,xNN4,xUA=navigator.userAgent.toLowerCase();
 if(window.opera){
@@ -26,6 +32,7 @@ var xFF=xUA.indexOf('firefox')!=-1;
 // (element, event(without 'on'), event listener(function name)[, caption])
 function xAddEventListener(e,eT,eL,cap)
 {
+  xDeprecate('xAddEventListener');
   if(!(e=xGetElementById(e))) return;
   eT=eT.toLowerCase();
   if((!xIE4Up && !xOp7Up) && e==window) {
@@ -40,6 +47,7 @@ function xAddEventListener(e,eT,eL,cap)
 // called only from the above
 function xResizeEvent()
 {
+  xDeprecate('xResizeEvent');
   if (window.xREL) setTimeout('xResizeEvent()', 250);
   var cw = xClientWidth(), ch = xClientHeight();
   if (window.xPCW != cw || window.xPCH != ch) { window.xPCW = cw; window.xPCH = ch; if (window.xREL) window.xREL(); }
@@ -47,6 +55,7 @@ function xResizeEvent()
 
 function xScrollEvent()
 {
+  xDeprecate('xScrollEvent');
   if (window.xSEL) setTimeout('xScrollEvent()', 250);
   var sl = xScrollLeft(), st = xScrollTop();
   if (window.xPSL != sl || window.xPST != st) { window.xPSL = sl; window.xPST = st; if (window.xSEL) window.xSEL(); }
@@ -54,12 +63,14 @@ function xScrollEvent()
 
 function xAppendChild(oParent, oChild)
 {
+  xDeprecate('xAppendChild');
   if (oParent.appendChild) return oParent.appendChild(oChild);
   else return null;
 }
 
 function xClientHeight()
 {
+  xDeprecate('xClientHeight');
   var h=0;
   if(xOp6Dn) h=window.innerHeight;
   else if(document.compatMode == 'CSS1Compat' && !window.opera && document.documentElement && document.documentElement.clientHeight)
@@ -75,6 +86,7 @@ function xClientHeight()
 
 function xClientWidth()
 {
+  xDeprecate('xClientWidth');
   var w=0;
   if(xOp6Dn) w=window.innerWidth;
   else if(document.compatMode == 'CSS1Compat' && !window.opera && document.documentElement && document.documentElement.clientWidth)
@@ -90,18 +102,21 @@ function xClientWidth()
 
 function xCreateElement(sTag)
 {
+  xDeprecate('xCreateElement');
   if (document.createElement) return document.createElement(sTag);
   else return null;
 }
 
 function xDef()
 {
+  xDeprecate('xDef');
   for(var i=0; i<arguments.length; ++i){if(typeof(arguments[i])=='undefined') return false;}
   return true;
 }
 
 function xDeleteCookie(name, path)
 {
+  xDeprecate('xDeleteCookie');
   if (xGetCookie(name)) {
     document.cookie = name + "=" +
                     "; path=" + ((!path) ? "/" : path) +
@@ -111,6 +126,7 @@ function xDeleteCookie(name, path)
 
 function xDisplay(e,s)
 {
+  xDeprecate('xDisplay');
   if(!(e=xGetElementById(e))) return null;
   if(e.style && xDef(e.style.display)) {
     if (xStr(s)) e.style.display = s;
@@ -121,6 +137,7 @@ function xDisplay(e,s)
 
 function xEvent(evt) // object prototype
 {
+  xDeprecate('xEvent');
   var e = evt || window.event;
   if(!e) return;
   if(e.type) this.type = e.type;
@@ -162,6 +179,7 @@ function xEvent(evt) // object prototype
 
 function xFirstChild(e, t)
 {
+  xDeprecate('xFirstChild');
   var c = e ? e.firstChild : null;
   if (t) while (c && c.nodeName != t) { c = c.nextSibling; }
   else while (c && c.nodeType != 1) { c = c.nextSibling; }
@@ -169,12 +187,14 @@ function xFirstChild(e, t)
 }
 
 function xGetBodyWidth() {
+  xDeprecate('xGetBodyWidth');
   var cw = xClientWidth();
   var sw = window.document.body.scrollWidth;
   return cw>sw?cw:sw;
 }
 
 function xGetBodyHeight() {
+  xDeprecate('xGetBodyHeight');
   var cw = xClientHeight();
   var sw = window.document.body.scrollHeight;
   return cw>sw?cw:sw;
@@ -182,6 +202,7 @@ function xGetBodyHeight() {
 
 function xGetComputedStyle(oEle, sProp, bInt)
 {
+  xDeprecate('xGetComputedStyle');
   var s, p = 'undefined';
   var dv = document.defaultView;
   if(dv && dv.getComputedStyle){
@@ -204,6 +225,7 @@ function xGetComputedStyle(oEle, sProp, bInt)
 
 function xGetCookie(name)
 {
+  xDeprecate('xGetCookie');
   var value=null, search=name+"=";
   if (document.cookie.length > 0) {
     var offset = document.cookie.indexOf(search);
@@ -219,6 +241,7 @@ function xGetCookie(name)
 
 function xGetElementById(e)
 {
+  xDeprecate('xGetElementById');
   if(typeof(e)!='string') return e;
   if(document.getElementById) e=document.getElementById(e);
   else if(document.all) e=document.all[e];
@@ -228,6 +251,7 @@ function xGetElementById(e)
 
 function xGetElementsByAttribute(sTag, sAtt, sRE, fn)
 {
+  xDeprecate('xGetElementsByAttribute');
   var a, list, found = new Array(), re = new RegExp(sRE, 'i');
   list = xGetElementsByTagName(sTag);
   for (var i = 0; i < list.length; ++i) {
@@ -243,6 +267,7 @@ function xGetElementsByAttribute(sTag, sAtt, sRE, fn)
 
 function xGetElementsByClassName(c,p,t,f)
 {
+  xDeprecate('xGetElementsByClassName');
   var found = new Array();
   var re = new RegExp('\\b'+c+'\\b', 'i');
   var list = xGetElementsByTagName(t, p);
@@ -257,6 +282,7 @@ function xGetElementsByClassName(c,p,t,f)
 
 function xGetElementsByTagName(t,p)
 {
+  xDeprecate('xGetElementsByTagName');
   var list = null;
   t = t || '*';
   p = p || document;
@@ -270,6 +296,7 @@ function xGetElementsByTagName(t,p)
 
 function xGetURLArguments()
 {
+  xDeprecate('xGetURLArguments');
   var idx = location.href.indexOf('?');
   var params = new Array();
   if (idx != -1) {
@@ -285,6 +312,7 @@ function xGetURLArguments()
 
 function xHeight(e,h)
 {
+  xDeprecate('xHeight');
   if(!(e=xGetElementById(e))) return 0;
   if (xNum(h)) {
     if (h<0) h = 0;
@@ -328,6 +356,7 @@ function xHeight(e,h)
 
 function xHex(sn, digits, prefix)
 {
+  xDeprecate('xHex');
   var p = '';
   var n = Math.ceil(sn);
   if (prefix) p = prefix;
@@ -338,10 +367,11 @@ function xHex(sn, digits, prefix)
   return p + n;
 }
 
-function xHide(e){return xVisibility(e,0);}
+function xHide(e){  xDeprecate('xHide'); return xVisibility(e,0);}
 
 function xInnerHtml(e,h)
 {
+  xDeprecate('xInnerHtml');
   if(!(e=xGetElementById(e)) || !xStr(e.innerHTML)) return null;
   var s = e.innerHTML;
   if (xStr(h)) {e.innerHTML = h;}
@@ -350,6 +380,7 @@ function xInnerHtml(e,h)
 
 function xLeft(e, iX)
 {
+  xDeprecate('xLeft');
   if(!(e=xGetElementById(e))) return 0;
   var css=xDef(e.style);
   if (css && xStr(e.style.left)) {
@@ -368,12 +399,14 @@ function xLeft(e, iX)
 
 function xMoveTo(e,x,y)
 {
+  xDeprecate('xMoveTo');
   xLeft(e,x);
   xTop(e,y);
 }
 
 function xName(e)
 {
+  xDeprecate('xName');
   if (!e) return e;
   else if (e.id && e.id != "") return e.id;
   else if (e.name && e.name != "") return e.name;
@@ -384,6 +417,7 @@ function xName(e)
 
 function xNextSib(e,t)
 {
+  xDeprecate('xNextSib');
   var s = e ? e.nextSibling : null;
   if (t) while (s && s.nodeName != t) { s = s.nextSibling; }
   else while (s && s.nodeType != 1) { s = s.nextSibling; }
@@ -392,12 +426,14 @@ function xNextSib(e,t)
 
 function xNum()
 {
+  xDeprecate('xNum');
   for(var i=0; i<arguments.length; ++i){if(isNaN(arguments[i]) || typeof(arguments[i])!='number') return false;}
   return true;
 }
 
 function xOffsetLeft(e)
 {
+  xDeprecate('xOffsetLeft');
   if (!(e=xGetElementById(e))) return 0;
   if (xDef(e.offsetLeft)) return e.offsetLeft;
   else return 0;
@@ -405,6 +441,7 @@ function xOffsetLeft(e)
 
 function xOffsetTop(e)
 {
+  xDeprecate('xOffsetTop');
   if (!(e=xGetElementById(e))) return 0;
   if (xDef(e.offsetTop)) return e.offsetTop;
   else return 0;
@@ -412,6 +449,7 @@ function xOffsetTop(e)
 
 function xPad(s,len,c,left)
 {
+  xDeprecate('xPad');
   if(typeof s != 'string') s=s+'';
   if(left) {for(var i=s.length; i<len; ++i) s=c+s;}
   else {for (i=s.length; i<len; ++i) s+=c;}
@@ -420,6 +458,7 @@ function xPad(s,len,c,left)
 
 function xPageX(e)
 {
+  xDeprecate('xPageX');
   if (!(e=xGetElementById(e))) return 0;
   var x = 0;
   while (e) {
@@ -431,6 +470,7 @@ function xPageX(e)
 
 function xPageY(e)
 {
+  xDeprecate('xPageY');
   if (!(e=xGetElementById(e))) return 0;
   var y = 0;
   while (e) {
@@ -443,6 +483,7 @@ function xPageY(e)
 
 function xParent(e, bNode)
 {
+  xDeprecate('xParent');
   if (!(e=xGetElementById(e))) return null;
   var p=null;
   if (!bNode && xDef(e.offsetParent)) p=e.offsetParent;
@@ -453,12 +494,14 @@ function xParent(e, bNode)
 
 function xPreventDefault(e)
 {
+  xDeprecate('xPreventDefault');
   if (e && e.preventDefault) e.preventDefault()
   else if (window.event) window.event.returnValue = false;
 }
 
 function xPrevSib(e,t)
 {
+  xDeprecate('xPrevSib');
   var s = e ? e.previousSibling : null;
   if (t) while(s && s.nodeName != t) {s=s.previousSibling;}
   else while(s && s.nodeType != 1) {s=s.previousSibling;}
@@ -467,6 +510,7 @@ function xPrevSib(e,t)
 
 function xRemoveEventListener(e,eT,eL,cap)
 {
+  xDeprecate('xRemoveEventListener');
   if(!(e=xGetElementById(e))) return;
   eT=eT.toLowerCase();
   if((!xIE4Up && !xOp7Up) && e==window) {
@@ -481,12 +525,14 @@ function xRemoveEventListener(e,eT,eL,cap)
 
 function xResizeTo(e,w,h)
 {
+  xDeprecate('xResizeTo');
   xWidth(e,w);
   xHeight(e,h);
 }
 
 function xScrollLeft(e, bWin)
 {
+  xDeprecate('xScrollLeft');
   var offset=0;
   if (!xDef(e) || bWin || e == document || e.tagName.toLowerCase() == 'html' || e.tagName.toLowerCase() == 'body') {
     var w = window;
@@ -503,6 +549,7 @@ function xScrollLeft(e, bWin)
 
 function xScrollTop(e, bWin)
 {
+  xDeprecate('xScrollTop');
   var offset=0;
   if (!xDef(e) || bWin || e == document || e.tagName.toLowerCase() == 'html' || e.tagName.toLowerCase() == 'body') {
     var w = window;
@@ -519,22 +566,25 @@ function xScrollTop(e, bWin)
 
 function xSetCookie(name, value, expire, path)
 {
+  xDeprecate('xSetCookie');
   document.cookie = name + "=" + escape(value) +
                     ((!expire) ? "" : ("; expires=" + expire.toGMTString())) +
                     "; path=" + ((!path) ? "/" : path);
 }
 
-function xShow(e) {return xVisibility(e,1);}
+function xShow(e) { xDeprecate('xShow'); return xVisibility(e,1);}
 
 
 function xStr(s)
 {
+  xDeprecate('xStr');
   for(var i=0; i<arguments.length; ++i){if(typeof(arguments[i])!='string') return false;}
   return true;
 }
 
 function xTop(e, iY)
 {
+  xDeprecate('xTop');
   if(!(e=xGetElementById(e))) return 0;
   var css=xDef(e.style);
   if(css && xStr(e.style.top)) {
@@ -553,6 +603,7 @@ function xTop(e, iY)
 
 function xVisibility(e, bShow)
 {
+  xDeprecate('xVisibility');
   if(!(e=xGetElementById(e))) return null;
   if(e.style && xDef(e.style.visibility)) {
     if (xDef(bShow)) e.style.visibility = bShow ? 'visible' : 'hidden';
@@ -563,6 +614,7 @@ function xVisibility(e, bShow)
 
 function xWidth(e,w)
 {
+  xDeprecate('xWidth');
   if(!(e=xGetElementById(e))) return 0;
   if (xNum(w)) {
     if (w<0) w = 0;
@@ -606,6 +658,7 @@ function xWidth(e,w)
 
 function xZIndex(e,uZ)
 {
+  xDeprecate('xZIndex');
   if(!(e=xGetElementById(e))) return 0;
   if(e.style && xDef(e.style.zIndex)) {
     if(xNum(uZ)) e.style.zIndex=uZ;
@@ -616,6 +669,7 @@ function xZIndex(e,uZ)
 
 function xStopPropagation(evt)
 {
+  xDeprecate('xStopPropagation');
   if (evt && evt.stopPropagation) evt.stopPropagation();
   else if (window.event) window.event.cancelBubble = true;
 }

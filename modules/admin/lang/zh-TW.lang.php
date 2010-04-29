@@ -81,4 +81,5 @@
     $lang->sftp = "使用 SFTP";
     $lang->ftp_get_list = "取得列表";
     $lang->ftp_remove_info = '移除 FTP 資料';
+	$lang->msg_ftp_invalid_path = 'Failed to read the specified FTP Path.';
 ?>

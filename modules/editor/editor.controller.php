@@ -359,7 +359,15 @@
 
                 if($component->extra_vars) {
                     $extra_vars = unserialize($component->extra_vars);
+					if($extra_vars->target_group) {
+						$xml_info->target_group = $extra_vars->target_group;	
+					}
 
+					if($extra_vars->mid_list && count($extra_vars->mid_list))
+					{
+						$xml_info->mid_list = $extra_vars->mid_list;
+					}
+					/*
                     // 사용권한이 있으면 권한 체크
                     if($extra_vars->target_group) {
                         // 사용권한이 체크되어 있는데 로그인이 되어 있지 않으면 무조건 사용 중지
@@ -382,7 +390,7 @@
                     // 대상 모듈이 있으면 체크
                     if($extra_vars->mid_list && count($extra_vars->mid_list) && Context::get('mid')) {
                         if(!in_array(Context::get('mid'), $extra_vars->mid_list)) continue;
-                    }
+                    }*/
 
                     // 에디터 컴포넌트의 설정 정보를 체크
                     if($xml_info->extra_vars) {

@@ -19,7 +19,8 @@
 
             $sftp = ssh2_sftp($connection);
             $curpwd = "ssh2.sftp://$sftp".$this->pwd;
-            $dh = opendir($curpwd);
+            $dh = @opendir($curpwd);
+			if(!$dh) return new Object(-1, 'msg_ftp_invalid_path');
             $list = array();
             while(($file = readdir($dh)) !== false) {
                 if(is_dir($curpwd.$file))
@@ -71,6 +72,10 @@
 
 			if($_list){
                 foreach($_list as $k => $v){
+					$src = null;
+					$src->data = $v;
+					$res = Context::convertEncoding($src);
+					$v = $res->data;
                     if(strpos($v,'d') === 0 || strpos($v, '<DIR>')) $list[] = substr(strrchr($v,' '),1) . '/';
                 }
             }

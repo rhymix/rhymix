@@ -57,16 +57,14 @@
                     continue;
                 }
 
-                if($package->path == ".")
-                {
-                    $type = "core";
+				$type = $oModel->getTypeFromPath($package->path);
+				if($type == "core")
+				{
                     $version = __ZBXE_VERSION__; 
-                }
+				}
                 else
                 {
-                    $path_array = explode("/", $package->path);
-                    $target_name = array_pop($path_array);
-                    $type = substr(array_pop($path_array), 0, -1);
+					$config_file = null;
                     switch($type)
                     {
                         case "module":
@@ -86,10 +84,8 @@
                             $config_file = "/info.xml";
                             $type = "component";
                         break;
-
-                        default:
-                        continue;
                     }
+					if(!$config_file) continue;
                     $xml = new XmlParser();
                     $xmlDoc = $xml->loadXmlFile($real_path.$config_file);
                     if(!$xmlDoc) continue;
@@ -196,5 +192,42 @@
                 executeQuery("autoinstall.insertCategory", $args);
             }
         }
+
+		function procAutoinstallAdminUninstallPackage()
+		{
+			$package_srl = Context::get('package_srl');
+            $oModel =& getModel('autoinstall');
+			$package = $oModel->getPackage($package_srl);
+			$path = $package->path;
+
+            if(!$_SESSION['ftp_password'])
+            {
+                $ftp_password = Context::get('ftp_password');
+            }
+            else
+            {
+                $ftp_password = $_SESSION['ftp_password'];
+            }
+            $ftp_info =  Context::getFTPInfo();
+
+			if($ftp_info->sftp && $ftp_info->sftp == 'Y')
+			{
+				$oModuleInstaller = new SFTPModuleInstaller($package);
+			}
+			else if(function_exists(ftp_connect))
+			{
+				$oModuleInstaller = new PHPFTPModuleInstaller($package);
+			}
+			else
+			{
+				$oModuleInstaller = new FTPModuleInstaller($package);
+			}
+
+			$oModuleInstaller->setPassword($ftp_password);
+			$output = $oModuleInstaller->uninstall();
+			if(!$output->toBool()) return $output;
+
+			$this->setMessage('success_deleted');
+		}
     }
 ?>

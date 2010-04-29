@@ -176,7 +176,6 @@
     $lang->unit_min = '분';
     $lang->unit_hour = '시';
     $lang->unit_day = '일';
-    $lang->unit_week = '주';
     $lang->unit_month = '월';
     $lang->unit_year = '년';
 

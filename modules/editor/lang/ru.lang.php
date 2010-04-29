@@ -18,11 +18,11 @@
     $lang->component_grant = 'Настройки прав доступа';
     $lang->content_style = 'Content Style';
     $lang->content_font = 'Content Font';
-	$lang->content_font_size = '문서 폰트 크기';
+	$lang->content_font_size = 'Размер шрифта';
 
-    $lang->about_component = 'О компоненте';
-    $lang->about_component_grant = 'Только выбранным группам позволено использование.<br /> (Каждый может использовать его, если режим выключен)';
-    $lang->about_component_mid = '에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)';
+  	$lang->about_component = 'О компоненте';
+    $lang->about_component_grant = 'Возможен выбор дополнительных компонентов.<br /> (Каждый может использовать его, если режим выключен)';
+    $lang->about_component_mid = 'Можно установить пользователя Редактора.<br />(Каждый может использовать его, если режим выключен)';
 
     $lang->msg_component_is_not_founded = 'Невозможно найти компонент редактора %s';
     $lang->msg_component_is_inserted = 'Выбранный компонент уже присутствует';
@@ -31,28 +31,28 @@
     $lang->msg_load_saved_doc = "Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить?\nАвтоматически сохраненный черновик будет отменен после сохранения текущей статьи";
     $lang->msg_auto_saved = 'Автоматически сохранено';
 
-    $lang->cmd_disable = 'Неавтивно';
+    $lang->cmd_disable = 'Неактивно';
     $lang->cmd_enable = 'Активно';
 
-    $lang->editor_skin = '에디터 스킨';
-    $lang->upload_file_grant = '파일 첨부 권한';
-    $lang->enable_default_component_grant = '기본 컴포넌트 사용 권한';
-    $lang->enable_component_grant = '컴포넌트 사용 권한';
-    $lang->enable_html_grant = 'HTML편집 권한';
-    $lang->enable_autosave = '자동저장 사용';
-    $lang->height_resizable = '높이 조절 가능';
-    $lang->editor_height = '에디터 높이';
+    $lang->editor_skin = 'Скин Редактора';
+    $lang->upload_file_grant = 'Разрешить прикреплять файлы';
+    $lang->enable_default_component_grant = 'Разрешить использование основного компонента';
+    $lang->enable_component_grant = 'Разрешить ипользование компонента';
+    $lang->enable_html_grant = 'Разрешить коррекцию HTML';
+    $lang->enable_autosave = 'Автосохранение';
+    $lang->height_resizable = 'Возможна коррекция высоты';
+    $lang->editor_height = 'Высота Редактора';
 
-    $lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
-    $lang->about_content_style = '문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다';
-    $lang->about_content_font = '문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
-	$lang->about_content_font_size = '문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.';
-    $lang->about_upload_file_grant = '파일을 첨부할 수 있는 권한을 지정하실 수 있습니다 (모두 해제시 아무나 첨부 가능합니다)';
-    $lang->about_default_component_grant = '에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제시 아무나 사용 가능합니다)';
-    $lang->about_editor_height = '에디터의 기본 높이를 지정하실 수 있습니다';
-    $lang->about_editor_height_resizable = '에디터의 높이를 직접 변경할 수 있도록 허용합니다';
-    $lang->about_enable_html_grant = 'HTML편집 권한을 부여할 수 있습니다.';
-    $lang->about_enable_autosave = '글작성시 자동 저장 기능을 활성화 시킬 수 있습니다';
+    $lang->about_editor_skin = 'Выберите скин редактора';
+    $lang->about_content_style = 'Вы можете выбрать стиль для редактирования и просмотра записи ';
+    $lang->about_content_font = 'Вы можете выбрать шрифт для редактирования и просмотра записи.<br/> Используйте запятую(,) если выбрали несколько шрифтов.';
+	$lang->about_content_font_size = 'Вы можете выбрать размер шрифта для редактирования и просмотра записи.<br/> Пожалуйста, выберите единицы такие как px или em.';
+    $lang->about_upload_file_grant = 'Вы можете разрешить прикреплять файлы выбранным группам. (Если оставить поле пустым то право прикреплять файлы будут иметь все)';
+    $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)';
+    $lang->about_editor_height = 'You may set the height of editor.';
+    $lang->about_editor_height_resizable = 'You may decide whether height of editor can be resized.';
+    $lang->about_enable_html_grant = 'Selected group(s) will be able to use HTML';
+    $lang->about_enable_autosave = 'You may decide whether auto-save function will be used.';
 
     $lang->edit->fontname = 'Шрифт';
     $lang->edit->fontsize = 'Размер';
@@ -69,7 +69,10 @@
     'Fantasy'=>'Fantasy',
     );
 
-    $lang->edit->header = 'Стиль';
+    
+	
+	
+	$lang->edit->header = 'Стиль';
     $lang->edit->header_list = array(
     'h1' => 'Заголовок 1',
     'h2' => 'Заголовок 2',
@@ -81,8 +84,8 @@
 
     $lang->edit->submit = 'Принять';
 
-    $lang->edit->fontcolor = 'Text Color';
-    $lang->edit->fontbgcolor = 'Background Color';
+    $lang->edit->fontcolor = 'Цвет текста';
+    $lang->edit->fontbgcolor = 'Цвет Фона';
     $lang->edit->bold = 'Bold';
     $lang->edit->italic = 'Italic';
     $lang->edit->underline = 'Underline';
@@ -99,10 +102,14 @@
     $lang->edit->remove_indent = 'Outdent';
     $lang->edit->list_number = 'Orderd List';
     $lang->edit->list_bullet = 'Unordered List';
-    $lang->edit->remove_format = 'Style Remover';
+    $lang->edit->remove_format = 'Удалить стиль';
 
-    $lang->edit->help_fontcolor = 'Выберать цвет шрифта';
-    $lang->edit->help_fontbgcolor = 'Выберать цвет фона шрифта';
+    $lang->edit->help_remove_format = 'Выделенный объект будет удален';
+	$lang->edit->help_strike_through = 'Strike will be on the words';
+	$lang->edit->help_align_full = 'Выровнять (вправо/влево)';
+	
+	$lang->edit->help_fontcolor = 'Выбрать цвет шрифта';
+    $lang->edit->help_fontbgcolor = 'Выбрать цвет фона шрифта';
     $lang->edit->help_bold = 'Сделать шрифт жирным';
     $lang->edit->help_italic = 'Сделать шрифт наклонным';
     $lang->edit->help_underline = 'Сделать шрифт подчеркнутым';
@@ -129,7 +136,7 @@
     $lang->edit->emoticon = 'Emoticon';
 
     $lang->edit->upload = 'Вложение';
-    $lang->edit->upload_file = 'Вложить';
+    $lang->edit->upload_file = 'Прикрепить файл';
     $lang->edit->link_file = 'Вставить в содержание';
     $lang->edit->delete_selected = 'Удалить выбранное';
 
@@ -140,87 +147,86 @@
 
     $lang->about_dblclick_in_editor = 'Вы можете установить детальную конфигурацию компонента двойным щелчком по фону, тексту, рисункам или цитатам';
 
-
-    $lang->edit->rich_editor = '스타일 편집기';
-    $lang->edit->html_editor = 'HTML 편집기';
-    $lang->edit->extension ='확장 컴포넌트';
-    $lang->edit->help = '도움말';
-    $lang->edit->help_command = '단축키 안내';
+    $lang->edit->rich_editor = 'редактировать стиль';
+    $lang->edit->html_editor = 'редактировать HTML';
+    $lang->edit->extension ='Расширенный компонент';
+    $lang->edit->help = 'Помощь';
+    $lang->edit->help_command = 'Горячие клавиши';
     
-    $lang->edit->lineheight = '줄간격';
-	$lang->edit->fontbgsampletext = '가나다';
+    $lang->edit->lineheight = 'Высота строки';
+	$lang->edit->fontbgsampletext = 'АВС';
 	
-	$lang->edit->hyperlink = '하이퍼링크';
-	$lang->edit->target_blank = '새창으로';
+	$lang->edit->hyperlink = 'гиперссылка';
+	$lang->edit->target_blank = 'Новое окно';
 	
-	$lang->edit->quotestyle1 = '왼쪽 실선';
-	$lang->edit->quotestyle2 = '인용 부호';
-	$lang->edit->quotestyle3 = '실선';
-	$lang->edit->quotestyle4 = '실선 + 배경';
-	$lang->edit->quotestyle5 = '굵은 실선';
-	$lang->edit->quotestyle6 = '점선';
-	$lang->edit->quotestyle7 = '점선 + 배경';
-	$lang->edit->quotestyle8 = '적용 취소';
+	$lang->edit->quotestyle1 = 'Left Solid';
+	$lang->edit->quotestyle2 = 'Quote';
+	$lang->edit->quotestyle3 = 'Solid';
+	$lang->edit->quotestyle4 = 'Solid + Background';
+	$lang->edit->quotestyle5 = 'Bold Solid';
+	$lang->edit->quotestyle6 = 'Dotted';
+	$lang->edit->quotestyle7 = 'Dotted + Background';
+	$lang->edit->quotestyle8 = 'Отменить';
 
+	
+    $lang->edit->jumptoedit = 'Пропустить Инструменты редактирования';
+    $lang->edit->set_sel = 'Установить количество ячеек';
+    $lang->edit->row = 'Строка';
+    $lang->edit->col = 'Колонка';
+    $lang->edit->add_one_row = 'Добавить 1 строку';
+    $lang->edit->del_one_row = 'Удалить 1 строку';
+    $lang->edit->add_one_col = 'Добавить 1 колонку';
+    $lang->edit->del_one_col = 'Удалить 1 колонку';
 
-    $lang->edit->jumptoedit = '편집 도구모음 건너뛰기';
-    $lang->edit->set_sel = '칸 수 지정';
-    $lang->edit->row = '행';
-    $lang->edit->col = '열';
-    $lang->edit->add_one_row = '1행추가';
-    $lang->edit->del_one_row = '1행삭제';
-    $lang->edit->add_one_col = '1열추가';
-    $lang->edit->del_one_col = '1열삭제';
+    $lang->edit->table_config = 'Конфигурация таблицы';
+    $lang->edit->border_width = 'Ширина рамки';
+    $lang->edit->border_color = 'Цвет рамки';
+    $lang->edit->add = 'Добавить';
+    $lang->edit->del = 'Удалить';
+    $lang->edit->search_color = 'Подобрать цвет';
+    $lang->edit->table_backgroundcolor = 'Цвет фона таблицы';
+    $lang->edit->special_character = 'Специальные символы';
+    $lang->edit->insert_special_character = 'Добавить специальные символы';
+    $lang->edit->close_special_character = 'Закрыть слой специальных символов';
+    $lang->edit->symbol = 'Символы';
+    $lang->edit->number_unit = 'Числа и единицы измерения';
+    $lang->edit->circle_bracket = 'Круг, скобки';
+    $lang->edit->korean = 'Корейский';
+    $lang->edit->greece = 'Греческий';
+    $lang->edit->Latin  = 'Латинский';
+    $lang->edit->japan  = 'Японский';
+    $lang->edit->selected_symbol  = 'Выбранные символы';
+	
+	$lang->edit->search_replace  = 'Найти/Переместить';
+    $lang->edit->close_search_replace  = 'Закрыть слой "Найти/Переместить"';
+    $lang->edit->replace_all  = 'Переместить все';
+    $lang->edit->search_words  = 'Искомое слово';
+    $lang->edit->replace_words  = 'Слово для замены';
+    $lang->edit->next_search_words  = 'Искать дальше';
+    $lang->edit->edit_height_control  = 'Изменить размеры окна ввода';
 
-    $lang->edit->table_config = '표 속성 지정';
-    $lang->edit->border_width = '테두리 굵기';
-    $lang->edit->border_color = '테두리 색';
-    $lang->edit->add = '더하기';
-    $lang->edit->del = '빼기';
-    $lang->edit->search_color = '색상찾기';
-    $lang->edit->table_backgroundcolor = '표 배경색';
-    $lang->edit->special_character = '특수문자';
-    $lang->edit->insert_special_character = '특수문자 삽입';
-    $lang->edit->close_special_character = '특수문자 레이어 닫기';
-    $lang->edit->symbol = '일반기호';
-    $lang->edit->number_unit = '숫자와 단위';
-    $lang->edit->circle_bracket = '원,괄호';
-    $lang->edit->korean = '한글';
-    $lang->edit->greece = '그리스';
-    $lang->edit->Latin  = '라틴어';
-    $lang->edit->japan  = '일본어';
-    $lang->edit->selected_symbol  = '선택한 기호';
-
-    $lang->edit->search_replace  = '찾기/바꾸기';
-    $lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
-    $lang->edit->replace_all  = '모두바꾸기';
-    $lang->edit->search_words  = '찾을단어';
-    $lang->edit->replace_words  = '바꿀단어';
-    $lang->edit->next_search_words  = '다음찾기';
-    $lang->edit->edit_height_control  = '입력창 크기 조절';
-
-	$lang->edit->merge_cells = '셀 병합';
-    $lang->edit->split_row = '행 분할';
-    $lang->edit->split_col = '열 분할';
+    $lang->edit->merge_cells = 'Объединить ячейки';
+    $lang->edit->split_row = 'Разбить строки';
+    $lang->edit->split_col = 'Разбить колонки';
     
-    $lang->edit->toggle_list   = '목록 접기/펼치기';
-    $lang->edit->minimize_list = '최소화';
+    $lang->edit->toggle_list   = 'Свернуть/Развернуть список';
+    $lang->edit->minimize_list = 'Уменьшить';
     
-    $lang->edit->move = '이동';
-	$lang->edit->refresh = 'Refresh';
-    $lang->edit->materials = '글감보관함';
-    $lang->edit->temporary_savings = '임시저장목록';
+    $lang->edit->move = 'Перейти';
+	$lang->edit->refresh = 'Обновить';
+    $lang->edit->materials = 'Материалы';
+    $lang->edit->temporary_savings = 'Список временных сохранений';
 
-	$lang->edit->paging_prev = '이전';
-	$lang->edit->paging_next = '다음';
-	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
-	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
+	$lang->edit->paging_prev = 'Предыдущий';
+	$lang->edit->paging_next = 'Следующий';
+	$lang->edit->paging_prev_help = 'Перейти к предыдущей странице';
+	$lang->edit->paging_next_help = 'Перейти кследующей странице';
 
-	$lang->edit->toc = '목차';
-	$lang->edit->close_help = '도움말 닫기';
-
-	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
-
-	$lang->edit->image_align = '이미지 정렬';
-	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->toc = 'Оглавление';
+	$lang->edit->close_help = 'Закрыть помощь';
+	
+	$lang->edit->confirm_submit_without_saving = 'Есть несохраненные параграфы\\nПродолжить?';
+	
+  	$lang->edit->image_align = 'Выровнять изображения';
+	$lang->edit->attached_files = 'Прикрепленный файл';
 ?>

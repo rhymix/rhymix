@@ -3,7 +3,7 @@
  * @brief 모든 생성된 썸네일 삭제하는 액션 호출
  **/
 function doDeleteAllThumbnail() {
-    exec_xml('document','procDocumentAdminDeleteAllThumbnail',new Array(), completeDeleteAllThumbnail);
+    exec_xml('document','procDocumentAdminDeleteAllThumbnail', [], completeDeleteAllThumbnail);
 }
 
 function completeDeleteAllThumbnail(ret_obj) {
@@ -33,10 +33,9 @@ function doGetCategoryFromModule(module_srl) {
     var params = new Array();
     params['module_srl'] = module_srl;
 
-    var response_tags = new Array('error','message','categories');
+    var response_tags = ['error','message','categories'];
 
     exec_xml('document','getDocumentCategories',params, completeGetCategoryFromModules, response_tags);
-
 }
 
 function completeGetCategoryFromModules(ret_obj, response_tags) {
@@ -46,6 +45,9 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
 
     var categories = ret_obj['categories'];
     if(!categories) return;
+
+	var depth_str = '-';
+	for(var i=0; i < 5; i++) depth_str += depth_str;
 
     var category_list = categories.split("\n");
     for(var i=0;i<category_list.length;i++) {
@@ -61,22 +63,21 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
         var category_title = item.substr(pos+1,item.length);
         if(!category_srl || !category_title) continue;
 
+		if (depth > 0) category_title = depth_str.substr(0, depth) + ' ' + category_title;
         var opt = new Option(category_title, category_srl, false, false);
-        if(depth>0) opt.style.paddingLeft = (depth*15)+'px';
         obj.options[obj.options.length] = opt;
     }
 }
 
 function doCancelDeclare() {
-    var document_srl = new Array();
+    var document_srl = [];
     jQuery('#fo_list input[name=cart]:checked').each(function() {
         document_srl[document_srl.length] = jQuery(this).val();
     });
 
     if(document_srl.length<1) return;
 
-    var params = new Array();
-    params['document_srl'] = document_srl.join(',');
+    var params = {document_srl : document_srl.join(',')};
 
     exec_xml('document','procDocumentAdminCancelDeclare', params, completeCancelDeclare);
 }
@@ -86,10 +87,8 @@ function completeCancelDeclare(ret_obj) {
 }
 
 function insertSelectedModule(id, module_srl, mid, browser_title) {
-    var obj= xGetElementById('_'+id);
-    var sObj = xGetElementById(id);
-    sObj.value = module_srl;
-    obj.value = browser_title+' ('+mid+')';
+    jQuery('#_'+id).val(browser_title+' ('+mid+')');
+    jQuery('#'+id).val(module_srl);
     doGetCategoryFromModule(module_srl);
 }
 
@@ -105,10 +104,8 @@ function completeInsertAlias(ret_obj) {
 
 function insertSelectedModule(id, module_srl, mid, browser_title) {
     if(current_url.getQuery('act')=='dispDocumentManageDocument') {
-        var obj= xGetElementById('_'+id);
-        var sObj = xGetElementById(id);
-        sObj.value = module_srl;
-        obj.value = browser_title+' ('+mid+')';
+        jQuery('#_'+id).val(browser_title+' ('+mid+')');
+        jQuery('#'+id).val(module_srl);
         doGetCategoryFromModule(module_srl);
     } else {
         location.href = current_url.setQuery('module_srl',module_srl);
@@ -117,34 +114,33 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 
 function deleteByFilter(target_srl, filter)
 {
-    var e = xGetElementById('target_srl');
-    e.value = target_srl;
-    var hF = xGetElementById("deleteForm");
+    jQuery('#target_srl').val(target_srl);
+    var hF = jQuery("deleteForm")[0];
     procFilter(hF, filter);
 }
 
 function executeFilterByTargetSrl(form_name, target_srl, filter)
 {
-    var e = xGetElementById('target_srl');
-    e.value = target_srl;
-    var hF = xGetElementById(form_name);
+    jQuery('#target_srl').val(target_srl);
+    var hF = jQuery('#'+form_name)[0];
     procFilter(hF, filter);
 }
 
 function doDeleteExtraKey(module_srl, var_idx) {
-    var fo_obj = xGetElementById('fo_delete');
+    var fo_obj = jQuery('#fo_delete')[0];
     fo_obj.module_srl.value = module_srl;
     fo_obj.var_idx.value = var_idx;
     return procFilter(fo_obj, delete_extra_var);
 }
 
 function moveVar(type, module_srl, var_idx) {
-    var params = new Array();
-    params['type'] = type;
-    params['module_srl'] = module_srl;
-    params['var_idx'] = var_idx;
-    var response_tags = new Array('error','message');
-    exec_xml('document','procDocumentAdminMoveExtraVar', params, function() { location.reload(); });
+    var params = {
+		type       : type,
+		module_srl : module_srl,
+		var_idx    : var_idx
+	};
+    var response_tags = ['error','message'];
+    exec_xml('document','procDocumentAdminMoveExtraVar', params, function() { location.reload() });
 }
 
 function completeRestoreTrash(ret_obj) {

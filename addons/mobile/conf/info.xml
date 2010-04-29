@@ -5,6 +5,7 @@
     <title xml:lang="zh-CN">手机XE插件</title>
     <title xml:lang="en">Mobile XE</title>
     <title xml:lang="vi">Mobile XE</title>
+    <title xml:lang="ru">Mobile XE</title>
     <title xml:lang="zh-TW">XE行動上網</title>
     <description xml:lang="ko">
         모바일에서 접속시 헤더 정보를 분석하여 메뉴 - 모듈의 관계를 이용하여 WAP 태그로 출력하는 애드온입니다.
@@ -26,6 +27,10 @@
         Addon này hiển thị WAP Tag bởi việc phân tích thông tin khi kết nối bằng di động.
         Chỉ hỗ trợ cho các định dạng wml, hdml, mhtml.
     </description>
+	<description xml:lang="ru">
+        Данный аддон показывает WAP теги, анализирую информацию мобильного соединения.
+        Поддерживаются только wml, hdml, mhtml форматы.
+    </description>
     <description xml:lang="zh-TW">
         透過行動工具上網時，會將網頁轉換為WAP標籤顯示。
         只限於 wml, hdml, mhtml格式。
@@ -39,6 +44,7 @@
         <name xml:lang="zh-CN">zero</name>
         <name xml:lang="en">zero</name>
         <name xml:lang="vi">zero</name>
+		<name xml:lang="ru">zero</name>
         <name xml:lang="zh-TW">zero</name>
     </author>
 
@@ -49,6 +55,7 @@
             <name xml:lang="zh-CN">misol</name>
             <name xml:lang="en">misol</name>
             <name xml:lang="vi">misol</name>
+			<name xml:lang="ru">misol</name>
             <name xml:lang="zh-TW">misol</name>
         </author>
         <log>언어선택 추가(WML, mHTML)</log>
@@ -63,6 +70,7 @@
             <title xml:lang="zh-CN">编码</title>
             <title xml:lang="en">Charset</title>
             <title xml:lang="vi">Charset</title>
+			<title xml:lang="ru">Charset</title>
             <title xml:lang="zh-TW">編碼</title>
             <description xml:lang="ko">
                 모바일 기기의 경우 UTF-8 문자셋을 인식하지 못할 수 있습니다.
@@ -88,6 +96,11 @@
                 UTF-8 không thể đọc được cho các công cụ di động.
                 Những công cụ di động sẽ trình bày Charset đúng khi bạn nhập vào Charset bạn muốn.
                 Charset mặc định là UTF-8.
+            </description>
+			<description xml:lang="ru">
+                utf-8 may be read with mobile tools.
+                Mobile tools will display correct charset when you input charset you want.
+                Default charset is UTF-8.
             </description>
             <description xml:lang="zh-TW">
                 行動工具無法讀取utf-8編碼。

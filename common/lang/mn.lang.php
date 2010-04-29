@@ -177,7 +177,6 @@
     $lang->unit_min = 'Минут';
     $lang->unit_hour = 'Цаг';
     $lang->unit_day = 'Өдөр';
-    $lang->unit_week = 'Долоо хоног';
     $lang->unit_month = 'Сар';
     $lang->unit_year = 'Жил';
 	

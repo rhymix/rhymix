@@ -556,14 +556,23 @@
          * @brief component 목록을 return (DB정보 보함)
          **/
         function getComponentList($filter_enabled = true, $site_srl=0) {
-            $cache_file = $this->getCacheFile($filter_enabled, $site_srl);
+            $cache_file = $this->getCacheFile(false, $site_srl);
             if(!file_exists($cache_file)) {
                 $oEditorController = &getController('editor');
-                $oEditorController->makeCache($filter_enabled, $site_srl);
+                $oEditorController->makeCache(false, $site_srl);
             }
 
             if(!file_exists($cache_file)) return;
             @include($cache_file);
+			$logged_info = Context::get('logged_info');
+			if($logged_info && is_array($logged_info->group_list)) 
+			{
+				$group_list = array_keys($logged_info->group_list);
+			}
+			else
+			{
+				$group_list = array();
+			}
 
             if(count($component_list)) {
                 foreach($component_list as $key => $val) {
@@ -572,6 +581,34 @@
                         FileHandler::removeFile($cache_file);
                         return $this->getComponentList($filter_enabled, $site_srl);
                     }
+					if($val->enabled == "N") {
+						unset($component_list->{$key});
+						continue;
+					}
+					if($logged_info->is_admin == "Y" || $logged_info->is_site_admin == "Y") continue;
+					if($val->target_group)
+					{
+						if(!$logged_info) {
+							$val->enabled = "N";	
+						}
+						else {
+							$is_granted = false;
+							foreach($group_list as $group_srl)
+							{
+								if(in_array($group_srl, $val->target_group)) $is_granted = true;	
+							}
+							if(!$is_granted) $val->enabled = "N"; 
+						}
+					}
+					if($val->enabled != "N" && $val->mid_list)
+					{
+						$mid = Context::get('mid');
+						if(!in_array($mid, $val->mid_list)) $val->enabled = "N";
+					}
+					if($val->enabled == "N") {
+						unset($component_list->{$key});
+						continue;
+					}
                 }
 
             }

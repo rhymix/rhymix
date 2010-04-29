@@ -53,9 +53,9 @@
     </description>
     <description xml:lang="ru">
         Этот blogApi аддон поддерживает metaWeblog.
-        Включая это опицией использовать, позволяет RSD тегу быть доступным для каждого модуля.
+        Используя этот аддон, RSD тег становится доступным для каждого модуля.
         URL для api - http://setup_path/module_name/api.
-        Только выбор опции использовать включает поведение RSD тега и api.
+        тег RSD и api работают только при включенном аддоне.
     </description>
     <description xml:lang="zh-TW">
         支援MetaWeblog的部落格API附加元件。

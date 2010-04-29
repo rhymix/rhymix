@@ -287,9 +287,9 @@
         /**
          * @brief member_srl이 속한 group 목록을 가져옴
          **/
-        function getMemberGroups($member_srl, $site_srl = 0) {
+        function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false) {
             static $member_groups = array();
-            if(!$member_groups[$member_srl][$site_srl]) {
+            if(!$member_groups[$member_srl][$site_srl] || $force_reload) {
                 $args->member_srl = $member_srl;
                 $args->site_srl = $site_srl;
                 $output = executeQuery('member.getMemberGroups', $args);

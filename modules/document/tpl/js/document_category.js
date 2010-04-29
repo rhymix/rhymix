@@ -177,8 +177,7 @@ function hideCategoryInfo() {
 
 /* 카테고리 목록 갱신 */
 function doReloadTreeCategory(module_srl) {
-    var params = new Array();
-    params["module_srl"] = module_srl;
+    var params = {'module_srl':module_srl};
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다.
     var response_tags = new Array('error','message', 'xml_file');
@@ -186,5 +185,5 @@ function doReloadTreeCategory(module_srl) {
 }
 
 function doCategoryFormMove() {
-    xAddEventListener(window,'load',function() { window.document.body.appendChild(xGetElementById('fo_category')); xGetElementById('category_info').style.width = "550px"; } );
+	jQuery(function($){ $('#fo_category').appendTo(document.body); $('#category_info').css('width', '550px'); });
 }

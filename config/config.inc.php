@@ -13,7 +13,7 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.4.0.9');
+    define('__ZBXE_VERSION__', '1.4.1.0');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
@@ -111,6 +111,14 @@
      * @brief 간단하게 사용하기 위한 함수 정의한 파일 require
      **/
     require(_XE_PATH_.'config/func.inc.php');
+
+	/**
+	 * @brief Set Timezone as server time 
+	 **/
+	if(version_compare(PHP_VERSION, '5.3.0') >= 0)
+	{
+		date_default_timezone_set(@date_default_timezone_get());		
+	}
 
 
     if(__DEBUG__) define('__StartTime__', getMicroTime());

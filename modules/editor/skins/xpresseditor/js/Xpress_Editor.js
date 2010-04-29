@@ -2404,13 +2404,13 @@ xe.DialogLayerManager = $.Class({
 		bModal = $.$(bModal) || false;
 		if(!oLayer) return;
 
-		if($.inArray(oLayer, this.aOpenedLayers)) return;
+		if($.inArray(oLayer, this.aOpenedLayers) != -1) return;
 
 		this.oApp.exec("POSITION_DIALOG_LAYER", [oLayer]);
 
 		this.aOpenedLayers[this.aOpenedLayers.length] = oLayer;
 
-		if(!$.inArray(oLayer, this.aMadeDraggable)){
+		if($.inArray(oLayer, this.aMadeDraggable) == -1){
 			new xe.DraggableLayer(oLayer, {bModal: bModal, iMinY: 0});
 			this.aMadeDraggable[this.aMadeDraggable.length] = oLayer;
 		}else{
@@ -2785,8 +2785,8 @@ xe.XE_EditingAreaManager = $.Class({
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "focus", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 		this.oApp.registerBrowserEvent(this.elEditingAreaSkipUI, "blur", "MSG_EDITING_AREA_SIZE_CHANGED", [], 50);
 
-		var fOnBeforeUnload = this.fOnBeforeUnload||function(){if(this.getIR() != this.oIRField.value || this.bIsDirty) return this.oApp.$MSG("XE_EditingAreaManager.onExit")};
-		$(window).bind("beforeunload", $.fnBind(fOnBeforeUnload, this));
+//		var fOnBeforeUnload = this.fOnBeforeUnload||function(){if(this.getIR() != this.oIRField.value || this.bIsDirty) return this.oApp.$MSG("XE_EditingAreaManager.onExit")};
+//		$(window).bind("beforeunload", $.fnBind(fOnBeforeUnload, this));
 	},
 
 	$AFTER_MSG_APP_READY : function(){
@@ -5532,7 +5532,7 @@ xe.XE_XHTMLFormatter = $.Class({
 				if ($.inArray(m2,lonely_tags) >= 0) {
 					var len = m3.length;
 					if (m2 == 'br') m3 = '';
-					if (!m3 || m3.substring(len-1,len) != '/') m3 += ' /';
+					if (!m3 || m3.substring(len-1,len) != '/') m3 += '/';
 
 					return '<'+m2+' '+m3+'>';
 				}

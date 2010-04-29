@@ -175,7 +175,6 @@
     $lang->unit_min = 'minuto';
     $lang->unit_hour = 'hora';
     $lang->unit_day = 'día';
-    $lang->unit_week = 'semana';
     $lang->unit_month = 'mes';
     $lang->unit_year = 'año';
 

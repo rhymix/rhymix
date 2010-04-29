@@ -248,6 +248,19 @@ jQuery(function($) {
 
         });
     }
+
+    /* 단락에디터 fold 컴포넌트 펼치기/접기 */
+    var drEditorFold = $('.xe_content .fold_button');
+    if(drEditorFold.size()) {
+        var fold_container = $('div.fold_container', drEditorFold);
+        $('button.more', drEditorFold).click(function() {
+            $(this).hide().next('button').show().parent().next(fold_container).show();
+        });
+        $('button.less', drEditorFold).click(function() {
+            $(this).hide().prev('button').show().parent().next(fold_container).hide();
+        });
+    }
+
 });
 
 
@@ -980,7 +993,9 @@ jQuery(function(){
     function() 
     {
         var objText = jQuery(this);
-        var targetName = objText.attr("name");
+        var targetName = objText.attr("id");
+		if(typeof(targetName) == "undefined") targetName = objText.attr("name");
+		if(typeof(targetName) == "undefined") return;
         objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
     }
     );

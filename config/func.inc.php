@@ -652,7 +652,7 @@
         //        2. 이벤트명 뒤에는 등호(=)가 존재해야하나 앞, 뒤에 공백이 있을 수 있음
         //        3. 에디터 컴포넌트에서 on으로 시작하는 변수명을 가질 수 있으므로 실제 이벤트명만을 체크해야 함
         $attrs = preg_replace(
-            '/(\r|\n| )+on(click|dblclick|mousedown|mouseup|mouseover|mouseout|mousemove|keydown|keyup|keypress|load|unload|abort|error|select|change|submit|reset|resize|scroll|focus|blur)+([= ]+)/is',
+            '/(\r|\n| |\t|\"|\'|\/|\`)+on(click|dblclick|mousedown|mouseup|mouseover|mouseout|mousemove|keydown|keyup|keypress|load|unload|abort|error|select|change|submit|reset|resize|scroll|focus|blur|forminput|input|invaild|drag|dragend|dragenter|dragleave|dragover|dragstart|drop|mousewheel|scroll|canplay|canplaythrough|durationchange|emptied|ended|error|loadeddata|loadstart|pause|play|playing|progress|ratechange|readystatechange|seeked|seeking|stalled|suspend|timeupdate|volumechange|waiting|message|show)+([= \r\n\t]+)/is',
             ' _on$2=',
             $attrs
         );
@@ -678,7 +678,8 @@
         $dynsrc = $xml_doc->{$tag}->attrs->dynsrc;
         $lowsrc = $xml_doc->{$tag}->attrs->lowsrc;
         $href = $xml_doc->{$tag}->attrs->href;
-        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) ) return sprintf("<%s>",$tag);
+		$data = $xml_doc->{$tag}->attrs->data;
+        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data)) return sprintf("<%s>",$tag);
 
         return $matches[0];
     }
@@ -804,6 +805,20 @@
         if($num<65536)return chr(($num>>12)+224).chr((($num>>6)&63)+128).chr(($num&63)+128);
         if($num<2097152)return chr(($num>>18)+240).chr((($num>>12)&63)+128).chr((($num>>6)&63)+128) .chr(($num&63)+128);
         return '';
+    }
+
+
+    function detectUTF8($string, $return_convert = false, $urldecode = true) {
+        if($urldecode) $string = urldecode($string);
+
+        $sample = iconv('utf-8', 'utf-8', $string);
+        $is_utf8 = (md5($sample) == md5($string));
+
+        if(!$urldecode) $string = urldecode($string);
+
+        if($return_convert) return ($is_utf8) ? $string : iconv('euc-kr', 'utf-8', $string);
+
+        return $is_utf8;
     }
 
 

@@ -14,26 +14,26 @@
     $lang->cmd_view = 'Просмотреть';
     $lang->cmd_view_all = 'Просмотреть все';
     $lang->cmd_list = 'Список';
-    $lang->cmd_prev = 'Пред.';
-    $lang->cmd_next = 'След.';
+    $lang->cmd_prev = 'Предыдущее';
+    $lang->cmd_next = 'Следующее';
     $lang->cmd_send_trackback = 'Отправить трекбек';
     $lang->cmd_registration = $lang->cmd_submit = 'Принять';
-    $lang->cmd_comment_registration = 'Добавить комментарий';
+    $lang->cmd_comment_registration = 'Добавить запись';
     $lang->cmd_insert = 'Вставить';
     $lang->cmd_save = 'Сохранить';
     $lang->cmd_load = 'Загрузить';
     $lang->cmd_input = 'Ввести';
     $lang->cmd_search = 'Искать';
-    $lang->cmd_find = '찾기';
-    $lang->cmd_replace = '바꾸기';
-    $lang->cmd_confirm = '확인';
+    $lang->cmd_find = 'Поиск';
+    $lang->cmd_replace = 'Поменять';
+    $lang->cmd_confirm = 'Подтвердить';
     $lang->cmd_cancel = 'Отменить';
     $lang->cmd_back = 'Вернуться';
     $lang->cmd_vote = 'Рекомендовать';
     $lang->cmd_vote_down = 'Критиковать';
-    $lang->cmd_declare = 'Обвинить';
-    $lang->cmd_cancel_declare = 'Отменить Обвинить';
-    $lang->cmd_declared_list = 'Список обвинений';
+    $lang->cmd_declare = 'Пожаловаться';
+    $lang->cmd_cancel_declare = 'Отменить жалобу';
+    $lang->cmd_declared_list = 'Список жалоб';
     $lang->cmd_copy = 'Копировать';
     $lang->cmd_move = 'Переместить';
     $lang->cmd_move_up = 'Вверх';
@@ -44,7 +44,7 @@
     $lang->cmd_make = 'Создать';
     $lang->cmd_select = 'Выделить';
     $lang->cmd_select_all = 'Выделить все';
-    $lang->cmd_unselect_all = 'Убрать выделение Всех';
+    $lang->cmd_unselect_all = 'Убрать выделение ВСЕХ';
     $lang->cmd_reverse_all = 'Перевернуть';
     $lang->cmd_close_all = 'Закрыть все';
     $lang->cmd_open_all = 'Открыть все';
@@ -61,40 +61,41 @@
     $lang->cmd_scrap = 'В черновики';
     $lang->cmd_preview = 'Предпросмотр';
     $lang->cmd_reset = 'Сброс';
-    $lang->cmd_remake_cache = "Пере-создать файл кэша";
+    $lang->cmd_remake_cache = "Пересоздать файл кэша";
     $lang->cmd_publish = "Опубликовать";
     $lang->cmd_layout_setup = 'Конфигурировать лейаут';
     $lang->cmd_layout_edit = 'Редактировать лейаут';
-    $lang->cmd_search_by_ipaddress = 'Search by IP Address';
-    $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
+    $lang->cmd_search_by_ipaddress = 'Искать по IP адресу';
+    $lang->cmd_add_ip_to_spamfilter = 'Добавить IP в спамфильтры';
 
     $lang->enable = 'Включено';
     $lang->disable = 'Выключено';
 
-    // Существенные слова
-    $lang->menu = 'Menu';
+    // Основные слова
+    $lang->menu = 'Меню';
     $lang->no = 'No.';
     $lang->notice = 'Уведомление';
     $lang->secret = 'Секрет';
     $lang->category = $lang->category_srl = 'Категория';
-    $lang->none_category = 'None category';
-    $lang->document_srl = 'Док. No.';
-    $lang->user_id = 'Юзер ID';
-    $lang->author = 'Разработчик';
+    $lang->none_category = 'Без категории';
+	$lang->none_image = 'Картинки нет';
+    $lang->document_srl = 'No  документа';
+    $lang->user_id = 'ID пользователя';
+    $lang->author = 'Автор';
     $lang->password = 'Пароль';
     $lang->password1 = 'Пароль';
     $lang->password2 = 'Подтверждение пароля';
-    $lang->admin_id = 'Админ ID';
-    $lang->writer = 'Автор';
-    $lang->user_name = 'Имя';
+    $lang->admin_id = 'ID админа';
+    $lang->writer = 'Автор записи';
+    $lang->user_name = 'Имя пользователя';
     $lang->nick_name = 'Ник';
     $lang->email_address = 'Email';
     $lang->homepage = 'Домашняя страница';
     $lang->blog = 'Блог';
     $lang->birthday = 'Дата рождения';
     $lang->browser_title = 'Заголовок браузера';
-    $lang->title = 'Тема';
-    $lang->title_content = 'Тема+Содержание';
+    $lang->title = 'Заголовок';
+    $lang->title_content = 'Заголовок+Содержание';
     $lang->topic = 'Тема';
     $lang->replies = 'Ответы';
     $lang->content = 'Содержание';
@@ -106,20 +107,21 @@
     $lang->allow_comment = 'Позволить комментарии';
     $lang->lock_comment = 'Заблокировать комментарии';
     $lang->allow_trackback = 'Позволить трекбек';
-    $lang->uploaded_file = 'Вложение';
+    $lang->uploaded_file = 'Прикрепить файл';
     $lang->grant = 'Права доступа';
     $lang->target = 'Назначение';
     $lang->total = 'Всего';
-    $lang->total_count = 'Общее кол-во';
-    $lang->ipaddress = 'IP Адрес';
+    $lang->total_count = 'Общее количество';
+    $lang->ipaddress = 'IP адрес';
     $lang->path = 'Путь';
     $lang->cart = 'Выбранный объект';
     $lang->friend = 'Друзья';
     $lang->notify = 'Уведомление';
-    $lang->order_target = 'согласовать цели';
-    $lang->order_type = 'сортировки типа';
-    $lang->order_asc = 'взойти';
-    $lang->order_desc = 'спустится';
+    $lang->order_target = 'Align Target';
+    $lang->order_type = 'Тип сортировки';
+    $lang->order_asc = 'снизу вверх';
+    $lang->order_desc = 'сверху вниз';
+	$lang->file = 'файл';
 
     $lang->mid = 'Имя Модуля';
     $lang->sid = 'Site Name';
@@ -128,23 +130,23 @@
     $lang->module = 'Модуль';
     $lang->skin = 'Тема';
     $lang->colorset = 'Цветовой набор';
-    $lang->extra_vars = 'Доп. перем.';
+    $lang->extra_vars = 'Дополнительные переменные.';
 
-    $lang->domain = "Domain Name";
+    $lang->domain = "Доменное имя";
     $lang->url = "URL";
-    $lang->document_url = 'Адрес статьи';
-    $lang->trackback_url = 'Адрес трекбек';
+    $lang->document_url = 'URL записи';
+    $lang->trackback_url = 'URL трекбека';
     $lang->blog_name = 'Название блога';
     $lang->excerpt = 'Цитата';
 
-    $lang->document_count = 'Всего статей';
-    $lang->page_count = 'Кол-во страниц';
-    $lang->list_count = 'Кол-во списков';
+    $lang->document_count = 'Всего записей';
+    $lang->page_count = 'Количество страниц';
+    $lang->list_count = 'Количество списков';
     $lang->search_list_count = 'Поиск Список кол';
-    $lang->readed_count = 'Хиты';
+    $lang->readed_count = 'Просмотры';
     $lang->voted_count = 'Голоса';
-    $lang->comment_count = 'комментарии';
-    $lang->member_count = 'Кол-во пользователей';
+    $lang->comment_count = 'Комментарии';
+    $lang->member_count = 'Количество пользователей';
     $lang->date = 'Дата';
     $lang->regdate = 'Дата регистрации';
     $lang->last_update = 'Последнее обновление';
@@ -157,7 +159,7 @@
     $lang->search_keyword = 'Ключевые слова';
     $lang->is_default = 'По умолчанию';
 
-    $lang->no_documents = 'Нет статей';
+    $lang->no_documents = 'Нет записей';
 
     $lang->board_manager = 'Настройки форума';
     $lang->member_manager = 'Настройки пользователей';
@@ -165,10 +167,10 @@
 
     $lang->use = 'Использовать';
     $lang->notuse = 'Не использовать';
-    $lang->not_exists = "Не существует";
+    $lang->not_exists = "Отсутствует";
 
-    $lang->public = 'общественности';
-    $lang->private = 'частный';
+    $lang->public = 'Показать всем';
+    $lang->private = 'Не показывать';
 
     $lang->unit_sec = 'сек.';
     $lang->unit_min = 'мин.';
@@ -179,13 +181,13 @@
     $lang->unit_year = 'г.';
 
     $lang->unit_week = array(
-        'Monday' => 'Monday',
-        'Tuesday' => 'Tuesday',
-        'Wednesday' => 'Wednesday',
-        'Thursday' => 'Thursday',
-        'Friday' => 'Friday',
-        'Saturday' => 'Saturday',
-        'Sunday' => 'Sunday',
+        'Monday' => 'Понедельник',
+        'Tuesday' => 'Вторник',
+        'Wednesday' => 'Среда',
+        'Thursday' => 'Четверг',
+        'Friday' => 'Пятница',
+        'Saturday' => 'Суббота',
+        'Sunday' => 'Воскресенье',
     );
 
     $lang->unit_meridiem = array(
@@ -196,22 +198,22 @@
     );
 
     $lang->time_gap = array(
-        'min' => '%d minute ago',
-        'mins' => '%d minutes ago',
-        'hour' => '%d hour ago',
-        'hours' => '%d hours ago',
+        'min' => '%d минуту назад',
+        'mins' => '%d минут назад',
+        'hour' => '%d час назад',
+        'hours' => '%d часов назад',
     );
 
     // Описания
     $lang->about_tag = 'Вы можете применить несколько тегов, разделенных запятыми (,)';
-    $lang->about_layout = 'Лейауты украшают внешний вид Ваших модулей. Вы можете сконфигирировать их с помощью меню Лейаут сверху';
+    $lang->about_layout = 'Лейауты украшают внешний вид Ваших модулей. Вы можете сконфигурировать их с помощью меню Лейаут сверху';
 
     // Сообщение
     $lang->msg_call_server = 'Идет обработка. Пожалуйста, подождите...';
     $lang->msg_db_not_setted = 'Даза данных не сконфигурирована';
     $lang->msg_dbconnect_failed = "Произошла ошибка подключения к базе данных.\nПожалуйста, проверьте иформацию базы данных еще раз";
     $lang->msg_invalid_queryid = 'Указанный ID запроса неверен';
-    $lang->msg_not_permitted = 'У Вас нет прав доступа';
+    $lang->msg_not_permitted = 'У Вас нет доступа';
     $lang->msg_input_password = 'Пожалуйста, введите пароль';
     $lang->msg_invalid_document = 'Неверный номер статьи';
     $lang->msg_invalid_request = 'Неверный запрос';
@@ -219,103 +221,101 @@
     $lang->msg_error_occured = 'Произошла ошибка';
     $lang->msg_not_founded = 'Сообщение не найдено';
     $lang->msg_no_result = 'Ничего не найдено';
-    $lang->msg_fail_to_request_open = 'Fail to open your request';
-    $lang->msg_invalid_format = 'Invalid Format';
+    $lang->msg_fail_to_request_open = 'Ошибка в запрашиваемом соединении';
+    $lang->msg_invalid_format = 'Неверный формат';
 
     $lang->msg_not_permitted_act = 'У Вас нет прав для исполнения запрошенного действия';
-    $lang->msg_module_is_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
+    $lang->msg_module_is_not_exists = "Невозможно найти запрашиваемый модуль.\nПросьба обратиться к администратору";
     $lang->msg_module_is_not_standalone = 'Запрошенный модуль не может быть исполнен независимо';
-    $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
+    $lang->msg_default_url_is_not_defined = 'Default URL is not define';
 
     $lang->success_registed = 'Зарегистрировано успешно';
-    $lang->success_declared = 'Обвинение успешно';
+    $lang->success_declared = 'Жалоба отправлена';
     $lang->success_updated = 'Обновление успешно';
     $lang->success_deleted = 'Удалено успешно';
     $lang->success_voted = 'Рекомендовано успешно';
-    $lang->success_blamed = 'Обвиняют success_blamed';
+    $lang->success_blamed = 'Критика принята';
     $lang->success_moved = 'Перемещено успешно';
     $lang->success_sended = 'Отправлено успешно';
     $lang->success_reset = 'Сброшено успешно';
-    $lang->success_leaved = 'Все данные пользователя были полностью удалены.';
+    $lang->success_leaved = 'Пользователь удален';
     $lang->success_saved = 'Сохранено успешно';
 
     $lang->fail_to_delete = 'Не может быть удалено';
-    $lang->fail_to_move = 'Не может быть перемещено';
+    $lang->fail_to_move = 'Перемещение невозможно';
 
-    $lang->failed_voted = 'Ошибка при рекомендации';
-    $lang->failed_blamed = 'Не виноват';
-    $lang->failed_declared = 'Ошибка при обвинении';
-    $lang->fail_to_delete_have_children = 'Пожалуйста, попробуйте еще после удаления дочерних объектов';
+    $lang->failed_voted = 'Рекоммендовать невозможно';
+    $lang->failed_blamed = 'Критиковать невозможно';
+    $lang->failed_declared = 'Пожаловаться невозможно';
+    $lang->fail_to_delete_have_children = 'Невозможно удаление из-за наличия ответов в записи';
 
-    $lang->confirm_submit = 'Вы подтверждаете применение?';
+    $lang->confirm_submit = 'Вы подтверждаете запись?';
     $lang->confirm_logout = 'Вы подтверждаете выход?';
-    $lang->confirm_vote = 'Вы подтверждаете рекомендацию?';
-    $lang->confirm_delete = 'Вы подтверждаете удаление?';
-    $lang->confirm_move = 'Вы подтверждаете перемещение?';
+    $lang->confirm_vote = 'Рекомендовать?';
+    $lang->confirm_delete = 'Удалить?';
+	$lang->confirm_restore = 'Восстановить?';
+    $lang->confirm_move = 'Переместить?';
     $lang->confirm_reset = 'Вы подтверждаете сброс?';
-    $lang->confirm_leave = 'Вы подтверждаете уход?';
-    $lang->confirm_update = 'Are you sure to update?';
+    $lang->confirm_leave = 'Вы подтверждаете удаление аккаунта?';
+    $lang->confirm_update = 'Обновить?';
 
     $lang->column_type = 'Тип колонки';
-    $lang->column_type_list['text'] = 'одна строка текста';
+    $lang->column_type_list['text'] = 'Однострочное окно ввода';
     $lang->column_type_list['homepage'] = 'url';
-    $lang->column_type_list['email_address'] = 'по электронной почте';
+    $lang->column_type_list['email_address'] = 'email';
     $lang->column_type_list['tel'] = 'номер телефона';
-    $lang->column_type_list['textarea'] = 'многолетних-лайн textarea';
-    $lang->column_type_list['checkbox'] = 'флажок (несколько отбор)';
-    $lang->column_type_list['select'] = 'выберите поле (один отбор)';
-    $lang->column_type_list['radio'] = 'radio button (radio)';
-    $lang->column_type_list['kr_zip'] = 'почтовый индекс (корейский)';
+    $lang->column_type_list['textarea'] = 'Многострочное окно ввода';
+    $lang->column_type_list['checkbox'] = 'Чекбокс (мульти вариант)';
+    $lang->column_type_list['select'] = 'Выбор (один вариант)';
+    $lang->column_type_list['radio'] = 'Кнопка радио (радио)';
+    $lang->column_type_list['kr_zip'] = 'Почтовый индекс (Корейский)';
     $lang->column_type_list['date'] = 'Дата (гггг / мм / дд)';
     //$lang->column_type_list['jp_zip'] = 'почтовый индекс (японский)';
     $lang->column_name = 'Имя колонки';
-    $lang->column_title = 'Название колонки';
+    $lang->column_title = 'Заголовок колонки';
     $lang->default_value = 'Стандартное значение';
+    $lang->is_active = 'Активация';
+    $lang->is_required = 'Обязательные данные';
+    $lang->eid = 'Имя экстра переменных';
 
     // ftp 관련
-    $lang->ftp_form_title = 'FTP 정보 입력';
+    $lang->ftp_form_title = 'Введите данные FTP';
     $lang->ftp = 'FTP';
     $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTP port';
     $lang->about_ftp_password = 'FTP password will not be stored';
-    $lang->cmd_check_ftp_connect = 'FTP 접속 확인';
+    $lang->cmd_check_ftp_connect = 'Check FTP Connection';
     $lang->about_ftp_info = "
-        FTP 정보는 다음의 경우에 이용될 수 있습니다.<br/>
-        1. PHP의 safe_mode=On일 경우에 FTP 정보를 이용해서 XE를 정상적으로 동작할 수 있게 합니다.<br/>
-        2. 자동 업데이트등에서 FTP 정보를 이용할 수 있습니다.<br/>
-        이 FTP정보는 files/config/ftp.config.php 파일내에 정보가 저장됩니다.<br/>
-        그리고 설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
+       FTP account information can be used in following cases. <br />
+        1. If safe_mode setting of PHP is on, XE will be installed using FTP.  <br />
+        2. Automatic updates might use FTP information. <br />
+           This account info will be stored in files/config/ftp.config.php <br />
+           After installation, you can modify or delete the account info at the administration page. <br />
     ";
 
-    $lang->msg_safe_mode_ftp_needed = "PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다";
-    $lang->msg_ftp_not_connected = "localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요";
-    $lang->msg_ftp_invalid_auth_info = "입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요";
-    $lang->msg_ftp_mkdir_fail = "FTP를 이용한 디렉토리 생성 명령을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_chmod_fail = "FTP를 이용한 디렉토리의 속성 변경을 실패하였습니다. FTP 서버의 설정을 확인해주세요";
-    $lang->msg_ftp_connect_success = "FTP 접속 및 인증 성공하였습니다";
+     $lang->msg_safe_mode_ftp_needed = "If safe_mode setting of PHP is on, you should input FTP account information to install XE.";
+    $lang->msg_ftp_not_connected = "Connection to localhost via FTP failed. Please check the port number and if FTP service is available.";
+    $lang->msg_ftp_invalid_auth_info = "Authentication failed. Please check the username and password.";
+    $lang->msg_ftp_mkdir_fail = "Directory creation failed. Please check the permission of FTP account.";
+    $lang->msg_ftp_chmod_fail = "Chmod failed. Please check the permission and configuration of FTP server.";
+    $lang->msg_ftp_connect_success = "Connection and authentication to the FTP server succeeded.";
 
-    $lang->ftp_path_title = 'FTP 경로 정보 입력';
-    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+	$lang->ftp_path_title = 'FTP Path Information';
+    $lang->msg_ftp_installed_realpath = 'Absolute Path of XE';
+    $lang->msg_ftp_installed_ftp_realpath = 'Absolute FTP Path of XE';
 
-
-
-    $lang->is_active = 'Активно';
-    $lang->is_required = 'Требуемое поле';
-    $lang->eid = '확장변수 이름';
-
-    // Alert-сообщения для Javascript используя XML filter
-    $lang->filter->isnull = 'Пожалуйста, введите значение для %s';
-    $lang->filter->outofrange = 'Пожалуйста, исправьте длину текста %s';
-    $lang->filter->equalto = "Значение %s неверно";
-    $lang->filter->invalid_email = "Формат %s неверен. Например: zbxe@zeroboard.com";
-    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "Формат %s неверен.\\n Все значения должны состоять из алфавита, цифр и символа подчеркивания(_), и первая буква должна принадлежать латинскому алфавиту.";
-    $lang->filter->invalid_homepage = "Формат %s неверен. Например: http://www.zeroboard.com";
-    $lang->filter->invalid_korean = "Формат %s неверен. Пожалуйста, вводите по-корейски";
-    $lang->filter->invalid_korean_number = "Формат %s неверен. Пожалуйста, вводите по-корейски или цифрами";
-    $lang->filter->invalid_alpha = "Формат %s неверен. Пожалуйста, вводите только алфавитные символы";
-    $lang->filter->invalid_alpha_number = "Формат %s неверен. Пожалуйста, вводите алфавитные символы или цифры";
-    $lang->filter->invalid_number = "Формат %s неверен.  Пожалуйста, вводите только цифры";
+    // Alert messages for Javascript using by XML filter
+    $lang->filter->isnull = 'Please input a value for %s';
+    $lang->filter->outofrange = 'Please align the text length of %s';
+    $lang->filter->equalto = "The value of %s is invalid";
+    $lang->filter->invalid_email = "The format of %s is invalid. ex) zbxe@zeroboard.com";
+    $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "The format of %s is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet";
+    $lang->filter->invalid_homepage = "The format of %s is invalid. ex) http://www.zeroboard.com";
+    $lang->filter->invalid_korean = "The format of %s is invalid. Please input Korean only";
+    $lang->filter->invalid_korean_number = "The format of %s is invalid. Please input Korean or numbers";
+    $lang->filter->invalid_alpha = "The format of %s is invalid. Please input alphabets only";
+    $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input alphabets or numbers";
+    $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
 
     $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
 ?>

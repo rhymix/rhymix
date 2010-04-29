@@ -37,7 +37,6 @@
                 else $content = $this->executeFile($path, $caching_interval, $cache_file);
             }
 
-
             Context::set('opage_content', $content);
 
             // 결과 출력 템플릿 지정
@@ -110,7 +109,7 @@
 
                 // 상대경로를 절대경로로 변경
                 $path_info = pathinfo($path);
-                $this->path = realpath($path_info['dirname']).'/';
+                $this->path = str_replace('\\', '/', realpath($path_info['dirname'])).'/';
                 $content = preg_replace_callback('/(src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
                 $content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
@@ -145,13 +144,14 @@
             if(preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val)) return $matches[0];
 
             // .. 와 같은 경우 대상 경로를 구함
-            elseif(preg_match('/^(\.\.)/i',$val)) {
-                $p = '/'.str_replace(_XE_PATH_,'',$this->path);
+            elseif(preg_match('/^\.\./i',$val)) {
+				$p = Context::pathToUrl($this->path);
                 return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
             }
 
             if(substr($val,0,2)=='./') $val = substr($val,2);
-            $p = '/'.str_replace(_XE_PATH_,'',$this->path);
+            //$p = '/'.str_replace(_XE_PATH_,'',$this->path);
+			$p = Context::pathToUrl($this->path);
             return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
         }
 

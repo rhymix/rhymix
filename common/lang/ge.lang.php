@@ -176,7 +176,6 @@
     $lang->unit_min = 'mindestens';
     $lang->unit_hour = 'h';
     $lang->unit_day = 'th';
-    $lang->unit_week = 'Woche';
     $lang->unit_month = 'Monat';
     $lang->unit_year = 'Jahr';
 

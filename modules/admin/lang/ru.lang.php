@@ -7,8 +7,8 @@
 
     $lang->admin_info = 'Информация администратора';
     $lang->admin_index = 'Индексная страница администратора';
-    $lang->control_panel = 'Control panel';
-    $lang->start_module = 'Начало модуля';
+    $lang->control_panel = 'Контрольная панель';
+    $lang->start_module = 'Стартовый модуль';
     $lang->about_start_module = 'Вы можете указать модуль запуска по умолчанию.';
 
     $lang->module_category_title = array(
@@ -24,62 +24,61 @@
         'system' => 'System Setting',
     );
 
-    $lang->newest_news = "Последние новости";
+    $lang->newest_news = 'Последние новости';
     
-    $lang->env_setup = "Настройка";
-    $lang->default_url = "기본 URL";
-    $lang->about_default_url = "XE 가상 사이트(cafeXE등)의 기능을 사용할때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글/모듈등의 연결이 정상적으로 이루어집니다. (ex: http://도메인/설치경로)";
+    $lang->env_setup = 'Настройка';
+    $lang->default_url = 'Основной URL';
+    $lang->about_default_url = 'If you use a virtual site feature (e.g., cafeXE), input default URL (parent-sites address), then SSO would be enabled, thus connection to documents/modules works properly';
 
-
-    $lang->env_information = "Информация окружения";
-    $lang->current_version = "Текущая версия";
-    $lang->current_path = "Текущий путь";
-    $lang->released_version = "Последняя версия";
-    $lang->about_download_link = "Новая версия XE доступна.\nЧтобы скачать последнюю версию, нажмите ссылку закачки.";
+	$lang->env_information = 'Информация окружения';
+    $lang->current_version = 'Текущая версия';
+    $lang->current_path = 'Текущий путь';
+    $lang->released_version = 'Последняя версия';
+    $lang->about_download_link = 'Новая версия XE доступна.\nЧтобы скачать последнюю версию, нажмите ссылку закачки';
     
-    $lang->item_module = "Список модулей";
-    $lang->item_addon  = "Список аддонов";
-    $lang->item_widget = "Список виджетов";
-    $lang->item_layout = "Список лейаутов";
+    $lang->item_module = 'Список модулей';
+    $lang->item_addon  = 'Список аддонов';
+    $lang->item_widget = 'Список виджетов';
+    $lang->item_layout = 'Список лейаутов';
 
-    $lang->module_name = "Имя модуля";
-    $lang->addon_name = "Имя аддона";
-    $lang->version = "Версия";
-    $lang->author = "Разработчик";
-    $lang->table_count = "Номер таблицы";
-    $lang->installed_path = "Путь установки";
+    $lang->module_name = 'Имя модуля';
+    $lang->addon_name = 'Имя аддона';
+    $lang->version = 'Версия';
+    $lang->author = 'Разработчик';
+    $lang->table_count = 'Номер таблицы';
+    $lang->installed_path = 'Путь установки';
 
-    $lang->cmd_shortcut_management = "Редактировать меню";
+    $lang->cmd_shortcut_management = 'Редактировать меню';
 
     $lang->msg_is_not_administrator = 'Только для администраторов!';
     $lang->msg_manage_module_cannot_delete = 'Ярлыки модулей, аддонов, лейаутов, виджетов не могут быть удалены';
     $lang->msg_default_act_is_null = 'Ярлык не может быть зарегистрирован, поскольку стандартное административное действие не установлено';
 
     $lang->welcome_to_xe = 'Добро пожаловать на страницу администратора XE';
-    $lang->about_admin_page = "Страница администратора все еще в разработке,\nМы добавим важные доработки, принимая много хороших предложений на этапе Closebeta.";
-    $lang->about_lang_env = "Чтобы применить выбранный язык для пользователей как страндартный, нажмите кнопку Сохранить [Save] после изменения.";
+    $lang->about_lang_env = 'Чтобы применить выбранный язык для пользователей как страндартный, нажмите кнопку Сохранить [Save] после изменения';
 
     $lang->xe_license = 'XE подчиняется Стандартной Общественной Лицензии GPL';
     $lang->about_shortcut = 'Вы можете удалить ярлыки модулей, зарегистрированных в списке часто используемых модулей';
 
-    $lang->yesterday = "Yesterday";
-    $lang->today = "Today";
+    $lang->yesterday = 'Вчера';
+    $lang->today = 'Сегодня';
 
-    $lang->cmd_lang_select = "언어선택";
-    $lang->about_cmd_lang_select = "선택된 언어들만 서비스 됩니다";
-    $lang->about_recompile_cache = "쓸모없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다";
-    $lang->use_ssl = "SSL 사용";
+    $lang->cmd_lang_select = 'Выбор языка';
+    $lang->about_cmd_lang_select = 'Возможно использование только выбранных языков';
+    $lang->about_recompile_cache = 'You can delete useless or invalid cache files';
+    $lang->use_ssl = 'Использовать SSL';
     $lang->ssl_options = array(
-        'none' => "사용안함",
-        'optional' => "선택적으로",
-        'always' => "항상사용"
+        'none' => 'Никогда',
+        'optional' => 'На выбор',
+        'always' => 'Всегда'
     );
-    $lang->about_use_ssl = "선택적으로에서는 회원가입/정보수정등의 지정된 action에서 SSL을 사용하고 항상 사용은 모든 서비스가 SSL을 이용하게 됩니다.";
-    $lang->server_ports = "서버포트지정";
-    $lang->about_server_ports = "HTTP는 80, HTTPS는 443이외의 다른 포트를 사용하는 경우에 포트를 지정해주어야합니다.";
-    $lang->use_db_session = '인증 세션 DB 사용';
-    $lang->about_db_session = '인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
-    $lang->sftp = "Use SFTP";
-    $lang->ftp_get_list = "Get List";
-    $lang->ftp_remove_info = 'Remove FTP Info.';
+    $lang->about_use_ssl = 'In case of "Optional", SSL will be used for actions such as signing up / changing information. And for "Always", your site will be served only via https';
+    $lang->server_ports = 'Server Port';
+    $lang->about_server_ports = 'If your web server does not use 80 for HTTP or 443 for HTTPS port, you should specify server ports';
+    $lang->use_db_session = 'Use Session DB';
+    $lang->about_db_session = 'It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions';
+    $lang->sftp = 'Use SFTP';
+    $lang->ftp_get_list = 'Get List';
+    $lang->ftp_remove_info = 'Remove FTP Info';
+	$lang->msg_ftp_invalid_path = 'Failed to read the specified FTP Path.';
 ?>

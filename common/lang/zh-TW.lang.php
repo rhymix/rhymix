@@ -176,7 +176,6 @@
     $lang->unit_min = '分';
     $lang->unit_hour = '時';
     $lang->unit_day = '日';
-    $lang->unit_week = '周';
     $lang->unit_month = '月';
     $lang->unit_year = '年';
 
