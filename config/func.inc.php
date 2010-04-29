@@ -808,6 +808,20 @@
     }
 
 
+    function detectUTF8($string, $return_convert = false, $urldecode = true) {
+        if($urldecode) $string = urldecode($string);
+
+        $sample = iconv('utf-8', 'utf-8', $string);
+        $is_utf8 = (md5($sample) == md5($string));
+
+        if(!$urldecode) $string = urldecode($string);
+
+        if($return_convert) return ($is_utf8) ? $string : iconv('euc-kr', 'utf-8', $string);
+
+        return $is_utf8;
+    }
+
+
     function json_encode2($data) {
         switch (gettype($data)) {
             case 'boolean':
