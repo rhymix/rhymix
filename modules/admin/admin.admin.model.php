@@ -72,6 +72,10 @@
 
 			if($_list){
                 foreach($_list as $k => $v){
+					$src = null;
+					$src->data = $v;
+					$res = Context::convertEncoding($src);
+					$v = $res->data;
                     if(strpos($v,'d') === 0 || strpos($v, '<DIR>')) $list[] = substr(strrchr($v,' '),1) . '/';
                 }
             }
