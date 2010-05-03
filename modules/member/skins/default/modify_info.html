@@ -21,6 +21,7 @@
 <!--@end-->
 
 <!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 
     <h3>{$lang->msg_update_member}</h3>
@@ -122,6 +123,7 @@
 
             <input type="hidden" name="birthday" value="{$member_info->birthday}" />
             <input type="text" class="inputDate" value="{zdate($member_info->birthday,'Y-m-d')}" readonly="readonly" />
+			<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
             <p>{$lang->about_birthday}</p>
 
         </td>
@@ -229,6 +231,7 @@
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
                 <input type="text" class="inputDate" value="{zdate($val->value,'Y-m-d')}" />
+				<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
 
 
 
@@ -279,6 +282,9 @@
         };
         $.extend(option,$.datepicker.regional['{$lang_type}']);
         $(".inputDate").datepicker(option);
+		$(".dateRemover").click(function() {
+			$(this).parent().prevAll('input').val('');
+			return false;});
     });
 })(jQuery);
 </script>

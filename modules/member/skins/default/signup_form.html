@@ -3,6 +3,7 @@
 <!--%import("filter/signup.xml")-->
 
 <!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 
 <!--#include("./common_header.html")-->
@@ -71,7 +72,9 @@
         <th><div>{$lang->birthday}</div></th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <input type="text" value="" readonly="readonly" class="inputDate inputTypeText" /><p>{$lang->about_birthday}</p>
+            <input type="text" value="" readonly="readonly" class="inputDate inputTypeText" />
+			<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
+			<p>{$lang->about_birthday}</p>
         </td>
     </tr>
     <tr>
@@ -172,6 +175,7 @@
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
                 <input type="text" class="inputDate inputTypeText" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
+				<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
             <!--@end-->
 
             <p>{$val->description}</p>
@@ -202,6 +206,9 @@
         };
         $.extend(option,$.datepicker.regional['{$lang_type}']);
         $(".inputDate").datepicker(option);
+		$(".dateRemover").click(function() {
+			$(this).parent().prevAll('input').val('');
+			return false;});
     });
 })(jQuery);
 </script>
