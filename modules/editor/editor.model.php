@@ -555,9 +555,9 @@
         /**
          * @brief component 목록을 return (DB정보 보함)
          **/
-        function getComponentList($filter_enabled = true, $site_srl=0) {
+        function getComponentList($filter_enabled = true, $site_srl=0, $from_db=false) {
             $cache_file = $this->getCacheFile(false, $site_srl);
-            if(!file_exists($cache_file)) {
+            if($from_db || !file_exists($cache_file)) {
                 $oEditorController = &getController('editor');
                 $oEditorController->makeCache(false, $site_srl);
             }
@@ -581,6 +581,7 @@
                         FileHandler::removeFile($cache_file);
                         return $this->getComponentList($filter_enabled, $site_srl);
                     }
+					if(!$filter_enabled) continue;
 					if($val->enabled == "N") {
 						unset($component_list->{$key});
 						continue;

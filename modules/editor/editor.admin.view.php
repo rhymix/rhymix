@@ -23,7 +23,7 @@
 
             // 컴포넌트의 종류를 구해옴
             $oEditorModel = &getModel('editor');
-            $component_list = $oEditorModel->getComponentList(false, $site_srl);
+            $component_list = $oEditorModel->getComponentList(false, $site_srl, true);
 
             Context::set('component_list', $component_list);
 
