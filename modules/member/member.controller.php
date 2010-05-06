@@ -1232,6 +1232,7 @@
          **/
         function putSignature($member_srl, $signature) {
             $signature = trim(removeHackTag($signature));
+			$signature = preg_replace('/<(\/?)(embed|object|param)/is', '&lt;$1$2', $signature);
 
             $check_signature = trim(str_replace(array('&nbsp;',"\n","\r"),'',strip_tags($signature,'<img><object>')));
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));

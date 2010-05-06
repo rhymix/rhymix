@@ -1342,6 +1342,7 @@
             static $loaded_plugins = array();
             if($loaded_plugins[$plugin_name]) return;
             $loaded_plugins[$plugin_name] = true;
+			if($plugin_name == "ui.datepicker") return $this->_loadJavascriptPlugin("ui");
 
             $plugin_path = './common/js/plugins/'.$plugin_name.'/';
             if(!is_dir($plugin_path)) return;

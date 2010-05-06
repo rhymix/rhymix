@@ -622,10 +622,7 @@
      **/
     function removeHackTag($content) {
         // 특정 태그들을 일반 문자로 변경
-        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet)/is', '&lt;$1$2', $content);
-
-        // XSS 사용을 위한 이벤트 제거
-        $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeJSEvent, $content);
+        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet|link|base|html)/is', '&lt;$1$2', $content);
 
         /**
          * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
@@ -636,32 +633,6 @@
         return $content;
     }
 
-    function removeJSEvent($matches) {
-        $attrs = $matches[2];
-
-        // vbscript|javascript 제거
-        if(preg_match('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is', $matches[2])) {
-            $attrs = preg_replace('/(src|href|lowsrc|dynsrc)=("|\'?)([\r\n]*)(vbscript|javascript)/is','$1=$2_$4', $attrs);
-        }
-        if(preg_match('/(url)[ \n]*\(("|\'?)([\r\n]*)(vbscript|javascript)/is', $matches[2])) {
-            $attrs = preg_replace('/(url)[ \n]*\(("|\'?)([\r\n]*)(vbscript|javascript)/is','$1($2_$4', $attrs);
-        }
-
-        // 이벤트 제거
-        // 전제 : 1. 이벤트명 앞에는 개행(r, n, rn)문자와 공백 문자만 올 수 있음
-        //        2. 이벤트명 뒤에는 등호(=)가 존재해야하나 앞, 뒤에 공백이 있을 수 있음
-        //        3. 에디터 컴포넌트에서 on으로 시작하는 변수명을 가질 수 있으므로 실제 이벤트명만을 체크해야 함
-        $attrs = preg_replace(
-            '/(\r|\n| |\t|\"|\'|\/|\`)+on(click|dblclick|mousedown|mouseup|mouseover|mouseout|mousemove|keydown|keyup|keypress|load|unload|abort|error|select|change|submit|reset|resize|scroll|focus|blur|forminput|input|invaild|drag|dragend|dragenter|dragleave|dragover|dragstart|drop|mousewheel|scroll|canplay|canplaythrough|durationchange|emptied|ended|error|loadeddata|loadstart|pause|play|playing|progress|ratechange|readystatechange|seeked|seeking|stalled|suspend|timeupdate|volumechange|waiting|message|show)+([= \r\n\t]+)/is',
-            ' _on$2=',
-            $attrs
-        );
-
-        // 링크를 새창으로 열기 위한 이벤트만 복구
-        $attrs = preg_replace('/_onclick=("|\')window\.open\(this\.href\);(.?)return false;("|\')/i','onclick=$1window.open(this.href);$2return false;$3', $attrs);
-
-        return '<'.$matches[1].$attrs.'>';
-    }
 
     function removeSrcHack($matches) {
         $tag = strtolower(trim($matches[1]));
@@ -672,6 +643,7 @@
 
         $oXmlParser = new XmlParser();
         $xml_doc = $oXmlParser->parse($buff);
+		if(!$xml_doc) return sprintf("<%s>", $tag);
 
         // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
         $src = $xml_doc->{$tag}->attrs->src;
@@ -679,10 +651,28 @@
         $lowsrc = $xml_doc->{$tag}->attrs->lowsrc;
         $href = $xml_doc->{$tag}->attrs->href;
 		$data = $xml_doc->{$tag}->attrs->data;
-        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data)) return sprintf("<%s>",$tag);
+		$background = $xml_doc->{$tag}->attrs->background;
+		$style = $xml_doc->{$tag}->attrs->style;
+		if($style) {
+			$url = preg_match_all('/url\s*\(([^\)]+)\)/is', $style, $matches2);
+			if(count($matches2[0]))
+			{
+				foreach($matches2[1] as $target)
+				{
+					if(_isHackedSrc($target)) return sprintf("<%s>",$tag);
+				}
+			}
+		}
+        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data) || _isHackedSrc($background) || _isHackedSrcExp($style)) return sprintf("<%s>",$tag);
 
         return $matches[0];
     }
+
+	function _isHackedSrcExp($style) {
+		if(!$style) return false;
+		if(preg_match('/((\/\*)|(\*\/)|(\\n)|(expression))/i', $style)) return true;
+		return false;
+	}
 
     function _isHackedSrc($src) {
         if(!$src) return false;
@@ -700,6 +690,9 @@
                 $val = strtolower(trim(substr($tmp_str,$pos+1)));
                 if( ($key=='module'&&$val=='admin') || ($key=='act'&&preg_match('/admin/i',$val)) ) return true;
             }
+
+			$target = trim($src);
+			if(preg_match('/(\s|(\&\#)|(script:))/i', $target)) return true;
         }
         return false;
     }
@@ -894,6 +887,7 @@
 				}
 			}
 			$security_msg = "<div style='border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;'><p style='margin: 1em;'>".Context::getLang('security_warning_embed')."</p></div>";
+			$content = preg_replace('/<object[^>]+>(.*?<\/object>)?/is', $security_msg, $content);
 			$content = preg_replace('/<embed[^>]+>(\s*<\/embed>)?/is', $security_msg, $content);
 			$content = preg_replace('/<img[^>]+editor_component="multimedia_link"[^>]*>(\s*<\/img>)?/is', $security_msg, $content);
 		}
