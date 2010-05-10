@@ -172,8 +172,8 @@
         function _fetch($result) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
 
-            $col_types = cubrid_column_types ($req);
-            $col_names = cubrid_column_names ($req);
+            $col_types = cubrid_column_types ($result);
+            $col_names = cubrid_column_names ($result);
             if (($max = count ($col_types)) == count ($col_names)) {
                 $count = 0;
                 while ($count < $max) {
