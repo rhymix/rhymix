@@ -341,15 +341,14 @@ function completeDeleteMembers(ret_obj) {
 
 
 function doGorupImageMarkUpdateOrder(id) {
-    var sort = jQuery('#'+id).sortable('toArray');
-
-    var params = [];
-    params['group_image_mark_order'] = [];
+    var sort   = jQuery('#'+id).sortable('toArray');
+    var params = { group_image_mark_order : [] };
+	
     jQuery.each(sort, function(i, val) {
-        params['group_image_mark_order'][params['group_image_mark_order'].length] = val.replace('group_srl_', '');
+        params['group_image_mark_order'].push(val.replace('group_srl_', ''));
     });
 
-    var response_tags = new Array('error','message');
+    var response_tags = ['error','message'];
     exec_xml('member', 'procMemberAdminGroupImageMarkUpdateOrder', params, completeGroupImageMarkUpdateOrder, response_tags);
 }
 
