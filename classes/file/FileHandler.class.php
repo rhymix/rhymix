@@ -499,34 +499,36 @@
             $target_type = strtolower($target_type);
 
             // create temporary image with target size
-            if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($resize_width, $resize_height);
-            else $thumb = @imagecreate($resize_width, $resize_height);
+            if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($resize_width, $resize_height);
+            else if(function_exists('imagecreate')) $thumb = imagecreate($resize_width, $resize_height);
+			else return false;
+			if(!$thumb) return false;
 
-            $white = @imagecolorallocate($thumb, 255,255,255);
-            @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
+            $white = imagecolorallocate($thumb, 255,255,255);
+            imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
             // create temporary image having original type
             switch($type) {
                 case 'gif' :
                         if(!function_exists('imagecreatefromgif')) return false;
-                        $source = @imagecreatefromgif($source_file);
+                        $source = imagecreatefromgif($source_file);
                     break;
                 // jpg
                 case 'jpeg' :
                 case 'jpg' :
                         if(!function_exists('imagecreatefromjpeg')) return false;
-                        $source = @imagecreatefromjpeg($source_file);
+                        $source = imagecreatefromjpeg($source_file);
                     break;
                 // png
                 case 'png' :
                         if(!function_exists('imagecreatefrompng')) return false;
-                        $source = @imagecreatefrompng($source_file);
+                        $source = imagecreatefrompng($source_file);
                     break;
                 // bmp
                 case 'wbmp' :
                 case 'bmp' :
                         if(!function_exists('imagecreatefromwbmp')) return false;
-                        $source = @imagecreatefromwbmp($source_file);
+                        $source = imagecreatefromwbmp($source_file);
                     break;
                 default :
                     return;
@@ -545,8 +547,8 @@
             }
 
             if($source) {
-                if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-                else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                else imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
             } else return false;
 
             // create directory 
@@ -557,26 +559,26 @@
             switch($target_type) {
                 case 'gif' :
                         if(!function_exists('imagegif')) return false;
-                        $output = @imagegif($thumb, $target_file);
+                        $output = imagegif($thumb, $target_file);
                     break;
                 case 'jpeg' :
                 case 'jpg' :
                         if(!function_exists('imagejpeg')) return false;
-                        $output = @imagejpeg($thumb, $target_file, 100);
+                        $output = imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
                         if(!function_exists('imagepng')) return false;
-                        $output = @imagepng($thumb, $target_file, 9);
+                        $output = imagepng($thumb, $target_file, 9);
                     break;
                 case 'wbmp' :
                 case 'bmp' :
                         if(!function_exists('imagewbmp')) return false;
-                        $output = @imagewbmp($thumb, $target_file, 100);
+                        $output = imagewbmp($thumb, $target_file, 100);
                     break;
             }
 
-            @imagedestroy($thumb);
-            @imagedestroy($source);
+            imagedestroy($thumb);
+            imagedestroy($source);
 
             if(!$output) return false;
             @chmod($target_file, 0644);
