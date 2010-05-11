@@ -6,6 +6,10 @@
  **/
 
 if(!$_GET['t'] || !$_GET['l']) exit;
+if(version_compare(PHP_VERSION, '5.3.0') >= 0)
+{
+	date_default_timezone_set(@date_default_timezone_get());		
+}
 
 // set env
 $XE_PATH = substr(dirname(__FILE__),0,strlen('common')*-1);
