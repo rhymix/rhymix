@@ -74,11 +74,15 @@ function printFileList($list){
 	for($i=0,$c=count($list);$i<$c;$i++){
 		$file = getRealPath($list[$i]);
 		if(file_exists($file)){
-			readfile($file);
-            flush();
-			echo "\n";
+			//$f = fopen($file,"r");
+			//fpassthru($f);
+            $output .= file_get_contents($file);
+            $output .= "\n";
+			//print("\n");
 		}
 	}
+    header("Content-Encoding: gzip");
+    print ob_gzhandler($output, 5);
 }
 
 if($type == '.css'){
