@@ -14,6 +14,7 @@ if(version_compare(PHP_VERSION, '5.3.0') >= 0)
 // set env
 $XE_PATH = substr(dirname(__FILE__),0,strlen('common')*-1);
 $XE_WEB_PATH = substr($XE_PATH,strlen($_SERVER['DOCUMENT_ROOT']));
+if(substr($XE_WEB_PATH,-1) != "/") $XE_WEB_PATH .= "/";
 $cache_path = $XE_PATH . 'files/cache/optimized/';
 $type = $_GET['t'];
 $list_file = $cache_path . $_GET['l'];
@@ -69,14 +70,19 @@ header("ETag: \"". md5(join(' ', $list)) .'-'. dechex($mtime)."\"");
 
 
 function printFileList($list){
+    $output = '';
 	for($i=0,$c=count($list);$i<$c;$i++){
 		$file = getRealPath($list[$i]);
 		if(file_exists($file)){
-			$f = fopen($file,"r");
-			fpassthru($f);
-			print("\n");
+			//$f = fopen($file,"r");
+			//fpassthru($f);
+            $output .= file_get_contents($file);
+            $output .= "\n";
+			//print("\n");
 		}
 	}
+    header("Content-Encoding: gzip");
+    print ob_gzhandler($output, 5);
 }
 
 if($type == '.css'){
