@@ -61,8 +61,8 @@
      * 0 : 제한 없음 (권장하지 않음)
      * 1 : 지정한 IP 주소에만 허용
      **/
-    if(!defined('__DEBUG_PROTECT__')) define('__DEBUG_PROTECT__', 1);
-    if(!defined('__DEBUG_PROTECT_IP__')) define('__DEBUG_PROTECT_IP__', '127.0.0.1');
+    if(!defined('__DEBUG_PROTECT__')) define('__DEBUG_PROTECT__', 0);
+    //if(!defined('__DEBUG_PROTECT_IP__')) define('__DEBUG_PROTECT_IP__', '127.0.0.1');
 
     /**
      * @brief DB 오류 메세지 출력 정의
@@ -85,7 +85,7 @@
      * 1 : 사용함
      * 대부분의 서버에서는 문제가 없는데 특정 서버군에서 압축전송시 IE에서 오동작을 일으키는경우가 있음
      **/
-    if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 1);
+    if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 0);
 
     /**
      * @brief php unit test (경로/tests/index.php) 의 실행 유무 지정
@@ -134,6 +134,7 @@
     require(_XE_PATH_.'classes/xml/XmlParser.class.php');
     require(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
     require(_XE_PATH_.'classes/context/Context.class.php');
+    require(_XE_PATH_.'classes/cache/CacheHandler.class.php');
     require(_XE_PATH_.'classes/db/DB.class.php');
     require(_XE_PATH_.'classes/file/FileHandler.class.php');
     require(_XE_PATH_.'classes/widget/WidgetHandler.class.php');

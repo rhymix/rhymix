@@ -46,18 +46,19 @@
             if(!count($source_files)) return;
 			
             $files = array();
+			$hash = '';
             foreach($source_files as $key => $file) {
                 if(!$file || !$file['file'] || !file_exists($file['file'])) continue;
                 $file['file'] = $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
                 if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) ) $files[] = $file;
                 else{
 					$targets[] = $file;
+					$hash .= $file['file'];
 				}
             }
 
             if(!count($targets)) return $this->_getOptimizedRemoved($files);
-
-			$list_file_hash = md5(join(' ', $targets));
+			$list_file_hash = md5($hash);
 			$list_file = FileHandler::getRealPath($this->cache_path . $list_file_hash);
 
 			if(!file_exists($list_file)){

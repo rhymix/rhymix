@@ -171,9 +171,9 @@
      * @param args object 변수로 선언된 인자값
      * @return 처리결과
      **/
-    function executeQuery($query_id, $args = null) {
+    function executeQuery($query_id, $args = null, $update_mtime = true) {
         $oDB = &DB::getInstance();
-        return $oDB->executeQuery($query_id, $args);
+        return $oDB->executeQuery($query_id, $args, $update_mtime = true);
     }
 
     /**

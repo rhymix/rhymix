@@ -51,6 +51,7 @@ if($type == '.css'){
 
 header("Content-Type: ".$content_type."; charset=UTF-8");
 
+/*
 // return 304
 if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
     $modifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
@@ -60,7 +61,7 @@ if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 		exit;
     }
 }
-
+*/
 header("Cache-Control: private, max-age=2592000"); 
 header("Pragma: cache"); 
 header("Connection: close"); 

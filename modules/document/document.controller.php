@@ -409,6 +409,7 @@
          * @brief 문서 삭제
          **/
         function deleteDocument($document_srl, $is_admin = false) {
+
             // trigger 호출 (before)
             $trigger_obj->document_srl = $document_srl;
             $output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
@@ -465,6 +466,7 @@
             // commit
             $oDB->commit();
 
+
             return $output;
         }
 
@@ -472,6 +474,7 @@
          * @brief 문서를 휴지통으로 옮김
          **/
         function moveDocumentToTrash($obj) {
+
             // 주어진 trash_srl이 없으면 trash_srl 등록
             if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
             else $trash_args->trash_srl = $obj->trash_srl;
@@ -565,7 +568,13 @@
 
             // 조회수 업데이트
             $args->document_srl = $document_srl;
-            $output = executeQuery('document.updateReadedCount', $args);
+            $output = executeQuery('document.updateReadedCount', $args, false);
+			$CacheHandler = &CacheHandler::getInstance();
+			if($CacheHandler->isSupport()){
+				$readed_count = $oDocument->get('readed_count')+1;
+				$oDocument->add('readed_count', $readed_count);
+				$CacheHandler->put('readed_count:'.$document_srl, $readed_count);
+			}
 
             // 세션 등록
             $_SESSION['readed_document'][$document_srl] = true;

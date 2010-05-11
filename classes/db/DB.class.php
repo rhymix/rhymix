@@ -44,6 +44,9 @@
         var $supported_list = array(); ///< list of supported db, (will be written by classes/DB/DB***.class.php)
 
         var $cache_file = 'files/cache/queries/'; ///< location of query cache
+		var $path;
+		var $tableMtime = array();
+		var $disabled_cache_tables = array('session','counter_log','counter_site_status','counter_status');
 
         /**
          * @brief returns instance of certain db type
@@ -59,9 +62,11 @@
                 $class_file = sprintf("%sclasses/db/%s.class.php", _XE_PATH_, $class_name);
                 if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
 
-                require_once($class_file);
+				require_once($class_file);
                 $eval_str = sprintf('$GLOBALS[\'__DB__\'][\''.$db_type.'\'] = new %s();', $class_name);
                 eval($eval_str);
+
+				register_shutdown_function(array(&$GLOBALS['__DB__'][$db_type],'_updateTableMtime'));
             }
 
             return $GLOBALS['__DB__'][$db_type];
@@ -237,7 +242,7 @@
 		 * @return result of query
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
-        function executeQuery($query_id, $args = NULL) {
+        function executeQuery($query_id, $args = NULL, $update_mtime = true) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 
             $id_args = explode('.', $query_id);
@@ -260,7 +265,7 @@
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
 
             // execute query
-            return $this->_executeQuery($cache_file, $args, $query_id);
+            return $this->_executeQuery($cache_file, $args, $query_id, $update_mtime);
         }
 
 
@@ -296,7 +301,7 @@
 		 * @param[in] $query_id query id
 		 * @return result of query
          **/
-        function _executeQuery($cache_file, $source_args, $query_id) {
+        function _executeQuery($cache_file, $source_args, $query_id, $update_mtime = true) {
             global $lang;
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
@@ -311,21 +316,39 @@
             // execute appropriate query
             switch($output->action) {
                 case 'insert' :
-                        $this->resetCountCache($output->tables);
+                        //$this->resetCountCache($output->tables);
+						if($update_mtime) $this->updateTableMtime($output->tables);
                         $output = $this->_executeInsertAct($output);
                     break;
                 case 'update' :
-                        $this->resetCountCache($output->tables);
+                        //$this->resetCountCache($output->tables);
+						if($update_mtime) $this->updateTableMtime($output->tables);
                         $output = $this->_executeUpdateAct($output);
                     break;
                 case 'delete' :
-                        $this->resetCountCache($output->tables);
+                        //$this->resetCountCache($output->tables);
+						if($update_mtime) $this->updateTableMtime($output->tables);
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
+						if(count(array_intersect($this->disabled_cache_tables, $output->tables))==0){
+							$CacheHandler = &CacheHandler::getInstance();
+							$cache_support = $CacheHandler->isSupport();
+							
+							if($cache_support){
+								$cache_key = $query_id . serialize($source_args);
+								$buff = $CacheHandler->get($cache_key, $this->_getTableMtime($output->tables));
+								if($buff){
+									return $buff;
+								}
+							}
+						}
+
                         $output = $this->_executeSelectAct($output);
+						if($cache_support && $cache_key) $CacheHandler->put($cache_key, $output);
                     break;
             }
+
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
@@ -333,6 +356,43 @@
 
             return $output;
         }
+
+		function updateTableMtime($tables){
+			$this->tableMtime = array_merge($this->tableMtime,$tables);
+		}
+
+		function _updateTableMtime(){
+			$tables = array_unique($this->tableMtime);
+			foreach($tables as $table){
+				if(!in_array($table, $this->disabled_cache_tables)){
+					touch(_XE_PATH_.'files/cache/'.$table);
+				}
+			}
+		}
+
+		function _getTableMtime($tables){
+			$tablemtime = array(null);
+			foreach($tables as $table){
+				if($GLOBALS['TABLEMTIME'][$table]){
+					$tablemtime[] = $GLOBALS['TABLEMTIME'][$table];
+					continue;
+				}
+
+				$file = _XE_PATH_.'files/cache/'.$table;
+				if(file_exists($file)){
+					if(!$GLOBALS['TABLEMTIME'][$table]){
+						$GLOBALS['TABLEMTIME'][$table] = filemtime($file);
+					}
+
+					$tablemtime[] = $GLOBALS['TABLEMTIME'][$table];
+				}else{
+					touch($file);
+				}
+			}
+
+			$mtime = max($tablemtime);
+			return !$mtime ? time() : $mtime;
+		}
 
         /**
          * @brief check $val with $filter_type

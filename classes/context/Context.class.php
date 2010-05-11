@@ -153,7 +153,7 @@
             else $this->allow_rewrite = false;
 
             // add common JS/CSS files
-            $this->addJsFile("./common/js/jquery.js");
+            $this->addJsFile("./common/js/jquery.js",true,'',-1000000);
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
 			$this->addJsFile("./common/js/js_app.js");
@@ -1355,8 +1355,8 @@
                 $filename = trim($list[$i]);
                 if(!$filename) continue;
                 if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, false, '', null);
-                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, false, 'all','', null);
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, true, '', null);
+                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, true, 'all','', null);
             }
 
             if(is_dir($plugin_path.'lang')) $this->_loadLang($plugin_path.'lang');

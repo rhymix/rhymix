@@ -56,6 +56,12 @@
                 $this->add('title', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('title'));
                 $this->add('content', $GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl]->get('content'));
             }
+
+			$CacheHandler = &CacheHandler::getInstance();
+			if($CacheHandler->isSupport()){
+				$readed_count = $CacheHandler->get('readed_count:'.$document_srl);
+				if($readed_count) $this->add('readed_count', $readed_count);
+			}
         }
 
         function isExists() {

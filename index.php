@@ -53,8 +53,10 @@
     if($oContext->checkSSO()) {
         $oModuleHandler = new ModuleHandler();
         if($oModuleHandler->init()) {
+$start_time = microtime(1);
             $oModule = &$oModuleHandler->procModule();
             $oModuleHandler->displayContent($oModule);
+debugPrint(microtime(1) - $start_time);
         }
     }
     $oContext->close();

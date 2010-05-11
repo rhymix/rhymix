@@ -95,11 +95,12 @@
         function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true) {
             if(!$document_srl) return new documentItem();
 
-            if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
-                $oDocument = new documentItem($document_srl, true);
-                $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
-                if($load_extra_vars) $this->setToAllDocumentExtraVars();
-            }
+			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
+				$oDocument = new documentItem($document_srl, true);
+				$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+				if($load_extra_vars) $this->setToAllDocumentExtraVars();
+			}
+
             if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
             return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
@@ -159,6 +160,21 @@
             // 정렬 대상과 순서 체크
             if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) $obj->sort_index = 'list_order';
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
+
+			$CacheHandler = &CacheHandler::getInstance();
+			$cache_support = $CacheHandler->isSupport();
+			if($cache_support){
+				$obj->e = $except_notice;
+				$obj->l = $load_extra_vars;
+				$oDB = &DB::getInstance();
+				$mtime = $oDB->_getTableMtime(array('documents'));
+
+				$cache_key = 'documentlist'.serialize($obj);
+				$buff = $CacheHandler->get($cache_key, $mtime);
+				if($buff){
+					return $buff;
+				}
+			}
 
             // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
             if($obj->mid) {
@@ -404,6 +420,9 @@
                 }
             }
 
+			if($cache_support && $cache_key){
+				$CacheHandler->put($cache_key, $output);
+			}
             return $output;
         }
 
