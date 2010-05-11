@@ -74,6 +74,7 @@ function printFileList($list){
 		if(file_exists($file)){
 			$f = fopen($file,"r");
 			fpassthru($f);
+			print("\n");
 		}
 	}
 }
