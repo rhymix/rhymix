@@ -149,7 +149,7 @@
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
-//debugPrint($query);
+
             // 쿼리 시작을 알림
             $this->actStart($query);
 
@@ -599,47 +599,18 @@
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
-			$CacheHandler = &CacheHandler::getInstance();
-			$cache_support = $CacheHandler->isSupport();
-
-			if($cache_support){
-
-				// 전체 개수를 구함
-				$count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-
-				$cache_key = join(',',$output->tables) . $count_condition;
-				$mtime = $this->_getTableMtime($output->tables);
-
-				$total_count = $CacheHandler->get($cache_key, $mtime);
-
-				if(!$total_count){
-					$count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-					if (count($output->groups))
-						$count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
-					$result = $this->_query($count_query);
-					$count_output = $this->_fetch($result);
-					$total_count = (int)$count_output->count;
-
-					$CacheHandler->put($cache_key, $total_count.'');
-				}
-
-			}else{
-
-				// 전체 개수를 구함
-				$count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-				$total_count = $this->getCountCache($output->tables, $count_condition);
-				if($total_count === false) {
-					$count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-					if (count($output->groups))
-						$count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
-					$result = $this->_query($count_query);
-					$count_output = $this->_fetch($result);
-					$total_count = (int)$count_output->count;
-					$this->putCountCache($output->tables, $count_condition, $total_count);
-				}
-			}
-
-
+            // 전체 개수를 구함
+            $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
+            $total_count = $this->getCountCache($output->tables, $count_condition);
+            if($total_count === false) {
+                $count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
+                if (count($output->groups))
+                    $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
+                $result = $this->_query($count_query);
+                $count_output = $this->_fetch($result);
+                $total_count = (int)$count_output->count;
+                $this->putCountCache($output->tables, $count_condition, $total_count);
+            }
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -681,9 +652,6 @@
             }
 
             $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
-			
-
-
             $result = $this->_query($query);
             if($this->isError()) {
                 $buff = new Object();
