@@ -153,7 +153,7 @@
             else $this->allow_rewrite = false;
 
             // add common JS/CSS files
-            $this->addJsFile("./common/js/jquery.js",true,'',-1000000);
+            $this->addJsFile("./common/js/jquery.js", true, '', -100000);
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
 			$this->addJsFile("./common/js/js_app.js");
