@@ -9,7 +9,7 @@
     class Optimizer {
 
         var $cache_path = "./files/cache/optimized/";
-		var $script_file = "./common/script.php?l=%s&t=%s";
+		var $script_file = "./common/script.php?l=%s&t=.%s";
 
         /**
          * @brief Constructor which check if a directory, 'optimized' exists in designated path. If not create a new one
