@@ -895,4 +895,17 @@
 		return;
 	}
 
+	function requirePear()
+	{
+		if(version_compare(PHP_VERSION, "5.3.0") < 0)
+		{
+			set_include_path(_XE_PATH_."libs/PEAR");	
+		}
+		else
+		{
+			set_include_path(_XE_PATH_."libs/PEAR.1.9");	
+
+		}
+	}
+
 ?>
