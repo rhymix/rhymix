@@ -5,14 +5,17 @@
  *
  **/
 
+
 if(!$_GET['t'] || !$_GET['l']) exit;
-if(version_compare(PHP_VERSION, '5.3.0') >= 0)
-{
-	date_default_timezone_set(@date_default_timezone_get());		
-}
 
 // set env
 $XE_PATH = substr(dirname(__FILE__),0,strlen('common')*-1);
+define('__XE_PATH__', $XE_PATH);
+define('__ZBXE__', true);
+define('__XE_LOADED_CLASS__', true);
+
+include $XE_PATH . 'config/config.inc.php';
+
 $XE_WEB_PATH = substr($XE_PATH,strlen($_SERVER['DOCUMENT_ROOT']));
 if(substr($XE_WEB_PATH,-1) != "/") $XE_WEB_PATH .= "/";
 $cache_path = $XE_PATH . 'files/cache/optimized/';
@@ -23,7 +26,6 @@ $list_file = $cache_path . $_GET['l'];
 if(!file_exists($list_file)) exit;
 $list = include($list_file);
 if(!is_array($list)) exit;
-
 
 function getRealPath($file){
 	global $XE_PATH;
@@ -43,7 +45,7 @@ function getMaxMtime($list){
 }
 
 // max mtime
-$mtime = getMaxMtime($list);
+$mtime = getMaxMtime(array_merge($list,array($list_file)));
 if($type == '.css'){
 	$content_type = 'text/css';
 } else if($type == '.js') {
@@ -68,21 +70,26 @@ header("Connection: close");
 header("Last-Modified: " . substr(gmdate('r', $mtime), 0, -5). "GMT");
 header("ETag: \"". md5(join(' ', $list)) .'-'. dechex($mtime)."\""); 
 
-
 function printFileList($list){
     $output = '';
 	for($i=0,$c=count($list);$i<$c;$i++){
 		$file = getRealPath($list[$i]);
 		if(file_exists($file)){
-			//$f = fopen($file,"r");
-			//fpassthru($f);
             $output .= file_get_contents($file);
             $output .= "\n";
-			//print("\n");
 		}
 	}
-    header("Content-Encoding: gzip");
-    print ob_gzhandler($output, 5);
+
+	if( (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) 
+		&& strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false 
+		&& function_exists('ob_gzhandler') 
+		&& extension_loaded('zlib')) {
+
+	    header("Content-Encoding: gzip");
+		$output = ob_gzhandler($output, 5);
+	}
+	header("Content-Length: ". strlen($output)); 
+	echo $output;
 }
 
 if($type == '.css'){
@@ -164,14 +171,14 @@ if($type == '.css'){
 		global $tmp_css_path, $XE_WEB_PATH;
 
 		$path = str_replace(array('"',"'"),'',$matches[1]);
-		if(substr($path,0,1)=='/' || strpos($path,'://')!==false || strpos($path,'.htc')!==false) return 'url("'.$path.'")';
+		if(substr($path,0,1)=='/' || strpos($path,'://')!==false || strpos($path,'.htc')!==false) return 'url('.$path.')';
 		if(substr($path,0,2)=='./') $path = substr($path,2);
 		$target = $XE_WEB_PATH.$tmp_css_path.$path;
 		while(strpos($target,'/../')!==false) {
 			$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
 		}
 
-		return 'url("'.$target.'")';
+		return 'url('.$target.')';
 	}
 
 	foreach($list as $file){
