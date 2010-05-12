@@ -60,6 +60,7 @@ if($type == '.css'){
 } else if($type == '.js') {
 	$content_type = 'text/javascript';
 }
+
 header("Content-Type: ".$content_type."; charset=UTF-8");
 
 // return 304
@@ -82,6 +83,12 @@ function useContentEncoding(){
 	return false;
 }
 
+function getCacheKey($list){
+	global $cache_support;
+	$content_encoding = useContentEncoding();
+	return md5('optimized:' . $_SERVER['HTTP_HOST'] . ':' . join('',$list) . ($content_encoding?'gzip':'') );
+}
+
 function printFileList($list){
 	global $mtime, $cache_support, $oCacheHandler;
 
@@ -89,7 +96,7 @@ function printFileList($list){
     $output = null;
 
 	if($cache_support){
-		$cache_key = md5('optimized:'. join('',$list) . ($content_encoding?'gzip':'') );
+		$cache_key = getCacheKey($list);
 		$output = $oCacheHandler->get($cache_key, $mtime);
 	}
 	
@@ -225,7 +232,7 @@ if($type == '.js'){
 			$css[] = getRealPath($cache_file);
 		}
 
-		$cache_key = md5('optimized:'. join('',$css) . ($content_encoding?'gzip':'') );
+		$cache_key = getCacheKey($css);
 		$buff = $oCacheHandler->get($cache_key, $mtime);
 		if(!$buff){
 			$buff = '';
@@ -238,7 +245,6 @@ if($type == '.js'){
 			$oCacheHandler->put($cache_key, $buff);
 		}
 
-		printFileList($css);
 	}else{
 		foreach($list as $file){
 			$cache_file = $cache_path . md5($file);
@@ -252,8 +258,8 @@ if($type == '.js'){
 			$css[] = getRealPath($cache_file);
 		}
 
-		printFileList($css);
 	}
 
+	printFileList($css);
 }
 ?>

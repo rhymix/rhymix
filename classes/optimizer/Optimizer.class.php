@@ -58,7 +58,6 @@
             }
 
             if(!count($targets)) return $this->_getOptimizedRemoved($files);
-
 			$list_file_hash = md5($hash);
 			$oCacheHandler = &CacheHandler::getInstance('template');
 			if($oCacheHandler->isSupport()){
