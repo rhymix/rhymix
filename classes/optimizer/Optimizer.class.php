@@ -60,16 +60,25 @@
             if(!count($targets)) return $this->_getOptimizedRemoved($files);
 
 			$list_file_hash = md5($hash);
-			$list_file = FileHandler::getRealPath($this->cache_path . $list_file_hash);
+			$oCacheHandler = &CacheHandler::getInstance('template');
+			if($oCacheHandler->isSupport()){
+				if(!$oCacheHandler->isValid($list_file_hash)){
+					$buff = array();
+					foreach($targets as $file) $buff[] = $file['file'];
+					$oCacheHandler->put($list_file_hash, $buff);
+				}
+			}else{
+				$list_file = FileHandler::getRealPath($this->cache_path . $list_file_hash);
 
-			if(!file_exists($list_file)){
-				$str = '<?php $f=array();';
-				foreach($targets as $file) $str .= '$f[]="'. $file['file'] . '";';
-				$str .= ' return $f; ?>';
-				
-				FileHandler::writeFile($list_file, $str);
+				if(!file_exists($list_file)){
+					$str = '<?php $f=array();';
+					foreach($targets as $file) $str .= '$f[]="'. $file['file'] . '";';
+					$str .= ' return $f; ?>';
+
+					FileHandler::writeFile($list_file, $str);
+				}
 			}
-			
+
             array_unshift($files, array('file' => sprintf($this->script_file, $list_file_hash, $type) , 'media' => 'all'));
             $files = $this->_getOptimizedRemoved($files);
             if(!count($files)) return $files;

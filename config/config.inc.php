@@ -133,6 +133,7 @@
 		require(_XE_PATH_.'classes/handler/Handler.class.php');
 		require(_XE_PATH_.'classes/xml/XmlParser.class.php');
 		require(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
+		require(_XE_PATH_.'classes/cache/CacheHandler.class.php');
 		require(_XE_PATH_.'classes/context/Context.class.php');
 		require(_XE_PATH_.'classes/db/DB.class.php');
 		require(_XE_PATH_.'classes/file/FileHandler.class.php');
