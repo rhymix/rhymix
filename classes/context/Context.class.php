@@ -164,9 +164,9 @@
 
             // for admin page, add admin css
             if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
-				$this->addCssFile("./modules/admin/tpl/css/font.css", true, 'all', 10000);
-				$this->addCssFile("./modules/admin/tpl/css/pagination.css", true, 'all', 100001);
-				$this->addCssFile("./modules/admin/tpl/css/admin.css", true, 'all', 100002);
+				$this->addCssFile("./modules/admin/tpl/css/font.css", true, 'all', '',10000);
+				$this->addCssFile("./modules/admin/tpl/css/pagination.css", true, 'all', '', 100001);
+				$this->addCssFile("./modules/admin/tpl/css/admin.css", true, 'all', '', 100002);
 			}
 
             // set locations for javascript use
