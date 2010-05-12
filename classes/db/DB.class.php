@@ -167,18 +167,23 @@
 
             // leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
             if($this->isError()) {
+                $site_module_info = Context::get('site_module_info');
+                $log['module'] = $site_module_info->module;
+                $log['act'] = Context::get('act');
+                $log['query_id'] = $this->query_id;
+                $log['time'] = date('Y-m-d H:i:s');
                 $log['result'] = 'Failed';
                 $log['errno'] = $this->errno;
                 $log['errstr'] = $this->errstr;
 
                 if(__DEBUG_DB_OUTPUT__ == 1)  {
                     $debug_file = _XE_PATH_."files/_debug_db_query.php";
-                    $buff = sprintf("%s\n",print_r($log,true));
+                    $buff = array();
+                    if(!file_exists($debug_file)) $buff[] = '<?php exit(); ?>';
+                    $buff[] = print_r($log, true);
 
-                    if($display_line) $buff = "\n<?php\n/*\n====================================\n".$buff."------------------------------------\n*/\n?>\n";
-
-                    if(@!$fp = fopen($debug_file,"a")) return;
-                    fwrite($fp, $buff);
+                    if(@!$fp = fopen($debug_file, "a")) return;
+                    fwrite($fp, implode("\n", $buff)."\n\n");
                     fclose($fp);
                 }
             } else {
@@ -239,6 +244,7 @@
          **/
         function executeQuery($query_id, $args = NULL) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
+            $this->query_id = $query_id;
 
             $id_args = explode('.', $query_id);
             if(count($id_args) == 2) {
