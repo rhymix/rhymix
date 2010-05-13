@@ -44,6 +44,12 @@ class HTTP_Request extends HTTP_Request2
 			return $this->response->getCookies();
 		}
 	}
+
+	public function addPostData($name, $value, $preencoded = false)
+	{
+		$this->addPostParameter($name, $value);
+	}
+
 }
 
 ?>
