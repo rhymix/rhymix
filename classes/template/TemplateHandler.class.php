@@ -57,7 +57,7 @@
 
 			$oCacheHandler = &CacheHandler::getInstance('template');
 			if($oCacheHandler->isSupport()){
-				$cache_key = 'template:'.$_SERVER['HTTP_HOST'] . $tpl_file;
+				$cache_key = 'template:' . $tpl_file;
 				$buff = $oCacheHandler->get($cache_key, filemtime(FileHandler::getRealPath($tpl_file)));
 				if(!$buff){
 					$buff = $this->_compileTplFile($tpl_file);

@@ -1,8 +1,17 @@
 <?php
-	class CacheApc extends CacheBase {
-		var $valid_time = 3600;
+    /**
+     * @class CacheApc
+     * @author sol (sol@nhn.com)
+     * @brief APC Handler
+     * @version 0.1
+	 *
+     **/
 
-		function getInstance(){
+
+	class CacheApc extends CacheBase {
+		var $valid_time = 36000;
+
+		function getInstance($opt=null){
             if(!$GLOBALS['__CacheApc__']) {
                 $GLOBALS['__CacheApc__'] = new CacheApc();
             }
@@ -13,7 +22,7 @@
 		}
 
 		function isSupport(){
-			return apc_store('xe', 'xe', 1);
+			return function_exists('apc_add');
 		}
 
 		function put($key, $buff, $valid_time = 0){

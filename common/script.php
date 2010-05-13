@@ -54,7 +54,6 @@ if($cache_support){
 }
 if(!is_array($list)) exit;
 
-
 // set content-type
 if($type == '.css'){
 	$content_type = 'text/css';
@@ -63,6 +62,7 @@ if($type == '.css'){
 }
 
 header("Content-Type: ".$content_type."; charset=UTF-8");
+
 // return 304
 if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
     $modifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
@@ -83,10 +83,7 @@ function useContentEncoding(){
 }
 
 function getCacheKey($list){
-	global $cache_support;
-	$content_encoding = useContentEncoding();
 	$key = 'optimized:' . join('',$list); 
-	$key .= $content_encoding?'gzip':'none';
 	return $key;
 }
 
@@ -109,12 +106,11 @@ function printFileList($list){
 				$output .= "\n";
 			}
 		}
-
-		if($content_encoding) $output = ob_gzhandler($output, 5);
 	}
 
 	if($cache_support) $oCacheHandler->put($cache_key, $output);
 
+    if($content_encoding) $output = ob_gzhandler($output, 5);
 	$size = strlen($output);
 
 	if($size > 0){
@@ -129,7 +125,7 @@ function printFileList($list){
 
 	if($content_encoding) header("Content-Encoding: gzip");
 
-	echo $output;
+	echo($output);
 }
 
 function write($file_name, $buff, $mode='w'){
