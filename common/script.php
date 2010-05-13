@@ -4,6 +4,7 @@
  * @brief css 및 js Optimizer 처리 gateway
  *
  **/
+
 if(!$_GET['t'] || !$_GET['l']) exit;
 
 // set env
@@ -62,7 +63,6 @@ if($type == '.css'){
 }
 
 header("Content-Type: ".$content_type."; charset=UTF-8");
-
 // return 304
 if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
     $modifiedSince = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
@@ -72,7 +72,6 @@ if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 		exit;
     }
 }
-
 function useContentEncoding(){ 
 	if( (defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) 
 		&& strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')!==false 
@@ -86,7 +85,9 @@ function useContentEncoding(){
 function getCacheKey($list){
 	global $cache_support;
 	$content_encoding = useContentEncoding();
-	return md5('optimized:' . $_SERVER['HTTP_HOST'] . ':' . join('',$list) . ($content_encoding?'gzip':'') );
+	$key = 'optimized:' . join('',$list); 
+	$key .= $content_encoding?'gzip':'none';
+	return $key;
 }
 
 function printFileList($list){
@@ -100,7 +101,7 @@ function printFileList($list){
 		$output = $oCacheHandler->get($cache_key, $mtime);
 	}
 	
-	if(!$output){
+	if(!$output || trim($output)==''){
 		for($i=0,$c=count($list);$i<$c;$i++){
 			$file = getRealPath($list[$i]);
 			if(file_exists($file)){
@@ -114,11 +115,20 @@ function printFileList($list){
 
 	if($cache_support) $oCacheHandler->put($cache_key, $output);
 
-	if($content_encoding){
-	    header("Content-Encoding: gzip");
+	$size = strlen($output);
+
+	if($size > 0){
+		header("Cache-Control: private, max-age=2592000"); 
+		header("Pragma: cache"); 
+		header("Connection: close"); 
+		header("Last-Modified: " . substr(gmdate('r', $mtime), 0, -5). "GMT");
+		header("ETag: \"". md5(join(' ', $list)) .'-'. dechex($mtime) .'-'.dechex($size)."\""); 
 	}
 
-	header("Content-Length: ". strlen($output)); 
+	header("Content-Length: ". $size); 
+
+	if($content_encoding) header("Content-Encoding: gzip");
+
 	echo $output;
 }
 
@@ -215,13 +225,6 @@ function convertEncodingStr($str) {
 	return $str;
 }
 
-// 200
-header("Cache-Control: private, max-age=2592000"); 
-header("Pragma: cache"); 
-header("Connection: close"); 
-header("Last-Modified: " . substr(gmdate('r', $mtime), 0, -5). "GMT");
-header("ETag: \"". md5(join(' ', $list)) .'-'. dechex($mtime)."\""); 
-
 if($type == '.js'){
 	printFileList($list);
 }else if($type == '.css'){
@@ -236,6 +239,7 @@ if($type == '.js'){
 		$buff = $oCacheHandler->get($cache_key, $mtime);
 		if(!$buff){
 			$buff = '';
+			$css = array();
 			foreach($list as $file){
 				$cache_file = $cache_path . md5($file);
 				$buff .= makeCacheFileCSS($file, getRealPath($cache_file), true);
