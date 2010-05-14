@@ -422,7 +422,7 @@
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
                     if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double'))) continue;
 
                     $name = $v['column'];
 					if(preg_match('/^substr\(/i',$name)) $name = preg_replace('/^substr\(/i','substring(',$name);

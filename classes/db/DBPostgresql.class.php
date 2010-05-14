@@ -527,7 +527,7 @@ class DBPostgresql extends DB
                     continue;
                 if ($v['value'] === '')
                     continue;
-                if (!in_array(gettype($v['value']), array('string', 'integer')))
+                if (!in_array(gettype($v['value']), array('string', 'integer', 'double')))
                     continue;
 
                 $name = $v['column'];
