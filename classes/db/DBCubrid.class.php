@@ -656,7 +656,7 @@
                     }
 					
                     $alias = $val['alias'] ? sprintf('"%s"',$val['alias']) : null;
-                    if(substr($name,-1) == '*') {
+                    if($name == '*') {
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
                         $name = sprintf($click_count,$name);
