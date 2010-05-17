@@ -13,12 +13,21 @@ define('_XE_PATH_', $XE_PATH);
 define('__ZBXE__', true);
 define('__XE_LOADED_CLASS__', true);
 include _XE_PATH_ . 'config/config.inc.php';
-include _XE_PATH_ . 'files/config/db.config.php';
-include _XE_PATH_ . 'classes/handler/Handler.class.php';
-include _XE_PATH_ . 'classes/cache/CacheHandler.class.php';
 
-$oCacheHandler = new CacheHandler('template', $db_info);
-$cache_support = $oCacheHandler->isSupport();
+$dbconfig_file =_XE_PATH_ . 'files/config/db.config.php';
+if(file_exists($dbconfig_file)){
+	include $dbconfig_file;
+	if($db_info && $db_info->use_template_cache){
+		include _XE_PATH_ . 'classes/handler/Handler.class.php';
+		include _XE_PATH_ . 'classes/cache/CacheHandler.class.php';
+		$oCacheHandler = new CacheHandler('template', $db_info);
+		$cache_support = $oCacheHandler->isSupport();
+	}else{
+		$cache_support = false;
+	}
+}else{
+	$cache_support = false;
+}	
 
 $XE_WEB_PATH = substr($XE_PATH,strlen($_SERVER['DOCUMENT_ROOT']));
 if(substr($XE_WEB_PATH,-1) != "/") $XE_WEB_PATH .= "/";

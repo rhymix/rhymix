@@ -17,25 +17,26 @@
 
 		function CacheHandler($target, $info=null) {
 			if(!$info) $info = Context::getDBInfo();
-
-			if($target == 'object'){
-				if($info->use_template_cache =='apc') $type = 'apc';
-				else if(substr($info->use_template_cache,0,8)=='memcache'){
-					$type = 'memcache'; 
-					$url = $info->use_template_cache;
+			if($info){
+				if($target == 'object'){
+					if($info->use_template_cache =='apc') $type = 'apc';
+					else if(substr($info->use_template_cache,0,8)=='memcache'){
+						$type = 'memcache'; 
+						$url = $info->use_template_cache;
+					}
+				}else if($target == 'template'){
+					if($info->use_template_cache =='apc') $type = 'apc';
+					else if(substr($info->use_template_cache,0,8)=='memcache'){
+						$type = 'memcache'; 
+						$url = $info->use_template_cache;
+					}
 				}
-			}else if($target == 'template'){
-				if($info->use_template_cache =='apc') $type = 'apc';
-				else if(substr($info->use_template_cache,0,8)=='memcache'){
-					$type = 'memcache'; 
-					$url = $info->use_template_cache;
-				}
-			}
 
-			if($type){
-				$class = 'Cache' . ucfirst($type);
-				include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
-				$this->handler = call_user_func(array($class,'getInstance'), $url);
+				if($type){
+					$class = 'Cache' . ucfirst($type);
+					include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
+					$this->handler = call_user_func(array($class,'getInstance'), $url);
+				}
 			}
 		}
 
