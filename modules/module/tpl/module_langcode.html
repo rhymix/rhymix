@@ -1,12 +1,13 @@
 <!--%import("./filter/insert_lang.xml")-->
 <!--%import("./js/module_admin.js")-->
+<!--%import("../../common/css/popup.css")-->
 
-<div id="popHeader" class="wide">
+<div id="popHeader">
     <h3 class="xeAdmin">{$lang->lang_code}</h3>
 </div>
 
-<div id="popBody" style="width:700px;">
-    <table cellspacing="0" class="colTable" style="width:700px;">
+<div id="popBody">
+    <table cellspacing="0" class="colTable">
     <col width="50%"/>
     <col width="50%"/>
     <tr>
@@ -60,5 +61,5 @@
 </div>
 
 <script type="text/javascript">
-    xAddEventListener(window,'load', doFillLangName);
+	jQuery(function(){ doFillLangName() });
 </script>

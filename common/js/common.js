@@ -523,57 +523,36 @@ function zbxe_folder_close(id) {
  * 팝업의 내용에 맞게 크기를 늘리는 것은... 쉽게 되지는 않음.. ㅡ.ㅜ
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
-var _popupHeight = 0;
 function setFixedPopupSize() {
-    var headerObj = jQuery('#popHeader');
-    var bodyObj = jQuery('#popBody');
+	var $ = jQuery;
+    var $header = $('#popHeader');
+    var $body   = $('#popBody');
 
-    if(bodyObj.length) {
-        if(bodyObj.height() > 400) {
-            bodyObj.css({ overflowY:'scroll', overflowX:'hidden', height:400 });
-        }
-    }
+	if ($body.length) {
+		if ($body.height() > 400) {
+			$body.css({ overflow:'auto', overflowX:'hidden', height:400+'px' });
+		}
+	}
 
-    bodyObj.css({paddingRight:30});
+	var $win = $(window);
+	var $pc  = $('#popup_content');
+	var w    = Math.max($pc[0].offsetWidth, 600);
+	var h    = $pc[0].offsetHeight;
+	var dw   = $win.width();
+	var dh   = $win.height();
+	var _w = 0, _h = 0;
 
-    var w = jQuery("#popup_content").width();
-    w = w< 600 ? 600 : w;
-    var h = jQuery("#popup_content").height();
+	if (w != dw) _w = w - dw;
+	if (h != dh) _h = h - dh;
 
-    if(h != _popupHeight)  {
-        _popupHeight = h;
+	if (_w || _h) {
+		window.resizeBy(_w, _h);
+	}
 
-        jQuery('div').each(function() { var ww = jQuery(this).width(); if(jQuery.inArray(this.id, ['waitingforserverresponse', 'fororiginalimagearea', 'fororiginalimageareabg']) == -1) { if(ww > w) w = ww; } });
-        jQuery('table').each(function() { var ww = jQuery(this).width(); if(ww > w) w = ww; });
-        jQuery('form').each(function() { var ww = jQuery(this).width(); if(ww > w) w = ww; });
-
-        jQuery("#popup_content").width(w);
-        jQuery("#popHeader").width(w);
-        jQuery("#popFooter").width(w);
-
-        window.resizeTo(w, h);
-
-        // 윈도우 OS에서는 브라우저별로 미세 조절이 필요
-        var moreW = 0;
-        if(navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
-            if(jQuery.browser.opera) moreW += 9;
-            else if(jQuery.browser.msie) moreW += 10;
-            else if(jQuery.browser.mozilla) moreW += 8;
-            else if(jQuery.browser.safari) {
-                moreW += 4;
-                h -= 12;
-            }
-        }
-        var h1 = jQuery(window).height();
-        if(!/chrome/.test(navigator.userAgent.toLowerCase())) {
-            window.resizeBy(moreW, h-h1+5);
-        } else {
-            window.resizeBy(10,60);
-        }
-        window.scrollTo(0,0);
-    }
-
-    setTimeout(setFixedPopupSize, 300);
+	if (!arguments.callee.executed) {
+		setTimeout(setFixedPopupSize, 300);
+		arguments.callee.executed = true;
+	}
 }
 
 /**
