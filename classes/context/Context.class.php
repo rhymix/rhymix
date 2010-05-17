@@ -96,7 +96,10 @@
             $lang_supported = $this->loadLangSelected();
 
             // Retrieve language type set in user's cookie 
-            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+			if($this->get('l')) {
+				$_COOKIE['lang_type'] = $this->lang_type = $this->get('l');
+			}
+            else if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
 
             // If it's not exists, follow default language type set in db_info 
             if(!$this->lang_type) $this->lang_type = $this->db_info->lang_type;
