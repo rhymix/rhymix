@@ -200,17 +200,23 @@
             static $oFtp = null;
 
             // if safe_mode is on, use FTP 
-            if(ini_get('safe_mode') && $oFtp == null) {
-                if(!Context::isFTPRegisted()) return;
+            if(ini_get('safe_mode')) {
+				$ftp_info = Context::getFTPInfo();
+				if($oFtp == null) {
+					if(!Context::isFTPRegisted()) return;
 
-                require_once(_XE_PATH_.'libs/ftp.class.php');
-                $ftp_info = Context::getFTPInfo();
-                $oFtp = new ftp();
-                if(!$oFtp->ftp_connect('localhost')) return;
-                if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-                    $oFtp->ftp_quit();
-                    return;
-                }
+					require_once(_XE_PATH_.'libs/ftp.class.php');
+					$oFtp = new ftp();
+					if(!$ftp_info->ftp_host) $ftp_info->ftp_host = "127.0.0.1";
+					if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
+					if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return;
+					if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+						$oFtp->ftp_quit();
+						return;
+					}
+				}
+				$ftp_path = $ftp_info->ftp_root_path;
+				if(!$ftp_path) $ftp_path = "/";
             }
 
             $path_string = str_replace(_XE_PATH_,'',$path_string);
@@ -220,10 +226,11 @@
             for($i=0;$i<count($path_list);$i++) {
                 if(!$path_list[$i]) continue;
                 $path .= $path_list[$i].'/';
+				$ftp_path .= $path_list[$i].'/';
                 if(!is_dir($path)) {
                     if(ini_get('safe_mode')) {
-                        $oFtp->ftp_mkdir($path);
-                        $oFtp->ftp_site("CHMOD 777 ".$path);
+                        $oFtp->ftp_mkdir($ftp_path);
+                        $oFtp->ftp_site("CHMOD 777 ".$ftp_path);
                     } else {
                         @mkdir($path, 0755);
                         @chmod($path, 0755);

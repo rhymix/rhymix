@@ -74,9 +74,11 @@
          **/
         function procInstallFTP() {
             if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
-            $ftp_info = Context::gets('ftp_user','ftp_password','ftp_port');
+            $ftp_info = Context::gets('ftp_host', 'ftp_user','ftp_password','ftp_port','ftp_root_path');
             $ftp_info->ftp_port = (int)$ftp_info->ftp_port;
             if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
+			if(!$ftp_info->ftp_host) $ftp_info->ftp_host = '127.0.0.1';
+			if(!$ftp_info->ftp_root_path) $ftp_info->ftp_root_path = '/';
 
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
             foreach($ftp_info as $key => $val) {
@@ -90,29 +92,29 @@
 
                 require_once(_XE_PATH_.'libs/ftp.class.php');
                 $oFtp = new ftp();
-                if(!$oFtp->ftp_connect('localhost', $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
+                if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
 
                 if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
                     $oFtp->ftp_quit();
                     return new Object(-1,'msg_ftp_invalid_auth_info');
                 }
 
-                if(!is_dir(_XE_PATH_.'files') && !$oFtp->ftp_mkdir(_XE_PATH_.'files')) {
+                if(!is_dir(_XE_PATH_.'files') && !$oFtp->ftp_mkdir($ftp_info->ftp_root_path.'files')) {
                     $oFtp->ftp_quit();
                     return new Object(-1,'msg_ftp_mkdir_fail');
                 }
 
-                if(!$oFtp->ftp_site("CHMOD 777 "._XE_PATH_.'files')) {
+                if(!$oFtp->ftp_site("CHMOD 777 ".$ftp_info->ftp_root_path.'files')) {
                     $oFtp->ftp_quit();
                     return new Object(-1,'msg_ftp_chmod_fail');
                 }
 
-                if(!is_dir(_XE_PATH_.'files/config') && !$oFtp->ftp_mkdir(_XE_PATH_.'files/config')) {
+                if(!is_dir(_XE_PATH_.'files/config') && !$oFtp->ftp_mkdir($ftp_info->ftp_root_path.'files/config')) {
                     $oFtp->ftp_quit();
                     return new Object(-1,'msg_ftp_mkdir_fail');
                 }
 
-                if(!$oFtp->ftp_site("CHMOD 777 "._XE_PATH_.'files/config')) {
+                if(!$oFtp->ftp_site("CHMOD 777 ".$ftp_info->ftp_root_path.'files/config')) {
                     $oFtp->ftp_quit();
                     return new Object(-1,'msg_ftp_chmod_fail');
                 }

@@ -17,5 +17,6 @@
         <action name="procInstallAdminSaveLangSelected" type="controller" standalone="true" />
         <action name="procInstallAdminSaveFTPInfo" type="controller" standalone="true" />
         <action name="procInstallAdminRemoveFTPInfo" type="controller" standalone="true" />
+        <action name="getInstallFTPList" type="model" standalone="true" />
     </actions>
 </module>

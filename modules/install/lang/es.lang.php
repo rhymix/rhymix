@@ -547,4 +547,6 @@ EndOfLicense;
     $lang->msg_table_is_exists = "La tabla ya ha sido creado en BD.\n Creado nuevamente el archivo de configuración.";
     $lang->msg_install_completed = "Instalación finalizada.\n Muchas gracias.";
     $lang->msg_install_failed = "Ha ocurrido un error al crear el archivo de instalación.";
+
+    $lang->ftp_get_list = "Get List";
 ?>

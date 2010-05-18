@@ -548,4 +548,6 @@ EndOfLicense;
     $lang->msg_table_is_exists = "Table is already created in the DB.\nConfig file is recreated";
     $lang->msg_install_completed = "Installation has been completed.\nThank you for choosing XE";
     $lang->msg_install_failed = "An error has occurred while creating installation file.";
+
+    $lang->ftp_get_list = "Get List";
 ?>
