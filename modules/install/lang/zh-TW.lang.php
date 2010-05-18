@@ -549,4 +549,6 @@ EndOfLicense;
     $lang->msg_table_is_exists = "已建立資料表。\n重新建立 config 檔案。";
     $lang->msg_install_completed = "安裝完成。\n非常感謝。";
     $lang->msg_install_failed = "建立安裝檔案時，發生錯誤。";
+
+    $lang->ftp_get_list = "取得列表";
 ?>

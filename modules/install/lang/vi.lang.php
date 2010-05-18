@@ -551,4 +551,6 @@ EndOfLicense;
     $lang->msg_table_is_exists = "Table đã có sẵn trên Database.\nFile Config đã đuwọc thiết lập lại.";
     $lang->msg_install_completed = "Đã cài đặt thành công!.\nXin cảm ơn đã sử dụng XE!";
     $lang->msg_install_failed = "Đã có lỗi xảy ra khi tạo File cài đặt.";
+
+    $lang->ftp_get_list = "Get List";
 ?>

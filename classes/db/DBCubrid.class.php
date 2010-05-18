@@ -172,9 +172,27 @@
         function _fetch($result) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
 
+            $col_types = cubrid_column_types ($result);
+            $col_names = cubrid_column_names ($result);
+            if (($max = count ($col_types)) == count ($col_names)) {
+                $count = 0;
+                while ($count < $max) {
+                    if (preg_match ("/^char/", $col_types[$count]) > 0) {
+                        $char_type_fields[] = $col_names[$count];
+                    }
+                    $count++;
+                }
+            }
+
             while($tmp = cubrid_fetch($result, CUBRID_OBJECT)) {
+                if (is_array ($char_type_fields)) {
+                    foreach ($char_type_fields as $val) {
+                        $tmp->{$val} = rtrim ($tmp->{$val});
+                    }
+                }
                 $output[] = $tmp;
             }
+            unset ($char_type_fields);
 
             if($result) cubrid_close_request($result);
 
@@ -413,7 +431,7 @@
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
                     if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer'))) continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
@@ -638,7 +656,7 @@
                     }
 					
                     $alias = $val['alias'] ? sprintf('"%s"',$val['alias']) : null;
-                    if(substr($name,-1) == '*') {
+                    if($name == '*') {
                         $column_list[] = $name;
                     } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
                         $name = sprintf($click_count,$name);

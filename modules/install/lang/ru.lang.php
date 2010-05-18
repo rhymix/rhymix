@@ -550,4 +550,6 @@ EndOfLicense;
     $lang->msg_table_is_exists = "Таблица существует в базе данных.\nФайл конфигурации создан заново";
     $lang->msg_install_completed = "Установка завершена.\nСпасибо Вам за выбор XE";
     $lang->msg_install_failed = "Произошла ошибка при создании файла конфигурации.";
+
+    $lang->ftp_get_list = 'Get List';
 ?>

@@ -200,17 +200,23 @@
             static $oFtp = null;
 
             // if safe_mode is on, use FTP 
-            if(ini_get('safe_mode') && $oFtp == null) {
-                if(!Context::isFTPRegisted()) return;
+            if(ini_get('safe_mode')) {
+				$ftp_info = Context::getFTPInfo();
+				if($oFtp == null) {
+					if(!Context::isFTPRegisted()) return;
 
-                require_once(_XE_PATH_.'libs/ftp.class.php');
-                $ftp_info = Context::getFTPInfo();
-                $oFtp = new ftp();
-                if(!$oFtp->ftp_connect('localhost')) return;
-                if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-                    $oFtp->ftp_quit();
-                    return;
-                }
+					require_once(_XE_PATH_.'libs/ftp.class.php');
+					$oFtp = new ftp();
+					if(!$ftp_info->ftp_host) $ftp_info->ftp_host = "127.0.0.1";
+					if(!$ftp_info->ftp_port) $ftp_info->ftp_port = 21;
+					if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return;
+					if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+						$oFtp->ftp_quit();
+						return;
+					}
+				}
+				$ftp_path = $ftp_info->ftp_root_path;
+				if(!$ftp_path) $ftp_path = "/";
             }
 
             $path_string = str_replace(_XE_PATH_,'',$path_string);
@@ -220,10 +226,11 @@
             for($i=0;$i<count($path_list);$i++) {
                 if(!$path_list[$i]) continue;
                 $path .= $path_list[$i].'/';
+				$ftp_path .= $path_list[$i].'/';
                 if(!is_dir($path)) {
                     if(ini_get('safe_mode')) {
-                        $oFtp->ftp_mkdir($path);
-                        $oFtp->ftp_site("CHMOD 777 ".$path);
+                        $oFtp->ftp_mkdir($ftp_path);
+                        $oFtp->ftp_site("CHMOD 777 ".$ftp_path);
                     } else {
                         @mkdir($path, 0755);
                         @chmod($path, 0755);
@@ -325,8 +332,8 @@
          * @remarks if the target is moved (when return code is 300~399), this function follows the location specified response header.
          **/
         function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
-            set_include_path(_XE_PATH_."libs/PEAR");
-            require_once('PEAR.php');
+            //set_include_path(_XE_PATH_."libs/PEAR");
+			requirePear();
             require_once('HTTP/Request.php');
 
             if(__PROXY_SERVER__!==null) {
@@ -499,34 +506,36 @@
             $target_type = strtolower($target_type);
 
             // create temporary image with target size
-            if(function_exists('imagecreatetruecolor')) $thumb = @imagecreatetruecolor($resize_width, $resize_height);
-            else $thumb = @imagecreate($resize_width, $resize_height);
+            if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($resize_width, $resize_height);
+            else if(function_exists('imagecreate')) $thumb = imagecreate($resize_width, $resize_height);
+			else return false;
+			if(!$thumb) return false;
 
-            $white = @imagecolorallocate($thumb, 255,255,255);
-            @imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
+            $white = imagecolorallocate($thumb, 255,255,255);
+            imagefilledrectangle($thumb,0,0,$resize_width-1,$resize_height-1,$white);
 
             // create temporary image having original type
             switch($type) {
                 case 'gif' :
                         if(!function_exists('imagecreatefromgif')) return false;
-                        $source = @imagecreatefromgif($source_file);
+                        $source = imagecreatefromgif($source_file);
                     break;
                 // jpg
                 case 'jpeg' :
                 case 'jpg' :
                         if(!function_exists('imagecreatefromjpeg')) return false;
-                        $source = @imagecreatefromjpeg($source_file);
+                        $source = imagecreatefromjpeg($source_file);
                     break;
                 // png
                 case 'png' :
                         if(!function_exists('imagecreatefrompng')) return false;
-                        $source = @imagecreatefrompng($source_file);
+                        $source = imagecreatefrompng($source_file);
                     break;
                 // bmp
                 case 'wbmp' :
                 case 'bmp' :
                         if(!function_exists('imagecreatefromwbmp')) return false;
-                        $source = @imagecreatefromwbmp($source_file);
+                        $source = imagecreatefromwbmp($source_file);
                     break;
                 default :
                     return;
@@ -545,8 +554,8 @@
             }
 
             if($source) {
-                if(function_exists('imagecopyresampled')) @imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-                else @imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                if(function_exists('imagecopyresampled')) imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+                else imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
             } else return false;
 
             // create directory 
@@ -557,26 +566,26 @@
             switch($target_type) {
                 case 'gif' :
                         if(!function_exists('imagegif')) return false;
-                        $output = @imagegif($thumb, $target_file);
+                        $output = imagegif($thumb, $target_file);
                     break;
                 case 'jpeg' :
                 case 'jpg' :
                         if(!function_exists('imagejpeg')) return false;
-                        $output = @imagejpeg($thumb, $target_file, 100);
+                        $output = imagejpeg($thumb, $target_file, 100);
                     break;
                 case 'png' :
                         if(!function_exists('imagepng')) return false;
-                        $output = @imagepng($thumb, $target_file, 9);
+                        $output = imagepng($thumb, $target_file, 9);
                     break;
                 case 'wbmp' :
                 case 'bmp' :
                         if(!function_exists('imagewbmp')) return false;
-                        $output = @imagewbmp($thumb, $target_file, 100);
+                        $output = imagewbmp($thumb, $target_file, 100);
                     break;
             }
 
-            @imagedestroy($thumb);
-            @imagedestroy($source);
+            imagedestroy($thumb);
+            imagedestroy($source);
 
             if(!$output) return false;
             @chmod($target_file, 0644);

@@ -6,71 +6,44 @@
 // 입력이 시작된 것과 입력후 정해진 시간동안 내용이 변하였을 경우 서버에 ajax로 체크를 하기 위한 변수 설정
 var memberCheckObj = { target:null, value:null }
 
-// onload시에 특정 필드들에 대해 이벤트를 걸어 놓음
-xAddEventListener(window, 'load', memberSetEvent);
+// domready시에 특정 필드들에 대해 이벤트를 걸어 놓음
+jQuery(document).ready(memberSetEvent);
 
 function memberSetEvent() {
-    var fo_obj = xGetElementById('fo_insert_member');
-    for(var node_name in fo_obj) {
-        var obj = fo_obj[node_name];
-        if(!obj || typeof(obj.nodeName)=="undefined" || obj.nodeName != "INPUT") continue;
-        if(node_name != "user_id" && node_name != "nick_name" && node_name != "email_address") continue;
-
-        xAddEventListener(obj, 'blur', memberCheckValue);
-    }
+	jQuery('#fo_insert_member :input')
+		.filter('[name=user_id],[name=nick_name],[name=email_address]')
+		.blur(memberCheckValue);
 }
 
 
 // 실제 서버에 특정 필드의 value check를 요청하고 이상이 있으면 메세지를 뿌려주는 함수
-function memberCheckValue(evt) {
-    var e = new xEvent(evt);
-    var obj = e.target;
+function memberCheckValue(event) {
+	var field  = event.target;
+	var _name  = field.name;
+	var _value = field.value;
+	if(!_name || !_value) return;
 
-    var name = obj.name;
-    var value = obj.value;
-    if(!name || !value) return;
-    var params = new Array();
-    params['name'] = name;
-    params['value'] = value;
+	var params = {name:_name, value:_value};
+	var response_tags = ['error','message'];
 
-    var response_tags = new Array('error','message');
-
-    exec_xml('member','procMemberCheckValue', params, completeMemberCheckValue, response_tags, e);
-
+	exec_xml('member','procMemberCheckValue', params, completeMemberCheckValue, response_tags, field);
 }
 
 // 서버에서 응답이 올 경우 이상이 있으면 메세지를 출력
-function completeMemberCheckValue(ret_obj, response_tags, e) {
-    var obj = e.target;
-    var name = obj.name;
-    
+function completeMemberCheckValue(ret_obj, response_tags, field) {
+	var _id   = 'dummy_check'+field.name;
+	var dummy = jQuery('#'+_id);
+   
     if(ret_obj['message']=='success') {
-        var dummy_id = 'dummy_check_'+name;
-        var dummy = xGetElementById(dummy_id);
-        if(dummy) {
-            xInnerHtml(dummy,'');
-            dummy.style.display = 'none';
-        }
+        dummy.html('').hide();
         return;
     }
 
-    var dummy_id = 'dummy_check_'+name;
-    var dummy = null;
-    if(! (dummy = xGetElementById(dummy_id)) ) {
-        dummy = xCreateElement('DIV');
-        dummy.id = dummy_id;
-        dummy.className = "checkValue";
-        obj.parentNode.insertBefore(dummy, obj.lastChild);
-    }
+	if (!dummy.length) {
+		dummy = jQuery('<div class="checkValue" />').attr('id', _id).appendTo(field.parentNode);
+	}
 
-    xInnerHtml(dummy, ret_obj['message']);
-
-    dummy.style.display = "block";
-
-    //obj.focus();
-
-    // 3초 정도 후에 정리
-    //setTimeout(function() { removeMemberCheckValueOutput(dummy, obj); }, 3000);
+	dummy.html(ret_obj['message']).show();
 }
 
 // 결과 메세지를 정리하는 함수

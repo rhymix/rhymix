@@ -32,7 +32,10 @@
 
             // request method에 따른 컨텐츠 결과물 추출 
             if(Context::get('xeVirtualRequestMethod')=='xml') $output = $this->_toVirtualXmlDoc($oModule);
-            else if(Context::getRequestMethod() == 'XMLRPC') $output = $this->_toXmlDoc($oModule);
+            else if(Context::getRequestMethod() == 'XMLRPC') {
+				if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) $this->gz_enabled = false;
+				$output = $this->_toXmlDoc($oModule);
+			}
             else if(Context::getRequestMethod() == 'JSON') $output = $this->_toJSON($oModule);
             else $output = $this->_toHTMLDoc($oModule);
 

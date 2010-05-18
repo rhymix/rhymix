@@ -55,14 +55,26 @@
             $this->tpl_path = preg_replace('/^\.\//','',$tpl_path);
             $this->tpl_file = $tpl_file;
 
-            // get cached compiled file name
-            $compiled_tpl_file = FileHandler::getRealPath($this->_getCompiledFileName($tpl_file));
+			$oCacheHandler = &CacheHandler::getInstance('template');
+			if($oCacheHandler->isSupport()){
+				$cache_key = 'template:' . $tpl_file;
+				$buff = $oCacheHandler->get($cache_key, filemtime(FileHandler::getRealPath($tpl_file)));
+				if(!$buff){
+					$buff = $this->_compileTplFile($tpl_file);
+					$oCacheHandler->put($cache_key, $buff);
+				}
 
-            // compile 
-            $buff = $this->_compile($tpl_file, $compiled_tpl_file);
+				$output = $this->_fetch('', $buff, $tpl_path);
+			}else{
+				// get cached compiled file name
+				$compiled_tpl_file = FileHandler::getRealPath($this->_getCompiledFileName($tpl_file));
 
-            // make a result, combining Context and compiled_tpl_file
-            $output = $this->_fetch($compiled_tpl_file, $buff, $tpl_path);
+				// compile 
+				$buff = $this->_compile($tpl_file, $compiled_tpl_file);
+
+				// make a result, combining Context and compiled_tpl_file
+				$output = $this->_fetch($compiled_tpl_file, $buff, $tpl_path);
+			}
 
             if(__DEBUG__==3 ) $GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
 

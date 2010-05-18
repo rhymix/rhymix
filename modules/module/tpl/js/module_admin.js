@@ -162,10 +162,12 @@ function completeDeleteLang(ret_obj) {
 }
 
 function doFillLangName() {
-    var fo_obj = xGetElementById("menu_fo");
-    var target = fo_obj.target.value;
-    if(window.opener && window.opener.xGetElementById(target)) {
-        var value = window.opener.xGetElementById(target).value;
+	if (/[\?&]name=/i.test(location.search)) return;
+
+    var $form  = jQuery("#menu_fo");
+    var target = $form[0].target.value;
+    if(window.opener && window.opener.document.getElementById(target)) {
+        var value = window.opener.document.getElementById(target).value;
         if(/^\$user_lang->/.test(value)) {
             var param = new Array();
             param['name'] = value.replace(/^\$user_lang->/,'');
@@ -176,13 +178,13 @@ function doFillLangName() {
 }
 
 function completeFillLangName(ret_obj, response_tags) {
-    var name = ret_obj['name'];
+    var name  = ret_obj['name'];
     var langs = ret_obj['langs'];
     if(typeof(langs)=='undefined') return;
-    var fo_obj = xGetElementById("menu_fo");
-    fo_obj.lang_code.value = name;
+    var $form = jQuery("#menu_fo");
+    $form[0].lang_code.value = name;
     for(var i in langs) {
-        fo_obj[i].value = langs[i];
+        $form[0][i].value = langs[i];
     }
 
 }

@@ -219,12 +219,14 @@
                     }
                 }
 
-				if($module_name =='textyle'){
-					// 발행이 아닌 것들은 저장상태로 
-					if($xmlDoc->post->visibility->body != 'syndicated'){
-						$obj->module_srl = $member_info->member_srl; 
-					}
-				}
+                if($module_name == 'textyle') {
+                    // 발행 상태의 visibility 값
+                    $status_published = array('public', 'syndicated');
+                    // 발행이 아닌 것들은 저장상태로
+                    if(!in_array($xmlDoc->post->visibility->body, $status_published)) {
+                        $obj->module_srl = $member_info->member_srl; 
+                    }
+                }
 
                 // 문서 입력
                 $output = executeQuery('document.insertDocument', $obj);

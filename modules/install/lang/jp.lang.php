@@ -548,4 +548,6 @@ EndOfLicense;
     $lang->msg_table_is_exists = "既にデータベースにデーブルが作成されています。\nconfigファイルを再作成しました。";
     $lang->msg_install_completed = "インストールが完了しました。\nありがとうございます。";
     $lang->msg_install_failed = 'インストールファイルを作成する際にエラーが発生しました。';
+
+    $lang->ftp_get_list = "Get List";
 ?>

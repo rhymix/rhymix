@@ -5,7 +5,7 @@
 
 <h2 class="xeAdmin">{$lang->ftp_form_title}</h2>
 
-<blockquote>{$lang->about_ftp_info}</blockquote>
+<blockquote>{$lang->msg_safe_mode_ftp_needed}</blockquote>
 
     <table cellspacing="0" class="tableType7">
     <col width="100" />
@@ -14,17 +14,34 @@
 
     <!-- FTP 정보 -->
     <tr>
-        <th rowspan="3" scope="row" class="hr"><label for="radio2">{$lang->ftp}</label></th>
+        <th rowspan="6" scope="row" class="hr"><label for="radio2">{$lang->ftp}</label></th>
+        <th class="second" scope="row"><label for="textfield20">{$lang->ftp_host}</label></th>
+        <td><input type="text" id="textfield20" name="ftp_host" value="127.0.0.1" class="inputTypeText" /></td>
+    </tr>
+	<tr>
         <th class="second" scope="row"><label for="textfield21">{$lang->user_id}</label></th>
         <td><input type="text" id="textfield21" name="ftp_user" value="" class="inputTypeText" /></td>
-    </tr>
+	</tr>
     <tr>
         <th class="second" scope="row"><label for="textfield22">{$lang->password}</label></th>
         <td><input id="textfield22" type="password" name="ftp_password" class="inputTypeText" /></td>
     </tr>
     <tr>
-        <th class="second hr" scope="row"><label for="textfield24">{$lang->ftp_port}</label></th>
-        <td class="hr"><input id="textfield24" type="text" name="ftp_port" value="21" class="inputTypeText" /></td>
+        <th class="second" scope="row"><label for="textfield24">{$lang->ftp_port}</label></th>
+        <td><input id="textfield24" type="text" name="ftp_port" value="21" class="inputTypeText" /></td>
+    </tr>
+    <tr>
+        <th class="second hr" scope="row" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}<br /><br/>{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</div></th>
+        <td>
+            <input type="text" name="ftp_root_path" value="{$ftp_info->ftp_root_path}" class="inputTypeText w400" /> 
+        </td>
+    </tr>
+    <tr id="ftplist">
+        <td class="hr">
+            <div>
+					<span class="button blue strong"><input type="button" onclick="getFTPList(); return false;" value="{$lang->ftp_get_list}"></span>
+            </div>
+        </td>
     </tr>
     </table>
 

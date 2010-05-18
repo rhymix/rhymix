@@ -86,8 +86,8 @@
                 }
 
                 Context::set('site_module_info', $site_module_info);
+                if($site_module_info->site_srl && isSiteID($site_module_info->domain)) Context::set('vid', $site_module_info->domain, true);
 
-                if($site_module_info->site_srl && isSiteID($site_module_info->domain)) Context::set('vid', $site_module_info->domain);
                 $this->db_info->lang_type = $site_module_info->default_language;
                 if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
             }
@@ -96,7 +96,10 @@
             $lang_supported = $this->loadLangSelected();
 
             // Retrieve language type set in user's cookie 
-            if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
+			if($this->get('l')) {
+				$_COOKIE['lang_type'] = $this->lang_type = $this->get('l');
+			}
+            else if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
 
             // If it's not exists, follow default language type set in db_info 
             if(!$this->lang_type) $this->lang_type = $this->db_info->lang_type;
@@ -153,7 +156,7 @@
             else $this->allow_rewrite = false;
 
             // add common JS/CSS files
-            $this->addJsFile("./common/js/jquery.js");
+            $this->addJsFile("./common/js/jquery.js", true, '', -100000);
             $this->addJsFile("./common/js/x.js");
             $this->addJsFile("./common/js/common.js");
 			$this->addJsFile("./common/js/js_app.js");
@@ -163,7 +166,11 @@
             $this->addCSSFile("./common/css/button.css");
 
             // for admin page, add admin css
-            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0) $this->addCssFile("./modules/admin/tpl/css/admin.css", false);
+            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
+				$this->addCssFile("./modules/admin/tpl/css/font.css", true, 'all', '',10000);
+				$this->addCssFile("./modules/admin/tpl/css/pagination.css", true, 'all', '', 100001);
+				$this->addCssFile("./modules/admin/tpl/css/admin.css", true, 'all', '', 100002);
+			}
 
             // set locations for javascript use
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -1355,8 +1362,8 @@
                 $filename = trim($list[$i]);
                 if(!$filename) continue;
                 if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, false, '', null);
-                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, false, 'all','', null);
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, true, '', null);
+                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, true, 'all','', null);
             }
 
             if(is_dir($plugin_path.'lang')) $this->_loadLang($plugin_path.'lang');
@@ -1530,7 +1537,7 @@
 			$xe   = _XE_PATH_;
 			$path = strtr($path, "\\", "/");
 
-			$base_url = preg_replace('@^https?://[^/]+/+@', '', Context::getDefaultUrl());
+			$base_url = preg_replace('@^https?://[^/]+/?@', '', Context::getRequestUri());
 
 			$_xe   = explode('/', $xe);
 			$_path = explode('/', $path);
