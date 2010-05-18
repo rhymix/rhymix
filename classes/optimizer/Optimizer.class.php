@@ -48,7 +48,11 @@
             $files = array();
 			$hash = "";
             foreach($source_files as $key => $file) {
-                if(!$file || !$file['file'] || !file_exists($file['file'])) continue;
+		if($file['file'][0] == '/')
+		{
+			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$file['file'])) continue;	
+		}
+                else if(!$file || !$file['file'] || !file_exists($file['file'])) continue;
                 $file['file'] = $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
                 if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) ) $files[] = $file;
                 else{
@@ -77,14 +81,12 @@
 					FileHandler::writeFile($list_file, $str);
 				}
 			}
-
             array_unshift($files, array('file' => sprintf($this->script_file, $list_file_hash, $type) , 'media' => 'all'));
             $files = $this->_getOptimizedRemoved($files);
             if(!count($files)) return $files;
 
             $url_info = parse_url(Context::getRequestUri());
             $abpath = $url_info['path'];
-
             foreach($files as $key => $val) {
                 $file = $val['file'];
 
