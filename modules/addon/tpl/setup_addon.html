@@ -44,10 +44,10 @@
             <th scope="row"><div>{$var->title}</div></th>
             <td>
                 <!--@if($var->type == 'text')-->
-                <input type="text" name="{$var->name}" value="{$var->value}" class="inputTypeText w400" />
+                <input type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="inputTypeText w400 lang_code" />
 
                 <!--@elseif($var->type == 'textarea')-->
-                <textarea name="{$var->name}" class="inputTypeTextArea">{$var->value}</textarea>
+                <textarea name="{$var->name}" id="{$var->name}" class="inputTypeTextArea lang_code">{htmlspecialchars($var->value)}</textarea>
 
                 <!--@elseif($var->type == 'select')-->
                 <select name="{$var->name}">
