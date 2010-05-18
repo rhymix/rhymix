@@ -86,8 +86,8 @@
                 }
 
                 Context::set('site_module_info', $site_module_info);
+                if($site_module_info->site_srl && isSiteID($site_module_info->domain)) Context::set('vid', $site_module_info->domain, true);
 
-                if($site_module_info->site_srl && isSiteID($site_module_info->domain)) Context::set('vid', $site_module_info->domain);
                 $this->db_info->lang_type = $site_module_info->default_language;
                 if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
             }
@@ -1537,7 +1537,7 @@
 			$xe   = _XE_PATH_;
 			$path = strtr($path, "\\", "/");
 
-			$base_url = preg_replace('@^https?://[^/]+/+@', '', Context::getDefaultUrl());
+			$base_url = preg_replace('@^https?://[^/]+/?@', '', Context::getRequestUri());
 
 			$_xe   = explode('/', $xe);
 			$_path = explode('/', $path);
