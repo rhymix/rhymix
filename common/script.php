@@ -221,9 +221,10 @@ function convertEncodingStr($str) {
 	for($i=0;$i<count($charset_list);$i++) {
 		$charset = $charset_list[$i];
 		if($str){
-			$cstr = iconv($charset,$charset,$str);
-			if($str == $cstr);
-			return $cstr;
+			$cstr = iconv($charset,$charset.'//IGNORE',$str);
+			if($str == $cstr && $charset != 'UTF-8'){
+				return iconv($charset, 'UTF-8//IGNORE', $str);
+			}
 		}
 	}
 

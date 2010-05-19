@@ -293,6 +293,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 				var msg = '';
 				if (textStatus == 'parsererror') {
 					msg  = 'The result is not valid XML :\n-------------------------------------\n';
+					if(xhr.responseText == "") return;
 					msg += xhr.responseText.replace(/<[^>]+>/g, '');
 				} else {
 					msg = textStatus;
