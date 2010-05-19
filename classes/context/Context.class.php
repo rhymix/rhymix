@@ -94,10 +94,13 @@
 
             // Load Language File 
             $lang_supported = $this->loadLangSelected();
-
             // Retrieve language type set in user's cookie 
 			if($this->get('l')) {
-				$_COOKIE['lang_type'] = $this->lang_type = $this->get('l');
+				$this->lang_type = $this->get('l');
+				if($_COOKIE['lang_type'] != $this->lang_type)
+				{
+					setcookie('lang_type', $this->lang_type);
+				}
 			}
             else if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
 
