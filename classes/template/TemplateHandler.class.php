@@ -526,7 +526,7 @@
                 $eval_str = "?>".$buff;
                 eval($eval_str);
             } else {
-                @include($compiled_tpl_file);
+                include($compiled_tpl_file);
             }
 
             return ob_get_clean();
