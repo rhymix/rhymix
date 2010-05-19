@@ -221,7 +221,7 @@ function convertEncodingStr($str) {
 	for($i=0;$i<count($charset_list);$i++) {
 		$charset = $charset_list[$i];
 		if($str){
-			$cstr = iconv($charset,$charset,$str);
+			$cstr = iconv($charset,$charset.'\\INGORE',$str);
 			if($str == $cstr);
 			return $cstr;
 		}
