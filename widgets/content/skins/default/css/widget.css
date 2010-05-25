@@ -1,11 +1,11 @@
 @charset "utf-8";
 
-.open{ display:block !important;} 
 .floatLeft{ float:left;}
 .floatRight{ float:right;}
 .clearLeft{ clear:left;}
 .clearRight{ clear:right;}
 
+.widgetContainer .open{ display:block !important;} 
 .widgetContainer a{ text-decoration:none;}
 .widgetContainer a:hover,
 .widgetContainer a:active,
