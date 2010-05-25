@@ -33,7 +33,7 @@ $XE_WEB_PATH = substr($XE_PATH,strlen($_SERVER['DOCUMENT_ROOT']));
 if(substr($XE_WEB_PATH,-1) != "/") $XE_WEB_PATH .= "/";
 $cache_path = $XE_PATH . 'files/cache/optimized/';
 $type = $_GET['t'];
-$list_file = $cache_path . $_GET['l'];
+$list_file = $cache_path . $_GET['l'] .'.info.php';
 
 
 function getRealPath($file){
@@ -111,6 +111,7 @@ function printFileList($list){
 		for($i=0,$c=count($list);$i<$c;$i++){
 			$file = getRealPath($list[$i]);
 			if(file_exists($file)){
+				$output .= '/* file:' . $file . " */\n";
 				$output .= file_get_contents($file);
 				$output .= "\n";
 			}
@@ -207,6 +208,8 @@ function _replaceCssPath($matches) {
 }
 
 function convertEncodingStr($str) {
+	if(!$str) return '';
+
 	$charset_list = array(
 			'UTF-8', 'EUC-KR', 'CP949', 'ISO8859-1', 'EUC-JP', 'SHIFT_JIS', 'CP932',
 			'EUC-CN', 'HZ', 'GBK', 'GB18030', 'EUC-TW', 'BIG5', 'CP950', 'BIG5-HKSCS',
@@ -218,13 +221,11 @@ function convertEncodingStr($str) {
 			'CP1257', 'CP850', 'CP866',
 			);
 
-	for($i=0;$i<count($charset_list);$i++) {
+	for($i=0,$c=count($charset_list);$i<$c;$i++) {
 		$charset = $charset_list[$i];
-		if($str){
-			$cstr = iconv($charset,$charset.'//IGNORE',$str);
-			if($str == $cstr && $charset != 'UTF-8'){
-				return iconv($charset, 'UTF-8//IGNORE', $str);
-			}
+		if($str == iconv($charset, $charset.'//IGNORE',$str)){
+			if($charset == 'UTF-8') return $str;
+			return iconv($charset, 'UTF-8//IGNORE', $str);
 		}
 	}
 
@@ -234,10 +235,11 @@ function convertEncodingStr($str) {
 if($type == '.js'){
 	printFileList($list);
 }else if($type == '.css'){
+	$css = array();
 
 	if($cache_support){
 		foreach($list as $file){
-			$cache_file = $cache_path . md5($file);
+			$cache_file = $cache_path . md5($file). '.cache.php';
 			$css[] = getRealPath($cache_file);
 		}
 
@@ -246,9 +248,8 @@ if($type == '.js'){
 		if(!$buff){
 			$buff = '';
 			$css = array();
-			foreach($list as $file){
-				$cache_file = $cache_path . md5($file);
-				$buff .= makeCacheFileCSS($file, getRealPath($cache_file), true);
+			foreach($list  as $file){
+				$buff .= makeCacheFileCSS($file, '', true);
 				$css[] = getRealPath($cache_file);
 			}
 
@@ -257,7 +258,7 @@ if($type == '.js'){
 
 	}else{
 		foreach($list as $file){
-			$cache_file = $cache_path . md5($file);
+			$cache_file = $cache_path . md5($file). '.cache.php';
 			$cache_mtime = getMtime($cache_file);
 			$css_mtime = getMtime($file);
 

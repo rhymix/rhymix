@@ -48,18 +48,22 @@
             $files = array();
 			$hash = "";
             foreach($source_files as $key => $file) {
-		if($file['file'][0] == '/')
-		{
-			if(!file_exists($_SERVER['DOCUMENT_ROOT'].$file['file'])) continue;	
-		}
-                else if(!$file || !$file['file'] || !file_exists($file['file'])) continue;
-                $file['file'] = $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
-                if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) ) $files[] = $file;
-                else{
+				if($file['file'][0] == '/'){
+					if(!file_exists($file['file'])){
+						if(file_exists($_SERVER['DOCUMENT_ROOT'] . $file['file'])){
+							$source_files[$key] = $file['file'] = $_SERVER['DOCUMENT_ROOT'].$file['file'];
+						}else{
+							continue;
+						}
+					}
+				} else if(!$file || !$file['file'] || !file_exists($file['file'])) continue;
+				$file['file'] = $source_files[$key]['file'] = str_replace("\\","/",$file['file']);
+				if(empty($file['optimized']) || preg_match('/^https?:\/\//i', $file['file']) ) $files[] = $file;
+				else{
 					$targets[] = $file;
 					$hash .= $file['file']; 
 				}
-            }
+			}
 
             if(!count($targets)) return $this->_getOptimizedRemoved($files);
 			$list_file_hash = md5($hash);
@@ -71,7 +75,7 @@
 					$oCacheHandler->put($list_file_hash, $buff);
 				}
 			}else{
-				$list_file = FileHandler::getRealPath($this->cache_path . $list_file_hash);
+				$list_file = FileHandler::getRealPath($this->cache_path . $list_file_hash . '.info.php');
 
 				if(!file_exists($list_file)){
 					$str = '<?php $f=array();';
@@ -81,6 +85,7 @@
 					FileHandler::writeFile($list_file, $str);
 				}
 			}
+
             array_unshift($files, array('file' => sprintf($this->script_file, $list_file_hash, $type) , 'media' => 'all'));
             $files = $this->_getOptimizedRemoved($files);
             if(!count($files)) return $files;
