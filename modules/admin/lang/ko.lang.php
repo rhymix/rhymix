@@ -82,4 +82,5 @@
     $lang->ftp_get_list = '목록 가져오기';
     $lang->ftp_remove_info = 'FTP 정보 삭제';
 	$lang->msg_ftp_invalid_path = 'FTP Path를 읽을 수 없습니다.';
+	$lang->msg_self_restart_cache_engine = 'Memcached 또는 캐쉬데몬을 재시작 해주세요.';
 ?>

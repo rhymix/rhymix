@@ -22,13 +22,18 @@
          * @return none
          **/
         function procAdminRecompileCacheFile() {
-            $oModuleModel = &getModel('module');
-            $module_list = $oModuleModel->getModuleList();
+			// rename cache dir
+			$temp_cache_dir = './files/cache_'. time();
+			FileHandler::rename('./files/cache', $temp_cache_dir);
+			FileHandler::makeDir('./files/cache');
 
             // remove debug files 
             FileHandler::removeFile(_XE_PATH_.'files/_debug_message.php');
             FileHandler::removeFile(_XE_PATH_.'files/_debug_db_query.php');
             FileHandler::removeFile(_XE_PATH_.'files/_db_slow_query.php');
+			
+            $oModuleModel = &getModel('module');
+            $module_list = $oModuleModel->getModuleList();
 
             // call recompileCache for each module
             foreach($module_list as $module) {
@@ -36,6 +41,25 @@
                 $oModule = &getClass($module->module);
                 if(method_exists($oModule, 'recompileCache')) $oModule->recompileCache();
             }
+
+			// remove cache dir
+			FileHandler::removeDir($temp_cache_dir);
+
+			$truncated = array();
+			$oObjectCacheHandler = &CacheHandler::getInstance();
+			$oTemplateCacheHandler = &CacheHandler::getInstance('template');
+
+			if($oObjectCacheHandler->isSupport()){
+				$truncated[] = $oObjectCacheHandler->truncate();
+			}
+			
+			if($oTemplateCacheHandler->isSupport()){
+				$truncated[] = $oTemplateCacheHandler->truncate();
+			}
+
+			if(count($truncated) && in_array(false,$truncated)){
+				return new Object(-1,'msg_self_restart_cache_engine');
+			}
 
             $this->setMessage('success_updated');
         }
