@@ -66,7 +66,7 @@
 		}
 
 		function truncate() {
-			apc_clear_cache('user');
+			return apc_clear_cache('user');
 		}
 	}
 ?>

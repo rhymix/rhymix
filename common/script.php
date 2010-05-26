@@ -93,7 +93,7 @@ function useContentEncoding(){
 
 function getCacheKey($list){
 	$key = 'optimized:' . join('',$list); 
-	return $key;
+	return md5($key);
 }
 
 function printFileList($list){
@@ -231,7 +231,6 @@ function convertEncodingStr($str) {
 
 	return $str;
 }
-
 if($type == '.js'){
 	printFileList($list);
 }else if($type == '.css'){
@@ -244,13 +243,12 @@ if($type == '.js'){
 		}
 
 		$cache_key = getCacheKey($css);
+
 		$buff = $oCacheHandler->get($cache_key, $mtime);
 		if(!$buff){
 			$buff = '';
-			$css = array();
 			foreach($list  as $file){
 				$buff .= makeCacheFileCSS($file, '', true);
-				$css[] = getRealPath($cache_file);
 			}
 
 			$oCacheHandler->put($cache_key, $buff);
