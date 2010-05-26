@@ -29,7 +29,11 @@ if(file_exists($dbconfig_file)){
 	$cache_support = false;
 }	
 
-$XE_WEB_PATH = substr($XE_PATH,strlen($_SERVER['DOCUMENT_ROOT']));
+//$XE_WEB_PATH = substr($XE_PATH,strlen($_SERVER['DOCUMENT_ROOT']));
+$XE_WEB_PATH_arr = explode("/", $_SERVER['REQUEST_URI']);
+array_pop($XE_WEB_PATH_arr);
+array_pop($XE_WEB_PATH_arr);
+$XE_WEB_PATH = implode("/", $XE_WEB_PATH_arr);
 if(substr($XE_WEB_PATH,-1) != "/") $XE_WEB_PATH .= "/";
 $cache_path = $XE_PATH . 'files/cache/optimized/';
 $type = $_GET['t'];
