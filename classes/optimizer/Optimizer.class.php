@@ -51,7 +51,7 @@
 				if($file['file'][0] == '/'){
 					if(!file_exists($file['file'])){
 						if(file_exists($_SERVER['DOCUMENT_ROOT'] . $file['file'])){
-							$source_files[$key] = $file['file'] = $_SERVER['DOCUMENT_ROOT'].$file['file'];
+                            if($file['optimized']) $source_files[$key]['file'] = $file['file'] = $_SERVER['DOCUMENT_ROOT'].$file['file'];
 						}else{
 							continue;
 						}
@@ -64,7 +64,6 @@
 					$hash .= $file['file']; 
 				}
 			}
-
             if(!count($targets)) return $this->_getOptimizedRemoved($files);
 			$list_file_hash = md5($hash);
 			$oCacheHandler = &CacheHandler::getInstance('template');
