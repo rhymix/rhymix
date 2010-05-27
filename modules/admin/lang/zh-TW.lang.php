@@ -69,11 +69,11 @@
     $lang->about_recompile_cache = "可有效的整理錯誤的暫存檔";
     $lang->use_ssl = "SSL功能";
     $lang->ssl_options = array(
-        'none' => "禁止使用",
-        'optional' => "選擇使用",
-        'always' => "總是使用"
+        'none' => "關閉",
+        'optional' => "手動",
+        'always' => "開啟"
     );
-    $lang->about_use_ssl = "當會員登入或修改資料等動作時，可選擇是否使用 SSL 功能。";
+    $lang->about_use_ssl = "選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL 功能。<br/>選擇開啟時，所有的服務都會使用 SSL 功能。";
     $lang->server_ports = "主機埠口";
     $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
     $lang->use_db_session = 'DB session認證';
@@ -81,6 +81,6 @@
     $lang->sftp = "使用 SFTP";
     $lang->ftp_get_list = "取得列表";
     $lang->ftp_remove_info = '移除 FTP 資料';
-	$lang->msg_ftp_invalid_path = 'Failed to read the specified FTP Path.';
-	$lang->msg_self_restart_cache_engine = 'Memcached 또는 캐쉬데몬을 재시작 해주세요.';
+	$lang->msg_ftp_invalid_path = '指定的 FTP 路徑讀取失敗。';
+	$lang->msg_self_restart_cache_engine = '請重新啟動 Memcached 快取程式。';
 ?>
