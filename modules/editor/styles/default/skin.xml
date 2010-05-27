@@ -11,7 +11,8 @@
         있는 그대로 표시가 될 뿐 편집/ 출력시 아무런 영향을 끼치지 않습니다.
     </description>
     <description xml:lang="en">
-		XE Default Form
+        XE default document style.
+        It displays as it is, and affect nothing to editing / printing.
     </description>
     <description xml:lang="zh-CN">
         XE默认样式。
@@ -24,10 +25,6 @@
     <description xml:lang="jp">
         XEの基本ドキュメント書式です。
         そのまま表示されるだけで、編集・出力には影響しません。
-    </description>
-    <description xml:lang="en">
-        XE default document style.
-        It displays as it is, and affect nothing to editing / printing.
     </description>
     <description xml:lang="vi">
         Trang mẫu mặc định của XE.

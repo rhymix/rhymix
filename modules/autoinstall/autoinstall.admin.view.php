@@ -304,6 +304,7 @@
 			$xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($path).$config_file);
 			if(!$xmlDoc) $this->stop("msg_invalid_request"); 
 			if($type == "drcomponent") $type = "component";
+			if($type == "style") $type = "skin";
 			$title = $xmlDoc->{$type}->title->body;
 			$installedPackage->title = $title;
 			$installedPackage->type = $type;

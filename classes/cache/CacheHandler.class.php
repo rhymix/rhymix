@@ -19,10 +19,10 @@
 			if(!$info) $info = Context::getDBInfo();
 			if($info){
 				if($target == 'object'){
-					if($info->use_template_cache =='apc') $type = 'apc';
-					else if(substr($info->use_template_cache,0,8)=='memcache'){
+					if($info->use_object_cache =='apc') $type = 'apc';
+					else if(substr($info->use_object_cache,0,8)=='memcache'){
 						$type = 'memcache'; 
-						$url = $info->use_template_cache;
+						$url = $info->use_object_cache;
 					}
 				}else if($target == 'template'){
 					if($info->use_template_cache =='apc') $type = 'apc';

@@ -158,7 +158,8 @@
 					$config_file = "/info.xml";
 				break;
 				case "skin":    
-					case "widgetstyle":
+				case "widgetstyle":
+				case "style":
 					$config_file = "/skin.xml";
 				break;
 				case "drcomponent":
