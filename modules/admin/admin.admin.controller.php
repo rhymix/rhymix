@@ -43,7 +43,12 @@
             }
 
 			// remove cache dir
-			FileHandler::removeDir($temp_cache_dir);
+			$tmp_cache_list = FileHandler::readDir('./files','/(^cache_[0-9]+)/');
+			if($tmp_cache_list){
+				foreach($tmp_cache_list as $tmp_dir){
+					if($tmp_dir) FileHandler::removeDir('./files/'.$tmp_dir);
+				}
+			}
 
 			$truncated = array();
 			$oObjectCacheHandler = &CacheHandler::getInstance();
