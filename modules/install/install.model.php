@@ -40,7 +40,6 @@ class installModel extends install {
 
 	function getInstallFTPList()
 	{
-		require_once(_XE_PATH_.'libs/ftp.class.php');
 		$ftp_info =  Context::getRequestVars();
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) 
 		{
@@ -57,15 +56,39 @@ class installModel extends install {
 			return $this->getSFTPList();
 		}
 
-		$oFtp = new ftp();
-		if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)){
-			if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
-				$_list = $oFtp->ftp_rawlist($this->pwd);
-				$oFtp->ftp_quit();
-			}
-			else
+		if(function_exists(ftp_connect))
+		{
+			$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
+			if(!$connection) return new Object(-1, 'msg_ftp_not_connected');
+			$login_result = @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password); 
+			if(!$login_result)
 			{
+				ftp_close($connection);	
 				return new Object(-1,'msg_ftp_invalid_auth_info');
+			}
+
+			if($ftp_info->ftp_pasv != "N") 
+			{
+				ftp_pasv($connection, true);
+			}
+
+			$_list = ftp_rawlist($connection, $this->pwd);
+			ftp_close($connection);	
+		}
+		else
+		{
+			require_once(_XE_PATH_.'libs/ftp.class.php');
+			$oFtp = new ftp();
+			if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)){
+				if($oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password)) {
+					$_list = $oFtp->ftp_rawlist($this->pwd);
+					$oFtp->ftp_quit();
+				}
+				else
+				{
+					$oFtp->ftp_quit();
+					return new Object(-1,'msg_ftp_invalid_auth_info');
+				}
 			}
 		}
 		$list = array();
