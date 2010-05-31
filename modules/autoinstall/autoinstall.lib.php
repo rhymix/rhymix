@@ -54,7 +54,7 @@
             $postdata["path"] = $this->package->path;
             $postdata["module"] = "resourceapi";
             $postdata["act"] = "procResourceapiDownload";
-            $buff = FileHandler::getRemoteResource($this->base_url, null, 3, "POST", "application/x-www-form-urlencoded; charset=utf-8", array(), array(), $postdata);
+            $buff = FileHandler::getRemoteResource($this->base_url, null, 3, "POST", "application/x-www-form-urlencoded", array(), array(), $postdata);
             FileHandler::writeFile($this->download_file, $buff);
         }
 
