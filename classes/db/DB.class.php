@@ -47,8 +47,8 @@
 
         /**
          * @brief returns instance of certain db type
-		 * @param[in] $db_type type of db
-		 * @return instance
+         * @param[in] $db_type type of db
+         * @return instance
          **/
         function &getInstance($db_type = NULL) {
             if(!$db_type) $db_type = Context::getDBType();
@@ -69,7 +69,7 @@
 
         /**
          * @brief constructor
-		 * @return none
+         * @return none
          **/
         function DB() {
             $this->count_cache_path = _XE_PATH_.$this->count_cache_path;
@@ -78,7 +78,7 @@
 
         /**
          * @brief returns list of supported db
-		 * @return list of supported db
+         * @return list of supported db
          **/
         function getSupportedList() {
             $oDB = new DB();
@@ -87,7 +87,7 @@
 
         /**
          * @brief returns list of supported db
-		 * @return list of supported db
+         * @return list of supported db
          **/
         function _getSupportedList() {
             $db_classes_path = _XE_PATH_."classes/db/";
@@ -124,8 +124,8 @@
 
         /**
          * @brief check if the db_type is supported
-		 * @param[in] $db_type type of db to check
-		 * @return true: is supported, false: is not supported
+         * @param[in] $db_type type of db to check
+         * @return true: is supported, false: is not supported
          **/
         function isSupported($db_type) {
             $supported_list = DB::getSupportedList();
@@ -134,7 +134,7 @@
 
         /**
          * @brief check if is connected
-		 * @return true: connected, false: not connected
+         * @return true: connected, false: not connected
          **/
         function isConnected() {
             return $this->is_connected ? true : false;
@@ -142,7 +142,7 @@
 
         /**
          * @brief start recording log
-		 * @return none
+         * @return none
          **/
         function actStart($query) {
             $this->setError(0, 'success');
@@ -151,9 +151,9 @@
             $this->elapsed_time = 0;
         }
 
-		/**
+        /**
          * @brief finish recording log
-		 * @return none
+         * @return none
          **/
         function actFinish() {
             if(!$this->query) return;
@@ -192,26 +192,27 @@
             $GLOBALS['__db_queries__'][] = $log;
 
             // if __LOG_SLOW_QUERY__ if defined, check elapsed time and leave query log
-            if(__LOG_SLOW_QUERY__>0 && $elapsed_time > __LOG_SLOW_QUERY__) {
+            if(__LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__) {
                 $buff = '';
                 $log_file = _XE_PATH_.'files/_db_slow_query.php';
                 if(!file_exists($log_file)) {
                     $buff = '<?php exit();?>'."\n";
                 }
-                $buff .= sprintf("%s\t%s\n\t%0.6f sec\n\n", date("Y-m-h H:i"), $this->query, $elapsed_time);
+
+                $buff .= sprintf("%s\t%s\n\t%0.6f sec\tquery_id:%s\n\n", date("Y-m-d H:i"), $this->query, $elapsed_time, $this->query_id);
+
                 if($fp = fopen($log_file, 'a')) {
                     fwrite($fp, $buff);
                     fclose($fp);
                 }
-
             }
         }
 
         /**
          * @brief set error
-		 * @param[in] $errno error code
-		 * @param[in] $errstr error message
-		 * @return none
+         * @param[in] $errno error code
+         * @param[in] $errstr error message
+         * @return none
          **/
         function setError($errno = 0, $errstr = 'success') {
             $this->errno = $errno;
@@ -220,7 +221,7 @@
 
         /**
          * @brief check if an error occured
-		 * @return true: error, false: no error
+         * @return true: error, false: no error
          **/
         function isError() {
             return $this->errno === 0 ? false : true;
@@ -228,7 +229,7 @@
 
         /**
          * @brief returns object of error info
-		 * @return object of error
+         * @return object of error
          **/
         function getError() {
             $this->errstr = Context::convertEncodingStr($this->errstr);
@@ -238,8 +239,8 @@
         /**
          * @brief query xml 파일을 실행하여 결과를 return
          * @param[in] $query_id query id (module.queryname
-		 * @param[in] $args arguments for query
-		 * @return result of query
+         * @param[in] $args arguments for query
+         * @return result of query
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
         function executeQuery($query_id, $args = NULL) {
@@ -273,8 +274,8 @@
         /**
          * @brief look for cache file
          * @param[in] $query_id query id for finding
-		 * @param[in] $xml_file original xml query file
-		 * @return cache file
+         * @param[in] $xml_file original xml query file
+         * @return cache file
          **/
         function checkQueryCacheFile($query_id,$xml_file){
 
@@ -297,10 +298,10 @@
 
         /**
          * @brief execute query and return the result
-		 * @param[in] $cache_file cache file of query
-		 * @param[in] $source_args arguments for query
-		 * @param[in] $query_id query id
-		 * @return result of query
+         * @param[in] $cache_file cache file of query
+         * @param[in] $source_args arguments for query
+         * @param[in] $query_id query id
+         * @return result of query
          **/
         function _executeQuery($cache_file, $source_args, $query_id) {
             global $lang;
@@ -342,10 +343,10 @@
 
         /**
          * @brief check $val with $filter_type
-		 * @param[in] $key key value
-		 * @param[in] $val value of $key
-		 * @param[in] $filter_type type of filter to check $val
-		 * @return object
+         * @param[in] $key key value
+         * @param[in] $val value of $key
+         * @param[in] $filter_type type of filter to check $val
+         * @return object
          * @remarks this function is to be used from XmlQueryParser
          **/
         function checkFilter($key, $val, $filter_type) {
@@ -380,9 +381,9 @@
 
         /**
          * @brief returns type of column
-		 * @param[in] $column_type_list list of column type
-		 * @param[in] $name name of column type
-		 * @return column type of $name
+         * @param[in] $column_type_list list of column type
+         * @param[in] $name name of column type
+         * @return column type of $name
          * @remarks columns are usually like a.b, so it needs another function
          **/
         function getColumnType($column_type_list, $name) {
@@ -393,12 +394,12 @@
 
         /**
          * @brief returns the value of condition
-		 * @param[in] $name name of condition
-		 * @param[in] $value value of condition
-		 * @param[in] $operation operation this is used in condition
-		 * @param[in] $type type of condition
-		 * @param[in] $column_type type of column
-		 * @return well modified $value
+         * @param[in] $name name of condition
+         * @param[in] $value value of condition
+         * @param[in] $operation operation this is used in condition
+         * @param[in] $type type of condition
+         * @param[in] $column_type type of column
+         * @return well modified $value
          * @remarks if $operation is like or like_prefix, $value itself will be modified
          * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
          **/
@@ -438,10 +439,10 @@
 
         /**
          * @brief returns part of condition
-		 * @param[in] $name name of condition
-		 * @param[in] $value value of condition
-		 * @param[in] $operation operation that is used in condition
-		 * @return detail condition
+         * @param[in] $name name of condition
+         * @param[in] $value value of condition
+         * @param[in] $operation operation that is used in condition
+         * @return detail condition
          **/
         function getConditionPart($name, $value, $operation) {
             switch($operation) {
@@ -503,8 +504,8 @@
 
         /**
          * @brief returns condition key
-		 * @param[in] $output result of query
-		 * @return array of conditions of $output
+         * @param[in] $output result of query
+         * @return array of conditions of $output
          **/
         function getConditionList($output) {
             $conditions = array();
@@ -523,9 +524,9 @@
 
         /**
          * @brief returns counter cache data
-		 * @param[in] $tables tables to get data
-		 * @param[in] $condition condition to get data
-		 * @return count of cache data
+         * @param[in] $tables tables to get data
+         * @param[in] $condition condition to get data
+         * @return count of cache data
          **/
         function getCountCache($tables, $condition) {
             return false;
@@ -557,10 +558,10 @@
 
         /**
          * @brief save counter cache data
-		 * @param[in] $tables tables to save data
-		 * @param[in] $condition condition to save data
-		 * @param[in] $count count of cache data to save
-		 * @return none
+         * @param[in] $tables tables to save data
+         * @param[in] $condition condition to save data
+         * @param[in] $count count of cache data to save
+         * @return none
          **/
         function putCountCache($tables, $condition, $count = 0) {
             return false;
@@ -582,8 +583,8 @@
 
         /**
          * @brief reset counter cache data
-		 * @param[in] $tables tables to reset cache data
-		 * @return true: success, false: failed
+         * @param[in] $tables tables to reset cache data
+         * @return true: success, false: failed
          **/
         function resetCountCache($tables) {
             return false;
@@ -600,10 +601,10 @@
             return true;
         }
 
-		/**
-		 * @brief returns supported database list
-		 * @return list of supported database
-		 **/
+        /**
+         * @brief returns supported database list
+         * @return list of supported database
+         **/
         function getSupportedDatabase(){
             $result = array();
 
