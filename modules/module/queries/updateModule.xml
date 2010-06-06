@@ -3,12 +3,12 @@
         <table name="modules" />
     </tables>
     <columns>
-        <column name="module" var="module" notnull="notnull" maxlength="80"/>
+        <column name="module" var="module" notnull="notnull" maxlength="80" />
         <column name="module_category_srl" var="module_category_srl" />
         <column name="layout_srl" var="layout_srl" />
         <column name="skin" var="skin" minlength="0" maxlength="250" />
         <column name="menu_srl" var="menu_srl" filter="number" />
-        <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40"/>
+        <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />
         <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
         <column name="description" var="description" default="" />
         <column name="is_default" var="is_default" default="N" notnull="notnull" />
@@ -19,6 +19,6 @@
     </columns>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" default="0" filter="number" notnull="notnull" />
-        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and" />
     </conditions>
 </query>

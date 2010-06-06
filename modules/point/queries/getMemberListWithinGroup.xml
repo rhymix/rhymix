@@ -1,8 +1,8 @@
 <query id="getMemberListWithinGroup" action="select">
     <tables>
-        <table name="member" alias="member"/>
-        <table name="point" alias="point"/>
-        <table name="member_group_member" alias="member_group"/>
+        <table name="member" alias="member" />
+        <table name="point" alias="point" />
+        <table name="member_group_member" alias="member_group" />
     </tables>
     <columns>
         <column name="member.*" />

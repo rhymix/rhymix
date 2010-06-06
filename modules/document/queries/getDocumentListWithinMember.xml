@@ -1,7 +1,7 @@
 <query id="getDocumentListWithinMember" action="select">
     <tables>
         <table name="documents" alias="documents" />
-        <table name="member" alias="member"/>
+        <table name="member" alias="member" />
     </tables>
     <columns />
     <conditions>

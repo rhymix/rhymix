@@ -4,7 +4,7 @@
     </tables>
     <columns>
         <column name="site_srl" var="site_srl" notnull="notnull" default="0" />
-        <column name="regdate" var="regdate" default="curdate()" notnull="notnull"/>
+        <column name="regdate" var="regdate" default="curdate()" notnull="notnull" />
         <column name="ipaddress" var="ipaddress" notnull="notnull" default="ipaddress()" />
         <column name="user_agent" var="user_agent" />
     </columns>

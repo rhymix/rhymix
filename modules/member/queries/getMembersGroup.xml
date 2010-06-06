@@ -1,7 +1,7 @@
 <query id="getMembersGroup" action="select">
     <tables>
-        <table name="member_group" alias="a"/>
-        <table name="member_group_member" alias="b"/>
+        <table name="member_group" alias="a" />
+        <table name="member_group_member" alias="b" />
     </tables>
     <columns>
         <column name="a.group_srl" alias="group_srl" />

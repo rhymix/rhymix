@@ -9,6 +9,6 @@
     </columns>
     <conditions>
         <condition operation="equal" column="site_admin.site_srl" var="site_srl" notnull="notnull" />
-        <condition operation="equal" column="member.member_srl" default="site_admin.member_srl" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="member.member_srl" default="site_admin.member_srl" notnull="notnull" pipe="and" />
     </conditions>
 </query>

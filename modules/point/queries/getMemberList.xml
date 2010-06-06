@@ -1,7 +1,7 @@
 <query id="getMemberList" action="select">
     <tables>
-        <table name="member" alias="member"/>
-        <table name="point" alias="point"/>
+        <table name="member" alias="member" />
+        <table name="point" alias="point" />
     </tables>
     <columns>
         <column name="member.*" />

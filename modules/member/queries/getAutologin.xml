@@ -1,6 +1,6 @@
 <query id="getAutologin" action="select">
     <tables>
-        <table name="member" alias="member"/>
+        <table name="member" alias="member" />
         <table name="member_autologin" alias="member_autologin" />
     </tables>
     <columns>

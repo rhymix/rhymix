@@ -7,6 +7,6 @@
         <column name="last_login" var="last_login" notnull="notnull" default="curdate()" />
     </columns>
     <conditions>
-        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number"/>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
     </conditions>
 </query>

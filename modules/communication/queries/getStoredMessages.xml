@@ -1,6 +1,6 @@
 <query id="getStoredMessages" action="select">
     <tables>
-        <table name="member_message" alias="message"/>
+        <table name="member_message" alias="message" />
         <table name="member" alias="member" />
     </tables>
     <columns>
@@ -13,7 +13,7 @@
     <conditions>
         <condition operation="equal" column="message.receiver_srl" var="member_srl" notnull="notnull" />
         <condition operation="equal" column="message.message_type" var="message_type" default="T" pipe="and" />
-        <condition operation="equal" column="message.sender_srl" var="member.member_srl" pipe="and"/>
+        <condition operation="equal" column="message.sender_srl" var="member.member_srl" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="message.list_order" order="asc" />

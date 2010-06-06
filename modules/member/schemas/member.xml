@@ -5,8 +5,8 @@
     <column name="password" type="varchar" size="60" notnull="notnull" />
     <column name="email_id" type="varchar" size="80" notnull="notnull" />
     <column name="email_host" type="varchar" size="160" index="idx_email_host" />
-    <column name="user_name" type="varchar" size="40" notnull="notnull"/>
-    <column name="nick_name" type="varchar" size="40" notnull="notnull" unique="unique_nick_name"/>
+    <column name="user_name" type="varchar" size="40" notnull="notnull" />
+    <column name="nick_name" type="varchar" size="40" notnull="notnull" unique="unique_nick_name" />
     <column name="homepage" type="varchar" size="250" />
     <column name="blog" type="varchar" size="250" />
     <column name="birthday" type="char" size="8" />

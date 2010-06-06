@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispAdminIndex" type="view" standalone="true" index="true"/>
+        <action name="dispAdminIndex" type="view" standalone="true" index="true" />
         <action name="dispAdminConfig" type="view" standalone="true" />
 
         <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />

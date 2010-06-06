@@ -6,6 +6,6 @@
         <column name="group_srl" var="target_group_srl" filter="number" notnull="notnull" />
     </columns>
     <conditions>
-        <condition operation="equal" column="group_srl" var="source_group_srl" notnull="notnull" filter="number"/>
+        <condition operation="equal" column="group_srl" var="source_group_srl" notnull="notnull" filter="number" />
     </conditions>
 </query>
