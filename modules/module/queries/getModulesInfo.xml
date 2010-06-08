@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull"/>
+        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" />
     </conditions>
 </query>

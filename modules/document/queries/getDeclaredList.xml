@@ -1,7 +1,7 @@
 <query id="getDeclaredList" action="select">
     <tables>
-        <table name="documents" alias="documents"/>
-        <table name="document_declared" alias="document_declared"/>
+        <table name="documents" alias="documents" />
+        <table name="document_declared" alias="document_declared" />
     </tables>
     <columns>
         <column name="*" />

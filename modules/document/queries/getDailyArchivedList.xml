@@ -3,7 +3,7 @@
         <table name="documents" />
     </tables>
     <columns>
-        <column name="substr(regdate,1,8)" alias="month"/>
+        <column name="substr(regdate,1,8)" alias="month" />
         <column name="count(*)" alias="count" />
     </columns>
     <conditions>

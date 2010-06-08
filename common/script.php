@@ -128,7 +128,7 @@ function printFileList($list){
 	$size = strlen($output);
 
 	if($size > 0){
-		header("Cache-Control: private, max-age=2592000"); 
+		header("Cache-Control: private"); 
 		header("Pragma: cache"); 
 		header("Connection: close"); 
 		header("Last-Modified: " . substr(gmdate('r', $mtime), 0, -5). "GMT");

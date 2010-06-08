@@ -402,31 +402,24 @@
             // 캐시파일명을 구함
             $cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
 
-            // 캐시 Lock 파일을 구함
-            $lock_file = sprintf('%s%d.%s.lock', $this->cache_path, $widget_sequence, $lang_type);
-
-            // 캐시 파일이 존재하면 해당 파일의 유효성 검사 (lock파일이 있을 경우 유효성 검사하지 않음)
+            // 캐시 파일이 존재하면 해당 파일의 유효성 검사
             if(!$ignore_cache && file_exists($cache_file)) {
                 $filemtime = filemtime($cache_file);
 
                 // 수정 시간을 비교해서 캐싱중이어야 하거나 widget.controller.php 파일보다 나중에 만들어 졌다면 캐시값을 return
-                if(file_exists($lock_file) || ($filemtime + $widget_cache*60 > time() && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))) {
+                if($filemtime + $widget_cache * 60 > time() && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php')) {
                     return FileHandler::readFile($cache_file);
                 }
             }
 
-            // lock 파일 생성
-            FileHandler::writeFile($lock_file, '');
+            // cache 파일의 mtime 갱신하고 캐시 갱신
+            touch($cache_file);
 
-            // 캐시 파일을 갱신하여야 할 경우 lock파일을 만들고 캐시 생성
             $oWidget = $this->getWidgetObject($widget);
             if(!$oWidget || !method_exists($oWidget,'proc')) return;
 
             $widget_content = $oWidget->proc($args);
             FileHandler::writeFile($cache_file, $widget_content);
-
-            // lock 파일 제거
-            FileHandler::removeFile($lock_file);
 
             return $widget_content;
         }

@@ -1,7 +1,7 @@
 <query id="getDocumentListWithinComment" action="select">
     <tables>
         <table name="documents" alias="documents" />
-        <table name="comments" alias="comments"/>
+        <table name="comments" alias="comments" />
     </tables>
     <columns>
         <column name="documents.document_srl" />

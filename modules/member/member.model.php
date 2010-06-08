@@ -83,7 +83,7 @@
 
                 // 메일 보내기
                 if($member_info->email_address) {
-                    $url = 'mailto:'.$member_info->email_address;
+                    $url = 'mailto:'.htmlspecialchars($member_info->email_address);
                     $icon_path = './modules/member/tpl/images/icon_sendmail.gif';
                     $oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
                 }
@@ -91,11 +91,11 @@
 
             // 홈페이지 보기
             if($member_info->homepage)
-                $oMemberController->addMemberPopupMenu($member_info->homepage, 'homepage', './modules/member/tpl/images/icon_homepage.gif','blank');
+                $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage), 'homepage', './modules/member/tpl/images/icon_homepage.gif','blank');
 
             // 블로그 보기
             if($member_info->blog)
-                $oMemberController->addMemberPopupMenu($member_info->blog, 'blog', './modules/member/tpl/images/icon_blog.gif','blank');
+                $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog), 'blog', './modules/member/tpl/images/icon_blog.gif','blank');
 
             // trigger 호출 (after)
             ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);

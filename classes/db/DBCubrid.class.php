@@ -215,9 +215,9 @@
          **/
         function isTableExists($target_name) {
             if($target_name == 'sequence')
-              $query = sprintf("select * from db_serial where name = '%s%s'", $this->prefix, $target_name);
+              $query = sprintf("select * from \"db_serial\" where \"name\" = '%s%s'", $this->prefix, $target_name);
             else
-              $query = sprintf("select * from db_class where class_name = '%s%s'", $this->prefix, $target_name);
+              $query = sprintf("select * from \"db_class\" where \"class_name\" = '%s%s'", $this->prefix, $target_name);
             $result = $this->_query($query);
 
             if(cubrid_num_rows($result)>0) $output = true;
@@ -234,10 +234,13 @@
             $type = $this->column_type[$type];
             if(strtoupper($type)=='INTEGER') $size = '';
 
-            $query = sprintf("alter class %s%s add %s ", $this->prefix, $table_name, $column_name);
+            $query = sprintf("alter class \"%s%s\" add \"%s\" ", $this->prefix, $table_name, $column_name);
             if($size) $query .= sprintf(" %s(%s) ", $type, $size);
             else $query .= sprintf(" %s ", $type);
-            if($default) $query .= sprintf(" default '%s' ", $default);
+            if($default) {
+                if ($type == 'number' || $type == 'bignumber') $query .= sprintf (" default %d ", $default);
+                else $query .= sprintf(" default '%s' ", $default);
+            }
             if($notnull) $query .= " not null ";
 
             $this->_query($query);
@@ -247,7 +250,7 @@
          * @brief 특정 테이블에 특정 column 제거
          **/
         function dropColumn($table_name, $column_name) {
-            $query = sprintf("alter class %s%s drop %s ", $this->prefix, $table_name, $column_name);
+            $query = sprintf("alter class \"%s%s\" drop \"%s\" ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
         }
 
@@ -255,8 +258,8 @@
          * @brief 특정 테이블의 column의 정보를 return
          **/
         function isColumnExists($table_name, $column_name) {
-            $query = sprintf("select * from db_attribute where attr_name ='%s' and class_name = '%s%s'",
-                                $column_name, $this->prefix, $table_name);
+            $query = sprintf("select * from \"db_attribute\" where \"attr_name\" ='%s' and \"class_name\" = '%s%s'",
+            $column_name, $this->prefix, $table_name);
             $result = $this->_query($query);
             if(cubrid_num_rows($result)>0) $output = true;
             else $output = false;
@@ -273,7 +276,7 @@
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
-            $query = sprintf("create %s index %s on %s%s (%s);", $is_unique?'unique':'', $index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
+            $query = sprintf("create %s index \"%s\" on \"%s%s\" (%s);", $is_unique?'unique':'', $index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
             $this->_query($query);
         }
 
@@ -281,7 +284,7 @@
          * @brief 특정 테이블의 특정 인덱스 삭제
          **/
         function dropIndex($table_name, $index_name, $is_unique = false) {
-            $query = sprintf("drop %s index %s on %s%s", $is_unique?'unique':'', $index_name, $this->prefix, $table_name);
+            $query = sprintf("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $index_name, $this->prefix, $table_name);
             $this->_query($query);
         }
 
@@ -290,7 +293,7 @@
          * @brief 특정 테이블의 index 정보를 return
          **/
         function isIndexExists($table_name, $index_name) {
-            $query = sprintf("select * from db_index where class_name='%s%s' and index_name = '%s' ", $this->prefix, $table_name, $index_name);
+            $query = sprintf("select * from \"db_index\" where \"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $index_name);
             $result = $this->_query($query);
             if($this->isError()) return false;
             $output = $this->_fetch($result);
@@ -333,7 +336,7 @@
             // 만약 테이블 이름이 sequence라면 serial 생성
             if($table_name == 'sequence') {
 
-                $query = sprintf('create serial %s start with 1 increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix.$table_name);
+                $query = sprintf('create serial "%s" start with 1 increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix.$table_name);
                 return $this->_query($query);
             }
 

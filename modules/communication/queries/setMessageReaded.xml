@@ -7,7 +7,7 @@
         <column name="readed_date" default="curdate()" />
     </columns>
     <conditions>
-        <condition operation="equal" column="message_srl" var="message_srl" notnull="notnull" filter="number"/>
+        <condition operation="equal" column="message_srl" var="message_srl" notnull="notnull" filter="number" />
         <condition operation="equal" column="related_srl" var="related_srl" notnull="notnull" filter="number" pipe="or" />
     </conditions>
 </query>

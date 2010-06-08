@@ -1,7 +1,7 @@
 <query id="getNewMessage" action="select">
     <tables>
         <table name="member_message" alias="member_message" />
-        <table name="member" alias="member"/>
+        <table name="member" alias="member" />
     </tables>
     <columns>
         <column name="*" />

@@ -10,6 +10,6 @@
         <column name="regdate" default="curdate()" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_filebox_srl" var="module_filebox_srl" notnull="notnull"/>
+        <condition operation="equal" column="module_filebox_srl" var="module_filebox_srl" notnull="notnull" />
     </conditions>
 </query>
