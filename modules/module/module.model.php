@@ -264,9 +264,11 @@
         /**
          * @brief act 값에 의한 forward 값을 구함
          **/
-        function getActionForward($act) {
+        function getActionForward($act, $module = "") {
             $args->act = $act;
-            $output = executeQuery('module.getActionForward',$args);
+            $args->module = ($module)?$module:null;
+            if (strlen ($args->module) > 0) $output = executeQuery ('module.getActionForwardWithModule', $args);
+            else $output = executeQuery('module.getActionForward',$args);
             return $output->data;
         }
 
