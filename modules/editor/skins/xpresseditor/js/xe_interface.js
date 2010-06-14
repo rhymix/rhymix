@@ -266,7 +266,7 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig');
 			if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
 			var val = jQuery.trim(m3);
-			if(uriReg.test(val)) val = val.replace(uriReg, '/');
+			if(uriReg.test(val)) val = val.replace(uriReg,'');
 			else val = m3;
 			return m1+m2+val+m4+m5;
 		});
