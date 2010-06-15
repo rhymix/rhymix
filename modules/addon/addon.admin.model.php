@@ -38,6 +38,7 @@
             for($i=0;$i<$searched_count;$i++) {
                 // 애드온의 이름
                 $addon_name = $searched_list[$i];
+				if($addon_name == "smartphone") continue;
 
                 // 애드온의 경로 (files/addons가 우선)
                 $path = $this->getAddonPath($addon_name);
