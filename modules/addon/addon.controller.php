@@ -126,6 +126,7 @@
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getInsertedAddons($site_srl);
             foreach($addon_list as $addon => $val) {
+                if($val->addon == "smartphone") continue;
                 if($val->is_used != 'Y' || !is_dir(_XE_PATH_.'addons/'.$addon) ) continue;
 
                 $extra_vars = unserialize($val->extra_vars);
