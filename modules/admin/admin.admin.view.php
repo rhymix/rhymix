@@ -7,23 +7,8 @@
 
     class adminAdminView extends admin {
 
-        /**
-         * @brief Initilization
-         * @return none
-         **/
-        function init() {
-            $this->setTemplatePath($this->module_path.'tpl');
-
-            // forbit access if the user is not an administrator
-            $oMemberModel = &getModel('member');
-            $logged_info = $oMemberModel->getLoggedInfo();
-            if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
-
-            // change into administration layout 
-            $this->setLayoutPath($this->getTemplatePath());
-            $this->setLayoutFile('layout.html');
-
-            // Retrieve the list of installed modules 
+		function loadSideBar()
+		{
             $oModuleModel = &getModel('module');
             $installed_module_list = $oModuleModel->getModulesXmlInfo();
 
@@ -64,6 +49,32 @@
             if(count($package_modules)) $package_modules[count($package_modules)-1]->position = 'end';
             Context::set('package_modules', $package_modules);
             Context::set('installed_modules', $installed_modules);
+            Context::setBrowserTitle("XE Admin Page");
+
+			// add javascript tooltip plugin - gony
+			Context::loadJavascriptPlugin('qtip');
+			Context::loadJavascriptPlugin('watchinput');
+		}
+
+        /**
+         * @brief Initilization
+         * @return none
+         **/
+        function init() {
+
+            // forbit access if the user is not an administrator
+            $oMemberModel = &getModel('member');
+            $logged_info = $oMemberModel->getLoggedInfo();
+            if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
+
+            // change into administration layout 
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setLayoutPath($this->getTemplatePath());
+            $this->setLayoutFile('layout.html');
+
+			$this->loadSideBar();
+
+            // Retrieve the list of installed modules 
 
             $db_info = Context::getDBInfo();
 
@@ -78,11 +89,6 @@
             if($db_info->http_port) Context::set('http_port', $db_info->http_port);
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
-            Context::setBrowserTitle("XE Admin Page");
-
-			// add javascript tooltip plugin - gony
-			Context::loadJavascriptPlugin('qtip');
-			Context::loadJavascriptPlugin('watchinput');
         }
 
         /**
@@ -268,6 +274,8 @@
             Context::set('langs', Context::loadLangSupported());
 
             Context::set('lang_selected', Context::loadLangSelected());
+
+			Context::set('use_mobile_view', $db_info->use_mobile_view=="Y"?'Y':'N');
             
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);

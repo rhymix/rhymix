@@ -114,6 +114,13 @@
             <p>{$lang->about_server_ports}</p>
         </td>
     </tr>
+	<tr>
+		<th><div>{$lang->mobile_view}</div></th>
+        <td>
+            <input type="checkbox" name="use_mobile_view" value="Y"  <!--@if($use_mobile_view=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_mobile_view}</p>
+        </td>
+	</tr>
     <tr>
         <th colspan="2" class="button">
             <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
