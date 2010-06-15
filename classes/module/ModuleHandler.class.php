@@ -204,12 +204,84 @@
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 
-            // create a module instance
-            $oModule = &$this->getModuleInstance($this->module, $type, $kind);
-            if(!is_object($oModule)) {
-                $this->error = 'msg_module_is_not_exists';
-                return;
-            }
+			// if(type == view, and case for using mobilephone)
+			if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
+			{
+				$orig_type = "view";
+				$type = "mobile";
+				// create a module instance
+				$oModule = &$this->getModuleInstance($this->module, $type, $kind);
+				if(!is_object($oModule) || !method_exists($oModule, $this->act)) {
+					$type = $orig_type;
+					$oModule = &$this->getModuleInstance($this->module, $type, $kind);
+				}
+			}
+			else
+			{
+				// create a module instance
+				$oModule = &$this->getModuleInstance($this->module, $type, $kind);
+			}
+
+			if(!is_object($oModule)) {
+				$this->error = 'msg_module_is_not_exists';
+				return;
+			}
+
+			// If there is no such action in the module object
+			if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act)) 
+			{
+				if(!Context::isInstalled()) 
+				{
+					$this->error = 'msg_invalid_request';
+					return;
+				}
+
+                $forward = null;
+				// 1. Look for the module with action name
+                if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches)) {
+                    $module = strtolower($matches[2].$matches[3]);
+                    $xml_info = $oModuleModel->getModuleActionXml($module);
+                    if($xml_info->action->{$this->act}) {
+                        $forward->module = $module;
+                        $forward->type = $xml_info->action->{$this->act}->type;
+                        $forward->act = $this->act;
+                    }
+                }
+
+				if(!$forward) 
+				{
+					$forward = $oModuleModel->getActionForward($this->act);
+				}
+
+                if($forward->module && $forward->type && $forward->act && $forward->act == $this->act) {
+
+                    $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
+					$type = $forward->type;
+					$tpl_path = $oModule->getTemplatePath();
+					$orig_module = $oModule;
+                    $oModule = &$this->getModuleInstance($forward->module, $type, $kind);
+                    $xml_info = $oModuleModel->getModuleActionXml($forward->module);
+					if($this->module == "admin" && $type == "view")
+					{
+						$oMemberModel = &getModel('member');
+						$logged_info = $oMemberModel->getLoggedInfo();
+						if($logged_info->is_admin=='Y') {
+							$orig_module->loadSideBar();
+							$oModule->setLayoutPath("./modules/admin/tpl");
+							$oModule->setLayoutFile("layout.html");
+						}
+					}
+				}
+				else if($xml_info->default_index_act && method_exists($oModule, $xml_info->default_index_act))
+				{
+					$this->act = $xml_info->default_index_act;
+				}
+				else
+				{
+					$this->error = 'msg_invalid_request';
+					return;
+				}
+			}
 
             $oModule->setAct($this->act);
 
@@ -264,11 +336,20 @@
                 }
 
                 // Check if layout_srl exists for the module
-                if($oModule->module_info->layout_srl && !$oModule->getLayoutFile()) {
+				if(Mobile::isFromMobilePhone())
+				{
+					$layout_srl = $oModule->module_info->mlayout_srl;
+				}
+				else
+				{
+					$layout_srl = $oModule->module_info->layout_srl;
+				}
+
+                if($layout_srl && !$oModule->getLayoutFile()) {
 
                     // If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file 
                     $oLayoutModel = &getModel('layout');
-                    $layout_info = $oLayoutModel->getLayout($oModule->module_info->layout_srl);
+                    $layout_info = $oLayoutModel->getLayout($layout_srl);
                     if($layout_info) {
 
                         // Input extra_vars into $layout_info
@@ -369,10 +450,10 @@
                             $instance_name = sprintf("%s%s",$module,"WAP");
                             $class_file = sprintf('%s%s%s.wap.php', _XE_PATH_, $class_path, $module);
                         break;
-                    case 'smartphone' :
-                            $instance_name = sprintf("%s%s",$module,"SPhone");
-                            $class_file = sprintf('%s%s%s.smartphone.php', _XE_PATH_, $class_path, $module);
-                        break;
+					case 'mobile' :
+							$instance_name = sprintf("%s%s",$module,"Mobile");
+							$class_file = sprintf("%s%s%s.mobile.php", _XE_PATH_, $class_path, $module);
+						break;
                     case 'class' :
                             $instance_name = $module;
                             $class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
