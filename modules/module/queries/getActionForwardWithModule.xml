@@ -1,0 +1,12 @@
+<query id="getActionForward" action="select">
+    <tables>
+        <table name="action_forward" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="act" var="act" />
+        <condition operation="equal" column="module" var="module" />
+    </conditions>
+</query>
