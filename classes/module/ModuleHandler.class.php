@@ -204,6 +204,8 @@
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 
+			if(!$this->module_info->mlayout_srl) Mobile::setMobile(false);
+
 			// if(type == view, and case for using mobilephone)
 			if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
 			{
@@ -213,6 +215,7 @@
 				$oModule = &$this->getModuleInstance($this->module, $type, $kind);
 				if(!is_object($oModule) || !method_exists($oModule, $this->act)) {
 					$type = $orig_type;
+					Mobile::setMobile(false);
 					$oModule = &$this->getModuleInstance($this->module, $type, $kind);
 				}
 			}
