@@ -158,22 +158,6 @@
             if(file_exists(_XE_PATH_.'.htaccess')&&$this->db_info->use_rewrite == 'Y') $this->allow_rewrite = true;
             else $this->allow_rewrite = false;
 
-            // add common JS/CSS files
-            $this->addJsFile("./common/js/jquery.js", true, '', -100000);
-            $this->addJsFile("./common/js/x.js");
-            $this->addJsFile("./common/js/common.js");
-			$this->addJsFile("./common/js/js_app.js");
-            $this->addJsFile("./common/js/xml_handler.js");
-            $this->addJsFile("./common/js/xml_js_filter.js");
-            $this->addCSSFile("./common/css/default.css");
-            $this->addCSSFile("./common/css/button.css");
-
-            // for admin page, add admin css
-            if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
-				$this->addCssFile("./modules/admin/tpl/css/font.css", true, 'all', '',10000);
-				$this->addCssFile("./modules/admin/tpl/css/pagination.css", true, 'all', '', 100001);
-				$this->addCssFile("./modules/admin/tpl/css/admin.css", true, 'all', '', 100002);
-			}
 
             // set locations for javascript use
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -1179,7 +1163,7 @@
         /**
          * @brief js file을 추가
          **/
-        function _addJsFile($file, $optimized, $targetie,$index) {
+        function _addJsFile($file, $optimized = true, $targetie = '',$index=null) {
             if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
 			$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
@@ -1277,7 +1261,7 @@
         /**
          * @brief CSS file 추가
          **/
-        function _addCSSFile($file, $optimized, $media, $targetie, $index) {
+        function _addCSSFile($file, $optimized = true, $media = 'all', $targetie = '', $index = null) {
             if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
             $file = str_replace(array('/./','//'),'/',$file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
