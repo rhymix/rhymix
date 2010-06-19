@@ -2,10 +2,11 @@
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
 			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
+			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
+			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
+			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+*/
 
     $lang->file = 'Đính kèm';
     $lang->file_name = 'Tên File';
@@ -13,7 +14,7 @@
     $lang->download_count = 'Lượt Download';
     $lang->status = 'Trạng thái';
     $lang->is_valid = 'Hợp lệ';
-    $lang->is_stand_by = 'Chờ';
+    $lang->is_stand_by = 'Chờ duyệt';
     $lang->file_list = 'Danh sách đính kèm';
     $lang->allow_outlink = 'Link từ bên ngoài';
 	$lang->allow_outlink_format = 'Những định dạng cho phép';
@@ -24,7 +25,7 @@
     $lang->enable_download_group = 'Nhóm được phép Download';
 
     $lang->about_allow_outlink = 'Những định dạng Link File từ bên ngoài được phép đính kèm.(Ngoại trừ định dạng Media *.wmv, *.mp3)';
-	$lang->about_allow_outlink_format = 'Những định dạng này sẽ được phép liên kết. Hãy sử dụng dấu (,) để thêm nhiều định dạng .<br />Ví dụ: hwp,doc,zip,pdf';
+	$lang->about_allow_outlink_format = 'Những định dạng này sẽ được phép liên kết. Hãy sử dụng dấu (,) để thêm nhiều định dạng .<br />Ví dụ: .hwp, .doc, .zip, .pdf';
     $lang->about_allow_outlink_site = 'Những Website được phép liên kết. Hãy nhập địa chỉ của những Website được phép.<br />Ví dụ: http://www.zeroboard.com';
 	$lang->about_allowed_filesize = 'Giới hạn dung lượng mỗi File đính kèm. (Ngoại trừ Administrators)';
     $lang->about_allowed_attach_size = 'Giới hạn dung lượng tối đa cho tất cả các File đính kèm trong một bài viết. (Ngoại trừ Administrators)';
@@ -54,5 +55,5 @@
         'nick_name' => 'Nickname',
         'ipaddress' => 'IP',
     );
-	$lang->msg_not_allowed_outlink = 'It is not allowed to download files not from this site.'; 
+	$lang->msg_not_allowed_outlink = 'Không cho phép tải file từ những trang khác ngoài trang này.'; 
 ?>

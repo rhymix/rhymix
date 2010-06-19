@@ -2,10 +2,11 @@
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
 			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
+			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
+			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
+			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+*/
 
     $lang->introduce_title = 'Cài đặt XE';
     $lang->license = <<<EndOfLicense
@@ -484,10 +485,10 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Đề nghị] If PHP version is 5.2.2, XE will not be installed because of bug',
-            'permission' => '[Đề nghị] XE installation path or ./files directory\'s permission must be 707',
-            'xml' => '[Đề nghị] XML Library cần thiết cho việc truyền thông File XML.',
-            'session' => '[Required] PHP setting file\'s (php.ini) \'Session.auto_start\' must equal to zero in order for XE to use the session',
+			'php_version' => '[Bắt buộc] Nếu phiên bản của PHP là 5.2.2, XE sẽ không thể cài đặt vì có lỗi.',
+            'permission' => '[Bắt buộc] Thư mục cài đặt của XE hay ./files directory\ phải CHMOD thành 707',
+            'xml' => '[Bắt buộc] XML Library cần thiết cho việc truyền thông File XML.',
+            'session' => '[Bắt buộc] File thiết lập của PHP (php.ini) \'Session.auto_start\' phải là 0 theo thứ tự số cho phiên làm việc của XE hoạt động.',
             'iconv' => '<b>Iconv</b> cần phải được cài đặt cho việc chuyển đổi ngôn ngữ thàng UTFF-8 của những ngôn ngữ khác.',
             'gd' => '<b>GD Library</b> cần phải được cài đặt cho việc chuyển đổi hình ảnh.',
         );
@@ -543,14 +544,14 @@ EndOfLicense;
 
     $lang->about_database_file = 'Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>';
 
-    $lang->success_installed = 'Bạn đã cài đặt XE thành công!';
+    $lang->success_installed = 'Chúc mừng bạn đã cài đặt XE thành công!';
 
     $lang->msg_cannot_proc = 'Môi trường cài đặt không thích hợp.';
     $lang->msg_already_installed = 'Một phiên bản nào đó của XE đã được cài đặt từ trước.<br />Xin hãy kiểm tra lại!';
     $lang->msg_dbconnect_failed = "Đã có lỗi xảy ra khi kết nối tới Database.\nXin vui lòng kiểm tra lại thông tin!";
     $lang->msg_table_is_exists = "Table đã có sẵn trên Database.\nFile Config đã đuwọc thiết lập lại.";
-    $lang->msg_install_completed = "Đã cài đặt thành công!.\nXin cảm ơn đã sử dụng XE!";
+    $lang->msg_install_completed = "Đã cài đặt XE thành công!.\nXin cảm ơn đã sử dụng XE!";
     $lang->msg_install_failed = "Đã có lỗi xảy ra khi tạo File cài đặt.";
 
-    $lang->ftp_get_list = "Get List";
+    $lang->ftp_get_list = "Nhận danh sách";
 ?>

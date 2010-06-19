@@ -28,8 +28,8 @@
     $lang->description_download = "Khi FTP không được mở, bạn nên tải về và giả nén, sau đó Upload theo đường dẫn. (Nếu đường dẫn là ./modules/board, thì giải nén vào ./modules)";
     $lang->path = "Đường dẫn";
     $lang->cmd_download = "Download";
-    $lang->view_installed_packages = "Installed Packages";
-    $lang->msg_ftp_password_input = "Please input FTP password.";
-	$lang->dependant_list = "이 패키지에 의존하는 패키지 목록";
-	$lang->description_uninstall = "패키지를 삭제합니다. 모듈의 경우 모든 데이터가 사라집니다.";
+    $lang->view_installed_packages = "Những gói đã cài đặt";
+    $lang->msg_ftp_password_input = "Hãy nhập mật khẩu của FTP.";
+	$lang->dependant_list = "Gói cài đặt này phụ thuộc vào các gói khác trong danh sách";
+	$lang->description_uninstall = "Loại bỏ gói cài đặt. Tất cả dữ liệu của các gói sẽ đồng thời bị xóa.";
 ?>
