@@ -2,10 +2,11 @@
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
 			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
+			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
+			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
+			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+*/
 
     // words for action, which is basically used
     $lang->cmd_write = 'Gửi bài mới';
@@ -84,7 +85,7 @@
     $lang->password1 = 'Mật khẩu';
     $lang->password2 = 'Nhập lại mật khẩu';
     $lang->admin_id = 'Admin ID';
-    $lang->writer = 'Người viết';
+    $lang->writer = 'Người gửi';
     $lang->user_name = 'Tên thật';
     $lang->nick_name = 'NickName';
     $lang->email_address = 'Email';
@@ -117,8 +118,8 @@
     $lang->notify = 'Thông báo';
     $lang->order_target = 'Đường dẫn đích';
     $lang->order_type = 'Phân loại theo định dạng';
-    $lang->order_asc = 'Tăng';
-    $lang->order_desc = 'Không tăng';
+    $lang->order_asc = 'Tăng dần';
+    $lang->order_desc = 'Giảm dần';
 
     $lang->mid = 'Tên Module';
     $lang->layout = 'Giao diện';
@@ -210,7 +211,7 @@
     $lang->msg_invalid_queryid = 'Giá trị ID không hợp lệ';
     $lang->msg_not_permitted = 'Bạn không được phép truy cập tại đây!';
     $lang->msg_input_password = 'Xin vui lòng nhập mật khẩu!';
-    $lang->msg_invalid_document = 'Số bài viết không đúng';
+    $lang->msg_invalid_document = 'Bài viết không tồn tại';
     $lang->msg_invalid_request = 'Yêu cầu không hợp lệ';
     $lang->msg_invalid_password = 'Mật khẩu không đúng';
     $lang->msg_error_occured = 'Đã có lỗi xảy ra.';
@@ -223,13 +224,13 @@
 
     $lang->success_registed = 'Chúc mừng bạn đã đăng kí thành công!';
     $lang->success_declared = 'Đã báo cáo.';
-    $lang->success_updated = 'Đã cập nhật xong.';
-    $lang->success_deleted = 'Đã xóa.';
+    $lang->success_updated = 'Đã cập nhật thành công.';
+    $lang->success_deleted = 'Đã xóa thành công.';
     $lang->success_voted = 'Đã bình chọn.';
     $lang->success_blamed = 'Đã phê bình.';
     $lang->success_moved = 'Đã chuyển.';
     $lang->success_sended = 'Đã gửi.';
-    $lang->success_reset = 'Đã thiết lập lại.';
+    $lang->success_reset = 'Đã thiết lập lại thành công.';
     $lang->success_leaved = 'Tất cả các thành viên đã được xóa.';
     $lang->success_saved = 'Đã lưu.';
 
@@ -248,7 +249,7 @@
     $lang->confirm_move = 'Bạn chắc chắn muốn chuyển?';
     $lang->confirm_reset = 'Bạn chắc chắn muốn thiết lập lại?';
     $lang->confirm_leave = 'Bạn chắc chắn muốn từ bỏ?';
-    $lang->confirm_update = 'Are you sure to update?';
+    $lang->confirm_update = 'Bạn chắc chắn muốn Update?';
 
     $lang->column_type = 'Định dạng cột';
     $lang->column_type_list['text'] = 'Ô nhập liệu';
@@ -272,7 +273,7 @@
     $lang->ftp = 'FTP';
     $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'Cổng kết nối:';
-    $lang->about_ftp_password = 'FTP password will not be stored';
+    $lang->about_ftp_password = 'Mật khẩu của FTP sẽ không lưu lại';
     $lang->cmd_check_ftp_connect = 'Kiểm tra kết nối bằng FTP';
     $lang->about_ftp_info = "
         Thông tin tài khoản FTP có thể được sử dụng trong các trường hợp sau: <br />
@@ -281,16 +282,16 @@
            Thông tin tài khoản FTP này sẽ được lưu giữ tại: 'files/config/ftp.config.php'<br />
            Sau khi cài đặt bạn có thể xóa hoặc thay đổi thông tin tại Bảng điều khiển của Administrator.<br />";
 
-    $lang->msg_safe_mode_ftp_needed = "Nếu safe_mode của PHP mở, bạn nên nhập thông tin của FTP để cài đặt XE.";
-    $lang->msg_ftp_not_connected = "Kết nối bằng FTP không thành công. Xin vui lòng kiểm tra tài khoản và cổng kết nối!";
-    $lang->msg_ftp_invalid_auth_info = "Xác nhận không thành công. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.";
+    $lang->msg_safe_mode_ftp_needed = "Nếu safe_mode của PHP mở, bạn có thể cài đặt các thành phần bổ xung cho XE một cách tự động qua FTP.";
+    $lang->msg_ftp_not_connected = "Kết nối bằng FTP không thành công. Xin vui lòng kiểm tra lại thông tin tài khoản và cổng kết nối!";
+    $lang->msg_ftp_invalid_auth_info = "Xác nhận thất bại. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.";
     $lang->msg_ftp_mkdir_fail = "Lỗi khi tạo thư mục. Xin vui lòng kiểm tra lại quyền truy cập FTP.";
-    $lang->msg_ftp_chmod_fail = "CHMOD không thành công. Xin vui lòng kiểm tra lại.";
+    $lang->msg_ftp_chmod_fail = "CHMOD thất bại. Xin vui lòng kiểm tra lại.";
     $lang->msg_ftp_connect_success = "Đã xác nhận và kết nối thành công tới máy chủ bằng FTP.";
 
-    $lang->ftp_path_title = 'FTP 경로 정보 입력';
-    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+    $lang->ftp_path_title = 'Hãy nhập thông tin đường dẫn của FTP.';
+    $lang->msg_ftp_installed_realpath = 'Đường dẫn thư mục đã cài đặt XE';
+    $lang->msg_ftp_installed_ftp_realpath = 'Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP';
 
 
     // Alert messages for Javascript using by XML filter
@@ -299,12 +300,12 @@
     $lang->filter->equalto = "Giá trị của %s không hợp lệ";
     $lang->filter->invalid_email = "Định dạng của %s không hợp lệ. Ví dụ: emailname@yahoo.com";
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "Định dạng của %s Không hợp lệ.\\nGiá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).";
-    $lang->filter->invalid_homepage = "Định dạng của %s không hợp lệ. Đúng sẽ là: http://vietxe.net hoặc http://www.vietxe.net";
+    $lang->filter->invalid_homepage = "Định dạng của %s không hợp lệ. Đúng sẽ là: http://xpressengine.vn hoặc http://www.xpressengine.vn";
     $lang->filter->invalid_korean = "Định dạng của %s không hợp lệ. Nội dung này bắt buộc phải sử dụng tiếng Hàn Quốc";
     $lang->filter->invalid_korean_number = "Định dạng của %s không hợp lệ. Nội dung này bắt buộc phải sử dụng tiếng Hàn Quốc hoặc các chữ số";
     $lang->filter->invalid_alpha = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z";
     $lang->filter->invalid_alpha_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z và các chữ số";
     $lang->filter->invalid_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số";
 
-    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
+    $lang->security_warning_embed = "Vì vấn đề bảo mật, nên Administrator không được phép xem các mục đã nhúng mã.<BR /> Để xem được chúng, hãy sử dụng một tên truy cập khác không phải là quản trị viên.";
 ?>
