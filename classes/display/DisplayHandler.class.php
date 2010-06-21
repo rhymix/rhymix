@@ -65,7 +65,9 @@
 
             // header 출력
             if($this->gz_enabled) header("Content-Encoding: gzip");
-			$handler->printHeader();
+			if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
+			else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
+			else $this->_printHTMLHeader();
 
             // debugOutput 출력
             $this->content_size = strlen($output);
@@ -230,5 +232,47 @@
                 }
             }
         }
+
+		/**
+		 * @brief print a HTTP HEADER for XML, which is encoded in UTF-8
+		 **/
+		function _printXMLHeader() {
+			header("Content-Type: text/xml; charset=UTF-8");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+		}
+
+
+		/**
+		 * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 **/
+		function _printHTMLHeader() {
+			header("Content-Type: text/html; charset=UTF-8");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+		}
+
+
+		/**
+		 * @brief print a HTTP HEADER for JSON, which is encoded in UTF-8
+		 **/
+		function _printJSONHeader() {
+			header("Content-Type: text/html; charset=UTF-8");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+		}
+
+
+
+
     }
 ?>
