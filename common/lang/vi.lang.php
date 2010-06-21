@@ -229,10 +229,10 @@
     $lang->success_voted = 'Đã bình chọn.';
     $lang->success_blamed = 'Đã phê bình.';
     $lang->success_moved = 'Đã chuyển.';
-    $lang->success_sended = 'Đã gửi.';
+    $lang->success_sended = 'Đã gửi thành công.';
     $lang->success_reset = 'Đã thiết lập lại thành công.';
-    $lang->success_leaved = 'Tất cả các thành viên đã được xóa.';
-    $lang->success_saved = 'Đã lưu.';
+    $lang->success_leaved = 'Đã xóa tất cả các thành viên.';
+    $lang->success_saved = 'Đã lưu thành công.';
 
     $lang->fail_to_delete = 'Không thể xóa.';
     $lang->fail_to_move = 'Không thể chuyển.';
@@ -259,7 +259,7 @@
     $lang->column_type_list['textarea'] = 'Khu vực nội dung';
     $lang->column_type_list['checkbox'] = 'Ô chọn (Nhiều lựa chọn)';
     $lang->column_type_list['select'] = 'Ô chọn (Một lựa chọn)';
-    $lang->column_type_list['kr_zip'] = 'Zip Code (Korean)';
+    $lang->column_type_list['kr_zip'] = 'Mã số bưu điện (Korean)';
     $lang->column_type_list['date'] = 'Ngày (yyyy/mm/dd)';
     //$lang->column_type_list['jp_zip'] = 'zip code (Japanese)';
     $lang->column_name = 'Tên cột';
@@ -271,8 +271,8 @@
     // ftp 관련
     $lang->ftp_form_title = 'Thông tin FTP';
     $lang->ftp = 'FTP';
-    $lang->ftp_host = 'FTP hostname';
-    $lang->ftp_port = 'Cổng kết nối:';
+    $lang->ftp_host = 'Tên Host FTP';
+    $lang->ftp_port = 'Cổng kết nối';
     $lang->about_ftp_password = 'Mật khẩu của FTP sẽ không lưu lại';
     $lang->cmd_check_ftp_connect = 'Kiểm tra kết nối bằng FTP';
     $lang->about_ftp_info = "
@@ -307,5 +307,5 @@
     $lang->filter->invalid_alpha_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z và các chữ số";
     $lang->filter->invalid_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số";
 
-    $lang->security_warning_embed = "Vì vấn đề bảo mật, nên Administrator không được phép xem các mục đã nhúng mã.<BR /> Để xem được chúng, hãy sử dụng một tên truy cập khác không phải là quản trị viên.";
+    $lang->security_warning_embed = "Vì vấn đề bảo mật, nên Administrator không được phép xem các mục đã nhúng mã.<BR /> Để xem được chúng, hãy sử dụng một tên truy cập khác không có quyền quản trị.";
 ?>
