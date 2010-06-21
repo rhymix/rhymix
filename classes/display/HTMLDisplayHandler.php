@@ -15,51 +15,55 @@ class HTMLDisplayHandler {
 		$output = $oTemplate->compile($template_path, $tpl_file);
 
 		// add #xeAdmin div for adminitration pages
-		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div id="xeAdmin">'.$output.'</div>';
+		debugPrint(Context::getResponseMethod());
+		if(Context::getResponseMethod() == 'HTML') {
+			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div id="xeAdmin">'.$output.'</div>';
 
-		if(Context::get('layout') != 'none') {
-			if(__DEBUG__==3) $start = getMicroTime();
+			if(Context::get('layout') != 'none') {
+				if(__DEBUG__==3) $start = getMicroTime();
 
-			Context::set('content', $output);
+				Context::set('content', $output);
 
-			$layout_path = $oModule->getLayoutPath();
-			$layout_file = $oModule->getLayoutFile();
+				$layout_path = $oModule->getLayoutPath();
+				$layout_file = $oModule->getLayoutFile();
 
-			$edited_layout_file = $oModule->getEditedLayoutFile();
+				$edited_layout_file = $oModule->getEditedLayoutFile();
 
-			// 현재 요청된 레이아웃 정보를 구함
-			$oLayoutModel = &getModel('layout');
-			$layout_info = Context::get('layout_info');
-			$layout_srl = $layout_info->layout_srl;
+				// 현재 요청된 레이아웃 정보를 구함
+				$oLayoutModel = &getModel('layout');
+				$layout_info = Context::get('layout_info');
+				$layout_srl = $layout_info->layout_srl;
 
-			// 레이아웃과 연결되어 있으면 레이아웃 컴파일
-			if($layout_srl > 0){
+				// 레이아웃과 연결되어 있으면 레이아웃 컴파일
+				if($layout_srl > 0){
 
-				// faceoff 레이아웃일 경우 별도 처리
-				if($layout_info && $layout_info->type == 'faceoff') {
-					$oLayoutModel->doActivateFaceOff($layout_info);
-					Context::set('layout_info', $layout_info);
+					// faceoff 레이아웃일 경우 별도 처리
+					if($layout_info && $layout_info->type == 'faceoff') {
+						$oLayoutModel->doActivateFaceOff($layout_info);
+						Context::set('layout_info', $layout_info);
+					}
+
+					// 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
+					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+
+					if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
 				}
+				if(!$layout_path) $layout_path = "./common/tpl";
+				if(!$layout_file) $layout_file = "default_layout";
+				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
-				// 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
-				$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+				if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
 
-				if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
-			}
-			if(!$layout_path) $layout_path = "./common/tpl";
-			if(!$layout_file) $layout_file = "default_layout";
-			$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
-
-			if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
-
-			if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get("_use_ssl")=='optional'||Context::get("_use_ssl")=="always")) {
-				Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
+				if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get("_use_ssl")=='optional'||Context::get("_use_ssl")=="always")) {
+					Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
+				}
 			}
 		}
 		return $output;
 	}
 
 	function prepareToPrint(&$output) {
+		if(Context::getResponseMethod() != 'HTML') return;
 		
 		if(__DEBUG__==3) $start = getMicroTime();
 

@@ -32,17 +32,16 @@
             ) $this->gz_enabled = true;
 
             // request method에 따른 컨텐츠 결과물 추출 
-			$responseMethod = Context::getResponseMethod();
             if(Context::get('xeVirtualRequestMethod')=='xml') {
 				require_once("./classes/display/VirtualXMLDisplayHandler.php");
 				$handler = new VirtualXMLDisplayHandler();
 			}
-            else if($responseMethod == 'XMLRPC') {
+            else if(Context::getRequestMethod() == 'XMLRPC') {
 				require_once("./classes/display/XMLDisplayHandler.php");
 				$handler = new XMLDisplayHandler();
 				if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) $this->gz_enabled = false;
 			}
-            else if($responseMethod == 'JSON') {
+            else if(Context::getRequestMethod() == 'JSON') {
 				require_once("./classes/display/JSONDisplayHandler.php");
 				$handler = new JSONDisplayHandler();
 			}
