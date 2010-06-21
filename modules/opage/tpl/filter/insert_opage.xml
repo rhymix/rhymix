@@ -12,6 +12,7 @@
         <param name="browser_title" target="browser_title" />
         <param name="caching_interval" target="opage_caching_interval" />
         <param name="path" target="opage_path" />
+        <param name="mpath" target="opage_mpath" />
     </parameter>
     <response callback_func="completeInsertOpage">
         <tag name="error" />

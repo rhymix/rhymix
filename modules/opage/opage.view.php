@@ -7,34 +7,39 @@
 
     class opageView extends opage {
 
+        var $path;
+        var $cache_file;
+        var $caching_interval;
+
         /**
          * @brief 초기화
          **/
         function init() {
             // 템플릿 경로 구함 (opage의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path.'tpl');
-        }
 
-        /**
-         * @brief 일반 요청시 출력
-         **/
-        function dispOpageIndex() {
             // 외부 페이지 모듈의 정보를 구함
             $oOpageModel = &getModel('opage');
             $module_info = $oOpageModel->getOpage($this->module_srl);
             Context::set('module_info', $module_info);
 
             // 외부 페이지에서 명시된 외부 페이지 경로/ 캐싱 간격을 를 구함
-            $path = $module_info->path;
-            $caching_interval = $module_info->caching_interval;
+            $this->path = $module_info->path;
+            $this->caching_interval = $module_info->caching_interval;
 
             // 캐시 파일 지정
-            $cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
+            $this->cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
+        }
+
+        /**
+         * @brief 일반 요청시 출력
+         **/
+        function dispOpageIndex() {
 
             // http 인지 내부 파일인지 점검
-            if($path) {
-                if(preg_match("/^([a-z]+):\/\//i",$path)) $content = $this->getHtmlPage($path, $caching_interval, $cache_file);
-                else $content = $this->executeFile($path, $caching_interval, $cache_file);
+            if($this->path) {
+                if(preg_match("/^([a-z]+):\/\//i",$this->path)) $content = $this->getHtmlPage($this->path, $this->caching_interval, $this->cache_file);
+                else $content = $this->executeFile($this->path, $this->caching_interval, $this->cache_file);
             }
 
             Context::set('opage_content', $content);
@@ -151,7 +156,7 @@
 
             if(substr($val,0,2)=='./') $val = substr($val,2);
             //$p = '/'.str_replace(_XE_PATH_,'',$this->path);
-			$p = Context::pathToUrl($this->path);
+	    $p = Context::pathToUrl($this->path);
             return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
         }
 
