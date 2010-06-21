@@ -1,0 +1,18 @@
+<!--%import("mx.css")-->
+<div class="eg hd">
+	<h1 class="h1"><a href="{$layout_info->index_url}">{$layout_info->index_title}</a></h1>
+	<div class="fr"><a href="menu.html" class="bn">메뉴</a></div>
+</div>
+<div class="bd">
+{$content}
+</div>
+<ul class="eg ft">
+	<!--@if($is_logged)-->
+	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">로그아웃</a></li>
+	<!--@else-->
+	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">로그인</a></li>
+	<!--@end-->
+	<li class="fl"><a href="search.html">검색</a></li>
+	<li class="fr"><a href="#">PC</a></li>
+</ul>
+<p class="cr">{$layout_info->index_title}</p>
