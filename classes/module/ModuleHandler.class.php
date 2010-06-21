@@ -268,7 +268,6 @@
 						$type = "mobile";
 						// create a module instance
 						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
-						debugPrint($oModule);
 						if(!is_object($oModule) || !method_exists($oModule, $this->act)) {
 							$type = $orig_type;
 							Mobile::setMobile(false);
