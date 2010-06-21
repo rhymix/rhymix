@@ -257,12 +257,28 @@
 				}
 
                 if($forward->module && $forward->type && $forward->act && $forward->act == $this->act) {
-
                     $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
 					$type = $forward->type;
 					$tpl_path = $oModule->getTemplatePath();
 					$orig_module = $oModule;
-                    $oModule = &$this->getModuleInstance($forward->module, $type, $kind);
+
+					if($type == "view" && Mobile::isFromMobilePhone())
+					{
+						$orig_type = "view";
+						$type = "mobile";
+						// create a module instance
+						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
+						debugPrint($oModule);
+						if(!is_object($oModule) || !method_exists($oModule, $this->act)) {
+							$type = $orig_type;
+							Mobile::setMobile(false);
+							$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
+						}
+					}
+					else
+					{
+						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
+					}
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
 					if($this->module == "admin" && $type == "view")
 					{
