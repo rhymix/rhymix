@@ -112,4 +112,6 @@
         'attribute' => 'Bạn có thể đặt màu nền / hình nền tới mọi khu vực trừ Widget, và màu chữ (bao gồm cả Tag).',
 
     );
+	$lang->mobile_layout_list = "Mobile Layout List";
+	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 ?>

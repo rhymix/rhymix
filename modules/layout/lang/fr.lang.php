@@ -109,4 +109,6 @@
         'attribute' => '위젯을 제외한 각 영역들은 모두 배경 색/ 이미지를 지정할 수 있고 글자색(a 태그 포함됨)을 정할 수 있습니다.',
 
     );
+	$lang->mobile_layout_list = "Mobile Layout List";
+	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 ?>

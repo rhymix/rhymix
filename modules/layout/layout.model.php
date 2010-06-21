@@ -19,12 +19,13 @@
          * @brief DB 에 생성된 레이아웃의 목록을 구함
          * 생성되었다는 것은 DB에 등록이 되었다는 것을 의미
          **/
-        function getLayoutList($site_srl = 0) {
+        function getLayoutList($site_srl = 0, $layout_type="P") {
             if(!$site_srl) {
                 $site_module_info = Context::get('site_module_info');
                 $site_srl = (int)$site_module_info->site_srl;
             }
             $args->site_srl = $site_srl;
+			$args->layout_type = $layout_type;
             $output = executeQuery('layout.getLayoutList', $args);
             if(!$output->data) return;
             if(is_array($output->data)) return $output->data;
@@ -42,17 +43,21 @@
             if(!$output->data) return;
 
             // layout, extra_vars를 정리한 후 xml 파일 정보를 정리해서 return
-            $layout_info = $this->getLayoutInfo($layout, $output->data);
+            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
             return $layout_info;
         }
 
         /**
          * @brief 레이아웃의 경로를 구함
          **/
-        function getLayoutPath($layout_name) {
+        function getLayoutPath($layout_name, $layout_type = "P") {
             if($layout_name == 'faceoff'){
                 $class_path = './modules/layout/faceoff/';
-            }else{
+            }else if($layout_type == "M") {
+				$class_path = sprintf("./m.layouts/%s/", $layout_name);
+			}
+			else
+			{
                 $class_path = sprintf('./layouts/%s/', $layout_name);
             }
             if(is_dir($class_path)) return $class_path;
@@ -63,9 +68,18 @@
          * @brief 레이아웃의 종류와 정보를 구함
          * 다운로드되어 있는 레이아웃의 종류 (생성과 다른 의미)
          **/
-        function getDownloadedLayoutList() {
+        function getDownloadedLayoutList($layout_type = "P") {
             // 다운받은 레이아웃과 설치된 레이아웃의 목록을 구함
-            $searched_list = FileHandler::readDir('./layouts');
+			if($layout_type == "M")
+			{
+				$directory = "./m.layouts";
+			}
+			else
+			{
+				$directory = "./layouts";
+			}
+
+            $searched_list = FileHandler::readDir($directory);
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
@@ -75,7 +89,7 @@
                 $layout = $searched_list[$i];
 
                 // 해당 레이아웃의 정보를 구함
-                $layout_info = $this->getLayoutInfo($layout);
+                $layout_info = $this->getLayoutInfo($layout, null, $layout_type);
 
                 $list[] = $layout_info;
             }
@@ -86,7 +100,7 @@
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
          * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다..
          **/
-        function getLayoutInfo($layout, $info = null) {
+        function getLayoutInfo($layout, $info = null, $layout_type = "P") {
             if($info) {
                 $layout_title = $info->title;
                 $layout = $info->layout;
@@ -101,7 +115,7 @@
             }
 
             // 요청된 모듈의 경로를 구한다. 없으면 return
-            if(!$layout_path) $layout_path = $this->getLayoutPath($layout);
+            if(!$layout_path) $layout_path = $this->getLayoutPath($layout, $layout_type);
             if(!is_dir($layout_path)) return;
 
             // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음

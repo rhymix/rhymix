@@ -14,6 +14,9 @@
         <action name="dispLayoutAdminLayoutModify" type="view" standalone="true" />
         <action name="dispLayoutAdminLayoutImageList" type="view" standalone="true" />
 
+		<action name="dispLayoutAdminMobileContent" type="view" standalone="true" />
+		<action name="dispLayoutAdminDownloadedMobileList" type="view" standalone="true" />
+
 
         <action name="procLayoutAdminInsert" type="controller" standalone="true" />
         <action name="procLayoutAdminUpdate" type="controller" standalone="true" />

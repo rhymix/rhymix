@@ -10,5 +10,6 @@
         <column name="module_srl" var="module_srl" />
         <column name="layout_path" var="layout_path" />
         <column name="regdate" var="regdate" default="curdate()" />
+		<column name="layout_type" var="layout_type" default="P" />
     </columns>
 </query>

@@ -33,6 +33,8 @@
                 if(preg_match('/([0-9]+)\.html/i',$filename)) return true;
             }
 
+			if(!$oDB->isColumnExists('layouts', 'layout_type')) return true;
+
             return false;
         }
 
@@ -60,6 +62,10 @@
                 FileHandler::copyFile('./files/cache/layout/'.$filename, $path.'layout.html');
                 @unlink('./files/cache/layout/'.$filename);
             }
+
+			if(!$oDB->isColumnExists('layouts', 'layout_type')) {
+                $oDB->addColumn('layouts','layout_type','char',1,'P',true);
+			}
 
             return new Object(0, 'success_updated');
         }

@@ -110,4 +110,6 @@
         'attribute' => '除了Widget以外的各個區域都可以指定背景顏色/圖片及文字顏色(包含a標籤)。',
 
     );
+	$lang->mobile_layout_list = "Mobile Layout List";
+	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 ?>

@@ -110,4 +110,6 @@
         'attribute' => 'You can set background color/image to every area except widget, and font color(include <a> tag).',
 
     );
+	$lang->mobile_layout_list = "Mobile Layout List";
+	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 ?>

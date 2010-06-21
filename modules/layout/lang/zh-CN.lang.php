@@ -110,4 +110,6 @@
         'attribute' => '除控件之外的各个区域都可以对其指定背景色/背景图片及字体颜色(包括a标签)。',
 
     );
+	$lang->mobile_layout_list = "Mobile Layout List";
+	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 ?>

@@ -5,6 +5,7 @@
     <parameter>
         <param name="layout" target="layout" />
         <param name="title" target="title" />
+		<param name="layout_type" target="layout_type" />
     </parameter>
     <response callback_func="completeInsertLayout">
         <tag name="error" />

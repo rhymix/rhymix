@@ -110,4 +110,6 @@
         'attribute' => 'ウィジェットを除いた各領域はすべて背景の色・イメージ・文字のテキスト色(「a」タグを含む)の指定が可能です。',
 
     );
+	$lang->mobile_layout_list = "Mobile Layout List";
+	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 ?>
