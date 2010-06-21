@@ -123,6 +123,7 @@
 
     $lang->mid = 'Tên Module';
     $lang->layout = 'Giao diện';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'Widget';
     $lang->module = 'Module';
     $lang->skin = 'Skin';

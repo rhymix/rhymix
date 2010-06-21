@@ -126,6 +126,7 @@
     $lang->mid = '模块名称';
     $lang->sid = '站点名称';
     $lang->layout = '布局';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = '控件 ';
     $lang->module = '模块';
     $lang->skin = '皮肤';

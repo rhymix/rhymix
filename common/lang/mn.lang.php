@@ -128,6 +128,7 @@
     $lang->mid = 'Модиул нэр';
     $lang->sid = 'Тvр сайтын нэр';
 	$lang->layout = 'Лэйаут';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'Вижет ';
     $lang->module = 'Модиул';
     $lang->skin = 'Скин';

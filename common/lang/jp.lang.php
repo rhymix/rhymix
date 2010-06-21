@@ -126,6 +126,7 @@
     $lang->mid = 'モジュール名';
     $lang->sid = 'バーチャル（Virtual）サイト名';
     $lang->layout = 'レイアウト';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'ウィジェット';
     $lang->module = 'モジュール';
     $lang->skin = 'スキン';

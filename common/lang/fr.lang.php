@@ -126,6 +126,7 @@
     $lang->mid = 'Nom';
     $lang->sid = 'Site Name';
     $lang->layout = 'Mise en Page';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'Gadget';
     $lang->module = 'Module';
     $lang->skin = 'Habillage';
