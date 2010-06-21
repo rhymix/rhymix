@@ -1,0 +1,15 @@
+	
+	<h2 class="h2">{$lang->cmd_login}</h2>
+	<form action="./" method="POST">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="act" value="procMemberLogin" />
+		<input type="hidden" name="redirect_url" value="{getUrl('act','')}" />
+		<ul class="sn">
+			<li><label for="id" class="db fb al">{$lang->user_id}</label><input name="user_id" type="text" id="id" class="itx" value="" /></li>
+			<li><label for="pw" class="db fb al">{$lang->password}</label><input name="password" type="password" id="pw" class="itx" value="" /></li>
+		</ul>
+		<div class="cm">
+			<div class="fl"><input name="keep_signed" type="checkbox" value="" id="autoLogin" /><label for="autoLogin">자동로그인</label></div>
+			<div class="fr"><a href="join.html" class="bn">회원가입</a> <button type="submit" class="bn">로그인</button></div>
+		</div>
+	</form>

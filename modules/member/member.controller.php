@@ -36,6 +36,12 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
+            $redirect_url = Context::get('redirect_url'); 
+			if($output->toBool() && Context::getRequestMethod() == "POST" && $redirect_url)
+			{
+                header("location:" . $redirect_url);
+			}
+
             return $output;
         }
 
