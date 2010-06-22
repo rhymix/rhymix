@@ -203,8 +203,7 @@
             $type = $xml_info->action->{$this->act}->type;
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
-
-			if(!$this->module_info->mlayout_srl) Mobile::setMobile(false);
+			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
 
 			// if(type == view, and case for using mobilephone)
 			if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
