@@ -20,5 +20,7 @@
 
         <action name="procMenuAdminUploadButton" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteButton" type="controller" standalone="true" />
+
+		<action name="dispMenuMenu" type="mobile" standalone="true" />
     </actions>
 </module>
