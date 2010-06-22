@@ -19,5 +19,7 @@
         <column name="header_text" var="header_text" />
         <column name="footer_text" var="footer_text" />
         <column name="regdate" default="curdate()" />
+		<column name="mlayout_srl" var="mlayout_srl" />
+		<column name="use_mobile" var="use_mobile" default="N" />
     </columns>
 </query>

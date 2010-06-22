@@ -13,6 +13,8 @@
         <column name="modules.module" alias="module" />
         <column name="modules.module_category_srl" alias="module_category_srl" />
         <column name="modules.layout_srl" alias="layout_srl" />
+        <column name="modules.mlayout_srl" alias="mlayout_srl" />
+        <column name="modules.use_mobile" alias="use_mobile" />
         <column name="modules.menu_srl" alias="menu_srl" />
         <column name="modules.mid" alias="mid" />
         <column name="modules.skin" alias="skin" />
