@@ -7,9 +7,8 @@
         <!--@if($logged_info->is_admin=='Y')-->
         <a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}" class="button green"><span>{$lang->cmd_setup}</span></a>
         <!--@end-->
-        <a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}" class="button red"><span>{$lang->cmd_page_modify}</span></a>
-		<!--@if($module_info->use_mobile =="Y")-->
-        <a href="{getUrl('act','dispPageAdminMobileContent','module_srl',$module_info->module_srl)}" class="button black"><span>Mobile</span></a>
-		<!--@end-->
+        <a href="{getUrl('act','dispPageAdminMobileContentModify','document_srl','')}" class="button red"><span>{$lang->cmd_page_modify}</span></a>
+        <a href="{getUrl('act','','module_srl',$module_info->module_srl)}" class="button black"><span>PC</span></a> 
+		<p style="color:#777">{$lang->about_mcontent}</p>
     </div>
 <!--@end-->

@@ -37,11 +37,28 @@ function completeInsertPageContent(ret_obj) {
     location.href = current_url.setQuery('mid',mid).setQuery('act','');
 }
 
+function completeInsertMobilePageContent(ret_obj) {
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+
+    var page = ret_obj['page'];
+    var module_srl = ret_obj['module_srl'];
+    var mid = ret_obj['mid'];
+
+    location.href = current_url.setQuery('mid',mid).setQuery('act','dispPageAdminMobileContent');
+}
+
 /* 수정한 페이지 컨텐츠를 저장 */
 function doSubmitPageContent(fo_obj) {
     var html = getWidgetContent();
     fo_obj.content.value = html;
     return procFilter(fo_obj, insert_page_content);
+}
+
+function doSubmitMPageContent(fo_obj) {
+    var html = getWidgetContent();
+    fo_obj.content.value = html;
+    return procFilter(fo_obj, insert_mpage_content);
 }
 
 /* 모듈 삭제 후 */

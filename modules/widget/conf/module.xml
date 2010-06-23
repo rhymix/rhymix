@@ -18,7 +18,6 @@
         <action name="procWidgetDeleteDocument" type="controller" standalone="true" />
         <action name="procWidgetGenerateCodeInPage" type="controller" standalone="true" />
         <action name="procWidgetGetColorsetList" type="controller" standalone="true" />
-        <action name="procWidgetRemoveContents" type="controller" standalone="true" />
 
         <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
         <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />

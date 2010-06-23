@@ -224,44 +224,6 @@
         }
 
         /**
-         * @brief 내용 지우기
-         **/
-        function procWidgetRemoveContents() {
-            $module_srl = Context::get('module_srl');
-            if(!$module_srl) return new Object(-1,'msg_invalid_request');
-
-            // 대상 페이지 모듈 정보 구함
-            $oModuleModel = &getModel('module');
-            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-            if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
-
-            // 권한 체크
-            $is_logged = Context::get('is_logged');
-            $logged_info = Context::get('logged_info');
-            $user_group = $logged_info->group_list;
-            $is_admin = false;
-            if(count($user_group)&&count($page_info->grants['manager'])) {
-                $manager_group = $page_info->grants['manager'];
-                foreach($user_group as $group_srl => $group_info) {
-                    if(in_array($group_srl, $manager_group)) $is_admin = true;
-                }
-            }
-            if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
-
-            // 등록된 글 목록 구함
-            $oDocumentModel = &getModel('document');
-            $oDocumentController = &getController('document');
-            $obj->module_srl = $module_srl;
-            $obj->list_count = 99999999;
-            $output = $oDocumentModel->getDocumentList($obj);
-            if(!$output->total_count) return new Object();
-            for($i=0;$i<$output->data;$i++) {
-                $oDocumentController->deleteDocument($output->data[$i]->document_srl, true);
-            }
-            return new Object();
-        }
-
-        /**
          * @brief 위젯 코드를 Javascript로 수정/드래그등을 하기 위한 Javascript 수정 모드로 변환
          **/
         function setWidgetCodeInJavascriptMode() {
