@@ -2,6 +2,7 @@
 <layout version="0.2">
     <title xml:lang="ko">XE 공식 사이트 모바일 레이아웃</title>
     <title xml:lang="en">XE Official Mobile layout</title>
+    <title xml:lang="zh-TW">XE 官方 Mobile 版面</title>
     <description xml:lang="ko">
         XE 공식 모바일 레이아웃입니다.
         디자인, 퍼블리싱 : 정찬명
@@ -12,6 +13,11 @@
         Design, HTML/CSS : Chan-Myung Jeong
         Layout producer : haneul 
     </description>
+    <description xml:lang="zh-TW">
+        這是 XE 官方網站版面。
+        Design, HTML/CSS : Chan-Myung Jeong
+        Layout producer : haneul 
+    </description>
     <version>0.1</version>
     <date>2010-06-10</date>
     <link>http://xpressengine.com</link>
@@ -19,11 +25,13 @@
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com">
         <name xml:lang="ko">XE</name>
         <name xml:lang="en">XE</name>
+        <name xml:lang="zh-TW">XE</name>
     </author>
 	<extra_vars>
 		<var name="index_title" type="text">
 			<title xml:lang="ko">홈페이지 Title</title>
 			<title xml:lang="en">Homepage Title</title>
+			<title xml:lang="zh-TW">首頁標題</title>
 		</var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
