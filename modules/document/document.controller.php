@@ -1621,7 +1621,7 @@
 
             $document_config = null;
             $document_config->use_history = Context::get('use_history');
-            if(!$document_config->use_history) $document_config->user_history = 'N';
+            if(!$document_config->use_history) $document_config->use_history = 'N';
 
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
