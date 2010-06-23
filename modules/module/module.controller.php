@@ -174,6 +174,7 @@
             unset($extra_vars->description);
             unset($extra_vars->is_default);
             unset($extra_vars->content);
+            unset($extra_vars->mcontent);
             unset($extra_vars->open_rss);
             unset($extra_vars->header_text);
             unset($extra_vars->footer_text);

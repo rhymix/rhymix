@@ -13,6 +13,7 @@
         <column name="description" var="description" default="" />
         <column name="is_default" var="is_default" default="N" notnull="notnull" />
         <column name="content" var="content" />
+        <column name="mcontent" var="mcontent" />
         <column name="open_rss" var="open_rss" default="Y" notnull="notnull" />
         <column name="header_text" var="header_text" default="" />
         <column name="footer_text" var="footer_text" default="" />
