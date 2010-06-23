@@ -76,6 +76,7 @@
 
 			if(!$oDB->isColumnExists("modules", "use_mobile")) return true;
 			if(!$oDB->isColumnExists("modules", "mlayout_srl")) return true;
+			if(!$oDB->isColumnExists("modules", "mcontent")) return true;
 
             return false;
         }
@@ -306,6 +307,9 @@
 			}
 			if(!$oDB->isColumnExists("modules", "mlayout_srl")) {
 				$oDB->addColumn('modules','mlayout_srl','number',11, 0);
+			}
+			if(!$oDB->isColumnExists("modules", "mcontent")) {
+				$oDB->addColumn('modules','mcontent','bigtext');
 			}
 
             return new Object(0, 'success_updated');
