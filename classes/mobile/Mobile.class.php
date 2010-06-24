@@ -23,7 +23,7 @@ class Mobile {
 		}
 		else
 		{
-			$this->ismobile = Context::get('mobile') || preg_match('/(iPod|iPhone|Android|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
+			$this->ismobile = Context::get('mobile') || preg_match('/(iPod|iPhone|Android|BlackBerry|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
 		}
 
 		return $this->ismobile;
