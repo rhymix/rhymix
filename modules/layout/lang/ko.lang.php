@@ -113,4 +113,7 @@
 
 	$lang->mobile_layout_list = "모바일 레이아웃 목록";
 	$lang->mobile_downloaded_list = "모바일 다운로드 목록";
+	$lang->apply_mobile_view = "모바일 뷰 일괄 적용";
+	$lang->about_apply_mobile_view = "체크하시면 연결된 모든 메뉴에서 모바일 뷰를 사용합니다.";
+
 ?>

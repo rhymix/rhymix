@@ -124,6 +124,8 @@
                 $layout_info->layout = $layout;
                 $layout_info->path = $layout_path;
                 $layout_info->layout_title = $layout_title;
+				if(!$layout_info->layout_type)
+					$layout_info->layout_type =  $layout_type;
                 return $layout_info;
             }
 
@@ -133,7 +135,6 @@
             }else{
                 $cache_file = $this->getUserLayoutCache($layout_srl, Context::getLangType());
             }
-
             if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
 
@@ -174,6 +175,7 @@
                 $buff .= sprintf('$layout_info->layout_title = $layout_title;');
                 $buff .= sprintf('$layout_info->license = "%s";', $xml_obj->license->body);
                 $buff .= sprintf('$layout_info->license_link = "%s";', $xml_obj->license->attrs->link);
+				$buff .= sprintf('$layout_info->layout_type = "%s";', $layout_type);
 
                 // 작성자 정보
                 if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;

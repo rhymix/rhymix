@@ -70,6 +70,7 @@
             unset($extra_vars->layout);
             unset($extra_vars->title);
             unset($extra_vars->apply_layout);
+			unset($extra_vars->apply_mobile_view);
 
             $args = Context::gets('layout_srl','title');
 
@@ -87,7 +88,10 @@
                     $menu_srl_list[] = $menu_srl;
                     $menu_name_list[$menu_srl] = $output->title;
 
-                    if(Context::get('apply_layout')=='Y') {
+					$apply_layout = Context::get('apply_layout');
+					$apply_mobile_view = Context::get('apply_mobile_view');
+
+                    if($apply_layout=='Y' || $apply_mobile_view=='Y') {
                         $menu_args = null;
                         $menu_args->menu_srl = $menu_srl;
                         $menu_args->site_srl = $layout_info->site_srl;
@@ -100,8 +104,21 @@
 
                             if(count($modules)) {
                                 $update_args->module_srls = implode(',',$modules);
-                                $update_args->layout_srl = $args->layout_srl;
-                                $output = executeQuery('layout.updateModuleLayout', $update_args);
+								if($apply_layout == "Y") {
+									$update_args->layout_srl = $args->layout_srl;
+								}
+								if($layout_info->layout_type == "M")
+								{
+									if(Context::get('apply_mobile_view') == "Y")
+									{
+										$update_args->use_mobile = "Y";
+									}
+									$output = executeQuery('layout.updateModuleMLayout', $update_args);
+								}
+								else
+								{
+									$output = executeQuery('layout.updateModuleLayout', $update_args);
+								}
                             }
                         }
                     }
