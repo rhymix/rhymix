@@ -112,4 +112,6 @@
     );
 	$lang->mobile_layout_list = "Mobile Layout List";
 	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
+	$lang->apply_mobile_view = "Apply Mobile View";
+	$lang->about_apply_mobile_view = "All connected module use mobile view to display when accessing with mobile device.";
 ?>
