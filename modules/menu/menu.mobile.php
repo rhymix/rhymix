@@ -5,6 +5,7 @@ class menuMobile extends moduleObject {
 
 	function straightenMenu($menu_item, $depth)
 	{
+		if(!$menu_item['link']) return;
 		$obj->href = $menu_item['href'];
 		$obj->depth = $depth;
 		$obj->link = $menu_item['link'];
@@ -21,7 +22,6 @@ class menuMobile extends moduleObject {
 		$oAdminModel =& getAdminModel('menu');
 		$menu_info = $oAdminModel->getMenu($menu_srl);
 		if(file_exists($menu_info->php_file)) @include($menu_info->php_file);
-
 		foreach($menu->list as $menu_item)
 		{
 			$this->straightenMenu($menu_item, 0);
