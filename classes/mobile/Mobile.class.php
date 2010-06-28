@@ -23,7 +23,17 @@ class Mobile {
 		}
 		else
 		{
-			$this->ismobile = Context::get('mobile') || preg_match('/(iPod|iPhone|Android|BlackBerry|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
+			$m = Context::get('m');
+			if($m == "1") {
+				setcookie("mobile", true);
+				$this->ismobile = true;
+			}
+			else if($m === "0") {
+				setcookie("mobile", "");
+				$this->ismobile = false;
+			}
+			else if($_COOKIE["mobile"]) $this->ismobile = true;
+			else $this->ismobile = preg_match('/(iPod|iPhone|Android|BlackBerry|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
 		}
 
 		return $this->ismobile;
