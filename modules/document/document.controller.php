@@ -481,6 +481,7 @@
             $oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
             $trash_args->module_srl = $oDocument->get('module_srl');
+			$obj->module_srl = $oDocument->get('module_srl');
 
             // 휴지통 문서를 두번 휴지통에 버릴 수 없음.
             if($trash_args->module_srl == 0) return false;
@@ -531,7 +532,16 @@
                 executeQuery('file.updateFileValid', $args);
             }
 
-            // commit
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+           // commit
             $oDB->commit();
 
             return $output;

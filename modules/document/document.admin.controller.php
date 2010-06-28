@@ -529,6 +529,15 @@
                 executeQuery('file.updateFileValid', $args);
             }
 
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $document_args);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
             // commit
             $oDB->commit();
 			return $output;
