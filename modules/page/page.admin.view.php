@@ -87,8 +87,8 @@
             }
 
             // 레이아웃 목록을 구해옴
-            $oLayoutMode = &getModel('layout');
-            $layout_list = $oLayoutMode->getLayoutList();
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
 
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
