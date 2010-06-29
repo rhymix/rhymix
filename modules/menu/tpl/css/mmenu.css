@@ -1,0 +1,11 @@
+/* Body */
+.bd{position:relative;overflow:hidden;clear:both}
+/* GNB */
+.gn,.gn ul{margin:0;padding:0;list-style:none}
+.gn li{margin:-1px 0;border:1px solid #999;border-left:0;border-right:0;vertical-align:top}
+.gn li a{display:block;text-decoration:none;height:45px;line-height:45px;padding:0 10px;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gn li a em{font-weight:normal;color:#f60;font-size:12px}
+.gn li a:visited{color:#666}
+.gn li li a{padding:0 10px 0 20px}
+.gn li li li a{padding:0 10px 0 30px}
+.gn li li li li a{padding:0 10px 0 50px}
