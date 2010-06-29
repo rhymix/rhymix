@@ -1,0 +1,33 @@
+/* Mobile XE */
+body{margin:0;background:#fff;color:#000;word-wrap:break-word}
+body,input,textarea,select,button,table{font-family:Tahoma, Geneva, sans-serif}
+form{margin:0;padding:0}
+form ul{margin:0;padding:0;list-style:none}
+form li{margin:0 0 10px 0;padding:0 0 10px 0;border-bottom:1px dashed #999}
+form li:last-child{border:0}
+form p{margin:0}
+form p.help{color:#666}
+fieldset{border:0;margin:0;padding:0}
+input,textarea,select{font-size:16px}
+button{font-size:12px;cursor:pointer;background:#eee;border:1px solid #666;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;overflow:visible;padding:3px;text-shadow:1px 1px 0 #fff;box-shadow:0 0 2px #666;-moz-box-shadow:0 0 2px #666;-webkit-box-shadow:0 0 2px #666;text-decoration:none;font-weight:normal}
+select{width:90%}
+/* Common Class */
+.al{text-align:left}
+.db{display:block}
+.fb{font-weight:bold}
+.itx{border:1px solid #ccc;width:90%;font-size:20px;height:30px;padding:5px 10px}
+.sn{margin:10px;*zoom:1}
+.sn:after{content:"";display:block;clear:both}
+/* Body */
+.bd{position:relative;overflow:hidden;clear:both}
+.bd .h2{font-size:20px;background:#ccc;border:1px solid #aaa}
+.bd .h3{font-size:16px;background:#eee;border:1px solid #ccc}
+.bd .h2,.bd .h3{position:relative;margin:-1px 0;padding:10px;border:1px solid #aaa;border-left:0;border-right:0;text-shadow:1px 1px #fff}
+.bd .h2 em,.bd .h3 em{font-weight:normal;color:#f60;font-size:12px}
+.bd .h2 a,.bd .h3 a{color:#000}
+.bd .h2 .bn{position:absolute;top:8px;right:10px;font-size:12px;margin:0}
+/* Context */
+.cm{margin:0;padding:10px;background:#777;color:#fff;text-align:center;list-style:none;border-top:1px solid #555;*zoom:1}
+.cm:after{content:"";display:block;clear:both}
+.cm .fl{margin:0 5px 0 0}
+.cm .fr{margin:0 0 0 5px}
