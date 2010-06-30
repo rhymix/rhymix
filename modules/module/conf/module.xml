@@ -37,5 +37,7 @@
         <action name="procModuleAdminModuleGrantSetup" type="controller" standalone="true" />
         <action name="procModuleAdminInsertLang" type="controller" standalone="true" />
         <action name="procModuleAdminDeleteLang" type="controller" standalone="true" />
+
+		<action name="dispModuleChangeLang" type="mobile" />
     </actions>
 </module>

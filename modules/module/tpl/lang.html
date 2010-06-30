@@ -1,0 +1,12 @@
+<!--%import("css/mlang.css")-->
+<div class="bd">
+<ul class="gn">
+<!--@foreach($lang_supported as $key=>$val)-->
+	<!--@if($key != $lang_type)-->
+	<li><a href="{getUrl('act',$oldact,'l',$key)}">{$val}</a></li>
+	<!--@else-->
+	<li><strong>{$val}</strong></li>
+	<!--@end-->
+<!--@end-->
+</ul>
+</div>
