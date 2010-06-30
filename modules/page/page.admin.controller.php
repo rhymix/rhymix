@@ -89,6 +89,7 @@
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 			if($type == "mobile") {
+                if(!$mcontent) $mcontent = '';
 				$module_info->mcontent = $mcontent;
 			}
 			else {
