@@ -77,6 +77,7 @@
 			if(!$oDB->isColumnExists("modules", "use_mobile")) return true;
 			if(!$oDB->isColumnExists("modules", "mlayout_srl")) return true;
 			if(!$oDB->isColumnExists("modules", "mcontent")) return true;
+			if(!$oDB->isColumnExists("modules", "mskin")) return true;
 
             return false;
         }
@@ -310,6 +311,9 @@
 			}
 			if(!$oDB->isColumnExists("modules", "mcontent")) {
 				$oDB->addColumn('modules','mcontent','bigtext');
+			}
+			if(!$oDB->isColumnExists("modules", "mskin")) {
+				$oDB->addColumn('modules','mskin','varchar',250);
 			}
 
             return new Object(0, 'success_updated');

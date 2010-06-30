@@ -170,6 +170,7 @@
             unset($extra_vars->site_srl);
             unset($extra_vars->mid);
             unset($extra_vars->skin);
+			unset($extra_vars->mskin);
             unset($extra_vars->browser_title);
             unset($extra_vars->description);
             unset($extra_vars->is_default);
