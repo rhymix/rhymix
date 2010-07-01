@@ -358,7 +358,6 @@
          **/
         function triggerBeforeDownloadFile(&$obj) {
             $logged_info = Context::get('logged_info');
-            if(!$logged_info->member_srl) return new Object();
             $member_srl = $logged_info->member_srl;
             $module_srl = $obj->module_srl;
             if(!$module_srl) return new Object();
@@ -371,7 +370,11 @@
             $module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 
             // 포인트가 없으면 다운로드가 안되도록 하였으면 비로그인 회원일 경우 중지
-            if(!Context::get('is_logged') && $config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
+            if(!Context::get('is_logged'))
+			{
+				if($config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
+				else return new Object();
+			}
 
             // 대상 회원의 포인트를 구함
             $oPointModel = &getModel('point');
