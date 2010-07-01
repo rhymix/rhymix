@@ -15,7 +15,8 @@
 			</li>
 		</ul>
 		<ul class="lnb">
-			<li class="core <!--@if(!$package_selected)-->selected<!--@end-->"><a href="{getUrl('','module','admin')}">{$lang->control_panel}</a></li>
+			<li class="core <!--@if(!$package_selected && !strstr($act,'Autoinstall'))-->selected<!--@end-->"><a href="{getUrl('','module','admin')}">{$lang->control_panel}</a></li>
+			<li class="core <!--@if(strstr($act, 'Autoinstall'))-->selected<!--@end-->"><a href="{getUrl('','module','admin','act','dispAutoinstallAdminIndex')}">{$lang->autoinstall}</a></li>
 
             <!--@foreach($package_modules as $key => $val)-->
                 <li class="{$val->position} <!--@if($val->selected)-->selected<!--@end-->"><a href="{getUrl('','module','admin','act',$val->index_act)}" title="{trim($val->description)}">{$val->title}</a></li>
