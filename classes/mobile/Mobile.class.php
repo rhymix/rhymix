@@ -33,7 +33,13 @@ class Mobile {
 				$this->ismobile = false;
 			}
 			else if($_COOKIE["mobile"]) $this->ismobile = true;
-			else $this->ismobile = preg_match('/(iPod|iPhone|Android|BlackBerry|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']);
+			else {
+				if(preg_match('/(iPod|iPhone|Android|BlackBerry|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']))
+				{
+					setcookie("mobile", true);
+					$this->ismobile = true;
+				}
+			}
 		}
 
 		return $this->ismobile;
