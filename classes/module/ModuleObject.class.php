@@ -246,7 +246,7 @@
             // addon 실행(called_position 를 before_module_proc로 하여 호출)
             $called_position = 'before_module_proc';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath();
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
@@ -270,7 +270,7 @@
             // addon 실행(called_position 를 after_module_proc로 하여 호출)
             $called_position = 'after_module_proc';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath();
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {

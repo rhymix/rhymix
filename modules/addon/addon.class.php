@@ -7,7 +7,7 @@
 
     class addon extends ModuleObject {
 
-        var $cache_file = "./files/cache/activated_addons.cache.php";
+        var $cache_file = "./files/cache/activated_addons.ache.php";
 
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
@@ -43,6 +43,9 @@
          **/
         function checkUpdate() {
             if(file_exists($this->cache_file)) FileHandler::removeFile($this->cache_file);
+            $oDB = &DB::getInstance();
+			if(!$oDB->isColumnExists("addons", "is_used_m")) return true;
+			if(!$oDB->isColumnExists("addons_site", "is_used_m")) return true;
             return false;
         }
 
@@ -50,6 +53,13 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
+            $oDB = &DB::getInstance();
+			if(!$oDB->isColumnExists("addons", "is_used_m")) {
+				$oDB->addColumn("addons", "is_used_m", "char", 1, "N", true);
+			}
+			if(!$oDB->isColumnExists("addons_site", "is_used_m")) { 
+				$oDB->addColumn("addons_site", "is_used_m", "char", 1, "N", true);
+			}
             return new Object();
         }
 

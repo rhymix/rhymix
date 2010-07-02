@@ -89,7 +89,8 @@
             <tr>
                 <th><div>{$lang->addon}</div></th>
                 <th><div>{$lang->cmd_setup}</div></th>
-                <th><div>{$lang->status}</div></th>
+                <th><div>PC</div></th>
+                <th><div>Mobile</div></th>
             </tr>
         </thead>
         <tbody>
@@ -104,6 +105,13 @@
                 <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
                 <!--@end-->
             </td>
+			<td>
+                <!--@if($val->mactivated)-->
+                <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}', 'mobile');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
+                <!--@else-->
+                <a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}', 'mobile');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
+                <!--@end-->
+			</td>
         </tr>
         <!--@end-->
         </tbody>

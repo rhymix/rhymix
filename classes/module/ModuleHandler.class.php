@@ -61,7 +61,7 @@
             // execute addon (before module initialization)
             $called_position = 'before_module_init';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath();
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
         }
 

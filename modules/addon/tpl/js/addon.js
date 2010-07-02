@@ -9,8 +9,10 @@ function doToggleAddon(addon) {
 }
 
 // 관리자 제어판 페이지용
-function doToggleAddonInAdmin(obj, addon) {
+function doToggleAddonInAdmin(obj, addon, type) {
     var params = new Array();
     params['addon'] = addon;
+	if(typeof(type) == "undefined") type = "pc";
+	params['type'] = type;
     exec_xml('addon','procAddonAdminToggleActivate',params,function() { if(/Active/.test(obj.className)) obj.className = "buttonSet buttonDisable"; else obj.className = "buttonSet buttonActive"; } );
 }
