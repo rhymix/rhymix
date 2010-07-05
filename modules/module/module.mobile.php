@@ -6,3 +6,5 @@ class moduleMobile extends moduleObject {
 		$this->setTemplateFile('lang.html');
 	}
 }
+
+?>
