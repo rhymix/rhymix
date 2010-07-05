@@ -7,8 +7,6 @@
 
     class addon extends ModuleObject {
 
-        var $cache_file = "./files/cache/activated_addons.ache.php";
-
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
@@ -42,7 +40,6 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
-            if(file_exists($this->cache_file)) FileHandler::removeFile($this->cache_file);
             $oDB = &DB::getInstance();
 			if(!$oDB->isColumnExists("addons", "is_used_m")) return true;
 			if(!$oDB->isColumnExists("addons_site", "is_used_m")) return true;
