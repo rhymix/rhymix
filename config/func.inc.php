@@ -852,7 +852,7 @@
 
     function isCrawler($agent = null) {
         if(!$agent) $agent = $_SERVER['HTTP_USER_AGENT'];
-        $check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss');
+        $check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss', 'facebook');
         $check_ip = array(
             '211.245.21.11*' /* mixsh */
         );
