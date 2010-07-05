@@ -56,4 +56,7 @@
         'ipaddress' => 'IP',
     );
 	$lang->msg_not_allowed_outlink = 'Không cho phép tải file từ những trang khác ngoài trang này.'; 
+    $lang->msg_not_permitted_create = '파일 또는 디렉토리를 생성할 수 없습니다.';
+	$lang->msg_file_upload_error = '파일 업로드 중 에러가 발생하였습니다.';
+
 ?>
