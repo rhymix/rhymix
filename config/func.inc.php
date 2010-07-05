@@ -677,8 +677,13 @@
     function _isHackedSrc($src) {
         if(!$src) return false;
         if($src) {
+			$target = trim($src);
+			if(preg_match('/(\s|(\&\#)|(script:))/i', $target)) return true;
+			if(preg_match('/data:/i', $target)) return true;
+
             $url_info = parse_url($src);
             $query = $url_info['query'];
+			if(!trim($query)) return false;
 			$query = str_replace("&amp;","&",$query);
             $queries = explode('&', $query);
             $cnt = count($queries);
@@ -690,9 +695,6 @@
                 $val = strtolower(trim(substr($tmp_str,$pos+1)));
                 if( ($key=='module'&&$val=='admin') || ($key=='act'&&preg_match('/admin/i',$val)) ) return true;
             }
-
-			$target = trim($src);
-			if(preg_match('/(\s|(\&\#)|(script:))/i', $target)) return true;
         }
         return false;
     }
