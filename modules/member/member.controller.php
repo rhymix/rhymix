@@ -511,6 +511,7 @@
          * @brief 회원 가입
          **/
         function procMemberInsert() {
+			if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
 
