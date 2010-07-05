@@ -55,3 +55,5 @@ ul.listOrder.desc li.arrow { background:url(../img/arrDown.gif) no-repeat right 
 ul.listOrder li { position:relative; left:-1px; display:inline; margin:0; padding:0 5px 0 9px; border-left:1px solid #ddd;}
 ul.listOrder li.arrow a { text-decoration:none; font-weight:bold; color:#2893BB; }
 ul.listOrder li a { text-decoration:none; color:#7B7575; }
+
+p.caution strong { font-size: 1.2em; font-weight: bold; color: red; } 
