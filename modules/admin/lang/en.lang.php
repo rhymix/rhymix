@@ -85,4 +85,5 @@
 	$lang->msg_self_restart_cache_engine = 'Please restart Memcached or cache daemon.';
 	$lang->mobile_view = 'Mobile View';
 	$lang->about_mobile_view = 'Mobile View will display the best layout when accessing with smartphones.';
+    $lang->autoinstall = 'EasyInstall';
 ?>

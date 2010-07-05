@@ -88,4 +88,5 @@
 	$lang->msg_self_restart_cache_engine = 'Hãy thiết lập lại bộ nhớ Cache hoặc Deamon Cache.';
 	$lang->mobile_view = 'Xem bằng di động';
 	$lang->about_mobile_view = 'Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.';
+    $lang->autoinstall = 'Cập nhật tự động';
 ?>
