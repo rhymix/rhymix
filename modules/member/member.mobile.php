@@ -4,18 +4,7 @@ class memberMobile extends member
 {
 	function init() {
 		// 회원 관리 정보를 받음
-		$oModuleModel = &getModel('module');
-		$this->member_config = $oModuleModel->getModuleConfig('member');
-		if(!$this->member_config->skin) $this->member_config->skin = "default";
-		if(!$this->member_config->colorset) $this->member_config->colorset = "white";
-
-		Context::set('member_config', $this->member_config);
-		$skin = $this->member_config->mskin;
-
-		// template path 지정
-		$tpl_path = sprintf('%sm.skins/%s', $this->module_path, $skin);
-		if(!$skin || !is_dir($tpl_path)) $tpl_path = sprintf('%sm.skins/%s', $this->module_path, 'default');
-		$this->setTemplatePath($tpl_path);
+		$this->setTemplatePath($this->module_path.'tpl');
 	}
 
 	function dispMemberLoginForm() {
