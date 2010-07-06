@@ -8,11 +8,10 @@
 {$content}
 <ul class="eg ft">
 	<!--@if($is_logged)-->
-	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">로그아웃</a></li>
+	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 	<!--@else-->
-	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">로그인</a></li>
+	<li class="fl"><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
 	<!--@end-->
-	<li class="fl"><a href="search.html">검색</a></li>
 	<li class="fr"><a href="{getUrl('m',0)}">PC</a></li>
 	<li class="fr"><a href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">LANG</a></li>
 </ul>
