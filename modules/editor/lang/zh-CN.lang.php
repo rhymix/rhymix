@@ -227,6 +227,6 @@
 
     $lang->edit->confirm_submit_without_saving = '尚有未保存的段落。\\n确定要提交吗？';
 
-	$lang->edit->image_align = '이미지 정렬';
-	$lang->edit->attached_files = '첨부 파일';
+    $lang->edit->image_align = '图片对齐';
+    $lang->edit->attached_files = '附件';
 ?>

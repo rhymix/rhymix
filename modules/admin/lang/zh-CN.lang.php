@@ -2,7 +2,7 @@
     /**
      * @file   zh-CN.lang.php
      * @author zero (zero@nzeo.com)
-     * @brief  简体中文语言包 (只收录基本内容)
+     * @brief  简体中文语言包
      **/
 
     $lang->admin_info = '管理员信息';
@@ -78,12 +78,12 @@
     $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
     $lang->use_db_session = 'DB储存认证会话';
     $lang->about_db_session = '用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。';
-    $lang->sftp = "Use SFTP";
-    $lang->ftp_get_list = "Get List";
-    $lang->ftp_remove_info = 'Remove FTP Info.';
-	$lang->msg_ftp_invalid_path = 'Failed to read the specified FTP Path.';
-	$lang->msg_self_restart_cache_engine = 'Please restart Memcached or cache daemon.';
-	$lang->mobile_view = 'Use Mobile View';
-	$lang->about_mobile_view = 'If accessing with a smartphone, display content with mobile layout.';
-    $lang->autoinstall = 'Autoinstall';
+    $lang->sftp = '使用sSFTP'; 
+    $lang->ftp_get_list = '载入列表';
+    $lang->ftp_remove_info = '删除FTP信息';
+    $lang->msg_ftp_invalid_path = '无法读取FTP路径。';
+    $lang->msg_self_restart_cache_engine = '请重新启动Memcached或CacheDaemon。';
+    $lang->mobile_view = '开启移动版';
+    $lang->about_mobile_view = '为智能手机访问网站，提供最佳视觉效果。';
+    $lang->autoinstall = '安装·更新';
 ?>

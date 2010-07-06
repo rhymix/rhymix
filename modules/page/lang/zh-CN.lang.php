@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   zh-CN.lang.php
-     * @author zero (zero@nzeo.com)
-     * @brief  页面(page) 模块基本语言包
+     * @author zero (zero@nzeo.com)   翻译：guny(space.china@gmail.com)
+     * @brief  页面(page)模块简体中文语言包
      **/
 
     $lang->page = "页面";
@@ -10,5 +10,5 @@
     $lang->cmd_page_modify = "页面编辑";
     $lang->page_caching_interval = "缓冲时间设置";
     $lang->about_page_caching_interval = "单位为分。缓冲时间间隔内页面将输出临时储存的数据。<br />显示外链服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。";
-	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
+    $lang->about_mcontent = '此页为移动版页面，如您没有对此页面进行布局，它会自动将PC版页面数据重排序显示。';
 ?>
