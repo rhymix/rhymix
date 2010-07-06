@@ -81,7 +81,8 @@ _xe_base = {
 
 		oApp.parent = this;
 
-		// TODO : register event
+		// register event
+		if ($.isFunction(oApp.activate)) oApp.activate();
 	},
 
 	/**
@@ -98,7 +99,8 @@ _xe_base = {
 			if (nIndex >= 0) _apps[sName].splice(nIndex, 1);
 		}
 
-		// TODO : unregister event
+		// unregister event
+		if ($.isFunction(oApp.deactivate)) oApp.deactivate();
 	},
 
 	/**
@@ -157,7 +159,8 @@ _app_base = {
 		// binding
 		oPlugin.oApp = this;
 
-		// TODO : registered event
+		// registered event
+		if ($.isFunction(oPlugin.activate)) oPlugin.activate();
 
 		return true;
 	},
