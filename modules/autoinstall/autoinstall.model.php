@@ -148,6 +148,7 @@
 			$config_file = null;
 			switch($type)
 			{
+				case "m.layout":
 				case "module":
 					case "addon":
 					case "layout":
@@ -157,6 +158,7 @@
 				case "component":
 					$config_file = "/info.xml";
 				break;
+				case "m.skin":
 				case "skin":    
 				case "widgetstyle":
 				case "style":
