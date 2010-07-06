@@ -65,6 +65,9 @@
             $http_port = Context::get('http_port');
             $https_port = Context::get('https_port');
 
+			$use_mobile_view = Context::get('use_mobile_view');
+			if($use_mobile_view!='Y') $use_mobile_view = 'N';
+
             $db_info = Context::getDBInfo();
             $db_info->default_url = Context::get('default_url');
             if($db_info->default_url && !preg_match('/^(http|https):\/\//i', $db_info->default_url)) $db_info->default_url = 'http://'.$db_info->default_url;
@@ -74,6 +77,7 @@
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_optimizer = $use_optimizer;
             $db_info->use_ssl = $use_ssl;
+			$db_info->use_mobile_view = $use_mobile_view;
             if($http_port) $db_info->http_port = (int) $http_port;
             else if($db_info->http_port) unset($db_info->http_port);
 

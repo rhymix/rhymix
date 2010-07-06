@@ -74,6 +74,11 @@
             if($oDB->isIndexExists('sites', 'idx_domain')) return true;
 			if(!$oDB->isIndexExists('sites','unique_domain')) return true;
 
+			if(!$oDB->isColumnExists("modules", "use_mobile")) return true;
+			if(!$oDB->isColumnExists("modules", "mlayout_srl")) return true;
+			if(!$oDB->isColumnExists("modules", "mcontent")) return true;
+			if(!$oDB->isColumnExists("modules", "mskin")) return true;
+
             return false;
         }
 
@@ -297,6 +302,19 @@
                 $this->updateForUniqueSiteDomain();
                 $oDB->addIndex('sites','unique_domain',array('domain'),true);
             }
+
+			if(!$oDB->isColumnExists("modules", "use_mobile")) {
+				$oDB->addColumn('modules','use_mobile','char',1,'N');
+			}
+			if(!$oDB->isColumnExists("modules", "mlayout_srl")) {
+				$oDB->addColumn('modules','mlayout_srl','number',11, 0);
+			}
+			if(!$oDB->isColumnExists("modules", "mcontent")) {
+				$oDB->addColumn('modules','mcontent','bigtext');
+			}
+			if(!$oDB->isColumnExists("modules", "mskin")) {
+				$oDB->addColumn('modules','mskin','varchar',250);
+			}
 
             return new Object(0, 'success_updated');
         }

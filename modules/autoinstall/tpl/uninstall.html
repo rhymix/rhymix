@@ -3,7 +3,7 @@
 <!--%import("js/autoinstall.js")-->
 <div class="infoText">
 	<p><strong>{$package->title}</strong> [{$package->type}] - {$package->path}</p>
-	<p>{$lang->description_uninstall}</p>
+	<p class="caution"><strong>{$lang->description_uninstall}</strong></p>
 	<form action="./" method="POST" onsubmit="return procFilter(this, uninstall_package);">
 	<input type="hidden" name="package_srl" value="{$package_srl}" />
     <!--@if($need_password)-->

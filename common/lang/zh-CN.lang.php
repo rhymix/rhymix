@@ -126,6 +126,7 @@
     $lang->mid = '模块名称';
     $lang->sid = '站点名称';
     $lang->layout = '布局';
+    $lang->mobile_layout = '移动版布局';
     $lang->widget = '控件 ';
     $lang->module = '模块';
     $lang->skin = '皮肤';
@@ -257,7 +258,7 @@
     $lang->confirm_move = '确定要移动吗?';
     $lang->confirm_reset = '确定要初始化吗?';
     $lang->confirm_leave = '确定要注销吗?';
-    $lang->confirm_update = 'Are you sure to update?';
+    $lang->confirm_update = '确定要更新吗?';
 
     $lang->column_type = '格式';
     $lang->column_type_list['text'] = '单行文本输入区(text)';
@@ -281,9 +282,9 @@
     // ftp 相关
     $lang->ftp_form_title = '设置FTP信息';
     $lang->ftp = 'FTP';
-    $lang->ftp_host = 'FTP hostname';
-    $lang->ftp_port = 'FTP port';
-    $lang->about_ftp_password = 'FTP password will not be stored';
+    $lang->ftp_host = 'FTP服务器名';
+    $lang->ftp_port = 'FTP端口';
+    $lang->about_ftp_password = 'FTP密码不会被保存。';
     $lang->cmd_check_ftp_connect = '测试FTP连接';
     $lang->about_ftp_info = "
         相关FTP信息，应用于如下几种状况:<br/>
@@ -300,9 +301,9 @@
     $lang->msg_ftp_chmod_fail = "修改文件夹属性失败。请确认 FTP服务器设置。";
     $lang->msg_ftp_connect_success = "FTP连接成功。";
 
-    $lang->ftp_path_title = 'FTP 경로 정보 입력';
-    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+    $lang->ftp_path_title = '输入FTP路径信息';
+    $lang->msg_ftp_installed_realpath = 'XE绝对路径';
+    $lang->msg_ftp_installed_ftp_realpath = 'FTP绝对路径设置';
 
     // 在xml filter使用的 javascript用 alert msg
     $lang->filter->isnull = '请输入%s';
@@ -317,5 +318,5 @@
     $lang->filter->invalid_alpha_number = '%s只能输入英文或数字';
     $lang->filter->invalid_number = '%s只能输入数字';
 
-    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
+    $lang->security_warning_embed = "由于安全问题，不允许用系统管理员ID操作embed对象，请使用其他拥有管理权限的ID操作。";
 ?>

@@ -64,10 +64,8 @@ function doStartPageModify(zoneID, module_srl) {
 // 내용 모두 삭제
 function removeAllWidget() {
     if(!confirm(confirm_delete_msg)) return;
-    var response_tags = new Array('error','message');
-    var params = new Array();
-    params['module_srl'] = xGetElementById('pageFo').module_srl.value;
-    exec_xml('widget',"procWidgetRemoveContents",params,function() { restoreWidgetButtons(); xInnerHtml(zonePageObj,'') });
+	restoreWidgetButtons(); 
+	xInnerHtml(zonePageObj,'');
 }
 
 /**
@@ -557,16 +555,7 @@ function doCheckWidget(e) {
         var widget = p_obj.getAttribute("widget");
         if(confirm(confirm_delete_msg)) {
             restoreWidgetButtons();
-
-            if(p_obj.getAttribute('widget')=='widgetContent') {
-                var response_tags = new Array('error','message','document_srl');
-                var params = new Array();
-                params['document_srl'] =p_obj.getAttribute('document_srl');
-                exec_xml('widget','procWidgetDeleteDocument', params, completeDeleteWidgetContent, response_tags, params, p_obj);
-                return;
-            } else {
-                p_obj.parentNode.removeChild(p_obj);
-            }
+			p_obj.parentNode.removeChild(p_obj);
         }
         return;
     }

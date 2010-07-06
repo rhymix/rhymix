@@ -153,6 +153,7 @@
          **/
         function triggerEditorComponentCompile(&$content) {
             if(Context::getResponseMethod()!='HTML') return new Object();
+			if(Mobile::isFromMobilePhone()) return new Object(); 
 
             $module_info = Context::get('module_info');
             $module_srl = $module_info->module_srl;
@@ -184,6 +185,7 @@
             }
 
             $content = $this->transComponent($content);
+			return new Object();
         }
 
         /**

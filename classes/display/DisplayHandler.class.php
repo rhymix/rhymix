@@ -13,6 +13,7 @@
         var $content_size = 0; ///< 출력하는 컨텐츠의 사이즈
 
         var $gz_enabled = false; ///< gzip 압축하여 컨텐츠 호출할 것인지에 대한 flag변수
+		var $handler = null;
 
         /**
          * @brief print either html or xml content given oModule object 
@@ -31,68 +32,25 @@
             ) $this->gz_enabled = true;
 
             // request method에 따른 컨텐츠 결과물 추출 
-            if(Context::get('xeVirtualRequestMethod')=='xml') $output = $this->_toVirtualXmlDoc($oModule);
-            else if(Context::getRequestMethod() == 'XMLRPC') {
-				if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) $this->gz_enabled = false;
-				$output = $this->_toXmlDoc($oModule);
+            if(Context::get('xeVirtualRequestMethod')=='xml') {
+				require_once("./classes/display/VirtualXMLDisplayHandler.php");
+				$handler = new VirtualXMLDisplayHandler();
 			}
-            else if(Context::getRequestMethod() == 'JSON') $output = $this->_toJSON($oModule);
-            else $output = $this->_toHTMLDoc($oModule);
+            else if(Context::getRequestMethod() == 'XMLRPC') {
+				require_once("./classes/display/XMLDisplayHandler.php");
+				$handler = new XMLDisplayHandler();
+				if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) $this->gz_enabled = false;
+			}
+            else if(Context::getRequestMethod() == 'JSON') {
+				require_once("./classes/display/JSONDisplayHandler.php");
+				$handler = new JSONDisplayHandler();
+			}
+            else {
+				require_once("./classes/display/HTMLDisplayHandler.php");
+				$handler = new HTMLDisplayHandler();
+			}
 
-            // HTML 출력 요청일 경우 레이아웃 컴파일과 더블어 완성된 코드를 제공
-            if(Context::getResponseMethod()=="HTML") {
-
-                // 관리자 모드일 경우 #xeAdmin id를 가지는 div 추가
-                if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div id="xeAdmin">'.$output.'</div>';
-
-                // 내용을 content라는 변수로 설정 (layout에서 {$output}에서 대체됨) 
-                Context::set('content', $output);
-
-                // 레이아웃을 컴파일
-                $oTemplate = &TemplateHandler::getInstance();
-
-                // layout이라는 변수가 none으로 설정되면 기본 레이아웃으로 변경
-                if(Context::get('layout') != 'none') {
-                    if(__DEBUG__==3) $start = getMicroTime();
-
-                    $layout_path = $oModule->getLayoutPath();
-
-                    $layout_file = $oModule->getLayoutFile();
-                    $edited_layout_file = $oModule->getEditedLayoutFile();
-
-                    // 현재 요청된 레이아웃 정보를 구함
-                    $oLayoutModel = &getModel('layout');
-                    $current_module_info = Context::get('current_module_info');
-                    $layout_srl = $current_module_info->layout_srl;
-
-                    // 레이아웃과 연결되어 있으면 레이아웃 컴파일
-                    if($layout_srl > 0){
-                        $layout_info = Context::get('layout_info');
-
-                        // faceoff 레이아웃일 경우 별도 처리
-                        if($layout_info && $layout_info->type == 'faceoff') {
-                            $oLayoutModel->doActivateFaceOff($layout_info);
-                            Context::set('layout_info', $layout_info);
-                        }
-
-                        // 관리자 레이아웃 수정화면에서 변경된 CSS가 있는지 조사
-                        $edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
-
-                        if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
-                    }
-                    if(!$layout_path) $layout_path = "./common/tpl";
-                    if(!$layout_file) $layout_file = "default_layout";
-                    $output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
-
-                    if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
-
-
-                    if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get("_use_ssl")=='optional'||Context::get("_use_ssl")=="always")) {
-                        Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
-                    }
-                }
-
-            }
+			$output = $handler->toDoc($oModule);
 
             // 출력하기 전에 trigger 호출 (before)
             ModuleHandler::triggerCall('display', 'before', $output);
@@ -100,58 +58,16 @@
             // 애드온 실행
             $called_position = 'before_display_content';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath();
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
 
-            // HTML 출력일 경우 최종적으로 common layout을 씌워서 출력
-            if(Context::getResponseMethod()=="HTML") {
-                if(__DEBUG__==3) $start = getMicroTime();
-
-                // body 내의 <style ..></style>를 header로 이동
-                $output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'moveStyleToHeader'), $output);
-
-                // 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
-                $output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'transMeta'), $output);
-
-                // rewrite module 사용시 생기는 상대경로에 대한 처리를 함
-                if(Context::isAllowRewrite()) {
-                    $url = parse_url(Context::getRequestUri());
-                    $real_path = $url['path'];
-
-                    $pattern = '/src=("|\'){1}(\.\/)?(files\/attach|files\/cache|files\/faceOff|files\/member_extra_info|modules|common|widgets|widgetstyle|layouts|addons)\/([^"\']+)\.(jpg|jpeg|png|gif)("|\'){1}/s';
-                    $output = preg_replace($pattern, 'src=$1'.$real_path.'$3/$4.$5$6', $output);
-
-					$pattern = '/href=("|\'){1}(\?[^"\']+)/s';
-					$output = preg_replace($pattern, 'href=$1'.$real_path.'$2', $output);
-
-                    if(Context::get('vid')) {
-                        $pattern = '/\/'.Context::get('vid').'\?([^=]+)=/is';
-                        $output = preg_replace($pattern, '/?$1=', $output);
-                    }
-                }
-
-                // 간혹 background-image에 url(none) 때문에 request가 한번 더 일어나는 경우가 생기는 것을 방지
-                $output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
-
-                if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
-
-                // 불필요한 정보 제거
-                $output = preg_replace('/member\_\-([0-9]+)/s','member_0',$output);
-
-                // 최종 레이아웃 변환
-                Context::set('content', $output);
-                $output = $oTemplate->compile('./common/tpl', 'common_layout');
-
-                // 사용자 정의 언어 변환
-                $oModuleController = &getController('module');
-                $oModuleController->replaceDefinedLangCode($output);
-            }
+			if(method_exists($handler, "prepareToPrint")) $handler->prepareToPrint($output);
 
             // header 출력
             if($this->gz_enabled) header("Content-Encoding: gzip");
-            if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
-            else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
-            else $this->_printHTMLHeader();
+			if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
+			else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
+			else $this->_printHTMLHeader();
 
             // debugOutput 출력
             $this->content_size = strlen($output);
@@ -165,117 +81,6 @@
             ModuleHandler::triggerCall('display', 'after', $content);
         }
 
-        /**
-        * @brief add given .css or .js file names in widget code to Context       
-        * @param[in] $oModule the module object
-        **/
-        function transMeta($matches) {
-            if(substr($matches[1],'-4')=='.css') Context::addCSSFile($matches[1]);
-            elseif(substr($matches[1],'-3')=='.js') Context::addJSFile($matches[1]);
-        }
-
-        /**
-        * @brief add html style code extracted from html body to Context, which will be
-        * printed inside <header></header> later.
-        * @param[in] $oModule the module object
-        **/
-        function moveStyleToHeader($matches) {
-            Context::addHtmlHeader($matches[0]);
-        }
-
-       /**
-        * @brief produce JSON compliant cotent given a module object.
-        * @param[in] $oModule the module object
-        **/
-        function _toJSON(&$oModule) {
-            $variables = $oModule->getVariables();
-            $variables['error'] = $oModule->getError();
-            $variables['message'] = $oModule->getMessage();
-            $json = preg_replace("(\r\n|\n)",'\n',json_encode2($variables));
-            return $json;
-        }
-
-        /**
-        * @brief Produce virtualXML compliant content given a module object.\n
-        * @param[in] $oModule the module object
-        **/
-        function _toVirtualXmlDoc(&$oModule) {
-            $error = $oModule->getError();
-            $message = $oModule->getMessage();
-            $redirect_url = $oModule->get('redirect_url');
-            $request_uri = Context::get('xeRequestURI');
-            $request_url = Context::get('xeVirtualRequestUrl');
-            if(substr($request_url,-1)!='/') $request_url .= '/';
-
-            if($error === 0) {
-                if($message != 'success') $output->message = $message;
-                if($redirect_url) $output->url = $redirect_url;
-                else $output->url = $request_uri;
-            } else {
-                if($message != 'fail') $output->message = $message;
-            }
-
-            $html = '<script type="text/javascript">'."\n";
-            if($output->message) $html .= 'alert("'.$output->message.'");'."\n";
-            if($output->url) {
-                $url = preg_replace('/#(.+)$/i','',$output->url);
-                $html .= 'self.location.href = "'.$request_url.'common/tpl/redirect.html?redirect_url='.urlencode($url).'";'."\n";
-            }
-            $html .= '</script>'."\n";
-            return $html;
-        }
-
-        /**
-        * @brief Produce XML compliant content given a module object.\n
-        * @param[in] $oModule the module object
-        **/
-        function _toXmlDoc(&$oModule) {
-            $variables = $oModule->getVariables();
-
-            $xmlDoc  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<response>\n";
-            $xmlDoc .= sprintf("<error>%s</error>\n",$oModule->getError());
-            $xmlDoc .= sprintf("<message>%s</message>\n",str_replace(array('<','>','&'),array('&lt;','&gt;','&amp;'),$oModule->getMessage()));
-
-            $xmlDoc .= $this->_makeXmlDoc($variables);
-
-            $xmlDoc .= "</response>";
-
-            return $xmlDoc;
-        }
-
-       /**
-        * @brief produce XML code given variable object\n
-        * @param[in] $oModule the module object
-        **/
-        function _makeXmlDoc($obj) {
-            if(!count($obj)) return;
-
-            $xmlDoc = '';
-
-            foreach($obj as $key => $val) {
-                if(is_numeric($key)) $key = 'item';
-
-                if(is_string($val)) $xmlDoc .= sprintf('<%s><![CDATA[%s]]></%s>%s', $key, $val, $key,"\n");
-                else if(!is_array($val) && !is_object($val)) $xmlDoc .= sprintf('<%s>%s</%s>%s', $key, $val, $key,"\n");
-                else $xmlDoc .= sprintf('<%s>%s%s</%s>%s',$key, "\n", $this->_makeXmlDoc($val), $key, "\n");
-            }
-
-            return $xmlDoc;
-        }
-
-        /**
-        * @brief Produce HTML compliant content given a module object.\n
-        * @param[in] $oModule the module object
-        **/
-        function _toHTMLDoc(&$oModule) {
-            // template handler 객체 생성
-            $oTemplate = &TemplateHandler::getInstance();
-
-            // module tpl 변환
-            $template_path = $oModule->getTemplatePath();
-            $tpl_file = $oModule->getTemplateFile();
-            return $oTemplate->compile($template_path, $tpl_file);
-        }
 
         /**
          * @brief Print debugging message to designated output source depending on the value set to __DEBUG_OUTPUT_. \n
@@ -428,42 +233,46 @@
             }
         }
 
-        /**
-         * @brief print a HTTP HEADER for XML, which is encoded in UTF-8
-         **/
-        function _printXMLHeader() {
-            header("Content-Type: text/xml; charset=UTF-8");
-            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");
-        }
+		/**
+		 * @brief print a HTTP HEADER for XML, which is encoded in UTF-8
+		 **/
+		function _printXMLHeader() {
+			header("Content-Type: text/xml; charset=UTF-8");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+		}
 
 
-        /**
-         * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
-         **/
-        function _printHTMLHeader() {
-            header("Content-Type: text/html; charset=UTF-8");
-            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");
-        }
+		/**
+		 * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 **/
+		function _printHTMLHeader() {
+			header("Content-Type: text/html; charset=UTF-8");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+		}
 
 
-        /**
-         * @brief print a HTTP HEADER for JSON, which is encoded in UTF-8
-         **/
-        function _printJSONHeader() {
-            header("Content-Type: text/html; charset=UTF-8");
-            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");
-        }
+		/**
+		 * @brief print a HTTP HEADER for JSON, which is encoded in UTF-8
+		 **/
+		function _printJSONHeader() {
+			header("Content-Type: text/html; charset=UTF-8");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+		}
+
+
+
+
     }
 ?>

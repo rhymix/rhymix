@@ -126,6 +126,7 @@
     $lang->mid = 'Имя Модуля';
     $lang->sid = 'Site Name';
     $lang->layout = 'Лейаут';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'Виджет';
     $lang->module = 'Модуль';
     $lang->skin = 'Тема';

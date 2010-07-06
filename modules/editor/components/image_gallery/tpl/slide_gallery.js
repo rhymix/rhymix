@@ -159,7 +159,7 @@ function display_gallery_image(obj, is_first_display) {
     var source_filename = obj.image_url;
     var tmp_arr = source_filename.split('/');
     var filename = tmp_arr[tmp_arr.length-1];
-    xInnerHtml("zone_gallery_image_filename_"+obj.srl, "<a href='#' onclick=\"winopen('"+source_filename+"');return false;\">"+unescape(filename)+"</a>");
+    xInnerHtml("zone_gallery_image_filename_"+obj.srl, "<a href='#' onclick=\"winopen('"+source_filename+"');return false;\">"+decodeURI(filename)+"</a>");
 
     // 네이게이션 영역의 숫자 변경
     var zone_navigator = xGetElementById("zone_gallery_navigator_status_"+obj.srl);

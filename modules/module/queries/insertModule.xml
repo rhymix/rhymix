@@ -8,10 +8,12 @@
         <column name="module_category_srl" var="module_category_srl" default="0" />
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />
         <column name="skin" var="skin" minlength="1" maxlength="250" />
+        <column name="mskin" var="mskin"  />
         <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
         <column name="layout_srl" var="layout_srl" />
         <column name="description" var="description" />
         <column name="content" var="content" />
+        <column name="mcontent" var="mcontent" />
         <column name="module" var="module" notnull="notnull" maxlength="80" />
         <column name="is_default" var="is_default" default="N" notnull="notnull" />
         <column name="menu_srl" var="menu_srl" filter="number" />
@@ -19,5 +21,7 @@
         <column name="header_text" var="header_text" />
         <column name="footer_text" var="footer_text" />
         <column name="regdate" default="curdate()" />
+		<column name="mlayout_srl" var="mlayout_srl" />
+		<column name="use_mobile" var="use_mobile" default="N" />
     </columns>
 </query>

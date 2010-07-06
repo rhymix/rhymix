@@ -3,7 +3,6 @@
 <!--#include("header.html")-->
 
 <h3 class="xeAdmin">{$selected_layout->layout_title}</h3>
-
 <div class="header4">
     <ul class="localNavigation">
         <li class="on"><a href="#" onclick="return false;">{$lang->cmd_layout_management}</a></li>
@@ -124,6 +123,16 @@
         {$lang->about_not_apply_menu}
     </td>
 </tr>
+<!--@if($selected_layout->layout_type == "M")-->
+<tr>
+	<th scope="row"><div>{$lang->apply_mobile_view}</div></th>
+	<td>
+        <input type="checkbox" name="apply_mobile_view" value="Y" />
+        {$lang->about_apply_mobile_view}
+    </td>
+</tr>
+<!--@end-->
+		
 
 <tr class="row2">
     <th colspan="2" class="button">

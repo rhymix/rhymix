@@ -83,4 +83,8 @@
     $lang->ftp_remove_info = 'FTP 정보 삭제';
 	$lang->msg_ftp_invalid_path = 'FTP Path를 읽을 수 없습니다.';
 	$lang->msg_self_restart_cache_engine = 'Memcached 또는 캐쉬데몬을 재시작 해주세요.';
+	$lang->mobile_view = '모바일 뷰 사용';
+	$lang->about_mobile_view = '스마트폰 등을 이용하여 접속할 때 모바일 화면에 최적화된 레이아웃을 이용하도록 합니다.';
+
+	$lang->autoinstall = '쉬운 설치';
 ?>

@@ -164,14 +164,18 @@
             unset($extra_vars->module);
             unset($extra_vars->module_category_srl);
             unset($extra_vars->layout_srl);
+			unset($extra_vars->mlayout_srl);
+			unset($extra_vars->use_mobile);
             unset($extra_vars->menu_srl);
             unset($extra_vars->site_srl);
             unset($extra_vars->mid);
             unset($extra_vars->skin);
+			unset($extra_vars->mskin);
             unset($extra_vars->browser_title);
             unset($extra_vars->description);
             unset($extra_vars->is_default);
             unset($extra_vars->content);
+            unset($extra_vars->mcontent);
             unset($extra_vars->open_rss);
             unset($extra_vars->header_text);
             unset($extra_vars->footer_text);

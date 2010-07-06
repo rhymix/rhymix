@@ -24,15 +24,17 @@
 
             // addon값을 받아옴
             $addon = Context::get('addon');
+			$type = Context::get('type');
+			if(!$type) $type = "pc";
             if($addon) {
                 // 활성화 되어 있으면 비활성화 시킴
-                if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl)) $this->doDeactivate($addon, $site_module_info->site_srl);
+                if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type)) $this->doDeactivate($addon, $site_module_info->site_srl, $type);
 
                 // 비활성화 되어 있으면 활성화 시킴
-                else $this->doActivate($addon, $site_module_info->site_srl);
+                else $this->doActivate($addon, $site_module_info->site_srl, $type);
             }
 
-            $this->makeCacheFile($site_module_info->site_srl);
+            $this->makeCacheFile($site_module_info->site_srl, $type);
         }
 
         /**
@@ -50,7 +52,8 @@
 
             $this->doSetup($addon_name, $args, $site_module_info->site_srl);
 
-            $this->makeCacheFile($site_module_info->site_srl);
+            $this->makeCacheFile($site_module_info->site_srl, "pc");
+            $this->makeCacheFile($site_module_info->site_srl, "mobile");
         }
 
 
@@ -71,9 +74,10 @@
          * @brief 애드온 활성화 
          * addons라는 테이블에 애드온의 활성화 상태를 on 시켜줌
          **/
-        function doActivate($addon, $site_srl = 0) {
+        function doActivate($addon, $site_srl = 0, $type = "pc") {
             $args->addon = $addon;
-            $args->is_used = 'Y';
+			if($type == "pc") $args->is_used = 'Y';
+			else $args->is_used_m = "Y";
             if(!$site_srl) return executeQuery('addon.updateAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.updateSiteAddon', $args);
@@ -84,9 +88,10 @@
          *
          * addons라는 테이블에 애드온의 이름을 제거하는 것으로 비활성화를 시키게 된다
          **/
-        function doDeactivate($addon, $site_srl = 0) {
+        function doDeactivate($addon, $site_srl = 0, $type = "pc") {
             $args->addon = $addon;
-            $args->is_used = 'N';
+			if($type == "pc") $args->is_used = 'N';
+			else $args->is_used_m = 'N';
             if(!$site_srl) return executeQuery('addon.updateAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.updateSiteAddon', $args);

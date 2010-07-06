@@ -332,11 +332,11 @@
          * @remarks if the target is moved (when return code is 300~399), this function follows the location specified response header.
          **/
         function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array()) {
-            //set_include_path(_XE_PATH_."libs/PEAR");
 			requirePear();
             require_once('HTTP/Request.php');
 
-            if(__PROXY_SERVER__!==null) {
+			$parsed_url = parse_url(__PROXY_SERVER__);
+			if($parsed_url["host"]) {
                 $oRequest = new HTTP_Request(__PROXY_SERVER__);
                 $oRequest->setMethod('POST');
                 $oRequest->_timeout = $timeout;

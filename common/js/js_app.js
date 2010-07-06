@@ -1,9 +1,9 @@
 /**
  * @file js_app.js
- * @author zero (zero@nzeo.com)
+ * @author taggon (gonom9@gmail.com)
  * @brief XE JavaScript Application Framework (JAF)
  * @namespace xe
- * @update 20091120
+ * @update 20100701
  */
 (function($){
 
@@ -60,7 +60,7 @@ _xe_base = {
 	 */
 	getApp : function(indexOrName) {
 		indexOrName = (indexOrName||'').toLowerCase();
-		if (typeof _apps[indexOrName] != 'undefined') {
+		if(typeof _apps[indexOrName] != 'undefined') {
 			return _apps[indexOrName];
 		} else {
 			return null;
@@ -80,6 +80,8 @@ _xe_base = {
 		_apps[sName].push(oApp);
 
 		oApp.parent = this;
+
+		// TODO : register event
 	},
 
 	/**
@@ -95,15 +97,22 @@ _xe_base = {
 			nIndex = $.inArray(oApp, _apps[sName]);
 			if (nIndex >= 0) _apps[sName].splice(nIndex, 1);
 		}
+
+		// TODO : unregister event
 	},
 
 	/**
 	 * @brief overrides broadcast method
 	 */
-	broadcast : function(sender, msg, params) {
+	broadcast : function(msg, params) {
+		this._broadcast(this, msg, params);
+	},
+
+	_broadcast : function(sender, msg, params) {
 		for(var i=0; i < _apps.length; i++) {
 			_apps[i]._cast(sender, msg, params);
 		}
+
 
 		// cast to child plugins
 		this._cast(sender, msg, params);
@@ -112,14 +121,25 @@ _xe_base = {
 
 _app_base = {
 	_plugins  : [],
-	_messages : [],
+	_messages : {},
 
-	_fn_level : [],
+	/**
+	 * @brief get plugin
+	 */
+	getPlugin : function(sPluginName) {
+		sPluginName = sPluginsName.toLowerCase();
+		if ($.isArray(this._plugins[sPluginName])) {
+			return this._plugins[sPluginName];
+		} else {
+			return [];
+		}
+	},
 
 	/**
 	 * @brief register a plugin instance
 	 */
 	registerPlugin : function(oPlugin) {
+		var self  = this;
 		var sName = oPlugin.getName().toLowerCase();
 
 		// check if the plugin is already registered
@@ -128,75 +148,27 @@ _app_base = {
 		// push the plugin into the _plugins array
 		this._plugins.push(oPlugin);
 
-		if (!$.isArray(this._plugins[sName])) {
-			this._plugins[sName] = [];
-		}
+		if (!$.isArray(this._plugins[sName])) this._plugins[sName] = [];
 		this._plugins[sName].push(oPlugin);
 
 		// register method pool
-		var msgs = this._messages;
-		$.each(oPlugin, function(key, val){
-			if (!$.isFunction(val)) return true;
-			if (!/^API_((BEFORE_|AFTER_)?[A-Z0-9_]+)$/.test(key)) return true;
-			var fn = function(s,p){ return oPlugin[key](s,p) };
-			fn._fn = val;
-
-			if (!$.isArray(msgs[RegExp.$1])) msgs[RegExp.$1] = [];
-			msgs[RegExp.$1].push(fn);
-		});
-
-		// set the application
-		oPlugin.oApp = this;
+		$.each(oPlugin._binded_fn, function(api, fn){ self.registerHandler(api, fn); });
 
 		// binding
-		oPlugin.cast = function(msg, params) {
-			return oPlugin._cast(msg, params);
-		};
+		oPlugin.oApp = this;
 
-		oPlugin.broadcast = function(msg, params) {
-			oPlugin._broadcast(msg, params);
-		};
+		// TODO : registered event
 
 		return true;
 	},
 
 	/**
-	 * @brief unregister a plugin  instance
+	 * @brief register api message handler
 	 */
-	unregisterPlugin : function(oPlugin) {
-		var sName = oPlugin.getName().toLowerCase();
-
-		// remove from _plugins array
-		var nIndex = $.inArray(oPlugin, this._plugins);
-		if (nIndex >= 0) this._plugins.splice(nIndex, 1);
-
-		if ($.isArray(this._plugins[sName])) {
-			nIndex = $.inArray(oPlugin, this._plugins);
-			if (nIndex >= 0) this._plugins[sName].splice(nIndex, 1);
-		}
-
-		// unregister method pool
-		var msgs = this._messages;
-		$.each(oPlugin, function(key, val){
-			if (!$.isFunction(val)) return true;
-			if (!/^API_([A-Z0-9_]+)$/.test(key)) return true;
-			if (typeof msgs[RegExp.$1] == 'undefined') return true;
-
-			if ($.isArray(msgs[RegExp.$1])) {
-				msgs[RegExp.$1] = $.grep(msgs[RegExp.$1], function(fn,i){ return (fn._fn != val); });
-				if (!msgs[RegExp.$1].length) {
-					delete msgs[RegExp.$1];
-				}
-			} else {
-				if (msgs[RegExp.$1]._fn == val) {
-					delete msgs[RegExp.$1];
-				}
-
-			}
-		});
-
-		// unset the application
-		oPlugin.oApp = null;
+	registerHandler : function(api, func) {
+		var msgs = this._messages; api = api.toUpperCase();
+		if (!$.isArray(msgs[api])) msgs[api] = [];
+		msgs[api].push(func);
 	},
 
 	cast : function(msg, params) {
@@ -204,8 +176,8 @@ _app_base = {
 	},
 
 	broadcast : function(sender, msg, params) {
-		if (this.parent && this.parent.broadcast) {
-			this.parent.broadcast(sender, msg, params);
+		if (this.parent && this.parent._broadcast) {
+			this.parent._broadcast(sender, msg, params);
 		}
 	},
 
@@ -223,9 +195,7 @@ _app_base = {
 
 		// main api function
 		var vRet = [], sFn = 'API_'+msg;
-		if ($.isFunction(this[sFn])) vRet.push( this[sFn](sender, params) );
-		if ($.isFunction(aMsg[msg])) vRet.push( aMsg[msg](sender, params) );
-		else if ($.isArray(aMsg[msg])) {
+		if ($.isArray(aMsg[msg])) {
 			for(i=0; i < aMsg[msg].length; i++) {
 				vRet.push( aMsg[msg][i](sender, params) );
 			}
@@ -237,7 +207,7 @@ _app_base = {
 			this._cast(sender, 'AFTER_'+msg, params);
 		}
 
-		if (!/^(?:AFTER_|BEFORE_)/.test(msg)) { // top level function
+		if (!/^(?:AFTER|BEFORE)_/.test(msg)) { // top level function
 			return vRet;
 		} else {
 			return $.isArray(vRet)?($.inArray(false, vRet)<0):((typeof vRet=='undefined')?true:!!vRet);
@@ -247,14 +217,14 @@ _app_base = {
 
 _plugin_base = {
 	oApp : null,
-	_binded_fn : [],
 
-	_cast : function(msg, params) {
+	cast : function(msg, params) {
 		if (this.oApp && this.oApp._cast) {
 			return this.oApp._cast(this, msg, params || []);
 		}
 	},
-	_broadcast : function(msg, params) {
+
+	broadcast : function(msg, params) {
 		if (this.oApp && this.oApp.broadcast) {
 			this.oApp.broadcast(this, mag, params || []);
 		}
@@ -269,13 +239,26 @@ _plugin_base = {
 
 function getTypeBase() {
 	var _base = function() {
+		var self = this;
+		var pool = null;
+		
 		if ($.isArray(this._plugins))   this._plugins   = [];
-		if ($.isArray(this._messages))  this._messages  = [];
-		if ($.isArray(this._binded_fn)) this._binded_fn = [];
+		if (this._messages) this._messages = {};
+		else this._binded_fn = {};
+		
+		// bind functions
+		$.each(this, function(key, val){
+			if (!$.isFunction(val)) return true;
+			if (!/^API_([A-Z0-9_]+)$/.test(key)) return true;
 
-		if ($.isFunction(this.init)) {
-			this.init.apply(this, arguments);
-		}
+			var api = RegExp.$1;
+			var fn  = function(sender, params){ return self[key](sender, params) };
+
+			if (self._messages) self._messages[api] = [fn];
+			else self._binded_fn[api] = fn;
+		});
+
+		if ($.isFunction(this.init)) this.init.apply(this, arguments);
 	};
 
 	return _base;
@@ -285,9 +268,9 @@ window.xe = $.extend(_app_base, _xe_base);
 window.xe.lang = {}; // language repository
 
 // domready event
-$(function(){ xe.broadcast(xe, 'ONREADY'); });
+$(function(){ xe.broadcast('ONREADY'); });
 
 // load event
-$(window).load(function(){ xe.broadcast(xe, 'ONLOAD'); });
+$(window).load(function(){ xe.broadcast('ONLOAD'); });
 
 })(jQuery);

@@ -83,4 +83,7 @@
     $lang->ftp_remove_info = '移除 FTP 資料';
 	$lang->msg_ftp_invalid_path = '指定的 FTP 路徑讀取失敗。';
 	$lang->msg_self_restart_cache_engine = '請重新啟動 Memcached 快取程式。';
+	$lang->mobile_view = '手機瀏覽';
+	$lang->about_mobile_view = '使用手機瀏覽時將會顯示最適當的畫面。';
+    $lang->autoinstall = '自動安裝';
 ?>

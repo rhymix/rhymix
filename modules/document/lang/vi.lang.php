@@ -2,10 +2,11 @@
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
 			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
+			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
+			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
+			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+*/
 
     $lang->document_list = 'Danh sách bài viết';
     $lang->thumbnail_type = 'Định dạng hình nhỏ';
@@ -96,5 +97,5 @@
         'trash_ipaddress' => 'IP Người xóa',
 	);
 
-    $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->success_trashed = "Đã chuyển tới thùng rác thành công.";
 ?>

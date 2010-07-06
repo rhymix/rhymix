@@ -67,16 +67,19 @@
 					$config_file = null;
                     switch($type)
                     {
-                        case "module":
-                            case "addon":
-                            case "layout":
-                            case "widget":
+						case "m.layout":
+							$type = "layout";
+						case "module":
+						case "addon":
+						case "layout":
+						case "widget":
                             $config_file = "/conf/info.xml";
                         break;
                         case "component":
                             $config_file = "/info.xml";
                         break;
 						case "style":
+						case "m.skin":
 							$type = "skin";
 						case "skin":    
 						case "widgetstyle":

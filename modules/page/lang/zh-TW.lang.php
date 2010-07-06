@@ -10,4 +10,5 @@
     $lang->cmd_page_modify = "頁面編輯";
     $lang->page_caching_interval = "暫存時間設置";
     $lang->about_page_caching_interval = "單位為分。暫存時間內頁面將輸出臨時儲存的資料。<br />輸出外部主機訊息或資料時，如消耗資源很大，盡量把暫存時間設大一點。<br />『0』表示不暫存。";
+	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
 ?>

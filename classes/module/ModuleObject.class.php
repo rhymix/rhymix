@@ -246,7 +246,7 @@
             // addon 실행(called_position 를 before_module_proc로 하여 호출)
             $called_position = 'before_module_proc';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath();
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
@@ -261,75 +261,16 @@
 
                 // 실행
                 $output = $this->{$this->act}();
-
-            // act이 없으면 action_forward에서 해당하는 act가 있는지 찾아서 대신 실행
-            } else if(Context::isInstalled()) {
-                $oModuleModel = &getModel('module');
-
-                $forward = null;
-
-                // 현재 요청된 action의 대상 모듈을 찾음
-                // 1. action이름으로 검색 (DB검색 없이 하기 위함)
-                if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches)) {
-                    $module = strtolower($matches[2].$matches[3]);
-                    $xml_info = $oModuleModel->getModuleActionXml($module);
-                    if($xml_info->action->{$this->act}) {
-                        $forward->module = $module;
-                        $forward->type = $xml_info->action->{$this->act}->type;
-                        $forward->act = $this->act;
-                    }
-                }
-
-                // 2. 1번에서 찾지 못하면 action forward를 검색
-                if(!$forward) $forward = $oModuleModel->getActionForward($this->act);
-
-                // 찾아진 forward 모듈이 있으면 실행
-                if($forward->module && $forward->type && $forward->act && $forward->act == $this->act) {
-
-                    $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
-
-                    $oModule = &getModule($forward->module, $forward->type, $kind);
-                    $xml_info = $oModuleModel->getModuleActionXml($forward->module);
-
-                    $oModule->setAct($forward->act);
-                    $oModule->init();
-                    if($oModule->stop_proc) return $this->stop($oModule->getMessage());
-
-                    $oModule->setModuleInfo($this->module_info, $xml_info);
-
-                    if(isset($xml_info->action->{$forward->act}) && method_exists($oModule, $forward->act)) {
-                        $output = $oModule->{$forward->act}();
-                    } else {
-                        return $this->stop("msg_module_is_not_exists");
-                    }
-
-                    // forward 모듈의 실행 결과 검사
-                    if($oModule->stop_proc) return $this->stop($oModule->getMessage());
-
-                    $this->setTemplatePath($oModule->getTemplatePath());
-                    $this->setTemplateFile($oModule->getTemplateFile());
-                    if($oModule->getLayoutFile()) $this->setLayoutFile($oModule->getLayoutFile());
-
-                    $this->adds($oModule->getVariables());
-                    $this->setMessage($oModule->getMessage());
-                    $this->setError($oModule->getError());
-
-                // forward 모듈을 찾지 못했다면 원 모듈의 default index action을 실행
-                } else if($this->xml_info->default_index_act && method_exists($this, $this->xml_info->default_index_act)) {
-                    Context::set('act',$this->act = $this->xml_info->default_index_act);
-                    $output = $this->{$this->xml_info->default_index_act}();
-                } else {
-                    return false;
-                }
-
-            } else {
-                return false;
-            }
+            } 
+			else {
+				return false;
+			}
+			
 
             // addon 실행(called_position 를 after_module_proc로 하여 호출)
             $called_position = 'after_module_proc';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath();
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
 
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {

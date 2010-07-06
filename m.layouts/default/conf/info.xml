@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">XE 공식 사이트 모바일 레이아웃</title>
+    <title xml:lang="en">XE Official Mobile layout</title>
+    <title xml:lang="zh-CN">官方移动版布局</title>
+    <title xml:lang="zh-TW">XE Mobile 官方版面</title>
+    <description xml:lang="ko">
+        XE 공식 모바일 레이아웃입니다.
+        디자인, 퍼블리싱 : 정찬명
+        레이아웃 제작 : haneul 
+    </description>
+    <description xml:lang="en">
+        This layout is the XE Official website layout.
+        Design, HTML/CSS : Chan-Myung Jeong
+        Layout producer : haneul 
+    </description>
+    <description xml:lang="zh-CN">
+        官方移动版布局。
+        Design, HTML/CSS : Chan-Myung Jeong
+        Layout producer : haneul 
+    </description>
+    <description xml:lang="zh-TW">
+        這是 XE 官方網站版面。
+        Design, HTML/CSS : Chan-Myung Jeong
+        Layout producer : haneul 
+    </description>
+    <version>0.1</version>
+    <date>2010-06-10</date>
+    <link>http://xpressengine.com</link>
+
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com">
+        <name xml:lang="ko">XE</name>
+        <name xml:lang="en">XE</name>
+	<name xml:lang="zh-CN">XE</name>
+        <name xml:lang="zh-TW">XE</name>
+    </author>
+    <extra_vars>
+    	<var name="index_title" type="text">
+            <title xml:lang="ko">홈페이지 Title</title>
+            <title xml:lang="en">Homepage Title</title>
+            <title xml:lang="zh-CN">网站标题</title>
+            <title xml:lang="zh-TW">首頁標題</title>
+	</var>
+        <var name="index_url" type="text">
+            <title xml:lang="ko">홈 페이지 URL</title>
+            <title xml:lang="jp">ホームページURL</title>
+            <title xml:lang="zh-CN">主页地址</title>
+            <title xml:lang="zh-TW">主頁網址</title>
+            <title xml:lang="en">Homepage URL</title>
+            <title xml:lang="ge">Homepage URL</title>
+            <title xml:lang="ru">Домашняя страница URL</title>
+            <title xml:lang="es">URL de la página web</title>
+	    <title xml:lang="vi">URL Trang chủ</title>
+            <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+            <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力して下さい。</description>
+            <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
+            <description xml:lang="zh-TW">請輸入當用戶按了網站 Logo 後，要前往的頁面網址。</description>
+            <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
+            <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
+            <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
+            <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
+	    <description xml:lang="vi">Hãy nhập địa chỉ bạn muốn chuyển đến khi bấm vào Logo</description>
+        </var>
+    </extra_vars>
+    <menus>
+        <menu name="main_menu" maxdepth="3" default="true">
+            <title xml:lang="ko">상단 메뉴</title>
+            <title xml:lang="jp">上段用メニュー</title>
+            <title xml:lang="zh-CN">主菜单</title>
+            <title xml:lang="zh-TW">主選單</title>
+            <title xml:lang="en">Top menu</title>
+            <title xml:lang="ge">Top Menü</title>
+            <title xml:lang="ru">Верхнее меню</title>
+            <title xml:lang="es">Menú Principal</title>
+	    <title xml:lang="vi">Menu trên</title>
+        </menu>
+    </menus>
+</layout>

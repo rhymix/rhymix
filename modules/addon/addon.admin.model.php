@@ -38,6 +38,7 @@
             for($i=0;$i<$searched_count;$i++) {
                 // 애드온의 이름
                 $addon_name = $searched_list[$i];
+				if($addon_name == "smartphone") continue;
 
                 // 애드온의 경로 (files/addons가 우선)
                 $path = $this->getAddonPath($addon_name);
@@ -49,6 +50,7 @@
                 $info->addon = $addon_name;
                 $info->path = $path;
                 $info->activated = false;
+				$info->mactivated = false;
 
                 // DB에 입력되어 있는지 확인
                 if(!in_array($addon_name, array_keys($inserted_addons))) {
@@ -59,6 +61,7 @@
                 // 활성화 되어 있는지 확인
                 } else {
                     if($inserted_addons[$addon_name]->is_used=='Y') $info->activated = true;
+                    if($inserted_addons[$addon_name]->is_used_m=='Y') $info->mactivated = true;
                 }
 
                 $list[] = $info;
@@ -291,12 +294,16 @@
         /**
          * @brief 애드온이 활성화 되어 있는지 체크
          **/
-        function isActivatedAddon($addon, $site_srl = 0) {
+        function isActivatedAddon($addon, $site_srl = 0, $type = "pc") {
             $args->addon = $addon;
-            if(!$site_srl) $output = executeQuery('addon.getAddonIsActivated', $args);
+            if(!$site_srl) {
+				if($type == "pc") $output = executeQuery('addon.getAddonIsActivated', $args);
+				else $output = executeQuery('addon.getMAddonIsActivated', $args);
+			}
             else {
                 $args->site_srl = $site_srl;
-                $output = executeQuery('addon.getSiteAddonIsActivated', $args);
+				if($type == "pc") $output = executeQuery('addon.getSiteAddonIsActivated', $args);
+				else $output = executeQuery('addon.getSiteMAddonIsActivated', $args);
             }
             if($output->data->count>0) return true;
             return false;

@@ -1,4 +1,4 @@
-<query id="getAddonIsActivated" action="select">
+<query id="getSiteAddonIsActivated" action="select">
     <tables>
       <table name="addons_site" />
     </tables>

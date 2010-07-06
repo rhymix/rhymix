@@ -17,20 +17,20 @@
         /**
          * @brief 메인/ 가상 사이트별 애드온 캐시 파일의 위치를 구함
          **/
-        function getCacheFilePath() {
+        function getCacheFilePath($type = "pc") {
             $site_module_info = Context::get('site_module_info');
             $site_srl = $site_module_info->site_srl;
 
             $addon_path = _XE_PATH_.'files/cache/addons/';
 
-            if($site_srl) $addon_file = $addon_path.$site_srl.'.acivated_addons.cache.php';
-            else $addon_file = $addon_path.'acivated_addons.cache.php';
+            if($site_srl) $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
+            else $addon_file = $addon_path.$type.'acivated_addons.cache.php';
 
             if($this->addon_file_called) return $addon_file;
             $this->addon_file_called = true;
 
             if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
-            if(!file_exists($addon_file)) $this->makeCacheFile($site_srl);
+            if(!file_exists($addon_file)) $this->makeCacheFile($site_srl, $type);
             return $addon_file;
         }
 
@@ -120,13 +120,15 @@
         /**
          * @brief 캐시 파일 생성
          **/
-        function makeCacheFile($site_srl = 0) {
+        function makeCacheFile($site_srl = 0, $type = "pc") {
             // 모듈에서 애드온을 사용하기 위한 캐시 파일 생성
             $buff = "";
             $oAddonModel = &getAdminModel('addon');
-            $addon_list = $oAddonModel->getInsertedAddons($site_srl);
+            $addon_list = $oAddonModel->getInsertedAddons($site_srl, $type);
             foreach($addon_list as $addon => $val) {
-                if($val->is_used != 'Y' || !is_dir(_XE_PATH_.'addons/'.$addon) ) continue;
+                if($val->addon == "smartphone") continue;
+				if(!is_dir(_XE_PATH_.'addons/'.$addon)) continue;
+                if(($type == "pc" && $val->is_used != 'Y') || ($type == "mobile" && $val->is_used_m != 'Y')) continue; 
 
                 $extra_vars = unserialize($val->extra_vars);
                 $mid_list = $extra_vars->mid_list;
@@ -146,8 +148,8 @@
             $addon_path = _XE_PATH_.'files/cache/addons/';
             if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
 
-            if($site_srl) $addon_file = $addon_path.$site_srl.'.acivated_addons.cache.php';
-            else $addon_file = $addon_path.'acivated_addons.cache.php';
+            if($site_srl) $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
+            else $addon_file = $addon_path.$type.'acivated_addons.cache.php';
 
             FileHandler::writeFile($addon_file, $buff);
         }

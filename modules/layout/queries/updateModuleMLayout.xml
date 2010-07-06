@@ -1,0 +1,12 @@
+<query id="updateModuleMLayout" action="update">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="mlayout_srl" var="layout_srl" />
+		<column name="use_mobile" var="use_mobile" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" />
+    </conditions>
+</query>

@@ -2,10 +2,11 @@
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
 			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
+			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
+			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
+			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+*/
 			
     $lang->admin_info = 'Thông tin Administrator';
     $lang->admin_index = 'Trang chủ Admin';
@@ -36,7 +37,7 @@
     $lang->current_version = "Phiên bản";
     $lang->current_path = "Thư mục cài đặt";
     $lang->released_version = "Phiên bản mới nhất";
-    $lang->about_download_link = "Đã có phiên bản mới nhất của Zerboard XE.\n hãy bấm vào Link để Download.";
+    $lang->about_download_link = "Đã có phiên bản mới nhất của XE.\n Hãy bấm vào Link để Download.";
     
     $lang->item_module = "Danh sách Module";
     $lang->item_addon  = "Danh sách Addon";
@@ -57,7 +58,7 @@
     $lang->msg_default_act_is_null = 'Phím tắt đã không được tạo, bởi vì bạn không được đặt quyền là quản lý toàn diện.';
 
     $lang->welcome_to_xe = 'Chào mừng bạn đến với trang quản lý của XE!';
-    $lang->about_admin_page = "Trang Admin này vẫn đang được phát triển,\nChúng tôi sẽ thêm vào những nội dung chủ yếu từ những ý kiến của người sử dụng.";
+    $lang->about_admin_page = "Trang Admin này vẫn đang được phát triển,\n Chúng tôi sẽ thêm vào những nội dung chủ yếu từ những ý kiến của người sử dụng.";
     $lang->about_lang_env = "Để hiển thị ngôn ngữ đã chọn là mặc định. Hãy bấm [Lưu] phía dưới để lưu lại.";
 
     $lang->xe_license = 'XE sử dụng giấy phép GPL';
@@ -80,9 +81,12 @@
     $lang->about_server_ports = "Nếu Host của bạn sử dụng cổng khác cổng mặc định 80 cho HTTP, 443 cho HTTPS, bạn nên xác định và nhập chính xác cổng kết nối.";
     $lang->use_db_session = 'Xác nhận Database';
     $lang->about_db_session = 'PHP sẽ xác nhận với Database. Có thể cải thiện được tốc độ của Website.';
-    $lang->sftp = "Use SFTP";
-    $lang->ftp_get_list = "Get List";
-    $lang->ftp_remove_info = 'Remove FTP Info.';
-	$lang->msg_ftp_invalid_path = 'Failed to read the specified FTP Path.';
-	$lang->msg_self_restart_cache_engine = 'Memcached 또는 캐쉬데몬을 재시작 해주세요.';
+    $lang->sftp = "Sử dụng SFTP";
+    $lang->ftp_get_list = "Nhận danh sách";
+    $lang->ftp_remove_info = 'Xóa thông tin FTP.';
+	$lang->msg_ftp_invalid_path = 'Không tìm thấy thông tin của thư mục bạn đã nhập trên FTP.';
+	$lang->msg_self_restart_cache_engine = 'Hãy thiết lập lại bộ nhớ Cache hoặc Deamon Cache.';
+	$lang->mobile_view = 'Xem bằng di động';
+	$lang->about_mobile_view = 'Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.';
+    $lang->autoinstall = 'Cập nhật tự động';
 ?>

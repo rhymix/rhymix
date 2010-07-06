@@ -10,4 +10,5 @@
     $lang->page_caching_interval = "Establezca el tiempo de cache";
     $lang->about_page_caching_interval = "La unidad es minuto, y se muestra temporal de los datos guardados por el tiempo asignado. <br /> Se recomienda a la cache para una buena vez si una gran cantidad de recursos se necesitan otros servidores cuando se muestran los datos o la informacion. <br /> Un valor de 0 no cache.";
     $lang->cmd_page_modify = "Modificar";
+	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
 ?>

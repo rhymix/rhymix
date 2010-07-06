@@ -3,14 +3,18 @@
     <column name="module" type="varchar" size="80" notnull="notnull" index="idx_module" />
     <column name="module_category_srl" type="number" size="11" default="0" index="idx_module_category" />
     <column name="layout_srl" type="number" size="11" default="0" />
+	<column name="use_mobile" type="char" size="1" default="N" />
+    <column name="mlayout_srl" type="number" size="11" default="0" />
     <column name="menu_srl" type="number" size="11" default="0" />
     <column name="site_srl" type="number" size="11" notnull="notnull" default="0" />
     <column name="mid" type="varchar" size="40" notnull="notnull" />
     <column name="skin" type="varchar" size="250" />
+    <column name="mskin" type="varchar" size="250" />
     <column name="browser_title" type="varchar" size="250" notnull="notnull" />
     <column name="description" type="text" />
     <column name="is_default" type="char" size="1" notnull="notnull" default="N" />
     <column name="content" type="bigtext" />
+    <column name="mcontent" type="bigtext" />
     <column name="open_rss" type="char" size="1" notnull="notnull" default="Y" />
     <column name="header_text" type="text" />
     <column name="footer_text" type="text" />

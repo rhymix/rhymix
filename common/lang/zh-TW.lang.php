@@ -126,6 +126,7 @@
     $lang->mid = '模組名稱';
     $lang->sid = '網站名稱';
     $lang->layout = '版面';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'Widget';
     $lang->module = '模組';
     $lang->skin = '面板';

@@ -417,7 +417,7 @@
             }
 
             // 디렉토리 생성
-            if(!FileHandler::makeDir($path)) return false;
+            if(!FileHandler::makeDir($path)) return new Object(-1,'msg_not_permitted_create');
 
             // 파일 이동
             if($manual_insert) {
@@ -431,7 +431,7 @@
                 if(!@move_uploaded_file($file_info['tmp_name'], $filename)) {
                     $ext = substr(strrchr($file_info['name'],'.'),1);
                     $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
-                    if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return false;
+                    if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return new Object(-1,'msg_file_upload_error');
                 }
             }
 

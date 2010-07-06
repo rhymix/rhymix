@@ -91,6 +91,8 @@
                     $xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($path).$config_file);
 					if(!$xmlDoc) continue;
 					if($type == "drcomponent") $type = "component";
+					if($type == "style" || $type == "m.skin") $type = "skin";
+					if($type == "m.layout") $type = "layout";
                     $title = $xmlDoc->{$type}->title->body;
 					$installed[$key]->title = $title;
 				}

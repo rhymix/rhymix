@@ -87,10 +87,12 @@
             }
 
             // 레이아웃 목록을 구해옴
-            $oLayoutMode = &getModel('layout');
-            $layout_list = $oLayoutMode->getLayoutList();
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
 
+			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
+			Context::set('mlayout_list', $mobile_layout_list);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('page_info');
@@ -132,14 +134,66 @@
             }
 
             // 레이아웃 목록을 구해옴
-            $oLayoutMode = &getModel('layout');
-            $layout_list = $oLayoutMode->getLayoutList();
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
 
+			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
+			Context::set('mlayout_list', $mobile_layout_list);
 
             // 템플릿 파일 지정
             $this->setTemplateFile('page_insert');
         }
+
+		function dispPageAdminMobileContent() {
+            if($this->module_srl) Context::set('module_srl',$this->module_srl);
+
+            // 캐시 파일 지정
+            $cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
+            $interval = (int)($this->module_info->page_caching_interval);
+            if($interval>0) {
+                if(!file_exists($cache_file)) $mtime = 0;
+                else $mtime = filemtime($cache_file);
+
+                if($mtime + $interval*60 > time()) {
+                    $page_content = FileHandler::readFile($cache_file); 
+                } else {
+                    $oWidgetController = &getController('widget');
+                    $page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
+                    FileHandler::writeFile($cache_file, $page_content);
+                }
+            } else {
+                if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+                $page_content = $this->module_info->mcontent;
+            }
+            
+            Context::set('module_info', $this->module_info);
+            Context::set('page_content', $page_content);
+
+            $this->setTemplateFile('mcontent');
+		}
+
+		function dispPageAdminMobileContentModify() {
+            Context::set('module_info', $this->module_info);
+
+            // 내용을 세팅
+            $content = Context::get('mcontent');
+            if(!$content) $content = $this->module_info->mcontent;
+            Context::set('content', $content);
+
+            // 내용중 위젯들을 변환
+            $oWidgetController = &getController('widget');
+            $content = $oWidgetController->transWidgetCode($content, true);
+            Context::set('page_content', $content);
+
+            // 위젯 목록을 세팅
+            $oWidgetModel = &getModel('widget');
+            $widget_list = $oWidgetModel->getDownloadedWidgetList();
+            Context::set('widget_list', $widget_list);
+
+            // 템플릿 파일 지정
+            $this->setTemplateFile('page_mobile_content_modify');
+		}
 
         /**
          * @brief 페이지 내용 수정

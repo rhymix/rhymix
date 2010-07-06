@@ -1,0 +1,30 @@
+<!--%import("css/mmenu.css")-->
+<div class="bd">
+<ul class="gn">
+	{@ $start = true }
+	{@ $depth = 0 }
+	<!--@foreach($menu as $val)-->
+	<!--@if(!$start && $val->depth == $depth)-->
+	</li>
+	<!--@end-->
+	<!--@if($val->depth > $depth)--> 
+	<ul>
+	<!--@else-->
+	<!--@while($val->depth < $depth)-->
+	</li>
+	</ul>
+	{@ $depth -= 1}
+	<!--@end-->
+	<!--@endif-->
+	<li><a href="{$val->href}" >&raquo; {$val->link}</a>
+		{@ $start = false }
+		{@ $depth = $val->depth }
+	<!--@end-->
+	<!--@while($depth > 0)-->
+	</li>
+	</ul>
+	{@ $depth -= 1}
+	<!--@end-->
+	</li>
+</ul>
+</div>

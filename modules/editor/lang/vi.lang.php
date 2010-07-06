@@ -2,10 +2,11 @@
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
 			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
+			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
+			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
+			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+*/
 
     $lang->editor = 'WYSIWYG toàn diện';
     $lang->component_name = 'Thành phần';
@@ -120,7 +121,7 @@
     $lang->edit->help_align_left = 'Căn trái';
     $lang->edit->help_align_center = 'Căn giữa';
     $lang->edit->help_align_right = 'Căn phải';
-	$lang->edit->help_align_justify = 'Align justity';
+	$lang->edit->help_align_justify = 'Đều hai bên';
     $lang->edit->help_add_indent = 'Thụt vào';
     $lang->edit->help_remove_indent = 'Giãn ra';
     $lang->edit->help_list_number = 'Thứ tự số';
@@ -213,7 +214,7 @@
     $lang->edit->minimize_list = 'Thu nhỏ';
     
     $lang->edit->move = 'Di chuyển';
-	$lang->edit->refresh = 'Refresh';
+	$lang->edit->refresh = 'Làm mới';
     $lang->edit->materials = 'Vật liệu';
     $lang->edit->temporary_savings = 'Danh sách lưu tạm thời';
 
@@ -223,10 +224,10 @@
 	$lang->edit->paging_next_help = 'Chuyển tới trang tiếp.';
 
 	$lang->edit->toc = 'Board của nội dung';
-	$lang->edit->close_help = '도움말 닫기';
+	$lang->edit->close_help = 'Đóng hướng dẫn';
 
-	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
+	$lang->edit->confirm_submit_without_saving = 'Nội dung chưa được lưu.\\nBạn có chắc chắn muốn gửi không?';
 
-	$lang->edit->image_align = '이미지 정렬';
-	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->image_align = 'Sắp xếp hình ảnh';
+	$lang->edit->attached_files = 'File đính kèm';
 ?>

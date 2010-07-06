@@ -36,6 +36,12 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
+            $redirect_url = Context::get('redirect_url'); 
+			if($output->toBool() && Context::getRequestMethod() == "POST" && $redirect_url)
+			{
+                header("location:" . $redirect_url);
+			}
+
             return $output;
         }
 
@@ -505,6 +511,7 @@
          * @brief 회원 가입
          **/
         function procMemberInsert() {
+			if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
 

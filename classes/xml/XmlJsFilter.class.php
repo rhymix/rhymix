@@ -43,7 +43,7 @@
 	 **/
                 
 	class XmlJsFilter extends XmlParser {
-        var $version = '0.2.3';
+        var $version = '0.2.4';
 		var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
 		var $xml_file = NULL; ///< 대상 xml 파일
 		var $js_file = NULL; ///< 컴파일된 js 파일
@@ -220,7 +220,8 @@
 					$name = trim($attrs->name);
 					$target = trim($attrs->target);
 
-					if($name && $target && ($name != $target)) $js_doc[] = "\t\tparams['{$name}'] = params['{$target}']; delete params['{$target}'];";
+					//if($name && $target && ($name != $target)) $js_doc[] = "\t\tparams['{$name}'] = params['{$target}']; delete params['{$target}'];";
+					if($name && $target && ($name != $target)) $js_doc[] = "\t\tif(params['{$target}']) { params['{$name}'] = params['{$target}']; delete params['{$target}']; }";
 					if($name && !in_array($name, $target_list)) $target_list[] = $name;
 				}
 

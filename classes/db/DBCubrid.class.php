@@ -668,23 +668,44 @@
                     } else {
                         if(strpos($name,'.')!=false) {
                             list($prefix, $name) = explode('.',$name);
-                            if (strpos ($prefix, "(")) {
-                                $tmpval = explode ("(", $prefix);
-                                $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                                $prefix = implode ("(", $tmpval);
-                                $flag_of_function = true;
+                            if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) {
+                                if ($now_matchs == 1) {
+                                    $tmpval = explode ("(", $prefix);
+                                    $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                                    $prefix = implode ("(", $tmpval);
+                                    $tmpval = explode (")", $name);
+                                    $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                                    $name = implode (")", $tmpval);
+                                }
                             }
-                            else $prefix = sprintf('"%s"',$prefix);
-                            if ($flag_of_function === true) {
-                                $tmpval = explode (")", $name);
-                                $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                                $name = implode (")", $tmpval);
-                                $flag_of_function = false;
+                            else {
+                                $prefix = sprintf('"%s"',$prefix);
+                                $name = ($name == '*') ? $name : sprintf('"%s"',$name);
                             }
-                            else $name = ($name == '*') ? $name : sprintf('"%s"',$name);
-							
+                            $xtmp = null;
+                            $now_matchs = null;
                             $column_list[] = sprintf($click_count,sprintf('%s.%s', $prefix, $name)) . ($alias ? sprintf(' as %s',$alias) : '');
-							
+                        } elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
+                            if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) {
+                                $open_pos = strpos ($name, "(");
+                                $close_pos = strpos ($name, ")");
+                                if (preg_match ("/,/", $name)) {
+                                    $tmp_func_name = sprintf ('%s', substr ($name, 0, $open_pos));
+                                    $tmp_params = sprintf ('%s', substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
+                                    $tmpval = null;
+                                    $tmpval = explode (',', $tmp_params);
+                                    foreach ($tmpval as $tmp_param) {
+                                        $tmp_param_list[] = (!is_numeric ($tmp_param)) ? sprintf ('"%s"', $tmp_param) : $tmp_param;
+                                    }
+                                    $tmpval = implode (',', $tmp_param_list);
+                                    $name = sprintf ('%s(%s)', $tmp_func_name, $tmpval);
+                                } else {
+                                  $name = sprintf ('%s("%s")',
+                                      substr ($name, 0, $open_pos),
+                                      substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
+                                }
+                            }
+                            $column_list[] = sprintf ($click_count,$name) . ($alias ? sprintf (' as %s', $alias) : '');
                         } else {
                             $column_list[] = sprintf($click_count,$name) . ($alias ? sprintf(' as %s',$alias) : '');
                         }

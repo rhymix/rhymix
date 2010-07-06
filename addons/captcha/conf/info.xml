@@ -5,7 +5,7 @@
     <title xml:lang="vi">Captcha Addon</title>
     <title xml:lang="zh-CN">验证码插件</title>
     <title xml:lang="jp">Captchaアドオン</title>
-	<title xml:lang="ru">Аддон Captcha</title>
+    <title xml:lang="ru">Аддон Captcha</title>
     <title xml:lang="zh-TW">圖形驗證</title>
     <description xml:lang="ko">
         프로그램 글 등록기를 막기 위해 게시판/ issueTracker에서 글/ 댓글을 입력하려 할 때 이미지를 보여주고 글에 해당하는 이미지를 선택하게 하는 애드온입니다.
@@ -27,7 +27,7 @@
         ボット(bot)がプログラムによるスパム行為を防ぐために、掲示板／issueTrackerで書き込み・コメントを登録する際、ランダムな文字や数字の列を画面に表示し、表示されたものと一致した情報を入力した時、登録が出来るようにするアドオンです。
         ログインしてない時だけ、動作します。
     </description>
-	<description xml:lang="ru">
+    <description xml:lang="ru">
         To block spam written by programs, let users to choose a suitable image to text when writing a posting or comment.
         This addon applies only to not-logged-in users.
     </description>
@@ -39,46 +39,46 @@
 
     <author email_address="developers@xpressengine.com" link="http://www.xpressengine.com">
         <name xml:lang="ko">XE</name>
-		<name xml:lang="zh-CN">XE</name>
-		<name xml:lang="jp">XE</name>
+	<name xml:lang="zh-CN">XE</name>
+	<name xml:lang="jp">XE</name>
         <name xml:lang="zh-TW">XE</name>
-		<name xml:lang="en">XE</name>
-		<name xml:lang="ru">XE</name>
+	<name xml:lang="en">XE</name>
+	<name xml:lang="ru">XE</name>
         <name xml:lang="vi">XE</name>
     </author>
 
     <extra_vars>
         <var name="target" type="select">
             <title xml:lang="ko">Captcha 표시 대상</title>
-	    	<title xml:lang="zh-CN">应用对象</title>
-	    	<title xml:lang="jp">Captchaを表示する対象</title>
-	    	<title xml:lang="zh-TW">選擇目標</title>
+	    <title xml:lang="zh-CN">应用对象</title>
+	    <title xml:lang="jp">Captchaを表示する対象</title>
+	    <title xml:lang="zh-TW">選擇目標</title>
             <title xml:lang="en">Captcha Target</title>
-			<title xml:lang="ru">Captcha Target</title>
+	    <title xml:lang="ru">Captcha Target</title>
             <title xml:lang="vi">Mục tiêu Captcha hiển thị</title>
             <description xml:lang="ko">글/댓글 등록시 captcha가 동작할 대상을 정할 수 있습니다. 관리자는 무조건 제외됩니다</description>
-	    	<description xml:lang="zh-CN">可以指定验证码应用对象(管理员除外)。</description>
-	    	<description xml:lang="jp">管理者を除き、書き込み・コメントを入力する際にcaptchaイメージを見せる対象を設定します。</description>
-	    	<description xml:lang="zh-TW">除了管理員，在發表主題或評論時，設定圖形驗證應用的對象。</description>
+	    <description xml:lang="zh-CN">可以指定验证码应用对象(管理员除外)。</description>
+	    <description xml:lang="jp">管理者を除き、書き込み・コメントを入力する際にcaptchaイメージを見せる対象を設定します。</description>
+	    <description xml:lang="zh-TW">除了管理員，在發表主題或評論時，設定圖形驗證應用的對象。</description>
             <description xml:lang="en">You may specify targets CAPTCHA work. It's not applied when administrator writes.</description>
-			<description xml:lang="ru">You may specify targets CAPTCHA work. It's not applied when administrator writes.</description>
+	    <description xml:lang="ru">You may specify targets CAPTCHA work. It's not applied when administrator writes.</description>
             <description xml:lang="vi">Khi gửi bài, bình luận, Capcha sẽ hiển thị để xác nhận hành động của người sử dụng. Chức năng này không hoạt động với người quản lý.</description>
             <options value="">
                 <title xml:lang="ko">로그인하지 않은 사용자</title>
-				<title xml:lang="zh-CN">非登录用户</title>
-				<title xml:lang="jp">ログインしてないユーザー</title>
-				<title xml:lang="zh-TW">非用戶</title>
+		<title xml:lang="zh-CN">非登录用户</title>
+		<title xml:lang="jp">ログインしてないユーザー</title>
+		<title xml:lang="zh-TW">非用戶</title>
                 <title xml:lang="en">Not logged-in users</title>
-				 <title xml:lang="ru">Not logged-in users</title>
+		<title xml:lang="ru">Not logged-in users</title>
                 <title xml:lang="vi">Người dùng chưa đăng nhập</title>
             </options>
             <options value="all">
                 <title xml:lang="ko">모든 사용자</title>
-				<title xml:lang="zh-CN">所有用户</title>
-				<title xml:lang="jp">すべてのユーザー</title>
+		<title xml:lang="zh-CN">所有用户</title>
+		<title xml:lang="jp">すべてのユーザー</title>
             	<title xml:lang="zh-TW">所有用戶</title>
                 <title xml:lang="en">All users</title>
-				<title xml:lang="ru">All users</title>
+		<title xml:lang="ru">All users</title>
                 <title xml:lang="vi">Tất cả mọi người</title>
             </options>
         </var>
@@ -88,14 +88,14 @@
             <title xml:lang="jp">動作方式</title>
             <title xml:lang="zh-TW">行為模式</title>
             <title xml:lang="en">How it works</title>
-			<title xml:lang="ru">How it works</title>
+	    <title xml:lang="ru">How it works</title>
             <title xml:lang="vi">Sử dụng</title>
             <description xml:lang="ko">"1번만 동작"을 선택하시면 1번만 동작후 상태를 저장해서 다음부터 물어보지 않고 그렇지 않으면 매번 물어보게 됩니다</description>
-	    	<description xml:lang="zh-CN">"一次"就是每个IP只出现一次验证。</description>
+	    <description xml:lang="zh-CN">"一次"就是每个IP只出现一次验证。</description>
             <description xml:lang="jp">「1回だけ表示」を選択すると、最初だけ動作した後、その情報を記憶して次回からはCaptchaを見せないようにします。また、もう一つのオプションは毎回Captchaを表示します。</description>
             <description xml:lang="zh-TW">選擇"單次"，產生第一次動作後，下次不會再顯示；選擇"每次"則會一直顯示。</description>
             <description xml:lang="en">If you choose "Once", CAPTCHA works only once for the user by storing status. Otherwise, this addon would show an image every time the user writes.</description>
-			<description xml:lang="ru">If you choose "Once", CAPTCHA works only once for the user by storing status. Otherwise, this addon would show an image every time the user writes.</description>
+	    <description xml:lang="ru">If you choose "Once", CAPTCHA works only once for the user by storing status. Otherwise, this addon would show an image every time the user writes.</description>
             <description xml:lang="vi">Nếu chọn "Chỉ một lần" thì sau lần hiển thị đó Capcha sẽ không hiển thị với người sử dụng đó nữa.</description>
             <options value="onetime">
                 <title xml:lang="ko">1번만 동작</title>
@@ -104,7 +104,7 @@
                 <title xml:lang="zh-TW">單次</title>
                 <title xml:lang="vi">Chỉ một lần</title>
                 <title xml:lang="en">once</title>
-				<title xml:lang="ru">1 раз</title>
+		<title xml:lang="ru">1 раз</title>
             </options>
             <options value="everytime">
                 <title xml:lang="ko">매번 동작</title>
@@ -112,7 +112,7 @@
                 <title xml:lang="jp">毎回表示</title>
                 <title xml:lang="zh-TW">每次</title>
                 <title xml:lang="en">every time</title>
-				<title xml:lang="ru">каждый раз</title>
+		<title xml:lang="ru">каждый раз</title>
                 <title xml:lang="vi">Luôn sử dụng</title>
             </options>
         </var>
@@ -122,14 +122,14 @@
                 <title xml:lang="jp">비밀번호 찾기 적용</title>
                 <title xml:lang="zh-TW">忘記密碼</title>
                 <title xml:lang="en">applying to an action finding account</title>
-				<title xml:lang="ru">applying to an action finding account</title>
+		<title xml:lang="ru">applying to an action finding account</title>
                 <title xml:lang="vi">Khi lấy lại mật khẩu</title>
                 <description xml:lang="ko">적용으로 하시면 비밀번호 찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
                 <description xml:lang="zh-CN">启用此项功能可以有效地拦截以查找密码名义发送的垃圾邮件。</description>
                 <description xml:lang="jp">적용으로 하시면 비밀번호찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
                 <description xml:lang="zh-TW">적용으로 하시면 비밀번호찾기 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
                 <description xml:lang="en">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
-				<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
+		<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for finding account action, too.</description>
                 <description xml:lang="vi">Nếu áp dụng, khi thành viên cần lấy lại mật khẩu khi lỡ quên, Capcha sẽ hiện thị để xác nhận việc này.</description>
             <options value="">
                 <title xml:lang="ko">적용하지 않음</title>
@@ -137,7 +137,7 @@
                 <title xml:lang="jp">적용하지 않음</title>
                 <title xml:lang="zh-TW">關閉</title>
                 <title xml:lang="en">Not apply</title>
-				<title xml:lang="ru">Not apply</title>
+		<title xml:lang="ru">Not apply</title>
                 <title xml:lang="vi">Không áp dụng</title>
             </options>
             <options value="apply">
@@ -146,7 +146,7 @@
                 <title xml:lang="jp">적용</title>
                 <title xml:lang="zh-TW">開啟</title>
                 <title xml:lang="en">Apply</title>
-				<title xml:lang="ru">Apply</title>
+		<title xml:lang="ru">Apply</title>
                 <title xml:lang="vi">Áp dụng</title>
             </options>
         </var>
@@ -156,14 +156,14 @@
             <title xml:lang="jp">인증 메일 재발송 적용</title>
             <title xml:lang="zh-TW">重寄認證信</title>
             <title xml:lang="en">apply to an action resending authmail</title>
-			<title xml:lang="ru">apply to an action resending authmail</title>
+	    <title xml:lang="ru">apply to an action resending authmail</title>
             <title xml:lang="vi">Khi lấy lại mã kích hoạt</title>
             <description xml:lang="ko">적용으로 하시면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
             <description xml:lang="zh-CN">启用此项功能可以有效地拦截以重新发送认证邮件名义发送的垃圾邮件。</description>
             <description xml:lang="jp">적용으로 하시면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
             <description xml:lang="zh-TW">적용으로 하시면 인증 메일 재발송 기능에도 적용되어 악의적인 봇(또는 프로그램)에 의한 메일 발송을 막을 수 있습니다.</description>
             <description xml:lang="en">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
-			<description xml:lang="ru">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
+	    <description xml:lang="ru">If you set this option as apply, CAPTCHA will work for resending authmail action, too.</description>
             <description xml:lang="vi">Nếu áp dụng, khi thành viên cần lấy lại mã kích hoạt thành viên, Capcha sẽ hiện thị để xác nhận việc này.</description>
             <options value="">
                 <title xml:lang="ko">적용하지 않음</title>
@@ -171,7 +171,7 @@
                 <title xml:lang="jp">적용하지 않음</title>
                 <title xml:lang="zh-TW">關閉</title>
                 <title xml:lang="en">Not apply</title>
-				<title xml:lang="ru">Not apply</title>
+		<title xml:lang="ru">Not apply</title>
                 <title xml:lang="vi">Không áp dụng</title>
             </options>
             <options value="apply">
@@ -180,20 +180,20 @@
                 <title xml:lang="jp">적용</title>
                 <title xml:lang="zh-TW">開啟</title>
                 <title xml:lang="en">Apply</title>
-				<title xml:lang="ru">Apply</title>
+		<title xml:lang="ru">Apply</title>
                 <title xml:lang="vi">Áp dụng</title>
             </options>
         </var>
         <var name="apply_signup" type="select">
             <title xml:lang="ko">회원 가입 적용</title>
-            <title xml:lang="zh-CN">Apply to member signup</title>
+            <title xml:lang="zh-CN">应用到用户注册表单</title>
             <title xml:lang="jp">인증 메일 재발송 적용</title>
             <title xml:lang="zh-TW">會員註冊</title>
             <title xml:lang="en">Apply to member signup</title>
-			<title xml:lang="ru">Apply to member signup</title>
+	    <title xml:lang="ru">Apply to member signup</title>
             <title xml:lang="vi">Apply to member signup</title>
             <description xml:lang="ko">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
-            <description xml:lang="zh-CN">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
+            <description xml:lang="zh-CN">启用此项功能可以有效地拦截自动注册软件的施虐。</description>
             <description xml:lang="jp">적용으로 하시면 회원가입 기능에도 적용되어 악의적인 봇(또는 프로그램)의 회원가입을 막을 수 있습니다.</description>
             <description xml:lang="zh-TW">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
             <description xml:lang="en">If you set this option as apply, CAPTCHA will work for signup action, too.</description>
@@ -205,7 +205,7 @@
                 <title xml:lang="jp">적용하지 않음</title>
                 <title xml:lang="zh-TW">關閉</title>
                 <title xml:lang="en">Not apply</title>
-				<title xml:lang="ru">Not apply</title>
+		<title xml:lang="ru">Not apply</title>
                 <title xml:lang="vi">Không áp dụng</title>
             </options>
             <options value="apply">
@@ -214,7 +214,7 @@
                 <title xml:lang="jp">적용</title>
                 <title xml:lang="zh-TW">開啟</title>
                 <title xml:lang="en">Apply</title>
-				<title xml:lang="ru">Apply</title>
+		<title xml:lang="ru">Apply</title>
                 <title xml:lang="vi">Áp dụng</title>
             </options>
         </var>

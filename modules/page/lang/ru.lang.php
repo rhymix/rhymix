@@ -10,4 +10,5 @@
     $lang->page_caching_interval = "Установить время кеширования";
     $lang->about_page_caching_interval = "Единица измерения равна одной минуте. Это отображает временно сохраненные данные для присвоенного времени.<br />Рекомендуется устанавливать разумное время кеширования, если множество ресурсов нуждаются в показе данных с других серверов.<br />Значение 0 отключает кеширование.";
     $lang->cmd_page_modify = "Изменить";
+	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
 ?>

@@ -25,6 +25,15 @@
             $this->setTemplateFile('index');
         }
 
+		function dispLayoutAdminMobileContent() {
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getLayoutList(0, "M");
+            Context::set('layout_list', $layout_list);
+
+            $this->setTemplateFile('mindex');
+
+		}
+
         /**
          * @brief 레이아웃 등록 페이지
          * 1차적으로 레이아웃만 선택한 후 DB 에 빈 값을 넣고 그 후 상세 값 설정하는 단계를 거침
@@ -32,7 +41,8 @@
         function dispLayoutAdminInsert() {
             // 레이아웃 목록을 세팅
             $oLayoutModel = &getModel('layout');
-            $layout_list = $oLayoutModel->getDownloadedLayoutList();
+			$layout_type = Context::get('layout_type');
+            $layout_list = $oLayoutModel->getDownloadedLayoutList($layout_type);
             Context::set('layout_list', $layout_list);
 
             $this->setTemplateFile('insert_layout');
@@ -127,6 +137,15 @@
 
             $this->setTemplateFile('downloaded_layout_list');
         }
+
+		function dispLayoutAdminDownloadedMobileList() {
+            // 레이아웃 목록을 세팅
+            $oLayoutModel = &getModel('layout');
+            $layout_list = $oLayoutModel->getDownloadedLayoutList(0, "M");
+            Context::set('layout_list', $layout_list);
+
+            $this->setTemplateFile('downloaded_mlayout_list');
+		}
 
         /**
          * @brief 레이아웃 미리 보기

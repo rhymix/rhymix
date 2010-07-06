@@ -8,8 +8,10 @@
 <!--@if($module == 'admin')-->
 <div class="header4">
     <ul class="localNavigation">
-        <li <!--@if($act=='dispLayoutAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminContent')}">{$lang->layout_list}</a></li>
-        <li <!--@if($act=='dispLayoutAdminDownloadedList')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminDownloadedList')}">{$lang->downloaded_list}</a></li>
+        <li <!--@if($act=='dispLayoutAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminContent','layout_type','')}">{$lang->layout_list}</a></li>
+        <li <!--@if($act=='dispLayoutAdminDownloadedList')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminDownloadedList','layout_type','')}">{$lang->downloaded_list}</a></li>
+        <li <!--@if($act=='dispLayoutAdminMobileContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminMobileContent','layout_type','')}">{$lang->mobile_layout_list}</a></li>
+        <li <!--@if($act=='dispLayoutAdminDownloadedMobileList')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminDownloadedMobileList','layout_type','')}">{$lang->mobile_downloaded_list}</a></li>
     </ul>
 </div>
 <!--@end-->

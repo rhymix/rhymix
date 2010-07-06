@@ -67,8 +67,8 @@
     );
 
     $lang->alias = "Alias";
-    $lang->history = "编辑记录";
-    $lang->about_use_history = "设置启用编辑记录与否。启用将记录修改主题版本，并可以复原。";
+    $lang->history = "历史版本功能";
+    $lang->about_use_history = "启用历史版本功能它将记录主题修改版本，并还可以复原到之前版本。";
     $lang->trace_only = "只留痕迹";
 
     $lang->cmd_trash = "回收箱";
@@ -95,5 +95,6 @@
         'trash_ipaddress' => '操作人IP地址',
     );
 
-    $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->success_trashed = '已成功移除到回收箱。';
+
 ?>

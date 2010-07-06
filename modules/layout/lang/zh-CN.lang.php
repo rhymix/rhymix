@@ -23,7 +23,7 @@
 
     $lang->about_downloaded_layouts = "已下载的布局目录";
     $lang->about_title = '请输入连接模块时容易区分的标题。';
-    $lang->about_not_apply_menu = '更新所有被连接到菜单的模块布局。';
+    $lang->about_not_apply_menu = '勾选表示连接到此布局的菜单项全部采用此布局。';
 
     $lang->about_layout = "布局模块使网站制作变得更简单。<br />通过布局设置及菜单的链接，可以轻松制作以多种模块组成的完整网站。<br />- 无法删除和修改的布局可能是博客或其他模块自带的模板，因此应到相关模块进行设置。";
     $lang->about_layout_code = 
@@ -110,4 +110,8 @@
         'attribute' => '除控件之外的各个区域都可以对其指定背景色/背景图片及字体颜色(包括a标签)。',
 
     );
+	$lang->mobile_layout_list = "移动版布局目录";
+	$lang->mobile_downloaded_list = "移动版布局下载目录";
+	$lang->apply_mobile_view = "移动版布局共享";
+	$lang->about_apply_mobile_view = "勾选表示连接到此布局的所有菜单项全部采用此移动版布局。";
 ?>

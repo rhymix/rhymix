@@ -220,6 +220,11 @@
                 }
 
                 if($module_name == 'textyle') {
+                    $args->document_srl = $obj->document_srl;
+                    $args->module_srl = $obj->module_srl;
+                    $args->logs = serialize(null);
+                    $output = executeQuery('textyle.insertPublishLog', $args);
+
                     // 발행 상태의 visibility 값
                     $status_published = array('public', 'syndicated');
                     // 발행이 아닌 것들은 저장상태로

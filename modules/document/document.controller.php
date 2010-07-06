@@ -185,6 +185,10 @@
 
             // 내용에서 XE만의 태그를 삭제
             $obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+			if(Mobile::isFromMobilePhone())
+			{
+				$obj->content = nl2br(htmlspecialchars($obj->content));
+			}
 
             // 세션에서 최고 관리자가 아니면 iframe, script 제거
             if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
@@ -481,6 +485,7 @@
             $oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
             $trash_args->module_srl = $oDocument->get('module_srl');
+			$obj->module_srl = $oDocument->get('module_srl');
 
             // 휴지통 문서를 두번 휴지통에 버릴 수 없음.
             if($trash_args->module_srl == 0) return false;
@@ -531,7 +536,16 @@
                 executeQuery('file.updateFileValid', $args);
             }
 
-            // commit
+            // trigger 호출 (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+           // commit
             $oDB->commit();
 
             return $output;
@@ -1621,7 +1635,7 @@
 
             $document_config = null;
             $document_config->use_history = Context::get('use_history');
-            if(!$document_config->use_history) $document_config->user_history = 'N';
+            if(!$document_config->use_history) $document_config->use_history = 'N';
 
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {

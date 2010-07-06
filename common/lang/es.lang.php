@@ -125,6 +125,7 @@
     $lang->mid = 'ID del Módulo';
     $lang->sid = 'Site Name';
     $lang->layout = 'Composición';
+	$lang->mobile_layout = 'Mobile Layout';
     $lang->widget = 'Widget';
     $lang->module = 'Módulo';
     $lang->skin = 'Tema'; //máscara,

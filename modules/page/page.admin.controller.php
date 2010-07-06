@@ -30,7 +30,17 @@
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
-                if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
+                if($module_info->module_srl != $args->module_srl) {
+					unset($args->module_srl);
+				}
+				else
+				{
+					foreach($args as $key=>$val)
+					{
+						$module_info->{$key} = $val;
+					}
+					$args = $module_info;
+				}
             }
 
             // module_srl의 값에 따라 insert/update
@@ -49,6 +59,22 @@
             $this->setMessage($msg_code);
         }
 
+		function putDocumentsInPageToArray($target, &$array)
+		{
+			if(!$target) return;
+			preg_match_all('!<img src="./common/tpl/images/widget_bg.jpg" ([^>]+)!is', $target, $matches);
+			$pattern = '!document_srl="(\d+)"!';
+			foreach($matches[1] as $match)
+			{
+				$match2 = null;
+				preg_match($pattern, $match, $match2);
+				if(count($match2))
+				{
+					$array[(int)$match2[1]] = 1;
+				}
+			}
+		}
+
         /**
          * @brief 페이지 수정 내용 저장
          **/
@@ -56,13 +82,37 @@
             $module_srl = Context::get('module_srl');
             $content = Context::get('content');
             if(!$module_srl) return new Object(-1,'msg_invalid_request');
+			$mcontent = Context::get('mcontent');
+			$type = Context::get('type');
 
             // 페이지의 원 정보를 구해옴
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-            if(!isset($content)) $content ='';
-            $module_info->content = $content;
+			if($type == "mobile") {
+                if(!$mcontent) $mcontent = '';
+				$module_info->mcontent = $mcontent;
+			}
+			else {
+				if(!isset($content)) $content ='';
+				$module_info->content = $content;
+			}
 
+			$document_srls = array();
+			$this->putDocumentsInPageToArray($module_info->content, $document_srls);
+			$this->putDocumentsInPageToArray($module_info->mcontent, $document_srls);
+
+            $oDocumentModel = &getModel('document');
+            $oDocumentController = &getController('document');
+            $obj->module_srl = $module_srl;
+            $obj->list_count = 99999999;
+            $output = $oDocumentModel->getDocumentList($obj);
+			if(count($output->data)) {
+				foreach($output->data as $document)
+				{
+					if($document_srls[$document->document_srl]) continue;
+					$oDocumentController->deleteDocument($document->document_srl, true);
+				}
+			}
             // module 모듈의 controller 객체 생성
             $oModuleController = &getController('module');
 
