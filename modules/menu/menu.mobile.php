@@ -8,7 +8,7 @@ class menuMobile extends moduleObject {
 		if(!$menu_item['link']) return;
 		$obj->href = $menu_item['href'];
 		$obj->depth = $depth;
-		$obj->link = $menu_item['link'];
+		$obj->text = $menu_item['text'];
 		$this->result[] = $obj;
 		if(!$menu_item['list']) return;
 		foreach($menu_item['list'] as $item)
