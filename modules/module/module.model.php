@@ -537,7 +537,7 @@
 
             foreach($list as $skin_name) {
                 unset($skin_info);
-                $skin_info = $this->loadSkinInfo($path, $skin_name);
+                $skin_info = $this->loadSkinInfo($path, $skin_name, $dir);
                 if(!$skin_info) $skin_info->title = $skin_name;
 
                 $skin_list[$skin_name] = $skin_info;
