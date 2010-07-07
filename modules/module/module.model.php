@@ -1263,7 +1263,7 @@
 
         function getModuleFileBox($module_filebox_srl){
             $args->module_filebox_srl = $module_filebox_srl;
-            return executeQuery('getModuleFileBox', $args);
+            return executeQuery('module.getModuleFileBox', $args);
         }
 
         function getModuleFileBoxList(){
