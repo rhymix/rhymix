@@ -1,0 +1,92 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+
+
+<!--%import("css/msignup.css")-->
+<div class="bd">
+	<h2 class="h2">{$lang->cmd_view_member_info}</h2>
+    <h3 class="h3">{$lang->member_default_info}</h3>
+	<form>
+	<fieldset class="sn">
+		<ul>
+			<li><label for="uname" class="db fb al">{$lang->user_name}</label><div id="uname">{htmlspecialchars($member_info->user_name)}</div></li>
+			<li><label for="nname" class="db fb al">{$lang->nick_name}</label><div id="nname">{htmlspecialchars($member_info->nick_name)}</div></li>
+			<!--@if($member_info->profile_image->src)-->
+			<li><label for="pimage" class="db fb al">{$lang->profile_image}</label><div id="pimage"><img src="{$member_info->profile_image->src}" border="0" alt="profile_image" /></div></li>
+			<!--@end-->
+			<!--@if($member_info->image_name->src)-->
+			<li><label for="image_name" class="db fb al">{$lang->image_name}</label><div id="image_name"><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></div></li>
+			<!--@end-->
+			<!--@if($member_info->image_mark->src)-->
+			<li><label for="image_mark" class="db fb al">{$lang->image_mark}</label><div id="image_mark"><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></div></li>
+			<!--@end-->
+			<li><label for="hpage" class="db fb al">{$lang->homepage}</label><div id="hpage">{htmlspecialchars($member_info->homepage)}</div></li>
+			<li><label for="bpage" class="db fb al">{$lang->blog}</label><div id="bpage">{htmlspecialchars($member_info->blog)}</div></li>
+			<li><label for="bday" class="db fb al">{$lang->birthday}</label><div id="bday"><!--@if($member_info->birthday)-->{zdate($member_info->birthday,"Y-m-d")}<!--@end--></div></li>
+			<!--@if($member_info->signature)-->
+			<li><label for="sign" class="db fb al">{$lang->signature}</label><div>{$member_info->signature}</div></li>
+			<!--@end-->
+			<li><label for="group" class="db fb al">{$lang->group}</label><div><!--@foreach($member_info->group_list as $key => $val)-->{$val} <!--@end--></div></li>
+			<li><label for="sdate" class="db fb al">{$lang->signup_date}</label><div id="sdate">{zdate($member_info->regdate,"Y-m-d H:i")}</div></li>
+			<!--@if($member_info->member_srl == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
+			<li><label for="llogin" class="db fb al">{$lang->last_login}</label><div>{zdate($member_info->last_login,"Y-m-d H:i")}</div></li>
+			<!--@end-->
+			<!--@if($member_config->enable_openid=="Y")-->
+			<!--@if(sizeof($openids) > 0)-->
+			<li><label for="openid" class="db fb al">{$lang->openid} </label>
+			<!--@foreach($openids as $openid)-->
+			<div id="openid">{$openid->openid}</div></li>
+			<!--@end-->
+			<!--@end-->
+			<!--@end-->
+		</ul>
+	</fieldset>
+	<!--@if($extend_form_list)-->
+    <h3 class="h3">{$lang->member_extend_info}</h3>
+	<fieldset class="sn">
+		<ul>
+			<!--@foreach($extend_form_list as $key => $val)-->
+			    <li><label class="db fb al">{htmlspecialchars($val->column_title)}</label>
+				<!--@if($val->is_private)-->
+					<span class="privateItem">{$lang->private}</span>
+				<!--@else--> 
+				<!--@if($val->column_type=='tel' && $val->value[0] && $val->value[1] && $val->value[2])-->
+					{htmlspecialchars($val->value[0])} 
+					<!--@if($val->value[1])-->-<!--@end-->
+					{htmlspecialchars($val->value[1])} 
+					<!--@if($val->value[2])-->-<!--@end-->
+					{htmlspecialchars($val->value[2])}
+				<!--@elseif($val->column_type=='kr_zip')-->
+					{htmlspecialchars($val->value[0])}<!--@if($val->value[1]&&$val->value[0])--><br /><!--@end-->{htmlspecialchars($val->value[1])}
+				<!--@elseif($val->column_type=='checkbox' && is_array($val->value))-->
+					{htmlspecialchars(implode(", ",$val->value))}&nbsp;
+				<!--@elseif($val->column_type=='date' && $val->value)-->
+					{zdate($val->value, "Y-m-d")}&nbsp;
+				<!--@else-->
+					{nl2br(htmlspecialchars($val->value))}&nbsp;
+				<!--@end-->
+				</li>
+			<!--@end--> 
+    <!--@end-->
+		</ul>
+	</fieldset>
+    <!--@end-->
+		<div class="cm">
+			<li>
+				<!--@if($member_info->member_srl == $logged_info->member_srl)-->
+				<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="bn"><span>{$lang->cmd_modify_member_info}</span></a>
+				<!--@if($logged_info->is_openid)-->
+				<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="bn"><span>{$lang->cmd_leave}</span></a>
+				<!--@else-->
+				<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="bn"><span>{$lang->cmd_modify_member_password}</span></a>
+				<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="bn"><span>{$lang->cmd_leave}</span></a>
+				<!--@end-->
+				<!--@end-->
+				<a href="{getUrl('act','','member_srl','')}" class="bn"><span>{$lang->cmd_back}</span></a>
+			</li>
+		</div>
+    </form>
+</div>

@@ -1,0 +1,99 @@
+{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+
+<!--%import("css/msignup.css")-->
+<!--%import("js/signup_check.js")-->
+<!--%import("../skins/default/filter/signup.xml")-->
+<!--%import("../skins/default/js/member.js")-->
+<div class="bd">
+	<h2 class="h2">{$lang->cmd_signup}</h2>
+	<h3 class="h3">{$lang->member_default_info}</h3>
+	<form id="fo_insert_member" action="./" method="GET" onsubmit="return procFilter(this, signup)">
+	<fieldset class="sn">
+		<ul>
+			<li><label for="id" class="db fb al">{$lang->user_id}</label><input name="user_id" type="text" id="id" class="itx" value="" /><p style="color:#666">{$lang->about_user_id}</p></li>
+			<li><label for="pw" class="db fb al">{$lang->password}</label><input name="password1" type="password" id="pw" class="itx" value="" /><p style="color:#666">{$lang->about_password}</p></li>
+			<li><label for="pw2" class="db fb al">{$lang->password2}</label><input name="password2" type="password" id="pw2" class="itx" value="" /></li>
+			<li><label for="uname" class="db fb al">{$lang->user_name}</label><input name="user_name" type="text" id="uname" class="itx" value="" /><p style="color:#666">{$lang->about_user_name}</p></li>
+			<li><label for="nname" class="db fb al">{$lang->nick_name}</label><input name="nick_name" type="text" id="nname" class="itx" value="" /><p style="color:#666">{$lang->about_nick_name}</p></li>
+			<li><label for="email" class="db fb al">{$lang->email_address}</label><input name="email_address" type="text" id="email" class="itx" value="" /><p style="color:#666">{$lang->about_email_address}</p></li>
+			<li><label for="hpage" class="db fb al">{$lang->homepage}</label><input name="homepage" type="text" id="hpage" class="itx" value="" /><p style="color:#666">{$lang->about_homepage}</p></li>
+			<li><label for="bpage" class="db fb al">{$lang->blog}</label><input name="blog" type="text" id="bpage" class="itx" value="" /><p style="color:#666">{$lang->about_blog_url}</p></li>
+			<li><label for="bday" class="db fb al">{$lang->birthday}</label><input name="birthday" type="text" id="bday" class="itx" value="" /><p style="color:#666">{$lang->about_birthday}</p></li>
+		</ul>
+	</fieldset>
+	<!--@if($extend_form_list)-->
+	<h3 class="h3">{$lang->member_extend_info}</h3>
+	<fieldset class="sn">
+		<ul>
+			<!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
+				<li><label class="db fb al">{htmlspecialchars($val->column_title)}</label>
+				<!--// 일반 text -->
+				<!--@if($val->column_type == 'text')-->
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="itx" />
+				<!--// 홈페이지 주소 -->
+				<!--@elseif($val->column_type == 'homepage')-->
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="itx" />
+				<!--// Email 주소 -->
+				<!--@elseif($val->column_type == 'email_address')-->
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="itx" />
+				<!--// 전화번호 -->
+				<!--@elseif($val->column_type == 'tel')-->
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4"/>
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4"/>
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4"/>
+				<!--// textarea -->
+				<!--@elseif($val->column_type == 'textarea')-->
+					<textarea name="{$val->column_name}" class="itxx">{htmlspecialchars($val->value)}</textarea>
+				<!--// 다중 선택 -->
+				<!--@elseif($val->column_type == 'checkbox')-->
+					<!--@if($val->default_value)-->
+						<!--@foreach($val->default_value as $v)-->
+							<input type="checkbox" id="{$v}" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/><label for="{$v}">{$v}</label>
+						<!--@end-->
+					<!--@end-->
+				<!--@elseif($val->column_type == 'radio')-->
+					<!--@if($val->default_value)-->
+					   <!--@foreach($val->default_value as $v)-->
+							<input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/><label for="{$v}">{$v}</label>
+						<!--@end-->
+					<!--@end-->
+				
+				<!--// 단일 선택 -->
+				<!--@elseif($val->column_type == 'select')-->
+					<select name="{$val->column_name}">
+					<!--@if($val->default_value)-->
+						<!--@foreach($val->default_value as $v)-->
+							<option value="{$v}" <!--@if($v == $val->value)-->selected="selected"<!--@end-->>{$v}</option>
+						<!--@end-->
+					<!--@end-->
+					</select>
+
+				<!--// 한국 주소 검색 -->
+				<!--@elseif($val->column_type == 'kr_zip')-->
+					<input type="text" name="address" class="itx" value=""/><input name="address2" type="text" class="itx" value=""/>
+				<!--// 일본 주소 검색 -->
+				<!--@elseif($val->column_type == 'jp_zip')-->
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
+				<!--// 날짜 입력 -->
+				<!--@elseif($val->column_type == 'date')-->
+					<input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
+					<input type="text" class="inputDate inputTypeText" value="" />
+				<!--@end-->
+				<p style="color:#666">{$val->description}</p>
+				<!--// 공개 필드 css확인 필요 -->
+				<!--input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" /><label for="open_{$val->column_name}">{$lang->public}</label--></li>
+		<!--@end--><!--@end-->
+		</ul>
+	</fieldset>
+	<!--@end-->
+
+
+	<div class="cm">
+		<input type="submit" class="bn" value="{$lang->cmd_registration}" accesskey="s" />
+	</div>
+	</form>
+</div>
