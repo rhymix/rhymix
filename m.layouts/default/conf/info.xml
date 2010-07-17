@@ -20,7 +20,7 @@
         Layout producer : haneul 
     </description>
     <description xml:lang="zh-TW">
-        這是 XE 官方網站版面。
+        XE Mobile 官方網站版面。
         Design, HTML/CSS : Chan-Myung Jeong
         Layout producer : haneul 
     </description>
@@ -31,7 +31,7 @@
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com">
         <name xml:lang="ko">XE</name>
         <name xml:lang="en">XE</name>
-	<name xml:lang="zh-CN">XE</name>
+		<name xml:lang="zh-CN">XE</name>
         <name xml:lang="zh-TW">XE</name>
     </author>
     <extra_vars>
@@ -50,7 +50,7 @@
             <title xml:lang="ge">Homepage URL</title>
             <title xml:lang="ru">Домашняя страница URL</title>
             <title xml:lang="es">URL de la página web</title>
-	    <title xml:lang="vi">URL Trang chủ</title>
+	    	<title xml:lang="vi">URL Trang chủ</title>
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力して下さい。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
@@ -59,7 +59,7 @@
             <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
             <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
             <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
-	    <description xml:lang="vi">Hãy nhập địa chỉ bạn muốn chuyển đến khi bấm vào Logo</description>
+	    	<description xml:lang="vi">Hãy nhập địa chỉ bạn muốn chuyển đến khi bấm vào Logo</description>
         </var>
     </extra_vars>
     <menus>
