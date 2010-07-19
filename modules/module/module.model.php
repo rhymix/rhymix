@@ -535,6 +535,8 @@
             $list = FileHandler::readDir($skin_path);
             if(!count($list)) return;
 
+            natcasesort($list);
+
             foreach($list as $skin_name) {
                 unset($skin_info);
                 $skin_info = $this->loadSkinInfo($path, $skin_name, $dir);
