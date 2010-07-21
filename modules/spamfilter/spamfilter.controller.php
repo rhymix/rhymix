@@ -132,7 +132,7 @@
             // 제목과 블로그이름이 동일할 경우 최근 6시간내의 ip를 조사하여 삭제하고 금지ip로 등록
             if($obj->title == $obj->excerpt) {
                 $oTrackbackController->deleteTrackbackSender(60*60*6, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
-                $this->insertIP($ipaddress.'.*');
+                $this->insertIP($ipaddress.'.*', 'AUTO-DENIED : trackback.insertTrackback');
                 return new Object(-1,'msg_alert_trackback_denied');
             }
 
@@ -153,8 +153,9 @@
          * @brief IP 등록
          * 등록된 IP는 스패머로 간주
          **/
-        function insertIP($ipaddress) {
+        function insertIP($ipaddress, $description = null) {
             $args->ipaddress = $ipaddress;
+            if($description) $args->description = $description;
 
             return executeQuery('spamfilter.insertDeniedIP', $args);
         }

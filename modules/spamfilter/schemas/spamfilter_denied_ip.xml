@@ -1,4 +1,5 @@
 <table name="spamfilter_denied_ip">
     <column name="ipaddress" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
+    <column name="description" type="varchar" size="250" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>
