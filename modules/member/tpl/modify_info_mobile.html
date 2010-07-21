@@ -6,6 +6,7 @@
 
 <!--%import("css/msignup.css")-->
 <!--%import("js/signup_check.js")-->
+<!--%import("js/krzip_search.js")-->
 <!--%import("../skins/default/filter/modify_info.xml")-->
 <!--%import("../skins/default/js/member.js")-->
 
@@ -146,7 +147,25 @@
 
 				<!--// 한국 주소 검색 -->
 				<!--@elseif($val->column_type == 'kr_zip')-->
-					<input type="text" name="address" class="itx" value=""/><input name="address2" type="text" class="itx" value=""/>
+					<div class="krZip">
+						<div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
+							<input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="itx"/>
+							<a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_cancel}</span></a>
+						</div>
+						<div id="zone_address_list_{$val->column_name}" style="display:none">
+							<select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
+							<a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_select}</span></a>
+							<a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_cancel}</span></a>
+						</div>
+						<div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
+							<input type="text" name="_tmp_address_search_{$val->column_name}" class="itx" value="" />
+							<a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_search}</span></a>
+						</div>
+
+						<div class="address2">
+							<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="itx" />
+						</div>
+					</div>
 				<!--// 일본 주소 검색 -->
 				<!--@elseif($val->column_type == 'jp_zip')-->
 					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
