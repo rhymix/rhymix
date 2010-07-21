@@ -130,6 +130,7 @@
     $lang->widget = 'Widget';
     $lang->module = '模組';
     $lang->skin = '面板';
+	$lang->mobile_skin = '手機面板';
     $lang->colorset = '顏色設定';
     $lang->extra_vars = '延伸變數';
 

@@ -130,6 +130,7 @@
     $lang->widget = '위젯 ';
     $lang->module = '모듈';
     $lang->skin = '스킨';
+    $lang->mobile_skin = '모바일 스킨';
     $lang->colorset = '컬러셋';
     $lang->extra_vars = '확장변수';
 

@@ -132,6 +132,7 @@
     $lang->widget = 'Вижет ';
     $lang->module = 'Модиул';
     $lang->skin = 'Скин';
+    $lang->mobile_skin = 'Mobile Theme';
     $lang->colorset = 'Өнгө тохируулах';
     $lang->extra_vars = 'Өргөжүүлэх тоо';
     $lang->domain = 'Domain';

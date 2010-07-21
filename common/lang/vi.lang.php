@@ -127,6 +127,7 @@
     $lang->widget = 'Widget';
     $lang->module = 'Module';
     $lang->skin = 'Skin';
+    $lang->mobile_skin = 'Mobile Skin';
     $lang->colorset = 'Tạo màu';
     $lang->extra_vars = 'Bổ xung';
 
