@@ -155,7 +155,7 @@
         }
 
         /**
-         * @brief 댓글 목록을 추출하여 contentItem으로 return
+         * @brief 댓글 목록을 추출하여 mcontentItem으로 return
          **/
         function _getCommentItems($args) {
             // CommentModel::getCommentList()를 이용하기 위한 변수 정리
@@ -181,7 +181,7 @@
                 $browser_title = $args->module_srls_info[$attribute->module_srl]->browser_title;
                 $domain = $args->module_srls_info[$attribute->module_srl]->domain;
 
-                $content_item = new contentItem($browser_title);
+                $content_item = new mcontentItem($browser_title);
                 $content_item->adds($attribute);
                 $content_item->setTitle($title);
                 $content_item->setThumbnail($thumbnail);
@@ -232,7 +232,7 @@
                     $module_srl = $oDocument->get('module_srl');
                     $category_srl = $oDocument->get('category_srl');
                     $thumbnail = $oDocument->getThumbnail();
-                    $content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
+                    $content_item = new mcontentItem( $args->module_srls_info[$module_srl]->browser_title );
                     $content_item->adds($oDocument->getObjectVars());
                     $content_item->setTitle($oDocument->getTitle());
                     $content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
@@ -287,7 +287,7 @@
                 $content = $oDocument->getSummary($args->content_cut_size);
                 $url = sprintf("%s#%s",$oDocument->getPermanentUrl() ,$oDocument->getCommentCount());
                 $thumbnail = $oDocument->getThumbnail();
-                $content_item = new contentItem($browser_title);
+                $content_item = new mcontentItem($browser_title);
                 $content_item->adds($attribute);
                 $content_item->setCategory($category);
                 $content_item->setContent($content);
@@ -419,7 +419,7 @@
                         $item->{$key2} = $this->_getRssBody($value2);
                     }
 
-                    $content_item = new contentItem($rss->title);
+                    $content_item = new mcontentItem($rss->title);
                     $content_item->setContentsLink($rss->link);
                     $content_item->setTitle($item->title);
                     $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
@@ -453,7 +453,7 @@
                         $item->{$key2} = $this->_getRssBody($value2);
                     }
 
-                    $content_item = new contentItem($rss->title);
+                    $content_item = new mcontentItem($rss->title);
                     $content_item->setContentsLink($rss->link);
                     $content_item->setTitle($item->title);
                     $content_item->setNickName(max($item->author,$item->{'dc:creator'}));
@@ -496,7 +496,7 @@
                         $item->{$key2} = $this->_getRssBody($value2);
                     }
 
-                    $content_item = new contentItem($rss->title);
+                    $content_item = new mcontentItem($rss->title);
                     $links = $value->link;
                     if(is_array($links)) {
                         foreach ($links as $val) {
@@ -565,7 +565,7 @@
                 $url = getSiteUrl($domain,'','document_srl',$item->document_srl);
                 $browser_title = $args->module_srls_info[$item->module_srl]->browser_title;
 
-                $content_item = new contentItem($browser_title);
+                $content_item = new mcontentItem($browser_title);
                 $content_item->adds($item);
                 $content_item->setTitle($item->title);
                 $content_item->setCategory($category);
@@ -618,7 +618,7 @@
         }
     }
 
-    class contentItem extends Object {
+    class mcontentItem extends Object {
 
         var $browser_title = null;
         var $has_first_thumbnail_idx = false;
@@ -626,7 +626,7 @@
         var $contents_link = null;
         var $domain = null;
 
-        function contentItem($browser_title=''){
+        function mcontentItem($browser_title=''){
             $this->browser_title = $browser_title;
         }
         function setContentsLink($link){
