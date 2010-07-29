@@ -129,7 +129,7 @@ _app_base = {
 	 * @brief get plugin
 	 */
 	getPlugin : function(sPluginName) {
-		sPluginName = sPluginsName.toLowerCase();
+		sPluginName = sPluginName.toLowerCase();
 		if ($.isArray(this._plugins[sPluginName])) {
 			return this._plugins[sPluginName];
 		} else {
