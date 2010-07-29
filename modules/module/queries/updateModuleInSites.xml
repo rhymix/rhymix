@@ -1,0 +1,12 @@
+<query id="updateModuleInSites" action="update">
+	<tables>
+		<table name="modules" />
+	</tables>
+	<columns>
+		<column name="mlayout_srl" var="mlayout_srl" />
+		<column name="use_mobile" var="use_mobile" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="site_srl" var="site_srls" filter="number" notnull="notnull" />
+	</conditions>
+</query>

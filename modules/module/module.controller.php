@@ -695,5 +695,12 @@
             $output = executeQuery('module.deleteLock', $args);
             return $output;
         }
+
+		function updateModuleInSites($site_srls, $args)
+		{
+			$args->site_srls = $site_srls;
+			$output = executeQuery('module.updateModuleInSites', $args);
+			return $output;
+		}
     }
 ?>
