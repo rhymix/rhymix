@@ -1,0 +1,8 @@
+<query id="deletePackage" action="delete">
+	<tables>
+        <table name="autoinstall_packages" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="path" var="path" notnull="notnull" />
+    </conditions>
+</query>
