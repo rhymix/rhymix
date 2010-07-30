@@ -80,6 +80,13 @@
     if(!defined('__LOG_SLOW_QUERY__')) define('__LOG_SLOW_QUERY__', 0);
 
     /**
+     * @brief DB 쿼리 정보를 남김
+     * 0 : 쿼리에 정보를 추가하지 않음
+     * 1 : XML Query ID를 쿼리 주석으로 남김
+     **/
+    if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 0);
+
+    /**
      * @brief ob_gzhandler를 이용한 압축 기능을 강제로 사용하거나 끄는 옵션
      * 0 : 사용하지 않음
      * 1 : 사용함

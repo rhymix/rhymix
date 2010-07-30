@@ -18,6 +18,7 @@
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
+		var $comment_syntax = '/* %s */';
 
         /**
          * @brief mysql에서 사용될 column type
@@ -574,6 +575,8 @@
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+
             $result = $this->_query($query);
             if($this->isError()) return;
 
@@ -652,6 +655,8 @@
             }
 
             $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+
             $result = $this->_query($query);
             if($this->isError()) {
                 $buff = new Object();

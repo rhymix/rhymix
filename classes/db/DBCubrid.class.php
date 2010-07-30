@@ -22,6 +22,7 @@
         var $port = 33000; ///< db server port
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
         var $cutlen = 12000; ///< 큐브리드의 최대 상수 크기(스트링이 이보다 크면 '...'+'...' 방식을 사용해야 한다
+		var $comment_syntax = '/* %s */';
 
         /**
          * @brief cubrid에서 사용될 column type
@@ -788,6 +789,7 @@
 
             }
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) return;
             $data = $this->_fetch($result);
@@ -943,6 +945,7 @@
               }
             }
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) {
                 $buff = new Object();

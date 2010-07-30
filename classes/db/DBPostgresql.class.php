@@ -23,6 +23,7 @@ class DBPostgresql extends DB
     var $password = null; ///< password
     var $database = null; ///< database
     var $prefix = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE설치 가능)
+	var $comment_syntax = '/* %s */';
 
     /**
      * @brief postgresql에서 사용될 column type
@@ -757,6 +758,7 @@ class DBPostgresql extends DB
                 $query .= ' order by ' . implode(',', $index_list);
         }
 
+		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
         $result = $this->_query($query);
         if ($this->isError())
             return;
@@ -865,6 +867,7 @@ class DBPostgresql extends DB
         }
 
         $query = sprintf('%s offset %d limit %d', $query, $start_count, $list_count);
+		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 
         $result = $this->_query($query);
         if ($this->isError()) {

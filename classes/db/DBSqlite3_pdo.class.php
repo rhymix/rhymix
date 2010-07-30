@@ -13,6 +13,7 @@
          **/
         var $database = NULL; ///< database
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
+		var $comment_syntax = '/* %s */';
 
         /**
          * PDO 사용시 필요한 변수들
@@ -634,6 +635,7 @@
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $this->_prepare($query);
             $data = $this->_execute();
             if($this->isError()) return;
@@ -734,6 +736,8 @@
 
             // 쿼리 실행
             $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+
             $this->_prepare($query);
 
             if($this->isError()) {
