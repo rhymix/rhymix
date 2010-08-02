@@ -336,7 +336,6 @@
 
             // 만약 테이블 이름이 sequence라면 serial 생성
             if($table_name == 'sequence') {
-
                 $query = sprintf('create serial "%s" start with 1 increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix.$table_name);
                 return $this->_query($query);
             }
@@ -375,7 +374,7 @@
                         break;
                 }
 
-                if($default && (!is_numeric($default) || $default[0] == "+")) $default = "'".$default."'";
+                if($default && ($type != 'varchar' || $type != 'char')) $default = "'".$default."'";
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
