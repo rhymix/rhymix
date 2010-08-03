@@ -358,7 +358,7 @@
                 $name,
                 $this->column_type[$type],
                 $size?'('.$size.')':'',
-                $default?"default '".$default."'":'',
+                isset($default)?"default '".$default."'":'',
                 $notnull?'not null':'',
                 $auto_increment?'auto_increment':''
                 );

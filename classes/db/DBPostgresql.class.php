@@ -458,7 +458,7 @@ class DBPostgresql extends DB
                 $size = 0;
 
             $column_schema[] = sprintf('%s %s%s %s %s', $name, $this->column_type[$type], $size ?
-                '(' . $size . ')' : '', $default ? "default '" . $default . "'" : '', $notnull ?
+                '(' . $size . ')' : '', isset($default) ? "default '" . $default . "'" : '', $notnull ?
                 'not null' : '');
 
             if ($primary_key)

@@ -360,7 +360,7 @@
                         $size?'('.$size.')':'',
                         $notnull?'NOT NULL':'',
                         $primary_key?'PRIMARY KEY':'',
-                        $default?"DEFAULT '".$default."'":''
+                        isset($default)?"DEFAULT '".$default."'":''
                     );
                 }
 

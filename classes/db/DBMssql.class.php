@@ -370,7 +370,7 @@
                     $this->column_type[$type],
                     !in_array($type,array('number','text'))&&$size?'('.$size.')':'',
                     $primary_key?'primary key':'',
-                    $default?"default '".$default."'":'',
+                    isset($default)?"default '".$default."'":'',
                     $notnull?'not null':'null',
                     $auto_increment?'identity(1,1)':''
                     );
