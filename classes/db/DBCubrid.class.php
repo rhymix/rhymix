@@ -374,7 +374,7 @@
                         break;
                 }
 
-                if($default && ($type != 'varchar' || $type != 'char')) $default = "'".$default."'";
+                if(isset ($default) && ($type == 'varchar' || $type == 'char')) $default = "'".$default."'";
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
