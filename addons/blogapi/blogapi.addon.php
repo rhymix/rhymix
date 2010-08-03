@@ -34,6 +34,11 @@
     $params = $xmlDoc->methodcall->params->param;
     if($params && !is_array($params)) $params = array($params);
 
+    // 일부 methodname에 대한 호환
+    if(in_array($method_name, array('metaWeblog.deletePost', 'metaWeblog.getUsersBlogs', 'metaWeblog.getUserInfo'))) {
+        $method_name = str_replace('metaWeblog.', 'blogger.', $method_name);
+    }
+
     // blogger.deletePost일 경우 첫번째 인자 값 삭제
     if($method_name == 'blogger.deletePost') array_shift($params);
 
