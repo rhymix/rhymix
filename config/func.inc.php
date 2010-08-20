@@ -707,7 +707,7 @@
         $val = $matches[2];
 
         if(substr($val,0,1)!='"'){
-			if(substr($val,0,-1)=='/'){
+			if(substr($val,-1)=='/'){
 				$val = '"'.substr($val,0,-1).'" /';
 			}else{
 				$val = '"'.$val.'"';
