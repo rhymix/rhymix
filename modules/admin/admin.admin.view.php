@@ -15,6 +15,10 @@
             $installed_modules = $package_modules = array();
             $package_idx = 0;
             foreach($installed_module_list as $key => $val) {
+				if($val->category == 'migration') $val->category = 'system';
+				if($val->category == 'interlock') $val->category = 'accessory';
+				if($val->category == 'statistics') $val->category = 'accessory';
+
                 if($val->module == 'admin' || !$val->admin_index_act) continue;
                 // get action information 
                 $action_spec = $oModuleModel->getModuleActionXml($val->module);
@@ -145,6 +149,102 @@
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getAddonList();
             Context::set('addon_list', $addon_list);
+
+            // 방문자수
+			$oCounterModel = &getModel('counter');
+            $time = time();
+            $w = date("D");
+            while(date("D",$time) != "Sun") {
+                $time += 60*60*24;
+            }
+            $time -= 60*60*24;
+            while(date("D",$time)!="Sun") {
+                $thisWeek[] = date("Ymd",$time);
+                $time -= 60*60*24;
+            }
+            $thisWeek[] = date("Ymd",$time);
+            asort($thisWeek);
+            $thisWeekCounter = $oCounterModel->getStatus($thisWeek);
+
+            $time -= 60*60*24;
+            while(date("D",$time)!="Sun") {
+                $lastWeek[] = date("Ymd",$time);
+                $time -= 60*60*24;
+            }
+            $lastWeek[] = date("Ymd",$time);
+            asort($lastWeek);
+            $lastWeekCounter = $oCounterModel->getStatus($lastWeek);
+
+            $max = 0;
+            foreach($thisWeek as $day) {
+                $v = (int)$thisWeekCounter[$day]->unique_visitor;
+                if($v && $v>$max) $max = $v;
+                $status->week[date("D",strtotime($day))]->this = $v;
+            }
+            foreach($lastWeek as $day) {
+                $v = (int)$lastWeekCounter[$day]->unique_visitor;
+                if($v && $v>$max) $max = $v;
+                $status->week[date("D",strtotime($day))]->last = $v;
+            }
+            $status->week_max = $max;
+            $idx = 0;
+            foreach($status->week as $key => $val) {
+                $_item[] = sprintf("<item id=\"%d\" name=\"%s\" />", $idx, $thisWeek[$idx]);
+                $_thisWeek[] = $val->this;
+                $_lastWeek[] = $val->last;
+                $idx++;
+            }
+
+            $buff = '<?xml version="1.0" encoding="utf-8" ?><Graph><gdata title="Textyle Counter" id="data2"><fact>'.implode('',$_item).'</fact><subFact>';
+            $buff .= '<item id="0"><data name="'.Context::getLang('this_week').'">'.implode('|',$_thisWeek).'</data></item>';
+            $buff .= '<item id="1"><data name="'.Context::getLang('last_week').'">'.implode('|',$_lastWeek).'</data></item>';
+            $buff .= '</subFact></gdata></Graph>';
+            Context::set('xml', $buff);
+
+            // 각종 통계 정보를 구함
+            $counter = $oCounterModel->getStatus(array(0,date("Ymd")),$this->site_srl);
+            $status->total_visitor = $counter[0]->unique_visitor;
+            $status->visitor = $counter[date("Ymd")]->unique_visitor;
+
+            // 오늘의 댓글 수
+            $args->regdate = date("Ymd");
+            $output = executeQuery('admin.getTodayCommentCount', $args);
+            $status->comment_count = $output->data->count;
+
+            // 오늘의 엮인글 수
+            $args->regdate = date("Ymd");
+            $output = executeQuery('admin.getTodayTrackbackCount', $args);
+            $status->trackback_count = $output->data->count;
+
+            Context::set('status', $status);
+
+            // 최근글 추출
+			$oDocumentModel = &getModel('document');
+            $doc_args->sort_index = 'list_order';
+            $doc_args->order_type = 'asc';
+            $doc_args->list_count = 3;
+            $output = $oDocumentModel->getDocumentList($doc_args, false, false);
+            Context::set('newest_documents', $output->data);
+
+            // 최근 댓글 추출
+			$oCommentModel = &getModel('comment');
+            $com_args->sort_index = 'list_order';
+            $com_args->order_type = 'asc';
+            $com_args->list_count = 5;
+            $output = $oCommentModel->getTotalCommentList($com_args);
+            Context::set('newest_comments', $output->data);
+
+
+
+
+
+
+
+
+
+
+
+
 
             // Get statistics
             $args->date = date("Ymd000000", time()-60*60*24);
