@@ -1,0 +1,9 @@
+<query id="getVisitors" action="select">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <conditions>
+        <condition operation="more" column="regdate" var="start_date" notnull="notnull" pipe="and" />
+        <condition operation="less" column="regdate" var="end_date" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

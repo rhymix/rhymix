@@ -145,7 +145,7 @@
 			<div class="graph">
 				<!--@foreach($status->week as $key => $val)-->
 				<dl>
-					<dt>{$key}</dt>
+					<dt><!--@if($key==date("Ymd"))--><strong>{$key}</strong><!--@else-->{$key}<!--@end--></dt>
 					<dd class="past" style="height:{$val->last/$status->week_max * 100}%" title="{$lang->last_week}:{number_format($val->last)}"><span>{$lang->last_week}:{number_format($val->last)}</span></dd>
 					<dd class="today" style="height:{$val->this/$status->week_max * 100}%" title="{$lang->this_week}:{number_format($val->this)}"><span>{$lang->this_week}:{number_format($val->this)}</span></dd>
 
@@ -284,15 +284,15 @@
 		<!--@foreach($addon_list as $key => $val)-->
 		<tr>
 			<th><a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{cut_str($val->title,24)}</a></th>
-			<td><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
-			<td>
+			<td class="center"><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
+			<td class="center">
 				<!--@if($val->activated)-->
 				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
 				<!--@else-->
 				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
 				<!--@end-->
 			</td>
-			<td>
+			<td class="center">
 				<!--@if($val->mactivated)-->
 				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}', 'mobile');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
 				<!--@else-->

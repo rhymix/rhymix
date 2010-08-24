@@ -7,6 +7,41 @@
 
     class adminAdminView extends admin {
 
+        /**
+         * @brief Initilization
+         * @return none
+         **/
+        function init() {
+
+            // forbit access if the user is not an administrator
+            $oMemberModel = &getModel('member');
+            $logged_info = $oMemberModel->getLoggedInfo();
+            if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
+
+            // change into administration layout 
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setLayoutPath($this->getTemplatePath());
+            $this->setLayoutFile('layout.html');
+
+			$this->loadSideBar();
+
+            // Retrieve the list of installed modules 
+
+            $db_info = Context::getDBInfo();
+
+            Context::set('time_zone_list', $GLOBALS['time_zone']);
+            Context::set('time_zone', $GLOBALS['_time_zone']);
+            Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
+            Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
+            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
+            Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
+            Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
+            Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
+            if($db_info->http_port) Context::set('http_port', $db_info->http_port);
+            if($db_info->https_port) Context::set('https_port', $db_info->https_port);
+
+        }
+
 		function loadSideBar()
 		{
             $oModuleModel = &getModel('module');
@@ -59,41 +94,6 @@
 			Context::loadJavascriptPlugin('qtip');
 			Context::loadJavascriptPlugin('watchinput');
 		}
-
-        /**
-         * @brief Initilization
-         * @return none
-         **/
-        function init() {
-
-            // forbit access if the user is not an administrator
-            $oMemberModel = &getModel('member');
-            $logged_info = $oMemberModel->getLoggedInfo();
-            if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
-
-            // change into administration layout 
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setLayoutPath($this->getTemplatePath());
-            $this->setLayoutFile('layout.html');
-
-			$this->loadSideBar();
-
-            // Retrieve the list of installed modules 
-
-            $db_info = Context::getDBInfo();
-
-            Context::set('time_zone_list', $GLOBALS['time_zone']);
-            Context::set('time_zone', $GLOBALS['_time_zone']);
-            Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
-            Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
-            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
-            Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
-            Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
-            Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
-            if($db_info->http_port) Context::set('http_port', $db_info->http_port);
-            if($db_info->https_port) Context::set('https_port', $db_info->https_port);
-
-        }
 
         /**
          * @brief Display main administration page
@@ -151,60 +151,50 @@
             Context::set('addon_list', $addon_list);
 
             // 방문자수
-			$oCounterModel = &getModel('counter');
             $time = time();
             $w = date("D");
-            while(date("D",$time) != "Sun") {
+            while(date("D",$time) != "Sat") {
                 $time += 60*60*24;
             }
+            $end_time = $time;
+            $end_date = date("Ymd",$time);
             $time -= 60*60*24;
             while(date("D",$time)!="Sun") {
                 $thisWeek[] = date("Ymd",$time);
                 $time -= 60*60*24;
             }
-            $thisWeek[] = date("Ymd",$time);
-            asort($thisWeek);
-            $thisWeekCounter = $oCounterModel->getStatus($thisWeek);
+            $start_time = $time;
+            $start_date = date("Ymd",$time-60*60*24*7);
 
-            $time -= 60*60*24;
-            while(date("D",$time)!="Sun") {
-                $lastWeek[] = date("Ymd",$time);
-                $time -= 60*60*24;
+            $args->start_date = $start_date;
+            $args->end_date = $end_date;
+            $output = executeQueryArray('admin.getVisitors', $args);
+            $status->week_max = 0;
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $visitors[$val->regdate] = $val->unique_visitor;
+                    if($val->unique_visitor>$status->week_max) $status->week_max = $val->unique_visitor;
+                }
             }
-            $lastWeek[] = date("Ymd",$time);
-            asort($lastWeek);
-            $lastWeekCounter = $oCounterModel->getStatus($lastWeek);
-
-            $max = 0;
-            foreach($thisWeek as $day) {
-                $v = (int)$thisWeekCounter[$day]->unique_visitor;
-                if($v && $v>$max) $max = $v;
-                $status->week[date("D",strtotime($day))]->this = $v;
-            }
-            foreach($lastWeek as $day) {
-                $v = (int)$lastWeekCounter[$day]->unique_visitor;
-                if($v && $v>$max) $max = $v;
-                $status->week[date("D",strtotime($day))]->last = $v;
-            }
-            $status->week_max = $max;
-            $idx = 0;
-            foreach($status->week as $key => $val) {
-                $_item[] = sprintf("<item id=\"%d\" name=\"%s\" />", $idx, $thisWeek[$idx]);
-                $_thisWeek[] = $val->this;
-                $_lastWeek[] = $val->last;
-                $idx++;
+            $output = executeQueryArray('admin.getSiteVisitors', $args);
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $visitors[$val->regdate] += $val->unique_visitor;
+                    if($val->unique_visitor>$status->week_max) $status->week_max = $val->unique_visitor;
+                }
             }
 
-            $buff = '<?xml version="1.0" encoding="utf-8" ?><Graph><gdata title="Textyle Counter" id="data2"><fact>'.implode('',$_item).'</fact><subFact>';
-            $buff .= '<item id="0"><data name="'.Context::getLang('this_week').'">'.implode('|',$_thisWeek).'</data></item>';
-            $buff .= '<item id="1"><data name="'.Context::getLang('last_week').'">'.implode('|',$_lastWeek).'</data></item>';
-            $buff .= '</subFact></gdata></Graph>';
-            Context::set('xml', $buff);
+            for($i=$start_time;$i<$end_time;$i+=60*60*24) {
+                $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
+                $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
+            }
 
             // 각종 통계 정보를 구함
-            $counter = $oCounterModel->getStatus(array(0,date("Ymd")),$this->site_srl);
-            $status->total_visitor = $counter[0]->unique_visitor;
-            $status->visitor = $counter[date("Ymd")]->unique_visitor;
+            $output = executeQuery('admin.getTotalVisitors');
+            $status->total_visitor = $output->data->count;
+            $output = executeQuery('admin.getTotalSiteVisitors');
+            $status->total_visitor += $output->data->count;
+            $status->visitor = $visitors[date("Ymd")];
 
             // 오늘의 댓글 수
             $args->regdate = date("Ymd");
