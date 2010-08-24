@@ -11,8 +11,10 @@
     <tr>
         <th scope="row"><div>{$lang->my_syndication_url}</div></th>
         <td>
-            http://<input type="text" name="site_url" value="{$site_url}" class="inputTypeText siteUrl" />
+            http://<input type="text" id="site_url" name="site_url" value="{$site_url}" class="inputTypeText siteUrl" />
+            <span class="button green"><input type="button" value="{$lang->cmd_check_syndication_echo}" onclick="pingSite(jQuery('#site_url').val())" /></span>
             <p>{$lang->about_my_syndication_url}</p>
+			<p class="ping_test_result"></p>
         </td>
     </tr>
     <tr>
@@ -23,9 +25,11 @@
                 <li>
                     <input type="checkbox" name="target_services" value="{$val->service}" id="target_service_{$val->service}" <!--@if($val->selected)-->checked="checked"<!--@end--> />
                     <label for="target_service_{$val->service}">{$val->service}</label>
+					<!--@if($val->selected)--><span class="button green small"><input type="button" value="{$lang->cmd_check_syndication_status}" onclick="checkSyndicationStatus('{$val->service}')" /></span><!--@end-->
                 </li>
             <!--@end-->
             </ul>
+			<div class="print_result_status"></div>
             <p>{$lang->about_syndication}</p>
         </td>
     </tr>

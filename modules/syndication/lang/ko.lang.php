@@ -13,4 +13,20 @@
 
     $lang->msg_site_url_is_null = '사이트 주소를 입력해주세요';
     $lang->success_applied = '적용되었습니다';
+
+	$lang->msg_ping_test_error = 'Ping 테스트 에러입니다. 도메인 및 서버 설정을 확인해주세요';
+	$lang->msg_success_ping_test = '정상적 동작으로 확인되었습니다.';
+
+	$lang->cmd_check_syndication_echo = 'Syndication 문서 출력 동작확인';
+	$lang->cmd_check_syndication_status = '연결상태 확인';
+
+	$lang->site = '사이트';
+	$lang->syndication_synic_start_date = '서버 등록일';
+	$lang->syndication_synic_last_date = '마지막 업데이트';
+	$lang->syndication_visit_ok_count = 'Ping 연속접속 성공 횟수';
+	$lang->syndication_visit_fail_count = 'Ping 실패 횟수';
+
+	$lang->syndication_status_result = '상태정보';
+	$lang->syndication_sync_article = '동기화 문서';
+	$lang->syndication_status = '동기화 상태';
 ?>

@@ -23,3 +23,33 @@ function doSyncExceptModules(id) {
     }
     xGetElementById(id).value = selected_module_srls.join(',');
 }
+
+
+function pingSite(site_url){
+
+	jQuery('p.ping_test_result').html('');
+	var response_tags = new Array('error','message','ping_result');
+	exec_xml('syndication','procSyndicationAdminCheckSitePingResult',{'site_url':site_url},function(ret_obj,response_tags){
+		var error = ret_obj['error'];
+		var message = ret_obj['message'];
+		var ping_result = ret_obj['ping_result'];
+		if(ping_result) jQuery('p.ping_test_result').text(ping_result);
+		alert(message);
+
+	},response_tags);
+}
+
+function checkSyndicationStatus(service){
+
+	jQuery('p.print_result_status').html('');
+	var response_tags = new Array('error','message','result_status');
+	exec_xml('syndication','procSyndicationAdminCheckApiStatus',{target_service:service},function(ret_obj,response_tags){
+		var error = ret_obj['error'];
+		var message = ret_obj['message'];
+		var result = ret_obj['result_status'];
+
+		if(result) jQuery('div.print_result_status').html(result);
+		if(error!=0) alert(message);
+
+	},response_tags);
+}

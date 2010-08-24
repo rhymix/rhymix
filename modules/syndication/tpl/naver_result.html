@@ -1,0 +1,41 @@
+<h3>Naver Syndication Status</h3>
+
+<h4>{$lang->syndication_status_result}</h4>
+<table>
+<tbody>
+<tr>
+	<th>{$lang->site}</th>
+	<td>{$result->site_name}</td>
+</tr>
+<tr>
+	<th>{$lang->syndication_status}</th>
+	<td><strong>{$result->status}</strong></td>
+</tr>
+<tr>
+	<th>{$lang->syndication_synic_start_date}</th>
+	<td>{$result->first_update}</td>
+</tr>
+<tr>
+	<th>{$lang->syndication_synic_last_date}</th>
+	<td>{$result->last_update}</td>
+</tr>
+<tr>
+	<th>{$lang->syndication_visit_ok_count}</th>
+	<td>{number_format($result->visit_ok_count)}</td>
+</tr>
+<tr>
+	<th>{$lang->syndication_visit_fail_count}</th>
+	<td>{number_format($result->visit_fail_count)}</td>
+</tr>
+</tbody>
+</table>
+<h4>{$lang->syndication_sync_article}</h4>
+<div class="vGraph"> 
+<!--@if($result->article_count)-->
+<ul> 
+<!--@foreach($result->article_count as $date => $count)-->
+	<li><span class="gTerm">{$date}</span><span class="gBar" style="height:{intval(($count/$result->max_article_count)*100)}%"><span>{number_format($count)}</span></span></li> 
+<!--@end-->
+</ul> 
+<!--@end-->
+</div>
