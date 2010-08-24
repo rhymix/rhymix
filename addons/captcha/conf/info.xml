@@ -8,7 +8,7 @@
     <title xml:lang="ru">Аддон Captcha</title>
     <title xml:lang="zh-TW">圖形驗證</title>
     <description xml:lang="ko">
-        프로그램 글 등록기를 막기 위해 게시판/ issueTracker에서 글/ 댓글을 입력하려 할 때 이미지를 보여주고 글에 해당하는 이미지를 선택하게 하는 애드온입니다.
+        프로그램 글 등록기를 막기 위해 게시판/ issueTracker에서 글/ 댓글을 입력하려 할 때 알파벳을 입력해야 글/댓글이 입력되는 애드온 입니다.
         로그인하지 않은 경우에만 해당됩니다.
     </description>
     <description xml:lang="en">
@@ -34,8 +34,8 @@
     <description xml:lang="zh-TW">
         此元件可防止機器人程式的垃圾留言，非註冊用戶在討論板/問題追蹤發表主題或評論時，必須要先選對畫面中所顯示的圖案才能發表。
     </description>
-    <version>0.2</version>
-    <date>2009-02-20</date>
+    <version>1.0</version>
+    <date>2010-08-19</date>
 
     <author email_address="developers@xpressengine.com" link="http://www.xpressengine.com">
         <name xml:lang="ko">XE</name>

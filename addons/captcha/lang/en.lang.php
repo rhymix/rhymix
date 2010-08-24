@@ -1,21 +1,6 @@
 <?php
-    /**
-     * @file   en.lang.php
-     * @author haneul (haneul0318@gmail.com)
-     * @brief  English Language Pack 
-     **/
-
-    $lang->about_captcha = "Please choose an image whose name is listed below";
-    $lang->target_captcha = array(
-        "airplane" => "airplane",
-        "apple" => "apple",
-        "book" => "book",
-        "camera" => "camera",
-        "dog" => "dog",
-        "earth" => "earth",
-        "flag" => "flag",
-        "mobile" => "mobile",
-        "note" => "note",
-        "skeleton" => "skeleton",
-    );
+    $lang->about_captcha = "위 영어 알파벳을 순서대로 입력해 주세요. 대소문자는 구분하지 않습니다.";
+	$lang->captcha_reload = '이미지 새로고침';
+	$lang->captcha_play = '음성으로 듣기';
+	$lang->captcha_denied = '잘못 입력하셨습니다';
 ?>
