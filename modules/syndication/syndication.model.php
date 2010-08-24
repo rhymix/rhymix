@@ -72,18 +72,21 @@
         function getSyndicationList() {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('syndication');
+			if(!$config->year || !$config->site_url) return new Object(-1,'msg_check_syndication_config');
 
             $id = Context::get('id');
             $type = Context::get('type');
             $page = Context::get('page');
             if(!$id || !$type) return new Object(-1,'msg_invalid_request');
 
-            preg_match('/^tag:([^,]+),([0-9]+):([^:]+):(.*)$/i',$id,$match);
+			if(!preg_match('/^tag:([^,]+),([0-9]+):(site|channel|article)(.*)$/i',$id,$matches)) return new Object(-1,'msg_invalid_request');
 
-            $url = $match[1];
-            $year = $match[2];
-            $target = $match[3];
-            $id = $match[4];
+            $url = $matches[1];
+            $year = $matches[2];
+			$target = $matches[3];
+			$id = $matches[4];
+			if($id && $id{0}==':') $id = substr($id, 1);
+
             if($id && strpos($id,'-')!==false) list($module_srl, $document_srl) = explode('-',$id);
             elseif($id) $module_srl = $id;
             if(!$url || !$year || !$target) return new Object(-1,'msg_invalid_request');
@@ -113,7 +116,6 @@
             if(!$error) {
                 Context::set('target', $target);
                 Context::set('type', $type);
-
                 switch($target) {
                     case 'site' :
                             $site_info->id = $this->getID('site');
@@ -174,14 +176,19 @@
                                     break;
                             }
                         break;
+						
+						case 'article':
+							Context::set('article', $this->getArticle($document_srl));
+							$this->setTemplateFile('include.articles');
+						break;
                 }
             } else {
                 Context::set('message', $error);
                 $this->setTemplateFile('error');
             }
 
-            Context::setResponseMethod('XML');
             $this->setTemplatePath($this->module_path.'tpl');
+            Context::setResponseMethod('XMLRPC');
         }
 
         function getChannels() {
@@ -211,6 +218,25 @@
                 }
             }
             return $list;
+        }
+
+        function getArticle($document_srl) {
+            if($this->site_url==null) $this->init();
+
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($document_srl,false,false);
+			if(!$oDocument->isExists()) return;
+
+			$val = $oDocument->getObjectVars();		
+
+			$val->id = $this->getID('article', $val->module_srl.'-'.$val->document_srl);
+			$val->updated = date("Y-m-d\\TH:i:s", ztime($val->last_update)).$GLOBALS['_time_zone'];
+			$val->alternative_href = getFullSiteUrl($this->site_url, '', 'document_srl', $val->document_srl);
+			$val->channel_alternative_href = $this->getChannelAlternativeHref($val->module_srl);
+			$val->channel_id = $this->getID('channel', $val->module_srl.'-'.$val->document_srl);
+			if(!$val->nick_name) $val->nick_name = $val->user_name;
+
+            return $val;
         }
 
         function getArticles($module_srl = null, $page=1, $startTime = null, $endTime = null, $type = null, $id = null) {
@@ -289,7 +315,7 @@
         function getID($type, $target_id = null) {
             if($this->site_url==null) $this->init();
 
-            return sprintf('tag:%s,%d:%s:%s', $this->site_url, $this->year, $type, $target_id);
+            return sprintf('tag:%s,%d:%s', $this->site_url, $this->year, $type) . ($target_id?':'.$target_id:'');
         }
 
         function getChannelAlternativeHref($module_srl) {

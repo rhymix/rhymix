@@ -1,9 +1,0 @@
-rm -rf ./.svn
-rm -rf ./schemas/.svn
-rm -rf ./lang/.svn
-rm -rf ./tpl/js/.svn
-rm -rf ./tpl/filter/.svn
-rm -rf ./tpl/.svn
-rm -rf ./tpl/css/.svn
-rm -rf ./queries/.svn
-rm -rf ./conf/.svn

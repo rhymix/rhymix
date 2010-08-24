@@ -49,8 +49,6 @@
 
             $this->insertLog($obj->module_srl, $obj->document_srl, $obj->title, $obj->content);
 
-            $config = $oModuleModel->getModuleConfig('syndication');
-
             $id = $oSyndicationModel->getID('channel', $obj->module_srl);
             $this->ping($id, 'deleted');
 
@@ -68,14 +66,42 @@
             $output = executeQuery('syndication.getExceptModule', $obj);
             if($output->data->count) return new Object();
 
-            $config = $oModuleModel->getModuleConfig('syndication');
-
             $id = $oSyndicationModel->getID('site', $obj->module_srl);
             $this->ping($id, 'deleted');
 
             return new Object();
         }
-        
+
+        function triggerMoveDocumentToTrash(&$obj) {
+			$document_srl = $obj->document_srl;
+			$module_srl = $obj->module_srl;
+			
+            $oSyndicationModel = &getModel('syndication');
+            $oModuleModel = &getModel('module');
+
+            if($oSyndicationModel->isExceptedModules($module_srl)) return new Object();
+
+            $id = $oSyndicationModel->getID('channel', $module_srl);
+            $this->ping($id, 'deleted');
+
+			return new Object();
+		}
+
+        function triggerRestoreTrash(&$obj) {
+			$document_srl = $obj->document_srl;
+			$module_srl = $obj->module_srl;
+			
+            $oSyndicationModel = &getModel('syndication');
+            $oModuleModel = &getModel('module');
+
+            if($oSyndicationModel->isExceptedModules($module_srl)) return new Object();
+
+            $id = $oSyndicationModel->getID('article', $module_srl.'-'.$document_srl);
+            $this->ping($id, 'article');
+
+			return new Object();
+		}
+
         function insertLog($module_srl, $document_srl, $title = null, $summary = null) {
             $args->module_srl = $module_srl;
             $args->document_srl = $document_srl;
