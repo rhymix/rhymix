@@ -1,0 +1,14 @@
+<query id="getExceptModules" action="select">
+    <tables>
+        <table name="syndication_except_modules" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="syndication_except_modules.*" />
+        <column name="modules.mid" alias="mid" />
+        <column name="modules.browser_title" alias="browser_title" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="syndication_except_modules.module_srl" default="modules.module_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

@@ -1,0 +1,8 @@
+    <entry>
+        <id>{htmlspecialchars($channel_info->id)}</id>
+        <title>{htmlspecialchars($channel_info->title)}</title>
+        <updated>{$channel_info->updated}</updated>
+        <link rel="self" href="{htmlspecialchars($channel_info->self_href)}" />
+        <link rel="alternative" href="{$channel_info->alternative_href}" />
+        <summary>{htmlspecialchars($channel_info->summary)}</summary>
+    </entry>

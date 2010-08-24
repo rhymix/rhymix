@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+input.siteUrl { width:400px; }
+ul.syndiService { list-style:none; margin:0; padding:0;}
+ul.syndiService li { padding:10px 0; margin:0;}
+select.exceptModuleList { width:400px; }
+ul.midCommand { margin:20px 0 0 0; padding:0; list-style:none; }
+ul.midCommand li { display:inline; margin:0 20px 0 0; padding:0;}
