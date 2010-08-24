@@ -22,7 +22,7 @@
 				<dt>{$lang->today_visitor}</dt>
 
 				<dd>
-					<object title="visitor" height="50" width="260" align="middle" id="count_red" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+					<object title="visitor" height="50" width="100%" align="middle" id="count_red" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
 						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
 						<param value="high" name="quality"/>
 						<param value="#FFFFFF" name="bgColor"/>
@@ -32,7 +32,7 @@
 						<param value="true" name="allowFullScreen"/>
 						<param value="colorType=red&amp;viewNum={$status->visitor}" name="flashVars"/>
 						<!--[if !IE]> <-->
-						<object title="{$status->visitor}" height="50" width="260" align="middle" name="count_red" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
+						<object title="{$status->visitor}" height="50" width="100%" align="middle" name="count_red" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
 							<param value="colorType=red&amp;viewNum={$status->visitor}" name="flashVars"/>
 							<param value="transparent" name="wmode"/>
 							{$status->visitor}
@@ -44,7 +44,7 @@
 			<dl class="reply">
 				<dt>{$lang->today_comments}</dt>
 				<dd>
-					<object title="{$status->comment_count}" height="50" width="260" align="middle" id="count_blue" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+					<object title="{$status->comment_count}" height="50" width="100%" align="middle" id="count_blue" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
 						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
 						<param value="high" name="quality"/>
 						<param value="#FFFFFF" name="bgColor"/>
@@ -54,7 +54,7 @@
 						<param value="true" name="allowFullScreen"/>
 						<param value="colorType=blue&amp;viewNum={$status->comment_count}" name="flashVars"/>
 						<!--[if !IE]> <-->
-						<object title="{$status->comment_count}" height="50" width="260" align="middle" name="count_blue" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
+						<object title="{$status->comment_count}" height="50" width="100%" align="middle" name="count_blue" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
 							<param value="colorType=blue&amp;viewNum={$status->comment_count}" name="flashVars"/>
 							<param value="transparent" name="wmode"/>
 							{$status->comment->today}
@@ -66,7 +66,7 @@
 			<dl class="trackback">
 				<dt>{$lang->today_trackbacks}</dt>
 				<dd>
-					<object title="{$status->trackback_count}" height="50" width="260" align="middle" id="count_gray" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+					<object title="{$status->trackback_count}" height="50" width="100%" align="middle" id="count_gray" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
 						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
 						<param value="high" name="quality"/>
 						<param value="#FFFFFF" name="bgColor"/>
@@ -76,7 +76,7 @@
 						<param value="true" name="allowFullScreen"/>
 						<param value="colorType=gray&amp;viewNum={$status->trackback_count}" name="flashVars"/>
 						<!--[if !IE]> <-->
-						<object title="{$status->trackback_count}" height="50" width="260" align="middle" name="count_gray" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
+						<object title="{$status->trackback_count}" height="50" width="100%" align="middle" name="count_gray" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
 							<param value="colorType=gray&amp;viewNum={$status->trackback_count}" name="flashVars"/>
 							<param value="transparent" name="wmode"/>
 							{$status->trackback->today}
@@ -125,7 +125,7 @@
 	<!-- Visotors Graph -->
 	<div class="section">
 
-		<h4 class="dashboardH4">{$lang->visitor_count} <em>{date("Y.m.d")}</em></h4>
+		<h4 class="dashboardH4">{$lang->counter} <em>{date("Y.m.d")}</em></h4>
 		<div class="dashboardWire">
 			<dl class="legend">
 				<dt class="past"><img src="img/graphYesterday.gif" width="5" height="5" alt="{$lang->yesterday}" /></dt>

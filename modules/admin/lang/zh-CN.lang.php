@@ -86,4 +86,7 @@
     $lang->mobile_view = '开启移动版';
     $lang->about_mobile_view = '为智能手机访问网站，提供最佳视觉效果。';
     $lang->autoinstall = '安装·更新';
+
+    $lang->last_week = 'Last week';
+    $lang->this_week = 'This week';
 ?>

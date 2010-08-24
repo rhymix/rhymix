@@ -89,4 +89,7 @@
 	$lang->mobile_view = 'Xem bằng di động';
 	$lang->about_mobile_view = 'Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.';
     $lang->autoinstall = 'Cập nhật tự động';
+
+    $lang->last_week = 'Last week';
+    $lang->this_week = 'This week';
 ?>

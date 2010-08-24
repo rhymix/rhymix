@@ -49,7 +49,7 @@
 .dashboardStatistic dl.reply dd{ background-position:center -195px; color:#28313d;}
 .dashboardStatistic dl.trackback dd{ background-position:center -395px; color:#4e4f54;}
 
-.dashboardStatistic .summary{ float:right; width:31%; margin-top:-27px;}
+.dashboardStatistic .summary{ float:right; width:30%; margin-top:-27px;}
 .dashboardStatistic .summary caption{ position:relative; padding-bottom:20px; text-align:left; font-size:12px; line-height:1; font-weight:bold; color:#626972;}
 .dashboardStatistic .summary table,
 .dashboardStatistic .summary th,

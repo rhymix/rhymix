@@ -87,4 +87,7 @@
 	$lang->about_mobile_view = '스마트폰 등을 이용하여 접속할 때 모바일 화면에 최적화된 레이아웃을 이용하도록 합니다.';
 
 	$lang->autoinstall = '쉬운 설치';
+
+    $lang->last_week = '지난 주';
+    $lang->this_week = '이번 주';
 ?>
