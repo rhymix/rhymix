@@ -1,9 +1,9 @@
 <!--%import("mx.css")-->
 <div class="hd">
 	<!--@if($layout_info->logo_image)-->
-	<h1 class="h1"><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="{$layout_info->logo_text}" /></a></h1>
-	<!--@elseif($layout_info->logo_text)-->
-	<h1 class="h1"><a href="{$layout_info->index_url}">{$layout_info->logo_text}</a></h1>
+	<h1 class="h1"><a href="{$layout_info->index_url}"><img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}" /></a></h1>
+	<!--@elseif($layout_info->index_title)-->
+	<h1 class="h1"><a href="{$layout_info->index_url}">{$layout_info->index_title}</a></h1>
 	<!--@else-->
 	<h1 class="h1"><a href="{$layout_info->index_url}">Mobile XE</a></h1>
 	<!--@end-->
