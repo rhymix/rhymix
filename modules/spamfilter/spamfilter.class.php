@@ -50,6 +50,8 @@
             if(!$oDB->isColumnExists('spamfilter_denied_word', 'hit')) return true;
             if(!$oDB->isColumnExists('spamfilter_denied_word', 'latest_hit')) return true;
 
+            if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) return true;
+
             return false;
         }
 
@@ -88,6 +90,10 @@
             if(!$oDB->isColumnExists('spamfilter_denied_word', 'latest_hit')) {
                 $oDB->addColumn('spamfilter_denied_word','latest_hit','date');
                 $oDB->addIndex('spamfilter_denied_word','idx_latest_hit', 'latest_hit');
+            }
+
+            if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) {
+                $oDB->addColumn('spamfilter_denied_ip','description','varchar', 250);
             }
 
             return new Object(0,'success_updated');

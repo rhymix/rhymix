@@ -1,0 +1,5 @@
+<query id="deleteExceptModules" action="delete">
+    <tables>
+        <table name="syndication_except_modules" />
+    </tables>
+</query>

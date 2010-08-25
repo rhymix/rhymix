@@ -914,7 +914,7 @@
                 if($this->allow_rewrite) {
                     $var_keys = array_keys($get_vars);
                     asort($var_keys);
-                    $target = implode('.',$var_keys);
+                    $target = implode('.', $var_keys);
                     switch($target) {
                         case 'vid' : $query = $get_vars['vid']; break;
                         case 'mid' : $query = $get_vars['mid']; break;
@@ -927,6 +927,8 @@
                         case 'document_srl.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['document_srl']; break;
                         case 'entry.mid.vid' : $query = $get_vars['vid'].'/'.$get_vars['mid'].'/entry/'.$get_vars['entry']; break;
                         case 'act.document_srl.key.vid' : $query = $get_vars['act']=='trackback'?$get_vars['vid'].'/'.$get_vars['document_srl'].'/'.$get_vars['key'].'/'.$get_vars['act']:''; break;
+                        case 'act.mid' : $query = (in_array($get_vars['act'], array('rss', 'atom', 'api'))) ? $get_vars['mid'].'/'.$get_vars['act'] : ''; break;
+                        case 'act.mid.vid' : $query = (in_array($get_vars['act'], array('rss', 'atom', 'api'))) ? $get_vars['vid'].'/'.$get_vars['mid'].'/'.$get_vars['act']:''; break;
                     }
                 }
 

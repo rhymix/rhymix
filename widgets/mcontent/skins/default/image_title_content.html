@@ -1,0 +1,54 @@
+<!--@if($widget_info->modules_info && count($widget_info->modules_info)==1)-->
+{@$__module_info=$widget_info->modules_info;}
+{@$__module_info=array_pop($__module_info);}
+<div class="hx h2">
+	<h2>{$__module_info->browser_title}</h2>
+</div>
+<!--@end-->
+
+<ul class="lt">
+<!--@foreach($widget_info->content_items as $key => $item)-->
+	<li>
+		<a href="{$item->getLink()}">
+			<!--@if($item->getThumbnail())-->
+				<img src="{$item->getThumbnail()}" alt="" class="th" />
+			<!--@else-->
+				<span class="th">No Image</span>
+			<!--@end-->
+			
+			<!--@for($j=0,$c=count($widget_info->option_view_arr);$j<$c;$j++)-->
+				<!--@if($widget_info->option_view_arr[$j]=='title')-->
+				<span class="title">
+					<!--@if(!$__module_info && $widget_info->show_browser_title=='Y' && $item->getBrowserTitle())-->
+					{$item->getBrowserTitle()} &rsaquo;
+					<!--@end-->
+					
+					<!--@if($widget_info->show_category=='Y' && $item->getCategory())-->
+					{$item->getCategory()} &rsaquo;
+					<!--@end-->
+					
+					<strong>{$item->getTitle($widget_info->subject_cut_size)}</strong>
+					
+					<!--@if($widget_info->show_comment_count=='Y' && $item->getCommentCount())-->
+					<em title="Replies">[{$item->getCommentCount()}]</em>
+					<!--@end-->
+					
+					<!--@if($widget_info->show_trackback_count=='Y' && $item->getTrackbackCount())-->
+					<em title="Trackbacks">[{$item->getTrackbackCount()}]</em>
+					<!--@end-->
+				</span>
+	
+				<!--@else if($widget_info->option_view_arr[$j]=='nickname')-->
+				<span class="auth">
+					<strong>{$item->getNickName()}</strong>
+					<span class="time">{$item->getRegdate("Y-m-d")} {$item->getRegdate("H:i")}</span>
+				</span>
+				
+				<!--@else if($widget_info->option_view_arr[$j]=='content')-->
+				<span class="text">{$item->getContent()}</span>
+				<!--@end-->
+			<!--@end-->
+		</a>
+	</li>
+<!--@end-->
+</ul>

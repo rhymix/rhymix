@@ -22,6 +22,7 @@
         var $port = 33000; ///< db server port
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
         var $cutlen = 12000; ///< 큐브리드의 최대 상수 크기(스트링이 이보다 크면 '...'+'...' 방식을 사용해야 한다
+		var $comment_syntax = '/* %s */';
 
         /**
          * @brief cubrid에서 사용될 column type
@@ -335,7 +336,6 @@
 
             // 만약 테이블 이름이 sequence라면 serial 생성
             if($table_name == 'sequence') {
-
                 $query = sprintf('create serial "%s" start with 1 increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix.$table_name);
                 return $this->_query($query);
             }
@@ -374,13 +374,13 @@
                         break;
                 }
 
-                if($default && (!is_numeric($default) || $default[0] == "+")) $default = "'".$default."'";
+                if(isset ($default) && ($type == 'varchar' || $type == 'char')) $default = "'".$default."'";
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
                     $this->column_type[$type],
                     $size?'('.$size.')':'',
-                    $default?"default ".$default:'',
+                    isset($default)?"default ".$default:'',
                     $notnull?'not null':''
                 );
 
@@ -788,6 +788,7 @@
 
             }
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) return;
             $data = $this->_fetch($result);
@@ -943,6 +944,7 @@
               }
             }
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) {
                 $buff = new Object();

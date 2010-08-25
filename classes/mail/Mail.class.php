@@ -23,9 +23,15 @@
         var $header = '';
         var $eol = '';
         var $references = '';
+		var $additional_params = null;
 
 
         function Mail() { }
+
+		function setAdditionalParams($additional_params)
+		{
+			$this->additional_params = $additional_params;
+		}
 
         function addAttachment($filename, $orgfilename)
         {
@@ -221,7 +227,7 @@
                 $this->references?("References: <".$this->references.">".$this->eol."In-Reply-To: <".$this->references.">".$this->eol):""
             );
             $headers .= $this->header;
-
+			if($this->additional_params) return mail($this->getReceiptor(), $this->getTitle(), $this->body, $headers, $this->additional_params);
             return mail($this->getReceiptor(), $this->getTitle(), $this->body, $headers);
         }
 

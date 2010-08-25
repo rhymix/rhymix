@@ -1,21 +1,6 @@
 <?php
-    /**
-     * @file   en.lang.php
-     * @author haneul (haneul0318@gmail.com)
-     * @brief  English Language Pack 
-     **/
-
-    $lang->about_captcha = "Please choose an image whose name is listed below";
-    $lang->target_captcha = array(
-        "airplane" => "airplane",
-        "apple" => "apple",
-        "book" => "book",
-        "camera" => "camera",
-        "dog" => "dog",
-        "earth" => "earth",
-        "flag" => "flag",
-        "mobile" => "mobile",
-        "note" => "note",
-        "skeleton" => "skeleton",
-    );
+    $lang->about_captcha = "Please type alphabets above in order. They are not case-sensitive.";
+	$lang->captcha_reload = 'Refresh Image';
+	$lang->captcha_play = 'Play sound of words';
+	$lang->captcha_denied = 'You have typed wrong alphabets.';
 ?>

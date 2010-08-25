@@ -1,0 +1,9 @@
+<query id="insertExceptModule" action="insert">
+    <tables>
+        <table name="syndication_except_modules" />
+    </tables>
+    <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <column name="regdate" default="curdate()" notnull="notnull" />
+    </columns>
+</query>

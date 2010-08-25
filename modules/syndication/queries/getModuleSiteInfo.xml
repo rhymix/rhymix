@@ -1,0 +1,15 @@
+<query id="getModuleSiteInfo" action="select">
+    <tables>
+        <table name="modules" alias="modules" />
+        <table name="sites" alias="sites" />
+    </tables>
+    <columns>
+        <column name="modules.module_srl" alias="module_srl" />
+        <column name="modules.mid" alias="mid" />
+        <column name="sites.domain" alias="domain" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="modules.module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="sites.site_srl" default="modules.site_srl" notnull="notnull" filter="number" pipe="and" />
+    </conditions>
+</query>

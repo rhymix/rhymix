@@ -19,6 +19,7 @@
         var $database = NULL; ///< database
         var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
         var $idx_no = 0; // 인덱스 생성시 사용할 카운터
+		var $comment_syntax = '/* %s */';
 
         /**
          * @brief firebird에서 사용될 column type
@@ -865,6 +866,7 @@
 
             $query .= ";";
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) {
                 if(!$this->transaction_started) @ibase_rollback($this->fd);
@@ -971,7 +973,7 @@
             }
 
             $query .= ";";
-
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) {
                 if(!$this->transaction_started) @ibase_rollback($this->fd);

@@ -171,11 +171,16 @@
                 }
                 if($oModel->getPackage($args->package_srl))
                 {
-                    executeQuery("autoinstall.updatePackage", $args);
+                    $output = executeQuery("autoinstall.updatePackage", $args);
                 }
                 else
                 {
-                    executeQuery("autoinstall.insertPackage", $args);
+                    $output = executeQuery("autoinstall.insertPackage", $args);
+					if(!$output->toBool())
+					{
+						$output = executeQuery("autoinstall.deletePackage", $args);
+						$output = executeQuery("autoinstall.insertPackage", $args);
+					}
                 }
             }
         }

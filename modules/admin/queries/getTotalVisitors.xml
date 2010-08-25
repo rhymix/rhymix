@@ -1,0 +1,8 @@
+<query id="getTotalVisitors" action="select">
+    <tables>
+        <table name="counter_status" />
+    </tables>
+    <columns>
+        <column name="sum(unique_visitor)" alias="count" />
+    </columns>
+</query>

@@ -13,7 +13,7 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.4.3');
+    define('__ZBXE_VERSION__', '1.4.3.1');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
@@ -78,6 +78,13 @@
      * 로그파일은 ./files/_db_slow_query.php 파일로 저장됨
      **/
     if(!defined('__LOG_SLOW_QUERY__')) define('__LOG_SLOW_QUERY__', 0);
+
+    /**
+     * @brief DB 쿼리 정보를 남김
+     * 0 : 쿼리에 정보를 추가하지 않음
+     * 1 : XML Query ID를 쿼리 주석으로 남김
+     **/
+    if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 0);
 
     /**
      * @brief ob_gzhandler를 이용한 압축 기능을 강제로 사용하거나 끄는 옵션

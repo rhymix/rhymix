@@ -13,7 +13,8 @@
     // called_position가 after_module_proc일때 rsd 태그 삽입
     if($called_position == 'after_module_proc') {
         // 현재 모듈의 rsd주소를 만듬
-        $rsd_url = sprintf('%s%s/api', Context::getRequestUri(), $this->mid);
+        $site_module_info = Context::get('site_module_info');
+        $rsd_url = getFullSiteUrl($site_module_info->domain, '', 'mid',$site_module_info->mid, 'act','api');
 
         // 헤더에 rsd태그 삽입
         Context::addHtmlHeader("    ".'<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$rsd_url.'" />');
@@ -33,6 +34,11 @@
     $method_name = $xmlDoc->methodcall->methodname->body;
     $params = $xmlDoc->methodcall->params->param;
     if($params && !is_array($params)) $params = array($params);
+
+    // 일부 methodname에 대한 호환
+    if(in_array($method_name, array('metaWeblog.deletePost', 'metaWeblog.getUsersBlogs', 'metaWeblog.getUserInfo'))) {
+        $method_name = str_replace('metaWeblog.', 'blogger.', $method_name);
+    }
 
     // blogger.deletePost일 경우 첫번째 인자 값 삭제
     if($method_name == 'blogger.deletePost') array_shift($params);
@@ -440,7 +446,8 @@
             default :
 
                     $homepagelink = getUrl('','mid',$this->mid);
-                    $api_url = sprintf('%s%s/api', Context::getRequestUri(), $this->mid);
+                    $site_module_info = Context::get('site_module_info');
+                    $api_url = getFullSiteUrl($site_module_info->domain, '', 'mid',$site_module_info->mid, 'act','api');
                     $content = <<<RSDContent
 <?xml version="1.0" ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >

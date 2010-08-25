@@ -83,6 +83,8 @@
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
+            natcasesort($searched_list);
+
             // 찾아진 레이아웃 목록을 loop돌면서 필요한 정보를 간추려 return
             for($i=0;$i<$searched_count;$i++) {
                 // 레이아웃의 이름

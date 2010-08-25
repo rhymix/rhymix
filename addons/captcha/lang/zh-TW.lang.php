@@ -1,21 +1,6 @@
 <?php
-    /**
-     * @file   addons/captcha/lang/zh-TW.lang.php
-     * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  圖形驗證正體中文語言
-     **/
-
-    $lang->about_captcha = "用於防止機器人程式之垃圾留言，請選擇一個符合下列詞語的圖像。";
-    $lang->target_captcha = array(
-        "airplane" => "飛機",
-        "apple" => "蘋果",
-        "book" => "書本",
-        "camera" => "照相機",
-        "dog" => "小狗",
-        "earth" => "地球",
-        "flag" => "國旗",
-        "mobile" => "手機",
-        "note" => "音符",
-        "skeleton" => "骷髏",
-    );
+    $lang->about_captcha = "위 영어 알파벳을 순서대로 입력해 주세요. 대소문자는 구분하지 않습니다.";
+	$lang->captcha_reload = '이미지 새로고침';
+	$lang->captcha_play = '음성으로 듣기';
+	$lang->captcha_denied = '잘못 입력하셨습니다';
 ?>

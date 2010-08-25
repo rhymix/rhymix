@@ -16,6 +16,7 @@
         var $database	= NULL; ///< database
         var $prefix		= 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
 		var $param		= array();
+		var $comment_syntax = '/* %s */';
         
         /**
          * @brief mssql 에서 사용될 column type
@@ -369,7 +370,7 @@
                     $this->column_type[$type],
                     !in_array($type,array('number','text'))&&$size?'('.$size.')':'',
                     $primary_key?'primary key':'',
-                    $default?"default '".$default."'":'',
+                    isset($default)?"default '".$default."'":'',
                     $notnull?'not null':'null',
                     $auto_increment?'identity(1,1)':''
                     );
@@ -702,6 +703,7 @@
             if($output->list_count['value']) $query = sprintf('select top %d %s', $output->list_count['value'], $query);
 			else $query = "select ".$query;
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) return;
 
@@ -835,6 +837,7 @@
 				$query = sprintf('select top %d %s from %s %s %s %s %s', $list_count, $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $group, $order);
             }
 
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
 			
             if($this->isError()) {

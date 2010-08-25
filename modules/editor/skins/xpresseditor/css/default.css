@@ -249,7 +249,7 @@
 .xpress-editor .tool li.fcolor .layer{ width:218px !important; height:auto !important; background-image:none !important; overflow:hidden;}
 .xpress-editor .tool .layer .palette{ width:210px; position:relative; left:7px; padding:8px 0 7px 0; margin:0;}
 .xpress-editor .tool .layer .palette li{ float:left; margin:0 1px 1px 0; font-size:0; line-height:0;}
-.xpress-editor .tool .layer .palette button{ position:relative; overflow:hidden; width:11px; height:11px;}
+.xpress-editor .tool .layer .palette button{ position:relative; overflow:hidden; width:11px !important; height:11px !important;}
 
 .xpress-editor .tool li.bcolor .layer { width:218px; overflow:hidden;}
 .xpress-editor .tool .layer .background{ width:210px; position:relative; left:7px; margin:0 0 -2px 0; padding:8px 0 0 0; *padding-bottom:8px; _padding-bottom:4px;}

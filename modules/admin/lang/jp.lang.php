@@ -86,4 +86,7 @@
 	$lang->mobile_view = 'Use Mobile View';
 	$lang->about_mobile_view = 'If accessing with a smartphone, display content with mobile layout.';
     $lang->autoinstall = 'イージーインストール';
+
+    $lang->last_week = 'Last week';
+    $lang->this_week = 'This week';
 ?>

@@ -104,7 +104,7 @@
             // 정해진 시간보다 클 경우 금지 ip로 등록
             if($count>=$limit_count) {
                 $oSpamFilterController = &getController('spamfilter');
-                $oSpamFilterController->insertIP($ipaddress);
+                $oSpamFilterController->insertIP($ipaddress, 'AUTO-DENIED : Over limit');
                 return new Object(-1, 'msg_alert_registered_denied_ip');
             }
 

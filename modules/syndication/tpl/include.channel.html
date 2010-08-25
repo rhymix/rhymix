@@ -1,0 +1,8 @@
+    <id>{htmlspecialchars($channel_info->id)}</id>
+    <title>{htmlspecialchars($channel_info->title)}</title>
+    <updated>{$channel_info->updated}</updated>
+    <link rel="self" href="{htmlspecialchars($channel_info->self_href)}" />
+    <link rel="alternative" href="{$channel_info->alternative_href}" />
+    <!--@if($channel_info->rss_href)--><link rel="rss" href="{$channel_info->rss_href}" /><!--@end-->
+    <type>{$channel_info->type}</type>
+    <summary>{htmlspecialchars($channel_info->summary)}</summary>

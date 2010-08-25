@@ -1,0 +1,26 @@
+<query id="getModules" action="select">
+    <tables>
+        <table name="sites" />
+        <table name="modules" />
+        <table name="syndication_except_modules" alias="except_modules" type="left join">
+            <conditions>
+                <condition operation="equal" column="modules.module_srl" default="except_modules.module_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="modules.site_srl" alias="site_srl" />
+        <column name="modules.module_srl" alias="module_srl" />
+        <column name="sites.domain" alias="domain" />
+        <column name="modules.mid" alias="mid" />
+        <column name="modules.module" alias="module" />
+        <column name="modules.browser_title" alias="browser_title" />
+        <column name="modules.description" alias="description" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="modules.module_srl" var="module_srls" />
+        <condition operation="notin" column="modules.module_srl" var="except_module_srls" pipe="and" />
+        <condition operation="equal" column="sites.site_srl" default="modules.site_srl" notnull="notnull" pipe="and" />
+        <condition operation="null" column="except_modules.module_srl" default="1" pipe="and" />
+    </conditions>
+</query>

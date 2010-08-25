@@ -622,7 +622,7 @@
      **/
     function removeHackTag($content) {
         // 특정 태그들을 일반 문자로 변경
-        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet|link|base|html)/is', '&lt;$1$2', $content);
+        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet|link|base|html|body)/is', '&lt;$1$2', $content);
 
         /**
          * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
@@ -639,7 +639,7 @@
 
         $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
         $buff = str_replace(array('&','&amp;'),array('&amp;','&amp;'),$buff);
-        $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $buff);
+        $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', 'fixQuotation', $buff);
 
         $oXmlParser = new XmlParser();
         $xml_doc = $oXmlParser->parse($buff);
@@ -665,7 +665,7 @@
 		}
         if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data) || _isHackedSrc($background) || _isHackedSrcExp($style)) return sprintf("<%s>",$tag);
 
-        return $matches[0];
+        return $buff;
     }
 
 	function _isHackedSrcExp($style) {
@@ -705,8 +705,21 @@
     function fixQuotation($matches) {
         $key = $matches[1];
         $val = $matches[2];
-        if(substr($val,0,1)!='"') $val = '"'.$val.'"';
-        return sprintf('%s=%s', $key, $val);
+
+        if(substr($val,0,1)!='"'){
+			if(substr($val,-1)=='/'){
+				$val = '"'.substr($val,0,-1).'" /';
+			}else{
+				$val = '"'.$val.'"';
+			}
+		}
+		
+		// attribute on* remove
+		if(preg_match('/^on(click|load|unload|blur|dbclick|focus|resize|keypress|keyup|keydown|mouseover|mouseout|mouseup|select|change|error)/',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
+        
+		$output = sprintf('%s=%s', $key, $val);
+
+		return $output;
     }
 
     // hexa값을 RGB로 변환

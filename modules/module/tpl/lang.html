@@ -1,12 +1,15 @@
 <!--%import("css/mlang.css")-->
 <div class="bd">
-<ul class="gn">
-<!--@foreach($lang_supported as $key=>$val)-->
-	<!--@if($key != $lang_type)-->
-	<li><a href="{getUrl('act',$oldact,'l',$key)}">{$val}</a></li>
-	<!--@else-->
-	<li><strong>{$val}</strong></li>
+	<div class="hx h2">
+		<h2>Select Your Language</h2>
+	</div>
+	<ul class="gn">
+	<!--@foreach($lang_supported as $key=>$val)-->
+		<!--@if($key != $lang_type)-->
+		<li><a href="{getUrl('act',$oldact,'l',$key)}">{$val}</a></li>
+		<!--@else-->
+		<li><strong>{$val}</strong></li>
+		<!--@end-->
 	<!--@end-->
-<!--@end-->
-</ul>
+	</ul>
 </div>

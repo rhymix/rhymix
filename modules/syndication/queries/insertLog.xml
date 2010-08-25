@@ -1,0 +1,13 @@
+<query id="insertLog" action="insert">
+    <tables>
+        <table name="syndication_logs" />
+    </tables>
+    <columns>
+        <column name="log_srl" default="sequence()" />
+        <column name="module_srl" var="module_srl" />
+        <column name="document_srl" var="document_srl" />
+        <column name="title" var="title" />
+        <column name="summary" var="summary" />
+        <column name="regdate" default="curdate()" notnull="notnull" />
+    </columns>
+</query>

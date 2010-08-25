@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">Syndication</title>
+    <description xml:lang="ko">검색서비스업체와 직접 통신을 통해 컨텐츠를 잘 검색되도록 하는 Syndication 규약을 따라 정보를 주고받는 모듈</description>
+    <version>1.0</version>
+    <date>2010-06-23</date>
+    <category>interlock</category>
+
+    <author email_address="developers@xpressengine.com" link="http://www.xpressengine.com">
+        <name xml:lang="ko">NHN</name>
+    </author>
+</module>

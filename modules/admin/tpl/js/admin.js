@@ -11,7 +11,18 @@ function doRecompileCacheFile() {
 
 // 모듈 목록 오픈
 function toggleModuleMenu(category) {
-	jQuery('#module_'+category).toggleClass('open');
+	jQuery('#module_'+category).toggleClass('close');
+	
+	var arr = new Array();
+	jQuery('ul.navigation > li').each(function(){
+		var o = jQuery(this);
+		if(!o.hasClass('close')) return;
+		var idx = o.attr('id').replace(/^module_/,'');
+		arr.push(idx);
+	});
+	var expire= new Date();
+	expire.setTime(expire.getTime()+(7000*24*3600000));
+	xSetCookie('XEAM',arr.join(','),expire,'/');
 }
 
 // 메인 모듈/ 애드온 토글

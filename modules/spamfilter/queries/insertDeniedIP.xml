@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="ipaddress" var="ipaddress" notnull="notnull" />
+        <column name="description" var="description" />
         <column name="regdate" var="regdate" default="curdate()" />
     </columns>
 </query>

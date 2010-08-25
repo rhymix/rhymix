@@ -13,6 +13,9 @@
 #xeAdmin .buttonArea{ text-align:center; padding:15px 0;}
 #xeAdmin button.text{ background:none; border:0; color:#0000ee;}
 #xeAdmin img.graphHr{ height:5px; vertical-align:middle;}
+#xeAdmin .ac{ text-align:center;}
+#xeAdmin .al{ text-align:left;}
+#xeAdmin .ar{ text-align:right;}
 
 .crossTable{ width:100%; border:0; margin:0 0 20px 0; padding:0;}
 .crossTable th div { white-space:nowrap; }
@@ -50,32 +53,46 @@
 
 .colTable td.wide, .rowTable td.wide, .crossTable td.wide { width:100%;}
 
-.e1 .navigation { list-style:none; position:relative; *zoom:1; margin:0; padding:0;}
+.e1 .navigation { list-style:none; position:relative; *zoom:1; margin:0; padding:0; border-bottom:1px solid #c2c2c2;}
 .e1 .navigation ul { list-style:none; position:relative; *zoom:1; margin:0; padding:0;}
-.e1 .navigation li{ list-style:none; position:relative; *zoom:1; margin:0; padding:0;}
-.e1 .navigation li a{ display:block; position:relative; padding:4px 0 4px 24px; background-image:url(../img/iconNavigation.gif); background-repeat:no-repeat;}
-.e1 .navigation li.open a{ background-position:0 -24px; background-color:#eee; border-top:1px solid #ddd;  border-bottom:1px solid #ddd;}
-.e1 .navigation li.open ul li a{ background-color:#fff; border:0;}
-.e1 .navigation li ul{ display:none; margin:10px 0 20px 24px;}
-.e1 .navigation li.open ul{ display:block;}
-.e1 .navigation li ul li a{ padding:2px 0 2px 5px; background-image:none;}
-.e1 .navigation li a:hover,
-.e1 .navigation li a:active,
-.e1 .navigation li a:focus { background-color:#eee !important;}
+.e1 .navigation li { list-style:none; position:relative; *zoom:1; margin:0; padding:0; background-color:#f7f7f7; }
+.e1 .navigation li a.parent { border-top:1px solid #c2c2c2; display:block; padding:10px 20px 10px 35px ;background-image:url(../img/iconNavigation.gif); background-repeat:no-repeat; background-position:160px -35px; font-weight:bold; color:#888; text-decoration:none;}
+.e1 .navigation li.close a.parent { background-position:160px 13px; border-bottom:none; }
+
+#module_service { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px 10px;}
+#module_member { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px -40px;}
+#module_content { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px -90px;}
+#module_construction { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px -140px;}
+#module_utility { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px -190px;}
+#module_accessory { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px -240px;}
+#module_system { background-image:url(../img/mIcon.gif); background-repeat:no-repeat; background-position:10px -290px;}
+
+.e1 .navigation li ul{ border-top:1px solid #d2d2d2; margin:0; padding:5px 0; background-color:#fff;}
+.e1 .navigation li ul li { margin:5px 0; padding:0 10px 0 35px; background-color:#fff;}
+.e1 .navigation li.close ul{ display:none;}
+.e1 .navigation li ul li a { text-decoration:none; }
+.e1 .navigation li ul li a:hover { font-weight:bold; text-decoration:none; letter-spacing:-1px;}
+.e1 .navigation li ul li.active a { color:#ea3f22; letter-spacing:-1px;}
 
 .e2 .section{ margin-left:20px;}
-.e2 .section h3.xeAdmin { margin:0 0 10px 0; padding:0 0 0 25px; }
-.e2 .section h3.xeAdmin .date{ padding-left:10px; background:url(../img/lineVrText.gif) no-repeat left center;}
+.e2 .section h4.xeAdmin { margin:10px 0 0 0; padding:0 0 0 25px; }
+.e2 .section .date{ background:url(../img/lineVrText.gif) no-repeat left center; font-size:9px; padding-left:5px;}
+.e2 .section .contentBox { padding:10px 0; margin:0 0 20px 0; border-bottom:1px solid #ccc;}
 
 .e2 table th{ white-space:nowrap;}
 .e2 table tbody td{ text-align:left; word-break:break-all; -ms-word-break:break-all; }
 
-#xeAdmin .localNavigation { border-bottom:1px solid #ccc; *zoom:1; margin:0 0 20px 0px; padding:0; overflow:hidden; }
-#xeAdmin .localNavigation:after {content:""; display:block; clear:both;}
-#xeAdmin .localNavigation li{ position:relative; list-style:none; float:left; margin:0 -1px 0 0; padding:0;background:#fff;}
-#xeAdmin .localNavigation li a{ float:left; padding:7px 15px 0 15px; height:18px; border:1px solid #ddd; border-bottom:none; background:url(../img/bgTab.gif) repeat-x;}
-#xeAdmin .localNavigation li.on { margin-bottom:-1px;}
-#xeAdmin .localNavigation li.on a{ height:19px; background:none;}
+#xeAdmin .localNavigation{ position:relative; margin:0 0 35px 0; padding:0 0 0 0; _padding:2px 0 0 0; list-style:none; border-bottom:2px solid #315593; font-family:Tahoma, Sans-serif; font-size:12px; *zoom:1;}
+#xeAdmin .localNavigation:after{ content:""; display:block; clear:both;}
+#xeAdmin .localNavigation li{ float:left; margin-right:1px; background:#4CB1E5;}
+#xeAdmin .localNavigation li a{ position:relative; cursor:pointer; float:left; padding:6px 25px 6px 25px; color:#fff; text-decoration:none;}
+#xeAdmin .localNavigation li.on a{ background-color:#315593; margin-top:-1px; padding-top:7px; padding-bottom:7px; font-weight:bold; letter-spacing:-1px;}
+#xeAdmin .localNavigation li ul{ display:none; width:100%; position:absolute; top:35px; left:0; list-style:none; border:0; margin:0; padding:0; white-space:nowrap; overflow:hidden; *zoom:1;}
+#xeAdmin .localNavigation li ul:after{ content:""; display:block; clear:both;}
+#xeAdmin .localNavigation li li{ position:relative; left:-1px; padding:0 10px; border-left:1px solid #ddd; overflow:visible; background:transparent;}
+#xeAdmin .localNavigation li.on li a{ background-color:transparent !important; padding:0; margin:0; font-weight:normal; color:#666;}
+#xeAdmin .localNavigation li.on ul{ display:block;}
+#xeAdmin .localNavigation li.on li.on a{ font-weight:bold; letter-spacing:-1px; color:#333;}
 
 #xeAdmin h3.xeAdmin {border-bottom:2px solid #ccc; padding:5px 0 5px 25px; margin:0 0 10px 0; background:url(../img/iconH2.gif) no-repeat left center;}
 #xeAdmin h4.xeAdmin {padding:5px 0 5px 20px; background:url(../img/iconH3.gif) no-repeat left center;}
@@ -200,8 +217,8 @@
 .adminRightExtra { float:left; width:38%; }
 .serverresponse { background: #FFFFFF url(../../../../common/tpl/images/loading.gif) no-repeat scroll 5px 5px; height:30px; padding-left:25px; padding-top:5px;  }
 
-#search_nav { border:3px solid #ccc; margin:0 0 5px 0;}
-#search_nav input { border:0; height:17px; width:128px; padding:3px 0 0 4px; vertical-align:middle;}
+#search_nav { border:3px solid #ccc; margin:0; padding:3px; }
+#search_nav input { border:0; height:17px; width:140px; padding:3px 0 0 4px; vertical-align:middle;}
 #search_nav button { padding:0; border:0; height:17px; width:17px; background:transparent url(../img/buttonSearch.gif) no-repeat center; vertical-align:middle;}
 #search_nav button.close {background:transparent url(../img/buttonClose.gif) no-repeat center;}
 .e1 .section ._result{ list-style:none; margin:10px 0 0 0; padding:0;}

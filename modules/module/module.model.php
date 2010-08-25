@@ -535,9 +535,11 @@
             $list = FileHandler::readDir($skin_path);
             if(!count($list)) return;
 
+            natcasesort($list);
+
             foreach($list as $skin_name) {
                 unset($skin_info);
-                $skin_info = $this->loadSkinInfo($path, $skin_name);
+                $skin_info = $this->loadSkinInfo($path, $skin_name, $dir);
                 if(!$skin_info) $skin_info->title = $skin_name;
 
                 $skin_list[$skin_name] = $skin_info;
@@ -1263,7 +1265,7 @@
 
         function getModuleFileBox($module_filebox_srl){
             $args->module_filebox_srl = $module_filebox_srl;
-            return executeQuery('getModuleFileBox', $args);
+            return executeQuery('module.getModuleFileBox', $args);
         }
 
         function getModuleFileBoxList(){

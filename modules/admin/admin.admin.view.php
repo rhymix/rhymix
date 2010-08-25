@@ -7,6 +7,42 @@
 
     class adminAdminView extends admin {
 
+        /**
+         * @brief Initilization
+         * @return none
+         **/
+        function init() {
+
+            // forbit access if the user is not an administrator
+            $oMemberModel = &getModel('member');
+            $logged_info = $oMemberModel->getLoggedInfo();
+            if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
+
+            // change into administration layout 
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setLayoutPath($this->getTemplatePath());
+            $this->setLayoutFile('layout.html');
+
+			$this->loadSideBar();
+
+            // Retrieve the list of installed modules 
+
+            $db_info = Context::getDBInfo();
+
+            Context::set('time_zone_list', $GLOBALS['time_zone']);
+            Context::set('time_zone', $GLOBALS['_time_zone']);
+            Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
+            Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
+            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
+            Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
+            Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
+            Context::set('use_mobile_view', $db_info->use_mobile_view =='Y'?'Y':'N');
+            Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
+            if($db_info->http_port) Context::set('http_port', $db_info->http_port);
+            if($db_info->https_port) Context::set('https_port', $db_info->https_port);
+
+        }
+
 		function loadSideBar()
 		{
             $oModuleModel = &getModel('module');
@@ -15,6 +51,10 @@
             $installed_modules = $package_modules = array();
             $package_idx = 0;
             foreach($installed_module_list as $key => $val) {
+				if($val->category == 'migration') $val->category = 'system';
+				if($val->category == 'interlock') $val->category = 'accessory';
+				if($val->category == 'statistics') $val->category = 'accessory';
+
                 if($val->module == 'admin' || !$val->admin_index_act) continue;
                 // get action information 
                 $action_spec = $oModuleModel->getModuleActionXml($val->module);
@@ -55,41 +95,6 @@
 			Context::loadJavascriptPlugin('qtip');
 			Context::loadJavascriptPlugin('watchinput');
 		}
-
-        /**
-         * @brief Initilization
-         * @return none
-         **/
-        function init() {
-
-            // forbit access if the user is not an administrator
-            $oMemberModel = &getModel('member');
-            $logged_info = $oMemberModel->getLoggedInfo();
-            if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
-
-            // change into administration layout 
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setLayoutPath($this->getTemplatePath());
-            $this->setLayoutFile('layout.html');
-
-			$this->loadSideBar();
-
-            // Retrieve the list of installed modules 
-
-            $db_info = Context::getDBInfo();
-
-            Context::set('time_zone_list', $GLOBALS['time_zone']);
-            Context::set('time_zone', $GLOBALS['_time_zone']);
-            Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
-            Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
-            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
-            Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
-            Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
-            Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
-            if($db_info->http_port) Context::set('http_port', $db_info->http_port);
-            if($db_info->https_port) Context::set('https_port', $db_info->https_port);
-
-        }
 
         /**
          * @brief Display main administration page
@@ -145,6 +150,97 @@
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getAddonList();
             Context::set('addon_list', $addon_list);
+
+            // 방문자수
+            $time = time();
+            $w = date("D");
+            while(date("D",$time) != "Sat") {
+                $time += 60*60*24;
+            }
+            $end_time = $time;
+            $end_date = date("Ymd",$time);
+            $time -= 60*60*24;
+            while(date("D",$time)!="Sun") {
+                $thisWeek[] = date("Ymd",$time);
+                $time -= 60*60*24;
+            }
+            $start_time = $time;
+            $start_date = date("Ymd",$time-60*60*24*7);
+
+            $args->start_date = $start_date;
+            $args->end_date = $end_date;
+            $output = executeQueryArray('admin.getVisitors', $args);
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $visitors[$val->regdate] = $val->unique_visitor;
+                }
+            }
+            $output = executeQueryArray('admin.getSiteVisitors', $args);
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    $visitors[$val->regdate] += $val->unique_visitor;
+                }
+            }
+
+            $status->week_max = 0;
+            if(count($visitors)) {
+                foreach($visitors as $key => $val) {
+                    if($val>$status->week_max) $status->week_max = $val;
+                }
+            }
+
+            for($i=$start_time;$i<$end_time;$i+=60*60*24) {
+				$status->thisWeekSum += $visitors[date("Ymd",$i)];
+                $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
+                $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
+            }
+
+            // 각종 통계 정보를 구함
+            $output = executeQuery('admin.getTotalVisitors');
+            $status->total_visitor = $output->data->count;
+            $output = executeQuery('admin.getTotalSiteVisitors');
+            $status->total_visitor += $output->data->count;
+            $status->visitor = $visitors[date("Ymd")];
+
+            // 오늘의 댓글 수
+            $args->regdate = date("Ymd");
+            $output = executeQuery('admin.getTodayCommentCount', $args);
+            $status->comment_count = $output->data->count;
+
+            // 오늘의 엮인글 수
+            $args->regdate = date("Ymd");
+            $output = executeQuery('admin.getTodayTrackbackCount', $args);
+            $status->trackback_count = $output->data->count;
+
+            Context::set('status', $status);
+
+            // 최근글 추출
+			$oDocumentModel = &getModel('document');
+            $doc_args->sort_index = 'list_order';
+            $doc_args->order_type = 'asc';
+            $doc_args->list_count = 3;
+            $output = $oDocumentModel->getDocumentList($doc_args, false, false);
+            Context::set('newest_documents', $output->data);
+
+            // 최근 댓글 추출
+			$oCommentModel = &getModel('comment');
+            $com_args->sort_index = 'list_order';
+            $com_args->order_type = 'asc';
+            $com_args->list_count = 5;
+            $output = $oCommentModel->getTotalCommentList($com_args);
+            Context::set('newest_comments', $output->data);
+
+
+
+
+
+
+
+
+
+
+
+
 
             // Get statistics
             $args->date = date("Ymd000000", time()-60*60*24);

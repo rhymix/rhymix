@@ -130,6 +130,7 @@
     $lang->widget = 'Widget';
     $lang->module = 'Modul';
     $lang->skin = 'Thema';
+    $lang->mobile_skin = 'Mobile Theme';
     $lang->colorset = 'Colorset';
     $lang->extra_vars = 'Extra Vars';
 

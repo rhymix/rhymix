@@ -1,0 +1,21 @@
+{'<?xml version="1.0" encoding="utf-8"?>'}
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <!--#include("./include.site.html")-->
+    <!--@if(count($channels))-->
+        <!--@foreach($channels as $key => $channel_info)-->
+        <entry>
+        <!--#include("./include.channel.html")-->
+        </entry>
+        <!--@end-->
+    <!--@elseif(count($articles->list))-->
+    <!--@if($articles->next_url)--><link rel="next-in-thread" href="{htmlspecialchars($articles->next_url)}" /><!--@end-->
+        <!--@foreach($articles->list as $key => $article)-->
+        <!--#include("./include.articles.html")-->
+        <!--@end-->
+    <!--@elseif(count($deleted->list))-->
+    <!--@if($deleted->next_url)--><link rel="next-in-thread" href="{htmlspecialchars($deleted->next_url)}" /><!--@end-->
+        <!--@foreach($deleted->list as $key => $delete)-->
+        <!--#include("./include.deleted.html")-->
+        <!--@end-->
+    <!--@end-->
+</feed>

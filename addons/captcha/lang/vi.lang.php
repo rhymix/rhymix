@@ -1,23 +1,6 @@
 <?php
-/*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-			░░  * @File   :  common/lang/vi.lang.php                                              ░░
-			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
-			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
-			░░	* @Website:  http://vietxe.net													  ░░
-			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
-			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░	   		*/
-			
-    $lang->about_captcha = "Xin chọn một ảnh mà có tên được liệt kê ở dưới:";
-    $lang->target_captcha = array(
-        "airplane" => "Máy bay",
-        "apple" => "Trái táo",
-        "book" => "Sách",
-        "camera" => "Camera",
-        "dog" => "Con chó",
-        "earth" => "Trái đất",
-        "flag" => "Lá cờ",
-        "mobile" =>"Di động",
-        "note" => "Nốt nhạc",
-        "skeleton" => "Xương",
-    );
+    $lang->about_captcha = "위 영어 알파벳을 순서대로 입력해 주세요. 대소문자는 구분하지 않습니다.";
+	$lang->captcha_reload = '이미지 새로고침';
+	$lang->captcha_play = '음성으로 듣기';
+	$lang->captcha_denied = '잘못 입력하셨습니다';
 ?>

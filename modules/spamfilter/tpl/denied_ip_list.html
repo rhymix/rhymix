@@ -19,6 +19,12 @@
         </td>
     </tr>
     <tr>
+        <th scope="row"><div>{$lang->description}</div></th>
+        <td>
+            <input type="text" name="description" value="" class="inputTypeText" />
+        </td>
+    </tr>
+    <tr>
         <th colspan="2" class="button">
             <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
         </th>
@@ -33,6 +39,7 @@
     <tr>
         <th scope="col"><div>{$lang->no}</div></th>
         <th scope="col"><div>{$lang->ipaddress}</div></th>
+        <th scope="col"><div>{$lang->description}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
         <th scope="col"><div>{$lang->cmd_delete}</div></th>
     </tr>
@@ -41,7 +48,8 @@
     <!--@foreach($ip_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
         <td>{count($ip_list)-$no}</td>
-        <td class="wide">{$val->ipaddress}</td>
+        <td>{$val->ipaddress}</td>
+        <td class="wide">{$val->description}</td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td><a href="#" onclick="doDeleteDeniedIP('{$val->ipaddress}');return false;" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>

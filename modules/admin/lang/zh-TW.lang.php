@@ -86,4 +86,7 @@
 	$lang->mobile_view = '手機瀏覽';
 	$lang->about_mobile_view = '使用手機瀏覽時將會顯示最適當的畫面。';
     $lang->autoinstall = '自動安裝';
+
+    $lang->last_week = 'Last week';
+    $lang->this_week = 'This week';
 ?>

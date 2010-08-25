@@ -1,0 +1,8 @@
+<table name="syndication_logs">
+    <column name="log_srl" type="number" size="11" notnull="notnull" unique="primary_key" />
+    <column name="module_srl" type="number" size="11" default="0" />
+    <column name="document_srl" type="number" size="11" default="0" />
+    <column name="title" type="varchar" size="255" />
+    <column name="summary" type="varchar" size="255" />
+    <column name="regdate" type="date" index="idx_regdate" />
+</table>

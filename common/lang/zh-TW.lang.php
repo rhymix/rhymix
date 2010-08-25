@@ -126,10 +126,11 @@
     $lang->mid = '模組名稱';
     $lang->sid = '網站名稱';
     $lang->layout = '版面';
-	$lang->mobile_layout = 'Mobile Layout';
+	$lang->mobile_layout = '手機版面';
     $lang->widget = 'Widget';
     $lang->module = '模組';
     $lang->skin = '面板';
+	$lang->mobile_skin = '手機面板';
     $lang->colorset = '顏色設定';
     $lang->extra_vars = '延伸變數';
 

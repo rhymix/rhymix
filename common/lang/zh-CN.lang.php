@@ -130,6 +130,7 @@
     $lang->widget = '控件 ';
     $lang->module = '模块';
     $lang->skin = '皮肤';
+    $lang->mobile_skin = '移动版皮肤';
     $lang->colorset = '颜色设定';
     $lang->extra_vars = '扩展变量';
 

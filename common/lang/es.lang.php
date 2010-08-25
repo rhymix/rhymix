@@ -129,6 +129,7 @@
     $lang->widget = 'Widget';
     $lang->module = 'Módulo';
     $lang->skin = 'Tema'; //máscara,
+    $lang->mobile_skin = 'Mobile Tema';
     $lang->colorset = 'Conjunto de Colores';
     $lang->extra_vars = 'Variables Extra';
 

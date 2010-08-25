@@ -32,9 +32,10 @@
          **/
         function procSpamfilterAdminInsertDeniedIP() {
             $ipaddress = Context::get('ipaddress');
+            $description = Context::get('description');
 
             $oSpamfilterController = &getController('spamfilter');
-            return $oSpamfilterController->insertIP($ipaddress);
+            return $oSpamfilterController->insertIP($ipaddress, $description);
         }
 
         /**
