@@ -9,7 +9,7 @@
 #xeAdmin .gnb #adminLang { position:absolute; top:18px; right:0; display:none; background:#fff; margin:0; padding:5px; border:1px solid #ddd; z-index:999;}
 #xeAdmin .gnb #adminLang li{ float:none; margin:0;}
 
-.body{ position:relative; margin:0; padding:0 20px 0 200px; background:url(../img/lineBody.gif) repeat-y 180px 0; *zoom:1;}
+.body{ position:relative; margin:0; padding:0 0 0 200px; background:url(../img/lineBody.gif) repeat-y 180px 0; *zoom:1;}
 .body:after {content:""; display:block; clear:both;}
 .c .body { padding:20px; background:none; }
 .ece .body {padding-right:340px;}
