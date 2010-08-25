@@ -190,6 +190,7 @@
             }
 
             for($i=$start_time;$i<$end_time;$i+=60*60*24) {
+				$status->thisWeekSum += $visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
             }
