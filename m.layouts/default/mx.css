@@ -6,8 +6,8 @@ body,input,textarea,select,button,table{font-family:Tahoma,Geneva,sans-serif}
 .fl{float:left}
 .fr{float:right}
 /* Header */
-.hd{min-height:28px;line-height:28px;padding:6px;margin:0 0 1px 0;border-bottom:2px solid #f46e07;background:#444 -webkit-gradient(linear,0% 0%,0% 100%,from(#636363),to(#2d2d2d));background:#444 -moz-linear-gradient(top,#636363,#2d2d2d);background-color:#444;*zoom:1}
-.hd:after{content:"";margin:0 -6px;position:relative;top:9px;display:block;clear:both;height:1px;background:#d04715}
+.hd{min-height:28px;line-height:28px;padding:6px;margin:0 0 1px 0;border-bottom:2px solid #8d7de1;background:#444 -webkit-gradient(linear,0% 0%,0% 100%,from(#434343),to(#0d0d0d));background:#444 -moz-linear-gradient(top,#434343,#0d0d0d);background-color:#444;*zoom:1}
+.hd:after{content:"";margin:0 -6px;position:relative;top:9px;display:block;clear:both;height:1px;background:#6352d2}
 .hd .h1{float:left;display:inline;color:#fff;font-size:24px;margin:0;font-weight:bold}
 .hd .h1 a{color:#fff}
 .hd .h1 img{border:0}
