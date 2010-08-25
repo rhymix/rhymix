@@ -44,7 +44,7 @@
 			<dl class="reply">
 				<dt>{$lang->today_comments}</dt>
 				<dd>
-					<object title="{$status->comment_count}" height="50" width="100%" align="middle" id="count_blue" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+					<object title="{$status->comment->today}" height="50" width="100%" align="middle" id="count_blue" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
 						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
 						<param value="high" name="quality"/>
 						<param value="#FFFFFF" name="bgColor"/>
@@ -54,7 +54,7 @@
 						<param value="true" name="allowFullScreen"/>
 						<param value="colorType=blue&amp;viewNum={$status->comment_count}" name="flashVars"/>
 						<!--[if !IE]> <-->
-						<object title="{$status->comment_count}" height="50" width="100%" align="middle" name="count_blue" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
+						<object title="{$status->comment->today}" height="50" width="100%" align="middle" name="count_blue" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
 							<param value="colorType=blue&amp;viewNum={$status->comment_count}" name="flashVars"/>
 							<param value="transparent" name="wmode"/>
 							{$status->comment->today}
@@ -66,7 +66,7 @@
 			<dl class="trackback">
 				<dt>{$lang->today_trackbacks}</dt>
 				<dd>
-					<object title="{$status->trackback_count}" height="50" width="100%" align="middle" id="count_gray" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+					<object title="{$status->trackback->today}" height="50" width="100%" align="middle" id="count_gray" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
 						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
 						<param value="high" name="quality"/>
 						<param value="#FFFFFF" name="bgColor"/>
@@ -76,7 +76,7 @@
 						<param value="true" name="allowFullScreen"/>
 						<param value="colorType=gray&amp;viewNum={$status->trackback_count}" name="flashVars"/>
 						<!--[if !IE]> <-->
-						<object title="{$status->trackback_count}" height="50" width="100%" align="middle" name="count_gray" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
+						<object title="{$status->trackback->today}" height="50" width="100%" align="middle" name="count_gray" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
 							<param value="colorType=gray&amp;viewNum={$status->trackback_count}" name="flashVars"/>
 							<param value="transparent" name="wmode"/>
 							{$status->trackback->today}
@@ -146,8 +146,8 @@
 				<!--@foreach($status->week as $key => $val)-->
 				<dl>
 					<dt><!--@if($key==date("Ymd"))--><strong>{$key}</strong><!--@else-->{$key}<!--@end--></dt>
-					<dd class="past" style="height:{$val->last/$status->week_max * 100}%" title="{$lang->last_week}:{number_format($val->last)}"><span>{$lang->last_week}:{number_format($val->last)}</span></dd>
-					<dd class="today" style="height:{$val->this/$status->week_max * 100}%" title="{$lang->this_week}:{number_format($val->this)}"><span>{$lang->this_week}:{number_format($val->this)}</span></dd>
+					<dd class="past" style="height:{$val->last/$status->week_max * 70}%" title="{$lang->last_week}:{number_format($val->last)}"><span>{$lang->last_week}:{number_format($val->last)}</span></dd>
+					<dd class="today" style="height:{$val->this/$status->week_max * 70}%" title="{$lang->this_week}:{number_format($val->this)}"><span>{$lang->this_week}:{number_format($val->this)}</span></dd>
 
 				</dl>
 				<!--@end-->
@@ -157,11 +157,13 @@
 	<!-- /Visotors Graph -->
 
 	<div class="section">
-        <h4 class="dashboardH4">{$lang->env_information}</h4>
+	<h4 class="dashboardH4">{$lang->env_information} <a href="{getUrl('','module','admin','act','dispAdminConfig')}">{$lang->cmd_setup}</a></h4>
         <!--@if($current_version < $released_version)-->
         <p class="summary red">{nl2br($lang->about_download_link)} [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_download}</a>]</p>
         <!--@end-->
         <table>
+		<col width="160" />
+		<col width="*" />
         <tbody>
         <tr>
             <th><div>{$lang->current_version}</div></th>
@@ -189,6 +191,10 @@
             <th><div>{$lang->use_optimizer}</div></th>
             <td><!--@if($use_optimizer=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
         </tr>
+		<tr>
+			<th><div>{$lang->mobile_view}</div></th>
+			<td><!--@if($use_mobile_view=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
+		</tr>
         <tr>
             <th><div>Language</div></th>
             <td><!--@foreach($lang_supported as $key => $val)--><!--@if($key == $selected_lang)-->{$val}<!--@endif--><!--@endforeach--></td>

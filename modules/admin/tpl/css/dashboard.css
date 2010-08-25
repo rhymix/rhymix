@@ -39,14 +39,16 @@
 .dashboardStatistic .statistic h4 span{ display:block; height:18px; padding-top:4px; margin:0 1px; color:#747482; background:url(../img/bgDashboardStatisticHeader.gif) repeat-x;}
 .dashboardStatistic .statistic h4 em{ font-style:normal; font-size:9px; color:#b7b7c4; margin-left:5px;}
 
-.dashboardStatistic dl{ position:relative; float:left; height:100px; width:23%; margin:0; background:url(../img/vrDashboardStatistic.gif) no-repeat left center;}
+.dashboardStatistic dl{ position:relative; float:left; height:100px; margin:0; background:url(../img/vrDashboardStatistic.gif) no-repeat left center;}
 .dashboardStatistic dt { position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0; visibility:hidden;}
 .dashboardStatistic dd { position:absolute; margin:0; padding-top:40px; width:100%; text-align:center; background-image:url(../img/iconDashboardStatistic.gif); background-repeat:no-repeat; font-size:56px; font-weight:bold;}
 .dashboardStatistic dd object,
 .dashboardStatistic dd embed{ vertical-align:top;}
-.dashboardStatistic dl.visit{ background:none;}
+.dashboardStatistic dl.visit{ background:none; width:28%;}
 .dashboardStatistic dl.visit dd{ background-position:center 5px; color:#e3391d ;}
+.dashboardStatistic dl.reply { background:none; width:22%;}
 .dashboardStatistic dl.reply dd{ background-position:center -195px; color:#28313d;}
+.dashboardStatistic dl.trackback { background:none; width:15%;}
 .dashboardStatistic dl.trackback dd{ background-position:center -395px; color:#4e4f54;}
 
 .dashboardStatistic .summary{ float:right; width:30%; margin-top:-27px;}
@@ -65,6 +67,7 @@
 
 /* Dashboard Wire */
 .dashboardH4{ margin:0 0 7px 0; font-size:14px; color:#555;}
+.dashboardH4 a { font-size:11px; color:#b1b1b1; font-style:normal; margin-left:5px;}
 .dashboardH4 em{ font-size:11px; color:#b1b1b1; font-style:normal; margin-left:5px;}
 .dashboardMoreTop{ position:absolute; top:4px; right:0; padding-left:7px; font-size:11px; display:block; white-space:nowrap; color:#8a919a; text-decoration:none; background:url(../img/iconMoreTop.gif) no-repeat left center;}
 
