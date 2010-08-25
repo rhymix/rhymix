@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<GraphDesign>
+	<topGap>30</topGap>
+	<leftGap>0</leftGap>
+	<graphHeight>218</graphHeight>
+	<bgType>none</bgType>
+	<title show="off" id="TextData1" align="bottom" align2="up" ygap="10" />
+	<index checkBox="off">
+		<state>bottom</state>
+		<align>center</align>
+		<xgap>0</xgap>
+		<ygap>40</ygap>
+	</index>
+	<label id="none" gap="0">
+		<rotation />
+	</label>
+	<design>
+		<sourceSWF>dataSource/b_Pie1.swf</sourceSWF>
+		<startPoint x="0" y="0" />
+		<item id="1" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0"lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="2" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="3" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="4" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="5" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="6" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="7" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="8" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="9" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+		<item id="10" top="none" motionNum="3">
+			<type flag="0" value="off" ygap="0" xgap="0" maxLength="100"  minLength="0" lineOn="off" w="218" valueLength ="70" startAngle="200" >3</type>
+		</item>
+	</design>
+</GraphDesign>

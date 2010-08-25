@@ -1,0 +1,51 @@
+<!--#include('./page_info_header.html')-->
+<h3 class="xeAdmin"><span class="gray">{$lang->analytics_api_method[$method]}</span></h3>
+<p>{$lang->about_analytics_method[$method]}</p>
+<!--#include('./date_set_header.html')-->
+<table cellspacing="0" class="rowTable">
+<thead>
+	<tr>
+		<!--@foreach($value_names as $key => $val)-->
+		<th scope="col"><div>{$lang->analytics_api_valuname[$method][$key]}</div></th>
+		<!--@end-->
+	</tr>
+</thead>
+<tbody>
+	{@$__i=($page - 1) * $parsed_data->page_count->body}
+	<!--@foreach($parsed_data->data as $key => $val)-->
+	<!--@if($val->sumpv->body > 0)-->
+		{@$percent = sprintf("%0.2f", $val->sumpv->body / $parsed_data->data_totalpv->body * 100)}
+		{@$image_width = sprintf("%d", $percent)}
+	<!--@else-->
+		{@$percent = 0}
+		{@$image_width = 1}
+	<!--@end-->
+	<tr>
+		<td>{$__i++ + 1}</td>
+		<td><a href="{$val->url->body}">{$val->url->body}</td>
+		<td>{$val->sumpv->body}</td>
+			<td>
+			{@$image_percent = $image_width - 30}
+			<!--@if($image_percent < 1)-->
+				<img class="graphHr" style="width:3px" alt="" src="./images/iconBar.gif" />
+			<!--@else-->
+				<img class="graphHr" style="width:{$image_percent}%" alt="" src="./images/iconBar.gif" />
+			<!--@end-->
+			{$percent}%</td>
+	</tr>
+	<!--@end-->
+</tbody>
+</table>
+
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <strong>{$page_no}</strong> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+</div>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">analytics</title>
+	<description xml:lang="ko">analytics</description>
+	<version>0.2</version>
+	<date>2010-08-02</date>
+	<category>statistics</category>
+	<author email="devjin@nhn.com" link="">
+		<name xml:lang="ko">bumjin</name>
+	</author>
+</module>

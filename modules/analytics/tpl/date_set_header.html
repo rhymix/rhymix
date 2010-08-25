@@ -1,0 +1,50 @@
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui")-->
+<!--%load_js_plugin("ui.datepicker")-->
+
+<form id="date_set" action="./" method="get" onsubmit="">
+<input type="hidden" name="act" value={$act} />
+<input type="hidden" name="module" value="admin" />
+<input type="hidden" name="api_key" value="{$api_key}" />
+<!--input type="hidden" name="method" value="{$method}" /-->
+<table>
+	<tr>
+		<!--@if($isOnlyEndDate == 'false')-->
+		<td>{$lang->cmd_analytics_date_set}</td>
+		<td>
+			<input type="hidden" name="start_date" id="start_date" value="{date('Ymd', strtotime($start_date))}" />
+			<input type="text" value="{$start_date}" readonly="readonly" class="inputDate inputTypeText" />
+		</td>
+		<td>
+		~
+		</td>
+		<!--@else-->
+		<td>{$lang->cmd_analytics_end_date_set}</td>
+		<!--@end-->
+		<td>
+			<input type="hidden" name="end_date" id="end_date" value="{date('Ymd', strtotime($end_date))}" />
+			<input type="text" value="{$end_date}" readonly="readonly" class="inputDate inputTypeText" />
+		</td>
+		<td>
+			<span class="button"><input type="submit" value="{$lang->cmd_search}"/></span>
+		</td>
+	</tr>
+</table>
+</form>
+
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+		$(".dateRemover").click(function() {
+			$(this).parent().prevAll('input').val('');
+			return false;});
+    });
+})(jQuery);
+</script>
+

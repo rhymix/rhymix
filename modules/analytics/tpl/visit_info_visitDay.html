@@ -1,0 +1,99 @@
+<!--#include('./visit_info_header.html')-->
+<h3 class="xeAdmin"><span class="gray">{$lang->analytics_api_method[$method]}</span></h3>
+<p>{$lang->about_analytics_method[$method]}</p>
+<!--#include('./date_set_header.html')-->
+<div>
+{@$__url = getNotEncodedFullUrl('', 'module', 'analytics', 'act', 'dispAnalyticsAPIData', 'api_key', $api_key, 'method', $method, 'start_date', $start_date, 'end_date', $end_date)}
+	<!--@if($chart_type == 'line')-->
+	<script language="JavaScript">
+		var flashVars = "designURL=http://devjin.xpressengine.com/xe/modules/analytics/tpl/images/xml/{$method}.xml&"+
+						"isScroll=true&"+
+						"dataURL="+encodeURIComponent("{$__url}");
+		var obj = {};
+		obj.flashVars = flashVars;
+		obj.wmode = "transparent";
+		nhn.FlashObject.show("http://devjin.xpressengine.com/xe/modules/analytics/tpl/images/WebLog.swf", "{$method}", 800, 400, obj);
+	</script>
+	<!--@end-->
+	<!--@if($chart_type == 'pie')-->
+	<script language="JavaScript">
+		var flashVars = "baseURL=http://devjin.xpressengine.com/xe/modules/analytics/tpl/images/smRepoter/&" + 
+						"dSet=01&" +
+						"gDataXML="+encodeURIComponent("{$__url}");
+		var obj = {};
+		obj.flashVars = flashVars;
+		obj.wmode = "transparent";
+		nhn.FlashObject.show("http://devjin.xpressengine.com/xe/modules/analytics/tpl/images/MainContainer.swf", "{$method}", 700, 315, obj);
+	</script>
+	<!--@end-->
+</div>
+<div id="dataTable"></div>
+{@$_t=$lang->analytics_api_valuname[$method];}
+<script language="JavaScript">
+	var lang = {};
+<!--@foreach($_t as $key => $val)-->
+	lang['{$key}'] = '{$val}';
+<!--@end-->
+	var totalStr = '{$lang->total}';
+	jQuery.getJSON('{$json_url}'
+	
+	,function(data){
+
+		var table_data = data.response.data;
+
+		if (!table_data)
+			return;
+
+		var sum_data = {};
+		var table_tag = '<table cellspacing="0" class="rowTable"><thead><tr>';
+		
+		for(var key in table_data[0])
+		{
+			if (key == 'day')
+				continue;
+
+			sum_data[key] = 0;
+			table_tag += '<th scope="col"><div>' + lang[key] + '</div></th>';
+		}
+		
+		table_tag += '</tr></thead><tbody>';
+
+		for(var i = 0; i < table_data.length; i++)
+		{
+			table_tag += '<tr>';
+			for (var dataKey in table_data[i])
+			{
+				if (dataKey == 'day')
+					continue;
+
+				sum_data[dataKey] += parseInt(table_data[i][dataKey]);
+				table_tag += '<td>' + table_data[i][dataKey] + '</td>';
+			}
+			table_tag += '</tr>';
+		}
+		
+		table_tag += '<tr>';
+
+		for (var key in sum_data)
+		{
+			if (key == 'week')
+			{
+				table_tag += '<td>' + totalStr + '</td>';
+			}
+			else
+			{
+				table_tag += '<td>' + sum_data[key] + '</td>';
+			}
+		}
+
+		table_tag += '</tr></tbody></table>';
+
+		var table_div = document.getElementById("dataTable");
+
+		console.log(table_div);
+
+		table_div.innerHTML = table_tag;
+}
+);
+</script>
+

@@ -1,0 +1,52 @@
+<!--%import("filter/insert_api_key.xml")-->
+
+<!--#include("./header.html")-->
+<form action-"./" method="get" onsubmit="return procFilter(this, insert_api_key)">
+	<table cellspacing="0" class="rowTable">
+	<tr>
+		<th scope="row"><div>{$lang->analytics_api_key}</div></th>
+		<td>
+			api_key : <input type="text" id="api_key" name="api_key" value="{$api_key}" class="inputTypeText apiKey" />
+			<span class="button green"><input type="button" value="{$lang->cmd_check_analytics_api_key}" onclick="checkAPIKey(jQuery('#api_key').val())" /></span>
+			<p>{$lang->about_analytics_api_key}</p>
+		</td>
+	</tr>
+	<!--tr>
+		<th scope="row"><div>{$lang->analytics_visit_info_config}</div></th>
+		<td>
+			<ul-->
+			<!--@foreach($lang->analytics_api_visit as $key => $val)-->
+				<!--li><input type="checkbox" name="{$key}" value="Y" id="visit_{$key}" /><label for="visit_{$key}">{$val}</label></li-->
+			<!--@end-->
+			<!--/ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><div>{$lang->analytics_come_info_config}</div></th>
+		<td>
+			<ul-->
+			<!--@foreach($lang->analytics_api_come as $key => $val)-->
+				<!--li><input type="checkbox" name="{$key}" value="Y" id="come_{$key}" /><label for="come_{$key}">{$val}</label></li-->
+			<!--@end-->
+			<!--/ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><div>{$lang->analytics_page_info_config}</div></th>
+		<td>
+			<ul-->
+			<!--@foreach($lang->analytics_api_page as $key => $val)-->
+				<!--li><input type="checkbox" name="{$key}" value="Y" id="page_{$key}" /><label for="page_{$key}">{$val}</label></li-->
+			<!--@end-->
+			<!--/ul>
+		</td>
+	</tr-->
+
+
+	<tr class="row2">
+		<th colspan="2" class="button">
+			<span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+		</th>
+	</tr>
+</table>
+</form>

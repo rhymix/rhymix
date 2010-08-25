@@ -1,0 +1,9 @@
+<!--#include('./header.html')-->
+<!--%import("js/flashObject.js")-->
+<div>
+	<ul class="localNavigation">
+		<li <!--@if($act=='dispAnalyticsComeInfoAdminComeEngineChart')-->class="on"<!--@end-->><a href="{getUrl('act', 'dispAnalyticsComeInfoAdminComeEngineChart', 'module_srl', '')}">{$lang->analytics_api_method['comeEngine']}</a></li>	
+		<li <!--@if($act=='dispAnalyticsComeInfoAdminComeSearchTextChart')-->class="on"<!--@end-->><a href="{getUrl('act', 'dispAnalyticsComeInfoAdminComeSearchTextChart', 'module_srl', '')}">{$lang->analytics_api_method['comeSearchText']}</a></li>	
+		<li <!--@if($act=='dispAnalyticsComeInfoAdminComeUrlChart')-->class="on"<!--@end-->><a href="{getUrl('act', 'dispAnalyticsComeInfoAdminComeUrlChart', 'module_srl', '')}">{$lang->analytics_api_method['comeUrl']}</a></li>	
+	</ul>
+</div>

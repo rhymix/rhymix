@@ -1,0 +1,23 @@
+{'<?xml version="1.0" encoding="utf-8"?>'}
+<SMChart>
+	<chart>
+	<title>{$lang->analytics_api_method[$parsed_data->method]}</title>
+	<seperate>|</seperate>
+	<startViewRate>100</startViewRate>
+	<units>
+		<xAxis>
+			<unit isView='false'>{$parsed_data->unit}</unit>
+		</xAxis>
+		<yAxis>
+			<unitMax>{$parsed_data->unitMax}</unitMax>
+		</yAxis>
+	</units>
+	</chart>
+	<values>
+	<valueName>{$parsed_data->value_names}</valueName>
+	<!--@foreach($parsed_data->data as $key => $val)-->
+	<value time='{$key}'>{$val}</value>
+	<!--@end-->
+	</values>
+</SMChart>
+

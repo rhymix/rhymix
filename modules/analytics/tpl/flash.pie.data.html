@@ -1,0 +1,14 @@
+{'<?xml version="1.0" encoding="utf-8"?>'}
+<Graph>
+	<gdata title='{$lang->analytics_api_method[$parsed_data->method]}' id='index{count($parsed_data->data)}'>
+	<fact />
+	<subFact>
+		{@$__i=0}
+		<!--@foreach($parsed_data->data as $key => $val)-->
+		<item id="{$__i++}">
+			<data name='{$key}' ispercentage='on'>{$val}</data>
+		</item>
+		<!--@end-->
+	</subFact>
+	</gdata>
+</Graph>

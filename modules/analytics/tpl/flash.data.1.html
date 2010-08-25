@@ -1,0 +1,24 @@
+{'<?xml version="1.0" encoding="utf-8"?>'}
+<SMChart>
+	<chart>
+	<title>{$lang->{$parsed_data->method}}</title>
+	<seperate>|</seperate>
+	<units>
+		<xAxis>
+			<unit isView='false'>시간</unit>
+		</xAxis>
+		<yAxis>
+			<unitMax>11.88</unitMax>
+		</yAxis>
+	</chart>
+	<values>
+	<valueName>
+		<!--@foreach($parsed_data->data as $key => $val)-->
+		{$lang->{$key}}|
+		<!--@end-->
+	</valueName>
+	<!--@for($i = 0; $i <count($parsed_data->data->day); $i++)-->
+	<value time='{$parsed_data->data->day[$i]}'/>
+	</values>
+</SMChart>
+
