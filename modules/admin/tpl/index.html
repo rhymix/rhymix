@@ -146,8 +146,8 @@
 				<!--@foreach($status->week as $key => $val)-->
 				<dl>
 					<dt><!--@if($key==date("Ymd"))--><strong>{$key}</strong><!--@else-->{$key}<!--@end--></dt>
-					<dd class="past" style="height:{$val->last/$status->week_max * 70}%" title="{$lang->last_week}:{number_format($val->last)}"><span>{$lang->last_week}:{number_format($val->last)}</span></dd>
-					<dd class="today" style="height:{$val->this/$status->week_max * 70}%" title="{$lang->this_week}:{number_format($val->this)}"><span>{$lang->this_week}:{number_format($val->this)}</span></dd>
+					<dd class="past" style="height:{$val->last/$status->week_max * 100}%" title="{$lang->last_week}:{number_format($val->last)}"><span>{$lang->last_week}:{number_format($val->last)}</span></dd>
+					<dd class="today" style="height:{$val->this/$status->week_max * 100}%" title="{$lang->this_week}:{number_format($val->this)}"><span>{$lang->this_week}:{number_format($val->this)}</span></dd>
 
 				</dl>
 				<!--@end-->

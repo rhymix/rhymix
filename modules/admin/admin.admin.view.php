@@ -170,18 +170,22 @@
             $args->start_date = $start_date;
             $args->end_date = $end_date;
             $output = executeQueryArray('admin.getVisitors', $args);
-            $status->week_max = 0;
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {
                     $visitors[$val->regdate] = $val->unique_visitor;
-                    if($val->unique_visitor>$status->week_max) $status->week_max = $val->unique_visitor;
                 }
             }
             $output = executeQueryArray('admin.getSiteVisitors', $args);
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {
                     $visitors[$val->regdate] += $val->unique_visitor;
-                    if($val->unique_visitor>$status->week_max) $status->week_max = $val->unique_visitor;
+                }
+            }
+
+            $status->week_max = 0;
+            if(count($visitors)) {
+                foreach($visitors as $key => $val) {
+                    if($val>$status->week_max) $status->week_max = $val;
                 }
             }
 
