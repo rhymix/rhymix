@@ -79,12 +79,17 @@
 .e2 table th{ white-space:nowrap;}
 .e2 table tbody td{ text-align:left; word-break:break-all; -ms-word-break:break-all; }
 
-#xeAdmin .localNavigation { border-bottom:1px solid #ccc; *zoom:1; margin:0 0 20px 0px; padding:0; overflow:hidden; }
-#xeAdmin .localNavigation:after {content:""; display:block; clear:both;}
-#xeAdmin .localNavigation li{ position:relative; list-style:none; float:left; margin:0 -1px 0 0; padding:0;background:#fff;}
-#xeAdmin .localNavigation li a{ float:left; padding:7px 15px 0 15px; height:18px; border:1px solid #ddd; border-bottom:none; background:url(../img/bgTab.gif) repeat-x;}
-#xeAdmin .localNavigation li.on { margin-bottom:-1px;}
-#xeAdmin .localNavigation li.on a{ height:19px; background:none;}
+#xeAdmin .localNavigation{ position:relative; margin:0 0 35px 0; padding:0 0 0 0; _padding:2px 0 0 0; list-style:none; border-bottom:2px solid #315593; font-family:Tahoma, Sans-serif; font-size:12px; *zoom:1;}
+#xeAdmin .localNavigation:after{ content:""; display:block; clear:both;}
+#xeAdmin .localNavigation li{ float:left; margin-right:1px; background:#4CB1E5;}
+#xeAdmin .localNavigation li a{ position:relative; cursor:pointer; float:left; padding:6px 25px 6px 25px; color:#fff; text-decoration:none;}
+#xeAdmin .localNavigation li.on a{ background-color:#315593; margin-top:-1px; padding-top:7px; padding-bottom:7px; font-weight:bold; letter-spacing:-1px;}
+#xeAdmin .localNavigation li ul{ display:none; width:100%; position:absolute; top:35px; left:0; list-style:none; border:0; margin:0; padding:0; white-space:nowrap; overflow:hidden; *zoom:1;}
+#xeAdmin .localNavigation li ul:after{ content:""; display:block; clear:both;}
+#xeAdmin .localNavigation li li{ position:relative; left:-1px; padding:0 10px; border-left:1px solid #ddd; overflow:visible; background:transparent;}
+#xeAdmin .localNavigation li.on li a{ background-color:transparent !important; padding:0; margin:0; font-weight:normal; color:#666;}
+#xeAdmin .localNavigation li.on ul{ display:block;}
+#xeAdmin .localNavigation li.on li.on a{ font-weight:bold; letter-spacing:-1px; color:#333;}
 
 #xeAdmin h3.xeAdmin {border-bottom:2px solid #ccc; padding:5px 0 5px 25px; margin:0 0 10px 0; background:url(../img/iconH2.gif) no-repeat left center;}
 #xeAdmin h4.xeAdmin {padding:5px 0 5px 20px; background:url(../img/iconH3.gif) no-repeat left center;}
