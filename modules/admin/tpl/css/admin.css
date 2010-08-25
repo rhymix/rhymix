@@ -13,6 +13,9 @@
 #xeAdmin .buttonArea{ text-align:center; padding:15px 0;}
 #xeAdmin button.text{ background:none; border:0; color:#0000ee;}
 #xeAdmin img.graphHr{ height:5px; vertical-align:middle;}
+#xeAdmin .ac{ text-align:center;}
+#xeAdmin .al{ text-align:left;}
+#xeAdmin .ar{ text-align:right;}
 
 .crossTable{ width:100%; border:0; margin:0 0 20px 0; padding:0;}
 .crossTable th div { white-space:nowrap; }
