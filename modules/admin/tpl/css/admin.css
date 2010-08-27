@@ -85,7 +85,7 @@
 #xeAdmin .localNavigation{ position:relative; margin:0 0 35px 0; padding:0 0 0 0; _padding:2px 0 0 0; list-style:none; border-bottom:2px solid #315593; font-family:Tahoma, Sans-serif; font-size:12px; *zoom:1;}
 #xeAdmin .localNavigation:after{ content:""; display:block; clear:both;}
 #xeAdmin .localNavigation li{ float:left; margin-right:1px; background:#4CB1E5;}
-#xeAdmin .localNavigation li a{ position:relative; cursor:pointer; float:left; padding:6px 25px 6px 25px; color:#fff; text-decoration:none;}
+#xeAdmin .localNavigation li a{ position:relative; cursor:pointer; float:left; padding:6px 10px 6px 10px; color:#fff; text-decoration:none;}
 #xeAdmin .localNavigation li.on a{ background-color:#315593; margin-top:-1px; padding-top:7px; padding-bottom:7px; font-weight:bold; letter-spacing:-1px;}
 #xeAdmin .localNavigation li ul{ display:none; width:100%; position:absolute; top:35px; left:0; list-style:none; border:0; margin:0; padding:0; white-space:nowrap; overflow:hidden; *zoom:1;}
 #xeAdmin .localNavigation li ul:after{ content:""; display:block; clear:both;}
