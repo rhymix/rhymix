@@ -215,7 +215,7 @@
     
     $lang->edit->move = '搬移';
 	$lang->edit->refresh = '重整';
-    $lang->edit->materials = '글감보관함';
+    $lang->edit->materials = '素材';
     $lang->edit->temporary_savings = '暫存檔列表';
 
 	$lang->edit->paging_prev = '前頁';

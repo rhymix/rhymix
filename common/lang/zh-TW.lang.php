@@ -2,7 +2,7 @@
     /**
      * @file   common/lang/zh-TW.lang.php
      * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言(包含基本內容)
+     * @brief  正體中文語言
      **/
 
     // 基本用語
@@ -65,8 +65,8 @@
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '版面設置';
     $lang->cmd_layout_edit = '版面編輯';
-    $lang->cmd_search_by_ipaddress = '以 IP 位址搜尋';
-    $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP 位址';
+    $lang->cmd_search_by_ipaddress = '以 IP 搜尋';
+    $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';

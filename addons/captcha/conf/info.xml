@@ -32,7 +32,7 @@
         This addon applies only to not-logged-in users.
     </description>
     <description xml:lang="zh-TW">
-        此元件可防止機器人程式的垃圾留言，非註冊用戶在討論板/問題追蹤發表主題或評論時，必須要先選對畫面中所顯示的圖案才能發表。
+        可防止機器人程式的垃圾留言，非用戶要發表主題或回覆時，必須要輸入正確圖片中所顯示的文字才能發表。
     </description>
     <version>1.0</version>
     <date>2010-08-19</date>
