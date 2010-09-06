@@ -1,7 +1,7 @@
 <?php
     /**
      * @class PageHandler
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief handles page navigation
      * @version 0.1
      *

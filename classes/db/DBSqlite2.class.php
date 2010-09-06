@@ -1,7 +1,7 @@
 <?php
     /**
      * @class DBSqlite2
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief SQLite ver 2.x 를 이용하기 위한 class
      * @version 0.1
      *

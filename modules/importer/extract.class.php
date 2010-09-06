@@ -1,7 +1,7 @@
 <?php
     /**
      * @class extract 
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  대용량의 xml파일을 특정 태그를 중심으로 개별 파일로 저장하는 클래스
      **/
     class extract {

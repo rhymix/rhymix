@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/file/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor NHN (developers@xpressengine.com)
      * @sumario Paquete del idioma espaA±ol para los archivos adjuntos
      **/
 
@@ -21,7 +21,7 @@
     $lang->enable_download_group = 'Descargar permitió grupos';
 
     $lang->about_allow_outlink = 'Enlaces externos a Rusia Ripper puede bloquear el archivo. (*. WMV, *. mp3, etc, excepto los archivos multimedia)';
-    $lang->about_allow_outlink_site = 'Archivos, independientemente de la configuración para permitir a los enlaces externos es la dirección del sitio. Entrada múltiples gubunhaeju un cambio en la línea, por favor. <br /> Ej.) http://www.zeroboard.com';
+    $lang->about_allow_outlink_site = 'Archivos, independientemente de la configuración para permitir a los enlaces externos es la dirección del sitio. Entrada múltiples gubunhaeju un cambio en la línea, por favor. <br /> Ej.) http://xpressengine.com/';
 	$lang->about_allowed_filesize = 'Puede definir el límite del tamaño del archivo adjunto. (exceptuando el administrador)';
     $lang->about_allowed_attach_size = 'Puede definir el límite del tamaño total de los archivos adjuntos por documento. (exceptuando el administrador)';
     $lang->about_allowed_filetypes = 'Puede definir las extensiones de los archivos permitidos. Para permitir una extensión use "*.extensión". Para permitir más de una extensión use ";".<br />ej) *.* o *.jpg;*.gif;etc.<br />(exceptuando el administrador)';

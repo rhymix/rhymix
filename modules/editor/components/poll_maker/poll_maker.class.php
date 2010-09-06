@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  poll_maker
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  에디터에서 url링크하는 기능 제공. 
      **/
 

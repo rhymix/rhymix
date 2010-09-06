@@ -1,6 +1,6 @@
 <?php
 /**
- * @author sol (sol@nhn.com)
+ * @author NHN (developer@xpressengine.com)
  * @brief css 및 js Optimizer 처리 gateway
  *
  **/

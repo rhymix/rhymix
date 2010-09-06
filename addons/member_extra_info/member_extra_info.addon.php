@@ -3,7 +3,7 @@
 
     /**
      * @file image_name.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 사용자의 이미지이름/ 이미지마크등을 출력
      *
      * <div class="member_회원번호">....</div> 로 정의가 된 부분을 찾아 회원번호를 구해서 

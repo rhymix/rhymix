@@ -1,7 +1,7 @@
 <?php
     /**
      * @class CacheApc
-     * @author sol (sol@nhn.com)
+     * @author NHN (developer@xpressengine.com)
      * @brief APC Handler
      * @version 0.1
 	 *

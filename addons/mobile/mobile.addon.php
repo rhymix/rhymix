@@ -3,7 +3,7 @@
 
     /**
      * @file mobile.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 모바일XE 애드온
      *
      * 헤더정보를 가로채서 모바일에서의 접속일 경우 WAP 태그로 컨텐츠를 출력함

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  fileView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  file module의 view class
      *
      *

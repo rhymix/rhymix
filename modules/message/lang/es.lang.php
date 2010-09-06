@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/message/lang/es.lang.php
-     * @autor zero (developers@xpressengine.com)
+     * @autor NHN (developers@xpressengine.com)
      * @sumario Paquete del idioma español (básico)
  **/
 

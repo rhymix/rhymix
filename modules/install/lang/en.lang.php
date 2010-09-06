@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   en.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  English language pack (Only basic contents are listed)
      **/
 

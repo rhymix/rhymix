@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/multimedia_link/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  网页编辑器(editor) 模块 > 媒体链接 (multimedia_link) 组件的语言包
      **/
 

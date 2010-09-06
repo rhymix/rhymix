@@ -1,7 +1,7 @@
 <?php 
     /**
      * @file  index.php
-     * @author zero <zero@zeroboard.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief 시작 페이지
      *
      * Request Argument에서 mid, act로 module 객체를 찾아서 생성하고 \n

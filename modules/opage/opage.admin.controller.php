@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  opageAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  opage 모듈의 admin controller class
      **/
 

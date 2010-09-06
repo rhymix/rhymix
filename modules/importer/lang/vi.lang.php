@@ -1,7 +1,7 @@
 <?php
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
-			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
+			░░  * @Author :  NHN (developers@xpressengine.com)                                                 ░░
 			░░  * @Trans  :  Đào Đức Duy (ducduy.dao.vn@vietxe.net)								  ░░
 			░░	* @Website:  http://vietxe.net													  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
@@ -58,7 +58,7 @@
 	$lang->about_ttxml_user_id = 'Xin hãy nhập ID sẽ hiển thị là tác giả của những bài viết sau khi Data được chuyển đổi từ TTXML. (ID này phải là thành viên đã đăng kí.)';
     $lang->about_type_module = 'Lựa chọn này sẽ đồng bộ và chuyển đổi các trang và bài viết.';
     $lang->about_type_syncmember = 'Lựa chọn này sẽ đồng bộ thông tin thành viên trước khi đồng bộ Bài viết và thành viên.';
-    $lang->about_importer = "Bạn có thể chuyển Data từ Zeroboard4, Zeroboard5 Beta hay Data của những mã nguồn khác vào Data của XE.\nĐể hiểu rõ hơn công việc này, bạn có thể tham khảo cách chuyển đổi Data của bạn vào XE khi bạn đã Upload chúng tại <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>.";
+    $lang->about_importer = "Bạn có thể chuyển Data từ Zeroboard4, Zeroboard5 Beta hay Data của những mã nguồn khác vào Data của XE.\nĐể hiểu rõ hơn công việc này, bạn có thể tham khảo cách chuyển đổi Data của bạn vào XE khi bạn đã Upload chúng tại <a href=\"http://svn.xpressengine.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>.";
 
     $lang->about_target_path = "Để lấy cả File đính kèm tại Zeroboard4, bạn hãy nhập địa chỉ mà đã cài đặt Zeroboard4.\nNếu nó cùng nằm trên một Server, hãy nhập đầy đủ đường dẫn thư mục cài đặt của Zeroboard4. Ví dụ: <b>/home/USERID/public_html/bbs</b>\nNếu khác Server, hãy nhập địa chỉ của Zeroboard4 đã cài đặt. Ví dụ: <b>http://Domain/bbs</b>";
 ?>

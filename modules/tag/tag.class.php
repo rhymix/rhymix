@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  tag
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  tag 모듈의 high class
      **/
 

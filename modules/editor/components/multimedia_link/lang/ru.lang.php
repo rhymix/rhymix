@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/multimedia_link/lang/ru.lang.php
-     * @author zero <zero@nzeo.com>> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
+     * @author NHN (developers@xpressengine.com)> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
      * @brief  editor module > language pack of multimedia_link component
      **/
 

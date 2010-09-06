@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  member
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  member module의 high class
      **/
     class member extends ModuleObject {

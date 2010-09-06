@@ -1,7 +1,7 @@
 <?php
     /**
     * @class Context
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief  Manages Context such as request arguments/environment variables
     * @remarks It has dual method structure, easy-to use methods which can be called as Context::methodname(), 
     *          and methods called with static object. 

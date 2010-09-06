@@ -1,7 +1,7 @@
 <?php
     /**
      * @class counter_status
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @version 0.1
      * @brief counter 모듈의 데이터를 이용하여 counter 현황을 출력
      **/

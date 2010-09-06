@@ -3,7 +3,7 @@
 
     /**
      * @file member_communication.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 사용자의 커뮤니케이션 기능을 활성화
      *
      * - 새로운 쪽지가 왔을 경우 팝업으로 띄움

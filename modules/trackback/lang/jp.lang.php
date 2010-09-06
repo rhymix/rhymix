@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/trackback/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa、ミニミ
      * @brief  トラックバック（trackback）モジュール基本言語パッケージ
      **/
 	$lang->cmd_toggle_checked_trackback = '選択トラックバック反転';

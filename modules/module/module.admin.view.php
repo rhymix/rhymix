@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  moduleAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  module 모듈의 admin view class
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/document/lang/fr.lang.php
-     * @author zero <zero@nzeo.com>  Traduit par Pierre Duvent <Pierreduvent@gmail.com>
+     * @author NHN (developers@xpressengine.com)  Traduit par Pierre Duvent <Pierreduvent@gmail.com>
      * @brief  Paquet du langage en français pour le module de Document
      **/
 

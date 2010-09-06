@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   config/config.inc.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  기본적으로 사용하는 class파일의 include 및 환경 설정을 함
      **/
 

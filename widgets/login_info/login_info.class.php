@@ -1,7 +1,7 @@
 <?php
     /**
      * @class login_info
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @version 0.1
      * @brief 로그인 폼을 출력하는 위젯
      *

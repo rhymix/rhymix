@@ -1,7 +1,7 @@
 <?php
     /**
     * @class FileObject
-    * @author haneul (haneul0318@gmail.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief file abstraction class 
     **/
 

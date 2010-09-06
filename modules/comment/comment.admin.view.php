@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  commentAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  comment 모듈의 admin view 클래스
      **/
 

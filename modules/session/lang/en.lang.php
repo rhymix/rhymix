@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/session/lang/ko.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  Korean Language Pack (Basic Contents Only)
      **/
 

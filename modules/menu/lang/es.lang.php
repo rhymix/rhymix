@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/menu/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor NHN (developers@xpressengine.com)
      * @sumario  Paquete del idioma español para el Menú del módulo básico
      **/
 

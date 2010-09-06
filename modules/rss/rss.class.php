@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  rss
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  rss module의 view class
      **/
 

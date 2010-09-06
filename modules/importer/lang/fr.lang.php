@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   fr.lang.php
-     * @author zero (zero@nzeo.com)  Traduit par Pierre Duvent <PierreDuvent@gamil.com>
+     * @author NHN (developers@xpressengine.com)  Traduit par Pierre Duvent <PierreDuvent@gamil.com>
      * @brief  Paquet du langage en français le module d\'Importateur
      **/
 
@@ -56,7 +56,7 @@
 	$lang->about_ttxml_user_id = 'Entrez le compte d\'utilisateur pour déclarer comme l\'auteur. (Le compte d\'utilisateur doit être déjà inscrit)';
     $lang->about_type_module = 'Choisissez cette option si vous voulez transférer les informations des panneaux ou des articles.';
     $lang->about_type_syncmember = 'Choisissez cette option si vous voulez synchroniser les informations des membres après le transfér des informations des membres et des articles.';
-    $lang->about_importer = "Vous pouvez transférer les données de Zeroboard4, de Zeroboard5 Beta ou d\'autres logiciels aux données de XE.\nPour transférer, vous devez utiliser <a href=\"http://svn.zeroboard.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.";
+    $lang->about_importer = "Vous pouvez transférer les données de Zeroboard4, de Zeroboard5 Beta ou d\'autres logiciels aux données de XE.\nPour transférer, vous devez utiliser <a href=\"http://svn.xpressengine.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.";
 
     $lang->about_target_path = "Pour obtenir les attachés de Zeroboard4, Entrez l\'adresse où Zeroboard4 est installé.\nSi elle se trouve dans le même serveur, entrez le chemin comme '/home/USERID/public_html/bbs'\nSi elle ne se trouve pas dans le même serveur, entrez l\'adresse où Zeroboard4 est installé comme 'http://Domain/bbs'";
 ?>

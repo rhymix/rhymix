@@ -1,7 +1,7 @@
 <?php
     /**
      * @class GeneralXmlParser
-     * @author haneul (haneul0318@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief Generic XML parser for XE
      * @version 0.1
      */

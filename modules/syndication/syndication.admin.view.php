@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  syndicationAdminView
-     * @author zero (skklove@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  syndication admin view class
      **/
 

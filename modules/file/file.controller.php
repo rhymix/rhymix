@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  fileController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  file 모듈의 controller 클래스
      **/
 

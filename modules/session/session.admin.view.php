@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  sessionAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  session모듈의 admin view class
      **/
 

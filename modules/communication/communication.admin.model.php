@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  communicationAdminModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  communication module의 admin model class
      **/
 

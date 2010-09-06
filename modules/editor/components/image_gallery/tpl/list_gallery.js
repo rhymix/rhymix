@@ -1,7 +1,7 @@
 /**
  * @file  list_gallery.js
  * @brief 이미지 이미지갤러리 쇼 스크립트
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  **/
 
 // 이미지갤러리쇼를 하기 위한 변수

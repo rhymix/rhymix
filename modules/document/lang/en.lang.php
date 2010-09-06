@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/document/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  Document module's basic language pack
      **/
 

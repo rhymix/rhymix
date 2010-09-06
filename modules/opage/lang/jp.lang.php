@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/opage/lang/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa
      * @brief  外部ページ(opage)モジュールの基本言語パッケージ
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/poll_maker/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  editor module > language pack of poll_maker component
      **/
 

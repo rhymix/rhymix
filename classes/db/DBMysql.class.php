@@ -1,7 +1,7 @@
 <?php
     /**
      * @class DBMysql
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief MySQL DBMS를 이용하기 위한 class
      * @version 0.1
      *

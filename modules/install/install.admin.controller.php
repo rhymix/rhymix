@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  installAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  install module의 admin controller class
      **/
 

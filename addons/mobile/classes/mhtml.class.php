@@ -1,7 +1,7 @@
 <?php
     /**
      * mhtml Library ver 0.1
-     * @author zero <zero@zeroboard.com> / lang_select : misol
+     * @author NHN (developers@xpressengine.com) / lang_select : misol
      **/
     class wap extends mobileXE {
 

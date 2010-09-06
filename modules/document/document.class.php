@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  document
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  document 모듈의 high 클래스
      **/
 

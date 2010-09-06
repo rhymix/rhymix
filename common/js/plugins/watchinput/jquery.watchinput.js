@@ -1,6 +1,6 @@
 /**
  * @brief  Watch Input box
- * @author taggon (http://mygony.com)
+ * @author NHN (developers@xpresseingine.com)
  **/
 (function($){
 

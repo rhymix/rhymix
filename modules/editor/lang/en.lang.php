@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/editor/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  WYSIWYG Editor module's basic language pack
      **/
 

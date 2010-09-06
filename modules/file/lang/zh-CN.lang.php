@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/file/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  附件(file) 模块语言包
      **/
 
@@ -21,7 +21,7 @@
     $lang->enable_download_group = '允许下载的用户组';
 
     $lang->about_allow_outlink = '根据反向链接防止盗链。(*.wmv, *.mp3等媒体文件除外)';
-    $lang->about_allow_outlink_site = '可以设置允许外链的站点。多个站点以换行来区分，即一行一个。<br />ex)http://www.zeroboard.com';
+    $lang->about_allow_outlink_site = '可以设置允许外链的站点。多个站点以换行来区分，即一行一个。<br />ex)http://xpressengine.com/';
     $lang->about_allowed_filesize = '最大单个上传文件大小(管理员不受此限制)。';
     $lang->about_allowed_attach_size = '每个主题最大上传文件大小(管理员不受此限制)。';
     $lang->about_allowed_filetypes = '只允许上传指定的扩展名。 可以用"*.扩展名"来指定或用 ";"来 区分多个扩展名<br />例) *.* or *.jpg;*.gif;<br />(管理员不受此限制)';

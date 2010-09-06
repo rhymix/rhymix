@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  rssModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  rss module의 model class
      *
      * Feed 문서 출력

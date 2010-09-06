@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pageAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  page 모듈의 admin controller class
      **/
 

@@ -2,7 +2,7 @@
 
     /**
      * @class DBMSSQL
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief MSSQL driver로 수정 sol (sol@ngleader.com)
      * @version 0.1
      **/

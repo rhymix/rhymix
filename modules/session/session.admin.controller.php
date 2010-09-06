@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  sessionAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  session 모듈의 admin controller class
      **/
 

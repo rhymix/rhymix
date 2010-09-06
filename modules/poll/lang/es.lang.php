@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/poll/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor NHN (developers@xpressengine.com)
      * @sumario Paquete del idioma español para el módulo de encuesta 
      **/
 

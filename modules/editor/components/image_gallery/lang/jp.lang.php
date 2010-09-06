@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/editor/components/image_gallery/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa、ミニミ
      * @brief  ウィジウィグエディター（editor）モジュール > イメージギャラリー（image_gallery）コンポネント言語パッケージ
      **/
 

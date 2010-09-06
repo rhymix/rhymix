@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  installView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  install module의 View class
      **/
 

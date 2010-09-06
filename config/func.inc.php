@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   config/func.inc.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  편의 목적으로 만든 함수라이브러리 파일
     **/
 

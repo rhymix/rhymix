@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  widgetView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  widget 모듈의 View class
      **/
 

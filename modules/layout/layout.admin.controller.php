@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  layoutAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  layout 모듈의 admin controller class
      **/
 

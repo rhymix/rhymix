@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/file/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  附加檔案(file)模組正體中文語言
      **/
 
@@ -23,7 +23,7 @@
 
     $lang->about_allow_outlink = '是否允許連結外部檔案。(*.wmv, *.mp3等影音檔案除外)';
     $lang->about_allow_outlink_format = '設定允許外部連結的檔案格式。可以用逗號(,)來區隔多個副檔名。<br />例) hwp, doc, zip, pdf';
-    $lang->about_allow_outlink_site = '可設置允許外部檔案連結的網站名單。當數量太多時，可換行輸入。<br />例) http://www.zeroboard.com';
+    $lang->about_allow_outlink_site = '可設置允許外部檔案連結的網站名單。當數量太多時，可換行輸入。<br />例) http://xpressengine.com/';
 	$lang->about_allowed_filesize = '最大單一上傳檔案大小 (管理員不受此限制)。';
     $lang->about_allowed_attach_size = '每個主題最大上傳檔案大小 (管理員不受此限制)。';
     $lang->about_allowed_filetypes = '設定允許上傳的檔案類型。可以用"*.副檔名"來指定或用分號";"來區隔多個副檔名。<br />例) *.* or *.jpg; *.gif;<br />(管理員不受此限制)';

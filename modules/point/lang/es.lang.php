@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/point/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor NHN (developers@xpressengine.com)
      * @sumario Paqqete del idioma español del módulo de puntos
      **/
 

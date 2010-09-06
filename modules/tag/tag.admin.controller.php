@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  tagAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  tag 모듈의 admin controller class
      **/
 

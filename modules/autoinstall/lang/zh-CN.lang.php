@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   zh-CN.lang.php
-     * @author sol (sol@ngleader.com)               翻译：guny(space.china@gmail.com)
+     * @author NHN (developers@xpressengine.com)               翻译：guny(space.china@gmail.com)
      * @brief  在线安装/更新(autoinstall)模块语言包
      **/
 

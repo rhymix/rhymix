@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/poll/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa、ミニミ
      * @brief  アンケート（poll）モジュールの基本言語パッケージ
      **/
 

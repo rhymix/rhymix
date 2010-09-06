@@ -177,7 +177,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 (function($){
 /**
  * @brief exec_xml
- * @author taggon <gonom9@gmail.com>
+ * @author NHN (developers@xpressengine.com)
  **/
 $.exec_xml = window.exec_xml = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
 	var xml_path = request_uri+"index.php"

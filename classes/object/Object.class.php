@@ -1,7 +1,7 @@
 <?php
     /**
      * @class Object
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief Base class design to pass the Object instance between XE Modules 
      *
      * @remark Every modules inherits from Object class. It includes error, message, and other variables for communicatin purpose

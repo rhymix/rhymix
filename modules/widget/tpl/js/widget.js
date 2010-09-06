@@ -1,6 +1,6 @@
 /**
  * @file   modules/widget/js/widget.js
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief  위젯 관리용 자바스크립트
  **/
 

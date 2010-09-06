@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  krzipModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  krzip 모듈의 model 클래스
      **/
 

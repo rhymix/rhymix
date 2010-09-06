@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   common/lang/es.lang.php
-     * @autor zero (zero@nzeo.com)
+     * @autor NHN (developers@xpressengine.com)
      * @sumario Paquete del Idioma Español (incluye sólo las palabras básicas )
      **/
 
@@ -316,9 +316,9 @@
     $lang->filter->isnull = 'Introduzca valor en el %s';
     $lang->filter->outofrange = 'Se ha excedido el máximo número de letras permitido en el %s';
     $lang->filter->equalto = 'Valor inválido en el %s';
-    $lang->filter->invalid_email = 'Formato email inválido en el %s (ej. zbxe@zeroboard.com)';
+    $lang->filter->invalid_email = 'Formato email inválido en el %s (ej. developers@xpressengine.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "Formato inválido en el %s.\\nSólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto";
-    $lang->filter->invalid_homepage = 'Formato url inválido en el %s (ej: http://www.zeroboard.com)';
+    $lang->filter->invalid_homepage = 'Formato url inválido en el %s (ej: http://xpressengine.com/)';
     $lang->filter->invalid_korean = 'Sólo puede introducir los caracteres coreanos en el %s';
     $lang->filter->invalid_korean_number = 'Sólo puede introducir los caracteres coreanos o números en el %s';
     $lang->filter->invalid_alpha = 'Sólo puede introducir los alfabetos en el %s';

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class DB
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  base class of db* classes
      * @version 0.1
      *

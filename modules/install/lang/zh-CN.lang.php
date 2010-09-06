@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/install/lang/zh-CN.lang.php
-     * @author zero (zero@nzeo.com)  翻译：guny(space.china@gmail.com)
+     * @author NHN (developers@xpressengine.com)  翻译：guny(space.china@gmail.com)
      * @brief  安装模块简体中文语言包
      **/
 

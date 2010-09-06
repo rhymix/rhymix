@@ -1,7 +1,7 @@
 <?php
     /**
      * @class TemplateHandler
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief template compiler 
      * @version 0.1
      * @remarks It compiles template file by using regular expression into php 

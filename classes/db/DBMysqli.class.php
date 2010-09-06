@@ -1,7 +1,7 @@
 <?php
     /**
      * @class DBMysqli
-     * @author sol (ngleader@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief MySQL DBMS를 mysqli_* 로 이용하기 위한 class
      * @version 0.1
      *

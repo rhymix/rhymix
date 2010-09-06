@@ -1,19 +1,5 @@
 @charset "utf-8";
-/*
-NHN UIT Lab. WebStandardization Team (http://html.nhndesign.com/)
-Jeong, Chan Myeong 070601~070630
-*/
-
-/* 
-Used Hack 
-
-IE6 & Below 
-{ property:value; _property:value;}
-
-IE7 Only
-*:first-child+html #selector
-
-*/
+/* NHN (developers@xpressengine.com) */
 
 /* default.css - Type Selector Definition */
 body { background:#4d4d4d url(../images/installBg.gif) repeat-x;}

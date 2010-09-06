@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   zh-TW.lang.php
-     * @author sol (sol@ngleader.com) 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  自動安裝(autoinstall)模組正體中文語言
      **/
 

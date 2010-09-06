@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  rssAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  rss module의 admin controller class
      *
      * RSS 2.0형식으로 문서 출력

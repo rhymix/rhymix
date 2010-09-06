@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  rssView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  rss module의 view class
      *
      * Feed 문서 출력

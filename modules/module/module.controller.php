@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  moduleController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  module 모듈의 controller class
      **/
 

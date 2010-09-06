@@ -3,7 +3,7 @@
 
     /**
      * @file captcha.addon.php
-     * @author zero (zero@nzeo.com), sol(ngleader@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 특정 action을 실행할때 captcha를 띄우도록 함
 	 *        영어 알파벳을 입력, 음성기능 추가
      **/

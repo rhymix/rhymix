@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   common/lang/en.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  English Language Pack (Only basic words are included here)
      **/
 
@@ -309,9 +309,9 @@
     $lang->filter->isnull = 'Please input a value for %s';
     $lang->filter->outofrange = 'Please align the text length of %s';
     $lang->filter->equalto = "The value of %s is invalid";
-    $lang->filter->invalid_email = "The format of %s is invalid. ex) zbxe@zeroboard.com";
+    $lang->filter->invalid_email = "The format of %s is invalid. ex) developers@xpressengine.com";
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "The format of %s is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet";
-    $lang->filter->invalid_homepage = "The format of %s is invalid. ex) http://www.zeroboard.com";
+    $lang->filter->invalid_homepage = "The format of %s is invalid. ex) http://xpressengine.com/";
     $lang->filter->invalid_korean = "The format of %s is invalid. Please input Korean only";
     $lang->filter->invalid_korean_number = "The format of %s is invalid. Please input Korean or numbers";
     $lang->filter->invalid_alpha = "The format of %s is invalid. Please input alphabets only";

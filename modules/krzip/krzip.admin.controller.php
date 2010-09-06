@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  krzipAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  krzip 모듈의 admin controller class
      **/
 

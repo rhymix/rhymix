@@ -1,6 +1,6 @@
 /**
  * @brief XE Calendar
- * @author gony (http://mygony.com)
+ * @author NHN (developers@xpressengine.com)
  *
  * 사용법
  * 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/layout/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com> 翻译：guny
+     * @author NHN (developers@xpressengine.com) 翻译：guny
      * @brief  布局(layout) 模块简体中文语言包
      **/
 

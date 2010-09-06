@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  Handler
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  an abstract class of (*)Handler 
      **/
 

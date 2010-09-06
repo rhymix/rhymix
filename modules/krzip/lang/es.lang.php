@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo  modules/krzip/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor NHN (developers@xpressengine.com)
      * @sumario  Paquete del idioma espanol (Solo los contenidos basicos)
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class CacheHandler
-     * @author sol (sol@nhn.com)
+     * @author NHN (developer@xpressengine.com)
      * @brief Cache Handler
      * @version 0.1
 	 *

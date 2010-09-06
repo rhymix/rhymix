@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/point/lang/ko.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  Default language pack of point module
      **/
 

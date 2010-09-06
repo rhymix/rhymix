@@ -1,7 +1,7 @@
 <?php
     /**
      * @class mcontent
-     * @author sol (sol@ngleader.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief mcontent를 출력하는 위젯
      * @version 0.1
      **/

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   fr.lang.php
-     * @author zero (zero@nzeo.com) Traduit par PierreDuvent (PierreDuvent@gmail.com)
+     * @author NHN (developers@xpressengine.com) Traduit par PierreDuvent (PierreDuvent@gmail.com)
      * @brief  Paque du langage en français pour le module de Page Extérieure
      **/
 

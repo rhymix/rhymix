@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/trackback/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  引用(trackback)模組正體中文語言
      **/
     $lang->cmd_toggle_checked_trackback = '反選';
