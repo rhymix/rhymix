@@ -173,11 +173,12 @@
         function procModule() {
             // If error occurred while preparation, return a message instance
             if($this->error) {
-                $oMessageView = &getView('message');
-                $oMessageView->setError(-1);
-                $oMessageView->setMessage($this->error);
-                $oMessageView->dispMessage();
-                return $oMessageView;
+				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+                $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                $oMessageObject->setError(-1);
+                $oMessageObject->setMessage($this->error);
+                $oMessageObject->dispMessage();
+                return $oMessageObject;
             }
 
             $oModuleModel = &getModel('module');
@@ -336,19 +337,20 @@
                 // If error occurred, handle it
                 if($this->error) {
                     // display content with message module instance 
-                    $oMessageView = &getView('message');
-                    $oMessageView->setError(-1);
-                    $oMessageView->setMessage($this->error);
-                    $oMessageView->dispMessage();
+					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+					$oMessageObject->setError(-1);
+					$oMessageObject->setMessage($this->error);
+					$oMessageObject->dispMessage();
 
                     // If module was called normally, change the templates of the module into ones of the message view module
                     if($oModule) {
-                        $oModule->setTemplatePath($oMessageView->getTemplatePath());
-                        $oModule->setTemplateFile($oMessageView->getTemplateFile());
+                        $oModule->setTemplatePath($oMessageObject->getTemplatePath());
+                        $oModule->setTemplateFile($oMessageObject->getTemplateFile());
 
                     // Otherwise, set message instance as the target module
                     } else {
-                        $oModule = $oMessageView;
+                        $oModule = $oMessageObject;
                     }
                 }
 
