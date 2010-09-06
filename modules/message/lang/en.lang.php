@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/message/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  English language pack (basic)
      **/
 

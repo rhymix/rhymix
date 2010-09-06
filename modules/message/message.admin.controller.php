@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  messageAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  message module의 admin controller class
      **/
 

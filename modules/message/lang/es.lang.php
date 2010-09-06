@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/message/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor zero (developers@xpressengine.com)
      * @sumario Paquete del idioma español (básico)
  **/
 
