@@ -1,6 +1,6 @@
 /**
  * @file   admin.js
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief  admin 모듈의 javascript
  **/
 
