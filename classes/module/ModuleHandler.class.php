@@ -1,7 +1,7 @@
 <?php
     /**
     * @class ModuleHandler
-    * @author NHN (developers@xpressengine.com)
+    * @author zero (zero@nzeo.com)
     * @brief Handling modules
     *
     * @remarks This class is to excute actions of modules.
