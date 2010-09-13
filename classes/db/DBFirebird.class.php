@@ -924,6 +924,7 @@
             $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
                 $result = $this->_query($count_query);
                 $count_output = $this->_fetch($result);
                 if(!$this->transaction_started) @ibase_commit($this->fd);

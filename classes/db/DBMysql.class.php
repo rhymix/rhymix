@@ -609,6 +609,8 @@
                 $count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
                 if (count($output->groups))
                     $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
+
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
                 $result = $this->_query($count_query);
                 $count_output = $this->_fetch($result);
                 $total_count = (int)$count_output->count;
