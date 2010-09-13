@@ -1,0 +1,14 @@
+<query id="getModuleExtend" action="select">
+    <tables>
+        <table name="module_extend" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="parent_module" var="parent_module" />
+        <condition operation="equal" column="extend_module" var="extend_module" pipe="and" />
+        <condition operation="equal" column="type" var="type" pipe="and" />
+        <condition operation="equal" column="kind" var="kind" pipe="and" />
+    </conditions>
+</query>
