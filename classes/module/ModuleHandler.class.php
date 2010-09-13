@@ -71,6 +71,7 @@
          **/
         function init() {
             $oModuleModel = &getModel('module');
+			$oModuleModel->loadModuleExtends();
 
             $site_module_info = Context::get('site_module_info');
 
@@ -425,12 +426,22 @@
          * @remarks if there exists a module instance created before, returns it.
          **/
         function &getModuleInstance($module, $type = 'view', $kind = '') {
-            $class_path = ModuleHandler::getModulePath($module);
-            if(!is_dir(_XE_PATH_.$class_path)) return NULL;
-
+			$parent_module = $module;
             if(__DEBUG__==3) $start_time = getMicroTime();
 
             if($kind != 'admin') $kind = 'svc';
+
+			if(is_array($GLOBALS['__MODULE_EXTEND__'])) {
+				$extend_module = $GLOBALS['__MODULE_EXTEND__'][$module.'.'.($kind=='svc'?'':'admin').'.'.$type];
+				if($extend_module && file_exists(FileHandler::getRealPath(ModuleHandler::getModulePath($extend_module)))) {
+					$module = $extend_module;
+				}else{
+					unset($extend_module);
+				}
+			}
+
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!is_dir(_XE_PATH_.$class_path)) return NULL;
 
             // if there is no instance of the module in global variable, create a new one 
             if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
@@ -501,6 +512,9 @@
 
                 // Load language files for the class
                 Context::loadLang($class_path.'lang');
+				if($extend_module) {
+					Context::loadLang(ModuleHandler::getModulePath($parent_module).'lang');
+				}
 
                 // Set variables to the instance
                 $oModule->setModule($module);
