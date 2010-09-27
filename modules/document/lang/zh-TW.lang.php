@@ -2,7 +2,7 @@
     /**
      * @file   modules/document/lang/zh-TW.lang.php
      * @author NHN (developers@xpressengine.com) 翻譯：royallin
-     * @brief  文章(document)模組正體中文語言
+     * @brief  主題(document)模組正體中文語言
      **/
 
     $lang->document_list = '主題列表';
@@ -26,7 +26,7 @@
     $lang->about_category_title = '請輸入分類名稱。';
     $lang->about_expand = '選擇此項將維持展開狀態。';
     $lang->about_category_group_srls = '被選擇的群組才可以檢視此分類。';
-    $lang->about_category_color = '設定分類顏色。例)紅色為#ff0000';
+    $lang->about_category_color = '設定分類顏色。例)紅色為 #ff0000';
 
     $lang->cmd_search_next = '繼續搜尋';
 
@@ -39,7 +39,7 @@
     $lang->msg_cart_is_null = '請選擇要刪除的文章。';
     $lang->msg_category_not_moved = '無法移動！';
     $lang->msg_is_secret = '秘密！';
-    $lang->msg_checked_document_is_deleted = '刪除了%d個文章。';
+    $lang->msg_checked_document_is_deleted = '刪除%d個文章。';
 
     $lang->move_target_module = '移到';
 
@@ -62,7 +62,7 @@
         'trackback_count ' => '引用數(以上)',
         'uploaded_count ' => '上傳檔案數(以上)',
         'regdate' => '登錄日期',
-        'last_update' => '最近更新日期',
+        'last_update' => '最近更新',
         'ipaddress' => 'IP位址',
     );
 
@@ -92,9 +92,9 @@
         'trash_user_name' => '移除姓名',
         'trash_nick_name' => '移除暱稱',
         'trash_date' => '刪除日期',
-        'trash_ipaddress' => '移除IP位址',
+        'trash_ipaddress' => '移除 IP 位址',
     );
 
     $lang->success_trashed = "成功地移到垃圾桶";
-    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
+    $lang->msg_not_selected_document = '尚未選擇主題';
 ?>

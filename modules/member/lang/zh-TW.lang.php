@@ -12,7 +12,7 @@
     $lang->default_group_2 = "正會員";
     $lang->admin_group = "管理組";
     $lang->keep_signed = '自動登入';
-    $lang->remember_user_id = '儲存ID';
+    $lang->remember_user_id = '儲存 ID';
     $lang->already_logged = '您已經登入！';
     $lang->denied_user_id = '被禁止的帳號。';
     $lang->null_user_id = '請輸入帳號。';
@@ -20,7 +20,7 @@
     $lang->invalid_authorization = '還沒有認證！';
     $lang->invalid_user_id= '該帳號不存在，請檢查您的輸入是否有誤！';
     $lang->invalid_password = '您的密碼不正確！';
-	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
+	$lang->invalid_new_password = '與舊密碼相同';
     $lang->allow_mailing = '接收郵件';
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理權限';
@@ -42,7 +42,7 @@
     $lang->group_image_mark_max_height = '高度限制';
     $lang->group_image_mark_order = '群組圖示順序';
     $lang->signature_max_height = '簽名檔高度限制';
-    $lang->enable_openid = '支援OpenID';
+    $lang->enable_openid = '支援 OpenID';
     $lang->enable_join = '允許會員註冊';
     $lang->enable_confirm = '使用郵件認證';
     $lang->enable_ssl = '使用 SSL 功能';
@@ -206,7 +206,7 @@
     $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 
     $lang->about_member = "可以新增/修改/刪除會員及管理群組或註冊表單的會員管理模組。\n此模組不僅可以建立預設群組以外的其他群組來管理會員，並且通過註冊表單的管理獲得會員基本資料以外的延伸資料。";
-    $lang->about_ssl_port = '請輸入想要使用預設 SSL 埠口以外的埠口。';
+    $lang->about_ssl_port = '請輸入想要使用 SSL 預設埠口以外的埠口。';
     $lang->add_openid = '新增 OpenID';
 
 	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
@@ -216,20 +216,20 @@
 	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
 	/*
 	$lang->find_account_question_items = array(''
-										,'다른 이메일 주소는?'
-										,'나의 보물 1호는?'
-										,'나의 출신 초등학교는?'
-										,'나의 출신 고향은?'
-										,'나의 이상형은?'
-										,'어머니 성함은?'
-										,'아버지 성함은?'
-										,'가장 좋아하는 색깔은?'
-										,'가장 좋아하는 음식은?'
+										,'其他電子郵件?'
+										,'我最愛的是?'
+										,'我讀的國小是?'
+										,'我的出生地?'
+										,'我的理想?'
+										,'母親的姓名?'
+										,'父親的姓名?'
+										,'最喜歡的顏色?'
+										,'最愛的食物是?'
 										);
 */
-	$lang->temp_password = '임시 비밀번호';
-	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
-	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+	$lang->temp_password = '臨時密碼';
+	$lang->cmd_get_temp_password = '寄送臨時密碼';
+	$lang->about_get_temp_password = '請再登入後變更密碼。';
 	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
 	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 ?>
