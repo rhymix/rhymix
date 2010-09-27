@@ -1,6 +1,7 @@
 <filter name="toggle_activate_addon" module="addon" act="procAddonAdminToggleActivate">
     <form>
         <node target="addon" required="true" />
+        <node target="type" required="true" />
     </form>
     <response callback_func="reloadDocument">
         <tag name="error" />
