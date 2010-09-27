@@ -96,4 +96,5 @@
     );
 
     $lang->success_trashed = "成功地移到垃圾桶";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

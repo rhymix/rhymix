@@ -98,4 +98,5 @@
 	);
 
     $lang->success_trashed = "Đã chuyển tới thùng rác thành công.";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>
