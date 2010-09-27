@@ -34,9 +34,6 @@
 			// include 태그의 변환
 			$buff = preg_replace_callback('!<include ([^>]+)>!is', array($this, '_replaceInclude'), $buff);
 
-			// PHP 변수형의 변환 ($문자등을 공유 context로 변환)
-			$buff = $this->_replaceVarInPHP($buff);
-			$buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_replaceVar'), $buff);
 
 			// unload/ load 태그의 변환
 			$buff = preg_replace_callback('!<(unload|load) ([^>]+)>!is', array($this, '_replaceLoad'), $buff);
@@ -209,74 +206,6 @@
 				}
 			}
 			return $buff;
-		}
-
-		/**
-		 * @brief $문자 의 PHP 변수 변환
-		 **/
-		function _replaceVarInPHP($buff) {
-			$head = $tail = '';
-			while(false !== $pos = strpos($buff, '<?php'))
-			{
-				$head .= substr($buff,0,$pos);
-				$buff = substr($buff,$pos);
-				$pos = strpos($buff,'?>');
-				$body = substr($buff,0,$pos+2);
-				$head .= preg_replace_callback('/(.?)\$([a-z0-9\_\-\[\]\'\"]+)/is',array($this, '_replaceVarString'), $body);
-
-				$buff = substr($buff,$pos+2);
-			}
-			return $head.$buff;
-		}
-
-
-		/**
-		 * @brief $문자 의 PHP 변수 변환 후 어긋나는 변수 정리
-		 **/
-		function _replaceVar($matches) {
-			$str = trim(substr($matches[0],1,-1));
-			if(!$str) return $matches[0];
-			if(!in_array(substr($str,0,1),array('(','$','\'','"'))) 
-			{
-				if(preg_match('/^([^\( \.]+)(\(| \.)/i',$str,$m)) 
-				{
-					$func = trim($m[1]);
-					if(strpos($func,'::')===false) {
-						if(!function_exists($func)) 
-						{
-							return $matches[0];
-						}
-					} 
-					else 
-					{
-						list($class, $method) = explode('::',$func);
-						if(!class_exists($class)  || !in_array($method, get_class_methods($class))) 
-						{
-							list($class, $method) = explode('::',strtolower($func));
-							if(!class_exists($class)  || !in_array($method, get_class_methods($class))) 
-							{
-								return $matches[0];
-							}
-						}
-					}
-				} 
-				else 
-				{
-					if(!defined($str)) return $matches[0];
-				}
-			}
-			$str = preg_replace_callback('/(.?)\$([a-z0-9\_\-\[\]\'\"]+)/is',array($this, '_replaceVarString'), $str);
-			return '<?php echo( '.$str. ');?>';
-		}
-
-		/**
-		 * @brief 변수명 변경
-		 **/
-		function _replaceVarString($matches)
-		{
-			if($matches[1]==':') return $matches[0];
-			if(substr($matches[2],0,1)=='_') return $matches[0];
-			return $matches[1].'$__Context->'.$matches[2];
 		}
 
 		/**
