@@ -212,7 +212,7 @@
             $type = $this->column_type[$type];
             if(strtoupper($type)=='INTEGER') $size = '';
 
-            $query = sprintf("alter table %s%s add %s ", $this->prefix, $table_name, $column_name);
+            $query = sprintf("alter table `%s%s` add `%s` ", $this->prefix, $table_name, $column_name);
             if($size) $query .= sprintf(" %s(%s) ", $type, $size);
             else $query .= sprintf(" %s ", $type);
             if($default) $query .= sprintf(" default '%s' ", $default);
@@ -225,7 +225,7 @@
          * @brief 특정 테이블에 특정 column 제거
          **/
         function dropColumn($table_name, $column_name) {
-            $query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
+            $query = sprintf("alter table `%s%s` drop `%s` ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
         }
 
@@ -233,7 +233,7 @@
          * @brief 특정 테이블의 column의 정보를 return
          **/
         function isColumnExists($table_name, $column_name) {
-            $query = sprintf("show fields from %s%s", $this->prefix, $table_name);
+            $query = sprintf("show fields from `%s%s`", $this->prefix, $table_name);
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
@@ -255,7 +255,7 @@
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
-            $query = sprintf("alter table %s%s add %s index %s (%s);", $this->prefix, $table_name, $is_unique?'unique':'', $index_name, implode(',',$target_columns));
+            $query = sprintf("alter table `%s%s` add %s index `%s` (%s);", $this->prefix, $table_name, $is_unique?'unique':'', $index_name, implode(',',$target_columns));
             $this->_query($query);
         }
 
@@ -263,7 +263,7 @@
          * @brief 특정 테이블의 특정 인덱스 삭제
          **/
         function dropIndex($table_name, $index_name, $is_unique = false) {
-            $query = sprintf("alter table %s%s drop index %s;", $this->prefix, $table_name, $index_name);
+            $query = sprintf("alter table `%s%s` drop index `%s`", $this->prefix, $table_name, $index_name);
             $this->_query($query);
         }
 
@@ -273,7 +273,7 @@
          **/
         function isIndexExists($table_name, $index_name) {
             //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
-            $query = sprintf("show indexes from %s%s", $this->prefix, $table_name);
+            $query = sprintf("show indexes from `%s%s`", $this->prefix, $table_name);
             $result = $this->_query($query);
             if($this->isError()) return;
             $output = $this->_fetch($result);
