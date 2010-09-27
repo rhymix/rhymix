@@ -531,6 +531,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Habilitar el optimizador';
     $lang->about_optimizer = 'Si optimizador está habilitado, los usuarios pueden acceder rápidamente a este sitio, ya que hay múltiples CSS / JS archivos son comprimidos juntos y antes de la transmisión. <br /> No obstante, esta optimización podría ser problemáticas de acuerdo con CSS o JS. Si inhabilitarlo, que funciona correctamente a pesar de que sería más lento el trabajo.';
     $lang->use_rewrite = 'Usar rewrite mod';
+    $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123";
     $lang->time_zone = 'La Hora por Zona';
     $lang->about_time_zone = "Si la hora del servidor y la hora de su ubicación es diferente, Usted puede elegir la hora por zona para corregir";

@@ -223,6 +223,7 @@ EndOfLicense;
     $lang->use_optimizer = '使用Optimizer';
     $lang->about_optimizer = '使用Optimizer可以对大部分的CSS/ JS文件进行整合/压缩传送使之加快网站访问速度。<br />只是有时会发生小小的问题。这时候请暂时不要使用Optimizer。';
     $lang->use_rewrite = '使用rewrite模块';
+    $lang->use_sso = 'SSO';
     $lang->about_rewrite = '如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。';
     $lang->time_zone = '时区';
     $lang->about_time_zone = '服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。';

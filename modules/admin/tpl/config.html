@@ -32,6 +32,13 @@
         </td>
     </tr>
     <tr>
+        <th><div>{$lang->use_sso}</div></th>
+        <td>
+            <input type="checkbox" name="use_sso" value="Y"  <!--@if($use_sso=='Y')-->checked="checked"<!--@end--> />
+            <p>{$lang->about_rewrite}</p>
+        </td>
+    </tr>
+    <tr>
         <th><div>{$lang->default_url}</div></th>
         <td>
             <input type="text" name="default_url" value="{$default_url}" class="inputTypeText w300"/>

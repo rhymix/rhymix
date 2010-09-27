@@ -48,6 +48,9 @@
             $use_rewrite = Context::get('use_rewrite');
             if($use_rewrite!='Y') $use_rewrite = 'N';
 
+            $use_sso = Context::get('use_sso');
+            if($use_sso !='Y') $use_sso = 'N';
+
             $use_optimizer = Context::get('use_optimizer');
             if($use_optimizer!='Y') $use_optimizer = 'N';
 
@@ -75,6 +78,7 @@
             $db_info->qmail_compatibility = $qmail_compatibility;
             $db_info->use_db_session = $use_db_session;
             $db_info->use_rewrite = $use_rewrite;
+            $db_info->use_sso = $use_sso;
             $db_info->use_optimizer = $use_optimizer;
             $db_info->use_ssl = $use_ssl;
 			$db_info->use_mobile_view = $use_mobile_view;
