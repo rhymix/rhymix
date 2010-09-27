@@ -133,6 +133,15 @@ function completeFindMemberAccount(ret_obj, response_tags) {
     alert(ret_obj['message']);
 }
 
+/* 임시 비밀번호 생성 */
+function completeFindMemberAccountByQuestion(ret_obj, response_tags) {
+    if(ret_obj['error'] != 0){
+		alert(ret_obj['message']);
+	}else{
+		location.href = current_url.setQuery('act','dispMemberGetTempPassword').setQuery('user_id',ret_obj['user_id']);
+	}
+}
+
 /* 저장글 삭제 */
 function doDeleteSavedDocument(document_srl, confirm_message) {
     if(!confirm(confirm_message)) return false;

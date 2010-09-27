@@ -15,6 +15,7 @@
         <action name="dispMemberScrappedDocument" type="view" standalone="true" />
         <action name="dispMemberSavedDocument" type="view" standalone="true" />
         <action name="dispMemberFindAccount" type="view" standalone="true" />
+        <action name="dispMemberGetTempPassword" type="view" standalone="true" />
 		<action name="dispMemberResendAuthMail" type="view" standalone="true" />
         <action name="dispSavedDocumentList" type="view" standalone="true" />
 
@@ -61,6 +62,7 @@
         <action name="procMemberDeleteSavedDocument" type="controller" standalone="true" />
 
         <action name="procMemberFindAccount" type="controller" standalone="true" />
+        <action name="procMemberFindAccountByQuestion" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" standalone="true" />

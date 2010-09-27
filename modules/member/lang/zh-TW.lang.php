@@ -20,6 +20,7 @@
     $lang->invalid_authorization = '還沒有認證！';
     $lang->invalid_user_id= '該帳號不存在，請檢查您的輸入是否有誤！';
     $lang->invalid_password = '您的密碼不正確！';
+	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
     $lang->allow_mailing = '接收郵件';
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理權限';
@@ -210,4 +211,25 @@
 
 	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
     $lang->no_article = '主題不存在';
+
+	$lang->find_account_question = '비밀번호 찾기 질문/답변';
+	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+	/*
+	$lang->find_account_question_items = array(''
+										,'다른 이메일 주소는?'
+										,'나의 보물 1호는?'
+										,'나의 출신 초등학교는?'
+										,'나의 출신 고향은?'
+										,'나의 이상형은?'
+										,'어머니 성함은?'
+										,'아버지 성함은?'
+										,'가장 좋아하는 색깔은?'
+										,'가장 좋아하는 음식은?'
+										);
+*/
+	$lang->temp_password = '임시 비밀번호';
+	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
+	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
+	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 ?>

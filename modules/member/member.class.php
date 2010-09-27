@@ -24,6 +24,7 @@
                 Context::addSSLAction('procMemberModifyPassword');
                 Context::addSSLAction('procMemberInsert');
                 Context::addSSLAction('procMemberModifyInfo');
+                Context::addSSLAction('procMemberFindAccount');
             }
         }
 
@@ -145,6 +146,13 @@
             // image_mark 추가 (2009. 02. 14)
             if(!$oDB->isColumnExists("member_group", "image_mark")) return true;
 
+            // password 유효기간을 위한 추가
+            if(!$oDB->isColumnExists("member", "change_password_date")) return true;
+
+			// 비밀번호 찾기 질문/답변을 위한 추가
+			if(!$oDB->isColumnExists("member", "find_account_question")) return true;
+			if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
+
             return false;
         }
 
@@ -183,6 +191,20 @@
             if(!$oDB->isColumnExists("member_group", "image_mark")) {
                 $oDB->addColumn("member_group", "image_mark", "text");
             }
+
+            // password 유효기간을 위한 추가
+            if(!$oDB->isColumnExists("member", "change_password_date")) {
+                $oDB->addColumn("member", "change_password_date", "date");
+				executeQuery('member.updateAllChangePasswordDate');
+            }
+
+			// 비밀번호 찾기 질문/답변을 위한 추가
+			if(!$oDB->isColumnExists("member", "find_account_question")) {
+				$oDB->addColumn("member", "find_account_question", "number", 11);
+			}
+			if(!$oDB->isColumnExists("member", "find_account_answer")) {
+				$oDB->addColumn("member", "find_account_answer", "varchar", 250);
+			}
 
             return new Object(0, 'success_updated');
         }

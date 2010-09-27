@@ -14,7 +14,7 @@
 
     <!--@if(!$is_logged && $member_config->agreement)-->
     <div class="agreementBox">
-        {nl2br($member_config->agreement)}
+        {$member_config->agreement}
     </div>
     <div class="agreementButton">
         <input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
@@ -56,6 +56,20 @@
             <input type="text" name="email_address" value="" class="inputTypeText"/><p>{$lang->about_email_address}</p>
         </td>
     </tr>
+	<!--@if(count($lang->find_account_question_items)>1)-->
+    <tr>
+        <th><div>{$lang->find_account_question} <span class="require">*</span></div></th>
+        <td>
+			<select name="find_account_question">
+			<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+				<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
+			<!--@end-->
+			</select>
+            <br />
+			<input type="text" name="find_account_answer" value="" class="inputTypeText w300"/>
+        </td>
+    </tr>
+	<!--@end-->
     <tr>
         <th><div>{$lang->homepage}</div></th>
         <td>

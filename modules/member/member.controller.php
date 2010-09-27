@@ -36,6 +36,18 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
+			// 설정된 change_password_date 확인
+			$limit_date = $config->change_password_date;
+
+			// change_password_date가 설정되어 있으면 확인
+			if($limit_date > 0) {
+				$oMemberModel = &getModel('member');
+				$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+				if($member_info->change_password_date < date('YmdHis', strtotime('-'.$limit_date.' day')) ){
+					$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
+				}
+			}
+
             $redirect_url = Context::get('redirect_url'); 
 			if($output->toBool() && Context::getRequestMethod() == "POST" && $redirect_url)
 			{
@@ -526,7 +538,7 @@
             if($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing');
+            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
@@ -585,7 +597,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             // 필수 정보들을 미리 추출
-            $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing');
+            $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing','find_account_question','find_account_answer');
 
             // 로그인 정보
             $logged_info = Context::get('logged_info');
@@ -653,6 +665,9 @@
 
             // 현재 비밀번호가 맞는지 확인
             if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
+
+            // 이전 비밀번호와 같은지 확인
+			if($current_password == $password) return new Object(-1, 'invalid_new_password');
 
             // member_srl의 값에 따라 insert/update
             $args->member_srl = $member_srl;
@@ -1005,6 +1020,45 @@
             return new Object(0,$msg);
         }
 
+
+        /**
+         * @brief 질문/답변을 통한 임시 비밀번호 생성
+         **/
+        function procMemberFindAccountByQuestion() {
+            $email_address = Context::get('email_address');
+            $user_id = Context::get('user_id');
+			$find_account_question = trim(Context::get('find_account_question'));
+			$find_account_answer = trim(Context::get('find_account_answer'));
+
+            if(!$user_id || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
+
+            $oMemberModel = &getModel('member');
+            $oModuleModel = &getModel('module');
+
+            // 메일 주소에 해당하는 회원이 있는지 검사
+            $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+            if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
+
+            // 회원의 정보를 가져옴
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+
+			// 질문 응답이 없으면 
+			if(!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
+
+			if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
+
+			// 임시비밀번호로 변경 및 비밀번호 변경시간을 1로 설정
+			$args->member_srl = $member_srl;
+			list($usec, $sec) = explode(" ", microtime()); 
+			$args->temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,20);
+			$args->change_password_date = '1';
+			$this->updateMemberPassword($args);
+
+			$_SESSION['xe_temp_password_'.$user_id] = $args->temp_password;
+
+			$this->add('user_id',$user_id);
+        }
+
         /**
          * @brief 아이디/비밀번호 찾기 기능 실행
          * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
@@ -1333,12 +1387,36 @@
                 return;
             }
 
+			$do_auto_login = false;
+
             // 정보를 바탕으로 키값 비교
             $key = md5($user_id.$password.$_SERVER['REMOTE_ADDR']);
 
             if($key == $args->autologin_key) {
-                $output = $this->doLogin($user_id);
-            } else {
+
+				// 설정된 change_password_date 확인
+				$oModuleModel = &getModel('module');
+	            $member_config = $oModuleModel->getModuleConfig('member');
+				$limit_date = $member_config->change_password_date;
+
+				// change_password_date가 설정되어 있으면 확인
+				if($limit_date > 0) {
+					$oMemberModel = &getModel('member');
+					$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+
+					if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
+						$do_auto_login = true;
+					}
+
+				} else {
+					$do_auto_login = true;
+				}
+            }
+			
+			
+			if($do_auto_login) {
+				$output = $this->doLogin($user_id);
+			} else {
                 executeQuery('member.deleteAutologin', $args);
                 setCookie('xeak',null,time()+60*60*24*365, '/');
             }
@@ -1752,6 +1830,7 @@
          * @brief member 비밀번호 수정
          **/
         function updateMemberPassword($args) {
+			$output = executeQuery('member.updateChangePasswordDate', $args);
             $args->password = md5($args->password);
             return executeQuery('member.updateMemberPassword', $args);
         }

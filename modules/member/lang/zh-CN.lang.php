@@ -20,6 +20,7 @@
     $lang->invalid_authorization = '还没有认证！';
     $lang->invalid_user_id= '该用户名不存在，请检查您的输入是否有误！';
     $lang->invalid_password = '您的密码不正确！';
+	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
     $lang->allow_mailing = '接收邮件';
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理权限';
@@ -208,4 +209,25 @@
     $lang->about_member = "可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。\n此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。";
 
     $lang->about_resend_auth_mail = '没有收到认证邮件时，可以在此重新发送认证邮件。';
+
+	$lang->find_account_question = '비밀번호 찾기 질문/답변';
+	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+	/*
+	$lang->find_account_question_items = array(''
+										,'다른 이메일 주소는?'
+										,'나의 보물 1호는?'
+										,'나의 출신 초등학교는?'
+										,'나의 출신 고향은?'
+										,'나의 이상형은?'
+										,'어머니 성함은?'
+										,'아버지 성함은?'
+										,'가장 좋아하는 색깔은?'
+										,'가장 좋아하는 음식은?'
+										);
+*/
+	$lang->temp_password = '임시 비밀번호';
+	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
+	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
+	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 ?>

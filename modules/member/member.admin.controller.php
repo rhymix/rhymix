@@ -95,7 +95,7 @@
                 'image_name', 'image_name_max_width', 'image_name_max_height',
                 'image_mark', 'image_mark_max_width', 'image_mark_max_height',
                 'group_image_mark', 'group_image_mark_max_width', 'group_image_mark_max_height',
-                'signature','signature_max_height'
+                'signature','signature_max_height','change_password_date'
             );
 
             if(!$args->skin) $args->skin = "default";
@@ -111,6 +111,7 @@
 			if($args->signature!='Y') $args->signature = 'N';
             if(!trim(strip_tags($args->agreement))) $args->agreement = null;
             $args->limit_day = (int)$args->limit_day;
+			if(!$args->change_password_date) $args->change_password_date = 0; 
 
             $oMemberController = &getController('member');
             $output = $oMemberController->setMemberConfig($args);

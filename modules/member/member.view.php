@@ -329,6 +329,23 @@
         }
 
         /**
+         * @brief  임시 비밀번호 발급
+         **/
+        function dispMemberGetTempPassword() {
+            if(Context::get('is_logged')) return $this->stop('already_logged');
+
+			$user_id = Context::get('user_id');
+			$temp_password = $_SESSION['xe_temp_password_'.$user_id];
+			unset($_SESSION['xe_temp_password_'.$user_id]);
+
+			if(!$user_id||!$temp_password) return new Object(-1,'msg_invaild_request');
+
+			Context::set('temp_password', $temp_password);
+
+            $this->setTemplateFile('find_temp_password');
+        }
+
+        /**
          * @brief  인증 메일 재발송 페이지
          **/
         function dispMemberResendAuthMail() {

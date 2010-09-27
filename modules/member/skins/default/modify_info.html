@@ -51,6 +51,19 @@
         <th><div>{$lang->email_address} <span class="require">*</span></div></th>
         <td><input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" /><p>{$lang->about_email_address}</p></td>
     </tr>
+	<!--@if($member_info->find_account_question)-->
+	<tr>
+        <th><div>{$lang->find_account_question} <span class="require">*</span></div></th>
+        <td>
+			<select name="find_account_question">
+			<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+				<option value="{$i}" <!--@if($member_info->find_account_question==$i)-->selected="selected" <!--@end-->>{$lang->find_account_question_items[$i]}</option>
+			<!--@end-->
+			</select>
+            <br /><input type="text" name="find_account_answer" value="{$member_info->find_account_answer}" class="inputTypeText w300"/>
+        </td>
+    </tr>
+	<!--@end-->
 
     <!--@if($member_config->profile_image == 'Y')-->
     <tr>
