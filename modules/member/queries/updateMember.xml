@@ -22,4 +22,7 @@
         <column name="description" var="description" />
         <column name="extra_vars" var="extra_vars" />
     </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+    </conditions>
 </query>
