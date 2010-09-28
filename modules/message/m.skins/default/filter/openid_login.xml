@@ -3,8 +3,5 @@
         <node target="openid" required="true" />
     </form>
     <parameter />
-    <response callback_func="completeMessageOpenIDLogin">
-        <tag name="error" />
-        <tag name="message" />
-    </response>
+    <response />
 </filter>
