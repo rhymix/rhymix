@@ -2,12 +2,19 @@
     /*********************************************************************
      *
      *    PHP FTP Client Class By TOMO ( groove@spencernetwork.org )
+	 *    Modified By NHN ( developers@xpressengine.com )
      *
-     *  - Version 0.12 (2002/01/11)
+     *  - Version 0.13 (2010/09/29)
+	 *
      *  - This script is free but without any warranty.
      *  - You can freely copy, use, modify or redistribute this script
      *    for any purpose.
      *  - But please do not erase this information!!.
+	 *
+	 *  Change log
+	 *  - Version 0.13 (2010/09/29)
+	 *    . use preg functions instead of ereg functions
+	 *  - Version 0.12 (2002/01/11)
      *
      ********************************************************************/
 
@@ -104,7 +111,7 @@
                 return FALSE;
             }
 
-            return ereg_replace("^[0-9]{3} \"(.+)\" .+\r\n", "\\1", $this->ftp_resp);
+            return preg_replace("@^[0-9]{3} \"(.+)\" .+\r\n@", "\\1", $this->ftp_resp);
         }
 
         function ftp_size($pathname)
@@ -115,7 +122,7 @@
                 return -1;
             }
 
-            return ereg_replace("^[0-9]{3} ([0-9]+)\r\n", "\\1", $this->ftp_resp);
+            return preg_replace("@^[0-9]{3} ([0-9]+)\r\n@", "\\1", $this->ftp_resp);
         }
 
         function ftp_mdtm($pathname)
@@ -125,7 +132,7 @@
                 $this->ftp_debug("Error : MDTM command failed\n");
                 return -1;
             }
-            $mdtm = ereg_replace("^[0-9]{3} ([0-9]+)\r\n", "\\1", $this->ftp_resp);
+            $mdtm = preg_replace("@^[0-9]{3} ([0-9]+)\r\n@", "\\1", $this->ftp_resp);
             $date = sscanf($mdtm, "%4d%2d%2d%2d%2d%2d");
             $timestamp = mktime($date[3], $date[4], $date[5], $date[1], $date[2], $date[0]);
 
@@ -251,7 +258,7 @@
             $this->ftp_debug("Connected to remote host\n");
 
             while (!feof($sock_data)) {
-                $list[] = ereg_replace("[\r\n]", "", fgets($sock_data, 512));
+                $list[] = preg_replace("@[\r\n]@", "", fgets($sock_data, 512));
             }
             $this->ftp_close_data_connection($sock_data);
             $this->ftp_debug(implode("\n", $list));
@@ -282,7 +289,7 @@
             $this->ftp_debug("Connected to remote host\n");
 
             while (!feof($sock_data)) {
-                $list[] = ereg_replace("[\r\n]", "", fgets($sock_data, 512));
+                $list[] = preg_replace("@[\r\n]@", "", fgets($sock_data, 512));
             }
             $this->ftp_debug(implode("\n", $list));
             $this->ftp_close_data_connection($sock_data);
@@ -450,7 +457,7 @@
                 return FALSE;
             }
 
-            $ip_port = ereg_replace("^.+ \\(?([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+)\\)?.*\r\n$", "\\1", $this->ftp_resp);
+            $ip_port = preg_replace("@^.+ \\(?([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+)\\)?.*\r\n$@", "\\1", $this->ftp_resp);
             return $ip_port;
         }
 
@@ -476,7 +483,7 @@
 
             $this->ftp_debug(str_replace("\r\n", "\n", $this->ftp_resp));
 
-            if (!ereg("^[123]", $this->ftp_resp)) {
+            if (!preg_match("@^[123]@", $this->ftp_resp)) {
                 return FALSE;
             }
 
@@ -491,7 +498,7 @@
 
         function ftp_open_data_connection($ip_port)
         {
-            if (!ereg("[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+", $ip_port)) {
+            if (!preg_match("@[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+@", $ip_port)) {
                 $this->ftp_debug("Error : Illegal ip-port format(".$ip_port.")\n");
                 return FALSE;
             }
