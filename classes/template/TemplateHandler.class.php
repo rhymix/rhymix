@@ -44,7 +44,7 @@
 		function init($tpl_path, $tpl_filename, $tpl_file) {
             // verify arguments 
             if(substr($tpl_path,-1)!='/') $tpl_path .= '/';
-            if(substr($tpl_filename,-5)!='.html') $tpl_filename .= '.html';
+			if(!file_exists($tpl_path.$tpl_filename)&&file_exists($tpl_path.$tpl_filename.'.html')) $tpl_filename .= '.html';
 
             // create tpl_file variable 
             if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
@@ -131,7 +131,8 @@
 				exit();
 			}
 
-            return $this->parse();
+            $this->parse();
+			return $this->buff;
         }
 
         /**

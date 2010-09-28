@@ -150,13 +150,12 @@
 
             // .. 와 같은 경우 대상 경로를 구함
             elseif(preg_match('/^\.\./i',$val)) {
-				$p = Context::pathToUrl($this->path);
+				$p = Context::pathToUrl($this->path).'/';
                 return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
             }
 
             if(substr($val,0,2)=='./') $val = substr($val,2);
-            //$p = '/'.str_replace(_XE_PATH_,'',$this->path);
-	    $p = Context::pathToUrl($this->path);
+			$p = Context::pathToUrl($this->path).'/';
             return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
         }
 
