@@ -199,7 +199,6 @@
             // replace parts not displaying results
             $buff = preg_replace_callback('/\{\@([^\{\}]+)\}/i', array($this, '_compileVarToSilenceExecute'), $buff);
 
-
             // prevent from calling directly before writing into file
             $this->buff = '<?php if(!defined("__ZBXE__")) exit();?>'.$buff;
         }
@@ -349,8 +348,6 @@
 		 **/
 		function _replaceCond($buff)
 		{
-			if($this->filename != '_style.list.html') return $buff;
-
 			while(false !== ($pos = strpos($buff, ' cond="')))
 			{
 				$pre = substr($buff,0,$pos);
@@ -420,7 +417,7 @@
 				if(substr($target,0,2)=='./') $target = substr($target,2);
 				$pos = strrpos('/',$target);
 				$filename = substr($target,$pos);
-				$path = substr($target,0,$pos);
+				$path = $this->path.substr($target,0,$pos);
 			}
 
 			return sprintf(
