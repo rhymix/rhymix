@@ -313,8 +313,9 @@
 			$cache_file = FileHandler::getRealPath($cache_file);
 
 			if(!isset($GLOBALS['__MODULE_EXTEND__'])){
-				if(!file_exists($cache_file)) {
 
+				// check pre install
+				if(file_exists(FileHandler::getRealPath('./files')) && !file_exists($cache_file)) {
 					$arr = array();
 					$output = executeQueryArray('module.getModuleExtend');
 					if($output->data){
@@ -327,9 +328,13 @@
 					$str = sprintf($str, join(',',$arr));
 
 					FileHandler::writeFile($cache_file, $str);
+
+					$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
+
+				} else {
+
+					$GLOBALS['__MODULE_EXTEND__'] = array();
 				}
-			
-				$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
 			}
 
 			return $GLOBALS['__MODULE_EXTEND__'];
