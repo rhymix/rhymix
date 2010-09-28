@@ -226,7 +226,7 @@
          * @param[in] $matches match
          * @return changed result
          **/
-		private function _replacePath($matches) 
+		function _replacePath($matches) 
 		{
 			$path = trim($matches[3]);
 
@@ -400,7 +400,10 @@
 		 **/
 		function _replaceInclude($matches) 
 		{
-			if(!preg_match('/target=\"([^\"]+)\"/is',$matches[0], $m)) throw new Exception('"target" attribute missing in "'.htmlspecialchars($matches[0]).'"');
+			if(!preg_match('/target=\"([^\"]+)\"/is',$matches[0], $m)) {
+				print '"target" attribute missing in "'.htmlspecialchars($matches[0]);
+				exit();
+			}
 
 			$target = $m[1];
 			if(substr($target,0,1)=='/')
@@ -513,7 +516,7 @@
 		/**
 		 * @brief $문자 의 PHP 변수 변환
 		 **/
-		private function _replaceVarInPHP($buff) {
+		function _replaceVarInPHP($buff) {
 			$head = $tail = '';
 			while(false !== $pos = strpos($buff, '<?php'))
 			{
@@ -532,7 +535,7 @@
 		/**
 		 * @brief php5의 class::$변수명의 경우 context를 사용하지 않아야 하기에 함수로 대체
 		 **/
-		private function _replaceVarString($matches)
+		function _replaceVarString($matches)
 		{
 			if($matches[1]==':') return $matches[0];
 			if(substr($matches[2],0,1)=='_') return $matches[0];
