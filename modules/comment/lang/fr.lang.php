@@ -29,4 +29,6 @@
         'last_update' => 'Mise à Jour',
         'ipaddress' => 'Adresse IP',
     );
+
+	$lang->no_text_comment = 'No text in this comment.';
 ?>

@@ -28,4 +28,6 @@
         'last_update' => 'Ultima actualización',
         'ipaddress' => 'Dirección IP',
     );
+
+	$lang->no_text_comment = 'No text in this comment.';
 ?>
