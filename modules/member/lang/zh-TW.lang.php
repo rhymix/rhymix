@@ -232,4 +232,8 @@
 	$lang->about_get_temp_password = '請再登入後變更密碼。';
 	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
 	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
+
+	$lang->change_password_date = '비밀번호 갱신주기';
+	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+
 ?>
