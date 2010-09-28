@@ -2,7 +2,7 @@
 
     /**
      * @class DBMSSQL
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief MSSQL driver로 수정 sol (sol@ngleader.com)
      * @version 0.1
      **/
@@ -746,6 +746,8 @@
                 if (count($output->groups)) $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
 				
 				$param = $this->param;
+
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
 				$result = $this->_query($count_query);
 				
 				$this->param = $param;

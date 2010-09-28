@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/comment/lang/ko.lang.php
-     * @auhor zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @sumario  Paquete del idioma español para el módulo de comentarios.
      **/
 	

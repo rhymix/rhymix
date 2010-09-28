@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   ko.lang.php
-     * @author sol (sol@ngleader.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  Autoinstall(autoinstall) 모듈의 기본 언어팩
      **/
 

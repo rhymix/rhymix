@@ -7,6 +7,8 @@
     <column name="email_host" type="varchar" size="160" index="idx_email_host" />
     <column name="user_name" type="varchar" size="40" notnull="notnull" />
     <column name="nick_name" type="varchar" size="40" notnull="notnull" unique="unique_nick_name" />
+    <column name="find_account_question" type="number" size="11" />
+    <column name="find_account_answer" type="varchar" size="250" />
     <column name="homepage" type="varchar" size="250" />
     <column name="blog" type="varchar" size="250" />
     <column name="birthday" type="char" size="8" />
@@ -16,6 +18,7 @@
     <column name="limit_date" type="date" />
     <column name="regdate" type="date" index="idx_regdate" />
     <column name="last_login" type="date" index="idx_last_login" />
+    <column name="change_password_date" type="date" />
     <column name="is_admin" type="char" size="1" default="N" index="idx_is_admin" />
     <column name="description" type="text" />
     <column name="extra_vars" type="text" />

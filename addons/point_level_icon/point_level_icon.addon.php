@@ -3,7 +3,7 @@
 
     /**
      * @file point.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 포인트 레벨 아이콘 표시 애드온
      *
      * 포인트 시스템 사용중일때 사용자 이름 앞에 포인트 레벨 아이콘을 표시합니다.

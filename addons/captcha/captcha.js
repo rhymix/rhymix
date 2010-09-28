@@ -1,6 +1,4 @@
-/**
- * procFilter 함수를 가로채서 captcha 이미지 및 폼을 출력
- **/
+/* procFilter 함수를 가로채서 captcha 이미지 및 폼을 출력 */
 var oldExecXml = null;
 var calledArgs = null;
 (function($){
@@ -11,7 +9,7 @@ var calledArgs = null;
         function xeCaptcha() {
             var body    = $(document.body);
             var captchaIma;
-
+			
             if (!captchaXE) {
 				var fc_isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
 				var fc_isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
@@ -85,7 +83,7 @@ var calledArgs = null;
 
 					$.each(captchaTargetAct || {}, function(key,val){ if (val == act){ doCheck = true; return false; } }); 
 
-					if (doCheck) { // captcha 를 사용하는 경우
+					if (doCheck) { /* captcha 를 사용하는 경우 */
                         calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj};
                         var params = new Array();
                         params['captcha_action'] = 'setCaptchaSession';
@@ -107,6 +105,7 @@ var calledArgs = null;
 					$("#captcha_layer button.cancel").html(ret_obj['cmd_cancel']);
 					$("#captcha_image").attr("src", current_url.setQuery('captcha_action','captchaImage').setQuery('rnd', (new Date).getTime()));
 					$div.find('input[type=text]').val('').focus();
+					$('html, body').css('height','100%');
                 };
 
                 captchaXE.compare = function(e) {

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  commentItem
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  comment 객체
      **/
 

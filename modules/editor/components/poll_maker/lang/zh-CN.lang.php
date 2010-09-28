@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/urllink/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  网页编辑器(editor) 模块 > 投票调查组件语言包
      **/
 

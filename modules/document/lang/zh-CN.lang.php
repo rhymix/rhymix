@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/document/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  文章(document)模块语言包
      **/
 
@@ -96,5 +96,5 @@
     );
 
     $lang->success_trashed = '已成功移除到回收箱。';
-
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

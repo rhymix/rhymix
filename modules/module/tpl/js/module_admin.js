@@ -1,6 +1,6 @@
 /**
  * @file     modules/module/js/module_admin.js
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief    module 모듈의 관리자용 javascript
  **/
 

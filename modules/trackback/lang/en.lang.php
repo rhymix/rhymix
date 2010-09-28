@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/trackback/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  trackback module / basic language pack
      **/
 	$lang->cmd_toggle_checked_trackback = 'Reverse selected trackback(s)';

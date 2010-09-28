@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/install/lang/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa(risapapa@gmail.com)、ミニミ
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa(risapapa@gmail.com)、ミニミ
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -532,6 +532,7 @@ EndOfLicense;
     $lang->use_optimizer = 'オプティマイザー使用';
     $lang->about_optimizer = 'オプティマイザーを使用すると多数の「CSS/JS」ファイルを、統合・圧縮して転送するのでレスポンスが早くなります。<br />但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。';
     $lang->use_rewrite = 'リライト・モジュールを使用';
+    $lang->use_sso = 'SSO';
     $lang->about_rewrite = 'Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを動的だけど「http://アドレス/123」のように静的なページに見せることが出来ます。';
     $lang->time_zone = 'タイムゾーン';
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることが出来ます。';

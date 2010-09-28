@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pollController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  poll모듈의 Controller class
      **/
 

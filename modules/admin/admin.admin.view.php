@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  adminAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  admin view class of admin module
      **/
 
@@ -32,6 +32,7 @@
             Context::set('time_zone_list', $GLOBALS['time_zone']);
             Context::set('time_zone', $GLOBALS['_time_zone']);
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
+            Context::set('use_sso', $db_info->use_sso=='Y'?'Y':'N');
             Context::set('use_optimizer', $db_info->use_optimizer!='N'?'Y':'N');
             Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');

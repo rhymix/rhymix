@@ -1,7 +1,6 @@
 /*
  * jQuery Hotkey Plug-in
- *
- * @author Kim Taegon(gonom9@nhncorp.com)
+ * @author NHN (developer@xpressengine.com)
  */
 
 (function($){

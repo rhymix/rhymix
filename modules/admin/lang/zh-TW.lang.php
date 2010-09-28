@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/admin/lang/zh-TW.lang.php
-     * @author zero (zero@nzeo.com) 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  管理(admin)模組正體中文語言 (包含基本內容)
      **/
 
@@ -52,8 +52,8 @@
     $lang->cmd_shortcut_management = "編輯選單";
 
     $lang->msg_is_not_administrator = '只有管理員才可以檢視';
-    $lang->msg_manage_module_cannot_delete = '模組，附加元件，版面設計，Widget的快捷選單是無法刪除的。';
-    $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快捷選單的。';
+    $lang->msg_manage_module_cannot_delete = '模組，附加元件，版面設計，Widget的快速選單是無法刪除的。';
+    $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快速選單的。';
 
     $lang->welcome_to_xe = 'XE管理頁面';
     $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後，請按[儲存]按鈕進行儲存。";
@@ -87,6 +87,6 @@
 	$lang->about_mobile_view = '使用手機瀏覽時將會顯示最適當的畫面。';
     $lang->autoinstall = '自動安裝';
 
-    $lang->last_week = 'Last week';
-    $lang->this_week = 'This week';
+    $lang->last_week = '上週';
+    $lang->this_week = '本週';
 ?>

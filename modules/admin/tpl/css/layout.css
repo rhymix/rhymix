@@ -1,6 +1,7 @@
 @charset "utf-8";
 
-/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
+/* NHN (developers@xpressengine.com) */
+
 #xeAdmin .header{ position:relative; height:62px; padding:10px 15px 10px 30px; background:url(../img/bgHeader.gif) repeat-x; z-index:10;}
 #xeAdmin .footer{ height:26px; padding-top:10px; background:url(../img/bgFooter.gif) repeat-x; text-align:center;}
 #xeAdmin .gnb{ position:relative; float:right; white-space:nowrap; clear:right; margin:0; padding:0;}

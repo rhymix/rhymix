@@ -10,37 +10,43 @@
 <!--%import("../skins/default/filter/signup.xml")-->
 <!--%import("../skins/default/js/member.js")-->
 <div class="bd">
-	<h2 class="h2">{$lang->cmd_signup}</h2>
-	<h3 class="h3">{$lang->member_default_info}</h3>
-	<form id="fo_insert_member" action="./" method="GET" onsubmit="return procFilter(this, signup)">
-	<fieldset class="sn">
+	<div class="hx h2">
+		<h2>{$lang->cmd_signup}</h2>
+	</div>
+	<div class="hx h3">
+		<h3>{$lang->member_default_info}</h3>
+	</div>
+	<form id="fo_insert_member" action="./" method="get" class="ff" onsubmit="return procFilter(this, signup)">
+	<fieldset>
 		<ul>
-			<li><label for="id" class="db fb al">{$lang->user_id}</label><input name="user_id" type="text" id="id" class="itx" value="" /><p style="color:#666">{$lang->about_user_id}</p></li>
-			<li><label for="pw" class="db fb al">{$lang->password}</label><input name="password1" type="password" id="pw" class="itx" value="" /><p style="color:#666">{$lang->about_password}</p></li>
-			<li><label for="pw2" class="db fb al">{$lang->password2}</label><input name="password2" type="password" id="pw2" class="itx" value="" /></li>
-			<li><label for="uname" class="db fb al">{$lang->user_name}</label><input name="user_name" type="text" id="uname" class="itx" value="" /><p style="color:#666">{$lang->about_user_name}</p></li>
-			<li><label for="nname" class="db fb al">{$lang->nick_name}</label><input name="nick_name" type="text" id="nname" class="itx" value="" /><p style="color:#666">{$lang->about_nick_name}</p></li>
-			<li><label for="email" class="db fb al">{$lang->email_address}</label><input name="email_address" type="text" id="email" class="itx" value="" /><p style="color:#666">{$lang->about_email_address}</p></li>
-			<li><label for="hpage" class="db fb al">{$lang->homepage}</label><input name="homepage" type="text" id="hpage" class="itx" value="" /><p style="color:#666">{$lang->about_homepage}</p></li>
-			<li><label for="bpage" class="db fb al">{$lang->blog}</label><input name="blog" type="text" id="bpage" class="itx" value="" /><p style="color:#666">{$lang->about_blog_url}</p></li>
-			<li><label for="bday" class="db fb al">{$lang->birthday}</label><input name="birthday" type="text" id="bday" class="itx" value="" /><p style="color:#666">{$lang->about_birthday}</p></li>
+			<li><label for="id">{$lang->user_id}</label><input name="user_id" type="text" id="id" value="" /><p>{$lang->about_user_id}</p></li>
+			<li><label for="pw">{$lang->password}</label><input name="password1" type="password" id="pw" value="" /><p>{$lang->about_password}</p></li>
+			<li><label for="pw2">{$lang->password2}</label><input name="password2" type="password" id="pw2" value="" /></li>
+			<li><label for="uname">{$lang->user_name}</label><input name="user_name" type="text" id="uname" value="" /><p>{$lang->about_user_name}</p></li>
+			<li><label for="nname">{$lang->nick_name}</label><input name="nick_name" type="text" id="nname" value="" /><p>{$lang->about_nick_name}</p></li>
+			<li><label for="email">{$lang->email_address}</label><input name="email_address" type="text" id="email" value="" /><p>{$lang->about_email_address}</p></li>
+			<li><label for="hpage">{$lang->homepage}</label><input name="homepage" type="text" id="hpage" value="" /><p>{$lang->about_homepage}</p></li>
+			<li><label for="bpage">{$lang->blog}</label><input name="blog" type="text" id="bpage" value="" /><p>{$lang->about_blog_url}</p></li>
+			<li><label for="bday">{$lang->birthday}</label><input name="birthday" type="text" id="bday" value="" /><p>{$lang->about_birthday}</p></li>
 		</ul>
 	</fieldset>
 	<!--@if($extend_form_list)-->
-	<h3 class="h3">{$lang->member_extend_info}</h3>
-	<fieldset class="sn">
+	<div class="hx h3">
+		<h3>{$lang->member_extend_info}</h3>
+	</div>
+	<fieldset>
 		<ul>
 			<!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
-				<li><label class="db fb al">{htmlspecialchars($val->column_title)}</label>
+				<li><label>{htmlspecialchars($val->column_title)}</label>
 				<!--// 일반 text -->
 				<!--@if($val->column_type == 'text')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="itx" />
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 				<!--// 홈페이지 주소 -->
 				<!--@elseif($val->column_type == 'homepage')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="itx" />
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 				<!--// Email 주소 -->
 				<!--@elseif($val->column_type == 'email_address')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="itx" />
+					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
 				<!--// 전화번호 -->
 				<!--@elseif($val->column_type == 'tel')-->
 					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4"/>
@@ -48,7 +54,7 @@
 					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4"/>
 				<!--// textarea -->
 				<!--@elseif($val->column_type == 'textarea')-->
-					<textarea name="{$val->column_name}" class="itxx">{htmlspecialchars($val->value)}</textarea>
+					<textarea name="{$val->column_name}">{htmlspecialchars($val->value)}</textarea>
 				<!--// 다중 선택 -->
 				<!--@elseif($val->column_type == 'checkbox')-->
 					<!--@if($val->default_value)-->
@@ -77,7 +83,7 @@
 				<!--@elseif($val->column_type == 'kr_zip')-->
 					<div class="krZip">
 						<div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-							<input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="itx"/>
+							<input type="text" name="{$val->column_name}" value="{$val->value[0]}"/>
 							<a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_cancel}</span></a>
 						</div>
 						<div id="zone_address_list_{$val->column_name}" style="display:none">
@@ -86,12 +92,12 @@
 							<a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_cancel}</span></a>
 						</div>
 						<div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
-							<input type="text" name="_tmp_address_search_{$val->column_name}" class="itx" value="" />
+							<input type="text" name="_tmp_address_search_{$val->column_name}" value="" />
 							<a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_search}</span></a>
 						</div>
 
 						<div class="address2">
-							<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="itx" />
+							<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" />
 						</div>
 					</div>
 				<!--// 일본 주소 검색 -->
@@ -102,17 +108,15 @@
 					<input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
 					<input type="text" class="inputDate inputTypeText" value="" />
 				<!--@end-->
-				<p style="color:#666">{$val->description}</p>
+				<p>{$val->description}</p>
 				<!--// 공개 필드 css확인 필요 -->
 				<!--input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" /><label for="open_{$val->column_name}">{$lang->public}</label--></li>
 		<!--@end--><!--@end-->
 		</ul>
 	</fieldset>
 	<!--@end-->
-
-
-	<div class="cm">
-		<input type="submit" class="bn" value="{$lang->cmd_registration}" accesskey="s" />
+	<div class="bna">
+		<input type="submit" class="bn dark" value="{$lang->cmd_registration}" accesskey="s" />
 	</div>
 	</form>
 </div>

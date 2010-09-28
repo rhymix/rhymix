@@ -1,0 +1,63 @@
+<!--%import("message.css")-->
+<div class="bd">
+	<div class="hx h2">
+		<h2>{$system_message}</h2>
+	</div>
+	<div class="co">
+		<!--@if(!$is_logged)-->
+        {@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
+        {@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
+        {@ Context::addJsFile("./common/js/x.js", true, '', -100000) }
+        {@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
+        {@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
+        {@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+		<!--%import("./filter/login.xml")-->
+		<!--%import("./filter/openid_login.xml")-->
+		<div class="mLogin" id="gLogin">
+			<form action="./" method="post" onsubmit="return procFilter(this, message_login)" id="gForm" class="ff">
+				<fieldset>
+					<ul>
+						<li><label for="uid">{$lang->user_id}</label><input type="text" name="user_id" id="uid" value="" /></li>
+						<li><label for="upw">{$lang->password}</label><input type="password" name="password" id="upw" value="" /></li>
+					</ul>
+					<p>
+						<input type="checkbox" name="keep_signed" id="keepid" value="Y" />						
+						<label for="keepid">{$lang->keep_signed}</label>
+					</p>
+					<input type="submit" value="{$lang->cmd_login}" class="bn dark" />
+					<ul class="hp">
+						<li><a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a></li>
+						<li><a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a></li>
+						<!--@if($member_config->enable_openid=='Y')-->
+						<li><a href="#oLogin">Open ID</a></li>
+						<!--@end-->
+					</ul>
+				</fieldset>
+			</form>
+		</div>
+		<!-- OpenID -->
+		<!--@if($member_config->enable_openid=='Y')-->
+		<div class="mLogin" id="oLogin">
+			<form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" id="oForm" class="ff">
+				<fieldset>
+					<ul>
+						<li><label for="openid">Open ID</label><input type="text" name="openid" id="openid" value="" /></li>
+					</ul>
+					<div class="buttonArea">
+					<input type="submit" value="{$lang->cmd_login}" class="bn dark" />
+					</div>
+					<ul class="hp">
+						<li><a href="#gLogin">{$lang->cmd_common_id}</a></li>
+					</ul>
+				</fieldset>
+			</form>
+		</div>
+		<!--@end-->
+		<!--@end-->
+		<!--@if($is_logged)-->
+		<div class="logOut">
+			<a href="{getUrl('act','dispMemberLogout','module','')}" class="bn dark">{$lang->cmd_logout}</a>
+		</div>
+		<!--@end-->
+	</div>
+</div>

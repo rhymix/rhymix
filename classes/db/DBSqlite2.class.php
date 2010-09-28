@@ -1,7 +1,7 @@
 <?php
     /**
      * @class DBSqlite2
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief SQLite ver 2.x 를 이용하기 위한 class
      * @version 0.1
      *
@@ -641,6 +641,7 @@
             $total_count = $this->getCountCache($output->tables, $condition);
 
             if($total_count === false) {
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
                 $result = $this->_query($count_query);
                 $count_output = $this->_fetch($result);
                 $total_count = (int)$count_output->count;

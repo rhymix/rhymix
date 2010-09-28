@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   en.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  English Language Pack (Only Basic Things)
      **/
 
@@ -20,6 +20,7 @@
     $lang->invalid_authorization = 'The account is not activated.';
     $lang->invalid_user_id= "You have entered an invalid ID";
     $lang->invalid_password = 'You have entered an invalid password';
+    $lang->invalid_new_password = 'New password must not be the same as old one.';
     $lang->allow_mailing = 'Join Mailing';
     $lang->denied = 'Prohibited';
     $lang->is_admin = 'Superadmin Permission';
@@ -209,4 +210,26 @@
 
 	$lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
     $lang->no_article = 'There exists no article';
+
+	$lang->find_account_question = 'Question for a temporary password.';
+	$lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you set.';
+	$lang->find_account_question_items = array(''
+										,'What is your alternate email address?'
+										,'What is your favorite thing?'
+										,'What elementary school did you graduate?'
+										,'Where is your hometown?'
+										,'What is your ideal match?'
+										,"What is your mother's name?"
+										,"What is your father's name?"
+										,'What is your favorite color?'
+										,'What is your favorite food?'
+										);
+	$lang->temp_password = 'Temporary password';
+	$lang->cmd_get_temp_password = 'Get a temporary password';
+	$lang->about_get_temp_password = 'Change your password after you logged in.';
+	$lang->msg_question_not_exists = 'You haven`t set your question for a temporary password.';
+	$lang->msg_answer_not_matches = 'Your answer for the question is not correct.';
+
+	$lang->change_password_date = 'Password renewal cycle';
+	$lang->about_change_password_date = 'If you set a value to this, you will be notified to change your password periodically. (if set to 0, disabled)';
 ?>

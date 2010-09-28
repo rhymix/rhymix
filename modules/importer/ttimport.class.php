@@ -1,7 +1,7 @@
 <?php
     /**
      * @class ttimport 
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  ttxml import class
      **/
 

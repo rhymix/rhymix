@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/autoinstall/lang/jp.lang.php
-     * @author sol (sol@ngleader.com) 翻訳：ミニミ 
+     * @author NHN (developers@xpressengine.com) 翻訳：ミニミ 
      * @brief  Autoinstall(autoinstall) 日本語基本言語パッケージ
      **/
 

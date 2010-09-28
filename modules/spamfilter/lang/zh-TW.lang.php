@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/spamfilter/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  垃圾過濾(spamfilter)模組正體中文語言
      **/
 

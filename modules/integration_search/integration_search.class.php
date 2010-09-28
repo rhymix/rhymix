@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  integration_search
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  integration_search module의 view class
      **/
 

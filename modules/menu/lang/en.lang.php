@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/menu/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  Menu module's basic language pack
      **/
 

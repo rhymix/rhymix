@@ -1,7 +1,7 @@
 <?php
     /**
      * @archivo   modules/document/lang/es.lang.php
-     * @autor zero <zero@nzeo.com>
+     * @autor NHN (developers@xpressengine.com)
      * @sumario Paquete del idioma español para el módulo de documentos.
      **/
 
@@ -77,4 +77,5 @@
     $lang->trash_description = 'Description';
 
     $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

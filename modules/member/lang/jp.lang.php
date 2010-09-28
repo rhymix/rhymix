@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/member/jp.lang.php
-     * @author zero (zero@nzeo.com) 翻訳：RisaPapa、ミニミ、liahona
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa、ミニミ、liahona
      * @brief  日本語言語パッケージ（基本的な内容のみ）
      **/
 
@@ -20,6 +20,7 @@
     $lang->invalid_authorization = '認証出来ませんでした。';
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
+	$lang->invalid_new_password = '以前のパスワードと同じパスワードを使う事はできません。';
     $lang->allow_mailing = 'メーリングリストに登録';
     $lang->denied = '使用中止';
     $lang->is_admin = '最高管理権限';
@@ -209,5 +210,31 @@
     $lang->add_openid = 'OpenIDの追加';
 
 	$lang->about_resend_auth_mail = '認証メールが届いてなかった場合、再送信の申請が可能です。<br />※申請の前に、当サイトからメールの受信が出来るように設定して下さい。';
-    $lang->no_article = 'There exists no article';
+    $lang->no_article = '書き込みがありません。';
+
+	$lang->find_account_question = '秘密質問';
+	$lang->about_find_account_question = '登録した時、入力したIDとメールアドレス、秘密質問の答えで仮のパスワードをもらえる事ができます。';
+
+
+	$lang->find_account_question_items = array(''
+										,'他のメールアドレスは？'
+										,'私の一番大事なものは？'
+										,'私の卒業した小学校は？'
+										,'私の生まれた街は？'
+										,'私の理想型は？'
+										,'お母さんのお名前は？'
+										,'お父さんのお名前は？'
+										,'大好きな色は？'
+										,'大好きな食べ物は？'
+										);
+
+	$lang->temp_password = '仮のパスワード';
+	$lang->cmd_get_temp_password = '仮のパスワードをもらう';
+	$lang->about_get_temp_password = 'ログインして直ちにパスワードを変更して下さい。';
+	$lang->msg_question_not_exists = '秘密質問を決めていません。';
+	$lang->msg_answer_not_matches = '秘密質問の答えが正しくありません。';
+
+	$lang->change_password_date = 'パスワード更新周期';
+	$lang->about_change_password_date = '設定した更新周期によってパスワード変更のお知らせがもらえます。（０に設定すると非活性化） ';
+
 ?>

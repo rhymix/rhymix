@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/image_link/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  editor Module > language pack of image_link component
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  counterAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  counter 모듈의 Admin view class
      **/
 

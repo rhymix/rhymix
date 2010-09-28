@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  admin
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  base class of admin module 
      **/
 

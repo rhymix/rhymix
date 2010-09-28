@@ -7,6 +7,7 @@
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
 <form id="fo_addon" action="./" method="get">
     <input type="hidden" name="addon" value="" />
+    <input type="hidden" name="type" value="" />
 </form>
 
 <!-- 애드온의 목록 -->
@@ -18,7 +19,9 @@
         <th scope="col"><div>{$lang->author}</div></th>
         <th scope="col"><div>{$lang->date}</div></th>
         <th scope="col" class="wide"><div>{$lang->installed_path}</div></th>
-        <th scope="col" colspan="2"><div>&nbsp;</div></th>
+        <th scope="col"><div>{$lang->cmd_setup}</div></th>
+        <th scope="col"><div>PC</div></th>
+        <th scope="col"><div>Mobile</div></th>
     </tr>
 </thead>
 
@@ -47,6 +50,14 @@
         <a href="#" onclick="doToggleAddon('{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
         <!--@end-->
     </td>
+    <td>
+        <!--@if($val->mactivated)-->
+        <a href="#" onclick="doToggleAddon('{$val->addon}','mobile');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
+        <!--@else-->
+        <a href="#" onclick="doToggleAddon('{$val->addon}','mobile');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
+        <!--@end-->
+    </td>
+
 </tr>
 <tr>
     <td colspan="6">

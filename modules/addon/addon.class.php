@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  addon
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  addon 모듈의 high class
      **/
 

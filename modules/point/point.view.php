@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pointView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  point module의 view class
      *
      * POINT 2.0형식으로 문서 출력

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/integration_search/lang/ko.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 

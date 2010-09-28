@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  multimedia_link
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  본문에 멀티미디어 자료를 연결하는 컴포넌트
      **/
 

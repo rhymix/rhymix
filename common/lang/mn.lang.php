@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   common/lang/ko.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
@@ -306,9 +306,9 @@
     $lang->filter->isnull = '%s-ийг оруулна уу';
     $lang->filter->outofrange = '%s-ийн үсгийн тоог тааруулна уу.';
     $lang->filter->equalto = '%s-ыг буруу оруулсан байна.';
-    $lang->filter->invalid_email = '%s-ын хэлбэрийг буруу оруулсан байна. (Жнь: zbxe@zeroboard.com)';
+    $lang->filter->invalid_email = '%s-ын хэлбэрийг буруу оруулсан байна. (Жнь: developers@xpressengine.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s-ын хэлбэр буруу байна. .\\n Латин vсэг, тоо болон  \'_\'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ";
-    $lang->filter->invalid_homepage = '%s-ын хэлбэр буруу байна.. (Жнь: http://www.zeroboard.com)';
+    $lang->filter->invalid_homepage = '%s-ын хэлбэр буруу байна.. (Жнь: http://xpressengine.com/)';
     $lang->filter->invalid_korean = '%s-ын хэлбэр буруу байна. Солонгосоор оруулах ёстой';
     $lang->filter->invalid_korean_number = '%s-ын хэлбэр буруу байна. Солонгос үсэг болон тоогоор оруулах хэрэгтэй.';
     $lang->filter->invalid_alpha = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсгээр оруулах ёстой';

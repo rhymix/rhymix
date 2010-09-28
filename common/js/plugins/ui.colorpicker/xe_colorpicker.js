@@ -1,6 +1,6 @@
 /**
  * @brief XE Colorpicker
- * @author mygony (http://mygony.com)
+ * @author NHN (developers@xpressengine.com)
  **/
 jQuery(function($){
     var ready  = false;

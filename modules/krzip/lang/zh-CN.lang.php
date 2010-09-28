@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/krzip/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  简体中文语言包（收录了基本内容）
      **/
 

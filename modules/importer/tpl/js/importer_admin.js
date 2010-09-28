@@ -1,6 +1,6 @@
 /**
  * @file   modules/importer/js/importer_admin.js
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief  importer에서 사용하는 javascript
  **/
 

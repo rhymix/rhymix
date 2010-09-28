@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pageView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  page 모듈의 view 클래스
      **/
 

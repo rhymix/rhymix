@@ -3,7 +3,7 @@
 
     /**
      * @file openid_delegation_id.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief OpenID Delegation ID 애드온
      *
      * 오픈아이디를 자신의 홈페이지나 블로그 주소로 이용할 수 있도록 해줍니다.

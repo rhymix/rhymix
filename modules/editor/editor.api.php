@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  editorAPI
-     * @author SOL군 (ngleader.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 
      **/
 

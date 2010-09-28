@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  layoutModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @version 0.1
      * @brief  layout 모듈의 Model class
      **/

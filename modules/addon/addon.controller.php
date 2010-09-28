@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  addonController
-     * @author sol ngleader.com
+     * @author NHN (developers@xpressengine.com)
      * @brief  addon 모듈의 controller class
      **/
 

@@ -3,7 +3,7 @@
 
     /**
      * @file blogapicounter.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief blogAPI 애드온
      *
      * ms live writer, 파이어폭스의 performancing, zoundry 등의 외부 툴을 이용하여 글을 입력할 수 있게 합니다.

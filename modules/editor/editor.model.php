@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  editorModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  editor 모듈의 model 클래스
      **/
 

@@ -1,6 +1,6 @@
 /**
  * @file   modules/page/js/page_admin.js
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief  page모듈의 관리자용 javascript
  **/
 

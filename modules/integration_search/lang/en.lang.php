@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/integration_search/lang/ko.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  English Language Pack (For only basic things)
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class CacheMemcache
-     * @author sol (sol@nhn.com)
+     * @author NHN (developer@xpressengine.com)
      * @brief Memcache Handler
      * @version 0.1
 	 *

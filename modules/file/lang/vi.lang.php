@@ -1,7 +1,7 @@
 <?php
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
-			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
+			░░  * @Author :  NHN (developers@xpressengine.com)                                                 ░░
 			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
 			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
@@ -26,7 +26,7 @@
 
     $lang->about_allow_outlink = 'Những định dạng Link File từ bên ngoài được phép đính kèm.(Ngoại trừ định dạng Media *.wmv, *.mp3)';
 	$lang->about_allow_outlink_format = 'Những định dạng này sẽ được phép liên kết. Hãy sử dụng dấu (,) để thêm nhiều định dạng .<br />Ví dụ: .hwp, .doc, .zip, .pdf';
-    $lang->about_allow_outlink_site = 'Những Website được phép liên kết. Hãy nhập địa chỉ của những Website được phép.<br />Ví dụ: http://www.zeroboard.com';
+    $lang->about_allow_outlink_site = 'Những Website được phép liên kết. Hãy nhập địa chỉ của những Website được phép.<br />Ví dụ: http://xpressengine.com/';
 	$lang->about_allowed_filesize = 'Giới hạn dung lượng mỗi File đính kèm. (Ngoại trừ Administrators)';
     $lang->about_allowed_attach_size = 'Giới hạn dung lượng tối đa cho tất cả các File đính kèm trong một bài viết. (Ngoại trừ Administrators)';
     $lang->about_allowed_filetypes = 'Chỉ được phép đính kèm những File có đuôi được liệt kê trong danh sách.<br />Để thêm những dạng File được phép đính kèm, bạn sử dụng "*.[đuôi]".<br />Để cho phép nhiều dạng đuôi File hãy đặt dấu ";" vào giữa các dạng đuôi.<br />Ví dụ: *.* (Cho phép tất cả) hay *.jpg;*.gif;<br />(Ngoại trừ Administrators)';

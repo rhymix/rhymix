@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/layout/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  版面設計(layout)模組正體中文語言
      **/
 
@@ -29,7 +29,7 @@
     $lang->about_layout_code = 
         "儲存修改後的版面，即可生效。
 	     儲存之前，請先預覽後再儲存。
-        XE版面設計語法，請參考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE 樣版</a>。";
+        XE 版面設計語法，請參考<a href=\"#\" onclick=\"winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;\">XE 樣版</a>。";
 
     $lang->layout_export = '版面匯出';
     $lang->layout_btn_export = '下載版面';
@@ -76,7 +76,7 @@
         35 => '左',
         36 => '右',
         37 => '下',
-        38 => '外框', 
+        38 => '外框',
         39 => '無',
         40 => '背景',
         41 => '顏色',
@@ -96,22 +96,22 @@
     );
 
     $lang->layout_image_repository = '版面檔案庫';
-    $lang->about_layout_image_repository = '可在所選擇的版面中上傳圖片/Flash檔案。匯出時將包含此檔案。';
-    $lang->msg_layout_image_target = '只允許上傳gif, png, jpg, swf, flv等檔案格式。';
+    $lang->about_layout_image_repository = '可在所選擇的版面中上傳圖片/ Flash 檔案。匯出時將包含此檔案。';
+    $lang->msg_layout_image_target = '只允許上傳 gif, png, jpg, swf, flv 等檔案格式。';
     $lang->layout_migration = '版面匯出/匯入';
-    $lang->about_layout_migration = '可將修改過的版面匯出成tar檔案或是直接匯入現有的tar檔案。'."\n".'(此功能目前只能用於faceOff版面中';
+    $lang->about_layout_migration = '可將修改過的版面匯出成 tar 檔案或是直接匯入現有的 tar 檔案。'."\n".'(此功能目前只能用於 faceOff 版面中';
 
     $lang->about_faceoff = array(
-        'title' => 'XpressEngine FaceOff版面管理者',
-        'description' => 'FaceOff Layout版面管理者，可於線上修改與設計版面。<br/>下圖為版面架構示意圖和功能簡介，瞭解後發揮創意製作出自己想要的版面吧!',
-        'layout' => 'FaceOff及HTML的架構是相同。<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)와 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.',
-        'setting' => '左上方的選單說明：<br/><ul><li>儲存 : 儲存設定內容</li><li>取消 : 不儲存設定內容並返回上一頁</li><li>重置 : 重新設置回到最原始的版面設定</li><li>模式 : 可設定版面模式為固定/ 變動/ 固定+變動(內容)</li><li>樣式 : 可設置兩個Extension區域和Content區域</li><li>對齊 : 可選擇版面的對齊方式</li></ul>',
-        'hotkey' => '除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取Widget時，選擇順序是： Header, Footer, Body；當有選取Widget時，將會選擇下一個Widget。</li><li>Shift + tab鍵 : 功能和tab鍵相反</li><li>Esc鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇Widget時，將會選則此Widget所屬的區域。</li><li>方向鍵 : 當有選擇Widget時，可利用方向鍵作移動。</li></ul>',
-        'attribute' => '除了Widget以外的各個區域都可以指定背景顏色/圖片及文字顏色(包含a標籤)。',
+        'title' => 'XpressEngine FaceOff 版面管理者',
+        'description' => 'FaceOff Layout 版面管理者，可方便地在線上修改與設計版面。<br/>下圖為版面架構示意圖和功能簡介，瞭解後發揮創意製作出自己想要的版面吧!',
+        'layout' => 'FaceOff 的架構和 HTML 相同。<br/>可以使用 CSS 或樣式設計。<br/>可新增 Widget 到 Extension(e1, e2), Neck, Knee 等區域。<br/>另外 Body, Layout, Header, Body, Footer 可以使用樣式設計，而 Content 區域會顯示內容。',
+        'setting' => '左上方的選單說明：<br/><ul><li>儲存 : 儲存設定內容</li><li>取消 : 不儲存設定內容並返回上一頁</li><li>重置 : 重新設置回到最原始的版面設定</li><li>模式 : 可設定版面模式為固定/ 變動/ 固定+變動(內容)</li><li>樣式 : 可設置兩個 Extension 區域和 Content 區域</li><li>對齊 : 可選擇版面的對齊方式</li></ul>',
+        'hotkey' => '除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取 Widget 時，選擇順序是： Header, Footer, Body；當有選取 Widget 時，將會選擇下一個。</li><li>Shift + tab 鍵 : 功能和 tab 鍵相反</li><li>Esc 鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇 Widget 時，將會選則此 Widget 所屬的區域。</li><li>方向鍵 : 當有選擇 Widget 時，可利用方向鍵作移動。</li></ul>',
+        'attribute' => '除了 Widget 以外的各個區域都可以指定背景顏色/圖片及文字顏色(包含 a 標籤)。',
 
     );
-	$lang->mobile_layout_list = "Mobile Layout List";
-	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
+	$lang->mobile_layout_list = "手機版面列表";
+	$lang->mobile_downloaded_list = "下載手機版面";
 	$lang->apply_mobile_view = "Apply Mobile View";
 	$lang->about_apply_mobile_view = "All connected module use mobile view to display when accessing with mobile device.";
 ?>

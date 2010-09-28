@@ -1,6 +1,6 @@
 <?php
 /**
- * @author sol (sol@nhn.com)
+ * @author NHN (developer@xpressengine.com)
  * @brief css 및 js Optimizer 처리 gateway
  *
  **/
@@ -115,7 +115,7 @@ function printFileList($list){
 		for($i=0,$c=count($list);$i<$c;$i++){
 			$file = getRealPath($list[$i]);
 			if(file_exists($file)){
-				$output .= '/* file:' . $file . " */\n";
+				$output .= '/* file: ' . str_replace(_XE_PATH_,'./',$file) . " */\n";
 				$output .= file_get_contents($file);
 				$output .= "\n";
 			}

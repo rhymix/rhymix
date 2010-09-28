@@ -3,7 +3,7 @@
 
     /**
      * @file ./addons/blogapi/blogapi.func.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief blogapi구현을 위한 함수 모음집
      **/
     

@@ -1,7 +1,7 @@
 <?php
     /**
     * @class ModuleHandler
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief Handling modules
     *
     * @remarks This class is to excute actions of modules.
@@ -71,6 +71,7 @@
          **/
         function init() {
             $oModuleModel = &getModel('module');
+			$oModuleModel->loadModuleExtends();
 
             $site_module_info = Context::get('site_module_info');
 
@@ -173,11 +174,12 @@
         function procModule() {
             // If error occurred while preparation, return a message instance
             if($this->error) {
-                $oMessageView = &getView('message');
-                $oMessageView->setError(-1);
-                $oMessageView->setMessage($this->error);
-                $oMessageView->dispMessage();
-                return $oMessageView;
+				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+                $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                $oMessageObject->setError(-1);
+                $oMessageObject->setMessage($this->error);
+                $oMessageObject->dispMessage();
+                return $oMessageObject;
             }
 
             $oModuleModel = &getModel('module');
@@ -336,19 +338,20 @@
                 // If error occurred, handle it
                 if($this->error) {
                     // display content with message module instance 
-                    $oMessageView = &getView('message');
-                    $oMessageView->setError(-1);
-                    $oMessageView->setMessage($this->error);
-                    $oMessageView->dispMessage();
+					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+					$oMessageObject->setError(-1);
+					$oMessageObject->setMessage($this->error);
+					$oMessageObject->dispMessage();
 
                     // If module was called normally, change the templates of the module into ones of the message view module
                     if($oModule) {
-                        $oModule->setTemplatePath($oMessageView->getTemplatePath());
-                        $oModule->setTemplateFile($oMessageView->getTemplateFile());
+                        $oModule->setTemplatePath($oMessageObject->getTemplatePath());
+                        $oModule->setTemplateFile($oMessageObject->getTemplateFile());
 
                     // Otherwise, set message instance as the target module
                     } else {
-                        $oModule = $oMessageView;
+                        $oModule = $oMessageObject;
                     }
                 }
 
@@ -423,12 +426,22 @@
          * @remarks if there exists a module instance created before, returns it.
          **/
         function &getModuleInstance($module, $type = 'view', $kind = '') {
-            $class_path = ModuleHandler::getModulePath($module);
-            if(!is_dir(_XE_PATH_.$class_path)) return NULL;
-
+			$parent_module = $module;
             if(__DEBUG__==3) $start_time = getMicroTime();
 
             if($kind != 'admin') $kind = 'svc';
+
+			if(is_array($GLOBALS['__MODULE_EXTEND__'])) {
+				$extend_module = $GLOBALS['__MODULE_EXTEND__'][$module.'.'.($kind=='svc'?'':'admin').'.'.$type];
+				if($extend_module && file_exists(FileHandler::getRealPath(ModuleHandler::getModulePath($extend_module)))) {
+					$module = $extend_module;
+				}else{
+					unset($extend_module);
+				}
+			}
+
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!is_dir(_XE_PATH_.$class_path)) return NULL;
 
             // if there is no instance of the module in global variable, create a new one 
             if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
@@ -499,6 +512,9 @@
 
                 // Load language files for the class
                 Context::loadLang($class_path.'lang');
+				if($extend_module) {
+					Context::loadLang(ModuleHandler::getModulePath($parent_module).'lang');
+				}
 
                 // Set variables to the instance
                 $oModule->setModule($module);

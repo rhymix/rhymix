@@ -1,7 +1,7 @@
 <?php
   /**
      * @file   ru.lang.php
-     * @author zero <zero@nzeo.com> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
+     * @author NHN (developers@xpressengine.com) | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
      * @brief  Russian basic language pack for XE
      **/
 
@@ -534,6 +534,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Включить оптимизатор';
     $lang->about_optimizer = 'Если оптимизатор включен, пользователи могут быстро использовать этот сайт, поскольку несколько CSS / JS файлов собраны вместе и сжаты до передачи. <br /> Тем не менее, эта оптимизация может быть проблематичной согласно CSS или JS. Если Вы выключите ее, движок будет работать правильно, хотя и медленее.';
     $lang->use_rewrite = 'Использовать модуль перезаписи (rewrite mod)';
+    $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123";
     $lang->time_zone = 'Часовой пояс';
     $lang->about_time_zone = "Если серверное время и Ваше локальное время не совпадают, Вы можете установить такое же время, как Ваше локальное, используя часовой пояс";

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/trackback/lang/ko.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  엮인글(trackback) 모듈의 기본 언어팩
      **/
 	$lang->cmd_toggle_checked_trackback = '선택항목 반전';

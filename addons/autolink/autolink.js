@@ -1,7 +1,7 @@
 /**
  * @file autolink.js
  * @brief javascript code for autolink addon
- * @author taggon (gonom9@gmail.com)
+ * @author NHN (developers@xpressengine.com)
  */
 (function($){
 	var protocol_re = '(https?|ftp|news|telnet|irc|mms)://';

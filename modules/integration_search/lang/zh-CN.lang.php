@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/integration_search/lang/ko.lang.php
-     * @author zero <zero@nzeo.com> 翻译：guny
+     * @author NHN (developers@xpressengine.com) 翻译：guny
      * @brief  综合搜索简体中文语言包
      **/
 

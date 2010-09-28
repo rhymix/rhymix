@@ -1,7 +1,7 @@
 <?php
     /**
      * @Datei common/lang/ge.lang.php
-     * @Author zero (zero@nzeo.com)
+     * @Author NHN (developers@xpressengine.com)
      * @Kurzen german Language Pack (nur einfache Worte sind hier eingeschlossen)
      **/
 
@@ -309,9 +309,9 @@
     $lang->filter->isnull = 'Bitte geben Sie einen Wert für% s';
     $lang->filter->outofrange = 'Bitte richten Sie die Textlänge von% s';
     $lang->filter->equalto = "Der Wert von% s ist ungültig";
-    $lang->filter->invalid_email = "Das Format von% s ist ungültig. ex) zbxe@zeroboard.com";
+    $lang->filter->invalid_email = "Das Format von% s ist ungültig. ex) developers@xpressengine.com";
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "Das Format von% s ist ungültig. \ \ Nall Werte sollte aus Alphabet, Zahlen oder Unterstrich (_) und den ersten Buchstaben sollten Alphabet" ;
-    $lang->filter->invalid_homepage = "Das Format von% s ist ungültig. ex) http://www.zeroboard.com";
+    $lang->filter->invalid_homepage = "Das Format von% s ist ungültig. ex) http://xpressengine.com/";
     $lang->filter->invalid_korean = "Das Format von% s ist ungültig. Koreanisch Bitte geben Sie nur";
     $lang->filter->invalid_korean_number = "Das Format von% s ist ungültig. Bitte geben Sie Ihre Koreanisch oder Zahlen";
     $lang->filter->invalid_alpha = "Das Format von% s ist ungültig. Bitte geben Sie nur Alphabete";

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/point/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  积分 (point) 模块简体中文语言包
      **/
 

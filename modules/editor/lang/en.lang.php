@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/editor/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  WYSIWYG Editor module's basic language pack
      **/
 
@@ -225,6 +225,6 @@
 	
 	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
 
-	$lang->edit->image_align = '이미지 정렬';
-	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->image_align = 'Image Alignment';
+	$lang->edit->attached_files = 'Attachments';
 ?>

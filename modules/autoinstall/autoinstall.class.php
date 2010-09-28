@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  autoinstall
-     * @author sol (sol@ngleader.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  autoinstall 모듈의 high class
      **/
 

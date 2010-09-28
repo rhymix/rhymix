@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  moduleController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  module 모듈의 controller class
      **/
 
@@ -77,6 +77,45 @@
 
             return $output;
         }
+
+        /**
+         * @brief module extend 추가
+         *
+         **/
+		function insertModuleExtend($parent_module, $extend_module, $type, $kind=''){
+			if($kind!='admin') $kind = '';
+			if(!in_array($type,array('model','controller','view')) || !in_array($kind,array('svc','admin'))) return;
+
+			$cache_file = './files/config/module_extend.php';
+			FileHandler::removeFile($cache_file);
+
+            $args->parent_module = $parent_module;
+            $args->extend_module = $extend_module;
+            $args->type = $type;
+            $args->kind = $kind;
+
+            $output = executeQuery('module.insertModuleExtend', $args);
+			
+			return $output;
+		}
+
+        /**
+         * @brief module extend 삭제
+         *
+         **/
+		function deleteModuleExtend($parent_module, $extend_module, $type, $kind=''){
+			$cache_file = './files/config/module_extend.php';
+			FileHandler::deleteFile($cache_file);
+
+            $args->parent_module = $parent_module;
+            $args->extend_module = $extend_module;
+            $args->type = $type;
+            $args->kind = $kind;
+
+            $output = executeQuery('module.deleteModuleExtend', $args);
+
+			return $output;
+		}
 
         /**
          * @brief 특정 모듈의 설정 입력

@@ -1,6 +1,6 @@
 /**
  * @file   modules/document/tpl/js/document_category.js
- * @author sol (sol@ngleader.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief  document 모듈의 category tree javascript
  **/
 

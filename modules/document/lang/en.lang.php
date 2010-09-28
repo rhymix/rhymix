@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/document/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  Document module's basic language pack
      **/
 
@@ -35,11 +35,11 @@
 
 	$lang->cmd_toggle_checked_document = 'Reverse selected items';
     $lang->cmd_delete_checked_document = 'Delete selected';
-    $lang->cmd_document_do = 'You would..';
+    $lang->cmd_document_do = 'I want to';
 
     $lang->msg_cart_is_null = 'Please select the articles to delete';
     $lang->msg_category_not_moved = 'Could not be moved';
-    $lang->msg_is_secret = 'This article is secret';
+    $lang->msg_is_secret = 'This is a secret article';
     $lang->msg_checked_document_is_deleted = '%d article(s) was(were) deleted';
 
     // Search targets in admin page
@@ -67,7 +67,7 @@
 
     $lang->alias = "Alias";
     $lang->history = "History";
-    $lang->about_use_history = "Determine whether to enable history feature, if it is enabled, update history would be stored and possible to restore old revisions.";
+    $lang->about_use_history = "History can restore documents to previous revisions";
     $lang->trace_only = "Trace only";
 
     $lang->cmd_trash = 'Trashcan';
@@ -75,9 +75,24 @@
     $lang->cmd_restore_all = 'Restore All';
 
     $lang->in_trash = 'Trashcan';
-    $lang->trash_nick_name = 'Person who deleted';
+    $lang->trash_nick_name = 'Deleter';
     $lang->trash_date = 'Deleted date';
     $lang->trash_description = 'Description';
 
+	$lang->search_target_trash_list = array(
+        'title' => 'Title',
+        'content' => 'Content',
+        'user_id' => 'User ID',
+        'member_srl' => 'Member srl',
+        'user_name' => 'User name',
+        'nick_name' => 'Nickname',
+        'trash_member_srl' => 'Deleter srl',
+        'trash_user_name' => 'Deleter name',
+        'trash_nick_name' => 'Deleter nickname',
+        'trash_date' => 'Deleted date',
+        'trash_ipaddress' => 'Deleter IP address',
+    );
+
     $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

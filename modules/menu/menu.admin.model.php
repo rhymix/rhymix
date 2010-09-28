@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  menuAdminModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @version 0.1
      * @brief  menu 모듈의 admin model class
      **/

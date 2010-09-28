@@ -1,7 +1,7 @@
 <?php
     /**
     * @class Context
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief  Manages Context such as request arguments/environment variables
     * @remarks It has dual method structure, easy-to use methods which can be called as Context::methodname(), 
     *          and methods called with static object. 
@@ -354,7 +354,7 @@
          **/
         function checkSSO() {
             // pass if it's not GET request or XE is not yet installed
-            if(isCrawler()) return true;
+            if($this->db_info->use_sso != 'Y' || isCrawler()) return true;
             if(Context::getRequestMethod()!='GET' || !Context::isInstalled() || in_array(Context::get('act'),array('rss','atom'))) return true;
 
             // pass if default URL is not set 

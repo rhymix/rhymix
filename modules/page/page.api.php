@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pageAPI
-     * @author sol(ngleader@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  page 모듈의 View Action에 대한 API 처리
      **/
 

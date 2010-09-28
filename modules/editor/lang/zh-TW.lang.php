@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/editor/lang/zh-TW.lang.php
-     * @author zero <zero@nzeo.com> 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  網頁編輯器(editor)模組正體中文語言
      **/
 
@@ -215,7 +215,7 @@
     
     $lang->edit->move = '搬移';
 	$lang->edit->refresh = '重整';
-    $lang->edit->materials = '글감보관함';
+    $lang->edit->materials = '素材';
     $lang->edit->temporary_savings = '暫存檔列表';
 
 	$lang->edit->paging_prev = '前頁';

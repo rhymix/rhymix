@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/document/lang/ko.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  문서(document) 모듈의 기본 언어팩
      **/
 
@@ -96,5 +96,5 @@
     );
 
     $lang->success_trashed = '휴지통으로 이동되었습니다.';
-
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

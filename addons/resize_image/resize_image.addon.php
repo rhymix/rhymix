@@ -3,7 +3,7 @@
 
     /**
      * @file resize_image.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 본문내 이미지 조절 애드온
      **/
 

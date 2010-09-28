@@ -1,7 +1,7 @@
 <?php
     /**
      * Mobile XE Library Class ver 0.1
-     * @author zero <zero@zeroboard.com> / lang_select : misol
+     * @author NHN (developers@xpressengine.com) / lang_select : misol
      * @brief WAP 태그 출력을 위한 XE 라이브러리
      **/
 

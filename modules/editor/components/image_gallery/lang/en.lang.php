@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/image_gallery/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  editor module > language pack of image_gallery component.
      **/
 

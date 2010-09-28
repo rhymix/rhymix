@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * @class XmlJsFilter
-	 * @author taggon (gonom9@gmail.com)
+	 * @author NHN (developers@xpressengine.com)
 	 * @brief filter class traslate xml content into javascript code
      * @version 0.2
 	 *

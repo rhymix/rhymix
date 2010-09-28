@@ -1,7 +1,7 @@
 <?php
     /**
      * @class HttpRequest
-     * @author haneul (haneul@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @version 0.1
      * @brief a class that is designed to be used for sending out HTTP request to an external server and retrieving response
      * @remarks  Connection: keep-alive is not supported

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  moduleModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  module 모듈의 Model class
      **/
 
@@ -294,6 +294,51 @@
             $output = executeQuery('module.getTrigger',$args);
             return $output->data;
         }
+
+        /**
+         * @brief 특정 module extend 가져옴
+         **/
+		function getModuleExtend($parent_module, $type, $kind='') {
+			$module_extend_info = $this->loadModuleExtends();
+			$extend = $module_extend_info[$parent_module.'.'.$kind.'.'.$type];
+
+			return $extend;
+		}
+
+        /**
+         * @brief 모든 module extend 가져옴
+         **/
+		function loadModuleExtends() {
+			$cache_file = './files/config/module_extend.php';
+			$cache_file = FileHandler::getRealPath($cache_file);
+
+			if(!isset($GLOBALS['__MODULE_EXTEND__'])){
+
+				// check pre install
+				if(file_exists(FileHandler::getRealPath('./files')) && !file_exists($cache_file)) {
+					$arr = array();
+					$output = executeQueryArray('module.getModuleExtend');
+					if($output->data){
+						foreach($output->data as $v){
+							$arr[] = sprintf("'%s.%s.%s' => '%s'", $v->parent_module, $v->type, $v->kind, $v->extend_module);
+						}
+					}
+
+					$str = '<?PHP $__module_extend_info__=array(%s); return $__module_extend_info__; ?>';
+					$str = sprintf($str, join(',',$arr));
+
+					FileHandler::writeFile($cache_file, $str);
+
+					$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
+
+				} else {
+
+					$GLOBALS['__MODULE_EXTEND__'] = array();
+				}
+			}
+
+			return $GLOBALS['__MODULE_EXTEND__'];
+		}
 
         /**
          * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함

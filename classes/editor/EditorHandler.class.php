@@ -1,7 +1,7 @@
 <?php
     /**
     * @class EditorHandler
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief edit component의 상위 클래스임
     *
     * 주로 하는 일은 컴포넌트 요청시 컴포넌트에서 필요로 하는 변수를 세팅해준다

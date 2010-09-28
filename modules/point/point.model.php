@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pointModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  point 모듈의 model class
      **/
 

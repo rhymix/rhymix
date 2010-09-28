@@ -1,7 +1,7 @@
 <?php
     /**
      * @brief 메일 발송
-     * @author zero (zero@zeroboard.com)
+     * @author NHN (developers@xpressengine.com)
      **/
 
     class Mail {

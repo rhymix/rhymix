@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   zh-TW.lang.php
-     * @author sol (sol@ngleader.com) 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  自動安裝(autoinstall)模組正體中文語言
      **/
 
@@ -25,7 +25,7 @@
     $lang->require_update = "需要更新";
     $lang->require_installation = "需要安裝";
     $lang->description_install = "自動安裝也能夠同時安裝與更新其他相關程式";
-    $lang->description_download = "如果 FTP 無法使用的話，必須要手動下載並解壓縮到目標路徑。(假設目標路徑為 ./modules/board的話，將檔案解壓縮到 ./modules就可以了)";
+    $lang->description_download = "如果 FTP 無法使用的話，必須要手動下載並解壓縮到目標路徑。(假設目標路徑為 ./modules/board 的話，將檔案解壓縮到 ./modules就可以了)";
     $lang->path = "路徑";
     $lang->cmd_download = "下載";
     $lang->view_installed_packages = "已安裝程式";

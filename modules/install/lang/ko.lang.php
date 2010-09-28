@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/install/lang/ko.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
@@ -534,6 +534,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Optimizer 사용';
     $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다.';
     $lang->use_rewrite = 'rewrite mod 사용';
+    $lang->use_sso = 'SSO 사용';
     $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http://주소/?document_srl=123 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다.';
     $lang->time_zone = '표준 시간대';
     $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하시면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.';

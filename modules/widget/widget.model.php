@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  widgetModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @version 0.1
      * @brief  widget 모듈의 Model class
      **/

@@ -1,7 +1,7 @@
 <?php
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
-			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
+			░░  * @Author :  NHN (developers@xpressengine.com)                                                 ░░
 			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
 			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
@@ -536,6 +536,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Tối ưu hóa';
     $lang->about_optimizer = 'Nếu tối ưu hóa được kích hoạt, người sử dụng sẽ truy cập nhanh hơn vì những File CSS / JS sẽ được nén lại trước khi được tải xuống. <br /> Tuy vậy, sự tối ưu này cũng làm ảnh hưởng một chút tới File CSS và JS. Nếu bạn tắt, Website của bạn tải chậm hơn.';
     $lang->use_rewrite = 'Mod Rewrite';
+    $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>";
     $lang->time_zone = 'Múi giờ';
     $lang->about_time_zone = "Nếu thời gian của khu vực bạn không tự động cập nhật. Bạn có thể chọn thời gian để hiển thị cho Website.";

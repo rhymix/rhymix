@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   common/lang/zh-CN.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  简体中文语言包
      **/
 
@@ -310,9 +310,9 @@
     $lang->filter->isnull = '请输入%s';
     $lang->filter->outofrange = '请确认%s字数';
     $lang->filter->equalto = '%s值有误。';
-    $lang->filter->invalid_email = '%s格式有误。（例：zbxe@zeroboard.com)';
+    $lang->filter->invalid_email = '%s格式有误。（例：developers@xpressengine.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只能用英文，数字和 _，首个字符必须是英文字母。";
-    $lang->filter->invalid_homepage = '%s格式有误。（例： http://www.zeroboard.com)';
+    $lang->filter->invalid_homepage = '%s格式有误。（例： http://xpressengine.com/)';
     $lang->filter->invalid_korean = '%s只能输入中文';
     $lang->filter->invalid_korean_number = '%s只能输入中文或数字';
     $lang->filter->invalid_alpha = '%s只能输入英文字母';

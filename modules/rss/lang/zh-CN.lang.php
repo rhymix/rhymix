@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/rss/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>　翻译：guny
+     * @author NHN (developers@xpressengine.com)　翻译：guny
      * @brief  RSS模块简体中文语言包
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   /modules/editor/components/image_gallery/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  网页编辑器(editor) 模块 > 图像(image_gallery) 组件的语言包
      **/
 

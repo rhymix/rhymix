@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  krzip
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  우편번호 검색 모듈인 krzip의 상위 클래스
      **/
 

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class XmlQueryParser
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief case to parse XE xml query 
      * @version 0.1
      *

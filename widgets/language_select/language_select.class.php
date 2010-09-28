@@ -1,7 +1,7 @@
 <?php
     /**
      * @class language_select 
-     * @author zero (zero@zeroboard.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 언어선택기
      * @version 0.1
      **/

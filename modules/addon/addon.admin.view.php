@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  addonAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  addon 모듈의 admin view class
      **/
 

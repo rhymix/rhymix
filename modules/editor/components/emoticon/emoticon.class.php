@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  emoticon
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  이모티콘 이미지 연결 컴포넌트
      **/
 

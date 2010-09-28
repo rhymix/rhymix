@@ -1,7 +1,7 @@
 <?php
   /**
      * @file   ru.lang.php
-     * @author zero <zero@nzeo.com> | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
+     * @author NHN (developers@xpressengine.com) | translation by Maslennikov Evgeny aka X-[Vr]bL1s5 | e-mail: x-bliss[a]tut.by; ICQ: 225035467;
      * @brief  Russian basic language pack
      **/
 
@@ -100,4 +100,5 @@
     $lang->success_trashed = 'Удалено в корзину';
 
     $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

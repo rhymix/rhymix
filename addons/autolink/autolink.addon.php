@@ -3,7 +3,7 @@
 
     /**
      * @file autolink.addon.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 자동 링크 애드온
      **/
     if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {

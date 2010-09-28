@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  syndicationAdminController
-     * @author zero (skklove@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  syndication 모듈의 admin Controller class
      **/
 

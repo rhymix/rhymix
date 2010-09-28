@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  spamfilterModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  spamfilter 모듈의 Model class
      **/
 

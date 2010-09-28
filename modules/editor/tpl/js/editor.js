@@ -1,5 +1,5 @@
 /**
- * @author zero (zero@nzeo.com)
+ * @author NHN (developers@xpressengine.com)
  * @version 0.1
  * @brief 에디터 관련 스크립트
  */

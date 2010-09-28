@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/opage/lang/zh-TW.lang.php
-     * @author zero (zero@nzeo.com) 翻譯：royallin
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
      * @brief  外部頁面(opage)模組正體中文語言
      **/
 

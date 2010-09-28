@@ -2,7 +2,7 @@
 
     /**
      * @class  autoinstallView
-     * @author sol (sol@ngleader.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  autoinstall 모듈의 View class
      **/
 

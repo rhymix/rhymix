@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pointAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  point모듈의 admin view class
      **/
 

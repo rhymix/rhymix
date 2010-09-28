@@ -1,6 +1,6 @@
 /**
  * @file js_app.js
- * @author taggon (gonom9@gmail.com)
+ * @author NHN (developers@xpressengine.com)
  * @brief XE JavaScript Application Framework (JAF)
  * @namespace xe
  * @update 20100701

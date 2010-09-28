@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/rss/lang/fr.lang.php
-     * @author zero <zero@nzeo.com> Traduit par Pierre Duvent <PierreDuvent@gmail.com>
+     * @author NHN (developers@xpressengine.com) Traduit par Pierre Duvent <PierreDuvent@gmail.com>
      * @brief  Paquet du langage en français pour le module de RSS
      **/
 

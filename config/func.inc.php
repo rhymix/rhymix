@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   config/func.inc.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  편의 목적으로 만든 함수라이브러리 파일
     **/
 
@@ -637,8 +637,9 @@
     function removeSrcHack($matches) {
         $tag = strtolower(trim($matches[1]));
 
-        $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
-        $buff = str_replace(array('&','&amp;'),array('&amp;','&amp;'),$buff);
+        //$buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
+        $buff = $matches[0];
+        $buff = str_replace(array('&amp;','&'),array('&','&amp;'),$buff);
         $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', 'fixQuotation', $buff);
 
         $oXmlParser = new XmlParser();

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class XmlParser 
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief class parsing a given xmlrpc request and creating a data object
      * @version 0.1
      *

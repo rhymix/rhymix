@@ -1,7 +1,7 @@
 <?php
     /**
      * @class ExtraVar
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 게시글, 회원등에서 사용하는 확장변수를 핸들링하는 클래스
      *
      **/
@@ -47,7 +47,7 @@
 
     /**
      * @class ExtraItem
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief 확장변수의 개별 값
      **/
     class ExtraItem {

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class DBSqlite3_pdo
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief SQLite3를 PDO로 이용하여 class
      * @version 0.1
      **/
@@ -681,6 +681,7 @@
             $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
             $total_count = $this->getCountCache($output->tables, $condition);
             if($total_count === false) {
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
                 $this->_prepare($count_query);
                 $count_output = $this->_execute();
                 $total_count = (int)$count_output->count;

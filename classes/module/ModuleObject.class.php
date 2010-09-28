@@ -1,7 +1,7 @@
 <?php
     /**
     * @class ModuleObject
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief base class of ModuleHandler
     **/
 
@@ -146,13 +146,14 @@
             $this->setMessage($msg_code);
 
             // message 모듈의 에러 표시
-            $oMessageView = &getView('message');
-            $oMessageView->setError(-1);
-            $oMessageView->setMessage($msg_code);
-            $oMessageView->dispMessage();
+			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+			$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+			$oMessageObject->setError(-1);
+			$oMessageObject->setMessage($msg_code);
+			$oMessageObject->dispMessage();
 
-            $this->setTemplatePath($oMessageView->getTemplatePath());
-            $this->setTemplateFile($oMessageView->getTemplateFile());
+            $this->setTemplatePath($oMessageObject->getTemplatePath());
+            $this->setTemplateFile($oMessageObject->getTemplateFile());
 
             return $this;
         }

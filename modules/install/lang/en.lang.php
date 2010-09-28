@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   en.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  English language pack (Only basic contents are listed)
      **/
 
@@ -532,6 +532,7 @@ EndOfLicense;
     $lang->use_optimizer = 'Enable Optimizer';
     $lang->about_optimizer = 'If optimizer is enabled, users can quickly access to this site, since multiple CSS / JS files are put together and compressed before transmission. <br /> Nevertheless, this optimization might be problematic according to CSS or JS. If you disable it, it would work properly though it would work slower.';
     $lang->use_rewrite = 'Rewrite Mod';
+    $lang->use_sso = 'SSO';
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
     $lang->time_zone = 'Time Zone';
     $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  messageView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  message모듈의 view class
      **/
 

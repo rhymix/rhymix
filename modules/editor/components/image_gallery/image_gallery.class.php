@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  image_gallery
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  업로드된 이미지로 이미지갤러리를 만듬
      **/
 

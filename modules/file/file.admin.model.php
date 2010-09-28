@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  fileAdminModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  file 모듈의 admin model 클래스
      **/
 

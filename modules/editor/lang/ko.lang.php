@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * @file   modules/editor/lang/ko.lang.php
-	 * @author zero <zero@nzeo.com>
+	 * @author NHN (developers@xpressengine.com)
 	 * @brief  위지윅에디터(editor) 모듈의 기본 언어팩
 	 **/
 

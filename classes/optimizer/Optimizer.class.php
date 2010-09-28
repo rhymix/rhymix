@@ -1,7 +1,7 @@
 <?php
     /**
     * @class Optimizer 
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief  class designed to be used to merge mutiple JS/CSS files into one file to shorten time taken for transmission.
     *
     **/

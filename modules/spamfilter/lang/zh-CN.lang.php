@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/spamfilter/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>　翻译：guny
+     * @author NHN (developers@xpressengine.com)　翻译：guny
      * @brief  垃圾过滤简体中文语言包
      **/
 

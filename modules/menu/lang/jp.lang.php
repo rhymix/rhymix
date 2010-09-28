@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/menu/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、liahona、ミニミ
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa、liahona、ミニミ
      * @brief  メニュー（menu）モジュールの基本言語パッケージ
      **/
 

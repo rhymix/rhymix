@@ -1,7 +1,7 @@
 <?php
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
-			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
+			░░  * @Author :  NHN (developers@xpressengine.com)                                                 ░░
 			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
 			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░

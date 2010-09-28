@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/file/lang/en.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  Attachment module's basic language pack
      **/
 
@@ -23,7 +23,7 @@
 
     $lang->about_allow_outlink = 'You can shut external links according to referers. (except media files like *.wmv, *.mp3)';
     $lang->about_allow_outlink_format = 'These formats will always be allowed. Please use comma(,) for multiple input.<br />eg)hwp,doc,zip,pdf';
-    $lang->about_allow_outlink_site = 'These websites will alyways be allowed. Please use new line for multiple input.<br />ex)http://www.zeroboard.com';
+    $lang->about_allow_outlink_site = 'These websites will alyways be allowed. Please use new line for multiple input.<br />ex)http://xpressengine.com/';
 	$lang->about_allowed_filesize = 'You can assign file size limit for each file. (Exclude administrators)';
     $lang->about_allowed_attach_size = 'You can assign file size limit for each document. (Exclude administrators)';
     $lang->about_allowed_filetypes = 'Only allowed extentsions can be attached. To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension.<br />ex) *.* or *.jpg;*.gif;<br />(Exclude Administrators)';

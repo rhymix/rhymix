@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   addons/mobile/lang/ko.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  English Language Pack (Basic Contents only)
      **/
     // lang select by misol

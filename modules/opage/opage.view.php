@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  opageView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  opage 모듈의 view 클래스
      **/
 

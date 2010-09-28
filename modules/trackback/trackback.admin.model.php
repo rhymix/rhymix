@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  trackbackAdminModel
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  trackback 모듈의 admin model class
      **/
 

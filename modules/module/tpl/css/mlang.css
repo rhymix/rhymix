@@ -5,12 +5,13 @@ body{margin:0}
 /* Hx */
 .hx{position:relative;border-bottom:1px solid #ccc8be;padding:8px 10px;margin:0}
 .hx:after{content:"";margin:0 -10px;position:relative;top:10px;display:block;clear:both;height:1px;background:#fff}
-.hx.h2{background:#e5e5e5;}
+.hx.h2{background:#e5e5e5;text-shadow:1px 1px 0 #fff}
 .hx h2{margin:0 10px 0 0;display:inline;font-size:16px;line-height:1.4}
 /* Global Navigation */
-.gn{margin:0;padding:0;list-style:none;background:#d3d1cc}
-.gn li{background:#d3d1cc;border:1px solid #a3a09a;border-left:0;border-right:0;margin:0 0 -1px 0}
+.gn{margin:0;padding:0;list-style:none;background:#d3d1cc;text-shadow:1px 1px 0 #fff}
+.gn li{background:#c3c3c3;border:1px solid #a3a09a;border-left:0;border-right:0;margin:0 0 -1px 0}
 .gn li li{background:#f8f8f8;border:1px solid #c9c9c9;border-left:0;border-right:0}
+.gn li li li{background:#e8e8e8}
 .gn ul{margin:0 0 -1px 0;padding:0;list-style:none}
 .gn a,.gn strong{position:relative;text-decoration:none;display:block;padding:10px;font-size:16px}
 .gn li a{color:#333}

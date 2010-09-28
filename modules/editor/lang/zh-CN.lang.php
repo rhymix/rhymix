@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/editor/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  网页编辑器(editor) 模块语言包
      **/
 

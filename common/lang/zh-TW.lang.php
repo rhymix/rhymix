@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   common/lang/zh-TW.lang.php
-     * @author zero (zero@nzeo.com) 翻譯：royallin
-     * @brief  正體中文語言(包含基本內容)
+     * @author NHN (developers@xpressengine.com) 翻譯：royallin
+     * @brief  正體中文語言
      **/
 
     // 基本用語
@@ -65,8 +65,8 @@
     $lang->cmd_publish = "發表";
     $lang->cmd_layout_setup = '版面設置';
     $lang->cmd_layout_edit = '版面編輯';
-    $lang->cmd_search_by_ipaddress = '以 IP 位址搜尋';
-    $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP 位址';
+    $lang->cmd_search_by_ipaddress = '以 IP 搜尋';
+    $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP';
 
     $lang->enable = '可用';
     $lang->disable = '禁用';
@@ -310,9 +310,9 @@
     $lang->filter->isnull = '請輸入%s';
     $lang->filter->outofrange = '請確認%s字數';
     $lang->filter->equalto = '%s值有誤。';
-    $lang->filter->invalid_email = '%s格式有誤。(例：zbxe@zeroboard.com)';
+    $lang->filter->invalid_email = '%s格式有誤。(例：developers@xpressengine.com)';
     $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s只允許使用英文，數字和底線，開頭必須是英文。";
-    $lang->filter->invalid_homepage = '%s格式有誤。(例： http://www.zeroboard.com)';
+    $lang->filter->invalid_homepage = '%s格式有誤。(例： http://xpressengine.com/)';
     $lang->filter->invalid_korean = '%s只能輸入中文';
     $lang->filter->invalid_korean_number = '%s只能輸入中文或數字';
     $lang->filter->invalid_alpha = '%s只能輸入英文字母';

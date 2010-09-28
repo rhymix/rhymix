@@ -1,7 +1,8 @@
 <!--#include("./common_header.html")-->
 <!--%import("filter/find_member_account.xml")-->
+<!--%import("filter/find_member_account_by_question.xml")-->
 
-<h3>{$member_title = $lang->cmd_find_member_account}</h3>
+<h3>{$lang->cmd_find_member_account}</h3>
 
 <p class="summary">{$lang->about_find_member_account}</p>
 
@@ -20,4 +21,46 @@
         </tr>
     </table>
 </form>
+
+
+<!--@if(count($lang->find_account_question_items)>1)-->
+<h3>{$lang->cmd_find_member_account}</h3>
+
+<p class="summary">{$lang->about_find_account_question}</p>
+
+<form action="./" method="get" onsubmit="return procFilter(this, find_member_account_by_question)">
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="page" value="{$page}" />
+
+    <table cellspacing="0" class="rowTable" title="{$lang->email_address}">
+        <tr>
+            <th><div><label for="cpw">{$lang->user_id}</label></div></th>
+            <td class="wide"><input type="text" name="user_id" class="inputTypeText" /></td>
+        </tr>
+        <tr>
+            <th><div><label for="cpw">{$lang->email_address}</label></div></th>
+            <td class="wide"><input type="text" name="email_address" class="inputTypeText w400" /></td>
+        </tr>
+
+		<tr>
+			<th><div><label for="cpw">{$lang->find_account_question}</label></div></th>
+			<td>
+				<select name="find_account_question">
+				<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+					<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
+				<!--@end-->
+				</select>
+				<br />
+				<input type="text" name="find_account_answer" value="" class="inputTypeText w300"/>
+			</td>
+		</tr>
+
+        <tr>
+            <th class="button" colspan="2"><span class="button black strong"><input type="submit" value="{$lang->cmd_get_temp_password}" accesskey="s" /></span></th>
+        </tr>
+    </table>
+</form>
+<!--@end-->
+
 <!--#include("./common_footer.html")-->

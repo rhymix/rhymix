@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  image_link
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  이미지를 추가하거나 속성을 수정하는 컴포넌트
      **/
 

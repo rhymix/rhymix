@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pageAdminController
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  page 모듈의 admin controller class
      **/
 
@@ -26,6 +26,8 @@
             $args->module = 'page';
             $args->mid = $args->page_name;
             unset($args->page_name);
+
+			if($args->use_mobile != 'Y') $args->use_mobile = '';
 
             // module_srl이 넘어오면 원 모듈이 있는지 확인
             if($args->module_srl) {
@@ -154,7 +156,7 @@
          **/
         function procPageAdminInsertConfig() {
             // 기본 정보를 받음
-            $args = Context::gets('test');
+            $args = Context::getRequestVars();
 
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');

@@ -1,7 +1,7 @@
 <?php
 /*			░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 			░░  * @File   :  common/lang/vi.lang.php                                              ░░
-			░░  * @Author :  zero (zero@nzeo.com)                                                 ░░
+			░░  * @Author :  NHN (developers@xpressengine.com)                                                 ░░
 			░░  * @Trans  :  DucDuy Dao (webmaster@xpressengine.vn)								  ░░
 			░░	* @Website:  http://xpressengine.vn												  ░░
 			░░  * @Brief  :  Vietnamese Language Pack (Only basic words are included here)        ░░
@@ -98,4 +98,5 @@
 	);
 
     $lang->success_trashed = "Đã chuyển tới thùng rác thành công.";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

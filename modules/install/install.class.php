@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  install
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  install module의 high class
      **/
 

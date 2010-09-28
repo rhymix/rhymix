@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  comment
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  comment 모듈의 high class
      **/
 

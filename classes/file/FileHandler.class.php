@@ -1,7 +1,7 @@
 <?php
     /**
     * @class FileHandler
-    * @author zero (zero@nzeo.com)
+    * @author NHN (developers@xpressengine.com)
     * @brief contains methods for accessing file system
     **/
 

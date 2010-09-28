@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   ko.lang.php
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
@@ -20,6 +20,7 @@
     $lang->invalid_authorization = '인증이 되지 않았습니다.';
     $lang->invalid_user_id= '존재하지 않는 사용자 아이디입니다.';
     $lang->invalid_password = '잘못된 비밀번호입니다.';
+    $lang->invalid_new_password = '이전 비밀번호와 같습니다.';
     $lang->allow_mailing = '메일링 가입';
     $lang->denied = '사용중지';
     $lang->is_admin = '최고관리 권한';
@@ -210,4 +211,27 @@
 
 	$lang->about_resend_auth_mail = '인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.';
     $lang->no_article = '글이 없습니다.';
+
+	$lang->find_account_question = '비밀번호 찾기 질문/답변';
+	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+	$lang->find_account_question_items = array(''
+										,'다른 이메일 주소는?'
+										,'나의 보물 1호는?'
+										,'나의 출신 초등학교는?'
+										,'나의 출신 고향은?'
+										,'나의 이상형은?'
+										,'어머니 성함은?'
+										,'아버지 성함은?'
+										,'가장 좋아하는 색깔은?'
+										,'가장 좋아하는 음식은?'
+										);
+
+	$lang->temp_password = '임시 비밀번호';
+	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
+	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
+	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
+
+	$lang->change_password_date = '비밀번호 갱신주기';
+	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
 ?>

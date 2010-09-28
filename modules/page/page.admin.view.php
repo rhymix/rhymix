@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  pageAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  page 모듈의 admin view 클래스
      **/
 
@@ -52,6 +52,13 @@
             $args->list_count = 40;
             $args->page_count = 10;
             $args->s_module_category_srl = Context::get('module_category_srl');
+
+			$s_mid = Context::get('s_mid');
+			if($s_mid) $args->s_mid = $s_mid;
+
+			$s_browser_title = Context::get('s_browser_title');
+			if($s_browser_title) $args->s_browser_title = $s_browser_title;
+
             $output = executeQuery('page.getPageList', $args);
             moduleModel::syncModuleToSite($output->data);
 

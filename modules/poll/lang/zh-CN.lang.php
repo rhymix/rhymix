@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/poll/lang/zh-CN.lang.php
-     * @author zero <zero@nzeo.com>
+     * @author NHN (developers@xpressengine.com)
      * @brief  投票系统 (poll) 模块简体中文语言包
      **/
 

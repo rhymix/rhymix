@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  documentItem
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  document 객체
      **/
 

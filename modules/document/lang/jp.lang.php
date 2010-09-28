@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/document/lang/jp.lang.php
-     * @author zero <zero@nzeo.com> 翻訳：RisaPapa、ミニミ
+     * @author NHN (developers@xpressengine.com) 翻訳：RisaPapa、ミニミ
      * @brief  ドキュメント（document）モジュールの基本言語パッケージ
      **/
 
@@ -96,4 +96,5 @@
     );
 
     $lang->success_trashed = "Successfully moved to trashcan";
+    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 ?>

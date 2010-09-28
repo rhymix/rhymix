@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  fileAdminView
-     * @author zero (zero@nzeo.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  file 모듈의 admin view 클래스
      **/
 
