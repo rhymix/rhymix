@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">dreditor</title>
+    <title xml:lang="en">dreditor</title>
+    <description xml:lang="ko">
+		단락편집기 문서서식입니다.
+		텍스타일 이외의 모듈에서 단락편집기를 사용할 때 사용하시면 단락편집기 스타일에 맞추어서 표시해줍니다.
+    </description>
+    <description xml:lang="en">
+		DrEditor document style.
+		If you use DrEditor with other modules rather than Textyle, setting style as this would help disply better.
+    </description>
+    <version>0.1</version>
+    <date>2010-05-25</date>
+    <author email_address="haneul0318@gmail.com" link="http://seungyeop.kr">
+        <name xml:lang="ko">haneul</name>
+        <name xml:lang="en">haneul</name>
+    </author>
+</skin>
