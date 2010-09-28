@@ -46,11 +46,18 @@
             {
                 return new Object(-1, 'msg_ftp_invalid_auth_info');
             }
+
             $this->pwd = $ftp_info->ftp_root_path;
+
             if(!$ftp_info->ftp_host)
             {
                 $ftp_info->ftp_host = "127.0.0.1";
             }
+
+			if (!$ftp_info->ftp_port)
+			{
+				$ftp_info->ftp_port = "21";
+			}
 
             if($ftp_info->sftp == 'Y')
             {
