@@ -83,11 +83,7 @@
 			$this->init($tpl_path, $tpl_filename, $tpl_file);
 
             // if target file does not exist exit
-            if(!$this->file || !file_exists($this->file)) {
-				Context::close();
-				printf('"%s" template file is not exists.', $this->file);
-				exit();
-			}
+            if(!$this->file || !file_exists($this->file)) return sprintf('Err : "%s" template file is not exists.', $this->file);
 
             $source_template_mtime = filemtime($this->file);
 			$latest_mtime = $source_template_mtime>$this->handler_mtime?$source_template_mtime:$this->handler_mtime;
