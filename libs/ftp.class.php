@@ -257,6 +257,7 @@
             }
             $this->ftp_debug("Connected to remote host\n");
 
+			$list = array();
             while (!feof($sock_data)) {
                 $list[] = preg_replace("@[\r\n]@", "", fgets($sock_data, 512));
             }
