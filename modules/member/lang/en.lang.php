@@ -20,7 +20,7 @@
     $lang->invalid_authorization = 'The account is not activated.';
     $lang->invalid_user_id= "You have entered an invalid ID";
     $lang->invalid_password = 'You have entered an invalid password';
-    $lang->invalid_new_password = '이전 비밀번호와 같습니다.';
+    $lang->invalid_new_password = 'New password must not be the same as old one.';
     $lang->allow_mailing = 'Join Mailing';
     $lang->denied = 'Prohibited';
     $lang->is_admin = 'Superadmin Permission';
@@ -211,27 +211,25 @@
 	$lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
     $lang->no_article = 'There exists no article';
 
-	$lang->find_account_question = '비밀번호 찾기 질문/답변';
-	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
-	/*
+	$lang->find_account_question = 'Question for a temporary password.';
+	$lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you set.';
 	$lang->find_account_question_items = array(''
-										,'다른 이메일 주소는?'
-										,'나의 보물 1호는?'
-										,'나의 출신 초등학교는?'
-										,'나의 출신 고향은?'
-										,'나의 이상형은?'
-										,'어머니 성함은?'
-										,'아버지 성함은?'
-										,'가장 좋아하는 색깔은?'
-										,'가장 좋아하는 음식은?'
+										,'What is your alternate email address?'
+										,'What is your favorite thing?'
+										,'What elementary school did you graduate?'
+										,'Where is your hometown?'
+										,'What is your ideal match?'
+										,"What is your mother's name?"
+										,"What is your father's name?"
+										,'What is your favorite color?'
+										,'What is your favorite food?'
 										);
-*/
-	$lang->temp_password = '임시 비밀번호';
-	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
-	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
-	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
-	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
+	$lang->temp_password = 'Temporary password';
+	$lang->cmd_get_temp_password = 'Get a temporary password';
+	$lang->about_get_temp_password = 'Change your password after you logged in.';
+	$lang->msg_question_not_exists = 'You haven`t set your question for a temporary password.';
+	$lang->msg_answer_not_matches = 'Your answer for the question is not correct.';
 
-	$lang->change_password_date = '비밀번호 갱신주기';
-	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+	$lang->change_password_date = 'Password renewal cycle';
+	$lang->about_change_password_date = 'If you set a value to this, you will be notified to change your password periodically. (if set to 0, disabled)';
 ?>
