@@ -20,7 +20,7 @@
     $lang->invalid_authorization = '還沒有認證！';
     $lang->invalid_user_id= '該帳號不存在，請檢查您的輸入是否有誤！';
     $lang->invalid_password = '您的密碼不正確！';
-	$lang->invalid_new_password = '與舊密碼相同';
+	$lang->invalid_new_password = '新密碼不能與舊密碼相同';
     $lang->allow_mailing = '接收郵件';
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理權限';
@@ -91,7 +91,7 @@
     $lang->cmd_login = '登入';
     $lang->cmd_logout = '登出';
     $lang->cmd_signup = '會員註冊';
-    $lang->cmd_site_signup = 'Join';
+    $lang->cmd_site_signup = '加入';
     $lang->cmd_modify_member_info = '修改會員資料';
     $lang->cmd_modify_member_password = '修改密碼';
     $lang->cmd_view_member_info = '檢視會員資料';
@@ -196,7 +196,7 @@
     $lang->about_image_mark = '顯示在用戶暱稱前的圖示。';
     $lang->about_group_image_mark = '顯示在用戶群組前的圖示。';
     $lang->about_profile_image = '可以使用個人圖片。';
-    $lang->about_signature_max_height = '可以限制簽名檔高度(0或留空為不限制)。';
+    $lang->about_signature_max_height = '可以限制簽名檔高度(零或留空為不限制)。';
     $lang->about_accept_agreement = '已閱讀全部條款並同意。';
 
     $lang->about_member_default = '將成為註冊會員時的預設群組。';
@@ -212,9 +212,8 @@
 	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
     $lang->no_article = '主題不存在';
 
-	$lang->find_account_question = '비밀번호 찾기 질문/답변';
-	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
-	/*
+	$lang->find_account_question = '密碼提示問答';
+	$lang->about_find_account_question = '可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。';
 	$lang->find_account_question_items = array(''
 										,'其他電子郵件?'
 										,'我最愛的是?'
@@ -226,14 +225,14 @@
 										,'最喜歡的顏色?'
 										,'最愛的食物是?'
 										);
-*/
-	$lang->temp_password = '臨時密碼';
-	$lang->cmd_get_temp_password = '寄送臨時密碼';
-	$lang->about_get_temp_password = '請再登入後變更密碼。';
-	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
-	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 
-	$lang->change_password_date = '비밀번호 갱신주기';
-	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+	$lang->temp_password = '臨時密碼';
+	$lang->cmd_get_temp_password = '取得臨時密碼';
+	$lang->about_get_temp_password = '請再登入後變更密碼。';
+	$lang->msg_question_not_exists = '尚未輸入提示問答';
+	$lang->msg_answer_not_matches = '答案不正確';
+
+	$lang->change_password_date = '密碼更新';
+	$lang->about_change_password_date = '可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)';
 
 ?>
