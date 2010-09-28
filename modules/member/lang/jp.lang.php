@@ -20,7 +20,7 @@
     $lang->invalid_authorization = '認証出来ませんでした。';
     $lang->invalid_user_id= '存在しないユーザＩＤです。';
     $lang->invalid_password = '無効なパスワードです。';
-	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
+	$lang->invalid_new_password = '以前のパスワードと同じパスワードを使う事はできません。';
     $lang->allow_mailing = 'メーリングリストに登録';
     $lang->denied = '使用中止';
     $lang->is_admin = '最高管理権限';
@@ -210,31 +210,31 @@
     $lang->add_openid = 'OpenIDの追加';
 
 	$lang->about_resend_auth_mail = '認証メールが届いてなかった場合、再送信の申請が可能です。<br />※申請の前に、当サイトからメールの受信が出来るように設定して下さい。';
-    $lang->no_article = 'There exists no article';
+    $lang->no_article = '書き込みがありません。';
 
-	$lang->find_account_question = '비밀번호 찾기 질문/답변';
-	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+	$lang->find_account_question = '秘密質問';
+	$lang->about_find_account_question = '登録した時、入力したIDとメールアドレス、秘密質問の答えで仮のパスワードをもらえる事ができます。';
 
-/*
+
 	$lang->find_account_question_items = array(''
-										,'다른 이메일 주소는?'
-										,'나의 보물 1호는?'
-										,'나의 출신 초등학교는?'
-										,'나의 출신 고향은?'
-										,'나의 이상형은?'
-										,'어머니 성함은?'
-										,'아버지 성함은?'
-										,'가장 좋아하는 색깔은?'
-										,'가장 좋아하는 음식은?'
+										,'他のメールアドレスは？'
+										,'私の一番大事なものは？'
+										,'私の卒業した小学校は？'
+										,'私の生まれた街は？'
+										,'私の理想型は？'
+										,'お母さんのお名前は？'
+										,'お父さんのお名前は？'
+										,'大好きな色は？'
+										,'大好きな食べ物は？'
 										);
-*/
-	$lang->temp_password = '임시 비밀번호';
-	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
-	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
-	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
-	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 
-	$lang->change_password_date = '비밀번호 갱신주기';
-	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+	$lang->temp_password = '仮のパスワード';
+	$lang->cmd_get_temp_password = '仮のパスワードをもらう';
+	$lang->about_get_temp_password = 'ログインして直ちにパスワードを変更して下さい。';
+	$lang->msg_question_not_exists = '秘密質問を決めていません。';
+	$lang->msg_answer_not_matches = '秘密質問の答えが正しくありません。';
+
+	$lang->change_password_date = 'パスワード更新周期';
+	$lang->about_change_password_date = '設定した更新周期によってパスワード変更のお知らせがもらえます。（０に設定すると非活性化） ';
 
 ?>
