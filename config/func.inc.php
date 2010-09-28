@@ -637,7 +637,7 @@
     function removeSrcHack($matches) {
         $tag = strtolower(trim($matches[1]));
 
-        $buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
+        //$buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
         $buff = str_replace(array('&amp;','&'),array('&','&amp;'),$buff);
         $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', 'fixQuotation', $buff);
 
