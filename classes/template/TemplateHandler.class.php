@@ -51,9 +51,10 @@
 
 			// set template file infos.
 			$info = pathinfo($tpl_file);
-			$this->path = preg_replace('/^\.\//','',$info['dirname']).'/';
-			$this->filename = $info['basename'];
-			$this->file = $this->path.$this->filename;
+			//$this->path = preg_replace('/^\.\//','',$info['dirname']).'/';
+			$this->path = $tpl_path;
+			$this->filename = $tpl_filename;
+			$this->file = $tpl_file;
 
 			$this->xe_path = preg_replace('/([^\.^\/]+)\.php$/i','',$_SERVER['SCRIPT_NAME']);
 			$this->web_path = $this->xe_path.str_replace(_XE_PATH_,'',$this->path);
