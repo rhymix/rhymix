@@ -525,7 +525,7 @@
 				$buff = substr($buff,$pos);
 				$pos = strpos($buff,'?>');
 				$body = substr($buff,0,$pos+2);
-				$head .= preg_replace_callback('/(.?)\$([a-z0-9\_\-\[\]\'\"]+)/is',array($this, '_replaceVarString'), $body);
+				$head .= preg_replace_callback('/(.?)\$(\w+[a-z0-9\_\-\[\]\'\"]+)/is',array($this, '_replaceVarString'), $body);
 
 				$buff = substr($buff,$pos+2);
 			}
