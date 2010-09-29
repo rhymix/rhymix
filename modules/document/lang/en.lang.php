@@ -94,5 +94,5 @@
     );
 
     $lang->success_trashed = "Successfully moved to trashcan";
-    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
+    $lang->msg_not_selected_document = 'There is no selected article.';
 ?>
