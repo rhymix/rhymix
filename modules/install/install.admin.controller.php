@@ -138,7 +138,14 @@
 			$ftp_info->ftp_pasv = Context::get('ftp_pasv');
 			if(!$ftp_info->ftp_pasv) $ftp_info->ftp_pasv = "N";
             $ftp_info->sftp = Context::get('sftp');
-            $ftp_info->ftp_root_path = Context::get('ftp_root_path');
+
+			$ftp_root_path = Context::get('ftp_root_path');
+			if (substr($ftp_root_path, strlen($ftp_root_path)-1) == "/") {
+				$ftp_info->ftp_root_path = $ftp_root_path;
+			} else {
+				$ftp_info->ftp_root_path = $ftp_root_path.'/';
+			}
+
             if(ini_get('safe_mode')) {
                 $ftp_info->ftp_password = Context::get('ftp_password');
             }
