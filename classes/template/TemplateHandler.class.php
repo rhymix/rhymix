@@ -571,7 +571,8 @@
 
             // step1: check files in the template directory
             //$source_filename = sprintf("%s/%s", dirname($this->file), $arg);
-            $source_filename = sprintf("%s/%s", $this->path, $arg);
+			$path = substr($this->path,-1)=='/'?substr($this->path,0,-1):$this->path;
+            $source_filename = sprintf("%s/%s", $path, $arg);
 
             // step2: check path from root
             if(!file_exists($source_filename)) $source_filename = './'.$arg;
