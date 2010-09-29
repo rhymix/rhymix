@@ -328,11 +328,12 @@
 					$str = sprintf($str, join(',',$arr));
 
 					FileHandler::writeFile($cache_file, $str);
+				}
 
+				
+				if(file_exists($cache_file)) {
 					$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
-
 				} else {
-
 					$GLOBALS['__MODULE_EXTEND__'] = array();
 				}
 			}
