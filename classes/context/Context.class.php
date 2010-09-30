@@ -1550,7 +1550,7 @@
 			}
 
 			$path = '/'.implode('/', $_path);
-
+			if(substr($path,-1)!='/') $path .= '/';
 			return $path;
 		}
     }
