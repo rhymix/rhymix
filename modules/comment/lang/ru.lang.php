@@ -29,4 +29,6 @@
         'last_update' => 'Дата последнего обновления',
         'ipaddress' => 'IP-адрес',	
 	);
+
+	$lang->no_text_comment = 'No text in this comment.';
 ?>

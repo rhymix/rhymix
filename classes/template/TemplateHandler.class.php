@@ -44,7 +44,7 @@
 		function init($tpl_path, $tpl_filename, $tpl_file) {
             // verify arguments 
             if(substr($tpl_path,-1)!='/') $tpl_path .= '/';
-            if(substr($tpl_filename,-5)!='.html') $tpl_filename .= '.html';
+			if(!file_exists($tpl_path.$tpl_filename)&&file_exists($tpl_path.$tpl_filename.'.html')) $tpl_filename .= '.html';
 
             // create tpl_file variable 
             if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
@@ -131,7 +131,8 @@
 				exit();
 			}
 
-            return $this->parse();
+            $this->parse();
+			return $this->buff;
         }
 
         /**
@@ -226,7 +227,7 @@
          * @param[in] $matches match
          * @return changed result
          **/
-		private function _replacePath($matches) 
+		function _replacePath($matches) 
 		{
 			$path = trim($matches[3]);
 
@@ -400,7 +401,10 @@
 		 **/
 		function _replaceInclude($matches) 
 		{
-			if(!preg_match('/target=\"([^\"]+)\"/is',$matches[0], $m)) throw new Exception('"target" attribute missing in "'.htmlspecialchars($matches[0]).'"');
+			if(!preg_match('/target=\"([^\"]+)\"/is',$matches[0], $m)) {
+				print '"target" attribute missing in "'.htmlspecialchars($matches[0]);
+				exit();
+			}
 
 			$target = $m[1];
 			if(substr($target,0,1)=='/')
@@ -513,7 +517,7 @@
 		/**
 		 * @brief $문자 의 PHP 변수 변환
 		 **/
-		private function _replaceVarInPHP($buff) {
+		function _replaceVarInPHP($buff) {
 			$head = $tail = '';
 			while(false !== $pos = strpos($buff, '<?php'))
 			{
@@ -521,7 +525,7 @@
 				$buff = substr($buff,$pos);
 				$pos = strpos($buff,'?>');
 				$body = substr($buff,0,$pos+2);
-				$head .= preg_replace_callback('/(.?)\$([a-z0-9\_\-\[\]\'\"]+)/is',array($this, '_replaceVarString'), $body);
+				$head .= preg_replace_callback('/(.?)\$(\w+[a-z0-9\_\-\[\]\'\"]+)/is',array($this, '_replaceVarString'), $body);
 
 				$buff = substr($buff,$pos+2);
 			}
@@ -532,7 +536,7 @@
 		/**
 		 * @brief php5의 class::$변수명의 경우 context를 사용하지 않아야 하기에 함수로 대체
 		 **/
-		private function _replaceVarString($matches)
+		function _replaceVarString($matches)
 		{
 			if($matches[1]==':') return $matches[0];
 			if(substr($matches[2],0,1)=='_') return $matches[0];
@@ -566,7 +570,9 @@
             if(substr($arg,0,2)=='./') $arg = substr($arg,2);
 
             // step1: check files in the template directory
-            $source_filename = sprintf("%s/%s", dirname($this->file), $arg);
+            //$source_filename = sprintf("%s/%s", dirname($this->file), $arg);
+			$path = substr($this->path,-1)=='/'?substr($this->path,0,-1):$this->path;
+            $source_filename = sprintf("%s/%s", $path, $arg);
 
             // step2: check path from root
             if(!file_exists($source_filename)) $source_filename = './'.$arg;

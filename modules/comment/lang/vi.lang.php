@@ -30,4 +30,6 @@
         'last_update' => 'Cập nhật lần cuối',
         'ipaddress' => 'IP',
     );
+
+	$lang->no_text_comment = 'No text in this comment.';
 ?>

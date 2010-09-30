@@ -705,15 +705,20 @@
      **/
     function fixQuotation($matches) {
         $key = $matches[1];
-        $val = $matches[2];
+        $val = trim($matches[2]);
 
-        if(substr($val,0,1)!='"'){
-			if(substr($val,-1)=='/'){
-				$val = '"'.substr($val,0,-1).'" /';
-			}else{
-				$val = '"'.$val.'"';
-			}
+		$close_tag = false;
+		if(substr($val,-1)=='/') {
+			$close_tag = true;
+			$val = rtrim(substr($val,0,-1));
 		}
+
+		if($val{0}=="'" && substr($val,-1)=="'")
+		{
+			$val = sprintf('"%s"', substr($val,1,-1));
+		}
+
+		if($close_tag) $val .= ' /';
 		
 		// attribute on* remove
 		if(preg_match('/^on(click|load|unload|blur|dbclick|focus|resize|keypress|keyup|keydown|mouseover|mouseout|mouseup|select|change|error)/',preg_replace('/[^a-zA-Z_]/','',$key))) return '';

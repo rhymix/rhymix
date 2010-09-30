@@ -29,4 +29,6 @@
         'last_update' => '최근수정일 ',
         'ipaddress' => 'IP 주소',
     );
+
+	$lang->no_text_comment = '텍스트가 없는 댓글입니다.';
 ?>

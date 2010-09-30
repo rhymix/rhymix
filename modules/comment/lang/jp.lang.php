@@ -29,4 +29,6 @@
         'last_update' => '最終更新日 ',
         'ipaddress' => 'IPアドレス',
     );
+
+	$lang->no_text_comment = 'No text in this comment.';
 ?>

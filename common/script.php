@@ -135,7 +135,9 @@ function printFileList($list){
 		header("ETag: \"". md5(join(' ', $list)) .'-'. dechex($mtime) .'-'.dechex($size)."\""); 
 	}
 
-	header("Content-Length: ". $size); 
+	// Fix : 서버에서 gzip 압축을 제공하는 경우 콘텐츠의 길이가 실제와 일치하지 않아 문제가 발생하여
+	// Content-Length 헤더를 생략함. Core #19159958 이슈 참고.
+	// header("Content-Length: ". $size); 
 
 	if($content_encoding) header("Content-Encoding: gzip");
 
