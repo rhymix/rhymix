@@ -1050,11 +1050,14 @@
 			// 임시비밀번호로 변경 및 비밀번호 변경시간을 1로 설정
 			$args->member_srl = $member_srl;
 			list($usec, $sec) = explode(" ", microtime()); 
-			$args->temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,20);
-			$args->change_password_date = '1';
-			$this->updateMemberPassword($args);
+			$temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
 
-			$_SESSION['xe_temp_password_'.$user_id] = $args->temp_password;
+			$args->password = $temp_password;
+			$args->change_password_date = '1';
+			$output = $this->updateMemberPassword($args);
+			if(!$output->toBool()) return $output;
+
+			$_SESSION['xe_temp_password_'.$user_id] = $temp_password;
 
 			$this->add('user_id',$user_id);
         }
