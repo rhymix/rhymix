@@ -320,7 +320,7 @@
 					$output = executeQueryArray('module.getModuleExtend');
 					if($output->data){
 						foreach($output->data as $v){
-							$arr[] = sprintf("'%s.%s.%s' => '%s'", $v->parent_module, $v->type, $v->kind, $v->extend_module);
+							$arr[] = sprintf("'%s.%s.%s' => '%s'", $v->parent_module, $v->kind, $v->type, $v->extend_module);
 						}
 					}
 

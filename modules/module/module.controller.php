@@ -83,8 +83,8 @@
          *
          **/
 		function insertModuleExtend($parent_module, $extend_module, $type, $kind=''){
-			if($kind!='admin') $kind = '';
-			if(!in_array($type,array('model','controller','view')) || !in_array($kind,array('svc','admin'))) return;
+			if($kind != 'admin') $kind = 'svc';
+			if(!in_array($type,array('model','controller','view'))) return;
 
 			$cache_file = './files/config/module_extend.php';
 			FileHandler::removeFile($cache_file);
