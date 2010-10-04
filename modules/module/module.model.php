@@ -298,10 +298,9 @@
         /**
          * @brief 특정 module extend 가져옴
          **/
-		function getModuleExtend($parent_module, $type, $kind='') {
+		function getModuleExtend($parent_module, $extend_module, $type, $kind='') {
 			$module_extend_info = $this->loadModuleExtends();
 			$extend = $module_extend_info[$parent_module.'.'.$kind.'.'.$type];
-
 			return $extend;
 		}
 
