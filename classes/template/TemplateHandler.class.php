@@ -490,7 +490,7 @@
 								'?>%s',
 								"\n",
 								"\n",
-								$base_path,
+								$this->path,
 								$filename,
 								"\n",
 								"\n",
@@ -499,13 +499,13 @@
 						break;
 					// css file
 					case 'css' :
-							if(!preg_match('/^(http|\/)/i',$source_filename)) $source_filename = $base_path.$filename;
+							if(!preg_match('/^(http|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
 							if($type == 'unload') $output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
 							else $output = '<?php Context::addCSSFile("'.$source_filename.'"); ?>';
 						break;
 					// js file
 					case 'js' :
-							if(!preg_match('/^(http|\/)/i',$source_filename)) $source_filename = $base_path.$filename;
+							if(!preg_match('/^(http|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
 							if($type == 'unload') $output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
 							else $output = '<?php Context::addJsFile("'.$source_filename.'"); ?>';
 						break;
