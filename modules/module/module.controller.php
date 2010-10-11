@@ -23,7 +23,7 @@
             $args->type = $type;
             $args->act = $act;
 
-            $output = executeQuery('module.insertActionFoward', $args);
+            $output = executeQuery('module.insertActionForward', $args);
             return $output;
         }
 
@@ -35,7 +35,7 @@
             $args->type = $type;
             $args->act = $act;
 
-            $output = executeQuery('module.deleteActionFoward', $args);
+            $output = executeQuery('module.deleteActionForward', $args);
             return $output;
         }
 
