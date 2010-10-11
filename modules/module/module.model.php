@@ -298,10 +298,16 @@
         /**
          * @brief 특정 module extend 가져옴
          **/
-		function getModuleExtend($parent_module, $extend_module, $type, $kind='') {
+		function getModuleExtend($parent_module, $type, $kind='') {
+			$key = $parent_module.'.'.$kind.'.'.$type;
+
 			$module_extend_info = $this->loadModuleExtends();
-			$extend = $module_extend_info[$parent_module.'.'.$kind.'.'.$type];
-			return $extend;
+			if(array_key_exists($key, $module_extend_info))
+			{
+				return $module_extend_info[$key];
+			}
+
+			return false;
 		}
 
         /**
@@ -323,7 +329,7 @@
 						}
 					}
 
-					$str = '<?PHP $__module_extend_info__=array(%s); return $__module_extend_info__; ?>';
+					$str = '<?PHP return array(%s); ?>';
 					$str = sprintf($str, join(',',$arr));
 
 					FileHandler::writeFile($cache_file, $str);

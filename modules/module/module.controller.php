@@ -84,7 +84,8 @@
          **/
 		function insertModuleExtend($parent_module, $extend_module, $type, $kind=''){
 			if($kind != 'admin') $kind = '';
-			if(!in_array($type,array('model','controller','view'))) return;
+			if(!in_array($type,array('model','controller','view','api','mobile'))) return false;
+			if(in_array($parent_module, array('module','addon','widget','layout'))) return false;
 
 			$cache_file = './files/config/module_extend.php';
 			FileHandler::removeFile($cache_file);
@@ -94,8 +95,10 @@
             $args->type = $type;
             $args->kind = $kind;
 
+            $output = executeQuery('module.getModuleExtendCount', $args);
+			if($output->data->count>0) return false;
+
             $output = executeQuery('module.insertModuleExtend', $args);
-			
 			return $output;
 		}
 
