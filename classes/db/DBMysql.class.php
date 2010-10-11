@@ -437,9 +437,15 @@
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
+
                 if($output->column_type[$name]!='number') {
-                    $value = "'".$this->addQuotes($value)."'";
-                    if(!$value) $value = 'null';
+					$value = $this->addQuotes($value);
+					if($value){
+						$value = "'".$this->addQuotes($value)."'";
+					}else{
+						$value = 'null';
+					}
+
                 } elseif(!$value || is_numeric($value)) $value = (int)$value;
 
                 $column_list[] = '`'.$name.'`';
