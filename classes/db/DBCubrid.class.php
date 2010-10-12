@@ -35,6 +35,7 @@
             'number' => 'integer',
             'varchar' => 'character varying',
             'char' => 'character',
+            'tinytext' => 'character varying(256)',
             'text' => 'character varying(1073741823)',
             'bigtext' => 'character varying(1073741823)',
             'date' => 'character varying(14)',
@@ -322,7 +323,7 @@
         /**
          * @brief schema xml을 이용하여 create class query생성
          *
-         * type : number, varchar, text, char, date, \n
+         * type : number, varchar, tinytext, text, bigtext, char, date, \n
          * opt : notnull, default, size\n
          * index : primary key, index, unique\n
          **/
@@ -374,7 +375,7 @@
                         break;
                 }
 
-                if(isset ($default) && ($type == 'varchar' || $type == 'char' || $type == 'text' || $type == 'tinytext')) $default = sprintf ("'%s'", $default);
+                if(isset ($default) && ($type == 'varchar' || $type == 'char' || $type == 'text' || $type == 'tinytext' || $type == 'bigtext')) $default = sprintf ("'%s'", $default);
 
                 $column_schema[] = sprintf('"%s" %s%s %s %s',
                     $name,
