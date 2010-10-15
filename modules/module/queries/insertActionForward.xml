@@ -1,4 +1,4 @@
-<query id="insertActionFoward" action="insert">
+<query id="insertActionForward" action="insert">
     <tables>
         <table name="action_forward" />
     </tables>
