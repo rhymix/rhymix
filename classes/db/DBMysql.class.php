@@ -440,14 +440,14 @@
 
                 if($output->column_type[$name]!='number') {
 
-					$value = $this->addQuotes($value);
-					if($value){
-						$value = "'".$value."'";
+					if(!is_null($value)){
+						$value = "'" . $this->addQuotes($value) ."'";
 					}else{
 						if($val['notnull']=='notnull') {
 							$value = "''";
 						} else {
-							$value = 'null';
+							//$value = 'null';
+							$value = "''";
 						}
 					}
 
